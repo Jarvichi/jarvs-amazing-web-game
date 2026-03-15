@@ -119,8 +119,8 @@ function unitJitter(id: string): { dx: number; dy: number } {
   let h = 0
   for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) & 0xffff
   return {
-    dx: ((h & 0xff) / 255 - 0.5) * 18,
-    dy: (((h >> 8) & 0xff) / 255 - 0.5) * 14,
+    dx: ((h & 0xff) / 255 - 0.5) * 36,
+    dy: (((h >> 8) & 0xff) / 255 - 0.5) * 28,
   }
 }
 
