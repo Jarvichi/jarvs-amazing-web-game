@@ -10,6 +10,153 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🟠 Active Work
 
+### Session 10 — #100 / #158 / #159: Unit Traits, Strengths/Weaknesses, Affinities
+
+**Design summary:**
+Three related systems that give units personality and strategic depth, all driven by new fields in `cards.json` and wired into `engine.ts`.
+
+---
+
+#### System 1 — Target Priority (#100)
+Units get a `targetPriority` field that biases `findAttackTarget` in `engine.ts`:
+- `walls` — prefers attacking walls first (siege units: Catapult, Ballista, Siege Engineer, Mammoth, Giant)
+- `buildings` — prefers structures over mobile units (Rogue, Bandit, Dark Elf — infiltrators)
+- `boss` — focuses on hero/boss units (Executioner, Harpy)
+- `ranged_first` — targets ranged/weakest units first (Goblin, Plague Rat, Bat — opportunists)
+- *(default/omitted)* — current nearest-enemy logic unchanged
+
+---
+
+#### System 2 — Strengths & Weaknesses (#158)
+Each unit gets `tags: string[]`, `strengths: string[]`, `weaknesses: string[]` in `cards.json`.
+
+**Tags used:**
+`flying`, `ranged`, `melee`, `fast` (speed > 48), `slow` (speed < 13), `large` (maxHp > 50), `magic`, `undead`, `beast`, `armored`, `siege`, `fire`
+
+**Damage formula** (applied in `engine.ts` combat):
+- If any of target's tags match attacker's `strengths` → ×1.5 damage
+- If any of attacker's tags match defender's `weaknesses` → ×1.5 damage (same check, different framing)
+- Both can apply → max ×1.5 (not stacked ×2.25)
+
+**Strengths / Weaknesses per unit:**
+
+| Unit | Strengths (deals ×1.5 to tags) | Weaknesses (takes ×1.5 from tags) |
+|------|-------------------------------|----------------------------------|
+| Goblin | ranged, magic | large, siege |
+| Archer | flying, slow | melee, fast |
+| Dragon | melee, armored | magic, ranged |
+| Skeleton | melee, slow | fire, magic |
+| Troll | melee, fast | fire, siege |
+| Crossbow | large, armored | fast, melee |
+| Paladin | undead, beast | magic, siege |
+| Rogue | siege, ranged | melee, large |
+| Catapult | large, slow | fast, fire |
+| Werewolf | slow, armored | fire, ranged |
+| Golem | melee, fast | magic, siege |
+| Pixie | melee, slow | ranged, armored |
+| Ogre | fast, melee | ranged, magic |
+| Plague Rat | slow, armored | fire, magic |
+| Bandit | slow, ranged | melee, large |
+| Bat | melee, slow | ranged, magic |
+| Scorpion | fast, beast | fire, ranged |
+| Shield Guard | ranged, melee | siege, magic |
+| Centaur | melee, slow | magic, large |
+| Harpy | melee, slow | ranged, magic |
+| Specter | melee, armored | magic, ranged |
+| Lizardman | ranged, siege | fire, magic |
+| Ballista | large, flying | fast, melee |
+| Vampire | melee, slow | fire, magic |
+| Griffin | melee, beast | ranged, magic |
+| Fire Mage | undead, beast | melee, fast |
+| Executioner | armored, large | ranged, magic |
+| Mammoth | melee, siege | ranged, magic |
+| Dark Elf | armored, slow | fire, melee |
+| Necromancer | melee, armored | fire, ranged |
+| Giant | melee, siege | ranged, magic |
+| Wyvern | melee, armored | ranged, magic |
+| Behemoth | melee, fast | siege, magic |
+| Vine Golem | melee, fast | fire, ranged |
+| Spore Bat | melee, slow | ranged, fire |
+| Thornbeast | melee, fast | fire, ranged |
+| Elder Treant | melee, beast | fire, siege |
+| Frog Knight | ranged, slow | magic, siege |
+| Ironclad Guard | ranged, melee | siege, magic |
+| War Drummer | melee, fast | ranged, magic |
+| Siege Engineer | large, armored | fast, melee |
+| Shield Wall | ranged, fast | siege, magic |
+| Grizzled Vet. | undead, beast | ranged, magic |
+| Bone Archer | flying, slow | fire, melee |
+| Wight Knight | melee, armored | fire, magic |
+| Ash Elemental | melee, beast | ranged, magic |
+| Revenant | melee, slow | fire, magic |
+| Lich Apprentice | melee, beast | fire, ranged |
+
+---
+
+#### System 3 — Affinities (#159)
+Each unit gets an optional `affinity` object: `{ withName: string; range: number; effectType: 'attackSpeed'|'damage'|'moveSpeed'; effectAmount: number; label: string }`.
+
+Each engine tick, for each unit, check if a same-owner ally with `name === affinity.withName` (or same name for self-stacking) is within `affinity.range` px. If so, set runtime flag `affinityActive = true` and apply the effect.
+
+**Affinity table:**
+
+| Unit | Allies With | Range | Effect | Label |
+|------|------------|-------|--------|-------|
+| Archer | Archer | 60 | attackSpeed ×1.3 | Archer's Tempo |
+| Dragon | Catapult | 80 | damage ×1.25 | Siege Guard |
+| Skeleton | Necromancer | 70 | moveSpeed ×1.4 | Death Rally |
+| Goblin | Goblin | 50 | damage ×1.2 | Goblin Mob |
+| Paladin | Shield Guard | 60 | damage ×0.8 (reduction) | Holy Shield |
+| Rogue | Bandit | 60 | attackSpeed ×1.3 | Cutthroat Pact |
+| Werewolf | Werewolf | 70 | damage ×1.25 | Pack Fury |
+| Pixie | Pixie | 50 | moveSpeed ×1.3 | Fae Dance |
+| Bat | Vampire | 60 | attackSpeed ×1.3 | Blood Frenzy |
+| Harpy | Harpy | 60 | damage ×1.2 | Storm Flock |
+| Fire Mage | Fire Mage | 70 | damage ×1.3 | Inferno |
+| Necromancer | Skeleton | 80 | attackSpeed ×1.25 | Dark Mending |
+| Wyvern | Dragon | 80 | damage ×1.25 | Dragonkin |
+| Vine Golem | Elder Treant | 70 | damage ×0.8 (reduction) | Forest Bond |
+| Spore Bat | Plague Rat | 50 | attackSpeed ×1.3 | Plague Cloud |
+| War Drummer | War Drummer | 70 | moveSpeed ×1.3 | War Rhythm |
+| Centaur | Centaur | 60 | damage ×1.2 | Stampede |
+| Specter | Vampire | 60 | moveSpeed ×1.25 | Haunting |
+| Griffin | Ballista | 80 | damage ×1.2 | Aerial Volley |
+| Grizzled Vet. | Grizzled Vet. | 60 | damage ×1.2 | Battle Cry |
+| Shield Wall | Ironclad Guard | 50 | damage ×0.8 (reduction) | Iron Formation |
+| Troll | Golem | 70 | damage ×1.2 | Monster Pact |
+| Lizardman | Lizardman | 50 | attackSpeed ×1.3 | Ambush Pack |
+| Thornbeast | Vine Golem | 60 | damage ×1.2 | Thorn Garden |
+| Elder Treant | Vine Golem | 70 | damage ×1.25 | Ancient Grove |
+| Bone Archer | Wight Knight | 60 | attackSpeed ×1.3 | Undead Volley |
+| Wight Knight | Revenant | 60 | damage ×0.8 (reduction) | Undead Legion |
+| Ash Elemental | Revenant | 60 | damage ×1.25 | Ashen Wrath |
+| Revenant | Necromancer | 70 | attackSpeed ×1.3 | Soul Bond |
+| Lich Apprentice | Necromancer | 70 | damage ×1.25 | Dark Tutelage |
+| Mammoth | Ogre | 70 | damage ×1.2 | Beastmaster |
+| Frog Knight | Frog Knight | 50 | moveSpeed ×1.3 | Leap Frog |
+| Ogre | Troll | 70 | damage ×1.2 | Brute Alliance |
+| Scorpion | Plague Rat | 50 | attackSpeed ×1.25 | Predator Instinct |
+| Executioner | Giant | 70 | damage ×1.3 | Giant's Blade |
+| Crossbow | Ballista | 70 | attackSpeed ×1.25 | Ranged Formation |
+| Bandit | Rogue | 60 | moveSpeed ×1.3 | Shadow Sprint |
+| Vampire | Bat | 60 | damage ×1.2 | Nighthunter |
+| Ironclad Guard | Shield Wall | 50 | damage ×0.8 (reduction) | Iron Formation |
+| Golem | Troll | 70 | damage ×1.2 | Monster Pact |
+| Siege Engineer | Catapult | 80 | damage ×1.3 | Siege Mastery |
+| Shield Guard | Paladin | 60 | damage ×0.8 (reduction) | Holy Shield |
+| Balloon Archer → Bone Archer pairs with Wight Knight already — skip dupes |
+
+---
+
+#### Implementation Steps
+- [ ] **Step 1** — `types.ts`: add `tags`, `strengths`, `weaknesses`, `targetPriority`, `affinity` to UnitTemplate; `affinityActive` to Unit runtime fields
+- [ ] **Step 2** — `cards.json`: add all new fields to every unit entry
+- [ ] **Step 3** — `engine.ts`: targetPriority in `findAttackTarget`
+- [ ] **Step 4** — `engine.ts`: strength/weakness damage multipliers in combat
+- [ ] **Step 5** — `engine.ts`: `processAffinities()` per-tick proximity check + apply runtime effects
+- [ ] **Step 6** — `CardDetailModal.tsx`: display strengths, weaknesses, affinity info
+- [ ] **Step 7** — `Battlefield.tsx` + `styles.css`: affinity active badge on unit (reuse buff indicator system)
+
 ### Session 9 completions (2026-03-15)
 - [x] **#175** Per-run escalating modifiers — ReplayModifier types, per-act counts, stacked HP%/interval/hand bonuses, crystalBonus, UI strip in NodePeekModal + battle HUD
 - [x] **#174** Broken relic tracking — addBrokenRelic on break; notification shown on RelicSelectScreen; broken relics not shown in list (user preference)
