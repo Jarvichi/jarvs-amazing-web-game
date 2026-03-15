@@ -282,7 +282,11 @@
       "bypassWall": true,
       "moveSpeed": 42,
       "attackRange": 70,
-      "attackCooldownMs": 1800
+      "attackCooldownMs": 1800,
+      "tags": ["ranged","fast"],
+      "strengths": ["melee","slow"],
+      "weaknesses": ["magic","large"],
+      "affinity": {"withName":"Centaur","range":60,"effectType":"damage","effectAmount":1.2,"label":"Stampede"}
     },
     "harpy": {
       "name": "Harpy",
@@ -293,7 +297,12 @@
       "moveSpeed": 40,
       "attackRange": 65,
       "attackCooldownMs": 1500,
-      "flying": true
+      "flying": true,
+      "tags": ["flying","ranged","beast"],
+      "strengths": ["melee","slow"],
+      "weaknesses": ["ranged","magic"],
+      "targetPriority": "boss",
+      "affinity": {"withName":"Harpy","range":60,"effectType":"damage","effectAmount":1.2,"label":"Storm Flock"}
     },
     "specter": {
       "name": "Specter",
@@ -304,7 +313,11 @@
       "moveSpeed": 50,
       "attackRange": 5,
       "attackCooldownMs": 1000,
-      "flying": true
+      "flying": true,
+      "tags": ["flying","fast","undead"],
+      "strengths": ["melee","armored"],
+      "weaknesses": ["magic","ranged"],
+      "affinity": {"withName":"Vampire","range":60,"effectType":"moveSpeed","effectAmount":1.25,"label":"Haunting"}
     },
     "lizardman": {
       "name": "Lizardman",
@@ -315,7 +328,11 @@
       "moveSpeed": 32,
       "attackRange": 5,
       "attackCooldownMs": 1600,
-      "climber": true
+      "climber": true,
+      "tags": ["melee","climber","beast"],
+      "strengths": ["ranged","siege"],
+      "weaknesses": ["fire","magic"],
+      "affinity": {"withName":"Lizardman","range":50,"effectType":"attackSpeed","effectAmount":1.3,"label":"Ambush Pack"}
     },
     "ballista": {
       "name": "Ballista",
@@ -325,7 +342,12 @@
       "bypassWall": true,
       "moveSpeed": 12,
       "attackRange": 100,
-      "attackCooldownMs": 3000
+      "attackCooldownMs": 3000,
+      "tags": ["siege","slow","ranged"],
+      "strengths": ["large","flying"],
+      "weaknesses": ["fast","melee"],
+      "targetPriority": "walls",
+      "affinity": {"withName":"Griffin","range":80,"effectType":"damage","effectAmount":1.2,"label":"Aerial Volley"}
     },
     "vampire": {
       "name": "Vampire",
@@ -336,7 +358,11 @@
       "moveSpeed": 50,
       "attackRange": 5,
       "attackCooldownMs": 1400,
-      "flying": true
+      "flying": true,
+      "tags": ["flying","fast","undead"],
+      "strengths": ["melee","slow"],
+      "weaknesses": ["fire","magic"],
+      "affinity": {"withName":"Bat","range":60,"effectType":"damage","effectAmount":1.2,"label":"Nighthunter"}
     },
     "griffin": {
       "name": "Griffin",
@@ -347,7 +373,11 @@
       "moveSpeed": 32,
       "attackRange": 60,
       "attackCooldownMs": 2200,
-      "flying": true
+      "flying": true,
+      "tags": ["flying","ranged","large","beast"],
+      "strengths": ["melee","beast"],
+      "weaknesses": ["ranged","magic"],
+      "affinity": {"withName":"Ballista","range":80,"effectType":"damage","effectAmount":1.2,"label":"Aerial Volley"}
     },
     "fire-mage": {
       "name": "Fire Mage",
@@ -357,7 +387,10 @@
       "bypassWall": true,
       "moveSpeed": 18,
       "attackRange": 75,
-      "attackCooldownMs": 2500
+      "attackCooldownMs": 2500,
+      "tags": ["ranged","magic","fire"],
+      "strengths": ["undead","beast"],
+      "weaknesses": ["melee","fast"]
     },
     "executioner": {
       "name": "Executioner",
@@ -367,7 +400,12 @@
       "bypassWall": false,
       "moveSpeed": 14,
       "attackRange": 5,
-      "attackCooldownMs": 2000
+      "attackCooldownMs": 2000,
+      "tags": ["melee","slow"],
+      "strengths": ["armored","large"],
+      "weaknesses": ["ranged","magic"],
+      "targetPriority": "boss",
+      "affinity": {"withName":"Giant","range":70,"effectType":"damage","effectAmount":1.3,"label":"Giant's Blade"}
     },
     "mammoth": {
       "name": "Mammoth",
@@ -377,7 +415,12 @@
       "bypassWall": false,
       "moveSpeed": 11,
       "attackRange": 5,
-      "attackCooldownMs": 2600
+      "attackCooldownMs": 2600,
+      "tags": ["melee","slow","large","beast"],
+      "strengths": ["melee","siege"],
+      "weaknesses": ["ranged","magic"],
+      "targetPriority": "walls",
+      "affinity": {"withName":"Ogre","range":70,"effectType":"damage","effectAmount":1.2,"label":"Beastmaster"}
     },
     "dark-elf": {
       "name": "Dark Elf",
@@ -388,7 +431,11 @@
       "moveSpeed": 45,
       "attackRange": 70,
       "attackCooldownMs": 1600,
-      "climber": true
+      "climber": true,
+      "tags": ["ranged","climber"],
+      "strengths": ["armored","slow"],
+      "weaknesses": ["fire","melee"],
+      "targetPriority": "buildings"
     },
     "necromancer": {
       "name": "Necromancer",
@@ -398,7 +445,11 @@
       "bypassWall": true,
       "moveSpeed": 16,
       "attackRange": 80,
-      "attackCooldownMs": 2200
+      "attackCooldownMs": 2200,
+      "tags": ["ranged","magic","undead"],
+      "strengths": ["melee","armored"],
+      "weaknesses": ["fire","ranged"],
+      "affinity": {"withName":"Skeleton","range":80,"effectType":"attackSpeed","effectAmount":1.25,"label":"Dark Mending"}
     },
     "giant": {
       "name": "Giant",
@@ -408,7 +459,11 @@
       "bypassWall": false,
       "moveSpeed": 9,
       "attackRange": 5,
-      "attackCooldownMs": 3000
+      "attackCooldownMs": 3000,
+      "tags": ["melee","slow","large"],
+      "strengths": ["melee","siege"],
+      "weaknesses": ["ranged","magic"],
+      "targetPriority": "walls"
     },
     "wyvern": {
       "name": "Wyvern",
@@ -419,7 +474,11 @@
       "moveSpeed": 38,
       "attackRange": 55,
       "attackCooldownMs": 2000,
-      "flying": true
+      "flying": true,
+      "tags": ["flying","ranged","large","beast"],
+      "strengths": ["melee","armored"],
+      "weaknesses": ["ranged","magic"],
+      "affinity": {"withName":"Dragon","range":80,"effectType":"damage","effectAmount":1.25,"label":"Dragonkin"}
     },
     "behemoth": {
       "name": "Behemoth",
@@ -429,7 +488,11 @@
       "bypassWall": false,
       "moveSpeed": 7,
       "attackRange": 5,
-      "attackCooldownMs": 3500
+      "attackCooldownMs": 3500,
+      "tags": ["melee","slow","large","beast"],
+      "strengths": ["melee","fast"],
+      "weaknesses": ["siege","magic"],
+      "targetPriority": "walls"
     },
     "vine-golem": {
       "name": "Vine Golem",
@@ -439,7 +502,11 @@
       "bypassWall": false,
       "moveSpeed": 12,
       "attackRange": 5,
-      "attackCooldownMs": 2200
+      "attackCooldownMs": 2200,
+      "tags": ["melee","slow","large"],
+      "strengths": ["melee","fast"],
+      "weaknesses": ["fire","ranged"],
+      "affinity": {"withName":"Elder Treant","range":70,"effectType":"damage","effectAmount":0.8,"label":"Forest Bond"}
     },
     "spore-bat": {
       "name": "Spore Bat",
@@ -450,7 +517,11 @@
       "moveSpeed": 55,
       "attackRange": 5,
       "attackCooldownMs": 800,
-      "flying": true
+      "flying": true,
+      "tags": ["flying","fast","beast"],
+      "strengths": ["melee","slow"],
+      "weaknesses": ["ranged","fire"],
+      "affinity": {"withName":"Plague Rat","range":50,"effectType":"attackSpeed","effectAmount":1.3,"label":"Plague Cloud"}
     },
     "thornbeast": {
       "name": "Thornbeast",
@@ -461,7 +532,11 @@
       "moveSpeed": 45,
       "attackRange": 5,
       "attackCooldownMs": 1600,
-      "climber": true
+      "climber": true,
+      "tags": ["melee","fast","beast","climber"],
+      "strengths": ["melee","fast"],
+      "weaknesses": ["fire","ranged"],
+      "affinity": {"withName":"Vine Golem","range":60,"effectType":"damage","effectAmount":1.2,"label":"Thorn Garden"}
     },
     "elder-treant": {
       "name": "Elder Treant",
@@ -471,7 +546,11 @@
       "bypassWall": false,
       "moveSpeed": 6,
       "attackRange": 5,
-      "attackCooldownMs": 3200
+      "attackCooldownMs": 3200,
+      "tags": ["melee","slow","large"],
+      "strengths": ["melee","beast"],
+      "weaknesses": ["fire","siege"],
+      "affinity": {"withName":"Vine Golem","range":70,"effectType":"damage","effectAmount":1.25,"label":"Ancient Grove"}
     },
     "frog-knight": {
       "name": "Frog Knight",
@@ -482,7 +561,11 @@
       "moveSpeed": 38,
       "attackRange": 5,
       "attackCooldownMs": 1400,
-      "climber": true
+      "climber": true,
+      "tags": ["melee","climber","beast"],
+      "strengths": ["ranged","slow"],
+      "weaknesses": ["magic","siege"],
+      "affinity": {"withName":"Frog Knight","range":50,"effectType":"moveSpeed","effectAmount":1.3,"label":"Leap Frog"}
     },
     "ironclad-guard": {
       "name": "Ironclad Guard",
@@ -492,7 +575,11 @@
       "bypassWall": false,
       "moveSpeed": 12,
       "attackRange": 5,
-      "attackCooldownMs": 2000
+      "attackCooldownMs": 2000,
+      "tags": ["melee","slow","armored"],
+      "strengths": ["ranged","melee"],
+      "weaknesses": ["siege","magic"],
+      "affinity": {"withName":"Shield Wall","range":50,"effectType":"damage","effectAmount":0.8,"label":"Iron Formation"}
     },
     "war-drummer": {
       "name": "War Drummer",
@@ -502,7 +589,11 @@
       "bypassWall": false,
       "moveSpeed": 28,
       "attackRange": 5,
-      "attackCooldownMs": 1600
+      "attackCooldownMs": 1600,
+      "tags": ["melee"],
+      "strengths": ["melee","fast"],
+      "weaknesses": ["ranged","magic"],
+      "affinity": {"withName":"War Drummer","range":70,"effectType":"moveSpeed","effectAmount":1.3,"label":"War Rhythm"}
     },
     "siege-engineer": {
       "name": "Siege Engineer",
@@ -512,7 +603,12 @@
       "bypassWall": true,
       "moveSpeed": 14,
       "attackRange": 90,
-      "attackCooldownMs": 2800
+      "attackCooldownMs": 2800,
+      "tags": ["siege","slow","ranged"],
+      "strengths": ["large","armored"],
+      "weaknesses": ["fast","melee"],
+      "targetPriority": "walls",
+      "affinity": {"withName":"Catapult","range":80,"effectType":"damage","effectAmount":1.3,"label":"Siege Mastery"}
     },
     "shield-wall-soldier": {
       "name": "Shield Wall",
@@ -522,7 +618,11 @@
       "bypassWall": false,
       "moveSpeed": 15,
       "attackRange": 5,
-      "attackCooldownMs": 2000
+      "attackCooldownMs": 2000,
+      "tags": ["melee","slow","armored"],
+      "strengths": ["ranged","fast"],
+      "weaknesses": ["siege","magic"],
+      "affinity": {"withName":"Ironclad Guard","range":50,"effectType":"damage","effectAmount":0.8,"label":"Iron Formation"}
     },
     "grizzled-veteran": {
       "name": "Grizzled Vet.",
@@ -532,7 +632,11 @@
       "bypassWall": false,
       "moveSpeed": 20,
       "attackRange": 5,
-      "attackCooldownMs": 1800
+      "attackCooldownMs": 1800,
+      "tags": ["melee"],
+      "strengths": ["undead","beast"],
+      "weaknesses": ["ranged","magic"],
+      "affinity": {"withName":"Grizzled Vet.","range":60,"effectType":"damage","effectAmount":1.2,"label":"Battle Cry"}
     },
     "bone-archer": {
       "name": "Bone Archer",
@@ -542,7 +646,11 @@
       "bypassWall": true,
       "moveSpeed": 25,
       "attackRange": 75,
-      "attackCooldownMs": 1500
+      "attackCooldownMs": 1500,
+      "tags": ["ranged","undead","slow"],
+      "strengths": ["flying","slow"],
+      "weaknesses": ["fire","melee"],
+      "affinity": {"withName":"Wight Knight","range":60,"effectType":"attackSpeed","effectAmount":1.3,"label":"Undead Volley"}
     },
     "wight-knight": {
       "name": "Wight Knight",
@@ -552,7 +660,11 @@
       "bypassWall": false,
       "moveSpeed": 18,
       "attackRange": 5,
-      "attackCooldownMs": 2000
+      "attackCooldownMs": 2000,
+      "tags": ["melee","slow","undead","armored"],
+      "strengths": ["melee","armored"],
+      "weaknesses": ["fire","magic"],
+      "affinity": {"withName":"Revenant","range":60,"effectType":"damage","effectAmount":0.8,"label":"Undead Legion"}
     },
     "ash-elemental": {
       "name": "Ash Elemental",
@@ -563,7 +675,11 @@
       "moveSpeed": 35,
       "attackRange": 60,
       "attackCooldownMs": 2000,
-      "flying": true
+      "flying": true,
+      "tags": ["flying","ranged","magic","undead"],
+      "strengths": ["melee","beast"],
+      "weaknesses": ["ranged","magic"],
+      "affinity": {"withName":"Revenant","range":60,"effectType":"damage","effectAmount":1.25,"label":"Ashen Wrath"}
     },
     "revenant": {
       "name": "Revenant",
@@ -574,7 +690,11 @@
       "moveSpeed": 55,
       "attackRange": 5,
       "attackCooldownMs": 1200,
-      "flying": true
+      "flying": true,
+      "tags": ["flying","fast","undead"],
+      "strengths": ["melee","slow"],
+      "weaknesses": ["fire","magic"],
+      "affinity": {"withName":"Necromancer","range":70,"effectType":"attackSpeed","effectAmount":1.3,"label":"Soul Bond"}
     },
     "lich-apprentice": {
       "name": "Lich Apprentice",
@@ -584,7 +704,11 @@
       "bypassWall": true,
       "moveSpeed": 18,
       "attackRange": 70,
-      "attackCooldownMs": 1800
+      "attackCooldownMs": 1800,
+      "tags": ["ranged","magic","undead","slow"],
+      "strengths": ["melee","beast"],
+      "weaknesses": ["fire","ranged"],
+      "affinity": {"withName":"Necromancer","range":70,"effectType":"damage","effectAmount":1.25,"label":"Dark Tutelage"}
     }
   },
   "cards": [
