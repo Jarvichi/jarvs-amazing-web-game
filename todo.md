@@ -149,13 +149,13 @@ Each engine tick, for each unit, check if a same-owner ally with `name === affin
 ---
 
 #### Implementation Steps
-- [ ] **Step 1** — `types.ts`: add `tags`, `strengths`, `weaknesses`, `targetPriority`, `affinity` to UnitTemplate; `affinityActive` to Unit runtime fields
-- [ ] **Step 2** — `cards.json`: add all new fields to every unit entry
-- [ ] **Step 3** — `engine.ts`: targetPriority in `findAttackTarget`
-- [ ] **Step 4** — `engine.ts`: strength/weakness damage multipliers in combat
-- [ ] **Step 5** — `engine.ts`: `processAffinities()` per-tick proximity check + apply runtime effects
-- [ ] **Step 6** — `CardDetailModal.tsx`: display strengths, weaknesses, affinity info
-- [ ] **Step 7** — `Battlefield.tsx` + `styles.css`: affinity active badge on unit (reuse buff indicator system)
+- [x] **Step 1** — `types.ts`: add `tags`, `strengths`, `weaknesses`, `targetPriority`, `affinity` to UnitTemplate; `affinityActive` to Unit runtime fields
+- [x] **Step 2** — `cards.json`: add all new fields to every unit entry
+- [x] **Step 3** — `engine.ts`: targetPriority in `findAttackTarget`
+- [x] **Step 4** — `engine.ts`: strength/weakness damage multipliers in combat
+- [x] **Step 5** — `engine.ts`: `processAffinities()` per-tick proximity check + apply runtime effects
+- [x] **Step 6** — `CardDetailModal.tsx`: display strengths, weaknesses, affinity info
+- [x] **Step 7** — `Battlefield.tsx` + `styles.css`: affinity active badge on unit (reuse buff indicator system)
 
 ### Session 9 completions (2026-03-15)
 - [x] **#175** Per-run escalating modifiers — ReplayModifier types, per-act counts, stacked HP%/interval/hand bonuses, crystalBonus, UI strip in NodePeekModal + battle HUD
