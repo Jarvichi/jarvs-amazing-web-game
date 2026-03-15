@@ -114,13 +114,13 @@ function WallSvg({ hp, maxHp, owner, wallNames = [] }: { hp: number; maxHp: numb
   )
 }
 
-/** Stable per-unit offset derived from ID so overlapping units don't pile up. */
-function unitJitter(id: string): { dx: number; dy: number } {
+/** Stable per-unit percentage offset derived from ID so overlapping units don't pile up. */
+function unitJitter(id: string): { dxPct: number; dyPct: number } {
   let h = 0
   for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) & 0xffff
   return {
-    dx: ((h & 0xff) / 255 - 0.5) * 36,
-    dy: (((h >> 8) & 0xff) / 255 - 0.5) * 28,
+    dxPct: ((h & 0xff) / 255 - 0.5) * 10,        // ±5% of lane width
+    dyPct: (((h >> 8) & 0xff) / 255 - 0.5) * 10,  // ±5% of lane height
   }
 }
 
@@ -157,12 +157,13 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
   } else {
     // Mobile units: lateral position derived from unit.y (-80..80 → 14..86%)
     const hPct = 50 + (unit.y / 80) * 36
-    // Apply a stable per-unit jitter so units never perfectly overlap
-    const { dx, dy } = unitJitter(unit.id)
+    // Apply a stable per-unit percentage jitter so units never perfectly overlap,
+    // scaled to the lane dimensions rather than fixed pixels
+    const { dxPct, dyPct } = unitJitter(unit.id)
     style = {
-      top: `${topPct}%`,
-      left: `${hPct}%`,
-      transform: `translateX(calc(-50% + ${dx}px)) translateY(calc(-50% + ${dy}px)) scale(${growScale})`,
+      top: `${topPct + dyPct}%`,
+      left: `${hPct + dxPct}%`,
+      transform: `translateX(-50%) translateY(-50%) scale(${growScale})`,
     }
   }
 
