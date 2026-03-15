@@ -541,32 +541,46 @@ function findEnemyBehind(field: Unit[], unit: Unit): Unit | null {
 // Nearest enemy within attack range (2-D).
 // bypassWall/climber units prefer mobile targets; if none in range they fall
 // back to attacking the wall (except flying units which truly soar over walls).
+// targetPriority biases selection: walls, buildings, boss, ranged_first.
 function findAttackTarget(field: Unit[], unit: Unit): Unit | null {
-  let nearest: Unit | null = null
-  let nearestDist = Infinity
+  // Collect all enemies within attack range (respecting wall-bypass rules)
+  const candidates: Array<{ other: Unit; d: number }> = []
 
   for (const other of field) {
     if (other.owner === unit.owner || other.hp <= 0) continue
     if (other.isWall && (unit.bypassWall || unit.climber)) continue
-
     const d = unitDist(unit, other)
     if (d > unit.attackRange) continue
-    if (d < nearestDist) { nearestDist = d; nearest = other }
+    candidates.push({ other, d })
   }
 
-  // Ranged (bypassWall) non-flying units: attack walls as a last resort when
-  // nothing else is in range, so they aren't stuck idle next to a wall.
-  if (nearest === null && unit.bypassWall && !unit.flying) {
+  // Ranged non-flying: walls as fallback when nothing else in range
+  if (candidates.length === 0 && unit.bypassWall && !unit.flying) {
     for (const other of field) {
       if (other.owner === unit.owner || other.hp <= 0) continue
       if (!other.isWall) continue
       const d = unitDist(unit, other)
       if (d > unit.attackRange) continue
-      if (d < nearestDist) { nearestDist = d; nearest = other }
+      candidates.push({ other, d })
     }
   }
 
-  return nearest
+  if (candidates.length === 0) return null
+
+  // Apply targetPriority: try preferred bucket first, fall back to nearest
+  const pri = unit.targetPriority
+  if (pri) {
+    let preferred: Array<{ other: Unit; d: number }> = []
+    if (pri === 'walls')        preferred = candidates.filter(c => c.other.isWall)
+    if (pri === 'buildings')    preferred = candidates.filter(c => c.other.moveSpeed === 0 && !c.other.isWall)
+    if (pri === 'boss')         preferred = candidates.filter(c => c.other.isHero)
+    if (pri === 'ranged_first') preferred = candidates.filter(c => c.other.bypassWall)
+    if (preferred.length > 0) {
+      return preferred.reduce((a, b) => a.d < b.d ? a : b).other
+    }
+  }
+
+  return candidates.reduce((a, b) => a.d < b.d ? a : b).other
 }
 
 // ─── Movement ─────────────────────────────────────────────
@@ -622,7 +636,9 @@ function moveUnits(s: GameState, deltaMs: number): void {
     )
     // Fog of War battle event halves all movement
     const fogMult = s.activeBattleEvent?.type === 'fogOfWar' ? 0.5 : 1
-    const speed = (inWallZone ? unit.moveSpeed * CLIMB_SPEED_FACTOR : unit.moveSpeed) * deltaSec * fogMult
+    const affMoveMult = (unit.affinityActive && unit.affinity?.effectType === 'moveSpeed')
+      ? unit.affinity.effectAmount : 1
+    const speed = (inWallZone ? unit.moveSpeed * CLIMB_SPEED_FACTOR : unit.moveSpeed) * deltaSec * fogMult * affMoveMult
 
     // Terrain avoidance: lateral repulsion from nearby obstacles.
     // Uses a per-type ellipse (TERRAIN_AVOID_SHAPE) so tall narrow trees
@@ -663,6 +679,20 @@ function moveUnits(s: GameState, deltaMs: number): void {
   }
 }
 
+// ─── Affinity Processing ──────────────────────────────────
+
+function processAffinities(field: Unit[]): void {
+  for (const unit of field) {
+    if (!unit.affinity || unit.hp <= 0) { unit.affinityActive = false; continue }
+    const aff = unit.affinity
+    const ally = field.find(
+      u => u.owner === unit.owner && u.id !== unit.id && u.hp > 0 &&
+           u.name === aff.withName && unitDist(unit, u) <= aff.range
+    )
+    unit.affinityActive = ally !== undefined
+  }
+}
+
 // ─── Per-unit Combat ──────────────────────────────────────
 
 function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
@@ -684,7 +714,13 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
     if (target) {
       const prevHp = target.hp
       const bloodMoonMult = s.activeBattleEvent?.type === 'bloodMoon' ? 2 : 1
-      const dmg = (unit.attack + atkAura) * bloodMoonMult
+      // Strength/weakness multiplier: ×1.5 if attacker's strengths match any target tag
+      const targetTags = target.tags ?? []
+      const swMult = (unit.strengths ?? []).some(t => targetTags.includes(t)) ? 1.5 : 1
+      // Affinity damage multiplier (>1 = bonus, <1 = damage reduction on target)
+      const affDmgMult = (unit.affinityActive && unit.affinity?.effectType === 'damage')
+        ? unit.affinity.effectAmount : 1
+      const dmg = Math.round((unit.attack + atkAura) * bloodMoonMult * swMult * affDmgMult)
       // Respect developer no-damage mode for player-owned targets
       if (target.owner === 'player' && isNoDamageMode()) {
         log.push(`${unit.name} would damage ${target.name} (dev mode — no damage)`)
@@ -699,7 +735,9 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
           else playUnitDeath()
         }
       }
-      unit.attackTimer = unit.attackCooldownMs
+      const affSpeedMult = (unit.affinityActive && unit.affinity?.effectType === 'attackSpeed')
+        ? unit.affinity.effectAmount : 1
+      unit.attackTimer = unit.attackCooldownMs / affSpeedMult
     } else {
       // No enemies in range — attack the base if close enough
       const atEnemyBase = isPlayer
@@ -724,7 +762,9 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
             log.push(`${unit.name} hits Your Base! (dev mode — no damage)`)
           }
         }
-        unit.attackTimer = unit.attackCooldownMs
+        const affSpeedMult2 = (unit.affinityActive && unit.affinity?.effectType === 'attackSpeed')
+          ? unit.affinity.effectAmount : 1
+        unit.attackTimer = unit.attackCooldownMs / affSpeedMult2
       }
     }
   }
@@ -1105,6 +1145,9 @@ export function tick(state: GameState, deltaMs: number): GameState {
 
   // 2. Move all units
   moveUnits(s, deltaMs)
+
+  // 3b. Update affinity states (proximity buffs)
+  processAffinities(s.field)
 
   // 4. Process per-unit attacks
   processAttacks(s, deltaMs, log)
