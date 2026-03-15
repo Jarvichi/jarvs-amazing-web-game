@@ -114,7 +114,17 @@ function WallSvg({ hp, maxHp, owner, wallNames = [] }: { hp: number; maxHp: numb
   )
 }
 
-function LaneUnit({ unit, stackIndex = 0, overlapIndex = 0, wallStack, onInspect, showName }: { unit: Unit; stackIndex?: number; overlapIndex?: number; wallStack?: Unit[]; onInspect?: (u: Unit) => void; showName?: boolean }) {
+/** Stable per-unit offset derived from ID so overlapping units don't pile up. */
+function unitJitter(id: string): { dx: number; dy: number } {
+  let h = 0
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) & 0xffff
+  return {
+    dx: ((h & 0xff) / 255 - 0.5) * 18,
+    dy: (((h >> 8) & 0xff) / 255 - 0.5) * 14,
+  }
+}
+
+function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { unit: Unit; stackIndex?: number; wallStack?: Unit[]; onInspect?: (u: Unit) => void; showName?: boolean }) {
   const hpPct = Math.max(0, (unit.hp / unit.maxHp) * 100)
   const isStructure = unit.moveSpeed === 0
 
@@ -147,13 +157,12 @@ function LaneUnit({ unit, stackIndex = 0, overlapIndex = 0, wallStack, onInspect
   } else {
     // Mobile units: lateral position derived from unit.y (-80..80 → 14..86%)
     const hPct = 50 + (unit.y / 80) * 36
-    // Stagger overlapping units diagonally so each is visible
-    const staggerX = overlapIndex * 9
-    const staggerY = overlapIndex * -7
+    // Apply a stable per-unit jitter so units never perfectly overlap
+    const { dx, dy } = unitJitter(unit.id)
     style = {
       top: `${topPct}%`,
       left: `${hPct}%`,
-      transform: `translateX(calc(-50% + ${staggerX}px)) translateY(calc(-50% + ${staggerY}px)) scale(${growScale})`,
+      transform: `translateX(calc(-50% + ${dx}px)) translateY(calc(-50% + ${dy}px)) scale(${growScale})`,
     }
   }
 
@@ -961,25 +970,6 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
           }
           const renderedWallIds = new Set<string>()
 
-          // Compute stagger indices for overlapping mobile units.
-          // Same-owner mobile units within 3% topPct of each other get cascaded diagonally.
-          const mobileOverlapIndex = new Map<string, number>()
-          {
-            const BUCKET = 3
-            const buckets = new Map<string, Unit[]>()
-            for (const u of state.field) {
-              if (u.moveSpeed === 0 || u.isWall) continue
-              const topPct = (1 - u.x / LANE_WIDTH) * 100
-              const key = `${u.owner}:${Math.round(topPct / BUCKET)}`
-              if (!buckets.has(key)) buckets.set(key, [])
-              buckets.get(key)!.push(u)
-            }
-            for (const group of buckets.values()) {
-              group.sort((a, b) => a.y - b.y || a.id.localeCompare(b.id))
-              group.forEach((u, idx) => mobileOverlapIndex.set(u.id, idx))
-            }
-          }
-
           return state.field.map((u, i) => {
             if (u.isWall) {
               const key = `${u.owner}:${Math.round(u.x)}`
@@ -991,8 +981,7 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
             const stackIndex = u.moveSpeed === 0
               ? state.field.slice(0, i).filter(o => o.moveSpeed === 0 && !o.isWall && o.owner === u.owner).length
               : 0
-            const overlapIndex = mobileOverlapIndex.get(u.id) ?? 0
-            return <LaneUnit key={u.id} unit={u} stackIndex={stackIndex} overlapIndex={overlapIndex} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} />
+            return <LaneUnit key={u.id} unit={u} stackIndex={stackIndex} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} />
           })
         })()}
       </div>
