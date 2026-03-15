@@ -8,7 +8,11 @@
       "bypassWall": false,
       "moveSpeed": 45,
       "attackRange": 5,
-      "attackCooldownMs": 1000
+      "attackCooldownMs": 1000,
+      "tags": ["melee","fast"],
+      "strengths": ["ranged","magic"],
+      "weaknesses": ["large","siege"],
+      "targetPriority": "ranged_first"
     },
     "archer": {
       "name": "Archer",
@@ -18,7 +22,10 @@
       "bypassWall": true,
       "moveSpeed": 28,
       "attackRange": 80,
-      "attackCooldownMs": 1500
+      "attackCooldownMs": 1500,
+      "tags": ["ranged"],
+      "strengths": ["flying","slow"],
+      "weaknesses": ["melee","fast"]
     },
     "dragon": {
       "name": "Dragon",
@@ -29,7 +36,11 @@
       "moveSpeed": 18,
       "attackRange": 50,
       "attackCooldownMs": 3000,
-      "flying": true
+      "flying": true,
+      "tags": ["flying","large"],
+      "strengths": ["melee","armored"],
+      "weaknesses": ["magic","ranged"],
+      "affinity": {"withName":"Catapult","range":80,"effectType":"damage","effectAmount":1.25,"label":"Siege Guard"}
     },
     "skeleton": {
       "name": "Skeleton",
@@ -39,7 +50,11 @@
       "bypassWall": false,
       "moveSpeed": 52,
       "attackRange": 5,
-      "attackCooldownMs": 800
+      "attackCooldownMs": 800,
+      "tags": ["melee","fast","undead"],
+      "strengths": ["melee","slow"],
+      "weaknesses": ["fire","magic"],
+      "affinity": {"withName":"Necromancer","range":70,"effectType":"moveSpeed","effectAmount":1.4,"label":"Death Rally"}
     },
     "weak-skeleton": {
       "name": "Weak Skeleton",
@@ -49,7 +64,10 @@
       "bypassWall": false,
       "moveSpeed": 20,
       "attackRange": 5,
-      "attackCooldownMs": 800
+      "attackCooldownMs": 800,
+      "tags": ["melee","undead"],
+      "strengths": ["melee","slow"],
+      "weaknesses": ["fire","magic"]
     },
     "troll": {
       "name": "Troll",
@@ -59,7 +77,11 @@
       "bypassWall": false,
       "moveSpeed": 12,
       "attackRange": 5,
-      "attackCooldownMs": 2200
+      "attackCooldownMs": 2200,
+      "tags": ["melee","slow","large","beast"],
+      "strengths": ["melee","fast"],
+      "weaknesses": ["fire","siege"],
+      "affinity": {"withName":"Golem","range":70,"effectType":"damage","effectAmount":1.2,"label":"Monster Pact"}
     },
     "crossbow": {
       "name": "Crossbow",
@@ -69,7 +91,11 @@
       "bypassWall": true,
       "moveSpeed": 25,
       "attackRange": 65,
-      "attackCooldownMs": 2000
+      "attackCooldownMs": 2000,
+      "tags": ["ranged"],
+      "strengths": ["large","armored"],
+      "weaknesses": ["fast","melee"],
+      "affinity": {"withName":"Ballista","range":70,"effectType":"attackSpeed","effectAmount":1.25,"label":"Ranged Formation"}
     },
     "paladin": {
       "name": "Paladin",
@@ -79,7 +105,11 @@
       "bypassWall": false,
       "moveSpeed": 16,
       "attackRange": 5,
-      "attackCooldownMs": 1800
+      "attackCooldownMs": 1800,
+      "tags": ["melee","armored"],
+      "strengths": ["undead","beast"],
+      "weaknesses": ["magic","siege"],
+      "affinity": {"withName":"Shield Guard","range":60,"effectType":"damage","effectAmount":0.8,"label":"Holy Shield"}
     },
     "rogue": {
       "name": "Rogue",
@@ -90,7 +120,12 @@
       "moveSpeed": 58,
       "attackRange": 5,
       "attackCooldownMs": 1200,
-      "climber": true
+      "climber": true,
+      "tags": ["melee","fast","climber"],
+      "strengths": ["siege","ranged"],
+      "weaknesses": ["melee","large"],
+      "targetPriority": "buildings",
+      "affinity": {"withName":"Bandit","range":60,"effectType":"attackSpeed","effectAmount":1.3,"label":"Cutthroat Pact"}
     },
     "catapult": {
       "name": "Catapult",
@@ -100,7 +135,11 @@
       "bypassWall": true,
       "moveSpeed": 10,
       "attackRange": 110,
-      "attackCooldownMs": 4000
+      "attackCooldownMs": 4000,
+      "tags": ["siege","slow","ranged"],
+      "strengths": ["large","slow"],
+      "weaknesses": ["fast","fire"],
+      "targetPriority": "walls"
     },
     "werewolf": {
       "name": "Werewolf",
@@ -111,7 +150,11 @@
       "moveSpeed": 62,
       "attackRange": 5,
       "attackCooldownMs": 1400,
-      "climber": true
+      "climber": true,
+      "tags": ["melee","fast","beast","climber"],
+      "strengths": ["slow","armored"],
+      "weaknesses": ["fire","ranged"],
+      "affinity": {"withName":"Werewolf","range":70,"effectType":"damage","effectAmount":1.25,"label":"Pack Fury"}
     },
     "golem": {
       "name": "Golem",
@@ -121,7 +164,11 @@
       "bypassWall": false,
       "moveSpeed": 8,
       "attackRange": 5,
-      "attackCooldownMs": 2500
+      "attackCooldownMs": 2500,
+      "tags": ["melee","slow","large","armored"],
+      "strengths": ["melee","fast"],
+      "weaknesses": ["magic","siege"],
+      "affinity": {"withName":"Troll","range":70,"effectType":"damage","effectAmount":1.2,"label":"Monster Pact"}
     },
     "pixie": {
       "name": "Pixie",
@@ -132,7 +179,11 @@
       "moveSpeed": 42,
       "attackRange": 75,
       "attackCooldownMs": 1000,
-      "flying": true
+      "flying": true,
+      "tags": ["flying","magic","ranged"],
+      "strengths": ["melee","slow"],
+      "weaknesses": ["ranged","armored"],
+      "affinity": {"withName":"Pixie","range":50,"effectType":"moveSpeed","effectAmount":1.3,"label":"Fae Dance"}
     },
     "ogre": {
       "name": "Ogre",
@@ -142,7 +193,11 @@
       "bypassWall": false,
       "moveSpeed": 18,
       "attackRange": 5,
-      "attackCooldownMs": 2000
+      "attackCooldownMs": 2000,
+      "tags": ["melee","large","beast"],
+      "strengths": ["fast","melee"],
+      "weaknesses": ["ranged","magic"],
+      "affinity": {"withName":"Troll","range":70,"effectType":"damage","effectAmount":1.2,"label":"Brute Alliance"}
     },
     "plague-rat": {
       "name": "Plague Rat",
@@ -152,7 +207,12 @@
       "bypassWall": false,
       "moveSpeed": 75,
       "attackRange": 5,
-      "attackCooldownMs": 500
+      "attackCooldownMs": 500,
+      "tags": ["melee","fast","beast"],
+      "strengths": ["slow","armored"],
+      "weaknesses": ["fire","magic"],
+      "targetPriority": "ranged_first",
+      "affinity": {"withName":"Scorpion","range":50,"effectType":"attackSpeed","effectAmount":1.25,"label":"Predator Instinct"}
     },
     "bandit": {
       "name": "Bandit",
@@ -163,7 +223,12 @@
       "moveSpeed": 55,
       "attackRange": 5,
       "attackCooldownMs": 1100,
-      "climber": true
+      "climber": true,
+      "tags": ["melee","fast","climber"],
+      "strengths": ["slow","ranged"],
+      "weaknesses": ["melee","large"],
+      "targetPriority": "buildings",
+      "affinity": {"withName":"Rogue","range":60,"effectType":"moveSpeed","effectAmount":1.3,"label":"Shadow Sprint"}
     },
     "bat": {
       "name": "Bat",
@@ -174,7 +239,12 @@
       "moveSpeed": 65,
       "attackRange": 5,
       "attackCooldownMs": 700,
-      "flying": true
+      "flying": true,
+      "tags": ["flying","fast","beast"],
+      "strengths": ["melee","slow"],
+      "weaknesses": ["ranged","magic"],
+      "targetPriority": "ranged_first",
+      "affinity": {"withName":"Vampire","range":60,"effectType":"attackSpeed","effectAmount":1.3,"label":"Blood Frenzy"}
     },
     "scorpion": {
       "name": "Scorpion",
@@ -184,7 +254,11 @@
       "bypassWall": false,
       "moveSpeed": 35,
       "attackRange": 5,
-      "attackCooldownMs": 1300
+      "attackCooldownMs": 1300,
+      "tags": ["melee","beast"],
+      "strengths": ["fast","beast"],
+      "weaknesses": ["fire","ranged"],
+      "affinity": {"withName":"Plague Rat","range":50,"effectType":"attackSpeed","effectAmount":1.25,"label":"Predator Instinct"}
     },
     "shield-guard": {
       "name": "Shield Guard",
@@ -194,7 +268,11 @@
       "bypassWall": false,
       "moveSpeed": 15,
       "attackRange": 5,
-      "attackCooldownMs": 2200
+      "attackCooldownMs": 2200,
+      "tags": ["melee","armored","slow"],
+      "strengths": ["ranged","melee"],
+      "weaknesses": ["siege","magic"],
+      "affinity": {"withName":"Paladin","range":60,"effectType":"damage","effectAmount":0.8,"label":"Holy Shield"}
     },
     "centaur": {
       "name": "Centaur",
