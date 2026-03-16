@@ -618,10 +618,10 @@ body {
 }
 
 .hand-cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   gap: 6px;
   padding-bottom: 6px;
+  justify-content: center;
 }
 
 .field-empty {
@@ -639,7 +639,7 @@ body {
   border: 2px solid rgba(51, 255, 51, 0.4);
   border-radius: 4px;
   transition: all 0.15s;
-  width: 100px;
+  width: 90px;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -733,10 +733,6 @@ body {
   flex-direction: column;
 }
 
-.hand-card-wrap .card-tile {
-  width: auto;
-  flex: 1;
-}
 
 .hand-card-info-btn {
   position: absolute;
@@ -897,11 +893,7 @@ body {
   .game-container { padding: 4px 6px; }
   .game-title { font-size: 13px; letter-spacing: 1px; }
 
-  /* Cards in hand fill their grid cell; drop fixed 100px width */
-  .hand-cards .card-tile { width: 100%; min-width: 0; padding: 5px 6px; }
   .hand-cards { gap: 4px; padding-bottom: 4px; }
-
-  /* Collection cards keep fixed width — hand is what overflows */
   .card-tile { width: 78px; padding: 6px 8px; }
   .card-title { font-size: 9px; }
   .card-stats { font-size: 8px; }
@@ -921,8 +913,7 @@ body {
   .game-container { padding: 2px 4px; }
   .game-title { font-size: 12px; padding: 2px 0 3px; }
 
-  /* 3 cards per row so each has a reasonable touch target */
-  .hand-cards { grid-template-columns: repeat(3, 1fr); gap: 3px; }
+  .hand-cards { gap: 3px; }
   .hand-cards .card-tile { padding: 4px 5px; }
   .card-title { font-size: 8px; }
 
@@ -1428,14 +1419,10 @@ body {
 .collection-cell {
   display: flex;
   flex-direction: column;
-  width: 112px;   /* fixed width so every card is the same size */
+  width: 90px;
   flex-shrink: 0;
 }
 
-.collection-cell .card-tile {
-  width: 100%;   /* fill the fixed cell width */
-  box-sizing: border-box;
-}
 
 .collection-cell--unowned {
   opacity: 0.45;
@@ -1799,10 +1786,6 @@ body {
   gap: 4px;
 }
 
-.pack-card-reveal .card-tile {
-  width: 90px;
-  box-sizing: border-box;
-}
 
 .pack-card-rarity {
   font-size: 12px;
