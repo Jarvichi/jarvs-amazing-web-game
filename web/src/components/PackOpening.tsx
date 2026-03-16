@@ -86,12 +86,10 @@ export function PackOpening({ pack, onDone }: Props) {
     const isRevealed = i < revealed
     const isWaiting = i === revealed && tapsNeeded > 0 && tapsGiven < tapsNeeded
 
-    const isFlashRarity = rarity === 'legendary' || rarity === 'rare'
     const slotClasses = [
       'pack-card-slot',
-      isRevealed && !isFlashRarity ? 'pack-card-slot--revealed' : '',
-      !isRevealed && isFlashRarity ? `pack-card-slot--glow-${rarity}` : '',
-      isRevealed && isFlashRarity ? `pack-card-slot--flash-${rarity}` : '',
+      isRevealed ? 'pack-card-slot--revealed' : '',
+      !isRevealed && (rarity === 'legendary' || rarity === 'rare') ? `pack-card-slot--glow-${rarity}` : '',
     ].filter(Boolean).join(' ')
 
     return (
