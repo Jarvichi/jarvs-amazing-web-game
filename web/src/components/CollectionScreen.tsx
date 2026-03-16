@@ -18,6 +18,7 @@ import {
 } from '../game/collection'
 import { CardTile } from './CardTile'
 import { useCardDetail } from './useCardDetail'
+import { OverlayScreen } from './OverlayScreen'
 
 interface Props {
   crystals: number
@@ -190,13 +191,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
   }
 
   return (
-    <div className="overlay-screen">
-      {/* Header */}
-      <div className="overlay-header">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <span className="overlay-title">COLLECTION</span>
-        <span className="crystal-count">💎 {crystals.toLocaleString()}</span>
-      </div>
+    <OverlayScreen title="COLLECTION" onBack={onBack} right={<span className="crystal-count">💎 {crystals.toLocaleString()}</span>}>
 
       {/* Action row */}
       <div className="collection-action-row">
@@ -387,6 +382,6 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
       </div>
 
       {cardDetailNode}
-    </div>
+    </OverlayScreen>
   )
 }

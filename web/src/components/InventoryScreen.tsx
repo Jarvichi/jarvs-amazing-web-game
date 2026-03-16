@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { UselessItem, loadInventory, _inventorySyncCheck } from '../game/dailyLogin'
 import { saveCrystals, loadCrystals } from '../game/collection'
 import { loadEarnedRelics, getRelicDef, RelicDef } from '../game/relics'
+import { OverlayScreen } from './OverlayScreen'
 
 interface Props {
   onBack: () => void
@@ -42,12 +43,7 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
   }
 
   return (
-    <div className="overlay-screen">
-      <div className="overlay-header">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <span className="overlay-title">INVENTORY</span>
-        <span className="inventory-count">{items.length} items</span>
-      </div>
+    <OverlayScreen title="INVENTORY" onBack={onBack} right={<span className="inventory-count">{items.length} items</span>}>
 
       <div className="inventory-body">
         <div className="inventory-intro">
@@ -142,6 +138,6 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
           </div>
         </div>
       )}
-    </div>
+    </OverlayScreen>
   )
 }

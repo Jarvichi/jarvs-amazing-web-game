@@ -1,5 +1,6 @@
 import React from 'react'
 import { CRYSTAL_PACK_COST } from '../game/collection'
+import { OverlayScreen } from './OverlayScreen'
 
 interface Props {
   crystals: number
@@ -11,12 +12,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onBack }: Props) {
   const canBuy = crystals >= CRYSTAL_PACK_COST
 
   return (
-    <div className="overlay-screen">
-      <div className="overlay-header">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <span className="overlay-title">SHOP</span>
-        <span className="crystal-count">💎 {crystals.toLocaleString()}</span>
-      </div>
+    <OverlayScreen title="SHOP" onBack={onBack} right={<span className="crystal-count">💎 {crystals.toLocaleString()}</span>}>
 
       <div className="shop-content">
         <div className="shop-item">
@@ -34,6 +30,6 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onBack }: Props) {
           </button>
         </div>
       </div>
-    </div>
+    </OverlayScreen>
   )
 }

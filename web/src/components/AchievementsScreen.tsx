@@ -3,6 +3,7 @@ import {
   ACHIEVEMENT_DEFS, AchievementDef, AchievementCategory,
   loadAchievementSave, claimAchievementReward,
 } from '../game/achievements'
+import { OverlayScreen } from './OverlayScreen'
 import { addCardsToCollection, loadCrystals, saveCrystals } from '../game/collection'
 import { addToInventory, ALL_ITEMS } from '../game/dailyLogin'
 
@@ -81,14 +82,11 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
   const total         = ACHIEVEMENT_DEFS.length
 
   return (
-    <div className="overlay-screen">
-      <div className="overlay-header">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <span className="overlay-title">🏆 ACHIEVEMENTS</span>
-        <div className="ach-summary">
-          {totalUnlocked}/{total} · {totalClaimed} claimed
-        </div>
-      </div>
+    <OverlayScreen
+      title="🏆 ACHIEVEMENTS"
+      onBack={onBack}
+      right={<div className="ach-summary">{totalUnlocked}/{total} · {totalClaimed} claimed</div>}
+    >
 
       {/* Category tabs */}
       <div className="ach-tabs">
@@ -150,6 +148,6 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
           )
         })}
       </div>
-    </div>
+    </OverlayScreen>
   )
 }

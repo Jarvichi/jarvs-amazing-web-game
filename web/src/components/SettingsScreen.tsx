@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { isSoundEnabled, setSoundEnabled } from '../game/sound'
+import { OverlayScreen } from './OverlayScreen'
 
 interface Props {
   onBack: () => void
@@ -123,11 +124,7 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
   
 
   return (
-    <div className="settings-screen">
-      <div className="overlay-header">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <span className="overlay-title">SETTINGS</span>
-      </div>
+    <OverlayScreen title="SETTINGS" onBack={onBack} className="settings-screen">
 
       <div className="settings-body">
         {/* Audio */}
@@ -280,6 +277,6 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
           </div>
         </div>
       </div>
-    </div>
+    </OverlayScreen>
   )
 }

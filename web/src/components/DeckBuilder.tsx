@@ -18,6 +18,7 @@ import {
 } from '../game/collection'
 import { CardTile } from './CardTile'
 import { useCardDetail } from './useCardDetail'
+import { OverlayScreen } from './OverlayScreen'
 
 interface Props {
   onBack: () => void
@@ -218,15 +219,16 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
     })
 
   return (
-    <div className="overlay-screen">
-      <div className="overlay-header">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <span className="overlay-title">DECK BUILDER</span>
+    <OverlayScreen
+      title="DECK BUILDER"
+      onBack={onBack}
+      right={
         <span className={`overlay-count${valid ? ' overlay-count--valid' : ' overlay-count--invalid'}`}>
           {total}/{DECK_MAX} cards
           {total < DECK_MIN && ` (need ${DECK_MIN - total} more)`}
         </span>
-      </div>
+      }
+    >
 
       <div className="deckbuilder-body">
         {/* ── Left: collection ── */}
@@ -414,6 +416,6 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
       )}
 
       {cardDetailNode}
-    </div>
+    </OverlayScreen>
   )
 }
