@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Stone base platform -->
+  <rect x="6" y="26" width="20" height="5" rx="2" fill="#334455"/>
+  <rect x="8" y="24" width="16" height="4" rx="1" fill="#445566"/>
+  <!-- Pedestal -->
+  <rect x="12" y="18" width="8" height="7" rx="1" fill="#334455"/>
+  <rect x="13" y="18" width="6" height="3" rx="1" fill="#556677"/>
+  <!-- Leyline ring -->
+  <circle cx="16" cy="14" r="8" fill="none" stroke="#0055aa" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="16" cy="14" r="6" fill="none" stroke="#0088cc" stroke-width="1" opacity="0.7"/>
+  <!-- Central crystal -->
+  <polygon points="16,6 19,13 16,16 13,13" fill="#00aaff"/>
+  <polygon points="16,6 19,13 16,16 13,13" fill="#44ccff" opacity="0.5"/>
+  <polygon points="16,6 18,12 16,14 14,12" fill="#88eeff" opacity="0.7"/>
+  <!-- Glow lines radiating out (ley lines) -->
+  <line x1="16" y1="14" x2="4" y2="14" stroke="#0088cc" stroke-width="0.8" opacity="0.5"/>
+  <line x1="16" y1="14" x2="28" y2="14" stroke="#0088cc" stroke-width="0.8" opacity="0.5"/>
+  <line x1="16" y1="14" x2="16" y2="2" stroke="#0088cc" stroke-width="0.8" opacity="0.5"/>
+  <line x1="16" y1="14" x2="8" y2="6" stroke="#0088cc" stroke-width="0.8" opacity="0.4"/>
+  <line x1="16" y1="14" x2="24" y2="6" stroke="#0088cc" stroke-width="0.8" opacity="0.4"/>
+  <!-- Orb glow -->
+  <circle cx="16" cy="11" r="2" fill="#aaddff" opacity="0.6"/>
+</svg>

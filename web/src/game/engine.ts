@@ -266,7 +266,15 @@ export function newGame(
     opponentDeck = shuffle(makeAshwalkerDeck())
   } else if (enemyDeckNames && enemyDeckNames.length > 0) {
     // Preset node deck — deterministic and learnable
-    opponentDeck = makeNodeDeck(enemyDeckNames)
+    const nodeDeck = makeNodeDeck(enemyDeckNames)
+    // Fall back to random deck if all names were unrecognised (prevents silent empty-hand bug)
+    if (nodeDeck.length > 0) {
+      opponentDeck = nodeDeck
+    } else {
+      const maxRarity = maxRarityForHandicap(clamp)
+      const filtered  = makeDeck().filter(c => RARITY_RANK[c.rarity] <= RARITY_RANK[maxRarity])
+      opponentDeck = shuffle(filtered)
+    }
   } else {
     const maxRarity = maxRarityForHandicap(clamp)
     const filtered  = makeDeck().filter(c => RARITY_RANK[c.rarity] <= RARITY_RANK[maxRarity])

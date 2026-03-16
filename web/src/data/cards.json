@@ -9,9 +9,18 @@
       "moveSpeed": 45,
       "attackRange": 5,
       "attackCooldownMs": 1000,
-      "tags": ["melee","fast"],
-      "strengths": ["ranged","magic"],
-      "weaknesses": ["large","siege"],
+      "tags": [
+        "melee",
+        "fast"
+      ],
+      "strengths": [
+        "ranged",
+        "magic"
+      ],
+      "weaknesses": [
+        "large",
+        "siege"
+      ],
       "targetPriority": "ranged_first"
     },
     "archer": {
@@ -23,9 +32,17 @@
       "moveSpeed": 28,
       "attackRange": 80,
       "attackCooldownMs": 1500,
-      "tags": ["ranged"],
-      "strengths": ["flying","slow"],
-      "weaknesses": ["melee","fast"]
+      "tags": [
+        "ranged"
+      ],
+      "strengths": [
+        "flying",
+        "slow"
+      ],
+      "weaknesses": [
+        "melee",
+        "fast"
+      ]
     },
     "dragon": {
       "name": "Dragon",
@@ -37,10 +54,25 @@
       "attackRange": 50,
       "attackCooldownMs": 3000,
       "flying": true,
-      "tags": ["flying","large"],
-      "strengths": ["melee","armored"],
-      "weaknesses": ["magic","ranged"],
-      "affinity": {"withName":"Catapult","range":80,"effectType":"damage","effectAmount":1.25,"label":"Siege Guard"}
+      "tags": [
+        "flying",
+        "large"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "magic",
+        "ranged"
+      ],
+      "affinity": {
+        "withName": "Catapult",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Siege Guard"
+      }
     },
     "skeleton": {
       "name": "Skeleton",
@@ -51,10 +83,26 @@
       "moveSpeed": 52,
       "attackRange": 5,
       "attackCooldownMs": 800,
-      "tags": ["melee","fast","undead"],
-      "strengths": ["melee","slow"],
-      "weaknesses": ["fire","magic"],
-      "affinity": {"withName":"Necromancer","range":70,"effectType":"moveSpeed","effectAmount":1.4,"label":"Death Rally"}
+      "tags": [
+        "melee",
+        "fast",
+        "undead"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Necromancer",
+        "range": 70,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.4,
+        "label": "Death Rally"
+      }
     },
     "weak-skeleton": {
       "name": "Weak Skeleton",
@@ -65,9 +113,18 @@
       "moveSpeed": 20,
       "attackRange": 5,
       "attackCooldownMs": 800,
-      "tags": ["melee","undead"],
-      "strengths": ["melee","slow"],
-      "weaknesses": ["fire","magic"]
+      "tags": [
+        "melee",
+        "undead"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ]
     },
     "troll": {
       "name": "Troll",
@@ -78,10 +135,27 @@
       "moveSpeed": 12,
       "attackRange": 5,
       "attackCooldownMs": 2200,
-      "tags": ["melee","slow","large","beast"],
-      "strengths": ["melee","fast"],
-      "weaknesses": ["fire","siege"],
-      "affinity": {"withName":"Golem","range":70,"effectType":"damage","effectAmount":1.2,"label":"Monster Pact"}
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ],
+      "strengths": [
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "fire",
+        "siege"
+      ],
+      "affinity": {
+        "withName": "Golem",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Monster Pact"
+      }
     },
     "crossbow": {
       "name": "Crossbow",
@@ -92,10 +166,24 @@
       "moveSpeed": 25,
       "attackRange": 65,
       "attackCooldownMs": 2000,
-      "tags": ["ranged"],
-      "strengths": ["large","armored"],
-      "weaknesses": ["fast","melee"],
-      "affinity": {"withName":"Ballista","range":70,"effectType":"attackSpeed","effectAmount":1.25,"label":"Ranged Formation"}
+      "tags": [
+        "ranged"
+      ],
+      "strengths": [
+        "large",
+        "armored"
+      ],
+      "weaknesses": [
+        "fast",
+        "melee"
+      ],
+      "affinity": {
+        "withName": "Ballista",
+        "range": 70,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Ranged Formation"
+      }
     },
     "paladin": {
       "name": "Paladin",
@@ -106,10 +194,25 @@
       "moveSpeed": 16,
       "attackRange": 5,
       "attackCooldownMs": 1800,
-      "tags": ["melee","armored"],
-      "strengths": ["undead","beast"],
-      "weaknesses": ["magic","siege"],
-      "affinity": {"withName":"Shield Guard","range":60,"effectType":"damage","effectAmount":0.8,"label":"Holy Shield"}
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "strengths": [
+        "undead",
+        "beast"
+      ],
+      "weaknesses": [
+        "magic",
+        "siege"
+      ],
+      "affinity": {
+        "withName": "Shield Guard",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Holy Shield"
+      }
     },
     "rogue": {
       "name": "Rogue",
@@ -121,11 +224,27 @@
       "attackRange": 5,
       "attackCooldownMs": 1200,
       "climber": true,
-      "tags": ["melee","fast","climber"],
-      "strengths": ["siege","ranged"],
-      "weaknesses": ["melee","large"],
+      "tags": [
+        "melee",
+        "fast",
+        "climber"
+      ],
+      "strengths": [
+        "siege",
+        "ranged"
+      ],
+      "weaknesses": [
+        "melee",
+        "large"
+      ],
       "targetPriority": "buildings",
-      "affinity": {"withName":"Bandit","range":60,"effectType":"attackSpeed","effectAmount":1.3,"label":"Cutthroat Pact"}
+      "affinity": {
+        "withName": "Bandit",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Cutthroat Pact"
+      }
     },
     "catapult": {
       "name": "Catapult",
@@ -136,9 +255,19 @@
       "moveSpeed": 10,
       "attackRange": 110,
       "attackCooldownMs": 4000,
-      "tags": ["siege","slow","ranged"],
-      "strengths": ["large","slow"],
-      "weaknesses": ["fast","fire"],
+      "tags": [
+        "siege",
+        "slow",
+        "ranged"
+      ],
+      "strengths": [
+        "large",
+        "slow"
+      ],
+      "weaknesses": [
+        "fast",
+        "fire"
+      ],
       "targetPriority": "walls"
     },
     "werewolf": {
@@ -151,10 +280,27 @@
       "attackRange": 5,
       "attackCooldownMs": 1400,
       "climber": true,
-      "tags": ["melee","fast","beast","climber"],
-      "strengths": ["slow","armored"],
-      "weaknesses": ["fire","ranged"],
-      "affinity": {"withName":"Werewolf","range":70,"effectType":"damage","effectAmount":1.25,"label":"Pack Fury"}
+      "tags": [
+        "melee",
+        "fast",
+        "beast",
+        "climber"
+      ],
+      "strengths": [
+        "slow",
+        "armored"
+      ],
+      "weaknesses": [
+        "fire",
+        "ranged"
+      ],
+      "affinity": {
+        "withName": "Werewolf",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Pack Fury"
+      }
     },
     "golem": {
       "name": "Golem",
@@ -165,10 +311,27 @@
       "moveSpeed": 8,
       "attackRange": 5,
       "attackCooldownMs": 2500,
-      "tags": ["melee","slow","large","armored"],
-      "strengths": ["melee","fast"],
-      "weaknesses": ["magic","siege"],
-      "affinity": {"withName":"Troll","range":70,"effectType":"damage","effectAmount":1.2,"label":"Monster Pact"}
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ],
+      "strengths": [
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "magic",
+        "siege"
+      ],
+      "affinity": {
+        "withName": "Troll",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Monster Pact"
+      }
     },
     "pixie": {
       "name": "Pixie",
@@ -180,10 +343,26 @@
       "attackRange": 75,
       "attackCooldownMs": 1000,
       "flying": true,
-      "tags": ["flying","magic","ranged"],
-      "strengths": ["melee","slow"],
-      "weaknesses": ["ranged","armored"],
-      "affinity": {"withName":"Pixie","range":50,"effectType":"moveSpeed","effectAmount":1.3,"label":"Fae Dance"}
+      "tags": [
+        "flying",
+        "magic",
+        "ranged"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "ranged",
+        "armored"
+      ],
+      "affinity": {
+        "withName": "Pixie",
+        "range": 50,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Fae Dance"
+      }
     },
     "ogre": {
       "name": "Ogre",
@@ -194,10 +373,26 @@
       "moveSpeed": 18,
       "attackRange": 5,
       "attackCooldownMs": 2000,
-      "tags": ["melee","large","beast"],
-      "strengths": ["fast","melee"],
-      "weaknesses": ["ranged","magic"],
-      "affinity": {"withName":"Troll","range":70,"effectType":"damage","effectAmount":1.2,"label":"Brute Alliance"}
+      "tags": [
+        "melee",
+        "large",
+        "beast"
+      ],
+      "strengths": [
+        "fast",
+        "melee"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Troll",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Brute Alliance"
+      }
     },
     "plague-rat": {
       "name": "Plague Rat",
@@ -208,11 +403,27 @@
       "moveSpeed": 75,
       "attackRange": 5,
       "attackCooldownMs": 500,
-      "tags": ["melee","fast","beast"],
-      "strengths": ["slow","armored"],
-      "weaknesses": ["fire","magic"],
+      "tags": [
+        "melee",
+        "fast",
+        "beast"
+      ],
+      "strengths": [
+        "slow",
+        "armored"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ],
       "targetPriority": "ranged_first",
-      "affinity": {"withName":"Scorpion","range":50,"effectType":"attackSpeed","effectAmount":1.25,"label":"Predator Instinct"}
+      "affinity": {
+        "withName": "Scorpion",
+        "range": 50,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Predator Instinct"
+      }
     },
     "bandit": {
       "name": "Bandit",
@@ -224,11 +435,27 @@
       "attackRange": 5,
       "attackCooldownMs": 1100,
       "climber": true,
-      "tags": ["melee","fast","climber"],
-      "strengths": ["slow","ranged"],
-      "weaknesses": ["melee","large"],
+      "tags": [
+        "melee",
+        "fast",
+        "climber"
+      ],
+      "strengths": [
+        "slow",
+        "ranged"
+      ],
+      "weaknesses": [
+        "melee",
+        "large"
+      ],
       "targetPriority": "buildings",
-      "affinity": {"withName":"Rogue","range":60,"effectType":"moveSpeed","effectAmount":1.3,"label":"Shadow Sprint"}
+      "affinity": {
+        "withName": "Rogue",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Shadow Sprint"
+      }
     },
     "bat": {
       "name": "Bat",
@@ -240,11 +467,27 @@
       "attackRange": 5,
       "attackCooldownMs": 700,
       "flying": true,
-      "tags": ["flying","fast","beast"],
-      "strengths": ["melee","slow"],
-      "weaknesses": ["ranged","magic"],
+      "tags": [
+        "flying",
+        "fast",
+        "beast"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
       "targetPriority": "ranged_first",
-      "affinity": {"withName":"Vampire","range":60,"effectType":"attackSpeed","effectAmount":1.3,"label":"Blood Frenzy"}
+      "affinity": {
+        "withName": "Vampire",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Blood Frenzy"
+      }
     },
     "scorpion": {
       "name": "Scorpion",
@@ -255,10 +498,25 @@
       "moveSpeed": 35,
       "attackRange": 5,
       "attackCooldownMs": 1300,
-      "tags": ["melee","beast"],
-      "strengths": ["fast","beast"],
-      "weaknesses": ["fire","ranged"],
-      "affinity": {"withName":"Plague Rat","range":50,"effectType":"attackSpeed","effectAmount":1.25,"label":"Predator Instinct"}
+      "tags": [
+        "melee",
+        "beast"
+      ],
+      "strengths": [
+        "fast",
+        "beast"
+      ],
+      "weaknesses": [
+        "fire",
+        "ranged"
+      ],
+      "affinity": {
+        "withName": "Plague Rat",
+        "range": 50,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Predator Instinct"
+      }
     },
     "shield-guard": {
       "name": "Shield Guard",
@@ -269,10 +527,26 @@
       "moveSpeed": 15,
       "attackRange": 5,
       "attackCooldownMs": 2200,
-      "tags": ["melee","armored","slow"],
-      "strengths": ["ranged","melee"],
-      "weaknesses": ["siege","magic"],
-      "affinity": {"withName":"Paladin","range":60,"effectType":"damage","effectAmount":0.8,"label":"Holy Shield"}
+      "tags": [
+        "melee",
+        "armored",
+        "slow"
+      ],
+      "strengths": [
+        "ranged",
+        "melee"
+      ],
+      "weaknesses": [
+        "siege",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Paladin",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Holy Shield"
+      }
     },
     "centaur": {
       "name": "Centaur",
@@ -283,10 +557,25 @@
       "moveSpeed": 42,
       "attackRange": 70,
       "attackCooldownMs": 1800,
-      "tags": ["ranged","fast"],
-      "strengths": ["melee","slow"],
-      "weaknesses": ["magic","large"],
-      "affinity": {"withName":"Centaur","range":60,"effectType":"damage","effectAmount":1.2,"label":"Stampede"}
+      "tags": [
+        "ranged",
+        "fast"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "magic",
+        "large"
+      ],
+      "affinity": {
+        "withName": "Centaur",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Stampede"
+      }
     },
     "harpy": {
       "name": "Harpy",
@@ -298,11 +587,27 @@
       "attackRange": 65,
       "attackCooldownMs": 1500,
       "flying": true,
-      "tags": ["flying","ranged","beast"],
-      "strengths": ["melee","slow"],
-      "weaknesses": ["ranged","magic"],
+      "tags": [
+        "flying",
+        "ranged",
+        "beast"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
       "targetPriority": "boss",
-      "affinity": {"withName":"Harpy","range":60,"effectType":"damage","effectAmount":1.2,"label":"Storm Flock"}
+      "affinity": {
+        "withName": "Harpy",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Storm Flock"
+      }
     },
     "specter": {
       "name": "Specter",
@@ -314,10 +619,26 @@
       "attackRange": 5,
       "attackCooldownMs": 1000,
       "flying": true,
-      "tags": ["flying","fast","undead"],
-      "strengths": ["melee","armored"],
-      "weaknesses": ["magic","ranged"],
-      "affinity": {"withName":"Vampire","range":60,"effectType":"moveSpeed","effectAmount":1.25,"label":"Haunting"}
+      "tags": [
+        "flying",
+        "fast",
+        "undead"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "magic",
+        "ranged"
+      ],
+      "affinity": {
+        "withName": "Vampire",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.25,
+        "label": "Haunting"
+      }
     },
     "lizardman": {
       "name": "Lizardman",
@@ -329,10 +650,26 @@
       "attackRange": 5,
       "attackCooldownMs": 1600,
       "climber": true,
-      "tags": ["melee","climber","beast"],
-      "strengths": ["ranged","siege"],
-      "weaknesses": ["fire","magic"],
-      "affinity": {"withName":"Lizardman","range":50,"effectType":"attackSpeed","effectAmount":1.3,"label":"Ambush Pack"}
+      "tags": [
+        "melee",
+        "climber",
+        "beast"
+      ],
+      "strengths": [
+        "ranged",
+        "siege"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Lizardman",
+        "range": 50,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Ambush Pack"
+      }
     },
     "ballista": {
       "name": "Ballista",
@@ -343,11 +680,27 @@
       "moveSpeed": 12,
       "attackRange": 100,
       "attackCooldownMs": 3000,
-      "tags": ["siege","slow","ranged"],
-      "strengths": ["large","flying"],
-      "weaknesses": ["fast","melee"],
+      "tags": [
+        "siege",
+        "slow",
+        "ranged"
+      ],
+      "strengths": [
+        "large",
+        "flying"
+      ],
+      "weaknesses": [
+        "fast",
+        "melee"
+      ],
       "targetPriority": "walls",
-      "affinity": {"withName":"Griffin","range":80,"effectType":"damage","effectAmount":1.2,"label":"Aerial Volley"}
+      "affinity": {
+        "withName": "Griffin",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Aerial Volley"
+      }
     },
     "vampire": {
       "name": "Vampire",
@@ -359,10 +712,26 @@
       "attackRange": 5,
       "attackCooldownMs": 1400,
       "flying": true,
-      "tags": ["flying","fast","undead"],
-      "strengths": ["melee","slow"],
-      "weaknesses": ["fire","magic"],
-      "affinity": {"withName":"Bat","range":60,"effectType":"damage","effectAmount":1.2,"label":"Nighthunter"}
+      "tags": [
+        "flying",
+        "fast",
+        "undead"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Bat",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Nighthunter"
+      }
     },
     "griffin": {
       "name": "Griffin",
@@ -374,10 +743,27 @@
       "attackRange": 60,
       "attackCooldownMs": 2200,
       "flying": true,
-      "tags": ["flying","ranged","large","beast"],
-      "strengths": ["melee","beast"],
-      "weaknesses": ["ranged","magic"],
-      "affinity": {"withName":"Ballista","range":80,"effectType":"damage","effectAmount":1.2,"label":"Aerial Volley"}
+      "tags": [
+        "flying",
+        "ranged",
+        "large",
+        "beast"
+      ],
+      "strengths": [
+        "melee",
+        "beast"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Ballista",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Aerial Volley"
+      }
     },
     "fire-mage": {
       "name": "Fire Mage",
@@ -388,9 +774,19 @@
       "moveSpeed": 18,
       "attackRange": 75,
       "attackCooldownMs": 2500,
-      "tags": ["ranged","magic","fire"],
-      "strengths": ["undead","beast"],
-      "weaknesses": ["melee","fast"]
+      "tags": [
+        "ranged",
+        "magic",
+        "fire"
+      ],
+      "strengths": [
+        "undead",
+        "beast"
+      ],
+      "weaknesses": [
+        "melee",
+        "fast"
+      ]
     },
     "executioner": {
       "name": "Executioner",
@@ -401,11 +797,26 @@
       "moveSpeed": 14,
       "attackRange": 5,
       "attackCooldownMs": 2000,
-      "tags": ["melee","slow"],
-      "strengths": ["armored","large"],
-      "weaknesses": ["ranged","magic"],
+      "tags": [
+        "melee",
+        "slow"
+      ],
+      "strengths": [
+        "armored",
+        "large"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
       "targetPriority": "boss",
-      "affinity": {"withName":"Giant","range":70,"effectType":"damage","effectAmount":1.3,"label":"Giant's Blade"}
+      "affinity": {
+        "withName": "Giant",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.3,
+        "label": "Giant's Blade"
+      }
     },
     "mammoth": {
       "name": "Mammoth",
@@ -416,11 +827,28 @@
       "moveSpeed": 11,
       "attackRange": 5,
       "attackCooldownMs": 2600,
-      "tags": ["melee","slow","large","beast"],
-      "strengths": ["melee","siege"],
-      "weaknesses": ["ranged","magic"],
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ],
+      "strengths": [
+        "melee",
+        "siege"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
       "targetPriority": "walls",
-      "affinity": {"withName":"Ogre","range":70,"effectType":"damage","effectAmount":1.2,"label":"Beastmaster"}
+      "affinity": {
+        "withName": "Ogre",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Beastmaster"
+      }
     },
     "dark-elf": {
       "name": "Dark Elf",
@@ -432,9 +860,18 @@
       "attackRange": 70,
       "attackCooldownMs": 1600,
       "climber": true,
-      "tags": ["ranged","climber"],
-      "strengths": ["armored","slow"],
-      "weaknesses": ["fire","melee"],
+      "tags": [
+        "ranged",
+        "climber"
+      ],
+      "strengths": [
+        "armored",
+        "slow"
+      ],
+      "weaknesses": [
+        "fire",
+        "melee"
+      ],
       "targetPriority": "buildings"
     },
     "necromancer": {
@@ -446,10 +883,26 @@
       "moveSpeed": 16,
       "attackRange": 80,
       "attackCooldownMs": 2200,
-      "tags": ["ranged","magic","undead"],
-      "strengths": ["melee","armored"],
-      "weaknesses": ["fire","ranged"],
-      "affinity": {"withName":"Skeleton","range":80,"effectType":"attackSpeed","effectAmount":1.25,"label":"Dark Mending"}
+      "tags": [
+        "ranged",
+        "magic",
+        "undead"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "fire",
+        "ranged"
+      ],
+      "affinity": {
+        "withName": "Skeleton",
+        "range": 80,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Dark Mending"
+      }
     },
     "giant": {
       "name": "Giant",
@@ -460,9 +913,19 @@
       "moveSpeed": 9,
       "attackRange": 5,
       "attackCooldownMs": 3000,
-      "tags": ["melee","slow","large"],
-      "strengths": ["melee","siege"],
-      "weaknesses": ["ranged","magic"],
+      "tags": [
+        "melee",
+        "slow",
+        "large"
+      ],
+      "strengths": [
+        "melee",
+        "siege"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
       "targetPriority": "walls"
     },
     "wyvern": {
@@ -475,10 +938,27 @@
       "attackRange": 55,
       "attackCooldownMs": 2000,
       "flying": true,
-      "tags": ["flying","ranged","large","beast"],
-      "strengths": ["melee","armored"],
-      "weaknesses": ["ranged","magic"],
-      "affinity": {"withName":"Dragon","range":80,"effectType":"damage","effectAmount":1.25,"label":"Dragonkin"}
+      "tags": [
+        "flying",
+        "ranged",
+        "large",
+        "beast"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Dragon",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Dragonkin"
+      }
     },
     "behemoth": {
       "name": "Behemoth",
@@ -489,9 +969,20 @@
       "moveSpeed": 7,
       "attackRange": 5,
       "attackCooldownMs": 3500,
-      "tags": ["melee","slow","large","beast"],
-      "strengths": ["melee","fast"],
-      "weaknesses": ["siege","magic"],
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ],
+      "strengths": [
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "siege",
+        "magic"
+      ],
       "targetPriority": "walls"
     },
     "vine-golem": {
@@ -503,10 +994,26 @@
       "moveSpeed": 12,
       "attackRange": 5,
       "attackCooldownMs": 2200,
-      "tags": ["melee","slow","large"],
-      "strengths": ["melee","fast"],
-      "weaknesses": ["fire","ranged"],
-      "affinity": {"withName":"Elder Treant","range":70,"effectType":"damage","effectAmount":0.8,"label":"Forest Bond"}
+      "tags": [
+        "melee",
+        "slow",
+        "large"
+      ],
+      "strengths": [
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "fire",
+        "ranged"
+      ],
+      "affinity": {
+        "withName": "Elder Treant",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Forest Bond"
+      }
     },
     "spore-bat": {
       "name": "Spore Bat",
@@ -518,10 +1025,26 @@
       "attackRange": 5,
       "attackCooldownMs": 800,
       "flying": true,
-      "tags": ["flying","fast","beast"],
-      "strengths": ["melee","slow"],
-      "weaknesses": ["ranged","fire"],
-      "affinity": {"withName":"Plague Rat","range":50,"effectType":"attackSpeed","effectAmount":1.3,"label":"Plague Cloud"}
+      "tags": [
+        "flying",
+        "fast",
+        "beast"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "ranged",
+        "fire"
+      ],
+      "affinity": {
+        "withName": "Plague Rat",
+        "range": 50,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Plague Cloud"
+      }
     },
     "thornbeast": {
       "name": "Thornbeast",
@@ -533,10 +1056,27 @@
       "attackRange": 5,
       "attackCooldownMs": 1600,
       "climber": true,
-      "tags": ["melee","fast","beast","climber"],
-      "strengths": ["melee","fast"],
-      "weaknesses": ["fire","ranged"],
-      "affinity": {"withName":"Vine Golem","range":60,"effectType":"damage","effectAmount":1.2,"label":"Thorn Garden"}
+      "tags": [
+        "melee",
+        "fast",
+        "beast",
+        "climber"
+      ],
+      "strengths": [
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "fire",
+        "ranged"
+      ],
+      "affinity": {
+        "withName": "Vine Golem",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Thorn Garden"
+      }
     },
     "elder-treant": {
       "name": "Elder Treant",
@@ -547,10 +1087,26 @@
       "moveSpeed": 6,
       "attackRange": 5,
       "attackCooldownMs": 3200,
-      "tags": ["melee","slow","large"],
-      "strengths": ["melee","beast"],
-      "weaknesses": ["fire","siege"],
-      "affinity": {"withName":"Vine Golem","range":70,"effectType":"damage","effectAmount":1.25,"label":"Ancient Grove"}
+      "tags": [
+        "melee",
+        "slow",
+        "large"
+      ],
+      "strengths": [
+        "melee",
+        "beast"
+      ],
+      "weaknesses": [
+        "fire",
+        "siege"
+      ],
+      "affinity": {
+        "withName": "Vine Golem",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Ancient Grove"
+      }
     },
     "frog-knight": {
       "name": "Frog Knight",
@@ -562,10 +1118,26 @@
       "attackRange": 5,
       "attackCooldownMs": 1400,
       "climber": true,
-      "tags": ["melee","climber","beast"],
-      "strengths": ["ranged","slow"],
-      "weaknesses": ["magic","siege"],
-      "affinity": {"withName":"Frog Knight","range":50,"effectType":"moveSpeed","effectAmount":1.3,"label":"Leap Frog"}
+      "tags": [
+        "melee",
+        "climber",
+        "beast"
+      ],
+      "strengths": [
+        "ranged",
+        "slow"
+      ],
+      "weaknesses": [
+        "magic",
+        "siege"
+      ],
+      "affinity": {
+        "withName": "Frog Knight",
+        "range": 50,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Leap Frog"
+      }
     },
     "ironclad-guard": {
       "name": "Ironclad Guard",
@@ -576,10 +1148,26 @@
       "moveSpeed": 12,
       "attackRange": 5,
       "attackCooldownMs": 2000,
-      "tags": ["melee","slow","armored"],
-      "strengths": ["ranged","melee"],
-      "weaknesses": ["siege","magic"],
-      "affinity": {"withName":"Shield Wall","range":50,"effectType":"damage","effectAmount":0.8,"label":"Iron Formation"}
+      "tags": [
+        "melee",
+        "slow",
+        "armored"
+      ],
+      "strengths": [
+        "ranged",
+        "melee"
+      ],
+      "weaknesses": [
+        "siege",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Shield Wall",
+        "range": 50,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Iron Formation"
+      }
     },
     "war-drummer": {
       "name": "War Drummer",
@@ -590,10 +1178,24 @@
       "moveSpeed": 28,
       "attackRange": 5,
       "attackCooldownMs": 1600,
-      "tags": ["melee"],
-      "strengths": ["melee","fast"],
-      "weaknesses": ["ranged","magic"],
-      "affinity": {"withName":"War Drummer","range":70,"effectType":"moveSpeed","effectAmount":1.3,"label":"War Rhythm"}
+      "tags": [
+        "melee"
+      ],
+      "strengths": [
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "War Drummer",
+        "range": 70,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "War Rhythm"
+      }
     },
     "siege-engineer": {
       "name": "Siege Engineer",
@@ -604,11 +1206,27 @@
       "moveSpeed": 14,
       "attackRange": 90,
       "attackCooldownMs": 2800,
-      "tags": ["siege","slow","ranged"],
-      "strengths": ["large","armored"],
-      "weaknesses": ["fast","melee"],
+      "tags": [
+        "siege",
+        "slow",
+        "ranged"
+      ],
+      "strengths": [
+        "large",
+        "armored"
+      ],
+      "weaknesses": [
+        "fast",
+        "melee"
+      ],
       "targetPriority": "walls",
-      "affinity": {"withName":"Catapult","range":80,"effectType":"damage","effectAmount":1.3,"label":"Siege Mastery"}
+      "affinity": {
+        "withName": "Catapult",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.3,
+        "label": "Siege Mastery"
+      }
     },
     "shield-wall-soldier": {
       "name": "Shield Wall",
@@ -619,10 +1237,26 @@
       "moveSpeed": 15,
       "attackRange": 5,
       "attackCooldownMs": 2000,
-      "tags": ["melee","slow","armored"],
-      "strengths": ["ranged","fast"],
-      "weaknesses": ["siege","magic"],
-      "affinity": {"withName":"Ironclad Guard","range":50,"effectType":"damage","effectAmount":0.8,"label":"Iron Formation"}
+      "tags": [
+        "melee",
+        "slow",
+        "armored"
+      ],
+      "strengths": [
+        "ranged",
+        "fast"
+      ],
+      "weaknesses": [
+        "siege",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Ironclad Guard",
+        "range": 50,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Iron Formation"
+      }
     },
     "grizzled-veteran": {
       "name": "Grizzled Vet.",
@@ -633,10 +1267,24 @@
       "moveSpeed": 20,
       "attackRange": 5,
       "attackCooldownMs": 1800,
-      "tags": ["melee"],
-      "strengths": ["undead","beast"],
-      "weaknesses": ["ranged","magic"],
-      "affinity": {"withName":"Grizzled Vet.","range":60,"effectType":"damage","effectAmount":1.2,"label":"Battle Cry"}
+      "tags": [
+        "melee"
+      ],
+      "strengths": [
+        "undead",
+        "beast"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Grizzled Vet.",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Battle Cry"
+      }
     },
     "bone-archer": {
       "name": "Bone Archer",
@@ -647,10 +1295,26 @@
       "moveSpeed": 25,
       "attackRange": 75,
       "attackCooldownMs": 1500,
-      "tags": ["ranged","undead","slow"],
-      "strengths": ["flying","slow"],
-      "weaknesses": ["fire","melee"],
-      "affinity": {"withName":"Wight Knight","range":60,"effectType":"attackSpeed","effectAmount":1.3,"label":"Undead Volley"}
+      "tags": [
+        "ranged",
+        "undead",
+        "slow"
+      ],
+      "strengths": [
+        "flying",
+        "slow"
+      ],
+      "weaknesses": [
+        "fire",
+        "melee"
+      ],
+      "affinity": {
+        "withName": "Wight Knight",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Undead Volley"
+      }
     },
     "wight-knight": {
       "name": "Wight Knight",
@@ -661,10 +1325,27 @@
       "moveSpeed": 18,
       "attackRange": 5,
       "attackCooldownMs": 2000,
-      "tags": ["melee","slow","undead","armored"],
-      "strengths": ["melee","armored"],
-      "weaknesses": ["fire","magic"],
-      "affinity": {"withName":"Revenant","range":60,"effectType":"damage","effectAmount":0.8,"label":"Undead Legion"}
+      "tags": [
+        "melee",
+        "slow",
+        "undead",
+        "armored"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Revenant",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Undead Legion"
+      }
     },
     "ash-elemental": {
       "name": "Ash Elemental",
@@ -676,10 +1357,27 @@
       "attackRange": 60,
       "attackCooldownMs": 2000,
       "flying": true,
-      "tags": ["flying","ranged","magic","undead"],
-      "strengths": ["melee","beast"],
-      "weaknesses": ["ranged","magic"],
-      "affinity": {"withName":"Revenant","range":60,"effectType":"damage","effectAmount":1.25,"label":"Ashen Wrath"}
+      "tags": [
+        "flying",
+        "ranged",
+        "magic",
+        "undead"
+      ],
+      "strengths": [
+        "melee",
+        "beast"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Revenant",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Ashen Wrath"
+      }
     },
     "revenant": {
       "name": "Revenant",
@@ -691,10 +1389,26 @@
       "attackRange": 5,
       "attackCooldownMs": 1200,
       "flying": true,
-      "tags": ["flying","fast","undead"],
-      "strengths": ["melee","slow"],
-      "weaknesses": ["fire","magic"],
-      "affinity": {"withName":"Necromancer","range":70,"effectType":"attackSpeed","effectAmount":1.3,"label":"Soul Bond"}
+      "tags": [
+        "flying",
+        "fast",
+        "undead"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Necromancer",
+        "range": 70,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Soul Bond"
+      }
     },
     "lich-apprentice": {
       "name": "Lich Apprentice",
@@ -705,10 +1419,146 @@
       "moveSpeed": 18,
       "attackRange": 70,
       "attackCooldownMs": 1800,
-      "tags": ["ranged","magic","undead","slow"],
-      "strengths": ["melee","beast"],
-      "weaknesses": ["fire","ranged"],
-      "affinity": {"withName":"Necromancer","range":70,"effectType":"damage","effectAmount":1.25,"label":"Dark Tutelage"}
+      "tags": [
+        "ranged",
+        "magic",
+        "undead",
+        "slow"
+      ],
+      "strengths": [
+        "melee",
+        "beast"
+      ],
+      "weaknesses": [
+        "fire",
+        "ranged"
+      ],
+      "affinity": {
+        "withName": "Necromancer",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Dark Tutelage"
+      }
+    },
+    "arcane-golem": {
+      "name": "Arcane Golem",
+      "attack": 12,
+      "maxHp": 60,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 10,
+      "attackRange": 5,
+      "attackCooldownMs": 2500,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "arcane",
+        "armored"
+      ],
+      "strengths": [
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "magic",
+        "siege"
+      ]
+    },
+    "mana-wisp": {
+      "name": "Mana Wisp",
+      "attack": 3,
+      "maxHp": 7,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 55,
+      "attackRange": 80,
+      "attackCooldownMs": 1400,
+      "tags": [
+        "ranged",
+        "magic",
+        "arcane",
+        "fast"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "ranged",
+        "siege"
+      ]
+    },
+    "rune-knight": {
+      "name": "Rune Knight",
+      "attack": 6,
+      "maxHp": 24,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 20,
+      "attackRange": 5,
+      "attackCooldownMs": 1600,
+      "tags": [
+        "melee",
+        "armored",
+        "arcane"
+      ],
+      "strengths": [
+        "magic",
+        "ranged"
+      ],
+      "weaknesses": [
+        "fast",
+        "siege"
+      ]
+    },
+    "spellblade": {
+      "name": "Spellblade",
+      "attack": 8,
+      "maxHp": 13,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 42,
+      "attackRange": 5,
+      "attackCooldownMs": 1400,
+      "tags": [
+        "melee",
+        "fast",
+        "arcane"
+      ],
+      "strengths": [
+        "armored",
+        "slow"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ]
+    },
+    "crystal-hydra": {
+      "name": "Crystal Hydra",
+      "attack": 9,
+      "maxHp": 38,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 14,
+      "attackRange": 65,
+      "attackCooldownMs": 1800,
+      "tags": [
+        "ranged",
+        "magic",
+        "large",
+        "arcane"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "fast",
+        "siege"
+      ]
     }
   },
   "cards": [
@@ -2729,6 +3579,177 @@
       "description": "Spawns a Revenant every 11s.",
       "deckCount": 0,
       "lore": "Whispers things. Nobody agrees on what."
+    },
+    {
+      "name": "Arcane Golem",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "arcane-golem",
+      "description": "Heavy arcane construct. Slow but devastating.",
+      "deckCount": 0,
+      "tags": [
+        "spire"
+      ],
+      "lore": "Crystallised from raw ley-line energy. It doesn't think. It doesn't need to."
+    },
+    {
+      "name": "Mana Wisp",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "mana-wisp",
+      "description": "Fast ranged magic \u2014 bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "spire"
+      ],
+      "lore": "A fragment of raw mana given just enough awareness to be annoying."
+    },
+    {
+      "name": "Rune Knight",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "rune-knight",
+      "description": "Armored melee fighter inscribed with protective runes.",
+      "deckCount": 0,
+      "tags": [
+        "spire"
+      ],
+      "lore": "Every rune was carved by hand. He felt every one of them."
+    },
+    {
+      "name": "Spellblade",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "spellblade",
+      "description": "Fast melee fighter with arcane-enhanced strikes.",
+      "deckCount": 0,
+      "tags": [
+        "spire"
+      ],
+      "lore": "Half sword technique, half arcane theory. Fully dangerous."
+    },
+    {
+      "name": "Crystal Hydra",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "crystal-hydra",
+      "description": "Multi-headed arcane beast. Ranged, bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "spire"
+      ],
+      "lore": "Each head was once a separate experiment. The merger was unintentional."
+    },
+    {
+      "name": "Mana Tower",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "tags": [
+        "spire"
+      ],
+      "unit": {
+        "name": "Mana Tower",
+        "attack": 0,
+        "maxHp": 18,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "mana",
+          "amount": 1
+        }
+      },
+      "description": "+1 max mana. Channels ley-line energy.",
+      "deckCount": 0,
+      "lore": "Taps directly into the Spire's mana grid. The Archivist has filed several complaints about this."
+    },
+    {
+      "name": "Crystal Wall",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "tags": [
+        "spire"
+      ],
+      "unit": {
+        "name": "Crystal Wall",
+        "attack": 0,
+        "maxHp": 60,
+        "isWall": true,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0
+      },
+      "description": "Blocks melee units. Sturdier than stone.",
+      "deckCount": 0,
+      "lore": "Grown, not built. The Spire's lattice does not distinguish between wall and corridor."
+    },
+    {
+      "name": "Leyline Node",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "tags": [
+        "spire"
+      ],
+      "unit": {
+        "name": "Leyline Node",
+        "attack": 0,
+        "maxHp": 16,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "manaSpeed",
+          "speedMult": 0.5
+        }
+      },
+      "description": "Mana regenerates 50% faster.",
+      "deckCount": 0,
+      "lore": "An intersection of ley lines, tapped and stabilised. Mostly stabilised."
+    },
+    {
+      "name": "Mana Surge",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "tags": [
+        "spire"
+      ],
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 3
+      },
+      "description": "All your units gain +3 attack.",
+      "deckCount": 0,
+      "lore": "Flood your units with raw mana. The side effects are someone else's problem."
+    },
+    {
+      "name": "Arcane Efficiency",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "tags": [
+        "spire"
+      ],
+      "upgradeEffect": {
+        "type": "healUnits",
+        "amount": 7
+      },
+      "description": "Heal all your units for 7 HP.",
+      "deckCount": 0,
+      "lore": "Optimal resource usage. The Archivist has seventeen papers on the subject."
     }
   ],
   "heroCards": [

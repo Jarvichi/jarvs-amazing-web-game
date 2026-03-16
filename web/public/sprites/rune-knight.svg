@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Helmet -->
+  <rect x="10" y="1" width="12" height="10" rx="2" fill="#6677aa"/>
+  <rect x="10" y="1" width="12" height="4" rx="2" fill="#8899cc"/>
+  <!-- Visor slit with rune glow -->
+  <rect x="11" y="5" width="10" height="3" rx="1" fill="#334466"/>
+  <rect x="13" y="5.5" width="6" height="2" rx="0.5" fill="#00ffaa" opacity="0.9"/>
+  <!-- Gorget -->
+  <rect x="11" y="11" width="10" height="3" fill="#5566aa"/>
+  <!-- Chest plate -->
+  <rect x="8" y="14" width="16" height="11" rx="1" fill="#6677aa"/>
+  <rect x="8" y="14" width="16" height="4" rx="1" fill="#8899cc"/>
+  <!-- Chest rune -->
+  <text x="16" y="22" text-anchor="middle" font-size="5" fill="#00ffaa" font-family="monospace">ᚱ</text>
+  <!-- Shoulders -->
+  <rect x="4" y="13" width="4" height="5" rx="1" fill="#8899cc"/>
+  <rect x="24" y="13" width="4" height="5" rx="1" fill="#8899cc"/>
+  <!-- Arms -->
+  <rect x="4" y="18" width="4" height="8" rx="1" fill="#6677aa"/>
+  <rect x="24" y="18" width="4" height="8" rx="1" fill="#6677aa"/>
+  <!-- Gauntlets -->
+  <rect x="3" y="25" width="5" height="4" rx="1" fill="#5566aa"/>
+  <rect x="24" y="25" width="5" height="4" rx="1" fill="#5566aa"/>
+  <!-- Legs -->
+  <rect x="10" y="25" width="5" height="7" rx="1" fill="#5566aa"/>
+  <rect x="17" y="25" width="5" height="7" rx="1" fill="#5566aa"/>
+</svg>
