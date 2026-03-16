@@ -1641,14 +1641,40 @@ body {
 }
 
 .pack-card-slot {
-  opacity: 0;
-  transform: translateY(12px) scale(0.9);
-  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  perspective: 700px;
+  animation: packCardEnter 0.35s ease-out both;
 }
 
-.pack-card-slot--revealed {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+@keyframes packCardEnter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pack-card-flip {
+  position: relative;
+  width: 90px;
+  height: 130px;
+  transform-style: preserve-3d;
+  transition: transform 0.55s ease-out;
+}
+
+.pack-card-slot--revealed .pack-card-flip {
+  transform: rotateY(180deg);
+}
+
+.pack-card-front,
+.pack-card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.pack-card-front {
+  transform: rotateY(180deg);
 }
 
 .pack-card-hidden {

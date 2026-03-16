@@ -17,15 +17,15 @@ export function PackOpening({ pack, onDone }: Props) {
   const [done, setDone] = useState(false)
   const { openDetail, cardDetailNode } = useCardDetail()
 
-  // Auto-reveal cards one at a time, 700ms apart
+  // Show all cards face-down immediately, then flip each 800ms apart after a 600ms pause
   useEffect(() => {
     if (revealed >= pack.length) {
-      // All revealed — add them to collection and unlock Continue
       addCardsToCollection(pack.map(name => ({ cardName: name, count: 1 })))
       setDone(true)
       return
     }
-    const t = setTimeout(() => setRevealed(r => r + 1), 700)
+    const delay = revealed === 0 ? 600 : 800
+    const t = setTimeout(() => setRevealed(r => r + 1), delay)
     return () => clearTimeout(t)
   }, [revealed, pack.length])
 
@@ -41,17 +41,23 @@ export function PackOpening({ pack, onDone }: Props) {
           <div
             key={i}
             className={`pack-card-slot${i < revealed ? ' pack-card-slot--revealed' : ''}`}
+            style={{ animationDelay: `${i * 80}ms` }}
           >
-            {i < revealed && card ? (
-              <div className="pack-card-reveal">
-                <CardTile card={card} canAfford={true} onClick={done ? () => openDetail(card) : undefined} />
-                <div className={`pack-card-rarity pack-card-rarity--${card.rarity}`}>
-                  {rarityStars(card.rarity)}
-                </div>
+            <div className="pack-card-flip">
+              <div className="pack-card-back">
+                <div className="pack-card-hidden">?</div>
               </div>
-            ) : (
-              <div className="pack-card-hidden">?</div>
-            )}
+              <div className="pack-card-front">
+                {card ? (
+                  <div className="pack-card-reveal">
+                    <CardTile card={card} canAfford={true} onClick={done ? () => openDetail(card) : undefined} />
+                    <div className={`pack-card-rarity pack-card-rarity--${card.rarity}`}>
+                      {rarityStars(card.rarity)}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            </div>
           </div>
         ))}
       </div>
