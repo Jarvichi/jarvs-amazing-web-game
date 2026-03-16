@@ -1417,6 +1417,7 @@ body {
 .collection-grid {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 8px;
   padding: 8px 0;
   overflow-y: auto;
@@ -1434,6 +1435,7 @@ body {
 .collection-cell .card-tile {
   width: 100%;   /* fill the fixed cell width */
   box-sizing: border-box;
+  height: 120px;
 }
 
 .collection-cell--unowned {
