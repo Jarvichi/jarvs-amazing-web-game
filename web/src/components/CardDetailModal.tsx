@@ -10,6 +10,7 @@ import {
 } from '../game/collection'
 import { CardTile } from './CardTile'
 import { ModalBackdrop } from './ModalBackdrop'
+import { MasteryBar } from './MasteryBar'
 
 interface Props {
   card: Card
@@ -47,7 +48,6 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
   const inDeck = deckEntries?.find(e => e.cardName === card.name)?.count ?? 0
   const xp     = getMasteryXp(collection, card.name)
   const { level: masteryLvl, current: xpCur, needed: xpNeeded } = masteryProgress(xp)
-  const xpPct  = xpNeeded > 0 ? Math.round((xpCur / xpNeeded) * 100) : 100
   const rarityCol = RARITY_COLOUR[card.rarity] ?? 'var(--game-text-color-dim)'
 
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
@@ -180,9 +180,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
                 <span style={{ color: '#ffd700' }}>★ Mastery {masteryLvl}</span>
                 <span className="cdm-mastery-xp">{xpCur}/{xpNeeded} to Lv{masteryLvl + 1}</span>
               </div>
-              <div className="mastery-bar-track" style={{ marginTop: 4 }}>
-                <div className="mastery-bar-fill" style={{ width: `${xpPct}%` }} />
-              </div>
+              <MasteryBar xp={xp} />
               {masteryLvl > 0 && u && (
                 <div className="cdm-mastery-bonus">
                   {u.moveSpeed > 0

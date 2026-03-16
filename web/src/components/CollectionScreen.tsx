@@ -19,6 +19,7 @@ import {
 import { CardTile } from './CardTile'
 import { useCardDetail } from './useCardDetail'
 import { OverlayScreen } from './OverlayScreen'
+import { MasteryBar } from './MasteryBar'
 
 interface Props {
   crystals: number
@@ -36,19 +37,6 @@ const ALL_TAGS: UnitTag[] = [
   'magic', 'undead', 'beast', 'armored', 'siege', 'fire',
 ]
 
-function MasteryBar({ xp }: { xp: number }) {
-  const { level, current, needed } = masteryProgress(xp)
-  const pct = needed > 0 ? Math.round((current / needed) * 100) : 100
-  return (
-    <div className="mastery-bar-wrap">
-      <span className="mastery-level">★{level}</span>
-      <div className="mastery-bar-track">
-        <div className="mastery-bar-fill" style={{ width: `${pct}%` }} />
-      </div>
-      <span className="mastery-xp">{current}/{needed}</span>
-    </div>
-  )
-}
 
 export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props) {
   const catalog = getCardCatalog()
