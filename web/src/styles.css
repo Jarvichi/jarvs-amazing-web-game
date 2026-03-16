@@ -841,6 +841,23 @@ body {
   cursor: pointer;
   transition: all 0.15s;
   border-radius: 3px;
+  line-height: 1.4;
+  min-height: 36px;
+  box-sizing: border-box;
+}
+
+/* ─── Button size modifiers ──────────────────────────── */
+
+.action-btn--sm {
+  font-size: 12px;
+  padding: 5px 12px;
+  min-height: 28px;
+}
+
+.action-btn--xs {
+  font-size: 10px;
+  padding: 3px 8px;
+  min-height: 22px;
 }
 
 .action-btn:hover {
@@ -1691,9 +1708,6 @@ body {
 }
 
 .collection-disenchant-btn {
-  font-size: 12px;
-  padding: 5px 12px;
-  line-height: 1.4;
   border-color: rgba(136, 204, 255, 0.5);
   color: #88ccff;
 }
@@ -4713,9 +4727,6 @@ body {
    ═══════════════════════════════════════════════════════════ */
 
 .collection-master-btn {
-  font-size: 12px;
-  padding: 5px 12px;
-  line-height: 1.4;
   border-color: rgba(255, 215, 0, 0.5);
   color: #ffd700;
 }
