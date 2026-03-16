@@ -1435,7 +1435,6 @@ body {
 .collection-cell .card-tile {
   width: 100%;   /* fill the fixed cell width */
   box-sizing: border-box;
-  height: 120px;
 }
 
 .collection-cell--unowned {
