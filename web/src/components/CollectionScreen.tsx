@@ -28,7 +28,7 @@ interface Props {
 type RarityFilter = 'all' | CardRarity
 type TypeFilter   = 'all' | CardType
 type SpecialFilter = 'upgradeable'
-type AffinityFilter = 'any' | 'attackSpeed' | 'damage' | 'moveSpeed'
+type AffinityFilter = 'attackSpeed' | 'damage' | 'moveSpeed'
 
 const ALL_TAGS: UnitTag[] = [
   'flying', 'ranged', 'melee', 'fast', 'slow', 'large',
@@ -89,11 +89,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
       if (!tagFilter.some(t => unitTags.includes(t))) return false
     }
     if (affinityFilter) {
-      if (affinityFilter === 'any') {
-        if (!c.unit?.affinity) return false
-      } else {
-        if (c.unit?.affinity?.effectType !== affinityFilter) return false
-      }
+      if (c.unit?.affinity?.effectType !== affinityFilter) return false
     }
     return true
   })
@@ -273,7 +269,6 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
                 <span className="filter-group-label">AFFINITY</span>
                 <div className="filter-popup-btns">
                   {([
-                    ['any',         'Has Affinity'],
                     ['attackSpeed', 'Atk Speed'],
                     ['damage',      'Damage'],
                     ['moveSpeed',   'Move Speed'],
