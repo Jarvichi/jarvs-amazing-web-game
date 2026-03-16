@@ -114,7 +114,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         }
       </div>
       <div className="card-stats">{stats}</div>
-      {tag && <div className="card-tag">{tag}</div>}
+      <div className="card-tag">{tag ?? ''}</div>
       <div className="card-rarity">{rarityStars(card.rarity)}</div>
       {heroLocked && (
         <div className="card-hero-lock">
