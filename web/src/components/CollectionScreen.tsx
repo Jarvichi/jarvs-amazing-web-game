@@ -28,7 +28,7 @@ interface Props {
 type RarityFilter = 'all' | CardRarity
 type TypeFilter   = 'all' | CardType
 type SpecialFilter = 'upgradeable'
-type AffinityFilter = 'attackSpeed' | 'damage' | 'moveSpeed'
+type AffinityFilter = string  // affinity label, e.g. "Death Rally"
 
 const ALL_TAGS: UnitTag[] = [
   'flying', 'ranged', 'melee', 'fast', 'slow', 'large',
@@ -51,6 +51,9 @@ function MasteryBar({ xp }: { xp: number }) {
 
 export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props) {
   const catalog = getCardCatalog()
+  const allAffinityLabels = Array.from(
+    new Set(catalog.flatMap(c => c.unit?.affinity?.label ? [c.unit.affinity.label] : []))
+  ).sort()
   const [collection, setCollection] = useState<CollectionEntry[]>(loadCollection)
   const [typeFilter,    setTypeFilter]    = useState<TypeFilter>('all')
   const [rarityFilter,  setRarityFilter]  = useState<RarityFilter>('all')
@@ -89,7 +92,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
       if (!tagFilter.some(t => unitTags.includes(t))) return false
     }
     if (affinityFilter) {
-      if (c.unit?.affinity?.effectType !== affinityFilter) return false
+      if (c.unit?.affinity?.label !== affinityFilter) return false
     }
     return true
   })
@@ -268,15 +271,11 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
               <div className="filter-popup-section">
                 <span className="filter-group-label">AFFINITY</span>
                 <div className="filter-popup-btns">
-                  {([
-                    ['attackSpeed', 'Atk Speed'],
-                    ['damage',      'Damage'],
-                    ['moveSpeed',   'Move Speed'],
-                  ] as const).map(([val, label]) => (
+                  {allAffinityLabels.map(label => (
                     <button
-                      key={val}
-                      className={`filter-btn filter-btn--sm${affinityFilter === val ? ' filter-btn--active' : ''}`}
-                      onClick={() => setAffinityFilter(prev => prev === val ? null : val)}
+                      key={label}
+                      className={`filter-btn filter-btn--sm${affinityFilter === label ? ' filter-btn--active' : ''}`}
+                      onClick={() => setAffinityFilter(prev => prev === label ? null : label)}
                     >
                       {label}
                     </button>
