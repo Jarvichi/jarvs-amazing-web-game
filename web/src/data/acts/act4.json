@@ -1212,19 +1212,18 @@
       "opponentBaseHp": 115,
       "environment": "arcane",
       "enemyDeck": [
-        "Golem",
-        "Golem",
-        "Wizard",
-        "Wizard",
-        "Fire Mage",
-        "Dark Elf",
-        "Lich Apprentice",
-        "Arcane Tower",
-        "Mage Tower",
-        "Iron Skin",
-        "Iron Skin",
-        "Eagle Eye",
-        "Haste"
+        "Arcane Golem",
+        "Arcane Golem",
+        "Mana Wisp",
+        "Mana Wisp",
+        "Rune Knight",
+        "Spellblade",
+        "Crystal Hydra",
+        "Mana Tower",
+        "Crystal Wall",
+        "Leyline Node",
+        "Mana Surge",
+        "Arcane Efficiency"
       ]
     }
   },
