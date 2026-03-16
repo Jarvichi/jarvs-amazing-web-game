@@ -1799,6 +1799,11 @@ body {
   gap: 4px;
 }
 
+.pack-card-reveal .card-tile {
+  width: 90px;
+  box-sizing: border-box;
+}
+
 .pack-card-rarity {
   font-size: 12px;
 }
