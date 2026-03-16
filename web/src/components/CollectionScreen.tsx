@@ -195,25 +195,23 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
 
       {/* Action row */}
       <div className="collection-action-row">
-        {totalExtras > 0 && (
-          <button
-            className="action-btn collection-disenchant-btn"
-            onClick={handleDisenchantAll}
-            style={{ flex: 1 }}
-          >
-            🔮 Disenchant extras ({totalExtras})
-          </button>
-        )}
-        {totalUpgradeable > 0 && (
-          <button
-            className="action-btn collection-master-btn"
-            onClick={handleMasterAll}
-            title="Convert all extra copies into mastery XP"
-            style={{ flex: 1 }}
-          >
-            ★ Upgrade all ({totalUpgradeable})
-          </button>
-        )}
+        <button
+          className="action-btn collection-disenchant-btn"
+          onClick={handleDisenchantAll}
+          disabled={totalExtras === 0}
+          style={{ flex: 1 }}
+        >
+          🔮 Disenchant extras ({totalExtras})
+        </button>
+        <button
+          className="action-btn collection-master-btn"
+          onClick={handleMasterAll}
+          disabled={totalUpgradeable === 0}
+          title="Convert all extra copies into mastery XP"
+          style={{ flex: 1 }}
+        >
+          ★ Upgrade all ({totalUpgradeable})
+        </button>
         {flash && <span className="collection-flash">{flash}</span>}
       </div>
 
