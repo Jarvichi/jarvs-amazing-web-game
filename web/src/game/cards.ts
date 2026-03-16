@@ -133,6 +133,18 @@ export const HERO_CARDS: Card[] = (cardsData.heroCards as RawHeroCard[]).map(raw
   lore: raw.lore,
 }))
 
+// ─── Lore lookup ──────────────────────────────────────────
+
+const LORE_BY_NAME = new Map<string, string>([
+  ...CARD_DEFS.filter(d => d.lore).map(d => [d.name, d.lore!] as [string, string]),
+  ...(cardsData.heroCards as RawHeroCard[]).filter(h => h.lore).map(h => [h.name, h.lore!] as [string, string]),
+])
+
+/** Return the flavour-text lore for a unit/card by name, or undefined. */
+export function getUnitLore(name: string): string | undefined {
+  return LORE_BY_NAME.get(name)
+}
+
 // ─── Public API ───────────────────────────────────────────
 
 /** One Card instance per card type — used for display and collection lookups. */

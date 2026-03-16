@@ -7,6 +7,7 @@ import { BattleEventOverlay } from './BattleEventOverlay'
 import { isNoDamageMode, isDebugMode } from '../game/debug'
 import { MAX_UPGRADE_LEVEL } from '../game/engine'
 import { getRelicDef } from '../game/relics'
+import { getUnitLore } from '../game/cards'
 
 interface Props {
   state: GameState
@@ -1132,8 +1133,8 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                   ) : null}
 
                   {/* Lore */}
-                  {inspectedUnit.lore && (
-                    <div className="bf-inspect-lore">"{inspectedUnit.lore}"</div>
+                  {getUnitLore(inspectedUnit.name) && (
+                    <div className="bf-inspect-lore">"{getUnitLore(inspectedUnit.name)}"</div>
                   )}
                 </div>
 
