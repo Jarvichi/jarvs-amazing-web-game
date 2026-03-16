@@ -8,6 +8,7 @@ import { isNoDamageMode, isDebugMode } from '../game/debug'
 import { MAX_UPGRADE_LEVEL } from '../game/engine'
 import { getRelicDef } from '../game/relics'
 import { getUnitLore } from '../game/cards'
+import { Button } from './Button'
 
 interface Props {
   state: GameState
@@ -1055,7 +1056,6 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
       {/* Pause panel — anchored, no backdrop so the field remains tappable */}
       {paused && (
         <div className="bf-pause-panel" onClick={e => e.stopPropagation()}>
-            <div className="bf-pause-title">⏸ PAUSED</div>
             {inspectedUnit ? (
               <div className="bf-inspect-panel">
                 {/* Name + buffs */}
@@ -1132,7 +1132,7 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                   )}
                 </div>
 
-                <button className="action-btn" style={{ marginTop: 4 }} onClick={() => setInspectedUnit(null)}>← Back</button>
+                <Button size="xs" style={{ marginTop: 4 }} onClick={() => setInspectedUnit(null)}>← Back</Button>
               </div>
             ) : (
               <>
