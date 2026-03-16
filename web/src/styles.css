@@ -1140,6 +1140,47 @@ body {
   color: var(--game-text-color-dim);
 }
 
+/* ── Shop ─────────────────────────────────────────────────── */
+.shop-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 24px 8px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.shop-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 24px;
+  border: 2px solid #444;
+  background: #111;
+  min-width: 200px;
+  max-width: 260px;
+}
+
+.shop-item-icon {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.shop-item-name {
+  font-size: 16px;
+  color: #ffcc00;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.shop-item-desc {
+  font-size: 11px;
+  color: var(--game-text-color-dim);
+  text-align: center;
+  line-height: 1.6;
+}
+
 .overlay-count--valid   { color: var(--game-text-color); }
 .overlay-count--invalid { color: #ff9900; }
 

@@ -64,6 +64,7 @@ import {
 } from './game/achievements'
 import { AchievementsScreen } from './components/AchievementsScreen'
 import { HeroCardsScreen }   from './components/HeroCardsScreen'
+import { ShopScreen }        from './components/ShopScreen'
 import { BattleSummary }    from './components/BattleSummary'
 import './styles.css'
 import brokenRelicsData from './data/broken-relics.json'
@@ -189,6 +190,7 @@ type Screen =
   | 'campaignfailed'
   | 'heroCards'
   | 'battlesummary'
+  | 'shop'
 
 export default function App() {
   // ── PWA auto-update ───────────────────────────────────────────────────────────
@@ -1310,7 +1312,10 @@ export default function App() {
 
   // ── Pack ─────────────────────────────────────────────────
 
+  const packBackScreenRef = useRef<Screen>('title')
+
   const handleOpenPack = useCallback(() => {
+    packBackScreenRef.current = 'title'
     setPack(generatePack())
     setScreen('pack')
   }, [])
@@ -1321,6 +1326,7 @@ export default function App() {
     const next = current - CRYSTAL_PACK_COST
     saveCrystals(next)
     setCrystals(next)
+    packBackScreenRef.current = 'shop'
     setPack(generatePack())
     setScreen('pack')
   }, [])
@@ -1330,7 +1336,7 @@ export default function App() {
   }, [])
 
   const handlePackDone = useCallback(() => {
-    setScreen('title')
+    setScreen(packBackScreenRef.current)
   }, [])
 
   const handleMainMenu = useCallback(() => {
@@ -1435,6 +1441,7 @@ export default function App() {
           onPlay={handlePlay}
           onCampaign={handleCampaign}
           onCollection={() => setScreen('collection')}
+          onShop={() => setScreen('shop')}
           onDeckBuilder={() => setScreen('deckbuilder')}
           onSettings={() => setScreen('settings')}
           onInventory={() => setScreen('inventory')}
@@ -1552,6 +1559,13 @@ export default function App() {
         <CollectionScreen
           crystals={crystals}
           onCrystalsChanged={handleCrystalsChanged}
+          onBack={() => setScreen('title')}
+        />
+      )}
+
+      {screen === 'shop' && (
+        <ShopScreen
+          crystals={crystals}
           onBuyCrystalPack={handleBuyCrystalPack}
           onBack={() => setScreen('title')}
         />

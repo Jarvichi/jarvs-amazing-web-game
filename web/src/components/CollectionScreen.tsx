@@ -14,7 +14,6 @@ import {
   syncDeckToCollection,
   CollectionEntry,
   DISENCHANT_VALUE,
-  CRYSTAL_PACK_COST,
   COPIES_MAX,
 } from '../game/collection'
 import { CardTile } from './CardTile'
@@ -23,7 +22,6 @@ import { CardDetailModal } from './CardDetailModal'
 interface Props {
   crystals: number
   onCrystalsChanged: (n: number) => void
-  onBuyCrystalPack: () => void
   onBack: () => void
 }
 
@@ -45,7 +43,7 @@ function MasteryBar({ xp }: { xp: number }) {
   )
 }
 
-export function CollectionScreen({ crystals, onCrystalsChanged, onBuyCrystalPack, onBack }: Props) {
+export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props) {
   const catalog = getCardCatalog()
   const [collection, setCollection] = useState<CollectionEntry[]>(loadCollection)
   const [typeFilter,    setTypeFilter]    = useState<TypeFilter>('all')
@@ -57,7 +55,6 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBuyCrystalPack
   const totalOwned  = collection.reduce((s, e) => s + e.count, 0)
   const totalExtras = collection.reduce((s, e) => s + Math.max(0, e.count - COPIES_MAX), 0)
   const totalUpgradeable = collection.reduce((s, e) => s + (Math.max(0, e.count - COPIES_MAX) > 0 ? 1 : 0), 0)
-  const canBuyPack  = crystals >= CRYSTAL_PACK_COST
 
   const filtered = catalog.filter(c => {
     if (typeFilter   !== 'all' && c.cardType !== typeFilter)   return false
@@ -158,13 +155,6 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBuyCrystalPack
           title="Convert all extra copies into mastery XP"
         >
           ★ Upgrade all ({totalUpgradeable})
-        </button>
-        <button
-          className="action-btn collection-pack-btn"
-          onClick={canBuyPack ? onBuyCrystalPack : undefined}
-          disabled={!canBuyPack}
-        >
-          🎁 Pack ({CRYSTAL_PACK_COST} 💎)
         </button>
         {flash && <span className="collection-flash">{flash}</span>}
       </div>
