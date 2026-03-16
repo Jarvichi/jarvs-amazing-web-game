@@ -105,6 +105,30 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
               </div>
             )}
 
+            {/* Strengths & Weaknesses */}
+            {u && (u.strengths?.length || u.weaknesses?.length) ? (
+              <div className="cdm-sw-block">
+                {u.strengths && u.strengths.length > 0 && (
+                  <div className="cdm-sw-row">
+                    <span className="cdm-sw-label cdm-sw-label--strong">⚔ Strong vs</span>
+                    <span className="cdm-sw-tags">{u.strengths.join(', ')}</span>
+                  </div>
+                )}
+                {u.weaknesses && u.weaknesses.length > 0 && (
+                  <div className="cdm-sw-row">
+                    <span className="cdm-sw-label cdm-sw-label--weak">⚠ Weak to</span>
+                    <span className="cdm-sw-tags">{u.weaknesses.join(', ')}</span>
+                  </div>
+                )}
+                {u.affinity && (
+                  <div className="cdm-sw-row">
+                    <span className="cdm-sw-label cdm-sw-label--affinity">✦ Affinity</span>
+                    <span className="cdm-sw-tags">{u.affinity.label} (near {u.affinity.withName})</span>
+                  </div>
+                )}
+              </div>
+            ) : null}
+
             {/* Mastery */}
             <div className="cdm-mastery-block">
               <div className="cdm-mastery-header">

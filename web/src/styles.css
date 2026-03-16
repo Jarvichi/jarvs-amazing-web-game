@@ -449,10 +449,11 @@ body {
   animation: buff-pulse 1.8s ease-in-out infinite;
 }
 
-.lane-unit-buff--atk { color: #ff8844; border: 1px solid #ff8844; }
-.lane-unit-buff--spd { color: #44ddff; border: 1px solid #44ddff; }
-.lane-unit-buff--hp  { color: #ff4488; border: 1px solid #ff4488; }
-.lane-unit-buff--range { color: #cc88ff; border: 1px solid #cc88ff; }
+.lane-unit-buff--atk     { color: #ff8844; border: 1px solid #ff8844; }
+.lane-unit-buff--spd     { color: #44ddff; border: 1px solid #44ddff; }
+.lane-unit-buff--hp      { color: #ff4488; border: 1px solid #ff4488; }
+.lane-unit-buff--range   { color: #cc88ff; border: 1px solid #cc88ff; }
+.lane-unit-buff--affinity { color: #ffcc00; border: 1px solid #ffcc00; }
 
 @keyframes buff-pulse {
   0%, 100% { opacity: 1; }
@@ -1869,6 +1870,31 @@ body {
   border-radius: 2px;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+.cdm-sw-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 4px;
+}
+.cdm-sw-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 9px;
+}
+.cdm-sw-label {
+  font-weight: bold;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+.cdm-sw-label--strong   { color: #55cc55; }
+.cdm-sw-label--weak     { color: #ff6655; }
+.cdm-sw-label--affinity { color: #ffcc00; }
+.cdm-sw-tags {
+  color: var(--game-text-color-dim);
+  text-transform: capitalize;
 }
 
 .cdm-mastery-block {

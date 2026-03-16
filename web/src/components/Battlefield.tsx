@@ -209,13 +209,16 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
           {unit.name}
         </div>
       )}
-      {unit.buffs && unit.buffs.length > 0 && (
+      {(unit.buffs && unit.buffs.length > 0 || unit.affinityActive) && (
         <div className="lane-unit-buffs">
-          {unit.buffs.map(tag => (
+          {unit.buffs?.map(tag => (
             <span key={tag} className={`lane-unit-buff lane-unit-buff--${tag}`}>
               {tag === 'atk' ? '⚔' : tag === 'spd' ? '▶' : tag === 'hp' ? '♥' : '◎'}
             </span>
           ))}
+          {unit.affinityActive && (
+            <span className="lane-unit-buff lane-unit-buff--affinity" title={unit.affinity?.label}>✦</span>
+          )}
         </div>
       )}
       <div className="lane-unit-hp-row">

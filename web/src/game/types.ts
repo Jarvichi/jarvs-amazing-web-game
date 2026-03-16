@@ -35,9 +35,30 @@ export interface UnitTemplate {
   attackRange: number        // pixels — distance at which unit can attack
   attackCooldownMs: number   // ms between attacks
   structureEffect?: StructureEffect
+  /** Descriptive tags used for strength/weakness matching. */
+  tags?: UnitTag[]
+  /** Tags of unit types this unit deals ×1.5 damage to. */
+  strengths?: UnitTag[]
+  /** Tags of unit types that deal ×1.5 damage to this unit. */
+  weaknesses?: UnitTag[]
+  /** Biases target selection away from default nearest-enemy behaviour. */
+  targetPriority?: TargetPriority
+  /** Proximity buff triggered when a named ally is within range. */
+  affinity?: AffinityDef
 }
 
 export type BuffTag = 'atk' | 'spd' | 'hp' | 'range'
+
+export type UnitTag = 'flying' | 'ranged' | 'melee' | 'fast' | 'slow' | 'large' | 'magic' | 'undead' | 'beast' | 'armored' | 'siege' | 'fire'
+export type TargetPriority = 'walls' | 'buildings' | 'boss' | 'ranged_first'
+
+export interface AffinityDef {
+  withName: string        // name of ally unit that triggers the affinity
+  range: number           // px proximity to activate
+  effectType: 'attackSpeed' | 'damage' | 'moveSpeed'
+  effectAmount: number    // multiplier (e.g. 1.3 = +30%; 0.8 = −20% incoming damage)
+  label: string           // e.g. "Archer's Tempo"
+}
 
 export interface Unit extends UnitTemplate {
   id: string
@@ -52,6 +73,7 @@ export interface Unit extends UnitTemplate {
   buffs?: BuffTag[]          // active buff tags for UI display
   isHero?: boolean           // true for units deployed from hero cards
   spriteName?: string        // sprite lookup override — hero units retain their base unit's sprite name
+  affinityActive?: boolean   // runtime: affinity buff currently in effect
 }
 
 export interface Card {
