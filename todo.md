@@ -10,6 +10,14 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🟠 Active Work
 
+### Session 11 — Collection filter popup
+
+- [ ] Replace scrollable filter bar with popup filter menu (TYPE, RARITY, SPECIAL)
+- [ ] Add TAG multi-select filter (UnitTag: flying, ranged, melee, etc.)
+- [ ] Add AFFINITY filter (has affinity / by effectType)
+
+---
+
 ### Session 10 — #100 / #158 / #159: Unit Traits, Strengths/Weaknesses, Affinities
 
 **Design summary:**
