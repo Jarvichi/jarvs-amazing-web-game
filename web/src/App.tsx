@@ -66,6 +66,7 @@ import { AchievementsScreen } from './components/AchievementsScreen'
 import { HeroCardsScreen }   from './components/HeroCardsScreen'
 import { ShopScreen }        from './components/ShopScreen'
 import { BattleSummary }    from './components/BattleSummary'
+import { RelicBreakModal }  from './components/RelicBreakModal'
 import './styles.css'
 import brokenRelicsData from './data/broken-relics.json'
 
@@ -260,6 +261,7 @@ export default function App() {
   } | null>(null)
   const relicSelectDoneRef  = useRef<(relicName: string | null) => void>(() => {})
   const brokenRelicRef      = useRef<{ name: string; icon: string } | null>(null)
+  const [relicBreakPending, setRelicBreakPending] = useState<{ relicName: string; brokenName: string; brokenIcon: string; brokenDesc: string } | null>(null)
   const [bossDialogueNode, setBossDialogueNode] = useState<QuestNode | null>(null)
   const [showBossSplash, setShowBossSplash] = useState(false)
   const prevBossCardActiveRef = useRef(false)
@@ -1382,13 +1384,33 @@ export default function App() {
       if (gameState.phase.winner === 'player') {
         handleCampaignWin()
       } else {
-        // lose/draw: retry or abandon
-        handleCampaignRetry()
+        // lose/draw: 33% chance the equipped relic breaks
+        const equippedRelic = run?.activeRelic
+        if (equippedRelic && Math.random() < 0.33) {
+          removeEarnedRelic(equippedRelic)
+          addBrokenRelic(equippedRelic)
+          const broken = BROKEN_RELIC_ITEMS[equippedRelic]
+          const relicDef = getRelicDef(equippedRelic)
+          addToInventory({
+            id: `broken-relic-${equippedRelic.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
+            name: broken?.name ?? `Cracked ${equippedRelic}`,
+            icon: broken?.icon ?? '🪨',
+            desc: broken?.desc ?? `A cracked ${equippedRelic} — it held until it didn't.`,
+          })
+          setRelicBreakPending({
+            relicName:  relicDef?.name ?? equippedRelic,
+            brokenName: broken?.name ?? `Cracked ${equippedRelic}`,
+            brokenIcon: broken?.icon ?? relicDef?.icon ?? '🪨',
+            brokenDesc: broken?.desc ?? `A cracked ${equippedRelic} — it held until it didn't.`,
+          })
+        } else {
+          handleCampaignRetry()
+        }
       }
     } else {
       handlePlayAgain()
     }
-  }, [gameState, handleCampaignWin, handleCampaignRetry, handlePlayAgain])
+  }, [gameState, run, handleCampaignWin, handleCampaignRetry, handlePlayAgain])
 
   // ─── Reset game ──────────────────────────────────────────
   const handleResetGame = useCallback(() => {
@@ -1611,6 +1633,16 @@ export default function App() {
             [ Return to Menu ]
           </button>
         </div>
+      )}
+
+      {relicBreakPending && (
+        <RelicBreakModal
+          relicName={relicBreakPending.relicName}
+          brokenName={relicBreakPending.brokenName}
+          brokenIcon={relicBreakPending.brokenIcon}
+          brokenDesc={relicBreakPending.brokenDesc}
+          onContinue={() => { setRelicBreakPending(null); handleCampaignRetry() }}
+        />
       )}
 
       {/* Achievement unlock toast */}
