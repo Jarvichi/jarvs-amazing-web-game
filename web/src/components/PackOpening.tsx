@@ -79,11 +79,10 @@ export function PackOpening({ pack, onDone }: Props) {
     clearTimeout(decayTimers.current[i])
     const newCount = current + 1
     setCount(i, newCount)
-    setWobbleKeys(prev => ({ ...prev, [i]: (prev[i] ?? 0) + 1 }))
-
     if (newCount >= tapsNeeded) {
       revealCard(i)
     } else {
+      setWobbleKeys(prev => ({ ...prev, [i]: (prev[i] ?? 0) + 1 }))
       scheduleDecay(i)
     }
   }

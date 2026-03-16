@@ -1781,6 +1781,12 @@ body {
   animation: packWobble 0.55s ease-out;
 }
 
+/* Kill any in-progress wobble the moment the flip starts */
+.pack-card-slot--flipping .pack-card-hidden {
+  animation: none;
+  transform: none;
+}
+
 /* Colour the face-down card content to match rarity */
 .pack-card-slot--glow-legendary .pack-card-hidden { color: #ffcc00; }
 .pack-card-slot--glow-rare      .pack-card-hidden { color: #bb66ff; }
