@@ -63,6 +63,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
   const [filterMenuOpen, setFilterMenuOpen] = useState(false)
   const [flash, setFlash]       = useState<string | null>(null)
   const [upgradeModal, setUpgradeModal] = useState<Array<{cardName: string, xpGained: number}> | null>(null)
+  const [disenchantModal, setDisenchantModal] = useState<Array<{cardName: string, crystals: number}> | null>(null)
   const { openDetail, cardDetailNode } = useCardDetail({ collection })
   const filterMenuRef = useRef<HTMLDivElement>(null)
 
@@ -126,6 +127,15 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
   }
 
   function handleDisenchantAll() {
+    const items: Array<{cardName: string, crystals: number}> = []
+    for (const entry of collection) {
+      const extras = Math.max(0, entry.count - COPIES_MAX)
+      if (extras > 0) {
+        const card = catalog.find(c => c.name === entry.cardName)
+        const val = DISENCHANT_VALUE[card?.rarity ?? 'common'] * extras
+        items.push({ cardName: entry.cardName, crystals: val })
+      }
+    }
     const { collection: updated, gained } = disenchantAllExtras(collection)
     saveCollection(updated)
     syncDeckToCollection(updated)
@@ -133,7 +143,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
     const next = crystals + gained
     saveCrystals(next)
     onCrystalsChanged(next)
-    notify(`+${gained} 💎`)
+    setDisenchantModal(items)
   }
 
   function handleMasterAll() {
@@ -185,21 +195,25 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
 
       {/* Action row */}
       <div className="collection-action-row">
-        <button
-          className="action-btn collection-disenchant-btn"
-          onClick={handleDisenchantAll}
-          disabled={totalExtras === 0}
-        >
-          🔮 Disenchant extras ({totalExtras})
-        </button>
-        <button
-          className="action-btn collection-master-btn"
-          onClick={handleMasterAll}
-          disabled={totalUpgradeable === 0}
-          title="Convert all extra copies into mastery XP"
-        >
-          ★ Upgrade all ({totalUpgradeable})
-        </button>
+        {totalExtras > 0 && (
+          <button
+            className="action-btn collection-disenchant-btn"
+            onClick={handleDisenchantAll}
+            style={{ flex: 1 }}
+          >
+            🔮 Disenchant extras ({totalExtras})
+          </button>
+        )}
+        {totalUpgradeable > 0 && (
+          <button
+            className="action-btn collection-master-btn"
+            onClick={handleMasterAll}
+            title="Convert all extra copies into mastery XP"
+            style={{ flex: 1 }}
+          >
+            ★ Upgrade all ({totalUpgradeable})
+          </button>
+        )}
         {flash && <span className="collection-flash">{flash}</span>}
       </div>
 
@@ -372,6 +386,29 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
       </div>
 
       {cardDetailNode}
+
+      {disenchantModal && (
+        <ModalBackdrop onClose={() => setDisenchantModal(null)} zIndex={300}>
+          <div className="daily-modal" style={{ maxWidth: 360, textAlign: 'left' }}>
+            <div className="daily-modal-header">🔮 DISENCHANT ALL</div>
+            <div className="daily-modal-sub">
+              {disenchantModal.length} card{disenchantModal.length !== 1 ? 's' : ''} sold
+            </div>
+            <div style={{ width: '100%', maxHeight: 300, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {disenchantModal.map(({ cardName, crystals: val }) => (
+                <div key={cardName} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '3px 0', borderBottom: '1px solid #222' }}>
+                  <span>{cardName}</span>
+                  <span style={{ color: '#88ccff' }}>+{val} 💎</span>
+                </div>
+              ))}
+            </div>
+            <div className="daily-modal-desc" style={{ textAlign: 'center' }}>
+              Total: +{disenchantModal.reduce((s, i) => s + i.crystals, 0)} 💎
+            </div>
+            <button className="action-btn" onClick={() => setDisenchantModal(null)}>OK</button>
+          </div>
+        </ModalBackdrop>
+      )}
 
       {upgradeModal && (
         <ModalBackdrop onClose={() => setUpgradeModal(null)} zIndex={300}>
