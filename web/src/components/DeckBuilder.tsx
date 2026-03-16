@@ -19,6 +19,7 @@ import {
 import { CardTile } from './CardTile'
 import { useCardDetail } from './useCardDetail'
 import { OverlayScreen } from './OverlayScreen'
+import { ProgressBar } from './ProgressBar'
 
 interface Props {
   onBack: () => void
@@ -361,12 +362,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
           )}
 
           <div className="deckbuilder-footer">
-            <div className="deck-size-bar-track">
-              <div
-                className="deck-size-bar-fill"
-                style={{ width: `${Math.min(100, (total / DECK_MAX) * 100)}%` }}
-              />
-            </div>
+            <ProgressBar pct={(total / DECK_MAX) * 100} />
             <button
               className="action-btn"
               style={{ fontSize: '11px', padding: '5px 10px', borderColor: 'rgba(51,255,51,0.4)', color: 'var(--game-text-color-dim)' }}

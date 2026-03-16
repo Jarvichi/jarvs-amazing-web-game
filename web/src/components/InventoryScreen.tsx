@@ -3,6 +3,7 @@ import { UselessItem, loadInventory, _inventorySyncCheck } from '../game/dailyLo
 import { saveCrystals, loadCrystals } from '../game/collection'
 import { loadEarnedRelics, getRelicDef, RelicDef } from '../game/relics'
 import { OverlayScreen } from './OverlayScreen'
+import { Section } from './Section'
 
 interface Props {
   onBack: () => void
@@ -66,10 +67,8 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
           </div>
         )}
 
-        {/* ── Relics section ── */}
         {earnedRelics.length > 0 && (
-          <div className="inventory-section">
-            <div className="inventory-section-title">RELICS</div>
+          <Section title="RELICS">
             <div className="inventory-grid">
               {earnedRelics.map(relic => (
                 <button
@@ -83,14 +82,10 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
                 </button>
               ))}
             </div>
-          </div>
+          </Section>
         )}
 
-        {/* ── Items section ── */}
-        <div className="inventory-section">
-          {earnedRelics.length > 0 && (
-            <div className="inventory-section-title">ITEMS</div>
-          )}
+        <Section title={earnedRelics.length > 0 ? 'ITEMS' : ''}>
           {items.length === 0 ? (
             <div className="inventory-empty">
               Nothing here yet. Come back tomorrow.
@@ -110,7 +105,7 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
               ))}
             </div>
           )}
-        </div>
+        </Section>
       </div>
 
       {/* ── Detail modal ── */}

@@ -11,6 +11,7 @@ import {
 import { CardTile } from './CardTile'
 import { ModalBackdrop } from './ModalBackdrop'
 import { MasteryBar } from './MasteryBar'
+import { StatRow } from './StatRow'
 
 interface Props {
   card: Card
@@ -26,14 +27,6 @@ const RARITY_COLOUR: Record<string, string> = {
   legendary: '#ffcc00',
 }
 
-function statLine(label: string, value: string | number) {
-  return (
-    <div className="cdm-stat-row">
-      <span className="cdm-stat-label">{label}</span>
-      <span className="cdm-stat-value">{value}</span>
-    </div>
-  )
-}
 
 function affinityEffectText(effectType: string, effectAmount: number): string {
   const pct = Math.round(Math.abs(effectAmount - 1) * 100)
@@ -101,16 +94,16 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
             {/* Unit stats */}
             {u && u.moveSpeed > 0 && (
               <div className="cdm-stats-block">
-                {statLine('ATK',   u.attack)}
-                {statLine('HP',    u.maxHp)}
-                {statLine('SPD',   u.moveSpeed)}
-                {u.attackRange > 0 && statLine('RNG', u.attackRange)}
-                {u.attackCooldownMs > 0 && statLine('CD', `${(u.attackCooldownMs / 1000).toFixed(1)}s`)}
+                <StatRow compact label="ATK" value={u.attack} />
+                <StatRow compact label="HP"  value={u.maxHp} />
+                <StatRow compact label="SPD" value={u.moveSpeed} />
+                {u.attackRange > 0 && <StatRow compact label="RNG" value={u.attackRange} />}
+                {u.attackCooldownMs > 0 && <StatRow compact label="CD" value={`${(u.attackCooldownMs / 1000).toFixed(1)}s`} />}
               </div>
             )}
             {u && u.moveSpeed === 0 && u.maxHp > 0 && (
               <div className="cdm-stats-block">
-                {statLine('HP', u.maxHp)}
+                <StatRow compact label="HP" value={u.maxHp} />
               </div>
             )}
 
@@ -192,8 +185,8 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
 
             {/* Battle stats */}
             <div className="cdm-battle-stats">
-              {statLine('Times played',  statsPlayed.played)}
-              {statsUnit && statLine('Units lost', statsUnit.died)}
+              <StatRow compact label="Times played" value={statsPlayed.played} />
+              {statsUnit && <StatRow compact label="Units lost" value={statsUnit.died} />}
             </div>
           </div>
         </div>

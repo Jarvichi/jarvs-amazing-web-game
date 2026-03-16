@@ -1590,19 +1590,7 @@ body {
   border-top: 1px solid #222;
 }
 
-.deck-size-bar-track {
-  height: 4px;
-  background: #1a1a1a;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.deck-size-bar-fill {
-  height: 100%;
-  background: #33ff33;
-  border-radius: 2px;
-  transition: width 0.2s ease-out;
-}
+/* deck-size bar → .progress-bar-track / .progress-bar-fill */
 
 /* ─── Pack Opening ───────────────────────────────────── */
 
@@ -1798,19 +1786,11 @@ body {
   min-width: 18px;
   white-space: nowrap;
 }
+/* mastery bar → .progress-bar-track (+ flex/border overrides below) / .progress-bar-fill */
 .mastery-bar-track {
   flex: 1;
-  height: 4px;
   background: #222;
   border: 1px solid #444;
-  border-radius: 2px;
-  overflow: hidden;
-}
-.mastery-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #b8860b, #ffd700);
-  border-radius: 1px;
-  transition: width 0.3s ease-out;
 }
 .mastery-xp { font-size: 8px; color: var(--game-text-color-dim); white-space: nowrap; }
 
@@ -1908,6 +1888,89 @@ body {
   font-weight: bold;
   letter-spacing: 1px;
   text-shadow: 0 0 6px rgba(255, 215, 0, 0.7);
+}
+
+/* ─── ProgressBar ────────────────────────────────────── */
+
+.progress-bar-track {
+  height: 4px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #33ff33;
+  border-radius: 2px;
+  transition: width 0.2s ease-out;
+}
+
+/* ─── StatRow ─────────────────────────────────────────── */
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.stat-row--compact {
+  justify-content: flex-start;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 9px;
+  color: var(--game-text-color-muted);
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+.stat-value {
+  font-size: 11px;
+  color: var(--game-text-color-dim);
+  text-align: right;
+}
+
+.stat-row--compact .stat-value {
+  font-weight: bold;
+  color: var(--game-text-color);
+}
+
+.stat-value--accent {
+  font-size: 14px;
+  color: #33ff33;
+  font-weight: bold;
+}
+
+/* ─── Section ─────────────────────────────────────────── */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.section-title {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--game-text-color-muted);
+  padding: 4px;
+}
+
+.section--bordered {
+  border: 1px solid #1e1e1e;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.section--bordered .section-title {
+  color: #ffcc00;
+  padding: 8px 14px 6px;
+  background: rgba(255, 204, 0, 0.04);
+  border-bottom: 1px solid #1e1e1e;
 }
 
 /* ─── Shared Modal Backdrop ──────────────────────────── */
@@ -2008,9 +2071,7 @@ body {
   flex-wrap: wrap;
   gap: 2px 10px;
 }
-.cdm-stat-row   { display: flex; gap: 4px; align-items: baseline; }
-.cdm-stat-label { font-size: 9px; color: var(--game-text-color-muted); letter-spacing: 1px; }
-.cdm-stat-value { font-size: 11px; color: var(--game-text-color); font-weight: bold; }
+/* cdm stat rows → .stat-row--compact / .stat-label / .stat-value */
 
 .cdm-traits {
   display: flex;
@@ -2839,25 +2900,7 @@ body {
   font-style: italic;
 }
 
-.nm-peek-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 8px;
-  font-size: 11px;
-}
-
-.nm-peek-row-label {
-  color: var(--game-text-color-muted);
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  flex-shrink: 0;
-}
-
-.nm-peek-row-value {
-  color: var(--game-text-color-dim);
-  text-align: right;
-}
+/* nm-peek rows → .stat-row / .stat-label / .stat-value */
 
 .nm-peek-reward {
   color: #ffc832;
@@ -4460,20 +4503,7 @@ body {
   padding: 12px 0;
 }
 
-.settings-section {
-  border: 1px solid #1e1e1e;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.settings-section-title {
-  font-size: 10px;
-  color: #ffcc00;
-  letter-spacing: 2px;
-  padding: 8px 14px 6px;
-  background: rgba(255, 204, 0, 0.04);
-  border-bottom: 1px solid #1e1e1e;
-}
+/* settings sections → .section.section--bordered */
 
 .settings-row {
   display: flex;
@@ -4923,19 +4953,7 @@ body {
 .inventory-secret-msg   { font-size: 12px; color: #e0b0ff; font-style: italic; max-width: 280px; }
 
 /* ── Inventory sections & relic cells ──────────────────── */
-.inventory-section {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-}
-
-.inventory-section-title {
-  font-size: 10px;
-  color: var(--game-text-color-muted);
-  letter-spacing: 2px;
-  padding: 0 4px;
-}
+/* inventory sections → .section */
 
 .inventory-cell--relic {
   border-color: #3a2a1a !important;
@@ -5270,24 +5288,7 @@ body {
   gap: 6px;
 }
 
-.bsummary-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 8px;
-}
-
-.bsummary-label {
-  font-size: 10px;
-  letter-spacing: 1px;
-  color: #4a8a4a;
-}
-
-.bsummary-value {
-  font-size: 14px;
-  color: #33ff33;
-  font-weight: bold;
-}
+/* bsummary rows → .stat-row / .stat-label / .stat-value--accent */
 
 .bsummary-cards {
   border-top: 1px solid #1e2e1e;

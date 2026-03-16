@@ -1,5 +1,6 @@
 import React from 'react'
 import { masteryProgress } from '../game/collection'
+import { ProgressBar } from './ProgressBar'
 
 interface Props {
   xp: number
@@ -11,9 +12,7 @@ export function MasteryBar({ xp }: Props) {
   return (
     <div className="mastery-bar-wrap">
       <span className="mastery-level">★{level}</span>
-      <div className="mastery-bar-track">
-        <div className="mastery-bar-fill" style={{ width: `${pct}%` }} />
-      </div>
+      <ProgressBar pct={pct} color="linear-gradient(90deg, #b8860b, #ffd700)" className="mastery-bar-track" />
       <span className="mastery-xp">{current}/{needed}</span>
     </div>
   )

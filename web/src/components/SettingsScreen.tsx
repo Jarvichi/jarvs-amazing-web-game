@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { isSoundEnabled, setSoundEnabled } from '../game/sound'
 import { OverlayScreen } from './OverlayScreen'
+import { Section } from './Section'
 
 interface Props {
   onBack: () => void
@@ -121,15 +122,10 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
     onResetGame()
   }
 
-  
-
   return (
     <OverlayScreen title="SETTINGS" onBack={onBack} className="settings-screen">
-
       <div className="settings-body">
-        {/* Audio */}
-        <div className="settings-section">
-          <div className="settings-section-title">AUDIO</div>
+        <Section bordered title="AUDIO">
           <div className="settings-row">
             <div>
               <div className="settings-label">Sound effects</div>
@@ -141,11 +137,9 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
               </div>
             </div>
           </div>
-        </div>
+        </Section>
 
-        {/* Intro */}
-        <div className="settings-section">
-          <div className="settings-section-title">STARTUP</div>
+        <Section bordered title="STARTUP">
           <div className="settings-row">
             <div>
               <div className="settings-label">Skip intro on startup</div>
@@ -157,12 +151,9 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
               </div>
             </div>
           </div>
-        </div>
+        </Section>
 
-        {/* Display */}
-        <div className="settings-section">
-          <div className="settings-section-title">DISPLAY</div>
-
+        <Section bordered title="DISPLAY">
           <div className="settings-row">
             <div>
               <div className="settings-label">Text size</div>
@@ -181,7 +172,6 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
               <span className="settings-value">{textSize}px</span>
             </div>
           </div>
-
           <div className="settings-row" style={{ flexWrap: 'wrap', gap: '10px' }}>
             <div>
               <div className="settings-label">Text colour</div>
@@ -200,19 +190,15 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
               ))}
             </div>
           </div>
-        </div>
+        </Section>
 
-        {/* Game data */}
-        <div className="settings-section">
-          <div className="settings-section-title">GAME DATA</div>
+        <Section bordered title="GAME DATA">
           <div className="settings-row">
             <div>
               <div className="settings-label">Reset all progress</div>
               <div className="settings-sublabel">Clears collection, deck, crystals, campaign and stats</div>
             </div>
           </div>
-
-          
           <div className="settings-row">
             {confirmReset ? (
               <div className="settings-confirm-row">
@@ -226,13 +212,10 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
               </button>
             )}
           </div>
-        </div>
+        </Section>
 
-        {/* Debug (only visible with ?debug URL param) */}
         {isDebugMode && (
-          <div className="settings-section">
-            <div className="settings-section-title">DEBUG</div>
-
+          <Section bordered title="DEBUG">
             <div className="settings-row">
               <div>
                 <div className="settings-label">Export save data</div>
@@ -240,7 +223,6 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
               </div>
               <button className="action-btn" onClick={exportLocalStorage}>EXPORT</button>
             </div>
-
             <div className="settings-row">
               <div>
                 <div className="settings-label">Import save data</div>
@@ -249,7 +231,6 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
               <button className="action-btn" onClick={() => importRef.current?.click()}>IMPORT</button>
               <input ref={importRef} type="file" accept=".json" style={{ display: 'none' }} onChange={handleImport} />
             </div>
-
             {importMsg && (
               <div className="settings-row">
                 <div className="settings-sublabel" style={{ color: importMsg.startsWith('Error') ? '#ff5555' : '#33ff33' }}>
@@ -257,12 +238,10 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
                 </div>
               </div>
             )}
-          </div>
+          </Section>
         )}
 
-        {/* Info */}
-        <div className="settings-section">
-          <div className="settings-section-title">ABOUT</div>
+        <Section bordered title="ABOUT">
           <div className="settings-row">
             <div>
               <div className="settings-label">Jarv's Amazing Web Game</div>
@@ -275,7 +254,7 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
               <div className="settings-sublabel">{new Date(__BUILD_DATE__).toLocaleString()}</div>
             </div>
           </div>
-        </div>
+        </Section>
       </div>
     </OverlayScreen>
   )

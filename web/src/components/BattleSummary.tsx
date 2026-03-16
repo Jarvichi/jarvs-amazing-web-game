@@ -1,5 +1,6 @@
 import React from 'react'
 import { BattleStats } from '../game/types'
+import { StatRow } from './StatRow'
 
 interface Props {
   stats: BattleStats
@@ -28,26 +29,11 @@ export function BattleSummary({ stats, gameTime, playerScore, onContinue }: Prop
         <div className="bsummary-title">— BATTLE COMPLETE —</div>
 
         <div className="bsummary-stats">
-          <div className="bsummary-row">
-            <span className="bsummary-label">UNITS DEFEATED</span>
-            <span className="bsummary-value">{stats.playerKills}</span>
-          </div>
-          <div className="bsummary-row">
-            <span className="bsummary-label">UNITS LOST</span>
-            <span className="bsummary-value">{stats.playerUnitsLost}</span>
-          </div>
-          <div className="bsummary-row">
-            <span className="bsummary-label">DAMAGE DEALT</span>
-            <span className="bsummary-value">{playerScore}</span>
-          </div>
-          <div className="bsummary-row">
-            <span className="bsummary-label">DURATION</span>
-            <span className="bsummary-value">{formatDuration(gameTime)}</span>
-          </div>
-          <div className="bsummary-row">
-            <span className="bsummary-label">CARDS PLAYED</span>
-            <span className="bsummary-value">{totalCards}</span>
-          </div>
+          <StatRow accent label="UNITS DEFEATED" value={stats.playerKills} />
+          <StatRow accent label="UNITS LOST"     value={stats.playerUnitsLost} />
+          <StatRow accent label="DAMAGE DEALT"   value={playerScore} />
+          <StatRow accent label="DURATION"       value={formatDuration(gameTime)} />
+          <StatRow accent label="CARDS PLAYED"   value={totalCards} />
         </div>
 
         {topCards.length > 0 && (
