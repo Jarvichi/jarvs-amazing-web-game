@@ -11,46 +11,90 @@ interface Props {
   onDone: () => void
 }
 
+const TAP_REQUIRED: Partial<Record<string, number>> = { rare: 3, legendary: 5 }
+
 export function PackOpening({ pack, onDone }: Props) {
   const catalog = getCardCatalog()
   const [revealed, setRevealed] = useState(0)
+  const [tapCounts, setTapCounts] = useState<Record<number, number>>({})
+  const [wobbleKeys, setWobbleKeys] = useState<Record<number, number>>({})
   const [done, setDone] = useState(false)
   const { openDetail, cardDetailNode } = useCardDetail()
 
-  // Show all cards face-down immediately, then flip each 800ms apart after a 600ms pause
+  const cards = pack.map(name => catalog.find(c => c.name === name) ?? null)
+
+  // Auto-advance for common/uncommon; pause for rare/legendary until tapped
   useEffect(() => {
     if (revealed >= pack.length) {
       addCardsToCollection(pack.map(name => ({ cardName: name, count: 1 })))
       setDone(true)
       return
     }
+    const card = cards[revealed]
+    const rarity = card?.rarity ?? 'common'
+    if ((TAP_REQUIRED[rarity] ?? 0) > 0) return // wait for taps
+
     const delay = revealed === 0 ? 600 : 800
     const t = setTimeout(() => setRevealed(r => r + 1), delay)
     return () => clearTimeout(t)
   }, [revealed, pack.length])
 
-  const cards = pack.map(name => catalog.find(c => c.name === name) ?? null)
+  function handleTap(i: number) {
+    const card = cards[i]
+    const rarity = card?.rarity ?? 'common'
+    const tapsNeeded = TAP_REQUIRED[rarity] ?? 0
+    const current = tapCounts[i] ?? 0
+    if (current >= tapsNeeded) return
+
+    const newCount = current + 1
+    setTapCounts(prev => ({ ...prev, [i]: newCount }))
+    setWobbleKeys(prev => ({ ...prev, [i]: (prev[i] ?? 0) + 1 }))
+
+    if (newCount >= tapsNeeded) {
+      setTimeout(() => setRevealed(r => r + 1), 180)
+    }
+  }
 
   function renderCard(card: typeof cards[0], i: number) {
     const rarity = card?.rarity ?? 'common'
-    const isSpecial = rarity === 'legendary' || rarity === 'rare'
+    const tapsNeeded = TAP_REQUIRED[rarity] ?? 0
+    const tapsGiven = tapCounts[i] ?? 0
     const isRevealed = i < revealed
-    const classes = [
+    const isWaiting = i === revealed && tapsNeeded > 0 && tapsGiven < tapsNeeded
+
+    const slotClasses = [
       'pack-card-slot',
       isRevealed ? 'pack-card-slot--revealed' : '',
-      !isRevealed && isSpecial ? `pack-card-slot--glow-${rarity}` : '',
-      isRevealed && isSpecial ? `pack-card-slot--flash-${rarity}` : '',
+      !isRevealed && (rarity === 'legendary' || rarity === 'rare') ? `pack-card-slot--glow-${rarity}` : '',
+      isRevealed && (rarity === 'legendary' || rarity === 'rare') ? `pack-card-slot--flash-${rarity}` : '',
     ].filter(Boolean).join(' ')
 
     return (
       <div
         key={i}
-        className={classes}
+        className={slotClasses}
         style={{ animationDelay: `${i * 80}ms` }}
+        onClick={isWaiting ? () => handleTap(i) : undefined}
       >
         <div className="pack-card-flip">
           <div className="pack-card-back">
-            <div className="pack-card-hidden">?</div>
+            {/* remount on each tap to retrigger wobble animation */}
+            <div
+              key={`w-${wobbleKeys[i] ?? 0}`}
+              className={`pack-card-hidden${(wobbleKeys[i] ?? 0) > 0 ? ' pack-wobble' : ''}`}
+            >
+              {isWaiting ? (
+                <>
+                  <div className="pack-hidden-question">?</div>
+                  <div className="pack-hidden-dots">
+                    {Array.from({ length: tapsNeeded }).map((_, t) => (
+                      <span key={t} className={`pack-dot${t < tapsGiven ? ' pack-dot--filled' : ''}`} />
+                    ))}
+                  </div>
+                  <div className="pack-hidden-tap">TAP!</div>
+                </>
+              ) : '?'}
+            </div>
           </div>
           <div className="pack-card-front">
             {card ? (
@@ -70,6 +114,8 @@ export function PackOpening({ pack, onDone }: Props) {
   const row1 = cards.slice(0, 3)
   const row2 = cards.slice(3)
 
+  const waitingForTap = revealed < pack.length && (TAP_REQUIRED[cards[revealed]?.rarity ?? 'common'] ?? 0) > 0
+
   return (
     <div className="pack-screen">
       <div className="pack-title">✦ PACK OPENED ✦</div>
@@ -87,7 +133,7 @@ export function PackOpening({ pack, onDone }: Props) {
           CONTINUE →
         </button>
       ) : (
-        <div className="pack-wait">Revealing…</div>
+        <div className="pack-wait">{waitingForTap ? 'Tap the card to reveal it!' : 'Revealing…'}</div>
       )}
 
       {cardDetailNode}

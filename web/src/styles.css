@@ -1732,11 +1732,67 @@ body {
   border-radius: 4px;
   background: #111;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   font-size: 28px;
   color: var(--game-text-color-muted);
+  cursor: default;
 }
+
+/* Tap-to-reveal: make it feel clickable */
+.pack-card-slot--glow-rare .pack-card-hidden,
+.pack-card-slot--glow-legendary .pack-card-hidden {
+  cursor: pointer;
+}
+
+.pack-hidden-question {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.pack-hidden-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.pack-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0.5;
+}
+
+.pack-dot--filled {
+  background: currentColor;
+  opacity: 1;
+}
+
+.pack-hidden-tap {
+  font-size: 9px;
+  letter-spacing: 2px;
+  animation: pulse 0.7s ease-in-out infinite;
+}
+
+/* Wobble animation — triggered by remounting the element */
+@keyframes packWobble {
+  0%   { transform: rotate(0deg)   scale(1); }
+  20%  { transform: rotate(-10deg) scale(1.08); }
+  45%  { transform: rotate(10deg)  scale(1.08); }
+  65%  { transform: rotate(-6deg)  scale(1.03); }
+  80%  { transform: rotate(6deg)   scale(1.03); }
+  100% { transform: rotate(0deg)   scale(1); }
+}
+
+.pack-wobble {
+  animation: packWobble 0.4s ease-out;
+}
+
+/* Colour the face-down card content to match rarity */
+.pack-card-slot--glow-legendary .pack-card-hidden { color: #ffcc00; }
+.pack-card-slot--glow-rare      .pack-card-hidden { color: #bb66ff; }
 
 .pack-card-reveal {
   display: flex;
