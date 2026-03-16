@@ -17,7 +17,7 @@ import {
   DeckEntry,
 } from '../game/collection'
 import { CardTile } from './CardTile'
-import { CardDetailModal } from './CardDetailModal'
+import { useCardDetail } from './useCardDetail'
 
 interface Props {
   onBack: () => void
@@ -135,7 +135,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   const [deck, setDeck] = useState<DeckEntry[]>(() =>
     loadDeck().filter(e => catalog.some(c => c.name === e.cardName))
   )
-  const [detailCard, setDetailCard] = useState<Card | null>(null)
+  const { openDetail, cardDetailNode } = useCardDetail({ collection, deckEntries: deck })
   const [showAutoBuild, setShowAutoBuild] = useState(false)
   const [search, setSearch]         = useState('')
   const [typeFilter, setTypeFilter]   = useState<'all' | CardType>('all')
@@ -316,7 +316,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                     </span>
                     <button
                       className="extra-btn cdm-info-btn"
-                      onClick={e => { e.stopPropagation(); setDetailCard(card) }}
+                      onClick={e => { e.stopPropagation(); openDetail(card) }}
                       title="Card details"
                     >ⓘ</button>
                   </div>
@@ -349,7 +349,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                     <span className="deck-list-count">×{entry.count}</span>
                     <button
                       className="deck-list-info-btn"
-                      onClick={e => { e.stopPropagation(); setDetailCard(card) }}
+                      onClick={e => { e.stopPropagation(); openDetail(card) }}
                       title="Card details"
                     >ⓘ</button>
                   </li>
@@ -413,14 +413,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
         </div>
       )}
 
-      {detailCard && (
-        <CardDetailModal
-          card={detailCard}
-          collection={collection}
-          deckEntries={deck}
-          onClose={() => setDetailCard(null)}
-        />
-      )}
+      {cardDetailNode}
     </div>
   )
 }

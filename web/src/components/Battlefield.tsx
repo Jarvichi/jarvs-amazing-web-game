@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { GameState, Unit, LANE_WIDTH, Card, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE } from '../game/types'
 import { CardTile } from './CardTile'
-import { CardDetailModal } from './CardDetailModal'
+import { useCardDetail } from './useCardDetail'
 import { SpriteImg, AnimatedSpriteImg } from './SpriteImg'
 import { BattleEventOverlay } from './BattleEventOverlay'
 import { isNoDamageMode, isDebugMode } from '../game/debug'
@@ -816,7 +816,7 @@ function opponentPortraitSlug(bossAI: string | undefined, actTheme: string | und
 }
 
 export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, activeRelic, showBossSplash, activeModifiers }: Props) {
-  const [detailCard, setDetailCard] = useState<Card | null>(null)
+  const { openDetail, cardDetailNode } = useCardDetail()
   const [heroLightning, setHeroLightning] = useState<{ owner: 'player' | 'opponent'; key: number } | null>(null)
   const [paused, setPaused] = useState(false)
   const [inspectedUnit, setInspectedUnit] = useState<Unit | null>(null)
@@ -1032,20 +1032,14 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                 />
                 <button
                   className="hand-card-info-btn"
-                  onClick={e => { e.stopPropagation(); setDetailCard(card) }}
+                  onClick={e => { e.stopPropagation(); openDetail(card) }}
                 >ⓘ</button>
               </div>
             )})}
         </div>
       </div>
 
-      {detailCard && (
-        <CardDetailModal
-          card={detailCard}
-          collection={[]}
-          onClose={() => setDetailCard(null)}
-        />
-      )}
+      {cardDetailNode}
 
       {showBossSplash && (
         <div className="boss-splash-overlay">

@@ -17,7 +17,7 @@ import {
   COPIES_MAX,
 } from '../game/collection'
 import { CardTile } from './CardTile'
-import { CardDetailModal } from './CardDetailModal'
+import { useCardDetail } from './useCardDetail'
 
 interface Props {
   crystals: number
@@ -72,7 +72,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
   const [affinityFilter, setAffinityFilter] = useState<AffinityFilter | null>(null)
   const [filterMenuOpen, setFilterMenuOpen] = useState(false)
   const [flash, setFlash]       = useState<string | null>(null)
-  const [detailCard, setDetailCard] = useState<Card | null>(null)
+  const { openDetail, cardDetailNode } = useCardDetail({ collection })
   const filterMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -354,7 +354,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
 
           return (
             <div key={card.name} className={`collection-cell${owned === 0 ? ' collection-cell--unowned' : ''}`}>
-              <CardTile card={card} canAfford={true} onClick={() => setDetailCard(card)} />
+              <CardTile card={card} canAfford={true} onClick={() => openDetail(card)} />
 
               <div className="cell-footer">
                 <span className="cell-count">
@@ -386,13 +386,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
         })}
       </div>
 
-      {detailCard && (
-        <CardDetailModal
-          card={detailCard}
-          collection={collection}
-          onClose={() => setDetailCard(null)}
-        />
-      )}
+      {cardDetailNode}
     </div>
   )
 }

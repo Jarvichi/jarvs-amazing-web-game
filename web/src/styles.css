@@ -1910,6 +1910,20 @@ body {
   text-shadow: 0 0 6px rgba(255, 215, 0, 0.7);
 }
 
+/* ─── Shared Modal Backdrop ──────────────────────────── */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 200;
+  animation: fadeIn 0.15s ease-out;
+}
+
 /* ─── Card Detail Modal ──────────────────────────────── */
 
 .cdm-backdrop {

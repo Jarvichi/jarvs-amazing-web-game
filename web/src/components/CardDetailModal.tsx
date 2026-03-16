@@ -9,6 +9,7 @@ import {
   getCardStats,
 } from '../game/collection'
 import { CardTile } from './CardTile'
+import { ModalBackdrop } from './ModalBackdrop'
 
 interface Props {
   card: Card
@@ -73,8 +74,8 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
   }
 
   return (
-    <div className="cdm-backdrop" onClick={onClose}>
-      <div className="cdm-panel" onClick={e => e.stopPropagation()}>
+    <ModalBackdrop onClose={onClose}>
+      <div className="cdm-panel">
 
         {/* Header */}
         <div className="cdm-header">
@@ -204,6 +205,6 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
           <div className="cdm-lore">"{card.lore}"</div>
         )}
       </div>
-    </div>
+    </ModalBackdrop>
   )
 }
