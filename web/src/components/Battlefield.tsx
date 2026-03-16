@@ -1065,14 +1065,49 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                   {inspectedUnit.upgradeLevel != null && inspectedUnit.upgradeLevel >= 2 && (
                     <div className="bf-inspect-row"><span>Lvl</span><span>{inspectedUnit.upgradeLevel}</span></div>
                   )}
-                  <div className="bf-inspect-row"><span>Type</span><span>{inspectedUnit.moveSpeed === 0 ? 'Structure' : inspectedUnit.isWall ? 'Wall' : 'Unit'}</span></div>
-                  {inspectedUnit.bypassWall && (
-                    <div className="bf-inspect-row"><span>Ranged</span><span>✓</span></div>
-                  )}
-                  {inspectedUnit.flying && (
-                    <div className="bf-inspect-row"><span>Flying</span><span>✓</span></div>
-                  )}
                 </div>
+
+                {/* Traits */}
+                {(() => {
+                  const u = inspectedUnit
+                  const traits: string[] = []
+                  if (u.moveSpeed === 0) traits.push('structure')
+                  if (u.isWall)         traits.push('wall')
+                  if (u.flying)         traits.push('flying')
+                  if (u.climber)        traits.push('climber')
+                  if (u.bypassWall && u.moveSpeed > 0) traits.push('ranged')
+                  for (const t of (u.tags ?? [])) { if (!traits.includes(t)) traits.push(t) }
+                  return traits.length > 0 ? (
+                    <div className="cdm-traits" style={{ marginTop: 4 }}>
+                      {traits.map(t => <span key={t} className="cdm-trait">{t}</span>)}
+                    </div>
+                  ) : null
+                })()}
+
+                {/* Strengths, Weaknesses & Affinity */}
+                {(inspectedUnit.strengths?.length || inspectedUnit.weaknesses?.length || inspectedUnit.affinity) ? (
+                  <div className="cdm-sw-block">
+                    {inspectedUnit.strengths && inspectedUnit.strengths.length > 0 && (
+                      <div className="cdm-sw-row">
+                        <span className="cdm-sw-label cdm-sw-label--strong">⚔ Strong vs</span>
+                        <span className="cdm-sw-tags">{inspectedUnit.strengths.join(', ')}</span>
+                      </div>
+                    )}
+                    {inspectedUnit.weaknesses && inspectedUnit.weaknesses.length > 0 && (
+                      <div className="cdm-sw-row">
+                        <span className="cdm-sw-label cdm-sw-label--weak">⚠ Weak to</span>
+                        <span className="cdm-sw-tags">{inspectedUnit.weaknesses.join(', ')}</span>
+                      </div>
+                    )}
+                    {inspectedUnit.affinity && (
+                      <div className="cdm-sw-row">
+                        <span className="cdm-sw-label cdm-sw-label--affinity">✦ Affinity</span>
+                        <span className="cdm-sw-tags">{inspectedUnit.affinity.label}{inspectedUnit.affinityActive ? ' (active)' : ''}</span>
+                      </div>
+                    )}
+                  </div>
+                ) : null}
+
                 <button className="action-btn" style={{ marginTop: 4 }} onClick={() => setInspectedUnit(null)}>← Back</button>
               </div>
             ) : (
