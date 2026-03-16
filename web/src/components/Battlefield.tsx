@@ -1076,11 +1076,11 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                     <div className="lane-unit-buffs" style={{ justifyContent: 'flex-start', gap: 4 }}>
                       {inspectedUnit.buffs?.map(tag => (
                         <span key={tag} className={`lane-unit-buff lane-unit-buff--${tag}`}>
-                          {tag === 'atk' ? '⚔' : tag === 'spd' ? '▶' : tag === 'hp' ? '♥' : '◎'}
+                          {tag === 'atk' ? '⚔ atk' : tag === 'spd' ? '▶ spd' : tag === 'hp' ? '♥ hp' : '◎ rng'}
                         </span>
                       ))}
                       {inspectedUnit.affinityActive && (
-                        <span className="lane-unit-buff lane-unit-buff--affinity" title={inspectedUnit.affinity?.label}>✦</span>
+                        <span className="lane-unit-buff lane-unit-buff--affinity">✦ {inspectedUnit.affinity?.label ?? 'affinity'}</span>
                       )}
                     </div>
                   )}
