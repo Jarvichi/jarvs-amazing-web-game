@@ -185,17 +185,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
           zIndex: 0,
         }} />
       )}
-      {unit.isWall
-        ? <WallSvg hp={unit.hp} maxHp={unit.maxHp} owner={unit.owner} wallNames={(wallStack ?? [unit]).map(w => w.name)} />
-        : isStructure
-          ? <SpriteImg name={unit.spriteName ?? unit.name} className="lane-unit-sprite" />
-          : <AnimatedSpriteImg name={unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}`} />
-      }
-      {!unit.isWall && showName && (
-        <div className="lane-unit-name">
-          {unit.name}
-        </div>
-      )}
+      {/* Buffs above the sprite so they aren't clipped by lane overflow:hidden at the base edge */}
       {(unit.buffs && unit.buffs.length > 0 || unit.affinityActive) && (
         <div className="lane-unit-buffs">
           {unit.buffs?.map(tag => (
@@ -206,6 +196,17 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
           {unit.affinityActive && (
             <span className="lane-unit-buff lane-unit-buff--affinity" title={unit.affinity?.label}>✦</span>
           )}
+        </div>
+      )}
+      {unit.isWall
+        ? <WallSvg hp={unit.hp} maxHp={unit.maxHp} owner={unit.owner} wallNames={(wallStack ?? [unit]).map(w => w.name)} />
+        : isStructure
+          ? <SpriteImg name={unit.spriteName ?? unit.name} className="lane-unit-sprite" />
+          : <AnimatedSpriteImg name={unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}`} />
+      }
+      {!unit.isWall && showName && (
+        <div className="lane-unit-name">
+          {unit.name}
         </div>
       )}
       <div className="lane-unit-hp-row">
