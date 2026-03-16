@@ -16,6 +16,7 @@ const TAP_REQUIRED: Partial<Record<string, number>> = { rare: 3, legendary: 5 }
 export function PackOpening({ pack, onDone }: Props) {
   const catalog = getCardCatalog()
   const [revealed, setRevealed] = useState(0)
+  const [flippingOut, setFlippingOut] = useState<Set<number>>(new Set())
   const [tapCounts, setTapCounts] = useState<Record<number, number>>({})
   const tapCountsRef = useRef<Record<number, number>>({})
   const decayTimers = useRef<Record<number, ReturnType<typeof setTimeout>>>({})
@@ -27,6 +28,14 @@ export function PackOpening({ pack, onDone }: Props) {
   const { openDetail, cardDetailNode } = useCardDetail()
 
   const cards = pack.map(name => catalog.find(c => c.name === name) ?? null)
+
+  function revealCard(i: number) {
+    setFlippingOut(prev => new Set([...prev, i]))
+    setTimeout(() => {
+      setFlippingOut(prev => { const s = new Set(prev); s.delete(i); return s })
+      setRevealed(r => r + 1)
+    }, 180)
+  }
 
   // Auto-advance for common/uncommon; pause for rare/legendary until tapped
   useEffect(() => {
@@ -40,8 +49,8 @@ export function PackOpening({ pack, onDone }: Props) {
     if ((TAP_REQUIRED[rarity] ?? 0) > 0) return // wait for taps
 
     const delay = revealed === 0 ? 600 : 800
-    const t = setTimeout(() => setRevealed(r => r + 1), delay)
-    return () => clearTimeout(t)
+    const flipTimer = setTimeout(() => revealCard(revealed), delay)
+    return () => clearTimeout(flipTimer)
   }, [revealed, pack.length])
 
   function setCount(i: number, n: number) {
@@ -73,7 +82,7 @@ export function PackOpening({ pack, onDone }: Props) {
     setWobbleKeys(prev => ({ ...prev, [i]: (prev[i] ?? 0) + 1 }))
 
     if (newCount >= tapsNeeded) {
-      setTimeout(() => setRevealed(r => r + 1), 180)
+      revealCard(i)
     } else {
       scheduleDecay(i)
     }
@@ -86,10 +95,12 @@ export function PackOpening({ pack, onDone }: Props) {
     const isRevealed = i < revealed
     const isWaiting = i === revealed && tapsNeeded > 0 && tapsGiven < tapsNeeded
 
+    const isFlippingOut = flippingOut.has(i)
     const slotClasses = [
       'pack-card-slot',
+      isFlippingOut ? 'pack-card-slot--flipping' : '',
       isRevealed ? 'pack-card-slot--revealed' : '',
-      !isRevealed && (rarity === 'legendary' || rarity === 'rare') ? `pack-card-slot--glow-${rarity}` : '',
+      !isRevealed && !isFlippingOut && (rarity === 'legendary' || rarity === 'rare') ? `pack-card-slot--glow-${rarity}` : '',
     ].filter(Boolean).join(' ')
 
     return (
