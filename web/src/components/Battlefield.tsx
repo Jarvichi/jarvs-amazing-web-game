@@ -1138,9 +1138,9 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
               <>
                 <div className="bf-pause-hint">Tap a unit or building on the field to inspect it</div>
                 <div className="bf-pause-actions">
-                  <button className="action-btn action-btn--large" onClick={() => doPause(false)}>▶ Resume</button>
+                  <Button size="lg" onClick={() => doPause(false)}>▶ Resume</Button>
                   {onGiveUp && (
-                    <button className="action-btn action-btn--danger" onClick={onGiveUp}>✕ Give Up</button>
+                    <Button size="md" variant="danger" onClick={onGiveUp}>✕ Give Up</Button>
                   )}
                 </div>
               </>
