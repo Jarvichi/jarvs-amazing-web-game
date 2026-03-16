@@ -3345,6 +3345,84 @@ body {
   margin-top: auto;
 }
 
+/* ── Relic Break Modal ───────────────────────────────────── */
+.relic-break-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 24px 16px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.92);
+  animation: fadeIn 0.35s ease-out;
+}
+
+.rbm-glow {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, rgba(200, 50, 50, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.rbm-header {
+  font-size: 22px;
+  font-weight: bold;
+  color: #cc3333;
+  letter-spacing: 4px;
+  text-shadow: 0 0 16px rgba(200, 50, 50, 0.5);
+}
+
+.rbm-divider {
+  color: #2a2a2a;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.rbm-relic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  border: 1px solid rgba(200, 50, 50, 0.25);
+  border-radius: 6px;
+  background: rgba(200, 50, 50, 0.04);
+  min-width: 220px;
+}
+
+.rbm-relic-icon {
+  font-size: 36px;
+  filter: grayscale(0.7) brightness(0.7);
+}
+
+.rbm-relic-name {
+  font-size: 15px;
+  color: #885555;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.rbm-relic-desc {
+  font-size: 11px;
+  color: var(--game-text-color-muted);
+  font-style: italic;
+}
+
+.rbm-flavour {
+  font-size: 11px;
+  color: var(--game-text-color-dim);
+  font-style: italic;
+  line-height: 1.6;
+  max-width: 300px;
+}
+
 /* ── Starter Pack Select ─────────────────────────────────── */
 
 .starter-select {
