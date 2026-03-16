@@ -1691,7 +1691,7 @@ body {
 /* Legendary reveal — full flip then scale burst */
 .pack-card-slot--flash-legendary .pack-card-flip {
   transition: none; /* animation owns the transform */
-  animation: packFlipLegendary 0.75s ease-out;
+  animation: packFlipLegendary 0.75s ease-out forwards;
 }
 @keyframes packFlipLegendary {
   0%   { transform: rotateY(0deg)   scale(1);    filter: brightness(1); }
@@ -1704,7 +1704,7 @@ body {
 /* Rare reveal — full flip then scale burst */
 .pack-card-slot--flash-rare .pack-card-flip {
   transition: none; /* animation owns the transform */
-  animation: packFlipRare 0.7s ease-out;
+  animation: packFlipRare 0.7s ease-out forwards;
 }
 @keyframes packFlipRare {
   0%   { transform: rotateY(0deg)   scale(1);    filter: brightness(1); }
