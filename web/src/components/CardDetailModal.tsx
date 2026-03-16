@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card } from '../game/types'
 import {
   CollectionEntry,
@@ -33,6 +33,14 @@ function statLine(label: string, value: string | number) {
   )
 }
 
+function affinityEffectText(effectType: string, effectAmount: number): string {
+  const pct = Math.round(Math.abs(effectAmount - 1) * 100)
+  if (effectType === 'attackSpeed') return `+${pct}% attack speed`
+  if (effectType === 'damage')      return `+${pct}% damage dealt`
+  if (effectType === 'moveSpeed')   return `+${pct}% movement speed`
+  return `×${effectAmount} ${effectType}`
+}
+
 export function CardDetailModal({ card, collection, deckEntries, onClose }: Props) {
   const owned  = getOwnedCount(collection, card.name)
   const inDeck = deckEntries?.find(e => e.cardName === card.name)?.count ?? 0
@@ -40,6 +48,9 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
   const { level: masteryLvl, current: xpCur, needed: xpNeeded } = masteryProgress(xp)
   const xpPct  = xpNeeded > 0 ? Math.round((xpCur / xpNeeded) * 100) : 100
   const rarityCol = RARITY_COLOUR[card.rarity] ?? 'var(--game-text-color-dim)'
+
+  const [expandedRow, setExpandedRow] = useState<string | null>(null)
+  const toggleRow = (key: string) => setExpandedRow(prev => prev === key ? null : key)
 
   // Stats — card name for "played", unit name for "died"
   const statsPlayed  = getCardStats(card.name)
@@ -105,26 +116,55 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
               </div>
             )}
 
-            {/* Strengths & Weaknesses */}
-            {u && (u.strengths?.length || u.weaknesses?.length) ? (
+            {/* Strengths, Weaknesses & Affinity */}
+            {u && (u.strengths?.length || u.weaknesses?.length || u.affinity) ? (
               <div className="cdm-sw-block">
                 {u.strengths && u.strengths.length > 0 && (
-                  <div className="cdm-sw-row">
-                    <span className="cdm-sw-label cdm-sw-label--strong">⚔ Strong vs</span>
-                    <span className="cdm-sw-tags">{u.strengths.join(', ')}</span>
-                  </div>
+                  <>
+                    <button className="cdm-sw-row cdm-sw-row--btn" onClick={() => toggleRow('strong')}>
+                      <span className="cdm-sw-label cdm-sw-label--strong">⚔ Strong vs</span>
+                      <span className="cdm-sw-tags">{u.strengths.join(', ')}</span>
+                      <span className="cdm-sw-chevron">{expandedRow === 'strong' ? '▲' : '▼'}</span>
+                    </button>
+                    {expandedRow === 'strong' && (
+                      <div className="cdm-sw-detail">
+                        Deals <strong>×1.5 damage</strong> against units tagged:{' '}
+                        {u.strengths.map(t => <em key={t}>{t}</em>).reduce<React.ReactNode[]>((a, el, i) => i === 0 ? [el] : [...a, ', ', el], [])}
+                      </div>
+                    )}
+                  </>
                 )}
                 {u.weaknesses && u.weaknesses.length > 0 && (
-                  <div className="cdm-sw-row">
-                    <span className="cdm-sw-label cdm-sw-label--weak">⚠ Weak to</span>
-                    <span className="cdm-sw-tags">{u.weaknesses.join(', ')}</span>
-                  </div>
+                  <>
+                    <button className="cdm-sw-row cdm-sw-row--btn" onClick={() => toggleRow('weak')}>
+                      <span className="cdm-sw-label cdm-sw-label--weak">⚠ Weak to</span>
+                      <span className="cdm-sw-tags">{u.weaknesses.join(', ')}</span>
+                      <span className="cdm-sw-chevron">{expandedRow === 'weak' ? '▲' : '▼'}</span>
+                    </button>
+                    {expandedRow === 'weak' && (
+                      <div className="cdm-sw-detail">
+                        Enemies tagged{' '}
+                        {u.weaknesses.map(t => <em key={t}>{t}</em>).reduce<React.ReactNode[]>((a, el, i) => i === 0 ? [el] : [...a, ', ', el], [])}{' '}
+                        deal <strong>×1.5 damage</strong> to this unit.
+                      </div>
+                    )}
+                  </>
                 )}
                 {u.affinity && (
-                  <div className="cdm-sw-row">
-                    <span className="cdm-sw-label cdm-sw-label--affinity">✦ Affinity</span>
-                    <span className="cdm-sw-tags">{u.affinity.label} (near {u.affinity.withName})</span>
-                  </div>
+                  <>
+                    <button className="cdm-sw-row cdm-sw-row--btn" onClick={() => toggleRow('affinity')}>
+                      <span className="cdm-sw-label cdm-sw-label--affinity">✦ Affinity</span>
+                      <span className="cdm-sw-tags">{u.affinity.label}</span>
+                      <span className="cdm-sw-chevron">{expandedRow === 'affinity' ? '▲' : '▼'}</span>
+                    </button>
+                    {expandedRow === 'affinity' && (
+                      <div className="cdm-sw-detail">
+                        When a <strong>{u.affinity.withName}</strong> is nearby (within {u.affinity.range}px),
+                        grants <strong>{affinityEffectText(u.affinity.effectType, u.affinity.effectAmount)}</strong>.
+                        <br />"{u.affinity.label}"
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             ) : null}
