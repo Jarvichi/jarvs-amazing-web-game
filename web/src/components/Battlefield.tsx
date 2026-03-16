@@ -1063,12 +1063,26 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
             <div className="bf-pause-title">⏸ PAUSED</div>
             {inspectedUnit ? (
               <div className="bf-inspect-panel">
-                <div className="bf-inspect-name">
-                  {inspectedUnit.name}
-                  {inspectedUnit.upgradeLevel != null && inspectedUnit.upgradeLevel >= 2 && (
-                    <span className={`lane-unit-level lane-unit-level--${Math.min(inspectedUnit.upgradeLevel, MAX_UPGRADE_LEVEL)}`}>
-                      {' '}{'★'.repeat(inspectedUnit.upgradeLevel)}
-                    </span>
+                <div className="bf-inspect-name" style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                  <span>
+                    {inspectedUnit.name}
+                    {inspectedUnit.upgradeLevel != null && inspectedUnit.upgradeLevel >= 2 && (
+                      <span className={`lane-unit-level lane-unit-level--${Math.min(inspectedUnit.upgradeLevel, MAX_UPGRADE_LEVEL)}`}>
+                        {' '}{'★'.repeat(inspectedUnit.upgradeLevel)}
+                      </span>
+                    )}
+                  </span>
+                  {(inspectedUnit.buffs && inspectedUnit.buffs.length > 0 || inspectedUnit.affinityActive) && (
+                    <div className="lane-unit-buffs" style={{ justifyContent: 'flex-start', gap: 4 }}>
+                      {inspectedUnit.buffs?.map(tag => (
+                        <span key={tag} className={`lane-unit-buff lane-unit-buff--${tag}`}>
+                          {tag === 'atk' ? '⚔' : tag === 'spd' ? '▶' : tag === 'hp' ? '♥' : '◎'}
+                        </span>
+                      ))}
+                      {inspectedUnit.affinityActive && (
+                        <span className="lane-unit-buff lane-unit-buff--affinity" title={inspectedUnit.affinity?.label}>✦</span>
+                      )}
+                    </div>
                   )}
                 </div>
                 <div className="bf-inspect-stats">
@@ -1080,23 +1094,6 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                     <div className="bf-inspect-row"><span>Lvl</span><span>{inspectedUnit.upgradeLevel}</span></div>
                   )}
                 </div>
-
-                {/* Active status effects */}
-                {(inspectedUnit.buffs && inspectedUnit.buffs.length > 0 || inspectedUnit.affinityActive) && (
-                  <div style={{ marginTop: 6 }}>
-                    <div className="bf-inspect-row" style={{ marginBottom: 4 }}><span>Active Effects</span></div>
-                    <div className="lane-unit-buffs" style={{ justifyContent: 'flex-start', gap: 6 }}>
-                      {inspectedUnit.buffs?.map(tag => (
-                        <span key={tag} className={`lane-unit-buff lane-unit-buff--${tag}`} title={tag === 'atk' ? 'Attack buffed' : tag === 'spd' ? 'Speed buffed' : tag === 'hp' ? 'HP buffed' : 'Range buffed'}>
-                          {tag === 'atk' ? '⚔ ATK' : tag === 'spd' ? '▶ SPD' : tag === 'hp' ? '♥ HP' : '◎ RNG'}
-                        </span>
-                      ))}
-                      {inspectedUnit.affinityActive && (
-                        <span className="lane-unit-buff lane-unit-buff--affinity" title={inspectedUnit.affinity?.label}>✦ {inspectedUnit.affinity?.label ?? 'Affinity'}</span>
-                      )}
-                    </div>
-                  </div>
-                )}
 
                 {/* Traits */}
                 {(() => {
