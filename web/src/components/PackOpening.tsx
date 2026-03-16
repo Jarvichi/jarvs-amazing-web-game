@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { getCardCatalog } from '../game/cards'
 import { rarityStars } from '../game/cards'
 import { addCardsToCollection } from '../game/collection'
@@ -17,8 +17,13 @@ export function PackOpening({ pack, onDone }: Props) {
   const catalog = getCardCatalog()
   const [revealed, setRevealed] = useState(0)
   const [tapCounts, setTapCounts] = useState<Record<number, number>>({})
+  const tapCountsRef = useRef<Record<number, number>>({})
+  const decayTimers = useRef<Record<number, ReturnType<typeof setTimeout>>>({})
   const [wobbleKeys, setWobbleKeys] = useState<Record<number, number>>({})
   const [done, setDone] = useState(false)
+
+  // Clean up decay timers on unmount
+  useEffect(() => () => { Object.values(decayTimers.current).forEach(clearTimeout) }, [])
   const { openDetail, cardDetailNode } = useCardDetail()
 
   const cards = pack.map(name => catalog.find(c => c.name === name) ?? null)
@@ -39,19 +44,38 @@ export function PackOpening({ pack, onDone }: Props) {
     return () => clearTimeout(t)
   }, [revealed, pack.length])
 
+  function setCount(i: number, n: number) {
+    tapCountsRef.current[i] = n
+    setTapCounts(prev => ({ ...prev, [i]: n }))
+  }
+
+  function scheduleDecay(i: number) {
+    clearTimeout(decayTimers.current[i])
+    decayTimers.current[i] = setTimeout(() => {
+      const cur = tapCountsRef.current[i] ?? 0
+      if (cur <= 0) return
+      const next = cur - 1
+      setCount(i, next)
+      if (next > 0) scheduleDecay(i) // cascade: keep decaying until 0
+    }, 500)
+  }
+
   function handleTap(i: number) {
     const card = cards[i]
     const rarity = card?.rarity ?? 'common'
     const tapsNeeded = TAP_REQUIRED[rarity] ?? 0
-    const current = tapCounts[i] ?? 0
+    const current = tapCountsRef.current[i] ?? 0
     if (current >= tapsNeeded) return
 
+    clearTimeout(decayTimers.current[i])
     const newCount = current + 1
-    setTapCounts(prev => ({ ...prev, [i]: newCount }))
+    setCount(i, newCount)
     setWobbleKeys(prev => ({ ...prev, [i]: (prev[i] ?? 0) + 1 }))
 
     if (newCount >= tapsNeeded) {
       setTimeout(() => setRevealed(r => r + 1), 180)
+    } else {
+      scheduleDecay(i)
     }
   }
 
