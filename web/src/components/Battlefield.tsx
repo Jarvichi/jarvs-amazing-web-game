@@ -1081,6 +1081,23 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                   )}
                 </div>
 
+                {/* Active status effects */}
+                {(inspectedUnit.buffs && inspectedUnit.buffs.length > 0 || inspectedUnit.affinityActive) && (
+                  <div style={{ marginTop: 6 }}>
+                    <div className="bf-inspect-row" style={{ marginBottom: 4 }}><span>Active Effects</span></div>
+                    <div className="lane-unit-buffs" style={{ justifyContent: 'flex-start', gap: 6 }}>
+                      {inspectedUnit.buffs?.map(tag => (
+                        <span key={tag} className={`lane-unit-buff lane-unit-buff--${tag}`} title={tag === 'atk' ? 'Attack buffed' : tag === 'spd' ? 'Speed buffed' : tag === 'hp' ? 'HP buffed' : 'Range buffed'}>
+                          {tag === 'atk' ? '⚔ ATK' : tag === 'spd' ? '▶ SPD' : tag === 'hp' ? '♥ HP' : '◎ RNG'}
+                        </span>
+                      ))}
+                      {inspectedUnit.affinityActive && (
+                        <span className="lane-unit-buff lane-unit-buff--affinity" title={inspectedUnit.affinity?.label}>✦ {inspectedUnit.affinity?.label ?? 'Affinity'}</span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {/* Traits */}
                 {(() => {
                   const u = inspectedUnit
