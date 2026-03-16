@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="22" rx="8" ry="6" fill="#44aacc"/>
+  <ellipse cx="16" cy="22" rx="6" ry="4" fill="#66ccee"/>
+  <polygon points="10,20 12,17 14,20" fill="#33889b"/>
+  <polygon points="14,19 16,16 18,19" fill="#33889b"/>
+  <polygon points="18,20 20,17 22,20" fill="#33889b"/>
+  <!-- Left neck swaying right -->
+  <rect x="9" y="10" width="4" height="13" rx="2" fill="#44aacc" transform="rotate(-5 11 16)"/>
+  <ellipse cx="8" cy="8" rx="4" ry="3" fill="#66ccee"/>
+  <rect x="5" y="9" width="6" height="2" rx="1" fill="#33889b"/>
+  <circle cx="6" cy="6" r="1" fill="#00ffdd"/>
+  <circle cx="9" cy="7" r="1" fill="#00ffdd"/>
+  <!-- Right neck swaying left -->
+  <rect x="19" y="10" width="4" height="13" rx="2" fill="#44aacc" transform="rotate(5 21 16)"/>
+  <ellipse cx="24" cy="8" rx="4" ry="3" fill="#66ccee"/>
+  <rect x="21" y="9" width="6" height="2" rx="1" fill="#33889b"/>
+  <circle cx="22" cy="6" r="1" fill="#00ffdd"/>
+  <circle cx="25" cy="7" r="1" fill="#00ffdd"/>
+  <!-- Centre neck down -->
+  <rect x="14" y="9" width="4" height="14" rx="2" fill="#55bbdd"/>
+  <ellipse cx="16" cy="7" rx="5" ry="4" fill="#66ccee"/>
+  <rect x="12" y="8" width="8" height="2" rx="1" fill="#33889b"/>
+  <circle cx="14" cy="5" r="1.2" fill="#00ffdd"/>
+  <circle cx="18" cy="5" r="1.2" fill="#00ffdd"/>
+  <ellipse cx="16" cy="28" rx="4" ry="3" fill="#33889b"/>
+</svg>
