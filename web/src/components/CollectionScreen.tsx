@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Card, CardRarity, CardType } from '../game/types'
+import React, { useState, useRef, useEffect } from 'react'
+import { Card, CardRarity, CardType, UnitTag } from '../game/types'
 import { getCardCatalog } from '../game/cards'
 import {
   loadCollection,
@@ -28,6 +28,12 @@ interface Props {
 type RarityFilter = 'all' | CardRarity
 type TypeFilter   = 'all' | CardType
 type SpecialFilter = 'upgradeable'
+type AffinityFilter = 'any' | 'attackSpeed' | 'damage' | 'moveSpeed'
+
+const ALL_TAGS: UnitTag[] = [
+  'flying', 'ranged', 'melee', 'fast', 'slow', 'large',
+  'magic', 'undead', 'beast', 'armored', 'siege', 'fire',
+]
 
 function MasteryBar({ xp }: { xp: number }) {
   const { level, current, needed } = masteryProgress(xp)
@@ -49,8 +55,23 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
   const [typeFilter,    setTypeFilter]    = useState<TypeFilter>('all')
   const [rarityFilter,  setRarityFilter]  = useState<RarityFilter>('all')
   const [specialFilter, setSpecialFilter] = useState<SpecialFilter | null>(null)
+  const [tagFilter,     setTagFilter]     = useState<UnitTag[]>([])
+  const [affinityFilter, setAffinityFilter] = useState<AffinityFilter | null>(null)
+  const [filterMenuOpen, setFilterMenuOpen] = useState(false)
   const [flash, setFlash]       = useState<string | null>(null)
   const [detailCard, setDetailCard] = useState<Card | null>(null)
+  const filterMenuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!filterMenuOpen) return
+    function handleClick(e: MouseEvent) {
+      if (filterMenuRef.current && !filterMenuRef.current.contains(e.target as Node)) {
+        setFilterMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [filterMenuOpen])
 
   const totalOwned  = collection.reduce((s, e) => s + e.count, 0)
   const totalExtras = collection.reduce((s, e) => s + Math.max(0, e.count - COPIES_MAX), 0)
@@ -63,8 +84,40 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
       const owned = getOwnedCount(collection, c.name)
       if (Math.max(0, owned - COPIES_MAX) === 0) return false
     }
+    if (tagFilter.length > 0) {
+      const unitTags = c.unit?.tags ?? []
+      if (!tagFilter.some(t => unitTags.includes(t))) return false
+    }
+    if (affinityFilter) {
+      if (affinityFilter === 'any') {
+        if (!c.unit?.affinity) return false
+      } else {
+        if (c.unit?.affinity?.effectType !== affinityFilter) return false
+      }
+    }
     return true
   })
+
+  const activeFilterCount =
+    (typeFilter    !== 'all' ? 1 : 0) +
+    (rarityFilter  !== 'all' ? 1 : 0) +
+    tagFilter.length +
+    (affinityFilter ? 1 : 0) +
+    (specialFilter  ? 1 : 0)
+
+  function resetFilters() {
+    setTypeFilter('all')
+    setRarityFilter('all')
+    setSpecialFilter(null)
+    setTagFilter([])
+    setAffinityFilter(null)
+  }
+
+  function toggleTag(tag: UnitTag) {
+    setTagFilter(prev =>
+      prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
+    )
+  }
 
   function notify(msg: string) {
     setFlash(msg)
@@ -126,10 +179,6 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
       : `+${extras} mastery XP for ${cardName}`)
   }
 
-  function toggleSpecial() {
-    setSpecialFilter(prev => prev === 'upgradeable' ? null : 'upgradeable')
-  }
-
   return (
     <div className="overlay-screen">
       {/* Header */}
@@ -159,50 +208,134 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
         {flash && <span className="collection-flash">{flash}</span>}
       </div>
 
-      {/* Filters */}
+      {/* Filter trigger bar */}
       <div className="filter-bar">
-        <span className="filter-group-label">TYPE:</span>
-        {([
-          ['all',       'All'],
-          ['unit',      'Units'],
-          ['structure', 'Structures'],
-          ['upgrade',   'Upgrades'],
-        ] as const).map(([val, label]) => (
+        <div className="filter-popup-wrap" ref={filterMenuRef}>
           <button
-            key={val}
-            className={`filter-btn${typeFilter === val ? ' filter-btn--active' : ''}`}
-            onClick={() => setTypeFilter(val as TypeFilter)}
+            className={`filter-btn${activeFilterCount > 0 ? ' filter-btn--active' : ''}`}
+            onClick={() => setFilterMenuOpen(o => !o)}
           >
-            {label}
+            ▼ FILTERS{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
           </button>
-        ))}
-        <span className="filter-sep">|</span>
-        <span className="filter-group-label">RARITY:</span>
-        {([
-          ['all',       'All'],
-          ['common',    'Common'],
-          ['uncommon',  'Uncommon'],
-          ['rare',      'Rare'],
-          ['legendary', 'Legendary'],
-        ] as const).map(([val, label]) => (
-          <button
-            key={val}
-            className={`filter-btn${rarityFilter === val ? ' filter-btn--active' : ''}`}
-            onClick={() => setRarityFilter(val as RarityFilter)}
-          >
-            {label}
-          </button>
-        ))}
-        <span className="filter-sep">|</span>
-        <button
-          className={`filter-btn${specialFilter === 'upgradeable' ? ' filter-btn--active' : ''}`}
-          onClick={toggleSpecial}
-          title="Show only cards with extra copies that can be mastered"
-          style={specialFilter === 'upgradeable' ? { borderColor: '#ffd700', color: '#ffd700' } : {}}
-        >
-          ★ Upgradeable
-        </button>
-        <span className="filter-owned">{totalOwned} cards</span>
+
+          {filterMenuOpen && (
+            <div className="filter-popup">
+              {/* TYPE */}
+              <div className="filter-popup-section">
+                <span className="filter-group-label">TYPE</span>
+                <div className="filter-popup-btns">
+                  {(['all', 'unit', 'structure', 'upgrade'] as const).map(val => (
+                    <button
+                      key={val}
+                      className={`filter-btn filter-btn--sm${typeFilter === val ? ' filter-btn--active' : ''}`}
+                      onClick={() => setTypeFilter(val)}
+                    >
+                      {val === 'all' ? 'All' : val.charAt(0).toUpperCase() + val.slice(1) + 's'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* RARITY */}
+              <div className="filter-popup-section">
+                <span className="filter-group-label">RARITY</span>
+                <div className="filter-popup-btns">
+                  {(['all', 'common', 'uncommon', 'rare', 'legendary'] as const).map(val => (
+                    <button
+                      key={val}
+                      className={`filter-btn filter-btn--sm${rarityFilter === val ? ' filter-btn--active' : ''}`}
+                      onClick={() => setRarityFilter(val)}
+                    >
+                      {val.charAt(0).toUpperCase() + val.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* TAGS */}
+              <div className="filter-popup-section">
+                <span className="filter-group-label">TAGS <span className="filter-group-hint">(any match)</span></span>
+                <div className="filter-popup-btns">
+                  {ALL_TAGS.map(tag => (
+                    <button
+                      key={tag}
+                      className={`filter-btn filter-btn--sm${tagFilter.includes(tag) ? ' filter-btn--active' : ''}`}
+                      onClick={() => toggleTag(tag)}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* AFFINITY */}
+              <div className="filter-popup-section">
+                <span className="filter-group-label">AFFINITY</span>
+                <div className="filter-popup-btns">
+                  {([
+                    ['any',         'Has Affinity'],
+                    ['attackSpeed', 'Atk Speed'],
+                    ['damage',      'Damage'],
+                    ['moveSpeed',   'Move Speed'],
+                  ] as const).map(([val, label]) => (
+                    <button
+                      key={val}
+                      className={`filter-btn filter-btn--sm${affinityFilter === val ? ' filter-btn--active' : ''}`}
+                      onClick={() => setAffinityFilter(prev => prev === val ? null : val)}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* SPECIAL */}
+              <div className="filter-popup-section">
+                <span className="filter-group-label">SPECIAL</span>
+                <div className="filter-popup-btns">
+                  <button
+                    className={`filter-btn filter-btn--sm${specialFilter === 'upgradeable' ? ' filter-btn--active filter-btn--gold' : ''}`}
+                    onClick={() => setSpecialFilter(prev => prev === 'upgradeable' ? null : 'upgradeable')}
+                  >
+                    ★ Upgradeable
+                  </button>
+                </div>
+              </div>
+
+              {/* Reset */}
+              {activeFilterCount > 0 && (
+                <div className="filter-popup-footer">
+                  <button className="filter-btn filter-btn--sm filter-btn--reset" onClick={resetFilters}>
+                    ✕ Clear all filters
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Active filter pills */}
+        {activeFilterCount > 0 && (
+          <div className="filter-active-pills">
+            {typeFilter !== 'all' && (
+              <span className="filter-pill">{typeFilter}s <button onClick={() => setTypeFilter('all')}>✕</button></span>
+            )}
+            {rarityFilter !== 'all' && (
+              <span className="filter-pill">{rarityFilter} <button onClick={() => setRarityFilter('all')}>✕</button></span>
+            )}
+            {tagFilter.map(t => (
+              <span key={t} className="filter-pill">{t} <button onClick={() => toggleTag(t)}>✕</button></span>
+            ))}
+            {affinityFilter && (
+              <span className="filter-pill">affinity:{affinityFilter} <button onClick={() => setAffinityFilter(null)}>✕</button></span>
+            )}
+            {specialFilter && (
+              <span className="filter-pill">★upgradeable <button onClick={() => setSpecialFilter(null)}>✕</button></span>
+            )}
+          </div>
+        )}
+
+        <span className="filter-owned">{filtered.length} cards</span>
       </div>
 
       {/* Grid */}
