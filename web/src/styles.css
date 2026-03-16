@@ -1782,16 +1782,32 @@ body {
 
 /* Wobble animation — triggered by remounting the element */
 @keyframes packWobble {
-  0%   { transform: rotate(0deg)   scale(1); }
-  20%  { transform: rotate(-10deg) scale(1.08); }
-  45%  { transform: rotate(10deg)  scale(1.08); }
-  65%  { transform: rotate(-6deg)  scale(1.03); }
-  80%  { transform: rotate(6deg)   scale(1.03); }
-  100% { transform: rotate(0deg)   scale(1); }
+  0%   { transform: rotate(0deg)   scale(1);    }
+  15%  { transform: rotate(-22deg) scale(1.14); }
+  35%  { transform: rotate(18deg)  scale(1.12); }
+  52%  { transform: rotate(-12deg) scale(1.06); }
+  67%  { transform: rotate(8deg)   scale(1.03); }
+  80%  { transform: rotate(-4deg)  scale(1.01); }
+  100% { transform: rotate(0deg)   scale(1);    }
 }
 
 .pack-wobble {
-  animation: packWobble 0.4s ease-out;
+  animation: packWobble 0.55s ease-out;
+}
+
+/* Hide front face until card is fully flipped — prevents the card
+   content peeking through during the rotation (90→180 deg window) */
+.pack-card-slot--flash-rare .pack-card-front,
+.pack-card-slot--flash-legendary .pack-card-front {
+  animation: packFrontReveal 0.7s ease-out;
+}
+.pack-card-slot--flash-legendary .pack-card-front {
+  animation-duration: 0.75s;
+}
+@keyframes packFrontReveal {
+  0%, 57%  { opacity: 0; }
+  70%      { opacity: 1; }
+  100%     { opacity: 1; }
 }
 
 /* Colour the face-down card content to match rarity */
