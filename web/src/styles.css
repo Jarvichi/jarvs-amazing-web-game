@@ -1875,7 +1875,7 @@ body {
 .cdm-sw-block {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
   margin-top: 4px;
 }
 .cdm-sw-row {
@@ -1883,6 +1883,21 @@ body {
   align-items: baseline;
   gap: 6px;
   font-size: 9px;
+}
+.cdm-sw-row--btn {
+  all: unset;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 9px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 2px 3px;
+  box-sizing: border-box;
+}
+.cdm-sw-row--btn:hover {
+  background: rgba(255,255,255,0.06);
 }
 .cdm-sw-label {
   font-weight: bold;
@@ -1895,7 +1910,24 @@ body {
 .cdm-sw-tags {
   color: var(--game-text-color-dim);
   text-transform: capitalize;
+  flex: 1;
 }
+.cdm-sw-chevron {
+  color: var(--game-text-color-dim);
+  font-size: 7px;
+  margin-left: auto;
+}
+.cdm-sw-detail {
+  font-size: 9px;
+  color: var(--game-text-color-dim);
+  background: rgba(0,0,0,0.3);
+  border-left: 2px solid #444;
+  padding: 4px 8px;
+  margin: 0 3px 2px 3px;
+  line-height: 1.5;
+}
+.cdm-sw-detail strong { color: var(--game-text-color); }
+.cdm-sw-detail em { font-style: normal; color: #aad4ff; }
 
 .cdm-mastery-block {
   border-top: 1px solid #1a1a1a;
