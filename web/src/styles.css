@@ -1194,11 +1194,10 @@ body {
   padding: 6px 0;
   flex-shrink: 0;
   border-bottom: 1px solid #222;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  overflow: visible;
+  position: relative;
+  z-index: 10;
 }
-.filter-bar::-webkit-scrollbar { display: none; }
 
 .filter-sep {
   color: var(--game-text-color-muted);
