@@ -103,6 +103,7 @@ function resolveCardDef(raw: RawCardDef): CardDef {
     unit,
     upgradeEffect: raw.upgradeEffect as UpgradeEffect | undefined,
     description: raw.description,
+    lore: raw.lore,
     deckCount: raw.deckCount,
   }
 }

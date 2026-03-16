@@ -116,6 +116,14 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
               </div>
             )}
 
+            {/* Unit combat tags (melee, ranged, large, etc.) */}
+            {u?.tags && u.tags.length > 0 && (
+              <div className="cdm-unit-tags">
+                <span className="cdm-unit-tags-label">Type:</span>
+                {u.tags.map(t => <span key={t} className="cdm-unit-tag">{t}</span>)}
+              </div>
+            )}
+
             {/* Strengths, Weaknesses & Affinity */}
             {u && (u.strengths?.length || u.weaknesses?.length || u.affinity) ? (
               <div className="cdm-sw-block">
