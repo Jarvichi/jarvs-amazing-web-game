@@ -624,6 +624,40 @@ function moveUnits(s: GameState, deltaMs: number): void {
     // whether we already assigned a real target above
     void hasTarget
 
+    // Affinity group movement: seek partner if out of range; leash once bonded
+    if (unit.affinity && !unit.isWall) {
+      const aff = unit.affinity
+      const partner = s.field.find(
+        u => u.owner === unit.owner && u.id !== unit.id && u.hp > 0 && u.name === aff.withName
+      )
+      if (partner) {
+        const partnerDist = unitDist(unit, partner)
+        const isPlayerUnit = unit.owner === 'player'
+        // "ahead" means closer to the enemy base
+        const unitIsAhead = isPlayerUnit ? unit.x > partner.x : unit.x < partner.x
+        if (partnerDist > aff.range) {
+          // Seeking: partner is deployed but not yet in range
+          if (unitIsAhead) {
+            // We're ahead — hold position and let partner catch up
+            tx = unit.x
+            ty = unit.y
+          } else {
+            // Partner is ahead — rush toward them
+            tx = partner.x
+            ty = partner.y
+          }
+        } else {
+          // Cohesion: bonded — don't advance more than half the affinity range ahead of partner
+          const leash = aff.range * 0.5
+          if (isPlayerUnit) {
+            tx = Math.min(tx, partner.x + leash)
+          } else {
+            tx = Math.max(tx, partner.x - leash)
+          }
+        }
+      }
+    }
+
     const dx = tx - unit.x
     const dy = ty - unit.y
     const d  = Math.sqrt(dx * dx + dy * dy)
