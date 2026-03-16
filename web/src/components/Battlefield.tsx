@@ -8,6 +8,7 @@ import { isNoDamageMode, isDebugMode } from '../game/debug'
 import { MAX_UPGRADE_LEVEL } from '../game/engine'
 import { getRelicDef } from '../game/relics'
 import { getUnitLore } from '../game/cards'
+import { Button } from './Button'
 
 interface Props {
   state: GameState
@@ -1131,7 +1132,7 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                   )}
                 </div>
 
-                <button className="filter-btn" style={{ marginTop: 4 }} onClick={() => setInspectedUnit(null)}>← Back</button>
+                <Button size="xs" style={{ marginTop: 4 }} onClick={() => setInspectedUnit(null)}>← Back</Button>
               </div>
             ) : (
               <>
