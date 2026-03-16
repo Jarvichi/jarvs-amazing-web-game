@@ -20,6 +20,7 @@ import { CardTile } from './CardTile'
 import { useCardDetail } from './useCardDetail'
 import { OverlayScreen } from './OverlayScreen'
 import { MasteryBar } from './MasteryBar'
+import { ModalBackdrop } from './ModalBackdrop'
 
 interface Props {
   crystals: number
@@ -61,6 +62,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
   const [affinityFilter, setAffinityFilter] = useState<AffinityFilter | null>(null)
   const [filterMenuOpen, setFilterMenuOpen] = useState(false)
   const [flash, setFlash]       = useState<string | null>(null)
+  const [upgradeModal, setUpgradeModal] = useState<Array<{cardName: string, xpGained: number}> | null>(null)
   const { openDetail, cardDetailNode } = useCardDetail({ collection })
   const filterMenuRef = useRef<HTMLDivElement>(null)
 
@@ -136,18 +138,18 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
 
   function handleMasterAll() {
     let updated = [...collection]
-    let totalGained = 0
+    const items: Array<{cardName: string, xpGained: number}> = []
     for (const entry of collection) {
       const extras = Math.max(0, entry.count - COPIES_MAX)
       if (extras > 0) {
         updated = masterAllExtras(updated, entry.cardName)
-        totalGained += extras
+        items.push({ cardName: entry.cardName, xpGained: extras })
       }
     }
     saveCollection(updated)
     syncDeckToCollection(updated)
     setCollection(updated)
-    notify(`+${totalGained} mastery XP across all cards!`)
+    setUpgradeModal(items)
   }
 
   function handleDisenchantCard(cardName: string) {
@@ -370,6 +372,29 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
       </div>
 
       {cardDetailNode}
+
+      {upgradeModal && (
+        <ModalBackdrop onClose={() => setUpgradeModal(null)} zIndex={300}>
+          <div className="daily-modal" style={{ maxWidth: 360, textAlign: 'left' }}>
+            <div className="daily-modal-header">★ UPGRADE ALL</div>
+            <div className="daily-modal-sub">
+              {upgradeModal.length} card{upgradeModal.length !== 1 ? 's' : ''} upgraded
+            </div>
+            <div style={{ width: '100%', maxHeight: 300, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {upgradeModal.map(({ cardName, xpGained }) => (
+                <div key={cardName} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '3px 0', borderBottom: '1px solid #222' }}>
+                  <span>{cardName}</span>
+                  <span style={{ color: '#ffcc00' }}>+{xpGained} XP</span>
+                </div>
+              ))}
+            </div>
+            <div className="daily-modal-desc" style={{ textAlign: 'center' }}>
+              Total: +{upgradeModal.reduce((s, i) => s + i.xpGained, 0)} mastery XP
+            </div>
+            <button className="action-btn" onClick={() => setUpgradeModal(null)}>OK</button>
+          </div>
+        </ModalBackdrop>
+      )}
     </OverlayScreen>
   )
 }
