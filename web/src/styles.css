@@ -1871,28 +1871,6 @@ body {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-.cdm-unit-tags {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px;
-  margin-top: 3px;
-}
-.cdm-unit-tags-label {
-  font-size: 9px;
-  color: var(--game-text-color-dim);
-  letter-spacing: 0.5px;
-}
-.cdm-unit-tag {
-  font-size: 9px;
-  border: 1px solid #2255aa;
-  color: #aad4ff;
-  padding: 1px 5px;
-  border-radius: 2px;
-  text-transform: capitalize;
-  letter-spacing: 0.5px;
-}
-
 .cdm-sw-block {
   display: flex;
   flex-direction: column;

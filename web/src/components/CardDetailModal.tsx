@@ -66,6 +66,10 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
     if (u.flying)            traits.push('flying')
     if (u.climber)           traits.push('climber')
     if (u.bypassWall && u.moveSpeed > 0) traits.push('ranged')
+    // Append combat tags that aren't already represented
+    for (const t of (u.tags ?? [])) {
+      if (!traits.includes(t)) traits.push(t)
+    }
   }
 
   return (
@@ -113,14 +117,6 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
             {traits.length > 0 && (
               <div className="cdm-traits">
                 {traits.map(t => <span key={t} className="cdm-trait">{t}</span>)}
-              </div>
-            )}
-
-            {/* Unit combat tags (melee, ranged, large, etc.) */}
-            {u?.tags && u.tags.length > 0 && (
-              <div className="cdm-unit-tags">
-                <span className="cdm-unit-tags-label">Type:</span>
-                {u.tags.map(t => <span key={t} className="cdm-unit-tag">{t}</span>)}
               </div>
             )}
 
