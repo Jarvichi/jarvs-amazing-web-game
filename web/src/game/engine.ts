@@ -628,11 +628,9 @@ function moveUnits(s: GameState, deltaMs: number): void {
       }
     }
 
-    // tx/ty already default to "march toward base" — hasTarget just flags
-    // whether we already assigned a real target above
-    void hasTarget
-
     // Affinity group movement: seek partner if out of range; leash once bonded
+    // Only redirect movement when the unit has no active combat target — we
+    // never want affinity to pause a unit that is already engaging an enemy.
     if (unit.affinity && !unit.isWall) {
       const aff = unit.affinity
       const partner = s.field.find(
@@ -644,15 +642,17 @@ function moveUnits(s: GameState, deltaMs: number): void {
         // "ahead" means closer to the enemy base
         const unitIsAhead = isPlayerUnit ? unit.x > partner.x : unit.x < partner.x
         if (partnerDist > aff.range) {
-          // Seeking: partner is deployed but not yet in range
-          if (unitIsAhead) {
-            // We're ahead — hold position and let partner catch up
-            tx = unit.x
-            ty = unit.y
-          } else {
-            // Partner is ahead — rush toward them
-            tx = partner.x
-            ty = partner.y
+          // Seeking: only redirect when not already engaging a target
+          if (!hasTarget) {
+            if (unitIsAhead) {
+              // We're ahead — hold position and let partner catch up
+              tx = unit.x
+              ty = unit.y
+            } else {
+              // Partner is ahead — rush toward them
+              tx = partner.x
+              ty = partner.y
+            }
           }
         } else {
           // Cohesion: bonded — don't advance more than half the affinity range ahead of partner
