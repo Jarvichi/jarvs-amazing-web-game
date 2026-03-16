@@ -1063,6 +1063,7 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
             <div className="bf-pause-title">⏸ PAUSED</div>
             {inspectedUnit ? (
               <div className="bf-inspect-panel">
+                {/* Name + buffs */}
                 <div className="bf-inspect-name" style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                   <span>
                     {inspectedUnit.name}
@@ -1085,17 +1086,8 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                     </div>
                   )}
                 </div>
-                <div className="bf-inspect-stats">
-                  <div className="bf-inspect-row"><span>HP</span><span>{inspectedUnit.hp}/{inspectedUnit.maxHp}</span></div>
-                  {inspectedUnit.attack > 0 && (
-                    <div className="bf-inspect-row"><span>ATK</span><span>{inspectedUnit.attack}</span></div>
-                  )}
-                  {inspectedUnit.upgradeLevel != null && inspectedUnit.upgradeLevel >= 2 && (
-                    <div className="bf-inspect-row"><span>Lvl</span><span>{inspectedUnit.upgradeLevel}</span></div>
-                  )}
-                </div>
 
-                {/* Traits */}
+                {/* Traits — directly below name row */}
                 {(() => {
                   const u = inspectedUnit
                   const traits: string[] = []
@@ -1106,32 +1098,50 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                   if (u.bypassWall && u.moveSpeed > 0) traits.push('ranged')
                   for (const t of (u.tags ?? [])) { if (!traits.includes(t)) traits.push(t) }
                   return traits.length > 0 ? (
-                    <div className="cdm-traits" style={{ marginTop: 4 }}>
+                    <div className="cdm-traits">
                       {traits.map(t => <span key={t} className="cdm-trait">{t}</span>)}
                     </div>
                   ) : null
                 })()}
 
-                {/* Strengths, Weaknesses & Affinity */}
-                {(inspectedUnit.strengths?.length || inspectedUnit.weaknesses?.length || inspectedUnit.affinity) ? (
-                  <div className="cdm-sw-block">
-                    {inspectedUnit.strengths && inspectedUnit.strengths.length > 0 && (
-                      <div className="cdm-sw-row">
-                        <span className="cdm-sw-label--strong">↑ {inspectedUnit.strengths.join(', ')}</span>
-                      </div>
+                {/* Scrollable detail area */}
+                <div className="bf-inspect-scroll">
+                  <div className="bf-inspect-stats">
+                    <div className="bf-inspect-row"><span>HP</span><span>{inspectedUnit.hp}/{inspectedUnit.maxHp}</span></div>
+                    {inspectedUnit.attack > 0 && (
+                      <div className="bf-inspect-row"><span>ATK</span><span>{inspectedUnit.attack}</span></div>
                     )}
-                    {inspectedUnit.weaknesses && inspectedUnit.weaknesses.length > 0 && (
-                      <div className="cdm-sw-row">
-                        <span className="cdm-sw-label--weak">↓ {inspectedUnit.weaknesses.join(', ')}</span>
-                      </div>
-                    )}
-                    {inspectedUnit.affinity && (
-                      <div className="cdm-sw-row">
-                        <span className="cdm-sw-label--affinity">♥ {inspectedUnit.affinity.label}{inspectedUnit.affinityActive ? ' ✦' : ''}</span>
-                      </div>
+                    {inspectedUnit.upgradeLevel != null && inspectedUnit.upgradeLevel >= 2 && (
+                      <div className="bf-inspect-row"><span>Lvl</span><span>{inspectedUnit.upgradeLevel}</span></div>
                     )}
                   </div>
-                ) : null}
+
+                  {/* Strengths, Weaknesses & Affinity */}
+                  {(inspectedUnit.strengths?.length || inspectedUnit.weaknesses?.length || inspectedUnit.affinity) ? (
+                    <div className="cdm-sw-block">
+                      {inspectedUnit.strengths && inspectedUnit.strengths.length > 0 && (
+                        <div className="cdm-sw-row">
+                          <span className="cdm-sw-label--strong">↑ {inspectedUnit.strengths.join(', ')}</span>
+                        </div>
+                      )}
+                      {inspectedUnit.weaknesses && inspectedUnit.weaknesses.length > 0 && (
+                        <div className="cdm-sw-row">
+                          <span className="cdm-sw-label--weak">↓ {inspectedUnit.weaknesses.join(', ')}</span>
+                        </div>
+                      )}
+                      {inspectedUnit.affinity && (
+                        <div className="cdm-sw-row">
+                          <span className="cdm-sw-label--affinity">♥ {inspectedUnit.affinity.label}{inspectedUnit.affinityActive ? ' ✦' : ''}</span>
+                        </div>
+                      )}
+                    </div>
+                  ) : null}
+
+                  {/* Lore */}
+                  {inspectedUnit.lore && (
+                    <div className="bf-inspect-lore">"{inspectedUnit.lore}"</div>
+                  )}
+                </div>
 
                 <button className="action-btn" style={{ marginTop: 4 }} onClick={() => setInspectedUnit(null)}>← Back</button>
               </div>
