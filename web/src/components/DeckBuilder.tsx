@@ -17,7 +17,9 @@ import {
   DeckEntry,
 } from '../game/collection'
 import { CardTile } from './CardTile'
-import { CardDetailModal } from './CardDetailModal'
+import { useCardDetail } from './useCardDetail'
+import { OverlayScreen } from './OverlayScreen'
+import { ProgressBar } from './ProgressBar'
 
 interface Props {
   onBack: () => void
@@ -135,7 +137,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   const [deck, setDeck] = useState<DeckEntry[]>(() =>
     loadDeck().filter(e => catalog.some(c => c.name === e.cardName))
   )
-  const [detailCard, setDetailCard] = useState<Card | null>(null)
+  const { openDetail, cardDetailNode } = useCardDetail({ collection, deckEntries: deck })
   const [showAutoBuild, setShowAutoBuild] = useState(false)
   const [search, setSearch]         = useState('')
   const [typeFilter, setTypeFilter]   = useState<'all' | CardType>('all')
@@ -218,15 +220,16 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
     })
 
   return (
-    <div className="overlay-screen">
-      <div className="overlay-header">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <span className="overlay-title">DECK BUILDER</span>
+    <OverlayScreen
+      title="DECK BUILDER"
+      onBack={onBack}
+      right={
         <span className={`overlay-count${valid ? ' overlay-count--valid' : ' overlay-count--invalid'}`}>
           {total}/{DECK_MAX} cards
           {total < DECK_MIN && ` (need ${DECK_MIN - total} more)`}
         </span>
-      </div>
+      }
+    >
 
       <div className="deckbuilder-body">
         {/* ── Left: collection ── */}
@@ -316,7 +319,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                     </span>
                     <button
                       className="extra-btn cdm-info-btn"
-                      onClick={e => { e.stopPropagation(); setDetailCard(card) }}
+                      onClick={e => { e.stopPropagation(); openDetail(card) }}
                       title="Card details"
                     >ⓘ</button>
                   </div>
@@ -349,7 +352,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                     <span className="deck-list-count">×{entry.count}</span>
                     <button
                       className="deck-list-info-btn"
-                      onClick={e => { e.stopPropagation(); setDetailCard(card) }}
+                      onClick={e => { e.stopPropagation(); openDetail(card) }}
                       title="Card details"
                     >ⓘ</button>
                   </li>
@@ -359,12 +362,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
           )}
 
           <div className="deckbuilder-footer">
-            <div className="deck-size-bar-track">
-              <div
-                className="deck-size-bar-fill"
-                style={{ width: `${Math.min(100, (total / DECK_MAX) * 100)}%` }}
-              />
-            </div>
+            <ProgressBar pct={(total / DECK_MAX) * 100} />
             <button
               className="action-btn"
               style={{ fontSize: '11px', padding: '5px 10px', borderColor: 'rgba(51,255,51,0.4)', color: 'var(--game-text-color-dim)' }}
@@ -413,14 +411,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
         </div>
       )}
 
-      {detailCard && (
-        <CardDetailModal
-          card={detailCard}
-          collection={collection}
-          deckEntries={deck}
-          onClose={() => setDetailCard(null)}
-        />
-      )}
-    </div>
+      {cardDetailNode}
+    </OverlayScreen>
   )
 }

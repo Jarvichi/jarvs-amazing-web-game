@@ -17,7 +17,9 @@ import {
   COPIES_MAX,
 } from '../game/collection'
 import { CardTile } from './CardTile'
-import { CardDetailModal } from './CardDetailModal'
+import { useCardDetail } from './useCardDetail'
+import { OverlayScreen } from './OverlayScreen'
+import { MasteryBar } from './MasteryBar'
 
 interface Props {
   crystals: number
@@ -35,19 +37,6 @@ const ALL_TAGS: UnitTag[] = [
   'magic', 'undead', 'beast', 'armored', 'siege', 'fire',
 ]
 
-function MasteryBar({ xp }: { xp: number }) {
-  const { level, current, needed } = masteryProgress(xp)
-  const pct = needed > 0 ? Math.round((current / needed) * 100) : 100
-  return (
-    <div className="mastery-bar-wrap">
-      <span className="mastery-level">★{level}</span>
-      <div className="mastery-bar-track">
-        <div className="mastery-bar-fill" style={{ width: `${pct}%` }} />
-      </div>
-      <span className="mastery-xp">{current}/{needed}</span>
-    </div>
-  )
-}
 
 export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props) {
   const catalog = getCardCatalog()
@@ -72,7 +61,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
   const [affinityFilter, setAffinityFilter] = useState<AffinityFilter | null>(null)
   const [filterMenuOpen, setFilterMenuOpen] = useState(false)
   const [flash, setFlash]       = useState<string | null>(null)
-  const [detailCard, setDetailCard] = useState<Card | null>(null)
+  const { openDetail, cardDetailNode } = useCardDetail({ collection })
   const filterMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -190,13 +179,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
   }
 
   return (
-    <div className="overlay-screen">
-      {/* Header */}
-      <div className="overlay-header">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <span className="overlay-title">COLLECTION</span>
-        <span className="crystal-count">💎 {crystals.toLocaleString()}</span>
-      </div>
+    <OverlayScreen title="COLLECTION" onBack={onBack} right={<span className="crystal-count">💎 {crystals.toLocaleString()}</span>}>
 
       {/* Action row */}
       <div className="collection-action-row">
@@ -354,7 +337,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
 
           return (
             <div key={card.name} className={`collection-cell${owned === 0 ? ' collection-cell--unowned' : ''}`}>
-              <CardTile card={card} canAfford={true} onClick={() => setDetailCard(card)} />
+              <CardTile card={card} canAfford={true} onClick={() => openDetail(card)} />
 
               <div className="cell-footer">
                 <span className="cell-count">
@@ -386,13 +369,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
         })}
       </div>
 
-      {detailCard && (
-        <CardDetailModal
-          card={detailCard}
-          collection={collection}
-          onClose={() => setDetailCard(null)}
-        />
-      )}
-    </div>
+      {cardDetailNode}
+    </OverlayScreen>
   )
 }

@@ -9,6 +9,9 @@ import {
   getCardStats,
 } from '../game/collection'
 import { CardTile } from './CardTile'
+import { ModalBackdrop } from './ModalBackdrop'
+import { MasteryBar } from './MasteryBar'
+import { StatRow } from './StatRow'
 
 interface Props {
   card: Card
@@ -24,14 +27,6 @@ const RARITY_COLOUR: Record<string, string> = {
   legendary: '#ffcc00',
 }
 
-function statLine(label: string, value: string | number) {
-  return (
-    <div className="cdm-stat-row">
-      <span className="cdm-stat-label">{label}</span>
-      <span className="cdm-stat-value">{value}</span>
-    </div>
-  )
-}
 
 function affinityEffectText(effectType: string, effectAmount: number): string {
   const pct = Math.round(Math.abs(effectAmount - 1) * 100)
@@ -46,7 +41,6 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
   const inDeck = deckEntries?.find(e => e.cardName === card.name)?.count ?? 0
   const xp     = getMasteryXp(collection, card.name)
   const { level: masteryLvl, current: xpCur, needed: xpNeeded } = masteryProgress(xp)
-  const xpPct  = xpNeeded > 0 ? Math.round((xpCur / xpNeeded) * 100) : 100
   const rarityCol = RARITY_COLOUR[card.rarity] ?? 'var(--game-text-color-dim)'
 
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
@@ -73,8 +67,8 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
   }
 
   return (
-    <div className="cdm-backdrop" onClick={onClose}>
-      <div className="cdm-panel" onClick={e => e.stopPropagation()}>
+    <ModalBackdrop onClose={onClose}>
+      <div className="cdm-panel">
 
         {/* Header */}
         <div className="cdm-header">
@@ -100,16 +94,16 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
             {/* Unit stats */}
             {u && u.moveSpeed > 0 && (
               <div className="cdm-stats-block">
-                {statLine('ATK',   u.attack)}
-                {statLine('HP',    u.maxHp)}
-                {statLine('SPD',   u.moveSpeed)}
-                {u.attackRange > 0 && statLine('RNG', u.attackRange)}
-                {u.attackCooldownMs > 0 && statLine('CD', `${(u.attackCooldownMs / 1000).toFixed(1)}s`)}
+                <StatRow compact label="ATK" value={u.attack} />
+                <StatRow compact label="HP"  value={u.maxHp} />
+                <StatRow compact label="SPD" value={u.moveSpeed} />
+                {u.attackRange > 0 && <StatRow compact label="RNG" value={u.attackRange} />}
+                {u.attackCooldownMs > 0 && <StatRow compact label="CD" value={`${(u.attackCooldownMs / 1000).toFixed(1)}s`} />}
               </div>
             )}
             {u && u.moveSpeed === 0 && u.maxHp > 0 && (
               <div className="cdm-stats-block">
-                {statLine('HP', u.maxHp)}
+                <StatRow compact label="HP" value={u.maxHp} />
               </div>
             )}
 
@@ -179,9 +173,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
                 <span style={{ color: '#ffd700' }}>★ Mastery {masteryLvl}</span>
                 <span className="cdm-mastery-xp">{xpCur}/{xpNeeded} to Lv{masteryLvl + 1}</span>
               </div>
-              <div className="mastery-bar-track" style={{ marginTop: 4 }}>
-                <div className="mastery-bar-fill" style={{ width: `${xpPct}%` }} />
-              </div>
+              <MasteryBar xp={xp} />
               {masteryLvl > 0 && u && (
                 <div className="cdm-mastery-bonus">
                   {u.moveSpeed > 0
@@ -193,8 +185,8 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
 
             {/* Battle stats */}
             <div className="cdm-battle-stats">
-              {statLine('Times played',  statsPlayed.played)}
-              {statsUnit && statLine('Units lost', statsUnit.died)}
+              <StatRow compact label="Times played" value={statsPlayed.played} />
+              {statsUnit && <StatRow compact label="Units lost" value={statsUnit.died} />}
             </div>
           </div>
         </div>
@@ -204,6 +196,6 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
           <div className="cdm-lore">"{card.lore}"</div>
         )}
       </div>
-    </div>
+    </ModalBackdrop>
   )
 }

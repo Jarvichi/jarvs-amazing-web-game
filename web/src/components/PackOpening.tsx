@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Card } from '../game/types'
 import { getCardCatalog } from '../game/cards'
 import { rarityStars } from '../game/cards'
 import { addCardsToCollection } from '../game/collection'
 import { CardTile } from './CardTile'
-import { CardDetailModal } from './CardDetailModal'
+import { useCardDetail } from './useCardDetail'
 
 interface Props {
   /** Array of 5 card names in reveal order */
@@ -16,7 +15,7 @@ export function PackOpening({ pack, onDone }: Props) {
   const catalog = getCardCatalog()
   const [revealed, setRevealed] = useState(0)
   const [done, setDone] = useState(false)
-  const [detailCard, setDetailCard] = useState<Card | null>(null)
+  const { openDetail, cardDetailNode } = useCardDetail()
 
   // Auto-reveal cards one at a time, 700ms apart
   useEffect(() => {
@@ -45,7 +44,7 @@ export function PackOpening({ pack, onDone }: Props) {
           >
             {i < revealed && card ? (
               <div className="pack-card-reveal">
-                <CardTile card={card} canAfford={true} onClick={done ? () => setDetailCard(card) : undefined} />
+                <CardTile card={card} canAfford={true} onClick={done ? () => openDetail(card) : undefined} />
                 <div className={`pack-card-rarity pack-card-rarity--${card.rarity}`}>
                   {rarityStars(card.rarity)}
                 </div>
@@ -65,13 +64,7 @@ export function PackOpening({ pack, onDone }: Props) {
         <div className="pack-wait">Revealing…</div>
       )}
 
-      {detailCard && (
-        <CardDetailModal
-          card={detailCard}
-          collection={[]}
-          onClose={() => setDetailCard(null)}
-        />
-      )}
+      {cardDetailNode}
     </div>
   )
 }

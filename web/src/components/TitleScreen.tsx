@@ -1,8 +1,9 @@
 import React from 'react'
-import { loadDeck, loadCollection, deckTotalCards, isDeckValid } from '../game/collection'
+import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX } from '../game/collection'
 import { loadRun } from '../game/questline'
 import { getCardCatalog } from '../game/cards'
 import { hasUnclaimedAchievements } from '../game/achievements'
+import { TitleButton } from './TitleButton'
 
 const CAMPAIGN_UNLOCK_CARDS = 30
 
@@ -31,6 +32,7 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
   const distinctUnlocked    = collection.filter(e => e.count > 0 && catalog.some(c => c.name === e.cardName)).length
   const catalogTotal        = catalog.length
   const achievementAlert    = hasUnclaimedAchievements()
+  const collectionAlert     = collection.some(e => e.count > COPIES_MAX)
 
   return (
     <div className="title-screen">
@@ -38,8 +40,9 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
       <div className="title-subtitle">AMAZING WEB GAME</div>
 
       <div className="title-buttons">
-        <button
-          className="action-btn action-btn--large title-campaign-btn"
+        <TitleButton
+          variant="large"
+          extraClass="title-campaign-btn"
           onClick={onCampaign}
           disabled={!valid || !campaignUnlocked}
           title={
@@ -49,7 +52,7 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
           }
         >
           {savedRun ? '⚔  CONTINUE RUN' : '⚔  CAMPAIGN'}
-        </button>
+        </TitleButton>
 
         {!campaignUnlocked && (
           <div className="title-campaign-locked-hint">
@@ -57,42 +60,23 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
           </div>
         )}
 
-        <button
-          className="action-btn title-play-btn"
-          onClick={onPlay}
-          disabled={!valid}
-          title={valid ? undefined : `Deck needs ${10 - count} more cards`}
-        >
+        <TitleButton onClick={onPlay} disabled={!valid} title={valid ? undefined : `Deck needs ${10 - count} more cards`}>
           {valid ? '▶  QUICK BATTLE' : `⚠ DECK TOO SMALL (${count}/10)`}
-        </button>
+        </TitleButton>
 
-        <button className="action-btn title-nav-btn" onClick={onDeckBuilder}>
-          DECK BUILDER
-        </button>
+        <TitleButton onClick={onDeckBuilder}>DECK BUILDER</TitleButton>
 
-        <button className="action-btn title-nav-btn" onClick={onCollection}>
-          COLLECTION
-        </button>
+        <TitleButton onClick={onCollection} badge={collectionAlert}>COLLECTION</TitleButton>
 
-        <button className="action-btn title-nav-btn" onClick={onShop}>
-          🛒 SHOP
-        </button>
+        <TitleButton onClick={onShop}>🛒 SHOP</TitleButton>
 
-        <button className="action-btn title-nav-btn" onClick={onHeroCards}>
-          🦸 HERO CARDS
-        </button>
+        <TitleButton onClick={onHeroCards}>🦸 HERO CARDS</TitleButton>
 
-        <button className="action-btn title-nav-btn" onClick={onInventory}>
-          🎒 INVENTORY
-        </button>
+        <TitleButton onClick={onInventory}>🎒 INVENTORY</TitleButton>
 
-        <button className="action-btn title-nav-btn" onClick={onAchievements} style={{ position: 'relative' }}>
-          🏆 ACHIEVEMENTS{achievementAlert && <span className="title-badge">!</span>}
-        </button>
+        <TitleButton onClick={onAchievements} badge={achievementAlert}>🏆 ACHIEVEMENTS</TitleButton>
 
-        <button className="action-btn title-nav-btn title-settings-btn" onClick={onSettings}>
-          ⚙ SETTINGS
-        </button>
+        <TitleButton onClick={onSettings} extraClass="title-settings-btn">⚙ SETTINGS</TitleButton>
       </div>
 
       <div className="title-deck-info">

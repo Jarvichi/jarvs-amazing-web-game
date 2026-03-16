@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getActiveModifiers, loadActCount } from '../game/questline'
+import { StatRow } from './StatRow'
 
 interface Props {
   act: Act
@@ -202,22 +203,14 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
         )}
 
         {/* Reward */}
-        <div className="nm-peek-row">
-          <span className="nm-peek-row-label">REWARD</span>
-          <span className="nm-peek-row-value nm-peek-reward">{rewardSummary(node)}</span>
-        </div>
+        <StatRow label="REWARD" value={<span className="nm-peek-reward">{rewardSummary(node)}</span>} />
 
         {/* Difficulty (battle nodes only) */}
         {isBattle && (
-          <div className="nm-peek-row">
-            <span className="nm-peek-row-label">DIFFICULTY</span>
-            <span
-              className="nm-peek-row-value"
-              style={{ color: difficultyColor(node.handicap) }}
-            >
-              {difficultyLabel(node.handicap)}
-            </span>
-          </div>
+          <StatRow
+            label="DIFFICULTY"
+            value={<span style={{ color: difficultyColor(node.handicap) }}>{difficultyLabel(node.handicap)}</span>}
+          />
         )}
 
         {/* Previously completed — reveal opponent deck */}
