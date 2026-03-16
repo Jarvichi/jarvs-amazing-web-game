@@ -49,70 +49,72 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
         <span className="inventory-count">{items.length} items</span>
       </div>
 
-      <div className="inventory-intro">
-        Items collected from daily logins. Completely useless.
-        <br/>
-        <span className="inventory-intro-small">
-          But... who knows. Keep collecting.
-        </span>
-      </div>
-
-      {/* Secret panel — appears at 42 items */}
-      {secretMsg && (
-        <div className="inventory-secret-panel">
-          <div className="inventory-secret-icon">🌌</div>
-          <div className="inventory-secret-title">DEEP THOUGHT SPEAKS</div>
-          <div className="inventory-secret-msg">"{secretMsg}"</div>
-          <button className="action-btn action-btn--gold" onClick={claimSecret}>
-            CLAIM REWARD
-          </button>
+      <div className="inventory-body">
+        <div className="inventory-intro">
+          Items collected from daily logins. Completely useless.
+          <br/>
+          <span className="inventory-intro-small">
+            But... who knows. Keep collecting.
+          </span>
         </div>
-      )}
 
-      {/* ── Relics section ── */}
-      {earnedRelics.length > 0 && (
-        <div className="inventory-section">
-          <div className="inventory-section-title">RELICS</div>
-          <div className="inventory-grid">
-            {earnedRelics.map(relic => (
-              <button
-                key={relic.name}
-                className="inventory-cell inventory-cell--relic"
-                onClick={() => setDetail({ kind: 'relic', relic, isActive: false })}
-              >
-                <div className="inventory-item-icon">{relic.icon}</div>
-                <div className="inventory-item-name">{relic.name}</div>
-                <div className="inventory-item-desc">{relic.desc}</div>
-              </button>
-            ))}
+        {/* Secret panel — appears at 42 items */}
+        {secretMsg && (
+          <div className="inventory-secret-panel">
+            <div className="inventory-secret-icon">🌌</div>
+            <div className="inventory-secret-title">DEEP THOUGHT SPEAKS</div>
+            <div className="inventory-secret-msg">"{secretMsg}"</div>
+            <button className="action-btn action-btn--gold" onClick={claimSecret}>
+              CLAIM REWARD
+            </button>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* ── Items section ── */}
-      <div className="inventory-section">
+        {/* ── Relics section ── */}
         {earnedRelics.length > 0 && (
-          <div className="inventory-section-title">ITEMS</div>
-        )}
-        {items.length === 0 ? (
-          <div className="inventory-empty">
-            Nothing here yet. Come back tomorrow.
-          </div>
-        ) : (
-          <div className="inventory-grid">
-            {items.map((item, idx) => (
-              <button
-                key={idx}
-                className="inventory-cell"
-                onClick={() => setDetail({ kind: 'item', item })}
-              >
-                <div className="inventory-item-icon">{item.icon}</div>
-                <div className="inventory-item-name">{item.name}</div>
-                <div className="inventory-item-desc">{item.desc}</div>
-              </button>
-            ))}
+          <div className="inventory-section">
+            <div className="inventory-section-title">RELICS</div>
+            <div className="inventory-grid">
+              {earnedRelics.map(relic => (
+                <button
+                  key={relic.name}
+                  className="inventory-cell inventory-cell--relic"
+                  onClick={() => setDetail({ kind: 'relic', relic, isActive: false })}
+                >
+                  <div className="inventory-item-icon">{relic.icon}</div>
+                  <div className="inventory-item-name">{relic.name}</div>
+                  <div className="inventory-item-desc">{relic.desc}</div>
+                </button>
+              ))}
+            </div>
           </div>
         )}
+
+        {/* ── Items section ── */}
+        <div className="inventory-section">
+          {earnedRelics.length > 0 && (
+            <div className="inventory-section-title">ITEMS</div>
+          )}
+          {items.length === 0 ? (
+            <div className="inventory-empty">
+              Nothing here yet. Come back tomorrow.
+            </div>
+          ) : (
+            <div className="inventory-grid">
+              {items.map((item, idx) => (
+                <button
+                  key={idx}
+                  className="inventory-cell"
+                  onClick={() => setDetail({ kind: 'item', item })}
+                >
+                  <div className="inventory-item-icon">{item.icon}</div>
+                  <div className="inventory-item-name">{item.name}</div>
+                  <div className="inventory-item-desc">{item.desc}</div>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ── Detail modal ── */}
