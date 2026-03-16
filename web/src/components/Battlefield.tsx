@@ -874,7 +874,7 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
 
       {/* Top bar: clock, scores */}
       <div className={`top-bar${state.suddenDeath ? ' top-bar--sudden-death' : ''}`}>
-        <button className="bf-pause-btn" onClick={() => doPause(true)} title="Pause">⏸</button>
+        <button className="bf-pause-btn" onClick={() => doPause(true)} title="Menu">MENU</button>
         <span className="game-clock">{timeStr}</span>
         <span className="score-display">
           <span className="score-player">{state.playerScore}</span>
