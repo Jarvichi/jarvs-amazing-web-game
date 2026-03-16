@@ -59,11 +59,6 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
   const clickable = canAfford && !disabled && !heroLocked
 
   let stats: string
-  let tag: string | null = null
-
-  if (card.isHero) {
-    tag = '★ HERO'
-  }
 
   if (card.cardType === 'upgrade' && card.upgradeEffect) {
     const e = card.upgradeEffect
@@ -73,21 +68,12 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
           : e.type === 'buffMaxHp'   ? `+${e.amount} ♥`
           : e.type === 'buffRange'   ? `+${e.amount} RNG`
           : `UPGRADE`
-    if (!card.isHero) tag = 'UPGRADE'
   } else if (card.unit) {
     const u = card.unit
     if (u.isWall || u.attack === 0) {
       stats = `♥ ${u.maxHp}`
     } else {
       stats = `⚔ ${u.attack} / ♥ ${u.maxHp}`
-    }
-    if (u.isWall) tag = 'WALL'
-    else if (u.bypassWall) tag = 'RANGED'
-    else if (u.structureEffect?.type === 'spawn') {
-      const secs = Math.round(u.structureEffect.intervalMs / 1000)
-      tag = `SPAWN /${secs}s`
-    } else if (u.structureEffect?.type === 'mana') {
-      tag = `+${u.structureEffect.amount} MANA`
     }
   } else {
     stats = ''
@@ -114,7 +100,6 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         }
       </div>
       <div className="card-stats">{stats}</div>
-      <div className="card-tag">{tag ?? ''}</div>
       <div className="card-rarity">{rarityStars(card.rarity)}</div>
       {heroLocked && (
         <div className="card-hero-lock">
