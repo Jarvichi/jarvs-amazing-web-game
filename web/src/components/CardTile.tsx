@@ -67,19 +67,19 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
 
   if (card.cardType === 'upgrade' && card.upgradeEffect) {
     const e = card.upgradeEffect
-    stats = e.type === 'buffAttack'  ? `+${e.amount} ATK`
-          : e.type === 'healUnits'   ? `HEAL ${e.amount}`
+    stats = e.type === 'buffAttack'  ? `+${e.amount} ⚔`
+          : e.type === 'healUnits'   ? `♥ +${e.amount}`
           : e.type === 'buffSpeed'   ? `+${e.amount} SPD`
-          : e.type === 'buffMaxHp'   ? `+${e.amount} HP`
+          : e.type === 'buffMaxHp'   ? `+${e.amount} ♥`
           : e.type === 'buffRange'   ? `+${e.amount} RNG`
           : `UPGRADE`
     if (!card.isHero) tag = 'UPGRADE'
   } else if (card.unit) {
     const u = card.unit
     if (u.isWall || u.attack === 0) {
-      stats = `HP ${u.maxHp}`
+      stats = `♥ ${u.maxHp}`
     } else {
-      stats = `${u.attack} ATK / ${u.maxHp} HP`
+      stats = `⚔ ${u.attack} / ♥ ${u.maxHp}`
     }
     if (u.isWall) tag = 'WALL'
     else if (u.bypassWall) tag = 'RANGED'
