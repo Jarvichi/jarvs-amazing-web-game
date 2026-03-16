@@ -1116,23 +1116,17 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                     )}
                   </div>
 
-                  {/* Strengths, Weaknesses & Affinity */}
+                  {/* Strengths, Weaknesses & Affinity — all on one line */}
                   {(inspectedUnit.strengths?.length || inspectedUnit.weaknesses?.length || inspectedUnit.affinity) ? (
-                    <div className="cdm-sw-block">
+                    <div className="cdm-sw-row" style={{ flexWrap: 'wrap', gap: '0 8px' }}>
                       {inspectedUnit.strengths && inspectedUnit.strengths.length > 0 && (
-                        <div className="cdm-sw-row">
-                          <span className="cdm-sw-label--strong">↑ {inspectedUnit.strengths.join(', ')}</span>
-                        </div>
+                        <span className="cdm-sw-label--strong">↑ {inspectedUnit.strengths.join(', ')}</span>
                       )}
                       {inspectedUnit.weaknesses && inspectedUnit.weaknesses.length > 0 && (
-                        <div className="cdm-sw-row">
-                          <span className="cdm-sw-label--weak">↓ {inspectedUnit.weaknesses.join(', ')}</span>
-                        </div>
+                        <span className="cdm-sw-label--weak">↓ {inspectedUnit.weaknesses.join(', ')}</span>
                       )}
                       {inspectedUnit.affinity && (
-                        <div className="cdm-sw-row">
-                          <span className="cdm-sw-label--affinity">♥ {inspectedUnit.affinity.label}{inspectedUnit.affinityActive ? ' ✦' : ''}</span>
-                        </div>
+                        <span className="cdm-sw-label--affinity">♥ {inspectedUnit.affinity.label}{inspectedUnit.affinityActive ? ' ✦' : ''}</span>
                       )}
                     </div>
                   ) : null}
