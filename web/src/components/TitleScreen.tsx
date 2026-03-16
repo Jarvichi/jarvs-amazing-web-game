@@ -1,5 +1,5 @@
 import React from 'react'
-import { loadDeck, loadCollection, deckTotalCards, isDeckValid } from '../game/collection'
+import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX } from '../game/collection'
 import { loadRun } from '../game/questline'
 import { getCardCatalog } from '../game/cards'
 import { hasUnclaimedAchievements } from '../game/achievements'
@@ -31,6 +31,7 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
   const distinctUnlocked    = collection.filter(e => e.count > 0 && catalog.some(c => c.name === e.cardName)).length
   const catalogTotal        = catalog.length
   const achievementAlert    = hasUnclaimedAchievements()
+  const collectionAlert     = collection.some(e => e.count > COPIES_MAX)
 
   return (
     <div className="title-screen">
@@ -70,8 +71,8 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
           DECK BUILDER
         </button>
 
-        <button className="action-btn title-nav-btn" onClick={onCollection}>
-          COLLECTION
+        <button className="action-btn title-nav-btn" onClick={onCollection} style={{ position: 'relative' }}>
+          COLLECTION{collectionAlert && <span className="title-badge">!</span>}
         </button>
 
         <button className="action-btn title-nav-btn" onClick={onShop}>
