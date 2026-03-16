@@ -54,6 +54,16 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
   const allAffinityLabels = Array.from(
     new Set(catalog.flatMap(c => c.unit?.affinity?.label ? [c.unit.affinity.label] : []))
   ).sort()
+  // Map: affinity label → set of card names in that synergy group (both sides of the pair)
+  const affinityGroupNames = new Map<string, Set<string>>()
+  for (const c of catalog) {
+    const aff = c.unit?.affinity
+    if (!aff) continue
+    if (!affinityGroupNames.has(aff.label)) affinityGroupNames.set(aff.label, new Set())
+    const group = affinityGroupNames.get(aff.label)!
+    group.add(c.name)        // the card that benefits
+    group.add(aff.withName)  // the card that triggers it
+  }
   const [collection, setCollection] = useState<CollectionEntry[]>(loadCollection)
   const [typeFilter,    setTypeFilter]    = useState<TypeFilter>('all')
   const [rarityFilter,  setRarityFilter]  = useState<RarityFilter>('all')
@@ -92,7 +102,8 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
       if (!tagFilter.some(t => unitTags.includes(t))) return false
     }
     if (affinityFilter) {
-      if (c.unit?.affinity?.label !== affinityFilter) return false
+      const group = affinityGroupNames.get(affinityFilter)
+      if (!group || !group.has(c.name)) return false
     }
     return true
   })
