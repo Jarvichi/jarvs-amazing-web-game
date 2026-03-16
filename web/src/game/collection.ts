@@ -437,5 +437,12 @@ export function generatePack(): string[] {
     picks.push(pickRandom(uncommons).name)
   }
 
+  const rarityOrder: Record<string, number> = { common: 0, uncommon: 1, rare: 2, legendary: 3 }
+  picks.sort((a, b) => {
+    const ar = catalog.find(c => c.name === a)?.rarity ?? 'common'
+    const br = catalog.find(c => c.name === b)?.rarity ?? 'common'
+    return (rarityOrder[ar] ?? 0) - (rarityOrder[br] ?? 0)
+  })
+
   return picks
 }
