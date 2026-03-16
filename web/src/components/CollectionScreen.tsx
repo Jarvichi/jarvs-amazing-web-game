@@ -21,6 +21,7 @@ import { useCardDetail } from './useCardDetail'
 import { OverlayScreen } from './OverlayScreen'
 import { MasteryBar } from './MasteryBar'
 import { ModalBackdrop } from './ModalBackdrop'
+import { Button } from './Button'
 
 interface Props {
   crystals: number
@@ -195,23 +196,25 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
 
       {/* Action row */}
       <div className="collection-action-row">
-        <button
-          className="action-btn collection-disenchant-btn"
+        <Button
+          size="sm"
+          className="collection-disenchant-btn"
           onClick={handleDisenchantAll}
           disabled={totalExtras === 0}
           style={{ flex: 1 }}
         >
           🔮 Disenchant extras ({totalExtras})
-        </button>
-        <button
-          className="action-btn collection-master-btn"
+        </Button>
+        <Button
+          size="sm"
+          className="collection-master-btn"
           onClick={handleMasterAll}
           disabled={totalUpgradeable === 0}
           title="Convert all extra copies into mastery XP"
           style={{ flex: 1 }}
         >
           ★ Upgrade all ({totalUpgradeable})
-        </button>
+        </Button>
         {flash && <span className="collection-flash">{flash}</span>}
       </div>
 
