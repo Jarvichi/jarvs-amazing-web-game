@@ -1700,9 +1700,9 @@ body {
   background: rgba(136, 204, 255, 0.12);
   box-shadow: 0 0 10px rgba(136, 204, 255, 0.3);
 }
-.collection-disenchant-btn:disabled,
-.collection-pack-btn:disabled,
+.collection-disenchant-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
+.collection-pack-btn:disabled,
 .collection-pack-btn {
   font-size: 12px;
   padding: 5px 12px;
