@@ -3998,6 +3998,9 @@ body {
   gap: 6px;
   text-align: center;
   pointer-events: auto;
+  height: 180px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .bf-pause-title {
   font-size: 14px;
@@ -4023,6 +4026,27 @@ body {
   align-items: center;
   gap: 4px;
   width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.bf-inspect-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.bf-inspect-lore {
+  font-size: 10px;
+  font-style: italic;
+  color: var(--game-text-color-dim);
+  text-align: center;
+  padding: 4px 0 2px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: 2px;
 }
 .bf-inspect-name {
   font-size: 13px;

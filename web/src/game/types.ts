@@ -45,6 +45,8 @@ export interface UnitTemplate {
   targetPriority?: TargetPriority
   /** Proximity buff triggered when a named ally is within range. */
   affinity?: AffinityDef
+  /** Flavour text shown in the inspect panel. */
+  lore?: string
 }
 
 export type BuffTag = 'atk' | 'spd' | 'hp' | 'range'
