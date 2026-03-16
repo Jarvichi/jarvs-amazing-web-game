@@ -66,6 +66,10 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
     if (u.flying)            traits.push('flying')
     if (u.climber)           traits.push('climber')
     if (u.bypassWall && u.moveSpeed > 0) traits.push('ranged')
+    // Append combat tags that aren't already represented
+    for (const t of (u.tags ?? [])) {
+      if (!traits.includes(t)) traits.push(t)
+    }
   }
 
   return (
