@@ -200,10 +200,12 @@ export function TitleIdleAnimation() {
 
   const { card, side, message } = visitor
 
-  // X position: off-screen left, center, or off-screen right
-  const offLeft = 'translateX(calc(-50vw - 80px))'
-  const offRight = 'translateX(calc(50vw + 80px))'
-  const center = 'translateX(0)'
+  // X position: off-screen left, center, or off-screen right.
+  // Base is left:50%, so -50% (of own width) keeps it truly centred.
+  // Add ±120vw to push it fully off-screen on either side.
+  const offLeft = 'translateX(calc(-50% - 120vw))'
+  const offRight = 'translateX(calc(-50% + 120vw))'
+  const center = 'translateX(-50%)'
 
   let translateX: string
   if (atCenter) {
