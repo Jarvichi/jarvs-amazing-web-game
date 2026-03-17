@@ -3545,6 +3545,152 @@ body {
   max-width: 300px;
 }
 
+/* ── Relic Spin Screen ───────────────────────────────────── */
+
+.relic-spin-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 24px 16px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.95);
+  animation: fadeIn 0.35s ease-out;
+}
+
+.rss-bg-glow {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 300px;
+  background: radial-gradient(ellipse at center, rgba(100, 100, 200, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.rss-header {
+  font-size: 22px;
+  font-weight: bold;
+  color: #aaaacc;
+  letter-spacing: 4px;
+  text-shadow: 0 0 16px rgba(100, 100, 200, 0.4);
+}
+
+.rss-divider {
+  color: #2a2a2a;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.rss-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border: 1px solid rgba(150, 150, 200, 0.25);
+  border-radius: 8px;
+  background: rgba(100, 100, 200, 0.04);
+  transition: border-color 0.4s, background 0.4s;
+}
+
+.rss-icon {
+  font-size: 52px;
+  line-height: 1;
+}
+
+.rss-icon--spinning .rss-icon {
+  animation: rssWobble 0.35s ease-in-out infinite;
+}
+
+.rss-icon--broken {
+  border-color: rgba(200, 50, 50, 0.35);
+  background: rgba(200, 50, 50, 0.06);
+}
+
+.rss-icon--broken .rss-icon {
+  filter: grayscale(0.8) brightness(0.65);
+  animation: rssShake 0.45s ease-out;
+}
+
+.rss-icon--survived {
+  border-color: rgba(50, 200, 80, 0.35);
+  background: rgba(50, 200, 80, 0.06);
+}
+
+.rss-icon--survived .rss-icon {
+  animation: rssPulse 0.5s ease-out;
+}
+
+.rss-relic-name {
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: var(--game-text-color);
+  min-height: 20px;
+}
+
+.rss-subtitle {
+  font-size: 12px;
+  color: var(--game-text-color-dim);
+  font-style: italic;
+  min-height: 18px;
+}
+
+.rss-verdict {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.rss-verdict--break {
+  color: #cc3333;
+  text-shadow: 0 0 12px rgba(200, 50, 50, 0.45);
+}
+
+.rss-verdict--survive {
+  color: #33cc55;
+  text-shadow: 0 0 12px rgba(50, 200, 80, 0.45);
+}
+
+.rss-flavour {
+  font-size: 11px;
+  color: var(--game-text-color-muted);
+  font-style: italic;
+  max-width: 280px;
+  line-height: 1.6;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes rssWobble {
+  0%   { transform: rotate(-18deg) scale(0.93); }
+  25%  { transform: rotate(18deg)  scale(1.07); }
+  50%  { transform: rotate(-12deg) scale(0.97); }
+  75%  { transform: rotate(12deg)  scale(1.03); }
+  100% { transform: rotate(-18deg) scale(0.93); }
+}
+
+@keyframes rssShake {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(-7px) rotate(-4deg); }
+  30%  { transform: translateX(7px)  rotate(4deg); }
+  45%  { transform: translateX(-5px) rotate(-2deg); }
+  60%  { transform: translateX(5px)  rotate(2deg); }
+  80%  { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes rssPulse {
+  0%   { transform: scale(0.85); filter: brightness(0.5); }
+  55%  { transform: scale(1.18); filter: brightness(1.4); }
+  100% { transform: scale(1);    filter: brightness(1); }
+}
+
 /* ── Starter Pack Select ─────────────────────────────────── */
 
 .starter-select {
@@ -5248,6 +5394,11 @@ body {
   border: 1px solid #5a3a00;
   padding: 1px 6px;
   border-radius: 2px;
+}
+
+.inventory-detail-tag--broken {
+  color: #aa3333;
+  border-color: #5a1010;
 }
 
 .inventory-detail-desc {
