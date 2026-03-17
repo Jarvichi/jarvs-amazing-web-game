@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-15 (session 7).
+Issues sourced from GitHub. Last synced: 2026-03-17 (session 13).
 
 ---
 
@@ -9,6 +9,25 @@ When working an issue from this file, go and check the GitHub issue for addition
 ---
 
 ## 🟠 Active Work
+
+### Session 13 — Add Missing Expansion Cards
+
+Add all missing cards from Verdant Shard, Iron Citadel, Ashen Wastes, and Crystal Spire expansions per CLAUDE.md roadmap (Phase 4):
+
+**Verdant Shard** (missing): Dryad Sentinel, Mushroom Hulk, Pixie Scout, Swamp Lurker, Moss Golem + Spore Tower, Mushroom Circle, Root Network + Overgrowth, Nature's Bounty, Spore Cloud, Root Bind, Wild Surge
+
+**Iron Citadel** (missing): Battering Ram Crew, Cavalry Scout, Demolitions Expert, Sappers, Ballista Crew + Siege Tower, Fortified Wall, Moat + Battle Hardened, Iron Discipline, Siege Protocol, Tactical Retreat
+
+**Ashen Wastes** (missing): Shadow Stalker, Soulrend Witch, Bone Colossus, Wraith + Death Altar, Necrotic Pool, Graveblight Tower + Undying Rage, Soul Harvest, Plague Spread, Dark Ritual, Entropy Wave
+
+**Crystal Spire** (missing): Techno Imp, Mana Siphon, Arcane Turret, Void Elemental, Chronomancer + Arcane Forge, Null Field + Crystal Resonance, Void Tap, Temporal Loop
+
+- [ ] Add Verdant Shard cards to cards.json + sprites
+- [ ] Add Iron Citadel cards to cards.json + sprites
+- [ ] Add Ashen Wastes cards to cards.json + sprites
+- [ ] Add Crystal Spire cards to cards.json + sprites
+
+---
 
 ### Title Screen Idle Animation (branch: claude/title-screen-idle-animation-PNLCb)
 
