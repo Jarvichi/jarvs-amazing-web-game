@@ -40,6 +40,7 @@ function WallSvg({ hp, maxHp, owner, wallNames = [] }: { hp: number; maxHp: numb
 
   return (
     <svg
+      className="wall-svg"
       width="100%" height="30"
       viewBox="0 0 360 30"
       preserveAspectRatio="none"
@@ -245,7 +246,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
 function LaneBgForest() {
   const cropRows = Array.from({ length: 30 }, (_, i) => i)
   return (
-    <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
+    <svg className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
       viewBox="0 0 100 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="100" height="220" fill="#2a5418"/>
       <rect x="0" y="0" width="24" height="220" fill="#1e4810"/>
@@ -274,7 +275,7 @@ function LaneBgForest() {
 
 function LaneBgRuins() {
   return (
-    <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
+    <svg className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
       viewBox="0 0 100 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       {/* Muted mossy ground */}
       <rect width="100" height="220" fill="#3a4030"/>
@@ -316,7 +317,7 @@ function LaneBgRuins() {
 
 function LaneBgCamp() {
   return (
-    <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
+    <svg className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
       viewBox="0 0 100 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       {/* Churned dirt base */}
       <rect width="100" height="220" fill="#5a3c1e"/>
@@ -349,7 +350,7 @@ function LaneBgCamp() {
 
 function LaneBgCitadel() {
   return (
-    <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
+    <svg className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
       viewBox="0 0 100 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       {/* Stone base */}
       <rect width="100" height="220" fill="#5a5a60"/>
@@ -388,7 +389,7 @@ function LaneBgCitadel() {
 
 function LaneBgAshen() {
   return (
-    <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
+    <svg className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
       viewBox="0 0 100 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       {/* Scorched earth base */}
       <rect width="100" height="220" fill="#1e1c18"/>
@@ -669,7 +670,7 @@ function ForestBorder({ theme }: { theme?: string }) {
   }
 
   return (
-    <>
+    <div className="forest-border" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1 }}>
       {blobs.map(b => (
         <div
           key={b.key}
@@ -680,13 +681,12 @@ function ForestBorder({ theme }: { theme?: string }) {
             transform: 'translateX(-50%) translateY(-50%)',
             pointerEvents: 'none',
             userSelect: 'none',
-            zIndex: 1,
           }}
         >
           <BorderBlob size={b.size} shade={b.shade} theme={theme as BorderTheme} />
         </div>
       ))}
-    </>
+    </div>
   )
 }
 

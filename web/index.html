@@ -6,6 +6,24 @@
   <title>Jarv's Amazing Web Game</title>
 </head>
 <body>
+<!-- SVG filter defs — referenced by CSS filter: url(#...) in 8-bit mode -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!--
+      Pixelation filter: samples the source on an 8×8 grid and dilates each
+      sample to fill its cell, giving chunky low-res pixel blocks.
+      Cell = 8×8px. Sample = 2×2 at (3,3). Dilate radius 3 → exact 8×8 fill.
+    -->
+    <filter id="filter-pixelate-bg" x="0%" y="0%" width="100%" height="100%"
+            color-interpolation-filters="sRGB">
+      <feFlood x="3" y="3" height="2" width="2"/>
+      <feComposite width="8" height="8"/>
+      <feTile result="grid"/>
+      <feComposite in="SourceGraphic" in2="grid" operator="in" result="sampled"/>
+      <feMorphology in="sampled" operator="dilate" radius="3"/>
+    </filter>
+  </defs>
+</svg>
 <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
