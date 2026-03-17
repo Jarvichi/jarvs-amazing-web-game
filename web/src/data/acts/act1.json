@@ -598,7 +598,7 @@
       ],
       "handicap": 4,
       "opponentBaseHp": 105,
-      "environment": "forest",
+      "environment": "dark-forest",
       "enemyDeck": [
         "Archer",
         "Archer",
