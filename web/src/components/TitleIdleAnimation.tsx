@@ -70,7 +70,7 @@ function buildMessages(card: Card): string[] {
 }
 
 const INACTIVITY_MS = 30_000
-const DISPLAY_MS = 30_000
+const DISPLAY_MS = 10_000
 const WALK_IN_MS = 1_800
 const WALK_OUT_MS = 1_500
 const WALK_OUT_FAST_MS = 600
