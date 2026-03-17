@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 1: horse gallop phase A -->
+  <!-- Horse body -->
+  <ellipse cx="16" cy="20" rx="11" ry="6" fill="#8B5a28"/>
+  <!-- Horse neck -->
+  <ellipse cx="24" cy="15" rx="4" ry="6" fill="#8B5a28" transform="rotate(20,24,15)"/>
+  <!-- Horse head -->
+  <ellipse cx="27" cy="10" rx="3.5" ry="3" fill="#9a6a32" transform="rotate(10,27,10)"/>
+  <!-- Mane -->
+  <path d="M23,11 Q25,9 27,11" stroke="#5a3a18" stroke-width="2" fill="none"/>
+  <!-- Horse eye -->
+  <circle cx="28.5" cy="9" r="1" fill="#222"/>
+  <!-- Horse legs — gallop phase A -->
+  <line x1="9" y1="24" x2="6" y2="30" stroke="#6a4020" stroke-width="3" stroke-linecap="round"/>
+  <line x1="13" y1="25" x2="11" y2="31" stroke="#6a4020" stroke-width="3" stroke-linecap="round"/>
+  <line x1="18" y1="25" x2="20" y2="31" stroke="#6a4020" stroke-width="3" stroke-linecap="round"/>
+  <line x1="22" y1="24" x2="25" y2="29" stroke="#6a4020" stroke-width="3" stroke-linecap="round"/>
+  <!-- Rider -->
+  <rect x="13" y="11" width="7" height="8" rx="1" fill="#666"/>
+  <circle cx="16.5" cy="9" r="3.5" fill="#888"/>
+  <!-- Helmet -->
+  <path d="M13,8 Q16.5,5 20,8" stroke="#555" stroke-width="2" fill="#666"/>
+  <!-- Spear/lance -->
+  <line x1="20" y1="10" x2="31" y2="6" stroke="#a07040" stroke-width="1.5"/>
+  <polygon points="31,5 31,7 33,6" fill="#aaa"/>
+</svg>
