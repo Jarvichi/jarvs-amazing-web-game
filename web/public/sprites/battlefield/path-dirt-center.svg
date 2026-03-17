@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Brown organic dirt path, center -->
+  <path d="M36,0 C34,45 38,90 35,132 C32,170 37,195 35,220 L64,220 C62,195 67,170 64,132 C61,90 65,45 63,0 Z" fill="#6a4820" opacity="0.72"/>
+  <path d="M38,0 C36,44 40,88 37,130 C34,168 39,194 37,220 L62,220 C60,194 65,168 62,130 C59,88 63,44 61,0 Z" fill="#8a6030"/>
+  <path d="M44,0 C43,38 45,80 43,122 C41,158 44,188 43,220 L49,220 C48,188 51,158 49,122 C47,80 49,38 48,0 Z" fill="#a07848" opacity="0.45"/>
+  <path d="M52,0 C51,38 53,80 51,122 C49,158 52,188 51,220 L57,220 C56,188 59,158 57,122 C55,80 57,38 56,0 Z" fill="#a07848" opacity="0.45"/>
+  <ellipse cx="50" cy="52"  rx="4" ry="2.5" fill="#3a6820" opacity="0.4"/>
+  <ellipse cx="50" cy="130" rx="5" ry="3"   fill="#3a6820" opacity="0.4"/>
+  <ellipse cx="50" cy="200" rx="4" ry="2"   fill="#3a6820" opacity="0.35"/>
+</svg>

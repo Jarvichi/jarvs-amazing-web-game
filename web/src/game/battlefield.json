@@ -1,0 +1,23 @@
+{
+  "environments": {
+    "forest":  ["floor-grass", "field-left", "dirt-right", "path-dirt-center"],
+    "ruins":   ["floor-rubble", "rubble-left", "rubble-right", "path-ruins-center"],
+    "camp":    ["floor-mud", "mud-edge-left", "mud-edge-right", "path-camp-center"],
+    "citadel": ["floor-stone", "cobble-left", "cobble-right", "path-flagstone-center"],
+    "ashen":   ["floor-scorched", "ash-left", "ash-right", "path-char-center"]
+  },
+  "terrain": {
+    "rock":  [{ "file": "terrain-rock.svg",        "wr": 1,    "hr": 1.25 }],
+    "tree":  [
+      { "file": "terrain-pine-tree.svg",  "wr": 0.65, "hr": 1 },
+      { "file": "terrain-fruit-tree.svg", "wr": 1,    "hr": 1 },
+      { "file": "terrain-tree.svg",       "wr": 1,    "hr": 1 }
+    ],
+    "water": [{ "file": "terrain-water.svg",        "wr": 1.7,  "hr": 1 }],
+    "ruin":  [
+      { "file": "terrain-ruin.svg",        "wr": 1,    "hr": 1 },
+      { "file": "terrain-farmhouse.svg",   "wr": 1,    "hr": 1 },
+      { "file": "terrain-watchtower.svg",  "wr": 0.55, "hr": 1 }
+    ]
+  }
+}

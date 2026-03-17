@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Dark mossy centre path for ruins -->
+  <path d="M33,0 C32,55 35,110 33,155 C31,185 34,205 33,220 L67,220 C66,205 69,185 67,155 C65,110 68,55 67,0 Z" fill="#28281e" opacity="0.8"/>
+  <path d="M35,0 C34,53 37,108 35,153 C33,183 36,204 35,220 L65,220 C64,204 67,183 65,153 C63,108 66,53 65,0 Z" fill="#343430"/>
+  <line x1="40" y1="45"  x2="52" y2="58"  stroke="#1e1e18" stroke-width="0.8" opacity="0.6"/>
+  <line x1="52" y1="58"  x2="60" y2="70"  stroke="#1e1e18" stroke-width="0.6" opacity="0.5"/>
+  <line x1="42" y1="110" x2="58" y2="122" stroke="#1e1e18" stroke-width="0.8" opacity="0.6"/>
+  <line x1="44" y1="165" x2="56" y2="178" stroke="#1e1e18" stroke-width="0.7" opacity="0.55"/>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Wide wagon-rut track, center -->
+  <path d="M32,0 C30,55 34,110 31,155 C29,188 33,205 32,220 L68,220 C67,205 71,188 69,155 C66,110 70,55 68,0 Z" fill="#4a3018" opacity="0.75"/>
+  <path d="M36,0 C34,54 38,108 35,153 C33,186 37,204 36,220 L64,220 C63,204 67,186 65,153 C62,108 66,54 64,0 Z" fill="#6a4828"/>
+  <!-- Wagon ruts -->
+  <path d="M41,0 C40,42 42,85 40,128 C38,164 41,192 40,220 L45,220 C44,192 47,164 45,128 C43,85 45,42 44,0 Z" fill="#7a5838" opacity="0.5"/>
+  <path d="M56,0 C55,42 57,85 55,128 C53,164 56,192 55,220 L60,220 C59,192 62,164 60,128 C58,85 60,42 59,0 Z" fill="#7a5838" opacity="0.5"/>
+  <!-- Puddles -->
+  <ellipse cx="50" cy="82"  rx="4" ry="2" fill="#2e2010" opacity="0.55"/>
+  <ellipse cx="50" cy="155" rx="3.5" ry="1.8" fill="#2e2010" opacity="0.5"/>
+</svg>

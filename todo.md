@@ -30,6 +30,24 @@ Add all missing cards from Verdant Shard, Iron Citadel, Ashen Wastes, and Crysta
 
 ---
 
+### Battlefield layer system (8-bit mode + composable environments)
+
+Refactor battlefield backgrounds from monolithic inline SVGs into layered SVG files.
+Each file is a 100×220 viewBox SVG drawing only in its designated area (transparent elsewhere).
+`battlefield.json` lists layer names per environment. A `BattlefieldBackground` component
+renders stacked `<img>` elements — `image-rendering: pixelated` in 8-bit mode works for free.
+
+- [x] Create `web/src/game/battlefield.json` (environment → layer list)
+- [x] Write floor layer SVGs: `floor-grass`, `floor-mud`, `floor-stone`, `floor-rubble`, `floor-scorched`
+- [x] Write side-fill layer SVGs: `field-left`, `dirt-right`, `rubble-left`, `rubble-right`, `mud-edge-left`, `mud-edge-right`, `cobble-left`, `cobble-right`, `ash-left`, `ash-right`
+- [x] Write path layer SVGs: `path-dirt-center`, `path-ruins-center`, `path-camp-center`, `path-flagstone-center`, `path-char-center`
+- [x] Extract terrain obstacle SVGs to files (rock, tree, pine-tree, fruit-tree, water, ruin, farmhouse, watchtower)
+- [x] Replace `LaneBg*` functions in Battlefield.tsx with `BattlefieldBackground` component
+- [x] Add 8-bit CSS: `html.eightbit-mode .lane-layer { image-rendering: pixelated }`
+
+---
+
+
 ### Title Screen Idle Animation (branch: claude/title-screen-idle-animation-PNLCb)
 
 After 30s inactivity on title screen, a random unit walks on from a random side, stops in the centre, shows a speech bubble (lore / kill count / random fact), then walks off after 30s. Tapping while visible makes it run off. Achievement for seeing it.

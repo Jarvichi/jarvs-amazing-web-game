@@ -5864,15 +5864,12 @@ html.eightbit-mode canvas.card-sprite {
   image-rendering: crisp-edges;
 }
 
-/* Battlefield backgrounds, walls, terrain, and border blobs are inline SVGs.
-   Applying the SVG feFlood+feTile+feMorphology pixelation filter samples the
-   rasterised SVG on a regular grid and expands each sample into a chunky block,
-   producing a genuine low-res pixel art look. */
-html.eightbit-mode .lane-bg-svg > svg,
-html.eightbit-mode .wall-svg > svg,
-html.eightbit-mode .terrain-obstacle > svg,
-html.eightbit-mode .forest-border > svg {
-  filter: url(#filter-pixelate-bg);
+/* Lane background layers and terrain obstacles are now <img> files.
+   image-rendering: pixelated upscales them with nearest-neighbour for a genuine
+   low-res pixel art look — no SVG filter magic needed. */
+html.eightbit-mode .lane-layer {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 /* Title logo flash on secret click */
