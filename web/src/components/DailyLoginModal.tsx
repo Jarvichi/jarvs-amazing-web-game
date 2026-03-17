@@ -66,7 +66,7 @@ export function DailyLoginModal({ reward, onClose }: Props) {
               <div className="daily-modal-icon">{reward.icon}</div>
               <div className="daily-modal-value">{reward.name}</div>
               <div className="daily-modal-desc">{reward.desc}</div>
-              <div className="daily-modal-lore">{reward.lore}</div>
+              <div className="daily-modal-desc">{reward.lore}</div>
               <div className="daily-modal-useless-note">
                 (Added to your inventory. Completely useless.)
               </div>

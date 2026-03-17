@@ -153,7 +153,7 @@ function buildMerchantItems(): MerchantItem[] {
     if (available.length > 0) {
       const inv   = available[Math.floor(Math.random() * available.length)]
       const price = 10 + Math.floor(Math.random() * 11)   // 10–20 crystals
-      items.push({ kind: 'item', inventoryItem: { id: inv.id, name: inv.name, icon: inv.icon, desc: inv.desc, acquiredDate: '' }, price })
+      items.push({ kind: 'item', inventoryItem: { id: inv.id, name: inv.name, icon: inv.icon, desc: inv.desc, lore: inv.lore ?? '', acquiredDate: '' }, price })
     }
   }
   return items
@@ -483,7 +483,7 @@ export default function App() {
       if (gamblerUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...gamblerUnlocked])
     }
     if (effect.addInventoryItem) {
-      addToInventory(effect.addInventoryItem)
+      addToInventory({ ...effect.addInventoryItem, lore: effect.addInventoryItem.lore ?? '' })
       // Rubber chicken achievement
       if (effect.addInventoryItem.id === 'rubber_chicken') {
         const chickenUnlocked = incrementAchievementProgress('event:rubber_chicken')
@@ -878,7 +878,7 @@ export default function App() {
       saveCrystals(next)
       setCrystals(next)
     } else if (mysteryReward.type === 'item') {
-      addToInventory({ id: mysteryReward.id, name: mysteryReward.name, icon: mysteryReward.icon, desc: mysteryReward.desc ?? '' })
+      addToInventory({ id: mysteryReward.id, name: mysteryReward.name, icon: mysteryReward.icon, desc: mysteryReward.desc ?? '', lore: mysteryReward.lore ?? '' })
     } else if (mysteryReward.type === 'card' || mysteryReward.type === 'pack') {
       addCardsToCollection([{ cardName: mysteryReward.name, count: 1 }])
     }
@@ -1007,6 +1007,7 @@ export default function App() {
         name: broken?.name ?? `Cracked ${equippedRelic}`,
         icon: broken?.icon ?? '🪨',
         desc: broken?.desc ?? `A cracked ${equippedRelic} — it held until it didn't.`,
+        lore: '',
       })
     }
 
@@ -1390,6 +1391,7 @@ export default function App() {
             name: broken?.name ?? `Cracked ${equippedRelic}`,
             icon: broken?.icon ?? '🪨',
             desc: broken?.desc ?? `A cracked ${equippedRelic} — it held until it didn't.`,
+            lore: '',
           })
           setRelicBreakPending({
             relicName:  relicDef?.name ?? equippedRelic,

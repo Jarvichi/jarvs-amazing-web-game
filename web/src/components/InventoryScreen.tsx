@@ -124,6 +124,11 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
             <div className="inventory-detail-desc">
               {detail.kind === 'item' ? detail.item.desc : detail.relic.desc}
             </div>
+            {detail.kind === 'item' && detail.item.lore && (
+              <div className="inventory-detail-desc">
+                {detail.item.lore}
+              </div>
+            )}
             {detail.kind === 'item' && (
               <div className="inventory-detail-date">
                 Acquired: {detail.item.acquiredDate}
