@@ -863,6 +863,19 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
       onClick={paused && !inspectedUnit ? () => doPause(false) : undefined}
     >
 
+      {/* Hidden SVG filter definitions — consumed by 8-bit mode CSS */}
+      <svg width="0" height="0" style={{ position: 'absolute' }} xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="filter-pixelate-bg" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+            <feFlood x="4" y="4" height="2" width="2"/>
+            <feComposite width="8" height="8"/>
+            <feTile result="a"/>
+            <feComposite in="SourceGraphic" in2="a" operator="in"/>
+            <feMorphology operator="dilate" radius="4"/>
+          </filter>
+        </defs>
+      </svg>
+
       {/* Dramatic battle event overlay (center-screen flash) */}
       <BattleEventOverlay event={event} />
 
