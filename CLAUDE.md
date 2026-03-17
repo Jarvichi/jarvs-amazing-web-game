@@ -62,6 +62,7 @@ npm run preview  # Preview production build locally
 
 ## CSS Styling Rules
 Always reuse existing CSS classes rather than writing new ones unless the required functionality is genuinely different. Before adding a new button style, check whether an existing class (e.g. `action-btn`, `action-btn--gold`, `action-btn--danger`) can be used or extended with a small modifier. Duplicate CSS leads to visual inconsistency and maintenance burden. when considering adding new css if there is an existing attribute that could be used that has a specific name, rename and refactor to something more generic. eg "title-screen-button" is specific and could be standardised with a style called "normal-button".
+Better still would be to create a component such as "Button" that has props tha allow for some variation, but generally consistent.
 
 Key shared button classes:
 - `action-btn` — primary green action button (the default)
