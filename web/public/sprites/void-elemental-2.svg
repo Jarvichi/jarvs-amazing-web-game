@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 2: wings spread wide, 1px higher -->
+  <ellipse cx="16" cy="17" rx="9" ry="10" fill="#0a0a1a" opacity="0.5"/>
+  <path d="M10,13 Q3,8 2,13 Q3,18 10,16" fill="#1a0a2a" opacity="0.8"/>
+  <path d="M22,13 Q29,8 30,13 Q29,18 22,16" fill="#1a0a2a" opacity="0.8"/>
+  <ellipse cx="16" cy="16" rx="6" ry="7" fill="#1a0a2a"/>
+  <path d="M12,14 Q16,12 20,14 Q16,16 12,14" stroke="#6600aa" stroke-width="1" fill="none" opacity="0.8"/>
+  <path d="M12,18 Q16,16 20,18 Q16,20 12,18" stroke="#8800cc" stroke-width="0.8" fill="none" opacity="0.6"/>
+  <ellipse cx="16" cy="9" rx="5" ry="5" fill="#2a0a3a"/>
+  <circle cx="13.5" cy="8.5" r="2.5" fill="#aa00ff"/>
+  <circle cx="18.5" cy="8.5" r="2.5" fill="#aa00ff"/>
+  <circle cx="13.5" cy="8.5" r="1.2" fill="#ffffff" opacity="0.6"/>
+  <circle cx="18.5" cy="8.5" r="1.2" fill="#ffffff" opacity="0.6"/>
+  <path d="M13,23 Q10,26 11,29" stroke="#4400aa" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M19,23 Q22,26 21,29" stroke="#4400aa" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+</svg>
