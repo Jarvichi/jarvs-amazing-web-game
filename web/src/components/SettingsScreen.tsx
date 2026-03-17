@@ -53,6 +53,7 @@ export function save8bitEnabled(val: boolean): void {
 
 export function apply8bitMode(enabled: boolean): void {
   document.documentElement.classList.toggle('eightbit-mode', enabled)
+  window.dispatchEvent(new Event('eightbit-change'))
 }
 
 export function applyTextSettings(): void {
