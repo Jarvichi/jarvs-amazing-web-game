@@ -66,7 +66,7 @@ import { AchievementsScreen } from './components/AchievementsScreen'
 import { HeroCardsScreen }   from './components/HeroCardsScreen'
 import { ShopScreen }        from './components/ShopScreen'
 import { BattleSummary }    from './components/BattleSummary'
-import { RelicBreakModal }  from './components/RelicBreakModal'
+import { RelicSpinScreen }  from './components/RelicSpinScreen'
 import './styles.css'
 import brokenRelicsData from './data/broken-relics.json'
 
@@ -261,7 +261,7 @@ export default function App() {
   } | null>(null)
   const relicSelectDoneRef  = useRef<(relicName: string | null) => void>(() => {})
   const brokenRelicRef      = useRef<{ name: string; icon: string } | null>(null)
-  const [relicBreakPending, setRelicBreakPending] = useState<{ relicName: string; brokenName: string; brokenIcon: string; brokenDesc: string } | null>(null)
+  const [relicSpinData, setRelicSpinData] = useState<{ relicName: string; relicIcon: string; breaks: boolean; brokenName?: string; brokenIcon?: string; brokenDesc?: string; onContinue: () => void } | null>(null)
   const [bossDialogueNode, setBossDialogueNode] = useState<QuestNode | null>(null)
   const [showBossSplash, setShowBossSplash] = useState(false)
   const prevBossCardActiveRef = useRef(false)
@@ -996,81 +996,103 @@ export default function App() {
     // 50% chance: the relic carried into this act breaks on completion
     // Guard: never break the relic just earned this act
     const equippedRelic = currentRun.activeRelic
-    if (equippedRelic && equippedRelic !== act?.rewardRelic && Math.random() < 0.5) {
-      removeEarnedRelic(equippedRelic)
-      addBrokenRelic(equippedRelic)
-      const broken = BROKEN_RELIC_ITEMS[equippedRelic]
-      const relicDef = getRelicDef(equippedRelic)
-      brokenRelicRef.current = { name: relicDef?.name ?? equippedRelic, icon: relicDef?.icon ?? broken?.icon ?? '🪨' }
-      addToInventory({
-        id: `broken-relic-${equippedRelic.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
-        name: broken?.name ?? `Cracked ${equippedRelic}`,
-        icon: broken?.icon ?? '🪨',
-        desc: broken?.desc ?? `A cracked ${equippedRelic} — it held until it didn't.`,
-        lore: '',
-      })
+
+    const proceedFromSpin = (willBreak: boolean) => {
+      if (willBreak && equippedRelic && equippedRelic !== act?.rewardRelic) {
+        removeEarnedRelic(equippedRelic)
+        addBrokenRelic(equippedRelic)
+        const broken = BROKEN_RELIC_ITEMS[equippedRelic]
+        const relicDef = getRelicDef(equippedRelic)
+        brokenRelicRef.current = { name: relicDef?.name ?? equippedRelic, icon: relicDef?.icon ?? broken?.icon ?? '🪨' }
+        addToInventory({
+          id: `broken-relic-${equippedRelic.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
+          name: broken?.name ?? `Cracked ${equippedRelic}`,
+          icon: broken?.icon ?? '🪨',
+          desc: broken?.desc ?? `A cracked ${equippedRelic} — it held until it didn't.`,
+          lore: '',
+        })
+      }
+
+      const nextAct = getNextAct(currentRun.actId)
+
+      if (nextAct) {
+        // ── Progress to next act ──────────────────────────────
+        const earnedRelics = loadEarnedRelics()
+
+        const proceedToNextAct = (chosenRelic: string | null) => {
+          // Lives reset to at least LIVES_START (3) at the end of each act as a reward
+          const restoredLives = Math.max(LIVES_START, currentRun.livesRemaining)
+          const nextRun: RunState = {
+            actId: nextAct.id,
+            completedNodeIds: [],
+            skippedNodeIds: [],
+            pendingNodeId: null,
+            playerHp: currentRun.playerHp,
+            maxHp: currentRun.maxHp,
+            livesRemaining: restoredLives,
+            maxLives: currentRun.maxLives,
+            cardPlayCounts: {},
+            nodeFailCounts: {},
+            earnedCards: [],
+            activeRelic: chosenRelic,
+            crystalBonus: 0,
+          }
+          saveRun(nextRun)
+          setRun(nextRun)
+          // Show next act intro cutscene
+          const introPanels = nextAct.intro ?? []
+          if (introPanels.length > 0) {
+            setCutscenePanels(introPanels)
+            cutsceneDoneRef.current = () => setScreen('nodemap')
+            setScreen('cutscene')
+          } else {
+            setScreen('nodemap')
+          }
+        }
+
+        if (earnedRelics.length > 0) {
+          relicSelectDoneRef.current = proceedToNextAct
+          setScreen('relicselect')
+        } else {
+          proceedToNextAct(null)
+        }
+        return
+      }
+
+      // ── Final act completed — offer card rest then deck reset ──
+      const counts = currentRun.cardPlayCounts ?? {}
+      const candidates = getTopPlayedCards(counts, 3)
+      if (candidates.length >= 2) {
+        setCardRestCandidates(candidates)
+        setScreen('cardrest')
+      } else {
+        clearRun()
+        setRun(null)
+        clearFatigued()
+        setFatiguedCards([])
+        setBonusPackCards([])
+        setScreen('starterpack')
+      }
     }
 
-    const nextAct = getNextAct(currentRun.actId)
-
-    if (nextAct) {
-      // ── Progress to next act ──────────────────────────────
-      const earnedRelics = loadEarnedRelics()
-
-      const proceedToNextAct = (chosenRelic: string | null) => {
-        // Lives reset to at least LIVES_START (3) at the end of each act as a reward
-        const restoredLives = Math.max(LIVES_START, currentRun.livesRemaining)
-        const nextRun: RunState = {
-          actId: nextAct.id,
-          completedNodeIds: [],
-          skippedNodeIds: [],
-          pendingNodeId: null,
-          playerHp: currentRun.playerHp,
-          maxHp: currentRun.maxHp,
-          livesRemaining: restoredLives,
-          maxLives: currentRun.maxLives,
-          cardPlayCounts: {},
-          nodeFailCounts: {},
-          earnedCards: [],
-          activeRelic: chosenRelic,
-          crystalBonus: 0,
-        }
-        saveRun(nextRun)
-        setRun(nextRun)
-        // Show next act intro cutscene
-        const introPanels = nextAct.intro ?? []
-        if (introPanels.length > 0) {
-          setCutscenePanels(introPanels)
-          cutsceneDoneRef.current = () => setScreen('nodemap')
-          setScreen('cutscene')
-        } else {
-          setScreen('nodemap')
-        }
-      }
-
-      if (earnedRelics.length > 0) {
-        relicSelectDoneRef.current = proceedToNextAct
-        setScreen('relicselect')
-      } else {
-        proceedToNextAct(null)
-      }
+    // If a relic is equipped (and it's not the one just earned), show the spin screen
+    if (equippedRelic && equippedRelic !== act?.rewardRelic) {
+      const willBreak = Math.random() < 0.5
+      const broken = BROKEN_RELIC_ITEMS[equippedRelic]
+      const relicDef = getRelicDef(equippedRelic)
+      setRelicSpinData({
+        relicName:  relicDef?.name ?? equippedRelic,
+        relicIcon:  relicDef?.icon ?? '🛡️',
+        breaks:     willBreak,
+        brokenName: broken?.name,
+        brokenIcon: broken?.icon,
+        brokenDesc: broken?.desc,
+        onContinue: () => { setRelicSpinData(null); proceedFromSpin(willBreak) },
+      })
       return
     }
 
-    // ── Final act completed — offer card rest then deck reset ──
-    const counts = currentRun.cardPlayCounts ?? {}
-    const candidates = getTopPlayedCards(counts, 3)
-    if (candidates.length >= 2) {
-      setCardRestCandidates(candidates)
-      setScreen('cardrest')
-    } else {
-      clearRun()
-      setRun(null)
-      clearFatigued()
-      setFatiguedCards([])
-      setBonusPackCards([])
-      setScreen('starterpack')
-    }
+    proceedFromSpin(false)
   }, [run])
 
   const handleCardRestConfirm = useCallback((resting: string[]) => {
@@ -1379,25 +1401,34 @@ export default function App() {
       if (gameState.phase.winner === 'player') {
         handleCampaignWin()
       } else {
-        // lose/draw: 33% chance the equipped relic breaks
+        // lose/draw: show relic spin screen (33% break chance) if relic equipped
         const equippedRelic = run?.activeRelic
-        if (equippedRelic && Math.random() < 0.33) {
-          removeEarnedRelic(equippedRelic)
-          addBrokenRelic(equippedRelic)
+        if (equippedRelic) {
+          const willBreak = Math.random() < 0.33
           const broken = BROKEN_RELIC_ITEMS[equippedRelic]
           const relicDef = getRelicDef(equippedRelic)
-          addToInventory({
-            id: `broken-relic-${equippedRelic.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
-            name: broken?.name ?? `Cracked ${equippedRelic}`,
-            icon: broken?.icon ?? '🪨',
-            desc: broken?.desc ?? `A cracked ${equippedRelic} — it held until it didn't.`,
-            lore: '',
-          })
-          setRelicBreakPending({
+          setRelicSpinData({
             relicName:  relicDef?.name ?? equippedRelic,
-            brokenName: broken?.name ?? `Cracked ${equippedRelic}`,
-            brokenIcon: broken?.icon ?? relicDef?.icon ?? '🪨',
-            brokenDesc: broken?.desc ?? `A cracked ${equippedRelic} — it held until it didn't.`,
+            relicIcon:  relicDef?.icon ?? '🛡️',
+            breaks:     willBreak,
+            brokenName: broken?.name,
+            brokenIcon: broken?.icon,
+            brokenDesc: broken?.desc,
+            onContinue: () => {
+              setRelicSpinData(null)
+              if (willBreak) {
+                removeEarnedRelic(equippedRelic)
+                addBrokenRelic(equippedRelic)
+                addToInventory({
+                  id: `broken-relic-${equippedRelic.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
+                  name: broken?.name ?? `Cracked ${equippedRelic}`,
+                  icon: broken?.icon ?? '🪨',
+                  desc: broken?.desc ?? `A cracked ${equippedRelic} — it held until it didn't.`,
+                  lore: '',
+                })
+              }
+              handleCampaignRetry()
+            },
           })
         } else {
           handleCampaignRetry()
@@ -1631,13 +1662,15 @@ export default function App() {
         </div>
       )}
 
-      {relicBreakPending && (
-        <RelicBreakModal
-          relicName={relicBreakPending.relicName}
-          brokenName={relicBreakPending.brokenName}
-          brokenIcon={relicBreakPending.brokenIcon}
-          brokenDesc={relicBreakPending.brokenDesc}
-          onContinue={() => { setRelicBreakPending(null); handleCampaignRetry() }}
+      {relicSpinData && (
+        <RelicSpinScreen
+          relicName={relicSpinData.relicName}
+          relicIcon={relicSpinData.relicIcon}
+          breaks={relicSpinData.breaks}
+          brokenName={relicSpinData.brokenName}
+          brokenIcon={relicSpinData.brokenIcon}
+          brokenDesc={relicSpinData.brokenDesc}
+          onContinue={relicSpinData.onContinue}
         />
       )}
 

@@ -121,6 +121,9 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
             {detail.kind === 'relic' && (
               <div className="inventory-detail-tag">RELIC</div>
             )}
+            {detail.kind === 'item' && detail.item.id.startsWith('broken-relic-') && (
+              <div className="inventory-detail-tag inventory-detail-tag--broken">BROKEN RELIC</div>
+            )}
             <div className="inventory-detail-desc">
               {detail.kind === 'item' ? detail.item.desc : detail.relic.desc}
             </div>
