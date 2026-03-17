@@ -2240,6 +2240,7 @@ body {
   flex-direction: column;
   gap: 6px;
   width: 100%;
+  flex-shrink: 0;
 }
 
 .section-title {
@@ -5869,31 +5870,12 @@ html.eightbit-mode .game-container::after {
   );
 }
 
-/* Reduce effective resolution: render at 25% size then scale back up 4x.
-   Same visual size, but each pixel is 4x bigger — true 8-bit look.
-   Margins compensate for transform not affecting layout box. */
-html.eightbit-mode .lane-unit-sprite {
-  width: 8px !important;
-  max-width: 8px !important;
-  height: 7px !important;
-  max-height: 7px !important;
-  transform: scale(4);
+/* Sprite pixelation in 8-bit mode is handled in SpriteImg.tsx via canvas rendering.
+   Canvas elements get the same class names and are sized identically to the img elements. */
+html.eightbit-mode canvas.lane-unit-sprite,
+html.eightbit-mode canvas.card-sprite {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  /* layout box is 8×7, visual is 32×28: add (32-8)/2=12px h, (28-7)/2=10px v */
-  margin: 10px 12px;
-}
-
-html.eightbit-mode .card-sprite {
-  width: 16px !important;
-  max-width: 16px !important;
-  height: 10px !important;
-  max-height: 10px !important;
-  transform: scale(4);
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  /* layout box is 16×10, visual is 64×40: add (64-16)/2=24px h, (40-10)/2=15px v */
-  margin: 15px 24px;
 }
 
 /* Title logo flash on secret click */

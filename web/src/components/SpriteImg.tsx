@@ -4,6 +4,43 @@ import { spriteSlug } from '../game/sprites'
 
 const BASE = import.meta.env.BASE_URL
 
+// Canvas pixel size for 8-bit mode — sprites are drawn at this resolution then
+// CSS scales them up to their normal display size with image-rendering: pixelated.
+const EIGHTBIT_PX = 8
+
+function is8bitMode(): boolean {
+  return document.documentElement.classList.contains('eightbit-mode')
+}
+
+/** Draws src onto a tiny canvas and subscribes to 8-bit mode changes. */
+function EightbitCanvas({ src, alt, className }: { src: string; alt: string; className?: string }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const img = new window.Image()
+    img.onload = () => {
+      const canvas = canvasRef.current
+      if (!canvas) return
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
+      ctx.imageSmoothingEnabled = false
+      ctx.clearRect(0, 0, EIGHTBIT_PX, EIGHTBIT_PX)
+      ctx.drawImage(img, 0, 0, EIGHTBIT_PX, EIGHTBIT_PX)
+    }
+    img.src = src
+  }, [src])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={EIGHTBIT_PX}
+      height={EIGHTBIT_PX}
+      className={className}
+      aria-label={alt}
+    />
+  )
+}
+
 interface Props {
   /** Unit or building name — used to derive the sprite slug. */
   name: string
@@ -13,17 +50,29 @@ interface Props {
 /**
  * Tries to load `sprites/{slug}.png`, then `sprites/{slug}.svg`.
  * Renders nothing if both fail (caller keeps its own text/layout).
+ * In 8-bit mode renders via a low-res canvas for a pixelated look.
  */
 export function SpriteImg({ name, className }: Props) {
-  const slug = spriteSlug(name)
-  const pngSrc = `${BASE}sprites/${slug}.png`
-  const svgSrc = `${BASE}sprites/${slug}.svg`
+  const slug    = spriteSlug(name)
+  const pngSrc  = `${BASE}sprites/${slug}.png`
+  const svgSrc  = `${BASE}sprites/${slug}.svg`
 
-  const [src, setSrc]       = useState(pngSrc)
-  const [loaded, setLoaded] = useState(false)
-  const [failed, setFailed] = useState(false)
+  const [src,     setSrc]     = useState(pngSrc)
+  const [loaded,  setLoaded]  = useState(false)
+  const [failed,  setFailed]  = useState(false)
+  const [eightbit, setEightbit] = useState(is8bitMode)
+
+  useEffect(() => {
+    const handler = () => setEightbit(is8bitMode())
+    window.addEventListener('eightbit-change', handler)
+    return () => window.removeEventListener('eightbit-change', handler)
+  }, [])
 
   if (failed) return null
+
+  if (eightbit && loaded) {
+    return <EightbitCanvas src={src} alt={name} className={className} />
+  }
 
   return (
     <img
@@ -53,12 +102,20 @@ interface AnimatedProps {
 /**
  * Cycles through `sprites/{slug}-1.svg … sprites/{slug}-{frameCount}.svg`.
  * Falls back to `SpriteImg` (static sprite) if frame files are missing.
+ * In 8-bit mode renders each frame via a low-res canvas.
  */
 export function AnimatedSpriteImg({ name, frameCount, fps, className }: AnimatedProps) {
   const slug = spriteSlug(name)
-  const [frame, setFrame] = useState(1)
+  const [frame,       setFrame]       = useState(1)
   const [useFallback, setUseFallback] = useState(false)
+  const [eightbit,    setEightbit]    = useState(is8bitMode)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  useEffect(() => {
+    const handler = () => setEightbit(is8bitMode())
+    window.addEventListener('eightbit-change', handler)
+    return () => window.removeEventListener('eightbit-change', handler)
+  }, [])
 
   useEffect(() => {
     if (useFallback) return
@@ -74,9 +131,15 @@ export function AnimatedSpriteImg({ name, frameCount, fps, className }: Animated
     return <SpriteImg name={name} className={className} />
   }
 
+  const src = `${BASE}sprites/${slug}-${frame}.svg`
+
+  if (eightbit) {
+    return <EightbitCanvas src={src} alt={name} className={className} />
+  }
+
   return (
     <img
-      src={`${BASE}sprites/${slug}-${frame}.svg`}
+      src={src}
       alt={name}
       className={className}
       onError={() => {
