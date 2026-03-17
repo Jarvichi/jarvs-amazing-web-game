@@ -18,6 +18,10 @@ interface Props {
   collection: CollectionEntry[]
   deckEntries?: DeckEntry[]
   onClose: () => void
+  extras?: number
+  disenchantValue?: number
+  onDisenchant?: () => void
+  onMasterCard?: () => void
 }
 
 const RARITY_COLOUR: Record<string, string> = {
@@ -36,7 +40,7 @@ function affinityEffectText(effectType: string, effectAmount: number): string {
   return `×${effectAmount} ${effectType}`
 }
 
-export function CardDetailModal({ card, collection, deckEntries, onClose }: Props) {
+export function CardDetailModal({ card, collection, deckEntries, onClose, extras = 0, disenchantValue = 0, onDisenchant, onMasterCard }: Props) {
   const owned  = getOwnedCount(collection, card.name)
   const inDeck = deckEntries?.find(e => e.cardName === card.name)?.count ?? 0
   const xp     = getMasteryXp(collection, card.name)
@@ -194,6 +198,22 @@ export function CardDetailModal({ card, collection, deckEntries, onClose }: Prop
         {/* Lore */}
         {card.lore && (
           <div className="cdm-lore">"{card.lore}"</div>
+        )}
+
+        {/* Sell / Upgrade actions (collection only) */}
+        {extras > 0 && (onDisenchant || onMasterCard) && (
+          <div className="cdm-actions">
+            {onDisenchant && (
+              <button className="extra-btn extra-btn--disenchant" onClick={onDisenchant}>
+                Sell +{disenchantValue}💎
+              </button>
+            )}
+            {onMasterCard && (
+              <button className="extra-btn extra-btn--master" onClick={onMasterCard}>
+                Upgrade +{extras}XP
+              </button>
+            )}
+          </div>
         )}
       </div>
     </ModalBackdrop>

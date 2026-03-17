@@ -52,9 +52,10 @@ interface Props {
   disabled?: boolean
   onClick?: () => void
   lockedSecs?: number   // hero cards: seconds remaining until playable (0 = unlocked)
+  upgradeable?: boolean // collection: show ↑ instead of mana cost
 }
 
-export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0 }: Props) {
+export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false }: Props) {
   const heroLocked = card.isHero && lockedSecs > 0
   const clickable = canAfford && !disabled && !heroLocked
 
@@ -89,7 +90,9 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
       onClick={clickable ? onClick : undefined}
       title={heroLocked ? `Hero cards unlock after 30 seconds (${lockedSecs}s remaining)` : card.description}
     >
-      <div className="card-cost">{card.cost}</div>
+      <div className={upgradeable ? 'card-cost card-cost--upgrade' : 'card-cost'}>
+        {upgradeable ? '↑' : card.cost}
+      </div>
       <div className="card-title">{card.name}</div>
       <div className="card-art">
         {card.unit
