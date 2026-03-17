@@ -5846,24 +5846,44 @@ body {
 
 /* ─── 8-Bit Mode ──────────────────────────────────────── */
 
+/*
+ * Render the game at half its normal pixel dimensions, then CSS-scale it
+ * back up 2×. With image-rendering: pixelated the GPU compositor uses
+ * nearest-neighbour sampling, making the whole battlefield look low-res.
+ *
+ * Layout maths (centred in viewport):
+ *   width  = min(50vw, 370px)  →  scale(2)  →  min(100vw, 740px)  ✓
+ *   height = 50vh              →  scale(2)  →  100vh               ✓
+ *   transform-origin: top center keeps horizontal centering correct.
+ *
+ * Font sizes are halved so the effective rendered size stays the same
+ * after the 2× upscale (14px → 7px → visually 14px).
+ */
 html.eightbit-mode .game-container {
+  width: min(50vw, 370px);
+  height: 50vh;
+  margin: 0 auto;
+  font-size: 7px;
+  transform: scale(2);
+  transform-origin: top center;
   image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
-
-/* Sprite pixelation in 8-bit mode is handled in SpriteImg.tsx via canvas rendering.
-   Canvas default display size = its pixel dimensions (8x8), so we must explicitly
-   restore the normal display size so the tiny canvas scales back up. */
+/* Sprite pixelation in 8-bit mode is handled in SpriteImg.tsx via canvas
+   rendering. The canvas is drawn at EIGHTBIT_PX × EIGHTBIT_PX, then CSS
+   restores the normal display size so it upscales with pixelated rendering.
+   The 2× container scale then doubles the visual size further. */
 html.eightbit-mode canvas.lane-unit-sprite {
-  width: 32px;
-  height: 28px;
+  width: 16px;
+  height: 14px;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
 
 html.eightbit-mode canvas.card-sprite {
-  width: 64px;
-  height: 40px;
+  width: 32px;
+  height: 20px;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
