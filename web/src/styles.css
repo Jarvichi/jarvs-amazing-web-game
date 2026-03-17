@@ -1131,6 +1131,111 @@ body {
   letter-spacing: 1px;
 }
 
+/* ─── Title Screen Idle Animation ───────────────────── */
+
+@keyframes title-idle-bubble-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Transparent full-screen layer — normally passes all events through.
+   When --active it intercepts clicks to dismiss the visitor. */
+.title-idle-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+.title-idle-overlay--active {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Horizontally sliding unit container, anchored to bottom-centre */
+.title-idle-unit {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  /* translateX driven by inline style */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  /* prevent extra width from blocking interaction during walk-in/out */
+  pointer-events: none;
+}
+.title-idle-overlay--active .title-idle-unit {
+  pointer-events: auto;
+}
+
+/* Scale up the small sprite so it's visible on screen */
+.title-idle-sprite-wrap {
+  display: flex;
+  justify-content: center;
+}
+.title-idle-sprite {
+  width: 80px !important;
+  height: 80px !important;
+  max-width: 80px !important;
+  max-height: 80px !important;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 0 6px rgba(51, 255, 51, 0.5));
+}
+
+.title-idle-name {
+  font-size: 10px;
+  color: var(--game-text-color-muted);
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* Speech bubble */
+.title-idle-bubble {
+  position: relative;
+  background: rgba(10, 20, 10, 0.92);
+  border: 1px solid rgba(51, 255, 51, 0.5);
+  border-radius: 4px;
+  padding: 8px 12px;
+  max-width: 240px;
+  width: max-content;
+  margin-bottom: 6px;
+  animation: title-idle-bubble-in 0.3s ease-out both;
+}
+
+.title-idle-bubble-text {
+  font-size: 11px;
+  color: var(--game-text-color);
+  line-height: 1.5;
+  margin: 0;
+  text-align: center;
+}
+
+/* Downward-pointing tail */
+.title-idle-bubble-tail {
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid rgba(51, 255, 51, 0.5);
+}
+.title-idle-bubble-tail::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid rgba(10, 20, 10, 0.92);
+}
+
 /* ─── Overlay screens (Collection, DeckBuilder) ──────── */
 
 .overlay-screen {

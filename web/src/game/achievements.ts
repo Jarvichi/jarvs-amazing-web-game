@@ -749,6 +749,62 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // ── Title Screen Idle Visitor ─────────────────────────────────────────────
+
+  {
+    id: 'misc:title_idle_1',
+    name: 'Someone\'s Waiting',
+    description: 'Watch the title screen visitor appear for the first time',
+    category: 'misc',
+    progressKey: 'misc:title_idle_seen',
+    target: 1,
+    reward: { type: 'crystals', crystals: 25 },
+    tier: 1,
+  },
+  {
+    id: 'misc:title_idle_10',
+    name: 'Regulars',
+    description: 'Watch the title screen visitor appear 10 times',
+    category: 'misc',
+    progressKey: 'misc:title_idle_seen',
+    target: 10,
+    reward: { type: 'crystals', crystals: 100 },
+    tier: 1,
+  },
+  {
+    id: 'misc:title_idle_100',
+    name: 'The Screen Never Gets Old',
+    description: 'Watch the title screen visitor appear 100 times',
+    category: 'misc',
+    progressKey: 'misc:title_idle_seen',
+    target: 100,
+    reward: {
+      type: 'item',
+      item: { id: 'worn_welcome_mat', name: 'Worn Welcome Mat', icon: '🚪', desc: 'Left out so long that the visitors have worn a groove into it.' },
+    },
+    tier: 2,
+  },
+  {
+    id: 'misc:title_idle_tap',
+    name: 'No Loitering',
+    description: 'Tap the screen to dismiss a title screen visitor',
+    category: 'misc',
+    progressKey: 'misc:title_idle_tap',
+    target: 1,
+    reward: { type: 'crystals', crystals: 10 },
+    tier: 1,
+  },
+  {
+    id: 'misc:title_idle_tap_10',
+    name: 'Move Along',
+    description: 'Dismiss 10 title screen visitors',
+    category: 'misc',
+    progressKey: 'misc:title_idle_tap',
+    target: 10,
+    reward: { type: 'crystals', crystals: 50 },
+    tier: 1,
+  },
+
   // ── Shop ─────────────────────────────────────────────────────────────────
 
   {

@@ -10,6 +10,17 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🟠 Active Work
 
+### Title Screen Idle Animation (branch: claude/title-screen-idle-animation-PNLCb)
+
+After 30s inactivity on title screen, a random unit walks on from a random side, stops in the centre, shows a speech bubble (lore / kill count / random fact), then walks off after 30s. Tapping while visible makes it run off. Achievement for seeing it.
+
+- [x] Create `TitleIdleAnimation.tsx` component (inactivity timer, walk-in/out animation, speech bubble)
+- [x] Add CSS to `styles.css` (walk slide-in/out keyframes, sprite walk cycle, speech bubble)
+- [x] Integrate into `TitleScreen.tsx`
+- [x] Add achievements: `misc:title_idle_seen` (1×, 10×, 100×) + `misc:title_idle_tap` (dismiss 1×, 10×)
+
+---
+
 ### Shop "The Needy" achievement
 - [x] Add `misc:shop_broke_click` achievement def to `achievements.ts` (target 10, reward crystals)
 - [x] Wire `ShopScreen.tsx` buy button to call `incrementAchievementProgress` when can't afford

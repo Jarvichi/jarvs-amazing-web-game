@@ -4,6 +4,7 @@ import { loadRun } from '../game/questline'
 import { getCardCatalog } from '../game/cards'
 import { hasUnclaimedAchievements } from '../game/achievements'
 import { TitleButton } from './TitleButton'
+import { TitleIdleAnimation } from './TitleIdleAnimation'
 
 const CAMPAIGN_UNLOCK_CARDS = 30
 
@@ -36,6 +37,7 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
 
   return (
     <div className="title-screen">
+      <TitleIdleAnimation />
       <div className="title-logo">JARV'S</div>
       <div className="title-subtitle">AMAZING WEB GAME</div>
 
