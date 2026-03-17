@@ -14,7 +14,7 @@ export interface RareEventEffect {
   logMessage?:       string   // message appended to the battle log
   grantAllCards?:    boolean  // add 1 copy of every catalog card to collection
   resetGame?:        boolean  // wipe all progress and reload
-  addInventoryItem?: { id: string; name: string; icon: string; desc: string }
+  addInventoryItem?: { id: string; name: string; icon: string; desc: string; lore?: string }
 }
 
 export const RARE_EVENT_CHANCE = 0.001  // 1 in 1000 games

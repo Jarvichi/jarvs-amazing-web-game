@@ -28,6 +28,7 @@ export interface UselessItem {
   name: string
   icon: string
   desc: string
+  lore: string
   acquiredDate: string
 }
 
