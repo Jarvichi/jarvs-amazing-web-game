@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 1: dark robed witch, stride A -->
+  <!-- Robes -->
+  <path d="M10,13 Q8,18 7,28 L25,28 Q24,18 22,13 Z" fill="#2a0a2a"/>
+  <!-- Body/torso -->
+  <rect x="12" y="13" width="8" height="9" rx="1" fill="#3a1a3a"/>
+  <!-- Head with pointed hat -->
+  <circle cx="16" cy="10" r="4.5" fill="#c8a868"/>
+  <!-- Hat -->
+  <ellipse cx="16" cy="7" rx="6" ry="1.5" fill="#1a0a1a"/>
+  <polygon points="13,7 16,0 19,7" fill="#1a0a1a"/>
+  <!-- Eyes — glowing purple -->
+  <circle cx="14" cy="10" r="1.5" fill="#cc44ff"/>
+  <circle cx="18" cy="10" r="1.5" fill="#cc44ff"/>
+  <!-- Soul orb in right hand -->
+  <circle cx="24" cy="14" r="3" fill="#8800cc" opacity="0.8"/>
+  <circle cx="24" cy="14" r="1.5" fill="#eeccff"/>
+  <!-- Right arm raising orb -->
+  <line x1="20" y1="15" x2="22" y2="13" stroke="#3a1a3a" stroke-width="2" stroke-linecap="round"/>
+  <!-- Left arm back -->
+  <line x1="12" y1="15" x2="7" y2="18" stroke="#3a1a3a" stroke-width="2" stroke-linecap="round"/>
+  <!-- Legs stride A (robes obscure) -->
+  <line x1="13" y1="28" x2="11" y2="32" stroke="#1a0a1a" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="19" y1="28" x2="21" y2="32" stroke="#1a0a1a" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
