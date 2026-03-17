@@ -749,6 +749,19 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // ── Shop ─────────────────────────────────────────────────────────────────
+
+  {
+    id: 'misc:shop_broke_click',
+    name: 'The Needy',
+    description: 'Tap Buy in the shop 10 times when you can\'t afford it',
+    category: 'misc',
+    progressKey: 'misc:shop_broke_click',
+    target: 10,
+    reward: { type: 'crystals', crystals: 25 },
+    tier: 1,
+  },
+
   // ── Merchant ──────────────────────────────────────────────────────────────
 
   {
