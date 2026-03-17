@@ -680,6 +680,11 @@ body {
   text-shadow: 0 0 6px rgba(100, 200, 255, 0.5);
 }
 
+.card-cost--upgrade {
+  color: #ffd700;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+}
+
 .card-title {
   font-size: 11px;
   font-weight: bold;
@@ -1123,6 +1128,7 @@ body {
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  overflow-x: hidden;
   animation: fadeIn 0.2s ease-out;
 }
 
@@ -1421,6 +1427,14 @@ body {
   flex-direction: column;
   width: 90px;
   flex-shrink: 0;
+}
+
+/* Fixed-height card tiles in collection so all cells are uniform */
+.collection-cell .card-title {
+  min-height: 30px; /* always reserve 2 lines */
+}
+.collection-cell .card-stats {
+  min-height: 14px; /* always reserve 1 stats line */
 }
 
 
@@ -1882,6 +1896,14 @@ body {
 .extra-btn--master { border-color: rgba(255, 215, 0, 0.4); color: #ffd700; }
 .extra-btn--master:hover:not(:disabled) { background: rgba(255, 215, 0, 0.12); border-color: #ffd700; }
 .extra-btn--disabled, .extra-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.cdm-actions {
+  display: flex;
+  gap: 8px;
+  padding: 10px 0 0;
+  border-top: 1px solid #222;
+  margin-top: 4px;
+}
 .cdm-info-btn {
   border-color: #333;
   color: var(--game-text-color-muted);

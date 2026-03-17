@@ -17,7 +17,7 @@ import {
   COPIES_MAX,
 } from '../game/collection'
 import { CardTile } from './CardTile'
-import { useCardDetail } from './useCardDetail'
+import { CardDetailModal } from './CardDetailModal'
 import { OverlayScreen } from './OverlayScreen'
 import { MasteryBar } from './MasteryBar'
 import { ModalBackdrop } from './ModalBackdrop'
@@ -65,7 +65,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
   const [flash, setFlash]       = useState<string | null>(null)
   const [upgradeModal, setUpgradeModal] = useState<Array<{cardName: string, xpGained: number}> | null>(null)
   const [disenchantModal, setDisenchantModal] = useState<Array<{cardName: string, crystals: number}> | null>(null)
-  const { openDetail, cardDetailNode } = useCardDetail({ collection })
+  const [detailCard, setDetailCard] = useState<import('../game/types').Card | null>(null)
   const filterMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -354,30 +354,17 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
 
           return (
             <div key={card.name} className={`collection-cell${owned === 0 ? ' collection-cell--unowned' : ''}`}>
-              <CardTile card={card} canAfford={true} onClick={() => openDetail(card)} />
+              <CardTile
+                card={card}
+                canAfford={true}
+                upgradeable={extras > 0}
+                onClick={() => setDetailCard(card)}
+              />
 
               <div className="cell-footer">
                 <span className="cell-count">
                   ×{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
                 </span>
-                <div className="cell-footer-buttons">
-                  <button
-                    className={`extra-btn extra-btn--disenchant${extras === 0 ? ' extra-btn--disabled' : ''}`}
-                    onClick={extras > 0 ? () => handleDisenchantCard(card.name) : undefined}
-                    disabled={extras === 0}
-                    title={extras > 0 ? `Sell extra copies for +${disenchantVal} 💎` : 'No extra copies to sell'}
-                  >
-                    Sell{extras > 0 ? ` +${disenchantVal}💎` : ''}
-                  </button>
-                  <button
-                    className={`extra-btn extra-btn--master${extras === 0 ? ' extra-btn--disabled' : ''}`}
-                    onClick={extras > 0 ? () => handleMasterCard(card.name) : undefined}
-                    disabled={extras === 0}
-                    title={extras > 0 ? `Convert ${extras} extra cop${extras === 1 ? 'y' : 'ies'} into mastery XP` : 'No extra copies to upgrade'}
-                  >
-                    Upgrade{extras > 0 ? ` +${extras}XP` : ''}
-                  </button>
-                </div>
               </div>
 
               {xp > 0 && <MasteryBar xp={xp} />}
@@ -386,7 +373,22 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
         })}
       </div>
 
-      {cardDetailNode}
+      {detailCard && (() => {
+        const dOwned   = getOwnedCount(collection, detailCard.name)
+        const dExtras  = Math.max(0, dOwned - COPIES_MAX)
+        const dVal     = DISENCHANT_VALUE[detailCard.rarity] * dExtras
+        return (
+          <CardDetailModal
+            card={detailCard}
+            collection={collection}
+            extras={dExtras}
+            disenchantValue={dVal}
+            onDisenchant={dExtras > 0 ? () => { handleDisenchantCard(detailCard.name); setDetailCard(null) } : undefined}
+            onMasterCard={dExtras > 0 ? () => { handleMasterCard(detailCard.name); setDetailCard(null) } : undefined}
+            onClose={() => setDetailCard(null)}
+          />
+        )
+      })()}
 
       {disenchantModal && (
         <ModalBackdrop onClose={() => setDisenchantModal(null)} zIndex={300}>
