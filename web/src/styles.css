@@ -5846,11 +5846,7 @@ body {
 
 /* ─── 8-Bit Mode ──────────────────────────────────────── */
 
-/* SVG posterize filter — inlined as a hidden SVG so it can be referenced by CSS */
-/* Applied via the .eightbit-mode class on <html> */
-
 html.eightbit-mode .game-container {
-  filter: url(#filter-8bit) contrast(1.15) saturate(1.2);
   image-rendering: pixelated;
 }
 
