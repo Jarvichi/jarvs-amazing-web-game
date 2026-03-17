@@ -22,10 +22,11 @@ Add all missing cards from Verdant Shard, Iron Citadel, Ashen Wastes, and Crysta
 
 **Crystal Spire** (missing): Techno Imp, Mana Siphon, Arcane Turret, Void Elemental, Chronomancer + Arcane Forge, Null Field + Crystal Resonance, Void Tap, Temporal Loop
 
-- [ ] Add Verdant Shard cards to cards.json + sprites
-- [ ] Add Iron Citadel cards to cards.json + sprites
-- [ ] Add Ashen Wastes cards to cards.json + sprites
-- [ ] Add Crystal Spire cards to cards.json + sprites
+- [x] Add Verdant Shard cards to cards.json + sprites (5 units + 3 structures + 5 upgrades)
+- [x] Add Iron Citadel cards to cards.json + sprites (5 units + 3 structures + 4 upgrades)
+- [x] Add Ashen Wastes cards to cards.json + sprites (4 units + 3 structures + 5 upgrades)
+- [x] Add Crystal Spire cards to cards.json + sprites (5 units + 2 structures + 3 upgrades)
+- Total: 47 new cards + 84 sprite files added
 
 ---
 
