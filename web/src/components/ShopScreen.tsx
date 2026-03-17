@@ -1,5 +1,6 @@
 import React from 'react'
 import { CRYSTAL_PACK_COST } from '../game/collection'
+import { incrementAchievementProgress } from '../game/achievements'
 import { OverlayScreen } from './OverlayScreen'
 
 interface Props {
@@ -10,6 +11,14 @@ interface Props {
 
 export function ShopScreen({ crystals, onBuyCrystalPack, onBack }: Props) {
   const canBuy = crystals >= CRYSTAL_PACK_COST
+
+  function handleBuyClick() {
+    if (canBuy) {
+      onBuyCrystalPack()
+    } else {
+      incrementAchievementProgress('misc:shop_broke_click')
+    }
+  }
 
   return (
     <OverlayScreen title="SHOP" onBack={onBack} right={<span className="crystal-count">💎 {crystals.toLocaleString()}</span>}>
@@ -23,8 +32,8 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onBack }: Props) {
           </div>
           <button
             className="action-btn action-btn--gold"
-            onClick={canBuy ? onBuyCrystalPack : undefined}
-            disabled={!canBuy}
+            onClick={handleBuyClick}
+            disabled={false}
           >
             {canBuy ? `Buy — ${CRYSTAL_PACK_COST} 💎` : `Need ${CRYSTAL_PACK_COST - crystals} more 💎`}
           </button>

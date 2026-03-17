@@ -11,8 +11,8 @@ When working an issue from this file, go and check the GitHub issue for addition
 ## 🟠 Active Work
 
 ### Shop "The Needy" achievement
-- [ ] Add `misc:shop_broke_click` achievement def to `achievements.ts` (target 10, reward crystals)
-- [ ] Wire `ShopScreen.tsx` buy button to call `incrementAchievementProgress` when can't afford
+- [x] Add `misc:shop_broke_click` achievement def to `achievements.ts` (target 10, reward crystals)
+- [x] Wire `ShopScreen.tsx` buy button to call `incrementAchievementProgress` when can't afford
 
 ---
 
