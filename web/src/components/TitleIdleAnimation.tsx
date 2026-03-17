@@ -105,6 +105,11 @@ export function TitleIdleAnimation() {
     timers.current = []
   }
 
+  // Ref to the "schedule next visit" fn so walk-out can restart the cycle automatically
+  const scheduleNextRef = useRef<() => void>(() => {})
+  // Timestamp when the unit became visible — used for the tap grace period
+  const visibleAtRef = useRef<number>(0)
+
   const startWalkOut = useCallback((fast: boolean) => {
     clearAllTimers()
     setFastExit(fast)
@@ -116,6 +121,9 @@ export function TitleIdleAnimation() {
       setVisitor(null)
       setAtCenter(false)
       phaseRef.current = 'idle'
+      // Automatically restart the cycle so the next visitor appears without
+      // needing the user to interact first
+      scheduleNextRef.current()
     }, fast ? WALK_OUT_FAST_MS + 100 : WALK_OUT_MS + 100)
   }, [])
 
@@ -151,6 +159,7 @@ export function TitleIdleAnimation() {
           if (phaseRef.current !== 'appearing') return
           setPhase('visible')
           phaseRef.current = 'visible'
+          visibleAtRef.current = Date.now()
           addTimer(() => {
             if (phaseRef.current === 'visible') startWalkOut(false)
           }, DISPLAY_MS)
@@ -159,7 +168,7 @@ export function TitleIdleAnimation() {
     })
   }, [startWalkOut])
 
-  // Inactivity tracking
+  // Inactivity tracking — resets on any user interaction while idle
   useEffect(() => {
     let inactivityId: ReturnType<typeof setTimeout>
 
@@ -169,6 +178,9 @@ export function TitleIdleAnimation() {
         if (phaseRef.current === 'idle') startAnimation()
       }, INACTIVITY_MS)
     }
+
+    // Expose so walk-out can restart the cycle automatically
+    scheduleNextRef.current = scheduleNext
 
     const onInteraction = () => {
       if (phaseRef.current === 'idle') scheduleNext()
@@ -192,6 +204,9 @@ export function TitleIdleAnimation() {
 
   const handleTap = useCallback(() => {
     if (phaseRef.current !== 'visible') return
+    // Grace period: ignore taps in the first 600 ms after becoming visible so
+    // synthetic mobile click events from earlier touches don't instantly dismiss
+    if (Date.now() - visibleAtRef.current < 600) return
     incrementAchievementProgress('misc:title_idle_tap')
     startWalkOut(true)
   }, [startWalkOut])
