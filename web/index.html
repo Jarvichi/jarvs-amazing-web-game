@@ -6,6 +6,16 @@
   <title>Jarv's Amazing Web Game</title>
 </head>
 <body>
+  <!-- Hidden SVG filter for 8-bit posterize effect -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <filter id="filter-8bit" color-interpolation-filters="sRGB">
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0 0.33 0.67 1"/>
+        <feFuncG type="discrete" tableValues="0 0.33 0.67 1"/>
+        <feFuncB type="discrete" tableValues="0 0.33 0.67 1"/>
+      </feComponentTransfer>
+    </filter>
+  </svg>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>

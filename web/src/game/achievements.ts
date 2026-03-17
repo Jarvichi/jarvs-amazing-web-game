@@ -889,4 +889,14 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     },
     tier: 2,
   },
+  {
+    id: 'misc:8bit_unlocked',
+    name: '8-Bit Hero',
+    description: 'Unlocked 8-bit mode. (Hint: the title screen holds a secret — click the logo 8 times.)',
+    category: 'misc',
+    progressKey: 'misc:8bit_unlock',
+    target: 1,
+    reward: { type: 'crystals', crystals: 50 },
+    tier: 1,
+  },
 ]

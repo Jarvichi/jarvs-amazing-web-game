@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX } from '../game/collection'
 import { loadRun } from '../game/questline'
 import { getCardCatalog } from '../game/cards'
 import { hasUnclaimedAchievements } from '../game/achievements'
 import { TitleButton } from './TitleButton'
 import { TitleIdleAnimation } from './TitleIdleAnimation'
+import { load8bitUnlocked, unlock8bitMode, save8bitEnabled, apply8bitMode } from './SettingsScreen'
+import { incrementAchievementProgress } from '../game/achievements'
 
 const CAMPAIGN_UNLOCK_CARDS = 30
+const EIGHTBIT_CLICKS = 8
 
 interface Props {
   crystals: number
@@ -19,9 +22,10 @@ interface Props {
   onInventory: () => void
   onAchievements: () => void
   onHeroCards: () => void
+  on8bitUnlocked?: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards }: Props) {
+export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, on8bitUnlocked }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -35,10 +39,36 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
   const achievementAlert    = hasUnclaimedAchievements()
   const collectionAlert     = collection.some(e => e.count > COPIES_MAX)
 
+  const logoClickCount = useRef(0)
+  const logoClickTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [logoFlash, setLogoFlash] = useState(false)
+
+  function handleLogoClick() {
+    if (load8bitUnlocked()) return
+    logoClickCount.current += 1
+    setLogoFlash(true)
+    setTimeout(() => setLogoFlash(false), 150)
+    if (logoClickTimer.current) clearTimeout(logoClickTimer.current)
+    if (logoClickCount.current >= EIGHTBIT_CLICKS) {
+      logoClickCount.current = 0
+      unlock8bitMode()
+      save8bitEnabled(true)
+      apply8bitMode(true)
+      incrementAchievementProgress('misc:8bit_unlock')
+      on8bitUnlocked?.()
+    } else {
+      logoClickTimer.current = setTimeout(() => { logoClickCount.current = 0 }, 2000)
+    }
+  }
+
   return (
     <div className="title-screen">
       <TitleIdleAnimation />
-      <div className="title-logo">JARV'S</div>
+      <div
+        className={`title-logo${logoFlash ? ' title-logo--flash' : ''}`}
+        onClick={handleLogoClick}
+        style={{ cursor: load8bitUnlocked() ? 'default' : 'pointer' }}
+      >JARV'S</div>
       <div className="title-subtitle">AMAZING WEB GAME</div>
 
       <div className="title-buttons">

@@ -8,9 +8,11 @@ interface Props {
   onResetGame: () => void
 }
 
-const TEXT_SIZE_KEY  = 'jarv_text_size'
-const TEXT_COLOR_KEY = 'jarv_text_color'
-const SKIP_INTRO_KEY = 'jarv_skip_intro'
+const TEXT_SIZE_KEY      = 'jarv_text_size'
+const TEXT_COLOR_KEY     = 'jarv_text_color'
+const SKIP_INTRO_KEY     = 'jarv_skip_intro'
+const EIGHTBIT_UNLOCKED_KEY = 'jarv_8bit_unlocked'
+const EIGHTBIT_ENABLED_KEY  = 'jarv_8bit_enabled'
 
 export function loadSkipIntro(): boolean {
   try { return localStorage.getItem(SKIP_INTRO_KEY) === 'true' }
@@ -29,6 +31,28 @@ export function loadTextSize(): number {
 export function loadTextColor(): string {
   try { return localStorage.getItem(TEXT_COLOR_KEY) ?? '#33ff33' }
   catch { return '#33ff33' }
+}
+
+export function load8bitUnlocked(): boolean {
+  try { return localStorage.getItem(EIGHTBIT_UNLOCKED_KEY) === 'true' }
+  catch { return false }
+}
+
+export function unlock8bitMode(): void {
+  try { localStorage.setItem(EIGHTBIT_UNLOCKED_KEY, 'true') } catch { /* ignore */ }
+}
+
+export function load8bitEnabled(): boolean {
+  try { return localStorage.getItem(EIGHTBIT_ENABLED_KEY) === 'true' }
+  catch { return false }
+}
+
+export function save8bitEnabled(val: boolean): void {
+  try { localStorage.setItem(EIGHTBIT_ENABLED_KEY, String(val)) } catch { /* ignore */ }
+}
+
+export function apply8bitMode(enabled: boolean): void {
+  document.documentElement.classList.toggle('eightbit-mode', enabled)
 }
 
 export function applyTextSettings(): void {
@@ -66,12 +90,14 @@ function exportLocalStorage(): void {
 }
 
 export function SettingsScreen({ onBack, onResetGame }: Props) {
-  const [soundOn,    setSoundOn]    = useState(isSoundEnabled)
-  const [textSize,   setTextSize]   = useState(loadTextSize)
-  const [textColor,  setTextColor]  = useState(loadTextColor)
-  const [skipIntro,  setSkipIntro]  = useState(loadSkipIntro)
-  const [confirmReset, setConfirmReset] = useState(false)
-  const [importMsg,  setImportMsg]  = useState<string | null>(null)
+  const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
+  const [textSize,      setTextSize]      = useState(loadTextSize)
+  const [textColor,     setTextColor]     = useState(loadTextColor)
+  const [skipIntro,     setSkipIntro]     = useState(loadSkipIntro)
+  const [eightbitOn,    setEightbitOn]    = useState(load8bitEnabled)
+  const [eightbitUnlocked]               = useState(load8bitUnlocked)
+  const [confirmReset,  setConfirmReset]  = useState(false)
+  const [importMsg,     setImportMsg]     = useState<string | null>(null)
   const importRef = useRef<HTMLInputElement>(null)
 
   function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
@@ -97,6 +123,13 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
     const next = !soundOn
     setSoundOn(next)
     setSoundEnabled(next)
+  }
+
+  function handleEightbitToggle() {
+    const next = !eightbitOn
+    setEightbitOn(next)
+    save8bitEnabled(next)
+    apply8bitMode(next)
   }
 
   function handleSkipIntroToggle() {
@@ -152,6 +185,22 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
             </div>
           </div>
         </Section>
+
+        {eightbitUnlocked && (
+          <Section bordered title="🕹 8-BIT MODE">
+            <div className="settings-row">
+              <div>
+                <div className="settings-label">8-bit visual filter</div>
+                <div className="settings-sublabel">Posterised palette + scanlines</div>
+              </div>
+              <div className="settings-toggle" onClick={handleEightbitToggle}>
+                <div className={`settings-toggle-track${eightbitOn ? ' settings-toggle-track--on' : ''}`}>
+                  <div className="settings-toggle-thumb" />
+                </div>
+              </div>
+            </div>
+          </Section>
+        )}
 
         <Section bordered title="DISPLAY">
           <div className="settings-row">
