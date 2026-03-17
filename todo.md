@@ -10,6 +10,14 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🟠 Active Work
 
+### Session 12 — Fix daily login reward not showing
+
+- [x] Daily reward was being marked as claimed on app load before user saw the modal
+- [x] Split `claimDailyReward` into `peekDailyReward` (compute only) + `markDailyRewardClaimed`
+- [x] Reward is now only granted + marked claimed when user taps CLAIM
+
+---
+
 ### Session 11 — Collection filter popup
 
 - [x] Replace scrollable filter bar with popup filter menu (TYPE, RARITY, SPECIAL)

@@ -81,10 +81,24 @@ export function hasDailyReward(): boolean {
   }
 }
 
-/** Claim today's daily reward. Returns a RewardDef — App resolves rarity cards. */
-export function claimDailyReward(): RewardDef {
+/**
+ * Peek at today's daily reward without marking it as claimed.
+ * Returns null if no reward is available today.
+ */
+export function peekDailyReward(): RewardDef | null {
+  if (!hasDailyReward()) return null
+  return computeReward(loadInventory())
+}
+
+/** Mark today's daily reward as claimed (call only when user confirms). */
+export function markDailyRewardClaimed(): void {
   const today = new Date().toISOString().slice(0, 10)
   try { localStorage.setItem(DAILY_KEY, JSON.stringify({ date: today })) } catch { /* ignore */ }
+}
+
+/** @deprecated Use peekDailyReward + markDailyRewardClaimed instead. */
+export function claimDailyReward(): RewardDef {
+  markDailyRewardClaimed()
   return computeReward(loadInventory())
 }
 

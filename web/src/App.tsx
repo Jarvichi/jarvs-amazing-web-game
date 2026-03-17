@@ -54,7 +54,7 @@ import {
 import { CardTile }           from './components/CardTile'
 import { DailyLoginModal }   from './components/DailyLoginModal'
 import { InventoryScreen }   from './components/InventoryScreen'
-import { hasDailyReward, claimDailyReward, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
+import { peekDailyReward, markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, startBattleMusic, stopBattleMusic, startTitleMusic, stopTitleMusic, startGameOverMusic, stopGameOverMusic, startMapMusic, stopMapMusic, setBattleIntensity, startMusicTrack, stopMusicTrack, MUSIC_TRACKS } from './game/sound'
 import { isNoDamageMode } from './game/debug'
@@ -311,28 +311,22 @@ export default function App() {
   const [isGamePaused,       setIsGamePaused]       = useState(false)
 
   // ── Daily login reward ────────────────────────────────────
+  // Peek at the reward on load (no claim yet — reward is granted when user taps CLAIM)
   useEffect(() => {
-    if (hasDailyReward()) {
-      let reward = claimDailyReward()
-      const catalog = getCardCatalog()
-      if (reward.type === 'card') {
-        // Resolve card: pick random by rarity if needed
-        const pool = reward.rarity
-          ? catalog.filter(c => c.rarity === reward.rarity)
-          : catalog
-        const src = pool.length > 0 ? pool : catalog
-        const card = src[Math.floor(Math.random() * src.length)]
-        reward = { ...reward, cardName: card.name }
-        addCardsToCollection([{ cardName: card.name, count: 1 }])
-      } else if (reward.type === 'pack') {
-        const n = reward.count ?? 5
-        const names = Array.from({ length: n }, () => catalog[Math.floor(Math.random() * catalog.length)].name)
-        addCardsToCollection(names.map(name => ({ cardName: name, count: 1 })))
-      } else if (reward.type === 'item') {
-        addToInventory(reward)
-      }
-      setDailyReward(reward)
+    const raw = peekDailyReward()
+    if (!raw) return
+    let reward = raw
+    const catalog = getCardCatalog()
+    if (reward.type === 'card') {
+      // Resolve card: pick random by rarity if needed
+      const pool = reward.rarity
+        ? catalog.filter(c => c.rarity === reward.rarity)
+        : catalog
+      const src = pool.length > 0 ? pool : catalog
+      const card = src[Math.floor(Math.random() * src.length)]
+      reward = { ...reward, cardName: card.name }
     }
+    setDailyReward(reward)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -1695,7 +1689,21 @@ export default function App() {
       {dailyReward && (
         <DailyLoginModal
           reward={dailyReward}
-          onClose={() => setDailyReward(null)}
+          onClose={() => {
+            // Mark claimed and grant the reward only when user taps CLAIM
+            markDailyRewardClaimed()
+            const catalog = getCardCatalog()
+            if (dailyReward.type === 'card' && dailyReward.cardName) {
+              addCardsToCollection([{ cardName: dailyReward.cardName, count: 1 }])
+            } else if (dailyReward.type === 'pack') {
+              const n = dailyReward.count ?? 5
+              const names = Array.from({ length: n }, () => catalog[Math.floor(Math.random() * catalog.length)].name)
+              addCardsToCollection(names.map(name => ({ cardName: name, count: 1 })))
+            } else if (dailyReward.type === 'item') {
+              addToInventory(dailyReward)
+            }
+            setDailyReward(null)
+          }}
         />
       )}
     </div>
