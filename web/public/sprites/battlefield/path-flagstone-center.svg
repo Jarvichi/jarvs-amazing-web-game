@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Worn flagstone centre lane -->
+  <path d="M33,0 C32,55 35,110 33,155 C31,185 34,205 33,220 L67,220 C66,205 69,185 67,155 C65,110 68,55 67,0 Z" fill="#686870" opacity="0.8"/>
+  <path d="M35,0 C34,53 37,108 35,153 C33,183 36,204 35,220 L65,220 C64,204 67,183 65,153 C63,108 66,53 65,0 Z" fill="#787880"/>
+  <!-- Flagstone joints -->
+  <line x1="35" y1="44"  x2="65" y2="44"  stroke="#5a5a62" stroke-width="0.7" opacity="0.6"/>
+  <line x1="35" y1="88"  x2="65" y2="88"  stroke="#5a5a62" stroke-width="0.7" opacity="0.6"/>
+  <line x1="35" y1="132" x2="65" y2="132" stroke="#5a5a62" stroke-width="0.7" opacity="0.6"/>
+  <line x1="35" y1="176" x2="65" y2="176" stroke="#5a5a62" stroke-width="0.7" opacity="0.6"/>
+  <line x1="50" y1="0"   x2="50" y2="220" stroke="#5a5a62" stroke-width="0.5" opacity="0.4"/>
+  <!-- Scratches -->
+  <line x1="38" y1="60"  x2="46" y2="70"  stroke="#888898" stroke-width="0.5" opacity="0.4"/>
+  <line x1="55" y1="115" x2="62" y2="124" stroke="#888898" stroke-width="0.5" opacity="0.4"/>
+</svg>

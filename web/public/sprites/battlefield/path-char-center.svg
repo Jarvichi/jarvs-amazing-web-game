@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Charred scorched path, center -->
+  <path d="M34,0 C33,50 36,105 34,148 C32,182 35,202 34,220 L66,220 C65,202 68,182 66,148 C64,105 67,50 66,0 Z" fill="#141210" opacity="0.9"/>
+  <path d="M36,0 C35,48 38,103 36,146 C34,180 37,201 36,220 L64,220 C63,201 66,180 64,146 C62,103 65,48 64,0 Z" fill="#222018"/>
+  <!-- Fissures -->
+  <line x1="42" y1="38"  x2="54" y2="50"  stroke="#080808" stroke-width="0.9" opacity="0.7"/>
+  <line x1="46" y1="95"  x2="58" y2="108" stroke="#080808" stroke-width="0.8" opacity="0.65"/>
+  <line x1="44" y1="155" x2="56" y2="166" stroke="#080808" stroke-width="0.7" opacity="0.6"/>
+  <!-- Embers -->
+  <circle cx="50" cy="62"  r="1"   fill="#c04010" opacity="0.55"/>
+  <circle cx="50" cy="128" r="1.2" fill="#c04010" opacity="0.6"/>
+  <circle cx="50" cy="192" r="1"   fill="#d05020" opacity="0.5"/>
+</svg>
