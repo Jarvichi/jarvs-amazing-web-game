@@ -682,6 +682,7 @@ body {
 
 .card-cost--upgrade {
   color: #ffd700;
+  font-size: 28px;
   text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
 }
 
