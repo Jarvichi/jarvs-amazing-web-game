@@ -5841,3 +5841,41 @@ body {
 .bsummary-continue {
   margin-top: 4px;
 }
+
+/* ─── 8-Bit Mode ──────────────────────────────────────── */
+
+/* SVG posterize filter — inlined as a hidden SVG so it can be referenced by CSS */
+/* Applied via the .eightbit-mode class on <html> */
+
+html.eightbit-mode .game-container {
+  filter: url(#filter-8bit) contrast(1.15) saturate(1.2);
+  image-rendering: pixelated;
+}
+
+/* Scanlines overlay */
+html.eightbit-mode .game-container::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.18) 2px,
+    rgba(0, 0, 0, 0.18) 4px
+  );
+}
+
+/* Force crisp pixel rendering on all images in 8-bit mode */
+html.eightbit-mode img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Title logo flash on secret click */
+.title-logo--flash {
+  color: #ffffff !important;
+  text-shadow: 0 0 24px rgba(255, 255, 255, 0.9) !important;
+}

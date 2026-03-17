@@ -889,4 +889,14 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     },
     tier: 2,
   },
+  {
+    id: 'misc:8bit_unlocked',
+    name: '8-Bit Hero',
+    description: 'You found it. The old ways were always there.',
+    category: 'misc',
+    progressKey: 'misc:8bit_unlock',
+    target: 1,
+    reward: { type: 'crystals', crystals: 50 },
+    tier: 1,
+  },
 ]
