@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Arcane Forge: crystal-infused magical forge -->
+  <!-- Base forge structure -->
+  <rect x="6" y="20" width="20" height="10" rx="2" fill="#334466"/>
+  <!-- Chimney/exhaust -->
+  <rect x="12" y="10" width="4" height="11" rx="1" fill="#445577"/>
+  <rect x="10" y="8" width="8" height="3" rx="1" fill="#334466"/>
+  <!-- Crystal accents on forge body -->
+  <polygon points="7,20 10,15 13,20" fill="#4488cc" opacity="0.8"/>
+  <polygon points="19,20 22,15 25,20" fill="#4488cc" opacity="0.8"/>
+  <!-- Fire/energy in forge opening -->
+  <ellipse cx="16" cy="22" rx="5" ry="3" fill="#000"/>
+  <ellipse cx="16" cy="22" rx="4" ry="2.5" fill="#2244aa" opacity="0.8"/>
+  <ellipse cx="16" cy="22" rx="2.5" ry="1.5" fill="#44aaff"/>
+  <ellipse cx="16" cy="22" rx="1" ry="0.8" fill="#ccddff"/>
+  <!-- Arcane runes on body -->
+  <text x="8" y="27" font-size="5" fill="#88ccff" font-family="monospace">Ω</text>
+  <text x="20" y="27" font-size="5" fill="#88ccff" font-family="monospace">Ω</text>
+  <!-- Glowing exhaust from chimney -->
+  <ellipse cx="14" cy="9" rx="3" ry="2" fill="#2266ff" opacity="0.4"/>
+  <!-- Attack boost aura -->
+  <ellipse cx="16" cy="28" rx="12" ry="2" fill="#4488ff" opacity="0.15"/>
+</svg>
