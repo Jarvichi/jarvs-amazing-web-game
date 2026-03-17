@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Arcane Turret: stationary crystal cannon (no walk, just energy pulse anim) -->
+  <!-- Base platform -->
+  <rect x="6" y="24" width="20" height="5" rx="2" fill="#334466"/>
+  <!-- Cannon tower -->
+  <rect x="10" y="12" width="12" height="13" rx="2" fill="#445577"/>
+  <!-- Crystal facets -->
+  <polygon points="16,4 10,12 22,12" fill="#88aaee"/>
+  <polygon points="16,4 10,12 16,10" fill="#aaccff"/>
+  <polygon points="16,4 22,12 16,10" fill="#6688cc"/>
+  <!-- Arcane runes on body -->
+  <text x="13" y="20" font-size="5" fill="#88ccff" font-family="monospace">Σ</text>
+  <!-- Barrel/emitter -->
+  <rect x="20" y="16" width="10" height="4" rx="1" fill="#334466"/>
+  <circle cx="30" cy="18" r="2.5" fill="#44aaff" opacity="0.8"/>
+  <!-- Energy charge rings (frame 1: small) -->
+  <circle cx="30" cy="18" r="4" fill="none" stroke="#88ddff" stroke-width="0.8" opacity="0.5"/>
+  <!-- Legs: none (base bolted to ground) -->
+  <rect x="8" y="27" width="4" height="4" rx="1" fill="#223355"/>
+  <rect x="20" y="27" width="4" height="4" rx="1" fill="#223355"/>
+</svg>
