@@ -16,10 +16,15 @@
     -->
     <filter id="filter-pixelate-bg" x="0%" y="0%" width="100%" height="100%"
             color-interpolation-filters="sRGB">
-      <feFlood x="3" y="3" height="2" width="2"/>
-      <feComposite x="0" y="0" width="8" height="8"/>
-      <feTile result="grid"/>
+      <!-- 2×2 white dot at (3,3) within the tile -->
+      <feFlood flood-color="white" flood-opacity="1" x="3" y="3" height="2" width="2" result="dot"/>
+      <!-- Clip to 8×8 tile region — operator=in with same src is a transparent pass-through clipped to subregion -->
+      <feComposite in="dot" in2="dot" operator="in" x="0" y="0" width="8" height="8" result="tile"/>
+      <!-- Tile across entire filter area -->
+      <feTile in="tile" result="grid"/>
+      <!-- Sample SourceGraphic only at grid-opaque positions -->
       <feComposite in="SourceGraphic" in2="grid" operator="in" result="sampled"/>
+      <!-- Dilate each 2×2 sample by 3px → fills the 8×8 block -->
       <feMorphology in="sampled" operator="dilate" radius="3"/>
     </filter>
   </defs>
