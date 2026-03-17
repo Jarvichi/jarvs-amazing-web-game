@@ -192,7 +192,7 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
             <div className="settings-row">
               <div>
                 <div className="settings-label">8-bit visual filter</div>
-                <div className="settings-sublabel">Posterised palette + scanlines</div>
+                <div className="settings-sublabel">Posterised palette + pixelated sprites</div>
               </div>
               <div className="settings-toggle" onClick={handleEightbitToggle}>
                 <div className={`settings-toggle-track${eightbitOn ? ' settings-toggle-track--on' : ''}`}>
