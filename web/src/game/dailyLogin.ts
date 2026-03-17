@@ -103,6 +103,21 @@ export function claimDailyReward(): RewardDef {
   return computeReward(loadInventory())
 }
 
+// ── Daily shop item ───────────────────────────────────────────────────────────
+
+/**
+ * Returns the item the shopkeeper is "looking for" today.
+ * Deterministic for a given date — same item all day, different each day.
+ */
+export function getDailyShopItem(): RewardDef {
+  const today = new Date().toISOString().slice(0, 10)
+  // simple numeric hash of the date string for a stable daily seed
+  let seed = 0
+  for (let i = 0; i < today.length; i++) seed = (seed * 31 + today.charCodeAt(i)) >>> 0
+  const idx = seed % ALL_ITEMS.length
+  return ALL_ITEMS[idx]
+}
+
 // ── Inventory ─────────────────────────────────────────────────────────────────
 
 export function addToInventory(item: Omit<UselessItem, 'acquiredDate'>): void {

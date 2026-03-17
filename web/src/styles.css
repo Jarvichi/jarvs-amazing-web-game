@@ -1310,6 +1310,26 @@ body {
   line-height: 1.6;
 }
 
+.shop-item-desc--muted {
+  opacity: 0.55;
+}
+
+.shop-keeper-msg {
+  font-size: 11px;
+  color: var(--game-text-color);
+  text-align: center;
+  line-height: 1.6;
+  font-style: italic;
+  padding: 4px 8px;
+  border-left: 2px solid #555;
+}
+
+.shop-keeper-label {
+  font-style: normal;
+  color: #ffcc00;
+  font-weight: bold;
+}
+
 .overlay-count--valid   { color: var(--game-text-color); }
 .overlay-count--invalid { color: #ff9900; }
 
