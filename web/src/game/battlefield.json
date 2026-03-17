@@ -1,0 +1,9 @@
+{
+  "environments": {
+    "forest":  ["floor-grass", "field-left", "dirt-right", "path-dirt-center"],
+    "ruins":   ["floor-rubble", "rubble-left", "rubble-right", "path-ruins-center"],
+    "camp":    ["floor-mud", "mud-edge-left", "mud-edge-right", "path-camp-center"],
+    "citadel": ["floor-stone", "cobble-left", "cobble-right", "path-flagstone-center"],
+    "ashen":   ["floor-scorched", "ash-left", "ash-right", "path-char-center"]
+  }
+}
