@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Spore Tower: mushroom-shaped tower -->
+  <!-- Base/trunk -->
+  <rect x="13" y="18" width="6" height="12" rx="1" fill="#8B5a28"/>
+  <!-- Cap — wide mushroom top -->
+  <ellipse cx="16" cy="16" rx="11" ry="5" fill="#7a3a0a"/>
+  <ellipse cx="16" cy="14" rx="10" ry="4" fill="#b85a20"/>
+  <!-- Cap spots -->
+  <circle cx="11" cy="13" r="1.5" fill="#e8d8c0"/>
+  <circle cx="17" cy="11" r="2" fill="#e8d8c0"/>
+  <circle cx="22" cy="13" r="1.2" fill="#e8d8c0"/>
+  <!-- Spore vents on cap edge -->
+  <circle cx="8" cy="15" r="1.2" fill="#cc8830"/>
+  <circle cx="24" cy="15" r="1.2" fill="#cc8830"/>
+  <!-- Spore puff effects -->
+  <circle cx="7" cy="13" r="2" fill="#aa7022" opacity="0.4"/>
+  <circle cx="25" cy="13" r="2" fill="#aa7022" opacity="0.4"/>
+  <!-- Door opening at base -->
+  <ellipse cx="16" cy="28" rx="2" ry="2.5" fill="#5a3a10"/>
+  <!-- Ground moss -->
+  <ellipse cx="16" cy="30" rx="8" ry="1.5" fill="#4a7a28" opacity="0.5"/>
+</svg>
