@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Arcane Turret frame 3: firing pulse -->
+  <rect x="6" y="24" width="20" height="5" rx="2" fill="#334466"/>
+  <rect x="10" y="12" width="12" height="13" rx="2" fill="#445577"/>
+  <polygon points="16,4 10,12 22,12" fill="#88aaee"/>
+  <polygon points="16,4 10,12 16,10" fill="#aaccff"/>
+  <polygon points="16,4 22,12 16,10" fill="#6688cc"/>
+  <text x="13" y="20" font-size="5" fill="#88ccff" font-family="monospace">Σ</text>
+  <rect x="20" y="16" width="10" height="4" rx="1" fill="#334466"/>
+  <circle cx="30" cy="18" r="3.5" fill="#99eeff" opacity="0.95"/>
+  <!-- Flash rings -->
+  <circle cx="30" cy="18" r="6" fill="none" stroke="#ffffff" stroke-width="1.2" opacity="0.4"/>
+  <rect x="8" y="27" width="4" height="4" rx="1" fill="#223355"/>
+  <rect x="20" y="27" width="4" height="4" rx="1" fill="#223355"/>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 1: time mage with hourglass staff, stride A -->
+  <!-- Robe with clock-pattern hem -->
+  <path d="M11,13 Q9,19 10,28 L22,28 Q23,19 21,13 Z" fill="#1a1a3a"/>
+  <!-- Time swirl pattern on robe -->
+  <path d="M13,20 Q16,18 19,20 Q16,22 13,20" stroke="#4444aa" stroke-width="0.8" fill="none" opacity="0.7"/>
+  <path d="M13,23 Q16,21 19,23 Q16,25 13,23" stroke="#4444aa" stroke-width="0.8" fill="none" opacity="0.5"/>
+  <!-- Body -->
+  <rect x="12" y="12" width="8" height="9" rx="1" fill="#2a2a4a"/>
+  <!-- Head -->
+  <circle cx="16" cy="9" r="4.5" fill="#d4c8e8"/>
+  <!-- Hood/circlet -->
+  <path d="M11.5,9 Q16,6 20.5,9" stroke="#8888cc" stroke-width="1.5" fill="none"/>
+  <!-- Clock eye implants (circular irises with Roman numerals feel) -->
+  <circle cx="14" cy="9" r="2" fill="#2222aa"/>
+  <circle cx="18" cy="9" r="2" fill="#2222aa"/>
+  <circle cx="14" cy="9" r="1" fill="#ccccff"/>
+  <circle cx="18" cy="9" r="1" fill="#ccccff"/>
+  <!-- Hourglass staff right hand -->
+  <line x1="20" y1="13" x2="26" y2="8" stroke="#8866aa" stroke-width="2" stroke-linecap="round"/>
+  <!-- Hourglass -->
+  <polygon points="24,6 26,6 25,8" fill="#ddccff"/>
+  <polygon points="24,10 26,10 25,8" fill="#ddccff"/>
+  <line x1="24" y1="6" x2="26" y2="6" stroke="#8866aa" stroke-width="1"/>
+  <line x1="24" y1="10" x2="26" y2="10" stroke="#8866aa" stroke-width="1"/>
+  <!-- Sand/time particles -->
+  <circle cx="25" cy="8" r="0.8" fill="#ffffaa" opacity="0.8"/>
+  <!-- Left arm back -->
+  <line x1="12" y1="14" x2="7" y2="17" stroke="#2a2a4a" stroke-width="2" stroke-linecap="round"/>
+  <!-- Legs stride A -->
+  <line x1="13" y1="28" x2="11" y2="32" stroke="#1a1a3a" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="19" y1="28" x2="21" y2="32" stroke="#1a1a3a" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Static fallback (frame 2) -->
+  <path d="M11,12 Q9,18 10,27 L22,27 Q23,18 21,12 Z" fill="#1a1a3a"/>
+  <path d="M13,19 Q16,17 19,19 Q16,21 13,19" stroke="#4444aa" stroke-width="0.8" fill="none" opacity="0.7"/>
+  <path d="M13,22 Q16,20 19,22 Q16,24 13,22" stroke="#4444aa" stroke-width="0.8" fill="none" opacity="0.5"/>
+  <rect x="12" y="11" width="8" height="9" rx="1" fill="#2a2a4a"/>
+  <circle cx="16" cy="8" r="4.5" fill="#d4c8e8"/>
+  <path d="M11.5,8 Q16,5 20.5,8" stroke="#8888cc" stroke-width="1.5" fill="none"/>
+  <circle cx="14" cy="8" r="2" fill="#2222aa"/>
+  <circle cx="18" cy="8" r="2" fill="#2222aa"/>
+  <circle cx="14" cy="8" r="1" fill="#ccccff"/>
+  <circle cx="18" cy="8" r="1" fill="#ccccff"/>
+  <line x1="20" y1="12" x2="26" y2="7" stroke="#8866aa" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="24,5 26,5 25,7" fill="#ddccff"/>
+  <polygon points="24,9 26,9 25,7" fill="#ddccff"/>
+  <line x1="24" y1="5" x2="26" y2="5" stroke="#8866aa" stroke-width="1"/>
+  <line x1="24" y1="9" x2="26" y2="9" stroke="#8866aa" stroke-width="1"/>
+  <circle cx="25" cy="7" r="0.8" fill="#ffffaa" opacity="0.8"/>
+  <line x1="12" y1="13" x2="7" y2="15" stroke="#2a2a4a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="13" y1="27" x2="12" y2="32" stroke="#1a1a3a" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="19" y1="27" x2="20" y2="32" stroke="#1a1a3a" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

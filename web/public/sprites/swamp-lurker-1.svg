@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 1: left arm/leg back, right forward -->
+  <!-- Body — hunched scaly creature -->
+  <ellipse cx="16" cy="17" rx="7" ry="8" fill="#3a6a3a"/>
+  <!-- Scale texture -->
+  <path d="M11,13 Q13,11 15,13 Q17,11 19,13 Q21,11 22,13" stroke="#2a5a2a" stroke-width="0.8" fill="none"/>
+  <path d="M11,16 Q13,14 15,16 Q17,14 19,16 Q21,14 22,16" stroke="#2a5a2a" stroke-width="0.8" fill="none"/>
+  <!-- Head — flat reptilian -->
+  <ellipse cx="19" cy="10" rx="6" ry="4" fill="#4a7a4a"/>
+  <!-- Eyes — wide bulging -->
+  <circle cx="17" cy="9" r="2" fill="#ffcc00"/>
+  <circle cx="22" cy="9" r="2" fill="#ffcc00"/>
+  <circle cx="17" cy="9" r="1" fill="#000"/>
+  <circle cx="22" cy="9" r="1" fill="#000"/>
+  <!-- Jaw/snout -->
+  <path d="M13,11 L18,13 L24,11" stroke="#2a5a2a" stroke-width="1" fill="#3a6a3a"/>
+  <!-- Left arm (back) -->
+  <line x1="11" y1="16" x2="7" y2="21" stroke="#3a6a3a" stroke-width="3" stroke-linecap="round"/>
+  <!-- Right arm (forward/clawing) -->
+  <line x1="21" y1="15" x2="26" y2="12" stroke="#3a6a3a" stroke-width="3" stroke-linecap="round"/>
+  <!-- Claws -->
+  <line x1="26" y1="12" x2="28" y2="11" stroke="#88aa44" stroke-width="1.5"/>
+  <line x1="26" y1="12" x2="27" y2="10" stroke="#88aa44" stroke-width="1.5"/>
+  <!-- Legs stride A -->
+  <line x1="13" y1="23" x2="10" y2="29" stroke="#2a5a2a" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="19" y1="24" x2="22" y2="29" stroke="#2a5a2a" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Tail -->
+  <path d="M9,18 Q4,20 3,25" stroke="#2a5a2a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>

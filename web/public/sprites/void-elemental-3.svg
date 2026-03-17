@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 3: wings folded inward -->
+  <ellipse cx="16" cy="18" rx="9" ry="10" fill="#0a0a1a" opacity="0.5"/>
+  <path d="M10,15 Q7,12 8,15 Q7,18 10,17" fill="#1a0a2a" opacity="0.7"/>
+  <path d="M22,15 Q25,12 24,15 Q25,18 22,17" fill="#1a0a2a" opacity="0.7"/>
+  <ellipse cx="16" cy="17" rx="6" ry="7" fill="#1a0a2a"/>
+  <path d="M12,15 Q16,13 20,15 Q16,17 12,15" stroke="#6600aa" stroke-width="1" fill="none" opacity="0.8"/>
+  <path d="M12,19 Q16,17 20,19 Q16,21 12,19" stroke="#8800cc" stroke-width="0.8" fill="none" opacity="0.6"/>
+  <ellipse cx="16" cy="10" rx="5" ry="5" fill="#2a0a3a"/>
+  <circle cx="13.5" cy="9.5" r="2.5" fill="#aa00ff"/>
+  <circle cx="18.5" cy="9.5" r="2.5" fill="#aa00ff"/>
+  <circle cx="13.5" cy="9.5" r="1.2" fill="#ffffff" opacity="0.6"/>
+  <circle cx="18.5" cy="9.5" r="1.2" fill="#ffffff" opacity="0.6"/>
+  <path d="M13,24 Q11,27 12,30" stroke="#4400aa" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M19,24 Q21,27 20,30" stroke="#4400aa" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+</svg>

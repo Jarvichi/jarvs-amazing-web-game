@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 1: two soldiers with a portable ballista, stride A -->
+  <!-- Ballista frame -->
+  <rect x="8" y="17" width="16" height="3" rx="1" fill="#7a5a20"/>
+  <!-- Ballista arms -->
+  <line x1="10" y1="17" x2="7" y2="13" stroke="#7a5a20" stroke-width="2"/>
+  <line x1="22" y1="17" x2="25" y2="13" stroke="#7a5a20" stroke-width="2"/>
+  <!-- Bowstring -->
+  <path d="M7,13 Q16,15 25,13" stroke="#d4a820" stroke-width="1.2" fill="none"/>
+  <!-- Bolt loaded -->
+  <line x1="12" y1="17" x2="24" y2="17" stroke="#c8a830" stroke-width="1.5"/>
+  <polygon points="24,16 24,18 27,17" fill="#aaa"/>
+  <!-- Wheels -->
+  <circle cx="12" cy="21" r="2" fill="#5a3a10" stroke="#333" stroke-width="1"/>
+  <circle cx="22" cy="21" r="2" fill="#5a3a10" stroke="#333" stroke-width="1"/>
+  <!-- Soldier 1 (back) -->
+  <rect x="7" y="10" width="4" height="7" rx="1" fill="#666"/>
+  <circle cx="9" cy="8.5" r="2.5" fill="#888"/>
+  <!-- Soldier 2 (front) -->
+  <rect x="18" y="11" width="4" height="6" rx="1" fill="#666"/>
+  <circle cx="20" cy="9.5" r="2.5" fill="#888"/>
+  <!-- Legs stride A -->
+  <line x1="8" y1="17" x2="6" y2="23" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="11" y1="17" x2="13" y2="23" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="19" y1="17" x2="17" y2="23" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="21" y1="17" x2="23" y2="23" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

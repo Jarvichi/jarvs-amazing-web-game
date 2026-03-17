@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 2: body 1px higher -->
+  <ellipse cx="16" cy="19" rx="11" ry="6" fill="#8B5a28"/>
+  <ellipse cx="24" cy="14" rx="4" ry="6" fill="#8B5a28" transform="rotate(20,24,14)"/>
+  <ellipse cx="27" cy="9" rx="3.5" ry="3" fill="#9a6a32" transform="rotate(10,27,9)"/>
+  <path d="M23,10 Q25,8 27,10" stroke="#5a3a18" stroke-width="2" fill="none"/>
+  <circle cx="28.5" cy="8" r="1" fill="#222"/>
+  <!-- Legs mid-gallop (tucked) -->
+  <line x1="9" y1="23" x2="7" y2="29" stroke="#6a4020" stroke-width="3" stroke-linecap="round"/>
+  <line x1="13" y1="24" x2="13" y2="30" stroke="#6a4020" stroke-width="3" stroke-linecap="round"/>
+  <line x1="18" y1="24" x2="18" y2="30" stroke="#6a4020" stroke-width="3" stroke-linecap="round"/>
+  <line x1="22" y1="23" x2="24" y2="29" stroke="#6a4020" stroke-width="3" stroke-linecap="round"/>
+  <rect x="13" y="10" width="7" height="8" rx="1" fill="#666"/>
+  <circle cx="16.5" cy="8" r="3.5" fill="#888"/>
+  <path d="M13,7 Q16.5,4 20,7" stroke="#555" stroke-width="2" fill="#666"/>
+  <line x1="20" y1="9" x2="31" y2="5" stroke="#a07040" stroke-width="1.5"/>
+  <polygon points="31,4 31,6 33,5" fill="#aaa"/>
+</svg>

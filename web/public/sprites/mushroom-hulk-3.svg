@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 3: stride B -->
+  <ellipse cx="16" cy="7" rx="13" ry="6" fill="#8B4513"/>
+  <ellipse cx="16" cy="6" rx="12" ry="5" fill="#c0622a"/>
+  <circle cx="11" cy="5" r="1.5" fill="#e8e0d0"/>
+  <circle cx="18" cy="4" r="2" fill="#e8e0d0"/>
+  <circle cx="23" cy="6" r="1.2" fill="#e8e0d0"/>
+  <rect x="10" y="11" width="12" height="11" rx="3" fill="#d4b896"/>
+  <circle cx="13.5" cy="14" r="1.8" fill="#000"/>
+  <circle cx="18.5" cy="14" r="1.8" fill="#000"/>
+  <circle cx="13.5" cy="13.5" r="0.9" fill="#88ff44"/>
+  <circle cx="18.5" cy="13.5" r="0.9" fill="#88ff44"/>
+  <path d="M13,17 L14.5,18 L16,17 L17.5,18 L19,17" stroke="#6a4020" stroke-width="1.2" fill="none"/>
+  <!-- Arms stride B -->
+  <ellipse cx="7" cy="15" rx="5" ry="3" fill="#d4b896" transform="rotate(-20,7,15)"/>
+  <ellipse cx="25" cy="16" rx="5" ry="3" fill="#d4b896" transform="rotate(20,25,16)"/>
+  <!-- Legs stride B (opposite) -->
+  <rect x="10" y="22" width="5" height="7" rx="2" fill="#b89870"/>
+  <rect x="17" y="21" width="5" height="8" rx="2" fill="#b89870"/>
+</svg>

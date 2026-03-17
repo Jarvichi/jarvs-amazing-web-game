@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 1: left arm back, right forward -->
+  <!-- Body/torso — bark-brown tunic -->
+  <rect x="12" y="13" width="8" height="9" rx="2" fill="#5a7a2a"/>
+  <!-- Head — leafy green -->
+  <circle cx="16" cy="9" r="5" fill="#3a6a18"/>
+  <!-- Leaf crown -->
+  <ellipse cx="12" cy="6" rx="3" ry="2" fill="#4aaa22" transform="rotate(-30,12,6)"/>
+  <ellipse cx="20" cy="6" rx="3" ry="2" fill="#4aaa22" transform="rotate(30,20,6)"/>
+  <ellipse cx="16" cy="5" rx="2.5" ry="1.8" fill="#5acc28"/>
+  <!-- Eyes -->
+  <circle cx="14" cy="9" r="1.2" fill="#88ff44"/>
+  <circle cx="18" cy="9" r="1.2" fill="#88ff44"/>
+  <!-- Left arm (back) — holding bow low -->
+  <line x1="12" y1="14" x2="7" y2="19" stroke="#5a7a2a" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Right arm (forward) — drawing bowstring -->
+  <line x1="20" y1="14" x2="25" y2="16" stroke="#5a7a2a" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Bow -->
+  <path d="M24,13 Q27,16 24,19" stroke="#7a5a28" stroke-width="1.5" fill="none"/>
+  <line x1="24" y1="13" x2="24" y2="19" stroke="#b8a060" stroke-width="1" stroke-dasharray="1,2"/>
+  <!-- Arrow nocked -->
+  <line x1="18" y1="15" x2="26" y2="15" stroke="#c8a830" stroke-width="1.2"/>
+  <!-- Legs — stride A -->
+  <line x1="14" y1="22" x2="11" y2="28" stroke="#4a6020" stroke-width="3" stroke-linecap="round"/>
+  <line x1="18" y1="22" x2="21" y2="28" stroke="#4a6020" stroke-width="3" stroke-linecap="round"/>
+  <!-- Feet -->
+  <ellipse cx="10" cy="28" rx="3" ry="1.5" fill="#3a5018"/>
+  <ellipse cx="22" cy="28" rx="3" ry="1.5" fill="#3a5018"/>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Root Network: ancient tree stump with roots -->
+  <!-- Main stump -->
+  <rect x="11" y="16" width="10" height="13" rx="3" fill="#6a4a20"/>
+  <!-- Bark lines -->
+  <line x1="14" y1="17" x2="14" y2="28" stroke="#4a3010" stroke-width="0.8"/>
+  <line x1="18" y1="17" x2="18" y2="28" stroke="#4a3010" stroke-width="0.8"/>
+  <!-- Roots spreading outward -->
+  <path d="M11,25 Q6,24 3,27" stroke="#5a3a18" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M21,25 Q26,24 29,27" stroke="#5a3a18" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M13,29 Q10,30 8,32" stroke="#5a3a18" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M19,29 Q22,30 24,32" stroke="#5a3a18" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M16,29 Q16,31 16,32" stroke="#5a3a18" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Hollow top (ancient) -->
+  <ellipse cx="16" cy="17" rx="4.5" ry="2" fill="#3a2010"/>
+  <!-- Moss on top -->
+  <ellipse cx="16" cy="16" rx="5" ry="2" fill="#5a8a28" opacity="0.7"/>
+  <!-- Glowing rune on stump (mana symbol) -->
+  <text x="13" y="23" font-size="6" fill="#44ff88" font-family="monospace" opacity="0.8">⊕</text>
+</svg>

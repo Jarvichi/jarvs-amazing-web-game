@@ -1559,6 +1559,578 @@
         "fast",
         "siege"
       ]
+    },
+    "dryad-sentinel": {
+      "name": "Dryad Sentinel",
+      "attack": 5,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 25,
+      "attackRange": 70,
+      "attackCooldownMs": 1600,
+      "tags": [
+        "ranged",
+        "beast",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "beast"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Elder Treant",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Grove Guardian"
+      }
+    },
+    "mushroom-hulk": {
+      "name": "Mushroom Hulk",
+      "attack": 9,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 10,
+      "attackRange": 5,
+      "attackCooldownMs": 2500,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "fire",
+        "ranged"
+      ],
+      "affinity": {
+        "withName": "Spore Bat",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.2,
+        "label": "Fungal Network"
+      }
+    },
+    "pixie-scout": {
+      "name": "Pixie Scout",
+      "attack": 2,
+      "maxHp": 6,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 65,
+      "attackRange": 5,
+      "attackCooldownMs": 700,
+      "flying": true,
+      "tags": [
+        "flying",
+        "fast",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Pixie Scout",
+        "range": 40,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Fae Swarm"
+      }
+    },
+    "swamp-lurker": {
+      "name": "Swamp Lurker",
+      "attack": 6,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 35,
+      "attackRange": 5,
+      "attackCooldownMs": 1100,
+      "tags": [
+        "melee",
+        "beast",
+        "fast"
+      ],
+      "strengths": [
+        "slow",
+        "armored"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Frog Knight",
+        "range": 50,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Swamp Stride"
+      }
+    },
+    "moss-golem": {
+      "name": "Moss Golem",
+      "attack": 12,
+      "maxHp": 60,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 7,
+      "attackRange": 5,
+      "attackCooldownMs": 3000,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ],
+      "strengths": [
+        "fast",
+        "melee"
+      ],
+      "weaknesses": [
+        "fire",
+        "siege"
+      ],
+      "affinity": {
+        "withName": "Vine Golem",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.15,
+        "label": "Ancient Earth"
+      }
+    },
+    "battering-ram-crew": {
+      "name": "Battering Ram Crew",
+      "attack": 8,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 15,
+      "attackRange": 5,
+      "attackCooldownMs": 2000,
+      "targetPriority": "walls",
+      "tags": [
+        "melee",
+        "slow",
+        "siege",
+        "armored"
+      ],
+      "strengths": [
+        "large",
+        "slow"
+      ],
+      "weaknesses": [
+        "fast",
+        "ranged"
+      ],
+      "affinity": {
+        "withName": "Siege Engineer",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Siege Protocol"
+      }
+    },
+    "cavalry-scout": {
+      "name": "Cavalry Scout",
+      "attack": 4,
+      "maxHp": 15,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 60,
+      "attackRange": 5,
+      "attackCooldownMs": 900,
+      "tags": [
+        "melee",
+        "fast",
+        "beast"
+      ],
+      "strengths": [
+        "ranged",
+        "slow"
+      ],
+      "weaknesses": [
+        "melee",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Knight",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.2,
+        "label": "Cavalry Charge"
+      }
+    },
+    "demolitions-expert": {
+      "name": "Demolitions Expert",
+      "attack": 12,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 22,
+      "attackRange": 5,
+      "attackCooldownMs": 3000,
+      "targetPriority": "walls",
+      "tags": [
+        "melee",
+        "siege"
+      ],
+      "strengths": [
+        "large",
+        "armored"
+      ],
+      "weaknesses": [
+        "fast",
+        "ranged"
+      ],
+      "affinity": {
+        "withName": "Catapult",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.3,
+        "label": "Siege Master"
+      }
+    },
+    "sappers": {
+      "name": "Sappers",
+      "attack": 3,
+      "maxHp": 12,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 32,
+      "attackRange": 5,
+      "attackCooldownMs": 1000,
+      "targetPriority": "buildings",
+      "tags": [
+        "melee",
+        "fast"
+      ],
+      "strengths": [
+        "armored",
+        "slow"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Demolitions Expert",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Sapper Squad"
+      }
+    },
+    "ballista-crew": {
+      "name": "Ballista Crew",
+      "attack": 10,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 12,
+      "attackRange": 90,
+      "attackCooldownMs": 2500,
+      "tags": [
+        "ranged",
+        "slow",
+        "siege"
+      ],
+      "strengths": [
+        "large",
+        "armored"
+      ],
+      "weaknesses": [
+        "fast",
+        "melee"
+      ],
+      "affinity": {
+        "withName": "Ballista",
+        "range": 80,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Bolt Formation"
+      }
+    },
+    "shadow-stalker": {
+      "name": "Shadow Stalker",
+      "attack": 5,
+      "maxHp": 14,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 48,
+      "attackRange": 5,
+      "attackCooldownMs": 1000,
+      "targetPriority": "buildings",
+      "tags": [
+        "melee",
+        "fast",
+        "undead"
+      ],
+      "strengths": [
+        "slow",
+        "armored"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Dark Elf",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Shadow Pack"
+      }
+    },
+    "soulrend-witch": {
+      "name": "Soulrend Witch",
+      "attack": 7,
+      "maxHp": 16,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 20,
+      "attackRange": 80,
+      "attackCooldownMs": 1800,
+      "tags": [
+        "ranged",
+        "magic",
+        "undead"
+      ],
+      "strengths": [
+        "melee",
+        "beast"
+      ],
+      "weaknesses": [
+        "fire",
+        "ranged"
+      ],
+      "affinity": {
+        "withName": "Necromancer",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Death Coven"
+      }
+    },
+    "bone-colossus": {
+      "name": "Bone Colossus",
+      "attack": 15,
+      "maxHp": 70,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 8,
+      "attackRange": 5,
+      "attackCooldownMs": 3500,
+      "targetPriority": "walls",
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "undead",
+        "armored"
+      ],
+      "strengths": [
+        "fast",
+        "melee"
+      ],
+      "weaknesses": [
+        "fire",
+        "siege"
+      ],
+      "affinity": {
+        "withName": "Revenant",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Undead Colossus"
+      }
+    },
+    "wraith": {
+      "name": "Wraith",
+      "attack": 4,
+      "maxHp": 10,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 40,
+      "attackRange": 50,
+      "attackCooldownMs": 1200,
+      "flying": true,
+      "tags": [
+        "flying",
+        "magic",
+        "undead"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Specter",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Spectral Veil"
+      }
+    },
+    "techno-imp": {
+      "name": "Techno Imp",
+      "attack": 2,
+      "maxHp": 7,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 58,
+      "attackRange": 5,
+      "attackCooldownMs": 700,
+      "flying": true,
+      "tags": [
+        "flying",
+        "fast",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Arcane Golem",
+        "range": 50,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.2,
+        "label": "Arcane Sync"
+      }
+    },
+    "mana-siphon": {
+      "name": "Mana Siphon",
+      "attack": 3,
+      "maxHp": 12,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 25,
+      "attackRange": 60,
+      "attackCooldownMs": 1500,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "strengths": [
+        "armored",
+        "slow"
+      ],
+      "weaknesses": [
+        "fast",
+        "melee"
+      ],
+      "affinity": {
+        "withName": "Mana Wisp",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Mana Drain"
+      }
+    },
+    "arcane-turret": {
+      "name": "Arcane Turret",
+      "attack": 8,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 0,
+      "attackRange": 80,
+      "attackCooldownMs": 1200,
+      "tags": [
+        "ranged",
+        "magic",
+        "armored"
+      ],
+      "strengths": [
+        "melee",
+        "beast"
+      ],
+      "weaknesses": [
+        "siege",
+        "fast"
+      ]
+    },
+    "void-elemental": {
+      "name": "Void Elemental",
+      "attack": 8,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 28,
+      "attackRange": 50,
+      "attackCooldownMs": 1600,
+      "flying": true,
+      "tags": [
+        "flying",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Crystal Hydra",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Void Resonance"
+      }
+    },
+    "chronomancer": {
+      "name": "Chronomancer",
+      "attack": 6,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 18,
+      "attackRange": 75,
+      "attackCooldownMs": 1000,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "beast"
+      ],
+      "weaknesses": [
+        "fast",
+        "magic"
+      ],
+      "affinity": {
+        "withName": "Arcane Golem",
+        "range": 80,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.5,
+        "label": "Time Distortion"
+      }
     }
   },
   "cards": [
@@ -3750,6 +4322,810 @@
       "description": "Heal all your units for 7 HP.",
       "deckCount": 0,
       "lore": "Optimal resource usage. The Archivist has seventeen papers on the subject."
+    },
+    {
+      "name": "Dryad Sentinel",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "dryad-sentinel",
+      "tags": [
+        "forest"
+      ],
+      "description": "Ranged forest guardian \u2014 her arrows find gaps in any wall.",
+      "lore": "She does not fight for the forest. She is the forest's will made arrow.",
+      "deckCount": 0
+    },
+    {
+      "name": "Mushroom Hulk",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "mushroom-hulk",
+      "tags": [
+        "forest"
+      ],
+      "description": "Massive fungal brute \u2014 slow but nearly unstoppable.",
+      "lore": "The spores are not a side effect. They are the point.",
+      "deckCount": 0
+    },
+    {
+      "name": "Pixie Scout",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "pixie-scout",
+      "tags": [
+        "forest"
+      ],
+      "description": "Tiny flying scout \u2014 fast, fragile, and surprisingly vicious.",
+      "lore": "Never trust anything that fits in your ear.",
+      "deckCount": 0
+    },
+    {
+      "name": "Swamp Lurker",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "swamp-lurker",
+      "tags": [
+        "forest"
+      ],
+      "description": "Slimy ambush predator \u2014 bypasses walls by going under them.",
+      "lore": "The swamp does not give back what it takes.",
+      "deckCount": 0
+    },
+    {
+      "name": "Moss Golem",
+      "rarity": "legendary",
+      "cost": 7,
+      "cardType": "unit",
+      "unitRef": "moss-golem",
+      "tags": [
+        "forest"
+      ],
+      "description": "Ancient armoured colossus \u2014 centuries of moss and spite.",
+      "lore": "It was not built in a day. Or a year. Or a century.",
+      "deckCount": 0
+    },
+    {
+      "name": "Spore Tower",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "tags": [
+        "forest"
+      ],
+      "unit": {
+        "name": "Spore Tower",
+        "attack": 0,
+        "maxHp": 25,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "spawn",
+          "unitTemplateRef": "spore-bat",
+          "intervalMs": 12000
+        }
+      },
+      "description": "Periodically launches a Spore Bat at the enemy.",
+      "lore": "The tower does not stop. Not for weather. Not for war.",
+      "deckCount": 0
+    },
+    {
+      "name": "Mushroom Circle",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "tags": [
+        "forest"
+      ],
+      "unit": {
+        "name": "Mushroom Circle",
+        "attack": 0,
+        "maxHp": 20,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "healAura",
+          "amount": 2
+        }
+      },
+      "description": "Regenerates nearby units with fungal energy.",
+      "lore": "Step inside. Don't ask what the spores do.",
+      "deckCount": 0
+    },
+    {
+      "name": "Root Network",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "tags": [
+        "forest"
+      ],
+      "unit": {
+        "name": "Root Network",
+        "attack": 0,
+        "maxHp": 15,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "mana",
+          "amount": 1
+        }
+      },
+      "description": "Ancient root system \u2014 draws mana from the earth each turn.",
+      "lore": "Every tree in the shard is connected. You just tapped in.",
+      "deckCount": 0
+    },
+    {
+      "name": "Overgrowth",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "tags": [
+        "forest"
+      ],
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 12
+      },
+      "description": "All units toughened by forest growth \u2014 gain 12 max HP.",
+      "lore": "The forest heals what it does not consume.",
+      "deckCount": 0
+    },
+    {
+      "name": "Nature's Bounty",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "tags": [
+        "forest"
+      ],
+      "upgradeEffect": {
+        "type": "healUnits",
+        "amount": 10
+      },
+      "description": "Restore 10 HP to all your units.",
+      "lore": "The land provides. Even here.",
+      "deckCount": 0
+    },
+    {
+      "name": "Spore Cloud",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "tags": [
+        "forest"
+      ],
+      "upgradeEffect": {
+        "type": "buffSpeed",
+        "amount": 8
+      },
+      "description": "Spores energise all units \u2014 gain +8 move speed.",
+      "lore": "It's probably not toxic. Probably.",
+      "deckCount": 0
+    },
+    {
+      "name": "Root Bind",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "tags": [
+        "forest"
+      ],
+      "upgradeEffect": {
+        "type": "buffRange",
+        "amount": 20
+      },
+      "description": "Forest spirits extend the reach of all your units by 20.",
+      "lore": "Roots reach further than you think.",
+      "deckCount": 0
+    },
+    {
+      "name": "Wild Surge",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "tags": [
+        "forest"
+      ],
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 4
+      },
+      "description": "The wild answers \u2014 all units gain +4 attack.",
+      "lore": "The Verdant Shard does not negotiate.",
+      "deckCount": 0
+    },
+    {
+      "name": "Battering Ram Crew",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "battering-ram-crew",
+      "tags": [
+        "iron"
+      ],
+      "description": "Slow siege crew \u2014 prioritises destroying walls.",
+      "lore": "They have never met a gate they couldn't open.",
+      "deckCount": 0
+    },
+    {
+      "name": "Cavalry Scout",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "cavalry-scout",
+      "tags": [
+        "iron"
+      ],
+      "description": "Fast mounted scout \u2014 harasses weak ranged units.",
+      "lore": "Speed is armour. Most of the time.",
+      "deckCount": 0
+    },
+    {
+      "name": "Demolitions Expert",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "demolitions-expert",
+      "tags": [
+        "iron"
+      ],
+      "description": "High burst damage \u2014 ignores walls, destroys them first.",
+      "lore": "Explosives are a planning tool. Mostly.",
+      "deckCount": 0
+    },
+    {
+      "name": "Sappers",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "sappers",
+      "tags": [
+        "iron"
+      ],
+      "description": "Tunnellers \u2014 bypass walls, target enemy buildings.",
+      "lore": "You can't defend what you can't find.",
+      "deckCount": 0
+    },
+    {
+      "name": "Ballista Crew",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "ballista-crew",
+      "tags": [
+        "iron"
+      ],
+      "description": "Long-range siege archers \u2014 bypass walls, devastate large units.",
+      "lore": "Precision, patience, penetration.",
+      "deckCount": 0
+    },
+    {
+      "name": "Siege Tower",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "structure",
+      "tags": [
+        "iron"
+      ],
+      "unit": {
+        "name": "Siege Tower",
+        "attack": 0,
+        "maxHp": 30,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "attackAura",
+          "amount": 2
+        }
+      },
+      "description": "Elevated fortification \u2014 boosts nearby unit attack by 2.",
+      "lore": "Height is an advantage. Build higher.",
+      "deckCount": 0
+    },
+    {
+      "name": "Fortified Wall",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "tags": [
+        "iron"
+      ],
+      "unit": {
+        "name": "Fortified Wall",
+        "attack": 0,
+        "maxHp": 80,
+        "isWall": true,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0
+      },
+      "description": "Iron-reinforced wall \u2014 twice the HP of a stone wall.",
+      "lore": "Iron holds. Stone merely delays.",
+      "deckCount": 0
+    },
+    {
+      "name": "Moat",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "tags": [
+        "iron"
+      ],
+      "unit": {
+        "name": "Moat",
+        "attack": 0,
+        "maxHp": 15,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "repairAura",
+          "amount": 1
+        }
+      },
+      "description": "Water barrier \u2014 slowly repairs nearby walls.",
+      "lore": "The water doesn't stop them. The mud does.",
+      "deckCount": 0
+    },
+    {
+      "name": "Battle Hardened",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "tags": [
+        "iron"
+      ],
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 10
+      },
+      "description": "Veterans of the Citadel \u2014 all units gain 10 max HP.",
+      "lore": "Scars are scar tissue. Scar tissue is armour.",
+      "deckCount": 0
+    },
+    {
+      "name": "Iron Discipline",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "tags": [
+        "iron"
+      ],
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 2
+      },
+      "description": "Drill and discipline \u2014 all units gain +2 attack.",
+      "lore": "The Iron Citadel doesn't breed heroes. It breeds soldiers.",
+      "deckCount": 0
+    },
+    {
+      "name": "Siege Protocol",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "tags": [
+        "iron"
+      ],
+      "upgradeEffect": {
+        "type": "buffRange",
+        "amount": 20
+      },
+      "description": "Tactical positioning \u2014 all units gain +20 attack range.",
+      "lore": "Engage from distance. Dictate the terms.",
+      "deckCount": 0
+    },
+    {
+      "name": "Tactical Retreat",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "tags": [
+        "iron"
+      ],
+      "upgradeEffect": {
+        "type": "healUnits",
+        "amount": 8
+      },
+      "description": "Regroup and recover \u2014 restore 8 HP to all units.",
+      "lore": "Retreat is not defeat. It is preparation.",
+      "deckCount": 0
+    },
+    {
+      "name": "Shadow Stalker",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "shadow-stalker",
+      "tags": [
+        "ashen"
+      ],
+      "description": "Undead infiltrator \u2014 bypasses walls, targets buildings.",
+      "lore": "You feel it before you see it. Then you don't see anything at all.",
+      "deckCount": 0
+    },
+    {
+      "name": "Soulrend Witch",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "soulrend-witch",
+      "tags": [
+        "ashen"
+      ],
+      "description": "Dark ranged caster \u2014 magically bypasses defences.",
+      "lore": "She does not cast spells. She tears them out of the world.",
+      "deckCount": 0
+    },
+    {
+      "name": "Bone Colossus",
+      "rarity": "legendary",
+      "cost": 7,
+      "cardType": "unit",
+      "unitRef": "bone-colossus",
+      "tags": [
+        "ashen"
+      ],
+      "description": "Titanic undead siege unit \u2014 destroys walls, shrugs off arrows.",
+      "lore": "It is not one skeleton. It is all of them.",
+      "deckCount": 0
+    },
+    {
+      "name": "Wraith",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "wraith",
+      "tags": [
+        "ashen"
+      ],
+      "description": "Flying undead spirit \u2014 ignores walls, phases through defences.",
+      "lore": "The cold you feel is not the temperature. It is the memory of warmth.",
+      "deckCount": 0
+    },
+    {
+      "name": "Death Altar",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "tags": [
+        "ashen"
+      ],
+      "unit": {
+        "name": "Death Altar",
+        "attack": 0,
+        "maxHp": 20,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "spawn",
+          "unitTemplateRef": "weak-skeleton",
+          "intervalMs": 8000
+        }
+      },
+      "description": "Continuously raises weak skeletons from fallen enemies.",
+      "lore": "Death is not the end here. It is the beginning of service.",
+      "deckCount": 0
+    },
+    {
+      "name": "Necrotic Pool",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "tags": [
+        "ashen"
+      ],
+      "unit": {
+        "name": "Necrotic Pool",
+        "attack": 0,
+        "maxHp": 18,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "healAura",
+          "amount": 2
+        }
+      },
+      "description": "Foul energy restores undead units nearby.",
+      "lore": "The smell is not decay. It is potential.",
+      "deckCount": 0
+    },
+    {
+      "name": "Graveblight Tower",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "structure",
+      "tags": [
+        "ashen"
+      ],
+      "unit": {
+        "name": "Graveblight Tower",
+        "attack": 0,
+        "maxHp": 30,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "spawn",
+          "unitTemplateRef": "revenant",
+          "intervalMs": 18000
+        }
+      },
+      "description": "Raises powerful Revenants from the grave at intervals.",
+      "lore": "The tower remembers everyone who has ever died near it.",
+      "deckCount": 0
+    },
+    {
+      "name": "Undying Rage",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "tags": [
+        "ashen"
+      ],
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 4
+      },
+      "description": "Death fuels fury \u2014 all units gain +4 attack.",
+      "lore": "They fight harder when they have nothing left to lose.",
+      "deckCount": 0
+    },
+    {
+      "name": "Soul Harvest",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "tags": [
+        "ashen"
+      ],
+      "upgradeEffect": {
+        "type": "healUnits",
+        "amount": 8
+      },
+      "description": "Drain life energy \u2014 restore 8 HP to all units.",
+      "lore": "The Ashen Wastes give back. Eventually.",
+      "deckCount": 0
+    },
+    {
+      "name": "Plague Spread",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "tags": [
+        "ashen"
+      ],
+      "upgradeEffect": {
+        "type": "buffSpeed",
+        "amount": 10
+      },
+      "description": "Plague-driven frenzy \u2014 all units gain +10 move speed.",
+      "lore": "Even the dying don't stop moving.",
+      "deckCount": 0
+    },
+    {
+      "name": "Dark Ritual",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "tags": [
+        "ashen"
+      ],
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 20
+      },
+      "description": "Forbidden rite \u2014 all units gain 20 max HP and are healed for it.",
+      "lore": "The price is someone else's.",
+      "deckCount": 0
+    },
+    {
+      "name": "Entropy Wave",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "upgrade",
+      "tags": [
+        "ashen"
+      ],
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 8
+      },
+      "description": "Unleash pure entropy \u2014 all units gain +8 attack.",
+      "lore": "Everything falls apart. You just decided what falls apart first.",
+      "deckCount": 0
+    },
+    {
+      "name": "Techno Imp",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "techno-imp",
+      "tags": [
+        "arcane"
+      ],
+      "description": "Tiny flying construct \u2014 fast and annoying in numbers.",
+      "lore": "Someone thought this was a good idea. They were not wrong.",
+      "deckCount": 0
+    },
+    {
+      "name": "Mana Siphon",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "mana-siphon",
+      "tags": [
+        "arcane"
+      ],
+      "description": "Ranged magic drainer \u2014 bypasses walls, feeds off mana.",
+      "lore": "It doesn't attack you. It drains you. Same outcome.",
+      "deckCount": 0
+    },
+    {
+      "name": "Arcane Turret",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "arcane-turret",
+      "tags": [
+        "arcane"
+      ],
+      "description": "Stationary magic cannon \u2014 devastating ranged fire.",
+      "lore": "Immovable. Implacable. Inadvisable to stand near.",
+      "deckCount": 0
+    },
+    {
+      "name": "Void Elemental",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "void-elemental",
+      "tags": [
+        "arcane"
+      ],
+      "description": "Flying void creature \u2014 phases through walls, medium ranged.",
+      "lore": "It does not come from nowhere. It comes from the space between things.",
+      "deckCount": 0
+    },
+    {
+      "name": "Chronomancer",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "chronomancer",
+      "tags": [
+        "arcane"
+      ],
+      "description": "Time-manipulating mage \u2014 fast attack speed, magical bypass.",
+      "lore": "It has already won. It's being polite by playing it out.",
+      "deckCount": 0
+    },
+    {
+      "name": "Arcane Forge",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "tags": [
+        "arcane"
+      ],
+      "unit": {
+        "name": "Arcane Forge",
+        "attack": 0,
+        "maxHp": 25,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "attackAura",
+          "amount": 3
+        }
+      },
+      "description": "Magical enchantment forge \u2014 boosts nearby unit attack by 3.",
+      "lore": "It doesn't make weapons. It makes weapons angry.",
+      "deckCount": 0
+    },
+    {
+      "name": "Null Field",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "tags": [
+        "arcane"
+      ],
+      "unit": {
+        "name": "Null Field",
+        "attack": 0,
+        "maxHp": 20,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "manaSpeed",
+          "speedMult": 1.5
+        }
+      },
+      "description": "Arcane disruption field \u2014 mana recharges 50% faster.",
+      "lore": "It nullifies everything except mana. That was intentional.",
+      "deckCount": 0
+    },
+    {
+      "name": "Crystal Resonance",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "tags": [
+        "arcane"
+      ],
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 3
+      },
+      "description": "Crystal harmonics amplify unit power \u2014 all gain +3 attack.",
+      "lore": "The Spire hums. Those who can hear it hum louder.",
+      "deckCount": 0
+    },
+    {
+      "name": "Void Tap",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "tags": [
+        "arcane"
+      ],
+      "upgradeEffect": {
+        "type": "buffSpeed",
+        "amount": 15
+      },
+      "description": "Tap into the void \u2014 all units gain +15 move speed.",
+      "lore": "Void energy has side effects. None of them are boring.",
+      "deckCount": 0
+    },
+    {
+      "name": "Temporal Loop",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "upgrade",
+      "tags": [
+        "arcane"
+      ],
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 25
+      },
+      "description": "Rewind time on your units \u2014 all gain 25 max HP and are healed.",
+      "lore": "They have survived this battle before. They will again.",
+      "deckCount": 0
     }
   ],
   "heroCards": [

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 1: ghostly floating undead -->
+  <!-- Ghostly tail/body -->
+  <path d="M10,14 Q8,20 9,26 Q12,30 16,28 Q20,30 23,26 Q24,20 22,14 Z" fill="#2a2a4a" opacity="0.8"/>
+  <!-- Ethereal wisps at bottom -->
+  <path d="M11,26 Q9,29 10,31" stroke="#4a4a7a" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M16,28 Q15,30 16,32" stroke="#4a4a7a" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M21,26 Q23,29 22,31" stroke="#4a4a7a" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <!-- Head/face -->
+  <ellipse cx="16" cy="10" rx="6" ry="6" fill="#3a3a5a"/>
+  <!-- Hollow eye sockets -->
+  <ellipse cx="13" cy="9.5" rx="2.5" ry="2.5" fill="#0a0a1a"/>
+  <ellipse cx="19" cy="9.5" rx="2.5" ry="2.5" fill="#0a0a1a"/>
+  <!-- Soul fire in eyes -->
+  <circle cx="13" cy="9.5" r="1.3" fill="#8844ff" opacity="0.9"/>
+  <circle cx="19" cy="9.5" r="1.3" fill="#8844ff" opacity="0.9"/>
+  <!-- Open screaming mouth -->
+  <ellipse cx="16" cy="13" rx="2" ry="1.5" fill="#0a0a1a"/>
+  <!-- Arms (ghostly wisps) -->
+  <path d="M10,14 Q6,12 5,14 Q6,16 10,16" fill="#2a2a4a" opacity="0.6"/>
+  <path d="M22,14 Q26,12 27,14 Q26,16 22,16" fill="#2a2a4a" opacity="0.6"/>
+  <!-- Flying shadow aura -->
+  <ellipse cx="16" cy="22" rx="9" ry="3" fill="#1a1a2a" opacity="0.3"/>
+</svg>

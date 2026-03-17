@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 3: stride B -->
+  <rect x="6" y="16" width="5" height="6" rx="1" fill="#556644"/>
+  <circle cx="8.5" cy="14" r="3" fill="#778866"/>
+  <line x1="11" y1="17" x2="15" y2="13" stroke="#8B5a20" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="15" cy="12" rx="2" ry="1.5" fill="#aaa" transform="rotate(-30,15,12)"/>
+  <rect x="16" y="15" width="5" height="6" rx="1" fill="#556644"/>
+  <circle cx="18.5" cy="13" r="3" fill="#778866"/>
+  <line x1="21" y1="16" x2="26" y2="12" stroke="#8B5a20" stroke-width="2" stroke-linecap="round"/>
+  <path d="M26,11 Q28,9 27,12 Q29,11 27,13" fill="#aaa" stroke="#888" stroke-width="0.5"/>
+  <!-- Legs stride B (opposite) -->
+  <line x1="7" y1="22" x2="9" y2="27" stroke="#445533" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="10" y1="22" x2="8" y2="27" stroke="#445533" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="17" y1="21" x2="19" y2="27" stroke="#445533" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="20" y1="21" x2="18" y2="27" stroke="#445533" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="14" cy="24" r="2" fill="#b8a060" opacity="0.5"/>
+</svg>
