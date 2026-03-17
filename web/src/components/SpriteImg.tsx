@@ -6,7 +6,7 @@ const BASE = import.meta.env.BASE_URL
 
 // Canvas pixel size for 8-bit mode — sprites are drawn at this resolution then
 // CSS scales them up to their normal display size with image-rendering: pixelated.
-const EIGHTBIT_PX = 12
+const EIGHTBIT_PX = 16
 
 function is8bitMode(): boolean {
   return document.documentElement.classList.contains('eightbit-mode')
