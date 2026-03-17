@@ -5852,7 +5852,7 @@ html.eightbit-mode .game-container {
   image-rendering: pixelated;
 }
 
-/* Scanlines overlay */
+/* Scanlines overlay — subtle */
 html.eightbit-mode .game-container::after {
   content: '';
   position: fixed;
@@ -5862,14 +5862,22 @@ html.eightbit-mode .game-container::after {
   background: repeating-linear-gradient(
     to bottom,
     transparent 0px,
-    transparent 2px,
-    rgba(0, 0, 0, 0.18) 2px,
-    rgba(0, 0, 0, 0.18) 4px
+    transparent 3px,
+    rgba(0, 0, 0, 0.06) 3px,
+    rgba(0, 0, 0, 0.06) 4px
   );
 }
 
-/* Force crisp pixel rendering on all images in 8-bit mode */
-html.eightbit-mode img {
+/* Scale unit sprites 2× so individual pixels are visibly chunky */
+html.eightbit-mode .lane-unit-sprite {
+  transform: scale(2);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Scale card sprites 2× */
+html.eightbit-mode .card-sprite {
+  transform: scale(2);
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
