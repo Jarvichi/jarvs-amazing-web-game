@@ -14,10 +14,10 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 After 30s inactivity on title screen, a random unit walks on from a random side, stops in the centre, shows a speech bubble (lore / kill count / random fact), then walks off after 30s. Tapping while visible makes it run off. Achievement for seeing it.
 
-- [ ] Create `TitleIdleAnimation.tsx` component (inactivity timer, walk-in/out animation, speech bubble)
-- [ ] Add CSS to `styles.css` (walk slide-in/out keyframes, sprite walk cycle, speech bubble)
-- [ ] Integrate into `TitleScreen.tsx`
-- [ ] Add achievements: `misc:title_idle_seen` (1×, 10×) + `misc:title_idle_tap` (dismiss once)
+- [x] Create `TitleIdleAnimation.tsx` component (inactivity timer, walk-in/out animation, speech bubble)
+- [x] Add CSS to `styles.css` (walk slide-in/out keyframes, sprite walk cycle, speech bubble)
+- [x] Integrate into `TitleScreen.tsx`
+- [x] Add achievements: `misc:title_idle_seen` (1×, 10×, 100×) + `misc:title_idle_tap` (dismiss 1×, 10×)
 
 ---
 
