@@ -818,6 +818,42 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 1,
   },
 
+  // ── Shop selling ─────────────────────────────────────────────────────────
+
+  {
+    id: 'misc:shop_sell_1',
+    name: 'Entrepreneurial Spirit',
+    description: 'Sold a useless item at the shop',
+    category: 'misc',
+    progressKey: 'misc:shop_sell_attempt',
+    target: 1,
+    reward: { type: 'crystals', crystals: 25 },
+    tier: 1,
+  },
+  {
+    id: 'misc:shop_sell_10',
+    name: 'Persistent Vendor',
+    description: 'Sold a useless item at the shop 10 times',
+    category: 'misc',
+    progressKey: 'misc:shop_sell_attempt',
+    target: 10,
+    reward: { type: 'crystals', crystals: 100 },
+    tier: 1,
+  },
+  {
+    id: 'misc:shop_sell_1000',
+    name: 'The Customer Is Always Wrong',
+    description: 'Sold a useless item at the shop 1,000 times',
+    category: 'misc',
+    progressKey: 'misc:shop_sell_attempt',
+    target: 1000,
+    reward: {
+      type: 'item',
+      item: { id: 'store_credit_note', name: 'Store Credit Note', icon: '🧾', desc: 'Valid for 0 crystals. Non-transferable. Non-redeemable. The shopkeeper signed it anyway.' },
+    },
+    tier: 2,
+  },
+
   // ── Merchant ──────────────────────────────────────────────────────────────
 
   {
