@@ -863,15 +863,20 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
       onClick={paused && !inspectedUnit ? () => doPause(false) : undefined}
     >
 
-      {/* Hidden SVG filter definitions — consumed by 8-bit mode CSS */}
-      <svg width="0" height="0" style={{ position: 'absolute' }} xmlns="http://www.w3.org/2000/svg">
+      {/* Hidden SVG filter definitions — consumed by 8-bit mode CSS.
+          Pixelation recipe: sample SourceGraphic at every Nth pixel (feFlood+feTile
+          creates a dot grid), clip to those dots, then dilate each dot to a block. */}
+      <svg style={{ display: 'none' }}>
         <defs>
-          <filter id="filter-pixelate-bg" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-            <feFlood x="4" y="4" height="2" width="2"/>
-            <feComposite width="8" height="8"/>
-            <feTile result="a"/>
-            <feComposite in="SourceGraphic" in2="a" operator="in"/>
-            <feMorphology operator="dilate" radius="4"/>
+          <filter id="filter-pixelate-bg" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
+            {/* Step 1: create a 1×1 sample point at (4,4) inside an 8×8 tile */}
+            <feFlood x="4" y="4" width="1" height="1" result="dot" />
+            {/* Step 2: tile the dot across the filter region */}
+            <feTile in="dot" result="grid" />
+            {/* Step 3: clip SourceGraphic — only the sampled pixels survive */}
+            <feComposite in="SourceGraphic" in2="grid" operator="in" result="sampled" />
+            {/* Step 4: expand each sample dot into a chunky 8×8 block */}
+            <feMorphology in="sampled" operator="dilate" radius="4" />
           </filter>
         </defs>
       </svg>

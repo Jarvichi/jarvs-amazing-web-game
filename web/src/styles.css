@@ -5868,10 +5868,10 @@ html.eightbit-mode canvas.card-sprite {
    Applying the SVG feFlood+feTile+feMorphology pixelation filter samples the
    rasterised SVG on a regular grid and expands each sample into a chunky block,
    producing a genuine low-res pixel art look. */
-html.eightbit-mode .lane-bg-svg,
-html.eightbit-mode .wall-svg,
-html.eightbit-mode .terrain-obstacle,
-html.eightbit-mode .forest-border {
+html.eightbit-mode .lane-bg-svg > svg,
+html.eightbit-mode .wall-svg > svg,
+html.eightbit-mode .terrain-obstacle > svg,
+html.eightbit-mode .forest-border > svg {
   filter: url(#filter-pixelate-bg);
 }
 
