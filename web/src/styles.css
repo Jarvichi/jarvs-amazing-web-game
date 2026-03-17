@@ -5871,9 +5871,18 @@ html.eightbit-mode .game-container::after {
 }
 
 /* Sprite pixelation in 8-bit mode is handled in SpriteImg.tsx via canvas rendering.
-   Canvas elements get the same class names and are sized identically to the img elements. */
-html.eightbit-mode canvas.lane-unit-sprite,
+   Canvas default display size = its pixel dimensions (8x8), so we must explicitly
+   restore the normal display size so the tiny canvas scales back up. */
+html.eightbit-mode canvas.lane-unit-sprite {
+  width: 32px;
+  height: 28px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
 html.eightbit-mode canvas.card-sprite {
+  width: 64px;
+  height: 40px;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
