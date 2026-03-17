@@ -5846,14 +5846,10 @@ body {
 
 /* ─── 8-Bit Mode ──────────────────────────────────────── */
 
-html.eightbit-mode .game-container {
-  image-rendering: pixelated;
-}
+/* ─── 8-Bit Mode ──────────────────────────────────────── */
 
-
-/* Sprite pixelation in 8-bit mode is handled in SpriteImg.tsx via canvas rendering.
-   Canvas default display size = its pixel dimensions (8x8), so we must explicitly
-   restore the normal display size so the tiny canvas scales back up. */
+/* Sprites: canvas drawn at EIGHTBIT_PX×EIGHTBIT_PX, CSS restores display
+   size so it upscales with nearest-neighbour. */
 html.eightbit-mode canvas.lane-unit-sprite {
   width: 32px;
   height: 28px;
@@ -5866,6 +5862,17 @@ html.eightbit-mode canvas.card-sprite {
   height: 40px;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+}
+
+/* Battlefield backgrounds, walls, terrain, and border blobs are inline SVGs.
+   Applying the SVG feFlood+feTile+feMorphology pixelation filter samples the
+   rasterised SVG on a regular grid and expands each sample into a chunky block,
+   producing a genuine low-res pixel art look. */
+html.eightbit-mode .lane-bg-svg,
+html.eightbit-mode .wall-svg,
+html.eightbit-mode .terrain-obstacle,
+html.eightbit-mode .forest-border {
+  filter: url(#filter-pixelate-bg);
 }
 
 /* Title logo flash on secret click */
