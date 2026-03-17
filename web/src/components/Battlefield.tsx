@@ -39,8 +39,8 @@ function WallSvg({ hp, maxHp, owner, wallNames = [] }: { hp: number; maxHp: numb
   const hasBone  = wallNames.includes('Bone Wall')
 
   return (
+    <div className="wall-svg" style={{ display: 'block', width: '100%', height: 30 }}>
     <svg
-      className="wall-svg"
       width="100%" height="30"
       viewBox="0 0 360 30"
       preserveAspectRatio="none"
@@ -114,6 +114,7 @@ function WallSvg({ hp, maxHp, owner, wallNames = [] }: { hp: number; maxHp: numb
       {dmgPct > 0.5 && <rect x="106" y="1" width="22" height="9" fill="#050200" opacity="0.55"/>}
       {dmgPct > 0.75 && <rect x="264" y="1" width="22" height="9" fill="#050200" opacity="0.7"/>}
     </svg>
+    </div>
   )
 }
 
@@ -246,7 +247,8 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
 function LaneBgForest() {
   const cropRows = Array.from({ length: 30 }, (_, i) => i)
   return (
-    <svg className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
+    <div className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}>
+    <svg style={{ width: '100%', height: '100%', display: 'block' }}
       viewBox="0 0 100 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="100" height="220" fill="#2a5418"/>
       <rect x="0" y="0" width="24" height="220" fill="#1e4810"/>
@@ -270,12 +272,14 @@ function LaneBgForest() {
       <ellipse cx="82" cy="52"  rx="6" ry="4"   fill="#6a4820" opacity="0.38"/>
       <ellipse cx="80" cy="112" rx="5" ry="3.5" fill="#6a4820" opacity="0.32"/>
     </svg>
+    </div>
   )
 }
 
 function LaneBgRuins() {
   return (
-    <svg className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
+    <div className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}>
+    <svg style={{ width: '100%', height: '100%', display: 'block' }}
       viewBox="0 0 100 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       {/* Muted mossy ground */}
       <rect width="100" height="220" fill="#3a4030"/>
@@ -312,12 +316,14 @@ function LaneBgRuins() {
       <ellipse cx="88" cy="130" rx="4" ry="2.5" fill="#3a5028" opacity="0.45"/>
       <ellipse cx="12" cy="180" rx="6" ry="3" fill="#3a5028" opacity="0.5"/>
     </svg>
+    </div>
   )
 }
 
 function LaneBgCamp() {
   return (
-    <svg className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
+    <div className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}>
+    <svg style={{ width: '100%', height: '100%', display: 'block' }}
       viewBox="0 0 100 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       {/* Churned dirt base */}
       <rect width="100" height="220" fill="#5a3c1e"/>
@@ -345,12 +351,14 @@ function LaneBgCamp() {
       <ellipse cx="29" cy="82"  rx="4" ry="2" fill="#2e2010" opacity="0.55"/>
       <ellipse cx="71" cy="128" rx="3.5" ry="1.8" fill="#2e2010" opacity="0.5"/>
     </svg>
+    </div>
   )
 }
 
 function LaneBgCitadel() {
   return (
-    <svg className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
+    <div className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}>
+    <svg style={{ width: '100%', height: '100%', display: 'block' }}
       viewBox="0 0 100 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       {/* Stone base */}
       <rect width="100" height="220" fill="#5a5a60"/>
@@ -384,12 +392,14 @@ function LaneBgCitadel() {
       <ellipse cx="42" cy="95"  rx="3" ry="2" fill="#3a2820" opacity="0.4"/>
       <ellipse cx="60" cy="140" rx="2.5" ry="1.5" fill="#3a2820" opacity="0.35"/>
     </svg>
+    </div>
   )
 }
 
 function LaneBgAshen() {
   return (
-    <svg className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
+    <div className="lane-bg-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}>
+    <svg style={{ width: '100%', height: '100%', display: 'block' }}
       viewBox="0 0 100 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       {/* Scorched earth base */}
       <rect width="100" height="220" fill="#1e1c18"/>
@@ -423,6 +433,7 @@ function LaneBgAshen() {
       <ellipse cx="82" cy="148" rx="5" ry="2"   fill="#504e48" opacity="0.35"/>
       <ellipse cx="20" cy="205" rx="7" ry="2.5" fill="#504e48" opacity="0.4"/>
     </svg>
+    </div>
   )
 }
 
