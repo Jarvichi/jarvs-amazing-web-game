@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 3: stride B -->
+  <ellipse cx="16" cy="17" rx="7" ry="8" fill="#3a6a3a"/>
+  <path d="M11,13 Q13,11 15,13 Q17,11 19,13 Q21,11 22,13" stroke="#2a5a2a" stroke-width="0.8" fill="none"/>
+  <path d="M11,16 Q13,14 15,16 Q17,14 19,16 Q21,14 22,16" stroke="#2a5a2a" stroke-width="0.8" fill="none"/>
+  <ellipse cx="19" cy="10" rx="6" ry="4" fill="#4a7a4a"/>
+  <circle cx="17" cy="9" r="2" fill="#ffcc00"/>
+  <circle cx="22" cy="9" r="2" fill="#ffcc00"/>
+  <circle cx="17" cy="9" r="1" fill="#000"/>
+  <circle cx="22" cy="9" r="1" fill="#000"/>
+  <path d="M13,11 L18,13 L24,11" stroke="#2a5a2a" stroke-width="1" fill="#3a6a3a"/>
+  <!-- Arms reversed -->
+  <line x1="21" y1="16" x2="25" y2="21" stroke="#3a6a3a" stroke-width="3" stroke-linecap="round"/>
+  <line x1="11" y1="15" x2="6" y2="12" stroke="#3a6a3a" stroke-width="3" stroke-linecap="round"/>
+  <line x1="6" y1="12" x2="4" y2="11" stroke="#88aa44" stroke-width="1.5"/>
+  <line x1="6" y1="12" x2="5" y2="10" stroke="#88aa44" stroke-width="1.5"/>
+  <!-- Legs stride B -->
+  <line x1="13" y1="23" x2="16" y2="29" stroke="#2a5a2a" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="19" y1="24" x2="16" y2="29" stroke="#2a5a2a" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M9,18 Q4,20 3,25" stroke="#2a5a2a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>
