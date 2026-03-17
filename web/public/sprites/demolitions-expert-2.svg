@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 2: body 1px higher -->
+  <rect x="8" y="11" width="5" height="7" rx="1" fill="#333"/>
+  <circle cx="9" cy="13" r="1.2" fill="#ff4400"/>
+  <circle cx="11" cy="15" r="1.2" fill="#ff4400"/>
+  <rect x="11" y="11" width="9" height="10" rx="2" fill="#555"/>
+  <rect x="11" y="18" width="9" height="2" fill="#7a5a20"/>
+  <circle cx="16" cy="8" r="4.5" fill="#888"/>
+  <ellipse cx="14" cy="8" rx="2" ry="1.5" fill="#224488" stroke="#555" stroke-width="0.8"/>
+  <ellipse cx="18" cy="8" rx="2" ry="1.5" fill="#224488" stroke="#555" stroke-width="0.8"/>
+  <line x1="20" y1="14" x2="26" y2="11" stroke="#888" stroke-width="2" stroke-linecap="round"/>
+  <path d="M26,11 Q28,9 27,7" stroke="#ffaa00" stroke-width="1.2" fill="none" stroke-dasharray="2,1"/>
+  <line x1="11" y1="14" x2="6" y2="16" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Legs mid -->
+  <line x1="13" y1="21" x2="12" y2="28" stroke="#444" stroke-width="3" stroke-linecap="round"/>
+  <line x1="18" y1="21" x2="19" y2="28" stroke="#444" stroke-width="3" stroke-linecap="round"/>
+</svg>
