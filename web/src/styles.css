@@ -31,6 +31,7 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .game-title {
@@ -5868,18 +5869,31 @@ html.eightbit-mode .game-container::after {
   );
 }
 
-/* Scale unit sprites 2× so individual pixels are visibly chunky */
+/* Reduce effective resolution: render at 25% size then scale back up 4x.
+   Same visual size, but each pixel is 4x bigger — true 8-bit look.
+   Margins compensate for transform not affecting layout box. */
 html.eightbit-mode .lane-unit-sprite {
-  transform: scale(2);
+  width: 8px !important;
+  max-width: 8px !important;
+  height: 7px !important;
+  max-height: 7px !important;
+  transform: scale(4);
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+  /* layout box is 8×7, visual is 32×28: add (32-8)/2=12px h, (28-7)/2=10px v */
+  margin: 10px 12px;
 }
 
-/* Scale card sprites 2× */
 html.eightbit-mode .card-sprite {
-  transform: scale(2);
+  width: 16px !important;
+  max-width: 16px !important;
+  height: 10px !important;
+  max-height: 10px !important;
+  transform: scale(4);
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+  /* layout box is 16×10, visual is 64×40: add (64-16)/2=24px h, (40-10)/2=15px v */
+  margin: 15px 24px;
 }
 
 /* Title logo flash on secret click */
