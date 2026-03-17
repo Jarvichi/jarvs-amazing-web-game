@@ -359,7 +359,7 @@
       "handicap": 7,
       "opponentIntervalMs": 5500,
       "opponentBaseHp": 175,
-      "environment": "forest",
+      "environment": "farmland",
       "enemyDeck": [
         "Frog Knight",
         "Goblin",

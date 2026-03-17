@@ -1,5 +1,6 @@
 {
   "environments": {
+    "farmland":  ["floor-grass", "field-left", "field-right", "path-grass-center"],
     "forest":  ["floor-grass", "field-left", "dirt-right", "path-dirt-center"],
     "dark-forest":  ["floor-mud", "ash-left", "ash-right", "dirt-right", "path-dirt-center"],
     "ruins":   ["floor-rubble", "rubble-left", "rubble-right", "path-ruins-center"],

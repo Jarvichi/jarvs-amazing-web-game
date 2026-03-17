@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
   <!-- Dark forest-edge left strip with crop rows -->
-  <rect x="0" y="0" width="24" height="220" fill="#1e4810"/>
+  <rect x="76" y="0" width="24" height="220" fill="#1e4810"/>
   <defs>
-    <pattern id="crop" x="0" y="0" width="24" height="7.5" patternUnits="userSpaceOnUse">
+    <pattern id="crop" x="76" y="0" width="24" height="7.5" patternUnits="userSpaceOnUse">
       <rect width="24" height="3.5" fill="#2a5a14" opacity="0.75"/>
     </pattern>
   </defs>
-  <rect x="0" y="0" width="24" height="220" fill="url(#crop)"/>
-  <line x1="24" y1="0" x2="24" y2="220" stroke="#3a6820" stroke-width="0.6" opacity="0.5"/>
-  <ellipse cx="10" cy="52"  rx="7" ry="4"   fill="#3a6820" opacity="0.4"/>
-  <ellipse cx="12" cy="128" rx="8" ry="4.5" fill="#3a6820" opacity="0.4"/>
-  <circle  cx="15" cy="88"  r="1.5"          fill="#887860" opacity="0.5"/>
-  <circle  cx="11" cy="170" r="1.5"          fill="#887860" opacity="0.5"/>
+  <rect x="76" y="0" width="24" height="220" fill="url(#crop)"/>
+  <line x1="100" y1="0" x2="100" y2="220" stroke="#3a6820" stroke-width="0.6" opacity="0.5"/>
+  <ellipse cx="86" cy="52"  rx="7" ry="4"   fill="#3a6820" opacity="0.4"/>
+  <ellipse cx="88" cy="128" rx="8" ry="4.5" fill="#3a6820" opacity="0.4"/>
+  <circle  cx="91" cy="88"  r="1.5"          fill="#887860" opacity="0.5"/>
+  <circle  cx="87" cy="170" r="1.5"          fill="#887860" opacity="0.5"/>
 </svg>
