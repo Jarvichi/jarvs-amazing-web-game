@@ -10,6 +10,18 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🟠 Active Work
 
+### #296 — Shop Improvements
+
+- [ ] Add named NPC shopkeepers (owner, apprentice + others) with daily rotation
+- [ ] Shop sells 3 daily specific cards (deterministic by date, priced by rarity)
+- [ ] Track daily purchase state in localStorage (`jarv_shop_daily`)
+- [ ] Weekend mode: 3 sell slots for useless items (vs 1 on weekdays)
+- [ ] Apprentice NPC: 10% discount on weekends, accepts select items
+- [ ] Countdown timer showing time until next shop reset
+- [ ] Improved shop visual design
+
+---
+
 ### Session 13 — Add Missing Expansion Cards
 
 Add all missing cards from Verdant Shard, Iron Citadel, Ashen Wastes, and Crystal Spire expansions per CLAUDE.md roadmap (Phase 4):
