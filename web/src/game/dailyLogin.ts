@@ -206,8 +206,8 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     name: 'Pip',
     title: 'Apprentice (Day)',
     role: 'apprentice',
-    greeting: "Um, hi! I'm looking after the shop today. I think. Oh, and it's the weekend so I'm doing discounts!",
-    perk: isWeekend() ? '10% weekend discount · buys select items' : '10% discount on weekends',
+    greeting: "Um, hi! I'm looking after the shop today. I think.",
+    perk: '10% discount on weekends',
   },
   {
     name: 'Seraph',
@@ -245,7 +245,7 @@ const NIGHT_SHIFT_NPCS: ShopNPC[] = [
     title: 'Apprentice (Night)',
     role: 'apprentice',
     greeting: "Margot said I could do the night shift. This is fine. Everything is fine.",
-    perk: isWeekend() ? '10% weekend discount · buys select items' : '10% discount on weekends',
+    perk: '10% discount on weekends',
   },
   {
     name: 'The Stranger',
@@ -277,7 +277,20 @@ export function getDailyShopNPC(): ShopNPC {
   const shiftSeed = night ? 0xbaadf00d : 0xdeadbeef
   const rng = makeSeededRng(dateHash(today) ^ shiftSeed)
   const idx = Math.floor(rng() * pool.length)
-  return pool[idx]
+  const npc = { ...pool[idx] }
+
+  // Resolve Pip's dynamic greeting and perk at call time
+  if (npc.name === 'Pip' && npc.role === 'apprentice') {
+    const weekend = isWeekend()
+    npc.perk = weekend ? '10% weekend discount · buys select items' : '10% discount on weekends'
+    if (!night) {
+      npc.greeting = weekend
+        ? "Um, hi! I'm looking after the shop today. It's the weekend so I'm doing discounts!"
+        : "Um, hi! I'm looking after the shop today. I think."
+    }
+  }
+
+  return npc
 }
 
 // ── Daily shop card deals ──────────────────────────────────────────────────────

@@ -18,10 +18,11 @@ import { OverlayScreen } from './OverlayScreen'
 import { getCardCatalog } from '../game/cards'
 
 const UPGRADE_SPRITE: Record<string, string> = {
-  buffAtk:    'upgrade-attack',
-  buffDef:    'upgrade-defense',
+  buffAttack: 'upgrade-attack',
+  healUnits:  'upgrade-heal',
+  buffSpeed:  'upgrade-speed',
+  buffMaxHp:  'upgrade-hp',
   buffRange:  'upgrade-range',
-  heal:       'upgrade-heal',
 }
 
 function spriteName(cardName: string): string {
