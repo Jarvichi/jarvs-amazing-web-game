@@ -65,10 +65,11 @@ interface Props {
 
 export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBack }: Props) {
   const canBuyPack = crystals >= CRYSTAL_PACK_COST
-  const npc = getDailyShopNPC()
-  const dailyCards = getDailyShopCards()
-  const sellSlots = getDailyShopSellSlots()
-  const weekend = isWeekend()
+
+  const [npc, setNpc] = useState(() => getDailyShopNPC())
+  const [dailyCards, setDailyCards] = useState(() => getDailyShopCards())
+  const [sellSlots, setSellSlots] = useState(() => getDailyShopSellSlots())
+  const [weekend, setWeekend] = useState(() => isWeekend())
 
   const [shopState, setShopState] = useState(() => loadDailyShopState())
   const [inventory, setInventory] = useState(() => loadInventory())
@@ -77,7 +78,19 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
   const [countdown, setCountdown] = useState(getSecondsUntilShopReset())
 
   useEffect(() => {
-    const id = setInterval(() => setCountdown(getSecondsUntilShopReset()), 1000)
+    const id = setInterval(() => {
+      const secs = getSecondsUntilShopReset()
+      setCountdown(secs)
+      if (secs === 0) {
+        setNpc(getDailyShopNPC())
+        setDailyCards(getDailyShopCards())
+        setSellSlots(getDailyShopSellSlots())
+        setWeekend(isWeekend())
+        setShopState(loadDailyShopState())
+        setSellMsgs({})
+        setSellCounts({})
+      }
+    }, 1000)
     return () => clearInterval(id)
   }, [])
 
