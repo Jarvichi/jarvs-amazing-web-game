@@ -234,7 +234,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
       {/* Countdown footer */}
       <div className="shop-countdown">
-        🕐 Next refresh in <span className="shop-countdown-time">{formatCountdown(countdown)}</span>
+        🕐 Next shift in <span className="shop-countdown-time">{formatCountdown(countdown)}</span>
       </div>
 
       </div>

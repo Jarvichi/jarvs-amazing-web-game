@@ -144,12 +144,21 @@ function dateHash(date: string): number {
   return h
 }
 
+/** Returns seconds until the next shift boundary (06:00 or 18:00 local time). */
 export function getSecondsUntilShopReset(): number {
   const now = new Date()
-  const tomorrow = new Date(now)
-  tomorrow.setUTCDate(now.getUTCDate() + 1)
-  tomorrow.setUTCHours(0, 0, 0, 0)
-  return Math.max(0, Math.floor((tomorrow.getTime() - now.getTime()) / 1000))
+  const h = now.getHours()
+  const next = new Date(now)
+  next.setSeconds(0, 0)
+  if (h < 6) {
+    next.setHours(6, 0)
+  } else if (h < 18) {
+    next.setHours(18, 0)
+  } else {
+    next.setDate(next.getDate() + 1)
+    next.setHours(6, 0)
+  }
+  return Math.max(0, Math.floor((next.getTime() - now.getTime()) / 1000))
 }
 
 // ── Shop NPCs ─────────────────────────────────────────────────────────────────
