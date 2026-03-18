@@ -317,8 +317,8 @@ Current cards: ~95. Target: 1000+ across 10 shards/expansions.
 - [x] Relic selection screen between acts
 
 **Phase 4 — Expansions**
-- [ ] Add Verdant Shard cards (80 cards) with sprites
-- [ ] Add Iron Citadel cards (100 cards) with sprites
+- [x] Add Verdant Shard cards (80 cards) with sprites
+- [x] Add Iron Citadel cards (100 cards) with sprites
 - [ ] (Remaining expansions follow after)
 
 **Phase 5 — Polish**

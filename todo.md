@@ -1,10 +1,47 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-17 (session 13).
+Issues sourced from GitHub. Last synced: 2026-03-18 (session 14 — tidy-up).
 
 ---
 
 When working an issue from this file, go and check the GitHub issue for additional detail and requirements before planning the solution, create a todo list based on the plan and execute it. If running in the cli you can usually use the "gh" cli commands to help, however if they are not available use a fallback method.
+
+---
+
+## ⚠️ GitHub Issues Needing Manual Close
+
+These are all implemented and merged but GitHub still shows them as open (no GITHUB_TOKEN in env).
+Close each with a comment referencing the implementing PR/commit:
+
+- [ ] **#296** Shop improvement — fully implemented (session 14)
+- [ ] **#187** CSS optimisation — implemented (session 9)
+- [ ] **#179** Merchant inventory item — implemented (session 9)
+- [ ] **#177** Cards lore field — implemented
+- [ ] **#176** Per-act music — implemented
+- [ ] **#175** Per-run modifiers — implemented
+- [ ] **#174** Relic selection + break chance — implemented
+- [ ] **#173** Boss card mechanic — implemented
+- [ ] **#172** Node peek modal — implemented
+- [ ] **#171** Mystery node — implemented
+- [ ] **#159** Affinity system — implemented (session 10)
+- [ ] **#158** Strength & weakness — implemented (session 10)
+- [ ] **#157** Unit updates (duplicate of #158) — implemented; close as duplicate
+
+---
+
+## 🔴 Bugs — New (from GitHub, session 14 sync)
+
+- [ ] **#303** Units disappear off the top of the battlefield — investigate unit position clamping in engine.ts
+
+---
+
+## 🔵 Enhancements — New (from GitHub, session 14 sync)
+
+- [ ] **#295** Boss fight — further boss improvements (check issue for detail)
+- [ ] **#294** Card upgrade and level up — in-battle or collection card levelling system
+- [ ] **#210** Upgrade Buildings in Battles — allow upgrading existing battlefield structures mid-battle
+- [ ] **#302** Virtual pet — companion/pet mechanic (large feature)
+- [ ] **#301** Seasons — seasonal content rotation (large feature)
 
 ---
 
@@ -386,7 +423,8 @@ Each engine tick, for each unit, check if a same-owner ally with `name === affin
 
 ## 🟣 Enhancements — Pending
 
-- [ ] **#100** Unit behavioral traits: avoidance, fleeing, target priority (destroy walls, buildings, boss, protect base) — fall back to default if trait unfulfilled
+- [x] **#100** Target priority — implemented (session 10; `targetPriority` field in engine.ts)
+- [ ] **#100** (partial) Unit avoidance / fleeing behaviours — still outstanding
 - [x] **#102** Achievements system: per-unit/building kill milestones (1000/10000), witty names, rewards (cards/crystals/items), Gambler/rubber-chicken achievements, act-completion counts, dedicated achievements screen
 
 ## ⚪ Features — Large / Long-term (new)
