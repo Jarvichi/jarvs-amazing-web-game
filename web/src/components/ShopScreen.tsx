@@ -14,6 +14,23 @@ import {
 } from '../game/dailyLogin'
 import { SpriteImg } from './SpriteImg'
 import { OverlayScreen } from './OverlayScreen'
+import { getCardCatalog } from '../game/cards'
+
+const UPGRADE_SPRITE: Record<string, string> = {
+  buffAtk:    'upgrade-attack',
+  buffDef:    'upgrade-defense',
+  buffRange:  'upgrade-range',
+  heal:       'upgrade-heal',
+}
+
+function spriteName(cardName: string): string {
+  const card = getCardCatalog().find(c => c.name === cardName)
+  if (!card) return cardName
+  if (card.cardType === 'upgrade' && card.upgradeEffect) {
+    return UPGRADE_SPRITE[card.upgradeEffect.type] ?? 'upgrade'
+  }
+  return cardName
+}
 
 // Shopkeeper rejection lines — always picky, never suspicious
 const REJECTION_LINES = [
@@ -135,7 +152,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
               return (
                 <div key={deal.cardName} className={`shop-card-deal shop-card-deal--${deal.rarity}${bought ? ' shop-card-deal--bought' : ''}`}>
                   <div className="shop-card-rarity">{deal.rarity.toUpperCase()}</div>
-                  <SpriteImg name={deal.cardName} className="shop-card-sprite" />
+                  <SpriteImg name={spriteName(deal.cardName)} className="shop-card-sprite" />
                   <div className="shop-card-name">{deal.cardName || '???'}</div>
                   {bought ? (
                     <div className="shop-purchased">PURCHASED ✓</div>
