@@ -11,9 +11,27 @@ import {
   isWeekend,
   ShopCardDeal,
   loadInventory,
+  recordNPCVisit,
 } from '../game/dailyLogin'
 import { SpriteImg } from './SpriteImg'
 import { OverlayScreen } from './OverlayScreen'
+import { getCardCatalog } from '../game/cards'
+
+const UPGRADE_SPRITE: Record<string, string> = {
+  buffAtk:    'upgrade-attack',
+  buffDef:    'upgrade-defense',
+  buffRange:  'upgrade-range',
+  heal:       'upgrade-heal',
+}
+
+function spriteName(cardName: string): string {
+  const card = getCardCatalog().find(c => c.name === cardName)
+  if (!card) return cardName
+  if (card.cardType === 'upgrade' && card.upgradeEffect) {
+    return UPGRADE_SPRITE[card.upgradeEffect.type] ?? 'upgrade'
+  }
+  return cardName
+}
 
 // Shopkeeper rejection lines — always picky, never suspicious
 const REJECTION_LINES = [
@@ -48,10 +66,11 @@ interface Props {
 
 export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBack }: Props) {
   const canBuyPack = crystals >= CRYSTAL_PACK_COST
-  const npc = getDailyShopNPC()
-  const dailyCards = getDailyShopCards()
-  const sellSlots = getDailyShopSellSlots()
-  const weekend = isWeekend()
+
+  const [npc, setNpc] = useState(() => getDailyShopNPC())
+  const [dailyCards, setDailyCards] = useState(() => getDailyShopCards())
+  const [sellSlots, setSellSlots] = useState(() => getDailyShopSellSlots())
+  const [weekend, setWeekend] = useState(() => isWeekend())
 
   const [shopState, setShopState] = useState(() => loadDailyShopState())
   const [inventory, setInventory] = useState(() => loadInventory())
@@ -59,8 +78,27 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
   const [sellCounts, setSellCounts] = useState<Record<string, number>>({})
   const [countdown, setCountdown] = useState(getSecondsUntilShopReset())
 
+  // Track unique NPC visits for the "meet all staff" achievement
   useEffect(() => {
-    const id = setInterval(() => setCountdown(getSecondsUntilShopReset()), 1000)
+    if (recordNPCVisit(npc.name)) {
+      incrementAchievementProgress('misc:staff_met')
+    }
+  }, [npc.name])
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      const secs = getSecondsUntilShopReset()
+      setCountdown(secs)
+      if (secs === 0) {
+        setNpc(getDailyShopNPC())
+        setDailyCards(getDailyShopCards())
+        setSellSlots(getDailyShopSellSlots())
+        setWeekend(isWeekend())
+        setShopState(loadDailyShopState())
+        setSellMsgs({})
+        setSellCounts({})
+      }
+    }, 1000)
     return () => clearInterval(id)
   }, [])
 
@@ -135,7 +173,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
               return (
                 <div key={deal.cardName} className={`shop-card-deal shop-card-deal--${deal.rarity}${bought ? ' shop-card-deal--bought' : ''}`}>
                   <div className="shop-card-rarity">{deal.rarity.toUpperCase()}</div>
-                  <SpriteImg name={deal.cardName} className="shop-card-sprite" />
+                  <SpriteImg name={spriteName(deal.cardName)} className="shop-card-sprite" />
                   <div className="shop-card-name">{deal.cardName || '???'}</div>
                   {bought ? (
                     <div className="shop-purchased">PURCHASED ✓</div>
@@ -217,7 +255,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
       {/* Countdown footer */}
       <div className="shop-countdown">
-        🕐 Next refresh in <span className="shop-countdown-time">{formatCountdown(countdown)}</span>
+        🕐 Next shift in <span className="shop-countdown-time">{formatCountdown(countdown)}</span>
       </div>
 
       </div>

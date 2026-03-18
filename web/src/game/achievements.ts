@@ -899,4 +899,17 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     reward: { type: 'crystals', crystals: 50 },
     tier: 1,
   },
+
+  // ── Shop staff ────────────────────────────────────────────────────────────
+
+  {
+    id: 'misc:staff_met_all',
+    name: 'Regular Customer',
+    description: 'Meet every member of staff at the shop.',
+    category: 'misc',
+    progressKey: 'misc:staff_met',
+    target: 11,
+    reward: { type: 'crystals', crystals: 200 },
+    tier: 1,
+  },
 ]

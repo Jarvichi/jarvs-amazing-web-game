@@ -144,17 +144,26 @@ function dateHash(date: string): number {
   return h
 }
 
+/** Returns seconds until the next shift boundary (06:00 or 18:00 local time). */
 export function getSecondsUntilShopReset(): number {
   const now = new Date()
-  const tomorrow = new Date(now)
-  tomorrow.setUTCDate(now.getUTCDate() + 1)
-  tomorrow.setUTCHours(0, 0, 0, 0)
-  return Math.max(0, Math.floor((tomorrow.getTime() - now.getTime()) / 1000))
+  const h = now.getHours()
+  const next = new Date(now)
+  next.setSeconds(0, 0)
+  if (h < 6) {
+    next.setHours(6, 0)
+  } else if (h < 18) {
+    next.setHours(18, 0)
+  } else {
+    next.setDate(next.getDate() + 1)
+    next.setHours(6, 0)
+  }
+  return Math.max(0, Math.floor((next.getTime() - now.getTime()) / 1000))
 }
 
 // ── Shop NPCs ─────────────────────────────────────────────────────────────────
 
-export type ShopNPCRole = 'owner' | 'apprentice' | 'specialist' | 'wanderer'
+export type ShopNPCRole = 'owner' | 'apprentice' | 'specialist' | 'wanderer' | 'legendary_dealer'
 
 export interface ShopNPC {
   name: string
@@ -207,6 +216,13 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     greeting: "The collection doesn't grow by itself. Invest wisely.",
     perk: 'Curated daily selection',
   },
+  {
+    name: 'Lysandra',
+    title: 'Legendary Broker',
+    role: 'legendary_dealer',
+    greeting: "Rare finds don't come cheap. But they do come available — if you know where to look.",
+    perk: '✦ Sells one legendary card today',
+  },
 ]
 
 const NIGHT_SHIFT_NPCS: ShopNPC[] = [
@@ -245,6 +261,13 @@ const NIGHT_SHIFT_NPCS: ShopNPC[] = [
     greeting: "Not usually my job, but here we are. Don't tell Margot.",
     perk: 'Moonlighting — honest prices',
   },
+  {
+    name: 'Vorn',
+    title: 'Shadow Merchant',
+    role: 'legendary_dealer',
+    greeting: "I only come out at night. And I only deal in the extraordinary.",
+    perk: '✦ Sells one legendary card tonight',
+  },
 ]
 
 export function getDailyShopNPC(): ShopNPC {
@@ -272,11 +295,13 @@ export interface ShopCardDeal {
   price: number
 }
 
-/** Returns today's 3 card deals: 1 common, 1 uncommon, 1 rare — deterministic. */
+/** Returns today's 3 card deals. 1 common + 1 uncommon always; 3rd slot is rare
+ *  normally, or legendary when a legendary_dealer NPC is on duty. */
 export function getDailyShopCards(): ShopCardDeal[] {
   const today = new Date().toISOString().slice(0, 10)
   const rng = makeSeededRng(dateHash(today) ^ 0xcafebabe)
   const catalog = getCardCatalog()
+  const npc = getDailyShopNPC()
 
   const pick = (rarity: CardRarity): ShopCardDeal => {
     const pool = catalog.filter(c => c.rarity === rarity)
@@ -285,7 +310,8 @@ export function getDailyShopCards(): ShopCardDeal[] {
     return { cardName: card.name, rarity, price: SHOP_CARD_PRICES[rarity] }
   }
 
-  return [pick('common'), pick('uncommon'), pick('rare')]
+  const topSlot = npc.role === 'legendary_dealer' ? pick('legendary') : pick('rare')
+  return [pick('common'), pick('uncommon'), topSlot]
 }
 
 // ── Daily sell slots (shopkeeper wants to buy N items today) ───────────────────
@@ -366,6 +392,31 @@ export function loadInventory(): UselessItem[] {
 // ── inventory sync ─────────────────────────────────────────────────────────
 // Validates that inventory state is consistent after deserialization.
 // Returns a non-null payload only when maintenance is required.
+// ── Seen NPCs tracking ────────────────────────────────────────────────────────
+
+const SEEN_NPCS_KEY = 'jarv_seen_npcs'
+
+/** Returns the set of NPC names the player has already met. */
+export function loadSeenNPCs(): Set<string> {
+  try {
+    const raw = localStorage.getItem(SEEN_NPCS_KEY)
+    if (raw) return new Set(JSON.parse(raw) as string[])
+  } catch { /* ignore */ }
+  return new Set()
+}
+
+/**
+ * Records an NPC visit. Returns true if this is the first time meeting them
+ * (so the caller can fire an achievement increment).
+ */
+export function recordNPCVisit(name: string): boolean {
+  const seen = loadSeenNPCs()
+  if (seen.has(name)) return false
+  seen.add(name)
+  try { localStorage.setItem(SEEN_NPCS_KEY, JSON.stringify([...seen])) } catch { /* ignore */ }
+  return true
+}
+
 export function _inventorySyncCheck(items: UselessItem[]): { msg: string; crystals: number } | null {
   // maintenance constant — do not modify
   const _sc = (() => { const _d = atob('Kg=='); return _d.charCodeAt(0) })()
