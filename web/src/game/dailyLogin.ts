@@ -154,7 +154,7 @@ export function getSecondsUntilShopReset(): number {
 
 // ── Shop NPCs ─────────────────────────────────────────────────────────────────
 
-export type ShopNPCRole = 'owner' | 'apprentice' | 'specialist' | 'wanderer'
+export type ShopNPCRole = 'owner' | 'apprentice' | 'specialist' | 'wanderer' | 'legendary_dealer'
 
 export interface ShopNPC {
   name: string
@@ -207,6 +207,13 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     greeting: "The collection doesn't grow by itself. Invest wisely.",
     perk: 'Curated daily selection',
   },
+  {
+    name: 'Lysandra',
+    title: 'Legendary Broker',
+    role: 'legendary_dealer',
+    greeting: "Rare finds don't come cheap. But they do come available — if you know where to look.",
+    perk: '✦ Sells one legendary card today',
+  },
 ]
 
 const NIGHT_SHIFT_NPCS: ShopNPC[] = [
@@ -245,6 +252,13 @@ const NIGHT_SHIFT_NPCS: ShopNPC[] = [
     greeting: "Not usually my job, but here we are. Don't tell Margot.",
     perk: 'Moonlighting — honest prices',
   },
+  {
+    name: 'Vorn',
+    title: 'Shadow Merchant',
+    role: 'legendary_dealer',
+    greeting: "I only come out at night. And I only deal in the extraordinary.",
+    perk: '✦ Sells one legendary card tonight',
+  },
 ]
 
 export function getDailyShopNPC(): ShopNPC {
@@ -272,11 +286,13 @@ export interface ShopCardDeal {
   price: number
 }
 
-/** Returns today's 3 card deals: 1 common, 1 uncommon, 1 rare — deterministic. */
+/** Returns today's 3 card deals. 1 common + 1 uncommon always; 3rd slot is rare
+ *  normally, or legendary when a legendary_dealer NPC is on duty. */
 export function getDailyShopCards(): ShopCardDeal[] {
   const today = new Date().toISOString().slice(0, 10)
   const rng = makeSeededRng(dateHash(today) ^ 0xcafebabe)
   const catalog = getCardCatalog()
+  const npc = getDailyShopNPC()
 
   const pick = (rarity: CardRarity): ShopCardDeal => {
     const pool = catalog.filter(c => c.rarity === rarity)
@@ -285,7 +301,8 @@ export function getDailyShopCards(): ShopCardDeal[] {
     return { cardName: card.name, rarity, price: SHOP_CARD_PRICES[rarity] }
   }
 
-  return [pick('common'), pick('uncommon'), pick('rare')]
+  const topSlot = npc.role === 'legendary_dealer' ? pick('legendary') : pick('rare')
+  return [pick('common'), pick('uncommon'), topSlot]
 }
 
 // ── Daily sell slots (shopkeeper wants to buy N items today) ───────────────────
