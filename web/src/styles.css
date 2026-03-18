@@ -1271,13 +1271,100 @@ body {
 }
 
 /* ── Shop ─────────────────────────────────────────────────── */
+
+/* NPC banner */
+.shop-npc-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid #443300;
+  background: #0d0900;
+  margin-bottom: 4px;
+}
+.shop-npc-icon { font-size: 32px; line-height: 1; flex-shrink: 0; }
+.shop-npc-info { display: flex; flex-direction: column; gap: 3px; }
+.shop-npc-name { font-size: 13px; color: #ffcc44; font-weight: bold; letter-spacing: 1px; }
+.shop-npc-title { color: #aa8833; font-weight: normal; }
+.shop-npc-greeting { font-size: 11px; color: var(--game-text-color-dim); font-style: italic; }
+.shop-npc-perk { font-size: 10px; color: #88bb44; letter-spacing: 1px; }
+
+/* Section headers */
+.shop-section { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+.shop-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  color: #aa8833;
+  letter-spacing: 3px;
+  border-bottom: 1px solid #332200;
+  padding-bottom: 6px;
+  text-transform: uppercase;
+}
+.shop-weekend-badge {
+  font-size: 9px;
+  color: #ffaa22;
+  background: rgba(255, 170, 34, 0.1);
+  border: 1px solid rgba(255, 170, 34, 0.3);
+  padding: 1px 6px;
+  letter-spacing: 2px;
+}
+
+/* Daily card deals */
+.shop-daily-cards {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.shop-card-deal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1px solid #333;
+  background: #0a0a0a;
+  min-width: 110px;
+}
+.shop-card-deal--common    { border-top: 2px solid #666; }
+.shop-card-deal--uncommon  { border-top: 2px solid #44aaff; }
+.shop-card-deal--rare      { border-top: 2px solid #cc44ff; }
+.shop-card-deal--legendary { border-top: 2px solid #ffaa22; }
+.shop-card-deal--bought    { opacity: 0.5; }
+.shop-card-rarity { font-size: 8px; color: var(--game-text-color-dim); letter-spacing: 2px; }
+.shop-card-name { font-size: 12px; color: var(--game-text-color); text-align: center; }
+.shop-card-buy-btn { position: relative; font-size: 12px; }
+.shop-card-buy-btn--poor { opacity: 0.45; cursor: not-allowed; }
+.shop-purchased { font-size: 9px; color: #33cc66; letter-spacing: 2px; }
+.shop-discount-badge {
+  position: absolute;
+  top: -8px; right: -8px;
+  font-size: 8px;
+  background: #cc4400;
+  color: #fff;
+  padding: 1px 4px;
+  border-radius: 2px;
+  letter-spacing: 1px;
+}
+
+/* Countdown footer */
+.shop-countdown {
+  text-align: center;
+  font-size: 10px;
+  color: var(--game-text-color-dim);
+  letter-spacing: 1px;
+  padding: 12px 0 4px;
+  border-top: 1px solid #222;
+  margin-top: 4px;
+}
+.shop-countdown-time { color: #ffcc44; }
+
 .shop-content {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 20px;
-  padding: 24px 8px;
-  justify-content: center;
-  align-items: flex-start;
+  padding: 16px 8px;
 }
 
 .shop-item {
