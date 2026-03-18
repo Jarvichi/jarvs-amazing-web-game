@@ -11,6 +11,7 @@ import {
   isWeekend,
   ShopCardDeal,
   loadInventory,
+  recordNPCVisit,
 } from '../game/dailyLogin'
 import { SpriteImg } from './SpriteImg'
 import { OverlayScreen } from './OverlayScreen'
@@ -76,6 +77,13 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
   const [sellMsgs, setSellMsgs] = useState<Record<string, string | null>>({})
   const [sellCounts, setSellCounts] = useState<Record<string, number>>({})
   const [countdown, setCountdown] = useState(getSecondsUntilShopReset())
+
+  // Track unique NPC visits for the "meet all staff" achievement
+  useEffect(() => {
+    if (recordNPCVisit(npc.name)) {
+      incrementAchievementProgress('misc:staff_met')
+    }
+  }, [npc.name])
 
   useEffect(() => {
     const id = setInterval(() => {

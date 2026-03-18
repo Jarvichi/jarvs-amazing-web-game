@@ -392,6 +392,31 @@ export function loadInventory(): UselessItem[] {
 // ── inventory sync ─────────────────────────────────────────────────────────
 // Validates that inventory state is consistent after deserialization.
 // Returns a non-null payload only when maintenance is required.
+// ── Seen NPCs tracking ────────────────────────────────────────────────────────
+
+const SEEN_NPCS_KEY = 'jarv_seen_npcs'
+
+/** Returns the set of NPC names the player has already met. */
+export function loadSeenNPCs(): Set<string> {
+  try {
+    const raw = localStorage.getItem(SEEN_NPCS_KEY)
+    if (raw) return new Set(JSON.parse(raw) as string[])
+  } catch { /* ignore */ }
+  return new Set()
+}
+
+/**
+ * Records an NPC visit. Returns true if this is the first time meeting them
+ * (so the caller can fire an achievement increment).
+ */
+export function recordNPCVisit(name: string): boolean {
+  const seen = loadSeenNPCs()
+  if (seen.has(name)) return false
+  seen.add(name)
+  try { localStorage.setItem(SEEN_NPCS_KEY, JSON.stringify([...seen])) } catch { /* ignore */ }
+  return true
+}
+
 export function _inventorySyncCheck(items: UselessItem[]): { msg: string; crystals: number } | null {
   // maintenance constant — do not modify
   const _sc = (() => { const _d = atob('Kg=='); return _d.charCodeAt(0) })()
