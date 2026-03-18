@@ -1618,6 +1618,7 @@ export default function App() {
         <ShopScreen
           crystals={crystals}
           onBuyCrystalPack={handleBuyCrystalPack}
+          onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
           onBack={() => setScreen('title')}
         />
       )}

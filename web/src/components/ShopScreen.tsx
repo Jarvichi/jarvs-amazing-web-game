@@ -1,7 +1,18 @@
-import React, { useState } from 'react'
-import { CRYSTAL_PACK_COST } from '../game/collection'
+import React, { useState, useEffect } from 'react'
+import { CRYSTAL_PACK_COST, addCardsToCollection } from '../game/collection'
 import { incrementAchievementProgress } from '../game/achievements'
-import { getDailyShopItem, loadInventory } from '../game/dailyLogin'
+import {
+  getDailyShopItem,
+  getDailyShopNPC,
+  getDailyShopCards,
+  getDailyShopSellSlots,
+  loadDailyShopState,
+  saveDailyShopState,
+  getSecondsUntilShopReset,
+  isWeekend,
+  ShopCardDeal,
+} from '../game/dailyLogin'
+import { loadInventory } from '../game/dailyLogin'
 import { OverlayScreen } from './OverlayScreen'
 
 // Shopkeeper rejection lines — always picky, never suspicious
@@ -21,40 +32,128 @@ const REJECTION_LINES = [
   "Wonderful. Truly. But I made a promise to myself: only the unhandled variety.",
 ]
 
+function formatCountdown(seconds: number): string {
+  const h = Math.floor(seconds / 3600)
+  const m = Math.floor((seconds % 3600) / 60)
+  const s = seconds % 60
+  return `${h}h ${m.toString().padStart(2, '0')}m ${s.toString().padStart(2, '0')}s`
+}
 
 interface Props {
   crystals: number
   onBuyCrystalPack: () => void
+  onCrystalsChange: (newAmount: number) => void
   onBack: () => void
 }
 
-export function ShopScreen({ crystals, onBuyCrystalPack, onBack }: Props) {
-  const canBuy = crystals >= CRYSTAL_PACK_COST
-  const dailyItem = getDailyShopItem()
-  const inventory = loadInventory()
-  const hasItem = inventory.some(i => i.id === dailyItem.id)
+export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBack }: Props) {
+  const canBuyPack = crystals >= CRYSTAL_PACK_COST
+  const npc = getDailyShopNPC()
+  const dailyCards = getDailyShopCards()
+  const sellSlots = getDailyShopSellSlots()
+  const weekend = isWeekend()
 
-  const [sellMsg, setSellMsg] = useState<string | null>(null)
-  const [sellCount, setSellCount] = useState(0)
+  const [shopState, setShopState] = useState(() => loadDailyShopState())
+  const [inventory, setInventory] = useState(() => loadInventory())
+  const [sellMsgs, setSellMsgs] = useState<Record<string, string | null>>({})
+  const [sellCounts, setSellCounts] = useState<Record<string, number>>({})
+  const [countdown, setCountdown] = useState(getSecondsUntilShopReset())
 
-  function handleBuyClick() {
-    if (canBuy) {
+  useEffect(() => {
+    const id = setInterval(() => setCountdown(getSecondsUntilShopReset()), 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  // Card deal: apply apprentice weekend discount
+  function cardPrice(deal: ShopCardDeal): number {
+    if (npc.role === 'apprentice' && weekend) {
+      return Math.floor(deal.price * 0.9)
+    }
+    return deal.price
+  }
+
+  function handleBuyPackClick() {
+    if (canBuyPack) {
       onBuyCrystalPack()
     } else {
       incrementAchievementProgress('misc:shop_broke_click')
     }
   }
 
-  function handleSellClick() {
+  function handleBuyCard(deal: ShopCardDeal) {
+    const price = cardPrice(deal)
+    if (crystals < price || deal.cardName === '') return
+    const next = crystals - price
+    onCrystalsChange(next)
+    addCardsToCollection([{ cardName: deal.cardName, count: 1 }])
+    const updated = { ...shopState, boughtCardNames: [...shopState.boughtCardNames, deal.cardName] }
+    setShopState(updated)
+    saveDailyShopState(updated)
+  }
+
+  function handleSellClick(slotId: string, hasItem: boolean) {
+    if (!hasItem) return
     incrementAchievementProgress('misc:shop_sell_attempt')
-    setSellMsg(REJECTION_LINES[sellCount % REJECTION_LINES.length])
-    setSellCount(c => c + 1)
+    const count = sellCounts[slotId] ?? 0
+    setSellMsgs(m => ({ ...m, [slotId]: REJECTION_LINES[count % REJECTION_LINES.length] }))
+    setSellCounts(c => ({ ...c, [slotId]: count + 1 }))
+  }
+
+  const roleLabel: Record<string, string> = {
+    owner:      '🏪',
+    apprentice: '🌟',
+    specialist: '📚',
+    wanderer:   '🌍',
   }
 
   return (
     <OverlayScreen title="SHOP" onBack={onBack} right={<span className="crystal-count">💎 {crystals.toLocaleString()}</span>}>
 
+      {/* NPC banner */}
+      <div className="shop-npc-banner">
+        <div className="shop-npc-icon">{roleLabel[npc.role] ?? '🏪'}</div>
+        <div className="shop-npc-info">
+          <div className="shop-npc-name">{npc.name} <span className="shop-npc-title">— {npc.title}</span></div>
+          <div className="shop-npc-greeting">"{npc.greeting}"</div>
+          <div className="shop-npc-perk">✦ {npc.perk}</div>
+        </div>
+      </div>
+
       <div className="shop-content">
+
+        {/* ── Daily card deals ── */}
+        <div className="shop-section">
+          <div className="shop-section-header">Today's Cards</div>
+          <div className="shop-daily-cards">
+            {dailyCards.map(deal => {
+              const bought = shopState.boughtCardNames.includes(deal.cardName)
+              const price = cardPrice(deal)
+              const canAfford = crystals >= price && !bought && deal.cardName !== ''
+              const discounted = npc.role === 'apprentice' && weekend
+
+              return (
+                <div key={deal.cardName} className={`shop-card-deal shop-card-deal--${deal.rarity}${bought ? ' shop-card-deal--bought' : ''}`}>
+                  <div className="shop-card-rarity">{deal.rarity.toUpperCase()}</div>
+                  <div className="shop-card-name">{deal.cardName || '???'}</div>
+                  {bought ? (
+                    <div className="shop-purchased">PURCHASED ✓</div>
+                  ) : (
+                    <button
+                      className={`action-btn action-btn--gold shop-card-buy-btn${!canAfford ? ' shop-card-buy-btn--poor' : ''}`}
+                      onClick={() => handleBuyCard(deal)}
+                      disabled={!canAfford}
+                    >
+                      {discounted && <span className="shop-discount-badge">-10%</span>}
+                      {price} 💎
+                    </button>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* ── Crystal pack ── */}
         <div className="shop-item">
           <div className="shop-item-icon">🎁</div>
           <div className="shop-item-name">Card Pack</div>
@@ -63,37 +162,62 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onBack }: Props) {
           </div>
           <button
             className="action-btn action-btn--gold"
-            onClick={handleBuyClick}
+            onClick={handleBuyPackClick}
             disabled={false}
           >
-            {canBuy ? `Buy — ${CRYSTAL_PACK_COST} 💎` : `Need ${CRYSTAL_PACK_COST - crystals} more 💎`}
+            {canBuyPack ? `Buy — ${CRYSTAL_PACK_COST} 💎` : `Need ${CRYSTAL_PACK_COST - crystals} more 💎`}
           </button>
         </div>
 
-        <div className="shop-item">
-          <div className="shop-item-icon">🛒</div>
-          <div className="shop-item-name">Buying Today</div>
-          <div className="shop-item-desc">
-            {dailyItem.icon} {dailyItem.name} — "{dailyItem.desc}"
+        {/* ── Sell slots ── */}
+        <div className="shop-section">
+          <div className="shop-section-header">
+            Buying Today
+            {weekend && <span className="shop-weekend-badge">WEEKEND — 3 slots</span>}
           </div>
-          {sellMsg ? (
-            <div className="shop-keeper-msg">
-              <span className="shop-keeper-label">Shopkeeper:</span> "{sellMsg}"
-            </div>
-          ) : (
-            <div className="shop-item-desc shop-item-desc--muted">
-              {hasItem ? "You have this item. The shopkeeper is very interested." : "You don't have this item."}
-            </div>
-          )}
-          <button
-            className="action-btn"
-            onClick={handleSellClick}
-            disabled={!hasItem}
-          >
-            Sell {dailyItem.icon} {dailyItem.name}
-          </button>
+          {sellSlots.map(slot => {
+            const slotId = slot.id
+            const hasItem = inventory.some(i => i.id === slotId)
+            const msg = sellMsgs[slotId] ?? null
+            const apprenticeWillBuy = npc.role === 'apprentice' && weekend && hasItem
+
+            return (
+              <div key={slotId} className="shop-item">
+                <div className="shop-item-icon">🛒</div>
+                <div className="shop-item-name">{slot.icon} {slot.name}</div>
+                <div className="shop-item-desc">"{slot.desc}"</div>
+                {msg ? (
+                  <div className="shop-keeper-msg">
+                    <span className="shop-keeper-label">{npc.name}:</span> "{msg}"
+                  </div>
+                ) : (
+                  <div className="shop-item-desc shop-item-desc--muted">
+                    {hasItem
+                      ? apprenticeWillBuy
+                        ? `${npc.name} is very interested and will give you a fair deal.`
+                        : "You have this item. The shopkeeper is very interested."
+                      : "You don't have this item."}
+                  </div>
+                )}
+                <button
+                  className="action-btn"
+                  onClick={() => handleSellClick(slotId, hasItem)}
+                  disabled={!hasItem}
+                >
+                  Sell {slot.icon} {slot.name}
+                </button>
+              </div>
+            )
+          })}
         </div>
+
       </div>
+
+      {/* Countdown footer */}
+      <div className="shop-countdown">
+        🕐 Next refresh in <span className="shop-countdown-time">{formatCountdown(countdown)}</span>
+      </div>
+
     </OverlayScreen>
   )
 }

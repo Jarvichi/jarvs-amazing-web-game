@@ -10,6 +10,19 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🟠 Active Work
 
+### #296 — Shop Improvements ✅
+
+- [x] Add named NPC shopkeepers (owner, apprentice + others) with daily rotation
+- [x] Day shift (6am–6pm) and night shift (6pm–6am) with separate NPC pools
+- [x] Shop sells 3 daily specific cards (deterministic by date, priced by rarity)
+- [x] Track daily purchase state in localStorage (`jarv_shop_daily`)
+- [x] Weekend mode: 3 sell slots for useless items (vs 1 on weekdays)
+- [x] Apprentice NPC: 10% discount on weekends, accepts select items
+- [x] Countdown timer showing time until next shop reset
+- [x] Improved shop visual design (NPC banner, section headers, deal tiles)
+
+---
+
 ### Session 13 — Add Missing Expansion Cards
 
 Add all missing cards from Verdant Shard, Iron Citadel, Ashen Wastes, and Crystal Spire expansions per CLAUDE.md roadmap (Phase 4):
