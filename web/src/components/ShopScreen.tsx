@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { CRYSTAL_PACK_COST, addCardsToCollection } from '../game/collection'
 import { incrementAchievementProgress } from '../game/achievements'
 import {
-  getDailyShopItem,
   getDailyShopNPC,
   getDailyShopCards,
   getDailyShopSellSlots,
@@ -11,8 +10,9 @@ import {
   getSecondsUntilShopReset,
   isWeekend,
   ShopCardDeal,
+  loadInventory,
 } from '../game/dailyLogin'
-import { loadInventory } from '../game/dailyLogin'
+import { SpriteImg } from './SpriteImg'
 import { OverlayScreen } from './OverlayScreen'
 
 // Shopkeeper rejection lines — always picky, never suspicious
@@ -108,6 +108,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
   return (
     <OverlayScreen title="SHOP" onBack={onBack} right={<span className="crystal-count">💎 {crystals.toLocaleString()}</span>}>
+      <div className="shop-wrapper">
 
       {/* NPC banner */}
       <div className="shop-npc-banner">
@@ -134,6 +135,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
               return (
                 <div key={deal.cardName} className={`shop-card-deal shop-card-deal--${deal.rarity}${bought ? ' shop-card-deal--bought' : ''}`}>
                   <div className="shop-card-rarity">{deal.rarity.toUpperCase()}</div>
+                  <SpriteImg name={deal.cardName} className="shop-card-sprite" />
                   <div className="shop-card-name">{deal.cardName || '???'}</div>
                   {bought ? (
                     <div className="shop-purchased">PURCHASED ✓</div>
@@ -218,6 +220,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
         🕐 Next refresh in <span className="shop-countdown-time">{formatCountdown(countdown)}</span>
       </div>
 
+      </div>
     </OverlayScreen>
   )
 }
