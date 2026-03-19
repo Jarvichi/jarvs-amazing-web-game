@@ -35,6 +35,12 @@ Close each with a comment referencing the implementing PR/commit:
 
 ---
 
+## 🔵 Enhancements — New (from GitHub, session 15 sync)
+
+- [x] **#319** Rollbar error logging — integrated (session 15)
+
+---
+
 ## 🔵 Enhancements — New (from GitHub, session 14 sync)
 
 - [ ] **#295** Boss fight — further boss improvements (check issue for detail)

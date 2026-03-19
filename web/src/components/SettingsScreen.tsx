@@ -73,6 +73,8 @@ const TEXT_COLOR_PRESETS = [
 
 const isDebugMode = new URLSearchParams(window.location.search).has('debug')
 
+declare const rollbar: { info: (msg: string) => void } | undefined
+
 function exportLocalStorage(): void {
   const data: Record<string, string> = {}
   try {
@@ -99,6 +101,7 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
   const [eightbitUnlocked]               = useState(load8bitUnlocked)
   const [confirmReset,  setConfirmReset]  = useState(false)
   const [importMsg,     setImportMsg]     = useState<string | null>(null)
+  const [rollbarMsg,    setRollbarMsg]    = useState<string | null>(null)
   const importRef = useRef<HTMLInputElement>(null)
 
   function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
@@ -154,6 +157,28 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
   function handleReset() {
     if (!confirmReset) { setConfirmReset(true); return }
     onResetGame()
+  }
+
+  function handleRollbarTest() {
+    try {
+      if (typeof rollbar !== 'undefined') {
+        rollbar.info('Rollbar test from Jarv\'s Amazing Web Game debug screen')
+        setRollbarMsg('Info event sent to Rollbar.')
+      } else {
+        setRollbarMsg('Rollbar not loaded.')
+      }
+    } catch {
+      setRollbarMsg('Rollbar not loaded.')
+    }
+  }
+
+  function handleRollbarError() {
+    try {
+      throw new Error('Intentional Rollbar test error from debug screen')
+    } catch { /* error will be caught by Rollbar uncaught handler */ }
+    // re-throw outside try so Rollbar captures it
+    setRollbarMsg('Error thrown — check Rollbar dashboard.')
+    setTimeout(() => { throw new Error('Intentional Rollbar test error from debug screen') }, 0)
   }
 
   return (
@@ -285,6 +310,27 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
               <div className="settings-row">
                 <div className="settings-sublabel" style={{ color: importMsg.startsWith('Error') ? '#ff5555' : '#33ff33' }}>
                   {importMsg}
+                </div>
+              </div>
+            )}
+            <div className="settings-row">
+              <div>
+                <div className="settings-label">Rollbar: send info</div>
+                <div className="settings-sublabel">Send a test info event to Rollbar</div>
+              </div>
+              <button className="action-btn" onClick={handleRollbarTest}>SEND INFO</button>
+            </div>
+            <div className="settings-row">
+              <div>
+                <div className="settings-label">Rollbar: trigger error</div>
+                <div className="settings-sublabel">Throw an intentional error for Rollbar to capture</div>
+              </div>
+              <button className="action-btn action-btn--danger" onClick={handleRollbarError}>TRIGGER ERROR</button>
+            </div>
+            {rollbarMsg && (
+              <div className="settings-row">
+                <div className="settings-sublabel" style={{ color: '#33ff33' }}>
+                  {rollbarMsg}
                 </div>
               </div>
             )}
