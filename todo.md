@@ -37,7 +37,7 @@ Close each with a comment referencing the implementing PR/commit:
 
 ## 🔵 Enhancements — New (from GitHub, session 15 sync)
 
-- [ ] **#319** Rollbar error logging — integrate Rollbar client-side error tracking with session replay, environment detection, and test button in debug screen
+- [x] **#319** Rollbar error logging — integrated (session 15)
 
 ---
 
