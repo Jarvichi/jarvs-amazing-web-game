@@ -186,11 +186,9 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
         {/* ── Daily card deals ── */}
         <div className="shop-section">
-          <div className="shop-section-header">Current Stock - 
-    
-      <div className="shop-countdown">
+          <div className="shop-section-header">Current 
         🕐 refreshes in <span className="shop-countdown-time">{formatCountdown(countdown)}</span>
-      </div>
+      
 
 </div>
           <div className="shop-daily-cards">
