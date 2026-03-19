@@ -47,4 +47,7 @@ export default defineConfig({
     }),
   ],
   base: '/jarvs-amazing-web-game/',
+  build: {
+    sourcemap: true,
+  },
 })
