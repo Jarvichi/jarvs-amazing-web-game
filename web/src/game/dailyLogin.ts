@@ -160,6 +160,25 @@ export function getSecondsUntilShopReset(): number {
   return Math.max(0, Math.floor((next.getTime() - now.getTime()) / 1000))
 }
 
+/** Returns seconds until the end of the current 12-hour NPC shift (06:00 or 18:00). */
+export function getSecondsUntilShiftEnd(): number {
+  const now = new Date()
+  const h = now.getHours()
+  const next = new Date(now)
+  next.setMinutes(0, 0, 0)
+  // Day shift ends at 18:00, night shift ends at 06:00 next day
+  if (h >= 6 && h < 18) {
+    next.setHours(18)
+  } else if (h >= 18) {
+    next.setDate(next.getDate() + 1)
+    next.setHours(6)
+  } else {
+    // 00:00–05:59
+    next.setHours(6)
+  }
+  return Math.max(0, Math.floor((next.getTime() - now.getTime()) / 1000))
+}
+
 /**
  * Returns a string key identifying the current 3-hour stock slot.
  * Format: "YYYY-MM-DD-N" where N is 0–7 (slot 0 = 00:00–02:59, slot 7 = 21:00–23:59).
