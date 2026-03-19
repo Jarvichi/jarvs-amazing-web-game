@@ -144,21 +144,31 @@ function dateHash(date: string): number {
   return h
 }
 
-/** Returns seconds until the next shift boundary (06:00 or 18:00 local time). */
+/** Returns seconds until the next 3-hour slot boundary (00:00, 03:00, 06:00, …, 21:00). */
 export function getSecondsUntilShopReset(): number {
   const now = new Date()
-  const h = now.getHours()
+  const slotHour = (Math.floor(now.getHours() / 3) + 1) * 3
   const next = new Date(now)
   next.setSeconds(0, 0)
-  if (h < 6) {
-    next.setHours(6, 0)
-  } else if (h < 18) {
-    next.setHours(18, 0)
-  } else {
+  next.setMinutes(0, 0)
+  if (slotHour >= 24) {
     next.setDate(next.getDate() + 1)
-    next.setHours(6, 0)
+    next.setHours(0, 0)
+  } else {
+    next.setHours(slotHour, 0)
   }
   return Math.max(0, Math.floor((next.getTime() - now.getTime()) / 1000))
+}
+
+/**
+ * Returns a string key identifying the current 3-hour stock slot.
+ * Format: "YYYY-MM-DD-N" where N is 0–7 (slot 0 = 00:00–02:59, slot 7 = 21:00–23:59).
+ */
+export function getShopSlotKey(): string {
+  const now = new Date()
+  const date = now.toISOString().slice(0, 10)
+  const slot = Math.floor(now.getHours() / 3)
+  return `${date}-${slot}`
 }
 
 // ── Shop NPCs ─────────────────────────────────────────────────────────────────
@@ -271,11 +281,11 @@ const NIGHT_SHIFT_NPCS: ShopNPC[] = [
 ]
 
 export function getDailyShopNPC(): ShopNPC {
-  const today = new Date().toISOString().slice(0, 10)
+  const slotKey = getShopSlotKey()
   const night = isNightShift()
   const pool = night ? NIGHT_SHIFT_NPCS : DAY_SHIFT_NPCS
   const shiftSeed = night ? 0xbaadf00d : 0xdeadbeef
-  const rng = makeSeededRng(dateHash(today) ^ shiftSeed)
+  const rng = makeSeededRng(dateHash(slotKey) ^ shiftSeed)
   const idx = Math.floor(rng() * pool.length)
   const npc = { ...pool[idx] }
 
@@ -308,11 +318,12 @@ export interface ShopCardDeal {
   price: number
 }
 
-/** Returns today's 3 card deals. 1 common + 1 uncommon always; 3rd slot is rare
- *  normally, or legendary when a legendary_dealer NPC is on duty. */
+/** Returns the current stock's 3 card deals (refreshes every 3 hours).
+ *  1 common + 1 uncommon always; 3rd slot is rare normally, or legendary
+ *  when a legendary_dealer NPC is on duty. */
 export function getDailyShopCards(): ShopCardDeal[] {
-  const today = new Date().toISOString().slice(0, 10)
-  const rng = makeSeededRng(dateHash(today) ^ 0xcafebabe)
+  const slotKey = getShopSlotKey()
+  const rng = makeSeededRng(dateHash(slotKey) ^ 0xcafebabe)
   const catalog = getCardCatalog()
   const npc = getDailyShopNPC()
 
@@ -329,10 +340,10 @@ export function getDailyShopCards(): ShopCardDeal[] {
 
 // ── Daily sell slots (shopkeeper wants to buy N items today) ───────────────────
 
-/** Items the shopkeeper is looking to buy today. 1 on weekdays, 3 on weekends. */
+/** Items the shopkeeper is looking to buy this slot. 1 on weekdays, 3 on weekends. */
 export function getDailyShopSellSlots(): RewardDef[] {
-  const today = new Date().toISOString().slice(0, 10)
-  const seed = dateHash(today) ^ 0xf00dcafe
+  const slotKey = getShopSlotKey()
+  const seed = dateHash(slotKey) ^ 0xf00dcafe
   const count = isWeekend() ? 3 : 1
   const rng = makeSeededRng(seed)
   const result: RewardDef[] = []
@@ -357,7 +368,7 @@ export interface DailyShopState {
 }
 
 function freshShopState(): DailyShopState {
-  return { date: new Date().toISOString().slice(0, 10), boughtCardNames: [], soldItemIds: [] }
+  return { date: getShopSlotKey(), boughtCardNames: [], soldItemIds: [] }
 }
 
 export function loadDailyShopState(): DailyShopState {
@@ -365,8 +376,7 @@ export function loadDailyShopState(): DailyShopState {
     const raw = localStorage.getItem(SHOP_STATE_KEY)
     if (!raw) return freshShopState()
     const parsed = JSON.parse(raw) as DailyShopState
-    const today = new Date().toISOString().slice(0, 10)
-    if (parsed.date !== today) return freshShopState()
+    if (parsed.date !== getShopSlotKey()) return freshShopState()
     return parsed
   } catch {
     return freshShopState()

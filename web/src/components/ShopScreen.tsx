@@ -163,7 +163,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
         {/* ── Daily card deals ── */}
         <div className="shop-section">
-          <div className="shop-section-header">Today's Cards</div>
+          <div className="shop-section-header">Current Stock</div>
           <div className="shop-daily-cards">
             {dailyCards.map(deal => {
               const bought = shopState.boughtCardNames.includes(deal.cardName)
@@ -256,7 +256,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
       {/* Countdown footer */}
       <div className="shop-countdown">
-        🕐 Next shift in <span className="shop-countdown-time">{formatCountdown(countdown)}</span>
+        🕐 Stock refreshes in <span className="shop-countdown-time">{formatCountdown(countdown)}</span>
       </div>
 
       </div>
