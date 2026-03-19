@@ -49,3 +49,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Rollbar deploy
+        uses: rollbar/github-deploy-action@2.1.2
