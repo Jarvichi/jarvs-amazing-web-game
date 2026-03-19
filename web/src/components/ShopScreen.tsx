@@ -58,6 +58,15 @@ function formatCountdown(seconds: number): string {
   return `${h}h ${m.toString().padStart(2, '0')}m ${s.toString().padStart(2, '0')}s`
 }
 
+/** Natural-language time for NPC dialogue: "2h 30m", "45 minutes", "a moment". */
+function formatShiftTimeNatural(seconds: number): string {
+  if (seconds <= 90) return 'a moment'
+  const h = Math.floor(seconds / 3600)
+  const m = Math.floor((seconds % 3600) / 60)
+  if (h > 0) return m > 0 ? `${h}h ${m}m` : `${h} hour${h > 1 ? 's' : ''}`
+  return `${m} minute${m !== 1 ? 's' : ''}`
+}
+
 interface Props {
   crystals: number
   onBuyCrystalPack: () => void
@@ -156,6 +165,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
           <div className="shop-npc-name">{npc.name} <span className="shop-npc-title">— {npc.title}</span></div>
           <div className="shop-npc-greeting">"{npc.greeting}"</div>
           <div className="shop-npc-perk">✦ {npc.perk}</div>
+          <div className="shop-npc-shift-end">{npc.shiftEndLine.replace('{time}', formatShiftTimeNatural(countdown))}</div>
         </div>
       </div>
 
