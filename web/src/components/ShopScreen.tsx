@@ -9,6 +9,7 @@ import {
   saveDailyShopState,
   getSecondsUntilShopReset,
   getSecondsUntilShiftEnd,
+  logDevSchedule,
   isWeekend,
   ShopCardDeal,
   loadInventory,
@@ -89,6 +90,13 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
   const [sellCounts, setSellCounts] = useState<Record<string, number>>({})
   const [countdown, setCountdown] = useState(getSecondsUntilShopReset())
   const [shiftCountdown, setShiftCountdown] = useState(getSecondsUntilShiftEnd())
+
+  // Dev schedule dump — ?dev=1 in URL
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('dev') === '1') {
+      logDevSchedule()
+    }
+  }, [])
 
   // Track unique NPC visits for the "meet all staff" achievement
   useEffect(() => {

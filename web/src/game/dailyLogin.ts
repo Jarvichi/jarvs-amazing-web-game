@@ -183,11 +183,30 @@ export function getSecondsUntilShiftEnd(): number {
  * Returns a string key identifying the current 3-hour stock slot.
  * Format: "YYYY-MM-DD-N" where N is 0–7 (slot 0 = 00:00–02:59, slot 7 = 21:00–23:59).
  */
-export function getShopSlotKey(): string {
-  const now = new Date()
-  const date = now.toISOString().slice(0, 10)
-  const slot = Math.floor(now.getHours() / 3)
+export function getShopSlotKey(at?: Date): string {
+  const d = at ?? new Date()
+  const date = d.toISOString().slice(0, 10)
+  const slot = Math.floor(d.getHours() / 3)
   return `${date}-${slot}`
+}
+
+/**
+ * Returns a key identifying the current 12-hour NPC shift.
+ * Format: "YYYY-MM-DD-day" or "YYYY-MM-DD-night" using the date the shift started.
+ */
+export function getShiftKey(at?: Date): string {
+  const d = at ?? new Date()
+  const h = d.getHours()
+  if (h >= 6 && h < 18) {
+    return `${d.toISOString().slice(0, 10)}-day`
+  } else if (h >= 18) {
+    return `${d.toISOString().slice(0, 10)}-night`
+  } else {
+    // 00:00–05:59 belongs to the night shift that started the previous day
+    const prev = new Date(d)
+    prev.setDate(prev.getDate() - 1)
+    return `${prev.toISOString().slice(0, 10)}-night`
+  }
 }
 
 // ── Shop NPCs ─────────────────────────────────────────────────────────────────
@@ -206,8 +225,8 @@ export interface ShopNPC {
 }
 
 /** Day shift: 06:00–17:59 local time. Night shift: 18:00–05:59. */
-export function isNightShift(): boolean {
-  const h = new Date().getHours()
+export function isNightShift(at?: Date): boolean {
+  const h = (at ?? new Date()).getHours()
   return h < 6 || h >= 18
 }
 
@@ -313,12 +332,12 @@ const NIGHT_SHIFT_NPCS: ShopNPC[] = [
   },
 ]
 
-export function getDailyShopNPC(): ShopNPC {
-  const slotKey = getShopSlotKey()
-  const night = isNightShift()
+export function getDailyShopNPC(at?: Date): ShopNPC {
+  const shiftKey = getShiftKey(at)           // stable for the full 12-hour shift
+  const night = isNightShift(at)
   const pool = night ? NIGHT_SHIFT_NPCS : DAY_SHIFT_NPCS
   const shiftSeed = night ? 0xbaadf00d : 0xdeadbeef
-  const rng = makeSeededRng(dateHash(slotKey) ^ shiftSeed)
+  const rng = makeSeededRng(dateHash(shiftKey) ^ shiftSeed)
   const idx = Math.floor(rng() * pool.length)
   const npc = { ...pool[idx] }
 
@@ -354,11 +373,11 @@ export interface ShopCardDeal {
 /** Returns the current stock's 3 card deals (refreshes every 3 hours).
  *  1 common + 1 uncommon always; 3rd slot is rare normally, or legendary
  *  when a legendary_dealer NPC is on duty. */
-export function getDailyShopCards(): ShopCardDeal[] {
-  const slotKey = getShopSlotKey()
+export function getDailyShopCards(at?: Date): ShopCardDeal[] {
+  const slotKey = getShopSlotKey(at)
   const rng = makeSeededRng(dateHash(slotKey) ^ 0xcafebabe)
   const catalog = getCardCatalog()
-  const npc = getDailyShopNPC()
+  const npc = getDailyShopNPC(at)
 
   const pick = (rarity: CardRarity): ShopCardDeal => {
     const pool = catalog.filter(c => c.rarity === rarity)
@@ -374,10 +393,11 @@ export function getDailyShopCards(): ShopCardDeal[] {
 // ── Daily sell slots (shopkeeper wants to buy N items today) ───────────────────
 
 /** Items the shopkeeper is looking to buy this slot. 1 on weekdays, 3 on weekends. */
-export function getDailyShopSellSlots(): RewardDef[] {
-  const slotKey = getShopSlotKey()
+export function getDailyShopSellSlots(at?: Date): RewardDef[] {
+  const slotKey = getShopSlotKey(at)
   const seed = dateHash(slotKey) ^ 0xf00dcafe
-  const count = isWeekend() ? 3 : 1
+  const d = at ?? new Date()
+  const count = (d.getDay() === 0 || d.getDay() === 6) ? 3 : 1
   const rng = makeSeededRng(seed)
   const result: RewardDef[] = []
   const used = new Set<number>()
@@ -471,6 +491,67 @@ export function recordNPCVisit(name: string): boolean {
   seen.add(name)
   try { localStorage.setItem(SEEN_NPCS_KEY, JSON.stringify([...seen])) } catch { /* ignore */ }
   return true
+}
+
+// ── Dev schedule logger ───────────────────────────────────────────────────────
+
+/**
+ * Logs the next 48 hours of shop schedule to the console.
+ * Call when ?dev=1 is present in the URL.
+ */
+export function logDevSchedule(): void {
+  const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+
+  // Snap to the start of the current 3-hour slot
+  const now = new Date()
+  const slotStart = new Date(now)
+  slotStart.setMinutes(0, 0, 0)
+  slotStart.setHours(Math.floor(now.getHours() / 3) * 3)
+
+  const fmt = (d: Date) => {
+    const hh = String(d.getHours()).padStart(2, '0')
+    const mm = String(d.getMinutes()).padStart(2, '0')
+    return `${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]} ${hh}:${mm}`
+  }
+  const fmtTime = (d: Date) => `${String(d.getHours()).padStart(2, '0')}:00`
+
+  console.group('%c🏪 SHOP SCHEDULE — next 48h', 'font-weight:bold;color:#8bc34a')
+
+  let lastShiftKey = ''
+  for (let i = 0; i < 16; i++) {
+    const slot = new Date(slotStart.getTime() + i * 3 * 60 * 60 * 1000)
+    const shiftKey = getShiftKey(slot)
+
+    // Print shift header when we enter a new 12-hour shift
+    if (shiftKey !== lastShiftKey) {
+      lastShiftKey = shiftKey
+      const night = isNightShift(slot)
+      const npc = getDailyShopNPC(slot)
+      const shiftLabel = night ? 'Night (18:00–06:00)' : 'Day (06:00–18:00)'
+      console.group(`%c[SHIFT] ${fmt(slot)} — ${shiftLabel}`, 'font-weight:bold;color:#ffd54f')
+      console.log(`%c  👤 ${npc.name} — ${npc.title}`, 'color:#ce93d8')
+      console.log(`%c  ✦  ${npc.perk}`, 'color:#80cbc4')
+      console.log(`%c  💬 "${npc.greeting}"`, 'color:#90a4ae')
+    }
+
+    const cards = getDailyShopCards(slot)
+    const sells = getDailyShopSellSlots(slot)
+    const slotEnd = new Date(slot.getTime() + 3 * 60 * 60 * 1000)
+    const cardLine = cards.map(c => `${c.cardName} (${c.rarity[0].toUpperCase()} ${c.price}💎)`).join('  •  ')
+    const sellLine = sells.map(s => `${s.icon} ${s.name}`).join(', ')
+    console.log(
+      `  [${fmtTime(slot)}–${fmtTime(slotEnd)}]  ${cardLine}  │  Buys: ${sellLine}`,
+    )
+
+    // Close shift group at the last slot of this shift
+    const nextSlot = new Date(slot.getTime() + 3 * 60 * 60 * 1000)
+    if (i === 15 || getShiftKey(nextSlot) !== shiftKey) {
+      console.groupEnd()
+    }
+  }
+
+  console.groupEnd()
 }
 
 export function _inventorySyncCheck(items: UselessItem[]): { msg: string; crystals: number } | null {
