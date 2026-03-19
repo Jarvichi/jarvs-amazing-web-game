@@ -237,7 +237,7 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     role: 'owner',
     greeting: "Welcome. Everything is priced fairly — by my standards.",
     perk: 'Standard prices',
-    shiftEndLine: "I'll be here until the next rotation — {time} away. No rush.",
+    shiftEndLine: "I'll be here until the next server arrives — {time} away. No rush.",
   },
   {
     name: 'Vesna',
@@ -245,7 +245,7 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     role: 'specialist',
     greeting: "I know cards. These three? Hand-picked. You're welcome.",
     perk: 'Expert curation · no junk',
-    shiftEndLine: "My selections rotate in {time}. These don't curate themselves.",
+    shiftEndLine: "My shift ends in {time}. but I'm busy! These cards don't curate themselves.",
   },
   {
     name: 'Aldric',
@@ -269,7 +269,7 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     role: 'specialist',
     greeting: "The collection doesn't grow by itself. Invest wisely.",
     perk: 'Curated daily selection',
-    shiftEndLine: "The archive rotates in {time}. Choose before the window closes.",
+    shiftEndLine: "I leave in {time}. Choose before the shop closes.",
   },
   {
     name: 'Lysandra',
@@ -277,7 +277,7 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     role: 'legendary_dealer',
     greeting: "Rare finds don't come cheap. But they do come available — if you know where to look.",
     perk: '✦ Sells one legendary card today',
-    shiftEndLine: "My window closes in {time}. Opportunities like this don't linger.",
+    shiftEndLine: "I'm closing in {time}. Opportunities like this don't linger.",
   },
 ]
 
@@ -296,7 +296,7 @@ const NIGHT_SHIFT_NPCS: ShopNPC[] = [
     role: 'specialist',
     greeting: "The serious collectors shop at night. Good to see you.",
     perk: 'Night owl selection',
-    shiftEndLine: "The night collection rotates in {time}. The serious ones don't dawdle.",
+    shiftEndLine: "The night shift end in {time}. The serious ones don't dawdle.",
   },
   {
     name: 'Pip',
