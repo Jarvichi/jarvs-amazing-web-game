@@ -178,7 +178,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
           <div className="shop-npc-perk">✦ {npc.perk}</div>
 </div>
           <div className="shop-npc-greeting">"{npc.greeting}"</div>
-          <div className="shop-npc-shift-end">{npc.shiftEndLine.replace('{time}', formatShiftTimeNatural(shiftCountdown))}</div>
+          <div className="shop-npc-shift-end">"{npc.shiftEndLine.replace('{time}', formatShiftTimeNatural(shiftCountdown))}"</div>
         </div>
       </div>
 
