@@ -182,6 +182,8 @@ export interface ShopNPC {
   greeting: string
   /** Shown as a small perk note under the NPC name */
   perk: string
+  /** In-character line about when their shift ends. Use {time} as placeholder. */
+  shiftEndLine: string
 }
 
 /** Day shift: 06:00–17:59 local time. Night shift: 18:00–05:59. */
@@ -197,6 +199,7 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     role: 'owner',
     greeting: "Welcome. Everything is priced fairly — by my standards.",
     perk: 'Standard prices',
+    shiftEndLine: "I'll be here until the next rotation — {time} away. No rush.",
   },
   {
     name: 'Vesna',
@@ -204,6 +207,7 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     role: 'specialist',
     greeting: "I know cards. These three? Hand-picked. You're welcome.",
     perk: 'Expert curation · no junk',
+    shiftEndLine: "My selections rotate in {time}. These don't curate themselves.",
   },
   {
     name: 'Aldric',
@@ -211,6 +215,7 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     role: 'wanderer',
     greeting: "Passing through. Today's selection is purely coincidental. Or is it?",
     perk: 'Rare stock rotation',
+    shiftEndLine: "I move on in {time}. Make your choice — I don't wait.",
   },
   {
     name: 'Pip',
@@ -218,6 +223,7 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     role: 'apprentice',
     greeting: "Um, hi! I'm looking after the shop today. I think.",
     perk: '10% discount on weekends',
+    shiftEndLine: "Only {time} left on my shift... not that I'm counting.",
   },
   {
     name: 'Seraph',
@@ -225,6 +231,7 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     role: 'specialist',
     greeting: "The collection doesn't grow by itself. Invest wisely.",
     perk: 'Curated daily selection',
+    shiftEndLine: "The archive rotates in {time}. Choose before the window closes.",
   },
   {
     name: 'Lysandra',
@@ -232,6 +239,7 @@ const DAY_SHIFT_NPCS: ShopNPC[] = [
     role: 'legendary_dealer',
     greeting: "Rare finds don't come cheap. But they do come available — if you know where to look.",
     perk: '✦ Sells one legendary card today',
+    shiftEndLine: "My window closes in {time}. Opportunities like this don't linger.",
   },
 ]
 
@@ -242,6 +250,7 @@ const NIGHT_SHIFT_NPCS: ShopNPC[] = [
     role: 'wanderer',
     greeting: "Psst. Grix open late. Very secret. Very good deals. Mostly.",
     perk: 'Goblin prices (same as everyone else)',
+    shiftEndLine: "Grix go home in {time}. Very tired goblin.",
   },
   {
     name: 'Nox',
@@ -249,6 +258,7 @@ const NIGHT_SHIFT_NPCS: ShopNPC[] = [
     role: 'specialist',
     greeting: "The serious collectors shop at night. Good to see you.",
     perk: 'Night owl selection',
+    shiftEndLine: "The night collection rotates in {time}. The serious ones don't dawdle.",
   },
   {
     name: 'Pip',
@@ -256,6 +266,7 @@ const NIGHT_SHIFT_NPCS: ShopNPC[] = [
     role: 'apprentice',
     greeting: "Margot said I could do the night shift. This is fine. Everything is fine.",
     perk: '10% discount on weekends',
+    shiftEndLine: "Only {time} to go... then I can sleep.",
   },
   {
     name: 'The Stranger',
@@ -263,6 +274,7 @@ const NIGHT_SHIFT_NPCS: ShopNPC[] = [
     role: 'wanderer',
     greeting: "...",
     perk: 'Does not elaborate further',
+    shiftEndLine: "...",
   },
   {
     name: 'Cass',
@@ -270,6 +282,7 @@ const NIGHT_SHIFT_NPCS: ShopNPC[] = [
     role: 'owner',
     greeting: "Not usually my job, but here we are. Don't tell Margot.",
     perk: 'Moonlighting — honest prices',
+    shiftEndLine: "Back on duty in {time}. Margot better not find out about this.",
   },
   {
     name: 'Vorn',
@@ -277,6 +290,7 @@ const NIGHT_SHIFT_NPCS: ShopNPC[] = [
     role: 'legendary_dealer',
     greeting: "I only come out at night. And I only deal in the extraordinary.",
     perk: '✦ Sells one legendary card tonight',
+    shiftEndLine: "My dealings conclude in {time}. The shadows are patient — I am not.",
   },
 ]
 
