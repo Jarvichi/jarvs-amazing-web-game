@@ -33,6 +33,8 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: web
+        env:
+          VITE_GIT_SHA: ${{ github.sha }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -49,5 +51,12 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Rollbar deploy
+
+      - name: Notify Rollbar of deploy
         uses: rollbar/github-deploy-action@2.1.2
+        with:
+          environment: production
+          version: ${{ github.sha }}
+        env:
+          ROLLBAR_ACCESS_TOKEN: ${{ secrets.ROLLBAR_ACCESS_TOKEN }}
+          ROLLBAR_USERNAME: ${{ github.actor }}
