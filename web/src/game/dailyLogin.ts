@@ -1,5 +1,6 @@
 // ─── Daily Login Rewards ──────────────────────────────────────────────────────
 
+import { logError } from '../logger'
 import itemsJson   from '../data/items.json'
 import rewardsJson from '../data/rewards.json'
 import { getCardCatalog } from './cards'
@@ -455,7 +456,7 @@ export function addToInventory(item: Omit<UselessItem, 'acquiredDate'>): void {
         incrementAchievementProgress('misc:unique_items')
       })
     }
-  } catch { /* ignore */ }
+  } catch (e) { logError('addToInventory failed', { itemId: item.id, error: String(e) }) }
 }
 
 export function loadInventory(): UselessItem[] {

@@ -60,6 +60,16 @@ npm run preview  # Preview production build locally
 - **Opponent AI:** Plays 1–2 affordable cards per turn from its own shuffled deck
 - **Win:** Destroy the enemy base (20 HP). **Lose:** Your base reaches 0 HP.
 
+## Error Logging Standard
+
+All error handling must follow this pattern:
+
+- **React components / App.tsx:** import `rollbar` from `./rollbar` and call `rollbar.error(msg, context)` directly.
+- **Game logic files (`src/game/`):** import `logError` from `'../logger'` — never import rollbar directly (keeps game files free of browser dependencies and safe for Node.js scripts like `balance-test`).
+- **localStorage writes** must always be wrapped in `try/catch` with `logError` in the catch. Reads already have fallbacks.
+- **Silent swallowing is banned** for anything user-impacting: `catch { /* ignore */ }` is only acceptable for truly fire-and-forget operations (e.g. analytics pings). For saves and state mutations, always log.
+- `logger.ts` is initialised in `main.tsx` with the real Rollbar instance. In tests or Node scripts it is a no-op by default.
+
 ## CSS Styling Rules
 Always reuse existing CSS classes rather than writing new ones unless the required functionality is genuinely different. Before adding a new button style, check whether an existing class (e.g. `action-btn`, `action-btn--gold`, `action-btn--danger`) can be used or extended with a small modifier. Duplicate CSS leads to visual inconsistency and maintenance burden. when considering adding new css if there is an existing attribute that could be used that has a specific name, rename and refactor to something more generic. eg "title-screen-button" is specific and could be standardised with a style called "normal-button".
 Better still would be to create a component such as "Button" that has props tha allow for some variation, but generally consistent.
