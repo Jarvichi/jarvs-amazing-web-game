@@ -41,6 +41,21 @@ Close each with a comment referencing the implementing PR/commit:
 
 ---
 
+## 🔵 Architecture — App.tsx Refactor (#316)
+
+Goal: reduce App.tsx from ~1800 lines by extracting logic into custom hooks under `web/src/hooks/`.
+
+### Completed
+- [x] `useMusic` — music router + adaptive intensity effects (wired into App.tsx)
+- [x] `useRareEvents` — rare event state, trigger effect, rollRareEvent, handleRareEventDone (wired into App.tsx)
+
+### Remaining
+- [ ] `useAchievements` — achievement toast state (`achievementToasts`, `setAchievementToasts`) + auto-dismiss effect; returns `{ achievementToasts, setAchievementToasts }`
+- [ ] `useCampaign` — largest extraction: `handleCampaign`, `handleAbandonRun`, act-transition logic, cutscene/nodemap/actcomplete screen routing, run state mutations; accepts `{ run, setRun, setScreen, setCutscenePanels, setGameState, ... }` and returns campaign action handlers
+- [ ] Close GitHub issue #316 once all hooks are extracted and App.tsx is under ~800 lines
+
+---
+
 ## 🔵 Enhancements — New (from GitHub, session 14 sync)
 
 - [ ] **#295** Boss fight — further boss improvements (check issue for detail)
