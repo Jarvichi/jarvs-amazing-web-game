@@ -69,6 +69,7 @@ import { BattleSummary }    from './components/BattleSummary'
 import { RelicSpinScreen }  from './components/RelicSpinScreen'
 import './styles.css'
 import brokenRelicsData from './data/broken-relics.json'
+import rollbar from './rollbar'
 
 // Apply saved display settings on load
 applyTextSettings()
@@ -355,6 +356,31 @@ export default function App() {
   useEffect(() => {
     if (gameState?.phase.type === 'gameOver') clearBattleState()
   }, [gameState?.phase.type])
+
+  // Guard: if screen is 'cutscene' but there are no panels, we'd show a blank screen.
+  // Redirect to nodemap (or title if no run), and log to Rollbar so we can debug the root cause.
+  useEffect(() => {
+    if (screen === 'cutscene' && cutscenePanels.length === 0) {
+      rollbar.error('Blank cutscene guard triggered — screen is cutscene but panels are empty', {
+        runActId: run?.actId,
+        pendingNodeId: run?.pendingNodeId,
+        pendingActComplete: run?.pendingActComplete,
+      })
+      setScreen(run ? 'nodemap' : 'title')
+    }
+  }, [screen, cutscenePanels, run])
+
+  // Guard: if we somehow land on 'actcomplete' without a valid run/actData, escape to title.
+  useEffect(() => {
+    if (screen === 'actcomplete' && (!run || !ACTS[run.actId])) {
+      rollbar.error('actcomplete screen reached without valid run/actData', {
+        runActId: run?.actId,
+      })
+      clearRun()
+      setRun(null)
+      setScreen('title')
+    }
+  }, [screen, run])
 
   // Show boss fight splash when phase 2 triggers.
   useEffect(() => {
@@ -939,6 +965,10 @@ export default function App() {
       saveRun(actCompleteRun)
       setRun(actCompleteRun)
 
+      rollbar.info('Act complete: transitioning to outro/actcomplete', {
+        actId: currentRun.actId,
+        hasOutro: (act.outro?.length ?? 0) > 0,
+      })
       if (act.outro && act.outro.length > 0) {
         setCutscenePanels(act.outro)
         cutsceneDoneRef.current = () => setScreen('actcomplete')
@@ -987,8 +1017,16 @@ export default function App() {
 
   const handleActComplete = useCallback(() => {
     const currentRun = run
-    if (!currentRun) return
+    if (!currentRun) {
+      rollbar.error('handleActComplete called with null run', { screen })
+      return
+    }
     const act = ACTS[currentRun.actId]
+    rollbar.info('Act complete: beginning transition', {
+      actId: currentRun.actId,
+      equippedRelic: currentRun.activeRelic,
+      rewardRelic: act?.rewardRelic,
+    })
 
     // Persist the act's relic reward to the player's permanent relic collection
     // (also re-earns a previously broken relic)
@@ -1021,6 +1059,12 @@ export default function App() {
         const earnedRelics = loadEarnedRelics()
 
         const proceedToNextAct = (chosenRelic: string | null) => {
+          rollbar.info('Proceeding to next act', {
+            fromActId: currentRun.actId,
+            toActId: nextAct.id,
+            chosenRelic,
+            hasIntro: (nextAct.intro?.length ?? 0) > 0,
+          })
           // Lives reset to at least LIVES_START (3) at the end of each act as a reward
           const restoredLives = Math.max(LIVES_START, currentRun.livesRemaining)
           const nextRun: RunState = {
@@ -1051,7 +1095,16 @@ export default function App() {
           }
         }
 
+        rollbar.info('Act transition: showing relic select or proceeding', {
+          actId: currentRun.actId,
+          nextActId: nextAct.id,
+          earnedRelicsCount: earnedRelics.length,
+          willBreak,
+        })
         if (earnedRelics.length > 0) {
+          // Clear pendingActComplete before showing relic select so a mid-selection
+          // exit doesn't loop back to actcomplete on next load.
+          saveRun({ ...currentRun, pendingActComplete: false })
           relicSelectDoneRef.current = proceedToNextAct
           setScreen('relicselect')
         } else {
@@ -1455,13 +1508,6 @@ export default function App() {
 
   const actData = run ? ACTS[run.actId] ?? null : null
   const actTheme = run?.actId
-
-  // Guard: if we somehow land on actcomplete without valid actData, escape to title
-  if (screen === 'actcomplete' && !actData) {
-    clearRun()
-    setRun(null)
-    setScreen('title')
-  }
 
   return (
     <div className="game-container">
