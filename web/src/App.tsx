@@ -47,16 +47,14 @@ import { WrongNumberEvent }   from './components/rare-events/WrongNumberEvent'
 import { NarratorEvent }      from './components/rare-events/NarratorEvent'
 import { LiarsDiceEvent }     from './components/rare-events/LiarsDiceEvent'
 import { GamblerEvent }       from './components/rare-events/GamblerEvent'
-import {
-  RareEventKind, RareEventEffect,
-  RARE_EVENT_CHANCE, ALL_RARE_EVENTS,
-} from './components/rare-events/types'
 import { CardTile }           from './components/CardTile'
 import { DailyLoginModal }   from './components/DailyLoginModal'
 import { InventoryScreen }   from './components/InventoryScreen'
 import { peekDailyReward, markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
-import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, startBattleMusic, stopBattleMusic, startTitleMusic, stopTitleMusic, startGameOverMusic, stopGameOverMusic, startMapMusic, stopMapMusic, setBattleIntensity, startMusicTrack, stopMusicTrack, MUSIC_TRACKS } from './game/sound'
+import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
+import { useMusic } from './hooks/useMusic'
+import { useRareEvents } from './hooks/useRareEvents'
 import { isNoDamageMode } from './game/debug'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
 import {
@@ -313,10 +311,11 @@ export default function App() {
   // Daily login reward
   const [dailyReward, setDailyReward] = useState<RewardDef | null>(null)
 
-  // Rare events
-  const [rareEventScheduled, setRareEventScheduled] = useState<{ kind: RareEventKind; triggerMs: number } | null>(null)
-  const [activeRareEvent,    setActiveRareEvent]    = useState<RareEventKind | null>(null)
-  const [isGamePaused,       setIsGamePaused]       = useState(false)
+  const [isUserPaused, setIsUserPaused] = useState(false)
+  const { activeRareEvent, isGamePaused: isRareEventPaused, rollRareEvent, handleRareEventDone } = useRareEvents({
+    gameState, screen, setGameState, setCrystals, setAchievementToasts,
+  })
+  const isGamePaused = isRareEventPaused || isUserPaused
 
   // ── Daily login reward ────────────────────────────────────
   // Peek at the reward on load (no claim yet — reward is granted when user taps CLAIM)
@@ -408,154 +407,7 @@ export default function App() {
     if (screen === 'title') swRegRef.current?.update()
   }, [screen])
 
-  // ── Music router ─────────────────────────────────────────
-  // Exactly one track plays at a time; switching screen stops all others.
-  // Acts can specify per-context music IDs in their JSON (mapMusicId, battleMusicId, bossMusicId).
-  useEffect(() => {
-    const phase = gameState?.phase
-    stopBattleMusic()
-    stopTitleMusic()
-    stopGameOverMusic()
-    stopMapMusic()
-
-    const act = run ? ACTS[run.actId] : undefined
-
-    if (screen === 'title' || screen === 'settings' || screen === 'deckbuilder' || screen === 'collection') {
-      startTitleMusic()
-    } else if (screen === 'nodemap') {
-      const mapTrackId = act?.mapMusicId
-      const mapTrack = mapTrackId ? MUSIC_TRACKS[mapTrackId] : undefined
-      if (mapTrack) { startMusicTrack(mapTrack) } else { startMapMusic() }
-    } else if (screen === 'playing') {
-      if (phase?.type === 'playing') {
-        const pendingNode = run?.pendingNodeId ? act?.nodes[run.pendingNodeId] : undefined
-        const isBoss = pendingNode?.type === 'boss'
-        const battleTrackId = isBoss ? act?.bossMusicId : act?.battleMusicId
-        const battleTrack = battleTrackId ? MUSIC_TRACKS[battleTrackId] : undefined
-        if (battleTrack) { startMusicTrack(battleTrack) } else { startBattleMusic() }
-      } else if (phase?.type === 'gameOver') {
-        startGameOverMusic(phase.winner)
-      }
-    }
-    return () => { stopBattleMusic(); stopTitleMusic(); stopGameOverMusic(); stopMapMusic() }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [screen, gameState?.phase.type])
-
-  // ── Adaptive battle music intensity ──────────────────────
-  // Runs every tick; 0=calm(losing), 1=normal, 2=intense(winning/many units)
-  useEffect(() => {
-    if (screen !== 'playing' || !gameState || gameState.phase.type !== 'playing') return
-    const scoreDiff  = gameState.playerScore - gameState.opponentScore
-    const unitCount  = gameState.field.filter(u => u.owner === 'player' && u.moveSpeed > 0).length
-    const hpFrac     = gameState.playerBase.hp / gameState.playerBase.maxHp
-    let intensity: 0 | 1 | 2 = 1
-    if (scoreDiff > 20 || unitCount >= 4 || hpFrac < 0.35) intensity = 2
-    else if (scoreDiff < -10 || (hpFrac > 0.8 && unitCount <= 1)) intensity = 0
-    setBattleIntensity(intensity)
-  }, [screen, gameState?.playerScore, gameState?.opponentScore, gameState?.field.length, gameState?.playerBase.hp])
-
-  // ── Rare event trigger ───────────────────────────────────
-  useEffect(() => {
-    if (!rareEventScheduled || activeRareEvent) return
-    if (!gameState || screen !== 'playing') return
-    if (gameState.phase.type === 'gameOver') return
-    if (gameState.gameTime < rareEventScheduled.triggerMs) return
-    const { kind } = rareEventScheduled
-    setActiveRareEvent(kind)
-    if (kind === 'blackjack' || kind === 'liarsDice') setIsGamePaused(true)
-  }, [gameState?.gameTime, rareEventScheduled, activeRareEvent, screen])
-
-  // ── Helpers ──────────────────────────────────────────────
-
-  function rollRareEvent() {
-    if (Math.random() < RARE_EVENT_CHANCE) {
-      const kind = ALL_RARE_EVENTS[Math.floor(Math.random() * ALL_RARE_EVENTS.length)]
-      const triggerMs = 20000 + Math.random() * 30000
-      setRareEventScheduled({ kind, triggerMs })
-    } else {
-      setRareEventScheduled(null)
-    }
-    setActiveRareEvent(null)
-    setIsGamePaused(false)
-  }
-
-  const handleRareEventDone = useCallback((effect?: RareEventEffect) => {
-    const completedEvent = activeRareEvent  // capture before clearing
-    setActiveRareEvent(null)
-    setRareEventScheduled(null)
-    setIsGamePaused(false)
-    if (!effect) return
-    setGameState(s => {
-      if (!s) return s
-      let next = { ...s }
-      if (effect.damage) {
-        next = { ...next, opponentBase: { ...next.opponentBase, hp: Math.max(0, next.opponentBase.hp - effect.damage) } }
-      }
-      if (effect.selfDamage) {
-        if (!isNoDamageMode()) {
-          next = { ...next, playerBase: { ...next.playerBase, hp: Math.max(0, next.playerBase.hp - effect.selfDamage) } }
-        } else {
-          // Dev mode enabled — ignore self damage
-        }
-      }
-      if (effect.killEnemyUnits) {
-        const enemies = next.field.filter(u => u.owner === 'opponent' && u.moveSpeed > 0)
-        const toKill  = new Set(enemies.slice(0, effect.killEnemyUnits).map(u => u.id))
-        next = { ...next, field: next.field.filter(u => !toKill.has(u.id)) }
-      }
-      if (effect.logMessage) {
-        next = { ...next, log: [...next.log.slice(-9), effect.logMessage] }
-      }
-      return next
-    })
-    if (effect.crystals) {
-      const next = loadCrystals() + effect.crystals
-      saveCrystals(next)
-      setCrystals(next)
-    }
-    if (effect.grantAllCards) {
-      const catalog = getCardCatalog()
-      addCardsToCollection(catalog.map(c => ({ cardName: c.name, count: 1 })))
-      // Gambler win achievement
-      const gamblerUnlocked = incrementAchievementProgress('event:gambler_win')
-      if (gamblerUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...gamblerUnlocked])
-    }
-    if (effect.addInventoryItem) {
-      addToInventory({ ...effect.addInventoryItem, lore: effect.addInventoryItem.lore ?? '' })
-      // Rubber chicken achievement
-      if (effect.addInventoryItem.id === 'rubber_chicken') {
-        const chickenUnlocked = incrementAchievementProgress('event:rubber_chicken')
-        if (chickenUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...chickenUnlocked])
-      }
-    }
-    if (effect.resetGame) {
-      const KEYS = [
-        'jarv_collection', 'jarv_deck', 'jarv_crystals',
-        'jarv_run', 'jarv_card_stats', 'jarv_fatigued',
-        'jarv_seen_intros', 'jarvs_handicap', 'jarv_run_count',
-      ]
-      KEYS.forEach(k => { try { localStorage.removeItem(k) } catch { /* ignore */ } })
-      // Gambler bust achievement
-      const bustUnlocked = incrementAchievementProgress('event:gambler_bust')
-      if (bustUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...bustUnlocked])
-      window.location.reload()
-    }
-    // Track per-event-type achievements based on which event ran
-    if (completedEvent) {
-      const eventKey: Record<string, string> = {
-        blackjack:   'event:blackjack_win',
-        liarsDice:   'event:liarsdice_win',
-        narrator:    'event:narrator_befriend',
-        wrongNumber: 'event:wrong_number',
-        fakeCrash:   'event:fake_crash',
-      }
-      const key = eventKey[completedEvent]
-      if (key) {
-        const evtUnlocked = incrementAchievementProgress(key)
-        if (evtUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...evtUnlocked])
-      }
-    }
-  }, [activeRareEvent])
+  useMusic(screen, gameState, run)
 
   // ── Free play ────────────────────────────────────────────
 
@@ -1776,7 +1628,7 @@ export default function App() {
           />
         ) : (
           <>
-            <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsGamePaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getActiveModifiers(ACTS[run.actId], loadActCount(run.actId)) : []} />
+            <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getActiveModifiers(ACTS[run.actId], loadActCount(run.actId)) : []} />
             {activeRareEvent === 'fakeCrash'   && <FakeCrashEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'blackjack'   && <BlackjackEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'wrongNumber' && <WrongNumberEvent onDone={handleRareEventDone} />}

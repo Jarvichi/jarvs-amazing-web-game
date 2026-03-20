@@ -160,17 +160,21 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
   }
 
   function handleRollbarTest() {
-    rollbar.info('Rollbar test from Jarv\'s Amazing Web Game debug screen')
-    setRollbarMsg('Info event sent to Rollbar.')
+    try {
+      rollbar.info('Rollbar test from Jarv\'s Amazing Web Game debug screen')
+      setRollbarMsg('Info event sent to Rollbar.')
+    } catch (e) {
+      setRollbarMsg(`Failed: ${String(e)}`)
+    }
   }
 
   function handleRollbarError() {
     try {
-      throw new Error('Intentional Rollbar test error from debug screen')
-    } catch { /* error will be caught by Rollbar uncaught handler */ }
-    // re-throw outside try so Rollbar captures it
-    setRollbarMsg('Error thrown — check Rollbar dashboard.')
-    setTimeout(() => { throw new Error('Intentional Rollbar test error from debug screen') }, 0)
+      rollbar.error(new Error('Intentional Rollbar test error from debug screen'))
+      setRollbarMsg('Error sent to Rollbar — check dashboard.')
+    } catch (e) {
+      setRollbarMsg(`Failed: ${String(e)}`)
+    }
   }
 
   return (
