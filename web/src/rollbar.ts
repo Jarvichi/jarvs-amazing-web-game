@@ -1,4 +1,21 @@
-import Rollbar from 'rollbar/replay'
+// Rollbar is initialised by the CDN snippet in index.html.
+// This module re-exports the global instance so the rest of the app can
+// import rollbar as a typed module rather than reaching for window.rollbar.
+
+interface RollbarInstance {
+  info:      (msg: string, ...args: unknown[]) => void
+  error:     (err: string | Error, ...args: unknown[]) => void
+  warn:      (msg: string, ...args: unknown[]) => void
+  configure: (opts: object) => void
+}
+
+declare global {
+  interface Window { rollbar: RollbarInstance }
+}
+
+const rollbar: RollbarInstance = window.rollbar
+
+export default rollbar
 
 const PLAYER_ID_KEY = 'jarv_player_id'
 
@@ -10,36 +27,6 @@ function getOrCreatePlayerId(): string {
   }
   return id
 }
-
-const environment = window.location.hostname.includes('github.io')
-  ? 'production'
-  : window.location.hostname === 'localhost'
-  ? 'development'
-  : 'staging'
-
-const rollbar = new Rollbar({
-  accessToken: '8bcd98f07593a1d478ea6d7d6612e146',
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-  payload: {
-    environment,
-    person: {
-      id: getOrCreatePlayerId(),
-    },
-    client: {
-      javascript: {
-        code_version: import.meta.env.VITE_GIT_SHA ?? 'dev',
-        source_map_enabled: true,
-        guess_uncaught_frames: true,
-      },
-    },
-  },
-  replay: {
-    enabled: true,
-  },
-})
-
-export default rollbar
 
 /** Call after loading run state to enrich person tracking with gameplay context. */
 export function updateRollbarPerson(opts: { actId?: string; runCount?: number }): void {
