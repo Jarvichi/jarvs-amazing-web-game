@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { isSoundEnabled, setSoundEnabled } from '../game/sound'
 import { OverlayScreen } from './OverlayScreen'
 import { Section } from './Section'
+import rollbar from '../rollbar'
 
 interface Props {
   onBack: () => void
@@ -73,7 +74,6 @@ const TEXT_COLOR_PRESETS = [
 
 const isDebugMode = new URLSearchParams(window.location.search).has('debug')
 
-declare const rollbar: { info: (msg: string) => void } | undefined
 
 function exportLocalStorage(): void {
   const data: Record<string, string> = {}
@@ -160,16 +160,8 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
   }
 
   function handleRollbarTest() {
-    try {
-      if (typeof rollbar !== 'undefined') {
-        rollbar.info('Rollbar test from Jarv\'s Amazing Web Game debug screen')
-        setRollbarMsg('Info event sent to Rollbar.')
-      } else {
-        setRollbarMsg('Rollbar not loaded.')
-      }
-    } catch {
-      setRollbarMsg('Rollbar not loaded.')
-    }
+    rollbar.info('Rollbar test from Jarv\'s Amazing Web Game debug screen')
+    setRollbarMsg('Info event sent to Rollbar.')
   }
 
   function handleRollbarError() {

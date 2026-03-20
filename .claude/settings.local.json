@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(npx tsx scripts/balance-test.ts)"
-    ]
-  }
-}
