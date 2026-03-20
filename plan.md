@@ -1,127 +1,148 @@
-# Plan: Relic Selection Screen + Break Chance (#174)
+# Real-Time Redesign Plan
 
-## What's needed
-
-1. **Explicit relic selection** at act start — RelicSelectScreen already exists, just needs to be shown at the right time (currently auto-equips last earned)
-2. **50% break chance** on act completion — equipped relic is removed from the earned list and becomes a broken inventory item
-3. **Re-earn** to get it back: completing the act that originally awarded the relic adds it back to `jarv_relics`
-
-**Broken relics are removed from the selection screen entirely.** They become a "Cracked [RelicName]" inventory item. No greyed-out UI needed — simpler.
+## Overview
+Convert the turn-based game to a real-time system. Player taps cards to queue them;
+they auto-deploy after a countdown. Combat fires automatically every 6 seconds.
+Some buildings spawn units on their own timer.
 
 ---
 
-## Storage
-
-No new localStorage key needed. Breaking a relic just calls a new `removeEarnedRelic(name)` helper that removes it from the existing `jarv_relics` array.
+## 1. Core Loop (App.tsx)
+- `setInterval(100ms)` drives everything via `tick(state, 100)`
+- No "End Turn" button
 
 ---
 
-## Files to Change
+## 2. Mana (replaces per-turn grant)
+- Starts at 3, max 5 (+1 per Farm)
+- Regenerates 1 mana every **3 seconds** (shown as decimal: `3.7/5`)
+- Costs are paid immediately on tap
+
+---
+
+## 3. Card Queue
+- Tap card → joins queue, mana deducted immediately
+- Queue shows as a strip: `[Goblin ▶ 2.1s] [Wall ▶ 4.8s]`
+- Countdown finishes → unit deploys to field with slide-in animation
+- Multiple cards queue simultaneously; each has its own countdown
+
+**Default deploy times:**
+| Type      | Time |
+|-----------|------|
+| Unit      | 3 s  |
+| Structure | 5 s  |
+| Upgrade   | 1.5 s|
+
+---
+
+## 4. Auto-Combat
+- Timer counts down from **6 s**, shown in divider: `── ⚔ COMBAT IN 4.2s ──`
+- Fires `resolveCombat()` (existing logic, unchanged)
+- Field flashes briefly on combat
+
+---
+
+## 5. Opponent AI
+- Acts every **8 s**, plays 1–2 affordable cards
+- Cards go onto field instantly (no queue — they're already "at the front")
+
+---
+
+## 6. Spawner Buildings (new card type)
+
+Buildings can have `structureEffect: { type: 'spawn', unitTemplate, intervalMs }`.
+The unit (a `SpawnerUnit`) tracks `spawnTimer: number` in field state.
+Each tick decrements `spawnTimer`; when it hits 0 a new unit is spawned adjacent
+and the timer resets.
+
+**New cards replacing/adding to deck:**
+
+| Card            | Cost | Structure HP | Spawns          | Interval |
+|-----------------|------|-------------|-----------------|----------|
+| Barracks        | 2    | 8 HP        | Goblin (2/3)    | 8 s      |
+| Arcane Tower    | 3    | 6 HP        | Archer (2/3)    | 10 s     |
+| Dragon Lair     | 5    | 10 HP       | Dragon (8/7)    | 20 s     |
+
+Walls and Farm (mana) remain as non-spawner structures.
+
+---
+
+## 7. Types changes (`game/types.ts`)
+
+```typescript
+// New structure effect variant
+| { type: 'spawn'; unitTemplate: UnitTemplate; intervalMs: number }
+
+// QueuedCard
+interface QueuedCard {
+  qId: string
+  card: Card
+  msRemaining: number
+  totalMs: number
+}
+
+// Unit gains optional spawn tracking
+interface Unit {
+  // ...existing fields
+  spawnTimer?: number   // ms remaining until next spawn (spawner buildings only)
+  spawnIntervalMs?: number
+  spawnTemplate?: UnitTemplate
+}
+
+// GameState replaces turn-based phase & mana fields
+interface GameState {
+  // ...existing base/field/hand/deck fields
+  mana: number
+  maxMana: number
+  manaAccum: number       // fractional mana (0–1)
+  queue: QueuedCard[]
+  combatTimer: number     // ms until next combat round
+  opponentTimer: number   // ms until opponent acts
+  log: string[]
+  phase: GamePhase        // 'playing' | 'gameOver'
+  turn: number            // combat round counter
+}
+```
+
+---
+
+## 8. Engine changes (`game/engine.ts`)
+
+Remove: `endTurn()`
+Keep: `newGame()`, `hpBar()`, `resolveCombat()`, `checkGameOver()`, `spawnUnit()`
+Add:
+- `queueCard(state, cardId): GameState` — deducts mana, adds to queue, draws replacement
+- `tick(state, deltaMs): GameState` — the main real-time update:
+  1. Mana regen
+  2. Drain queue (deploy cards whose countdown expired)
+  3. Tick spawner buildings (deploy units from Barracks/Towers)
+  4. Decrement `combatTimer`; fire combat when it hits 0
+  5. Decrement `opponentTimer`; run AI when it hits 0
+
+---
+
+## 9. UI changes
+
+**Battlefield.tsx:**
+- Remove End Turn button
+- Combat divider becomes `── ⚔ COMBAT IN 4.2s ──` (live countdown)
+- Queue strip between player field and log: shows queued cards with progress bars
+- Mana shown as `3.7/5` (fractional)
+
+**styles.css:**
+- `@keyframes unitEnter` — slide-in from bottom (player) / top (opponent)
+- Queue card styling with progress bar fill
+- Combat flash animation on `.field-divider--combat`
+
+---
+
+## 10. File change summary
 
 | File | Change |
-|---|---|
-| `web/src/game/relics.ts` | Add `removeEarnedRelic(name)` export |
-| `web/src/App.tsx` | Wire break chance in `handleActComplete`; re-earn un-break; `RelicSelectScreen` already works as-is |
-
-No changes needed to `RelicSelectScreen.tsx` or `styles.css` — broken relics simply won't be in the earned list.
-
----
-
-## Step 1 — `relics.ts`: Add `removeEarnedRelic`
-
-```ts
-export function removeEarnedRelic(name: string): void {
-  const current = loadEarnedRelics()
-  saveEarnedRelics(current.filter(n => n !== name))
-}
-```
-
-Check whether `saveEarnedRelics` already exists (private helper used by `addEarnedRelic`) — if so, reuse it. If not, add:
-
-```ts
-function saveEarnedRelics(names: string[]): void {
-  localStorage.setItem(RELICS_KEY, JSON.stringify(names))
-}
-```
-
-Commit: `feat: add removeEarnedRelic helper to relics.ts`
-
----
-
-## Step 2 — `App.tsx`: Break chance + re-earn in `handleActComplete`
-
-### 2a — Import
-
-Add `removeEarnedRelic` to the import from `./game/relics`.
-Check that `addToInventory` is already imported (from `./game/dailyLogin` or similar) — add if not.
-
-### 2b — Re-earn: un-break when earning the act's relic
-
-In `handleActComplete`, find the `addEarnedRelic(act.rewardRelic)` call and ensure the relic is back in the pool regardless of prior breaks. `addEarnedRelic` already deduplicates, so no extra call needed — it just adds it back if it was removed.
-
-```ts
-if (act?.rewardRelic) {
-  addEarnedRelic(act.rewardRelic)   // re-adds even if previously broken/removed
-}
-```
-
-No change needed here — this already works correctly since `removeEarnedRelic` removes from the array and `addEarnedRelic` adds it back.
-
-### 2c — Break chance: 50% on act completion
-
-Each relic has a unique broken item. Define a lookup map:
-
-```ts
-const BROKEN_RELIC_ITEMS: Record<string, { name: string; icon: string; desc: string }> = {
-  'Bark Shield':   { name: 'Shattered Bark Shield',  icon: '🪵', desc: 'Once deflected a thousand blows. Now just good kindling.' },
-  'Iron Standard': { name: 'Bent Iron Standard',     icon: '🚩', desc: 'The banner that inspired legions. Now it just looks sad.' },
-  'Soulstone':     { name: 'Cracked Soulstone',      icon: '💎', desc: 'The soul inside got out. Probably fine.' },
-  'Prism Lens':    { name: 'Clouded Prism Lens',     icon: '🔮', desc: 'Focused infinite mana. Now focuses nothing. Like most things.' },
-}
-```
-
-After the `addEarnedRelic` block and **before** the relic select / next-act transition, add:
-
-```ts
-// 50% chance: equipped relic breaks on act completion
-const equippedRelic = currentRun.activeRelic
-if (equippedRelic && equippedRelic !== act?.rewardRelic && Math.random() < 0.5) {
-  removeEarnedRelic(equippedRelic)
-  const broken = BROKEN_RELIC_ITEMS[equippedRelic]
-  addToInventory({
-    id: `broken-relic-${equippedRelic.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
-    name: broken?.name ?? `Cracked ${equippedRelic}`,
-    icon: broken?.icon ?? '🪨',
-    desc: broken?.desc ?? `A cracked ${equippedRelic} — it held until it didn't.`,
-    acquiredDate: new Date().toISOString(),
-  })
-}
-```
-
-**Important:** This must run **after** `addEarnedRelic(act.rewardRelic)` — the newly earned relic should never be the one that breaks (player just earned it). Only the relic they *carried into* the act can break.
-
-**Edge case:** If `equippedRelic === act.rewardRelic` (same relic somehow), the re-earn runs first so it's in the list, then the break check removes it again. To avoid this, guard:
-
-```ts
-if (equippedRelic && equippedRelic !== act?.rewardRelic && Math.random() < 0.5) {
-```
-
-### 2d — Verify `handleActComplete` has both paths covered
-
-The function has two paths:
-- Normal act completion → relic select → next act
-- Final act completion → card rest / starter pack
-
-Apply the break check on **both** paths (before any transition in both branches).
-
-Commit: `feat: add relic break chance and re-earn to handleActComplete`
-
----
-
-## Implementation Notes
-
-- **Read `handleActComplete` in full** before editing — there are two branches (next act vs final act); the break check should appear once, near the top, after `addEarnedRelic` but before any branching
-- **Read `relics.ts` in full** to confirm the `RELICS_KEY` constant name and whether `saveEarnedRelics` already exists
-- **`addToInventory`** — check current imports in App.tsx; it may already be imported for daily login integration
-- **Build check** after each commit
-- **Manual test:** Complete Act 1 boss → if relic breaks, check inventory for "Cracked Bark Shield" item; replay Act 1 → Bark Shield reappears on selection screen
+|------|--------|
+| `game/types.ts` | Add QueuedCard, update StructureEffect, Unit, GameState |
+| `game/engine.ts` | Remove endTurn, add tick + queueCard |
+| `game/cards.ts` | Replace Barracks with spawner buildings (Barracks, Arcane Tower, Dragon Lair) |
+| `components/App.tsx` | setInterval tick, remove handleEndTurn |
+| `components/Battlefield.tsx` | Queue strip, combat timer, no End Turn btn |
+| `styles.css` | Queue styles, enter animation, timer |
