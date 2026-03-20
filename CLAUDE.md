@@ -342,7 +342,6 @@ Current cards: ~95. Target: 1000+ across 10 shards/expansions.
 - [ ] Daily Challenge: fixed-seed deck + opponent each day; track win/loss per day in localStorage
 
 **Phase 7 — Depth & QoL**
-- [ ] Opponent card reveal: briefly flash the card name when the opponent plays one (currently invisible)
 - [x] Battle summary screen: stats popup after each battle — cards played, kills by unit, damage dealt, turns taken
 - [x] Boss Phase 2: bosses change behavior at 40% HP (e.g. Thornlord starts building Farms to flood mana)
 - [ ] Card synergy tags: UI labels showing which cards combo well (e.g. "Goblin" tag shared by Goblin, Barracks, Crypt)
