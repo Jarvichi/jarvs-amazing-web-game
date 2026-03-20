@@ -4434,7 +4434,8 @@
         "attackCooldownMs": 0,
         "structureEffect": {
           "type": "healAura",
-          "amount": 2
+          "amount": 2,
+          "intervalMs": 8000
         }
       },
       "description": "Regenerates nearby units with fungal energy.",
@@ -4679,7 +4680,8 @@
         "attackCooldownMs": 0,
         "structureEffect": {
           "type": "repairAura",
-          "amount": 1
+          "amount": 1,
+          "intervalMs": 8000
         }
       },
       "description": "Water barrier \u2014 slowly repairs nearby walls.",
@@ -4848,7 +4850,8 @@
         "attackCooldownMs": 0,
         "structureEffect": {
           "type": "healAura",
-          "amount": 2
+          "amount": 2,
+          "intervalMs": 8000
         }
       },
       "description": "Foul energy restores undead units nearby.",

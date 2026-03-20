@@ -69,7 +69,7 @@ import { BattleSummary }    from './components/BattleSummary'
 import { RelicSpinScreen }  from './components/RelicSpinScreen'
 import './styles.css'
 import brokenRelicsData from './data/broken-relics.json'
-import rollbar from './rollbar'
+import rollbar, { updateRollbarPerson } from './rollbar'
 
 // Apply saved display settings on load
 applyTextSettings()
@@ -237,6 +237,12 @@ export default function App() {
     if (savedRun?.pendingActComplete) {
       return { screen: 'actcomplete' as Screen, gameState: null as GameState | null, run: savedRun, isCampaign: false }
     }
+    // If the act is complete but pendingActComplete was cleared (e.g. player exited during
+    // relic select after our #328 fix), also restore to actcomplete.
+    const savedAct = savedRun ? ACTS[savedRun.actId] : null
+    if (savedRun && savedAct && isActComplete(savedAct, savedRun)) {
+      return { screen: 'actcomplete' as Screen, gameState: null as GameState | null, run: savedRun, isCampaign: false }
+    }
     return { screen: (loadSkipIntro() ? 'title' : 'intro') as Screen, gameState: null as GameState | null, run: savedRun as RunState | null, isCampaign: false }
   })
 
@@ -356,6 +362,11 @@ export default function App() {
   useEffect(() => {
     if (gameState?.phase.type === 'gameOver') clearBattleState()
   }, [gameState?.phase.type])
+
+  // Keep Rollbar person context up to date with the player's current act/run.
+  useEffect(() => {
+    if (run) updateRollbarPerson({ actId: run.actId, runCount: loadRunCount() })
+  }, [run?.actId])
 
   // Guard: if screen is 'cutscene' but there are no panels, we'd show a blank screen.
   // Redirect to nodemap (or title if no run), and log to Rollbar so we can debug the root cause.
@@ -689,6 +700,13 @@ export default function App() {
       const repaired = { ...activeRun, pendingNodeId: null }
       saveRun(repaired)
       setRun(repaired)
+    }
+
+    // If the act is already complete (player exited during relic select or act-complete flow),
+    // return them to actcomplete rather than dumping them on an exhausted nodemap.
+    if (isActComplete(act, activeRun)) {
+      setScreen('actcomplete')
+      return
     }
 
     setScreen('nodemap')
