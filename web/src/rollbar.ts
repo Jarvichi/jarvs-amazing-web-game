@@ -18,7 +18,7 @@ const environment = window.location.hostname.includes('github.io')
   : 'staging'
 
 const rollbar = new Rollbar({
-  accessToken: '156cc859626f4d8eb21842c3308a19599276edac62de44cda800b91ee50ba1b8b693afcba4c0cd9e3c87775f5701d2cc',
+  accessToken: '8bcd98f07593a1d478ea6d7d6612e146',
   captureUncaught: true,
   captureUnhandledRejections: true,
   payload: {
