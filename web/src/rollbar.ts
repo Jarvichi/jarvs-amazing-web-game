@@ -13,7 +13,18 @@ declare global {
   interface Window { rollbar: RollbarInstance }
 }
 
-const rollbar: RollbarInstance = window.rollbar
+// Use a proxy so every call resolves window.rollbar at call-time, not at
+// module-load time. The CDN snippet sets window.rollbar to a shim immediately,
+// then replaces it with the real instance once the async library finishes loading.
+const rollbar: RollbarInstance = new Proxy({} as RollbarInstance, {
+  get(_target, prop: string) {
+    const rb = window.rollbar as unknown as Record<string, unknown>
+    if (rb && typeof rb[prop] === 'function') {
+      return (rb[prop] as (...a: unknown[]) => unknown).bind(rb)
+    }
+    return () => { /* rollbar not yet loaded */ }
+  },
+})
 
 export default rollbar
 
