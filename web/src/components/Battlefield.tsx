@@ -643,6 +643,13 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
         <div className="lane-ground" />
         <LaneBackground env={state.environment} />
         <ForestBorder theme={actTheme} />
+        {/* Base sprites — fixed targets at top (opponent) and bottom (player) of lane */}
+        <div className="lane-base lane-base--opponent">
+          <img src={`${BASE_SPRITE_PATH}${opponentPortraitSlug(state.bossAI, actTheme)}.svg`} alt="Enemy Base" />
+        </div>
+        <div className="lane-base lane-base--player">
+          <img src={`${BASE_SPRITE_PATH}jarv.svg`} alt="Your Base" />
+        </div>
         {(state.terrain ?? []).map(obs => <TerrainTile key={obs.id} obs={obs} />)}
         {isDebugMode() && (state.terrain ?? []).map(obs => {
           // Avoidance ellipse matching TERRAIN_AVOID_SHAPE used by the engine.

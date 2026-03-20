@@ -314,6 +314,33 @@ body {
   background: linear-gradient(180deg, rgba(255,68,68,0.35) 0%, rgba(34,34,34,0.1) 40%, rgba(34,34,34,0.1) 60%, rgba(51,255,51,0.35) 100%);
 }
 
+/* ─── Lane Base Sprites ──────────────────────────────── */
+
+.lane-base {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.lane-base img {
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: block;
+}
+
+.lane-base--opponent {
+  top: 2px;
+}
+
+.lane-base--player {
+  bottom: 2px;
+}
+
 /* ─── Lane Unit Sprites ──────────────────────────────── */
 
 .lane-unit-sprite {
