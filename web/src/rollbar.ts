@@ -1,15 +1,30 @@
-// Rollbar is loaded by the CDN snippet in index.html.
-// These wrappers access window.rollbar at call-time so they always
-// reach the real instance, not the temporary shim.
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const rb = () => (window as any).rollbar
+// Rollbar is initialised by the CDN snippet in index.html.
+// This module re-exports the global instance so the rest of the app can
+// import rollbar as a typed module rather than reaching for window.rollbar.
 
-const rollbar = {
-  info:      (msg: string,         ...args: unknown[]) => rb()?.info(msg, ...args),
-  error:     (err: string | Error, ...args: unknown[]) => rb()?.error(err, ...args),
-  warn:      (msg: string,         ...args: unknown[]) => rb()?.warn(msg, ...args),
-  configure: (opts: object)                            => rb()?.configure(opts),
+interface RollbarInstance {
+  info:      (msg: string, ...args: unknown[]) => void
+  error:     (err: string | Error, ...args: unknown[]) => void
+  warn:      (msg: string, ...args: unknown[]) => void
+  configure: (opts: object) => void
 }
+
+declare global {
+  interface Window { rollbar: RollbarInstance }
+}
+
+// Use a proxy so every call resolves window.rollbar at call-time, not at
+// module-load time. The CDN snippet sets window.rollbar to a shim immediately,
+// then replaces it with the real instance once the async library finishes loading.
+const rollbar: RollbarInstance = new Proxy({} as RollbarInstance, {
+  get(_target, prop: string) {
+    const rb = window.rollbar as unknown as Record<string, unknown>
+    if (rb && typeof rb[prop] === 'function') {
+      return (rb[prop] as (...a: unknown[]) => unknown).bind(rb)
+    }
+    return () => { /* rollbar not yet loaded */ }
+  },
+})
 
 export default rollbar
 
@@ -24,6 +39,7 @@ function getOrCreatePlayerId(): string {
   return id
 }
 
+/** Call after loading run state to enrich person tracking with gameplay context. */
 export function updateRollbarPerson(opts: { actId?: string; runCount?: number }): void {
   const id = getOrCreatePlayerId()
   rollbar.configure({
