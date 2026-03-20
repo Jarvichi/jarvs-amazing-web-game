@@ -12,6 +12,7 @@
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "rollbar": "^3.1.0",
     "stdout-update": "^4.0.1"
   },
   "devDependencies": {
