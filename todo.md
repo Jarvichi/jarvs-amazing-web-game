@@ -50,8 +50,8 @@ Goal: reduce App.tsx from ~1800 lines by extracting logic into custom hooks unde
 - [x] `useRareEvents` — rare event state, trigger effect, rollRareEvent, handleRareEventDone (wired into App.tsx)
 
 ### Remaining
-- [ ] `useAchievements` — achievement toast state (`achievementToasts`, `setAchievementToasts`) + auto-dismiss effect; returns `{ achievementToasts, setAchievementToasts }`
-- [ ] `useCampaign` — largest extraction: `handleCampaign`, `handleAbandonRun`, act-transition logic, cutscene/nodemap/actcomplete screen routing, run state mutations; accepts `{ run, setRun, setScreen, setCutscenePanels, setGameState, ... }` and returns campaign action handlers
+- [x] `useAchievements` — done (session 16)
+- [ ] `useCampaign` — largest extraction: `handleCampaign`, `handleAbandonRun`, act-transition logic, cutscene/nodemap/actcomplete screen routing, run state mutations; accepts `{ run, setRun, setScreen, setCutscenePanels, setGameState, ... }` and returns campaign action handlers. **Note:** ~25+ state dependencies; needs a dedicated session.
 - [ ] Close GitHub issue #316 once all hooks are extracted and App.tsx is under ~800 lines
 
 ---
