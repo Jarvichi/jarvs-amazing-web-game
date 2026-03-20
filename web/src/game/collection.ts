@@ -1,5 +1,6 @@
 import { Card, CardRarity } from './types'
 import { getCardCatalog } from './cards'
+import { logError } from '../logger'
 
 // ─── Types ────────────────────────────────────────────────
 
@@ -171,7 +172,8 @@ export function loadCardStats(): Record<string, CardStats> {
 }
 
 function saveCardStats(stats: Record<string, CardStats>): void {
-  localStorage.setItem(STATS_KEY, JSON.stringify(stats))
+  try { localStorage.setItem(STATS_KEY, JSON.stringify(stats)) }
+  catch (e) { logError('saveCardStats failed', { error: String(e) }) }
 }
 
 export function recordCardPlayed(cardName: string): void {
@@ -204,7 +206,8 @@ export function loadCrystals(): number {
 }
 
 export function saveCrystals(n: number): void {
-  localStorage.setItem(CRYSTALS_KEY, String(Math.max(0, n)))
+  try { localStorage.setItem(CRYSTALS_KEY, String(Math.max(0, n))) }
+  catch (e) { logError('saveCrystals failed', { error: String(e) }) }
 }
 
 // ─── Mastery math ─────────────────────────────────────────
@@ -339,7 +342,8 @@ export function loadCollection(): CollectionEntry[] {
 }
 
 export function saveCollection(c: CollectionEntry[]): void {
-  localStorage.setItem(COLLECTION_KEY, JSON.stringify(c))
+  try { localStorage.setItem(COLLECTION_KEY, JSON.stringify(c)) }
+  catch (e) { logError('saveCollection failed', { count: c.length, error: String(e) }) }
 }
 
 export function addCardsToCollection(newCards: CollectionEntry[]): CollectionEntry[] {
@@ -372,7 +376,8 @@ export function loadDeck(): DeckEntry[] {
 }
 
 export function saveDeck(d: DeckEntry[]): void {
-  localStorage.setItem(DECK_KEY, JSON.stringify(d))
+  try { localStorage.setItem(DECK_KEY, JSON.stringify(d)) }
+  catch (e) { logError('saveDeck failed', { count: d.length, error: String(e) }) }
 }
 
 export function deckTotalCards(d: DeckEntry[]): number {

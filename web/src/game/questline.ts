@@ -1,4 +1,5 @@
 import { CardRarity } from './types'
+import { logError } from '../logger'
 import { getCardCatalog } from './cards'
 import act1Data from '../data/acts/act1.json'
 import act2Data from '../data/acts/act2.json'
@@ -427,7 +428,8 @@ export function loadRun(): RunState | null {
 }
 
 export function saveRun(run: RunState): void {
-  localStorage.setItem(RUN_KEY, JSON.stringify(run))
+  try { localStorage.setItem(RUN_KEY, JSON.stringify(run)) }
+  catch (e) { logError('saveRun failed', { actId: run.actId, error: String(e) }) }
 }
 
 export function clearRun(): void {
@@ -465,7 +467,8 @@ export function loadFatigued(): string[] {
 }
 
 export function saveFatigued(names: string[]): void {
-  localStorage.setItem(FATIGUED_KEY, JSON.stringify(names))
+  try { localStorage.setItem(FATIGUED_KEY, JSON.stringify(names)) }
+  catch (e) { logError('saveFatigued failed', { error: String(e) }) }
 }
 
 export function clearFatigued(): void {
