@@ -40,3 +40,18 @@ const rollbar = new Rollbar({
 })
 
 export default rollbar
+
+/** Call after loading run state to enrich person tracking with gameplay context. */
+export function updateRollbarPerson(opts: { actId?: string; runCount?: number }): void {
+  const id = getOrCreatePlayerId()
+  rollbar.configure({
+    payload: {
+      person: {
+        id,
+        username: id,
+        ...(opts.actId && { act: opts.actId }),
+        ...(opts.runCount != null && { run_count: opts.runCount }),
+      },
+    },
+  })
+}

@@ -69,7 +69,7 @@ import { BattleSummary }    from './components/BattleSummary'
 import { RelicSpinScreen }  from './components/RelicSpinScreen'
 import './styles.css'
 import brokenRelicsData from './data/broken-relics.json'
-import rollbar from './rollbar'
+import rollbar, { updateRollbarPerson } from './rollbar'
 
 // Apply saved display settings on load
 applyTextSettings()
@@ -362,6 +362,11 @@ export default function App() {
   useEffect(() => {
     if (gameState?.phase.type === 'gameOver') clearBattleState()
   }, [gameState?.phase.type])
+
+  // Keep Rollbar person context up to date with the player's current act/run.
+  useEffect(() => {
+    if (run) updateRollbarPerson({ actId: run.actId, runCount: loadRunCount() })
+  }, [run?.actId])
 
   // Guard: if screen is 'cutscene' but there are no panels, we'd show a blank screen.
   // Redirect to nodemap (or title if no run), and log to Rollbar so we can debug the root cause.
