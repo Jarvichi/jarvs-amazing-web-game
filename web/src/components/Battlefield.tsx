@@ -639,7 +639,7 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
       </div>
 
       {/* The Lane — vertical, fills remaining space */}
-      <div className="lane">
+      <div className={`lane${state.bossCardActive ? ' lane--boss-phase' : ''}`}>
         <div className="lane-ground" />
         <LaneBackground env={state.environment} />
         <ForestBorder theme={actTheme} />
