@@ -51,7 +51,8 @@ function spawnUnit(template: UnitTemplate, owner: 'player' | 'opponent'): Unit {
   }
   const effect = template.structureEffect
   if (effect?.type === 'spawn' || effect?.type === 'healAura' || effect?.type === 'repairAura') {
-    unit.spawnTimer = (effect as { intervalMs: number }).intervalMs
+    const intervalMs = (effect as { intervalMs?: number }).intervalMs ?? 8000
+    unit.spawnTimer = intervalMs
   }
   // Structures stay at base; walls are placed further out to form a defensive line
   if (template.moveSpeed === 0) {
