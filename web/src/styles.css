@@ -314,6 +314,46 @@ body {
   background: linear-gradient(180deg, rgba(255,68,68,0.35) 0%, rgba(34,34,34,0.1) 40%, rgba(34,34,34,0.1) 60%, rgba(51,255,51,0.35) 100%);
 }
 
+/* ─── Boss Phase Zoom ────────────────────────────────── */
+
+.lane--boss-phase {
+  transition: transform 0.8s ease-in-out;
+  transform: scale(1.8);
+  transform-origin: 50% 20%;
+}
+
+.lane--boss-phase .lane-unit-sprite {
+  max-width: 48px;
+  max-height: 42px;
+}
+
+/* ─── Lane Base Sprites ──────────────────────────────── */
+
+.lane-base {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.lane-base img {
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: block;
+}
+
+.lane-base--opponent {
+  top: 2px;
+}
+
+.lane-base--player {
+  bottom: 2px;
+}
+
 /* ─── Lane Unit Sprites ──────────────────────────────── */
 
 .lane-unit-sprite {

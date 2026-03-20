@@ -14,6 +14,7 @@ const SPAWN_GROW_MS = 1500           // building-spawn grow-in animation duratio
 
 const PLAYER_SPAWN_X = 30        // where player units appear
 const OPPONENT_SPAWN_X = LANE_WIDTH - 30  // where opponent units appear
+const BASE_STOP_MARGIN = 60      // units stop this many units from each base edge
 
 // ─── Helpers ─────────────────────────────────────────────
 
@@ -718,7 +719,7 @@ function moveUnits(s: GameState, deltaMs: number): void {
 
     // Move at full speed toward target, clamped so we don't overshoot
     const step = Math.min(speed, d)
-    unit.x = Math.min(LANE_WIDTH, Math.max(0,         unit.x + (dx / d) * step))
+    unit.x = Math.min(LANE_WIDTH - BASE_STOP_MARGIN, Math.max(BASE_STOP_MARGIN, unit.x + (dx / d) * step))
     unit.y = Math.min(LANE_MAX_Y, Math.max(LANE_MIN_Y, unit.y + (dy / d) * step + avoidY * deltaSec))
   }
 }
@@ -785,8 +786,8 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
     } else {
       // No enemies in range — attack the base if close enough
       const atEnemyBase = isPlayer
-        ? unit.x >= LANE_WIDTH - unit.attackRange
-        : unit.x <= unit.attackRange
+        ? unit.x >= LANE_WIDTH - Math.max(unit.attackRange, BASE_STOP_MARGIN)
+        : unit.x <= Math.max(unit.attackRange, BASE_STOP_MARGIN)
 
       if (atEnemyBase) {
         const bloodMoonMult = s.activeBattleEvent?.type === 'bloodMoon' ? 2 : 1

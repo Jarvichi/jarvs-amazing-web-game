@@ -55,6 +55,7 @@ import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBr
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
 import { useRareEvents } from './hooks/useRareEvents'
+import { useAchievements } from './hooks/useAchievements'
 import { isNoDamageMode } from './game/debug'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
 import {
@@ -293,20 +294,13 @@ export default function App() {
   const prevOpponentUnitsRef = useRef<Map<string, string>>(new Map())
 
   // Achievement toast notifications
-  const [achievementToasts, setAchievementToasts] = useState<AchievementDef[]>([])
+  const { achievementToasts, setAchievementToasts } = useAchievements()
 
   // Per-battle misc achievement flags
   const battleFlawlessRef    = useRef(true)
   const battleUsedStructure  = useRef(false)
   const battleUsedMobileUnit = useRef(false)
   const battleLossRecordedRef = useRef(false)  // prevents double-decrement if component re-renders at game-over
-
-  // Auto-dismiss achievement toasts after 4 seconds
-  useEffect(() => {
-    if (achievementToasts.length === 0) return
-    const id = setTimeout(() => setAchievementToasts(prev => prev.slice(1)), 4000)
-    return () => clearTimeout(id)
-  }, [achievementToasts])
 
   // Daily login reward
   const [dailyReward, setDailyReward] = useState<RewardDef | null>(null)
