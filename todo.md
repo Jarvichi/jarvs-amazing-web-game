@@ -16,6 +16,25 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ---
 
+## 🗺 Roadmap — Pending from CLAUDE.md phases
+
+**Phase 4 — Expansions** (Expansions 5–10 not yet started)
+- [ ] Expansion 5 — The Sunken Reef (aquatic, 100 cards + sprites)
+- [ ] Expansion 6 — Sky Dominion (aerial, 100 cards + sprites)
+- [ ] Expansion 7 — The Goblin Undercity (80 cards + sprites)
+- [ ] Expansion 8 — Heroes & Legends (60 legendary cards + sprites)
+- [ ] Expansion 9 — The Void Between (80 cards + sprites)
+- [ ] Expansion 10 — Community Shard (100 cards + sprites)
+
+**Phase 6 — Game Modes**
+- [ ] Card Draft Mode: pick 1 of 3 cards × 8 to build a 24-card deck, then battle (no collection needed)
+- [ ] **#315** Daily Challenge: fixed-seed deck + opponent each day; track win/loss per day in localStorage
+
+**Phase 7 — Depth & QoL**
+- [ ] Card synergy tags: UI labels showing which cards combo well (e.g. "Goblin" tag shared by Goblin, Barracks, Crypt)
+
+---
+
 ## 🔴 Bugs — New (from GitHub, session 16 sync)
 
 - [x] **#345** Opponent/player sprites not aligned with unit stop positions — fixed (BASE_STOP_MARGIN raised to 100; sprites at 4px from edge)

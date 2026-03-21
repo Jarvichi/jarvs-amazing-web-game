@@ -319,46 +319,6 @@ Current cards: ~95. Target: 1000+ across 10 shards/expansions.
 
 ---
 
-### Pending Implementation Todos
+### Implementation Status
 
-**Phase 1 — Core Loop**
-- [x] Design node map data structure (`web/src/game/questline.ts`)
-- [x] Build NodeMap UI component (scrollable left-right with path branches)
-- [x] Implement run state: active relics, current act, current node
-- [x] Save/load run state to localStorage (`jarv_run`)
-- [x] Deck reset mechanic with starter pack selection
-
-**Phase 2 — Campaign**
-- [x] Write Act 1 node map data (5 battle nodes, 1 elite, 1 boss)
-- [x] Boss AI: Thornlord (structure-heavy — builds walls every turn)
-- [x] Implement `rest` node type (heal 5 HP)
-- [x] Implement `event` node type (text choice cards with consequences)
-- [x] Implement `merchant` node (spend crystals, 3 cards offered)
-- [x] Post-battle card reward: pick 1 of 3
-
-**Phase 3 — Relics**
-- [x] Relic data in `web/src/game/relics.ts`
-- [x] Relic effects applied in engine.ts
-- [x] Relic display on Battlefield HUD
-- [x] Relic selection screen between acts
-
-**Phase 4 — Expansions**
-- [x] Add Verdant Shard cards (80 cards) with sprites
-- [x] Add Iron Citadel cards (100 cards) with sprites
-- [ ] (Remaining expansions follow after)
-
-**Phase 5 — Polish**
-- [x] Backstory intro screen (text crawl or panel art)
-- [x] Act transition cutscenes (text only, terminal style)
-- [x] Boss dialogue lines (1-3 lines per boss encounter)
-- [x] Victory screen for completing full questline
-
-**Phase 6 — Game Modes**
-- [ ] Card Draft Mode: free play variant — pick 1 of 3 cards × 8 to build a 24-card deck, then battle (no collection needed)
-- [ ] Daily Challenge: fixed-seed deck + opponent each day; track win/loss per day in localStorage
-
-**Phase 7 — Depth & QoL**
-- [x] Battle summary screen: stats popup after each battle — cards played, kills by unit, damage dealt, turns taken
-- [x] Boss Phase 2: bosses change behavior at 40% HP (e.g. Thornlord starts building Farms to flood mana)
-- [ ] Card synergy tags: UI labels showing which cards combo well (e.g. "Goblin" tag shared by Goblin, Barracks, Crypt)
-- [ ] Codebase health review: audit file sizes and complexity, split any files over ~500 lines, extract shared logic
+Phases 1–5 complete. Pending work is tracked in **[`todo.md`](todo.md)** — do not duplicate here.
