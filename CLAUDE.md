@@ -120,6 +120,10 @@ At the start of every session (or when asked):
      -d "{\"state\": \"closed\"}"
    ```
 
+### Branch Naming
+
+Each new issue should be on a new branch created from main, branches should be named <issue number>-<short description> . When there is a dependency between branches you can name them <issue number>-part-<branch order 1,2,3,etc>. When not resolving an issue directly (direct user prompt) use <DD-MM-YY-HHMM>-<short description>
+
 ## Todo Tracking Workflow
 
 **For every piece of work:**
