@@ -220,6 +220,8 @@ export interface NewGameOptions {
   enemyDeckNames?: string[]
   /** Pre-built enemy Card array (e.g. for daily challenge where cards are already seeded). */
   prebuiltOpponentDeck?: Card[]
+  /** Pre-built player Card array already in seeded order — skips the random reshuffle. */
+  prebuiltPlayerDeck?: Card[]
   /** Node ID used to seed terrain generation deterministically. */
   terrainSeed?: string
   /** Act environment ('forest' | 'citadel' | 'ashen') — themes terrain and log. */
@@ -255,19 +257,23 @@ export function newGame(
     opponentStartCards = 0,
     enemyDeckNames,
     prebuiltOpponentDeck,
+    prebuiltPlayerDeck,
     terrainSeed,
     environment,
     opponentIntervalMs: intervalOverride,
     opponentBaseHp: hpOverride,
   } = opts
 
-  const playerDeck = shuffle(playerCards ?? makeDeck())
+  // Pre-built decks are already in seeded order — don't re-shuffle with Math.random()
+  const playerDeck = prebuiltPlayerDeck && prebuiltPlayerDeck.length > 0
+    ? [...prebuiltPlayerDeck]
+    : shuffle(playerCards ?? makeDeck())
   const clamp = Math.min(Math.max(0, handicap), MAX_HANDICAP)
 
   // Build opponent deck: boss AI > prebuilt > preset node deck > handicap-filtered random
   let opponentDeck: Card[]
   if (prebuiltOpponentDeck && prebuiltOpponentDeck.length > 0) {
-    opponentDeck = shuffle([...prebuiltOpponentDeck])
+    opponentDeck = [...prebuiltOpponentDeck]   // already seeded — preserve order
   } else if (boss === 'thornlord') {
     opponentDeck = shuffle(makeThorlordDeck())
   } else if (boss === 'kragg') {
