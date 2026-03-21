@@ -29,9 +29,18 @@ Close each with a comment referencing the implementing PR/commit:
 
 ---
 
-## 🔴 Bugs — New (from GitHub, session 14 sync)
+## 🔴 Bugs — New (from GitHub, session 16 sync)
 
-- [ ] **#303** Units disappear off the top of the battlefield — investigate unit position clamping in engine.ts
+- [x] **#345** Opponent/player sprites not aligned with unit stop positions — fixed (BASE_STOP_MARGIN raised to 100; sprites at 4px from edge)
+- [ ] **#328** Black screens between acts — add guard useEffects for all conditional screens; add Rollbar logging to act transition
+- [ ] **#303** Units disappear off the top of the battlefield — likely fixed by #342 (BASE_STOP_MARGIN clamping); needs verification
+
+## 🔵 Enhancements — New (from GitHub, session 16 sync)
+
+- [ ] **#344** Character customisation — player chooses name + appearance; in-battle sprite uses it; dialogue uses player name
+- [ ] **#329** Opening a pack — animate card to centre (×1.5), tap to flip, then return; sequence one card at a time
+- [ ] **#306** Upgrade/Buff cards — card upgrade and level-up system (see issue for detail)
+- [ ] **#315** Daily Challenge — fixed-seed deck + opponent each day; track win/loss per day in localStorage (Phase 6 in CLAUDE.md)
 
 ---
 
