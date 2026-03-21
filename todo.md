@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-21 (session 19 — picked #305 Deck Saving and Sharing).
+Issues sourced from GitHub. Last synced: 2026-03-21 (session 20 — picked #68 Dark/Light Mode).
 
 ---
 
@@ -9,6 +9,12 @@ When working an issue from this file, go and check the GitHub issue for addition
 ---
 
 ## 🟠 Active Work
+
+### #68 — Dark/Light Mode ✅
+
+- [x] Add CSS variables + `html.light-mode` overrides in `styles.css`
+- [x] Add `loadLightMode` / `saveLightMode` / `applyLightMode` helpers + toggle in `SettingsScreen.tsx`
+- [x] Call `applyLightMode()` on startup in `App.tsx`
 
 ### #305 — Deck Saving and Sharing ✅
 

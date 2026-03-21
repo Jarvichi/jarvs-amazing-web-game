@@ -14,6 +14,7 @@ const TEXT_COLOR_KEY     = 'jarv_text_color'
 const SKIP_INTRO_KEY     = 'jarv_skip_intro'
 const EIGHTBIT_UNLOCKED_KEY = 'jarv_8bit_unlocked'
 const EIGHTBIT_ENABLED_KEY  = 'jarv_8bit_enabled'
+const LIGHT_MODE_KEY        = 'jarv_light_mode'
 
 export function loadSkipIntro(): boolean {
   try { return localStorage.getItem(SKIP_INTRO_KEY) === 'true' }
@@ -55,6 +56,19 @@ export function save8bitEnabled(val: boolean): void {
 export function apply8bitMode(enabled: boolean): void {
   document.documentElement.classList.toggle('eightbit-mode', enabled)
   window.dispatchEvent(new Event('eightbit-change'))
+}
+
+export function loadLightMode(): boolean {
+  try { return localStorage.getItem(LIGHT_MODE_KEY) === 'true' }
+  catch { return false }
+}
+
+export function saveLightMode(val: boolean): void {
+  try { localStorage.setItem(LIGHT_MODE_KEY, String(val)) } catch { /* ignore */ }
+}
+
+export function applyLightMode(enabled: boolean): void {
+  document.documentElement.classList.toggle('light-mode', enabled)
 }
 
 export function applyTextSettings(): void {
@@ -99,6 +113,7 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
   const [skipIntro,     setSkipIntro]     = useState(loadSkipIntro)
   const [eightbitOn,    setEightbitOn]    = useState(load8bitEnabled)
   const [eightbitUnlocked]               = useState(load8bitUnlocked)
+  const [lightModeOn,   setLightModeOn]   = useState(loadLightMode)
   const [confirmReset,  setConfirmReset]  = useState(false)
   const [importMsg,     setImportMsg]     = useState<string | null>(null)
   const [rollbarMsg,    setRollbarMsg]    = useState<string | null>(null)
@@ -134,6 +149,13 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
     setEightbitOn(next)
     save8bitEnabled(next)
     apply8bitMode(next)
+  }
+
+  function handleLightModeToggle() {
+    const next = !lightModeOn
+    setLightModeOn(next)
+    saveLightMode(next)
+    applyLightMode(next)
   }
 
   function handleSkipIntroToggle() {
@@ -225,6 +247,17 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
         )}
 
         <Section bordered title="DISPLAY">
+          <div className="settings-row">
+            <div>
+              <div className="settings-label">Light mode</div>
+              <div className="settings-sublabel">Switch to a light parchment background</div>
+            </div>
+            <div className="settings-toggle" onClick={handleLightModeToggle}>
+              <div className={`settings-toggle-track${lightModeOn ? ' settings-toggle-track--on' : ''}`}>
+                <div className="settings-toggle-thumb" />
+              </div>
+            </div>
+          </div>
           <div className="settings-row">
             <div>
               <div className="settings-label">Text size</div>
