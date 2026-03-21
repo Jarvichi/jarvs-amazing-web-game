@@ -7,6 +7,7 @@ export type StructureEffect =
   | { type: 'healAura'; amount: number; intervalMs: number }
   | { type: 'repairAura'; amount: number; intervalMs: number }
   | { type: 'attackAura'; amount: number }
+  | { type: 'slowZone'; slowFactor: number; radius: number }
 
 export type UpgradeEffect =
   | { type: 'buffAttack'; amount: number }
@@ -25,6 +26,8 @@ export interface UnitTemplate {
   attack: number
   maxHp: number
   isWall: boolean
+  /** True for moat terrain — indestructible, untargetable, slows units that cross it. */
+  isMoat?: boolean
   /** True if this unit skips walls when choosing attack targets (ranged / magic). */
   bypassWall: boolean
   /** True if this unit physically flies over walls — never stopped by them. */

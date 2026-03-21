@@ -56,10 +56,13 @@ function spawnUnit(template: UnitTemplate, owner: 'player' | 'opponent'): Unit {
     unit.spawnTimer = intervalMs
   }
   // Structures stay at base; walls are placed further out to form a defensive line
+  // Moats are placed just in front of the wall (enemy-side of it)
   if (template.moveSpeed === 0) {
-    unit.x = template.isWall
-      ? (owner === 'player' ? 150 : LANE_WIDTH - 150)
-      : (owner === 'player' ? 10 : LANE_WIDTH - 10)
+    unit.x = template.isMoat
+      ? (owner === 'player' ? 185 : LANE_WIDTH - 185)
+      : template.isWall
+        ? (owner === 'player' ? 150 : LANE_WIDTH - 150)
+        : (owner === 'player' ? 10 : LANE_WIDTH - 10)
     unit.upgradeLevel = 1
   } else {
     // Mobile units spawn in a random lane
@@ -559,6 +562,7 @@ function findAttackTarget(field: Unit[], unit: Unit): Unit | null {
 
   for (const other of field) {
     if (other.owner === unit.owner || other.hp <= 0) continue
+    if (other.isMoat) continue  // moats are indestructible terrain — never targeted
     if (other.isWall && (unit.bypassWall || unit.climber)) continue
     const d = unitDist(unit, other)
     if (d > unit.attackRange) continue
@@ -569,6 +573,7 @@ function findAttackTarget(field: Unit[], unit: Unit): Unit | null {
   if (candidates.length === 0 && unit.bypassWall && !unit.flying) {
     for (const other of field) {
       if (other.owner === unit.owner || other.hp <= 0) continue
+      if (other.isMoat) continue
       if (!other.isWall) continue
       const d = unitDist(unit, other)
       if (d > unit.attackRange) continue
@@ -679,11 +684,19 @@ function moveUnits(s: GameState, deltaMs: number): void {
       w.isWall && w.owner !== unit.owner && w.hp > 0 &&
       Math.abs(unit.x - w.x) <= WALL_CLIMB_ZONE
     )
+    // Moat slow zone — any unit (enemy or ally) crossing a moat is slowed
+    const moatSlowFactor = s.field.reduce((factor, m) => {
+      if (!m.isMoat) return factor
+      const effect = m.structureEffect as { type: 'slowZone'; slowFactor: number; radius: number } | undefined
+      if (!effect || effect.type !== 'slowZone') return factor
+      if (Math.abs(unit.x - m.x) <= effect.radius) return Math.min(factor, effect.slowFactor)
+      return factor
+    }, 1)
     // Fog of War battle event halves all movement
     const fogMult = s.activeBattleEvent?.type === 'fogOfWar' ? 0.5 : 1
     const affMoveMult = (unit.affinityActive && unit.affinity?.effectType === 'moveSpeed')
       ? unit.affinity.effectAmount : 1
-    const speed = (inWallZone ? unit.moveSpeed * CLIMB_SPEED_FACTOR : unit.moveSpeed) * deltaSec * fogMult * affMoveMult
+    const speed = (inWallZone ? unit.moveSpeed * CLIMB_SPEED_FACTOR : unit.moveSpeed) * deltaSec * fogMult * affMoveMult * moatSlowFactor
 
     // Terrain avoidance: lateral repulsion from nearby obstacles.
     // Uses a per-type ellipse (TERRAIN_AVOID_SHAPE) so tall narrow trees
@@ -834,8 +847,8 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
     }
   }
 
-  // Remove dead units
-  s.field = s.field.filter(u => u.hp > 0)
+  // Remove dead units (moats are indestructible — keep them even at 0 hp)
+  s.field = s.field.filter(u => u.hp > 0 || u.isMoat)
 }
 
 // ─── Game Over Check ──────────────────────────────────────

@@ -4672,19 +4672,20 @@
       "unit": {
         "name": "Moat",
         "attack": 0,
-        "maxHp": 15,
+        "maxHp": 9999,
         "isWall": false,
         "bypassWall": false,
         "moveSpeed": 0,
         "attackRange": 0,
         "attackCooldownMs": 0,
         "structureEffect": {
-          "type": "repairAura",
-          "amount": 1,
-          "intervalMs": 8000
-        }
+          "type": "slowZone",
+          "slowFactor": 0.4,
+          "radius": 30
+        },
+        "isMoat": true
       },
-      "description": "Water barrier \u2014 slowly repairs nearby walls.",
+      "description": "Water barrier \u2014 slows all units that cross it. Cannot be destroyed.",
       "lore": "The water doesn't stop them. The mud does.",
       "deckCount": 0
     },
