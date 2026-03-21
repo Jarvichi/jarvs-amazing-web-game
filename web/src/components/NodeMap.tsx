@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react'
-import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getActiveModifiers, loadActCount } from '../game/questline'
+import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getActiveModifiers, loadActCount, ALL_CONSUMABLES } from '../game/questline'
 import { StatRow } from './StatRow'
 
 interface Props {
   act: Act
   run: RunState
   onSelectNode: (node: QuestNode) => void
+  onUseConsumable: (id: string) => void
   onBack: () => void
 }
 
@@ -257,7 +258,7 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
 
 // ── Main component ──────────────────────────────────────────────────────────
 
-export function NodeMap({ act, run, onSelectNode, onBack }: Props) {
+export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Props) {
   const availableIds = getAvailableNodeIds(act, run)
   const rows         = useMemo(() => buildRows(act), [act])
   const maxCols      = useMemo(() => Math.max(...rows.map(r => r.length)), [rows])
@@ -306,6 +307,29 @@ export function NodeMap({ act, run, onSelectNode, onBack }: Props) {
           ))}
         </div>
       </div>
+
+      {/* Consumables bar */}
+      {run.consumables && run.consumables.length > 0 && (
+        <div className="nm-consumables-bar">
+          <span className="nm-consumables-label">ITEMS</span>
+          {run.consumables.map(rc => {
+            const def = ALL_CONSUMABLES.find(c => c.id === rc.id)
+            if (!def) return null
+            return (
+              <button
+                key={rc.id}
+                className="nm-consumable-btn"
+                title={`${def.name}: ${def.desc}`}
+                onClick={() => onUseConsumable(rc.id)}
+              >
+                <span className="nm-consumable-icon">{def.icon}</span>
+                <span className="nm-consumable-name">{def.name}</span>
+                {rc.count > 1 && <span className="nm-consumable-count">×{rc.count}</span>}
+              </button>
+            )
+          })}
+        </div>
+      )}
 
       {/* Map */}
       <div className="nm-map">

@@ -22,6 +22,7 @@ import {
   CutscenePanel, QuestNode, RunState, Act, ReplayModifier,
   getActiveModifiers, loadActCount, incrementActCount,
   recordNodeComplete, loadPlayerName, applyPlayerName,
+  ALL_CONSUMABLES, addToConsumableStash, useConsumable,
 } from './game/questline'
 import { CardRestSelect }       from './components/CardRestSelect'
 import { EventScreen }          from './components/EventScreen'
@@ -161,6 +162,10 @@ function buildMerchantItems(): MerchantItem[] {
       const price = 10 + Math.floor(Math.random() * 11)   // 10–20 crystals
       items.push({ kind: 'item', inventoryItem: { id: inv.id, name: inv.name, icon: inv.icon, desc: inv.desc, lore: inv.lore ?? '', acquiredDate: '' }, price })
     }
+  }
+  // Always add consumables to the merchant
+  for (const c of ALL_CONSUMABLES) {
+    items.push({ kind: 'consumable', def: c, price: c.price })
   }
   return items
 }
@@ -777,6 +782,18 @@ export default function App() {
   const handleMerchantBuy = useCallback((item: MerchantItem) => {
     if (item.kind === 'card') {
       addCardsToCollection([{ cardName: item.card.name, count: 1 }])
+    } else if (item.kind === 'consumable') {
+      // Add directly to the active run's consumables
+      setRun(prev => {
+        if (!prev) return prev
+        const existing = prev.consumables.find(c => c.id === item.def.id)
+        const consumables = existing
+          ? prev.consumables.map(c => c.id === item.def.id ? { ...c, count: c.count + 1 } : c)
+          : [...prev.consumables, { id: item.def.id, count: 1 }]
+        const updated = { ...prev, consumables }
+        saveRun(updated)
+        return updated
+      })
     } else {
       addToInventory(item.inventoryItem)
     }
@@ -819,6 +836,8 @@ export default function App() {
       addToInventory({ id: mysteryReward.id, name: mysteryReward.name, icon: mysteryReward.icon, desc: mysteryReward.desc ?? '', lore: mysteryReward.lore ?? '' })
     } else if (mysteryReward.type === 'card' || mysteryReward.type === 'pack') {
       addCardsToCollection([{ cardName: mysteryReward.name, count: 1 }])
+    } else if (mysteryReward.type === 'consumable' && mysteryReward.consumableId) {
+      addToConsumableStash(mysteryReward.consumableId)
     }
     // Complete node
     const nodeId = currentRun.pendingNodeId!
@@ -836,6 +855,16 @@ export default function App() {
     if (mysteryUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...mysteryUnlocked])
     setScreen('nodemap')
   }, [run, mysteryReward])
+
+  const handleUseConsumable = useCallback((id: string) => {
+    setRun(prev => {
+      if (!prev) return prev
+      const updated = useConsumable(prev, id)
+      if (!updated) return prev
+      saveRun(updated)
+      return updated
+    })
+  }, [])
 
   const handleCampaignWin = useCallback(() => {
     const currentRun = run
@@ -993,6 +1022,7 @@ export default function App() {
             earnedCards: [],
             activeRelic: chosenRelic,
             crystalBonus: 0,
+            consumables: currentRun.consumables,
           }
           saveRun(nextRun)
           setRun(nextRun)
@@ -1463,6 +1493,7 @@ export default function App() {
           act={actData}
           run={run}
           onSelectNode={handleSelectNode}
+          onUseConsumable={handleUseConsumable}
           onBack={handleMainMenu}
         />
       )}
@@ -1707,6 +1738,8 @@ export default function App() {
               addCardsToCollection(names.map(name => ({ cardName: name, count: 1 })))
             } else if (dailyReward.type === 'item') {
               addToInventory(dailyReward)
+            } else if (dailyReward.type === 'consumable' && dailyReward.consumableId) {
+              addToConsumableStash(dailyReward.consumableId)
             }
             setDailyReward(null)
           }}

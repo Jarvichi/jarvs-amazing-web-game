@@ -1,0 +1,20 @@
+[
+  {
+    "id": "health_potion",
+    "name": "Health Potion",
+    "icon": "🧪",
+    "desc": "Restore 15 HP to your base.",
+    "lore": "Brewed from shardroot and wishwater. Tastes faintly of copper.",
+    "healAmount": 15,
+    "price": 15
+  },
+  {
+    "id": "extra_life",
+    "name": "Second Wind",
+    "icon": "❤️‍🔥",
+    "desc": "Gain +1 life for this run.",
+    "lore": "The Dominion believes in second chances. Third chances cost extra.",
+    "livesAmount": 1,
+    "price": 30
+  }
+]

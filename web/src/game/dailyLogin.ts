@@ -19,10 +19,11 @@ export interface RewardDef {
   desc: string
   lore: string
   weight: number
-  type: 'crystals' | 'card' | 'pack' | 'item'
+  type: 'crystals' | 'card' | 'pack' | 'item' | 'consumable'
   // type-specific
-  amount?:   number   // crystals: how many
-  cardName?: string   // card: specific card (resolved at grant time for rarity rewards)
+  amount?:      number   // crystals: how many
+  cardName?:    string   // card: specific card (resolved at grant time for rarity rewards)
+  consumableId?: string  // consumable: which consumable to grant
   rarity?:   string   // card: pick random card of this rarity
   count?:    number   // pack: number of cards (default 5)
 }
