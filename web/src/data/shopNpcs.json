@@ -1,0 +1,186 @@
+{
+  "dayShift": [
+    {
+      "name": "Margot",
+      "title": "Shop Owner",
+      "role": "owner",
+      "greeting": "Welcome. Everything is priced fairly — by my standards.",
+      "perk": "Standard prices",
+      "shiftEndLine": "I'll be here until the next server arrives — {time} away. No rush.",
+      "dialogues": [
+        "Browse at your leisure. I don't do pushy.",
+        "All sales final. That's not negotiable.",
+        "I've been running this shop for twelve years. I know value when I see it.",
+        "The rare cards are there for a reason — don't ask me to move them.",
+        "Take your time. Rushing leads to buyer's remorse."
+      ]
+    },
+    {
+      "name": "Vesna",
+      "title": "Card Specialist",
+      "role": "specialist",
+      "greeting": "I know cards. These three? Hand-picked. You're welcome.",
+      "perk": "Expert curation · no junk",
+      "shiftEndLine": "My shift ends in {time}. But I'm busy! These cards don't curate themselves.",
+      "dialogues": [
+        "Each card in my selection has a purpose. Can you see it?",
+        "I spent three hours on this stock. Three. Hours.",
+        "You won't find better picks anywhere this side of the Verdant Shard.",
+        "A bad card in the wrong deck is worse than no card at all.",
+        "Trust the curation. I haven't been wrong yet — this week."
+      ]
+    },
+    {
+      "name": "Aldric",
+      "title": "Wandering Dealer",
+      "role": "wanderer",
+      "greeting": "Passing through. Today's selection is purely coincidental. Or is it?",
+      "perk": "Rare stock rotation",
+      "shiftEndLine": "I move on in {time}. Make your choice — I don't wait.",
+      "dialogues": [
+        "I travel light. But my stock? Always interesting.",
+        "Ask me where I got these and I'll ask you to mind your business.",
+        "Tomorrow I'm two shards away. Today, I'm here. Lucky you.",
+        "Every item I carry has a story. Most of them are true.",
+        "I've seen four of the five shards. The fifth one tried to keep me."
+      ]
+    },
+    {
+      "name": "Pip",
+      "title": "Apprentice (Day)",
+      "role": "apprentice",
+      "greeting": "Um, hi! I'm looking after the shop today. I think.",
+      "perk": "10% discount on weekends",
+      "shiftEndLine": "Only {time} left on my shift... not that I'm counting.",
+      "dialogues": [
+        "Margot said not to touch the back shelves. So obviously I've already touched them.",
+        "I'm pretty sure these prices are right. Pretty sure.",
+        "Don't ask me about the legendary cards. I'm not allowed to discuss the legendary cards.",
+        "I may have rearranged a few things. It's fine. Probably.",
+        "If anything seems off, that's... a known issue."
+      ]
+    },
+    {
+      "name": "Seraph",
+      "title": "Archivist",
+      "role": "specialist",
+      "greeting": "The collection doesn't grow by itself. Invest wisely.",
+      "perk": "Curated daily selection",
+      "shiftEndLine": "I leave in {time}. Choose before the shop closes.",
+      "dialogues": [
+        "I have catalogued every card ever printed. These three are worth your attention.",
+        "A strong collection is built card by card, not pack by pack.",
+        "The rarest card is worthless in the wrong hands. You don't have the wrong hands. Probably.",
+        "I keep records. Every sale, every trade. History matters.",
+        "Expansion sets come and go. Core cards endure."
+      ]
+    },
+    {
+      "name": "Lysandra",
+      "title": "Legendary Broker",
+      "role": "legendary_dealer",
+      "greeting": "Rare finds don't come cheap. But they do come available — if you know where to look.",
+      "perk": "✦ Sells one legendary card today",
+      "shiftEndLine": "I'm closing in {time}. Opportunities like this don't linger.",
+      "dialogues": [
+        "I deal exclusively in the extraordinary. Everything else bores me.",
+        "That legendary on the shelf? I turned down three offers before yours.",
+        "You either see the value or you don't. I can't teach taste.",
+        "My clients never regret buying from me. Only not buying.",
+        "One legendary, one chance, one day. That's always how it works."
+      ]
+    }
+  ],
+  "nightShift": [
+    {
+      "name": "Grix",
+      "title": "Goblin Night Trader",
+      "role": "wanderer",
+      "greeting": "Psst. Grix open late. Very secret. Very good deals. Mostly.",
+      "perk": "Goblin prices (same as everyone else)",
+      "shiftEndLine": "Grix go home in {time}. Very tired goblin.",
+      "dialogues": [
+        "Grix not normally do this. But Grix need crystals. Bad.",
+        "Is fine. Everything legitimate. Grix promise.",
+        "You not tell anyone you see Grix here, yes?",
+        "Grix got good stuff tonight. Better than last night. Last night was accident.",
+        "Grix like night shift. No questions. Very professional."
+      ]
+    },
+    {
+      "name": "Nox",
+      "title": "Nocturnal Curator",
+      "role": "specialist",
+      "greeting": "The serious collectors shop at night. Good to see you.",
+      "perk": "Night owl selection",
+      "shiftEndLine": "The night shift ends in {time}. The serious ones don't dawdle.",
+      "dialogues": [
+        "Daytime shoppers browse. Night shoppers buy. Which are you?",
+        "My selection changes with the moon. Metaphorically. The stock rotates every three hours.",
+        "Quiet in here. I like it. Less noise. Better decisions.",
+        "I've never once sold a card to someone I regretted selling to. Tonight continues that record.",
+        "The rarest cards surface at night. So do the most discerning buyers."
+      ]
+    },
+    {
+      "name": "Pip",
+      "title": "Apprentice (Night)",
+      "role": "apprentice",
+      "greeting": "Margot said I could do the night shift. This is fine. Everything is fine.",
+      "perk": "10% discount on weekends",
+      "shiftEndLine": "Only {time} to go... then I can sleep.",
+      "dialogues": [
+        "It's not as spooky as I expected. Mostly.",
+        "I keep hearing noises from the stockroom. Margot said to ignore them.",
+        "Night shift pay is the same as day shift pay. I checked.",
+        "I've reorganised the shelves twice. Third time is for fun.",
+        "Did you know this shop has a basement? I found out an hour ago. I'm not going back."
+      ]
+    },
+    {
+      "name": "The Stranger",
+      "title": "Unknown Origin",
+      "role": "wanderer",
+      "greeting": "...",
+      "perk": "Does not elaborate further",
+      "shiftEndLine": "...",
+      "dialogues": [
+        "...",
+        "...",
+        "...",
+        "(...nods slightly.)",
+        "(...gestures vaguely at the stock.)"
+      ]
+    },
+    {
+      "name": "Cass",
+      "title": "Off-Duty Guard",
+      "role": "owner",
+      "greeting": "Not usually my job, but here we are. Don't tell Margot.",
+      "perk": "Moonlighting — honest prices",
+      "shiftEndLine": "Back on duty in {time}. Margot better not find out about this.",
+      "dialogues": [
+        "I'm trained to spot trouble. You don't look like trouble. Mostly.",
+        "Guard pay doesn't cover what it used to. Hence... this.",
+        "I keep my hand near my sword out of habit. Don't read into it.",
+        "Margot would kill me if she knew. Worth it.",
+        "I've learned more about card pricing tonight than in three years of guarding."
+      ]
+    },
+    {
+      "name": "Vorn",
+      "title": "Shadow Merchant",
+      "role": "legendary_dealer",
+      "greeting": "I only come out at night. And I only deal in the extraordinary.",
+      "perk": "✦ Sells one legendary card tonight",
+      "shiftEndLine": "My dealings conclude in {time}. The shadows are patient — I am not.",
+      "dialogues": [
+        "I have no permanent address. I have only tonight's offer.",
+        "The card I carry is unique. Once it's gone, so am I.",
+        "Day merchants deal in abundance. I deal in scarcity.",
+        "You found me. That's already rare. The card makes it rarer.",
+        "Ask me nothing. Buy or don't. I'll be gone by sunrise either way."
+      ]
+    }
+  ]
+}

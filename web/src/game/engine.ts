@@ -218,6 +218,8 @@ export interface NewGameOptions {
   bossHpMultiplier?: number
   /** Preset enemy deck (card names). Makes each node deterministic and learnable. */
   enemyDeckNames?: string[]
+  /** Pre-built enemy Card array (e.g. for daily challenge where cards are already seeded). */
+  prebuiltOpponentDeck?: Card[]
   /** Node ID used to seed terrain generation deterministically. */
   terrainSeed?: string
   /** Act environment ('forest' | 'citadel' | 'ashen') — themes terrain and log. */
@@ -252,6 +254,7 @@ export function newGame(
     bossHpMultiplier,
     opponentStartCards = 0,
     enemyDeckNames,
+    prebuiltOpponentDeck,
     terrainSeed,
     environment,
     opponentIntervalMs: intervalOverride,
@@ -261,9 +264,11 @@ export function newGame(
   const playerDeck = shuffle(playerCards ?? makeDeck())
   const clamp = Math.min(Math.max(0, handicap), MAX_HANDICAP)
 
-  // Build opponent deck: boss AI > preset node deck > handicap-filtered random
+  // Build opponent deck: boss AI > prebuilt > preset node deck > handicap-filtered random
   let opponentDeck: Card[]
-  if (boss === 'thornlord') {
+  if (prebuiltOpponentDeck && prebuiltOpponentDeck.length > 0) {
+    opponentDeck = shuffle([...prebuiltOpponentDeck])
+  } else if (boss === 'thornlord') {
     opponentDeck = shuffle(makeThorlordDeck())
   } else if (boss === 'kragg') {
     opponentDeck = shuffle(makeKraggDeck())

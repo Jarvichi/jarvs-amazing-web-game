@@ -7,6 +7,7 @@ import { TitleButton } from './TitleButton'
 import { TitleIdleAnimation } from './TitleIdleAnimation'
 import { load8bitUnlocked, unlock8bitMode, save8bitEnabled, apply8bitMode } from './SettingsScreen'
 import { incrementAchievementProgress } from '../game/achievements'
+import { getDailyChallengeState } from '../game/dailyChallenge'
 
 const CAMPAIGN_UNLOCK_CARDS = 30
 const EIGHTBIT_CLICKS = 8
@@ -24,9 +25,10 @@ interface Props {
   onHeroCards: () => void
   onCharacter: () => void
   on8bitUnlocked?: () => void
+  onDailyChallenge: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked }: Props) {
+export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -41,6 +43,7 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
   const collectionAlert     = collection.some(e => e.count > COPIES_MAX)
   const winStreak           = loadWinStreak()
   const bestStreak          = loadBestStreak()
+  const dailyChallenge      = getDailyChallengeState()
 
   const logoClickCount = useRef(0)
   const logoClickTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -107,6 +110,14 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
 
         <TitleButton onClick={onPlay} disabled={!valid} title={valid ? undefined : `Deck needs ${10 - count} more cards`}>
           {valid ? '▶  QUICK BATTLE' : `⚠ DECK TOO SMALL (${count}/10)`}
+        </TitleButton>
+
+        <TitleButton onClick={onDailyChallenge}>
+          {dailyChallenge.won === true
+            ? '📅  DAILY CHALLENGE ✓'
+            : dailyChallenge.attempts > 0
+              ? `📅  DAILY CHALLENGE (${dailyChallenge.attempts} attempt${dailyChallenge.attempts !== 1 ? 's' : ''})`
+              : '📅  DAILY CHALLENGE'}
         </TitleButton>
 
         <TitleButton onClick={onDeckBuilder}>DECK BUILDER</TitleButton>

@@ -2,6 +2,7 @@ import React from 'react'
 import { GameState } from '../game/types'
 import { MAX_HANDICAP } from '../game/engine'
 import { loadWinStreak } from '../game/collection'
+import { DailyChallengeState } from '../game/dailyChallenge'
 
 interface Props {
   state: GameState
@@ -17,6 +18,8 @@ interface Props {
   quickPlayHint?: boolean
   /** Show win streak (free play only). */
   showStreak?: boolean
+  /** If set, show daily challenge result banner. */
+  dailyChallengeState?: DailyChallengeState
 }
 
 const VICTORY_ART = `   \\o/
@@ -40,7 +43,7 @@ const DRAW_ART = `  =====
   =====
   DRAW!`
 
-export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onMainMenu, campaignAbandon, quickPlayHint, showStreak }: Props) {
+export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onMainMenu, campaignAbandon, quickPlayHint, showStreak, dailyChallengeState }: Props) {
   const won  = winner === 'player'
   const draw = winner === 'draw'
   const css  = won ? 'gameover--win' : draw ? 'gameover--draw' : 'gameover--lose'
@@ -91,6 +94,16 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
         )}
       </div>
       {handicapNote && <div className="gameover-handicap">{handicapNote}</div>}
+
+      {dailyChallengeState && (
+        <div className={`gameover-daily ${winner === 'player' ? 'gameover-daily--win' : 'gameover-daily--lose'}`}>
+          {winner === 'player'
+            ? dailyChallengeState.attempts === 1
+              ? '📅 Daily Challenge complete — first try!'
+              : `📅 Daily Challenge complete! (${dailyChallengeState.attempts} attempt${dailyChallengeState.attempts !== 1 ? 's' : ''})`
+            : `📅 Daily Challenge — attempt ${dailyChallengeState.attempts}. Try again tomorrow or keep going!`}
+        </div>
+      )}
 
       {showStreak && winner === 'player' && (() => {
         const streak = loadWinStreak()

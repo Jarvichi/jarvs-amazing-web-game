@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-21 (session 17 — added #362, #363, #364).
+Issues sourced from GitHub. Last synced: 2026-03-21 (session 18 — implemented #315 Daily Challenge; refactored dailyLogin.ts → shopSchedule.ts + shopNpcs.json).
 
 ---
 
@@ -28,7 +28,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 **Phase 6 — Game Modes**
 - [ ] Card Draft Mode: pick 1 of 3 cards × 8 to build a 24-card deck, then battle (no collection needed)
-- [ ] **#315** Daily Challenge: fixed-seed deck + opponent each day; track win/loss per day in localStorage
+- [x] **#315** Daily Challenge: fixed-seed deck + opponent each day; track win/loss per day in localStorage
 
 **Phase 7 — Depth & QoL**
 - [ ] Card synergy tags: UI labels showing which cards combo well (e.g. "Goblin" tag shared by Goblin, Barracks, Crypt)
@@ -46,7 +46,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [x] **#344** Character customisation — CharacterScreen with name + avatar selection exists; avatar used in Battlefield; name applied in boss dialogue and cutscenes
 - [x] **#329** Opening a pack — spotlight animation already implemented (card zooms to centre, tap to reveal, returns to grid)
 - [ ] **#306** Upgrade/Buff cards — card upgrade and level-up system (see issue for detail)
-- [ ] **#315** Daily Challenge — fixed-seed deck + opponent each day; track win/loss per day in localStorage (Phase 6 in CLAUDE.md)
+- [x] **#315** Daily Challenge — fixed-seed deck + opponent each day; track win/loss per day in localStorage (Phase 6 in CLAUDE.md)
 
 ---
 
