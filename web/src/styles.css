@@ -348,13 +348,13 @@ body {
 }
 
 .lane-base--opponent {
-  /* BASE_STOP_MARGIN/LANE_WIDTH = 60/500 = 12% from top — centre the 40px sprite there */
-  top: calc(12% - 20px);
+  /* BASE_STOP_MARGIN/LANE_WIDTH = 100/500 = 20% from top — centre the 40px sprite there */
+  top: calc(20% - 20px);
 }
 
 .lane-base--player {
-  /* mirror of opponent — 12% from bottom */
-  bottom: calc(12% - 20px);
+  /* mirror of opponent — 20% from bottom */
+  bottom: calc(20% - 20px);
 }
 
 /* ─── Lane Unit Sprites ──────────────────────────────── */
