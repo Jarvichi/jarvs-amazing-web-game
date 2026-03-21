@@ -11,10 +11,22 @@
   --game-text-color-dim:   color-mix(in srgb, var(--game-text-color) 85%, transparent);
   --game-text-color-muted: color-mix(in srgb, var(--game-text-color) 70%, transparent);
   --game-font-size: 14px;
+  --game-bg: #0a0a0a;
+  --game-bg-raised: #111;
+  --game-bg-card: #1a1a1a;
+  --game-border: #333;
+}
+
+html.light-mode {
+  --game-bg: #f0ede6;
+  --game-bg-raised: #e4e0d8;
+  --game-bg-card: #dedad2;
+  --game-border: #a09880;
+  --game-text-color: #2a4a2a;
 }
 
 body {
-  background: #0a0a0a;
+  background: var(--game-bg);
   color: var(--game-text-color);
   font-family: 'Courier New', 'Menlo', 'Monaco', monospace;
   font-size: var(--game-font-size);
@@ -39,7 +51,7 @@ body {
   font-size: 15px;
   color: #ffcc00;
   padding: 4px 0 5px;
-  border-bottom: 2px solid #333;
+  border-bottom: 2px solid var(--game-border);
   margin-bottom: 5px;
   letter-spacing: 3px;
   flex-shrink: 0;
@@ -63,7 +75,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 3px 8px;
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   border-radius: 3px;
   background: rgba(255, 255, 255, 0.02);
 }
@@ -208,8 +220,8 @@ body {
 .hp-bar-track {
   flex: 1;
   height: 16px;
-  background: #1a1a1a;
-  border: 1px solid #333;
+  background: var(--game-bg-card);
+  border: 1px solid var(--game-border);
   border-radius: 2px;
   position: relative;
   overflow: hidden;
@@ -281,7 +293,7 @@ body {
   position: relative;
   flex: 1;
   min-height: 160px;
-  border: 2px solid #333;
+  border: 2px solid var(--game-border);
   border-radius: 3px;
   background:
     repeating-linear-gradient(
@@ -404,7 +416,7 @@ body {
 .lane-unit-hp-bar {
   width: 30px;
   height: 4px;
-  background: #222;
+  background: var(--game-bg-card);
   border: 1px solid #444;
   border-radius: 1px;
   overflow: hidden;
@@ -609,7 +621,7 @@ body {
 .cooldown-bar-track {
   flex-shrink: 0;
   height: 4px;
-  background: #1a1a1a;
+  background: var(--game-bg-card);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -643,7 +655,7 @@ body {
 
 .hand-panel {
   flex-shrink: 0;
-  border-top: 2px solid #333;
+  border-top: 2px solid var(--game-border);
   padding-top: 5px;
 }
 
@@ -983,8 +995,8 @@ body {
 /* ─── Scrollbars ─────────────────────────────────────── */
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #111; }
-::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+::-webkit-scrollbar-track { background: var(--game-bg-raised); }
+::-webkit-scrollbar-thumb { background: var(--game-border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #555; }
 
 /* ─── Mobile ─────────────────────────────────────────── */
@@ -1344,7 +1356,7 @@ body {
   align-items: center;
   gap: 12px;
   padding: 6px 0 8px;
-  border-bottom: 2px solid #333;
+  border-bottom: 2px solid var(--game-border);
   flex-shrink: 0;
 }
 
@@ -1430,8 +1442,8 @@ body {
   align-items: center;
   gap: 8px;
   padding: 14px 16px;
-  border: 1px solid #333;
-  background: #0a0a0a;
+  border: 1px solid var(--game-border);
+  background: var(--game-bg);
   min-width: 110px;
 }
 .shop-card-deal--common    { border-top: 2px solid #666; }
@@ -1491,7 +1503,7 @@ body {
   gap: 10px;
   padding: 20px 24px;
   border: 2px solid #444;
-  background: #111;
+  background: var(--game-bg-raised);
   width: 100%;
   box-sizing: border-box;
 }
@@ -1535,7 +1547,7 @@ body {
   gap: 6px;
   padding: 14px 16px;
   border: 1px solid #3a3a3a;
-  background: #111;
+  background: var(--game-bg-raised);
   min-width: 120px;
   box-sizing: border-box;
   flex: 1;
@@ -1665,7 +1677,7 @@ body {
   top: calc(100% + 4px);
   left: 0;
   z-index: 200;
-  background: #0d0d0d;
+  background: var(--game-bg);
   border: 1px solid #444;
   border-radius: 3px;
   padding: 10px;
@@ -1761,7 +1773,7 @@ body {
 
 .deckbuilder-search {
   background: rgba(0, 0, 0, 0.5);
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   border-radius: 3px;
   color: var(--game-text-color);
   font-family: inherit;
@@ -1949,7 +1961,7 @@ body {
 .deck-list-item--legendary { border-left: 2px solid rgba(255,215,0,0.5); }
 .deck-list-item--rare      { border-left: 2px solid rgba(0,170,255,0.5); }
 .deck-list-item--uncommon  { border-left: 2px solid rgba(0,255,136,0.4); }
-.deck-list-item--common    { border-left: 2px solid #333; }
+.deck-list-item--common    { border-left: 2px solid var(--game-border); }
 
 .deck-list-cost {
   color: #6cf;
@@ -2083,8 +2095,8 @@ body {
 .share-code-box {
   font-family: monospace;
   font-size: 11px;
-  background: #111;
-  border: 1px solid #333;
+  background: var(--game-bg-raised);
+  border: 1px solid var(--game-border);
   color: var(--game-text-color-dim);
   border-radius: 3px;
   padding: 8px;
@@ -2216,9 +2228,9 @@ body {
 .pack-card-hidden {
   width: 90px;
   height: 130px;
-  border: 2px solid #333;
+  border: 2px solid var(--game-border);
   border-radius: 4px;
-  background: #111;
+  background: var(--game-bg-raised);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2470,7 +2482,7 @@ body {
   margin-top: 4px;
 }
 .cdm-info-btn {
-  border-color: #333;
+  border-color: var(--game-border);
   color: var(--game-text-color-muted);
   margin-left: auto;
 }
@@ -2507,7 +2519,7 @@ body {
 /* mastery bar → .progress-bar-track (+ flex/border overrides below) / .progress-bar-fill */
 .mastery-bar-track {
   flex: 1;
-  background: #222;
+  background: var(--game-bg-card);
   border: 1px solid #444;
 }
 .mastery-xp { font-size: 8px; color: var(--game-text-color-dim); white-space: nowrap; }
@@ -2612,7 +2624,7 @@ body {
 
 .progress-bar-track {
   height: 4px;
-  background: #1a1a1a;
+  background: var(--game-bg-card);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -2720,8 +2732,8 @@ body {
 }
 
 .cdm-panel {
-  background: #0e0e0e;
-  border: 1px solid #333;
+  background: var(--game-bg);
+  border: 1px solid var(--game-border);
   border-radius: 4px;
   width: min(480px, 95vw);
   max-height: 90vh;
@@ -3057,7 +3069,7 @@ body {
   right: 0;
   width: min(340px, 95vw);
   background: #1c1c1e;
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   border-radius: 0 0 12px 12px;
   padding: 14px 16px;
   display: flex;
@@ -3090,7 +3102,7 @@ body {
   transition: all 0.15s;
 }
 .wn-btn:hover      { background: #444; color: var(--game-text-color-dim); }
-.wn-btn--muted     { border-color: #333; color: var(--game-text-color-muted); }
+.wn-btn--muted     { border-color: var(--game-border); color: var(--game-text-color-muted); }
 .wn-btn--muted:hover { color: var(--game-text-color-muted); }
 
 /* ─── Narrator ──────────────────────────────────────────── */
@@ -3283,8 +3295,8 @@ body {
 .nm-hp-track {
   width: 80px;
   height: 6px;
-  background: #1a1a1a;
-  border: 1px solid #333;
+  background: var(--game-bg-card);
+  border: 1px solid var(--game-border);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -3325,7 +3337,7 @@ body {
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background: #111;
+  background: var(--game-bg-raised);
   border-bottom: 1px solid #2a2a2a;
   flex-wrap: wrap;
 }
@@ -3342,7 +3354,7 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
-  background: #1a1a1a;
+  background: var(--game-bg-card);
   border: 1px solid #3a3a3a;
   color: #ccc;
   padding: 4px 8px;
@@ -3489,7 +3501,7 @@ body {
   border: 1px solid #2e2e2e;
   border-top-width: 2px;
   border-radius: 6px;
-  background: #0d0d0d;
+  background: var(--game-bg);
   cursor: default;
   min-width: 96px;
   transition: all 0.15s;
@@ -3670,7 +3682,7 @@ body {
 }
 
 .nm-peek-panel {
-  background: #0a0a0a;
+  background: var(--game-bg);
   border: 1px solid #2a4a2a;
   max-width: 320px;
   width: 100%;
@@ -4006,20 +4018,20 @@ body {
   color: var(--game-text-color-muted);
   letter-spacing: 1px;
   padding: 6px 0 2px;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--game-border);
 }
 
 .relic-select-card--broken {
   opacity: 0.45;
   cursor: default;
   filter: grayscale(70%);
-  border-color: #333 !important;
+  border-color: var(--game-border) !important;
   background: rgba(30, 30, 30, 0.4) !important;
 }
 
 .relic-select-card--broken:hover {
   transform: none;
-  border-color: #333 !important;
+  border-color: var(--game-border) !important;
 }
 
 .relic-select-icon--broken,
@@ -4507,7 +4519,7 @@ body {
 }
 
 .card-rest-candidate {
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   padding: 16px 20px;
   min-width: 160px;
   cursor: pointer;
@@ -4669,8 +4681,8 @@ body {
 .event-hp-track {
   width: 80px;
   height: 6px;
-  background: #1a1a1a;
-  border: 1px solid #333;
+  background: var(--game-bg-card);
+  border: 1px solid var(--game-border);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -4698,7 +4710,7 @@ body {
   text-align: center;
   max-width: 480px;
   font-style: italic;
-  border-left: 2px solid #333;
+  border-left: 2px solid var(--game-border);
   padding-left: 14px;
   text-align: left;
 }
@@ -4715,7 +4727,7 @@ body {
   align-items: baseline;
   gap: 10px;
   background: none;
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   color: var(--game-text-color-dim);
   font-family: inherit;
   font-size: 12px;
@@ -4773,7 +4785,7 @@ body {
   color: #ddaa55;
   text-align: center;
   animation: fadeIn 0.3s ease;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--game-border);
   padding-top: 16px;
   width: 100%;
 }
@@ -4879,7 +4891,7 @@ body {
   align-items: center;
   gap: 6px;
   padding: 24px 32px;
-  border: 1px solid #333;
+  border: 1px solid var(--game-border);
   background: #050508;
   width: 100%;
 }
@@ -5626,7 +5638,7 @@ body {
   height: 18px;
   border-radius: 9px;
   border: 1px solid #444;
-  background: #1a1a1a;
+  background: var(--game-bg-card);
   position: relative;
   transition: background 0.2s, border-color 0.2s;
 }
@@ -5723,8 +5735,8 @@ body {
 }
 
 .autobuild-panel {
-  background: #0d0d0d;
-  border: 1px solid #333;
+  background: var(--game-bg);
+  border: 1px solid var(--game-border);
   border-radius: 6px;
   width: min(440px, 95vw);
   padding: 24px;
@@ -5853,7 +5865,7 @@ body {
 }
 
 .daily-modal {
-  background: #0d0d0d;
+  background: var(--game-bg);
   border: 2px solid rgba(255,200,50,0.6);
   border-radius: 6px;
   padding: 24px 32px;
@@ -5971,7 +5983,7 @@ body {
 
 .inventory-cell {
   width: 100px;
-  background: #111;
+  background: var(--game-bg-raised);
   border: 1px solid #2a2a2a;
   border-radius: 4px;
   padding: 8px 6px;
@@ -6060,7 +6072,7 @@ body {
 }
 
 .inventory-detail-modal {
-  background: #111;
+  background: var(--game-bg-raised);
   border: 1px solid #444;
   border-radius: 6px;
   padding: 24px 20px 20px;
@@ -6125,7 +6137,7 @@ body {
   flex-wrap: wrap;
   gap: 4px;
   padding: 8px 12px 0;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--game-border);
 }
 
 .ach-tab {
@@ -6181,8 +6193,8 @@ body {
   justify-content: space-between;
   gap: 8px;
   padding: 8px 10px;
-  border: 1px solid #333;
-  background: #0a0a0a;
+  border: 1px solid var(--game-border);
+  background: var(--game-bg);
   min-height: 56px;
   flex-shrink: 0;
 }
@@ -6351,7 +6363,7 @@ body {
 }
 
 .bsummary-panel {
-  background: #0a0a0a;
+  background: var(--game-bg);
   border: 1px solid #2a4a2a;
   max-width: 320px;
   width: 100%;
@@ -6451,7 +6463,7 @@ html.eightbit-mode .lane-layer {
 /* ─── Character Screen ───────────────────────────────── */
 
 .character-name-input {
-  background: #111;
+  background: var(--game-bg-raised);
   border: 1px solid #33ff33;
   color: #33ff33;
   font-family: inherit;
@@ -6473,8 +6485,8 @@ html.eightbit-mode .lane-layer {
 }
 
 .character-avatar-btn {
-  background: #0a0a0a;
-  border: 1px solid #333;
+  background: var(--game-bg);
+  border: 1px solid var(--game-border);
   color: #aaa;
   cursor: pointer;
   padding: 0.5rem 0.3rem;
@@ -6592,7 +6604,7 @@ html.eightbit-mode .lane-layer {
   gap: 5px;
   font-size: 12px;
   padding: 2px 0;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--game-border);
 }
 .dc-card-rarity { font-size: 10px; color: var(--game-text-color-muted); }
 .dc-card-cost   { font-size: 10px; color: #80cbc4; min-width: 28px; }
@@ -6671,8 +6683,8 @@ html.eightbit-mode .lane-layer {
   flex-direction: column;
   gap: 8px;
   padding: 14px 16px;
-  background: #111;
-  border: 2px solid #333;
+  background: var(--game-bg-raised);
+  border: 2px solid var(--game-border);
   color: var(--game-text-color, #ccc);
   font-family: inherit;
   cursor: pointer;
@@ -6763,3 +6775,44 @@ html.eightbit-mode .lane-layer {
 
 .rb-begin-btn { width: 100%; }
 .rb-back-btn  { font-size: 12px; }
+
+/* ─── Light Mode ─────────────────────────────────────── */
+
+html.light-mode body {
+  background: var(--game-bg);
+}
+
+/* Overlay screens and modals */
+html.light-mode .overlay-screen,
+html.light-mode .modal-backdrop {
+  background: var(--game-bg);
+}
+
+/* Top bar and panels */
+html.light-mode .top-bar {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Card tiles */
+html.light-mode .card-tile {
+  background: var(--game-bg-card);
+}
+
+/* Scrollbar */
+html.light-mode ::-webkit-scrollbar-track {
+  background: var(--game-bg-raised);
+}
+html.light-mode ::-webkit-scrollbar-thumb {
+  background: var(--game-border);
+}
+
+/* Ensure toggle track colour shows correctly */
+html.light-mode .settings-toggle-track {
+  background: var(--game-bg-card);
+  border-color: var(--game-border);
+}
+
+/* Action buttons: keep their colours readable on light bg */
+html.light-mode .action-btn {
+  background: transparent;
+}

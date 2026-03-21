@@ -45,7 +45,7 @@ import { ActComplete }        from './components/ActComplete'
 import { RelicSelectScreen }  from './components/RelicSelectScreen'
 import { ReplayBriefingScreen } from './components/ReplayBriefingScreen'
 import { StarterPackSelect }  from './components/StarterPackSelect'
-import { SettingsScreen, applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode } from './components/SettingsScreen'
+import { SettingsScreen, applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode, applyLightMode, loadLightMode } from './components/SettingsScreen'
 import { IntroScreen } from './components/IntroScreen'
 import { FakeCrashEvent }     from './components/rare-events/FakeCrashEvent'
 import { BlackjackEvent }     from './components/rare-events/BlackjackEvent'
@@ -83,6 +83,7 @@ import rollbar, { updateRollbarPerson } from './rollbar'
 // Apply saved display settings on load
 applyTextSettings()
 apply8bitMode(load8bitEnabled())
+applyLightMode(loadLightMode())
 
 const TICK_MS    = 100
 const HANDICAP_KEY = 'jarvs_handicap'
