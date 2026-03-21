@@ -10,6 +10,7 @@ import { MAX_UPGRADE_LEVEL } from '../game/engine'
 import { getRelicDef } from '../game/relics'
 import { getUnitLore } from '../game/cards'
 import { Button } from './Button'
+import { loadPlayerName, loadPlayerAvatar } from '../game/questline'
 
 interface Props {
   state: GameState
@@ -531,6 +532,8 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
   const [heroLightning, setHeroLightning] = useState<{ owner: 'player' | 'opponent'; key: number } | null>(null)
   const [paused, setPaused] = useState(false)
   const [inspectedUnit, setInspectedUnit] = useState<Unit | null>(null)
+  const playerName   = loadPlayerName()
+  const playerAvatar = loadPlayerAvatar()
 
   const doPause = (p: boolean) => { setPaused(p); onPause?.(p); if (!p) setInspectedUnit(null) }
   const prevHeroIdsRef = useRef<Set<string>>(new Set())
@@ -648,7 +651,7 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
           <img src={`${BASE_SPRITE_PATH}${opponentPortraitSlug(state.bossAI, actTheme)}.svg`} alt="Enemy Base" />
         </div>
         <div className="lane-base lane-base--player">
-          <img src={`${BASE_SPRITE_PATH}jarv.svg`} alt="Your Base" />
+          <img src={`${BASE_SPRITE_PATH}${playerAvatar}.svg`} alt="Your Base" />
         </div>
         {(state.terrain ?? []).map(obs => <TerrainTile key={obs.id} obs={obs} />)}
         {isDebugMode() && (state.terrain ?? []).map(obs => {
@@ -714,8 +717,8 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
       <div className="base-bar base-bar--player">
         <img
           className="base-bar-portrait base-bar-portrait--player"
-          src={`${BASE_SPRITE_PATH}jarv.svg`}
-          alt="Jarv"
+          src={`${BASE_SPRITE_PATH}${playerAvatar}.svg`}
+          alt={playerName}
         />
         <HpBar current={state.playerBase.hp} max={state.playerBase.maxHp} color="#33ff33" />
         <span className="base-bar-info">
