@@ -2612,6 +2612,10 @@ body {
 .cdm-mastery-xp     { font-size: 9px; color: #777; }
 .cdm-mastery-bonus  { font-size: 9px; color: var(--game-text-color-muted); margin-top: 3px; }
 .cdm-stat-bonus     { font-size: 9px; color: #ffd700; margin-left: 3px; }
+.cdm-locked-note    { color: #ff6655; font-size: 9px; margin-bottom: 4px; }
+.cdm-mastery-milestones { display: flex; flex-direction: column; gap: 2px; margin-top: 4px; }
+.cdm-milestone      { font-size: 9px; color: var(--game-text-color-muted); padding: 1px 0; }
+.cdm-milestone--unlocked { color: #ffd700; }
 
 .cdm-battle-stats {
   border-top: 1px solid #1a1a1a;

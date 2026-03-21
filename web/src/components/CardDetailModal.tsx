@@ -159,12 +159,17 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                 {u.affinity && (
                   <>
                     <button className="cdm-sw-row cdm-sw-row--btn" onClick={() => toggleRow('affinity')}>
-                      <span className="cdm-sw-label cdm-sw-label--affinity">✦ Affinity</span>
+                      <span className="cdm-sw-label cdm-sw-label--affinity">
+                        {masteryLvl < 1 ? '🔒' : '✦'} Affinity
+                      </span>
                       <span className="cdm-sw-tags">{u.affinity.label}</span>
                       <span className="cdm-sw-chevron">{expandedRow === 'affinity' ? '▲' : '▼'}</span>
                     </button>
                     {expandedRow === 'affinity' && (
                       <div className="cdm-sw-detail">
+                        {masteryLvl < 1 && (
+                          <div className="cdm-locked-note">Requires Mastery 1 to activate.</div>
+                        )}
                         When a <strong>{u.affinity.withName}</strong> is nearby (within {u.affinity.range}px),
                         grants <strong>{affinityEffectText(u.affinity.effectType, u.affinity.effectAmount)}</strong>.
                         <br />"{u.affinity.label}"
@@ -178,10 +183,22 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
             {/* Mastery */}
             <div className="cdm-mastery-block">
               <div className="cdm-mastery-header">
-                <span style={{ color: '#ffd700' }}>★ Mastery {masteryLvl}</span>
-                <span className="cdm-mastery-xp">{xpCur}/{xpNeeded} to Lv{masteryLvl + 1}</span>
+                <span style={{ color: masteryLvl >= 5 ? '#ff9900' : '#ffd700' }}>
+                  {masteryLvl >= 5 ? '⚡' : '★'} Mastery {masteryLvl}{masteryLvl >= 5 ? ' — ELITE' : ''}
+                </span>
+                {masteryLvl < 5 && <span className="cdm-mastery-xp">{xpCur}/{xpNeeded} to Lv{masteryLvl + 1}</span>}
               </div>
               <MasteryBar xp={xp} />
+              {u && (
+                <div className="cdm-mastery-milestones">
+                  <div className={`cdm-milestone${masteryLvl >= 1 ? ' cdm-milestone--unlocked' : ''}`}>
+                    Lv1 — Affinity activates
+                  </div>
+                  <div className={`cdm-milestone${masteryLvl >= 5 ? ' cdm-milestone--unlocked' : ''}`}>
+                    Lv5 — Elite: +10% damage dealt
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Battle stats */}

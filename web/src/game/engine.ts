@@ -728,7 +728,7 @@ function moveUnits(s: GameState, deltaMs: number): void {
 
 function processAffinities(field: Unit[]): void {
   for (const unit of field) {
-    if (!unit.affinity || unit.hp <= 0) { unit.affinityActive = false; continue }
+    if (!unit.affinity || unit.hp <= 0 || (unit.masteryLevel ?? 0) < 1) { unit.affinityActive = false; continue }
     const aff = unit.affinity
     const ally = field.find(
       u => u.owner === unit.owner && u.id !== unit.id && u.hp > 0 &&
@@ -765,7 +765,9 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
       // Affinity damage multiplier (>1 = bonus, <1 = damage reduction on target)
       const affDmgMult = (unit.affinityActive && unit.affinity?.effectType === 'damage')
         ? unit.affinity.effectAmount : 1
-      const dmg = Math.round((unit.attack + atkAura) * bloodMoonMult * swMult * affDmgMult)
+      // Mastery 5 elite bonus: +10% damage
+      const masteryEliteMult = (unit.masteryLevel ?? 0) >= 5 ? 1.1 : 1
+      const dmg = Math.round((unit.attack + atkAura) * bloodMoonMult * swMult * affDmgMult * masteryEliteMult)
       // Respect developer no-damage mode for player-owned targets
       if (target.owner === 'player' && isNoDamageMode()) {
         log.push(`${unit.name} would damage ${target.name} (dev mode — no damage)`)

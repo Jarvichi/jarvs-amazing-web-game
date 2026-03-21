@@ -402,8 +402,11 @@ export function buildDeckCards(entries: DeckEntry[], collection?: CollectionEntr
     const xp  = collection ? getMasteryXp(collection, entry.cardName) : 0
     const lvl = masteryLevel(xp)
     const boosted = applyMasteryBonus(template, lvl)
+    const withLevel: Card = boosted.unit
+      ? { ...boosted, unit: { ...boosted.unit, masteryLevel: lvl } }
+      : boosted
     for (let i = 0; i < entry.count; i++) {
-      result.push({ ...boosted, id: `deck-${entry.cardName}-${++_deckCardId}` })
+      result.push({ ...withLevel, id: `deck-${entry.cardName}-${++_deckCardId}` })
     }
   }
   return result
