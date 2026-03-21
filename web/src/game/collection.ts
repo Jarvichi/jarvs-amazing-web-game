@@ -15,6 +15,12 @@ export interface DeckEntry {
   count: number
 }
 
+export interface SavedDeck {
+  name: string
+  deck: DeckEntry[]
+  savedAt: number
+}
+
 // ─── Card name migrations ─────────────────────────────────
 // Maps old/renamed card names → current names.
 // Applied on every load so saves that used old names are transparently upgraded.
@@ -69,6 +75,7 @@ const DECK_KEY        = 'jarv_deck'
 const CRYSTALS_KEY    = 'jarv_crystals'
 const WIN_STREAK_KEY      = 'jarv_win_streak'
 const BEST_STREAK_KEY     = 'jarv_best_streak'
+const SAVED_DECKS_KEY     = 'jarv_saved_decks'
 
 export const DECK_MIN  = 10
 export const DECK_MAX  = 30
@@ -408,6 +415,60 @@ export function deckTotalCards(d: DeckEntry[]): number {
 export function isDeckValid(d: DeckEntry[]): boolean {
   const total = deckTotalCards(d)
   return total >= DECK_MIN && total <= DECK_MAX
+}
+
+// ─── Saved Decks ──────────────────────────────────────────
+
+export function loadSavedDecks(): SavedDeck[] {
+  try {
+    const raw = localStorage.getItem(SAVED_DECKS_KEY)
+    if (raw) return JSON.parse(raw) as SavedDeck[]
+  } catch { /* ignore */ }
+  return []
+}
+
+function persistSavedDecks(decks: SavedDeck[]): void {
+  try { localStorage.setItem(SAVED_DECKS_KEY, JSON.stringify(decks)) }
+  catch (e) { logError('persistSavedDecks failed', { error: String(e) }) }
+}
+
+export function saveNamedDeck(name: string, deck: DeckEntry[]): void {
+  const decks = loadSavedDecks()
+  const idx = decks.findIndex(d => d.name === name)
+  const entry: SavedDeck = { name, deck: [...deck], savedAt: Date.now() }
+  if (idx >= 0) decks[idx] = entry
+  else decks.unshift(entry)
+  persistSavedDecks(decks)
+}
+
+export function deleteSavedDeck(name: string): void {
+  persistSavedDecks(loadSavedDecks().filter(d => d.name !== name))
+}
+
+// ─── Deck Share Codes ─────────────────────────────────────
+// Format: each entry encoded as "cardName|count", joined by ";", then base64.
+
+export function encodeDeck(deck: DeckEntry[]): string {
+  const raw = deck.map(e => `${e.cardName}|${e.count}`).join(';')
+  return btoa(unescape(encodeURIComponent(raw)))
+}
+
+export function decodeDeck(code: string): DeckEntry[] | null {
+  try {
+    const raw = decodeURIComponent(escape(atob(code.trim())))
+    const entries = raw.split(';').map(part => {
+      const pipe = part.lastIndexOf('|')
+      if (pipe < 0) return null
+      const cardName = part.slice(0, pipe)
+      const count = parseInt(part.slice(pipe + 1), 10)
+      if (!cardName || isNaN(count) || count < 1) return null
+      return { cardName, count } as DeckEntry
+    })
+    if (entries.some(e => e === null)) return null
+    return entries as DeckEntry[]
+  } catch {
+    return null
+  }
 }
 
 // ─── Build Card[] from DeckEntry[] ───────────────────────

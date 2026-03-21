@@ -1994,6 +1994,119 @@ body {
 
 /* deck-size bar → .progress-bar-track / .progress-bar-fill */
 
+.deckbuilder-footer-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ─── Saved Decks panel ──────────────────────────────── */
+
+.saveddecks-panel {
+  width: min(480px, 95vw);
+}
+
+.saveddecks-empty {
+  font-size: 11px;
+  color: var(--game-text-color-dim);
+  text-align: center;
+  padding: 8px 0;
+}
+
+.saveddecks-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.saveddecks-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border: 1px solid #2a2a2a;
+  border-radius: 3px;
+}
+
+.saveddecks-name {
+  flex: 1;
+  font-size: 12px;
+  color: var(--game-text-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.saveddecks-count {
+  font-size: 10px;
+  color: var(--game-text-color-dim);
+  white-space: nowrap;
+}
+
+.action-btn--danger-text {
+  color: #ff4444;
+  border-color: rgba(255,68,68,0.3);
+}
+
+.saveddecks-save-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.saveddecks-name-input {
+  flex: 1;
+}
+
+/* ─── Share panel ────────────────────────────────────── */
+
+.share-panel {
+  width: min(480px, 95vw);
+}
+
+.share-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.share-label {
+  font-size: 11px;
+  color: var(--game-text-color-dim);
+}
+
+.share-code-box {
+  font-family: monospace;
+  font-size: 11px;
+  background: #111;
+  border: 1px solid #333;
+  color: var(--game-text-color-dim);
+  border-radius: 3px;
+  padding: 8px;
+  resize: none;
+  width: 100%;
+  box-sizing: border-box;
+  word-break: break-all;
+  min-height: 60px;
+}
+
+.share-divider {
+  font-size: 10px;
+  color: #2a2a2a;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.share-error {
+  font-size: 11px;
+  color: #ff4444;
+}
+
 /* ─── Pack Opening ───────────────────────────────────── */
 
 .pack-screen {

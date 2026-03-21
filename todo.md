@@ -1,10 +1,21 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-21 (session 18 — implemented #315 Daily Challenge; refactored dailyLogin.ts → shopSchedule.ts + shopNpcs.json).
+Issues sourced from GitHub. Last synced: 2026-03-21 (session 19 — picked #305 Deck Saving and Sharing).
 
 ---
 
 When working an issue from this file, go and check the GitHub issue for additional detail and requirements before planning the solution, create a todo list based on the plan and execute it. If running in the cli you can usually use the "gh" cli commands to help, however if they are not available use a fallback method.
+
+---
+
+## 🟠 Active Work
+
+### #305 — Deck Saving and Sharing ✅
+
+- [x] Add `SavedDeck` type + `loadSavedDecks` / `saveNamedDeck` / `deleteSavedDeck` to `collection.ts`
+- [x] Add `encodeDeck` / `decodeDeck` share-code helpers to `collection.ts`
+- [x] Add SAVED DECKS + SHARE UI panels to `DeckBuilder.tsx`
+- [x] Add CSS for saved-deck and share panels
 
 ---
 
