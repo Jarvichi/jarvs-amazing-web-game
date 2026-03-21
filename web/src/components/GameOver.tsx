@@ -101,7 +101,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
             ? dailyChallengeState.attempts === 1
               ? '📅 Daily Challenge complete — first try!'
               : `📅 Daily Challenge complete! (${dailyChallengeState.attempts} attempt${dailyChallengeState.attempts !== 1 ? 's' : ''})`
-            : `📅 Daily Challenge — attempt ${dailyChallengeState.attempts}. Try again tomorrow or keep going!`}
+            : `📅 Daily Challenge — attempt ${dailyChallengeState.attempts}. Keep trying!`}
         </div>
       )}
 
