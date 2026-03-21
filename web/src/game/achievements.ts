@@ -8,11 +8,17 @@
 export type AchievementCategory = 'kills' | 'structures' | 'events' | 'campaign' | 'misc'
 
 export interface AchievementReward {
-  type: 'cards' | 'crystals' | 'item'
+  type: 'cards' | 'crystals' | 'item' | 'avatar'
   cardName?: string
   count?: number
   crystals?: number
   item?: { id: string; name: string; icon: string; desc: string }
+  /** Streak avatar slug to unlock (used with type 'avatar'). */
+  avatarSlug?: string
+  /** Extra crystals granted alongside a non-crystals reward. */
+  bonusCrystals?: number
+  /** Extra cards granted alongside another reward. */
+  bonusCards?: { cardName: string; count: number }[]
 }
 
 export interface AchievementDef {
@@ -62,6 +68,25 @@ export function incrementAchievementProgress(progressKey: string, by = 1): Achie
     if (def.progressKey !== progressKey) continue
     if (save.unlocked[def.id]) continue
     if (current >= def.target) {
+      save.unlocked[def.id] = true
+      newlyUnlocked.push(def)
+    }
+  }
+
+  saveAchievementSave(save)
+  return newlyUnlocked
+}
+
+/** Set a progress counter to a specific value (for tracking maximums like streaks). Returns newly unlocked defs. */
+export function setAchievementProgress(progressKey: string, value: number): AchievementDef[] {
+  const save = loadAchievementSave()
+  save.progress[progressKey] = value
+
+  const newlyUnlocked: AchievementDef[] = []
+  for (const def of ACHIEVEMENT_DEFS) {
+    if (def.progressKey !== progressKey) continue
+    if (save.unlocked[def.id]) continue
+    if (value >= def.target) {
       save.unlocked[def.id] = true
       newlyUnlocked.push(def)
     }
@@ -911,5 +936,128 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     target: 11,
     reward: { type: 'crystals', crystals: 200 },
     tier: 1,
+  },
+
+  // ── Campaign win streak ───────────────────────────────────────────────────
+
+  {
+    id: 'streak:10',
+    name: 'Hat Trick',
+    description: 'Win 10 campaign battles in a row without losing.',
+    category: 'campaign',
+    progressKey: 'campaign:win_streak',
+    target: 10,
+    reward: {
+      type: 'avatar',
+      avatarSlug: 'streak-iron',
+      bonusCrystals: 150,
+      bonusCards: [{ cardName: 'Dragon', count: 1 }],
+    },
+    tier: 1,
+  },
+  {
+    id: 'streak:25',
+    name: 'On Fire',
+    description: 'Win 25 campaign battles in a row without losing.',
+    category: 'campaign',
+    progressKey: 'campaign:win_streak',
+    target: 25,
+    reward: {
+      type: 'avatar',
+      avatarSlug: 'streak-flame',
+      bonusCrystals: 350,
+      bonusCards: [{ cardName: 'Dragon', count: 2 }],
+    },
+    tier: 1,
+  },
+  {
+    id: 'streak:50',
+    name: 'Shadowstep',
+    description: 'Win 50 campaign battles in a row without losing.',
+    category: 'campaign',
+    progressKey: 'campaign:win_streak',
+    target: 50,
+    reward: {
+      type: 'avatar',
+      avatarSlug: 'streak-shadow',
+      bonusCrystals: 600,
+      bonusCards: [{ cardName: 'Golem', count: 3 }],
+    },
+    tier: 1,
+  },
+  {
+    id: 'streak:100',
+    name: 'Dragon Rider',
+    description: 'Win 100 campaign battles in a row without losing.',
+    category: 'campaign',
+    progressKey: 'campaign:win_streak',
+    target: 100,
+    reward: {
+      type: 'avatar',
+      avatarSlug: 'streak-dragon',
+      bonusCrystals: 1000,
+      bonusCards: [{ cardName: 'Dragon Lair', count: 5 }],
+    },
+    tier: 2,
+  },
+  {
+    id: 'streak:250',
+    name: 'Celestial Ascendant',
+    description: 'Win 250 campaign battles in a row without losing.',
+    category: 'campaign',
+    progressKey: 'campaign:win_streak',
+    target: 250,
+    reward: {
+      type: 'avatar',
+      avatarSlug: 'streak-celestial',
+      bonusCrystals: 2000,
+      bonusCards: [{ cardName: 'Dragon', count: 8 }],
+    },
+    tier: 2,
+  },
+  {
+    id: 'streak:500',
+    name: 'Void Walker',
+    description: 'Win 500 campaign battles in a row without losing.',
+    category: 'campaign',
+    progressKey: 'campaign:win_streak',
+    target: 500,
+    reward: {
+      type: 'avatar',
+      avatarSlug: 'streak-void',
+      bonusCrystals: 3500,
+      bonusCards: [{ cardName: 'Cathedral', count: 10 }],
+    },
+    tier: 2,
+  },
+  {
+    id: 'streak:750',
+    name: 'Crystal Champion',
+    description: 'Win 750 campaign battles in a row without losing.',
+    category: 'campaign',
+    progressKey: 'campaign:win_streak',
+    target: 750,
+    reward: {
+      type: 'avatar',
+      avatarSlug: 'streak-crystal',
+      bonusCrystals: 5000,
+      bonusCards: [{ cardName: 'Dragon', count: 15 }],
+    },
+    tier: 2,
+  },
+  {
+    id: 'streak:1000',
+    name: 'Fracture Lord',
+    description: 'Win 1,000 campaign battles in a row without losing. A legend.',
+    category: 'campaign',
+    progressKey: 'campaign:win_streak',
+    target: 1000,
+    reward: {
+      type: 'avatar',
+      avatarSlug: 'streak-fracture',
+      bonusCrystals: 10000,
+      bonusCards: [{ cardName: 'Dragon', count: 20 }],
+    },
+    tier: 2,
   },
 ]

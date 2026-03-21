@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import {
-  AVATAR_SLUGS, AvatarSlug,
+  BASE_AVATAR_SLUGS, STREAK_AVATAR_SLUGS, STREAK_AVATAR_LABELS, AvatarSlug,
   loadPlayerName, savePlayerName,
   loadPlayerAvatar, savePlayerAvatar,
+  isAvatarUnlocked,
 } from '../game/questline'
 
 const SPRITE_BASE = '/jarvs-amazing-web-game/sprites/'
 
-const AVATAR_LABELS: Record<AvatarSlug, string> = {
+const BASE_AVATAR_LABELS: Record<string, string> = {
   'jarv':       'Blue Cloak',
   'jarv-red':   'Red Cloak',
   'jarv-green': 'Green Cloak',
@@ -23,13 +24,28 @@ function sanitiseName(raw: string): string {
   return raw.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, ' ')
 }
 
+function AvatarButton({ slug, chosen, onClick }: { slug: string; chosen: boolean; onClick: () => void }) {
+  const unlocked = isAvatarUnlocked(slug)
+  const label = BASE_AVATAR_LABELS[slug] ?? STREAK_AVATAR_LABELS[slug] ?? slug
+  return (
+    <button
+      className={`character-avatar-btn${chosen ? ' character-avatar-btn--chosen' : ''}${!unlocked ? ' character-avatar-btn--locked' : ''}`}
+      onClick={unlocked ? onClick : undefined}
+      title={unlocked ? label : `${label} — locked (win streak achievement)`}
+    >
+      {unlocked ? (
+        <img src={`${SPRITE_BASE}${slug}.svg`} alt={label} className="character-avatar-img" />
+      ) : (
+        <span className="character-avatar-lock">🔒</span>
+      )}
+      <span className="character-avatar-label">{unlocked ? label : '???'}</span>
+    </button>
+  )
+}
+
 export function CharacterScreen({ onDone }: Props) {
   const [name,   setName]   = useState(loadPlayerName())
   const [avatar, setAvatar] = useState<AvatarSlug>(loadPlayerAvatar())
-
-  function handleNameChange(raw: string) {
-    setName(sanitiseName(raw))
-  }
 
   function handleSave() {
     const finalName = sanitiseName(name).trim() || 'Jarv'
@@ -53,26 +69,29 @@ export function CharacterScreen({ onDone }: Props) {
           maxLength={20}
           value={name}
           placeholder="Jarv"
-          onChange={e => handleNameChange(e.target.value)}
+          onChange={e => setName(sanitiseName(e.target.value))}
         />
       </div>
 
       <div style={{ margin: '1.2rem 0 0.5rem' }}>
         <div style={{ color: '#aaffaa', fontSize: '0.8rem', marginBottom: '0.6rem' }}>APPEARANCE</div>
         <div className="character-avatar-grid">
-          {AVATAR_SLUGS.map(slug => (
-            <button
+          {BASE_AVATAR_SLUGS.map(slug => (
+            <AvatarButton key={slug} slug={slug} chosen={avatar === slug} onClick={() => setAvatar(slug)} />
+          ))}
+        </div>
+
+        <div style={{ color: '#aaffaa', fontSize: '0.75rem', margin: '1rem 0 0.6rem' }}>
+          WIN STREAK AVATARS
+        </div>
+        <div className="character-avatar-grid">
+          {STREAK_AVATAR_SLUGS.map(slug => (
+            <AvatarButton
               key={slug}
-              className={`character-avatar-btn${avatar === slug ? ' character-avatar-btn--chosen' : ''}`}
-              onClick={() => setAvatar(slug)}
-            >
-              <img
-                src={`${SPRITE_BASE}${slug}.svg`}
-                alt={AVATAR_LABELS[slug]}
-                className="character-avatar-img"
-              />
-              <span className="character-avatar-label">{AVATAR_LABELS[slug]}</span>
-            </button>
+              slug={slug}
+              chosen={avatar === slug}
+              onClick={() => setAvatar(slug as AvatarSlug)}
+            />
           ))}
         </div>
       </div>

@@ -6,6 +6,7 @@ import {
 import { OverlayScreen } from './OverlayScreen'
 import { addCardsToCollection, loadCrystals, saveCrystals } from '../game/collection'
 import { addToInventory, ALL_ITEMS } from '../game/dailyLogin'
+import { addUnlockedAvatar } from '../game/questline'
 
 interface Props {
   onBack: () => void
@@ -24,10 +25,14 @@ const CATEGORY_ORDER: AchievementCategory[] = ['campaign', 'misc', 'events', 'ki
 
 function formatReward(def: AchievementDef): string {
   const r = def.reward
-  if (r.type === 'crystals') return `💎 ${r.crystals} crystals`
-  if (r.type === 'cards')    return `${r.count}× ${r.cardName}`
-  if (r.type === 'item')     return `${r.item!.icon} ${r.item!.name}`
-  return ''
+  const parts: string[] = []
+  if (r.type === 'avatar' && r.avatarSlug)  parts.push(`🎭 New avatar`)
+  if (r.type === 'crystals' && r.crystals)  parts.push(`💎 ${r.crystals}`)
+  if (r.type === 'cards' && r.cardName)     parts.push(`${r.count}× ${r.cardName}`)
+  if (r.type === 'item' && r.item)          parts.push(`${r.item.icon} ${r.item.name}`)
+  if (r.bonusCrystals)                      parts.push(`💎 ${r.bonusCrystals}`)
+  if (r.bonusCards)                         parts.push(r.bonusCards.map(c => `${c.count}× ${c.cardName}`).join(', '))
+  return parts.join(' + ') || ''
 }
 
 function ProgressBar({ value, target }: { value: number; target: number }) {
@@ -51,15 +56,27 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
     const reward = claimAchievementReward(def.id)
     if (!reward) return
 
-    if (reward.type === 'crystals' && reward.crystals) {
-      const next = loadCrystals() + reward.crystals
+    // Process all reward fields — streak achievements may have several
+    let crystalDelta = 0
+    if (reward.type === 'crystals' && reward.crystals) crystalDelta += reward.crystals
+    if (reward.bonusCrystals)                          crystalDelta += reward.bonusCrystals
+    if (crystalDelta > 0) {
+      const next = loadCrystals() + crystalDelta
       saveCrystals(next)
       onCrystalsChanged(next)
-    } else if (reward.type === 'cards' && reward.cardName && reward.count) {
+    }
+    if (reward.type === 'cards' && reward.cardName && reward.count) {
       addCardsToCollection([{ cardName: reward.cardName, count: reward.count }])
-    } else if (reward.type === 'item' && reward.item) {
+    }
+    if (reward.bonusCards) {
+      addCardsToCollection(reward.bonusCards)
+    }
+    if (reward.type === 'item' && reward.item) {
       const full = ALL_ITEMS.find(i => i.id === reward.item!.id) ?? { ...reward.item, lore: '', weight: 1 }
       addToInventory(full)
+    }
+    if (reward.avatarSlug) {
+      addUnlockedAvatar(reward.avatarSlug)
     }
 
     setSave(loadAchievementSave())

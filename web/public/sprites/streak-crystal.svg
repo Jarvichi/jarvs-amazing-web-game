@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Crystal Champion: cyan/white crystalline armour, gem facets, prismatic glow -->
+  <!-- Crystal aura -->
+  <ellipse cx="16" cy="16" rx="13" ry="15" fill="#aaffff" opacity="0.1"/>
+  <!-- Body -->
+  <rect x="10" y="14" width="12" height="11" rx="1" fill="#cceeff"/>
+  <!-- Crystal facet pattern on body -->
+  <polygon points="10,14 16,14 13,20" fill="#99ddff" opacity="0.7"/>
+  <polygon points="22,14 16,14 19,20" fill="#bbffff" opacity="0.7"/>
+  <polygon points="10,25 16,25 13,20" fill="#bbffff" opacity="0.6"/>
+  <polygon points="22,25 16,25 19,20" fill="#99ddff" opacity="0.6"/>
+  <!-- Gem on chest -->
+  <polygon points="16,17 18,19 16,21 14,19" fill="#00eeff"/>
+  <polygon points="16,17 18,19 16,18" fill="#ffffff" opacity="0.6"/>
+  <!-- Crystal shoulders -->
+  <polygon points="10,14 7,13 8,18 10,19" fill="#99ddff"/>
+  <polygon points="22,14 25,13 24,18 22,19" fill="#99ddff"/>
+  <!-- Helm -->
+  <rect x="11" y="6" width="10" height="9" rx="2" fill="#cceeff"/>
+  <!-- Crystal crown spikes -->
+  <polygon points="13,6 14,2 15,6" fill="#00ddff"/>
+  <polygon points="15,6 16,1 17,6" fill="#aaffff"/>
+  <polygon points="17,6 18,2 19,6" fill="#00ddff"/>
+  <!-- Visor -->
+  <rect x="12" y="10" width="8" height="2" rx="1" fill="#006688"/>
+  <rect x="13" y="10" width="6" height="1" fill="#00ffff"/>
+  <!-- Legs -->
+  <rect x="11" y="25" width="4" height="5" rx="1" fill="#aaddee"/>
+  <rect x="17" y="25" width="4" height="5" rx="1" fill="#aaddee"/>
+  <!-- Crystal boots -->
+  <polygon points="10,29 16,29 15,31 11,31" fill="#00ccdd"/>
+  <polygon points="16,29 22,29 21,31 17,31" fill="#00ccdd"/>
+</svg>

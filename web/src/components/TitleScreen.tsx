@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX, loadWinStreak } from '../game/collection'
+import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX, loadWinStreak, loadBestStreak } from '../game/collection'
 import { loadRun } from '../game/questline'
 import { getCardCatalog } from '../game/cards'
 import { hasUnclaimedAchievements } from '../game/achievements'
@@ -40,6 +40,7 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
   const achievementAlert    = hasUnclaimedAchievements()
   const collectionAlert     = collection.some(e => e.count > COPIES_MAX)
   const winStreak           = loadWinStreak()
+  const bestStreak          = loadBestStreak()
 
   const logoClickCount = useRef(0)
   const logoClickTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -68,6 +69,11 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
       {winStreak > 0 && (
         <div className="streak-ribbon-wrap">
           <div className="streak-ribbon">🔥 {winStreak}</div>
+        </div>
+      )}
+      {bestStreak > 1 && winStreak === 0 && (
+        <div className="streak-ribbon-wrap">
+          <div className="streak-ribbon streak-ribbon--faded">🏆 {bestStreak}</div>
         </div>
       )}
       <TitleIdleAnimation />

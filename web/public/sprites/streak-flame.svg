@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Flame Walker: dark armour wreathed in orange/yellow fire -->
+  <!-- Flame aura -->
+  <ellipse cx="16" cy="16" rx="13" ry="15" fill="#ff6600" opacity="0.18"/>
+  <!-- Body -->
+  <rect x="10" y="14" width="12" height="11" rx="1" fill="#2a1a00"/>
+  <!-- Fire trim on body -->
+  <rect x="10" y="14" width="12" height="2" fill="#ff8800"/>
+  <rect x="10" y="23" width="12" height="2" fill="#ff6600"/>
+  <!-- Helm -->
+  <rect x="11" y="6" width="10" height="9" rx="2" fill="#1a0e00"/>
+  <!-- Flame crown -->
+  <polygon points="11,6 13,2 14,6" fill="#ff4400"/>
+  <polygon points="14,6 16,1 18,6" fill="#ffaa00"/>
+  <polygon points="18,6 19,3 21,6" fill="#ff4400"/>
+  <!-- Glowing eyes -->
+  <ellipse cx="14" cy="10" rx="2" ry="1.5" fill="#ff6600"/>
+  <ellipse cx="18" cy="10" rx="2" ry="1.5" fill="#ff6600"/>
+  <ellipse cx="14" cy="10" rx="1" ry="0.8" fill="#ffee00"/>
+  <ellipse cx="18" cy="10" rx="1" ry="0.8" fill="#ffee00"/>
+  <!-- Legs -->
+  <rect x="11" y="25" width="4" height="5" rx="1" fill="#2a1a00"/>
+  <rect x="17" y="25" width="4" height="5" rx="1" fill="#2a1a00"/>
+  <!-- Flame feet -->
+  <rect x="10" y="29" width="6" height="2" rx="1" fill="#ff6600"/>
+  <rect x="16" y="29" width="6" height="2" rx="1" fill="#ff6600"/>
+  <!-- Arms -->
+  <rect x="7" y="14" width="3" height="10" rx="1" fill="#2a1a00"/>
+  <rect x="22" y="14" width="3" height="10" rx="1" fill="#2a1a00"/>
+  <!-- Flaming fists -->
+  <ellipse cx="8.5" cy="25" rx="3" ry="3" fill="#ff6600" opacity="0.7"/>
+  <ellipse cx="23.5" cy="25" rx="3" ry="3" fill="#ff6600" opacity="0.7"/>
+</svg>
