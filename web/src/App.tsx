@@ -413,8 +413,16 @@ export default function App() {
     } else if (screen === 'itemfound' && !foundItem) {
       rollbar.error('itemfound screen reached without foundItem', { runActId: run?.actId })
       setScreen(run ? 'nodemap' : 'title')
+    } else if (screen === 'cutscene' && cutscenePanels.length === 0) {
+      rollbar.error('cutscene screen reached with no panels', { runActId: run?.actId })
+      setScreen(run ? 'nodemap' : 'title')
+    } else if (screen === 'nodemap' && (!run || !ACTS[run.actId])) {
+      rollbar.error('nodemap screen reached without valid run/actData', { runActId: run?.actId })
+      clearRun()
+      setRun(null)
+      setScreen('title')
     }
-  }, [screen, bossDialogueNode, activeEvent, merchantItems, mysteryReward, foundItem, run])
+  }, [screen, bossDialogueNode, activeEvent, merchantItems, mysteryReward, foundItem, run, cutscenePanels])
 
   // Show boss fight splash when phase 2 triggers.
   useEffect(() => {
