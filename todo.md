@@ -10,11 +10,11 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🟠 Active Work
 
-### #68 — Dark/Light Mode
+### #68 — Dark/Light Mode ✅
 
-- [ ] Add CSS variables + `html.light-mode` overrides in `styles.css`
-- [ ] Add `loadLightMode` / `saveLightMode` / `applyLightMode` helpers + toggle in `SettingsScreen.tsx`
-- [ ] Call `applyLightMode()` on startup in `main.tsx`
+- [x] Add CSS variables + `html.light-mode` overrides in `styles.css`
+- [x] Add `loadLightMode` / `saveLightMode` / `applyLightMode` helpers + toggle in `SettingsScreen.tsx`
+- [x] Call `applyLightMode()` on startup in `App.tsx`
 
 ### #305 — Deck Saving and Sharing ✅
 
