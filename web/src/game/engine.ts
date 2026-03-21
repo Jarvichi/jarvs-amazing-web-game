@@ -609,6 +609,7 @@ function moveUnits(s: GameState, deltaMs: number): void {
 
   for (const unit of s.field) {
     if (unit.moveSpeed === 0) continue
+    if (unit.spawnGrowTimer != null && unit.spawnGrowTimer > 0) continue
 
     const nearestAhead = findNearestEnemy(s.field, unit)
 
