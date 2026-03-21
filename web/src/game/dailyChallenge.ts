@@ -7,8 +7,14 @@ import { logError } from '../logger'
 import { getCardCatalog } from './cards'
 import { Card } from './types'
 
-const DC_KEY    = 'jarv_daily_challenge'
-const DECK_SIZE = 20
+const DC_KEY        = 'jarv_daily_challenge'
+const DC_STREAK_KEY = 'jarv_daily_streak'
+const DECK_SIZE     = 20
+
+interface DailyStreakSave {
+  streak:      number
+  lastWonDate: string
+}
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -93,11 +99,43 @@ export function getDailyChallengeState(): DailyChallengeState {
   return { date: getDailyDate(), won: null, attempts: 0 }
 }
 
+export function getDailyWinStreak(): number {
+  try {
+    const raw = localStorage.getItem(DC_STREAK_KEY)
+    if (raw) {
+      const parsed = JSON.parse(raw) as DailyStreakSave
+      const today     = getDailyDate()
+      const yesterday = new Date(new Date(today).getTime() - 86400000).toISOString().slice(0, 10)
+      if (parsed.lastWonDate === today || parsed.lastWonDate === yesterday) return parsed.streak
+    }
+  } catch { /* ignore */ }
+  return 0
+}
+
+/** Record a daily win for streak tracking. Returns the updated streak. */
+export function recordDailyWin(): number {
+  const today     = getDailyDate()
+  const yesterday = new Date(new Date(today).getTime() - 86400000).toISOString().slice(0, 10)
+  let streak = 1
+  try {
+    const raw = localStorage.getItem(DC_STREAK_KEY)
+    if (raw) {
+      const parsed = JSON.parse(raw) as DailyStreakSave
+      if (parsed.lastWonDate === today)      streak = parsed.streak           // already recorded today
+      else if (parsed.lastWonDate === yesterday) streak = parsed.streak + 1  // continuing streak
+    }
+  } catch { /* ignore */ }
+  try { localStorage.setItem(DC_STREAK_KEY, JSON.stringify({ streak, lastWonDate: today })) } catch { /* ignore */ }
+  return streak
+}
+
 export function saveDailyChallengeResult(won: boolean): void {
   const state = getDailyChallengeState()
+  // Don't increment attempts once the challenge is already completed for the day
+  if (state.won === true) return
   const next: DailyChallengeState = {
     date:     getDailyDate(),
-    won:      state.won === true ? true : won,   // keep true once won; false if still losing
+    won:      won,
     attempts: state.attempts + 1,
   }
   try { localStorage.setItem(DC_KEY, JSON.stringify(next)) } catch { /* ignore */ }

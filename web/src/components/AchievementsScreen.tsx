@@ -19,9 +19,10 @@ const CATEGORY_LABELS: Record<AchievementCategory, string> = {
   events:     '🎲  RARE EVENTS',
   campaign:   '🗺  CAMPAIGN',
   misc:       '✨  MISC',
+  daily:      '📅  DAILY CHALLENGE',
 }
 
-const CATEGORY_ORDER: AchievementCategory[] = ['campaign', 'misc', 'events', 'kills', 'structures']
+const CATEGORY_ORDER: AchievementCategory[] = ['daily', 'campaign', 'misc', 'events', 'kills', 'structures']
 
 function formatReward(def: AchievementDef): string {
   const r = def.reward
