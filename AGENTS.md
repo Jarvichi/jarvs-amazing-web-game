@@ -4,8 +4,20 @@
 
 ---
 
+## Plan Before You Build
+
+**Before implementing any non-trivial change, always present a plan and wait for approval.**
+
+1. Read the issue / request in full
+2. Explore the relevant code (read files, search for patterns)
+3. Write a concise plan: what files change, what each step does, any risks or trade-offs
+4. **Present the plan to the user and ask for permission to proceed**
+5. Only start coding once the user approves (or gives feedback to adjust the plan)
+
+This prevents rework — it is far cheaper to adjust a plan than to rewrite code.
+
 ## Development and Token Use
-Use tokens sparingly. Carry out changes in small steps; commit and push between each step (even if incomplete). Each task should have a clear, actionable plan.
+Use tokens sparingly. Carry out changes in small steps; commit and push between each step (even if incomplete).
 
 ## Git Workflow — Avoiding Conflicts
 Before starting any new work, always rebase onto the latest `main`:
