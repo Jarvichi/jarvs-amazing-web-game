@@ -8,11 +8,17 @@
 export type AchievementCategory = 'kills' | 'structures' | 'events' | 'campaign' | 'misc'
 
 export interface AchievementReward {
-  type: 'cards' | 'crystals' | 'item'
+  type: 'cards' | 'crystals' | 'item' | 'avatar'
   cardName?: string
   count?: number
   crystals?: number
   item?: { id: string; name: string; icon: string; desc: string }
+  /** Streak avatar slug to unlock (used with type 'avatar'). */
+  avatarSlug?: string
+  /** Extra crystals granted alongside a non-crystals reward. */
+  bonusCrystals?: number
+  /** Extra cards granted alongside another reward. */
+  bonusCards?: { cardName: string; count: number }[]
 }
 
 export interface AchievementDef {
