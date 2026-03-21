@@ -38,7 +38,7 @@ Close each with a comment referencing the implementing PR/commit:
 ## 🔵 Enhancements — New (from GitHub, session 16 sync)
 
 - [ ] **#344** Character customisation — player chooses name + appearance; in-battle sprite uses it; dialogue uses player name
-- [ ] **#329** Opening a pack — animate card to centre (×1.5), tap to flip, then return; sequence one card at a time
+- [x] **#329** Opening a pack — spotlight animation already implemented (card zooms to centre, tap to reveal, returns to grid)
 - [ ] **#306** Upgrade/Buff cards — card upgrade and level-up system (see issue for detail)
 - [ ] **#315** Daily Challenge — fixed-seed deck + opponent each day; track win/loss per day in localStorage (Phase 6 in CLAUDE.md)
 
