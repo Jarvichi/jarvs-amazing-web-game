@@ -3,6 +3,14 @@
 ## Development and Token Use
 Use tokens sparingly, remember that the user has limited tokens, ensure that all changes are carried out in small steps, commit and push between each small change (even if the change isn't complete yet). To aid this each task should have a clear plan created, with each step actionable.
 
+## Git Workflow — Avoiding Conflicts
+Before starting any new work, always sync the working branch to the latest `main`:
+```bash
+git fetch origin main
+git reset --hard origin/main
+```
+This prevents the recurring pattern of committing on a stale base and then conflicting with PRs that were merged in the meantime. If the remote branch rejects a push because local history diverged from it (due to the reset), use `--force-with-lease` to update it safely.
+
 ## PC vs Mobile Development
 If I'm runniong on a PC I have access to a greater variety of tools, the gh cli for example. I should use the .env file to read and store configuration that aids developement in this environment. The .env file may contain tokens for authentication. When I'm running on mobile or cloud I will have a more restricted capability. I should use the tools avaialble to me such as curl to access GitHub. 
 
