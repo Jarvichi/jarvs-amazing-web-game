@@ -18,12 +18,25 @@ interface Props {
   onDone: () => void
 }
 
+/** Remove control characters and collapse runs of whitespace. */
+function sanitiseName(raw: string): string {
+  return raw
+    // eslint-disable-next-line no-control-regex
+    .replace(/[\x00-\x1F\x7F]/g, '')   // strip control chars
+    .replace(/\s+/g, ' ')              // collapse whitespace
+}
+
 export function CharacterScreen({ onDone }: Props) {
   const [name,   setName]   = useState(loadPlayerName())
   const [avatar, setAvatar] = useState<AvatarSlug>(loadPlayerAvatar())
 
+  function handleNameChange(raw: string) {
+    setName(sanitiseName(raw))
+  }
+
   function handleSave() {
-    savePlayerName(name)
+    const finalName = sanitiseName(name).trim() || 'Jarv'
+    savePlayerName(finalName)
     savePlayerAvatar(avatar)
     onDone()
   }
@@ -43,7 +56,7 @@ export function CharacterScreen({ onDone }: Props) {
           maxLength={20}
           value={name}
           placeholder="Jarv"
-          onChange={e => setName(e.target.value)}
+          onChange={e => handleNameChange(e.target.value)}
         />
       </div>
 
