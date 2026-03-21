@@ -20,7 +20,7 @@ import {
   generateEventFromConfig, EventChoice, EventData,
   CutscenePanel, QuestNode, RunState, Act, ReplayModifier,
   getActiveModifiers, loadActCount, incrementActCount,
-  recordNodeComplete, loadPlayerName,
+  recordNodeComplete, loadPlayerName, applyPlayerName,
 } from './game/questline'
 import { CardRestSelect }       from './components/CardRestSelect'
 import { EventScreen }          from './components/EventScreen'
@@ -201,12 +201,6 @@ type Screen =
   | 'itemfound'
   | 'character'
 
-/** Replace "Jarv" (default name) with the player's chosen name in panel text. */
-function applyPlayerName(panels: CutscenePanel[]): CutscenePanel[] {
-  const name = loadPlayerName()
-  if (name === 'Jarv') return panels
-  return panels.map(p => ({ ...p, text: p.text.replace(/\bJarv\b/g, name) }))
-}
 
 export default function App() {
   // ── PWA auto-update ───────────────────────────────────────────────────────────
