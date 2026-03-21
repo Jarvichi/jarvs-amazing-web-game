@@ -2116,6 +2116,75 @@ body {
   animation: pulse 1s ease-in-out infinite;
 }
 
+/* ── Pack spotlight overlay ── */
+.pack-card-slot--spotlighted {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes spotlight-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes spotlight-card-in {
+  from { opacity: 0; transform: scale(0.55); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes spotlight-out {
+  to { opacity: 0; transform: scale(0.7); }
+}
+
+.pack-spotlight-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.72);
+  cursor: pointer;
+  animation: spotlight-backdrop-in 0.25s ease-out;
+}
+.pack-spotlight-overlay--exiting {
+  animation: spotlight-out 0.25s ease-in forwards;
+}
+
+.pack-spotlight-card {
+  animation: spotlight-card-in 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.pack-spotlight-card .pack-card-hidden {
+  width: 120px;
+  height: 168px;
+  font-size: 18px;
+}
+.pack-spotlight-card .pack-hidden-question {
+  font-size: 48px;
+}
+.pack-spotlight-card .pack-hidden-tap {
+  font-size: 16px;
+  letter-spacing: 3px;
+}
+.pack-spotlight-card .pack-dot {
+  width: 14px;
+  height: 14px;
+}
+.pack-spotlight-card--legendary .pack-card-hidden {
+  border-color: #ffcc00;
+  box-shadow: 0 0 24px 8px rgba(255,204,0,0.5), inset 0 0 20px rgba(255,204,0,0.15);
+  color: #ffcc00;
+}
+.pack-spotlight-card--rare .pack-card-hidden {
+  border-color: #bb66ff;
+  box-shadow: 0 0 24px 8px rgba(187,102,255,0.5), inset 0 0 20px rgba(187,102,255,0.15);
+  color: #bb66ff;
+}
+.pack-spotlight-card--legendary .pack-card-hidden--spotlight {
+  animation: packGlowLegendary 1.4s ease-in-out infinite;
+}
+.pack-spotlight-card--rare .pack-card-hidden--spotlight {
+  animation: packGlowRare 1.4s ease-in-out infinite;
+}
+
 /* ─── Crystal Count ──────────────────────────────────── */
 
 .crystal-count {

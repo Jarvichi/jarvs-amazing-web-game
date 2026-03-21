@@ -22,6 +22,8 @@ export function PackOpening({ pack, onDone }: Props) {
   const decayTimers = useRef<Record<number, ReturnType<typeof setTimeout>>>({})
   const [wobbleKeys, setWobbleKeys] = useState<Record<number, number>>({})
   const [done, setDone] = useState(false)
+  const [spotlightCard, setSpotlightCard] = useState<number | null>(null)
+  const [spotlightExiting, setSpotlightExiting] = useState(false)
 
   // Clean up decay timers on unmount
   useEffect(() => () => { Object.values(decayTimers.current).forEach(clearTimeout) }, [])
@@ -36,6 +38,17 @@ export function PackOpening({ pack, onDone }: Props) {
       setRevealed(r => r + 1)
     }, 180)
   }
+
+  // Show spotlight when a tap-required card becomes current
+  useEffect(() => {
+    if (revealed >= pack.length) return
+    const card = cards[revealed]
+    const rarity = card?.rarity ?? 'common'
+    if ((TAP_REQUIRED[rarity] ?? 0) > 0) {
+      setSpotlightCard(revealed)
+      setSpotlightExiting(false)
+    }
+  }, [revealed])
 
   // Auto-advance for common/uncommon; pause for rare/legendary until tapped
   useEffect(() => {
@@ -80,7 +93,13 @@ export function PackOpening({ pack, onDone }: Props) {
     const newCount = current + 1
     setCount(i, newCount)
     if (newCount >= tapsNeeded) {
-      revealCard(i)
+      // Exit the spotlight with animation, then reveal
+      setSpotlightExiting(true)
+      setTimeout(() => {
+        setSpotlightCard(null)
+        setSpotlightExiting(false)
+        revealCard(i)
+      }, 260)
     } else {
       setWobbleKeys(prev => ({ ...prev, [i]: (prev[i] ?? 0) + 1 }))
       scheduleDecay(i)
@@ -95,11 +114,13 @@ export function PackOpening({ pack, onDone }: Props) {
     const isWaiting = i === revealed && tapsNeeded > 0 && tapsGiven < tapsNeeded
 
     const isFlippingOut = flippingOut.has(i)
+    const isSpotlighted = spotlightCard === i
     const slotClasses = [
       'pack-card-slot',
       isFlippingOut ? 'pack-card-slot--flipping' : '',
       isRevealed ? 'pack-card-slot--revealed' : '',
       !isRevealed && !isFlippingOut && (rarity === 'legendary' || rarity === 'rare') ? `pack-card-slot--glow-${rarity}` : '',
+      isSpotlighted ? 'pack-card-slot--spotlighted' : '',
     ].filter(Boolean).join(' ')
 
     return (
@@ -170,6 +191,35 @@ export function PackOpening({ pack, onDone }: Props) {
       )}
 
       {cardDetailNode}
+
+      {/* Spotlight overlay for tap-required cards */}
+      {spotlightCard !== null && (() => {
+        const sc = cards[spotlightCard]
+        const rarity = sc?.rarity ?? 'rare'
+        const tapsNeeded = TAP_REQUIRED[rarity] ?? 0
+        const tapsGiven = tapCounts[spotlightCard] ?? 0
+        return (
+          <div
+            className={`pack-spotlight-overlay${spotlightExiting ? ' pack-spotlight-overlay--exiting' : ''}`}
+            onClick={() => handleTap(spotlightCard)}
+          >
+            <div className={`pack-spotlight-card pack-spotlight-card--${rarity}`}>
+              <div
+                key={`ws-${wobbleKeys[spotlightCard] ?? 0}`}
+                className={`pack-card-hidden pack-card-hidden--spotlight${(wobbleKeys[spotlightCard] ?? 0) > 0 ? ' pack-wobble' : ''}`}
+              >
+                <div className="pack-hidden-question">?</div>
+                <div className="pack-hidden-dots">
+                  {Array.from({ length: tapsNeeded }).map((_, t) => (
+                    <span key={t} className={`pack-dot${t < tapsGiven ? ' pack-dot--filled' : ''}`} />
+                  ))}
+                </div>
+                <div className="pack-hidden-tap">TAP!</div>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
     </div>
   )
 }
