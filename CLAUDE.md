@@ -351,7 +351,7 @@ Current cards: ~95. Target: 1000+ across 10 shards/expansions.
 - [x] Backstory intro screen (text crawl or panel art)
 - [x] Act transition cutscenes (text only, terminal style)
 - [x] Boss dialogue lines (1-3 lines per boss encounter)
-- [ ] Victory screen for completing full questline
+- [x] Victory screen for completing full questline
 
 **Phase 6 — Game Modes**
 - [ ] Card Draft Mode: free play variant — pick 1 of 3 cards × 8 to build a 24-card deck, then battle (no collection needed)

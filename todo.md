@@ -1,10 +1,18 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-21 (closed 15 completed issues).
+Issues sourced from GitHub. Last synced: 2026-03-21 (session 17 — added #362, #363, #364).
 
 ---
 
 When working an issue from this file, go and check the GitHub issue for additional detail and requirements before planning the solution, create a todo list based on the plan and execute it. If running in the cli you can usually use the "gh" cli commands to help, however if they are not available use a fallback method.
+
+---
+
+## 🔵 Enhancements — New (from GitHub, session 17 sync)
+
+- [ ] **#364** Win streak — track and display player win streaks
+- [ ] **#363** Campaign replay modifiers — difficulty/modifier options when replaying acts
+- [ ] **#362** Consumables — heal/lives items usable during campaign
 
 ---
 
@@ -39,11 +47,11 @@ Goal: reduce App.tsx from ~1800 lines by extracting logic into custom hooks unde
 
 ### Remaining
 - [x] `useAchievements` — done (session 16)
-- [ ] Extract `CampaignVictoryScreen` component (inline JSX in App.tsx ~1609-1640)
-- [ ] Extract `CampaignFailedScreen` component (inline JSX in App.tsx ~1642-1656)
-- [ ] Move helper functions out of App.tsx (`resolvedNodeOpts`, `buildMerchantItems`, `loadHandicap`, `applyPlayerName`) → `questline.ts` / `collection.ts`
-- [ ] `useCampaign` — largest extraction: `handleCampaign`, `handleAbandonRun`, act-transition logic, cutscene/nodemap/actcomplete screen routing, run state mutations; accepts `{ run, setRun, setScreen, setCutscenePanels, setGameState, ... }` and returns campaign action handlers. **Note:** ~25+ state dependencies; needs a dedicated session.
-- [ ] Close GitHub issue #316 once all hooks are extracted and App.tsx is under ~800 lines
+- [x] Extract `CampaignVictoryScreen` component — done
+- [x] Extract `CampaignFailedScreen` component — done
+- [x] Move `applyPlayerName` to `questline.ts` — done (remaining helpers are bridging functions best left in App.tsx)
+- [ ] `useCampaign` — largest extraction: `handleCampaign`, `handleAbandonRun`, act-transition logic, cutscene/nodemap/actcomplete screen routing, run state mutations. ~25+ state dependencies; needs a dedicated session.
+- [ ] Close GitHub issue #316 once App.tsx is under ~800 lines
 
 ---
 
