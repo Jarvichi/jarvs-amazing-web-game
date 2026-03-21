@@ -26,6 +26,7 @@ import { CardRestSelect }       from './components/CardRestSelect'
 import { EventScreen }          from './components/EventScreen'
 import { MerchantScreen, MerchantItem, cardMerchantItem } from './components/MerchantScreen'
 import { MysteryScreen } from './components/MysteryScreen'
+import { ItemFoundScreen } from './components/ItemFoundScreen'
 import { CutsceneScreen }       from './components/CutsceneScreen'
 import { BossDialogueScreen }   from './components/BossDialogueScreen'
 import { Battlefield }        from './components/Battlefield'
@@ -194,6 +195,7 @@ type Screen =
   | 'battlesummary'
   | 'shop'
   | 'campaignvictory'
+  | 'itemfound'
 
 export default function App() {
   // ── PWA auto-update ───────────────────────────────────────────────────────────
@@ -283,6 +285,7 @@ export default function App() {
   const [merchantItems, setMerchantItems] = useState<MerchantItem[]>([])
   const merchantBoughtRef = useRef(0)
   const [mysteryReward, setMysteryReward] = useState<RewardDef | null>(null)
+  const [foundItem, setFoundItem] = useState<Omit<import('./game/dailyLogin').UselessItem, 'acquiredDate'> | null>(null)
 
   // Card fatigue
   const [fatiguedCards, setFatiguedCards]       = useState<string[]>(loadFatigued)
@@ -710,7 +713,15 @@ export default function App() {
       const item = effect.itemId
         ? ALL_ITEMS.find(i => i.id === effect.itemId)
         : computeReward(loadInventory(), ALL_ITEMS)
-      if (item) addToInventory(item)
+      if (item) {
+        recordNodeComplete(updatedRun.actId, nodeId)
+        saveRun(updatedRun)
+        setRun(updatedRun)
+        setActiveEvent(null)
+        setFoundItem(item)
+        setScreen('itemfound')
+        return
+      }
     } else if (effect.type === 'gainLife') {
       const newMax   = Math.min(LIVES_MAX, updatedRun.maxLives + effect.amount)
       const newLives = Math.min(newMax, updatedRun.livesRemaining + effect.amount)
@@ -1477,6 +1488,17 @@ export default function App() {
         <MysteryScreen
           reward={mysteryReward}
           onCollect={handleMysteryCollect}
+        />
+      )}
+
+      {screen === 'itemfound' && foundItem && (
+        <ItemFoundScreen
+          item={{ ...foundItem, acquiredDate: '' }}
+          onCollect={() => {
+            addToInventory(foundItem)
+            setFoundItem(null)
+            setScreen('nodemap')
+          }}
         />
       )}
 
