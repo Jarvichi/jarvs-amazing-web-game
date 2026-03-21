@@ -10,12 +10,12 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🟠 Active Work
 
-### #305 — Deck Saving and Sharing
+### #305 — Deck Saving and Sharing ✅
 
-- [ ] Add `SavedDeck` type + `loadSavedDecks` / `saveNamedDeck` / `deleteSavedDeck` to `collection.ts`
-- [ ] Add `encodeDeck` / `decodeDeck` share-code helpers to `collection.ts`
-- [ ] Add SAVED DECKS + SHARE UI panels to `DeckBuilder.tsx`
-- [ ] Add CSS for saved-deck and share panels
+- [x] Add `SavedDeck` type + `loadSavedDecks` / `saveNamedDeck` / `deleteSavedDeck` to `collection.ts`
+- [x] Add `encodeDeck` / `decodeDeck` share-code helpers to `collection.ts`
+- [x] Add SAVED DECKS + SHARE UI panels to `DeckBuilder.tsx`
+- [x] Add CSS for saved-deck and share panels
 
 ---
 
