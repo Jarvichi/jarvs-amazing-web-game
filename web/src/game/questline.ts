@@ -5,6 +5,94 @@ import act1Data from '../data/acts/act1.json'
 import act2Data from '../data/acts/act2.json'
 import act3Data from '../data/acts/act3.json'
 import act4Data from '../data/acts/act4.json'
+import consumablesData from '../data/consumables.json'
+
+// ─── Consumables ──────────────────────────────────────────
+
+export interface ConsumableDef {
+  id: string
+  name: string
+  icon: string
+  desc: string
+  lore: string
+  healAmount?: number
+  livesAmount?: number
+  price: number
+}
+
+export const ALL_CONSUMABLES: ConsumableDef[] = consumablesData as ConsumableDef[]
+
+export interface RunConsumable {
+  id: string
+  count: number
+}
+
+const CONSUMABLE_STASH_KEY = 'jarv_consumable_stash'
+
+export function loadConsumableStash(): RunConsumable[] {
+  try { return JSON.parse(localStorage.getItem(CONSUMABLE_STASH_KEY) ?? '[]') }
+  catch { return [] }
+}
+
+export function saveConsumableStash(stash: RunConsumable[]): void {
+  try { localStorage.setItem(CONSUMABLE_STASH_KEY, JSON.stringify(stash)) }
+  catch (e) { logError('saveConsumableStash failed', { error: String(e) }) }
+}
+
+export function addToConsumableStash(id: string, count = 1): void {
+  const stash = loadConsumableStash()
+  const existing = stash.find(c => c.id === id)
+  if (existing) {
+    existing.count += count
+  } else {
+    stash.push({ id, count })
+  }
+  saveConsumableStash(stash)
+}
+
+/** Drain the stash into a run's consumables list and clear the stash. */
+function drainStashIntoRun(consumables: RunConsumable[]): RunConsumable[] {
+  const stash = loadConsumableStash()
+  if (stash.length === 0) return consumables
+  const merged = [...consumables]
+  for (const s of stash) {
+    const existing = merged.find(c => c.id === s.id)
+    if (existing) {
+      existing.count += s.count
+    } else {
+      merged.push({ ...s })
+    }
+  }
+  saveConsumableStash([])
+  return merged
+}
+
+/** Apply a consumable to a run, returning the updated run (or null if not found). */
+export function useConsumable(run: RunState, id: string): RunState | null {
+  const idx = run.consumables.findIndex(c => c.id === id && c.count > 0)
+  if (idx === -1) return null
+  const def = ALL_CONSUMABLES.find(c => c.id === id)
+  if (!def) return null
+
+  const consumables = run.consumables.map((c, i) =>
+    i === idx ? { ...c, count: c.count - 1 } : c
+  ).filter(c => c.count > 0)
+
+  let playerHp = run.playerHp
+  let livesRemaining = run.livesRemaining
+  let maxLives = run.maxLives
+
+  if (def.healAmount) {
+    playerHp = Math.min(run.maxHp, run.playerHp + def.healAmount)
+  }
+  if (def.livesAmount) {
+    const newMax = Math.min(LIVES_MAX, run.maxLives + def.livesAmount)
+    livesRemaining = Math.min(newMax, run.livesRemaining + def.livesAmount)
+    maxLives = newMax
+  }
+
+  return { ...run, consumables, playerHp, livesRemaining, maxLives }
+}
 
 // ─── Replay modifier types ────────────────────────────────
 
@@ -367,6 +455,7 @@ export interface RunState {
   earnedCards: string[]        // card names won as battle rewards this run (usable in subsequent battles)
   activeRelic: string | null   // name of the relic earned at the end of the last act (null = none)
   crystalBonus: number         // extra crystals awarded after each battle (from replay modifiers)
+  consumables: RunConsumable[] // consumable items held during this run
 }
 
 const RUN_KEY = 'jarv_run'
@@ -390,6 +479,7 @@ export function loadRun(): RunState | null {
     parsed.playerHp = Math.max(1, Math.min(parsed.maxHp, parsed.playerHp))
     // Migrate: lives system (added later — default 3/3 for old saves)
     if (typeof parsed.crystalBonus !== 'number') parsed.crystalBonus = 0
+    if (!Array.isArray(parsed.consumables)) parsed.consumables = []
     if (typeof parsed.maxLives !== 'number' || parsed.maxLives < 1) parsed.maxLives = 3
     if (typeof parsed.livesRemaining !== 'number') parsed.livesRemaining = parsed.maxLives
     parsed.livesRemaining = Math.max(0, Math.min(parsed.maxLives, parsed.livesRemaining))
@@ -454,6 +544,7 @@ export function newRun(actId: string): RunState {
     earnedCards: [],
     activeRelic: null,
     crystalBonus: 0,
+    consumables: drainStashIntoRun([]),
   }
 }
 

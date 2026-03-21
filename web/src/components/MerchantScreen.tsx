@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Card } from '../game/types'
 import { UselessItem } from '../game/dailyLogin'
-import { MERCHANT_PRICES } from '../game/questline'
+import { MERCHANT_PRICES, ConsumableDef } from '../game/questline'
 import { CardTile } from './CardTile'
 
 export type MerchantItem =
   | { kind: 'card'; card: Card; price: number }
   | { kind: 'item'; inventoryItem: UselessItem; price: number }
+  | { kind: 'consumable'; def: ConsumableDef; price: number }
 
 /** Legacy helper: build a card MerchantItem */
 export function cardMerchantItem(card: Card): MerchantItem {
@@ -14,7 +15,9 @@ export function cardMerchantItem(card: Card): MerchantItem {
 }
 
 function itemKey(item: MerchantItem): string {
-  return item.kind === 'card' ? item.card.name : item.inventoryItem.id
+  if (item.kind === 'card') return item.card.name
+  if (item.kind === 'item') return item.inventoryItem.id
+  return `consumable:${item.def.id}`
 }
 
 interface Props {
@@ -30,10 +33,11 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
 
   function handleBuy(item: MerchantItem) {
     const key = itemKey(item)
-    if (purchased.has(key)) return
+    // Consumables can be bought multiple times
+    if (item.kind !== 'consumable' && purchased.has(key)) return
     if (balance < item.price) return
     setBalance(b => b - item.price)
-    setPurchased(p => new Set([...p, key]))
+    if (item.kind !== 'consumable') setPurchased(p => new Set([...p, key]))
     onBuy(item)
   }
 
@@ -59,6 +63,30 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
           const key    = itemKey(item)
           const bought = purchased.has(key)
           const canBuy = !bought && balance >= item.price
+
+          if (item.kind === 'consumable') {
+            const def = item.def
+            const canBuyConsumable = balance >= item.price
+            return (
+              <div key={key} className="merchant-item merchant-item--consumable">
+                <div className="merchant-curiosity-label">🧪 CONSUMABLE</div>
+                <div className="merchant-inv-tile">
+                  <div className="merchant-inv-icon">{def.icon}</div>
+                  <div className="merchant-inv-name">{def.name}</div>
+                  <div className="merchant-inv-desc">{def.desc}</div>
+                </div>
+                <div className="merchant-item-footer">
+                  <button
+                    className={`action-btn merchant-buy-btn${canBuyConsumable ? '' : ' merchant-buy-btn--poor'}`}
+                    onClick={() => handleBuy(item)}
+                    disabled={!canBuyConsumable}
+                  >
+                    ◆ {item.price}
+                  </button>
+                </div>
+              </div>
+            )
+          }
 
           if (item.kind === 'item') {
             const inv = item.inventoryItem

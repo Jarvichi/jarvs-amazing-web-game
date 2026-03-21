@@ -1509,6 +1509,38 @@ body {
   opacity: 0.55;
 }
 
+/* Shop consumables */
+.shop-consumables {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.shop-consumable-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 16px;
+  border: 1px solid #3a3a3a;
+  background: #111;
+  min-width: 120px;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.shop-consumable-icon { font-size: 28px; line-height: 1; }
+.shop-consumable-name { font-size: 12px; color: #ffcc00; font-weight: bold; text-align: center; }
+.shop-consumable-desc { font-size: 10px; color: var(--game-text-color-dim); text-align: center; line-height: 1.5; }
+.shop-consumable-buy-btn { font-size: 12px; }
+
+/* Merchant consumable tile */
+.merchant-item--consumable {
+  border-color: #44aa66;
+}
+
 .shop-keeper-msg {
   font-size: 11px;
   color: var(--game-text-color);
@@ -3162,6 +3194,55 @@ body {
 
 .nm-life-pip--full  { color: #ff4466; }
 .nm-life-pip--empty { color: #333; }
+
+/* ── NodeMap consumables bar ── */
+
+.nm-consumables-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #111;
+  border-bottom: 1px solid #2a2a2a;
+  flex-wrap: wrap;
+}
+
+.nm-consumables-label {
+  font-size: 10px;
+  color: #666;
+  letter-spacing: 1px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+.nm-consumable-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #1a1a1a;
+  border: 1px solid #3a3a3a;
+  color: #ccc;
+  padding: 4px 8px;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.nm-consumable-btn:hover {
+  background: #252525;
+  border-color: #33ff88;
+  color: #fff;
+}
+
+.nm-consumable-icon { font-size: 14px; }
+.nm-consumable-name { font-size: 11px; }
+.nm-consumable-count {
+  font-size: 10px;
+  color: #33ff88;
+  font-weight: bold;
+}
 
 /* ── Campaign Failed screen ── */
 

@@ -15,6 +15,8 @@ import {
   loadInventory,
   recordNPCVisit,
 } from '../game/dailyLogin'
+import { ALL_CONSUMABLES, addToConsumableStash } from '../game/questline'
+import { saveCrystals } from '../game/collection'
 import { SpriteImg } from './SpriteImg'
 import { OverlayScreen } from './OverlayScreen'
 import { getCardCatalog } from '../game/cards'
@@ -131,6 +133,18 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
     return deal.price
   }
 
+  function handleBuyConsumable(id: string, price: number) {
+    const effectivePrice = npc.role === 'apprentice' && weekend ? Math.floor(price * 0.9) : price
+    if (crystals < effectivePrice) {
+      incrementAchievementProgress('misc:shop_broke_click')
+      return
+    }
+    const next = crystals - effectivePrice
+    saveCrystals(next)
+    onCrystalsChange(next)
+    addToConsumableStash(id)
+  }
+
   function handleBuyPackClick() {
     if (canBuyPack) {
       onBuyCrystalPack()
@@ -215,6 +229,33 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
                       {price} 💎
                     </button>
                   )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* ── Consumables ── */}
+        <div className="shop-section">
+          <div className="shop-section-header">Campaign Supplies — always in stock</div>
+          <div className="shop-consumables">
+            {ALL_CONSUMABLES.map(c => {
+              const effectivePrice = npc.role === 'apprentice' && weekend ? Math.floor(c.price * 0.9) : c.price
+              const discounted = npc.role === 'apprentice' && weekend
+              const canAfford = crystals >= effectivePrice
+              return (
+                <div key={c.id} className="shop-consumable-tile">
+                  <div className="shop-consumable-icon">{c.icon}</div>
+                  <div className="shop-consumable-name">{c.name}</div>
+                  <div className="shop-consumable-desc">{c.desc}</div>
+                  <button
+                    className={`action-btn action-btn--gold shop-consumable-buy-btn${canAfford ? '' : ' shop-card-buy-btn--poor'}`}
+                    onClick={() => handleBuyConsumable(c.id, c.price)}
+                    disabled={!canAfford}
+                  >
+                    {discounted && <span className="shop-discount-badge">-10%</span>}
+                    {effectivePrice} 💎
+                  </button>
                 </div>
               )
             })}

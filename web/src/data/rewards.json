@@ -21,5 +21,8 @@
 
   {"id":"pack_3",  "name":"3-Card Pack",   "desc":"Three random cards for your collection.", "lore":"Good things come in threes.",        "icon":"🎁","weight":12,"type":"pack","count":3},
   {"id":"pack_5",  "name":"5-Card Pack",   "desc":"Five random cards.",                      "lore":"A full hand of possibilities.",      "icon":"🎁","weight":8, "type":"pack","count":5},
-  {"id":"pack_10", "name":"10-Card Pack",  "desc":"Ten cards. A genuine windfall.",          "lore":"More cards than you bargained for.", "icon":"🎁","weight":2, "type":"pack","count":10}
+  {"id":"pack_10", "name":"10-Card Pack",  "desc":"Ten cards. A genuine windfall.",          "lore":"More cards than you bargained for.", "icon":"🎁","weight":2, "type":"pack","count":10},
+
+  {"id":"consumable_health_potion", "name":"Health Potion",  "desc":"Restore 15 HP to your base during a campaign run.", "lore":"Brewed from shardroot and wishwater. Tastes faintly of copper.",                    "icon":"🧪",     "weight":18,"type":"consumable","consumableId":"health_potion"},
+  {"id":"consumable_extra_life",    "name":"Second Wind",    "desc":"Gain +1 life for a campaign run.",                  "lore":"The Dominion believes in second chances. Third chances cost extra.", "icon":"❤️‍🔥","weight":8, "type":"consumable","consumableId":"extra_life"}
 ]
