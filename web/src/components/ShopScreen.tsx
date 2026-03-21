@@ -12,9 +12,9 @@ import {
   logDevSchedule,
   isWeekend,
   ShopCardDeal,
-  loadInventory,
   recordNPCVisit,
-} from '../game/dailyLogin'
+} from '../game/shopSchedule'
+import { loadInventory } from '../game/dailyLogin'
 import { ALL_CONSUMABLES, addToConsumableStash } from '../game/questline'
 import { saveCrystals } from '../game/collection'
 import { SpriteImg } from './SpriteImg'

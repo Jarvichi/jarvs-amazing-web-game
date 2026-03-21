@@ -57,6 +57,7 @@ import { CardTile }           from './components/CardTile'
 import { DailyLoginModal }   from './components/DailyLoginModal'
 import { InventoryScreen }   from './components/InventoryScreen'
 import { peekDailyReward, markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
+import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
@@ -209,6 +210,7 @@ type Screen =
   | 'itemfound'
   | 'character'
   | 'replayBriefing'
+  | 'dailychallenge'
 
 
 export default function App() {
@@ -272,7 +274,8 @@ export default function App() {
   const [run, setRun]                   = useState<RunState | null>(_startup.run)
   const [rewardChoices,  setRewardChoices]  = useState<string[]>([])
   const [rewardCrystals, setRewardCrystals] = useState(0)
-  const isCampaignRef = useRef(_startup.isCampaign)   // true while playing a campaign battle
+  const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
+  const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
 
   // Cutscenes & boss dialogue
   const [cutscenePanels, setCutscenePanels]   = useState<CutscenePanel[]>([])
@@ -448,6 +451,13 @@ export default function App() {
     prevBossCardActiveRef.current = active
   }, [gameState?.bossCardActive])
 
+  // Save daily challenge result the moment the battle ends
+  useEffect(() => {
+    if (isDailyChallengeRef.current && gameState?.phase.type === 'gameOver') {
+      saveDailyChallengeResult(gameState.phase.winner === 'player')
+    }
+  }, [gameState?.phase.type])
+
   // Trigger SW update check whenever the title screen is shown
   useEffect(() => {
     if (screen === 'title') swRegRef.current?.update()
@@ -479,9 +489,26 @@ export default function App() {
     rollRareEvent()
   }, [handicap])
 
+  const handleDailyChallenge = useCallback(() => {
+    isCampaignRef.current       = false
+    isDailyChallengeRef.current = true
+    battleFlawlessRef.current   = true
+    battleUsedStructure.current = false
+    battleUsedMobileUnit.current = false
+    battleLossRecordedRef.current = false
+    prevOpponentUnitsRef.current = new Map()
+    prevPlayerUnitsRef.current   = new Map()
+    const playerCards   = getDailyPlayerDeck()
+    const opponentCards = getDailyOpponentDeck()
+    setGameState(newGame({ playerCards, opponentHandicap: 0, prebuiltOpponentDeck: opponentCards }))
+    setScreen('playing')
+    rollRareEvent()
+  }, [])
+
   const handlePlayAgain = useCallback(() => {
     if (!gameState || gameState.phase.type !== 'gameOver') return
-    isCampaignRef.current = false
+    isCampaignRef.current       = false
+    isDailyChallengeRef.current = false
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -1507,6 +1534,7 @@ export default function App() {
           onHeroCards={() => setScreen('heroCards')}
           onCharacter={() => setScreen('character')}
           on8bitUnlocked={() => { /* achievement granted in TitleScreen after unlock */ }}
+          onDailyChallenge={handleDailyChallenge}
         />
       )}
 
@@ -1746,7 +1774,8 @@ export default function App() {
             onMainMenu={handleMainMenu}
             campaignAbandon={isCampaignRef.current ? handleAbandonRun : undefined}
             quickPlayHint={quickPlayHint}
-            showStreak={!isCampaignRef.current}
+            showStreak={!isCampaignRef.current && !isDailyChallengeRef.current}
+            dailyChallengeState={isDailyChallengeRef.current ? getDailyChallengeState() : undefined}
           />
         ) : (
           <>

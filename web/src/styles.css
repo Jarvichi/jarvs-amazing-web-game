@@ -878,6 +878,16 @@ body {
   text-align: center;
   font-weight: bold;
 }
+.gameover-daily {
+  margin-top: 10px;
+  font-size: 12px;
+  text-align: center;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #555;
+}
+.gameover-daily--win  { color: #8bc34a; border-color: #8bc34a; }
+.gameover-daily--lose { color: #aaa; }
 
 /* Win streak corner ribbon on title screen */
 .streak-ribbon-wrap {
