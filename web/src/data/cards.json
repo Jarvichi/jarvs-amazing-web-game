@@ -2463,9 +2463,9 @@
       ],
       "upgradeEffect": {
         "type": "buffAttack",
-        "amount": 2
+        "amount": 4
       },
-      "description": "All your units gain +2 attack.",
+      "description": "All your units gain +4 attack.",
       "deckCount": 2,
       "lore": "The whetstone whine echoes across camp. Everyone quietly checks their grip."
     },
@@ -2479,9 +2479,9 @@
       ],
       "upgradeEffect": {
         "type": "healUnits",
-        "amount": 8
+        "amount": 12
       },
-      "description": "Heal all your units for 8 HP.",
+      "description": "Heal all your units for 12 HP.",
       "deckCount": 1,
       "lore": "\"Walk it off.\" \u2014 Official battle doctrine."
     },
@@ -2950,9 +2950,9 @@
       ],
       "upgradeEffect": {
         "type": "buffAttack",
-        "amount": 5
+        "amount": 7
       },
-      "description": "All your units gain +5 attack.",
+      "description": "All your units gain +7 attack.",
       "deckCount": 0,
       "lore": "The rhythm of violence."
     },
@@ -3767,10 +3767,10 @@
         "ashen"
       ],
       "upgradeEffect": {
-        "type": "buffMaxHp",
-        "amount": 20
+        "type": "buffAttack",
+        "amount": 6
       },
-      "description": "All your units gain +20 max HP.",
+      "description": "Titan ichor flows through your ranks \u2014 all units gain +6 attack.",
       "deckCount": 1,
       "lore": "Thick. Extremely thick."
     },
@@ -4300,10 +4300,10 @@
         "spire"
       ],
       "upgradeEffect": {
-        "type": "buffAttack",
-        "amount": 3
+        "type": "buffSpeed",
+        "amount": 14
       },
-      "description": "All your units gain +3 attack.",
+      "description": "Raw mana floods your units \u2014 all gain +14 move speed.",
       "deckCount": 0,
       "lore": "Flood your units with raw mana. The side effects are someone else's problem."
     },
@@ -4316,10 +4316,10 @@
         "spire"
       ],
       "upgradeEffect": {
-        "type": "healUnits",
-        "amount": 7
+        "type": "buffRange",
+        "amount": 22
       },
-      "description": "Heal all your units for 7 HP.",
+      "description": "Arcane precision extends all ranged units\u2019 attack range by 22.",
       "deckCount": 0,
       "lore": "Optimal resource usage. The Archivist has seventeen papers on the subject."
     },
@@ -4494,9 +4494,9 @@
       ],
       "upgradeEffect": {
         "type": "healUnits",
-        "amount": 10
+        "amount": 7
       },
-      "description": "Restore 10 HP to all your units.",
+      "description": "Restore 7 HP to all your units.",
       "lore": "The land provides. Even here.",
       "deckCount": 0
     },
@@ -4510,9 +4510,9 @@
       ],
       "upgradeEffect": {
         "type": "buffSpeed",
-        "amount": 8
+        "amount": 16
       },
-      "description": "Spores energise all units \u2014 gain +8 move speed.",
+      "description": "Spores energise all units \u2014 gain +16 move speed.",
       "lore": "It's probably not toxic. Probably.",
       "deckCount": 0
     },
@@ -4525,11 +4525,11 @@
         "forest"
       ],
       "upgradeEffect": {
-        "type": "buffRange",
-        "amount": 20
+        "type": "buffMaxHp",
+        "amount": 25
       },
-      "description": "Forest spirits extend the reach of all your units by 20.",
-      "lore": "Roots reach further than you think.",
+      "description": "Roots fortify all your units \u2014 gain +25 max HP.",
+      "lore": "Rooted. Immovable. Unkillable.",
       "deckCount": 0
     },
     {
@@ -4541,10 +4541,10 @@
         "forest"
       ],
       "upgradeEffect": {
-        "type": "buffAttack",
-        "amount": 4
+        "type": "buffSpeed",
+        "amount": 22
       },
-      "description": "The wild answers \u2014 all units gain +4 attack.",
+      "description": "Primal energy surges through your forces \u2014 all units gain +22 move speed.",
       "lore": "The Verdant Shard does not negotiate.",
       "deckCount": 0
     },
@@ -4713,10 +4713,10 @@
         "iron"
       ],
       "upgradeEffect": {
-        "type": "buffAttack",
-        "amount": 2
+        "type": "buffMaxHp",
+        "amount": 14
       },
-      "description": "Drill and discipline \u2014 all units gain +2 attack.",
+      "description": "Relentless training \u2014 all units gain +14 max HP.",
       "lore": "The Iron Citadel doesn't breed heroes. It breeds soldiers.",
       "deckCount": 0
     },
@@ -4745,10 +4745,10 @@
         "iron"
       ],
       "upgradeEffect": {
-        "type": "healUnits",
-        "amount": 8
+        "type": "buffAttack",
+        "amount": 3
       },
-      "description": "Regroup and recover \u2014 restore 8 HP to all units.",
+      "description": "Regroup and strike harder \u2014 all units gain +3 attack.",
       "lore": "Retreat is not defeat. It is preparation.",
       "deckCount": 0
     },
@@ -4911,9 +4911,9 @@
       ],
       "upgradeEffect": {
         "type": "healUnits",
-        "amount": 8
+        "amount": 10
       },
-      "description": "Drain life energy \u2014 restore 8 HP to all units.",
+      "description": "Drain life energy \u2014 restore 10 HP to all units.",
       "lore": "The Ashen Wastes give back. Eventually.",
       "deckCount": 0
     },
@@ -5091,10 +5091,10 @@
         "arcane"
       ],
       "upgradeEffect": {
-        "type": "buffAttack",
-        "amount": 3
+        "type": "buffMaxHp",
+        "amount": 12
       },
-      "description": "Crystal harmonics amplify unit power \u2014 all gain +3 attack.",
+      "description": "Crystal harmonics reinforce your units \u2014 all gain +12 max HP.",
       "lore": "The Spire hums. Those who can hear it hum louder.",
       "deckCount": 0
     },
@@ -5108,9 +5108,9 @@
       ],
       "upgradeEffect": {
         "type": "buffSpeed",
-        "amount": 15
+        "amount": 20
       },
-      "description": "Tap into the void \u2014 all units gain +15 move speed.",
+      "description": "Tap into the void \u2014 all units gain +20 move speed.",
       "lore": "Void energy has side effects. None of them are boring.",
       "deckCount": 0
     },
