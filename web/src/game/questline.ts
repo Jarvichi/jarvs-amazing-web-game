@@ -640,10 +640,45 @@ export function getNextAct(actId: string): Act | null {
 // ─── Player character ─────────────────────────────────────────────────────────
 
 const PLAYER_NAME_KEY   = 'jarv_player_name'
-const PLAYER_AVATAR_KEY = 'jarv_player_avatar'
+const PLAYER_AVATAR_KEY    = 'jarv_player_avatar'
+const UNLOCKED_AVATARS_KEY = 'jarv_unlocked_avatars'
 
-export const AVATAR_SLUGS = ['jarv', 'jarv-red', 'jarv-green', 'jarv-gold'] as const
+/** Base avatars always available; streak avatars are unlocked via achievements. */
+export const BASE_AVATAR_SLUGS   = ['jarv', 'jarv-red', 'jarv-green', 'jarv-gold'] as const
+export const STREAK_AVATAR_SLUGS = [
+  'streak-iron', 'streak-flame', 'streak-shadow', 'streak-dragon',
+  'streak-celestial', 'streak-void', 'streak-crystal', 'streak-fracture',
+] as const
+export const AVATAR_SLUGS = [...BASE_AVATAR_SLUGS, ...STREAK_AVATAR_SLUGS] as const
 export type AvatarSlug = typeof AVATAR_SLUGS[number]
+
+export const STREAK_AVATAR_LABELS: Record<string, string> = {
+  'streak-iron':      'Iron Wanderer',
+  'streak-flame':     'Flame Walker',
+  'streak-shadow':    'Shadow Lord',
+  'streak-dragon':    'Dragon Rider',
+  'streak-celestial': 'Celestial Guardian',
+  'streak-void':      'Void Master',
+  'streak-crystal':   'Crystal Champion',
+  'streak-fracture':  'Fracture Lord',
+}
+
+export function loadUnlockedAvatars(): string[] {
+  try {
+    const raw = localStorage.getItem(UNLOCKED_AVATARS_KEY)
+    return raw ? JSON.parse(raw) : []
+  } catch { return [] }
+}
+export function addUnlockedAvatar(slug: string): void {
+  const current = loadUnlockedAvatars()
+  if (!current.includes(slug)) {
+    try { localStorage.setItem(UNLOCKED_AVATARS_KEY, JSON.stringify([...current, slug])) } catch { /* ignore */ }
+  }
+}
+export function isAvatarUnlocked(slug: string): boolean {
+  if ((BASE_AVATAR_SLUGS as readonly string[]).includes(slug)) return true
+  return loadUnlockedAvatars().includes(slug)
+}
 
 export function loadPlayerName(): string {
   try { return localStorage.getItem(PLAYER_NAME_KEY) || 'Jarv' } catch { return 'Jarv' }
@@ -655,8 +690,9 @@ export function savePlayerName(name: string): void {
 export function loadPlayerAvatar(): AvatarSlug {
   try {
     const v = localStorage.getItem(PLAYER_AVATAR_KEY)
-    return (AVATAR_SLUGS as readonly string[]).includes(v ?? '') ? (v as AvatarSlug) : 'jarv'
-  } catch { return 'jarv' }
+    if (v && (AVATAR_SLUGS as readonly string[]).includes(v) && isAvatarUnlocked(v)) return v as AvatarSlug
+  } catch { /* ignore */ }
+  return 'jarv'
 }
 export function savePlayerAvatar(slug: AvatarSlug): void {
   try { localStorage.setItem(PLAYER_AVATAR_KEY, slug) } catch { /* ignore */ }

@@ -6301,3 +6301,13 @@ html.eightbit-mode .lane-layer {
 .character-avatar-btn--chosen .character-avatar-label {
   color: #33ff33;
 }
+.character-avatar-btn--locked {
+  opacity: 0.45;
+  cursor: default;
+}
+.character-avatar-lock {
+  display: block;
+  font-size: 22px;
+  line-height: 32px;
+  text-align: center;
+}
