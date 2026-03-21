@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useRef } from 'react'
 import { Card, CardType, CardRarity } from '../game/types'
 import { getCardCatalog } from '../game/cards'
 import {
@@ -15,6 +15,12 @@ import {
   COPIES_MAX,
   CollectionEntry,
   DeckEntry,
+  SavedDeck,
+  loadSavedDecks,
+  saveNamedDeck,
+  deleteSavedDeck,
+  encodeDeck,
+  decodeDeck,
 } from '../game/collection'
 import { CardTile } from './CardTile'
 import { useCardDetail } from './useCardDetail'
@@ -139,6 +145,14 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   )
   const { openDetail, cardDetailNode } = useCardDetail({ collection, deckEntries: deck })
   const [showAutoBuild, setShowAutoBuild] = useState(false)
+  const [showSavedDecks, setShowSavedDecks] = useState(false)
+  const [showShare, setShowShare] = useState(false)
+  const [savedDecks, setSavedDecks] = useState<SavedDeck[]>(() => loadSavedDecks())
+  const [saveNameInput, setSaveNameInput] = useState('')
+  const [importCode, setImportCode] = useState('')
+  const [importError, setImportError] = useState('')
+  const [copyFeedback, setCopyFeedback] = useState(false)
+  const shareCodeRef = useRef<HTMLTextAreaElement>(null)
   const [search, setSearch]         = useState('')
   const [typeFilter, setTypeFilter]   = useState<'all' | CardType>('all')
   const [rarityFilter, setRarityFilter] = useState<'all' | CardRarity>('all')
@@ -189,6 +203,51 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   function handleSave() {
     saveDeck(deck)
     onBack()
+  }
+
+  function handleSaveNamed() {
+    const name = saveNameInput.trim()
+    if (!name) return
+    saveNamedDeck(name, deck)
+    setSavedDecks(loadSavedDecks())
+    setSaveNameInput('')
+  }
+
+  function handleLoadSaved(saved: SavedDeck) {
+    setDeck(saved.deck)
+    setShowSavedDecks(false)
+  }
+
+  function handleDeleteSaved(name: string) {
+    deleteSavedDeck(name)
+    setSavedDecks(loadSavedDecks())
+  }
+
+  function handleCopyCode() {
+    const code = encodeDeck(deck)
+    navigator.clipboard.writeText(code).catch(() => {
+      shareCodeRef.current?.select()
+    })
+    setCopyFeedback(true)
+    setTimeout(() => setCopyFeedback(false), 1500)
+  }
+
+  function handleImport() {
+    setImportError('')
+    const decoded = decodeDeck(importCode)
+    if (!decoded) {
+      setImportError('Invalid code — could not decode.')
+      return
+    }
+    const catalog = getCardCatalog()
+    const valid = decoded.every(e => catalog.some(c => c.name === e.cardName))
+    if (!valid) {
+      setImportError('Code contains unknown cards.')
+      return
+    }
+    setDeck(decoded)
+    setImportCode('')
+    setShowShare(false)
   }
 
   // Filtered + sorted collection panel
@@ -363,13 +422,29 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
 
           <div className="deckbuilder-footer">
             <ProgressBar pct={(total / DECK_MAX) * 100} />
-            <button
-              className="action-btn"
-              style={{ fontSize: '11px', padding: '5px 10px', borderColor: 'rgba(51,255,51,0.4)', color: 'var(--game-text-color-dim)' }}
-              onClick={() => setShowAutoBuild(true)}
-            >
-              ⚡ AUTO BUILD
-            </button>
+            <div className="deckbuilder-footer-row">
+              <button
+                className="action-btn"
+                style={{ fontSize: '11px', padding: '5px 10px', borderColor: 'rgba(51,255,51,0.4)', color: 'var(--game-text-color-dim)' }}
+                onClick={() => setShowAutoBuild(true)}
+              >
+                ⚡ AUTO BUILD
+              </button>
+              <button
+                className="action-btn"
+                style={{ fontSize: '11px', padding: '5px 10px', borderColor: 'rgba(51,255,51,0.4)', color: 'var(--game-text-color-dim)' }}
+                onClick={() => { setSavedDecks(loadSavedDecks()); setShowSavedDecks(true) }}
+              >
+                💾 SAVED
+              </button>
+              <button
+                className="action-btn"
+                style={{ fontSize: '11px', padding: '5px 10px', borderColor: 'rgba(51,255,51,0.4)', color: 'var(--game-text-color-dim)' }}
+                onClick={() => setShowShare(true)}
+              >
+                🔗 SHARE
+              </button>
+            </div>
             <button
               className={`action-btn${valid ? ' action-btn--large' : ''}`}
               onClick={handleSave}
@@ -406,6 +481,100 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
             </div>
             <button className="action-btn autobuild-cancel" onClick={() => setShowAutoBuild(false)}>
               CANCEL
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Saved Decks panel */}
+      {showSavedDecks && (
+        <div className="autobuild-backdrop" onClick={() => setShowSavedDecks(false)}>
+          <div className="autobuild-panel saveddecks-panel" onClick={e => e.stopPropagation()}>
+            <div className="autobuild-title">💾 SAVED DECKS</div>
+            {savedDecks.length === 0 ? (
+              <div className="saveddecks-empty">No saved decks yet.</div>
+            ) : (
+              <ul className="saveddecks-list">
+                {savedDecks.map(d => (
+                  <li key={d.name} className="saveddecks-item">
+                    <span className="saveddecks-name">{d.name}</span>
+                    <span className="saveddecks-count">{deckTotalCards(d.deck)} cards</span>
+                    <button className="filter-btn" onClick={() => handleLoadSaved(d)}>LOAD</button>
+                    <button className="filter-btn action-btn--danger-text" onClick={() => handleDeleteSaved(d.name)}>✕</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div className="saveddecks-save-row">
+              <input
+                className="deckbuilder-search saveddecks-name-input"
+                type="text"
+                maxLength={24}
+                placeholder="Deck name…"
+                value={saveNameInput}
+                onChange={e => setSaveNameInput(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') handleSaveNamed() }}
+              />
+              <button
+                className="action-btn"
+                style={{ fontSize: '11px', padding: '5px 10px' }}
+                onClick={handleSaveNamed}
+                disabled={!saveNameInput.trim()}
+              >
+                SAVE CURRENT
+              </button>
+            </div>
+            <button className="action-btn autobuild-cancel" onClick={() => setShowSavedDecks(false)}>
+              CLOSE
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Share panel */}
+      {showShare && (
+        <div className="autobuild-backdrop" onClick={() => setShowShare(false)}>
+          <div className="autobuild-panel share-panel" onClick={e => e.stopPropagation()}>
+            <div className="autobuild-title">🔗 SHARE DECK</div>
+            <div className="share-section">
+              <div className="share-label">EXPORT — copy this code and share it:</div>
+              <textarea
+                ref={shareCodeRef}
+                className="share-code-box"
+                readOnly
+                value={encodeDeck(deck)}
+                onClick={e => (e.target as HTMLTextAreaElement).select()}
+              />
+              <button
+                className="action-btn"
+                style={{ fontSize: '11px', padding: '5px 10px', alignSelf: 'flex-start' }}
+                onClick={handleCopyCode}
+              >
+                {copyFeedback ? '✓ COPIED!' : '📋 COPY'}
+              </button>
+            </div>
+            <div className="share-divider">──────────</div>
+            <div className="share-section">
+              <div className="share-label">IMPORT — paste a deck code:</div>
+              <textarea
+                className="share-code-box"
+                value={importCode}
+                onChange={e => { setImportCode(e.target.value); setImportError('') }}
+                placeholder="Paste code here…"
+                rows={3}
+              />
+              {importError && <div className="share-error">{importError}</div>}
+              <button
+                className="action-btn"
+                style={{ fontSize: '11px', padding: '5px 10px', alignSelf: 'flex-start' }}
+                onClick={handleImport}
+                disabled={!importCode.trim()}
+              >
+                LOAD DECK
+              </button>
+            </div>
+            <button className="action-btn autobuild-cancel" onClick={() => setShowShare(false)}>
+              CLOSE
             </button>
           </div>
         </div>
