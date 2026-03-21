@@ -855,6 +855,11 @@ export default function App() {
     saveRun(updatedRun)
     setRun(updatedRun)
 
+    // Increment win streak and check for streak achievements
+    const newStreak = incrementWinStreak()
+    const streakUnlocked = setAchievementProgress('campaign:win_streak', newStreak)
+    if (streakUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...streakUnlocked])
+
     // Check act complete
     if (isActComplete(act, updatedRun)) {
       // Track act completion achievement + per-act replay count
