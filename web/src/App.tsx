@@ -390,6 +390,26 @@ export default function App() {
     }
   }, [screen, run])
 
+  // Guard: catch all other "data-dependent" screens that would render blank if their data is null.
+  useEffect(() => {
+    if (screen === 'bossdialogue' && !bossDialogueNode?.bossDialogue) {
+      rollbar.error('bossdialogue screen reached without bossDialogueNode/dialogue', { runActId: run?.actId })
+      setScreen(run ? 'nodemap' : 'title')
+    } else if (screen === 'event' && (!activeEvent || !run)) {
+      rollbar.error('event screen reached without activeEvent or run', { runActId: run?.actId, hasEvent: !!activeEvent })
+      setScreen(run ? 'nodemap' : 'title')
+    } else if (screen === 'merchant' && merchantItems.length === 0) {
+      rollbar.error('merchant screen reached with empty merchantItems', { runActId: run?.actId })
+      setScreen(run ? 'nodemap' : 'title')
+    } else if (screen === 'mystery' && !mysteryReward) {
+      rollbar.error('mystery screen reached without mysteryReward', { runActId: run?.actId })
+      setScreen(run ? 'nodemap' : 'title')
+    } else if (screen === 'itemfound' && !foundItem) {
+      rollbar.error('itemfound screen reached without foundItem', { runActId: run?.actId })
+      setScreen(run ? 'nodemap' : 'title')
+    }
+  }, [screen, bossDialogueNode, activeEvent, merchantItems, mysteryReward, foundItem, run])
+
   // Show boss fight splash when phase 2 triggers.
   useEffect(() => {
     const active = gameState?.bossCardActive ?? false
@@ -913,6 +933,7 @@ export default function App() {
     const equippedRelic = currentRun.activeRelic
 
     const proceedFromSpin = (willBreak: boolean) => {
+      rollbar.info('proceedFromSpin called', { actId: currentRun.actId, willBreak, equippedRelic, rewardRelic: act?.rewardRelic })
       if (willBreak && equippedRelic && equippedRelic !== act?.rewardRelic) {
         removeEarnedRelic(equippedRelic)
         addBrokenRelic(equippedRelic)
@@ -990,6 +1011,7 @@ export default function App() {
       }
 
       // ── Final act completed — show victory screen, then card rest / deck reset ──
+      rollbar.info('Final act completed — showing campaignvictory', { actId: currentRun.actId })
       setScreen('campaignvictory')
     }
 
