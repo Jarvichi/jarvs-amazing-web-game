@@ -47,6 +47,8 @@ export interface UnitTemplate {
   affinity?: AffinityDef
   /** Flavour text shown in the inspect panel. */
   lore?: string
+  /** Mastery level of this card from the player's collection (0 = unmastered). */
+  masteryLevel?: number
 }
 
 export type BuffTag = 'atk' | 'spd' | 'hp' | 'range'

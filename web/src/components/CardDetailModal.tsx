@@ -56,6 +56,10 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
 
   const u = card.unit
 
+  // Mastery stat bonuses (mirroring applyMasteryBonus in collection.ts)
+  const atkBonus = (u && u.moveSpeed > 0) ? masteryLvl : 0
+  const hpBonus  = u ? (u.moveSpeed > 0 ? masteryLvl * 2 : masteryLvl * 10) : 0
+
   // Build trait tags
   const traits: string[] = []
   if (u) {
@@ -98,8 +102,8 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
             {/* Unit stats */}
             {u && u.moveSpeed > 0 && (
               <div className="cdm-stats-block">
-                <StatRow compact label="ATK" value={u.attack} />
-                <StatRow compact label="HP"  value={u.maxHp} />
+                <StatRow compact label="ATK" value={atkBonus > 0 ? <>{u.attack + atkBonus} <span className="cdm-stat-bonus">(+{atkBonus})</span></> : u.attack} />
+                <StatRow compact label="HP"  value={hpBonus  > 0 ? <>{u.maxHp  + hpBonus}  <span className="cdm-stat-bonus">(+{hpBonus})</span></> : u.maxHp} />
                 <StatRow compact label="SPD" value={u.moveSpeed} />
                 {u.attackRange > 0 && <StatRow compact label="RNG" value={u.attackRange} />}
                 {u.attackCooldownMs > 0 && <StatRow compact label="CD" value={`${(u.attackCooldownMs / 1000).toFixed(1)}s`} />}
@@ -107,7 +111,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
             )}
             {u && u.moveSpeed === 0 && u.maxHp > 0 && (
               <div className="cdm-stats-block">
-                <StatRow compact label="HP" value={u.maxHp} />
+                <StatRow compact label="HP" value={hpBonus > 0 ? <>{u.maxHp + hpBonus} <span className="cdm-stat-bonus">(+{hpBonus})</span></> : u.maxHp} />
               </div>
             )}
 
@@ -155,12 +159,17 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                 {u.affinity && (
                   <>
                     <button className="cdm-sw-row cdm-sw-row--btn" onClick={() => toggleRow('affinity')}>
-                      <span className="cdm-sw-label cdm-sw-label--affinity">✦ Affinity</span>
+                      <span className="cdm-sw-label cdm-sw-label--affinity">
+                        {masteryLvl < 1 ? '🔒' : '✦'} Affinity
+                      </span>
                       <span className="cdm-sw-tags">{u.affinity.label}</span>
                       <span className="cdm-sw-chevron">{expandedRow === 'affinity' ? '▲' : '▼'}</span>
                     </button>
                     {expandedRow === 'affinity' && (
                       <div className="cdm-sw-detail">
+                        {masteryLvl < 1 && (
+                          <div className="cdm-locked-note">Requires Mastery 1 to activate.</div>
+                        )}
                         When a <strong>{u.affinity.withName}</strong> is nearby (within {u.affinity.range}px),
                         grants <strong>{affinityEffectText(u.affinity.effectType, u.affinity.effectAmount)}</strong>.
                         <br />"{u.affinity.label}"
@@ -174,15 +183,20 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
             {/* Mastery */}
             <div className="cdm-mastery-block">
               <div className="cdm-mastery-header">
-                <span style={{ color: '#ffd700' }}>★ Mastery {masteryLvl}</span>
-                <span className="cdm-mastery-xp">{xpCur}/{xpNeeded} to Lv{masteryLvl + 1}</span>
+                <span style={{ color: masteryLvl >= 5 ? '#ff9900' : '#ffd700' }}>
+                  {masteryLvl >= 5 ? '⚡' : '★'} Mastery {masteryLvl}{masteryLvl >= 5 ? ' — ELITE' : ''}
+                </span>
+                {masteryLvl < 5 && <span className="cdm-mastery-xp">{xpCur}/{xpNeeded} to Lv{masteryLvl + 1}</span>}
               </div>
               <MasteryBar xp={xp} />
-              {masteryLvl > 0 && u && (
-                <div className="cdm-mastery-bonus">
-                  {u.moveSpeed > 0
-                    ? `+${masteryLvl} ATK  +${masteryLvl * 2} HP (mastery bonus)`
-                    : `+${masteryLvl * 10} HP (mastery bonus)`}
+              {u && (
+                <div className="cdm-mastery-milestones">
+                  <div className={`cdm-milestone${masteryLvl >= 1 ? ' cdm-milestone--unlocked' : ''}`}>
+                    Lv1 — Affinity activates
+                  </div>
+                  <div className={`cdm-milestone${masteryLvl >= 5 ? ' cdm-milestone--unlocked' : ''}`}>
+                    Lv5 — Elite: +10% damage dealt
+                  </div>
                 </div>
               )}
             </div>

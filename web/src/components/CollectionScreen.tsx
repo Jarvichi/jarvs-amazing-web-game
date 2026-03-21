@@ -66,6 +66,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
   const [upgradeModal, setUpgradeModal] = useState<Array<{cardName: string, xpGained: number}> | null>(null)
   const [disenchantModal, setDisenchantModal] = useState<Array<{cardName: string, crystals: number}> | null>(null)
   const [detailCard, setDetailCard] = useState<import('../game/types').Card | null>(null)
+  const [levelUpCard, setLevelUpCard] = useState<string | null>(null)
   const filterMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -186,6 +187,10 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
     const after = getMasteryXp(updated, cardName)
     const { level: lvlBefore } = masteryProgress(before)
     const { level: lvlAfter  } = masteryProgress(after)
+    if (lvlAfter > lvlBefore) {
+      setLevelUpCard(cardName)
+      setTimeout(() => setLevelUpCard(null), 1600)
+    }
     notify(lvlAfter > lvlBefore
       ? `${cardName} reached Mastery ${lvlAfter}!`
       : `+${extras} mastery XP for ${cardName}`)
@@ -353,7 +358,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
           const disenchantVal  = DISENCHANT_VALUE[card.rarity] * extras
 
           return (
-            <div key={card.name} className={`collection-cell${owned === 0 ? ' collection-cell--unowned' : ''}`}>
+            <div key={card.name} className={`collection-cell${owned === 0 ? ' collection-cell--unowned' : ''}${levelUpCard === card.name ? ' collection-cell--levelup' : ''}`}>
               <CardTile
                 card={card}
                 canAfford={true}

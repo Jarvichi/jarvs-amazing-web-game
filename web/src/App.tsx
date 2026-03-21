@@ -193,6 +193,7 @@ type Screen =
   | 'heroCards'
   | 'battlesummary'
   | 'shop'
+  | 'campaignvictory'
 
 export default function App() {
   // ── PWA auto-update ───────────────────────────────────────────────────────────
@@ -977,20 +978,8 @@ export default function App() {
         return
       }
 
-      // ── Final act completed — offer card rest then deck reset ──
-      const counts = currentRun.cardPlayCounts ?? {}
-      const candidates = getTopPlayedCards(counts, 3)
-      if (candidates.length >= 2) {
-        setCardRestCandidates(candidates)
-        setScreen('cardrest')
-      } else {
-        clearRun()
-        setRun(null)
-        clearFatigued()
-        setFatiguedCards([])
-        setBonusPackCards([])
-        setScreen('starterpack')
-      }
+      // ── Final act completed — show victory screen, then card rest / deck reset ──
+      setScreen('campaignvictory')
     }
 
     // If a relic is equipped (and it's not the one just earned), show the spin screen
@@ -1557,6 +1546,39 @@ export default function App() {
 
       {screen === 'heroCards' && (
         <HeroCardsScreen onBack={() => setScreen('title')} />
+      )}
+
+      {screen === 'campaignvictory' && (
+        <div className="campaign-victory">
+          <div className="cv-glow" />
+          <pre className="cv-ascii">{`  ╔══════════════════════╗
+  ║  QUESTLINE  COMPLETE ║
+  ╚══════════════════════╝`}</pre>
+          <div className="cv-body">
+            <p className="cv-title">⚡ Worldmender ⚡</p>
+            <p>The Fracture is sealed. The shards breathe again.</p>
+            <p>Jarv's legend echoes across the Dominion.</p>
+            <p className="cv-reward">+500 ◆ awarded for completing the questline.</p>
+          </div>
+          <button className="action-btn action-btn--large action-btn--gold" onClick={() => {
+            const bonus = crystals + 500; saveCrystals(bonus); setCrystals(bonus)
+            const counts = run?.cardPlayCounts ?? {}
+            const candidates = getTopPlayedCards(counts, 3)
+            clearRun()
+            setRun(null)
+            clearFatigued()
+            setFatiguedCards([])
+            setBonusPackCards([])
+            if (candidates.length >= 2) {
+              setCardRestCandidates(candidates)
+              setScreen('cardrest')
+            } else {
+              setScreen('starterpack')
+            }
+          }}>
+            [ Begin Anew ]
+          </button>
+        </div>
       )}
 
       {screen === 'campaignfailed' && (

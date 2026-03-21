@@ -1731,6 +1731,17 @@ body {
   opacity: 0.45;
   filter: grayscale(60%);
 }
+@keyframes mastery-levelup {
+  0%   { box-shadow: 0 0 0 0 #ffd70000; transform: scale(1); }
+  25%  { box-shadow: 0 0 18px 6px #ffd700cc; transform: scale(1.08); }
+  60%  { box-shadow: 0 0 28px 10px #ffd700aa; transform: scale(1.05); }
+  100% { box-shadow: 0 0 0 0 #ffd70000; transform: scale(1); }
+}
+.collection-cell--levelup {
+  animation: mastery-levelup 1.5s ease-out forwards;
+  z-index: 2;
+  position: relative;
+}
 
 /* .collection-badge kept for any legacy use */
 .collection-badge {
@@ -2103,6 +2114,75 @@ body {
   font-size: 12px;
   color: var(--game-text-color-muted);
   animation: pulse 1s ease-in-out infinite;
+}
+
+/* ── Pack spotlight overlay ── */
+.pack-card-slot--spotlighted {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes spotlight-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes spotlight-card-in {
+  from { opacity: 0; transform: scale(0.55); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes spotlight-out {
+  to { opacity: 0; transform: scale(0.7); }
+}
+
+.pack-spotlight-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.72);
+  cursor: pointer;
+  animation: spotlight-backdrop-in 0.25s ease-out;
+}
+.pack-spotlight-overlay--exiting {
+  animation: spotlight-out 0.25s ease-in forwards;
+}
+
+.pack-spotlight-card {
+  animation: spotlight-card-in 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.pack-spotlight-card .pack-card-hidden {
+  width: 120px;
+  height: 168px;
+  font-size: 18px;
+}
+.pack-spotlight-card .pack-hidden-question {
+  font-size: 48px;
+}
+.pack-spotlight-card .pack-hidden-tap {
+  font-size: 16px;
+  letter-spacing: 3px;
+}
+.pack-spotlight-card .pack-dot {
+  width: 14px;
+  height: 14px;
+}
+.pack-spotlight-card--legendary .pack-card-hidden {
+  border-color: #ffcc00;
+  box-shadow: 0 0 24px 8px rgba(255,204,0,0.5), inset 0 0 20px rgba(255,204,0,0.15);
+  color: #ffcc00;
+}
+.pack-spotlight-card--rare .pack-card-hidden {
+  border-color: #bb66ff;
+  box-shadow: 0 0 24px 8px rgba(187,102,255,0.5), inset 0 0 20px rgba(187,102,255,0.15);
+  color: #bb66ff;
+}
+.pack-spotlight-card--legendary .pack-card-hidden--spotlight {
+  animation: packGlowLegendary 1.4s ease-in-out infinite;
+}
+.pack-spotlight-card--rare .pack-card-hidden--spotlight {
+  animation: packGlowRare 1.4s ease-in-out infinite;
 }
 
 /* ─── Crystal Count ──────────────────────────────────── */
@@ -2600,6 +2680,11 @@ body {
 }
 .cdm-mastery-xp     { font-size: 9px; color: #777; }
 .cdm-mastery-bonus  { font-size: 9px; color: var(--game-text-color-muted); margin-top: 3px; }
+.cdm-stat-bonus     { font-size: 9px; color: #ffd700; margin-left: 3px; }
+.cdm-locked-note    { color: #ff6655; font-size: 9px; margin-bottom: 4px; }
+.cdm-mastery-milestones { display: flex; flex-direction: column; gap: 2px; margin-top: 4px; }
+.cdm-milestone      { font-size: 9px; color: var(--game-text-color-muted); padding: 1px 0; }
+.cdm-milestone--unlocked { color: #ffd700; }
 
 .cdm-battle-stats {
   border-top: 1px solid #1a1a1a;
@@ -3038,6 +3123,49 @@ body {
 .nm-life-pip--empty { color: #333; }
 
 /* ── Campaign Failed screen ── */
+
+.campaign-victory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: 32px 24px;
+  gap: 24px;
+  position: relative;
+  background: #000a05;
+  text-align: center;
+}
+.cv-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0,200,100,0.12) 0%, rgba(255,215,0,0.06) 50%, transparent 70%);
+  pointer-events: none;
+}
+.cv-ascii {
+  color: #ffd700;
+  font-size: clamp(10px, 2.5vw, 14px);
+  line-height: 1.5;
+  margin: 0;
+  text-shadow: 0 0 14px rgba(255,215,0,0.7);
+}
+.cv-body {
+  color: var(--game-text-color-muted);
+  font-size: 14px;
+  line-height: 1.8;
+  max-width: 340px;
+}
+.cv-title {
+  color: #ffd700;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255,215,0,0.8);
+}
+.cv-reward {
+  color: #55ff99;
+  margin-top: 8px;
+}
 
 .campaign-failed {
   display: flex;
