@@ -8,6 +8,7 @@ import {
   recordCardPlayed, recordUnitDied, addCardsToCollection,
   getOwnedCount, DECK_MAX, CRYSTAL_PACK_COST, DeckEntry,
   deckTotalCards, STARTER_DECK,
+  loadWinStreak, incrementWinStreak, resetWinStreak,
 } from './game/collection'
 import { getCardCatalog } from './game/cards'
 import {
@@ -20,7 +21,7 @@ import {
   generateEventFromConfig, EventChoice, EventData,
   CutscenePanel, QuestNode, RunState, Act, ReplayModifier,
   getActiveModifiers, loadActCount, incrementActCount,
-  recordNodeComplete, loadPlayerName,
+  recordNodeComplete, loadPlayerName, applyPlayerName,
 } from './game/questline'
 import { CardRestSelect }       from './components/CardRestSelect'
 import { EventScreen }          from './components/EventScreen'
@@ -68,6 +69,8 @@ import { HeroCardsScreen }   from './components/HeroCardsScreen'
 import { ShopScreen }        from './components/ShopScreen'
 import { BattleSummary }    from './components/BattleSummary'
 import { RelicSpinScreen }  from './components/RelicSpinScreen'
+import { CampaignVictoryScreen } from './components/CampaignVictoryScreen'
+import { CampaignFailedScreen }  from './components/CampaignFailedScreen'
 import './styles.css'
 import brokenRelicsData from './data/broken-relics.json'
 import rollbar, { updateRollbarPerson } from './rollbar'
@@ -199,12 +202,6 @@ type Screen =
   | 'itemfound'
   | 'character'
 
-/** Replace "Jarv" (default name) with the player's chosen name in panel text. */
-function applyPlayerName(panels: CutscenePanel[]): CutscenePanel[] {
-  const name = loadPlayerName()
-  if (name === 'Jarv') return panels
-  return panels.map(p => ({ ...p, text: p.text.replace(/\bJarv\b/g, name) }))
-}
 
 export default function App() {
   // ── PWA auto-update ───────────────────────────────────────────────────────────
@@ -470,6 +467,7 @@ export default function App() {
     prevOpponentUnitsRef.current = new Map()
     prevPlayerUnitsRef.current = new Map()
     const winner = gameState.phase.winner
+    if (winner === 'player') { incrementWinStreak() } else { resetWinStreak() }
     const nextHandicap = winner === 'player'
       ? Math.max(0, handicap - 1)
       : winner === 'opponent'
@@ -1607,52 +1605,18 @@ export default function App() {
       )}
 
       {screen === 'campaignvictory' && (
-        <div className="campaign-victory">
-          <div className="cv-glow" />
-          <pre className="cv-ascii">{`  ╔══════════════════════╗
-  ║  QUESTLINE  COMPLETE ║
-  ╚══════════════════════╝`}</pre>
-          <div className="cv-body">
-            <p className="cv-title">⚡ Worldmender ⚡</p>
-            <p>The Fracture is sealed. The shards breathe again.</p>
-            <p>Jarv's legend echoes across the Dominion.</p>
-            <p className="cv-reward">+500 ◆ awarded for completing the questline.</p>
-          </div>
-          <button className="action-btn action-btn--large action-btn--gold" onClick={() => {
-            const bonus = crystals + 500; saveCrystals(bonus); setCrystals(bonus)
-            const counts = run?.cardPlayCounts ?? {}
-            const candidates = getTopPlayedCards(counts, 3)
-            clearRun()
-            setRun(null)
-            clearFatigued()
-            setFatiguedCards([])
-            setBonusPackCards([])
-            if (candidates.length >= 2) {
-              setCardRestCandidates(candidates)
-              setScreen('cardrest')
-            } else {
-              setScreen('starterpack')
-            }
-          }}>
-            [ Begin Anew ]
-          </button>
-        </div>
+        <CampaignVictoryScreen onBeginAnew={() => {
+          const bonus = crystals + 500; saveCrystals(bonus); setCrystals(bonus)
+          const counts = run?.cardPlayCounts ?? {}
+          const candidates = getTopPlayedCards(counts, 3)
+          clearRun(); setRun(null); clearFatigued(); setFatiguedCards([]); setBonusPackCards([])
+          if (candidates.length >= 2) { setCardRestCandidates(candidates); setScreen('cardrest') }
+          else { setScreen('starterpack') }
+        }} />
       )}
 
       {screen === 'campaignfailed' && (
-        <div className="campaign-failed">
-          <div className="cf-glow" />
-          <pre className="cf-ascii">{`  ╔══════════════════╗
-  ║ CAMPAIGN  FAILED ║
-  ╚══════════════════╝`}</pre>
-          <div className="cf-body">
-            <p>All lives lost. The Fracture claims another wanderer.</p>
-            <p className="cf-reward">You earned <strong>50 ◆</strong> for your effort.</p>
-          </div>
-          <button className="action-btn action-btn--large" onClick={() => { stopBattleMusic(); stopGameOverMusic(); setScreen('title') }}>
-            [ Return to Menu ]
-          </button>
-        </div>
+        <CampaignFailedScreen onReturnToMenu={() => { stopBattleMusic(); stopGameOverMusic(); setScreen('title') }} />
       )}
 
       {relicSpinData && (
@@ -1699,6 +1663,7 @@ export default function App() {
             onMainMenu={handleMainMenu}
             campaignAbandon={isCampaignRef.current ? handleAbandonRun : undefined}
             quickPlayHint={quickPlayHint}
+            showStreak={!isCampaignRef.current}
           />
         ) : (
           <>

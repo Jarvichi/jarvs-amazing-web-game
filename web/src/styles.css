@@ -871,6 +871,40 @@ body {
   border-top: 1px dashed #444;
   padding-top: 6px;
 }
+.gameover-streak {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #f90;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Win streak corner ribbon on title screen */
+.streak-ribbon-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 10;
+}
+.streak-ribbon {
+  position: absolute;
+  top: 18px;
+  left: -28px;
+  width: 100px;
+  background: #f90;
+  color: #111;
+  text-align: center;
+  transform: rotate(-45deg);
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 0;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
 
 .gameover-score {
   font-size: 18px;
@@ -1094,6 +1128,7 @@ body {
 /* ─── Title Screen ───────────────────────────────────── */
 
 .title-screen {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;

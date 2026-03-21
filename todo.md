@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-21 (closed 15 completed issues).
+Issues sourced from GitHub. Last synced: 2026-03-21 (session 17 — added #362, #363, #364).
 
 ---
 
@@ -8,15 +8,42 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ---
 
+## 🔵 Enhancements — New (from GitHub, session 17 sync)
+
+- [x] **#364** Win streak — tracked in localStorage, shown on GameOver screen (free play, streak ≥ 2)
+- [ ] **#363** Campaign replay modifiers — difficulty/modifier options when replaying acts
+- [ ] **#362** Consumables — heal/lives items usable during campaign
+
+---
+
+## 🗺 Roadmap — Pending from CLAUDE.md phases
+
+**Phase 4 — Expansions** (Expansions 5–10 not yet started)
+- [ ] Expansion 5 — The Sunken Reef (aquatic, 100 cards + sprites)
+- [ ] Expansion 6 — Sky Dominion (aerial, 100 cards + sprites)
+- [ ] Expansion 7 — The Goblin Undercity (80 cards + sprites)
+- [ ] Expansion 8 — Heroes & Legends (60 legendary cards + sprites)
+- [ ] Expansion 9 — The Void Between (80 cards + sprites)
+- [ ] Expansion 10 — Community Shard (100 cards + sprites)
+
+**Phase 6 — Game Modes**
+- [ ] Card Draft Mode: pick 1 of 3 cards × 8 to build a 24-card deck, then battle (no collection needed)
+- [ ] **#315** Daily Challenge: fixed-seed deck + opponent each day; track win/loss per day in localStorage
+
+**Phase 7 — Depth & QoL**
+- [ ] Card synergy tags: UI labels showing which cards combo well (e.g. "Goblin" tag shared by Goblin, Barracks, Crypt)
+
+---
+
 ## 🔴 Bugs — New (from GitHub, session 16 sync)
 
 - [x] **#345** Opponent/player sprites not aligned with unit stop positions — fixed (BASE_STOP_MARGIN raised to 100; sprites at 4px from edge)
-- [ ] **#328** Black screens between acts — add guard useEffects for all conditional screens; add Rollbar logging to act transition
-- [ ] **#303** Units disappear off the top of the battlefield — likely fixed by #342 (BASE_STOP_MARGIN clamping); needs verification
+- [x] **#328** Black screens between acts — guards + Rollbar logging added; marked fixed
+- [x] **#303** Units disappear off the top — fixed: BASE_STOP_MARGIN=0, units now converge to base avatar and stop at x=LANE_WIDTH
 
 ## 🔵 Enhancements — New (from GitHub, session 16 sync)
 
-- [ ] **#344** Character customisation — player chooses name + appearance; in-battle sprite uses it; dialogue uses player name
+- [x] **#344** Character customisation — CharacterScreen with name + avatar selection exists; avatar used in Battlefield; name applied in boss dialogue and cutscenes
 - [x] **#329** Opening a pack — spotlight animation already implemented (card zooms to centre, tap to reveal, returns to grid)
 - [ ] **#306** Upgrade/Buff cards — card upgrade and level-up system (see issue for detail)
 - [ ] **#315** Daily Challenge — fixed-seed deck + opponent each day; track win/loss per day in localStorage (Phase 6 in CLAUDE.md)
@@ -39,8 +66,11 @@ Goal: reduce App.tsx from ~1800 lines by extracting logic into custom hooks unde
 
 ### Remaining
 - [x] `useAchievements` — done (session 16)
-- [ ] `useCampaign` — largest extraction: `handleCampaign`, `handleAbandonRun`, act-transition logic, cutscene/nodemap/actcomplete screen routing, run state mutations; accepts `{ run, setRun, setScreen, setCutscenePanels, setGameState, ... }` and returns campaign action handlers. **Note:** ~25+ state dependencies; needs a dedicated session.
-- [ ] Close GitHub issue #316 once all hooks are extracted and App.tsx is under ~800 lines
+- [x] Extract `CampaignVictoryScreen` component — done
+- [x] Extract `CampaignFailedScreen` component — done
+- [x] Move `applyPlayerName` to `questline.ts` — done (remaining helpers are bridging functions best left in App.tsx)
+- [ ] `useCampaign` — largest extraction: `handleCampaign`, `handleAbandonRun`, act-transition logic, cutscene/nodemap/actcomplete screen routing, run state mutations. ~25+ state dependencies; needs a dedicated session.
+- [ ] Close GitHub issue #316 once App.tsx is under ~800 lines
 
 ---
 

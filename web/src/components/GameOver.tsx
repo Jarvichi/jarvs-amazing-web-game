@@ -1,6 +1,7 @@
 import React from 'react'
 import { GameState } from '../game/types'
 import { MAX_HANDICAP } from '../game/engine'
+import { loadWinStreak } from '../game/collection'
 
 interface Props {
   state: GameState
@@ -14,6 +15,8 @@ interface Props {
   campaignAbandon?: () => void
   /** Show a hint to try Quick Play and grow their deck (shown after 2+ failures). */
   quickPlayHint?: boolean
+  /** Show win streak (free play only). */
+  showStreak?: boolean
 }
 
 const VICTORY_ART = `   \\o/
@@ -37,7 +40,7 @@ const DRAW_ART = `  =====
   =====
   DRAW!`
 
-export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onMainMenu, campaignAbandon, quickPlayHint }: Props) {
+export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onMainMenu, campaignAbandon, quickPlayHint, showStreak }: Props) {
   const won  = winner === 'player'
   const draw = winner === 'draw'
   const css  = won ? 'gameover--win' : draw ? 'gameover--draw' : 'gameover--lose'
@@ -88,6 +91,13 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
         )}
       </div>
       {handicapNote && <div className="gameover-handicap">{handicapNote}</div>}
+
+      {showStreak && winner === 'player' && (() => {
+        const streak = loadWinStreak()
+        return streak >= 2 ? (
+          <div className="gameover-streak">🔥 Win streak: {streak}</div>
+        ) : null
+      })()}
 
       {quickPlayHint && (
         <div className="gameover-hint">

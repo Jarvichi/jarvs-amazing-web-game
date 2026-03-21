@@ -661,3 +661,11 @@ export function loadPlayerAvatar(): AvatarSlug {
 export function savePlayerAvatar(slug: AvatarSlug): void {
   try { localStorage.setItem(PLAYER_AVATAR_KEY, slug) } catch { /* ignore */ }
 }
+
+
+/** Replace "Jarv" (default name) with the player's chosen name in panel text. */
+export function applyPlayerName(panels: CutscenePanel[]): CutscenePanel[] {
+  const name = loadPlayerName()
+  if (name === 'Jarv') return panels
+  return panels.map(p => ({ ...p, text: p.text.replace(/\bJarv\b/g, name) }))
+}

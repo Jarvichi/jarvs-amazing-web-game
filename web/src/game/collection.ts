@@ -64,9 +64,10 @@ function migrateDeckNames(entries: DeckEntry[]): DeckEntry[] {
 
 // ─── Constants ────────────────────────────────────────────
 
-const COLLECTION_KEY = 'jarv_collection'
-const DECK_KEY       = 'jarv_deck'
-const CRYSTALS_KEY   = 'jarv_crystals'
+const COLLECTION_KEY  = 'jarv_collection'
+const DECK_KEY        = 'jarv_deck'
+const CRYSTALS_KEY    = 'jarv_crystals'
+const WIN_STREAK_KEY  = 'jarv_win_streak'
 
 export const DECK_MIN  = 10
 export const DECK_MAX  = 30
@@ -472,4 +473,18 @@ export function generatePack(): string[] {
   })
 
   return picks
+}
+
+// ─── Win Streak ───────────────────────────────────────────────────────────────
+
+export function loadWinStreak(): number {
+  try { return Math.max(0, parseInt(localStorage.getItem(WIN_STREAK_KEY) ?? '0', 10) || 0) } catch { return 0 }
+}
+export function incrementWinStreak(): number {
+  const next = loadWinStreak() + 1
+  try { localStorage.setItem(WIN_STREAK_KEY, String(next)) } catch { /* ignore */ }
+  return next
+}
+export function resetWinStreak(): void {
+  try { localStorage.setItem(WIN_STREAK_KEY, '0') } catch { /* ignore */ }
 }
