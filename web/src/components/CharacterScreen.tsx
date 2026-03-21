@@ -18,12 +18,22 @@ interface Props {
   onDone: () => void
 }
 
+/** Allow only alphanumeric characters (a-z, A-Z, 0-9). */
+function sanitiseName(raw: string): string {
+  return raw.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, ' ')
+}
+
 export function CharacterScreen({ onDone }: Props) {
   const [name,   setName]   = useState(loadPlayerName())
   const [avatar, setAvatar] = useState<AvatarSlug>(loadPlayerAvatar())
 
+  function handleNameChange(raw: string) {
+    setName(sanitiseName(raw))
+  }
+
   function handleSave() {
-    savePlayerName(name)
+    const finalName = sanitiseName(name).trim() || 'Jarv'
+    savePlayerName(finalName)
     savePlayerAvatar(avatar)
     onDone()
   }
@@ -43,7 +53,7 @@ export function CharacterScreen({ onDone }: Props) {
           maxLength={20}
           value={name}
           placeholder="Jarv"
-          onChange={e => setName(e.target.value)}
+          onChange={e => handleNameChange(e.target.value)}
         />
       </div>
 
