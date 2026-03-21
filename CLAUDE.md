@@ -3,6 +3,18 @@
 ## Development and Token Use
 Use tokens sparingly, remember that the user has limited tokens, ensure that all changes are carried out in small steps, commit and push between each small change (even if the change isn't complete yet). To aid this each task should have a clear plan created, with each step actionable.
 
+## Git Workflow — Avoiding Conflicts
+Before starting any new work, always rebase the working branch onto the latest `main`:
+```bash
+git fetch origin main
+git rebase origin/main
+```
+This replays any unmerged commits on top of the updated main, and automatically drops commits that were already merged (they become empty patches). It prevents the recurring pattern of committing on a stale base and then conflicting with PRs that were merged in the meantime.
+
+- **Never use `git reset --hard origin/main`** — that discards any unmerged commits on the branch.
+- If rebase produces an empty-patch conflict (commit already merged), resolve with `git rebase --skip`.
+- After a rebase, push with `--force-with-lease` since history was rewritten.
+
 ## PC vs Mobile Development
 If I'm runniong on a PC I have access to a greater variety of tools, the gh cli for example. I should use the .env file to read and store configuration that aids developement in this environment. The .env file may contain tokens for authentication. When I'm running on mobile or cloud I will have a more restricted capability. I should use the tools avaialble to me such as curl to access GitHub. 
 
