@@ -1,31 +1,10 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-18 (session 14 — tidy-up).
+Issues sourced from GitHub. Last synced: 2026-03-21 (closed 15 completed issues).
 
 ---
 
 When working an issue from this file, go and check the GitHub issue for additional detail and requirements before planning the solution, create a todo list based on the plan and execute it. If running in the cli you can usually use the "gh" cli commands to help, however if they are not available use a fallback method.
-
----
-
-## ⚠️ GitHub Issues Needing Manual Close
-
-These are all implemented and merged but GitHub still shows them as open (no GITHUB_TOKEN in env).
-Close each with a comment referencing the implementing PR/commit:
-
-- [ ] **#296** Shop improvement — fully implemented (session 14)
-- [ ] **#187** CSS optimisation — implemented (session 9)
-- [ ] **#179** Merchant inventory item — implemented (session 9)
-- [ ] **#177** Cards lore field — implemented
-- [ ] **#176** Per-act music — implemented
-- [ ] **#175** Per-run modifiers — implemented
-- [ ] **#174** Relic selection + break chance — implemented
-- [ ] **#173** Boss card mechanic — implemented
-- [ ] **#172** Node peek modal — implemented
-- [ ] **#171** Mystery node — implemented
-- [ ] **#159** Affinity system — implemented (session 10)
-- [ ] **#158** Strength & weakness — implemented (session 10)
-- [ ] **#157** Unit updates (duplicate of #158) — implemented; close as duplicate
 
 ---
 
