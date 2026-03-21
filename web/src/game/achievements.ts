@@ -943,7 +943,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   {
     id: 'streak:10',
     name: 'Hat Trick',
-    description: 'Win 10 campaign battles in a row without losing.',
+    description: 'Complete 10 campaigns in a row without losing.',
     category: 'campaign',
     progressKey: 'campaign:win_streak',
     target: 10,
@@ -958,7 +958,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   {
     id: 'streak:25',
     name: 'On Fire',
-    description: 'Win 25 campaign battles in a row without losing.',
+    description: 'Complete 25 campaigns in a row without losing.',
     category: 'campaign',
     progressKey: 'campaign:win_streak',
     target: 25,
@@ -973,7 +973,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   {
     id: 'streak:50',
     name: 'Shadowstep',
-    description: 'Win 50 campaign battles in a row without losing.',
+    description: 'Complete 50 campaigns in a row without losing.',
     category: 'campaign',
     progressKey: 'campaign:win_streak',
     target: 50,
@@ -988,7 +988,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   {
     id: 'streak:100',
     name: 'Dragon Rider',
-    description: 'Win 100 campaign battles in a row without losing.',
+    description: 'Complete 100 campaigns in a row without losing.',
     category: 'campaign',
     progressKey: 'campaign:win_streak',
     target: 100,
@@ -1003,7 +1003,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   {
     id: 'streak:250',
     name: 'Celestial Ascendant',
-    description: 'Win 250 campaign battles in a row without losing.',
+    description: 'Complete 250 campaigns in a row without losing.',
     category: 'campaign',
     progressKey: 'campaign:win_streak',
     target: 250,
@@ -1018,7 +1018,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   {
     id: 'streak:500',
     name: 'Void Walker',
-    description: 'Win 500 campaign battles in a row without losing.',
+    description: 'Complete 500 campaigns in a row without losing.',
     category: 'campaign',
     progressKey: 'campaign:win_streak',
     target: 500,
@@ -1033,7 +1033,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   {
     id: 'streak:750',
     name: 'Crystal Champion',
-    description: 'Win 750 campaign battles in a row without losing.',
+    description: 'Complete 750 campaigns in a row without losing.',
     category: 'campaign',
     progressKey: 'campaign:win_streak',
     target: 750,
@@ -1048,7 +1048,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   {
     id: 'streak:1000',
     name: 'Fracture Lord',
-    description: 'Win 1,000 campaign battles in a row without losing. A legend.',
+    description: 'Complete 1,000 campaigns in a row without losing. A legend.',
     category: 'campaign',
     progressKey: 'campaign:win_streak',
     target: 1000,
