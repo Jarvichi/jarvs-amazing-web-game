@@ -636,3 +636,28 @@ export function getNextAct(actId: string): Act | null {
   if (idx < 0 || idx === order.length - 1) return null
   return ACTS[order[idx + 1]] ?? null
 }
+
+// ─── Player character ─────────────────────────────────────────────────────────
+
+const PLAYER_NAME_KEY   = 'jarv_player_name'
+const PLAYER_AVATAR_KEY = 'jarv_player_avatar'
+
+export const AVATAR_SLUGS = ['jarv', 'jarv-red', 'jarv-green', 'jarv-gold'] as const
+export type AvatarSlug = typeof AVATAR_SLUGS[number]
+
+export function loadPlayerName(): string {
+  try { return localStorage.getItem(PLAYER_NAME_KEY) || 'Jarv' } catch { return 'Jarv' }
+}
+export function savePlayerName(name: string): void {
+  try { localStorage.setItem(PLAYER_NAME_KEY, name.trim() || 'Jarv') } catch { /* ignore */ }
+}
+
+export function loadPlayerAvatar(): AvatarSlug {
+  try {
+    const v = localStorage.getItem(PLAYER_AVATAR_KEY)
+    return (AVATAR_SLUGS as readonly string[]).includes(v ?? '') ? (v as AvatarSlug) : 'jarv'
+  } catch { return 'jarv' }
+}
+export function savePlayerAvatar(slug: AvatarSlug): void {
+  try { localStorage.setItem(PLAYER_AVATAR_KEY, slug) } catch { /* ignore */ }
+}

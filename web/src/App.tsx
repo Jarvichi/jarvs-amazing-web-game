@@ -20,13 +20,14 @@ import {
   generateEventFromConfig, EventChoice, EventData,
   CutscenePanel, QuestNode, RunState, Act, ReplayModifier,
   getActiveModifiers, loadActCount, incrementActCount,
-  recordNodeComplete,
+  recordNodeComplete, loadPlayerName,
 } from './game/questline'
 import { CardRestSelect }       from './components/CardRestSelect'
 import { EventScreen }          from './components/EventScreen'
 import { MerchantScreen, MerchantItem, cardMerchantItem } from './components/MerchantScreen'
 import { MysteryScreen } from './components/MysteryScreen'
-import { ItemFoundScreen } from './components/ItemFoundScreen'
+import { ItemFoundScreen }    from './components/ItemFoundScreen'
+import { CharacterScreen }    from './components/CharacterScreen'
 import { CutsceneScreen }       from './components/CutsceneScreen'
 import { BossDialogueScreen }   from './components/BossDialogueScreen'
 import { Battlefield }        from './components/Battlefield'
@@ -196,6 +197,14 @@ type Screen =
   | 'shop'
   | 'campaignvictory'
   | 'itemfound'
+  | 'character'
+
+/** Replace "Jarv" (default name) with the player's chosen name in panel text. */
+function applyPlayerName(panels: CutscenePanel[]): CutscenePanel[] {
+  const name = loadPlayerName()
+  if (name === 'Jarv') return panels
+  return panels.map(p => ({ ...p, text: p.text.replace(/\bJarv\b/g, name) }))
+}
 
 export default function App() {
   // ── PWA auto-update ───────────────────────────────────────────────────────────
@@ -503,7 +512,7 @@ export default function App() {
           : (act.intro ?? [])
         markIntroSeen(activeRun.actId)
         if (introToShow.length > 0) {
-          setCutscenePanels(introToShow)
+          setCutscenePanels(applyPlayerName(introToShow))
           cutsceneDoneRef.current = () => setScreen('nodemap')
           setScreen('cutscene')
           return
@@ -866,7 +875,7 @@ export default function App() {
         hasOutro: (act.outro?.length ?? 0) > 0,
       })
       if (act.outro && act.outro.length > 0) {
-        setCutscenePanels(act.outro)
+        setCutscenePanels(applyPlayerName(act.outro))
         cutsceneDoneRef.current = () => setScreen('actcomplete')
         setScreen('cutscene')
       } else {
@@ -984,7 +993,7 @@ export default function App() {
           // Show next act intro cutscene
           const introPanels = nextAct.intro ?? []
           if (introPanels.length > 0) {
-            setCutscenePanels(introPanels)
+            setCutscenePanels(applyPlayerName(introPanels))
             cutsceneDoneRef.current = () => setScreen('nodemap')
             setScreen('cutscene')
           } else {
@@ -1429,6 +1438,7 @@ export default function App() {
           onInventory={() => setScreen('inventory')}
           onAchievements={() => setScreen('achievements')}
           onHeroCards={() => setScreen('heroCards')}
+          onCharacter={() => setScreen('character')}
           on8bitUnlocked={() => { /* achievement granted in TitleScreen after unlock */ }}
         />
       )}
@@ -1483,7 +1493,7 @@ export default function App() {
       {screen === 'bossdialogue' && bossDialogueNode?.bossDialogue && (
         <BossDialogueScreen
           bossName={bossDialogueNode.label}
-          lines={bossDialogueNode.bossDialogue}
+          lines={bossDialogueNode.bossDialogue.map(l => l.replace(/\bJarv\b/g, loadPlayerName()))}
           onDone={handleBossDialogueDone}
         />
       )}
@@ -1522,6 +1532,10 @@ export default function App() {
             setScreen('nodemap')
           }}
         />
+      )}
+
+      {screen === 'character' && (
+        <CharacterScreen onDone={() => setScreen('title')} />
       )}
 
       {screen === 'relicselect' && (

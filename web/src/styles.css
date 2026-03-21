@@ -6203,3 +6203,66 @@ html.eightbit-mode .lane-layer {
   color: #ffffff !important;
   text-shadow: 0 0 24px rgba(255, 255, 255, 0.9) !important;
 }
+
+/* ─── Character Screen ───────────────────────────────── */
+
+.character-name-input {
+  background: #111;
+  border: 1px solid #33ff33;
+  color: #33ff33;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+}
+.character-name-input:focus {
+  border-color: #aaffaa;
+  box-shadow: 0 0 6px rgba(51, 255, 51, 0.3);
+}
+
+.character-avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+}
+
+.character-avatar-btn {
+  background: #0a0a0a;
+  border: 1px solid #333;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0.5rem 0.3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+.character-avatar-btn:hover {
+  border-color: #33ff33;
+  background: #0d1a0d;
+}
+.character-avatar-btn--chosen {
+  border-color: #33ff33;
+  background: #0d1a0d;
+  box-shadow: 0 0 6px rgba(51, 255, 51, 0.3);
+}
+
+.character-avatar-img {
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.character-avatar-label {
+  font-size: 0.6rem;
+  color: #aaa;
+  text-align: center;
+  line-height: 1.2;
+}
+.character-avatar-btn--chosen .character-avatar-label {
+  color: #33ff33;
+}
