@@ -337,6 +337,17 @@ export function getActiveModifiers(act: Act, completionCount: number): ReplayMod
   return act.replayModifiers.slice(0, completionCount)
 }
 
+/** Returns modifiers by explicit count rather than completion count — used when player has chosen a tier. */
+export function getModifiersByCount(act: Act, count: number): ReplayModifier[] {
+  if (!act.replayModifiers || count <= 0) return []
+  return act.replayModifiers.slice(0, count)
+}
+
+/** Returns the total number of replay modifiers defined for an act. */
+export function getModifierMax(act: Act): number {
+  return act.replayModifiers?.length ?? 0
+}
+
 // ─── Intro seen-tracking ──────────────────────────────────
 
 const SEEN_INTROS_KEY = 'jarv_seen_intros'
@@ -456,6 +467,7 @@ export interface RunState {
   activeRelic: string | null   // name of the relic earned at the end of the last act (null = none)
   crystalBonus: number         // extra crystals awarded after each battle (from replay modifiers)
   consumables: RunConsumable[] // consumable items held during this run
+  activeModifierCount: number  // how many replay modifiers from the act's list are active this run
 }
 
 const RUN_KEY = 'jarv_run'
@@ -480,6 +492,7 @@ export function loadRun(): RunState | null {
     // Migrate: lives system (added later — default 3/3 for old saves)
     if (typeof parsed.crystalBonus !== 'number') parsed.crystalBonus = 0
     if (!Array.isArray(parsed.consumables)) parsed.consumables = []
+    if (typeof parsed.activeModifierCount !== 'number') parsed.activeModifierCount = 0
     if (typeof parsed.maxLives !== 'number' || parsed.maxLives < 1) parsed.maxLives = 3
     if (typeof parsed.livesRemaining !== 'number') parsed.livesRemaining = parsed.maxLives
     parsed.livesRemaining = Math.max(0, Math.min(parsed.maxLives, parsed.livesRemaining))
@@ -529,7 +542,7 @@ export function clearRun(): void {
 export const LIVES_START = 3
 export const LIVES_MAX   = 9
 
-export function newRun(actId: string): RunState {
+export function newRun(actId: string, activeModifierCount = 0): RunState {
   return {
     actId,
     completedNodeIds: [],
@@ -545,6 +558,7 @@ export function newRun(actId: string): RunState {
     activeRelic: null,
     crystalBonus: 0,
     consumables: drainStashIntoRun([]),
+    activeModifierCount,
   }
 }
 

@@ -11,7 +11,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 ## 🔵 Enhancements — New (from GitHub, session 17 sync)
 
 - [x] **#364** Win streak — tracked in localStorage, shown on GameOver screen (free play, streak ≥ 2)
-- [ ] **#363** Campaign replay modifiers — difficulty/modifier options when replaying acts
+- [x] **#363** Campaign replay modifiers — ReplayBriefingScreen shown before replay; minimum difficulty locked to earned tier; optional harder tiers give bonus crystals; activeModifierCount stored in RunState
 - [x] **#362** Consumables — health_potion (15 HP, 15💎) + extra_life / Second Wind (+1 life, 30💎); Shop always-in-stock, Merchant mid-run, reward pool drops, NodeMap USE bar
 
 ---

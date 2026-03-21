@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getActiveModifiers, loadActCount, ALL_CONSUMABLES } from '../game/questline'
+import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES } from '../game/questline'
 import { StatRow } from './StatRow'
 
 interface Props {
@@ -404,7 +404,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
           node={peekNode}
           actId={act.id}
           nodeHistory={nodeHistory}
-          activeModifiers={getActiveModifiers(act, loadActCount(act.id))}
+          activeModifiers={getModifiersByCount(act, run.activeModifierCount)}
           onEnter={handlePeekEnter}
           onClose={() => setPeekNode(null)}
         />
