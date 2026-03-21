@@ -1731,6 +1731,17 @@ body {
   opacity: 0.45;
   filter: grayscale(60%);
 }
+@keyframes mastery-levelup {
+  0%   { box-shadow: 0 0 0 0 #ffd70000; transform: scale(1); }
+  25%  { box-shadow: 0 0 18px 6px #ffd700cc; transform: scale(1.08); }
+  60%  { box-shadow: 0 0 28px 10px #ffd700aa; transform: scale(1.05); }
+  100% { box-shadow: 0 0 0 0 #ffd70000; transform: scale(1); }
+}
+.collection-cell--levelup {
+  animation: mastery-levelup 1.5s ease-out forwards;
+  z-index: 2;
+  position: relative;
+}
 
 /* .collection-badge kept for any legacy use */
 .collection-badge {
