@@ -14,7 +14,7 @@ const SPAWN_GROW_MS = 1500           // building-spawn grow-in animation duratio
 
 const PLAYER_SPAWN_X = 30        // where player units appear
 const OPPONENT_SPAWN_X = LANE_WIDTH - 30  // where opponent units appear
-const BASE_STOP_MARGIN = 15      // units stop this many units from each base edge; keeps them just within melee range of opponent structures (x=490)
+const BASE_STOP_MARGIN = 5       // hard clamp so units never overshoot past the base character
 
 // ─── Helpers ─────────────────────────────────────────────
 
@@ -801,9 +801,10 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
       unit.attackTimer = unit.attackCooldownMs / affSpeedMult
     } else {
       // No enemies in range — attack the base if close enough
+      // Unit must be within its own attack range of the base character to deal damage
       const atEnemyBase = isPlayer
-        ? unit.x >= LANE_WIDTH - Math.max(unit.attackRange, BASE_STOP_MARGIN)
-        : unit.x <= Math.max(unit.attackRange, BASE_STOP_MARGIN)
+        ? unit.x >= LANE_WIDTH - unit.attackRange
+        : unit.x <= unit.attackRange
 
       if (atEnemyBase) {
         const bloodMoonMult = s.activeBattleEvent?.type === 'bloodMoon' ? 2 : 1
