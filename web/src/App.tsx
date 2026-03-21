@@ -855,11 +855,6 @@ export default function App() {
     saveRun(updatedRun)
     setRun(updatedRun)
 
-    // Increment win streak and check for streak achievements
-    const newStreak = incrementWinStreak()
-    const streakUnlocked = setAchievementProgress('campaign:win_streak', newStreak)
-    if (streakUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...streakUnlocked])
-
     // Check act complete
     if (isActComplete(act, updatedRun)) {
       // Track act completion achievement + per-act replay count
@@ -1024,6 +1019,9 @@ export default function App() {
 
       // ── Final act completed — show victory screen, then card rest / deck reset ──
       rollbar.info('Final act completed — showing campaignvictory', { actId: currentRun.actId })
+      const newStreak = incrementWinStreak()
+      const streakUnlocked = setAchievementProgress('campaign:win_streak', newStreak)
+      if (streakUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...streakUnlocked])
       setScreen('campaignvictory')
     }
 
