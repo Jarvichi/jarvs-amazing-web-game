@@ -39,6 +39,9 @@ Goal: reduce App.tsx from ~1800 lines by extracting logic into custom hooks unde
 
 ### Remaining
 - [x] `useAchievements` — done (session 16)
+- [ ] Extract `CampaignVictoryScreen` component (inline JSX in App.tsx ~1609-1640)
+- [ ] Extract `CampaignFailedScreen` component (inline JSX in App.tsx ~1642-1656)
+- [ ] Move helper functions out of App.tsx (`resolvedNodeOpts`, `buildMerchantItems`, `loadHandicap`, `applyPlayerName`) → `questline.ts` / `collection.ts`
 - [ ] `useCampaign` — largest extraction: `handleCampaign`, `handleAbandonRun`, act-transition logic, cutscene/nodemap/actcomplete screen routing, run state mutations; accepts `{ run, setRun, setScreen, setCutscenePanels, setGameState, ... }` and returns campaign action handlers. **Note:** ~25+ state dependencies; needs a dedicated session.
 - [ ] Close GitHub issue #316 once all hooks are extracted and App.tsx is under ~800 lines
 
