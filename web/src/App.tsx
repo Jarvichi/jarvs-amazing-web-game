@@ -23,6 +23,7 @@ import {
   getActiveModifiers, loadActCount, incrementActCount,
   recordNodeComplete, loadPlayerName, applyPlayerName,
   ALL_CONSUMABLES, addToConsumableStash, useConsumable,
+  getModifiersByCount, getModifierMax,
 } from './game/questline'
 import { CardRestSelect }       from './components/CardRestSelect'
 import { EventScreen }          from './components/EventScreen'
@@ -42,6 +43,7 @@ import { NodeMap }            from './components/NodeMap'
 import { PostBattleReward }   from './components/PostBattleReward'
 import { ActComplete }        from './components/ActComplete'
 import { RelicSelectScreen }  from './components/RelicSelectScreen'
+import { ReplayBriefingScreen } from './components/ReplayBriefingScreen'
 import { StarterPackSelect }  from './components/StarterPackSelect'
 import { SettingsScreen, applyTextSettings, loadSkipIntro, load8bitEnabled, apply8bitMode } from './components/SettingsScreen'
 import { IntroScreen } from './components/IntroScreen'
@@ -206,6 +208,7 @@ type Screen =
   | 'campaignvictory'
   | 'itemfound'
   | 'character'
+  | 'replayBriefing'
 
 
 export default function App() {
@@ -239,7 +242,7 @@ export default function App() {
         const playerCards = buildDeckCards(deckEntries, collection)
         const earnedEntries = (savedRun.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
         if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
-        const mods = act ? getActiveModifiers(act, loadActCount(savedRun.actId)) : []
+        const mods = act ? getModifiersByCount(act, savedRun.activeModifierCount) : []
         const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
         state.playerBase = { hp: savedRun.playerHp, maxHp: savedRun.maxHp }
         if (savedRun.activeRelic) getRelicDef(savedRun.activeRelic)?.applyToGame(state)
@@ -296,6 +299,12 @@ export default function App() {
   const [merchantItems, setMerchantItems] = useState<MerchantItem[]>([])
   const merchantBoughtRef = useRef(0)
   const [mysteryReward, setMysteryReward] = useState<RewardDef | null>(null)
+  // Replay briefing state — stored so onBegin can proceed with the correct context
+  const replayBriefingRef = useRef<{
+    actId: string
+    completionCount: number
+    proceed: (chosenCount: number) => void
+  } | null>(null)
   const [foundItem, setFoundItem] = useState<Omit<import('./game/dailyLogin').UselessItem, 'acquiredDate'> | null>(null)
 
   // Card fatigue
@@ -503,103 +512,119 @@ export default function App() {
 
   const handleCampaign = useCallback(() => {
     const existing = loadRun()
-    let activeRun = existing ?? newRun('act1')
-    const earned = !existing ? loadEarnedRelics() : []
 
-    if (!existing) saveRun(activeRun)
-    setRun(activeRun)
+    if (existing) {
+      // ── Resume existing run ────────────────────────────────────────────────
+      const activeRun = existing
+      setRun(activeRun)
+      const act = ACTS[activeRun.actId]
 
-    const act = ACTS[activeRun.actId]
+      if (activeRun.pendingNodeId) {
+        const node = act.nodes[activeRun.pendingNodeId]
+        if (node) {
+          if (node.type === 'event' && node.eventConfig) {
+            const eventData = generateEventFromConfig(node.id, node.eventConfig)
+            if (eventData) { setActiveEvent(eventData); setScreen('event'); return }
+          }
+          if (node.type === 'merchant') {
+            merchantBoughtRef.current = 0; setMerchantItems(buildMerchantItems())
+            setScreen('merchant')
+            return
+          }
+          // 10% chance: normal battle node becomes a mystery encounter
+          if (node.type === 'battle' && Math.random() < 0.10) {
+            setMysteryReward(computeReward(loadInventory()))
+            setScreen('mystery')
+            return
+          }
+          // For battle nodes (including boss): go straight to battle
+          campaignPlayCountsRef.current = {}
+          isCampaignRef.current = true
+          battleFlawlessRef.current = true
+          battleUsedStructure.current = false
+          battleUsedMobileUnit.current = false
+          battleLossRecordedRef.current = false
+          prevOpponentUnitsRef.current = new Map()
+          prevPlayerUnitsRef.current = new Map()
+          const collection  = loadCollection()
+          const fatigued    = loadFatigued()
+          const deckEntries = loadDeck().filter(e => !fatigued.includes(e.cardName))
+          const playerCards = buildDeckCards(deckEntries, collection)
+          const earnedEntries = (activeRun.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
+          if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
+          const mods = act ? getModifiersByCount(act, activeRun.activeModifierCount) : []
+          const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
+          state.playerBase = { hp: activeRun.playerHp, maxHp: activeRun.maxHp }
+          if (activeRun.activeRelic) getRelicDef(activeRun.activeRelic)?.applyToGame(state)
+          setGameState(state)
+          setScreen('playing')
+          rollRareEvent()
+          return
+        }
+        // pendingNodeId points to a non-existent node — clear it and show map
+        const repaired = { ...activeRun, pendingNodeId: null }
+        saveRun(repaired)
+        setRun(repaired)
+      }
 
-    // Show act intro cutscene when starting a fresh run
-    const proceedAfterRelicSelect = (chosenRelic: string | null) => {
-      const runWithRelic = { ...activeRun, activeRelic: chosenRelic }
-      saveRun(runWithRelic)
-      setRun(runWithRelic)
-      if (!existing) {
+      if (isActComplete(act, activeRun)) {
+        setScreen('actcomplete')
+        return
+      }
+      setScreen('nodemap')
+      return
+    }
+
+    // ── Fresh run ─────────────────────────────────────────────────────────────
+    const actId = 'act1'
+    const act = ACTS[actId]
+    const completionCount = loadActCount(actId)
+
+    const proceedWithModifiers = (chosenModifierCount: number) => {
+      let activeRun = newRun(actId, chosenModifierCount)
+      const earned = loadEarnedRelics()
+      saveRun(activeRun)
+      setRun(activeRun)
+
+      const proceedAfterRelicSelect = (chosenRelic: string | null) => {
+        const runWithRelic = { ...activeRun, activeRelic: chosenRelic }
+        saveRun(runWithRelic)
+        setRun(runWithRelic)
         const runCount = incrementRunCount()
-        const introToShow = activeRun.actId === 'act1'
+        const introToShow = actId === 'act1'
           ? getAct1Intro(runCount)
           : (act.intro ?? [])
-        markIntroSeen(activeRun.actId)
+        markIntroSeen(actId)
         if (introToShow.length > 0) {
           setCutscenePanels(applyPlayerName(introToShow))
           cutsceneDoneRef.current = () => setScreen('nodemap')
           setScreen('cutscene')
           return
         }
+        setScreen('nodemap')
       }
-      setScreen('nodemap')
-    }
 
-    if (!existing && earned.length > 0) {
-      relicSelectDoneRef.current = proceedAfterRelicSelect
-      setScreen('relicselect')
-      return
-    }
-
-    if (!existing) {
-      proceedAfterRelicSelect(null)
-      return
-    }
-
-    // If there's a pending node (e.g. player refreshed mid-campaign), resume it directly
-    if (activeRun.pendingNodeId) {
-      const node = act.nodes[activeRun.pendingNodeId]
-      if (node) {
-        if (node.type === 'event' && node.eventConfig) {
-          const eventData = generateEventFromConfig(node.id, node.eventConfig)
-          if (eventData) { setActiveEvent(eventData); setScreen('event'); return }
-        }
-        if (node.type === 'merchant') {
-          merchantBoughtRef.current = 0; setMerchantItems(buildMerchantItems())
-          setScreen('merchant')
-          return
-        }
-        // 10% chance: normal battle node becomes a mystery encounter
-        if (node.type === 'battle' && Math.random() < 0.10) {
-          setMysteryReward(computeReward(loadInventory()))
-          setScreen('mystery')
-          return
-        }
-        // For battle nodes (including boss): go straight to battle
-        campaignPlayCountsRef.current = {}
-        isCampaignRef.current = true
-        battleFlawlessRef.current = true
-        battleUsedStructure.current = false
-        battleUsedMobileUnit.current = false
-        battleLossRecordedRef.current = false
-        prevOpponentUnitsRef.current = new Map()
-        prevPlayerUnitsRef.current = new Map()
-        const collection  = loadCollection()
-        const fatigued    = loadFatigued()
-        const deckEntries = loadDeck().filter(e => !fatigued.includes(e.cardName))
-        const playerCards = buildDeckCards(deckEntries, collection)
-        const earnedEntries = (activeRun.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
-        if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
-        const mods = act ? getActiveModifiers(act, loadActCount(activeRun.actId)) : []
-        const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
-        state.playerBase = { hp: activeRun.playerHp, maxHp: activeRun.maxHp }
-        if (activeRun.activeRelic) getRelicDef(activeRun.activeRelic)?.applyToGame(state)
-        setGameState(state)
-        setScreen('playing')
-        rollRareEvent()
+      if (earned.length > 0) {
+        relicSelectDoneRef.current = proceedAfterRelicSelect
+        setScreen('relicselect')
         return
       }
-      // pendingNodeId points to a non-existent node — clear it and show map
-      const repaired = { ...activeRun, pendingNodeId: null }
-      saveRun(repaired)
-      setRun(repaired)
+      proceedAfterRelicSelect(null)
     }
 
-    // If the act is already complete (player exited during relic select or act-complete flow),
-    // return them to actcomplete rather than dumping them on an exhausted nodemap.
-    if (isActComplete(act, activeRun)) {
-      setScreen('actcomplete')
+    // Show replay briefing if the player has completed this act before and it has modifiers
+    if (completionCount > 0 && getModifierMax(act) > 0) {
+      replayBriefingRef.current = {
+        actId,
+        completionCount,
+        proceed: proceedWithModifiers,
+      }
+      setScreen('replayBriefing')
       return
     }
 
-    setScreen('nodemap')
+    // First-time run (or act has no modifiers): start normally with 0 active modifiers
+    proceedWithModifiers(0)
   }, [])
 
   const handleSelectNode = useCallback((node: QuestNode) => {
@@ -609,7 +634,7 @@ export default function App() {
 
     // Mark siblings as skipped (branch choice)
     const afterSkip = skipSiblings(act, node.id, currentRun)
-    const activeMods = act ? getActiveModifiers(act, loadActCount(currentRun.actId)) : []
+    const activeMods = act ? getModifiersByCount(act, currentRun.activeModifierCount) : []
     const bonusCrystals = activeMods.filter(m => m.type === 'crystalBonus').reduce((s, m) => s + m.value, 0)
     const updatedRun: RunState = { ...afterSkip, pendingNodeId: node.id, crystalBonus: bonusCrystals }
     saveRun(updatedRun)
@@ -675,7 +700,7 @@ export default function App() {
     // Include cards earned as rewards earlier this run
     const earnedEntries = (updatedRun.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
     if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
-    const mods733 = act ? getActiveModifiers(act, loadActCount(updatedRun.actId)) : []
+    const mods733 = act ? getModifiersByCount(act, updatedRun.activeModifierCount) : []
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods733) })
     state.playerBase = { hp: updatedRun.playerHp, maxHp: updatedRun.maxHp }
     if (updatedRun.activeRelic) getRelicDef(updatedRun.activeRelic)?.applyToGame(state)
@@ -704,7 +729,7 @@ export default function App() {
     const earnedEntries = (run.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
     if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
     const act = ACTS[run.actId]
-    const mods761 = act ? getActiveModifiers(act, loadActCount(run.actId)) : []
+    const mods761 = act ? getModifiersByCount(act, run.activeModifierCount) : []
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods761) })
     state.playerBase = { hp: run.playerHp, maxHp: run.maxHp }
     if (run.activeRelic) getRelicDef(run.activeRelic)?.applyToGame(state)
@@ -1023,6 +1048,7 @@ export default function App() {
             activeRelic: chosenRelic,
             crystalBonus: 0,
             consumables: currentRun.consumables,
+            activeModifierCount: 0,  // each new act starts fresh; modifiers are act-specific
           }
           saveRun(nextRun)
           setRun(nextRun)
@@ -1152,7 +1178,7 @@ export default function App() {
     const playerCards = buildDeckCards(deckEntries, collection)
     const earnedEntries = (currentRun.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
     if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
-    const modsRetry = act ? getActiveModifiers(act, loadActCount(currentRun.actId)) : []
+    const modsRetry = act ? getModifiersByCount(act, currentRun.activeModifierCount) : []
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), modsRetry) })
     state.playerBase = { hp: currentRun.playerHp, maxHp: currentRun.maxHp }
     if (currentRun.activeRelic) getRelicDef(currentRun.activeRelic)?.applyToGame(state)
@@ -1580,6 +1606,19 @@ export default function App() {
         <CharacterScreen onDone={() => setScreen('title')} />
       )}
 
+      {screen === 'replayBriefing' && replayBriefingRef.current && (() => {
+        const { actId, completionCount, proceed } = replayBriefingRef.current!
+        const act = ACTS[actId]
+        return (
+          <ReplayBriefingScreen
+            act={act}
+            completionCount={completionCount}
+            onBegin={chosenCount => { replayBriefingRef.current = null; proceed(chosenCount) }}
+            onBack={() => { replayBriefingRef.current = null; setScreen('title') }}
+          />
+        )
+      })()}
+
       {screen === 'relicselect' && (
         <RelicSelectScreen
           earnedRelics={loadEarnedRelics()}
@@ -1711,7 +1750,7 @@ export default function App() {
           />
         ) : (
           <>
-            <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getActiveModifiers(ACTS[run.actId], loadActCount(run.actId)) : []} />
+            <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
             {activeRareEvent === 'fakeCrash'   && <FakeCrashEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'blackjack'   && <BlackjackEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'wrongNumber' && <WrongNumberEvent onDone={handleRareEventDone} />}
