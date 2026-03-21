@@ -14,7 +14,7 @@ const SPAWN_GROW_MS = 1500           // building-spawn grow-in animation duratio
 
 const PLAYER_SPAWN_X = 30        // where player units appear
 const OPPONENT_SPAWN_X = LANE_WIDTH - 30  // where opponent units appear
-const BASE_STOP_MARGIN = 60      // units stop this many units from each base edge
+const BASE_STOP_MARGIN = 100     // units stop this many units from each base edge (100/500 = 20%)
 
 // ─── Helpers ─────────────────────────────────────────────
 
