@@ -14,7 +14,7 @@ const SPAWN_GROW_MS = 1500           // building-spawn grow-in animation duratio
 
 const PLAYER_SPAWN_X = 30        // where player units appear
 const OPPONENT_SPAWN_X = LANE_WIDTH - 30  // where opponent units appear
-const BASE_STOP_MARGIN = 5       // hard clamp so units never overshoot past the base character
+const BASE_STOP_MARGIN = 0       // units may reach the base character position exactly
 
 // ─── Helpers ─────────────────────────────────────────────
 
@@ -614,9 +614,9 @@ function moveUnits(s: GameState, deltaMs: number): void {
     const nearestAhead = findNearestEnemy(s.field, unit)
 
     // Determine movement target and vector
-    // Default: march straight toward the enemy base in current lane
+    // Default: converge toward the base character at centre of the enemy edge (y=0)
     let tx: number = unit.owner === 'player' ? LANE_WIDTH : 0
-    let ty: number = unit.y
+    let ty: number = 0
     let hasTarget = false
 
     if (nearestAhead) {
@@ -801,10 +801,11 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
       unit.attackTimer = unit.attackCooldownMs / affSpeedMult
     } else {
       // No enemies in range — attack the base if close enough
-      // Unit must be within its own attack range of the base character to deal damage
-      const atEnemyBase = isPlayer
-        ? unit.x >= LANE_WIDTH - unit.attackRange
-        : unit.x <= unit.attackRange
+      // Unit must be within attackRange of the base character (centre of the enemy edge)
+      const baseDist = isPlayer
+        ? Math.hypot(LANE_WIDTH - unit.x, unit.y)
+        : Math.hypot(unit.x, unit.y)
+      const atEnemyBase = baseDist <= unit.attackRange
 
       if (atEnemyBase) {
         const bloodMoonMult = s.activeBattleEvent?.type === 'bloodMoon' ? 2 : 1
