@@ -18,12 +18,9 @@ interface Props {
   onDone: () => void
 }
 
-/** Remove control characters and collapse runs of whitespace. */
+/** Allow only alphanumeric characters (a-z, A-Z, 0-9). */
 function sanitiseName(raw: string): string {
-  return raw
-    // eslint-disable-next-line no-control-regex
-    .replace(/[\x00-\x1F\x7F]/g, '')   // strip control chars
-    .replace(/\s+/g, ' ')              // collapse whitespace
+  return raw.replace(/[^a-zA-Z0-9]/g, '')
 }
 
 export function CharacterScreen({ onDone }: Props) {
