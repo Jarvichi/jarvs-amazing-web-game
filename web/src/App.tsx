@@ -57,7 +57,7 @@ import { CardTile }           from './components/CardTile'
 import { DailyLoginModal }   from './components/DailyLoginModal'
 import { InventoryScreen }   from './components/InventoryScreen'
 import { peekDailyReward, markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
-import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult } from './game/dailyChallenge'
+import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
@@ -456,7 +456,19 @@ export default function App() {
   // Save daily challenge result the moment the battle ends
   useEffect(() => {
     if (isDailyChallengeRef.current && gameState?.phase.type === 'gameOver') {
-      saveDailyChallengeResult(gameState.phase.winner === 'player')
+      const won        = gameState.phase.winner === 'player'
+      const prevState  = getDailyChallengeState()
+      const firstWin   = won && prevState.won !== true
+      saveDailyChallengeResult(won)
+
+      if (firstWin) {
+        const toasts: AchievementDef[] = []
+        toasts.push(...incrementAchievementProgress('daily:wins'))
+        if (prevState.attempts === 0) toasts.push(...incrementAchievementProgress('daily:first_try'))
+        const streak = recordDailyWin()
+        toasts.push(...setAchievementProgress('daily:win_streak', streak))
+        if (toasts.length > 0) setAchievementToasts(prev => [...prev, ...toasts])
+      }
     }
   }, [gameState?.phase.type])
 

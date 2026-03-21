@@ -5,7 +5,7 @@
 //   event:<eventId>       — special event outcomes
 //   campaign:<actId>      — act completion counts
 
-export type AchievementCategory = 'kills' | 'structures' | 'events' | 'campaign' | 'misc'
+export type AchievementCategory = 'kills' | 'structures' | 'events' | 'campaign' | 'misc' | 'daily'
 
 export interface AchievementReward {
   type: 'cards' | 'crystals' | 'item' | 'avatar'
@@ -1058,6 +1058,99 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
       bonusCrystals: 10000,
       bonusCards: [{ cardName: 'Dragon', count: 20 }],
     },
+    tier: 2,
+  },
+
+  // ── Daily Challenge ───────────────────────────────────────────────────────
+
+  {
+    id: 'daily:wins:1',
+    name: 'Daily Regular',
+    description: 'Win your first Daily Challenge.',
+    category: 'daily',
+    progressKey: 'daily:wins',
+    target: 1,
+    reward: { type: 'crystals', crystals: 50 },
+    tier: 1,
+  },
+  {
+    id: 'daily:wins:10',
+    name: 'Dedicated',
+    description: 'Win 10 Daily Challenges.',
+    category: 'daily',
+    progressKey: 'daily:wins',
+    target: 10,
+    reward: { type: 'crystals', crystals: 200 },
+    tier: 1,
+  },
+  {
+    id: 'daily:wins:30',
+    name: 'Monthly Ritual',
+    description: 'Win 30 Daily Challenges.',
+    category: 'daily',
+    progressKey: 'daily:wins',
+    target: 30,
+    reward: { type: 'crystals', crystals: 500 },
+    tier: 1,
+  },
+  {
+    id: 'daily:wins:100',
+    name: 'Centurion',
+    description: 'Win 100 Daily Challenges.',
+    category: 'daily',
+    progressKey: 'daily:wins',
+    target: 100,
+    reward: { type: 'crystals', crystals: 1000 },
+    tier: 2,
+  },
+  {
+    id: 'daily:first_try:1',
+    name: 'Quick Study',
+    description: 'Win a Daily Challenge on your first attempt.',
+    category: 'daily',
+    progressKey: 'daily:first_try',
+    target: 1,
+    reward: { type: 'crystals', crystals: 100 },
+    tier: 1,
+  },
+  {
+    id: 'daily:first_try:10',
+    name: 'Sharp Mind',
+    description: 'Win 10 Daily Challenges on the first attempt.',
+    category: 'daily',
+    progressKey: 'daily:first_try',
+    target: 10,
+    reward: { type: 'crystals', crystals: 400 },
+    tier: 1,
+  },
+  {
+    id: 'daily:streak:3',
+    name: 'Three Peat',
+    description: 'Win the Daily Challenge 3 days in a row.',
+    category: 'daily',
+    progressKey: 'daily:win_streak',
+    target: 3,
+    reward: { type: 'crystals', crystals: 75 },
+    tier: 1,
+  },
+  {
+    id: 'daily:streak:7',
+    name: 'Week Warrior',
+    description: 'Win the Daily Challenge 7 days in a row.',
+    category: 'daily',
+    progressKey: 'daily:win_streak',
+    target: 7,
+    reward: { type: 'crystals', crystals: 200 },
+    tier: 1,
+  },
+  {
+    id: 'daily:streak:30',
+    name: 'Month of Mastery',
+    description: 'Win the Daily Challenge 30 days in a row.',
+    category: 'daily',
+    progressKey: 'daily:win_streak',
+    target: 30,
+    reward: { type: 'crystals', crystals: 750 },
     tier: 2,
   },
 ]
