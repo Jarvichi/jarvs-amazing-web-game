@@ -20,7 +20,7 @@ interface Props {
 
 /** Allow only alphanumeric characters (a-z, A-Z, 0-9). */
 function sanitiseName(raw: string): string {
-  return raw.replace(/[^a-zA-Z0-9]/g, '')
+  return raw.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, ' ')
 }
 
 export function CharacterScreen({ onDone }: Props) {
