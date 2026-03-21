@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- cloak/body -->
+  <path d="M8,28 L10,16 Q16,14 22,16 L24,28 Z" fill="#662a2a"/>
+  <path d="M10,28 L11,18 Q16,16 21,18 L22,28 Z" fill="#883a3a" opacity="0.6"/>
+  <!-- shoulders/pauldrons -->
+  <rect x="7" y="16" width="5" height="4" rx="2" fill="#501e1e"/>
+  <rect x="20" y="16" width="5" height="4" rx="2" fill="#501e1e"/>
+  <!-- neck -->
+  <rect x="14" y="13" width="4" height="4" fill="#c8a080"/>
+  <!-- hood -->
+  <ellipse cx="16" cy="11" rx="7" ry="7" fill="#501e1e"/>
+  <ellipse cx="16" cy="10" rx="5" ry="5" fill="#662a2a" opacity="0.7"/>
+  <!-- face -->
+  <ellipse cx="16" cy="12" rx="4" ry="4" fill="#c8a080"/>
+  <!-- eyes -->
+  <ellipse cx="14" cy="11" rx="1.2" ry="1" fill="#882222"/>
+  <ellipse cx="18" cy="11" rx="1.2" ry="1" fill="#882222"/>
+  <ellipse cx="14" cy="11" rx="0.5" ry="0.5" fill="#ffaaaa"/>
+  <ellipse cx="18" cy="11" rx="0.5" ry="0.5" fill="#ffaaaa"/>
+  <!-- hood shadow -->
+  <path d="M9,8 Q16,4 23,8 Q20,6 16,6 Q12,6 9,8" fill="#330e0e" opacity="0.5"/>
+  <!-- belt buckle -->
+  <rect x="14" y="21" width="4" height="3" rx="1" fill="#d4a820"/>
+</svg>
