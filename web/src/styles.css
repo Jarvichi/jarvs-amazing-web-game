@@ -6408,6 +6408,92 @@ html.eightbit-mode .lane-layer {
   text-align: center;
 }
 
+/* ── Daily Challenge Screen ─────────────────────────────────────────────── */
+
+.dc-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 24px 16px;
+  max-width: 440px;
+  margin: 0 auto;
+  font-family: var(--game-font);
+  color: var(--game-text-color);
+}
+.dc-header {
+  text-align: center;
+}
+.dc-label {
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #8bc34a;
+}
+.dc-date {
+  font-size: 12px;
+  color: var(--game-text-color-muted);
+  margin-top: 4px;
+}
+.dc-rule {
+  font-size: 12px;
+  color: var(--game-text-color-muted);
+  text-align: center;
+  line-height: 1.5;
+  border: 1px dashed #444;
+  padding: 8px 12px;
+  border-radius: 4px;
+  max-width: 360px;
+}
+.dc-status {
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+.dc-status--won   { color: #8bc34a; border: 1px solid #8bc34a; }
+.dc-status--pending { color: #ffd54f; border: 1px solid #ffd54f; }
+
+.dc-deck {
+  width: 100%;
+  max-width: 380px;
+}
+.dc-deck-label {
+  font-size: 11px;
+  color: var(--game-text-color-muted);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.dc-deck-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 12px;
+}
+.dc-deck-card {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  padding: 2px 0;
+  border-bottom: 1px solid #333;
+}
+.dc-card-rarity { font-size: 10px; color: var(--game-text-color-muted); }
+.dc-card-cost   { font-size: 10px; color: #80cbc4; min-width: 28px; }
+.dc-card-name   { flex: 1; }
+
+.dc-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 260px;
+  margin-top: 4px;
+}
+
 /* ── Replay Briefing Screen ─────────────────────────────────────────────── */
 
 .replay-briefing {

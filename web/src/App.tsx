@@ -75,6 +75,7 @@ import { BattleSummary }    from './components/BattleSummary'
 import { RelicSpinScreen }  from './components/RelicSpinScreen'
 import { CampaignVictoryScreen } from './components/CampaignVictoryScreen'
 import { CampaignFailedScreen }  from './components/CampaignFailedScreen'
+import { DailyChallengeScreen } from './components/DailyChallengeScreen'
 import './styles.css'
 import brokenRelicsData from './data/broken-relics.json'
 import rollbar, { updateRollbarPerson } from './rollbar'
@@ -490,6 +491,10 @@ export default function App() {
   }, [handicap])
 
   const handleDailyChallenge = useCallback(() => {
+    setScreen('dailychallenge')
+  }, [])
+
+  const handleStartDailyChallenge = useCallback(() => {
     isCampaignRef.current       = false
     isDailyChallengeRef.current = true
     battleFlawlessRef.current   = true
@@ -500,7 +505,11 @@ export default function App() {
     prevPlayerUnitsRef.current   = new Map()
     const playerCards   = getDailyPlayerDeck()
     const opponentCards = getDailyOpponentDeck()
-    setGameState(newGame({ playerCards, opponentHandicap: 0, prebuiltOpponentDeck: opponentCards }))
+    setGameState(newGame({
+      prebuiltPlayerDeck:   playerCards,
+      prebuiltOpponentDeck: opponentCards,
+      opponentHandicap: 0,
+    }))
     setScreen('playing')
     rollRareEvent()
   }, [])
@@ -1728,6 +1737,10 @@ export default function App() {
 
       {screen === 'campaignfailed' && (
         <CampaignFailedScreen onReturnToMenu={() => { stopBattleMusic(); stopGameOverMusic(); setScreen('title') }} />
+      )}
+
+      {screen === 'dailychallenge' && (
+        <DailyChallengeScreen onStart={handleStartDailyChallenge} onBack={() => setScreen('title')} />
       )}
 
       {relicSpinData && (
