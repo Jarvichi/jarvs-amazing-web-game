@@ -1247,7 +1247,8 @@ export function tick(state: GameState, deltaMs: number): GameState {
         unit.spawnTimer = intervalMs
       } else if (sEffect.type === 'repairAura') {
         const { amount, intervalMs } = sEffect as { type: 'repairAura'; amount: number; intervalMs: number }
-        const targets = s.field.filter(u => u.owner === unit.owner && u.moveSpeed === 0 && u !== unit && u.hp < u.maxHp)
+        // Walls with mastery 5 repairAura can repair themselves; others only repair neighbours
+        const targets = s.field.filter(u => u.owner === unit.owner && u.moveSpeed === 0 && (u !== unit || unit.isWall) && u.hp < u.maxHp)
         for (const t of targets) t.hp = Math.min(t.maxHp, t.hp + amount)
         if (targets.length > 0) {
           const who = unit.owner === 'player' ? 'Your' : 'Enemy'

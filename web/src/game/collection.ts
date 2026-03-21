@@ -322,10 +322,29 @@ function applyMasteryBonus(card: Card, lvl: number): Card {
   if (lvl === 0 || !card.unit) return card
   const u = { ...card.unit }
   if (u.moveSpeed > 0) {
+    // Mobile units: +lvl ATK, +lvl*2 HP
     u.attack = u.attack + lvl
     u.maxHp  = u.maxHp  + lvl * 2
   } else {
-    u.maxHp = u.maxHp + lvl * 10
+    // Structures: +10% HP per mastery level
+    u.maxHp = Math.round(u.maxHp * (1 + 0.1 * lvl))
+    // Mastery 5 unlocks a type-specific bonus
+    if (lvl >= 5) {
+      if (u.isWall) {
+        // Walls gain a self-repair aura (2 HP every 6 s)
+        u.structureEffect = { type: 'repairAura', amount: 2, intervalMs: 6000 }
+      } else if (u.structureEffect?.type === 'spawn') {
+        // Spawners get 25% faster spawn rate
+        const e = { ...(u.structureEffect as { type: 'spawn'; unitTemplate: import('./types').UnitTemplate; intervalMs: number }) }
+        e.intervalMs = Math.round(e.intervalMs * 0.75)
+        u.structureEffect = e
+      } else if (u.structureEffect?.type === 'mana') {
+        // Farms produce 1 extra mana
+        const e = { ...(u.structureEffect as { type: 'mana'; amount: number }) }
+        e.amount = e.amount + 1
+        u.structureEffect = e
+      }
+    }
   }
   return { ...card, unit: u }
 }
