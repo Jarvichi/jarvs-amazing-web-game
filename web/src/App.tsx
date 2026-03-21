@@ -515,6 +515,26 @@ export default function App() {
     rollRareEvent()
   }, [])
 
+  const handleDailyChallengeRetry = useCallback(() => {
+    isCampaignRef.current        = false
+    isDailyChallengeRef.current  = true
+    battleFlawlessRef.current    = true
+    battleUsedStructure.current  = false
+    battleUsedMobileUnit.current = false
+    battleLossRecordedRef.current = false
+    prevOpponentUnitsRef.current = new Map()
+    prevPlayerUnitsRef.current   = new Map()
+    const playerCards   = getDailyPlayerDeck()
+    const opponentCards = getDailyOpponentDeck()
+    setGameState(newGame({
+      prebuiltPlayerDeck:   playerCards,
+      prebuiltOpponentDeck: opponentCards,
+      opponentHandicap: 0,
+    }))
+    setScreen('playing')
+    rollRareEvent()
+  }, [])
+
   const handlePlayAgain = useCallback(() => {
     if (!gameState || gameState.phase.type !== 'gameOver') return
     isCampaignRef.current       = false
@@ -1783,7 +1803,9 @@ export default function App() {
             onOpenPack={!isCampaignRef.current && gameState.phase.winner === 'player' ? handleOpenPack : undefined}
             onPlayAgain={isCampaignRef.current
               ? (gameState.phase.winner === 'player' ? handleCampaignWin : handleCampaignRetry)
-              : handlePlayAgain
+              : isDailyChallengeRef.current
+                ? handleDailyChallengeRetry
+                : handlePlayAgain
             }
             onMainMenu={handleMainMenu}
             campaignAbandon={isCampaignRef.current ? handleAbandonRun : undefined}
