@@ -2600,6 +2600,7 @@ body {
 }
 .cdm-mastery-xp     { font-size: 9px; color: #777; }
 .cdm-mastery-bonus  { font-size: 9px; color: var(--game-text-color-muted); margin-top: 3px; }
+.cdm-stat-bonus     { font-size: 9px; color: #ffd700; margin-left: 3px; }
 
 .cdm-battle-stats {
   border-top: 1px solid #1a1a1a;

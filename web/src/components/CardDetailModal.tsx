@@ -56,6 +56,10 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
 
   const u = card.unit
 
+  // Mastery stat bonuses (mirroring applyMasteryBonus in collection.ts)
+  const atkBonus = (u && u.moveSpeed > 0) ? masteryLvl : 0
+  const hpBonus  = u ? (u.moveSpeed > 0 ? masteryLvl * 2 : masteryLvl * 10) : 0
+
   // Build trait tags
   const traits: string[] = []
   if (u) {
@@ -98,8 +102,8 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
             {/* Unit stats */}
             {u && u.moveSpeed > 0 && (
               <div className="cdm-stats-block">
-                <StatRow compact label="ATK" value={u.attack} />
-                <StatRow compact label="HP"  value={u.maxHp} />
+                <StatRow compact label="ATK" value={atkBonus > 0 ? <>{u.attack + atkBonus} <span className="cdm-stat-bonus">(+{atkBonus})</span></> : u.attack} />
+                <StatRow compact label="HP"  value={hpBonus  > 0 ? <>{u.maxHp  + hpBonus}  <span className="cdm-stat-bonus">(+{hpBonus})</span></> : u.maxHp} />
                 <StatRow compact label="SPD" value={u.moveSpeed} />
                 {u.attackRange > 0 && <StatRow compact label="RNG" value={u.attackRange} />}
                 {u.attackCooldownMs > 0 && <StatRow compact label="CD" value={`${(u.attackCooldownMs / 1000).toFixed(1)}s`} />}
@@ -107,7 +111,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
             )}
             {u && u.moveSpeed === 0 && u.maxHp > 0 && (
               <div className="cdm-stats-block">
-                <StatRow compact label="HP" value={u.maxHp} />
+                <StatRow compact label="HP" value={hpBonus > 0 ? <>{u.maxHp + hpBonus} <span className="cdm-stat-bonus">(+{hpBonus})</span></> : u.maxHp} />
               </div>
             )}
 
@@ -178,13 +182,6 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                 <span className="cdm-mastery-xp">{xpCur}/{xpNeeded} to Lv{masteryLvl + 1}</span>
               </div>
               <MasteryBar xp={xp} />
-              {masteryLvl > 0 && u && (
-                <div className="cdm-mastery-bonus">
-                  {u.moveSpeed > 0
-                    ? `+${masteryLvl} ATK  +${masteryLvl * 2} HP (mastery bonus)`
-                    : `+${masteryLvl * 10} HP (mastery bonus)`}
-                </div>
-              )}
             </div>
 
             {/* Battle stats */}
