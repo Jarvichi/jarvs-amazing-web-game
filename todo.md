@@ -12,7 +12,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 - [x] **#364** Win streak — tracked in localStorage, shown on GameOver screen (free play, streak ≥ 2)
 - [ ] **#363** Campaign replay modifiers — difficulty/modifier options when replaying acts
-- [ ] **#362** Consumables — heal/lives items usable during campaign
+- [ ] **#362** Consumables — heal/lives items usable during campaign (in progress: health_potion + extra_life; NodeMap use, Merchant mid-run, Shop always-in-stock, reward pool)
 
 ---
 
