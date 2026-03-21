@@ -3055,6 +3055,49 @@ body {
 
 /* ── Campaign Failed screen ── */
 
+.campaign-victory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: 32px 24px;
+  gap: 24px;
+  position: relative;
+  background: #000a05;
+  text-align: center;
+}
+.cv-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0,200,100,0.12) 0%, rgba(255,215,0,0.06) 50%, transparent 70%);
+  pointer-events: none;
+}
+.cv-ascii {
+  color: #ffd700;
+  font-size: clamp(10px, 2.5vw, 14px);
+  line-height: 1.5;
+  margin: 0;
+  text-shadow: 0 0 14px rgba(255,215,0,0.7);
+}
+.cv-body {
+  color: var(--game-text-color-muted);
+  font-size: 14px;
+  line-height: 1.8;
+  max-width: 340px;
+}
+.cv-title {
+  color: #ffd700;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255,215,0,0.8);
+}
+.cv-reward {
+  color: #55ff99;
+  margin-top: 8px;
+}
+
 .campaign-failed {
   display: flex;
   flex-direction: column;
