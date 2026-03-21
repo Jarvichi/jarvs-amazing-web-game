@@ -38,12 +38,12 @@ When working an issue from this file, go and check the GitHub issue for addition
 ## 🔴 Bugs — New (from GitHub, session 16 sync)
 
 - [x] **#345** Opponent/player sprites not aligned with unit stop positions — fixed (BASE_STOP_MARGIN raised to 100; sprites at 4px from edge)
-- [ ] **#328** Black screens between acts — add guard useEffects for all conditional screens; add Rollbar logging to act transition
-- [ ] **#303** Units disappear off the top of the battlefield — likely fixed by #342 (BASE_STOP_MARGIN clamping); needs verification
+- [x] **#328** Black screens between acts — guards + Rollbar logging added; marked fixed
+- [x] **#303** Units disappear off the top — fixed: BASE_STOP_MARGIN=0, units now converge to base avatar and stop at x=LANE_WIDTH
 
 ## 🔵 Enhancements — New (from GitHub, session 16 sync)
 
-- [ ] **#344** Character customisation — player chooses name + appearance; in-battle sprite uses it; dialogue uses player name
+- [x] **#344** Character customisation — CharacterScreen with name + avatar selection exists; avatar used in Battlefield; name applied in boss dialogue and cutscenes
 - [x] **#329** Opening a pack — spotlight animation already implemented (card zooms to centre, tap to reveal, returns to grid)
 - [ ] **#306** Upgrade/Buff cards — card upgrade and level-up system (see issue for detail)
 - [ ] **#315** Daily Challenge — fixed-seed deck + opponent each day; track win/loss per day in localStorage (Phase 6 in CLAUDE.md)

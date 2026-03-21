@@ -25,6 +25,11 @@ On PC: use `gh` CLI and read `.env` for tokens. On mobile/cloud: use `curl` for 
 ## Reading Issues From GitHub
 Read the full issue text. Break multiple requirements into sub-tasks tracked in `todo.md` or as GitHub sub-issues. Only close the parent issue once all parts are complete.
 
+**Before starting work on any issue:** check the issue on GitHub to confirm it is still open and has no recent commit/PR that already resolves it. Do not implement work that is already done.
+```bash
+curl -s "https://api.github.com/repos/Jarvichi/jarvs-amazing-web-game/issues/<N>" | python3 -c "import json,sys; i=json.load(sys.stdin); print(i['state'], i.get('closed_at',''))"
+```
+
 ## Tidying Up GitHub
 Check branches on GitHub; close any that are stale with no outstanding PRs or unmerged code.
 
