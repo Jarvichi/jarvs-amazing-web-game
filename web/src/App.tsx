@@ -62,7 +62,7 @@ import { useAchievements } from './hooks/useAchievements'
 import { isNoDamageMode } from './game/debug'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
 import {
-  incrementAchievementProgress, AchievementDef,
+  incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
 import { AchievementsScreen } from './components/AchievementsScreen'
 import { HeroCardsScreen }   from './components/HeroCardsScreen'
@@ -855,6 +855,11 @@ export default function App() {
     saveRun(updatedRun)
     setRun(updatedRun)
 
+    // Increment win streak and check for streak achievements
+    const newStreak = incrementWinStreak()
+    const streakUnlocked = setAchievementProgress('campaign:win_streak', newStreak)
+    if (streakUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...streakUnlocked])
+
     // Check act complete
     if (isActComplete(act, updatedRun)) {
       // Track act completion achievement + per-act replay count
@@ -1089,6 +1094,7 @@ export default function App() {
       setCrystals(next)
       const failUnlocked = incrementAchievementProgress('misc:campaign_failed')
       if (failUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...failUnlocked])
+      resetWinStreak()
       clearRun()
       setRun(null)
       setScreen('campaignfailed')
@@ -1319,6 +1325,7 @@ export default function App() {
       setCrystals(next)
       const failUnlocked = incrementAchievementProgress('misc:campaign_failed')
       if (failUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...failUnlocked])
+      resetWinStreak()
       clearRun()
       setRun(null)
       setGameState(null)

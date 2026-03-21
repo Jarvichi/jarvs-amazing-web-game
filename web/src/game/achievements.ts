@@ -77,6 +77,25 @@ export function incrementAchievementProgress(progressKey: string, by = 1): Achie
   return newlyUnlocked
 }
 
+/** Set a progress counter to a specific value (for tracking maximums like streaks). Returns newly unlocked defs. */
+export function setAchievementProgress(progressKey: string, value: number): AchievementDef[] {
+  const save = loadAchievementSave()
+  save.progress[progressKey] = value
+
+  const newlyUnlocked: AchievementDef[] = []
+  for (const def of ACHIEVEMENT_DEFS) {
+    if (def.progressKey !== progressKey) continue
+    if (save.unlocked[def.id]) continue
+    if (value >= def.target) {
+      save.unlocked[def.id] = true
+      newlyUnlocked.push(def)
+    }
+  }
+
+  saveAchievementSave(save)
+  return newlyUnlocked
+}
+
 /** Get current progress for a key. */
 export function getAchievementProgress(progressKey: string): number {
   return loadAchievementSave().progress[progressKey] ?? 0

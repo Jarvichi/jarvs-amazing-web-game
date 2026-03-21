@@ -905,6 +905,11 @@ body {
   letter-spacing: 0.5px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
+.streak-ribbon--faded {
+  background: #555;
+  color: #ccc;
+  opacity: 0.75;
+}
 
 .gameover-score {
   font-size: 18px;
