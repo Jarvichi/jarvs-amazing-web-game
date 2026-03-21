@@ -10,7 +10,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔵 Enhancements — New (from GitHub, session 17 sync)
 
-- [ ] **#364** Win streak — track and display player win streaks
+- [x] **#364** Win streak — tracked in localStorage, shown on GameOver screen (free play, streak ≥ 2)
 - [ ] **#363** Campaign replay modifiers — difficulty/modifier options when replaying acts
 - [ ] **#362** Consumables — heal/lives items usable during campaign
 

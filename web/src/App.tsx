@@ -8,6 +8,7 @@ import {
   recordCardPlayed, recordUnitDied, addCardsToCollection,
   getOwnedCount, DECK_MAX, CRYSTAL_PACK_COST, DeckEntry,
   deckTotalCards, STARTER_DECK,
+  loadWinStreak, incrementWinStreak, resetWinStreak,
 } from './game/collection'
 import { getCardCatalog } from './game/cards'
 import {
@@ -466,6 +467,7 @@ export default function App() {
     prevOpponentUnitsRef.current = new Map()
     prevPlayerUnitsRef.current = new Map()
     const winner = gameState.phase.winner
+    if (winner === 'player') { incrementWinStreak() } else { resetWinStreak() }
     const nextHandicap = winner === 'player'
       ? Math.max(0, handicap - 1)
       : winner === 'opponent'
@@ -1661,6 +1663,7 @@ export default function App() {
             onMainMenu={handleMainMenu}
             campaignAbandon={isCampaignRef.current ? handleAbandonRun : undefined}
             quickPlayHint={quickPlayHint}
+            showStreak={!isCampaignRef.current}
           />
         ) : (
           <>
