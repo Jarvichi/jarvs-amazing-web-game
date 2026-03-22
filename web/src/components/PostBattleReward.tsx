@@ -9,6 +9,7 @@ interface Props {
   crystals: number      // crystals awarded for this battle
   onPick: (cardName: string) => void
   onSkip: () => void
+  headerOverride?: { title: string; sub: string }
 }
 
 const NODE_FLAVOUR: Record<NodeType, string> = {
@@ -20,7 +21,7 @@ const NODE_FLAVOUR: Record<NodeType, string> = {
   merchant: '',
 }
 
-export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip }: Props) {
+export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, headerOverride }: Props) {
   const catalog = getCardCatalog()
   const cards   = choices.map(name => catalog.find(c => c.name === name)).filter(Boolean) as ReturnType<typeof getCardCatalog>[number][]
 
@@ -53,9 +54,9 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip }
   return (
     <div className="reward-screen">
       <div className="reward-header">
-        <div className="reward-title">VICTORY</div>
-        <div className="reward-sub">{NODE_FLAVOUR[nodeType]}</div>
-        <div className="reward-crystals">+{crystals} ◆</div>
+        <div className="reward-title">{headerOverride?.title ?? 'VICTORY'}</div>
+        <div className="reward-sub">{headerOverride?.sub ?? NODE_FLAVOUR[nodeType]}</div>
+        {crystals > 0 && <div className="reward-crystals">+{crystals} ◆</div>}
       </div>
 
       <div className="reward-cards">
