@@ -82,7 +82,7 @@ import brokenRelicsData from './data/broken-relics.json'
 import rollbar, { updateRollbarPerson } from './rollbar'
 import { useAuth } from './hooks/useAuth'
 import { auth } from './firebase'
-import { uploadSave } from './game/cloudSave'
+import { uploadSave, applySave, getRemoteSaveIfNewer } from './game/cloudSave'
 
 // Apply saved display settings on load
 applyTextSettings()
@@ -219,6 +219,15 @@ type Screen =
   | 'dailychallenge'
 
 
+function formatTimeAgo(date: Date): string {
+  const diffMin = Math.round((Date.now() - date.getTime()) / 60_000)
+  if (diffMin < 1) return 'just now'
+  if (diffMin < 60) return `${diffMin}m ago`
+  const diffH = Math.round(diffMin / 60)
+  if (diffH < 24) return `${diffH}h ago`
+  return `${Math.round(diffH / 24)}d ago`
+}
+
 export default function App() {
   // ── PWA auto-update ───────────────────────────────────────────────────────────
   const swRegRef = useRef<ServiceWorkerRegistration | null>(null)
@@ -342,6 +351,10 @@ export default function App() {
   // Daily login reward
   const [dailyReward, setDailyReward] = useState<RewardDef | null>(null)
 
+  // Cloud sync prompt: shown when a newer remote save is detected on the title screen
+  const [syncPrompt, setSyncPrompt] = useState<{ remoteDate: Date; data: Record<string, string> } | null>(null)
+  const syncPromptedRef = useRef(false)
+
   const [isUserPaused, setIsUserPaused] = useState(false)
   const { activeRareEvent, isGamePaused: isRareEventPaused, rollRareEvent, handleRareEventDone } = useRareEvents({
     gameState, screen, setGameState, setCrystals, setAchievementToasts,
@@ -402,6 +415,32 @@ export default function App() {
   useEffect(() => {
     if (run) updateRollbarPerson({ actId: run.actId, runCount: loadRunCount() })
   }, [run?.actId])
+
+  // On arriving at the title screen, check if the remote save is newer and prompt the user.
+  // Reset the prompted flag whenever we leave the title so re-visiting prompts again if needed.
+  useEffect(() => {
+    if (screen !== 'title') { syncPromptedRef.current = false; return }
+    const uid = user?.uid
+    if (!uid || user?.isAnonymous) return
+    if (syncPromptedRef.current) return
+    if (!navigator.onLine) return
+    syncPromptedRef.current = true
+    getRemoteSaveIfNewer(uid).then(remote => {
+      if (remote) setSyncPrompt({ remoteDate: remote.savedAt.toDate(), data: remote.data })
+    }).catch(() => { /* offline or error — silently skip */ })
+  }, [screen, user])
+
+  // Periodic auto-sync: upload local save every 5 minutes while on the title screen and online.
+  useEffect(() => {
+    if (screen !== 'title') return
+    const uid = user?.uid
+    if (!uid || user?.isAnonymous) return
+    const id = setInterval(() => {
+      if (!navigator.onLine) return
+      uploadSave(uid).catch(() => { /* silent */ })
+    }, 5 * 60 * 1000)
+    return () => clearInterval(id)
+  }, [screen, user])
 
   // Guard: if screen is 'cutscene' but there are no panels, we'd show a blank screen.
   // Redirect to nodemap (or title if no run), and log to Rollbar so we can debug the root cause.
@@ -1889,6 +1928,36 @@ export default function App() {
           </>
         )
       })()}
+
+      {/* Cloud sync prompt — shown when a newer remote save is detected on title screen */}
+      {syncPrompt && (
+        <div className="sync-prompt-backdrop">
+          <div className="sync-prompt-modal">
+            <div className="sync-prompt-header">☁ CLOUD SAVE FOUND</div>
+            <div className="sync-prompt-sub">
+              A newer save was detected on the server<br />
+              ({formatTimeAgo(syncPrompt.remoteDate)})
+            </div>
+            <div className="sync-prompt-question">Which save would you like to keep?</div>
+            <div className="sync-prompt-buttons">
+              <button className="action-btn" onClick={() => {
+                applySave(syncPrompt.data)
+                setSyncPrompt(null)
+                window.location.reload()
+              }}>
+                ☁ LOAD REMOTE
+              </button>
+              <button className="action-btn action-btn--dim" onClick={() => {
+                setSyncPrompt(null)
+                const uid = user?.uid
+                if (uid && !user?.isAnonymous) uploadSave(uid).catch(() => {})
+              }}>
+                💾 KEEP LOCAL
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Daily login reward modal — shown as overlay on first visit each day */}
       {dailyReward && (

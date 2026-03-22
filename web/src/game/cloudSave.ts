@@ -60,3 +60,17 @@ export function applySave(data: Record<string, string>): void {
     setLastSyncTime()
   } catch { /* ignore */ }
 }
+
+/**
+ * Fetches the remote save and returns it only if it is newer than the local
+ * last-sync timestamp (with a 60-second tolerance to avoid false positives
+ * immediately after our own upload). Returns null if up-to-date or on error.
+ */
+export async function getRemoteSaveIfNewer(uid: string): Promise<CloudSave | null> {
+  const remote = await downloadSave(uid)
+  if (!remote) return null
+  const localSync = getLastSyncTime()
+  const remoteDate = remote.savedAt.toDate()
+  const cutoff = localSync ? new Date(localSync.getTime() + 60_000) : new Date(0)
+  return remoteDate > cutoff ? remote : null
+}
