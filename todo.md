@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-21 (session 20 — picked #68 Dark/Light Mode).
+Issues sourced from GitHub. Last synced: 2026-03-22 (session 21 — reviewing older issues).
 
 ---
 
@@ -70,6 +70,15 @@ When working an issue from this file, go and check the GitHub issue for addition
 ## 🔵 Enhancements — New (from GitHub, session 15 sync)
 
 - [x] **#319** Rollbar error logging — integrated (session 15)
+
+---
+
+## 🔵 Developer Tools (#314)
+
+- [ ] **#314** Dev mode flag (hidden in Settings behind a debug URL param) with a dev menu to:
+  - Trigger rare events at 100% chance on next run
+  - Dev mode must not touch main save data (user runs in private/incognito)
+- [ ] **#314** Unit tests for game logic (suggest vitest; start with engine.ts pure functions)
 
 ---
 
