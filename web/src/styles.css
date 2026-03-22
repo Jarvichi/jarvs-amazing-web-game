@@ -6980,14 +6980,36 @@ html.light-mode .action-btn {
   animation: damage-flash-anim 0.2s ease-out forwards;
 }
 
-/* Death linger: fade-out + slight shrink */
+/* Death linger: unit tips/falls sideways then fades into a blood pool */
 @keyframes dying-anim {
-  0%   { opacity: 1; transform: translateX(-50%) translateY(-50%) scale(1); }
-  100% { opacity: 0; transform: translateX(-50%) translateY(-50%) scale(0.6); }
+  0%   { opacity: 1;   transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+  35%  { opacity: 1;   transform: translateX(-10%) translateY(-22%) rotate(80deg); }
+  60%  { opacity: 0.9; transform: translateX(-8%)  translateY(-20%) rotate(90deg); }
+  100% { opacity: 0;   transform: translateX(-8%)  translateY(-20%) rotate(90deg); }
 }
 .lane-unit--dying {
-  animation: dying-anim 0.4s ease-in forwards;
+  animation: dying-anim 1.2s ease-in forwards;
   pointer-events: none;
+}
+
+/* Blood pool that expands beneath a dying unit */
+@keyframes blood-pool-anim {
+  0%   { transform: translate(-50%, 0) scale(0);   opacity: 0; }
+  25%  { opacity: 0.85; }
+  55%  { transform: translate(-50%, 0) scale(1);   opacity: 0.75; }
+  100% { transform: translate(-50%, 0) scale(1.15); opacity: 0; }
+}
+.lane-unit-blood {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 30px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(160,0,0,0.95) 0%, rgba(90,0,0,0.6) 45%, transparent 70%);
+  pointer-events: none;
+  animation: blood-pool-anim 1.2s ease-out forwards;
+  z-index: -1;
 }
 
 /* Climb: subtle wobble to suggest effort */
