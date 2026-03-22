@@ -161,7 +161,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           <TitleButton onClick={onShop}>🛒 SHOP</TitleButton>
           <TitleButton onClick={onHeroCards}>🦸 HEROES</TitleButton>
           <TitleButton onClick={onInventory}>🎒 INVENTORY</TitleButton>
-          <TitleButton onClick={onAchievements} badge={achievementAlert}>🏆 ACHIEVE</TitleButton>
+          <TitleButton onClick={onAchievements} badge={achievementAlert}>🏆 ACHIEVEMENTS</TitleButton>
           <TitleButton onClick={onCharacter}>👤 CHARACTER</TitleButton>
           <TitleButton onClick={onSettings} extraClass="title-settings-btn">⚙ SETTINGS</TitleButton>
         </div>
