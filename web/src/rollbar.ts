@@ -1,28 +1,26 @@
-// Rollbar is initialised by the CDN snippet in index.html.
-// This module re-exports the global instance so the rest of the app can
-// import rollbar as a typed module rather than reaching for window.rollbar.
+// Rollbar is initialised here using the npm package so it is available
+// synchronously — no CDN async-load race, no missing shim methods.
+import Rollbar from 'rollbar'
 
-interface RollbarInstance {
-  info:      (msg: string, ...args: unknown[]) => void
-  error:     (err: string | Error, ...args: unknown[]) => void
-  warn:      (msg: string, ...args: unknown[]) => void
-  configure: (opts: object) => void
-}
+const environment = window.location.hostname.includes('github.io')
+  ? 'production'
+  : window.location.hostname === 'localhost'
+  ? 'development'
+  : 'staging'
 
-declare global {
-  interface Window { rollbar: RollbarInstance }
-}
-
-// Use a proxy so every call resolves window.rollbar at call-time, not at
-// module-load time. The CDN snippet sets window.rollbar to a shim immediately,
-// then replaces it with the real instance once the async library finishes loading.
-const rollbar: RollbarInstance = new Proxy({} as RollbarInstance, {
-  get(_target, prop: string) {
-    const rb = window.rollbar as unknown as Record<string, unknown>
-    if (rb && typeof rb[prop] === 'function') {
-      return (rb[prop] as (...a: unknown[]) => unknown).bind(rb)
-    }
-    return () => { /* rollbar not yet loaded */ }
+const rollbar = new Rollbar({
+  accessToken: '8bcd98f07593a1d478ea6d7d6612e146',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  payload: {
+    environment,
+    client: {
+      javascript: {
+        code_version: import.meta.env.VITE_GIT_SHA ?? 'dev',
+        source_map_enabled: true,
+        guess_uncaught_frames: true,
+      },
+    },
   },
 })
 
