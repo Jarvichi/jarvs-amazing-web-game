@@ -470,7 +470,7 @@ function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent', log:
         let note = 'HP×2'
         if (existing.structureEffect?.type === 'spawn') {
           const spawnEffect = existing.structureEffect as { type: 'spawn'; unitTemplate: UnitTemplate; intervalMs: number }
-          spawnEffect.intervalMs = Math.max(3000, Math.floor(spawnEffect.intervalMs / 2))
+          spawnEffect.intervalMs = Math.max(1500, Math.floor(spawnEffect.intervalMs / 2))
           if (existing.spawnTimer != null) {
             existing.spawnTimer = Math.min(existing.spawnTimer, spawnEffect.intervalMs)
           }

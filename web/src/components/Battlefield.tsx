@@ -190,6 +190,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
         isDying ? 'lane-unit--dying' : '',
         isDamageFlash ? 'lane-unit--damage-flash' : '',
         unit.climbing ? 'lane-unit--climbing' : '',
+        unit.size ? `lane-unit--size-${unit.size}` : '',
       ].filter(Boolean).join(' ')}
       style={style}
       title={`${unit.name} — ${unit.hp}/${unit.maxHp} HP, ${unit.attack} ATK`}
@@ -704,7 +705,16 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
       </div>
 
       {/* The Lane — vertical, fills remaining space */}
-      <div className={`lane${state.bossCardActive ? ' lane--boss-phase' : ''}`}>
+      {(() => {
+        const bossUnit = state.bossCardActive && state.bossCard
+          ? state.field.find(u => u.owner === 'opponent' && u.name === state.bossCard)
+          : null
+        const bossTopPct = bossUnit != null ? (1 - bossUnit.x / LANE_WIDTH) * 100 : 6
+        const laneStyle: React.CSSProperties = state.bossCardActive
+          ? { ['--boss-zoom-origin' as string]: `50% ${bossTopPct.toFixed(1)}%` }
+          : {}
+        return (
+      <div className={`lane${state.bossCardActive ? ' lane--boss-phase' : ''}`} style={laneStyle}>
         <div className="lane-ground" />
         <LaneBackground env={state.environment} />
         <ForestBorder theme={actTheme} />
@@ -823,6 +833,8 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
           )
         })}
       </div>
+        )
+      })()}
 
       {/* Player base */}
       <div className="base-bar base-bar--player">

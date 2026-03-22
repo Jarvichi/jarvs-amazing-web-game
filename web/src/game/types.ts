@@ -50,6 +50,8 @@ export interface UnitTemplate {
   affinity?: AffinityDef
   /** Flavour text shown in the inspect panel. */
   lore?: string
+  /** Visual size of the unit sprite on the battlefield. Defaults to 'medium'. */
+  size?: 'small' | 'medium' | 'large'
   /** Mastery level of this card from the player's collection (0 = unmastered). */
   masteryLevel?: number
 }

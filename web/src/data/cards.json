@@ -21,7 +21,8 @@
         "large",
         "siege"
       ],
-      "targetPriority": "ranged_first"
+      "targetPriority": "ranged_first",
+      "size": "small"
     },
     "archer": {
       "name": "Archer",
@@ -72,7 +73,8 @@
         "effectType": "damage",
         "effectAmount": 1.25,
         "label": "Siege Guard"
-      }
+      },
+      "size": "large"
     },
     "skeleton": {
       "name": "Skeleton",
@@ -155,7 +157,8 @@
         "effectType": "damage",
         "effectAmount": 1.2,
         "label": "Monster Pact"
-      }
+      },
+      "size": "large"
     },
     "crossbow": {
       "name": "Crossbow",
@@ -331,7 +334,8 @@
         "effectType": "damage",
         "effectAmount": 1.2,
         "label": "Monster Pact"
-      }
+      },
+      "size": "large"
     },
     "pixie": {
       "name": "Pixie",
@@ -362,7 +366,8 @@
         "effectType": "moveSpeed",
         "effectAmount": 1.3,
         "label": "Fae Dance"
-      }
+      },
+      "size": "small"
     },
     "ogre": {
       "name": "Ogre",
@@ -392,7 +397,8 @@
         "effectType": "damage",
         "effectAmount": 1.2,
         "label": "Brute Alliance"
-      }
+      },
+      "size": "large"
     },
     "plague-rat": {
       "name": "Plague Rat",
@@ -423,7 +429,8 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.25,
         "label": "Predator Instinct"
-      }
+      },
+      "size": "small"
     },
     "bandit": {
       "name": "Bandit",
@@ -487,7 +494,8 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.3,
         "label": "Blood Frenzy"
-      }
+      },
+      "size": "small"
     },
     "scorpion": {
       "name": "Scorpion",
@@ -638,7 +646,8 @@
         "effectType": "moveSpeed",
         "effectAmount": 1.25,
         "label": "Haunting"
-      }
+      },
+      "size": "small"
     },
     "lizardman": {
       "name": "Lizardman",
@@ -763,7 +772,8 @@
         "effectType": "damage",
         "effectAmount": 1.2,
         "label": "Aerial Volley"
-      }
+      },
+      "size": "large"
     },
     "fire-mage": {
       "name": "Fire Mage",
@@ -848,7 +858,8 @@
         "effectType": "damage",
         "effectAmount": 1.2,
         "label": "Beastmaster"
-      }
+      },
+      "size": "large"
     },
     "dark-elf": {
       "name": "Dark Elf",
@@ -926,7 +937,8 @@
         "ranged",
         "magic"
       ],
-      "targetPriority": "walls"
+      "targetPriority": "walls",
+      "size": "large"
     },
     "wyvern": {
       "name": "Wyvern",
@@ -958,7 +970,8 @@
         "effectType": "damage",
         "effectAmount": 1.25,
         "label": "Dragonkin"
-      }
+      },
+      "size": "large"
     },
     "behemoth": {
       "name": "Behemoth",
@@ -983,7 +996,8 @@
         "siege",
         "magic"
       ],
-      "targetPriority": "walls"
+      "targetPriority": "walls",
+      "size": "large"
     },
     "vine-golem": {
       "name": "Vine Golem",
@@ -1013,7 +1027,8 @@
         "effectType": "damage",
         "effectAmount": 0.8,
         "label": "Forest Bond"
-      }
+      },
+      "size": "large"
     },
     "spore-bat": {
       "name": "Spore Bat",
@@ -1044,7 +1059,8 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.3,
         "label": "Plague Cloud"
-      }
+      },
+      "size": "small"
     },
     "thornbeast": {
       "name": "Thornbeast",
@@ -1106,7 +1122,8 @@
         "effectType": "damage",
         "effectAmount": 1.25,
         "label": "Ancient Grove"
-      }
+      },
+      "size": "large"
     },
     "frog-knight": {
       "name": "Frog Knight",
@@ -1464,7 +1481,8 @@
       "weaknesses": [
         "magic",
         "siege"
-      ]
+      ],
+      "size": "large"
     },
     "mana-wisp": {
       "name": "Mana Wisp",
@@ -1488,7 +1506,8 @@
       "weaknesses": [
         "ranged",
         "siege"
-      ]
+      ],
+      "size": "small"
     },
     "rune-knight": {
       "name": "Rune Knight",
@@ -1558,7 +1577,8 @@
       "weaknesses": [
         "fast",
         "siege"
-      ]
+      ],
+      "size": "large"
     },
     "dryad-sentinel": {
       "name": "Dryad Sentinel",
@@ -1619,7 +1639,8 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.2,
         "label": "Fungal Network"
-      }
+      },
+      "size": "large"
     },
     "pixie-scout": {
       "name": "Pixie Scout",
@@ -1650,7 +1671,8 @@
         "effectType": "damage",
         "effectAmount": 1.2,
         "label": "Fae Swarm"
-      }
+      },
+      "size": "small"
     },
     "swamp-lurker": {
       "name": "Swamp Lurker",
@@ -1711,7 +1733,8 @@
         "effectType": "damage",
         "effectAmount": 1.15,
         "label": "Ancient Earth"
-      }
+      },
+      "size": "large"
     },
     "battering-ram-crew": {
       "name": "Battering Ram Crew",
@@ -1957,7 +1980,8 @@
         "effectType": "damage",
         "effectAmount": 1.2,
         "label": "Undead Colossus"
-      }
+      },
+      "size": "large"
     },
     "wraith": {
       "name": "Wraith",
@@ -2019,7 +2043,8 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.2,
         "label": "Arcane Sync"
-      }
+      },
+      "size": "small"
     },
     "mana-siphon": {
       "name": "Mana Siphon",

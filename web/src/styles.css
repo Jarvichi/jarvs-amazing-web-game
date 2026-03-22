@@ -331,7 +331,7 @@ body {
 .lane--boss-phase {
   transition: transform 0.8s ease-in-out;
   transform: scale(1.8);
-  transform-origin: 50% 20%;
+  transform-origin: var(--boss-zoom-origin, 50% 6%);
 }
 
 .lane--boss-phase .lane-unit-sprite {
@@ -376,6 +376,16 @@ body {
   image-rendering: crisp-edges;
   display: block;
   margin: 0 auto;
+}
+
+.lane-unit--size-small .lane-unit-sprite {
+  max-width: 20px;
+  max-height: 18px;
+}
+
+.lane-unit--size-large .lane-unit-sprite {
+  max-width: 48px;
+  max-height: 42px;
 }
 
 /* ─── Lane Units ─────────────────────────────────────── */
