@@ -182,7 +182,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
     }
   }
 
-  const isDying = unit.dyingTimer != null && unit.dyingTimer > 0
+  const isDying = unit.dyingTimer != null
   const isDamageFlash = unit.damageFlashTimer != null && unit.damageFlashTimer > 0
   const isKillFlash = unit.killFlashTimer != null && unit.killFlashTimer > 0
 
@@ -207,8 +207,6 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
       title={`${unit.name} — ${unit.hp}/${unit.maxHp} HP, ${unit.attack} ATK`}
       onClick={onInspect ? (e) => { e.stopPropagation(); onInspect(unit) } : undefined}
     >
-      {/* Blood pool on death */}
-      {isDying && !unit.flying && <div className="lane-unit-blood" />}
       {/* Ground shadow cast by flying units */}
       {unit.flying && (
         <div style={{
@@ -771,6 +769,18 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                 boxSizing: 'border-box',
               }}
               title={`Avoidance ellipse: ax=${ax.toFixed(1)} ay=${ay.toFixed(1)} (${obs.type} r=${obs.radius})`}
+            />
+          )
+        })}
+        {/* Persistent blood pools left by fallen units */}
+        {(state.bloodPools ?? []).map(pool => {
+          const topPct  = (1 - pool.x / LANE_WIDTH) * 100
+          const leftPct = 50 + (pool.y / 80) * 36
+          return (
+            <div
+              key={pool.id}
+              className="blood-pool"
+              style={{ top: `${topPct}%`, left: `${leftPct}%` }}
             />
           )
         })}
