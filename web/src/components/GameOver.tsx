@@ -76,19 +76,35 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
     handicapNote = `Handicap unchanged (${handicap} cards removed)`
   }
 
+  const isEndless  = !!state.endlessMode
+  const survivalSec = isEndless ? Math.floor((state.endlessSurvivalMs ?? 0) / 1000) : 0
+  const survivalMin = Math.floor(survivalSec / 60)
+  const survivalRem = survivalSec % 60
+  const survivalStr = `${survivalMin}:${String(survivalRem).padStart(2, '0')}`
+
   return (
     <div className={`gameover-screen ${css}`}>
       <div className="gameover-title">{title}</div>
+      {isEndless && (
+        <div className="gameover-endless-badge">∞ ENDLESS MODE</div>
+      )}
       <pre className="gameover-ascii">{art}</pre>
       <div className="gameover-message">{message}</div>
-      <div className="gameover-score">
-        <span className="score-player">{state.playerScore}</span>
-        <span className="score-sep"> vs </span>
-        <span className="score-opponent">{state.opponentScore}</span>
-      </div>
+      {isEndless ? (
+        <div className="gameover-endless-stats">
+          <div className="gameover-endless-wave">WAVE {state.endlessWave ?? 1}</div>
+          <div className="gameover-endless-time">Survived {survivalStr}</div>
+        </div>
+      ) : (
+        <div className="gameover-score">
+          <span className="score-player">{state.playerScore}</span>
+          <span className="score-sep"> vs </span>
+          <span className="score-opponent">{state.opponentScore}</span>
+        </div>
+      )}
       <div className="gameover-stats">
         <div>Time: {Math.floor(state.gameTime / 1000)}s</div>
-        {!draw && (won
+        {!draw && !isEndless && (won
           ? <div>Your base HP: {state.playerBase.hp}/{state.playerBase.maxHp}</div>
           : <div>Enemy base HP remaining: {state.opponentBase.hp}/{state.opponentBase.maxHp}</div>
         )}
