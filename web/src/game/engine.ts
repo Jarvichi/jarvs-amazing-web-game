@@ -1,4 +1,4 @@
-import { GameState, Card, Unit, UnitTemplate, UpgradeEffect, CardRarity, LANE_WIDTH, BattleEventState, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE } from './types'
+import { GameState, Card, Unit, UnitTemplate, UpgradeEffect, CardRarity, LANE_WIDTH, BattleEventState, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE, AnimEvent } from './types'
 import { makeDeck, makeThorlordDeck, makeKraggDeck, makeAshwalkerDeck, makeNodeDeck, HERO_CARDS, getCardUnit } from './cards'
 import { playUnitDeath, playBuildingDestroyed } from './sound'
 import { isNoDamageMode } from './debug'
@@ -11,6 +11,10 @@ const BASE_MAX_MANA = 5
 const SUDDEN_DEATH_MS = 60000
 const BATTLE_EVENT_BASE_MS = 30000  // first event after 30s, then every 24-32s
 const SPAWN_GROW_MS = 1500           // building-spawn grow-in animation duration
+const DEATH_LINGER_MS = 400          // how long a dying unit stays visible
+const DAMAGE_FLASH_MS = 200          // how long the damage-flash effect lasts
+const PROJECTILE_SPEED_PX_MS = 0.4  // projectile travel speed in game-px per ms
+const ANIM_EVENT_PROJECTILE_MS = 600 // max projectile lifetime (cap)
 
 const PLAYER_SPAWN_X = 30        // where player units appear
 const OPPONENT_SPAWN_X = LANE_WIDTH - 30  // where opponent units appear
@@ -20,6 +24,9 @@ const BASE_STOP_MARGIN = 0       // units may reach the base character position 
 
 let _unitId = 0
 function uid(): string { return `unit-${++_unitId}` }
+
+let _animId = 0
+function animUid(): string { return `anim-${++_animId}` }
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr]
@@ -232,6 +239,8 @@ export interface NewGameOptions {
   opponentBaseHp?: number
   /** Extra cards dealt to opponent at game start (from replay modifiers). */
   opponentStartCards?: number
+  /** Start in Endless Mode (wave survival). */
+  endlessMode?: boolean
 }
 
 export function newGame(
@@ -256,6 +265,7 @@ export function newGame(
     bossHpMultiplier,
     opponentStartCards = 0,
     enemyDeckNames,
+    endlessMode,
     prebuiltOpponentDeck,
     prebuiltPlayerDeck,
     terrainSeed,
@@ -362,6 +372,11 @@ export function newGame(
     terrain: generateTerrain(terrainSeed, environment),
     environment,
     battleStats: { cardsPlayed: {}, playerKills: 0, playerUnitsLost: 0 },
+    animEvents: [],
+    endlessMode: endlessMode ?? false,
+    endlessWave: endlessMode ? 1 : undefined,
+    endlessSurvivalMs: endlessMode ? 0 : undefined,
+    endlessOpponentDeckTemplate: endlessMode ? [...opponentDeck] : undefined,
   }
 }
 
@@ -384,6 +399,22 @@ export function playCard(state: GameState, cardId: string): GameState {
     if (existing && (existing.upgradeLevel ?? 1) >= MAX_UPGRADE_LEVEL) {
       const s = structuredClone(state)
       s.log.push(`${existing.name} is already at max level — upgrade blocked.`)
+      return s
+    }
+  }
+
+  // Endless mode: block new (non-upgrade) structures beyond 3 rows from player base
+  if (state.endlessMode && card.cardType === 'structure' && card.unit && !card.unit.isWall) {
+    const existing = state.field.find(u => u.owner === 'player' && u.name === card.unit!.name)
+    // Count current player structures to determine next row position
+    const playerStructures = state.field.filter(u => u.owner === 'player' && u.moveSpeed === 0 && !u.isWall)
+    const nextIdx = existing ? playerStructures.findIndex(u => u.name === card.unit!.name) : playerStructures.length
+    // Each structure sits at x=10 base; rows push x outward by ~44px step — 3 rows ≈ x ≤ 60
+    // Block new structures that would land in row 3+ (0-indexed: rows 0,1,2 = max 18 buildings)
+    const row = Math.floor(nextIdx / 6)
+    if (!existing && row >= 3) {
+      const s = structuredClone(state)
+      s.log.push('Endless mode: buildings are limited to 3 rows from your base.')
       return s
     }
   }
@@ -793,6 +824,21 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
       // Mastery 5 elite bonus: +10% damage
       const masteryEliteMult = (unit.masteryLevel ?? 0) >= 5 ? 1.1 : 1
       const dmg = Math.round((unit.attack + atkAura) * bloodMoonMult * swMult * affDmgMult * masteryEliteMult)
+
+      // Emit projectile animation for ranged (bypassWall) attackers
+      if (unit.bypassWall && !unit.isWall) {
+        const dist = Math.hypot(target.x - unit.x, target.y - unit.y)
+        const travelMs = Math.min(ANIM_EVENT_PROJECTILE_MS, dist / PROJECTILE_SPEED_PX_MS)
+        const projEvent: AnimEvent = {
+          id: animUid(),
+          kind: 'projectile',
+          fromX: unit.x, fromY: unit.y,
+          toX: target.x, toY: target.y,
+          expiresAt: s.gameTime + travelMs,
+        }
+        s.animEvents.push(projEvent)
+      }
+
       // Respect developer no-damage mode for player-owned targets
       if (target.owner === 'player' && isNoDamageMode()) {
         log.push(`${unit.name} would damage ${target.name} (dev mode — no damage)`)
@@ -801,10 +847,24 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
         const actualDamage = prevHp - Math.max(0, target.hp)
         if (isPlayer) s.playerScore += actualDamage
         else s.opponentScore += actualDamage
+        // Damage flash
+        target.damageFlashTimer = DAMAGE_FLASH_MS
+        // Emit hit spark at target position
+        s.animEvents.push({
+          id: animUid(),
+          kind: 'hit',
+          fromX: target.x, fromY: target.y,
+          toX: target.x, toY: target.y,
+          expiresAt: s.gameTime + 300,
+        })
         if (target.hp <= 0) {
           log.push(`${unit.name} destroyed ${target.name}!`)
           if (target.moveSpeed === 0) playBuildingDestroyed()
           else playUnitDeath()
+          // Start death linger for mobile units (not walls/structures — they snap away)
+          if (target.moveSpeed > 0 && !target.isWall) {
+            target.dyingTimer = DEATH_LINGER_MS
+          }
         }
       }
       const affSpeedMult = (unit.affinityActive && unit.affinity?.effectType === 'attackSpeed')
@@ -862,7 +922,8 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
   }
 
   // Remove dead units (moats are indestructible — keep them even at 0 hp)
-  s.field = s.field.filter(u => u.hp > 0 || u.isMoat)
+  // Mobile units with a dyingTimer linger briefly for death animation
+  s.field = s.field.filter(u => u.hp > 0 || u.isMoat || (u.dyingTimer != null && u.dyingTimer > 0))
 }
 
 // ─── Game Over Check ──────────────────────────────────────
@@ -893,6 +954,23 @@ function checkGameOver(s: GameState): boolean {
     return true
   }
   if (s.opponentBase.hp <= 0) {
+    // Endless mode: spawn next (stronger) wave instead of ending
+    if (s.endlessMode) {
+      const wave = (s.endlessWave ?? 1) + 1
+      s.endlessWave = wave
+      const hpMult = 1 + (wave - 1) * 0.3
+      s.opponentBase = { hp: Math.round(82 * hpMult), maxHp: Math.round(82 * hpMult) }
+      // Scale opponent speed slightly each wave (min 2000ms)
+      s.opponentIntervalMs = Math.max(2000, s.opponentIntervalMs - 300)
+      s.opponentTimer = s.opponentIntervalMs
+      // Clear opponent units + reshuffle opponent deck
+      s.field = s.field.filter(u => u.owner !== 'opponent')
+      const fresh = shuffle([...(s.endlessOpponentDeckTemplate ?? [])])
+      s.opponentDeck = fresh
+      drawCard(s.opponentDeck, s.opponentHand)
+      s.log.push(`Wave ${wave}! A stronger opponent rises — HP ×${hpMult.toFixed(1)}!`)
+      return false
+    }
     if (s.bossCard && !s.bossCardActive) {
       // Trigger phase 2: restore base, clear opponent minions, push player units back, deploy boss
       s.opponentBase.hp = s.opponentBase.maxHp
@@ -1230,10 +1308,23 @@ export function tick(state: GameState, deltaMs: number): GameState {
     return s
   }
 
-  // 5. Tick spawn-grow timers and spawner/aura buildings
+  // 5. Tick spawn-grow timers, death/damage animation timers, climb flag, spawner/aura buildings
   for (const unit of s.field) {
     if (unit.spawnGrowTimer != null && unit.spawnGrowTimer > 0) {
       unit.spawnGrowTimer = Math.max(0, unit.spawnGrowTimer - deltaMs)
+    }
+    if (unit.dyingTimer != null && unit.dyingTimer > 0) {
+      unit.dyingTimer = Math.max(0, unit.dyingTimer - deltaMs)
+    }
+    if (unit.damageFlashTimer != null && unit.damageFlashTimer > 0) {
+      unit.damageFlashTimer = Math.max(0, unit.damageFlashTimer - deltaMs)
+    }
+    // Update climbing flag: true when climber unit is inside an enemy wall zone
+    if (unit.climber && unit.moveSpeed > 0) {
+      unit.climbing = s.field.some(w =>
+        w.isWall && w.owner !== unit.owner && w.hp > 0 &&
+        Math.abs(unit.x - w.x) <= 30
+      )
     }
     const sEffect = unit.structureEffect
     if (unit.spawnTimer == null || !sEffect) continue
@@ -1301,9 +1392,29 @@ export function tick(state: GameState, deltaMs: number): GameState {
     s.battleEventTimer = 24000 + Math.random() * 8000
   }
 
-  // 9. Sudden death — trigger when all cards have been drawn and played
-  // Suppress during phase 2: boss unit death determines the winner
-  if (s.bossCardActive) { /* skip sudden death */ }
+  // 8. Purge expired animation events
+  s.animEvents = s.animEvents.filter(e => e.expiresAt > s.gameTime)
+
+  // 9. Endless mode: reshuffle cards when deck + hand empty; handle wave progression
+  if (s.endlessMode) {
+    s.endlessSurvivalMs = (s.endlessSurvivalMs ?? 0) + deltaMs
+
+    // Infinite card draw: reshuffle discard pile when deck runs out
+    if (s.playerDeck.length === 0 && s.playerHand.length < 4) {
+      // Rebuild from a fresh copy of the player's template deck
+      const fresh = shuffle([...(s.endlessOpponentDeckTemplate ?? [])])
+      s.playerDeck.push(...fresh)
+    }
+    if (s.opponentDeck.length === 0 && s.opponentHand.length < 4) {
+      const fresh = shuffle([...(s.endlessOpponentDeckTemplate ?? [])])
+      s.opponentDeck.push(...fresh)
+    }
+    // Draw up to 4 each
+    while (s.playerHand.length < 4 && s.playerDeck.length > 0) drawCard(s.playerDeck, s.playerHand)
+    while (s.opponentHand.length < 4 && s.opponentDeck.length > 0) drawCard(s.opponentDeck, s.opponentHand)
+  }
+  // 10. Sudden death — suppressed in endless mode (death only by base reaching 0)
+  else if (s.bossCardActive) { /* skip sudden death */ }
   else if (!s.suddenDeath) {
     const allExhausted =
       s.playerDeck.length === 0 && s.playerHand.length === 0 &&

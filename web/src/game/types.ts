@@ -81,6 +81,29 @@ export interface Unit extends UnitTemplate {
   isHero?: boolean           // true for units deployed from hero cards
   spriteName?: string        // sprite lookup override — hero units retain their base unit's sprite name
   affinityActive?: boolean   // runtime: affinity buff currently in effect
+  /** True while unit is passing through an enemy wall zone (enables climb animation). */
+  climbing?: boolean
+  /** ms remaining in death animation — unit lingers on field while > 0. */
+  dyingTimer?: number
+  /** ms remaining in damage-flash animation. */
+  damageFlashTimer?: number
+}
+
+// ─── Animation Events ─────────────────────────────────────
+
+export type AnimEventKind = 'projectile' | 'hit'
+
+export interface AnimEvent {
+  id: string
+  kind: AnimEventKind
+  /** Game-coordinate origin of the event. */
+  fromX: number
+  fromY: number
+  /** Game-coordinate destination (projectiles travel toward this). */
+  toX: number
+  toY: number
+  /** Absolute game-time (ms) when this event expires and should be removed. */
+  expiresAt: number
 }
 
 export interface Card {
@@ -146,6 +169,9 @@ export type GamePhase =
 
 export const LANE_WIDTH = 500
 
+/** In endless mode, player structures may not be placed beyond this forward x-coordinate (3 rows from base). */
+export const ENDLESS_STRUCTURE_MAX_X = 60
+
 export type OpponentStrategy = 'swarm' | 'turtle' | 'rush'
 
 export interface BattleStats {
@@ -187,4 +213,14 @@ export interface GameState {
   soulstoneReviveAvailable?: boolean  // Soulstone relic: one unit auto-revives per battle
   relicManaBonus?: number             // Prism Lens relic: +N to maxMana cap
   battleStats: BattleStats
+  /** Transient animation events (projectiles, hit flashes). Cleared each tick after expiry. */
+  animEvents: AnimEvent[]
+  /** True when running in Endless Mode (wave survival). */
+  endlessMode?: boolean
+  /** Current wave number in Endless Mode (starts at 1). */
+  endlessWave?: number
+  /** Survival time in ms (Endless Mode only). */
+  endlessSurvivalMs?: number
+  /** Cached opponent deck template for wave respawning. */
+  endlessOpponentDeckTemplate?: Card[]
 }
