@@ -7019,8 +7019,8 @@ html.light-mode .action-btn {
 
 /* Kill flash: brief golden glow on the attacker when it lands a kill */
 @keyframes kill-flash-anim {
-  0%   { filter: brightness(2.5) saturate(0) sepia(0.5) hue-rotate(30deg); box-shadow: 0 0 8px 3px rgba(255,220,50,0.9); }
-  100% { filter: none; box-shadow: none; }
+  0%   { filter: brightness(2.5) saturate(0) sepia(0.5) hue-rotate(30deg) drop-shadow(0 0 6px rgba(255,220,50,0.9)); }
+  100% { filter: none; }
 }
 .lane-unit--kill-flash {
   animation: kill-flash-anim 0.5s ease-out forwards;
