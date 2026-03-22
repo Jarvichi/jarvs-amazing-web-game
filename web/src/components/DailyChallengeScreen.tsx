@@ -1,6 +1,5 @@
-import React from 'react'
-import { getDailyChallengeState } from '../game/dailyChallenge'
-import { getDailyPlayerDeck } from '../game/dailyChallenge'
+import React, { useEffect, useState } from 'react'
+import { getDailyChallengeState, getDailyPlayerDeck, fetchDailyLeaderboard, LeaderboardEntry } from '../game/dailyChallenge'
 
 interface Props {
   onStart: () => void
@@ -11,6 +10,15 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
   const state   = getDailyChallengeState()
   const deck    = getDailyPlayerDeck()
   const today   = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })
+
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[] | null>(null)
+
+  useEffect(() => {
+    if (!navigator.onLine) { setLeaderboard([]); return }
+    fetchDailyLeaderboard(3)
+      .then(setLeaderboard)
+      .catch(() => setLeaderboard([]))
+  }, [])
 
   const rarityIcon: Record<string, string> = {
     common: '○', uncommon: '◆', rare: '★', legendary: '✦',
@@ -41,6 +49,27 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
           Attempt {state.attempts + 1} — keep going!
         </div>
       )}
+
+      <div className="dc-leaderboard">
+        <div className="dc-leaderboard-label">TODAY'S TOP PLAYERS</div>
+        {leaderboard === null ? (
+          <div className="dc-leaderboard-empty">Loading…</div>
+        ) : leaderboard.length === 0 ? (
+          <div className="dc-leaderboard-empty">⏳ Awaiting today's results</div>
+        ) : (
+          <ol className="dc-leaderboard-list">
+            {leaderboard.map((entry, i) => (
+              <li key={entry.uid} className="dc-leaderboard-entry">
+                <span className="dc-lb-rank">{i + 1}.</span>
+                <span className="dc-lb-name">{entry.characterName}</span>
+                <span className="dc-lb-attempts">
+                  {entry.attempts === 1 ? '1 attempt' : `${entry.attempts} attempts`}
+                </span>
+              </li>
+            ))}
+          </ol>
+        )}
+      </div>
 
       <div className="dc-deck">
         <div className="dc-deck-label">YOUR DECK ({deck.length} cards)</div>

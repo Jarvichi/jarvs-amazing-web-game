@@ -2,10 +2,21 @@
 //
 // Each day everyone plays the same fixed-seed deck against the same opponent.
 // Win/loss and attempt count are tracked in localStorage.
+// Completions are published to Firestore for the daily leaderboard.
 
 import { logError } from '../logger'
 import { getCardCatalog } from './cards'
 import { Card } from './types'
+import {
+  doc, setDoc, getDocs, collection, query, orderBy, limit, Timestamp,
+} from 'firebase/firestore'
+import { db } from '../firebase'
+
+// Required additional Firestore Security Rules:
+//   match /dailyLeaderboard/{date}/entries/{uid} {
+//     allow write: if request.auth != null && request.auth.uid == uid;
+//     allow read:  if true;
+//   }
 
 const DC_KEY        = 'jarv_daily_challenge'
 const DC_STREAK_KEY = 'jarv_daily_streak'
@@ -139,4 +150,56 @@ export function saveDailyChallengeResult(won: boolean): void {
     attempts: state.attempts + 1,
   }
   try { localStorage.setItem(DC_KEY, JSON.stringify(next)) } catch { /* ignore */ }
+}
+
+// ── Leaderboard ───────────────────────────────────────────────────────────────
+
+export interface LeaderboardEntry {
+  uid:           string
+  playerId:      string
+  characterName: string
+  attempts:      number
+  completedAt:   Date
+}
+
+/**
+ * Publish a daily challenge win to the Firestore leaderboard.
+ * One document per uid per day — overwrites if re-submitted.
+ */
+export async function publishDailyResult(opts: {
+  uid:           string
+  playerId:      string
+  characterName: string
+  attempts:      number
+}): Promise<void> {
+  const date = getDailyDate()
+  const ref  = doc(db, 'dailyLeaderboard', date, 'entries', opts.uid)
+  await setDoc(ref, {
+    uid:           opts.uid,
+    playerId:      opts.playerId,
+    characterName: opts.characterName,
+    attempts:      opts.attempts,
+    completedAt:   Timestamp.now(),
+  })
+}
+
+/**
+ * Fetch today's top N leaderboard entries, sorted by attempts ascending.
+ * Returns an empty array on error or when offline.
+ */
+export async function fetchDailyLeaderboard(topN = 3): Promise<LeaderboardEntry[]> {
+  const date = getDailyDate()
+  const ref  = collection(db, 'dailyLeaderboard', date, 'entries')
+  const q    = query(ref, orderBy('attempts', 'asc'), limit(topN))
+  const snap = await getDocs(q)
+  return snap.docs.map((d: import('firebase/firestore').QueryDocumentSnapshot) => {
+    const data = d.data()
+    return {
+      uid:           data.uid,
+      playerId:      data.playerId,
+      characterName: data.characterName,
+      attempts:      data.attempts,
+      completedAt:   (data.completedAt as Timestamp).toDate(),
+    }
+  })
 }
