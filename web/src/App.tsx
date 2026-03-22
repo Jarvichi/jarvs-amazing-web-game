@@ -14,7 +14,7 @@ import { getCardCatalog } from './game/cards'
 import {
   loadRun, saveRun, clearRun, newRun, LIVES_START, LIVES_MAX,
   getAvailableNodeIds, skipSiblings, isActComplete,
-  generateRewardChoices, generateMerchantCards, MERCHANT_PRICES, ACTS, getNextAct,
+  generateRewardChoices, generateEndlessRewardChoices, generateMerchantCards, MERCHANT_PRICES, ACTS, getNextAct,
   loadFatigued, saveFatigued, clearFatigued, getTopPlayedCards,
   hasSeenIntro, markIntroSeen,
   loadRunCount, incrementRunCount, getAct1Intro,
@@ -291,6 +291,7 @@ export default function App() {
   const [run, setRun]                   = useState<RunState | null>(_startup.run)
   const [rewardChoices,  setRewardChoices]  = useState<string[]>([])
   const [rewardCrystals, setRewardCrystals] = useState(0)
+  const [waveRewardChoices, setWaveRewardChoices] = useState<string[]>([])
   const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
 
@@ -395,6 +396,7 @@ export default function App() {
   useEffect(() => {
     if (screen !== 'playing' || !gameState) return
     if (gameState.phase.type === 'gameOver') return
+    if (gameState.phase.type === 'waveReward') return
     if (isGamePaused) return
     if (isTabHidden) return
     const id = setInterval(() => {
@@ -548,6 +550,13 @@ export default function App() {
       toasts.push(...setAchievementProgress('endless:best_wave', wave))
       if (toasts.length > 0) setAchievementToasts(prev => [...prev, ...toasts])
     }
+  }, [gameState?.phase.type])
+
+  // Generate wave reward choices when an endless wave is cleared
+  useEffect(() => {
+    if (gameState?.phase.type !== 'waveReward') return
+    const wave = (gameState.phase as { type: 'waveReward'; wave: number }).wave
+    setWaveRewardChoices(generateEndlessRewardChoices(wave))
   }, [gameState?.phase.type])
 
   // Trigger SW update check whenever the title screen is shown
@@ -1146,6 +1155,23 @@ export default function App() {
 
   const handleRewardSkip = useCallback(() => {
     setScreen('nodemap')
+  }, [])
+
+  const handleWaveRewardPick = useCallback((cardName: string) => {
+    // Add to collection permanently and inject into the current run deck
+    addCardsToCollection([{ cardName, count: 1 }])
+    setGameState(s => {
+      if (!s || s.phase.type !== 'waveReward') return s
+      const catalog = getCardCatalog()
+      const card = catalog.find(c => c.name === cardName)
+      const next = { ...s, phase: { type: 'playing' as const } }
+      if (card) next.playerDeck = [...s.playerDeck, { ...card, id: `reward-${Date.now()}` }]
+      return next
+    })
+  }, [])
+
+  const handleWaveRewardSkip = useCallback(() => {
+    setGameState(s => s && s.phase.type === 'waveReward' ? { ...s, phase: { type: 'playing' } } : s)
   }, [])
 
   const handleActComplete = useCallback(() => {
@@ -1923,6 +1949,22 @@ export default function App() {
           && gameState.phase.type === 'gameOver'
           && gameState.phase.winner !== 'player'
           && failCount >= 2
+        if (gameState.phase.type === 'waveReward') {
+          const wave = (gameState.phase as { type: 'waveReward'; wave: number }).wave
+          return (
+            <PostBattleReward
+              choices={waveRewardChoices}
+              nodeType="battle"
+              crystals={0}
+              onPick={handleWaveRewardPick}
+              onSkip={handleWaveRewardSkip}
+              headerOverride={{
+                title: `WAVE ${wave} CLEARED`,
+                sub: 'Pick a card to add to your deck.',
+              }}
+            />
+          )
+        }
         return gameState.phase.type === 'gameOver' ? (
           <GameOver
             state={gameState}

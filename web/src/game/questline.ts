@@ -707,6 +707,42 @@ export function generateRewardChoices(nodeType: NodeType, actTags?: string[]): s
   return deduped
 }
 
+/** Rarity pool for each wave completed in endless mode. Rarity escalates with wave number. */
+function endlessRewardRarities(wave: number): CardRarity[] {
+  if (wave >= 8) return ['legendary', 'legendary', 'legendary']
+  if (wave >= 7) return ['legendary', 'legendary', 'rare']
+  if (wave >= 6) return ['legendary', 'rare', 'rare']
+  if (wave >= 5) return ['rare', 'rare', 'rare']
+  if (wave >= 4) return ['rare', 'rare', 'uncommon']
+  if (wave >= 3) return ['rare', 'uncommon', 'uncommon']
+  if (wave >= 2) return ['uncommon', 'common', 'common']
+  return ['common', 'common', 'common']
+}
+
+export function generateEndlessRewardChoices(wave: number): string[] {
+  const catalog = getCardCatalog()
+  const rarities = endlessRewardRarities(wave)
+
+  function pick(r: CardRarity): string {
+    const pool = catalog.filter(c => c.rarity === r)
+    return pool[Math.floor(Math.random() * pool.length)].name
+  }
+
+  const seen = new Set<string>()
+  const choices: string[] = []
+  for (const r of rarities) {
+    let name = pick(r)
+    // Avoid duplicates — try once more then give up
+    if (seen.has(name)) {
+      const fallback = catalog.filter(c => c.rarity === r && !seen.has(c.name))[0]
+      if (fallback) name = fallback.name
+    }
+    seen.add(name)
+    choices.push(name)
+  }
+  return choices
+}
+
 // ─── Acts ─────────────────────────────────────────────────
 
 export const ACT_1: Act = act1Data as Act
