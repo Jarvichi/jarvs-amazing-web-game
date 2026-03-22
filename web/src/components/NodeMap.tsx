@@ -222,8 +222,8 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
           </div>
         )}
 
-        {/* Active modifiers */}
-        {activeModifiers.length > 0 && (
+        {/* Active modifiers (battle nodes only) */}
+        {isBattle && activeModifiers.length > 0 && (
           <div className="nm-peek-modifiers">
             <div className="nm-peek-modifiers-label">— REPLAY MODIFIERS —</div>
             {activeModifiers.map((m, i) => (
