@@ -1,10 +1,21 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-22 (session 21 — reviewing older issues).
+Issues sourced from GitHub. Last synced: 2026-03-22 (session 22 — new issues sync).
 
 ---
 
 When working an issue from this file, go and check the GitHub issue for additional detail and requirements before planning the solution, create a todo list based on the plan and execute it. If running in the cli you can usually use the "gh" cli commands to help, however if they are not available use a fallback method.
+
+---
+
+## 🔴 Bugs — New (from GitHub, session 22 sync)
+
+- [ ] **#395** Zooming during boss battle — zoom targets centre instead of boss; fight happens off-screen (reported on Fairphone 5, likely screen-size related)
+- [ ] **#392** Structure upgrade not scaling — 2★ Fairie Ring feels same speed as 3★ / 4★; upgrade stat progression may be broken
+
+## 🔵 Enhancements — New (from GitHub, session 22 sync)
+
+- [ ] **#397** Different unit sizes — add a `size` characteristic to units; render larger units (dragons) bigger than smaller ones (goblins)
 
 ---
 
