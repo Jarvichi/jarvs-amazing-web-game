@@ -970,16 +970,18 @@ function checkGameOver(s: GameState): boolean {
     if (s.endlessMode) {
       const wave = (s.endlessWave ?? 1) + 1
       s.endlessWave = wave
-      const hpMult = 1 + (wave - 1) * 0.3
+      const hpMult = 1 + (wave - 1) * 0.5
       s.opponentBase = { hp: Math.round(82 * hpMult), maxHp: Math.round(82 * hpMult) }
-      // Scale opponent speed slightly each wave (min 2000ms)
-      s.opponentIntervalMs = Math.max(2000, s.opponentIntervalMs - 300)
+      // Scale opponent speed aggressively each wave (min 2000ms)
+      s.opponentIntervalMs = Math.max(2000, s.opponentIntervalMs - 500)
       s.opponentTimer = s.opponentIntervalMs
       // Clear opponent units + reshuffle opponent deck
       s.field = s.field.filter(u => u.owner !== 'opponent')
       const fresh = shuffle([...(s.endlessOpponentDeckTemplate ?? [])])
       s.opponentDeck = fresh
-      drawCard(s.opponentDeck, s.opponentHand)
+      // Draw bonus cards into opponent hand based on wave number
+      const bonusDraws = Math.min(4, wave - 1)
+      for (let i = 0; i < bonusDraws; i++) drawCard(s.opponentDeck, s.opponentHand)
       // Reset player spawn building timers so they don't immediately flood the wave
       s.field.forEach(u => {
         if (u.owner === 'player' && u.spawnTimer != null && u.structureEffect?.type === 'spawn') {
@@ -987,10 +989,10 @@ function checkGameOver(s: GameState): boolean {
           u.spawnTimer = se.intervalMs
         }
       })
-      // Grant opponent a truce window to get units on the field
-      s.endlessWaveTruceMs = 8000
+      // Grant opponent a shorter truce window to get units on the field
+      s.endlessWaveTruceMs = 5000
       s.log.push(`Wave ${wave}! A stronger opponent rises — HP ×${hpMult.toFixed(1)}!`)
-      s.log.push(`⏳ Truce: 8s before attacks hit the base!`)
+      s.log.push(`⏳ Truce: 5s before attacks hit the base!`)
       return false
     }
     if (s.bossCard && !s.bossCardActive) {
@@ -1030,7 +1032,11 @@ function opponentAI(s: GameState, log: string[]): void {
   let mana = Math.min(10, BASE_MAX_MANA + manaBonus)
 
   const strategy = s.opponentStrategy
-  const maxPlays = strategy === 'swarm' ? 3 : 2
+  const wave = s.endlessMode ? (s.endlessWave ?? 1) : 1
+  const baseMax = strategy === 'swarm' ? 3 : 2
+  const maxPlays = Math.min(6, baseMax + Math.floor((wave - 1) / 2))
+  // Early-stop chance after 1st card: 50% wave 1-2, 25% wave 3-4, 0% wave 5+
+  const earlyStopChance = wave <= 2 ? 0.5 : wave <= 4 ? 0.25 : 0
 
   let played = 0
   while (played < maxPlays) {
@@ -1060,8 +1066,8 @@ function opponentAI(s: GameState, log: string[]): void {
 
     // Turtle only plays 1 card per turn
     if (strategy === 'turtle') break
-    // Others have a random early-stop chance
-    if (played === 1 && Math.random() > 0.5) break
+    // Others have a wave-scaled early-stop chance
+    if (played === 1 && Math.random() < earlyStopChance) break
   }
 
   if (played === 0) log.push('Opponent holds.')
