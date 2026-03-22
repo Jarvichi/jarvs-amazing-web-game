@@ -30,9 +30,10 @@ interface Props {
   onDailyChallenge: () => void
   user: User | null
   onSignOut: () => void
+  onSignIn: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, user, onSignOut }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, user, onSignOut, onSignIn }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -179,7 +180,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
               <button className="title-auth-btn" onClick={onSignOut}>SIGN OUT</button>
             </>
           ) : (
-            <button className="title-auth-btn" onClick={onSettings}>SIGN IN</button>
+            <button className="title-auth-btn" onClick={onSignIn}>SIGN IN</button>
           )}
         </div>
       </div>

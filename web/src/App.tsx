@@ -56,6 +56,7 @@ import { LiarsDiceEvent }     from './components/rare-events/LiarsDiceEvent'
 import { GamblerEvent }       from './components/rare-events/GamblerEvent'
 import { CardTile }           from './components/CardTile'
 import { DailyLoginModal }   from './components/DailyLoginModal'
+import { LoginModal }        from './components/LoginModal'
 import { InventoryScreen }   from './components/InventoryScreen'
 import { peekDailyReward, markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult } from './game/dailyChallenge'
@@ -279,7 +280,8 @@ export default function App() {
     return { screen: (loadSkipIntro() ? 'title' : 'intro') as Screen, gameState: null as GameState | null, run: savedRun as RunState | null, isCampaign: false }
   })
 
-  const [screen, setScreen]       = useState<Screen>(_startup.screen)
+  const [screen, setScreen]             = useState<Screen>(_startup.screen)
+  const [showTitleLoginModal, setShowTitleLoginModal] = useState(false)
   const [gameState, setGameState] = useState<GameState | null>(_startup.gameState)
   const [pack, setPack]           = useState<string[]>([])
   const [handicap, setHandicap]   = useState<number>(loadHandicap)
@@ -1662,24 +1664,35 @@ export default function App() {
       )}
 
       {screen === 'title' && (
-        <TitleScreen
-          crystals={crystals}
-          onPlay={handlePlay}
-          onEndless={handleEndless}
-          onCampaign={handleCampaign}
-          onCollection={() => setScreen('collection')}
-          onShop={() => setScreen('shop')}
-          onDeckBuilder={() => setScreen('deckbuilder')}
-          onSettings={() => setScreen('settings')}
-          onInventory={() => setScreen('inventory')}
-          onAchievements={() => setScreen('achievements')}
-          onHeroCards={() => setScreen('heroCards')}
-          onCharacter={() => setScreen('character')}
-          on8bitUnlocked={() => { /* achievement granted in TitleScreen after unlock */ }}
-          onDailyChallenge={handleDailyChallenge}
-          user={user}
-          onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
-        />
+        <>
+          <TitleScreen
+            crystals={crystals}
+            onPlay={handlePlay}
+            onEndless={handleEndless}
+            onCampaign={handleCampaign}
+            onCollection={() => setScreen('collection')}
+            onShop={() => setScreen('shop')}
+            onDeckBuilder={() => setScreen('deckbuilder')}
+            onSettings={() => setScreen('settings')}
+            onInventory={() => setScreen('inventory')}
+            onAchievements={() => setScreen('achievements')}
+            onHeroCards={() => setScreen('heroCards')}
+            onCharacter={() => setScreen('character')}
+            on8bitUnlocked={() => { /* achievement granted in TitleScreen after unlock */ }}
+            onDailyChallenge={handleDailyChallenge}
+            user={user}
+            onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
+            onSignIn={() => setShowTitleLoginModal(true)}
+          />
+          {showTitleLoginModal && (
+            <LoginModal
+              user={user}
+              authLoading={authLoading}
+              onClose={() => setShowTitleLoginModal(false)}
+              onLoginSuccess={() => { setShowTitleLoginModal(false) }}
+            />
+          )}
+        </>
       )}
 
       {screen === 'settings' && (
