@@ -24,6 +24,7 @@ import {
   recordNodeComplete, loadPlayerName, applyPlayerName,
   ALL_CONSUMABLES, addToConsumableStash, useConsumable,
   getModifiersByCount, getModifierMax,
+  setLastRunFailed, loadLastRunFailed, clearLastRunFailed,
 } from './game/questline'
 import { CardRestSelect }       from './components/CardRestSelect'
 import { EventScreen }          from './components/EventScreen'
@@ -308,6 +309,7 @@ export default function App() {
   const replayBriefingRef = useRef<{
     actId: string
     completionCount: number
+    lastRunFailed: boolean
     proceed: (chosenCount: number) => void
   } | null>(null)
   const [foundItem, setFoundItem] = useState<Omit<import('./game/dailyLogin').UselessItem, 'acquiredDate'> | null>(null)
@@ -682,10 +684,12 @@ export default function App() {
     }
 
     // Show replay briefing if the player has completed this act before and it has modifiers
+    const lastRunFailed = loadLastRunFailed()
     if (completionCount > 0 && getModifierMax(act) > 0) {
       replayBriefingRef.current = {
         actId,
         completionCount,
+        lastRunFailed,
         proceed: proceedWithModifiers,
       }
       setScreen('replayBriefing')
@@ -1226,6 +1230,7 @@ export default function App() {
       const failUnlocked = incrementAchievementProgress('misc:campaign_failed')
       if (failUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...failUnlocked])
       resetWinStreak()
+      setLastRunFailed()
       clearRun()
       setRun(null)
       setScreen('campaignfailed')
@@ -1457,6 +1462,7 @@ export default function App() {
       const failUnlocked = incrementAchievementProgress('misc:campaign_failed')
       if (failUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...failUnlocked])
       resetWinStreak()
+      setLastRunFailed()
       clearRun()
       setRun(null)
       setGameState(null)
@@ -1677,13 +1683,14 @@ export default function App() {
       )}
 
       {screen === 'replayBriefing' && replayBriefingRef.current && (() => {
-        const { actId, completionCount, proceed } = replayBriefingRef.current!
+        const { actId, completionCount, lastRunFailed, proceed } = replayBriefingRef.current!
         const act = ACTS[actId]
         return (
           <ReplayBriefingScreen
             act={act}
             completionCount={completionCount}
-            onBegin={chosenCount => { replayBriefingRef.current = null; proceed(chosenCount) }}
+            lastRunFailed={lastRunFailed}
+            onBegin={chosenCount => { replayBriefingRef.current = null; clearLastRunFailed(); proceed(chosenCount) }}
             onBack={() => { replayBriefingRef.current = null; setScreen('title') }}
           />
         )

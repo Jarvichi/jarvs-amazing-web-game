@@ -539,6 +539,21 @@ export function clearRun(): void {
   localStorage.removeItem(RUN_KEY)
 }
 
+const LAST_RUN_FAILED_KEY = 'jarv_last_run_failed'
+
+export function setLastRunFailed(): void {
+  try { localStorage.setItem(LAST_RUN_FAILED_KEY, '1') } catch { /* ignore */ }
+}
+
+export function loadLastRunFailed(): boolean {
+  try { return localStorage.getItem(LAST_RUN_FAILED_KEY) === '1' }
+  catch { return false }
+}
+
+export function clearLastRunFailed(): void {
+  localStorage.removeItem(LAST_RUN_FAILED_KEY)
+}
+
 export const LIVES_START = 3
 export const LIVES_MAX   = 9
 

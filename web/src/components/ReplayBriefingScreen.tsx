@@ -12,6 +12,7 @@ interface TierOption {
 interface Props {
   act: Act
   completionCount: number  // how many times the player has beaten this act (= min modifier count)
+  lastRunFailed?: boolean  // if true, show mercy tiers (all options, min = 0)
   onBegin: (chosenCount: number) => void
   onBack: () => void
 }
@@ -62,9 +63,38 @@ function buildTiers(act: Act, completionCount: number): TierOption[] {
   return tiers
 }
 
-export function ReplayBriefingScreen({ act, completionCount, onBegin, onBack }: Props) {
-  const tiers = buildTiers(act, completionCount)
-  const [selected, setSelected] = useState(completionCount)
+function buildMercyTiers(act: Act): TierOption[] {
+  const all: ReplayModifier[] = act.replayModifiers ?? []
+  const tiers: TierOption[] = []
+
+  // Base: no modifiers (mandatory minimum after a failed run)
+  tiers.push({
+    label: 'NO MODIFIERS',
+    count: 0,
+    modifiers: [],
+    extraCrystals: 0,
+    isBase: true,
+  })
+
+  // All modifier tiers available as optional upgrades
+  for (let i = 1; i <= all.length; i++) {
+    const mods = all.slice(0, i)
+    tiers.push({
+      label: TIER_NAMES[Math.min(i - 1, TIER_NAMES.length - 1)],
+      count: i,
+      modifiers: mods,
+      extraCrystals: crystalBonusFor(mods) + i * 5,
+      isBase: false,
+    })
+  }
+
+  return tiers
+}
+
+export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, onBegin, onBack }: Props) {
+  const mercy = lastRunFailed === true
+  const tiers = mercy ? buildMercyTiers(act) : buildTiers(act, completionCount)
+  const [selected, setSelected] = useState(mercy ? 0 : completionCount)
 
   const ordinal = (n: number) =>
     n === 1 ? '1st' : n === 2 ? '2nd' : n === 3 ? '3rd' : `${n}th`
@@ -74,14 +104,28 @@ export function ReplayBriefingScreen({ act, completionCount, onBegin, onBack }: 
       <div className="rb-header">
         <div className="rb-act-label">{act.title}</div>
         <div className="rb-title">// CAMPAIGN REPLAY</div>
-        <div className="rb-subtitle">
-          You have completed this act <strong>{completionCount}</strong> time{completionCount !== 1 ? 's' : ''}.
-          This is your <strong>{ordinal(completionCount + 1)}</strong> run.
-        </div>
-        <div className="rb-rule">
-          Modifiers earned on prior runs are <span className="rb-mandatory">mandatory</span>.
-          Choose a harder tier for bonus crystals.
-        </div>
+        {mercy ? (
+          <>
+            <div className="rb-subtitle">
+              Your last run ended in defeat. Choose your difficulty — a clean slate is available.
+            </div>
+            <div className="rb-rule">
+              <span className="rb-mandatory">NO MODIFIERS</span> is your minimum.
+              Harder tiers offer bonus crystals.
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="rb-subtitle">
+              You have completed this act <strong>{completionCount}</strong> time{completionCount !== 1 ? 's' : ''}.
+              This is your <strong>{ordinal(completionCount + 1)}</strong> run.
+            </div>
+            <div className="rb-rule">
+              Modifiers earned on prior runs are <span className="rb-mandatory">mandatory</span>.
+              Choose a harder tier for bonus crystals.
+            </div>
+          </>
+        )}
       </div>
 
       <div className="rb-tiers">
@@ -102,10 +146,15 @@ export function ReplayBriefingScreen({ act, completionCount, onBegin, onBack }: 
                 )}
               </div>
               <ul className="rb-tier-mods">
+                {tier.modifiers.length === 0 && (
+                  <li className="rb-tier-mod rb-tier-mod--required">
+                    <span className="rb-tier-mod-label">No modifiers active</span>
+                  </li>
+                )}
                 {tier.modifiers.map((m, i) => (
                   <li
                     key={i}
-                    className={`rb-tier-mod${i < completionCount ? ' rb-tier-mod--required' : ' rb-tier-mod--bonus'}`}
+                    className={`rb-tier-mod${mercy || i < completionCount ? ' rb-tier-mod--required' : ' rb-tier-mod--bonus'}`}
                   >
                     <span className="rb-tier-mod-icon">{modifierIcon(m.type)}</span>
                     <span className="rb-tier-mod-label">{m.label}</span>
