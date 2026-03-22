@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220">
+  <!-- Scattered fallen leaves in autumn colours -->
+  <ellipse cx="10" cy="190" rx="3"   ry="1.5" fill="#c85010" opacity="0.75" transform="rotate(-20,10,190)"/>
+  <ellipse cx="22" cy="210" rx="2.8" ry="1.3" fill="#e07820" opacity="0.7"  transform="rotate(15,22,210)"/>
+  <ellipse cx="35" cy="198" rx="2.5" ry="1.2" fill="#d86010" opacity="0.65" transform="rotate(-30,35,198)"/>
+  <ellipse cx="78" cy="205" rx="3"   ry="1.4" fill="#c85010" opacity="0.72" transform="rotate(25,78,205)"/>
+  <ellipse cx="88" cy="192" rx="2.8" ry="1.3" fill="#e07820" opacity="0.7"  transform="rotate(-15,88,192)"/>
+  <ellipse cx="95" cy="215" rx="2.5" ry="1.2" fill="#b84008" opacity="0.68" transform="rotate(10,95,215)"/>
+  <!-- Mid-lane drifting leaves -->
+  <ellipse cx="14" cy="145" rx="2.5" ry="1.2" fill="#d86010" opacity="0.55" transform="rotate(20,14,145)"/>
+  <ellipse cx="87" cy="138" rx="2.5" ry="1.2" fill="#c85010" opacity="0.55" transform="rotate(-25,87,138)"/>
+  <ellipse cx="8"  cy="95"  rx="2.2" ry="1.1" fill="#e07820" opacity="0.45" transform="rotate(15,8,95)"/>
+  <ellipse cx="92" cy="88"  rx="2.2" ry="1.1" fill="#b84008" opacity="0.45" transform="rotate(-10,92,88)"/>
+  <ellipse cx="18" cy="55"  rx="2"   ry="1"   fill="#c85010" opacity="0.38" transform="rotate(30,18,55)"/>
+  <ellipse cx="84" cy="48"  rx="2"   ry="1"   fill="#d86010" opacity="0.38" transform="rotate(-20,84,48)"/>
+  <!-- A few near-centre leaves -->
+  <ellipse cx="42" cy="175" rx="2.2" ry="1.1" fill="#e07820" opacity="0.4"  transform="rotate(-10,42,175)"/>
+  <ellipse cx="60" cy="182" rx="2.2" ry="1.1" fill="#c85010" opacity="0.38" transform="rotate(12,60,182)"/>
+  <!-- Warm amber tint -->
+  <rect width="100" height="220" fill="#c06010" opacity="0.04"/>
+</svg>
