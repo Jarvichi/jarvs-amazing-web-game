@@ -1626,6 +1626,8 @@ export default function App() {
           onCharacter={() => setScreen('character')}
           on8bitUnlocked={() => { /* achievement granted in TitleScreen after unlock */ }}
           onDailyChallenge={handleDailyChallenge}
+          user={user}
+          onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
         />
       )}
 

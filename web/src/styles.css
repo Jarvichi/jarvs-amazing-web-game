@@ -1235,6 +1235,36 @@ body {
   letter-spacing: 1px;
 }
 
+.title-auth-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--game-text-color-dim);
+}
+
+.title-auth-label {
+  opacity: 0.7;
+}
+
+.title-auth-btn {
+  background: none;
+  border: 1px solid var(--game-text-color-dim);
+  color: var(--game-text-color-dim);
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.title-auth-btn:hover {
+  opacity: 1;
+}
+
 /* ─── Title Screen Idle Animation ───────────────────── */
 
 @keyframes title-idle-bubble-in {

@@ -142,13 +142,19 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
   const [emailBusy,     setEmailBusy]     = useState(false)
 
   async function finishSignIn(linkedUser: User) {
-    const cloud = await downloadSave(linkedUser.uid)
-    if (cloud) {
-      setPendingCloudSave(cloud)
-    } else {
-      await uploadSave(linkedUser.uid)
-      setLastSync(new Date())
-      setSyncMsg('Save synced to cloud.')
+    try {
+      const cloud = await downloadSave(linkedUser.uid)
+      if (cloud) {
+        rollbar.info('Cloud save found after sign-in, prompting user', { uid: linkedUser.uid })
+        setPendingCloudSave(cloud)
+      } else {
+        await uploadSave(linkedUser.uid)
+        setLastSync(new Date())
+        setSyncMsg('Save synced to cloud.')
+      }
+    } catch (err) {
+      rollbar.error('finishSignIn: cloud save check/upload failed', { err })
+      setSyncMsg('Signed in, but sync failed. Try SYNC NOW.')
     }
   }
 
@@ -186,6 +192,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
       } else if (e.code === 'auth/invalid-email') {
         setSyncMsg('Invalid email address.')
       } else {
+        rollbar.error('Email sign-in failed', { code: e.code, err })
         setSyncMsg('Sign-in failed. Please try again.')
       }
     } finally {
@@ -217,6 +224,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
       } else if (e.code === 'auth/invalid-email') {
         setSyncMsg('Invalid email address.')
       } else {
+        rollbar.error('Email account creation failed', { code: e.code, err })
         setSyncMsg('Account creation failed. Please try again.')
       }
     } finally {
@@ -248,6 +256,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
         } catch (linkErr: unknown) {
           const err = linkErr as { code?: string }
           if (err.code === 'auth/credential-already-in-use') {
+            rollbar.info('Google sign-in: credential already in use, signing in directly', { code: err.code })
             const credential = GoogleAuthProvider.credentialFromError(linkErr as Parameters<typeof GoogleAuthProvider.credentialFromError>[0])
             if (!credential) throw linkErr
             const result = await signInWithCredential(auth, credential)
@@ -263,7 +272,10 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
       await finishSignIn(linkedUser)
     } catch (err: unknown) {
       const e = err as { code?: string }
-      if (e.code !== 'auth/popup-closed-by-user') {
+      if (e.code === 'auth/popup-closed-by-user') {
+        rollbar.info('Google sign-in: popup closed by user')
+      } else {
+        rollbar.error('Google sign-in failed', { code: e.code, err })
         setSyncMsg('Sign-in failed. Please try again.')
       }
     } finally {
