@@ -71,8 +71,18 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
     }
   }
 
+  const dailyLabel = dailyChallenge.won === true
+    ? '📅  DAILY ✓'
+    : dailyChallenge.attempts > 0
+      ? `📅  DAILY (${dailyChallenge.attempts})`
+      : '📅  DAILY CHALLENGE'
+
   return (
     <div className="title-screen">
+      {/* Animated background scan line */}
+      <div className="title-bg-scan" aria-hidden="true" />
+
+      {/* Win streak ribbon (top-left corner) */}
       {winStreak > 0 && (
         <div className="streak-ribbon-wrap">
           <div className="streak-ribbon">🔥 {winStreak}</div>
@@ -83,15 +93,22 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           <div className="streak-ribbon streak-ribbon--faded">🏆 {bestStreak}</div>
         </div>
       )}
-      <TitleIdleAnimation />
-      <div
-        className={`title-logo${logoFlash ? ' title-logo--flash' : ''}`}
-        onClick={handleLogoClick}
-        style={{ cursor: load8bitUnlocked() ? 'default' : 'pointer' }}
-      >JARV'S</div>
-      <div className="title-subtitle">AMAZING WEB GAME</div>
 
-      <div className="title-buttons">
+      <TitleIdleAnimation />
+
+      {/* Header: logo + subtitle */}
+      <div className="title-header">
+        <div
+          className={`title-logo${logoFlash ? ' title-logo--flash' : ''}`}
+          onClick={handleLogoClick}
+          style={{ cursor: load8bitUnlocked() ? 'default' : 'pointer' }}
+        >JARV'S</div>
+        <div className="title-subtitle">AMAZING WEB GAME</div>
+        <div className="title-logo-ornament">· · · · ·</div>
+      </div>
+
+      {/* Primary actions: play modes */}
+      <div className="title-primary-actions">
         <TitleButton
           variant="large"
           extraClass="title-campaign-btn"
@@ -106,60 +123,66 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           {savedRun ? '⚔  CONTINUE RUN' : '⚔  CAMPAIGN'}
         </TitleButton>
 
-        {!campaignUnlocked && (
-          <div className="title-campaign-locked-hint">
-            🔒 Campaign unlocks at {CAMPAIGN_UNLOCK_CARDS} cards ({totalOwned}/{CAMPAIGN_UNLOCK_CARDS}) — play Quick Battle to earn more!
-          </div>
-        )}
-
-        <TitleButton onClick={onPlay} disabled={!valid} title={valid ? undefined : `Deck needs ${10 - count} more cards`}>
-          {valid ? '▶  QUICK BATTLE' : `⚠ DECK TOO SMALL (${count}/10)`}
+        <TitleButton
+          onClick={onPlay}
+          extraClass="title-primary-btn"
+          disabled={!valid}
+          title={valid ? undefined : `Deck needs ${10 - count} more cards`}
+        >
+          {valid ? '▶  QUICK BATTLE' : `⚠ DECK (${count}/10)`}
         </TitleButton>
 
-        <TitleButton onClick={onEndless} disabled={!valid} title={valid ? undefined : `Deck needs ${10 - count} more cards`}>
+        <TitleButton
+          onClick={onEndless}
+          extraClass="title-primary-btn"
+          disabled={!valid}
+          title={valid ? undefined : `Deck needs ${10 - count} more cards`}
+        >
           ∞  ENDLESS MODE
         </TitleButton>
 
-        <TitleButton onClick={onDailyChallenge}>
-          {dailyChallenge.won === true
-            ? '📅  DAILY CHALLENGE ✓'
-            : dailyChallenge.attempts > 0
-              ? `📅  DAILY CHALLENGE (${dailyChallenge.attempts} attempt${dailyChallenge.attempts !== 1 ? 's' : ''})`
-              : '📅  DAILY CHALLENGE'}
+        <TitleButton onClick={onDailyChallenge} extraClass="title-daily-btn">
+          {dailyLabel}
         </TitleButton>
-
-        <TitleButton onClick={onDeckBuilder}>DECK BUILDER</TitleButton>
-
-        <TitleButton onClick={onCollection} badge={collectionAlert}>COLLECTION</TitleButton>
-
-        <TitleButton onClick={onShop}>🛒 SHOP</TitleButton>
-
-        <TitleButton onClick={onHeroCards}>🦸 HERO CARDS</TitleButton>
-
-        <TitleButton onClick={onInventory}>🎒 INVENTORY</TitleButton>
-
-        <TitleButton onClick={onAchievements} badge={achievementAlert}>🏆 ACHIEVEMENTS</TitleButton>
-
-        <TitleButton onClick={onCharacter}>👤 CHARACTER</TitleButton>
-
-        <TitleButton onClick={onSettings} extraClass="title-settings-btn">⚙ SETTINGS</TitleButton>
       </div>
 
-      <div className="title-deck-info">
-        {distinctUnlocked}/{catalogTotal} cards &nbsp;·&nbsp; 💎 {crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {count}
+      {!campaignUnlocked && (
+        <div className="title-campaign-locked-hint">
+          🔒 Campaign unlocks at {CAMPAIGN_UNLOCK_CARDS} cards ({totalOwned}/{CAMPAIGN_UNLOCK_CARDS}) — play Quick Battle to earn more!
+        </div>
+      )}
+
+      {/* Secondary navigation: management buttons */}
+      <div className="title-nav-section">
+        <div className="title-nav-label">[ MANAGE ]</div>
+        <div className="title-nav-grid">
+          <TitleButton onClick={onDeckBuilder}>DECK BUILDER</TitleButton>
+          <TitleButton onClick={onCollection} badge={collectionAlert}>COLLECTION</TitleButton>
+          <TitleButton onClick={onShop}>🛒 SHOP</TitleButton>
+          <TitleButton onClick={onHeroCards}>🦸 HEROES</TitleButton>
+          <TitleButton onClick={onInventory}>🎒 INVENTORY</TitleButton>
+          <TitleButton onClick={onAchievements} badge={achievementAlert}>🏆 ACHIEVE</TitleButton>
+          <TitleButton onClick={onCharacter}>👤 CHARACTER</TitleButton>
+          <TitleButton onClick={onSettings} extraClass="title-settings-btn">⚙ SETTINGS</TitleButton>
+        </div>
       </div>
 
-      <div className="title-auth-bar">
-        {user && !user.isAnonymous ? (
-          <>
-            <span className="title-auth-label">👤 {user.displayName ?? user.email}</span>
-            <button className="title-auth-btn" onClick={onSignOut}>SIGN OUT</button>
-          </>
-        ) : (
-          <button className="title-auth-btn" onClick={onSettings}>SIGN IN</button>
-        )}
+      {/* Footer: stats + auth */}
+      <div className="title-footer">
+        <div className="title-deck-info">
+          {distinctUnlocked}/{catalogTotal} cards &nbsp;·&nbsp; 💎 {crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {count}
+        </div>
+        <div className="title-auth-bar">
+          {user && !user.isAnonymous ? (
+            <>
+              <span className="title-auth-label">👤 {user.displayName ?? user.email}</span>
+              <button className="title-auth-btn" onClick={onSignOut}>SIGN OUT</button>
+            </>
+          ) : (
+            <button className="title-auth-btn" onClick={onSettings}>SIGN IN</button>
+          )}
+        </div>
       </div>
-
     </div>
   )
 }
