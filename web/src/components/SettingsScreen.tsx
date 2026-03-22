@@ -142,15 +142,18 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
   const [emailBusy,     setEmailBusy]     = useState(false)
 
   async function finishSignIn(linkedUser: User) {
+    rollbar.info('finishSignIn: checking for cloud save', { uid: linkedUser.uid })
     try {
       const cloud = await downloadSave(linkedUser.uid)
       if (cloud) {
-        rollbar.info('Cloud save found after sign-in, prompting user', { uid: linkedUser.uid })
+        rollbar.info('finishSignIn: cloud save found, prompting user', { uid: linkedUser.uid })
         setPendingCloudSave(cloud)
       } else {
+        rollbar.info('finishSignIn: no cloud save found, uploading local save', { uid: linkedUser.uid })
         await uploadSave(linkedUser.uid)
         setLastSync(new Date())
         setSyncMsg('Save synced to cloud.')
+        rollbar.info('finishSignIn: local save uploaded successfully', { uid: linkedUser.uid })
       }
     } catch (err) {
       rollbar.error('finishSignIn: cloud save check/upload failed', { err })
@@ -244,15 +247,18 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
 
   async function handleSignIn() {
     if (!user) return
+    rollbar.info('Google sign-in: initiated', { uid: user.uid, isAnonymous: user.isAnonymous })
     setSigningIn(true)
     setSyncMsg(null)
     const provider = new GoogleAuthProvider()
     try {
       let linkedUser: User
       if (user.isAnonymous) {
+        rollbar.info('Google sign-in: attempting linkWithPopup for anonymous user', { uid: user.uid })
         try {
           const result = await linkWithPopup(user, provider)
           linkedUser = result.user
+          rollbar.info('Google sign-in: linkWithPopup succeeded', { uid: linkedUser.uid })
         } catch (linkErr: unknown) {
           const err = linkErr as { code?: string }
           if (err.code === 'auth/credential-already-in-use') {
@@ -261,13 +267,16 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
             if (!credential) throw linkErr
             const result = await signInWithCredential(auth, credential)
             linkedUser = result.user
+            rollbar.info('Google sign-in: signInWithCredential succeeded', { uid: linkedUser.uid })
           } else {
             throw linkErr
           }
         }
       } else {
+        rollbar.info('Google sign-in: attempting signInWithPopup for existing user', { uid: user.uid })
         const result = await signInWithPopup(auth, provider)
         linkedUser = result.user
+        rollbar.info('Google sign-in: signInWithPopup succeeded', { uid: linkedUser.uid })
       }
       await finishSignIn(linkedUser)
     } catch (err: unknown) {
