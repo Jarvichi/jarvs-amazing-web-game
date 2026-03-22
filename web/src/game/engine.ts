@@ -883,10 +883,14 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
         const bloodMoonMult = s.activeBattleEvent?.type === 'bloodMoon' ? 2 : 1
         const dmg = (unit.attack + atkAura) * bloodMoonMult
         if (isPlayer) {
+          if (s.endlessWaveTruceMs != null && s.endlessWaveTruceMs > 0) {
+            log.push(`${unit.name} hits Enemy Base! (truce — no damage)`)
+          } else {
           const prev = s.opponentBase.hp
           s.opponentBase.hp = Math.max(0, s.opponentBase.hp - dmg)
           s.playerScore += prev - s.opponentBase.hp
           log.push(`${unit.name} hits Enemy Base! -${dmg}HP`)
+          }
         } else {
           if (!isNoDamageMode()) {
             const prev = s.playerBase.hp
@@ -969,7 +973,17 @@ function checkGameOver(s: GameState): boolean {
       const fresh = shuffle([...(s.endlessOpponentDeckTemplate ?? [])])
       s.opponentDeck = fresh
       drawCard(s.opponentDeck, s.opponentHand)
+      // Reset player spawn building timers so they don't immediately flood the wave
+      s.field.forEach(u => {
+        if (u.owner === 'player' && u.spawnTimer != null && u.structureEffect?.type === 'spawn') {
+          const se = u.structureEffect as { type: 'spawn'; intervalMs: number }
+          u.spawnTimer = se.intervalMs
+        }
+      })
+      // Grant opponent a truce window to get units on the field
+      s.endlessWaveTruceMs = 8000
       s.log.push(`Wave ${wave}! A stronger opponent rises — HP ×${hpMult.toFixed(1)}!`)
+      s.log.push(`⏳ Truce: 8s before attacks hit the base!`)
       return false
     }
     if (s.bossCard && !s.bossCardActive) {
@@ -1399,6 +1413,9 @@ export function tick(state: GameState, deltaMs: number): GameState {
   // 9. Endless mode: reshuffle cards when deck + hand empty; handle wave progression
   if (s.endlessMode) {
     s.endlessSurvivalMs = (s.endlessSurvivalMs ?? 0) + deltaMs
+    if (s.endlessWaveTruceMs != null && s.endlessWaveTruceMs > 0) {
+      s.endlessWaveTruceMs = Math.max(0, s.endlessWaveTruceMs - deltaMs)
+    }
 
     // Infinite card draw: reshuffle discard pile when deck runs out
     if (s.playerDeck.length === 0 && s.playerHand.length < 4) {

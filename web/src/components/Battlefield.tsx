@@ -653,6 +653,9 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
         {state.endlessMode && (
           <span className="endless-wave-chip">WAVE {state.endlessWave ?? 1}</span>
         )}
+        {state.endlessMode && (state.endlessWaveTruceMs ?? 0) > 0 && (
+          <span className="endless-truce-chip">TRUCE {Math.ceil((state.endlessWaveTruceMs ?? 0) / 1000)}s</span>
+        )}
         <span className="score-display">
           <span className="score-player">{state.playerScore}</span>
           <span className="score-sep"> – </span>

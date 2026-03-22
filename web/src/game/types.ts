@@ -227,4 +227,6 @@ export interface GameState {
   endlessSurvivalMs?: number
   /** Cached opponent deck template for wave respawning. */
   endlessOpponentDeckTemplate?: Card[]
+  /** Remaining ms of wave-start truce (opponent base invulnerable while > 0). */
+  endlessWaveTruceMs?: number
 }
