@@ -172,7 +172,7 @@ export interface Base {
 export type GamePhase =
   | { type: 'playing' }
   | { type: 'gameOver'; winner: 'player' | 'opponent' | 'draw' }
-  | { type: 'waveReward'; wave: number }
+  | { type: 'waveReward'; wave: number; smashedNames: string[] }
 
 export const LANE_WIDTH = 500
 
@@ -234,4 +234,6 @@ export interface GameState {
   endlessOpponentDeckTemplate?: Card[]
   /** Remaining ms of wave-start truce (opponent base invulnerable while > 0). */
   endlessWaveTruceMs?: number
+  /** Mana multiplier applied to opponent each turn; increases per wave. */
+  endlessOpponentManaMult?: number
 }

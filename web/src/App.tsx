@@ -72,6 +72,7 @@ import {
 } from './game/achievements'
 import { AchievementsScreen } from './components/AchievementsScreen'
 import { HeroCardsScreen }   from './components/HeroCardsScreen'
+import FingerSmash from './components/FingerSmash'
 import { ShopScreen }        from './components/ShopScreen'
 import { BattleSummary }    from './components/BattleSummary'
 import { RelicSpinScreen }  from './components/RelicSpinScreen'
@@ -292,6 +293,8 @@ export default function App() {
   const [rewardChoices,  setRewardChoices]  = useState<string[]>([])
   const [rewardCrystals, setRewardCrystals] = useState(0)
   const [waveRewardChoices, setWaveRewardChoices] = useState<string[]>([])
+  const [showFingerSmash, setShowFingerSmash] = useState(false)
+  const [fingerSmashNames, setFingerSmashNames] = useState<string[]>([])
   const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
 
@@ -552,11 +555,18 @@ export default function App() {
     }
   }, [gameState?.phase.type])
 
-  // Generate wave reward choices when an endless wave is cleared
+  // Generate wave reward choices and trigger finger smash animation when an endless wave is cleared
   useEffect(() => {
-    if (gameState?.phase.type !== 'waveReward') return
-    const wave = (gameState.phase as { type: 'waveReward'; wave: number }).wave
-    setWaveRewardChoices(generateEndlessRewardChoices(wave))
+    if (gameState?.phase.type !== 'waveReward') {
+      setShowFingerSmash(false)
+      return
+    }
+    const phase = gameState.phase as { type: 'waveReward'; wave: number; smashedNames: string[] }
+    setWaveRewardChoices(generateEndlessRewardChoices(phase.wave))
+    if (phase.smashedNames.length > 0) {
+      setFingerSmashNames(phase.smashedNames)
+      setShowFingerSmash(true)
+    }
   }, [gameState?.phase.type])
 
   // Trigger SW update check whenever the title screen is shown
@@ -1950,7 +1960,15 @@ export default function App() {
           && gameState.phase.winner !== 'player'
           && failCount >= 2
         if (gameState.phase.type === 'waveReward') {
-          const wave = (gameState.phase as { type: 'waveReward'; wave: number }).wave
+          const wave = (gameState.phase as { type: 'waveReward'; wave: number; smashedNames: string[] }).wave
+          if (showFingerSmash) {
+            return (
+              <>
+                <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
+                <FingerSmash smashedNames={fingerSmashNames} onDone={() => setShowFingerSmash(false)} />
+              </>
+            )
+          }
           return (
             <PostBattleReward
               choices={waveRewardChoices}
