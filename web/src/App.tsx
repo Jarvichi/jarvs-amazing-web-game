@@ -80,6 +80,9 @@ import { DailyChallengeScreen } from './components/DailyChallengeScreen'
 import './styles.css'
 import brokenRelicsData from './data/broken-relics.json'
 import rollbar, { updateRollbarPerson } from './rollbar'
+import { useAuth } from './hooks/useAuth'
+import { auth } from './firebase'
+import { uploadSave } from './game/cloudSave'
 
 // Apply saved display settings on load
 applyTextSettings()
@@ -327,6 +330,9 @@ export default function App() {
   // Achievement toast notifications
   const { achievementToasts, setAchievementToasts } = useAchievements()
 
+  // Firebase auth
+  const { user, authLoading } = useAuth()
+
   // Per-battle misc achievement flags
   const battleFlawlessRef    = useRef(true)
   const battleUsedStructure  = useRef(false)
@@ -382,9 +388,14 @@ export default function App() {
     return () => clearInterval(id)
   }, [screen, gameState?.phase.type, isGamePaused, isTabHidden])
 
-  // Clear the saved battle state as soon as the battle ends.
+  // Clear the saved battle state as soon as the battle ends, then sync to cloud.
   useEffect(() => {
-    if (gameState?.phase.type === 'gameOver') clearBattleState()
+    if (gameState?.phase.type !== 'gameOver') return
+    clearBattleState()
+    const uid = auth.currentUser?.uid
+    if (uid && !auth.currentUser?.isAnonymous) {
+      uploadSave(uid).catch(() => { /* silent — non-critical */ })
+    }
   }, [gameState?.phase.type])
 
   // Keep Rollbar person context up to date with the player's current act/run.
@@ -1619,7 +1630,7 @@ export default function App() {
       )}
 
       {screen === 'settings' && (
-        <SettingsScreen onBack={() => setScreen('title')} onResetGame={handleResetGame} />
+        <SettingsScreen onBack={() => setScreen('title')} onResetGame={handleResetGame} user={user} authLoading={authLoading} />
       )}
 
       {screen === 'nodemap' && run && actData && (

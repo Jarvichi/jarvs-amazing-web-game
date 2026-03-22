@@ -1,12 +1,22 @@
 import React, { useState, useRef } from 'react'
+import {
+  GoogleAuthProvider, EmailAuthProvider,
+  linkWithPopup, linkWithCredential, signInWithPopup, signInWithCredential,
+  signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail,
+  signOut as firebaseSignOut, type User,
+} from 'firebase/auth'
 import { isSoundEnabled, setSoundEnabled } from '../game/sound'
 import { OverlayScreen } from './OverlayScreen'
 import { Section } from './Section'
 import rollbar from '../rollbar'
+import { auth } from '../firebase'
+import { uploadSave, downloadSave, applySave, getLastSyncTime, type CloudSave } from '../game/cloudSave'
 
 interface Props {
   onBack: () => void
   onResetGame: () => void
+  user: User | null
+  authLoading: boolean
 }
 
 const TEXT_SIZE_KEY      = 'jarv_text_size'
@@ -106,7 +116,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
-export function SettingsScreen({ onBack, onResetGame }: Props) {
+export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [textSize,      setTextSize]      = useState(loadTextSize)
   const [textColor,     setTextColor]     = useState(loadTextColor)
@@ -118,6 +128,192 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
   const [importMsg,     setImportMsg]     = useState<string | null>(null)
   const [rollbarMsg,    setRollbarMsg]    = useState<string | null>(null)
   const importRef = useRef<HTMLInputElement>(null)
+
+  // Sync state
+  const [signingIn,        setSigningIn]        = useState(false)
+  const [syncing,          setSyncing]          = useState(false)
+  const [syncMsg,          setSyncMsg]          = useState<string | null>(null)
+  const [pendingCloudSave, setPendingCloudSave] = useState<CloudSave | null>(null)
+  const [lastSync,         setLastSync]         = useState<Date | null>(getLastSyncTime)
+
+  // Email/password fields
+  const [emailInput,    setEmailInput]    = useState('')
+  const [passwordInput, setPasswordInput] = useState('')
+  const [emailBusy,     setEmailBusy]     = useState(false)
+
+  async function finishSignIn(linkedUser: User) {
+    const cloud = await downloadSave(linkedUser.uid)
+    if (cloud) {
+      setPendingCloudSave(cloud)
+    } else {
+      await uploadSave(linkedUser.uid)
+      setLastSync(new Date())
+      setSyncMsg('Save synced to cloud.')
+    }
+  }
+
+  async function handleEmailSignIn() {
+    if (!user || !emailInput || !passwordInput) return
+    setEmailBusy(true)
+    setSyncMsg(null)
+    try {
+      let linkedUser: User
+      if (user.isAnonymous) {
+        const credential = EmailAuthProvider.credential(emailInput, passwordInput)
+        try {
+          const result = await linkWithCredential(user, credential)
+          linkedUser = result.user
+        } catch (linkErr: unknown) {
+          const err = linkErr as { code?: string }
+          if (err.code === 'auth/credential-already-in-use' || err.code === 'auth/email-already-in-use') {
+            const result = await signInWithEmailAndPassword(auth, emailInput, passwordInput)
+            linkedUser = result.user
+          } else {
+            throw linkErr
+          }
+        }
+      } else {
+        const result = await signInWithEmailAndPassword(auth, emailInput, passwordInput)
+        linkedUser = result.user
+      }
+      await finishSignIn(linkedUser)
+    } catch (err: unknown) {
+      const e = err as { code?: string }
+      if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
+        setSyncMsg('Incorrect password.')
+      } else if (e.code === 'auth/user-not-found') {
+        setSyncMsg('No account found. Use CREATE ACCOUNT.')
+      } else if (e.code === 'auth/invalid-email') {
+        setSyncMsg('Invalid email address.')
+      } else {
+        setSyncMsg('Sign-in failed. Please try again.')
+      }
+    } finally {
+      setEmailBusy(false)
+    }
+  }
+
+  async function handleEmailCreate() {
+    if (!user || !emailInput || !passwordInput) return
+    setEmailBusy(true)
+    setSyncMsg(null)
+    try {
+      let linkedUser: User
+      if (user.isAnonymous) {
+        const credential = EmailAuthProvider.credential(emailInput, passwordInput)
+        const result = await linkWithCredential(user, credential)
+        linkedUser = result.user
+      } else {
+        const result = await createUserWithEmailAndPassword(auth, emailInput, passwordInput)
+        linkedUser = result.user
+      }
+      await finishSignIn(linkedUser)
+    } catch (err: unknown) {
+      const e = err as { code?: string }
+      if (e.code === 'auth/email-already-in-use') {
+        setSyncMsg('Account already exists. Use SIGN IN.')
+      } else if (e.code === 'auth/weak-password') {
+        setSyncMsg('Password must be at least 6 characters.')
+      } else if (e.code === 'auth/invalid-email') {
+        setSyncMsg('Invalid email address.')
+      } else {
+        setSyncMsg('Account creation failed. Please try again.')
+      }
+    } finally {
+      setEmailBusy(false)
+    }
+  }
+
+  async function handleForgotPassword() {
+    if (!emailInput) { setSyncMsg('Enter your email first.'); return }
+    try {
+      await sendPasswordResetEmail(auth, emailInput)
+      setSyncMsg('Password reset email sent.')
+    } catch {
+      setSyncMsg('Could not send reset email. Check the address.')
+    }
+  }
+
+  async function handleSignIn() {
+    if (!user) return
+    setSigningIn(true)
+    setSyncMsg(null)
+    const provider = new GoogleAuthProvider()
+    try {
+      let linkedUser: User
+      if (user.isAnonymous) {
+        try {
+          const result = await linkWithPopup(user, provider)
+          linkedUser = result.user
+        } catch (linkErr: unknown) {
+          const err = linkErr as { code?: string }
+          if (err.code === 'auth/credential-already-in-use') {
+            const credential = GoogleAuthProvider.credentialFromError(linkErr as Parameters<typeof GoogleAuthProvider.credentialFromError>[0])
+            if (!credential) throw linkErr
+            const result = await signInWithCredential(auth, credential)
+            linkedUser = result.user
+          } else {
+            throw linkErr
+          }
+        }
+      } else {
+        const result = await signInWithPopup(auth, provider)
+        linkedUser = result.user
+      }
+      await finishSignIn(linkedUser)
+    } catch (err: unknown) {
+      const e = err as { code?: string }
+      if (e.code !== 'auth/popup-closed-by-user') {
+        setSyncMsg('Sign-in failed. Please try again.')
+      }
+    } finally {
+      setSigningIn(false)
+    }
+  }
+
+  async function handleSync() {
+    if (!user || user.isAnonymous) return
+    setSyncing(true)
+    setSyncMsg(null)
+    try {
+      await uploadSave(user.uid)
+      const t = new Date()
+      setLastSync(t)
+      setSyncMsg('Save synced.')
+    } catch {
+      setSyncMsg('Sync failed. Check your connection.')
+    } finally {
+      setSyncing(false)
+    }
+  }
+
+  async function handleSignOut() {
+    await firebaseSignOut(auth)
+    setSyncMsg(null)
+    setPendingCloudSave(null)
+    setLastSync(null)
+  }
+
+  function handleLoadCloudSave() {
+    if (!pendingCloudSave) return
+    applySave(pendingCloudSave.data)
+    setPendingCloudSave(null)
+    setLastSync(new Date())
+    setSyncMsg('Cloud save loaded. Reload the page to apply all changes.')
+  }
+
+  async function handleKeepLocal() {
+    if (!user || user.isAnonymous) return
+    setPendingCloudSave(null)
+    try {
+      await uploadSave(user.uid)
+      const t = new Date()
+      setLastSync(t)
+      setSyncMsg('Local save pushed to cloud.')
+    } catch {
+      setSyncMsg('Sync failed. Check your connection.')
+    }
+  }
 
   function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -228,6 +424,97 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
               </div>
             </div>
           </div>
+        </Section>
+
+        <Section bordered title="BACKUP &amp; SYNC">
+          {!user?.isAnonymous ? (
+            // Signed in with Google
+            <>
+              <div className="settings-row">
+                <div>
+                  <div className="settings-label">{user?.displayName ?? user?.email ?? 'Google account'}</div>
+                  <div className="settings-sublabel">
+                    {lastSync ? `Last synced: ${lastSync.toLocaleString()}` : 'Not yet synced'}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button className="action-btn" onClick={handleSync} disabled={syncing}>
+                    {syncing ? 'SYNCING...' : 'SYNC NOW'}
+                  </button>
+                  <button className="action-btn" onClick={handleSignOut} style={{ fontSize: '11px', padding: '6px 12px' }}>
+                    SIGN OUT
+                  </button>
+                </div>
+              </div>
+              {pendingCloudSave && (
+                <div className="settings-row" style={{ flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
+                  <div className="settings-label" style={{ color: '#ffbb33' }}>
+                    Cloud save found ({pendingCloudSave.savedAt.toDate().toLocaleString()})
+                  </div>
+                  <div className="settings-sublabel">Load it? Your local progress will be replaced.</div>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button className="action-btn" onClick={handleLoadCloudSave}>LOAD CLOUD SAVE</button>
+                    <button className="action-btn" onClick={handleKeepLocal} style={{ fontSize: '11px', padding: '6px 12px' }}>KEEP LOCAL</button>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            // Anonymous — not yet signed in
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div className="settings-row">
+                <div>
+                  <div className="settings-label">Sync save across devices</div>
+                  <div className="settings-sublabel">Sign in to back up and restore your progress</div>
+                </div>
+              </div>
+              <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '6px' }}>
+                <input
+                  type="email"
+                  className="settings-slider"
+                  placeholder="Email"
+                  value={emailInput}
+                  onChange={e => setEmailInput(e.target.value)}
+                  style={{ padding: '6px 10px', width: '100%', boxSizing: 'border-box' }}
+                />
+                <input
+                  type="password"
+                  className="settings-slider"
+                  placeholder="Password"
+                  value={passwordInput}
+                  onChange={e => setPasswordInput(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') handleEmailSignIn() }}
+                  style={{ padding: '6px 10px', width: '100%', boxSizing: 'border-box' }}
+                />
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  <button className="action-btn" onClick={handleEmailSignIn} disabled={emailBusy || authLoading}>
+                    {emailBusy ? 'PLEASE WAIT...' : 'SIGN IN'}
+                  </button>
+                  <button className="action-btn" onClick={handleEmailCreate} disabled={emailBusy || authLoading} style={{ fontSize: '11px', padding: '6px 12px' }}>
+                    CREATE ACCOUNT
+                  </button>
+                  <button className="action-btn" onClick={handleForgotPassword} disabled={emailBusy} style={{ fontSize: '11px', padding: '6px 12px' }}>
+                    FORGOT PASSWORD
+                  </button>
+                </div>
+              </div>
+              <div className="settings-row">
+                <div className="settings-sublabel" style={{ opacity: 0.5 }}>── or ──</div>
+              </div>
+              <div className="settings-row">
+                <button className="action-btn" onClick={handleSignIn} disabled={signingIn || authLoading}>
+                  {signingIn ? 'SIGNING IN...' : 'SIGN IN WITH GOOGLE'}
+                </button>
+              </div>
+            </div>
+          )}
+          {syncMsg && (
+            <div className="settings-row">
+              <div className="settings-sublabel" style={{ color: (syncMsg.includes('failed') || syncMsg.includes('Incorrect') || syncMsg.includes('No account') || syncMsg.includes('Invalid') || syncMsg.includes('already exists') || syncMsg.includes('must be') || syncMsg.includes('Could not')) ? '#ff5555' : '#33ff33' }}>
+                {syncMsg}
+              </div>
+            </div>
+          )}
         </Section>
 
         {eightbitUnlocked && (
