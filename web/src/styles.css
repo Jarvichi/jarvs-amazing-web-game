@@ -378,6 +378,16 @@ body {
   margin: 0 auto;
 }
 
+.lane-unit--size-small .lane-unit-sprite {
+  max-width: 20px;
+  max-height: 18px;
+}
+
+.lane-unit--size-large .lane-unit-sprite {
+  max-width: 48px;
+  max-height: 42px;
+}
+
 /* ─── Lane Units ─────────────────────────────────────── */
 
 .lane-unit {

@@ -190,6 +190,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
         isDying ? 'lane-unit--dying' : '',
         isDamageFlash ? 'lane-unit--damage-flash' : '',
         unit.climbing ? 'lane-unit--climbing' : '',
+        unit.size ? `lane-unit--size-${unit.size}` : '',
       ].filter(Boolean).join(' ')}
       style={style}
       title={`${unit.name} — ${unit.hp}/${unit.maxHp} HP, ${unit.attack} ATK`}
