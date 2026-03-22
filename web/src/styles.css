@@ -1383,6 +1383,7 @@ body {
   flex: 1;
   min-height: 0;
   overflow-x: hidden;
+  overflow-y: auto;
   animation: fadeIn 0.2s ease-out;
 }
 
@@ -1616,6 +1617,24 @@ body {
 
 .overlay-count--valid   { color: var(--game-text-color); }
 .overlay-count--invalid { color: #ff9900; }
+
+@media (max-width: 400px) {
+  .shop-card-deal {
+    min-width: 80px;
+    padding: 10px 10px;
+  }
+  .shop-card-sprite {
+    width: 36px;
+    height: 36px;
+  }
+  .shop-consumable-tile {
+    min-width: 90px;
+    padding: 10px 10px;
+  }
+  .shop-item {
+    padding: 14px 12px;
+  }
+}
 
 /* ─── Filter bar ─────────────────────────────────────── */
 
