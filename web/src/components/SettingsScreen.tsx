@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import {
-  GoogleAuthProvider, EmailAuthProvider,
-  linkWithPopup, linkWithCredential, signInWithPopup, signInWithCredential,
+  EmailAuthProvider,
+  linkWithCredential,
   signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail,
   signOut as firebaseSignOut, type User,
 } from 'firebase/auth'
@@ -130,7 +130,6 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
   const importRef = useRef<HTMLInputElement>(null)
 
   // Sync state
-  const [signingIn,        setSigningIn]        = useState(false)
   const [syncing,          setSyncing]          = useState(false)
   const [syncMsg,          setSyncMsg]          = useState<string | null>(null)
   const [pendingCloudSave, setPendingCloudSave] = useState<CloudSave | null>(null)
@@ -242,53 +241,6 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
       setSyncMsg('Password reset email sent.')
     } catch {
       setSyncMsg('Could not send reset email. Check the address.')
-    }
-  }
-
-  async function handleSignIn() {
-    if (!user) return
-    rollbar.info('Google sign-in: initiated', { uid: user.uid, isAnonymous: user.isAnonymous })
-    setSigningIn(true)
-    setSyncMsg(null)
-    const provider = new GoogleAuthProvider()
-    try {
-      let linkedUser: User
-      if (user.isAnonymous) {
-        rollbar.info('Google sign-in: attempting linkWithPopup for anonymous user', { uid: user.uid })
-        try {
-          const result = await linkWithPopup(user, provider)
-          linkedUser = result.user
-          rollbar.info('Google sign-in: linkWithPopup succeeded', { uid: linkedUser.uid })
-        } catch (linkErr: unknown) {
-          const err = linkErr as { code?: string }
-          if (err.code === 'auth/credential-already-in-use') {
-            rollbar.info('Google sign-in: credential already in use, signing in directly', { code: err.code })
-            const credential = GoogleAuthProvider.credentialFromError(linkErr as Parameters<typeof GoogleAuthProvider.credentialFromError>[0])
-            if (!credential) throw linkErr
-            const result = await signInWithCredential(auth, credential)
-            linkedUser = result.user
-            rollbar.info('Google sign-in: signInWithCredential succeeded', { uid: linkedUser.uid })
-          } else {
-            throw linkErr
-          }
-        }
-      } else {
-        rollbar.info('Google sign-in: attempting signInWithPopup for existing user', { uid: user.uid })
-        const result = await signInWithPopup(auth, provider)
-        linkedUser = result.user
-        rollbar.info('Google sign-in: signInWithPopup succeeded', { uid: linkedUser.uid })
-      }
-      await finishSignIn(linkedUser)
-    } catch (err: unknown) {
-      const e = err as { code?: string }
-      if (e.code === 'auth/popup-closed-by-user') {
-        rollbar.info('Google sign-in: popup closed by user')
-      } else {
-        rollbar.error('Google sign-in failed', { code: e.code, err })
-        setSyncMsg('Sign-in failed. Please try again.')
-      }
-    } finally {
-      setSigningIn(false)
     }
   }
 
@@ -518,14 +470,6 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
                     FORGOT PASSWORD
                   </button>
                 </div>
-              </div>
-              <div className="settings-row">
-                <div className="settings-sublabel" style={{ opacity: 0.5 }}>── or ──</div>
-              </div>
-              <div className="settings-row">
-                <button className="action-btn" onClick={handleSignIn} disabled={signingIn || authLoading}>
-                  {signingIn ? 'SIGNING IN...' : 'SIGN IN WITH GOOGLE'}
-                </button>
               </div>
             </div>
           )}
