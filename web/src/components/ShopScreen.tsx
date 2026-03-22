@@ -166,10 +166,14 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
   function handleSellClick(slotId: string, hasItem: boolean) {
     if (!hasItem) return
+    if (shopState.soldItemIds.includes(slotId)) return
     incrementAchievementProgress('misc:shop_sell_attempt')
     const count = sellCounts[slotId] ?? 0
     setSellMsgs(m => ({ ...m, [slotId]: REJECTION_LINES[count % REJECTION_LINES.length] }))
     setSellCounts(c => ({ ...c, [slotId]: count + 1 }))
+    const updated = { ...shopState, soldItemIds: [...shopState.soldItemIds, slotId] }
+    setShopState(updated)
+    saveDailyShopState(updated)
   }
 
   const roleLabel: Record<string, string> = {
@@ -287,6 +291,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
           {sellSlots.map(slot => {
             const slotId = slot.id
             const hasItem = inventory.some(i => i.id === slotId)
+            const alreadySold = shopState.soldItemIds.includes(slotId)
             const msg = sellMsgs[slotId] ?? null
             const apprenticeWillBuy = npc.role === 'apprentice' && weekend && hasItem
 
@@ -301,17 +306,19 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
                   </div>
                 ) : (
                   <div className="shop-item-desc shop-item-desc--muted">
-                    {hasItem
-                      ? apprenticeWillBuy
-                        ? `${npc.name} is very interested and will give you a fair deal.`
-                        : "You have this item. The shopkeeper is very interested."
-                      : "You don't have this item."}
+                    {alreadySold
+                      ? "You've already tried selling this today. Come back tomorrow."
+                      : hasItem
+                        ? apprenticeWillBuy
+                          ? `${npc.name} is very interested and will give you a fair deal.`
+                          : "You have this item. The shopkeeper is very interested."
+                        : "You don't have this item."}
                   </div>
                 )}
                 <button
                   className="action-btn"
                   onClick={() => handleSellClick(slotId, hasItem)}
-                  disabled={!hasItem}
+                  disabled={!hasItem || alreadySold}
                 >
                   Sell {slot.icon} {slot.name}
                 </button>
