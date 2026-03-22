@@ -374,6 +374,7 @@ export function newGame(
     environment,
     battleStats: { cardsPlayed: {}, playerKills: 0, playerUnitsLost: 0 },
     animEvents: [],
+    bloodPools: [],
     endlessMode: endlessMode ?? false,
     endlessWave: endlessMode ? 1 : undefined,
     endlessSurvivalMs: endlessMode ? 0 : undefined,
@@ -866,6 +867,9 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
           // Start death linger for mobile units (not walls/structures — they snap away)
           if (target.moveSpeed > 0 && !target.isWall) {
             target.dyingTimer = DEATH_LINGER_MS
+            if (!target.flying) {
+              s.bloodPools.push({ id: target.id, x: target.x, y: target.y })
+            }
           }
           // Kill flash on the attacker
           unit.killFlashTimer = KILL_FLASH_MS
