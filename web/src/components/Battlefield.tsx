@@ -207,6 +207,8 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
       title={`${unit.name} — ${unit.hp}/${unit.maxHp} HP, ${unit.attack} ATK`}
       onClick={onInspect ? (e) => { e.stopPropagation(); onInspect(unit) } : undefined}
     >
+      {/* Blood pool on death */}
+      {isDying && !unit.flying && <div className="lane-unit-blood" />}
       {/* Ground shadow cast by flying units */}
       {unit.flying && (
         <div style={{
