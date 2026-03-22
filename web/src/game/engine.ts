@@ -1439,15 +1439,32 @@ export function tick(state: GameState, deltaMs: number): GameState {
       localStorage.setItem('endlessDebug', JSON.stringify({
         wave,
         survivalMs: Math.round(s.endlessSurvivalMs ?? 0),
+        gameTime: Math.round(s.gameTime),
+        // Opponent difficulty params
+        opponentStrategy: s.opponentStrategy,
         opponentIntervalMs: s.opponentIntervalMs,
+        opponentTimer: Math.round(s.opponentTimer),
         opponentHandSize: s.opponentHand.length,
+        opponentDeckSize: s.opponentDeck.length,
+        opponentHand: s.opponentHand.map(c => `${c.name}(${c.cost})`),
         opponentBaseHp: s.opponentBase.hp,
         opponentBaseMaxHp: s.opponentBase.maxHp,
         opponentScore: s.opponentScore,
-        playerScore: s.playerScore,
-        truceMs: Math.round(s.endlessWaveTruceMs ?? 0),
         maxPlays: Math.min(6, (s.opponentStrategy === 'swarm' ? 3 : 2) + Math.floor((wave - 1) / 2)),
         earlyStopChance: wave <= 2 ? 0.5 : wave <= 4 ? 0.25 : 0,
+        truceMs: Math.round(s.endlessWaveTruceMs ?? 0),
+        // Player state
+        playerBaseHp: s.playerBase.hp,
+        playerBaseMaxHp: s.playerBase.maxHp,
+        playerHandSize: s.playerHand.length,
+        playerDeckSize: s.playerDeck.length,
+        playerHand: s.playerHand.map(c => `${c.name}(${c.cost})`),
+        playerScore: s.playerScore,
+        mana: s.mana,
+        maxMana: s.maxMana,
+        // Field
+        playerUnitsOnField: s.field.filter(u => u.owner === 'player' && u.hp > 0).length,
+        opponentUnitsOnField: s.field.filter(u => u.owner === 'opponent' && u.hp > 0).length,
       }))
     } catch { /* ignore */ }
 
