@@ -778,8 +778,9 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
           // Convert game coords to CSS % (same mapping as LaneUnit)
           // x (forward 0-500) → top% = (1 - x/500)*100
           // y (lateral -80..80) → left% = 50 + (y/80)*36
-          const fromTop  = (1 - ev.fromX / LANE_WIDTH) * 100
-          const fromLeft = 50 + (ev.fromY / 80) * 36
+          const fromJitter = ev.fromUnitId ? unitJitter(ev.fromUnitId) : { dxPct: 0, dyPct: 0 }
+          const fromTop  = (1 - ev.fromX / LANE_WIDTH) * 100 + fromJitter.dyPct
+          const fromLeft = 50 + (ev.fromY / 80) * 36 + fromJitter.dxPct
           const toTop    = (1 - ev.toX / LANE_WIDTH) * 100
           const toLeft   = 50 + (ev.toY / 80) * 36
           if (ev.kind === 'projectile') {

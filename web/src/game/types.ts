@@ -96,6 +96,8 @@ export type AnimEventKind = 'projectile' | 'hit'
 export interface AnimEvent {
   id: string
   kind: AnimEventKind
+  /** ID of the unit that originated this event (used to align with visual jitter). */
+  fromUnitId?: string
   /** Game-coordinate origin of the event. */
   fromX: number
   fromY: number
