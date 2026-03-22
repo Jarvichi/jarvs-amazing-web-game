@@ -1169,6 +1169,22 @@ body {
 
 /* ─── Title Screen ───────────────────────────────────── */
 
+@keyframes title-logo-pulse {
+  0%, 100% {
+    text-shadow: 0 0 18px rgba(255, 204, 0, 0.6), 0 0 40px rgba(255, 204, 0, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 28px rgba(255, 204, 0, 1), 0 0 60px rgba(255, 204, 0, 0.45), 0 0 90px rgba(255, 204, 0, 0.15);
+  }
+}
+
+@keyframes title-scan-line {
+  0%   { top: -4px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
 .title-screen {
   position: relative;
   display: flex;
@@ -1176,47 +1192,148 @@ body {
   align-items: center;
   justify-content: center;
   flex: 1;
-  gap: 18px;
+  gap: 14px;
   animation: fadeIn 0.3s ease-out;
+  overflow: hidden;
+}
+
+/* Animated scan line */
+.title-bg-scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.title-bg-scan::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent 0%, rgba(51, 255, 51, 0.08) 20%, rgba(51, 255, 51, 0.18) 50%, rgba(51, 255, 51, 0.08) 80%, transparent 100%);
+  animation: title-scan-line 6s linear infinite;
+}
+
+/* Header block */
+.title-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
 }
 
 .title-logo {
-  font-size: 40px;
+  font-size: 52px;
   color: #ffcc00;
-  text-shadow: 0 0 18px rgba(255, 204, 0, 0.6);
-  letter-spacing: 12px;
+  letter-spacing: 14px;
   font-weight: bold;
+  animation: title-logo-pulse 3s ease-in-out infinite;
 }
 
 .title-subtitle {
   font-size: 11px;
   color: var(--game-text-color-muted);
-  letter-spacing: 4px;
-  margin-top: -6px;
+  letter-spacing: 5px;
 }
 
-.title-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
+.title-logo-ornament {
+  font-size: 10px;
+  letter-spacing: 8px;
+  color: rgba(255, 204, 0, 0.35);
+  margin-top: 2px;
 }
 
-/* Uniform sizing for all title screen buttons */
-.title-buttons .action-btn {
-  width: 220px;
+/* Primary play-mode actions: 2-column grid */
+.title-primary-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Campaign button spans both columns */
+.title-primary-actions .title-campaign-btn {
+  grid-column: 1 / -1;
+}
+
+/* Daily challenge button spans both columns */
+.title-primary-actions .title-daily-btn {
+  grid-column: 1 / -1;
+}
+
+/* All buttons in primary actions fill their grid cell */
+.title-primary-actions .action-btn {
+  width: 100%;
   font-size: 13px;
-  padding: 9px 20px;
+  padding: 9px 14px;
   box-sizing: border-box;
 }
 
-/* Keep campaign button visually distinct (gold) without changing its size */
-.title-buttons .action-btn.action-btn--large {
-  font-size: 13px;
-  padding: 9px 20px;
+.title-primary-actions .action-btn.action-btn--large {
+  font-size: 14px;
+  padding: 11px 14px;
   animation: none;
 }
 
+/* Slightly brighter border for quick battle / endless */
+.title-primary-btn {
+  border-color: rgba(51, 255, 51, 0.65) !important;
+}
+
+/* Secondary nav section: bordered panel with floating label */
+.title-nav-section {
+  position: relative;
+  border: 1px solid rgba(51, 255, 51, 0.2);
+  padding: 18px 12px 12px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.title-nav-label {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--game-bg);
+  padding: 0 10px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--game-text-color-muted);
+  white-space: nowrap;
+}
+
+/* 2-column grid for nav buttons */
+.title-nav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.title-nav-grid .action-btn {
+  width: 100%;
+  font-size: 11px;
+  padding: 7px 10px;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+}
+
+/* Footer block */
+.title-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  z-index: 1;
+}
 
 .title-nav-btn {
   border-color: rgba(51, 255, 51, 0.5);
@@ -1254,7 +1371,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 6px;
+  margin-top: 0;
   font-size: 11px;
   color: var(--game-text-color-dim);
 }
@@ -3302,6 +3419,9 @@ body {
   text-align: center;
   padding: 2px 8px;
   margin-top: -4px;
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
 }
 
 .nodemap {
