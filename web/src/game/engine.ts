@@ -989,8 +989,10 @@ function checkGameOver(s: GameState): boolean {
           u.spawnTimer = se.intervalMs
         }
       })
-      // Grant opponent a truce window (counts down once game resumes after reward)
+      // Grant opponent a shorter truce window to get units on the field
       s.endlessWaveTruceMs = 5000
+      s.log.push(`Wave ${wave}! A stronger opponent rises — HP ×${hpMult.toFixed(1)}!`)
+      s.log.push(`⏳ Truce: 5s before attacks hit the base!`)
       // Pause for wave reward selection before the next wave begins
       s.phase = { type: 'waveReward', wave: wave - 1 }
       s.log.push(`Wave ${wave - 1} cleared! Choose your reward before the next wave.`)
