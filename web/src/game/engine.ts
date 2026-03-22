@@ -1433,6 +1433,24 @@ export function tick(state: GameState, deltaMs: number): GameState {
       s.endlessWaveTruceMs = Math.max(0, s.endlessWaveTruceMs - deltaMs)
     }
 
+    // Debug: write current difficulty snapshot to localStorage for inspection in DevTools
+    try {
+      const wave = s.endlessWave ?? 1
+      localStorage.setItem('endlessDebug', JSON.stringify({
+        wave,
+        survivalMs: Math.round(s.endlessSurvivalMs ?? 0),
+        opponentIntervalMs: s.opponentIntervalMs,
+        opponentHandSize: s.opponentHand.length,
+        opponentBaseHp: s.opponentBase.hp,
+        opponentBaseMaxHp: s.opponentBase.maxHp,
+        opponentScore: s.opponentScore,
+        playerScore: s.playerScore,
+        truceMs: Math.round(s.endlessWaveTruceMs ?? 0),
+        maxPlays: Math.min(6, (s.opponentStrategy === 'swarm' ? 3 : 2) + Math.floor((wave - 1) / 2)),
+        earlyStopChance: wave <= 2 ? 0.5 : wave <= 4 ? 0.25 : 0,
+      }))
+    } catch { /* ignore */ }
+
     // Infinite card draw: reshuffle discard pile when deck runs out
     if (s.playerDeck.length === 0 && s.playerHand.length < 4) {
       // Rebuild from a fresh copy of the player's template deck
