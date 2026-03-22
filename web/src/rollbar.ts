@@ -1,28 +1,19 @@
-// Rollbar is initialised here using the npm package so it is available
-// synchronously — no CDN async-load race, no missing shim methods.
-import Rollbar from 'rollbar'
+// Rollbar is loaded via CDN snippet in index.html.
+// This module re-exports the global so existing imports keep working.
 
-const environment = window.location.hostname.includes('github.io')
-  ? 'production'
-  : window.location.hostname === 'localhost'
-  ? 'development'
-  : 'staging'
+declare global {
+  interface Window {
+    Rollbar: {
+      info: (msg: string | Error, extra?: object) => void
+      error: (msg: string | Error, extra?: object) => void
+      warn: (msg: string | Error, extra?: object) => void
+      debug: (msg: string | Error, extra?: object) => void
+      configure: (options: object) => void
+    }
+  }
+}
 
-const rollbar = new Rollbar({
-  accessToken: '8bcd98f07593a1d478ea6d7d6612e146',
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-  payload: {
-    environment,
-    client: {
-      javascript: {
-        code_version: import.meta.env.VITE_GIT_SHA ?? 'dev',
-        source_map_enabled: true,
-        guess_uncaught_frames: true,
-      },
-    },
-  },
-})
+const rollbar = window.Rollbar
 
 export default rollbar
 
