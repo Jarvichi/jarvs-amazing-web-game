@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import { type User } from 'firebase/auth'
 import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX, loadWinStreak, loadBestStreak } from '../game/collection'
 import { loadRun } from '../game/questline'
 import { getCardCatalog } from '../game/cards'
@@ -27,9 +28,11 @@ interface Props {
   onCharacter: () => void
   on8bitUnlocked?: () => void
   onDailyChallenge: () => void
+  user: User | null
+  onSignOut: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, user, onSignOut }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -144,6 +147,17 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
 
       <div className="title-deck-info">
         {distinctUnlocked}/{catalogTotal} cards &nbsp;·&nbsp; 💎 {crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {count}
+      </div>
+
+      <div className="title-auth-bar">
+        {user && !user.isAnonymous ? (
+          <>
+            <span className="title-auth-label">👤 {user.displayName ?? user.email}</span>
+            <button className="title-auth-btn" onClick={onSignOut}>SIGN OUT</button>
+          </>
+        ) : (
+          <button className="title-auth-btn" onClick={onSettings}>SIGN IN</button>
+        )}
       </div>
 
     </div>
