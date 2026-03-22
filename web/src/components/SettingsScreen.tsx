@@ -1,16 +1,14 @@
 import React, { useState, useRef } from 'react'
 import {
-  EmailAuthProvider,
-  linkWithCredential,
-  signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail,
   signOut as firebaseSignOut, type User,
 } from 'firebase/auth'
 import { isSoundEnabled, setSoundEnabled } from '../game/sound'
 import { OverlayScreen } from './OverlayScreen'
 import { Section } from './Section'
+import { LoginModal } from './LoginModal'
 import rollbar from '../rollbar'
 import { auth } from '../firebase'
-import { uploadSave, downloadSave, applySave, getLastSyncTime, type CloudSave } from '../game/cloudSave'
+import { uploadSave, applySave, getLastSyncTime, type CloudSave } from '../game/cloudSave'
 
 interface Props {
   onBack: () => void
@@ -134,115 +132,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
   const [syncMsg,          setSyncMsg]          = useState<string | null>(null)
   const [pendingCloudSave, setPendingCloudSave] = useState<CloudSave | null>(null)
   const [lastSync,         setLastSync]         = useState<Date | null>(getLastSyncTime)
-
-  // Email/password fields
-  const [emailInput,    setEmailInput]    = useState('')
-  const [passwordInput, setPasswordInput] = useState('')
-  const [emailBusy,     setEmailBusy]     = useState(false)
-
-  async function finishSignIn(linkedUser: User) {
-    rollbar.info('finishSignIn: checking for cloud save', { uid: linkedUser.uid })
-    try {
-      const cloud = await downloadSave(linkedUser.uid)
-      if (cloud) {
-        rollbar.info('finishSignIn: cloud save found, prompting user', { uid: linkedUser.uid })
-        setPendingCloudSave(cloud)
-      } else {
-        rollbar.info('finishSignIn: no cloud save found, uploading local save', { uid: linkedUser.uid })
-        await uploadSave(linkedUser.uid)
-        setLastSync(new Date())
-        setSyncMsg('Save synced to cloud.')
-        rollbar.info('finishSignIn: local save uploaded successfully', { uid: linkedUser.uid })
-      }
-    } catch (err) {
-      rollbar.error('finishSignIn: cloud save check/upload failed', { err })
-      setSyncMsg('Signed in, but sync failed. Try SYNC NOW.')
-    }
-  }
-
-  async function handleEmailSignIn() {
-    if (!user || !emailInput || !passwordInput) return
-    setEmailBusy(true)
-    setSyncMsg(null)
-    try {
-      let linkedUser: User
-      if (user.isAnonymous) {
-        const credential = EmailAuthProvider.credential(emailInput, passwordInput)
-        try {
-          const result = await linkWithCredential(user, credential)
-          linkedUser = result.user
-        } catch (linkErr: unknown) {
-          const err = linkErr as { code?: string }
-          if (err.code === 'auth/credential-already-in-use' || err.code === 'auth/email-already-in-use') {
-            const result = await signInWithEmailAndPassword(auth, emailInput, passwordInput)
-            linkedUser = result.user
-          } else {
-            throw linkErr
-          }
-        }
-      } else {
-        const result = await signInWithEmailAndPassword(auth, emailInput, passwordInput)
-        linkedUser = result.user
-      }
-      await finishSignIn(linkedUser)
-    } catch (err: unknown) {
-      const e = err as { code?: string }
-      if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
-        setSyncMsg('Incorrect password.')
-      } else if (e.code === 'auth/user-not-found') {
-        setSyncMsg('No account found. Use CREATE ACCOUNT.')
-      } else if (e.code === 'auth/invalid-email') {
-        setSyncMsg('Invalid email address.')
-      } else {
-        rollbar.error('Email sign-in failed', { code: e.code, err })
-        setSyncMsg('Sign-in failed. Please try again.')
-      }
-    } finally {
-      setEmailBusy(false)
-    }
-  }
-
-  async function handleEmailCreate() {
-    if (!user || !emailInput || !passwordInput) return
-    setEmailBusy(true)
-    setSyncMsg(null)
-    try {
-      let linkedUser: User
-      if (user.isAnonymous) {
-        const credential = EmailAuthProvider.credential(emailInput, passwordInput)
-        const result = await linkWithCredential(user, credential)
-        linkedUser = result.user
-      } else {
-        const result = await createUserWithEmailAndPassword(auth, emailInput, passwordInput)
-        linkedUser = result.user
-      }
-      await finishSignIn(linkedUser)
-    } catch (err: unknown) {
-      const e = err as { code?: string }
-      if (e.code === 'auth/email-already-in-use') {
-        setSyncMsg('Account already exists. Use SIGN IN.')
-      } else if (e.code === 'auth/weak-password') {
-        setSyncMsg('Password must be at least 6 characters.')
-      } else if (e.code === 'auth/invalid-email') {
-        setSyncMsg('Invalid email address.')
-      } else {
-        rollbar.error('Email account creation failed', { code: e.code, err })
-        setSyncMsg('Account creation failed. Please try again.')
-      }
-    } finally {
-      setEmailBusy(false)
-    }
-  }
-
-  async function handleForgotPassword() {
-    if (!emailInput) { setSyncMsg('Enter your email first.'); return }
-    try {
-      await sendPasswordResetEmail(auth, emailInput)
-      setSyncMsg('Password reset email sent.')
-    } catch {
-      setSyncMsg('Could not send reset email. Check the address.')
-    }
-  }
+  const [showLoginModal,   setShowLoginModal]   = useState(false)
 
   async function handleSync() {
     if (!user || user.isAnonymous) return
@@ -434,43 +324,14 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
             </>
           ) : (
             // Anonymous — not yet signed in
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <div className="settings-row">
-                <div>
-                  <div className="settings-label">Sync save across devices</div>
-                  <div className="settings-sublabel">Sign in to back up and restore your progress</div>
-                </div>
+            <div className="settings-row">
+              <div>
+                <div className="settings-label">Sync save across devices</div>
+                <div className="settings-sublabel">Sign in to back up and restore your progress</div>
               </div>
-              <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '6px' }}>
-                <input
-                  type="email"
-                  className="settings-slider"
-                  placeholder="Email"
-                  value={emailInput}
-                  onChange={e => setEmailInput(e.target.value)}
-                  style={{ padding: '6px 10px', width: '100%', boxSizing: 'border-box' }}
-                />
-                <input
-                  type="password"
-                  className="settings-slider"
-                  placeholder="Password"
-                  value={passwordInput}
-                  onChange={e => setPasswordInput(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter') handleEmailSignIn() }}
-                  style={{ padding: '6px 10px', width: '100%', boxSizing: 'border-box' }}
-                />
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                  <button className="action-btn" onClick={handleEmailSignIn} disabled={emailBusy || authLoading}>
-                    {emailBusy ? 'PLEASE WAIT...' : 'SIGN IN'}
-                  </button>
-                  <button className="action-btn" onClick={handleEmailCreate} disabled={emailBusy || authLoading} style={{ fontSize: '11px', padding: '6px 12px' }}>
-                    CREATE ACCOUNT
-                  </button>
-                  <button className="action-btn" onClick={handleForgotPassword} disabled={emailBusy} style={{ fontSize: '11px', padding: '6px 12px' }}>
-                    FORGOT PASSWORD
-                  </button>
-                </div>
-              </div>
+              <button className="action-btn" onClick={() => setShowLoginModal(true)} disabled={authLoading}>
+                SIGN IN
+              </button>
             </div>
           )}
           {syncMsg && (
@@ -633,6 +494,19 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
           </div>
         </Section>
       </div>
+      {showLoginModal && (
+        <LoginModal
+          user={user}
+          authLoading={authLoading}
+          onClose={() => setShowLoginModal(false)}
+          onLoginSuccess={({ pendingCloudSave, lastSync: newSync, message }) => {
+            setShowLoginModal(false)
+            if (pendingCloudSave) setPendingCloudSave(pendingCloudSave)
+            if (newSync) setLastSync(newSync)
+            if (message) setSyncMsg(message)
+          }}
+        />
+      )}
     </OverlayScreen>
   )
 }
