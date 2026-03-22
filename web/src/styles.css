@@ -6851,13 +6851,9 @@ html.light-mode .action-btn {
 }
 
 /* Persistent damage/blood overlay on units and structures */
-.lane-unit-damage-aug {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 40%, rgba(180,0,0,0.6) 0%, transparent 70%);
-  border-radius: 4px;
-  pointer-events: none;
-  mix-blend-mode: multiply;
+/* Persistent damage tint: subtle darkening + red sepia as HP drops */
+.lane-unit-sprite--damaged {
+  filter: brightness(0.78) sepia(0.35) saturate(1.3);
 }
 
 /* Projectile: a glowing streak travelling from attacker to target */

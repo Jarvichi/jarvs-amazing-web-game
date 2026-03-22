@@ -226,28 +226,8 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
       {unit.isWall
         ? <WallSvg hp={unit.hp} maxHp={unit.maxHp} owner={unit.owner} wallNames={(wallStack ?? [unit]).map(w => w.name)} />
         : isStructure
-          ? (
-            <div style={{ position: 'relative', display: 'inline-block' }}>
-              <SpriteImg name={unit.spriteName ?? unit.name} className="lane-unit-sprite" />
-              {/* Persistent damage augment: red tint overlay proportional to damage taken */}
-              {unit.hp < unit.maxHp && (
-                <div className="lane-unit-damage-aug" style={{ opacity: Math.min(0.7, (1 - unit.hp / unit.maxHp) * 0.9) }} />
-              )}
-            </div>
-          )
-          : (
-            <div style={{ position: 'relative', display: 'inline-block' }}>
-              <AnimatedSpriteImg
-                name={unit.spriteName ?? unit.name}
-                frameCount={3} fps={6}
-                className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}`}
-              />
-              {/* Persistent blood/damage augment on mobile units */}
-              {unit.hp < unit.maxHp && (
-                <div className="lane-unit-damage-aug" style={{ opacity: Math.min(0.55, (1 - unit.hp / unit.maxHp) * 0.7) }} />
-              )}
-            </div>
-          )
+          ? <SpriteImg name={unit.spriteName ?? unit.name} className={`lane-unit-sprite${unit.hp < unit.maxHp ? ' lane-unit-sprite--damaged' : ''}`} />
+          : <AnimatedSpriteImg name={unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}${unit.hp < unit.maxHp ? ' lane-unit-sprite--damaged' : ''}`} />
       }
       {!unit.isWall && showName && (
         <div className="lane-unit-name">
