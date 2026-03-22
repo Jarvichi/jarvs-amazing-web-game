@@ -89,6 +89,8 @@ export interface Unit extends UnitTemplate {
   dyingTimer?: number
   /** ms remaining in damage-flash animation. */
   damageFlashTimer?: number
+  /** ms remaining in kill-flash animation (brief glow when this unit lands a kill). */
+  killFlashTimer?: number
 }
 
 // ─── Animation Events ─────────────────────────────────────

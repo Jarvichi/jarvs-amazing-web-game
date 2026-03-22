@@ -130,6 +130,15 @@ function unitJitter(id: string): { dxPct: number; dyPct: number } {
   }
 }
 
+/** Returns a CSS class suffix for persistent damage/blood augment based on HP ratio. */
+function spriteDamageClass(hp: number, maxHp: number): string {
+  if (maxHp <= 0 || hp >= maxHp) return ''
+  const ratio = hp / maxHp
+  if (ratio < 0.25) return ' lane-unit-sprite--damaged-heavy'
+  if (ratio < 0.5)  return ' lane-unit-sprite--damaged-med'
+  return ' lane-unit-sprite--damaged'
+}
+
 function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { unit: Unit; stackIndex?: number; wallStack?: Unit[]; onInspect?: (u: Unit) => void; showName?: boolean }) {
   const hpPct = Math.max(0, (unit.hp / unit.maxHp) * 100)
   const isStructure = unit.moveSpeed === 0
@@ -175,6 +184,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
 
   const isDying = unit.dyingTimer != null && unit.dyingTimer > 0
   const isDamageFlash = unit.damageFlashTimer != null && unit.damageFlashTimer > 0
+  const isKillFlash = unit.killFlashTimer != null && unit.killFlashTimer > 0
 
   return (
     <div
@@ -189,6 +199,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
         unit.isHero ? 'lane-unit--hero' : '',
         isDying ? 'lane-unit--dying' : '',
         isDamageFlash ? 'lane-unit--damage-flash' : '',
+        isKillFlash ? 'lane-unit--kill-flash' : '',
         unit.climbing ? 'lane-unit--climbing' : '',
         unit.size ? `lane-unit--size-${unit.size}` : '',
       ].filter(Boolean).join(' ')}
@@ -227,8 +238,8 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
       {unit.isWall
         ? <WallSvg hp={unit.hp} maxHp={unit.maxHp} owner={unit.owner} wallNames={(wallStack ?? [unit]).map(w => w.name)} />
         : isStructure
-          ? <SpriteImg name={unit.spriteName ?? unit.name} className={`lane-unit-sprite${unit.hp < unit.maxHp ? ' lane-unit-sprite--damaged' : ''}`} />
-          : <AnimatedSpriteImg name={unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}${unit.hp < unit.maxHp ? ' lane-unit-sprite--damaged' : ''}`} />
+          ? <SpriteImg name={unit.spriteName ?? unit.name} className={`lane-unit-sprite${spriteDamageClass(unit.hp, unit.maxHp)}`} />
+          : <AnimatedSpriteImg name={unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}${spriteDamageClass(unit.hp, unit.maxHp)}`} />
       }
       {!unit.isWall && showName && (
         <div className="lane-unit-name">
@@ -723,10 +734,10 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
         <ForestBorder theme={actTheme} />
         {/* Base sprites — fixed targets at top (opponent) and bottom (player) of lane */}
         <div className="lane-base lane-base--opponent">
-          <img src={`${BASE_SPRITE_PATH}${opponentPortraitSlug(state.bossAI, actTheme)}.svg`} alt="Enemy Base" />
+          <img src={`${BASE_SPRITE_PATH}${opponentPortraitSlug(state.bossAI, actTheme)}.svg`} alt="Enemy Base" className={spriteDamageClass(state.opponentBase.hp, state.opponentBase.maxHp).trim() || undefined} />
         </div>
         <div className="lane-base lane-base--player">
-          <img src={`${BASE_SPRITE_PATH}${playerAvatar}.svg`} alt="Your Base" />
+          <img src={`${BASE_SPRITE_PATH}${playerAvatar}.svg`} alt="Your Base" className={spriteDamageClass(state.playerBase.hp, state.playerBase.maxHp).trim() || undefined} />
         </div>
         {(state.terrain ?? []).map(obs => <TerrainTile key={obs.id} obs={obs} />)}
         {isDebugMode() && (state.terrain ?? []).map(obs => {

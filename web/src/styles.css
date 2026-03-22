@@ -6999,10 +6999,31 @@ html.light-mode .action-btn {
   animation: climbing-anim 0.4s ease-in-out infinite;
 }
 
-/* Persistent damage/blood overlay on units and structures */
-/* Persistent damage tint: subtle darkening + red sepia as HP drops */
+/* Persistent damage/blood augments — three tiers based on remaining HP */
+/* Mild (75–100% HP lost): slight red tint, visibly darker */
 .lane-unit-sprite--damaged {
-  filter: brightness(0.78) sepia(0.35) saturate(1.3);
+  filter: brightness(0.75) sepia(0.6) saturate(2) hue-rotate(-5deg);
+}
+/* Medium (<50% HP): clearly red and beaten up */
+.lane-unit-sprite--damaged-med {
+  filter: brightness(0.55) sepia(0.85) saturate(3) hue-rotate(-10deg);
+}
+/* Heavy (<25% HP): near-critical blood-red with slow pulse */
+@keyframes damaged-heavy-pulse {
+  0%, 100% { filter: brightness(0.45) sepia(1) saturate(4) hue-rotate(-15deg); }
+  50%       { filter: brightness(0.3)  sepia(1) saturate(5) hue-rotate(-20deg); }
+}
+.lane-unit-sprite--damaged-heavy {
+  animation: damaged-heavy-pulse 1s ease-in-out infinite;
+}
+
+/* Kill flash: brief golden glow on the attacker when it lands a kill */
+@keyframes kill-flash-anim {
+  0%   { filter: brightness(2.5) saturate(0) sepia(0.5) hue-rotate(30deg); box-shadow: 0 0 8px 3px rgba(255,220,50,0.9); }
+  100% { filter: none; box-shadow: none; }
+}
+.lane-unit--kill-flash {
+  animation: kill-flash-anim 0.5s ease-out forwards;
 }
 
 /* Projectile: a glowing streak travelling from attacker to target */
