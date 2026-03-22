@@ -7050,6 +7050,20 @@ html.light-mode .action-btn {
   white-space: nowrap;
 }
 
+.endless-truce-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  background: rgba(80,180,255,0.2);
+  border: 1px solid rgba(100,180,255,0.5);
+  border-radius: 4px;
+  color: #88ccff;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
 /* ─── Endless mode game-over display ─────────────────── */
 .gameover-endless-badge {
   display: inline-block;
