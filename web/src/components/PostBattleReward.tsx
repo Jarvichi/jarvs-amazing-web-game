@@ -26,12 +26,14 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
   const cards   = choices.map(name => catalog.find(c => c.name === name)).filter(Boolean) as ReturnType<typeof getCardCatalog>[number][]
 
   // Track which cards have been flipped (revealed face-up)
-  const [flipped, setFlipped] = useState<boolean[]>(cards.map(() => false))
+  const [flipped, setFlipped] = useState<boolean[]>(() => choices.map(() => false))
   const [picked,  setPicked]  = useState<string | null>(null)
 
-  // Sequentially reveal cards with a short stagger
+  // Sequentially reveal cards with a short stagger; re-run if choices arrive late
   useEffect(() => {
-    const timers = cards.map((_, i) =>
+    setFlipped(choices.map(() => false))
+    setPicked(null)
+    const timers = choices.map((_, i) =>
       setTimeout(() => {
         setFlipped(prev => {
           const next = [...prev]
@@ -41,7 +43,7 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
       }, 350 + i * 450)
     )
     return () => timers.forEach(clearTimeout)
-  }, [])  // eslint-disable-line react-hooks/exhaustive-deps
+  }, [choices.join(',')]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function handlePick(name: string) {
     if (picked || !flipped[cards.findIndex(c => c.name === name)]) return
