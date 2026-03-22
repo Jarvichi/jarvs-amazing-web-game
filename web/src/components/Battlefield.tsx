@@ -173,6 +173,9 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
     }
   }
 
+  const isDying = unit.dyingTimer != null && unit.dyingTimer > 0
+  const isDamageFlash = unit.damageFlashTimer != null && unit.damageFlashTimer > 0
+
   return (
     <div
       className={[
@@ -184,6 +187,9 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
         isAttacking ? 'lane-unit--attacking' : '',
         isStructure && unit.upgradeLevel && unit.upgradeLevel >= 2 ? `lane-unit--upgraded-${Math.min(unit.upgradeLevel, MAX_UPGRADE_LEVEL)}` : '',
         unit.isHero ? 'lane-unit--hero' : '',
+        isDying ? 'lane-unit--dying' : '',
+        isDamageFlash ? 'lane-unit--damage-flash' : '',
+        unit.climbing ? 'lane-unit--climbing' : '',
       ].filter(Boolean).join(' ')}
       style={style}
       title={`${unit.name} — ${unit.hp}/${unit.maxHp} HP, ${unit.attack} ATK`}
@@ -220,8 +226,28 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
       {unit.isWall
         ? <WallSvg hp={unit.hp} maxHp={unit.maxHp} owner={unit.owner} wallNames={(wallStack ?? [unit]).map(w => w.name)} />
         : isStructure
-          ? <SpriteImg name={unit.spriteName ?? unit.name} className="lane-unit-sprite" />
-          : <AnimatedSpriteImg name={unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}`} />
+          ? (
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <SpriteImg name={unit.spriteName ?? unit.name} className="lane-unit-sprite" />
+              {/* Persistent damage augment: red tint overlay proportional to damage taken */}
+              {unit.hp < unit.maxHp && (
+                <div className="lane-unit-damage-aug" style={{ opacity: Math.min(0.7, (1 - unit.hp / unit.maxHp) * 0.9) }} />
+              )}
+            </div>
+          )
+          : (
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <AnimatedSpriteImg
+                name={unit.spriteName ?? unit.name}
+                frameCount={3} fps={6}
+                className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}`}
+              />
+              {/* Persistent blood/damage augment on mobile units */}
+              {unit.hp < unit.maxHp && (
+                <div className="lane-unit-damage-aug" style={{ opacity: Math.min(0.55, (1 - unit.hp / unit.maxHp) * 0.7) }} />
+              )}
+            </div>
+          )
       }
       {!unit.isWall && showName && (
         <div className="lane-unit-name">
@@ -590,6 +616,9 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
       <div className={`top-bar${state.suddenDeath ? ' top-bar--sudden-death' : ''}`}>
         <button className="bf-pause-btn" onClick={() => doPause(true)} title="Menu">MENU</button>
         <span className="game-clock">{timeStr}</span>
+        {state.endlessMode && (
+          <span className="endless-wave-chip">WAVE {state.endlessWave ?? 1}</span>
+        )}
         <span className="score-display">
           <span className="score-player">{state.playerScore}</span>
           <span className="score-sep"> – </span>
@@ -711,6 +740,54 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
             return <LaneUnit key={u.id} unit={u} stackIndex={stackIndex} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} />
           })
         })()}
+        {/* Animation events: projectiles and hit sparks */}
+        {(state.animEvents ?? []).map(ev => {
+          // Convert game coords to CSS % (same mapping as LaneUnit)
+          // x (forward 0-500) → top% = (1 - x/500)*100
+          // y (lateral -80..80) → left% = 50 + (y/80)*36
+          const fromTop  = (1 - ev.fromX / LANE_WIDTH) * 100
+          const fromLeft = 50 + (ev.fromY / 80) * 36
+          const toTop    = (1 - ev.toX / LANE_WIDTH) * 100
+          const toLeft   = 50 + (ev.toY / 80) * 36
+          if (ev.kind === 'projectile') {
+            const dx = toLeft - fromLeft
+            const dy = toTop  - fromTop
+            const len = Math.hypot(dx, dy)
+            const angleDeg = Math.atan2(dy, dx) * 180 / Math.PI
+            return (
+              <div
+                key={ev.id}
+                className="anim-projectile"
+                style={{
+                  position: 'absolute',
+                  top: `${fromTop}%`,
+                  left: `${fromLeft}%`,
+                  width: `${len}%`,
+                  height: 4,
+                  transform: `translate(-0%, -50%) rotate(${angleDeg}deg)`,
+                  transformOrigin: '0 50%',
+                  pointerEvents: 'none',
+                  zIndex: 60,
+                }}
+              />
+            )
+          }
+          // Hit spark
+          return (
+            <div
+              key={ev.id}
+              className="anim-hit"
+              style={{
+                position: 'absolute',
+                top: `${fromTop}%`,
+                left: `${fromLeft}%`,
+                transform: 'translate(-50%, -50%)',
+                pointerEvents: 'none',
+                zIndex: 60,
+              }}
+            />
+          )
+        })}
       </div>
 
       {/* Player base */}
