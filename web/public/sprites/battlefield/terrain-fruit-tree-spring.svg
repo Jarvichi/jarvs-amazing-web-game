@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
+  <ellipse cx="15" cy="17" rx="13" ry="10" fill="#c878a0" opacity="0.4"/>
+  <ellipse cx="15" cy="15" rx="13" ry="11" fill="#e8a0b8"/>
+  <ellipse cx="15" cy="11" rx="10" ry="8"  fill="#f0c0d0"/>
+  <!-- Blossoms instead of apples -->
+  <circle cx="9"  cy="15" r="2.2" fill="#fff0f5"/>
+  <circle cx="18" cy="12" r="2"   fill="#fff0f5"/>
+  <circle cx="21" cy="17" r="2.2" fill="#fff0f5"/>
+  <circle cx="12" cy="19" r="2"   fill="#fff0f5"/>
+  <circle cx="9"  cy="15" r="0.8" fill="#ffb0d0" opacity="0.6"/>
+  <circle cx="21" cy="17" r="0.8" fill="#ffb0d0" opacity="0.6"/>
+  <line x1="15" y1="23" x2="14" y2="29" stroke="#5a3010" stroke-width="2.5"/>
+</svg>

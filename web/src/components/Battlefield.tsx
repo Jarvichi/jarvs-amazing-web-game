@@ -252,7 +252,7 @@ function BattlefieldBackground({ env }: { env?: string }) {
   const key = (env && env in battlefieldConfig.environments)
     ? env as keyof typeof battlefieldConfig.environments
     : 'forest'
-  const layers = battlefieldConfig.environments[key]
+  const layers = [...battlefieldConfig.environments[key], ...SEASON_LAYERS]
   return (
     <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}>
       {layers.map(layer => (
@@ -278,6 +278,54 @@ const LaneBackground = BattlefieldBackground
 
 type TerrainVariant = { file: string; wr: number; hr: number }
 const TERRAIN_CONFIG = battlefieldConfig.terrain as Record<string, TerrainVariant[]>
+
+// ─── Season detection ─────────────────────────────────────────────────────────
+
+type Season = 'spring' | 'summer' | 'autumn' | 'winter'
+
+// IANA timezone prefixes/names that are in the southern hemisphere
+const SOUTHERN_TZ_PREFIXES = ['Australia/', 'Antarctica/']
+const SOUTHERN_TZ_NAMES = new Set([
+  'Pacific/Auckland', 'Pacific/Chatham', 'Pacific/Norfolk',
+  'America/Argentina/Buenos_Aires', 'America/Argentina/Cordoba',
+  'America/Argentina/Salta', 'America/Argentina/Jujuy',
+  'America/Argentina/Tucuman', 'America/Argentina/Catamarca',
+  'America/Argentina/La_Rioja', 'America/Argentina/San_Juan',
+  'America/Argentina/Mendoza', 'America/Argentina/San_Luis',
+  'America/Argentina/Rio_Gallegos', 'America/Argentina/Ushuaia',
+  'America/Sao_Paulo', 'America/Santiago', 'America/Montevideo',
+  'America/Asuncion', 'America/Punta_Arenas', 'America/Lima',
+  'America/Bogota', 'America/Guayaquil',
+  'Africa/Johannesburg', 'Africa/Harare', 'Africa/Lusaka',
+  'Africa/Maputo', 'Africa/Windhoek', 'Africa/Maseru', 'Africa/Mbabane',
+  'Africa/Nairobi', 'Africa/Dar_es_Salaam', 'Africa/Luanda',
+  'Indian/Mauritius', 'Indian/Reunion', 'Indian/Maldives',
+])
+
+function isSouthernHemisphere(): boolean {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+    if (SOUTHERN_TZ_PREFIXES.some(p => tz.startsWith(p))) return true
+    if (SOUTHERN_TZ_NAMES.has(tz)) return true
+  } catch { /* ignore */ }
+  return false
+}
+
+function getCurrentSeason(): Season {
+  const m = new Date().getMonth() // 0-based
+  const northern: Season =
+    m >= 2 && m <= 4 ? 'spring' :
+    m >= 5 && m <= 7 ? 'summer' :
+    m >= 8 && m <= 10 ? 'autumn' : 'winter'
+  if (!isSouthernHemisphere()) return northern
+  // Flip season for southern hemisphere
+  const flip: Record<Season, Season> = { spring: 'autumn', autumn: 'spring', summer: 'winter', winter: 'summer' }
+  return flip[northern]
+}
+
+const CURRENT_SEASON = getCurrentSeason()
+const SEASON_LAYERS = (battlefieldConfig.seasonLayers as Record<string, string[]>)[CURRENT_SEASON] ?? []
+const SEASON_TERRAIN = (battlefieldConfig.seasonTerrain as Record<string, Record<string, string[]>>)[CURRENT_SEASON] ?? {}
 
 // ─── Forest border ────────────────────────────────────────────────────────────
 // Purely decorative tree line along the left edge, right edge, and top of the
@@ -439,11 +487,16 @@ function TerrainTile({ obs }: { obs: TerrainObstacle }) {
   // Deterministic variant from obstacle id (0, 1, 2)
   const variant = parseInt(obs.id.replace('t', ''), 10) % 3
 
-  const variantCfg = (TERRAIN_CONFIG[obs.type] ?? [])[variant % Math.max(1, (TERRAIN_CONFIG[obs.type] ?? []).length)]
-  const shape = variantCfg
+  const baseVariants = TERRAIN_CONFIG[obs.type] ?? []
+  const variantCfg = baseVariants[variant % Math.max(1, baseVariants.length)]
+  // Apply seasonal terrain file override if one exists for this type and variant index
+  const seasonFiles = SEASON_TERRAIN[obs.type]
+  const seasonFile = seasonFiles?.[variant % Math.max(1, baseVariants.length)]
+  const terrainFile = seasonFile ?? variantCfg?.file
+  const shape = variantCfg && terrainFile
     ? <img
         className="lane-layer"
-        src={`${BATTLEFIELD_SPRITE_PATH}${variantCfg.file}`}
+        src={`${BATTLEFIELD_SPRITE_PATH}${terrainFile}`}
         width={Math.round(size * variantCfg.wr)}
         height={Math.round(size * variantCfg.hr)}
         alt=""

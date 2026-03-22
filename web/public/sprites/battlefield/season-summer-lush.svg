@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220">
+  <!-- Summer: extra lush green grass tufts along edges -->
+  <!-- Left edge grass tufts -->
+  <ellipse cx="5"  cy="210" rx="5"  ry="2.5" fill="#3a8022" opacity="0.5"/>
+  <ellipse cx="10" cy="200" rx="4"  ry="2"   fill="#44902a" opacity="0.45"/>
+  <ellipse cx="4"  cy="185" rx="4"  ry="2"   fill="#3a8022" opacity="0.4"/>
+  <ellipse cx="8"  cy="168" rx="3.5" ry="1.8" fill="#44902a" opacity="0.38"/>
+  <ellipse cx="5"  cy="150" rx="4"  ry="2"   fill="#3a8022" opacity="0.35"/>
+  <ellipse cx="7"  cy="130" rx="3"  ry="1.5" fill="#44902a" opacity="0.3"/>
+  <ellipse cx="4"  cy="110" rx="3.5" ry="1.8" fill="#3a8022" opacity="0.28"/>
+  <ellipse cx="6"  cy="90"  rx="3"  ry="1.5" fill="#44902a" opacity="0.25"/>
+  <!-- Right edge grass tufts -->
+  <ellipse cx="95" cy="210" rx="5"  ry="2.5" fill="#3a8022" opacity="0.5"/>
+  <ellipse cx="90" cy="200" rx="4"  ry="2"   fill="#44902a" opacity="0.45"/>
+  <ellipse cx="96" cy="185" rx="4"  ry="2"   fill="#3a8022" opacity="0.4"/>
+  <ellipse cx="92" cy="168" rx="3.5" ry="1.8" fill="#44902a" opacity="0.38"/>
+  <ellipse cx="95" cy="150" rx="4"  ry="2"   fill="#3a8022" opacity="0.35"/>
+  <ellipse cx="93" cy="130" rx="3"  ry="1.5" fill="#44902a" opacity="0.3"/>
+  <ellipse cx="96" cy="110" rx="3.5" ry="1.8" fill="#3a8022" opacity="0.28"/>
+  <ellipse cx="94" cy="90"  rx="3"  ry="1.5" fill="#44902a" opacity="0.25"/>
+  <!-- Warm sunlight tint overlay -->
+  <rect width="100" height="220" fill="#a8e040" opacity="0.04"/>
+</svg>
