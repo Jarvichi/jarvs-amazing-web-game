@@ -58,7 +58,7 @@ import { CardTile }           from './components/CardTile'
 import { DailyLoginModal }   from './components/DailyLoginModal'
 import { InventoryScreen }   from './components/InventoryScreen'
 import { peekDailyReward, markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
-import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin } from './game/dailyChallenge'
+import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
@@ -520,6 +520,18 @@ export default function App() {
         const streak = recordDailyWin()
         toasts.push(...setAchievementProgress('daily:win_streak', streak))
         if (toasts.length > 0) setAchievementToasts(prev => [...prev, ...toasts])
+
+        // Publish to Firestore leaderboard (attempts after save = prevState.attempts + 1)
+        const uid = auth.currentUser?.uid
+        if (uid && navigator.onLine) {
+          const playerId = localStorage.getItem('jarv_player_id') ?? uid
+          publishDailyResult({
+            uid,
+            playerId,
+            characterName: loadPlayerName(),
+            attempts: prevState.attempts + 1,
+          }).catch(() => { /* non-critical */ })
+        }
       }
     }
   }, [gameState?.phase.type])
