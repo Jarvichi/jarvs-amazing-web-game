@@ -283,6 +283,9 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
       const e = err as { code?: string }
       if (e.code === 'auth/popup-closed-by-user') {
         rollbar.info('Google sign-in: popup closed by user')
+      } else if (e.code === 'auth/unauthorized-domain') {
+        rollbar.warning('Google sign-in: unauthorized domain', { code: e.code, err })
+        setSyncMsg('Google sign-in is not available right now. Please use email/password sign-in instead.')
       } else {
         rollbar.error('Google sign-in failed', { code: e.code, err })
         setSyncMsg('Sign-in failed. Please try again.')
