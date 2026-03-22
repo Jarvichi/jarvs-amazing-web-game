@@ -331,7 +331,7 @@ body {
 .lane--boss-phase {
   transition: transform 0.8s ease-in-out;
   transform: scale(1.8);
-  transform-origin: 50% 20%;
+  transform-origin: var(--boss-zoom-origin, 50% 6%);
 }
 
 .lane--boss-phase .lane-unit-sprite {
