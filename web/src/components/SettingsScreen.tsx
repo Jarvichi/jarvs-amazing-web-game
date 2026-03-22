@@ -1,12 +1,19 @@
 import React, { useState, useRef } from 'react'
+import {
+  GoogleAuthProvider, linkWithPopup, signInWithPopup, signInWithCredential, signOut as firebaseSignOut, type User,
+} from 'firebase/auth'
 import { isSoundEnabled, setSoundEnabled } from '../game/sound'
 import { OverlayScreen } from './OverlayScreen'
 import { Section } from './Section'
 import rollbar from '../rollbar'
+import { auth } from '../firebase'
+import { uploadSave, downloadSave, applySave, getLastSyncTime, type CloudSave } from '../game/cloudSave'
 
 interface Props {
   onBack: () => void
   onResetGame: () => void
+  user: User | null
+  authLoading: boolean
 }
 
 const TEXT_SIZE_KEY      = 'jarv_text_size'
@@ -106,7 +113,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
-export function SettingsScreen({ onBack, onResetGame }: Props) {
+export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [textSize,      setTextSize]      = useState(loadTextSize)
   const [textColor,     setTextColor]     = useState(loadTextColor)
@@ -118,6 +125,103 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
   const [importMsg,     setImportMsg]     = useState<string | null>(null)
   const [rollbarMsg,    setRollbarMsg]    = useState<string | null>(null)
   const importRef = useRef<HTMLInputElement>(null)
+
+  // Sync state
+  const [signingIn,        setSigningIn]        = useState(false)
+  const [syncing,          setSyncing]          = useState(false)
+  const [syncMsg,          setSyncMsg]          = useState<string | null>(null)
+  const [pendingCloudSave, setPendingCloudSave] = useState<CloudSave | null>(null)
+  const [lastSync,         setLastSync]         = useState<Date | null>(getLastSyncTime)
+
+  async function handleSignIn() {
+    if (!user) return
+    setSigningIn(true)
+    setSyncMsg(null)
+    const provider = new GoogleAuthProvider()
+    try {
+      let linkedUser: User
+      if (user.isAnonymous) {
+        try {
+          const result = await linkWithPopup(user, provider)
+          linkedUser = result.user
+        } catch (linkErr: unknown) {
+          const err = linkErr as { code?: string }
+          if (err.code === 'auth/credential-already-in-use') {
+            const credential = GoogleAuthProvider.credentialFromError(linkErr as Parameters<typeof GoogleAuthProvider.credentialFromError>[0])
+            if (!credential) throw linkErr
+            const result = await signInWithCredential(auth, credential)
+            linkedUser = result.user
+          } else {
+            throw linkErr
+          }
+        }
+      } else {
+        const result = await signInWithPopup(auth, provider)
+        linkedUser = result.user
+      }
+      // Check if a cloud save already exists for this account
+      const cloud = await downloadSave(linkedUser.uid)
+      if (cloud) {
+        setPendingCloudSave(cloud)
+      } else {
+        await uploadSave(linkedUser.uid)
+        const t = new Date()
+        setLastSync(t)
+        setSyncMsg('Save synced to cloud.')
+      }
+    } catch (err: unknown) {
+      const e = err as { code?: string }
+      if (e.code !== 'auth/popup-closed-by-user') {
+        setSyncMsg('Sign-in failed. Please try again.')
+      }
+    } finally {
+      setSigningIn(false)
+    }
+  }
+
+  async function handleSync() {
+    if (!user || user.isAnonymous) return
+    setSyncing(true)
+    setSyncMsg(null)
+    try {
+      await uploadSave(user.uid)
+      const t = new Date()
+      setLastSync(t)
+      setSyncMsg('Save synced.')
+    } catch {
+      setSyncMsg('Sync failed. Check your connection.')
+    } finally {
+      setSyncing(false)
+    }
+  }
+
+  async function handleSignOut() {
+    await firebaseSignOut(auth)
+    setSyncMsg(null)
+    setPendingCloudSave(null)
+    setLastSync(null)
+  }
+
+  function handleLoadCloudSave() {
+    if (!pendingCloudSave) return
+    applySave(pendingCloudSave.data)
+    setPendingCloudSave(null)
+    setLastSync(new Date())
+    setSyncMsg('Cloud save loaded. Reload the page to apply all changes.')
+  }
+
+  async function handleKeepLocal() {
+    if (!user || user.isAnonymous) return
+    setPendingCloudSave(null)
+    try {
+      await uploadSave(user.uid)
+      const t = new Date()
+      setLastSync(t)
+      setSyncMsg('Local save pushed to cloud.')
+    } catch {
+      setSyncMsg('Sync failed. Check your connection.')
+    }
+  }
 
   function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -228,6 +332,60 @@ export function SettingsScreen({ onBack, onResetGame }: Props) {
               </div>
             </div>
           </div>
+        </Section>
+
+        <Section bordered title="BACKUP &amp; SYNC">
+          {!user?.isAnonymous ? (
+            // Signed in with Google
+            <>
+              <div className="settings-row">
+                <div>
+                  <div className="settings-label">{user?.displayName ?? user?.email ?? 'Google account'}</div>
+                  <div className="settings-sublabel">
+                    {lastSync ? `Last synced: ${lastSync.toLocaleString()}` : 'Not yet synced'}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button className="action-btn" onClick={handleSync} disabled={syncing}>
+                    {syncing ? 'SYNCING...' : 'SYNC NOW'}
+                  </button>
+                  <button className="action-btn" onClick={handleSignOut} style={{ fontSize: '11px', padding: '6px 12px' }}>
+                    SIGN OUT
+                  </button>
+                </div>
+              </div>
+              {pendingCloudSave && (
+                <div className="settings-row" style={{ flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
+                  <div className="settings-label" style={{ color: '#ffbb33' }}>
+                    Cloud save found ({pendingCloudSave.savedAt.toDate().toLocaleString()})
+                  </div>
+                  <div className="settings-sublabel">Load it? Your local progress will be replaced.</div>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button className="action-btn" onClick={handleLoadCloudSave}>LOAD CLOUD SAVE</button>
+                    <button className="action-btn" onClick={handleKeepLocal} style={{ fontSize: '11px', padding: '6px 12px' }}>KEEP LOCAL</button>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            // Anonymous — not yet signed in with Google
+            <div className="settings-row">
+              <div>
+                <div className="settings-label">Sync save across devices</div>
+                <div className="settings-sublabel">Sign in with Google to back up and restore your progress</div>
+              </div>
+              <button className="action-btn" onClick={handleSignIn} disabled={signingIn || authLoading}>
+                {signingIn ? 'SIGNING IN...' : 'SIGN IN'}
+              </button>
+            </div>
+          )}
+          {syncMsg && (
+            <div className="settings-row">
+              <div className="settings-sublabel" style={{ color: syncMsg.startsWith('Sign-in failed') || syncMsg.startsWith('Sync failed') ? '#ff5555' : '#33ff33' }}>
+                {syncMsg}
+              </div>
+            </div>
+          )}
         </Section>
 
         {eightbitUnlocked && (
