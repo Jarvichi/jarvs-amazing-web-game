@@ -13,6 +13,7 @@ const BATTLE_EVENT_BASE_MS = 30000  // first event after 30s, then every 24-32s
 const SPAWN_GROW_MS = 1500           // building-spawn grow-in animation duration
 const DEATH_LINGER_MS = 400          // how long a dying unit stays visible
 const DAMAGE_FLASH_MS = 200          // how long the damage-flash effect lasts
+const KILL_FLASH_MS   = 500          // how long the kill-flash glow lasts
 const PROJECTILE_SPEED_PX_MS = 0.4  // projectile travel speed in game-px per ms
 const ANIM_EVENT_PROJECTILE_MS = 600 // max projectile lifetime (cap)
 
@@ -866,6 +867,8 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
           if (target.moveSpeed > 0 && !target.isWall) {
             target.dyingTimer = DEATH_LINGER_MS
           }
+          // Kill flash on the attacker
+          unit.killFlashTimer = KILL_FLASH_MS
         }
       }
       const affSpeedMult = (unit.affinityActive && unit.affinity?.effectType === 'attackSpeed')
@@ -1319,6 +1322,9 @@ export function tick(state: GameState, deltaMs: number): GameState {
     }
     if (unit.damageFlashTimer != null && unit.damageFlashTimer > 0) {
       unit.damageFlashTimer = Math.max(0, unit.damageFlashTimer - deltaMs)
+    }
+    if (unit.killFlashTimer != null && unit.killFlashTimer > 0) {
+      unit.killFlashTimer = Math.max(0, unit.killFlashTimer - deltaMs)
     }
     // Update climbing flag: true when climber unit is inside an enemy wall zone
     if (unit.climber && unit.moveSpeed > 0) {
