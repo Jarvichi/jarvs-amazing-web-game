@@ -15,6 +15,7 @@ const EIGHTBIT_CLICKS = 8
 interface Props {
   crystals: number
   onPlay: () => void
+  onEndless: () => void
   onCampaign: () => void
   onCollection: () => void
   onShop: () => void
@@ -28,7 +29,7 @@ interface Props {
   onDailyChallenge: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -110,6 +111,10 @@ export function TitleScreen({ crystals, onPlay, onCampaign, onCollection, onShop
 
         <TitleButton onClick={onPlay} disabled={!valid} title={valid ? undefined : `Deck needs ${10 - count} more cards`}>
           {valid ? '▶  QUICK BATTLE' : `⚠ DECK TOO SMALL (${count}/10)`}
+        </TitleButton>
+
+        <TitleButton onClick={onEndless} disabled={!valid} title={valid ? undefined : `Deck needs ${10 - count} more cards`}>
+          ∞  ENDLESS MODE
         </TitleButton>
 
         <TitleButton onClick={onDailyChallenge}>

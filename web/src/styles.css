@@ -6816,3 +6816,121 @@ html.light-mode .settings-toggle-track {
 html.light-mode .action-btn {
   background: transparent;
 }
+
+/* ─────────────────────────────────────────────────────────
+   #113 — Animation variety: damage flash, death, climb,
+          damage augments, projectiles, hit sparks
+   ──────────────────────────────────────────────────────── */
+
+/* Damage flash: brief red tint when unit takes a hit */
+@keyframes damage-flash-anim {
+  0%   { filter: brightness(2.5) saturate(0) sepia(1) hue-rotate(-20deg); }
+  100% { filter: none; }
+}
+.lane-unit--damage-flash {
+  animation: damage-flash-anim 0.2s ease-out forwards;
+}
+
+/* Death linger: fade-out + slight shrink */
+@keyframes dying-anim {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(-50%) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-50%) scale(0.6); }
+}
+.lane-unit--dying {
+  animation: dying-anim 0.4s ease-in forwards;
+  pointer-events: none;
+}
+
+/* Climb: subtle wobble to suggest effort */
+@keyframes climbing-anim {
+  0%, 100% { transform: translateX(-50%) translateY(-50%) rotate(-6deg); }
+  50%       { transform: translateX(-50%) translateY(-50%) rotate(6deg); }
+}
+.lane-unit--climbing {
+  animation: climbing-anim 0.4s ease-in-out infinite;
+}
+
+/* Persistent damage/blood overlay on units and structures */
+.lane-unit-damage-aug {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(180,0,0,0.6) 0%, transparent 70%);
+  border-radius: 4px;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+/* Projectile: a glowing streak travelling from attacker to target */
+@keyframes projectile-travel {
+  0%   { clip-path: inset(0 100% 0 0); opacity: 1; }
+  80%  { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  100% { clip-path: inset(0 0% 0 0);   opacity: 0; }
+}
+.anim-projectile {
+  background: linear-gradient(90deg, transparent, rgba(255,220,80,0.9), #fff);
+  border-radius: 2px;
+  box-shadow: 0 0 4px 1px rgba(255,200,50,0.7);
+  animation: projectile-travel 0.5s ease-out forwards;
+}
+
+/* Hit spark: brief starburst at impact point */
+@keyframes hit-spark-anim {
+  0%   { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+  60%  { transform: translate(-50%, -50%) scale(1.4); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(2);   opacity: 0; }
+}
+.anim-hit {
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(circle, rgba(255,230,80,0.95) 0%, rgba(255,100,20,0.6) 50%, transparent 80%);
+  border-radius: 50%;
+  animation: hit-spark-anim 0.3s ease-out forwards;
+}
+
+/* ─────────────────────────────────────────────────────────
+   #152 — Endless Mode: wave chip in top bar
+   ──────────────────────────────────────────────────────── */
+
+.endless-wave-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  background: rgba(255,80,20,0.2);
+  border: 1px solid rgba(255,100,30,0.5);
+  border-radius: 4px;
+  color: #ff9955;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* ─── Endless mode game-over display ─────────────────── */
+.gameover-endless-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  background: rgba(255,80,20,0.2);
+  border: 1px solid rgba(255,100,30,0.5);
+  border-radius: 4px;
+  color: #ff9955;
+  font-size: 11px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.gameover-endless-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 8px 0;
+}
+.gameover-endless-wave {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff9955;
+  letter-spacing: 2px;
+}
+.gameover-endless-time {
+  font-size: 14px;
+  color: var(--game-text-muted);
+}

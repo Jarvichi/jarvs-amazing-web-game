@@ -474,6 +474,18 @@ export default function App() {
     }
   }, [gameState?.phase.type])
 
+  // Track endless mode survival achievements when the battle ends
+  useEffect(() => {
+    if (gameState?.endlessMode && gameState.phase.type === 'gameOver') {
+      const toasts: AchievementDef[] = []
+      const survivalSec = Math.floor((gameState.endlessSurvivalMs ?? 0) / 1000)
+      const wave = gameState.endlessWave ?? 1
+      toasts.push(...setAchievementProgress('endless:survival_sec', survivalSec))
+      toasts.push(...setAchievementProgress('endless:best_wave', wave))
+      if (toasts.length > 0) setAchievementToasts(prev => [...prev, ...toasts])
+    }
+  }, [gameState?.phase.type])
+
   // Trigger SW update check whenever the title screen is shown
   useEffect(() => {
     if (screen === 'title') swRegRef.current?.update()
@@ -501,6 +513,25 @@ export default function App() {
     // (maxes out at +10 for an empty deck, scales to 0 at DECK_MAX cards)
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
     setGameState(newGame(playerCards, Math.min(MAX_HANDICAP, handicap + deckBonus)))
+    setScreen('playing')
+    rollRareEvent()
+  }, [handicap])
+
+  const handleEndless = useCallback(() => {
+    isCampaignRef.current = false
+    battleFlawlessRef.current = true
+    battleUsedStructure.current = false
+    battleUsedMobileUnit.current = false
+    battleLossRecordedRef.current = false
+    prevOpponentUnitsRef.current = new Map()
+    prevPlayerUnitsRef.current = new Map()
+    const collection  = loadCollection()
+    const deckEntries = loadDeck()
+    const deckCount   = deckTotalCards(deckEntries)
+    const effectiveDeck = deckCount > 0 ? deckEntries : STARTER_DECK
+    const playerCards   = buildDeckCards(effectiveDeck, collection)
+    const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
+    setGameState(newGame({ playerCards, opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus), endlessMode: true }))
     setScreen('playing')
     rollRareEvent()
   }, [handicap])
@@ -1572,6 +1603,7 @@ export default function App() {
         <TitleScreen
           crystals={crystals}
           onPlay={handlePlay}
+          onEndless={handleEndless}
           onCampaign={handleCampaign}
           onCollection={() => setScreen('collection')}
           onShop={() => setScreen('shop')}
