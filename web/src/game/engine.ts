@@ -832,6 +832,7 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
         const projEvent: AnimEvent = {
           id: animUid(),
           kind: 'projectile',
+          fromUnitId: unit.id,
           fromX: unit.x, fromY: unit.y,
           toX: target.x, toY: target.y,
           expiresAt: s.gameTime + travelMs,
