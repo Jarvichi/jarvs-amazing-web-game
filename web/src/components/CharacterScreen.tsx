@@ -5,6 +5,8 @@ import {
   loadPlayerAvatar, savePlayerAvatar,
   isAvatarUnlocked,
 } from '../game/questline'
+import { auth } from '../firebase'
+import { claimPlayerName } from '../game/playerName'
 
 const SPRITE_BASE = '/jarvs-amazing-web-game/sprites/'
 
@@ -44,11 +46,24 @@ function AvatarButton({ slug, chosen, onClick }: { slug: string; chosen: boolean
 }
 
 export function CharacterScreen({ onDone }: Props) {
-  const [name,   setName]   = useState(loadPlayerName())
-  const [avatar, setAvatar] = useState<AvatarSlug>(loadPlayerAvatar())
+  const [name,      setName]      = useState(loadPlayerName())
+  const [avatar,    setAvatar]    = useState<AvatarSlug>(loadPlayerAvatar())
+  const [saving,    setSaving]    = useState(false)
+  const [nameError, setNameError] = useState<string | null>(null)
 
-  function handleSave() {
+  async function handleSave() {
     const finalName = sanitiseName(name).trim() || 'Jarv'
+    const user = auth.currentUser
+    if (user) {
+      setSaving(true)
+      setNameError(null)
+      const result = await claimPlayerName(user.uid, user.isAnonymous, finalName)
+      setSaving(false)
+      if (!result.ok) {
+        setNameError('That name is already taken. Please choose another.')
+        return
+      }
+    }
     savePlayerName(finalName)
     savePlayerAvatar(avatar)
     onDone()
@@ -69,8 +84,13 @@ export function CharacterScreen({ onDone }: Props) {
           maxLength={20}
           value={name}
           placeholder="Jarv"
-          onChange={e => setName(sanitiseName(e.target.value))}
+          onChange={e => { setName(sanitiseName(e.target.value)); setNameError(null) }}
         />
+        {nameError && (
+          <div style={{ color: '#ff6666', fontSize: '0.75rem', marginTop: '0.3rem' }}>
+            {nameError}
+          </div>
+        )}
       </div>
 
       <div style={{ margin: '1.2rem 0 0.5rem' }}>
@@ -96,8 +116,13 @@ export function CharacterScreen({ onDone }: Props) {
         </div>
       </div>
 
-      <button className="action-btn action-btn--large" style={{ marginTop: '1.5rem' }} onClick={handleSave}>
-        SAVE &amp; CONTINUE ›
+      <button
+        className="action-btn action-btn--large"
+        style={{ marginTop: '1.5rem' }}
+        onClick={handleSave}
+        disabled={saving}
+      >
+        {saving ? 'CHECKING NAME…' : 'SAVE & CONTINUE ›'}
       </button>
     </div>
   )
