@@ -339,6 +339,7 @@ export default function App() {
   const [cardRestCandidates, setCardRestCandidates] = useState<string[]>([])
   const [bonusPackCards, setBonusPackCards]     = useState<string[]>([])
   const campaignPlayCountsRef = useRef<Record<string, number>>({})  // per-battle play tracking
+  const gameStateRef = useRef<GameState | null>(null)  // always-current snapshot for callbacks
 
   // Unit death tracking
   const prevPlayerUnitsRef   = useRef<Map<string, string>>(new Map())
@@ -393,6 +394,9 @@ export default function App() {
     setDailyReward(reward)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // Keep gameStateRef in sync so callbacks can read current state without stale closures
+  gameStateRef.current = gameState
 
   // ── Page visibility: pause game loop when tab is hidden ──
   const [isTabHidden, setIsTabHidden] = useState(() => document.hidden)
@@ -1426,9 +1430,29 @@ export default function App() {
     if (isCampaignRef.current) {
       handleAbandonRun()
     } else {
+      // Exiting endless mode mid-run counts as a defeat: log achievements and publish result
+      const gs = gameStateRef.current
+      if (gs?.endlessMode && gs.phase.type !== 'gameOver') {
+        const survivalSec = Math.floor((gs.endlessSurvivalMs ?? 0) / 1000)
+        const wave = gs.endlessWave ?? 1
+        const toasts: AchievementDef[] = []
+        toasts.push(...setAchievementProgress('endless:survival_sec', survivalSec))
+        toasts.push(...setAchievementProgress('endless:best_wave', wave))
+        if (toasts.length > 0) setAchievementToasts(prev => [...prev, ...toasts])
+
+        const uid = auth.currentUser?.uid
+        if (uid && navigator.onLine) {
+          publishEndlessResult({
+            uid,
+            characterName: loadPlayerName(),
+            wave,
+            survivalMs: gs.endlessSurvivalMs ?? 0,
+          }).catch(() => { /* non-critical */ })
+        }
+      }
       setScreen('title')
     }
-  }, [handleAbandonRun])
+  }, [handleAbandonRun, setAchievementToasts])
 
   // Detect player unit deaths each tick
   useEffect(() => {
