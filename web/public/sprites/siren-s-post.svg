@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Siren's Post — ranged attack structure -->
+  <!-- Base -->
+  <rect x="9" y="25" width="14" height="4" rx="1" fill="#446688" stroke="#224466" stroke-width="1"/>
+  <!-- Post tower -->
+  <rect x="13" y="10" width="6" height="16" rx="1" fill="#5577aa" stroke="#334477" stroke-width="1"/>
+  <!-- Siren figure on top (simplified) -->
+  <!-- Head -->
+  <circle cx="16" cy="7" r="3" fill="#ffccaa" stroke="#cc8866" stroke-width="0.8"/>
+  <!-- Hair/fins -->
+  <path d="M13,5 Q11,3 12,6 Q14,7 13,5 Z" fill="#4499cc" stroke="#2277aa" stroke-width="0.5"/>
+  <path d="M19,5 Q21,3 20,6 Q18,7 19,5 Z" fill="#4499cc" stroke="#2277aa" stroke-width="0.5"/>
+  <!-- Sound wave rings -->
+  <circle cx="16" cy="7" r="6" fill="none" stroke="#88ccff" stroke-width="0.6" opacity="0.5"/>
+  <circle cx="16" cy="7" r="9" fill="none" stroke="#88ccff" stroke-width="0.4" opacity="0.3"/>
+  <!-- Rune markings on post -->
+  <line x1="14" y1="14" x2="18" y2="14" stroke="#aaccee" stroke-width="0.6" opacity="0.7"/>
+  <line x1="14" y1="18" x2="18" y2="18" stroke="#aaccee" stroke-width="0.6" opacity="0.7"/>
+  <line x1="14" y1="22" x2="18" y2="22" stroke="#aaccee" stroke-width="0.6" opacity="0.7"/>
+</svg>

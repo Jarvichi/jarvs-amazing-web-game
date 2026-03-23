@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Reef Mender — repair aura structure -->
+  <!-- Base -->
+  <rect x="10" y="25" width="12" height="4" rx="1" fill="#44aa66" stroke="#227744" stroke-width="1"/>
+  <!-- Central pod -->
+  <ellipse cx="16" cy="18" rx="6" ry="7" fill="#55bb77" stroke="#338855" stroke-width="1"/>
+  <!-- Healing cross symbol -->
+  <rect x="14.5" y="13" width="3" height="10" rx="0.5" fill="#ccffcc" opacity="0.8"/>
+  <rect x="11.5" y="16.5" width="9" height="3" rx="0.5" fill="#ccffcc" opacity="0.8"/>
+  <!-- Healing aura rings -->
+  <circle cx="16" cy="18" r="9" fill="none" stroke="#88ddaa" stroke-width="0.7" opacity="0.5"/>
+  <circle cx="16" cy="18" r="12" fill="none" stroke="#88ddaa" stroke-width="0.4" opacity="0.3"/>
+  <!-- Coral tendrils -->
+  <path d="M10,18 Q7,14 9,11 Q12,15 10,18 Z" fill="#44aa66" stroke="#338855" stroke-width="0.6" opacity="0.8"/>
+  <path d="M22,18 Q25,14 23,11 Q20,15 22,18 Z" fill="#44aa66" stroke="#338855" stroke-width="0.6" opacity="0.8"/>
+</svg>

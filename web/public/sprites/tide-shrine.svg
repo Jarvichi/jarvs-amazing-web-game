@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tide Shrine — mana structure -->
+  <!-- Base stone -->
+  <rect x="8" y="25" width="16" height="4" rx="1" fill="#5588aa" stroke="#336688" stroke-width="1"/>
+  <!-- Altar column -->
+  <rect x="12" y="12" width="8" height="14" rx="1" fill="#66aacc" stroke="#4488aa" stroke-width="1"/>
+  <!-- Wave carved into altar -->
+  <path d="M12,18 Q14,15 16,18 Q18,21 20,18" fill="none" stroke="#aaddff" stroke-width="1.2"/>
+  <path d="M12,22 Q14,19 16,22 Q18,25 20,22" fill="none" stroke="#aaddff" stroke-width="1" opacity="0.6"/>
+  <!-- Glowing water bowl on top -->
+  <ellipse cx="16" cy="11" rx="5" ry="2" fill="#44aadd" stroke="#2288bb" stroke-width="0.8"/>
+  <ellipse cx="16" cy="10" rx="4" ry="1.5" fill="#88ccee" opacity="0.8"/>
+  <!-- Light beam -->
+  <line x1="16" y1="4" x2="16" y2="10" stroke="#aaddff" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="16" cy="4" r="2" fill="#ddeeff" opacity="0.7"/>
+</svg>
