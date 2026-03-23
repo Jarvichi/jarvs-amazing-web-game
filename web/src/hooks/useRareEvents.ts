@@ -9,6 +9,7 @@ import { loadCrystals, saveCrystals, addCardsToCollection } from '../game/collec
 import { addToInventory } from '../game/dailyLogin'
 import { incrementAchievementProgress, AchievementDef } from '../game/achievements'
 import { isNoDamageMode } from '../game/debug'
+import { loadDevConfig } from '../game/devStore'
 
 interface UseRareEventsOptions {
   gameState: GameState | null
@@ -48,7 +49,11 @@ export function useRareEvents({
   }, [gameState?.gameTime, rareEventScheduled, activeRareEvent, screen])
 
   function rollRareEvent() {
-    if (Math.random() < RARE_EVENT_CHANCE) {
+    const forced = loadDevConfig().forcedRareEvent
+    if (forced) {
+      const triggerMs = 10000 + Math.random() * 10000
+      setRareEventScheduled({ kind: forced, triggerMs })
+    } else if (Math.random() < RARE_EVENT_CHANCE) {
       const kind = ALL_RARE_EVENTS[Math.floor(Math.random() * ALL_RARE_EVENTS.length)]
       const triggerMs = 20000 + Math.random() * 30000
       setRareEventScheduled({ kind, triggerMs })
