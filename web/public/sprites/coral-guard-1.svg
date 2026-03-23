@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Coral Guard — frame 1 (left leg forward) -->
+  <polygon points="16,3 13,7 16,9 19,7" fill="#ff7755" stroke="#cc3322" stroke-width="1"/>
+  <rect x="13" y="7" width="6" height="4" rx="0.5" fill="#dd5533" stroke="#aa2211" stroke-width="0.8"/>
+  <rect x="12" y="11" width="8" height="9" rx="1" fill="#cc6644" stroke="#993322" stroke-width="1"/>
+  <polygon points="11,12 9,9 11,14" fill="#ff8866" stroke="#cc4422" stroke-width="0.7"/>
+  <polygon points="21,12 23,9 21,14" fill="#ff8866" stroke="#cc4422" stroke-width="0.7"/>
+  <rect x="8" y="12" width="4" height="7" rx="1" fill="#bb5533" stroke="#882211" stroke-width="0.8"/>
+  <rect x="20" y="12" width="4" height="7" rx="1" fill="#bb5533" stroke="#882211" stroke-width="0.8"/>
+  <rect x="12" y="20" width="3" height="7" rx="1" fill="#aa4422" stroke="#772211" stroke-width="0.8" transform="rotate(-15,13.5,20)"/>
+  <rect x="17" y="20" width="3" height="7" rx="1" fill="#aa4422" stroke="#772211" stroke-width="0.8" transform="rotate(12,18.5,20)"/>
+  <rect x="14" y="8" width="4" height="1.5" rx="0.5" fill="#222"/>
+</svg>
