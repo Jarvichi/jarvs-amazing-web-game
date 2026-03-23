@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Resonance Spire — static building, healing aura tower -->
+  <!-- Base -->
+  <rect x="9" y="25" width="14" height="4" rx="1" fill="#4466aa" stroke="#223355" stroke-width="1"/>
+  <!-- Main column -->
+  <rect x="13" y="11" width="6" height="15" rx="1" fill="#5577bb" stroke="#334477" stroke-width="1"/>
+  <!-- Crystal crown: four prongs -->
+  <polygon points="16,3 18,11 14,11" fill="#88bbff" stroke="#5599cc" stroke-width="1"/>
+  <polygon points="16,5 19,11 13,11" fill="#aaccff" opacity="0.6"/>
+  <!-- Side mini-shards -->
+  <polygon points="13,9 10,7 13,12" fill="#7aadee" stroke="#5599cc" stroke-width="0.7"/>
+  <polygon points="19,9 22,7 19,12" fill="#7aadee" stroke="#5599cc" stroke-width="0.7"/>
+  <!-- Aura rings (pulsing feel via concentric circles) -->
+  <circle cx="16" cy="10" r="5" fill="none" stroke="#aaddff" stroke-width="0.7" opacity="0.5"/>
+  <circle cx="16" cy="10" r="8" fill="none" stroke="#aaddff" stroke-width="0.5" opacity="0.3"/>
+  <!-- Core glow -->
+  <circle cx="16" cy="10" r="2" fill="#ddeeff" opacity="0.9"/>
+</svg>
