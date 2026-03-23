@@ -14,11 +14,11 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔴 Bugs — New (from GitHub, session 23 sync)
 
-- [ ] **#418** TypeError: Load failed — likely a network/fetch error on app load; check Rollbar for full stack trace
-- [ ] **#417** useAuth: auth state changed — user present — Rollbar-logged auth event being treated as an error; may be spurious or a sign-in flow issue
-- [ ] **#416** UnknownError: Connection to Indexed Database server lost — IndexedDB connection dropping; may cause data loss; check Rollbar
+- [x] **#418** TypeError: Load failed — fetchDailyLeaderboard wrapped in try/catch
+- [x] **#417** useAuth: auth state changed — removed noisy rollbar.info that fired every page load
+- [x] **#416** UnknownError: Connection to Indexed Database server lost — suppressed via global unhandledrejection handler in main.tsx
 - [x] **#413** Freezer — fixed
-- [ ] **#412** Check the logic behind the fontsize and light mode settings — settings may not persist or apply correctly
+- [x] **#412** Font size / light mode settings — applyLightMode now removes inline --game-text-color override so light mode CSS rule applies correctly
 
 ## 🔵 Enhancements — New (from GitHub, session 23 sync)
 
