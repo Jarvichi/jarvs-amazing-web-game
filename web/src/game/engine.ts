@@ -327,6 +327,7 @@ export function newGame(
     :   boss === 'ashwalker'  ? 4500
     :   boss === 'archivist'       ? 5000
     :   boss === 'tidalsovereign' ? 4800
+    :   boss === 'cloudmarshal'  ? 4600
     :   opponentIntervalForHandicap(clamp))
 
   const diffLabel =
@@ -341,6 +342,7 @@ export function newGame(
     : boss === 'ashwalker' ? ['THE ASHWALKER stirs. The ash rises. The dead remember.', 'An undying horde answers the call — destroy them before they overwhelm you!']
     : boss === 'archivist' ? ['THE ARCHIVIST opens the archive. Every spell in the Dominion catalogue — ready.', 'Arcane constructs flood the field. At turn eight, his mana becomes limitless — act fast!']
     : boss === 'tidalsovereign' ? ['THE TIDAL SOVEREIGN surfaces. The reef shudders. The deep comes with it.', 'Wave after wave crashes ashore — hold your ground or be dragged under!']
+    : boss === 'cloudmarshal' ? ['THE CLOUDMARSHAL takes position. The sky belongs to the Dominion.', 'Aerial squadrons in formation — watch above as well as ahead!']
     : [
         clamp > 0
           ? `Battle begins! (Enemy difficulty: ${diffLabel})`
@@ -1331,6 +1333,30 @@ function tidalSovereignAI(s: GameState, log: string[]): void {
 
 // ─── Battle Events ────────────────────────────────────────
 
+function cloudmarshalAI(s: GameState, log: string[]): void {
+  const manaBonus = getManaBonus(s.field, 'opponent')
+  let mana = Math.min(10, BASE_MAX_MANA + manaBonus)
+  // Prioritises flying units and long-range structures; floods with speed upgrades early
+  function tryPlay(): boolean {
+    const hand = s.opponentHand.filter(c => c.cost <= mana && isPlayable(c, s.gameTime))
+    if (hand.length === 0) return false
+    const structures = hand.filter(c => c.cardType === 'structure' && !c.unit?.isWall).sort((a, b) => b.cost - a.cost)
+    const flyingUnits = hand.filter(c => c.cardType === 'unit' && (c.unit as unknown as {flying?: boolean})?.flying && !c.unit?.isWall).sort((a, b) => b.cost - a.cost)
+    const upgrades = hand.filter(c => c.cardType === 'upgrade').sort((a, b) => b.cost - a.cost)
+    const other = hand.filter(c => c.cardType === 'unit' && !c.unit?.isWall).sort((a, b) => b.cost - a.cost)
+    const pick = structures[0] ?? flyingUnits[0] ?? upgrades[0] ?? other[0]
+    if (!pick) return false
+    s.opponentHand.splice(s.opponentHand.indexOf(pick), 1)
+    mana -= pick.cost
+    deployCard(s, pick, 'opponent', log)
+    drawCard(s.opponentDeck, s.opponentHand)
+    return true
+  }
+  let played = 0
+  while (played < 3 && tryPlay()) played++
+  if (played === 0) log.push('The Cloudmarshal repositions…')
+}
+
 function triggerBattleEvent(s: GameState, log: string[]): void {
   const roll = Math.random()
   let event: BattleEventState
@@ -1482,6 +1508,8 @@ export function tick(state: GameState, deltaMs: number): GameState {
       archivistAI(s, log)
     } else if (s.bossAI === 'tidalsovereign') {
       tidalSovereignAI(s, log)
+    } else if (s.bossAI === 'cloudmarshal') {
+      cloudmarshalAI(s, log)
     } else {
       opponentAI(s, log)
     }
