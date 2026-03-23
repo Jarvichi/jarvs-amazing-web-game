@@ -15,10 +15,21 @@ import { db } from '../firebase'
 const SKIP_KEYS = new Set(['jarv_battle_state', 'jarv_player_id'])
 
 const LAST_SYNC_KEY = 'jarv_last_cloud_sync'
+const PLAYER_ID_KEY = 'jarv_player_id'
+
+function getDeviceId(): string {
+  let id = localStorage.getItem(PLAYER_ID_KEY)
+  if (!id) {
+    id = `player-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+    localStorage.setItem(PLAYER_ID_KEY, id)
+  }
+  return id
+}
 
 export interface CloudSave {
   data: Record<string, string>
   savedAt: Timestamp
+  deviceId?: string
 }
 
 export function getLastSyncTime(): Date | null {
@@ -42,7 +53,7 @@ export async function uploadSave(uid: string): Promise<void> {
       }
     }
   } catch { return }
-  await setDoc(doc(db, 'saves', uid), { data, savedAt: Timestamp.now() })
+  await setDoc(doc(db, 'saves', uid), { data, savedAt: Timestamp.now(), deviceId: getDeviceId() })
   setLastSyncTime()
 }
 
@@ -69,6 +80,8 @@ export function applySave(data: Record<string, string>): void {
 export async function getRemoteSaveIfNewer(uid: string): Promise<CloudSave | null> {
   const remote = await downloadSave(uid)
   if (!remote) return null
+  // If the save was uploaded from this same device, always use local state.
+  if (remote.deviceId && remote.deviceId === getDeviceId()) return null
   const localSync = getLastSyncTime()
   const remoteDate = remote.savedAt.toDate()
   const cutoff = localSync ? new Date(localSync.getTime() + 60_000) : new Date(0)
