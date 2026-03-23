@@ -10,14 +10,14 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔴 Critical — New (from GitHub, session 23 sync)
 
-- [ ] **#402** Security: remove hardcoded Firebase API key from source — API key exposed in source code; must be moved to env vars or runtime config
+- [x] **#402** Security: remove hardcoded Firebase API key from source — fixed (pending config merge)
 
 ## 🔴 Bugs — New (from GitHub, session 23 sync)
 
 - [ ] **#418** TypeError: Load failed — likely a network/fetch error on app load; check Rollbar for full stack trace
 - [ ] **#417** useAuth: auth state changed — user present — Rollbar-logged auth event being treated as an error; may be spurious or a sign-in flow issue
 - [ ] **#416** UnknownError: Connection to Indexed Database server lost — IndexedDB connection dropping; may cause data loss; check Rollbar
-- [ ] **#413** Freezer — app freezes (check issue for details and repro steps)
+- [x] **#413** Freezer — fixed
 - [ ] **#412** Check the logic behind the fontsize and light mode settings — settings may not persist or apply correctly
 
 ## 🔵 Enhancements — New (from GitHub, session 23 sync)
