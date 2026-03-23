@@ -1002,21 +1002,24 @@ function checkGameOver(s: GameState): boolean {
         const [victim] = smashPool.splice(idx, 1)
         smashedNames.push(victim.name)
         s.field = s.field.filter(u => u.id !== victim.id)
+        // Leave a blood pool at the squish site for non-flying mobile units
+        if (victim.moveSpeed > 0 && !victim.flying) {
+          s.bloodPools.push({ id: `smash-${victim.id}`, x: victim.x, y: victim.y ?? 0 })
+        }
       }
       if (smashedNames.length > 0) {
         s.log.push(`👇 A giant finger smashes ${smashedNames.join(', ')}!`)
       }
-      // Grant opponent a truce window (counts down once game resumes after reward)
+      // Grant opponent a truce window (counts down once game resumes)
       s.endlessWaveTruceMs = 5000
-      // Reward only on every 5th wave; otherwise resume immediately
+      // Always pause for the finger smash animation; reward only on every 5th wave
       const completedWave = wave - 1
-      if (completedWave % 5 === 0) {
-        s.phase = { type: 'waveReward', wave: completedWave, smashedNames }
-        s.log.push(`Wave ${completedWave} cleared! Choose your reward before the next wave.`)
-      } else {
-        s.phase = { type: 'playing' }
-        s.log.push(`Wave ${completedWave} cleared! Next wave incoming...`)
-      }
+      const rewardDue = completedWave % 5 === 0
+      s.phase = { type: 'fingerSmash', wave: completedWave, smashedNames, rewardDue }
+      s.log.push(rewardDue
+        ? `Wave ${completedWave} cleared! Choose your reward before the next wave.`
+        : `Wave ${completedWave} cleared! Next wave incoming...`
+      )
       return false
     }
     if (s.bossCard && !s.bossCardActive) {

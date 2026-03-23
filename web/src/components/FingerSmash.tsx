@@ -7,7 +7,7 @@ interface Props {
 
 export default function FingerSmash({ smashedNames, onDone }: Props) {
   useEffect(() => {
-    const t = setTimeout(onDone, 1600)
+    const t = setTimeout(onDone, 2500)
     return () => clearTimeout(t)
   }, [onDone])
 
@@ -25,7 +25,7 @@ export default function FingerSmash({ smashedNames, onDone }: Props) {
       <div style={{
         fontSize: '7rem',
         lineHeight: 1,
-        animation: 'fingerSmash 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+        animation: 'fingerSmash 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
         transformOrigin: 'top center',
       }}>
         👇
@@ -48,11 +48,11 @@ export default function FingerSmash({ smashedNames, onDone }: Props) {
       <style>{`
         @keyframes fingerSmash {
           0%   { transform: translateY(-110%); }
-          30%  { transform: translateY(2%); }
-          50%  { transform: translateY(2%) scaleY(0.82); }
-          65%  { transform: translateY(-4%) scaleY(1.06); }
-          78%  { transform: translateY(0%) scaleY(1); }
-          88%  { transform: translateY(0%) scaleY(1); }
+          20%  { transform: translateY(2%); }
+          35%  { transform: translateY(2%) scaleY(0.82); }
+          45%  { transform: translateY(-4%) scaleY(1.06); }
+          55%  { transform: translateY(0%) scaleY(1); }
+          75%  { transform: translateY(0%) scaleY(1); }
           100% { transform: translateY(-110%); }
         }
         @keyframes smashFadeIn {
