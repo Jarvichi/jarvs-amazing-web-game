@@ -404,6 +404,7 @@ export default function App() {
   useEffect(() => {
     if (screen !== 'playing' || !gameState) return
     if (gameState.phase.type === 'gameOver') return
+    if (gameState.phase.type === 'fingerSmash') return
     if (gameState.phase.type === 'waveReward') return
     if (isGamePaused) return
     if (isTabHidden) return
@@ -560,17 +561,19 @@ export default function App() {
     }
   }, [gameState?.phase.type])
 
-  // Generate wave reward choices and trigger finger smash animation when an endless wave is cleared
+  // Trigger finger smash animation and pre-generate reward choices when an endless wave is cleared
   useEffect(() => {
-    if (gameState?.phase.type !== 'waveReward') {
-      setShowFingerSmash(false)
+    if (gameState?.phase.type === 'fingerSmash') {
+      const fp = gameState.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
+      setFingerSmashNames(fp.smashedNames)
+      setShowFingerSmash(true)
+      if (fp.rewardDue) setWaveRewardChoices(generateEndlessRewardChoices(fp.wave))
       return
     }
-    const phase = gameState.phase as { type: 'waveReward'; wave: number; smashedNames: string[] }
-    setWaveRewardChoices(generateEndlessRewardChoices(phase.wave))
-    if (phase.smashedNames.length > 0) {
-      setFingerSmashNames(phase.smashedNames)
-      setShowFingerSmash(true)
+    setShowFingerSmash(false)
+    if (gameState?.phase.type === 'waveReward') {
+      const phase = gameState.phase as { type: 'waveReward'; wave: number; smashedNames: string[] }
+      setWaveRewardChoices(generateEndlessRewardChoices(phase.wave))
     }
   }, [gameState?.phase.type])
 
@@ -1964,16 +1967,32 @@ export default function App() {
           && gameState.phase.type === 'gameOver'
           && gameState.phase.winner !== 'player'
           && failCount >= 2
+        if (gameState.phase.type === 'fingerSmash') {
+          const fp = gameState.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
+          return (
+            <>
+              <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
+              <FingerSmash
+                smashedNames={fingerSmashNames}
+                onDone={() => {
+                  setShowFingerSmash(false)
+                  setGameState(s => {
+                    if (!s || s.phase.type !== 'fingerSmash') return s
+                    const fphase = s.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
+                    return {
+                      ...s,
+                      phase: fphase.rewardDue
+                        ? { type: 'waveReward', wave: fphase.wave, smashedNames: fphase.smashedNames }
+                        : { type: 'playing' },
+                    }
+                  })
+                }}
+              />
+            </>
+          )
+        }
         if (gameState.phase.type === 'waveReward') {
           const wave = (gameState.phase as { type: 'waveReward'; wave: number; smashedNames: string[] }).wave
-          if (showFingerSmash) {
-            return (
-              <>
-                <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
-                <FingerSmash smashedNames={fingerSmashNames} onDone={() => setShowFingerSmash(false)} />
-              </>
-            )
-          }
           return (
             <PostBattleReward
               choices={waveRewardChoices}

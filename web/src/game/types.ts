@@ -172,6 +172,7 @@ export interface Base {
 export type GamePhase =
   | { type: 'playing' }
   | { type: 'gameOver'; winner: 'player' | 'opponent' | 'draw' }
+  | { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
   | { type: 'waveReward'; wave: number; smashedNames: string[] }
 
 export const LANE_WIDTH = 500
