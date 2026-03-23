@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Eel Striker — frame 1 (curve A) -->
+  <path d="M7,27 Q9,19 16,16 Q23,13 25,5" fill="none" stroke="#44cc88" stroke-width="5" stroke-linecap="round"/>
+  <path d="M7,27 Q9,19 16,16 Q23,13 25,5" fill="none" stroke="#88ffbb" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="25" cy="5" rx="3.5" ry="2.5" fill="#33bb77" stroke="#228855" stroke-width="0.8" transform="rotate(-30,25,5)"/>
+  <circle cx="26" cy="4" r="1.2" fill="#ffff00" stroke="#aa8800" stroke-width="0.6"/>
+  <circle cx="26.3" cy="3.8" r="0.4" fill="#222"/>
+  <path d="M14,17 L12,15 L15,14 L13,12" fill="none" stroke="#ffff44" stroke-width="0.8" opacity="0.8"/>
+  <path d="M7,27 Q4,23 6,21 Q9,25 7,27 Z" fill="#55dd99" opacity="0.5"/>
+</svg>
