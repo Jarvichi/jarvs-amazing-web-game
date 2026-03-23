@@ -70,7 +70,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔵 In Progress
 
-- [ ] **#180** Campaign: extend to 25 acts — Act 5 (Sunken Reef) next; one branch per act
+- [ ] **#180** Campaign: extend to 25 acts — Act 5 ✅ (branch: claude/act5-sunken-reef-C3hTh); Act 6 (Sky Dominion) next on its own branch
 
 ---
 
