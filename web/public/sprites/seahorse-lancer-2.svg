@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Seahorse Lancer — frame 2 (body 1px higher, mid-gallop) -->
+  <path d="M16,25 Q12,21 13,15 Q14,9 16,7 Q18,9 19,15 Q20,21 16,25 Z" fill="#44aacc" stroke="#226688" stroke-width="1"/>
+  <ellipse cx="16" cy="6" rx="3.5" ry="4" fill="#55bbdd" stroke="#2288aa" stroke-width="0.8"/>
+  <rect x="16" y="4" width="5" height="2" rx="1" fill="#44aacc" stroke="#226688" stroke-width="0.8"/>
+  <polygon points="14,3 16,0 18,3" fill="#33aacc" stroke="#226688" stroke-width="0.7"/>
+  <circle cx="13" cy="13" r="2.5" fill="#ffccaa" stroke="#cc8866" stroke-width="0.7"/>
+  <rect x="11" y="15" width="5" height="5" rx="0.5" fill="#558866" stroke="#336644" stroke-width="0.8"/>
+  <rect x="9" y="11" width="12" height="1.5" rx="0.5" fill="#aa8844" stroke="#775522" stroke-width="0.7"/>
+  <polygon points="21,10 24,11.75 21,13.5" fill="#ccaacc" stroke="#886688" stroke-width="0.5"/>
+  <path d="M19,13 Q22,10 23,15 Q20,14 19,13 Z" fill="#88ccdd" opacity="0.6"/>
+</svg>
