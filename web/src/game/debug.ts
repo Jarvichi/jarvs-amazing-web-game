@@ -1,5 +1,18 @@
 /**
- * Dev mode is enabled via URL query parameter `?dev=1` or `?dev=true`.
+ * Dev mode is enabled via URL query parameter `?dev` (any value).
+ * Shows the dev menu in Settings. Run in incognito to keep main save data intact.
+ */
+export function isDevMode(): boolean {
+  try {
+    if (typeof window === 'undefined') return false
+    return new URLSearchParams(window.location.search).has('dev')
+  } catch {
+    return false
+  }
+}
+
+/**
+ * No-damage mode is enabled via URL query parameter `?dev=1` or `?dev=true`.
  * This avoids persisting the flag in user settings; it's intended for temporary
  * test sessions invoked by appending `?dev=1` to the URL.
  */

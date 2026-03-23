@@ -9,12 +9,16 @@ import { LoginModal } from './LoginModal'
 import rollbar from '../rollbar'
 import { auth } from '../firebase'
 import { uploadSave, applySave, getLastSyncTime, type CloudSave } from '../game/cloudSave'
+import { isDevMode } from '../game/debug'
+import { DevMenu } from './DevMenu'
 
 interface Props {
   onBack: () => void
   onResetGame: () => void
   user: User | null
   authLoading: boolean
+  onDevCrystalsChanged?: (n: number) => void
+  onDevHandicapChanged?: (n: number) => void
 }
 
 const TEXT_SIZE_KEY      = 'jarv_text_size'
@@ -123,7 +127,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
-export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props) {
+export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [textSize,      setTextSize]      = useState(loadTextSize)
   const [textColor,     setTextColor]     = useState(loadTextColor)
@@ -486,6 +490,13 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading }: Props
               </div>
             )}
           </Section>
+        )}
+
+        {isDevMode() && onDevCrystalsChanged && onDevHandicapChanged && (
+          <DevMenu
+            onCrystalsChanged={onDevCrystalsChanged}
+            onHandicapChanged={onDevHandicapChanged}
+          />
         )}
 
         <Section bordered title="ABOUT">

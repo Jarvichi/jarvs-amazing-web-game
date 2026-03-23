@@ -1790,7 +1790,17 @@ export default function App() {
       )}
 
       {screen === 'settings' && (
-        <SettingsScreen onBack={() => setScreen('title')} onResetGame={handleResetGame} user={user} authLoading={authLoading} />
+        <SettingsScreen
+          onBack={() => setScreen('title')}
+          onResetGame={handleResetGame}
+          user={user}
+          authLoading={authLoading}
+          onDevCrystalsChanged={n => setCrystals(n)}
+          onDevHandicapChanged={n => {
+            setHandicap(n)
+            try { localStorage.setItem(HANDICAP_KEY, String(n)) } catch { /* ignore */ }
+          }}
+        />
       )}
 
       {screen === 'nodemap' && run && actData && (
