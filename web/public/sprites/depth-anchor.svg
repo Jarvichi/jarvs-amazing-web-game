@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Depth Anchor — mana speed structure -->
+  <!-- Anchor shape -->
+  <!-- Ring at top -->
+  <circle cx="16" cy="5" r="3" fill="none" stroke="#336688" stroke-width="2"/>
+  <!-- Staff -->
+  <rect x="15" y="5" width="2" height="18" rx="0.5" fill="#336688" stroke="#224466" stroke-width="0.8"/>
+  <!-- Crossbar -->
+  <rect x="9" y="9" width="14" height="2.5" rx="1" fill="#336688" stroke="#224466" stroke-width="0.8"/>
+  <!-- Flukes at bottom -->
+  <path d="M16,23 Q11,26 9,30 Q13,27 16,28 Q19,27 23,30 Q21,26 16,23 Z" fill="#336688" stroke="#224466" stroke-width="0.8"/>
+  <!-- Ley-line glow -->
+  <circle cx="16" cy="15" r="3" fill="#aaddff" opacity="0.4"/>
+  <circle cx="16" cy="15" r="5" fill="none" stroke="#88bbdd" stroke-width="0.6" opacity="0.4"/>
+  <!-- Chains suggestion -->
+  <line x1="10" y1="10" x2="7" y2="7" stroke="#446688" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="22" y1="10" x2="25" y2="7" stroke="#446688" stroke-width="1" stroke-dasharray="2,2"/>
+</svg>
