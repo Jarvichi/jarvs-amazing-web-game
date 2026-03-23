@@ -172,13 +172,13 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           <TitleButton onClick={onInventory}>🎒 INVENTORY</TitleButton>
           <TitleButton onClick={onAchievements} badge={achievementAlert}>🏆 ACHIEVEMENTS</TitleButton>
           <TitleButton onClick={onCharacter}>👤 CHARACTER</TitleButton>
+          <TitleButton onClick={onSettings} extraClass="title-settings-btn">⚙ SETTINGS</TitleButton>
           {commanderName && onCommander && (
             <TitleButton onClick={onCommander} extraClass="title-commander-btn">
               <SpriteImg name={commanderName} className="commander-btn-sprite" />
               {commanderName.toUpperCase()}
             </TitleButton>
           )}
-          <TitleButton onClick={onSettings} extraClass="title-settings-btn">⚙ SETTINGS</TitleButton>
         </div>
       </div>
 
