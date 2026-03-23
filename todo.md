@@ -8,6 +8,12 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ---
 
+## ✅ Closed (session 25)
+
+- [x] **#178** Per-act themed card sets — Act 4 rewardTags fixed ('crystal'→'spire','arcane'); 5 new Crystal Spire cards added (Prism Warden, Shard Familiar, Arcane Conduit, Resonance Spire, Crystalline Shell); all sprites created. Acts 1–4 now have 25+ themed cards each.
+
+---
+
 ## 🔴 Critical — New (from GitHub, session 23 sync)
 
 - [x] **#402** Security: remove hardcoded Firebase API key from source — fixed (pending config merge)
@@ -59,6 +65,12 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [x] **#364** Win streak — tracked in localStorage, shown on GameOver screen (free play, streak ≥ 2)
 - [x] **#363** Campaign replay modifiers — ReplayBriefingScreen shown before replay; minimum difficulty locked to earned tier; optional harder tiers give bonus crystals; activeModifierCount stored in RunState
 - [x] **#362** Consumables — health_potion (15 HP, 15💎) + extra_life / Second Wind (+1 life, 30💎); Shop always-in-stock, Merchant mid-run, reward pool drops, NodeMap USE bar
+
+---
+
+## 🔵 In Progress
+
+- [ ] **#180** Campaign: extend to 25 acts — Act 5 (Sunken Reef) next; one branch per act
 
 ---
 
