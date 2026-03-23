@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Generic unit silhouette placeholder -->
+  <!-- Body -->
+  <rect x="11" y="12" width="10" height="11" rx="2" fill="#555" opacity="0.5"/>
+  <!-- Head -->
+  <circle cx="16" cy="9" r="4" fill="#555" opacity="0.5"/>
+  <!-- Legs -->
+  <rect x="11" y="23" width="4" height="6" rx="1" fill="#555" opacity="0.5"/>
+  <rect x="17" y="23" width="4" height="6" rx="1" fill="#555" opacity="0.5"/>
+  <!-- ? mark -->
+  <text x="16" y="20" text-anchor="middle" font-size="8" font-family="monospace" fill="#ccc" font-weight="bold">?</text>
+</svg>

@@ -48,14 +48,15 @@ interface Props {
 }
 
 /**
- * Tries to load `sprites/{slug}.png`, then `sprites/{slug}.svg`.
- * Renders nothing if both fail (caller keeps its own text/layout).
+ * Tries to load `sprites/{slug}.png`, then `sprites/{slug}.svg`, then
+ * `sprites/fallback.svg`. Renders nothing only if all three fail.
  * In 8-bit mode renders via a low-res canvas for a pixelated look.
  */
 export function SpriteImg({ name, className }: Props) {
-  const slug    = spriteSlug(name)
-  const pngSrc  = `${BASE}sprites/${slug}.png`
-  const svgSrc  = `${BASE}sprites/${slug}.svg`
+  const slug        = spriteSlug(name)
+  const pngSrc      = `${BASE}sprites/${slug}.png`
+  const svgSrc      = `${BASE}sprites/${slug}.svg`
+  const fallbackSrc = `${BASE}sprites/fallback.svg`
 
   const [src,     setSrc]     = useState(pngSrc)
   const [loaded,  setLoaded]  = useState(false)
@@ -83,6 +84,7 @@ export function SpriteImg({ name, className }: Props) {
       onLoad={() => setLoaded(true)}
       onError={() => {
         if (src === pngSrc) setSrc(svgSrc)
+        else if (src === svgSrc) setSrc(fallbackSrc)
         else setFailed(true)
       }}
     />
