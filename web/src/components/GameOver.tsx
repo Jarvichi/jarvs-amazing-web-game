@@ -109,7 +109,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
           : <div>Enemy base HP remaining: {state.opponentBase.hp}/{state.opponentBase.maxHp}</div>
         )}
       </div>
-      {handicapNote && <div className="gameover-handicap">{handicapNote}</div>}
+      {handicapNote && !dailyChallengeState && <div className="gameover-handicap">{handicapNote}</div>}
 
       {dailyChallengeState && (
         <div className={`gameover-daily ${winner === 'player' ? 'gameover-daily--win' : 'gameover-daily--lose'}`}>
