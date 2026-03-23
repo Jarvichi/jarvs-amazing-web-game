@@ -2842,6 +2842,189 @@
       "weaknesses": [
         "ranged"
       ]
+    },
+    "ember-crawler": {
+      "attack": 5,
+      "maxHp": 15,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 30,
+      "attackRange": 1,
+      "attackCooldownMs": 1000,
+      "tags": [
+        "ember"
+      ]
+    },
+    "cinder-hound": {
+      "attack": 7,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 28,
+      "attackRange": 1,
+      "attackCooldownMs": 900,
+      "tags": [
+        "ember"
+      ]
+    },
+    "magma-archer": {
+      "attack": 8,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 18,
+      "attackRange": 100,
+      "attackCooldownMs": 1500,
+      "tags": [
+        "ember"
+      ]
+    },
+    "scorch-bat": {
+      "attack": 6,
+      "maxHp": 15,
+      "isWall": false,
+      "bypassWall": true,
+      "flying": true,
+      "moveSpeed": 25,
+      "attackRange": 50,
+      "attackCooldownMs": 1200,
+      "tags": [
+        "ember"
+      ]
+    },
+    "ash-stalker": {
+      "attack": 9,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 22,
+      "attackRange": 1,
+      "attackCooldownMs": 1000,
+      "tags": [
+        "ember"
+      ]
+    },
+    "pyroclast-runner": {
+      "attack": 4,
+      "maxHp": 12,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 36,
+      "attackRange": 1,
+      "attackCooldownMs": 800,
+      "tags": [
+        "ember"
+      ]
+    },
+    "fire-salamander": {
+      "attack": 10,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 20,
+      "attackRange": 1,
+      "attackCooldownMs": 1200,
+      "tags": [
+        "ember"
+      ]
+    },
+    "cinder-knight": {
+      "attack": 11,
+      "maxHp": 38,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 18,
+      "attackRange": 1,
+      "attackCooldownMs": 1400,
+      "tags": [
+        "ember"
+      ]
+    },
+    "ash-revenant": {
+      "attack": 12,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 22,
+      "attackRange": 1,
+      "attackCooldownMs": 1100,
+      "tags": [
+        "ember"
+      ]
+    },
+    "lava-troll": {
+      "attack": 8,
+      "maxHp": 65,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 11,
+      "attackRange": 1,
+      "attackCooldownMs": 2000,
+      "tags": [
+        "ember"
+      ]
+    },
+    "ember-wyrm": {
+      "attack": 14,
+      "maxHp": 32,
+      "isWall": false,
+      "bypassWall": true,
+      "flying": true,
+      "moveSpeed": 20,
+      "attackRange": 70,
+      "attackCooldownMs": 1600,
+      "tags": [
+        "ember"
+      ]
+    },
+    "flame-warden": {
+      "attack": 13,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 14,
+      "attackRange": 1,
+      "attackCooldownMs": 1500,
+      "tags": [
+        "ember"
+      ]
+    },
+    "volcanic-golem": {
+      "attack": 16,
+      "maxHp": 85,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 10,
+      "attackRange": 1,
+      "attackCooldownMs": 2100,
+      "tags": [
+        "ember"
+      ]
+    },
+    "inferno-drake": {
+      "attack": 18,
+      "maxHp": 42,
+      "isWall": false,
+      "bypassWall": true,
+      "flying": true,
+      "moveSpeed": 18,
+      "attackRange": 80,
+      "attackCooldownMs": 1800,
+      "tags": [
+        "ember"
+      ]
+    },
+    "molten-colossus": {
+      "attack": 22,
+      "maxHp": 105,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 8,
+      "attackRange": 1,
+      "attackCooldownMs": 2600,
+      "tags": [
+        "ember"
+      ]
     }
   },
   "cards": [
@@ -6758,6 +6941,411 @@
         "sky"
       ],
       "lore": "The cloud provides. It always has."
+    },
+    {
+      "name": "Ember Crawler",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "ember-crawler",
+      "description": "Cheap fast melee. Swarms in numbers.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Born from cracked magma seams. Hungry before it knows anything else."
+    },
+    {
+      "name": "Cinder Hound",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "cinder-hound",
+      "description": "Fast melee. Hunts in packs.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The mountain breeds them. Nobody taught them to hunt. They just do."
+    },
+    {
+      "name": "Magma Archer",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "magma-archer",
+      "description": "Ranged unit. Lobs molten bolts.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The bolts cool mid-flight. They arrive as slag. Still hurts."
+    },
+    {
+      "name": "Scorch Bat",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "scorch-bat",
+      "description": "Flying ranged. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Wings like burnt parchment. Eyes like embers. Very annoying."
+    },
+    {
+      "name": "Ash Stalker",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "ash-stalker",
+      "description": "Melee. Bypasses walls through ashfall cover.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Moves under the ash cloud. You won't see it until it's inside your lines."
+    },
+    {
+      "name": "Pyroclast Runner",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "pyroclast-runner",
+      "description": "Extremely fast melee. Fragile.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Outruns the lava flow by staying just ahead of it. A tactic, apparently."
+    },
+    {
+      "name": "Fire Salamander",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "fire-salamander",
+      "description": "Melee brawler. Tough and relentless.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Technically amphibious. Prefers magma pools. No one argues with it."
+    },
+    {
+      "name": "Cinder Knight",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "cinder-knight",
+      "description": "Armoured melee. High HP.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Forged in the caldera. The armour is the result. So is the disposition."
+    },
+    {
+      "name": "Ash Revenant",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "ash-revenant",
+      "description": "Bypasses walls. Risen from the Fracture-scorched dead.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The Fracture left burns on everything. Some of the burns got up again."
+    },
+    {
+      "name": "Lava Troll",
+      "rarity": "uncommon",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "lava-troll",
+      "description": "Slow but massive HP. Hard to stop.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Not made of lava. Just coated. It doesn't see a difference."
+    },
+    {
+      "name": "Ember Wyrm",
+      "rarity": "uncommon",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "ember-wyrm",
+      "description": "Flying ranged serpent. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Hatches in lava and immediately considers itself above everyone else. Literally."
+    },
+    {
+      "name": "Flame Warden",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "flame-warden",
+      "description": "Heavy melee. Holds the line in the fire.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The Warlord's honour guard. Still standing when everything behind them has burned."
+    },
+    {
+      "name": "Volcanic Golem",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "volcanic-golem",
+      "description": "Enormous melee tank. Nearly unstoppable.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Constructed from solidified magma. The Warlord just pointed at a lava flow and said 'do that, but useful.'"
+    },
+    {
+      "name": "Inferno Drake",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "inferno-drake",
+      "description": "Flying high-damage ranged. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Older than the Fracture. Larger than your base. Annoyed at being woken up."
+    },
+    {
+      "name": "Molten Colossus",
+      "rarity": "epic",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "molten-colossus",
+      "description": "Titanic melee. Max HP. Ends battles alone.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The mountain's last argument. There are no others after this one."
+    },
+    {
+      "name": "Cinder Wall",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unit": {
+        "name": "Cinder Wall",
+        "attack": 0,
+        "maxHp": 50,
+        "isWall": true,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0
+      },
+      "description": "Sturdy wall. Blocks melee attackers.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Ash compacted under pressure. Holds well. Smells terrible."
+    },
+    {
+      "name": "Ash Turret",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unit": {
+        "name": "Ash Turret",
+        "attack": 9,
+        "maxHp": 20,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 110,
+        "attackCooldownMs": 1400
+      },
+      "description": "Ranged structure. Fires ash-coated bolts.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The mechanism clogs. That's fine. So does the enemy."
+    },
+    {
+      "name": "Magma Vent",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unit": {
+        "name": "Magma Vent",
+        "attack": 0,
+        "maxHp": 18,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "spawn",
+          "unitTemplateRef": "ember-crawler",
+          "intervalMs": 5500
+        }
+      },
+      "description": "Spawns an Ember Crawler every 5.5s.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "A crack in the rock. Something keeps coming out of it. This is considered a feature."
+    },
+    {
+      "name": "Fire Forge",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unit": {
+        "name": "Fire Forge",
+        "attack": 0,
+        "maxHp": 16,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "mana",
+          "amount": 1
+        }
+      },
+      "description": "+1 max mana. The heat fuels the ley channels.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Taps geothermal ley-lines. Side effects include singed eyebrows and increased mana capacity."
+    },
+    {
+      "name": "Lava Spire",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unit": {
+        "name": "Lava Spire",
+        "attack": 16,
+        "maxHp": 25,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 130,
+        "attackCooldownMs": 1800
+      },
+      "description": "Long-range high-damage structure.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The Warlord erected one before every major offensive. He considers them motivational."
+    },
+    {
+      "name": "Ember Shrine",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unit": {
+        "name": "Ember Shrine",
+        "attack": 0,
+        "maxHp": 20,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "spawn",
+          "unitTemplateRef": "scorch-bat",
+          "intervalMs": 6000
+        }
+      },
+      "description": "Spawns a Scorch Bat every 6s.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Ancient. Predates the Warlord. He keeps it lit because it keeps working."
+    },
+    {
+      "name": "Burning Rush",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffSpeed",
+        "amount": 4
+      },
+      "description": "Target unit gains +4 move speed.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Light it on fire. Motivation follows naturally."
+    },
+    {
+      "name": "Smelted Blade",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 4
+      },
+      "description": "Target unit gains +4 ATK.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "Reforged in volcanic slag. Not technically an improvement. Except in every way."
+    },
+    {
+      "name": "Volcanic Hide",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 15
+      },
+      "description": "Target unit gains +15 max HP.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "A coat of hardened lava. Uncomfortable. Impractical. Works extremely well."
+    },
+    {
+      "name": "Inferno Surge",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 8
+      },
+      "description": "Target unit gains +8 ATK.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The mountain's blessing. The mountain is not subtle."
     }
   ],
   "heroCards": [
