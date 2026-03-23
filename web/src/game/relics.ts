@@ -47,6 +47,19 @@ const RELIC_CATALOG: RelicDef[] = [
       state.relicManaBonus = (state.relicManaBonus ?? 0) + 1
     },
   },
+  {
+    name: 'Coral Mantle',
+    icon: '🐚',
+    desc: 'At the start of every battle your units gain +3 max HP.',
+    applyToGame(state) {
+      for (const u of state.field) {
+        if (u.owner === 'player') {
+          u.maxHp += 3
+          u.hp    += 3
+        }
+      }
+    },
+  },
 ]
 
 export function getRelicDef(name: string): RelicDef | undefined {

@@ -1,0 +1,479 @@
+{
+  "id": "act5",
+  "title": "ACT V",
+  "subtitle": "The Sunken Reef",
+  "rewardRelic": "Coral Mantle",
+  "rewardRelicDesc": "At the start of every battle your units gain +3 max HP.",
+  "environment": "reef",
+  "rewardTags": [
+    "reef"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 20,
+      "label": "+20% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "coral-breach"
+  ],
+  "intro": [
+    {
+      "title": "THE SUNKEN REEF",
+      "text": "The shard hangs half-submerged — a lattice of coral, sunken ships, and old magic squeezed between two impossible tides.\n\nSomething large lives at its centre. Something old. The traders who escaped this shard don't talk about what they saw, but they all flinch at the same sounds: deep water, and bells."
+    },
+    {
+      "title": "THE TIDAL SOVEREIGN",
+      "text": "The Reef's guardian calls itself the Tidal Sovereign — a being of compressed sea-memory and slow, grinding patience.\n\nIt does not distinguish between invaders and travellers. The ocean, it once said, does not distinguish between ships it sinks and ships it simply forgets about.\n\nYou have decided not to be forgotten."
+    },
+    {
+      "title": "THE PASSAGE",
+      "text": "The ley lines that thread through the Sunken Reef are old — older than the Fracture, older than the Dominion. They connect, somewhere in the deep, to the Fractured Core.\n\nIf you can break through the Sovereign's grip on the pathways, you might finally understand what the Fracture Event actually was.\n\nIf. The word is doing significant structural work in that sentence."
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE SOVEREIGN FALLS",
+      "text": "The Tidal Sovereign does not collapse. It recedes — like a wave pulling back from shore, leaving behind silence and the smell of deep ocean.\n\nThe coral pathways glow. Sealed ley lines crack open. The Reef's memory of the Fracture is vivid and specific and terrifying, and you carry it with you as you leave."
+    },
+    {
+      "title": "WHAT YOU LEARNED",
+      "text": "The Fracture Event wasn't an accident.\n\nSomeone caused it deliberately. The Sovereign remembered the moment, the direction, the specific signature of the magic. A weapon that destroyed an empire by tearing the world apart at its seams.\n\nYou don't have a name yet. You have a direction."
+    },
+    {
+      "title": "ONWARD",
+      "text": "The Coral Mantle settles around you — a gift from the Reef, or a remnant of the Sovereign's dissolved form. Either way it fits.\n\nAhead: the Sky Dominion, where the aerial shards drift above clouds no map has ever charted. The ley lines point upward.\n\nYou have always been bad at taking hints."
+    }
+  ],
+  "nodes": {
+    "coral-breach": {
+      "id": "coral-breach",
+      "type": "battle",
+      "label": "Coral Breach",
+      "description": "Reef defenders have blockaded the entry point. They don't ask questions first.",
+      "row": 0,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": [],
+      "childIds": ["tidal-shrine", "wreck-camp", "reef-bazaar"],
+      "handicap": 8,
+      "opponentIntervalMs": 5200,
+      "opponentBaseHp": 180,
+      "environment": "reef",
+      "enemyDeck": [
+        "Reef Crawler", "Reef Crawler", "Reef Crawler",
+        "Tide Sprite", "Tide Sprite",
+        "Coral Guard", "Coral Guard",
+        "Coral Wall", "Coral Wall",
+        "Tidal Surge", "Tidal Surge",
+        "Pearl Power", "Pearl Power",
+        "Seahorse Lancer"
+      ]
+    },
+    "tidal-shrine": {
+      "id": "tidal-shrine",
+      "type": "event",
+      "label": "Tidal Shrine",
+      "description": "An ancient stone altar sits at low tide, its carvings still sharp despite everything.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": ["coral-breach"],
+      "childIds": ["sunken-passage"],
+      "environment": "reef",
+      "eventConfig": {
+        "title": "The Tidal Shrine",
+        "description": "A stone altar stands at the reef's edge, carved with wave patterns and seal-glyphs. A small depression at its centre fills and empties with every tide.",
+        "pools": [
+          [
+            {
+              "label": "Leave an offering",
+              "consequence": "The tide takes it — and returns 12 HP",
+              "effect": { "type": "healHp", "amount": 12 }
+            },
+            {
+              "label": "Leave an offering",
+              "consequence": "The shrine accepts the gift — +15 crystals",
+              "effect": { "type": "gainCrystals", "amount": 15 }
+            },
+            {
+              "label": "Leave an offering",
+              "consequence": "Nothing stirs. The tide goes out.",
+              "effect": { "type": "nothing" }
+            },
+            {
+              "label": "Leave an offering",
+              "consequence": "Something beneath pulls harder than expected — lose 5 HP",
+              "effect": { "type": "damageHp", "amount": 5 }
+            }
+          ],
+          [
+            {
+              "label": "Read the carvings",
+              "consequence": "The glyphs resolve into a card — uncommon",
+              "effect": { "type": "gainCard", "rarity": "uncommon" }
+            },
+            {
+              "label": "Read the carvings",
+              "consequence": "The pattern heals old wounds — restored 8 HP",
+              "effect": { "type": "healHp", "amount": 8 }
+            },
+            {
+              "label": "Read the carvings",
+              "consequence": "The knowledge is expensive — lose 10 HP",
+              "effect": { "type": "damageHp", "amount": 10 }
+            },
+            {
+              "label": "Read the carvings",
+              "consequence": "Salt and old magic — +20 crystals",
+              "effect": { "type": "gainCrystals", "amount": 20 }
+            }
+          ],
+          [
+            {
+              "label": "Smash it for components",
+              "consequence": "The components are worth something — +18 crystals",
+              "effect": { "type": "gainCrystals", "amount": 18 }
+            },
+            {
+              "label": "Smash it for components",
+              "consequence": "A common card falls from the rubble",
+              "effect": { "type": "gainCard", "rarity": "common" }
+            },
+            {
+              "label": "Smash it for components",
+              "consequence": "The shrine curses you for the disrespect — lose 15 HP",
+              "effect": { "type": "damageHp", "amount": 15 }
+            }
+          ]
+        ]
+      }
+    },
+    "wreck-camp": {
+      "id": "wreck-camp",
+      "type": "rest",
+      "label": "Shipwreck Camp",
+      "description": "A dry pocket inside a sunken hull. Strange place to rest, but it'll do.",
+      "row": 1,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": ["coral-breach"],
+      "childIds": ["sunken-passage"],
+      "environment": "reef",
+      "restHeal": 10
+    },
+    "reef-bazaar": {
+      "id": "reef-bazaar",
+      "type": "merchant",
+      "label": "Reef Bazaar",
+      "description": "A salvager deals in cards looted from sunken Dominion ships.",
+      "row": 1,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": ["coral-breach"],
+      "childIds": ["sunken-passage"],
+      "environment": "reef"
+    },
+    "sunken-passage": {
+      "id": "sunken-passage",
+      "type": "battle",
+      "label": "Sunken Passage",
+      "description": "The only route through the reef's mid-section is heavily patrolled.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": ["tidal-shrine", "wreck-camp", "reef-bazaar"],
+      "childIds": ["abyssal-ambush", "deep-current", "reef-patrol-elite"],
+      "handicap": 10,
+      "opponentIntervalMs": 4800,
+      "opponentBaseHp": 185,
+      "environment": "reef",
+      "enemyDeck": [
+        "Seahorse Lancer", "Seahorse Lancer",
+        "Coral Guard", "Coral Guard", "Coral Guard",
+        "Jellyfish Drifter", "Jellyfish Drifter",
+        "Eel Striker",
+        "Coral Wall", "Coral Wall",
+        "Reef Shark",
+        "Tide Shrine",
+        "Tidal Surge", "Tidal Surge"
+      ]
+    },
+    "abyssal-ambush": {
+      "id": "abyssal-ambush",
+      "type": "battle",
+      "label": "Abyssal Ambush",
+      "description": "Something from deeper water has been watching you. It's done watching.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": ["sunken-passage"],
+      "childIds": ["kelp-crossing"],
+      "handicap": 12,
+      "opponentIntervalMs": 4500,
+      "opponentBaseHp": 190,
+      "environment": "reef",
+      "enemyDeck": [
+        "Abyssal Hunter", "Abyssal Hunter",
+        "Reef Shark", "Reef Shark",
+        "Eel Striker", "Eel Striker",
+        "Sea Witch",
+        "Coral Wall", "Coral Wall",
+        "Tide Caller", "Tide Caller",
+        "Pearl Power", "Pearl Power",
+        "Deep Resilience"
+      ]
+    },
+    "deep-current": {
+      "id": "deep-current",
+      "type": "event",
+      "label": "Deep Current",
+      "description": "A ley-line current surfaces here — warm, electric, and full of lost things.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": ["sunken-passage"],
+      "childIds": ["kelp-crossing"],
+      "environment": "reef",
+      "eventConfig": {
+        "title": "The Deep Current",
+        "description": "A ley-line current surfaces from a crack in the reef floor. It carries the smell of the Fractured Core — sharp, electric, and ancient. Fragments of Dominion magic swirl in its flow.",
+        "pools": [
+          [
+            {
+              "label": "Reach in",
+              "consequence": "The current deposits a rare card in your hand",
+              "effect": { "type": "gainCard", "rarity": "rare" }
+            },
+            {
+              "label": "Reach in",
+              "consequence": "The current pulls you briefly under — lose 12 HP",
+              "effect": { "type": "damageHp", "amount": 12 }
+            },
+            {
+              "label": "Reach in",
+              "consequence": "Something warm and healing — restored 15 HP",
+              "effect": { "type": "healHp", "amount": 15 }
+            },
+            {
+              "label": "Reach in",
+              "consequence": "+25 crystals wash ashore",
+              "effect": { "type": "gainCrystals", "amount": 25 }
+            }
+          ],
+          [
+            {
+              "label": "Follow it downstream",
+              "consequence": "You find a Dominion salvage cache — +30 crystals",
+              "effect": { "type": "gainCrystals", "amount": 30 }
+            },
+            {
+              "label": "Follow it downstream",
+              "consequence": "The current ends at a dead drop — uncommon card",
+              "effect": { "type": "gainCard", "rarity": "uncommon" }
+            },
+            {
+              "label": "Follow it downstream",
+              "consequence": "The current fades before you reach anything",
+              "effect": { "type": "nothing" }
+            }
+          ]
+        ]
+      }
+    },
+    "reef-patrol-elite": {
+      "id": "reef-patrol-elite",
+      "type": "elite",
+      "label": "Reef Elite Guard",
+      "description": "The Tidal Sovereign's personal patrol. They've been waiting for someone like you.",
+      "row": 3,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": ["sunken-passage"],
+      "childIds": ["kelp-crossing"],
+      "handicap": 15,
+      "opponentIntervalMs": 4000,
+      "opponentBaseHp": 200,
+      "environment": "reef",
+      "enemyDeck": [
+        "Shipwreck Golem",
+        "Reef Shark", "Reef Shark", "Reef Shark",
+        "Tide Caller", "Tide Caller",
+        "Sea Witch", "Sea Witch",
+        "Coral Wall", "Coral Wall",
+        "Siren's Post",
+        "Deep Resilience", "Deep Resilience",
+        "Pearl Power"
+      ]
+    },
+    "kelp-crossing": {
+      "id": "kelp-crossing",
+      "type": "battle",
+      "label": "Kelp Crossing",
+      "description": "Dense kelp forests slow movement and muffle sound. Something uses that to its advantage.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": ["abyssal-ambush", "deep-current", "reef-patrol-elite"],
+      "childIds": ["drowned-shrine", "depth-rest", "deep-elite"],
+      "handicap": 13,
+      "opponentIntervalMs": 4400,
+      "opponentBaseHp": 195,
+      "environment": "reef",
+      "enemyDeck": [
+        "Tide Dragon",
+        "Abyssal Hunter", "Abyssal Hunter",
+        "Eel Striker", "Eel Striker",
+        "Jellyfish Drifter", "Jellyfish Drifter",
+        "Reef Mender",
+        "Coral Wall", "Coral Wall",
+        "Kraken Beacon",
+        "Tidal Surge",
+        "Current Mastery",
+        "Deep Resilience"
+      ]
+    },
+    "drowned-shrine": {
+      "id": "drowned-shrine",
+      "type": "event",
+      "label": "Drowned Archive",
+      "description": "A Dominion library, somehow preserved. Its books are unreadable but its cards are intact.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": ["kelp-crossing"],
+      "childIds": ["tidal-sovereign"],
+      "environment": "reef",
+      "eventConfig": {
+        "title": "The Drowned Archive",
+        "description": "A Dominion archive sits perfectly preserved inside a sealed air pocket — marble shelves, brass fixtures, and a thousand books that have become coral. The card drawers, however, are watertight.",
+        "pools": [
+          [
+            {
+              "label": "Search the drawers",
+              "consequence": "A rare card, preserved in wax — yours",
+              "effect": { "type": "gainCard", "rarity": "rare" }
+            },
+            {
+              "label": "Search the drawers",
+              "consequence": "Only common finds, but several — +20 crystals",
+              "effect": { "type": "gainCrystals", "amount": 20 }
+            },
+            {
+              "label": "Search the drawers",
+              "consequence": "A pressure seal breaks — lose 8 HP",
+              "effect": { "type": "damageHp", "amount": 8 }
+            }
+          ],
+          [
+            {
+              "label": "Rest among the stacks",
+              "consequence": "Dry floor, still air — restored 15 HP",
+              "effect": { "type": "healHp", "amount": 15 }
+            },
+            {
+              "label": "Rest among the stacks",
+              "consequence": "A forgotten card falls from a shelf — uncommon",
+              "effect": { "type": "gainCard", "rarity": "uncommon" }
+            }
+          ]
+        ]
+      }
+    },
+    "depth-rest": {
+      "id": "depth-rest",
+      "type": "rest",
+      "label": "Thermal Vent",
+      "description": "A warm geothermal vent. The heat is strange but it heals.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": ["kelp-crossing"],
+      "childIds": ["tidal-sovereign"],
+      "environment": "reef",
+      "restHeal": 15
+    },
+    "deep-elite": {
+      "id": "deep-elite",
+      "type": "elite",
+      "label": "Leviathan Vanguard",
+      "description": "A half-awake leviathan guards the approach to the Sovereign's sanctum.",
+      "row": 5,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": ["kelp-crossing"],
+      "childIds": ["tidal-sovereign"],
+      "handicap": 18,
+      "opponentIntervalMs": 3800,
+      "opponentBaseHp": 210,
+      "environment": "reef",
+      "enemyDeck": [
+        "Leviathan",
+        "Tide Dragon", "Tide Dragon",
+        "Shipwreck Golem",
+        "Abyssal Hunter", "Abyssal Hunter",
+        "Sea Witch", "Sea Witch",
+        "Kraken Beacon",
+        "Depth Anchor",
+        "Deep Resilience", "Deep Resilience",
+        "Current Mastery",
+        "Pearl Power"
+      ]
+    },
+    "tidal-sovereign": {
+      "id": "tidal-sovereign",
+      "type": "boss",
+      "label": "The Tidal Sovereign",
+      "description": "The Reef's ancient guardian. Patient, vast, and profoundly unimpressed by you.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": ["drowned-shrine", "depth-rest", "deep-elite"],
+      "childIds": [],
+      "handicap": 22,
+      "opponentIntervalMs": 3400,
+      "opponentBaseHp": 240,
+      "bossAI": "tidalsovereign",
+      "environment": "reef",
+      "bossDialogue": [
+        "You carry the smell of land. We do not welcome that here.",
+        "The Fracture opened a wound in the sea's memory. You will not reopen it.",
+        "Every ship that entered uninvited is still here. At the bottom. Join them."
+      ],
+      "enemyDeck": [
+        "Leviathan",
+        "Tide Dragon", "Tide Dragon",
+        "Shipwreck Golem", "Shipwreck Golem",
+        "Abyssal Hunter", "Abyssal Hunter",
+        "Sea Witch", "Sea Witch",
+        "Tide Caller", "Tide Caller",
+        "Kraken Beacon",
+        "Siren's Post",
+        "Deep Resilience", "Deep Resilience",
+        "Pearl Power", "Pearl Power",
+        "Current Mastery"
+      ]
+    }
+  }
+}
