@@ -6952,6 +6952,21 @@ html.eightbit-mode .lane-layer {
 .el-lb-name { flex: 1; }
 .el-lb-wave { color: #80cbc4; font-size: 11px; white-space: nowrap; }
 .el-lb-time { color: var(--game-text-color-muted); font-size: 11px; white-space: nowrap; }
+.el-section {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.el-section-title {
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: var(--game-text-color);
+  border-bottom: 1px solid var(--game-border);
+  padding-bottom: 4px;
+}
 .el-actions {
   display: flex;
   flex-direction: column;
@@ -7328,6 +7343,50 @@ html.light-mode .action-btn {
   font-size: 14px;
   color: var(--game-text-muted);
 }
+.gameover-endless-lb {
+  width: 100%;
+  max-width: 320px;
+  margin: 4px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gameover-endless-lb-title {
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #80cbc4;
+  border-bottom: 1px solid #80cbc444;
+  padding-bottom: 4px;
+}
+.gameover-endless-lb-best {
+  font-size: 11px;
+  color: #ffd54f;
+}
+.gameover-endless-lb-empty {
+  font-size: 11px;
+  color: var(--game-text-color-muted);
+}
+.gameover-endless-lb-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.gameover-endless-lb-entry {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  padding: 2px 0;
+  border-bottom: 1px solid var(--game-border);
+}
+.gameover-lb-rank { color: var(--game-text-color-muted); min-width: 16px; }
+.gameover-lb-name { flex: 1; }
+.gameover-lb-wave { color: #80cbc4; white-space: nowrap; }
+.gameover-lb-time { color: var(--game-text-color-muted); white-space: nowrap; }
 
 /* ─── Login Modal ───────────────────────────────────────── */
 
