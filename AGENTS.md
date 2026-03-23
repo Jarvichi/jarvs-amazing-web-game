@@ -90,12 +90,16 @@ npm run preview  # Preview production build locally
 
 ## Game Design
 - **Mana system:** Player starts with 3 mana/turn; Farms increase max mana permanently
-- **Card types:** Unit (deploy fighters), Structure (build Walls/Farms/Barracks), Upgrade (buff/heal all units)
+- **Card types:** Unit (deploy fighters), Structure (build Walls/Farms/Barracks), Upgrade (buff/heal all units), Area Of Effect (causes damage to an area of the battlefield damaging all units)
 - **Combat:** Real-time tick-based; melee targets walls first, ranged bypasses walls
 - **Opponent AI:** Plays affordable cards on a timer from its own shuffled deck
 - **Win:** Destroy the enemy base. **Lose:** Your base reaches 0 HP.
 
 ---
+
+## Cards
+
+Cards have different rarities. Cards will had weaknesses, strengths and affinities to other cards. Cards have a mana cost to use. Cards have assocaited graphics. Cards are stored in Cards.json.
 
 ## Error Logging Standard
 
