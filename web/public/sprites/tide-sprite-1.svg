@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tide Sprite — frame 1 (left wing up) -->
+  <ellipse cx="16" cy="16" rx="5" ry="6" fill="#44aadd" stroke="#2277aa" stroke-width="1"/>
+  <ellipse cx="16" cy="14" rx="3" ry="3.5" fill="#88ccee" opacity="0.7"/>
+  <circle cx="14" cy="14" r="1.5" fill="#003355"/>
+  <circle cx="18" cy="14" r="1.5" fill="#003355"/>
+  <circle cx="14.4" cy="13.6" r="0.5" fill="#fff" opacity="0.8"/>
+  <circle cx="18.4" cy="13.6" r="0.5" fill="#fff" opacity="0.8"/>
+  <path d="M11,14 Q7,8 9,6 Q13,11 11,14 Z" fill="#66bbdd" opacity="0.7" stroke="#2277aa" stroke-width="0.5"/>
+  <path d="M21,14 Q24,11 22,9 Q19,13 21,14 Z" fill="#66bbdd" opacity="0.7" stroke="#2277aa" stroke-width="0.5"/>
+  <polygon points="16,22 14,26 18,26" fill="#44aadd" stroke="#2277aa" stroke-width="0.8"/>
+</svg>
