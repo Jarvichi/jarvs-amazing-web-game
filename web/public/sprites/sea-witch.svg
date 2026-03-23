@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sea Witch — static -->
+  <!-- Tattered robe -->
+  <path d="M13,13 L10,29 L22,29 L19,13 Z" fill="#1a1a44" stroke="#110033" stroke-width="1"/>
+  <!-- Seaweed/robe trim -->
+  <path d="M10,29 Q9,25 11,22 Q10,26 12,29" fill="#1a4422" stroke="#112211" stroke-width="0.5"/>
+  <path d="M22,29 Q23,25 21,22 Q22,26 20,29" fill="#1a4422" stroke="#112211" stroke-width="0.5"/>
+  <!-- Head -->
+  <circle cx="16" cy="10" r="4" fill="#1a1a44" stroke="#110033" stroke-width="0.8"/>
+  <ellipse cx="16" cy="11" rx="2.5" ry="2" fill="#c9a0aa" stroke="#996688" stroke-width="0.5"/>
+  <!-- Witch hat with kelp -->
+  <polygon points="16,3 13,8 19,8" fill="#110022" stroke="#110033" stroke-width="0.7"/>
+  <path d="M13,8 Q10,6 12,4 Q14,6 13,8" fill="#1a4422" opacity="0.8"/>
+  <!-- Eyes glowing -->
+  <circle cx="14.5" cy="11" r="1" fill="#aa44ff" opacity="0.9"/>
+  <circle cx="17.5" cy="11" r="1" fill="#aa44ff" opacity="0.9"/>
+  <!-- Tentacle/magic hand -->
+  <path d="M10,19 Q7,16 8,13 Q11,16 10,19 Z" fill="#1a4422" stroke="#112211" stroke-width="0.6"/>
+  <!-- Orb -->
+  <circle cx="22" cy="20" r="3" fill="#6622aa" stroke="#4411cc" stroke-width="0.7"/>
+  <circle cx="21" cy="19" r="1.5" fill="#9944ff" opacity="0.6"/>
+</svg>
