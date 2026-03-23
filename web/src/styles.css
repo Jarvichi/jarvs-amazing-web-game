@@ -7586,6 +7586,17 @@ html.light-mode .action-btn {
   border-color: rgba(255, 215, 0, 0.5) !important;
   color: #ffd700 !important;
   animation: commander-glow 2s ease-in-out infinite alternate;
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.commander-btn-sprite {
+  width: 24px;
+  height: 24px;
+  image-rendering: pixelated;
+  flex-shrink: 0;
 }
 @keyframes commander-glow {
   from { box-shadow: 0 0 4px rgba(255, 215, 0, 0.2); }
