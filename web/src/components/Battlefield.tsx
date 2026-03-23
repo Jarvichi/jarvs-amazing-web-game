@@ -776,10 +776,11 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
         {(state.bloodPools ?? []).map(pool => {
           const topPct  = (1 - pool.x / LANE_WIDTH) * 100
           const leftPct = 50 + (pool.y / 80) * 36
+          const fading  = pool.fadingAt !== undefined
           return (
             <div
               key={pool.id}
-              className="blood-pool"
+              className={fading ? 'blood-pool blood-pool--fading' : 'blood-pool'}
               style={{ top: `${topPct}%`, left: `${leftPct}%` }}
             />
           )

@@ -14,6 +14,8 @@ const SPAWN_GROW_MS = 1500           // building-spawn grow-in animation duratio
 const DEATH_LINGER_MS = 1200         // how long a dying unit stays visible
 const DAMAGE_FLASH_MS = 200          // how long the damage-flash effect lasts
 const KILL_FLASH_MS   = 500          // how long the kill-flash glow lasts
+const BLOOD_POOL_MAX  = 25           // FIFO cap — older pools begin fading when exceeded
+const BLOOD_POOL_FADE_MS = 2000     // how long a fading blood pool takes to disappear
 const PROJECTILE_SPEED_PX_MS = 0.4  // projectile travel speed in game-px per ms
 const ANIM_EVENT_PROJECTILE_MS = 600 // max projectile lifetime (cap)
 
@@ -869,6 +871,8 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
             target.dyingTimer = DEATH_LINGER_MS
             if (!target.flying) {
               s.bloodPools.push({ id: target.id, x: target.x, y: target.y })
+              const activePools = s.bloodPools.filter(p => p.fadingAt === undefined)
+              if (activePools.length > BLOOD_POOL_MAX) activePools[0].fadingAt = s.gameTime
             }
           }
           // Kill flash on the attacker
@@ -1005,6 +1009,8 @@ function checkGameOver(s: GameState): boolean {
         // Leave a blood pool at the squish site for non-flying mobile units
         if (victim.moveSpeed > 0 && !victim.flying) {
           s.bloodPools.push({ id: `smash-${victim.id}`, x: victim.x, y: victim.y ?? 0 })
+          const activePools = s.bloodPools.filter(p => p.fadingAt === undefined)
+          if (activePools.length > BLOOD_POOL_MAX) activePools[0].fadingAt = s.gameTime
         }
       }
       if (smashedNames.length > 0) {
@@ -1451,8 +1457,9 @@ export function tick(state: GameState, deltaMs: number): GameState {
     s.battleEventTimer = 24000 + Math.random() * 8000
   }
 
-  // 8. Purge expired animation events
+  // 8. Purge expired animation events and fully-faded blood pools
   s.animEvents = s.animEvents.filter(e => e.expiresAt > s.gameTime)
+  s.bloodPools = s.bloodPools.filter(p => p.fadingAt === undefined || s.gameTime - p.fadingAt <= BLOOD_POOL_FADE_MS)
 
   // 9. Endless mode: reshuffle cards when deck + hand empty; handle wave progression
   if (s.endlessMode) {
