@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Prism Warden — walk frame 2 (mid-stride, body 1px higher) -->
+  <polygon points="16,3 20,7 16,10 12,7" fill="#b0d8ff" stroke="#6699cc" stroke-width="1"/>
+  <rect x="12" y="10" width="8" height="9" rx="1" fill="#88bbee" stroke="#4477aa" stroke-width="1"/>
+  <polygon points="12,10 9,8 9,15 12,15" fill="#a0ccee" stroke="#5588bb" stroke-width="0.8"/>
+  <polygon points="20,10 23,8 23,15 20,15" fill="#a0ccee" stroke="#5588bb" stroke-width="0.8"/>
+  <rect x="12" y="19" width="3" height="7" rx="1" fill="#7aaddd" stroke="#4477aa" stroke-width="0.8"/>
+  <rect x="17" y="19" width="3" height="7" rx="1" fill="#7aaddd" stroke="#4477aa" stroke-width="0.8"/>
+  <rect x="8" y="12" width="4" height="5" rx="1" fill="#cce8ff" stroke="#5599cc" stroke-width="1"/>
+  <rect x="20" y="11" width="3" height="8" rx="1" fill="#99ccee" stroke="#4477aa" stroke-width="0.8"/>
+  <rect x="21" y="7" width="2" height="5" rx="0.5" fill="#ddeeff" stroke="#6699cc" stroke-width="0.8"/>
+  <rect x="14" y="5" width="4" height="2" rx="0.5" fill="#eef8ff" opacity="0.9"/>
+</svg>
