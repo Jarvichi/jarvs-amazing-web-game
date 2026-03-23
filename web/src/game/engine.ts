@@ -325,7 +325,8 @@ export function newGame(
     ?? (boss === 'thornlord'  ? 5000
     :   boss === 'kragg'      ? 5000
     :   boss === 'ashwalker'  ? 4500
-    :   boss === 'archivist'  ? 5000
+    :   boss === 'archivist'       ? 5000
+    :   boss === 'tidalsovereign' ? 4800
     :   opponentIntervalForHandicap(clamp))
 
   const diffLabel =
@@ -339,6 +340,7 @@ export function newGame(
     : boss === 'kragg'    ? ['WARLORD KRAGG takes the field! Iron discipline, iron walls, iron will.', 'The siege weapons are already loaded. The gate does not open for you.']
     : boss === 'ashwalker' ? ['THE ASHWALKER stirs. The ash rises. The dead remember.', 'An undying horde answers the call — destroy them before they overwhelm you!']
     : boss === 'archivist' ? ['THE ARCHIVIST opens the archive. Every spell in the Dominion catalogue — ready.', 'Arcane constructs flood the field. At turn eight, his mana becomes limitless — act fast!']
+    : boss === 'tidalsovereign' ? ['THE TIDAL SOVEREIGN surfaces. The reef shudders. The deep comes with it.', 'Wave after wave crashes ashore — hold your ground or be dragged under!']
     : [
         clamp > 0
           ? `Battle begins! (Enemy difficulty: ${diffLabel})`
@@ -1292,6 +1294,41 @@ function archivistAI(s: GameState, log: string[]): void {
   if (played === 0) log.push('The Archivist catalogues…')
 }
 
+function tidalSovereignAI(s: GameState, log: string[]): void {
+  const manaBonus = getManaBonus(s.field, 'opponent')
+  let mana = Math.min(10, BASE_MAX_MANA + manaBonus)
+  // Wave phase: alternate melee-heavy and flying-heavy waves
+  const wavePhase = Math.floor(s.gameTime / 20000) % 2 === 0
+
+  function tryPlay(): boolean {
+    const hand = s.opponentHand.filter(c => c.cost <= mana && isPlayable(c, s.gameTime))
+    if (hand.length === 0) return false
+
+    // Priority 1: spawn structures (Kraken Beacon)
+    const spawners = hand.filter(c => c.cardType === 'structure' && c.unit?.structureEffect?.type === 'spawn')
+    // Priority 2: large units on even waves, flying ranged on odd waves
+    const largeUnits  = hand.filter(c => c.cardType === 'unit' && !c.unit?.isWall && c.cost >= 5).sort((a, b) => b.cost - a.cost)
+    const flyingUnits = hand.filter(c => c.cardType === 'unit' && c.unit?.flying).sort((a, b) => b.cost - a.cost)
+    const fastMelee   = hand.filter(c => c.cardType === 'unit' && !c.unit?.isWall && !c.unit?.flying).sort((a, b) => b.cost - a.cost)
+    const upgrades    = hand.filter(c => c.cardType === 'upgrade').sort((a, b) => b.cost - a.cost)
+
+    const wavePool = wavePhase ? [...largeUnits, ...fastMelee] : [...flyingUnits, ...largeUnits]
+    const pick = spawners[0] ?? wavePool[0] ?? upgrades[0] ?? fastMelee[0]
+    if (!pick) return false
+
+    s.opponentHand.splice(s.opponentHand.indexOf(pick), 1)
+    mana -= pick.cost
+    deployCard(s, pick, 'opponent', log)
+    drawCard(s.opponentDeck, s.opponentHand)
+    return true
+  }
+
+  let played = 0
+  while (played < 3 && tryPlay()) played++
+
+  if (played === 0) log.push('The tide shifts…')
+}
+
 // ─── Battle Events ────────────────────────────────────────
 
 function triggerBattleEvent(s: GameState, log: string[]): void {
@@ -1443,6 +1480,8 @@ export function tick(state: GameState, deltaMs: number): GameState {
       ashwalkerAI(s, log)
     } else if (s.bossAI === 'archivist') {
       archivistAI(s, log)
+    } else if (s.bossAI === 'tidalsovereign') {
+      tidalSovereignAI(s, log)
     } else {
       opponentAI(s, log)
     }

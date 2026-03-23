@@ -2205,6 +2205,352 @@
         "ranged",
         "magic"
       ]
+    },
+    "reef-crawler": {
+      "name": "Reef Crawler",
+      "attack": 3,
+      "maxHp": 10,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 50,
+      "attackRange": 5,
+      "attackCooldownMs": 900,
+      "tags": [
+        "melee",
+        "fast"
+      ],
+      "strengths": [
+        "ranged",
+        "magic"
+      ],
+      "weaknesses": [
+        "large",
+        "siege"
+      ],
+      "size": "small"
+    },
+    "tide-sprite": {
+      "name": "Tide Sprite",
+      "attack": 4,
+      "maxHp": 8,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 55,
+      "attackRange": 80,
+      "attackCooldownMs": 1600,
+      "flying": true,
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "magic"
+      ],
+      "strengths": [
+        "melee"
+      ],
+      "weaknesses": [
+        "ranged"
+      ]
+    },
+    "coral-guard": {
+      "name": "Coral Guard",
+      "attack": 5,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 30,
+      "attackRange": 5,
+      "attackCooldownMs": 1300,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "strengths": [
+        "beast",
+        "fast"
+      ],
+      "weaknesses": [
+        "magic",
+        "siege"
+      ],
+      "size": "medium"
+    },
+    "seahorse-lancer": {
+      "name": "Seahorse Lancer",
+      "attack": 7,
+      "maxHp": 14,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 48,
+      "attackRange": 5,
+      "attackCooldownMs": 1000,
+      "tags": [
+        "melee",
+        "fast",
+        "cavalry"
+      ],
+      "strengths": [
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "size": "medium"
+    },
+    "jellyfish-drifter": {
+      "name": "Jellyfish Drifter",
+      "attack": 5,
+      "maxHp": 12,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 20,
+      "attackRange": 60,
+      "attackCooldownMs": 1400,
+      "flying": true,
+      "tags": [
+        "ranged",
+        "flying",
+        "magic"
+      ],
+      "strengths": [
+        "melee"
+      ],
+      "weaknesses": [
+        "fast",
+        "ranged"
+      ],
+      "size": "medium"
+    },
+    "eel-striker": {
+      "name": "Eel Striker",
+      "attack": 8,
+      "maxHp": 16,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 44,
+      "attackRange": 70,
+      "attackCooldownMs": 1100,
+      "tags": [
+        "ranged",
+        "fast",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "ranged",
+        "large"
+      ],
+      "size": "medium"
+    },
+    "reef-shark": {
+      "name": "Reef Shark",
+      "attack": 10,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 42,
+      "attackRange": 5,
+      "attackCooldownMs": 900,
+      "tags": [
+        "melee",
+        "fast",
+        "beast"
+      ],
+      "strengths": [
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "siege",
+        "ranged"
+      ],
+      "size": "medium"
+    },
+    "tide-caller": {
+      "name": "Tide Caller",
+      "attack": 7,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 22,
+      "attackRange": 90,
+      "attackCooldownMs": 1300,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "large"
+      ],
+      "weaknesses": [
+        "fast"
+      ],
+      "size": "medium"
+    },
+    "shipwreck-golem": {
+      "name": "Shipwreck Golem",
+      "attack": 14,
+      "maxHp": 65,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 9,
+      "attackRange": 5,
+      "attackCooldownMs": 2600,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ],
+      "strengths": [
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "magic",
+        "siege"
+      ],
+      "size": "large"
+    },
+    "abyssal-hunter": {
+      "name": "Abyssal Hunter",
+      "attack": 11,
+      "maxHp": 24,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 30,
+      "attackRange": 100,
+      "attackCooldownMs": 1500,
+      "flying": true,
+      "tags": [
+        "ranged",
+        "flying",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "ranged"
+      ],
+      "size": "medium"
+    },
+    "tide-dragon": {
+      "name": "Tide Dragon",
+      "attack": 16,
+      "maxHp": 55,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 25,
+      "attackRange": 75,
+      "attackCooldownMs": 1800,
+      "flying": true,
+      "tags": [
+        "ranged",
+        "flying",
+        "large",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "siege"
+      ],
+      "size": "large"
+    },
+    "leviathan": {
+      "name": "Leviathan",
+      "attack": 22,
+      "maxHp": 110,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 6,
+      "attackRange": 5,
+      "attackCooldownMs": 3000,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ],
+      "strengths": [
+        "melee",
+        "fast",
+        "armored"
+      ],
+      "weaknesses": [
+        "magic",
+        "siege"
+      ],
+      "size": "large"
+    },
+    "sea-witch": {
+      "name": "Sea Witch",
+      "attack": 9,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 18,
+      "attackRange": 95,
+      "attackCooldownMs": 1200,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "fast"
+      ],
+      "size": "medium"
+    },
+    "crab-shielder": {
+      "name": "Crab Shielder",
+      "attack": 0,
+      "maxHp": 55,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "size": "medium"
+    },
+    "anglerfish-lurker": {
+      "name": "Anglerfish Lurker",
+      "attack": 13,
+      "maxHp": 28,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 20,
+      "attackRange": 5,
+      "attackCooldownMs": 1600,
+      "tags": [
+        "melee",
+        "magic"
+      ],
+      "strengths": [
+        "ranged",
+        "flying"
+      ],
+      "weaknesses": [
+        "fast"
+      ],
+      "size": "medium"
     }
   },
   "cards": [
@@ -5294,6 +5640,414 @@
         "spire"
       ],
       "lore": "A layer of grown crystal over flesh. It itches terribly. Worth it."
+    },
+    {
+      "name": "Reef Crawler",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "reef-crawler",
+      "description": "Fast melee fighter. Scuttles through debris.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "Crabs occupied the reef long before anyone else. They regard all newcomers as temporary."
+    },
+    {
+      "name": "Tide Sprite",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "tide-sprite",
+      "description": "Tiny flying water spirit. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "Formed from salt foam and stray magic. Mostly harmless. Mostly."
+    },
+    {
+      "name": "Coral Guard",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "coral-guard",
+      "description": "Armored melee fighter clad in living coral.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "The coral grows with them. Eventually it becomes unclear where the soldier ends."
+    },
+    {
+      "name": "Crab Shielder",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "crab-shielder",
+      "description": "Living wall. Blocks melee advance.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "Selectively bred for stubbornness. Turned out that was the crabs' natural state."
+    },
+    {
+      "name": "Seahorse Lancer",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "seahorse-lancer",
+      "description": "Fast cavalry. Charges through lighter defences.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "The seahorse does the steering. The lancer holds on and hopes."
+    },
+    {
+      "name": "Jellyfish Drifter",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "jellyfish-drifter",
+      "description": "Slow flying ranged unit. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "No eyes, no brain, no fear. Effective."
+    },
+    {
+      "name": "Eel Striker",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "eel-striker",
+      "description": "Fast ranged electric attacker.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "The charge builds in the spine. It releases all at once. It is not subtle."
+    },
+    {
+      "name": "Reef Shark",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "reef-shark",
+      "description": "Fast aggressive melee beast.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "Doesn't hesitate. Doesn't reconsider. The reef's finest quality."
+    },
+    {
+      "name": "Tide Caller",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "tide-caller",
+      "description": "Ranged water mage. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "She doesn't call the tide. She reminds it where it meant to go."
+    },
+    {
+      "name": "Sea Witch",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "sea-witch",
+      "description": "Long-range magic unit. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "She drowned once, according to the legends. Decided not to stay drowned."
+    },
+    {
+      "name": "Anglerfish Lurker",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "anglerfish-lurker",
+      "description": "Ambush melee predator. Targets flying units.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "The light draws them in. That's the whole strategy. It works every time."
+    },
+    {
+      "name": "Shipwreck Golem",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "shipwreck-golem",
+      "description": "Massive armored construct. Slow but devastating.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "Assembled from ten sunken Dominion warships. None of them volunteered."
+    },
+    {
+      "name": "Abyssal Hunter",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "abyssal-hunter",
+      "description": "Flying deep-sea predator. Long range, bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "From a depth no map has measured. It came up. It found the surface disappointing but adequate."
+    },
+    {
+      "name": "Tide Dragon",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "tide-dragon",
+      "description": "Flying ranged beast. Large and powerful.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "Part dragon, part tidal wave. Distinguishing the two is not recommended."
+    },
+    {
+      "name": "Leviathan",
+      "rarity": "legendary",
+      "cost": 7,
+      "cardType": "unit",
+      "unitRef": "leviathan",
+      "description": "Colossal slow beast. Unstoppable once moving.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "The reef was built around it. Not the other way."
+    },
+    {
+      "name": "Coral Wall",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unit": {
+        "name": "Coral Wall",
+        "attack": 0,
+        "maxHp": 55,
+        "isWall": true,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0
+      },
+      "description": "Blocks melee advance. Tougher than it looks.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "Grown overnight. It takes longer to grow a conscience."
+    },
+    {
+      "name": "Tide Shrine",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unit": {
+        "name": "Tide Shrine",
+        "attack": 0,
+        "maxHp": 18,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "mana",
+          "amount": 1
+        }
+      },
+      "description": "+1 max mana. Channels tidal ley energy.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "The tides flow twice a day. The mana flows whenever you need it."
+    },
+    {
+      "name": "Siren's Post",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unit": {
+        "name": "Siren's Post",
+        "attack": 11,
+        "maxHp": 20,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 120,
+        "attackCooldownMs": 1700
+      },
+      "description": "Ranged structure. Lures enemies toward it, then attacks.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "The song is optional. The attack is not."
+    },
+    {
+      "name": "Reef Mender",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unit": {
+        "name": "Reef Mender",
+        "attack": 0,
+        "maxHp": 20,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "repairAura",
+          "amount": 2
+        }
+      },
+      "description": "Heals nearby friendly units by 2 HP/tick.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "The reef heals itself. Given enough time. The mender speeds up the schedule."
+    },
+    {
+      "name": "Depth Anchor",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unit": {
+        "name": "Depth Anchor",
+        "attack": 0,
+        "maxHp": 24,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "manaSpeed",
+          "speedMult": 0.5
+        }
+      },
+      "description": "Mana regenerates 50% faster.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "Chains the ley current in place so it can't drift. The ley current resents this."
+    },
+    {
+      "name": "Kraken Beacon",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unit": {
+        "name": "Kraken Beacon",
+        "attack": 0,
+        "maxHp": 22,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "spawn",
+          "unitTemplateRef": "reef-crawler",
+          "intervalMs": 5000
+        }
+      },
+      "description": "Spawns a Reef Crawler every 5 seconds.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "The signal draws them from the deep. They don't ask why. They never ask why."
+    },
+    {
+      "name": "Tidal Surge",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffSpeed",
+        "amount": 14
+      },
+      "description": "All your units gain +14 move speed.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "The tide comes in whether or not you're ready. Might as well use it."
+    },
+    {
+      "name": "Pearl Power",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 3
+      },
+      "description": "All your units gain +3 attack.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "Ground from pressure and time. Both are available in the deep."
+    },
+    {
+      "name": "Deep Resilience",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 12
+      },
+      "description": "All your units gain +12 max HP.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "Depth hardens everything. Skin, shell, resolve."
+    },
+    {
+      "name": "Current Mastery",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffRange",
+        "amount": 20
+      },
+      "description": "All ranged units gain +20 attack range.",
+      "deckCount": 0,
+      "tags": [
+        "reef"
+      ],
+      "lore": "Read the current. Let it carry your attack further than your arm could reach."
     }
   ],
   "heroCards": [
