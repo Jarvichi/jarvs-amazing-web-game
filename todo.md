@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-22 (session 22 — new issues sync).
+Issues sourced from GitHub. Last synced: 2026-03-23 (session 23 — new issues sync).
 
 ---
 
@@ -8,14 +8,27 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ---
 
-## 🔴 Bugs — New (from GitHub, session 22 sync)
+## 🔴 Critical — New (from GitHub, session 23 sync)
 
-- [ ] **#395** Zooming during boss battle — zoom targets centre instead of boss; fight happens off-screen (reported on Fairphone 5, likely screen-size related)
-- [ ] **#392** Structure upgrade not scaling — 2★ Fairie Ring feels same speed as 3★ / 4★; upgrade stat progression may be broken
+- [ ] **#402** Security: remove hardcoded Firebase API key from source — API key exposed in source code; must be moved to env vars or runtime config
 
-## 🔵 Enhancements — New (from GitHub, session 22 sync)
+## 🔴 Bugs — New (from GitHub, session 23 sync)
 
-- [ ] **#397** Different unit sizes — add a `size` characteristic to units; render larger units (dragons) bigger than smaller ones (goblins)
+- [ ] **#418** TypeError: Load failed — likely a network/fetch error on app load; check Rollbar for full stack trace
+- [ ] **#417** useAuth: auth state changed — user present — Rollbar-logged auth event being treated as an error; may be spurious or a sign-in flow issue
+- [ ] **#416** UnknownError: Connection to Indexed Database server lost — IndexedDB connection dropping; may cause data loss; check Rollbar
+- [ ] **#413** Freezer — app freezes (check issue for details and repro steps)
+- [ ] **#412** Check the logic behind the fontsize and light mode settings — settings may not persist or apply correctly
+
+## 🔵 Enhancements — New (from GitHub, session 23 sync)
+
+- [ ] **#422** Daily challenge replay weighting — adjust replay selection logic for daily challenges
+
+## ✅ Closed since last sync (session 23)
+
+- [x] **#395** Zooming during boss battle — confirmed closed on GitHub
+- [x] **#392** Structure upgrade not scaling — confirmed closed on GitHub
+- [x] **#397** Different unit sizes — confirmed closed on GitHub
 
 ---
 
