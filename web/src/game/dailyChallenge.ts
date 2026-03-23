@@ -192,20 +192,22 @@ export async function publishDailyResult(opts: {
  * Returns an empty array on error or when offline.
  */
 export async function fetchDailyLeaderboard(topN = 3): Promise<LeaderboardEntry[]> {
-  const date = getDailyDate()
-  const ref  = collection(db, 'dailyLeaderboard', date, 'entries')
-  const q    = query(ref, orderBy('attempts', 'asc'), limit(topN))
-  const snap = await getDocs(q)
-  return snap.docs.map((d: import('firebase/firestore').QueryDocumentSnapshot) => {
-    const data = d.data()
-    return {
-      uid:           data.uid,
-      playerId:      data.playerId,
-      characterName: data.characterName,
-      attempts:      data.attempts,
-      completedAt:   (data.completedAt as Timestamp).toDate(),
-    }
-  })
+  try {
+    const date = getDailyDate()
+    const ref  = collection(db, 'dailyLeaderboard', date, 'entries')
+    const q    = query(ref, orderBy('attempts', 'asc'), limit(topN))
+    const snap = await getDocs(q)
+    return snap.docs.map((d: import('firebase/firestore').QueryDocumentSnapshot) => {
+      const data = d.data()
+      return {
+        uid:           data.uid,
+        playerId:      data.playerId,
+        characterName: data.characterName,
+        attempts:      data.attempts,
+        completedAt:   (data.completedAt as Timestamp).toDate(),
+      }
+    })
+  } catch { return [] }
 }
 
 // ── Endless Leaderboard ───────────────────────────────────────────────────────
