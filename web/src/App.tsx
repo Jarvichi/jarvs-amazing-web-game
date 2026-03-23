@@ -362,6 +362,11 @@ export default function App() {
   const syncPromptedRef = useRef(false)
 
   const [isUserPaused, setIsUserPaused] = useState(false)
+  // Reset the user-pause flag whenever we leave the battle screen so it doesn't
+  // linger into the next game (e.g. pause → Give Up → start new battle).
+  useEffect(() => {
+    if (screen !== 'playing') setIsUserPaused(false)
+  }, [screen])
   const { activeRareEvent, isGamePaused: isRareEventPaused, rollRareEvent, handleRareEventDone } = useRareEvents({
     gameState, screen, setGameState, setCrystals, setAchievementToasts,
   })
