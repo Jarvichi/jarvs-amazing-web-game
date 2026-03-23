@@ -970,11 +970,13 @@ function checkGameOver(s: GameState): boolean {
     if (s.endlessMode) {
       const wave = (s.endlessWave ?? 1) + 1
       s.endlessWave = wave
-      const hpMult = 1 + (wave - 1) * 0.5
+      const hpMult = 1 + (wave - 1) * 0.8
       s.opponentBase = { hp: Math.round(82 * hpMult), maxHp: Math.round(82 * hpMult) }
       // Scale opponent speed aggressively each wave (min 2000ms)
       s.opponentIntervalMs = Math.max(2000, s.opponentIntervalMs - 500)
       s.opponentTimer = s.opponentIntervalMs
+      // Boost opponent mana regen each wave (capped at 2.5x)
+      s.endlessOpponentManaMult = Math.min(2.5, (s.endlessOpponentManaMult ?? 1) + 0.2)
       // Clear opponent units + reshuffle opponent deck
       s.field = s.field.filter(u => u.owner !== 'opponent')
       const fresh = shuffle([...(s.endlessOpponentDeckTemplate ?? [])])
@@ -989,10 +991,24 @@ function checkGameOver(s: GameState): boolean {
           u.spawnTimer = se.intervalMs
         }
       })
+      // Finger smash: a giant finger crushes some of the player's units/structures
+      const playerUnits = s.field.filter(u => u.owner === 'player' && !u.dyingTimer)
+      const smashCount = Math.min(4, 1 + Math.floor((wave - 1) / 2))
+      const smashedNames: string[] = []
+      const smashPool = [...playerUnits]
+      for (let i = 0; i < smashCount && smashPool.length > 0; i++) {
+        const idx = Math.floor(Math.random() * smashPool.length)
+        const [victim] = smashPool.splice(idx, 1)
+        smashedNames.push(victim.name)
+        s.field = s.field.filter(u => u.id !== victim.id)
+      }
+      if (smashedNames.length > 0) {
+        s.log.push(`👇 A giant finger smashes ${smashedNames.join(', ')}!`)
+      }
       // Grant opponent a truce window (counts down once game resumes after reward)
       s.endlessWaveTruceMs = 5000
       // Pause for wave reward selection before the next wave begins
-      s.phase = { type: 'waveReward', wave: wave - 1 }
+      s.phase = { type: 'waveReward', wave: wave - 1, smashedNames }
       s.log.push(`Wave ${wave - 1} cleared! Choose your reward before the next wave.`)
       return false
     }
@@ -1030,7 +1046,8 @@ function isPlayable(card: Card, gameTime: number): boolean {
 
 function opponentAI(s: GameState, log: string[]): void {
   const manaBonus = getManaBonus(s.field, 'opponent')
-  let mana = Math.min(10, BASE_MAX_MANA + manaBonus)
+  const manaMult = s.endlessOpponentManaMult ?? 1
+  let mana = Math.min(15, Math.round((BASE_MAX_MANA + manaBonus) * manaMult))
 
   const strategy = s.opponentStrategy
   const wave = s.endlessMode ? (s.endlessWave ?? 1) : 1
