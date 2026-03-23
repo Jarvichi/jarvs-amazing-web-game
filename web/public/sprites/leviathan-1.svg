@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Leviathan — frame 1 (tail swings up) -->
+  <ellipse cx="16" cy="16" rx="13" ry="7" fill="#1a3355" stroke="#0a1a33" stroke-width="1.2"/>
+  <ellipse cx="26" cy="14" rx="5" ry="5" fill="#1a3355" stroke="#0a1a33" stroke-width="1"/>
+  <path d="M29,13 Q31,14.5 29,16 Q27,15 29,13 Z" fill="#aa2211" stroke="#881100" stroke-width="0.7"/>
+  <polygon points="29,13 30,14 29,14.5" fill="#eeeecc"/>
+  <polygon points="29,16 30,15 29,14.5" fill="#eeeecc"/>
+  <circle cx="27" cy="12" r="2" fill="#ff6600" stroke="#cc3300" stroke-width="0.6"/>
+  <circle cx="27.3" cy="11.7" r="0.7" fill="#220000"/>
+  <polygon points="16,9 14,16 18,16" fill="#0a1a33" stroke="#000022" stroke-width="0.8"/>
+  <polygon points="11,10 9,16 13,16" fill="#0a1a33" stroke="#000022" stroke-width="0.6"/>
+  <polygon points="3,16 0,11 1,18" fill="#1a3355" stroke="#0a1a33" stroke-width="0.8"/>
+</svg>
