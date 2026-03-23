@@ -340,6 +340,7 @@ export default function App() {
   // Card fatigue
   const [fatiguedCards, setFatiguedCards]       = useState<string[]>(loadFatigued)
   const [cardRestCandidates, setCardRestCandidates] = useState<string[]>([])
+  const [cardRestPlayCounts, setCardRestPlayCounts] = useState<Record<string, number>>({})
   const [bonusPackCards, setBonusPackCards]     = useState<string[]>([])
   const campaignPlayCountsRef = useRef<Record<string, number>>({})  // per-battle play tracking
   const gameStateRef = useRef<GameState | null>(null)  // always-current snapshot for callbacks
@@ -1910,7 +1911,7 @@ export default function App() {
       {screen === 'cardrest' && (
         <CardRestSelect
           candidates={cardRestCandidates}
-          playCounts={run?.cardPlayCounts ?? {}}
+          playCounts={cardRestPlayCounts}
           onConfirm={handleCardRestConfirm}
         />
       )}
@@ -1980,7 +1981,7 @@ export default function App() {
           const counts = run?.cardPlayCounts ?? {}
           const candidates = getTopPlayedCards(counts, 3)
           clearRun(); setRun(null); clearFatigued(); setFatiguedCards([]); setBonusPackCards([])
-          if (candidates.length >= 2) { setCardRestCandidates(candidates); setScreen('cardrest') }
+          if (candidates.length >= 2) { setCardRestCandidates(candidates); setCardRestPlayCounts(counts); setScreen('cardrest') }
           else { setScreen('starterpack') }
         }} />
       )}

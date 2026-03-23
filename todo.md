@@ -12,6 +12,11 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 - [x] **#402** Security: remove hardcoded Firebase API key from source — fixed (pending config merge)
 
+## 🔴 Bugs — New (from GitHub, session 24 sync)
+
+- [x] **#432** Resting cards show zero usage — store play counts before clearing run; pass to CardRestSelect via dedicated state
+- [x] **#430** Unplayable cards in hand — endless mode reshuffle now uses endlessPlayerDeckTemplate and assigns fresh IDs to prevent duplicate React keys
+
 ## 🔴 Bugs — New (from GitHub, session 23 sync)
 
 - [x] **#418** TypeError: Load failed — fetchDailyLeaderboard wrapped in try/catch
