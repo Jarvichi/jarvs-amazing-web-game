@@ -70,7 +70,111 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔵 In Progress
 
-- [ ] **#180** Campaign: extend to 25 acts — Act 5 ✅ (branch: claude/act5-sunken-reef-C3hTh); Act 6 (Sky Dominion) next on its own branch
+- [ ] **#180** Campaign: extend to 25 acts — Acts 1–6 complete. Remaining acts planned below (1 act per session, sprites deferred).
+
+### Acts 7–25 Plan
+
+| Act | Title | Theme/Tags | Boss AI | Relic |
+|-----|-------|------------|---------|-------|
+| 7  | The Emberfall Peaks      | `ember`, `volcano`     | `cinderwarlord`    | Magma Core *(+2 ATK when base HP < 50%)* |
+| 8  | The Fungal Deep          | `fungal`, `spore`      | `rootqueen`        | Spore Bloom *(units heal 1 HP/turn)* |
+| 9  | The Frozen Expanse       | `frost`, `glacier`     | `paleengine`       | Frost Mantle *(+2 max HP, slow attackers)* |
+| 10 | The Sand Market          | `sand`, `mercenary`    | `dunebaron`        | Golden Compass *(+1 mana at battle start)* |
+| 11 | The Verdant Canopy       | `canopy`, `ancient`    | `elderwarden`      | Living Bark *(base +15 max HP)* |
+| 12 | The Shattered Coast      | `wreck`, `storm`       | `harbormaster`     | Salvage Hook *(revive 1 unit at 1 HP once)* |
+| 13 | The Clockwork Vaults     | `clockwork`, `vault`   | `grandautomaton`   | Gear Heart *(+1 ATK & +1 max HP after each win)* |
+| 14 | The Plague Fens          | `plague`, `fen`        | `bogsovereign`     | Antitoxin Vial *(base immune to poison; +4 HP)* |
+| 15 | The Glass Wastes         | `glass`, `shard`       | `resonantcolossus` | Shard Lens *(mana +1; +1 dmg vs structures)* |
+| 16 | The Mirrorlands          | `mirror`, `echo`       | `hollowking`       | Echo Stone *(copy strongest unit at half HP)* |
+| 17 | The Abyssal Veil         | `abyss`, `veil`        | `depthsovereign`   | Pressure Seal *(+5 max HP; flying units lose flying)* |
+| 18 | The Ashen Crown          | `crown`, `bone`        | `lastwarlord`      | War Banner *(+2 ATK & +2 max HP all units)* |
+| 19 | The Rift Bazaar          | `rift`, `bazaar`       | `dealer`           | Loaded Dice *(random unit +5 ATK for 10s once)* |
+| 20 | The Sunken Archive       | `archive`, `drowned`   | `knowingeye`       | Scholar's Seal *(draw 1 extra card per battle)* |
+| 21 | The Storm Crucible       | `crucible`, `tempest`  | `stormwright`      | Tempest Core *(all units gain flying; base +10 HP)* |
+| 22 | The Fracture Frontier    | `fracture`, `frontier` | `boundarywarden`   | Void Anchor *(units can't be debuffed; base +20 HP)* |
+| 23 | The Inner Scar           | `scar`, `echo`         | `fractureecho`     | Time Splinter *(reset all unit cooldowns once)* |
+| 24 | The Dominion Heart       | `dominion`, `ruin`     | `lastemperor`      | Emperor's Seal *(all relics apply twice)* |
+| 25 | The Fracture Core        | `core`, `void`         | `fractureitself`   | The Shard *(run victory item)* |
+
+**Implementation checklist per act:**
+- [ ] `web/src/data/acts/actN.json` — 13-node map, boss node, event configs
+- [ ] 25 themed cards + unit templates in `web/src/data/cards.json`
+- [ ] Boss AI function in `web/src/game/engine.ts` + wired into dispatch chain
+- [ ] Relic in `web/src/game/relics.ts`
+- [ ] Act import + export in `web/src/game/questline.ts`
+
+**Progress:**
+- [x] Act 7 — The Emberfall Peaks
+- [ ] Act 8 — The Fungal Deep
+- [ ] Act 9 — The Frozen Expanse
+- [ ] Act 10 — The Sand Market
+- [ ] Act 11 — The Verdant Canopy
+- [ ] Act 12 — The Shattered Coast
+- [ ] Act 13 — The Clockwork Vaults
+- [ ] Act 14 — The Plague Fens
+- [ ] Act 15 — The Glass Wastes
+- [ ] Act 16 — The Mirrorlands
+- [ ] Act 17 — The Abyssal Veil
+- [ ] Act 18 — The Ashen Crown
+- [ ] Act 19 — The Rift Bazaar
+- [ ] Act 20 — The Sunken Archive
+- [ ] Act 21 — The Storm Crucible
+- [ ] Act 22 — The Fracture Frontier
+- [ ] Act 23 — The Inner Scar
+- [ ] Act 24 — The Dominion Heart
+- [ ] Act 25 — The Fracture Core
+
+### Sprite Generation Backlog (deferred)
+
+All sprites below need creating. Format: `{slug}.svg` (static) + `{slug}-1/2/3.svg` (walk frames) for units; `{slug}.svg` only for structures.
+
+**Act 6 — Sky Dominion** (`sky`, `aerial` tags)
+- [ ] wind-rider (unit, 4 frames)
+- [ ] sky-sentinel (unit, 4 frames)
+- [ ] gale-archer (unit, 4 frames)
+- [ ] thunderhawk (unit, 4 frames)
+- [ ] cloud-strider (unit, 4 frames)
+- [ ] lightning-drake (unit, 4 frames)
+- [ ] storm-petrel (unit, 4 frames)
+- [ ] zephyr-blade (unit, 4 frames)
+- [ ] cumulus-golem (unit, 4 frames)
+- [ ] cyclone-knight (unit, 4 frames)
+- [ ] sky-leviathan (unit, 4 frames)
+- [ ] tempest-wraith (unit, 4 frames)
+- [ ] cloudmarshal-guard (unit, 4 frames)
+- [ ] nimbus-mage (unit, 4 frames)
+- [ ] vortex-stalker (unit, 4 frames)
+- [ ] sky-bastion (structure, 1 frame)
+- [ ] wind-spire (structure, 1 frame)
+- [ ] storm-cannon (structure, 1 frame)
+- [ ] aerie-tower (structure, 1 frame)
+- [ ] cloud-forge (structure, 1 frame)
+- [ ] gale-wall (structure, 1 frame)
+
+**Act 7 — The Emberfall Peaks** (`ember`, `volcano` tags)
+- [ ] ember-crawler (unit, 4 frames)
+- [ ] cinder-hound (unit, 4 frames)
+- [ ] lava-troll (unit, 4 frames)
+- [ ] magma-archer (unit, 4 frames)
+- [ ] ash-stalker (unit, 4 frames)
+- [ ] fire-salamander (unit, 4 frames)
+- [ ] volcanic-golem (unit, 4 frames)
+- [ ] ember-wyrm (unit, 4 frames)
+- [ ] cinder-knight (unit, 4 frames)
+- [ ] pyroclast-runner (unit, 4 frames)
+- [ ] flame-warden (unit, 4 frames)
+- [ ] molten-colossus (unit, 4 frames)
+- [ ] ash-revenant (unit, 4 frames)
+- [ ] scorch-bat (unit, 4 frames)
+- [ ] inferno-drake (unit, 4 frames)
+- [ ] magma-vent (structure, 1 frame)
+- [ ] ember-shrine (structure, 1 frame)
+- [ ] cinder-wall (structure, 1 frame)
+- [ ] lava-spire (structure, 1 frame)
+- [ ] fire-forge (structure, 1 frame)
+- [ ] ash-turret (structure, 1 frame)
+
+**Acts 8–25** — sprite lists to be added as each act is implemented.
 
 ---
 
