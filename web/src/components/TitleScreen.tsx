@@ -5,6 +5,7 @@ import { loadRun } from '../game/questline'
 import { getCardCatalog } from '../game/cards'
 import { hasUnclaimedAchievements } from '../game/achievements'
 import { TitleButton } from './TitleButton'
+import { SpriteImg } from './SpriteImg'
 import { TitleIdleAnimation } from './TitleIdleAnimation'
 import { load8bitUnlocked, unlock8bitMode, save8bitEnabled, apply8bitMode } from './SettingsScreen'
 import { incrementAchievementProgress } from '../game/achievements'
@@ -172,7 +173,10 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           <TitleButton onClick={onAchievements} badge={achievementAlert}>🏆 ACHIEVEMENTS</TitleButton>
           <TitleButton onClick={onCharacter}>👤 CHARACTER</TitleButton>
           {commanderName && onCommander && (
-            <TitleButton onClick={onCommander} extraClass="title-commander-btn">⭐ {commanderName.toUpperCase()}</TitleButton>
+            <TitleButton onClick={onCommander} extraClass="title-commander-btn">
+              <SpriteImg name={commanderName} className="commander-btn-sprite" />
+              {commanderName.toUpperCase()}
+            </TitleButton>
           )}
           <TitleButton onClick={onSettings} extraClass="title-settings-btn">⚙ SETTINGS</TitleButton>
         </div>
