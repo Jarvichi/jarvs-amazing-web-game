@@ -231,6 +231,8 @@ export interface GameState {
   endlessWave?: number
   /** Survival time in ms (Endless Mode only). */
   endlessSurvivalMs?: number
+  /** Cached player deck template for infinite card draw. */
+  endlessPlayerDeckTemplate?: Card[]
   /** Cached opponent deck template for wave respawning. */
   endlessOpponentDeckTemplate?: Card[]
   /** Remaining ms of wave-start truce (opponent base invulnerable while > 0). */

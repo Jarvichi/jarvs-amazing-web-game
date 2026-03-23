@@ -27,6 +27,8 @@ const BASE_STOP_MARGIN = 0       // units may reach the base character position 
 
 let _unitId = 0
 function uid(): string { return `unit-${++_unitId}` }
+let _recycleId = 0
+function recycleCardId(): string { return `rc-${++_recycleId}` }
 
 let _animId = 0
 function animUid(): string { return `anim-${++_animId}` }
@@ -380,6 +382,7 @@ export function newGame(
     endlessMode: endlessMode ?? false,
     endlessWave: endlessMode ? 1 : undefined,
     endlessSurvivalMs: endlessMode ? 0 : undefined,
+    endlessPlayerDeckTemplate: endlessMode ? [...playerDeck] : undefined,
     endlessOpponentDeckTemplate: endlessMode ? [...opponentDeck] : undefined,
   }
 }
@@ -1503,14 +1506,13 @@ export function tick(state: GameState, deltaMs: number): GameState {
       }))
     } catch { /* ignore */ }
 
-    // Infinite card draw: reshuffle discard pile when deck runs out
+    // Infinite card draw: reshuffle template when deck runs out; assign fresh IDs to avoid key duplication
     if (s.playerDeck.length === 0 && s.playerHand.length < 4) {
-      // Rebuild from a fresh copy of the player's template deck
-      const fresh = shuffle([...(s.endlessOpponentDeckTemplate ?? [])])
+      const fresh = shuffle((s.endlessPlayerDeckTemplate ?? []).map(c => ({ ...c, id: recycleCardId() })))
       s.playerDeck.push(...fresh)
     }
     if (s.opponentDeck.length === 0 && s.opponentHand.length < 4) {
-      const fresh = shuffle([...(s.endlessOpponentDeckTemplate ?? [])])
+      const fresh = shuffle((s.endlessOpponentDeckTemplate ?? []).map(c => ({ ...c, id: recycleCardId() })))
       s.opponentDeck.push(...fresh)
     }
     // Draw up to 4 each
