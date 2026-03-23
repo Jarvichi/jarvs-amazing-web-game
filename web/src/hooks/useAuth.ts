@@ -15,7 +15,6 @@ export function useAuth(): AuthState {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
       if (u) {
-        rollbar.info('useAuth: auth state changed — user present', { uid: u.uid, isAnonymous: u.isAnonymous })
         setUser(u)
         setLoading(false)
       } else {

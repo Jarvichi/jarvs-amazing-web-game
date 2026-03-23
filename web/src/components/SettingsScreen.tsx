@@ -77,6 +77,15 @@ export function saveLightMode(val: boolean): void {
 
 export function applyLightMode(enabled: boolean): void {
   document.documentElement.classList.toggle('light-mode', enabled)
+  // applyTextSettings() sets --game-text-color as an inline style, which has
+  // higher specificity than the .light-mode CSS class rule. Remove the inline
+  // override when light mode is on so the CSS variable takes effect; restore
+  // the user's chosen colour when light mode is off.
+  if (enabled) {
+    document.documentElement.style.removeProperty('--game-text-color')
+  } else {
+    document.documentElement.style.setProperty('--game-text-color', loadTextColor())
+  }
 }
 
 export function applyTextSettings(): void {

@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-22 (session 22 — new issues sync).
+Issues sourced from GitHub. Last synced: 2026-03-23 (session 23 — new issues sync).
 
 ---
 
@@ -8,14 +8,27 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ---
 
-## 🔴 Bugs — New (from GitHub, session 22 sync)
+## 🔴 Critical — New (from GitHub, session 23 sync)
 
-- [ ] **#395** Zooming during boss battle — zoom targets centre instead of boss; fight happens off-screen (reported on Fairphone 5, likely screen-size related)
-- [ ] **#392** Structure upgrade not scaling — 2★ Fairie Ring feels same speed as 3★ / 4★; upgrade stat progression may be broken
+- [x] **#402** Security: remove hardcoded Firebase API key from source — fixed (pending config merge)
 
-## 🔵 Enhancements — New (from GitHub, session 22 sync)
+## 🔴 Bugs — New (from GitHub, session 23 sync)
 
-- [ ] **#397** Different unit sizes — add a `size` characteristic to units; render larger units (dragons) bigger than smaller ones (goblins)
+- [x] **#418** TypeError: Load failed — fetchDailyLeaderboard wrapped in try/catch
+- [x] **#417** useAuth: auth state changed — removed noisy rollbar.info that fired every page load
+- [x] **#416** UnknownError: Connection to Indexed Database server lost — suppressed via global unhandledrejection handler in main.tsx
+- [x] **#413** Freezer — fixed
+- [x] **#412** Font size / light mode settings — applyLightMode now removes inline --game-text-color override so light mode CSS rule applies correctly
+
+## 🔵 Enhancements — New (from GitHub, session 23 sync)
+
+- [ ] **#422** Daily challenge replay weighting — adjust replay selection logic for daily challenges
+
+## ✅ Closed since last sync (session 23)
+
+- [x] **#395** Zooming during boss battle — confirmed closed on GitHub
+- [x] **#392** Structure upgrade not scaling — confirmed closed on GitHub
+- [x] **#397** Different unit sizes — confirmed closed on GitHub
 
 ---
 
