@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Shard Familiar — static (same as frame 2) -->
+  <!-- Body: floating crystal shard cluster -->
+  <polygon points="16,6 20,14 16,20 12,14" fill="#a8d8ff" stroke="#5599cc" stroke-width="1"/>
+  <polygon points="16,8 19,14 16,18 13,14" fill="#cceeff" stroke="#77aadd" stroke-width="0.5"/>
+  <!-- Side shards -->
+  <polygon points="11,12 15,14 11,18" fill="#88bbee" stroke="#4477aa" stroke-width="0.8"/>
+  <polygon points="21,12 17,14 21,18" fill="#88bbee" stroke="#4477aa" stroke-width="0.8"/>
+  <!-- Glow dot -->
+  <circle cx="16" cy="14" r="2.5" fill="#eef8ff" opacity="0.9"/>
+  <!-- Wing-like fins -->
+  <polygon points="16,10 10,8 13,14" fill="#bbddff" stroke="#5599cc" stroke-width="0.6" opacity="0.7"/>
+  <polygon points="16,10 22,8 19,14" fill="#bbddff" stroke="#5599cc" stroke-width="0.6" opacity="0.7"/>
+</svg>
