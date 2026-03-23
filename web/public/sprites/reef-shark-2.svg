@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Reef Shark — frame 2 (body 1px higher, tail level) -->
+  <ellipse cx="16" cy="16" rx="12" ry="5" fill="#558899" stroke="#336677" stroke-width="1"/>
+  <ellipse cx="14" cy="14" rx="9" ry="3" fill="#6699aa" opacity="0.5"/>
+  <polygon points="16,11 14,16 18,16" fill="#447788" stroke="#335566" stroke-width="0.8"/>
+  <polygon points="4,16 2,12 2,20" fill="#447788" stroke="#335566" stroke-width="0.8"/>
+  <polygon points="14,17 11,21 16,19" fill="#558899" stroke="#336677" stroke-width="0.7"/>
+  <circle cx="24" cy="15" r="1.5" fill="#111" stroke="#aacccc" stroke-width="0.5"/>
+  <circle cx="24.3" cy="14.7" r="0.5" fill="#fff" opacity="0.6"/>
+  <path d="M26,16 Q27,17 26,18" fill="none" stroke="#335566" stroke-width="0.8"/>
+</svg>
