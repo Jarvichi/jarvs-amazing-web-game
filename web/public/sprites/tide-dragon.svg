@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tide Dragon — static (water dragon, flying large) -->
+  <!-- Body -->
+  <ellipse cx="15" cy="18" rx="10" ry="6" fill="#2255aa" stroke="#113388" stroke-width="1"/>
+  <ellipse cx="14" cy="16" rx="7" ry="4" fill="#3366bb" opacity="0.5"/>
+  <!-- Head -->
+  <ellipse cx="24" cy="15" rx="5" ry="4" fill="#2255aa" stroke="#113388" stroke-width="0.9"/>
+  <!-- Snout -->
+  <polygon points="28,14 31,15.5 28,17" fill="#1144aa" stroke="#113388" stroke-width="0.7"/>
+  <!-- Horns -->
+  <line x1="23" y1="12" x2="21" y2="8" stroke="#88aaee" stroke-width="1.5"/>
+  <line x1="26" y1="12" x2="26" y2="7" stroke="#88aaee" stroke-width="1.5"/>
+  <!-- Eye -->
+  <circle cx="26" cy="14" r="1.5" fill="#aadd44" stroke="#558811" stroke-width="0.5"/>
+  <circle cx="26.3" cy="13.7" r="0.5" fill="#222"/>
+  <!-- Wings -->
+  <path d="M15,15 Q10,6 5,9 Q10,12 15,15 Z" fill="#1144aa" stroke="#113388" stroke-width="0.8"/>
+  <path d="M15,15 Q12,4 8,6 Q12,10 15,15 Z" fill="#3366cc" opacity="0.4"/>
+  <!-- Tail -->
+  <path d="M5,18 Q2,21 3,24 Q5,21 5,18 Z" fill="#2255aa" stroke="#113388" stroke-width="0.7"/>
+  <!-- Water scales shimmer -->
+  <path d="M10,18 Q11,15 14,18 Q11,21 10,18 Z" fill="#44aadd" opacity="0.4"/>
+  <path d="M15,17 Q16,14 19,17 Q16,20 15,17 Z" fill="#44aadd" opacity="0.3"/>
+</svg>
