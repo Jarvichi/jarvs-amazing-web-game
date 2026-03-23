@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Jellyfish Drifter — frame 3 (bell contracted again, tentacles shifted) -->
+  <ellipse cx="16" cy="14" rx="7" ry="5" fill="#cc88ff" stroke="#8844cc" stroke-width="1"/>
+  <ellipse cx="16" cy="12" rx="5" ry="3.5" fill="#dd99ff" opacity="0.6"/>
+  <ellipse cx="16" cy="14" rx="2.5" ry="1.5" fill="#bb66ee" opacity="0.5"/>
+  <path d="M10,18 Q9,22 11,26" fill="none" stroke="#9966cc" stroke-width="1.2"/>
+  <path d="M13,19 Q13,23 14,27" fill="none" stroke="#aa77dd" stroke-width="1"/>
+  <path d="M16,19 Q15,23 16,27" fill="none" stroke="#9966cc" stroke-width="1.2"/>
+  <path d="M19,19 Q19,23 18,27" fill="none" stroke="#aa77dd" stroke-width="1"/>
+  <path d="M22,18 Q23,22 21,26" fill="none" stroke="#9966cc" stroke-width="1.2"/>
+  <ellipse cx="16" cy="13" rx="3.5" ry="2.5" fill="#eeccff" opacity="0.3"/>
+</svg>
