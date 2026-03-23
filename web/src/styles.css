@@ -1262,10 +1262,6 @@ body {
   grid-column: 1 / -1;
 }
 
-/* Daily challenge button spans both columns */
-.title-primary-actions .title-daily-btn {
-  grid-column: 1 / -1;
-}
 
 /* All buttons in primary actions fill their grid cell */
 .title-primary-actions .action-btn {
