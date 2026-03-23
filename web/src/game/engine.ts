@@ -991,9 +991,10 @@ function checkGameOver(s: GameState): boolean {
           u.spawnTimer = se.intervalMs
         }
       })
-      // Finger smash: a giant finger crushes some of the player's units/structures
+      // Finger smash: a giant finger crushes 75-95% of the player's units/structures
       const playerUnits = s.field.filter(u => u.owner === 'player' && !u.dyingTimer)
-      const smashCount = Math.min(4, 1 + Math.floor((wave - 1) / 2))
+      const smashFraction = 0.75 + Math.random() * 0.20 // 75–95%
+      const smashCount = Math.round(playerUnits.length * smashFraction)
       const smashedNames: string[] = []
       const smashPool = [...playerUnits]
       for (let i = 0; i < smashCount && smashPool.length > 0; i++) {
@@ -1007,9 +1008,15 @@ function checkGameOver(s: GameState): boolean {
       }
       // Grant opponent a truce window (counts down once game resumes after reward)
       s.endlessWaveTruceMs = 5000
-      // Pause for wave reward selection before the next wave begins
-      s.phase = { type: 'waveReward', wave: wave - 1, smashedNames }
-      s.log.push(`Wave ${wave - 1} cleared! Choose your reward before the next wave.`)
+      // Reward only on every 5th wave; otherwise resume immediately
+      const completedWave = wave - 1
+      if (completedWave % 5 === 0) {
+        s.phase = { type: 'waveReward', wave: completedWave, smashedNames }
+        s.log.push(`Wave ${completedWave} cleared! Choose your reward before the next wave.`)
+      } else {
+        s.phase = { type: 'playing' }
+        s.log.push(`Wave ${completedWave} cleared! Next wave incoming...`)
+      }
       return false
     }
     if (s.bossCard && !s.bossCardActive) {
