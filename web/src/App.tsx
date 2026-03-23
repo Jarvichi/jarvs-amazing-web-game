@@ -59,7 +59,7 @@ import { DailyLoginModal }   from './components/DailyLoginModal'
 import { LoginModal }        from './components/LoginModal'
 import { InventoryScreen }   from './components/InventoryScreen'
 import { peekDailyReward, markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
-import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult } from './game/dailyChallenge'
+import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
@@ -79,6 +79,7 @@ import { RelicSpinScreen }  from './components/RelicSpinScreen'
 import { CampaignVictoryScreen } from './components/CampaignVictoryScreen'
 import { CampaignFailedScreen }  from './components/CampaignFailedScreen'
 import { DailyChallengeScreen } from './components/DailyChallengeScreen'
+import { EndlessLeaderboardScreen } from './components/EndlessLeaderboardScreen'
 import './styles.css'
 import brokenRelicsData from './data/broken-relics.json'
 import rollbar, { updateRollbarPerson } from './rollbar'
@@ -219,6 +220,7 @@ type Screen =
   | 'character'
   | 'replayBriefing'
   | 'dailychallenge'
+  | 'endlessleaderboard'
 
 
 function formatTimeAgo(date: Date): string {
@@ -549,7 +551,7 @@ export default function App() {
     }
   }, [gameState?.phase.type])
 
-  // Track endless mode survival achievements when the battle ends
+  // Track endless mode survival achievements and publish to leaderboard when the battle ends
   useEffect(() => {
     if (gameState?.endlessMode && gameState.phase.type === 'gameOver') {
       const toasts: AchievementDef[] = []
@@ -558,6 +560,16 @@ export default function App() {
       toasts.push(...setAchievementProgress('endless:survival_sec', survivalSec))
       toasts.push(...setAchievementProgress('endless:best_wave', wave))
       if (toasts.length > 0) setAchievementToasts(prev => [...prev, ...toasts])
+
+      const uid = auth.currentUser?.uid
+      if (uid && navigator.onLine) {
+        publishEndlessResult({
+          uid,
+          characterName: loadPlayerName(),
+          wave,
+          survivalMs: gameState.endlessSurvivalMs ?? 0,
+        }).catch(() => { /* non-critical */ })
+      }
     }
   }, [gameState?.phase.type])
 
@@ -629,6 +641,10 @@ export default function App() {
 
   const handleDailyChallenge = useCallback(() => {
     setScreen('dailychallenge')
+  }, [])
+
+  const handleEndlessLeaderboard = useCallback(() => {
+    setScreen('endlessleaderboard')
   }, [])
 
   const handleStartDailyChallenge = useCallback(() => {
@@ -1724,6 +1740,7 @@ export default function App() {
             onCharacter={() => setScreen('character')}
             on8bitUnlocked={() => { /* achievement granted in TitleScreen after unlock */ }}
             onDailyChallenge={handleDailyChallenge}
+            onEndlessLeaderboard={handleEndlessLeaderboard}
             user={user}
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
             onSignIn={() => setShowTitleLoginModal(true)}
@@ -1934,6 +1951,10 @@ export default function App() {
 
       {screen === 'dailychallenge' && (
         <DailyChallengeScreen onStart={handleStartDailyChallenge} onBack={() => setScreen('title')} />
+      )}
+
+      {screen === 'endlessleaderboard' && (
+        <EndlessLeaderboardScreen onBack={() => setScreen('title')} />
       )}
 
       {relicSpinData && (

@@ -28,12 +28,13 @@ interface Props {
   onCharacter: () => void
   on8bitUnlocked?: () => void
   onDailyChallenge: () => void
+  onEndlessLeaderboard: () => void
   user: User | null
   onSignOut: () => void
   onSignIn: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, user, onSignOut, onSignIn }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, user, onSignOut, onSignIn }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -144,6 +145,10 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
 
         <TitleButton onClick={onDailyChallenge} extraClass="title-daily-btn">
           {dailyLabel}
+        </TitleButton>
+
+        <TitleButton onClick={onEndlessLeaderboard} extraClass="title-endless-lb-btn">
+          🏆  ENDLESS SCORES
         </TitleButton>
       </div>
 

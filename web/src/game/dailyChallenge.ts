@@ -17,6 +17,10 @@ import { db } from '../firebase'
 //     allow write: if request.auth != null && request.auth.uid == uid;
 //     allow read:  if true;
 //   }
+//   match /endlessLeaderboard/{uid} {
+//     allow write: if request.auth != null && request.auth.uid == uid;
+//     allow read:  if true;
+//   }
 
 const DC_KEY        = 'jarv_daily_challenge'
 const DC_STREAK_KEY = 'jarv_daily_streak'
@@ -202,4 +206,85 @@ export async function fetchDailyLeaderboard(topN = 3): Promise<LeaderboardEntry[
       completedAt:   (data.completedAt as Timestamp).toDate(),
     }
   })
+}
+
+// ── Endless Leaderboard ───────────────────────────────────────────────────────
+
+const ENDLESS_BEST_KEY = 'jarv_endless_best'
+
+interface EndlessBestSave {
+  wave:       number
+  survivalMs: number
+}
+
+export interface EndlessLeaderboardEntry {
+  uid:           string
+  characterName: string
+  wave:          number
+  survivalMs:    number
+  achievedAt:    Date
+}
+
+/** Returns the player's locally-stored personal best for endless mode. */
+export function getEndlessPersonalBest(): EndlessBestSave | null {
+  try {
+    const raw = localStorage.getItem(ENDLESS_BEST_KEY)
+    if (raw) return JSON.parse(raw) as EndlessBestSave
+  } catch { /* ignore */ }
+  return null
+}
+
+/**
+ * Publish an endless mode run to the all-time leaderboard.
+ * Only publishes if this run beats the player's stored personal best.
+ * Returns true if published, false otherwise.
+ */
+export async function publishEndlessResult(opts: {
+  uid:           string
+  characterName: string
+  wave:          number
+  survivalMs:    number
+}): Promise<boolean> {
+  const best = getEndlessPersonalBest()
+  const isNewBest = !best
+    || opts.wave > best.wave
+    || (opts.wave === best.wave && opts.survivalMs > best.survivalMs)
+  if (!isNewBest) return false
+
+  try {
+    localStorage.setItem(ENDLESS_BEST_KEY, JSON.stringify({ wave: opts.wave, survivalMs: opts.survivalMs }))
+  } catch { /* ignore */ }
+
+  const ref = doc(db, 'endlessLeaderboard', opts.uid)
+  await setDoc(ref, {
+    uid:           opts.uid,
+    characterName: opts.characterName,
+    wave:          opts.wave,
+    survivalMs:    opts.survivalMs,
+    achievedAt:    Timestamp.now(),
+  })
+  return true
+}
+
+/**
+ * Fetch the top N all-time endless leaderboard entries.
+ * Sorted by wave descending, then survivalMs descending.
+ * Returns an empty array on error or when offline.
+ */
+export async function fetchEndlessLeaderboard(topN = 10): Promise<EndlessLeaderboardEntry[]> {
+  try {
+    const ref  = collection(db, 'endlessLeaderboard')
+    const q    = query(ref, orderBy('wave', 'desc'), orderBy('survivalMs', 'desc'), limit(topN))
+    const snap = await getDocs(q)
+    return snap.docs.map((d: import('firebase/firestore').QueryDocumentSnapshot) => {
+      const data = d.data()
+      return {
+        uid:           data.uid,
+        characterName: data.characterName,
+        wave:          data.wave,
+        survivalMs:    data.survivalMs,
+        achievedAt:    (data.achievedAt as Timestamp).toDate(),
+      }
+    })
+  } catch { return [] }
 }
