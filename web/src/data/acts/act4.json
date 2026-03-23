@@ -6,7 +6,8 @@
   "rewardRelicDesc": "You gain +1 mana at the start of each turn.",
   "environment": "citadel",
   "rewardTags": [
-    "crystal"
+    "spire",
+    "arcane"
   ],
   "replayModifiers": [
     {

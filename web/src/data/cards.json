@@ -2156,6 +2156,55 @@
         "effectAmount": 1.5,
         "label": "Time Distortion"
       }
+    },
+    "prism-warden": {
+      "name": "Prism Warden",
+      "attack": 9,
+      "maxHp": 28,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 28,
+      "attackRange": 5,
+      "attackCooldownMs": 1400,
+      "tags": [
+        "melee",
+        "armored",
+        "arcane"
+      ],
+      "strengths": [
+        "fast",
+        "beast"
+      ],
+      "weaknesses": [
+        "siege",
+        "magic"
+      ],
+      "size": "medium"
+    },
+    "shard-familiar": {
+      "name": "Shard Familiar",
+      "attack": 4,
+      "maxHp": 10,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 55,
+      "attackRange": 85,
+      "attackCooldownMs": 1800,
+      "flying": true,
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ]
     }
   },
   "cards": [
@@ -5155,6 +5204,96 @@
       "description": "Rewind time on your units \u2014 all gain 25 max HP and are healed.",
       "lore": "They have survived this battle before. They will again.",
       "deckCount": 0
+    },
+    {
+      "name": "Prism Warden",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "prism-warden",
+      "description": "Crystal-armored melee fighter. Tough and steady.",
+      "deckCount": 0,
+      "tags": [
+        "spire"
+      ],
+      "lore": "Encased in grown crystal lattice, wardens feel nothing. They are merely patient."
+    },
+    {
+      "name": "Shard Familiar",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "shard-familiar",
+      "description": "Flying crystal spirit. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "spire"
+      ],
+      "lore": "Broken from the Spire's outer lattice. It remembers being a wall and hates it."
+    },
+    {
+      "name": "Arcane Conduit",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unit": {
+        "name": "Arcane Conduit",
+        "attack": 14,
+        "maxHp": 22,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 130,
+        "attackCooldownMs": 1600
+      },
+      "description": "Ranged structure that fires arcane bolts. Long reach.",
+      "deckCount": 0,
+      "tags": [
+        "spire"
+      ],
+      "lore": "Channels raw ley-line energy into a focused beam. The Archivist has banned them from the reading rooms."
+    },
+    {
+      "name": "Resonance Spire",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unit": {
+        "name": "Resonance Spire",
+        "attack": 0,
+        "maxHp": 25,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "repairAura",
+          "amount": 2
+        }
+      },
+      "description": "Heals nearby friendly units by 2 HP/tick.",
+      "deckCount": 0,
+      "tags": [
+        "spire"
+      ],
+      "lore": "The Spire hums at a frequency that knits crystal and flesh alike."
+    },
+    {
+      "name": "Crystalline Shell",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 14
+      },
+      "description": "All your units gain +14 max HP.",
+      "deckCount": 0,
+      "tags": [
+        "spire"
+      ],
+      "lore": "A layer of grown crystal over flesh. It itches terribly. Worth it."
     }
   ],
   "heroCards": [
