@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tide Dragon — frame 2 (body 1px higher, wings level) -->
+  <ellipse cx="15" cy="17" rx="10" ry="6" fill="#2255aa" stroke="#113388" stroke-width="1"/>
+  <ellipse cx="24" cy="14" rx="5" ry="4" fill="#2255aa" stroke="#113388" stroke-width="0.9"/>
+  <polygon points="28,13 31,14.5 28,16" fill="#1144aa" stroke="#113388" stroke-width="0.7"/>
+  <line x1="23" y1="11" x2="21" y2="7" stroke="#88aaee" stroke-width="1.5"/>
+  <line x1="26" y1="11" x2="26" y2="6" stroke="#88aaee" stroke-width="1.5"/>
+  <circle cx="26" cy="13" r="1.5" fill="#aadd44" stroke="#558811" stroke-width="0.5"/>
+  <circle cx="26.3" cy="12.7" r="0.5" fill="#222"/>
+  <path d="M15,14 Q10,5 5,8 Q10,11 15,14 Z" fill="#1144aa" stroke="#113388" stroke-width="0.8"/>
+  <path d="M5,17 Q2,20 3,23 Q5,20 5,17 Z" fill="#2255aa" stroke="#113388" stroke-width="0.7"/>
+</svg>
