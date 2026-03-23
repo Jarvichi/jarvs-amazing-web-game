@@ -2551,6 +2551,297 @@
         "fast"
       ],
       "size": "medium"
+    },
+    "wind-sprite": {
+      "name": "Wind Sprite",
+      "attack": 3,
+      "maxHp": 8,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 65,
+      "attackRange": 80,
+      "attackCooldownMs": 1600,
+      "flying": true,
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "magic"
+      ],
+      "strengths": [
+        "melee"
+      ],
+      "weaknesses": [
+        "ranged"
+      ]
+    },
+    "skyguard": {
+      "name": "Skyguard",
+      "attack": 6,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 35,
+      "attackRange": 5,
+      "attackCooldownMs": 1200,
+      "flying": true,
+      "tags": [
+        "melee",
+        "flying",
+        "armored"
+      ],
+      "strengths": [
+        "fast",
+        "beast"
+      ],
+      "weaknesses": [
+        "siege",
+        "magic"
+      ],
+      "size": "medium"
+    },
+    "cloud-hawk": {
+      "name": "Cloud Hawk",
+      "attack": 8,
+      "maxHp": 14,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 58,
+      "attackRange": 60,
+      "attackCooldownMs": 1000,
+      "flying": true,
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "beast"
+      ],
+      "strengths": [
+        "melee",
+        "slow"
+      ],
+      "weaknesses": [
+        "ranged"
+      ]
+    },
+    "stormcaller": {
+      "name": "Stormcaller",
+      "attack": 9,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 22,
+      "attackRange": 100,
+      "attackCooldownMs": 1300,
+      "tags": [
+        "ranged",
+        "magic",
+        "flying"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "fast"
+      ]
+    },
+    "lightning-archer": {
+      "name": "Lightning Archer",
+      "attack": 10,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 30,
+      "attackRange": 110,
+      "attackCooldownMs": 1400,
+      "flying": true,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "fast",
+        "magic"
+      ]
+    },
+    "thunder-drake": {
+      "name": "Thunder Drake",
+      "attack": 14,
+      "maxHp": 42,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 28,
+      "attackRange": 80,
+      "attackCooldownMs": 1700,
+      "flying": true,
+      "tags": [
+        "ranged",
+        "flying",
+        "large",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "siege"
+      ],
+      "size": "large"
+    },
+    "sky-leviathan": {
+      "name": "Sky Leviathan",
+      "attack": 20,
+      "maxHp": 90,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 12,
+      "attackRange": 70,
+      "attackCooldownMs": 2800,
+      "flying": true,
+      "tags": [
+        "ranged",
+        "flying",
+        "large",
+        "slow"
+      ],
+      "strengths": [
+        "melee",
+        "armored",
+        "fast"
+      ],
+      "weaknesses": [
+        "magic"
+      ],
+      "size": "large"
+    },
+    "sky-sentinel": {
+      "name": "Sky Sentinel",
+      "attack": 11,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 20,
+      "attackRange": 5,
+      "attackCooldownMs": 1500,
+      "flying": true,
+      "tags": [
+        "melee",
+        "flying",
+        "armored"
+      ],
+      "strengths": [
+        "fast",
+        "beast"
+      ],
+      "weaknesses": [
+        "siege",
+        "magic"
+      ],
+      "size": "medium"
+    },
+    "zephyr-scout": {
+      "name": "Zephyr Scout",
+      "attack": 5,
+      "maxHp": 11,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 70,
+      "attackRange": 5,
+      "attackCooldownMs": 800,
+      "flying": true,
+      "tags": [
+        "melee",
+        "fast",
+        "flying"
+      ],
+      "strengths": [
+        "ranged",
+        "magic"
+      ],
+      "weaknesses": [
+        "large",
+        "siege"
+      ]
+    },
+    "gale-warden": {
+      "name": "Gale Warden",
+      "attack": 12,
+      "maxHp": 26,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 38,
+      "attackRange": 85,
+      "attackCooldownMs": 1200,
+      "flying": true,
+      "tags": [
+        "ranged",
+        "flying",
+        "magic"
+      ],
+      "strengths": [
+        "melee",
+        "large"
+      ],
+      "weaknesses": [
+        "fast"
+      ],
+      "size": "medium"
+    },
+    "cloudborn-colossus": {
+      "name": "Cloudborn Colossus",
+      "attack": 18,
+      "maxHp": 70,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 10,
+      "attackRange": 5,
+      "attackCooldownMs": 2400,
+      "flying": true,
+      "tags": [
+        "melee",
+        "flying",
+        "large",
+        "slow",
+        "armored"
+      ],
+      "strengths": [
+        "melee",
+        "fast",
+        "ranged"
+      ],
+      "weaknesses": [
+        "magic"
+      ],
+      "size": "large"
+    },
+    "air-sprite": {
+      "name": "Air Sprite",
+      "attack": 4,
+      "maxHp": 9,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 60,
+      "attackRange": 75,
+      "attackCooldownMs": 1700,
+      "flying": true,
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "magic"
+      ],
+      "strengths": [
+        "melee"
+      ],
+      "weaknesses": [
+        "ranged"
+      ]
     }
   },
   "cards": [
@@ -6048,6 +6339,425 @@
         "reef"
       ],
       "lore": "Read the current. Let it carry your attack further than your arm could reach."
+    },
+    {
+      "name": "Wind Sprite",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "wind-sprite",
+      "description": "Tiny flying ranged spirit. Fast and bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Condensed from high-altitude mana. It doesn't weigh enough to be affected by gravity, which it considers a personal achievement."
+    },
+    {
+      "name": "Air Sprite",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "air-sprite",
+      "description": "Flying ranged attacker. Light and quick.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Older than the Dominion. Smaller than a fist. Has an opinion about everything."
+    },
+    {
+      "name": "Zephyr Scout",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "zephyr-scout",
+      "description": "Fast flying melee scout. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "First in, last to ask questions."
+    },
+    {
+      "name": "Skyguard",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "skyguard",
+      "description": "Flying armored melee fighter.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Trained to fight at altitude. The training is mostly about not looking down."
+    },
+    {
+      "name": "Cloud Hawk",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "cloud-hawk",
+      "description": "Fast flying ranged beast. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Bred from the raptors that roosted on the pre-Fracture watchtowers. Now significantly less tame."
+    },
+    {
+      "name": "Stormcaller",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "stormcaller",
+      "description": "Flying ranged mage. Long reach.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Calls the storm. The storm doesn't always come. She calls it again. Eventually it does."
+    },
+    {
+      "name": "Lightning Archer",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "lightning-archer",
+      "description": "Flying electric ranged attacker.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "The arrows are made of compressed storm. The quiver is a weather system."
+    },
+    {
+      "name": "Gale Warden",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "gale-warden",
+      "description": "Flying ranged magic unit. Steady at altitude.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Wardens of the upper air currents. They treat wind as terrain and fight accordingly."
+    },
+    {
+      "name": "Sky Sentinel",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "sky-sentinel",
+      "description": "Heavy flying melee fighter. Armored.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Encased in sky-iron. Somehow still airborne. This has never been fully explained."
+    },
+    {
+      "name": "Thunder Drake",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "thunder-drake",
+      "description": "Large flying ranged beast. Electrical attack.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Rides storm fronts. Feeds on lightning. Inconvenient in most weather."
+    },
+    {
+      "name": "Cloudborn Colossus",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "cloudborn-colossus",
+      "description": "Massive flying melee unit. Unstoppable at altitude.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Formed from a thunderhead that decided to take a more direct approach."
+    },
+    {
+      "name": "Sky Leviathan",
+      "rarity": "legendary",
+      "cost": 7,
+      "cardType": "unit",
+      "unitRef": "sky-leviathan",
+      "description": "Colossal flying beast. Dominates the airspace.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "The Sky Dominion did not build this. They found it. They are still not sure who it belongs to."
+    },
+    {
+      "name": "Gust Wall",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unit": {
+        "name": "Gust Wall",
+        "attack": 0,
+        "maxHp": 45,
+        "isWall": true,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0
+      },
+      "description": "Blocks melee. Made of condensed wind.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Not technically a wall. Technically a sustained gale. Practically identical."
+    },
+    {
+      "name": "Wind Shrine",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unit": {
+        "name": "Wind Shrine",
+        "attack": 0,
+        "maxHp": 18,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "mana",
+          "amount": 1
+        }
+      },
+      "description": "+1 max mana. Channels ley-wind currents.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Taps the upper ley current. The Cloudmarshal has three per island. She counts them."
+    },
+    {
+      "name": "Storm Tower",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unit": {
+        "name": "Storm Tower",
+        "attack": 12,
+        "maxHp": 20,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 125,
+        "attackCooldownMs": 1600
+      },
+      "description": "Ranged lightning structure. Long reach.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Discharges continuously. The operators wear rubber boots. This is considered standard kit."
+    },
+    {
+      "name": "Aerie Roost",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unit": {
+        "name": "Aerie Roost",
+        "attack": 0,
+        "maxHp": 18,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "spawn",
+          "unitTemplateRef": "wind-sprite",
+          "intervalMs": 5000
+        }
+      },
+      "description": "Spawns a Wind Sprite every 5 seconds.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "The sprites nest here. They leave when called. Sometimes before they're called."
+    },
+    {
+      "name": "Sky Beacon",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unit": {
+        "name": "Sky Beacon",
+        "attack": 0,
+        "maxHp": 20,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "manaSpeed",
+          "speedMult": 0.5
+        }
+      },
+      "description": "Mana regenerates 50% faster.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Broadcasts on the ley frequency. Mana responds like it has somewhere to be."
+    },
+    {
+      "name": "Cloudfort",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unit": {
+        "name": "Cloudfort",
+        "attack": 0,
+        "maxHp": 30,
+        "isWall": true,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0
+      },
+      "description": "Extremely sturdy aerial wall.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Compressed cloudstuff, hardened by altitude magic. Nothing gets through. Nothing legitimate, anyway."
+    },
+    {
+      "name": "Thunder Battery",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unit": {
+        "name": "Thunder Battery",
+        "attack": 16,
+        "maxHp": 24,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 140,
+        "attackCooldownMs": 2000
+      },
+      "description": "Powerful long-range storm cannon.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "The Cloudmarshal designed this personally. It shows."
+    },
+    {
+      "name": "Wind Surge",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffSpeed",
+        "amount": 16
+      },
+      "description": "All units gain +16 move speed.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "The wind behind you. Always has been."
+    },
+    {
+      "name": "Feather Step",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffRange",
+        "amount": 20
+      },
+      "description": "All ranged units gain +20 attack range.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Altitude changes perspective. Arrows understand this."
+    },
+    {
+      "name": "Lightning Strike",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 3
+      },
+      "description": "All units gain +3 attack.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Channel the storm. Direct application."
+    },
+    {
+      "name": "Aerial Volley",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffMaxHp",
+        "amount": 12
+      },
+      "description": "All units gain +12 max HP.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "High-altitude resilience training. The survivors are very resilient."
+    },
+    {
+      "name": "Storm Surge",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 5
+      },
+      "description": "All units gain +5 attack.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "Pure electrical charge. Distributed equally. Approximately."
+    },
+    {
+      "name": "Cloud Cover",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "healUnits",
+        "amount": 8
+      },
+      "description": "Heals all your units for 8 HP.",
+      "deckCount": 0,
+      "tags": [
+        "sky"
+      ],
+      "lore": "The cloud provides. It always has."
     }
   ],
   "heroCards": [

@@ -1,0 +1,467 @@
+{
+  "id": "act6",
+  "title": "ACT VI",
+  "subtitle": "The Sky Dominion",
+  "rewardRelic": "Stormcaller's Badge",
+  "rewardRelicDesc": "All your units gain +2 attack at battle start.",
+  "environment": "sky",
+  "rewardTags": [
+    "sky"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "cloudbreach"
+  ],
+  "intro": [
+    {
+      "title": "THE SKY DOMINION",
+      "text": "You've climbed out of the sea and into the air.\n\nThe Sky Dominion exists on drifting islands — chunks of terrain that broke loose during the Fracture and simply refused to come back down. They've been up here so long they've built cities on them. Militarised them. Connected them with rope-bridges and siege platforms and weapons specifically designed to hit things that are also in the air.\n\nThey do not like visitors."
+    },
+    {
+      "title": "THE CLOUDMARSHAL",
+      "text": "Command of the Sky Dominion belongs to the Cloudmarshal — a general who has never lost a battle because, practically speaking, her armies have always had the high ground.\n\nShe does not consider a tactician without wings a credible threat. She's said this, publicly, several times.\n\nYou are going to prove her wrong. You always find this kind of statement motivating."
+    },
+    {
+      "title": "THE LEY BRIDGE",
+      "text": "The ley lines rise here — thick, crackling columns of energy that punch up through the clouds and connect to something far above. If the Fractured Core exists anywhere, the ley lines suggest it's in a direction the Cloudmarshal considers her personal airspace.\n\nYou will need to break through her defences to reach it.\n\nAt least the view will be good."
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE CLOUDMARSHAL FALLS",
+      "text": "The Cloudmarshal does not surrender. She concedes the tactical situation, which is different, and she does it with the kind of grudging precision you only see in people who have never actually had to admit defeat before.\n\nThe ley bridge opens. The sky path clears.\n\nFrom up here, you can almost see where the Fracture scar runs through the upper atmosphere."
+    },
+    {
+      "title": "WHAT SHE SAID",
+      "text": "'You fight without flying,' she said, as you left. 'That shouldn't work.'\n\nYou told her you'd never found that to be a meaningful constraint.\n\nShe did not look convinced. She did, however, step aside."
+    },
+    {
+      "title": "HIGHER STILL",
+      "text": "The Stormcaller's Badge sits in your hand — a Sky Dominion medal, given to the first enemy officer who ever reached the upper platforms.\n\nYou aren't an officer. Close enough.\n\nThe ley lines point upward. They always do. You've stopped being surprised by that."
+    }
+  ],
+  "nodes": {
+    "cloudbreach": {
+      "id": "cloudbreach",
+      "type": "battle",
+      "label": "Cloud Breach",
+      "description": "The first sky-island is defended by aerial sentries. They spotted you three islands ago.",
+      "row": 0,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": [],
+      "childIds": ["wind-shrine", "skyport-camp", "sky-bazaar"],
+      "handicap": 10,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 190,
+      "environment": "sky",
+      "enemyDeck": [
+        "Wind Sprite", "Wind Sprite", "Wind Sprite",
+        "Skyguard", "Skyguard",
+        "Cloud Hawk", "Cloud Hawk",
+        "Gust Wall", "Gust Wall",
+        "Wind Surge", "Wind Surge",
+        "Feather Step", "Feather Step",
+        "Stormcaller"
+      ]
+    },
+    "wind-shrine": {
+      "id": "wind-shrine",
+      "type": "event",
+      "label": "Wind Shrine",
+      "description": "A weathervane shrine rattles in the high-altitude gale. Something still listens to it.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": ["cloudbreach"],
+      "childIds": ["gale-crossing"],
+      "environment": "sky",
+      "eventConfig": {
+        "title": "The Wind Shrine",
+        "description": "A spinning brass weathervane atop a stone plinth. The wind here is constant and intentional. Whatever it once guided, it's still doing it.",
+        "pools": [
+          [
+            {
+              "label": "Offer something to the wind",
+              "consequence": "The wind carries back 12 HP worth of clarity",
+              "effect": { "type": "healHp", "amount": 12 }
+            },
+            {
+              "label": "Offer something to the wind",
+              "consequence": "A gust deposits +15 crystals at your feet",
+              "effect": { "type": "gainCrystals", "amount": 15 }
+            },
+            {
+              "label": "Offer something to the wind",
+              "consequence": "The wind takes your offering and returns nothing",
+              "effect": { "type": "nothing" }
+            },
+            {
+              "label": "Offer something to the wind",
+              "consequence": "A downdraft hits you — lose 5 HP",
+              "effect": { "type": "damageHp", "amount": 5 }
+            }
+          ],
+          [
+            {
+              "label": "Read the wind patterns",
+              "consequence": "The patterns describe a rare card's construction — yours",
+              "effect": { "type": "gainCard", "rarity": "rare" }
+            },
+            {
+              "label": "Read the wind patterns",
+              "consequence": "The patterns heal — restored 8 HP",
+              "effect": { "type": "healHp", "amount": 8 }
+            },
+            {
+              "label": "Read the wind patterns",
+              "consequence": "+20 crystals scattered in the updraft",
+              "effect": { "type": "gainCrystals", "amount": 20 }
+            }
+          ],
+          [
+            {
+              "label": "Pocket the shrine parts",
+              "consequence": "Sold in the next port — +18 crystals",
+              "effect": { "type": "gainCrystals", "amount": 18 }
+            },
+            {
+              "label": "Pocket the shrine parts",
+              "consequence": "A common card was tucked inside",
+              "effect": { "type": "gainCard", "rarity": "common" }
+            },
+            {
+              "label": "Pocket the shrine parts",
+              "consequence": "Something electrical discharges — lose 12 HP",
+              "effect": { "type": "damageHp", "amount": 12 }
+            }
+          ]
+        ]
+      }
+    },
+    "skyport-camp": {
+      "id": "skyport-camp",
+      "type": "rest",
+      "label": "Skyport Shelter",
+      "description": "An abandoned skyport mooring dock. The winds are calmer here.",
+      "row": 1,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": ["cloudbreach"],
+      "childIds": ["gale-crossing"],
+      "environment": "sky",
+      "restHeal": 10
+    },
+    "sky-bazaar": {
+      "id": "sky-bazaar",
+      "type": "merchant",
+      "label": "Sky Bazaar",
+      "description": "A merchant who specialises in goods that fell off other flying islands.",
+      "row": 1,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": ["cloudbreach"],
+      "childIds": ["gale-crossing"],
+      "environment": "sky"
+    },
+    "gale-crossing": {
+      "id": "gale-crossing",
+      "type": "battle",
+      "label": "Gale Crossing",
+      "description": "The rope-bridge between islands is contested. High winds make it worse.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": ["wind-shrine", "skyport-camp", "sky-bazaar"],
+      "childIds": ["storm-battery", "thermal-vent", "sky-elite"],
+      "handicap": 12,
+      "opponentIntervalMs": 4700,
+      "opponentBaseHp": 195,
+      "environment": "sky",
+      "enemyDeck": [
+        "Skyguard", "Skyguard", "Skyguard",
+        "Cloud Hawk", "Cloud Hawk",
+        "Stormcaller", "Stormcaller",
+        "Gust Wall", "Gust Wall",
+        "Thunder Drake",
+        "Storm Tower",
+        "Wind Surge", "Wind Surge",
+        "Feather Step"
+      ]
+    },
+    "storm-battery": {
+      "id": "storm-battery",
+      "type": "battle",
+      "label": "Storm Battery",
+      "description": "Sky artillery platforms. They were designed to hold an airspace, not a ground approach.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": ["gale-crossing"],
+      "childIds": ["upper-platform"],
+      "handicap": 14,
+      "opponentIntervalMs": 4400,
+      "opponentBaseHp": 200,
+      "environment": "sky",
+      "enemyDeck": [
+        "Thunder Drake", "Thunder Drake",
+        "Skyguard", "Skyguard",
+        "Gust Wall", "Gust Wall",
+        "Lightning Archer", "Lightning Archer",
+        "Storm Tower", "Storm Tower",
+        "Stormcaller",
+        "Wind Surge", "Wind Surge",
+        "Aerial Volley"
+      ]
+    },
+    "thermal-vent": {
+      "id": "thermal-vent",
+      "type": "event",
+      "label": "Thermal Column",
+      "description": "A natural updraft carries things up from below. Mostly junk. Sometimes not.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": ["gale-crossing"],
+      "childIds": ["upper-platform"],
+      "environment": "sky",
+      "eventConfig": {
+        "title": "The Thermal Column",
+        "description": "A powerful updraft punches through a gap in the island's floor. It carries the smell of the shards below — and loose objects that fell off other islands during the Fracture.",
+        "pools": [
+          [
+            {
+              "label": "Reach in",
+              "consequence": "A rare card rises from the column",
+              "effect": { "type": "gainCard", "rarity": "rare" }
+            },
+            {
+              "label": "Reach in",
+              "consequence": "The updraft carries something warm — healed 15 HP",
+              "effect": { "type": "healHp", "amount": 15 }
+            },
+            {
+              "label": "Reach in",
+              "consequence": "Something comes up fast and hits you — lose 10 HP",
+              "effect": { "type": "damageHp", "amount": 10 }
+            },
+            {
+              "label": "Reach in",
+              "consequence": "+25 crystals from salvage",
+              "effect": { "type": "gainCrystals", "amount": 25 }
+            }
+          ],
+          [
+            {
+              "label": "Follow the column up",
+              "consequence": "You find a supply cache on the way — +30 crystals",
+              "effect": { "type": "gainCrystals", "amount": 30 }
+            },
+            {
+              "label": "Follow the column up",
+              "consequence": "An uncommon card, still sealed from its original owner",
+              "effect": { "type": "gainCard", "rarity": "uncommon" }
+            },
+            {
+              "label": "Follow the column up",
+              "consequence": "Nothing of value. Just altitude.",
+              "effect": { "type": "nothing" }
+            }
+          ]
+        ]
+      }
+    },
+    "sky-elite": {
+      "id": "sky-elite",
+      "type": "elite",
+      "label": "Cloudmarshal's Wing",
+      "description": "The Cloudmarshal's personal aerial squadron. They've been briefed on you.",
+      "row": 3,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": ["gale-crossing"],
+      "childIds": ["upper-platform"],
+      "handicap": 18,
+      "opponentIntervalMs": 4000,
+      "opponentBaseHp": 210,
+      "environment": "sky",
+      "enemyDeck": [
+        "Sky Leviathan",
+        "Thunder Drake", "Thunder Drake",
+        "Lightning Archer", "Lightning Archer",
+        "Stormcaller", "Stormcaller",
+        "Gust Wall", "Gust Wall",
+        "Storm Tower",
+        "Wind Surge", "Wind Surge",
+        "Aerial Volley",
+        "Feather Step"
+      ]
+    },
+    "upper-platform": {
+      "id": "upper-platform",
+      "type": "battle",
+      "label": "Upper Platform",
+      "description": "The highest inhabited island. From here you can see the ley bridge — and everything defending it.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": ["storm-battery", "thermal-vent", "sky-elite"],
+      "childIds": ["archive-isle", "high-rest", "summit-elite"],
+      "handicap": 16,
+      "opponentIntervalMs": 4200,
+      "opponentBaseHp": 205,
+      "environment": "sky",
+      "enemyDeck": [
+        "Sky Leviathan",
+        "Thunder Drake", "Thunder Drake",
+        "Lightning Archer", "Lightning Archer",
+        "Cloud Hawk", "Cloud Hawk",
+        "Gust Wall", "Gust Wall",
+        "Storm Tower", "Storm Tower",
+        "Aerial Volley",
+        "Wind Surge",
+        "Feather Step"
+      ]
+    },
+    "archive-isle": {
+      "id": "archive-isle",
+      "type": "event",
+      "label": "Cloudmarshal's Log",
+      "description": "A command post, abandoned in the retreat. The tactical logs are still open.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": ["upper-platform"],
+      "childIds": ["cloudmarshal"],
+      "environment": "sky",
+      "eventConfig": {
+        "title": "The Command Post",
+        "description": "An abandoned Dominion command post, still warm from use. Maps, tactical notes, and a half-eaten ration. The logs describe the Fracture from above — and something the Cloudmarshal calls 'the signal.'",
+        "pools": [
+          [
+            {
+              "label": "Read the tactical logs",
+              "consequence": "The strategy is useful — rare card",
+              "effect": { "type": "gainCard", "rarity": "rare" }
+            },
+            {
+              "label": "Read the tactical logs",
+              "consequence": "You find supply caches marked on the map — +25 crystals",
+              "effect": { "type": "gainCrystals", "amount": 25 }
+            }
+          ],
+          [
+            {
+              "label": "Rest in the shelter",
+              "consequence": "First proper shelter in hours — healed 15 HP",
+              "effect": { "type": "healHp", "amount": 15 }
+            },
+            {
+              "label": "Rest in the shelter",
+              "consequence": "An uncommon card left behind by a retreating officer",
+              "effect": { "type": "gainCard", "rarity": "uncommon" }
+            }
+          ]
+        ]
+      }
+    },
+    "high-rest": {
+      "id": "high-rest",
+      "type": "rest",
+      "label": "Cloudport Rest",
+      "description": "A decommissioned cloudport. Quiet and out of the wind.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": ["upper-platform"],
+      "childIds": ["cloudmarshal"],
+      "environment": "sky",
+      "restHeal": 15
+    },
+    "summit-elite": {
+      "id": "summit-elite",
+      "type": "elite",
+      "label": "Summit Guard",
+      "description": "Last defenders before the Cloudmarshal's position. They've had time to prepare.",
+      "row": 5,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": ["upper-platform"],
+      "childIds": ["cloudmarshal"],
+      "handicap": 20,
+      "opponentIntervalMs": 3800,
+      "opponentBaseHp": 215,
+      "environment": "sky",
+      "enemyDeck": [
+        "Sky Leviathan",
+        "Thunder Drake", "Thunder Drake",
+        "Sky Leviathan",
+        "Stormcaller", "Stormcaller",
+        "Storm Tower", "Storm Tower",
+        "Wind Shrine",
+        "Aerial Volley", "Aerial Volley",
+        "Wind Surge", "Wind Surge",
+        "Feather Step"
+      ]
+    },
+    "cloudmarshal": {
+      "id": "cloudmarshal",
+      "type": "boss",
+      "label": "The Cloudmarshal",
+      "description": "General of the Sky Dominion. She has never fought anyone who came up from below before.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": ["archive-isle", "high-rest", "summit-elite"],
+      "childIds": [],
+      "handicap": 24,
+      "opponentIntervalMs": 3300,
+      "opponentBaseHp": 250,
+      "bossAI": "cloudmarshal",
+      "environment": "sky",
+      "bossDialogue": [
+        "You came up from below. That has never happened before. I'm going to note it in the log.",
+        "The high ground is everything. You're standing on mine. That is the last time.",
+        "I don't lose. I'm noting that for the record as well."
+      ],
+      "enemyDeck": [
+        "Sky Leviathan", "Sky Leviathan",
+        "Thunder Drake", "Thunder Drake",
+        "Lightning Archer", "Lightning Archer",
+        "Stormcaller", "Stormcaller",
+        "Storm Tower", "Storm Tower",
+        "Gust Wall", "Gust Wall",
+        "Wind Shrine",
+        "Aerial Volley", "Aerial Volley",
+        "Wind Surge", "Wind Surge",
+        "Feather Step"
+      ]
+    }
+  }
+}

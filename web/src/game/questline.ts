@@ -6,6 +6,7 @@ import act2Data from '../data/acts/act2.json'
 import act3Data from '../data/acts/act3.json'
 import act4Data from '../data/acts/act4.json'
 import act5Data from '../data/acts/act5.json'
+import act6Data from '../data/acts/act6.json'
 import consumablesData from '../data/consumables.json'
 
 // ─── Consumables ──────────────────────────────────────────
@@ -751,6 +752,7 @@ export const ACT_2: Act = act2Data as Act
 export const ACT_3: Act = act3Data as Act
 export const ACT_4: Act = act4Data as Act
 export const ACT_5: Act = act5Data as Act
+export const ACT_6: Act = act6Data as Act
 
 export const ACTS: Record<string, Act> = {
   act1: ACT_1,
@@ -758,6 +760,7 @@ export const ACTS: Record<string, Act> = {
   act3: ACT_3,
   act4: ACT_4,
   act5: ACT_5,
+  act6: ACT_6,
 }
 
 // ─── Node history (persistent across runs) ───────────────
@@ -790,7 +793,7 @@ export function recordNodeComplete(actId: string, nodeId: string): void {
 
 /** Returns the act that follows this one in the campaign, or null if it's the last. */
 export function getNextAct(actId: string): Act | null {
-  const order = ['act1', 'act2', 'act3', 'act4', 'act5']
+  const order = ['act1', 'act2', 'act3', 'act4', 'act5', 'act6']
   const idx = order.indexOf(actId)
   if (idx < 0 || idx === order.length - 1) return null
   return ACTS[order[idx + 1]] ?? null

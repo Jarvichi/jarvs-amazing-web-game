@@ -60,6 +60,16 @@ const RELIC_CATALOG: RelicDef[] = [
       }
     },
   },
+  {
+    name: "Stormcaller's Badge",
+    icon: '⚡',
+    desc: 'All your units gain +2 attack at battle start.',
+    applyToGame(state) {
+      for (const u of state.field) {
+        if (u.owner === 'player') u.attack = Math.max(0, u.attack + 2)
+      }
+    },
+  },
 ]
 
 export function getRelicDef(name: string): RelicDef | undefined {
