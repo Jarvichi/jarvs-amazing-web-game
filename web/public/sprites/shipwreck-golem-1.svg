@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Shipwreck Golem -->
+  <rect x="10" y="12" width="12" height="11" rx="1" fill="#665544" stroke="#443322" stroke-width="1.2"/>
+  <rect x="9" y="12" width="3" height="8" rx="1" fill="#554433" stroke="#332211" stroke-width="0.8"/>
+  <rect x="20" y="12" width="3" height="8" rx="1" fill="#554433" stroke="#332211" stroke-width="0.8"/>
+  <rect x="12" y="8" width="8" height="6" rx="1" fill="#776655" stroke="#443322" stroke-width="0.8"/>
+  <rect x="14" y="7" width="4" height="2" rx="0.5" fill="#222"/>
+  <rect x="11" y="23" width="4" height="7" rx="1" fill="#554433" stroke="#332211" stroke-width="0.8"/>
+  <rect x="17" y="23" width="4" height="7" rx="1" fill="#554433" stroke="#332211" stroke-width="0.8"/>
+  <line x1="10" y1="15" x2="13" y2="15" stroke="#ccaa88" stroke-width="0.6"/>
+  <line x1="10" y1="18" x2="13" y2="18" stroke="#ccaa88" stroke-width="0.6"/>
+  <circle cx="14" cy="10" r="1.5" fill="#44aadd" opacity="0.7"/>
+  <circle cx="18" cy="10" r="1.5" fill="#44aadd" opacity="0.7"/>
+</svg>
