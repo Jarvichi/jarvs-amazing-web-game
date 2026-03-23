@@ -22,6 +22,9 @@ interface Props {
   disenchantValue?: number
   onDisenchant?: () => void
   onMasterCard?: () => void
+  commanderName?: string | null
+  promotionsLeft?: number
+  onPromote?: () => void
 }
 
 const RARITY_COLOUR: Record<string, string> = {
@@ -40,7 +43,7 @@ function affinityEffectText(effectType: string, effectAmount: number): string {
   return `×${effectAmount} ${effectType}`
 }
 
-export function CardDetailModal({ card, collection, deckEntries, onClose, extras = 0, disenchantValue = 0, onDisenchant, onMasterCard }: Props) {
+export function CardDetailModal({ card, collection, deckEntries, onClose, extras = 0, disenchantValue = 0, onDisenchant, onMasterCard, commanderName, promotionsLeft = 0, onPromote }: Props) {
   const owned  = getOwnedCount(collection, card.name)
   const inDeck = deckEntries?.find(e => e.cardName === card.name)?.count ?? 0
   const xp     = getMasteryXp(collection, card.name)
@@ -226,6 +229,29 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
               <button className="extra-btn extra-btn--master" onClick={onMasterCard}>
                 Upgrade +{extras}XP
               </button>
+            )}
+          </div>
+        )}
+
+        {/* Promote to Commander (unit cards only) */}
+        {onPromote && u && u.moveSpeed > 0 && (
+          <div className="cdm-actions cdm-actions--commander">
+            {commanderName === card.name ? (
+              <div className="cdm-commander-badge">⭐ Current Commander</div>
+            ) : (
+              <button
+                className="extra-btn extra-btn--promote"
+                onClick={onPromote}
+                disabled={promotionsLeft === 0}
+                title={promotionsLeft === 0 ? 'Promotion limit reached for today (2/day)' : undefined}
+              >
+                {promotionsLeft === 0
+                  ? '🔒 Promotions used today'
+                  : `⭐ Promote to Commander${commanderName ? ` (replaces ${commanderName})` : ''}`}
+              </button>
+            )}
+            {promotionsLeft > 0 && commanderName !== card.name && (
+              <div className="cdm-promo-hint">{promotionsLeft} promotion{promotionsLeft !== 1 ? 's' : ''} remaining today</div>
             )}
           </div>
         )}

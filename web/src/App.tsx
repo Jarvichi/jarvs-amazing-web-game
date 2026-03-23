@@ -67,6 +67,8 @@ import { useRareEvents } from './hooks/useRareEvents'
 import { useAchievements } from './hooks/useAchievements'
 import { isNoDamageMode } from './game/debug'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
+import { loadCommander, promoteCommander, CommanderState } from './game/commander'
+import { CommanderScreen } from './components/CommanderScreen'
 import {
   incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
@@ -221,6 +223,7 @@ type Screen =
   | 'replayBriefing'
   | 'dailychallenge'
   | 'endlessleaderboard'
+  | 'commander'
 
 
 function formatTimeAgo(date: Date): string {
@@ -356,6 +359,9 @@ export default function App() {
   const battleUsedStructure  = useRef(false)
   const battleUsedMobileUnit = useRef(false)
   const battleLossRecordedRef = useRef(false)  // prevents double-decrement if component re-renders at game-over
+
+  // Commander (virtual pet)
+  const [commander, setCommander] = useState<CommanderState | null>(loadCommander)
 
   // Daily login reward
   const [dailyReward, setDailyReward] = useState<RewardDef | null>(null)
@@ -1765,6 +1771,8 @@ export default function App() {
             on8bitUnlocked={() => { /* achievement granted in TitleScreen after unlock */ }}
             onDailyChallenge={handleDailyChallenge}
             onEndlessLeaderboard={handleEndlessLeaderboard}
+            onCommander={commander ? () => setScreen('commander') : undefined}
+            commanderName={commander?.cardName ?? null}
             user={user}
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
             onSignIn={() => setShowTitleLoginModal(true)}
@@ -1920,6 +1928,14 @@ export default function App() {
           crystals={crystals}
           onCrystalsChanged={handleCrystalsChanged}
           onBack={() => setScreen('title')}
+          commanderName={commander?.cardName ?? null}
+          onPromoteCommander={(cardName) => {
+            const ok = promoteCommander(cardName)
+            if (ok) {
+              setCommander(loadCommander())
+              setScreen('commander')
+            }
+          }}
         />
       )}
 
@@ -1979,6 +1995,39 @@ export default function App() {
 
       {screen === 'endlessleaderboard' && (
         <EndlessLeaderboardScreen onBack={() => setScreen('title')} />
+      )}
+
+      {screen === 'commander' && commander && (
+        <CommanderScreen
+          commander={commander}
+          onBack={() => setScreen('title')}
+          onRewardXp={(cardName, amount) => {
+            const col = loadCollection()
+            const updated = col.map(e =>
+              e.cardName === cardName ? { ...e, masteryXp: (e.masteryXp ?? 0) + amount } : e
+            )
+            saveCollection(updated)
+          }}
+          onRewardCrystals={(amount) => {
+            const next = crystals + amount
+            saveCrystals(next)
+            setCrystals(next)
+          }}
+          onRewardCard={() => {
+            const catalog = getCardCatalog()
+            const picks = catalog.filter(c => c.unit && c.unit.moveSpeed > 0)
+            const card = picks[Math.floor(Math.random() * picks.length)]
+            if (card) addCardsToCollection([{ cardName: card.name, count: 1 }])
+          }}
+          onRewardPack={() => {
+            const newPack = generatePack()
+            addCardsToCollection(newPack.map(name => ({ cardName: name, count: 1 })))
+          }}
+          onCommanderChanged={(state) => {
+            setCommander(state)
+            if (!state) setScreen('title')
+          }}
+        />
       )}
 
       {relicSpinData && (

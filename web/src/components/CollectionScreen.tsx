@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Card, CardRarity, CardType, UnitTag } from '../game/types'
 import { getCardCatalog } from '../game/cards'
 import {
@@ -16,6 +16,7 @@ import {
   DISENCHANT_VALUE,
   COPIES_MAX,
 } from '../game/collection'
+import { promotionsRemainingToday } from '../game/commander'
 import { CardTile } from './CardTile'
 import { CardDetailModal } from './CardDetailModal'
 import { OverlayScreen } from './OverlayScreen'
@@ -27,6 +28,8 @@ interface Props {
   crystals: number
   onCrystalsChanged: (n: number) => void
   onBack: () => void
+  commanderName?: string | null
+  onPromoteCommander?: (cardName: string) => void
 }
 
 type RarityFilter = 'all' | CardRarity
@@ -40,7 +43,7 @@ const ALL_TAGS: UnitTag[] = [
 ]
 
 
-export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props) {
+export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commanderName, onPromoteCommander }: Props) {
   const catalog = getCardCatalog()
   const allAffinityLabels = Array.from(
     new Set(catalog.flatMap(c => c.unit?.affinity?.label ? [c.unit.affinity.label] : []))
@@ -391,6 +394,9 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack }: Props)
             onDisenchant={dExtras > 0 ? () => { handleDisenchantCard(detailCard.name); setDetailCard(null) } : undefined}
             onMasterCard={dExtras > 0 ? () => { handleMasterCard(detailCard.name); setDetailCard(null) } : undefined}
             onClose={() => setDetailCard(null)}
+            commanderName={commanderName}
+            promotionsLeft={promotionsRemainingToday()}
+            onPromote={onPromoteCommander ? () => { onPromoteCommander(detailCard.name); setDetailCard(null) } : undefined}
           />
         )
       })()}

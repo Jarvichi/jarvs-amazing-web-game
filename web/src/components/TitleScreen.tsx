@@ -29,12 +29,14 @@ interface Props {
   on8bitUnlocked?: () => void
   onDailyChallenge: () => void
   onEndlessLeaderboard: () => void
+  onCommander?: () => void
+  commanderName?: string | null
   user: User | null
   onSignOut: () => void
   onSignIn: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, user, onSignOut, onSignIn }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, user, onSignOut, onSignIn }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -169,6 +171,9 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           <TitleButton onClick={onInventory}>🎒 INVENTORY</TitleButton>
           <TitleButton onClick={onAchievements} badge={achievementAlert}>🏆 ACHIEVEMENTS</TitleButton>
           <TitleButton onClick={onCharacter}>👤 CHARACTER</TitleButton>
+          {commanderName && onCommander && (
+            <TitleButton onClick={onCommander} extraClass="title-commander-btn">⭐ {commanderName.toUpperCase()}</TitleButton>
+          )}
           <TitleButton onClick={onSettings} extraClass="title-settings-btn">⚙ SETTINGS</TitleButton>
         </div>
       </div>
