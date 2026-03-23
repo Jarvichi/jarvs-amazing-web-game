@@ -223,8 +223,8 @@ export interface GameState {
   battleStats: BattleStats
   /** Transient animation events (projectiles, hit flashes). Cleared each tick after expiry. */
   animEvents: AnimEvent[]
-  /** Persistent blood pool stains left by fallen units. Accumulate for the whole battle. */
-  bloodPools: Array<{ id: string; x: number; y: number }>
+  /** Persistent blood pool stains left by fallen units. FIFO-capped at 25; older pools fade out. */
+  bloodPools: Array<{ id: string; x: number; y: number; fadingAt?: number }>
   /** True when running in Endless Mode (wave survival). */
   endlessMode?: boolean
   /** Current wave number in Endless Mode (starts at 1). */
