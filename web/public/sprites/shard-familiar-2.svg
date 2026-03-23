@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Shard Familiar — walk frame 2 (upward bob, body 1px higher) -->
+  <polygon points="16,5 20,13 16,19 12,13" fill="#a8d8ff" stroke="#5599cc" stroke-width="1"/>
+  <polygon points="16,7 19,13 16,17 13,13" fill="#cceeff" stroke="#77aadd" stroke-width="0.5"/>
+  <polygon points="11,11 15,13 11,17" fill="#88bbee" stroke="#4477aa" stroke-width="0.8"/>
+  <polygon points="21,11 17,13 21,17" fill="#88bbee" stroke="#4477aa" stroke-width="0.8"/>
+  <circle cx="16" cy="13" r="2.5" fill="#eef8ff" opacity="0.9"/>
+  <polygon points="16,9 10,7 13,13" fill="#bbddff" stroke="#5599cc" stroke-width="0.6" opacity="0.7"/>
+  <polygon points="16,9 22,7 19,13" fill="#bbddff" stroke="#5599cc" stroke-width="0.6" opacity="0.7"/>
+</svg>
