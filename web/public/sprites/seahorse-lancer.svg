@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Seahorse Lancer — static (rider on seahorse) -->
+  <!-- Seahorse body (curved) -->
+  <path d="M16,26 Q12,22 13,16 Q14,10 16,8 Q18,10 19,16 Q20,22 16,26 Z" fill="#44aacc" stroke="#226688" stroke-width="1"/>
+  <!-- Seahorse head -->
+  <ellipse cx="16" cy="7" rx="3.5" ry="4" fill="#55bbdd" stroke="#2288aa" stroke-width="0.8"/>
+  <!-- Snout -->
+  <rect x="16" y="5" width="5" height="2" rx="1" fill="#44aacc" stroke="#226688" stroke-width="0.8"/>
+  <!-- Crown/crest -->
+  <polygon points="14,4 16,1 18,4" fill="#33aacc" stroke="#226688" stroke-width="0.7"/>
+  <!-- Rider -->
+  <circle cx="13" cy="14" r="2.5" fill="#ffccaa" stroke="#cc8866" stroke-width="0.7"/>
+  <rect x="11" y="16" width="5" height="5" rx="0.5" fill="#558866" stroke="#336644" stroke-width="0.8"/>
+  <!-- Lance -->
+  <rect x="9" y="12" width="12" height="1.5" rx="0.5" fill="#aa8844" stroke="#775522" stroke-width="0.7"/>
+  <polygon points="21,11 24,12.75 21,14.5" fill="#ccaacc" stroke="#886688" stroke-width="0.5"/>
+  <!-- Fin -->
+  <path d="M19,14 Q22,11 23,16 Q20,15 19,14 Z" fill="#88ccdd" opacity="0.6"/>
+</svg>
