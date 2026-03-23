@@ -148,7 +148,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         </TitleButton>
 
         <TitleButton onClick={onEndlessLeaderboard} extraClass="title-endless-lb-btn">
-          🏆  ENDLESS SCORES
+          🏆  LEADERBOARDS
         </TitleButton>
       </div>
 

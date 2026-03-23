@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { fetchEndlessLeaderboard, getEndlessPersonalBest, EndlessLeaderboardEntry } from '../game/dailyChallenge'
+import { fetchEndlessLeaderboard, getEndlessPersonalBest, EndlessLeaderboardEntry, fetchDailyLeaderboard, LeaderboardEntry } from '../game/dailyChallenge'
 
 interface Props {
   onBack: () => void
@@ -13,46 +13,74 @@ function formatSurvival(ms: number): string {
 }
 
 export function EndlessLeaderboardScreen({ onBack }: Props) {
-  const [leaderboard, setLeaderboard] = useState<EndlessLeaderboardEntry[] | null>(null)
+  const [endlessLb, setEndlessLb] = useState<EndlessLeaderboardEntry[] | null>(null)
+  const [dailyLb, setDailyLb] = useState<LeaderboardEntry[] | null>(null)
   const best = getEndlessPersonalBest()
 
   useEffect(() => {
-    if (!navigator.onLine) { setLeaderboard([]); return }
-    fetchEndlessLeaderboard(10)
-      .then(setLeaderboard)
-      .catch(() => setLeaderboard([]))
+    if (!navigator.onLine) { setEndlessLb([]); setDailyLb([]); return }
+    fetchEndlessLeaderboard(10).then(setEndlessLb).catch(() => setEndlessLb([]))
+    fetchDailyLeaderboard(5).then(setDailyLb).catch(() => setDailyLb([]))
   }, [])
 
   return (
     <div className="el-screen">
       <div className="el-header">
-        <div className="el-label">∞ ENDLESS LEADERBOARD</div>
-        <div className="el-subtitle">All-time highest waves</div>
+        <div className="el-label">🏆 LEADERBOARDS</div>
       </div>
 
-      {best && (
-        <div className="el-personal-best">
-          Your best: Wave {best.wave} &nbsp;·&nbsp; {formatSurvival(best.survivalMs)}
+      <div className="el-section">
+        <div className="el-section-title">📅 DAILY CHALLENGE</div>
+        <div className="el-subtitle">Today's top players</div>
+        <div className="el-leaderboard">
+          {dailyLb === null ? (
+            <div className="el-leaderboard-empty">Loading…</div>
+          ) : dailyLb.length === 0 ? (
+            <div className="el-leaderboard-empty">⏳ No scores yet today</div>
+          ) : (
+            <ol className="el-leaderboard-list">
+              {dailyLb.map((entry, i) => (
+                <li key={entry.uid} className="el-leaderboard-entry">
+                  <span className="el-lb-rank">{i + 1}.</span>
+                  <span className="el-lb-name">{entry.characterName}</span>
+                  <span className="el-lb-wave">
+                    {entry.attempts === 1 ? '1 attempt' : `${entry.attempts} attempts`}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          )}
         </div>
-      )}
+      </div>
 
-      <div className="el-leaderboard">
-        {leaderboard === null ? (
-          <div className="el-leaderboard-empty">Loading…</div>
-        ) : leaderboard.length === 0 ? (
-          <div className="el-leaderboard-empty">⏳ No scores yet — be the first!</div>
-        ) : (
-          <ol className="el-leaderboard-list">
-            {leaderboard.map((entry, i) => (
-              <li key={entry.uid} className="el-leaderboard-entry">
-                <span className="el-lb-rank">{i + 1}.</span>
-                <span className="el-lb-name">{entry.characterName}</span>
-                <span className="el-lb-wave">Wave {entry.wave}</span>
-                <span className="el-lb-time">{formatSurvival(entry.survivalMs)}</span>
-              </li>
-            ))}
-          </ol>
+      <div className="el-section">
+        <div className="el-section-title">∞ ENDLESS MODE</div>
+        <div className="el-subtitle">All-time highest waves</div>
+
+        {best && (
+          <div className="el-personal-best">
+            Your best: Wave {best.wave} &nbsp;·&nbsp; {formatSurvival(best.survivalMs)}
+          </div>
         )}
+
+        <div className="el-leaderboard">
+          {endlessLb === null ? (
+            <div className="el-leaderboard-empty">Loading…</div>
+          ) : endlessLb.length === 0 ? (
+            <div className="el-leaderboard-empty">⏳ No scores yet — be the first!</div>
+          ) : (
+            <ol className="el-leaderboard-list">
+              {endlessLb.map((entry, i) => (
+                <li key={entry.uid} className="el-leaderboard-entry">
+                  <span className="el-lb-rank">{i + 1}.</span>
+                  <span className="el-lb-name">{entry.characterName}</span>
+                  <span className="el-lb-wave">Wave {entry.wave}</span>
+                  <span className="el-lb-time">{formatSurvival(entry.survivalMs)}</span>
+                </li>
+              ))}
+            </ol>
+          )}
+        </div>
       </div>
 
       <div className="el-actions">

@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { GameState } from '../game/types'
 import { MAX_HANDICAP } from '../game/engine'
 import { loadWinStreak } from '../game/collection'
-import { DailyChallengeState } from '../game/dailyChallenge'
+import { DailyChallengeState, fetchEndlessLeaderboard, getEndlessPersonalBest, EndlessLeaderboardEntry } from '../game/dailyChallenge'
+
+function formatSurvival(ms: number): string {
+  const sec = Math.floor(ms / 1000)
+  const min = Math.floor(sec / 60)
+  const rem = sec % 60
+  return `${min}:${String(rem).padStart(2, '0')}`
+}
 
 interface Props {
   state: GameState
@@ -46,6 +53,16 @@ const DRAW_ART = `  =====
 export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onMainMenu, campaignAbandon, quickPlayHint, showStreak, dailyChallengeState }: Props) {
   const won  = winner === 'player'
   const draw = winner === 'draw'
+  const isEndlessDefeat = !!state.endlessMode && !won && !draw
+
+  const [endlessLb, setEndlessLb] = useState<EndlessLeaderboardEntry[] | null>(null)
+  const endlessBest = isEndlessDefeat ? getEndlessPersonalBest() : null
+
+  useEffect(() => {
+    if (!isEndlessDefeat) return
+    if (!navigator.onLine) { setEndlessLb([]); return }
+    fetchEndlessLeaderboard(10).then(setEndlessLb).catch(() => setEndlessLb([]))
+  }, [isEndlessDefeat])
   const css  = won ? 'gameover--win' : draw ? 'gameover--draw' : 'gameover--lose'
   const art  = won ? VICTORY_ART : draw ? DRAW_ART : DEFEAT_ART
 
@@ -109,6 +126,33 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
           : <div>Enemy base HP remaining: {state.opponentBase.hp}/{state.opponentBase.maxHp}</div>
         )}
       </div>
+
+      {isEndlessDefeat && (
+        <div className="gameover-endless-lb">
+          <div className="gameover-endless-lb-title">∞ ENDLESS LEADERBOARD</div>
+          {endlessBest && (
+            <div className="gameover-endless-lb-best">
+              Your best: Wave {endlessBest.wave} · {formatSurvival(endlessBest.survivalMs)}
+            </div>
+          )}
+          {endlessLb === null ? (
+            <div className="gameover-endless-lb-empty">Loading…</div>
+          ) : endlessLb.length === 0 ? (
+            <div className="gameover-endless-lb-empty">⏳ No scores yet — be the first!</div>
+          ) : (
+            <ol className="gameover-endless-lb-list">
+              {endlessLb.map((entry, i) => (
+                <li key={entry.uid} className="gameover-endless-lb-entry">
+                  <span className="gameover-lb-rank">{i + 1}.</span>
+                  <span className="gameover-lb-name">{entry.characterName}</span>
+                  <span className="gameover-lb-wave">Wave {entry.wave}</span>
+                  <span className="gameover-lb-time">{formatSurvival(entry.survivalMs)}</span>
+                </li>
+              ))}
+            </ol>
+          )}
+        </div>
+      )}
       {handicapNote && !dailyChallengeState && <div className="gameover-handicap">{handicapNote}</div>}
 
       {dailyChallengeState && (

@@ -276,7 +276,7 @@ export async function publishEndlessResult(opts: {
 export async function fetchEndlessLeaderboard(topN = 10): Promise<EndlessLeaderboardEntry[]> {
   try {
     const ref  = collection(db, 'endlessLeaderboard')
-    const q    = query(ref, orderBy('wave', 'desc'), orderBy('survivalMs', 'desc'), limit(topN))
+    const q    = query(ref, orderBy('wave', 'desc'), limit(topN))
     const snap = await getDocs(q)
     return snap.docs.map((d: import('firebase/firestore').QueryDocumentSnapshot) => {
       const data = d.data()
