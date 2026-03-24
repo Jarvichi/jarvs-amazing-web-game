@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import battlefieldConfig from '../game/battlefield.json'
+import battlefieldConfig from '../data/battlefield.json'
 import { GameState, Unit, LANE_WIDTH, Card, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE } from '../game/types'
 import { CardTile } from './CardTile'
 import { useCardDetail } from './useCardDetail'
