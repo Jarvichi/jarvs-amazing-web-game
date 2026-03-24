@@ -7,6 +7,7 @@ import act3Data from '../data/acts/act3.json'
 import act4Data from '../data/acts/act4.json'
 import act5Data from '../data/acts/act5.json'
 import act6Data from '../data/acts/act6.json'
+import act7Data from '../data/acts/act7.json'
 import consumablesData from '../data/consumables.json'
 
 // ─── Consumables ──────────────────────────────────────────
@@ -753,6 +754,7 @@ export const ACT_3: Act = act3Data as Act
 export const ACT_4: Act = act4Data as Act
 export const ACT_5: Act = act5Data as Act
 export const ACT_6: Act = act6Data as Act
+export const ACT_7: Act = act7Data as Act
 
 export const ACTS: Record<string, Act> = {
   act1: ACT_1,
@@ -761,6 +763,7 @@ export const ACTS: Record<string, Act> = {
   act4: ACT_4,
   act5: ACT_5,
   act6: ACT_6,
+  act7: ACT_7,
 }
 
 // ─── Node history (persistent across runs) ───────────────

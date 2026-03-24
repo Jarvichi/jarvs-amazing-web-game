@@ -1,0 +1,472 @@
+{
+  "id": "act7",
+  "title": "ACT VII",
+  "subtitle": "The Emberfall Peaks",
+  "rewardRelic": "Magma Core",
+  "rewardRelicDesc": "Your units gain +2 ATK at battle start whenever your base HP is below 50%.",
+  "environment": "volcano",
+  "rewardTags": [
+    "ember",
+    "volcano"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "cinder-approach"
+  ],
+  "intro": [
+    {
+      "title": "THE EMBERFALL PEAKS",
+      "text": "The ley lines cut through the mountains here — through layers of volcanic rock still warm from the last eruption. This is the Emberfall Peaks: a chain of active volcanoes that the Fracture cracked open and left to simmer.\n\nThings live here. Heat-adapted things. Things that were dangerous before the Fracture made them angrier.\n\nThe ley path goes through the caldera. There's no route around."
+    },
+    {
+      "title": "THE CINDERWARLORD",
+      "text": "The Peaks are held by the Cinderwarlord — a commander who built an army out of whatever the volcanoes threw up: crawlers, hounds, archers who fire molten shot, constructs assembled from cooled lava-flow.\n\nHe has not lost the mountains once. The mountains are on his side. Literally. He has an understanding with them.\n\nYou are going to walk through his territory regardless."
+    },
+    {
+      "title": "HEAT AND PRESSURE",
+      "text": "The deeper you go, the hotter it gets. The ley lines are visible here — they glow faintly orange, like metal near a forge, and they point straight toward the caldera at the heart of the range.\n\nWhatever is at the Fracture Core, the ley lines think this is the way.\n\nYou have learned to trust the ley lines. You have also learned to bring extra water."
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE CINDERWARLORD FALLS",
+      "text": "The Cinderwarlord does not retreat. He stands in the caldera as the ground cracks around him, and he waits for the mountain to finish the job.\n\nThe mountain does not finish the job.\n\nHe concedes the terrain with the precision of someone who has done it once before and always swore he wouldn't do it again."
+    },
+    {
+      "title": "WHAT HE SAID",
+      "text": "'You shouldn't be able to fight in this heat,' he said.\n\nYou told him you'd had practice.\n\n'That's not the point,' he said. He seemed genuinely bothered by the logistics of it."
+    },
+    {
+      "title": "DEEPER IN",
+      "text": "The Magma Core sits in your hand — a solid chunk of volcanic glass with something still burning at the centre. The Cinderwarlord's mark of command.\n\nThe ley lines glow brighter past the caldera. Whatever the Fracture Core is, it's warmer on this side.\n\nYou move forward. The mountains stop objecting."
+    }
+  ],
+  "nodes": {
+    "cinder-approach": {
+      "id": "cinder-approach",
+      "type": "battle",
+      "label": "Cinder Approach",
+      "description": "The first ridge. Crawler swarms patrol the ash fields below the treeline.",
+      "row": 0,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": [],
+      "childIds": ["ash-shrine", "lava-camp", "ember-bazaar"],
+      "handicap": 12,
+      "opponentIntervalMs": 4800,
+      "opponentBaseHp": 205,
+      "environment": "volcano",
+      "enemyDeck": [
+        "Ember Crawler", "Ember Crawler", "Ember Crawler",
+        "Cinder Hound", "Cinder Hound",
+        "Magma Archer", "Magma Archer",
+        "Cinder Wall", "Cinder Wall",
+        "Burning Rush", "Burning Rush",
+        "Ash Stalker",
+        "Fire Salamander",
+        "Volcanic Hide"
+      ]
+    },
+    "ash-shrine": {
+      "id": "ash-shrine",
+      "type": "event",
+      "label": "Ash Shrine",
+      "description": "A crude shrine of blackened stone. Hot ash still spirals around it. Something listens.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": ["cinder-approach"],
+      "childIds": ["magma-ford"],
+      "environment": "volcano",
+      "eventConfig": {
+        "title": "The Ash Shrine",
+        "description": "A ring of fused volcanic rock, still warm. Ash coils upward in slow spirals — too slow for the wind to explain. Whatever was worshipped here, something is still paying attention.",
+        "pools": [
+          [
+            {
+              "label": "Leave an offering",
+              "consequence": "The ash spirals outward — healed 12 HP",
+              "effect": { "type": "healHp", "amount": 12 }
+            },
+            {
+              "label": "Leave an offering",
+              "consequence": "Hot ash stings your hands — lose 6 HP",
+              "effect": { "type": "damageHp", "amount": 6 }
+            },
+            {
+              "label": "Leave an offering",
+              "consequence": "A rare card rises from the warm ash",
+              "effect": { "type": "gainCard", "rarity": "rare" }
+            },
+            {
+              "label": "Leave an offering",
+              "consequence": "+15 crystals scattered at the base of the shrine",
+              "effect": { "type": "gainCrystals", "amount": 15 }
+            }
+          ],
+          [
+            {
+              "label": "Read the ash patterns",
+              "consequence": "The patterns describe something useful — uncommon card",
+              "effect": { "type": "gainCard", "rarity": "uncommon" }
+            },
+            {
+              "label": "Read the ash patterns",
+              "consequence": "The patterns heal — restored 8 HP",
+              "effect": { "type": "healHp", "amount": 8 }
+            },
+            {
+              "label": "Read the ash patterns",
+              "consequence": "+20 crystals in recovered offerings",
+              "effect": { "type": "gainCrystals", "amount": 20 }
+            }
+          ],
+          [
+            {
+              "label": "Pocket the shrine stones",
+              "consequence": "Still warm — good for +18 crystals in the next market",
+              "effect": { "type": "gainCrystals", "amount": 18 }
+            },
+            {
+              "label": "Pocket the shrine stones",
+              "consequence": "A common card was wedged beneath them",
+              "effect": { "type": "gainCard", "rarity": "common" }
+            },
+            {
+              "label": "Pocket the shrine stones",
+              "consequence": "One stone discharges — lose 10 HP",
+              "effect": { "type": "damageHp", "amount": 10 }
+            }
+          ]
+        ]
+      }
+    },
+    "lava-camp": {
+      "id": "lava-camp",
+      "type": "rest",
+      "label": "Cooled Flow Camp",
+      "description": "A solidified lava shelf, sheltered and warm. Not comfortable exactly, but out of the wind.",
+      "row": 1,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": ["cinder-approach"],
+      "childIds": ["magma-ford"],
+      "environment": "volcano",
+      "restHeal": 10
+    },
+    "ember-bazaar": {
+      "id": "ember-bazaar",
+      "type": "merchant",
+      "label": "Ember Market",
+      "description": "A scavenger who trades in things salvaged from the cooled lava fields. Surprisingly well-stocked.",
+      "row": 1,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": ["cinder-approach"],
+      "childIds": ["magma-ford"],
+      "environment": "volcano"
+    },
+    "magma-ford": {
+      "id": "magma-ford",
+      "type": "battle",
+      "label": "Magma Ford",
+      "description": "A crossing over a slow lava channel. The Cinderwarlord's regulars hold the far bank.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": ["ash-shrine", "lava-camp", "ember-bazaar"],
+      "childIds": ["volcanic-battery", "cinder-vent", "pyroclast-elite"],
+      "handicap": 14,
+      "opponentIntervalMs": 4600,
+      "opponentBaseHp": 210,
+      "environment": "volcano",
+      "enemyDeck": [
+        "Ember Crawler", "Ember Crawler",
+        "Cinder Hound", "Cinder Hound",
+        "Magma Archer", "Magma Archer",
+        "Fire Salamander", "Fire Salamander",
+        "Cinder Wall", "Cinder Wall",
+        "Ash Turret",
+        "Burning Rush", "Burning Rush",
+        "Smelted Blade"
+      ]
+    },
+    "volcanic-battery": {
+      "id": "volcanic-battery",
+      "type": "battle",
+      "label": "Volcanic Battery",
+      "description": "Artillery emplacements built into the crater wall. Magma vents power the launchers.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": ["magma-ford"],
+      "childIds": ["caldera-gate"],
+      "handicap": 16,
+      "opponentIntervalMs": 4400,
+      "opponentBaseHp": 215,
+      "environment": "volcano",
+      "enemyDeck": [
+        "Ash Stalker", "Ash Stalker",
+        "Cinder Knight", "Cinder Knight",
+        "Magma Archer", "Magma Archer",
+        "Cinder Wall", "Cinder Wall",
+        "Magma Vent", "Magma Vent",
+        "Ash Turret",
+        "Burning Rush", "Burning Rush",
+        "Volcanic Hide"
+      ]
+    },
+    "cinder-vent": {
+      "id": "cinder-vent",
+      "type": "event",
+      "label": "Cinder Vent",
+      "description": "A pressurised vent blasts heat and debris skyward. Things get caught in the updraft.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": ["magma-ford"],
+      "childIds": ["caldera-gate"],
+      "environment": "volcano",
+      "eventConfig": {
+        "title": "The Cinder Vent",
+        "description": "A tall fissure blasting superheated gas and cinder into the sky. Debris from destroyed structures up the slope gets caught in the column and circles endlessly. Some of it is still useful.",
+        "pools": [
+          [
+            {
+              "label": "Reach into the column",
+              "consequence": "A rare card caught mid-flight",
+              "effect": { "type": "gainCard", "rarity": "rare" }
+            },
+            {
+              "label": "Reach into the column",
+              "consequence": "The heat is a balm — healed 15 HP",
+              "effect": { "type": "healHp", "amount": 15 }
+            },
+            {
+              "label": "Reach into the column",
+              "consequence": "Something comes out hot — lose 12 HP",
+              "effect": { "type": "damageHp", "amount": 12 }
+            },
+            {
+              "label": "Reach into the column",
+              "consequence": "+25 crystals in salvage",
+              "effect": { "type": "gainCrystals", "amount": 25 }
+            }
+          ],
+          [
+            {
+              "label": "Follow the vent up the slope",
+              "consequence": "Supply cache wedged in the cooled rim — +30 crystals",
+              "effect": { "type": "gainCrystals", "amount": 30 }
+            },
+            {
+              "label": "Follow the vent up the slope",
+              "consequence": "An uncommon card from a previous expedition",
+              "effect": { "type": "gainCard", "rarity": "uncommon" }
+            },
+            {
+              "label": "Follow the vent up the slope",
+              "consequence": "Nothing useful. Just ash.",
+              "effect": { "type": "nothing" }
+            }
+          ]
+        ]
+      }
+    },
+    "pyroclast-elite": {
+      "id": "pyroclast-elite",
+      "type": "elite",
+      "label": "Pyroclast Guard",
+      "description": "The Cinderwarlord's elite shock troops. They charge through the hot zones without flinching.",
+      "row": 3,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": ["magma-ford"],
+      "childIds": ["caldera-gate"],
+      "handicap": 20,
+      "opponentIntervalMs": 4000,
+      "opponentBaseHp": 220,
+      "environment": "volcano",
+      "enemyDeck": [
+        "Lava Troll",
+        "Cinder Knight", "Cinder Knight",
+        "Ash Revenant", "Ash Revenant",
+        "Magma Archer", "Magma Archer",
+        "Cinder Wall", "Cinder Wall",
+        "Ash Turret",
+        "Inferno Surge",
+        "Smelted Blade", "Smelted Blade",
+        "Volcanic Hide"
+      ]
+    },
+    "caldera-gate": {
+      "id": "caldera-gate",
+      "type": "battle",
+      "label": "Caldera Gate",
+      "description": "The entrance to the caldera. The Cinderwarlord's main garrison blocks the pass.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": ["volcanic-battery", "cinder-vent", "pyroclast-elite"],
+      "childIds": ["forge-log", "crater-rest", "summit-elite"],
+      "handicap": 18,
+      "opponentIntervalMs": 4200,
+      "opponentBaseHp": 220,
+      "environment": "volcano",
+      "enemyDeck": [
+        "Ember Wyrm",
+        "Lava Troll", "Lava Troll",
+        "Cinder Knight", "Cinder Knight",
+        "Ash Stalker", "Ash Stalker",
+        "Cinder Wall", "Cinder Wall",
+        "Magma Vent",
+        "Ember Shrine",
+        "Inferno Surge",
+        "Volcanic Hide",
+        "Smelted Blade"
+      ]
+    },
+    "forge-log": {
+      "id": "forge-log",
+      "type": "event",
+      "label": "The Forge Post",
+      "description": "An abandoned command post near the caldera rim. Still has equipment inside.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": ["caldera-gate"],
+      "childIds": ["cinderwarlord"],
+      "environment": "volcano",
+      "eventConfig": {
+        "title": "The Forge Post",
+        "description": "A Cinderwarlord field post, evacuated in the fighting. Forge tools, tactical slates, and a map of the caldera. The slate shows the Cinderwarlord's actual position — and something he marked 'signal origin' in the deep caldera.",
+        "pools": [
+          [
+            {
+              "label": "Study the tactical slates",
+              "consequence": "Useful knowledge — rare card",
+              "effect": { "type": "gainCard", "rarity": "rare" }
+            },
+            {
+              "label": "Study the tactical slates",
+              "consequence": "The supply caches are marked — +25 crystals",
+              "effect": { "type": "gainCrystals", "amount": 25 }
+            }
+          ],
+          [
+            {
+              "label": "Use the forge rest area",
+              "consequence": "Proper heat for once — healed 15 HP",
+              "effect": { "type": "healHp", "amount": 15 }
+            },
+            {
+              "label": "Use the forge rest area",
+              "consequence": "An uncommon card left by a retreating smith",
+              "effect": { "type": "gainCard", "rarity": "uncommon" }
+            }
+          ]
+        ]
+      }
+    },
+    "crater-rest": {
+      "id": "crater-rest",
+      "type": "rest",
+      "label": "Crater Shelter",
+      "description": "A shallow alcove cut into the crater wall. Surprisingly calm.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": ["caldera-gate"],
+      "childIds": ["cinderwarlord"],
+      "environment": "volcano",
+      "restHeal": 15
+    },
+    "summit-elite": {
+      "id": "summit-elite",
+      "type": "elite",
+      "label": "Cinderwarlord's Vanguard",
+      "description": "The Cinderwarlord's personal guard. They've been briefed on you specifically.",
+      "row": 5,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": ["caldera-gate"],
+      "childIds": ["cinderwarlord"],
+      "handicap": 22,
+      "opponentIntervalMs": 3800,
+      "opponentBaseHp": 230,
+      "environment": "volcano",
+      "enemyDeck": [
+        "Volcanic Golem",
+        "Ember Wyrm", "Ember Wyrm",
+        "Lava Troll",
+        "Ash Revenant", "Ash Revenant",
+        "Magma Vent", "Magma Vent",
+        "Lava Spire",
+        "Inferno Surge", "Inferno Surge",
+        "Smelted Blade",
+        "Volcanic Hide", "Volcanic Hide"
+      ]
+    },
+    "cinderwarlord": {
+      "id": "cinderwarlord",
+      "type": "boss",
+      "label": "The Cinderwarlord",
+      "description": "Commander of the Emberfall Peaks. He and the volcanoes have an understanding.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": ["forge-log", "crater-rest", "summit-elite"],
+      "childIds": [],
+      "handicap": 26,
+      "opponentIntervalMs": 3600,
+      "opponentBaseHp": 260,
+      "bossAI": "cinderwarlord",
+      "environment": "volcano",
+      "bossDialogue": [
+        "You walked through my mountains. I respect that. I'm still going to end this.",
+        "The volcanoes do what I tell them. You should factor that into your strategy.",
+        "I've held this caldera for eleven years. You won't take it in one afternoon."
+      ],
+      "enemyDeck": [
+        "Molten Colossus",
+        "Volcanic Golem", "Volcanic Golem",
+        "Inferno Drake", "Inferno Drake",
+        "Lava Troll", "Lava Troll",
+        "Ember Wyrm",
+        "Lava Spire", "Lava Spire",
+        "Magma Vent",
+        "Ember Shrine",
+        "Inferno Surge", "Inferno Surge",
+        "Smelted Blade",
+        "Volcanic Hide",
+        "Burning Rush"
+      ]
+    }
+  }
+}

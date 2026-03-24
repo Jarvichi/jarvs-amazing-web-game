@@ -70,6 +70,18 @@ const RELIC_CATALOG: RelicDef[] = [
       }
     },
   },
+  {
+    name: 'Magma Core',
+    icon: '🌋',
+    desc: 'Your units gain +2 ATK at battle start whenever your base HP is below 50%.',
+    applyToGame(state) {
+      if (state.playerBase.hp < state.playerBase.maxHp * 0.5) {
+        for (const u of state.field) {
+          if (u.owner === 'player') u.attack = Math.max(0, u.attack + 2)
+        }
+      }
+    },
+  },
 ]
 
 export function getRelicDef(name: string): RelicDef | undefined {

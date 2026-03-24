@@ -99,12 +99,12 @@ When working an issue from this file, go and check the GitHub issue for addition
 **Implementation checklist per act:**
 - [ ] `web/src/data/acts/actN.json` — 13-node map, boss node, event configs
 - [ ] 25 themed cards + unit templates in `web/src/data/cards.json`
-- [ ] Boss AI function in `web/src/game/engine.ts` + wired into dispatch chain
+- [ ] Boss AI config entry in `web/src/data/bossAIs.json`
 - [ ] Relic in `web/src/game/relics.ts`
 - [ ] Act import + export in `web/src/game/questline.ts`
 
 **Progress:**
-- [x] Act 7 — The Emberfall Peaks
+- [x] Act 7 — The Emberfall Peaks (session 26: act7.json, cinderwarlord AI, Magma Core relic; cards/templates already done session 25)
 - [ ] Act 8 — The Fungal Deep
 - [ ] Act 9 — The Frozen Expanse
 - [ ] Act 10 — The Sand Market
@@ -174,7 +174,9 @@ All sprites below need creating. Format: `{slug}.svg` (static) + `{slug}-1/2/3.s
 - [ ] fire-forge (structure, 1 frame)
 - [ ] ash-turret (structure, 1 frame)
 
-**Acts 8–25** — sprite lists to be added as each act is implemented.
+**Act 8 — The Fungal Deep** (`fungal`, `spore` tags) — sprite list to be added when Act 8 is implemented.
+
+**Acts 9–25** — sprite lists to be added as each act is implemented.
 
 ---
 
