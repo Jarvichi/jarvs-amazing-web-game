@@ -2,6 +2,51 @@ import { GameState, Card, Unit, UnitTemplate, UpgradeEffect, CardRarity, LANE_WI
 import { makeDeck, makeThorlordDeck, makeKraggDeck, makeAshwalkerDeck, makeNodeDeck, HERO_CARDS, getCardUnit } from './cards'
 import { playUnitDeath, playBuildingDestroyed } from './sound'
 import { isNoDamageMode } from './debug'
+import bossAIDefsRaw from '../data/bossAIs.json'
+
+// ─── Boss AI config types ──────────────────────────────────
+
+interface BossAIPriority {
+  cardType: 'unit' | 'structure' | 'upgrade'
+  isWall?: boolean
+  structureEffect?: 'spawn' | 'mana' | 'none' | string
+  flying?: boolean
+  nameIn?: string[]
+  costGte?: number
+  costLt?: number
+  sortBy?: 'cost_asc' | 'cost_desc'
+}
+
+interface BossAIPhaseCondition {
+  gameTimeGte?: number
+  gameTimeLt?: number
+  opponentFieldCountGte?: number
+  wavePhaseEven?: boolean
+}
+
+interface BossAIPhase {
+  condition: BossAIPhaseCondition | null
+  priorities: BossAIPriority[]
+  manaOverride?: number
+  maxPlaysOverride?: number
+  announceOnce?: string
+}
+
+interface BossAIDef {
+  id: string
+  intervalMs: number
+  idleMessage: string
+  maxPlaysPerTurn: number
+  openingLog: string[]
+  phases: BossAIPhase[]
+}
+
+const BOSS_AI_DEFS: BossAIDef[] = bossAIDefsRaw as BossAIDef[]
+const BOSS_AI_MAP: Record<string, BossAIDef> = Object.fromEntries(BOSS_AI_DEFS.map(d => [d.id, d]))
+
+export function getBossAIDef(id: string): BossAIDef | undefined {
+  return BOSS_AI_MAP[id]
+}
 
 // ─── Constants ────────────────────────────────────────────
 
@@ -321,14 +366,10 @@ export function newGame(
 
   const strategy      = STRATEGIES[Math.floor(Math.random() * STRATEGIES.length)]
   const maxRarity     = boss ? 'legendary' : maxRarityForHandicap(clamp)
+  const bossDef = boss ? getBossAIDef(boss) : undefined
   const oppIntervalMs = intervalOverride
-    ?? (boss === 'thornlord'  ? 5000
-    :   boss === 'kragg'      ? 5000
-    :   boss === 'ashwalker'  ? 4500
-    :   boss === 'archivist'       ? 5000
-    :   boss === 'tidalsovereign' ? 4800
-    :   boss === 'cloudmarshal'  ? 4600
-    :   opponentIntervalForHandicap(clamp))
+    ?? bossDef?.intervalMs
+    ?? opponentIntervalForHandicap(clamp)
 
   const diffLabel =
     maxRarity === 'common'    ? 'common-only' :
@@ -336,13 +377,8 @@ export function newGame(
     maxRarity === 'rare'      ? 'no legendaries' :
     'full strength'
 
-  const openingLog: string[] =
-    boss === 'thornlord'  ? ['THE THORNLORD awakens! Ancient guardian of the Verdant Shard.', 'Walls of bark and root rise from the earth — prepare for a siege!']
-    : boss === 'kragg'    ? ['WARLORD KRAGG takes the field! Iron discipline, iron walls, iron will.', 'The siege weapons are already loaded. The gate does not open for you.']
-    : boss === 'ashwalker' ? ['THE ASHWALKER stirs. The ash rises. The dead remember.', 'An undying horde answers the call — destroy them before they overwhelm you!']
-    : boss === 'archivist' ? ['THE ARCHIVIST opens the archive. Every spell in the Dominion catalogue — ready.', 'Arcane constructs flood the field. At turn eight, his mana becomes limitless — act fast!']
-    : boss === 'tidalsovereign' ? ['THE TIDAL SOVEREIGN surfaces. The reef shudders. The deep comes with it.', 'Wave after wave crashes ashore — hold your ground or be dragged under!']
-    : boss === 'cloudmarshal' ? ['THE CLOUDMARSHAL takes position. The sky belongs to the Dominion.', 'Aerial squadrons in formation — watch above as well as ahead!']
+  const openingLog: string[] = bossDef
+    ? bossDef.openingLog
     : [
         clamp > 0
           ? `Battle begins! (Enemy difficulty: ${diffLabel})`
@@ -1114,248 +1150,84 @@ function opponentAI(s: GameState, log: string[]): void {
   if (played === 0) log.push('Opponent holds.')
 }
 
-// ─── Thornlord Boss AI ───────────────────────────────────
-//
-// Priority order each turn:
-//   1. Stone Wall (walls every turn is the theme)
-//   2. Spawn-structure (Barracks, Crypt, etc.)
-//   3. Mana structure (Farm)
-//   4. Cheapest available unit
-//   5. Any upgrade
-// Plays up to 3 cards per turn; uses a 6s interval (set in newGame).
+// ─── Generic Boss AI ──────────────────────────────────────
 
-function thornlordAI(s: GameState, log: string[]): void {
-  const manaBonus = getManaBonus(s.field, 'opponent')
-  let mana = Math.min(10, BASE_MAX_MANA + manaBonus)
-
-  function tryPlay(): boolean {
-    const hand = s.opponentHand.filter(c => c.cost <= mana && isPlayable(c, s.gameTime))
-    if (hand.length === 0) return false
-
-    // Priority 1: walls
-    const walls = hand.filter(c => c.cardType === 'structure' && c.unit?.isWall)
-    // Priority 2: spawner structures
-    const spawners = hand.filter(c => c.cardType === 'structure' && c.unit?.structureEffect?.type === 'spawn')
-    // Priority 3: mana structures
-    const manaStructs = hand.filter(c => c.cardType === 'structure' && c.unit?.structureEffect?.type === 'mana')
-    // Priority 4: units (cheapest)
-    const units = hand.filter(c => c.cardType === 'unit').sort((a, b) => a.cost - b.cost)
-    // Priority 5: upgrades
-    const upgrades = hand.filter(c => c.cardType === 'upgrade')
-
-    const pick = (walls[0] ?? spawners[0] ?? manaStructs[0] ?? units[0] ?? upgrades[0])
-    if (!pick) return false
-
-    s.opponentHand.splice(s.opponentHand.indexOf(pick), 1)
-    mana -= pick.cost
-    deployCard(s, pick, 'opponent', log)
-    drawCard(s.opponentDeck, s.opponentHand)
-    return true
-  }
-
-  let played = 0
-  while (played < 3 && tryPlay()) played++
-
-  if (played === 0) log.push('The Thornlord is still…')
-}
-
-// ─── Kragg AI ─────────────────────────────────────────────
-// Warlord Kragg: siege-weapon heavy. Prioritises Catapults and Ballistae,
-// keeps walls up, then floods with infantry. Plays up to 3 cards per turn.
-// Uses a 5s interval (faster than Thornlord but with heavier individual cards).
-
-function kraggAI(s: GameState, log: string[]): void {
-  const manaBonus = getManaBonus(s.field, 'opponent')
-  let mana = Math.min(10, BASE_MAX_MANA + manaBonus)
-
-  function tryPlay(): boolean {
-    const hand = s.opponentHand.filter(c => c.cost <= mana && isPlayable(c, s.gameTime))
-    if (hand.length === 0) return false
-
-    // Priority 1: siege weapons (Catapult, Ballista, Siege Works)
-    const siege = hand.filter(c => c.cardType === 'structure' && !c.unit?.isWall &&
-      ['Catapult', 'Ballista', 'Siege Works'].includes(c.name))
-    // Priority 2: walls
-    const walls = hand.filter(c => c.unit?.isWall)
-    // Priority 3: upgrades (War Drums / Fortify)
-    const upgrades = hand.filter(c => c.cardType === 'upgrade')
-    // Priority 4: heavy melee (Knight, Shield Guard)
-    const heavy = hand.filter(c => c.cardType === 'unit' && !c.unit?.isWall)
-      .sort((a, b) => b.cost - a.cost)
-
-    const pick = siege[0] ?? walls[0] ?? upgrades[0] ?? heavy[0]
-    if (!pick) return false
-
-    s.opponentHand.splice(s.opponentHand.indexOf(pick), 1)
-    mana -= pick.cost
-    deployCard(s, pick, 'opponent', log)
-    drawCard(s.opponentDeck, s.opponentHand)
-    return true
-  }
-
-  let played = 0
-  while (played < 3 && tryPlay()) played++
-
-  if (played === 0) log.push('Kragg waits behind the wall…')
-}
-
-// ─── Ashwalker AI ─────────────────────────────────────────
-// The Ashwalker: undead swarm with sacrificial surges. Floods cheap skeletons
-// every turn; occasionally dumps burst damage via Bloodlust on a full field.
-// Uses a 4.5s interval — fast and aggressive.
-
-function ashwalkerAI(s: GameState, log: string[]): void {
-  const manaBonus = getManaBonus(s.field, 'opponent')
-  let mana = Math.min(10, BASE_MAX_MANA + manaBonus)
-
-  function tryPlay(): boolean {
-    const hand = s.opponentHand.filter(c => c.cost <= mana && isPlayable(c, s.gameTime))
-    if (hand.length === 0) return false
-
-    const oppUnits = s.field.filter(u => u.owner === 'opponent' && !u.isWall)
-
-    // Priority 1: Bloodlust upgrade when 3+ units on field (sacrifice surge)
-    if (oppUnits.length >= 3) {
-      const bloodlust = hand.find(c => c.name === 'Bloodlust')
-      if (bloodlust) {
-        s.opponentHand.splice(s.opponentHand.indexOf(bloodlust), 1)
-        mana -= bloodlust.cost
-        deployCard(s, bloodlust, 'opponent', log)
-        drawCard(s.opponentDeck, s.opponentHand)
-        return true
-      }
+function matchesPriority(c: Card, p: BossAIPriority): boolean {
+  if (c.cardType !== p.cardType) return false
+  const u = c.unit
+  if (p.isWall !== undefined && !!(u?.isWall) !== p.isWall) return false
+  if (p.flying !== undefined && !!(u?.flying) !== p.flying) return false
+  if (p.nameIn !== undefined && !p.nameIn.includes(c.name)) return false
+  if (p.costGte !== undefined && c.cost < p.costGte) return false
+  if (p.costLt !== undefined && c.cost >= p.costLt) return false
+  if (p.structureEffect !== undefined) {
+    if (p.structureEffect === 'none') {
+      if (u?.structureEffect) return false
+    } else {
+      if (u?.structureEffect?.type !== p.structureEffect) return false
     }
-    // Priority 2: Crypt / Dark Shrine spawner structures
-    const spawners = hand.filter(c => c.cardType === 'structure' && c.unit?.structureEffect?.type === 'spawn')
-    // Priority 3: cheapest unit (flood the field)
-    const units = hand.filter(c => c.cardType === 'unit' && !c.unit?.isWall)
-      .sort((a, b) => a.cost - b.cost)
-    // Priority 4: other upgrades
-    const upgrades = hand.filter(c => c.cardType === 'upgrade' && c.name !== 'Bloodlust')
-
-    const pick = spawners[0] ?? units[0] ?? upgrades[0]
-    if (!pick) return false
-
-    s.opponentHand.splice(s.opponentHand.indexOf(pick), 1)
-    mana -= pick.cost
-    deployCard(s, pick, 'opponent', log)
-    drawCard(s.opponentDeck, s.opponentHand)
-    return true
   }
-
-  let played = 0
-  while (played < 3 && tryPlay()) played++
-
-  if (played === 0) log.push('The ash stirs…')
+  return true
 }
 
-// ─── Archivist AI ─────────────────────────────────────────
-// The Archivist: upgrade-heavy arcane scholar. Methodical until turn 8
-// (≈120s elapsed), then the archive opens — near-unlimited mana.
-// Prioritises Arcane Tower / Shadow Academy structures, then upgrades,
-// then mages. Plays up to 3 cards normally; after 120s plays up to 6.
+function sortByField(cards: Card[], sortBy?: string): Card[] {
+  if (sortBy === 'cost_desc') return [...cards].sort((a, b) => b.cost - a.cost)
+  if (sortBy === 'cost_asc')  return [...cards].sort((a, b) => a.cost - b.cost)
+  return cards
+}
 
-function archivistAI(s: GameState, log: string[]): void {
-  const manaBonus = getManaBonus(s.field, 'opponent')
-  const lateGame = s.gameTime >= 120000
-  // After 120s the archive is "open" — treat mana as effectively unlimited
-  let mana = lateGame ? 99 : Math.min(10, BASE_MAX_MANA + manaBonus)
-  const maxPlays = lateGame ? 6 : 3
-
-  if (lateGame && s.gameTime < 121000) {
-    log.push('THE ARCHIVE OPENS — The Archivist\'s mana becomes limitless!')
+function phaseMatches(cond: BossAIPhaseCondition | null, s: GameState): boolean {
+  if (cond === null) return true
+  if (cond.gameTimeGte !== undefined && s.gameTime < cond.gameTimeGte) return false
+  if (cond.gameTimeLt  !== undefined && s.gameTime >= cond.gameTimeLt) return false
+  if (cond.opponentFieldCountGte !== undefined) {
+    const count = s.field.filter(u => u.owner === 'opponent' && !u.isWall).length
+    if (count < cond.opponentFieldCountGte) return false
   }
+  if (cond.wavePhaseEven !== undefined) {
+    const isEven = Math.floor(s.gameTime / 20000) % 2 === 0
+    if (isEven !== cond.wavePhaseEven) return false
+  }
+  return true
+}
+
+function genericBossAI(s: GameState, log: string[], def: BossAIDef): void {
+  const manaBonus = getManaBonus(s.field, 'opponent')
+  const phase = def.phases.find(p => phaseMatches(p.condition, s)) ?? def.phases[def.phases.length - 1]
+
+  // Announce once when a timed phase is first entered (within the first second of the trigger)
+  if (phase.announceOnce && phase.condition?.gameTimeGte !== undefined) {
+    const t = phase.condition.gameTimeGte
+    if (s.gameTime >= t && s.gameTime < t + 1000) {
+      log.push(phase.announceOnce)
+    }
+  }
+
+  let mana = phase.manaOverride ?? Math.min(10, BASE_MAX_MANA + manaBonus)
+  const maxPlays = phase.maxPlaysOverride ?? def.maxPlaysPerTurn
 
   function tryPlay(): boolean {
     const hand = s.opponentHand.filter(c => c.cost <= mana && isPlayable(c, s.gameTime))
     if (hand.length === 0) return false
-
-    // Priority 1: mana structures (Shadow Academy) — flood units
-    const manaStructs = hand.filter(c => c.cardType === 'structure' && c.unit?.structureEffect?.type === 'spawn')
-    // Priority 2: ranged tower structures (Arcane Tower, Mage Tower)
-    const towers = hand.filter(c => c.cardType === 'structure' && !c.unit?.isWall && !c.unit?.structureEffect)
-    // Priority 3: upgrades (buff the whole field)
-    const upgrades = hand.filter(c => c.cardType === 'upgrade').sort((a, b) => b.cost - a.cost)
-    // Priority 4: mages / arcane units (most expensive first — flood with power)
-    const units = hand.filter(c => c.cardType === 'unit' && !c.unit?.isWall)
-      .sort((a, b) => b.cost - a.cost)
-
-    const pick = manaStructs[0] ?? towers[0] ?? upgrades[0] ?? units[0]
-    if (!pick) return false
-
-    s.opponentHand.splice(s.opponentHand.indexOf(pick), 1)
-    mana -= pick.cost
-    deployCard(s, pick, 'opponent', log)
-    drawCard(s.opponentDeck, s.opponentHand)
-    return true
+    for (const priority of phase.priorities) {
+      const candidates = sortByField(hand.filter(c => matchesPriority(c, priority)), priority.sortBy)
+      const pick = candidates[0]
+      if (!pick) continue
+      s.opponentHand.splice(s.opponentHand.indexOf(pick), 1)
+      mana -= pick.cost
+      deployCard(s, pick, 'opponent', log)
+      drawCard(s.opponentDeck, s.opponentHand)
+      return true
+    }
+    return false
   }
 
   let played = 0
   while (played < maxPlays && tryPlay()) played++
-
-  if (played === 0) log.push('The Archivist catalogues…')
-}
-
-function tidalSovereignAI(s: GameState, log: string[]): void {
-  const manaBonus = getManaBonus(s.field, 'opponent')
-  let mana = Math.min(10, BASE_MAX_MANA + manaBonus)
-  // Wave phase: alternate melee-heavy and flying-heavy waves
-  const wavePhase = Math.floor(s.gameTime / 20000) % 2 === 0
-
-  function tryPlay(): boolean {
-    const hand = s.opponentHand.filter(c => c.cost <= mana && isPlayable(c, s.gameTime))
-    if (hand.length === 0) return false
-
-    // Priority 1: spawn structures (Kraken Beacon)
-    const spawners = hand.filter(c => c.cardType === 'structure' && c.unit?.structureEffect?.type === 'spawn')
-    // Priority 2: large units on even waves, flying ranged on odd waves
-    const largeUnits  = hand.filter(c => c.cardType === 'unit' && !c.unit?.isWall && c.cost >= 5).sort((a, b) => b.cost - a.cost)
-    const flyingUnits = hand.filter(c => c.cardType === 'unit' && c.unit?.flying).sort((a, b) => b.cost - a.cost)
-    const fastMelee   = hand.filter(c => c.cardType === 'unit' && !c.unit?.isWall && !c.unit?.flying).sort((a, b) => b.cost - a.cost)
-    const upgrades    = hand.filter(c => c.cardType === 'upgrade').sort((a, b) => b.cost - a.cost)
-
-    const wavePool = wavePhase ? [...largeUnits, ...fastMelee] : [...flyingUnits, ...largeUnits]
-    const pick = spawners[0] ?? wavePool[0] ?? upgrades[0] ?? fastMelee[0]
-    if (!pick) return false
-
-    s.opponentHand.splice(s.opponentHand.indexOf(pick), 1)
-    mana -= pick.cost
-    deployCard(s, pick, 'opponent', log)
-    drawCard(s.opponentDeck, s.opponentHand)
-    return true
-  }
-
-  let played = 0
-  while (played < 3 && tryPlay()) played++
-
-  if (played === 0) log.push('The tide shifts…')
+  if (played === 0) log.push(def.idleMessage)
 }
 
 // ─── Battle Events ────────────────────────────────────────
-
-function cloudmarshalAI(s: GameState, log: string[]): void {
-  const manaBonus = getManaBonus(s.field, 'opponent')
-  let mana = Math.min(10, BASE_MAX_MANA + manaBonus)
-  // Prioritises flying units and long-range structures; floods with speed upgrades early
-  function tryPlay(): boolean {
-    const hand = s.opponentHand.filter(c => c.cost <= mana && isPlayable(c, s.gameTime))
-    if (hand.length === 0) return false
-    const structures = hand.filter(c => c.cardType === 'structure' && !c.unit?.isWall).sort((a, b) => b.cost - a.cost)
-    const flyingUnits = hand.filter(c => c.cardType === 'unit' && (c.unit as unknown as {flying?: boolean})?.flying && !c.unit?.isWall).sort((a, b) => b.cost - a.cost)
-    const upgrades = hand.filter(c => c.cardType === 'upgrade').sort((a, b) => b.cost - a.cost)
-    const other = hand.filter(c => c.cardType === 'unit' && !c.unit?.isWall).sort((a, b) => b.cost - a.cost)
-    const pick = structures[0] ?? flyingUnits[0] ?? upgrades[0] ?? other[0]
-    if (!pick) return false
-    s.opponentHand.splice(s.opponentHand.indexOf(pick), 1)
-    mana -= pick.cost
-    deployCard(s, pick, 'opponent', log)
-    drawCard(s.opponentDeck, s.opponentHand)
-    return true
-  }
-  let played = 0
-  while (played < 3 && tryPlay()) played++
-  if (played === 0) log.push('The Cloudmarshal repositions…')
-}
 
 function triggerBattleEvent(s: GameState, log: string[]): void {
   const roll = Math.random()
@@ -1498,18 +1370,9 @@ export function tick(state: GameState, deltaMs: number): GameState {
   // 6. Opponent timer
   s.opponentTimer -= deltaMs
   if (s.opponentTimer <= 0) {
-    if (s.bossAI === 'thornlord') {
-      thornlordAI(s, log)
-    } else if (s.bossAI === 'kragg') {
-      kraggAI(s, log)
-    } else if (s.bossAI === 'ashwalker') {
-      ashwalkerAI(s, log)
-    } else if (s.bossAI === 'archivist') {
-      archivistAI(s, log)
-    } else if (s.bossAI === 'tidalsovereign') {
-      tidalSovereignAI(s, log)
-    } else if (s.bossAI === 'cloudmarshal') {
-      cloudmarshalAI(s, log)
+    const bossDef2 = s.bossAI ? getBossAIDef(s.bossAI) : undefined
+    if (bossDef2) {
+      genericBossAI(s, log, bossDef2)
     } else {
       opponentAI(s, log)
     }
