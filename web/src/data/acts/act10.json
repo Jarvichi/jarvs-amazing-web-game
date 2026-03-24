@@ -1,0 +1,326 @@
+{
+  "id": "act10",
+  "title": "ACT X",
+  "subtitle": "The Sand Market",
+  "rewardRelic": "Golden Compass",
+  "rewardRelicDesc": "You start each battle with +1 mana.",
+  "environment": "sand",
+  "rewardTags": ["sand", "mercenary"],
+  "replayModifiers": [
+    { "type": "enemyHpPercent",        "value": 15,  "label": "+15% enemy HP" },
+    { "type": "enemyIntervalReduction","value": 500, "label": "Enemies act faster" },
+    { "type": "enemyHandBonus",        "value": 1,   "label": "Enemies start +1 card" },
+    { "type": "crystalBonus",          "value": 10,  "label": "+10 crystals per battle" },
+    { "type": "enemyHpPercent",        "value": 25,  "label": "+25% enemy HP" }
+  ],
+  "startNodeIds": ["dune-approach"],
+  "intro": [
+    {
+      "title": "THE SAND MARKET",
+      "text": "The ley lines run straight through the desert, which the Sand Market has spent decades making commercially relevant. The market grew up around the ley convergence — vendors first, then traders, then mercenaries, then the Dune Baron, who saw the strategic value and started charging for it.\n\nEverything here has a price. Including passage through it."
+    },
+    {
+      "title": "THE DUNE BARON",
+      "text": "The Dune Baron is not a warlord in any conventional sense. He's a businessman who happens to employ an army. The distinction matters to him. He'll explain it at length if you have the time.\n\nYou don't have the time. He knows this. He's going to make you spend it anyway.\n\nHe respects efficiency, but only if you can afford it."
+    },
+    {
+      "title": "THE MARKET ROUTE",
+      "text": "The ley lines converge beneath the market's central spire — the Dune Baron uses the energy surplus to power the lights, the forges, and the contract-binding seals that make his mercenary arrangements legally enforceable.\n\nYou need the convergence point. He isn't selling it.\n\nYou're going to take it. He'll probably factor this into his pricing for the next traveller."
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE DUNE BARON SETTLES",
+      "text": "The Dune Baron doesn't lose gracefully. He loses expensively — which means he calculates the cost of the outcome, determines it was within acceptable parameters, and files the result under 'resolved.'\n\nThe ley lines pulse through the market floor. The convergence point opens.\n\nHe's already thinking about what to charge the next person who shows up."
+    },
+    {
+      "title": "WHAT HE SAID",
+      "text": "'You fought well,' the Baron said. 'I'll give you that at no charge.'\n\nYou asked about the Golden Compass.\n\n'Consider it a finder's fee,' he said. 'For finding the limits of my hospitality.'"
+    },
+    {
+      "title": "THE GOLDEN COMPASS",
+      "text": "The Golden Compass sits warm in your palm — the Baron's personal navigation tool, used to track ley line convergences across the desert. It still points to them.\n\nIt also, apparently, makes you faster off the mark. The Baron claims he hadn't noticed that. You don't believe him.\n\nThe ley lines point on. The market recedes. The desert is, for once, quiet."
+    }
+  ],
+  "nodes": {
+    "dune-approach": {
+      "id": "dune-approach",
+      "type": "battle",
+      "label": "Dune Approach",
+      "description": "The outer ring of the market. Raiders patrol the approach roads.",
+      "row": 0, "col": 0, "rowCols": 1,
+      "parentIds": [],
+      "childIds": ["sand-shrine", "dune-hollow", "outer-bazaar"],
+      "handicap": 18, "opponentIntervalMs": 4700, "opponentBaseHp": 220,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Raider","Sand Raider","Sand Raider",
+        "Dune Stalker","Dune Stalker",
+        "Desert Archer","Desert Archer",
+        "Sand Wall","Sand Wall",
+        "Desert Rush","Desert Rush",
+        "Mirage Blade",
+        "Dune Bat",
+        "Sandstorm"
+      ]
+    },
+    "sand-shrine": {
+      "id": "sand-shrine",
+      "type": "event",
+      "label": "Oasis Shrine",
+      "description": "A spring shrine at a desert oasis. The water is real. The hospitality is negotiable.",
+      "row": 1, "col": 0, "rowCols": 3,
+      "parentIds": ["dune-approach"],
+      "childIds": ["market-crossing"],
+      "environment": "sand",
+      "eventConfig": {
+        "title": "The Oasis Shrine",
+        "description": "A small spring, clear and cold, ringed with worn offering-stones. Desert travellers have been leaving things here for centuries. Some of the things left behind are still there.",
+        "pools": [
+          [
+            { "label": "Drink from the spring",     "consequence": "The water restores — healed 14 HP",          "effect": { "type": "healHp",       "amount": 14 } },
+            { "label": "Drink from the spring",     "consequence": "Something in it stings — lose 6 HP",         "effect": { "type": "damageHp",     "amount": 6  } },
+            { "label": "Drink from the spring",     "consequence": "A rare card among the offerings",             "effect": { "type": "gainCard",     "rarity": "rare" } },
+            { "label": "Drink from the spring",     "consequence": "+15 crystals in recovered offerings",         "effect": { "type": "gainCrystals", "amount": 15 } }
+          ],
+          [
+            { "label": "Search the offering-stones","consequence": "Something useful left behind — uncommon card","effect": { "type": "gainCard",     "rarity": "uncommon" } },
+            { "label": "Search the offering-stones","consequence": "Coins left as offerings — +22 crystals",     "effect": { "type": "gainCrystals", "amount": 22 } },
+            { "label": "Search the offering-stones","consequence": "The spring goes dry when you touch it. Eerie.","effect": { "type": "nothing" } }
+          ],
+          [
+            { "label": "Fill your reserves",        "consequence": "The water heals on the road — healed 8 HP",  "effect": { "type": "healHp",       "amount": 8  } },
+            { "label": "Fill your reserves",        "consequence": "+18 crystals in trade goods from the cache", "effect": { "type": "gainCrystals", "amount": 18 } },
+            { "label": "Fill your reserves",        "consequence": "A common card left by the last traveller",   "effect": { "type": "gainCard",     "rarity": "common" } }
+          ]
+        ]
+      }
+    },
+    "dune-hollow": {
+      "id": "dune-hollow",
+      "type": "rest",
+      "label": "Dune Hollow",
+      "description": "A sheltered hollow in the dune line. Out of the wind and out of sight.",
+      "row": 1, "col": 1, "rowCols": 3,
+      "parentIds": ["dune-approach"],
+      "childIds": ["market-crossing"],
+      "environment": "sand",
+      "restHeal": 10
+    },
+    "outer-bazaar": {
+      "id": "outer-bazaar",
+      "type": "merchant",
+      "label": "Outer Bazaar",
+      "description": "The market's fringe traders. Lower prices than inside. Fewer questions.",
+      "row": 1, "col": 2, "rowCols": 3,
+      "parentIds": ["dune-approach"],
+      "childIds": ["market-crossing"],
+      "environment": "sand"
+    },
+    "market-crossing": {
+      "id": "market-crossing",
+      "type": "battle",
+      "label": "Market Crossing",
+      "description": "The contested main road into the market interior. The Baron's guard controls access.",
+      "row": 2, "col": 0, "rowCols": 1,
+      "parentIds": ["sand-shrine", "dune-hollow", "outer-bazaar"],
+      "childIds": ["sand-battery", "mirage-vent", "caravan-elite"],
+      "handicap": 20, "opponentIntervalMs": 4500, "opponentBaseHp": 225,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Raider","Sand Raider",
+        "Mirage Blade","Mirage Blade",
+        "Desert Archer","Desert Archer",
+        "Dune Barracks",
+        "Oasis Well",
+        "Sand Wall","Sand Wall",
+        "Desert Rush","Desert Rush",
+        "Sandstorm",
+        "Mercenary Pact"
+      ]
+    },
+    "sand-battery": {
+      "id": "sand-battery",
+      "type": "battle",
+      "label": "Sand Battery",
+      "description": "Desert artillery platforms. The Baron invested heavily in these.",
+      "row": 3, "col": 0, "rowCols": 3,
+      "parentIds": ["market-crossing"],
+      "childIds": ["baron-approach"],
+      "handicap": 22, "opponentIntervalMs": 4300, "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Knight","Sand Knight",
+        "Mercenary Captain","Mercenary Captain",
+        "Desert Archer","Desert Archer",
+        "Sand Wall","Sand Wall",
+        "Mirage Tower","Mirage Tower",
+        "Oasis Well",
+        "Desert Rush","Desert Rush",
+        "Mercenary Pact",
+        "Sandstorm"
+      ]
+    },
+    "mirage-vent": {
+      "id": "mirage-vent",
+      "type": "event",
+      "label": "Mirage Cache",
+      "description": "A hidden supply depot the Baron's forces use. Not all of it is decoy.",
+      "row": 3, "col": 1, "rowCols": 3,
+      "parentIds": ["market-crossing"],
+      "childIds": ["baron-approach"],
+      "environment": "sand",
+      "eventConfig": {
+        "title": "The Mirage Cache",
+        "description": "A concealed depot in the dune face — the Baron's forces maintain several, and not all of them are decoys. This one is real. The lock is good but not insurmountable.",
+        "pools": [
+          [
+            { "label": "Open the cache",            "consequence": "Weapons inside — rare card",                 "effect": { "type": "gainCard",     "rarity": "rare" } },
+            { "label": "Open the cache",            "consequence": "Supplies — healed 15 HP",                    "effect": { "type": "healHp",       "amount": 15 } },
+            { "label": "Open the cache",            "consequence": "It was a decoy — lose 12 HP",                "effect": { "type": "damageHp",     "amount": 12 } },
+            { "label": "Open the cache",            "consequence": "+28 crystals in coin reserves",              "effect": { "type": "gainCrystals", "amount": 28 } }
+          ],
+          [
+            { "label": "Sell the contents",         "consequence": "+32 crystals from the market inside",        "effect": { "type": "gainCrystals", "amount": 32 } },
+            { "label": "Sell the contents",         "consequence": "One item worth keeping — uncommon card",     "effect": { "type": "gainCard",     "rarity": "uncommon" } },
+            { "label": "Sell the contents",         "consequence": "It was already empty. Someone beat you to it.","effect": { "type": "nothing" } }
+          ]
+        ]
+      }
+    },
+    "caravan-elite": {
+      "id": "caravan-elite",
+      "type": "elite",
+      "label": "Caravan Guard",
+      "description": "The Baron's contracted heavy escort. Expensive, effective, professional.",
+      "row": 3, "col": 2, "rowCols": 3,
+      "parentIds": ["market-crossing"],
+      "childIds": ["baron-approach"],
+      "handicap": 26, "opponentIntervalMs": 4000, "opponentBaseHp": 235,
+      "environment": "sand",
+      "enemyDeck": [
+        "Dune Colossus",
+        "Sand Knight","Sand Knight",
+        "Sandstorm Shaman","Sandstorm Shaman",
+        "Mirage Scout","Mirage Scout",
+        "Desert Spire",
+        "Bazaar Post",
+        "Gold Standard",
+        "Mercenary Pact","Mercenary Pact",
+        "Sandstorm",
+        "Sand Wall","Sand Wall"
+      ]
+    },
+    "baron-approach": {
+      "id": "baron-approach",
+      "type": "battle",
+      "label": "Baron's Gate",
+      "description": "The inner market. The Dune Baron's personal forces take over from the hired guards.",
+      "row": 4, "col": 0, "rowCols": 1,
+      "parentIds": ["sand-battery", "mirage-vent", "caravan-elite"],
+      "childIds": ["trade-archive", "market-rest", "baron-vanguard"],
+      "handicap": 24, "opponentIntervalMs": 4200, "opponentBaseHp": 235,
+      "environment": "sand",
+      "enemyDeck": [
+        "Desert Titan",
+        "Dune Colossus",
+        "Sandstorm Shaman","Sandstorm Shaman",
+        "Sand Knight","Sand Knight",
+        "Desert Spire","Desert Spire",
+        "Bazaar Post",
+        "Oasis Well",
+        "Gold Standard",
+        "Mercenary Pact",
+        "Sandstorm",
+        "Sand Wall"
+      ]
+    },
+    "trade-archive": {
+      "id": "trade-archive",
+      "type": "event",
+      "label": "Baron's Ledger",
+      "description": "The Baron's records room. Every transaction since the market opened.",
+      "row": 5, "col": 0, "rowCols": 3,
+      "parentIds": ["baron-approach"],
+      "childIds": ["dunebaron"],
+      "environment": "sand",
+      "eventConfig": {
+        "title": "The Baron's Ledger",
+        "description": "The Dune Baron's transaction records — every contract, every sale, every mercenary hired and dismissed since the market was established. His notes on the Fracture are in here. He logged it as a business disruption.",
+        "pools": [
+          [
+            { "label": "Study the contracts",       "consequence": "Exploitable intel — rare card",               "effect": { "type": "gainCard",     "rarity": "rare" } },
+            { "label": "Study the contracts",       "consequence": "Supply chain map — +28 crystals",             "effect": { "type": "gainCrystals", "amount": 28 } }
+          ],
+          [
+            { "label": "Rest in the records room",  "consequence": "Quiet and warm — healed 15 HP",              "effect": { "type": "healHp",       "amount": 15 } },
+            { "label": "Rest in the records room",  "consequence": "An uncommon card filed under 'assets'",       "effect": { "type": "gainCard",     "rarity": "uncommon" } }
+          ]
+        ]
+      }
+    },
+    "market-rest": {
+      "id": "market-rest",
+      "type": "rest",
+      "label": "Inner Quarters",
+      "description": "The Baron's personal guest quarters. Better than anything outside the market walls.",
+      "row": 5, "col": 1, "rowCols": 3,
+      "parentIds": ["baron-approach"],
+      "childIds": ["dunebaron"],
+      "environment": "sand",
+      "restHeal": 15
+    },
+    "baron-vanguard": {
+      "id": "baron-vanguard",
+      "type": "elite",
+      "label": "Baron's Retinue",
+      "description": "The Dune Baron's personal guard. These ones aren't contractors.",
+      "row": 5, "col": 2, "rowCols": 3,
+      "parentIds": ["baron-approach"],
+      "childIds": ["dunebaron"],
+      "handicap": 28, "opponentIntervalMs": 3800, "opponentBaseHp": 242,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Wyrm",
+        "Desert Titan","Desert Titan",
+        "Sandstorm Shaman","Sandstorm Shaman",
+        "Mirage Scout","Mirage Scout",
+        "Desert Spire","Desert Spire",
+        "Bazaar Post",
+        "Gold Standard","Gold Standard",
+        "Mercenary Pact",
+        "Sandstorm"
+      ]
+    },
+    "dunebaron": {
+      "id": "dunebaron",
+      "type": "boss",
+      "label": "The Dune Baron",
+      "description": "Proprietor of the Sand Market. He treats this battle as a transaction.",
+      "row": 6, "col": 0, "rowCols": 1,
+      "parentIds": ["trade-archive", "market-rest", "baron-vanguard"],
+      "childIds": [],
+      "handicap": 32, "opponentIntervalMs": 3500, "opponentBaseHp": 285,
+      "bossAI": "dunebaron",
+      "environment": "sand",
+      "bossDialogue": [
+        "Everything has a price. Your passage through my market has one too. This is the negotiation.",
+        "I've hired the best. You're fighting the best. Consider it a compliment.",
+        "I don't lose deals. I renegotiate terms. You've forced a renegotiation."
+      ],
+      "enemyDeck": [
+        "Bone Merchant",
+        "Sand Wyrm","Sand Wyrm",
+        "Desert Titan","Desert Titan",
+        "Dune Colossus",
+        "Sandstorm Shaman","Sandstorm Shaman",
+        "Desert Spire","Desert Spire",
+        "Bazaar Post","Bazaar Post",
+        "Gold Standard","Gold Standard",
+        "Mercenary Pact",
+        "Sandstorm",
+        "Desert Rush"
+      ]
+    }
+  }
+}

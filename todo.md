@@ -106,8 +106,8 @@ When working an issue from this file, go and check the GitHub issue for addition
 **Progress:**
 - [x] Act 7 — The Emberfall Peaks (session 26: act7.json, cinderwarlord AI, Magma Core relic; cards/templates already done session 25)
 - [x] Act 8 — The Fungal Deep (session 26: 25 cards + templates, act8.json, rootqueen AI, Spore Bloom relic with per-tick heal engine hook)
-- [ ] Act 9 — The Frozen Expanse
-- [ ] Act 10 — The Sand Market
+- [x] Act 9 — The Frozen Expanse (session 27: 25 frost/glacier cards, act9.json, paleengine AI, Frost Mantle relic)
+- [x] Act 10 — The Sand Market (session 27: 25 sand/mercenary cards, act10.json, dunebaron AI, Golden Compass relic)
 - [ ] Act 11 — The Verdant Canopy
 - [ ] Act 12 — The Shattered Coast
 - [ ] Act 13 — The Clockwork Vaults
@@ -196,7 +196,51 @@ All sprites below need creating. Format: `{slug}.svg` (static) + `{slug}-1/2/3.s
 - [ ] bloom-spire (structure, 1 frame)
 - [ ] rot-shrine (structure, 1 frame)
 
-**Acts 9–25** — sprite lists to be added as each act is implemented.
+**Act 9 — The Frozen Expanse** (`frost`, `glacier` tags)
+- [ ] frost-crawler (unit, 4 frames)
+- [ ] ice-shard (unit, 4 frames)
+- [ ] glacier-guard (unit, 4 frames)
+- [ ] frost-archer (unit, 4 frames)
+- [ ] blizzard-runner (unit, 4 frames)
+- [ ] ice-wraith (unit, 4 frames)
+- [ ] rime-stalker (unit, 4 frames)
+- [ ] frozen-knight (unit, 4 frames)
+- [ ] cold-snap (unit, 4 frames)
+- [ ] avalanche-bear (unit, 4 frames)
+- [ ] frost-drake (unit, 4 frames)
+- [ ] glacier-titan (unit, 4 frames)
+- [ ] ice-colossus (unit, 4 frames)
+- [ ] permafrost-wyrm (unit, 4 frames)
+- [ ] ice-wall (structure, 1 frame)
+- [ ] frost-turret (structure, 1 frame)
+- [ ] glacier-beacon (structure, 1 frame)
+- [ ] blizzard-spire (structure, 1 frame)
+- [ ] cryo-forge (structure, 1 frame)
+- [ ] pale-shrine (structure, 1 frame)
+
+**Act 10 — The Sand Market** (`sand`, `mercenary` tags)
+- [ ] sand-raider (unit, 4 frames)
+- [ ] dune-stalker (unit, 4 frames)
+- [ ] desert-archer (unit, 4 frames)
+- [ ] sandstorm-runner (unit, 4 frames)
+- [ ] mirage-blade (unit, 4 frames)
+- [ ] dune-bat (unit, 4 frames)
+- [ ] sand-knight (unit, 4 frames)
+- [ ] mercenary-captain (unit, 4 frames)
+- [ ] mirage-scout (unit, 4 frames)
+- [ ] sandstorm-shaman (unit, 4 frames)
+- [ ] glass-dancer (unit, 4 frames)
+- [ ] dune-colossus (unit, 4 frames)
+- [ ] desert-titan (unit, 4 frames)
+- [ ] sand-wyrm (unit, 4 frames)
+- [ ] sand-wall (structure, 1 frame)
+- [ ] oasis-well (structure, 1 frame)
+- [ ] dune-barracks (structure, 1 frame)
+- [ ] mirage-tower (structure, 1 frame)
+- [ ] desert-spire (structure, 1 frame)
+- [ ] bazaar-post (structure, 1 frame)
+
+**Acts 11–25** — sprite lists to be added as each act is implemented.
 
 ---
 

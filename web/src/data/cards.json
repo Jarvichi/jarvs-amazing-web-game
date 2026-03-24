@@ -3292,6 +3292,575 @@
         "fungal",
         "spore"
       ]
+    },
+    "frost-crawler": {
+      "name": "Frost Crawler",
+      "attack": 4,
+      "maxHp": 11,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 30,
+      "attackRange": 1,
+      "attackCooldownMs": 1000,
+      "tags": [
+        "frost"
+      ]
+    },
+    "ice-shard": {
+      "name": "Ice Shard",
+      "attack": 5,
+      "maxHp": 14,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 24,
+      "attackRange": 1,
+      "attackCooldownMs": 1100,
+      "tags": [
+        "frost"
+      ]
+    },
+    "glacier-guard": {
+      "name": "Glacier Guard",
+      "attack": 4,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 16,
+      "attackRange": 1,
+      "attackCooldownMs": 1200,
+      "tags": [
+        "frost",
+        "glacier"
+      ]
+    },
+    "frost-archer": {
+      "name": "Frost Archer",
+      "attack": 6,
+      "maxHp": 13,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 20,
+      "attackRange": 120,
+      "attackCooldownMs": 1400,
+      "tags": [
+        "frost"
+      ]
+    },
+    "blizzard-runner": {
+      "name": "Blizzard Runner",
+      "attack": 5,
+      "maxHp": 12,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 38,
+      "attackRange": 1,
+      "attackCooldownMs": 1000,
+      "tags": [
+        "frost"
+      ]
+    },
+    "ice-wraith": {
+      "name": "Ice Wraith",
+      "attack": 5,
+      "maxHp": 12,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 32,
+      "attackRange": 90,
+      "attackCooldownMs": 1100,
+      "flying": true,
+      "tags": [
+        "frost"
+      ]
+    },
+    "rime-stalker": {
+      "name": "Rime Stalker",
+      "attack": 6,
+      "maxHp": 17,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 26,
+      "attackRange": 1,
+      "attackCooldownMs": 1100,
+      "tags": [
+        "frost"
+      ]
+    },
+    "frozen-knight": {
+      "name": "Frozen Knight",
+      "attack": 8,
+      "maxHp": 26,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 18,
+      "attackRange": 1,
+      "attackCooldownMs": 1400,
+      "tags": [
+        "frost",
+        "glacier"
+      ]
+    },
+    "cold-snap": {
+      "name": "Cold Snap",
+      "attack": 6,
+      "maxHp": 14,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 28,
+      "attackRange": 100,
+      "attackCooldownMs": 1200,
+      "flying": true,
+      "tags": [
+        "frost"
+      ]
+    },
+    "frost-drake": {
+      "name": "Frost Drake",
+      "attack": 9,
+      "maxHp": 28,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 24,
+      "attackRange": 110,
+      "attackCooldownMs": 1400,
+      "flying": true,
+      "tags": [
+        "frost",
+        "glacier"
+      ]
+    },
+    "glacier-titan": {
+      "name": "Glacier Titan",
+      "attack": 11,
+      "maxHp": 42,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 12,
+      "attackRange": 1,
+      "attackCooldownMs": 1700,
+      "tags": [
+        "glacier"
+      ]
+    },
+    "ice-colossus": {
+      "name": "Ice Colossus",
+      "attack": 13,
+      "maxHp": 50,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 10,
+      "attackRange": 1,
+      "attackCooldownMs": 1900,
+      "tags": [
+        "frost",
+        "glacier"
+      ]
+    },
+    "permafrost-wyrm": {
+      "name": "Permafrost Wyrm",
+      "attack": 16,
+      "maxHp": 60,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 9,
+      "attackRange": 1,
+      "attackCooldownMs": 2100,
+      "tags": [
+        "glacier"
+      ]
+    },
+    "ice-wall": {
+      "name": "Ice Wall",
+      "attack": 0,
+      "maxHp": 32,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "tags": [
+        "frost"
+      ]
+    },
+    "frost-turret": {
+      "name": "Frost Turret",
+      "attack": 7,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 0,
+      "attackRange": 140,
+      "attackCooldownMs": 1600,
+      "tags": [
+        "frost"
+      ]
+    },
+    "glacier-beacon": {
+      "name": "Glacier Beacon",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "frost-crawler",
+        "intervalMs": 8000
+      },
+      "tags": [
+        "glacier"
+      ]
+    },
+    "blizzard-spire": {
+      "name": "Blizzard Spire",
+      "attack": 11,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 0,
+      "attackRange": 180,
+      "attackCooldownMs": 1800,
+      "tags": [
+        "frost",
+        "glacier"
+      ]
+    },
+    "cryo-forge": {
+      "name": "Cryo Forge",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "healAura",
+        "amount": 2,
+        "intervalMs": 5000
+      },
+      "tags": [
+        "frost"
+      ]
+    },
+    "pale-shrine": {
+      "name": "Pale Shrine",
+      "attack": 0,
+      "maxHp": 26,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "glacier-guard",
+        "intervalMs": 11000
+      },
+      "tags": [
+        "glacier"
+      ]
+    },
+    "sand-raider": {
+      "name": "Sand Raider",
+      "attack": 4,
+      "maxHp": 11,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 34,
+      "attackRange": 1,
+      "attackCooldownMs": 1000,
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "dune-stalker": {
+      "name": "Dune Stalker",
+      "attack": 5,
+      "maxHp": 14,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 24,
+      "attackRange": 1,
+      "attackCooldownMs": 1100,
+      "tags": [
+        "sand"
+      ]
+    },
+    "desert-archer": {
+      "name": "Desert Archer",
+      "attack": 6,
+      "maxHp": 13,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 20,
+      "attackRange": 120,
+      "attackCooldownMs": 1400,
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "sandstorm-runner": {
+      "name": "Sandstorm Runner",
+      "attack": 5,
+      "maxHp": 11,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 40,
+      "attackRange": 1,
+      "attackCooldownMs": 1000,
+      "tags": [
+        "sand"
+      ]
+    },
+    "mirage-blade": {
+      "name": "Mirage Blade",
+      "attack": 6,
+      "maxHp": 15,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 28,
+      "attackRange": 1,
+      "attackCooldownMs": 1100,
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "dune-bat": {
+      "name": "Dune Bat",
+      "attack": 5,
+      "maxHp": 11,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 36,
+      "attackRange": 85,
+      "attackCooldownMs": 1100,
+      "flying": true,
+      "tags": [
+        "sand"
+      ]
+    },
+    "sand-knight": {
+      "name": "Sand Knight",
+      "attack": 8,
+      "maxHp": 26,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 18,
+      "attackRange": 1,
+      "attackCooldownMs": 1400,
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "mercenary-captain": {
+      "name": "Mercenary Captain",
+      "attack": 9,
+      "maxHp": 24,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 22,
+      "attackRange": 1,
+      "attackCooldownMs": 1300,
+      "tags": [
+        "mercenary"
+      ]
+    },
+    "mirage-scout": {
+      "name": "Mirage Scout",
+      "attack": 6,
+      "maxHp": 13,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 32,
+      "attackRange": 100,
+      "attackCooldownMs": 1200,
+      "flying": true,
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "sandstorm-shaman": {
+      "name": "Sandstorm Shaman",
+      "attack": 7,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 20,
+      "attackRange": 130,
+      "attackCooldownMs": 1500,
+      "tags": [
+        "sand"
+      ]
+    },
+    "dune-colossus": {
+      "name": "Dune Colossus",
+      "attack": 11,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 12,
+      "attackRange": 1,
+      "attackCooldownMs": 1700,
+      "tags": [
+        "sand"
+      ]
+    },
+    "desert-titan": {
+      "name": "Desert Titan",
+      "attack": 13,
+      "maxHp": 48,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 10,
+      "attackRange": 1,
+      "attackCooldownMs": 1900,
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "sand-wyrm": {
+      "name": "Sand Wyrm",
+      "attack": 16,
+      "maxHp": 58,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 9,
+      "attackRange": 1,
+      "attackCooldownMs": 2000,
+      "tags": [
+        "sand"
+      ]
+    },
+    "sand-wall": {
+      "name": "Sand Wall",
+      "attack": 0,
+      "maxHp": 28,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "tags": [
+        "sand"
+      ]
+    },
+    "oasis-well": {
+      "name": "Oasis Well",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "healAura",
+        "amount": 3,
+        "intervalMs": 4500
+      },
+      "tags": [
+        "sand"
+      ]
+    },
+    "dune-barracks": {
+      "name": "Dune Barracks",
+      "attack": 0,
+      "maxHp": 24,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "sand-raider",
+        "intervalMs": 7500
+      },
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "mirage-tower": {
+      "name": "Mirage Tower",
+      "attack": 8,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 0,
+      "attackRange": 140,
+      "attackCooldownMs": 1600,
+      "tags": [
+        "sand"
+      ]
+    },
+    "desert-spire": {
+      "name": "Desert Spire",
+      "attack": 11,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 0,
+      "attackRange": 180,
+      "attackCooldownMs": 1800,
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "bazaar-post": {
+      "name": "Bazaar Post",
+      "attack": 0,
+      "maxHp": 26,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "mercenary-captain",
+        "intervalMs": 12000
+      },
+      "tags": [
+        "mercenary"
+      ]
+    },
+    "avalanche-bear": {
+      "name": "Avalanche Bear",
+      "attack": 7,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 20,
+      "attackRange": 1,
+      "attackCooldownMs": 1300,
+      "tags": [
+        "glacier"
+      ]
+    },
+    "glass-dancer": {
+      "name": "Glass Dancer",
+      "attack": 7,
+      "maxHp": 16,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 26,
+      "attackRange": 110,
+      "attackCooldownMs": 1300,
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
     }
   },
   "cards": [
@@ -7944,6 +8513,673 @@
         "fungal"
       ],
       "lore": "The bloom comes once. It's always exactly what you needed."
+    },
+    {
+      "name": "Frost Crawler",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "frost-crawler",
+      "description": "Cheap fast melee. Swarms from the glacier.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "Hatched from ice. No one is sure what laid the eggs."
+    },
+    {
+      "name": "Ice Shard",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "ice-shard",
+      "description": "Melee. Crystalline and sharp.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "You can see straight through it if you hold it up to the light. Don't."
+    },
+    {
+      "name": "Glacier Guard",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "glacier-guard",
+      "description": "Slow, high HP. Hard to shift.",
+      "deckCount": 0,
+      "tags": [
+        "frost",
+        "glacier"
+      ],
+      "lore": "The glacier doesn't hurry. It doesn't need to."
+    },
+    {
+      "name": "Frost Archer",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "frost-archer",
+      "description": "Ranged. Fires frozen bolts.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "The bolts don't melt. That's the point."
+    },
+    {
+      "name": "Blizzard Runner",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "blizzard-runner",
+      "description": "Very fast melee. Outruns the cold.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "Born in a blizzard. Outran it. Still running."
+    },
+    {
+      "name": "Ice Wraith",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "ice-wraith",
+      "description": "Flying ranged. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "It hovers where the temperature drops suddenly. Always does."
+    },
+    {
+      "name": "Rime Stalker",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "rime-stalker",
+      "description": "Melee. Methodical, steady, hard to stop.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "Moves like a glacier. Same destination as a glacier."
+    },
+    {
+      "name": "Frozen Knight",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "frozen-knight",
+      "description": "Heavy melee. Encased in glacial armour.",
+      "deckCount": 0,
+      "tags": [
+        "frost",
+        "glacier"
+      ],
+      "lore": "The armour grew over years. The knight inside is still functional."
+    },
+    {
+      "name": "Cold Snap",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "cold-snap",
+      "description": "Flying ranged. Fast and precise.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "The name is onomatopoeia. You only understand it when it happens."
+    },
+    {
+      "name": "Frost Drake",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "frost-drake",
+      "description": "Flying ranged. Dominates the air.",
+      "deckCount": 0,
+      "tags": [
+        "frost",
+        "glacier"
+      ],
+      "lore": "The cold keeps it alive. Warmth is the only thing it fears."
+    },
+    {
+      "name": "Glacier Titan",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "glacier-titan",
+      "description": "Massive melee. Slow but devastating.",
+      "deckCount": 0,
+      "tags": [
+        "glacier"
+      ],
+      "lore": "The glacier calved it. Now it walks. The glacier seems pleased."
+    },
+    {
+      "name": "Ice Colossus",
+      "rarity": "epic",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "ice-colossus",
+      "description": "Enormous melee. Nearly impossible to stop.",
+      "deckCount": 0,
+      "tags": [
+        "frost",
+        "glacier"
+      ],
+      "lore": "It stopped once. The ice that formed overnight is still there."
+    },
+    {
+      "name": "Permafrost Wyrm",
+      "rarity": "legendary",
+      "cost": 8,
+      "cardType": "unit",
+      "unitRef": "permafrost-wyrm",
+      "description": "Legendary. Ancient glacier predator.",
+      "deckCount": 0,
+      "tags": [
+        "glacier"
+      ],
+      "lore": "The Pale Engine keeps it leashed. You can't tell which one is angrier about this."
+    },
+    {
+      "name": "Ice Wall",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "ice-wall",
+      "description": "Frost wall. Thick and slow to break.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "Carved from the glacier face. Replacement is never far away."
+    },
+    {
+      "name": "Frost Turret",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "frost-turret",
+      "description": "Ranged tower. Fires frozen bolts.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "The bolts arc beautifully before impact. Aesthetics are unintentional."
+    },
+    {
+      "name": "Glacier Beacon",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "glacier-beacon",
+      "description": "Spawner. Periodically releases Frost Crawlers.",
+      "deckCount": 0,
+      "tags": [
+        "glacier"
+      ],
+      "lore": "It hums at the same frequency as the ice. Nobody knows why. Nobody is comfortable with it."
+    },
+    {
+      "name": "Blizzard Spire",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "blizzard-spire",
+      "description": "Long-range tower. Reach and damage.",
+      "deckCount": 0,
+      "tags": [
+        "frost",
+        "glacier"
+      ],
+      "lore": "Built into the glacier itself. The spire and the mountain are the same thing now."
+    },
+    {
+      "name": "Cryo Forge",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "cryo-forge",
+      "description": "Heal aura. Restores nearby units every 5s.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "The cold preserves. The forge applies this principle to injuries."
+    },
+    {
+      "name": "Pale Shrine",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "pale-shrine",
+      "description": "Spawner. Periodically releases Glacier Guards.",
+      "deckCount": 0,
+      "tags": [
+        "glacier"
+      ],
+      "lore": "Older than the glacier. The glacier grew around it."
+    },
+    {
+      "name": "Frost Surge",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units gain +1 ATK.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "The cold focuses things. Pain mostly."
+    },
+    {
+      "name": "Glacier Hide",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units gain +3 max HP.",
+      "deckCount": 0,
+      "tags": [
+        "glacier"
+      ],
+      "lore": "The glacier's patience, compressed."
+    },
+    {
+      "name": "Blizzard Blast",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units gain +2 ATK.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "The blizzard doesn't distinguish between enemies. Your units learn from this."
+    },
+    {
+      "name": "Permafrost",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units gain +3 ATK and +3 max HP.",
+      "deckCount": 0,
+      "tags": [
+        "frost",
+        "glacier"
+      ],
+      "lore": "The deepest cold. The kind that changes things permanently."
+    },
+    {
+      "name": "Sand Raider",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "sand-raider",
+      "description": "Fast cheap melee. First in, first out.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "Paid upfront. Good idea in retrospect."
+    },
+    {
+      "name": "Dune Stalker",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "dune-stalker",
+      "description": "Steady melee. Knows the terrain.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "Grew up out here. Never saw the point of anywhere else."
+    },
+    {
+      "name": "Desert Archer",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "desert-archer",
+      "description": "Ranged. Long sightlines suit them.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "The desert teaches patience. The bow teaches the rest."
+    },
+    {
+      "name": "Sandstorm Runner",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "sandstorm-runner",
+      "description": "Very fast melee. Outpaces the storm.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "Running is how they got here. Running is how they'll leave."
+    },
+    {
+      "name": "Mirage Blade",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "mirage-blade",
+      "description": "Melee. Hard to pin down.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "You see them before they arrive. By then it's too late."
+    },
+    {
+      "name": "Dune Bat",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "dune-bat",
+      "description": "Flying ranged. Navigates by heat.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "Found a niche. Not sure anyone expected it."
+    },
+    {
+      "name": "Sand Knight",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "sand-knight",
+      "description": "Heavy melee. Armoured against the sun and everything else.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "The armour was their own idea. It's a good one."
+    },
+    {
+      "name": "Mercenary Captain",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "mercenary-captain",
+      "description": "Strong melee. Leads by example.",
+      "deckCount": 0,
+      "tags": [
+        "mercenary"
+      ],
+      "lore": "Twenty years of not dying. It's its own kind of skill."
+    },
+    {
+      "name": "Mirage Scout",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "mirage-scout",
+      "description": "Flying ranged. Fast, precise, elusive.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "You pay for information. This is the information delivery."
+    },
+    {
+      "name": "Sandstorm Shaman",
+      "rarity": "uncommon",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "sandstorm-shaman",
+      "description": "Ranged. Channels the storm.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "The storm listens. Nobody is sure why."
+    },
+    {
+      "name": "Dune Colossus",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "dune-colossus",
+      "description": "Massive melee. The dunes move for it.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "Sand collected around something ancient and decided to stay."
+    },
+    {
+      "name": "Desert Titan",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "desert-titan",
+      "description": "Heavy melee. Mercenary with very good rates.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "Expensive. Worth it. Usually."
+    },
+    {
+      "name": "Sand Wyrm",
+      "rarity": "epic",
+      "cost": 7,
+      "cardType": "unit",
+      "unitRef": "sand-wyrm",
+      "description": "Legendary predator. Surfaces without warning.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "The dunes don't have it. The dunes are it."
+    },
+    {
+      "name": "Bone Merchant",
+      "rarity": "legendary",
+      "cost": 8,
+      "cardType": "unit",
+      "unitRef": "desert-titan",
+      "description": "Legendary. The Dune Baron's enforcer. Extremely expensive.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "You get what you pay for. You also get what you don't pay for."
+    },
+    {
+      "name": "Sand Wall",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "sand-wall",
+      "description": "Desert wall. Rebuilt daily.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "The desert provides. Also takes."
+    },
+    {
+      "name": "Oasis Well",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "oasis-well",
+      "description": "Heal aura. Restores nearby units every 4.5s.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "Water out here means everything."
+    },
+    {
+      "name": "Dune Barracks",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "dune-barracks",
+      "description": "Spawner. Periodically releases Sand Raiders.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "Recruitment is ongoing. The market supplies."
+    },
+    {
+      "name": "Mirage Tower",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "mirage-tower",
+      "description": "Ranged tower. Hard to target.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "It looks like two towers. You attack the wrong one."
+    },
+    {
+      "name": "Desert Spire",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "desert-spire",
+      "description": "Long-range tower. Commands the dunes.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "Visible for miles. That's the point."
+    },
+    {
+      "name": "Bazaar Post",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "bazaar-post",
+      "description": "Spawner. Periodically contracts Mercenary Captains.",
+      "deckCount": 0,
+      "tags": [
+        "mercenary"
+      ],
+      "lore": "The Baron pays on delivery. Payment is consistent."
+    },
+    {
+      "name": "Desert Rush",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units gain +1 ATK.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "The heat does something to urgency."
+    },
+    {
+      "name": "Mercenary Pact",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units gain +2 ATK.",
+      "deckCount": 0,
+      "tags": [
+        "mercenary"
+      ],
+      "lore": "Better pay. Better results. Simple math."
+    },
+    {
+      "name": "Sandstorm",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units gain +3 max HP.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "The storm toughens things. Survivors included."
+    },
+    {
+      "name": "Gold Standard",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units gain +3 ATK and +3 max HP.",
+      "deckCount": 0,
+      "tags": [
+        "mercenary"
+      ],
+      "lore": "The Baron's mark. It means something. Mostly 'expensive'."
+    },
+    {
+      "name": "Avalanche Bear",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "avalanche-bear",
+      "description": "Heavy melee. Charges in like a falling mountain.",
+      "deckCount": 0,
+      "tags": [
+        "glacier"
+      ],
+      "lore": "The glacier raised it. The glacier also threw it at you."
+    },
+    {
+      "name": "Pale Colossus",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "ice-colossus",
+      "description": "Glacial melee construct. Enormous and relentless.",
+      "deckCount": 0,
+      "tags": [
+        "frost",
+        "glacier"
+      ],
+      "lore": "A second colossus. The Pale Engine builds what it needs."
+    },
+    {
+      "name": "Glass Dancer",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "glass-dancer",
+      "description": "Ranged. Precision mercenary, bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "Every shot costs extra. Clients usually agree it was worth it."
     }
   ],
   "heroCards": [
