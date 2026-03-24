@@ -6241,6 +6241,14 @@ body {
   font-style: italic;
 }
 
+.inventory-item-count {
+  font-size: 10px;
+  font-weight: bold;
+  color: var(--game-accent-color, #4af);
+  text-align: center;
+  margin-top: 2px;
+}
+
 /* ── The 42-item secret panel ──────────────────────────── */
 .inventory-secret-panel {
   background: linear-gradient(135deg, #080020, #100030);
