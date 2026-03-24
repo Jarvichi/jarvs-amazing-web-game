@@ -8,6 +8,22 @@
       "THE THORNLORD awakens! Ancient guardian of the Verdant Shard.",
       "Walls of bark and root rise from the earth — prepare for a siege!"
     ],
+    "trait": {
+      "name": "Burrow",
+      "implemented": false,
+      "trigger": "hp_pct",
+      "triggerHpPct": 50,
+      "type": "burrow",
+      "description": "When the Thornlord reaches 50% HP it sinks into the earth, becoming untargetable for 3 seconds. It then erupts from the ground at a random position on the battlefield, dealing 5 AOE damage to all player units within 2 tiles of the landing point.",
+      "mechanics": {
+        "invulnerableDurationMs": 3000,
+        "landingDamage": 5,
+        "landingRadiusTiles": 2,
+        "repositionTarget": "random"
+      },
+      "announceText": "The Thornlord BURROWS! Watch the earth — it will rise again!",
+      "surfaceText": "The earth SPLITS — the Thornlord erupts!"
+    },
     "phases": [
       {
         "condition": null,
@@ -30,6 +46,23 @@
       "WARLORD KRAGG takes the field! Iron discipline, iron walls, iron will.",
       "The siege weapons are already loaded. The gate does not open for you."
     ],
+    "trait": {
+      "name": "Earthshaker",
+      "implemented": false,
+      "trigger": "periodic",
+      "triggerIntervalMs": 30000,
+      "type": "jump_aoe",
+      "description": "Every 30 seconds Kragg leaps into the air with a thunderous war cry and crashes down on the player's side of the battlefield. The impact deals 8 AOE damage to all player units within 2 tiles of the landing point and stuns them for 1.5 seconds.",
+      "mechanics": {
+        "jumpDurationMs": 2000,
+        "landingDamage": 8,
+        "landingRadiusTiles": 2,
+        "stunDurationMs": 1500,
+        "landingTarget": "player_side_random"
+      },
+      "announceText": "KRAGG LEAPS — brace for impact!",
+      "landText": "BOOM — the ground shakes! Units near the crater are stunned!"
+    },
     "phases": [
       {
         "condition": null,
@@ -51,6 +84,22 @@
       "THE ASHWALKER stirs. The ash rises. The dead remember.",
       "An undying horde answers the call — destroy them before they overwhelm you!"
     ],
+    "trait": {
+      "name": "Ashen Split",
+      "implemented": false,
+      "trigger": "hp_pct",
+      "triggerHpPct": 50,
+      "type": "split",
+      "description": "When the Ashwalker reaches 50% HP it dissolves into a cloud of ash and reforms as 3 identical copies scattered across the battlefield. Each copy has HP equal to one third of the Ashwalker's HP at the time of splitting. All 3 copies must be destroyed to win the battle.",
+      "mechanics": {
+        "splitCount": 3,
+        "hpDivisor": 3,
+        "positions": ["left_flank", "centre", "right_flank"],
+        "allMustDie": true
+      },
+      "announceText": "The Ashwalker SPLITS — three shadows rise from the ash! Destroy them all!",
+      "splitLog": "The ash swirls… three shapes emerge across the field. Destroy them ALL!"
+    },
     "phases": [
       {
         "condition": { "opponentFieldCountGte": 3 },
@@ -80,6 +129,23 @@
       "THE ARCHIVIST opens the archive. Every spell in the Dominion catalogue — ready.",
       "Arcane constructs flood the field. At turn eight, his mana becomes limitless — act fast!"
     ],
+    "trait": {
+      "name": "Arcane Ascension",
+      "implemented": false,
+      "trigger": "game_time_gte",
+      "triggerGameTimeMs": 120000,
+      "type": "fly",
+      "description": "When the Archivist's unlimited-mana phase begins (120 s into the battle) he ascends into the air in a column of arcane light, becoming invulnerable for 5 seconds. He then descends at the centre of the battlefield in an arcane shockwave that silences all player units (delays their attacks) for 3 seconds.",
+      "mechanics": {
+        "invulnerableDurationMs": 5000,
+        "landingPosition": "battlefield_centre",
+        "silenceDurationMs": 3000,
+        "silenceRadiusTiles": "all",
+        "triggersOnceOnly": true
+      },
+      "announceText": "The Archivist ASCENDS — arcane light blinds the field!",
+      "landText": "ARCANE SHOCKWAVE — all units are silenced!"
+    },
     "phases": [
       {
         "condition": { "gameTimeGte": 120000 },
@@ -113,6 +179,22 @@
       "THE TIDAL SOVEREIGN surfaces. The reef shudders. The deep comes with it.",
       "Wave after wave crashes ashore — hold your ground or be dragged under!"
     ],
+    "trait": {
+      "name": "Riptide Surge",
+      "implemented": false,
+      "trigger": "hp_pct",
+      "triggerHpPct": 50,
+      "type": "burrow",
+      "description": "When the Tidal Sovereign reaches 50% HP it dives into the depths, becoming untargetable for 3 seconds. It resurfaces at the opposite end of the battlefield accompanied by a crashing wave that pushes all player units back 3 tiles and deals 3 damage to each one.",
+      "mechanics": {
+        "invulnerableDurationMs": 3000,
+        "waveDamage": 3,
+        "wavePushTiles": 3,
+        "repositionTarget": "opposite_flank"
+      },
+      "announceText": "The Tidal Sovereign DIVES — a massive wave is incoming!",
+      "surfaceText": "RIPTIDE! The wave crashes — all units are pushed back!"
+    },
     "phases": [
       {
         "condition": { "wavePhaseEven": true },
@@ -145,6 +227,23 @@
       "THE PALE ENGINE engages. Cold logic. No retreat. No mercy.",
       "Walls first, then siege fire — don't let the turrets establish themselves."
     ],
+    "trait": {
+      "name": "Overload Cascade",
+      "implemented": false,
+      "trigger": "periodic",
+      "triggerIntervalMs": 45000,
+      "type": "column_aoe",
+      "description": "Every 45 seconds the Pale Engine overloads its power core and discharges an electromagnetic pulse along a random column of the battlefield. All player units in that column take 6 damage and have their attack speed halved for 4 seconds.",
+      "mechanics": {
+        "pulseDamage": 6,
+        "pulseColumn": "random",
+        "slowDurationMs": 4000,
+        "slowFactor": 0.5,
+        "chargeUpMs": 1500
+      },
+      "announceText": "OVERLOAD IMMINENT — the Engine's core destabilises!",
+      "fireText": "EMP CASCADE — a column of the field is devastated!"
+    },
     "phases": [
       {
         "condition": null,
@@ -167,6 +266,23 @@
       "THE DUNE BARON fields his forces. This is business. He takes it seriously.",
       "Expensive units first, then structures to hold ground — the Baron invests to win."
     ],
+    "trait": {
+      "name": "Sand Dive",
+      "implemented": false,
+      "trigger": "hp_pct_multi",
+      "triggerHpPcts": [66, 33],
+      "type": "burrow",
+      "description": "At 66% HP and again at 33% HP the Dune Baron plunges into the sand, becoming untargetable for 2 seconds. He resurfaces directly adjacent to the player's highest-HP unit, dealing 4 AOE damage to all player units within 1 tile of the landing spot and disorienting them for 2 seconds.",
+      "mechanics": {
+        "invulnerableDurationMs": 2000,
+        "landingDamage": 4,
+        "landingRadiusTiles": 1,
+        "disorientDurationMs": 2000,
+        "repositionTarget": "nearest_player_highest_hp"
+      },
+      "announceText": "The Baron VANISHES into the sand — where will he surface?",
+      "surfaceText": "He ERUPTS from the dunes — your strongest unit is the target!"
+    },
     "phases": [
       {
         "condition": { "gameTimeLt": 35000 },
@@ -198,6 +314,25 @@
       "THE ROOT QUEEN stirs. The network connects. Everything down here is already hers.",
       "Waves of crawlers first — then the deep growth. Don't let the spawners take root."
     ],
+    "trait": {
+      "name": "Mycelium Fracture",
+      "implemented": false,
+      "trigger": "hp_pct",
+      "triggerHpPct": 40,
+      "type": "split",
+      "description": "When the Root Queen reaches 40% HP her body dissolves into spores and four Spore Nodes erupt at the four corners of the battlefield. Each Spore Node has 25% of her HP at the time of fracturing. All four nodes must be destroyed to win. The nodes each continue to spawn weak crawler units while alive.",
+      "mechanics": {
+        "splitCount": 4,
+        "hpDivisor": 4,
+        "positions": ["top_left", "top_right", "bottom_left", "bottom_right"],
+        "allMustDie": true,
+        "nodesSpawnUnits": true,
+        "nodeSpawnIntervalMs": 8000,
+        "nodeSpawnUnitType": "crawler"
+      },
+      "announceText": "The Root Queen FRACTURES — Spore Nodes erupt at the four corners!",
+      "splitLog": "Four Spore Nodes emerge at the corners of the field. Destroy them ALL to win!"
+    },
     "phases": [
       {
         "condition": { "gameTimeLt": 25000 },
@@ -229,6 +364,24 @@
       "THE CINDERWARLORD commands the caldera! He and the volcanoes have an understanding.",
       "Early waves are fast and cheap — brace for the heavy assault once the forge fires up!"
     ],
+    "trait": {
+      "name": "Caldera Leap",
+      "implemented": false,
+      "trigger": "periodic",
+      "triggerIntervalMs": 40000,
+      "type": "fly",
+      "description": "Every 40 seconds the Cinderwarlord leaps into a nearby volcano vent, disappearing from the battlefield and becoming invulnerable for 4 seconds. He then crashes back down as a blazing meteor at a random point on the player's side of the field, dealing 10 AOE damage in a large 3-tile radius and leaving a burning ground patch that deals 2 damage per second for 5 seconds.",
+      "mechanics": {
+        "invulnerableDurationMs": 4000,
+        "landingDamage": 10,
+        "landingRadiusTiles": 3,
+        "burnDamagePerSec": 2,
+        "burnDurationMs": 5000,
+        "landingTarget": "player_side_random"
+      },
+      "announceText": "The Cinderwarlord DIVES into the volcano — incoming eruption!",
+      "landText": "METEOR IMPACT — the ground ignites! Stay out of the burn zone!"
+    },
     "phases": [
       {
         "condition": { "gameTimeLt": 30000 },
@@ -259,6 +412,24 @@
       "THE CLOUDMARSHAL takes position. The sky belongs to the Dominion.",
       "Aerial squadrons in formation — watch above as well as ahead!"
     ],
+    "trait": {
+      "name": "Storm Dive",
+      "implemented": false,
+      "trigger": "hp_pct",
+      "triggerHpPct": 60,
+      "type": "fly",
+      "description": "When the Cloudmarshal reaches 60% HP he ascends into the storm clouds, becoming invulnerable for 6 seconds while his aerial squadrons continue to fight. He then dives at the most densely populated area of the player's side, dealing 7 AOE damage to all units in a 2-tile radius and creating a storm zone that persists for 6 seconds, dealing 2 damage per second to any player unit that remains inside it.",
+      "mechanics": {
+        "invulnerableDurationMs": 6000,
+        "landingDamage": 7,
+        "landingRadiusTiles": 2,
+        "stormDamagePerSec": 2,
+        "stormDurationMs": 6000,
+        "repositionTarget": "player_densest_cluster"
+      },
+      "announceText": "The Cloudmarshal ASCENDS — he's calling in the storm strike!",
+      "landText": "STORM DIVE — the impact zone crackles with lightning!"
+    },
     "phases": [
       {
         "condition": null,
