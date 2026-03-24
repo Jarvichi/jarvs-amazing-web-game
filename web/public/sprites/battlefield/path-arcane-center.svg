@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Glowing arcane path, center -->
+  <path d="M34,0 C33,50 36,105 34,148 C32,182 35,202 34,220 L66,220 C65,202 68,182 66,148 C64,105 67,50 66,0 Z" fill="#2a1055" opacity="0.9"/>
+  <path d="M36,0 C35,48 38,103 36,146 C34,180 37,201 36,220 L64,220 C63,201 66,180 64,146 C62,103 65,48 64,0 Z" fill="#3a1870"/>
+  <!-- Rune marks -->
+  <line x1="44" y1="44"  x2="56" y2="44"  stroke="#7040c0" stroke-width="0.7" opacity="0.6"/>
+  <line x1="44" y1="88"  x2="56" y2="88"  stroke="#7040c0" stroke-width="0.7" opacity="0.6"/>
+  <line x1="44" y1="132" x2="56" y2="132" stroke="#7040c0" stroke-width="0.7" opacity="0.6"/>
+  <line x1="44" y1="176" x2="56" y2="176" stroke="#7040c0" stroke-width="0.7" opacity="0.6"/>
+  <!-- Glints -->
+  <circle cx="50" cy="66"  r="1.2" fill="#c0a0ff" opacity="0.6"/>
+  <circle cx="50" cy="132" r="1"   fill="#c0a0ff" opacity="0.55"/>
+  <circle cx="50" cy="198" r="1.2" fill="#a070e0" opacity="0.5"/>
+</svg>
