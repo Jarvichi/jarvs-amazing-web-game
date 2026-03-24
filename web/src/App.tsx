@@ -1086,15 +1086,22 @@ export default function App() {
       addToInventory({ id: mysteryReward.id, name: mysteryReward.name, icon: mysteryReward.icon, desc: mysteryReward.desc ?? '', lore: mysteryReward.lore ?? '' })
     } else if (mysteryReward.type === 'card' || mysteryReward.type === 'pack') {
       addCardsToCollection([{ cardName: mysteryReward.name, count: 1 }])
-    } else if (mysteryReward.type === 'consumable' && mysteryReward.consumableId) {
-      addToConsumableStash(mysteryReward.consumableId)
     }
     // Complete node
     const nodeId = currentRun.pendingNodeId!
+    let consumables = currentRun.consumables
+    if (mysteryReward.type === 'consumable' && mysteryReward.consumableId) {
+      const cid = mysteryReward.consumableId
+      const existing = consumables.find(c => c.id === cid)
+      consumables = existing
+        ? consumables.map(c => c.id === cid ? { ...c, count: c.count + 1 } : c)
+        : [...consumables, { id: cid, count: 1 }]
+    }
     const updatedRun: RunState = {
       ...currentRun,
       completedNodeIds: [...currentRun.completedNodeIds, nodeId],
       pendingNodeId: null,
+      consumables,
     }
     recordNodeComplete(updatedRun.actId, nodeId)
     saveRun(updatedRun)
