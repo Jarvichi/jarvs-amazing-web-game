@@ -139,8 +139,8 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, onBe
             >
               <div className="rb-tier-top">
                 <span className="rb-tier-label">{tier.label}</span>
-                {tier.isBase && <span className="rb-tier-tag rb-tier-tag--auto">REQUIRED</span>}
-                {!tier.isBase && <span className="rb-tier-tag rb-tier-tag--bonus">OPTIONAL</span>}
+                {tier.isBase && <span className="rb-tier-tag rb-tier-tag--required">REQUIRED</span>}
+                {!tier.isBase && <span className="rb-tier-tag rb-tier-tag--optional">OPTIONAL</span>}
                 {tier.extraCrystals > 0 && (
                   <span className="rb-tier-crystal">+{tier.extraCrystals} ◆/battle</span>
                 )}
