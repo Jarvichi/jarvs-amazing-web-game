@@ -6977,7 +6977,10 @@ html.eightbit-mode .lane-layer {
   padding: 24px 16px;
   max-width: 480px;
   margin: 0 auto;
-  min-height: 100%;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
   box-sizing: border-box;
 }
 
