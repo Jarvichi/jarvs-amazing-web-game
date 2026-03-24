@@ -91,6 +91,8 @@ export interface Unit extends UnitTemplate {
   damageFlashTimer?: number
   /** ms remaining in kill-flash animation (brief glow when this unit lands a kill). */
   killFlashTimer?: number
+  /** ms remaining stunned — unit cannot move or attack while > 0 (boss trait effect). */
+  stunTimer?: number
 }
 
 // ─── Animation Events ─────────────────────────────────────
@@ -124,6 +126,29 @@ export interface Card {
   lore?: string              // flavour text shown in the card detail view
   isHero?: boolean           // hero cards deploy a unit AND trigger a heroEffect buff
   heroEffect?: UpgradeEffect // the permanent buff applied to all friendly units when played
+}
+
+// ─── Boss Trait State ─────────────────────────────────────
+
+export interface BossTraitState {
+  /** HP percentage thresholds that have already fired (e.g. [50, 33]). */
+  firedThresholds: number[]
+  /** gameTime (ms) of the last periodic trait activation. */
+  lastTraitFireMs: number
+  /** True once a game_time_gte trait has fired (once-only guard). */
+  traitFired: boolean
+  /** gameTime (ms) at which the pending landing effect resolves (burrow/fly/jump). */
+  landingAtMs?: number
+  /** Target X coordinate for the landing effect. */
+  landX?: number
+  /** Target Y coordinate for the landing effect. */
+  landY?: number
+  /** gameTime until which the opponent base cannot take damage. */
+  baseInvulnerableUntilMs: number
+  /** True once a split trait has fired; win requires all fragment units dead. */
+  splitActive?: boolean
+  /** IDs of live split fragment units (all must die to win). */
+  splitUnitIds?: string[]
 }
 
 // ─── Battle Events ────────────────────────────────────────
@@ -216,6 +241,8 @@ export interface GameState {
   bossName?: string          // display name for the boss (e.g. 'The Thornlord')
   bossCardActive?: boolean   // true once the phase-2 unit has been deployed
   bossHpMultiplier?: number  // HP multiplier applied when boss card spawns (default 10)
+  /** Live state for the active boss's trait system. Undefined when not in a boss fight. */
+  bossTraitState?: BossTraitState
   terrain: TerrainObstacle[]
   environment?: string       // battlefield background theme ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen')
   soulstoneReviveAvailable?: boolean  // Soulstone relic: one unit auto-revives per battle
