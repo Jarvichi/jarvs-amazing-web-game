@@ -220,6 +220,8 @@ export interface GameState {
   environment?: string       // battlefield background theme ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen')
   soulstoneReviveAvailable?: boolean  // Soulstone relic: one unit auto-revives per battle
   relicManaBonus?: number             // Prism Lens relic: +N to maxMana cap
+  relicSporeBloom?: boolean           // Spore Bloom relic: player units heal 1 HP every 3s
+  relicSporeBloomTimer?: number       // countdown ms until next Spore Bloom tick
   battleStats: BattleStats
   /** Transient animation events (projectiles, hit flashes). Cleared each tick after expiry. */
   animEvents: AnimEvent[]

@@ -1032,35 +1032,18 @@
     },
     "spore-bat": {
       "name": "Spore Bat",
-      "attack": 3,
-      "maxHp": 8,
+      "attack": 5,
+      "maxHp": 14,
       "isWall": false,
-      "bypassWall": false,
-      "moveSpeed": 55,
-      "attackRange": 5,
-      "attackCooldownMs": 800,
+      "bypassWall": true,
+      "moveSpeed": 38,
+      "attackRange": 80,
+      "attackCooldownMs": 1100,
       "flying": true,
       "tags": [
-        "flying",
-        "fast",
-        "beast"
-      ],
-      "strengths": [
-        "melee",
-        "slow"
-      ],
-      "weaknesses": [
-        "ranged",
-        "fire"
-      ],
-      "affinity": {
-        "withName": "Plague Rat",
-        "range": 50,
-        "effectType": "attackSpeed",
-        "effectAmount": 1.3,
-        "label": "Plague Cloud"
-      },
-      "size": "small"
+        "fungal",
+        "spore"
+      ]
     },
     "thornbeast": {
       "name": "Thornbeast",
@@ -3040,6 +3023,275 @@
         "ember"
       ],
       "name": "Molten Colossus"
+    },
+    "spore-crawler": {
+      "name": "Spore Crawler",
+      "attack": 4,
+      "maxHp": 12,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 28,
+      "attackRange": 1,
+      "attackCooldownMs": 1100,
+      "tags": [
+        "fungal"
+      ]
+    },
+    "mycelium-guard": {
+      "name": "Mycelium Guard",
+      "attack": 5,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 22,
+      "attackRange": 1,
+      "attackCooldownMs": 1200,
+      "tags": [
+        "fungal"
+      ]
+    },
+    "spore-archer": {
+      "name": "Spore Archer",
+      "attack": 6,
+      "maxHp": 14,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 20,
+      "attackRange": 120,
+      "attackCooldownMs": 1400,
+      "tags": [
+        "fungal"
+      ]
+    },
+    "rot-stalker": {
+      "name": "Rot Stalker",
+      "attack": 5,
+      "maxHp": 16,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 32,
+      "attackRange": 1,
+      "attackCooldownMs": 1000,
+      "tags": [
+        "fungal"
+      ]
+    },
+    "fungal-shambler": {
+      "name": "Fungal Shambler",
+      "attack": 6,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 18,
+      "attackRange": 1,
+      "attackCooldownMs": 1300,
+      "tags": [
+        "fungal"
+      ]
+    },
+    "bloom-sprite": {
+      "name": "Bloom Sprite",
+      "attack": 4,
+      "maxHp": 10,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 30,
+      "attackRange": 90,
+      "attackCooldownMs": 1000,
+      "flying": true,
+      "tags": [
+        "fungal",
+        "spore"
+      ]
+    },
+    "toadstool-knight": {
+      "name": "Toadstool Knight",
+      "attack": 8,
+      "maxHp": 28,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 18,
+      "attackRange": 1,
+      "attackCooldownMs": 1400,
+      "tags": [
+        "fungal"
+      ]
+    },
+    "mycelium-hulk": {
+      "name": "Mycelium Hulk",
+      "attack": 10,
+      "maxHp": 38,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 14,
+      "attackRange": 1,
+      "attackCooldownMs": 1600,
+      "tags": [
+        "fungal"
+      ]
+    },
+    "spore-colossus": {
+      "name": "Spore Colossus",
+      "attack": 14,
+      "maxHp": 55,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 10,
+      "attackRange": 1,
+      "attackCooldownMs": 2000,
+      "tags": [
+        "fungal",
+        "spore"
+      ]
+    },
+    "bloom-wisp": {
+      "name": "Bloom Wisp",
+      "attack": 6,
+      "maxHp": 12,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 35,
+      "attackRange": 100,
+      "attackCooldownMs": 1200,
+      "flying": true,
+      "tags": [
+        "spore"
+      ]
+    },
+    "rot-titan": {
+      "name": "Rot Titan",
+      "attack": 12,
+      "maxHp": 46,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 12,
+      "attackRange": 1,
+      "attackCooldownMs": 1800,
+      "tags": [
+        "fungal"
+      ]
+    },
+    "mycelium-wall": {
+      "name": "Mycelium Wall",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "tags": [
+        "fungal"
+      ]
+    },
+    "spore-vent": {
+      "name": "Spore Vent",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "healAura",
+        "amount": 3,
+        "intervalMs": 4000
+      },
+      "tags": [
+        "spore"
+      ]
+    },
+    "fungal-den": {
+      "name": "Fungal Den",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "spore-crawler",
+        "intervalMs": 8000
+      },
+      "tags": [
+        "fungal"
+      ]
+    },
+    "root-snare": {
+      "name": "Root Snare",
+      "attack": 7,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 0,
+      "attackRange": 140,
+      "attackCooldownMs": 1600,
+      "tags": [
+        "fungal"
+      ]
+    },
+    "bloom-spire": {
+      "name": "Bloom Spire",
+      "attack": 10,
+      "maxHp": 28,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 0,
+      "attackRange": 180,
+      "attackCooldownMs": 1800,
+      "tags": [
+        "spore"
+      ]
+    },
+    "rot-shrine": {
+      "name": "Rot Shrine",
+      "attack": 0,
+      "maxHp": 28,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "fungal-shambler",
+        "intervalMs": 10000
+      },
+      "tags": [
+        "fungal"
+      ]
+    },
+    "root-wraith": {
+      "name": "Root Wraith",
+      "attack": 7,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 28,
+      "attackRange": 100,
+      "attackCooldownMs": 1300,
+      "flying": true,
+      "tags": [
+        "fungal",
+        "spore"
+      ]
+    },
+    "queen-spore": {
+      "name": "Queen Spore",
+      "attack": 18,
+      "maxHp": 70,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 8,
+      "attackRange": 1,
+      "attackCooldownMs": 2200,
+      "tags": [
+        "fungal",
+        "spore"
+      ]
     }
   },
   "cards": [
@@ -7361,6 +7613,337 @@
         "ember"
       ],
       "lore": "The mountain's blessing. The mountain is not subtle."
+    },
+    {
+      "name": "Spore Crawler",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "spore-crawler",
+      "description": "Cheap fast melee. Floods in from the deep.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "Smells like wet earth and something older. Moves faster than it should."
+    },
+    {
+      "name": "Mycelium Guard",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "mycelium-guard",
+      "description": "Sturdy melee. Fibrous and hard to kill.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "The mycelium doesn't bleed. It just regrows."
+    },
+    {
+      "name": "Spore Archer",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "spore-archer",
+      "description": "Ranged. Fires toxic spore bolts.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "The bolts carry seeds. Everything they hit becomes a garden eventually."
+    },
+    {
+      "name": "Rot Stalker",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "rot-stalker",
+      "description": "Fast melee. Hunts at the edges.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "It learned to run from something in the deep. That thing is still down there."
+    },
+    {
+      "name": "Fungal Shambler",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "fungal-shambler",
+      "description": "Slow but durable. Hard to stop entirely.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "It forgets what it was. The fungus doesn't."
+    },
+    {
+      "name": "Bloom Sprite",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "bloom-sprite",
+      "description": "Flying ranged. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "lore": "Too light to be dangerous alone. There are never fewer than twenty."
+    },
+    {
+      "name": "Toadstool Knight",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "toadstool-knight",
+      "description": "Heavy melee. Dense cap, hard to dent.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "Grew the armour. Didn't need a smith."
+    },
+    {
+      "name": "Spore Bat",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "spore-bat",
+      "description": "Fast flying ranged. Bypasses walls.",
+      "deckCount": 0,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "lore": "Wings coated in something that makes your eyes water."
+    },
+    {
+      "name": "Bloom Wisp",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "bloom-wisp",
+      "description": "Flying ranged. Drifts through formations.",
+      "deckCount": 0,
+      "tags": [
+        "spore"
+      ],
+      "lore": "Not alive exactly. Not dead exactly. In between, and perfectly content."
+    },
+    {
+      "name": "Mycelium Hulk",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "mycelium-hulk",
+      "description": "Massive melee. Dominates the field.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "The oldest growth in the deep. It remembers when there was light down here."
+    },
+    {
+      "name": "Rot Titan",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "rot-titan",
+      "description": "Huge melee. Slow but devastating.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "The rot doesn't stop. It never stopped. It just got bigger."
+    },
+    {
+      "name": "Spore Colossus",
+      "rarity": "epic",
+      "cost": 7,
+      "cardType": "unit",
+      "unitRef": "spore-colossus",
+      "description": "Legendary walker. Releases spores on each attack.",
+      "deckCount": 0,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "lore": "The Root Queen grew it for this. One purpose. It doesn't know any others."
+    },
+    {
+      "name": "Mycelium Wall",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "mycelium-wall",
+      "description": "Fungal wall. Soft but regrows.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "Cut it down. It comes back in an hour."
+    },
+    {
+      "name": "Spore Vent",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "spore-vent",
+      "description": "Releases clouds that heal nearby units.",
+      "deckCount": 0,
+      "tags": [
+        "spore"
+      ],
+      "lore": "The smell takes some getting used to. The healing doesn't."
+    },
+    {
+      "name": "Fungal Den",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "fungal-den",
+      "description": "Spawner. Periodically releases Spore Crawlers.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "It hums at a frequency that makes the walls vibrate."
+    },
+    {
+      "name": "Root Snare",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "unitRef": "root-snare",
+      "description": "Ranged tower. Shoots binding root projectiles.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "The roots never retract. The battlefield gets harder to cross by the hour."
+    },
+    {
+      "name": "Bloom Spire",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "bloom-spire",
+      "description": "Tall ranged tower. Long reach, good damage.",
+      "deckCount": 0,
+      "tags": [
+        "spore"
+      ],
+      "lore": "Whatever it's firing, it doesn't run out."
+    },
+    {
+      "name": "Rot Shrine",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "rot-shrine",
+      "description": "Spawner. Periodically releases Fungal Shamblers.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "Nobody built it. It grew."
+    },
+    {
+      "name": "Spore Cloud",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units gain +1 ATK.",
+      "deckCount": 0,
+      "tags": [
+        "spore"
+      ],
+      "lore": "Breathe it in. Stop complaining."
+    },
+    {
+      "name": "Mycelium Surge",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units gain +2 ATK and +2 max HP.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "The network pulses once. Everyone connected feels it."
+    },
+    {
+      "name": "Deep Growth",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units are healed for 5 HP.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "The deep heals things. Some of them wished it wouldn't."
+    },
+    {
+      "name": "Root Surge",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units gain +3 ATK.",
+      "deckCount": 0,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "lore": "The Root Queen doesn't shout commands. She just surges."
+    },
+    {
+      "name": "Root Wraith",
+      "rarity": "uncommon",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "root-wraith",
+      "description": "Flying ranged. Passes through walls silently.",
+      "deckCount": 0,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "lore": "It was a person once. The network disagrees."
+    },
+    {
+      "name": "Queen Spore",
+      "rarity": "legendary",
+      "cost": 8,
+      "cardType": "unit",
+      "unitRef": "queen-spore",
+      "description": "Legendary. A fragment of the Root Queen herself.",
+      "deckCount": 0,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "lore": "She sent a piece of herself. The piece has opinions now."
+    },
+    {
+      "name": "Fungal Bloom",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "unitRef": null,
+      "description": "All your units gain +4 max HP and are fully healed.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "The bloom comes once. It's always exactly what you needed."
     }
   ],
   "heroCards": [

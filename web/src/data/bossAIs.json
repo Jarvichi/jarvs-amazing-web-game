@@ -137,6 +137,37 @@
     ]
   },
   {
+    "id": "rootqueen",
+    "intervalMs": 4800,
+    "idleMessage": "The mycelium pulses…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE ROOT QUEEN stirs. The network connects. Everything down here is already hers.",
+      "Waves of crawlers first — then the deep growth. Don't let the spawners take root."
+    ],
+    "phases": [
+      {
+        "condition": { "gameTimeLt": 25000 },
+        "priorities": [
+          { "cardType": "unit", "isWall": false, "costLt": 3, "sortBy": "cost_asc" },
+          { "cardType": "unit", "isWall": false },
+          { "cardType": "upgrade" },
+          { "cardType": "structure", "isWall": false }
+        ]
+      },
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "structure", "structureEffect": "none" },
+          { "cardType": "unit", "isWall": false, "costGte": 4, "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false },
+          { "cardType": "upgrade" }
+        ]
+      }
+    ]
+  },
+  {
     "id": "cinderwarlord",
     "intervalMs": 5000,
     "idleMessage": "The volcano rumbles…",

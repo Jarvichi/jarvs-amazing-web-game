@@ -1295,6 +1295,17 @@ export function tick(state: GameState, deltaMs: number): GameState {
     if (s.mana >= s.maxMana) s.manaAccum = 0
   }
 
+  // 1b. Spore Bloom relic — heal all player units 1 HP every 3s
+  if (s.relicSporeBloom) {
+    s.relicSporeBloomTimer = (s.relicSporeBloomTimer ?? 3000) - deltaMs
+    if (s.relicSporeBloomTimer <= 0) {
+      for (const u of s.field) {
+        if (u.owner === 'player' && u.hp < u.maxHp) u.hp = Math.min(u.maxHp, u.hp + 1)
+      }
+      s.relicSporeBloomTimer += 3000
+    }
+  }
+
   // 2. Move all units
   moveUnits(s, deltaMs)
 

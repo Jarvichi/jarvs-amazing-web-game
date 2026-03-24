@@ -105,7 +105,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 **Progress:**
 - [x] Act 7 — The Emberfall Peaks (session 26: act7.json, cinderwarlord AI, Magma Core relic; cards/templates already done session 25)
-- [ ] Act 8 — The Fungal Deep
+- [x] Act 8 — The Fungal Deep (session 26: 25 cards + templates, act8.json, rootqueen AI, Spore Bloom relic with per-tick heal engine hook)
 - [ ] Act 9 — The Frozen Expanse
 - [ ] Act 10 — The Sand Market
 - [ ] Act 11 — The Verdant Canopy
@@ -174,7 +174,27 @@ All sprites below need creating. Format: `{slug}.svg` (static) + `{slug}-1/2/3.s
 - [ ] fire-forge (structure, 1 frame)
 - [ ] ash-turret (structure, 1 frame)
 
-**Act 8 — The Fungal Deep** (`fungal`, `spore` tags) — sprite list to be added when Act 8 is implemented.
+**Act 8 — The Fungal Deep** (`fungal`, `spore` tags)
+- [ ] spore-crawler (unit, 4 frames)
+- [ ] mycelium-guard (unit, 4 frames)
+- [ ] spore-archer (unit, 4 frames)
+- [ ] rot-stalker (unit, 4 frames)
+- [ ] fungal-shambler (unit, 4 frames)
+- [ ] bloom-sprite (unit, 4 frames)
+- [ ] toadstool-knight (unit, 4 frames)
+- [ ] spore-bat (unit, 4 frames)
+- [ ] bloom-wisp (unit, 4 frames)
+- [ ] mycelium-hulk (unit, 4 frames)
+- [ ] rot-titan (unit, 4 frames)
+- [ ] spore-colossus (unit, 4 frames)
+- [ ] root-wraith (unit, 4 frames)
+- [ ] queen-spore (unit, 4 frames)
+- [ ] mycelium-wall (structure, 1 frame)
+- [ ] spore-vent (structure, 1 frame)
+- [ ] fungal-den (structure, 1 frame)
+- [ ] root-snare (structure, 1 frame)
+- [ ] bloom-spire (structure, 1 frame)
+- [ ] rot-shrine (structure, 1 frame)
 
 **Acts 9–25** — sprite lists to be added as each act is implemented.
 
