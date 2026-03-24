@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Lava channel left strip -->
+  <rect x="0" y="0" width="24" height="220" fill="#140600"/>
+  <!-- Lava flow blobs -->
+  <ellipse cx="10" cy="42"  rx="8" ry="5"   fill="#2a0c00" opacity="0.8"/>
+  <ellipse cx="12" cy="105" rx="9" ry="5.5" fill="#2a0c00" opacity="0.75"/>
+  <ellipse cx="8"  cy="170" rx="7" ry="4.5" fill="#2a0c00" opacity="0.8"/>
+  <!-- Glowing cracks -->
+  <line x1="4"  y1="38"  x2="18" y2="50"  stroke="#e05000" stroke-width="0.8" opacity="0.7"/>
+  <line x1="6"  y1="100" x2="20" y2="112" stroke="#e05000" stroke-width="0.7" opacity="0.65"/>
+  <line x1="2"  y1="166" x2="16" y2="178" stroke="#c04000" stroke-width="0.8" opacity="0.7"/>
+  <circle cx="12" cy="48"  r="1" fill="#f08000" opacity="0.7"/>
+  <circle cx="14" cy="110" r="1" fill="#f08000" opacity="0.65"/>
+  <circle cx="10" cy="175" r="1" fill="#f09000" opacity="0.7"/>
+  <line x1="24" y1="0" x2="24" y2="220" stroke="#400c00" stroke-width="0.5" opacity="0.5"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Ember/lava path, center -->
+  <path d="M34,0 C33,50 36,105 34,148 C32,182 35,202 34,220 L66,220 C65,202 68,182 66,148 C64,105 67,50 66,0 Z" fill="#200800" opacity="0.9"/>
+  <path d="M36,0 C35,48 38,103 36,146 C34,180 37,201 36,220 L64,220 C63,201 66,180 64,146 C62,103 65,48 64,0 Z" fill="#2e0c00"/>
+  <!-- Lava fissures -->
+  <line x1="42" y1="44"  x2="58" y2="56"  stroke="#e05000" stroke-width="0.9" opacity="0.7"/>
+  <line x1="44" y1="100" x2="56" y2="112" stroke="#e05000" stroke-width="0.8" opacity="0.65"/>
+  <line x1="42" y1="158" x2="58" y2="170" stroke="#c04000" stroke-width="0.9" opacity="0.7"/>
+  <!-- Ember glows -->
+  <circle cx="50" cy="55"  r="1.2" fill="#f08000" opacity="0.65"/>
+  <circle cx="50" cy="112" r="1.5" fill="#f09000" opacity="0.7"/>
+  <circle cx="50" cy="170" r="1.2" fill="#f08000" opacity="0.65"/>
+  <circle cx="50" cy="210" r="1"   fill="#e06000" opacity="0.55"/>
+</svg>
