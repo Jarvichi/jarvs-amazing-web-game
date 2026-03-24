@@ -137,6 +137,36 @@
     ]
   },
   {
+    "id": "cinderwarlord",
+    "intervalMs": 5000,
+    "idleMessage": "The volcano rumbles…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE CINDERWARLORD commands the caldera! He and the volcanoes have an understanding.",
+      "Early waves are fast and cheap — brace for the heavy assault once the forge fires up!"
+    ],
+    "phases": [
+      {
+        "condition": { "gameTimeLt": 30000 },
+        "priorities": [
+          { "cardType": "unit", "isWall": false, "costLt": 4, "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false },
+          { "cardType": "upgrade" },
+          { "cardType": "structure" }
+        ]
+      },
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "unit", "isWall": false, "costGte": 4, "sortBy": "cost_desc" },
+          { "cardType": "structure", "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false },
+          { "cardType": "upgrade" }
+        ]
+      }
+    ]
+  },
+  {
     "id": "cloudmarshal",
     "intervalMs": 4600,
     "idleMessage": "The Cloudmarshal repositions…",
