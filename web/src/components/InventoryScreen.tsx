@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { UselessItem, loadInventory, _inventorySyncCheck } from '../game/dailyLogin'
 import { saveCrystals, loadCrystals } from '../game/collection'
 import { loadEarnedRelics, getRelicDef, RelicDef } from '../game/relics'
+import { loadConsumableStash, ALL_CONSUMABLES } from '../game/questline'
 import { OverlayScreen } from './OverlayScreen'
 import { Section } from './Section'
 
@@ -19,6 +20,14 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
   const [secretMsg, setSecretMsg] = useState<string | null>(null)
   const [secretClaimed, setSecretClaimed] = useState(false)
   const [detail, setDetail] = useState<DetailEntry | null>(null)
+
+  const consumableStash = loadConsumableStash()
+  const ownedConsumables = consumableStash
+    .map(rc => {
+      const def = ALL_CONSUMABLES.find(c => c.id === rc.id)
+      return def ? { def, count: rc.count } : null
+    })
+    .filter((x): x is { def: typeof ALL_CONSUMABLES[0]; count: number } => x !== null)
 
   const earnedRelicNames = loadEarnedRelics()
   const earnedRelics = earnedRelicNames
@@ -65,6 +74,21 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
               CLAIM REWARD
             </button>
           </div>
+        )}
+
+        {ownedConsumables.length > 0 && (
+          <Section title="CONSUMABLES">
+            <div className="inventory-grid">
+              {ownedConsumables.map(({ def, count }) => (
+                <div key={def.id} className="inventory-cell">
+                  <div className="inventory-item-icon">{def.icon}</div>
+                  <div className="inventory-item-name">{def.name}</div>
+                  <div className="inventory-item-desc">{def.desc}</div>
+                  <div className="inventory-item-count">×{count}</div>
+                </div>
+              ))}
+            </div>
+          </Section>
         )}
 
         {earnedRelics.length > 0 && (
