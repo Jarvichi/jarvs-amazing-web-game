@@ -8,7 +8,9 @@ import act4Data from '../data/acts/act4.json'
 import act5Data from '../data/acts/act5.json'
 import act6Data from '../data/acts/act6.json'
 import act7Data from '../data/acts/act7.json'
-import act8Data from '../data/acts/act8.json'
+import act8Data  from '../data/acts/act8.json'
+import act9Data  from '../data/acts/act9.json'
+import act10Data from '../data/acts/act10.json'
 import consumablesData from '../data/consumables.json'
 
 // ─── Consumables ──────────────────────────────────────────
@@ -756,17 +758,21 @@ export const ACT_4: Act = act4Data as Act
 export const ACT_5: Act = act5Data as Act
 export const ACT_6: Act = act6Data as Act
 export const ACT_7: Act = act7Data as Act
-export const ACT_8: Act = act8Data as Act
+export const ACT_8:  Act = act8Data  as Act
+export const ACT_9:  Act = act9Data  as Act
+export const ACT_10: Act = act10Data as Act
 
 export const ACTS: Record<string, Act> = {
-  act1: ACT_1,
-  act2: ACT_2,
-  act3: ACT_3,
-  act4: ACT_4,
-  act5: ACT_5,
-  act6: ACT_6,
-  act7: ACT_7,
-  act8: ACT_8,
+  act1:  ACT_1,
+  act2:  ACT_2,
+  act3:  ACT_3,
+  act4:  ACT_4,
+  act5:  ACT_5,
+  act6:  ACT_6,
+  act7:  ACT_7,
+  act8:  ACT_8,
+  act9:  ACT_9,
+  act10: ACT_10,
 }
 
 // ─── Node history (persistent across runs) ───────────────

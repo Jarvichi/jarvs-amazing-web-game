@@ -137,6 +137,59 @@
     ]
   },
   {
+    "id": "paleengine",
+    "intervalMs": 5200,
+    "idleMessage": "The Engine processes…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE PALE ENGINE engages. Cold logic. No retreat. No mercy.",
+      "Walls first, then siege fire — don't let the turrets establish themselves."
+    ],
+    "phases": [
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "structure", "isWall": true },
+          { "cardType": "structure", "isWall": false, "structureEffect": "none", "sortBy": "cost_desc" },
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "upgrade" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dunebaron",
+    "intervalMs": 4600,
+    "idleMessage": "The Baron reassesses…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE DUNE BARON fields his forces. This is business. He takes it seriously.",
+      "Expensive units first, then structures to hold ground — the Baron invests to win."
+    ],
+    "phases": [
+      {
+        "condition": { "gameTimeLt": 35000 },
+        "priorities": [
+          { "cardType": "unit", "isWall": false, "costGte": 3, "sortBy": "cost_desc" },
+          { "cardType": "upgrade", "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false },
+          { "cardType": "structure", "isWall": false }
+        ]
+      },
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "structure", "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false, "costGte": 4, "sortBy": "cost_desc" },
+          { "cardType": "upgrade", "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false }
+        ]
+      }
+    ]
+  },
+  {
     "id": "rootqueen",
     "intervalMs": 4800,
     "idleMessage": "The mycelium pulses…",

@@ -71,6 +71,29 @@ const RELIC_CATALOG: RelicDef[] = [
     },
   },
   {
+    name: 'Frost Mantle',
+    icon: '🧊',
+    desc: 'All your units gain +2 max HP and your base gains +8 max HP at the start of every battle.',
+    applyToGame(state) {
+      state.playerBase.maxHp += 8
+      state.playerBase.hp   += 8
+      for (const u of state.field) {
+        if (u.owner === 'player') {
+          u.maxHp += 2
+          u.hp    += 2
+        }
+      }
+    },
+  },
+  {
+    name: 'Golden Compass',
+    icon: '🧭',
+    desc: 'You start each battle with +1 mana.',
+    applyToGame(state) {
+      state.mana = Math.min(state.mana + 1, state.maxMana)
+    },
+  },
+  {
     name: 'Spore Bloom',
     icon: '🍄',
     desc: 'Your units regenerate 1 HP every 3 seconds during battle.',
