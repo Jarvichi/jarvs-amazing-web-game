@@ -6,7 +6,11 @@
     "ruins":       ["floor-rubble", "rubble-left", "rubble-right", "path-ruins-center"],
     "camp":        ["floor-mud", "mud-edge-left", "mud-edge-right", "path-camp-center"],
     "citadel":     ["floor-stone", "cobble-left", "cobble-right", "path-flagstone-center"],
-    "ashen":       ["floor-scorched", "ash-left", "ash-right", "path-char-center"]
+    "ashen":       ["floor-scorched", "ash-left", "ash-right", "path-char-center"],
+    "arcane":      ["floor-crystal", "crystal-left", "crystal-right", "path-arcane-center"],
+    "reef":        ["floor-sand", "reef-left", "reef-right", "path-coral-center"],
+    "sky":         ["floor-cloud", "cloud-left", "cloud-right", "path-sky-center"],
+    "volcano":     ["floor-lava", "lava-left", "lava-right", "path-ember-center"]
   },
   "seasonLayers": {
     "spring": ["season-spring-flowers"],
