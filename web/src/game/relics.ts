@@ -71,6 +71,15 @@ const RELIC_CATALOG: RelicDef[] = [
     },
   },
   {
+    name: 'Spore Bloom',
+    icon: '🍄',
+    desc: 'Your units regenerate 1 HP every 3 seconds during battle.',
+    applyToGame(state) {
+      state.relicSporeBloom = true
+      state.relicSporeBloomTimer = 3000
+    },
+  },
+  {
     name: 'Magma Core',
     icon: '🌋',
     desc: 'Your units gain +2 ATK at battle start whenever your base HP is below 50%.',
