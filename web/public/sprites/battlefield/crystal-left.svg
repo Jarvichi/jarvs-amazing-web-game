@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Crystal formation left strip -->
+  <rect x="0" y="0" width="24" height="220" fill="#180e30"/>
+  <polygon points="8,30 14,15 20,32"    fill="#5030a0" opacity="0.7"/>
+  <polygon points="4,85 10,68 17,87"    fill="#6040b0" opacity="0.65"/>
+  <polygon points="10,150 16,132 22,152" fill="#5030a0" opacity="0.7"/>
+  <polygon points="3,200 9,185 16,202"  fill="#6040b0" opacity="0.6"/>
+  <circle cx="14" cy="20"  r="1" fill="#c0a0ff" opacity="0.7"/>
+  <circle cx="10" cy="72"  r="1" fill="#c0a0ff" opacity="0.65"/>
+  <circle cx="16" cy="136" r="1" fill="#c0a0ff" opacity="0.7"/>
+  <line x1="24" y1="0" x2="24" y2="220" stroke="#3a2070" stroke-width="0.5" opacity="0.5"/>
+</svg>
