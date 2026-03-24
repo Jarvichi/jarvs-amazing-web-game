@@ -75,6 +75,7 @@ import {
 import { AchievementsScreen } from './components/AchievementsScreen'
 import { HeroCardsScreen }   from './components/HeroCardsScreen'
 import FingerSmash from './components/FingerSmash'
+import BossShockwave from './components/BossShockwave'
 import { ShopScreen }        from './components/ShopScreen'
 import { BattleSummary }    from './components/BattleSummary'
 import { RelicSpinScreen }  from './components/RelicSpinScreen'
@@ -300,6 +301,7 @@ export default function App() {
   const [waveRewardChoices, setWaveRewardChoices] = useState<string[]>([])
   const [showFingerSmash, setShowFingerSmash] = useState(false)
   const [fingerSmashNames, setFingerSmashNames] = useState<string[]>([])
+  const [showBossShockwave, setShowBossShockwave] = useState(false)
   const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
 
@@ -527,6 +529,7 @@ export default function App() {
     if (active && !prevBossCardActiveRef.current) {
       setShowBossSplash(true)
       setTimeout(() => setShowBossSplash(false), 2500)
+      setShowBossShockwave(true)
     }
     prevBossCardActiveRef.current = active
   }, [gameState?.bossCardActive])
@@ -2133,6 +2136,7 @@ export default function App() {
         ) : (
           <>
             <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
+            {showBossShockwave && <BossShockwave onDone={() => setShowBossShockwave(false)} />}
             {activeRareEvent === 'fakeCrash'   && <FakeCrashEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'blackjack'   && <BlackjackEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'wrongNumber' && <WrongNumberEvent onDone={handleRareEventDone} />}
