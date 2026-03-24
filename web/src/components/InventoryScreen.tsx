@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { UselessItem, loadInventory, _inventorySyncCheck } from '../game/dailyLogin'
 import { saveCrystals, loadCrystals } from '../game/collection'
 import { loadEarnedRelics, getRelicDef, RelicDef } from '../game/relics'
-import { loadConsumableStash, ALL_CONSUMABLES } from '../game/questline'
+import { loadConsumableStash, loadRunConsumables, ALL_CONSUMABLES } from '../game/questline'
 import { OverlayScreen } from './OverlayScreen'
 import { Section } from './Section'
 
@@ -21,8 +21,15 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
   const [secretClaimed, setSecretClaimed] = useState(false)
   const [detail, setDetail] = useState<DetailEntry | null>(null)
 
-  const consumableStash = loadConsumableStash()
-  const ownedConsumables = consumableStash
+  // Merge stash (pre-run) + active run consumables so bought items are always visible
+  const mergedConsumables = [...loadRunConsumables()]
+  for (const s of loadConsumableStash()) {
+    const existing = mergedConsumables.find(c => c.id === s.id)
+    if (existing) existing.count += s.count
+    else mergedConsumables.push({ ...s })
+  }
+  const ownedConsumables = mergedConsumables
+    .filter(rc => rc.count > 0)
     .map(rc => {
       const def = ALL_CONSUMABLES.find(c => c.id === rc.id)
       return def ? { def, count: rc.count } : null

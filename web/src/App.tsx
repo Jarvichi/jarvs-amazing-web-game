@@ -739,6 +739,7 @@ export default function App() {
     if (existing) {
       // ── Resume existing run ────────────────────────────────────────────────
       const activeRun = existing
+      saveRun(activeRun)  // Persist any stash drain so a page refresh doesn't lose bought consumables
       setRun(activeRun)
       const act = ACTS[activeRun.actId]
 
