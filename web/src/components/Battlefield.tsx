@@ -720,15 +720,8 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
 
       {/* The Lane — vertical, fills remaining space */}
       {(() => {
-        const bossUnit = state.bossCardActive && state.bossCard
-          ? state.field.find(u => u.owner === 'opponent' && u.name === state.bossCard)
-          : null
-        const bossTopPct = bossUnit != null ? (1 - bossUnit.x / LANE_WIDTH) * 100 : 6
-        const laneStyle: React.CSSProperties = state.bossCardActive
-          ? { ['--boss-zoom-origin' as string]: `50% ${bossTopPct.toFixed(1)}%` }
-          : {}
         return (
-      <div className={`lane${state.bossCardActive ? ' lane--boss-phase' : ''}`} style={laneStyle}>
+      <div className="lane">
         <div className="lane-ground" />
         <LaneBackground env={state.environment} />
         <ForestBorder theme={actTheme} />
