@@ -2853,7 +2853,8 @@
       "attackCooldownMs": 1000,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Ember Crawler"
     },
     "cinder-hound": {
       "attack": 7,
@@ -2865,7 +2866,8 @@
       "attackCooldownMs": 900,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Cinder Hound"
     },
     "magma-archer": {
       "attack": 8,
@@ -2877,7 +2879,8 @@
       "attackCooldownMs": 1500,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Magma Archer"
     },
     "scorch-bat": {
       "attack": 6,
@@ -2890,7 +2893,8 @@
       "attackCooldownMs": 1200,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Scorch Bat"
     },
     "ash-stalker": {
       "attack": 9,
@@ -2902,7 +2906,8 @@
       "attackCooldownMs": 1000,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Ash Stalker"
     },
     "pyroclast-runner": {
       "attack": 4,
@@ -2914,7 +2919,8 @@
       "attackCooldownMs": 800,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Pyroclast Runner"
     },
     "fire-salamander": {
       "attack": 10,
@@ -2926,7 +2932,8 @@
       "attackCooldownMs": 1200,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Fire Salamander"
     },
     "cinder-knight": {
       "attack": 11,
@@ -2938,7 +2945,8 @@
       "attackCooldownMs": 1400,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Cinder Knight"
     },
     "ash-revenant": {
       "attack": 12,
@@ -2950,7 +2958,8 @@
       "attackCooldownMs": 1100,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Ash Revenant"
     },
     "lava-troll": {
       "attack": 8,
@@ -2962,7 +2971,8 @@
       "attackCooldownMs": 2000,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Lava Troll"
     },
     "ember-wyrm": {
       "attack": 14,
@@ -2975,7 +2985,8 @@
       "attackCooldownMs": 1600,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Ember Wyrm"
     },
     "flame-warden": {
       "attack": 13,
@@ -2987,7 +2998,8 @@
       "attackCooldownMs": 1500,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Flame Warden"
     },
     "volcanic-golem": {
       "attack": 16,
@@ -2999,7 +3011,8 @@
       "attackCooldownMs": 2100,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Volcanic Golem"
     },
     "inferno-drake": {
       "attack": 18,
@@ -3012,7 +3025,8 @@
       "attackCooldownMs": 1800,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Inferno Drake"
     },
     "molten-colossus": {
       "attack": 22,
@@ -3024,7 +3038,8 @@
       "attackCooldownMs": 2600,
       "tags": [
         "ember"
-      ]
+      ],
+      "name": "Molten Colossus"
     }
   },
   "cards": [

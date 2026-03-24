@@ -1,0 +1,160 @@
+[
+  {
+    "id": "thornlord",
+    "intervalMs": 6000,
+    "idleMessage": "The Thornlord is still…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE THORNLORD awakens! Ancient guardian of the Verdant Shard.",
+      "Walls of bark and root rise from the earth — prepare for a siege!"
+    ],
+    "phases": [
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "structure", "isWall": true },
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "structure", "structureEffect": "mana" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_asc" },
+          { "cardType": "upgrade" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kragg",
+    "intervalMs": 5000,
+    "idleMessage": "Kragg waits behind the wall…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "WARLORD KRAGG takes the field! Iron discipline, iron walls, iron will.",
+      "The siege weapons are already loaded. The gate does not open for you."
+    ],
+    "phases": [
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "structure", "isWall": false, "nameIn": ["Catapult", "Ballista", "Siege Works"] },
+          { "cardType": "structure", "isWall": true },
+          { "cardType": "upgrade" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ashwalker",
+    "intervalMs": 4500,
+    "idleMessage": "The ash stirs…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE ASHWALKER stirs. The ash rises. The dead remember.",
+      "An undying horde answers the call — destroy them before they overwhelm you!"
+    ],
+    "phases": [
+      {
+        "condition": { "opponentFieldCountGte": 3 },
+        "priorities": [
+          { "cardType": "upgrade", "nameIn": ["Bloodlust"] },
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_asc" },
+          { "cardType": "upgrade" }
+        ]
+      },
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_asc" },
+          { "cardType": "upgrade" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "archivist",
+    "intervalMs": 5000,
+    "idleMessage": "The Archivist catalogues…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE ARCHIVIST opens the archive. Every spell in the Dominion catalogue — ready.",
+      "Arcane constructs flood the field. At turn eight, his mana becomes limitless — act fast!"
+    ],
+    "phases": [
+      {
+        "condition": { "gameTimeGte": 120000 },
+        "manaOverride": 99,
+        "maxPlaysOverride": 6,
+        "announceOnce": "THE ARCHIVE OPENS — The Archivist's mana becomes limitless!",
+        "priorities": [
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "structure", "isWall": false, "structureEffect": "none" },
+          { "cardType": "upgrade", "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" }
+        ]
+      },
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "structure", "isWall": false, "structureEffect": "none" },
+          { "cardType": "upgrade", "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tidalsovereign",
+    "intervalMs": 4800,
+    "idleMessage": "The tide shifts…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE TIDAL SOVEREIGN surfaces. The reef shudders. The deep comes with it.",
+      "Wave after wave crashes ashore — hold your ground or be dragged under!"
+    ],
+    "phases": [
+      {
+        "condition": { "wavePhaseEven": true },
+        "priorities": [
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "unit", "isWall": false, "costGte": 5, "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "upgrade", "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false }
+        ]
+      },
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "unit", "flying": true, "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false, "costGte": 5, "sortBy": "cost_desc" },
+          { "cardType": "upgrade", "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cloudmarshal",
+    "intervalMs": 4600,
+    "idleMessage": "The Cloudmarshal repositions…",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE CLOUDMARSHAL takes position. The sky belongs to the Dominion.",
+      "Aerial squadrons in formation — watch above as well as ahead!"
+    ],
+    "phases": [
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "structure", "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "unit", "flying": true, "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "upgrade", "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" }
+        ]
+      }
+    ]
+  }
+]
