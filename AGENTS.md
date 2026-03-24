@@ -210,6 +210,138 @@ The doc also contains the **Act Authoring Checklist** (§12) — run through it 
 
 ---
 
+## Creating a New Act — Step-by-Step
+
+Use this when implementing an act from the Acts 7–25 plan in `todo.md`. Work through the steps in order; build and push after each step.
+
+### 1. Cards & unit templates — `web/src/data/cards.json`
+
+Add **25 themed cards** covering all three card types (unit, structure, upgrade), spread across rarities (roughly 6 common / 6 uncommon / 6 uncommon structures / 4 rare / 2 epic / 1 legendary).
+
+For each **unit** card:
+- Add a card entry in the `cards` array with `name`, `rarity`, `cost`, `cardType: "unit"`, `unitRef`, `description`, `deckCount: 0`, `tags`, and `lore`.
+- Add a matching template in the `templates` object keyed by `unitRef` slug. The template **must include `name`** (title-case of the slug) alongside the stat fields.
+
+For **structure** and **upgrade** cards, follow the same pattern — structures that spawn units need a `structureEffect` block with `type: "spawn"` and `unitTemplateRef`.
+
+Check that the card names used in act node enemy decks (step 2) are all present here.
+
+### 2. Act map — `web/src/data/acts/actN.json`
+
+Create the file following the 7-row, 13-node layout used by acts 1–7:
+
+| Row | Nodes | Types |
+|-----|-------|-------|
+| 0   | 1     | battle (start) |
+| 1   | 3     | event / rest / merchant |
+| 2   | 1     | battle |
+| 3   | 3     | battle / event / elite |
+| 4   | 1     | battle |
+| 5   | 3     | event / rest / elite |
+| 6   | 1     | boss |
+
+Required top-level fields: `id`, `title` (`"ACT VII"`), `subtitle`, `rewardRelic`, `rewardRelicDesc`, `environment`, `rewardTags`, `replayModifiers` (copy the standard 5-modifier block from a previous act), `startNodeIds`, `intro` (3 panels), `outro` (3 panels), `nodes`.
+
+Each node needs: `id`, `type`, `label`, `description`, `row`, `col`, `rowCols`, `parentIds`, `childIds`. Battle/elite/boss nodes also need `handicap`, `opponentIntervalMs`, `opponentBaseHp`, `environment`, `enemyDeck`. The boss node additionally needs `bossAI` (matching the ID in `bossAIs.json`) and `bossDialogue` (3 lines). Event nodes need `eventConfig` with `title`, `description`, and `pools`.
+
+**Escalate difficulty** across nodes: start around `handicap: 12` / `opponentBaseHp: 205` and end at approximately `handicap: 26–28` / `opponentBaseHp: 255–270` for the boss. See act6.json and act7.json for reference values.
+
+### 3. Boss AI — `web/src/data/bossAIs.json`
+
+Append a new entry to the array. Every entry needs:
+```json
+{
+  "id": "bossslug",
+  "intervalMs": 5000,
+  "idleMessage": "Flavour text when no card is played…",
+  "maxPlaysPerTurn": 3,
+  "openingLog": ["Line one shown at battle start.", "Line two."],
+  "phases": [...]
+}
+```
+
+**Phase conditions** (all optional, combined with AND):
+- `gameTimeGte` / `gameTimeLt` — milliseconds elapsed
+- `opponentFieldCountGte` — opponent units on field (excluding walls)
+- `wavePhaseEven` — `true`/`false` based on `Math.floor(gameTime/20000) % 2`
+
+**Priority filters** (checked in order; first non-empty bucket wins):
+- `cardType`: `"unit"` | `"structure"` | `"upgrade"` (required)
+- `isWall`: `true`/`false`
+- `flying`: `true`/`false`
+- `nameIn`: array of exact card names
+- `costGte` / `costLt`: number
+- `structureEffect`: `"spawn"` | `"mana"` | `"none"` (none = no effect = ranged tower)
+- `sortBy`: `"cost_asc"` | `"cost_desc"`
+
+**Phase-level overrides** (optional):
+- `manaOverride`: number — replaces mana cap for this phase (e.g. `99` for unlimited)
+- `maxPlaysOverride`: number — replaces `maxPlaysPerTurn`
+- `announceOnce`: string — logged once when `gameTime` first enters a `gameTimeGte`-gated phase (window: ±1 s)
+
+The last phase should always have `"condition": null` as a catch-all.
+
+### 4. Relic — `web/src/game/relics.ts`
+
+Append a new entry to `RELIC_CATALOG`:
+```typescript
+{
+  name: 'Relic Name',   // must match rewardRelic in actN.json exactly
+  icon: '🔮',
+  desc: 'One-sentence description shown in UI.',
+  applyToGame(state) {
+    // Mutate state at battle start.
+    // state.playerBase.hp / .maxHp — base HP
+    // state.field (Unit[]) — owner === 'player' units
+    // state.relicManaBonus — add to this for mana bonuses
+    // state.soulstoneReviveAvailable = true — for revive relics
+  },
+},
+```
+
+`applyToGame` is called once at the start of every battle. Keep it side-effect-free outside of `state`.
+
+### 5. Wire into questline — `web/src/game/questline.ts`
+
+```typescript
+// At the top with other imports:
+import act7Data from '../data/acts/act7.json'
+
+// Near the bottom with other ACT exports:
+export const ACT_7: Act = act7Data as Act
+
+// In the ACTS record:
+export const ACTS: Record<string, Act> = {
+  // ...existing acts...
+  act7: ACT_7,
+}
+```
+
+### 6. Build & verify
+
+```bash
+cd web && npm run build
+```
+
+Fix any TypeScript errors (most common: missing `name` in a template, mismatched `unitRef`, wrong card name in an enemy deck). The build must pass clean before committing.
+
+### 7. Update todo.md & commit
+
+Mark the act done in the **Progress** list with a session note. Update the sprite backlog section — add a stub for the next act's sprites (the new act's sprites go into the existing Act N block that was added when cards were authored).
+
+Commit message format:
+```
+feat(actN): implement <Title>
+
+- actN.json: <node count>-node map (<start> → <boss>); brief node summary
+- bossAIs.json: <bossslug> config — describe phase logic
+- relics.ts: <Relic Name> — one-line effect description
+- questline.ts: import actNData, export ACT_N, add to ACTS map
+- todo.md: mark Act N done; stub Act N+1 sprite section
+```
+
+---
+
 ## Campaign Event Checklist
 
 When creating or modifying act files, ensure any new `eventId` values are present in `web/src/data/events.json` or handled by generator functions:
