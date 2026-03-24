@@ -1149,6 +1149,25 @@ function checkGameOver(s: GameState): boolean {
         const displayName = s.bossName ?? s.bossCard
         s.log.push(`⚡ PHASE 2! ${displayName} rises from the ruins!`)
         s.log.push(`Destroy ${displayName} to win!`)
+
+        // Shockwave: kills 50% of player's mobile non-hero units, always leaving at least 3
+        const shockwavePool = s.field.filter(
+          u => u.owner === 'player' && u.moveSpeed > 0 && !u.isHero && !u.dyingTimer
+        )
+        const MIN_SURVIVORS = 3
+        let killCount = Math.floor(shockwavePool.length * 0.5)
+        killCount = Math.min(killCount, Math.max(0, shockwavePool.length - MIN_SURVIVORS))
+        if (killCount > 0) {
+          const shuffled = [...shockwavePool]
+          for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+          }
+          const victims = shuffled.slice(0, killCount)
+          const victimIds = new Set(victims.map(u => u.id))
+          s.field = s.field.filter(u => !victimIds.has(u.id))
+          s.log.push(`💥 The shockwave obliterates ${victims.map(u => u.name).join(', ')}!`)
+        }
       }
       s.bossCardActive = true
       return false
