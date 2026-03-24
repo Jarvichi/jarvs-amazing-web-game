@@ -56,6 +56,18 @@ export function addToConsumableStash(id: string, count = 1): void {
   saveConsumableStash(stash)
 }
 
+/** Read the active run's consumables from localStorage without touching the stash. */
+export function loadRunConsumables(): RunConsumable[] {
+  try {
+    const raw = localStorage.getItem(RUN_KEY)
+    if (!raw) return []
+    const parsed = JSON.parse(raw) as RunState
+    return Array.isArray(parsed.consumables) ? parsed.consumables : []
+  } catch {
+    return []
+  }
+}
+
 /** Drain the stash into a run's consumables list and clear the stash. */
 function drainStashIntoRun(consumables: RunConsumable[]): RunConsumable[] {
   const stash = loadConsumableStash()
