@@ -7,32 +7,6 @@
 
 ---
 
-## Quick Implementation Status
-
-| System | Implemented | Notes |
-|---|---|---|
-| Campaign map (rows, cols, branching) | ✅ | `questline.ts`, `acts/*.json` |
-| Node types (battle/elite/boss/rest/event/merchant) | ✅ | See node types section |
-| Mystery node | ❌ | Runtime surprise — see below |
-| Node peek modal | ❌ | UI not built |
-| 25-act campaign | ❌ | Only 4 acts exist |
-| Second 25-act story arc | ❌ | Future |
-| Replay text variants | ✅ | `introRules`, `variantPools`, `midRunTemplates` |
-| Global word substitution config | ❌ | Not yet a file |
-| Per-run modifiers | ❌ | Not applied |
-| Relic breaking | ❌ | 50% break on act-end screen |
-| Relic pick screen (start of act) | ❌ | Currently auto-equips last earned |
-| Boss card (boss node mechanic) | ❌ | Opponent keeps playing normally |
-| Boss traits (burrow/fly/split/jump AOE/column AOE) | ❌ | Designed in `bossAIs.json`; engine not built — see §13 |
-| Hero card per act | ❌ | Pool exists but no per-act additions |
-| Lives system (3 lives) | ❌ | Only HP exists, no lives count |
-| Campaign failed screen | ❌ | Not implemented |
-| Per-run handicap reduction on loss | ❌ | Not implemented |
-| Per-act music in JSON | ❌ | No music field in act schema |
-| Card lore fields | ❌ | Cards have no `lore` property |
-| 25+ act-themed card sets (25 cards min per act) | ❌ | ~95 total cards across all acts |
-
----
 
 ## 1. Campaign Map
 
@@ -386,6 +360,10 @@ As much campaign behaviour as possible is configured in JSON, not TypeScript:
 When adding new behaviour, **prefer extending the JSON schema** over adding TypeScript logic, so future act authors only need to edit JSON.
 
 ---
+
+## 12. Achievements 
+
+Each act should add a set of accompanying achievements, 1, 10, 100, 1000 completions.
 
 ## 13. Boss Traits
 
