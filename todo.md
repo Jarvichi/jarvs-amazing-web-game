@@ -16,7 +16,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔴 Bugs — New (from GitHub, session 26 sync)
 
-- [ ] **#471** TypeError: undefined is not an object (evaluating 't.maxHp') — validate loadBattleState; fix unsafe optional chaining in dep arrays
+- [x] **#471** TypeError: undefined is not an object (evaluating 't.maxHp') — validate loadBattleState; fix unsafe optional chaining in dep arrays
 
 ## 🔴 Critical — New (from GitHub, session 23 sync)
 
