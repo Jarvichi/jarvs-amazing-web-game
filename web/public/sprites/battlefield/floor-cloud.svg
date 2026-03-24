@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <rect width="100" height="220" fill="#5c8cb8"/>
+  <!-- Cloud wisps -->
+  <ellipse cx="50" cy="50"  rx="28" ry="8"   fill="#d0e4f4" opacity="0.35"/>
+  <ellipse cx="50" cy="120" rx="30" ry="9"   fill="#d0e4f4" opacity="0.3"/>
+  <ellipse cx="50" cy="185" rx="25" ry="7"   fill="#d0e4f4" opacity="0.35"/>
+  <ellipse cx="25" cy="85"  rx="10" ry="4"   fill="#c8dcee" opacity="0.25"/>
+  <ellipse cx="75" cy="155" rx="10" ry="3.5" fill="#c8dcee" opacity="0.2"/>
+</svg>

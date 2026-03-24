@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Cloud bank right strip -->
+  <rect x="76" y="0" width="24" height="220" fill="#4a7aa8"/>
+  <!-- Cloud puffs -->
+  <ellipse cx="86" cy="55"  rx="10" ry="7" fill="#d8ecfc" opacity="0.6"/>
+  <ellipse cx="92" cy="49"  rx="8"  ry="5" fill="#e4f0fc" opacity="0.55"/>
+  <ellipse cx="88" cy="128" rx="11" ry="7" fill="#d8ecfc" opacity="0.55"/>
+  <ellipse cx="94" cy="122" rx="8"  ry="5" fill="#e4f0fc" opacity="0.5"/>
+  <ellipse cx="86" cy="195" rx="10" ry="6" fill="#d8ecfc" opacity="0.6"/>
+  <ellipse cx="92" cy="189" rx="7"  ry="5" fill="#e4f0fc" opacity="0.55"/>
+  <line x1="76" y1="0" x2="76" y2="220" stroke="#3a6888" stroke-width="0.5" opacity="0.4"/>
+</svg>
