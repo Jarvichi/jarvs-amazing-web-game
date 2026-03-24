@@ -23,6 +23,7 @@
 | Relic breaking | ❌ | 50% break on act-end screen |
 | Relic pick screen (start of act) | ❌ | Currently auto-equips last earned |
 | Boss card (boss node mechanic) | ❌ | Opponent keeps playing normally |
+| Boss traits (burrow/fly/split/jump AOE/column AOE) | ❌ | Designed in `bossAIs.json`; engine not built — see §13 |
 | Hero card per act | ❌ | Pool exists but no per-act additions |
 | Lives system (3 lives) | ❌ | Only HP exists, no lives count |
 | Campaign failed screen | ❌ | Not implemented |
@@ -386,6 +387,76 @@ When adding new behaviour, **prefer extending the JSON schema** over adding Type
 
 ---
 
+## 13. Boss Traits
+
+Each boss has a single unique **trait** — a dramatic ability that fires mid-battle and changes the shape of the fight. Traits are defined in `bossAI` entries inside `web/src/data/bossAIs.json` as a `trait` object alongside the normal phase config. They are **not yet implemented** in the engine (see Quick Implementation Status table), but the full mechanical spec lives in JSON so the system can be built without needing to revisit the design.
+
+### 13.1 Trait Object Schema
+
+```json
+{
+  "name": "Short display name",
+  "implemented": false,
+  "trigger": "hp_pct | hp_pct_multi | periodic | game_time_gte",
+  "triggerHpPct": 50,          // used with "hp_pct"
+  "triggerHpPcts": [66, 33],   // used with "hp_pct_multi" (fires at each threshold once)
+  "triggerIntervalMs": 30000,  // used with "periodic"
+  "triggerGameTimeMs": 120000, // used with "game_time_gte" (fires once)
+  "type": "burrow | fly | split | jump_aoe | column_aoe",
+  "description": "Full design description shown in codex / debug UI.",
+  "mechanics": { ... },        // type-specific numbers (see §13.2)
+  "announceText": "Log line shown when the trait activates.",
+  "landText": "Log line shown when the boss lands / resolves."
+}
+```
+
+### 13.2 Trait Types & Mechanics Fields
+
+| Type | What happens | Key `mechanics` fields |
+|---|---|---|
+| `burrow` | Boss sinks underground (untargetable) then resurfaces at a new position | `invulnerableDurationMs`, `landingDamage`, `landingRadiusTiles`, `repositionTarget` |
+| `fly` | Boss flies into the air (invulnerable) then descends with an effect | `invulnerableDurationMs`, `landingDamage`, `landingRadiusTiles`, `repositionTarget` |
+| `split` | Boss splits into N copies each with 1/N HP; all must be killed | `splitCount`, `hpDivisor`, `positions`, `allMustDie` |
+| `jump_aoe` | Boss leaps and crashes down on the player's side, dealing AOE damage | `jumpDurationMs`, `landingDamage`, `landingRadiusTiles`, `stunDurationMs`, `landingTarget` |
+| `column_aoe` | Boss fires a pulse that damages one entire column of the battlefield | `pulseDamage`, `pulseColumn`, `slowDurationMs`, `slowFactor`, `chargeUpMs` |
+
+**`repositionTarget` / `landingTarget` values:**
+- `"random"` — random valid position on the full battlefield
+- `"player_side_random"` — random position on the player's half
+- `"opposite_flank"` — the opposite horizontal flank from where the boss started
+- `"nearest_player_highest_hp"` — adjacent to the player's current highest-HP unit
+- `"player_densest_cluster"` — position with the most player units within 2 tiles
+- `"battlefield_centre"` — fixed centre tile
+
+### 13.3 Boss Trait Reference
+
+| Boss | Trait | Trigger | Summary |
+|---|---|---|---|
+| Thornlord | **Burrow** | 50% HP | Sinks underground (3 s invuln), resurfaces at random spot, 5 AOE dmg in 2-tile radius |
+| Warlord Kragg | **Earthshaker** | Every 30 s | Leaps and crashes on the player's side — 8 AOE dmg, 1.5 s stun in 2-tile radius |
+| The Ashwalker | **Ashen Split** | 50% HP | Dissolves into 3 copies each with ⅓ HP scattered across the field; all must be killed |
+| The Archivist | **Arcane Ascension** | 120 s (mana phase) | Flies up (5 s invuln), descends in arcane burst that silences all player units for 3 s |
+| Tidal Sovereign | **Riptide Surge** | 50% HP | Dives into the depths (3 s invuln), resurfaces with a wave — 3 dmg + pushes units 3 tiles |
+| The Pale Engine | **Overload Cascade** | Every 45 s | EMP pulse down a random column — 6 dmg to all units in that column, 50% slow for 4 s |
+| The Dune Baron | **Sand Dive** | 66% & 33% HP | Dives into sand (2 s invuln), surfaces next to player's highest-HP unit — 4 AOE dmg, 2 s disorientation |
+| The Root Queen | **Mycelium Fracture** | 40% HP | Splits into 4 Spore Nodes at the four corners (25% HP each); each spawns crawlers; all must die |
+| Cinderwarlord | **Caldera Leap** | Every 40 s | Leaps into a volcano (4 s invuln), crashes down as a meteor — 10 AOE dmg in 3-tile radius, 5 s burn zone |
+| The Cloudmarshal | **Storm Dive** | 60% HP | Ascends (6 s invuln), dives onto player's densest cluster — 7 AOE dmg, 6 s storm zone (2 dmg/s) |
+
+### 13.4 Implementation Notes (for the developer building this)
+
+- Add a `bossTraitState` field to `GameState` to track per-boss trait progress (thresholds fired, cooldowns).
+- In the combat loop (`engine.ts`), after each damage tick to the boss, check trait trigger conditions.
+- For `hp_pct` / `hp_pct_multi`: fire once per threshold, guard with a `firedThresholds: number[]` set.
+- For `periodic`: track `lastTraitFireTime` and fire when `gameTime - lastTraitFireTime >= triggerIntervalMs`.
+- For `game_time_gte`: fire once when `gameTime >= triggerGameTimeMs`, guard with `traitFired: boolean`.
+- During the `invulnerableDurationMs` window, skip the boss in all targeting / damage calculations.
+- `split` traits should spawn synthetic boss units; the win condition changes to "all split units dead".
+- Log `announceText` when the trait activates and `landText` (or `surfaceText` / `splitLog`) when it resolves.
+- Set `"implemented": true` in the JSON once a trait is live.
+
+---
+
 ## 12. Act Authoring Checklist
 
 When creating a new act JSON (`web/src/data/acts/act{N}.json`):
@@ -402,6 +473,7 @@ When creating a new act JSON (`web/src/data/acts/act{N}.json`):
 - [ ] All `eventId` values checked against `AGENTS.md` Campaign Event Checklist.
 - [ ] `intro`, `outro`, `introRules`, `variantPools`, `midRunTemplates` authored (see §4).
 - [ ] Boss node has `bossDialogue` lines (including a run-aware variant).
+- [ ] Boss entry in `bossAIs.json` has a unique `trait` object (see §13 for schema and examples).
 - [ ] `music` fields added (once music system is implemented).
 - [ ] Act registered in `ACTS` map and `getNextAct()` in `questline.ts`.
 - [ ] Run `npm run build` from `web/` — must pass with no TypeScript errors.

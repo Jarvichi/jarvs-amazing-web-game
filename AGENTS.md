@@ -201,12 +201,15 @@ git push -u origin <branch>
 
 ## Acts — Design Rules
 
-All rules for acts, the campaign map, node types, relics, heroes, lives system, music, and card authoring are in **[`docs/acts.md`](docs/acts.md)**. Read it before:
+All rules for acts, the campaign map, node types, relics, heroes, lives system, music, boss traits, and card authoring are in **[`docs/acts.md`](docs/acts.md)**. Read it before:
 - Creating or modifying act JSON files (`web/src/data/acts/*.json`)
 - Adding new node types, relics, hero cards, or boss mechanics
 - Authoring campaign story text or replay variants
+- Adding or modifying boss traits (see §13 — Boss Traits)
 
 The doc also contains the **Act Authoring Checklist** (§12) — run through it for every new act.
+
+> **Boss Traits:** Every boss has one unique trait (burrow, fly, split, jump AOE, column AOE, etc.) defined in the `trait` object inside `web/src/data/bossAIs.json`. Full mechanical specs, the trait type reference, and implementation notes are in **`docs/acts.md §13`**.
 
 ---
 
