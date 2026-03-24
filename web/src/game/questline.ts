@@ -498,6 +498,7 @@ export function loadRun(): RunState | null {
     // Migrate: lives system (added later — default 3/3 for old saves)
     if (typeof parsed.crystalBonus !== 'number') parsed.crystalBonus = 0
     if (!Array.isArray(parsed.consumables)) parsed.consumables = []
+    parsed.consumables = drainStashIntoRun(parsed.consumables)
     if (typeof parsed.activeModifierCount !== 'number') parsed.activeModifierCount = 0
     if (typeof parsed.maxLives !== 'number' || parsed.maxLives < 1) parsed.maxLives = 3
     if (typeof parsed.livesRemaining !== 'number') parsed.livesRemaining = parsed.maxLives
