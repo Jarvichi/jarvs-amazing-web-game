@@ -54,7 +54,7 @@
       "type": "jump_aoe",
       "description": "Every 30 seconds Kragg leaps into the air with a thunderous war cry and crashes down on the player's side of the battlefield. The impact deals 8 AOE damage to all player units within 2 tiles of the landing point and stuns them for 1.5 seconds.",
       "mechanics": {
-        "jumpDurationMs": 2000,
+        "invulnerableDurationMs": 2000,
         "landingDamage": 8,
         "landingRadiusTiles": 2,
         "stunDurationMs": 1500,
@@ -138,10 +138,10 @@
       "description": "When the Archivist's unlimited-mana phase begins (120 s into the battle) he ascends into the air in a column of arcane light, becoming invulnerable for 5 seconds. He then descends at the centre of the battlefield in an arcane shockwave that silences all player units (delays their attacks) for 3 seconds.",
       "mechanics": {
         "invulnerableDurationMs": 5000,
-        "landingPosition": "battlefield_centre",
-        "silenceDurationMs": 3000,
-        "silenceRadiusTiles": "all",
-        "triggersOnceOnly": true
+        "landingDamage": 0,
+        "landingRadiusTiles": 20,
+        "stunDurationMs": 3000,
+        "repositionTarget": "battlefield_centre"
       },
       "announceText": "The Archivist ASCENDS — arcane light blinds the field!",
       "landText": "ARCANE SHOCKWAVE — all units are silenced!"
@@ -277,7 +277,7 @@
         "invulnerableDurationMs": 2000,
         "landingDamage": 4,
         "landingRadiusTiles": 1,
-        "disorientDurationMs": 2000,
+        "stunDurationMs": 2000,
         "repositionTarget": "nearest_player_highest_hp"
       },
       "announceText": "The Baron VANISHES into the sand — where will he surface?",

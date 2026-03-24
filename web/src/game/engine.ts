@@ -1,4 +1,4 @@
-import { GameState, Card, Unit, UnitTemplate, UpgradeEffect, CardRarity, LANE_WIDTH, BattleEventState, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE, AnimEvent } from './types'
+import { GameState, Card, Unit, UnitTemplate, UpgradeEffect, CardRarity, LANE_WIDTH, BattleEventState, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE, AnimEvent, BossTraitState } from './types'
 import { makeDeck, makeThorlordDeck, makeKraggDeck, makeAshwalkerDeck, makeNodeDeck, HERO_CARDS, getCardUnit } from './cards'
 import { playUnitDeath, playBuildingDestroyed } from './sound'
 import { isNoDamageMode } from './debug'
@@ -32,6 +32,40 @@ interface BossAIPhase {
   announceOnce?: string
 }
 
+interface BossTraitMechanics {
+  invulnerableDurationMs?: number
+  landingDamage?: number
+  landingRadiusTiles?: number
+  stunDurationMs?: number
+  waveDamage?: number
+  wavePushTiles?: number
+  pulseDamage?: number
+  slowDurationMs?: number
+  slowFactor?: number
+  splitCount?: number
+  hpDivisor?: number
+  allMustDie?: boolean
+  repositionTarget?: string
+  landingTarget?: string
+}
+
+interface BossTraitDef {
+  name: string
+  implemented: boolean
+  trigger: string
+  triggerHpPct?: number
+  triggerHpPcts?: number[]
+  triggerIntervalMs?: number
+  triggerGameTimeMs?: number
+  type: 'burrow' | 'fly' | 'split' | 'jump_aoe' | 'column_aoe'
+  mechanics: BossTraitMechanics
+  announceText: string
+  landText?: string
+  surfaceText?: string
+  splitLog?: string
+  fireText?: string
+}
+
 interface BossAIDef {
   id: string
   intervalMs: number
@@ -39,6 +73,7 @@ interface BossAIDef {
   maxPlaysPerTurn: number
   openingLog: string[]
   phases: BossAIPhase[]
+  trait?: BossTraitDef
 }
 
 const BOSS_AI_DEFS: BossAIDef[] = bossAIDefsRaw as BossAIDef[]
@@ -67,6 +102,7 @@ const ANIM_EVENT_PROJECTILE_MS = 600 // max projectile lifetime (cap)
 const PLAYER_SPAWN_X = 30        // where player units appear
 const OPPONENT_SPAWN_X = LANE_WIDTH - 30  // where opponent units appear
 const BASE_STOP_MARGIN = 0       // units may reach the base character position exactly
+const TRAIT_TILE_PX = 40         // 1 "tile" in trait radius = one lane-spacing in pixels
 
 // ─── Helpers ─────────────────────────────────────────────
 
@@ -414,6 +450,12 @@ export function newGame(
     bossName,
     bossCardActive: false,
     bossHpMultiplier: bossHpMultiplier ?? (bossCard ? 10 : undefined),
+    bossTraitState: boss ? {
+      firedThresholds: [],
+      lastTraitFireMs: 0,
+      traitFired: false,
+      baseInvulnerableUntilMs: 0,
+    } : undefined,
     terrain: generateTerrain(terrainSeed, environment),
     environment,
     battleStats: { cardsPlayed: {}, playerKills: 0, playerUnitsLost: 0 },
@@ -699,6 +741,7 @@ function moveUnits(s: GameState, deltaMs: number): void {
   for (const unit of s.field) {
     if (unit.moveSpeed === 0) continue
     if (unit.spawnGrowTimer != null && unit.spawnGrowTimer > 0) continue
+    if (unit.stunTimer != null && unit.stunTimer > 0) continue
 
     const nearestAhead = findNearestEnemy(s.field, unit)
 
@@ -937,8 +980,12 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
         const bloodMoonMult = s.activeBattleEvent?.type === 'bloodMoon' ? 2 : 1
         const dmg = (unit.attack + atkAura) * bloodMoonMult
         if (isPlayer) {
+          const traitProtected = s.bossTraitState != null &&
+            s.bossTraitState.baseInvulnerableUntilMs > s.gameTime
           if (s.endlessWaveTruceMs != null && s.endlessWaveTruceMs > 0) {
             log.push(`${unit.name} hits Enemy Base! (truce — no damage)`)
+          } else if (traitProtected) {
+            log.push(`${unit.name} hits Enemy Base — it's protected!`)
           } else {
           const prev = s.opponentBase.hp
           s.opponentBase.hp = Math.max(0, s.opponentBase.hp - dmg)
@@ -990,6 +1037,23 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
 const VICTORY_BONUS = 500
 
 function checkGameOver(s: GameState): boolean {
+  // Split trait active — player wins only when all fragments are dead
+  if (s.bossTraitState?.splitActive) {
+    if (s.playerBase.hp <= 0) {
+      s.opponentScore += VICTORY_BONUS
+      s.phase = { type: 'gameOver', winner: 'opponent' }
+      return true
+    }
+    const splitIds = s.bossTraitState.splitUnitIds ?? []
+    const anyAlive = splitIds.some(id => s.field.some(u => u.id === id && u.hp > 0))
+    if (!anyAlive) {
+      s.playerScore += VICTORY_BONUS
+      s.phase = { type: 'gameOver', winner: 'player' }
+      return true
+    }
+    return false
+  }
+
   // Phase 2 active — win when boss unit dies; normal base HP is irrelevant
   if (s.bossCardActive && s.bossCard) {
     const bossAlive = s.field.some(u => u.owner === 'opponent' && u.name === s.bossCard)
@@ -1227,6 +1291,254 @@ function genericBossAI(s: GameState, log: string[], def: BossAIDef): void {
   if (played === 0) log.push(def.idleMessage)
 }
 
+// ─── Boss Trait System ────────────────────────────────────
+
+/**
+ * Pick a landing position based on the repositionTarget / landingTarget value
+ * from the trait mechanics JSON.
+ */
+function chooseTraitLandingPos(target: string | undefined, field: Unit[]): { x: number; y: number } {
+  if (target === 'player_side_random') {
+    return {
+      x: PLAYER_SPAWN_X + 20 + Math.random() * 200,
+      y: LANE_POSITIONS[Math.floor(Math.random() * LANE_POSITIONS.length)],
+    }
+  }
+  if (target === 'opposite_flank') {
+    return { x: LANE_WIDTH / 2, y: Math.random() < 0.5 ? -80 : 80 }
+  }
+  if (target === 'battlefield_centre') {
+    return { x: LANE_WIDTH / 2, y: 0 }
+  }
+  if (target === 'player_densest_cluster') {
+    const players = field.filter(u => u.owner === 'player' && u.hp > 0)
+    let bx = LANE_WIDTH / 4, by = 0, best = 0
+    for (const u of players) {
+      const count = players.filter(p => Math.hypot(p.x - u.x, p.y - u.y) <= 80).length
+      if (count > best) { best = count; bx = u.x; by = u.y }
+    }
+    return { x: bx, y: by }
+  }
+  if (target === 'nearest_player_highest_hp') {
+    const highHp = field
+      .filter(u => u.owner === 'player' && u.hp > 0 && u.moveSpeed > 0)
+      .sort((a, b) => b.hp - a.hp)[0]
+    if (highHp) return { x: Math.min(highHp.x + 30, LANE_WIDTH / 2), y: highHp.y }
+  }
+  // default: random position on the player's half
+  return {
+    x: PLAYER_SPAWN_X + 20 + Math.random() * 220,
+    y: LANE_POSITIONS[Math.floor(Math.random() * LANE_POSITIONS.length)],
+  }
+}
+
+/** Deal AOE damage (and optional stun) to player units within radius of (cx, cy). */
+function applyTraitAOE(
+  field: Unit[], cx: number, cy: number, radiusPx: number,
+  dmg: number, stunMs: number | undefined,
+  log: string[], text: string | undefined
+): void {
+  if (text) log.push(text)
+  let hit = 0
+  for (const u of field) {
+    if (u.owner !== 'player' || u.hp <= 0) continue
+    if (Math.hypot(u.x - cx, u.y - cy) > radiusPx) continue
+    if (dmg > 0) u.hp = Math.max(0, u.hp - dmg)
+    if (stunMs) {
+      u.stunTimer = stunMs
+      u.attackTimer = Math.max(u.attackTimer, stunMs)
+    }
+    hit++
+  }
+  if (hit > 0) log.push(`${hit} unit(s) caught in the blast!`)
+}
+
+/** Spawn split fragments and activate the allMustDie win condition. */
+function fireSplitTrait(s: GameState, trait: BossTraitDef, log: string[]): void {
+  const count = trait.mechanics.splitCount ?? 3
+  const hpEach = Math.max(5, Math.ceil(s.opponentBase.hp / (trait.mechanics.hpDivisor ?? count)))
+  const ts = s.bossTraitState!
+
+  // Four corners of the battlefield (opponent side + mid-field)
+  const positions: Array<{ x: number; y: number }> = [
+    { x: OPPONENT_SPAWN_X - 50, y: -80 },
+    { x: OPPONENT_SPAWN_X - 50, y:  80 },
+    { x: LANE_WIDTH * 0.55,    y: -80 },
+    { x: LANE_WIDTH * 0.55,    y:  80 },
+  ]
+
+  const splitIds: string[] = []
+  for (let i = 0; i < count; i++) {
+    const pos = positions[i] ?? { x: OPPONENT_SPAWN_X - 40, y: 0 }
+    const fragTemplate: UnitTemplate = {
+      name: 'Boss Fragment',
+      attack: 4,
+      maxHp: hpEach,
+      isWall: false,
+      bypassWall: true,
+      moveSpeed: 0,
+      attackRange: 140,
+      attackCooldownMs: 2500,
+    }
+    const frag = spawnUnit(fragTemplate, 'opponent')
+    frag.x = pos.x
+    frag.y = pos.y
+    splitIds.push(frag.id)
+    s.field.push(frag)
+  }
+
+  ts.splitActive = true
+  ts.splitUnitIds = splitIds
+  log.push(trait.splitLog ?? trait.announceText)
+  log.push(`Destroy all ${count} Boss Fragments to win!`)
+}
+
+/** Begin the invulnerable-window + scheduled landing for burrow/fly/jump_aoe traits. */
+function fireInvulnerableLaunch(
+  s: GameState, trait: BossTraitDef, ts: BossTraitState, log: string[]
+): void {
+  const duration = trait.mechanics.invulnerableDurationMs ?? 3000
+  ts.baseInvulnerableUntilMs = s.gameTime + duration
+  ts.landingAtMs = s.gameTime + duration
+  const pos = chooseTraitLandingPos(
+    trait.mechanics.repositionTarget ?? trait.mechanics.landingTarget,
+    s.field
+  )
+  ts.landX = pos.x
+  ts.landY = pos.y
+  log.push(trait.announceText)
+}
+
+/**
+ * Called every tick when a boss fight is active.
+ * Checks trait triggers and fires effects.
+ */
+function tickBossTrait(s: GameState, log: string[]): void {
+  if (!s.bossAI || !s.bossTraitState) return
+  const def = getBossAIDef(s.bossAI)
+  const trait = def?.trait
+  if (!trait) return
+
+  const ts = s.bossTraitState
+
+  // ── Resolve a pending landing ─────────────────────────────
+  if (ts.landingAtMs !== undefined && s.gameTime >= ts.landingAtMs) {
+    const lx = ts.landX ?? LANE_WIDTH / 4
+    const ly = ts.landY ?? 0
+    const radiusPx = (trait.mechanics.landingRadiusTiles ?? 2) * TRAIT_TILE_PX
+    const dmg = trait.mechanics.landingDamage ?? 0
+    const stunMs = trait.mechanics.stunDurationMs
+
+    if (trait.mechanics.wavePushTiles) {
+      // Riptide: push all player units back, then wave damage to all
+      const pushPx = trait.mechanics.wavePushTiles * TRAIT_TILE_PX
+      const waveDmg = trait.mechanics.waveDamage ?? 0
+      const resolveText = trait.surfaceText ?? trait.landText
+      if (resolveText) log.push(resolveText)
+      for (const u of s.field) {
+        if (u.owner !== 'player' || u.hp <= 0) continue
+        if (u.moveSpeed > 0) u.x = Math.max(PLAYER_SPAWN_X, u.x - pushPx)
+        if (waveDmg > 0) u.hp = Math.max(0, u.hp - waveDmg)
+      }
+      log.push(`Your units are pushed back and take ${waveDmg} damage!`)
+    } else if (dmg > 0 || stunMs) {
+      // Standard radius AOE with optional stun
+      applyTraitAOE(s.field, lx, ly, radiusPx, dmg, stunMs, log, trait.landText ?? trait.surfaceText)
+      // For silence/stun with very large radius (covers whole field) also stun units outside radius
+      if (stunMs && radiusPx >= LANE_WIDTH) {
+        for (const u of s.field) {
+          if (u.owner !== 'player' || u.hp <= 0) continue
+          u.stunTimer = stunMs
+          u.attackTimer = Math.max(u.attackTimer, stunMs)
+        }
+      }
+    } else {
+      // No-damage landing (e.g. pure silence from Archivist)
+      if (trait.landText ?? trait.surfaceText) log.push((trait.landText ?? trait.surfaceText)!)
+      if (stunMs) {
+        for (const u of s.field) {
+          if (u.owner !== 'player' || u.hp <= 0) continue
+          u.stunTimer = stunMs
+          u.attackTimer = Math.max(u.attackTimer, stunMs)
+        }
+        log.push('All your units are silenced!')
+      }
+    }
+
+    ts.baseInvulnerableUntilMs = 0
+    ts.landingAtMs = undefined
+    ts.landX = undefined
+    ts.landY = undefined
+    return
+  }
+
+  // ── Periodic traits ───────────────────────────────────────
+  if (trait.trigger === 'periodic') {
+    const interval = trait.triggerIntervalMs ?? 30000
+    if (
+      s.gameTime >= interval &&
+      s.gameTime - ts.lastTraitFireMs >= interval &&
+      ts.landingAtMs === undefined
+    ) {
+      ts.lastTraitFireMs = s.gameTime
+
+      if (trait.type === 'column_aoe') {
+        const dmg = trait.mechanics.pulseDamage ?? 6
+        const colX = 90 + Math.random() * 320
+        const bandWidth = 25
+        const slowMs = trait.mechanics.slowDurationMs ?? 4000
+        log.push(trait.announceText)
+        let hit = 0
+        for (const u of s.field) {
+          if (u.owner !== 'player' || u.hp <= 0) continue
+          if (Math.abs(u.x - colX) > bandWidth) continue
+          u.hp = Math.max(0, u.hp - dmg)
+          u.attackTimer = Math.max(u.attackTimer, slowMs)
+          hit++
+        }
+        if (trait.fireText) log.push(trait.fireText)
+        if (hit > 0) log.push(`${hit} unit(s) hit by the pulse!`)
+      } else {
+        // Periodic burrow/fly/jump — launch the invulnerable sequence
+        fireInvulnerableLaunch(s, trait, ts, log)
+      }
+    }
+    return
+  }
+
+  // ── HP threshold traits ───────────────────────────────────
+  const hpPct = (s.opponentBase.hp / s.opponentBase.maxHp) * 100
+
+  if (trait.trigger === 'hp_pct' && trait.triggerHpPct !== undefined) {
+    if (hpPct <= trait.triggerHpPct && !ts.firedThresholds.includes(trait.triggerHpPct)) {
+      ts.firedThresholds.push(trait.triggerHpPct)
+      if (trait.type === 'split') {
+        fireSplitTrait(s, trait, log)
+      } else {
+        fireInvulnerableLaunch(s, trait, ts, log)
+      }
+    }
+  }
+
+  if (trait.trigger === 'hp_pct_multi' && trait.triggerHpPcts) {
+    for (const threshold of trait.triggerHpPcts) {
+      if (hpPct <= threshold && !ts.firedThresholds.includes(threshold) && ts.landingAtMs === undefined) {
+        ts.firedThresholds.push(threshold)
+        fireInvulnerableLaunch(s, trait, ts, log)
+        break  // only one threshold fires per tick
+      }
+    }
+  }
+
+  // ── Once-only game_time_gte ───────────────────────────────
+  if (trait.trigger === 'game_time_gte' && trait.triggerGameTimeMs !== undefined) {
+    if (s.gameTime >= trait.triggerGameTimeMs && !ts.traitFired && ts.landingAtMs === undefined) {
+      ts.traitFired = true
+      fireInvulnerableLaunch(s, trait, ts, log)
+    }
+  }
+}
+
 // ─── Battle Events ────────────────────────────────────────
 
 function triggerBattleEvent(s: GameState, log: string[]): void {
@@ -1333,6 +1645,9 @@ export function tick(state: GameState, deltaMs: number): GameState {
     if (unit.killFlashTimer != null && unit.killFlashTimer > 0) {
       unit.killFlashTimer = Math.max(0, unit.killFlashTimer - deltaMs)
     }
+    if (unit.stunTimer != null && unit.stunTimer > 0) {
+      unit.stunTimer = Math.max(0, unit.stunTimer - deltaMs)
+    }
     // Update climbing flag: true when climber unit is inside an enemy wall zone
     if (unit.climber && unit.moveSpeed > 0) {
       unit.climbing = s.field.some(w =>
@@ -1388,6 +1703,15 @@ export function tick(state: GameState, deltaMs: number): GameState {
       opponentAI(s, log)
     }
     s.opponentTimer = s.opponentIntervalMs
+  }
+
+  // 6b. Boss trait tick
+  if (s.bossAI && s.bossTraitState) {
+    tickBossTrait(s, log)
+    if (checkGameOver(s)) {
+      s.log = [...s.log, ...log]
+      return s
+    }
   }
 
   // 7. Battle events
