@@ -309,27 +309,26 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
       </div>
 
       {/* Consumables bar */}
-      {run.consumables && run.consumables.length > 0 && (
-        <div className="nm-consumables-bar">
-          <span className="nm-consumables-label">ITEMS</span>
-          {run.consumables.map(rc => {
-            const def = ALL_CONSUMABLES.find(c => c.id === rc.id)
-            if (!def) return null
-            return (
-              <button
-                key={rc.id}
-                className="nm-consumable-btn"
-                title={`${def.name}: ${def.desc}`}
-                onClick={() => onUseConsumable(rc.id)}
-              >
-                <span className="nm-consumable-icon">{def.icon}</span>
-                <span className="nm-consumable-name">{def.name}</span>
-                {rc.count > 1 && <span className="nm-consumable-count">×{rc.count}</span>}
-              </button>
-            )
-          })}
-        </div>
-      )}
+      <div className="nm-consumables-bar">
+        <span className="nm-consumables-label">ITEMS</span>
+        {ALL_CONSUMABLES.map(def => {
+          const rc = run.consumables?.find(c => c.id === def.id)
+          const count = rc?.count ?? 0
+          return (
+            <button
+              key={def.id}
+              className={`nm-consumable-btn${count === 0 ? ' nm-consumable-btn--empty' : ''}`}
+              title={count > 0 ? `${def.name}: ${def.desc}` : `${def.name} (none)`}
+              disabled={count === 0}
+              onClick={() => onUseConsumable(def.id)}
+            >
+              <span className="nm-consumable-icon">{def.icon}</span>
+              <span className="nm-consumable-name">{def.name}</span>
+              <span className="nm-consumable-count">×{count}</span>
+            </button>
+          )
+        })}
+      </div>
 
       {/* Map */}
       <div className="nm-map">

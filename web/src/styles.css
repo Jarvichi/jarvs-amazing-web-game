@@ -3532,10 +3532,15 @@ body {
   transition: background 0.15s, border-color 0.15s;
 }
 
-.nm-consumable-btn:hover {
+.nm-consumable-btn:hover:not(:disabled) {
   background: #252525;
   border-color: #33ff88;
   color: #fff;
+}
+
+.nm-consumable-btn--empty {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .nm-consumable-icon { font-size: 14px; }
