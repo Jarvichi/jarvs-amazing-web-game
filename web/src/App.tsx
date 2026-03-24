@@ -1520,7 +1520,7 @@ export default function App() {
     if (gameState.playerBase.hp < gameState.playerBase.maxHp) {
       battleFlawlessRef.current = false
     }
-  }, [gameState?.playerBase.hp, screen])
+  }, [gameState?.playerBase?.hp, screen])
 
   // Track card play types for per-battle misc achievements
   const handlePlayCard = useCallback((cardId: string) => {

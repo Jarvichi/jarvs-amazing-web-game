@@ -54,5 +54,5 @@ export function useMusic(screen: Screen, gameState: GameState | null, run: RunSt
     if (scoreDiff > 20 || unitCount >= 4 || hpFrac < 0.35) intensity = 2
     else if (scoreDiff < -10 || (hpFrac > 0.8 && unitCount <= 1)) intensity = 0
     setBattleIntensity(intensity)
-  }, [screen, gameState?.playerScore, gameState?.opponentScore, gameState?.field.length, gameState?.playerBase.hp])
+  }, [screen, gameState?.playerScore, gameState?.opponentScore, gameState?.field?.length, gameState?.playerBase?.hp])
 }
