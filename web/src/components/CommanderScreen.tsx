@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import {
   CommanderState,
   PetAction,
@@ -30,6 +30,13 @@ interface Toast {
   text: string
 }
 
+interface Sparkle {
+  id: number
+  x: number
+  y: number
+  emoji: string
+}
+
 const ACTION_LABELS: Record<PetAction, string> = {
   feed: '🍖 Feed',
   play: '⚔ Train',
@@ -54,6 +61,22 @@ const ACTION_FLAVOR: Record<PetAction, string[]> = {
   ],
 }
 
+const IDLE_LINES = [
+  '...',
+  '!',
+  'Ready for battle.',
+  '♪',
+  'Hmm...',
+  '*yawns*',
+  '*stretches*',
+  'When do we march?',
+  '⚔',
+  '*looks around*',
+]
+
+const TAP_EMOJIS = ['💖', '✨', '⭐', '💫', '❤️']
+const TAP_SPEECH = ['♥', '!', '^_^', '~', '♪']
+
 function CommanderXpBar({ xp }: { xp: number }) {
   const { level, current, needed } = masteryProgress(xp)
   const pct = needed > 0 ? Math.min(100, Math.round((current / needed) * 100)) : 100
@@ -69,6 +92,7 @@ function CommanderXpBar({ xp }: { xp: number }) {
 }
 
 let toastSeq = 0
+let sparkleSeq = 0
 
 export function CommanderScreen({
   commander,
@@ -84,8 +108,31 @@ export function CommanderScreen({
   const [cooldowns, setCooldowns] = useState<Record<PetAction, number>>({ feed: 0, play: 0, pet: 0 })
   const [confirmDismiss, setConfirmDismiss] = useState(false)
   const [masteryXp, setMasteryXp] = useState(() => getMasteryXp(loadCollection(), commander.cardName))
+  const [levelUp, setLevelUp] = useState(false)
+  const [spriteBounce, setSpriteBounce] = useState(false)
+  const [sparkles, setSparkles] = useState<Sparkle[]>([])
+  const [speechBubble, setSpeechBubble] = useState<string | null>(null)
 
-  // Tick cooldown display every second
+  const speechTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const gyroUpsideDownRef = useRef(false)
+  const lastShakeRef = useRef(0)
+
+  // ── Helpers ──────────────────────────────────────────────────────────────
+
+  const showSpeechBubble = useCallback((text: string) => {
+    setSpeechBubble(text)
+    if (speechTimerRef.current) clearTimeout(speechTimerRef.current)
+    speechTimerRef.current = setTimeout(() => setSpeechBubble(null), 2500)
+  }, [])
+
+  const triggerBounce = useCallback(() => {
+    setSpriteBounce(true)
+    setTimeout(() => setSpriteBounce(false), 500)
+  }, [])
+
+  // ── Cooldown tick ─────────────────────────────────────────────────────────
+
   useEffect(() => {
     const id = setInterval(() => {
       setCooldowns({
@@ -97,11 +144,80 @@ export function CommanderScreen({
     return () => clearInterval(id)
   }, [state])
 
+  // ── Idle behaviour ────────────────────────────────────────────────────────
+
+  const scheduleIdle = useCallback(() => {
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
+    const delay = 15000 + Math.random() * 45000
+    idleTimerRef.current = setTimeout(() => {
+      showSpeechBubble(IDLE_LINES[Math.floor(Math.random() * IDLE_LINES.length)])
+      scheduleIdle()
+    }, delay)
+  }, [showSpeechBubble])
+
+  useEffect(() => {
+    scheduleIdle()
+    return () => { if (idleTimerRef.current) clearTimeout(idleTimerRef.current) }
+  }, [scheduleIdle])
+
+  // ── Gyroscope: upside-down + shake ────────────────────────────────────────
+
+  useEffect(() => {
+    const handleOrientation = (e: DeviceOrientationEvent) => {
+      const beta = e.beta ?? 0
+      const upsideDown = Math.abs(beta) > 100
+      if (upsideDown && !gyroUpsideDownRef.current) {
+        gyroUpsideDownRef.current = true
+        showSpeechBubble('Whoa! Put me down!')
+        triggerBounce()
+      } else if (!upsideDown) {
+        gyroUpsideDownRef.current = false
+      }
+    }
+
+    const handleMotion = (e: DeviceMotionEvent) => {
+      const acc = e.accelerationIncludingGravity
+      if (!acc) return
+      const magnitude = Math.sqrt((acc.x ?? 0) ** 2 + (acc.y ?? 0) ** 2 + (acc.z ?? 0) ** 2)
+      const now = Date.now()
+      if (magnitude > 25 && now - lastShakeRef.current > 2000) {
+        lastShakeRef.current = now
+        showSpeechBubble('Aaaah! Stop shaking me!')
+        triggerBounce()
+      }
+    }
+
+    window.addEventListener('deviceorientation', handleOrientation)
+    window.addEventListener('devicemotion', handleMotion)
+    return () => {
+      window.removeEventListener('deviceorientation', handleOrientation)
+      window.removeEventListener('devicemotion', handleMotion)
+    }
+  }, [showSpeechBubble, triggerBounce])
+
+  // ── Tap / pet sprite ──────────────────────────────────────────────────────
+
+  function handleSpriteClick(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    const y = ((e.clientY - rect.top) / rect.height) * 100
+    const emoji = TAP_EMOJIS[Math.floor(Math.random() * TAP_EMOJIS.length)]
+    const id = ++sparkleSeq
+    setSparkles(prev => [...prev, { id, x, y, emoji }])
+    setTimeout(() => setSparkles(prev => prev.filter(s => s.id !== id)), 800)
+    triggerBounce()
+    showSpeechBubble(TAP_SPEECH[Math.floor(Math.random() * TAP_SPEECH.length)])
+  }
+
+  // ── Toast ─────────────────────────────────────────────────────────────────
+
   function addToast(text: string) {
     const id = ++toastSeq
     setToasts(prev => [...prev, { id, text }])
     setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 3000)
   }
+
+  // ── Action buttons ────────────────────────────────────────────────────────
 
   const handleAction = useCallback((action: PetAction) => {
     if (!canInteract(state, action)) return
@@ -111,14 +227,23 @@ export function CommanderScreen({
     setState(next)
     saveCommander(next)
 
-    // Flavor text
     const flavors = ACTION_FLAVOR[action]
     addToast(flavors[Math.floor(Math.random() * flavors.length)])
 
-    // Reward
     if (reward.type === 'xp') {
       onRewardXp(state.cardName, reward.amount)
-      setMasteryXp(prev => prev + reward.amount)
+      setMasteryXp(prev => {
+        const oldLevel = masteryProgress(prev).level
+        const newXp    = prev + reward.amount
+        const newLevel = masteryProgress(newXp).level
+        if (newLevel > oldLevel) {
+          setTimeout(() => {
+            setLevelUp(true)
+            setTimeout(() => setLevelUp(false), 2500)
+          }, 300)
+        }
+        return newXp
+      })
       addToast(`+${reward.amount} mastery XP for ${state.cardName}!`)
     } else if (reward.type === 'crystals') {
       onRewardCrystals(reward.amount)
@@ -148,15 +273,38 @@ export function CommanderScreen({
           <div className="commander-scene-wall" />
         </div>
 
-        {/* Sprite */}
-        <div className="commander-sprite-wrap">
+        {/* Tappable sprite */}
+        <div
+          className={`commander-sprite-wrap${spriteBounce ? ' commander-sprite-bounce' : ''}`}
+          onClick={handleSpriteClick}
+          role="button"
+          aria-label="Pet your commander"
+          style={{ cursor: 'pointer' }}
+        >
+          {sparkles.map(s => (
+            <span
+              key={s.id}
+              className="commander-sparkle"
+              style={{ left: `${s.x}%`, top: `${s.y}%` }}
+            >{s.emoji}</span>
+          ))}
           <AnimatedSpriteImg
             name={state.cardName}
             frameCount={3}
             fps={2}
             className="commander-sprite"
           />
+          {speechBubble && (
+            <div className="commander-speech">{speechBubble}</div>
+          )}
         </div>
+
+        {/* Level-up overlay */}
+        {levelUp && (
+          <div className="commander-levelup">
+            <span className="commander-levelup-text">⭐ LEVEL UP! ⭐</span>
+          </div>
+        )}
 
         <div className="commander-name">{state.cardName}</div>
         <div className="commander-subtitle">Army Commander</div>

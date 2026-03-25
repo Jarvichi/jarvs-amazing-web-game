@@ -7534,6 +7534,91 @@ html.light-mode .action-btn {
   transition: width 0.4s ease;
 }
 
+/* ── Sprite bounce (tap / gyro) ─────────────────────────────────────────── */
+@keyframes commander-bounce {
+  0%   { transform: translateY(0) scale(1); }
+  30%  { transform: translateY(-10px) scale(1.08); }
+  60%  { transform: translateY(2px) scale(0.96); }
+  100% { transform: translateY(0) scale(1); }
+}
+.commander-sprite-bounce {
+  animation: commander-bounce 0.45s ease;
+}
+
+/* ── Tap sparkles ────────────────────────────────────────────────────────── */
+@keyframes commander-sparkle-rise {
+  0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -150%) scale(1.6); }
+}
+.commander-sparkle {
+  position: absolute;
+  pointer-events: none;
+  font-size: 18px;
+  animation: commander-sparkle-rise 0.8s ease forwards;
+  z-index: 10;
+}
+
+/* ── Speech bubble ───────────────────────────────────────────────────────── */
+@keyframes commander-speech-in {
+  0%   { opacity: 0; transform: translateX(-50%) scale(0.7); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+.commander-speech {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a2535;
+  border: 1px solid #4a8ad4;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #e0e8ff;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 12;
+  animation: commander-speech-in 0.2s ease;
+}
+.commander-speech::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #4a8ad4;
+}
+
+/* ── Level-up overlay ────────────────────────────────────────────────────── */
+@keyframes commander-levelup-in {
+  0%   { opacity: 0; transform: scale(0.6); }
+  40%  { opacity: 1; transform: scale(1.12); }
+  70%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+@keyframes commander-levelup-out {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+.commander-levelup {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  pointer-events: none;
+  animation: commander-levelup-in 0.5s ease forwards,
+             commander-levelup-out 0.4s ease 2.1s forwards;
+}
+.commander-levelup-text {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 0 0 12px #ffd700, 0 0 24px #ff8c00;
+  letter-spacing: 2px;
+}
+
 .commander-toasts {
   display: flex;
   flex-direction: column;
