@@ -484,9 +484,26 @@ export function buildDeckCards(entries: DeckEntry[], collection?: CollectionEntr
     const xp  = collection ? getMasteryXp(collection, entry.cardName) : 0
     const lvl = masteryLevel(xp)
     const boosted = applyMasteryBonus(template, lvl)
-    const withLevel: Card = boosted.unit
-      ? { ...boosted, unit: { ...boosted.unit, masteryLevel: lvl } }
-      : boosted
+
+    // Apply mastery to the unit spawned by a spawn-type structure.
+    // The spawned unit type may have its own mastery XP (looked up by name).
+    let withSpawnMastery = boosted
+    if (collection && boosted.unit?.structureEffect?.type === 'spawn') {
+      const se = boosted.unit.structureEffect as { type: 'spawn'; unitTemplate: import('./types').UnitTemplate; intervalMs: number }
+      const spawnXp = getMasteryXp(collection, se.unitTemplate.name)
+      const spawnLvl = masteryLevel(spawnXp)
+      if (spawnLvl > 0) {
+        const ut = { ...se.unitTemplate }
+        ut.attack  = ut.attack  + spawnLvl
+        ut.maxHp   = ut.maxHp   + spawnLvl * 2
+        ut.masteryLevel = spawnLvl
+        withSpawnMastery = { ...boosted, unit: { ...boosted.unit, structureEffect: { ...se, unitTemplate: ut } } }
+      }
+    }
+
+    const withLevel: Card = withSpawnMastery.unit
+      ? { ...withSpawnMastery, unit: { ...withSpawnMastery.unit, masteryLevel: lvl } }
+      : withSpawnMastery
     for (let i = 0; i < entry.count; i++) {
       result.push({ ...withLevel, id: `deck-${entry.cardName}-${++_deckCardId}` })
     }
