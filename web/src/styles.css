@@ -7507,6 +7507,32 @@ html.light-mode .action-btn {
   letter-spacing: 2px;
   margin-bottom: 6px;
 }
+.commander-xp-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.commander-xp-label {
+  font-size: 9px;
+  color: var(--game-text-color-muted);
+  white-space: nowrap;
+}
+.commander-xp-bar {
+  flex: 1;
+  height: 6px;
+  background: #1a2030;
+  border: 1px solid #2a3a50;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.commander-xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3a7bd5 0%, #6fb3ff 100%);
+  transition: width 0.4s ease;
+}
 
 .commander-toasts {
   display: flex;

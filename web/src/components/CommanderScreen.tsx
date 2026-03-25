@@ -11,6 +11,7 @@ import {
   promotionsRemainingToday,
   clearCommander,
 } from '../game/commander'
+import { getMasteryXp, masteryProgress, loadCollection } from '../game/collection'
 import { AnimatedSpriteImg } from './SpriteImg'
 import { OverlayScreen } from './OverlayScreen'
 
@@ -53,6 +54,20 @@ const ACTION_FLAVOR: Record<PetAction, string[]> = {
   ],
 }
 
+function CommanderXpBar({ xp }: { xp: number }) {
+  const { level, current, needed } = masteryProgress(xp)
+  const pct = needed > 0 ? Math.min(100, Math.round((current / needed) * 100)) : 100
+  return (
+    <div className="commander-xp-wrap">
+      <span className="commander-xp-label">Lv.{level}</span>
+      <div className="commander-xp-bar">
+        <div className="commander-xp-fill" style={{ width: `${pct}%` }} />
+      </div>
+      <span className="commander-xp-label">{current}/{needed} XP</span>
+    </div>
+  )
+}
+
 let toastSeq = 0
 
 export function CommanderScreen({
@@ -68,6 +83,7 @@ export function CommanderScreen({
   const [toasts, setToasts] = useState<Toast[]>([])
   const [cooldowns, setCooldowns] = useState<Record<PetAction, number>>({ feed: 0, play: 0, pet: 0 })
   const [confirmDismiss, setConfirmDismiss] = useState(false)
+  const [masteryXp, setMasteryXp] = useState(() => getMasteryXp(loadCollection(), commander.cardName))
 
   // Tick cooldown display every second
   useEffect(() => {
@@ -102,6 +118,7 @@ export function CommanderScreen({
     // Reward
     if (reward.type === 'xp') {
       onRewardXp(state.cardName, reward.amount)
+      setMasteryXp(prev => prev + reward.amount)
       addToast(`+${reward.amount} mastery XP for ${state.cardName}!`)
     } else if (reward.type === 'crystals') {
       onRewardCrystals(reward.amount)
@@ -143,6 +160,7 @@ export function CommanderScreen({
 
         <div className="commander-name">{state.cardName}</div>
         <div className="commander-subtitle">Army Commander</div>
+        <CommanderXpBar xp={masteryXp} />
       </div>
 
       {/* Toast messages */}
