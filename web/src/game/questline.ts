@@ -555,6 +555,18 @@ export function saveRun(run: RunState): void {
 }
 
 export function clearRun(): void {
+  // Return any unused consumables to the stash so they aren't lost when a run ends.
+  const raw = localStorage.getItem(RUN_KEY)
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw) as RunState
+      if (Array.isArray(parsed.consumables)) {
+        for (const c of parsed.consumables) {
+          if (c.count > 0) addToConsumableStash(c.id, c.count)
+        }
+      }
+    } catch { /* ignore — run data is being cleared anyway */ }
+  }
   localStorage.removeItem(RUN_KEY)
 }
 
