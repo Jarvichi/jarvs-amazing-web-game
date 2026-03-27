@@ -1,8 +1,21 @@
 import { Card, CardRarity, CardType, UnitTemplate, UpgradeEffect } from './types'
+import { logError } from '../logger'
 import cardsData from '../data/cards.json'
 
 let _id = 0
 const uid = () => `card-${++_id}`
+
+// Validation errors discovered during module init (before the Rollbar logger is ready).
+// Flushed to Rollbar on the first call to flushCardValidationErrors() — called from newGame().
+const _pendingValidationErrors: Array<{ msg: string; ctx: Record<string, unknown> }> = []
+
+/** Send any card-definition validation errors that occurred at module-init time to Rollbar. */
+export function flushCardValidationErrors(): void {
+  for (const { msg, ctx } of _pendingValidationErrors) {
+    logError(msg, ctx)
+  }
+  _pendingValidationErrors.length = 0
+}
 
 // ─── Card Definition Schema ───────────────────────────────
 
@@ -78,7 +91,13 @@ function resolveUnit(raw: RawUnitDef): UnitTemplate {
     return raw as UnitTemplate
   }
   const { unitTemplateRef, intervalMs } = raw.structureEffect
-  const unitTemplate = (TEMPLATES[unitTemplateRef ?? ''] ?? {}) as UnitTemplate
+  const resolved = unitTemplateRef ? TEMPLATES[unitTemplateRef] : undefined
+  if (!resolved) {
+    const msg = `cards.json: unknown unitTemplateRef '${unitTemplateRef ?? '(none)'}' for unit '${raw.name}' — spawner will produce invalid units`
+    console.error('[cards]', msg)
+    _pendingValidationErrors.push({ msg, ctx: { unitName: raw.name, unitTemplateRef: unitTemplateRef ?? null } })
+  }
+  const unitTemplate = (resolved ?? {}) as UnitTemplate
   return {
     ...(raw as unknown as UnitTemplate),
     structureEffect: { type: 'spawn' as const, unitTemplate, intervalMs: intervalMs ?? 0 },
@@ -91,7 +110,13 @@ function resolveUnit(raw: RawUnitDef): UnitTemplate {
 function resolveCardDef(raw: RawCardDef): CardDef {
   let unit: UnitTemplate | undefined
   if (raw.unitRef) {
-    unit = TEMPLATES[raw.unitRef] as UnitTemplate
+    const resolved = TEMPLATES[raw.unitRef]
+    if (!resolved) {
+      const msg = `cards.json: unknown unitRef '${raw.unitRef}' for card '${raw.name}' — card will be undeployable`
+      console.error('[cards]', msg)
+      _pendingValidationErrors.push({ msg, ctx: { cardName: raw.name, unitRef: raw.unitRef } })
+    }
+    unit = resolved as UnitTemplate
   } else if (raw.unit) {
     unit = resolveUnit(raw.unit)
   }
