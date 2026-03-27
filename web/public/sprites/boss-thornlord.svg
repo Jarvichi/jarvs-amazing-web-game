@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Thornlord: deep green bark armour, thorn crown -->
+  <!-- Body -->
+  <rect x="10" y="14" width="12" height="11" rx="1" fill="#2d5a27"/>
+  <!-- Pauldrons -->
+  <rect x="7" y="14" width="4" height="5" rx="1" fill="#1e3d1b"/>
+  <rect x="21" y="14" width="4" height="5" rx="1" fill="#1e3d1b"/>
+  <!-- Thorn crown -->
+  <rect x="11" y="6" width="10" height="7" rx="2" fill="#1e3d1b"/>
+  <rect x="13" y="3" width="2" height="5" rx="1" fill="#4a8c42"/>
+  <rect x="17" y="3" width="2" height="5" rx="1" fill="#4a8c42"/>
+  <rect x="15" y="2" width="2" height="4" rx="1" fill="#4a8c42"/>
+  <!-- Eyes -->
+  <rect x="13" y="9" width="2" height="2" fill="#7fff00"/>
+  <rect x="17" y="9" width="2" height="2" fill="#7fff00"/>
+  <!-- Belt -->
+  <rect x="10" y="22" width="12" height="2" fill="#1e3d1b"/>
+  <!-- Legs -->
+  <rect x="11" y="25" width="4" height="5" rx="1" fill="#2d5a27"/>
+  <rect x="17" y="25" width="4" height="5" rx="1" fill="#2d5a27"/>
+  <!-- Arms -->
+  <rect x="7" y="19" width="3" height="7" rx="1" fill="#2d5a27"/>
+  <rect x="22" y="19" width="3" height="7" rx="1" fill="#2d5a27"/>
+  <!-- Thorn weapon -->
+  <rect x="25" y="12" width="2" height="16" rx="1" fill="#4a8c42"/>
+  <rect x="24" y="14" width="2" height="2" rx="1" fill="#4a8c42"/>
+  <rect x="27" y="17" width="2" height="2" rx="1" fill="#4a8c42"/>
+</svg>

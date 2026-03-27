@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {
   BASE_AVATAR_SLUGS, STREAK_AVATAR_SLUGS, STREAK_AVATAR_LABELS, AvatarSlug,
+  BOSS_AVATAR_SLUGS, BOSS_AVATAR_LABELS,
   loadPlayerName, savePlayerName,
   loadPlayerAvatar, savePlayerAvatar,
   isAvatarUnlocked,
@@ -26,14 +27,15 @@ function sanitiseName(raw: string): string {
   return raw.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, ' ')
 }
 
-function AvatarButton({ slug, chosen, onClick }: { slug: string; chosen: boolean; onClick: () => void }) {
+function AvatarButton({ slug, chosen, onClick, lockHint }: { slug: string; chosen: boolean; onClick: () => void; lockHint?: string }) {
   const unlocked = isAvatarUnlocked(slug)
-  const label = BASE_AVATAR_LABELS[slug] ?? STREAK_AVATAR_LABELS[slug] ?? slug
+  const label = BASE_AVATAR_LABELS[slug] ?? STREAK_AVATAR_LABELS[slug] ?? BOSS_AVATAR_LABELS[slug] ?? slug
+  const hint = lockHint ?? 'locked'
   return (
     <button
       className={`character-avatar-btn${chosen ? ' character-avatar-btn--chosen' : ''}${!unlocked ? ' character-avatar-btn--locked' : ''}`}
       onClick={unlocked ? onClick : undefined}
-      title={unlocked ? label : `${label} — locked (win streak achievement)`}
+      title={unlocked ? label : `${label} — ${hint}`}
     >
       {unlocked ? (
         <img src={`${SPRITE_BASE}${slug}.svg`} alt={label} className="character-avatar-img" />
@@ -111,6 +113,22 @@ export function CharacterScreen({ onDone }: Props) {
               slug={slug}
               chosen={avatar === slug}
               onClick={() => setAvatar(slug as AvatarSlug)}
+              lockHint="complete a win streak achievement"
+            />
+          ))}
+        </div>
+
+        <div style={{ color: '#aaffaa', fontSize: '0.75rem', margin: '1rem 0 0.6rem' }}>
+          BOSS AVATARS
+        </div>
+        <div className="character-avatar-grid">
+          {BOSS_AVATAR_SLUGS.map(slug => (
+            <AvatarButton
+              key={slug}
+              slug={slug}
+              chosen={avatar === slug}
+              onClick={() => setAvatar(slug as AvatarSlug)}
+              lockHint="defeat this act's boss"
             />
           ))}
         </div>

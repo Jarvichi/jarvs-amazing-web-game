@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Cloudmarshal: silver-white armour, storm wings, lightning blade -->
+  <!-- Wings (behind) -->
+  <rect x="4" y="10" width="6" height="14" rx="3" fill="#aabbcc" opacity="0.6"/>
+  <rect x="22" y="10" width="6" height="14" rx="3" fill="#aabbcc" opacity="0.6"/>
+  <!-- Body -->
+  <rect x="10" y="13" width="12" height="12" rx="1" fill="#c8d8e8"/>
+  <!-- Chest plate -->
+  <rect x="11" y="14" width="10" height="8" rx="1" fill="#d8e8f8"/>
+  <!-- Head -->
+  <rect x="11" y="5" width="10" height="9" rx="2" fill="#b0c4d8"/>
+  <!-- Visor -->
+  <rect x="12" y="9" width="8" height="2" rx="1" fill="#7fbfff"/>
+  <!-- Belt -->
+  <rect x="10" y="22" width="12" height="2" fill="#8899aa"/>
+  <!-- Legs -->
+  <rect x="11" y="25" width="4" height="5" rx="1" fill="#c8d8e8"/>
+  <rect x="17" y="25" width="4" height="5" rx="1" fill="#c8d8e8"/>
+  <!-- Lightning sword -->
+  <rect x="25" y="12" width="2" height="16" rx="1" fill="#ffdd00"/>
+  <rect x="23" y="19" width="6" height="2" rx="1" fill="#aaaaaa"/>
+  <rect x="26" y="13" width="1" height="2" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Archivist: crystal-blue robes, prism crown, magic staff -->
+  <!-- Robes -->
+  <rect x="10" y="13" width="12" height="15" rx="2" fill="#1a3a5c"/>
+  <!-- Crystal shoulder pieces -->
+  <rect x="7" y="13" width="5" height="6" rx="1" fill="#4a8abf"/>
+  <rect x="20" y="13" width="5" height="6" rx="1" fill="#4a8abf"/>
+  <!-- Head -->
+  <rect x="11" y="5" width="10" height="9" rx="2" fill="#1a3a5c"/>
+  <!-- Prism crown -->
+  <rect x="12" y="3" width="8" height="4" rx="1" fill="#4a8abf"/>
+  <rect x="15" y="1" width="2" height="4" rx="1" fill="#aaddff"/>
+  <!-- Eyes -->
+  <rect x="13" y="9" width="2" height="2" fill="#aaddff"/>
+  <rect x="17" y="9" width="2" height="2" fill="#aaddff"/>
+  <!-- Crystal orb -->
+  <rect x="25" y="12" width="5" height="5" rx="2" fill="#4a8abf"/>
+  <rect x="26" y="13" width="3" height="3" rx="1" fill="#aaddff"/>
+  <!-- Staff -->
+  <rect x="26" y="17" width="2" height="11" rx="1" fill="#2a5a8c"/>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Pale Engine: ice-white mechanical, blue glow, cryo-cannon -->
+  <!-- Body (mechanical) -->
+  <rect x="9" y="12" width="14" height="13" rx="1" fill="#ddeeff"/>
+  <!-- Chest gear -->
+  <rect x="11" y="14" width="10" height="7" rx="1" fill="#c0d8f0"/>
+  <rect x="14" y="15" width="4" height="4" rx="2" fill="#aaccee"/>
+  <!-- Head unit -->
+  <rect x="11" y="4" width="10" height="9" rx="2" fill="#c0d8f0"/>
+  <!-- Scanner eyes -->
+  <rect x="12" y="7" width="3" height="3" rx="1" fill="#0088ff"/>
+  <rect x="17" y="7" width="3" height="3" rx="1" fill="#0088ff"/>
+  <!-- Ice accents -->
+  <rect x="9" y="12" width="14" height="2" fill="#88bbdd"/>
+  <!-- Legs (mechanical) -->
+  <rect x="10" y="25" width="4" height="5" rx="1" fill="#c0d8f0"/>
+  <rect x="18" y="25" width="4" height="5" rx="1" fill="#c0d8f0"/>
+  <!-- Cryo cannon (arm) -->
+  <rect x="23" y="14" width="8" height="4" rx="2" fill="#88bbdd"/>
+  <rect x="29" y="13" width="2" height="6" rx="1" fill="#aaddff"/>
+  <!-- Arms -->
+  <rect x="5" y="18" width="5" height="3" rx="1" fill="#c0d8f0"/>
+</svg>

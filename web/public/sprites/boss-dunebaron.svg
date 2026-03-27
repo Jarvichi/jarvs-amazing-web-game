@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dune Baron: golden sand armour, desert crown, scimitar -->
+  <!-- Body -->
+  <rect x="10" y="13" width="12" height="12" rx="1" fill="#c8a028"/>
+  <!-- Chest embossed -->
+  <rect x="11" y="14" width="10" height="7" rx="1" fill="#d8b038"/>
+  <!-- Pauldrons -->
+  <rect x="7" y="13" width="5" height="6" rx="1" fill="#a87820"/>
+  <rect x="20" y="13" width="5" height="6" rx="1" fill="#a87820"/>
+  <!-- Desert crown -->
+  <rect x="11" y="5" width="10" height="9" rx="2" fill="#a87820"/>
+  <rect x="12" y="3" width="8" height="4" rx="1" fill="#c8a028"/>
+  <rect x="15" y="1" width="2" height="4" rx="1" fill="#ffcc44"/>
+  <!-- Eyes -->
+  <rect x="13" y="8" width="2" height="2" fill="#ffcc44"/>
+  <rect x="17" y="8" width="2" height="2" fill="#ffcc44"/>
+  <!-- Belt -->
+  <rect x="10" y="22" width="12" height="2" fill="#a87820"/>
+  <!-- Scimitar -->
+  <rect x="24" y="10" width="2" height="14" rx="1" fill="#d4c060"/>
+  <rect x="24" y="10" width="6" height="3" rx="2" fill="#d4c060"/>
+  <rect x="22" y="18" width="5" height="2" rx="1" fill="#a87820"/>
+</svg>

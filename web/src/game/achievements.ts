@@ -710,6 +710,22 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // ── Boss avatar unlocks (one per act, triggered on first act completion) ─
+
+  { id: 'campaign:act1:boss',  name: 'Face of the Thornlord',       description: 'Defeat Act 1 to unlock the Thornlord avatar',       category: 'campaign', progressKey: 'campaign:act1',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thornlord' },       tier: 1 },
+  { id: 'campaign:act2:boss',  name: 'Face of Kragg',               description: 'Defeat Act 2 to unlock Warlord Kragg avatar',        category: 'campaign', progressKey: 'campaign:act2',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-kragg' },           tier: 1 },
+  { id: 'campaign:act3:boss',  name: 'Face of the Ashwalker',       description: 'Defeat Act 3 to unlock the Ashwalker avatar',        category: 'campaign', progressKey: 'campaign:act3',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-ashwalker' },       tier: 1 },
+  { id: 'campaign:act4:boss',  name: 'Face of the Archivist',       description: 'Defeat Act 4 to unlock the Archivist avatar',        category: 'campaign', progressKey: 'campaign:act4',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-archivist' },       tier: 1 },
+  { id: 'campaign:act5:boss',  name: 'Face of the Tidal Sovereign', description: 'Defeat Act 5 to unlock the Tidal Sovereign avatar',  category: 'campaign', progressKey: 'campaign:act5',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-tidal-sovereign' }, tier: 1 },
+  { id: 'campaign:act6:boss',  name: 'Face of the Cloudmarshal',   description: 'Defeat Act 6 to unlock the Cloudmarshal avatar',    category: 'campaign', progressKey: 'campaign:act6',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-cloudmarshal' },   tier: 1 },
+  { id: 'campaign:act7:boss',  name: 'Face of the Cinderwarlord',  description: 'Defeat Act 7 to unlock the Cinderwarlord avatar',   category: 'campaign', progressKey: 'campaign:act7',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-cinderwarlord' },  tier: 1 },
+  { id: 'campaign:act8:boss',  name: 'Face of the Root Queen',     description: 'Defeat Act 8 to unlock the Root Queen avatar',     category: 'campaign', progressKey: 'campaign:act8',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-rootqueen' },      tier: 1 },
+  { id: 'campaign:act9:boss',  name: 'Face of the Pale Engine',    description: 'Defeat Act 9 to unlock the Pale Engine avatar',    category: 'campaign', progressKey: 'campaign:act9',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-paleengine' },    tier: 1 },
+  { id: 'campaign:act10:boss', name: 'Face of the Dune Baron',     description: 'Defeat Act 10 to unlock the Dune Baron avatar',    category: 'campaign', progressKey: 'campaign:act10', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-dunebaron' },    tier: 1 },
+  { id: 'campaign:act11:boss', name: 'Face of the Elder Warden',   description: 'Defeat Act 11 to unlock the Elder Warden avatar',  category: 'campaign', progressKey: 'campaign:act11', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-elderwarden' },   tier: 1 },
+  { id: 'campaign:act12:boss', name: 'Face of the Harbormaster',   description: 'Defeat Act 12 to unlock the Harbormaster avatar',  category: 'campaign', progressKey: 'campaign:act12', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-harbormaster' },  tier: 1 },
+  { id: 'campaign:act13:boss', name: 'Face of the Grand Automaton',description: 'Defeat Act 13 to unlock the Grand Automaton avatar',category: 'campaign', progressKey: 'campaign:act13', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-grandautomaton' },tier: 1 },
+
   // ── Campaign failures ────────────────────────────────────────────────────
 
   {
