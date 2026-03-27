@@ -170,6 +170,23 @@ function playstyleDescription(node: QuestNode): string {
   return 'Plays a standard shuffled deck.'
 }
 
+/** Collapse multiple modifiers of the same type into one row with summed values. */
+function collapseModifiers(modifiers: ReplayModifier[]): ReplayModifier[] {
+  const byType = new Map<string, number>()
+  for (const m of modifiers) {
+    byType.set(m.type, (byType.get(m.type) ?? 0) + m.value)
+  }
+  return Array.from(byType.entries()).map(([type, total]) => {
+    switch (type) {
+      case 'enemyHpPercent':         return { type: type as ReplayModifier['type'], value: total, label: `+${total}% enemy HP` }
+      case 'crystalBonus':           return { type: type as ReplayModifier['type'], value: total, label: `+${total} crystals per battle` }
+      case 'enemyHandBonus':         return { type: type as ReplayModifier['type'], value: total, label: `Enemies start +${total} card${total !== 1 ? 's' : ''}` }
+      case 'enemyIntervalReduction': return modifiers.find(m => m.type === type)!
+      default:                       return modifiers.find(m => m.type === type)!
+    }
+  })
+}
+
 // ── Node Peek Modal ──────────────────────────────────────────────────────────
 
 interface PeekModalProps {
@@ -222,11 +239,11 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
           </div>
         )}
 
-        {/* Active modifiers (battle nodes only) */}
+        {/* Active modifiers (battle nodes only) — same-type entries are summed */}
         {isBattle && activeModifiers.length > 0 && (
           <div className="nm-peek-modifiers">
             <div className="nm-peek-modifiers-label">— REPLAY MODIFIERS —</div>
-            {activeModifiers.map((m, i) => (
+            {collapseModifiers(activeModifiers).map((m, i) => (
               <div key={i} className="nm-peek-modifier-row">
                 <span className="nm-peek-modifier-icon">⚠</span>
                 <span className="nm-peek-modifier-text">{m.label}</span>
