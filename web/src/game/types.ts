@@ -46,6 +46,8 @@ export interface UnitTemplate {
   weaknesses?: UnitTag[]
   /** Biases target selection away from default nearest-enemy behaviour. */
   targetPriority?: TargetPriority
+  /** Restricts which unit types this unit can attack. */
+  targetUnitType?: 'flying' | 'hero' | 'not_flying'
   /** Proximity buff triggered when a named ally is within range. */
   affinity?: AffinityDef
   /** Flavour text shown in the inspect panel. */

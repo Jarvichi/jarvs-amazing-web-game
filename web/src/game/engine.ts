@@ -700,6 +700,10 @@ function findAttackTarget(field: Unit[], unit: Unit): Unit | null {
     if (other.isWall && (unit.bypassWall || unit.climber)) continue
     const d = unitDist(unit, other)
     if (d > unit.attackRange) continue
+    // Respect targeting restriction if set
+    if (unit.targetUnitType === 'flying' && !other.flying) continue
+    if (unit.targetUnitType === 'not_flying' && other.flying) continue
+    if (unit.targetUnitType === 'hero' && !other.isHero) continue
     candidates.push({ other, d })
   }
 
