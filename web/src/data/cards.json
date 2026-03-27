@@ -3242,6 +3242,7 @@
       "moveSpeed": 0,
       "attackRange": 180,
       "attackCooldownMs": 1800,
+      "targetUnitType": "flying",
       "tags": [
         "spore"
       ]
@@ -8083,9 +8084,10 @@
         "bypassWall": false,
         "moveSpeed": 0,
         "attackRange": 130,
-        "attackCooldownMs": 1800
+        "attackCooldownMs": 1800,
+        "targetUnitType": "not_flying"
       },
-      "description": "Long-range high-damage structure.",
+      "description": "Long-range high-damage structure. Targets ground units only.",
       "deckCount": 0,
       "tags": [
         "ember"
@@ -8400,7 +8402,7 @@
       "cost": 4,
       "cardType": "structure",
       "unitRef": "bloom-spire",
-      "description": "Tall ranged tower. Long reach, good damage.",
+      "description": "Tall ranged tower. Long reach, good damage. Targets flying units only.",
       "deckCount": 0,
       "tags": [
         "spore"
