@@ -22,8 +22,8 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔵 Enhancements — New (from GitHub, session 28 sync)
 
-- [ ] **#498** Blood pool avoidance — units avoid areas with 3+ blood pools as if obstacle
-- [ ] **#499** Endless mode leaderboard: split into "Today's best" and "All time best"
+- [x] **#498** Blood pool avoidance — pre-compute dense clusters (3+ pools/50px); lateral repulsion for non-flying units
+- [x] **#499** Endless mode leaderboard: split into "Today's best players" and "All time best"; date field added to publishEndlessResult
 
 ## 🔴 Bugs — New (from GitHub, session 27 sync)
 
