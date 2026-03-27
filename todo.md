@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-27 (session 27 — new issues sync).
+Issues sourced from GitHub. Last synced: 2026-03-27 (session 28 — new issues sync).
 
 ---
 
@@ -13,6 +13,17 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [x] **#178** Per-act themed card sets — Act 4 rewardTags fixed ('crystal'→'spire','arcane'); 5 new Crystal Spire cards added (Prism Warden, Shard Familiar, Arcane Conduit, Resonance Spire, Crystalline Shell); all sprites created. Acts 1–4 now have 25+ themed cards each.
 
 ---
+
+## 🔴 Bugs — New (from GitHub, session 28 sync)
+
+- [x] **#496** Sudden death does not trigger in daily challenge mode — already fixed
+- [ ] **#497** Daily challenge: Give Up should count as a failed attempt
+- [ ] **#495** Bloom Spire / Lava Spire overpowered — ranged buildings should target only one unit type; multi-type targeting costs building health
+
+## 🔵 Enhancements — New (from GitHub, session 28 sync)
+
+- [ ] **#498** Blood pool avoidance — units avoid areas with 3+ blood pools as if obstacle
+- [ ] **#499** Endless mode leaderboard: split into "Today's best" and "All time best"
 
 ## 🔴 Bugs — New (from GitHub, session 27 sync)
 
