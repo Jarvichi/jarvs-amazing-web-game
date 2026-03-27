@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-27 (session 28 — new issues sync).
+Issues sourced from GitHub. Last synced: 2026-03-27 (session 29 — new issues sync).
 
 ---
 
@@ -13,6 +13,11 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [x] **#178** Per-act themed card sets — Act 4 rewardTags fixed ('crystal'→'spire','arcane'); 5 new Crystal Spire cards added (Prism Warden, Shard Familiar, Arcane Conduit, Resonance Spire, Crystalline Shell); all sprites created. Acts 1–4 now have 25+ themed cards each.
 
 ---
+
+## 🔴 Bugs — New (from GitHub, session 29 sync)
+
+- [ ] **#441** Event screen reached without activeEvent or run — gainCard path sets activeEvent=null but leaves screen='event', triggering the guard
+- [ ] **#483** Script error (unknown) — Rollbar item, likely a third-party/browser script error; investigate if reproducible
 
 ## 🔴 Bugs — New (from GitHub, session 28 sync)
 
