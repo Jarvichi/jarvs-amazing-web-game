@@ -5146,35 +5146,6 @@ body {
 }
 .item-found-btn { margin-top: 8px; }
 
-.merchant-screen {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 20px 8px;
-  flex: 1;
-  min-height: 0;
-}
-
-.merchant-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  border-bottom: 1px solid #332200;
-  padding-bottom: 10px;
-}
-
-.merchant-title {
-  font-size: 13px;
-  letter-spacing: 3px;
-  color: #cc9933;
-}
-
-.merchant-crystals {
-  font-size: 14px;
-  color: #ffcc44;
-  letter-spacing: 1px;
-}
-
 .merchant-tagline {
   font-size: 12px;
   color: #886633;
@@ -5191,100 +5162,6 @@ body {
   font-size: 12px;
   color: #997744;
   line-height: 1.5;
-}
-
-.merchant-items {
-  display: flex;
-  gap: 14px;
-  justify-content: center;
-  flex-wrap: wrap;
-  flex: 1;
-  align-items: flex-start;
-  padding: 8px 0;
-}
-
-.merchant-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-}
-
-.merchant-item--bought {
-  opacity: 0.5;
-}
-
-.merchant-curiosity-label {
-  font-size: 9px;
-  letter-spacing: 2px;
-  color: var(--game-text-color-muted);
-  text-align: center;
-  padding: 6px 0 2px;
-  border-top: 1px solid rgba(255, 215, 0, 0.15);
-}
-
-.merchant-item--inv .merchant-inv-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 16px;
-  border: 1px solid var(--accent);
-  background: #0a0a16;
-  min-width: 90px;
-  max-width: 110px;
-  text-align: center;
-}
-.merchant-inv-icon {
-  font-size: 2rem;
-}
-.merchant-inv-name {
-  font-size: 0.7rem;
-  color: var(--fg);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-.merchant-inv-desc {
-  font-size: 0.62rem;
-  color: var(--fg-dim, #888);
-  line-height: 1.4;
-}
-
-.merchant-item-footer {
-  min-height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.merchant-buy-btn {
-  background: #1a1200;
-  border-color: #cc9933;
-  color: #ffcc44;
-  min-width: 72px;
-}
-
-.merchant-buy-btn:hover:not(:disabled) {
-  background: #2a2000;
-  border-color: #ffcc44;
-}
-
-.merchant-buy-btn--poor {
-  border-color: #442200;
-  color: #664400;
-  cursor: not-allowed;
-}
-
-.merchant-purchased {
-  font-size: 10px;
-  color: #33cc66;
-  letter-spacing: 2px;
-}
-
-.merchant-leave {
-  align-self: center;
-  margin-top: 8px;
 }
 
 /* ── Boss Dialogue Screen ────────────────────────────────── */
