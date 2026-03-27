@@ -2610,25 +2610,28 @@
     },
     "stormcaller": {
       "name": "Stormcaller",
-      "attack": 9,
-      "maxHp": 20,
+      "attack": 8,
+      "maxHp": 24,
       "isWall": false,
-      "bypassWall": true,
-      "moveSpeed": 22,
-      "attackRange": 100,
-      "attackCooldownMs": 1300,
+      "bypassWall": false,
+      "moveSpeed": 50,
+      "attackRange": 85,
+      "attackCooldownMs": 1500,
+      "flying": false,
       "tags": [
         "ranged",
-        "magic",
-        "flying"
+        "magic"
       ],
       "strengths": [
+        "armored",
         "melee",
-        "armored"
+        "wall"
       ],
       "weaknesses": [
-        "fast"
-      ]
+        "fast",
+        "melee"
+      ],
+      "size": "medium"
     },
     "lightning-archer": {
       "name": "Lightning Archer",
@@ -4321,6 +4324,348 @@
         "fast"
       ],
       "size": "large"
+    },
+    "shore-scout": {
+      "name": "Shore Scout",
+      "attack": 4,
+      "maxHp": 12,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 65,
+      "attackRange": 5,
+      "attackCooldownMs": 1200,
+      "flying": false,
+      "tags": [
+        "fast",
+        "small"
+      ],
+      "strengths": [
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "ranged",
+        "armored"
+      ],
+      "size": "small"
+    },
+    "tide-runner": {
+      "name": "Tide Runner",
+      "attack": 5,
+      "maxHp": 14,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 75,
+      "attackRange": 5,
+      "attackCooldownMs": 1100,
+      "flying": false,
+      "tags": [
+        "fast",
+        "small"
+      ],
+      "strengths": [
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "ranged",
+        "armored"
+      ],
+      "size": "small"
+    },
+    "salvage-hauler": {
+      "name": "Salvage Hauler",
+      "attack": 5,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 40,
+      "attackRange": 5,
+      "attackCooldownMs": 1400,
+      "flying": false,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "strengths": [
+        "armored",
+        "melee"
+      ],
+      "weaknesses": [
+        "magic",
+        "fast"
+      ],
+      "size": "medium"
+    },
+    "wave-brawler": {
+      "name": "Wave Brawler",
+      "attack": 7,
+      "maxHp": 26,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 50,
+      "attackRange": 5,
+      "attackCooldownMs": 1300,
+      "flying": false,
+      "tags": [
+        "melee"
+      ],
+      "strengths": [
+        "melee",
+        "siege"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "size": "medium"
+    },
+    "coastal-skirmisher": {
+      "name": "Coastal Skirmisher",
+      "attack": 6,
+      "maxHp": 16,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 60,
+      "attackRange": 70,
+      "attackCooldownMs": 1300,
+      "flying": false,
+      "tags": [
+        "ranged",
+        "fast"
+      ],
+      "strengths": [
+        "flying",
+        "fast"
+      ],
+      "weaknesses": [
+        "armored",
+        "melee"
+      ],
+      "size": "small"
+    },
+    "wreck-diver": {
+      "name": "Wreck Diver",
+      "attack": 7,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 55,
+      "attackRange": 5,
+      "attackCooldownMs": 1200,
+      "flying": false,
+      "tags": [
+        "melee",
+        "fast"
+      ],
+      "strengths": [
+        "melee",
+        "wall"
+      ],
+      "weaknesses": [
+        "ranged",
+        "flying"
+      ],
+      "size": "small"
+    },
+    "reef-warden": {
+      "name": "Reef Warden",
+      "attack": 7,
+      "maxHp": 32,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 45,
+      "attackRange": 5,
+      "attackCooldownMs": 1600,
+      "flying": false,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "strengths": [
+        "melee",
+        "armored",
+        "siege"
+      ],
+      "weaknesses": [
+        "magic",
+        "fast"
+      ],
+      "size": "medium"
+    },
+    "tide-stalker": {
+      "name": "Tide Stalker",
+      "attack": 9,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 55,
+      "attackRange": 5,
+      "attackCooldownMs": 1300,
+      "flying": false,
+      "tags": [
+        "melee",
+        "fast"
+      ],
+      "strengths": [
+        "melee",
+        "fast",
+        "siege"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "size": "medium"
+    },
+    "storm-hawk": {
+      "name": "Storm Hawk",
+      "attack": 9,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 80,
+      "attackRange": 5,
+      "attackCooldownMs": 1200,
+      "flying": true,
+      "tags": [
+        "flying",
+        "fast"
+      ],
+      "strengths": [
+        "flying",
+        "melee",
+        "fast"
+      ],
+      "weaknesses": [
+        "ranged",
+        "armored"
+      ],
+      "size": "small"
+    },
+    "wreck-golem": {
+      "name": "Wreck Golem",
+      "attack": 10,
+      "maxHp": 48,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 35,
+      "attackRange": 5,
+      "attackCooldownMs": 2000,
+      "flying": false,
+      "tags": [
+        "melee",
+        "armored",
+        "slow",
+        "large"
+      ],
+      "strengths": [
+        "armored",
+        "siege",
+        "wall"
+      ],
+      "weaknesses": [
+        "fast",
+        "magic"
+      ],
+      "size": "large"
+    },
+    "tempest-rider": {
+      "name": "Tempest Rider",
+      "attack": 11,
+      "maxHp": 36,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 65,
+      "attackRange": 5,
+      "attackCooldownMs": 1500,
+      "flying": true,
+      "tags": [
+        "flying",
+        "armored"
+      ],
+      "strengths": [
+        "flying",
+        "armored",
+        "siege"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "size": "medium"
+    },
+    "coast-leviathan": {
+      "name": "Coast Leviathan",
+      "attack": 13,
+      "maxHp": 60,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 40,
+      "attackRange": 5,
+      "attackCooldownMs": 2200,
+      "flying": false,
+      "tags": [
+        "melee",
+        "large",
+        "armored",
+        "siege"
+      ],
+      "strengths": [
+        "armored",
+        "siege",
+        "wall",
+        "melee"
+      ],
+      "weaknesses": [
+        "flying",
+        "magic"
+      ],
+      "size": "large"
+    },
+    "the-harbormaster": {
+      "name": "The Harbormaster",
+      "attack": 14,
+      "maxHp": 90,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 45,
+      "attackRange": 100,
+      "attackCooldownMs": 2000,
+      "flying": false,
+      "tags": [
+        "ranged",
+        "large",
+        "armored",
+        "legendary"
+      ],
+      "strengths": [
+        "armored",
+        "siege",
+        "wall",
+        "ranged"
+      ],
+      "weaknesses": [
+        "fast",
+        "melee"
+      ],
+      "size": "large"
+    },
+    "breakwater-wall": {
+      "name": "Breakwater Wall",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "tags": [
+        "structure",
+        "wall"
+      ],
+      "size": "medium"
     }
   },
   "cards": [
@@ -10015,6 +10360,387 @@
         "legendary"
       ],
       "lore": "It has protected this canopy since before the Fracture. It will protect it after."
+    },
+    {
+      "name": "Shore Scout",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "shore-scout",
+      "description": "A quick coastal lookout.",
+      "deckCount": 3,
+      "tags": [
+        "wreck",
+        "storm"
+      ],
+      "lore": "First to see the tide, first to run."
+    },
+    {
+      "name": "Tide Runner",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "tide-runner",
+      "description": "Runs along the surf line.",
+      "deckCount": 3,
+      "tags": [
+        "wreck",
+        "storm"
+      ],
+      "lore": "The sea gave them speed. The wreck gave them purpose."
+    },
+    {
+      "name": "Salvage Hauler",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "salvage-hauler",
+      "description": "Hauls wreck debris as improvised armor.",
+      "deckCount": 2,
+      "tags": [
+        "wreck"
+      ],
+      "lore": "Every plate on their back was once someone else's hull."
+    },
+    {
+      "name": "Wave Brawler",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "wave-brawler",
+      "description": "Fights best waist-deep in water.",
+      "deckCount": 2,
+      "tags": [
+        "storm"
+      ],
+      "lore": "They learned to fight in the surf. Everything else is just practice."
+    },
+    {
+      "name": "Drift Net",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "spawn",
+        "spawnUnitRef": "shore-scout",
+        "intervalMs": 6500
+      },
+      "description": "Trawls up shore scouts from the deep.",
+      "deckCount": 2,
+      "tags": [
+        "wreck"
+      ],
+      "lore": "Throw it in. Pull it out. Something always comes back."
+    },
+    {
+      "name": "Storm Beacon",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "mana",
+        "intervalMs": 4500,
+        "unit": {
+          "name": "Storm Beacon",
+          "hp": 12,
+          "attack": 0,
+          "speed": 0,
+          "tags": [
+            "storm"
+          ]
+        }
+      },
+      "description": "Channels storm energy into mana.",
+      "deckCount": 2,
+      "tags": [
+        "storm"
+      ],
+      "lore": "The storm doesn't notice it. But you do."
+    },
+    {
+      "name": "Wreck Patch",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffHp",
+        "amount": 5
+      },
+      "description": "Salvaged plating bolsters a unit.",
+      "deckCount": 2,
+      "tags": [
+        "wreck"
+      ],
+      "lore": "You take what washes up. You use it."
+    },
+    {
+      "name": "Coastal Skirmisher",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "coastal-skirmisher",
+      "description": "Nimble ranged fighter who harasses from a distance.",
+      "deckCount": 2,
+      "tags": [
+        "wreck",
+        "storm"
+      ],
+      "lore": "Hits hard from far away, then disappears back into the spray."
+    },
+    {
+      "name": "Wreck Diver",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "wreck-diver",
+      "description": "Surfaces from submerged wrecks to ambush.",
+      "deckCount": 2,
+      "tags": [
+        "wreck"
+      ],
+      "lore": "They live down there. Among the bones and barnacles."
+    },
+    {
+      "name": "Stormcaller",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "stormcaller",
+      "description": "Calls lightning upon the battlefield.",
+      "deckCount": 2,
+      "tags": [
+        "storm"
+      ],
+      "lore": "The coast storms are alive. They taught me to ask nicely."
+    },
+    {
+      "name": "Reef Warden",
+      "rarity": "uncommon",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "reef-warden",
+      "description": "Ancient guardian of the coastal reef.",
+      "deckCount": 2,
+      "tags": [
+        "wreck"
+      ],
+      "lore": "It was here before the ships. It will be here after."
+    },
+    {
+      "name": "Storm Hawk",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "storm-hawk",
+      "description": "Flies above the crashing waves.",
+      "deckCount": 2,
+      "tags": [
+        "storm"
+      ],
+      "lore": "It uses the storm. The storm does not notice."
+    },
+    {
+      "name": "Breakwater Wall",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "spawn",
+        "spawnUnitRef": "salvage-hauler",
+        "intervalMs": 0
+      },
+      "description": "A sturdy sea wall spawned from salvaged debris.",
+      "deckCount": 2,
+      "tags": [
+        "wreck"
+      ],
+      "lore": "Built to break the tide. Better at breaking armies."
+    },
+    {
+      "name": "Salvage Dock",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "spawn",
+        "spawnUnitRef": "wreck-diver",
+        "intervalMs": 7000
+      },
+      "description": "Continuously spawns wreck divers.",
+      "deckCount": 2,
+      "tags": [
+        "wreck"
+      ],
+      "lore": "The dock doesn't care where they come from. It just sends them."
+    },
+    {
+      "name": "Tidal Fortress",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "healAura",
+        "auraHpPerSec": 3,
+        "auraRange": 130
+      },
+      "description": "A tide-blessed bastion that heals nearby allies.",
+      "deckCount": 2,
+      "tags": [
+        "storm"
+      ],
+      "lore": "The tide heals what the storm wounds."
+    },
+    {
+      "name": "Storm Surge",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 3
+      },
+      "description": "Infuses a unit with storm fury.",
+      "deckCount": 2,
+      "tags": [
+        "storm"
+      ],
+      "lore": "The storm doesn't discriminate. Neither does this."
+    },
+    {
+      "name": "Riptide",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffSpeed",
+        "amount": 20
+      },
+      "description": "Grants the speed of an ocean current.",
+      "deckCount": 2,
+      "tags": [
+        "storm"
+      ],
+      "lore": "The current doesn't ask where you want to go."
+    },
+    {
+      "name": "Salvage Charge",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "aoe",
+        "damage": 4,
+        "range": 140
+      },
+      "description": "Detonates salvaged ordnance for area damage.",
+      "deckCount": 2,
+      "tags": [
+        "wreck"
+      ],
+      "lore": "Wet fuses, bad idea. Dry fuses, worse idea."
+    },
+    {
+      "name": "Tide Stalker",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "tide-stalker",
+      "description": "Prowls the shallows, striking without warning.",
+      "deckCount": 1,
+      "tags": [
+        "wreck",
+        "storm"
+      ],
+      "lore": "You don't see it. Then it's too late."
+    },
+    {
+      "name": "Tempest Rider",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "tempest-rider",
+      "description": "Commands the storm from above. Flying.",
+      "deckCount": 1,
+      "tags": [
+        "storm"
+      ],
+      "lore": "The lightning obeys. The thunder follows."
+    },
+    {
+      "name": "Wreck Golem",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "wreck-golem",
+      "description": "Assembled from hull plates and broken masts.",
+      "deckCount": 1,
+      "tags": [
+        "wreck"
+      ],
+      "lore": "Every ship that sank here. Every sailor lost. All of it, walking."
+    },
+    {
+      "name": "Stormgate",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "spawn",
+        "spawnUnitRef": "tempest-rider",
+        "intervalMs": 9000
+      },
+      "description": "Opens a rift in the storm, spawning tempest riders.",
+      "deckCount": 1,
+      "tags": [
+        "storm"
+      ],
+      "lore": "The storm has a door. This is it."
+    },
+    {
+      "name": "Maelstrom",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "aoe",
+        "damage": 7,
+        "range": 180
+      },
+      "description": "Conjures a maelstrom that batters all nearby enemies.",
+      "deckCount": 1,
+      "tags": [
+        "storm"
+      ],
+      "lore": "The sea isn't angry. It just doesn't notice you."
+    },
+    {
+      "name": "The Harbormaster",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "the-harbormaster",
+      "description": "The iron admiral of the Shattered Coast. Commands the storm itself.",
+      "deckCount": 1,
+      "tags": [
+        "wreck",
+        "storm",
+        "legendary"
+      ],
+      "lore": "Every wreck on this coast was once a ship that thought it could pass without his permission."
+    },
+    {
+      "name": "Coast Leviathan",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "coast-leviathan",
+      "description": "A massive sea beast that wades through armies.",
+      "deckCount": 1,
+      "tags": [
+        "wreck",
+        "storm"
+      ],
+      "lore": "Older than the coast itself. Possibly older than the sea."
     }
   ],
   "heroCards": [

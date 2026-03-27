@@ -161,7 +161,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [x] Act 9 — The Frozen Expanse (session 27: 25 frost/glacier cards, act9.json, paleengine AI, Frost Mantle relic)
 - [x] Act 10 — The Sand Market (session 27: 25 sand/mercenary cards, act10.json, dunebaron AI, Golden Compass relic)
 - [x] Act 11 — The Verdant Canopy (session 29: 25 canopy/ancient cards, act11.json, elderwarden AI, Living Bark relic)
-- [ ] Act 12 — The Shattered Coast
+- [x] Act 12 — The Shattered Coast (session 29: 26 wreck/storm cards, act12.json, harbormaster AI, Salvage Hook relic)
 - [ ] Act 13 — The Clockwork Vaults
 - [ ] Act 14 — The Plague Fens
 - [ ] Act 15 — The Glass Wastes

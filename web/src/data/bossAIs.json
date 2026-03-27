@@ -810,5 +810,93 @@
         ]
       }
     ]
+  },
+  {
+    "id": "harbormaster",
+    "intervalMs": 4800,
+    "idleMessage": "The iron tide rolls in\u2026",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE HARBORMASTER raises his iron signal flag.",
+      "No permit. No passage."
+    ],
+    "trait": {
+      "name": "Tidal Surge",
+      "type": "aoe_row",
+      "implemented": false,
+      "triggerCondition": "playerBaseHpBelow50Pct",
+      "description": "At 50% HP, surges a wall of water across the front row, dealing 10 damage to all player units."
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "type": "structure",
+            "subType": "spawn",
+            "order": "first"
+          },
+          {
+            "type": "unit",
+            "order": "cost_desc"
+          },
+          {
+            "type": "upgrade",
+            "order": "first"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 70000
+        },
+        "priorities": [
+          {
+            "type": "unit",
+            "tag": "ranged",
+            "order": "cost_desc"
+          },
+          {
+            "type": "unit",
+            "tag": "flying",
+            "order": "cost_desc"
+          },
+          {
+            "type": "structure",
+            "subType": "spawn",
+            "order": "first"
+          },
+          {
+            "type": "upgrade",
+            "order": "first"
+          }
+        ],
+        "announceOnce": "The Harbormaster signals his fleet!"
+      },
+      {
+        "condition": null,
+        "manaOverride": 8,
+        "maxPlaysOverride": 4,
+        "announceOnce": "The iron tide rises! No mercy!",
+        "priorities": [
+          {
+            "type": "unit",
+            "order": "cost_desc"
+          },
+          {
+            "type": "structure",
+            "subType": "spawn",
+            "order": "first"
+          },
+          {
+            "type": "upgrade",
+            "order": "first"
+          }
+        ]
+      }
+    ]
   }
 ]
