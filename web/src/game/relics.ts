@@ -123,6 +123,14 @@ const RELIC_CATALOG: RelicDef[] = [
       state.playerBase.hp   += 15
     },
   },
+  {
+    name: 'Salvage Hook',
+    icon: '🪝',
+    desc: 'Once per battle, one of your destroyed units is revived at 1 HP.',
+    applyToGame(state) {
+      state.soulstoneReviveAvailable = true
+    },
+  },
 ]
 
 export function getRelicDef(name: string): RelicDef | undefined {

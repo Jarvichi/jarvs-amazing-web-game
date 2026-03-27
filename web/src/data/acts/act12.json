@@ -1,0 +1,505 @@
+{
+  "id": "act12",
+  "title": "ACT XII",
+  "subtitle": "The Shattered Coast",
+  "rewardRelic": "Salvage Hook",
+  "rewardRelicDesc": "Once per battle, one of your destroyed units is revived at 1 HP.",
+  "environment": "coast",
+  "rewardTags": [
+    "wreck",
+    "storm"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "shore-landing"
+  ],
+  "intro": [
+    {
+      "title": "THE SHATTERED COAST",
+      "text": "The Shattered Coast was once a thriving port city \u2014 before the Fracture split it across seven separate shards.\n\nNow the channels between shards are controlled by a single authority: the Harbormaster. Nothing moves without his iron seal. No cargo. No people. No information."
+    },
+    {
+      "title": "THE HARBORMASTER",
+      "text": "He was a port inspector once, before the Fracture. Now he is something else \u2014 a man who discovered that chaos could be administered, and administration could be power.\n\nHis fleet patrols the shattered channels. His flags are the only law. The wreck divers answer to him. The storm hawks circle his flagship."
+    },
+    {
+      "title": "NO PERMIT",
+      "text": "You don't have his permit. You don't intend to get one.\n\nThe coast is the only route forward, and the Harbormaster blocks it. Fight through his patrols, his reef wardens, his iron anchorage \u2014 and put an end to the toll."
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE IRON TIDE BREAKS",
+      "text": "The Harbormaster's flagship lists into the grey water, its iron hull taking on the sea. He didn't ask for terms. He didn't retreat. He fought until the storm itself abandoned him."
+    },
+    {
+      "title": "SALVAGE HOOK",
+      "text": "Among the wreckage, half-buried in sand, you find a salvage hook \u2014 the symbol of passage along this coast. It's old. Pre-Fracture. It means something.\n\nYou pocket it. The channels open around you."
+    },
+    {
+      "title": "THE HORIZON",
+      "text": "The tide pulls back. The next shard waits beyond the horizon.\n\nYou sail on."
+    }
+  ],
+  "nodes": {
+    "shore-landing": {
+      "id": "shore-landing",
+      "type": "battle",
+      "label": "Shore Landing",
+      "description": "Enemy scouts hold the beach.",
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [],
+      "childIds": [
+        "tidal-shrine",
+        "wreck-camp",
+        "salvage-market"
+      ],
+      "handicap": 20,
+      "opponentIntervalMs": 3200,
+      "opponentBaseHp": 240,
+      "environment": "coast",
+      "enemyDeck": [
+        "Shore Scout",
+        "Tide Runner",
+        "Drift Net",
+        "Wreck Patch"
+      ]
+    },
+    "tidal-shrine": {
+      "id": "tidal-shrine",
+      "type": "event",
+      "label": "Tidal Shrine",
+      "description": "A sea-worn shrine draped in offerings.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": [
+        "shore-landing"
+      ],
+      "childIds": [
+        "deep-waters"
+      ],
+      "eventConfig": {
+        "title": "The Tidal Shrine",
+        "description": "The shrine smells of brine and old blood. Storm tokens hang from its eaves. Something watches from the surf.",
+        "pools": [
+          [
+            {
+              "label": "Leave an offering (lose 8 HP, gain a rare card)",
+              "consequence": "You receive a rare card.",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              },
+              "hpCost": 8
+            }
+          ],
+          [
+            {
+              "label": "Take the tide-crystals (gain 55 crystals)",
+              "consequence": "You gain 55 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 55
+              }
+            }
+          ],
+          [
+            {
+              "label": "Drink from the sacred pool (heal 10 HP)",
+              "consequence": "You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Move on",
+              "consequence": "You move on undisturbed.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 0
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "wreck-camp": {
+      "id": "wreck-camp",
+      "type": "rest",
+      "label": "Wreck Camp",
+      "description": "A sheltered cove among the wreckage. Rest here.",
+      "row": 1,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "shore-landing"
+      ],
+      "childIds": [
+        "deep-waters"
+      ],
+      "healAmount": 8
+    },
+    "salvage-market": {
+      "id": "salvage-market",
+      "type": "merchant",
+      "label": "Salvage Market",
+      "description": "Salvagers trade rare finds.",
+      "row": 1,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": [
+        "shore-landing"
+      ],
+      "childIds": [
+        "deep-waters"
+      ]
+    },
+    "deep-waters": {
+      "id": "deep-waters",
+      "type": "battle",
+      "label": "Deep Waters",
+      "description": "The wrecks come alive at this depth.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "tidal-shrine",
+        "wreck-camp",
+        "salvage-market"
+      ],
+      "childIds": [
+        "reef-outpost",
+        "storm-crossing",
+        "diver-cove"
+      ],
+      "handicap": 23,
+      "opponentIntervalMs": 3100,
+      "opponentBaseHp": 252,
+      "environment": "coast",
+      "enemyDeck": [
+        "Salvage Hauler",
+        "Wave Brawler",
+        "Coastal Skirmisher",
+        "Drift Net",
+        "Storm Beacon"
+      ]
+    },
+    "reef-outpost": {
+      "id": "reef-outpost",
+      "type": "battle",
+      "label": "Reef Outpost",
+      "description": "Storm troops hold the reef line.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": [
+        "deep-waters"
+      ],
+      "childIds": [
+        "stormwall"
+      ],
+      "handicap": 25,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 260,
+      "environment": "coast",
+      "enemyDeck": [
+        "Reef Warden",
+        "Stormcaller",
+        "Wreck Diver",
+        "Storm Surge",
+        "Tidal Fortress"
+      ]
+    },
+    "storm-crossing": {
+      "id": "storm-crossing",
+      "type": "event",
+      "label": "Storm Crossing",
+      "description": "A narrow channel lashed by storm.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "deep-waters"
+      ],
+      "childIds": [
+        "stormwall"
+      ],
+      "eventConfig": {
+        "title": "The Storm Crossing",
+        "description": "Lightning splits the sky. The crossing is passable, but barely. What you do here will cost something.",
+        "pools": [
+          [
+            {
+              "label": "Force the crossing (gain a rare card, take 6 HP)",
+              "consequence": "You receive a rare card.",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              },
+              "hpCost": 6
+            }
+          ],
+          [
+            {
+              "label": "Signal the beacons (gain 80 crystals)",
+              "consequence": "You gain 80 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 80
+              }
+            }
+          ],
+          [
+            {
+              "label": "Shelter until it passes (heal 12 HP)",
+              "consequence": "You heal 12 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 12
+              }
+            }
+          ],
+          [
+            {
+              "label": "Wade through quickly",
+              "consequence": "You move on undisturbed.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 0
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "diver-cove": {
+      "id": "diver-cove",
+      "type": "elite",
+      "label": "Diver Cove",
+      "description": "Elite wreck divers guard hidden salvage.",
+      "row": 3,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": [
+        "deep-waters"
+      ],
+      "childIds": [
+        "stormwall"
+      ],
+      "handicap": 27,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 265,
+      "environment": "coast",
+      "enemyDeck": [
+        "Wreck Diver",
+        "Tide Stalker",
+        "Salvage Dock",
+        "Riptide",
+        "Storm Surge",
+        "Wreck Golem"
+      ]
+    },
+    "stormwall": {
+      "id": "stormwall",
+      "type": "battle",
+      "label": "Stormwall",
+      "description": "The storm wall cuts off the inner coast.",
+      "row": 4,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "reef-outpost",
+        "storm-crossing",
+        "diver-cove"
+      ],
+      "childIds": [
+        "shipwreck-rest",
+        "gale-watch",
+        "iron-anchorage"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 272,
+      "environment": "coast",
+      "enemyDeck": [
+        "Storm Hawk",
+        "Stormcaller",
+        "Tempest Rider",
+        "Stormgate",
+        "Storm Surge",
+        "Riptide"
+      ]
+    },
+    "shipwreck-rest": {
+      "id": "shipwreck-rest",
+      "type": "rest",
+      "label": "Shipwreck Rest",
+      "description": "The hull of a wrecked galleon provides shelter.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": [
+        "stormwall"
+      ],
+      "childIds": [
+        "the-harbormaster-node"
+      ],
+      "healAmount": 10
+    },
+    "gale-watch": {
+      "id": "gale-watch",
+      "type": "event",
+      "label": "Gale Watch",
+      "description": "A lone watchman signals from a cliff.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "stormwall"
+      ],
+      "childIds": [
+        "the-harbormaster-node"
+      ],
+      "eventConfig": {
+        "title": "The Gale Watcher",
+        "description": "An old sailor stares at the horizon from a broken lighthouse. He doesn't turn when you approach. 'It's coming,' he says. 'Make your choice.'",
+        "pools": [
+          [
+            {
+              "label": "Take his charts (gain a legendary card)",
+              "consequence": "You receive a legendary card.",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "legendary"
+              }
+            }
+          ],
+          [
+            {
+              "label": "Take his coin (gain 100 crystals, lose 15 HP)",
+              "consequence": "You gain 100 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 100
+              },
+              "hpCost": 15
+            }
+          ],
+          [
+            {
+              "label": "Share provisions (heal 15 HP)",
+              "consequence": "You heal 15 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
+            }
+          ],
+          [
+            {
+              "label": "Walk past",
+              "consequence": "You move on undisturbed.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 25
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "iron-anchorage": {
+      "id": "iron-anchorage",
+      "type": "elite",
+      "label": "Iron Anchorage",
+      "description": "The Harbormaster's advance guard \u2014 iron-hulled and merciless.",
+      "row": 5,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": [
+        "stormwall"
+      ],
+      "childIds": [
+        "the-harbormaster-node"
+      ],
+      "handicap": 30,
+      "opponentIntervalMs": 2800,
+      "opponentBaseHp": 278,
+      "environment": "coast",
+      "enemyDeck": [
+        "Wreck Golem",
+        "Coast Leviathan",
+        "Tempest Rider",
+        "Maelstrom",
+        "Stormgate",
+        "Wreck Patch"
+      ]
+    },
+    "the-harbormaster-node": {
+      "id": "the-harbormaster-node",
+      "type": "boss",
+      "label": "The Harbormaster",
+      "description": "Iron admiral of the Shattered Coast.",
+      "row": 6,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "shipwreck-rest",
+        "gale-watch",
+        "iron-anchorage"
+      ],
+      "childIds": [],
+      "handicap": 32,
+      "opponentIntervalMs": 4800,
+      "opponentBaseHp": 285,
+      "environment": "coast",
+      "enemyDeck": [
+        "The Harbormaster",
+        "Coast Leviathan",
+        "Tempest Rider",
+        "Wreck Golem",
+        "Stormgate",
+        "Maelstrom",
+        "Storm Beacon"
+      ],
+      "bossAI": "harbormaster",
+      "bossDialogue": [
+        "You have no permit to pass.",
+        "Every wreck on this coast earned its fate.",
+        "The sea always collects its toll."
+      ]
+    }
+  }
+}
