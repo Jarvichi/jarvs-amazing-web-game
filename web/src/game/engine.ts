@@ -1,6 +1,7 @@
 import { GameState, Card, Unit, UnitTemplate, UpgradeEffect, CardRarity, LANE_WIDTH, BattleEventState, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE, AnimEvent, BossTraitState } from './types'
-import { makeDeck, makeThorlordDeck, makeKraggDeck, makeAshwalkerDeck, makeNodeDeck, HERO_CARDS, getCardUnit } from './cards'
+import { makeDeck, makeThorlordDeck, makeKraggDeck, makeAshwalkerDeck, makeNodeDeck, HERO_CARDS, getCardUnit, flushCardValidationErrors } from './cards'
 import { playUnitDeath, playBuildingDestroyed } from './sound'
+import { logError } from '../logger'
 import { isNoDamageMode } from './debug'
 import bossAIDefsRaw from '../data/bossAIs.json'
 
@@ -136,6 +137,11 @@ const LANE_MIN_Y = -80
 const LANE_MAX_Y =  80
 
 function spawnUnit(template: UnitTemplate, owner: 'player' | 'opponent'): Unit {
+  if (!template || typeof template.maxHp !== 'number') {
+    logError('spawnUnit: invalid template — maxHp missing', { templateName: (template as UnitTemplate | undefined)?.name, owner })
+    // Return a minimal safe unit so the game can continue without crashing
+    return { id: uid(), owner, name: 'Unknown', attack: 0, maxHp: 1, hp: 1, isWall: false, bypassWall: false, moveSpeed: 0, attackRange: 0, attackCooldownMs: 2000, x: owner === 'player' ? PLAYER_SPAWN_X : OPPONENT_SPAWN_X, y: 0, attackTimer: 0 }
+  }
   const unit: Unit = {
     ...template,
     id: uid(),
@@ -338,6 +344,10 @@ export function newGame(
   opponentHandicap = 0,
   bossAI?: string,
 ): GameState {
+  // Send any card-definition validation errors (detected at module init) to Rollbar now
+  // that the logger has been initialised by main.tsx.
+  flushCardValidationErrors()
+
   // Support both old positional API and new options object
   let opts: NewGameOptions
   if (Array.isArray(playerCardsOrOpts) || playerCardsOrOpts === undefined) {
@@ -555,9 +565,13 @@ function applyUpgrade(s: GameState, effect: UpgradeEffect, owner: 'player' | 'op
 
 function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent', log: string[]): void {
   if (card.cardType === 'unit' || card.cardType === 'structure') {
+    if (!card.unit) {
+      logError('deployCard: card has no unit template', { cardName: card.name, cardType: card.cardType, owner })
+      return
+    }
     // If playing a structure and one of the same type already exists, upgrade it instead
     if (card.cardType === 'structure') {
-      const template = card.unit!
+      const template = card.unit
       const existing = s.field.find(u => u.owner === owner && u.name === template.name)
       if (existing) {
         existing.maxHp *= 2
@@ -604,7 +618,7 @@ function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent', log:
         return
       }
     }
-    const unit = spawnUnit(card.unit!, owner)
+    const unit = spawnUnit(card.unit, owner)
     if (owner === 'player' && s.relicGearHeart) unit.attack = Math.max(0, unit.attack + 1)
     if (card.lore) unit.lore = card.lore
     // Hero units use the card's display name but keep the base unit sprite
@@ -615,7 +629,7 @@ function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent', log:
     }
     // Assign a stable lateral slot to non-wall structures so that units
     // spawned from them start at the same horizontal position.
-    if (card.cardType === 'structure' && !card.unit!.isWall) {
+    if (card.cardType === 'structure' && !card.unit.isWall) {
       // Spread buildings evenly; pick first slot not already occupied by a same-side structure
       const STRUCTURE_Y_SLOTS = [-65, -40, -15, 15, 40, 65, -55, -25, 5, 30, 55, 0, -75, -50, 50, 75]
       const usedY = new Set(

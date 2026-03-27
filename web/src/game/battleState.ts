@@ -1,4 +1,5 @@
 import { GameState } from './types'
+import { logError } from '../logger'
 
 const KEY = 'jarv_battle_state'
 
@@ -20,6 +21,22 @@ export function loadBattleState(): GameState | null {
       !Array.isArray(parsed?.field) ||
       !parsed?.battleStats
     ) {
+      logError('loadBattleState: saved state failed base validation — discarding', {
+        hasPlayerBase: typeof parsed?.playerBase?.maxHp,
+        hasOpponentBase: typeof parsed?.opponentBase?.maxHp,
+        hasField: Array.isArray(parsed?.field),
+        hasBattleStats: !!parsed?.battleStats,
+      })
+      localStorage.removeItem(KEY)
+      return null
+    }
+    // Validate that all field units have required numeric fields (guards against stale schema)
+    const invalidUnits = parsed.field.filter(u => typeof u?.maxHp !== 'number' || typeof u?.hp !== 'number')
+    if (invalidUnits.length > 0) {
+      logError('loadBattleState: saved state has units with invalid maxHp/hp — discarding', {
+        invalidCount: invalidUnits.length,
+        names: invalidUnits.map(u => u?.name).join(', '),
+      })
       localStorage.removeItem(KEY)
       return null
     }
