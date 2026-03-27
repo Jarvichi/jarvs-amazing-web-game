@@ -1,0 +1,573 @@
+{
+  "id": "act11",
+  "title": "ACT XI",
+  "subtitle": "The Verdant Canopy",
+  "rewardRelic": "Living Bark",
+  "rewardRelicDesc": "Your base gains +15 maximum HP.",
+  "environment": "forest",
+  "rewardTags": [
+    "canopy",
+    "ancient"
+  ],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "canopy-approach"
+  ],
+  "intro": [
+    {
+      "title": "THE VERDANT CANOPY",
+      "text": "The ley lines rise into the high canopy here, threading through root systems older than memory. The forest above the treeline moves differently. It doesn't react to you \u2014 it notices you.\n\nThe Elder Warden has kept this canopy since before the Fracture. It has watched dozens of expeditions attempt passage. None returned changed for the better."
+    },
+    {
+      "title": "THE ELDER WARDEN",
+      "text": "It is not a creature in any familiar sense. The Warden is the canopy made sovereign \u2014 a convergence of root and memory and something older that has no name in any language you speak.\n\nIt does not hate you. Hatred requires noticing something as a peer. The Warden sees you as disruption. Disruptions are removed."
+    },
+    {
+      "title": "THE PATH THROUGH",
+      "text": "The ley convergence runs through the ancient heartwood at the canopy's centre. Scholars have theorised about it for decades. None have gotten close enough to verify.\n\nYou will need to fight through layers of living defence \u2014 root walls, grove-spawned treants, flying watchers \u2014 before the Warden descends. And then you will need to convince it, by force, that disruption can be useful."
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE CANOPY YIELDS",
+      "text": "The Elder Warden does not fall. It withdraws \u2014 slowly, deliberately, as though choosing to end the engagement rather than being forced to. The distinction matters to it.\n\nThe ley convergence is exposed. The heartwood pulses with calm energy, older than anything you've touched before."
+    },
+    {
+      "title": "LIVING BARK",
+      "text": "Where the Warden stood, a strip of bark remains \u2014 thick, warm to the touch, and inexplicably alive. It hardens in your hands into something like armour, or maybe a shield, or maybe just the canopy saying: you've earned a layer of protection.\n\nYou don't question it. The canopy rewards results."
+    },
+    {
+      "title": "THE ROAD AHEAD",
+      "text": "The Verdant Canopy recedes behind you as you descend. Above, you hear the canopy resume its ordinary rhythms \u2014 something enormous moving between branches, watchers returning to their posts.\n\nThe Warden is already repairing the damage. It won't hold a grudge. It's too old for that. It will simply be ready when you return."
+    }
+  ],
+  "nodes": {
+    "canopy-approach": {
+      "id": "canopy-approach",
+      "type": "battle",
+      "label": "Canopy Approach",
+      "description": "The first roots break through the path here.",
+      "row": 0,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": [],
+      "childIds": [
+        "root-shrine",
+        "canopy-hollow",
+        "vine-market"
+      ],
+      "handicap": 18,
+      "opponentIntervalMs": 4500,
+      "opponentBaseHp": 220,
+      "environment": "forest",
+      "enemyDeck": [
+        "Canopy Scout",
+        "Canopy Scout",
+        "Vine Runner",
+        "Vine Runner",
+        "Bark Hound",
+        "Bark Hound",
+        "Root Snare",
+        "Root Snare",
+        "Canopy Archer",
+        "Canopy Archer",
+        "Ancient Blessing",
+        "Canopy Growth"
+      ]
+    },
+    "root-shrine": {
+      "id": "root-shrine",
+      "type": "event",
+      "label": "Root Shrine",
+      "description": "An ancient shrine pulses with quiet energy.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": [
+        "canopy-approach"
+      ],
+      "childIds": [
+        "deep-crossing"
+      ],
+      "eventConfig": {
+        "title": "The Root Shrine",
+        "description": "A gnarled shrine wrapped in glowing roots. You can feel something ancient in it. The options it presents are simple \u2014 give something, take something, or leave it alone.",
+        "pools": [
+          [
+            {
+              "label": "Offer blood (lose 8 HP, gain a rare card)",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              },
+              "hpCost": 8,
+              "consequence": "You receive a rare card."
+            }
+          ],
+          [
+            {
+              "label": "Draw on the energy (gain 50 crystals)",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 50
+              },
+              "consequence": "You gain 50 crystals."
+            }
+          ],
+          [
+            {
+              "label": "Rest against the roots (restore 10 HP)",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              },
+              "consequence": "You heal 10 HP."
+            }
+          ],
+          [
+            {
+              "label": "Leave it undisturbed",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 0
+              },
+              "consequence": "You move on undisturbed."
+            }
+          ]
+        ]
+      }
+    },
+    "canopy-hollow": {
+      "id": "canopy-hollow",
+      "type": "rest",
+      "label": "Canopy Hollow",
+      "description": "A sheltered hollow in the roots. Quiet.",
+      "row": 1,
+      "col": 1,
+      "rowCols": 3,
+      "restHeal": 8,
+      "parentIds": [
+        "canopy-approach"
+      ],
+      "childIds": [
+        "deep-crossing"
+      ]
+    },
+    "vine-market": {
+      "id": "vine-market",
+      "type": "merchant",
+      "label": "Vine Market",
+      "description": "Traders who know the canopy's rhythms.",
+      "row": 1,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": [
+        "canopy-approach"
+      ],
+      "childIds": [
+        "deep-crossing"
+      ]
+    },
+    "deep-crossing": {
+      "id": "deep-crossing",
+      "type": "battle",
+      "label": "Deep Crossing",
+      "description": "The canopy thickens. The roots become a maze.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": [
+        "root-shrine",
+        "canopy-hollow",
+        "vine-market"
+      ],
+      "childIds": [
+        "elder-watch",
+        "canopy-rift",
+        "ancient-garrison"
+      ],
+      "handicap": 21,
+      "opponentIntervalMs": 4200,
+      "opponentBaseHp": 230,
+      "environment": "forest",
+      "enemyDeck": [
+        "Root Creeper",
+        "Root Creeper",
+        "Elderwood Guard",
+        "Elderwood Guard",
+        "Vine Runner",
+        "Vine Runner",
+        "Ancient Sprite",
+        "Ancient Sprite",
+        "Root Snare",
+        "Root Snare",
+        "Living Thornwall",
+        "Ancient Barracks",
+        "Canopy Growth",
+        "Ancient Blessing"
+      ]
+    },
+    "elder-watch": {
+      "id": "elder-watch",
+      "type": "battle",
+      "label": "Elder Watch",
+      "description": "Sentinels guard the deep canopy.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": [
+        "deep-crossing"
+      ],
+      "childIds": [
+        "heartwood-path"
+      ],
+      "handicap": 23,
+      "opponentIntervalMs": 4000,
+      "opponentBaseHp": 238,
+      "environment": "forest",
+      "enemyDeck": [
+        "Elderwood Guard",
+        "Elderwood Guard",
+        "Canopy Archer",
+        "Canopy Archer",
+        "Ancient Treant",
+        "Ancient Treant",
+        "Jungle Stalker",
+        "Jungle Stalker",
+        "Living Thornwall",
+        "Living Thornwall",
+        "Root Snare",
+        "Canopy Watchtower",
+        "Canopy Growth",
+        "Root Network"
+      ]
+    },
+    "canopy-rift": {
+      "id": "canopy-rift",
+      "type": "event",
+      "label": "Canopy Rift",
+      "description": "A tear in the canopy reveals the ley lines.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "deep-crossing"
+      ],
+      "childIds": [
+        "heartwood-path"
+      ],
+      "eventConfig": {
+        "title": "The Canopy Rift",
+        "description": "A gap in the ancient canopy shows the raw ley lines beneath \u2014 shimmering, strange, and old. You can attempt to draw on them, or simply study them from a safe distance.",
+        "pools": [
+          [
+            {
+              "label": "Draw from the ley line (gain a rare card, take 5 damage)",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              },
+              "hpCost": 5,
+              "consequence": "You receive a rare card."
+            }
+          ],
+          [
+            {
+              "label": "Study the patterns (gain 75 crystals)",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 75
+              },
+              "consequence": "You gain 75 crystals."
+            }
+          ],
+          [
+            {
+              "label": "Absorb the ambient energy (heal 12 HP)",
+              "effect": {
+                "type": "healHp",
+                "amount": 12
+              },
+              "consequence": "You heal 12 HP."
+            }
+          ],
+          [
+            {
+              "label": "Move on quickly",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 0
+              },
+              "consequence": "You move on undisturbed."
+            }
+          ]
+        ]
+      }
+    },
+    "ancient-garrison": {
+      "id": "ancient-garrison",
+      "type": "elite",
+      "label": "Ancient Garrison",
+      "description": "An elite force of canopy defenders.",
+      "row": 3,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": [
+        "deep-crossing"
+      ],
+      "childIds": [
+        "heartwood-path"
+      ],
+      "handicap": 25,
+      "opponentIntervalMs": 3800,
+      "opponentBaseHp": 245,
+      "environment": "forest",
+      "enemyDeck": [
+        "Ancient Treant",
+        "Ancient Treant",
+        "Vine Colossus",
+        "Root Walker",
+        "Canopy Drake",
+        "Spore Drifter",
+        "Spore Drifter",
+        "Elder Grove",
+        "Elder Grove",
+        "Living Thornwall",
+        "Living Thornwall",
+        "Elder Shrine",
+        "Root Surge",
+        "Root Network",
+        "Canopy Growth"
+      ]
+    },
+    "heartwood-path": {
+      "id": "heartwood-path",
+      "type": "battle",
+      "label": "Heartwood Path",
+      "description": "The path to the heartwood. Everything is larger here.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": [
+        "elder-watch",
+        "canopy-rift",
+        "ancient-garrison"
+      ],
+      "childIds": [
+        "warden-vigil",
+        "canopy-rest",
+        "deep-grove"
+      ],
+      "handicap": 26,
+      "opponentIntervalMs": 3800,
+      "opponentBaseHp": 252,
+      "environment": "forest",
+      "enemyDeck": [
+        "Root Walker",
+        "Root Walker",
+        "Vine Colossus",
+        "Ancient Treant",
+        "Ancient Treant",
+        "Canopy Drake",
+        "Spore Drifter",
+        "Elder Grove",
+        "Elder Shrine",
+        "Living Thornwall",
+        "Living Thornwall",
+        "Root Surge",
+        "Canopy Growth",
+        "Root Network",
+        "Ancient Blessing"
+      ]
+    },
+    "warden-vigil": {
+      "id": "warden-vigil",
+      "type": "event",
+      "label": "Warden's Vigil",
+      "description": "A place where the Elder Warden watches.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": [
+        "heartwood-path"
+      ],
+      "childIds": [
+        "elder-warden"
+      ],
+      "eventConfig": {
+        "title": "The Warden's Gaze",
+        "description": "You feel it before you see it \u2014 a presence older than stone watching from the high branches. It hasn't moved. It's waiting to see what you do. Your choice here will define what follows.",
+        "pools": [
+          [
+            {
+              "label": "Press forward defiantly (gain a legendary card)",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "legendary"
+              },
+              "consequence": "You receive a legendary card."
+            }
+          ],
+          [
+            {
+              "label": "Leave an offering (lose 15 HP, gain 100 crystals)",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 100
+              },
+              "hpCost": 15,
+              "consequence": "You gain 100 crystals."
+            }
+          ],
+          [
+            {
+              "label": "Rest in its presence (heal 15 HP)",
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              },
+              "consequence": "You heal 15 HP."
+            }
+          ],
+          [
+            {
+              "label": "Acknowledge it and move on",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 25
+              },
+              "consequence": "You gain 25 crystals."
+            }
+          ]
+        ]
+      }
+    },
+    "canopy-rest": {
+      "id": "canopy-rest",
+      "type": "rest",
+      "label": "Canopy Rest",
+      "description": "A platform high above the forest floor.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 3,
+      "restHeal": 10,
+      "parentIds": [
+        "heartwood-path"
+      ],
+      "childIds": [
+        "elder-warden"
+      ]
+    },
+    "deep-grove": {
+      "id": "deep-grove",
+      "type": "elite",
+      "label": "Deep Grove",
+      "description": "The Warden's most devoted guardians.",
+      "row": 5,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": [
+        "heartwood-path"
+      ],
+      "childIds": [
+        "elder-warden"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 3600,
+      "opponentBaseHp": 262,
+      "environment": "forest",
+      "enemyDeck": [
+        "The Elder Warden",
+        "Vine Colossus",
+        "Vine Colossus",
+        "Root Walker",
+        "Root Walker",
+        "Canopy Drake",
+        "Canopy Drake",
+        "Spore Drifter",
+        "Spore Drifter",
+        "Elder Grove",
+        "Elder Grove",
+        "Living Thornwall",
+        "Living Thornwall",
+        "Root Surge",
+        "Root Network",
+        "Canopy Growth"
+      ]
+    },
+    "elder-warden": {
+      "id": "elder-warden",
+      "type": "boss",
+      "label": "The Elder Warden",
+      "description": "Ancient guardian of the Verdant Canopy.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": [
+        "warden-vigil",
+        "canopy-rest",
+        "deep-grove"
+      ],
+      "childIds": [],
+      "handicap": 30,
+      "opponentIntervalMs": 3500,
+      "opponentBaseHp": 270,
+      "bossAI": "elderwarden",
+      "environment": "forest",
+      "bossDialogue": [
+        "The canopy has stood since before your kind named things. You are a disruption. Disruptions end.",
+        "I have watched a thousand expeditions attempt this path. None left unchanged. You will not be the exception.",
+        "You are persistent. That is noted. Persistence is not the same as permission."
+      ],
+      "enemyDeck": [
+        "The Elder Warden",
+        "The Elder Warden",
+        "Vine Colossus",
+        "Vine Colossus",
+        "Root Walker",
+        "Root Walker",
+        "Ancient Treant",
+        "Ancient Treant",
+        "Canopy Drake",
+        "Canopy Drake",
+        "Spore Drifter",
+        "Spore Drifter",
+        "Elder Grove",
+        "Elder Grove",
+        "Living Thornwall",
+        "Living Thornwall",
+        "Root Surge",
+        "Root Surge",
+        "Canopy Growth",
+        "Root Network",
+        "Ancient Blessing"
+      ]
+    }
+  }
+}

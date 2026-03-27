@@ -16,7 +16,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔴 Bugs — New (from GitHub, session 29 sync)
 
-- [ ] **#441** Event screen reached without activeEvent or run — gainCard path sets activeEvent=null but leaves screen='event', triggering the guard
+- [x] **#441** Event screen reached without activeEvent or run — gainCard path sets activeEvent=null but leaves screen='event', triggering the guard
 - [ ] **#483** Script error (unknown) — Rollbar item, likely a third-party/browser script error; investigate if reproducible
 
 ## 🔴 Bugs — New (from GitHub, session 28 sync)
@@ -160,7 +160,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [x] Act 8 — The Fungal Deep (session 26: 25 cards + templates, act8.json, rootqueen AI, Spore Bloom relic with per-tick heal engine hook)
 - [x] Act 9 — The Frozen Expanse (session 27: 25 frost/glacier cards, act9.json, paleengine AI, Frost Mantle relic)
 - [x] Act 10 — The Sand Market (session 27: 25 sand/mercenary cards, act10.json, dunebaron AI, Golden Compass relic)
-- [ ] Act 11 — The Verdant Canopy
+- [x] Act 11 — The Verdant Canopy (session 29: 25 canopy/ancient cards, act11.json, elderwarden AI, Living Bark relic)
 - [ ] Act 12 — The Shattered Coast
 - [ ] Act 13 — The Clockwork Vaults
 - [ ] Act 14 — The Plague Fens
