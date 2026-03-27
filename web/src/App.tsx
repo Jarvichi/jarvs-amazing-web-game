@@ -362,6 +362,7 @@ export default function App() {
   const battleFlawlessRef    = useRef(true)
   const battleUsedStructure  = useRef(false)
   const battleUsedMobileUnit = useRef(false)
+  const battleAllLegendaryRef = useRef(false)  // true if every card in the starting deck is legendary
   const battleLossRecordedRef = useRef(false)  // prevents double-decrement if component re-renders at game-over
 
   // Commander (virtual pet)
@@ -632,6 +633,7 @@ export default function App() {
     // Fall back to starter deck if player has no cards built yet
     const effectiveDeck = deckCount > 0 ? deckEntries : STARTER_DECK
     const playerCards   = buildDeckCards(effectiveDeck, collection)
+    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     // Give a handicap boost scaled to deck size: fewer cards = easier opponent
     // (maxes out at +10 for an empty deck, scales to 0 at DECK_MAX cards)
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
@@ -655,6 +657,7 @@ export default function App() {
     const deckCount   = deckTotalCards(deckEntries)
     const effectiveDeck = deckCount > 0 ? deckEntries : STARTER_DECK
     const playerCards   = buildDeckCards(effectiveDeck, collection)
+    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
     setGameState(newGame({ playerCards, opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus), endlessMode: true }))
     setScreen('playing')
@@ -680,6 +683,7 @@ export default function App() {
     prevPlayerUnitsRef.current   = new Map()
     const playerCards   = getDailyPlayerDeck()
     const opponentCards = getDailyOpponentDeck()
+    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     setGameState(newGame({
       prebuiltPlayerDeck:   playerCards,
       prebuiltOpponentDeck: opponentCards,
@@ -701,6 +705,7 @@ export default function App() {
     prevPlayerUnitsRef.current   = new Map()
     const playerCards   = getDailyPlayerDeck()
     const opponentCards = getDailyOpponentDeck()
+    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     setGameState(newGame({
       prebuiltPlayerDeck:   playerCards,
       prebuiltOpponentDeck: opponentCards,
@@ -735,6 +740,7 @@ export default function App() {
     const deckCount   = deckTotalCards(deckEntries)
     const effectiveDeck = deckCount > 0 ? deckEntries : STARTER_DECK
     const playerCards   = buildDeckCards(effectiveDeck, collection)
+    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
     setGameState(newGame(playerCards, Math.min(MAX_HANDICAP, nextHandicap + deckBonus)))
     setScreen('playing')
@@ -786,6 +792,7 @@ export default function App() {
           const playerCards = buildDeckCards(deckEntries, collection)
           const earnedEntries = (activeRun.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
           if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
+          battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
           const mods = act ? getModifiersByCount(act, activeRun.activeModifierCount) : []
           const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
           state.playerBase = { hp: activeRun.playerHp, maxHp: activeRun.maxHp }
@@ -938,6 +945,7 @@ export default function App() {
     // Include cards earned as rewards earlier this run
     const earnedEntries = (updatedRun.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
     if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
+    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const mods733 = act ? getModifiersByCount(act, updatedRun.activeModifierCount) : []
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods733) })
     state.playerBase = { hp: updatedRun.playerHp, maxHp: updatedRun.maxHp }
@@ -966,6 +974,7 @@ export default function App() {
     const playerCards = buildDeckCards(deckEntries, collection)
     const earnedEntries = (run.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
     if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
+    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const act = ACTS[run.actId]
     const mods761 = act ? getModifiersByCount(act, run.activeModifierCount) : []
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods761) })
@@ -1442,6 +1451,7 @@ export default function App() {
     const playerCards = buildDeckCards(deckEntries, collection)
     const earnedEntries = (currentRun.earnedCards ?? []).map(n => ({ cardName: n, count: 1 }))
     if (earnedEntries.length > 0) playerCards.push(...buildDeckCards(earnedEntries, collection))
+    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const modsRetry = act ? getModifiersByCount(act, currentRun.activeModifierCount) : []
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), modsRetry) })
     state.playerBase = { hp: currentRun.playerHp, maxHp: currentRun.maxHp }
@@ -1604,6 +1614,15 @@ export default function App() {
     // Sudden death win
     if (gameState.suddenDeath) {
       toasts.push(...incrementAchievementProgress('misc:sudden_death_win'))
+    }
+    // All-legendary deck win
+    if (battleAllLegendaryRef.current) {
+      toasts.push(...incrementAchievementProgress('misc:all_legendary_win'))
+    }
+    // One-card win (total cards played across the whole battle = 1)
+    const totalPlayed = Object.values(gameState.battleStats?.cardsPlayed ?? {}).reduce((a, b) => a + b, 0)
+    if (totalPlayed === 1) {
+      toasts.push(...incrementAchievementProgress('misc:one_card_win'))
     }
     if (toasts.length > 0) setAchievementToasts(prev => [...prev, ...toasts])
   }, [gameState?.phase.type])
