@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Cinderwarlord: dark obsidian armour, flame aura, axe -->
+  <!-- Flame aura -->
+  <rect x="8" y="12" width="3" height="8" rx="2" fill="#ff6600" opacity="0.5"/>
+  <rect x="21" y="12" width="3" height="8" rx="2" fill="#ff6600" opacity="0.5"/>
+  <!-- Body -->
+  <rect x="10" y="13" width="12" height="12" rx="1" fill="#2a1a1a"/>
+  <!-- Chest plates -->
+  <rect x="11" y="14" width="10" height="7" rx="1" fill="#3a2a2a"/>
+  <!-- Pauldrons -->
+  <rect x="7" y="13" width="5" height="6" rx="1" fill="#1a0a0a"/>
+  <rect x="20" y="13" width="5" height="6" rx="1" fill="#1a0a0a"/>
+  <!-- Head -->
+  <rect x="11" y="5" width="10" height="9" rx="2" fill="#1a0a0a"/>
+  <!-- Fire eyes -->
+  <rect x="13" y="8" width="2" height="3" fill="#ff4400"/>
+  <rect x="17" y="8" width="2" height="3" fill="#ff4400"/>
+  <!-- Axe head -->
+  <rect x="24" y="8" width="6" height="10" rx="2" fill="#4a3030"/>
+  <rect x="25" y="9" width="4" height="8" rx="1" fill="#cc4400"/>
+  <!-- Axe handle -->
+  <rect x="26" y="18" width="2" height="10" rx="1" fill="#4a3030"/>
+</svg>

@@ -857,7 +857,13 @@ export const STREAK_AVATAR_SLUGS = [
   'streak-iron', 'streak-flame', 'streak-shadow', 'streak-dragon',
   'streak-celestial', 'streak-void', 'streak-crystal', 'streak-fracture',
 ] as const
-export const AVATAR_SLUGS = [...BASE_AVATAR_SLUGS, ...STREAK_AVATAR_SLUGS] as const
+export const BOSS_AVATAR_SLUGS = [
+  'boss-thornlord', 'boss-kragg', 'boss-ashwalker', 'boss-archivist',
+  'boss-tidal-sovereign', 'boss-cloudmarshal', 'boss-cinderwarlord', 'boss-rootqueen',
+  'boss-paleengine', 'boss-dunebaron', 'boss-elderwarden', 'boss-harbormaster',
+  'boss-grandautomaton',
+] as const
+export const AVATAR_SLUGS = [...BASE_AVATAR_SLUGS, ...STREAK_AVATAR_SLUGS, ...BOSS_AVATAR_SLUGS] as const
 export type AvatarSlug = typeof AVATAR_SLUGS[number]
 
 export const STREAK_AVATAR_LABELS: Record<string, string> = {
@@ -869,6 +875,22 @@ export const STREAK_AVATAR_LABELS: Record<string, string> = {
   'streak-void':      'Void Master',
   'streak-crystal':   'Crystal Champion',
   'streak-fracture':  'Fracture Lord',
+}
+
+export const BOSS_AVATAR_LABELS: Record<string, string> = {
+  'boss-thornlord':       'The Thornlord',
+  'boss-kragg':           'Warlord Kragg',
+  'boss-ashwalker':       'The Ashwalker',
+  'boss-archivist':       'The Archivist',
+  'boss-tidal-sovereign': 'Tidal Sovereign',
+  'boss-cloudmarshal':    'The Cloudmarshal',
+  'boss-cinderwarlord':   'The Cinderwarlord',
+  'boss-rootqueen':       'The Root Queen',
+  'boss-paleengine':      'The Pale Engine',
+  'boss-dunebaron':       'The Dune Baron',
+  'boss-elderwarden':     'The Elder Warden',
+  'boss-harbormaster':    'The Harbormaster',
+  'boss-grandautomaton':  'The Grand Automaton',
 }
 
 export function loadUnlockedAvatars(): string[] {

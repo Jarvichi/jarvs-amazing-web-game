@@ -46,7 +46,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [x] **#463** Battlefield UI cleanup — hide Hand/Deck count; modifiers only in pause menu; deck viewer in pause menu (scrollable, HAND badge, dimmed played cards)
 - [x] **#464** Add achievements for recently added acts — acts 5-10 each get x1/x10/x100 completion achievements
 - [x] **#469** Endless mode achievements — wave 42/69/99/100/1000 milestones added
-- [ ] **#470** More player avatars (act boss completions, mastery 10 units)
+- [x] **#470** More player avatars — 13 boss avatars (one per act boss), unlocked via campaign:actN:boss achievements; BOSS AVATARS section in CharacterScreen
 - [x] **#486** New achievements: win with all-legendary deck; win playing only one card
 
 ## 🟣 Large Features — New (from GitHub, session 27 sync)

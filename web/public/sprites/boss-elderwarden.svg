@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Elder Warden: ancient bark armour, emerald glow, massive wings -->
+  <!-- Wings -->
+  <rect x="2" y="8" width="8" height="16" rx="4" fill="#2a5a20" opacity="0.7"/>
+  <rect x="22" y="8" width="8" height="16" rx="4" fill="#2a5a20" opacity="0.7"/>
+  <!-- Body (large) -->
+  <rect x="9" y="12" width="14" height="13" rx="2" fill="#1e3d1b"/>
+  <!-- Ancient runes -->
+  <rect x="11" y="14" width="4" height="4" rx="1" fill="#4a8c42" opacity="0.8"/>
+  <rect x="17" y="14" width="4" height="4" rx="1" fill="#4a8c42" opacity="0.8"/>
+  <!-- Head (massive) -->
+  <rect x="10" y="3" width="12" height="10" rx="3" fill="#1e3d1b"/>
+  <!-- Emerald eyes (large) -->
+  <rect x="12" y="6" width="3" height="3" fill="#00ff66"/>
+  <rect x="17" y="6" width="3" height="3" fill="#00ff66"/>
+  <!-- Root tendrils -->
+  <rect x="6" y="18" width="4" height="2" rx="1" fill="#2d5a27"/>
+  <rect x="22" y="18" width="4" height="2" rx="1" fill="#2d5a27"/>
+  <!-- Glow -->
+  <rect x="13" y="7" width="1" height="1" fill="#aaffcc" opacity="0.8"/>
+  <rect x="18" y="7" width="1" height="1" fill="#aaffcc" opacity="0.8"/>
+</svg>
