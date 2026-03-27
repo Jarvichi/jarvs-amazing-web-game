@@ -59,7 +59,7 @@ import { DailyLoginModal }   from './components/DailyLoginModal'
 import { LoginModal }        from './components/LoginModal'
 import { InventoryScreen }   from './components/InventoryScreen'
 import { peekDailyReward, markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
-import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult } from './game/dailyChallenge'
+import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
@@ -304,6 +304,7 @@ export default function App() {
   const [showBossShockwave, setShowBossShockwave] = useState(false)
   const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
+  const [dcGameOverState, setDcGameOverState] = useState<DailyChallengeState | undefined>() // snapshot for GameOver display
 
   // Cutscenes & boss dialogue
   const [cutscenePanels, setCutscenePanels]   = useState<CutscenePanel[]>([])
@@ -540,6 +541,9 @@ export default function App() {
       const won        = gameState.phase.winner === 'player'
       const prevState  = getDailyChallengeState()
       const firstWin   = won && prevState.won !== true
+      // Snapshot the final display state before saving so GameOver always shows
+      // the correct attempt count regardless of subsequent re-renders.
+      setDcGameOverState({ date: prevState.date, won, attempts: prevState.attempts + 1 })
       saveDailyChallengeResult(won)
 
       if (firstWin) {
@@ -614,6 +618,8 @@ export default function App() {
 
   const handlePlay = useCallback(() => {
     isCampaignRef.current = false
+    isDailyChallengeRef.current = false
+    setDcGameOverState(undefined)
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -636,6 +642,8 @@ export default function App() {
 
   const handleEndless = useCallback(() => {
     isCampaignRef.current = false
+    isDailyChallengeRef.current = false
+    setDcGameOverState(undefined)
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -684,6 +692,7 @@ export default function App() {
   const handleDailyChallengeRetry = useCallback(() => {
     isCampaignRef.current        = false
     isDailyChallengeRef.current  = true
+    setDcGameOverState(undefined)
     battleFlawlessRef.current    = true
     battleUsedStructure.current  = false
     battleUsedMobileUnit.current = false
@@ -705,6 +714,7 @@ export default function App() {
     if (!gameState || gameState.phase.type !== 'gameOver') return
     isCampaignRef.current       = false
     isDailyChallengeRef.current = false
+    setDcGameOverState(undefined)
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -1469,6 +1479,8 @@ export default function App() {
           }).catch(() => { /* non-critical */ })
         }
       }
+      isDailyChallengeRef.current = false
+      setDcGameOverState(undefined)
       setScreen('title')
     }
   }, [handleAbandonRun, setAchievementToasts])
@@ -1647,6 +1659,8 @@ export default function App() {
 
   const handleMainMenu = useCallback(() => {
     isCampaignRef.current = false
+    isDailyChallengeRef.current = false
+    setDcGameOverState(undefined)
     const currentRun = run
 
     // Life was already decremented by the game-over effect when the battle was lost.
@@ -2140,7 +2154,7 @@ export default function App() {
             campaignAbandon={isCampaignRef.current ? handleAbandonRun : undefined}
             quickPlayHint={quickPlayHint}
             showStreak={!isCampaignRef.current && !isDailyChallengeRef.current}
-            dailyChallengeState={isDailyChallengeRef.current ? getDailyChallengeState() : undefined}
+            dailyChallengeState={isDailyChallengeRef.current ? dcGameOverState : undefined}
           />
         ) : (
           <>
