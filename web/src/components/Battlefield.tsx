@@ -693,8 +693,8 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
         )}
       </div>
 
-      {/* Replay modifier strip */}
-      {activeModifiers && activeModifiers.length > 0 && (
+      {/* Replay modifier strip — only shown in pause menu */}
+      {paused && activeModifiers && activeModifiers.length > 0 && (
         <div className="replay-modifier-strip">
           {activeModifiers.map((m, i) => (
             <span key={i} className="replay-modifier-tag">⚠ {m.label}</span>
@@ -714,7 +714,6 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
           {STRATEGY_LABELS[state.opponentStrategy] && (
             <span className="strategy-label">{STRATEGY_LABELS[state.opponentStrategy]}</span>
           )}
-          Hand: {state.opponentHand.length}
         </span>
       </div>
 
@@ -872,11 +871,6 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
 
       {/* Hand */}
       <div className="hand-panel">
-        <div className="hand-header">
-          <span className="hand-label">
-            HAND ({state.playerHand.length}) | Deck: {state.playerDeck.length}
-          </span>
-        </div>
         <div className="hand-cards">
           {state.playerHand.length === 0
             ? <span className="field-empty">No cards</span>
