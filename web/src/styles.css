@@ -5272,6 +5272,73 @@ body {
 .bf-inspect-row span:first-child { color: var(--game-text-color-dim); }
 .bf-inspect-row span:last-child  { color: var(--game-text-color); font-weight: bold; }
 
+/* Deck viewer in pause panel */
+.bf-deck-viewer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+}
+.bf-deck-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: var(--game-text-color-dim);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--game-border-color);
+}
+.bf-deck-viewer-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bf-deck-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 4px;
+  border-radius: 3px;
+  font-size: 11px;
+  background: rgba(255,255,255,0.04);
+}
+.bf-deck-row--played {
+  opacity: 0.4;
+}
+.bf-deck-row-cost {
+  min-width: 16px;
+  text-align: center;
+  font-weight: bold;
+  color: #88f;
+}
+.bf-deck-row-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bf-deck-row-type {
+  font-size: 10px;
+  color: var(--game-text-color-dim);
+  text-transform: uppercase;
+}
+.bf-deck-row-badge {
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.12);
+  color: var(--game-text-color-dim);
+  letter-spacing: 0.5px;
+}
+.bf-deck-row-badge--played {
+  background: rgba(255,80,80,0.18);
+  color: #f88;
+}
+
 .boss-splash-overlay {
   position: absolute;
   inset: 0;
