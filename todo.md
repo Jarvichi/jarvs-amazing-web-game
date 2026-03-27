@@ -55,7 +55,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [ ] **#473** Boss Cards — legendary cards earned by beating bosses 10/20/30+ times
 - [ ] **#477** Commander
 - [ ] **#474** Next 25-act campaign chapter "The Forbidden Word"
-- [ ] **#466** Boss spawn kill scaling — scales up per subsequent run, capped at 100%
+- [x] **#466** Boss spawn kill scaling — 50% base + 10% per run (runCount-1), capped at 100%
 - [ ] **#467** Secrets and Rare Things
 - [ ] **#489** Game Engine (tracking issue)
 - [ ] **#462** Battles (tracking issue)

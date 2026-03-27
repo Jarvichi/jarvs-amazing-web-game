@@ -146,6 +146,11 @@ function resolvedNodeOpts(
     ? Math.max(1000, baseInterval - intervalReduction)
     : undefined
 
+  // Boss shockwave kill pct: starts at 50%, increases by 10% per run, capped at 100%
+  const bossSpawnKillPct = node.bossAI
+    ? Math.min(1.0, 0.5 + (runCount - 1) * 0.1)
+    : undefined
+
   return {
     opponentHandicap: adjustedHandicap,
     bossAI: node.bossAI,
@@ -158,6 +163,7 @@ function resolvedNodeOpts(
     opponentIntervalMs: adjustedInterval,
     opponentBaseHp: adjustedHp,
     opponentStartCards: handBonus,
+    bossSpawnKillPct,
   }
 }
 
