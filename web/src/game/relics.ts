@@ -149,33 +149,23 @@ export function getRelicDef(name: string): RelicDef | undefined {
 
 // ─── Persistent relic collection (survives act resets) ────────────────────────
 
-const RELICS_KEY = 'jarv_relics'
+import { addItem, removeItem, getItemsOfType } from './itemStore'
 
 /** Returns the list of relic names the player has earned across all runs. */
 export function loadEarnedRelics(): string[] {
-  try {
-    const raw = localStorage.getItem(RELICS_KEY)
-    return raw ? JSON.parse(raw) : []
-  } catch { return [] }
+  return getItemsOfType('relic').map(e => e.id)
 }
 
 /** Adds a relic to the player's permanent collection (no duplicates). Also clears any broken flag. */
 export function addEarnedRelic(name: string): void {
-  try {
-    const existing = loadEarnedRelics()
-    if (!existing.includes(name)) {
-      localStorage.setItem(RELICS_KEY, JSON.stringify([...existing, name]))
-    }
-    // If this relic was previously broken, restore it
-    removeBrokenRelic(name)
-  } catch { /* ignore */ }
+  addItem('relic', name)
+  // If this relic was previously broken, restore it
+  removeBrokenRelic(name)
 }
 
 /** Removes a relic from the player's permanent collection (e.g. when it breaks). */
 export function removeEarnedRelic(name: string): void {
-  try {
-    localStorage.setItem(RELICS_KEY, JSON.stringify(loadEarnedRelics().filter(n => n !== name)))
-  } catch { /* ignore */ }
+  removeItem('relic', name)
 }
 
 // ─── Broken relic tracking ────────────────────────────────────────────────────

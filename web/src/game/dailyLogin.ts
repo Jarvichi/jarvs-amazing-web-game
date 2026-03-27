@@ -4,9 +4,9 @@ import { logError } from '../logger'
 import itemsJson   from '../data/items.json'
 import rewardsJson from '../data/rewards.json'
 import { CardRarity } from './types'
+import { addItem, removeItem, getItemsOfType } from './itemStore'
 
-const DAILY_KEY     = 'jarv_daily_login'
-const INVENTORY_KEY = 'jarv_inventory'
+const DAILY_KEY = 'jarv_daily_login'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -110,11 +110,8 @@ export function claimDailyReward(): RewardDef {
 
 export function addToInventory(item: Omit<UselessItem, 'acquiredDate'>): void {
   try {
-    const raw = localStorage.getItem(INVENTORY_KEY)
-    const inv: UselessItem[] = raw ? JSON.parse(raw) : []
-    const isNew = !inv.some(i => i.id === item.id)
-    inv.push({ ...item, acquiredDate: new Date().toISOString().slice(0, 10) })
-    localStorage.setItem(INVENTORY_KEY, JSON.stringify(inv))
+    const isNew = !getItemsOfType('item').some(e => e.id === item.id)
+    addItem('item', item.id)
     if (isNew) {
       import('./achievements').then(({ incrementAchievementProgress }) => {
         incrementAchievementProgress('misc:unique_items')
@@ -123,11 +120,24 @@ export function addToInventory(item: Omit<UselessItem, 'acquiredDate'>): void {
   } catch (e) { logError('addToInventory failed', { itemId: item.id, error: String(e) }) }
 }
 
+/** Remove an item from the inventory (e.g. when sold in the shop). */
+export function removeFromInventory(id: string): void {
+  removeItem('item', id)
+}
+
 export function loadInventory(): UselessItem[] {
-  try {
-    const raw = localStorage.getItem(INVENTORY_KEY)
-    return raw ? JSON.parse(raw) : []
-  } catch { return [] }
+  const entries = getItemsOfType('item')
+  return entries.map(e => {
+    const def = ALL_ITEMS.find(i => i.id === e.id)
+    return {
+      id: e.id,
+      name: def?.name ?? e.id,
+      icon: def?.icon ?? '❓',
+      desc: def?.desc ?? '',
+      lore: def?.lore ?? '',
+      acquiredDate: e.acquiredDate ?? '',
+    }
+  })
 }
 
 // ── inventory sync ─────────────────────────────────────────────────────────────
