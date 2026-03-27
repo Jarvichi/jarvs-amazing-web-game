@@ -18,9 +18,8 @@ const ALL_LINES = [
   'The battlefield stretches to the horizon. Actually it does not. It is a fixed rectangular play area. The narrator apologises for the poetry.',
 ]
 
-// Show 4 randomly chosen lines over 40 seconds
-const INTERVAL_MS   = 9500
-const DISPLAY_MS    = 7000
+// Show 4 randomly chosen lines; each line is visible for DISPLAY_MS before fading
+const DISPLAY_MS    = 11000
 const FADE_MS       = 600
 
 export function NarratorEvent({ onDone }: Props) {
