@@ -90,6 +90,7 @@ const MANA_REGEN_MS = 3000       // 1 mana every 3 seconds
 const BASE_MAX_MANA = 5
 const SUDDEN_DEATH_MS = 60000
 const SUDDEN_DEATH_BUILDING_INTERVAL_MS = 2000  // building damage tick during sudden death
+const SUDDEN_DEATH_FORCE_MS = 5 * 60 * 1000    // force sudden death after 5 minutes
 const BATTLE_EVENT_BASE_MS = 30000  // first event after 30s, then every 24-32s
 const SPAWN_GROW_MS = 1500           // building-spawn grow-in animation duration
 const DEATH_LINGER_MS = 1200         // how long a dying unit stays visible
@@ -1808,10 +1809,13 @@ export function tick(state: GameState, deltaMs: number): GameState {
   // 10. Sudden death — suppressed in endless mode (death only by base reaching 0)
   else if (s.bossCardActive) { /* skip sudden death */ }
   else if (!s.suddenDeath) {
+    const oppMaxMana = Math.min(10, BASE_MAX_MANA + getManaBonus(s.field, 'opponent'))
     const allExhausted =
-      s.playerDeck.length === 0 && s.playerHand.length === 0 &&
-      s.opponentDeck.length === 0 && s.opponentHand.length === 0
-    if (allExhausted) {
+      s.playerDeck.length === 0 && s.opponentDeck.length === 0 &&
+      s.playerHand.every(c => c.cost > s.maxMana) &&
+      s.opponentHand.every(c => c.cost > oppMaxMana)
+    const timeExpired = s.gameTime >= SUDDEN_DEATH_FORCE_MS
+    if (allExhausted || timeExpired) {
       s.suddenDeath = true
       s.suddenDeathTimer = SUDDEN_DEATH_MS
       s.suddenDeathBuildingTimer = SUDDEN_DEATH_BUILDING_INTERVAL_MS
