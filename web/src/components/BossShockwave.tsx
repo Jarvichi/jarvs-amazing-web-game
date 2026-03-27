@@ -29,8 +29,8 @@ export default function BossShockwave({ onDone }: Props) {
       {[0, 1, 2].map(i => (
         <div key={i} style={{
           position: 'absolute',
-          left: '72%',
-          top: '50%',
+          left: '50%',
+          top: '25%',
           width: '60px',
           height: '60px',
           border: '4px solid rgba(255, 100, 20, 0.9)',
