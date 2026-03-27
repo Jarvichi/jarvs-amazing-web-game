@@ -878,7 +878,8 @@ export default function App() {
 
     if (node.type === 'rest') {
       // Instantly heal, mark complete, stay on map
-      const healed = Math.min(updatedRun.maxHp, updatedRun.playerHp + (node.restHeal ?? 5))
+      // Heal up to maxHp, but never reduce HP that's already above maxHp (bonus HP).
+      const healed = Math.max(updatedRun.playerHp, Math.min(updatedRun.playerHp + (node.restHeal ?? 5), updatedRun.maxHp))
       const afterRest: RunState = {
         ...updatedRun,
         playerHp: healed,
