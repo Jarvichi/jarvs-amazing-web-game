@@ -158,7 +158,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
       {dailyChallengeState && (
         <div className={`gameover-daily ${winner === 'player' ? 'gameover-daily--win' : 'gameover-daily--lose'}`}>
           {(() => {
-            const attempts = dailyChallengeState.attempts + 1
+            const attempts = dailyChallengeState.attempts
             return winner === 'player'
               ? attempts === 1
                 ? '📅 Daily Challenge complete — first try!'
