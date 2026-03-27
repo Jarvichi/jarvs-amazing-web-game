@@ -3,6 +3,7 @@ import { Card } from '../game/types'
 import { UselessItem } from '../game/dailyLogin'
 import { MERCHANT_PRICES, ConsumableDef } from '../game/questline'
 import { CardTile } from './CardTile'
+import { OverlayScreen } from './OverlayScreen'
 
 export type MerchantItem =
   | { kind: 'card'; card: Card; price: number }
@@ -41,111 +42,113 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
     onBuy(item)
   }
 
+  const cardItems        = items.filter(i => i.kind === 'card')
+  const nonCardItems     = items.filter(i => i.kind !== 'card')
+
   return (
-    <div className="merchant-screen">
-      <div className="merchant-header">
-        <span className="merchant-title">// TRAVELLING MERCHANT</span>
-        <span className="merchant-crystals">◆ {balance} crystals</span>
-      </div>
+    <OverlayScreen title="MERCHANT" onBack={onDone} right={<span className="crystal-count">💎 {balance.toLocaleString()}</span>}>
+      <div className="shop-wrapper">
 
-      <div className="merchant-tagline">
-        "Everything has a price. Today, at least these have <em>reasonable</em> ones."
-      </div>
-
-      {balance === 0 && (
-        <div className="merchant-broke-hint">
-          No crystals? Earn them by winning battles in <strong>Quick Play</strong> or <strong>Campaign</strong> — every victory pays out.
+        <div className="merchant-tagline">
+          "Everything has a price. Today, at least these have <em>reasonable</em> ones."
         </div>
-      )}
 
-      <div className="merchant-items">
-        {items.map(item => {
-          const key    = itemKey(item)
-          const bought = purchased.has(key)
-          const canBuy = !bought && balance >= item.price
+        {balance === 0 && (
+          <div className="merchant-broke-hint">
+            No crystals? Earn them by winning battles in <strong>Quick Play</strong> or <strong>Campaign</strong> — every victory pays out.
+          </div>
+        )}
 
-          if (item.kind === 'consumable') {
-            const def = item.def
-            const canBuyConsumable = balance >= item.price
-            return (
-              <div key={key} className="merchant-item merchant-item--consumable">
-                <div className="merchant-curiosity-label">🧪 CONSUMABLE</div>
-                <div className="merchant-inv-tile">
-                  <div className="merchant-inv-icon">{def.icon}</div>
-                  <div className="merchant-inv-name">{def.name}</div>
-                  <div className="merchant-inv-desc">{def.desc}</div>
-                </div>
-                <div className="merchant-item-footer">
-                  <button
-                    className={`action-btn merchant-buy-btn${canBuyConsumable ? '' : ' merchant-buy-btn--poor'}`}
-                    onClick={() => handleBuy(item)}
-                    disabled={!canBuyConsumable}
-                  >
-                    ◆ {item.price}
-                  </button>
-                </div>
-              </div>
-            )
-          }
+        <div className="shop-content">
 
-          if (item.kind === 'item') {
-            const inv = item.inventoryItem
-            return (
-              <div
-                key={key}
-                className={`merchant-item merchant-item--rare merchant-item--inv${bought ? ' merchant-item--bought' : ''}`}
-              >
-                <div className="merchant-curiosity-label">✦ CURIOSITY</div>
-                <div className="merchant-inv-tile">
-                  <div className="merchant-inv-icon">{inv.icon}</div>
-                  <div className="merchant-inv-name">{inv.name}</div>
-                  <div className="merchant-inv-desc">{inv.desc}</div>
-                </div>
-                <div className="merchant-item-footer">
-                  {bought ? (
-                    <span className="merchant-purchased">✓ PURCHASED</span>
-                  ) : (
-                    <button
-                      className={`action-btn merchant-buy-btn${canBuy ? '' : ' merchant-buy-btn--poor'}`}
-                      onClick={() => handleBuy(item)}
-                      disabled={!canBuy}
-                    >
-                      ◆ {item.price}
-                    </button>
-                  )}
-                </div>
-              </div>
-            )
-          }
-
-          const rarity = item.card.rarity
-          return (
-            <div
-              key={key}
-              className={`merchant-item merchant-item--${rarity}${bought ? ' merchant-item--bought' : ''}`}
-            >
-              <CardTile card={item.card} canAfford={canBuy} onClick={canBuy ? () => handleBuy(item) : undefined} />
-              <div className="merchant-item-footer">
-                {bought ? (
-                  <span className="merchant-purchased">✓ PURCHASED</span>
-                ) : (
-                  <button
-                    className={`action-btn merchant-buy-btn${canBuy ? '' : ' merchant-buy-btn--poor'}`}
-                    onClick={() => handleBuy(item)}
-                    disabled={!canBuy}
-                  >
-                    ◆ {item.price}
-                  </button>
-                )}
+          {/* ── Card stock ── */}
+          {cardItems.length > 0 && (
+            <div className="shop-section">
+              <div className="shop-section-header">Cards for Sale</div>
+              <div className="shop-daily-cards">
+                {cardItems.map(item => {
+                  if (item.kind !== 'card') return null
+                  const key    = itemKey(item)
+                  const bought = purchased.has(key)
+                  const canBuy = !bought && balance >= item.price
+                  return (
+                    <div key={key} className={`shop-card-deal shop-card-deal--${item.card.rarity}${bought ? ' shop-card-deal--bought' : ''}`}>
+                      <div className="shop-card-rarity">{item.card.rarity.toUpperCase()}</div>
+                      <CardTile card={item.card} canAfford={canBuy} onClick={canBuy ? () => handleBuy(item) : undefined} />
+                      {bought ? (
+                        <div className="shop-purchased">PURCHASED ✓</div>
+                      ) : (
+                        <button
+                          className={`action-btn action-btn--gold shop-card-buy-btn${!canBuy ? ' shop-card-buy-btn--poor' : ''}`}
+                          onClick={() => handleBuy(item)}
+                          disabled={!canBuy}
+                        >
+                          {item.price} 💎
+                        </button>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             </div>
-          )
-        })}
-      </div>
+          )}
 
-      <button className="action-btn action-btn--large merchant-leave" onClick={onDone}>
-        LEAVE ›
-      </button>
-    </div>
+          {/* ── Consumables & Curiosities ── */}
+          {nonCardItems.length > 0 && (
+            <div className="shop-section">
+              <div className="shop-section-header">Supplies & Curiosities</div>
+              <div className="shop-consumables">
+                {nonCardItems.map(item => {
+                  const key = itemKey(item)
+
+                  if (item.kind === 'consumable') {
+                    const def = item.def
+                    const canBuy = balance >= item.price
+                    return (
+                      <div key={key} className="shop-consumable-tile">
+                        <div className="shop-consumable-icon">{def.icon}</div>
+                        <div className="shop-consumable-name">{def.name}</div>
+                        <div className="shop-consumable-desc">{def.desc}</div>
+                        <button
+                          className={`action-btn action-btn--gold shop-consumable-buy-btn${canBuy ? '' : ' shop-card-buy-btn--poor'}`}
+                          onClick={() => handleBuy(item)}
+                          disabled={!canBuy}
+                        >
+                          {item.price} 💎
+                        </button>
+                      </div>
+                    )
+                  }
+
+                  // kind === 'item' (curiosity)
+                  const inv    = item.inventoryItem
+                  const bought = purchased.has(key)
+                  const canBuy = !bought && balance >= item.price
+                  return (
+                    <div key={key} className="shop-consumable-tile">
+                      <div className="shop-consumable-icon">{inv.icon}</div>
+                      <div className="shop-consumable-name">✦ {inv.name}</div>
+                      <div className="shop-consumable-desc">{inv.desc}</div>
+                      {bought ? (
+                        <div className="shop-purchased">PURCHASED ✓</div>
+                      ) : (
+                        <button
+                          className={`action-btn action-btn--gold shop-consumable-buy-btn${canBuy ? '' : ' shop-card-buy-btn--poor'}`}
+                          onClick={() => handleBuy(item)}
+                          disabled={!canBuy}
+                        >
+                          {item.price} 💎
+                        </button>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+    </OverlayScreen>
   )
 }
