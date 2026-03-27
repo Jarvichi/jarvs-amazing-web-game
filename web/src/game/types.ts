@@ -234,6 +234,7 @@ export interface GameState {
   opponentScore: number      // cumulative damage dealt to player
   suddenDeath: boolean       // true once all cards exhausted
   suddenDeathTimer: number   // ms remaining in sudden death (60 000 at start)
+  suddenDeathBuildingTimer: number  // ms until next building damage tick (2 000 interval)
   battleEventTimer: number   // ms until next battle event fires
   activeBattleEvent: BattleEventState | null
   bossAI?: string            // 'thornlord' etc. — drives boss-specific opponent logic

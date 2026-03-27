@@ -89,6 +89,7 @@ const OPPONENT_INTERVAL_MS = 6000
 const MANA_REGEN_MS = 3000       // 1 mana every 3 seconds
 const BASE_MAX_MANA = 5
 const SUDDEN_DEATH_MS = 60000
+const SUDDEN_DEATH_BUILDING_INTERVAL_MS = 2000  // building damage tick during sudden death
 const BATTLE_EVENT_BASE_MS = 30000  // first event after 30s, then every 24-32s
 const SPAWN_GROW_MS = 1500           // building-spawn grow-in animation duration
 const DEATH_LINGER_MS = 1200         // how long a dying unit stays visible
@@ -443,6 +444,7 @@ export function newGame(
     opponentScore: 0,
     suddenDeath: false,
     suddenDeathTimer: 0,
+    suddenDeathBuildingTimer: 0,
     battleEventTimer: BATTLE_EVENT_BASE_MS,
     activeBattleEvent: null,
     bossAI: boss,
@@ -1812,7 +1814,8 @@ export function tick(state: GameState, deltaMs: number): GameState {
     if (allExhausted) {
       s.suddenDeath = true
       s.suddenDeathTimer = SUDDEN_DEATH_MS
-      log.push('⚡ SUDDEN DEATH! 60s remain — highest score wins!')
+      s.suddenDeathBuildingTimer = SUDDEN_DEATH_BUILDING_INTERVAL_MS
+      log.push('⚡ SUDDEN DEATH! 60s remain — buildings crumble, highest score wins!')
     }
   } else {
     s.suddenDeathTimer -= deltaMs
@@ -1823,6 +1826,22 @@ export function tick(state: GameState, deltaMs: number): GameState {
       s.phase = { type: 'gameOver', winner }
       s.log = [...s.log, ...log]
       return s
+    }
+    // Damage all buildings by 1 every 2 seconds
+    s.suddenDeathBuildingTimer -= deltaMs
+    if (s.suddenDeathBuildingTimer <= 0) {
+      s.suddenDeathBuildingTimer = SUDDEN_DEATH_BUILDING_INTERVAL_MS
+      const buildings = s.field.filter(u => u.moveSpeed === 0 && !u.isWall)
+      for (const b of buildings) {
+        b.hp -= 1
+        b.damageFlashTimer = DAMAGE_FLASH_MS
+      }
+      const destroyed = buildings.filter(b => b.hp <= 0)
+      for (const b of destroyed) {
+        playBuildingDestroyed()
+        log.push(`💥 ${b.name} crumbles in Sudden Death!`)
+      }
+      s.field = s.field.filter(u => !destroyed.includes(u))
     }
   }
 
