@@ -17,8 +17,8 @@ When working an issue from this file, go and check the GitHub issue for addition
 ## 🔴 Bugs — New (from GitHub, session 28 sync)
 
 - [x] **#496** Sudden death does not trigger in daily challenge mode — already fixed
-- [ ] **#497** Daily challenge: Give Up should count as a failed attempt
-- [ ] **#495** Bloom Spire / Lava Spire overpowered — ranged buildings should target only one unit type; multi-type targeting costs building health
+- [x] **#497** Daily challenge: Give Up should count as a failed attempt — saveDailyChallengeResult(false) called in handleGiveUp before clearing flag
+- [x] **#495** Bloom Spire / Lava Spire overpowered — added targetUnitType field; Bloom Spire targets flying only, Lava Spire targets ground only
 
 ## 🔵 Enhancements — New (from GitHub, session 28 sync)
 
