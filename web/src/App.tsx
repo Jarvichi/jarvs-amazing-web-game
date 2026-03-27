@@ -1480,6 +1480,9 @@ export default function App() {
           }).catch(() => { /* non-critical */ })
         }
       }
+      if (isDailyChallengeRef.current) {
+        saveDailyChallengeResult(false)
+      }
       isDailyChallengeRef.current = false
       setDcGameOverState(undefined)
       setScreen('title')
