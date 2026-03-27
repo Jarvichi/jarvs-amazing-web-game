@@ -16,13 +16,13 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔴 Bugs — New (from GitHub, session 27 sync)
 
-- [ ] **#487** "Daily Challenge Complete" shows on non-daily-challenge post-battle screens
-- [ ] **#476** Daily challenge win screen shows wrong attempt count
-- [ ] **#461** Consumables not stored after shop purchase
-- [ ] **#459** Resting resets over-max HP back to max
+- [x] **#487** "Daily Challenge Complete" shows on non-daily-challenge post-battle screens — cleared isDailyChallengeRef in handlePlay/handleEndless/handleGiveUp/handleMainMenu
+- [x] **#476** Daily challenge win screen shows wrong attempt count — snapshot dcGameOverState before saving; removed +1 in GameOver display
+- [x] **#461** Consumables not stored after shop purchase — clearRun() now returns unused consumables to stash before deleting run
+- [x] **#459** Resting resets over-max HP back to max — rest heal now uses Math.max(playerHp, …) to preserve over-max HP
 - [ ] **#488** Campaign shop/merchant layout differs from main shop layout
-- [ ] **#468** Narrator rare event text displays too briefly to read
-- [ ] **#465** Campaign Peek Node lists replay modifiers separately instead of summing them
+- [x] **#468** Narrator rare event text displays too briefly — increased DISPLAY_MS from 7s to 11s
+- [x] **#465** Campaign Peek Node lists replay modifiers separately instead of summing them — collapseModifiers() groups by type and sums values
 
 ## 🔵 Enhancements — New (from GitHub, session 27 sync)
 
