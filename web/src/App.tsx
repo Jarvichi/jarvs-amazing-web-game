@@ -919,6 +919,7 @@ export default function App() {
     battleLossRecordedRef.current = false
     prevOpponentUnitsRef.current = new Map()
     prevPlayerUnitsRef.current = new Map()
+    setShowBossShockwave(false)
     const collection  = loadCollection()
     const fatigued    = loadFatigued()
     const deckEntries = loadDeck().filter(e => !fatigued.includes(e.cardName))
