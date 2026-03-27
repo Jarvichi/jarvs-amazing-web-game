@@ -8,7 +8,7 @@ import { logError } from '../logger'
 import { getCardCatalog } from './cards'
 import { Card } from './types'
 import {
-  doc, setDoc, getDocs, collection, query, orderBy, limit, Timestamp,
+  doc, setDoc, getDocs, collection, query, orderBy, limit, where, Timestamp,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 
@@ -264,6 +264,7 @@ export async function publishEndlessResult(opts: {
     wave:          opts.wave,
     survivalMs:    opts.survivalMs,
     achievedAt:    Timestamp.now(),
+    date:          getDailyDate(),
   })
   return true
 }
@@ -277,6 +278,28 @@ export async function fetchEndlessLeaderboard(topN = 10): Promise<EndlessLeaderb
   try {
     const ref  = collection(db, 'endlessLeaderboard')
     const q    = query(ref, orderBy('wave', 'desc'), limit(topN))
+    const snap = await getDocs(q)
+    return snap.docs.map((d: import('firebase/firestore').QueryDocumentSnapshot) => {
+      const data = d.data()
+      return {
+        uid:           data.uid,
+        characterName: data.characterName,
+        wave:          data.wave,
+        survivalMs:    data.survivalMs,
+        achievedAt:    (data.achievedAt as Timestamp).toDate(),
+      }
+    })
+  } catch { return [] }
+}
+
+/**
+ * Fetch the top N endless leaderboard entries for today.
+ * Only includes scores set (or updated to a personal best) today.
+ */
+export async function fetchTodaysEndlessLeaderboard(topN = 10): Promise<EndlessLeaderboardEntry[]> {
+  try {
+    const ref  = collection(db, 'endlessLeaderboard')
+    const q    = query(ref, where('date', '==', getDailyDate()), orderBy('wave', 'desc'), limit(topN))
     const snap = await getDocs(q)
     return snap.docs.map((d: import('firebase/firestore').QueryDocumentSnapshot) => {
       const data = d.data()

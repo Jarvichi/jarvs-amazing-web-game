@@ -742,8 +742,23 @@ function findAttackTarget(field: Unit[], unit: Unit): Unit | null {
 const CLIMB_SPEED_FACTOR = 0.25   // climbers move at 25 % speed through wall zones
 const WALL_CLIMB_ZONE   = 30      // px radius around a wall that counts as "wall zone"
 
+const BLOOD_CLUSTER_RADIUS = 50   // px — pools within this distance count as "same area"
+const BLOOD_CLUSTER_MIN    = 3    // minimum pools in a cluster to trigger avoidance
+
 function moveUnits(s: GameState, deltaMs: number): void {
   const deltaSec = deltaMs / 1000
+
+  // Pre-compute which active blood pools are part of a dense cluster (3+).
+  // Done once per tick rather than per unit to keep the cost O(pools²).
+  const activePools = s.bloodPools.filter(p => p.fadingAt === undefined)
+  const densePools = activePools.filter(pool => {
+    const nearby = activePools.filter(
+      p => p !== pool &&
+        Math.abs(p.x - pool.x) < BLOOD_CLUSTER_RADIUS &&
+        Math.abs(p.y - pool.y) < BLOOD_CLUSTER_RADIUS,
+    )
+    return nearby.length >= BLOOD_CLUSTER_MIN - 1
+  })
 
   for (const unit of s.field) {
     if (unit.moveSpeed === 0) continue
@@ -866,6 +881,20 @@ function moveUnits(s: GameState, deltaMs: number): void {
             lateralDir = -Math.sign(toObsY)
           }
           avoidY += lateralDir * strength * unit.moveSpeed * 1.8
+        }
+      }
+
+      // Blood pool cluster avoidance: steer around areas with 3+ overlapping pools
+      for (const pool of densePools) {
+        const toPoolX = pool.x - unit.x
+        const toPoolY = pool.y - unit.y
+        const dist = Math.sqrt(toPoolX ** 2 + toPoolY ** 2)
+        if (dist < BLOOD_CLUSTER_RADIUS && dist > 0) {
+          const strength = 1 - dist / BLOOD_CLUSTER_RADIUS
+          const lateralDir = Math.abs(toPoolY) < 5
+            ? ((parseInt(unit.id.replace(/\D/g, ''), 10) || 0) % 2 === 0 ? -1 : 1)
+            : -Math.sign(toPoolY)
+          avoidY += lateralDir * strength * unit.moveSpeed * 1.2
         }
       }
     }
