@@ -18,6 +18,12 @@ export interface ItemEntry {
   count: number
   /** ISO date string set when the item was first acquired (items only) */
   acquiredDate?: string
+  /** Display fields for 'item' entries whose id is not in the static catalog
+   *  (e.g. broken relics that have dynamic ids with timestamps). */
+  name?: string
+  icon?: string
+  desc?: string
+  lore?: string
 }
 
 const ITEM_STORE_KEY = 'jarv_item_store'
@@ -76,8 +82,18 @@ function migrate(store: ItemEntry[]): ItemEntry[] {
     if (raw) {
       const items: Array<{ id: string; name: string; icon: string; desc: string; lore: string; acquiredDate: string }> = JSON.parse(raw)
       for (const item of items) {
-        // Items are NOT de-duped here — the old store allowed duplicates
-        store.push({ id: item.id, type: 'item', count: 1, acquiredDate: item.acquiredDate })
+        // Items are NOT de-duped here — the old store allowed duplicates.
+        // Preserve display fields so dynamic items (e.g. broken relics) still render correctly.
+        store.push({
+          id: item.id,
+          type: 'item',
+          count: 1,
+          acquiredDate: item.acquiredDate,
+          name: item.name,
+          icon: item.icon,
+          desc: item.desc,
+          lore: item.lore,
+        })
         changed = true
       }
       localStorage.removeItem(LEGACY_INVENTORY_KEY)
@@ -120,8 +136,21 @@ export function saveItemStore(store: ItemEntry[]): void {
   }
 }
 
+export interface ItemDisplayFields {
+  name?: string
+  icon?: string
+  desc?: string
+  lore?: string
+}
+
 /** Add `count` units of an item. For relics/items count is always 1. */
-export function addItem(type: ItemType, id: string, count = 1, acquiredDate?: string): void {
+export function addItem(
+  type: ItemType,
+  id: string,
+  count = 1,
+  acquiredDate?: string,
+  display?: ItemDisplayFields,
+): void {
   const store = loadItemStore()
   if (type === 'consumable') {
     const existing = store.find(e => e.type === 'consumable' && e.id === id)
@@ -136,7 +165,13 @@ export function addItem(type: ItemType, id: string, count = 1, acquiredDate?: st
     }
   } else {
     // 'item' — duplicates are allowed (matches legacy behaviour)
-    store.push({ id, type, count: 1, acquiredDate: acquiredDate ?? new Date().toISOString().slice(0, 10) })
+    store.push({
+      id,
+      type,
+      count: 1,
+      acquiredDate: acquiredDate ?? new Date().toISOString().slice(0, 10),
+      ...display,
+    })
   }
   saveItemStore(store)
 }

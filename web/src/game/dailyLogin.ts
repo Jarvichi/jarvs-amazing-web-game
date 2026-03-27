@@ -4,7 +4,7 @@ import { logError } from '../logger'
 import itemsJson   from '../data/items.json'
 import rewardsJson from '../data/rewards.json'
 import { CardRarity } from './types'
-import { addItem, removeItem, getItemsOfType } from './itemStore'
+import { addItem, removeItem, getItemsOfType, ItemDisplayFields } from './itemStore'
 
 const DAILY_KEY = 'jarv_daily_login'
 
@@ -111,7 +111,8 @@ export function claimDailyReward(): RewardDef {
 export function addToInventory(item: Omit<UselessItem, 'acquiredDate'>): void {
   try {
     const isNew = !getItemsOfType('item').some(e => e.id === item.id)
-    addItem('item', item.id)
+    const display: ItemDisplayFields = { name: item.name, icon: item.icon, desc: item.desc, lore: item.lore }
+    addItem('item', item.id, 1, undefined, display)
     if (isNew) {
       import('./achievements').then(({ incrementAchievementProgress }) => {
         incrementAchievementProgress('misc:unique_items')
@@ -131,10 +132,10 @@ export function loadInventory(): UselessItem[] {
     const def = ALL_ITEMS.find(i => i.id === e.id)
     return {
       id: e.id,
-      name: def?.name ?? e.id,
-      icon: def?.icon ?? '❓',
-      desc: def?.desc ?? '',
-      lore: def?.lore ?? '',
+      name: def?.name ?? e.name ?? e.id,
+      icon: def?.icon ?? e.icon ?? '❓',
+      desc: def?.desc ?? e.desc ?? '',
+      lore: def?.lore ?? e.lore ?? '',
       acquiredDate: e.acquiredDate ?? '',
     }
   })

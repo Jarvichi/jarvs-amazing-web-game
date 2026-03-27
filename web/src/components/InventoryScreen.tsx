@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { UselessItem, loadInventory, _inventorySyncCheck } from '../game/dailyLogin'
 import { saveCrystals, loadCrystals } from '../game/collection'
 import { loadEarnedRelics, getRelicDef, RelicDef } from '../game/relics'
-import { loadConsumableStash, loadRunConsumables, ALL_CONSUMABLES } from '../game/questline'
+import { loadConsumableStash, loadRunConsumables, ALL_CONSUMABLES, ConsumableDef } from '../game/questline'
 import { OverlayScreen } from './OverlayScreen'
 import { Section } from './Section'
 
@@ -15,26 +15,33 @@ type DetailEntry =
   | { kind: 'item'; item: UselessItem }
   | { kind: 'relic'; relic: RelicDef; isActive: boolean }
 
-export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
-  const [items, setItems] = useState<UselessItem[]>(loadInventory)
-  const [secretMsg, setSecretMsg] = useState<string | null>(null)
-  const [secretClaimed, setSecretClaimed] = useState(false)
-  const [detail, setDetail] = useState<DetailEntry | null>(null)
-
-  // Merge stash (pre-run) + active run consumables so bought items are always visible
-  const mergedConsumables = [...loadRunConsumables()]
+function buildMergedConsumables() {
+  const merged = [...loadRunConsumables()]
   for (const s of loadConsumableStash()) {
-    const existing = mergedConsumables.find(c => c.id === s.id)
+    const existing = merged.find(c => c.id === s.id)
     if (existing) existing.count += s.count
-    else mergedConsumables.push({ ...s })
+    else merged.push({ ...s })
   }
-  const ownedConsumables = mergedConsumables
+  return merged
     .filter(rc => rc.count > 0)
     .map(rc => {
       const def = ALL_CONSUMABLES.find(c => c.id === rc.id)
       return def ? { def, count: rc.count } : null
     })
     .filter((x): x is { def: typeof ALL_CONSUMABLES[0]; count: number } => x !== null)
+}
+
+export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
+  const [items, setItems] = useState<UselessItem[]>(loadInventory)
+  const [ownedConsumables, setOwnedConsumables] = useState<{ def: typeof ALL_CONSUMABLES[0]; count: number }[]>(buildMergedConsumables)
+  const [secretMsg, setSecretMsg] = useState<string | null>(null)
+  const [secretClaimed, setSecretClaimed] = useState(false)
+  const [detail, setDetail] = useState<DetailEntry | null>(null)
+
+  // Refresh consumables on every mount to pick up purchases made on other screens
+  useEffect(() => {
+    setOwnedConsumables(buildMergedConsumables())
+  }, [])
 
   const earnedRelicNames = loadEarnedRelics()
   const earnedRelics = earnedRelicNames
@@ -86,14 +93,17 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
         {ownedConsumables.length > 0 && (
           <Section title="CONSUMABLES">
             <div className="inventory-grid">
-              {ownedConsumables.map(({ def, count }) => (
-                <div key={def.id} className="inventory-cell">
-                  <div className="inventory-item-icon">{def.icon}</div>
-                  <div className="inventory-item-name">{def.name}</div>
-                  <div className="inventory-item-desc">{def.desc}</div>
-                  <div className="inventory-item-count">×{count}</div>
-                </div>
-              ))}
+              {ownedConsumables.map((entry: { def: ConsumableDef; count: number }) => {
+                const { def, count } = entry
+                return (
+                  <div key={def.id} className="inventory-cell">
+                    <div className="inventory-item-icon">{def.icon}</div>
+                    <div className="inventory-item-name">{def.name}</div>
+                    <div className="inventory-item-desc">{def.desc}</div>
+                    <div className="inventory-item-count">×{count}</div>
+                  </div>
+                )
+              })}
             </div>
           </Section>
         )}
