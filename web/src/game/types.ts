@@ -252,6 +252,7 @@ export interface GameState {
   relicManaBonus?: number             // Prism Lens relic: +N to maxMana cap
   relicSporeBloom?: boolean           // Spore Bloom relic: player units heal 1 HP every 3s
   relicSporeBloomTimer?: number       // countdown ms until next Spore Bloom tick
+  relicGearHeart?: boolean            // Gear Heart relic: +1 ATK on every player unit spawn
   battleStats: BattleStats
   /** Transient animation events (projectiles, hit flashes). Cleared each tick after expiry. */
   animEvents: AnimEvent[]

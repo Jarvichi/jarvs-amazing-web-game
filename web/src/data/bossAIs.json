@@ -898,5 +898,92 @@
         ]
       }
     ]
+  },
+  {
+    "id": "grandautomaton",
+    "intervalMs": 5000,
+    "idleMessage": "Systems optimising\u2026",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE GRAND AUTOMATON engages its threat protocols.",
+      "VAULT INTEGRITY: CRITICAL."
+    ],
+    "trait": {
+      "name": "Gear Cascade",
+      "type": "aoe_column",
+      "implemented": false,
+      "triggerCondition": "playerBaseHpBelow50Pct",
+      "description": "At 50% HP, releases a cascade of gears that deal 8 damage in a column AOE, slowing hit units for 3 seconds."
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "type": "structure",
+            "subType": "spawn",
+            "order": "first"
+          },
+          {
+            "type": "structure",
+            "subType": "mana",
+            "order": "first"
+          },
+          {
+            "type": "unit",
+            "order": "cost_desc"
+          },
+          {
+            "type": "upgrade",
+            "order": "first"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 70000
+        },
+        "priorities": [
+          {
+            "type": "unit",
+            "order": "cost_desc"
+          },
+          {
+            "type": "structure",
+            "subType": "spawn",
+            "order": "first"
+          },
+          {
+            "type": "upgrade",
+            "order": "first"
+          }
+        ],
+        "announceOnce": "ESCALATING TO THREAT LEVEL: MAXIMUM."
+      },
+      {
+        "condition": null,
+        "manaOverride": 9,
+        "maxPlaysOverride": 4,
+        "announceOnce": "ACTIVATING FINAL PROTOCOL. VAULT WILL NOT FALL.",
+        "priorities": [
+          {
+            "type": "unit",
+            "order": "cost_desc"
+          },
+          {
+            "type": "structure",
+            "subType": "spawn",
+            "order": "first"
+          },
+          {
+            "type": "upgrade",
+            "order": "first"
+          }
+        ]
+      }
+    ]
   }
 ]

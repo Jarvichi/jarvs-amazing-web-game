@@ -131,6 +131,16 @@ const RELIC_CATALOG: RelicDef[] = [
       state.soulstoneReviveAvailable = true
     },
   },
+  {
+    name: 'Gear Heart',
+    icon: '⚙️',
+    desc: 'All your units gain +1 ATK when played, and your base gains +1 max HP at battle start.',
+    applyToGame(state) {
+      state.relicGearHeart = true
+      state.playerBase.maxHp += 1
+      state.playerBase.hp   += 1
+    },
+  },
 ]
 
 export function getRelicDef(name: string): RelicDef | undefined {

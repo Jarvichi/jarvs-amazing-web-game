@@ -601,6 +601,7 @@ function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent', log:
       }
     }
     const unit = spawnUnit(card.unit!, owner)
+    if (owner === 'player' && s.relicGearHeart) unit.attack = Math.max(0, unit.attack + 1)
     if (card.lore) unit.lore = card.lore
     // Hero units use the card's display name but keep the base unit sprite
     if (card.isHero) {
