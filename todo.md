@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-23 (session 23 — new issues sync).
+Issues sourced from GitHub. Last synced: 2026-03-27 (session 27 — new issues sync).
 
 ---
 
@@ -13,6 +13,38 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [x] **#178** Per-act themed card sets — Act 4 rewardTags fixed ('crystal'→'spire','arcane'); 5 new Crystal Spire cards added (Prism Warden, Shard Familiar, Arcane Conduit, Resonance Spire, Crystalline Shell); all sprites created. Acts 1–4 now have 25+ themed cards each.
 
 ---
+
+## 🔴 Bugs — New (from GitHub, session 27 sync)
+
+- [ ] **#487** "Daily Challenge Complete" shows on non-daily-challenge post-battle screens
+- [ ] **#476** Daily challenge win screen shows wrong attempt count
+- [ ] **#461** Consumables not stored after shop purchase
+- [ ] **#459** Resting resets over-max HP back to max
+- [ ] **#488** Campaign shop/merchant layout differs from main shop layout
+- [ ] **#468** Narrator rare event text displays too briefly to read
+- [ ] **#465** Campaign Peek Node lists replay modifiers separately instead of summing them
+
+## 🔵 Enhancements — New (from GitHub, session 27 sync)
+
+- [ ] **#490** Replace `useState` with `useReducer` for battle/game state
+- [ ] **#463** Battlefield UI cleanup — hide Hand/Deck count; modifiers only in pause menu; deck viewer in pause menu
+- [ ] **#464** Add achievements for recently added acts
+- [ ] **#469** Endless mode achievements (wave 69, 99, 100, etc.)
+- [ ] **#470** More player avatars (act boss completions, mastery 10 units)
+- [ ] **#486** New achievements: win with all-legendary deck; win playing only one card
+
+## 🟣 Large Features — New (from GitHub, session 27 sync)
+
+- [ ] **#481** Training mode — practice vs single unit with chosen cards
+- [ ] **#473** Boss Cards — legendary cards earned by beating bosses 10/20/30+ times
+- [ ] **#477** Commander
+- [ ] **#474** Next 25-act campaign chapter "The Forbidden Word"
+- [ ] **#466** Boss spawn kill scaling — scales up per subsequent run, capped at 100%
+- [ ] **#467** Secrets and Rare Things
+- [ ] **#489** Game Engine (tracking issue)
+- [ ] **#462** Battles (tracking issue)
+- [ ] **#460** Shop and Items (tracking issue)
+- [ ] **#458** Campaign Issues (tracking issue)
 
 ## 🔴 Bugs — New (from GitHub, session 26 sync)
 
