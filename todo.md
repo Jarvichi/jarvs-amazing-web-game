@@ -34,7 +34,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 - [x] **#487** "Daily Challenge Complete" shows on non-daily-challenge post-battle screens — cleared isDailyChallengeRef in handlePlay/handleEndless/handleGiveUp/handleMainMenu
 - [x] **#476** Daily challenge win screen shows wrong attempt count — snapshot dcGameOverState before saving; removed +1 in GameOver display
-- [x] **#461** Consumables not stored after shop purchase — clearRun() now returns unused consumables to stash before deleting run
+- [x] **#461** Consumables/items unified store — new itemStore.ts (jarv_item_store) unifies consumables, relics, and useless items under one key with type tags; legacy keys migrated on first load; ShopScreen now removes sold items from inventory
 - [x] **#459** Resting resets over-max HP back to max — rest heal now uses Math.max(playerHp, …) to preserve over-max HP
 - [x] **#488** Campaign shop/merchant layout differs from main shop layout — MerchantScreen now uses OverlayScreen + shop-section/shop-daily-cards/shop-consumables structure
 - [x] **#468** Narrator rare event text displays too briefly — increased DISPLAY_MS from 7s to 11s

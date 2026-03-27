@@ -1,6 +1,7 @@
 import { CardRarity } from './types'
 import { logError } from '../logger'
 import { getCardCatalog } from './cards'
+import { addItem, removeItem, getItemsOfType } from './itemStore'
 import act1Data from '../data/acts/act1.json'
 import act2Data from '../data/acts/act2.json'
 import act3Data from '../data/acts/act3.json'
@@ -36,27 +37,12 @@ export interface RunConsumable {
   count: number
 }
 
-const CONSUMABLE_STASH_KEY = 'jarv_consumable_stash'
-
 export function loadConsumableStash(): RunConsumable[] {
-  try { return JSON.parse(localStorage.getItem(CONSUMABLE_STASH_KEY) ?? '[]') }
-  catch { return [] }
-}
-
-export function saveConsumableStash(stash: RunConsumable[]): void {
-  try { localStorage.setItem(CONSUMABLE_STASH_KEY, JSON.stringify(stash)) }
-  catch (e) { logError('saveConsumableStash failed', { error: String(e) }) }
+  return getItemsOfType('consumable').map(e => ({ id: e.id, count: e.count }))
 }
 
 export function addToConsumableStash(id: string, count = 1): void {
-  const stash = loadConsumableStash()
-  const existing = stash.find(c => c.id === id)
-  if (existing) {
-    existing.count += count
-  } else {
-    stash.push({ id, count })
-  }
-  saveConsumableStash(stash)
+  addItem('consumable', id, count)
 }
 
 /** Read the active run's consumables from localStorage without touching the stash. */
@@ -83,8 +69,8 @@ function drainStashIntoRun(consumables: RunConsumable[]): RunConsumable[] {
     } else {
       merged.push({ ...s })
     }
+    removeItem('consumable', s.id, s.count)
   }
-  saveConsumableStash([])
   return merged
 }
 

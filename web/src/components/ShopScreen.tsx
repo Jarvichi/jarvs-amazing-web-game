@@ -14,7 +14,7 @@ import {
   ShopCardDeal,
   recordNPCVisit,
 } from '../game/shopSchedule'
-import { loadInventory } from '../game/dailyLogin'
+import { loadInventory, removeFromInventory } from '../game/dailyLogin'
 import { ALL_CONSUMABLES, addToConsumableStash } from '../game/questline'
 import { saveCrystals } from '../game/collection'
 import { SpriteImg } from './SpriteImg'
@@ -174,6 +174,9 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
     const updated = { ...shopState, soldItemIds: [...shopState.soldItemIds, slotId] }
     setShopState(updated)
     saveDailyShopState(updated)
+    // Remove the item from inventory now that it has been sold
+    removeFromInventory(slotId)
+    setInventory(loadInventory())
   }
 
   const roleLabel: Record<string, string> = {
