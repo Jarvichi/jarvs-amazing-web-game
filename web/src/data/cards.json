@@ -2067,6 +2067,7 @@
       "moveSpeed": 0,
       "attackRange": 80,
       "attackCooldownMs": 1200,
+      "targetUnitType": "hero",
       "tags": [
         "ranged",
         "magic",
@@ -3229,6 +3230,7 @@
       "moveSpeed": 0,
       "attackRange": 140,
       "attackCooldownMs": 1600,
+      "targetUnitType": "not_flying",
       "tags": [
         "fungal"
       ]
@@ -3492,6 +3494,7 @@
       "moveSpeed": 0,
       "attackRange": 140,
       "attackCooldownMs": 1600,
+      "targetUnitType": "not_flying",
       "tags": [
         "frost"
       ]
@@ -3523,6 +3526,7 @@
       "moveSpeed": 0,
       "attackRange": 180,
       "attackCooldownMs": 1800,
+      "targetUnitType": "flying",
       "tags": [
         "frost",
         "glacier"
@@ -3800,6 +3804,7 @@
       "moveSpeed": 0,
       "attackRange": 140,
       "attackCooldownMs": 1600,
+      "targetUnitType": "flying",
       "tags": [
         "sand"
       ]
@@ -3813,6 +3818,7 @@
       "moveSpeed": 0,
       "attackRange": 180,
       "attackCooldownMs": 1800,
+      "targetUnitType": "not_flying",
       "tags": [
         "sand",
         "mercenary"
@@ -3884,12 +3890,12 @@
       "cost": 1,
       "cardType": "unit",
       "unitRef": "archer",
-      "description": "Ranged \u2014 fires over walls.",
+      "description": "Ranged — fires over walls.",
       "deckCount": 3,
       "tags": [
         "forest"
       ],
-      "lore": "\"I don't miss.\" \u2014 Every archer, right before missing."
+      "lore": "\"I don't miss.\" — Every archer, right before missing."
     },
     {
       "name": "Barbarian",
@@ -4214,7 +4220,7 @@
       },
       "description": "Heal all your units for 12 HP.",
       "deckCount": 1,
-      "lore": "\"Walk it off.\" \u2014 Official battle doctrine."
+      "lore": "\"Walk it off.\" — Official battle doctrine."
     },
     {
       "name": "Skeleton",
@@ -4248,7 +4254,7 @@
       "cost": 2,
       "cardType": "unit",
       "unitRef": "crossbow",
-      "description": "Ranged soldier \u2014 fires over walls.",
+      "description": "Ranged soldier — fires over walls.",
       "deckCount": 0,
       "tags": [
         "citadel"
@@ -4261,7 +4267,7 @@
       "cost": 4,
       "cardType": "unit",
       "unitRef": "paladin",
-      "description": "Holy knight \u2014 armored and mighty.",
+      "description": "Holy knight — armored and mighty.",
       "deckCount": 0,
       "tags": [
         "citadel"
@@ -4279,7 +4285,7 @@
       "tags": [
         "citadel"
       ],
-      "lore": "\"What wall?\" \u2014 The Rogue, from the other side of the wall."
+      "lore": "\"What wall?\" — The Rogue, from the other side of the wall."
     },
     {
       "name": "Catapult",
@@ -4313,7 +4319,7 @@
       "cost": 5,
       "cardType": "unit",
       "unitRef": "golem",
-      "description": "Stone titan \u2014 massive HP and damage.",
+      "description": "Stone titan — massive HP and damage.",
       "deckCount": 0,
       "lore": "Was told to hold the line. Has been holding it for two hundred years."
     },
@@ -4323,7 +4329,7 @@
       "cost": 1,
       "cardType": "unit",
       "unitRef": "pixie",
-      "description": "Tiny and flying \u2014 bypasses all walls.",
+      "description": "Tiny and flying — bypasses all walls.",
       "deckCount": 0,
       "tags": [
         "forest"
@@ -4621,7 +4627,7 @@
       },
       "description": "Heal all your units for 4 HP.",
       "deckCount": 0,
-      "lore": "A rousing speech, a quick bandage \u2014 good as new."
+      "lore": "A rousing speech, a quick bandage — good as new."
     },
     {
       "name": "Haste",
@@ -4722,7 +4728,7 @@
       "cost": 1,
       "cardType": "unit",
       "unitRef": "bandit",
-      "description": "Fast climber \u2014 scales over walls.",
+      "description": "Fast climber — scales over walls.",
       "deckCount": 2,
       "tags": [
         "citadel"
@@ -4735,12 +4741,12 @@
       "cost": 1,
       "cardType": "unit",
       "unitRef": "bat",
-      "description": "Tiny flier \u2014 ignores walls entirely.",
+      "description": "Tiny flier — ignores walls entirely.",
       "deckCount": 2,
       "tags": [
         "forest"
       ],
-      "lore": "Hung upside down until called upon \u2014 a skill with surprising tactical applications."
+      "lore": "Hung upside down until called upon — a skill with surprising tactical applications."
     },
     {
       "name": "Scorpion",
@@ -4761,7 +4767,7 @@
       "cost": 2,
       "cardType": "unit",
       "unitRef": "shield-guard",
-      "description": "Immovable melee wall \u2014 extreme HP.",
+      "description": "Immovable melee wall — extreme HP.",
       "deckCount": 2,
       "tags": [
         "citadel"
@@ -4774,7 +4780,7 @@
       "cost": 2,
       "cardType": "unit",
       "unitRef": "centaur",
-      "description": "Fast ranged \u2014 fires over walls.",
+      "description": "Fast ranged — fires over walls.",
       "deckCount": 2,
       "tags": [
         "forest"
@@ -4787,7 +4793,7 @@
       "cost": 2,
       "cardType": "unit",
       "unitRef": "harpy",
-      "description": "Flying ranged \u2014 swoops over walls and shoots.",
+      "description": "Flying ranged — swoops over walls and shoots.",
       "deckCount": 2,
       "tags": [
         "forest"
@@ -4800,7 +4806,7 @@
       "cost": 2,
       "cardType": "unit",
       "unitRef": "specter",
-      "description": "Flying melee \u2014 phases through walls.",
+      "description": "Flying melee — phases through walls.",
       "deckCount": 2,
       "tags": [
         "ashen"
@@ -4826,12 +4832,12 @@
       "cost": 3,
       "cardType": "unit",
       "unitRef": "ballista",
-      "description": "Siege bolt \u2014 extreme range, fires over walls.",
+      "description": "Siege bolt — extreme range, fires over walls.",
       "deckCount": 1,
       "tags": [
         "citadel"
       ],
-      "lore": "\"Fire the ballista!\" \u2014 said with far too much enthusiasm every time."
+      "lore": "\"Fire the ballista!\" — said with far too much enthusiasm every time."
     },
     {
       "name": "Vampire",
@@ -4839,7 +4845,7 @@
       "cost": 3,
       "cardType": "unit",
       "unitRef": "vampire",
-      "description": "Flying melee predator \u2014 ignores walls.",
+      "description": "Flying melee predator — ignores walls.",
       "deckCount": 1,
       "tags": [
         "ashen"
@@ -4852,7 +4858,7 @@
       "cost": 3,
       "cardType": "unit",
       "unitRef": "griffin",
-      "description": "Flying ranged \u2014 powerful aerial attacker.",
+      "description": "Flying ranged — powerful aerial attacker.",
       "deckCount": 1,
       "tags": [
         "forest"
@@ -4865,7 +4871,7 @@
       "cost": 3,
       "cardType": "unit",
       "unitRef": "fire-mage",
-      "description": "Glass cannon \u2014 scorches enemies through walls.",
+      "description": "Glass cannon — scorches enemies through walls.",
       "deckCount": 1,
       "lore": "Extremely dangerous. Mostly to itself."
     },
@@ -4875,7 +4881,7 @@
       "cost": 3,
       "cardType": "unit",
       "unitRef": "executioner",
-      "description": "Devastating melee blow \u2014 one hit, one kill.",
+      "description": "Devastating melee blow — one hit, one kill.",
       "deckCount": 1,
       "tags": [
         "citadel"
@@ -4888,7 +4894,7 @@
       "cost": 4,
       "cardType": "unit",
       "unitRef": "mammoth",
-      "description": "Armored beast \u2014 crushes through melee lines.",
+      "description": "Armored beast — crushes through melee lines.",
       "deckCount": 1,
       "lore": "Once a peaceful grazer. Someone put armour on it."
     },
@@ -4898,7 +4904,7 @@
       "cost": 3,
       "cardType": "unit",
       "unitRef": "dark-elf",
-      "description": "Ranged climber \u2014 scales walls then snipes.",
+      "description": "Ranged climber — scales walls then snipes.",
       "deckCount": 1,
       "tags": [
         "ashen"
@@ -4911,7 +4917,7 @@
       "cost": 3,
       "cardType": "unit",
       "unitRef": "necromancer",
-      "description": "Long-range magic \u2014 bypasses walls.",
+      "description": "Long-range magic — bypasses walls.",
       "deckCount": 1,
       "tags": [
         "ashen"
@@ -4924,7 +4930,7 @@
       "cost": 5,
       "cardType": "unit",
       "unitRef": "giant",
-      "description": "Towering brute \u2014 enormous HP and damage.",
+      "description": "Towering brute — enormous HP and damage.",
       "deckCount": 1,
       "lore": "Slow. Inevitable. Cannot open doors, but rarely needs to."
     },
@@ -4934,7 +4940,7 @@
       "cost": 4,
       "cardType": "unit",
       "unitRef": "wyvern",
-      "description": "Fast flying ranged \u2014 dominates from the air.",
+      "description": "Fast flying ranged — dominates from the air.",
       "deckCount": 1,
       "lore": "The dragon's practical cousin. Less fire, more punctuality."
     },
@@ -4944,7 +4950,7 @@
       "cost": 6,
       "cardType": "unit",
       "unitRef": "behemoth",
-      "description": "Ultimate melee titan \u2014 nearly unstoppable.",
+      "description": "Ultimate melee titan — nearly unstoppable.",
       "deckCount": 1,
       "lore": "There is no plan B for a Behemoth. There is often no plan A left either."
     },
@@ -5501,7 +5507,7 @@
         "type": "buffAttack",
         "amount": 6
       },
-      "description": "Titan ichor flows through your ranks \u2014 all units gain +6 attack.",
+      "description": "Titan ichor flows through your ranks — all units gain +6 attack.",
       "deckCount": 1,
       "lore": "Thick. Extremely thick."
     },
@@ -5543,7 +5549,7 @@
       "cost": 3,
       "cardType": "unit",
       "unitRef": "vine-golem",
-      "description": "Slow forest brute \u2014 twisted vines for fists.",
+      "description": "Slow forest brute — twisted vines for fists.",
       "deckCount": 0,
       "tags": [
         "forest"
@@ -5556,7 +5562,7 @@
       "cost": 1,
       "cardType": "unit",
       "unitRef": "spore-bat",
-      "description": "Fast flying swarm \u2014 ignores walls.",
+      "description": "Fast flying swarm — ignores walls.",
       "deckCount": 0,
       "tags": [
         "forest"
@@ -5582,7 +5588,7 @@
       "cost": 5,
       "cardType": "unit",
       "unitRef": "elder-treant",
-      "description": "Ancient forest titan \u2014 near-unstoppable.",
+      "description": "Ancient forest titan — near-unstoppable.",
       "deckCount": 0,
       "tags": [
         "forest"
@@ -5620,7 +5626,7 @@
         "attackRange": 0,
         "attackCooldownMs": 0
       },
-      "description": "Reinforced thorn barrier \u2014 tougher than stone.",
+      "description": "Reinforced thorn barrier — tougher than stone.",
       "deckCount": 0,
       "lore": "The thorns grow back faster than you can cut them."
     },
@@ -5657,7 +5663,7 @@
       "cost": 2,
       "cardType": "unit",
       "unitRef": "ironclad-guard",
-      "description": "Heavily armored \u2014 barely moves, never falls.",
+      "description": "Heavily armored — barely moves, never falls.",
       "deckCount": 0,
       "tags": [
         "citadel"
@@ -5670,7 +5676,7 @@
       "cost": 2,
       "cardType": "unit",
       "unitRef": "war-drummer",
-      "description": "Rallies the march \u2014 steady melee brawler.",
+      "description": "Rallies the march — steady melee brawler.",
       "deckCount": 0,
       "tags": [
         "citadel"
@@ -5683,7 +5689,7 @@
       "cost": 3,
       "cardType": "unit",
       "unitRef": "siege-engineer",
-      "description": "Ranged expert \u2014 fires over walls from distance.",
+      "description": "Ranged expert — fires over walls from distance.",
       "deckCount": 0,
       "tags": [
         "citadel"
@@ -5696,7 +5702,7 @@
       "cost": 1,
       "cardType": "unit",
       "unitRef": "shield-wall-soldier",
-      "description": "Cheap tanky frontliner \u2014 absorbs punishment.",
+      "description": "Cheap tanky frontliner — absorbs punishment.",
       "deckCount": 0,
       "tags": [
         "citadel"
@@ -5709,7 +5715,7 @@
       "cost": 3,
       "cardType": "unit",
       "unitRef": "grizzled-veteran",
-      "description": "Battle-hardened warrior \u2014 reliable and deadly.",
+      "description": "Battle-hardened warrior — reliable and deadly.",
       "deckCount": 0,
       "tags": [
         "citadel"
@@ -5775,7 +5781,7 @@
       "cost": 2,
       "cardType": "unit",
       "unitRef": "bone-archer",
-      "description": "Undead ranged \u2014 fires through walls.",
+      "description": "Undead ranged — fires through walls.",
       "deckCount": 0,
       "tags": [
         "ashen"
@@ -5788,7 +5794,7 @@
       "cost": 3,
       "cardType": "unit",
       "unitRef": "wight-knight",
-      "description": "Armored undead \u2014 relentless and hard to kill.",
+      "description": "Armored undead — relentless and hard to kill.",
       "deckCount": 0,
       "tags": [
         "ashen"
@@ -5801,7 +5807,7 @@
       "cost": 3,
       "cardType": "unit",
       "unitRef": "ash-elemental",
-      "description": "Flying scorched spirit \u2014 burns through all defenses.",
+      "description": "Flying scorched spirit — burns through all defenses.",
       "deckCount": 0,
       "tags": [
         "ashen"
@@ -5814,7 +5820,7 @@
       "cost": 2,
       "cardType": "unit",
       "unitRef": "revenant",
-      "description": "Fast flying ghost \u2014 refuses to stay dead.",
+      "description": "Fast flying ghost — refuses to stay dead.",
       "deckCount": 0,
       "tags": [
         "ashen"
@@ -5827,7 +5833,7 @@
       "cost": 2,
       "cardType": "unit",
       "unitRef": "lich-apprentice",
-      "description": "Ranged dark magic \u2014 bypasses walls.",
+      "description": "Ranged dark magic — bypasses walls.",
       "deckCount": 0,
       "tags": [
         "ashen"
@@ -5852,7 +5858,7 @@
         "attackRange": 0,
         "attackCooldownMs": 0
       },
-      "description": "Skeletal barrier \u2014 sturdier than it looks.",
+      "description": "Skeletal barrier — sturdier than it looks.",
       "deckCount": 0,
       "lore": "Unpleasant to look at. Effective to hide behind."
     },
@@ -5902,7 +5908,7 @@
       "cost": 1,
       "cardType": "unit",
       "unitRef": "mana-wisp",
-      "description": "Fast ranged magic \u2014 bypasses walls.",
+      "description": "Fast ranged magic — bypasses walls.",
       "deckCount": 0,
       "tags": [
         "spire"
@@ -6034,7 +6040,7 @@
         "type": "buffSpeed",
         "amount": 14
       },
-      "description": "Raw mana floods your units \u2014 all gain +14 move speed.",
+      "description": "Raw mana floods your units — all gain +14 move speed.",
       "deckCount": 0,
       "lore": "Flood your units with raw mana. The side effects are someone else's problem."
     },
@@ -6050,7 +6056,7 @@
         "type": "buffRange",
         "amount": 22
       },
-      "description": "Arcane precision extends all ranged units\u2019 attack range by 22.",
+      "description": "Arcane precision extends all ranged units’ attack range by 22.",
       "deckCount": 0,
       "lore": "Optimal resource usage. The Archivist has seventeen papers on the subject."
     },
@@ -6063,7 +6069,7 @@
       "tags": [
         "forest"
       ],
-      "description": "Ranged forest guardian \u2014 her arrows find gaps in any wall.",
+      "description": "Ranged forest guardian — her arrows find gaps in any wall.",
       "lore": "She does not fight for the forest. She is the forest's will made arrow.",
       "deckCount": 0
     },
@@ -6076,7 +6082,7 @@
       "tags": [
         "forest"
       ],
-      "description": "Massive fungal brute \u2014 slow but nearly unstoppable.",
+      "description": "Massive fungal brute — slow but nearly unstoppable.",
       "lore": "The spores are not a side effect. They are the point.",
       "deckCount": 0
     },
@@ -6089,7 +6095,7 @@
       "tags": [
         "forest"
       ],
-      "description": "Tiny flying scout \u2014 fast, fragile, and surprisingly vicious.",
+      "description": "Tiny flying scout — fast, fragile, and surprisingly vicious.",
       "lore": "Never trust anything that fits in your ear.",
       "deckCount": 0
     },
@@ -6102,7 +6108,7 @@
       "tags": [
         "forest"
       ],
-      "description": "Slimy ambush predator \u2014 bypasses walls by going under them.",
+      "description": "Slimy ambush predator — bypasses walls by going under them.",
       "lore": "The swamp does not give back what it takes.",
       "deckCount": 0
     },
@@ -6115,7 +6121,7 @@
       "tags": [
         "forest"
       ],
-      "description": "Ancient armoured colossus \u2014 centuries of moss and spite.",
+      "description": "Ancient armoured colossus — centuries of moss and spite.",
       "lore": "It was not built in a day. Or a year. Or a century.",
       "deckCount": 0
     },
@@ -6195,7 +6201,7 @@
           "amount": 1
         }
       },
-      "description": "Ancient root system \u2014 draws mana from the earth each turn.",
+      "description": "Ancient root system — draws mana from the earth each turn.",
       "lore": "Every tree in the shard is connected. You just tapped in.",
       "deckCount": 0
     },
@@ -6211,7 +6217,7 @@
         "type": "buffMaxHp",
         "amount": 12
       },
-      "description": "All units toughened by forest growth \u2014 gain 12 max HP.",
+      "description": "All units toughened by forest growth — gain 12 max HP.",
       "lore": "The forest heals what it does not consume.",
       "deckCount": 0
     },
@@ -6243,7 +6249,7 @@
         "type": "buffSpeed",
         "amount": 16
       },
-      "description": "Spores energise all units \u2014 gain +16 move speed.",
+      "description": "Spores energise all units — gain +16 move speed.",
       "lore": "It's probably not toxic. Probably.",
       "deckCount": 0
     },
@@ -6259,7 +6265,7 @@
         "type": "buffMaxHp",
         "amount": 25
       },
-      "description": "Roots fortify all your units \u2014 gain +25 max HP.",
+      "description": "Roots fortify all your units — gain +25 max HP.",
       "lore": "Rooted. Immovable. Unkillable.",
       "deckCount": 0
     },
@@ -6275,7 +6281,7 @@
         "type": "buffSpeed",
         "amount": 22
       },
-      "description": "Primal energy surges through your forces \u2014 all units gain +22 move speed.",
+      "description": "Primal energy surges through your forces — all units gain +22 move speed.",
       "lore": "The Verdant Shard does not negotiate.",
       "deckCount": 0
     },
@@ -6288,7 +6294,7 @@
       "tags": [
         "iron"
       ],
-      "description": "Slow siege crew \u2014 prioritises destroying walls.",
+      "description": "Slow siege crew — prioritises destroying walls.",
       "lore": "They have never met a gate they couldn't open.",
       "deckCount": 0
     },
@@ -6301,7 +6307,7 @@
       "tags": [
         "iron"
       ],
-      "description": "Fast mounted scout \u2014 harasses weak ranged units.",
+      "description": "Fast mounted scout — harasses weak ranged units.",
       "lore": "Speed is armour. Most of the time.",
       "deckCount": 0
     },
@@ -6314,7 +6320,7 @@
       "tags": [
         "iron"
       ],
-      "description": "High burst damage \u2014 ignores walls, destroys them first.",
+      "description": "High burst damage — ignores walls, destroys them first.",
       "lore": "Explosives are a planning tool. Mostly.",
       "deckCount": 0
     },
@@ -6327,7 +6333,7 @@
       "tags": [
         "iron"
       ],
-      "description": "Tunnellers \u2014 bypass walls, target enemy buildings.",
+      "description": "Tunnellers — bypass walls, target enemy buildings.",
       "lore": "You can't defend what you can't find.",
       "deckCount": 0
     },
@@ -6340,7 +6346,7 @@
       "tags": [
         "iron"
       ],
-      "description": "Long-range siege archers \u2014 bypass walls, devastate large units.",
+      "description": "Long-range siege archers — bypass walls, devastate large units.",
       "lore": "Precision, patience, penetration.",
       "deckCount": 0
     },
@@ -6366,7 +6372,7 @@
           "amount": 2
         }
       },
-      "description": "Elevated fortification \u2014 boosts nearby unit attack by 2.",
+      "description": "Elevated fortification — boosts nearby unit attack by 2.",
       "lore": "Height is an advantage. Build higher.",
       "deckCount": 0
     },
@@ -6388,7 +6394,7 @@
         "attackRange": 0,
         "attackCooldownMs": 0
       },
-      "description": "Iron-reinforced wall \u2014 twice the HP of a stone wall.",
+      "description": "Iron-reinforced wall — twice the HP of a stone wall.",
       "lore": "Iron holds. Stone merely delays.",
       "deckCount": 0
     },
@@ -6416,7 +6422,7 @@
         },
         "isMoat": true
       },
-      "description": "Water barrier \u2014 slows all units that cross it. Cannot be destroyed.",
+      "description": "Water barrier — slows all units that cross it. Cannot be destroyed.",
       "lore": "The water doesn't stop them. The mud does.",
       "deckCount": 0
     },
@@ -6432,7 +6438,7 @@
         "type": "buffMaxHp",
         "amount": 10
       },
-      "description": "Veterans of the Citadel \u2014 all units gain 10 max HP.",
+      "description": "Veterans of the Citadel — all units gain 10 max HP.",
       "lore": "Scars are scar tissue. Scar tissue is armour.",
       "deckCount": 0
     },
@@ -6448,7 +6454,7 @@
         "type": "buffMaxHp",
         "amount": 14
       },
-      "description": "Relentless training \u2014 all units gain +14 max HP.",
+      "description": "Relentless training — all units gain +14 max HP.",
       "lore": "The Iron Citadel doesn't breed heroes. It breeds soldiers.",
       "deckCount": 0
     },
@@ -6464,7 +6470,7 @@
         "type": "buffRange",
         "amount": 20
       },
-      "description": "Tactical positioning \u2014 all units gain +20 attack range.",
+      "description": "Tactical positioning — all units gain +20 attack range.",
       "lore": "Engage from distance. Dictate the terms.",
       "deckCount": 0
     },
@@ -6480,7 +6486,7 @@
         "type": "buffAttack",
         "amount": 3
       },
-      "description": "Regroup and strike harder \u2014 all units gain +3 attack.",
+      "description": "Regroup and strike harder — all units gain +3 attack.",
       "lore": "Retreat is not defeat. It is preparation.",
       "deckCount": 0
     },
@@ -6493,7 +6499,7 @@
       "tags": [
         "ashen"
       ],
-      "description": "Undead infiltrator \u2014 bypasses walls, targets buildings.",
+      "description": "Undead infiltrator — bypasses walls, targets buildings.",
       "lore": "You feel it before you see it. Then you don't see anything at all.",
       "deckCount": 0
     },
@@ -6506,7 +6512,7 @@
       "tags": [
         "ashen"
       ],
-      "description": "Dark ranged caster \u2014 magically bypasses defences.",
+      "description": "Dark ranged caster — magically bypasses defences.",
       "lore": "She does not cast spells. She tears them out of the world.",
       "deckCount": 0
     },
@@ -6519,7 +6525,7 @@
       "tags": [
         "ashen"
       ],
-      "description": "Titanic undead siege unit \u2014 destroys walls, shrugs off arrows.",
+      "description": "Titanic undead siege unit — destroys walls, shrugs off arrows.",
       "lore": "It is not one skeleton. It is all of them.",
       "deckCount": 0
     },
@@ -6532,7 +6538,7 @@
       "tags": [
         "ashen"
       ],
-      "description": "Flying undead spirit \u2014 ignores walls, phases through defences.",
+      "description": "Flying undead spirit — ignores walls, phases through defences.",
       "lore": "The cold you feel is not the temperature. It is the memory of warmth.",
       "deckCount": 0
     },
@@ -6629,7 +6635,7 @@
         "type": "buffAttack",
         "amount": 4
       },
-      "description": "Death fuels fury \u2014 all units gain +4 attack.",
+      "description": "Death fuels fury — all units gain +4 attack.",
       "lore": "They fight harder when they have nothing left to lose.",
       "deckCount": 0
     },
@@ -6645,7 +6651,7 @@
         "type": "healUnits",
         "amount": 10
       },
-      "description": "Drain life energy \u2014 restore 10 HP to all units.",
+      "description": "Drain life energy — restore 10 HP to all units.",
       "lore": "The Ashen Wastes give back. Eventually.",
       "deckCount": 0
     },
@@ -6661,7 +6667,7 @@
         "type": "buffSpeed",
         "amount": 10
       },
-      "description": "Plague-driven frenzy \u2014 all units gain +10 move speed.",
+      "description": "Plague-driven frenzy — all units gain +10 move speed.",
       "lore": "Even the dying don't stop moving.",
       "deckCount": 0
     },
@@ -6677,7 +6683,7 @@
         "type": "buffMaxHp",
         "amount": 20
       },
-      "description": "Forbidden rite \u2014 all units gain 20 max HP and are healed for it.",
+      "description": "Forbidden rite — all units gain 20 max HP and are healed for it.",
       "lore": "The price is someone else's.",
       "deckCount": 0
     },
@@ -6693,7 +6699,7 @@
         "type": "buffAttack",
         "amount": 8
       },
-      "description": "Unleash pure entropy \u2014 all units gain +8 attack.",
+      "description": "Unleash pure entropy — all units gain +8 attack.",
       "lore": "Everything falls apart. You just decided what falls apart first.",
       "deckCount": 0
     },
@@ -6706,7 +6712,7 @@
       "tags": [
         "arcane"
       ],
-      "description": "Tiny flying construct \u2014 fast and annoying in numbers.",
+      "description": "Tiny flying construct — fast and annoying in numbers.",
       "lore": "Someone thought this was a good idea. They were not wrong.",
       "deckCount": 0
     },
@@ -6719,7 +6725,7 @@
       "tags": [
         "arcane"
       ],
-      "description": "Ranged magic drainer \u2014 bypasses walls, feeds off mana.",
+      "description": "Ranged magic drainer — bypasses walls, feeds off mana.",
       "lore": "It doesn't attack you. It drains you. Same outcome.",
       "deckCount": 0
     },
@@ -6732,7 +6738,7 @@
       "tags": [
         "arcane"
       ],
-      "description": "Stationary magic cannon \u2014 devastating ranged fire.",
+      "description": "Stationary magic cannon. Devastating ranged fire. Targets heroes only.",
       "lore": "Immovable. Implacable. Inadvisable to stand near.",
       "deckCount": 0
     },
@@ -6745,7 +6751,7 @@
       "tags": [
         "arcane"
       ],
-      "description": "Flying void creature \u2014 phases through walls, medium ranged.",
+      "description": "Flying void creature — phases through walls, medium ranged.",
       "lore": "It does not come from nowhere. It comes from the space between things.",
       "deckCount": 0
     },
@@ -6758,7 +6764,7 @@
       "tags": [
         "arcane"
       ],
-      "description": "Time-manipulating mage \u2014 fast attack speed, magical bypass.",
+      "description": "Time-manipulating mage — fast attack speed, magical bypass.",
       "lore": "It has already won. It's being polite by playing it out.",
       "deckCount": 0
     },
@@ -6784,7 +6790,7 @@
           "amount": 3
         }
       },
-      "description": "Magical enchantment forge \u2014 boosts nearby unit attack by 3.",
+      "description": "Magical enchantment forge — boosts nearby unit attack by 3.",
       "lore": "It doesn't make weapons. It makes weapons angry.",
       "deckCount": 0
     },
@@ -6810,7 +6816,7 @@
           "speedMult": 1.5
         }
       },
-      "description": "Arcane disruption field \u2014 mana recharges 50% faster.",
+      "description": "Arcane disruption field — mana recharges 50% faster.",
       "lore": "It nullifies everything except mana. That was intentional.",
       "deckCount": 0
     },
@@ -6826,7 +6832,7 @@
         "type": "buffMaxHp",
         "amount": 12
       },
-      "description": "Crystal harmonics reinforce your units \u2014 all gain +12 max HP.",
+      "description": "Crystal harmonics reinforce your units — all gain +12 max HP.",
       "lore": "The Spire hums. Those who can hear it hum louder.",
       "deckCount": 0
     },
@@ -6842,7 +6848,7 @@
         "type": "buffSpeed",
         "amount": 20
       },
-      "description": "Tap into the void \u2014 all units gain +20 move speed.",
+      "description": "Tap into the void — all units gain +20 move speed.",
       "lore": "Void energy has side effects. None of them are boring.",
       "deckCount": 0
     },
@@ -6858,7 +6864,7 @@
         "type": "buffMaxHp",
         "amount": 25
       },
-      "description": "Rewind time on your units \u2014 all gain 25 max HP and are healed.",
+      "description": "Rewind time on your units — all gain 25 max HP and are healed.",
       "lore": "They have survived this battle before. They will again.",
       "deckCount": 0
     },
@@ -8389,7 +8395,7 @@
       "cost": 2,
       "cardType": "structure",
       "unitRef": "root-snare",
-      "description": "Ranged tower. Shoots binding root projectiles.",
+      "description": "Ranged tower. Shoots binding root projectiles. Targets ground units only.",
       "deckCount": 0,
       "tags": [
         "fungal"
@@ -8708,7 +8714,7 @@
       "cost": 2,
       "cardType": "structure",
       "unitRef": "frost-turret",
-      "description": "Ranged tower. Fires frozen bolts.",
+      "description": "Ranged tower. Fires frozen bolts. Targets ground units only.",
       "deckCount": 0,
       "tags": [
         "frost"
@@ -8734,7 +8740,7 @@
       "cost": 4,
       "cardType": "structure",
       "unitRef": "blizzard-spire",
-      "description": "Long-range tower. Reach and damage.",
+      "description": "Long-range tower. Reach and damage. Targets flying units only.",
       "deckCount": 0,
       "tags": [
         "frost",
@@ -9056,7 +9062,7 @@
       "cost": 2,
       "cardType": "structure",
       "unitRef": "mirage-tower",
-      "description": "Ranged tower. Hard to target.",
+      "description": "Ranged tower. Hard to target. Targets flying units only.",
       "deckCount": 0,
       "tags": [
         "sand"
@@ -9069,7 +9075,7 @@
       "cost": 4,
       "cardType": "structure",
       "unitRef": "desert-spire",
-      "description": "Long-range tower. Commands the dunes.",
+      "description": "Long-range tower. Commands the dunes. Targets ground units only.",
       "deckCount": 0,
       "tags": [
         "sand",
