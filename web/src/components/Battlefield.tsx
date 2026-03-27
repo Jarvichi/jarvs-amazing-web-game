@@ -8,7 +8,7 @@ import { BattleEventOverlay } from './BattleEventOverlay'
 import { isNoDamageMode, isDebugMode } from '../game/debug'
 import { MAX_UPGRADE_LEVEL } from '../game/engine'
 import { getRelicDef } from '../game/relics'
-import { getUnitLore } from '../game/cards'
+import { getUnitLore, getCardCatalog } from '../game/cards'
 import { Button } from './Button'
 import { loadPlayerName, loadPlayerAvatar } from '../game/questline'
 
@@ -603,10 +603,11 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
   const [heroLightning, setHeroLightning] = useState<{ owner: 'player' | 'opponent'; key: number } | null>(null)
   const [paused, setPaused] = useState(false)
   const [inspectedUnit, setInspectedUnit] = useState<Unit | null>(null)
+  const [showDeckViewer, setShowDeckViewer] = useState(false)
   const playerName   = loadPlayerName()
   const playerAvatar = loadPlayerAvatar()
 
-  const doPause = (p: boolean) => { setPaused(p); onPause?.(p); if (!p) setInspectedUnit(null) }
+  const doPause = (p: boolean) => { setPaused(p); onPause?.(p); if (!p) { setInspectedUnit(null); setShowDeckViewer(false) } }
   const prevHeroIdsRef = useRef<Set<string>>(new Set())
 
   // Detect when a new hero unit appears on the field and fire the lightning effect
@@ -991,11 +992,46 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
 
                 <Button size="xs" style={{ marginTop: 4 }} onClick={() => setInspectedUnit(null)}>← Back</Button>
               </div>
+            ) : showDeckViewer ? (
+              <div className="bf-deck-viewer">
+                <div className="bf-deck-viewer-header">
+                  <span>MY DECK</span>
+                  <Button size="xs" onClick={() => setShowDeckViewer(false)}>← Back</Button>
+                </div>
+                <div className="bf-deck-viewer-list">
+                  {(() => {
+                    const catalog = getCardCatalog()
+                    const inHand = new Set(state.playerHand.map(c => c.id))
+                    const handCards = state.playerHand.map(c => ({ card: c, status: 'hand' as const }))
+                    const deckCards = state.playerDeck.map(c => ({ card: c, status: 'deck' as const }))
+                    const playedCards = Object.entries(state.battleStats?.cardsPlayed ?? {}).flatMap(([name, count]) => {
+                      const found = catalog.find(c => c.name === name)
+                      if (!found) return []
+                      return Array.from<unknown, { card: Card & { id: string }; status: 'played' }>(
+                        { length: count },
+                        (_, i) => ({ card: { ...found, id: `played-${name}-${i}` }, status: 'played' as const })
+                      )
+                    })
+                    const all = [...handCards, ...deckCards, ...playedCards]
+                    if (all.length === 0) return <span className="field-empty">No cards</span>
+                    return all.map(({ card, status }) => (
+                      <div key={card.id} className={`bf-deck-row bf-deck-row--${status}`}>
+                        <span className="bf-deck-row-cost">{card.cost}</span>
+                        <span className="bf-deck-row-name">{card.name}</span>
+                        <span className="bf-deck-row-type">{card.cardType}</span>
+                        {status === 'hand' && <span className="bf-deck-row-badge">HAND</span>}
+                        {status === 'played' && <span className="bf-deck-row-badge bf-deck-row-badge--played">PLAYED</span>}
+                      </div>
+                    ))
+                  })()}
+                </div>
+              </div>
             ) : (
               <>
                 <div className="bf-pause-hint">Tap a unit or building on the field to inspect it</div>
                 <div className="bf-pause-actions">
                   <Button size="lg" onClick={() => doPause(false)}>▶ Resume</Button>
+                  <Button size="md" onClick={() => setShowDeckViewer(true)}>📋 My Deck</Button>
                   {onGiveUp && (
                     <Button size="md" variant="danger" onClick={onGiveUp}>✕ Give Up</Button>
                   )}
