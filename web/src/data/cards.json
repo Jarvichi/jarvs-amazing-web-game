@@ -4666,6 +4666,297 @@
         "wall"
       ],
       "size": "medium"
+    },
+    "gear-scout": {
+      "name": "Gear Scout",
+      "attack": 4,
+      "maxHp": 11,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 70,
+      "attackRange": 5,
+      "attackCooldownMs": 1100,
+      "flying": false,
+      "tags": [
+        "fast",
+        "small"
+      ],
+      "strengths": [
+        "fast",
+        "melee"
+      ],
+      "weaknesses": [
+        "armored",
+        "ranged"
+      ],
+      "size": "small"
+    },
+    "cog-runner": {
+      "name": "Cog Runner",
+      "attack": 5,
+      "maxHp": 13,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 75,
+      "attackRange": 5,
+      "attackCooldownMs": 1100,
+      "flying": false,
+      "tags": [
+        "fast",
+        "small"
+      ],
+      "strengths": [
+        "fast",
+        "melee"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "size": "small"
+    },
+    "brass-sentry": {
+      "name": "Brass Sentry",
+      "attack": 6,
+      "maxHp": 24,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 45,
+      "attackRange": 5,
+      "attackCooldownMs": 1300,
+      "flying": false,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "strengths": [
+        "armored",
+        "melee"
+      ],
+      "weaknesses": [
+        "magic",
+        "fast"
+      ],
+      "size": "medium"
+    },
+    "vault-guardian": {
+      "name": "Vault Guardian",
+      "attack": 7,
+      "maxHp": 28,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 42,
+      "attackRange": 5,
+      "attackCooldownMs": 1400,
+      "flying": false,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "strengths": [
+        "armored",
+        "siege",
+        "melee"
+      ],
+      "weaknesses": [
+        "magic",
+        "fast"
+      ],
+      "size": "medium"
+    },
+    "clockwork-archer": {
+      "name": "Clockwork Archer",
+      "attack": 6,
+      "maxHp": 17,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 50,
+      "attackRange": 80,
+      "attackCooldownMs": 1300,
+      "flying": false,
+      "tags": [
+        "ranged"
+      ],
+      "strengths": [
+        "flying",
+        "ranged"
+      ],
+      "weaknesses": [
+        "armored",
+        "fast"
+      ],
+      "size": "small"
+    },
+    "piston-brawler": {
+      "name": "Piston Brawler",
+      "attack": 8,
+      "maxHp": 26,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 50,
+      "attackRange": 5,
+      "attackCooldownMs": 1300,
+      "flying": false,
+      "tags": [
+        "melee"
+      ],
+      "strengths": [
+        "melee",
+        "siege"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "size": "medium"
+    },
+    "steam-walker": {
+      "name": "Steam Walker",
+      "attack": 9,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 48,
+      "attackRange": 5,
+      "attackCooldownMs": 1400,
+      "flying": false,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "strengths": [
+        "armored",
+        "siege",
+        "melee"
+      ],
+      "weaknesses": [
+        "magic",
+        "fast"
+      ],
+      "size": "medium"
+    },
+    "vault-drone": {
+      "name": "Vault Drone",
+      "attack": 8,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 75,
+      "attackRange": 5,
+      "attackCooldownMs": 1200,
+      "flying": true,
+      "tags": [
+        "flying",
+        "fast"
+      ],
+      "strengths": [
+        "flying",
+        "fast",
+        "melee"
+      ],
+      "weaknesses": [
+        "ranged",
+        "armored"
+      ],
+      "size": "small"
+    },
+    "iron-colossus": {
+      "name": "Iron Colossus",
+      "attack": 11,
+      "maxHp": 50,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 33,
+      "attackRange": 5,
+      "attackCooldownMs": 2100,
+      "flying": false,
+      "tags": [
+        "melee",
+        "armored",
+        "slow",
+        "large"
+      ],
+      "strengths": [
+        "armored",
+        "siege",
+        "wall"
+      ],
+      "weaknesses": [
+        "fast",
+        "magic"
+      ],
+      "size": "large"
+    },
+    "clockwork-titan": {
+      "name": "Clockwork Titan",
+      "attack": 13,
+      "maxHp": 62,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 36,
+      "attackRange": 5,
+      "attackCooldownMs": 2200,
+      "flying": false,
+      "tags": [
+        "melee",
+        "armored",
+        "large"
+      ],
+      "strengths": [
+        "armored",
+        "siege",
+        "wall",
+        "melee"
+      ],
+      "weaknesses": [
+        "magic",
+        "fast"
+      ],
+      "size": "large"
+    },
+    "the-grand-automaton": {
+      "name": "The Grand Automaton",
+      "attack": 16,
+      "maxHp": 95,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 40,
+      "attackRange": 5,
+      "attackCooldownMs": 2000,
+      "flying": false,
+      "tags": [
+        "melee",
+        "large",
+        "armored",
+        "legendary"
+      ],
+      "strengths": [
+        "armored",
+        "siege",
+        "wall",
+        "melee"
+      ],
+      "weaknesses": [
+        "magic",
+        "fast"
+      ],
+      "size": "large"
+    },
+    "gear-wall": {
+      "name": "Gear Wall",
+      "attack": 0,
+      "maxHp": 28,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "tags": [
+        "structure",
+        "wall"
+      ],
+      "size": "medium"
     }
   },
   "cards": [
@@ -10741,6 +11032,380 @@
         "storm"
       ],
       "lore": "Older than the coast itself. Possibly older than the sea."
+    },
+    {
+      "name": "Gear Scout",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "gear-scout",
+      "description": "A fast clockwork forward unit.",
+      "deckCount": 3,
+      "tags": [
+        "clockwork",
+        "vault"
+      ],
+      "lore": "Built to arrive first and report back. They rarely bother reporting."
+    },
+    {
+      "name": "Cog Runner",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "unit",
+      "unitRef": "cog-runner",
+      "description": "Sprints ahead on spinning cog-legs.",
+      "deckCount": 3,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "The clockwork never tires. That's rather the point."
+    },
+    {
+      "name": "Brass Sentry",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "brass-sentry",
+      "description": "Armored clockwork guard.",
+      "deckCount": 2,
+      "tags": [
+        "vault"
+      ],
+      "lore": "Wound once. Guards forever."
+    },
+    {
+      "name": "Vault Scrap",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffHp",
+        "amount": 5
+      },
+      "description": "Spare gear plating bolsters a unit.",
+      "deckCount": 2,
+      "tags": [
+        "vault"
+      ],
+      "lore": "Nothing in the vaults is wasted."
+    },
+    {
+      "name": "Gear Assembly",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "spawn",
+        "spawnUnitRef": "gear-scout",
+        "intervalMs": 6500
+      },
+      "description": "Assembles gear scouts from stored components.",
+      "deckCount": 2,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "The gears mesh. The unit walks out."
+    },
+    {
+      "name": "Pressure Valve",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "mana",
+        "intervalMs": 4500,
+        "unit": {
+          "name": "Pressure Valve",
+          "hp": 12,
+          "attack": 0,
+          "speed": 0,
+          "tags": [
+            "clockwork"
+          ]
+        }
+      },
+      "description": "Converts steam pressure into mana.",
+      "deckCount": 2,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "The vaults breathe."
+    },
+    {
+      "name": "Clockwork Tune",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffSpeed",
+        "amount": 10
+      },
+      "description": "Adjusts a unit's drive gears for greater speed.",
+      "deckCount": 2,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "Tighten the spring. Let it run."
+    },
+    {
+      "name": "Clockwork Archer",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "unit",
+      "unitRef": "clockwork-archer",
+      "description": "Ranged clockwork skirmisher.",
+      "deckCount": 2,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "Precision-built. Never misses the same target twice."
+    },
+    {
+      "name": "Vault Guardian",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "vault-guardian",
+      "description": "Heavy vault defender.",
+      "deckCount": 2,
+      "tags": [
+        "vault"
+      ],
+      "lore": "Sealed chambers don't need guards. But the Automaton insists."
+    },
+    {
+      "name": "Piston Brawler",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "piston-brawler",
+      "description": "Uses hydraulic pistons to smash through lines.",
+      "deckCount": 2,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "Impact rated at 40 tonnes. Not tested on living subjects. Yet."
+    },
+    {
+      "name": "Vault Drone",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "vault-drone",
+      "description": "Flying clockwork scout. Bypasses walls.",
+      "deckCount": 2,
+      "tags": [
+        "clockwork",
+        "vault"
+      ],
+      "lore": "It sees everything the Automaton needs to see."
+    },
+    {
+      "name": "Gear Wall",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "spawn",
+        "spawnUnitRef": "brass-sentry",
+        "intervalMs": 0
+      },
+      "description": "An interlocking gear barrier.",
+      "deckCount": 2,
+      "tags": [
+        "vault"
+      ],
+      "lore": "Immovable. Unless you have the right key."
+    },
+    {
+      "name": "Clockwork Forge",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "spawn",
+        "spawnUnitRef": "piston-brawler",
+        "intervalMs": 7500
+      },
+      "description": "Continuously produces piston brawlers.",
+      "deckCount": 2,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "The forge never stops."
+    },
+    {
+      "name": "Vault Repair Bay",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "healAura",
+        "auraHpPerSec": 3,
+        "auraRange": 120
+      },
+      "description": "Auto-repairs nearby clockwork units.",
+      "deckCount": 2,
+      "tags": [
+        "vault"
+      ],
+      "lore": "Everything broken can be fixed. Given time."
+    },
+    {
+      "name": "Overcharge",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffAttack",
+        "amount": 3
+      },
+      "description": "Overcharges a unit's power core for extra damage.",
+      "deckCount": 2,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "Warranty void. Performance guaranteed."
+    },
+    {
+      "name": "Gear Sprint",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "buffSpeed",
+        "amount": 18
+      },
+      "description": "Cranks the drive mechanism to maximum.",
+      "deckCount": 2,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "Too fast to stop. Right on schedule."
+    },
+    {
+      "name": "Vault Burst",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "aoe",
+        "damage": 4,
+        "range": 135
+      },
+      "description": "Discharges a capacitor bank for area damage.",
+      "deckCount": 2,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "Not recommended for use indoors."
+    },
+    {
+      "name": "Steam Walker",
+      "rarity": "uncommon",
+      "cost": 4,
+      "cardType": "unit",
+      "unitRef": "steam-walker",
+      "description": "Heavy steam-powered walker.",
+      "deckCount": 2,
+      "tags": [
+        "clockwork",
+        "vault"
+      ],
+      "lore": "It walks. Nothing stops it."
+    },
+    {
+      "name": "Iron Colossus",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "iron-colossus",
+      "description": "Enormous armored war machine.",
+      "deckCount": 1,
+      "tags": [
+        "clockwork",
+        "vault"
+      ],
+      "lore": "Built to hold a vault. Repurposed to take one."
+    },
+    {
+      "name": "Clockwork Titan",
+      "rarity": "rare",
+      "cost": 5,
+      "cardType": "unit",
+      "unitRef": "clockwork-titan",
+      "description": "Apex clockwork war engine.",
+      "deckCount": 1,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "The last thing the Automaton built before it stopped building."
+    },
+    {
+      "name": "Titan Forge",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "spawn",
+        "spawnUnitRef": "clockwork-titan",
+        "intervalMs": 10000
+      },
+      "description": "Produces clockwork titans over time.",
+      "deckCount": 1,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "Slow. Patient. Inevitable."
+    },
+    {
+      "name": "Drone Array",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "structureEffect": {
+        "type": "spawn",
+        "spawnUnitRef": "vault-drone",
+        "intervalMs": 5500
+      },
+      "description": "Rapidly spawns vault drones.",
+      "deckCount": 1,
+      "tags": [
+        "vault"
+      ],
+      "lore": "Fills the air with purpose."
+    },
+    {
+      "name": "Overload",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "upgrade",
+      "upgradeEffect": {
+        "type": "aoe",
+        "damage": 8,
+        "range": 175
+      },
+      "description": "Catastrophic power core discharge.",
+      "deckCount": 1,
+      "tags": [
+        "clockwork"
+      ],
+      "lore": "The last reading on the gauge. The one after explosion."
+    },
+    {
+      "name": "The Grand Automaton",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "the-grand-automaton",
+      "description": "The Clockwork Vaults' apex construct. Unstoppable.",
+      "deckCount": 1,
+      "tags": [
+        "clockwork",
+        "vault",
+        "legendary"
+      ],
+      "lore": "It was not built to guard the vaults. It built itself. Then it built the vaults around itself."
     }
   ],
   "heroCards": [

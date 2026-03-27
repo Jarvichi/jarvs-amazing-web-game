@@ -162,7 +162,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [x] Act 10 — The Sand Market (session 27: 25 sand/mercenary cards, act10.json, dunebaron AI, Golden Compass relic)
 - [x] Act 11 — The Verdant Canopy (session 29: 25 canopy/ancient cards, act11.json, elderwarden AI, Living Bark relic)
 - [x] Act 12 — The Shattered Coast (session 29: 26 wreck/storm cards, act12.json, harbormaster AI, Salvage Hook relic)
-- [ ] Act 13 — The Clockwork Vaults
+- [x] Act 13 — The Clockwork Vaults (session 29: 25 clockwork/vault cards, act13.json, grandautomaton AI, Gear Heart relic with engine ATK-on-spawn hook)
 - [ ] Act 14 — The Plague Fens
 - [ ] Act 15 — The Glass Wastes
 - [ ] Act 16 — The Mirrorlands
