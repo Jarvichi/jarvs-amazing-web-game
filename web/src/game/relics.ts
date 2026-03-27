@@ -114,6 +114,15 @@ const RELIC_CATALOG: RelicDef[] = [
       }
     },
   },
+  {
+    name: 'Living Bark',
+    icon: '🌿',
+    desc: 'Your base gains +15 max HP at the start of every battle.',
+    applyToGame(state) {
+      state.playerBase.maxHp += 15
+      state.playerBase.hp   += 15
+    },
+  },
 ]
 
 export function getRelicDef(name: string): RelicDef | undefined {

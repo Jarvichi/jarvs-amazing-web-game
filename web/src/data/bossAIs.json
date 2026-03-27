@@ -2,11 +2,11 @@
   {
     "id": "thornlord",
     "intervalMs": 6000,
-    "idleMessage": "The Thornlord is still…",
+    "idleMessage": "The Thornlord is still\u2026",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE THORNLORD awakens! Ancient guardian of the Verdant Shard.",
-      "Walls of bark and root rise from the earth — prepare for a siege!"
+      "Walls of bark and root rise from the earth \u2014 prepare for a siege!"
     ],
     "trait": {
       "name": "Burrow",
@@ -21,18 +21,33 @@
         "landingRadiusTiles": 2,
         "repositionTarget": "random"
       },
-      "announceText": "The Thornlord BURROWS! Watch the earth — it will rise again!",
-      "surfaceText": "The earth SPLITS — the Thornlord erupts!"
+      "announceText": "The Thornlord BURROWS! Watch the earth \u2014 it will rise again!",
+      "surfaceText": "The earth SPLITS \u2014 the Thornlord erupts!"
     },
     "phases": [
       {
         "condition": null,
         "priorities": [
-          { "cardType": "structure", "isWall": true },
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "structure", "structureEffect": "mana" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_asc" },
-          { "cardType": "upgrade" }
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "mana"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
         ]
       }
     ]
@@ -40,7 +55,7 @@
   {
     "id": "kragg",
     "intervalMs": 5000,
-    "idleMessage": "Kragg waits behind the wall…",
+    "idleMessage": "Kragg waits behind the wall\u2026",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "WARLORD KRAGG takes the field! Iron discipline, iron walls, iron will.",
@@ -60,17 +75,34 @@
         "stunDurationMs": 1500,
         "landingTarget": "player_side_random"
       },
-      "announceText": "KRAGG LEAPS — brace for impact!",
-      "landText": "BOOM — the ground shakes! Units near the crater are stunned!"
+      "announceText": "KRAGG LEAPS \u2014 brace for impact!",
+      "landText": "BOOM \u2014 the ground shakes! Units near the crater are stunned!"
     },
     "phases": [
       {
         "condition": null,
         "priorities": [
-          { "cardType": "structure", "isWall": false, "nameIn": ["Catapult", "Ballista", "Siege Works"] },
-          { "cardType": "structure", "isWall": true },
-          { "cardType": "upgrade" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" }
+          {
+            "cardType": "structure",
+            "isWall": false,
+            "nameIn": [
+              "Catapult",
+              "Ballista",
+              "Siege Works"
+            ]
+          },
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "upgrade"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          }
         ]
       }
     ]
@@ -78,11 +110,11 @@
   {
     "id": "ashwalker",
     "intervalMs": 4500,
-    "idleMessage": "The ash stirs…",
+    "idleMessage": "The ash stirs\u2026",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE ASHWALKER stirs. The ash rises. The dead remember.",
-      "An undying horde answers the call — destroy them before they overwhelm you!"
+      "An undying horde answers the call \u2014 destroy them before they overwhelm you!"
     ],
     "trait": {
       "name": "Ashen Split",
@@ -94,28 +126,57 @@
       "mechanics": {
         "splitCount": 3,
         "hpDivisor": 3,
-        "positions": ["left_flank", "centre", "right_flank"],
+        "positions": [
+          "left_flank",
+          "centre",
+          "right_flank"
+        ],
         "allMustDie": true
       },
-      "announceText": "The Ashwalker SPLITS — three shadows rise from the ash! Destroy them all!",
-      "splitLog": "The ash swirls… three shapes emerge across the field. Destroy them ALL!"
+      "announceText": "The Ashwalker SPLITS \u2014 three shadows rise from the ash! Destroy them all!",
+      "splitLog": "The ash swirls\u2026 three shapes emerge across the field. Destroy them ALL!"
     },
     "phases": [
       {
-        "condition": { "opponentFieldCountGte": 3 },
+        "condition": {
+          "opponentFieldCountGte": 3
+        },
         "priorities": [
-          { "cardType": "upgrade", "nameIn": ["Bloodlust"] },
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_asc" },
-          { "cardType": "upgrade" }
+          {
+            "cardType": "upgrade",
+            "nameIn": [
+              "Bloodlust"
+            ]
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
         ]
       },
       {
         "condition": null,
         "priorities": [
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_asc" },
-          { "cardType": "upgrade" }
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
         ]
       }
     ]
@@ -123,11 +184,11 @@
   {
     "id": "archivist",
     "intervalMs": 5000,
-    "idleMessage": "The Archivist catalogues…",
+    "idleMessage": "The Archivist catalogues\u2026",
     "maxPlaysPerTurn": 3,
     "openingLog": [
-      "THE ARCHIVIST opens the archive. Every spell in the Dominion catalogue — ready.",
-      "Arcane constructs flood the field. At turn eight, his mana becomes limitless — act fast!"
+      "THE ARCHIVIST opens the archive. Every spell in the Dominion catalogue \u2014 ready.",
+      "Arcane constructs flood the field. At turn eight, his mana becomes limitless \u2014 act fast!"
     ],
     "trait": {
       "name": "Arcane Ascension",
@@ -143,29 +204,59 @@
         "stunDurationMs": 3000,
         "repositionTarget": "battlefield_centre"
       },
-      "announceText": "The Archivist ASCENDS — arcane light blinds the field!",
-      "landText": "ARCANE SHOCKWAVE — all units are silenced!"
+      "announceText": "The Archivist ASCENDS \u2014 arcane light blinds the field!",
+      "landText": "ARCANE SHOCKWAVE \u2014 all units are silenced!"
     },
     "phases": [
       {
-        "condition": { "gameTimeGte": 120000 },
+        "condition": {
+          "gameTimeGte": 120000
+        },
         "manaOverride": 99,
         "maxPlaysOverride": 6,
-        "announceOnce": "THE ARCHIVE OPENS — The Archivist's mana becomes limitless!",
+        "announceOnce": "THE ARCHIVE OPENS \u2014 The Archivist's mana becomes limitless!",
         "priorities": [
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "structure", "isWall": false, "structureEffect": "none" },
-          { "cardType": "upgrade", "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" }
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "structure",
+            "isWall": false,
+            "structureEffect": "none"
+          },
+          {
+            "cardType": "upgrade",
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          }
         ]
       },
       {
         "condition": null,
         "priorities": [
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "structure", "isWall": false, "structureEffect": "none" },
-          { "cardType": "upgrade", "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" }
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "structure",
+            "isWall": false,
+            "structureEffect": "none"
+          },
+          {
+            "cardType": "upgrade",
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          }
         ]
       }
     ]
@@ -173,11 +264,11 @@
   {
     "id": "tidalsovereign",
     "intervalMs": 4800,
-    "idleMessage": "The tide shifts…",
+    "idleMessage": "The tide shifts\u2026",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE TIDAL SOVEREIGN surfaces. The reef shudders. The deep comes with it.",
-      "Wave after wave crashes ashore — hold your ground or be dragged under!"
+      "Wave after wave crashes ashore \u2014 hold your ground or be dragged under!"
     ],
     "trait": {
       "name": "Riptide Surge",
@@ -192,28 +283,66 @@
         "wavePushTiles": 3,
         "repositionTarget": "opposite_flank"
       },
-      "announceText": "The Tidal Sovereign DIVES — a massive wave is incoming!",
-      "surfaceText": "RIPTIDE! The wave crashes — all units are pushed back!"
+      "announceText": "The Tidal Sovereign DIVES \u2014 a massive wave is incoming!",
+      "surfaceText": "RIPTIDE! The wave crashes \u2014 all units are pushed back!"
     },
     "phases": [
       {
-        "condition": { "wavePhaseEven": true },
+        "condition": {
+          "wavePhaseEven": true
+        },
         "priorities": [
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "unit", "isWall": false, "costGte": 5, "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "upgrade", "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false }
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 5,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade",
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          }
         ]
       },
       {
         "condition": null,
         "priorities": [
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "unit", "flying": true, "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false, "costGte": 5, "sortBy": "cost_desc" },
-          { "cardType": "upgrade", "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false }
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "flying": true,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 5,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade",
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          }
         ]
       }
     ]
@@ -221,11 +350,11 @@
   {
     "id": "paleengine",
     "intervalMs": 5200,
-    "idleMessage": "The Engine processes…",
+    "idleMessage": "The Engine processes\u2026",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE PALE ENGINE engages. Cold logic. No retreat. No mercy.",
-      "Walls first, then siege fire — don't let the turrets establish themselves."
+      "Walls first, then siege fire \u2014 don't let the turrets establish themselves."
     ],
     "trait": {
       "name": "Overload Cascade",
@@ -241,18 +370,35 @@
         "slowFactor": 0.5,
         "chargeUpMs": 1500
       },
-      "announceText": "OVERLOAD IMMINENT — the Engine's core destabilises!",
-      "fireText": "EMP CASCADE — a column of the field is devastated!"
+      "announceText": "OVERLOAD IMMINENT \u2014 the Engine's core destabilises!",
+      "fireText": "EMP CASCADE \u2014 a column of the field is devastated!"
     },
     "phases": [
       {
         "condition": null,
         "priorities": [
-          { "cardType": "structure", "isWall": true },
-          { "cardType": "structure", "isWall": false, "structureEffect": "none", "sortBy": "cost_desc" },
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "upgrade" }
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "structure",
+            "isWall": false,
+            "structureEffect": "none",
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade"
+          }
         ]
       }
     ]
@@ -260,17 +406,20 @@
   {
     "id": "dunebaron",
     "intervalMs": 4600,
-    "idleMessage": "The Baron reassesses…",
+    "idleMessage": "The Baron reassesses\u2026",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE DUNE BARON fields his forces. This is business. He takes it seriously.",
-      "Expensive units first, then structures to hold ground — the Baron invests to win."
+      "Expensive units first, then structures to hold ground \u2014 the Baron invests to win."
     ],
     "trait": {
       "name": "Sand Dive",
       "implemented": false,
       "trigger": "hp_pct_multi",
-      "triggerHpPcts": [66, 33],
+      "triggerHpPcts": [
+        66,
+        33
+      ],
       "type": "burrow",
       "description": "At 66% HP and again at 33% HP the Dune Baron plunges into the sand, becoming untargetable for 2 seconds. He resurfaces directly adjacent to the player's highest-HP unit, dealing 4 AOE damage to all player units within 1 tile of the landing spot and disorienting them for 2 seconds.",
       "mechanics": {
@@ -280,27 +429,61 @@
         "stunDurationMs": 2000,
         "repositionTarget": "nearest_player_highest_hp"
       },
-      "announceText": "The Baron VANISHES into the sand — where will he surface?",
-      "surfaceText": "He ERUPTS from the dunes — your strongest unit is the target!"
+      "announceText": "The Baron VANISHES into the sand \u2014 where will he surface?",
+      "surfaceText": "He ERUPTS from the dunes \u2014 your strongest unit is the target!"
     },
     "phases": [
       {
-        "condition": { "gameTimeLt": 35000 },
+        "condition": {
+          "gameTimeLt": 35000
+        },
         "priorities": [
-          { "cardType": "unit", "isWall": false, "costGte": 3, "sortBy": "cost_desc" },
-          { "cardType": "upgrade", "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false },
-          { "cardType": "structure", "isWall": false }
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 3,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade",
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "structure",
+            "isWall": false
+          }
         ]
       },
       {
         "condition": null,
         "priorities": [
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "structure", "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false, "costGte": 4, "sortBy": "cost_desc" },
-          { "cardType": "upgrade", "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false }
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "structure",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade",
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          }
         ]
       }
     ]
@@ -308,11 +491,11 @@
   {
     "id": "rootqueen",
     "intervalMs": 4800,
-    "idleMessage": "The mycelium pulses…",
+    "idleMessage": "The mycelium pulses\u2026",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE ROOT QUEEN stirs. The network connects. Everything down here is already hers.",
-      "Waves of crawlers first — then the deep growth. Don't let the spawners take root."
+      "Waves of crawlers first \u2014 then the deep growth. Don't let the spawners take root."
     ],
     "trait": {
       "name": "Mycelium Fracture",
@@ -324,33 +507,69 @@
       "mechanics": {
         "splitCount": 4,
         "hpDivisor": 4,
-        "positions": ["top_left", "top_right", "bottom_left", "bottom_right"],
+        "positions": [
+          "top_left",
+          "top_right",
+          "bottom_left",
+          "bottom_right"
+        ],
         "allMustDie": true,
         "nodesSpawnUnits": true,
         "nodeSpawnIntervalMs": 8000,
         "nodeSpawnUnitType": "crawler"
       },
-      "announceText": "The Root Queen FRACTURES — Spore Nodes erupt at the four corners!",
+      "announceText": "The Root Queen FRACTURES \u2014 Spore Nodes erupt at the four corners!",
       "splitLog": "Four Spore Nodes emerge at the corners of the field. Destroy them ALL to win!"
     },
     "phases": [
       {
-        "condition": { "gameTimeLt": 25000 },
+        "condition": {
+          "gameTimeLt": 25000
+        },
         "priorities": [
-          { "cardType": "unit", "isWall": false, "costLt": 3, "sortBy": "cost_asc" },
-          { "cardType": "unit", "isWall": false },
-          { "cardType": "upgrade" },
-          { "cardType": "structure", "isWall": false }
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costLt": 3,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          },
+          {
+            "cardType": "structure",
+            "isWall": false
+          }
         ]
       },
       {
         "condition": null,
         "priorities": [
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "structure", "structureEffect": "none" },
-          { "cardType": "unit", "isWall": false, "costGte": 4, "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false },
-          { "cardType": "upgrade" }
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "none"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          }
         ]
       }
     ]
@@ -358,11 +577,11 @@
   {
     "id": "cinderwarlord",
     "intervalMs": 5000,
-    "idleMessage": "The volcano rumbles…",
+    "idleMessage": "The volcano rumbles\u2026",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE CINDERWARLORD commands the caldera! He and the volcanoes have an understanding.",
-      "Early waves are fast and cheap — brace for the heavy assault once the forge fires up!"
+      "Early waves are fast and cheap \u2014 brace for the heavy assault once the forge fires up!"
     ],
     "trait": {
       "name": "Caldera Leap",
@@ -379,26 +598,54 @@
         "burnDurationMs": 5000,
         "landingTarget": "player_side_random"
       },
-      "announceText": "The Cinderwarlord DIVES into the volcano — incoming eruption!",
-      "landText": "METEOR IMPACT — the ground ignites! Stay out of the burn zone!"
+      "announceText": "The Cinderwarlord DIVES into the volcano \u2014 incoming eruption!",
+      "landText": "METEOR IMPACT \u2014 the ground ignites! Stay out of the burn zone!"
     },
     "phases": [
       {
-        "condition": { "gameTimeLt": 30000 },
+        "condition": {
+          "gameTimeLt": 30000
+        },
         "priorities": [
-          { "cardType": "unit", "isWall": false, "costLt": 4, "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false },
-          { "cardType": "upgrade" },
-          { "cardType": "structure" }
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costLt": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          },
+          {
+            "cardType": "structure"
+          }
         ]
       },
       {
         "condition": null,
         "priorities": [
-          { "cardType": "unit", "isWall": false, "costGte": 4, "sortBy": "cost_desc" },
-          { "cardType": "structure", "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false },
-          { "cardType": "upgrade" }
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          },
+          {
+            "cardType": "upgrade"
+          }
         ]
       }
     ]
@@ -406,11 +653,11 @@
   {
     "id": "cloudmarshal",
     "intervalMs": 4600,
-    "idleMessage": "The Cloudmarshal repositions…",
+    "idleMessage": "The Cloudmarshal repositions\u2026",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE CLOUDMARSHAL takes position. The sky belongs to the Dominion.",
-      "Aerial squadrons in formation — watch above as well as ahead!"
+      "Aerial squadrons in formation \u2014 watch above as well as ahead!"
     ],
     "trait": {
       "name": "Storm Dive",
@@ -427,17 +674,139 @@
         "stormDurationMs": 6000,
         "repositionTarget": "player_densest_cluster"
       },
-      "announceText": "The Cloudmarshal ASCENDS — he's calling in the storm strike!",
-      "landText": "STORM DIVE — the impact zone crackles with lightning!"
+      "announceText": "The Cloudmarshal ASCENDS \u2014 he's calling in the storm strike!",
+      "landText": "STORM DIVE \u2014 the impact zone crackles with lightning!"
     },
     "phases": [
       {
         "condition": null,
         "priorities": [
-          { "cardType": "structure", "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "unit", "flying": true, "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "upgrade", "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" }
+          {
+            "cardType": "structure",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "flying": true,
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade",
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "elderwarden",
+    "intervalMs": 4800,
+    "idleMessage": "The Verdant Canopy stirs\u2026",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE ELDER WARDEN descends from the canopy. Ancient. Patient. Immovable.",
+      "The canopy does not attack. It reclaims. Expect walls, roots, and something very large."
+    ],
+    "trait": {
+      "name": "Root Surge",
+      "implemented": false,
+      "trigger": "hp_pct_once",
+      "triggerHpPct": 50,
+      "type": "aoe_column",
+      "description": "At 50% HP the Elder Warden drives its roots into the earth, sending a shockwave along a random column. All player units in that column take 6 damage and are rooted (movement stopped) for 3 seconds.",
+      "mechanics": {
+        "damage": 6,
+        "rootDurationMs": 3000,
+        "columnWidth": 60
+      },
+      "announceText": "THE ELDER WARDEN PLUNGES ITS ROOTS \u2014 the ground trembles!"
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 3,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade",
+            "sortBy": "cost_desc"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 30000,
+          "gameTimeLt": 70000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "flying": true
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 4,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade"
+          },
+          {
+            "cardType": "structure",
+            "isWall": false
+          }
+        ]
+      },
+      {
+        "condition": null,
+        "manaOverride": 8,
+        "maxPlaysOverride": 4,
+        "announceOnce": "THE CANOPY AWAKENS \u2014 the Elder Warden calls everything to battle!",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "flying": true
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          }
         ]
       }
     ]
