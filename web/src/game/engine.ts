@@ -329,6 +329,8 @@ export interface NewGameOptions {
   opponentStartCards?: number
   /** Start in Endless Mode (wave survival). */
   endlessMode?: boolean
+  /** Fraction of player mobile units killed by boss shockwave (0.0–1.0). Default 0.5. Scales with run count. */
+  bossSpawnKillPct?: number
 }
 
 export function newGame(
@@ -360,6 +362,7 @@ export function newGame(
     environment,
     opponentIntervalMs: intervalOverride,
     opponentBaseHp: hpOverride,
+    bossSpawnKillPct,
   } = opts
 
   // Pre-built decks are already in seeded order — don't re-shuffle with Math.random()
@@ -469,6 +472,7 @@ export function newGame(
     endlessSurvivalMs: endlessMode ? 0 : undefined,
     endlessPlayerDeckTemplate: endlessMode ? [...playerDeck] : undefined,
     endlessOpponentDeckTemplate: endlessMode ? [...opponentDeck] : undefined,
+    bossSpawnKillPct: bossSpawnKillPct ?? 0.5,
   }
 }
 
@@ -1187,12 +1191,13 @@ function checkGameOver(s: GameState): boolean {
         s.log.push(`⚡ PHASE 2! ${displayName} rises from the ruins!`)
         s.log.push(`Destroy ${displayName} to win!`)
 
-        // Shockwave: kills 50% of player's mobile non-hero units, always leaving at least 3
+        // Shockwave: kills a scaling fraction of player's mobile non-hero units, always leaving at least 3
         const shockwavePool = s.field.filter(
           u => u.owner === 'player' && u.moveSpeed > 0 && !u.isHero && !u.dyingTimer
         )
         const MIN_SURVIVORS = 3
-        let killCount = Math.floor(shockwavePool.length * 0.5)
+        const killPct = Math.min(1.0, s.bossSpawnKillPct ?? 0.5)
+        let killCount = Math.floor(shockwavePool.length * killPct)
         killCount = Math.min(killCount, Math.max(0, shockwavePool.length - MIN_SURVIVORS))
         if (killCount > 0) {
           const shuffled = [...shockwavePool]

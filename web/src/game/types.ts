@@ -253,6 +253,7 @@ export interface GameState {
   relicSporeBloom?: boolean           // Spore Bloom relic: player units heal 1 HP every 3s
   relicSporeBloomTimer?: number       // countdown ms until next Spore Bloom tick
   relicGearHeart?: boolean            // Gear Heart relic: +1 ATK on every player unit spawn
+  bossSpawnKillPct?: number           // Fraction of player units killed by boss shockwave (0.5 base, scales with run count)
   battleStats: BattleStats
   /** Transient animation events (projectiles, hit flashes). Cleared each tick after expiry. */
   animEvents: AnimEvent[]
