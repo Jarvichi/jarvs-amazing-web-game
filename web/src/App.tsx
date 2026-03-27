@@ -1008,6 +1008,7 @@ export default function App() {
         saveRun(updatedRun)
         setRun(updatedRun)
         setActiveEvent(null)
+        setScreen('nodemap')
         setPendingEventCard(card.name)
         playCardFlip()
         return   // show card reveal before going to nodemap
