@@ -1325,6 +1325,11 @@
         "effectType": "damage",
         "effectAmount": 0.8,
         "label": "Iron Formation"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 90,
+        "engageRange": 185
       }
     },
     "war-drummer": {
@@ -1425,6 +1430,11 @@
         "effectType": "damage",
         "effectAmount": 0.8,
         "label": "Iron Formation"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 85,
+        "engageRange": 180
       }
     },
     "grizzled-veteran": {
@@ -1524,6 +1534,11 @@
         "effectType": "damage",
         "effectAmount": 0.8,
         "label": "Undead Legion"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 85,
+        "engageRange": 180
       }
     },
     "ash-elemental": {
@@ -1717,7 +1732,12 @@
       "weaknesses": [
         "fast",
         "siege"
-      ]
+      ],
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 85,
+        "engageRange": 175
+      }
     },
     "spellblade": {
       "name": "Spellblade",
@@ -2461,7 +2481,12 @@
         "siege",
         "magic"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 85,
+        "engageRange": 175
+      }
     },
     "shard-familiar": {
       "name": "Shard Familiar",
@@ -4609,7 +4634,12 @@
         "fast",
         "magic"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 85,
+        "engageRange": 175
+      }
     },
     "bark-hound": {
       "name": "Bark Hound",
@@ -4697,7 +4727,12 @@
         "magic",
         "ranged"
       ],
-      "size": "large"
+      "size": "large",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 90,
+        "engageRange": 185
+      }
     },
     "canopy-archer": {
       "name": "Canopy Archer",
@@ -5227,7 +5262,12 @@
         "magic",
         "fast"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 90,
+        "engageRange": 185
+      }
     },
     "tide-stalker": {
       "name": "Tide Stalker",
@@ -5503,7 +5543,12 @@
         "magic",
         "fast"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 85,
+        "engageRange": 175
+      }
     },
     "vault-guardian": {
       "name": "Vault Guardian",
@@ -5528,7 +5573,12 @@
         "magic",
         "fast"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 85,
+        "engageRange": 180
+      }
     },
     "clockwork-archer": {
       "name": "Clockwork Archer",
