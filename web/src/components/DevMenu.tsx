@@ -7,6 +7,7 @@ import { addCardsToCollection, loadCollection, CollectionEntry } from '../game/c
 import { MAX_HANDICAP } from '../game/engine'
 import { ACTS } from '../game/questline'
 import { logError } from '../logger'
+import { getAllGifts, loadClaimedGiftIds, resetClaimedGifts } from '../game/gifts'
 
 const CRYSTALS_KEY = 'jarv_crystals'
 const RUN_KEY      = 'jarv_run'
@@ -210,11 +211,60 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
         <button className="action-btn action-btn--danger" onClick={handleClearConfig}>CLEAR</button>
       </div>
 
+      {/* Gift registry */}
+      <GiftAdmin onFlash={flash} />
+
       {msg && (
         <div className="settings-row">
           <div className="settings-sublabel" style={{ color: '#33ff33' }}>{msg}</div>
         </div>
       )}
     </Section>
+  )
+}
+
+// ── Gift Admin sub-component ──────────────────────────────────────────────────
+
+function GiftAdmin({ onFlash }: { onFlash: (msg: string) => void }) {
+  const gifts   = getAllGifts()
+  const claimed = new Set(loadClaimedGiftIds())
+
+  function handleResetClaims() {
+    resetClaimedGifts()
+    onFlash('Gift claims reset — reload the page to re-trigger gift modal.')
+  }
+
+  return (
+    <>
+      <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '4px', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+        <div className="settings-label">Gift registry</div>
+        <div className="settings-sublabel">
+          Add gifts by editing <code>web/src/data/gifts.json</code> and pushing to main.
+        </div>
+      </div>
+
+      {gifts.length === 0 ? (
+        <div className="settings-row">
+          <div className="settings-sublabel">No gifts defined.</div>
+        </div>
+      ) : (
+        gifts.map(g => (
+          <div key={g.id} className="settings-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+            <div className="settings-label" style={{ fontSize: '11px' }}>
+              {claimed.has(g.id) ? '✓' : '○'} <strong>{g.name}</strong> <span style={{ opacity: 0.5 }}>({g.id})</span>
+            </div>
+            <div className="settings-sublabel">{g.rewards.length} reward(s) · created {g.createdAt}{g.expiresAt ? ` · expires ${g.expiresAt}` : ''}</div>
+          </div>
+        ))
+      )}
+
+      <div className="settings-row">
+        <div>
+          <div className="settings-label">Reset gift claims</div>
+          <div className="settings-sublabel">Clears jarv_claimed_gifts — gifts will reappear on next load</div>
+        </div>
+        <button className="action-btn action-btn--danger" onClick={handleResetClaims}>RESET</button>
+      </div>
+    </>
   )
 }

@@ -57,9 +57,11 @@ import { LiarsDiceEvent }     from './components/rare-events/LiarsDiceEvent'
 import { GamblerEvent }       from './components/rare-events/GamblerEvent'
 import { CardTile }           from './components/CardTile'
 import { DailyLoginModal }   from './components/DailyLoginModal'
+import { GiftClaimModal }    from './components/GiftClaimModal'
 import { LoginModal }        from './components/LoginModal'
 import { InventoryScreen }   from './components/InventoryScreen'
 import { peekDailyReward, markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
+import { getUnclaimedGifts, applyGiftRewards, GiftDef } from './game/gifts'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
@@ -393,6 +395,9 @@ export default function App() {
   // Daily login reward
   const [dailyReward, setDailyReward] = useState<RewardDef | null>(null)
 
+  // Developer gifts
+  const [pendingGifts, setPendingGifts] = useState<GiftDef[]>([])
+
   // Cloud sync prompt: shown when a newer remote save is detected on the title screen
   const [syncPrompt, setSyncPrompt] = useState<{ remoteDate: Date; data: Record<string, string> } | null>(null)
   const syncPromptedRef = useRef(false)
@@ -425,6 +430,13 @@ export default function App() {
       reward = { ...reward, cardName: card.name }
     }
     setDailyReward(reward)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // ── Developer gifts ───────────────────────────────────────
+  useEffect(() => {
+    const unclaimed = getUnclaimedGifts()
+    if (unclaimed.length > 0) setPendingGifts(unclaimed)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -2226,6 +2238,21 @@ export default function App() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Developer gift modal — shown when unclaimed gifts exist in gifts.json */}
+      {pendingGifts.length > 0 && !dailyReward && (
+        <GiftClaimModal
+          gifts={pendingGifts}
+          onClaim={() => {
+            let crystalsDelta = 0
+            for (const gift of pendingGifts) {
+              crystalsDelta += applyGiftRewards(gift)
+            }
+            if (crystalsDelta > 0) setCrystals(c => c + crystalsDelta)
+            setPendingGifts([])
+          }}
+        />
       )}
 
       {/* Daily login reward modal — shown as overlay on first visit each day */}
