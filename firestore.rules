@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Player saves ────────────────────────────────────────────────────────
+    // Each authenticated user can only read/write their own save document.
+    match /saves/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ── Developer gifts ─────────────────────────────────────────────────────
+    // Anyone (including unauthenticated players) can read gifts.
+    // Only admin users (custom claim admin=true set via Firebase Admin SDK) can
+    // create, update, or delete gift documents.
+    //
+    // To grant admin access to a user, run in a trusted server environment:
+    //   admin.auth().setCustomUserClaims(uid, { admin: true })
+    //
+    // Gift document schema:
+    //   name:        string  — display name shown in the claim modal
+    //   description: string  — flavour text shown below the name
+    //   createdAt:   string  — ISO date "YYYY-MM-DD"
+    //   expiresAt:   string  — ISO date (optional); gift hidden after this date
+    //   rewards:     array   — list of reward objects:
+    //     { type: "crystals", amount: number }
+    //     { type: "card",     cardName: string }
+    //     { type: "pack",     count: number }
+    //     { type: "consumable", consumableId: string, consumableCount: number }
+    //     { type: "item",     itemId: string }
+    match /gifts/{giftId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+  }
+}

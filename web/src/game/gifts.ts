@@ -1,8 +1,23 @@
 // ─── Gift System ──────────────────────────────────────────────────────────────
-// One-off gifts the developer can distribute to players via gifts.json.
-// Each gift has a unique ID; claimed IDs are stored in localStorage so the
-// player never receives the same gift twice.
+// One-off gifts the developer can distribute by adding documents to the
+// Firestore `gifts` collection. Each document ID is the gift ID; fields map
+// to GiftDef. Falls back to gifts.json if Firestore is unavailable.
+//
+// Firestore rules required (see firestore.rules):
+//   match /gifts/{giftId} {
+//     allow read: if true;                       // public read
+//     allow write: if request.auth.token.admin == true;  // admin SDK / custom claim
+//   }
+//
+// Firestore document schema (matches GiftDef):
+//   name:        string
+//   description: string
+//   createdAt:   string  (ISO date, e.g. "2026-03-28")
+//   expiresAt:   string  (ISO date, optional)
+//   rewards:     array of GiftReward objects
 
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from '../firebase'
 import { logError } from '../logger'
 import { addCardsToCollection } from './collection'
 import { saveCrystals, loadCrystals } from './collection'
@@ -73,17 +88,40 @@ export function resetClaimedGifts(): void {
   } catch { /* ignore */ }
 }
 
+// ── Firestore fetch ───────────────────────────────────────────────────────────
+
+async function fetchGiftsFromFirestore(): Promise<GiftDef[]> {
+  const snap = await getDocs(collection(db, 'gifts'))
+  return snap.docs.map(d => ({ id: d.id, ...d.data() } as GiftDef))
+}
+
 // ── Registry ─────────────────────────────────────────────────────────────────
 
-export function getAllGifts(): GiftDef[] {
-  return giftsData as GiftDef[]
+/**
+ * Fetch all gifts: Firestore first, local gifts.json as fallback.
+ * Merges both sources so locally-seeded gifts still appear if Firestore
+ * returns an empty collection (e.g. project not yet configured).
+ */
+export async function getAllGifts(): Promise<GiftDef[]> {
+  let remote: GiftDef[] = []
+  try {
+    remote = await fetchGiftsFromFirestore()
+  } catch (e) {
+    logError('fetchGiftsFromFirestore failed, using local fallback', { error: String(e) })
+  }
+
+  // Merge: remote takes precedence; include local gifts not present in remote
+  const remoteIds = new Set(remote.map(g => g.id))
+  const local = (giftsData as GiftDef[]).filter(g => !remoteIds.has(g.id))
+  return [...remote, ...local]
 }
 
 /** Returns gifts that are available (not expired) and not yet claimed by this player. */
-export function getUnclaimedGifts(): GiftDef[] {
+export async function getUnclaimedGifts(): Promise<GiftDef[]> {
+  const all = await getAllGifts()
   const claimed = new Set(loadClaimedGiftIds())
   const today = new Date().toISOString().slice(0, 10)
-  return getAllGifts().filter(g => {
+  return all.filter(g => {
     if (claimed.has(g.id)) return false
     if (g.expiresAt && g.expiresAt < today) return false
     return true
@@ -122,11 +160,11 @@ export function applyGiftRewards(gift: GiftDef): number {
 /** Summarise a reward as a short human-readable string for display. */
 export function rewardSummary(reward: GiftReward): string {
   switch (reward.type) {
-    case 'crystals':  return `${reward.amount} Crystals`
-    case 'card':      return `Card: ${reward.cardName}`
-    case 'pack':      return `Card Pack (${reward.count ?? 5} cards)`
+    case 'crystals':   return `${reward.amount} Crystals`
+    case 'card':       return `Card: ${reward.cardName}`
+    case 'pack':       return `Card Pack (${reward.count ?? 5} cards)`
     case 'consumable': return `Consumable ×${reward.consumableCount ?? 1}`
-    case 'item':      return `Inventory item`
-    default:          return 'Unknown reward'
+    case 'item':       return `Inventory item`
+    default:           return 'Unknown reward'
   }
 }
