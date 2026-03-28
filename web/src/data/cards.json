@@ -5525,18 +5525,15 @@
     "breakwater-wall": {
       "name": "Breakwater Wall",
       "attack": 0,
-      "maxHp": 30,
+      "maxHp": 55,
       "isWall": true,
       "bypassWall": false,
       "moveSpeed": 0,
       "attackRange": 0,
-      "attackCooldownMs": 99999,
-      "flying": false,
+      "attackCooldownMs": 0,
       "tags": [
-        "structure",
-        "wall"
-      ],
-      "size": "medium"
+        "wreck"
+      ]
     },
     "gear-scout": {
       "name": "Gear Scout",
@@ -5790,7 +5787,9 @@
         "unitTemplateRef": "shore-scout",
         "intervalMs": 6500
       },
-      "tags": ["wreck"]
+      "tags": [
+        "wreck"
+      ]
     },
     "salvage-dock": {
       "name": "Salvage Dock",
@@ -5806,7 +5805,9 @@
         "unitTemplateRef": "wreck-diver",
         "intervalMs": 7000
       },
-      "tags": ["wreck"]
+      "tags": [
+        "wreck"
+      ]
     },
     "stormgate": {
       "name": "Stormgate",
@@ -5822,7 +5823,9 @@
         "unitTemplateRef": "tempest-rider",
         "intervalMs": 9000
       },
-      "tags": ["storm"]
+      "tags": [
+        "storm"
+      ]
     },
     "gear-assembly": {
       "name": "Gear Assembly",
@@ -5838,7 +5841,9 @@
         "unitTemplateRef": "gear-scout",
         "intervalMs": 6500
       },
-      "tags": ["clockwork"]
+      "tags": [
+        "clockwork"
+      ]
     },
     "clockwork-forge": {
       "name": "Clockwork Forge",
@@ -5854,7 +5859,9 @@
         "unitTemplateRef": "piston-brawler",
         "intervalMs": 7500
       },
-      "tags": ["clockwork"]
+      "tags": [
+        "clockwork"
+      ]
     },
     "titan-forge": {
       "name": "Titan Forge",
@@ -5870,7 +5877,9 @@
         "unitTemplateRef": "clockwork-titan",
         "intervalMs": 10000
       },
-      "tags": ["clockwork"]
+      "tags": [
+        "clockwork"
+      ]
     },
     "drone-array": {
       "name": "Drone Array",
@@ -5886,29 +5895,25 @@
         "unitTemplateRef": "vault-drone",
         "intervalMs": 5500
       },
-      "tags": ["vault"]
-    },
-    "breakwater-wall": {
-      "name": "Breakwater Wall",
-      "attack": 0,
-      "maxHp": 55,
-      "isWall": true,
-      "bypassWall": false,
-      "moveSpeed": 0,
-      "attackRange": 0,
-      "attackCooldownMs": 0,
-      "tags": ["wreck"]
+      "tags": [
+        "vault"
+      ]
     },
     "gear-wall": {
       "name": "Gear Wall",
       "attack": 0,
-      "maxHp": 55,
+      "maxHp": 28,
       "isWall": true,
       "bypassWall": false,
       "moveSpeed": 0,
       "attackRange": 0,
-      "attackCooldownMs": 0,
-      "tags": ["vault"]
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "tags": [
+        "structure",
+        "wall"
+      ],
+      "size": "medium"
     },
     "storm-beacon": {
       "name": "Storm Beacon",
@@ -5923,7 +5928,9 @@
         "type": "mana",
         "amount": 1
       },
-      "tags": ["storm"]
+      "tags": [
+        "storm"
+      ]
     },
     "pressure-valve": {
       "name": "Pressure Valve",
@@ -5938,7 +5945,9 @@
         "type": "mana",
         "amount": 1
       },
-      "tags": ["clockwork"]
+      "tags": [
+        "clockwork"
+      ]
     },
     "tidal-fortress": {
       "name": "Tidal Fortress",
@@ -5954,7 +5963,9 @@
         "amount": 3,
         "intervalMs": 4500
       },
-      "tags": ["storm"]
+      "tags": [
+        "storm"
+      ]
     },
     "vault-repair-bay": {
       "name": "Vault Repair Bay",
@@ -5970,7 +5981,9 @@
         "amount": 3,
         "intervalMs": 4000
       },
-      "tags": ["vault"]
+      "tags": [
+        "vault"
+      ]
     },
     "iron-colossus": {
       "name": "Iron Colossus",
@@ -6057,21 +6070,346 @@
       "size": "large",
       "targetPriority": "boss"
     },
-    "gear-wall": {
-      "name": "Gear Wall",
-      "attack": 0,
-      "maxHp": 28,
-      "isWall": true,
+    "boss-thornlord": {
+      "name": "Thornlord",
+      "attack": 12,
+      "maxHp": 80,
+      "isWall": false,
       "bypassWall": false,
-      "moveSpeed": 0,
-      "attackRange": 0,
-      "attackCooldownMs": 99999,
+      "moveSpeed": 14,
+      "attackRange": 35,
+      "attackCooldownMs": 2500,
       "flying": false,
       "tags": [
-        "structure",
-        "wall"
+        "forest",
+        "large",
+        "boss"
       ],
-      "size": "medium"
+      "strengths": [
+        "ranged",
+        "flying"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ],
+      "size": "large",
+      "targetPriority": "base"
+    },
+    "boss-kragg": {
+      "name": "Warlord Kragg",
+      "attack": 14,
+      "maxHp": 90,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 16,
+      "attackRange": 30,
+      "attackCooldownMs": 2800,
+      "flying": false,
+      "tags": [
+        "cave",
+        "large",
+        "boss"
+      ],
+      "strengths": [
+        "armored",
+        "melee"
+      ],
+      "weaknesses": [
+        "magic",
+        "flying"
+      ],
+      "size": "large",
+      "targetPriority": "base"
+    },
+    "boss-ashwalker": {
+      "name": "The Ashwalker",
+      "attack": 10,
+      "maxHp": 70,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 20,
+      "attackRange": 40,
+      "attackCooldownMs": 2200,
+      "flying": false,
+      "tags": [
+        "jungle",
+        "large",
+        "boss"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "ranged",
+        "magic"
+      ],
+      "size": "large",
+      "targetPriority": "base"
+    },
+    "boss-archivist": {
+      "name": "The Archivist",
+      "attack": 11,
+      "maxHp": 75,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 15,
+      "attackRange": 80,
+      "attackCooldownMs": 2000,
+      "flying": true,
+      "tags": [
+        "arcane",
+        "large",
+        "boss",
+        "flying"
+      ],
+      "strengths": [
+        "magic",
+        "structures"
+      ],
+      "weaknesses": [
+        "armored",
+        "melee"
+      ],
+      "size": "large",
+      "targetPriority": "base"
+    },
+    "boss-tidal-sovereign": {
+      "name": "Tidal Sovereign",
+      "attack": 12,
+      "maxHp": 80,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 18,
+      "attackRange": 35,
+      "attackCooldownMs": 2400,
+      "flying": false,
+      "tags": [
+        "tidal",
+        "large",
+        "boss"
+      ],
+      "strengths": [
+        "ranged",
+        "structures"
+      ],
+      "weaknesses": [
+        "magic",
+        "flying"
+      ],
+      "size": "large",
+      "targetPriority": "base"
+    },
+    "boss-cloudmarshal": {
+      "name": "Cloudmarshal",
+      "attack": 11,
+      "maxHp": 75,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 22,
+      "attackRange": 70,
+      "attackCooldownMs": 2200,
+      "flying": true,
+      "tags": [
+        "storm",
+        "large",
+        "boss",
+        "flying"
+      ],
+      "strengths": [
+        "melee",
+        "ranged"
+      ],
+      "weaknesses": [
+        "magic",
+        "armored"
+      ],
+      "size": "large",
+      "targetPriority": "base"
+    },
+    "boss-cinderwarlord": {
+      "name": "Cinderwarlord",
+      "attack": 13,
+      "maxHp": 85,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 18,
+      "attackRange": 45,
+      "attackCooldownMs": 2600,
+      "flying": true,
+      "tags": [
+        "ember",
+        "large",
+        "boss",
+        "flying"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "water",
+        "magic"
+      ],
+      "size": "large",
+      "targetPriority": "base"
+    },
+    "boss-rootqueen": {
+      "name": "Root Queen",
+      "attack": 10,
+      "maxHp": 70,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 12,
+      "attackRange": 50,
+      "attackCooldownMs": 2000,
+      "flying": false,
+      "tags": [
+        "fungal",
+        "large",
+        "boss"
+      ],
+      "strengths": [
+        "melee",
+        "structures"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ],
+      "size": "large",
+      "targetPriority": "base"
+    },
+    "boss-pale-engine": {
+      "name": "Pale Engine",
+      "attack": 11,
+      "maxHp": 80,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 10,
+      "attackRange": 90,
+      "attackCooldownMs": 3000,
+      "flying": false,
+      "tags": [
+        "frost",
+        "large",
+        "boss"
+      ],
+      "strengths": [
+        "ranged",
+        "magic"
+      ],
+      "weaknesses": [
+        "melee",
+        "armored"
+      ],
+      "size": "large",
+      "targetPriority": "base"
+    },
+    "boss-dune-baron": {
+      "name": "Dune Baron",
+      "attack": 12,
+      "maxHp": 78,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 19,
+      "attackRange": 35,
+      "attackCooldownMs": 2300,
+      "flying": false,
+      "tags": [
+        "sand",
+        "large",
+        "boss"
+      ],
+      "strengths": [
+        "melee",
+        "armored"
+      ],
+      "weaknesses": [
+        "magic",
+        "flying"
+      ],
+      "size": "large",
+      "targetPriority": "base"
+    },
+    "boss-elder-warden": {
+      "name": "Elder Warden",
+      "attack": 11,
+      "maxHp": 82,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 11,
+      "attackRange": 40,
+      "attackCooldownMs": 2600,
+      "flying": false,
+      "tags": [
+        "canopy",
+        "large",
+        "boss"
+      ],
+      "strengths": [
+        "ranged",
+        "structures"
+      ],
+      "weaknesses": [
+        "fire",
+        "magic"
+      ],
+      "size": "large",
+      "targetPriority": "base"
+    },
+    "boss-harbormaster": {
+      "name": "The Harbormaster",
+      "attack": 12,
+      "maxHp": 80,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 15,
+      "attackRange": 55,
+      "attackCooldownMs": 2400,
+      "flying": false,
+      "tags": [
+        "wreck",
+        "large",
+        "boss"
+      ],
+      "strengths": [
+        "structures",
+        "ranged"
+      ],
+      "weaknesses": [
+        "magic",
+        "flying"
+      ],
+      "size": "large",
+      "targetPriority": "base"
+    },
+    "boss-grand-automaton": {
+      "name": "Grand Automaton",
+      "attack": 13,
+      "maxHp": 85,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 13,
+      "attackRange": 60,
+      "attackCooldownMs": 2700,
+      "flying": false,
+      "tags": [
+        "clockwork",
+        "large",
+        "boss"
+      ],
+      "strengths": [
+        "armored",
+        "melee"
+      ],
+      "weaknesses": [
+        "magic",
+        "flying"
+      ],
+      "size": "large",
+      "targetPriority": "base"
     }
   },
   "cards": [
@@ -12453,6 +12791,174 @@
         "legendary"
       ],
       "lore": "It was not built to guard the vaults. It built itself. Then it built the vaults around itself."
+    },
+    {
+      "name": "Thornlord",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "boss-thornlord",
+      "description": "Burrows underground at 50% HP, erupting elsewhere to deal AOE damage.",
+      "deckCount": 1,
+      "tags": [
+        "forest",
+        "boss"
+      ],
+      "lore": "The roots remember every battle. The Thornlord never forgets a face it has crushed."
+    },
+    {
+      "name": "Warlord Kragg",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "boss-kragg",
+      "description": "Periodically leaps across the battlefield, dealing massive AOE damage on landing.",
+      "deckCount": 1,
+      "tags": [
+        "cave",
+        "boss"
+      ],
+      "lore": "Kragg has never won a battle with strategy. He has never needed to."
+    },
+    {
+      "name": "The Ashwalker",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "boss-ashwalker",
+      "description": "Splits into three ash copies at 50% HP. All copies must be destroyed.",
+      "deckCount": 1,
+      "tags": [
+        "jungle",
+        "boss"
+      ],
+      "lore": "Ash cannot die. It simply disperses, and waits, and reforms."
+    },
+    {
+      "name": "The Archivist",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "boss-archivist",
+      "description": "Ascends at 120s, descending in an arcane shockwave that silences all enemies.",
+      "deckCount": 1,
+      "tags": [
+        "arcane",
+        "boss"
+      ],
+      "lore": "Every spell ever cast is recorded in its pages. Every counter is also recorded."
+    },
+    {
+      "name": "Tidal Sovereign",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "boss-tidal-sovereign",
+      "description": "Dives at 50% HP, resurfacing at the opposite flank with a crushing wave.",
+      "deckCount": 1,
+      "tags": [
+        "tidal",
+        "boss"
+      ],
+      "lore": "The ocean does not ask permission to drown you."
+    },
+    {
+      "name": "Cloudmarshal",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "boss-cloudmarshal",
+      "description": "Ascends into storm clouds at 60% HP, diving into the densest enemy cluster.",
+      "deckCount": 1,
+      "tags": [
+        "storm",
+        "boss"
+      ],
+      "lore": "The sky has always been his battlefield. The ground is merely where he lands."
+    },
+    {
+      "name": "Cinderwarlord",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "boss-cinderwarlord",
+      "description": "Erupts from a volcano every 40s, crashing down as a blazing meteor.",
+      "deckCount": 1,
+      "tags": [
+        "ember",
+        "boss"
+      ],
+      "lore": "He was not forged in fire. He simply never left it."
+    },
+    {
+      "name": "Root Queen",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "boss-rootqueen",
+      "description": "Fractures into four Spore Nodes at 40% HP, each spawning crawlers.",
+      "deckCount": 1,
+      "tags": [
+        "fungal",
+        "boss"
+      ],
+      "lore": "She does not fight. She propagates."
+    },
+    {
+      "name": "Pale Engine",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "boss-pale-engine",
+      "description": "Fires an EMP cascade every 45s, damaging and slowing a random column.",
+      "deckCount": 1,
+      "tags": [
+        "frost",
+        "boss"
+      ],
+      "lore": "It was built to outlast everything. So far, it has."
+    },
+    {
+      "name": "Dune Baron",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "boss-dune-baron",
+      "description": "Plunges into sand at 66% and 33% HP, surfacing beside the strongest enemy.",
+      "deckCount": 1,
+      "tags": [
+        "sand",
+        "boss"
+      ],
+      "lore": "The desert has no roads. The Baron has no rules."
+    },
+    {
+      "name": "Elder Warden",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "boss-elder-warden",
+      "description": "Drives roots into the earth at 50% HP, rooting and damaging a whole column.",
+      "deckCount": 1,
+      "tags": [
+        "canopy",
+        "boss"
+      ],
+      "lore": "It has guarded this forest since before the forest had a name."
+    },
+    {
+      "name": "Grand Automaton",
+      "rarity": "legendary",
+      "cost": 6,
+      "cardType": "unit",
+      "unitRef": "boss-grand-automaton",
+      "description": "Releases a gear cascade when the enemy base falls below 50% HP, slowing a column.",
+      "deckCount": 1,
+      "tags": [
+        "clockwork",
+        "boss"
+      ],
+      "lore": "Purpose: victory. Current status: operational."
     }
   ],
   "heroCards": [
