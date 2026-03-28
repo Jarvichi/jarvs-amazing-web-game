@@ -58,6 +58,7 @@ import { GamblerEvent }       from './components/rare-events/GamblerEvent'
 import { CardTile }           from './components/CardTile'
 import { DailyLoginModal }   from './components/DailyLoginModal'
 import { GiftClaimModal }    from './components/GiftClaimModal'
+import { GiftAdminScreen }  from './components/GiftAdminScreen'
 import { LoginModal }        from './components/LoginModal'
 import { InventoryScreen }   from './components/InventoryScreen'
 import { peekDailyReward, markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
@@ -233,6 +234,7 @@ type Screen =
   | 'dailychallenge'
   | 'endlessleaderboard'
   | 'commander'
+  | 'giftAdmin'
 
 
 function formatTimeAgo(date: Date): string {
@@ -1867,7 +1869,12 @@ export default function App() {
             setHandicap(n)
             try { localStorage.setItem(HANDICAP_KEY, String(n)) } catch { /* ignore */ }
           }}
+          onGiftAdmin={() => setScreen('giftAdmin')}
         />
+      )}
+
+      {screen === 'giftAdmin' && (
+        <GiftAdminScreen onBack={() => setScreen('settings')} />
       )}
 
       {screen === 'nodemap' && run && actData && (

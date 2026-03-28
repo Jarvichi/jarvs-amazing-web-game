@@ -16,8 +16,10 @@
 //   expiresAt:   string  (ISO date, optional)
 //   rewards:     array of GiftReward objects
 
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, doc, setDoc, deleteDoc } from 'firebase/firestore'
 import { db } from '../firebase'
+
+export const GIFT_OWNER_UID = 'pAB2tLH049PCOI73cQpFlisKpDw1'
 import { logError } from '../logger'
 import { addCardsToCollection } from './collection'
 import { saveCrystals, loadCrystals } from './collection'
@@ -155,6 +157,17 @@ export function applyGiftRewards(gift: GiftDef): number {
   }
   markGiftClaimed(gift.id)
   return crystalsDelta
+}
+
+/** Write a gift document to Firestore. Uses the gift's `id` as the document ID. */
+export async function saveGiftToFirestore(gift: GiftDef): Promise<void> {
+  const { id, ...fields } = gift
+  await setDoc(doc(db, 'gifts', id), fields)
+}
+
+/** Delete a gift document from Firestore. */
+export async function deleteGiftFromFirestore(id: string): Promise<void> {
+  await deleteDoc(doc(db, 'gifts', id))
 }
 
 /** Summarise a reward as a short human-readable string for display. */
