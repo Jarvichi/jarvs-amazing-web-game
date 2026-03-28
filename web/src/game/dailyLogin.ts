@@ -1,8 +1,9 @@
 // ─── Daily Login Rewards ──────────────────────────────────────────────────────
 
 import { logError } from '../logger'
-import itemsJson   from '../data/items.json'
-import rewardsJson from '../data/rewards.json'
+import itemsJson        from '../data/items.json'
+import rewardsJson      from '../data/rewards.json'
+import brokenRelicsJson from '../data/broken-relics.json'
 import { CardRarity } from './types'
 import { addItem, removeItem, getItemsOfType, ItemDisplayFields } from './itemStore'
 
@@ -106,6 +107,31 @@ export function claimDailyReward(): RewardDef {
   return computeReward(loadInventory())
 }
 
+// ── Broken relic display recovery ─────────────────────────────────────────────
+// Broken relic ids are dynamic: `broken-relic-${slug}-${timestamp}`.
+// The first version of the item store migration didn't preserve display fields,
+// so existing entries may lack name/icon/desc. This map lets us reconstruct them.
+
+type BrokenRelicEntry = { relicName: string; name: string; icon: string; desc: string }
+const BROKEN_RELIC_BY_SLUG: Record<string, { name: string; icon: string; desc: string }> =
+  Object.fromEntries(
+    (brokenRelicsJson as BrokenRelicEntry[]).map(r => [
+      r.relicName.toLowerCase().replace(/\s+/g, '-'),
+      { name: r.name, icon: r.icon, desc: r.desc },
+    ])
+  )
+
+function resolveBrokenRelic(id: string): { name: string; icon: string; desc: string } | null {
+  if (!id.startsWith('broken-relic-')) return null
+  // Strip prefix and trailing timestamp (-digits at the end)
+  const slug = id.slice('broken-relic-'.length).replace(/-\d+$/, '')
+  const found = BROKEN_RELIC_BY_SLUG[slug]
+  if (found) return found
+  // Unknown relic — title-case the slug as a last resort
+  const title = slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+  return { name: `Cracked ${title}`, icon: '🪨', desc: `A cracked ${title} — it held until it didn't.` }
+}
+
 // ── Inventory ─────────────────────────────────────────────────────────────────
 
 export function addToInventory(item: Omit<UselessItem, 'acquiredDate'>): void {
@@ -129,15 +155,16 @@ export function removeFromInventory(id: string): void {
 export function loadInventory(): UselessItem[] {
   const entries = getItemsOfType('item')
   return entries.map(e => {
+    // 1. Catalog (static items.json)
     const def = ALL_ITEMS.find(i => i.id === e.id)
-    return {
-      id: e.id,
-      name: def?.name ?? e.name ?? e.id,
-      icon: def?.icon ?? e.icon ?? '❓',
-      desc: def?.desc ?? e.desc ?? '',
-      lore: def?.lore ?? e.lore ?? '',
-      acquiredDate: e.acquiredDate ?? '',
-    }
+    if (def) return { id: e.id, name: def.name, icon: def.icon, desc: def.desc, lore: def.lore, acquiredDate: e.acquiredDate ?? '' }
+    // 2. Stored display fields (items added after the display-field fix)
+    if (e.name) return { id: e.id, name: e.name, icon: e.icon ?? '❓', desc: e.desc ?? '', lore: e.lore ?? '', acquiredDate: e.acquiredDate ?? '' }
+    // 3. Reconstruct broken relic display from the dynamic id
+    const broken = resolveBrokenRelic(e.id)
+    if (broken) return { id: e.id, ...broken, lore: '', acquiredDate: e.acquiredDate ?? '' }
+    // 4. Unknown item — show raw id as placeholder
+    return { id: e.id, name: e.id, icon: '❓', desc: '', lore: '', acquiredDate: e.acquiredDate ?? '' }
   })
 }
 
