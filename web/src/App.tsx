@@ -435,8 +435,9 @@ export default function App() {
 
   // ── Developer gifts ───────────────────────────────────────
   useEffect(() => {
-    const unclaimed = getUnclaimedGifts()
-    if (unclaimed.length > 0) setPendingGifts(unclaimed)
+    getUnclaimedGifts().then(unclaimed => {
+      if (unclaimed.length > 0) setPendingGifts(unclaimed)
+    }).catch(() => {})
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

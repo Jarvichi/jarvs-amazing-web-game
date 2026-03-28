@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Section } from './Section'
 import { ALL_RARE_EVENTS, RareEventKind } from './rare-events/types'
 import { loadDevConfig, patchDevConfig, clearDevConfig } from '../game/devStore'
@@ -7,7 +7,7 @@ import { addCardsToCollection, loadCollection, CollectionEntry } from '../game/c
 import { MAX_HANDICAP } from '../game/engine'
 import { ACTS } from '../game/questline'
 import { logError } from '../logger'
-import { getAllGifts, loadClaimedGiftIds, resetClaimedGifts } from '../game/gifts'
+import { getAllGifts, loadClaimedGiftIds, resetClaimedGifts, GiftDef } from '../game/gifts'
 
 const CRYSTALS_KEY = 'jarv_crystals'
 const RUN_KEY      = 'jarv_run'
@@ -226,12 +226,19 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
 // ── Gift Admin sub-component ──────────────────────────────────────────────────
 
 function GiftAdmin({ onFlash }: { onFlash: (msg: string) => void }) {
-  const gifts   = getAllGifts()
+  const [gifts,   setGifts]   = useState<GiftDef[]>([])
+  const [loading, setLoading] = useState(true)
   const claimed = new Set(loadClaimedGiftIds())
+
+  useEffect(() => {
+    getAllGifts()
+      .then(g => { setGifts(g); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [])
 
   function handleResetClaims() {
     resetClaimedGifts()
-    onFlash('Gift claims reset — reload the page to re-trigger gift modal.')
+    onFlash('Gift claims reset — gifts will reappear on next page load.')
   }
 
   return (
@@ -239,11 +246,16 @@ function GiftAdmin({ onFlash }: { onFlash: (msg: string) => void }) {
       <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '4px', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="settings-label">Gift registry</div>
         <div className="settings-sublabel">
-          Add gifts by editing <code>web/src/data/gifts.json</code> and pushing to main.
+          Add gifts via the Firestore console — collection: <code>gifts</code>, document ID = gift ID.
+          Falls back to <code>gifts.json</code> if Firestore is unavailable.
         </div>
       </div>
 
-      {gifts.length === 0 ? (
+      {loading ? (
+        <div className="settings-row">
+          <div className="settings-sublabel">Loading…</div>
+        </div>
+      ) : gifts.length === 0 ? (
         <div className="settings-row">
           <div className="settings-sublabel">No gifts defined.</div>
         </div>
