@@ -11,6 +11,7 @@ import { auth } from '../firebase'
 import { uploadSave, applySave, getLastSyncTime, type CloudSave } from '../game/cloudSave'
 import { isDevMode } from '../game/debug'
 import { DevMenu } from './DevMenu'
+import { GIFT_OWNER_UID } from '../game/gifts'
 
 interface Props {
   onBack: () => void
@@ -19,6 +20,7 @@ interface Props {
   authLoading: boolean
   onDevCrystalsChanged?: (n: number) => void
   onDevHandicapChanged?: (n: number) => void
+  onGiftAdmin?: () => void
 }
 
 const TEXT_SIZE_KEY      = 'jarv_text_size'
@@ -127,7 +129,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
-export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged }: Props) {
+export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [textSize,      setTextSize]      = useState(loadTextSize)
   const [textColor,     setTextColor]     = useState(loadTextColor)
@@ -489,6 +491,18 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 </div>
               </div>
             )}
+          </Section>
+        )}
+
+        {user?.uid === GIFT_OWNER_UID && onGiftAdmin && (
+          <Section bordered title="ADMIN">
+            <div className="settings-row">
+              <div>
+                <div className="settings-label">Gift management</div>
+                <div className="settings-sublabel">Create and delete one-off player gifts</div>
+              </div>
+              <button className="action-btn action-btn--gold" onClick={onGiftAdmin}>OPEN</button>
+            </div>
           </Section>
         )}
 
