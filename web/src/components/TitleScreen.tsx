@@ -32,12 +32,13 @@ interface Props {
   onEndlessLeaderboard: () => void
   onCommander?: () => void
   commanderName?: string | null
+  onTraining: () => void
   user: User | null
   onSignOut: () => void
   onSignIn: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, user, onSignOut, onSignIn }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, user, onSignOut, onSignIn }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -152,6 +153,10 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
 
         <TitleButton onClick={onEndlessLeaderboard} extraClass="title-endless-lb-btn">
           🏆  LEADERBOARDS
+        </TitleButton>
+
+        <TitleButton onClick={onTraining} extraClass="title-training-btn">
+          ⚔  TRAINING MODE
         </TitleButton>
       </div>
 

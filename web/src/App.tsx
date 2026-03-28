@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
-import { GameState } from './game/types'
+import { GameState, Card } from './game/types'
 import { newGame, NewGameOptions, playCard, MAX_HANDICAP } from './game/engine'
+import { makeNodeDeck } from './game/cards'
 import { battleReducer, INITIAL_BATTLE_STATE, TICK_MS } from './game/battleReducer'
 import {
   loadDeck, saveDeck, buildDeckCards, generatePack,
@@ -73,6 +74,7 @@ import { isNoDamageMode } from './game/debug'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
 import { loadCommander, promoteCommander, CommanderState } from './game/commander'
 import { CommanderScreen } from './components/CommanderScreen'
+import { TrainingScreen }  from './components/TrainingScreen'
 import {
   incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
@@ -235,6 +237,7 @@ type Screen =
   | 'endlessleaderboard'
   | 'commander'
   | 'giftAdmin'
+  | 'training'
 
 
 function formatTimeAgo(date: Date): string {
@@ -336,6 +339,7 @@ export default function App() {
   const [rewardCrystals, setRewardCrystals] = useState(0)
   const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
+  const isTrainingModeRef   = useRef(false)                  // true while playing a training battle
 
   // Cutscenes & boss dialogue
   const [cutscenePanels, setCutscenePanels]   = useState<CutscenePanel[]>([])
@@ -749,6 +753,13 @@ export default function App() {
 
   const handlePlayAgain = useCallback(() => {
     if (!gameState || gameState.phase.type !== 'gameOver') return
+    // Training mode: send back to training setup screen
+    if (isTrainingModeRef.current) {
+      isTrainingModeRef.current = false
+      dispatch({ type: 'END' })
+      setScreen('training')
+      return
+    }
     isCampaignRef.current       = false
     isDailyChallengeRef.current = false
     battleFlawlessRef.current = true
@@ -777,6 +788,24 @@ export default function App() {
     setScreen('playing')
     rollRareEvent()
   }, [gameState, handicap])
+
+  // ── Training Mode ────────────────────────────────────────
+
+  const handleStartTraining = useCallback((enemyUnitName: string, playerCards: Card[]) => {
+    isCampaignRef.current       = false
+    isDailyChallengeRef.current = false
+    isTrainingModeRef.current   = true
+    battleFlawlessRef.current   = false
+    battleUsedStructure.current = false
+    battleUsedMobileUnit.current = false
+    battleLossRecordedRef.current = false
+    prevOpponentUnitsRef.current = new Map()
+    prevPlayerUnitsRef.current   = new Map()
+    // Build a 30-card opponent deck of just the chosen unit
+    const opponentDeck = makeNodeDeck(Array.from({ length: 30 }, () => enemyUnitName))
+    dispatch({ type: 'START', gameState: newGame({ playerCards, prebuiltOpponentDeck: opponentDeck, opponentHandicap: 0 }) })
+    setScreen('playing')
+  }, [])
 
   // ── Campaign ─────────────────────────────────────────────
 
@@ -1489,6 +1518,12 @@ export default function App() {
   }, [])
 
   const handleGiveUp = useCallback(() => {
+    if (isTrainingModeRef.current) {
+      isTrainingModeRef.current = false
+      dispatch({ type: 'END' })
+      setScreen('training')
+      return
+    }
     if (isCampaignRef.current) {
       handleAbandonRun()
     } else {
@@ -1606,6 +1641,8 @@ export default function App() {
   // Track misc achievements at battle end
   useEffect(() => {
     if (!gameState || gameState.phase.type !== 'gameOver') return
+    // Training mode: no achievements, rewards, or crystal grants
+    if (isTrainingModeRef.current) return
     if (gameState.phase.winner !== 'player') {
       // Reset per-battle flags on next game start (done via handlePlay / handlePlayAgain)
       return
@@ -1843,6 +1880,7 @@ export default function App() {
             onEndlessLeaderboard={handleEndlessLeaderboard}
             onCommander={commander ? () => setScreen('commander') : undefined}
             commanderName={commander?.cardName ?? null}
+            onTraining={() => setScreen('training')}
             user={user}
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
             onSignIn={() => setShowTitleLoginModal(true)}
@@ -2112,6 +2150,13 @@ export default function App() {
             setCommander(state)
             if (!state) setScreen('title')
           }}
+        />
+      )}
+
+      {screen === 'training' && (
+        <TrainingScreen
+          onBack={() => setScreen('title')}
+          onStart={handleStartTraining}
         />
       )}
 
