@@ -457,7 +457,13 @@
         "effectAmount": 1.2,
         "label": "Brute Alliance"
       },
-      "size": "large"
+      "size": "large",
+      "unitTrait": {
+        "fleeFrom": [
+          "siege"
+        ],
+        "fleeRange": 80
+      }
     },
     "plague-rat": {
       "name": "Plague Rat",
@@ -1109,7 +1115,12 @@
         "effectAmount": 1.25,
         "label": "Dragonkin"
       },
-      "size": "large"
+      "size": "large",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 95,
+        "engageRange": 200
+      }
     },
     "behemoth": {
       "name": "Behemoth",
@@ -3169,7 +3180,12 @@
         "siege",
         "magic"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 85,
+        "engageRange": 180
+      }
     },
     "zephyr-scout": {
       "name": "Zephyr Scout",
@@ -3434,7 +3450,14 @@
       "tags": [
         "ember"
       ],
-      "name": "Cinder Knight"
+      "name": "Cinder Knight",
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "siege"
+        ],
+        "fleeRange": 65
+      }
     },
     "ash-revenant": {
       "attack": 12,
@@ -4010,7 +4033,14 @@
       "tags": [
         "frost",
         "glacier"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "siege"
+        ],
+        "fleeRange": 65
+      }
     },
     "cold-snap": {
       "name": "Cold Snap",
@@ -4530,7 +4560,14 @@
       "attackCooldownMs": 1300,
       "tags": [
         "glacier"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "siege"
+        ],
+        "fleeRange": 65
+      }
     },
     "glass-dancer": {
       "name": "Glass Dancer",
@@ -4973,7 +5010,12 @@
         "ranged",
         "magic"
       ],
-      "size": "large"
+      "size": "large",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 95,
+        "engageRange": 195
+      }
     },
     "vine-colossus": {
       "name": "Vine Colossus",
@@ -5629,7 +5671,14 @@
         "ranged",
         "magic"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "siege"
+        ],
+        "fleeRange": 65
+      }
     },
     "steam-walker": {
       "name": "Steam Walker",
@@ -5654,7 +5703,12 @@
         "magic",
         "fast"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 85,
+        "engageRange": 175
+      }
     },
     "vault-drone": {
       "name": "Vault Drone",
