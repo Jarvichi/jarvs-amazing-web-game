@@ -132,6 +132,7 @@ export function GiftAdminScreen({ onBack }: Props) {
   const [id,          setId]          = useState('')
   const [name,        setName]        = useState('')
   const [description, setDescription] = useState('')
+  const [fromDate,    setFromDate]    = useState('')
   const [expiresAt,   setExpiresAt]   = useState('')
   const [rewards,     setRewards]     = useState<GiftReward[]>([blankReward()])
   const [saving,      setSaving]      = useState(false)
@@ -158,6 +159,7 @@ export function GiftAdminScreen({ onBack }: Props) {
         description: description.trim(),
         createdAt:   new Date().toISOString().slice(0, 10),
         rewards,
+        ...(fromDate  ? { fromDate }  : {}),
         ...(expiresAt ? { expiresAt } : {}),
       }
       await saveGiftToFirestore(gift)
@@ -165,7 +167,7 @@ export function GiftAdminScreen({ onBack }: Props) {
         const without = prev.filter(g => g.id !== gift.id)
         return [gift, ...without]
       })
-      setId(''); setName(''); setDescription(''); setExpiresAt(''); setRewards([blankReward()])
+      setId(''); setName(''); setDescription(''); setFromDate(''); setExpiresAt(''); setRewards([blankReward()])
       flash(`Gift "${gift.name}" saved.`)
     } catch (e) {
       flash(`Save failed: ${String(e)}`, false)
@@ -209,6 +211,7 @@ export function GiftAdminScreen({ onBack }: Props) {
                 <div className="settings-sublabel">{g.description}</div>
                 <div className="settings-sublabel">
                   {g.rewards.length} reward(s) · created {g.createdAt}
+                  {g.fromDate  ? ` · from ${g.fromDate}`     : ''}
                   {g.expiresAt ? ` · expires ${g.expiresAt}` : ''}
                 </div>
                 <div className="settings-sublabel" style={{ color: '#ffcc00' }}>
@@ -274,15 +277,27 @@ export function GiftAdminScreen({ onBack }: Props) {
               />
             </div>
 
-            <div style={{ width: '160px' }}>
-              <div className="settings-sublabel" style={{ marginBottom: '4px' }}>Expires (optional)</div>
-              <input
-                type="date"
-                className="settings-number-input"
-                style={{ width: '100%' }}
-                value={expiresAt}
-                onChange={e => setExpiresAt(e.target.value)}
-              />
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <div style={{ width: '160px' }}>
+                <div className="settings-sublabel" style={{ marginBottom: '4px' }}>From date (optional)</div>
+                <input
+                  type="date"
+                  className="settings-number-input"
+                  style={{ width: '100%' }}
+                  value={fromDate}
+                  onChange={e => setFromDate(e.target.value)}
+                />
+              </div>
+              <div style={{ width: '160px' }}>
+                <div className="settings-sublabel" style={{ marginBottom: '4px' }}>Expires (optional)</div>
+                <input
+                  type="date"
+                  className="settings-number-input"
+                  style={{ width: '100%' }}
+                  value={expiresAt}
+                  onChange={e => setExpiresAt(e.target.value)}
+                />
+              </div>
             </div>
 
             <div style={{ width: '100%' }}>

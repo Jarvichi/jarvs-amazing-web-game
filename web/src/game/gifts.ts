@@ -13,6 +13,7 @@
 //   name:        string
 //   description: string
 //   createdAt:   string  (ISO date, e.g. "2026-03-28")
+//   fromDate:    string  (ISO date, optional; gift is unavailable before this date)
 //   expiresAt:   string  (ISO date, optional)
 //   rewards:     array of GiftReward objects
 
@@ -52,6 +53,8 @@ export interface GiftDef {
   name: string
   description: string
   createdAt: string
+  /** Optional ISO date; gift is unavailable before this date */
+  fromDate?: string
   /** Optional ISO date; gift is unavailable after this date */
   expiresAt?: string
   rewards: GiftReward[]
@@ -125,6 +128,7 @@ export async function getUnclaimedGifts(): Promise<GiftDef[]> {
   const today = new Date().toISOString().slice(0, 10)
   return all.filter(g => {
     if (claimed.has(g.id)) return false
+    if (g.fromDate && g.fromDate > today) return false
     if (g.expiresAt && g.expiresAt < today) return false
     return true
   })
