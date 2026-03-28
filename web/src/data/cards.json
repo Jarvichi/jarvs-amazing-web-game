@@ -2843,7 +2843,14 @@
       "weaknesses": [
         "large",
         "siege"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "gale-warden": {
       "name": "Gale Warden",
@@ -2917,7 +2924,14 @@
       ],
       "weaknesses": [
         "ranged"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "ember-crawler": {
       "attack": 5,
@@ -3983,7 +3997,13 @@
         "armored",
         "large"
       ],
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "vine-runner": {
       "name": "Vine Runner",
@@ -4007,7 +4027,13 @@
         "ranged",
         "flying"
       ],
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "root-creeper": {
       "name": "Root Creeper",
@@ -4436,7 +4462,13 @@
         "ranged",
         "armored"
       ],
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "tide-runner": {
       "name": "Tide Runner",
@@ -4460,7 +4492,13 @@
         "ranged",
         "armored"
       ],
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "salvage-hauler": {
       "name": "Salvage Hauler",
@@ -4531,7 +4569,12 @@
         "armored",
         "melee"
       ],
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 75,
+        "engageRange": 155
+      }
     },
     "wreck-diver": {
       "name": "Wreck Diver",
@@ -4630,7 +4673,14 @@
         "ranged",
         "armored"
       ],
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 65
+      }
     },
     "wreck-golem": {
       "name": "Wreck Golem",
@@ -4778,7 +4828,13 @@
         "armored",
         "ranged"
       ],
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 70
+      }
     },
     "cog-runner": {
       "name": "Cog Runner",
@@ -4874,7 +4930,12 @@
         "armored",
         "fast"
       ],
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 80,
+        "engageRange": 160
+      }
     },
     "piston-brawler": {
       "name": "Piston Brawler",
