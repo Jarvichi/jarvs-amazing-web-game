@@ -337,6 +337,13 @@
         "effectType": "damage",
         "effectAmount": 1.25,
         "label": "Pack Fury"
+      },
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 65
       }
     },
     "golem": {
@@ -827,6 +834,13 @@
         "effectType": "damage",
         "effectAmount": 1.2,
         "label": "Nighthunter"
+      },
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
       }
     },
     "griffin": {
@@ -3433,7 +3447,13 @@
       "attackCooldownMs": 1200,
       "tags": [
         "fungal"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 70
+      }
     },
     "spore-archer": {
       "name": "Spore Archer",
@@ -3464,7 +3484,13 @@
       "attackCooldownMs": 1000,
       "tags": [
         "fungal"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 70
+      }
     },
     "fungal-shambler": {
       "name": "Fungal Shambler",
@@ -3477,7 +3503,13 @@
       "attackCooldownMs": 1300,
       "tags": [
         "fungal"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 70
+      }
     },
     "bloom-sprite": {
       "name": "Bloom Sprite",
@@ -3825,7 +3857,13 @@
       "attackCooldownMs": 1100,
       "tags": [
         "frost"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 70
+      }
     },
     "frozen-knight": {
       "name": "Frozen Knight",
@@ -4043,7 +4081,13 @@
       "attackCooldownMs": 1100,
       "tags": [
         "sand"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "desert-archer": {
       "name": "Desert Archer",
@@ -4095,7 +4139,14 @@
       "tags": [
         "sand",
         "mercenary"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "dune-bat": {
       "name": "Dune Bat",
