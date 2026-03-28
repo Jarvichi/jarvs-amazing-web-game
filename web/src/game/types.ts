@@ -110,6 +110,8 @@ export interface Unit extends UnitTemplate {
   killFlashTimer?: number
   /** ms remaining stunned — unit cannot move or attack while > 0 (boss trait effect). */
   stunTimer?: number
+  /** Persistent random y position assigned to a guardBase unit (lazy, set on first guard tick). */
+  guardY?: number
 }
 
 // ─── Animation Events ─────────────────────────────────────
