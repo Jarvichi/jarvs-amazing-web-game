@@ -509,6 +509,12 @@
         "effectType": "moveSpeed",
         "effectAmount": 1.3,
         "label": "Shadow Sprint"
+      },
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
       }
     },
     "bat": {
@@ -578,6 +584,12 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.25,
         "label": "Predator Instinct"
+      },
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 70
       }
     },
     "shield-guard": {
@@ -1171,6 +1183,13 @@
         "effectType": "damage",
         "effectAmount": 1.2,
         "label": "Thorn Garden"
+      },
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
       }
     },
     "elder-treant": {
@@ -1660,7 +1679,14 @@
       "weaknesses": [
         "ranged",
         "magic"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "crystal-hydra": {
       "name": "Crystal Hydra",
@@ -1821,6 +1847,12 @@
         "effectType": "moveSpeed",
         "effectAmount": 1.3,
         "label": "Swamp Stride"
+      },
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 70
       }
     },
     "moss-golem": {
@@ -1920,6 +1952,12 @@
         "effectType": "moveSpeed",
         "effectAmount": 1.2,
         "label": "Cavalry Charge"
+      },
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
       }
     },
     "demolitions-expert": {
@@ -2056,6 +2094,12 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.3,
         "label": "Shadow Pack"
+      },
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
       }
     },
     "soulrend-witch": {
@@ -2571,7 +2615,13 @@
         "siege",
         "ranged"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 70
+      }
     },
     "tide-caller": {
       "name": "Tide Caller",
@@ -4348,7 +4398,14 @@
         "large",
         "armored"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "ancient-sprite": {
       "name": "Ancient Sprite",
@@ -4880,7 +4937,13 @@
         "ranged",
         "flying"
       ],
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "reef-warden": {
       "name": "Reef Warden",
