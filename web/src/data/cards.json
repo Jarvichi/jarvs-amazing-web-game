@@ -244,6 +244,11 @@
         "effectType": "damage",
         "effectAmount": 0.8,
         "label": "Holy Shield"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 90,
+        "engageRange": 185
       }
     },
     "rogue": {
@@ -633,6 +638,11 @@
         "effectType": "damage",
         "effectAmount": 0.8,
         "label": "Holy Shield"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 90,
+        "engageRange": 185
       }
     },
     "centaur": {
@@ -1443,6 +1453,11 @@
         "effectType": "damage",
         "effectAmount": 1.2,
         "label": "Battle Cry"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 80,
+        "engageRange": 170
       }
     },
     "bone-archer": {
@@ -2560,7 +2575,14 @@
         "magic",
         "siege"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "siege"
+        ],
+        "fleeRange": 65
+      }
     },
     "seahorse-lancer": {
       "name": "Seahorse Lancer",
@@ -2879,7 +2901,13 @@
       "weaknesses": [
         "fast"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 70
+      }
     },
     "wind-sprite": {
       "name": "Wind Sprite",
@@ -2934,7 +2962,14 @@
         "siege",
         "magic"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "siege"
+        ],
+        "fleeRange": 65
+      }
     },
     "cloud-hawk": {
       "name": "Cloud Hawk",
@@ -4273,7 +4308,14 @@
       "attackCooldownMs": 1300,
       "tags": [
         "mercenary"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "mirage-scout": {
       "name": "Mirage Scout",
@@ -5065,7 +5107,14 @@
         "magic",
         "fast"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "siege"
+        ],
+        "fleeRange": 65
+      }
     },
     "wave-brawler": {
       "name": "Wave Brawler",
@@ -5088,7 +5137,13 @@
         "ranged",
         "magic"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 65
+      }
     },
     "coastal-skirmisher": {
       "name": "Coastal Skirmisher",
@@ -5197,7 +5252,13 @@
         "ranged",
         "magic"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 65
+      }
     },
     "storm-hawk": {
       "name": "Storm Hawk",
