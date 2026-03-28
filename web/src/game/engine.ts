@@ -896,7 +896,7 @@ function moveUnits(s: GameState, deltaMs: number): void {
     }
 
     // ── Unit trait: guard base ───────────────────────────────
-    if (unit.unitTrait?.guardBase) {
+    if (unit.unitTrait?.guardBase && s.gameTime < 120_000) {
       const ownBaseX       = unit.owner === 'player' ? 0 : LANE_WIDTH
       const engageRange    = unit.unitTrait.engageRange    ?? 180
       const baseGuardRange = unit.unitTrait.baseGuardRange ?? 80
@@ -906,15 +906,22 @@ function moveUnits(s: GameState, deltaMs: number): void {
         Math.abs(other.x - ownBaseX) < engageRange
       )
       if (!enemyNearBase) {
+        // Assign a persistent random y to this unit so guards spread across the field
+        // rather than all converging on the same point.
+        if (unit.guardY === undefined) {
+          unit.guardY = (Math.random() * 2 - 1) * LANE_MAX_Y
+        }
         const guardX = unit.owner === 'player'
           ? ownBaseX + baseGuardRange
           : ownBaseX - baseGuardRange
         tx = guardX
-        ty = 0
+        ty = unit.guardY
         hasTarget = true
       }
       // If threat detected, fall through — normal movement engages the enemy
     }
+    // After 2 minutes guarding units begin a slow advance — guard logic is skipped
+    // and normal movement takes over, pushing them toward the opponent.
 
     const dx = tx - unit.x
     const dy = ty - unit.y
