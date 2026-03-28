@@ -1502,6 +1502,13 @@
         "effectType": "damage",
         "effectAmount": 1.25,
         "label": "Ashen Wrath"
+      },
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
       }
     },
     "revenant": {
@@ -2533,7 +2540,13 @@
         "ranged",
         "magic"
       ],
-      "size": "medium"
+      "size": "medium",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "jellyfish-drifter": {
       "name": "Jellyfish Drifter",
@@ -2896,7 +2909,14 @@
       ],
       "weaknesses": [
         "ranged"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 65
+      }
     },
     "stormcaller": {
       "name": "Stormcaller",
@@ -3179,7 +3199,13 @@
       "tags": [
         "ember"
       ],
-      "name": "Cinder Hound"
+      "name": "Cinder Hound",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 70
+      }
     },
     "magma-archer": {
       "attack": 8,
@@ -3231,7 +3257,13 @@
       "tags": [
         "ember"
       ],
-      "name": "Ash Stalker"
+      "name": "Ash Stalker",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 70
+      }
     },
     "pyroclast-runner": {
       "attack": 4,
@@ -3244,7 +3276,13 @@
       "tags": [
         "ember"
       ],
-      "name": "Pyroclast Runner"
+      "name": "Pyroclast Runner",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "fire-salamander": {
       "attack": 10,
@@ -3697,7 +3735,13 @@
       "attackCooldownMs": 1100,
       "tags": [
         "frost"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "glacier-guard": {
       "name": "Glacier Guard",
@@ -3742,7 +3786,13 @@
       "attackCooldownMs": 1000,
       "tags": [
         "frost"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "ice-wraith": {
       "name": "Ice Wraith",
@@ -4025,7 +4075,13 @@
       "attackCooldownMs": 1000,
       "tags": [
         "sand"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "mirage-blade": {
       "name": "Mirage Blade",
@@ -4102,7 +4158,14 @@
       "tags": [
         "sand",
         "mercenary"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "sandstorm-shaman": {
       "name": "Sandstorm Shaman",
