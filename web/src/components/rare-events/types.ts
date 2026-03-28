@@ -5,6 +5,9 @@ export type RareEventKind =
   | 'narrator'
   | 'liarsDice'
   | 'gambler'
+  | 'devBuild'
+  | 'glitchedCard'
+  | 'confusedTourist'
 
 export interface RareEventEffect {
   damage?:           number   // damage dealt to opponent base
@@ -26,4 +29,7 @@ export const ALL_RARE_EVENTS: RareEventKind[] = [
   'narrator',
   'liarsDice',
   'gambler',
+  'devBuild',
+  'glitchedCard',
+  'confusedTourist',
 ]

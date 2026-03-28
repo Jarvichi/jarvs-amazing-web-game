@@ -12,17 +12,35 @@ function formatSurvival(ms: number): string {
   return `${min}:${String(rem).padStart(2, '0')}`
 }
 
-function EndlessTable({ entries }: { entries: EndlessLeaderboardEntry[] | null }) {
+type DisplayEntry = EndlessLeaderboardEntry & { isGhost?: boolean }
+
+function EndlessTable({ entries, ghostWave }: { entries: EndlessLeaderboardEntry[] | null; ghostWave?: number }) {
   if (entries === null) return <div className="el-leaderboard-empty">Loading…</div>
-  if (entries.length === 0) return <div className="el-leaderboard-empty">⏳ No scores yet — be the first!</div>
+  if (entries.length === 0 && ghostWave === undefined) return <div className="el-leaderboard-empty">⏳ No scores yet — be the first!</div>
+
+  // Secret 7 — Score Ghost: inject a mysterious entry just above personal best
+  const display: DisplayEntry[] = [...entries]
+  if (ghostWave !== undefined) {
+    const insertAt = display.findIndex(e => e.wave <= ghostWave) ?? display.length
+    const idx = insertAt === -1 ? display.length : insertAt
+    display.splice(idx, 0, {
+      uid: '__ghost__',
+      characterName: '???',
+      wave: ghostWave + 1,
+      survivalMs: 0,
+      achievedAt: new Date(0),
+      isGhost: true,
+    })
+  }
+
   return (
     <ol className="el-leaderboard-list">
-      {entries.map((entry, i) => (
-        <li key={entry.uid} className="el-leaderboard-entry">
-          <span className="el-lb-rank">{i + 1}.</span>
+      {display.map((entry, i) => (
+        <li key={entry.uid} className={`el-leaderboard-entry${entry.isGhost ? ' el-lb-ghost' : ''}`}>
+          <span className="el-lb-rank">{entry.isGhost ? '?' : `${i + 1}.`}</span>
           <span className="el-lb-name">{entry.characterName}</span>
-          <span className="el-lb-wave">Wave {entry.wave}</span>
-          <span className="el-lb-time">{formatSurvival(entry.survivalMs)}</span>
+          <span className="el-lb-wave">{entry.isGhost ? `Wave ${entry.wave}` : `Wave ${entry.wave}`}</span>
+          <span className="el-lb-time">{entry.isGhost ? '?:??' : formatSurvival(entry.survivalMs)}</span>
         </li>
       ))}
     </ol>
@@ -88,7 +106,7 @@ export function EndlessLeaderboardScreen({ onBack }: Props) {
 
         <div className="el-subtitle" style={{ marginTop: '0.75rem' }}>All time best</div>
         <div className="el-leaderboard">
-          <EndlessTable entries={endlessLb} />
+          <EndlessTable entries={endlessLb} ghostWave={best?.wave} />
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { type User } from 'firebase/auth'
 import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX, loadWinStreak, loadBestStreak } from '../game/collection'
 import { loadRun } from '../game/questline'
@@ -10,9 +10,16 @@ import { TitleIdleAnimation } from './TitleIdleAnimation'
 import { load8bitUnlocked, unlock8bitMode, save8bitEnabled, apply8bitMode } from './SettingsScreen'
 import { incrementAchievementProgress } from '../game/achievements'
 import { getDailyChallengeState } from '../game/dailyChallenge'
+import { generatePack, addCardsToCollection } from '../game/collection'
 
 const CAMPAIGN_UNLOCK_CARDS = 30
 const EIGHTBIT_CLICKS = 8
+
+// Konami code: Up Up Down Down Left Right Left Right
+const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight']
+const KONAMI_KEY = 'jarv_konami_used'
+function hasUsedKonami(): boolean { try { return !!localStorage.getItem(KONAMI_KEY) } catch { return false } }
+function markKonamiUsed(): void   { try { localStorage.setItem(KONAMI_KEY, '1') } catch { /* ignore */ } }
 
 interface Props {
   crystals: number
@@ -59,6 +66,35 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   const logoClickTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [logoFlash, setLogoFlash] = useState(false)
 
+  // Secret #1 — Konami Code
+  const konamiProgress = useRef(0)
+  const [konamiToast, setKonamiToast] = useState<string | null>(null)
+  const handleKonami = useCallback((e: KeyboardEvent) => {
+    if (e.key === KONAMI[konamiProgress.current]) {
+      konamiProgress.current++
+      if (konamiProgress.current === KONAMI.length) {
+        konamiProgress.current = 0
+        if (!hasUsedKonami()) {
+          markKonamiUsed()
+          const pack = generatePack()
+          addCardsToCollection(pack.map(name => ({ cardName: name, count: 1 })))
+          incrementAchievementProgress('misc:konami_code')
+          setKonamiToast('↑↑↓↓←→←→  •  CHEAT ACCEPTED  •  Pack granted!')
+          setTimeout(() => setKonamiToast(null), 4000)
+        } else {
+          setKonamiToast('You already claimed this secret. Nice try.')
+          setTimeout(() => setKonamiToast(null), 3000)
+        }
+      }
+    } else {
+      konamiProgress.current = 0
+    }
+  }, [])
+  useEffect(() => {
+    window.addEventListener('keydown', handleKonami)
+    return () => window.removeEventListener('keydown', handleKonami)
+  }, [handleKonami])
+
   function handleLogoClick() {
     if (load8bitUnlocked()) return
     logoClickCount.current += 1
@@ -83,10 +119,30 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
       ? `📅  DAILY (${dailyChallenge.attempts})`
       : '📅  DAILY CHALLENGE'
 
+  // Secret #9 — Wrong Save File: rare title-screen glitch showing fake stats
+  const [wrongSave, setWrongSave] = useState<{ cards: number; crystals: number; deck: number } | null>(null)
+  useEffect(() => {
+    if (Math.random() > 0.02) return  // 2% chance
+    const fake = {
+      cards:    Math.floor(Math.random() * catalogTotal),
+      crystals: Math.floor(Math.random() * 9999),
+      deck:     Math.floor(Math.random() * 10),
+    }
+    setWrongSave(fake)
+    const id = setTimeout(() => setWrongSave(null), 1800)
+    return () => clearTimeout(id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div className="title-screen">
       {/* Animated background scan line */}
       <div className="title-bg-scan" aria-hidden="true" />
+
+      {/* Secret #1 — Konami code toast */}
+      {konamiToast && (
+        <div className="konami-toast" role="alert">{konamiToast}</div>
+      )}
 
       {/* Win streak ribbon (top-left corner) */}
       {winStreak > 0 && (
@@ -189,8 +245,11 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
 
       {/* Footer: stats + auth */}
       <div className="title-footer">
-        <div className="title-deck-info">
-          {distinctUnlocked}/{catalogTotal} cards &nbsp;·&nbsp; 💎 {crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {count}
+        <div className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>
+          {wrongSave
+            ? <>{wrongSave.cards}/{catalogTotal} cards &nbsp;·&nbsp; 💎 {wrongSave.crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {wrongSave.deck}</>
+            : <>{distinctUnlocked}/{catalogTotal} cards &nbsp;·&nbsp; 💎 {crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {count}</>
+          }
         </div>
         <div className="title-auth-bar">
           {user && !user.isAnonymous ? (

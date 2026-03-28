@@ -10,7 +10,7 @@ import {
   recordCardPlayed, recordUnitDied, addCardsToCollection,
   getOwnedCount, DECK_MAX, CRYSTAL_PACK_COST, DeckEntry,
   deckTotalCards, STARTER_DECK,
-  loadWinStreak, incrementWinStreak, resetWinStreak,
+  loadWinStreak, incrementWinStreak, resetWinStreak, incrementTotalWins,
 } from './game/collection'
 import { getCardCatalog } from './game/cards'
 import {
@@ -20,6 +20,7 @@ import {
   loadFatigued, saveFatigued, clearFatigued, getTopPlayedCards,
   hasSeenIntro, markIntroSeen,
   loadRunCount, incrementRunCount, getAct1Intro,
+  loadBattleCount, incrementBattleCount,
   generateEventFromConfig, EventChoice, EventData,
   CutscenePanel, QuestNode, RunState, Act, ReplayModifier,
   getActiveModifiers, loadActCount, incrementActCount,
@@ -56,6 +57,9 @@ import { WrongNumberEvent }   from './components/rare-events/WrongNumberEvent'
 import { NarratorEvent }      from './components/rare-events/NarratorEvent'
 import { LiarsDiceEvent }     from './components/rare-events/LiarsDiceEvent'
 import { GamblerEvent }       from './components/rare-events/GamblerEvent'
+import { DevBuildEvent }        from './components/rare-events/DevBuildEvent'
+import { GlitchedCardEvent }    from './components/rare-events/GlitchedCardEvent'
+import { ConfusedTouristEvent } from './components/rare-events/ConfusedTouristEvent'
 import { CardTile }           from './components/CardTile'
 import { DailyLoginModal }   from './components/DailyLoginModal'
 import { GiftClaimModal }    from './components/GiftClaimModal'
@@ -375,6 +379,10 @@ export default function App() {
   const [cardRestCandidates, setCardRestCandidates] = useState<string[]>([])
   const [cardRestPlayCounts, setCardRestPlayCounts] = useState<Record<string, number>>({})
   const [bonusPackCards, setBonusPackCards]     = useState<string[]>([])
+  // Secret 5 — Time Capsule on 100th battle
+  const [timeCapsuleVisible, setTimeCapsuleVisible] = useState(false)
+  // Secret 10 — 100 Wins Celebration
+  const [showWinCelebration, setShowWinCelebration] = useState(false)
   const campaignPlayCountsRef = useRef<Record<string, number>>({})  // per-battle play tracking
   const gameStateRef = useRef<GameState | null>(null)  // always-current snapshot for callbacks
 
@@ -1563,10 +1571,32 @@ export default function App() {
     for (const u of gameState.field) {
       if (u.owner === 'player') currentMap.set(u.id, u.name)
     }
+    const fallen: string[] = []
     for (const [id, name] of prevPlayerUnitsRef.current) {
-      if (!currentMap.has(id)) recordUnitDied(name)
+      if (!currentMap.has(id)) { recordUnitDied(name); fallen.push(name) }
     }
     prevPlayerUnitsRef.current = currentMap
+
+    // Secret 3 — Obituary for legendary unit deaths (1-in-10 chance)
+    if (fallen.length > 0) {
+      const catalog = getCardCatalog()
+      const EULOGIES = [
+        (n: string) => `[OBITUARY] ${n} fought bravely. They will be remembered. (They won't.)`,
+        (n: string) => `[OBITUARY] ${n} has fallen. A moment of silence. ...Okay, moment's over.`,
+        (n: string) => `[OBITUARY] In memoriam: ${n}. Gone too soon. Probably your fault.`,
+        (n: string) => `[OBITUARY] ${n} died as they lived — violently, and on the battlefield.`,
+        (n: string) => `[OBITUARY] ${n} gave everything. You gave them a 3-mana slot. Tragic.`,
+      ]
+      const legendaryFallen = fallen.filter(name => catalog.some(c => c.name === name && c.rarity === 'legendary'))
+      if (legendaryFallen.length > 0 && Math.random() < 0.1) {
+        const unitName = legendaryFallen[Math.floor(Math.random() * legendaryFallen.length)]
+        const eulogy = EULOGIES[Math.floor(Math.random() * EULOGIES.length)](unitName)
+        const s = gameStateRef.current
+        if (s) {
+          dispatch({ type: 'SET_GAME_STATE', gameState: { ...s, log: [...s.log.slice(-9), eulogy] } })
+        }
+      }
+    }
   }, [gameState?.field])
 
   // Detect enemy unit/structure kills each tick → achievement progress
@@ -1605,6 +1635,31 @@ export default function App() {
       battleFlawlessRef.current = false
     }
   }, [gameState?.playerBase?.hp, screen])
+
+  // Secret 4 — Tired Game: after midnight, units occasionally yawn
+  useEffect(() => {
+    if (!gameState || screen !== 'playing') return
+    const hour = new Date().getHours()
+    if (hour < 0 || hour >= 6) return  // Only between midnight and 6am (hour 0–5)
+    if (Math.random() > 0.004) return  // ~0.4% per tick — sporadic
+    const playerUnits = gameState.field.filter(u => u.owner === 'player')
+    if (playerUnits.length === 0) return
+    const unit = playerUnits[Math.floor(Math.random() * playerUnits.length)]
+    const s = gameStateRef.current
+    if (!s) return
+    dispatch({ type: 'SET_GAME_STATE', gameState: { ...s, log: [...s.log.slice(-9), `${unit.name} yawns loudly. It's very late.` ] } })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState?.gameTime])
+
+  // Secret 5 — Time Capsule: show on 100th battle started (only once per lifecycle)
+  const timeCapsuleCheckedRef = useRef(false)
+  useEffect(() => {
+    if (screen !== 'playing') return
+    if (timeCapsuleCheckedRef.current) return
+    timeCapsuleCheckedRef.current = true
+    const count = incrementBattleCount()
+    if (count === 100) setTimeCapsuleVisible(true)
+  }, [screen])
 
   // Track card play types for per-battle misc achievements
   const handlePlayCard = useCallback((cardId: string) => {
@@ -1682,6 +1737,10 @@ export default function App() {
       toasts.push(...incrementAchievementProgress('misc:one_card_win'))
     }
     if (toasts.length > 0) setAchievementToasts(prev => [...prev, ...toasts])
+
+    // Secret 10 — 100 Wins Celebration
+    const totalWins = incrementTotalWins()
+    if (totalWins === 100) setShowWinCelebration(true)
   }, [gameState?.phase.type])
 
   // Decrement a campaign life as soon as a battle is lost (before any button is clicked)
@@ -2259,6 +2318,9 @@ export default function App() {
             {activeRareEvent === 'narrator'    && <NarratorEvent    onDone={handleRareEventDone} />}
             {activeRareEvent === 'liarsDice'   && <LiarsDiceEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'gambler'     && <GamblerEvent     onDone={handleRareEventDone} />}
+            {activeRareEvent === 'devBuild'       && <DevBuildEvent       onDone={handleRareEventDone} />}
+            {activeRareEvent === 'glitchedCard'   && <GlitchedCardEvent   onDone={handleRareEventDone} />}
+            {activeRareEvent === 'confusedTourist' && <ConfusedTouristEvent onDone={handleRareEventDone} />}
           </>
         )
       })()}
@@ -2306,6 +2368,60 @@ export default function App() {
             setPendingGifts([])
           }}
         />
+      )}
+
+      {/* Secret 10 — 100 Wins Celebration */}
+      {showWinCelebration && (
+        <div className="win-celebration-backdrop">
+          <div className="win-celebration-modal">
+            <div className="win-celebration-confetti" aria-hidden="true">
+              {Array.from({ length: 30 }, (_, i) => (
+                <span key={i} className="confetti-char" style={{ '--i': i } as React.CSSProperties}>
+                  {['★', '✦', '◆', '▲', '●', '✿'][i % 6]}
+                </span>
+              ))}
+            </div>
+            <div className="win-celebration-header">🎉 100 VICTORIES! 🎉</div>
+            <div className="win-celebration-body">
+              <p>One hundred battles won.</p>
+              <p>The enemy trembles. The game developers are impressed.</p>
+              <p>You have earned a legendary card.</p>
+            </div>
+            <button className="action-btn" onClick={() => {
+              const catalog = getCardCatalog()
+              const pool = catalog.filter(c => c.rarity === 'legendary')
+              if (pool.length > 0) {
+                const card = pool[Math.floor(Math.random() * pool.length)]
+                addCardsToCollection([{ cardName: card.name, count: 1 }])
+              }
+              setShowWinCelebration(false)
+            }}>
+              CLAIM REWARD
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Secret 5 — Time Capsule: 100th battle milestone overlay */}
+      {timeCapsuleVisible && (
+        <div className="time-capsule-backdrop">
+          <div className="time-capsule-modal">
+            <div className="time-capsule-header">📦 TIME CAPSULE OPENED</div>
+            <div className="time-capsule-body">
+              <p>You've started your <strong>100th battle</strong>.</p>
+              <p>Somewhere, a developer is crying tears of joy.</p>
+              <p>You have been awarded a commemorative pack.</p>
+            </div>
+            <button className="action-btn" onClick={() => {
+              const pack = generatePack()
+              addCardsToCollection(pack.map(n => ({ cardName: n, count: 1 })))
+              incrementAchievementProgress('misc:battle_100')
+              setTimeCapsuleVisible(false)
+            }}>
+              CLAIM REWARD
+            </button>
+          </div>
+        </div>
       )}
 
       {/* Daily login reward modal — shown as overlay on first visit each day */}

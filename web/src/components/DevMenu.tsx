@@ -18,12 +18,15 @@ interface Props {
 }
 
 const RARE_EVENT_LABELS: Record<RareEventKind, string> = {
-  blackjack:   'Blackjack',
-  fakeCrash:   'Fake Crash',
-  wrongNumber: 'Wrong Number',
-  narrator:    'Narrator',
-  liarsDice:   "Liar's Dice",
-  gambler:     'The Gambler',
+  blackjack:       'Blackjack',
+  fakeCrash:       'Fake Crash',
+  wrongNumber:     'Wrong Number',
+  narrator:        'Narrator',
+  liarsDice:       "Liar's Dice",
+  gambler:         'The Gambler',
+  devBuild:        'Dev Build',
+  glitchedCard:    'Glitched Card',
+  confusedTourist: 'Confused Tourist',
 }
 
 export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
