@@ -18,7 +18,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 - [x] **#441** Event screen reached without activeEvent or run — gainCard path sets activeEvent=null but leaves screen='event', triggering the guard
 - [ ] **#483** Script error (unknown) — Rollbar item, likely a third-party/browser script error; investigate if reproducible
-- [ ] **#509** deployCard: card has no unit template — 13 structure cards in cards.json use non-standard schema (top-level structureEffect, spawnUnitRef) that resolveCardDef doesn't process, leaving card.unit=undefined
+- [x] **#509** deployCard: card has no unit template — 13 structure cards in cards.json use non-standard schema (top-level structureEffect, spawnUnitRef) that resolveCardDef doesn't process, leaving card.unit=undefined
 
 ## 🔴 Bugs — New (from GitHub, session 28 sync)
 
