@@ -265,7 +265,7 @@ function GiftAdmin({ onFlash }: { onFlash: (msg: string) => void }) {
             <div className="settings-label" style={{ fontSize: '11px' }}>
               {claimed.has(g.id) ? '✓' : '○'} <strong>{g.name}</strong> <span style={{ opacity: 0.5 }}>({g.id})</span>
             </div>
-            <div className="settings-sublabel">{g.rewards.length} reward(s) · created {g.createdAt}{g.expiresAt ? ` · expires ${g.expiresAt}` : ''}</div>
+            <div className="settings-sublabel">{g.rewards.length} reward(s) · created {g.createdAt}{g.fromDate ? ` · from ${g.fromDate}` : ''}{g.expiresAt ? ` · expires ${g.expiresAt}` : ''}</div>
           </div>
         ))
       )}

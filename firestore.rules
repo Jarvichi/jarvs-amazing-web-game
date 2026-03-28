@@ -20,6 +20,7 @@ service cloud.firestore {
     //   name:        string  — display name shown in the claim modal
     //   description: string  — flavour text shown below the name
     //   createdAt:   string  — ISO date "YYYY-MM-DD"
+    //   fromDate:    string  — ISO date (optional); gift hidden before this date
     //   expiresAt:   string  — ISO date (optional); gift hidden after this date
     //   rewards:     array   — list of reward objects:
     //     { type: "crystals", amount: number }
