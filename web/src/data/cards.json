@@ -2883,7 +2883,8 @@
         "magic",
         "siege"
       ],
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "sea-witch": {
       "name": "Sea Witch",
@@ -3282,7 +3283,8 @@
       "weaknesses": [
         "magic"
       ],
-      "size": "large"
+      "size": "large",
+      "targetPriority": "boss"
     },
     "air-sprite": {
       "name": "Air Sprite",
@@ -3500,7 +3502,8 @@
       "tags": [
         "ember"
       ],
-      "name": "Lava Troll"
+      "name": "Lava Troll",
+      "targetPriority": "buildings"
     },
     "ember-wyrm": {
       "attack": 14,
@@ -3514,7 +3517,8 @@
       "tags": [
         "ember"
       ],
-      "name": "Ember Wyrm"
+      "name": "Ember Wyrm",
+      "targetPriority": "boss"
     },
     "flame-warden": {
       "attack": 13,
@@ -3527,7 +3531,8 @@
       "tags": [
         "ember"
       ],
-      "name": "Flame Warden"
+      "name": "Flame Warden",
+      "targetPriority": "buildings"
     },
     "volcanic-golem": {
       "attack": 16,
@@ -3540,7 +3545,8 @@
       "tags": [
         "ember"
       ],
-      "name": "Volcanic Golem"
+      "name": "Volcanic Golem",
+      "targetPriority": "buildings"
     },
     "inferno-drake": {
       "attack": 18,
@@ -3554,7 +3560,8 @@
       "tags": [
         "ember"
       ],
-      "name": "Inferno Drake"
+      "name": "Inferno Drake",
+      "targetPriority": "boss"
     },
     "molten-colossus": {
       "attack": 22,
@@ -3567,7 +3574,8 @@
       "tags": [
         "ember"
       ],
-      "name": "Molten Colossus"
+      "name": "Molten Colossus",
+      "targetPriority": "buildings"
     },
     "spore-crawler": {
       "name": "Spore Crawler",
@@ -3716,7 +3724,8 @@
       "attackCooldownMs": 1600,
       "tags": [
         "fungal"
-      ]
+      ],
+      "targetPriority": "buildings"
     },
     "spore-colossus": {
       "name": "Spore Colossus",
@@ -3730,7 +3739,8 @@
       "tags": [
         "fungal",
         "spore"
-      ]
+      ],
+      "targetPriority": "buildings"
     },
     "bloom-wisp": {
       "name": "Bloom Wisp",
