@@ -30,7 +30,7 @@ export function TrainingScreen({ onBack, onStart }: Props) {
   const filtered = useMemo(() => {
     const q = search.toLowerCase()
     return unitCards.filter(c =>
-      !q || c.name.toLowerCase().includes(q) || (c.tags ?? []).some(t => t.includes(q))
+      !q || c.name.toLowerCase().includes(q)
     )
   }, [unitCards, search])
 
