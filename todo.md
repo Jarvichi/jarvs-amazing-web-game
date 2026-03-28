@@ -53,11 +53,11 @@ When working an issue from this file, go and check the GitHub issue for addition
 ## 🟣 Large Features — New (from GitHub, session 27 sync)
 
 - [ ] **#481** Training mode — practice vs single unit with chosen cards
-- [ ] **#473** Boss Cards — legendary cards earned by beating bosses 10/20/30+ times
-- [ ] **#477** Commander
+- [ ] **#473** Boss Cards — legendary cards earned by beating bosses 10/20/30/40 times; 13 bosses; cost 6 mana
+- [x] **#477** Commander — all sub-issues done (#478 XP, #479 level-up anim, #480 tap/gyro/idle)
 - [ ] **#474** Next 25-act campaign chapter "The Forbidden Word"
 - [x] **#466** Boss spawn kill scaling — 50% base + 10% per run (runCount-1), capped at 100%
-- [ ] **#467** Secrets and Rare Things
+- [ ] **#467** Secrets and Rare Things — 10 secrets: Konami code, Dev Build rare event, Obituary, Tired Game, Time Capsule, Glitched Card rare event, Score Ghost, Confused Tourist, Wrong Save File, 100 Wins Celebration
 - [ ] **#489** Game Engine (tracking issue)
 - [ ] **#462** Battles (tracking issue)
 - [ ] **#460** Shop and Items (tracking issue)
