@@ -1,4 +1,4 @@
-import { GameState, Card, Unit, UnitTemplate, UpgradeEffect, CardRarity, LANE_WIDTH, BattleEventState, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE, AnimEvent, BossTraitState } from './types'
+import { GameState, Card, Unit, UnitTemplate, UpgradeEffect, CardRarity, LANE_WIDTH, BattleEventState, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE, AnimEvent, BossTraitState, UnitTag } from './types'
 import { makeDeck, makeThorlordDeck, makeKraggDeck, makeAshwalkerDeck, makeNodeDeck, HERO_CARDS, getCardUnit, flushCardValidationErrors } from './cards'
 import { playUnitDeath, playBuildingDestroyed } from './sound'
 import { logError } from '../logger'
@@ -688,6 +688,31 @@ function findNearestEnemy(field: Unit[], unit: Unit): Unit | null {
   return nearest
 }
 
+// Nearest enemy AHEAD that matches the unit's targetPriority type.
+// Returns null if no priority preference or no matching target found.
+function findNearestEnemyByPriority(field: Unit[], unit: Unit): Unit | null {
+  const pri = unit.targetPriority
+  if (!pri) return null
+  const isPlayer = unit.owner === 'player'
+  let nearest: Unit | null = null
+  let nearestDist = Infinity
+  for (const other of field) {
+    if (other.owner === unit.owner || other.hp <= 0) continue
+    if (other.isWall && (unit.flying || unit.climber)) continue
+    const ahead = isPlayer ? other.x >= unit.x : other.x <= unit.x
+    if (!ahead) continue
+    const matches =
+      (pri === 'walls'        && other.isWall) ||
+      (pri === 'buildings'    && other.moveSpeed === 0 && !other.isWall) ||
+      (pri === 'boss'         && !!other.isHero) ||
+      (pri === 'ranged_first' && other.bypassWall)
+    if (!matches) continue
+    const d = unitDist(unit, other)
+    if (d < nearestDist) { nearestDist = d; nearest = other }
+  }
+  return nearest
+}
+
 // Nearest enemy that has slipped BEHIND this unit — used to turn around.
 function findEnemyBehind(field: Unit[], unit: Unit): Unit | null {
   let nearest: Unit | null = null
@@ -784,7 +809,7 @@ function moveUnits(s: GameState, deltaMs: number): void {
     if (unit.spawnGrowTimer != null && unit.spawnGrowTimer > 0) continue
     if (unit.stunTimer != null && unit.stunTimer > 0) continue
 
-    const nearestAhead = findNearestEnemy(s.field, unit)
+    const nearestAhead = findNearestEnemyByPriority(s.field, unit) ?? findNearestEnemy(s.field, unit)
 
     // Determine movement target and vector
     // Default: converge toward the base character at centre of the enemy edge (y=0)
@@ -846,6 +871,49 @@ function moveUnits(s: GameState, deltaMs: number): void {
           }
         }
       }
+    }
+
+    // ── Unit trait: flee ─────────────────────────────────────
+    if (unit.unitTrait?.fleeFrom?.length) {
+      const fleeRange = unit.unitTrait.fleeRange ?? 80
+      let fvx = 0, fvy = 0, fleeCount = 0
+      for (const other of s.field) {
+        if (other.owner === unit.owner || other.hp <= 0) continue
+        const dist = unitDist(unit, other)
+        if (dist > fleeRange || dist === 0) continue
+        if (other.tags?.some(t => unit.unitTrait!.fleeFrom!.includes(t as UnitTag))) {
+          fvx += unit.x - other.x
+          fvy += unit.y - other.y
+          fleeCount++
+        }
+      }
+      if (fleeCount > 0) {
+        const len = Math.sqrt(fvx * fvx + fvy * fvy) || 1
+        tx = unit.x + (fvx / len) * 200
+        ty = unit.y + (fvy / len) * 40
+        hasTarget = true
+      }
+    }
+
+    // ── Unit trait: guard base ───────────────────────────────
+    if (unit.unitTrait?.guardBase) {
+      const ownBaseX       = unit.owner === 'player' ? 0 : LANE_WIDTH
+      const engageRange    = unit.unitTrait.engageRange    ?? 180
+      const baseGuardRange = unit.unitTrait.baseGuardRange ?? 80
+      const enemyNearBase  = s.field.some(other =>
+        other.owner !== unit.owner &&
+        other.hp > 0 &&
+        Math.abs(other.x - ownBaseX) < engageRange
+      )
+      if (!enemyNearBase) {
+        const guardX = unit.owner === 'player'
+          ? ownBaseX + baseGuardRange
+          : ownBaseX - baseGuardRange
+        tx = guardX
+        ty = 0
+        hasTarget = true
+      }
+      // If threat detected, fall through — normal movement engages the enemy
     }
 
     const dx = tx - unit.x

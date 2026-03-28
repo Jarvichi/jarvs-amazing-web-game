@@ -50,6 +50,8 @@ export interface UnitTemplate {
   targetUnitType?: 'flying' | 'hero' | 'not_flying'
   /** Proximity buff triggered when a named ally is within range. */
   affinity?: AffinityDef
+  /** Hidden behavioural trait — flee, guard, or priority movement. */
+  unitTrait?: UnitTrait
   /** Flavour text shown in the inspect panel. */
   lore?: string
   /** Visual size of the unit sprite on the battlefield. Defaults to 'medium'. */
@@ -69,6 +71,19 @@ export interface AffinityDef {
   effectType: 'attackSpeed' | 'damage' | 'moveSpeed'
   effectAmount: number    // multiplier (e.g. 1.3 = +30%; 0.8 = −20% incoming damage)
   label: string           // e.g. "Archer's Tempo"
+}
+
+export interface UnitTrait {
+  /** Tags of enemy units this unit flees from when within fleeRange px. */
+  fleeFrom?: UnitTag[]
+  /** Flee trigger distance in px (default 80). */
+  fleeRange?: number
+  /** If true: hang back near own base; only engage if an enemy comes within engageRange px. */
+  guardBase?: boolean
+  /** How far from own base this unit patrols when guarding (default 80 px). */
+  baseGuardRange?: number
+  /** Enemy proximity to own base that breaks the guard stance (default 180 px). */
+  engageRange?: number
 }
 
 export interface Unit extends UnitTemplate {

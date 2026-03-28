@@ -22,6 +22,10 @@
         "siege"
       ],
       "targetPriority": "ranged_first",
+      "unitTrait": {
+        "fleeFrom": ["large"],
+        "fleeRange": 80
+      },
       "size": "small"
     },
     "archer": {
@@ -186,6 +190,11 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.25,
         "label": "Ranged Formation"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 70,
+        "engageRange": 160
       }
     },
     "paladin": {
@@ -271,7 +280,12 @@
         "fast",
         "fire"
       ],
-      "targetPriority": "walls"
+      "targetPriority": "walls",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 90,
+        "engageRange": 200
+      }
     },
     "werewolf": {
       "name": "Werewolf",
@@ -494,6 +508,10 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.3,
         "label": "Blood Frenzy"
+      },
+      "unitTrait": {
+        "fleeFrom": ["large", "armored"],
+        "fleeRange": 70
       },
       "size": "small"
     },
@@ -4971,7 +4989,7 @@
       "tags": [
         "forest"
       ],
-      "lore": "Once the cannon fodder of orc warbands, goblins discovered they actually enjoy being first through the door."
+      "lore": "Fearful of many things, but partial to a vermin sandwich."
     },
     {
       "name": "Archer",
@@ -5348,7 +5366,7 @@
       "tags": [
         "citadel"
       ],
-      "lore": "A technically superior weapon. The operators will tell you at every opportunity."
+      "lore": "Trained to hold position and let the enemy close the distance."
     },
     {
       "name": "Paladin",
@@ -5387,7 +5405,7 @@
       "tags": [
         "citadel"
       ],
-      "lore": "Technically pacifist. It's the rocks that do the violence."
+      "lore": "A siege weapon is most effective when the enemy comes to it."
     },
     {
       "name": "Werewolf",
@@ -5835,7 +5853,7 @@
       "tags": [
         "forest"
       ],
-      "lore": "Hung upside down until called upon \u2014 a skill with surprising tactical applications."
+      "lore": "Skittish by nature \u2014 prefers prey that can't fight back."
     },
     {
       "name": "Scorpion",
