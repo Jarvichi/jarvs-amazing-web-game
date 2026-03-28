@@ -42,7 +42,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔵 Enhancements — New (from GitHub, session 27 sync)
 
-- [ ] **#490** Replace `useState` with `useReducer` for battle/game state
+- [x] **#490** Replace `useState` with `useReducer` for battle/game state — battleReducer.ts with 7 battle-scoped states; 21 unit tests; App.tsx refactored to dispatch actions (START/END/TICK/PLAY_CARD etc.)
 - [x] **#463** Battlefield UI cleanup — hide Hand/Deck count; modifiers only in pause menu; deck viewer in pause menu (scrollable, HAND badge, dimmed played cards)
 - [x] **#464** Add achievements for recently added acts — acts 5-10 each get x1/x10/x100 completion achievements
 - [x] **#469** Endless mode achievements — wave 42/69/99/100/1000 milestones added

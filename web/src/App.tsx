@@ -1,7 +1,8 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { GameState } from './game/types'
-import { newGame, NewGameOptions, playCard, tick, MAX_HANDICAP } from './game/engine'
+import { newGame, NewGameOptions, playCard, MAX_HANDICAP } from './game/engine'
+import { battleReducer, INITIAL_BATTLE_STATE, TICK_MS } from './game/battleReducer'
 import {
   loadDeck, saveDeck, buildDeckCards, generatePack,
   loadCollection, saveCollection, loadCrystals, saveCrystals,
@@ -95,7 +96,6 @@ applyTextSettings()
 apply8bitMode(load8bitEnabled())
 applyLightMode(loadLightMode())
 
-const TICK_MS    = 100
 const HANDICAP_KEY = 'jarvs_handicap'
 
 const BROKEN_RELIC_ITEMS: Record<string, { name: string; icon: string; desc: string }> =
@@ -295,7 +295,33 @@ export default function App() {
 
   const [screen, setScreen]             = useState<Screen>(_startup.screen)
   const [showTitleLoginModal, setShowTitleLoginModal] = useState(false)
-  const [gameState, setGameState] = useState<GameState | null>(_startup.gameState)
+  // ── Battle state (all ephemeral state that exists only during a battle) ──────
+  const [battle, dispatch] = useReducer(battleReducer, {
+    ...INITIAL_BATTLE_STATE,
+    gameState: _startup.gameState,
+  })
+  const { gameState, showBossShockwave, dcGameOverState, summaryStats, showFingerSmash, fingerSmashNames, waveRewardChoices } = battle
+
+  /**
+   * Compatibility wrapper so existing code that calls setGameState(x) or
+   * setGameState(s => ...) continues to work during the migration.
+   * Uses gameStateRef to avoid stale-closure issues with functional updates.
+   */
+  const setGameState = useCallback(
+    (updater: GameState | null | ((s: GameState | null) => GameState | null)) => {
+      if (updater === null) {
+        dispatch({ type: 'END' })
+      } else if (typeof updater === 'function') {
+        const next = updater(gameStateRef.current)
+        if (next === null) dispatch({ type: 'END' })
+        else dispatch({ type: 'SET_GAME_STATE', gameState: next })
+      } else {
+        dispatch({ type: 'SET_GAME_STATE', gameState: updater })
+      }
+    },
+    [],
+  )
+
   const [pack, setPack]           = useState<string[]>([])
   const [handicap, setHandicap]   = useState<number>(loadHandicap)
   const [crystals, setCrystals]   = useState<number>(loadCrystals)
@@ -304,23 +330,13 @@ export default function App() {
   const [run, setRun]                   = useState<RunState | null>(_startup.run)
   const [rewardChoices,  setRewardChoices]  = useState<string[]>([])
   const [rewardCrystals, setRewardCrystals] = useState(0)
-  const [waveRewardChoices, setWaveRewardChoices] = useState<string[]>([])
-  const [showFingerSmash, setShowFingerSmash] = useState(false)
-  const [fingerSmashNames, setFingerSmashNames] = useState<string[]>([])
-  const [showBossShockwave, setShowBossShockwave] = useState(false)
   const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
-  const [dcGameOverState, setDcGameOverState] = useState<DailyChallengeState | undefined>() // snapshot for GameOver display
 
   // Cutscenes & boss dialogue
   const [cutscenePanels, setCutscenePanels]   = useState<CutscenePanel[]>([])
   const cutsceneDoneRef     = useRef<() => void>(() => {})
   const summaryDoneRef      = useRef<() => void>(() => {})
-  const [summaryStats, setSummaryStats] = useState<{
-    stats: import('./game/types').BattleStats
-    gameTime: number
-    playerScore: number
-  } | null>(null)
   const relicSelectDoneRef  = useRef<(relicName: string | null) => void>(() => {})
   const brokenRelicRef      = useRef<{ name: string; icon: string } | null>(null)
   const [relicSpinData, setRelicSpinData] = useState<{ relicName: string; relicIcon: string; breaks: boolean; brokenName?: string; brokenIcon?: string; brokenDesc?: string; onContinue: () => void } | null>(null)
@@ -432,7 +448,7 @@ export default function App() {
     if (isGamePaused) return
     if (isTabHidden) return
     const id = setInterval(() => {
-      setGameState(s => s ? tick(s, TICK_MS) : s)
+      dispatch({ type: 'TICK' })
     }, TICK_MS)
     return () => clearInterval(id)
   }, [screen, gameState?.phase.type, isGamePaused, isTabHidden])
@@ -537,7 +553,7 @@ export default function App() {
     if (active && !prevBossCardActiveRef.current) {
       setShowBossSplash(true)
       setTimeout(() => setShowBossSplash(false), 2500)
-      setShowBossShockwave(true)
+      dispatch({ type: 'SHOW_BOSS_SHOCKWAVE' })
     }
     prevBossCardActiveRef.current = active
   }, [gameState?.bossCardActive])
@@ -550,7 +566,7 @@ export default function App() {
       const firstWin   = won && prevState.won !== true
       // Snapshot the final display state before saving so GameOver always shows
       // the correct attempt count regardless of subsequent re-renders.
-      setDcGameOverState({ date: prevState.date, won, attempts: prevState.attempts + 1 })
+      dispatch({ type: 'SET_DC_GAME_OVER', state: { date: prevState.date, won, attempts: prevState.attempts + 1 } })
       saveDailyChallengeResult(won)
 
       if (firstWin) {
@@ -602,15 +618,13 @@ export default function App() {
   useEffect(() => {
     if (gameState?.phase.type === 'fingerSmash') {
       const fp = gameState.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
-      setFingerSmashNames(fp.smashedNames)
-      setShowFingerSmash(true)
-      if (fp.rewardDue) setWaveRewardChoices(generateEndlessRewardChoices(fp.wave))
+      dispatch({ type: 'ENTER_FINGER_SMASH', names: fp.smashedNames, wave: fp.wave, rewardDue: fp.rewardDue })
       return
     }
-    setShowFingerSmash(false)
+    dispatch({ type: 'DISMISS_FINGER_SMASH' })
     if (gameState?.phase.type === 'waveReward') {
       const phase = gameState.phase as { type: 'waveReward'; wave: number; smashedNames: string[] }
-      setWaveRewardChoices(generateEndlessRewardChoices(phase.wave))
+      dispatch({ type: 'SET_WAVE_REWARD_CHOICES', choices: generateEndlessRewardChoices(phase.wave) })
     }
   }, [gameState?.phase.type])
 
@@ -626,7 +640,6 @@ export default function App() {
   const handlePlay = useCallback(() => {
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
-    setDcGameOverState(undefined)
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -643,7 +656,7 @@ export default function App() {
     // Give a handicap boost scaled to deck size: fewer cards = easier opponent
     // (maxes out at +10 for an empty deck, scales to 0 at DECK_MAX cards)
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
-    setGameState(newGame(playerCards, Math.min(MAX_HANDICAP, handicap + deckBonus)))
+    dispatch({ type: 'START', gameState: newGame(playerCards, Math.min(MAX_HANDICAP, handicap + deckBonus)) })
     setScreen('playing')
     rollRareEvent()
   }, [handicap])
@@ -651,7 +664,6 @@ export default function App() {
   const handleEndless = useCallback(() => {
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
-    setDcGameOverState(undefined)
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -665,7 +677,7 @@ export default function App() {
     const playerCards   = buildDeckCards(effectiveDeck, collection)
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
-    setGameState(newGame({ playerCards, opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus), endlessMode: true }))
+    dispatch({ type: 'START', gameState: newGame({ playerCards, opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus), endlessMode: true }) })
     setScreen('playing')
     rollRareEvent()
   }, [handicap])
@@ -690,11 +702,11 @@ export default function App() {
     const playerCards   = getDailyPlayerDeck()
     const opponentCards = getDailyOpponentDeck()
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    setGameState(newGame({
+    dispatch({ type: 'START', gameState: newGame({
       prebuiltPlayerDeck:   playerCards,
       prebuiltOpponentDeck: opponentCards,
       opponentHandicap: 0,
-    }))
+    }) })
     setScreen('playing')
     rollRareEvent()
   }, [])
@@ -702,7 +714,6 @@ export default function App() {
   const handleDailyChallengeRetry = useCallback(() => {
     isCampaignRef.current        = false
     isDailyChallengeRef.current  = true
-    setDcGameOverState(undefined)
     battleFlawlessRef.current    = true
     battleUsedStructure.current  = false
     battleUsedMobileUnit.current = false
@@ -712,11 +723,11 @@ export default function App() {
     const playerCards   = getDailyPlayerDeck()
     const opponentCards = getDailyOpponentDeck()
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    setGameState(newGame({
+    dispatch({ type: 'START', gameState: newGame({
       prebuiltPlayerDeck:   playerCards,
       prebuiltOpponentDeck: opponentCards,
       opponentHandicap: 0,
-    }))
+    }) })
     setScreen('playing')
     rollRareEvent()
   }, [])
@@ -725,7 +736,6 @@ export default function App() {
     if (!gameState || gameState.phase.type !== 'gameOver') return
     isCampaignRef.current       = false
     isDailyChallengeRef.current = false
-    setDcGameOverState(undefined)
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -748,7 +758,7 @@ export default function App() {
     const playerCards   = buildDeckCards(effectiveDeck, collection)
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
-    setGameState(newGame(playerCards, Math.min(MAX_HANDICAP, nextHandicap + deckBonus)))
+    dispatch({ type: 'START', gameState: newGame(playerCards, Math.min(MAX_HANDICAP, nextHandicap + deckBonus)) })
     setScreen('playing')
     rollRareEvent()
   }, [gameState, handicap])
@@ -803,7 +813,7 @@ export default function App() {
           const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
           state.playerBase = { hp: activeRun.playerHp, maxHp: activeRun.maxHp }
           if (activeRun.activeRelic) getRelicDef(activeRun.activeRelic)?.applyToGame(state)
-          setGameState(state)
+          dispatch({ type: 'START', gameState: state })
           setScreen('playing')
           rollRareEvent()
           return
@@ -943,7 +953,6 @@ export default function App() {
     battleLossRecordedRef.current = false
     prevOpponentUnitsRef.current = new Map()
     prevPlayerUnitsRef.current = new Map()
-    setShowBossShockwave(false)
     const collection  = loadCollection()
     const fatigued    = loadFatigued()
     const deckEntries = loadDeck().filter(e => !fatigued.includes(e.cardName))
@@ -956,7 +965,7 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods733) })
     state.playerBase = { hp: updatedRun.playerHp, maxHp: updatedRun.maxHp }
     if (updatedRun.activeRelic) getRelicDef(updatedRun.activeRelic)?.applyToGame(state)
-    setGameState(state)
+    dispatch({ type: 'START', gameState: state })
     setScreen('playing')
     rollRareEvent()
   }, [run])
@@ -986,7 +995,7 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods761) })
     state.playerBase = { hp: run.playerHp, maxHp: run.maxHp }
     if (run.activeRelic) getRelicDef(run.activeRelic)?.applyToGame(state)
-    setGameState(state)
+    dispatch({ type: 'START', gameState: state })
     setScreen('playing')
     rollRareEvent()
   }, [bossDialogueNode, run])
@@ -1212,11 +1221,7 @@ export default function App() {
     setCrystals(newCrystals)
 
     // Capture stats snapshot then show summary; summary → reward
-    setSummaryStats({
-      stats: gameState.battleStats,
-      gameTime: gameState.gameTime,
-      playerScore: gameState.playerScore,
-    })
+    dispatch({ type: 'SET_SUMMARY_STATS', stats: gameState.battleStats, gameTime: gameState.gameTime, playerScore: gameState.playerScore })
     summaryDoneRef.current = () => {
       const choices = generateRewardChoices(node.type, act.rewardTags)
       setRewardChoices(choices)
@@ -1244,18 +1249,13 @@ export default function App() {
   const handleWaveRewardPick = useCallback((cardName: string) => {
     // Add to collection permanently and inject into the current run deck
     addCardsToCollection([{ cardName, count: 1 }])
-    setGameState(s => {
-      if (!s || s.phase.type !== 'waveReward') return s
-      const catalog = getCardCatalog()
-      const card = catalog.find(c => c.name === cardName)
-      const next = { ...s, phase: { type: 'playing' as const } }
-      if (card) next.playerDeck = [...s.playerDeck, { ...card, id: `reward-${Date.now()}` }]
-      return next
-    })
+    const catalog = getCardCatalog()
+    const card = catalog.find(c => c.name === cardName)
+    dispatch({ type: 'WAVE_REWARD_PICK', card })
   }, [])
 
   const handleWaveRewardSkip = useCallback(() => {
-    setGameState(s => s && s.phase.type === 'waveReward' ? { ...s, phase: { type: 'playing' } } : s)
+    dispatch({ type: 'WAVE_REWARD_SKIP' })
   }, [])
 
   const handleActComplete = useCallback(() => {
@@ -1462,7 +1462,7 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), modsRetry) })
     state.playerBase = { hp: currentRun.playerHp, maxHp: currentRun.maxHp }
     if (currentRun.activeRelic) getRelicDef(currentRun.activeRelic)?.applyToGame(state)
-    setGameState(state)
+    dispatch({ type: 'START', gameState: state })
     setScreen('playing')
     rollRareEvent()
   }, [run])
@@ -1501,7 +1501,7 @@ export default function App() {
         saveDailyChallengeResult(false)
       }
       isDailyChallengeRef.current = false
-      setDcGameOverState(undefined)
+      dispatch({ type: 'END' })
       setScreen('title')
     }
   }, [handleAbandonRun, setAchievementToasts])
@@ -1558,35 +1558,34 @@ export default function App() {
 
   // Track card play types for per-battle misc achievements
   const handlePlayCard = useCallback((cardId: string) => {
-    setGameState(s => {
-      if (!s) return s
-      const card = s.playerHand.find(c => c.id === cardId)
-      if (!card) return s
-      if (card.isHero && s.gameTime < 30000) return s
-      playCardPlay()
-      recordCardPlayed(card.name)
-      // Track for misc achievements
-      const newToastsFromCards = incrementAchievementProgress('misc:cards_played')
-      if (newToastsFromCards.length > 0) {
-        setAchievementToasts(prev => [...prev, ...newToastsFromCards])
-      }
-      if (card.cardType === 'structure') battleUsedStructure.current = true
-      if (card.cardType === 'unit') battleUsedMobileUnit.current = true
-      if (isCampaignRef.current) {
-        campaignPlayCountsRef.current[card.name] =
-          (campaignPlayCountsRef.current[card.name] ?? 0) + 1
-      }
-      const next = playCard(s, cardId)
-      next.battleStats = {
-        ...next.battleStats,
-        cardsPlayed: {
-          ...next.battleStats.cardsPlayed,
-          [card.name]: (next.battleStats.cardsPlayed[card.name] ?? 0) + 1,
-        },
-      }
-      saveBattleState(next)
-      return next
-    })
+    const s = gameStateRef.current
+    if (!s) return
+    const card = s.playerHand.find(c => c.id === cardId)
+    if (!card) return
+    if (card.isHero && s.gameTime < 30000) return
+    playCardPlay()
+    recordCardPlayed(card.name)
+    // Track for misc achievements
+    const newToastsFromCards = incrementAchievementProgress('misc:cards_played')
+    if (newToastsFromCards.length > 0) {
+      setAchievementToasts(prev => [...prev, ...newToastsFromCards])
+    }
+    if (card.cardType === 'structure') battleUsedStructure.current = true
+    if (card.cardType === 'unit') battleUsedMobileUnit.current = true
+    if (isCampaignRef.current) {
+      campaignPlayCountsRef.current[card.name] =
+        (campaignPlayCountsRef.current[card.name] ?? 0) + 1
+    }
+    const next = playCard(s, cardId)
+    next.battleStats = {
+      ...next.battleStats,
+      cardsPlayed: {
+        ...next.battleStats.cardsPlayed,
+        [card.name]: (next.battleStats.cardsPlayed[card.name] ?? 0) + 1,
+      },
+    }
+    saveBattleState(next)
+    dispatch({ type: 'SET_GAME_STATE', gameState: next })
   }, [])
 
   // Track misc achievements at battle end
@@ -1690,7 +1689,6 @@ export default function App() {
   const handleMainMenu = useCallback(() => {
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
-    setDcGameOverState(undefined)
     const currentRun = run
 
     // Life was already decremented by the game-over effect when the battle was lost.
@@ -1707,7 +1705,7 @@ export default function App() {
       setLastRunFailed()
       clearRun()
       setRun(null)
-      setGameState(null)
+      dispatch({ type: 'END' })
       setScreen('campaignfailed')
       return
     }
@@ -1721,7 +1719,7 @@ export default function App() {
     }
     clearBattleState()
     setScreen('title')
-    setGameState(null)
+    dispatch({ type: 'END' })
   }, [run, gameState])
 
   // ── Game over routing ────────────────────────────────────
@@ -2136,17 +2134,17 @@ export default function App() {
               <FingerSmash
                 smashedNames={fingerSmashNames}
                 onDone={() => {
-                  setShowFingerSmash(false)
-                  setGameState(s => {
-                    if (!s || s.phase.type !== 'fingerSmash') return s
-                    const fphase = s.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
-                    return {
-                      ...s,
+                  dispatch({ type: 'DISMISS_FINGER_SMASH' })
+                  const gs = gameStateRef.current
+                  if (gs && gs.phase.type === 'fingerSmash') {
+                    const fphase = gs.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
+                    dispatch({ type: 'SET_GAME_STATE', gameState: {
+                      ...gs,
                       phase: fphase.rewardDue
                         ? { type: 'waveReward', wave: fphase.wave, smashedNames: fphase.smashedNames }
                         : { type: 'playing' },
-                    }
-                  })
+                    } })
+                  }
                 }}
               />
             </>
@@ -2189,7 +2187,7 @@ export default function App() {
         ) : (
           <>
             <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
-            {showBossShockwave && <BossShockwave onDone={() => setShowBossShockwave(false)} />}
+            {showBossShockwave && <BossShockwave onDone={() => dispatch({ type: 'HIDE_BOSS_SHOCKWAVE' })} />}
             {activeRareEvent === 'fakeCrash'   && <FakeCrashEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'blackjack'   && <BlackjackEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'wrongNumber' && <WrongNumberEvent onDone={handleRareEventDone} />}
