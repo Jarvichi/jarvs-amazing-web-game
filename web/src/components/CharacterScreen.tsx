@@ -47,11 +47,14 @@ function AvatarButton({ slug, chosen, onClick, lockHint }: { slug: string; chose
   )
 }
 
+type AvatarTab = 'base' | 'streak' | 'boss'
+
 export function CharacterScreen({ onDone }: Props) {
   const [name,      setName]      = useState(loadPlayerName())
   const [avatar,    setAvatar]    = useState<AvatarSlug>(loadPlayerAvatar())
   const [saving,    setSaving]    = useState(false)
   const [nameError, setNameError] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<AvatarTab>('base')
 
   async function handleSave() {
     const finalName = sanitiseName(name).trim() || 'Jarv'
@@ -72,76 +75,100 @@ export function CharacterScreen({ onDone }: Props) {
   }
 
   return (
-    <div className="event-screen" style={{ maxWidth: 480 }}>
-      <div className="event-type-tag">[CHARACTER]</div>
-      <div className="event-title">Who are you?</div>
+    <div className="character-screen-scroll">
+      <div className="event-screen" style={{ maxWidth: 480 }}>
+        <div className="event-type-tag">[CHARACTER]</div>
+        <div className="event-title">Who are you?</div>
 
-      <div style={{ margin: '1rem 0 0.5rem' }}>
-        <label style={{ color: '#aaffaa', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>
-          NAME
-        </label>
-        <input
-          className="character-name-input"
-          type="text"
-          maxLength={20}
-          value={name}
-          placeholder="Jarv"
-          onChange={e => { setName(sanitiseName(e.target.value)); setNameError(null) }}
-        />
-        {nameError && (
-          <div style={{ color: '#ff6666', fontSize: '0.75rem', marginTop: '0.3rem' }}>
-            {nameError}
+        <div style={{ margin: '1rem 0 0.5rem' }}>
+          <label style={{ color: '#aaffaa', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>
+            NAME
+          </label>
+          <input
+            className="character-name-input"
+            type="text"
+            maxLength={20}
+            value={name}
+            placeholder="Jarv"
+            onChange={e => { setName(sanitiseName(e.target.value)); setNameError(null) }}
+          />
+          {nameError && (
+            <div style={{ color: '#ff6666', fontSize: '0.75rem', marginTop: '0.3rem' }}>
+              {nameError}
+            </div>
+          )}
+        </div>
+
+        <div style={{ margin: '1.2rem 0 0.5rem', width: '100%' }}>
+          <div style={{ color: '#aaffaa', fontSize: '0.8rem', marginBottom: '0.6rem' }}>APPEARANCE</div>
+
+          <div className="character-avatar-tabs">
+            <button
+              className={`character-avatar-tab${activeTab === 'base' ? ' character-avatar-tab--active' : ''}`}
+              onClick={() => setActiveTab('base')}
+            >
+              BASE
+            </button>
+            <button
+              className={`character-avatar-tab${activeTab === 'streak' ? ' character-avatar-tab--active' : ''}`}
+              onClick={() => setActiveTab('streak')}
+            >
+              WIN STREAK
+            </button>
+            <button
+              className={`character-avatar-tab${activeTab === 'boss' ? ' character-avatar-tab--active' : ''}`}
+              onClick={() => setActiveTab('boss')}
+            >
+              BOSS
+            </button>
           </div>
-        )}
+
+          {activeTab === 'base' && (
+            <div className="character-avatar-grid">
+              {BASE_AVATAR_SLUGS.map(slug => (
+                <AvatarButton key={slug} slug={slug} chosen={avatar === slug} onClick={() => setAvatar(slug)} />
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'streak' && (
+            <div className="character-avatar-grid">
+              {STREAK_AVATAR_SLUGS.map(slug => (
+                <AvatarButton
+                  key={slug}
+                  slug={slug}
+                  chosen={avatar === slug}
+                  onClick={() => setAvatar(slug as AvatarSlug)}
+                  lockHint="complete a win streak achievement"
+                />
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'boss' && (
+            <div className="character-avatar-grid">
+              {BOSS_AVATAR_SLUGS.map(slug => (
+                <AvatarButton
+                  key={slug}
+                  slug={slug}
+                  chosen={avatar === slug}
+                  onClick={() => setAvatar(slug as AvatarSlug)}
+                  lockHint="defeat this act's boss"
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        <button
+          className="action-btn action-btn--large"
+          style={{ marginTop: '1.5rem' }}
+          onClick={handleSave}
+          disabled={saving}
+        >
+          {saving ? 'CHECKING NAME…' : 'SAVE & CONTINUE ›'}
+        </button>
       </div>
-
-      <div style={{ margin: '1.2rem 0 0.5rem' }}>
-        <div style={{ color: '#aaffaa', fontSize: '0.8rem', marginBottom: '0.6rem' }}>APPEARANCE</div>
-        <div className="character-avatar-grid">
-          {BASE_AVATAR_SLUGS.map(slug => (
-            <AvatarButton key={slug} slug={slug} chosen={avatar === slug} onClick={() => setAvatar(slug)} />
-          ))}
-        </div>
-
-        <div style={{ color: '#aaffaa', fontSize: '0.75rem', margin: '1rem 0 0.6rem' }}>
-          WIN STREAK AVATARS
-        </div>
-        <div className="character-avatar-grid">
-          {STREAK_AVATAR_SLUGS.map(slug => (
-            <AvatarButton
-              key={slug}
-              slug={slug}
-              chosen={avatar === slug}
-              onClick={() => setAvatar(slug as AvatarSlug)}
-              lockHint="complete a win streak achievement"
-            />
-          ))}
-        </div>
-
-        <div style={{ color: '#aaffaa', fontSize: '0.75rem', margin: '1rem 0 0.6rem' }}>
-          BOSS AVATARS
-        </div>
-        <div className="character-avatar-grid">
-          {BOSS_AVATAR_SLUGS.map(slug => (
-            <AvatarButton
-              key={slug}
-              slug={slug}
-              chosen={avatar === slug}
-              onClick={() => setAvatar(slug as AvatarSlug)}
-              lockHint="defeat this act's boss"
-            />
-          ))}
-        </div>
-      </div>
-
-      <button
-        className="action-btn action-btn--large"
-        style={{ marginTop: '1.5rem' }}
-        onClick={handleSave}
-        disabled={saving}
-      >
-        {saving ? 'CHECKING NAME…' : 'SAVE & CONTINUE ›'}
-      </button>
     </div>
   )
 }

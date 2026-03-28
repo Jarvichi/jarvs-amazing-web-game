@@ -6636,6 +6636,41 @@ html.eightbit-mode .lane-layer {
 
 /* ─── Character Screen ───────────────────────────────── */
 
+.character-screen-scroll {
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.character-avatar-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 0.8rem;
+  border-bottom: 1px solid var(--game-border);
+  padding-bottom: 4px;
+}
+
+.character-avatar-tab {
+  background: none;
+  border: 1px solid #444;
+  color: var(--game-text-color-dim);
+  font-family: inherit;
+  font-size: 11px;
+  padding: 4px 12px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.character-avatar-tab:hover {
+  border-color: #aaffaa;
+  color: #aaffaa;
+}
+
+.character-avatar-tab--active {
+  border-color: #0f0;
+  color: #0f0;
+}
+
 .character-name-input {
   background: var(--game-bg-raised);
   border: 1px solid #33ff33;
