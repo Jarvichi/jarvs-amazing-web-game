@@ -23,7 +23,9 @@
       ],
       "targetPriority": "ranged_first",
       "unitTrait": {
-        "fleeFrom": ["large"],
+        "fleeFrom": [
+          "large"
+        ],
         "fleeRange": 80
       },
       "size": "small"
@@ -381,7 +383,14 @@
         "effectAmount": 1.3,
         "label": "Fae Dance"
       },
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "ogre": {
       "name": "Ogre",
@@ -444,7 +453,13 @@
         "effectAmount": 1.25,
         "label": "Predator Instinct"
       },
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "bandit": {
       "name": "Bandit",
@@ -510,7 +525,10 @@
         "label": "Blood Frenzy"
       },
       "unitTrait": {
-        "fleeFrom": ["large", "armored"],
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
         "fleeRange": 70
       },
       "size": "small"
@@ -665,7 +683,13 @@
         "effectAmount": 1.25,
         "label": "Haunting"
       },
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "lizardman": {
       "name": "Lizardman",
@@ -1508,7 +1532,14 @@
         "ranged",
         "siege"
       ],
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "rune-knight": {
       "name": "Rune Knight",
@@ -1673,7 +1704,14 @@
         "effectAmount": 1.2,
         "label": "Fae Swarm"
       },
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "swamp-lurker": {
       "name": "Swamp Lurker",
@@ -2045,7 +2083,13 @@
         "effectAmount": 1.2,
         "label": "Arcane Sync"
       },
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 70
+      }
     },
     "mana-siphon": {
       "name": "Mana Siphon",
@@ -2206,7 +2250,14 @@
       "weaknesses": [
         "ranged",
         "magic"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "reef-crawler": {
       "name": "Reef Crawler",
@@ -2229,7 +2280,13 @@
         "large",
         "siege"
       ],
-      "size": "small"
+      "size": "small",
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 75
+      }
     },
     "tide-sprite": {
       "name": "Tide Sprite",
@@ -2252,7 +2309,14 @@
       ],
       "weaknesses": [
         "ranged"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "coral-guard": {
       "name": "Coral Guard",
@@ -2575,7 +2639,14 @@
       ],
       "weaknesses": [
         "ranged"
-      ]
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large",
+          "armored"
+        ],
+        "fleeRange": 70
+      }
     },
     "skyguard": {
       "name": "Skyguard",
