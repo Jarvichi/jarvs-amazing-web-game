@@ -75,6 +75,7 @@ const DECK_KEY        = 'jarv_deck'
 const CRYSTALS_KEY    = 'jarv_crystals'
 const WIN_STREAK_KEY      = 'jarv_win_streak'
 const BEST_STREAK_KEY     = 'jarv_best_streak'
+const TOTAL_WINS_KEY      = 'jarv_total_wins'
 const SAVED_DECKS_KEY     = 'jarv_saved_decks'
 
 export const DECK_MIN  = 10
@@ -572,4 +573,13 @@ export function incrementWinStreak(): number {
 }
 export function resetWinStreak(): void {
   try { localStorage.setItem(WIN_STREAK_KEY, '0') } catch { /* ignore */ }
+}
+
+export function loadTotalWins(): number {
+  try { return Math.max(0, parseInt(localStorage.getItem(TOTAL_WINS_KEY) ?? '0', 10) || 0) } catch { return 0 }
+}
+export function incrementTotalWins(): number {
+  const next = loadTotalWins() + 1
+  try { localStorage.setItem(TOTAL_WINS_KEY, String(next)) } catch { /* ignore */ }
+  return next
 }

@@ -7806,3 +7806,257 @@ html.light-mode .action-btn {
 }
 .training-sprite-lg { width: 48px; height: 48px; image-rendering: pixelated; }
 .training-sprite-sm { width: 36px; height: 36px; image-rendering: pixelated; }
+
+/* ── Secret #1 — Konami Code toast ──────────────────────────────────────── */
+.konami-toast {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a2a1a;
+  border: 1px solid #4a9a4a;
+  color: #7ddd7d;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  border-radius: 4px;
+  z-index: 9999;
+  pointer-events: none;
+  animation: konami-toast-in 0.3s ease;
+}
+@keyframes konami-toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-0.5rem); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ── Secret #2 — DevBuild rare event ──────────────────────────────────── */
+.dev-build-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 1rem;
+}
+.dev-build-header {
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: #ff9800;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ff980044;
+  padding-bottom: 0.5rem;
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+}
+.dev-build-log {
+  width: 100%;
+  max-width: 480px;
+  font-family: monospace;
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+.dev-log-debug { color: #888; }
+.dev-log-warn  { color: #ffcc00; }
+.dev-log-error { color: #ff4444; }
+.dev-log-info  { color: #44aaff; }
+.dev-build-done { margin-top: 0.5rem; font-weight: bold; }
+
+/* ── Secret #6 — Glitched Card rare event ─────────────────────────────── */
+.glitch-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  gap: 1rem;
+}
+.glitch-card-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: #ff4444;
+}
+.glitch-card-tile {
+  width: 120px;
+  min-height: 160px;
+  background: #111;
+  border: 2px solid #444;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.glitch-card-tile:hover { border-color: #888; background: #1a1a1a; }
+.glitch-card-tile--revealed { border-color: #4a9a4a; background: #0a1a0a; }
+.glitch-card-name { font-size: 0.8rem; font-weight: bold; text-align: center; color: #ccc; }
+.glitch-card-restored { font-size: 0.7rem; color: #7dbd7d; text-align: center; }
+.glitch-card-hint { font-size: 0.7rem; color: #666; }
+.glitch-text {
+  animation: glitch-flicker 0.15s infinite;
+  color: #ff4444;
+}
+@keyframes glitch-flicker {
+  0%, 100% { opacity: 1; transform: translateX(0); }
+  25%       { opacity: 0.7; transform: translateX(-1px); }
+  75%       { opacity: 0.8; transform: translateX(1px); }
+}
+
+/* ── Secret #8 — Confused Tourist rare event ──────────────────────────── */
+.tourist-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  z-index: 200;
+  padding: 1rem;
+}
+.tourist-card {
+  background: #1a1a2a;
+  border: 1px solid #4a4a9a;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  max-width: 260px;
+  animation: tourist-slide-in 0.4s ease;
+  transition: opacity 0.8s, transform 0.8s;
+}
+.tourist-card--leaving {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+@keyframes tourist-slide-in {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.tourist-header {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: #8888cc;
+  margin-bottom: 0.35rem;
+}
+.tourist-unit-name {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #aaaaee;
+  margin-bottom: 0.4rem;
+}
+.tourist-speech {
+  font-size: 0.8rem;
+  color: #ccc;
+  font-style: italic;
+  line-height: 1.4;
+}
+.tourist-exit {
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+/* ── Secret #5 — Time Capsule modal ──────────────────────────────────── */
+.time-capsule-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+}
+.time-capsule-modal {
+  background: #111;
+  border: 2px solid #8a6a2a;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 360px;
+  text-align: center;
+  color: #eee;
+}
+.time-capsule-header {
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  color: #d4a832;
+  margin-bottom: 1rem;
+}
+.time-capsule-body { font-size: 0.85rem; line-height: 1.8; margin-bottom: 1.25rem; }
+.time-capsule-body strong { color: #d4a832; }
+
+/* ── Secret #10 — 100 Wins Celebration modal ─────────────────────────── */
+.win-celebration-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+}
+.win-celebration-modal {
+  position: relative;
+  background: #0d1a0d;
+  border: 2px solid #4a9a4a;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 360px;
+  text-align: center;
+  color: #eee;
+  overflow: hidden;
+}
+.win-celebration-header {
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  color: #7ddd7d;
+  margin-bottom: 1rem;
+}
+.win-celebration-body { font-size: 0.85rem; line-height: 1.8; margin-bottom: 1.25rem; }
+.win-celebration-confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.confetti-char {
+  position: absolute;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  animation: confetti-fall 2.5s ease-in infinite;
+  animation-delay: calc(var(--i) * 0.08s);
+  left: calc(var(--i) * 3.5%);
+  top: -1rem;
+  color: hsl(calc(var(--i) * 12), 80%, 65%);
+}
+@keyframes confetti-fall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  100% { transform: translateY(120%) rotate(360deg); opacity: 0; }
+}
+
+/* ── Secret #9 — Wrong Save File glitch ──────────────────────────────── */
+.title-deck-info--glitch {
+  animation: save-glitch 0.15s steps(1) infinite;
+  color: #ff6666 !important;
+}
+@keyframes save-glitch {
+  0%, 90%, 100% { filter: none; transform: none; }
+  30%           { filter: blur(1px); transform: translateX(2px); }
+  60%           { filter: blur(0.5px); transform: translateX(-1px); }
+}
+
+/* ── Score Ghost leaderboard entry ───────────────────────────────────── */
+.el-lb-ghost {
+  opacity: 0.5;
+  font-style: italic;
+  color: #888 !important;
+}
+.el-lb-ghost .el-lb-name { color: #999; }
+.el-lb-ghost .el-lb-rank { color: #666; }

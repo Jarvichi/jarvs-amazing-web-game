@@ -315,6 +315,20 @@ export function incrementRunCount(): number {
   return next
 }
 
+// ─── Total battles started counter (all modes) ───────────
+const BATTLE_COUNT_KEY = 'jarv_battle_count'
+
+export function loadBattleCount(): number {
+  try { return parseInt(localStorage.getItem(BATTLE_COUNT_KEY) ?? '0', 10) || 0 }
+  catch { return 0 }
+}
+
+export function incrementBattleCount(): number {
+  const next = loadBattleCount() + 1
+  try { localStorage.setItem(BATTLE_COUNT_KEY, String(next)) } catch { /* ignore */ }
+  return next
+}
+
 // ─── Per-act completion counter ───────────────────────────
 
 const ACT_COUNTS_KEY = 'jarv_act_counts'

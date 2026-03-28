@@ -1217,6 +1217,26 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     reward: { type: 'crystals', crystals: 50 },
     tier: 1,
   },
+  {
+    id: 'misc:konami_found',
+    name: 'Up Up Down Down',
+    description: 'Enter the Konami Code on the title screen.',
+    category: 'misc',
+    progressKey: 'misc:konami_code',
+    target: 1,
+    reward: { type: 'crystals', crystals: 30 },
+    tier: 1,
+  },
+  {
+    id: 'misc:battle_100_found',
+    name: 'Century',
+    description: 'Start 100 battles.',
+    category: 'misc',
+    progressKey: 'misc:battle_100',
+    target: 1,
+    reward: { type: 'crystals', crystals: 100 },
+    tier: 2,
+  },
 
   // ── Shop staff ────────────────────────────────────────────────────────────
 
