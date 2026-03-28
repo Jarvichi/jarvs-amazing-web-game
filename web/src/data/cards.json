@@ -49,7 +49,12 @@
       "weaknesses": [
         "melee",
         "fast"
-      ]
+      ],
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 80,
+        "engageRange": 170
+      }
     },
     "dragon": {
       "name": "Dragon",
@@ -619,6 +624,11 @@
         "effectType": "damage",
         "effectAmount": 1.2,
         "label": "Stampede"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 80,
+        "engageRange": 170
       }
     },
     "harpy": {
@@ -751,6 +761,11 @@
         "effectType": "damage",
         "effectAmount": 1.2,
         "label": "Aerial Volley"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 90,
+        "engageRange": 200
       }
     },
     "vampire": {
@@ -925,7 +940,12 @@
         "fire",
         "melee"
       ],
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 80,
+        "engageRange": 165
+      }
     },
     "necromancer": {
       "name": "Necromancer",
@@ -1268,6 +1288,11 @@
         "effectType": "damage",
         "effectAmount": 1.3,
         "label": "Siege Mastery"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 90,
+        "engageRange": 200
       }
     },
     "shield-wall-soldier": {
@@ -1356,6 +1381,11 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.3,
         "label": "Undead Volley"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 80,
+        "engageRange": 170
       }
     },
     "wight-knight": {
@@ -1805,6 +1835,11 @@
         "effectType": "damage",
         "effectAmount": 1.25,
         "label": "Siege Protocol"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 85,
+        "engageRange": 190
       }
     },
     "cavalry-scout": {
@@ -1865,6 +1900,11 @@
         "effectType": "damage",
         "effectAmount": 1.3,
         "label": "Siege Master"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 85,
+        "engageRange": 180
       }
     },
     "sappers": {
@@ -1895,6 +1935,11 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.3,
         "label": "Sapper Squad"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 75,
+        "engageRange": 160
       }
     },
     "ballista-crew": {
@@ -1925,6 +1970,11 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.3,
         "label": "Bolt Formation"
+      },
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 90,
+        "engageRange": 190
       }
     },
     "shadow-stalker": {
