@@ -5,8 +5,8 @@
 //
 // Firestore rules required (see firestore.rules):
 //   match /gifts/{giftId} {
-//     allow read: if true;                       // public read
-//     allow write: if request.auth.token.admin == true;  // admin SDK / custom claim
+//     allow read: if true;
+//     allow write: if request.auth.uid == "pAB2tLH049PCOI73cQpFlisKpDw1";
 //   }
 //
 // Firestore document schema (matches GiftDef):

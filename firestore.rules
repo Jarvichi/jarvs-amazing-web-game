@@ -29,7 +29,7 @@ service cloud.firestore {
     //     { type: "item",     itemId: string }
     match /gifts/{giftId} {
       allow read: if true;
-      allow write: if request.auth != null && request.auth.token.admin == true;
+      allow write: if request.auth.uid == "pAB2tLH049PCOI73cQpFlisKpDw1";
     }
 
   }
