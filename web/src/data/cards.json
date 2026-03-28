@@ -85,7 +85,8 @@
         "effectAmount": 1.25,
         "label": "Siege Guard"
       },
-      "size": "large"
+      "size": "large",
+      "targetPriority": "boss"
     },
     "skeleton": {
       "name": "Skeleton",
@@ -182,7 +183,8 @@
         "effectAmount": 1.2,
         "label": "Monster Pact"
       },
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "crossbow": {
       "name": "Crossbow",
@@ -387,7 +389,8 @@
         "effectAmount": 1.2,
         "label": "Monster Pact"
       },
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "pixie": {
       "name": "Pixie",
@@ -902,7 +905,8 @@
         "effectAmount": 1.2,
         "label": "Aerial Volley"
       },
-      "size": "large"
+      "size": "large",
+      "targetPriority": "boss"
     },
     "fire-mage": {
       "name": "Fire Mage",
@@ -1177,7 +1181,8 @@
         "effectAmount": 0.8,
         "label": "Forest Bond"
       },
-      "size": "large"
+      "size": "large",
+      "targetPriority": "walls"
     },
     "spore-bat": {
       "name": "Spore Bat",
@@ -1268,7 +1273,8 @@
         "effectAmount": 1.25,
         "label": "Ancient Grove"
       },
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "frog-knight": {
       "name": "Frog Knight",
@@ -1688,7 +1694,8 @@
         "magic",
         "siege"
       ],
-      "size": "large"
+      "size": "large",
+      "targetPriority": "boss"
     },
     "mana-wisp": {
       "name": "Mana Wisp",
@@ -1875,7 +1882,8 @@
         "effectAmount": 1.2,
         "label": "Fungal Network"
       },
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "pixie-scout": {
       "name": "Pixie Scout",
@@ -1982,7 +1990,8 @@
         "effectAmount": 1.15,
         "label": "Ancient Earth"
       },
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "battering-ram-crew": {
       "name": "Battering Ram Crew",
@@ -2788,7 +2797,8 @@
         "magic",
         "siege"
       ],
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "abyssal-hunter": {
       "name": "Abyssal Hunter",
