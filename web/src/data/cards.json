@@ -3773,7 +3773,8 @@
       "attackCooldownMs": 1800,
       "tags": [
         "fungal"
-      ]
+      ],
+      "targetPriority": "buildings"
     },
     "mycelium-wall": {
       "name": "Mycelium Wall",
@@ -3904,7 +3905,8 @@
       "tags": [
         "fungal",
         "spore"
-      ]
+      ],
+      "targetPriority": "boss"
     },
     "frost-crawler": {
       "name": "Frost Crawler",
@@ -4095,7 +4097,8 @@
       "tags": [
         "frost",
         "glacier"
-      ]
+      ],
+      "targetPriority": "boss"
     },
     "glacier-titan": {
       "name": "Glacier Titan",
@@ -4108,7 +4111,8 @@
       "attackCooldownMs": 1700,
       "tags": [
         "glacier"
-      ]
+      ],
+      "targetPriority": "buildings"
     },
     "ice-colossus": {
       "name": "Ice Colossus",
@@ -4122,7 +4126,8 @@
       "tags": [
         "frost",
         "glacier"
-      ]
+      ],
+      "targetPriority": "buildings"
     },
     "permafrost-wyrm": {
       "name": "Permafrost Wyrm",
@@ -4135,7 +4140,8 @@
       "attackCooldownMs": 2100,
       "tags": [
         "glacier"
-      ]
+      ],
+      "targetPriority": "buildings"
     },
     "ice-wall": {
       "name": "Ice Wall",
@@ -4443,7 +4449,8 @@
       "attackCooldownMs": 1700,
       "tags": [
         "sand"
-      ]
+      ],
+      "targetPriority": "buildings"
     },
     "desert-titan": {
       "name": "Desert Titan",
@@ -4457,7 +4464,8 @@
       "tags": [
         "sand",
         "mercenary"
-      ]
+      ],
+      "targetPriority": "buildings"
     },
     "sand-wyrm": {
       "name": "Sand Wyrm",
@@ -4470,7 +4478,8 @@
       "attackCooldownMs": 2000,
       "tags": [
         "sand"
-      ]
+      ],
+      "targetPriority": "buildings"
     },
     "sand-wall": {
       "name": "Sand Wall",
@@ -4845,7 +4854,8 @@
         "ranged",
         "fast"
       ],
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "jungle-stalker": {
       "name": "Jungle Stalker",
@@ -5005,7 +5015,8 @@
         "ranged",
         "fast"
       ],
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "canopy-drake": {
       "name": "Canopy Drake",
@@ -5065,7 +5076,8 @@
         "fast",
         "flying"
       ],
-      "size": "large"
+      "size": "large",
+      "targetPriority": "walls"
     },
     "elder-grove": {
       "name": "Elder Grove",
@@ -5419,7 +5431,8 @@
         "fast",
         "magic"
       ],
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "tempest-rider": {
       "name": "Tempest Rider",
@@ -5444,7 +5457,8 @@
         "ranged",
         "magic"
       ],
-      "size": "medium"
+      "size": "medium",
+      "targetPriority": "boss"
     },
     "coast-leviathan": {
       "name": "Coast Leviathan",
@@ -5472,7 +5486,8 @@
         "flying",
         "magic"
       ],
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "the-harbormaster": {
       "name": "The Harbormaster",
@@ -5786,7 +5801,8 @@
         "fast",
         "magic"
       ],
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "clockwork-titan": {
       "name": "Clockwork Titan",
@@ -5813,7 +5829,8 @@
         "magic",
         "fast"
       ],
-      "size": "large"
+      "size": "large",
+      "targetPriority": "buildings"
     },
     "the-grand-automaton": {
       "name": "The Grand Automaton",
@@ -5841,7 +5858,8 @@
         "magic",
         "fast"
       ],
-      "size": "large"
+      "size": "large",
+      "targetPriority": "boss"
     },
     "gear-wall": {
       "name": "Gear Wall",
