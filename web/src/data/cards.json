@@ -1732,7 +1732,12 @@
         "fast",
         "siege"
       ],
-      "size": "large"
+      "size": "large",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 90,
+        "engageRange": 190
+      }
     },
     "dryad-sentinel": {
       "name": "Dryad Sentinel",
@@ -2754,7 +2759,12 @@
       "weaknesses": [
         "siege"
       ],
-      "size": "large"
+      "size": "large",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 100,
+        "engageRange": 220
+      }
     },
     "leviathan": {
       "name": "Leviathan",
@@ -3013,7 +3023,12 @@
       "weaknesses": [
         "siege"
       ],
-      "size": "large"
+      "size": "large",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 100,
+        "engageRange": 210
+      }
     },
     "sky-leviathan": {
       "name": "Sky Leviathan",
@@ -3039,7 +3054,12 @@
       "weaknesses": [
         "magic"
       ],
-      "size": "large"
+      "size": "large",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 110,
+        "engageRange": 230
+      }
     },
     "sky-sentinel": {
       "name": "Sky Sentinel",
@@ -4891,7 +4911,12 @@
         "ranged",
         "fast"
       ],
-      "size": "large"
+      "size": "large",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 100,
+        "engageRange": 220
+      }
     },
     "shore-scout": {
       "name": "Shore Scout",
@@ -5247,7 +5272,12 @@
         "fast",
         "melee"
       ],
-      "size": "large"
+      "size": "large",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 100,
+        "engageRange": 220
+      }
     },
     "breakwater-wall": {
       "name": "Breakwater Wall",
