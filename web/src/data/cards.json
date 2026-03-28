@@ -5776,6 +5776,202 @@
         "fleeRange": 70
       }
     },
+    "drift-net": {
+      "name": "Drift Net",
+      "attack": 0,
+      "maxHp": 65,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "shore-scout",
+        "intervalMs": 6500
+      },
+      "tags": ["wreck"]
+    },
+    "salvage-dock": {
+      "name": "Salvage Dock",
+      "attack": 0,
+      "maxHp": 85,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "wreck-diver",
+        "intervalMs": 7000
+      },
+      "tags": ["wreck"]
+    },
+    "stormgate": {
+      "name": "Stormgate",
+      "attack": 0,
+      "maxHp": 110,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "tempest-rider",
+        "intervalMs": 9000
+      },
+      "tags": ["storm"]
+    },
+    "gear-assembly": {
+      "name": "Gear Assembly",
+      "attack": 0,
+      "maxHp": 65,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "gear-scout",
+        "intervalMs": 6500
+      },
+      "tags": ["clockwork"]
+    },
+    "clockwork-forge": {
+      "name": "Clockwork Forge",
+      "attack": 0,
+      "maxHp": 85,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "piston-brawler",
+        "intervalMs": 7500
+      },
+      "tags": ["clockwork"]
+    },
+    "titan-forge": {
+      "name": "Titan Forge",
+      "attack": 0,
+      "maxHp": 110,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "clockwork-titan",
+        "intervalMs": 10000
+      },
+      "tags": ["clockwork"]
+    },
+    "drone-array": {
+      "name": "Drone Array",
+      "attack": 0,
+      "maxHp": 110,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "vault-drone",
+        "intervalMs": 5500
+      },
+      "tags": ["vault"]
+    },
+    "breakwater-wall": {
+      "name": "Breakwater Wall",
+      "attack": 0,
+      "maxHp": 55,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "tags": ["wreck"]
+    },
+    "gear-wall": {
+      "name": "Gear Wall",
+      "attack": 0,
+      "maxHp": 55,
+      "isWall": true,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "tags": ["vault"]
+    },
+    "storm-beacon": {
+      "name": "Storm Beacon",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      },
+      "tags": ["storm"]
+    },
+    "pressure-valve": {
+      "name": "Pressure Valve",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 0,
+      "structureEffect": {
+        "type": "mana",
+        "amount": 1
+      },
+      "tags": ["clockwork"]
+    },
+    "tidal-fortress": {
+      "name": "Tidal Fortress",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "healAura",
+        "amount": 3,
+        "intervalMs": 4500
+      },
+      "tags": ["storm"]
+    },
+    "vault-repair-bay": {
+      "name": "Vault Repair Bay",
+      "attack": 0,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "repairAura",
+        "amount": 3,
+        "intervalMs": 4000
+      },
+      "tags": ["vault"]
+    },
     "iron-colossus": {
       "name": "Iron Colossus",
       "attack": 11,
@@ -11630,11 +11826,7 @@
       "rarity": "common",
       "cost": 1,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "spawn",
-        "spawnUnitRef": "shore-scout",
-        "intervalMs": 6500
-      },
+      "unitRef": "drift-net",
       "description": "Trawls up shore scouts from the deep.",
       "deckCount": 2,
       "tags": [
@@ -11647,19 +11839,7 @@
       "rarity": "common",
       "cost": 2,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "mana",
-        "intervalMs": 4500,
-        "unit": {
-          "name": "Storm Beacon",
-          "hp": 12,
-          "attack": 0,
-          "speed": 0,
-          "tags": [
-            "storm"
-          ]
-        }
-      },
+      "unitRef": "storm-beacon",
       "description": "Channels storm energy into mana.",
       "deckCount": 2,
       "tags": [
@@ -11754,11 +11934,7 @@
       "rarity": "uncommon",
       "cost": 2,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "spawn",
-        "spawnUnitRef": "salvage-hauler",
-        "intervalMs": 0
-      },
+      "unitRef": "breakwater-wall",
       "description": "A sturdy sea wall spawned from salvaged debris.",
       "deckCount": 2,
       "tags": [
@@ -11771,11 +11947,7 @@
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "spawn",
-        "spawnUnitRef": "wreck-diver",
-        "intervalMs": 7000
-      },
+      "unitRef": "salvage-dock",
       "description": "Continuously spawns wreck divers.",
       "deckCount": 2,
       "tags": [
@@ -11788,11 +11960,7 @@
       "rarity": "uncommon",
       "cost": 2,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "healAura",
-        "auraHpPerSec": 3,
-        "auraRange": 130
-      },
+      "unitRef": "tidal-fortress",
       "description": "A tide-blessed bastion that heals nearby allies.",
       "deckCount": 2,
       "tags": [
@@ -11894,11 +12062,7 @@
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "spawn",
-        "spawnUnitRef": "tempest-rider",
-        "intervalMs": 9000
-      },
+      "unitRef": "stormgate",
       "description": "Opens a rift in the storm, spawning tempest riders.",
       "deckCount": 1,
       "tags": [
@@ -12013,11 +12177,7 @@
       "rarity": "common",
       "cost": 1,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "spawn",
-        "spawnUnitRef": "gear-scout",
-        "intervalMs": 6500
-      },
+      "unitRef": "gear-assembly",
       "description": "Assembles gear scouts from stored components.",
       "deckCount": 2,
       "tags": [
@@ -12030,19 +12190,7 @@
       "rarity": "common",
       "cost": 2,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "mana",
-        "intervalMs": 4500,
-        "unit": {
-          "name": "Pressure Valve",
-          "hp": 12,
-          "attack": 0,
-          "speed": 0,
-          "tags": [
-            "clockwork"
-          ]
-        }
-      },
+      "unitRef": "pressure-valve",
       "description": "Converts steam pressure into mana.",
       "deckCount": 2,
       "tags": [
@@ -12124,11 +12272,7 @@
       "rarity": "uncommon",
       "cost": 2,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "spawn",
-        "spawnUnitRef": "brass-sentry",
-        "intervalMs": 0
-      },
+      "unitRef": "gear-wall",
       "description": "An interlocking gear barrier.",
       "deckCount": 2,
       "tags": [
@@ -12141,11 +12285,7 @@
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "spawn",
-        "spawnUnitRef": "piston-brawler",
-        "intervalMs": 7500
-      },
+      "unitRef": "clockwork-forge",
       "description": "Continuously produces piston brawlers.",
       "deckCount": 2,
       "tags": [
@@ -12158,11 +12298,7 @@
       "rarity": "uncommon",
       "cost": 2,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "healAura",
-        "auraHpPerSec": 3,
-        "auraRange": 120
-      },
+      "unitRef": "vault-repair-bay",
       "description": "Auto-repairs nearby clockwork units.",
       "deckCount": 2,
       "tags": [
@@ -12265,11 +12401,7 @@
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "spawn",
-        "spawnUnitRef": "clockwork-titan",
-        "intervalMs": 10000
-      },
+      "unitRef": "titan-forge",
       "description": "Produces clockwork titans over time.",
       "deckCount": 1,
       "tags": [
@@ -12282,11 +12414,7 @@
       "rarity": "rare",
       "cost": 4,
       "cardType": "structure",
-      "structureEffect": {
-        "type": "spawn",
-        "spawnUnitRef": "vault-drone",
-        "intervalMs": 5500
-      },
+      "unitRef": "drone-array",
       "description": "Rapidly spawns vault drones.",
       "deckCount": 1,
       "tags": [
