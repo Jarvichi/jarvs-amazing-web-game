@@ -139,7 +139,7 @@ function spriteDamageClass(hp: number, maxHp: number): string {
   return ' lane-unit-sprite--damaged'
 }
 
-function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { unit: Unit; stackIndex?: number; wallStack?: Unit[]; onInspect?: (u: Unit) => void; showName?: boolean }) {
+function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebrating = false }: { unit: Unit; stackIndex?: number; wallStack?: Unit[]; onInspect?: (u: Unit) => void; showName?: boolean; celebrating?: boolean }) {
   const hpPct = Math.max(0, (unit.hp / unit.maxHp) * 100)
   const isStructure = unit.moveSpeed === 0
 
@@ -187,6 +187,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
   const isDying = unit.dyingTimer != null
   const isDamageFlash = unit.damageFlashTimer != null && unit.damageFlashTimer > 0
   const isKillFlash = unit.killFlashTimer != null && unit.killFlashTimer > 0
+  const isCelebrating = celebrating && !isDying && !isStructure && !unit.isWall
 
   return (
     <div
@@ -204,8 +205,9 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
         isKillFlash ? 'lane-unit--kill-flash' : '',
         unit.climbing ? 'lane-unit--climbing' : '',
         unit.size ? `lane-unit--size-${unit.size}` : '',
+        isCelebrating ? 'lane-unit--celebrating' : '',
       ].filter(Boolean).join(' ')}
-      style={style}
+      style={isCelebrating ? { ...style, animationDelay: `${(unit.id.charCodeAt(0) % 7) * 0.1}s` } : style}
       title={`${unit.name} — ${unit.hp}/${unit.maxHp} HP, ${unit.attack} ATK`}
       onClick={onInspect ? (e) => { e.stopPropagation(); onInspect(unit) } : undefined}
     >
@@ -791,18 +793,19 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
           }
           const renderedWallIds = new Set<string>()
 
+          const playerWon = state.phase.type === 'gameOver' && state.phase.winner === 'player'
           return state.field.map((u, i) => {
             if (u.isWall) {
               const key = `${u.owner}:${Math.round(u.x)}`
               const group = wallGroups.get(key)!
               if (group[0].id !== u.id) return null  // only render the first in each group
               renderedWallIds.add(u.id)
-              return <LaneUnit key={u.id} unit={u} wallStack={group} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} />
+              return <LaneUnit key={u.id} unit={u} wallStack={group} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} celebrating={playerWon && u.owner === 'player'} />
             }
             const stackIndex = u.moveSpeed === 0
               ? state.field.slice(0, i).filter(o => o.moveSpeed === 0 && !o.isWall && o.owner === u.owner).length
               : 0
-            return <LaneUnit key={u.id} unit={u} stackIndex={stackIndex} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} />
+            return <LaneUnit key={u.id} unit={u} stackIndex={stackIndex} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} celebrating={playerWon && u.owner === 'player'} />
           })
         })()}
         {/* Animation events: projectiles and hit sparks */}
