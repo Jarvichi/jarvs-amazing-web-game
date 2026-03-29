@@ -1204,7 +1204,7 @@ function checkGameOver(s: GameState): boolean {
     const anyAlive = splitIds.some(id => s.field.some(u => u.id === id && u.hp > 0))
     if (!anyAlive) {
       s.playerScore += VICTORY_BONUS
-      s.phase = { type: 'gameOver', winner: 'player' }
+      s.phase = { type: 'celebration', winner: 'player' }
       return true
     }
     return false
@@ -1215,7 +1215,7 @@ function checkGameOver(s: GameState): boolean {
     const bossAlive = s.field.some(u => u.owner === 'opponent' && u.name === s.bossCard)
     if (!bossAlive) {
       s.playerScore += VICTORY_BONUS
-      s.phase = { type: 'gameOver', winner: 'player' }
+      s.phase = { type: 'celebration', winner: 'player' }
       return true
     }
     if (s.playerBase.hp <= 0) {
@@ -1330,7 +1330,7 @@ function checkGameOver(s: GameState): boolean {
       return false
     }
     s.playerScore += VICTORY_BONUS
-    s.phase = { type: 'gameOver', winner: 'player' }
+    s.phase = { type: 'celebration', winner: 'player' }
     return true
   }
   return false

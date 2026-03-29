@@ -215,6 +215,7 @@ export interface Base {
 
 export type GamePhase =
   | { type: 'playing' }
+  | { type: 'celebration'; winner: 'player' }
   | { type: 'gameOver'; winner: 'player' | 'opponent' | 'draw' }
   | { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
   | { type: 'waveReward'; wave: number; smashedNames: string[] }
