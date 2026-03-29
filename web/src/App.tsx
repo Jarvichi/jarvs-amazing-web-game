@@ -262,7 +262,16 @@ export default function App() {
   // ── PWA auto-update ───────────────────────────────────────────────────────────
   const swRegRef = useRef<ServiceWorkerRegistration | null>(null)
   const { needRefresh: [needRefresh], updateServiceWorker } = useRegisterSW({
-    onRegisteredSW(_url, r) { swRegRef.current = r ?? null },
+    onRegisteredSW(_url, r) {
+      swRegRef.current = r ?? null
+      // In standalone (home screen) mode the browser doesn't trigger SW update
+      // checks on each launch the way a normal tab does, so we kick one off
+      // immediately and then repeat every hour.
+      if (r) {
+        r.update()
+        setInterval(() => r.update(), 60 * 60 * 1000)
+      }
+    },
   })
   useEffect(() => {
     if (needRefresh) updateServiceWorker(true)
