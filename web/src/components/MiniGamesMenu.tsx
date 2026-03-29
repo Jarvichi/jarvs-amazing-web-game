@@ -148,12 +148,12 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       setPrizeToast(`🃏 ${reward.count} cards added to your collection!`)
     } else if (reward.type === 'bundle') {
       const current = loadCrystals()
-      const next = current + 1000
+      const next = current + 500
       saveCrystals(next)
       onCrystalsChange(next)
       const names = pickRandomCards(5)
       addCardsToCollection(names.map(n => ({ cardName: n, count: 1 })))
-      setPrizeToast('Bundle redeemed! +1000 💎 + 5 cards!')
+      setPrizeToast('Bundle redeemed! +500 💎 + 5 cards!')
     }
 
     setTimeout(() => setPrizeToast(null), 4000)

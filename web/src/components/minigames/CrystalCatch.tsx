@@ -2,7 +2,7 @@
 // Catch falling items by clicking them before they hit the bottom.
 // Crystals = +3 tickets, coins = +1, bombs = -10 (game ends if tickets hit 0).
 
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -15,13 +15,12 @@ interface FallingItem {
   kind:  ItemKind
   x:     number   // percentage 0-90
   y:     number   // percentage 0-100
-  speed: number   // % per tick
+  speed: number   // % per frame
 }
 
 const ICON: Record<ItemKind, string>   = { crystal: '🔮', coin: '🪙', bomb: '💣' }
 const VALUE: Record<ItemKind, number>  = { crystal: 3,    coin: 1,     bomb: -10 }
 const GAME_DURATION_MS = 30000
-const TICK_MS          = 50
 const SPAWN_INTERVAL   = 800  // ms between new items
 
 let nextId = 1
@@ -42,71 +41,73 @@ export function CrystalCatch({ onDone }: Props) {
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION_MS)
   const [pops, setPops] = useState<{ id: number; x: number; y: number; label: string }[]>([])
 
-  const ticketsRef  = useRef(0)
-  const startRef    = useRef<number>(0)
-  const lastSpawnRef = useRef<number>(0)
-  const rafRef      = useRef<number | null>(null)
+  const ticketsRef    = useRef(0)
+  const startRef      = useRef<number>(0)
+  const lastSpawnRef  = useRef<number>(0)
+  const rafRef        = useRef<number | null>(null)
   const doneCalledRef = useRef(false)
+  // Stable ref to onDone so the animation loop always calls the latest version
+  const onDoneRef     = useRef(onDone)
+  useEffect(() => { onDoneRef.current = onDone }, [onDone])
 
-  const endGame = useCallback((finalTickets: number) => {
-    if (doneCalledRef.current) return
-    doneCalledRef.current = true
-    if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    setPhase('result')
-    onDone(finalTickets)
-  }, [onDone])
+  // Use a ref for the tick function so the RAF loop never holds a stale closure
+  const tickRef = useRef<() => void>(() => {})
 
-  const tick = useCallback(() => {
-    const now     = Date.now()
-    const elapsed = now - startRef.current
-    const remaining = GAME_DURATION_MS - elapsed
+  useEffect(() => {
+    tickRef.current = () => {
+      const now      = Date.now()
+      const elapsed  = now - startRef.current
+      const remaining = GAME_DURATION_MS - elapsed
 
-    if (remaining <= 0) {
-      setTimeLeft(0)
-      endGame(ticketsRef.current)
-      return
-    }
-
-    setTimeLeft(remaining)
-
-    // Spawn new item
-    const speedPhase = Math.floor(elapsed / 8000)
-    if (now - lastSpawnRef.current > SPAWN_INTERVAL - speedPhase * 100) {
-      lastSpawnRef.current = now
-      const kind = randomKind(elapsed)
-      const speed = 0.6 + speedPhase * 0.15 + Math.random() * 0.2
-      setItems(prev => [
-        ...prev,
-        { id: nextId++, kind, x: Math.random() * 85, y: 0, speed },
-      ])
-    }
-
-    // Move items downward
-    setItems(prev => {
-      const updated: FallingItem[] = []
-      for (const item of prev) {
-        const newY = item.y + item.speed
-        if (newY < 100) {
-          updated.push({ ...item, y: newY })
+      if (remaining <= 0) {
+        setTimeLeft(0)
+        if (!doneCalledRef.current) {
+          doneCalledRef.current = true
+          if (rafRef.current) cancelAnimationFrame(rafRef.current)
+          setPhase('result')
+          onDoneRef.current(ticketsRef.current)
         }
-        // Items that fall off the bottom are just removed (missed)
+        return
       }
-      return updated
-    })
 
-    rafRef.current = requestAnimationFrame(tick)
-  }, [endGame])
+      setTimeLeft(remaining)
+
+      // Spawn new item
+      const speedPhase = Math.floor(elapsed / 8000)
+      if (now - lastSpawnRef.current > SPAWN_INTERVAL - speedPhase * 100) {
+        lastSpawnRef.current = now
+        const kind  = randomKind(elapsed)
+        const speed = 0.6 + speedPhase * 0.15 + Math.random() * 0.2
+        setItems(prev => [
+          ...prev,
+          { id: nextId++, kind, x: Math.random() * 85, y: 0, speed },
+        ])
+      }
+
+      // Move items downward
+      setItems(prev => {
+        const updated: FallingItem[] = []
+        for (const item of prev) {
+          const newY = item.y + item.speed
+          if (newY < 100) updated.push({ ...item, y: newY })
+        }
+        return updated
+      })
+
+      rafRef.current = requestAnimationFrame(() => tickRef.current())
+    }
+  })
 
   function startGame() {
-    ticketsRef.current = 0
-    startRef.current   = Date.now()
-    lastSpawnRef.current = Date.now()
+    ticketsRef.current    = 0
+    startRef.current      = Date.now()
+    lastSpawnRef.current  = Date.now()
     doneCalledRef.current = false
     setTickets(0)
     setItems([])
     setTimeLeft(GAME_DURATION_MS)
     setPhase('playing')
-    rafRef.current = requestAnimationFrame(tick)
+    rafRef.current = requestAnimationFrame(() => tickRef.current())
   }
 
   useEffect(() => {
@@ -125,9 +126,12 @@ export function CrystalCatch({ onDone }: Props) {
     setPops(prev => [...prev, { id, x, y, label }])
     setTimeout(() => setPops(prev => prev.filter(p => p.id !== id)), 700)
 
-    // Bomb ends the round if tickets would go to 0 (only if actually 0)
-    if (kind === 'bomb' && ticketsRef.current === 0) {
-      endGame(0)
+    // Bomb ends the round if tickets hit 0
+    if (kind === 'bomb' && ticketsRef.current === 0 && !doneCalledRef.current) {
+      doneCalledRef.current = true
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      setPhase('result')
+      onDoneRef.current(0)
     }
   }
 
