@@ -337,6 +337,8 @@ export interface NewGameOptions {
   endlessMode?: boolean
   /** Fraction of player mobile units killed by boss shockwave (0.0–1.0). Default 0.5. Scales with run count. */
   bossSpawnKillPct?: number
+  /** Reduce the initial opponent timer so the first card is played within ~25% of the normal interval. */
+  quickStart?: boolean
 }
 
 export function newGame(
@@ -450,7 +452,7 @@ export function newGame(
     manaAccum: 0,
     log: openingLog,
     phase: { type: 'playing' },
-    opponentTimer: oppIntervalMs,
+    opponentTimer: opts.quickStart ? Math.round(oppIntervalMs * 0.25) : oppIntervalMs,
     opponentIntervalMs: oppIntervalMs,
     opponentStrategy: strategy,
     gameTime: 0,
