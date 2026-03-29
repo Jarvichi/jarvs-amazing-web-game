@@ -3,6 +3,7 @@ import { UselessItem, loadInventory, _inventorySyncCheck } from '../game/dailyLo
 import { saveCrystals, loadCrystals } from '../game/collection'
 import { loadEarnedRelics, getRelicDef, RelicDef } from '../game/relics'
 import { loadConsumableStash, loadRunConsumables, ALL_CONSUMABLES, ConsumableDef } from '../game/questline'
+import { loadItemStore } from '../game/itemStore'
 import { OverlayScreen } from './OverlayScreen'
 import { Section } from './Section'
 
@@ -16,6 +17,7 @@ type DetailEntry =
   | { kind: 'relic'; relic: RelicDef; isActive: boolean }
 
 function buildMergedConsumables() {
+  const storeEntries = loadItemStore().filter(e => e.type === 'consumable')
   const merged = [...loadRunConsumables()]
   for (const s of loadConsumableStash()) {
     const existing = merged.find(c => c.id === s.id)
@@ -26,9 +28,23 @@ function buildMergedConsumables() {
     .filter(rc => rc.count > 0)
     .map(rc => {
       const def = ALL_CONSUMABLES.find(c => c.id === rc.id)
-      return def ? { def, count: rc.count } : null
+      if (def) return { def, count: rc.count }
+      // Fall back to display fields stored inline in the item store (e.g. arcade tickets)
+      const storeEntry = storeEntries.find(e => e.id === rc.id)
+      if (storeEntry?.name && storeEntry?.icon) {
+        const syntheticDef: ConsumableDef = {
+          id: storeEntry.id,
+          name: storeEntry.name,
+          icon: storeEntry.icon,
+          desc: storeEntry.desc ?? '',
+          lore: '',
+          price: 0,
+        }
+        return { def: syntheticDef, count: rc.count }
+      }
+      return null
     })
-    .filter((x): x is { def: typeof ALL_CONSUMABLES[0]; count: number } => x !== null)
+    .filter((x): x is { def: ConsumableDef; count: number } => x !== null)
 }
 
 export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
