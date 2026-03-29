@@ -68,6 +68,9 @@ import { LoginModal }        from './components/LoginModal'
 import { InventoryScreen }   from './components/InventoryScreen'
 import { peekDailyReward, markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
 import { getUnclaimedGifts, applyGiftRewards, GiftDef } from './game/gifts'
+import { getUnreadCount as getNewsUnreadCount } from './game/news'
+import { NewsScreen }      from './components/NewsScreen'
+import { NewsAdminScreen } from './components/NewsAdminScreen'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
@@ -242,6 +245,8 @@ type Screen =
   | 'commander'
   | 'giftAdmin'
   | 'training'
+  | 'news'
+  | 'newsAdmin'
 
 
 function formatTimeAgo(date: Date): string {
@@ -412,6 +417,9 @@ export default function App() {
   // Developer gifts
   const [pendingGifts, setPendingGifts] = useState<GiftDef[]>([])
 
+  // News unread count
+  const [newsUnreadCount, setNewsUnreadCount] = useState(0)
+
   // Cloud sync prompt: shown when a newer remote save is detected on the title screen
   const [syncPrompt, setSyncPrompt] = useState<{ remoteDate: Date; data: Record<string, string> } | null>(null)
   const syncPromptedRef = useRef(false)
@@ -452,6 +460,12 @@ export default function App() {
     getUnclaimedGifts().then(unclaimed => {
       if (unclaimed.length > 0) setPendingGifts(unclaimed)
     }).catch(() => {})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // ── News unread count ─────────────────────────────────────
+  useEffect(() => {
+    getNewsUnreadCount().then(setNewsUnreadCount).catch(() => {})
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -1940,6 +1954,8 @@ export default function App() {
             onCommander={commander ? () => setScreen('commander') : undefined}
             commanderName={commander?.cardName ?? null}
             onTraining={() => setScreen('training')}
+            onNews={() => setScreen('news')}
+            hasUnreadNews={newsUnreadCount > 0}
             user={user}
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
             onSignIn={() => setShowTitleLoginModal(true)}
@@ -1967,11 +1983,20 @@ export default function App() {
             try { localStorage.setItem(HANDICAP_KEY, String(n)) } catch { /* ignore */ }
           }}
           onGiftAdmin={() => setScreen('giftAdmin')}
+          onNewsAdmin={() => setScreen('newsAdmin')}
         />
       )}
 
       {screen === 'giftAdmin' && (
         <GiftAdminScreen onBack={() => setScreen('settings')} />
+      )}
+
+      {screen === 'news' && (
+        <NewsScreen onBack={() => { setNewsUnreadCount(0); setScreen('title') }} />
+      )}
+
+      {screen === 'newsAdmin' && (
+        <NewsAdminScreen onBack={() => setScreen('settings')} />
       )}
 
       {screen === 'nodemap' && run && actData && (
