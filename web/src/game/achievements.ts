@@ -107,6 +107,26 @@ export function hasUnclaimedAchievements(): boolean {
   return ACHIEVEMENT_DEFS.some(d => save.unlocked[d.id] && !save.claimed[d.id])
 }
 
+/**
+ * Backfill: unlock any achievement whose progress target is already met but
+ * wasn't unlocked (e.g. achievements added after the player accumulated progress).
+ * Safe to call on every page load — already-unlocked achievements are skipped.
+ * Returns the newly unlocked defs so callers can surface toasts if desired.
+ */
+export function backfillAchievements(): AchievementDef[] {
+  const save = loadAchievementSave()
+  const newlyUnlocked: AchievementDef[] = []
+  for (const def of ACHIEVEMENT_DEFS) {
+    if (save.unlocked[def.id]) continue
+    if ((save.progress[def.progressKey] ?? 0) >= def.target) {
+      save.unlocked[def.id] = true
+      newlyUnlocked.push(def)
+    }
+  }
+  if (newlyUnlocked.length > 0) saveAchievementSave(save)
+  return newlyUnlocked
+}
+
 /** Claim the reward for an achievement. Returns the reward if claimable, null otherwise. */
 export function claimAchievementReward(achievementId: string): AchievementReward | null {
   const save = loadAchievementSave()
