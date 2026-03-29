@@ -112,6 +112,10 @@ export interface Unit extends UnitTemplate {
   stunTimer?: number
   /** Persistent random y position assigned to a guardBase unit (lazy, set on first guard tick). */
   guardY?: number
+  /** ID of the enemy unit this unit is currently locked onto as an attack target. */
+  targetId?: string
+  /** ID of the last enemy unit that dealt damage to this unit (used for target-switch on hit). */
+  lastAttackerId?: string
 }
 
 // ─── Animation Events ─────────────────────────────────────

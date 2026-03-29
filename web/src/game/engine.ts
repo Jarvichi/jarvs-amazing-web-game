@@ -767,7 +767,7 @@ function findAttackTarget(field: Unit[], unit: Unit): Unit | null {
 
   if (candidates.length === 0) return null
 
-  // Apply targetPriority: try preferred bucket first, fall back to nearest
+  // Apply targetPriority: try preferred bucket first, fall back to priority tiers
   const pri = unit.targetPriority
   if (pri) {
     let preferred: Array<{ other: Unit; d: number }> = []
@@ -780,6 +780,34 @@ function findAttackTarget(field: Unit[], unit: Unit): Unit | null {
     }
   }
 
+  // Priority tier 1: the enemy that last attacked this unit (retaliate first)
+  if (unit.lastAttackerId) {
+    const retaliateTarget = candidates.find(c => c.other.id === unit.lastAttackerId)
+    if (retaliateTarget) return retaliateTarget.other
+  }
+
+  // Priority tier 2: enemies that this unit has strength advantage against
+  const strongAgainst = candidates.filter(c =>
+    (unit.strengths ?? []).some(t => (c.other.tags ?? []).includes(t)),
+  )
+  // Among strong targets, prefer those not already targeted by a friendly ally
+  const friendlyTargetIds = new Set(field.filter(u => u.owner === unit.owner && u.targetId).map(u => u.targetId))
+  const untargetedStrong = strongAgainst.filter(c => !friendlyTargetIds.has(c.other.id))
+  if (untargetedStrong.length > 0) {
+    return untargetedStrong.reduce((a, b) => a.d < b.d ? a : b).other
+  }
+
+  // Priority tier 3: spawner structures (high threat — generate more enemies)
+  const spawners = candidates.filter(c => c.other.moveSpeed === 0 && !c.other.isWall && c.other.structureEffect?.type === 'spawn')
+  if (spawners.length > 0) {
+    return spawners.reduce((a, b) => a.d < b.d ? a : b).other
+  }
+
+  // Priority tier 4: hero/boss unit
+  const heroTarget = candidates.find(c => c.other.isHero)
+  if (heroTarget) return heroTarget.other
+
+  // Default: nearest enemy
   return candidates.reduce((a, b) => a.d < b.d ? a : b).other
 }
 
@@ -1054,7 +1082,21 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
       continue
     }
 
-    const target = findAttackTarget(s.field, unit)
+    // Sticky targeting: reuse the locked-on target if still valid (alive + in range)
+    let target: Unit | null = null
+    if (unit.targetId) {
+      const sticky = s.field.find(u => u.id === unit.targetId)
+      if (sticky && sticky.hp > 0 && sticky.owner !== unit.owner && unitDist(unit, sticky) <= unit.attackRange * 1.5) {
+        target = sticky
+      } else {
+        unit.targetId = undefined  // target gone or out of range — pick fresh
+      }
+    }
+    if (!target) {
+      target = findAttackTarget(s.field, unit)
+      if (target) unit.targetId = target.id
+    }
+
     const isPlayer = unit.owner === 'player'
     const atkAura = isPlayer ? playerAtkAura : opponentAtkAura
 
@@ -1094,6 +1136,12 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
         const actualDamage = prevHp - Math.max(0, target.hp)
         if (isPlayer) s.playerScore += actualDamage
         else s.opponentScore += actualDamage
+        // Record who attacked the target for retaliation priority
+        target.lastAttackerId = unit.id
+        // If the target is attacked by a unit it isn't currently locked onto, switch target
+        if (target.targetId && target.targetId !== unit.id && target.attack > 0) {
+          target.targetId = unit.id
+        }
         // Damage flash
         target.damageFlashTimer = DAMAGE_FLASH_MS
         // Emit hit spark at target position
@@ -1119,6 +1167,10 @@ function processAttacks(s: GameState, deltaMs: number, log: string[]): void {
           }
           // Kill flash on the attacker
           unit.killFlashTimer = KILL_FLASH_MS
+          // Clear stale target locks pointing at the now-dead unit
+          for (const ally of s.field) {
+            if (ally.targetId === target.id) ally.targetId = undefined
+          }
         }
       }
       const affSpeedMult = (unit.affinityActive && unit.affinity?.effectType === 'attackSpeed')
