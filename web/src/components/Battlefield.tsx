@@ -793,7 +793,7 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
           }
           const renderedWallIds = new Set<string>()
 
-          const playerWon = state.phase.type === 'gameOver' && state.phase.winner === 'player'
+          const playerWon = (state.phase.type === 'gameOver' || state.phase.type === 'celebration') && state.phase.winner === 'player'
           return state.field.map((u, i) => {
             if (u.isWall) {
               const key = `${u.owner}:${Math.round(u.x)}`

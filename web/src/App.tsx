@@ -493,6 +493,7 @@ export default function App() {
   useEffect(() => {
     if (screen !== 'playing' || !gameState) return
     if (gameState.phase.type === 'gameOver') return
+    if (gameState.phase.type === 'celebration') return
     if (gameState.phase.type === 'fingerSmash') return
     if (gameState.phase.type === 'waveReward') return
     if (isGamePaused) return
@@ -676,6 +677,18 @@ export default function App() {
       const phase = gameState.phase as { type: 'waveReward'; wave: number; smashedNames: string[] }
       dispatch({ type: 'SET_WAVE_REWARD_CHOICES', choices: generateEndlessRewardChoices(phase.wave) })
     }
+  }, [gameState?.phase.type])
+
+  // Victory celebration: auto-transition to gameOver after 3 seconds
+  useEffect(() => {
+    if (gameState?.phase.type !== 'celebration') return
+    const t = setTimeout(() => {
+      const gs = gameStateRef.current
+      if (gs?.phase.type === 'celebration') {
+        dispatch({ type: 'SET_GAME_STATE', gameState: { ...gs, phase: { type: 'gameOver', winner: 'player' } } })
+      }
+    }, 3000)
+    return () => clearTimeout(t)
   }, [gameState?.phase.type])
 
   // Trigger SW update check whenever the title screen is shown
@@ -2286,6 +2299,16 @@ export default function App() {
           && gameState.phase.type === 'gameOver'
           && gameState.phase.winner !== 'player'
           && failCount >= 2
+        if (gameState.phase.type === 'celebration') {
+          return (
+            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+              <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
+              <div className="victory-overlay">
+                <div className="victory-text">YOU WIN!</div>
+              </div>
+            </div>
+          )
+        }
         if (gameState.phase.type === 'fingerSmash') {
           const fp = gameState.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
           return (
