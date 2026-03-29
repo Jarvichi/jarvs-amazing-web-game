@@ -10,7 +10,7 @@
     ],
     "trait": {
       "name": "Burrow",
-      "implemented": false,
+      "implemented": true,
       "trigger": "hp_pct",
       "triggerHpPct": 50,
       "type": "burrow",
@@ -63,7 +63,7 @@
     ],
     "trait": {
       "name": "Earthshaker",
-      "implemented": false,
+      "implemented": true,
       "trigger": "periodic",
       "triggerIntervalMs": 30000,
       "type": "jump_aoe",
@@ -118,7 +118,7 @@
     ],
     "trait": {
       "name": "Ashen Split",
-      "implemented": false,
+      "implemented": true,
       "trigger": "hp_pct",
       "triggerHpPct": 50,
       "type": "split",
@@ -192,7 +192,7 @@
     ],
     "trait": {
       "name": "Arcane Ascension",
-      "implemented": false,
+      "implemented": true,
       "trigger": "game_time_gte",
       "triggerGameTimeMs": 120000,
       "type": "fly",
@@ -272,7 +272,7 @@
     ],
     "trait": {
       "name": "Riptide Surge",
-      "implemented": false,
+      "implemented": true,
       "trigger": "hp_pct",
       "triggerHpPct": 50,
       "type": "burrow",
@@ -358,7 +358,7 @@
     ],
     "trait": {
       "name": "Overload Cascade",
-      "implemented": false,
+      "implemented": true,
       "trigger": "periodic",
       "triggerIntervalMs": 45000,
       "type": "column_aoe",
@@ -414,7 +414,7 @@
     ],
     "trait": {
       "name": "Sand Dive",
-      "implemented": false,
+      "implemented": true,
       "trigger": "hp_pct_multi",
       "triggerHpPcts": [
         66,
@@ -499,7 +499,7 @@
     ],
     "trait": {
       "name": "Mycelium Fracture",
-      "implemented": false,
+      "implemented": true,
       "trigger": "hp_pct",
       "triggerHpPct": 40,
       "type": "split",
@@ -585,7 +585,7 @@
     ],
     "trait": {
       "name": "Caldera Leap",
-      "implemented": false,
+      "implemented": true,
       "trigger": "periodic",
       "triggerIntervalMs": 40000,
       "type": "fly",
@@ -661,7 +661,7 @@
     ],
     "trait": {
       "name": "Storm Dive",
-      "implemented": false,
+      "implemented": true,
       "trigger": "hp_pct",
       "triggerHpPct": 60,
       "type": "fly",
@@ -716,7 +716,7 @@
     ],
     "trait": {
       "name": "Root Surge",
-      "implemented": false,
+      "implemented": true,
       "trigger": "hp_pct_once",
       "triggerHpPct": 50,
       "type": "aoe_column",
@@ -823,7 +823,7 @@
     "trait": {
       "name": "Tidal Surge",
       "type": "aoe_row",
-      "implemented": false,
+      "implemented": true,
       "triggerCondition": "playerBaseHpBelow50Pct",
       "description": "At 50% HP, surges a wall of water across the front row, dealing 10 damage to all player units."
     },
@@ -911,7 +911,7 @@
     "trait": {
       "name": "Gear Cascade",
       "type": "aoe_column",
-      "implemented": false,
+      "implemented": true,
       "triggerCondition": "playerBaseHpBelow50Pct",
       "description": "At 50% HP, releases a cascade of gears that deal 8 damage in a column AOE, slowing hit units for 3 seconds."
     },
