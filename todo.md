@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-27 (session 29 — new issues sync).
+Issues sourced from GitHub. Last synced: 2026-03-29 (session 30 — new issues sync).
 
 ---
 
@@ -13,6 +13,16 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [x] **#178** Per-act themed card sets — Act 4 rewardTags fixed ('crystal'→'spire','arcane'); 5 new Crystal Spire cards added (Prism Warden, Shard Familiar, Arcane Conduit, Resonance Spire, Crystalline Shell); all sprites created. Acts 1–4 now have 25+ themed cards each.
 
 ---
+
+## 🔴 Bugs — New (from GitHub, session 30 sync)
+
+- [ ] **#542** Boss traits not firing — all boss traits have `implemented: false`; flip to `true` in bossAIs.json
+- [ ] **#541** Victory celebration black screen — add celebration phase, "YOU WIN!" overlay, dancing units
+- [ ] **#539** Unit priorities / target switching — units abandon near-dead targets; add targetId persistence + priority order
+
+## 🟣 Large Features — New (from GitHub, session 30 sync)
+
+- [ ] **#540** Mini games — marble run + 3 arcade mini games, ticket economy, prizes, achievements, high scores (requires own session)
 
 ## 🔴 Bugs — New (from GitHub, session 29 sync)
 
