@@ -9,7 +9,9 @@ interface Props {
 }
 
 export function RelicSelectScreen({ earnedRelics, currentRelic, brokenRelic, onSelect }: Props) {
-  const [picked, setPicked] = useState<string | null>(currentRelic ?? (earnedRelics[0] ?? null))
+  const [picked, setPicked] = useState<string | null>(
+    earnedRelics.includes(currentRelic ?? '') ? currentRelic : (earnedRelics[0] ?? null)
+  )
 
   const defs = earnedRelics.map(name => ({ name, def: getRelicDef(name) })).filter(r => r.def)
 
