@@ -21,6 +21,7 @@ interface Props {
   onDevCrystalsChanged?: (n: number) => void
   onDevHandicapChanged?: (n: number) => void
   onGiftAdmin?: () => void
+  onNewsAdmin?: () => void
 }
 
 const TEXT_SIZE_KEY      = 'jarv_text_size'
@@ -129,7 +130,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
-export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin }: Props) {
+export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [textSize,      setTextSize]      = useState(loadTextSize)
   const [textColor,     setTextColor]     = useState(loadTextColor)
@@ -494,15 +495,26 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </Section>
         )}
 
-        {user?.uid === GIFT_OWNER_UID && onGiftAdmin && (
+        {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin) && (
           <Section bordered title="ADMIN">
-            <div className="settings-row">
-              <div>
-                <div className="settings-label">Gift management</div>
-                <div className="settings-sublabel">Create and delete one-off player gifts</div>
+            {onGiftAdmin && (
+              <div className="settings-row">
+                <div>
+                  <div className="settings-label">Gift management</div>
+                  <div className="settings-sublabel">Create and delete one-off player gifts</div>
+                </div>
+                <button className="action-btn action-btn--gold" onClick={onGiftAdmin}>OPEN</button>
               </div>
-              <button className="action-btn action-btn--gold" onClick={onGiftAdmin}>OPEN</button>
-            </div>
+            )}
+            {onNewsAdmin && (
+              <div className="settings-row">
+                <div>
+                  <div className="settings-label">News / What's New</div>
+                  <div className="settings-sublabel">Post new feature announcements and patch notes</div>
+                </div>
+                <button className="action-btn action-btn--gold" onClick={onNewsAdmin}>OPEN</button>
+              </div>
+            )}
           </Section>
         )}
 
