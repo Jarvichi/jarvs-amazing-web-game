@@ -16,13 +16,13 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔴 Bugs — New (from GitHub, session 31 sync)
 
-- [ ] **#552** Mini games screen doesn't scroll — `.game-container` overflow:hidden clips content on mobile
-- [ ] **#551** Minigame tickets are lost when leaving the screen — tickets not visible in inventory
-- [ ] **#550** Minigame ticket prizes balance is wrong — 100 tickets = 250 crystals (too cheap)
-- [ ] **#549** Marble Run needs more grid patterns and random obstacles
-- [ ] **#548** Minigame Lucky Spinner shows blank screen — wheel is a `<div>` containing SVG elements (needs `<svg>`)
-- [ ] **#547** Minigame Crystal Drop items stay at top / never drop — rAF loop/rendering issue
-- [ ] **#546** Minigame high score isn't working
+- [x] **#552** Mini games screen doesn't scroll — `.minigame-hub`/`.minigame-screen` changed to `height:100%; overflow-y:auto`
+- [x] **#551** Minigame tickets not in inventory — root cause was #547; with Crystal Catch fixed, tickets persist correctly via itemStore
+- [x] **#550** Minigame ticket prizes balance — crystal prizes reduced (50/150 crystals); card prizes now consistently better value
+- [x] **#549** Marble Run patterns — 5 named patterns (Funnel, Zigzag, Chaos, Wall Left, Wall Right); random pattern per drop; obstacle pegs shown as ◄ ► ✦
+- [x] **#548** Lucky Spinner blank screen — wheel `<div>` → `<svg viewBox="0 0 240 240">` with SVGSVGElement ref
+- [x] **#547** Crystal Drop items never fall — stale `tick` closure fixed with mutable `tickRef`; removed conflicting CSS transition
+- [x] **#546** High scores not working — root cause was #547/#548; once games produce scores, `saveLocalHighScore` + "Best:" label work correctly
 
 ---
 
