@@ -567,8 +567,8 @@ function applyUpgrade(s: GameState, effect: UpgradeEffect, owner: 'player' | 'op
 
 function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent', log: string[]): void {
   if (card.cardType === 'unit' || card.cardType === 'structure') {
-    if (!card.unit) {
-      logError('deployCard: card has no unit template', { cardName: card.name, cardType: card.cardType, owner })
+    if (!card.unit || typeof card.unit.maxHp !== 'number') {
+      logError('deployCard: card has no valid unit template', { cardName: card.name, cardType: card.cardType, owner })
       return
     }
     // If playing a structure and one of the same type already exists, upgrade it instead
