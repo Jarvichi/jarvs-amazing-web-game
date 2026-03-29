@@ -96,6 +96,7 @@ import { CampaignVictoryScreen } from './components/CampaignVictoryScreen'
 import { CampaignFailedScreen }  from './components/CampaignFailedScreen'
 import { DailyChallengeScreen } from './components/DailyChallengeScreen'
 import { EndlessLeaderboardScreen } from './components/EndlessLeaderboardScreen'
+import { MiniGamesMenu }           from './components/MiniGamesMenu'
 import './styles.css'
 import brokenRelicsData from './data/broken-relics.json'
 import rollbar, { updateRollbarPerson } from './rollbar'
@@ -247,6 +248,7 @@ type Screen =
   | 'training'
   | 'news'
   | 'newsAdmin'
+  | 'minigames'
 
 
 function formatTimeAgo(date: Date): string {
@@ -1980,6 +1982,7 @@ export default function App() {
             onTraining={() => setScreen('training')}
             onNews={() => setScreen('news')}
             hasUnreadNews={newsUnreadCount > 0}
+            onMiniGames={() => setScreen('minigames')}
             user={user}
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
             onSignIn={() => setShowTitleLoginModal(true)}
@@ -2265,6 +2268,16 @@ export default function App() {
         <TrainingScreen
           onBack={() => setScreen('title')}
           onStart={handleStartTraining}
+        />
+      )}
+
+      {screen === 'minigames' && (
+        <MiniGamesMenu
+          crystals={crystals}
+          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
+          user={user}
+          characterName={loadPlayerName()}
+          onBack={() => setScreen('title')}
         />
       )}
 
