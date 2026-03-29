@@ -42,9 +42,25 @@ export default defineConfig({
         start_url: '/jarvs-amazing-web-game/',
         icons: [
           {
-            src: '/jarvs-amazing-web-game/sprites/goblin.svg',
-            sizes: 'any',
-            type: 'image/svg+xml',
+            src: '/jarvs-amazing-web-game/pwa-64x64.png',
+            sizes: '64x64',
+            type: 'image/png',
+          },
+          {
+            src: '/jarvs-amazing-web-game/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/jarvs-amazing-web-game/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+          {
+            src: '/jarvs-amazing-web-game/maskable-icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
           },
         ],
       },
