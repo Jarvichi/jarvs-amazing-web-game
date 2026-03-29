@@ -174,7 +174,9 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName }: { un
     const hPct = 50 + (unit.y / 80) * 36
     // Apply a stable per-unit percentage jitter so units never perfectly overlap,
     // scaled to the lane dimensions rather than fixed pixels
-    const { dxPct, dyPct } = unitJitter(unit.id)
+    const { dxPct, dyPct } = unit.spawnGrowTimer != null && unit.spawnGrowTimer > 0
+      ? { dxPct: 0, dyPct: 0 }
+      : unitJitter(unit.id)
     style = {
       top: `${topPct + dyPct}%`,
       left: `${hPct + dxPct}%`,
