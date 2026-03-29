@@ -16,9 +16,9 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔴 Bugs — New (from GitHub, session 30 sync)
 
-- [ ] **#542** Boss traits not firing — all boss traits have `implemented: false`; flip to `true` in bossAIs.json
-- [ ] **#541** Victory celebration black screen — add celebration phase, "YOU WIN!" overlay, dancing units
-- [ ] **#539** Unit priorities / target switching — units abandon near-dead targets; add targetId persistence + priority order
+- [x] **#542** Boss traits not firing — flipped all `implemented: false` → `true` in bossAIs.json; engine already had full mechanics
+- [x] **#541** Victory celebration black screen — new `celebration` phase; 3s YOU WIN! overlay + dancing units before gameOver
+- [x] **#539** Unit priorities / target switching — added `targetId`/`lastAttackerId` sticky targeting; 5-tier priority order in findAttackTarget()
 
 ## 🟣 Large Features — New (from GitHub, session 30 sync)
 
