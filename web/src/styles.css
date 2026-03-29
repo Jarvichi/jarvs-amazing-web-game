@@ -7166,6 +7166,21 @@ html.light-mode .action-btn {
   animation: damage-flash-anim 0.2s ease-out forwards;
 }
 
+/* Victory celebration: units jump and dance when the player wins */
+@keyframes celebrate-jump {
+  0%   { transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(1); }
+  15%  { transform: translateX(-50%) translateY(calc(-50% - 18px)) rotate(-8deg) scale(1.08); }
+  30%  { transform: translateX(-50%) translateY(-50%) rotate(6deg) scale(1); }
+  45%  { transform: translateX(-50%) translateY(calc(-50% - 14px)) rotate(-5deg) scale(1.06); }
+  60%  { transform: translateX(-50%) translateY(-50%) rotate(4deg) scale(1); }
+  75%  { transform: translateX(-50%) translateY(calc(-50% - 10px)) rotate(-3deg) scale(1.04); }
+  90%  { transform: translateX(-50%) translateY(-50%) rotate(2deg) scale(1); }
+  100% { transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(1); }
+}
+.lane-unit--celebrating {
+  animation: celebrate-jump 0.7s ease-in-out infinite;
+}
+
 /* Death linger: unit tips/falls sideways then fades into a blood pool */
 @keyframes dying-anim {
   0%   { opacity: 1;   transform: translateX(-50%) translateY(-50%) rotate(0deg); }
@@ -8062,6 +8077,13 @@ html.light-mode .action-btn {
 .el-lb-ghost .el-lb-rank { color: #666; }
 
 /* ── News / What's New ────────────────────────────────────────────────── */
+.news-list {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  padding-right: 4px;
+}
+
 .news-item {
   display: flex;
   flex-direction: column;
@@ -8093,6 +8115,19 @@ html.light-mode .action-btn {
   color: #ffcc00;
   border: 1px solid rgba(255,204,0,0.3);
 }
+
+.news-item__dismiss {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 4px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.news-item__dismiss:hover { color: #ff4444; }
 
 .news-item__title {
   font-size: 14px;

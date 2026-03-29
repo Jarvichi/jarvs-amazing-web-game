@@ -34,6 +34,7 @@ export const NEWS_TAGS = ['NEW FEATURE', 'UPDATE', 'BUG FIX', 'EVENT'] as const
 // ── Storage ──────────────────────────────────────────────────────────────────
 
 const READ_NEWS_KEY = 'jarv_read_news'
+const DISMISSED_NEWS_KEY = 'jarv_dismissed_news'
 
 export function loadReadNewsIds(): string[] {
   try {
@@ -41,6 +42,25 @@ export function loadReadNewsIds(): string[] {
     if (raw) return JSON.parse(raw) as string[]
   } catch { /* ignore */ }
   return []
+}
+
+export function loadDismissedNewsIds(): string[] {
+  try {
+    const raw = localStorage.getItem(DISMISSED_NEWS_KEY)
+    if (raw) return JSON.parse(raw) as string[]
+  } catch { /* ignore */ }
+  return []
+}
+
+export function dismissNewsItem(id: string): void {
+  try {
+    const existing = loadDismissedNewsIds()
+    if (!existing.includes(id)) {
+      localStorage.setItem(DISMISSED_NEWS_KEY, JSON.stringify([...existing, id]))
+    }
+  } catch (e) {
+    logError('dismissNewsItem failed', { error: String(e) })
+  }
 }
 
 export function markNewsRead(ids: string[]): void {
