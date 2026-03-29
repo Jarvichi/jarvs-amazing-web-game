@@ -1593,7 +1593,7 @@ function tickBossTrait(s: GameState, log: string[]): void {
   if (!s.bossAI || !s.bossTraitState) return
   const def = getBossAIDef(s.bossAI)
   const trait = def?.trait
-  if (!trait) return
+  if (!trait || trait.implemented === false) return
 
   const ts = s.bossTraitState
 
