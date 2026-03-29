@@ -733,6 +733,7 @@ export default function App() {
       prebuiltPlayerDeck:   playerCards,
       prebuiltOpponentDeck: opponentCards,
       opponentHandicap: 0,
+      quickStart: true,
     }) })
     setScreen('playing')
     rollRareEvent()
@@ -754,6 +755,7 @@ export default function App() {
       prebuiltPlayerDeck:   playerCards,
       prebuiltOpponentDeck: opponentCards,
       opponentHandicap: 0,
+      quickStart: true,
     }) })
     setScreen('playing')
     rollRareEvent()
@@ -811,7 +813,7 @@ export default function App() {
     prevPlayerUnitsRef.current   = new Map()
     // Build a 30-card opponent deck of just the chosen unit
     const opponentDeck = makeNodeDeck(Array.from({ length: 30 }, () => enemyUnitName))
-    dispatch({ type: 'START', gameState: newGame({ playerCards, prebuiltOpponentDeck: opponentDeck, opponentHandicap: 0 }) })
+    dispatch({ type: 'START', gameState: newGame({ playerCards, prebuiltOpponentDeck: opponentDeck, opponentHandicap: 0, quickStart: true }) })
     setScreen('playing')
   }, [])
 
