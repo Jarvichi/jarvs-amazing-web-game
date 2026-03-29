@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-29 (session 30 — new issues sync).
+Issues sourced from GitHub. Last synced: 2026-03-29 (session 31 — new issues sync).
 
 ---
 
@@ -11,6 +11,18 @@ When working an issue from this file, go and check the GitHub issue for addition
 ## ✅ Closed (session 25)
 
 - [x] **#178** Per-act themed card sets — Act 4 rewardTags fixed ('crystal'→'spire','arcane'); 5 new Crystal Spire cards added (Prism Warden, Shard Familiar, Arcane Conduit, Resonance Spire, Crystalline Shell); all sprites created. Acts 1–4 now have 25+ themed cards each.
+
+---
+
+## 🔴 Bugs — New (from GitHub, session 31 sync)
+
+- [ ] **#552** Mini games screen doesn't scroll — `.game-container` overflow:hidden clips content on mobile
+- [ ] **#551** Minigame tickets are lost when leaving the screen — tickets not visible in inventory
+- [ ] **#550** Minigame ticket prizes balance is wrong — 100 tickets = 250 crystals (too cheap)
+- [ ] **#549** Marble Run needs more grid patterns and random obstacles
+- [ ] **#548** Minigame Lucky Spinner shows blank screen — wheel is a `<div>` containing SVG elements (needs `<svg>`)
+- [ ] **#547** Minigame Crystal Drop items stay at top / never drop — rAF loop/rendering issue
+- [ ] **#546** Minigame high score isn't working
 
 ---
 
