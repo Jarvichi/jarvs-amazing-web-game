@@ -786,11 +786,16 @@ function findAttackTarget(field: Unit[], unit: Unit): Unit | null {
 const CLIMB_SPEED_FACTOR = 0.25   // climbers move at 25 % speed through wall zones
 const WALL_CLIMB_ZONE   = 30      // px radius around a wall that counts as "wall zone"
 
-const BLOOD_CLUSTER_RADIUS = 50   // px — pools within this distance count as "same area"
-const BLOOD_CLUSTER_MIN    = 3    // minimum pools in a cluster to trigger avoidance
+const BLOOD_CLUSTER_RADIUS = 70   // px — pools within this distance count as "same area"
+const BLOOD_CLUSTER_MIN    = 2    // minimum pools in a cluster to trigger avoidance
+const MAX_BASE_GUARDS      = 2    // max units per side allowed to stay in guard-base mode
 
 function moveUnits(s: GameState, deltaMs: number): void {
   const deltaSec = deltaMs / 1000
+
+  // Tracks how many units per owner have decided to guard this tick.
+  // Once MAX_BASE_GUARDS is reached, additional guardBase units advance instead.
+  const guardDecisionCount: Record<string, number> = {}
 
   // Pre-compute which active blood pools are part of a dense cluster (3+).
   // Done once per tick rather than per unit to keep the cost O(pools²).
@@ -874,7 +879,10 @@ function moveUnits(s: GameState, deltaMs: number): void {
     }
 
     // ── Unit trait: flee ─────────────────────────────────────
-    if (unit.unitTrait?.fleeFrom?.length) {
+    // Only flee when there is no active attack target — if the unit has something
+    // to fight it should engage rather than run. If there is no target at all,
+    // advancing normally is better than aimless retreat.
+    if (unit.unitTrait?.fleeFrom?.length && !hasTarget) {
       const fleeRange = unit.unitTrait.fleeRange ?? 80
       let fvx = 0, fvy = 0, fleeCount = 0
       for (const other of s.field) {
@@ -889,13 +897,22 @@ function moveUnits(s: GameState, deltaMs: number): void {
       }
       if (fleeCount > 0) {
         const len = Math.sqrt(fvx * fvx + fvy * fvy) || 1
-        tx = unit.x + (fvx / len) * 200
+        const rawTx = unit.x + (fvx / len) * 200
+        // Cap retreat: unit may only flee up to 80 px toward its own base from
+        // its current position — prevents units fleeing all the way home.
+        const MAX_RETREAT = 80
+        tx = unit.owner === 'player'
+          ? Math.max(rawTx, unit.x - MAX_RETREAT)
+          : Math.min(rawTx, unit.x + MAX_RETREAT)
         ty = unit.y + (fvy / len) * 40
         hasTarget = true
       }
     }
 
     // ── Unit trait: guard base ───────────────────────────────
+    // At most MAX_BASE_GUARDS units per side may guard at once; once that quota
+    // is filled additional guardBase units fall through to normal forward movement
+    // so they advance and attack instead of piling up near their own base.
     if (unit.unitTrait?.guardBase && s.gameTime < 120_000) {
       const ownBaseX       = unit.owner === 'player' ? 0 : LANE_WIDTH
       const engageRange    = unit.unitTrait.engageRange    ?? 180
@@ -905,7 +922,9 @@ function moveUnits(s: GameState, deltaMs: number): void {
         other.hp > 0 &&
         Math.abs(other.x - ownBaseX) < engageRange
       )
-      if (!enemyNearBase) {
+      const guardsThisTick = guardDecisionCount[unit.owner] ?? 0
+      if (!enemyNearBase && guardsThisTick < MAX_BASE_GUARDS) {
+        guardDecisionCount[unit.owner] = guardsThisTick + 1
         // Assign a persistent random y to this unit so guards spread across the field
         // rather than all converging on the same point.
         if (unit.guardY === undefined) {
@@ -918,7 +937,7 @@ function moveUnits(s: GameState, deltaMs: number): void {
         ty = unit.guardY
         hasTarget = true
       }
-      // If threat detected, fall through — normal movement engages the enemy
+      // If threat detected, or guard quota is full, fall through — normal movement engages
     }
     // After 2 minutes guarding units begin a slow advance — guard logic is skipped
     // and normal movement takes over, pushing them toward the opponent.
@@ -978,7 +997,9 @@ function moveUnits(s: GameState, deltaMs: number): void {
         }
       }
 
-      // Blood pool cluster avoidance: steer around areas with 3+ overlapping pools
+      // Blood pool cluster avoidance: steer around areas with overlapping death pools.
+      // Clusters ahead of the unit (in its direction of travel) get stronger deflection
+      // so units route around kill-zones before entering them, not just while inside.
       for (const pool of densePools) {
         const toPoolX = pool.x - unit.x
         const toPoolY = pool.y - unit.y
@@ -988,7 +1009,10 @@ function moveUnits(s: GameState, deltaMs: number): void {
           const lateralDir = Math.abs(toPoolY) < 5
             ? ((parseInt(unit.id.replace(/\D/g, ''), 10) || 0) % 2 === 0 ? -1 : 1)
             : -Math.sign(toPoolY)
-          avoidY += lateralDir * strength * unit.moveSpeed * 1.2
+          // Clusters in the unit's forward direction warrant stronger avoidance
+          const isAhead = unit.owner === 'player' ? toPoolX > 0 : toPoolX < 0
+          const deflectMult = isAhead ? 1.8 : 1.2
+          avoidY += lateralDir * strength * unit.moveSpeed * deflectMult
         }
       }
     }
