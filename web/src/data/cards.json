@@ -13160,7 +13160,7 @@
         "structureEffect": {
           "type": "spawn",
           "unitTemplateRef": "bone-archer",
-          "intervalMs": 7500
+          "intervalMs": 4000
         }
       },
       "description": "HERO: Deploys Skeleton Archers!",
