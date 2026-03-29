@@ -21,7 +21,7 @@ export function LuckySpinner({ onDone }: Props) {
   const [phase, setPhase] = useState<'ready' | 'spinning' | 'result'>('ready')
   const [rotation, setRotation] = useState(0)
   const [result, setResult] = useState<number | null>(null)
-  const wheelRef = useRef<HTMLDivElement>(null)
+  const wheelRef = useRef<SVGSVGElement>(null)
 
   function spin() {
     if (phase !== 'ready') return
@@ -58,9 +58,10 @@ export function LuckySpinner({ onDone }: Props) {
         <div className="spinner-pointer">▼</div>
 
         {/* Wheel */}
-        <div
+        <svg
           ref={wheelRef}
           className="spinner-wheel"
+          viewBox="0 0 240 240"
           style={{ transform: `rotate(${rotation}deg)`, transition: phase === 'spinning' ? 'transform 3.4s cubic-bezier(0.17, 0.67, 0.12, 1.0)' : 'none' }}
         >
           {SEGMENTS.map((val, i) => {
@@ -105,7 +106,7 @@ export function LuckySpinner({ onDone }: Props) {
             )
           })}
           <circle cx="120" cy="120" r="20" fill="#1a1a2e" stroke="#444" strokeWidth="2" />
-        </div>
+        </svg>
       </div>
 
       {phase === 'ready' && (

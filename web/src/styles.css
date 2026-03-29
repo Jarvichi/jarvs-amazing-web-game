@@ -8188,7 +8188,8 @@ html.light-mode .action-btn {
   flex-direction: column;
   align-items: center;
   padding: 16px;
-  min-height: 100vh;
+  height: 100%;
+  overflow-y: auto;
   background: #0a0a14;
   color: #c8c8d8;
   font-family: monospace;
@@ -8340,7 +8341,8 @@ html.light-mode .action-btn {
   flex-direction: column;
   align-items: center;
   padding: 16px;
-  min-height: 100vh;
+  height: 100%;
+  overflow-y: auto;
   background: #0a0a14;
   color: #c8c8d8;
   font-family: monospace;
@@ -8454,9 +8456,25 @@ html.light-mode .action-btn {
   font-size: 14px;
 }
 
+.marble-pattern-label {
+  font-size: 11px;
+  color: #6060aa;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
 .marble-peg {
   color: #3a3a6a;
   font-size: 16px;
+}
+
+.marble-cell--obstacle {
+  background: #1a0a2a;
+}
+
+.marble-obstacle {
+  color: #aa44cc;
+  font-size: 12px;
 }
 
 .marble-cell--active .marble-ball {
@@ -8625,7 +8643,6 @@ html.light-mode .action-btn {
   padding: 0;
   line-height: 1;
   transform: translate(-50%, -50%);
-  transition: top 0.05s linear;
 }
 
 .catch-item:hover {
