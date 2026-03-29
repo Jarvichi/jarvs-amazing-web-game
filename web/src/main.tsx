@@ -6,6 +6,10 @@ import App from './App'
 
 setErrorLogger((msg, ctx) => rollbar.error(msg, ctx as object))
 
+// Unlock any achievements whose progress target was already met before the
+// achievement was added (e.g. after a game update adds new achievements).
+import('./game/achievements').then(({ backfillAchievements }) => backfillAchievements())
+
 // Firebase uses IndexedDB internally for Firestore caching. If the browser
 // drops that connection (common in Safari / backgrounded tabs), Firebase throws
 // an UnknownError that would otherwise surface as an unhandled rejection in
