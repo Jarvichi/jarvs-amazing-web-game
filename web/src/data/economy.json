@@ -34,7 +34,7 @@
     { "id": "card_10pack",        "cost":  350, "reward": { "type": "cards",    "count": 10 } },
     { "id": "rare_trio",          "cost":  400, "reward": { "type": "cards",    "count": 3, "rarity": "rare" } },
     { "id": "crystal_500_bundle", "cost":  220, "reward": { "type": "crystals", "amount": 500 } },
-    { "id": "legendary",          "cost": 1000, "reward": { "type": "card",     "count": 1, "rarity": "legendary" } }
+    { "id": "legendary",          "cost": 1000, "reward": { "type": "cards",     "count": 3, "rarity": "legendary" } }
   ],
 
   "cardBulkTiers": [
