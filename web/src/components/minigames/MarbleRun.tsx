@@ -285,9 +285,9 @@ export function MarbleRun({ onDone }: Props) {
 
       {/* Random Drop column */}
     {phase === 'choose' && (
-      <div className="marble-col-selectors">
+      <div className="minigame-result-panel">
         <button
-          className="marble-col-btn"
+          className="action-btn action-btn--gold"
           onClick={() => dropMarble(Math.floor(Math.random() * 9))}
           aria-label="Drop in random column"
         >
