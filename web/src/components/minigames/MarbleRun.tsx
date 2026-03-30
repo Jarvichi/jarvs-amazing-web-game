@@ -10,7 +10,7 @@ interface Props {
 }
 
 const COLS = 9
-const ROWS = 12
+const ROWS = 13
 const SLOT_VALUES = [25, 5, 15, 30, 75, 30, 15, 5, 25]
 const TOTAL_DROPS = 3
 
@@ -36,6 +36,8 @@ const GRID_PATTERNS: GridPattern[] = [
       { row: 3, col: 7, dir: 'L' },
       { row: 5, col: 2, dir: 'R' }, 
       { row: 5, col: 6, dir: 'L' },
+      { row: 7, col: 3, dir: 'R' }, 
+      { row: 7, col: 5, dir: 'L' },
     ],
   },
   {
@@ -280,6 +282,20 @@ export function MarbleRun({ onDone }: Props) {
           </button>
         </div>
       )}
+
+      {/* Random Drop column */}
+    {phase === 'choose' && (
+      <div className="marble-col-selectors">
+        <button
+          className="marble-col-btn"
+          onClick={() => dropMarble(Math.floor(Math.random() * 9))}
+          aria-label="Drop in random column"
+        >
+          Random
+        </button>
+      </div>
+    )}
+
     </div>
   )
 }
