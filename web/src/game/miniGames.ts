@@ -75,11 +75,27 @@ export const TICKET_PRIZES: TicketPrize[] = [
   },
 
   {
+    id:     'crystal_50',
+    cost:   25,
+    label:  '50 Crystals',
+    desc:   'A small handful of crystals.',
+    reward: { type: 'crystals', amount: 50 },
+  },
+
+  {
     id:     'card_uncommon',
     cost:   75,
     label:  '1 Uncommon Card',
     desc:   'A guaranteed uncommon card.',
     reward: { type: 'card', count: 1, rarity: 'uncommon' },
+  },
+
+  {
+    id:     'crystal_150',
+    cost:   70,
+    label:  '150 Crystals',
+    desc:   'A decent bag of crystals.',
+    reward: { type: 'crystals', amount: 150 },
   },
 
   {
@@ -115,28 +131,20 @@ export const TICKET_PRIZES: TicketPrize[] = [
   },
 
   {
+    id:     'crystal_500_bundle',
+    cost:   220,
+    label:  '500 Crystals',
+    desc:   'A large stash of crystals.',
+    reward: { type: 'crystals', amount: 500 },
+  },
+
+  {
     id:     'legendary',
     cost:   1000,
     label:  '1 Legendary Card',
     desc:   'The rarest of the rare. Worth the grind.',
     reward: { type: 'card', count: 1, rarity: 'legendary' },
   },
-
-{
-  id:     'crystal_50',
-  cost:   25,
-  reward: { type: 'crystals', amount: 50 },
-},
-{
-  id:     'crystal_150',
-  cost:   70,
-  reward: { type: 'crystals', amount: 150 },
-},
-{
-  id:     'crystal_500',
-  cost:   220,
-  reward: { type: 'crystals', amount: 500 },
-},
 ]
 
 // ── Local High Score ──────────────────────────────────────────────────────────
