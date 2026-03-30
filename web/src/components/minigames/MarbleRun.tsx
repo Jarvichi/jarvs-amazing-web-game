@@ -9,9 +9,9 @@ interface Props {
   onDone: (ticketsEarned: number) => void
 }
 
-const COLS = 7
-const ROWS = 8
-const SLOT_VALUES = [5, 15, 30, 75, 30, 15, 5]
+const COLS = 9
+const ROWS = 12
+const SLOT_VALUES = [25, 5, 15, 30, 75, 30, 15, 5, 25]
 const TOTAL_DROPS = 3
 
 // ── Grid patterns ─────────────────────────────────────────────────────────────
@@ -30,32 +30,44 @@ const GRID_PATTERNS: GridPattern[] = [
     name: 'Funnel',
     // Guide marbles toward the centre
     obstacles: [
-      { row: 1, col: 0, dir: 'R' }, { row: 1, col: 6, dir: 'L' },
-      { row: 3, col: 1, dir: 'R' }, { row: 3, col: 5, dir: 'L' },
-      { row: 5, col: 2, dir: 'R' }, { row: 5, col: 4, dir: 'L' },
+      { row: 1, col: 0, dir: 'R' }, 
+      { row: 1, col: 8, dir: 'L' },
+      { row: 3, col: 1, dir: 'R' }, 
+      { row: 3, col: 7, dir: 'L' },
+      { row: 5, col: 2, dir: 'R' }, 
+      { row: 5, col: 6, dir: 'L' },
     ],
   },
   {
     name: 'Zigzag',
     // Alternating left/right walls on every other row
     obstacles: [
-      { row: 0, col: 3, dir: 'L' },
-      { row: 1, col: 2, dir: 'R' }, { row: 1, col: 4, dir: 'L' },
-      { row: 2, col: 1, dir: 'R' },
-      { row: 3, col: 3, dir: 'R' }, { row: 3, col: 5, dir: 'L' },
-      { row: 4, col: 4, dir: 'L' },
-      { row: 5, col: 2, dir: 'R' }, { row: 5, col: 4, dir: 'R' },
-      { row: 6, col: 1, dir: 'L' }, { row: 6, col: 3, dir: 'R' },
+      { row: 0, col: 4, dir: 'L' },
+      { row: 1, col: 3, dir: 'R' }, 
+      { row: 1, col: 5, dir: 'L' },
+      { row: 2, col: 2, dir: 'R' },
+      { row: 3, col: 4, dir: 'R' }, 
+      { row: 3, col: 6, dir: 'L' },
+      { row: 4, col: 5, dir: 'L' },
+      { row: 5, col: 3, dir: 'R' }, 
+      { row: 5, col: 5, dir: 'R' },
+      { row: 6, col: 2, dir: 'L' }, 
+      { row: 6, col: 4, dir: 'R' },
     ],
   },
   {
     name: 'Chaos',
     // High-deflect obstacles scattered throughout
     obstacles: [
-      { row: 0, col: 2, dir: 'X' }, { row: 0, col: 4, dir: 'X' },
-      { row: 2, col: 1, dir: 'X' }, { row: 2, col: 5, dir: 'X' },
-      { row: 4, col: 0, dir: 'X' }, { row: 4, col: 3, dir: 'X' }, { row: 4, col: 6, dir: 'X' },
-      { row: 6, col: 2, dir: 'X' }, { row: 6, col: 4, dir: 'X' },
+      { row: 0, col: 3, dir: 'X' }, 
+      { row: 0, col: 5, dir: 'X' },
+      { row: 2, col: 2, dir: 'X' }, 
+      { row: 2, col: 6, dir: 'X' },
+      { row: 4, col: 1, dir: 'X' }, 
+      { row: 4, col: 4, dir: 'X' }, 
+      { row: 4, col: 7, dir: 'X' },
+      { row: 6, col: 3, dir: 'X' }, 
+      { row: 6, col: 5, dir: 'X' },
     ],
   },
   {
