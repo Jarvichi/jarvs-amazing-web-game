@@ -4,57 +4,18 @@
 // storage for the arcade mini-game feature.
 
 import { logError } from '../logger'
-import { loadItemStore, saveItemStore } from './itemStore'
+import { getTickets, addTickets, spendTickets } from './itemStore'
 import {
   doc, setDoc, getDocs, collection, query, orderBy, limit, where, Timestamp,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 
 // ── Ticket Storage ────────────────────────────────────────────────────────────
+// Ticket logic lives in itemStore.ts (see the ARCADE TICKETS section there).
+// Re-exported here under the legacy name so existing callers don't need to
+// change their import paths.
 
-const TICKET_ITEM_ID = 'arcade-ticket'
-
-export function loadTickets(): number {
-  const store = loadItemStore()
-  const entry = store.find(e => e.type === 'consumable' && e.id === TICKET_ITEM_ID)
-  return entry ? entry.count : 0
-}
-
-export function addTickets(n: number): void {
-  if (n <= 0) return
-  const store = loadItemStore()
-  const entry = store.find(e => e.type === 'consumable' && e.id === TICKET_ITEM_ID)
-  if (entry) {
-    entry.count += n
-  } else {
-    store.push({
-      id: TICKET_ITEM_ID,
-      type: 'consumable',
-      count: n,
-      name: 'Arcade Ticket',
-      icon: '🎫',
-      desc: 'Earned at the arcade. Redeem for prizes!',
-    })
-  }
-  saveItemStore(store)
-}
-
-/** Deduct tickets. Returns false if insufficient balance. */
-export function spendTickets(n: number): boolean {
-  const current = loadTickets()
-  if (current < n) return false
-  const store = loadItemStore()
-  const entry = store.find(e => e.type === 'consumable' && e.id === TICKET_ITEM_ID)
-  if (entry) {
-    entry.count -= n
-    if (entry.count <= 0) {
-      const idx = store.indexOf(entry)
-      store.splice(idx, 1)
-    }
-  }
-  saveItemStore(store)
-  return true
-}
+export { getTickets as loadTickets, addTickets, spendTickets }
 
 // ── Game Costs ────────────────────────────────────────────────────────────────
 

@@ -149,23 +149,26 @@ export function getRelicDef(name: string): RelicDef | undefined {
 
 // ─── Persistent relic collection (survives act resets) ────────────────────────
 
-import { addItem, removeItem, getItemsOfType } from './itemStore'
+import { addRelic, removeRelic, getRelics } from './itemStore'
+
+// Relic CRUD delegates to itemStore.ts (see the RELICS section there).
+// These names are kept for backward compatibility with existing callers.
 
 /** Returns the list of relic names the player has earned across all runs. */
 export function loadEarnedRelics(): string[] {
-  return getItemsOfType('relic').map(e => e.id)
+  return getRelics()
 }
 
 /** Adds a relic to the player's permanent collection (no duplicates). Also clears any broken flag. */
 export function addEarnedRelic(name: string): void {
-  addItem('relic', name)
+  addRelic(name)
   // If this relic was previously broken, restore it
   removeBrokenRelic(name)
 }
 
 /** Removes a relic from the player's permanent collection (e.g. when it breaks). */
 export function removeEarnedRelic(name: string): void {
-  removeItem('relic', name)
+  removeRelic(name)
 }
 
 // ─── Broken relic tracking ────────────────────────────────────────────────────

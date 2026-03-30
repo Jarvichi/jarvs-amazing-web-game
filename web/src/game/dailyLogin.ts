@@ -5,7 +5,7 @@ import itemsJson        from '../data/items.json'
 import rewardsJson      from '../data/rewards.json'
 import brokenRelicsJson from '../data/broken-relics.json'
 import { CardRarity } from './types'
-import { addItem, removeItem, getItemsOfType, ItemDisplayFields } from './itemStore'
+import { addCollectible, removeCollectible, getCollectibles, ItemDisplayFields } from './itemStore'
 
 const DAILY_KEY = 'jarv_daily_login'
 
@@ -134,11 +134,14 @@ function resolveBrokenRelic(id: string): { name: string; icon: string; desc: str
 
 // ── Inventory ─────────────────────────────────────────────────────────────────
 
+// Collectible item CRUD delegates to itemStore.ts (see the COLLECTIBLE ITEMS
+// section there). Achievement side-effects and display resolution stay here.
+
 export function addToInventory(item: Omit<UselessItem, 'acquiredDate'>): void {
   try {
-    const isNew = !getItemsOfType('item').some(e => e.id === item.id)
+    const isNew = !getCollectibles().some(e => e.id === item.id)
     const display: ItemDisplayFields = { name: item.name, icon: item.icon, desc: item.desc, lore: item.lore }
-    addItem('item', item.id, 1, undefined, display)
+    addCollectible(item.id, display)
     if (isNew) {
       import('./achievements').then(({ incrementAchievementProgress }) => {
         incrementAchievementProgress('misc:unique_items')
@@ -149,11 +152,11 @@ export function addToInventory(item: Omit<UselessItem, 'acquiredDate'>): void {
 
 /** Remove an item from the inventory (e.g. when sold in the shop). */
 export function removeFromInventory(id: string): void {
-  removeItem('item', id)
+  removeCollectible(id)
 }
 
 export function loadInventory(): UselessItem[] {
-  const entries = getItemsOfType('item')
+  const entries = getCollectibles()
   return entries.map(e => {
     // 1. Catalog (static items.json)
     const def = ALL_ITEMS.find(i => i.id === e.id)

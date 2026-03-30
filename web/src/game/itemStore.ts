@@ -1,10 +1,50 @@
-// ─── Unified Item Store ────────────────────────────────────────────────────────
-// Single source of truth for all persistent player items: consumables, relics,
-// and useless collectibles. Each entry carries a `type` tag so consumers know
-// what kind of item they are dealing with.
+// ─── Inventory System ────────────────────────────────────────────────────────
 //
-// Migration: on first load the store checks for the three legacy keys and folds
-// them in, then deletes the old keys. Existing player data is never lost.
+// Single source of truth for ALL persistent player items. Everything the
+// player owns lives in one localStorage key (ITEM_STORE_KEY) as a flat array
+// of ItemEntry objects tagged by category.
+//
+// ┌────────────────────┬──────────────────────────────────────────────────────┐
+// │ Category           │ Description                                          │
+// ├────────────────────┼──────────────────────────────────────────────────────┤
+// │ consumable         │ Battle-use items: Health Potion, Second Wind.        │
+// │                    │ Drained into the active run on campaign start/resume.│
+// │                    │ API: addConsumable / removeConsumable / getConsumables│
+// ├────────────────────┼──────────────────────────────────────────────────────┤
+// │ arcade-ticket      │ Persistent arcade currency. Stored as type           │
+// │ (consumable subtype│ 'consumable' internally but explicitly excluded from │
+// │  — see WARNING)    │ the run drain. API: addTickets / spendTickets /      │
+// │                    │ getTickets                                           │
+// ├────────────────────┼──────────────────────────────────────────────────────┤
+// │ relic              │ Passive bonuses earned across runs. Unique (no dupes)│
+// │                    │ API: addRelic / removeRelic / getRelics              │
+// ├────────────────────┼──────────────────────────────────────────────────────┤
+// │ item               │ Collectibles from daily logins & events. Allows      │
+// │                    │ duplicates. API: addCollectible / removeCollectible / │
+// │                    │ getCollectibles                                       │
+// └────────────────────┴──────────────────────────────────────────────────────┘
+//
+// ⚠️  WARNING — the battle-consumable drain
+// ─────────────────────────────────────────────────────────────────────────────
+// When a campaign run starts or is loaded, drainStashIntoRun() in questline.ts
+// moves every battle consumable (type: 'consumable', id in ALL_CONSUMABLES)
+// from this store into run.consumables, then removes it here. This is correct
+// for Health Potion and Second Wind — they belong to the run.
+//
+// Arcade tickets share the same 'consumable' type tag but are a persistent
+// currency and must never be drained. They are safe because drainStashIntoRun
+// whitelists only ids present in ALL_CONSUMABLES, and 'arcade-ticket' is not
+// in that list.
+//
+// Rules for adding new inventory items:
+//   1. Battle consumables (used in battle, consumed per run): use addConsumable
+//      and add the item id to consumables.json (ALL_CONSUMABLES).
+//   2. Persistent currencies / non-battle consumables: add a dedicated section
+//      below (like the Arcade Tickets section) with its own functions and ensure
+//      the item id is ABSENT from ALL_CONSUMABLES so the drain never touches it.
+//   3. Never call addItem / removeItem / loadItemStore from outside this file —
+//      go through the typed category functions instead.
+// ─────────────────────────────────────────────────────────────────────────────
 
 import { logError } from '../logger'
 
@@ -18,8 +58,15 @@ export interface ItemEntry {
   count: number
   /** ISO date string set when the item was first acquired (items only) */
   acquiredDate?: string
-  /** Display fields for 'item' entries whose id is not in the static catalog
-   *  (e.g. broken relics that have dynamic ids with timestamps). */
+  /** Display fields for entries whose id is not in a static catalog
+   *  (e.g. arcade tickets, broken relics with dynamic ids). */
+  name?: string
+  icon?: string
+  desc?: string
+  lore?: string
+}
+
+export interface ItemDisplayFields {
   name?: string
   icon?: string
   desc?: string
@@ -28,7 +75,7 @@ export interface ItemEntry {
 
 const ITEM_STORE_KEY = 'jarv_item_store'
 
-// Legacy keys that will be migrated into the unified store on first load
+// Legacy keys migrated into the unified store on first load
 const LEGACY_CONSUMABLE_KEY = 'jarv_consumable_stash'
 const LEGACY_RELICS_KEY     = 'jarv_relics'
 const LEGACY_INVENTORY_KEY  = 'jarv_inventory'
@@ -83,7 +130,6 @@ function migrate(store: ItemEntry[]): ItemEntry[] {
       const items: Array<{ id: string; name: string; icon: string; desc: string; lore: string; acquiredDate: string }> = JSON.parse(raw)
       for (const item of items) {
         // Items are NOT de-duped here — the old store allowed duplicates.
-        // Preserve display fields so dynamic items (e.g. broken relics) still render correctly.
         store.push({
           id: item.id,
           type: 'item',
@@ -103,7 +149,11 @@ function migrate(store: ItemEntry[]): ItemEntry[] {
   return changed ? store : store
 }
 
-// ── Core CRUD ──────────────────────────────────────────────────────────────────
+// ── Raw storage (internal) ─────────────────────────────────────────────────────
+//
+// loadItemStore / saveItemStore are the only functions that touch localStorage.
+// All category functions below go through these two. Do not call them directly
+// from outside this file — use the typed category functions instead.
 
 export function loadItemStore(): ItemEntry[] {
   let store: ItemEntry[] = []
@@ -114,7 +164,6 @@ export function loadItemStore(): ItemEntry[] {
     store = []
   }
 
-  // Run migration if any legacy keys exist
   const hasLegacy =
     localStorage.getItem(LEGACY_CONSUMABLE_KEY) !== null ||
     localStorage.getItem(LEGACY_RELICS_KEY) !== null ||
@@ -136,14 +185,9 @@ export function saveItemStore(store: ItemEntry[]): void {
   }
 }
 
-export interface ItemDisplayFields {
-  name?: string
-  icon?: string
-  desc?: string
-  lore?: string
-}
+// ── Shared helpers (internal) ──────────────────────────────────────────────────
 
-/** Add `count` units of an item. For relics/items count is always 1. */
+/** @internal Use the typed category functions below instead. */
 export function addItem(
   type: ItemType,
   id: string,
@@ -157,14 +201,14 @@ export function addItem(
     if (existing) {
       existing.count += count
     } else {
-      store.push({ id, type, count })
+      store.push({ id, type, count, ...display })
     }
   } else if (type === 'relic') {
     if (!store.some(e => e.type === 'relic' && e.id === id)) {
       store.push({ id, type, count: 1 })
     }
   } else {
-    // 'item' — duplicates are allowed (matches legacy behaviour)
+    // 'item' — duplicates allowed (matches legacy behaviour)
     store.push({
       id,
       type,
@@ -176,21 +220,14 @@ export function addItem(
   saveItemStore(store)
 }
 
-/**
- * Remove `count` units of an item.
- * - Consumables: decrement count; remove entry when it reaches 0.
- * - Relics / items: remove the first matching entry.
- */
+/** @internal Use the typed category functions below instead. */
 export function removeItem(type: ItemType, id: string, count = 1): void {
   const store = loadItemStore()
   if (type === 'consumable') {
     const entry = store.find(e => e.type === 'consumable' && e.id === id)
     if (entry) {
       entry.count -= count
-      if (entry.count <= 0) {
-        const idx = store.indexOf(entry)
-        store.splice(idx, 1)
-      }
+      if (entry.count <= 0) store.splice(store.indexOf(entry), 1)
     }
   } else {
     const idx = store.findIndex(e => e.type === type && e.id === id)
@@ -199,7 +236,154 @@ export function removeItem(type: ItemType, id: string, count = 1): void {
   saveItemStore(store)
 }
 
-/** Return all entries matching the given type. */
+/** @internal Use the typed category functions below instead. */
 export function getItemsOfType(type: ItemType): ItemEntry[] {
   return loadItemStore().filter(e => e.type === type)
+}
+
+// ── CONSUMABLES (battle-use items) ────────────────────────────────────────────
+//
+// Health Potion and Second Wind live here between shops and the next battle.
+// On campaign start/resume, drainStashIntoRun() (questline.ts) moves them into
+// run.consumables and clears them from this store.
+//
+// Only ids that appear in consumables.json (ALL_CONSUMABLES) are drained.
+// See the WARNING at the top of this file before adding new consumable types.
+
+/** Add `count` battle consumables to the stash (e.g. after a shop purchase). */
+export function addConsumable(id: string, count = 1): void {
+  addItem('consumable', id, count)
+}
+
+/**
+ * Remove `count` battle consumables from the stash.
+ * Silently does nothing if the item is not present or count is too low.
+ */
+export function removeConsumable(id: string, count = 1): void {
+  removeItem('consumable', id, count)
+}
+
+/**
+ * Return all battle consumables currently in the stash.
+ * Excludes arcade tickets — use getTickets() for those.
+ */
+export function getConsumables(): Array<{ id: string; count: number }> {
+  return loadItemStore()
+    .filter(e => e.type === 'consumable' && e.id !== TICKET_ITEM_ID)
+    .map(e => ({ id: e.id, count: e.count }))
+}
+
+// ── ARCADE TICKETS (persistent currency) ──────────────────────────────────────
+//
+// Arcade tickets are earned by playing mini games and spent in the prize shop.
+// They are stored as type: 'consumable' with id: 'arcade-ticket' so they appear
+// in the inventory consumables list.
+//
+// ⚠️ They must never be drained into a campaign run. This is enforced by
+// drainStashIntoRun (questline.ts) filtering against ALL_CONSUMABLES, which
+// does not include 'arcade-ticket'. Do not add 'arcade-ticket' to
+// consumables.json or it will be swallowed by runs.
+//
+// Always use these three functions for ticket management — never call
+// addConsumable / removeConsumable with the ticket id directly.
+
+const TICKET_ITEM_ID = 'arcade-ticket'
+
+/** Return the player's current arcade ticket balance. */
+export function getTickets(): number {
+  const entry = loadItemStore().find(e => e.type === 'consumable' && e.id === TICKET_ITEM_ID)
+  return entry ? entry.count : 0
+}
+
+/** Award `n` tickets (must be > 0). */
+export function addTickets(n: number): void {
+  if (n <= 0) return
+  const store = loadItemStore()
+  const entry = store.find(e => e.type === 'consumable' && e.id === TICKET_ITEM_ID)
+  if (entry) {
+    entry.count += n
+  } else {
+    store.push({
+      id:   TICKET_ITEM_ID,
+      type: 'consumable',
+      count: n,
+      name: 'Arcade Ticket',
+      icon: '🎫',
+      desc: 'Earned at the arcade. Redeem for prizes!',
+    })
+  }
+  saveItemStore(store)
+}
+
+/**
+ * Deduct `n` tickets from the player's balance.
+ * Returns `true` on success, `false` if the balance is insufficient (no change
+ * is made in that case).
+ */
+export function spendTickets(n: number): boolean {
+  const current = getTickets()
+  if (current < n) return false
+  const store = loadItemStore()
+  const entry = store.find(e => e.type === 'consumable' && e.id === TICKET_ITEM_ID)
+  if (entry) {
+    entry.count -= n
+    if (entry.count <= 0) store.splice(store.indexOf(entry), 1)
+  }
+  saveItemStore(store)
+  return true
+}
+
+// ── RELICS ────────────────────────────────────────────────────────────────────
+//
+// Relics are passive bonuses earned by completing acts. They persist across
+// runs and are unique — adding the same relic twice is a no-op.
+// Display data and broken-relic logic live in relics.ts.
+
+/** Return the names of all relics the player has earned. */
+export function getRelics(): string[] {
+  return getItemsOfType('relic').map(e => e.id)
+}
+
+/** Add a relic to the player's permanent collection (no-op if already owned). */
+export function addRelic(name: string): void {
+  addItem('relic', name)
+}
+
+/** Remove a relic from the player's permanent collection (e.g. when it breaks). */
+export function removeRelic(name: string): void {
+  removeItem('relic', name)
+}
+
+// ── COLLECTIBLE ITEMS ─────────────────────────────────────────────────────────
+//
+// "Useless" items collected from daily logins and random events. Unlike relics
+// and consumables, duplicates are allowed — the player can own the same item
+// multiple times (each acquisition is tracked separately).
+//
+// Display resolution (mapping raw entries to UselessItem display objects) lives
+// in dailyLogin.ts (loadInventory), which handles catalog lookup, broken-relic
+// fallbacks, and the 42-item easter egg.
+
+/**
+ * Add a collectible item to the inventory.
+ * Provide display fields (name, icon, desc, lore) for items whose id is not in
+ * the static catalog — these are stored inline so the item can always be
+ * rendered even if the catalog changes.
+ */
+export function addCollectible(
+  id: string,
+  display?: ItemDisplayFields,
+  acquiredDate?: string,
+): void {
+  addItem('item', id, 1, acquiredDate, display)
+}
+
+/** Remove the first matching collectible item (e.g. when sold in the shop). */
+export function removeCollectible(id: string): void {
+  removeItem('item', id)
+}
+
+/** Return raw item store entries for all collectibles. */
+export function getCollectibles(): ItemEntry[] {
+  return getItemsOfType('item')
 }
