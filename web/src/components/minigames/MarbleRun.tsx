@@ -74,19 +74,25 @@ const GRID_PATTERNS: GridPattern[] = [
     name: 'Wall Left',
     // Strong left-side deflectors push marbles toward high-value slots
     obstacles: [
-      { row: 1, col: 5, dir: 'L' }, { row: 1, col: 6, dir: 'L' },
-      { row: 3, col: 4, dir: 'L' }, { row: 3, col: 6, dir: 'L' },
-      { row: 5, col: 5, dir: 'L' }, { row: 5, col: 6, dir: 'L' },
-      { row: 7, col: 6, dir: 'L' },
+      { row: 1, col: 8, dir: 'L' }, 
+      { row: 1, col: 7, dir: 'L' },
+      { row: 3, col: 8, dir: 'L' }, 
+      { row: 3, col: 6, dir: 'L' },
+      { row: 5, col: 8, dir: 'L' }, 
+      { row: 5, col: 7, dir: 'L' },
+      { row: 7, col: 8, dir: 'L' },
     ],
   },
   {
     name: 'Wall Right',
     // Mirror of Wall Left
     obstacles: [
-      { row: 1, col: 0, dir: 'R' }, { row: 1, col: 1, dir: 'R' },
-      { row: 3, col: 0, dir: 'R' }, { row: 3, col: 2, dir: 'R' },
-      { row: 5, col: 0, dir: 'R' }, { row: 5, col: 1, dir: 'R' },
+      { row: 1, col: 0, dir: 'R' }, 
+      { row: 1, col: 1, dir: 'R' },
+      { row: 3, col: 0, dir: 'R' }, 
+      { row: 3, col: 2, dir: 'R' },
+      { row: 5, col: 0, dir: 'R' }, 
+      { row: 5, col: 1, dir: 'R' },
       { row: 7, col: 0, dir: 'R' },
     ],
   },
