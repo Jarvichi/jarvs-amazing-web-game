@@ -73,20 +73,7 @@ export const TICKET_PRIZES: TicketPrize[] = [
     desc:   'A random card from the catalog.',
     reward: { type: 'card', count: 1 },
   },
-  {
-    id:     'card_5pack',
-    cost:   200,
-    label:  '5-Pack of Cards',
-    desc:   'Five random cards.',
-    reward: { type: 'cards', count: 5 },
-  },
-  {
-    id:     'card_uncommon',
-    cost:   75,
-    label:  '1 Uncommon Card',
-    desc:   'A guaranteed uncommon card.',
-    reward: { type: 'card', count: 1, rarity: 'uncommon' },
-  },
+
   {
     id:     'crystal_50',
     cost:   25,
@@ -94,13 +81,31 @@ export const TICKET_PRIZES: TicketPrize[] = [
     desc:   'A small handful of crystals.',
     reward: { type: 'crystals', amount: 50 },
   },
+
   {
-    id:     'card_10pack',
-    cost:   350,
-    label:  '10-Pack of Cards',
-    desc:   'Ten random cards — a hefty haul.',
-    reward: { type: 'cards', count: 10 },
+    id:     'card_uncommon',
+    cost:   75,
+    label:  '1 Uncommon Card',
+    desc:   'A guaranteed uncommon card.',
+    reward: { type: 'card', count: 1, rarity: 'uncommon' },
   },
+
+  {
+    id:     'crystal_150',
+    cost:   80,
+    label:  '150 Crystals',
+    desc:   'A decent bag of crystals.',
+    reward: { type: 'crystals', amount: 150 },
+  },
+
+  {
+    id:     'card_5pack',
+    cost:   200,
+    label:  '5-Pack of Cards',
+    desc:   'Five random cards.',
+    reward: { type: 'cards', count: 5 },
+  },
+
   {
     id:     'card_rare',
     cost:   150,
@@ -108,13 +113,15 @@ export const TICKET_PRIZES: TicketPrize[] = [
     desc:   'A guaranteed rare card.',
     reward: { type: 'card', count: 1, rarity: 'rare' },
   },
+
   {
-    id:     'crystal_150',
-    cost:   70,
-    label:  '150 Crystals',
-    desc:   'A decent bag of crystals.',
-    reward: { type: 'crystals', amount: 150 },
+    id:     'card_10pack',
+    cost:   350,
+    label:  '10-Pack of Cards',
+    desc:   'Ten random cards — a hefty haul.',
+    reward: { type: 'cards', count: 10 },
   },
+
   {
     id:     'rare_trio',
     cost:   400,
@@ -122,13 +129,15 @@ export const TICKET_PRIZES: TicketPrize[] = [
     desc:   'Three guaranteed rare cards.',
     reward: { type: 'cards', count: 3, rarity: 'rare' },
   },
+
   {
     id:     'crystal_500_bundle',
-    cost:   600,
+    cost:   650,
     label:  '500 Crystals + 5 Cards',
     desc:   'Crystals and five random cards.',
     reward: { type: 'bundle' },
   },
+
   {
     id:     'legendary',
     cost:   1000,
