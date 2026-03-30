@@ -82,15 +82,7 @@ export const DECK_MIN  = 10
 export const DECK_MAX  = 30
 export const COPIES_MAX = 4
 
-export const CRYSTAL_PACK_COST = 250
-
-/** Crystals gained per card dismantled, by rarity. */
-export const DISENCHANT_VALUE: Record<CardRarity, number> = {
-  common:    5,
-  uncommon: 15,
-  rare:     40,
-  legendary: 100,
-}
+export { CRYSTAL_PACK_COST, DISENCHANT_VALUE } from './economy'
 
 // ─── Starter data ─────────────────────────────────────────
 
