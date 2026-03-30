@@ -82,7 +82,8 @@ export const DECK_MIN  = 10
 export const DECK_MAX  = 30
 export const COPIES_MAX = 4
 
-export { CRYSTAL_PACK_COST, DISENCHANT_VALUE } from './economy'
+import { CRYSTAL_PACK_COST, DISENCHANT_VALUE } from './economy'
+export { CRYSTAL_PACK_COST, DISENCHANT_VALUE }
 
 // ─── Starter data ─────────────────────────────────────────
 
