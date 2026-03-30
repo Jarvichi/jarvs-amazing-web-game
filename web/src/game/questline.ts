@@ -1,7 +1,7 @@
 import { CardRarity } from './types'
 import { logError } from '../logger'
 import { getCardCatalog } from './cards'
-import { addItem, removeItem, getItemsOfType } from './itemStore'
+import { addConsumable, removeConsumable, getConsumables } from './itemStore'
 import act1Data from '../data/acts/act1.json'
 import act2Data from '../data/acts/act2.json'
 import act3Data from '../data/acts/act3.json'
@@ -37,12 +37,15 @@ export interface RunConsumable {
   count: number
 }
 
+// Consumable stash — delegates to itemStore.ts (addConsumable / getConsumables).
+// These names are kept for backward compatibility with existing callers.
+
 export function loadConsumableStash(): RunConsumable[] {
-  return getItemsOfType('consumable').map(e => ({ id: e.id, count: e.count }))
+  return getConsumables()
 }
 
 export function addToConsumableStash(id: string, count = 1): void {
-  addItem('consumable', id, count)
+  addConsumable(id, count)
 }
 
 /** Read the active run's consumables from localStorage without touching the stash. */
@@ -58,10 +61,10 @@ export function loadRunConsumables(): RunConsumable[] {
 }
 
 /** Drain the stash into a run's consumables list and clear the stash.
- *  Only drains items that are valid battle consumables (present in ALL_CONSUMABLES).
- *  Persistent currencies like arcade tickets are intentionally excluded. */
+ *  Only drains battle consumables (ids present in ALL_CONSUMABLES).
+ *  Persistent items like arcade tickets are excluded — see itemStore.ts. */
 function drainStashIntoRun(consumables: RunConsumable[]): RunConsumable[] {
-  const stash = loadConsumableStash()
+  const stash = getConsumables()
   if (stash.length === 0) return consumables
   const battleIds = new Set(ALL_CONSUMABLES.map(c => c.id))
   const battleStash = stash.filter(s => battleIds.has(s.id))
@@ -74,7 +77,7 @@ function drainStashIntoRun(consumables: RunConsumable[]): RunConsumable[] {
     } else {
       merged.push({ ...s })
     }
-    removeItem('consumable', s.id, s.count)
+    removeConsumable(s.id, s.count)
   }
   return merged
 }
