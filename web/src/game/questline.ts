@@ -205,12 +205,7 @@ function pickRandom<T>(arr: T[]): T { return arr[Math.floor(Math.random() * arr.
 
 // ─── Merchant ─────────────────────────────────────────────
 
-export const MERCHANT_PRICES: Record<CardRarity, number> = {
-  common:    40,
-  uncommon:  90,
-  rare:      200,
-  legendary: 400,
-}
+export { MERCHANT_PRICES } from './economy'
 
 /** Generates 3 card names for a merchant node: 1 common, 1 uncommon, 1 rare (shuffled). */
 export function generateMerchantCards(): string[] {

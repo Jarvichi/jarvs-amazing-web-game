@@ -9,6 +9,7 @@ import {
   doc, setDoc, getDocs, collection, query, orderBy, limit, where, Timestamp,
 } from 'firebase/firestore'
 import { db } from '../firebase'
+import { MINI_GAME_COSTS as _MINI_GAME_COSTS, TICKET_PRIZE_COSTS } from './economy'
 
 // ── Ticket Storage ────────────────────────────────────────────────────────────
 // Ticket logic lives in itemStore.ts (see the ARCADE TICKETS section there).
@@ -21,12 +22,7 @@ export { getTickets as loadTickets, addTickets, spendTickets }
 
 export type MiniGameId = 'marble' | 'tileflip' | 'crystalcatch' | 'spinner'
 
-export const MINI_GAME_COSTS: Record<MiniGameId, number> = {
-  marble:       50,
-  tileflip:     30,
-  crystalcatch: 40,
-  spinner:      25,
-}
+export const MINI_GAME_COSTS = _MINI_GAME_COSTS as Record<MiniGameId, number>
 
 export const MINI_GAME_LABELS: Record<MiniGameId, string> = {
   marble:       'Marble Run',
@@ -65,10 +61,15 @@ export interface TicketPrize {
   reward: PrizeRewardType
 }
 
+// Prize costs come from economy.json via TICKET_PRIZE_COSTS — edit them there.
+function prizeCost(id: string): number {
+  return TICKET_PRIZE_COSTS[id] ?? 0
+}
+
 export const TICKET_PRIZES: TicketPrize[] = [
   {
     id:     'card_1',
-    cost:   25,
+    cost:   prizeCost('card_1'),
     label:  '1 Card',
     desc:   'A random card from the catalog.',
     reward: { type: 'card', count: 1 },
@@ -76,7 +77,7 @@ export const TICKET_PRIZES: TicketPrize[] = [
 
   {
     id:     'crystal_50',
-    cost:   25,
+    cost:   prizeCost('crystal_50'),
     label:  '50 Crystals',
     desc:   'A small handful of crystals.',
     reward: { type: 'crystals', amount: 50 },
@@ -84,7 +85,7 @@ export const TICKET_PRIZES: TicketPrize[] = [
 
   {
     id:     'card_uncommon',
-    cost:   75,
+    cost:   prizeCost('card_uncommon'),
     label:  '1 Uncommon Card',
     desc:   'A guaranteed uncommon card.',
     reward: { type: 'card', count: 1, rarity: 'uncommon' },
@@ -92,7 +93,7 @@ export const TICKET_PRIZES: TicketPrize[] = [
 
   {
     id:     'crystal_150',
-    cost:   70,
+    cost:   prizeCost('crystal_150'),
     label:  '150 Crystals',
     desc:   'A decent bag of crystals.',
     reward: { type: 'crystals', amount: 150 },
@@ -100,7 +101,7 @@ export const TICKET_PRIZES: TicketPrize[] = [
 
   {
     id:     'card_5pack',
-    cost:   200,
+    cost:   prizeCost('card_5pack'),
     label:  '5-Pack of Cards',
     desc:   'Five random cards.',
     reward: { type: 'cards', count: 5 },
@@ -108,7 +109,7 @@ export const TICKET_PRIZES: TicketPrize[] = [
 
   {
     id:     'card_rare',
-    cost:   150,
+    cost:   prizeCost('card_rare'),
     label:  '1 Rare Card',
     desc:   'A guaranteed rare card.',
     reward: { type: 'card', count: 1, rarity: 'rare' },
@@ -116,7 +117,7 @@ export const TICKET_PRIZES: TicketPrize[] = [
 
   {
     id:     'card_10pack',
-    cost:   350,
+    cost:   prizeCost('card_10pack'),
     label:  '10-Pack of Cards',
     desc:   'Ten random cards — a hefty haul.',
     reward: { type: 'cards', count: 10 },
@@ -124,7 +125,7 @@ export const TICKET_PRIZES: TicketPrize[] = [
 
   {
     id:     'rare_trio',
-    cost:   400,
+    cost:   prizeCost('rare_trio'),
     label:  '3 Rare Cards',
     desc:   'Three guaranteed rare cards.',
     reward: { type: 'cards', count: 3, rarity: 'rare' },
@@ -132,7 +133,7 @@ export const TICKET_PRIZES: TicketPrize[] = [
 
   {
     id:     'crystal_500_bundle',
-    cost:   220,
+    cost:   prizeCost('crystal_500_bundle'),
     label:  '500 Crystals',
     desc:   'A large stash of crystals.',
     reward: { type: 'crystals', amount: 500 },
@@ -140,7 +141,7 @@ export const TICKET_PRIZES: TicketPrize[] = [
 
   {
     id:     'legendary',
-    cost:   1000,
+    cost:   prizeCost('legendary'),
     label:  '1 Legendary Card',
     desc:   'The rarest of the rare. Worth the grind.',
     reward: { type: 'card', count: 1, rarity: 'legendary' },
