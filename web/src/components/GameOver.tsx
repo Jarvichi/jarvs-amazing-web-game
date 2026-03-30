@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { ConfirmModal } from './ConfirmModal'
 import { GameState } from '../game/types'
 import { MAX_HANDICAP } from '../game/engine'
 import { loadWinStreak } from '../game/collection'
@@ -56,6 +57,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
   const isEndlessDefeat = !!state.endlessMode && !won && !draw
 
   const [endlessLb, setEndlessLb] = useState<EndlessLeaderboardEntry[] | null>(null)
+  const [confirmAbandon, setConfirmAbandon] = useState(false)
   const endlessBest = isEndlessDefeat ? getEndlessPersonalBest() : null
 
   useEffect(() => {
@@ -191,7 +193,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
           {campaignAbandon ? (won ? '[ Claim Reward ]' : '[ Retry Node ]') : '[ Play Again ]'}
         </button>
         {campaignAbandon && (
-          <button className="action-btn action-btn--danger gameover-abandon-btn" onClick={campaignAbandon}>
+          <button className="action-btn action-btn--danger gameover-abandon-btn" onClick={() => setConfirmAbandon(true)}>
             [ Abandon Run ]
           </button>
         )}
@@ -199,6 +201,15 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
           [ Main Menu ]
         </button>
       </div>
+      {confirmAbandon && campaignAbandon && (
+        <ConfirmModal
+          title="Abandon Run?"
+          body="All progress for this run will be lost."
+          confirmLabel="[ Yes, Abandon ]"
+          onConfirm={campaignAbandon}
+          onCancel={() => setConfirmAbandon(false)}
+        />
+      )}
     </div>
   )
 }

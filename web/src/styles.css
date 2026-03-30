@@ -2882,6 +2882,40 @@ body {
   animation: fadeIn 0.15s ease-out;
 }
 
+/* ─── Confirm Modal ─────────────────────────────────── */
+
+.confirm-modal {
+  background: var(--game-bg, #0a0a0a);
+  border: 1px solid var(--game-border, #333);
+  padding: 24px 20px;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-mono, monospace);
+}
+
+.confirm-modal-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--game-accent, #f0c040);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.confirm-modal-body {
+  font-size: 0.85rem;
+  color: var(--game-text, #ccc);
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.confirm-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
 /* ─── Card Detail Modal ──────────────────────────────── */
 
 .cdm-backdrop {

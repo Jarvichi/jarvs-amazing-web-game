@@ -10,6 +10,7 @@ import { MAX_UPGRADE_LEVEL } from '../game/engine'
 import { getRelicDef } from '../game/relics'
 import { getUnitLore, getCardCatalog } from '../game/cards'
 import { Button } from './Button'
+import { ConfirmModal } from './ConfirmModal'
 import { loadPlayerName, loadPlayerAvatar } from '../game/questline'
 
 interface Props {
@@ -608,6 +609,7 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
   const [paused, setPaused] = useState(false)
   const [inspectedUnit, setInspectedUnit] = useState<Unit | null>(null)
   const [showDeckViewer, setShowDeckViewer] = useState(false)
+  const [confirmGiveUp, setConfirmGiveUp] = useState(false)
   const playerName   = loadPlayerName()
   const playerAvatar = loadPlayerAvatar()
 
@@ -1038,12 +1040,21 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                   <Button size="lg" onClick={() => doPause(false)}>▶ Resume</Button>
                   <Button size="md" onClick={() => setShowDeckViewer(true)}>📋 My Deck</Button>
                   {onGiveUp && (
-                    <Button size="md" variant="danger" onClick={onGiveUp}>✕ Give Up</Button>
+                    <Button size="md" variant="danger" onClick={() => setConfirmGiveUp(true)}>✕ Give Up</Button>
                   )}
                 </div>
               </>
             )}
           </div>
+      )}
+      {confirmGiveUp && onGiveUp && (
+        <ConfirmModal
+          title="Abandon Run?"
+          body="All progress for this run will be lost."
+          confirmLabel="[ Yes, Abandon ]"
+          onConfirm={onGiveUp}
+          onCancel={() => setConfirmGiveUp(false)}
+        />
       )}
     </div>
   )
