@@ -144,7 +144,7 @@ export const TICKET_PRIZES: TicketPrize[] = [
     cost:   prizeCost('legendary'),
     label:  '3 Legendary Cards',
     desc:   'The rarest of the rare. Worth the grind.',
-    reward: { type: 'card', count: 3, rarity: 'legendary' },
+    reward: { type: 'card', count: 1, rarity: 'legendary' },
   },
 ]
 
