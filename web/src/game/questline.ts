@@ -57,12 +57,17 @@ export function loadRunConsumables(): RunConsumable[] {
   }
 }
 
-/** Drain the stash into a run's consumables list and clear the stash. */
+/** Drain the stash into a run's consumables list and clear the stash.
+ *  Only drains items that are valid battle consumables (present in ALL_CONSUMABLES).
+ *  Persistent currencies like arcade tickets are intentionally excluded. */
 function drainStashIntoRun(consumables: RunConsumable[]): RunConsumable[] {
   const stash = loadConsumableStash()
   if (stash.length === 0) return consumables
+  const battleIds = new Set(ALL_CONSUMABLES.map(c => c.id))
+  const battleStash = stash.filter(s => battleIds.has(s.id))
+  if (battleStash.length === 0) return consumables
   const merged = [...consumables]
-  for (const s of stash) {
+  for (const s of battleStash) {
     const existing = merged.find(c => c.id === s.id)
     if (existing) {
       existing.count += s.count
