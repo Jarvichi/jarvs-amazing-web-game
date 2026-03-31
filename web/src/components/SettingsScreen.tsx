@@ -12,6 +12,7 @@ import { uploadSave, applySave, getLastSyncTime, type CloudSave } from '../game/
 import { isDevMode } from '../game/debug'
 import { DevMenu } from './DevMenu'
 import { GIFT_OWNER_UID } from '../game/gifts'
+import { loadPlaytime, formatPlaytime } from '../game/playtime'
 
 interface Props {
   onBack: () => void
@@ -538,6 +539,25 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               <div className="settings-sublabel">{new Date(__BUILD_DATE__).toLocaleString()}</div>
             </div>
           </div>
+          {(() => {
+            const { totalMs, battleMs } = loadPlaytime()
+            return (
+              <>
+                <div className="settings-row">
+                  <div>
+                    <div className="settings-label">Time in game</div>
+                    <div className="settings-sublabel">{formatPlaytime(totalMs)}</div>
+                  </div>
+                </div>
+                <div className="settings-row">
+                  <div>
+                    <div className="settings-label">Time in battle</div>
+                    <div className="settings-sublabel">{formatPlaytime(battleMs)}</div>
+                  </div>
+                </div>
+              </>
+            )
+          })()}
         </Section>
       </div>
       {showLoginModal && (

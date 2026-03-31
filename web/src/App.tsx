@@ -85,6 +85,7 @@ import { TrainingScreen }  from './components/TrainingScreen'
 import {
   incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
+import { addPlaytime } from './game/playtime'
 import { AchievementsScreen } from './components/AchievementsScreen'
 import { HeroCardsScreen }   from './components/HeroCardsScreen'
 import FingerSmash from './components/FingerSmash'
@@ -489,6 +490,46 @@ export default function App() {
     function handleVisibility() { setIsTabHidden(document.hidden) }
     document.addEventListener('visibilitychange', handleVisibility)
     return () => document.removeEventListener('visibilitychange', handleVisibility)
+  }, [])
+
+  // ── Playtime tracking ─────────────────────────────────────────────────────
+  // Both refs are null when no timing segment is active (tab hidden).
+  // When active: gameTimerRef = segment start; battleTimerRef = battle start or null.
+  const gameTimerRef   = useRef<number | null>(document.hidden ? null : Date.now())
+  const battleTimerRef = useRef<number | null>(null)
+
+  // Save whatever has accumulated since the last reset, then apply the new state.
+  // newScreen / newHidden describe the *incoming* state (after the transition).
+  const applyPlaytimeTransition = useCallback((newScreen: string, newHidden: boolean) => {
+    const now = Date.now()
+
+    // Compute deltas from the outgoing segment (whatever was running before).
+    const totalDelta  = gameTimerRef.current !== null ? Math.max(0, now - gameTimerRef.current) : 0
+    const battleDelta = battleTimerRef.current !== null ? Math.max(0, now - battleTimerRef.current) : 0
+
+    // Set up refs for the incoming state.
+    if (newHidden) {
+      gameTimerRef.current   = null   // stop all timing while hidden
+      battleTimerRef.current = null
+    } else {
+      gameTimerRef.current   = now
+      battleTimerRef.current = newScreen === 'playing' ? now : null
+    }
+
+    if (totalDelta <= 0 && battleDelta <= 0) return
+    const newlyUnlocked = addPlaytime(totalDelta, battleDelta)
+    if (newlyUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...newlyUnlocked])
+  }, [setAchievementToasts])
+
+  useEffect(() => {
+    applyPlaytimeTransition(screen, isTabHidden)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen, isTabHidden])
+
+  // Flush on unmount (best-effort — page may close before this runs).
+  useEffect(() => {
+    return () => { applyPlaytimeTransition(screen, isTabHidden) }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // ── Game loop ────────────────────────────────────────────

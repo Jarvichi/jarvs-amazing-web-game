@@ -5,7 +5,7 @@
 //   event:<eventId>       — special event outcomes
 //   campaign:<actId>      — act completion counts
 
-export type AchievementCategory = 'kills' | 'structures' | 'events' | 'campaign' | 'misc' | 'daily'
+export type AchievementCategory = 'kills' | 'structures' | 'events' | 'campaign' | 'misc' | 'daily' | 'playtime'
 
 export interface AchievementReward {
   type: 'cards' | 'crystals' | 'item' | 'avatar'
@@ -1730,5 +1730,76 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     target: 1,
     reward: { type: 'crystals', crystals: 150 },
     tier: 1,
+  },
+
+  // ── Play Time ─────────────────────────────────────────────────────────────
+  // Progress keys store cumulative milliseconds played.
+  // Targets are in ms: 10h = 36_000_000, 100h = 360_000_000, 1000h = 3_600_000_000
+
+  {
+    id: 'playtime:total:10h',
+    name: 'Dedicated Player',
+    description: 'Spend 10 hours in the game',
+    category: 'playtime',
+    progressKey: 'playtime:total',
+    target: 36_000_000,
+    reward: { type: 'crystals', crystals: 100 },
+    tier: 1,
+  },
+  {
+    id: 'playtime:total:100h',
+    name: 'Veteran Tactician',
+    description: 'Spend 100 hours in the game',
+    category: 'playtime',
+    progressKey: 'playtime:total',
+    target: 360_000_000,
+    reward: { type: 'crystals', crystals: 500 },
+    tier: 2,
+  },
+  {
+    id: 'playtime:total:1000h',
+    name: 'Legendary Commander',
+    description: 'Spend 1,000 hours in the game',
+    category: 'playtime',
+    progressKey: 'playtime:total',
+    target: 3_600_000_000,
+    reward: {
+      type: 'item',
+      item: { id: 'no_life_trophy', name: 'No-Life Trophy', icon: '🏆', desc: 'A participation trophy for spending 1,000 hours in a browser game. Please go outside.' },
+    },
+    tier: 2,
+  },
+  {
+    id: 'playtime:battle:10h',
+    name: 'Battle-Hardened',
+    description: 'Spend 10 hours in battles',
+    category: 'playtime',
+    progressKey: 'playtime:battle',
+    target: 36_000_000,
+    reward: { type: 'crystals', crystals: 100 },
+    tier: 1,
+  },
+  {
+    id: 'playtime:battle:100h',
+    name: 'Warmaster',
+    description: 'Spend 100 hours in battles',
+    category: 'playtime',
+    progressKey: 'playtime:battle',
+    target: 360_000_000,
+    reward: { type: 'crystals', crystals: 500 },
+    tier: 2,
+  },
+  {
+    id: 'playtime:battle:1000h',
+    name: 'Eternal Warlord',
+    description: 'Spend 1,000 hours in battles',
+    category: 'playtime',
+    progressKey: 'playtime:battle',
+    target: 3_600_000_000,
+    reward: {
+      type: 'item',
+      item: { id: 'battle_worn_medal', name: 'Battle-Worn Medal', icon: '🎖', desc: 'Awarded for 1,000 hours of combat. At this point the battlefield is basically your home.' },
+    },
+    tier: 2,
   },
 ]
