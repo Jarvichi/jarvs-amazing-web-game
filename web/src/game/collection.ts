@@ -484,6 +484,7 @@ export function buildDeckCards(entries: DeckEntry[], collection?: CollectionEntr
     let withSpawnMastery = boosted
     if (collection && boosted.unit?.structureEffect?.type === 'spawn') {
       const se = boosted.unit.structureEffect as { type: 'spawn'; unitTemplate: import('./types').UnitTemplate; intervalMs: number }
+      if (!se.unitTemplate) continue
       const spawnXp = getMasteryXp(collection, se.unitTemplate.name)
       const spawnLvl = masteryLevel(spawnXp)
       if (spawnLvl > 0) {
