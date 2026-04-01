@@ -116,7 +116,7 @@ function resolveCardDef(raw: RawCardDef): CardDef {
       console.error('[cards]', msg)
       _pendingValidationErrors.push({ msg, ctx: { cardName: raw.name, unitRef: raw.unitRef } })
     }
-    unit = resolved as UnitTemplate
+    unit = resolved ? resolveUnit(resolved) : undefined
   } else if (raw.unit) {
     unit = resolveUnit(raw.unit)
   }
