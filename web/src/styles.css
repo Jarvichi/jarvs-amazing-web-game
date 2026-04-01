@@ -4124,7 +4124,8 @@ body {
   padding: 24px 16px;
   max-width: 480px;
   margin: 0 auto;
-  min-height: 100%;
+  flex: 1;
+  overflow-y: auto;
   box-sizing: border-box;
 }
 
