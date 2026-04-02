@@ -269,7 +269,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
 // Full-size SVG rendered as the ground layer: grass, dirt path, crop rows,
 // sandy patches. Uses preserveAspectRatio="none" so it always fills the lane.
 
-const BATTLEFIELD_SPRITE_PATH = '/jarvs-amazing-web-game/sprites/battlefield/'
+const BATTLEFIELD_SPRITE_PATH = '/sprites/battlefield/'
 
 function BattlefieldBackground({ env }: { env?: string }) {
   const key = (env && env in battlefieldConfig.environments)
@@ -595,7 +595,7 @@ const OPPONENT_PORTRAIT: Record<string, string> = {
   act4: 'fire-mage',
 }
 
-const BASE_SPRITE_PATH = '/jarvs-amazing-web-game/sprites/'
+const BASE_SPRITE_PATH = '/sprites/'
 
 function opponentPortraitSlug(bossAI: string | undefined, actTheme: string | undefined): string {
   if (bossAI && OPPONENT_PORTRAIT[bossAI]) return OPPONENT_PORTRAIT[bossAI]

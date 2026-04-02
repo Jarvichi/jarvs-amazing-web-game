@@ -20,7 +20,7 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
         runtimeCaching: [
           {
-            urlPattern: /\/jarvs-amazing-web-game\/sprites\/.+\.svg$/,
+            urlPattern: /\/sprites\/.+\.svg$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'sprites-cache',
@@ -39,25 +39,25 @@ export default defineConfig({
         theme_color: '#0a0a0a',
         background_color: '#0a0a0a',
         display: 'standalone',
-        start_url: '/jarvs-amazing-web-game/',
+        start_url: '/',
         icons: [
           {
-            src: '/jarvs-amazing-web-game/pwa-64x64.png',
+            src: '/pwa-64x64.png',
             sizes: '64x64',
             type: 'image/png',
           },
           {
-            src: '/jarvs-amazing-web-game/pwa-192x192.png',
+            src: '/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/jarvs-amazing-web-game/pwa-512x512.png',
+            src: '/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: '/jarvs-amazing-web-game/maskable-icon-512x512.png',
+            src: '/maskable-icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
@@ -66,7 +66,7 @@ export default defineConfig({
       },
     }),
   ],
-  base: '/jarvs-amazing-web-game/',
+  base: '/',
   build: {
     sourcemap: true,
   },
