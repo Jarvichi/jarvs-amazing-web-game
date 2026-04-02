@@ -312,8 +312,12 @@ export default function App() {
     if (savedRun?.pendingActComplete) {
       return { screen: 'actcomplete' as Screen, gameState: null as GameState | null, run: savedRun, isCampaign: false }
     }
-    // If the act is complete but pendingActComplete was cleared (e.g. player exited during
-    // relic select after our #328 fix), also restore to actcomplete.
+    // If the player exited while on the relic-select screen between acts, restore to
+    // actcomplete so they can pick a relic again via the normal Continue flow.
+    if (savedRun?.pendingRelicSelect) {
+      return { screen: 'actcomplete' as Screen, gameState: null as GameState | null, run: savedRun, isCampaign: false }
+    }
+    // If the act is complete but pendingActComplete was cleared, also restore to actcomplete.
     const savedAct = savedRun ? ACTS[savedRun.actId] : null
     if (savedRun && savedAct && isActComplete(savedAct, savedRun)) {
       return { screen: 'actcomplete' as Screen, gameState: null as GameState | null, run: savedRun, isCampaign: false }
@@ -977,6 +981,7 @@ export default function App() {
       setRun(activeRun)
 
       const proceedAfterRelicSelect = (chosenRelic: string | null) => {
+        rollbar.info('proceedAfterRelicSelect: relic chosen', { actId, chosenRelic, earnedCount: earned.length })
         const runWithRelic = { ...activeRun, activeRelic: chosenRelic }
         saveRun(runWithRelic)
         setRun(runWithRelic)
@@ -985,9 +990,17 @@ export default function App() {
           ? getAct1Intro(runCount)
           : (act.intro ?? [])
         markIntroSeen(actId)
+        rollbar.info('proceedAfterRelicSelect: showing intro or nodemap', {
+          actId,
+          panelCount: introToShow.length,
+          runCount,
+        })
         if (introToShow.length > 0) {
           setCutscenePanels(applyPlayerName(introToShow))
-          cutsceneDoneRef.current = () => setScreen('nodemap')
+          cutsceneDoneRef.current = () => {
+            rollbar.info('cutsceneDone (fresh run): navigating to nodemap', { actId })
+            setScreen('nodemap')
+          }
           setScreen('cutscene')
           return
         }
@@ -995,6 +1008,7 @@ export default function App() {
       }
 
       if (earned.length > 0) {
+        rollbar.info('Fresh run: showing relic select', { actId, earnedCount: earned.length })
         relicSelectDoneRef.current = proceedAfterRelicSelect
         setScreen('relicselect')
         return
@@ -1465,9 +1479,17 @@ export default function App() {
           setRun(nextRun)
           // Show next act intro cutscene
           const introPanels = nextAct.intro ?? []
+          rollbar.info('proceedToNextAct: showing cutscene or nodemap', {
+            fromActId: currentRun.actId,
+            toActId: nextAct.id,
+            panelCount: introPanels.length,
+          })
           if (introPanels.length > 0) {
             setCutscenePanels(applyPlayerName(introPanels))
-            cutsceneDoneRef.current = () => setScreen('nodemap')
+            cutsceneDoneRef.current = () => {
+              rollbar.info('cutsceneDone (act transition): navigating to nodemap', { toActId: nextAct.id })
+              setScreen('nodemap')
+            }
             setScreen('cutscene')
           } else {
             setScreen('nodemap')
@@ -1481,9 +1503,9 @@ export default function App() {
           willBreak,
         })
         if (earnedRelics.length > 0) {
-          // Clear pendingActComplete before showing relic select so a mid-selection
-          // exit doesn't loop back to actcomplete on next load.
-          saveRun({ ...currentRun, pendingActComplete: false })
+          // Mark pendingRelicSelect so that if the player exits mid-selection the run is
+          // preserved and they are restored to actcomplete (not reset to ACT 1).
+          saveRun({ ...currentRun, pendingActComplete: false, pendingRelicSelect: true })
           relicSelectDoneRef.current = proceedToNextAct
           setScreen('relicselect')
         } else {

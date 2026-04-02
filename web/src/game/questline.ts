@@ -480,7 +480,8 @@ export interface RunState {
   completedNodeIds: string[]
   skippedNodeIds: string[]     // nodes in branches the player didn't take
   pendingNodeId: string | null // node currently in battle
-  pendingActComplete?: boolean // true while waiting on the act-complete screen (survives page refresh)
+  pendingActComplete?: boolean  // true while waiting on the act-complete screen (survives page refresh)
+  pendingRelicSelect?: boolean  // true while waiting on the relic-select screen between acts (survives page refresh)
   playerHp: number
   maxHp: number
   livesRemaining: number       // attempts left before run fails (3 at run start; resets to 3 at act end)
@@ -541,9 +542,9 @@ export function loadRun(): RunState | null {
     }
 
     // If act is already complete with no pendingNode, clear run so a fresh one starts —
-    // unless pendingActComplete is set, which means the player is on the act-complete
-    // screen and hasn't clicked Continue yet (e.g. they refreshed the page mid-transition).
-    if (isActComplete(act, parsed) && !parsed.pendingNodeId && !parsed.pendingActComplete) {
+    // unless pendingActComplete is set (player is on the act-complete screen) or
+    // pendingRelicSelect is set (player exited mid relic-select between acts).
+    if (isActComplete(act, parsed) && !parsed.pendingNodeId && !parsed.pendingActComplete && !parsed.pendingRelicSelect) {
       console.warn('[run] Act already complete — clearing stale run')
       localStorage.removeItem(RUN_KEY)
       return null
