@@ -105,7 +105,11 @@ export function CommanderScreen({
 }: Props) {
   const [state, setState] = useState<CommanderState>(commander)
   const [toasts, setToasts] = useState<Toast[]>([])
-  const [cooldowns, setCooldowns] = useState<Record<PetAction, number>>({ feed: 0, play: 0, pet: 0 })
+  const [cooldowns, setCooldowns] = useState<Record<PetAction, number>>(() => ({
+    feed: cooldownRemaining(commander, 'feed'),
+    play: cooldownRemaining(commander, 'play'),
+    pet:  cooldownRemaining(commander, 'pet'),
+  }))
   const [confirmDismiss, setConfirmDismiss] = useState(false)
   const [masteryXp, setMasteryXp] = useState(() => getMasteryXp(loadCollection(), commander.cardName))
   const [levelUp, setLevelUp] = useState(false)
