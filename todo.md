@@ -16,10 +16,10 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔴 Bugs — New (from GitHub, session 32 sync)
 
-- [ ] **#573** Black screen after relic select + lore text — add Rollbar logging to flow; investigate root cause
-- [ ] **#572** Relic selection screen — leaving game resets to ACT 1; fix: pendingRelicSelect flag
-- [ ] **#571** Commander cooldown reset — cooldowns init to 0 on mount; fix: init from real timestamps
-- [x] **#564** Cannot read property k.unitTemplate — already fixed by prior commits; close issue
+- [ ] **#573** Black screen after relic select + lore text — Rollbar logging added to relic→cutscene→nodemap flow; root cause still unknown (needs live Rollbar data)
+- [x] **#572** Relic selection screen — leaving game resets to ACT 1; fixed with pendingRelicSelect flag in RunState/loadRun
+- [x] **#571** Commander cooldown reset — cooldowns now initialised from cooldownRemaining() on mount
+- [x] **#564** Cannot read property k.unitTemplate — already fixed by prior commits (guard added); close issue manually
 
 ---
 
