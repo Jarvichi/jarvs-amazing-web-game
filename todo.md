@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-03-29 (session 31 — new issues sync).
+Issues sourced from GitHub. Last synced: 2026-04-02 (session 32 — bug investigation).
 
 ---
 
@@ -11,6 +11,15 @@ When working an issue from this file, go and check the GitHub issue for addition
 ## ✅ Closed (session 25)
 
 - [x] **#178** Per-act themed card sets — Act 4 rewardTags fixed ('crystal'→'spire','arcane'); 5 new Crystal Spire cards added (Prism Warden, Shard Familiar, Arcane Conduit, Resonance Spire, Crystalline Shell); all sprites created. Acts 1–4 now have 25+ themed cards each.
+
+---
+
+## 🔴 Bugs — New (from GitHub, session 32 sync)
+
+- [ ] **#573** Black screen after relic select + lore text — add Rollbar logging to flow; investigate root cause
+- [ ] **#572** Relic selection screen — leaving game resets to ACT 1; fix: pendingRelicSelect flag
+- [ ] **#571** Commander cooldown reset — cooldowns init to 0 on mount; fix: init from real timestamps
+- [x] **#564** Cannot read property k.unitTemplate — already fixed by prior commits; close issue
 
 ---
 
