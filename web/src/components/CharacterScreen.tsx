@@ -9,7 +9,7 @@ import {
 import { auth } from '../firebase'
 import { claimPlayerName } from '../game/playerName'
 
-const SPRITE_BASE = '/jarvs-amazing-web-game/sprites/'
+const SPRITE_BASE = '/sprites/'
 
 const BASE_AVATAR_LABELS: Record<string, string> = {
   'jarv':       'Blue Cloak',
