@@ -92,6 +92,7 @@ import FingerSmash from './components/FingerSmash'
 import BossShockwave from './components/BossShockwave'
 import { ShopScreen }        from './components/ShopScreen'
 import { BattleSummary }    from './components/BattleSummary'
+import { VictoryPanel }     from './components/VictoryPanel'
 import { RelicSpinScreen }  from './components/RelicSpinScreen'
 import { CampaignVictoryScreen } from './components/CampaignVictoryScreen'
 import { CampaignFailedScreen }  from './components/CampaignFailedScreen'
@@ -2428,12 +2429,18 @@ export default function App() {
           && failCount >= 2
         if (gameState.phase.type === 'celebration') {
           return (
-            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <>
               <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
-              <div className="victory-overlay">
-                <div className="victory-text">YOU WIN!</div>
-              </div>
-            </div>
+              <VictoryPanel
+                playerScore={gameState.playerScore}
+                opponentScore={gameState.opponentScore}
+                playerBaseHp={gameState.playerBase.hp}
+                playerBaseMaxHp={gameState.playerBase.maxHp}
+                unitsDefeated={gameState.battleStats.playerKills}
+                gameTime={gameState.gameTime}
+                onContinue={() => dispatch({ type: 'SET_GAME_STATE', gameState: { ...gameState, phase: { type: 'gameOver', winner: 'player' } } })}
+              />
+            </>
           )
         }
         if (gameState.phase.type === 'fingerSmash') {
