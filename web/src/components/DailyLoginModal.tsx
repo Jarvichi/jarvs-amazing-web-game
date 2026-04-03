@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { RewardDef } from '../game/dailyLogin'
 import { CardTile } from './CardTile'
 import { getCardCatalog } from '../game/cards'
+import rollbar from '../rollbar'
 
 interface Props {
   reward: RewardDef
@@ -24,6 +25,26 @@ export function DailyLoginModal({ reward, onClose }: Props) {
     : null
 
   const crystalMsg = CRYSTAL_MSGS[Math.floor(Math.random() * CRYSTAL_MSGS.length)]
+
+  // Detect cases where no content branch will render
+  const hasContent =
+    reward.type === 'crystals' ||
+    (reward.type === 'card' && cardObj !== null) ||
+    reward.type === 'pack' ||
+    reward.type === 'item' ||
+    reward.type === 'consumable'
+
+  useEffect(() => {
+    if (!hasContent) {
+      rollbar.error('DailyLoginModal: reward has no renderable content', {
+        rewardType: reward.type,
+        rewardId: reward.id,
+        cardName: reward.cardName,
+        cardFound: cardObj !== null,
+      })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="daily-modal-backdrop" onClick={onClose}>
@@ -70,6 +91,20 @@ export function DailyLoginModal({ reward, onClose }: Props) {
               <div className="daily-modal-useless-note">
                 (Added to your inventory. Completely useless.)
               </div>
+            </>
+          )}
+          {reward.type === 'consumable' && (
+            <>
+              <div className="daily-modal-icon">{reward.icon}</div>
+              <div className="daily-modal-value">{reward.name}</div>
+              <div className="daily-modal-desc">{reward.desc}</div>
+            </>
+          )}
+          {!hasContent && (
+            <>
+              <div className="daily-modal-icon">💎</div>
+              <div className="daily-modal-value">+10 Crystals</div>
+              <div className="daily-modal-desc">A gift from the Shattered Dominion.</div>
             </>
           )}
         </div>

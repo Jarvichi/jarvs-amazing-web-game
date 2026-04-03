@@ -2567,7 +2567,11 @@ export default function App() {
             // Mark claimed and grant the reward only when user taps CLAIM
             markDailyRewardClaimed()
             const catalog = getCardCatalog()
-            if (dailyReward.type === 'card' && dailyReward.cardName) {
+            if (dailyReward.type === 'crystals' && dailyReward.amount) {
+              const next = loadCrystals() + dailyReward.amount
+              saveCrystals(next)
+              setCrystals(next)
+            } else if (dailyReward.type === 'card' && dailyReward.cardName) {
               addCardsToCollection([{ cardName: dailyReward.cardName, count: 1 }])
             } else if (dailyReward.type === 'pack') {
               const n = dailyReward.count ?? 5
@@ -2577,6 +2581,11 @@ export default function App() {
               addToInventory(dailyReward)
             } else if (dailyReward.type === 'consumable' && dailyReward.consumableId) {
               addToConsumableStash(dailyReward.consumableId)
+            } else {
+              // Fallback: grant 10 crystals for unrecognised reward types
+              const next = loadCrystals() + 10
+              saveCrystals(next)
+              setCrystals(next)
             }
             setDailyReward(null)
           }}
