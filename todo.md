@@ -1,10 +1,28 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-04-02 (session 32 — bug investigation).
+Issues sourced from GitHub. Last synced: 2026-04-03 (session 33 — issue check).
 
 ---
 
 When working an issue from this file, go and check the GitHub issue for additional detail and requirements before planning the solution, create a todo list based on the plan and execute it. If running in the cli you can usually use the "gh" cli commands to help, however if they are not available use a fallback method.
+
+---
+
+## 🔴 Bugs — New (from GitHub, session 33 sync)
+
+- [ ] **#575** Boss fights not triggering — final node boss fight missing on Acts 3, 5(?), 13; check all acts
+- [ ] **#585** Daily login shows no content — "daily reward / Welcome back Jarv / Claim" with no reward shown; add Rollbar error + fallback to crystals
+- [ ] **#584** "Jarv" hardcoded — substitute player name everywhere "Jarv" appears in UI text
+- [ ] **#580** Time in game/battle resets on new device — not stored in cloud save; ensure both timers are persisted
+
+## ⚪ Noise / Low Priority (from GitHub, session 33 sync)
+
+- [ ] **#583** Intentional Rollbar test error — can close (was a deliberate debug test)
+- [ ] **#582** InvalidStateError: ServiceWorker update failed — browser/OS noise; same class as #581
+- [ ] **#581** TypeError: ServiceWorker update failed (Not found) — SW noise; consider suppressing in unhandledrejection handler
+- [ ] **#577** SecurityError: sw.js load failed (old GitHub Pages domain) — stale domain issue; users on new domain unaffected
+- [ ] **#576** TypeError: Internal error — too vague; monitor in Rollbar
+- [ ] **#578** Script error (unknown) — same class as #483; already noted
 
 ---
 
