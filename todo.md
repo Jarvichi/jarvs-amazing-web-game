@@ -10,10 +10,10 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔴 Bugs — New (from GitHub, session 33 sync)
 
-- [ ] **#575** Boss fights not triggering — final node boss fight missing on Acts 3, 5(?), 13; check all acts
-- [ ] **#585** Daily login shows no content — "daily reward / Welcome back Jarv / Claim" with no reward shown; add Rollbar error + fallback to crystals
-- [ ] **#584** "Jarv" hardcoded — substitute player name everywhere "Jarv" appears in UI text
-- [ ] **#580** Time in game/battle resets on new device — not stored in cloud save; ensure both timers are persisted
+- [x] **#575** Boss fights not triggering — acts 5-13 missing bossCard (no phase-2 fight); act3 bossCard conflicted with split trait (removed); bossCards added for acts 5-7, 9-13; acts 3&8 use split trait as their mechanic
+- [x] **#585** Daily login shows no content — consumable type had no render branch; crystals weren't being credited; added Rollbar error + 10-crystal fallback for unknown types
+- [x] **#584** "Jarv" hardcoded — DailyLoginModal, WrongNumberEvent, CampaignVictoryScreen, EventScreen now use loadPlayerName(); act JSON already uses applyPlayerName()
+- [x] **#580** Time in game/battle resets on new device — added flushPlaytimeToStorage() helper; called before every uploadSave() so in-memory session deltas are captured
 
 ## ⚪ Noise / Low Priority (from GitHub, session 33 sync)
 
