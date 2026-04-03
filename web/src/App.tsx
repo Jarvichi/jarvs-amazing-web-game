@@ -371,6 +371,7 @@ export default function App() {
   const cutsceneDoneRef     = useRef<() => void>(() => {})
   const summaryDoneRef      = useRef<() => void>(() => {})
   const relicSelectDoneRef  = useRef<(relicName: string | null) => void>(() => {})
+  const cardRestActDoneRef  = useRef<(() => void) | null>(null)           // set during mid-act card rest; null at campaign end
   const brokenRelicRef      = useRef<{ name: string; icon: string } | null>(null)
   const [relicSpinData, setRelicSpinData] = useState<{ relicName: string; relicIcon: string; breaks: boolean; brokenName?: string; brokenIcon?: string; brokenDesc?: string; onContinue: () => void } | null>(null)
   const [bossDialogueNode, setBossDialogueNode] = useState<QuestNode | null>(null)
@@ -1517,6 +1518,25 @@ export default function App() {
           }
         }
 
+        // Show card rest before proceeding to next act (per-act rest)
+        const maybeShowCardRest = (chosenRelic: string | null) => {
+          const actCounts = currentRun.cardPlayCounts ?? {}
+          const candidates = getTopPlayedCards(actCounts, 3)
+          rollbar.info('maybeShowCardRest: checking candidates', {
+            fromActId: currentRun.actId,
+            toActId: nextAct.id,
+            candidateCount: candidates.length,
+          })
+          if (candidates.length >= 2) {
+            setCardRestCandidates(candidates)
+            setCardRestPlayCounts(actCounts)
+            cardRestActDoneRef.current = () => proceedToNextAct(chosenRelic)
+            setScreen('cardrest')
+          } else {
+            proceedToNextAct(chosenRelic)
+          }
+        }
+
         rollbar.info('Act transition: showing relic select or proceeding', {
           actId: currentRun.actId,
           nextActId: nextAct.id,
@@ -1527,10 +1547,10 @@ export default function App() {
           // Mark pendingRelicSelect so that if the player exits mid-selection the run is
           // preserved and they are restored to actcomplete (not reset to ACT 1).
           saveRun({ ...currentRun, pendingActComplete: false, pendingRelicSelect: true })
-          relicSelectDoneRef.current = proceedToNextAct
+          relicSelectDoneRef.current = maybeShowCardRest
           setScreen('relicselect')
         } else {
-          proceedToNextAct(null)
+          maybeShowCardRest(null)
         }
         return
       }
@@ -1564,6 +1584,19 @@ export default function App() {
   }, [run])
 
   const handleCardRestConfirm = useCallback((resting: string[]) => {
+    // Mid-act card rest: accumulate fatigued cards and proceed to the next act
+    if (cardRestActDoneRef.current) {
+      const existing = loadFatigued()
+      const combined = [...new Set([...existing, ...resting])]
+      saveFatigued(combined)
+      setFatiguedCards(combined)
+      const done = cardRestActDoneRef.current
+      cardRestActDoneRef.current = null
+      done()
+      return
+    }
+
+    // Campaign-end card rest: existing behaviour (fatigued cards already cleared by Begin Anew)
     saveFatigued(resting)
     setFatiguedCards(resting)
 
@@ -2295,11 +2328,8 @@ export default function App() {
       {screen === 'campaignvictory' && (
         <CampaignVictoryScreen onBeginAnew={() => {
           const bonus = crystals + 500; saveCrystals(bonus); setCrystals(bonus)
-          const counts = run?.cardPlayCounts ?? {}
-          const candidates = getTopPlayedCards(counts, 3)
           clearRun(); setRun(null); clearFatigued(); setFatiguedCards([]); setBonusPackCards([])
-          if (candidates.length >= 2) { setCardRestCandidates(candidates); setCardRestPlayCounts(counts); setScreen('cardrest') }
-          else { setScreen('starterpack') }
+          setScreen('starterpack')
         }} />
       )}
 
