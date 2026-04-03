@@ -85,7 +85,7 @@ import { TrainingScreen }  from './components/TrainingScreen'
 import {
   incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
-import { addPlaytime } from './game/playtime'
+import { addPlaytime, loadPlaytime, savePlaytime } from './game/playtime'
 import { AchievementsScreen } from './components/AchievementsScreen'
 import { HeroCardsScreen }   from './components/HeroCardsScreen'
 import FingerSmash from './components/FingerSmash'
@@ -502,6 +502,25 @@ export default function App() {
   const gameTimerRef   = useRef<number | null>(document.hidden ? null : Date.now())
   const battleTimerRef = useRef<number | null>(null)
 
+  /**
+   * Flush the current in-memory session playtime to localStorage without
+   * changing screen state or firing achievement checks. Resets the ref
+   * timers to `now` so the next applyPlaytimeTransition won't double-count.
+   * Call this immediately before any uploadSave so the cloud save captures
+   * the live session time.
+   */
+  const flushPlaytimeToStorage = useCallback(() => {
+    const now = Date.now()
+    const totalDelta  = gameTimerRef.current  !== null ? Math.max(0, now - gameTimerRef.current)  : 0
+    const battleDelta = battleTimerRef.current !== null ? Math.max(0, now - battleTimerRef.current) : 0
+    if (totalDelta > 0 || battleDelta > 0) {
+      if (gameTimerRef.current  !== null) gameTimerRef.current  = now
+      if (battleTimerRef.current !== null) battleTimerRef.current = now
+      const { totalMs, battleMs } = loadPlaytime()
+      savePlaytime({ totalMs: totalMs + totalDelta, battleMs: battleMs + battleDelta })
+    }
+  }, [])
+
   // Save whatever has accumulated since the last reset, then apply the new state.
   // newScreen / newHidden describe the *incoming* state (after the transition).
   const applyPlaytimeTransition = useCallback((newScreen: string, newHidden: boolean) => {
@@ -557,9 +576,10 @@ export default function App() {
     clearBattleState()
     const uid = auth.currentUser?.uid
     if (uid && !auth.currentUser?.isAnonymous) {
+      flushPlaytimeToStorage()
       uploadSave(uid).catch(() => { /* silent — non-critical */ })
     }
-  }, [gameState?.phase.type])
+  }, [gameState?.phase.type, flushPlaytimeToStorage])
 
   // Keep Rollbar person context up to date with the player's current act/run.
   useEffect(() => {
@@ -587,10 +607,11 @@ export default function App() {
     if (!uid || user?.isAnonymous) return
     const id = setInterval(() => {
       if (!navigator.onLine) return
+      flushPlaytimeToStorage()
       uploadSave(uid).catch(() => { /* silent */ })
     }, 5 * 60 * 1000)
     return () => clearInterval(id)
-  }, [screen, user])
+  }, [screen, user, flushPlaytimeToStorage])
 
   // Guard: if screen is 'cutscene' but there are no panels, we'd show a blank screen.
   // Redirect to nodemap (or title if no run), and log to Rollbar so we can debug the root cause.
@@ -2481,7 +2502,7 @@ export default function App() {
               <button className="action-btn action-btn--dim" onClick={() => {
                 setSyncPrompt(null)
                 const uid = user?.uid
-                if (uid && !user?.isAnonymous) uploadSave(uid).catch(() => {})
+                if (uid && !user?.isAnonymous) { flushPlaytimeToStorage(); uploadSave(uid).catch(() => {}) }
               }}>
                 💾 KEEP LOCAL
               </button>
