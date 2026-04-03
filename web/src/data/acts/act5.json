@@ -76,18 +76,29 @@
       "col": 0,
       "rowCols": 1,
       "parentIds": [],
-      "childIds": ["tidal-shrine", "wreck-camp", "reef-bazaar"],
+      "childIds": [
+        "tidal-shrine",
+        "wreck-camp",
+        "reef-bazaar"
+      ],
       "handicap": 8,
       "opponentIntervalMs": 5200,
       "opponentBaseHp": 180,
       "environment": "reef",
       "enemyDeck": [
-        "Reef Crawler", "Reef Crawler", "Reef Crawler",
-        "Tide Sprite", "Tide Sprite",
-        "Coral Guard", "Coral Guard",
-        "Coral Wall", "Coral Wall",
-        "Tidal Surge", "Tidal Surge",
-        "Pearl Power", "Pearl Power",
+        "Reef Crawler",
+        "Reef Crawler",
+        "Reef Crawler",
+        "Tide Sprite",
+        "Tide Sprite",
+        "Coral Guard",
+        "Coral Guard",
+        "Coral Wall",
+        "Coral Wall",
+        "Tidal Surge",
+        "Tidal Surge",
+        "Pearl Power",
+        "Pearl Power",
         "Seahorse Lancer"
       ]
     },
@@ -99,8 +110,12 @@
       "row": 1,
       "col": 0,
       "rowCols": 3,
-      "parentIds": ["coral-breach"],
-      "childIds": ["sunken-passage"],
+      "parentIds": [
+        "coral-breach"
+      ],
+      "childIds": [
+        "sunken-passage"
+      ],
       "environment": "reef",
       "eventConfig": {
         "title": "The Tidal Shrine",
@@ -110,61 +125,93 @@
             {
               "label": "Leave an offering",
               "consequence": "The tide takes it — and returns 12 HP",
-              "effect": { "type": "healHp", "amount": 12 }
+              "effect": {
+                "type": "healHp",
+                "amount": 12
+              }
             },
             {
               "label": "Leave an offering",
               "consequence": "The shrine accepts the gift — +15 crystals",
-              "effect": { "type": "gainCrystals", "amount": 15 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 15
+              }
             },
             {
               "label": "Leave an offering",
               "consequence": "Nothing stirs. The tide goes out.",
-              "effect": { "type": "nothing" }
+              "effect": {
+                "type": "nothing"
+              }
             },
             {
               "label": "Leave an offering",
               "consequence": "Something beneath pulls harder than expected — lose 5 HP",
-              "effect": { "type": "damageHp", "amount": 5 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 5
+              }
             }
           ],
           [
             {
               "label": "Read the carvings",
               "consequence": "The glyphs resolve into a card — uncommon",
-              "effect": { "type": "gainCard", "rarity": "uncommon" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
             },
             {
               "label": "Read the carvings",
               "consequence": "The pattern heals old wounds — restored 8 HP",
-              "effect": { "type": "healHp", "amount": 8 }
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
             },
             {
               "label": "Read the carvings",
               "consequence": "The knowledge is expensive — lose 10 HP",
-              "effect": { "type": "damageHp", "amount": 10 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 10
+              }
             },
             {
               "label": "Read the carvings",
               "consequence": "Salt and old magic — +20 crystals",
-              "effect": { "type": "gainCrystals", "amount": 20 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 20
+              }
             }
           ],
           [
             {
               "label": "Smash it for components",
               "consequence": "The components are worth something — +18 crystals",
-              "effect": { "type": "gainCrystals", "amount": 18 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 18
+              }
             },
             {
               "label": "Smash it for components",
               "consequence": "A common card falls from the rubble",
-              "effect": { "type": "gainCard", "rarity": "common" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "common"
+              }
             },
             {
               "label": "Smash it for components",
               "consequence": "The shrine curses you for the disrespect — lose 15 HP",
-              "effect": { "type": "damageHp", "amount": 15 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 15
+              }
             }
           ]
         ]
@@ -178,8 +225,12 @@
       "row": 1,
       "col": 1,
       "rowCols": 3,
-      "parentIds": ["coral-breach"],
-      "childIds": ["sunken-passage"],
+      "parentIds": [
+        "coral-breach"
+      ],
+      "childIds": [
+        "sunken-passage"
+      ],
       "environment": "reef",
       "restHeal": 10
     },
@@ -191,8 +242,12 @@
       "row": 1,
       "col": 2,
       "rowCols": 3,
-      "parentIds": ["coral-breach"],
-      "childIds": ["sunken-passage"],
+      "parentIds": [
+        "coral-breach"
+      ],
+      "childIds": [
+        "sunken-passage"
+      ],
       "environment": "reef"
     },
     "sunken-passage": {
@@ -203,21 +258,35 @@
       "row": 2,
       "col": 0,
       "rowCols": 1,
-      "parentIds": ["tidal-shrine", "wreck-camp", "reef-bazaar"],
-      "childIds": ["abyssal-ambush", "deep-current", "reef-patrol-elite"],
+      "parentIds": [
+        "tidal-shrine",
+        "wreck-camp",
+        "reef-bazaar"
+      ],
+      "childIds": [
+        "abyssal-ambush",
+        "deep-current",
+        "reef-patrol-elite"
+      ],
       "handicap": 10,
       "opponentIntervalMs": 4800,
       "opponentBaseHp": 185,
       "environment": "reef",
       "enemyDeck": [
-        "Seahorse Lancer", "Seahorse Lancer",
-        "Coral Guard", "Coral Guard", "Coral Guard",
-        "Jellyfish Drifter", "Jellyfish Drifter",
+        "Seahorse Lancer",
+        "Seahorse Lancer",
+        "Coral Guard",
+        "Coral Guard",
+        "Coral Guard",
+        "Jellyfish Drifter",
+        "Jellyfish Drifter",
         "Eel Striker",
-        "Coral Wall", "Coral Wall",
+        "Coral Wall",
+        "Coral Wall",
         "Reef Shark",
         "Tide Shrine",
-        "Tidal Surge", "Tidal Surge"
+        "Tidal Surge",
+        "Tidal Surge"
       ]
     },
     "abyssal-ambush": {
@@ -228,20 +297,30 @@
       "row": 3,
       "col": 0,
       "rowCols": 3,
-      "parentIds": ["sunken-passage"],
-      "childIds": ["kelp-crossing"],
+      "parentIds": [
+        "sunken-passage"
+      ],
+      "childIds": [
+        "kelp-crossing"
+      ],
       "handicap": 12,
       "opponentIntervalMs": 4500,
       "opponentBaseHp": 190,
       "environment": "reef",
       "enemyDeck": [
-        "Abyssal Hunter", "Abyssal Hunter",
-        "Reef Shark", "Reef Shark",
-        "Eel Striker", "Eel Striker",
+        "Abyssal Hunter",
+        "Abyssal Hunter",
+        "Reef Shark",
+        "Reef Shark",
+        "Eel Striker",
+        "Eel Striker",
         "Sea Witch",
-        "Coral Wall", "Coral Wall",
-        "Tide Caller", "Tide Caller",
-        "Pearl Power", "Pearl Power",
+        "Coral Wall",
+        "Coral Wall",
+        "Tide Caller",
+        "Tide Caller",
+        "Pearl Power",
+        "Pearl Power",
         "Deep Resilience"
       ]
     },
@@ -253,8 +332,12 @@
       "row": 3,
       "col": 1,
       "rowCols": 3,
-      "parentIds": ["sunken-passage"],
-      "childIds": ["kelp-crossing"],
+      "parentIds": [
+        "sunken-passage"
+      ],
+      "childIds": [
+        "kelp-crossing"
+      ],
       "environment": "reef",
       "eventConfig": {
         "title": "The Deep Current",
@@ -264,39 +347,59 @@
             {
               "label": "Reach in",
               "consequence": "The current deposits a rare card in your hand",
-              "effect": { "type": "gainCard", "rarity": "rare" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
             },
             {
               "label": "Reach in",
               "consequence": "The current pulls you briefly under — lose 12 HP",
-              "effect": { "type": "damageHp", "amount": 12 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 12
+              }
             },
             {
               "label": "Reach in",
               "consequence": "Something warm and healing — restored 15 HP",
-              "effect": { "type": "healHp", "amount": 15 }
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
             },
             {
               "label": "Reach in",
               "consequence": "+25 crystals wash ashore",
-              "effect": { "type": "gainCrystals", "amount": 25 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 25
+              }
             }
           ],
           [
             {
               "label": "Follow it downstream",
               "consequence": "You find a Dominion salvage cache — +30 crystals",
-              "effect": { "type": "gainCrystals", "amount": 30 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 30
+              }
             },
             {
               "label": "Follow it downstream",
               "consequence": "The current ends at a dead drop — uncommon card",
-              "effect": { "type": "gainCard", "rarity": "uncommon" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
             },
             {
               "label": "Follow it downstream",
               "consequence": "The current fades before you reach anything",
-              "effect": { "type": "nothing" }
+              "effect": {
+                "type": "nothing"
+              }
             }
           ]
         ]
@@ -310,20 +413,30 @@
       "row": 3,
       "col": 2,
       "rowCols": 3,
-      "parentIds": ["sunken-passage"],
-      "childIds": ["kelp-crossing"],
+      "parentIds": [
+        "sunken-passage"
+      ],
+      "childIds": [
+        "kelp-crossing"
+      ],
       "handicap": 15,
       "opponentIntervalMs": 4000,
       "opponentBaseHp": 200,
       "environment": "reef",
       "enemyDeck": [
         "Shipwreck Golem",
-        "Reef Shark", "Reef Shark", "Reef Shark",
-        "Tide Caller", "Tide Caller",
-        "Sea Witch", "Sea Witch",
-        "Coral Wall", "Coral Wall",
+        "Reef Shark",
+        "Reef Shark",
+        "Reef Shark",
+        "Tide Caller",
+        "Tide Caller",
+        "Sea Witch",
+        "Sea Witch",
+        "Coral Wall",
+        "Coral Wall",
         "Siren's Post",
-        "Deep Resilience", "Deep Resilience",
+        "Deep Resilience",
+        "Deep Resilience",
         "Pearl Power"
       ]
     },
@@ -335,19 +448,31 @@
       "row": 4,
       "col": 0,
       "rowCols": 1,
-      "parentIds": ["abyssal-ambush", "deep-current", "reef-patrol-elite"],
-      "childIds": ["drowned-shrine", "depth-rest", "deep-elite"],
+      "parentIds": [
+        "abyssal-ambush",
+        "deep-current",
+        "reef-patrol-elite"
+      ],
+      "childIds": [
+        "drowned-shrine",
+        "depth-rest",
+        "deep-elite"
+      ],
       "handicap": 13,
       "opponentIntervalMs": 4400,
       "opponentBaseHp": 195,
       "environment": "reef",
       "enemyDeck": [
         "Tide Dragon",
-        "Abyssal Hunter", "Abyssal Hunter",
-        "Eel Striker", "Eel Striker",
-        "Jellyfish Drifter", "Jellyfish Drifter",
+        "Abyssal Hunter",
+        "Abyssal Hunter",
+        "Eel Striker",
+        "Eel Striker",
+        "Jellyfish Drifter",
+        "Jellyfish Drifter",
         "Reef Mender",
-        "Coral Wall", "Coral Wall",
+        "Coral Wall",
+        "Coral Wall",
         "Kraken Beacon",
         "Tidal Surge",
         "Current Mastery",
@@ -362,8 +487,12 @@
       "row": 5,
       "col": 0,
       "rowCols": 3,
-      "parentIds": ["kelp-crossing"],
-      "childIds": ["tidal-sovereign"],
+      "parentIds": [
+        "kelp-crossing"
+      ],
+      "childIds": [
+        "tidal-sovereign"
+      ],
       "environment": "reef",
       "eventConfig": {
         "title": "The Drowned Archive",
@@ -373,29 +502,44 @@
             {
               "label": "Search the drawers",
               "consequence": "A rare card, preserved in wax — yours",
-              "effect": { "type": "gainCard", "rarity": "rare" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
             },
             {
               "label": "Search the drawers",
               "consequence": "Only common finds, but several — +20 crystals",
-              "effect": { "type": "gainCrystals", "amount": 20 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 20
+              }
             },
             {
               "label": "Search the drawers",
               "consequence": "A pressure seal breaks — lose 8 HP",
-              "effect": { "type": "damageHp", "amount": 8 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 8
+              }
             }
           ],
           [
             {
               "label": "Rest among the stacks",
               "consequence": "Dry floor, still air — restored 15 HP",
-              "effect": { "type": "healHp", "amount": 15 }
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
             },
             {
               "label": "Rest among the stacks",
               "consequence": "A forgotten card falls from a shelf — uncommon",
-              "effect": { "type": "gainCard", "rarity": "uncommon" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
             }
           ]
         ]
@@ -409,8 +553,12 @@
       "row": 5,
       "col": 1,
       "rowCols": 3,
-      "parentIds": ["kelp-crossing"],
-      "childIds": ["tidal-sovereign"],
+      "parentIds": [
+        "kelp-crossing"
+      ],
+      "childIds": [
+        "tidal-sovereign"
+      ],
       "environment": "reef",
       "restHeal": 15
     },
@@ -422,21 +570,29 @@
       "row": 5,
       "col": 2,
       "rowCols": 3,
-      "parentIds": ["kelp-crossing"],
-      "childIds": ["tidal-sovereign"],
+      "parentIds": [
+        "kelp-crossing"
+      ],
+      "childIds": [
+        "tidal-sovereign"
+      ],
       "handicap": 18,
       "opponentIntervalMs": 3800,
       "opponentBaseHp": 210,
       "environment": "reef",
       "enemyDeck": [
         "Leviathan",
-        "Tide Dragon", "Tide Dragon",
+        "Tide Dragon",
+        "Tide Dragon",
         "Shipwreck Golem",
-        "Abyssal Hunter", "Abyssal Hunter",
-        "Sea Witch", "Sea Witch",
+        "Abyssal Hunter",
+        "Abyssal Hunter",
+        "Sea Witch",
+        "Sea Witch",
         "Kraken Beacon",
         "Depth Anchor",
-        "Deep Resilience", "Deep Resilience",
+        "Deep Resilience",
+        "Deep Resilience",
         "Current Mastery",
         "Pearl Power"
       ]
@@ -449,7 +605,11 @@
       "row": 6,
       "col": 0,
       "rowCols": 1,
-      "parentIds": ["drowned-shrine", "depth-rest", "deep-elite"],
+      "parentIds": [
+        "drowned-shrine",
+        "depth-rest",
+        "deep-elite"
+      ],
       "childIds": [],
       "handicap": 22,
       "opponentIntervalMs": 3400,
@@ -463,17 +623,25 @@
       ],
       "enemyDeck": [
         "Leviathan",
-        "Tide Dragon", "Tide Dragon",
-        "Shipwreck Golem", "Shipwreck Golem",
-        "Abyssal Hunter", "Abyssal Hunter",
-        "Sea Witch", "Sea Witch",
-        "Tide Caller", "Tide Caller",
+        "Tide Dragon",
+        "Tide Dragon",
+        "Shipwreck Golem",
+        "Shipwreck Golem",
+        "Abyssal Hunter",
+        "Abyssal Hunter",
+        "Sea Witch",
+        "Sea Witch",
+        "Tide Caller",
+        "Tide Caller",
         "Kraken Beacon",
         "Siren's Post",
-        "Deep Resilience", "Deep Resilience",
-        "Pearl Power", "Pearl Power",
+        "Deep Resilience",
+        "Deep Resilience",
+        "Pearl Power",
+        "Pearl Power",
         "Current Mastery"
-      ]
+      ],
+      "bossCard": "Leviathan"
     }
   }
 }

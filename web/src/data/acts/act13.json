@@ -5,15 +5,40 @@
   "rewardRelic": "Gear Heart",
   "rewardRelicDesc": "All your units gain +1 ATK when played, and your base gains +1 max HP each battle.",
   "environment": "vault",
-  "rewardTags": ["clockwork", "vault"],
-  "replayModifiers": [
-    { "type": "enemyHpPercent", "value": 15, "label": "+15% enemy HP" },
-    { "type": "enemyIntervalReduction", "value": 500, "label": "Enemies act faster" },
-    { "type": "enemyHandBonus", "value": 1, "label": "Enemies start +1 card" },
-    { "type": "crystalBonus", "value": 10, "label": "+10 crystals per battle" },
-    { "type": "enemyHpPercent", "value": 25, "label": "+25% enemy HP" }
+  "rewardTags": [
+    "clockwork",
+    "vault"
   ],
-  "startNodeIds": ["vault-entrance"],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "vault-entrance"
+  ],
   "intro": [
     {
       "title": "THE CLOCKWORK VAULTS",
@@ -48,31 +73,85 @@
       "type": "battle",
       "label": "Vault Entrance",
       "description": "Clockwork sentries hold the outer gate.",
-      "row": 0, "col": 1, "rowCols": 3,
+      "row": 0,
+      "col": 1,
+      "rowCols": 3,
       "parentIds": [],
-      "childIds": ["gear-shrine", "assembly-rest", "cog-market"],
+      "childIds": [
+        "gear-shrine",
+        "assembly-rest",
+        "cog-market"
+      ],
       "handicap": 22,
       "opponentIntervalMs": 3100,
       "opponentBaseHp": 245,
       "environment": "vault",
-      "enemyDeck": ["Gear Scout", "Cog Runner", "Gear Assembly", "Vault Scrap"]
+      "enemyDeck": [
+        "Gear Scout",
+        "Cog Runner",
+        "Gear Assembly",
+        "Vault Scrap"
+      ]
     },
     "gear-shrine": {
       "id": "gear-shrine",
       "type": "event",
       "label": "Gear Shrine",
       "description": "A strange mechanical altar hums softly.",
-      "row": 1, "col": 0, "rowCols": 3,
-      "parentIds": ["vault-entrance"],
-      "childIds": ["second-chamber"],
+      "row": 1,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": [
+        "vault-entrance"
+      ],
+      "childIds": [
+        "second-chamber"
+      ],
       "eventConfig": {
         "title": "The Gear Shrine",
         "description": "The altar rotates slowly, displaying three options in sequence. It has been waiting for input for a very long time.",
         "pools": [
-          [{ "label": "Offer metal (lose 8 HP, gain a rare card)", "consequence": "You receive a rare card.", "effect": { "type": "gainCard", "rarity": "rare" }, "hpCost": 8 }],
-          [{ "label": "Take the crystal store (gain 60 crystals)", "consequence": "You gain 60 crystals.", "effect": { "type": "gainCrystals", "amount": 60 } }],
-          [{ "label": "Let the repair drones work (heal 10 HP)", "consequence": "You heal 10 HP.", "effect": { "type": "healHp", "amount": 10 } }],
-          [{ "label": "Disengage", "consequence": "You move on undisturbed.", "effect": { "type": "gainCrystals", "amount": 0 } }]
+          [
+            {
+              "label": "Offer metal (lose 8 HP, gain a rare card)",
+              "consequence": "You receive a rare card.",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              },
+              "hpCost": 8
+            }
+          ],
+          [
+            {
+              "label": "Take the crystal store (gain 60 crystals)",
+              "consequence": "You gain 60 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 60
+              }
+            }
+          ],
+          [
+            {
+              "label": "Let the repair drones work (heal 10 HP)",
+              "consequence": "You heal 10 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Disengage",
+              "consequence": "You move on undisturbed.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 0
+              }
+            }
+          ]
         ]
       }
     },
@@ -81,9 +160,15 @@
       "type": "rest",
       "label": "Assembly Bay",
       "description": "Dormant repair drones offer restoration.",
-      "row": 1, "col": 1, "rowCols": 3,
-      "parentIds": ["vault-entrance"],
-      "childIds": ["second-chamber"],
+      "row": 1,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "vault-entrance"
+      ],
+      "childIds": [
+        "second-chamber"
+      ],
       "healAmount": 8
     },
     "cog-market": {
@@ -91,54 +176,131 @@
       "type": "merchant",
       "label": "Cog Exchange",
       "description": "Automated vending alcoves line the corridor.",
-      "row": 1, "col": 2, "rowCols": 3,
-      "parentIds": ["vault-entrance"],
-      "childIds": ["second-chamber"]
+      "row": 1,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": [
+        "vault-entrance"
+      ],
+      "childIds": [
+        "second-chamber"
+      ]
     },
     "second-chamber": {
       "id": "second-chamber",
       "type": "battle",
       "label": "Second Chamber",
       "description": "Heavier clockwork defenders emerge.",
-      "row": 2, "col": 1, "rowCols": 3,
-      "parentIds": ["gear-shrine", "assembly-rest", "cog-market"],
-      "childIds": ["piston-wing", "calibration-rift", "forge-vault"],
+      "row": 2,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "gear-shrine",
+        "assembly-rest",
+        "cog-market"
+      ],
+      "childIds": [
+        "piston-wing",
+        "calibration-rift",
+        "forge-vault"
+      ],
       "handicap": 24,
       "opponentIntervalMs": 3000,
       "opponentBaseHp": 255,
       "environment": "vault",
-      "enemyDeck": ["Brass Sentry", "Clockwork Archer", "Pressure Valve", "Gear Wall", "Vault Scrap"]
+      "enemyDeck": [
+        "Brass Sentry",
+        "Clockwork Archer",
+        "Pressure Valve",
+        "Gear Wall",
+        "Vault Scrap"
+      ]
     },
     "piston-wing": {
       "id": "piston-wing",
       "type": "battle",
       "label": "Piston Wing",
       "description": "Steam-driven brawlers block the corridor.",
-      "row": 3, "col": 0, "rowCols": 3,
-      "parentIds": ["second-chamber"],
-      "childIds": ["core-approach"],
+      "row": 3,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": [
+        "second-chamber"
+      ],
+      "childIds": [
+        "core-approach"
+      ],
       "handicap": 26,
       "opponentIntervalMs": 2900,
       "opponentBaseHp": 262,
       "environment": "vault",
-      "enemyDeck": ["Piston Brawler", "Steam Walker", "Clockwork Forge", "Overcharge", "Vault Scrap"]
+      "enemyDeck": [
+        "Piston Brawler",
+        "Steam Walker",
+        "Clockwork Forge",
+        "Overcharge",
+        "Vault Scrap"
+      ]
     },
     "calibration-rift": {
       "id": "calibration-rift",
       "type": "event",
       "label": "Calibration Rift",
       "description": "A fracture in the vault where ley energy leaks.",
-      "row": 3, "col": 1, "rowCols": 3,
-      "parentIds": ["second-chamber"],
-      "childIds": ["core-approach"],
+      "row": 3,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "second-chamber"
+      ],
+      "childIds": [
+        "core-approach"
+      ],
       "eventConfig": {
         "title": "The Calibration Rift",
         "description": "Ley energy bleeds through a crack in the vault wall, forming strange crystalline patterns. The Automaton has been cataloguing it for decades.",
         "pools": [
-          [{ "label": "Draw from the rift (gain a rare card, take 5 HP)", "consequence": "You receive a rare card.", "effect": { "type": "gainCard", "rarity": "rare" }, "hpCost": 5 }],
-          [{ "label": "Collect the crystals (gain 80 crystals)", "consequence": "You gain 80 crystals.", "effect": { "type": "gainCrystals", "amount": 80 } }],
-          [{ "label": "Absorb the ambient energy (heal 12 HP)", "consequence": "You heal 12 HP.", "effect": { "type": "healHp", "amount": 12 } }],
-          [{ "label": "Observe and move on", "consequence": "You move on undisturbed.", "effect": { "type": "gainCrystals", "amount": 0 } }]
+          [
+            {
+              "label": "Draw from the rift (gain a rare card, take 5 HP)",
+              "consequence": "You receive a rare card.",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              },
+              "hpCost": 5
+            }
+          ],
+          [
+            {
+              "label": "Collect the crystals (gain 80 crystals)",
+              "consequence": "You gain 80 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 80
+              }
+            }
+          ],
+          [
+            {
+              "label": "Absorb the ambient energy (heal 12 HP)",
+              "consequence": "You heal 12 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 12
+              }
+            }
+          ],
+          [
+            {
+              "label": "Observe and move on",
+              "consequence": "You move on undisturbed.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 0
+              }
+            }
+          ]
         ]
       }
     },
@@ -147,37 +309,73 @@
       "type": "elite",
       "label": "Forge Vault",
       "description": "The titan forge is online and guarded.",
-      "row": 3, "col": 2, "rowCols": 3,
-      "parentIds": ["second-chamber"],
-      "childIds": ["core-approach"],
+      "row": 3,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": [
+        "second-chamber"
+      ],
+      "childIds": [
+        "core-approach"
+      ],
       "handicap": 28,
       "opponentIntervalMs": 2800,
       "opponentBaseHp": 268,
       "environment": "vault",
-      "enemyDeck": ["Iron Colossus", "Clockwork Titan", "Titan Forge", "Drone Array", "Overload", "Overcharge"]
+      "enemyDeck": [
+        "Iron Colossus",
+        "Clockwork Titan",
+        "Titan Forge",
+        "Drone Array",
+        "Overload",
+        "Overcharge"
+      ]
     },
     "core-approach": {
       "id": "core-approach",
       "type": "battle",
       "label": "Core Approach",
       "description": "The Automaton's drones defend the inner sanctum.",
-      "row": 4, "col": 1, "rowCols": 3,
-      "parentIds": ["piston-wing", "calibration-rift", "forge-vault"],
-      "childIds": ["repair-bay", "automaton-watch", "titan-garrison"],
+      "row": 4,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "piston-wing",
+        "calibration-rift",
+        "forge-vault"
+      ],
+      "childIds": [
+        "repair-bay",
+        "automaton-watch",
+        "titan-garrison"
+      ],
       "handicap": 29,
       "opponentIntervalMs": 2800,
       "opponentBaseHp": 272,
       "environment": "vault",
-      "enemyDeck": ["Vault Drone", "Steam Walker", "Drone Array", "Vault Repair Bay", "Gear Sprint", "Vault Burst"]
+      "enemyDeck": [
+        "Vault Drone",
+        "Steam Walker",
+        "Drone Array",
+        "Vault Repair Bay",
+        "Gear Sprint",
+        "Vault Burst"
+      ]
     },
     "repair-bay": {
       "id": "repair-bay",
       "type": "rest",
       "label": "Salvaged Repair Bay",
       "description": "Abandoned repair alcove — still functional.",
-      "row": 5, "col": 0, "rowCols": 3,
-      "parentIds": ["core-approach"],
-      "childIds": ["the-grand-automaton-node"],
+      "row": 5,
+      "col": 0,
+      "rowCols": 3,
+      "parentIds": [
+        "core-approach"
+      ],
+      "childIds": [
+        "the-grand-automaton-node"
+      ],
       "healAmount": 10
     },
     "automaton-watch": {
@@ -185,17 +383,60 @@
       "type": "event",
       "label": "Automaton Watch",
       "description": "A terminal displays the Automaton's status.",
-      "row": 5, "col": 1, "rowCols": 3,
-      "parentIds": ["core-approach"],
-      "childIds": ["the-grand-automaton-node"],
+      "row": 5,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "core-approach"
+      ],
+      "childIds": [
+        "the-grand-automaton-node"
+      ],
       "eventConfig": {
         "title": "The Status Terminal",
         "description": "The terminal reads: INTRUDER DETECTED. THREAT LEVEL: CRITICAL. RECOMMENDED ACTION: OVERLOAD DRIVE CORE AND VENT CHAMBERS. You can interface with it. Briefly.",
         "pools": [
-          [{ "label": "Exploit the interface (gain a legendary card)", "consequence": "You receive a legendary card.", "effect": { "type": "gainCard", "rarity": "legendary" } }],
-          [{ "label": "Download the crystal cache (gain 100 crystals, lose 15 HP)", "consequence": "You gain 100 crystals.", "effect": { "type": "gainCrystals", "amount": 100 }, "hpCost": 15 }],
-          [{ "label": "Redirect the repair systems (heal 15 HP)", "consequence": "You heal 15 HP.", "effect": { "type": "healHp", "amount": 15 } }],
-          [{ "label": "Step away from the terminal", "consequence": "You move on undisturbed.", "effect": { "type": "gainCrystals", "amount": 25 } }]
+          [
+            {
+              "label": "Exploit the interface (gain a legendary card)",
+              "consequence": "You receive a legendary card.",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "legendary"
+              }
+            }
+          ],
+          [
+            {
+              "label": "Download the crystal cache (gain 100 crystals, lose 15 HP)",
+              "consequence": "You gain 100 crystals.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 100
+              },
+              "hpCost": 15
+            }
+          ],
+          [
+            {
+              "label": "Redirect the repair systems (heal 15 HP)",
+              "consequence": "You heal 15 HP.",
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
+            }
+          ],
+          [
+            {
+              "label": "Step away from the terminal",
+              "consequence": "You move on undisturbed.",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 25
+              }
+            }
+          ]
         ]
       }
     },
@@ -204,34 +445,62 @@
       "type": "elite",
       "label": "Titan Garrison",
       "description": "The Automaton's heaviest units stand ready.",
-      "row": 5, "col": 2, "rowCols": 3,
-      "parentIds": ["core-approach"],
-      "childIds": ["the-grand-automaton-node"],
+      "row": 5,
+      "col": 2,
+      "rowCols": 3,
+      "parentIds": [
+        "core-approach"
+      ],
+      "childIds": [
+        "the-grand-automaton-node"
+      ],
       "handicap": 31,
       "opponentIntervalMs": 2700,
       "opponentBaseHp": 278,
       "environment": "vault",
-      "enemyDeck": ["Clockwork Titan", "Iron Colossus", "Titan Forge", "Overload", "Vault Guardian", "Overcharge"]
+      "enemyDeck": [
+        "Clockwork Titan",
+        "Iron Colossus",
+        "Titan Forge",
+        "Overload",
+        "Vault Guardian",
+        "Overcharge"
+      ]
     },
     "the-grand-automaton-node": {
       "id": "the-grand-automaton-node",
       "type": "boss",
       "label": "The Grand Automaton",
       "description": "The vault's master intelligence. Online.",
-      "row": 6, "col": 1, "rowCols": 3,
-      "parentIds": ["repair-bay", "automaton-watch", "titan-garrison"],
+      "row": 6,
+      "col": 1,
+      "rowCols": 3,
+      "parentIds": [
+        "repair-bay",
+        "automaton-watch",
+        "titan-garrison"
+      ],
       "childIds": [],
       "handicap": 33,
       "opponentIntervalMs": 5000,
       "opponentBaseHp": 288,
       "environment": "vault",
-      "enemyDeck": ["The Grand Automaton", "Clockwork Titan", "Iron Colossus", "Drone Array", "Titan Forge", "Overload", "Vault Repair Bay"],
+      "enemyDeck": [
+        "The Grand Automaton",
+        "Clockwork Titan",
+        "Iron Colossus",
+        "Drone Array",
+        "Titan Forge",
+        "Overload",
+        "Vault Repair Bay"
+      ],
       "bossAI": "grandautomaton",
       "bossDialogue": [
         "THREAT DETECTED. INITIATING TERMINATION PROTOCOL.",
         "RESISTANCE IS SUBOPTIMAL.",
         "VAULT INTEGRITY IS PARAMOUNT."
-      ]
+      ],
+      "bossCard": "Clockwork Titan"
     }
   }
 }

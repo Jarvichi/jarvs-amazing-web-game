@@ -77,17 +77,27 @@
       "col": 0,
       "rowCols": 1,
       "parentIds": [],
-      "childIds": ["ash-shrine", "lava-camp", "ember-bazaar"],
+      "childIds": [
+        "ash-shrine",
+        "lava-camp",
+        "ember-bazaar"
+      ],
       "handicap": 12,
       "opponentIntervalMs": 4800,
       "opponentBaseHp": 205,
       "environment": "volcano",
       "enemyDeck": [
-        "Ember Crawler", "Ember Crawler", "Ember Crawler",
-        "Cinder Hound", "Cinder Hound",
-        "Magma Archer", "Magma Archer",
-        "Cinder Wall", "Cinder Wall",
-        "Burning Rush", "Burning Rush",
+        "Ember Crawler",
+        "Ember Crawler",
+        "Ember Crawler",
+        "Cinder Hound",
+        "Cinder Hound",
+        "Magma Archer",
+        "Magma Archer",
+        "Cinder Wall",
+        "Cinder Wall",
+        "Burning Rush",
+        "Burning Rush",
         "Ash Stalker",
         "Fire Salamander",
         "Volcanic Hide"
@@ -101,8 +111,12 @@
       "row": 1,
       "col": 0,
       "rowCols": 3,
-      "parentIds": ["cinder-approach"],
-      "childIds": ["magma-ford"],
+      "parentIds": [
+        "cinder-approach"
+      ],
+      "childIds": [
+        "magma-ford"
+      ],
       "environment": "volcano",
       "eventConfig": {
         "title": "The Ash Shrine",
@@ -112,56 +126,86 @@
             {
               "label": "Leave an offering",
               "consequence": "The ash spirals outward — healed 12 HP",
-              "effect": { "type": "healHp", "amount": 12 }
+              "effect": {
+                "type": "healHp",
+                "amount": 12
+              }
             },
             {
               "label": "Leave an offering",
               "consequence": "Hot ash stings your hands — lose 6 HP",
-              "effect": { "type": "damageHp", "amount": 6 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 6
+              }
             },
             {
               "label": "Leave an offering",
               "consequence": "A rare card rises from the warm ash",
-              "effect": { "type": "gainCard", "rarity": "rare" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
             },
             {
               "label": "Leave an offering",
               "consequence": "+15 crystals scattered at the base of the shrine",
-              "effect": { "type": "gainCrystals", "amount": 15 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 15
+              }
             }
           ],
           [
             {
               "label": "Read the ash patterns",
               "consequence": "The patterns describe something useful — uncommon card",
-              "effect": { "type": "gainCard", "rarity": "uncommon" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
             },
             {
               "label": "Read the ash patterns",
               "consequence": "The patterns heal — restored 8 HP",
-              "effect": { "type": "healHp", "amount": 8 }
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
             },
             {
               "label": "Read the ash patterns",
               "consequence": "+20 crystals in recovered offerings",
-              "effect": { "type": "gainCrystals", "amount": 20 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 20
+              }
             }
           ],
           [
             {
               "label": "Pocket the shrine stones",
               "consequence": "Still warm — good for +18 crystals in the next market",
-              "effect": { "type": "gainCrystals", "amount": 18 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 18
+              }
             },
             {
               "label": "Pocket the shrine stones",
               "consequence": "A common card was wedged beneath them",
-              "effect": { "type": "gainCard", "rarity": "common" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "common"
+              }
             },
             {
               "label": "Pocket the shrine stones",
               "consequence": "One stone discharges — lose 10 HP",
-              "effect": { "type": "damageHp", "amount": 10 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 10
+              }
             }
           ]
         ]
@@ -175,8 +219,12 @@
       "row": 1,
       "col": 1,
       "rowCols": 3,
-      "parentIds": ["cinder-approach"],
-      "childIds": ["magma-ford"],
+      "parentIds": [
+        "cinder-approach"
+      ],
+      "childIds": [
+        "magma-ford"
+      ],
       "environment": "volcano",
       "restHeal": 10
     },
@@ -188,8 +236,12 @@
       "row": 1,
       "col": 2,
       "rowCols": 3,
-      "parentIds": ["cinder-approach"],
-      "childIds": ["magma-ford"],
+      "parentIds": [
+        "cinder-approach"
+      ],
+      "childIds": [
+        "magma-ford"
+      ],
       "environment": "volcano"
     },
     "magma-ford": {
@@ -200,20 +252,34 @@
       "row": 2,
       "col": 0,
       "rowCols": 1,
-      "parentIds": ["ash-shrine", "lava-camp", "ember-bazaar"],
-      "childIds": ["volcanic-battery", "cinder-vent", "pyroclast-elite"],
+      "parentIds": [
+        "ash-shrine",
+        "lava-camp",
+        "ember-bazaar"
+      ],
+      "childIds": [
+        "volcanic-battery",
+        "cinder-vent",
+        "pyroclast-elite"
+      ],
       "handicap": 14,
       "opponentIntervalMs": 4600,
       "opponentBaseHp": 210,
       "environment": "volcano",
       "enemyDeck": [
-        "Ember Crawler", "Ember Crawler",
-        "Cinder Hound", "Cinder Hound",
-        "Magma Archer", "Magma Archer",
-        "Fire Salamander", "Fire Salamander",
-        "Cinder Wall", "Cinder Wall",
+        "Ember Crawler",
+        "Ember Crawler",
+        "Cinder Hound",
+        "Cinder Hound",
+        "Magma Archer",
+        "Magma Archer",
+        "Fire Salamander",
+        "Fire Salamander",
+        "Cinder Wall",
+        "Cinder Wall",
         "Ash Turret",
-        "Burning Rush", "Burning Rush",
+        "Burning Rush",
+        "Burning Rush",
         "Smelted Blade"
       ]
     },
@@ -225,20 +291,30 @@
       "row": 3,
       "col": 0,
       "rowCols": 3,
-      "parentIds": ["magma-ford"],
-      "childIds": ["caldera-gate"],
+      "parentIds": [
+        "magma-ford"
+      ],
+      "childIds": [
+        "caldera-gate"
+      ],
       "handicap": 16,
       "opponentIntervalMs": 4400,
       "opponentBaseHp": 215,
       "environment": "volcano",
       "enemyDeck": [
-        "Ash Stalker", "Ash Stalker",
-        "Cinder Knight", "Cinder Knight",
-        "Magma Archer", "Magma Archer",
-        "Cinder Wall", "Cinder Wall",
-        "Magma Vent", "Magma Vent",
+        "Ash Stalker",
+        "Ash Stalker",
+        "Cinder Knight",
+        "Cinder Knight",
+        "Magma Archer",
+        "Magma Archer",
+        "Cinder Wall",
+        "Cinder Wall",
+        "Magma Vent",
+        "Magma Vent",
         "Ash Turret",
-        "Burning Rush", "Burning Rush",
+        "Burning Rush",
+        "Burning Rush",
         "Volcanic Hide"
       ]
     },
@@ -250,8 +326,12 @@
       "row": 3,
       "col": 1,
       "rowCols": 3,
-      "parentIds": ["magma-ford"],
-      "childIds": ["caldera-gate"],
+      "parentIds": [
+        "magma-ford"
+      ],
+      "childIds": [
+        "caldera-gate"
+      ],
       "environment": "volcano",
       "eventConfig": {
         "title": "The Cinder Vent",
@@ -261,39 +341,59 @@
             {
               "label": "Reach into the column",
               "consequence": "A rare card caught mid-flight",
-              "effect": { "type": "gainCard", "rarity": "rare" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
             },
             {
               "label": "Reach into the column",
               "consequence": "The heat is a balm — healed 15 HP",
-              "effect": { "type": "healHp", "amount": 15 }
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
             },
             {
               "label": "Reach into the column",
               "consequence": "Something comes out hot — lose 12 HP",
-              "effect": { "type": "damageHp", "amount": 12 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 12
+              }
             },
             {
               "label": "Reach into the column",
               "consequence": "+25 crystals in salvage",
-              "effect": { "type": "gainCrystals", "amount": 25 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 25
+              }
             }
           ],
           [
             {
               "label": "Follow the vent up the slope",
               "consequence": "Supply cache wedged in the cooled rim — +30 crystals",
-              "effect": { "type": "gainCrystals", "amount": 30 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 30
+              }
             },
             {
               "label": "Follow the vent up the slope",
               "consequence": "An uncommon card from a previous expedition",
-              "effect": { "type": "gainCard", "rarity": "uncommon" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
             },
             {
               "label": "Follow the vent up the slope",
               "consequence": "Nothing useful. Just ash.",
-              "effect": { "type": "nothing" }
+              "effect": {
+                "type": "nothing"
+              }
             }
           ]
         ]
@@ -307,21 +407,30 @@
       "row": 3,
       "col": 2,
       "rowCols": 3,
-      "parentIds": ["magma-ford"],
-      "childIds": ["caldera-gate"],
+      "parentIds": [
+        "magma-ford"
+      ],
+      "childIds": [
+        "caldera-gate"
+      ],
       "handicap": 20,
       "opponentIntervalMs": 4000,
       "opponentBaseHp": 220,
       "environment": "volcano",
       "enemyDeck": [
         "Lava Troll",
-        "Cinder Knight", "Cinder Knight",
-        "Ash Revenant", "Ash Revenant",
-        "Magma Archer", "Magma Archer",
-        "Cinder Wall", "Cinder Wall",
+        "Cinder Knight",
+        "Cinder Knight",
+        "Ash Revenant",
+        "Ash Revenant",
+        "Magma Archer",
+        "Magma Archer",
+        "Cinder Wall",
+        "Cinder Wall",
         "Ash Turret",
         "Inferno Surge",
-        "Smelted Blade", "Smelted Blade",
+        "Smelted Blade",
+        "Smelted Blade",
         "Volcanic Hide"
       ]
     },
@@ -333,18 +442,30 @@
       "row": 4,
       "col": 0,
       "rowCols": 1,
-      "parentIds": ["volcanic-battery", "cinder-vent", "pyroclast-elite"],
-      "childIds": ["forge-log", "crater-rest", "summit-elite"],
+      "parentIds": [
+        "volcanic-battery",
+        "cinder-vent",
+        "pyroclast-elite"
+      ],
+      "childIds": [
+        "forge-log",
+        "crater-rest",
+        "summit-elite"
+      ],
       "handicap": 18,
       "opponentIntervalMs": 4200,
       "opponentBaseHp": 220,
       "environment": "volcano",
       "enemyDeck": [
         "Ember Wyrm",
-        "Lava Troll", "Lava Troll",
-        "Cinder Knight", "Cinder Knight",
-        "Ash Stalker", "Ash Stalker",
-        "Cinder Wall", "Cinder Wall",
+        "Lava Troll",
+        "Lava Troll",
+        "Cinder Knight",
+        "Cinder Knight",
+        "Ash Stalker",
+        "Ash Stalker",
+        "Cinder Wall",
+        "Cinder Wall",
         "Magma Vent",
         "Ember Shrine",
         "Inferno Surge",
@@ -360,8 +481,12 @@
       "row": 5,
       "col": 0,
       "rowCols": 3,
-      "parentIds": ["caldera-gate"],
-      "childIds": ["cinderwarlord"],
+      "parentIds": [
+        "caldera-gate"
+      ],
+      "childIds": [
+        "cinderwarlord"
+      ],
       "environment": "volcano",
       "eventConfig": {
         "title": "The Forge Post",
@@ -371,24 +496,36 @@
             {
               "label": "Study the tactical slates",
               "consequence": "Useful knowledge — rare card",
-              "effect": { "type": "gainCard", "rarity": "rare" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
             },
             {
               "label": "Study the tactical slates",
               "consequence": "The supply caches are marked — +25 crystals",
-              "effect": { "type": "gainCrystals", "amount": 25 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 25
+              }
             }
           ],
           [
             {
               "label": "Use the forge rest area",
               "consequence": "Proper heat for once — healed 15 HP",
-              "effect": { "type": "healHp", "amount": 15 }
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
             },
             {
               "label": "Use the forge rest area",
               "consequence": "An uncommon card left by a retreating smith",
-              "effect": { "type": "gainCard", "rarity": "uncommon" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
             }
           ]
         ]
@@ -402,8 +539,12 @@
       "row": 5,
       "col": 1,
       "rowCols": 3,
-      "parentIds": ["caldera-gate"],
-      "childIds": ["cinderwarlord"],
+      "parentIds": [
+        "caldera-gate"
+      ],
+      "childIds": [
+        "cinderwarlord"
+      ],
       "environment": "volcano",
       "restHeal": 15
     },
@@ -415,22 +556,31 @@
       "row": 5,
       "col": 2,
       "rowCols": 3,
-      "parentIds": ["caldera-gate"],
-      "childIds": ["cinderwarlord"],
+      "parentIds": [
+        "caldera-gate"
+      ],
+      "childIds": [
+        "cinderwarlord"
+      ],
       "handicap": 22,
       "opponentIntervalMs": 3800,
       "opponentBaseHp": 230,
       "environment": "volcano",
       "enemyDeck": [
         "Volcanic Golem",
-        "Ember Wyrm", "Ember Wyrm",
+        "Ember Wyrm",
+        "Ember Wyrm",
         "Lava Troll",
-        "Ash Revenant", "Ash Revenant",
-        "Magma Vent", "Magma Vent",
+        "Ash Revenant",
+        "Ash Revenant",
+        "Magma Vent",
+        "Magma Vent",
         "Lava Spire",
-        "Inferno Surge", "Inferno Surge",
+        "Inferno Surge",
+        "Inferno Surge",
         "Smelted Blade",
-        "Volcanic Hide", "Volcanic Hide"
+        "Volcanic Hide",
+        "Volcanic Hide"
       ]
     },
     "cinderwarlord": {
@@ -441,7 +591,11 @@
       "row": 6,
       "col": 0,
       "rowCols": 1,
-      "parentIds": ["forge-log", "crater-rest", "summit-elite"],
+      "parentIds": [
+        "forge-log",
+        "crater-rest",
+        "summit-elite"
+      ],
       "childIds": [],
       "handicap": 26,
       "opponentIntervalMs": 3600,
@@ -455,18 +609,24 @@
       ],
       "enemyDeck": [
         "Molten Colossus",
-        "Volcanic Golem", "Volcanic Golem",
-        "Inferno Drake", "Inferno Drake",
-        "Lava Troll", "Lava Troll",
+        "Volcanic Golem",
+        "Volcanic Golem",
+        "Inferno Drake",
+        "Inferno Drake",
+        "Lava Troll",
+        "Lava Troll",
         "Ember Wyrm",
-        "Lava Spire", "Lava Spire",
+        "Lava Spire",
+        "Lava Spire",
         "Magma Vent",
         "Ember Shrine",
-        "Inferno Surge", "Inferno Surge",
+        "Inferno Surge",
+        "Inferno Surge",
         "Smelted Blade",
         "Volcanic Hide",
         "Burning Rush"
-      ]
+      ],
+      "bossCard": "Molten Colossus"
     }
   }
 }
