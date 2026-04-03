@@ -76,18 +76,29 @@
       "col": 0,
       "rowCols": 1,
       "parentIds": [],
-      "childIds": ["wind-shrine", "skyport-camp", "sky-bazaar"],
+      "childIds": [
+        "wind-shrine",
+        "skyport-camp",
+        "sky-bazaar"
+      ],
       "handicap": 10,
       "opponentIntervalMs": 5000,
       "opponentBaseHp": 190,
       "environment": "sky",
       "enemyDeck": [
-        "Wind Sprite", "Wind Sprite", "Wind Sprite",
-        "Skyguard", "Skyguard",
-        "Cloud Hawk", "Cloud Hawk",
-        "Gust Wall", "Gust Wall",
-        "Wind Surge", "Wind Surge",
-        "Feather Step", "Feather Step",
+        "Wind Sprite",
+        "Wind Sprite",
+        "Wind Sprite",
+        "Skyguard",
+        "Skyguard",
+        "Cloud Hawk",
+        "Cloud Hawk",
+        "Gust Wall",
+        "Gust Wall",
+        "Wind Surge",
+        "Wind Surge",
+        "Feather Step",
+        "Feather Step",
         "Stormcaller"
       ]
     },
@@ -99,8 +110,12 @@
       "row": 1,
       "col": 0,
       "rowCols": 3,
-      "parentIds": ["cloudbreach"],
-      "childIds": ["gale-crossing"],
+      "parentIds": [
+        "cloudbreach"
+      ],
+      "childIds": [
+        "gale-crossing"
+      ],
       "environment": "sky",
       "eventConfig": {
         "title": "The Wind Shrine",
@@ -110,56 +125,85 @@
             {
               "label": "Offer something to the wind",
               "consequence": "The wind carries back 12 HP worth of clarity",
-              "effect": { "type": "healHp", "amount": 12 }
+              "effect": {
+                "type": "healHp",
+                "amount": 12
+              }
             },
             {
               "label": "Offer something to the wind",
               "consequence": "A gust deposits +15 crystals at your feet",
-              "effect": { "type": "gainCrystals", "amount": 15 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 15
+              }
             },
             {
               "label": "Offer something to the wind",
               "consequence": "The wind takes your offering and returns nothing",
-              "effect": { "type": "nothing" }
+              "effect": {
+                "type": "nothing"
+              }
             },
             {
               "label": "Offer something to the wind",
               "consequence": "A downdraft hits you — lose 5 HP",
-              "effect": { "type": "damageHp", "amount": 5 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 5
+              }
             }
           ],
           [
             {
               "label": "Read the wind patterns",
               "consequence": "The patterns describe a rare card's construction — yours",
-              "effect": { "type": "gainCard", "rarity": "rare" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
             },
             {
               "label": "Read the wind patterns",
               "consequence": "The patterns heal — restored 8 HP",
-              "effect": { "type": "healHp", "amount": 8 }
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
             },
             {
               "label": "Read the wind patterns",
               "consequence": "+20 crystals scattered in the updraft",
-              "effect": { "type": "gainCrystals", "amount": 20 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 20
+              }
             }
           ],
           [
             {
               "label": "Pocket the shrine parts",
               "consequence": "Sold in the next port — +18 crystals",
-              "effect": { "type": "gainCrystals", "amount": 18 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 18
+              }
             },
             {
               "label": "Pocket the shrine parts",
               "consequence": "A common card was tucked inside",
-              "effect": { "type": "gainCard", "rarity": "common" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "common"
+              }
             },
             {
               "label": "Pocket the shrine parts",
               "consequence": "Something electrical discharges — lose 12 HP",
-              "effect": { "type": "damageHp", "amount": 12 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 12
+              }
             }
           ]
         ]
@@ -173,8 +217,12 @@
       "row": 1,
       "col": 1,
       "rowCols": 3,
-      "parentIds": ["cloudbreach"],
-      "childIds": ["gale-crossing"],
+      "parentIds": [
+        "cloudbreach"
+      ],
+      "childIds": [
+        "gale-crossing"
+      ],
       "environment": "sky",
       "restHeal": 10
     },
@@ -186,8 +234,12 @@
       "row": 1,
       "col": 2,
       "rowCols": 3,
-      "parentIds": ["cloudbreach"],
-      "childIds": ["gale-crossing"],
+      "parentIds": [
+        "cloudbreach"
+      ],
+      "childIds": [
+        "gale-crossing"
+      ],
       "environment": "sky"
     },
     "gale-crossing": {
@@ -198,20 +250,34 @@
       "row": 2,
       "col": 0,
       "rowCols": 1,
-      "parentIds": ["wind-shrine", "skyport-camp", "sky-bazaar"],
-      "childIds": ["storm-battery", "thermal-vent", "sky-elite"],
+      "parentIds": [
+        "wind-shrine",
+        "skyport-camp",
+        "sky-bazaar"
+      ],
+      "childIds": [
+        "storm-battery",
+        "thermal-vent",
+        "sky-elite"
+      ],
       "handicap": 12,
       "opponentIntervalMs": 4700,
       "opponentBaseHp": 195,
       "environment": "sky",
       "enemyDeck": [
-        "Skyguard", "Skyguard", "Skyguard",
-        "Cloud Hawk", "Cloud Hawk",
-        "Stormcaller", "Stormcaller",
-        "Gust Wall", "Gust Wall",
+        "Skyguard",
+        "Skyguard",
+        "Skyguard",
+        "Cloud Hawk",
+        "Cloud Hawk",
+        "Stormcaller",
+        "Stormcaller",
+        "Gust Wall",
+        "Gust Wall",
         "Thunder Drake",
         "Storm Tower",
-        "Wind Surge", "Wind Surge",
+        "Wind Surge",
+        "Wind Surge",
         "Feather Step"
       ]
     },
@@ -223,20 +289,30 @@
       "row": 3,
       "col": 0,
       "rowCols": 3,
-      "parentIds": ["gale-crossing"],
-      "childIds": ["upper-platform"],
+      "parentIds": [
+        "gale-crossing"
+      ],
+      "childIds": [
+        "upper-platform"
+      ],
       "handicap": 14,
       "opponentIntervalMs": 4400,
       "opponentBaseHp": 200,
       "environment": "sky",
       "enemyDeck": [
-        "Thunder Drake", "Thunder Drake",
-        "Skyguard", "Skyguard",
-        "Gust Wall", "Gust Wall",
-        "Lightning Archer", "Lightning Archer",
-        "Storm Tower", "Storm Tower",
+        "Thunder Drake",
+        "Thunder Drake",
+        "Skyguard",
+        "Skyguard",
+        "Gust Wall",
+        "Gust Wall",
+        "Lightning Archer",
+        "Lightning Archer",
+        "Storm Tower",
+        "Storm Tower",
         "Stormcaller",
-        "Wind Surge", "Wind Surge",
+        "Wind Surge",
+        "Wind Surge",
         "Aerial Volley"
       ]
     },
@@ -248,8 +324,12 @@
       "row": 3,
       "col": 1,
       "rowCols": 3,
-      "parentIds": ["gale-crossing"],
-      "childIds": ["upper-platform"],
+      "parentIds": [
+        "gale-crossing"
+      ],
+      "childIds": [
+        "upper-platform"
+      ],
       "environment": "sky",
       "eventConfig": {
         "title": "The Thermal Column",
@@ -259,39 +339,59 @@
             {
               "label": "Reach in",
               "consequence": "A rare card rises from the column",
-              "effect": { "type": "gainCard", "rarity": "rare" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
             },
             {
               "label": "Reach in",
               "consequence": "The updraft carries something warm — healed 15 HP",
-              "effect": { "type": "healHp", "amount": 15 }
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
             },
             {
               "label": "Reach in",
               "consequence": "Something comes up fast and hits you — lose 10 HP",
-              "effect": { "type": "damageHp", "amount": 10 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 10
+              }
             },
             {
               "label": "Reach in",
               "consequence": "+25 crystals from salvage",
-              "effect": { "type": "gainCrystals", "amount": 25 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 25
+              }
             }
           ],
           [
             {
               "label": "Follow the column up",
               "consequence": "You find a supply cache on the way — +30 crystals",
-              "effect": { "type": "gainCrystals", "amount": 30 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 30
+              }
             },
             {
               "label": "Follow the column up",
               "consequence": "An uncommon card, still sealed from its original owner",
-              "effect": { "type": "gainCard", "rarity": "uncommon" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
             },
             {
               "label": "Follow the column up",
               "consequence": "Nothing of value. Just altitude.",
-              "effect": { "type": "nothing" }
+              "effect": {
+                "type": "nothing"
+              }
             }
           ]
         ]
@@ -305,20 +405,29 @@
       "row": 3,
       "col": 2,
       "rowCols": 3,
-      "parentIds": ["gale-crossing"],
-      "childIds": ["upper-platform"],
+      "parentIds": [
+        "gale-crossing"
+      ],
+      "childIds": [
+        "upper-platform"
+      ],
       "handicap": 18,
       "opponentIntervalMs": 4000,
       "opponentBaseHp": 210,
       "environment": "sky",
       "enemyDeck": [
         "Sky Leviathan",
-        "Thunder Drake", "Thunder Drake",
-        "Lightning Archer", "Lightning Archer",
-        "Stormcaller", "Stormcaller",
-        "Gust Wall", "Gust Wall",
+        "Thunder Drake",
+        "Thunder Drake",
+        "Lightning Archer",
+        "Lightning Archer",
+        "Stormcaller",
+        "Stormcaller",
+        "Gust Wall",
+        "Gust Wall",
         "Storm Tower",
-        "Wind Surge", "Wind Surge",
+        "Wind Surge",
+        "Wind Surge",
         "Aerial Volley",
         "Feather Step"
       ]
@@ -331,19 +440,32 @@
       "row": 4,
       "col": 0,
       "rowCols": 1,
-      "parentIds": ["storm-battery", "thermal-vent", "sky-elite"],
-      "childIds": ["archive-isle", "high-rest", "summit-elite"],
+      "parentIds": [
+        "storm-battery",
+        "thermal-vent",
+        "sky-elite"
+      ],
+      "childIds": [
+        "archive-isle",
+        "high-rest",
+        "summit-elite"
+      ],
       "handicap": 16,
       "opponentIntervalMs": 4200,
       "opponentBaseHp": 205,
       "environment": "sky",
       "enemyDeck": [
         "Sky Leviathan",
-        "Thunder Drake", "Thunder Drake",
-        "Lightning Archer", "Lightning Archer",
-        "Cloud Hawk", "Cloud Hawk",
-        "Gust Wall", "Gust Wall",
-        "Storm Tower", "Storm Tower",
+        "Thunder Drake",
+        "Thunder Drake",
+        "Lightning Archer",
+        "Lightning Archer",
+        "Cloud Hawk",
+        "Cloud Hawk",
+        "Gust Wall",
+        "Gust Wall",
+        "Storm Tower",
+        "Storm Tower",
         "Aerial Volley",
         "Wind Surge",
         "Feather Step"
@@ -357,8 +479,12 @@
       "row": 5,
       "col": 0,
       "rowCols": 3,
-      "parentIds": ["upper-platform"],
-      "childIds": ["cloudmarshal"],
+      "parentIds": [
+        "upper-platform"
+      ],
+      "childIds": [
+        "cloudmarshal"
+      ],
       "environment": "sky",
       "eventConfig": {
         "title": "The Command Post",
@@ -368,24 +494,36 @@
             {
               "label": "Read the tactical logs",
               "consequence": "The strategy is useful — rare card",
-              "effect": { "type": "gainCard", "rarity": "rare" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
             },
             {
               "label": "Read the tactical logs",
               "consequence": "You find supply caches marked on the map — +25 crystals",
-              "effect": { "type": "gainCrystals", "amount": 25 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 25
+              }
             }
           ],
           [
             {
               "label": "Rest in the shelter",
               "consequence": "First proper shelter in hours — healed 15 HP",
-              "effect": { "type": "healHp", "amount": 15 }
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
             },
             {
               "label": "Rest in the shelter",
               "consequence": "An uncommon card left behind by a retreating officer",
-              "effect": { "type": "gainCard", "rarity": "uncommon" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
             }
           ]
         ]
@@ -399,8 +537,12 @@
       "row": 5,
       "col": 1,
       "rowCols": 3,
-      "parentIds": ["upper-platform"],
-      "childIds": ["cloudmarshal"],
+      "parentIds": [
+        "upper-platform"
+      ],
+      "childIds": [
+        "cloudmarshal"
+      ],
       "environment": "sky",
       "restHeal": 15
     },
@@ -412,21 +554,30 @@
       "row": 5,
       "col": 2,
       "rowCols": 3,
-      "parentIds": ["upper-platform"],
-      "childIds": ["cloudmarshal"],
+      "parentIds": [
+        "upper-platform"
+      ],
+      "childIds": [
+        "cloudmarshal"
+      ],
       "handicap": 20,
       "opponentIntervalMs": 3800,
       "opponentBaseHp": 215,
       "environment": "sky",
       "enemyDeck": [
         "Sky Leviathan",
-        "Thunder Drake", "Thunder Drake",
+        "Thunder Drake",
+        "Thunder Drake",
         "Sky Leviathan",
-        "Stormcaller", "Stormcaller",
-        "Storm Tower", "Storm Tower",
+        "Stormcaller",
+        "Stormcaller",
+        "Storm Tower",
+        "Storm Tower",
         "Wind Shrine",
-        "Aerial Volley", "Aerial Volley",
-        "Wind Surge", "Wind Surge",
+        "Aerial Volley",
+        "Aerial Volley",
+        "Wind Surge",
+        "Wind Surge",
         "Feather Step"
       ]
     },
@@ -438,7 +589,11 @@
       "row": 6,
       "col": 0,
       "rowCols": 1,
-      "parentIds": ["archive-isle", "high-rest", "summit-elite"],
+      "parentIds": [
+        "archive-isle",
+        "high-rest",
+        "summit-elite"
+      ],
       "childIds": [],
       "handicap": 24,
       "opponentIntervalMs": 3300,
@@ -451,17 +606,26 @@
         "I don't lose. I'm noting that for the record as well."
       ],
       "enemyDeck": [
-        "Sky Leviathan", "Sky Leviathan",
-        "Thunder Drake", "Thunder Drake",
-        "Lightning Archer", "Lightning Archer",
-        "Stormcaller", "Stormcaller",
-        "Storm Tower", "Storm Tower",
-        "Gust Wall", "Gust Wall",
+        "Sky Leviathan",
+        "Sky Leviathan",
+        "Thunder Drake",
+        "Thunder Drake",
+        "Lightning Archer",
+        "Lightning Archer",
+        "Stormcaller",
+        "Stormcaller",
+        "Storm Tower",
+        "Storm Tower",
+        "Gust Wall",
+        "Gust Wall",
         "Wind Shrine",
-        "Aerial Volley", "Aerial Volley",
-        "Wind Surge", "Wind Surge",
+        "Aerial Volley",
+        "Aerial Volley",
+        "Wind Surge",
+        "Wind Surge",
         "Feather Step"
-      ]
+      ],
+      "bossCard": "Sky Leviathan"
     }
   }
 }

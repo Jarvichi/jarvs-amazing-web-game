@@ -42,15 +42,15 @@
   "intro": [
     {
       "title": "THE SHATTERED COAST",
-      "text": "The Shattered Coast was once a thriving port city \u2014 before the Fracture split it across seven separate shards.\n\nNow the channels between shards are controlled by a single authority: the Harbormaster. Nothing moves without his iron seal. No cargo. No people. No information."
+      "text": "The Shattered Coast was once a thriving port city — before the Fracture split it across seven separate shards.\n\nNow the channels between shards are controlled by a single authority: the Harbormaster. Nothing moves without his iron seal. No cargo. No people. No information."
     },
     {
       "title": "THE HARBORMASTER",
-      "text": "He was a port inspector once, before the Fracture. Now he is something else \u2014 a man who discovered that chaos could be administered, and administration could be power.\n\nHis fleet patrols the shattered channels. His flags are the only law. The wreck divers answer to him. The storm hawks circle his flagship."
+      "text": "He was a port inspector once, before the Fracture. Now he is something else — a man who discovered that chaos could be administered, and administration could be power.\n\nHis fleet patrols the shattered channels. His flags are the only law. The wreck divers answer to him. The storm hawks circle his flagship."
     },
     {
       "title": "NO PERMIT",
-      "text": "You don't have his permit. You don't intend to get one.\n\nThe coast is the only route forward, and the Harbormaster blocks it. Fight through his patrols, his reef wardens, his iron anchorage \u2014 and put an end to the toll."
+      "text": "You don't have his permit. You don't intend to get one.\n\nThe coast is the only route forward, and the Harbormaster blocks it. Fight through his patrols, his reef wardens, his iron anchorage — and put an end to the toll."
     }
   ],
   "outro": [
@@ -60,7 +60,7 @@
     },
     {
       "title": "SALVAGE HOOK",
-      "text": "Among the wreckage, half-buried in sand, you find a salvage hook \u2014 the symbol of passage along this coast. It's old. Pre-Fracture. It means something.\n\nYou pocket it. The channels open around you."
+      "text": "Among the wreckage, half-buried in sand, you find a salvage hook — the symbol of passage along this coast. It's old. Pre-Fracture. It means something.\n\nYou pocket it. The channels open around you."
     },
     {
       "title": "THE HORIZON",
@@ -444,7 +444,7 @@
       "id": "iron-anchorage",
       "type": "elite",
       "label": "Iron Anchorage",
-      "description": "The Harbormaster's advance guard \u2014 iron-hulled and merciless.",
+      "description": "The Harbormaster's advance guard — iron-hulled and merciless.",
       "row": 5,
       "col": 2,
       "rowCols": 3,
@@ -499,7 +499,8 @@
         "You have no permit to pass.",
         "Every wreck on this coast earned its fate.",
         "The sea always collects its toll."
-      ]
+      ],
+      "bossCard": "Coast Leviathan"
     }
   }
 }
