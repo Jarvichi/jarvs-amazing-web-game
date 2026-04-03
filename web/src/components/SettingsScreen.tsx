@@ -449,7 +449,12 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
         </Section>
 
         {isDebugMode && (
-          <Section bordered title="DEBUG">
+    
+        )}
+
+        {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin) && (
+<>
+      <Section bordered title="DEBUG">
             <div className="settings-row">
               <div>
                 <div className="settings-label">Export save data</div>
@@ -494,9 +499,6 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               </div>
             )}
           </Section>
-        )}
-
-        {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin) && (
           <Section bordered title="ADMIN">
             {onGiftAdmin && (
               <div className="settings-row">
@@ -517,6 +519,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               </div>
             )}
           </Section>
+</>
         )}
 
         {isDevMode() && onDevCrystalsChanged && onDevHandicapChanged && (
