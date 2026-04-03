@@ -50,8 +50,10 @@ Check branches on GitHub; close any that are stale with no outstanding PRs or un
 ## Project Overview
 A browser-based strategy card game. Deploy units, build structures, and cast upgrades to destroy the enemy base. The only platform is the web app (`web/`).
 
-- **Live URL:** https://jarvichi.github.io/jarvs-amazing-web-game/
+- **Live URL:** https://jawg.uk/ (custom domain — previously https://jarvichi.github.io/jarvs-amazing-web-game/)
 - **Repo:** Jarvichi/jarvs-amazing-web-game on GitHub
+
+> **Domain note:** The game moved from `jarvichi.github.io/jarvs-amazing-web-game` to the custom domain `jawg.uk`. ServiceWorker and asset URL errors referencing the old GitHub Pages domain are stale/noise. All new deployments go to `jawg.uk`.
 
 ## Tech Stack
 - React 18, TypeScript 5, Vite 5
