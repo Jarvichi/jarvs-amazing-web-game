@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { EventData, EventChoice } from '../game/questline'
+import { EventData, EventChoice, loadPlayerName } from '../game/questline'
 
 interface Props {
   event: EventData
@@ -17,6 +17,7 @@ function hpColor(hp: number, max: number): string {
 
 export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
   const [picked, setPicked] = useState<EventChoice | null>(null)
+  const playerName = loadPlayerName()
 
   function handlePick(choice: EventChoice) {
     if (picked) return
@@ -57,7 +58,7 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
         </span>
       </div>
 
-      <div className="event-description">{event.description}</div>
+      <div className="event-description">{event.description.replace(/\bJarv\b/g, playerName)}</div>
 
       <div className="event-choices">
         {event.choices.map((choice, i) => {
