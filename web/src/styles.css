@@ -6635,6 +6635,18 @@ body {
   margin-top: 4px;
 }
 
+/* ── Victory Panel overlay (celebration phase) ────────────── */
+.vpanel {
+  border-color: #2a6a2a;
+  box-shadow: 0 0 48px rgba(51, 255, 51, 0.18);
+  text-align: center;
+  align-items: center;
+}
+.vpanel-headline {
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  margin-bottom: 4px;
+}
+
 /* ─── 8-Bit Mode ──────────────────────────────────────── */
 
 /* ─── 8-Bit Mode ──────────────────────────────────────── */
