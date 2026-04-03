@@ -53,6 +53,20 @@ export function addPlaytime(totalDelta: number, battleDelta: number): Achievemen
   return unlocked
 }
 
+/**
+ * Write playtime values directly to localStorage.
+ * Use this to flush in-memory session deltas before a cloud save upload
+ * so the upload captures the current session's time.
+ */
+export function savePlaytime(stats: PlaytimeStats): void {
+  try {
+    localStorage.setItem(TOTAL_KEY,  String(stats.totalMs))
+    localStorage.setItem(BATTLE_KEY, String(stats.battleMs))
+  } catch (e) {
+    logError('playtime: savePlaytime failed', { e })
+  }
+}
+
 /** Format a millisecond duration as "Xh Ym", "Ym", or "< 1m". */
 export function formatPlaytime(ms: number): string {
   const totalMins = Math.floor(ms / 60_000)
