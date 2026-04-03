@@ -449,7 +449,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
         </Section>
 
         {isDebugMode && (
-    
+    <></>
         )}
 
         {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin) && (
