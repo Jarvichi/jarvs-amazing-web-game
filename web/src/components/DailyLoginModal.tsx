@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { RewardDef } from '../game/dailyLogin'
 import { CardTile } from './CardTile'
 import { getCardCatalog } from '../game/cards'
+import { loadPlayerName } from '../game/questline'
 import rollbar from '../rollbar'
 
 interface Props {
@@ -9,16 +10,17 @@ interface Props {
   onClose: () => void
 }
 
-const CRYSTAL_MSGS = [
-  "A gift from the Shattered Dominion.",
-  "The path rewards the persistent.",
-  "Jarv finds a coin on the road.",
-  "The merchant left something behind.",
-  "Fortune smiles today.",
-]
-
 export function DailyLoginModal({ reward, onClose }: Props) {
   const catalog = getCardCatalog()
+  const playerName = loadPlayerName()
+
+  const CRYSTAL_MSGS = [
+    "A gift from the Shattered Dominion.",
+    "The path rewards the persistent.",
+    `${playerName} finds a coin on the road.`,
+    "The merchant left something behind.",
+    "Fortune smiles today.",
+  ]
 
   const cardObj = reward.type === 'card' && reward.cardName
     ? catalog.find(c => c.name === reward.cardName) ?? null
@@ -52,7 +54,7 @@ export function DailyLoginModal({ reward, onClose }: Props) {
         <div className="daily-modal-header">
           ✦ DAILY REWARD ✦
         </div>
-        <div className="daily-modal-sub">Welcome back, Jarv.</div>
+        <div className="daily-modal-sub">Welcome back, {playerName}.</div>
 
         <div className="daily-modal-reward">
           {reward.type === 'crystals' && (

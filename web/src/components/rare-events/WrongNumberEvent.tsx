@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { RareEventEffect } from './types'
+import { loadPlayerName } from '../../game/questline'
 
 interface Props {
   onDone: (effect: RareEventEffect) => void
@@ -8,6 +9,7 @@ interface Props {
 export function WrongNumberEvent({ onDone }: Props) {
   const [phase, setPhase] = useState<'incoming' | 'reply' | 'done'>('incoming')
   const [visible, setVisible] = useState(false)
+  const playerName = loadPlayerName()
 
   useEffect(() => {
     // Slide in after a short delay
@@ -22,7 +24,7 @@ export function WrongNumberEvent({ onDone }: Props) {
       setVisible(false)
       setTimeout(() => onDone({
         crystals: 25,
-        logMessage: '[KAREN] sry!! wrong Jarv!! 😅 compensatory crystals sent',
+        logMessage: `[KAREN] sry!! wrong ${playerName}!! 😅 compensatory crystals sent`,
       }), 600)
     }, 2200)
   }
@@ -43,7 +45,7 @@ export function WrongNumberEvent({ onDone }: Props) {
           <>
             <div className="wn-sender">Karen M.</div>
             <div className="wn-message">
-              hey Jarv!! BBQ at mine Sat at 7?? Derek got a new grill 😁
+              hey {playerName}!! BBQ at mine Sat at 7?? Derek got a new grill 😁
               also can u bring potato salad?? 🥗
             </div>
             <div className="wn-actions">
@@ -55,7 +57,7 @@ export function WrongNumberEvent({ onDone }: Props) {
         {phase === 'reply' && (
           <>
             <div className="wn-sender">Karen M.</div>
-            <div className="wn-message">omg sry!! wrong Jarv!! 😅😅 my bad!!</div>
+            <div className="wn-message">omg sry!! wrong {playerName}!! 😅😅 my bad!!</div>
           </>
         )}
         {phase === 'done' && (
