@@ -361,6 +361,7 @@ export default function App() {
 
   // Campaign run state
   const [run, setRun]                   = useState<RunState | null>(_startup.run)
+  const runRef                          = useRef<RunState | null>(_startup.run)
   const [rewardChoices,  setRewardChoices]  = useState<string[]>([])
   const [rewardCrystals, setRewardCrystals] = useState(0)
   const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
@@ -489,6 +490,7 @@ export default function App() {
 
   // Keep gameStateRef in sync so callbacks can read current state without stale closures
   gameStateRef.current = gameState
+  runRef.current = run
 
   // ── Page visibility: pause game loop when tab is hidden ──
   const [isTabHidden, setIsTabHidden] = useState(() => document.hidden)
@@ -1021,7 +1023,13 @@ export default function App() {
         if (introToShow.length > 0) {
           setCutscenePanels(applyPlayerName(introToShow))
           cutsceneDoneRef.current = () => {
-            rollbar.info('cutsceneDone (fresh run): navigating to nodemap', { actId })
+            rollbar.info('cutsceneDone (fresh run): navigating to nodemap', {
+              actId,
+              runRefActId: runRef.current?.actId,
+              hasRun: !!runRef.current,
+              hasActData: !!(runRef.current && ACTS[runRef.current.actId]),
+            })
+            setCutscenePanels([])
             setScreen('nodemap')
           }
           setScreen('cutscene')
@@ -1376,7 +1384,11 @@ export default function App() {
       })
       if (act.outro && act.outro.length > 0) {
         setCutscenePanels(applyPlayerName(act.outro))
-        cutsceneDoneRef.current = () => setScreen('actcomplete')
+        cutsceneDoneRef.current = () => {
+          rollbar.info('cutsceneDone (outro): navigating to actcomplete', { actId: currentRun.actId })
+          setCutscenePanels([])
+          setScreen('actcomplete')
+        }
         setScreen('cutscene')
       } else {
         setScreen('actcomplete')
@@ -1510,7 +1522,13 @@ export default function App() {
           if (introPanels.length > 0) {
             setCutscenePanels(applyPlayerName(introPanels))
             cutsceneDoneRef.current = () => {
-              rollbar.info('cutsceneDone (act transition): navigating to nodemap', { toActId: nextAct.id })
+              rollbar.info('cutsceneDone (act transition): navigating to nodemap', {
+                toActId: nextAct.id,
+                runRefActId: runRef.current?.actId,
+                hasRun: !!runRef.current,
+                hasActData: !!(runRef.current && ACTS[runRef.current.actId]),
+              })
+              setCutscenePanels([])
               setScreen('nodemap')
             }
             setScreen('cutscene')
@@ -2185,7 +2203,10 @@ export default function App() {
       )}
 
       {screen === 'cutscene' && cutscenePanels.length > 0 && (
-        <CutsceneScreen panels={cutscenePanels} onDone={() => cutsceneDoneRef.current()} />
+        <CutsceneScreen panels={cutscenePanels} onDone={() => {
+          rollbar.info('CutsceneScreen.onDone fired', { panelCount: cutscenePanels.length, runActId: run?.actId })
+          cutsceneDoneRef.current()
+        }} />
       )}
 
       {screen === 'bossdialogue' && bossDialogueNode?.bossDialogue && (
@@ -2255,7 +2276,11 @@ export default function App() {
           earnedRelics={loadEarnedRelics()}
           currentRelic={run?.activeRelic ?? null}
           brokenRelic={brokenRelicRef.current}
-          onSelect={relic => { brokenRelicRef.current = null; relicSelectDoneRef.current(relic) }}
+          onSelect={relic => {
+            rollbar.info('RelicSelectScreen: relic confirmed', { relic, runActId: run?.actId })
+            brokenRelicRef.current = null
+            relicSelectDoneRef.current(relic)
+          }}
         />
       )}
 
