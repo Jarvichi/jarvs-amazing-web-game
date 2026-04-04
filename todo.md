@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-04-03 (session 33 — issue check).
+Issues sourced from GitHub. Last synced: 2026-04-04 (session 34 — issue check).
 
 ---
 
@@ -14,6 +14,15 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [x] **#585** Daily login shows no content — consumable type had no render branch; crystals weren't being credited; added Rollbar error + 10-crystal fallback for unknown types
 - [x] **#584** "Jarv" hardcoded — DailyLoginModal, WrongNumberEvent, CampaignVictoryScreen, EventScreen now use loadPlayerName(); act JSON already uses applyPlayerName()
 - [x] **#580** Time in game/battle resets on new device — added flushPlaytimeToStorage() helper; called before every uploadSave() so in-memory session deltas are captured
+
+## 🔵 Enhancements — New (from GitHub, session 34 sync)
+
+- [ ] **#570** Marble run: shuffle ticket quantities between games so player can't aim at the same position each time
+- [ ] **#561** Marble race minigame: player picks 1 of 4 coloured balls; all dropped into a track; roll down across obstacles; prizes for 1st / 2nd / 3rd / runner-up
+
+## 📄 Docs — New (from GitHub, session 34 sync)
+
+- [ ] **#517** Add `Firebase.md` setup guide: manual Firebase config steps, authorize domain for Google sign-in, enable Google provider, deploy Firestore security rules, Firebase CLI setup for local dev
 
 ## ⚪ Noise / Low Priority (from GitHub, session 33 sync)
 
