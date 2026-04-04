@@ -2,6 +2,14 @@
 
 Issues sourced from GitHub. Last synced: 2026-04-04 (session 35 — working open issues).
 
+## ✅ Done (session 35)
+
+- [x] **#570** Marble run slot shuffle — shuffleSlotValues() added; slot order randomised on each game mount so the 75-ticket slot isn't always centre
+- [x] **#573** Black screen logging — runRef added; cutsceneDone closures now log live hasRun/hasActData/runRefActId; setCutscenePanels([]) called on every done; onDone and relic confirm entry points also logged
+- [x] Closed already-fixed issues on GitHub: #585, #584, #580, #575, #564, #470
+- [x] Closed noise issues: #583, #582, #581, #578, #577, #576, #483
+- [x] Deferred #474 to May 2026
+
 ## ✅ Done (session 34)
 
 - [x] **#561** Marble race minigame — 4 coloured marbles race 20-row track with random pause obstacles; pick your ball; prizes 1st=40/2nd=20/3rd=10/4th=5 tickets; costs 35 crystals
@@ -21,7 +29,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## 🔵 Enhancements — New (from GitHub, session 34 sync)
 
-- [ ] **#570** Marble run: shuffle ticket quantities between games so player can't aim at the same position each time
+- [x] **#570** Marble run: shuffle ticket quantities between games so player can't aim at the same position each time
 - [x] **#561** Marble race minigame: player picks 1 of 4 coloured balls; all dropped into a track; roll down across obstacles; prizes for 1st / 2nd / 3rd / runner-up
 
 ## 📄 Docs — New (from GitHub, session 34 sync)
@@ -30,12 +38,12 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ## ⚪ Noise / Low Priority (from GitHub, session 33 sync)
 
-- [ ] **#583** Intentional Rollbar test error — can close (was a deliberate debug test)
-- [ ] **#582** InvalidStateError: ServiceWorker update failed — browser/OS noise; same class as #581
-- [ ] **#581** TypeError: ServiceWorker update failed (Not found) — SW noise; consider suppressing in unhandledrejection handler
-- [ ] **#577** SecurityError: sw.js load failed (old GitHub Pages domain) — stale domain issue; users on new domain unaffected
-- [ ] **#576** TypeError: Internal error — too vague; monitor in Rollbar
-- [ ] **#578** Script error (unknown) — same class as #483; already noted
+- [x] **#583** Intentional Rollbar test error — closed (was a deliberate debug test)
+- [x] **#582** InvalidStateError: ServiceWorker update failed — closed as noise
+- [x] **#581** TypeError: ServiceWorker update failed (Not found) — closed as noise
+- [x] **#577** SecurityError: sw.js load failed (old GitHub Pages domain) — closed as noise
+- [x] **#576** TypeError: Internal error — closed as noise
+- [x] **#578** Script error (unknown) — closed as noise
 
 ---
 
