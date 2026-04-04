@@ -8941,3 +8941,213 @@ html.light-mode .action-btn {
   color: #ffcc44;
   font-weight: bold;
 }
+
+/* ── Marble Race ──────────────────────────────────────────────────────────── */
+
+.race-prize-table {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid #2a2a5a;
+  background: #0a0a1e;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  min-width: 180px;
+}
+
+.race-prize-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12px;
+  color: #8888bb;
+}
+
+.race-prize-place {
+  color: #aaaacc;
+}
+
+.race-prize-tickets {
+  color: #ffcc44;
+  font-weight: bold;
+}
+
+.race-pick-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.race-pick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 72px;
+  padding: 10px 4px;
+  border: 1px solid #3a3a6a;
+  background: #0e0e22;
+  color: #8888aa;
+  cursor: pointer;
+  font-size: 12px;
+  transition: border-color 0.1s, background 0.1s, color 0.1s;
+}
+
+.race-pick-btn:hover {
+  background: #16163a;
+  border-color: #6060aa;
+  color: #ccccee;
+}
+
+.race-pick-btn--active {
+  background: #12120e;
+}
+
+.race-pick-emoji {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.race-pick-name {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+/* ── SVG track container ── */
+
+.race-svg-wrap {
+  width: 100%;
+  max-width: 380px;
+  background: #06060f;
+  border: 1px solid #1e1e44;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+.race-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ── Track elements ── */
+
+.race-lane-track {
+  fill: none;
+  stroke: #252560;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.race-loop-ring {
+  fill: none;
+  stroke: #1c1c50;
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}
+
+.race-funnel-guide {
+  stroke: #181844;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.race-start-line {
+  stroke: #3a3a7a;
+  stroke-width: 1.5;
+}
+
+.race-finish-line-svg {
+  stroke: #5a5aaa;
+  stroke-width: 2;
+}
+
+.race-section-label {
+  fill: #282866;
+  font-size: 7.5px;
+  letter-spacing: 1.2px;
+  font-family: monospace;
+  text-transform: uppercase;
+}
+
+.race-lane-label {
+  fill: #444488;
+  font-size: 13px;
+}
+
+.race-lane-label--chosen {
+  fill: #ffd700;
+}
+
+.race-line-label {
+  fill: #383878;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  font-family: monospace;
+}
+
+/* ── Marble circles ── */
+
+.race-marble-circle {
+  stroke: #00000066;
+  stroke-width: 1.5;
+}
+
+.race-marble--chosen {
+  stroke: #ffd700;
+  stroke-width: 2.5;
+}
+
+.race-marble-glow {
+  fill: none;
+  stroke-width: 2;
+  opacity: 0.35;
+}
+
+/* ── Result table ── */
+
+.race-results {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  max-width: 320px;
+  margin: 10px 0 4px;
+}
+
+.race-result-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border: 1px solid #2a2a4a;
+  background: #0c0c20;
+  font-size: 13px;
+  color: #9999bb;
+}
+
+.race-result-row--chosen {
+  border-color: #9a8020;
+  background: #141008;
+  color: #ffd700;
+}
+
+.race-result-place {
+  width: 52px;
+  flex-shrink: 0;
+  font-size: 12px;
+}
+
+.race-result-marble {
+  flex: 1;
+}
+
+.race-result-prize {
+  color: #ffd700;
+  font-weight: bold;
+  font-size: 12px;
+  white-space: nowrap;
+}
