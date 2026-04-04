@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-04-04 (session 34 — issue check).
+Issues sourced from GitHub. Last synced: 2026-04-04 (session 35 — working open issues).
 
 ## ✅ Done (session 34)
 
@@ -117,7 +117,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 - [x] **#481** Training mode — practice vs single unit with chosen cards
 - [x] **#473** Boss Cards — legendary cards earned by beating bosses 10/20/30/40 times; 13 bosses; cost 6 mana
 - [x] **#477** Commander — all sub-issues done (#478 XP, #479 level-up anim, #480 tap/gyro/idle)
-- [ ] **#474** Next 25-act campaign chapter "The Forbidden Word"
+- [ ] **#474** Next 25-act campaign chapter "The Forbidden Word" *(deferred — start May 2026)*
 - [x] **#466** Boss spawn kill scaling — 50% base + 10% per run (runCount-1), capped at 100%
 - [x] **#467** Secrets and Rare Things — all 10 secrets implemented
 - [ ] **#489** Game Engine (tracking issue)
