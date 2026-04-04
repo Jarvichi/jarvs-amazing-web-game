@@ -269,6 +269,12 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
       })
   }, [catalog, collection, search, typeFilter, rarityFilter, sortBy])
 
+  // Mana warning: deck has high-cost cards but no mana structure to unlock them
+  const deckCardObjects = deck.flatMap(e => { const c = catalog.find(x => x.name === e.cardName); return c ? [c] : [] })
+  const hasManaStructure = deckCardObjects.some(c => c.unit?.structureEffect?.type === 'mana')
+  const maxDeckCost = deckCardObjects.reduce((m, c) => Math.max(m, c.cost), 0)
+  const showManaWarning = maxDeckCost > 5 && !hasManaStructure
+
   // Deck list sorted by cost then name (skip any cards not in catalog)
   const deckList = deck
     .filter(e => catalog.some(c => c.name === e.cardName))
@@ -421,6 +427,11 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
           )}
 
           <div className="deckbuilder-footer">
+            {showManaWarning && (
+              <div style={{ fontSize: '11px', color: '#ffcc00', padding: '4px 0', lineHeight: 1.4 }}>
+                ⚠ Deck has {maxDeckCost}-cost cards but no mana structure. Add a Farm or mana building to exceed 5 max mana.
+              </div>
+            )}
             <ProgressBar pct={(total / DECK_MAX) * 100} />
             <div className="deckbuilder-footer-row">
               <button

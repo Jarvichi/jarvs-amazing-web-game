@@ -88,6 +88,20 @@ function buildChallengeCards(xorSeed: number): Card[] {
       if (result.length >= DECK_SIZE) break
     }
   }
+  // If the deck has cards costing > 5 but no mana structure, inject the cheapest one.
+  // Players can't edit the daily deck, so we must ensure it's always self-sufficient.
+  const BASE_MAX_MANA = 5
+  const hasManaStructure = result.some(c => c.unit?.structureEffect?.type === 'mana')
+  const maxCost = result.reduce((m, c) => Math.max(m, c.cost), 0)
+  if (maxCost > BASE_MAX_MANA && !hasManaStructure) {
+    const manaStructure = catalog
+      .filter(c => c.unit?.structureEffect?.type === 'mana')
+      .sort((a, b) => a.cost - b.cost)[0]
+    if (manaStructure && !seen.has(manaStructure.name)) {
+      result[result.length - 1] = { ...manaStructure, id: `dc-${(xorSeed >>> 0).toString(16)}-mana` }
+    }
+  }
+
   return result
 }
 
