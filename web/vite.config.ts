@@ -69,5 +69,23 @@ export default defineConfig({
   base: '/',
   build: {
     sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return 'vendor-react'
+          }
+          if (id.includes('node_modules/firebase')) {
+            return 'vendor-firebase'
+          }
+          if (id.includes('node_modules/')) {
+            return 'vendor'
+          }
+          if (id.includes('/src/game/')) {
+            return 'game-logic'
+          }
+        },
+      },
+    },
   },
 })
