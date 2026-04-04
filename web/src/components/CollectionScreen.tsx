@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Card, CardRarity, CardType, UnitTag } from '../game/types'
-import { getCardCatalog } from '../game/cards'
+import { getCardCatalog, getCardThemeTags } from '../game/cards'
 import {
   loadCollection,
   saveCollection,
@@ -36,6 +36,7 @@ type RarityFilter = 'all' | CardRarity
 type TypeFilter   = 'all' | CardType
 type SpecialFilter = 'upgradeable'
 type AffinityFilter = string  // affinity label, e.g. "Death Rally"
+type SortKey = 'default' | 'az' | 'za' | 'mana-asc' | 'mana-desc' | 'type' | 'rarity' | 'act'
 
 const ALL_TAGS: UnitTag[] = [
   'flying', 'ranged', 'melee', 'fast', 'slow', 'large',
@@ -64,6 +65,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   const [specialFilter, setSpecialFilter] = useState<SpecialFilter | null>(null)
   const [tagFilter,     setTagFilter]     = useState<UnitTag[]>([])
   const [affinityFilter, setAffinityFilter] = useState<AffinityFilter | null>(null)
+  const [sortKey, setSortKey] = useState<SortKey>('default')
   const [filterMenuOpen, setFilterMenuOpen] = useState(false)
   const [flash, setFlash]       = useState<string | null>(null)
   const [upgradeModal, setUpgradeModal] = useState<Array<{cardName: string, xpGained: number}> | null>(null)
@@ -104,6 +106,40 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
     }
     return true
   })
+
+  const RARITY_ORDER: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 2, legendary: 3 }
+  const TYPE_ORDER: Record<CardType, number>     = { unit: 0, structure: 1, upgrade: 2 }
+
+  const sorted = [...filtered].sort((a, b) => {
+    switch (sortKey) {
+      case 'az':        return a.name.localeCompare(b.name)
+      case 'za':        return b.name.localeCompare(a.name)
+      case 'mana-asc':  return a.cost - b.cost
+      case 'mana-desc': return b.cost - a.cost
+      case 'type':      return TYPE_ORDER[a.cardType] - TYPE_ORDER[b.cardType]
+      case 'rarity':    return RARITY_ORDER[a.rarity] - RARITY_ORDER[b.rarity]
+      case 'act': {
+        const ta = getCardThemeTags(a.name)[0] ?? ''
+        const tb = getCardThemeTags(b.name)[0] ?? ''
+        return ta.localeCompare(tb)
+      }
+      default: return 0
+    }
+  })
+
+  function groupLabel(card: import('../game/types').Card): string | null {
+    switch (sortKey) {
+      case 'type':      return card.cardType.charAt(0).toUpperCase() + card.cardType.slice(1) + 's'
+      case 'rarity':    return card.rarity.charAt(0).toUpperCase() + card.rarity.slice(1)
+      case 'mana-asc':
+      case 'mana-desc': return `${card.cost} Mana`
+      case 'act': {
+        const t = getCardThemeTags(card.name)[0]
+        return t ? t.charAt(0).toUpperCase() + t.slice(1) : 'Other'
+      }
+      default: return null
+    }
+  }
 
   const activeFilterCount =
     (typeFilter    !== 'all' ? 1 : 0) +
@@ -315,6 +351,31 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                 </div>
               </div>
 
+              {/* SORT */}
+              <div className="filter-popup-section">
+                <span className="filter-group-label">SORT</span>
+                <div className="filter-popup-btns">
+                  {([
+                    ['default',   'Default'],
+                    ['az',        'A → Z'],
+                    ['za',        'Z → A'],
+                    ['mana-asc',  'Mana ↑'],
+                    ['mana-desc', 'Mana ↓'],
+                    ['type',      'Type'],
+                    ['rarity',    'Rarity'],
+                    ['act',       'Act'],
+                  ] as [SortKey, string][]).map(([val, label]) => (
+                    <button
+                      key={val}
+                      className={`filter-btn filter-btn--sm${sortKey === val ? ' filter-btn--active' : ''}`}
+                      onClick={() => setSortKey(val)}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* Reset */}
               {activeFilterCount > 0 && (
                 <div className="filter-popup-footer">
@@ -353,32 +414,42 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
 
       {/* Grid */}
       <div className="collection-grid">
-        {filtered.map(card => {
-          const owned  = getOwnedCount(collection, card.name)
-          const extras = Math.max(0, owned - COPIES_MAX)
-          const xp     = getMasteryXp(collection, card.name)
-          const { level: lvl } = masteryProgress(xp)
-          const disenchantVal  = DISENCHANT_VALUE[card.rarity] * extras
+        {(() => {
+          let lastGroup: string | null = null
+          return sorted.map(card => {
+            const owned  = getOwnedCount(collection, card.name)
+            const extras = Math.max(0, owned - COPIES_MAX)
+            const xp     = getMasteryXp(collection, card.name)
+            const { level: lvl } = masteryProgress(xp)
+            const label = groupLabel(card)
+            const showHeader = label !== null && label !== lastGroup
+            if (showHeader) lastGroup = label
 
-          return (
-            <div key={card.name} className={`collection-cell${owned === 0 ? ' collection-cell--unowned' : ''}${levelUpCard === card.name ? ' collection-cell--levelup' : ''}`}>
-              <CardTile
-                card={card}
-                canAfford={true}
-                upgradeable={extras > 0}
-                onClick={() => setDetailCard(card)}
-              />
+            return (
+              <React.Fragment key={card.name}>
+                {showHeader && (
+                  <div className="collection-group-header">{label}</div>
+                )}
+                <div className={`collection-cell${owned === 0 ? ' collection-cell--unowned' : ''}${levelUpCard === card.name ? ' collection-cell--levelup' : ''}`}>
+                  <CardTile
+                    card={card}
+                    canAfford={true}
+                    upgradeable={extras > 0}
+                    onClick={() => setDetailCard(card)}
+                  />
 
-              <div className="cell-footer">
-                <span className="cell-count">
-                  ×{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
-                </span>
-              </div>
+                  <div className="cell-footer">
+                    <span className="cell-count">
+                      ×{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
+                    </span>
+                  </div>
 
-              {xp > 0 && <MasteryBar xp={xp} />}
-            </div>
-          )
-        })}
+                  {xp > 0 && <MasteryBar xp={xp} />}
+                </div>
+              </React.Fragment>
+            )
+          })
+        })()}
       </div>
 
       {detailCard && (() => {
