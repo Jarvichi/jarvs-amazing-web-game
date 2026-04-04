@@ -1984,6 +1984,17 @@ body {
 
 /* ─── Collection Grid ────────────────────────────────── */
 
+.collection-group-header {
+  width: 100%;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--game-accent, #f0c040);
+  text-transform: uppercase;
+  padding: 8px 4px 2px;
+  border-bottom: 1px solid #333;
+  margin-bottom: 4px;
+}
+
 .collection-grid {
   display: flex;
   flex-wrap: wrap;

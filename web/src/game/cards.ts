@@ -138,6 +138,16 @@ function resolveCardDef(raw: RawCardDef): CardDef {
 
 const CARD_DEFS: CardDef[] = (cardsData.cards as RawCardDef[]).map(resolveCardDef)
 
+// ─── Theme tag lookup (faction/act tags from cards.json) ──
+const THEME_TAGS_BY_NAME = new Map<string, string[]>(
+  (cardsData.cards as Array<RawCardDef & { tags?: string[] }>)
+    .map(c => [c.name, c.tags ?? []] as [string, string[]])
+)
+
+export function getCardThemeTags(name: string): string[] {
+  return THEME_TAGS_BY_NAME.get(name) ?? []
+}
+
 // Exported shared templates (for backward compatibility)
 export const GOBLIN_UNIT  = TEMPLATES['goblin']  as UnitTemplate
 export const ARCHER_UNIT  = TEMPLATES['archer']  as UnitTemplate
