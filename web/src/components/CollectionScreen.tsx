@@ -36,7 +36,8 @@ type RarityFilter = 'all' | CardRarity
 type TypeFilter   = 'all' | CardType
 type SpecialFilter = 'upgradeable'
 type AffinityFilter = string  // affinity label, e.g. "Death Rally"
-type SortKey = 'default' | 'az' | 'za' | 'mana-asc' | 'mana-desc' | 'type' | 'rarity' | 'act'
+type SortKey  = 'default' | 'az' | 'za' | 'mana-asc' | 'mana-desc' | 'rarity'
+type GroupKey = 'none' | 'type' | 'rarity' | 'mana' | 'act'
 
 const ALL_TAGS: UnitTag[] = [
   'flying', 'ranged', 'melee', 'fast', 'slow', 'large',
@@ -65,14 +66,19 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   const [specialFilter, setSpecialFilter] = useState<SpecialFilter | null>(null)
   const [tagFilter,     setTagFilter]     = useState<UnitTag[]>([])
   const [affinityFilter, setAffinityFilter] = useState<AffinityFilter | null>(null)
-  const [sortKey, setSortKey] = useState<SortKey>('default')
+  const [sortKey,  setSortKey]  = useState<SortKey>('default')
+  const [groupKey, setGroupKey] = useState<GroupKey>('none')
   const [filterMenuOpen, setFilterMenuOpen] = useState(false)
+  const [sortMenuOpen,   setSortMenuOpen]   = useState(false)
+  const [groupMenuOpen,  setGroupMenuOpen]  = useState(false)
   const [flash, setFlash]       = useState<string | null>(null)
   const [upgradeModal, setUpgradeModal] = useState<Array<{cardName: string, xpGained: number}> | null>(null)
   const [disenchantModal, setDisenchantModal] = useState<Array<{cardName: string, crystals: number}> | null>(null)
   const [detailCard, setDetailCard] = useState<import('../game/types').Card | null>(null)
   const [levelUpCard, setLevelUpCard] = useState<string | null>(null)
   const filterMenuRef = useRef<HTMLDivElement>(null)
+  const sortMenuRef   = useRef<HTMLDivElement>(null)
+  const groupMenuRef  = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!filterMenuOpen) return
@@ -84,6 +90,28 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
     document.addEventListener('mousedown', handleClick)
     return () => document.removeEventListener('mousedown', handleClick)
   }, [filterMenuOpen])
+
+  useEffect(() => {
+    if (!sortMenuOpen) return
+    function handleClick(e: MouseEvent) {
+      if (sortMenuRef.current && !sortMenuRef.current.contains(e.target as Node)) {
+        setSortMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [sortMenuOpen])
+
+  useEffect(() => {
+    if (!groupMenuOpen) return
+    function handleClick(e: MouseEvent) {
+      if (groupMenuRef.current && !groupMenuRef.current.contains(e.target as Node)) {
+        setGroupMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [groupMenuOpen])
 
   const totalOwned  = collection.reduce((s, e) => s + e.count, 0)
   const totalExtras = collection.reduce((s, e) => s + Math.max(0, e.count - COPIES_MAX), 0)
@@ -110,29 +138,38 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   const RARITY_ORDER: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 2, legendary: 3 }
   const TYPE_ORDER: Record<CardType, number>     = { unit: 0, structure: 1, upgrade: 2 }
 
+  function groupSortValue(card: import('../game/types').Card): string {
+    switch (groupKey) {
+      case 'type':   return String(TYPE_ORDER[card.cardType]).padStart(2, '0')
+      case 'rarity': return String(RARITY_ORDER[card.rarity]).padStart(2, '0')
+      case 'mana':   return String(card.cost).padStart(3, '0')
+      case 'act':    return getCardThemeTags(card.name)[0] ?? ''
+      default:       return ''
+    }
+  }
+
   const sorted = [...filtered].sort((a, b) => {
+    // Primary: group key
+    if (groupKey !== 'none') {
+      const cmp = groupSortValue(a).localeCompare(groupSortValue(b))
+      if (cmp !== 0) return cmp
+    }
+    // Secondary: sort key
     switch (sortKey) {
       case 'az':        return a.name.localeCompare(b.name)
       case 'za':        return b.name.localeCompare(a.name)
       case 'mana-asc':  return a.cost - b.cost
       case 'mana-desc': return b.cost - a.cost
-      case 'type':      return TYPE_ORDER[a.cardType] - TYPE_ORDER[b.cardType]
       case 'rarity':    return RARITY_ORDER[a.rarity] - RARITY_ORDER[b.rarity]
-      case 'act': {
-        const ta = getCardThemeTags(a.name)[0] ?? ''
-        const tb = getCardThemeTags(b.name)[0] ?? ''
-        return ta.localeCompare(tb)
-      }
-      default: return 0
+      default:          return 0
     }
   })
 
   function groupLabel(card: import('../game/types').Card): string | null {
-    switch (sortKey) {
-      case 'type':      return card.cardType.charAt(0).toUpperCase() + card.cardType.slice(1) + 's'
-      case 'rarity':    return card.rarity.charAt(0).toUpperCase() + card.rarity.slice(1)
-      case 'mana-asc':
-      case 'mana-desc': return `${card.cost} Mana`
+    switch (groupKey) {
+      case 'type':   return card.cardType.charAt(0).toUpperCase() + card.cardType.slice(1) + 's'
+      case 'rarity': return card.rarity.charAt(0).toUpperCase() + card.rarity.slice(1)
+      case 'mana':   return `${card.cost} Mana`
       case 'act': {
         const t = getCardThemeTags(card.name)[0]
         return t ? t.charAt(0).toUpperCase() + t.slice(1) : 'Other'
@@ -262,12 +299,13 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
         {flash && <span className="collection-flash">{flash}</span>}
       </div>
 
-      {/* Filter trigger bar */}
+      {/* Filter / Sort / Group bar */}
       <div className="filter-bar">
+        {/* FILTERS */}
         <div className="filter-popup-wrap" ref={filterMenuRef}>
           <button
             className={`filter-btn${activeFilterCount > 0 ? ' filter-btn--active' : ''}`}
-            onClick={() => setFilterMenuOpen(o => !o)}
+            onClick={() => { setFilterMenuOpen(o => !o); setSortMenuOpen(false); setGroupMenuOpen(false) }}
           >
             ▼ FILTERS{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
           </button>
@@ -351,9 +389,30 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                 </div>
               </div>
 
-              {/* SORT */}
+              {/* Reset */}
+              {activeFilterCount > 0 && (
+                <div className="filter-popup-footer">
+                  <button className="filter-btn filter-btn--sm filter-btn--reset" onClick={resetFilters}>
+                    ✕ Clear all filters
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* SORT */}
+        <div className="filter-popup-wrap" ref={sortMenuRef}>
+          <button
+            className={`filter-btn${sortKey !== 'default' ? ' filter-btn--active' : ''}`}
+            onClick={() => { setSortMenuOpen(o => !o); setFilterMenuOpen(false); setGroupMenuOpen(false) }}
+          >
+            ↕ SORT{sortKey !== 'default' ? ` (${sortKey})` : ''}
+          </button>
+
+          {sortMenuOpen && (
+            <div className="filter-popup">
               <div className="filter-popup-section">
-                <span className="filter-group-label">SORT</span>
                 <div className="filter-popup-btns">
                   {([
                     ['default',   'Default'],
@@ -361,9 +420,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                     ['za',        'Z → A'],
                     ['mana-asc',  'Mana ↑'],
                     ['mana-desc', 'Mana ↓'],
-                    ['type',      'Type'],
                     ['rarity',    'Rarity'],
-                    ['act',       'Act'],
                   ] as [SortKey, string][]).map(([val, label]) => (
                     <button
                       key={val}
@@ -375,15 +432,40 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                   ))}
                 </div>
               </div>
+            </div>
+          )}
+        </div>
 
-              {/* Reset */}
-              {activeFilterCount > 0 && (
-                <div className="filter-popup-footer">
-                  <button className="filter-btn filter-btn--sm filter-btn--reset" onClick={resetFilters}>
-                    ✕ Clear all filters
-                  </button>
+        {/* GROUP */}
+        <div className="filter-popup-wrap" ref={groupMenuRef}>
+          <button
+            className={`filter-btn${groupKey !== 'none' ? ' filter-btn--active' : ''}`}
+            onClick={() => { setGroupMenuOpen(o => !o); setFilterMenuOpen(false); setSortMenuOpen(false) }}
+          >
+            ⊞ GROUP{groupKey !== 'none' ? ` (${groupKey})` : ''}
+          </button>
+
+          {groupMenuOpen && (
+            <div className="filter-popup">
+              <div className="filter-popup-section">
+                <div className="filter-popup-btns">
+                  {([
+                    ['none',    'None'],
+                    ['type',    'Type'],
+                    ['rarity',  'Rarity'],
+                    ['mana',    'Mana'],
+                    ['act',     'Act'],
+                  ] as [GroupKey, string][]).map(([val, label]) => (
+                    <button
+                      key={val}
+                      className={`filter-btn filter-btn--sm${groupKey === val ? ' filter-btn--active' : ''}`}
+                      onClick={() => setGroupKey(val)}
+                    >
+                      {label}
+                    </button>
+                  ))}
                 </div>
-              )}
+              </div>
             </div>
           )}
         </div>
