@@ -1,19 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Wings up-stroke -->
-  <polygon points="16,17 4,22 7,14" fill="#5a3a7a"/>
-  <polygon points="16,17 28,22 25,14" fill="#5a3a7a"/>
-  <line x1="16" y1="17" x2="5" y2="21" stroke="#7a5a9a" stroke-width="0.8"/>
-  <line x1="16" y1="17" x2="27" y2="21" stroke="#7a5a9a" stroke-width="0.8"/>
-  <!-- Body -->
-  <ellipse cx="16" cy="18" rx="4" ry="5" fill="#7a4a9a"/>
-  <!-- Head -->
-  <circle cx="16" cy="13" r="4" fill="#8a5aaa"/>
-  <polygon points="13,10 11,5 15,9" fill="#5a3a7a"/>
-  <polygon points="19,10 21,5 17,9" fill="#5a3a7a"/>
-  <circle cx="14.2" cy="12.5" r="1.5" fill="#111"/>
-  <circle cx="17.8" cy="12.5" r="1.5" fill="#111"/>
-  <circle cx="14.2" cy="12.2" r="0.7" fill="#cc44ff"/>
-  <circle cx="17.8" cy="12.2" r="0.7" fill="#cc44ff"/>
-  <circle cx="8" cy="24" r="1" fill="#88cc44" opacity="0.8"/>
-  <circle cx="24" cy="25" r="1.2" fill="#88cc44" opacity="0.8"/>
+  <polygon points="16,13 4,10 2,20 10,17" fill="#4A6820"/>
+  <polygon points="16,13 28,10 30,20 22,17" fill="#4A6820"/>
+  <polygon points="10,17 4,20 6,24 12,19" fill="#6A8830"/>
+  <polygon points="22,17 28,20 26,24 20,19" fill="#6A8830"/>
+  <ellipse cx="16" cy="13" rx="4" ry="4" fill="#3A2808"/>
+  <ellipse cx="14" cy="10" rx="1.5" ry="2" fill="#8050A0"/>
+  <ellipse cx="18" cy="10" rx="1.5" ry="2" fill="#9060B0"/>
+  <circle cx="18" cy="12" r="1" fill="#C0E040"/>
+  <ellipse cx="13" cy="19" rx="1.5" ry="2.5" fill="#4A6820"/>
+  <ellipse cx="19" cy="19" rx="1.5" ry="3" fill="#4A6820"/>
 </svg>
