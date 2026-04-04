@@ -82,9 +82,20 @@ web/
     deploy.yml     # Auto-deploys web/dist to GitHub Pages on push to main
 ```
 
+## Session Setup (Run First)
+
+`node_modules` is **not committed** to the repo. In every new session (cloud/CI/mobile), run this before any build or dev command:
+
+```bash
+cd web && npm install
+```
+
+Without this, `npm run build` will fail with `Cannot find module 'react'` and similar errors — the TypeScript compiler cannot resolve any packages.
+
 ## Common Commands
 All commands run from the `web/` directory:
 ```bash
+npm install      # REQUIRED first — installs all dependencies
 npm run dev      # Start dev server
 npm run build    # TypeScript check + Vite build
 npm run preview  # Preview production build locally
