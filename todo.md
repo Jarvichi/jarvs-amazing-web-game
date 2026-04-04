@@ -2,6 +2,10 @@
 
 Issues sourced from GitHub. Last synced: 2026-04-04 (session 34 — issue check).
 
+## ✅ Done (session 34)
+
+- [x] **#561** Marble race minigame — 4 coloured marbles race 20-row track with random pause obstacles; pick your ball; prizes 1st=40/2nd=20/3rd=10/4th=5 tickets; costs 35 crystals
+
 ---
 
 When working an issue from this file, go and check the GitHub issue for additional detail and requirements before planning the solution, create a todo list based on the plan and execute it. If running in the cli you can usually use the "gh" cli commands to help, however if they are not available use a fallback method.
@@ -18,7 +22,7 @@ When working an issue from this file, go and check the GitHub issue for addition
 ## 🔵 Enhancements — New (from GitHub, session 34 sync)
 
 - [ ] **#570** Marble run: shuffle ticket quantities between games so player can't aim at the same position each time
-- [ ] **#561** Marble race minigame: player picks 1 of 4 coloured balls; all dropped into a track; roll down across obstacles; prizes for 1st / 2nd / 3rd / runner-up
+- [x] **#561** Marble race minigame: player picks 1 of 4 coloured balls; all dropped into a track; roll down across obstacles; prizes for 1st / 2nd / 3rd / runner-up
 
 ## 📄 Docs — New (from GitHub, session 34 sync)
 
