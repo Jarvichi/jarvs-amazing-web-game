@@ -20,6 +20,29 @@ When working an issue from this file, go and check the GitHub issue for addition
 
 ---
 
+## 🎨 Art — Missing Card SVGs (166 cards, 17 batches)
+
+Each batch has a GitHub issue. Work through them in order; check off when sprites are committed to `web/public/sprites/`.
+Units need 4 files each (`{slug}.svg` + `-1` `-2` `-3`). Buildings/upgrades need 1 file (`{slug}.svg`).
+
+- [ ] **#601** Batch 1/17 — Units A: Air Sprite, Ancient Sprite, Ancient Treant, Bark Hound, Bone Merchant, Brass Sentry, Canopy Archer, Canopy Drake, Canopy Scout, Cinderwarlord
+- [ ] **#602** Batch 2/17 — Units B: Clockwork Archer, Clockwork Titan, Cloud Hawk, Cloudborn Colossus, Cloudmarshal, Coast Leviathan, Coastal Skirmisher, Cog Runner, Dune Baron, Elder Warden
+- [ ] **#603** Batch 3/17 — Units C: Elderwood Guard, Gale Warden, Gear Scout, Grand Automaton, Grizzled Veteran, Iron Colossus, Jungle Stalker, Lightning Archer, Pale Colossus, Pale Engine
+- [ ] **#604** Batch 4/17 — Units D: Piston Brawler, Reef Warden, Root Creeper, Root Queen, Root Walker, Salvage Hauler, Shield Wall Soldier, Shore Scout, Skyguard, Spore Drifter
+- [ ] **#605** Batch 5/17 — Units E: Steam Walker, Storm Hawk, Stormcaller, Tempest Rider, The Archivist, The Ashwalker, The Elder Warden, The Grand Automaton, The Harbormaster, Thunder Drake
+- [ ] **#606** Batch 6/17 — Units F: Tidal Sovereign, Tide Runner, Tide Stalker, Vault Drone, Vault Guardian, Vine Colossus, Vine Runner, Warlord Kragg, Wave Brawler, Wind Sprite
+- [ ] **#607** Batch 7/17 — Units G + Buildings A: Wreck Diver, Wreck Golem, Zephyr Scout, Thornlord (walk frames only), Ancient Altar, Ancient Barracks, Ancient Grove, Aerie Roost, Ballista Tower, Breakwater Wall
+- [ ] **#608** Batch 8/17 — Buildings B: Canopy Farm, Canopy Watchtower, Centaur Stable, Clockwork Forge, Cloudfort, Command Tent, Drift Net, Drone Array, Elder Grove, Elder Shrine
+- [ ] **#609** Batch 9/17 — Buildings C: Gear Assembly, Gear Wall, Gust Wall, Healer's Hut, Living Thornwall, Pressure Valve, Salvage Dock, Shadow Academy, Sky Beacon, Stone Wall
+- [ ] **#610** Batch 10/17 — Buildings D + Upgrades A: Storm Beacon, Storm Tower, Stormgate, Thunder Battery, Tidal Fortress, Titan Forge, Vault Repair Bay, Wind Shrine, Aerial Volley, Ancient Blessing
+- [ ] **#611** Batch 11/17 — Upgrades B: Arcane Efficiency, Battle Cry, Battle Hardened, Blizzard Blast, Bloodlust, Burning Rush, Canopy Growth, Clockwork Tune, Cloud Cover, Crystal Resonance
+- [ ] **#612** Batch 12/17 — Upgrades C: Crystalline Shell, Current Mastery, Dark Ritual, Deep Growth, Deep Resilience, Desert Rush, Eagle Eye, Entropy Wave, Feather Step, Field Medic
+- [ ] **#613** Batch 13/17 — Upgrades D: Fortify, Frost Surge, Fungal Bloom, Gear Sprint, Glacier Hide, Gold Standard, Haste, Inferno Surge, Iron Discipline, Iron Skin
+- [ ] **#614** Batch 14/17 — Upgrades E: Lightning Strike, Maelstrom, Mana Surge, Mercenary Pact, Mycelium Surge, Nature's Bounty, Overcharge, Overgrowth, Overload, Pearl Power
+- [ ] **#615** Batch 15/17 — Upgrades F: Permafrost, Plague Spread, Rally, Riptide, Root Bind, Root Surge, Salvage Charge, Sandstorm, Sharpen Blades, Siege Protocol
+- [ ] **#616** Batch 16/17 — Upgrades G: Smelted Blade, Sniper Scope, Soul Harvest, Spore Cloud, Storm Surge, Tactical Retreat, Temporal Loop, Tidal Surge, Titan Blood, Undying Rage
+- [ ] **#617** Batch 17/17 — Upgrades H: Void Tap, Volcanic Hide, War Drums, Wild Surge, Wind Surge, Wreck Patch
+
 ## 🔴 Bugs — New (from GitHub, session 33 sync)
 
 - [x] **#575** Boss fights not triggering — acts 5-13 missing bossCard (no phase-2 fight); act3 bossCard conflicted with split trait (removed); bossCards added for acts 5-7, 9-13; acts 3&8 use split trait as their mechanic
