@@ -11,6 +11,114 @@ const UPGRADE_SPRITE: Record<string, string> = {
   buffRange:  'upgrade-range',
 }
 
+// ─── Card type category ───────────────────────────────────
+
+type CardCategory = 'unit' | 'hero' | 'spawner' | 'defensive' | 'support' | 'buff'
+
+function getCardCategory(card: Card): CardCategory {
+  if (card.isHero) return 'hero'
+  if (card.cardType === 'upgrade') return 'buff'
+  if (card.cardType === 'unit') return 'unit'
+  // structure subtypes
+  const fx = card.unit?.structureEffect?.type
+  if (fx === 'spawn') return 'spawner'
+  if (card.unit?.isWall || fx === 'attackAura' || fx === 'slowZone') return 'defensive'
+  return 'support' // mana, manaSpeed, healAura, repairAura, unknown
+}
+
+const CATEGORY_LABEL: Record<CardCategory, string> = {
+  unit:      'UNIT',
+  hero:      'HERO',
+  spawner:   'SPAWN',
+  defensive: 'DEF',
+  support:   'SUP',
+  buff:      'BUFF',
+}
+
+// Inline SVG icons (12×12 viewBox, pixel-art style)
+function UnitIcon() {
+  return (
+    <svg viewBox="0 0 12 12" width="10" height="10" fill="none">
+      {/* sword blade */}
+      <line x1="6" y1="1" x2="6" y2="9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square"/>
+      {/* crossguard */}
+      <line x1="3" y1="4" x2="9" y2="4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square"/>
+      {/* pommel */}
+      <rect x="5" y="9" width="2" height="2" fill="currentColor"/>
+    </svg>
+  )
+}
+
+function HeroIcon() {
+  return (
+    <svg viewBox="0 0 12 12" width="10" height="10" fill="none">
+      {/* crown base */}
+      <rect x="2" y="7" width="8" height="2" fill="currentColor"/>
+      {/* three crown points */}
+      <rect x="2" y="3" width="2" height="4" fill="currentColor"/>
+      <rect x="5" y="2" width="2" height="5" fill="currentColor"/>
+      <rect x="8" y="3" width="2" height="4" fill="currentColor"/>
+    </svg>
+  )
+}
+
+function SpawnerIcon() {
+  return (
+    <svg viewBox="0 0 12 12" width="10" height="10" fill="none">
+      {/* building base */}
+      <rect x="1" y="5" width="7" height="6" stroke="currentColor" strokeWidth="1" fill="none"/>
+      {/* roof peak */}
+      <polyline points="1,5 4.5,2 8,5" stroke="currentColor" strokeWidth="1" fill="none"/>
+      {/* exit arrow */}
+      <line x1="9" y1="8" x2="12" y2="8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square"/>
+      <polyline points="10,6 12,8 10,10" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="square" strokeLinejoin="miter"/>
+    </svg>
+  )
+}
+
+function DefensiveIcon() {
+  return (
+    <svg viewBox="0 0 12 12" width="10" height="10" fill="none">
+      {/* shield outline */}
+      <path d="M6 1 L10 3 L10 7 Q10 10 6 11 Q2 10 2 7 L2 3 Z" stroke="currentColor" strokeWidth="1" fill="none"/>
+      {/* shield cross */}
+      <line x1="6" y1="3.5" x2="6" y2="8.5" stroke="currentColor" strokeWidth="1" strokeLinecap="square"/>
+      <line x1="3.5" y1="6" x2="8.5" y2="6" stroke="currentColor" strokeWidth="1" strokeLinecap="square"/>
+    </svg>
+  )
+}
+
+function SupportIcon() {
+  return (
+    <svg viewBox="0 0 12 12" width="10" height="10" fill="none">
+      {/* diamond gem */}
+      <polygon points="6,1 10,5 6,11 2,5" stroke="currentColor" strokeWidth="1" fill="none"/>
+      {/* facet line */}
+      <line x1="2" y1="5" x2="10" y2="5" stroke="currentColor" strokeWidth="0.8"/>
+      <line x1="6" y1="1" x2="4" y2="5" stroke="currentColor" strokeWidth="0.8"/>
+      <line x1="6" y1="1" x2="8" y2="5" stroke="currentColor" strokeWidth="0.8"/>
+    </svg>
+  )
+}
+
+function BuffIcon() {
+  return (
+    <svg viewBox="0 0 12 12" width="10" height="10" fill="none">
+      {/* lightning bolt */}
+      <polyline points="8,1 4,6 7,6 4,11" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="square" strokeLinejoin="miter"/>
+    </svg>
+  )
+}
+
+const CATEGORY_ICON: Record<CardCategory, React.ReactNode> = {
+  unit:      <UnitIcon />,
+  hero:      <HeroIcon />,
+  spawner:   <SpawnerIcon />,
+  defensive: <DefensiveIcon />,
+  support:   <SupportIcon />,
+  buff:      <BuffIcon />,
+}
+
 interface Props {
   card: Card
   canAfford?: boolean
@@ -67,7 +175,13 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         }
       </div>
       <div className="card-stats">{stats}</div>
-      <div className="card-rarity">{rarityStars(card.rarity)}</div>
+      <div className="card-bottom-row">
+        <div className="card-rarity">{rarityStars(card.rarity)}</div>
+        <div className={`card-type-badge card-type-badge--${getCardCategory(card)}`}>
+          {CATEGORY_ICON[getCardCategory(card)]}
+          <span>{CATEGORY_LABEL[getCardCategory(card)]}</span>
+        </div>
+      </div>
       {heroLocked && (
         <div className="card-hero-lock">
           <span className="card-hero-lock-icon">⏳</span>

@@ -775,6 +775,31 @@ body {
   color: var(--game-text-color-muted);
 }
 
+.card-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+}
+
+.card-type-badge {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 7px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  opacity: 0.75;
+}
+
+.card-type-badge--unit      { color: #aaddaa; }
+.card-type-badge--hero      { color: #ffcc00; }
+.card-type-badge--spawner   { color: #88bbff; }
+.card-type-badge--defensive { color: #ff9955; }
+.card-type-badge--support   { color: #cc88ff; }
+.card-type-badge--buff      { color: #ffee66; }
+
 .card-art {
   height: 42px;
   flex-shrink: 0;
