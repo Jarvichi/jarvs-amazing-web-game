@@ -12,6 +12,15 @@ interface Props {
 const COLS = 9
 const ROWS = 13
 const SLOT_VALUES = [25, 5, 15, 30, 75, 30, 15, 5, 25]
+
+function shuffleSlotValues(): number[] {
+  const vals = [...SLOT_VALUES]
+  for (let i = vals.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[vals[i], vals[j]] = [vals[j], vals[i]]
+  }
+  return vals
+}
 const TOTAL_DROPS = 3
 
 // ── Grid patterns ─────────────────────────────────────────────────────────────
@@ -139,6 +148,7 @@ type MarbleState = {
 
 export function MarbleRun({ onDone }: Props) {
   const [pattern, setPattern] = useState<GridPattern>(() => pickPattern())
+  const [slotValues, setSlotValues] = useState<number[]>(() => shuffleSlotValues())
   const [phase, setPhase] = useState<'choose' | 'dropping' | 'result'>('choose')
   const [dropsLeft, setDropsLeft] = useState(TOTAL_DROPS)
   const [results, setResults] = useState<number[]>([])
@@ -185,7 +195,7 @@ export function MarbleRun({ onDone }: Props) {
     return () => { if (animRef.current) clearTimeout(animRef.current) }
   }, [])
 
-  const totalTickets = results.reduce((sum, slot) => sum + SLOT_VALUES[slot], 0)
+  const totalTickets = results.reduce((sum, slot) => sum + slotValues[slot], 0)
 
   function getObstacleAt(row: number, col: number): Obstacle | undefined {
     return pattern.obstacles.find(o => o.row === row && o.col === col)
@@ -247,7 +257,7 @@ export function MarbleRun({ onDone }: Props) {
 
         {/* Slot row */}
         <div className="marble-slot-row">
-          {SLOT_VALUES.map((val, idx) => {
+          {slotValues.map((val, idx) => {
             const isMarbleHere = phase === 'dropping' && marbleRow >= ROWS && marbleCol === idx
             const isResult = results.includes(idx)
             return (
@@ -267,7 +277,7 @@ export function MarbleRun({ onDone }: Props) {
         <div className="marble-results">
           {results.map((slot, i) => (
             <span key={i} className="marble-result-chip">
-              Drop {i + 1}: +{SLOT_VALUES[slot]} 🎫
+              Drop {i + 1}: +{slotValues[slot]} 🎫
             </span>
           ))}
           <span className="marble-result-total">Total: {totalTickets} 🎫</span>
