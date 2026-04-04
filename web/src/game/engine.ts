@@ -1398,7 +1398,9 @@ function isPlayable(card: Card, gameTime: number): boolean {
 function opponentAI(s: GameState, log: string[]): void {
   const manaBonus = getManaBonus(s.field, 'opponent')
   const manaMult = s.endlessOpponentManaMult ?? 1
-  let mana = Math.min(15, Math.round((BASE_MAX_MANA + manaBonus) * manaMult))
+  // Floor mana to the most expensive card in hand so opponents can always play their cards
+  const maxHandCost = s.opponentHand.reduce((m, c) => Math.max(m, c.cost), 0)
+  let mana = Math.min(15, Math.round((Math.max(BASE_MAX_MANA, maxHandCost) + manaBonus) * manaMult))
 
   const strategy = s.opponentStrategy
   const wave = s.endlessMode ? (s.endlessWave ?? 1) : 1
@@ -1495,7 +1497,9 @@ function genericBossAI(s: GameState, log: string[], def: BossAIDef): void {
     }
   }
 
-  let mana = phase.manaOverride ?? Math.min(10, BASE_MAX_MANA + manaBonus)
+  // Floor mana to the most expensive card in hand so boss can always play its signature cards
+  const maxHandCost = s.opponentHand.reduce((m, c) => Math.max(m, c.cost), 0)
+  let mana = phase.manaOverride ?? Math.min(10, Math.max(BASE_MAX_MANA, maxHandCost) + manaBonus)
   const maxPlays = phase.maxPlaysOverride ?? def.maxPlaysPerTurn
 
   function tryPlay(): boolean {
