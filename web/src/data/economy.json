@@ -21,7 +21,8 @@
     "marble":       50,
     "tileflip":     30,
     "crystalcatch": 40,
-    "spinner":      25
+    "spinner":      25,
+    "marblerace":   35
   },
 
   "ticketPrizes": [

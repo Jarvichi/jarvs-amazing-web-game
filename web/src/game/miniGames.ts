@@ -20,7 +20,7 @@ export { getTickets as loadTickets, addTickets, spendTickets }
 
 // ── Game Costs ────────────────────────────────────────────────────────────────
 
-export type MiniGameId = 'marble' | 'tileflip' | 'crystalcatch' | 'spinner'
+export type MiniGameId = 'marble' | 'tileflip' | 'crystalcatch' | 'spinner' | 'marblerace'
 
 export const MINI_GAME_COSTS = _MINI_GAME_COSTS as Record<MiniGameId, number>
 
@@ -29,6 +29,7 @@ export const MINI_GAME_LABELS: Record<MiniGameId, string> = {
   tileflip:     'Tile Flip',
   crystalcatch: 'Crystal Catch',
   spinner:      'Lucky Spinner',
+  marblerace:   'Marble Race',
 }
 
 export const MINI_GAME_DESCRIPTIONS: Record<MiniGameId, string> = {
@@ -36,6 +37,7 @@ export const MINI_GAME_DESCRIPTIONS: Record<MiniGameId, string> = {
   tileflip:     'Match pairs of tiles from memory. Faster = more tickets.',
   crystalcatch: 'Catch falling crystals, dodge the bombs!',
   spinner:      'Spin the wheel and hope for the jackpot.',
+  marblerace:   'Pick a marble and race to the finish! Prizes for every place.',
 }
 
 export const MINI_GAME_ICONS: Record<MiniGameId, string> = {
@@ -43,6 +45,7 @@ export const MINI_GAME_ICONS: Record<MiniGameId, string> = {
   tileflip:     '🃏',
   crystalcatch: '💎',
   spinner:      '🎡',
+  marblerace:   '🏁',
 }
 
 // ── Ticket Prizes ─────────────────────────────────────────────────────────────
