@@ -1,6 +1,15 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-04-04 (session 35 — working open issues).
+Issues sourced from GitHub. Last synced: 2026-04-04 (session 36 — new issues sync).
+
+## 🔵 Enhancements — New (from GitHub, session 36 sync)
+
+- [ ] **#599** Quit confirmation dialog — `ConfirmModal.tsx` reusable modal; intercept Give Up (Battlefield.tsx) and Abandon Run (GameOver.tsx) to prevent accidental abandonment; `.confirm-modal` CSS
+- [ ] **#597** Collection sorting/grouping — sort asc/desc by act/type/mana cost/A-Z; group by act/type/mana cost; default sort pairs units with their spawn buildings
+
+## 🔴 Bugs — New (from GitHub, session 36 sync)
+
+- [ ] **#600** PWA update check for standalone mode — call `r.update()` inside `onRegisteredSW` + hourly interval so installed PWA picks up new deployments; also regenerate package-lock.json to include missing `esbuild@0.27.4`
 
 ## ✅ Done (session 35)
 
