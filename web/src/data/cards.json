@@ -10869,7 +10869,7 @@
     {
       "name": "Ogre Den",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unit": {
         "name": "Ogre Den",
@@ -11234,7 +11234,7 @@
     {
       "name": "Rat Burrow",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "tags": [
         "ashen"
@@ -11288,7 +11288,7 @@
     {
       "name": "Bat Cave",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "tags": [
         "forest"
@@ -11342,7 +11342,7 @@
     {
       "name": "Guard Post",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 3,
       "cardType": "structure",
       "tags": [
         "citadel"
@@ -11450,7 +11450,7 @@
     {
       "name": "Lizard Warren",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 3,
       "cardType": "structure",
       "tags": [
         "ashen"
@@ -11477,7 +11477,7 @@
     {
       "name": "Ballista Tower",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "tags": [
         "citadel"
@@ -11504,7 +11504,7 @@
     {
       "name": "Vamp. Coven",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "tags": [
         "ashen"
@@ -11582,7 +11582,7 @@
     {
       "name": "Gallows",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "tags": [
         "citadel"
@@ -11633,7 +11633,7 @@
     {
       "name": "Shadow Academy",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "tags": [
         "ashen"
@@ -11687,7 +11687,7 @@
     {
       "name": "Giant's Hall",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 6,
       "cardType": "structure",
       "unit": {
         "name": "Giant's Hall",
@@ -11735,7 +11735,7 @@
     {
       "name": "Ancient Altar",
       "rarity": "legendary",
-      "cost": 6,
+      "cost": 7,
       "cardType": "structure",
       "unit": {
         "name": "Anc. Altar",
@@ -15363,7 +15363,7 @@
     {
       "name": "Bazaar Post",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "bazaar-post",
       "description": "Spawner. Periodically contracts Mercenary Captains.",
@@ -15797,7 +15797,7 @@
     {
       "name": "Elder Grove",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "elder-grove",
       "description": "Powerful spawner. Releases Ancient Treants slowly.",
@@ -15897,7 +15897,7 @@
     {
       "name": "Drift Net",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "drift-net",
       "description": "Trawls up shore scouts from the deep.",
@@ -16133,7 +16133,7 @@
     {
       "name": "Stormgate",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "stormgate",
       "description": "Opens a rift in the storm, spawning tempest riders.",
@@ -16248,7 +16248,7 @@
     {
       "name": "Gear Assembly",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "gear-assembly",
       "description": "Assembles gear scouts from stored components.",
@@ -16356,7 +16356,7 @@
     {
       "name": "Clockwork Forge",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "clockwork-forge",
       "description": "Continuously produces piston brawlers.",
@@ -16472,7 +16472,7 @@
     {
       "name": "Titan Forge",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "titan-forge",
       "description": "Produces clockwork titans over time.",
@@ -16698,7 +16698,7 @@
     {
       "name": "Abyssal Crevasse",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "abyssal-crevasse",
       "description": "Spawner. Periodically releases Abyssal Hunters.",
@@ -16713,7 +16713,7 @@
     {
       "name": "Air Sanctum",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "air-sanctum",
       "description": "Spawner. Periodically releases Air Sprites.",
@@ -16729,7 +16729,7 @@
     {
       "name": "Ancient Spring",
       "rarity": "common",
-      "cost": 1,
+      "cost": 3,
       "cardType": "structure",
       "unitRef": "ancient-spring",
       "description": "Spawner. Periodically releases Ancient Sprites.",
@@ -16744,7 +16744,7 @@
     {
       "name": "Angler's Trench",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "anglers-trench",
       "description": "Spawner. Periodically releases Anglerfish Lurkers.",
@@ -16775,7 +16775,7 @@
     {
       "name": "Archer's Keep",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "archers-keep",
       "description": "Spawner. Periodically releases Archers.",
@@ -16788,7 +16788,7 @@
     {
       "name": "Ash Vortex",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "ash-vortex",
       "description": "Spawner. Periodically releases Ash Elementals.",
@@ -16804,7 +16804,7 @@
     {
       "name": "Ashen Altar",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "ashen-altar",
       "description": "Spawner. Periodically releases Ash Revenants.",
@@ -16830,7 +16830,7 @@
     {
       "name": "Bear Run",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "bear-run",
       "description": "Spawner. Periodically releases Avalanche Bears.",
@@ -16843,7 +16843,7 @@
     {
       "name": "Ballista Works",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "ballista-works",
       "description": "Spawner. Periodically releases Ballistas.",
@@ -16858,7 +16858,7 @@
     {
       "name": "Siege Yard",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "siege-yard",
       "description": "Spawner. Periodically releases Ballista Crews.",
@@ -16873,7 +16873,7 @@
     {
       "name": "Bandit Hideout",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "bandit-hideout",
       "description": "Spawner. Periodically releases Bandits.",
@@ -16902,7 +16902,7 @@
     {
       "name": "Bat Cavern",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "bat-cavern",
       "description": "Rapid spawner. Quickly deploys Bats.",
@@ -16917,7 +16917,7 @@
     {
       "name": "Ram Barracks",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "ram-barracks",
       "description": "Spawner. Periodically releases Battering Ram Crews.",
@@ -16933,7 +16933,7 @@
     {
       "name": "Behemoth Hold",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 7,
       "cardType": "structure",
       "unitRef": "behemoth-hold",
       "description": "Powerful spawner. Slowly releases Behemoths.",
@@ -16962,7 +16962,7 @@
     {
       "name": "Bloom Garden",
       "rarity": "common",
-      "cost": 1,
+      "cost": 3,
       "cardType": "structure",
       "unitRef": "bloom-garden",
       "description": "Spawner. Periodically releases Bloom Sprites.",
@@ -16976,7 +16976,7 @@
     {
       "name": "Wisp Hollow",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "wisp-hollow",
       "description": "Spawner. Periodically releases Bloom Wisps.",
@@ -16989,7 +16989,7 @@
     {
       "name": "Bone Tower",
       "rarity": "common",
-      "cost": 1,
+      "cost": 3,
       "cardType": "structure",
       "unitRef": "bone-tower",
       "description": "Spawner. Periodically releases Bone Archers.",
@@ -17004,7 +17004,7 @@
     {
       "name": "Bone Hall",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 8,
       "cardType": "structure",
       "unitRef": "bone-hall",
       "description": "Powerful spawner. Slowly releases Bone Colossuss.",
@@ -17048,7 +17048,7 @@
     {
       "name": "Canopy Eyrie",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "canopy-eyrie",
       "description": "Spawner. Periodically releases Canopy Drakes.",
@@ -17076,7 +17076,7 @@
     {
       "name": "Catapult Works",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "catapult-works",
       "description": "Spawner. Periodically releases Catapults.",
@@ -17134,7 +17134,7 @@
     {
       "name": "Chrono Spire",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 7,
       "cardType": "structure",
       "unitRef": "chrono-spire",
       "description": "Spawner. Periodically releases Chronomancers.",
@@ -17161,7 +17161,7 @@
     {
       "name": "Cinder Fortress",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "cinder-fortress",
       "description": "Spawner. Periodically releases Cinder Knights.",
@@ -17203,7 +17203,7 @@
     {
       "name": "Storm Citadel",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "storm-citadel",
       "description": "Powerful spawner. Slowly releases Cloudborn Colossuss.",
@@ -17220,7 +17220,7 @@
     {
       "name": "Coastal Abyss",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "coastal-abyss",
       "description": "Powerful spawner. Slowly releases Coast Leviathans.",
@@ -17264,7 +17264,7 @@
     {
       "name": "Frost Barrow",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "frost-barrow",
       "description": "Spawner. Periodically releases Cold Snaps.",
@@ -17304,7 +17304,7 @@
     {
       "name": "Crystal Cavern",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "crystal-cavern",
       "description": "Spawner. Periodically releases Crystal Hydras.",
@@ -17320,7 +17320,7 @@
     {
       "name": "Dusk Sanctum",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "dusk-sanctum",
       "description": "Spawner. Periodically releases Dark Elfs.",
@@ -17334,7 +17334,7 @@
     {
       "name": "Demo Depot",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "demo-depot",
       "description": "Spawner. Periodically releases Demolitions Experts.",
@@ -17362,7 +17362,7 @@
     {
       "name": "Titan Dune",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 9,
       "cardType": "structure",
       "unitRef": "titan-dune",
       "description": "Spawner. Periodically releases Desert Titans.",
@@ -17376,7 +17376,7 @@
     {
       "name": "Dragon Lair",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "dragon-lair",
       "description": "Spawner. Periodically releases Dragons.",
@@ -17390,7 +17390,7 @@
     {
       "name": "Sacred Grove",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "sacred-grove",
       "description": "Spawner. Periodically releases Dryad Sentinels.",
@@ -17418,7 +17418,7 @@
     {
       "name": "Sandstone Citadel",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "sandstone-citadel",
       "description": "Spawner. Periodically releases Dune Colossuss.",
@@ -17444,7 +17444,7 @@
     {
       "name": "Eel Trench",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "eel-trench",
       "description": "Spawner. Periodically releases Eel Strikers.",
@@ -17459,7 +17459,7 @@
     {
       "name": "Elder Sanctum",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "elder-sanctum",
       "description": "Powerful spawner. Slowly releases Elder Treants.",
@@ -17474,7 +17474,7 @@
     {
       "name": "Elderwood Fort",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "elderwood-fort",
       "description": "Spawner. Periodically releases Elderwood Guards.",
@@ -17501,7 +17501,7 @@
     {
       "name": "Wyrm Cradle",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "wyrm-cradle",
       "description": "Spawner. Periodically releases Ember Wyrms.",
@@ -17514,7 +17514,7 @@
     {
       "name": "Execution Post",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "execution-post",
       "description": "Spawner. Periodically releases Executioners.",
@@ -17528,7 +17528,7 @@
     {
       "name": "Ember Sanctum",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "ember-sanctum",
       "description": "Spawner. Periodically releases Fire Mages.",
@@ -17543,7 +17543,7 @@
     {
       "name": "Lava Pool",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "lava-pool",
       "description": "Spawner. Periodically releases Fire Salamanders.",
@@ -17556,7 +17556,7 @@
     {
       "name": "Flame Spire",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "flame-spire",
       "description": "Spawner. Periodically releases Flame Wardens.",
@@ -17597,7 +17597,7 @@
     {
       "name": "Frost Eyrie",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "frost-eyrie",
       "description": "Spawner. Periodically releases Frost Drakes.",
@@ -17611,7 +17611,7 @@
     {
       "name": "Frozen Vault",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "frozen-vault",
       "description": "Spawner. Periodically releases Frozen Knights.",
@@ -17625,7 +17625,7 @@
     {
       "name": "Windspire",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "windspire",
       "description": "Spawner. Periodically releases Gale Wardens.",
@@ -17640,7 +17640,7 @@
     {
       "name": "Giant's Hold",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "giants-hold",
       "description": "Powerful spawner. Slowly releases Giants.",
@@ -17655,7 +17655,7 @@
     {
       "name": "Glacial Forge",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "glacial-forge",
       "description": "Spawner. Periodically releases Glacier Titans.",
@@ -17668,7 +17668,7 @@
     {
       "name": "Glass Spire",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "glass-spire",
       "description": "Spawner. Periodically releases Glass Dancers.",
@@ -17682,7 +17682,7 @@
     {
       "name": "Goblin Warrens",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "goblin-warrens",
       "description": "Spawner. Periodically releases Goblins.",
@@ -17696,7 +17696,7 @@
     {
       "name": "Golem Forge",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "golem-forge",
       "description": "Powerful spawner. Slowly releases Golems.",
@@ -17712,7 +17712,7 @@
     {
       "name": "Griffin Aerie",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "griffin-aerie",
       "description": "Spawner. Periodically releases Griffins.",
@@ -17728,7 +17728,7 @@
     {
       "name": "Veterans' Post",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "veterans-post",
       "description": "Spawner. Periodically releases Grizzled Vet.s.",
@@ -17756,7 +17756,7 @@
     {
       "name": "Ice Cathedral",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "ice-cathedral",
       "description": "Powerful spawner. Slowly releases Ice Colossuss.",
@@ -17796,7 +17796,7 @@
     {
       "name": "Inferno Lair",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "inferno-lair",
       "description": "Powerful spawner. Slowly releases Inferno Drakes.",
@@ -17809,7 +17809,7 @@
     {
       "name": "Iron Hall",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "iron-hall",
       "description": "Spawner. Periodically releases Iron Colossuss.",
@@ -17855,7 +17855,7 @@
     {
       "name": "Jungle Hollow",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "jungle-hollow",
       "description": "Spawner. Periodically releases Jungle Stalkers.",
@@ -17869,7 +17869,7 @@
     {
       "name": "Magma Den",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "magma-den",
       "description": "Powerful spawner. Slowly releases Lava Trolls.",
@@ -17882,7 +17882,7 @@
     {
       "name": "Abyss Gate",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 8,
       "cardType": "structure",
       "unitRef": "abyss-gate",
       "description": "Powerful spawner. Slowly releases Leviathans.",
@@ -17898,7 +17898,7 @@
     {
       "name": "Lich Spire",
       "rarity": "common",
-      "cost": 1,
+      "cost": 3,
       "cardType": "structure",
       "unitRef": "lich-spire",
       "description": "Spawner. Periodically releases Lich Apprentices.",
@@ -17914,7 +17914,7 @@
     {
       "name": "Lightning Tower",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "lightning-tower",
       "description": "Spawner. Periodically releases Lightning Archers.",
@@ -17956,7 +17956,7 @@
     {
       "name": "Mammoth Pen",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "mammoth-pen",
       "description": "Powerful spawner. Slowly releases Mammoths.",
@@ -17972,7 +17972,7 @@
     {
       "name": "Mana Well",
       "rarity": "common",
-      "cost": 1,
+      "cost": 3,
       "cardType": "structure",
       "unitRef": "mana-well",
       "description": "Spawner. Periodically releases Mana Siphons.",
@@ -17986,7 +17986,7 @@
     {
       "name": "Wisp Grove",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "wisp-grove",
       "description": "Spawner. Periodically releases Mana Wisps.",
@@ -18016,7 +18016,7 @@
     {
       "name": "Sand Veil",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "sand-veil",
       "description": "Spawner. Periodically releases Mirage Scouts.",
@@ -18030,7 +18030,7 @@
     {
       "name": "Crucible Hall",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 7,
       "cardType": "structure",
       "unitRef": "crucible-hall",
       "description": "Powerful spawner. Slowly releases Molten Colossuss.",
@@ -18043,7 +18043,7 @@
     {
       "name": "Mossy Ruin",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 8,
       "cardType": "structure",
       "unitRef": "mossy-ruin",
       "description": "Powerful spawner. Slowly releases Moss Golems.",
@@ -18059,7 +18059,7 @@
     {
       "name": "Mushroom Mound",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "mushroom-mound",
       "description": "Spawner. Periodically releases Mushroom Hulks.",
@@ -18088,7 +18088,7 @@
     {
       "name": "Hulk Growth",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "hulk-growth",
       "description": "Spawner. Periodically releases Mycelium Hulks.",
@@ -18101,7 +18101,7 @@
     {
       "name": "Necropolis",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "necropolis",
       "description": "Spawner. Periodically releases Necromancers.",
@@ -18116,7 +18116,7 @@
     {
       "name": "Ogre Den",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "ogre-den",
       "description": "Spawner. Periodically releases Ogres.",
@@ -18131,7 +18131,7 @@
     {
       "name": "Paladin's Chapel",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "paladins-chapel",
       "description": "Spawner. Periodically releases Paladins.",
@@ -18145,7 +18145,7 @@
     {
       "name": "Permafrost Lair",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 9,
       "cardType": "structure",
       "unitRef": "permafrost-lair",
       "description": "Powerful spawner. Slowly releases Permafrost Wyrms.",
@@ -18158,7 +18158,7 @@
     {
       "name": "Pixie Garden",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "pixie-garden",
       "description": "Rapid spawner. Quickly deploys Pixies.",
@@ -18173,7 +18173,7 @@
     {
       "name": "Scout Garden",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "scout-garden",
       "description": "Rapid spawner. Quickly deploys Pixie Scouts.",
@@ -18188,7 +18188,7 @@
     {
       "name": "Plague Burrow",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "plague-burrow",
       "description": "Rapid spawner. Quickly deploys Plague Rats.",
@@ -18203,7 +18203,7 @@
     {
       "name": "Prism Vault",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "prism-vault",
       "description": "Spawner. Periodically releases Prism Wardens.",
@@ -18218,7 +18218,7 @@
     {
       "name": "Pyroclast Vent",
       "rarity": "common",
-      "cost": 1,
+      "cost": 3,
       "cardType": "structure",
       "unitRef": "pyroclast-vent",
       "description": "Spawner. Periodically releases Pyroclast Runners.",
@@ -18231,7 +18231,7 @@
     {
       "name": "Spore Throne",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 9,
       "cardType": "structure",
       "unitRef": "spore-throne",
       "description": "Powerful spawner. Slowly releases Queen Spores.",
@@ -18245,7 +18245,7 @@
     {
       "name": "Reef Shallows",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "reef-shallows",
       "description": "Spawner. Periodically releases Reef Crawlers.",
@@ -18259,7 +18259,7 @@
     {
       "name": "Shark Run",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "shark-run",
       "description": "Spawner. Periodically releases Reef Sharks.",
@@ -18274,7 +18274,7 @@
     {
       "name": "Reef Stronghold",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "reef-stronghold",
       "description": "Spawner. Periodically releases Reef Wardens.",
@@ -18303,7 +18303,7 @@
     {
       "name": "Rime Warren",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "rime-warren",
       "description": "Spawner. Periodically releases Rime Stalkers.",
@@ -18346,7 +18346,7 @@
     {
       "name": "Deeproot Hall",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "deeproot-hall",
       "description": "Powerful spawner. Slowly releases Root Walkers.",
@@ -18362,7 +18362,7 @@
     {
       "name": "Wraith Thicket",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "wraith-thicket",
       "description": "Spawner. Periodically releases Root Wraiths.",
@@ -18389,7 +18389,7 @@
     {
       "name": "Rot Hall",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "rot-hall",
       "description": "Spawner. Periodically releases Rot Titans.",
@@ -18431,7 +18431,7 @@
     {
       "name": "Dune Stronghold",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "dune-stronghold",
       "description": "Spawner. Periodically releases Sand Knights.",
@@ -18445,7 +18445,7 @@
     {
       "name": "Wyrm Burrow",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 8,
       "cardType": "structure",
       "unitRef": "wyrm-burrow",
       "description": "Powerful spawner. Slowly releases Sand Wyrms.",
@@ -18471,7 +18471,7 @@
     {
       "name": "Shaman's Totem",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "shamans-totem",
       "description": "Spawner. Periodically releases Sandstorm Shamans.",
@@ -18484,7 +18484,7 @@
     {
       "name": "Sapper Works",
       "rarity": "common",
-      "cost": 1,
+      "cost": 3,
       "cardType": "structure",
       "unitRef": "sapper-works",
       "description": "Spawner. Periodically releases Sapperss.",
@@ -18525,7 +18525,7 @@
     {
       "name": "Sunken Altar",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "sunken-altar",
       "description": "Spawner. Periodically releases Sea Witchs.",
@@ -18569,7 +18569,7 @@
     {
       "name": "Shard Sanctum",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "shard-sanctum",
       "description": "Spawner. Periodically releases Shard Familiars.",
@@ -18615,7 +18615,7 @@
     {
       "name": "Wreck Forge",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "wreck-forge",
       "description": "Powerful spawner. Slowly releases Shipwreck Golems.",
@@ -18631,7 +18631,7 @@
     {
       "name": "Engineer's Yard",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "engineers-yard",
       "description": "Spawner. Periodically releases Siege Engineers.",
@@ -18646,7 +18646,7 @@
     {
       "name": "Bone Pit",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "bone-pit",
       "description": "Rapid spawner. Quickly deploys Skeletons.",
@@ -18661,7 +18661,7 @@
     {
       "name": "Sky Cradle",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 8,
       "cardType": "structure",
       "unitRef": "sky-cradle",
       "description": "Powerful spawner. Slowly releases Sky Leviathans.",
@@ -18677,7 +18677,7 @@
     {
       "name": "Sky Sanctum",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "sky-sanctum",
       "description": "Spawner. Periodically releases Sky Mages.",
@@ -18691,7 +18691,7 @@
     {
       "name": "Sky Fortress",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "sky-fortress",
       "description": "Spawner. Periodically releases Sky Sentinels.",
@@ -18721,7 +18721,7 @@
     {
       "name": "Soul Hollow",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "soul-hollow",
       "description": "Spawner. Periodically releases Soulrend Witchs.",
@@ -18779,7 +18779,7 @@
     {
       "name": "Spore Roost",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "spore-roost",
       "description": "Spawner. Periodically releases Spore Bats.",
@@ -18793,7 +18793,7 @@
     {
       "name": "Spore Cathedral",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 8,
       "cardType": "structure",
       "unitRef": "spore-cathedral",
       "description": "Powerful spawner. Slowly releases Spore Colossuss.",
@@ -18807,7 +18807,7 @@
     {
       "name": "Drift Garden",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "drift-garden",
       "description": "Spawner. Periodically releases Spore Drifters.",
@@ -18822,7 +18822,7 @@
     {
       "name": "Steam Works",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "steam-works",
       "description": "Spawner. Periodically releases Steam Walkers.",
@@ -18836,7 +18836,7 @@
     {
       "name": "Storm Eyrie",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "storm-eyrie",
       "description": "Spawner. Periodically releases Storm Hawks.",
@@ -18850,7 +18850,7 @@
     {
       "name": "Storm Altar",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "storm-altar",
       "description": "Spawner. Periodically releases Stormcallers.",
@@ -18879,7 +18879,7 @@
     {
       "name": "Imp Array",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "imp-array",
       "description": "Rapid spawner. Quickly deploys Techno Imps.",
@@ -18894,7 +18894,7 @@
     {
       "name": "Ancient Spire",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 7,
       "cardType": "structure",
       "unitRef": "ancient-spire",
       "description": "Powerful spawner. Slowly releases The Elder Wardens.",
@@ -18912,7 +18912,7 @@
     {
       "name": "Automaton Forge",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 7,
       "cardType": "structure",
       "unitRef": "automaton-forge",
       "description": "Powerful spawner. Slowly releases The Grand Automatons.",
@@ -18928,7 +18928,7 @@
     {
       "name": "The Grand Harbor",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 7,
       "cardType": "structure",
       "unitRef": "grand-harbor",
       "description": "Powerful spawner. Slowly releases The Harbormasters.",
@@ -18944,7 +18944,7 @@
     {
       "name": "Thorn Nest",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "thorn-nest",
       "description": "Spawner. Periodically releases Thornbeasts.",
@@ -18960,7 +18960,7 @@
     {
       "name": "Thunder Pinnacle",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "thunder-pinnacle",
       "description": "Spawner. Periodically releases Thunder Drakes.",
@@ -18976,7 +18976,7 @@
     {
       "name": "Tide Altar",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "tide-altar",
       "description": "Spawner. Periodically releases Tide Callers.",
@@ -18990,7 +18990,7 @@
     {
       "name": "Tidal Lair",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "tidal-lair",
       "description": "Powerful spawner. Slowly releases Tide Dragons.",
@@ -19020,7 +19020,7 @@
     {
       "name": "Tidal Spring",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "tidal-spring",
       "description": "Spawner. Periodically releases Tide Sprites.",
@@ -19036,7 +19036,7 @@
     {
       "name": "Stalker's Cove",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "stalkers-cove",
       "description": "Spawner. Periodically releases Tide Stalkers.",
@@ -19050,7 +19050,7 @@
     {
       "name": "Toadstool Keep",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "toadstool-keep",
       "description": "Spawner. Periodically releases Toadstool Knights.",
@@ -19063,7 +19063,7 @@
     {
       "name": "Troll Bridge",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "troll-bridge",
       "description": "Spawner. Periodically releases Trolls.",
@@ -19079,7 +19079,7 @@
     {
       "name": "Blood Tower",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "blood-tower",
       "description": "Spawner. Periodically releases Vampires.",
@@ -19094,7 +19094,7 @@
     {
       "name": "Vault Gate",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "vault-gate",
       "description": "Spawner. Periodically releases Vault Guardians.",
@@ -19108,7 +19108,7 @@
     {
       "name": "Vine Cathedral",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "vine-cathedral",
       "description": "Powerful spawner. Slowly releases Vine Colossuss.",
@@ -19124,7 +19124,7 @@
     {
       "name": "Vine Hollow",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "vine-hollow",
       "description": "Spawner. Periodically releases Vine Golems.",
@@ -19139,7 +19139,7 @@
     {
       "name": "Void Rift",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "void-rift",
       "description": "Spawner. Periodically releases Void Elementals.",
@@ -19153,7 +19153,7 @@
     {
       "name": "Caldera Forge",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "caldera-forge",
       "description": "Powerful spawner. Slowly releases Volcanic Golems.",
@@ -19192,7 +19192,7 @@
     {
       "name": "Wolfpack Den",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "wolfpack-den",
       "description": "Spawner. Periodically releases Werewolfs.",
@@ -19208,7 +19208,7 @@
     {
       "name": "Wight Barracks",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "wight-barracks",
       "description": "Spawner. Periodically releases Wight Knights.",
@@ -19224,7 +19224,7 @@
     {
       "name": "Wind Shrine",
       "rarity": "common",
-      "cost": 1,
+      "cost": 2,
       "cardType": "structure",
       "unitRef": "wind-shrine",
       "description": "Spawner. Periodically releases Wind Sprites.",
@@ -19240,7 +19240,7 @@
     {
       "name": "Wraith Shrine",
       "rarity": "common",
-      "cost": 1,
+      "cost": 4,
       "cardType": "structure",
       "unitRef": "wraith-shrine",
       "description": "Spawner. Periodically releases Wraiths.",
@@ -19255,7 +19255,7 @@
     {
       "name": "Wreck Pile",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 6,
       "cardType": "structure",
       "unitRef": "wreck-pile",
       "description": "Spawner. Periodically releases Wreck Golems.",
@@ -19271,7 +19271,7 @@
     {
       "name": "Wyvern Aerie",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 5,
       "cardType": "structure",
       "unitRef": "wyvern-aerie",
       "description": "Spawner. Periodically releases Wyverns.",
