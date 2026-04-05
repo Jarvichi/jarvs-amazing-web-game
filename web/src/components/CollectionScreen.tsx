@@ -138,6 +138,17 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   const RARITY_ORDER: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 2, legendary: 3 }
   const TYPE_ORDER: Record<CardType, number>     = { unit: 0, structure: 1, upgrade: 2 }
 
+  // Default sort: spawn buildings appear immediately after the unit they spawn.
+  const catalogPos = new Map<string, number>(catalog.map((c, i) => [c.name, i]))
+  function defaultSortKey(card: import('../game/types').Card): number {
+    if (card.unit?.structureEffect?.type === 'spawn') {
+      const spawnedName = card.unit.structureEffect.unitTemplate.name
+      const unitPos = catalogPos.get(spawnedName)
+      if (unitPos !== undefined) return unitPos + 0.5
+    }
+    return catalogPos.get(card.name) ?? 999999
+  }
+
   function groupSortValue(card: import('../game/types').Card): string {
     switch (groupKey) {
       case 'type':   return String(TYPE_ORDER[card.cardType]).padStart(2, '0')
@@ -161,7 +172,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
       case 'mana-asc':  return a.cost - b.cost
       case 'mana-desc': return b.cost - a.cost
       case 'rarity':    return RARITY_ORDER[a.rarity] - RARITY_ORDER[b.rarity]
-      default:          return 0
+      default:          return groupKey === 'none' ? defaultSortKey(a) - defaultSortKey(b) : 0
     }
   })
 
