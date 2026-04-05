@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path d="M7,22 Q3,20 2,16 Q3,14 5,15" stroke="#1A6B1A" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <ellipse cx="16" cy="20" rx="8" ry="6" fill="#228B22"/>
+  <ellipse cx="16" cy="20" rx="6" ry="5" fill="#2EAA2E"/>
+  <path d="M11,18 Q13,16 15,18" stroke="#1A6B1A" stroke-width="0.8" fill="none"/>
+  <path d="M17,18 Q19,16 21,18" stroke="#1A6B1A" stroke-width="0.8" fill="none"/>
+  <path d="M12,21 Q14,19 16,21 Q18,19 20,21" stroke="#1A6B1A" stroke-width="0.8" fill="none"/>
+  <rect x="14" y="12" width="5" height="8" rx="2" fill="#228B22"/>
+  <ellipse cx="20" cy="11" rx="6" ry="4" fill="#228B22"/>
+  <path d="M24,10 L28,9 L28,13 L24,12 Z" fill="#1A6B1A"/>
+  <circle cx="27" cy="10" r="0.8" fill="#FFD700"/>
+  <circle cx="27" cy="10" r="0.4" fill="#333"/>
+  <path d="M21,8 L22,5 L23,8" fill="#556B2F"/>
+  <path d="M18,7 L19,4 L20,7" fill="#556B2F"/>
+  <!-- Wings — left raised, right lowered (stride A) -->
+  <path d="M13,14 Q6,6 4,10 Q8,15 13,18" fill="#1A6B1A" opacity="0.9"/>
+  <path d="M17,14 Q22,10 24,13 Q21,16 17,18" fill="#1A6B1A" opacity="0.7"/>
+  <!-- Legs stride A -->
+  <rect x="8"  y="24" width="4" height="7" rx="2" fill="#1A6B1A"/>
+  <rect x="19" y="24" width="4" height="5" rx="2" fill="#1A6B1A"/>
+  <path d="M8,31 L6,33 M10,31 L9,33 M12,31 L13,33" stroke="#556B2F" stroke-width="1"/>
+  <path d="M19,29 L18,31 M21,29 L21,31 M23,29 L24,31" stroke="#556B2F" stroke-width="1"/>
+</svg>

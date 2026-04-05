@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Trunk / body -->
+  <rect x="12" y="14" width="8" height="14" rx="3" fill="#6B3A1F"/>
+  <!-- Bark texture lines -->
+  <line x1="14" y1="16" x2="14" y2="26" stroke="#4A2810" stroke-width="0.8"/>
+  <line x1="17" y1="15" x2="17" y2="25" stroke="#4A2810" stroke-width="0.8"/>
+  <!-- Head (gnarled) -->
+  <ellipse cx="16" cy="10" rx="6" ry="5" fill="#6B3A1F"/>
+  <ellipse cx="16" cy="10" rx="5" ry="4" fill="#7A4525"/>
+  <!-- Glowing eyes -->
+  <circle cx="14" cy="9" r="1.2" fill="#90EE90"/>
+  <circle cx="18" cy="9" r="1.2" fill="#90EE90"/>
+  <circle cx="14" cy="9" r="0.5" fill="#228B22"/>
+  <circle cx="18" cy="9" r="0.5" fill="#228B22"/>
+  <!-- Left branch arm -->
+  <path d="M12,17 Q5,13 4,8" stroke="#6B3A1F" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M4,8 Q2,5 5,4" stroke="#6B3A1F" stroke-width="2" fill="none"/>
+  <path d="M4,8 Q3,6 6,6" stroke="#6B3A1F" stroke-width="2" fill="none"/>
+  <!-- Right branch arm -->
+  <path d="M20,17 Q27,13 28,8" stroke="#6B3A1F" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M28,8 Q30,5 27,4" stroke="#6B3A1F" stroke-width="2" fill="none"/>
+  <path d="M28,8 Q29,6 26,6" stroke="#6B3A1F" stroke-width="2" fill="none"/>
+  <!-- Leaf clusters -->
+  <circle cx="4" cy="6" r="3" fill="#228B22" opacity="0.9"/>
+  <circle cx="7" cy="4" r="2.5" fill="#2EAA2E" opacity="0.9"/>
+  <circle cx="28" cy="6" r="3" fill="#228B22" opacity="0.9"/>
+  <circle cx="25" cy="4" r="2.5" fill="#2EAA2E" opacity="0.9"/>
+  <!-- Roots / feet -->
+  <path d="M12,28 Q8,29 7,32" stroke="#6B3A1F" stroke-width="2.5" fill="none"/>
+  <path d="M20,28 Q24,29 25,32" stroke="#6B3A1F" stroke-width="2.5" fill="none"/>
+  <path d="M16,28 Q16,30 15,32" stroke="#6B3A1F" stroke-width="2" fill="none"/>
+</svg>

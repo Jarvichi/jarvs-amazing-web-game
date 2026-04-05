@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Body (bark-textured) -->
+  <rect x="7" y="16" width="18" height="9" rx="3" fill="#8B5A2B"/>
+  <line x1="10" y1="17" x2="10" y2="24" stroke="#5C3010" stroke-width="0.8"/>
+  <line x1="14" y1="16" x2="14" y2="24" stroke="#5C3010" stroke-width="0.8"/>
+  <line x1="18" y1="16" x2="18" y2="24" stroke="#5C3010" stroke-width="0.8"/>
+  <line x1="22" y1="17" x2="22" y2="24" stroke="#5C3010" stroke-width="0.8"/>
+  <!-- Head -->
+  <ellipse cx="24" cy="14" rx="5" ry="4" fill="#8B5A2B"/>
+  <ellipse cx="24" cy="14" rx="4" ry="3.5" fill="#A0693A"/>
+  <!-- Snout -->
+  <ellipse cx="27" cy="15" rx="2.5" ry="2" fill="#A0693A"/>
+  <circle cx="28" cy="14.5" r="0.8" fill="#333"/>
+  <ellipse cx="28" cy="16" rx="1" ry="0.7" fill="#5C3010"/>
+  <!-- Ear -->
+  <path d="M22,11 Q20,8 23,10" fill="#6B3A1F"/>
+  <!-- Eye -->
+  <circle cx="25" cy="13" r="1" fill="#FFD700"/>
+  <circle cx="25" cy="13" r="0.5" fill="#333"/>
+  <!-- Tail -->
+  <path d="M7,17 Q2,13 3,10" stroke="#8B5A2B" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Legs (standing) -->
+  <rect x="9"  y="24" width="4" height="6" rx="2" fill="#6B3A1F"/>
+  <rect x="14" y="24" width="4" height="6" rx="2" fill="#6B3A1F"/>
+  <rect x="18" y="24" width="4" height="6" rx="2" fill="#6B3A1F"/>
+  <rect x="22" y="24" width="4" height="6" rx="2" fill="#6B3A1F"/>
+</svg>

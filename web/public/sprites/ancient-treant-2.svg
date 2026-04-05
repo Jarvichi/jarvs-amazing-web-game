@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Trunk / body (1px higher) -->
+  <rect x="12" y="13" width="8" height="15" rx="3" fill="#6B3A1F"/>
+  <line x1="14" y1="15" x2="14" y2="26" stroke="#4A2810" stroke-width="0.8"/>
+  <line x1="17" y1="14" x2="17" y2="25" stroke="#4A2810" stroke-width="0.8"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="9" rx="6" ry="5" fill="#6B3A1F"/>
+  <ellipse cx="16" cy="9" rx="5" ry="4" fill="#7A4525"/>
+  <circle cx="14" cy="8" r="1.2" fill="#90EE90"/>
+  <circle cx="18" cy="8" r="1.2" fill="#90EE90"/>
+  <circle cx="14" cy="8" r="0.5" fill="#228B22"/>
+  <circle cx="18" cy="8" r="0.5" fill="#228B22"/>
+  <!-- Arms symmetric (mid-stride) -->
+  <path d="M12,16 Q5,12 4,7" stroke="#6B3A1F" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M4,7 Q2,4 5,3" stroke="#6B3A1F" stroke-width="2" fill="none"/>
+  <path d="M20,16 Q27,12 28,7" stroke="#6B3A1F" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M28,7 Q30,4 27,3" stroke="#6B3A1F" stroke-width="2" fill="none"/>
+  <!-- Leaf clusters -->
+  <circle cx="4" cy="5" r="3" fill="#228B22" opacity="0.9"/>
+  <circle cx="7" cy="3" r="2.5" fill="#2EAA2E" opacity="0.9"/>
+  <circle cx="28" cy="5" r="3" fill="#228B22" opacity="0.9"/>
+  <circle cx="25" cy="3" r="2.5" fill="#2EAA2E" opacity="0.9"/>
+  <!-- Roots symmetric -->
+  <path d="M12,28 Q8,29 7,32" stroke="#6B3A1F" stroke-width="2.5" fill="none"/>
+  <path d="M20,28 Q24,29 25,32" stroke="#6B3A1F" stroke-width="2.5" fill="none"/>
+  <path d="M16,28 Q16,30 15,32" stroke="#6B3A1F" stroke-width="2" fill="none"/>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Glow aura -->
+  <ellipse cx="16" cy="16" rx="10" ry="10" fill="#C8E8FF" opacity="0.4"/>
+  <!-- Body core -->
+  <ellipse cx="16" cy="14" rx="6" ry="7" fill="#87CEEB"/>
+  <!-- Face -->
+  <circle cx="14" cy="13" r="0.9" fill="#1A6B9A"/>
+  <circle cx="18" cy="13" r="0.9" fill="#1A6B9A"/>
+  <path d="M14,16 Q16,18 18,16" stroke="#1A6B9A" stroke-width="0.8" fill="none"/>
+  <!-- Wing wisps -->
+  <path d="M10,12 Q4,8 6,14" stroke="#AADDFF" stroke-width="2" fill="none"/>
+  <path d="M22,12 Q28,8 26,14" stroke="#AADDFF" stroke-width="2" fill="none"/>
+  <!-- Trailing wisps -->
+  <path d="M13,20 Q11,25 13,28" stroke="#87CEEB" stroke-width="1.5" fill="none"/>
+  <path d="M16,21 Q16,26 15,29" stroke="#87CEEB" stroke-width="1.5" fill="none"/>
+  <path d="M19,20 Q21,25 19,28" stroke="#87CEEB" stroke-width="1.5" fill="none"/>
+</svg>

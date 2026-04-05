@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Green hood -->
+  <path d="M10,9 Q16,2 22,9" fill="#2D6A2D"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="10" rx="5" ry="5" fill="#c8955a"/>
+  <!-- Eyes -->
+  <circle cx="14" cy="9.5" r="0.8" fill="#333"/>
+  <circle cx="18" cy="9.5" r="0.8" fill="#333"/>
+  <!-- Body (green tunic, torso only) -->
+  <path d="M11,15 L11,22 L21,22 L21,15 Q16,18 11,15 Z" fill="#2D6A2D"/>
+  <!-- Belt -->
+  <rect x="11" y="20" width="10" height="2" fill="#5C3A10"/>
+  <!-- Quiver -->
+  <rect x="21" y="13" width="3" height="9" rx="1" fill="#5C3A10"/>
+  <line x1="22" y1="12" x2="22" y2="14" stroke="#DAA520" stroke-width="1"/>
+  <line x1="23.5" y1="12" x2="23.5" y2="14" stroke="#DAA520" stroke-width="1"/>
+  <!-- Bow (left side) -->
+  <path d="M5,8 Q1,15 5,22" stroke="#5C3A10" stroke-width="2" fill="none"/>
+  <line x1="5" y1="8" x2="5" y2="22" stroke="#D4C090" stroke-width="0.8"/>
+  <!-- Arrow drawn -->
+  <line x1="5" y1="15" x2="13" y2="15" stroke="#5C3A10" stroke-width="1.5"/>
+  <polygon points="13,15 11,13.5 11,16.5" fill="#CCBBAA"/>
+  <!-- Legs together (static = frame 2) -->
+  <rect x="11" y="22" width="5" height="8" rx="1" fill="#1E4A1E"/>
+  <rect x="17" y="22" width="5" height="8" rx="1" fill="#1E4A1E"/>
+  <rect x="10" y="28" width="7" height="3" rx="1" fill="#3A2010"/>
+  <rect x="16" y="28" width="7" height="3" rx="1" fill="#3A2010"/>
+</svg>
