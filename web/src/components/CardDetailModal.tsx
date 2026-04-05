@@ -115,6 +115,24 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
             {u && u.moveSpeed === 0 && u.maxHp > 0 && (
               <div className="cdm-stats-block">
                 <StatRow compact label="HP" value={hpBonus > 0 ? <>{u.maxHp + hpBonus} <span className="cdm-stat-bonus">(+{hpBonus})</span></> : u.maxHp} />
+                {u.structureEffect?.type === 'spawn' && (() => {
+                  const rates: number[] = []
+                  let ms = u.structureEffect.intervalMs
+                  for (let i = 0; i < 4; i++) {
+                    rates.push(ms)
+                    ms = Math.max(1500, Math.floor(ms / 2))
+                  }
+                  return (
+                    <>
+                      <StatRow compact label="Spawn" value={`${(rates[0] / 1000).toFixed(1)}s`} />
+                      <div className="cdm-spawn-levels">
+                        {rates.slice(1).map((r, i) => (
+                          <span key={i} className="cdm-spawn-lvl">Lv{i + 2}: {(r / 1000).toFixed(1)}s</span>
+                        ))}
+                      </div>
+                    </>
+                  )
+                })()}
               </div>
             )}
 
