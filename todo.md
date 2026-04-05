@@ -1,6 +1,21 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-04-04 (session 37).
+Issues sourced from GitHub. Last synced: 2026-04-05 (session 38).
+
+## ✅ Done (session 38)
+
+- [x] **#623** Collection duplicates — 7 duplicate card entries in cards.json (Spore Bat, Root Network, Spore Cloud, Stormcaller, Storm Surge, Root Snare, Root Surge); removed duplicates; also resolves catalog bias in #422 daily challenge deck
+- [x] **#622** Collection default sort — spawn buildings now appear immediately after the unit they spawn in default (ungrouped) sort
+- [x] **#4** (PR) Remove leftover Package.swift from iOS app removal (PR #4 missed the file)
+
+## 🔴 Bugs — New (from GitHub, session 38 sync)
+
+- [x] **#623** Collection: sorting/grouping creates duplicate cards — duplicate entries in cards.json
+- [ ] **#422** Daily challenge replay weighting — catalog dedup (#623) resolves the deck bias; verify closed
+
+## 🔵 Enhancements — New (from GitHub, session 38 sync)
+
+- [x] **#622** Collection: default sort should pair units with their spawn buildings
 
 ## ✅ Done (session 37)
 
