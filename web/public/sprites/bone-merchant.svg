@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Skull head -->
+  <ellipse cx="16" cy="8" rx="5" ry="5" fill="#E8DCC8"/>
+  <ellipse cx="16" cy="10" rx="4" ry="3" fill="#D4C8A8"/>
+  <!-- Eye sockets -->
+  <ellipse cx="13.5" cy="7.5" rx="1.8" ry="1.5" fill="#333"/>
+  <ellipse cx="18.5" cy="7.5" rx="1.8" ry="1.5" fill="#333"/>
+  <!-- Jaw line -->
+  <path d="M12,11 L13,13 L16,12 L19,13 L20,11" stroke="#BBB" stroke-width="0.8" fill="none"/>
+  <!-- Tattered robe/cloak body -->
+  <path d="M10,14 Q9,22 10,30 L22,30 Q23,22 22,14 Q16,17 10,14 Z" fill="#6B5A3E"/>
+  <!-- Torn cloak edges -->
+  <path d="M10,30 Q9,28 11,27 Q10,29 12,28 Q11,30 13,29" fill="#5A4A30"/>
+  <path d="M22,30 Q23,28 21,27 Q22,29 20,28 Q21,30 19,29" fill="#5A4A30"/>
+  <!-- Belt with coin pouch -->
+  <rect x="10" y="19" width="12" height="2" fill="#8B6914"/>
+  <ellipse cx="21" cy="22" rx="3" ry="3.5" fill="#8B6914"/>
+  <ellipse cx="21" cy="22" rx="2" ry="2.5" fill="#B8860B"/>
+  <!-- Bone arms -->
+  <line x1="10" y1="16" x2="5" y2="22" stroke="#E8DCC8" stroke-width="2.5"/>
+  <line x1="22" y1="16" x2="27" y2="20" stroke="#E8DCC8" stroke-width="2.5"/>
+  <!-- Coin bag in right hand -->
+  <ellipse cx="27" cy="21" rx="2.5" ry="2.5" fill="#B8860B"/>
+</svg>

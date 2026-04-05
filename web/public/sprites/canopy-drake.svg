@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tail -->
+  <path d="M7,22 Q3,20 2,16 Q3,14 5,15" stroke="#1A6B1A" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Body -->
+  <ellipse cx="16" cy="20" rx="8" ry="6" fill="#228B22"/>
+  <ellipse cx="16" cy="20" rx="6" ry="5" fill="#2EAA2E"/>
+  <!-- Scale texture -->
+  <path d="M11,18 Q13,16 15,18" stroke="#1A6B1A" stroke-width="0.8" fill="none"/>
+  <path d="M17,18 Q19,16 21,18" stroke="#1A6B1A" stroke-width="0.8" fill="none"/>
+  <path d="M12,21 Q14,19 16,21 Q18,19 20,21" stroke="#1A6B1A" stroke-width="0.8" fill="none"/>
+  <!-- Neck -->
+  <rect x="14" y="12" width="5" height="8" rx="2" fill="#228B22"/>
+  <!-- Head -->
+  <ellipse cx="20" cy="11" rx="6" ry="4" fill="#228B22"/>
+  <!-- Snout -->
+  <path d="M24,10 L28,9 L28,13 L24,12 Z" fill="#1A6B1A"/>
+  <circle cx="27" cy="10" r="0.8" fill="#FFD700"/>
+  <circle cx="27" cy="10" r="0.4" fill="#333"/>
+  <!-- Horn -->
+  <path d="M21,8 L22,5 L23,8" fill="#556B2F"/>
+  <path d="M18,7 L19,4 L20,7" fill="#556B2F"/>
+  <!-- Wings (folded) -->
+  <path d="M13,14 Q8,8 6,12 Q9,15 13,18" fill="#1A6B1A" opacity="0.9"/>
+  <path d="M17,14 Q22,8 24,12 Q21,15 17,18" fill="#1A6B1A" opacity="0.9"/>
+  <!-- Legs -->
+  <rect x="10" y="24" width="4" height="6" rx="2" fill="#1A6B1A"/>
+  <rect x="18" y="24" width="4" height="6" rx="2" fill="#1A6B1A"/>
+  <!-- Claws -->
+  <path d="M10,30 L8,32 M12,30 L11,32 M14,30 L15,32" stroke="#556B2F" stroke-width="1"/>
+  <path d="M18,30 L17,32 M20,30 L20,32 M22,30 L23,32" stroke="#556B2F" stroke-width="1"/>
+</svg>

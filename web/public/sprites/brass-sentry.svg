@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Helm (angular) -->
+  <rect x="11" y="4" width="10" height="9" rx="2" fill="#B8860B"/>
+  <rect x="12" y="5" width="8" height="7" rx="1" fill="#DAA520"/>
+  <!-- Visor -->
+  <rect x="12" y="7" width="8" height="3" rx="1" fill="#333"/>
+  <!-- Glowing eye-slit -->
+  <rect x="13" y="8" width="6" height="1" fill="#FF4400" opacity="0.9"/>
+  <!-- Neck -->
+  <rect x="14" y="13" width="4" height="2" fill="#B8860B"/>
+  <!-- Body plate -->
+  <rect x="10" y="14" width="12" height="9" rx="1" fill="#B8860B"/>
+  <rect x="11" y="15" width="10" height="7" fill="#DAA520"/>
+  <!-- Chest rivet details -->
+  <circle cx="13" cy="17" r="0.8" fill="#B8860B"/>
+  <circle cx="19" cy="17" r="0.8" fill="#B8860B"/>
+  <rect x="13" y="19" width="6" height="1.5" rx="0.5" fill="#B8860B"/>
+  <!-- Shoulder guards -->
+  <rect x="7"  y="14" width="4" height="5" rx="2" fill="#DAA520"/>
+  <rect x="21" y="14" width="4" height="5" rx="2" fill="#DAA520"/>
+  <!-- Arms -->
+  <rect x="6"  y="19" width="3" height="8" rx="1" fill="#B8860B"/>
+  <rect x="23" y="19" width="3" height="8" rx="1" fill="#B8860B"/>
+  <!-- Spear (right hand) -->
+  <line x1="25" y1="5" x2="25" y2="27" stroke="#888" stroke-width="1.5"/>
+  <polygon points="25,4 23,9 27,9" fill="#DAA520"/>
+  <!-- Belt -->
+  <rect x="10" y="23" width="12" height="2" fill="#8B6914"/>
+  <!-- Legs -->
+  <rect x="11" y="25" width="4" height="7" rx="1" fill="#B8860B"/>
+  <rect x="17" y="25" width="4" height="7" rx="1" fill="#B8860B"/>
+  <!-- Heavy boots -->
+  <rect x="10" y="30" width="6" height="2" rx="1" fill="#8B6914"/>
+  <rect x="16" y="30" width="6" height="2" rx="1" fill="#8B6914"/>
+</svg>

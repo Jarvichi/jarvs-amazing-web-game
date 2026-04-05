@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="9" rx="5" ry="5" fill="#E8DCC8"/>
+  <ellipse cx="16" cy="11" rx="4" ry="3" fill="#D4C8A8"/>
+  <ellipse cx="13.5" cy="8.5" rx="1.8" ry="1.5" fill="#333"/>
+  <ellipse cx="18.5" cy="8.5" rx="1.8" ry="1.5" fill="#333"/>
+  <path d="M12,12 L13,14 L16,13 L19,14 L20,12" stroke="#BBB" stroke-width="0.8" fill="none"/>
+  <path d="M10,15 L10,22 L22,22 L22,15 Q16,18 10,15 Z" fill="#6B5A3E"/>
+  <rect x="10" y="20" width="12" height="2" fill="#8B6914"/>
+  <ellipse cx="21" cy="23" rx="3" ry="3.5" fill="#8B6914"/>
+  <ellipse cx="21" cy="23" rx="2" ry="2.5" fill="#B8860B"/>
+  <line x1="10" y1="17" x2="5" y2="23" stroke="#E8DCC8" stroke-width="2.5"/>
+  <line x1="22" y1="17" x2="27" y2="21" stroke="#E8DCC8" stroke-width="2.5"/>
+  <ellipse cx="27" cy="22" rx="2.5" ry="2.5" fill="#B8860B"/>
+  <!-- Legs — stride A: left forward, right back -->
+  <rect x="9"  y="22" width="4" height="9" rx="1" fill="#E8DCC8"/>
+  <rect x="19" y="22" width="4" height="7" rx="1" fill="#E8DCC8"/>
+  <!-- Foot left -->
+  <rect x="8"  y="29" width="6" height="3" rx="1" fill="#6B5A3E"/>
+  <rect x="19" y="27" width="5" height="3" rx="1" fill="#6B5A3E"/>
+</svg>

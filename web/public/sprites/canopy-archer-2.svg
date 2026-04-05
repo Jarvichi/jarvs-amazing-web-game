@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Body 1px higher -->
+  <path d="M10,8 Q16,1 22,8" fill="#2D6A2D"/>
+  <ellipse cx="16" cy="9" rx="5" ry="5" fill="#c8955a"/>
+  <circle cx="14" cy="8.5" r="0.8" fill="#333"/>
+  <circle cx="18" cy="8.5" r="0.8" fill="#333"/>
+  <path d="M11,14 L11,21 L21,21 L21,14 Q16,17 11,14 Z" fill="#2D6A2D"/>
+  <rect x="11" y="19" width="10" height="2" fill="#5C3A10"/>
+  <rect x="21" y="12" width="3" height="9" rx="1" fill="#5C3A10"/>
+  <line x1="22" y1="11" x2="22" y2="13" stroke="#DAA520" stroke-width="1"/>
+  <line x1="23.5" y1="11" x2="23.5" y2="13" stroke="#DAA520" stroke-width="1"/>
+  <path d="M5,7 Q1,14 5,21" stroke="#5C3A10" stroke-width="2" fill="none"/>
+  <line x1="5" y1="7" x2="5" y2="21" stroke="#D4C090" stroke-width="0.8"/>
+  <line x1="5" y1="14" x2="13" y2="14" stroke="#5C3A10" stroke-width="1.5"/>
+  <polygon points="13,14 11,12.5 11,15.5" fill="#CCBBAA"/>
+  <!-- Legs together (mid-stride) -->
+  <rect x="11" y="21" width="5" height="9" rx="1" fill="#1E4A1E"/>
+  <rect x="17" y="21" width="5" height="9" rx="1" fill="#1E4A1E"/>
+  <rect x="10" y="28" width="7" height="3" rx="1" fill="#3A2010"/>
+  <rect x="16" y="28" width="7" height="3" rx="1" fill="#3A2010"/>
+</svg>
