@@ -6410,6 +6410,57 @@
       ],
       "size": "large",
       "targetPriority": "base"
+    },
+    "cave-bat": {
+      "name": "Cave Bat",
+      "attack": 5,
+      "maxHp": 14,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 38,
+      "attackRange": 80,
+      "attackCooldownMs": 1100,
+      "flying": true,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "unitTrait": {
+        "fleeFrom": [
+          "large"
+        ],
+        "fleeRange": 72
+      }
+    },
+    "sky-mage": {
+      "name": "Sky Mage",
+      "attack": 8,
+      "maxHp": 24,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 50,
+      "attackRange": 85,
+      "attackCooldownMs": 1500,
+      "flying": false,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "strengths": [
+        "armored",
+        "melee",
+        "wall"
+      ],
+      "weaknesses": [
+        "fast",
+        "melee"
+      ],
+      "size": "medium",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 85,
+        "engageRange": 200
+      }
     }
   },
   "cards": [
@@ -8099,11 +8150,11 @@
       "lore": "The forest did not build it. The forest became it."
     },
     {
-      "name": "Spore Bat",
+      "name": "Cave Bat",
       "rarity": "common",
       "cost": 1,
       "cardType": "unit",
-      "unitRef": "spore-bat",
+      "unitRef": "cave-bat",
       "description": "Fast flying swarm \u2014 ignores walls.",
       "deckCount": 0,
       "tags": [
@@ -8722,7 +8773,7 @@
       "deckCount": 0
     },
     {
-      "name": "Root Network",
+      "name": "Root Tap",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "structure",
@@ -8780,7 +8831,7 @@
       "deckCount": 0
     },
     {
-      "name": "Spore Cloud",
+      "name": "Pollen Rush",
       "rarity": "uncommon",
       "cost": 2,
       "cardType": "upgrade",
@@ -9974,11 +10025,11 @@
       "lore": "Bred from the raptors that roosted on the pre-Fracture watchtowers. Now significantly less tame."
     },
     {
-      "name": "Stormcaller",
+      "name": "Sky Mage",
       "rarity": "uncommon",
       "cost": 3,
       "cardType": "unit",
-      "unitRef": "stormcaller",
+      "unitRef": "sky-mage",
       "description": "Flying ranged mage. Long reach.",
       "deckCount": 0,
       "tags": [
@@ -10296,7 +10347,7 @@
       "lore": "High-altitude resilience training. The survivors are very resilient."
     },
     {
-      "name": "Storm Surge",
+      "name": "Sky Surge",
       "rarity": "rare",
       "cost": 3,
       "cardType": "upgrade",
@@ -11010,7 +11061,7 @@
       "lore": "The deep heals things. Some of them wished it wouldn't."
     },
     {
-      "name": "Root Surge",
+      "name": "Spore Surge",
       "rarity": "rare",
       "cost": 3,
       "cardType": "upgrade",
@@ -11800,7 +11851,7 @@
       "lore": "It flickers between branches so fast the canopy looks like it's breathing."
     },
     {
-      "name": "Root Snare",
+      "name": "Root Wall",
       "rarity": "common",
       "cost": 1,
       "cardType": "structure",

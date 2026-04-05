@@ -321,7 +321,7 @@
         "Spore Bat", "Spore Bat",
         "Root Snare", "Root Snare",
         "Rot Shrine",
-        "Root Surge",
+        "Spore Surge",
         "Mycelium Surge", "Mycelium Surge",
         "Deep Growth"
       ]
@@ -348,7 +348,7 @@
         "Bloom Spire", "Bloom Spire",
         "Rot Shrine",
         "Mycelium Wall", "Mycelium Wall",
-        "Root Surge",
+        "Spore Surge",
         "Fungal Bloom",
         "Mycelium Surge",
         "Deep Growth"
@@ -430,7 +430,7 @@
         "Bloom Spire", "Bloom Spire",
         "Rot Shrine",
         "Fungal Bloom", "Fungal Bloom",
-        "Root Surge",
+        "Spore Surge",
         "Mycelium Surge",
         "Deep Growth", "Deep Growth"
       ]
@@ -465,7 +465,7 @@
         "Rot Shrine",
         "Fungal Den",
         "Fungal Bloom", "Fungal Bloom",
-        "Root Surge",
+        "Spore Surge",
         "Mycelium Surge",
         "Deep Growth"
       ]
