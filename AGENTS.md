@@ -19,6 +19,8 @@ This prevents rework — it is far cheaper to adjust a plan than to rewrite code
 ## Development and Token Use
 Use tokens sparingly. Carry out changes in small steps; commit and push between each step (even if incomplete).
 
+DO NOT USE AGENTS - Unless I explicitly state for you to do so.
+
 ## Git Workflow — Avoiding Conflicts
 Before starting any new work, always rebase onto the latest `main`:
 ```bash
