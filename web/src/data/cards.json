@@ -6461,6 +6461,3690 @@
         "baseGuardRange": 85,
         "engageRange": 200
       }
+    },
+    "abyssal-crevasse": {
+      "name": "Abyssal Crevasse",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "abyssal-hunter",
+        "intervalMs": 14000
+      },
+      "tags": [
+        "ranged",
+        "flying",
+        "magic"
+      ]
+    },
+    "air-sanctum": {
+      "name": "Air Sanctum",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "air-sprite",
+        "intervalMs": 7500
+      },
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "magic"
+      ]
+    },
+    "ancient-spring": {
+      "name": "Ancient Spring",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ancient-sprite",
+        "intervalMs": 7500
+      },
+      "tags": [
+        "flying",
+        "ranged",
+        "magic"
+      ]
+    },
+    "anglers-trench": {
+      "name": "Angler's Trench",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "anglerfish-lurker",
+        "intervalMs": 16000
+      },
+      "tags": [
+        "melee",
+        "magic"
+      ]
+    },
+    "arcane-forge": {
+      "name": "Arcane Forge",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "arcane-golem",
+        "intervalMs": 21500
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "arcane",
+        "armored"
+      ]
+    },
+    "archers-keep": {
+      "name": "Archer's Keep",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "archer",
+        "intervalMs": 6500
+      },
+      "tags": [
+        "ranged"
+      ]
+    },
+    "ash-vortex": {
+      "name": "Ash Vortex",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ash-elemental",
+        "intervalMs": 11500
+      },
+      "tags": [
+        "flying",
+        "ranged",
+        "magic",
+        "undead"
+      ]
+    },
+    "ashen-altar": {
+      "name": "Ashen Altar",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ash-revenant",
+        "intervalMs": 15000
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "cinder-watch": {
+      "name": "Cinder Watch",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ash-stalker",
+        "intervalMs": 12000
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "bear-run": {
+      "name": "Bear Run",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "avalanche-bear",
+        "intervalMs": 13000
+      },
+      "tags": [
+        "glacier"
+      ]
+    },
+    "ballista-works": {
+      "name": "Ballista Works",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ballista",
+        "intervalMs": 10000
+      },
+      "tags": [
+        "siege",
+        "slow",
+        "ranged"
+      ]
+    },
+    "siege-yard": {
+      "name": "Siege Yard",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ballista-crew",
+        "intervalMs": 13000
+      },
+      "tags": [
+        "ranged",
+        "slow",
+        "siege"
+      ]
+    },
+    "bandit-hideout": {
+      "name": "Bandit Hideout",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "bandit",
+        "intervalMs": 7500
+      },
+      "tags": [
+        "melee",
+        "fast",
+        "climber"
+      ]
+    },
+    "bark-kennel": {
+      "name": "Bark Kennel",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "bark-hound",
+        "intervalMs": 11000
+      },
+      "tags": [
+        "melee",
+        "beast"
+      ]
+    },
+    "bat-cavern": {
+      "name": "Bat Cavern",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "bat",
+        "intervalMs": 5500
+      },
+      "tags": [
+        "flying",
+        "fast",
+        "beast"
+      ]
+    },
+    "ram-barracks": {
+      "name": "Ram Barracks",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "battering-ram-crew",
+        "intervalMs": 12500
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "siege",
+        "armored"
+      ]
+    },
+    "behemoth-hold": {
+      "name": "Behemoth Hold",
+      "attack": 0,
+      "maxHp": 60,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "behemoth",
+        "intervalMs": 32500
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ]
+    },
+    "blizzard-gate": {
+      "name": "Blizzard Gate",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "blizzard-runner",
+        "intervalMs": 8500
+      },
+      "tags": [
+        "frost"
+      ]
+    },
+    "bloom-garden": {
+      "name": "Bloom Garden",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "bloom-sprite",
+        "intervalMs": 7500
+      },
+      "tags": [
+        "fungal",
+        "spore"
+      ]
+    },
+    "wisp-hollow": {
+      "name": "Wisp Hollow",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "bloom-wisp",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "spore"
+      ]
+    },
+    "bone-tower": {
+      "name": "Bone Tower",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "bone-archer",
+        "intervalMs": 7500
+      },
+      "tags": [
+        "ranged",
+        "undead",
+        "slow"
+      ]
+    },
+    "bone-hall": {
+      "name": "Bone Hall",
+      "attack": 0,
+      "maxHp": 50,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "bone-colossus",
+        "intervalMs": 25000
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "undead",
+        "armored"
+      ]
+    },
+    "brass-works": {
+      "name": "Brass Works",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "brass-sentry",
+        "intervalMs": 11500
+      },
+      "tags": [
+        "melee",
+        "armored"
+      ]
+    },
+    "canopy-blind": {
+      "name": "Canopy Blind",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "canopy-archer",
+        "intervalMs": 11500
+      },
+      "tags": [
+        "ranged"
+      ]
+    },
+    "canopy-eyrie": {
+      "name": "Canopy Eyrie",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "canopy-drake",
+        "intervalMs": 16500
+      },
+      "tags": [
+        "flying",
+        "ranged"
+      ]
+    },
+    "scout-blind": {
+      "name": "Scout Blind",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "canopy-scout",
+        "intervalMs": 8500
+      },
+      "tags": [
+        "ranged",
+        "fast"
+      ]
+    },
+    "catapult-works": {
+      "name": "Catapult Works",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "catapult",
+        "intervalMs": 14000
+      },
+      "tags": [
+        "siege",
+        "slow",
+        "ranged"
+      ]
+    },
+    "scout-stable": {
+      "name": "Scout Stable",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "cavalry-scout",
+        "intervalMs": 8500
+      },
+      "tags": [
+        "melee",
+        "fast",
+        "beast"
+      ]
+    },
+    "spore-cave": {
+      "name": "Spore Cave",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "cave-bat",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "fungal",
+        "spore"
+      ]
+    },
+    "centaur-run": {
+      "name": "Centaur Run",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "centaur",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "ranged",
+        "fast"
+      ]
+    },
+    "chrono-spire": {
+      "name": "Chrono Spire",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "chronomancer",
+        "intervalMs": 11000
+      },
+      "tags": [
+        "ranged",
+        "magic"
+      ]
+    },
+    "char-kennel": {
+      "name": "Char Kennel",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "cinder-hound",
+        "intervalMs": 11000
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "cinder-fortress": {
+      "name": "Cinder Fortress",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "cinder-knight",
+        "intervalMs": 16500
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "clockwork-armory": {
+      "name": "Clockwork Armory",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "clockwork-archer",
+        "intervalMs": 10000
+      },
+      "tags": [
+        "ranged"
+      ]
+    },
+    "cloud-eyrie": {
+      "name": "Cloud Eyrie",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "cloud-hawk",
+        "intervalMs": 10500
+      },
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "beast"
+      ]
+    },
+    "storm-citadel": {
+      "name": "Storm Citadel",
+      "attack": 0,
+      "maxHp": 50,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "cloudborn-colossus",
+        "intervalMs": 26500
+      },
+      "tags": [
+        "melee",
+        "flying",
+        "large",
+        "slow",
+        "armored"
+      ]
+    },
+    "coastal-abyss": {
+      "name": "Coastal Abyss",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "coast-leviathan",
+        "intervalMs": 22000
+      },
+      "tags": [
+        "melee",
+        "large",
+        "armored",
+        "siege"
+      ]
+    },
+    "skirmishers-cove": {
+      "name": "Skirmisher's Cove",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "coastal-skirmisher",
+        "intervalMs": 10000
+      },
+      "tags": [
+        "ranged",
+        "fast"
+      ]
+    },
+    "cog-works": {
+      "name": "Cog Works",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "cog-runner",
+        "intervalMs": 8500
+      },
+      "tags": [
+        "fast",
+        "small"
+      ]
+    },
+    "frost-barrow": {
+      "name": "Frost Barrow",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "cold-snap",
+        "intervalMs": 9500
+      },
+      "tags": [
+        "frost"
+      ]
+    },
+    "coral-redoubt": {
+      "name": "Coral Redoubt",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "coral-guard",
+        "intervalMs": 9500
+      },
+      "tags": [
+        "melee",
+        "armored"
+      ]
+    },
+    "crossbow-tower": {
+      "name": "Crossbow Tower",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "crossbow",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "ranged"
+      ]
+    },
+    "crystal-cavern": {
+      "name": "Crystal Cavern",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "crystal-hydra",
+        "intervalMs": 15500
+      },
+      "tags": [
+        "ranged",
+        "magic",
+        "large",
+        "arcane"
+      ]
+    },
+    "dusk-sanctum": {
+      "name": "Dusk Sanctum",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "dark-elf",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "ranged",
+        "climber"
+      ]
+    },
+    "demo-depot": {
+      "name": "Demo Depot",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "demolitions-expert",
+        "intervalMs": 13500
+      },
+      "tags": [
+        "melee",
+        "siege"
+      ]
+    },
+    "desert-watch": {
+      "name": "Desert Watch",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "desert-archer",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "titan-dune": {
+      "name": "Titan Dune",
+      "attack": 0,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "desert-titan",
+        "intervalMs": 19500
+      },
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "dragon-lair": {
+      "name": "Dragon Lair",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "dragon",
+        "intervalMs": 14500
+      },
+      "tags": [
+        "flying",
+        "large"
+      ]
+    },
+    "sacred-grove": {
+      "name": "Sacred Grove",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "dryad-sentinel",
+        "intervalMs": 10000
+      },
+      "tags": [
+        "ranged",
+        "beast",
+        "magic"
+      ]
+    },
+    "dune-roost": {
+      "name": "Dune Roost",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "dune-bat",
+        "intervalMs": 8500
+      },
+      "tags": [
+        "sand"
+      ]
+    },
+    "sandstone-citadel": {
+      "name": "Sandstone Citadel",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "dune-colossus",
+        "intervalMs": 17000
+      },
+      "tags": [
+        "sand"
+      ]
+    },
+    "dust-track": {
+      "name": "Dust Track",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "dune-stalker",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "sand"
+      ]
+    },
+    "eel-trench": {
+      "name": "Eel Trench",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "eel-striker",
+        "intervalMs": 11000
+      },
+      "tags": [
+        "ranged",
+        "fast",
+        "magic"
+      ]
+    },
+    "elder-sanctum": {
+      "name": "Elder Sanctum",
+      "attack": 0,
+      "maxHp": 55,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "elder-treant",
+        "intervalMs": 27000
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large"
+      ]
+    },
+    "elderwood-fort": {
+      "name": "Elderwood Fort",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "elderwood-guard",
+        "intervalMs": 16000
+      },
+      "tags": [
+        "melee",
+        "armored"
+      ]
+    },
+    "ember-pit": {
+      "name": "Ember Pit",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ember-crawler",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "wyrm-cradle": {
+      "name": "Wyrm Cradle",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ember-wyrm",
+        "intervalMs": 17000
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "execution-post": {
+      "name": "Execution Post",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "executioner",
+        "intervalMs": 14000
+      },
+      "tags": [
+        "melee",
+        "slow"
+      ]
+    },
+    "ember-sanctum": {
+      "name": "Ember Sanctum",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "fire-mage",
+        "intervalMs": 12000
+      },
+      "tags": [
+        "ranged",
+        "magic",
+        "fire"
+      ]
+    },
+    "lava-pool": {
+      "name": "Lava Pool",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "fire-salamander",
+        "intervalMs": 14500
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "flame-spire": {
+      "name": "Flame Spire",
+      "attack": 0,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "flame-warden",
+        "intervalMs": 19000
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "marsh-keep": {
+      "name": "Marsh Keep",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "frog-knight",
+        "intervalMs": 11000
+      },
+      "tags": [
+        "melee",
+        "climber",
+        "beast"
+      ]
+    },
+    "frost-watch": {
+      "name": "Frost Watch",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "frost-archer",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "frost"
+      ]
+    },
+    "frost-eyrie": {
+      "name": "Frost Eyrie",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "frost-drake",
+        "intervalMs": 13500
+      },
+      "tags": [
+        "frost",
+        "glacier"
+      ]
+    },
+    "frozen-vault": {
+      "name": "Frozen Vault",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "frozen-knight",
+        "intervalMs": 13000
+      },
+      "tags": [
+        "frost",
+        "glacier"
+      ]
+    },
+    "windspire": {
+      "name": "Windspire",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "gale-warden",
+        "intervalMs": 15000
+      },
+      "tags": [
+        "ranged",
+        "flying",
+        "magic"
+      ]
+    },
+    "giants-hold": {
+      "name": "Giant's Hold",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "giant",
+        "intervalMs": 25500
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large"
+      ]
+    },
+    "glacial-forge": {
+      "name": "Glacial Forge",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "glacier-titan",
+        "intervalMs": 17500
+      },
+      "tags": [
+        "glacier"
+      ]
+    },
+    "glass-spire": {
+      "name": "Glass Spire",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "glass-dancer",
+        "intervalMs": 10500
+      },
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "goblin-warrens": {
+      "name": "Goblin Warrens",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "goblin",
+        "intervalMs": 7000
+      },
+      "tags": [
+        "melee",
+        "fast"
+      ]
+    },
+    "golem-forge": {
+      "name": "Golem Forge",
+      "attack": 0,
+      "maxHp": 50,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "golem",
+        "intervalMs": 24000
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ]
+    },
+    "griffin-aerie": {
+      "name": "Griffin Aerie",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "griffin",
+        "intervalMs": 13000
+      },
+      "tags": [
+        "flying",
+        "ranged",
+        "large",
+        "beast"
+      ]
+    },
+    "veterans-post": {
+      "name": "Veterans' Post",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "grizzled-veteran",
+        "intervalMs": 14000
+      },
+      "tags": [
+        "melee"
+      ]
+    },
+    "harpy-roost": {
+      "name": "Harpy Roost",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "harpy",
+        "intervalMs": 8500
+      },
+      "tags": [
+        "flying",
+        "ranged",
+        "beast"
+      ]
+    },
+    "ice-cathedral": {
+      "name": "Ice Cathedral",
+      "attack": 0,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ice-colossus",
+        "intervalMs": 20000
+      },
+      "tags": [
+        "frost",
+        "glacier"
+      ]
+    },
+    "shard-spire": {
+      "name": "Shard Spire",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ice-shard",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "frost"
+      ]
+    },
+    "wraith-hollow": {
+      "name": "Wraith Hollow",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ice-wraith",
+        "intervalMs": 8500
+      },
+      "tags": [
+        "frost"
+      ]
+    },
+    "inferno-lair": {
+      "name": "Inferno Lair",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "inferno-drake",
+        "intervalMs": 21500
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "iron-hall": {
+      "name": "Iron Hall",
+      "attack": 0,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "iron-colossus",
+        "intervalMs": 19000
+      },
+      "tags": [
+        "melee",
+        "armored",
+        "slow",
+        "large"
+      ]
+    },
+    "iron-barracks": {
+      "name": "Iron Barracks",
+      "attack": 0,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ironclad-guard",
+        "intervalMs": 15500
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "armored"
+      ]
+    },
+    "drift-lagoon": {
+      "name": "Drift Lagoon",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "jellyfish-drifter",
+        "intervalMs": 8500
+      },
+      "tags": [
+        "ranged",
+        "flying",
+        "magic"
+      ]
+    },
+    "jungle-hollow": {
+      "name": "Jungle Hollow",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "jungle-stalker",
+        "intervalMs": 13000
+      },
+      "tags": [
+        "melee",
+        "fast"
+      ]
+    },
+    "magma-den": {
+      "name": "Magma Den",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "lava-troll",
+        "intervalMs": 20000
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "abyss-gate": {
+      "name": "Abyss Gate",
+      "attack": 0,
+      "maxHp": 70,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "leviathan",
+        "intervalMs": 36000
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ]
+    },
+    "lich-spire": {
+      "name": "Lich Spire",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "lich-apprentice",
+        "intervalMs": 8000
+      },
+      "tags": [
+        "ranged",
+        "magic",
+        "undead",
+        "slow"
+      ]
+    },
+    "lightning-tower": {
+      "name": "Lightning Tower",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "lightning-archer",
+        "intervalMs": 12500
+      },
+      "tags": [
+        "ranged",
+        "magic"
+      ]
+    },
+    "lizardman-burrow": {
+      "name": "Lizardman Burrow",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "lizardman",
+        "intervalMs": 10000
+      },
+      "tags": [
+        "melee",
+        "climber",
+        "beast"
+      ]
+    },
+    "scorch-redoubt": {
+      "name": "Scorch Redoubt",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "magma-archer",
+        "intervalMs": 11500
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "mammoth-pen": {
+      "name": "Mammoth Pen",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "mammoth",
+        "intervalMs": 20500
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ]
+    },
+    "mana-well": {
+      "name": "Mana Well",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "mana-siphon",
+        "intervalMs": 7500
+      },
+      "tags": [
+        "ranged",
+        "magic"
+      ]
+    },
+    "wisp-grove": {
+      "name": "Wisp Grove",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "mana-wisp",
+        "intervalMs": 6500
+      },
+      "tags": [
+        "ranged",
+        "magic",
+        "arcane",
+        "fast"
+      ]
+    },
+    "mirage-gate": {
+      "name": "Mirage Gate",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "mirage-blade",
+        "intervalMs": 9500
+      },
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "sand-veil": {
+      "name": "Sand Veil",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "mirage-scout",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "crucible-hall": {
+      "name": "Crucible Hall",
+      "attack": 0,
+      "maxHp": 65,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "molten-colossus",
+        "intervalMs": 35000
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "mossy-ruin": {
+      "name": "Mossy Ruin",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "moss-golem",
+        "intervalMs": 21500
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ]
+    },
+    "mushroom-mound": {
+      "name": "Mushroom Mound",
+      "attack": 0,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "mushroom-hulk",
+        "intervalMs": 17000
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ]
+    },
+    "mycelium-post": {
+      "name": "Mycelium Post",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "mycelium-guard",
+        "intervalMs": 9500
+      },
+      "tags": [
+        "fungal"
+      ]
+    },
+    "hulk-growth": {
+      "name": "Hulk Growth",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "mycelium-hulk",
+        "intervalMs": 16000
+      },
+      "tags": [
+        "fungal"
+      ]
+    },
+    "necropolis": {
+      "name": "Necropolis",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "necromancer",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "ranged",
+        "magic",
+        "undead"
+      ]
+    },
+    "ogre-den": {
+      "name": "Ogre Den",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "ogre",
+        "intervalMs": 15500
+      },
+      "tags": [
+        "melee",
+        "large",
+        "beast"
+      ]
+    },
+    "paladins-chapel": {
+      "name": "Paladin's Chapel",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "paladin",
+        "intervalMs": 15000
+      },
+      "tags": [
+        "melee",
+        "armored"
+      ]
+    },
+    "permafrost-lair": {
+      "name": "Permafrost Lair",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "permafrost-wyrm",
+        "intervalMs": 23500
+      },
+      "tags": [
+        "glacier"
+      ]
+    },
+    "pixie-garden": {
+      "name": "Pixie Garden",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "pixie",
+        "intervalMs": 5500
+      },
+      "tags": [
+        "flying",
+        "magic",
+        "ranged"
+      ]
+    },
+    "scout-garden": {
+      "name": "Scout Garden",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "pixie-scout",
+        "intervalMs": 5500
+      },
+      "tags": [
+        "flying",
+        "fast",
+        "magic"
+      ]
+    },
+    "plague-burrow": {
+      "name": "Plague Burrow",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "plague-rat",
+        "intervalMs": 5500
+      },
+      "tags": [
+        "melee",
+        "fast",
+        "beast"
+      ]
+    },
+    "prism-vault": {
+      "name": "Prism Vault",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "prism-warden",
+        "intervalMs": 13500
+      },
+      "tags": [
+        "melee",
+        "armored",
+        "arcane"
+      ]
+    },
+    "pyroclast-vent": {
+      "name": "Pyroclast Vent",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "pyroclast-runner",
+        "intervalMs": 8000
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "spore-throne": {
+      "name": "Spore Throne",
+      "attack": 0,
+      "maxHp": 50,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "queen-spore",
+        "intervalMs": 26500
+      },
+      "tags": [
+        "fungal",
+        "spore"
+      ]
+    },
+    "reef-shallows": {
+      "name": "Reef Shallows",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "reef-crawler",
+        "intervalMs": 7000
+      },
+      "tags": [
+        "melee",
+        "fast"
+      ]
+    },
+    "shark-run": {
+      "name": "Shark Run",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "reef-shark",
+        "intervalMs": 13000
+      },
+      "tags": [
+        "melee",
+        "fast",
+        "beast"
+      ]
+    },
+    "reef-stronghold": {
+      "name": "Reef Stronghold",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "reef-warden",
+        "intervalMs": 13500
+      },
+      "tags": [
+        "melee",
+        "armored"
+      ]
+    },
+    "revenant-gate": {
+      "name": "Revenant Gate",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "revenant",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "flying",
+        "fast",
+        "undead"
+      ]
+    },
+    "rime-warren": {
+      "name": "Rime Warren",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "rime-stalker",
+        "intervalMs": 10000
+      },
+      "tags": [
+        "frost"
+      ]
+    },
+    "rogues-guild": {
+      "name": "Rogue's Guild",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "rogue",
+        "intervalMs": 10000
+      },
+      "tags": [
+        "melee",
+        "fast",
+        "climber"
+      ]
+    },
+    "root-maze": {
+      "name": "Root Maze",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "root-creeper",
+        "intervalMs": 12000
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "armored"
+      ]
+    },
+    "deeproot-hall": {
+      "name": "Deeproot Hall",
+      "attack": 0,
+      "maxHp": 60,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "root-walker",
+        "intervalMs": 28000
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ]
+    },
+    "wraith-thicket": {
+      "name": "Wraith Thicket",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "root-wraith",
+        "intervalMs": 11500
+      },
+      "tags": [
+        "fungal",
+        "spore"
+      ]
+    },
+    "rot-burrow": {
+      "name": "Rot Burrow",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "rot-stalker",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "fungal"
+      ]
+    },
+    "rot-hall": {
+      "name": "Rot Hall",
+      "attack": 0,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "rot-titan",
+        "intervalMs": 18500
+      },
+      "tags": [
+        "fungal"
+      ]
+    },
+    "rune-forge": {
+      "name": "Rune Forge",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "rune-knight",
+        "intervalMs": 11500
+      },
+      "tags": [
+        "melee",
+        "armored",
+        "arcane"
+      ]
+    },
+    "haulers-dock": {
+      "name": "Hauler's Dock",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "salvage-hauler",
+        "intervalMs": 10500
+      },
+      "tags": [
+        "melee",
+        "armored"
+      ]
+    },
+    "dune-stronghold": {
+      "name": "Dune Stronghold",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "sand-knight",
+        "intervalMs": 13000
+      },
+      "tags": [
+        "sand",
+        "mercenary"
+      ]
+    },
+    "wyrm-burrow": {
+      "name": "Wyrm Burrow",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "sand-wyrm",
+        "intervalMs": 23000
+      },
+      "tags": [
+        "sand"
+      ]
+    },
+    "sandstorm-camp": {
+      "name": "Sandstorm Camp",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "sandstorm-runner",
+        "intervalMs": 8500
+      },
+      "tags": [
+        "sand"
+      ]
+    },
+    "shamans-totem": {
+      "name": "Shaman's Totem",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "sandstorm-shaman",
+        "intervalMs": 10500
+      },
+      "tags": [
+        "sand"
+      ]
+    },
+    "sapper-works": {
+      "name": "Sapper Works",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "sappers",
+        "intervalMs": 7500
+      },
+      "tags": [
+        "melee",
+        "fast"
+      ]
+    },
+    "scorch-roost": {
+      "name": "Scorch Roost",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "scorch-bat",
+        "intervalMs": 9500
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "scorpion-pit": {
+      "name": "Scorpion Pit",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "scorpion",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "melee",
+        "beast"
+      ]
+    },
+    "sunken-altar": {
+      "name": "Sunken Altar",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "sea-witch",
+        "intervalMs": 12000
+      },
+      "tags": [
+        "ranged",
+        "magic"
+      ]
+    },
+    "tide-stable": {
+      "name": "Tide Stable",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "seahorse-lancer",
+        "intervalMs": 10000
+      },
+      "tags": [
+        "melee",
+        "fast",
+        "cavalry"
+      ]
+    },
+    "shadow-burrow": {
+      "name": "Shadow Burrow",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "shadow-stalker",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "melee",
+        "fast",
+        "undead"
+      ]
+    },
+    "shard-sanctum": {
+      "name": "Shard Sanctum",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "shard-familiar",
+        "intervalMs": 7500
+      },
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "magic"
+      ]
+    },
+    "guardian-post": {
+      "name": "Guardian Post",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "shield-guard",
+        "intervalMs": 12500
+      },
+      "tags": [
+        "melee",
+        "armored",
+        "slow"
+      ]
+    },
+    "wall-barracks": {
+      "name": "Wall Barracks",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "shield-wall-soldier",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "armored"
+      ]
+    },
+    "wreck-forge": {
+      "name": "Wreck Forge",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "shipwreck-golem",
+        "intervalMs": 23500
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ]
+    },
+    "engineers-yard": {
+      "name": "Engineer's Yard",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "siege-engineer",
+        "intervalMs": 10500
+      },
+      "tags": [
+        "siege",
+        "slow",
+        "ranged"
+      ]
+    },
+    "bone-pit": {
+      "name": "Bone Pit",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "skeleton",
+        "intervalMs": 6000
+      },
+      "tags": [
+        "melee",
+        "fast",
+        "undead"
+      ]
+    },
+    "sky-cradle": {
+      "name": "Sky Cradle",
+      "attack": 0,
+      "maxHp": 60,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "sky-leviathan",
+        "intervalMs": 31000
+      },
+      "tags": [
+        "ranged",
+        "flying",
+        "large",
+        "slow"
+      ]
+    },
+    "sky-sanctum": {
+      "name": "Sky Sanctum",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "sky-mage",
+        "intervalMs": 12500
+      },
+      "tags": [
+        "ranged",
+        "magic"
+      ]
+    },
+    "sky-fortress": {
+      "name": "Sky Fortress",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "sky-sentinel",
+        "intervalMs": 15000
+      },
+      "tags": [
+        "melee",
+        "flying",
+        "armored"
+      ]
+    },
+    "sky-post": {
+      "name": "Sky Post",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "skyguard",
+        "intervalMs": 10000
+      },
+      "tags": [
+        "melee",
+        "flying",
+        "armored"
+      ]
+    },
+    "soul-hollow": {
+      "name": "Soul Hollow",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "soulrend-witch",
+        "intervalMs": 10500
+      },
+      "tags": [
+        "ranged",
+        "magic",
+        "undead"
+      ]
+    },
+    "specter-vault": {
+      "name": "Specter Vault",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "specter",
+        "intervalMs": 8000
+      },
+      "tags": [
+        "flying",
+        "fast",
+        "undead"
+      ]
+    },
+    "blade-sanctum": {
+      "name": "Blade Sanctum",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "spellblade",
+        "intervalMs": 10500
+      },
+      "tags": [
+        "melee",
+        "fast",
+        "arcane"
+      ]
+    },
+    "spore-canopy": {
+      "name": "Spore Canopy",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "spore-archer",
+        "intervalMs": 9500
+      },
+      "tags": [
+        "fungal"
+      ]
+    },
+    "spore-roost": {
+      "name": "Spore Roost",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "spore-bat",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "fungal",
+        "spore"
+      ]
+    },
+    "spore-cathedral": {
+      "name": "Spore Cathedral",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "spore-colossus",
+        "intervalMs": 21500
+      },
+      "tags": [
+        "fungal",
+        "spore"
+      ]
+    },
+    "drift-garden": {
+      "name": "Drift Garden",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "spore-drifter",
+        "intervalMs": 10500
+      },
+      "tags": [
+        "flying",
+        "ranged",
+        "magic"
+      ]
+    },
+    "steam-works": {
+      "name": "Steam Works",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "steam-walker",
+        "intervalMs": 14000
+      },
+      "tags": [
+        "melee",
+        "armored"
+      ]
+    },
+    "storm-eyrie": {
+      "name": "Storm Eyrie",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "storm-hawk",
+        "intervalMs": 12000
+      },
+      "tags": [
+        "flying",
+        "fast"
+      ]
+    },
+    "storm-altar": {
+      "name": "Storm Altar",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "stormcaller",
+        "intervalMs": 12500
+      },
+      "tags": [
+        "ranged",
+        "magic"
+      ]
+    },
+    "swamp-den": {
+      "name": "Swamp Den",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "swamp-lurker",
+        "intervalMs": 10000
+      },
+      "tags": [
+        "melee",
+        "beast",
+        "fast"
+      ]
+    },
+    "imp-array": {
+      "name": "Imp Array",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "techno-imp",
+        "intervalMs": 6000
+      },
+      "tags": [
+        "flying",
+        "fast",
+        "magic"
+      ]
+    },
+    "ancient-spire": {
+      "name": "Ancient Spire",
+      "attack": 0,
+      "maxHp": 70,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "the-elder-warden",
+        "intervalMs": 37000
+      },
+      "tags": [
+        "flying",
+        "ranged",
+        "large",
+        "armored",
+        "ancient",
+        "legendary"
+      ]
+    },
+    "automaton-forge": {
+      "name": "Automaton Forge",
+      "attack": 0,
+      "maxHp": 60,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "the-grand-automaton",
+        "intervalMs": 30000
+      },
+      "tags": [
+        "melee",
+        "large",
+        "armored",
+        "legendary"
+      ]
+    },
+    "grand-harbor": {
+      "name": "The Grand Harbor",
+      "attack": 0,
+      "maxHp": 60,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "the-harbormaster",
+        "intervalMs": 28000
+      },
+      "tags": [
+        "ranged",
+        "large",
+        "armored",
+        "legendary"
+      ]
+    },
+    "thorn-nest": {
+      "name": "Thorn Nest",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "thornbeast",
+        "intervalMs": 13500
+      },
+      "tags": [
+        "melee",
+        "fast",
+        "beast",
+        "climber"
+      ]
+    },
+    "thunder-pinnacle": {
+      "name": "Thunder Pinnacle",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "thunder-drake",
+        "intervalMs": 19000
+      },
+      "tags": [
+        "ranged",
+        "flying",
+        "large",
+        "magic"
+      ]
+    },
+    "tide-altar": {
+      "name": "Tide Altar",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "tide-caller",
+        "intervalMs": 10500
+      },
+      "tags": [
+        "ranged",
+        "magic"
+      ]
+    },
+    "tidal-lair": {
+      "name": "Tidal Lair",
+      "attack": 0,
+      "maxHp": 45,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "tide-dragon",
+        "intervalMs": 22500
+      },
+      "tags": [
+        "ranged",
+        "flying",
+        "large",
+        "magic"
+      ]
+    },
+    "tide-barracks": {
+      "name": "Tide Barracks",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "tide-runner",
+        "intervalMs": 9000
+      },
+      "tags": [
+        "fast",
+        "small"
+      ]
+    },
+    "tidal-spring": {
+      "name": "Tidal Spring",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "tide-sprite",
+        "intervalMs": 7000
+      },
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "magic"
+      ]
+    },
+    "stalkers-cove": {
+      "name": "Stalker's Cove",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "tide-stalker",
+        "intervalMs": 14000
+      },
+      "tags": [
+        "melee",
+        "fast"
+      ]
+    },
+    "toadstool-keep": {
+      "name": "Toadstool Keep",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "toadstool-knight",
+        "intervalMs": 13000
+      },
+      "tags": [
+        "fungal"
+      ]
+    },
+    "troll-bridge": {
+      "name": "Troll Bridge",
+      "attack": 0,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "troll",
+        "intervalMs": 17500
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ]
+    },
+    "blood-tower": {
+      "name": "Blood Tower",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "vampire",
+        "intervalMs": 10500
+      },
+      "tags": [
+        "flying",
+        "fast",
+        "undead"
+      ]
+    },
+    "vault-gate": {
+      "name": "Vault Gate",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "vault-guardian",
+        "intervalMs": 12500
+      },
+      "tags": [
+        "melee",
+        "armored"
+      ]
+    },
+    "vine-cathedral": {
+      "name": "Vine Cathedral",
+      "attack": 0,
+      "maxHp": 65,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "vine-colossus",
+        "intervalMs": 31000
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ]
+    },
+    "vine-hollow": {
+      "name": "Vine Hollow",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "vine-golem",
+        "intervalMs": 14500
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "large"
+      ]
+    },
+    "void-rift": {
+      "name": "Void Rift",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "void-elemental",
+        "intervalMs": 12500
+      },
+      "tags": [
+        "flying",
+        "magic"
+      ]
+    },
+    "caldera-forge": {
+      "name": "Caldera Forge",
+      "attack": 0,
+      "maxHp": 55,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "volcanic-golem",
+        "intervalMs": 28000
+      },
+      "tags": [
+        "ember"
+      ]
+    },
+    "war-drum": {
+      "name": "War Drum",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "war-drummer",
+        "intervalMs": 10000
+      },
+      "tags": [
+        "melee"
+      ]
+    },
+    "wave-pit": {
+      "name": "Wave Pit",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "wave-brawler",
+        "intervalMs": 12000
+      },
+      "tags": [
+        "melee"
+      ]
+    },
+    "wolfpack-den": {
+      "name": "Wolfpack Den",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "werewolf",
+        "intervalMs": 12500
+      },
+      "tags": [
+        "melee",
+        "fast",
+        "beast",
+        "climber"
+      ]
+    },
+    "wight-barracks": {
+      "name": "Wight Barracks",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "wight-knight",
+        "intervalMs": 13500
+      },
+      "tags": [
+        "melee",
+        "slow",
+        "undead",
+        "armored"
+      ]
+    },
+    "wind-shrine": {
+      "name": "Wind Shrine",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "wind-sprite",
+        "intervalMs": 6500
+      },
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "magic"
+      ]
+    },
+    "wraith-shrine": {
+      "name": "Wraith Shrine",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "wraith",
+        "intervalMs": 7500
+      },
+      "tags": [
+        "flying",
+        "magic",
+        "undead"
+      ]
+    },
+    "wreck-pile": {
+      "name": "Wreck Pile",
+      "attack": 0,
+      "maxHp": 40,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "wreck-golem",
+        "intervalMs": 18000
+      },
+      "tags": [
+        "melee",
+        "armored",
+        "slow",
+        "large"
+      ]
+    },
+    "wyvern-aerie": {
+      "name": "Wyvern Aerie",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "wyvern",
+        "intervalMs": 15500
+      },
+      "tags": [
+        "flying",
+        "ranged",
+        "large",
+        "beast"
+      ]
+    },
+    "zephyr-post": {
+      "name": "Zephyr Post",
+      "attack": 0,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "zephyr-scout",
+        "intervalMs": 8500
+      },
+      "tags": [
+        "melee",
+        "fast",
+        "flying"
+      ]
     }
   },
   "cards": [
@@ -13010,6 +16694,2610 @@
         "boss"
       ],
       "lore": "Purpose: victory. Current status: operational."
+    },
+    {
+      "name": "Abyssal Crevasse",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "abyssal-crevasse",
+      "description": "Spawner. Periodically releases Abyssal Hunters.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "flying",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Air Sanctum",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "air-sanctum",
+      "description": "Spawner. Periodically releases Air Sprites.",
+      "deckCount": 2,
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Ancient Spring",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "ancient-spring",
+      "description": "Spawner. Periodically releases Ancient Sprites.",
+      "deckCount": 2,
+      "tags": [
+        "flying",
+        "ranged",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Angler's Trench",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "anglers-trench",
+      "description": "Spawner. Periodically releases Anglerfish Lurkers.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "magic"
+      ],
+      "lore": "It hums at a frequency that makes the walls vibrate."
+    },
+    {
+      "name": "Arcane Forge",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "arcane-forge",
+      "description": "Powerful spawner. Slowly releases Arcane Golems.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "arcane",
+        "armored"
+      ],
+      "lore": "The arcane circuits never cool."
+    },
+    {
+      "name": "Archer's Keep",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "archers-keep",
+      "description": "Spawner. Periodically releases Archers.",
+      "deckCount": 2,
+      "tags": [
+        "ranged"
+      ],
+      "lore": "It keeps its distance. But it keeps sending."
+    },
+    {
+      "name": "Ash Vortex",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "ash-vortex",
+      "description": "Spawner. Periodically releases Ash Elementals.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "ranged",
+        "magic",
+        "undead"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Ashen Altar",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "ashen-altar",
+      "description": "Spawner. Periodically releases Ash Revenants.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Cinder Watch",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "cinder-watch",
+      "description": "Spawner. Periodically releases Ash Stalkers.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Bear Run",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "bear-run",
+      "description": "Spawner. Periodically releases Avalanche Bears.",
+      "deckCount": 0,
+      "tags": [
+        "glacier"
+      ],
+      "lore": "The ice remembers. It sends what it remembers."
+    },
+    {
+      "name": "Ballista Works",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "ballista-works",
+      "description": "Spawner. Periodically releases Ballistas.",
+      "deckCount": 0,
+      "tags": [
+        "siege",
+        "slow",
+        "ranged"
+      ],
+      "lore": "More ammunition. Always more."
+    },
+    {
+      "name": "Siege Yard",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "siege-yard",
+      "description": "Spawner. Periodically releases Ballista Crews.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "slow",
+        "siege"
+      ],
+      "lore": "More ammunition. Always more."
+    },
+    {
+      "name": "Bandit Hideout",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "bandit-hideout",
+      "description": "Spawner. Periodically releases Bandits.",
+      "deckCount": 2,
+      "tags": [
+        "melee",
+        "fast",
+        "climber"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Bark Kennel",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "bark-kennel",
+      "description": "Spawner. Periodically releases Bark Hounds.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Bat Cavern",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "bat-cavern",
+      "description": "Rapid spawner. Quickly deploys Bats.",
+      "deckCount": 2,
+      "tags": [
+        "flying",
+        "fast",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Ram Barracks",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "ram-barracks",
+      "description": "Spawner. Periodically releases Battering Ram Crews.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "siege",
+        "armored"
+      ],
+      "lore": "More ammunition. Always more."
+    },
+    {
+      "name": "Behemoth Hold",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "behemoth-hold",
+      "description": "Powerful spawner. Slowly releases Behemoths.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Blizzard Gate",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "blizzard-gate",
+      "description": "Spawner. Periodically releases Blizzard Runners.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "Cold enough to stop thought. Not cold enough to stop them."
+    },
+    {
+      "name": "Bloom Garden",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "bloom-garden",
+      "description": "Spawner. Periodically releases Bloom Sprites.",
+      "deckCount": 2,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "lore": "It pulses with a rhythm that doesn't match anything alive."
+    },
+    {
+      "name": "Wisp Hollow",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "wisp-hollow",
+      "description": "Spawner. Periodically releases Bloom Wisps.",
+      "deckCount": 0,
+      "tags": [
+        "spore"
+      ],
+      "lore": "Breathe near it. Regret it."
+    },
+    {
+      "name": "Bone Tower",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "bone-tower",
+      "description": "Spawner. Periodically releases Bone Archers.",
+      "deckCount": 2,
+      "tags": [
+        "ranged",
+        "undead",
+        "slow"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Bone Hall",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "bone-hall",
+      "description": "Powerful spawner. Slowly releases Bone Colossuss.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "undead",
+        "armored"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Brass Works",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "brass-works",
+      "description": "Spawner. Periodically releases Brass Sentrys.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Canopy Blind",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "canopy-blind",
+      "description": "Spawner. Periodically releases Canopy Archers.",
+      "deckCount": 0,
+      "tags": [
+        "ranged"
+      ],
+      "lore": "It keeps its distance. But it keeps sending."
+    },
+    {
+      "name": "Canopy Eyrie",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "canopy-eyrie",
+      "description": "Spawner. Periodically releases Canopy Drakes.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "ranged"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Scout Blind",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "scout-blind",
+      "description": "Spawner. Periodically releases Canopy Scouts.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "fast"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Catapult Works",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "catapult-works",
+      "description": "Spawner. Periodically releases Catapults.",
+      "deckCount": 0,
+      "tags": [
+        "siege",
+        "slow",
+        "ranged"
+      ],
+      "lore": "More ammunition. Always more."
+    },
+    {
+      "name": "Scout Stable",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "scout-stable",
+      "description": "Spawner. Periodically releases Cavalry Scouts.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "fast",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Spore Cave",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "spore-cave",
+      "description": "Spawner. Periodically releases Cave Bats.",
+      "deckCount": 0,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "lore": "It pulses with a rhythm that doesn't match anything alive."
+    },
+    {
+      "name": "Centaur Run",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "centaur-run",
+      "description": "Spawner. Periodically releases Centaurs.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "fast"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Chrono Spire",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "chrono-spire",
+      "description": "Spawner. Periodically releases Chronomancers.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "lore": "It hums at a frequency that makes the walls vibrate."
+    },
+    {
+      "name": "Char Kennel",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "char-kennel",
+      "description": "Spawner. Periodically releases Cinder Hounds.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Cinder Fortress",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "cinder-fortress",
+      "description": "Spawner. Periodically releases Cinder Knights.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Clockwork Armory",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "clockwork-armory",
+      "description": "Spawner. Periodically releases Clockwork Archers.",
+      "deckCount": 0,
+      "tags": [
+        "ranged"
+      ],
+      "lore": "It keeps its distance. But it keeps sending."
+    },
+    {
+      "name": "Cloud Eyrie",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "cloud-eyrie",
+      "description": "Spawner. Periodically releases Cloud Hawks.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Storm Citadel",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "storm-citadel",
+      "description": "Powerful spawner. Slowly releases Cloudborn Colossuss.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "flying",
+        "large",
+        "slow",
+        "armored"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Coastal Abyss",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "coastal-abyss",
+      "description": "Powerful spawner. Slowly releases Coast Leviathans.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "large",
+        "armored",
+        "siege"
+      ],
+      "lore": "More ammunition. Always more."
+    },
+    {
+      "name": "Skirmisher's Cove",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "skirmishers-cove",
+      "description": "Spawner. Periodically releases Coastal Skirmishers.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "fast"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Cog Works",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "cog-works",
+      "description": "Spawner. Periodically releases Cog Runners.",
+      "deckCount": 0,
+      "tags": [
+        "fast",
+        "small"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Frost Barrow",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "frost-barrow",
+      "description": "Spawner. Periodically releases Cold Snaps.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "Cold enough to stop thought. Not cold enough to stop them."
+    },
+    {
+      "name": "Coral Redoubt",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "coral-redoubt",
+      "description": "Spawner. Periodically releases Coral Guards.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Crossbow Tower",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "crossbow-tower",
+      "description": "Spawner. Periodically releases Crossbows.",
+      "deckCount": 0,
+      "tags": [
+        "ranged"
+      ],
+      "lore": "It keeps its distance. But it keeps sending."
+    },
+    {
+      "name": "Crystal Cavern",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "crystal-cavern",
+      "description": "Spawner. Periodically releases Crystal Hydras.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "magic",
+        "large",
+        "arcane"
+      ],
+      "lore": "The arcane circuits never cool."
+    },
+    {
+      "name": "Dusk Sanctum",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "dusk-sanctum",
+      "description": "Spawner. Periodically releases Dark Elfs.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "climber"
+      ],
+      "lore": "It keeps its distance. But it keeps sending."
+    },
+    {
+      "name": "Demo Depot",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "demo-depot",
+      "description": "Spawner. Periodically releases Demolitions Experts.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "siege"
+      ],
+      "lore": "More ammunition. Always more."
+    },
+    {
+      "name": "Desert Watch",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "desert-watch",
+      "description": "Spawner. Periodically releases Desert Archers.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "The desert provides. It always provides."
+    },
+    {
+      "name": "Titan Dune",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "titan-dune",
+      "description": "Spawner. Periodically releases Desert Titans.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "The desert provides. It always provides."
+    },
+    {
+      "name": "Dragon Lair",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "dragon-lair",
+      "description": "Spawner. Periodically releases Dragons.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "large"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Sacred Grove",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "sacred-grove",
+      "description": "Spawner. Periodically releases Dryad Sentinels.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "beast",
+        "magic"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Dune Roost",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "dune-roost",
+      "description": "Spawner. Periodically releases Dune Bats.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "The desert provides. It always provides."
+    },
+    {
+      "name": "Sandstone Citadel",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "sandstone-citadel",
+      "description": "Spawner. Periodically releases Dune Colossuss.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "The desert provides. It always provides."
+    },
+    {
+      "name": "Dust Track",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "dust-track",
+      "description": "Spawner. Periodically releases Dune Stalkers.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "The desert provides. It always provides."
+    },
+    {
+      "name": "Eel Trench",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "eel-trench",
+      "description": "Spawner. Periodically releases Eel Strikers.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "fast",
+        "magic"
+      ],
+      "lore": "It hums at a frequency that makes the walls vibrate."
+    },
+    {
+      "name": "Elder Sanctum",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "elder-sanctum",
+      "description": "Powerful spawner. Slowly releases Elder Treants.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large"
+      ],
+      "lore": "Whatever built this had large things in mind."
+    },
+    {
+      "name": "Elderwood Fort",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "elderwood-fort",
+      "description": "Spawner. Periodically releases Elderwood Guards.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Ember Pit",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "ember-pit",
+      "description": "Spawner. Periodically releases Ember Crawlers.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Wyrm Cradle",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "wyrm-cradle",
+      "description": "Spawner. Periodically releases Ember Wyrms.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Execution Post",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "execution-post",
+      "description": "Spawner. Periodically releases Executioners.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow"
+      ],
+      "lore": "It does one thing. Relentlessly."
+    },
+    {
+      "name": "Ember Sanctum",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "ember-sanctum",
+      "description": "Spawner. Periodically releases Fire Mages.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "magic",
+        "fire"
+      ],
+      "lore": "It hums at a frequency that makes the walls vibrate."
+    },
+    {
+      "name": "Lava Pool",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "lava-pool",
+      "description": "Spawner. Periodically releases Fire Salamanders.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Flame Spire",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "flame-spire",
+      "description": "Spawner. Periodically releases Flame Wardens.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Marsh Keep",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "marsh-keep",
+      "description": "Spawner. Periodically releases Frog Knights.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "climber",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Frost Watch",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "frost-watch",
+      "description": "Spawner. Periodically releases Frost Archers.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "Cold enough to stop thought. Not cold enough to stop them."
+    },
+    {
+      "name": "Frost Eyrie",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "frost-eyrie",
+      "description": "Spawner. Periodically releases Frost Drakes.",
+      "deckCount": 0,
+      "tags": [
+        "frost",
+        "glacier"
+      ],
+      "lore": "Cold enough to stop thought. Not cold enough to stop them."
+    },
+    {
+      "name": "Frozen Vault",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "frozen-vault",
+      "description": "Spawner. Periodically releases Frozen Knights.",
+      "deckCount": 0,
+      "tags": [
+        "frost",
+        "glacier"
+      ],
+      "lore": "Cold enough to stop thought. Not cold enough to stop them."
+    },
+    {
+      "name": "Windspire",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "windspire",
+      "description": "Spawner. Periodically releases Gale Wardens.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "flying",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Giant's Hold",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "giants-hold",
+      "description": "Powerful spawner. Slowly releases Giants.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large"
+      ],
+      "lore": "Whatever built this had large things in mind."
+    },
+    {
+      "name": "Glacial Forge",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "glacial-forge",
+      "description": "Spawner. Periodically releases Glacier Titans.",
+      "deckCount": 0,
+      "tags": [
+        "glacier"
+      ],
+      "lore": "The ice remembers. It sends what it remembers."
+    },
+    {
+      "name": "Glass Spire",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "glass-spire",
+      "description": "Spawner. Periodically releases Glass Dancers.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "The desert provides. It always provides."
+    },
+    {
+      "name": "Goblin Warrens",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "goblin-warrens",
+      "description": "Spawner. Periodically releases Goblins.",
+      "deckCount": 2,
+      "tags": [
+        "melee",
+        "fast"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Golem Forge",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "golem-forge",
+      "description": "Powerful spawner. Slowly releases Golems.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Griffin Aerie",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "griffin-aerie",
+      "description": "Spawner. Periodically releases Griffins.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "ranged",
+        "large",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Veterans' Post",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "veterans-post",
+      "description": "Spawner. Periodically releases Grizzled Vet.s.",
+      "deckCount": 0,
+      "tags": [
+        "melee"
+      ],
+      "lore": "It does one thing. Relentlessly."
+    },
+    {
+      "name": "Harpy Roost",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "harpy-roost",
+      "description": "Spawner. Periodically releases Harpys.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "ranged",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Ice Cathedral",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "ice-cathedral",
+      "description": "Powerful spawner. Slowly releases Ice Colossuss.",
+      "deckCount": 0,
+      "tags": [
+        "frost",
+        "glacier"
+      ],
+      "lore": "Cold enough to stop thought. Not cold enough to stop them."
+    },
+    {
+      "name": "Shard Spire",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "shard-spire",
+      "description": "Spawner. Periodically releases Ice Shards.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "Cold enough to stop thought. Not cold enough to stop them."
+    },
+    {
+      "name": "Wraith Hollow",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "wraith-hollow",
+      "description": "Spawner. Periodically releases Ice Wraiths.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "Cold enough to stop thought. Not cold enough to stop them."
+    },
+    {
+      "name": "Inferno Lair",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "inferno-lair",
+      "description": "Powerful spawner. Slowly releases Inferno Drakes.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Iron Hall",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "iron-hall",
+      "description": "Spawner. Periodically releases Iron Colossuss.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored",
+        "slow",
+        "large"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Iron Barracks",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "iron-barracks",
+      "description": "Spawner. Periodically releases Ironclad Guards.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Drift Lagoon",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "drift-lagoon",
+      "description": "Spawner. Periodically releases Jellyfish Drifters.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "flying",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Jungle Hollow",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "jungle-hollow",
+      "description": "Spawner. Periodically releases Jungle Stalkers.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "fast"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Magma Den",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "magma-den",
+      "description": "Powerful spawner. Slowly releases Lava Trolls.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Abyss Gate",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "abyss-gate",
+      "description": "Powerful spawner. Slowly releases Leviathans.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Lich Spire",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "lich-spire",
+      "description": "Spawner. Periodically releases Lich Apprentices.",
+      "deckCount": 2,
+      "tags": [
+        "ranged",
+        "magic",
+        "undead",
+        "slow"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Lightning Tower",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "lightning-tower",
+      "description": "Spawner. Periodically releases Lightning Archers.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "lore": "It hums at a frequency that makes the walls vibrate."
+    },
+    {
+      "name": "Lizardman Burrow",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "lizardman-burrow",
+      "description": "Spawner. Periodically releases Lizardmans.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "climber",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Scorch Redoubt",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "scorch-redoubt",
+      "description": "Spawner. Periodically releases Magma Archers.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Mammoth Pen",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "mammoth-pen",
+      "description": "Powerful spawner. Slowly releases Mammoths.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Mana Well",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "mana-well",
+      "description": "Spawner. Periodically releases Mana Siphons.",
+      "deckCount": 2,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "lore": "It hums at a frequency that makes the walls vibrate."
+    },
+    {
+      "name": "Wisp Grove",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "wisp-grove",
+      "description": "Spawner. Periodically releases Mana Wisps.",
+      "deckCount": 2,
+      "tags": [
+        "ranged",
+        "magic",
+        "arcane",
+        "fast"
+      ],
+      "lore": "The arcane circuits never cool."
+    },
+    {
+      "name": "Mirage Gate",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "mirage-gate",
+      "description": "Spawner. Periodically releases Mirage Blades.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "The desert provides. It always provides."
+    },
+    {
+      "name": "Sand Veil",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "sand-veil",
+      "description": "Spawner. Periodically releases Mirage Scouts.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "The desert provides. It always provides."
+    },
+    {
+      "name": "Crucible Hall",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "crucible-hall",
+      "description": "Powerful spawner. Slowly releases Molten Colossuss.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Mossy Ruin",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "mossy-ruin",
+      "description": "Powerful spawner. Slowly releases Moss Golems.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Mushroom Mound",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "mushroom-mound",
+      "description": "Spawner. Periodically releases Mushroom Hulks.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Mycelium Post",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "mycelium-post",
+      "description": "Spawner. Periodically releases Mycelium Guards.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "It pulses with a rhythm that doesn't match anything alive."
+    },
+    {
+      "name": "Hulk Growth",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "hulk-growth",
+      "description": "Spawner. Periodically releases Mycelium Hulks.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "It pulses with a rhythm that doesn't match anything alive."
+    },
+    {
+      "name": "Necropolis",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "necropolis",
+      "description": "Spawner. Periodically releases Necromancers.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "magic",
+        "undead"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Ogre Den",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "ogre-den",
+      "description": "Spawner. Periodically releases Ogres.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "large",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Paladin's Chapel",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "paladins-chapel",
+      "description": "Spawner. Periodically releases Paladins.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Permafrost Lair",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "permafrost-lair",
+      "description": "Powerful spawner. Slowly releases Permafrost Wyrms.",
+      "deckCount": 0,
+      "tags": [
+        "glacier"
+      ],
+      "lore": "The ice remembers. It sends what it remembers."
+    },
+    {
+      "name": "Pixie Garden",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "pixie-garden",
+      "description": "Rapid spawner. Quickly deploys Pixies.",
+      "deckCount": 2,
+      "tags": [
+        "flying",
+        "magic",
+        "ranged"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Scout Garden",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "scout-garden",
+      "description": "Rapid spawner. Quickly deploys Pixie Scouts.",
+      "deckCount": 2,
+      "tags": [
+        "flying",
+        "fast",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Plague Burrow",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "plague-burrow",
+      "description": "Rapid spawner. Quickly deploys Plague Rats.",
+      "deckCount": 2,
+      "tags": [
+        "melee",
+        "fast",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Prism Vault",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "prism-vault",
+      "description": "Spawner. Periodically releases Prism Wardens.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored",
+        "arcane"
+      ],
+      "lore": "The arcane circuits never cool."
+    },
+    {
+      "name": "Pyroclast Vent",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "pyroclast-vent",
+      "description": "Spawner. Periodically releases Pyroclast Runners.",
+      "deckCount": 2,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Spore Throne",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "spore-throne",
+      "description": "Powerful spawner. Slowly releases Queen Spores.",
+      "deckCount": 0,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "lore": "It pulses with a rhythm that doesn't match anything alive."
+    },
+    {
+      "name": "Reef Shallows",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "reef-shallows",
+      "description": "Spawner. Periodically releases Reef Crawlers.",
+      "deckCount": 2,
+      "tags": [
+        "melee",
+        "fast"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Shark Run",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "shark-run",
+      "description": "Spawner. Periodically releases Reef Sharks.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "fast",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Reef Stronghold",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "reef-stronghold",
+      "description": "Spawner. Periodically releases Reef Wardens.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Revenant Gate",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "revenant-gate",
+      "description": "Spawner. Periodically releases Revenants.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "fast",
+        "undead"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Rime Warren",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "rime-warren",
+      "description": "Spawner. Periodically releases Rime Stalkers.",
+      "deckCount": 0,
+      "tags": [
+        "frost"
+      ],
+      "lore": "Cold enough to stop thought. Not cold enough to stop them."
+    },
+    {
+      "name": "Rogue's Guild",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "rogues-guild",
+      "description": "Spawner. Periodically releases Rogues.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "fast",
+        "climber"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Root Maze",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "root-maze",
+      "description": "Spawner. Periodically releases Root Creepers.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Deeproot Hall",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "deeproot-hall",
+      "description": "Powerful spawner. Slowly releases Root Walkers.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Wraith Thicket",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "wraith-thicket",
+      "description": "Spawner. Periodically releases Root Wraiths.",
+      "deckCount": 0,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "lore": "It pulses with a rhythm that doesn't match anything alive."
+    },
+    {
+      "name": "Rot Burrow",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "rot-burrow",
+      "description": "Spawner. Periodically releases Rot Stalkers.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "It pulses with a rhythm that doesn't match anything alive."
+    },
+    {
+      "name": "Rot Hall",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "rot-hall",
+      "description": "Spawner. Periodically releases Rot Titans.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "It pulses with a rhythm that doesn't match anything alive."
+    },
+    {
+      "name": "Rune Forge",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "rune-forge",
+      "description": "Spawner. Periodically releases Rune Knights.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored",
+        "arcane"
+      ],
+      "lore": "The arcane circuits never cool."
+    },
+    {
+      "name": "Hauler's Dock",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "haulers-dock",
+      "description": "Spawner. Periodically releases Salvage Haulers.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Dune Stronghold",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "dune-stronghold",
+      "description": "Spawner. Periodically releases Sand Knights.",
+      "deckCount": 0,
+      "tags": [
+        "sand",
+        "mercenary"
+      ],
+      "lore": "The desert provides. It always provides."
+    },
+    {
+      "name": "Wyrm Burrow",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "wyrm-burrow",
+      "description": "Powerful spawner. Slowly releases Sand Wyrms.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "The desert provides. It always provides."
+    },
+    {
+      "name": "Sandstorm Camp",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "sandstorm-camp",
+      "description": "Spawner. Periodically releases Sandstorm Runners.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "The desert provides. It always provides."
+    },
+    {
+      "name": "Shaman's Totem",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "shamans-totem",
+      "description": "Spawner. Periodically releases Sandstorm Shamans.",
+      "deckCount": 0,
+      "tags": [
+        "sand"
+      ],
+      "lore": "The desert provides. It always provides."
+    },
+    {
+      "name": "Sapper Works",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "sapper-works",
+      "description": "Spawner. Periodically releases Sapperss.",
+      "deckCount": 2,
+      "tags": [
+        "melee",
+        "fast"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Scorch Roost",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "scorch-roost",
+      "description": "Spawner. Periodically releases Scorch Bats.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "Scorpion Pit",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "scorpion-pit",
+      "description": "Spawner. Periodically releases Scorpions.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Sunken Altar",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "sunken-altar",
+      "description": "Spawner. Periodically releases Sea Witchs.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "lore": "It hums at a frequency that makes the walls vibrate."
+    },
+    {
+      "name": "Tide Stable",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "tide-stable",
+      "description": "Spawner. Periodically releases Seahorse Lancers.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "fast",
+        "cavalry"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Shadow Burrow",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "shadow-burrow",
+      "description": "Spawner. Periodically releases Shadow Stalkers.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "fast",
+        "undead"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Shard Sanctum",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "shard-sanctum",
+      "description": "Spawner. Periodically releases Shard Familiars.",
+      "deckCount": 2,
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Guardian Post",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "guardian-post",
+      "description": "Spawner. Periodically releases Shield Guards.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored",
+        "slow"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Wall Barracks",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "wall-barracks",
+      "description": "Spawner. Periodically releases Shield Walls.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Wreck Forge",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "wreck-forge",
+      "description": "Powerful spawner. Slowly releases Shipwreck Golems.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Engineer's Yard",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "engineers-yard",
+      "description": "Spawner. Periodically releases Siege Engineers.",
+      "deckCount": 0,
+      "tags": [
+        "siege",
+        "slow",
+        "ranged"
+      ],
+      "lore": "More ammunition. Always more."
+    },
+    {
+      "name": "Bone Pit",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "bone-pit",
+      "description": "Rapid spawner. Quickly deploys Skeletons.",
+      "deckCount": 2,
+      "tags": [
+        "melee",
+        "fast",
+        "undead"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Sky Cradle",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "sky-cradle",
+      "description": "Powerful spawner. Slowly releases Sky Leviathans.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "flying",
+        "large",
+        "slow"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Sky Sanctum",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "sky-sanctum",
+      "description": "Spawner. Periodically releases Sky Mages.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "lore": "It hums at a frequency that makes the walls vibrate."
+    },
+    {
+      "name": "Sky Fortress",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "sky-fortress",
+      "description": "Spawner. Periodically releases Sky Sentinels.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "flying",
+        "armored"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Sky Post",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "sky-post",
+      "description": "Spawner. Periodically releases Skyguards.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "flying",
+        "armored"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Soul Hollow",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "soul-hollow",
+      "description": "Spawner. Periodically releases Soulrend Witchs.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "magic",
+        "undead"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Specter Vault",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "specter-vault",
+      "description": "Spawner. Periodically releases Specters.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "fast",
+        "undead"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Blade Sanctum",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "blade-sanctum",
+      "description": "Spawner. Periodically releases Spellblades.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "fast",
+        "arcane"
+      ],
+      "lore": "The arcane circuits never cool."
+    },
+    {
+      "name": "Spore Canopy",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "spore-canopy",
+      "description": "Spawner. Periodically releases Spore Archers.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "It pulses with a rhythm that doesn't match anything alive."
+    },
+    {
+      "name": "Spore Roost",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "spore-roost",
+      "description": "Spawner. Periodically releases Spore Bats.",
+      "deckCount": 0,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "lore": "It pulses with a rhythm that doesn't match anything alive."
+    },
+    {
+      "name": "Spore Cathedral",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "spore-cathedral",
+      "description": "Powerful spawner. Slowly releases Spore Colossuss.",
+      "deckCount": 0,
+      "tags": [
+        "fungal",
+        "spore"
+      ],
+      "lore": "It pulses with a rhythm that doesn't match anything alive."
+    },
+    {
+      "name": "Drift Garden",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "drift-garden",
+      "description": "Spawner. Periodically releases Spore Drifters.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "ranged",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Steam Works",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "steam-works",
+      "description": "Spawner. Periodically releases Steam Walkers.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Storm Eyrie",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "storm-eyrie",
+      "description": "Spawner. Periodically releases Storm Hawks.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "fast"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Storm Altar",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "storm-altar",
+      "description": "Spawner. Periodically releases Stormcallers.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "lore": "It hums at a frequency that makes the walls vibrate."
+    },
+    {
+      "name": "Swamp Den",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "swamp-den",
+      "description": "Spawner. Periodically releases Swamp Lurkers.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "beast",
+        "fast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Imp Array",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "imp-array",
+      "description": "Rapid spawner. Quickly deploys Techno Imps.",
+      "deckCount": 2,
+      "tags": [
+        "flying",
+        "fast",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Ancient Spire",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "ancient-spire",
+      "description": "Powerful spawner. Slowly releases The Elder Wardens.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "ranged",
+        "large",
+        "armored",
+        "ancient",
+        "legendary"
+      ],
+      "lore": "Older than the war. Still fighting it."
+    },
+    {
+      "name": "Automaton Forge",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "automaton-forge",
+      "description": "Powerful spawner. Slowly releases The Grand Automatons.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "large",
+        "armored",
+        "legendary"
+      ],
+      "lore": "It should not exist. It does."
+    },
+    {
+      "name": "The Grand Harbor",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "grand-harbor",
+      "description": "Powerful spawner. Slowly releases The Harbormasters.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "large",
+        "armored",
+        "legendary"
+      ],
+      "lore": "It should not exist. It does."
+    },
+    {
+      "name": "Thorn Nest",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "thorn-nest",
+      "description": "Spawner. Periodically releases Thornbeasts.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "fast",
+        "beast",
+        "climber"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Thunder Pinnacle",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "thunder-pinnacle",
+      "description": "Spawner. Periodically releases Thunder Drakes.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "flying",
+        "large",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Tide Altar",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "tide-altar",
+      "description": "Spawner. Periodically releases Tide Callers.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "magic"
+      ],
+      "lore": "It hums at a frequency that makes the walls vibrate."
+    },
+    {
+      "name": "Tidal Lair",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "tidal-lair",
+      "description": "Powerful spawner. Slowly releases Tide Dragons.",
+      "deckCount": 0,
+      "tags": [
+        "ranged",
+        "flying",
+        "large",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Tide Barracks",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "tide-barracks",
+      "description": "Spawner. Periodically releases Tide Runners.",
+      "deckCount": 0,
+      "tags": [
+        "fast",
+        "small"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Tidal Spring",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "tidal-spring",
+      "description": "Spawner. Periodically releases Tide Sprites.",
+      "deckCount": 2,
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Stalker's Cove",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "stalkers-cove",
+      "description": "Spawner. Periodically releases Tide Stalkers.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "fast"
+      ],
+      "lore": "One in, one out. Again. Again."
+    },
+    {
+      "name": "Toadstool Keep",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "toadstool-keep",
+      "description": "Spawner. Periodically releases Toadstool Knights.",
+      "deckCount": 0,
+      "tags": [
+        "fungal"
+      ],
+      "lore": "It pulses with a rhythm that doesn't match anything alive."
+    },
+    {
+      "name": "Troll Bridge",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "troll-bridge",
+      "description": "Spawner. Periodically releases Trolls.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Blood Tower",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "blood-tower",
+      "description": "Spawner. Periodically releases Vampires.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "fast",
+        "undead"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Vault Gate",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "vault-gate",
+      "description": "Spawner. Periodically releases Vault Guardians.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Vine Cathedral",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "vine-cathedral",
+      "description": "Powerful spawner. Slowly releases Vine Colossuss.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large",
+        "armored"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Vine Hollow",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "vine-hollow",
+      "description": "Spawner. Periodically releases Vine Golems.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "large"
+      ],
+      "lore": "Whatever built this had large things in mind."
+    },
+    {
+      "name": "Void Rift",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "void-rift",
+      "description": "Spawner. Periodically releases Void Elementals.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Caldera Forge",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "structure",
+      "unitRef": "caldera-forge",
+      "description": "Powerful spawner. Slowly releases Volcanic Golems.",
+      "deckCount": 0,
+      "tags": [
+        "ember"
+      ],
+      "lore": "The fire doesn't rest. Neither do they."
+    },
+    {
+      "name": "War Drum",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "war-drum",
+      "description": "Spawner. Periodically releases War Drummers.",
+      "deckCount": 0,
+      "tags": [
+        "melee"
+      ],
+      "lore": "It does one thing. Relentlessly."
+    },
+    {
+      "name": "Wave Pit",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "wave-pit",
+      "description": "Spawner. Periodically releases Wave Brawlers.",
+      "deckCount": 0,
+      "tags": [
+        "melee"
+      ],
+      "lore": "It does one thing. Relentlessly."
+    },
+    {
+      "name": "Wolfpack Den",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "wolfpack-den",
+      "description": "Spawner. Periodically releases Werewolfs.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "fast",
+        "beast",
+        "climber"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Wight Barracks",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "wight-barracks",
+      "description": "Spawner. Periodically releases Wight Knights.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "slow",
+        "undead",
+        "armored"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Wind Shrine",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "wind-shrine",
+      "description": "Spawner. Periodically releases Wind Sprites.",
+      "deckCount": 2,
+      "tags": [
+        "ranged",
+        "fast",
+        "flying",
+        "magic"
+      ],
+      "lore": "They come from above. They always come from above."
+    },
+    {
+      "name": "Wraith Shrine",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "unitRef": "wraith-shrine",
+      "description": "Spawner. Periodically releases Wraiths.",
+      "deckCount": 2,
+      "tags": [
+        "flying",
+        "magic",
+        "undead"
+      ],
+      "lore": "Death has a pipeline. This is its source."
+    },
+    {
+      "name": "Wreck Pile",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "wreck-pile",
+      "description": "Spawner. Periodically releases Wreck Golems.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "armored",
+        "slow",
+        "large"
+      ],
+      "lore": "Heavy. Durable. Relentless."
+    },
+    {
+      "name": "Wyvern Aerie",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "wyvern-aerie",
+      "description": "Spawner. Periodically releases Wyverns.",
+      "deckCount": 0,
+      "tags": [
+        "flying",
+        "ranged",
+        "large",
+        "beast"
+      ],
+      "lore": "Something lives there. It makes more of itself."
+    },
+    {
+      "name": "Zephyr Post",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "zephyr-post",
+      "description": "Spawner. Periodically releases Zephyr Scouts.",
+      "deckCount": 0,
+      "tags": [
+        "melee",
+        "fast",
+        "flying"
+      ],
+      "lore": "They come from above. They always come from above."
     }
   ],
   "heroCards": [

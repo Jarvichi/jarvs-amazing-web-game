@@ -3037,6 +3037,16 @@ body {
   gap: 2px 10px;
 }
 /* cdm stat rows → .stat-row--compact / .stat-label / .stat-value */
+.cdm-spawn-levels {
+  flex-basis: 100%;
+  display: flex;
+  gap: 8px;
+  font-size: 9px;
+  color: var(--game-text-color-dim);
+  padding-left: 2px;
+  flex-wrap: wrap;
+}
+.cdm-spawn-lvl { white-space: nowrap; }
 
 .cdm-traits {
   display: flex;
