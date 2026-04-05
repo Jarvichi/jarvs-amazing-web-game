@@ -4,14 +4,14 @@ Issues sourced from GitHub. Last synced: 2026-04-05 (session 38).
 
 ## ✅ Done (session 38)
 
-- [x] **#623** Collection duplicates — 7 duplicate card entries in cards.json (Spore Bat, Root Network, Spore Cloud, Stormcaller, Storm Surge, Root Snare, Root Surge); removed duplicates; also resolves catalog bias in #422 daily challenge deck
-- [x] **#622** Collection default sort — spawn buildings now appear immediately after the unit they spawn in default (ungrouped) sort
-- [x] **#4** (PR) Remove leftover Package.swift from iOS app removal (PR #4 missed the file)
+- [x] **#623** Collection duplicates — 7 pairs of cards shared a name (Spore Bat, Root Network, Spore Cloud, Stormcaller, Storm Surge, Root Snare, Root Surge); earlier/generic versions renamed (Cave Bat, Root Tap, Pollen Rush, Sky Mage, Sky Surge, Spore Surge, Root Wall); act deck refs updated in act1/6/8/11.json; cave-bat and sky-mage templates added
+- [x] **#622** Collection default sort — spawn buildings now appear immediately after the unit they spawn in default (ungrouped) sort; `defaultSortKey()` helper with catalogPos map
+- [x] **#422** Daily challenge deck weighting — resolved as side effect of #623; catalog no longer has duplicate entries that biased the seeded daily shuffle
+- [x] **#4** (PR) Remove leftover Package.swift from iOS app removal
 
 ## 🔴 Bugs — New (from GitHub, session 38 sync)
 
-- [x] **#623** Collection: sorting/grouping creates duplicate cards — duplicate entries in cards.json
-- [ ] **#422** Daily challenge replay weighting — catalog dedup (#623) resolves the deck bias; verify closed
+- [x] **#623** Collection: sorting/grouping creates duplicate cards — 7 card names appeared twice in cards.json; renamed conflicting entries and updated act deck refs
 
 ## 🔵 Enhancements — New (from GitHub, session 38 sync)
 
