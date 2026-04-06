@@ -437,16 +437,8 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
         </span>
       }
     >
-      <div className="deckbuilder-split">
-
-        {/* ── TOP PANEL: current deck ── */}
-        <div className={`deckbuilder-top-panel${deckCollapsed ? ' deckbuilder-panel--collapsed' : ''}`}>
-          <div className="deckbuilder-panel-header">
-            <span className="deckbuilder-panel-label">
-              DECK — click to remove
-            </span>
-            <div className="deckbuilder-header-actions">
-              {showManaWarning && (
+<div className="deckbuilder-header-actions">
+   {showManaWarning && (
                 <span className="deckbuilder-mana-warn" title={`Deck has ${maxDeckCost}-cost cards but no mana structure`}>
                   ⚠ no mana building
                 </span>
@@ -474,6 +466,18 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
               >
                 {valid ? '✓ SAVE' : `NEED ${DECK_MIN - total} MORE`}
               </button>
+</div>
+
+      <div className="deckbuilder-split">
+
+        {/* ── TOP PANEL: current deck ── */}
+        <div className={`deckbuilder-top-panel${deckCollapsed ? ' deckbuilder-panel--collapsed' : ''}`}>
+          <div className="deckbuilder-panel-header">
+            <span className="deckbuilder-panel-label">
+              DECK — click to remove
+            </span>
+            <div className="deckbuilder-header-actions">
+           
               <button
                 className="db-collapse-btn"
                 onClick={() => {
