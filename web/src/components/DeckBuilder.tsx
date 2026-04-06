@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useRef } from 'react'
-import { Card, CardType, CardRarity } from '../game/types'
-import { getCardCatalog } from '../game/cards'
+import React, { useState, useMemo, useRef, useEffect } from 'react'
+import { Card, CardType, CardRarity, UnitTag } from '../game/types'
+import { getCardCatalog, getCardThemeTags } from '../game/cards'
 import {
   loadCollection,
   loadDeck,
@@ -10,6 +10,7 @@ import {
   getOwnedCount,
   getMasteryXp,
   masteryLevel,
+  masteryProgress,
   DECK_MIN,
   DECK_MAX,
   COPIES_MAX,
@@ -23,6 +24,7 @@ import {
   decodeDeck,
 } from '../game/collection'
 import { CardTile } from './CardTile'
+import { MasteryBar } from './MasteryBar'
 import { useCardDetail } from './useCardDetail'
 import { OverlayScreen } from './OverlayScreen'
 import { ProgressBar } from './ProgressBar'
@@ -33,6 +35,15 @@ interface Props {
 }
 
 type AutoStrategy = 'aggro' | 'control' | 'balanced' | 'ranged'
+type RarityFilter = 'all' | CardRarity
+type TypeFilter   = 'all' | CardType
+type SortKey  = 'default' | 'az' | 'za' | 'mana-asc' | 'mana-desc' | 'rarity'
+type GroupKey = 'none' | 'type' | 'rarity' | 'mana' | 'act'
+
+const ALL_TAGS: UnitTag[] = [
+  'flying', 'ranged', 'melee', 'fast', 'slow', 'large',
+  'magic', 'undead', 'beast', 'armored', 'siege', 'fire',
+]
 
 const AUTO_STRATEGIES: { id: AutoStrategy; name: string; desc: string }[] = [
   { id: 'aggro',    name: 'AGGRO',    desc: 'Flood the field with cheap, fast units. Speed is your weapon.' },
@@ -48,12 +59,10 @@ function buildAutoDeck(
 ): DeckEntry[] {
   const catalog = getCardCatalog()
 
-  // Only consider cards the player owns and aren't resting
   const available = catalog.filter(
     c => getOwnedCount(collection, c.name) > 0 && !fatiguedCards.includes(c.name)
   )
 
-  // Score each card based on strategy
   function score(c: typeof available[0]): number {
     const ownedCopies = Math.min(getOwnedCount(collection, c.name), COPIES_MAX)
     let s = 0
@@ -62,7 +71,6 @@ function buildAutoDeck(
       if (c.cardType === 'unit')      s += c.cost <= 2 ? 100 : c.cost <= 3 ? 60 : 20
       if (c.cardType === 'upgrade')   s += 30
       if (c.cardType === 'structure') s += c.unit?.isWall ? 5 : 15
-      // Bonus for fast units
       if (c.unit && c.unit.moveSpeed >= 40) s += 30
 
     } else if (strategy === 'ranged') {
@@ -77,19 +85,15 @@ function buildAutoDeck(
       if (c.cardType === 'upgrade')   s += 40
       if (c.cardType === 'unit')      s += c.cost >= 4 ? 30 : 10
 
-    } else { // balanced
+    } else {
       if (c.cardType === 'unit')      s += 60
       if (c.cardType === 'structure') s += 50
       if (c.cardType === 'upgrade')   s += 40
     }
 
-    // Prefer higher rarity (more powerful)
     const rarityBonus: Record<string, number> = { common: 0, uncommon: 10, rare: 20, legendary: 35 }
     s += rarityBonus[c.rarity] ?? 0
-
-    // More owned copies = more reliable draw
     s += ownedCopies * 5
-
     return s
   }
 
@@ -100,7 +104,6 @@ function buildAutoDeck(
   const deck: DeckEntry[] = []
   let total = 0
 
-  // Phase 1: grab 1 copy of each top-scored card until we have 15-20 distinct cards
   for (const { card, maxCopies } of scored) {
     if (total >= 20) break
     if (maxCopies < 1) continue
@@ -108,7 +111,6 @@ function buildAutoDeck(
     total++
   }
 
-  // Phase 2: fill remaining slots with extra copies of top cards
   for (const { card, maxCopies } of scored) {
     if (total >= DECK_MAX) break
     const entry = deck.find(e => e.cardName === card.name)
@@ -120,7 +122,6 @@ function buildAutoDeck(
     total += toAdd
   }
 
-  // Phase 3: if still below DECK_MIN, add any remaining owned cards
   for (const { card, maxCopies } of scored) {
     if (total >= DECK_MAX) break
     const existing = deck.find(e => e.cardName === card.name)
@@ -138,12 +139,18 @@ function buildAutoDeck(
 }
 
 export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
-  const catalog = getCardCatalog()
+  const catalog = useMemo(() => getCardCatalog(), [])
   const [collection] = useState<CollectionEntry[]>(loadCollection)
   const [deck, setDeck] = useState<DeckEntry[]>(() =>
     loadDeck().filter(e => catalog.some(c => c.name === e.cardName))
   )
   const { openDetail, cardDetailNode } = useCardDetail({ collection, deckEntries: deck })
+
+  // Split panel collapse state
+  const [deckCollapsed, setDeckCollapsed] = useState(false)
+  const [collectionCollapsed, setCollectionCollapsed] = useState(false)
+
+  // Modal state
   const [showAutoBuild, setShowAutoBuild] = useState(false)
   const [showSavedDecks, setShowSavedDecks] = useState(false)
   const [showShare, setShowShare] = useState(false)
@@ -153,11 +160,162 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   const [importError, setImportError] = useState('')
   const [copyFeedback, setCopyFeedback] = useState(false)
   const shareCodeRef = useRef<HTMLTextAreaElement>(null)
-  const [search, setSearch]         = useState('')
-  const [typeFilter, setTypeFilter]   = useState<'all' | CardType>('all')
-  const [rarityFilter, setRarityFilter] = useState<'all' | CardRarity>('all')
-  const [sortBy, setSortBy]           = useState<'cost' | 'name' | 'rarity'>('cost')
 
+  // Collection filter / sort / group state
+  const [search, setSearch]               = useState('')
+  const [typeFilter, setTypeFilter]       = useState<TypeFilter>('all')
+  const [rarityFilter, setRarityFilter]   = useState<RarityFilter>('all')
+  const [tagFilter, setTagFilter]         = useState<UnitTag[]>([])
+  const [affinityFilter, setAffinityFilter] = useState<string | null>(null)
+  const [sortKey, setSortKey]             = useState<SortKey>('default')
+  const [groupKey, setGroupKey]           = useState<GroupKey>('none')
+  const [filterMenuOpen, setFilterMenuOpen] = useState(false)
+  const [sortMenuOpen, setSortMenuOpen]     = useState(false)
+  const [groupMenuOpen, setGroupMenuOpen]   = useState(false)
+  const filterMenuRef = useRef<HTMLDivElement>(null)
+  const sortMenuRef   = useRef<HTMLDivElement>(null)
+  const groupMenuRef  = useRef<HTMLDivElement>(null)
+
+  // Close dropdowns on outside click
+  useEffect(() => {
+    if (!filterMenuOpen) return
+    function handleClick(e: MouseEvent) {
+      if (filterMenuRef.current && !filterMenuRef.current.contains(e.target as Node)) {
+        setFilterMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [filterMenuOpen])
+
+  useEffect(() => {
+    if (!sortMenuOpen) return
+    function handleClick(e: MouseEvent) {
+      if (sortMenuRef.current && !sortMenuRef.current.contains(e.target as Node)) {
+        setSortMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [sortMenuOpen])
+
+  useEffect(() => {
+    if (!groupMenuOpen) return
+    function handleClick(e: MouseEvent) {
+      if (groupMenuRef.current && !groupMenuRef.current.contains(e.target as Node)) {
+        setGroupMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [groupMenuOpen])
+
+  // Affinity label → card name set (both sides of each pair)
+  const allAffinityLabels = useMemo(() =>
+    Array.from(new Set(catalog.flatMap(c => c.unit?.affinity?.label ? [c.unit.affinity.label] : []))).sort(),
+    [catalog]
+  )
+  const affinityGroupNames = useMemo(() => {
+    const map = new Map<string, Set<string>>()
+    for (const c of catalog) {
+      const aff = c.unit?.affinity
+      if (!aff) continue
+      if (!map.has(aff.label)) map.set(aff.label, new Set())
+      const group = map.get(aff.label)!
+      group.add(c.name)
+      group.add(aff.withName)
+    }
+    return map
+  }, [catalog])
+
+  const RARITY_ORDER: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 2, legendary: 3 }
+  const TYPE_ORDER: Record<CardType, number>     = { unit: 0, structure: 1, upgrade: 2 }
+
+  const catalogPos = useMemo(() => new Map<string, number>(catalog.map((c, i) => [c.name, i])), [catalog])
+
+  function defaultSortKey(card: Card): number {
+    if (card.unit?.structureEffect?.type === 'spawn') {
+      const spawnedName = card.unit.structureEffect.unitTemplate.name
+      const unitPos = catalogPos.get(spawnedName)
+      if (unitPos !== undefined) return unitPos + 0.5
+    }
+    return catalogPos.get(card.name) ?? 999999
+  }
+
+  function groupSortValue(card: Card): string {
+    switch (groupKey) {
+      case 'type':   return String(TYPE_ORDER[card.cardType]).padStart(2, '0')
+      case 'rarity': return String(RARITY_ORDER[card.rarity]).padStart(2, '0')
+      case 'mana':   return String(card.cost).padStart(3, '0')
+      case 'act':    return getCardThemeTags(card.name)[0] ?? ''
+      default:       return ''
+    }
+  }
+
+  function groupLabel(card: Card): string | null {
+    switch (groupKey) {
+      case 'type':   return card.cardType.charAt(0).toUpperCase() + card.cardType.slice(1) + 's'
+      case 'rarity': return card.rarity.charAt(0).toUpperCase() + card.rarity.slice(1)
+      case 'mana':   return `${card.cost} Mana`
+      case 'act': {
+        const t = getCardThemeTags(card.name)[0]
+        return t ? t.charAt(0).toUpperCase() + t.slice(1) : 'Other'
+      }
+      default: return null
+    }
+  }
+
+  const q = search.trim().toLowerCase()
+
+  const filtered = useMemo(() => catalog.filter(c => {
+    if (getOwnedCount(collection, c.name) === 0) return false
+    if (typeFilter   !== 'all' && c.cardType !== typeFilter)   return false
+    if (rarityFilter !== 'all' && c.rarity   !== rarityFilter) return false
+    if (tagFilter.length > 0) {
+      const unitTags = c.unit?.tags ?? []
+      if (!tagFilter.some(t => unitTags.includes(t))) return false
+    }
+    if (affinityFilter) {
+      const group = affinityGroupNames.get(affinityFilter)
+      if (!group || !group.has(c.name)) return false
+    }
+    if (q && !c.name.toLowerCase().includes(q)) return false
+    return true
+  }), [catalog, collection, typeFilter, rarityFilter, tagFilter, affinityFilter, q, affinityGroupNames])
+
+  const sorted = useMemo(() => [...filtered].sort((a, b) => {
+    if (groupKey !== 'none') {
+      const cmp = groupSortValue(a).localeCompare(groupSortValue(b))
+      if (cmp !== 0) return cmp
+    }
+    switch (sortKey) {
+      case 'az':        return a.name.localeCompare(b.name)
+      case 'za':        return b.name.localeCompare(a.name)
+      case 'mana-asc':  return a.cost - b.cost
+      case 'mana-desc': return b.cost - a.cost
+      case 'rarity':    return RARITY_ORDER[a.rarity] - RARITY_ORDER[b.rarity]
+      default:          return groupKey === 'none' ? defaultSortKey(a) - defaultSortKey(b) : 0
+    }
+  }), [filtered, sortKey, groupKey])
+
+  const activeFilterCount =
+    (typeFilter    !== 'all' ? 1 : 0) +
+    (rarityFilter  !== 'all' ? 1 : 0) +
+    tagFilter.length +
+    (affinityFilter ? 1 : 0)
+
+  function resetFilters() {
+    setTypeFilter('all')
+    setRarityFilter('all')
+    setTagFilter([])
+    setAffinityFilter(null)
+  }
+
+  function toggleTag(tag: UnitTag) {
+    setTagFilter(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag])
+  }
+
+  // Deck helpers
   const total = deckTotalCards(deck)
   const valid = isDeckValid(deck)
 
@@ -239,7 +397,6 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
       setImportError('Invalid code — could not decode.')
       return
     }
-    const catalog = getCardCatalog()
     const valid = decoded.every(e => catalog.some(c => c.name === e.cardName))
     if (!valid) {
       setImportError('Code contains unknown cards.')
@@ -250,32 +407,13 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
     setShowShare(false)
   }
 
-  // Filtered + sorted collection panel
-  const rarityOrder: Record<string, number> = { legendary: 0, rare: 1, uncommon: 2, common: 3 }
-  const ownedCards = useMemo(() => {
-    const q = search.trim().toLowerCase()
-    return catalog
-      .filter(c => {
-        if (getOwnedCount(collection, c.name) === 0) return false
-        if (typeFilter !== 'all' && c.cardType !== typeFilter) return false
-        if (rarityFilter !== 'all' && c.rarity !== rarityFilter) return false
-        if (q && !c.name.toLowerCase().includes(q)) return false
-        return true
-      })
-      .sort((a, b) => {
-        if (sortBy === 'name')   return a.name.localeCompare(b.name)
-        if (sortBy === 'rarity') return rarityOrder[a.rarity] - rarityOrder[b.rarity]
-        return a.cost - b.cost || a.name.localeCompare(b.name)   // cost (default)
-      })
-  }, [catalog, collection, search, typeFilter, rarityFilter, sortBy])
-
-  // Mana warning: deck has high-cost cards but no mana structure to unlock them
+  // Mana warning
   const deckCardObjects = deck.flatMap(e => { const c = catalog.find(x => x.name === e.cardName); return c ? [c] : [] })
   const hasManaStructure = deckCardObjects.some(c => c.unit?.structureEffect?.type === 'mana')
   const maxDeckCost = deckCardObjects.reduce((m, c) => Math.max(m, c.cost), 0)
   const showManaWarning = maxDeckCost > 5 && !hasManaStructure
 
-  // Deck list sorted by cost then name (skip any cards not in catalog)
+  // Deck list sorted by cost then name
   const deckList = deck
     .filter(e => catalog.some(c => c.name === e.cardName))
     .sort((a, b) => {
@@ -295,179 +433,368 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
         </span>
       }
     >
+      <div className="deckbuilder-split">
 
-      <div className="deckbuilder-body">
-        {/* ── Left: collection ── */}
-        <div className="deckbuilder-collection">
-          <div className="deckbuilder-panel-title">YOUR CARDS — click to add</div>
-
-          {/* Search + filter bar */}
-          <div className="deckbuilder-filters">
-            <input
-              className="deckbuilder-search"
-              type="text"
-              placeholder="Search cards..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
-            <div className="deckbuilder-filter-row">
-              <span className="filter-group-label">TYPE:</span>
-            {([
-              ['all',       'All'],
-              ['unit',      'Units'],
-              ['structure', 'Structs'],
-              ['upgrade',   'Upgrades'],
-            ] as const).map(([val, label]) => (
-                <button
-                  key={val}
-                  className={`filter-btn filter-btn--sm${typeFilter === val ? ' filter-btn--active' : ''}`}
-                  onClick={() => setTypeFilter(val as typeof typeFilter)}
-                >
-                  {label}
-                </button>
-              ))}
-              <span className="filter-sep">|</span>
-              <span className="filter-group-label">RARITY:</span>
-              {([
-                ['all',       'All'],
-                ['common',    'Common'],
-                ['uncommon',  'Uncommon'],
-                ['rare',      'Rare'],
-                ['legendary', 'Legendary'],
-              ] as const).map(([val, label]) => (
-                <button
-                  key={val}
-                  className={`filter-btn filter-btn--sm${rarityFilter === val ? ' filter-btn--active' : ''}`}
-                  onClick={() => setRarityFilter(val as typeof rarityFilter)}
-                >
-                  {label}
-                </button>
-              ))}
-              <span className="filter-sep">|</span>
-              <span className="filter-group-label">SORT:</span>
-              {([
-                ['cost',   'Cost'],
-                ['name',   'A–Z'],
-                ['rarity', 'Rarity'],
-              ] as const).map(([val, label]) => (
-                <button
-                  key={val}
-                  className={`filter-btn filter-btn--sm${sortBy === val ? ' filter-btn--active' : ''}`}
-                  onClick={() => setSortBy(val as typeof sortBy)}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="collection-grid">
-            {ownedCards.map(card => {
-              const owned    = getOwnedCount(collection, card.name)
-              const inDeck   = inDeckCount(card.name)
-              const resting  = fatiguedCards.includes(card.name)
-              const canAdd   = !resting && inDeck < Math.min(owned, COPIES_MAX) && total < DECK_MAX
-              const lvl      = masteryLevel(getMasteryXp(collection, card.name))
-              return (
-                <div key={card.name} className={`collection-cell${resting ? ' collection-cell--resting' : ''}`}>
-                  <CardTile
-                    card={card}
-                    canAfford={canAdd}
-                    onClick={canAdd ? () => addCard(card.name) : undefined}
-                  />
-                  <div className="cell-footer">
-                    <span className="cell-count">
-                      {resting
-                        ? <span className="cell-resting-label">ZZZ RESTING</span>
-                        : <>{inDeck}/{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}</>
-                      }
-                    </span>
-                    <button
-                      className="extra-btn cdm-info-btn"
-                      onClick={e => { e.stopPropagation(); openDetail(card) }}
-                      title="Card details"
-                    >ⓘ</button>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* ── Right: current deck ── */}
-        <div className="deckbuilder-deck">
-          <div className="deckbuilder-panel-title">DECK — click to remove</div>
-          {deck.length === 0 ? (
-            <div className="deck-empty">Add cards from the left.</div>
-          ) : (
-            <ul className="deck-list">
-              {deckList.map(entry => {
-                const card = catalog.find(c => c.name === entry.cardName)!
-                const lvl  = masteryLevel(getMasteryXp(collection, entry.cardName))
-                return (
-                  <li
-                    key={entry.cardName}
-                    className={`deck-list-item deck-list-item--${card.rarity}`}
-                    onClick={() => removeCard(entry.cardName)}
-                    title="Click to remove one copy"
-                  >
-                    <span className="deck-list-cost">{card.cost}</span>
-                    <span className="deck-list-name">{card.name}</span>
-                    {lvl > 0 && <span className="deck-list-mastery">★{lvl}</span>}
-                    <span className="deck-list-count">×{entry.count}</span>
-                    <button
-                      className="deck-list-info-btn"
-                      onClick={e => { e.stopPropagation(); openDetail(card) }}
-                      title="Card details"
-                    >ⓘ</button>
-                  </li>
-                )
-              })}
-            </ul>
-          )}
-
-          <div className="deckbuilder-footer">
-            {showManaWarning && (
-              <div style={{ fontSize: '11px', color: '#ffcc00', padding: '4px 0', lineHeight: 1.4 }}>
-                ⚠ Deck has {maxDeckCost}-cost cards but no mana structure. Add a Farm or mana building to exceed 5 max mana.
-              </div>
-            )}
-            <ProgressBar pct={(total / DECK_MAX) * 100} />
-            <div className="deckbuilder-footer-row">
+        {/* ── TOP PANEL: current deck ── */}
+        <div className={`deckbuilder-top-panel${deckCollapsed ? ' deckbuilder-panel--collapsed' : ''}`}>
+          <div className="deckbuilder-panel-header">
+            <span className="deckbuilder-panel-label">
+              DECK — click to remove
+            </span>
+            <div className="deckbuilder-header-actions">
+              {showManaWarning && (
+                <span className="deckbuilder-mana-warn" title={`Deck has ${maxDeckCost}-cost cards but no mana structure`}>
+                  ⚠ no mana building
+                </span>
+              )}
               <button
-                className="action-btn"
-                style={{ fontSize: '11px', padding: '5px 10px', borderColor: 'rgba(51,255,51,0.4)', color: 'var(--game-text-color-dim)' }}
+                className="action-btn db-action-sm"
                 onClick={() => setShowAutoBuild(true)}
-              >
-                ⚡ AUTO BUILD
-              </button>
+                title="Auto Build"
+              >⚡ AUTO</button>
               <button
-                className="action-btn"
-                style={{ fontSize: '11px', padding: '5px 10px', borderColor: 'rgba(51,255,51,0.4)', color: 'var(--game-text-color-dim)' }}
+                className="action-btn db-action-sm"
                 onClick={() => { setSavedDecks(loadSavedDecks()); setShowSavedDecks(true) }}
+                title="Saved Decks"
+              >💾 SAVED</button>
+              <button
+                className="action-btn db-action-sm"
+                onClick={() => setShowShare(true)}
+                title="Share Deck"
+              >🔗 SHARE</button>
+              <button
+                className={`action-btn db-action-sm${valid ? ' db-save-btn' : ''}`}
+                onClick={handleSave}
+                disabled={!valid}
+                title={valid ? 'Save deck and exit' : `Need ${DECK_MIN}+ cards`}
               >
-                💾 SAVED
+                {valid ? '✓ SAVE' : `NEED ${DECK_MIN - total} MORE`}
               </button>
               <button
-                className="action-btn"
-                style={{ fontSize: '11px', padding: '5px 10px', borderColor: 'rgba(51,255,51,0.4)', color: 'var(--game-text-color-dim)' }}
-                onClick={() => setShowShare(true)}
-              >
-                🔗 SHARE
-              </button>
+                className="db-collapse-btn"
+                onClick={() => setDeckCollapsed(c => !c)}
+                title={deckCollapsed ? 'Expand deck panel' : 'Collapse deck panel'}
+              >{deckCollapsed ? '▼' : '▲'}</button>
             </div>
-            <button
-              className={`action-btn${valid ? ' action-btn--large' : ''}`}
-              onClick={handleSave}
-              disabled={!valid}
-            >
-              {valid ? '✓ SAVE DECK' : `NEED ${DECK_MIN}+ CARDS`}
-            </button>
           </div>
+
+          {!deckCollapsed && (
+            <>
+              <ProgressBar pct={(total / DECK_MAX) * 100} />
+              <div className="deckbuilder-deck-grid">
+                {deck.length === 0 ? (
+                  <div className="deck-empty">Add cards from the collection below.</div>
+                ) : (
+                  <div className="collection-grid">
+                    {deckList.map(entry => {
+                      const card    = catalog.find(c => c.name === entry.cardName)!
+                      const resting = fatiguedCards.includes(entry.cardName)
+                      const lvl     = masteryLevel(getMasteryXp(collection, entry.cardName))
+                      return (
+                        <div
+                          key={entry.cardName}
+                          className={`collection-cell deck-cell${resting ? ' deck-cell--resting' : ''}`}
+                        >
+                          {resting && (
+                            <div className="resting-overlay">
+                              <span className="resting-badge">💤 RESTING</span>
+                            </div>
+                          )}
+                          <CardTile
+                            card={card}
+                            onClick={resting ? undefined : () => removeCard(entry.cardName)}
+                          />
+                          <div className="cell-footer">
+                            <span className="cell-count">
+                              ×{entry.count}
+                              {lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
+                            </span>
+                            <button
+                              className="extra-btn cdm-info-btn"
+                              onClick={e => { e.stopPropagation(); openDetail(card) }}
+                              title="Card details"
+                            >ⓘ</button>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </div>
+
+        {/* ── DIVIDER ── */}
+        <div
+          className="deckbuilder-divider"
+          title="Toggle panels"
+          onClick={() => {
+            if (deckCollapsed && collectionCollapsed) {
+              setDeckCollapsed(false)
+              setCollectionCollapsed(false)
+            } else if (!deckCollapsed && !collectionCollapsed) {
+              // no-op on plain click — use panel toggles
+            } else if (deckCollapsed) {
+              setDeckCollapsed(false)
+              setCollectionCollapsed(true)
+            } else {
+              setDeckCollapsed(true)
+              setCollectionCollapsed(false)
+            }
+          }}
+        >
+          <span className="deckbuilder-divider-handle">⠿</span>
+        </div>
+
+        {/* ── BOTTOM PANEL: collection ── */}
+        <div className={`deckbuilder-bottom-panel${collectionCollapsed ? ' deckbuilder-panel--collapsed' : ''}`}>
+          <div className="deckbuilder-panel-header">
+            <span className="deckbuilder-panel-label">COLLECTION — click to add</span>
+            <div className="deckbuilder-header-actions">
+              <span className="filter-owned" style={{ fontSize: '10px' }}>{filtered.length} cards</span>
+              <button
+                className="db-collapse-btn"
+                onClick={() => setCollectionCollapsed(c => !c)}
+                title={collectionCollapsed ? 'Expand collection panel' : 'Collapse collection panel'}
+              >{collectionCollapsed ? '▲' : '▼'}</button>
+            </div>
+          </div>
+
+          {!collectionCollapsed && (
+            <div className="deckbuilder-collection-inner">
+              {/* Search */}
+              <div className="deckbuilder-search-wrap">
+                <input
+                  className="deckbuilder-search"
+                  type="text"
+                  placeholder="Search cards…"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                />
+              </div>
+
+              {/* Filter / Sort / Group bar */}
+              <div className="filter-bar">
+                {/* FILTERS */}
+                <div className="filter-popup-wrap" ref={filterMenuRef}>
+                  <button
+                    className={`filter-btn${activeFilterCount > 0 ? ' filter-btn--active' : ''}`}
+                    onClick={() => { setFilterMenuOpen(o => !o); setSortMenuOpen(false); setGroupMenuOpen(false) }}
+                  >
+                    ▼ FILTERS{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
+                  </button>
+                  {filterMenuOpen && (
+                    <div className="filter-popup">
+                      <div className="filter-popup-section">
+                        <span className="filter-group-label">TYPE</span>
+                        <div className="filter-popup-btns">
+                          {(['all', 'unit', 'structure', 'upgrade'] as const).map(val => (
+                            <button
+                              key={val}
+                              className={`filter-btn filter-btn--sm${typeFilter === val ? ' filter-btn--active' : ''}`}
+                              onClick={() => setTypeFilter(val)}
+                            >
+                              {val === 'all' ? 'All' : val.charAt(0).toUpperCase() + val.slice(1) + 's'}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="filter-popup-section">
+                        <span className="filter-group-label">RARITY</span>
+                        <div className="filter-popup-btns">
+                          {(['all', 'common', 'uncommon', 'rare', 'legendary'] as const).map(val => (
+                            <button
+                              key={val}
+                              className={`filter-btn filter-btn--sm${rarityFilter === val ? ' filter-btn--active' : ''}`}
+                              onClick={() => setRarityFilter(val)}
+                            >
+                              {val.charAt(0).toUpperCase() + val.slice(1)}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="filter-popup-section">
+                        <span className="filter-group-label">TAGS <span className="filter-group-hint">(any match)</span></span>
+                        <div className="filter-popup-btns">
+                          {ALL_TAGS.map(tag => (
+                            <button
+                              key={tag}
+                              className={`filter-btn filter-btn--sm${tagFilter.includes(tag) ? ' filter-btn--active' : ''}`}
+                              onClick={() => toggleTag(tag)}
+                            >
+                              {tag}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      {allAffinityLabels.length > 0 && (
+                        <div className="filter-popup-section">
+                          <span className="filter-group-label">AFFINITY</span>
+                          <div className="filter-popup-btns">
+                            {allAffinityLabels.map(label => (
+                              <button
+                                key={label}
+                                className={`filter-btn filter-btn--sm${affinityFilter === label ? ' filter-btn--active' : ''}`}
+                                onClick={() => setAffinityFilter(prev => prev === label ? null : label)}
+                              >
+                                {label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {activeFilterCount > 0 && (
+                        <div className="filter-popup-footer">
+                          <button className="filter-btn filter-btn--sm filter-btn--reset" onClick={resetFilters}>
+                            ✕ Clear all filters
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* SORT */}
+                <div className="filter-popup-wrap" ref={sortMenuRef}>
+                  <button
+                    className={`filter-btn${sortKey !== 'default' ? ' filter-btn--active' : ''}`}
+                    onClick={() => { setSortMenuOpen(o => !o); setFilterMenuOpen(false); setGroupMenuOpen(false) }}
+                  >
+                    ↕ SORT{sortKey !== 'default' ? ` (${sortKey})` : ''}
+                  </button>
+                  {sortMenuOpen && (
+                    <div className="filter-popup">
+                      <div className="filter-popup-section">
+                        <div className="filter-popup-btns">
+                          {([
+                            ['default',   'Default'],
+                            ['az',        'A → Z'],
+                            ['za',        'Z → A'],
+                            ['mana-asc',  'Mana ↑'],
+                            ['mana-desc', 'Mana ↓'],
+                            ['rarity',    'Rarity'],
+                          ] as [SortKey, string][]).map(([val, label]) => (
+                            <button
+                              key={val}
+                              className={`filter-btn filter-btn--sm${sortKey === val ? ' filter-btn--active' : ''}`}
+                              onClick={() => setSortKey(val)}
+                            >
+                              {label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* GROUP */}
+                <div className="filter-popup-wrap" ref={groupMenuRef}>
+                  <button
+                    className={`filter-btn${groupKey !== 'none' ? ' filter-btn--active' : ''}`}
+                    onClick={() => { setGroupMenuOpen(o => !o); setFilterMenuOpen(false); setSortMenuOpen(false) }}
+                  >
+                    ⊞ GROUP{groupKey !== 'none' ? ` (${groupKey})` : ''}
+                  </button>
+                  {groupMenuOpen && (
+                    <div className="filter-popup">
+                      <div className="filter-popup-section">
+                        <div className="filter-popup-btns">
+                          {([
+                            ['none',    'None'],
+                            ['type',    'Type'],
+                            ['rarity',  'Rarity'],
+                            ['mana',    'Mana'],
+                            ['act',     'Act'],
+                          ] as [GroupKey, string][]).map(([val, label]) => (
+                            <button
+                              key={val}
+                              className={`filter-btn filter-btn--sm${groupKey === val ? ' filter-btn--active' : ''}`}
+                              onClick={() => setGroupKey(val)}
+                            >
+                              {label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Active filter pills */}
+                {activeFilterCount > 0 && (
+                  <div className="filter-active-pills">
+                    {typeFilter !== 'all' && (
+                      <span className="filter-pill">{typeFilter}s <button onClick={() => setTypeFilter('all')}>✕</button></span>
+                    )}
+                    {rarityFilter !== 'all' && (
+                      <span className="filter-pill">{rarityFilter} <button onClick={() => setRarityFilter('all')}>✕</button></span>
+                    )}
+                    {tagFilter.map(t => (
+                      <span key={t} className="filter-pill">{t} <button onClick={() => toggleTag(t)}>✕</button></span>
+                    ))}
+                    {affinityFilter && (
+                      <span className="filter-pill">affinity:{affinityFilter} <button onClick={() => setAffinityFilter(null)}>✕</button></span>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Collection grid */}
+              <div className="deckbuilder-collection-grid">
+                <div className="collection-grid">
+                  {(() => {
+                    let lastGroup: string | null = null
+                    return sorted.map(card => {
+                      const owned   = getOwnedCount(collection, card.name)
+                      const inDeck  = inDeckCount(card.name)
+                      const resting = fatiguedCards.includes(card.name)
+                      const canAdd  = !resting && inDeck < Math.min(owned, COPIES_MAX) && total < DECK_MAX
+                      const xp      = getMasteryXp(collection, card.name)
+                      const { level: lvl } = masteryProgress(xp)
+                      const label   = groupLabel(card)
+                      const showHeader = label !== null && label !== lastGroup
+                      if (showHeader) lastGroup = label
+                      return (
+                        <React.Fragment key={card.name}>
+                          {showHeader && (
+                            <div className="collection-group-header">{label}</div>
+                          )}
+                          <div className={`collection-cell${resting ? ' collection-cell--resting' : ''}`}>
+                            <CardTile
+                              card={card}
+                              canAfford={canAdd}
+                              onClick={canAdd ? () => addCard(card.name) : undefined}
+                            />
+                            <div className="cell-footer">
+                              <span className="cell-count">
+                                {resting
+                                  ? <span className="cell-resting-label">💤</span>
+                                  : <>{inDeck}/{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}</>
+                                }
+                              </span>
+                              <button
+                                className="extra-btn cdm-info-btn"
+                                onClick={e => { e.stopPropagation(); openDetail(card) }}
+                                title="Card details"
+                              >ⓘ</button>
+                            </div>
+                            {xp > 0 && <MasteryBar xp={xp} />}
+                          </div>
+                        </React.Fragment>
+                      )
+                    })
+                  })()}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
       </div>
 
-      {/* Auto-build strategy picker */}
+      {/* ── Auto-build modal ── */}
       {showAutoBuild && (
         <div className="autobuild-backdrop" onClick={() => setShowAutoBuild(false)}>
           <div className="autobuild-panel" onClick={e => e.stopPropagation()}>
@@ -497,7 +824,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
         </div>
       )}
 
-      {/* Saved Decks panel */}
+      {/* ── Saved Decks modal ── */}
       {showSavedDecks && (
         <div className="autobuild-backdrop" onClick={() => setShowSavedDecks(false)}>
           <div className="autobuild-panel saveddecks-panel" onClick={e => e.stopPropagation()}>
@@ -542,7 +869,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
         </div>
       )}
 
-      {/* Share panel */}
+      {/* ── Share modal ── */}
       {showShare && (
         <div className="autobuild-backdrop" onClick={() => setShowShare(false)}>
           <div className="autobuild-panel share-panel" onClick={e => e.stopPropagation()}>
