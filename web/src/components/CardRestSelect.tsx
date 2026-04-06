@@ -5,10 +5,12 @@ interface Props {
   candidates: string[]
   /** Plays-per-card for display (keyed by name). */
   playCounts: Record<string, number>
+  /** Cards already resting from previous acts — shown as informational. */
+  alreadyResting?: string[]
   onConfirm: (resting: string[]) => void
 }
 
-export function CardRestSelect({ candidates, playCounts, onConfirm }: Props) {
+export function CardRestSelect({ candidates, playCounts, alreadyResting = [], onConfirm }: Props) {
   const required = Math.min(2, candidates.length)
   // Pre-select the top `required` candidates
   const [selected, setSelected] = useState<Set<string>>(
@@ -36,6 +38,20 @@ export function CardRestSelect({ candidates, playCounts, onConfirm }: Props) {
           They will be unavailable in your deck until the act after.
         </div>
       </div>
+
+      {alreadyResting.length > 0 && (
+        <div className="card-rest-already">
+          <div className="card-rest-already-label">ALREADY RESTING</div>
+          <div className="card-rest-already-list">
+            {alreadyResting.map(name => (
+              <span key={name} className="card-rest-already-item">[ZZZ] {name}</span>
+            ))}
+          </div>
+          <div className="card-rest-already-note">
+            These cards are still unavailable — update your deck before the next act.
+          </div>
+        </div>
+      )}
 
       <div className="card-rest-candidates">
         {candidates.map((name, i) => {
