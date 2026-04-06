@@ -6,6 +6,16 @@ interface Props {
   onBack: () => void
 }
 
+function getResetTimeLocal(): string {
+  const now = new Date()
+  const nextMidnightUTC = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() + 1,
+  ))
+  return nextMidnightUTC.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })
+}
+
 export function DailyChallengeScreen({ onStart, onBack }: Props) {
   const state   = getDailyChallengeState()
   const deck    = getDailyPlayerDeck()
@@ -31,6 +41,7 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
       <div className="dc-header">
         <div className="dc-label">DAILY CHALLENGE</div>
         <div className="dc-date">{today}</div>
+        <div className="dc-reset-time">Resets at {getResetTimeLocal()}</div>
       </div>
 
       <div className="dc-rule">
