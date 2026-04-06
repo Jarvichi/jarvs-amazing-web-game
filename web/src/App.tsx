@@ -2288,6 +2288,7 @@ export default function App() {
         <CardRestSelect
           candidates={cardRestCandidates}
           playCounts={cardRestPlayCounts}
+          alreadyResting={fatiguedCards}
           onConfirm={handleCardRestConfirm}
         />
       )}
