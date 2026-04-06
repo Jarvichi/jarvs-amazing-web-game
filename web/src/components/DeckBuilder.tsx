@@ -472,7 +472,14 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
               </button>
               <button
                 className="db-collapse-btn"
-                onClick={() => setDeckCollapsed(c => !c)}
+                onClick={() => {
+                  if (!deckCollapsed && !collectionCollapsed) {
+                    setDeckCollapsed(true)           // collapse deck, collection stays open
+                  } else if (deckCollapsed) {
+                    setDeckCollapsed(false)           // expand deck
+                  }
+                  // do nothing if collection is already collapsed (can't collapse both)
+                }}
                 title={deckCollapsed ? 'Expand deck panel' : 'Collapse deck panel'}
               >{deckCollapsed ? '▼' : '▲'}</button>
             </div>
@@ -502,7 +509,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                           )}
                           <CardTile
                             card={card}
-                            onClick={resting ? undefined : () => removeCard(entry.cardName)}
+                            onClick={() => removeCard(entry.cardName)}
                           />
                           <div className="cell-footer">
                             <span className="cell-count">
@@ -528,20 +535,16 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
         {/* ── DIVIDER ── */}
         <div
           className="deckbuilder-divider"
-          title="Toggle panels"
+          title="Swap expanded panel"
           onClick={() => {
-            if (deckCollapsed && collectionCollapsed) {
-              setDeckCollapsed(false)
-              setCollectionCollapsed(false)
-            } else if (!deckCollapsed && !collectionCollapsed) {
-              // no-op on plain click — use panel toggles
-            } else if (deckCollapsed) {
+            if (deckCollapsed) {
               setDeckCollapsed(false)
               setCollectionCollapsed(true)
-            } else {
-              setDeckCollapsed(true)
+            } else if (collectionCollapsed) {
               setCollectionCollapsed(false)
+              setDeckCollapsed(true)
             }
+            // both open — no-op; use the panel collapse buttons
           }}
         >
           <span className="deckbuilder-divider-handle">⠿</span>
@@ -555,7 +558,14 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
               <span className="filter-owned" style={{ fontSize: '10px' }}>{filtered.length} cards</span>
               <button
                 className="db-collapse-btn"
-                onClick={() => setCollectionCollapsed(c => !c)}
+                onClick={() => {
+                  if (!collectionCollapsed && !deckCollapsed) {
+                    setCollectionCollapsed(true)      // collapse collection, deck stays open
+                  } else if (collectionCollapsed) {
+                    setCollectionCollapsed(false)     // expand collection
+                  }
+                  // do nothing if deck is already collapsed (can't collapse both)
+                }}
                 title={collectionCollapsed ? 'Expand collection panel' : 'Collapse collection panel'}
               >{collectionCollapsed ? '▲' : '▼'}</button>
             </div>
