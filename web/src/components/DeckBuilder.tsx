@@ -485,7 +485,11 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                     setDeckCollapsed(true)           // collapse deck, collection stays open
                   } else if (deckCollapsed) {
                     setDeckCollapsed(false)           // expand deck
-                  }
+                  } else {
+
+setDeckCollapsed(true)
+setCollectionCollapsed(false)
+}
                   // do nothing if collection is already collapsed (can't collapse both)
                 }}
                 title={deckCollapsed ? 'Expand deck panel' : 'Collapse deck panel'}
@@ -573,7 +577,10 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                     setCollectionCollapsed(true)      // collapse collection, deck stays open
                   } else if (collectionCollapsed) {
                     setCollectionCollapsed(false)     // expand collection
-                  }
+                  } else {
+setDeckCollapsed(false)
+setCollectionCollapsed(true)
+ }
                   // do nothing if deck is already collapsed (can't collapse both)
                 }}
                 title={collectionCollapsed ? 'Expand collection panel' : 'Collapse collection panel'}
