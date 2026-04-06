@@ -413,9 +413,13 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   const maxDeckCost = deckCardObjects.reduce((m, c) => Math.max(m, c.cost), 0)
   const showManaWarning = maxDeckCost > 5 && !hasManaStructure
 
-  // Deck list sorted by cost then name
+  // Deck list sorted by cost then name, filtered by active search term
   const deckList = deck
-    .filter(e => catalog.some(c => c.name === e.cardName))
+    .filter(e => {
+      if (!catalog.some(c => c.name === e.cardName)) return false
+      if (q && !e.cardName.toLowerCase().includes(q)) return false
+      return true
+    })
     .sort((a, b) => {
       const ca = catalog.find(c => c.name === a.cardName)!
       const cb = catalog.find(c => c.name === b.cardName)!
@@ -491,6 +495,8 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
               <div className="deckbuilder-deck-grid">
                 {deck.length === 0 ? (
                   <div className="deck-empty">Add cards from the collection below.</div>
+                ) : deckList.length === 0 ? (
+                  <div className="deck-empty">No deck cards match "{search}".</div>
                 ) : (
                   <div className="collection-grid">
                     {deckList.map(entry => {
