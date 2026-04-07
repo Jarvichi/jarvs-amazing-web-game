@@ -2375,7 +2375,7 @@ export default function App() {
       {screen === 'commander' && commander && (
         <CommanderScreen
           commander={commander}
-          onBack={() => setScreen('title')}
+          onBack={() => { setCommander(loadCommander()); setScreen('title') }}
           onRewardXp={(cardName, amount) => {
             const col = loadCollection()
             const updated = col.map(e =>
