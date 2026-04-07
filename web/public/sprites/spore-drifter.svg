@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Spore Drifter — floating fungal spirit, no legs -->
+  <!-- Spore cloud trailing behind -->
+  <circle cx="5" cy="20" r="2.5" fill="#8B6914" opacity="0.3"/>
+  <circle cx="8" cy="23" r="2" fill="#8B6914" opacity="0.25"/>
+  <circle cx="6" cy="25" r="1.5" fill="#8B6914" opacity="0.2"/>
+  <!-- Cap — large mushroom top -->
+  <ellipse cx="16" cy="11" rx="10" ry="5" fill="#8B4513"/>
+  <ellipse cx="16" cy="11" rx="9" ry="4" fill="#A0522D"/>
+  <!-- Spots on cap -->
+  <circle cx="11" cy="10" r="1.5" fill="#F5DEB3" opacity="0.8"/>
+  <circle cx="16" cy="8" r="2" fill="#F5DEB3" opacity="0.8"/>
+  <circle cx="21" cy="10" r="1.5" fill="#F5DEB3" opacity="0.8"/>
+  <circle cx="13" cy="12" r="1" fill="#F5DEB3" opacity="0.6"/>
+  <circle cx="19" cy="12" r="1" fill="#F5DEB3" opacity="0.6"/>
+  <!-- Stalk/body -->
+  <ellipse cx="16" cy="18" rx="4" ry="7" fill="#D2B48C"/>
+  <ellipse cx="16" cy="18" rx="3" ry="6" fill="#E8C88C"/>
+  <!-- Face on stalk -->
+  <circle cx="14.5" cy="16" r="1.2" fill="#333"/>
+  <circle cx="17.5" cy="16" r="1.2" fill="#333"/>
+  <!-- Glowing pupils -->
+  <circle cx="14.5" cy="16" r="0.5" fill="#9ACD32"/>
+  <circle cx="17.5" cy="16" r="0.5" fill="#9ACD32"/>
+  <!-- Grin -->
+  <path d="M14,19 Q16,21 18,19" stroke="#8B4513" stroke-width="0.8" fill="none"/>
+  <!-- Drifting spore tentacles -->
+  <path d="M12,22 Q9,24 8,27" stroke="#D2B48C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M16,24 Q16,27 15,29" stroke="#D2B48C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M20,22 Q23,24 24,27" stroke="#D2B48C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Floating spore dots -->
+  <circle cx="26" cy="12" r="1.5" fill="#9ACD32" opacity="0.6"/>
+  <circle cx="28" cy="16" r="1" fill="#9ACD32" opacity="0.5"/>
+  <circle cx="25" cy="19" r="1.2" fill="#9ACD32" opacity="0.4"/>
+  <circle cx="4" cy="14" r="1" fill="#9ACD32" opacity="0.5"/>
+  <circle cx="3" cy="18" r="1.2" fill="#9ACD32" opacity="0.4"/>
+</svg>

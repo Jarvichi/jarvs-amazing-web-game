@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Root Walker walk frame 3 — right leg forward -->
+  <path d="M14,5 Q12,2 11,1" stroke="#5C3A1A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M18,5 Q20,2 21,1" stroke="#5C3A1A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <circle cx="11" cy="1" r="1.5" fill="#228B22"/>
+  <circle cx="21" cy="1" r="1.5" fill="#228B22"/>
+  <ellipse cx="16" cy="10" rx="4.5" ry="4.5" fill="#5C3A1A"/>
+  <ellipse cx="16" cy="10" rx="3.5" ry="3.5" fill="#7A4A28"/>
+  <circle cx="14.5" cy="9" r="1" fill="#90EE90"/>
+  <circle cx="14.5" cy="9" r="0.5" fill="#333"/>
+  <circle cx="17.5" cy="9" r="1" fill="#90EE90"/>
+  <circle cx="17.5" cy="9" r="0.5" fill="#333"/>
+  <path d="M14,12 Q16,13 18,12" stroke="#3A2010" stroke-width="0.8" fill="none"/>
+  <rect x="12" y="15" width="8" height="9" rx="2" fill="#5C3A1A"/>
+  <rect x="13" y="16" width="6" height="7" rx="1" fill="#7A4A28"/>
+  <path d="M12,17 Q16,18 20,17" stroke="#228B22" stroke-width="0.8" fill="none"/>
+  <path d="M12,20 Q16,21 20,20" stroke="#228B22" stroke-width="0.8" fill="none"/>
+  <path d="M12,17 Q8,15 6,17" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M20,17 Q24,15 26,17" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Right leg forward -->
+  <rect x="12" y="24" width="4" height="5" rx="1" fill="#5C3A1A"/>
+  <rect x="17" y="24" width="4" height="8" rx="1" fill="#5C3A1A"/>
+  <path d="M12,29 Q10,30 9,30" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M16,29 Q16,30 15,30" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M17,31 Q19,32 20,32" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M21,31 Q23,32 24,32" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>

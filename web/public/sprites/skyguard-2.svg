@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Skyguard walk frame 2 — body 1px higher, wings raised, legs together -->
+  <path d="M12,15 Q5,8 2,6 Q5,13 8,15 Z" fill="#87CEEB" opacity="0.8"/>
+  <path d="M20,15 Q27,8 30,6 Q27,13 24,15 Z" fill="#87CEEB" opacity="0.8"/>
+  <path d="M12,15 Q6,10 3,8 Q5,14 10,16" stroke="#4682B4" stroke-width="0.7" fill="none"/>
+  <path d="M20,15 Q26,10 29,8 Q27,14 22,16" stroke="#4682B4" stroke-width="0.7" fill="none"/>
+  <path d="M11,7 Q11,2 16,2 Q21,2 21,7" fill="#4682B4" stroke="#2060A0" stroke-width="0.8"/>
+  <path d="M16,2 Q14,0 15,0 Q16,1 17,0 Q18,0 16,2" fill="#87CEEB"/>
+  <ellipse cx="16" cy="9" rx="5" ry="4.5" fill="#4682B4"/>
+  <ellipse cx="16" cy="9" rx="4" ry="3.5" fill="#5A96C8"/>
+  <rect x="12.5" y="8" width="7" height="2" rx="1" fill="#B0C4DE" opacity="0.9"/>
+  <rect x="13" y="8.5" width="6" height="1" rx="0.5" fill="#E8F4FF"/>
+  <rect x="12" y="13" width="8" height="9" rx="1" fill="#4682B4"/>
+  <rect x="13" y="14" width="6" height="7" rx="1" fill="#5A96C8"/>
+  <circle cx="16" cy="17" r="2" fill="#B0C4DE"/>
+  <path d="M16,14 L16,13 M16,20 L16,21 M13,17 L12,17 M19,17 L20,17" stroke="#87CEEB" stroke-width="0.8"/>
+  <rect x="12" y="21" width="8" height="1.5" fill="#2060A0"/>
+  <!-- Legs together -->
+  <rect x="12" y="22" width="4" height="9" rx="1" fill="#4682B4"/>
+  <rect x="17" y="22" width="4" height="9" rx="1" fill="#4682B4"/>
+  <rect x="11" y="29" width="6" height="3" rx="1" fill="#2060A0"/>
+  <rect x="16" y="29" width="6" height="3" rx="1" fill="#2060A0"/>
+</svg>

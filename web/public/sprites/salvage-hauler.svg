@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Salvage Hauler — stocky scavenger with large pack -->
+  <!-- Goggles/hood -->
+  <path d="M10,8 Q10,4 16,4 Q22,4 22,8" fill="#888" stroke="#666" stroke-width="0.5"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="10" rx="5" ry="5" fill="#C8A070"/>
+  <ellipse cx="16" cy="10" rx="4" ry="4" fill="#DAB888"/>
+  <!-- Goggles -->
+  <circle cx="13.5" cy="9" r="2" fill="#333" stroke="#888" stroke-width="0.8"/>
+  <circle cx="18.5" cy="9" r="2" fill="#333" stroke="#888" stroke-width="0.8"/>
+  <circle cx="13.5" cy="9" r="1" fill="#7EC8E3" opacity="0.7"/>
+  <circle cx="18.5" cy="9" r="1" fill="#7EC8E3" opacity="0.7"/>
+  <line x1="15.5" y1="9" x2="16.5" y2="9" stroke="#888" stroke-width="0.8"/>
+  <!-- Scarf/bandana -->
+  <path d="M11,12 Q16,14 21,12 L21,13 Q16,15 11,13 Z" fill="#CC4400"/>
+  <!-- Body — bulky coat -->
+  <rect x="11" y="14" width="10" height="9" rx="1" fill="#666"/>
+  <rect x="12" y="15" width="8" height="7" rx="1" fill="#777"/>
+  <!-- Chest pockets -->
+  <rect x="12" y="16" width="3" height="2" rx="0.5" fill="#555"/>
+  <rect x="17" y="16" width="3" height="2" rx="0.5" fill="#555"/>
+  <!-- Massive salvage pack on back -->
+  <rect x="4" y="12" width="7" height="11" rx="1" fill="#888"/>
+  <rect x="5" y="13" width="5" height="9" rx="1" fill="#999"/>
+  <!-- Pack straps -->
+  <line x1="9" y1="14" x2="11" y2="16" stroke="#666" stroke-width="1"/>
+  <line x1="9" y1="20" x2="11" y2="21" stroke="#666" stroke-width="1"/>
+  <!-- Salvage items poking out of pack -->
+  <rect x="5" y="11" width="2" height="3" fill="#B8860B"/>
+  <line x1="4" y1="13" x2="4" y2="11" stroke="#DAA520" stroke-width="1.5"/>
+  <!-- Belt with tools -->
+  <rect x="11" y="21" width="10" height="2" fill="#555"/>
+  <rect x="13" y="21" width="2" height="2" fill="#888"/>
+  <rect x="17" y="21" width="2" height="2" fill="#888"/>
+  <!-- Legs -->
+  <rect x="12" y="23" width="4" height="8" rx="1" fill="#555"/>
+  <rect x="17" y="23" width="4" height="8" rx="1" fill="#555"/>
+  <!-- Boots -->
+  <rect x="11" y="29" width="6" height="3" rx="1" fill="#444"/>
+  <rect x="16" y="29" width="6" height="3" rx="1" fill="#444"/>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Coral crown -->
+  <path d="M13,7 L12,4 L14,6 L13,3 L15,5 L16,3 L17,5 L19,3 L18,6 L20,4 L19,7" fill="#FF6B6B" opacity="0.8"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="10" rx="5" ry="5" fill="#5BA8A0"/>
+  <circle cx="14" cy="9.5" r="0.9" fill="#333"/>
+  <circle cx="18" cy="9.5" r="0.9" fill="#333"/>
+  <!-- Barnacle/scale pattern on face -->
+  <circle cx="14" cy="12" r="0.6" fill="#4A8880"/>
+  <circle cx="16" cy="12" r="0.6" fill="#4A8880"/>
+  <circle cx="18" cy="12" r="0.6" fill="#4A8880"/>
+  <!-- Teal sea-armour body -->
+  <path d="M11,15 L11,22 L21,22 L21,15 Q16,18 11,15 Z" fill="#008B8B"/>
+  <!-- Scale pattern -->
+  <path d="M11,16 Q13,15 15,17" stroke="#006666" stroke-width="0.7" fill="none"/>
+  <path d="M14,15 Q16,14 18,16" stroke="#006666" stroke-width="0.7" fill="none"/>
+  <path d="M17,16 Q19,15 21,17" stroke="#006666" stroke-width="0.7" fill="none"/>
+  <path d="M11,19 Q14,18 17,19 Q20,18 21,19" stroke="#006666" stroke-width="0.7" fill="none"/>
+  <!-- Belt -->
+  <rect x="11" y="20" width="10" height="2" fill="#004444"/>
+  <!-- Trident right hand -->
+  <line x1="23" y1="5" x2="23" y2="26" stroke="#5BA8A0" stroke-width="2"/>
+  <path d="M21,5 L23,9 L25,5" stroke="#5BA8A0" stroke-width="1.5" fill="none"/>
+  <line x1="21" y1="5" x2="21" y2="8" stroke="#5BA8A0" stroke-width="1.5"/>
+  <line x1="25" y1="5" x2="25" y2="8" stroke="#5BA8A0" stroke-width="1.5"/>
+  <!-- Legs -->
+  <rect x="11" y="22" width="5" height="8" rx="1" fill="#006666"/>
+  <rect x="17" y="22" width="5" height="8" rx="1" fill="#006666"/>
+  <rect x="10" y="28" width="7" height="3" rx="1" fill="#004444"/>
+  <rect x="16" y="28" width="7" height="3" rx="1" fill="#004444"/>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Root Queen walk frame 2 — body 1px higher, legs together -->
+  <path d="M12,4 Q10,1 9,0 M14,3 Q13,0 12,0 M16,2 Q16,0 16,0 M18,3 Q19,0 20,0 M20,4 Q22,1 23,0" stroke="#5C3A1A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <circle cx="9" cy="1" r="1.5" fill="#228B22"/>
+  <circle cx="12" cy="0" r="1.5" fill="#228B22"/>
+  <circle cx="16" cy="0" r="1.5" fill="#228B22"/>
+  <circle cx="20" cy="0" r="1.5" fill="#228B22"/>
+  <circle cx="23" cy="1" r="1.5" fill="#228B22"/>
+  <ellipse cx="16" cy="8" rx="5" ry="5" fill="#7A4A28"/>
+  <ellipse cx="16" cy="8" rx="4" ry="4" fill="#9A6A3A"/>
+  <circle cx="14" cy="7" r="1.2" fill="#90EE90"/>
+  <circle cx="14" cy="7" r="0.6" fill="#006400"/>
+  <circle cx="18" cy="7" r="1.2" fill="#90EE90"/>
+  <circle cx="18" cy="7" r="0.6" fill="#006400"/>
+  <path d="M14,10 Q16,11 18,10" stroke="#5C3A1A" stroke-width="0.8" fill="none"/>
+  <rect x="12" y="13" width="8" height="10" rx="1" fill="#5C3A1A"/>
+  <rect x="13" y="13" width="6" height="10" rx="1" fill="#7A4A28"/>
+  <path d="M13,15 Q16,16 19,15" stroke="#5C3A1A" stroke-width="0.7" fill="none"/>
+  <path d="M13,18 Q16,19 19,18" stroke="#5C3A1A" stroke-width="0.7" fill="none"/>
+  <path d="M13,21 Q16,22 19,21" stroke="#5C3A1A" stroke-width="0.7" fill="none"/>
+  <path d="M12,15 Q7,14 5,16 Q7,17 6,19" stroke="#5C3A1A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <circle cx="5" cy="19" r="1.5" fill="#228B22"/>
+  <path d="M20,15 Q25,14 27,16 Q25,17 26,19" stroke="#5C3A1A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <circle cx="27" cy="19" r="1.5" fill="#228B22"/>
+  <!-- Legs together (mid-stride) -->
+  <rect x="12" y="23" width="4" height="8" rx="1" fill="#5C3A1A"/>
+  <rect x="17" y="23" width="4" height="8" rx="1" fill="#5C3A1A"/>
+  <path d="M12,30 Q10,32 9,32" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M16,31 Q16,32 15,32" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M17,31 Q19,32 20,32" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M21,30 Q23,32 24,32" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>

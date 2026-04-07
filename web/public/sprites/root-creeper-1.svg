@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Root Creeper walk frame 1 — legs shifted left -->
+  <ellipse cx="18" cy="20" rx="10" ry="6" fill="#5C3A1A"/>
+  <ellipse cx="18" cy="19" rx="8" ry="5" fill="#7A4A28"/>
+  <path d="M13,15 Q11,10 9,8 Q10,10 11,9" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M16,14 Q15,9 14,6" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M20,14 Q21,8 23,6 Q21,9 22,8" stroke="#5C3A1A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <circle cx="9" cy="8" r="2" fill="#228B22"/>
+  <circle cx="14" cy="6" r="2" fill="#228B22"/>
+  <circle cx="23" cy="6" r="2" fill="#228B22"/>
+  <ellipse cx="27" cy="19" rx="4" ry="4" fill="#5C3A1A"/>
+  <ellipse cx="27" cy="19" rx="3.5" ry="3" fill="#7A4A28"/>
+  <path d="M28,20 L31,18 M28,22 L31,22" stroke="#3A2010" stroke-width="1.2"/>
+  <circle cx="26" cy="17" r="1.2" fill="#90EE90"/>
+  <circle cx="26" cy="17" r="0.6" fill="#333"/>
+  <!-- Legs shifted: front pair forward, back pair back -->
+  <path d="M13,24 L9,28" stroke="#5C3A1A" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M17,25 L14,30" stroke="#5C3A1A" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M21,25 L21,30" stroke="#5C3A1A" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M25,24 L27,29" stroke="#5C3A1A" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M8,21 Q4,19 3,16" stroke="#5C3A1A" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>
