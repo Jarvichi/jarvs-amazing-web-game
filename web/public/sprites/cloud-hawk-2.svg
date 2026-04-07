@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Body 1px higher -->
+  <path d="M8,21 Q5,25 4,29" stroke="#DDEEFF" stroke-width="2" fill="none"/>
+  <path d="M10,22 Q8,26 8,30" stroke="#BBDDFF" stroke-width="2" fill="none"/>
+  <path d="M12,22 Q11,26 12,30" stroke="#DDEEFF" stroke-width="2" fill="none"/>
+  <ellipse cx="17" cy="17" rx="8" ry="6" fill="#87CEEB"/>
+  <ellipse cx="17" cy="16" rx="6" ry="5" fill="#B0DDFF"/>
+  <ellipse cx="24" cy="11" rx="5" ry="4" fill="#87CEEB"/>
+  <path d="M28,10 L32,11 L28,12" fill="#DAA520"/>
+  <circle cx="26" cy="10" r="1.2" fill="#FFD700"/>
+  <circle cx="26" cy="10" r="0.6" fill="#333"/>
+  <path d="M24,8 L23,4 L25,7" fill="#DDEEFF"/>
+  <!-- Wings symmetric (mid-stride) -->
+  <path d="M14,13 Q8,5 3,7 Q7,13 14,17" fill="#87CEEB"/>
+  <path d="M20,13 Q26,5 31,7 Q27,13 20,17" fill="#87CEEB"/>
+  <path d="M6,8 Q5,11 7,13" stroke="#B0DDFF" stroke-width="0.8" fill="none"/>
+  <path d="M4,9 Q4,12 6,14" stroke="#B0DDFF" stroke-width="0.8" fill="none"/>
+  <path d="M15,22 L13,26 M15,22 L15,26 M15,22 L17,25" stroke="#DAA520" stroke-width="1.2"/>
+  <path d="M19,22 L17,26 M19,22 L19,26 M19,22 L21,25" stroke="#DAA520" stroke-width="1.2"/>
+</svg>

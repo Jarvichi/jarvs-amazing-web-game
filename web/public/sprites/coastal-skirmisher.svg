@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Bandana / headwrap -->
+  <ellipse cx="16" cy="9" rx="5" ry="5" fill="#c8955a"/>
+  <rect x="11" y="7" width="10" height="4" rx="2" fill="#20B2AA"/>
+  <path d="M21,8 Q24,7 23,10" fill="#20B2AA"/>
+  <!-- Eyes -->
+  <circle cx="14" cy="10" r="0.8" fill="#333"/>
+  <circle cx="18" cy="10" r="0.8" fill="#333"/>
+  <!-- Light leather tunic -->
+  <path d="M11,14 L11,22 L21,22 L21,14 Q16,17 11,14 Z" fill="#20B2AA"/>
+  <!-- Crossed sash -->
+  <line x1="11" y1="14" x2="21" y2="22" stroke="#008B8B" stroke-width="1.2"/>
+  <!-- Belt -->
+  <rect x="11" y="20" width="10" height="2" fill="#5C3A10"/>
+  <!-- Short sword left hip -->
+  <rect x="8" y="19" width="2" height="7" rx="0.5" fill="#888"/>
+  <rect x="7.5" y="17" width="3" height="3" rx="1" fill="#5C3A10"/>
+  <!-- Javelin right hand -->
+  <line x1="22" y1="7" x2="26" y2="23" stroke="#8B5C2A" stroke-width="1.5"/>
+  <polygon points="26,23 24,20 28,21" fill="#888"/>
+  <!-- Legs -->
+  <rect x="11" y="22" width="5" height="8" rx="1" fill="#008B8B"/>
+  <rect x="17" y="22" width="5" height="8" rx="1" fill="#008B8B"/>
+  <rect x="10" y="28" width="7" height="3" rx="1" fill="#5C3A10"/>
+  <rect x="16" y="28" width="7" height="3" rx="1" fill="#5C3A10"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Body 1px higher -->
+  <path d="M4,27 Q6,17 10,13 Q16,7 22,11 Q28,15 28,9" stroke="#006994" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M4,27 Q6,17 10,13 Q16,7 22,11 Q28,15 28,9" stroke="#1E90FF" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M8,19 Q10,17 12,19" stroke="#006994" stroke-width="0.8" fill="none"/>
+  <path d="M12,15 Q14,13 16,15" stroke="#006994" stroke-width="0.8" fill="none"/>
+  <path d="M18,12 Q20,10 22,12" stroke="#006994" stroke-width="0.8" fill="none"/>
+  <ellipse cx="28" cy="8" rx="6" ry="4" fill="#006994"/>
+  <ellipse cx="28" cy="8" rx="5" ry="3" fill="#1E90FF"/>
+  <path d="M25,10 L32,11 L32,13 L25,12 Z" fill="#006994"/>
+  <path d="M27,10 L27,12 M29,10 L29,12 M31,10 L31,12" stroke="#E0E8FF" stroke-width="0.8"/>
+  <circle cx="29" cy="7" r="1.5" fill="#FFD700"/>
+  <circle cx="29" cy="7" r="0.7" fill="#333"/>
+  <path d="M14,10 L13,6 L15,8 L16,4 L17,8 L19,6 L18,10" fill="#00CED1" opacity="0.8"/>
+  <path d="M4,27 Q1,25 0,29 Q3,30 5,28" fill="#1E90FF"/>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <circle cx="16" cy="9" r="6" fill="#888"/>
+  <circle cx="16" cy="9" r="5" fill="#999"/>
+  <path d="M10,9 L9,7 L11,8 L10,6 L13,8 L12,5 L16,7 L20,5 L19,8 L22,6 L21,8 L23,7 L22,9" stroke="#B8860B" stroke-width="1" fill="none"/>
+  <circle cx="16" cy="9" r="2.5" fill="#222"/>
+  <circle cx="16" cy="9" r="1.5" fill="#FF8800"/>
+  <circle cx="16" cy="9" r="0.6" fill="#FFD700"/>
+  <rect x="12" y="15" width="8" height="8" rx="2" fill="#777"/>
+  <rect x="13" y="16" width="6" height="6" fill="#888"/>
+  <circle cx="22" cy="17" r="3" fill="#B8860B"/>
+  <circle cx="22" cy="17" r="2" fill="#DAA520"/>
+  <circle cx="22" cy="17" r="0.7" fill="#888"/>
+  <rect x="9" y="16" width="3" height="6" rx="1" fill="#666"/>
+  <ellipse cx="10.5" cy="15" rx="2" ry="1" fill="#444"/>
+  <!-- Legs stride A: left low forward -->
+  <rect x="9"  y="23" width="5" height="8" rx="1" fill="#666"/>
+  <rect x="18" y="23" width="5" height="5" rx="1" fill="#666"/>
+  <rect x="8"  y="29" width="7" height="3" rx="1" fill="#B8860B"/>
+  <rect x="18" y="26" width="6" height="3" rx="1" fill="#B8860B"/>
+</svg>
