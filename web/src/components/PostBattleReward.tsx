@@ -85,8 +85,15 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
       </div>
 
       {allFlipped && !picked && (
-        <button className="action-btn reward-skip-btn" onClick={onSkip}>
-          SKIP REWARD
+        <button className="action-btn reward-skip-btn" onClick={() => {
+          if (choices.length > 0) {
+            const randomCard = choices[Math.floor(Math.random() * choices.length)]
+            handlePick(randomCard)
+          } else {
+            onSkip()
+          }
+        }}>
+          Continue
         </button>
       )}
     </div>
