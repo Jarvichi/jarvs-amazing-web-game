@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Round goggle head -->
+  <circle cx="16" cy="9" r="6" fill="#888"/>
+  <circle cx="16" cy="9" r="5" fill="#999"/>
+  <!-- Goggles -->
+  <circle cx="13.5" cy="9" r="2.5" fill="#333"/>
+  <circle cx="18.5" cy="9" r="2.5" fill="#333"/>
+  <rect x="15.8" y="8" width="0.8" height="2" fill="#555"/>
+  <circle cx="13.5" cy="9" r="1.5" fill="#FF8800" opacity="0.7"/>
+  <circle cx="18.5" cy="9" r="1.5" fill="#FF8800" opacity="0.7"/>
+  <!-- Goggle strap -->
+  <rect x="10" y="8" width="3" height="1.5" rx="0.5" fill="#555"/>
+  <rect x="19" y="8" width="3" height="1.5" rx="0.5" fill="#555"/>
+  <!-- Slim body -->
+  <path d="M12,15 L12,22 L20,22 L20,15 Q16,17 12,15 Z" fill="#777"/>
+  <!-- Gear on belt -->
+  <circle cx="16" cy="21" r="1.8" fill="#B8860B"/>
+  <circle cx="16" cy="21" r="1" fill="#DAA520"/>
+  <circle cx="16" cy="21" r="0.4" fill="#777"/>
+  <!-- Small backpack -->
+  <rect x="20" y="15" width="4" height="7" rx="1" fill="#666"/>
+  <rect x="20.5" y="16" width="3" height="5" fill="#555"/>
+  <!-- Arms -->
+  <rect x="7" y="15" width="4" height="6" rx="1" fill="#777"/>
+  <rect x="21" y="15" width="1" height="6" rx="0" fill="#777"/>
+  <!-- Tool in left hand -->
+  <rect x="5" y="18" width="3" height="1.5" rx="0.5" fill="#888"/>
+  <rect x="4" y="17" width="2" height="3" rx="1" fill="#B8860B"/>
+  <!-- Legs -->
+  <rect x="12" y="22" width="4" height="8" rx="1" fill="#666"/>
+  <rect x="17" y="22" width="4" height="8" rx="1" fill="#666"/>
+  <rect x="11" y="28" width="6" height="3" rx="1" fill="#B8860B"/>
+  <rect x="16" y="28" width="6" height="3" rx="1" fill="#B8860B"/>
+</svg>

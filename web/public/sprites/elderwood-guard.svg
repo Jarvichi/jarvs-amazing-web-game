@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Bark helmet with leaf crest -->
+  <rect x="11" y="5" width="10" height="8" rx="2" fill="#5C3A1A"/>
+  <rect x="12" y="6" width="8" height="6" rx="1" fill="#7A4A28"/>
+  <path d="M14,5 Q16,1 18,5" fill="#228B22"/>
+  <!-- Eye-slits -->
+  <rect x="12" y="8" width="3" height="1.5" fill="#333"/>
+  <rect x="17" y="8" width="3" height="1.5" fill="#333"/>
+  <!-- Bark-plate body -->
+  <path d="M10,13 L10,22 L22,22 L22,13 Q16,16 10,13 Z" fill="#5C3A1A"/>
+  <path d="M11,14 L11,21 M13,13 L13,21 M15,13 L15,21 M17,13 L17,21 M19,13 L19,21 M21,14 L21,21" stroke="#3A2010" stroke-width="0.8"/>
+  <!-- Leaf shoulder guards -->
+  <path d="M10,13 Q6,11 5,15 Q8,15 10,17" fill="#228B22"/>
+  <path d="M22,13 Q26,11 27,15 Q24,15 22,17" fill="#228B22"/>
+  <!-- Belt -->
+  <rect x="10" y="20" width="12" height="2" fill="#3A2010"/>
+  <!-- Spear right hand -->
+  <line x1="24" y1="3" x2="24" y2="28" stroke="#8B5A2B" stroke-width="2"/>
+  <polygon points="24,2 22,7 26,7" fill="#888"/>
+  <!-- Shield left arm -->
+  <rect x="5" y="14" width="5" height="8" rx="1" fill="#3A2010"/>
+  <ellipse cx="7.5" cy="18" rx="2.5" ry="4" fill="#5C3A1A"/>
+  <path d="M6,16 Q7.5,14 9,16 Q9,20 7.5,22 Q6,20 6,16" fill="#228B22" opacity="0.6"/>
+  <!-- Legs -->
+  <rect x="11" y="22" width="5" height="8" rx="1" fill="#5C3A1A"/>
+  <rect x="17" y="22" width="5" height="8" rx="1" fill="#5C3A1A"/>
+  <rect x="10" y="28" width="7" height="3" rx="1" fill="#3A2010"/>
+  <rect x="16" y="28" width="7" height="3" rx="1" fill="#3A2010"/>
+</svg>

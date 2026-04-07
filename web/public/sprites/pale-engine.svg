@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Pale cylindrical head -->
+  <rect x="11" y="4" width="10" height="9" rx="3" fill="#DDD"/>
+  <rect x="12" y="5" width="8" height="7" rx="2" fill="#EEE"/>
+  <!-- Single central lens -->
+  <circle cx="16" cy="9" r="3" fill="#BBB"/>
+  <circle cx="16" cy="9" r="2" fill="#CCDDFF" opacity="0.8"/>
+  <circle cx="16" cy="9" r="1" fill="#FFFFFF" opacity="0.9"/>
+  <!-- Pale neck vents -->
+  <rect x="13" y="13" width="6" height="3" rx="1" fill="#CCC"/>
+  <line x1="14" y1="13" x2="14" y2="16" stroke="#AAA" stroke-width="0.7"/>
+  <line x1="16" y1="13" x2="16" y2="16" stroke="#AAA" stroke-width="0.7"/>
+  <line x1="18" y1="13" x2="18" y2="16" stroke="#AAA" stroke-width="0.7"/>
+  <!-- Slim pale body -->
+  <rect x="10" y="16" width="12" height="10" rx="2" fill="#CCC"/>
+  <rect x="11" y="17" width="10" height="8" fill="#DDD"/>
+  <!-- Pale power conduits -->
+  <line x1="12" y1="17" x2="12" y2="24" stroke="#AABBFF" stroke-width="1.2" opacity="0.7"/>
+  <line x1="16" y1="17" x2="16" y2="24" stroke="#AABBFF" stroke-width="1.2" opacity="0.7"/>
+  <line x1="20" y1="17" x2="20" y2="24" stroke="#AABBFF" stroke-width="1.2" opacity="0.7"/>
+  <!-- Pale shoulder joints -->
+  <circle cx="10" cy="17" r="2.5" fill="#BBB"/>
+  <circle cx="22" cy="17" r="2.5" fill="#BBB"/>
+  <!-- Arms -->
+  <rect x="6"  y="17" width="4" height="9" rx="1" fill="#CCC"/>
+  <rect x="22" y="17" width="4" height="9" rx="1" fill="#CCC"/>
+  <!-- Pincers -->
+  <path d="M5,25 L4,29 M7,25 L8,29" stroke="#BBB" stroke-width="1.5"/>
+  <path d="M22,25 L21,29 M25,25 L26,29" stroke="#BBB" stroke-width="1.5"/>
+  <!-- Legs -->
+  <rect x="11" y="26" width="4" height="6" rx="1" fill="#CCC"/>
+  <rect x="17" y="26" width="4" height="6" rx="1" fill="#CCC"/>
+  <rect x="10" y="30" width="6" height="2" rx="1" fill="#BBB"/>
+  <rect x="16" y="30" width="6" height="2" rx="1" fill="#BBB"/>
+</svg>

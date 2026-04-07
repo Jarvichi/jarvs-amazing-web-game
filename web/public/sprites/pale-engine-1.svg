@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect x="11" y="5" width="10" height="9" rx="3" fill="#DDD"/>
+  <rect x="12" y="6" width="8" height="7" rx="2" fill="#EEE"/>
+  <circle cx="16" cy="10" r="3" fill="#BBB"/>
+  <circle cx="16" cy="10" r="2" fill="#CCDDFF" opacity="0.8"/>
+  <circle cx="16" cy="10" r="1" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="13" y="14" width="6" height="3" rx="1" fill="#CCC"/>
+  <line x1="14" y1="14" x2="14" y2="17" stroke="#AAA" stroke-width="0.7"/>
+  <line x1="16" y1="14" x2="16" y2="17" stroke="#AAA" stroke-width="0.7"/>
+  <line x1="18" y1="14" x2="18" y2="17" stroke="#AAA" stroke-width="0.7"/>
+  <rect x="10" y="17" width="12" height="10" rx="2" fill="#CCC"/>
+  <rect x="11" y="18" width="10" height="8" fill="#DDD"/>
+  <line x1="12" y1="18" x2="12" y2="25" stroke="#AABBFF" stroke-width="1.2" opacity="0.7"/>
+  <line x1="16" y1="18" x2="16" y2="25" stroke="#AABBFF" stroke-width="1.2" opacity="0.7"/>
+  <line x1="20" y1="18" x2="20" y2="25" stroke="#AABBFF" stroke-width="1.2" opacity="0.7"/>
+  <circle cx="10" cy="18" r="2.5" fill="#BBB"/>
+  <circle cx="22" cy="18" r="2.5" fill="#BBB"/>
+  <rect x="6"  y="18" width="4" height="9" rx="1" fill="#CCC"/>
+  <rect x="22" y="18" width="4" height="9" rx="1" fill="#CCC"/>
+  <path d="M5,26 L4,30 M7,26 L8,30" stroke="#BBB" stroke-width="1.5"/>
+  <path d="M22,26 L21,30 M25,26 L26,30" stroke="#BBB" stroke-width="1.5"/>
+  <!-- Legs stride A -->
+  <rect x="9"  y="27" width="4" height="5" rx="1" fill="#CCC"/>
+  <rect x="18" y="27" width="4" height="3" rx="1" fill="#CCC"/>
+  <rect x="8"  y="30" width="6" height="2" rx="1" fill="#BBB"/>
+  <rect x="18" y="28" width="5" height="2" rx="1" fill="#BBB"/>
+</svg>

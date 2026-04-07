@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 1px higher -->
+  <path d="M12,7 Q14,2 16,4 Q18,2 20,7" fill="#FFD700"/>
+  <path d="M13,7 L12,4 L14,6 L13,3 L15,5 L16,2 L17,5 L19,3 L18,6 L20,4 L19,7" stroke="#FFFF00" stroke-width="0.8" fill="none"/>
+  <ellipse cx="16" cy="9" rx="5" ry="5" fill="#c8a060"/>
+  <circle cx="14" cy="8.5" r="1" fill="#FFD700"/>
+  <circle cx="18" cy="8.5" r="1" fill="#FFD700"/>
+  <circle cx="14" cy="8.5" r="0.4" fill="#333"/>
+  <circle cx="18" cy="8.5" r="0.4" fill="#333"/>
+  <path d="M11,14 L11,21 L21,21 L21,14 Q16,17 11,14 Z" fill="#1A3A6A"/>
+  <path d="M17,14 L14,18 L16,18 L13,21 L18,16 L16,16 Z" fill="#FFD700"/>
+  <rect x="11" y="19" width="10" height="2" fill="#0A1A4A"/>
+  <path d="M5,7 Q1,14 5,21" stroke="#3A6AFF" stroke-width="2.5" fill="none"/>
+  <line x1="5" y1="7" x2="5" y2="21" stroke="#FFD700" stroke-width="0.8"/>
+  <line x1="5" y1="14" x2="13" y2="14" stroke="#FFD700" stroke-width="2"/>
+  <path d="M12,14 L10,12 L13,13 L11,11 L14,14 L11,14 L13,16 Z" fill="#FFFF00"/>
+  <rect x="21" y="12" width="3" height="8" rx="1" fill="#1A3A6A"/>
+  <line x1="22" y1="11" x2="22" y2="13" stroke="#FFD700" stroke-width="1"/>
+  <!-- Legs mid-stride -->
+  <rect x="11" y="21" width="5" height="9" rx="1" fill="#0A1A4A"/>
+  <rect x="17" y="21" width="5" height="9" rx="1" fill="#0A1A4A"/>
+  <rect x="10" y="28" width="7" height="3" rx="1" fill="#1A3A6A"/>
+  <rect x="16" y="28" width="7" height="3" rx="1" fill="#1A3A6A"/>
+</svg>
