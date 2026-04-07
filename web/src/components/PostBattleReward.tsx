@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { CardTile } from './CardTile'
+import { CardDetailModal } from './CardDetailModal'
 import { getCardCatalog } from '../game/cards'
 import { NodeType } from '../game/questline'
+import { Card } from '../game/types'
 
 interface Props {
   choices: string[]     // 3 card names
@@ -26,13 +28,19 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
   const cards   = choices.map(name => catalog.find(c => c.name === name)).filter(Boolean) as ReturnType<typeof getCardCatalog>[number][]
 
   // Track which cards have been flipped (revealed face-up)
-  const [flipped, setFlipped] = useState<boolean[]>(() => choices.map(() => false))
-  const [picked,  setPicked]  = useState<string | null>(null)
+  const [flipped,    setFlipped]    = useState<boolean[]>(() => choices.map(() => false))
+  // Card currently being claimed (triggers dim + transition animation)
+  const [claimed,    setClaimed]    = useState<string | null>(null)
+  // Card the player has tapped to highlight / select
+  const [selected,   setSelected]   = useState<string | null>(null)
+  // Card whose detail modal is open
+  const [detailCard, setDetailCard] = useState<Card | null>(null)
 
   // Sequentially reveal cards with a short stagger; re-run if choices arrive late
   useEffect(() => {
     setFlipped(choices.map(() => false))
-    setPicked(null)
+    setClaimed(null)
+    setSelected(null)
     const timers = choices.map((_, i) =>
       setTimeout(() => {
         setFlipped(prev => {
@@ -45,10 +53,16 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
     return () => timers.forEach(clearTimeout)
   }, [choices.join(',')]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  function handlePick(name: string) {
-    if (picked || !flipped[cards.findIndex(c => c.name === name)]) return
-    setPicked(name)
+  function claimCard(name: string) {
+    if (claimed || !flipped[cards.findIndex(c => c.name === name)]) return
+    setClaimed(name)
     setTimeout(() => onPick(name), 380)
+  }
+
+  function handleCardClick(name: string, idx: number) {
+    if (claimed || !flipped[idx]) return
+    // Toggle selection; tapping the same card deselects it
+    setSelected(prev => prev === name ? null : name)
   }
 
   const allFlipped = flipped.every(Boolean)
@@ -62,39 +76,70 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
       </div>
 
       <div className="reward-cards">
-        {cards.map((card, i) => (
-          <div key={card.name} className="reward-card-flip-wrap">
-            <div
-              className={`reward-card-flipper${flipped[i] ? ' reward-card-flipper--flipped' : ''}`}
-              onClick={() => handlePick(card.name)}
-              style={{
-                cursor: flipped[i] && !picked ? 'pointer' : 'default',
-                opacity: picked && picked !== card.name ? 0.3 : 1,
-                transition: 'opacity 0.3s ease',
-              }}
-            >
-              {/* Back face */}
-              <div className="reward-card-back">✦</div>
-              {/* Front face */}
-              <div className="reward-card-face">
-                <CardTile card={card} canAfford={true} onClick={() => handlePick(card.name)} />
+        {cards.map((card, i) => {
+          const isSelected  = selected === card.name
+          const shouldDim   = claimed ? claimed !== card.name : selected ? selected !== card.name : false
+
+          return (
+            <div key={card.name} className="reward-card-flip-wrap">
+              <div
+                className={[
+                  'reward-card-flipper',
+                  flipped[i] ? 'reward-card-flipper--flipped' : '',
+                  isSelected  ? 'reward-card-flipper--selected' : '',
+                ].filter(Boolean).join(' ')}
+                onClick={() => handleCardClick(card.name, i)}
+                style={{
+                  cursor:  flipped[i] && !claimed ? 'pointer' : 'default',
+                  opacity: shouldDim ? 0.3 : 1,
+                  transition: 'opacity 0.3s ease',
+                }}
+              >
+                {/* Back face */}
+                <div className="reward-card-back">✦</div>
+                {/* Front face */}
+                <div className="reward-card-face">
+                  <CardTile card={card} canAfford={true} onClick={() => handleCardClick(card.name, i)} />
+                </div>
               </div>
+
+              {/* Info button — only visible after card is revealed and before claim */}
+              {flipped[i] && !claimed && (
+                <button
+                  className="reward-card-info-btn"
+                  onClick={e => { e.stopPropagation(); setDetailCard(card) }}
+                >
+                  ⓘ
+                </button>
+              )}
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
-      {allFlipped && !picked && (
-        <button className="action-btn reward-skip-btn" onClick={() => {
-          if (choices.length > 0) {
-            const randomCard = choices[Math.floor(Math.random() * choices.length)]
-            handlePick(randomCard)
-          } else {
-            onSkip()
-          }
-        }}>
-          Continue
-        </button>
+      {allFlipped && !claimed && (
+        <div className="reward-actions">
+          <button
+            className="action-btn"
+            onClick={() => {
+              const target = selected ?? choices[Math.floor(Math.random() * choices.length)]
+              claimCard(target)
+            }}
+          >
+            Continue
+          </button>
+          <button className="action-btn reward-skip-btn" onClick={onSkip}>
+            I Don't Want This Reward It'll Ruin My Deck
+          </button>
+        </div>
+      )}
+
+      {detailCard && (
+        <CardDetailModal
+          card={detailCard}
+          collection={[]}
+          onClose={() => setDetailCard(null)}
+        />
       )}
     </div>
   )
