@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Shore Scout walk frame 2 — body 1px higher, legs together -->
+  <ellipse cx="16" cy="6" rx="6" ry="2" fill="#8B6914"/>
+  <path d="M20,6 Q24,3 26,1" stroke="#228B22" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <circle cx="26" cy="1" r="1.5" fill="#228B22"/>
+  <ellipse cx="16" cy="9" rx="4.5" ry="4.5" fill="#C89060"/>
+  <ellipse cx="16" cy="9" rx="3.5" ry="3.5" fill="#DAA878"/>
+  <circle cx="14.5" cy="8" r="0.9" fill="#333"/>
+  <circle cx="17.5" cy="8" r="0.9" fill="#333"/>
+  <path d="M14.5,11 Q16,12 17.5,11" stroke="#333" stroke-width="0.7" fill="none"/>
+  <path d="M12,12 Q16,14 20,12 L18,15 Q16,14 14,15 Z" fill="#20B2AA"/>
+  <rect x="12" y="14" width="8" height="8" rx="1" fill="#8B6914"/>
+  <rect x="13" y="15" width="6" height="6" rx="1" fill="#A07820"/>
+  <line x1="16" y1="14" x2="16" y2="22" stroke="#6B5010" stroke-width="0.8"/>
+  <line x1="13" y1="16" x2="19" y2="16" stroke="#6B5010" stroke-width="0.8"/>
+  <line x1="9" y1="4" x2="9" y2="27" stroke="#8B6914" stroke-width="1.5"/>
+  <path d="M7,4 L9,8 L11,4" fill="#888" stroke="#666" stroke-width="0.5"/>
+  <circle cx="23" cy="17" r="3.5" fill="#5A7A9A" stroke="#4A6A8A" stroke-width="0.8"/>
+  <circle cx="23" cy="17" r="1.5" fill="#6B8EAD"/>
+  <rect x="12" y="21" width="8" height="1.5" fill="#6B5010"/>
+  <!-- Legs together -->
+  <rect x="12" y="22" width="4" height="6" rx="1" fill="#8B6914"/>
+  <rect x="17" y="22" width="4" height="6" rx="1" fill="#8B6914"/>
+  <rect x="11" y="26" width="5" height="4" rx="1" fill="#5A3C10"/>
+  <rect x="16" y="26" width="5" height="4" rx="1" fill="#5A3C10"/>
+</svg>

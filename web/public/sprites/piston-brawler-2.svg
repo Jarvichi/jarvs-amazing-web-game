@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 1px higher -->
+  <rect x="10" y="4" width="12" height="9" rx="2" fill="#777"/>
+  <rect x="11" y="5" width="10" height="7" rx="1" fill="#888"/>
+  <rect x="11" y="7" width="10" height="3" rx="1" fill="#333"/>
+  <rect x="12" y="7.5" width="8" height="2" fill="#FF6600" opacity="0.7"/>
+  <rect x="22" y="6" width="3" height="5" rx="1" fill="#555"/>
+  <ellipse cx="23.5" cy="5.5" rx="1.5" ry="1" fill="#333"/>
+  <rect x="13" y="13" width="6" height="3" fill="#777"/>
+  <rect x="9" y="16" width="14" height="10" rx="2" fill="#666"/>
+  <rect x="10" y="17" width="12" height="8" fill="#777"/>
+  <rect x="12" y="18" width="3" height="6" rx="0.5" fill="#555"/>
+  <rect x="17" y="18" width="3" height="6" rx="0.5" fill="#555"/>
+  <rect x="12" y="18" width="3" height="2" rx="0.5" fill="#B8860B"/>
+  <rect x="17" y="18" width="3" height="2" rx="0.5" fill="#B8860B"/>
+  <rect x="4"  y="16" width="6" height="7" rx="2" fill="#B8860B"/>
+  <rect x="22" y="16" width="6" height="7" rx="2" fill="#B8860B"/>
+  <rect x="3"  y="22" width="6" height="6" rx="2" fill="#555"/>
+  <rect x="23" y="22" width="6" height="6" rx="2" fill="#555"/>
+  <rect x="3"  y="22" width="6" height="2" rx="1" fill="#B8860B"/>
+  <rect x="23" y="22" width="6" height="2" rx="1" fill="#B8860B"/>
+  <rect x="9" y="26" width="14" height="2" fill="#555"/>
+  <!-- Legs mid-stride -->
+  <rect x="10" y="28" width="5" height="4" rx="1" fill="#666"/>
+  <rect x="17" y="28" width="5" height="4" rx="1" fill="#666"/>
+</svg>

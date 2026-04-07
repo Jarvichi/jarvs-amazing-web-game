@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Spore Drifter float frame 2 — body 1px higher, level -->
+  <circle cx="5" cy="20" r="2.5" fill="#8B6914" opacity="0.3"/>
+  <circle cx="8" cy="23" r="2" fill="#8B6914" opacity="0.25"/>
+  <circle cx="6" cy="25" r="1.5" fill="#8B6914" opacity="0.2"/>
+  <ellipse cx="16" cy="10" rx="10" ry="5" fill="#8B4513"/>
+  <ellipse cx="16" cy="10" rx="9" ry="4" fill="#A0522D"/>
+  <circle cx="11" cy="9" r="1.5" fill="#F5DEB3" opacity="0.8"/>
+  <circle cx="16" cy="7" r="2" fill="#F5DEB3" opacity="0.8"/>
+  <circle cx="21" cy="9" r="1.5" fill="#F5DEB3" opacity="0.8"/>
+  <circle cx="13" cy="11" r="1" fill="#F5DEB3" opacity="0.6"/>
+  <circle cx="19" cy="11" r="1" fill="#F5DEB3" opacity="0.6"/>
+  <ellipse cx="16" cy="17" rx="4" ry="7" fill="#D2B48C"/>
+  <ellipse cx="16" cy="17" rx="3" ry="6" fill="#E8C88C"/>
+  <circle cx="14.5" cy="15" r="1.2" fill="#333"/>
+  <circle cx="17.5" cy="15" r="1.2" fill="#333"/>
+  <circle cx="14.5" cy="15" r="0.5" fill="#9ACD32"/>
+  <circle cx="17.5" cy="15" r="0.5" fill="#9ACD32"/>
+  <path d="M14,18 Q16,20 18,18" stroke="#8B4513" stroke-width="0.8" fill="none"/>
+  <!-- Tentacles spread evenly -->
+  <path d="M12,21 Q9,23 8,26" stroke="#D2B48C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M16,23 Q16,26 15,28" stroke="#D2B48C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M20,21 Q23,23 24,26" stroke="#D2B48C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <circle cx="26" cy="11" r="1.5" fill="#9ACD32" opacity="0.6"/>
+  <circle cx="28" cy="15" r="1" fill="#9ACD32" opacity="0.5"/>
+  <circle cx="25" cy="18" r="1.2" fill="#9ACD32" opacity="0.4"/>
+  <circle cx="4" cy="13" r="1" fill="#9ACD32" opacity="0.5"/>
+  <circle cx="3" cy="17" r="1.2" fill="#9ACD32" opacity="0.4"/>
+</svg>

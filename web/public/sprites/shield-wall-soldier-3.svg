@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Shield Wall Soldier walk frame 3 — right leg forward -->
+  <path d="M11,10 Q11,5 16,5 Q21,5 21,10" fill="#888" stroke="#666" stroke-width="0.8"/>
+  <rect x="11" y="9" width="10" height="2" rx="0.5" fill="#666"/>
+  <ellipse cx="16" cy="12" rx="5" ry="4" fill="#999"/>
+  <rect x="12" y="11" width="3" height="1" rx="0.5" fill="#333"/>
+  <rect x="17" y="11" width="3" height="1" rx="0.5" fill="#333"/>
+  <path d="M11,15 Q16,17 21,15 L21,16 Q16,18 11,16 Z" fill="#777"/>
+  <rect x="12" y="16" width="9" height="9" rx="1" fill="#888"/>
+  <rect x="13" y="17" width="7" height="7" rx="1" fill="#999"/>
+  <path d="M13,19 Q16.5,18 20,19" stroke="#777" stroke-width="0.7" fill="none"/>
+  <path d="M13,21 Q16.5,20 20,21" stroke="#777" stroke-width="0.7" fill="none"/>
+  <rect x="2" y="12" width="7" height="14" rx="1" fill="#5A7A9A"/>
+  <rect x="3" y="13" width="5" height="12" rx="1" fill="#6B8EAD"/>
+  <path d="M5,15 L5,21 L7,23 L7,15 Z" fill="#4A6A8A" opacity="0.6"/>
+  <circle cx="5.5" cy="19" r="1" fill="#B8D0E8"/>
+  <line x1="22" y1="9" x2="22" y2="23" stroke="#CCC" stroke-width="2"/>
+  <rect x="20" y="15" width="4" height="1.5" rx="0.5" fill="#888"/>
+  <ellipse cx="22" cy="9" rx="1" ry="2" fill="#B8860B"/>
+  <rect x="12" y="24" width="9" height="2" fill="#666"/>
+  <!-- Right leg forward -->
+  <rect x="12" y="26" width="4" height="4" rx="1" fill="#888"/>
+  <rect x="17" y="26" width="4" height="6" rx="1" fill="#888"/>
+  <rect x="11" y="28" width="6" height="2" rx="1" fill="#777"/>
+  <rect x="16" y="30" width="6" height="2" rx="1" fill="#777"/>
+</svg>

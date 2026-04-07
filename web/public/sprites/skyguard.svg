@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Skyguard — winged guardian in sky armour -->
+  <!-- Wings spread -->
+  <path d="M12,16 Q6,10 3,8 Q5,14 8,17 Z" fill="#87CEEB" opacity="0.8"/>
+  <path d="M20,16 Q26,10 29,8 Q27,14 24,17 Z" fill="#87CEEB" opacity="0.8"/>
+  <path d="M12,16 Q7,12 4,10 Q6,15 10,17" stroke="#4682B4" stroke-width="0.7" fill="none"/>
+  <path d="M20,16 Q25,12 28,10 Q26,15 22,17" stroke="#4682B4" stroke-width="0.7" fill="none"/>
+  <!-- Helm -->
+  <path d="M11,8 Q11,3 16,3 Q21,3 21,8" fill="#4682B4" stroke="#2060A0" stroke-width="0.8"/>
+  <!-- Helm plume -->
+  <path d="M16,3 Q14,0 15,0 Q16,1 17,0 Q18,0 16,3" fill="#87CEEB"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="10" rx="5" ry="4.5" fill="#4682B4"/>
+  <ellipse cx="16" cy="10" rx="4" ry="3.5" fill="#5A96C8"/>
+  <!-- Visor glow -->
+  <rect x="12.5" y="9" width="7" height="2" rx="1" fill="#B0C4DE" opacity="0.9"/>
+  <rect x="13" y="9.5" width="6" height="1" rx="0.5" fill="#E8F4FF"/>
+  <!-- Body — sky armour -->
+  <rect x="12" y="14" width="8" height="9" rx="1" fill="#4682B4"/>
+  <rect x="13" y="15" width="6" height="7" rx="1" fill="#5A96C8"/>
+  <!-- Chest emblem — sun burst -->
+  <circle cx="16" cy="18" r="2" fill="#B0C4DE"/>
+  <path d="M16,15 L16,14 M16,21 L16,22 M13,18 L12,18 M19,18 L20,18" stroke="#87CEEB" stroke-width="0.8"/>
+  <!-- Belt -->
+  <rect x="12" y="22" width="8" height="1.5" fill="#2060A0"/>
+  <!-- Legs — armoured -->
+  <rect x="12" y="23" width="4" height="8" rx="1" fill="#4682B4"/>
+  <rect x="17" y="23" width="4" height="8" rx="1" fill="#4682B4"/>
+  <!-- Boots with wing detail -->
+  <rect x="11" y="29" width="6" height="3" rx="1" fill="#2060A0"/>
+  <rect x="16" y="29" width="6" height="3" rx="1" fill="#2060A0"/>
+</svg>
