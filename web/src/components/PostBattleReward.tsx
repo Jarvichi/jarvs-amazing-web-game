@@ -99,7 +99,7 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
                 <div className="reward-card-back">✦</div>
                 {/* Front face */}
                 <div className="reward-card-face">
-                  <CardTile card={card} canAfford={true} onClick={() => handleCardClick(card.name, i)} />
+                  <CardTile card={card} canAfford={true} />
                 </div>
               </div>
 
