@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Brass helm -->
+  <rect x="11" y="4" width="10" height="8" rx="2" fill="#B8860B"/>
+  <rect x="12" y="5" width="8" height="6" rx="1" fill="#DAA520"/>
+  <rect x="12" y="7" width="8" height="2" rx="1" fill="#333"/>
+  <rect x="13" y="7.5" width="6" height="1" fill="#FF8800" opacity="0.8"/>
+  <!-- Neck -->
+  <rect x="14" y="12" width="4" height="2" fill="#B8860B"/>
+  <!-- Body -->
+  <path d="M11,14 L11,22 L21,22 L21,14 Q16,17 11,14 Z" fill="#888"/>
+  <!-- Gear detail on chest -->
+  <circle cx="16" cy="17" r="2.5" fill="#B8860B"/>
+  <circle cx="16" cy="17" r="1.5" fill="#DAA520"/>
+  <circle cx="16" cy="17" r="0.6" fill="#888"/>
+  <!-- Belt -->
+  <rect x="11" y="20" width="10" height="2" fill="#B8860B"/>
+  <!-- Quiver -->
+  <rect x="21" y="13" width="3" height="8" rx="1" fill="#B8860B"/>
+  <line x1="22" y1="12" x2="22" y2="14" stroke="#DAA520" stroke-width="1"/>
+  <line x1="23.5" y1="12" x2="23.5" y2="14" stroke="#DAA520" stroke-width="1"/>
+  <!-- Bow -->
+  <path d="M5,8 Q1,15 5,22" stroke="#B8860B" stroke-width="2" fill="none"/>
+  <line x1="5" y1="8" x2="5" y2="22" stroke="#DAA520" stroke-width="0.8"/>
+  <line x1="5" y1="15" x2="12" y2="15" stroke="#888" stroke-width="1.5"/>
+  <polygon points="12,15 10,13.5 10,16.5" fill="#DAA520"/>
+  <!-- Legs (static = frame 2) -->
+  <rect x="11" y="22" width="5" height="8" rx="1" fill="#666"/>
+  <rect x="17" y="22" width="5" height="8" rx="1" fill="#666"/>
+  <rect x="10" y="28" width="7" height="3" rx="1" fill="#B8860B"/>
+  <rect x="16" y="28" width="7" height="3" rx="1" fill="#B8860B"/>
+</svg>

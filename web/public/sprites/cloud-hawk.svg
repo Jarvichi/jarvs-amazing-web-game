@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tail feathers -->
+  <path d="M8,22 Q5,26 4,30" stroke="#DDEEFF" stroke-width="2" fill="none"/>
+  <path d="M10,23 Q8,27 8,31" stroke="#BBDDFF" stroke-width="2" fill="none"/>
+  <path d="M12,23 Q11,27 12,31" stroke="#DDEEFF" stroke-width="2" fill="none"/>
+  <!-- Body -->
+  <ellipse cx="17" cy="18" rx="8" ry="6" fill="#87CEEB"/>
+  <ellipse cx="17" cy="17" rx="6" ry="5" fill="#B0DDFF"/>
+  <!-- Head -->
+  <ellipse cx="24" cy="12" rx="5" ry="4" fill="#87CEEB"/>
+  <!-- Beak -->
+  <path d="M28,11 L32,12 L28,13" fill="#DAA520"/>
+  <!-- Eye -->
+  <circle cx="26" cy="11" r="1.2" fill="#FFD700"/>
+  <circle cx="26" cy="11" r="0.6" fill="#333"/>
+  <!-- Crown feather -->
+  <path d="M24,9 L23,5 L25,8" fill="#DDEEFF"/>
+  <!-- Wings spread -->
+  <path d="M14,14 Q8,6 3,8 Q7,14 14,18" fill="#87CEEB"/>
+  <path d="M20,14 Q26,6 31,8 Q27,14 20,18" fill="#87CEEB"/>
+  <!-- Wing feather details -->
+  <path d="M6,9 Q5,12 7,14" stroke="#B0DDFF" stroke-width="0.8" fill="none"/>
+  <path d="M4,10 Q4,13 6,15" stroke="#B0DDFF" stroke-width="0.8" fill="none"/>
+  <!-- Talons -->
+  <path d="M15,23 L13,27 M15,23 L15,27 M15,23 L17,26" stroke="#DAA520" stroke-width="1.2"/>
+  <path d="M19,23 L17,27 M19,23 L19,27 M19,23 L21,26" stroke="#DAA520" stroke-width="1.2"/>
+</svg>

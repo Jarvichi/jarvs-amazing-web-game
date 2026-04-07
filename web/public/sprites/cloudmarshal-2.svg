@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 1px higher -->
+  <path d="M12,7 Q16,2 20,7" fill="#4682B4"/>
+  <path d="M13,7 Q12,3 14,5 Q13,2 15,4 Q14,1 16,3 Q17,1 18,4 Q17,2 19,5 Q18,3 20,7" fill="#87CEEB"/>
+  <ellipse cx="16" cy="9" rx="5" ry="5" fill="#d4a870"/>
+  <rect x="11" y="7" width="10" height="3" rx="1" fill="#4682B4"/>
+  <circle cx="14" cy="9" r="0.8" fill="#333"/>
+  <circle cx="18" cy="9" r="0.8" fill="#333"/>
+  <path d="M10,14 L10,21 L22,21 L22,14 Q16,17 10,14 Z" fill="#4682B4"/>
+  <circle cx="16" cy="17" r="2" fill="#FFD700"/>
+  <circle cx="16" cy="17" r="1" fill="#DAA520"/>
+  <ellipse cx="10" cy="14" rx="3" ry="1.5" fill="#87CEEB"/>
+  <ellipse cx="22" cy="14" rx="3" ry="1.5" fill="#87CEEB"/>
+  <rect x="10" y="19" width="12" height="2" fill="#1C3A5E"/>
+  <rect x="23" y="11" width="2" height="10" rx="1" fill="#DAA520"/>
+  <rect x="22.5" y="10" width="3" height="3" rx="1" fill="#FFD700"/>
+  <rect x="6" y="14" width="4" height="7" rx="1" fill="#4682B4"/>
+  <ellipse cx="6" cy="19" rx="3" ry="4" fill="#1C3A5E"/>
+  <ellipse cx="6" cy="19" rx="2" ry="3" fill="#4682B4"/>
+  <circle cx="6" cy="19" r="1" fill="#87CEEB"/>
+  <!-- Legs mid-stride -->
+  <rect x="11" y="21" width="5" height="9" rx="1" fill="#1C3A5E"/>
+  <rect x="17" y="21" width="5" height="9" rx="1" fill="#1C3A5E"/>
+  <rect x="10" y="28" width="7" height="3" rx="1" fill="#4682B4"/>
+  <rect x="16" y="28" width="7" height="3" rx="1" fill="#4682B4"/>
+</svg>

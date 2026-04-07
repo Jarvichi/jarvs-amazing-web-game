@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path d="M8,22 Q5,26 4,30" stroke="#DDEEFF" stroke-width="2" fill="none"/>
+  <path d="M10,23 Q8,27 8,31" stroke="#BBDDFF" stroke-width="2" fill="none"/>
+  <path d="M12,23 Q11,27 12,31" stroke="#DDEEFF" stroke-width="2" fill="none"/>
+  <ellipse cx="17" cy="18" rx="8" ry="6" fill="#87CEEB"/>
+  <ellipse cx="17" cy="17" rx="6" ry="5" fill="#B0DDFF"/>
+  <ellipse cx="24" cy="12" rx="5" ry="4" fill="#87CEEB"/>
+  <path d="M28,11 L32,12 L28,13" fill="#DAA520"/>
+  <circle cx="26" cy="11" r="1.2" fill="#FFD700"/>
+  <circle cx="26" cy="11" r="0.6" fill="#333"/>
+  <path d="M24,9 L23,5 L25,8" fill="#DDEEFF"/>
+  <!-- Wings — left raised (stride A) -->
+  <path d="M14,14 Q7,4 2,6 Q6,13 14,18" fill="#87CEEB"/>
+  <path d="M20,14 Q26,8 30,10 Q26,15 20,18" fill="#87CEEB"/>
+  <path d="M5,7 Q4,10 6,13" stroke="#B0DDFF" stroke-width="0.8" fill="none"/>
+  <!-- Talons -->
+  <path d="M13,23 L11,27 M13,23 L13,27 M13,23 L15,26" stroke="#DAA520" stroke-width="1.2"/>
+  <path d="M19,23 L17,27 M19,23 L19,27 M19,23 L21,26" stroke="#DAA520" stroke-width="1.2"/>
+</svg>

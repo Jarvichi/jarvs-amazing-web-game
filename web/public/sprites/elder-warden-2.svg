@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 1px higher -->
+  <path d="M13,6 L11,2 L13,4 L12,0 L15,4" stroke="#8B5A2B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M19,6 L21,2 L19,4 L20,0 L17,4" stroke="#8B5A2B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <ellipse cx="16" cy="8" rx="5.5" ry="5.5" fill="#b8845a"/>
+  <path d="M12,11 Q13,15 16,16 Q19,15 20,11" fill="#E8E8E0"/>
+  <circle cx="14" cy="8" r="1.2" fill="#228B22"/>
+  <circle cx="18" cy="8" r="1.2" fill="#228B22"/>
+  <circle cx="14" cy="8" r="0.6" fill="#90EE90"/>
+  <circle cx="18" cy="8" r="0.6" fill="#90EE90"/>
+  <path d="M10,13 Q9,21 10,29 L22,29 Q23,21 22,13 Q16,16 10,13 Z" fill="#1E5A1E"/>
+  <path d="M10,13 Q16,10 22,13" stroke="#8B5A2B" stroke-width="1"/>
+  <path d="M10,21 Q16,19 22,21" stroke="#8B5A2B" stroke-width="0.8" fill="none"/>
+  <rect x="10" y="19" width="12" height="2" fill="#5C3A10"/>
+  <circle cx="16" cy="20" r="1.5" fill="#228B22"/>
+  <line x1="8" y1="5" x2="8" y2="29" stroke="#8B5A2B" stroke-width="2"/>
+  <circle cx="8" cy="5" r="2" fill="#228B22"/>
+  <circle cx="8" cy="5" r="1" fill="#90EE90"/>
+  <line x1="10" y1="16" x2="8" y2="16" stroke="#1E5A1E" stroke-width="3"/>
+  <!-- Legs mid-stride -->
+  <rect x="11" y="21" width="5" height="9" rx="1" fill="#1E5A1E"/>
+  <rect x="17" y="21" width="5" height="9" rx="1" fill="#1E5A1E"/>
+  <rect x="10" y="28" width="7" height="3" rx="1" fill="#5C3A10"/>
+  <rect x="16" y="28" width="7" height="3" rx="1" fill="#5C3A10"/>
+</svg>

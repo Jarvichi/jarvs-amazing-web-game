@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Plumed helm -->
+  <path d="M12,8 Q16,3 20,8" fill="#4682B4"/>
+  <!-- Plume -->
+  <path d="M13,8 Q12,4 14,6 Q13,3 15,5 Q14,2 16,4 Q17,2 18,5 Q17,3 19,6 Q18,4 20,8" fill="#87CEEB"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="10" rx="5" ry="5" fill="#d4a870"/>
+  <!-- Helm brim -->
+  <rect x="11" y="8" width="10" height="3" rx="1" fill="#4682B4"/>
+  <!-- Eyes -->
+  <circle cx="14" cy="10" r="0.8" fill="#333"/>
+  <circle cx="18" cy="10" r="0.8" fill="#333"/>
+  <!-- Chest plate body -->
+  <path d="M10,15 L10,22 L22,22 L22,15 Q16,18 10,15 Z" fill="#4682B4"/>
+  <!-- Chest medallion -->
+  <circle cx="16" cy="18" r="2" fill="#FFD700"/>
+  <circle cx="16" cy="18" r="1" fill="#DAA520"/>
+  <!-- Epaulettes -->
+  <ellipse cx="10" cy="15" rx="3" ry="1.5" fill="#87CEEB"/>
+  <ellipse cx="22" cy="15" rx="3" ry="1.5" fill="#87CEEB"/>
+  <!-- Belt -->
+  <rect x="10" y="20" width="12" height="2" fill="#1C3A5E"/>
+  <!-- Command baton (right hand) -->
+  <rect x="23" y="12" width="2" height="10" rx="1" fill="#DAA520"/>
+  <rect x="22.5" y="11" width="3" height="3" rx="1" fill="#FFD700"/>
+  <!-- Left arm -->
+  <rect x="6" y="15" width="4" height="7" rx="1" fill="#4682B4"/>
+  <!-- Shield hint -->
+  <ellipse cx="6" cy="20" rx="3" ry="4" fill="#1C3A5E"/>
+  <ellipse cx="6" cy="20" rx="2" ry="3" fill="#4682B4"/>
+  <circle cx="6" cy="20" r="1" fill="#87CEEB"/>
+  <!-- Legs -->
+  <rect x="11" y="22" width="5" height="8" rx="1" fill="#1C3A5E"/>
+  <rect x="17" y="22" width="5" height="8" rx="1" fill="#1C3A5E"/>
+  <rect x="10" y="28" width="7" height="3" rx="1" fill="#4682B4"/>
+  <rect x="16" y="28" width="7" height="3" rx="1" fill="#4682B4"/>
+</svg>
