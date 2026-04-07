@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path d="M11,9 Q16,3 21,9" fill="#2D5A1E"/>
+  <path d="M11,10 Q13,7 16,9 Q19,7 21,10" fill="#1E4A10"/>
+  <path d="M10,9 Q7,6 9,11" fill="#3A7A28" opacity="0.8"/>
+  <path d="M22,9 Q25,6 23,11" fill="#3A7A28" opacity="0.8"/>
+  <ellipse cx="16" cy="11" rx="4.5" ry="4.5" fill="#8A6040"/>
+  <circle cx="14" cy="10.5" r="0.9" fill="#FFD700"/>
+  <circle cx="18" cy="10.5" r="0.9" fill="#FFD700"/>
+  <circle cx="14" cy="10.5" r="0.4" fill="#333"/>
+  <circle cx="18" cy="10.5" r="0.4" fill="#333"/>
+  <path d="M11,15 L11,23 L21,23 L21,15 Q16,18 11,15 Z" fill="#2D5A1E"/>
+  <path d="M11,17 Q13,15 15,17" fill="#3A7A28" opacity="0.6"/>
+  <path d="M16,15 Q18,13 20,15" fill="#3A7A28" opacity="0.6"/>
+  <rect x="11" y="21" width="10" height="2" fill="#1E3A10"/>
+  <rect x="20" y="12" width="1.5" height="10" rx="0.5" fill="#888"/>
+  <rect x="22" y="12" width="1.5" height="10" rx="0.5" fill="#888"/>
+  <!-- Legs stride A -->
+  <rect x="9"  y="23" width="5" height="8" rx="1" fill="#1E4A10"/>
+  <rect x="18" y="23" width="5" height="6" rx="1" fill="#1E4A10"/>
+  <rect x="8"  y="29" width="7" height="3" rx="1" fill="#1E3A10"/>
+  <rect x="18" y="27" width="6" height="3" rx="1" fill="#1E3A10"/>
+</svg>

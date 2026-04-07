@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Leaf-camouflage hood low over face -->
+  <path d="M11,8 Q16,2 21,8" fill="#2D5A1E"/>
+  <path d="M11,9 Q13,6 16,8 Q19,6 21,9" fill="#1E4A10"/>
+  <!-- Leaves attached -->
+  <path d="M10,8 Q7,5 9,10" fill="#3A7A28" opacity="0.8"/>
+  <path d="M22,8 Q25,5 23,10" fill="#3A7A28" opacity="0.8"/>
+  <!-- Head (face mostly hidden) -->
+  <ellipse cx="16" cy="10" rx="4.5" ry="4.5" fill="#8A6040"/>
+  <!-- Only eyes visible -->
+  <circle cx="14" cy="9.5" r="0.9" fill="#FFD700"/>
+  <circle cx="18" cy="9.5" r="0.9" fill="#FFD700"/>
+  <circle cx="14" cy="9.5" r="0.4" fill="#333"/>
+  <circle cx="18" cy="9.5" r="0.4" fill="#333"/>
+  <!-- Dark body with leaf patches -->
+  <path d="M11,14 L11,22 L21,22 L21,14 Q16,17 11,14 Z" fill="#2D5A1E"/>
+  <path d="M11,16 Q13,14 15,16" fill="#3A7A28" opacity="0.6"/>
+  <path d="M16,14 Q18,12 20,14" fill="#3A7A28" opacity="0.6"/>
+  <path d="M11,19 Q14,18 16,20" fill="#3A7A28" opacity="0.5"/>
+  <!-- Belt -->
+  <rect x="11" y="20" width="10" height="2" fill="#1E3A10"/>
+  <!-- Twin blades on back -->
+  <rect x="20" y="11" width="1.5" height="10" rx="0.5" fill="#888"/>
+  <rect x="22" y="11" width="1.5" height="10" rx="0.5" fill="#888"/>
+  <!-- Legs -->
+  <rect x="11" y="22" width="5" height="8" rx="1" fill="#1E4A10"/>
+  <rect x="17" y="22" width="5" height="8" rx="1" fill="#1E4A10"/>
+  <rect x="10" y="28" width="7" height="3" rx="1" fill="#1E3A10"/>
+  <rect x="16" y="28" width="7" height="3" rx="1" fill="#1E3A10"/>
+</svg>
