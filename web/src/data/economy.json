@@ -19,10 +19,10 @@
 
   "miniGameCosts": {
     "marble":       50,
-    "tileflip":     30,
-    "crystalcatch": 40,
+    "tileflip":     25,
+    "crystalcatch": 25,
     "spinner":      25,
-    "marblerace":   35
+    "marblerace":   25
   },
 
   "ticketPrizes": [
