@@ -2,6 +2,7 @@ import React from 'react'
 import { Card } from '../game/types'
 import { rarityStars } from '../game/cards'
 import { SpriteImg } from './SpriteImg'
+import { useCardDetail } from './useCardDetail'
 
 const UPGRADE_SPRITE: Record<string, string> = {
   buffAttack: 'upgrade-attack',
@@ -126,11 +127,13 @@ interface Props {
   onClick?: () => void
   lockedSecs?: number   // hero cards: seconds remaining until playable (0 = unlocked)
   upgradeable?: boolean // collection: show UPGRADE badge
+  showDetails?: boolean  // collection: show details button
 }
 
-export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false }: Props) {
+export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false , showDetails = false }: Props) {
   const heroLocked = card.isHero && lockedSecs > 0
   const clickable = canAfford && !disabled && !heroLocked
+  const { openDetail, cardDetailNode } = useCardDetail()
 
   let stats: string
 
@@ -181,6 +184,16 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
           {CATEGORY_ICON[getCardCategory(card)]}
           <span>{CATEGORY_LABEL[getCardCategory(card)]}</span>
         </div>
+        {showDetails && (
+          <div className="cell-footer">
+              <span className="cell-count" style={{ color: '#ffd700', fontSize: '10px' }}>HERO</span>
+              <button
+                className="extra-btn cdm-info-btn"
+                onClick={() => openDetail(card)}
+                title="Card details"
+              >ⓘ</button>
+            </div>       
+        )} 
       </div>
       {heroLocked && (
         <div className="card-hero-lock">
