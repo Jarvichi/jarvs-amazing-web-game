@@ -24,16 +24,9 @@ export function HeroCardsScreen({ onBack }: Props) {
               card={card}
               canAfford={true}
               onClick={() => openDetail(card)}
-            />
-            <div className="cell-footer">
-              <span className="cell-count" style={{ color: '#ffd700', fontSize: '10px' }}>HERO</span>
-              <button
-                className="extra-btn cdm-info-btn"
-                onClick={() => openDetail(card)}
-                title="Card details"
-              >ⓘ</button>
+              showDetails={true}
+                          />
             </div>
-          </div>
         ))}
       </div>
       {cardDetailNode}
