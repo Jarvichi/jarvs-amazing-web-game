@@ -20,6 +20,7 @@ import { saveCrystals } from '../game/collection'
 import { SpriteImg } from './SpriteImg'
 import { OverlayScreen } from './OverlayScreen'
 import { getCardCatalog } from '../game/cards'
+import { CardTile } from './CardTile'
 
 const UPGRADE_SPRITE: Record<string, string> = {
   buffAttack: 'upgrade-attack',
@@ -133,6 +134,11 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
     return deal.price
   }
 
+  function getCard(deal: ShopCardDeal) {
+    const catalog = getCardCatalog()
+    return catalog.find(c => c.name === deal.cardName) ?? null
+  }
+
   function handleBuyConsumable(id: string, price: number) {
     const effectivePrice = npc.role === 'apprentice' && weekend ? Math.floor(price * 0.9) : price
     if (crystals < effectivePrice) {
@@ -218,12 +224,13 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
               const price = cardPrice(deal)
               const canAfford = crystals >= price && !bought && deal.cardName !== ''
               const discounted = npc.role === 'apprentice' && weekend
+              const card = getCard(deal)
 
               return (
                 <div key={deal.cardName} className={`shop-card-deal shop-card-deal--${deal.rarity}${bought ? ' shop-card-deal--bought' : ''}`}>
-                  <div className="shop-card-rarity">{deal.rarity.toUpperCase()}</div>
-                  <SpriteImg name={spriteName(deal.cardName)} className="shop-card-sprite" />
-                  <div className="shop-card-name">{deal.cardName || '???'}</div>
+                  {card ? (
+                    <CardTile card={card} canAfford={canAfford} showDetails={true} />
+                  ) : ( <>Error!</> ) /* This should never happen since the shop schedule only offers valid cards, but just in case... */}
                   {bought ? (
                     <div className="shop-purchased">PURCHASED ✓</div>
                   ) : (

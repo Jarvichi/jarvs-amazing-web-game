@@ -177,6 +177,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
             : null
         }
       </div>
+      {card.isHero && <span className="hero-badge">HERO</span>}
       <div className="card-stats">{stats}</div>
       <div className="card-bottom-row">
         <div className="card-rarity">{rarityStars(card.rarity)}</div>
@@ -186,7 +187,6 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         </div>
         {showDetails && (
           <div className="cell-footer">
-              <span className="cell-count" style={{ color: '#ffd700', fontSize: '10px' }}>HERO</span>
               <button
                 className="extra-btn cdm-info-btn"
                 onClick={() => openDetail(card)}
