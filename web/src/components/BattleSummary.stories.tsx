@@ -2,6 +2,7 @@ import { fn } from "storybook/test";
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { BattleSummary } from './BattleSummary';
+import { exampleBattleStats } from "../game/types.sample";
 
 const meta = {
   component: BattleSummary,
@@ -13,7 +14,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    "stats": null,
+    "stats": exampleBattleStats,
     "gameTime": 0,
     "playerScore": 0,
     "onContinue": fn()

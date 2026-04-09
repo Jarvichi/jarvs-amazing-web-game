@@ -16,7 +16,9 @@ export const Default: Story = {
     "candidates": [
       "candidates"
     ],
-    "playCounts": null,
+    "playCounts": {
+      "candidates": 1
+    },
     "onConfirm": fn()
   },
 };

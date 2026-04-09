@@ -2,6 +2,7 @@ import { fn } from "storybook/test";
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Battlefield } from './Battlefield';
+import { exampleGameState } from "../game/types.sample";
 
 const meta = {
   component: Battlefield,
@@ -13,9 +14,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    "state": null,
+    "state": exampleGameState,
     "onPlayCard": fn(),
-    state: {},
-    actTheme: "Cave"
+
   },
 };
