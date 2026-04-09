@@ -38,8 +38,8 @@
     "storybook": "^10.3.5",
     "tsx": "^4.19.3",
     "typescript": "^5.5.0",
-    "vite": "^5.4.0",
-    "vite-plugin-pwa": "^1.2.0",
+    "vite": "^8.0.8",
+    "vite-plugin-pwa": "^0.19.8",
     "vitest": "^4.1.1"
   }
 }
