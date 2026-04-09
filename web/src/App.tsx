@@ -1666,6 +1666,9 @@ export default function App() {
       setLastRunFailed()
       clearRun()
       setRun(null)
+      clearFatigued()
+      setFatiguedCards([])
+      setBonusPackCards([])
       setScreen('campaignfailed')
       return
     }
@@ -1992,6 +1995,9 @@ export default function App() {
       setLastRunFailed()
       clearRun()
       setRun(null)
+      clearFatigued()
+      setFatiguedCards([])
+      setBonusPackCards([])
       dispatch({ type: 'END' })
       setScreen('campaignfailed')
       return
@@ -2361,9 +2367,7 @@ export default function App() {
       )}
 
       {screen === 'campaignfailed' && (
-        <CampaignFailedScreen onReturnToMenu={() => { stopBattleMusic(); stopGameOverMusic(); 
-          clearRun(); setRun(null); clearFatigued(); setFatiguedCards([]); setBonusPackCards([])
-setScreen('title') }} />
+        <CampaignFailedScreen onReturnToMenu={() => { stopBattleMusic(); stopGameOverMusic(); setScreen('title') }} />
       )}
 
       {screen === 'dailychallenge' && (
