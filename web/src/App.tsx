@@ -2361,7 +2361,9 @@ export default function App() {
       )}
 
       {screen === 'campaignfailed' && (
-        <CampaignFailedScreen onReturnToMenu={() => { stopBattleMusic(); stopGameOverMusic(); setScreen('title') }} />
+        <CampaignFailedScreen onReturnToMenu={() => { stopBattleMusic(); stopGameOverMusic(); 
+          clearRun(); setRun(null); clearFatigued(); setFatiguedCards([]); setBonusPackCards([])
+setScreen('title') }} />
       )}
 
       {screen === 'dailychallenge' && (
