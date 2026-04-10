@@ -26,6 +26,11 @@ const DC_KEY        = 'jarv_daily_challenge'
 const DC_STREAK_KEY = 'jarv_daily_streak'
 const DECK_SIZE     = 20
 
+const MAX_BUILD_ATTEMPTS = 10  // retry limit for deck validation
+const MIN_UNIT_CARDS     = 3   // minimum direct unit (mobile) cards required
+const MIN_LOW_COST_CARDS = 3   // minimum cards with cost ≤ 3 (early-game plays)
+const MAX_AVG_COST       = 4.0 // average cost ceiling
+
 interface DailyStreakSave {
   streak:      number
   lastWonDate: string
@@ -72,37 +77,82 @@ function seededShuffle<T>(arr: T[], rng: () => number): T[] {
   return a
 }
 
-/** Build a challenge deck of DECK_SIZE cards, seeded deterministically. */
+/** Returns true if a deck has enough variety and early-game cards to be winnable. */
+function isDeckPlayable(cards: Card[]): boolean {
+  const unitCount = cards.filter(c => c.cardType === 'unit').length
+  if (unitCount < MIN_UNIT_CARDS) return false
+
+  const lowCostCount = cards.filter(c => c.cost <= 3).length
+  if (lowCostCount < MIN_LOW_COST_CARDS) return false
+
+  const avgCost = cards.reduce((sum, c) => sum + c.cost, 0) / cards.length
+  if (avgCost > MAX_AVG_COST) return false
+
+  return true
+}
+
+/** Build a challenge deck of DECK_SIZE cards, seeded deterministically.
+ *  Retries up to MAX_BUILD_ATTEMPTS times with slightly different seeds until
+ *  the deck passes playability checks. Attempt 0 is identical to the original
+ *  algorithm, so valid days remain unchanged. */
 function buildChallengeCards(xorSeed: number): Card[] {
-  const rng     = makeSeededRng(hashStr(getDailyDate()) ^ xorSeed)
-  const catalog = getCardCatalog()
-  const shuffled = seededShuffle(catalog, rng)
-
-  // Pick first DECK_SIZE distinct-name cards
-  const seen: Set<string> = new Set()
-  const result: Card[] = []
-  for (const card of shuffled) {
-    if (!seen.has(card.name)) {
-      seen.add(card.name)
-      result.push({ ...card, id: `dc-${(xorSeed >>> 0).toString(16)}-${result.length}` })
-      if (result.length >= DECK_SIZE) break
-    }
-  }
-  // If the deck has cards costing > 5 but no mana structure, inject the cheapest one.
-  // Players can't edit the daily deck, so we must ensure it's always self-sufficient.
+  const catalog       = getCardCatalog()
   const BASE_MAX_MANA = 5
-  const hasManaStructure = result.some(c => c.unit?.structureEffect?.type === 'mana')
-  const maxCost = result.reduce((m, c) => Math.max(m, c.cost), 0)
-  if (maxCost > BASE_MAX_MANA && !hasManaStructure) {
-    const manaStructure = catalog
-      .filter(c => c.unit?.structureEffect?.type === 'mana')
-      .sort((a, b) => a.cost - b.cost)[0]
-    if (manaStructure && !seen.has(manaStructure.name)) {
-      result[result.length - 1] = { ...manaStructure, id: `dc-${(xorSeed >>> 0).toString(16)}-mana` }
+  let firstResult: Card[] | null = null
+
+  for (let attempt = 0; attempt < MAX_BUILD_ATTEMPTS; attempt++) {
+    // attempt=0 → (hashStr(date) + 0) ^ xorSeed = hashStr(date) ^ xorSeed (original behaviour)
+    const rng      = makeSeededRng((hashStr(getDailyDate()) + attempt) ^ xorSeed)
+    const shuffled = seededShuffle(catalog, rng)
+
+    // Pick first DECK_SIZE distinct-name cards
+    const seen: Set<string> = new Set()
+    const result: Card[]    = []
+    for (const card of shuffled) {
+      if (!seen.has(card.name)) {
+        seen.add(card.name)
+        result.push({ ...card, id: `dc-${(xorSeed >>> 0).toString(16)}-${attempt}-${result.length}` })
+        if (result.length >= DECK_SIZE) break
+      }
     }
+
+    // If the deck has cards costing > 5 but no mana structure, inject the cheapest one.
+    // Players can't edit the daily deck, so we must ensure it's always self-sufficient.
+    const hasManaStructure = result.some(c => c.unit?.structureEffect?.type === 'mana')
+    const maxCost = result.reduce((m, c) => Math.max(m, c.cost), 0)
+    if (maxCost > BASE_MAX_MANA && !hasManaStructure) {
+      const manaStructure = catalog
+        .filter(c => c.unit?.structureEffect?.type === 'mana')
+        .sort((a, b) => a.cost - b.cost)[0]
+      if (manaStructure && !seen.has(manaStructure.name)) {
+        result[result.length - 1] = { ...manaStructure, id: `dc-${(xorSeed >>> 0).toString(16)}-mana` }
+      }
+    }
+
+    if (firstResult === null) firstResult = result
+    if (isDeckPlayable(result)) return result
   }
 
-  return result
+  // All attempts exhausted — apply targeted fixes to the first result.
+  // Unreachable in practice, but ensures the fallback is never worse than today's behaviour.
+  const fixed      = [...firstResult!]
+  const fixedNames = new Set(fixed.map(c => c.name))
+  const lowCostUnits = catalog
+    .filter(c => c.cardType === 'unit' && c.cost <= 2)
+    .sort((a, b) => a.cost - b.cost)
+  let lowCostIdx = 0
+  while (!isDeckPlayable(fixed) && lowCostIdx < lowCostUnits.length) {
+    const replacement = lowCostUnits[lowCostIdx++]
+    if (fixedNames.has(replacement.name)) continue
+    // Replace the highest-cost non-unit card
+    const worstIdx = fixed.reduce((best, c, i) =>
+      c.cost > fixed[best].cost && c.cardType !== 'unit' ? i : best, 0)
+    fixedNames.delete(fixed[worstIdx].name)
+    fixed[worstIdx] = { ...replacement, id: `dc-${(xorSeed >>> 0).toString(16)}-fix-${lowCostIdx}` }
+    fixedNames.add(replacement.name)
+  }
+
+  return fixed
 }
 
 // ── Public API ────────────────────────────────────────────────────────────────
