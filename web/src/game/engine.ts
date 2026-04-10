@@ -560,6 +560,29 @@ function applyUpgrade(s: GameState, effect: UpgradeEffect, owner: 'player' | 'op
   } else if (effect.type === 'buffRange') {
     for (const u of units) if (u.attackRange > 0) { u.attackRange += effect.amount; addBuff(u, 'range') }
     log.push(`${label} units gain +${effect.amount} attack range!`)
+  } else if (effect.type === 'aoe') {
+    const dmg = effect.damage ?? effect.amount ?? 0
+    const enemies = s.field.filter(u => u.owner !== owner && !u.isWall)
+    const targets = effect.range != null
+      ? enemies.filter(e =>
+          owner === 'player'
+            ? e.x <= effect.range!
+            : (LANE_WIDTH - e.x) <= effect.range!)
+      : enemies
+    for (const u of targets) {
+      u.hp -= dmg
+      u.damageFlashTimer = 200
+    }
+    log.push(`${label} AOE! ${targets.length} enem${targets.length === 1 ? 'y' : 'ies'} hit for ${dmg} damage.`)
+  } else if (effect.type === 'buffHp') {
+    for (const u of units) u.hp = Math.min(u.maxHp, u.hp + effect.amount)
+    log.push(`${label} units gain +${effect.amount} HP!`)
+  } else if (effect.type === 'buffAttackCooldown') {
+    for (const u of units) u.attackCooldownMs = Math.max(500, u.attackCooldownMs + effect.amount)
+    log.push(`${label} units attack ${effect.amount < 0 ? 'faster' : 'slower'}!`)
+  } else if (effect.type === 'buffHeal') {
+    for (const u of units) u.hp = Math.min(u.maxHp, u.hp + effect.amount)
+    log.push(`${label} units healed for ${effect.amount} HP.`)
   }
 }
 
