@@ -249,7 +249,12 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
   function handleColorChange(val: string) {
     setTextColor(val)
     try { localStorage.setItem(TEXT_COLOR_KEY, val) } catch { /* ignore */ }
-    document.documentElement.style.setProperty('--game-text-color', val)
+    // Don't apply the inline style while light mode is on — it has higher specificity
+    // than the html.light-mode CSS rule and would override it. The colour is saved so
+    // it restores correctly when light mode is toggled off (see applyLightMode).
+    if (!lightModeOn) {
+      document.documentElement.style.setProperty('--game-text-color', val)
+    }
   }
 
   function handleReset() {
