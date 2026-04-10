@@ -12,9 +12,13 @@ export type StructureEffect =
 export type UpgradeEffect =
   | { type: 'buffAttack'; amount: number }
   | { type: 'healUnits';  amount: number }
-  | { type: 'buffSpeed';  amount: number }   // adds to moveSpeed of all mobile units
-  | { type: 'buffMaxHp';  amount: number }   // increases maxHp and heals by same amount
-  | { type: 'buffRange';  amount: number }   // increases attackRange of all attacking units
+  | { type: 'buffSpeed';  amount: number }         // adds to moveSpeed of all mobile units
+  | { type: 'buffMaxHp';  amount: number }         // increases maxHp and heals by same amount
+  | { type: 'buffRange';  amount: number }         // increases attackRange of all attacking units
+  | { type: 'aoe'; damage?: number; range?: number; amount?: number }  // AOE damage: range-limited or global
+  | { type: 'buffHp'; amount: number }             // increases current HP of all friendly units (not maxHp)
+  | { type: 'buffAttackCooldown'; amount: number } // adjusts attackCooldownMs for all friendly units (negative = faster)
+  | { type: 'buffHeal'; amount: number }           // one-time heal of all friendly units
 
 // ─── Cards ───────────────────────────────────────────────
 
