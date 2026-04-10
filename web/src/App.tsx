@@ -97,6 +97,7 @@ import { RelicSpinScreen }  from './components/RelicSpinScreen'
 import { CampaignVictoryScreen } from './components/CampaignVictoryScreen'
 import { CampaignFailedScreen }  from './components/CampaignFailedScreen'
 import { DailyChallengeScreen } from './components/DailyChallengeScreen'
+import { ConfirmModal }          from './components/ConfirmModal'
 import { EndlessLeaderboardScreen } from './components/EndlessLeaderboardScreen'
 import { MiniGamesMenu }           from './components/MiniGamesMenu'
 import './styles.css'
@@ -379,6 +380,8 @@ export default function App() {
   const [bossDialogueNode, setBossDialogueNode] = useState<QuestNode | null>(null)
   const [showBossSplash, setShowBossSplash] = useState(false)
   const prevBossCardActiveRef = useRef(false)
+  const [deckWarningNode, setDeckWarningNode] = useState<QuestNode | null>(null)
+  const skipDeckWarningRef = useRef(false)
 
   // Active campaign event
   const [activeEvent, setActiveEvent] = useState<EventData | null>(null)
@@ -1114,6 +1117,19 @@ export default function App() {
       setScreen('mystery')
       return
     }
+
+    // Warn if deck has resting cards or is under the recommended size
+    if ((node.type === 'battle' || node.type === 'elite') && !skipDeckWarningRef.current) {
+      const allEntries   = loadDeck()
+      const fat          = loadFatigued()
+      const restingCount = allEntries.filter(e => fat.includes(e.cardName)).length
+      const isUnderMax   = allEntries.length < DECK_MAX
+      if (restingCount > 0 || isUnderMax) {
+        setDeckWarningNode(node)
+        return
+      }
+    }
+    skipDeckWarningRef.current = false
 
     // Boss pre-battle dialogue
     if (node.bossDialogue && node.bossDialogue.length > 0) {
@@ -2247,6 +2263,32 @@ export default function App() {
           onCollect={handleMysteryCollect}
         />
       )}
+
+      {deckWarningNode && (() => {
+        const allEntries   = loadDeck()
+        const fat          = loadFatigued()
+        const restingCount = allEntries.filter(e => fat.includes(e.cardName)).length
+        const isUnderMax   = allEntries.length < DECK_MAX
+        const parts: string[] = []
+        if (restingCount > 0)
+          parts.push(`${restingCount} resting card${restingCount !== 1 ? 's' : ''} won't be available in battle`)
+        if (isUnderMax)
+          parts.push(`your deck has only ${allEntries.length} of ${DECK_MAX} cards`)
+        return (
+          <ConfirmModal
+            title="Weak Deck"
+            body={parts.join(' · ')}
+            confirmLabel="[ Enter Battle ]"
+            onConfirm={() => {
+              const node = deckWarningNode
+              setDeckWarningNode(null)
+              skipDeckWarningRef.current = true
+              handleSelectNode(node)
+            }}
+            onCancel={() => setDeckWarningNode(null)}
+          />
+        )
+      })()}
 
       {screen === 'itemfound' && foundItem && (
         <ItemFoundScreen
