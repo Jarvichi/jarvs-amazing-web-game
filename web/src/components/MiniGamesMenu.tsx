@@ -21,6 +21,7 @@ import { LuckySpinner }   from './minigames/LuckySpinner'
 import { MarbleRace }     from './minigames/MarbleRace'
 import { HigherOrLower }  from './minigames/HigherOrLower'
 import { FruitMachine }   from './minigames/FruitMachine'
+import { VideoPoker }     from './minigames/VideoPoker'
 
 interface Props {
   crystals:          number
@@ -111,6 +112,8 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       setAchievementProgress('miniGame:higherOrLower:bestScore', newBest)
     } else if (gameId === 'fruitMachine') {
       setAchievementProgress('miniGame:fruitMachine:bestScore', newBest)
+    } else if (gameId === 'videoPoker') {
+      setAchievementProgress('miniGame:videoPoker:bestScore', newBest)
     }
 
     // Publish to leaderboard if signed in
@@ -212,6 +215,9 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
   if (subScreen === 'fruitMachine') {
     return <FruitMachine onDone={(t) => handleGameDone('fruitMachine', t)} />
   }
+  if (subScreen === 'videoPoker') {
+    return <VideoPoker onDone={(t) => handleGameDone('videoPoker', t)} />
+  }
 
   return (
     <div className="minigame-hub">
@@ -231,7 +237,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
         <>
           {/* Game grid */}
           <div className="minigame-grid">
-            {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine'] as MiniGameId[]).map(id => {
+            {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker'] as MiniGameId[]).map(id => {
               const cost    = MINI_GAME_COSTS[id]
               const locked  = currentCrystals < cost
               const best    = loadLocalHighScore(id)
@@ -315,7 +321,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
           <div className="lb-controls">
             <div className="lb-game-tabs">
-              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine'] as MiniGameId[]).map(id => (
+              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker'] as MiniGameId[]).map(id => (
                 <button
                   key={id}
                   className={`filter-btn${lbGame === id ? ' filter-btn--active' : ''}`}

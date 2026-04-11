@@ -24,7 +24,8 @@
     "spinner":        25,
     "marblerace":     25,
     "higherOrLower":  25,
-    "fruitMachine":   50
+    "fruitMachine":   50,
+    "videoPoker":     25
   },
 
   "ticketPrizes": [
