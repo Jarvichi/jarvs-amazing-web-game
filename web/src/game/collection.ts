@@ -82,6 +82,9 @@ export const DECK_MIN  = 10
 export const DECK_MAX  = 30
 export const COPIES_MAX = 4
 
+import { loadPlayerStats } from './playerStats'
+export function getPlayerMaxDeckSize(): number { return loadPlayerStats().maxDeckSize }
+
 import { CRYSTAL_PACK_COST, DISENCHANT_VALUE } from './economy'
 export { CRYSTAL_PACK_COST, DISENCHANT_VALUE }
 
@@ -408,7 +411,7 @@ export function deckTotalCards(d: DeckEntry[]): number {
 
 export function isDeckValid(d: DeckEntry[]): boolean {
   const total = deckTotalCards(d)
-  return total >= DECK_MIN && total <= DECK_MAX
+  return total >= DECK_MIN && total <= getPlayerMaxDeckSize()
 }
 
 // ─── Saved Decks ──────────────────────────────────────────

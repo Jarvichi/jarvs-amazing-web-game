@@ -276,6 +276,7 @@ export interface GameState {
   environment?: string       // battlefield background theme ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen')
   soulstoneReviveAvailable?: boolean  // Soulstone relic: one unit auto-revives per battle
   relicManaBonus?: number             // Prism Lens relic: +N to maxMana cap
+  playerManaRegenMs?: number          // player's upgraded mana regen interval (default 3000 ms)
   relicSporeBloom?: boolean           // Spore Bloom relic: player units heal 1 HP every 3s
   relicSporeBloomTimer?: number       // countdown ms until next Spore Bloom tick
   relicGearHeart?: boolean            // Gear Heart relic: +1 ATK on every player unit spawn

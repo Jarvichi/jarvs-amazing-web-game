@@ -1,4 +1,5 @@
 import { CardRarity } from './types'
+import { loadPlayerStats } from './playerStats'
 import { logError } from '../logger'
 import { getCardCatalog } from './cards'
 import { addConsumable, removeConsumable, getConsumables } from './itemStore'
@@ -598,15 +599,16 @@ export const LIVES_START = 3
 export const LIVES_MAX   = 9
 
 export function newRun(actId: string, activeModifierCount = 0): RunState {
+  const pStats = loadPlayerStats()
   return {
     actId,
     completedNodeIds: [],
     skippedNodeIds: [],
     pendingNodeId: null,
-    playerHp: 50,
-    maxHp: 50,
-    livesRemaining: LIVES_START,
-    maxLives: LIVES_START,
+    playerHp: pStats.maxHp,
+    maxHp: pStats.maxHp,
+    livesRemaining: pStats.maxLives,
+    maxLives: pStats.maxLives,
     cardPlayCounts: {},
     nodeFailCounts: {},
     earnedCards: [],

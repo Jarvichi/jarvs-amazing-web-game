@@ -14,6 +14,7 @@ import {
   DECK_MIN,
   DECK_MAX,
   COPIES_MAX,
+  getPlayerMaxDeckSize,
   CollectionEntry,
   DeckEntry,
   SavedDeck,
@@ -317,6 +318,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
 
   // Deck helpers
   const total = deckTotalCards(deck)
+  const playerDeckMax = getPlayerMaxDeckSize()
   const valid = isDeckValid(deck)
 
   function inDeckCount(name: string): number {
@@ -328,7 +330,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
     const owned = getOwnedCount(collection, name)
     const inDeck = inDeckCount(name)
     if (inDeck >= Math.min(owned, COPIES_MAX)) return
-    if (total >= DECK_MAX) return
+    if (total >= playerDeckMax) return
     setDeck(prev => {
       const idx = prev.findIndex(e => e.cardName === name)
       if (idx === -1) return [...prev, { cardName: name, count: 1 }]
@@ -432,7 +434,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
       onBack={onBack}
       right={
         <span className={`overlay-count${valid ? ' overlay-count--valid' : ' overlay-count--invalid'}`}>
-          {total}/{DECK_MAX} cards
+          {total}/{playerDeckMax} cards
           {total < DECK_MIN && ` (need ${DECK_MIN - total} more)`}
         </span>
       }
@@ -499,7 +501,7 @@ setCollectionCollapsed(false)
 
           {!deckCollapsed && (
             <>
-              <ProgressBar pct={(total / DECK_MAX) * 100} />
+              <ProgressBar pct={(total / playerDeckMax) * 100} />
               <div className="deckbuilder-deck-grid">
                 {deck.length === 0 ? (
                   <div className="deck-empty">Add cards from the collection below.</div>
@@ -777,7 +779,7 @@ setCollectionCollapsed(true)
                       const owned   = getOwnedCount(collection, card.name)
                       const inDeck  = inDeckCount(card.name)
                       const resting = fatiguedCards.includes(card.name)
-                      const canAdd  = !resting && inDeck < Math.min(owned, COPIES_MAX) && total < DECK_MAX
+                      const canAdd  = !resting && inDeck < Math.min(owned, COPIES_MAX) && total < playerDeckMax
                       const xp      = getMasteryXp(collection, card.name)
                       const { level: lvl } = masteryProgress(xp)
                       const label   = groupLabel(card)
