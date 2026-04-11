@@ -114,6 +114,7 @@ export function FruitMachine({ onDone }: Props) {
       setReels(nextReels)
       setDisplay(nextReels)
       setLastWin(win)
+      setHeld([false, false, false])
       setCredits(c => Math.max(0, c + win))
       setPhase('idle')
     }, SPIN_DURATION_MS)
