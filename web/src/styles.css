@@ -9417,3 +9417,170 @@ html.light-mode .action-btn {
   color: var(--game-text-color-dim);
   margin-top: 8px;
 }
+
+/* ── Fruit Machine minigame ── */
+
+.fm-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  min-height: 24px;
+}
+
+.fm-credits {
+  font-size: 15px;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.fm-win-flash {
+  font-size: 14px;
+  font-weight: bold;
+  color: #55cc55;
+  animation: fm-win-pulse 0.4s ease-in-out;
+}
+
+@keyframes fm-win-pulse {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  50%  { transform: scale(1.2); opacity: 1;   }
+  100% { transform: scale(1);   opacity: 1;   }
+}
+
+.fm-no-win {
+  font-size: 12px;
+  color: var(--game-text-color-dim);
+}
+
+.fm-reels {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.fm-reel {
+  width: 80px;
+  height: 96px;
+  border: 2px solid #444;
+  border-radius: 6px;
+  background: #0d0d1e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.fm-reel--held {
+  border-color: #c8a000;
+  background: #1a1500;
+  box-shadow: 0 0 8px rgba(200, 160, 0, 0.4);
+}
+
+.fm-reel--spinning .fm-symbol {
+  animation: fm-reel-roll 0.08s steps(1) infinite;
+}
+
+@keyframes fm-reel-roll {
+  0%   { transform: translateY(-4px); }
+  50%  { transform: translateY(4px);  }
+  100% { transform: translateY(-4px); }
+}
+
+.fm-symbol {
+  font-size: 44px;
+  line-height: 1;
+  user-select: none;
+}
+
+.fm-holds {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.fm-hold-btn {
+  width: 80px;
+  padding: 5px 0;
+  font-size: 11px;
+  font-family: inherit;
+  font-weight: bold;
+  background: #111;
+  color: #888;
+  border: 1px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.fm-hold-btn:not(:disabled):hover {
+  border-color: #aaa;
+  color: #ccc;
+}
+
+.fm-hold-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.fm-hold-btn--active {
+  background: #1a1500;
+  color: #ffd700;
+  border-color: #c8a000;
+}
+
+.fm-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.fm-buy-credits {
+  margin-top: 4px;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-family: inherit;
+  background: #111;
+  color: #7799cc;
+  border: 1px solid #2a3a5a;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.fm-buy-credits:hover {
+  border-color: #4466aa;
+  color: #99bbee;
+}
+
+.fm-paytable {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--game-text-color-dim);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fm-paytable summary {
+  text-align: center;
+  padding: 2px 0;
+}
+
+.fm-paytable-table {
+  margin-top: 6px;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 200px;
+}
+
+.fm-paytable-table td {
+  padding: 2px 8px;
+  border-bottom: 1px solid #1e1e2e;
+}
+
+.fm-paytable-table td:last-child {
+  text-align: right;
+  color: #ffd700;
+}

@@ -20,7 +20,7 @@ export { getTickets as loadTickets, addTickets, spendTickets }
 
 // ── Game Costs ────────────────────────────────────────────────────────────────
 
-export type MiniGameId = 'marble' | 'tileflip' | 'crystalcatch' | 'spinner' | 'marblerace' | 'higherOrLower'
+export type MiniGameId = 'marble' | 'tileflip' | 'crystalcatch' | 'spinner' | 'marblerace' | 'higherOrLower' | 'fruitMachine'
 
 export const MINI_GAME_COSTS = _MINI_GAME_COSTS as Record<MiniGameId, number>
 
@@ -31,6 +31,7 @@ export const MINI_GAME_LABELS: Record<MiniGameId, string> = {
   spinner:        'Lucky Spinner',
   marblerace:     'Marble Race',
   higherOrLower:  'Higher or Lower',
+  fruitMachine:   'Fruit Machine',
 }
 
 export const MINI_GAME_DESCRIPTIONS: Record<MiniGameId, string> = {
@@ -40,6 +41,7 @@ export const MINI_GAME_DESCRIPTIONS: Record<MiniGameId, string> = {
   spinner:        'Spin the wheel and hope for the jackpot.',
   marblerace:     'Pick a marble and race to the finish! Prizes for every place.',
   higherOrLower:  'Guess whether each card is higher or lower. Get all 4 right for the jackpot!',
+  fruitMachine:   'Spin the reels, hold your lucky symbols, and cash out your winnings!',
 }
 
 export const MINI_GAME_ICONS: Record<MiniGameId, string> = {
@@ -49,6 +51,7 @@ export const MINI_GAME_ICONS: Record<MiniGameId, string> = {
   spinner:        '🎡',
   marblerace:     '🏁',
   higherOrLower:  '🎴',
+  fruitMachine:   '🎰',
 }
 
 // ── Ticket Prizes ─────────────────────────────────────────────────────────────
