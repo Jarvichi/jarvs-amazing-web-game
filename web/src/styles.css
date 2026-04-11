@@ -9530,6 +9530,11 @@ html.light-mode .action-btn {
   border-color: #c8a000;
 }
 
+.fm-hold-btn--blocked {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
 .fm-controls {
   display: flex;
   gap: 12px;
