@@ -3,6 +3,7 @@ import { makeDeck, makeThorlordDeck, makeKraggDeck, makeAshwalkerDeck, makeNodeD
 import { playUnitDeath, playBuildingDestroyed } from './sound'
 import { logError } from '../logger'
 import { isNoDamageMode } from './debug'
+import { loadPlayerStats } from './playerStats'
 import bossAIDefsRaw from '../data/bossAIs.json'
 
 // ─── Boss AI config types ──────────────────────────────────
@@ -448,8 +449,9 @@ export function newGame(
     opponentHand,
     opponentDeck,
     mana: 3,
-    maxMana: BASE_MAX_MANA,
+    maxMana: Math.max(BASE_MAX_MANA, loadPlayerStats().maxMana),
     manaAccum: 0,
+    playerManaRegenMs: loadPlayerStats().manaRegenMs,
     log: openingLog,
     phase: { type: 'playing' },
     opponentTimer: opts.quickStart ? Math.round(oppIntervalMs * 0.25) : oppIntervalMs,
@@ -1854,7 +1856,7 @@ export function tick(state: GameState, deltaMs: number): GameState {
 
   if (s.mana < s.maxMana) {
     const speedMult = 1 + getManaSpeedMult(s.field, 'player')
-    s.manaAccum += (deltaMs / MANA_REGEN_MS) * speedMult
+    s.manaAccum += (deltaMs / (s.playerManaRegenMs ?? MANA_REGEN_MS)) * speedMult
     while (s.manaAccum >= 1 && s.mana < s.maxMana) {
       s.mana++
       s.manaAccum -= 1

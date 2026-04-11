@@ -13,6 +13,7 @@ import {
   loadWinStreak, incrementWinStreak, resetWinStreak, incrementTotalWins,
 } from './game/collection'
 import { getCardCatalog } from './game/cards'
+import { applyStatUpgrade } from './game/playerStats'
 import {
   loadRun, saveRun, clearRun, newRun, LIVES_START, LIVES_MAX,
   getAvailableNodeIds, skipSiblings, isActComplete,
@@ -96,6 +97,8 @@ import { VictoryPanel }     from './components/VictoryPanel'
 import { RelicSpinScreen }  from './components/RelicSpinScreen'
 import { CampaignVictoryScreen } from './components/CampaignVictoryScreen'
 import { CampaignFailedScreen }  from './components/CampaignFailedScreen'
+import { StatUpgradeScreen }     from './components/StatUpgradeScreen'
+import { PlayerStatsScreen }     from './components/PlayerStatsScreen'
 import { DailyChallengeScreen } from './components/DailyChallengeScreen'
 import { ConfirmModal }          from './components/ConfirmModal'
 import { EndlessLeaderboardScreen } from './components/EndlessLeaderboardScreen'
@@ -252,6 +255,8 @@ type Screen =
   | 'news'
   | 'newsAdmin'
   | 'minigames'
+  | 'playerstats'
+  | 'statupgrade'
 
 
 function formatTimeAgo(date: Date): string {
@@ -2141,6 +2146,7 @@ export default function App() {
             onNews={() => setScreen('news')}
             hasUnreadNews={newsUnreadCount > 0}
             onMiniGames={() => setScreen('minigames')}
+            onPlayerStats={() => setScreen('playerstats')}
             user={user}
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
             onSignIn={() => setShowTitleLoginModal(true)}
@@ -2401,11 +2407,20 @@ export default function App() {
       )}
 
       {screen === 'campaignvictory' && (
-        <CampaignVictoryScreen onBeginAnew={() => {
+        <CampaignVictoryScreen onBeginAnew={() => setScreen('statupgrade')} />
+      )}
+
+      {screen === 'statupgrade' && (
+        <StatUpgradeScreen onSelect={(stat) => {
+          applyStatUpgrade(stat)
           const bonus = crystals + 500; saveCrystals(bonus); setCrystals(bonus)
           clearRun(); setRun(null); clearFatigued(); setFatiguedCards([]); setBonusPackCards([])
           setScreen('starterpack')
         }} />
+      )}
+
+      {screen === 'playerstats' && (
+        <PlayerStatsScreen onBack={() => setScreen('title')} />
       )}
 
       {screen === 'campaignfailed' && (

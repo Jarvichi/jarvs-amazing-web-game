@@ -20,7 +20,7 @@ export function CampaignVictoryScreen({ onBeginAnew }: Props) {
         <p className="cv-reward">+500 ◆ awarded for completing the questline.</p>
       </div>
       <button className="action-btn action-btn--large action-btn--gold" onClick={onBeginAnew}>
-        [ Begin Anew ]
+        [ Claim Reward ]
       </button>
     </div>
   )
