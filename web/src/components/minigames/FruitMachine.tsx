@@ -50,6 +50,7 @@ export function FruitMachine({ onDone }: Props) {
   const [reels, setReels]         = useState<[string, string, string]>(() => [pickSymbol(), pickSymbol(), pickSymbol()])
   const [display, setDisplay]     = useState<[string, string, string]>(() => [pickSymbol(), pickSymbol(), pickSymbol()])
   const [held, setHeld]           = useState<[boolean, boolean, boolean]>([false, false, false])
+  const [recentlyHeld, setRecentlyHeld] = useState<[boolean, boolean, boolean]>([false, false, false])
   const [phase, setPhase]         = useState<'idle' | 'spinning' | 'done'>('idle')
   const [credits, setCredits]     = useState(STARTING_CREDITS)
   const [lastWin, setLastWin]     = useState<number | null>(null)
@@ -74,7 +75,7 @@ export function FruitMachine({ onDone }: Props) {
   }, [credits, phase])
 
   function toggleHold(i: 0 | 1 | 2) {
-    if (phase !== 'idle') return
+    if (phase !== 'idle' || recentlyHeld[i]) return
     setHeld(prev => {
       const next = [...prev] as [boolean, boolean, boolean]
       next[i] = !next[i]
@@ -91,6 +92,7 @@ export function FruitMachine({ onDone }: Props) {
       held[2] ? reels[2] : pickSymbol(),
     ]
     spinningRef.current = [!held[0], !held[1], !held[2]]
+    setRecentlyHeld([...held] as [boolean, boolean, boolean])
 
     setPhase('spinning')
     setCredits(c => c - 1)
@@ -115,6 +117,7 @@ export function FruitMachine({ onDone }: Props) {
       setDisplay(nextReels)
       setLastWin(win)
       setHeld([false, false, false])
+      // recentlyHeld stays set — blocks those reels from being held next spin
       setCredits(c => Math.max(0, c + win))
       setPhase('idle')
     }, SPIN_DURATION_MS)
@@ -197,11 +200,12 @@ export function FruitMachine({ onDone }: Props) {
         {([0, 1, 2] as const).map(i => (
           <button
             key={i}
-            className={`fm-hold-btn${held[i] ? ' fm-hold-btn--active' : ''}`}
+            className={`fm-hold-btn${held[i] ? ' fm-hold-btn--active' : ''}${recentlyHeld[i] && !held[i] ? ' fm-hold-btn--blocked' : ''}`}
             onClick={() => toggleHold(i)}
-            disabled={isSpinning}
+            disabled={isSpinning || recentlyHeld[i]}
+            title={recentlyHeld[i] ? 'Already held last spin' : undefined}
           >
-            {held[i] ? 'HELD' : 'HOLD'}
+            {held[i] ? 'HELD' : recentlyHeld[i] ? '—' : 'HOLD'}
           </button>
         ))}
       </div>
