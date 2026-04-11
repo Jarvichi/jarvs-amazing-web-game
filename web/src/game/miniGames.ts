@@ -20,32 +20,35 @@ export { getTickets as loadTickets, addTickets, spendTickets }
 
 // ── Game Costs ────────────────────────────────────────────────────────────────
 
-export type MiniGameId = 'marble' | 'tileflip' | 'crystalcatch' | 'spinner' | 'marblerace'
+export type MiniGameId = 'marble' | 'tileflip' | 'crystalcatch' | 'spinner' | 'marblerace' | 'higherOrLower'
 
 export const MINI_GAME_COSTS = _MINI_GAME_COSTS as Record<MiniGameId, number>
 
 export const MINI_GAME_LABELS: Record<MiniGameId, string> = {
-  marble:       'Marble Run',
-  tileflip:     'Tile Flip',
-  crystalcatch: 'Crystal Catch',
-  spinner:      'Lucky Spinner',
-  marblerace:   'Marble Race',
+  marble:         'Marble Run',
+  tileflip:       'Tile Flip',
+  crystalcatch:   'Crystal Catch',
+  spinner:        'Lucky Spinner',
+  marblerace:     'Marble Race',
+  higherOrLower:  'Higher or Lower',
 }
 
 export const MINI_GAME_DESCRIPTIONS: Record<MiniGameId, string> = {
-  marble:       'Drop a marble through the pegs and land in high-value slots.',
-  tileflip:     'Match pairs of tiles from memory. Faster = more tickets.',
-  crystalcatch: 'Catch falling crystals, dodge the bombs!',
-  spinner:      'Spin the wheel and hope for the jackpot.',
-  marblerace:   'Pick a marble and race to the finish! Prizes for every place.',
+  marble:         'Drop a marble through the pegs and land in high-value slots.',
+  tileflip:       'Match pairs of tiles from memory. Faster = more tickets.',
+  crystalcatch:   'Catch falling crystals, dodge the bombs!',
+  spinner:        'Spin the wheel and hope for the jackpot.',
+  marblerace:     'Pick a marble and race to the finish! Prizes for every place.',
+  higherOrLower:  'Guess whether each card is higher or lower. Get all 4 right for the jackpot!',
 }
 
 export const MINI_GAME_ICONS: Record<MiniGameId, string> = {
-  marble:       '🔮',
-  tileflip:     '🃏',
-  crystalcatch: '💎',
-  spinner:      '🎡',
-  marblerace:   '🏁',
+  marble:         '🔮',
+  tileflip:       '🃏',
+  crystalcatch:   '💎',
+  spinner:        '🎡',
+  marblerace:     '🏁',
+  higherOrLower:  '🎴',
 }
 
 // ── Ticket Prizes ─────────────────────────────────────────────────────────────

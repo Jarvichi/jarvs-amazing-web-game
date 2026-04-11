@@ -18,11 +18,12 @@
   },
 
   "miniGameCosts": {
-    "marble":       50,
-    "tileflip":     25,
-    "crystalcatch": 25,
-    "spinner":      25,
-    "marblerace":   25
+    "marble":         50,
+    "tileflip":       25,
+    "crystalcatch":   25,
+    "spinner":        25,
+    "marblerace":     25,
+    "higherOrLower":  25
   },
 
   "ticketPrizes": [
