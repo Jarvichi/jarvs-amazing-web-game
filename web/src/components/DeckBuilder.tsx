@@ -601,6 +601,7 @@ setCollectionCollapsed(true)
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                 />
+                <input type="reset" value="X" alt="Clear the search form" className="action-btn action-btn--xs" onClick={() => setSearch('')} />
               </div>
 
               {/* Filter / Sort / Group bar */}
