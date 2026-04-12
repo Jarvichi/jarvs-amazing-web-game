@@ -246,17 +246,19 @@ Check that the card names used in act node enemy decks (step 2) are all present 
 
 ### 2. Act map — `web/src/data/acts/actN.json`
 
-Create the file following the 7-row, 13-node layout used by acts 1–7:
+Create the file following the **standard 7-row, 13-node, 2-path branching layout** used by all existing acts. See `docs/acts.md §1.1` for the full spec and column assignments. The structure is:
 
-| Row | Nodes | Types |
-|-----|-------|-------|
-| 0   | 1     | battle (start) |
-| 1   | 3     | event / rest / merchant |
-| 2   | 1     | battle |
-| 3   | 3     | battle / event / elite |
-| 4   | 1     | battle |
-| 5   | 3     | event / rest / elite |
-| 6   | 1     | boss |
+| Row | Nodes | Path / Types | `rowCols` |
+|-----|-------|-------------|-----------|
+| 0   | 1     | battle (start) | 1 |
+| 1   | 2     | event (col 0) + rest (col 3) — player picks one | 4 |
+| 2   | 4     | [A: battle, event] + [B: event, merchant] (cols 0–3) | 4 |
+| 3   | 2     | A-elite (col 0) + B-rest (col 3) | 4 |
+| 4   | 2     | A-battle (col 0) + B-battle (col 3) | 4 |
+| 5   | 1     | rest or event (pre-boss) | 1 |
+| 6   | 1     | boss | 1 |
+
+Choosing the row-1 left node locks out all right-side nodes in rows 2–4 (and vice versa). Both paths converge at row 5 before the boss. Wire `parentIds`/`childIds` exactly as documented in `docs/acts.md §1.2`.
 
 Required top-level fields: `id`, `title` (`"ACT VII"`), `subtitle`, `rewardRelic`, `rewardRelicDesc`, `environment`, `rewardTags`, `replayModifiers` (copy the standard 5-modifier block from a previous act), `startNodeIds`, `intro` (3 panels), `outro` (3 panels), `nodes`.
 
