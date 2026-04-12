@@ -1386,7 +1386,7 @@
     "siege-engineer": {
       "name": "Siege Engineer",
       "attack": 9,
-      "maxHp": 12,
+      "maxHp": 14,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 14,
@@ -1637,7 +1637,7 @@
     "lich-apprentice": {
       "name": "Lich Apprentice",
       "attack": 5,
-      "maxHp": 8,
+      "maxHp": 9,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 18,
@@ -2069,7 +2069,7 @@
     "demolitions-expert": {
       "name": "Demolitions Expert",
       "attack": 12,
-      "maxHp": 18,
+      "maxHp": 21,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 22,
@@ -2280,7 +2280,7 @@
     "wraith": {
       "name": "Wraith",
       "attack": 4,
-      "maxHp": 10,
+      "maxHp": 12,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 40,
@@ -2448,7 +2448,7 @@
     "chronomancer": {
       "name": "Chronomancer",
       "attack": 6,
-      "maxHp": 22,
+      "maxHp": 25,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 18,
@@ -2720,7 +2720,7 @@
     "reef-shark": {
       "name": "Reef Shark",
       "attack": 10,
-      "maxHp": 22,
+      "maxHp": 19,
       "isWall": false,
       "bypassWall": false,
       "moveSpeed": 42,
@@ -2832,7 +2832,7 @@
     "tide-dragon": {
       "name": "Tide Dragon",
       "attack": 16,
-      "maxHp": 55,
+      "maxHp": 47,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 25,
@@ -2862,7 +2862,7 @@
     "leviathan": {
       "name": "Leviathan",
       "attack": 22,
-      "maxHp": 110,
+      "maxHp": 94,
       "isWall": false,
       "bypassWall": false,
       "moveSpeed": 6,
@@ -3021,7 +3021,7 @@
     "cloud-hawk": {
       "name": "Cloud Hawk",
       "attack": 8,
-      "maxHp": 14,
+      "maxHp": 12,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 58,
@@ -3110,7 +3110,7 @@
     "thunder-drake": {
       "name": "Thunder Drake",
       "attack": 14,
-      "maxHp": 42,
+      "maxHp": 36,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 28,
@@ -3140,7 +3140,7 @@
     "sky-leviathan": {
       "name": "Sky Leviathan",
       "attack": 20,
-      "maxHp": 90,
+      "maxHp": 76,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 12,
@@ -3232,7 +3232,7 @@
     "gale-warden": {
       "name": "Gale Warden",
       "attack": 12,
-      "maxHp": 26,
+      "maxHp": 22,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 38,
@@ -3395,7 +3395,7 @@
     },
     "ash-stalker": {
       "attack": 9,
-      "maxHp": 20,
+      "maxHp": 17,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 22,
@@ -3507,7 +3507,7 @@
     },
     "ember-wyrm": {
       "attack": 14,
-      "maxHp": 32,
+      "maxHp": 27,
       "isWall": false,
       "bypassWall": true,
       "flying": true,
@@ -3550,7 +3550,7 @@
     },
     "inferno-drake": {
       "attack": 18,
-      "maxHp": 42,
+      "maxHp": 36,
       "isWall": false,
       "bypassWall": true,
       "flying": true,
@@ -4620,7 +4620,7 @@
     "canopy-scout": {
       "name": "Canopy Scout",
       "attack": 5,
-      "maxHp": 12,
+      "maxHp": 10,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 50,
@@ -4649,7 +4649,7 @@
     "vine-runner": {
       "name": "Vine Runner",
       "attack": 4,
-      "maxHp": 14,
+      "maxHp": 12,
       "isWall": false,
       "bypassWall": false,
       "moveSpeed": 55,
@@ -4803,7 +4803,7 @@
     "canopy-archer": {
       "name": "Canopy Archer",
       "attack": 8,
-      "maxHp": 18,
+      "maxHp": 15,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 35,
@@ -4860,7 +4860,7 @@
     "jungle-stalker": {
       "name": "Jungle Stalker",
       "attack": 10,
-      "maxHp": 22,
+      "maxHp": 19,
       "isWall": false,
       "bypassWall": false,
       "moveSpeed": 48,
@@ -5021,7 +5021,7 @@
     "canopy-drake": {
       "name": "Canopy Drake",
       "attack": 12,
-      "maxHp": 35,
+      "maxHp": 30,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 22,
@@ -5051,7 +5051,7 @@
     "vine-colossus": {
       "name": "Vine Colossus",
       "attack": 16,
-      "maxHp": 100,
+      "maxHp": 85,
       "isWall": false,
       "bypassWall": false,
       "moveSpeed": 14,
@@ -5102,7 +5102,7 @@
     "the-elder-warden": {
       "name": "The Elder Warden",
       "attack": 20,
-      "maxHp": 120,
+      "maxHp": 102,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 16,
@@ -5167,7 +5167,7 @@
     "tide-runner": {
       "name": "Tide Runner",
       "attack": 5,
-      "maxHp": 14,
+      "maxHp": 12,
       "isWall": false,
       "bypassWall": false,
       "moveSpeed": 75,
@@ -5228,7 +5228,7 @@
     "wave-brawler": {
       "name": "Wave Brawler",
       "attack": 7,
-      "maxHp": 26,
+      "maxHp": 22,
       "isWall": false,
       "bypassWall": false,
       "moveSpeed": 50,
@@ -5257,7 +5257,7 @@
     "coastal-skirmisher": {
       "name": "Coastal Skirmisher",
       "attack": 6,
-      "maxHp": 16,
+      "maxHp": 14,
       "isWall": false,
       "bypassWall": false,
       "moveSpeed": 60,
@@ -5492,7 +5492,7 @@
     "the-harbormaster": {
       "name": "The Harbormaster",
       "attack": 14,
-      "maxHp": 90,
+      "maxHp": 76,
       "isWall": false,
       "bypassWall": false,
       "moveSpeed": 45,
@@ -5568,7 +5568,7 @@
     "cog-runner": {
       "name": "Cog Runner",
       "attack": 5,
-      "maxHp": 13,
+      "maxHp": 11,
       "isWall": false,
       "bypassWall": false,
       "moveSpeed": 75,
@@ -5657,7 +5657,7 @@
     "clockwork-archer": {
       "name": "Clockwork Archer",
       "attack": 6,
-      "maxHp": 17,
+      "maxHp": 14,
       "isWall": false,
       "bypassWall": false,
       "moveSpeed": 50,
@@ -6414,7 +6414,7 @@
     "cave-bat": {
       "name": "Cave Bat",
       "attack": 5,
-      "maxHp": 14,
+      "maxHp": 12,
       "isWall": false,
       "bypassWall": true,
       "moveSpeed": 38,
@@ -10226,7 +10226,7 @@
       "unit": {
         "name": "Wizard",
         "attack": 6,
-        "maxHp": 10,
+        "maxHp": 12,
         "isWall": false,
         "bypassWall": true,
         "moveSpeed": 22,
@@ -10653,7 +10653,7 @@
     {
       "name": "Troll Den",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 4,
       "cardType": "structure",
       "tags": [
         "forest"
@@ -10680,7 +10680,7 @@
     {
       "name": "Garrison",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "tags": [
         "citadel"
@@ -10707,7 +10707,7 @@
     {
       "name": "Cathedral",
       "rarity": "legendary",
-      "cost": 6,
+      "cost": 5,
       "cardType": "structure",
       "tags": [
         "citadel"
@@ -10734,7 +10734,7 @@
     {
       "name": "Rogue Den",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "tags": [
         "citadel"
@@ -10761,7 +10761,7 @@
     {
       "name": "Siege Works",
       "rarity": "legendary",
-      "cost": 5,
+      "cost": 4,
       "cardType": "structure",
       "tags": [
         "citadel"
@@ -10815,7 +10815,7 @@
     {
       "name": "Iron Forge",
       "rarity": "legendary",
-      "cost": 6,
+      "cost": 5,
       "cardType": "structure",
       "tags": [
         "citadel"
@@ -10842,7 +10842,7 @@
     {
       "name": "Fairy Ring",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 3,
       "cardType": "structure",
       "tags": [
         "forest"
@@ -11234,7 +11234,7 @@
     {
       "name": "Rat Burrow",
       "rarity": "common",
-      "cost": 2,
+      "cost": 3,
       "cardType": "structure",
       "tags": [
         "ashen"
@@ -11261,7 +11261,7 @@
     {
       "name": "Bandit Camp",
       "rarity": "common",
-      "cost": 2,
+      "cost": 3,
       "cardType": "structure",
       "tags": [
         "citadel"
@@ -11288,7 +11288,7 @@
     {
       "name": "Bat Cave",
       "rarity": "common",
-      "cost": 2,
+      "cost": 3,
       "cardType": "structure",
       "tags": [
         "forest"
@@ -11315,7 +11315,7 @@
     {
       "name": "Scorpion Pit",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 3,
       "cardType": "structure",
       "tags": [
         "forest"
@@ -11423,7 +11423,7 @@
     {
       "name": "Spirit Well",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "tags": [
         "ashen"
@@ -11450,7 +11450,7 @@
     {
       "name": "Lizard Warren",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "tags": [
         "ashen"
@@ -11687,7 +11687,7 @@
     {
       "name": "Giant's Hall",
       "rarity": "legendary",
-      "cost": 6,
+      "cost": 5,
       "cardType": "structure",
       "unit": {
         "name": "Giant's Hall",
@@ -11775,7 +11775,7 @@
     {
       "name": "Titan Blood",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "upgrade",
       "tags": [
         "ashen"
@@ -12405,7 +12405,7 @@
     {
       "name": "Spore Tower",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 5,
       "cardType": "structure",
       "tags": [
         "forest"
@@ -12485,7 +12485,7 @@
     {
       "name": "Overgrowth",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 1,
       "cardType": "upgrade",
       "tags": [
         "forest"
@@ -12706,7 +12706,7 @@
     {
       "name": "Battle Hardened",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 1,
       "cardType": "upgrade",
       "tags": [
         "iron"
@@ -12722,7 +12722,7 @@
     {
       "name": "Iron Discipline",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 1,
       "cardType": "upgrade",
       "tags": [
         "iron"
@@ -12822,7 +12822,7 @@
     {
       "name": "Death Altar",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 3,
       "cardType": "structure",
       "tags": [
         "ashen"
@@ -12903,7 +12903,7 @@
     {
       "name": "Undying Rage",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 2,
       "cardType": "upgrade",
       "tags": [
         "ashen"
@@ -12951,7 +12951,7 @@
     {
       "name": "Dark Ritual",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 2,
       "cardType": "upgrade",
       "tags": [
         "ashen"
@@ -13100,7 +13100,7 @@
     {
       "name": "Crystal Resonance",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 1,
       "cardType": "upgrade",
       "tags": [
         "arcane"
@@ -13555,7 +13555,7 @@
     {
       "name": "Kraken Beacon",
       "rarity": "rare",
-      "cost": 4,
+      "cost": 3,
       "cardType": "structure",
       "unit": {
         "name": "Kraken Beacon",
@@ -13630,7 +13630,7 @@
     {
       "name": "Current Mastery",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 1,
       "cardType": "upgrade",
       "upgradeEffect": {
         "type": "buffRange",
@@ -13872,7 +13872,7 @@
     {
       "name": "Aerie Roost",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 3,
       "cardType": "structure",
       "unit": {
         "name": "Aerie Roost",
@@ -13985,7 +13985,7 @@
     {
       "name": "Feather Step",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 1,
       "cardType": "upgrade",
       "upgradeEffect": {
         "type": "buffRange",
@@ -14049,7 +14049,7 @@
     {
       "name": "Cloud Cover",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 1,
       "cardType": "upgrade",
       "upgradeEffect": {
         "type": "healUnits",
@@ -14380,7 +14380,7 @@
     {
       "name": "Ember Shrine",
       "rarity": "rare",
-      "cost": 3,
+      "cost": 4,
       "cardType": "structure",
       "unit": {
         "name": "Ember Shrine",
@@ -15581,7 +15581,7 @@
     {
       "name": "Ancient Blessing",
       "rarity": "common",
-      "cost": 2,
+      "cost": 1,
       "cardType": "upgrade",
       "tags": [
         "canopy",
@@ -15738,7 +15738,7 @@
     {
       "name": "Root Network",
       "rarity": "uncommon",
-      "cost": 3,
+      "cost": 2,
       "cardType": "upgrade",
       "tags": [
         "canopy",
@@ -16060,7 +16060,7 @@
     {
       "name": "Riptide",
       "rarity": "uncommon",
-      "cost": 2,
+      "cost": 3,
       "cardType": "upgrade",
       "upgradeEffect": {
         "type": "buffSpeed",
