@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 
 interface Props {
   onClose: () => void
@@ -7,7 +8,7 @@ interface Props {
 }
 
 export function ModalBackdrop({ onClose, children, zIndex }: Props) {
-  return (
+  return ReactDOM.createPortal(
     <div
       className="modal-backdrop"
       style={zIndex !== undefined ? { zIndex } : undefined}
@@ -16,6 +17,7 @@ export function ModalBackdrop({ onClose, children, zIndex }: Props) {
       <div onClick={e => e.stopPropagation()}>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
