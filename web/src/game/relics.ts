@@ -141,6 +141,15 @@ const RELIC_CATALOG: RelicDef[] = [
       state.playerBase.hp   += 1
     },
   },
+  {
+    name: "Worldmender's Crest",
+    icon: '🌐',
+    desc: 'Your base gains +5 max HP at the start of every battle.',
+    applyToGame(state) {
+      state.playerBase.maxHp += 5
+      state.playerBase.hp    += 5
+    },
+  },
 ]
 
 export function getRelicDef(name: string): RelicDef | undefined {

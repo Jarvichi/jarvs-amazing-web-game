@@ -985,5 +985,74 @@
         ]
       }
     ]
+  },
+  {
+    "id": "thefracture",
+    "intervalMs": 5000,
+    "idleMessage": "Reality fractures\u2026",
+    "maxPlaysPerTurn": 3,
+    "openingLog": [
+      "THE FRACTURE awakens. The wound at the world's heart tears open.",
+      "This is the end. Yours, or the Fracture's."
+    ],
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 25000
+        },
+        "priorities": [
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      },
+      {
+        "condition": {
+          "gameTimeGte": 25000,
+          "gameTimeLt": 60000
+        },
+        "announceOnce": "THE FRACTURE DEEPENS. REALITY BENDS.",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      },
+      {
+        "condition": null,
+        "manaOverride": 99,
+        "maxPlaysOverride": 5,
+        "announceOnce": "THE CORE SHATTERS. THERE IS NO STOPPING THIS.",
+        "priorities": [
+          {
+            "cardType": "unit",
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
+        ]
+      }
+    ]
   }
 ]
