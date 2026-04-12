@@ -730,6 +730,41 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
 
+  // Finale — The Fractured Core
+  {
+    id: 'campaign:actfinale:1',
+    name: 'Worldmender',
+    description: 'Complete the Finale — The Fractured Core',
+    category: 'campaign',
+    progressKey: 'campaign:actfinale',
+    target: 1,
+    reward: { type: 'crystals', crystals: 750 },
+    tier: 1,
+  },
+  {
+    id: 'campaign:actfinale:10',
+    name: 'The Fracture Remembers You',
+    description: 'Complete the Finale ten times',
+    category: 'campaign',
+    progressKey: 'campaign:actfinale',
+    target: 10,
+    reward: { type: 'crystals', crystals: 3750 },
+    tier: 2,
+  },
+  {
+    id: 'campaign:actfinale:100',
+    name: 'The Core Is My Backyard',
+    description: 'Complete the Finale one hundred times',
+    category: 'campaign',
+    progressKey: 'campaign:actfinale',
+    target: 100,
+    reward: {
+      type: 'item',
+      item: { id: 'worldmenders_medallion', name: "Worldmender's Medallion", icon: '🌐', desc: "You've sealed the rift a hundred times. The Fracture just sighs now." },
+    },
+    tier: 2,
+  },
+
   // ── Boss avatar unlocks (one per act, triggered on first act completion) ─
 
   { id: 'campaign:act1:boss',  name: 'Face of the Thornlord',       description: 'Defeat Act 1 to unlock the Thornlord avatar',       category: 'campaign', progressKey: 'campaign:act1',  target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thornlord' },       tier: 1 },
@@ -744,7 +779,8 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   { id: 'campaign:act10:boss', name: 'Face of the Dune Baron',     description: 'Defeat Act 10 to unlock the Dune Baron avatar',    category: 'campaign', progressKey: 'campaign:act10', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-dunebaron' },    tier: 1 },
   { id: 'campaign:act11:boss', name: 'Face of the Elder Warden',   description: 'Defeat Act 11 to unlock the Elder Warden avatar',  category: 'campaign', progressKey: 'campaign:act11', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-elderwarden' },   tier: 1 },
   { id: 'campaign:act12:boss', name: 'Face of the Harbormaster',   description: 'Defeat Act 12 to unlock the Harbormaster avatar',  category: 'campaign', progressKey: 'campaign:act12', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-harbormaster' },  tier: 1 },
-  { id: 'campaign:act13:boss', name: 'Face of the Grand Automaton',description: 'Defeat Act 13 to unlock the Grand Automaton avatar',category: 'campaign', progressKey: 'campaign:act13', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-grandautomaton' },tier: 1 },
+  { id: 'campaign:act13:boss',   name: 'Face of the Grand Automaton', description: 'Defeat Act 13 to unlock the Grand Automaton avatar', category: 'campaign', progressKey: 'campaign:act13',   target: 1, reward: { type: 'avatar', avatarSlug: 'boss-grandautomaton' },  tier: 1 },
+  { id: 'campaign:actfinale:boss', name: 'Face of the Fracture',       description: 'Defeat the Finale to unlock the Fracture avatar',     category: 'campaign', progressKey: 'campaign:actfinale', target: 1, reward: { type: 'avatar', avatarSlug: 'boss-thefracture' },     tier: 1 },
 
   // ── Boss Cards — earned by repeat boss completions (10/20/30/40 runs) ────
   // Act 1 — Thornlord
@@ -812,6 +848,11 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   { id: 'campaign:act13:bosscard20', name: 'Duplicate of the Grand Automaton',description:'Defeat Act 13 twenty times',category: 'campaign', progressKey: 'campaign:act13', target: 20, reward: { type: 'cards', cardName: 'Grand Automaton',   count: 1 }, tier: 2 },
   { id: 'campaign:act13:bosscard30', name: 'Mastery of the Grand Automaton', description: 'Defeat Act 13 thirty times',category: 'campaign', progressKey: 'campaign:act13', target: 30, reward: { type: 'cards', cardName: 'Grand Automaton',   count: 1 }, tier: 2 },
   { id: 'campaign:act13:bosscard40', name: 'Legend of the Grand Automaton',  description: 'Defeat Act 13 forty times', category: 'campaign', progressKey: 'campaign:act13', target: 40, reward: { type: 'cards', cardName: 'Grand Automaton',   count: 1 }, tier: 2 },
+  // Finale — The Fracture
+  { id: 'campaign:actfinale:bosscard10', name: 'Trophy of the Fracture',    description: 'Defeat the Finale ten times',    category: 'campaign', progressKey: 'campaign:actfinale', target: 10, reward: { type: 'cards', cardName: 'Iron Colossus', count: 1 }, tier: 2 },
+  { id: 'campaign:actfinale:bosscard20', name: 'Duplicate of the Fracture', description: 'Defeat the Finale twenty times', category: 'campaign', progressKey: 'campaign:actfinale', target: 20, reward: { type: 'cards', cardName: 'Iron Colossus', count: 1 }, tier: 2 },
+  { id: 'campaign:actfinale:bosscard30', name: 'Mastery of the Fracture',   description: 'Defeat the Finale thirty times', category: 'campaign', progressKey: 'campaign:actfinale', target: 30, reward: { type: 'cards', cardName: 'Iron Colossus', count: 1 }, tier: 2 },
+  { id: 'campaign:actfinale:bosscard40', name: 'Legend of the Fracture',    description: 'Defeat the Finale forty times',  category: 'campaign', progressKey: 'campaign:actfinale', target: 40, reward: { type: 'cards', cardName: 'Iron Colossus', count: 1 }, tier: 2 },
 
   // ── Campaign failures ────────────────────────────────────────────────────
 
