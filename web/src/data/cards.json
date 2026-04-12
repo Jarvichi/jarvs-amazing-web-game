@@ -15819,7 +15819,7 @@
       ],
       "upgradeEffect": {
         "type": "aoe",
-        "amount": 5
+        "amount": 15
       },
       "description": "Roots burst from the ground, dealing 5 damage to all enemy units.",
       "deckCount": 1,
@@ -16080,7 +16080,7 @@
       "cardType": "upgrade",
       "upgradeEffect": {
         "type": "aoe",
-        "damage": 4,
+        "damage": 15,
         "range": 140
       },
       "description": "Detonates salvaged ordnance for area damage.",
@@ -16150,7 +16150,7 @@
       "cardType": "upgrade",
       "upgradeEffect": {
         "type": "aoe",
-        "damage": 7,
+        "damage": 15,
         "range": 180
       },
       "description": "Conjures a maelstrom that batters all nearby enemies.",
@@ -16418,7 +16418,7 @@
       "cardType": "upgrade",
       "upgradeEffect": {
         "type": "aoe",
-        "damage": 4,
+        "damage": 15,
         "range": 135
       },
       "description": "Discharges a capacitor bank for area damage.",
@@ -16502,7 +16502,7 @@
       "cardType": "upgrade",
       "upgradeEffect": {
         "type": "aoe",
-        "damage": 8,
+        "damage": 15,
         "range": 175
       },
       "description": "Catastrophic power core discharge.",
