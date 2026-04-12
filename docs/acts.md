@@ -14,46 +14,69 @@
 
 The act map is a series of **rows**, read bottom-to-top (row 0 = first, boss = last).
 
-**Row width pattern:**
-- Row 0 always has **1 node** (the starting node).
-- Subsequent rows alternate between **1 node** and **3 nodes** (occasionally **5 nodes** — rare, may require layout code changes).
-- The final row always has **1 node** — the Boss node.
+**Standard layout — 7 rows, 13 nodes, two diverging paths:**
 
-**Example layout (7 rows):**
 ```
-Row 6: [Boss]
-Row 5: [A] [B] [C]
-Row 4: [D]
-Row 3: [E] [F] [G]
-Row 2: [H]
-Row 1: [I] [J] [K]
-Row 0: [Start]
+Row 6:  col 2          [Boss]
+Row 5:  col 2          [Penultimate]          ← both paths reunite here
+Row 4:  col 0          [A-Hard]    col 3 [B-Hard]
+Row 3:  col 0          [A-Elite]   col 3 [B-Rest]
+Row 2:  col 0 [A-1] col 1 [A-2]   col 2 [B-1] col 3 [B-2]
+Row 1:  col 0          [Path-A]    col 3 [Path-B]   ← player chooses one
+Row 0:  col 0          [Start]
 ```
 
-**Example layout (9 rows):**
-```
-Row 8: [Boss]
-Row 7: [A] [B] [C]
-Row 6: [A] [B] [C] [D] [E]
-Row 5: [A] [B] [C]
-Row 4: [D]
-Row 3: [E] [F] [G]
-Row 2: [H]
-Row 1: [I] [J] [K]
-Row 0: [Start]
-```
+All 13 acts use this exact template. Choosing Path-A locks out Path-B content (rows 2–4 on the right side) for the entire run, and vice versa. Paths reconverge at row 5 before the boss.
+
+**Column assignments:**
+
+| Row | Nodes | `col` values | `rowCols` |
+|-----|-------|-------------|-----------|
+| 0   | 1     | 0           | 1         |
+| 1   | 2     | 0, 3        | 4         |
+| 2   | 4     | 0, 1, 2, 3  | 4         |
+| 3   | 2     | 0, 3        | 4         |
+| 4   | 2     | 0, 3        | 4         |
+| 5   | 1     | 0           | 1         |
+| 6   | 1     | 0           | 1         |
+
+> **Note:** Single-node rows (0, 5, 6) use `rowCols: 1` and auto-centre in `NodeMap`. Four-node rows use `rowCols: 4` — cols 0–1 belong to Path-A, cols 2–3 to Path-B.
 
 ### 1.2 Path Branching
 
-Branching is encoded in `parentIds` / `childIds` on each `QuestNode`. Any topology is supported — including the scenario where a 3-node row fans into a 5-node row:
+Branching is encoded in `parentIds` / `childIds` on each `QuestNode`. The engine's `skipSiblings()` in `questline.ts` marks all unchosen siblings **skipped** the moment the player commits to a node; skipped nodes are permanently unavailable for the rest of the run (`skippedNodeIds` in `RunState`, filtered by `getAvailableNodeIds()`).
+
+**Standard `parentIds`/`childIds` wiring:**
 
 ```
-Row N (3 nodes):  [1A]       [1B]         [1C]
-                  ↓  ↘       ↓  ↘  ↘      ↙  ↘
-Row N+1 (5 nodes): [2A] [2B] [2B] [2C] [2D]  [2D] [2E]
+start         → childIds: [path-a, path-b]
+path-a        → parentIds: [start],          childIds: [a1, a2]
+path-b        → parentIds: [start],          childIds: [b1, b2]
+a1            → parentIds: [path-a],         childIds: [a-elite]
+a2            → parentIds: [path-a],         childIds: [a-elite]
+b1            → parentIds: [path-b],         childIds: [b-rest]
+b2            → parentIds: [path-b],         childIds: [b-rest]
+a-elite       → parentIds: [a1, a2],         childIds: [a-hard]
+b-rest        → parentIds: [b1, b2],         childIds: [b-hard]
+a-hard        → parentIds: [a-elite],        childIds: [penultimate]
+b-hard        → parentIds: [b-rest],         childIds: [penultimate]
+penultimate   → parentIds: [a-hard, b-hard], childIds: [boss]
+boss          → parentIds: [penultimate],    childIds: []
 ```
 
-> **Note:** 5-node rows require verifying that the `NodeMap` UI component handles `rowCols: 5`. Check `web/src/components/NodeMap.tsx` before authoring such a row.
+**Effect:** choosing `path-a` → `a1` and `a2` become available; `path-b`, `b1`, `b2`, `b-rest`, `b-hard` are all skipped (shown with ╳ badge in `NodeMap`). The player still reaches the boss via `a-elite → a-hard → penultimate`.
+
+**Suggested node type distribution:**
+
+| Row | Path-A (left) | Path-B (right) | Notes |
+|-----|--------------|----------------|-------|
+| 0   | battle       | —              | Identical start for everyone |
+| 1   | event        | rest           | Asymmetric openers signal path flavour |
+| 2   | battle + event | event + merchant | 2 nodes each side |
+| 3   | elite        | rest           | Left path is riskier |
+| 4   | battle       | battle         | Both paths equally tough pre-reunion |
+| 5   | rest or event | —             | Pre-boss breathing room |
+| 6   | boss         | —              | Same boss for everyone |
 
 When a player picks one node from a set of siblings (nodes sharing a parent), all other siblings are marked **skipped** via `skipSiblings()` in `questline.ts`. Skipped nodes are not reachable for the rest of the run.
 
@@ -439,6 +462,9 @@ Each boss has a single unique **trait** — a dramatic ability that fires mid-ba
 
 When creating a new act JSON (`web/src/data/acts/act{N}.json`):
 
+- [ ] Node graph follows the **standard 7-row, 13-node, 2-path structure** defined in §1.1 — do NOT use the old 1→3→1 linear pattern.
+- [ ] Row 1 has exactly 2 nodes (col 0 and col 3, `rowCols: 4`); row 2 has exactly 4 nodes (cols 0–3, `rowCols: 4`); rows 3–4 have 2 nodes each (cols 0 and 3, `rowCols: 4`); rows 0, 5, 6 have 1 node each (`rowCols: 1`).
+- [ ] `parentIds`/`childIds` wired as per §1.2: Path-A and Path-B both fan out in row 2, converge at their row-3 merge node, through row-4, and both arrive at `penultimate` before `boss`.
 - [ ] `id`, `title`, `subtitle`, `environment`, `rewardTags` set.
 - [ ] `startNodeIds` points to the first node (row 0, col 0).
 - [ ] All nodes have valid `parentIds` / `childIds` (acyclic, reachable from start).
