@@ -79,8 +79,7 @@
       "parentIds": [],
       "childIds": [
         "tidal-shrine",
-        "wreck-camp",
-        "salvage-market"
+        "wreck-camp"
       ],
       "handicap": 20,
       "opponentIntervalMs": 3200,
@@ -100,12 +99,13 @@
       "description": "A sea-worn shrine draped in offerings.",
       "row": 1,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
         "shore-landing"
       ],
       "childIds": [
-        "deep-waters"
+        "deep-waters",
+        "storm-crossing"
       ],
       "eventConfig": {
         "title": "The Tidal Shrine",
@@ -161,13 +161,14 @@
       "label": "Wreck Camp",
       "description": "A sheltered cove among the wreckage. Rest here.",
       "row": 1,
-      "col": 1,
-      "rowCols": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
         "shore-landing"
       ],
       "childIds": [
-        "deep-waters"
+        "gale-watch",
+        "salvage-market"
       ],
       "healAmount": 8
     },
@@ -176,14 +177,14 @@
       "type": "merchant",
       "label": "Salvage Market",
       "description": "Salvagers trade rare finds.",
-      "row": 1,
-      "col": 2,
-      "rowCols": 3,
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "shore-landing"
+        "wreck-camp"
       ],
       "childIds": [
-        "deep-waters"
+        "shipwreck-rest"
       ]
     },
     "deep-waters": {
@@ -192,16 +193,12 @@
       "label": "Deep Waters",
       "description": "The wrecks come alive at this depth.",
       "row": 2,
-      "col": 1,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 4,
       "parentIds": [
-        "tidal-shrine",
-        "wreck-camp",
-        "salvage-market"
+        "tidal-shrine"
       ],
       "childIds": [
-        "reef-outpost",
-        "storm-crossing",
         "diver-cove"
       ],
       "handicap": 23,
@@ -221,11 +218,11 @@
       "type": "battle",
       "label": "Reef Outpost",
       "description": "Storm troops hold the reef line.",
-      "row": 3,
+      "row": 4,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "deep-waters"
+        "diver-cove"
       ],
       "childIds": [
         "stormwall"
@@ -247,14 +244,14 @@
       "type": "event",
       "label": "Storm Crossing",
       "description": "A narrow channel lashed by storm.",
-      "row": 3,
+      "row": 2,
       "col": 1,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "deep-waters"
+        "tidal-shrine"
       ],
       "childIds": [
-        "stormwall"
+        "diver-cove"
       ],
       "eventConfig": {
         "title": "The Storm Crossing",
@@ -310,13 +307,14 @@
       "label": "Diver Cove",
       "description": "Elite wreck divers guard hidden salvage.",
       "row": 3,
-      "col": 2,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 4,
       "parentIds": [
-        "deep-waters"
+        "deep-waters",
+        "storm-crossing"
       ],
       "childIds": [
-        "stormwall"
+        "reef-outpost"
       ],
       "handicap": 27,
       "opponentIntervalMs": 2900,
@@ -336,18 +334,15 @@
       "type": "battle",
       "label": "Stormwall",
       "description": "The storm wall cuts off the inner coast.",
-      "row": 4,
-      "col": 1,
-      "rowCols": 3,
+      "row": 5,
+      "col": 0,
+      "rowCols": 1,
       "parentIds": [
         "reef-outpost",
-        "storm-crossing",
-        "diver-cove"
+        "iron-anchorage"
       ],
       "childIds": [
-        "shipwreck-rest",
-        "gale-watch",
-        "iron-anchorage"
+        "the-harbormaster-node"
       ],
       "handicap": 28,
       "opponentIntervalMs": 2900,
@@ -367,14 +362,15 @@
       "type": "rest",
       "label": "Shipwreck Rest",
       "description": "The hull of a wrecked galleon provides shelter.",
-      "row": 5,
-      "col": 0,
-      "rowCols": 3,
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "stormwall"
+        "gale-watch",
+        "salvage-market"
       ],
       "childIds": [
-        "the-harbormaster-node"
+        "iron-anchorage"
       ],
       "healAmount": 10
     },
@@ -383,14 +379,14 @@
       "type": "event",
       "label": "Gale Watch",
       "description": "A lone watchman signals from a cliff.",
-      "row": 5,
-      "col": 1,
-      "rowCols": 3,
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
       "parentIds": [
-        "stormwall"
+        "wreck-camp"
       ],
       "childIds": [
-        "the-harbormaster-node"
+        "shipwreck-rest"
       ],
       "eventConfig": {
         "title": "The Gale Watcher",
@@ -445,14 +441,14 @@
       "type": "elite",
       "label": "Iron Anchorage",
       "description": "The Harbormaster's advance guard — iron-hulled and merciless.",
-      "row": 5,
-      "col": 2,
-      "rowCols": 3,
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "stormwall"
+        "shipwreck-rest"
       ],
       "childIds": [
-        "the-harbormaster-node"
+        "stormwall"
       ],
       "handicap": 30,
       "opponentIntervalMs": 2800,
@@ -473,12 +469,10 @@
       "label": "The Harbormaster",
       "description": "Iron admiral of the Shattered Coast.",
       "row": 6,
-      "col": 1,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 1,
       "parentIds": [
-        "shipwreck-rest",
-        "gale-watch",
-        "iron-anchorage"
+        "stormwall"
       ],
       "childIds": [],
       "handicap": 32,

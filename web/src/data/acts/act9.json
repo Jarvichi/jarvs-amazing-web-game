@@ -79,8 +79,7 @@
       "parentIds": [],
       "childIds": [
         "frost-shrine",
-        "ice-hollow",
-        "cold-trader"
+        "ice-hollow"
       ],
       "handicap": 16,
       "opponentIntervalMs": 4800,
@@ -110,12 +109,13 @@
       "description": "A column of ice with something preserved at the centre. The cold here is specific.",
       "row": 1,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
         "glacier-gate"
       ],
       "childIds": [
-        "ice-crossing"
+        "ice-crossing",
+        "glacier-vent"
       ],
       "environment": "frost",
       "eventConfig": {
@@ -217,13 +217,14 @@
       "label": "Ice Hollow",
       "description": "A carved-out pocket in the glacier wall. Sheltered from the wind.",
       "row": 1,
-      "col": 1,
-      "rowCols": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
         "glacier-gate"
       ],
       "childIds": [
-        "ice-crossing"
+        "engine-log",
+        "cold-trader"
       ],
       "environment": "frost",
       "restHeal": 10
@@ -233,14 +234,14 @@
       "type": "merchant",
       "label": "Cold Cache",
       "description": "A trader who operates out of a buried depot. Everything is kept cold. That's not optional.",
-      "row": 1,
-      "col": 2,
-      "rowCols": 3,
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "glacier-gate"
+        "ice-hollow"
       ],
       "childIds": [
-        "ice-crossing"
+        "deep-freeze"
       ],
       "environment": "frost"
     },
@@ -251,15 +252,11 @@
       "description": "A frozen ford. The ice holds. The Engine's regulars do not.",
       "row": 2,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 4,
       "parentIds": [
-        "frost-shrine",
-        "ice-hollow",
-        "cold-trader"
+        "frost-shrine"
       ],
       "childIds": [
-        "blizzard-battery",
-        "glacier-vent",
         "pale-elite"
       ],
       "handicap": 18,
@@ -288,11 +285,11 @@
       "type": "battle",
       "label": "Blizzard Battery",
       "description": "Ice artillery emplacements dug into the glacier face.",
-      "row": 3,
+      "row": 4,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "ice-crossing"
+        "pale-elite"
       ],
       "childIds": [
         "engine-approach"
@@ -323,14 +320,14 @@
       "type": "event",
       "label": "Glacier Vent",
       "description": "A fissure where compressed air vents through the ice. Things get caught in it.",
-      "row": 3,
+      "row": 2,
       "col": 1,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "ice-crossing"
+        "frost-shrine"
       ],
       "childIds": [
-        "engine-approach"
+        "pale-elite"
       ],
       "environment": "frost",
       "eventConfig": {
@@ -405,13 +402,14 @@
       "label": "Pale Guard",
       "description": "The Engine's elite frost constructs. Specifically calibrated against intrusion.",
       "row": 3,
-      "col": 2,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 4,
       "parentIds": [
-        "ice-crossing"
+        "ice-crossing",
+        "glacier-vent"
       ],
       "childIds": [
-        "engine-approach"
+        "blizzard-battery"
       ],
       "handicap": 24,
       "opponentIntervalMs": 4000,
@@ -439,18 +437,15 @@
       "type": "battle",
       "label": "Engine Approach",
       "description": "The final approach. The glacier here is machine-carved. Precise.",
-      "row": 4,
+      "row": 5,
       "col": 0,
       "rowCols": 1,
       "parentIds": [
         "blizzard-battery",
-        "glacier-vent",
-        "pale-elite"
+        "engine-vanguard"
       ],
       "childIds": [
-        "engine-log",
-        "deep-freeze",
-        "engine-vanguard"
+        "paleengine"
       ],
       "handicap": 22,
       "opponentIntervalMs": 4200,
@@ -478,14 +473,14 @@
       "type": "event",
       "label": "Engine Archive",
       "description": "A cold-storage data post. The Pale Engine records everything.",
-      "row": 5,
-      "col": 0,
-      "rowCols": 3,
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
       "parentIds": [
-        "engine-approach"
+        "ice-hollow"
       ],
       "childIds": [
-        "paleengine"
+        "deep-freeze"
       ],
       "environment": "frost",
       "eventConfig": {
@@ -536,14 +531,15 @@
       "type": "rest",
       "label": "Thermal Pocket",
       "description": "A geothermal vent keeps one small chamber above freezing. It feels like luxury.",
-      "row": 5,
-      "col": 1,
-      "rowCols": 3,
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "engine-approach"
+        "engine-log",
+        "cold-trader"
       ],
       "childIds": [
-        "paleengine"
+        "engine-vanguard"
       ],
       "environment": "frost",
       "restHeal": 15
@@ -553,14 +549,14 @@
       "type": "elite",
       "label": "Engine Vanguard",
       "description": "The Pale Engine's direct extensions. Each unit is a direct line to its processing core.",
-      "row": 5,
-      "col": 2,
-      "rowCols": 3,
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "engine-approach"
+        "deep-freeze"
       ],
       "childIds": [
-        "paleengine"
+        "engine-approach"
       ],
       "handicap": 26,
       "opponentIntervalMs": 3800,
@@ -591,9 +587,7 @@
       "col": 0,
       "rowCols": 1,
       "parentIds": [
-        "engine-log",
-        "deep-freeze",
-        "engine-vanguard"
+        "engine-approach"
       ],
       "childIds": [],
       "handicap": 30,

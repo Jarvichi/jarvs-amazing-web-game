@@ -79,8 +79,7 @@
       "parentIds": [],
       "childIds": [
         "root-shrine",
-        "canopy-hollow",
-        "vine-market"
+        "canopy-hollow"
       ],
       "handicap": 18,
       "opponentIntervalMs": 4500,
@@ -108,12 +107,13 @@
       "description": "An ancient shrine pulses with quiet energy.",
       "row": 1,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
         "canopy-approach"
       ],
       "childIds": [
-        "deep-crossing"
+        "deep-crossing",
+        "canopy-rift"
       ],
       "eventConfig": {
         "title": "The Root Shrine",
@@ -169,14 +169,15 @@
       "label": "Canopy Hollow",
       "description": "A sheltered hollow in the roots. Quiet.",
       "row": 1,
-      "col": 1,
-      "rowCols": 3,
+      "col": 3,
+      "rowCols": 4,
       "restHeal": 8,
       "parentIds": [
         "canopy-approach"
       ],
       "childIds": [
-        "deep-crossing"
+        "warden-vigil",
+        "vine-market"
       ]
     },
     "vine-market": {
@@ -184,14 +185,14 @@
       "type": "merchant",
       "label": "Vine Market",
       "description": "Traders who know the canopy's rhythms.",
-      "row": 1,
-      "col": 2,
-      "rowCols": 3,
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "canopy-approach"
+        "canopy-hollow"
       ],
       "childIds": [
-        "deep-crossing"
+        "canopy-rest"
       ]
     },
     "deep-crossing": {
@@ -201,15 +202,11 @@
       "description": "The canopy thickens. The roots become a maze.",
       "row": 2,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 4,
       "parentIds": [
-        "root-shrine",
-        "canopy-hollow",
-        "vine-market"
+        "root-shrine"
       ],
       "childIds": [
-        "elder-watch",
-        "canopy-rift",
         "ancient-garrison"
       ],
       "handicap": 21,
@@ -238,11 +235,11 @@
       "type": "battle",
       "label": "Elder Watch",
       "description": "Sentinels guard the deep canopy.",
-      "row": 3,
+      "row": 4,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "deep-crossing"
+        "ancient-garrison"
       ],
       "childIds": [
         "heartwood-path"
@@ -273,14 +270,14 @@
       "type": "event",
       "label": "Canopy Rift",
       "description": "A tear in the canopy reveals the ley lines.",
-      "row": 3,
+      "row": 2,
       "col": 1,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "deep-crossing"
+        "root-shrine"
       ],
       "childIds": [
-        "heartwood-path"
+        "ancient-garrison"
       ],
       "eventConfig": {
         "title": "The Canopy Rift",
@@ -336,13 +333,14 @@
       "label": "Ancient Garrison",
       "description": "An elite force of canopy defenders.",
       "row": 3,
-      "col": 2,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 4,
       "parentIds": [
-        "deep-crossing"
+        "deep-crossing",
+        "canopy-rift"
       ],
       "childIds": [
-        "heartwood-path"
+        "elder-watch"
       ],
       "handicap": 25,
       "opponentIntervalMs": 3800,
@@ -371,18 +369,15 @@
       "type": "battle",
       "label": "Heartwood Path",
       "description": "The path to the heartwood. Everything is larger here.",
-      "row": 4,
+      "row": 5,
       "col": 0,
       "rowCols": 1,
       "parentIds": [
         "elder-watch",
-        "canopy-rift",
-        "ancient-garrison"
+        "deep-grove"
       ],
       "childIds": [
-        "warden-vigil",
-        "canopy-rest",
-        "deep-grove"
+        "elder-warden"
       ],
       "handicap": 26,
       "opponentIntervalMs": 3800,
@@ -411,14 +406,14 @@
       "type": "event",
       "label": "Warden's Vigil",
       "description": "A place where the Elder Warden watches.",
-      "row": 5,
-      "col": 0,
-      "rowCols": 3,
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
       "parentIds": [
-        "heartwood-path"
+        "canopy-hollow"
       ],
       "childIds": [
-        "elder-warden"
+        "canopy-rest"
       ],
       "eventConfig": {
         "title": "The Warden's Gaze",
@@ -473,15 +468,16 @@
       "type": "rest",
       "label": "Canopy Rest",
       "description": "A platform high above the forest floor.",
-      "row": 5,
-      "col": 1,
-      "rowCols": 3,
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
       "restHeal": 10,
       "parentIds": [
-        "heartwood-path"
+        "warden-vigil",
+        "vine-market"
       ],
       "childIds": [
-        "elder-warden"
+        "deep-grove"
       ]
     },
     "deep-grove": {
@@ -489,14 +485,14 @@
       "type": "elite",
       "label": "Deep Grove",
       "description": "The Warden's most devoted guardians.",
-      "row": 5,
-      "col": 2,
-      "rowCols": 3,
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "heartwood-path"
+        "canopy-rest"
       ],
       "childIds": [
-        "elder-warden"
+        "heartwood-path"
       ],
       "handicap": 28,
       "opponentIntervalMs": 3600,
@@ -530,9 +526,7 @@
       "col": 0,
       "rowCols": 1,
       "parentIds": [
-        "warden-vigil",
-        "canopy-rest",
-        "deep-grove"
+        "heartwood-path"
       ],
       "childIds": [],
       "handicap": 30,

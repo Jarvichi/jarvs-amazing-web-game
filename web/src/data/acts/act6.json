@@ -78,8 +78,7 @@
       "parentIds": [],
       "childIds": [
         "wind-shrine",
-        "skyport-camp",
-        "sky-bazaar"
+        "skyport-camp"
       ],
       "handicap": 10,
       "opponentIntervalMs": 5000,
@@ -109,12 +108,13 @@
       "description": "A weathervane shrine rattles in the high-altitude gale. Something still listens to it.",
       "row": 1,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
         "cloudbreach"
       ],
       "childIds": [
-        "gale-crossing"
+        "gale-crossing",
+        "thermal-vent"
       ],
       "environment": "sky",
       "eventConfig": {
@@ -215,13 +215,14 @@
       "label": "Skyport Shelter",
       "description": "An abandoned skyport mooring dock. The winds are calmer here.",
       "row": 1,
-      "col": 1,
-      "rowCols": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
         "cloudbreach"
       ],
       "childIds": [
-        "gale-crossing"
+        "archive-isle",
+        "sky-bazaar"
       ],
       "environment": "sky",
       "restHeal": 10
@@ -231,14 +232,14 @@
       "type": "merchant",
       "label": "Sky Bazaar",
       "description": "A merchant who specialises in goods that fell off other flying islands.",
-      "row": 1,
-      "col": 2,
-      "rowCols": 3,
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "cloudbreach"
+        "skyport-camp"
       ],
       "childIds": [
-        "gale-crossing"
+        "high-rest"
       ],
       "environment": "sky"
     },
@@ -249,15 +250,11 @@
       "description": "The rope-bridge between islands is contested. High winds make it worse.",
       "row": 2,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 4,
       "parentIds": [
-        "wind-shrine",
-        "skyport-camp",
-        "sky-bazaar"
+        "wind-shrine"
       ],
       "childIds": [
-        "storm-battery",
-        "thermal-vent",
         "sky-elite"
       ],
       "handicap": 12,
@@ -286,11 +283,11 @@
       "type": "battle",
       "label": "Storm Battery",
       "description": "Sky artillery platforms. They were designed to hold an airspace, not a ground approach.",
-      "row": 3,
+      "row": 4,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "gale-crossing"
+        "sky-elite"
       ],
       "childIds": [
         "upper-platform"
@@ -321,14 +318,14 @@
       "type": "event",
       "label": "Thermal Column",
       "description": "A natural updraft carries things up from below. Mostly junk. Sometimes not.",
-      "row": 3,
+      "row": 2,
       "col": 1,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "gale-crossing"
+        "wind-shrine"
       ],
       "childIds": [
-        "upper-platform"
+        "sky-elite"
       ],
       "environment": "sky",
       "eventConfig": {
@@ -403,13 +400,14 @@
       "label": "Cloudmarshal's Wing",
       "description": "The Cloudmarshal's personal aerial squadron. They've been briefed on you.",
       "row": 3,
-      "col": 2,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 4,
       "parentIds": [
-        "gale-crossing"
+        "gale-crossing",
+        "thermal-vent"
       ],
       "childIds": [
-        "upper-platform"
+        "storm-battery"
       ],
       "handicap": 18,
       "opponentIntervalMs": 4000,
@@ -437,18 +435,15 @@
       "type": "battle",
       "label": "Upper Platform",
       "description": "The highest inhabited island. From here you can see the ley bridge — and everything defending it.",
-      "row": 4,
+      "row": 5,
       "col": 0,
       "rowCols": 1,
       "parentIds": [
         "storm-battery",
-        "thermal-vent",
-        "sky-elite"
+        "summit-elite"
       ],
       "childIds": [
-        "archive-isle",
-        "high-rest",
-        "summit-elite"
+        "cloudmarshal"
       ],
       "handicap": 16,
       "opponentIntervalMs": 4200,
@@ -476,14 +471,14 @@
       "type": "event",
       "label": "Cloudmarshal's Log",
       "description": "A command post, abandoned in the retreat. The tactical logs are still open.",
-      "row": 5,
-      "col": 0,
-      "rowCols": 3,
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
       "parentIds": [
-        "upper-platform"
+        "skyport-camp"
       ],
       "childIds": [
-        "cloudmarshal"
+        "high-rest"
       ],
       "environment": "sky",
       "eventConfig": {
@@ -534,14 +529,15 @@
       "type": "rest",
       "label": "Cloudport Rest",
       "description": "A decommissioned cloudport. Quiet and out of the wind.",
-      "row": 5,
-      "col": 1,
-      "rowCols": 3,
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "upper-platform"
+        "archive-isle",
+        "sky-bazaar"
       ],
       "childIds": [
-        "cloudmarshal"
+        "summit-elite"
       ],
       "environment": "sky",
       "restHeal": 15
@@ -551,14 +547,14 @@
       "type": "elite",
       "label": "Summit Guard",
       "description": "Last defenders before the Cloudmarshal's position. They've had time to prepare.",
-      "row": 5,
-      "col": 2,
-      "rowCols": 3,
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "upper-platform"
+        "high-rest"
       ],
       "childIds": [
-        "cloudmarshal"
+        "upper-platform"
       ],
       "handicap": 20,
       "opponentIntervalMs": 3800,
@@ -590,9 +586,7 @@
       "col": 0,
       "rowCols": 1,
       "parentIds": [
-        "archive-isle",
-        "high-rest",
-        "summit-elite"
+        "upper-platform"
       ],
       "childIds": [],
       "handicap": 24,

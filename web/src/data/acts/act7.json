@@ -79,8 +79,7 @@
       "parentIds": [],
       "childIds": [
         "ash-shrine",
-        "lava-camp",
-        "ember-bazaar"
+        "lava-camp"
       ],
       "handicap": 12,
       "opponentIntervalMs": 4800,
@@ -110,12 +109,13 @@
       "description": "A crude shrine of blackened stone. Hot ash still spirals around it. Something listens.",
       "row": 1,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
         "cinder-approach"
       ],
       "childIds": [
-        "magma-ford"
+        "magma-ford",
+        "cinder-vent"
       ],
       "environment": "volcano",
       "eventConfig": {
@@ -217,13 +217,14 @@
       "label": "Cooled Flow Camp",
       "description": "A solidified lava shelf, sheltered and warm. Not comfortable exactly, but out of the wind.",
       "row": 1,
-      "col": 1,
-      "rowCols": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
         "cinder-approach"
       ],
       "childIds": [
-        "magma-ford"
+        "forge-log",
+        "ember-bazaar"
       ],
       "environment": "volcano",
       "restHeal": 10
@@ -233,14 +234,14 @@
       "type": "merchant",
       "label": "Ember Market",
       "description": "A scavenger who trades in things salvaged from the cooled lava fields. Surprisingly well-stocked.",
-      "row": 1,
-      "col": 2,
-      "rowCols": 3,
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "cinder-approach"
+        "lava-camp"
       ],
       "childIds": [
-        "magma-ford"
+        "crater-rest"
       ],
       "environment": "volcano"
     },
@@ -251,15 +252,11 @@
       "description": "A crossing over a slow lava channel. The Cinderwarlord's regulars hold the far bank.",
       "row": 2,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 4,
       "parentIds": [
-        "ash-shrine",
-        "lava-camp",
-        "ember-bazaar"
+        "ash-shrine"
       ],
       "childIds": [
-        "volcanic-battery",
-        "cinder-vent",
         "pyroclast-elite"
       ],
       "handicap": 14,
@@ -288,11 +285,11 @@
       "type": "battle",
       "label": "Volcanic Battery",
       "description": "Artillery emplacements built into the crater wall. Magma vents power the launchers.",
-      "row": 3,
+      "row": 4,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "magma-ford"
+        "pyroclast-elite"
       ],
       "childIds": [
         "caldera-gate"
@@ -323,14 +320,14 @@
       "type": "event",
       "label": "Cinder Vent",
       "description": "A pressurised vent blasts heat and debris skyward. Things get caught in the updraft.",
-      "row": 3,
+      "row": 2,
       "col": 1,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "magma-ford"
+        "ash-shrine"
       ],
       "childIds": [
-        "caldera-gate"
+        "pyroclast-elite"
       ],
       "environment": "volcano",
       "eventConfig": {
@@ -405,13 +402,14 @@
       "label": "Pyroclast Guard",
       "description": "The Cinderwarlord's elite shock troops. They charge through the hot zones without flinching.",
       "row": 3,
-      "col": 2,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 4,
       "parentIds": [
-        "magma-ford"
+        "magma-ford",
+        "cinder-vent"
       ],
       "childIds": [
-        "caldera-gate"
+        "volcanic-battery"
       ],
       "handicap": 20,
       "opponentIntervalMs": 4000,
@@ -439,18 +437,15 @@
       "type": "battle",
       "label": "Caldera Gate",
       "description": "The entrance to the caldera. The Cinderwarlord's main garrison blocks the pass.",
-      "row": 4,
+      "row": 5,
       "col": 0,
       "rowCols": 1,
       "parentIds": [
         "volcanic-battery",
-        "cinder-vent",
-        "pyroclast-elite"
+        "summit-elite"
       ],
       "childIds": [
-        "forge-log",
-        "crater-rest",
-        "summit-elite"
+        "cinderwarlord"
       ],
       "handicap": 18,
       "opponentIntervalMs": 4200,
@@ -478,14 +473,14 @@
       "type": "event",
       "label": "The Forge Post",
       "description": "An abandoned command post near the caldera rim. Still has equipment inside.",
-      "row": 5,
-      "col": 0,
-      "rowCols": 3,
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
       "parentIds": [
-        "caldera-gate"
+        "lava-camp"
       ],
       "childIds": [
-        "cinderwarlord"
+        "crater-rest"
       ],
       "environment": "volcano",
       "eventConfig": {
@@ -536,14 +531,15 @@
       "type": "rest",
       "label": "Crater Shelter",
       "description": "A shallow alcove cut into the crater wall. Surprisingly calm.",
-      "row": 5,
-      "col": 1,
-      "rowCols": 3,
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "caldera-gate"
+        "forge-log",
+        "ember-bazaar"
       ],
       "childIds": [
-        "cinderwarlord"
+        "summit-elite"
       ],
       "environment": "volcano",
       "restHeal": 15
@@ -553,14 +549,14 @@
       "type": "elite",
       "label": "Cinderwarlord's Vanguard",
       "description": "The Cinderwarlord's personal guard. They've been briefed on you specifically.",
-      "row": 5,
-      "col": 2,
-      "rowCols": 3,
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "caldera-gate"
+        "crater-rest"
       ],
       "childIds": [
-        "cinderwarlord"
+        "caldera-gate"
       ],
       "handicap": 22,
       "opponentIntervalMs": 3800,
@@ -592,9 +588,7 @@
       "col": 0,
       "rowCols": 1,
       "parentIds": [
-        "forge-log",
-        "crater-rest",
-        "summit-elite"
+        "caldera-gate"
       ],
       "childIds": [],
       "handicap": 26,

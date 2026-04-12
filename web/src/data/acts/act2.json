@@ -43,7 +43,7 @@
   "intro": [
     {
       "title": "THE IRON CITADEL",
-      "text": "The Fracture spared the Iron Citadel its chaos \u2014 or so the stories go. In truth, the Citadel's warlords sealed the shard themselves, the moment they realised sealing it kept everyone else out.\n\nFor three years they have ruled the rubble with a disciplined fist. Trade routes closed. Refugees turned back at the walls. The shard hoards its iron and feeds on order."
+      "text": "The Fracture spared the Iron Citadel its chaos — or so the stories go. In truth, the Citadel's warlords sealed the shard themselves, the moment they realised sealing it kept everyone else out.\n\nFor three years they have ruled the rubble with a disciplined fist. Trade routes closed. Refugees turned back at the walls. The shard hoards its iron and feeds on order."
     },
     {
       "title": "THE WANDERER",
@@ -61,11 +61,11 @@
   "outro": [
     {
       "title": "THE WALL FALLS",
-      "text": "Kragg's banner comes down.\n\nFor a long moment, nothing happens. Then, from somewhere in the rubble, a single soldier begins to move \u2014 not toward you, but toward the sealed gate. Others follow.\n\nThe gate opens for the first time in three years. You watch from the rampart as light floods into the canyon."
+      "text": "Kragg's banner comes down.\n\nFor a long moment, nothing happens. Then, from somewhere in the rubble, a single soldier begins to move — not toward you, but toward the sealed gate. Others follow.\n\nThe gate opens for the first time in three years. You watch from the rampart as light floods into the canyon."
     },
     {
       "title": "IRON STANDARD",
-      "text": "Among the Citadel's armoury, you find it \u2014 the Iron Standard. The banner carried at the front of every Dominion march before the Fracture.\n\nIt no longer represents anything. But the iron in it remembers.\n\nYou take it with you."
+      "text": "Among the Citadel's armoury, you find it — the Iron Standard. The banner carried at the front of every Dominion march before the Fracture.\n\nIt no longer represents anything. But the iron in it remembers.\n\nYou take it with you."
     }
   ],
   "variantPools": {
@@ -73,7 +73,7 @@
       "Currently, technically, between warlords.",
       "Presently operating without a formal command structure.",
       "In the professional sense, unaffiliated.",
-      "Now \u2014 by the Citadel's own accounting \u2014 a hostile foreign element.",
+      "Now — by the Citadel's own accounting — a hostile foreign element.",
       "Technically trespassing, but with excellent documentation."
     ],
     "jarvIntros": [
@@ -84,10 +84,10 @@
       "You have a deck of cards and a very reasonable request for passage that you fully expect to be answered with siege weapons."
     ],
     "citadelDesc": [
-      "The Iron Citadel sits across a shattered canyon \u2014 garrison points chained together by rope bridges and old discipline. From the outside it looks impregnable. From the inside, you suspect, it merely looks expensive.",
+      "The Iron Citadel sits across a shattered canyon — garrison points chained together by rope bridges and old discipline. From the outside it looks impregnable. From the inside, you suspect, it merely looks expensive.",
       "The shard is a vertical maze of fortified positions and supply routes. The Citadel's defenders know every route. You have a map drawn by someone who was here six years ago.",
       "Three years of isolation have made the Citadel's garrison meticulous. Every approach is covered. Every gap is intentional. You intend to use the intentional gaps.",
-      "The Iron Citadel is less a building than a doctrine \u2014 a belief that fortified positions solve problems. You've spent your career proving that belief wrong from the outside."
+      "The Iron Citadel is less a building than a doctrine — a belief that fortified positions solve problems. You've spent your career proving that belief wrong from the outside."
     ],
     "kraggDesc": [
       "Warlord Kragg sealed the shard the week after the Fracture. He said it was to protect the population. He is, by any reasonable accounting, still saying this.\n\nThe population has stopped asking.",
@@ -97,13 +97,13 @@
     ],
     "priorRunSummaries": [
       "The garrison gate looked exactly as you remembered it. Which was suspicious. Walls shouldn't look familiar.",
-      "You'd climbed this canyon approach before \u2014 or something very much like it. The rope bridges swayed in the same pattern. The guards paused at the same moment.",
+      "You'd climbed this canyon approach before — or something very much like it. The rope bridges swayed in the same pattern. The guards paused at the same moment.",
       "Something about the second garrison checkpoint. The way the signal fire was positioned. The particular angle of the crossbow emplacements. It felt rehearsed.",
       "The Citadel's outer walls were exactly as your notes described them. Your notes, which you'd written this morning."
     ],
     "priorRunOpenings": [
       "You remember, faintly, walking this route before. Not the same choices. But the same canyon. The same smell of iron and old stone.",
-      "The gate guard hesitated when you approached. Not with suspicion \u2014 with recognition. He covered it quickly. So did you.",
+      "The gate guard hesitated when you approached. Not with suspicion — with recognition. He covered it quickly. So did you.",
       "Kragg, when you finally reached him, was already in his armour. As though he'd been expecting an appointment.",
       "The rope bridge at the third garrison crossing had been repaired since your last attempt. Except you'd never been here before. You were fairly certain you'd never been here before."
     ],
@@ -131,7 +131,7 @@
     "The {ordinalLower} approach to the Iron Citadel. The canyon looks exactly the same. Kragg has probably moved the crossbow emplacements.",
     "Campaign {n}. The garrison at the outer wall has your description posted. It is not flattering.",
     "{n} campaigns through the canyon. The rope bridges have been reinforced. You take that personally.",
-    "{n} times past this gate. The duty guard no longer calls an alarm \u2014 he just notes the time.",
+    "{n} times past this gate. The duty guard no longer calls an alarm — he just notes the time.",
     "Run {n}. You arrive at dawn. The garrison is ready. They are always ready now.",
     "The {ordinalLower} time through the Citadel. The supply officer has started noting your visits as 'irregular procurement events.'",
     "{n} campaigns. The signal fires light before you reach the first checkpoint. Kragg has good scouts."
@@ -334,7 +334,7 @@
         },
         {
           "title": "A MEMORY",
-          "text": "And yet \u2014 {pool:priorRunOpenings:0}\n\nYou push the feeling aside. You've always pushed the feeling aside.\n\nThe canyon waits."
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. You've always pushed the feeling aside.\n\nThe canyon waits."
         }
       ]
     }
@@ -347,15 +347,14 @@
       "id": "iron-gate",
       "type": "battle",
       "label": "Iron Gate",
-      "description": "The Citadel's outer garrison blocks the canyon road. A disciplined force \u2014 but thin.",
+      "description": "The Citadel's outer garrison blocks the canyon road. A disciplined force — but thin.",
       "row": 0,
       "col": 0,
       "rowCols": 1,
       "parentIds": [],
       "childIds": [
-        "soldiers-camp",
         "supply-cache",
-        "outer-wall"
+        "soldiers-camp"
       ],
       "handicap": 7,
       "opponentBaseHp": 100,
@@ -380,15 +379,16 @@
       "id": "soldiers-camp",
       "type": "rest",
       "label": "Soldier's Camp",
-      "description": "An abandoned forward camp \u2014 rations still warm. Rest and recover.",
+      "description": "An abandoned forward camp — rations still warm. Rest and recover.",
       "row": 1,
-      "col": 0,
-      "rowCols": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
         "iron-gate"
       ],
       "childIds": [
-        "siege-trenches"
+        "siege-trenches",
+        "quartermaster"
       ],
       "environment": "camp",
       "restHeal": 10
@@ -399,13 +399,14 @@
       "label": "Supply Cache",
       "description": "A Citadel supply depot, hastily abandoned. The lock is already broken.",
       "row": 1,
-      "col": 1,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 4,
       "parentIds": [
         "iron-gate"
       ],
       "childIds": [
-        "siege-trenches"
+        "outer-wall",
+        "war-council"
       ],
       "environment": "citadel",
       "eventConfig": {
@@ -423,7 +424,7 @@
             },
             {
               "label": "Search the crates",
-              "consequence": "A trap springs \u2014 lose 8 HP",
+              "consequence": "A trap springs — lose 8 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 8
@@ -454,7 +455,7 @@
             },
             {
               "label": "Search the crates",
-              "consequence": "Something rolls out of the straw packing \u2014 added to inventory",
+              "consequence": "Something rolls out of the straw packing — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -479,7 +480,7 @@
             },
             {
               "label": "Pocket something useful",
-              "consequence": "The case is booby-trapped \u2014 lose 12 HP",
+              "consequence": "The case is booby-trapped — lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -495,7 +496,7 @@
             },
             {
               "label": "Pocket something useful",
-              "consequence": "Something personal and inexplicable \u2014 added to inventory",
+              "consequence": "Something personal and inexplicable — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -511,7 +512,7 @@
             },
             {
               "label": "Leave quickly",
-              "consequence": "You trip an alarm on the way out \u2014 lose 6 HP",
+              "consequence": "You trip an alarm on the way out — lose 6 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 6
@@ -519,7 +520,7 @@
             },
             {
               "label": "Leave quickly",
-              "consequence": "You spot a coin pouch by the door \u2014 +10 crystals",
+              "consequence": "You spot a coin pouch by the door — +10 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 10
@@ -527,7 +528,7 @@
             },
             {
               "label": "Leave quickly",
-              "consequence": "You grab something off a shelf reflexively \u2014 added to inventory",
+              "consequence": "You grab something off a shelf reflexively — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -540,15 +541,15 @@
       "id": "outer-wall",
       "type": "battle",
       "label": "Outer Wall",
-      "description": "The first proper fortified position \u2014 archers on the ramparts and a gate that won't open.",
-      "row": 1,
-      "col": 2,
-      "rowCols": 3,
+      "description": "The first proper fortified position — archers on the ramparts and a gate that won't open.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
       "parentIds": [
-        "iron-gate"
+        "supply-cache"
       ],
       "childIds": [
-        "siege-trenches"
+        "siege-captain"
       ],
       "handicap": 4,
       "environment": "citadel",
@@ -568,54 +569,19 @@
         "Sharpen Blades"
       ]
     },
-    "canyon-flank": {
-      "id": "canyon-flank",
-      "type": "battle",
-      "label": "Canyon Flank",
-      "description": "A secondary approach through the canyon walls \u2014 narrower than the main road, and guarded by skirmishers who have had nothing to do for three years.",
-      "row": 5,
-      "col": 0,
-      "rowCols": 3,
-      "parentIds": [
-        "citadel-crossing"
-      ],
-      "childIds": [
-        "siege-captain"
-      ],
-      "handicap": 4,
-      "environment": "ruins",
-      "enemyDeck": [
-        "Crossbow",
-        "Crossbow",
-        "Bandit",
-        "Shield Guard",
-        "Shield Guard",
-        "Archer",
-        "Archer",
-        "Build Wall",
-        "Build Wall",
-        "Garrison",
-        "Eagle Eye",
-        "Iron Skin"
-      ]
-    },
     "siege-trenches": {
       "id": "siege-trenches",
       "type": "battle",
       "label": "Siege Trenches",
       "description": "The garrison dug deep. You're going through anyway.",
       "row": 2,
-      "col": 0,
-      "rowCols": 1,
+      "col": 2,
+      "rowCols": 4,
       "parentIds": [
-        "soldiers-camp",
-        "supply-cache",
-        "outer-wall"
+        "soldiers-camp"
       ],
       "childIds": [
-        "iron-guard",
-        "quartermaster",
-        "field-battery"
+        "command-tent"
       ],
       "handicap": 1,
       "environment": "ruins",
@@ -639,11 +605,11 @@
       "type": "battle",
       "label": "Iron Guard",
       "description": "Elite heavy infantry protecting the mid-canyon checkpoint.",
-      "row": 3,
+      "row": 4,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "siege-trenches"
+        "siege-captain"
       ],
       "childIds": [
         "citadel-crossing"
@@ -671,61 +637,14 @@
       "type": "merchant",
       "label": "Quartermaster",
       "description": "A disgruntled Citadel supply officer. Turns out loyalty has a price.",
-      "row": 3,
-      "col": 1,
-      "rowCols": 3,
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "siege-trenches"
+        "soldiers-camp"
       ],
       "childIds": [
-        "citadel-crossing"
-      ],
-      "environment": "citadel"
-    },
-    "field-battery": {
-      "id": "field-battery",
-      "type": "battle",
-      "label": "Field Battery",
-      "description": "A Citadel artillery position \u2014 catapults, crossbow banks, and the crew to run them.",
-      "row": 3,
-      "col": 2,
-      "rowCols": 3,
-      "parentIds": [
-        "siege-trenches"
-      ],
-      "childIds": [
-        "citadel-crossing"
-      ],
-      "handicap": 5,
-      "environment": "citadel",
-      "enemyDeck": [
-        "Siege Engineer",
-        "Catapult",
-        "Ballista",
-        "Ballista",
-        "Crossbow",
-        "Crossbow",
-        "War Drummer",
-        "Build Wall",
-        "Siege Works",
-        "Armory",
-        "War Drums",
-        "Sharpen Blades"
-      ]
-    },
-    "armory-vault": {
-      "id": "armory-vault",
-      "type": "merchant",
-      "label": "Armory Vault",
-      "description": "The Citadel's central weapons depot \u2014 its keeper surrendered to pragmatism when he realised the siege wasn't going his way.",
-      "row": 5,
-      "col": 1,
-      "rowCols": 3,
-      "parentIds": [
-        "citadel-crossing"
-      ],
-      "childIds": [
-        "siege-captain"
+        "command-tent"
       ],
       "environment": "citadel"
     },
@@ -734,18 +653,15 @@
       "type": "elite",
       "label": "Siege Captain",
       "description": "A hardened veteran who has defended this position for three years. He takes it personally.",
-      "row": 6,
+      "row": 3,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 4,
       "parentIds": [
-        "canyon-flank",
-        "armory-vault",
-        "command-tent"
+        "outer-wall",
+        "war-council"
       ],
       "childIds": [
-        "last-stand",
-        "battle-commander",
-        "war-council"
+        "iron-guard"
       ],
       "handicap": 1,
       "environment": "citadel",
@@ -775,14 +691,15 @@
       "type": "rest",
       "label": "Command Tent",
       "description": "The Siege Captain's own quarters. Quiet now. Tends to wounds.",
-      "row": 5,
-      "col": 2,
-      "rowCols": 3,
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "citadel-crossing"
+        "siege-trenches",
+        "quartermaster"
       ],
       "childIds": [
-        "siege-captain"
+        "last-stand"
       ],
       "environment": "camp",
       "restHeal": 8
@@ -792,14 +709,14 @@
       "type": "battle",
       "label": "Last Stand",
       "description": "The remaining garrison makes a final push. Outnumbered. Disciplined.",
-      "row": 7,
-      "col": 0,
-      "rowCols": 3,
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "siege-captain"
+        "command-tent"
       ],
       "childIds": [
-        "kragg"
+        "citadel-crossing"
       ],
       "handicap": 0,
       "environment": "citadel",
@@ -820,62 +737,24 @@
         "War Drummer"
       ]
     },
-    "battle-commander": {
-      "id": "battle-commander",
-      "type": "elite",
-      "label": "Battle Commander",
-      "description": "Kragg's second-in-command. Fights like he has something to prove \u2014 he does.",
-      "row": 7,
-      "col": 1,
-      "rowCols": 3,
-      "parentIds": [
-        "siege-captain"
-      ],
-      "childIds": [
-        "kragg"
-      ],
-      "handicap": -1,
-      "environment": "citadel",
-      "enemyDeck": [
-        "Grizzled Veteran",
-        "Knight",
-        "Knight",
-        "Catapult",
-        "Catapult",
-        "Siege Engineer",
-        "Ballista",
-        "Crossbow",
-        "Build Wall",
-        "Build Wall",
-        "Siege Works",
-        "Armory",
-        "War Drums",
-        "War Drums",
-        "Fortify",
-        "Sharpen Blades",
-        "Iron Skin"
-      ],
-      "opponentIntervalMs": 6000,
-      "opponentBaseHp": 82
-    },
     "war-council": {
       "id": "war-council",
       "type": "event",
       "label": "War Council",
-      "description": "A sealed briefing room \u2014 the Citadel's last tactical maps still spread across the table, the officers' chairs still warm.",
-      "row": 7,
-      "col": 2,
-      "rowCols": 3,
+      "description": "A sealed briefing room — the Citadel's last tactical maps still spread across the table, the officers' chairs still warm.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
       "parentIds": [
-        "siege-captain"
+        "supply-cache"
       ],
       "childIds": [
-        "kragg"
+        "siege-captain"
       ],
       "environment": "citadel",
       "eventConfig": {
         "title": "The War Council Chamber",
-        "description": "The Citadel's last tactical briefing still covers the table \u2014 casualty projections, siege lines, contingency codes. No signature. No date. The officers left in a hurry and didn't come back.",
+        "description": "The Citadel's last tactical briefing still covers the table — casualty projections, siege lines, contingency codes. No signature. No date. The officers left in a hurry and didn't come back.",
         "pools": [
           [
             {
@@ -896,14 +775,14 @@
             },
             {
               "label": "Study the tactical maps",
-              "consequence": "The strategies are outdated \u2014 they describe your own deck. Nothing useful.",
+              "consequence": "The strategies are outdated — they describe your own deck. Nothing useful.",
               "effect": {
                 "type": "nothing"
               }
             },
             {
               "label": "Study the tactical maps",
-              "consequence": "The data is encoded. Hours wasted \u2014 lose 6 HP from exhaustion.",
+              "consequence": "The data is encoded. Hours wasted — lose 6 HP from exhaustion.",
               "effect": {
                 "type": "damageHp",
                 "amount": 6
@@ -929,7 +808,7 @@
             },
             {
               "label": "Search the officers' packs",
-              "consequence": "A booby-trap springs \u2014 lose 10 HP.",
+              "consequence": "A booby-trap springs — lose 10 HP.",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -945,7 +824,7 @@
             },
             {
               "label": "Search the officers' packs",
-              "consequence": "+1 life \u2014 someone left a spare compass. You needed that.",
+              "consequence": "+1 life — someone left a spare compass. You needed that.",
               "effect": {
                 "type": "gainLife",
                 "amount": 1
@@ -953,7 +832,7 @@
             },
             {
               "label": "Search the officers' packs",
-              "consequence": "Something personal left behind \u2014 added to inventory",
+              "consequence": "Something personal left behind — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -1000,13 +879,11 @@
       "type": "boss",
       "label": "Warlord Kragg",
       "description": "Three years of unchallenged command. An army built on discipline and iron. He has never lost a defensive engagement.",
-      "row": 8,
+      "row": 6,
       "col": 0,
       "rowCols": 1,
       "parentIds": [
-        "last-stand",
-        "battle-commander",
-        "war-council"
+        "citadel-crossing"
       ],
       "childIds": [],
       "handicap": 0,
@@ -1026,19 +903,16 @@
       "id": "citadel-crossing",
       "type": "battle",
       "label": "Citadel Crossing",
-      "description": "The only way through the inner wall \u2014 a fortified gatehouse held by Kragg's elite guard.",
-      "row": 4,
+      "description": "The only way through the inner wall — a fortified gatehouse held by Kragg's elite guard.",
+      "row": 5,
       "col": 0,
       "rowCols": 1,
       "parentIds": [
         "iron-guard",
-        "quartermaster",
-        "field-battery"
+        "last-stand"
       ],
       "childIds": [
-        "canyon-flank",
-        "armory-vault",
-        "command-tent"
+        "kragg"
       ],
       "handicap": 0,
       "opponentBaseHp": 115,
