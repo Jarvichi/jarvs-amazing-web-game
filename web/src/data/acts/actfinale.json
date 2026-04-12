@@ -1,0 +1,206 @@
+{
+  "id": "actfinale",
+  "title": "FINALE",
+  "subtitle": "The Fractured Core",
+  "rewardRelic": "Worldmender's Crest",
+  "rewardRelicDesc": "A mark of the one who healed the world. Worn by no one before.",
+  "environment": "ruins",
+  "rewardTags": [],
+  "replayModifiers": [
+    {
+      "type": "enemyHpPercent",
+      "value": 15,
+      "label": "+15% enemy HP"
+    },
+    {
+      "type": "enemyIntervalReduction",
+      "value": 500,
+      "label": "Enemies act faster"
+    },
+    {
+      "type": "enemyHandBonus",
+      "value": 1,
+      "label": "Enemies start +1 card"
+    },
+    {
+      "type": "crystalBonus",
+      "value": 10,
+      "label": "+10 crystals per battle"
+    },
+    {
+      "type": "enemyHpPercent",
+      "value": 25,
+      "label": "+25% enemy HP"
+    }
+  ],
+  "startNodeIds": [
+    "last-bridge"
+  ],
+  "intro": [
+    {
+      "title": "THE FRACTURED CORE",
+      "text": "You have crossed thirteen shards, faced their champions, and collected their secrets. The path has always led here — to the wound at the world's heart.\n\nThe Fracture Event tore reality apart and scattered the Dominion into pieces. Something caused it. Something remains at the centre."
+    },
+    {
+      "title": "THE FORCE WITHIN",
+      "text": "The Fractured Core does not feel like a place. It feels like the absence of one — a scar where the world used to be whole.\n\nThe entity within has no name. No origin. It simply is the fracture, given will and hunger."
+    },
+    {
+      "title": "THE END OF THE ROAD",
+      "text": "There is no one left to send. No other path to walk. You are Jarv, wandering tactician, and this is the last battlefield.\n\nIf the Core falls, the world begins to heal. If you fall, there is no one else."
+    }
+  ],
+  "outro": [
+    {
+      "title": "THE FRACTURE CLOSES",
+      "text": "The entity shudders. Writhes. And then — for the first time since the cataclysm — something at the heart of the world goes quiet.\n\nThe wound begins to close."
+    },
+    {
+      "title": "HEALING",
+      "text": "Across the shards, the tremors stop. The Verdant Shard's roots spread back into cracked stone. The Iron Citadel's fires die down. The Ashen Wastes, slowly, begin to grey.\n\nIt will take generations. But it has begun."
+    },
+    {
+      "title": "WORLDMENDER",
+      "text": "You stand at the heart of what was broken and watch the pieces, impossibly, start to drift back together.\n\nYou did this. You, and every unit you sent forward, every choice you made, every shard you crossed.\n\nWorldmender."
+    }
+  ],
+  "nodes": {
+    "last-bridge": {
+      "id": "last-bridge",
+      "type": "battle",
+      "label": "The Last Bridge",
+      "description": "Fractured reality has given form to its first defenders.",
+      "row": 0,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": [],
+      "childIds": [
+        "shattered-halls"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 3000,
+      "opponentBaseHp": 265,
+      "environment": "ruins",
+      "enemyDeck": [
+        "Gear Scout",
+        "Void Elemental",
+        "Gear Assembly",
+        "Clockwork Archer",
+        "Crystal Resonance"
+      ]
+    },
+    "shattered-halls": {
+      "id": "shattered-halls",
+      "type": "battle",
+      "label": "Shattered Halls",
+      "description": "The corridors of the Core are alive with hostile energy.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": [
+        "last-bridge"
+      ],
+      "childIds": [
+        "echo-of-the-core"
+      ],
+      "handicap": 30,
+      "opponentIntervalMs": 2900,
+      "opponentBaseHp": 272,
+      "environment": "ruins",
+      "enemyDeck": [
+        "Vault Guardian",
+        "Iron Colossus",
+        "Titan Forge",
+        "Overload",
+        "Vault Scrap"
+      ]
+    },
+    "echo-of-the-core": {
+      "id": "echo-of-the-core",
+      "type": "battle",
+      "label": "Echo of the Core",
+      "description": "Reality splinters here. The Fracture sees you.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": [
+        "shattered-halls"
+      ],
+      "childIds": [
+        "fractures-herald"
+      ],
+      "handicap": 32,
+      "opponentIntervalMs": 2800,
+      "opponentBaseHp": 280,
+      "environment": "ruins",
+      "enemyDeck": [
+        "Clockwork Titan",
+        "Drone Array",
+        "Arcane Forge",
+        "Overcharge",
+        "Temporal Loop"
+      ]
+    },
+    "fractures-herald": {
+      "id": "fractures-herald",
+      "type": "elite",
+      "label": "The Fracture's Herald",
+      "description": "A projection of the Fracture itself — testing your limits before the end.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": [
+        "echo-of-the-core"
+      ],
+      "childIds": [
+        "the-fracture-node"
+      ],
+      "handicap": 34,
+      "opponentIntervalMs": 2700,
+      "opponentBaseHp": 288,
+      "environment": "ruins",
+      "enemyDeck": [
+        "The Grand Automaton",
+        "Clockwork Titan",
+        "Iron Colossus",
+        "Titan Forge",
+        "Overload",
+        "Temporal Loop"
+      ]
+    },
+    "the-fracture-node": {
+      "id": "the-fracture-node",
+      "type": "boss",
+      "label": "The Fracture",
+      "description": "The source of the cataclysm. The end of the world — or yours.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 1,
+      "parentIds": [
+        "fractures-herald"
+      ],
+      "childIds": [],
+      "handicap": 36,
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 298,
+      "environment": "ruins",
+      "enemyDeck": [
+        "The Grand Automaton",
+        "Clockwork Titan",
+        "Iron Colossus",
+        "Void Elemental",
+        "Titan Forge",
+        "Overload",
+        "Temporal Loop",
+        "Vault Repair Bay"
+      ],
+      "bossAI": "thefracture",
+      "bossCard": "Iron Colossus",
+      "bossDialogue": [
+        "YOU SHOULD NOT HAVE COME HERE.",
+        "THE FRACTURE IS ETERNAL. YOU ARE NOT.",
+        "EVERYTHING BREAKS. EVERYTHING."
+      ]
+    }
+  }
+}

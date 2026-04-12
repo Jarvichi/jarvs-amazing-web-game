@@ -15,7 +15,8 @@ import act9Data  from '../data/acts/act9.json'
 import act10Data from '../data/acts/act10.json'
 import act11Data from '../data/acts/act11.json'
 import act12Data from '../data/acts/act12.json'
-import act13Data from '../data/acts/act13.json'
+import act13Data    from '../data/acts/act13.json'
+import actFinaleData from '../data/acts/actfinale.json'
 import consumablesData from '../data/consumables.json'
 
 // ─── Consumables ──────────────────────────────────────────
@@ -799,7 +800,8 @@ export const ACT_9:  Act = act9Data  as Act
 export const ACT_10: Act = act10Data as Act
 export const ACT_11: Act = act11Data as Act
 export const ACT_12: Act = act12Data as Act
-export const ACT_13: Act = act13Data as Act
+export const ACT_13:     Act = act13Data    as Act
+export const ACT_FINALE: Act = actFinaleData as Act
 
 export const ACTS: Record<string, Act> = {
   act1:  ACT_1,
@@ -814,7 +816,8 @@ export const ACTS: Record<string, Act> = {
   act10: ACT_10,
   act11: ACT_11,
   act12: ACT_12,
-  act13: ACT_13,
+  act13:     ACT_13,
+  actfinale: ACT_FINALE,
 }
 
 // ─── Node history (persistent across runs) ───────────────
@@ -848,7 +851,7 @@ export function recordNodeComplete(actId: string, nodeId: string): void {
 /** Returns the act that follows this one in the campaign, or null if it's the last. */
 export function getNextAct(actId: string): Act | null {
   // TODO: we should really have something in the act.json that names the preceding act, and look this up here, or use computed value, i.e. if current act is 5, the next will likely be (5+1) act 6, if there is no "act6.json" then we've completed the campaign!
-  const order = ['act1', 'act2', 'act3', 'act4', 'act5', 'act6', 'act7', 'act8', 'act9', 'act10', 'act11', 'act12', 'act13']
+  const order = ['act1', 'act2', 'act3', 'act4', 'act5', 'act6', 'act7', 'act8', 'act9', 'act10', 'act11', 'act12', 'act13', 'actfinale']
   const idx = order.indexOf(actId)
   if (idx < 0 || idx === order.length - 1) return null
   return ACTS[order[idx + 1]] ?? null
