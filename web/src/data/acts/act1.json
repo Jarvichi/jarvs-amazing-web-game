@@ -378,9 +378,9 @@
     },
     "camp": {
       "id": "camp",
-      "type": "rest",
-      "label": "Woodland Camp",
-      "description": "A sheltered clearing. Rest here and tend your wounds.",
+      "type": "battle",
+      "label": "Woodland Ambush",
+      "description": "The camp was already occupied. Its new residents are not welcoming.",
       "row": 1,
       "col": 3,
       "rowCols": 4,
@@ -391,14 +391,27 @@
         "ambush",
         "market"
       ],
-      "environment": "camp",
-      "restHeal": 10
+      "handicap": 5,
+      "opponentBaseHp": 185,
+      "environment": "forest",
+      "enemyDeck": [
+        "Bandit",
+        "Bandit",
+        "Goblin",
+        "Goblin",
+        "Archer",
+        "Bat",
+        "Cave Bat",
+        "Build Wall",
+        "Rally",
+        "Haste"
+      ]
     },
     "shrine": {
       "id": "shrine",
-      "type": "event",
-      "label": "Ancient Shrine",
-      "description": "A moss-covered shrine pulses with faint forest magic.",
+      "type": "battle",
+      "label": "Shrine Raiders",
+      "description": "Goblins have claimed the shrine as their own. They're not interested in sharing.",
       "row": 1,
       "col": 0,
       "rowCols": 4,
@@ -408,6 +421,37 @@
       "childIds": [
         "forest-path",
         "ruins"
+      ],
+      "handicap": 5,
+      "opponentBaseHp": 180,
+      "environment": "forest",
+      "enemyDeck": [
+        "Goblin",
+        "Goblin",
+        "Pixie",
+        "Pixie",
+        "Vine Golem",
+        "Bat",
+        "Bat",
+        "Thornwall",
+        "Rally",
+        "Rally",
+        "Haste"
+      ]
+    },
+    "forest-path": {
+      "id": "forest-path",
+      "type": "event",
+      "label": "Ancient Shrine",
+      "description": "A moss-covered shrine pulses with faint forest magic.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 4,
+      "parentIds": [
+        "shrine"
+      ],
+      "childIds": [
+        "captain"
       ],
       "environment": "forest",
       "eventConfig": {
@@ -553,41 +597,11 @@
         ]
       }
     },
-    "forest-path": {
-      "id": "forest-path",
-      "type": "battle",
-      "label": "Forest Path",
-      "description": "A narrow trail — someone has been using it. Someone unfriendly.",
-      "row": 2,
-      "col": 0,
-      "rowCols": 4,
-      "parentIds": [
-        "shrine"
-      ],
-      "childIds": [
-        "captain"
-      ],
-      "handicap": 4,
-      "opponentBaseHp": 100,
-      "environment": "forest",
-      "enemyDeck": [
-        "Goblin",
-        "Goblin",
-        "Bandit",
-        "Cave Bat",
-        "Pixie",
-        "Vine Golem",
-        "Thornwall",
-        "Build Wall",
-        "Rally",
-        "Haste"
-      ]
-    },
     "ambush": {
       "id": "ambush",
-      "type": "battle",
-      "label": "The Ambush",
-      "description": "Something ancient was waiting in the treeline.",
+      "type": "event",
+      "label": "The Watching Wood",
+      "description": "Something has been following you since the first road. It steps out of the treeline.",
       "row": 2,
       "col": 2,
       "rowCols": 4,
@@ -597,25 +611,134 @@
       "childIds": [
         "deep-woods"
       ],
-      "handicap": 1,
-      "opponentBaseHp": 115,
       "environment": "forest",
-      "enemyDeck": [
-        "Goblin",
-        "Goblin",
-        "Vine Golem",
-        "Bat",
-        "Bat",
-        "Thornbeast",
-        "Bandit",
-        "Archer",
-        "Archer",
-        "Troll",
-        "Thornwall",
-        "Barracks",
-        "Rally",
-        "Haste"
-      ]
+      "eventConfig": {
+        "title": "The Watching Wood",
+        "description": "A great creature steps from the treeline. Not hostile — not yet. It tilts its head and watches you with ancient, patient eyes.",
+        "pools": [
+          [
+            {
+              "label": "Stand your ground",
+              "consequence": "It respects the stillness — +15 crystals from its abandoned cache",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 15
+              }
+            },
+            {
+              "label": "Stand your ground",
+              "consequence": "It steps forward and presses something into your hand — added to inventory",
+              "effect": {
+                "type": "gainItem"
+              }
+            },
+            {
+              "label": "Stand your ground",
+              "consequence": "It growls and charges — lose 12 HP",
+              "effect": {
+                "type": "damageHp",
+                "amount": 12
+              }
+            },
+            {
+              "label": "Stand your ground",
+              "consequence": "It holds your gaze for a long moment, then turns and vanishes.",
+              "effect": {
+                "type": "nothing"
+              }
+            },
+            {
+              "label": "Stand your ground",
+              "consequence": "Something in its posture says: not today — restored 10 HP",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            }
+          ],
+          [
+            {
+              "label": "Offer it food",
+              "consequence": "It takes your offering gently — restored 12 HP",
+              "effect": {
+                "type": "healHp",
+                "amount": 12
+              }
+            },
+            {
+              "label": "Offer it food",
+              "consequence": "It sniffs and drops an uncommon card at your feet",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
+            },
+            {
+              "label": "Offer it food",
+              "consequence": "It takes the food and leaves. Nothing else.",
+              "effect": {
+                "type": "nothing"
+              }
+            },
+            {
+              "label": "Offer it food",
+              "consequence": "It lashes out — lose 8 HP",
+              "effect": {
+                "type": "damageHp",
+                "amount": 8
+              }
+            },
+            {
+              "label": "Offer it food",
+              "consequence": "It drops something from its mouth — a common card",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "common"
+              }
+            }
+          ],
+          [
+            {
+              "label": "Back away slowly",
+              "consequence": "It lets you go — nothing happens",
+              "effect": {
+                "type": "nothing"
+              }
+            },
+            {
+              "label": "Back away slowly",
+              "consequence": "It follows you to the edge of its territory and leaves a crystal cache — +12 crystals",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 12
+              }
+            },
+            {
+              "label": "Back away slowly",
+              "consequence": "It pounces — lose 15 HP",
+              "effect": {
+                "type": "damageHp",
+                "amount": 15
+              }
+            },
+            {
+              "label": "Back away slowly",
+              "consequence": "You find something in the grass as you retreat — added to inventory",
+              "effect": {
+                "type": "gainItem"
+              }
+            },
+            {
+              "label": "Back away slowly",
+              "consequence": "It watches you leave and seems almost disappointed — restored 6 HP",
+              "effect": {
+                "type": "healHp",
+                "amount": 6
+              }
+            }
+          ]
+        ]
+      }
     },
     "ruins": {
       "id": "ruins",
@@ -874,9 +997,9 @@
     },
     "deep-woods": {
       "id": "deep-woods",
-      "type": "rest",
-      "label": "Deep Woods",
-      "description": "Far enough from the patrol routes to be safe. The forest is quieter here. Almost welcoming.",
+      "type": "elite",
+      "label": "The Pack Leader",
+      "description": "The deep woods belong to something older than the Fracture. It has been watching. Now it is done watching.",
       "row": 3,
       "col": 3,
       "rowCols": 4,
@@ -887,8 +1010,28 @@
       "childIds": [
         "troll-bridge"
       ],
-      "environment": "camp",
-      "restHeal": 8
+      "handicap": 2,
+      "opponentBaseHp": 90,
+      "opponentIntervalMs": 6000,
+      "environment": "forest",
+      "bossDialogue": [
+        "\"You smell like the old world.\"",
+        "\"The forest has been waiting for something like you.\""
+      ],
+      "enemyDeck": [
+        "Troll",
+        "Troll",
+        "Thornbeast",
+        "Thornbeast",
+        "Vine Golem",
+        "Vine Golem",
+        "Cave Bat",
+        "Thornwall",
+        "Thornwall",
+        "Troll Den",
+        "Rally",
+        "Haste"
+      ]
     },
     "troll-bridge": {
       "id": "troll-bridge",
