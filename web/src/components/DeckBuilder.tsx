@@ -526,17 +526,13 @@ setCollectionCollapsed(false)
                           <CardTile
                             card={card}
                             onClick={() => removeCard(entry.cardName)}
+                            showDetails={true}
                           />
                           <div className="cell-footer">
                             <span className="cell-count">
                               ×{entry.count}
                               {lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
                             </span>
-                            <button
-                              className="extra-btn cdm-info-btn"
-                              onClick={e => { e.stopPropagation(); openDetail(card) }}
-                              title="Card details"
-                            >ⓘ</button>
                           </div>
                         </div>
                       )

@@ -189,7 +189,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
           <div className="cell-footer">
               <button
                 className="extra-btn cdm-info-btn"
-                onClick={() => openDetail(card)}
+                onClick={e => { e.stopPropagation(); openDetail(card) }}
                 title="Card details"
               >ⓘ</button>
             </div>       
@@ -201,6 +201,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
           <span className="card-hero-lock-secs">{lockedSecs}s</span>
         </div>
       )}
+      {cardDetailNode}
     </div>
   )
 }
