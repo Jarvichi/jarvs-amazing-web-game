@@ -411,6 +411,7 @@ export default function App() {
   const [cardRestCandidates, setCardRestCandidates] = useState<string[]>([])
   const [cardRestPlayCounts, setCardRestPlayCounts] = useState<Record<string, number>>({})
   const [bonusPackCards, setBonusPackCards]     = useState<string[]>([])
+  const [campaignRestingAlert, setCampaignRestingAlert] = useState(false)
   // Secret 5 — Time Capsule on 100th battle
   const [timeCapsuleVisible, setTimeCapsuleVisible] = useState(false)
   // Secret 10 — 100 Wins Celebration
@@ -938,6 +939,14 @@ export default function App() {
   const handleCampaign = useCallback(() => {
     const existing = loadRun()
 
+    const goToNodemap = () => {
+      const fat = loadFatigued()
+      if (fat.length > 0 && loadDeck().some(e => fat.includes(e.cardName))) {
+        setCampaignRestingAlert(true)
+      }
+      setScreen('nodemap')
+    }
+
     if (existing) {
       // ── Resume existing run ────────────────────────────────────────────────
       const activeRun = existing
@@ -998,7 +1007,7 @@ export default function App() {
         setScreen('actcomplete')
         return
       }
-      setScreen('nodemap')
+      goToNodemap()
       return
     }
 
@@ -1038,12 +1047,12 @@ export default function App() {
               hasActData: !!(runRef.current && ACTS[runRef.current.actId]),
             })
             setCutscenePanels([])
-            setScreen('nodemap')
+            goToNodemap()
           }
           setScreen('cutscene')
           return
         }
-        setScreen('nodemap')
+        goToNodemap()
       }
 
       if (earned.length > 0) {
@@ -2308,6 +2317,16 @@ export default function App() {
         )
       })()}
 
+      {campaignRestingAlert && (
+        <ConfirmModal
+          title="Deck Notice"
+          body="Your deck may contain resting cards. They will not be available during campaign battles."
+          confirmLabel="OK"
+          onConfirm={() => setCampaignRestingAlert(false)}
+          onCancel={() => setCampaignRestingAlert(false)}
+        />
+      )}
+
       {screen === 'itemfound' && foundItem && (
         <ItemFoundScreen
           item={{ ...foundItem, acquiredDate: '' }}
@@ -2393,7 +2412,7 @@ export default function App() {
       )}
 
       {screen === 'deckbuilder' && (
-        <DeckBuilder onBack={() => setScreen('title')} fatiguedCards={fatiguedCards} />
+        <DeckBuilder onBack={() => setScreen('title')} fatiguedCards={run ? fatiguedCards : []} />
       )}
 
       {screen === 'pack' && (
