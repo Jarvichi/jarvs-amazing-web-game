@@ -5758,6 +5758,78 @@ body {
 .event-status-chip--earthquake { color: #ffcc00; border-color: rgba(255,204,0,0.3); }
 
 /* Sudden death overlay */
+/* ── AoE targeting mode ───────────────────────────────────── */
+.lane--aoe-targeting { cursor: crosshair; }
+
+.aoe-targeting-banner {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(10, 0, 30, 0.92);
+  border: 1px solid rgba(120, 80, 255, 0.8);
+  border-radius: 4px;
+  padding: 5px 14px;
+  color: #c8a0ff;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  pointer-events: none;
+  animation: aoeBannerPulse 1s ease-in-out infinite;
+}
+.aoe-targeting-banner button.aoe-targeting-cancel {
+  pointer-events: all;
+  background: none;
+  border: 1px solid rgba(120, 80, 255, 0.5);
+  border-radius: 3px;
+  color: #c8a0ff;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 1px 5px;
+  line-height: 1;
+}
+@keyframes aoeBannerPulse {
+  0%, 100% { border-color: rgba(120, 80, 255, 0.8); }
+  50%       { border-color: rgba(180, 140, 255, 1); }
+}
+
+.aoe-targeting-reticle {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 65;
+  border: 2px solid rgba(160, 100, 255, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(160, 100, 255, 0.6), inset 0 0 6px rgba(160, 100, 255, 0.2);
+  animation: aoeReticlePulse 0.6s ease-in-out infinite;
+}
+.aoe-targeting-reticle::before,
+.aoe-targeting-reticle::after {
+  content: '';
+  position: absolute;
+  background: rgba(160, 100, 255, 0.7);
+}
+.aoe-targeting-reticle::before {
+  width: 1px; height: 100%;
+  left: 50%; top: 0;
+  transform: translateX(-50%);
+}
+.aoe-targeting-reticle::after {
+  height: 1px; width: 100%;
+  top: 50%; left: 0;
+  transform: translateY(-50%);
+}
+@keyframes aoeReticlePulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
 .sudden-death-overlay {
   position: absolute;
   top: 12px;

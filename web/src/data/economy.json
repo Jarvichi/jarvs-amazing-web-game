@@ -21,11 +21,11 @@
     "marble":         50,
     "tileflip":       25,
     "crystalcatch":   25,
-    "spinner":        25,
+    "spinner":        10,
     "marblerace":     25,
-    "higherOrLower":  25,
+    "higherOrLower":  5,
     "fruitMachine":   50,
-    "videoPoker":     25
+    "videoPoker":     10
   },
 
   "ticketPrizes": [

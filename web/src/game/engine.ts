@@ -538,6 +538,36 @@ export function playCard(state: GameState, cardId: string): GameState {
   return s
 }
 
+/** Play an AoE upgrade card with a player-chosen target point (cx, cy in game units). */
+export function playAoeCard(state: GameState, cardId: string, cx: number, cy: number): GameState {
+  if (state.phase.type !== 'playing') return state
+  const cardIdx = state.playerHand.findIndex(c => c.id === cardId)
+  if (cardIdx === -1) return state
+  const card = state.playerHand[cardIdx]
+  if (state.mana < card.cost) return state
+  if (card.cardType !== 'upgrade' || !card.upgradeEffect || card.upgradeEffect.type !== 'aoe') return state
+  if (card.isHero && state.gameTime < 30000) return state
+
+  const s = structuredClone(state)
+  s.playerHand.splice(cardIdx, 1)
+  s.mana -= card.cost
+
+  const effect = card.upgradeEffect
+  const dmg = effect.damage ?? effect.amount ?? 0
+  const enemies = s.field.filter(u => u.owner !== 'player' && !u.isWall)
+  const targets = effect.range != null
+    ? enemies.filter(e => Math.sqrt((e.x - cx) ** 2 + (e.y - cy) ** 2) <= effect.range!)
+    : enemies
+  for (const u of targets) {
+    u.hp -= dmg
+    u.damageFlashTimer = 200
+  }
+  s.log.push(`Your AOE! ${targets.length} enem${targets.length === 1 ? 'y' : 'ies'} hit for ${dmg} damage.`)
+
+  drawCard(s.playerDeck, s.playerHand)
+  return s
+}
+
 // ─── Apply Upgrade ────────────────────────────────────────
 
 function applyUpgrade(s: GameState, effect: UpgradeEffect, owner: 'player' | 'opponent', log: string[]): void {

@@ -13,7 +13,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "firebase": "^12.11.0",
+    "firebase": "^12.12.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "stdout-update": "^4.0.1"

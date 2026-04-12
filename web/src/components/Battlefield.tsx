@@ -16,6 +16,7 @@ import { loadPlayerName, loadPlayerAvatar } from '../game/questline'
 interface Props {
   state: GameState
   onPlayCard: (cardId: string) => void
+  onPlayAoeCard?: (cardId: string, cx: number, cy: number) => void
   onGiveUp?: () => void
   onPause?: (paused: boolean) => void
   actTheme?: string       // e.g. 'act1' — applied as CSS modifier class
@@ -603,18 +604,29 @@ function opponentPortraitSlug(bossAI: string | undefined, actTheme: string | und
   return 'bandit'
 }
 
-export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, activeRelic, showBossSplash, activeModifiers }: Props) {
+export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPause, actTheme, activeRelic, showBossSplash, activeModifiers }: Props) {
   const { openDetail, cardDetailNode } = useCardDetail()
   const [heroLightning, setHeroLightning] = useState<{ owner: 'player' | 'opponent'; key: number } | null>(null)
   const [paused, setPaused] = useState(false)
   const [inspectedUnit, setInspectedUnit] = useState<Unit | null>(null)
   const [showDeckViewer, setShowDeckViewer] = useState(false)
   const [confirmGiveUp, setConfirmGiveUp] = useState(false)
+  const [pendingAoeCard, setPendingAoeCard] = useState<Card | null>(null)
+  const [aoeHoverPos, setAoeHoverPos] = useState<{ top: number; left: number } | null>(null)
+  const laneRef = useRef<HTMLDivElement>(null)
   const playerName   = loadPlayerName()
   const playerAvatar = loadPlayerAvatar()
 
   const doPause = (p: boolean) => { setPaused(p); onPause?.(p); if (!p) { setInspectedUnit(null); setShowDeckViewer(false) } }
   const prevHeroIdsRef = useRef<Set<string>>(new Set())
+
+  // Cancel AoE targeting on Escape
+  useEffect(() => {
+    if (!pendingAoeCard) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setPendingAoeCard(null); setAoeHoverPos(null) } }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [pendingAoeCard])
 
   // Detect when a new hero unit appears on the field and fire the lightning effect
   useEffect(() => {
@@ -727,7 +739,27 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
       {/* The Lane — vertical, fills remaining space */}
       {(() => {
         return (
-      <div className="lane">
+      <div
+        className={`lane${pendingAoeCard ? ' lane--aoe-targeting' : ''}`}
+        ref={laneRef}
+        onClick={pendingAoeCard ? (e) => {
+          const rect = laneRef.current!.getBoundingClientRect()
+          const cx = (1 - (e.clientY - rect.top) / rect.height) * LANE_WIDTH
+          const cy = ((e.clientX - rect.left) / rect.width - 0.5) * 80 / 0.36
+          onPlayAoeCard!(pendingAoeCard.id, cx, cy)
+          setPendingAoeCard(null)
+          setAoeHoverPos(null)
+        } : undefined}
+        onMouseMove={pendingAoeCard ? (e) => {
+          const rect = laneRef.current!.getBoundingClientRect()
+          setAoeHoverPos({
+            top: (e.clientY - rect.top) / rect.height * 100,
+            left: (e.clientX - rect.left) / rect.width * 100,
+          })
+        } : undefined}
+        onMouseLeave={pendingAoeCard ? () => setAoeHoverPos(null) : undefined}
+        onContextMenu={pendingAoeCard ? (e) => { e.preventDefault(); setPendingAoeCard(null); setAoeHoverPos(null) } : undefined}
+      >
         <div className="lane-ground" />
         <LaneBackground env={state.environment} />
         <ForestBorder theme={actTheme} />
@@ -859,6 +891,23 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
             />
           )
         })}
+
+        {/* AoE targeting overlay */}
+        {pendingAoeCard && (
+          <>
+            <div className="aoe-targeting-banner">
+              <span>⚡ {pendingAoeCard.name} — tap to place</span>
+              <button className="aoe-targeting-cancel" onClick={e => { e.stopPropagation(); setPendingAoeCard(null); setAoeHoverPos(null) }}>✕</button>
+            </div>
+            {aoeHoverPos && (
+              <div
+                className="aoe-targeting-reticle"
+                style={{ top: `${aoeHoverPos.top}%`, left: `${aoeHoverPos.left}%` }}
+                aria-hidden
+              />
+            )}
+          </>
+        )}
       </div>
         )
       })()}
@@ -893,7 +942,13 @@ export function Battlefield({ state, onPlayCard, onGiveUp, onPause, actTheme, ac
                 <CardTile
                   card={card}
                   canAfford={!isMaxUpgrade && state.mana >= card.cost}
-                  onClick={() => onPlayCard(card.id)}
+                  onClick={() => {
+                    if (onPlayAoeCard && card.cardType === 'upgrade' && card.upgradeEffect?.type === 'aoe') {
+                      setPendingAoeCard(card)
+                    } else {
+                      onPlayCard(card.id)
+                    }
+                  }}
                   lockedSecs={heroLockedSecs}
                 />
                 <button

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { GameState, Card } from './game/types'
-import { newGame, NewGameOptions, playCard, MAX_HANDICAP } from './game/engine'
+import { newGame, NewGameOptions, playCard, playAoeCard, MAX_HANDICAP } from './game/engine'
 import { makeNodeDeck } from './game/cards'
 import { battleReducer, INITIAL_BATTLE_STATE, TICK_MS } from './game/battleReducer'
 import {
@@ -1893,6 +1893,18 @@ export default function App() {
     dispatch({ type: 'SET_GAME_STATE', gameState: next })
   }, [])
 
+  const handlePlayAoeCard = useCallback((cardId: string, cx: number, cy: number) => {
+    const s = gameStateRef.current
+    if (!s) return
+    const card = s.playerHand.find(c => c.id === cardId)
+    if (!card) return
+    playCardPlay()
+    recordCardPlayed(card.name)
+    const next = playAoeCard(s, cardId, cx, cy)
+    saveBattleState(next)
+    dispatch({ type: 'SET_GAME_STATE', gameState: next })
+  }, [])
+
   // Track misc achievements at battle end
   useEffect(() => {
     if (!gameState || gameState.phase.type !== 'gameOver') return
@@ -2519,7 +2531,7 @@ export default function App() {
         if (gameState.phase.type === 'celebration') {
           return (
             <>
-              <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
+              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
               <VictoryPanel
                 playerScore={gameState.playerScore}
                 opponentScore={gameState.opponentScore}
@@ -2536,7 +2548,7 @@ export default function App() {
           const fp = gameState.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
           return (
             <>
-              <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
+              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
               <FingerSmash
                 smashedNames={fingerSmashNames}
                 onDone={() => {
@@ -2592,7 +2604,7 @@ export default function App() {
           />
         ) : (
           <>
-            <Battlefield state={gameState} onPlayCard={handlePlayCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
+            <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} />
             {showBossShockwave && <BossShockwave onDone={() => dispatch({ type: 'HIDE_BOSS_SHOCKWAVE' })} />}
             {activeRareEvent === 'fakeCrash'   && <FakeCrashEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'blackjack'   && <BlackjackEvent   onDone={handleRareEventDone} />}
