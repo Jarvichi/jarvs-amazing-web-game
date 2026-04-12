@@ -1,0 +1,260 @@
+BALANCE REPORT — rebalance_cards.py
+============================================================
+
+rebalance_cards.py — Applies a power-score formula to unit, spawner, and buff
+cards in web/src/data/cards.json, then rebalances stats/costs to make each
+cost tier internally consistent.
+
+Run from the repo root:
+    python3 rebalance_cards.py
+
+Outputs:
+    balance_report.txt  — full diff of every flag/change
+    web/src/data/cards.json — updated in-place
+
+════════════════════════════════════════════════════════════
+FORMULAS  (constants chosen by the author — see calibration notes below)
+════════════════════════════════════════════════════════════
+
+Unit power score
+────────────────
+    dps   = attack × (1000 / attackCooldownMs)
+    score = dps^x  ×  maxHp^y  ×  moveSpeed^z  ×  (attackRange + 5)^a
+            ──────────────────────────────────────────────────────────
+                                  c
+
+where:
+    x = 0.65   (DPS exponent — diminishing returns on burst damage)
+    y = 0.65   (HP exponent — similar diminishing returns)
+    z = 0.20   (speed exponent — mobility matters but not linearly)
+    a = 0.15   (range exponent — range+5 offset keeps melee at ≥1)
+    b = 1.0    (cooldown is already captured inside dps, no separate term)
+    c = 30.0   (divisor calibrated so Goblin {atk=3,hp=10,spd=45,rng=5,cd=1000} → 1.0)
+
+Resulting formula cost = round(score / c), clamped to [1, 8].
+
+Building / spawner mana cost
+────────────────────────────
+    rate_factor = (7000 / intervalMs)^r   where r = 0.50
+    hp_factor   = (maxHp / 20)^p          where p = 0.25
+    raw         = spawned_unit_cost × rate_factor × hp_factor
+    cost        = round(raw × q + s)
+
+where:
+    r = 0.50   (spawn-rate exponent — faster spawning → higher cost, sub-linearly)
+    p = 0.25   (hp exponent — tankier buildings cost slightly more)
+    q = 1.40   (overall scale factor)
+    s = 1.30   (base offset — every spawner costs at least ~s mana before raw)
+
+Calibration: Barracks {goblin cost-1, 7 s, hp 25} → formula 3 ✓
+
+Buff / upgrade mana cost
+────────────────────────
+    cost = max(1, round(|amount| × weight[effect_type]))
+
+weight table (chosen to reproduce current calibration cards):
+    buffAttack        : 0.60   (+4 ATK → 2.4 → cost 2 ✓)
+    buffMaxHp         : 0.10   (+15 HP → 1.5 → cost 2 ✓)
+    buffSpeed         : 0.13   (+12 speed → 1.56 → cost 2 ✓)
+    buffRange         : 0.07   (+25 range → 1.75 → cost 2 ✓)
+    healUnits         : 0.15   (+4 heal → 0.6 → cost 1 ✓)
+    buffHp            : 0.10
+    aoe               : 0.50
+    buffAttackCooldown: 0.20
+
+
+────────────────────────────────────────────────────────────
+PART 1 — UNIT CARDS
+────────────────────────────────────────────────────────────
+
+Tier power-score medians (formula cost in brackets):
+  Cost 1: median score = 30.3  [formula cost = 1]  n=28
+  Cost 2: median score = 48.2  [formula cost = 2]  n=58
+  Cost 3: median score = 70.8  [formula cost = 2]  n=51
+  Cost 4: median score = 87.2  [formula cost = 3]  n=25
+  Cost 5: median score = 106.0  [formula cost = 4]  n=22
+  Cost 6: median score = 163.7  [formula cost = 5]  n=7
+  Cost 7: median score = 104.6  [formula cost = 3]  n=6
+  Cost 8: median score = 108.8  [formula cost = 4]  n=3
+
+Outliers (>45% above or below tier median):
+  [OVER 1.98×] Cave Bat  (cost 1, formula→2)  score=59.9  target=30.3
+    → [Cave Bat] maxHp 14 → 12
+  [OVER 1.82×] Canopy Scout  (cost 1, formula→2)  score=55.0  target=30.3
+    → [Canopy Scout] maxHp 12 → 10
+  [OVER 1.52×] Vine Runner  (cost 1, formula→2)  score=46.1  target=30.3
+    → [Vine Runner] maxHp 14 → 12
+  [OVER 1.64×] Tide Runner  (cost 1, formula→2)  score=49.8  target=30.3
+    → [Tide Runner] maxHp 14 → 12
+  [OVER 1.57×] Cog Runner  (cost 1, formula→2)  score=47.5  target=30.3
+    → [Cog Runner] maxHp 13 → 11
+  [UNDER 0.53×] Lich Apprentice  (cost 2, formula→1)  score=25.6  target=48.2
+    → [Lich Apprentice] maxHp 8 → 9
+  [OVER 1.88×] Cloud Hawk  (cost 2, formula→3)  score=90.5  target=48.2
+    → [Cloud Hawk] maxHp 14 → 12
+  [OVER 1.47×] Ash Stalker  (cost 2, formula→2)  score=71.0  target=48.2
+    → [Ash Stalker] maxHp 20 → 17
+  [OVER 1.81×] Canopy Archer  (cost 2, formula→3)  score=87.3  target=48.2
+    → [Canopy Archer] maxHp 18 → 15
+  [OVER 1.59×] Wave Brawler  (cost 2, formula→3)  score=76.7  target=48.2
+    → [Wave Brawler] maxHp 26 → 22
+  [OVER 1.47×] Coastal Skirmisher  (cost 2, formula→2)  score=71.0  target=48.2
+    → [Coastal Skirmisher] maxHp 16 → 14
+  [OVER 1.51×] Clockwork Archer  (cost 2, formula→2)  score=72.6  target=48.2
+    → [Clockwork Archer] maxHp 17 → 14
+  [UNDER 0.46×] Wizard  (cost 3, formula→1)  score=32.3  target=70.8
+    → [Wizard] maxHp 10 → 12
+  [UNDER 0.39×] Ballista  (cost 3, formula→1)  score=27.9  target=70.8
+    → Template shared or protected — skipped auto-adjust
+  [UNDER 0.45×] Necromancer  (cost 3, formula→1)  score=32.1  target=70.8
+    → Template shared or protected — skipped auto-adjust
+  [UNDER 0.51×] Siege Engineer  (cost 3, formula→1)  score=36.1  target=70.8
+    → [Siege Engineer] maxHp 12 → 14
+  [UNDER 0.53×] Wraith  (cost 3, formula→1)  score=37.3  target=70.8
+    → [Wraith] maxHp 10 → 12
+  [OVER 1.50×] Reef Shark  (cost 3, formula→4)  score=106.4  target=70.8
+    → [Reef Shark] maxHp 22 → 19
+  [OVER 2.13×] Gale Warden  (cost 3, formula→5)  score=150.9  target=70.8
+    → [Gale Warden] maxHp 26 → 22
+  [OVER 1.54×] Jungle Stalker  (cost 3, formula→4)  score=109.3  target=70.8
+    → [Jungle Stalker] maxHp 22 → 19
+  [UNDER 0.44×] Catapult  (cost 4, formula→1)  score=38.3  target=87.2
+    → Template shared or protected — skipped auto-adjust
+  [UNDER 0.48×] Demolitions Expert  (cost 4, formula→1)  score=42.2  target=87.2
+    → [Demolitions Expert] maxHp 18 → 21
+  [OVER 1.94×] Thunder Drake  (cost 4, formula→6)  score=169.5  target=87.2
+    → [Thunder Drake] maxHp 42 → 36
+  [OVER 1.55×] Ember Wyrm  (cost 4, formula→5)  score=135.6  target=87.2
+    → [Ember Wyrm] maxHp 32 → 27
+  [OVER 1.52×] Canopy Drake  (cost 4, formula→4)  score=132.5  target=87.2
+    → [Canopy Drake] maxHp 35 → 30
+  [OVER 1.94×] Tide Dragon  (cost 5, formula→7)  score=205.6  target=106.0
+    → [Tide Dragon] maxHp 55 → 47
+  [OVER 1.66×] Inferno Drake  (cost 5, formula→6)  score=176.0  target=106.0
+    → [Inferno Drake] maxHp 42 → 36
+  [OVER 1.64×] Vine Colossus  (cost 5, formula→6)  score=173.5  target=106.0
+    → [Vine Colossus] maxHp 100 → 85
+  [UNDER 0.50×] Chronomancer  (cost 6, formula→3)  score=82.2  target=163.7
+    → [Chronomancer] maxHp 22 → 25
+  [OVER 2.00×] The Elder Warden  (cost 6, formula→8)  score=326.8  target=163.7
+    → [The Elder Warden] maxHp 120 → 102
+  [OVER 1.74×] The Harbormaster  (cost 6, formula→8)  score=284.0  target=163.7
+    → [The Harbormaster] maxHp 90 → 76
+  [OVER 1.50×] Leviathan  (cost 7, formula→5)  score=156.7  target=104.6
+    → [Leviathan] maxHp 110 → 94
+  [OVER 2.01×] Sky Leviathan  (cost 7, formula→7)  score=210.1  target=104.6
+    → [Sky Leviathan] maxHp 90 → 76
+
+Unit stat adjustments applied: 30
+
+────────────────────────────────────────────────────────────
+PART 2 — SPAWNER STRUCTURES
+────────────────────────────────────────────────────────────
+
+Formula: cost = round( spawned_unit_cost × (7000/intervalMs)^0.50 × (maxHp/20)^0.25 × 1.40 + 1.30 )
+Only auto-applies when |diff| ≤ 1.
+
+  Arcane Tower: current=4  formula=2  (spawns 'archer' cost 1, every 12s, hp=20)  diff=-2
+    → Diff |-2| > 1 — flagged for manual review
+  Troll Den: current=5  formula=4  (spawns 'troll' cost 3, every 20s, hp=35)  diff=-1
+    → Updated cost 5 → 4
+  Garrison: current=3  formula=4  (spawns 'crossbow' cost 2, every 10s, hp=22)  diff=+1
+    → Updated cost 3 → 4
+  Cathedral: current=6  formula=5  (spawns 'paladin' cost 4, every 25s, hp=40)  diff=-1
+    → Updated cost 6 → 5
+  Rogue Den: current=3  formula=4  (spawns 'rogue' cost 2, every 9s, hp=18)  diff=+1
+    → Updated cost 3 → 4
+  Siege Works: current=5  formula=4  (spawns 'catapult' cost 4, every 28s, hp=25)  diff=-1
+    → Updated cost 5 → 4
+  Iron Forge: current=6  formula=5  (spawns 'golem' cost 5, every 35s, hp=45)  diff=-1
+    → Updated cost 6 → 5
+  Fairy Ring: current=2  formula=3  (spawns 'pixie' cost 1, every 7s, hp=15)  diff=+1
+    → Updated cost 2 → 3
+  Rat Burrow: current=2  formula=3  (spawns 'plague-rat' cost 1, every 5s, hp=14)  diff=+1
+    → Updated cost 2 → 3
+  Bandit Camp: current=2  formula=3  (spawns 'bandit' cost 1, every 8s, hp=18)  diff=+1
+    → Updated cost 2 → 3
+  Bat Cave: current=2  formula=3  (spawns 'bat' cost 1, every 6s, hp=14)  diff=+1
+    → Updated cost 2 → 3
+  Scorpion Pit: current=2  formula=3  (spawns 'scorpion' cost 1, every 9s, hp=20)  diff=+1
+    → Updated cost 2 → 3
+  Spirit Well: current=3  formula=4  (spawns 'specter' cost 2, every 10s, hp=18)  diff=+1
+    → Updated cost 3 → 4
+  Lizard Warren: current=3  formula=4  (spawns 'lizardman' cost 2, every 11s, hp=20)  diff=+1
+    → Updated cost 3 → 4
+  Giant's Hall: current=6  formula=5  (spawns 'giant' cost 5, every 45s, hp=40)  diff=-1
+    → Updated cost 6 → 5
+  Ancient Altar: current=7  formula=5  (spawns 'behemoth' cost 6, every 70s, hp=50)  diff=-2
+    → Diff |-2| > 1 — flagged for manual review
+  Spore Tower: current=4  formula=5  (spawns 'spore-bat' cost 3, every 12s, hp=25)  diff=+1
+    → Updated cost 4 → 5
+  Death Altar: current=4  formula=3  (spawns 'weak-skeleton' cost 1, every 8s, hp=20)  diff=-1
+    → Updated cost 4 → 3
+  Graveblight Tower: current=6  formula=4  (spawns 'revenant' cost 2, every 7s, hp=30)  diff=-2
+    → Diff |-2| > 1 — flagged for manual review
+  Kraken Beacon: current=4  formula=3  (spawns 'reef-crawler' cost 1, every 5s, hp=22)  diff=-1
+    → Updated cost 4 → 3
+  Aerie Roost: current=2  formula=3  (spawns 'wind-sprite' cost 1, every 5s, hp=18)  diff=+1
+    → Updated cost 2 → 3
+  Ember Shrine: current=3  formula=4  (spawns 'scorch-bat' cost 2, every 6s, hp=20)  diff=+1
+    → Updated cost 3 → 4
+
+Spawner cost adjustments applied: 19
+
+────────────────────────────────────────────────────────────
+PART 3 — UPGRADE / BUFF CARDS
+────────────────────────────────────────────────────────────
+
+Formula: cost = max(1, round(|amount| × weight[effect_type]))
+Only auto-applies when |diff| ≤ 1.
+
+  Titan Blood: current=3  formula=4  (buffAttack ×6)  diff=+1
+    → Updated cost 3 → 4
+  Overgrowth: current=2  formula=1  (buffMaxHp ×12)  diff=-1
+    → Updated cost 2 → 1
+  Battle Hardened: current=2  formula=1  (buffMaxHp ×10)  diff=-1
+    → Updated cost 2 → 1
+  Iron Discipline: current=2  formula=1  (buffMaxHp ×14)  diff=-1
+    → Updated cost 2 → 1
+  Siege Protocol: current=3  formula=1  (buffRange ×20)  diff=-2
+    → Diff |-2| > 1 — flagged for manual review
+  Undying Rage: current=3  formula=2  (buffAttack ×4)  diff=-1
+    → Updated cost 3 → 2
+  Dark Ritual: current=3  formula=2  (buffMaxHp ×20)  diff=-1
+    → Updated cost 3 → 2
+  Crystal Resonance: current=2  formula=1  (buffMaxHp ×12)  diff=-1
+    → Updated cost 2 → 1
+  Temporal Loop: current=5  formula=3  (buffMaxHp ×25)  diff=-2
+    → Diff |-2| > 1 — flagged for manual review
+  Crystalline Shell: current=3  formula=1  (buffMaxHp ×14)  diff=-2
+    → Diff |-2| > 1 — flagged for manual review
+  Deep Resilience: current=3  formula=1  (buffMaxHp ×12)  diff=-2
+    → Diff |-2| > 1 — flagged for manual review
+  Current Mastery: current=2  formula=1  (buffRange ×20)  diff=-1
+    → Updated cost 2 → 1
+  Feather Step: current=2  formula=1  (buffRange ×20)  diff=-1
+    → Updated cost 2 → 1
+  Aerial Volley: current=3  formula=1  (buffMaxHp ×12)  diff=-2
+    → Diff |-2| > 1 — flagged for manual review
+  Cloud Cover: current=2  formula=1  (healUnits ×8)  diff=-1
+    → Updated cost 2 → 1
+  Inferno Surge: current=3  formula=5  (buffAttack ×8)  diff=+2
+    → Diff |2| > 1 — flagged for manual review
+  Ancient Blessing: current=2  formula=1  (buffHp ×6)  diff=-1
+    → Updated cost 2 → 1
+  Root Network: current=3  formula=2  (buffSpeed ×15)  diff=-1
+    → Updated cost 3 → 2
+  Root Surge: current=3  formula=6  (aoe ×15)  diff=+3
+    → Diff |3| > 1 — flagged for manual review
+  Riptide: current=2  formula=3  (buffSpeed ×20)  diff=+1
+    → Updated cost 2 → 3
+
+Upgrade cost adjustments applied: 13
+
+============================================================
+SUMMARY
+============================================================
+  Unit stat adjustments : 30
+  Spawner cost changes  : 19
+  Upgrade cost changes  : 13
+  TOTAL changes applied : 62
