@@ -2291,12 +2291,12 @@ export default function App() {
         if (restingCount > 0)
           parts.push(`${restingCount} resting card${restingCount !== 1 ? 's' : ''} won't be available in battle`)
         if (isUnderMax)
-          parts.push(`your deck has only ${allEntries.length} of ${DECK_MAX} cards`)
+          parts.push(`Your deck has only ${allEntries.length} of ${DECK_MAX} cards. Consider adding more cards in the Deck Builder for more consistency.`)
         return (
           <ConfirmModal
             title="Weak Deck"
             body={parts.join(' · ')}
-            confirmLabel="[ Enter Battle ]"
+            confirmLabel="Enter Battle"
             onConfirm={() => {
               const node = deckWarningNode
               setDeckWarningNode(null)

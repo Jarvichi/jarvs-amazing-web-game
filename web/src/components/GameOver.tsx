@@ -205,7 +205,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
         <ConfirmModal
           title="Abandon Run?"
           body="All progress for this run will be lost."
-          confirmLabel="[ Yes, Abandon ]"
+          confirmLabel="Yes, Abandon"
           onConfirm={campaignAbandon}
           onCancel={() => setConfirmAbandon(false)}
         />

@@ -1106,7 +1106,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
         <ConfirmModal
           title="Abandon Run?"
           body="All progress for this run will be lost."
-          confirmLabel="[ Yes, Abandon ]"
+          confirmLabel="Yes, Abandon"
           onConfirm={onGiveUp}
           onCancel={() => setConfirmGiveUp(false)}
         />

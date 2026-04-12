@@ -995,6 +995,7 @@ body {
   line-height: 1.4;
   min-height: 36px;
   box-sizing: border-box;
+  text-wrap-style: none;
 }
 
 /* ─── Button size modifiers ──────────────────────────── */
