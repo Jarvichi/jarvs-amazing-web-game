@@ -77,17 +77,26 @@
       "col": 0,
       "rowCols": 1,
       "parentIds": [],
-      "childIds": ["spore-shrine", "root-hollow", "deep-trader"],
+      "childIds": [
+        "spore-shrine",
+        "root-hollow"
+      ],
       "handicap": 14,
       "opponentIntervalMs": 4800,
       "opponentBaseHp": 210,
       "environment": "fungal",
       "enemyDeck": [
-        "Spore Crawler", "Spore Crawler", "Spore Crawler",
-        "Mycelium Guard", "Mycelium Guard",
-        "Spore Archer", "Spore Archer",
-        "Mycelium Wall", "Mycelium Wall",
-        "Spore Cloud", "Spore Cloud",
+        "Spore Crawler",
+        "Spore Crawler",
+        "Spore Crawler",
+        "Mycelium Guard",
+        "Mycelium Guard",
+        "Spore Archer",
+        "Spore Archer",
+        "Mycelium Wall",
+        "Mycelium Wall",
+        "Spore Cloud",
+        "Spore Cloud",
         "Rot Stalker",
         "Bloom Sprite",
         "Deep Growth"
@@ -100,9 +109,14 @@
       "description": "A growth of bioluminescent fungus forms a rough altar. Something in the mycelium is paying attention.",
       "row": 1,
       "col": 0,
-      "rowCols": 3,
-      "parentIds": ["dark-descent"],
-      "childIds": ["mycelium-crossing"],
+      "rowCols": 4,
+      "parentIds": [
+        "dark-descent"
+      ],
+      "childIds": [
+        "mycelium-crossing",
+        "bloom-vent"
+      ],
       "environment": "fungal",
       "eventConfig": {
         "title": "The Spore Shrine",
@@ -112,56 +126,86 @@
             {
               "label": "Touch the largest cap",
               "consequence": "The network sends something back — healed 12 HP",
-              "effect": { "type": "healHp", "amount": 12 }
+              "effect": {
+                "type": "healHp",
+                "amount": 12
+              }
             },
             {
               "label": "Touch the largest cap",
               "consequence": "The spores sting — lose 6 HP",
-              "effect": { "type": "damageHp", "amount": 6 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 6
+              }
             },
             {
               "label": "Touch the largest cap",
               "consequence": "A rare card rises from the mycelium",
-              "effect": { "type": "gainCard", "rarity": "rare" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
             },
             {
               "label": "Touch the largest cap",
               "consequence": "+15 crystals in crystallised spore matter",
-              "effect": { "type": "gainCrystals", "amount": 15 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 15
+              }
             }
           ],
           [
             {
               "label": "Listen to the network",
               "consequence": "Something useful echoes back — uncommon card",
-              "effect": { "type": "gainCard", "rarity": "uncommon" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
             },
             {
               "label": "Listen to the network",
               "consequence": "The pulse heals — restored 10 HP",
-              "effect": { "type": "healHp", "amount": 10 }
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
             },
             {
               "label": "Listen to the network",
               "consequence": "+20 crystals in recovered offerings",
-              "effect": { "type": "gainCrystals", "amount": 20 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 20
+              }
             }
           ],
           [
             {
               "label": "Harvest the caps",
               "consequence": "Valuable in the right market — +18 crystals",
-              "effect": { "type": "gainCrystals", "amount": 18 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 18
+              }
             },
             {
               "label": "Harvest the caps",
               "consequence": "A common card was wrapped in the root mass",
-              "effect": { "type": "gainCard", "rarity": "common" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "common"
+              }
             },
             {
               "label": "Harvest the caps",
               "consequence": "The network objects — lose 10 HP",
-              "effect": { "type": "damageHp", "amount": 10 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 10
+              }
             }
           ]
         ]
@@ -173,10 +217,15 @@
       "label": "Root Hollow",
       "description": "A dry pocket in the root mass. Quiet and surprisingly warm.",
       "row": 1,
-      "col": 1,
-      "rowCols": 3,
-      "parentIds": ["dark-descent"],
-      "childIds": ["mycelium-crossing"],
+      "col": 3,
+      "rowCols": 4,
+      "parentIds": [
+        "dark-descent"
+      ],
+      "childIds": [
+        "root-archive",
+        "deep-trader"
+      ],
       "environment": "fungal",
       "restHeal": 10
     },
@@ -185,11 +234,15 @@
       "type": "merchant",
       "label": "Deep Trader",
       "description": "A merchant who trades in things that grew in the dark. Doesn't ask questions about provenance.",
-      "row": 1,
-      "col": 2,
-      "rowCols": 3,
-      "parentIds": ["dark-descent"],
-      "childIds": ["mycelium-crossing"],
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "parentIds": [
+        "root-hollow"
+      ],
+      "childIds": [
+        "deep-rest"
+      ],
       "environment": "fungal"
     },
     "mycelium-crossing": {
@@ -199,21 +252,30 @@
       "description": "A wide floor of dense mycelium. The network can feel every step.",
       "row": 2,
       "col": 0,
-      "rowCols": 1,
-      "parentIds": ["spore-shrine", "root-hollow", "deep-trader"],
-      "childIds": ["rot-cavern", "bloom-vent", "deep-elite"],
+      "rowCols": 4,
+      "parentIds": [
+        "spore-shrine"
+      ],
+      "childIds": [
+        "deep-elite"
+      ],
       "handicap": 16,
       "opponentIntervalMs": 4600,
       "opponentBaseHp": 215,
       "environment": "fungal",
       "enemyDeck": [
-        "Spore Crawler", "Spore Crawler",
-        "Mycelium Guard", "Mycelium Guard",
-        "Rot Stalker", "Rot Stalker",
+        "Spore Crawler",
+        "Spore Crawler",
+        "Mycelium Guard",
+        "Mycelium Guard",
+        "Rot Stalker",
+        "Rot Stalker",
         "Fungal Den",
         "Spore Vent",
-        "Mycelium Wall", "Mycelium Wall",
-        "Spore Cloud", "Spore Cloud",
+        "Mycelium Wall",
+        "Mycelium Wall",
+        "Spore Cloud",
+        "Spore Cloud",
         "Deep Growth",
         "Mycelium Surge"
       ]
@@ -223,23 +285,33 @@
       "type": "battle",
       "label": "Rot Cavern",
       "description": "A collapsed chamber reclaimed by the deep rot. Shamblers emerge from every surface.",
-      "row": 3,
+      "row": 4,
       "col": 0,
-      "rowCols": 3,
-      "parentIds": ["mycelium-crossing"],
-      "childIds": ["queen-approach"],
+      "rowCols": 4,
+      "parentIds": [
+        "deep-elite"
+      ],
+      "childIds": [
+        "queen-approach"
+      ],
       "handicap": 18,
       "opponentIntervalMs": 4400,
       "opponentBaseHp": 220,
       "environment": "fungal",
       "enemyDeck": [
-        "Fungal Shambler", "Fungal Shambler",
-        "Toadstool Knight", "Toadstool Knight",
-        "Spore Archer", "Spore Archer",
-        "Mycelium Wall", "Mycelium Wall",
-        "Fungal Den", "Fungal Den",
+        "Fungal Shambler",
+        "Fungal Shambler",
+        "Toadstool Knight",
+        "Toadstool Knight",
+        "Spore Archer",
+        "Spore Archer",
+        "Mycelium Wall",
+        "Mycelium Wall",
+        "Fungal Den",
+        "Fungal Den",
         "Root Snare",
-        "Spore Cloud", "Spore Cloud",
+        "Spore Cloud",
+        "Spore Cloud",
         "Deep Growth"
       ]
     },
@@ -248,11 +320,15 @@
       "type": "event",
       "label": "Bloom Vent",
       "description": "A pressurised spore release, cycling slowly. The bloom carries fragments of the network's memory.",
-      "row": 3,
+      "row": 2,
       "col": 1,
-      "rowCols": 3,
-      "parentIds": ["mycelium-crossing"],
-      "childIds": ["queen-approach"],
+      "rowCols": 4,
+      "parentIds": [
+        "spore-shrine"
+      ],
+      "childIds": [
+        "deep-elite"
+      ],
       "environment": "fungal",
       "eventConfig": {
         "title": "The Bloom Vent",
@@ -262,39 +338,59 @@
             {
               "label": "Walk through the bloom",
               "consequence": "The spores knit wounds — healed 15 HP",
-              "effect": { "type": "healHp", "amount": 15 }
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
             },
             {
               "label": "Walk through the bloom",
               "consequence": "A rare card drifts free of the cloud",
-              "effect": { "type": "gainCard", "rarity": "rare" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
             },
             {
               "label": "Walk through the bloom",
               "consequence": "The bloom is toxic here — lose 12 HP",
-              "effect": { "type": "damageHp", "amount": 12 }
+              "effect": {
+                "type": "damageHp",
+                "amount": 12
+              }
             },
             {
               "label": "Walk through the bloom",
               "consequence": "+25 crystals in crystallised spore residue",
-              "effect": { "type": "gainCrystals", "amount": 25 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 25
+              }
             }
           ],
           [
             {
               "label": "Collect the bloom fragments",
               "consequence": "+30 crystals from the luminescent residue",
-              "effect": { "type": "gainCrystals", "amount": 30 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 30
+              }
             },
             {
               "label": "Collect the bloom fragments",
               "consequence": "An uncommon card, preserved in the spore mass",
-              "effect": { "type": "gainCard", "rarity": "uncommon" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
             },
             {
               "label": "Collect the bloom fragments",
               "consequence": "Nothing worth keeping. But the air clears.",
-              "effect": { "type": "nothing" }
+              "effect": {
+                "type": "nothing"
+              }
             }
           ]
         ]
@@ -306,23 +402,33 @@
       "label": "Deep Tendrils",
       "description": "A concentrated mass of the network's most aggressive growth. It has been waiting.",
       "row": 3,
-      "col": 2,
-      "rowCols": 3,
-      "parentIds": ["mycelium-crossing"],
-      "childIds": ["queen-approach"],
+      "col": 0,
+      "rowCols": 4,
+      "parentIds": [
+        "mycelium-crossing",
+        "bloom-vent"
+      ],
+      "childIds": [
+        "rot-cavern"
+      ],
       "handicap": 22,
       "opponentIntervalMs": 4000,
       "opponentBaseHp": 225,
       "environment": "fungal",
       "enemyDeck": [
         "Mycelium Hulk",
-        "Toadstool Knight", "Toadstool Knight",
-        "Root Wraith", "Root Wraith",
-        "Spore Bat", "Spore Bat",
-        "Root Snare", "Root Snare",
+        "Toadstool Knight",
+        "Toadstool Knight",
+        "Root Wraith",
+        "Root Wraith",
+        "Spore Bat",
+        "Spore Bat",
+        "Root Snare",
+        "Root Snare",
         "Rot Shrine",
         "Spore Surge",
-        "Mycelium Surge", "Mycelium Surge",
+        "Mycelium Surge",
+        "Mycelium Surge",
         "Deep Growth"
       ]
     },
@@ -331,11 +437,16 @@
       "type": "battle",
       "label": "Queen's Approach",
       "description": "The final tunnel. The mycelium here is dense enough to slow movement. The Root Queen is close.",
-      "row": 4,
+      "row": 5,
       "col": 0,
       "rowCols": 1,
-      "parentIds": ["rot-cavern", "bloom-vent", "deep-elite"],
-      "childIds": ["root-archive", "deep-rest", "vanguard-elite"],
+      "parentIds": [
+        "rot-cavern",
+        "vanguard-elite"
+      ],
+      "childIds": [
+        "rootqueen"
+      ],
       "handicap": 20,
       "opponentIntervalMs": 4200,
       "opponentBaseHp": 225,
@@ -343,11 +454,14 @@
       "enemyDeck": [
         "Rot Titan",
         "Mycelium Hulk",
-        "Toadstool Knight", "Toadstool Knight",
+        "Toadstool Knight",
+        "Toadstool Knight",
         "Root Wraith",
-        "Bloom Spire", "Bloom Spire",
+        "Bloom Spire",
+        "Bloom Spire",
         "Rot Shrine",
-        "Mycelium Wall", "Mycelium Wall",
+        "Mycelium Wall",
+        "Mycelium Wall",
         "Spore Surge",
         "Fungal Bloom",
         "Mycelium Surge",
@@ -359,11 +473,15 @@
       "type": "event",
       "label": "Root Archive",
       "description": "A chamber where the network stores memory in crystallised mycelium. Undisturbed for years.",
-      "row": 5,
-      "col": 0,
-      "rowCols": 3,
-      "parentIds": ["queen-approach"],
-      "childIds": ["rootqueen"],
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "parentIds": [
+        "root-hollow"
+      ],
+      "childIds": [
+        "deep-rest"
+      ],
       "environment": "fungal",
       "eventConfig": {
         "title": "The Root Archive",
@@ -373,24 +491,36 @@
             {
               "label": "Absorb the archive",
               "consequence": "The memory includes something useful — rare card",
-              "effect": { "type": "gainCard", "rarity": "rare" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
             },
             {
               "label": "Absorb the archive",
               "consequence": "The network supply routes are mapped — +25 crystals",
-              "effect": { "type": "gainCrystals", "amount": 25 }
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 25
+              }
             }
           ],
           [
             {
               "label": "Rest in the archive chamber",
               "consequence": "The spores here are restorative — healed 15 HP",
-              "effect": { "type": "healHp", "amount": 15 }
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
             },
             {
               "label": "Rest in the archive chamber",
               "consequence": "An uncommon card, preserved in the crystal",
-              "effect": { "type": "gainCard", "rarity": "uncommon" }
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
             }
           ]
         ]
@@ -401,11 +531,16 @@
       "type": "rest",
       "label": "Still Pool",
       "description": "A pool of clear underground water, untouched by the mycelium. One of very few such places down here.",
-      "row": 5,
-      "col": 1,
-      "rowCols": 3,
-      "parentIds": ["queen-approach"],
-      "childIds": ["rootqueen"],
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
+      "parentIds": [
+        "root-archive",
+        "deep-trader"
+      ],
+      "childIds": [
+        "vanguard-elite"
+      ],
       "environment": "fungal",
       "restHeal": 15
     },
@@ -414,25 +549,34 @@
       "type": "elite",
       "label": "Queen's Vanguard",
       "description": "The Root Queen's direct extensions. She is present in each of them.",
-      "row": 5,
-      "col": 2,
-      "rowCols": 3,
-      "parentIds": ["queen-approach"],
-      "childIds": ["rootqueen"],
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
+      "parentIds": [
+        "deep-rest"
+      ],
+      "childIds": [
+        "queen-approach"
+      ],
       "handicap": 24,
       "opponentIntervalMs": 3800,
       "opponentBaseHp": 235,
       "environment": "fungal",
       "enemyDeck": [
         "Spore Colossus",
-        "Rot Titan", "Rot Titan",
-        "Root Wraith", "Root Wraith",
-        "Bloom Spire", "Bloom Spire",
+        "Rot Titan",
+        "Rot Titan",
+        "Root Wraith",
+        "Root Wraith",
+        "Bloom Spire",
+        "Bloom Spire",
         "Rot Shrine",
-        "Fungal Bloom", "Fungal Bloom",
+        "Fungal Bloom",
+        "Fungal Bloom",
         "Spore Surge",
         "Mycelium Surge",
-        "Deep Growth", "Deep Growth"
+        "Deep Growth",
+        "Deep Growth"
       ]
     },
     "rootqueen": {
@@ -443,7 +587,9 @@
       "row": 6,
       "col": 0,
       "rowCols": 1,
-      "parentIds": ["root-archive", "deep-rest", "vanguard-elite"],
+      "parentIds": [
+        "queen-approach"
+      ],
       "childIds": [],
       "handicap": 28,
       "opponentIntervalMs": 3600,
@@ -456,15 +602,20 @@
         "The deep doesn't end. You've only reached the part of it that notices you."
       ],
       "enemyDeck": [
-        "Spore Colossus", "Spore Colossus",
+        "Spore Colossus",
+        "Spore Colossus",
         "Rot Titan",
         "Queen Spore",
-        "Mycelium Hulk", "Mycelium Hulk",
-        "Root Wraith", "Root Wraith",
-        "Bloom Spire", "Bloom Spire",
+        "Mycelium Hulk",
+        "Mycelium Hulk",
+        "Root Wraith",
+        "Root Wraith",
+        "Bloom Spire",
+        "Bloom Spire",
         "Rot Shrine",
         "Fungal Den",
-        "Fungal Bloom", "Fungal Bloom",
+        "Fungal Bloom",
+        "Fungal Bloom",
         "Spore Surge",
         "Mycelium Surge",
         "Deep Growth"

@@ -78,8 +78,7 @@
       "parentIds": [],
       "childIds": [
         "tidal-shrine",
-        "wreck-camp",
-        "reef-bazaar"
+        "wreck-camp"
       ],
       "handicap": 8,
       "opponentIntervalMs": 5200,
@@ -109,12 +108,13 @@
       "description": "An ancient stone altar sits at low tide, its carvings still sharp despite everything.",
       "row": 1,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
         "coral-breach"
       ],
       "childIds": [
-        "sunken-passage"
+        "sunken-passage",
+        "deep-current"
       ],
       "environment": "reef",
       "eventConfig": {
@@ -223,13 +223,14 @@
       "label": "Shipwreck Camp",
       "description": "A dry pocket inside a sunken hull. Strange place to rest, but it'll do.",
       "row": 1,
-      "col": 1,
-      "rowCols": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
         "coral-breach"
       ],
       "childIds": [
-        "sunken-passage"
+        "drowned-shrine",
+        "reef-bazaar"
       ],
       "environment": "reef",
       "restHeal": 10
@@ -239,14 +240,14 @@
       "type": "merchant",
       "label": "Reef Bazaar",
       "description": "A salvager deals in cards looted from sunken Dominion ships.",
-      "row": 1,
-      "col": 2,
-      "rowCols": 3,
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "coral-breach"
+        "wreck-camp"
       ],
       "childIds": [
-        "sunken-passage"
+        "depth-rest"
       ],
       "environment": "reef"
     },
@@ -257,15 +258,11 @@
       "description": "The only route through the reef's mid-section is heavily patrolled.",
       "row": 2,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 4,
       "parentIds": [
-        "tidal-shrine",
-        "wreck-camp",
-        "reef-bazaar"
+        "tidal-shrine"
       ],
       "childIds": [
-        "abyssal-ambush",
-        "deep-current",
         "reef-patrol-elite"
       ],
       "handicap": 10,
@@ -294,11 +291,11 @@
       "type": "battle",
       "label": "Abyssal Ambush",
       "description": "Something from deeper water has been watching you. It's done watching.",
-      "row": 3,
+      "row": 4,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "sunken-passage"
+        "reef-patrol-elite"
       ],
       "childIds": [
         "kelp-crossing"
@@ -329,14 +326,14 @@
       "type": "event",
       "label": "Deep Current",
       "description": "A ley-line current surfaces here — warm, electric, and full of lost things.",
-      "row": 3,
+      "row": 2,
       "col": 1,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "sunken-passage"
+        "tidal-shrine"
       ],
       "childIds": [
-        "kelp-crossing"
+        "reef-patrol-elite"
       ],
       "environment": "reef",
       "eventConfig": {
@@ -411,13 +408,14 @@
       "label": "Reef Elite Guard",
       "description": "The Tidal Sovereign's personal patrol. They've been waiting for someone like you.",
       "row": 3,
-      "col": 2,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 4,
       "parentIds": [
-        "sunken-passage"
+        "sunken-passage",
+        "deep-current"
       ],
       "childIds": [
-        "kelp-crossing"
+        "abyssal-ambush"
       ],
       "handicap": 15,
       "opponentIntervalMs": 4000,
@@ -445,18 +443,15 @@
       "type": "battle",
       "label": "Kelp Crossing",
       "description": "Dense kelp forests slow movement and muffle sound. Something uses that to its advantage.",
-      "row": 4,
+      "row": 5,
       "col": 0,
       "rowCols": 1,
       "parentIds": [
         "abyssal-ambush",
-        "deep-current",
-        "reef-patrol-elite"
+        "deep-elite"
       ],
       "childIds": [
-        "drowned-shrine",
-        "depth-rest",
-        "deep-elite"
+        "tidal-sovereign"
       ],
       "handicap": 13,
       "opponentIntervalMs": 4400,
@@ -484,14 +479,14 @@
       "type": "event",
       "label": "Drowned Archive",
       "description": "A Dominion library, somehow preserved. Its books are unreadable but its cards are intact.",
-      "row": 5,
-      "col": 0,
-      "rowCols": 3,
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
       "parentIds": [
-        "kelp-crossing"
+        "wreck-camp"
       ],
       "childIds": [
-        "tidal-sovereign"
+        "depth-rest"
       ],
       "environment": "reef",
       "eventConfig": {
@@ -550,14 +545,15 @@
       "type": "rest",
       "label": "Thermal Vent",
       "description": "A warm geothermal vent. The heat is strange but it heals.",
-      "row": 5,
-      "col": 1,
-      "rowCols": 3,
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "kelp-crossing"
+        "drowned-shrine",
+        "reef-bazaar"
       ],
       "childIds": [
-        "tidal-sovereign"
+        "deep-elite"
       ],
       "environment": "reef",
       "restHeal": 15
@@ -567,14 +563,14 @@
       "type": "elite",
       "label": "Leviathan Vanguard",
       "description": "A half-awake leviathan guards the approach to the Sovereign's sanctum.",
-      "row": 5,
-      "col": 2,
-      "rowCols": 3,
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "kelp-crossing"
+        "depth-rest"
       ],
       "childIds": [
-        "tidal-sovereign"
+        "kelp-crossing"
       ],
       "handicap": 18,
       "opponentIntervalMs": 3800,
@@ -606,9 +602,7 @@
       "col": 0,
       "rowCols": 1,
       "parentIds": [
-        "drowned-shrine",
-        "depth-rest",
-        "deep-elite"
+        "kelp-crossing"
       ],
       "childIds": [],
       "handicap": 22,

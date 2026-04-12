@@ -79,8 +79,7 @@
       "parentIds": [],
       "childIds": [
         "gear-shrine",
-        "assembly-rest",
-        "cog-market"
+        "assembly-rest"
       ],
       "handicap": 22,
       "opponentIntervalMs": 3100,
@@ -100,12 +99,13 @@
       "description": "A strange mechanical altar hums softly.",
       "row": 1,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
         "vault-entrance"
       ],
       "childIds": [
-        "second-chamber"
+        "second-chamber",
+        "calibration-rift"
       ],
       "eventConfig": {
         "title": "The Gear Shrine",
@@ -161,13 +161,14 @@
       "label": "Assembly Bay",
       "description": "Dormant repair drones offer restoration.",
       "row": 1,
-      "col": 1,
-      "rowCols": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
         "vault-entrance"
       ],
       "childIds": [
-        "second-chamber"
+        "automaton-watch",
+        "cog-market"
       ],
       "healAmount": 8
     },
@@ -176,14 +177,14 @@
       "type": "merchant",
       "label": "Cog Exchange",
       "description": "Automated vending alcoves line the corridor.",
-      "row": 1,
-      "col": 2,
-      "rowCols": 3,
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "vault-entrance"
+        "assembly-rest"
       ],
       "childIds": [
-        "second-chamber"
+        "repair-bay"
       ]
     },
     "second-chamber": {
@@ -192,16 +193,12 @@
       "label": "Second Chamber",
       "description": "Heavier clockwork defenders emerge.",
       "row": 2,
-      "col": 1,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 4,
       "parentIds": [
-        "gear-shrine",
-        "assembly-rest",
-        "cog-market"
+        "gear-shrine"
       ],
       "childIds": [
-        "piston-wing",
-        "calibration-rift",
         "forge-vault"
       ],
       "handicap": 24,
@@ -221,11 +218,11 @@
       "type": "battle",
       "label": "Piston Wing",
       "description": "Steam-driven brawlers block the corridor.",
-      "row": 3,
+      "row": 4,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "second-chamber"
+        "forge-vault"
       ],
       "childIds": [
         "core-approach"
@@ -247,14 +244,14 @@
       "type": "event",
       "label": "Calibration Rift",
       "description": "A fracture in the vault where ley energy leaks.",
-      "row": 3,
+      "row": 2,
       "col": 1,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "second-chamber"
+        "gear-shrine"
       ],
       "childIds": [
-        "core-approach"
+        "forge-vault"
       ],
       "eventConfig": {
         "title": "The Calibration Rift",
@@ -310,13 +307,14 @@
       "label": "Forge Vault",
       "description": "The titan forge is online and guarded.",
       "row": 3,
-      "col": 2,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 4,
       "parentIds": [
-        "second-chamber"
+        "second-chamber",
+        "calibration-rift"
       ],
       "childIds": [
-        "core-approach"
+        "piston-wing"
       ],
       "handicap": 28,
       "opponentIntervalMs": 2800,
@@ -336,18 +334,15 @@
       "type": "battle",
       "label": "Core Approach",
       "description": "The Automaton's drones defend the inner sanctum.",
-      "row": 4,
-      "col": 1,
-      "rowCols": 3,
+      "row": 5,
+      "col": 0,
+      "rowCols": 1,
       "parentIds": [
         "piston-wing",
-        "calibration-rift",
-        "forge-vault"
+        "titan-garrison"
       ],
       "childIds": [
-        "repair-bay",
-        "automaton-watch",
-        "titan-garrison"
+        "the-grand-automaton-node"
       ],
       "handicap": 29,
       "opponentIntervalMs": 2800,
@@ -367,14 +362,15 @@
       "type": "rest",
       "label": "Salvaged Repair Bay",
       "description": "Abandoned repair alcove — still functional.",
-      "row": 5,
-      "col": 0,
-      "rowCols": 3,
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "core-approach"
+        "automaton-watch",
+        "cog-market"
       ],
       "childIds": [
-        "the-grand-automaton-node"
+        "titan-garrison"
       ],
       "healAmount": 10
     },
@@ -383,14 +379,14 @@
       "type": "event",
       "label": "Automaton Watch",
       "description": "A terminal displays the Automaton's status.",
-      "row": 5,
-      "col": 1,
-      "rowCols": 3,
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
       "parentIds": [
-        "core-approach"
+        "assembly-rest"
       ],
       "childIds": [
-        "the-grand-automaton-node"
+        "repair-bay"
       ],
       "eventConfig": {
         "title": "The Status Terminal",
@@ -445,14 +441,14 @@
       "type": "elite",
       "label": "Titan Garrison",
       "description": "The Automaton's heaviest units stand ready.",
-      "row": 5,
-      "col": 2,
-      "rowCols": 3,
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "core-approach"
+        "repair-bay"
       ],
       "childIds": [
-        "the-grand-automaton-node"
+        "core-approach"
       ],
       "handicap": 31,
       "opponentIntervalMs": 2700,
@@ -473,12 +469,10 @@
       "label": "The Grand Automaton",
       "description": "The vault's master intelligence. Online.",
       "row": 6,
-      "col": 1,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 1,
       "parentIds": [
-        "repair-bay",
-        "automaton-watch",
-        "titan-garrison"
+        "core-approach"
       ],
       "childIds": [],
       "handicap": 33,

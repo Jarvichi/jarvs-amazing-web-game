@@ -79,8 +79,7 @@
       "parentIds": [],
       "childIds": [
         "sand-shrine",
-        "dune-hollow",
-        "outer-bazaar"
+        "dune-hollow"
       ],
       "handicap": 18,
       "opponentIntervalMs": 4700,
@@ -110,12 +109,13 @@
       "description": "A spring shrine at a desert oasis. The water is real. The hospitality is negotiable.",
       "row": 1,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
         "dune-approach"
       ],
       "childIds": [
-        "market-crossing"
+        "market-crossing",
+        "mirage-vent"
       ],
       "environment": "sand",
       "eventConfig": {
@@ -216,13 +216,14 @@
       "label": "Dune Hollow",
       "description": "A sheltered hollow in the dune line. Out of the wind and out of sight.",
       "row": 1,
-      "col": 1,
-      "rowCols": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
         "dune-approach"
       ],
       "childIds": [
-        "market-crossing"
+        "trade-archive",
+        "outer-bazaar"
       ],
       "environment": "sand",
       "restHeal": 10
@@ -232,14 +233,14 @@
       "type": "merchant",
       "label": "Outer Bazaar",
       "description": "The market's fringe traders. Lower prices than inside. Fewer questions.",
-      "row": 1,
-      "col": 2,
-      "rowCols": 3,
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "dune-approach"
+        "dune-hollow"
       ],
       "childIds": [
-        "market-crossing"
+        "market-rest"
       ],
       "environment": "sand"
     },
@@ -250,15 +251,11 @@
       "description": "The contested main road into the market interior. The Baron's guard controls access.",
       "row": 2,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 4,
       "parentIds": [
-        "sand-shrine",
-        "dune-hollow",
-        "outer-bazaar"
+        "sand-shrine"
       ],
       "childIds": [
-        "sand-battery",
-        "mirage-vent",
         "caravan-elite"
       ],
       "handicap": 20,
@@ -287,11 +284,11 @@
       "type": "battle",
       "label": "Sand Battery",
       "description": "Desert artillery platforms. The Baron invested heavily in these.",
-      "row": 3,
+      "row": 4,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "market-crossing"
+        "caravan-elite"
       ],
       "childIds": [
         "baron-approach"
@@ -323,14 +320,14 @@
       "type": "event",
       "label": "Mirage Cache",
       "description": "A hidden supply depot the Baron's forces use. Not all of it is decoy.",
-      "row": 3,
+      "row": 2,
       "col": 1,
-      "rowCols": 3,
+      "rowCols": 4,
       "parentIds": [
-        "market-crossing"
+        "sand-shrine"
       ],
       "childIds": [
-        "baron-approach"
+        "caravan-elite"
       ],
       "environment": "sand",
       "eventConfig": {
@@ -405,13 +402,14 @@
       "label": "Caravan Guard",
       "description": "The Baron's contracted heavy escort. Expensive, effective, professional.",
       "row": 3,
-      "col": 2,
-      "rowCols": 3,
+      "col": 0,
+      "rowCols": 4,
       "parentIds": [
-        "market-crossing"
+        "market-crossing",
+        "mirage-vent"
       ],
       "childIds": [
-        "baron-approach"
+        "sand-battery"
       ],
       "handicap": 26,
       "opponentIntervalMs": 4000,
@@ -440,18 +438,15 @@
       "type": "battle",
       "label": "Baron's Gate",
       "description": "The inner market. The Dune Baron's personal forces take over from the hired guards.",
-      "row": 4,
+      "row": 5,
       "col": 0,
       "rowCols": 1,
       "parentIds": [
         "sand-battery",
-        "mirage-vent",
-        "caravan-elite"
+        "baron-vanguard"
       ],
       "childIds": [
-        "trade-archive",
-        "market-rest",
-        "baron-vanguard"
+        "dunebaron"
       ],
       "handicap": 24,
       "opponentIntervalMs": 4200,
@@ -479,14 +474,14 @@
       "type": "event",
       "label": "Baron's Ledger",
       "description": "The Baron's records room. Every transaction since the market opened.",
-      "row": 5,
-      "col": 0,
-      "rowCols": 3,
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
       "parentIds": [
-        "baron-approach"
+        "dune-hollow"
       ],
       "childIds": [
-        "dunebaron"
+        "market-rest"
       ],
       "environment": "sand",
       "eventConfig": {
@@ -537,14 +532,15 @@
       "type": "rest",
       "label": "Inner Quarters",
       "description": "The Baron's personal guest quarters. Better than anything outside the market walls.",
-      "row": 5,
-      "col": 1,
-      "rowCols": 3,
+      "row": 3,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "baron-approach"
+        "trade-archive",
+        "outer-bazaar"
       ],
       "childIds": [
-        "dunebaron"
+        "baron-vanguard"
       ],
       "environment": "sand",
       "restHeal": 15
@@ -554,14 +550,14 @@
       "type": "elite",
       "label": "Baron's Retinue",
       "description": "The Dune Baron's personal guard. These ones aren't contractors.",
-      "row": 5,
-      "col": 2,
-      "rowCols": 3,
+      "row": 4,
+      "col": 3,
+      "rowCols": 4,
       "parentIds": [
-        "baron-approach"
+        "market-rest"
       ],
       "childIds": [
-        "dunebaron"
+        "baron-approach"
       ],
       "handicap": 28,
       "opponentIntervalMs": 3800,
@@ -593,9 +589,7 @@
       "col": 0,
       "rowCols": 1,
       "parentIds": [
-        "trade-archive",
-        "market-rest",
-        "baron-vanguard"
+        "baron-approach"
       ],
       "childIds": [],
       "handicap": 32,
