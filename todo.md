@@ -2,22 +2,22 @@
 
 Issues sourced from GitHub. Last synced: 2026-04-12 (session 39).
 
-## 🔴 Bugs — New (from GitHub, session 39 sync)
+## ✅ Done (session 39)
 
-- [ ] **#651** `useAuth: anonymous sign-in failed` — Firebase `auth/network-request-failed` (TypeError: Failed to fetch) on page load; user on Chrome/Windows hitting jawg.uk. Likely transient network issue but worth confirming error handling is graceful and app degrades to offline mode cleanly.
+- [x] **#651** `useAuth: anonymous sign-in failed` — resolved
+- [x] **#655** Balancing units and spawners — formula defined; all cards rebalanced
+- [x] **#649** Player stats — permanent upgrades post-campaign; Player Stats screen added to title menu
+- [x] **#646** Review acts 1–13 — broader branching/converging paths added
+- [x] **#645** Act Node Pathing — split-and-converge node system implemented
 
 ## 🔵 Enhancements — New (from GitHub, session 39 sync)
 
 - [ ] **#674** AI in quickplay — AI should use a generated, balanced deck (variety between games); AI should play for player enjoyment, not to win
 - [ ] **#659** Font size setting has limited effect — ~90% of `styles.css` rules use hardcoded `px` values instead of `em`/`rem`; slider only affects elements that inherit from `body`. Requires CSS-wide refactor to `em`. (Relates to #412)
-- [ ] **#655** Balancing units and spawners — define a formula for unit/building mana cost from stats; use it to rebalance all existing cards
 
 ## 🟣 Features — New (from GitHub, session 39 sync)
 
 - [ ] **#671** Final Act — make Act 13 the campaign end; add a "Finale" act with a single linear node path of battles that closes the story
-- [ ] **#649** Player stats — on campaign completion, player chooses a permanent upgrade (+10 HP / +1 mana / +1 deck size / +1 lives / −10% mana regen rate); load base stats from save instead of hardcoding; add "Player Stats" screen from title menu
-- [ ] **#646** Review acts 1–13 — add broader branching/converging paths (up to 7 columns, 15 rows per the mermaid diagram in the issue); choosing a route locks out alternate nodes
-- [ ] **#645** Act Node Pathing — implement proper split-and-converge node system; no dead ends; all paths converge; choosing a branch locks out sibling nodes
 
 ## ✅ Done (session 38)
 
