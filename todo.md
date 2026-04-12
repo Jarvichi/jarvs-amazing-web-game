@@ -9,6 +9,7 @@ Issues sourced from GitHub. Last synced: 2026-04-12 (session 39).
 - [x] **#649** Player stats — permanent upgrades post-campaign; Player Stats screen added to title menu
 - [x] **#646** Review acts 1–13 — broader branching/converging paths added
 - [x] **#645** Act Node Pathing — split-and-converge node system implemented
+- [x] **#671** Final Act — actfinale.json (5-node linear path, ruins env); thefracture boss AI (3 phases, mana override at 60 s+); Worldmender's Crest relic; wired into questline.ts after act13
 
 ## 🔵 Enhancements — New (from GitHub, session 39 sync)
 
