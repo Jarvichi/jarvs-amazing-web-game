@@ -70,13 +70,15 @@ boss          → parentIds: [penultimate],    childIds: []
 
 | Row | Path-A (left) | Path-B (right) | Notes |
 |-----|--------------|----------------|-------|
-| 0   | battle       | —              | Identical start for everyone |
-| 1   | event        | rest           | Asymmetric openers signal path flavour |
-| 2   | battle + event | event + merchant | 2 nodes each side |
-| 3   | elite        | rest           | Left path is riskier |
-| 4   | battle       | battle         | Both paths equally tough pre-reunion |
-| 5   | rest or event | —             | Pre-boss breathing room |
+| 0   | battle       | —              | Shared — identical for everyone |
+| 1   | battle       | battle         | Both paths open with combat |
+| 2   | event + rest | event + merchant | Non-battle variety differs per path |
+| 3   | elite        | elite          | Both paths face an elite encounter |
+| 4   | battle       | battle         | Final push before reunion |
+| 5   | rest or event | —             | Shared pre-boss breathing room |
 | 6   | boss         | —              | Same boss for everyone |
+
+> **Balance rule:** every path must carry the same total number of combat nodes (battles + elites). See **§1.4** for the full rules.
 
 When a player picks one node from a set of siblings (nodes sharing a parent), all other siblings are marked **skipped** via `skipSiblings()` in `questline.ts`. Skipped nodes are not reachable for the rest of the run.
 
@@ -106,6 +108,19 @@ interface QuestNode {
 ```
 
 Act JSON files live in `web/src/data/acts/act{N}.json` and are imported in `questline.ts`.
+
+### 1.4 Path Balance Rules
+
+**Every selectable path through an act must contain the same number of combat nodes** (battles + elites, excluding the shared start, penultimate, and boss nodes).
+
+The player's choice of path is about *what kind of non-battle node they want* — a camp to heal, an event for a narrative reward, or a merchant to spend crystals. It is **not** a choice about how much combat to face.
+
+Rules:
+
+1. **Equal combat count.** Count `battle` and `elite` nodes for each distinct path from row 1 to row 4 (the path-exclusive rows). All paths must produce the same total.
+2. **Non-battle nodes differentiate paths.** The nodes that differ between paths must be drawn from: `rest`, `event`, `merchant`. Mix these across paths so each path has a distinct non-battle flavour.
+3. **No combat-free rows.** Every path must include at least one combat node in rows 1–2 (early path segment) and at least one in rows 3–4 (late path segment). A path must not front-load or back-load all its combat.
+4. **Elites count as combat.** An `elite` node satisfies the combat-count requirement equally to a `battle` node. Paths may substitute one battle for one elite (and vice-versa) to vary difficulty without changing combat count.
 
 ---
 
@@ -481,3 +496,4 @@ When creating a new act JSON (`web/src/data/acts/act{N}.json`):
 - [ ] `music` fields added (once music system is implemented).
 - [ ] Act registered in `ACTS` map and `getNextAct()` in `questline.ts`.
 - [ ] Run `npm run build` from `web/` — must pass with no TypeScript errors.
+- [ ] **Path balance verified:** count `battle` + `elite` nodes on Path-A (rows 1–4) and Path-B (rows 1–4) — totals must be equal (see §1.4).
