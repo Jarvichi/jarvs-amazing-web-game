@@ -2412,7 +2412,7 @@ export default function App() {
       )}
 
       {screen === 'deckbuilder' && (
-        <DeckBuilder onBack={() => setScreen('title')} fatiguedCards={[]} />
+        <DeckBuilder onBack={() => setScreen('title')} fatiguedCards={run ? fatiguedCards : []}/>
       )}
 
       {screen === 'pack' && (
