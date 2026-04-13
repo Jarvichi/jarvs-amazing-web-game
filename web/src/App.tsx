@@ -72,6 +72,7 @@ import { getUnclaimedGifts, applyGiftRewards, GiftDef } from './game/gifts'
 import { getUnreadCount as getNewsUnreadCount } from './game/news'
 import { NewsScreen }      from './components/NewsScreen'
 import { NewsAdminScreen } from './components/NewsAdminScreen'
+import { CampaignAdminScreen } from './components/CampaignAdminScreen'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
@@ -254,6 +255,7 @@ type Screen =
   | 'training'
   | 'news'
   | 'newsAdmin'
+  | 'campaignAdmin'
   | 'minigames'
   | 'playerstats'
   | 'statupgrade'
@@ -2199,6 +2201,7 @@ export default function App() {
           }}
           onGiftAdmin={() => setScreen('giftAdmin')}
           onNewsAdmin={() => setScreen('newsAdmin')}
+          onCampaignAdmin={() => setScreen('campaignAdmin')}
         />
       )}
 
@@ -2212,6 +2215,10 @@ export default function App() {
 
       {screen === 'newsAdmin' && (
         <NewsAdminScreen onBack={() => setScreen('settings')} />
+      )}
+
+      {screen === 'campaignAdmin' && (
+        <CampaignAdminScreen onBack={() => setScreen('settings')} />
       )}
 
       {screen === 'nodemap' && run && actData && (
