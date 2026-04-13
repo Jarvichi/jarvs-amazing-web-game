@@ -23,6 +23,7 @@ interface Props {
   onDevHandicapChanged?: (n: number) => void
   onGiftAdmin?: () => void
   onNewsAdmin?: () => void
+  onCampaignAdmin?: () => void
 }
 
 const TEXT_SIZE_KEY      = 'jarv_text_size'
@@ -131,7 +132,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
-export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin }: Props) {
+export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [textSize,      setTextSize]      = useState(loadTextSize)
   const [textColor,     setTextColor]     = useState(loadTextColor)
@@ -521,6 +522,15 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   <div className="settings-sublabel">Post new feature announcements and patch notes</div>
                 </div>
                 <button className="action-btn action-btn--gold" onClick={onNewsAdmin}>OPEN</button>
+              </div>
+            )}
+            {onCampaignAdmin && (
+              <div className="settings-row">
+                <div>
+                  <div className="settings-label">Campaign editor</div>
+                  <div className="settings-sublabel">Edit act nodes, enemy decks, and environments</div>
+                </div>
+                <button className="action-btn action-btn--gold" onClick={onCampaignAdmin}>OPEN</button>
               </div>
             )}
           </Section>
