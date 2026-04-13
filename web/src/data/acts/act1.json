@@ -382,8 +382,8 @@
       "label": "Woodland Ambush",
       "description": "The camp was already occupied. Its new residents are not welcoming.",
       "row": 1,
-      "col": 3,
-      "rowCols": 4,
+      "col": 1,
+      "rowCols": 2,
       "parentIds": [
         "goblin-raid"
       ],
@@ -414,7 +414,7 @@
       "description": "Goblins have claimed the shrine as their own. They're not interested in sharing.",
       "row": 1,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 2,
       "parentIds": [
         "goblin-raid"
       ],
@@ -602,14 +602,14 @@
       "type": "event",
       "label": "The Watching Wood",
       "description": "Something has been following you since the first road. It steps out of the treeline.",
-      "row": 2,
-      "col": 2,
+      "row": 4,
+      "col": 1,
       "rowCols": 4,
       "parentIds": [
-        "camp"
+        "war-camp"
       ],
       "childIds": [
-        "deep-woods"
+        "deep-crossing"
       ],
       "environment": "forest",
       "eventConfig": {
@@ -745,14 +745,14 @@
       "type": "event",
       "label": "Watchtower Ruins",
       "description": "A crumbling garrison tower leans against the treeline.",
-      "row": 2,
-      "col": 1,
+      "row": 4,
+      "col": 2,
       "rowCols": 4,
       "parentIds": [
-        "shrine"
+        "captain"
       ],
       "childIds": [
-        "captain"
+        "troll-bridge"
       ],
       "environment": "ruins",
       "eventConfig": {
@@ -960,8 +960,8 @@
       "label": "Forest Captain",
       "description": "A hardened veteran with well-drilled siege troops — and something the forest has been teaching him about patience.",
       "row": 3,
-      "col": 0,
-      "rowCols": 4,
+      "col": 1,
+      "rowCols": 2,
       "parentIds": [
         "forest-path",
         "ruins"
@@ -1001,8 +1001,8 @@
       "label": "The Pack Leader",
       "description": "The deep woods belong to something older than the Fracture. It has been watching. Now it is done watching.",
       "row": 3,
-      "col": 3,
-      "rowCols": 4,
+      "col": 0,
+      "rowCols": 2,
       "parentIds": [
         "ambush",
         "market"
@@ -1120,6 +1120,53 @@
         "Ancient Grove",
         "Rally",
         "Haste"
+      ]
+    },
+    "node-1776083922801": {
+      "id": "node-1776083922801",
+      "type": "battle",
+      "label": "The Inaccessible Palace",
+      "description": "",
+      "row": 2,
+      "col": 2,
+      "rowCols": 4,
+      "parentIds": [],
+      "childIds": []
+    },
+    "node-the-lonely-field": {
+      "id": "node-the-lonely-field",
+      "type": "battle",
+      "label": "The Lonely Field",
+      "description": "The captain stands with a snail on their knurled face. The field before them is empty, bar a single tent, the army has moved on, these poor souls overslept.",
+      "row": 2,
+      "col": 1,
+      "rowCols": 4,
+      "parentIds": [
+        "shrine"
+      ],
+      "childIds": [
+        "deep-woods"
+      ],
+      "opponentIntervalMs": 5000,
+      "opponentBaseHp": 50,
+      "environment": "farmland",
+      "enemyDeck": [
+        "Goblin",
+        "Goblin",
+        "Goblin",
+        "Goblin",
+        "Archer",
+        "Archer",
+        "Archer",
+        "Archer",
+        "Goblin",
+        "Goblin",
+        "Goblin",
+        "Goblin",
+        "Archer",
+        "Archer",
+        "Archer",
+        "Archer"
       ]
     }
   },
