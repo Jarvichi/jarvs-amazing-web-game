@@ -1321,6 +1321,7 @@ function checkGameOver(s: GameState): boolean {
   if (s.bossCardActive && s.bossCard) {
     const bossAlive = s.field.some(u => u.owner === 'opponent' && u.name === s.bossCard)
     if (!bossAlive) {
+      s.field = s.field.filter(u => u.owner !== 'opponent')
       s.playerScore += VICTORY_BONUS
       s.phase = { type: 'celebration', winner: 'player' }
       return true
@@ -1402,6 +1403,8 @@ function checkGameOver(s: GameState): boolean {
       // Trigger phase 2: restore base, clear opponent minions, push player units back, deploy boss
       s.opponentBase.hp = s.opponentBase.maxHp
       s.field = s.field.filter(u => u.owner !== 'opponent')
+      s.opponentHand = []
+      s.opponentDeck = []
       s.field.forEach(u => { if (u.owner === 'player') u.x = PLAYER_SPAWN_X })
       const template = getCardUnit(s.bossCard)
       if (template) {
@@ -1983,11 +1986,13 @@ export function tick(state: GameState, deltaMs: number): GameState {
   // 6. Opponent timer
   s.opponentTimer -= deltaMs
   if (s.opponentTimer <= 0) {
-    const bossDef2 = s.bossAI ? getBossAIDef(s.bossAI) : undefined
-    if (bossDef2) {
-      genericBossAI(s, log, bossDef2)
-    } else {
-      opponentAI(s, log)
+    if (!s.bossCardActive) {
+      const bossDef2 = s.bossAI ? getBossAIDef(s.bossAI) : undefined
+      if (bossDef2) {
+        genericBossAI(s, log, bossDef2)
+      } else {
+        opponentAI(s, log)
+      }
     }
     s.opponentTimer = s.opponentIntervalMs
   }
