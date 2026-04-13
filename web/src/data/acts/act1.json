@@ -960,7 +960,7 @@
       "label": "Forest Captain",
       "description": "A hardened veteran with well-drilled siege troops — and something the forest has been teaching him about patience.",
       "row": 3,
-      "col": 1,
+      "col": 0,
       "rowCols": 2,
       "parentIds": [
         "forest-path",
@@ -1001,7 +1001,7 @@
       "label": "The Pack Leader",
       "description": "The deep woods belong to something older than the Fracture. It has been watching. Now it is done watching.",
       "row": 3,
-      "col": 0,
+      "col": 1,
       "rowCols": 2,
       "parentIds": [
         "ambush",
