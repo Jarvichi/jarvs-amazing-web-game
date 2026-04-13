@@ -64,8 +64,13 @@ function computeReachableIds(act: Act, run: RunState): Set<string> {
     }
   }
 
-  for (const [id, node] of Object.entries(act.nodes)) {
-    if (node.parentIds.length === 0 && !skipped.has(id)) visit(id)
+  // Build reverse map to find start nodes (those with no parents)
+  const hasParent = new Set<string>()
+  for (const node of Object.values(act.nodes)) {
+    for (const cid of node.childIds) hasParent.add(cid)
+  }
+  for (const [id] of Object.entries(act.nodes)) {
+    if (!hasParent.has(id) && !skipped.has(id)) visit(id)
   }
   return reachable
 }

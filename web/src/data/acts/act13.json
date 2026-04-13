@@ -42,11 +42,11 @@
   "intro": [
     {
       "title": "THE CLOCKWORK VAULTS",
-      "text": "Deep beneath the shattered earth, the Clockwork Vaults hum with ancient machinery — built before the Fracture by an artificer order that no longer exists.\n\nThe Grand Automaton maintains it all. Has maintained it for two hundred years. No one knows if it was told to stop."
+      "text": "Deep beneath the shattered earth, the Clockwork Vaults hum with ancient machinery \u2014 built before the Fracture by an artificer order that no longer exists.\n\nThe Grand Automaton maintains it all. Has maintained it for two hundred years. No one knows if it was told to stop."
     },
     {
       "title": "THE GRAND AUTOMATON",
-      "text": "It is not hostile. Hostility implies intent. The Automaton simply optimises — calculating minimum-force resolutions for all threats to vault integrity.\n\nYou are a threat to vault integrity."
+      "text": "It is not hostile. Hostility implies intent. The Automaton simply optimises \u2014 calculating minimum-force resolutions for all threats to vault integrity.\n\nYou are a threat to vault integrity."
     },
     {
       "title": "WHAT LIES WITHIN",
@@ -60,7 +60,7 @@
     },
     {
       "title": "GEAR HEART",
-      "text": "Amid the cooling machinery, you find a small gear-shaped crystal — the Automaton's drive core, still faintly warm.\n\nA fitting trophy. It pulses with each heartbeat."
+      "text": "Amid the cooling machinery, you find a small gear-shaped crystal \u2014 the Automaton's drive core, still faintly warm.\n\nA fitting trophy. It pulses with each heartbeat."
     },
     {
       "title": "ONWARD",
@@ -76,7 +76,6 @@
       "row": 0,
       "col": 1,
       "rowCols": 3,
-      "parentIds": [],
       "childIds": [
         "gear-shrine",
         "assembly-rest"
@@ -100,9 +99,6 @@
       "row": 1,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "vault-entrance"
-      ],
       "childIds": [
         "second-chamber",
         "calibration-rift"
@@ -163,9 +159,6 @@
       "row": 1,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "vault-entrance"
-      ],
       "childIds": [
         "automaton-watch",
         "cog-market"
@@ -180,9 +173,6 @@
       "row": 2,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "assembly-rest"
-      ],
       "childIds": [
         "repair-bay"
       ]
@@ -195,9 +185,6 @@
       "row": 2,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "gear-shrine"
-      ],
       "childIds": [
         "forge-vault"
       ],
@@ -221,9 +208,6 @@
       "row": 4,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "forge-vault"
-      ],
       "childIds": [
         "core-approach"
       ],
@@ -247,9 +231,6 @@
       "row": 2,
       "col": 1,
       "rowCols": 4,
-      "parentIds": [
-        "gear-shrine"
-      ],
       "childIds": [
         "forge-vault"
       ],
@@ -309,10 +290,6 @@
       "row": 3,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "second-chamber",
-        "calibration-rift"
-      ],
       "childIds": [
         "piston-wing"
       ],
@@ -337,10 +314,6 @@
       "row": 5,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [
-        "piston-wing",
-        "titan-garrison"
-      ],
       "childIds": [
         "the-grand-automaton-node"
       ],
@@ -361,14 +334,10 @@
       "id": "repair-bay",
       "type": "rest",
       "label": "Salvaged Repair Bay",
-      "description": "Abandoned repair alcove — still functional.",
+      "description": "Abandoned repair alcove \u2014 still functional.",
       "row": 3,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "automaton-watch",
-        "cog-market"
-      ],
       "childIds": [
         "titan-garrison"
       ],
@@ -382,9 +351,6 @@
       "row": 2,
       "col": 2,
       "rowCols": 4,
-      "parentIds": [
-        "assembly-rest"
-      ],
       "childIds": [
         "repair-bay"
       ],
@@ -444,9 +410,6 @@
       "row": 4,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "repair-bay"
-      ],
       "childIds": [
         "core-approach"
       ],
@@ -471,9 +434,6 @@
       "row": 6,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [
-        "core-approach"
-      ],
       "childIds": [],
       "handicap": 33,
       "opponentIntervalMs": 5000,

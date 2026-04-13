@@ -49,7 +49,7 @@
   "intro": [
     {
       "title": "THE CRYSTAL SPIRE",
-      "text": "Before the Fracture, the Crystal Spire was the Dominion's arcane research division — a floating fortress of compressed ley-line energy, staffed by scholars who were very important and knew it.\n\nThe Fracture didn't destroy the Spire. It crystallised it. The entire shard froze mid-operation: experiments running, libraries mid-catalogue, staff mid-sentence. The crystal grew inward. The scholars who survived became part of the archive.\n\nThe Archivist survived better than most."
+      "text": "Before the Fracture, the Crystal Spire was the Dominion's arcane research division \u2014 a floating fortress of compressed ley-line energy, staffed by scholars who were very important and knew it.\n\nThe Fracture didn't destroy the Spire. It crystallised it. The entire shard froze mid-operation: experiments running, libraries mid-catalogue, staff mid-sentence. The crystal grew inward. The scholars who survived became part of the archive.\n\nThe Archivist survived better than most."
     },
     {
       "title": "THE WANDERER",
@@ -57,7 +57,7 @@
     },
     {
       "title": "THE CRYSTAL SPIRE",
-      "text": "The Spire is a labyrinth of crystallised corridors, arcane constructs, and rooms that echo with the voices of people who stopped speaking three years ago.\n\nAt its heart, the Archivist — scholar, archivist, and now something considerably more and considerably less than either — catalogues everything that enters. He has been cataloguing you since you entered the shard.\n\nHe has extensive notes."
+      "text": "The Spire is a labyrinth of crystallised corridors, arcane constructs, and rooms that echo with the voices of people who stopped speaking three years ago.\n\nAt its heart, the Archivist \u2014 scholar, archivist, and now something considerably more and considerably less than either \u2014 catalogues everything that enters. He has been cataloguing you since you entered the shard.\n\nHe has extensive notes."
     },
     {
       "title": "YOUR MISSION",
@@ -67,11 +67,11 @@
   "outro": [
     {
       "title": "THE ARCHIVE FALLS SILENT",
-      "text": "The Archivist's crystal matrix collapses. Not violently — methodically. Each facet dims in order, as though even his defeat is being filed.\n\nThe Spire holds its breath. Then, for the first time in three years, a window opens somewhere deep in the structure. Not because it was unlocked. Because whoever had been locking it is no longer in a position to care.\n\nLight comes through. Ordinary, unremarkable light. In the Crystal Spire, it looks like a miracle."
+      "text": "The Archivist's crystal matrix collapses. Not violently \u2014 methodically. Each facet dims in order, as though even his defeat is being filed.\n\nThe Spire holds its breath. Then, for the first time in three years, a window opens somewhere deep in the structure. Not because it was unlocked. Because whoever had been locking it is no longer in a position to care.\n\nLight comes through. Ordinary, unremarkable light. In the Crystal Spire, it looks like a miracle."
     },
     {
       "title": "PRISM LENS",
-      "text": "Among the Archivist's collection — catalogued, cross-referenced, annotated in a hand that had become increasingly less human — you find it.\n\nA lens ground from the Spire's heart crystal. It refracts mana the way a prism refracts light: input, multiplied, redirected.\n\nThe Archivist's note reads: *'Item 7,441: Prism Lens. Effect: mana amplification. Recommendation: do not give to wandering tactician.'\n\nYou take it."
+      "text": "Among the Archivist's collection \u2014 catalogued, cross-referenced, annotated in a hand that had become increasingly less human \u2014 you find it.\n\nA lens ground from the Spire's heart crystal. It refracts mana the way a prism refracts light: input, multiplied, redirected.\n\nThe Archivist's note reads: *'Item 7,441: Prism Lens. Effect: mana amplification. Recommendation: do not give to wandering tactician.'\n\nYou take it."
     }
   ],
   "variantPools": {
@@ -79,7 +79,7 @@
       "Currently, technically, trespassing in a building that has documented every trespasser since the Dominion era.",
       "Professionally speaking, now classified as a hostile anomaly in an active archive.",
       "In the scholarly sense, an unscheduled variable in someone else's extremely long experiment.",
-      "Now — by the Archivist's own notation — Specimen 7,441-B, Category: Recurring.",
+      "Now \u2014 by the Archivist's own notation \u2014 Specimen 7,441-B, Category: Recurring.",
       "Technically unenrolled, which puts you in a narrow category of people who have entered the Spire and stayed that way."
     ],
     "jarvIntros": [
@@ -91,15 +91,15 @@
     ],
     "spireDesc": [
       "The Crystal Spire floats above the shard floor on compressed ley lines, its corridors refracting light into colours that don't have names. The scholars called it the height of Dominion achievement. From the outside it looks like someone built a fortress out of a prism and forgot to add doors.",
-      "The Spire's outer lattice is a maze of crystallised arcane energy — walls that shift, corridors that echo with old spells still running, and constructs that patrol with the cheerful persistence of things that have never been told to stop.",
+      "The Spire's outer lattice is a maze of crystallised arcane energy \u2014 walls that shift, corridors that echo with old spells still running, and constructs that patrol with the cheerful persistence of things that have never been told to stop.",
       "Three years of isolation have given the Spire's internal systems time to optimise themselves. Every approach is monitored. Every intrusion is logged. The Archivist receives notification of your exact position in real time.",
       "The Crystal Spire hums. Constantly. A low, harmonic resonance that carries meaning if you listen long enough. You have been listening for forty minutes. The meaning is 'leave.'"
     ],
     "archivistDesc": [
-      "The Archivist was the Dominion's head of magical research before the Fracture — a precise, methodical scholar who believed that anything worth knowing was worth cataloguing and anything worth cataloguing was worth defending.\n\nThe Fracture gave him more to catalogue than he'd expected. He adapted.",
+      "The Archivist was the Dominion's head of magical research before the Fracture \u2014 a precise, methodical scholar who believed that anything worth knowing was worth cataloguing and anything worth cataloguing was worth defending.\n\nThe Fracture gave him more to catalogue than he'd expected. He adapted.",
       "No surviving record of the Archivist exists outside the Spire. This is because the Archivist controls all the surviving records.\n\nHe is, by his own notation, entry 1 in the archive. The entry runs to forty-seven pages and is still being updated.",
       "The Archivist doesn't fight. He categorises. He processes. He applies the appropriate countermeasures from the section labelled 'threats, external, category: persistent.'\n\nYou are in that section. You have been in that section since you crossed the shard boundary. You have a case number.",
-      "In the Spire's early catalogues, the Archivist noted that magic follows rules and rules can be mastered. His later entries — written after the Fracture, in a hand that grew steadily less human — simply note that mastery takes time.\n\nHe has had time."
+      "In the Spire's early catalogues, the Archivist noted that magic follows rules and rules can be mastered. His later entries \u2014 written after the Fracture, in a hand that grew steadily less human \u2014 simply note that mastery takes time.\n\nHe has had time."
     ],
     "priorRunSummaries": [
       "The outer lattice looked exactly as the recovered schematics described it. Which was suspicious, because the schematics were three years old and the lattice was known to rearrange itself.",
@@ -130,12 +130,12 @@
       "Fifty approaches. The crystal walls show you all your previous visits simultaneously. It looks like a gallery. The Archivist has curated it."
     ],
     "milestoneOpenings100": [
-      "The Archivist is at the entrance.\n\nNot in his chamber — at the entrance. Waiting.\n\n'One hundred visits,' he says. The crystal in his voice has grown, over the years, into something almost warm. 'Do you know what that means, in terms of the archive?'\n\nA pause. A soft chime, somewhere deep in the Spire.\n\n'You have generated more data than the Dominion's entire eastern campaign. I have seventeen volumes dedicated exclusively to your methodology. You are, empirically, the most significant external variable this archive has ever processed.'\n\nHe tilts his crystalline head.\n\n'I have decided to consider this a collaboration.'"
+      "The Archivist is at the entrance.\n\nNot in his chamber \u2014 at the entrance. Waiting.\n\n'One hundred visits,' he says. The crystal in his voice has grown, over the years, into something almost warm. 'Do you know what that means, in terms of the archive?'\n\nA pause. A soft chime, somewhere deep in the Spire.\n\n'You have generated more data than the Dominion's entire eastern campaign. I have seventeen volumes dedicated exclusively to your methodology. You are, empirically, the most significant external variable this archive has ever processed.'\n\nHe tilts his crystalline head.\n\n'I have decided to consider this a collaboration.'"
     ]
   },
   "midRunTemplates": [
     "The {ordinalLower} visit to the Crystal Spire. The archive has updated your file. It is now cross-referenced under seventeen categories.",
-    "Campaign {n}. The constructs recognise you on sight. The Archivist has stopped logging your entry time — he predicts it accurately enough to not bother.",
+    "Campaign {n}. The constructs recognise you on sight. The Archivist has stopped logging your entry time \u2014 he predicts it accurately enough to not bother.",
     "{n} campaigns through the lattice. The crystal corridors look the same. They always look the same. The Archivist prefers consistency.",
     "{n} times past the outer lattice. Your case number has gained a suffix: 'See also: the persistent one.'",
     "Run {n}. The Archivist's notes on you are now longer than his notes on the Fracture itself. He considers this an appropriate allocation of resources.",
@@ -340,7 +340,7 @@
         },
         {
           "title": "A NOTIFICATION",
-          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. The Spire is waiting.\n\nIt has always been waiting. It files everything."
+          "text": "And yet \u2014 {pool:priorRunOpenings:0}\n\nYou push the feeling aside. The Spire is waiting.\n\nIt has always been waiting. It files everything."
         }
       ]
     }
@@ -353,11 +353,10 @@
       "id": "crystal-approach",
       "type": "battle",
       "label": "Crystal Approach",
-      "description": "The Spire's outer lattice crackles with automated defences — constructs running on three-year-old orders.",
+      "description": "The Spire's outer lattice crackles with automated defences \u2014 constructs running on three-year-old orders.",
       "row": 0,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [],
       "childIds": [
         "arcane-library",
         "crystal-wellspring"
@@ -382,13 +381,10 @@
       "id": "arcane-library",
       "type": "event",
       "label": "Arcane Library",
-      "description": "A crystallised reading room — shelves frozen mid-reorganisation, books still open at the chapter the scholars were reading when the Fracture hit.",
+      "description": "A crystallised reading room \u2014 shelves frozen mid-reorganisation, books still open at the chapter the scholars were reading when the Fracture hit.",
       "row": 1,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "crystal-approach"
-      ],
       "childIds": [
         "spire-flank",
         "arcane-vault"
@@ -396,12 +392,12 @@
       "environment": "ruins",
       "eventConfig": {
         "title": "The Arcane Library",
-        "description": "A crystallised reading room — shelves frozen mid-reorganisation, books still open at the chapter the scholars were reading when the Fracture hit. The pages are still turning.",
+        "description": "A crystallised reading room \u2014 shelves frozen mid-reorganisation, books still open at the chapter the scholars were reading when the Fracture hit. The pages are still turning.",
         "pools": [
           [
             {
               "label": "Study the open books",
-              "consequence": "A tactical insight crystallises — +18 crystals.",
+              "consequence": "A tactical insight crystallises \u2014 +18 crystals.",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 18
@@ -424,7 +420,7 @@
             },
             {
               "label": "Study the open books",
-              "consequence": "The knowledge overwhelms you — lose 8 HP.",
+              "consequence": "The knowledge overwhelms you \u2014 lose 8 HP.",
               "effect": {
                 "type": "damageHp",
                 "amount": 8
@@ -442,7 +438,7 @@
             },
             {
               "label": "Search the crystal shelves",
-              "consequence": "Gem dust spills from a cracked volume — +22 crystals.",
+              "consequence": "Gem dust spills from a cracked volume \u2014 +22 crystals.",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 22
@@ -466,7 +462,7 @@
             },
             {
               "label": "Search the crystal shelves",
-              "consequence": "+1 life — the last entry in the register reads your name.",
+              "consequence": "+1 life \u2014 the last entry in the register reads your name.",
               "effect": {
                 "type": "gainLife",
                 "amount": 1
@@ -474,7 +470,7 @@
             },
             {
               "label": "Search the crystal shelves",
-              "consequence": "A small crystal object falls from a shelf — added to inventory",
+              "consequence": "A small crystal object falls from a shelf \u2014 added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -499,7 +495,7 @@
             },
             {
               "label": "Take the restricted volumes",
-              "consequence": "The warding spell triggers — lose 16 HP.",
+              "consequence": "The warding spell triggers \u2014 lose 16 HP.",
               "effect": {
                 "type": "damageHp",
                 "amount": 16
@@ -520,13 +516,10 @@
       "id": "spire-flank",
       "type": "battle",
       "label": "Spire Flank",
-      "description": "The Spire's eastern rampart — aerial constructs patrol a corridor of crystalline towers.",
+      "description": "The Spire's eastern rampart \u2014 aerial constructs patrol a corridor of crystalline towers.",
       "row": 2,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "arcane-library"
-      ],
       "childIds": [
         "echo-sentinel"
       ],
@@ -550,13 +543,10 @@
       "id": "crystal-wellspring",
       "type": "rest",
       "label": "Crystal Wellspring",
-      "description": "A ley-line junction frozen mid-flow. The mana still seeps — enough to rest beside, enough to heal.",
+      "description": "A ley-line junction frozen mid-flow. The mana still seeps \u2014 enough to rest beside, enough to heal.",
       "row": 1,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "crystal-approach"
-      ],
       "childIds": [
         "crystal-bridge",
         "void-merchant"
@@ -568,13 +558,10 @@
       "id": "crystal-bridge",
       "type": "battle",
       "label": "Crystal Bridge",
-      "description": "The only crossing between the outer lattice and the inner sanctum — a kilometre of suspended crystal with something very large waiting on the other side.",
+      "description": "The only crossing between the outer lattice and the inner sanctum \u2014 a kilometre of suspended crystal with something very large waiting on the other side.",
       "row": 2,
       "col": 2,
       "rowCols": 4,
-      "parentIds": [
-        "crystal-wellspring"
-      ],
       "childIds": [
         "mana-forge"
       ],
@@ -600,13 +587,10 @@
       "id": "golem-works",
       "type": "battle",
       "label": "Golem Works",
-      "description": "The Spire's construct foundry — still running, still producing, with nobody left to give the golems new orders.",
+      "description": "The Spire's construct foundry \u2014 still running, still producing, with nobody left to give the golems new orders.",
       "row": 4,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "echo-sentinel"
-      ],
       "childIds": [
         "spire-crossing"
       ],
@@ -635,9 +619,6 @@
       "row": 2,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "crystal-wellspring"
-      ],
       "childIds": [
         "mana-forge"
       ],
@@ -647,14 +628,10 @@
       "id": "echo-sentinel",
       "type": "elite",
       "label": "Echo Sentinel",
-      "description": "A construct that absorbed enough ambient magic to develop something like strategy — and has been applying it to the same corridor for three years.",
+      "description": "A construct that absorbed enough ambient magic to develop something like strategy \u2014 and has been applying it to the same corridor for three years.",
       "row": 3,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "spire-flank",
-        "arcane-vault"
-      ],
       "childIds": [
         "golem-works"
       ],
@@ -691,10 +668,6 @@
       "row": 3,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "crystal-bridge",
-        "void-merchant"
-      ],
       "childIds": [
         "arcanist-champion"
       ],
@@ -705,20 +678,17 @@
       "id": "arcane-vault",
       "type": "event",
       "label": "Arcane Vault",
-      "description": "A sealed research chamber — the lock corroded three years ago, but nobody has been past to notice.",
+      "description": "A sealed research chamber \u2014 the lock corroded three years ago, but nobody has been past to notice.",
       "row": 2,
       "col": 1,
       "rowCols": 4,
-      "parentIds": [
-        "arcane-library"
-      ],
       "childIds": [
         "echo-sentinel"
       ],
       "environment": "ruins",
       "eventConfig": {
         "title": "The Arcane Vault",
-        "description": "A sealed research chamber — the lock corroded three years ago, but nobody has been past to notice. Inside: containment circles drawn in silver, a humming obelisk, and a single chair facing it.",
+        "description": "A sealed research chamber \u2014 the lock corroded three years ago, but nobody has been past to notice. Inside: containment circles drawn in silver, a humming obelisk, and a single chair facing it.",
         "pools": [
           [
             {
@@ -731,7 +701,7 @@
             },
             {
               "label": "Examine the containment circles",
-              "consequence": "A circle activates and discharges — lose 12 HP.",
+              "consequence": "A circle activates and discharges \u2014 lose 12 HP.",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -764,7 +734,7 @@
             },
             {
               "label": "Approach the obelisk",
-              "consequence": "The hum intensifies — restored 12 HP from ambient energy.",
+              "consequence": "The hum intensifies \u2014 restored 12 HP from ambient energy.",
               "effect": {
                 "type": "healHp",
                 "amount": 12
@@ -780,7 +750,7 @@
             },
             {
               "label": "Approach the obelisk",
-              "consequence": "It pulses and knocks you back — lose 14 HP.",
+              "consequence": "It pulses and knocks you back \u2014 lose 14 HP.",
               "effect": {
                 "type": "damageHp",
                 "amount": 14
@@ -788,7 +758,7 @@
             },
             {
               "label": "Approach the obelisk",
-              "consequence": "+1 life — the obelisk was built to protect its visitor.",
+              "consequence": "+1 life \u2014 the obelisk was built to protect its visitor.",
               "effect": {
                 "type": "gainLife",
                 "amount": 1
@@ -796,7 +766,7 @@
             },
             {
               "label": "Approach the obelisk",
-              "consequence": "A crystallised fragment detaches from the base — added to inventory",
+              "consequence": "A crystallised fragment detaches from the base \u2014 added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -805,7 +775,7 @@
           [
             {
               "label": "Sit in the lone chair",
-              "consequence": "A vision floods you — a legendary card surfaces.",
+              "consequence": "A vision floods you \u2014 a legendary card surfaces.",
               "effect": {
                 "type": "gainCard",
                 "rarity": "legendary"
@@ -828,7 +798,7 @@
             },
             {
               "label": "Sit in the lone chair",
-              "consequence": "The vision is catastrophic — lose 22 HP.",
+              "consequence": "The vision is catastrophic \u2014 lose 22 HP.",
               "effect": {
                 "type": "damageHp",
                 "amount": 22
@@ -842,13 +812,10 @@
       "id": "arcanist-champion",
       "type": "elite",
       "label": "Arcanist Champion",
-      "description": "The Archivist's original research assistant — crystallised into a construct, but retaining enough memory to be methodical, dangerous, and extremely thorough.",
+      "description": "The Archivist's original research assistant \u2014 crystallised into a construct, but retaining enough memory to be methodical, dangerous, and extremely thorough.",
       "row": 4,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "mana-forge"
-      ],
       "childIds": [
         "spire-crossing"
       ],
@@ -889,9 +856,6 @@
       "row": 6,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [
-        "spire-crossing"
-      ],
       "childIds": [],
       "handicap": 0,
       "environment": "citadel",
@@ -900,7 +864,7 @@
       "bossName": "The Archivist",
       "bossDialogue": [
         "\"I have been expecting you. I have been expecting you since you crossed the shard boundary. I have a file.\"",
-        "\"You should know: after turn eight, I stop being patient. The archive opens. Everything I have collected — everything — becomes available simultaneously.\"",
+        "\"You should know: after turn eight, I stop being patient. The archive opens. Everything I have collected \u2014 everything \u2014 becomes available simultaneously.\"",
         "\"This is not a threat. It is a statement of methodology. I am, above all things, methodical.\""
       ],
       "opponentIntervalMs": 5000,
@@ -937,10 +901,6 @@
       "row": 5,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [
-        "golem-works",
-        "arcanist-champion"
-      ],
       "childIds": [
         "archivist"
       ],

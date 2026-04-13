@@ -137,7 +137,6 @@ export interface QuestNode {
   row: number        // 0 = start row; increases toward boss
   col: number        // column index within this row
   rowCols: number    // total columns in this row (for layout)
-  parentIds: string[]
   childIds: string[]
   handicap?: number  // opponent handicap for battle/elite/boss
   restHeal?: number  // HP healed at rest nodes
@@ -649,6 +648,18 @@ export function getTopPlayedCards(counts: Record<string, number>, n = 3): string
 
 // ─── Map logic ────────────────────────────────────────────
 
+/** Derives a reverse map { nodeId → parentIds[] } from childIds. */
+function buildParentMap(act: Act): Record<string, string[]> {
+  const map: Record<string, string[]> = {}
+  for (const node of Object.values(act.nodes)) {
+    for (const cid of node.childIds) {
+      if (!map[cid]) map[cid] = []
+      map[cid].push(node.id)
+    }
+  }
+  return map
+}
+
 /**
  * Returns the IDs of nodes the player can currently select.
  * A node is available if it is not done and at least one parent is completed.
@@ -658,13 +669,15 @@ export function getAvailableNodeIds(act: Act, run: RunState): string[] {
   const completed = new Set(run.completedNodeIds)
   const skipped   = new Set(run.skippedNodeIds)
   const done      = new Set([...completed, ...skipped])
+  const parentMap = buildParentMap(act)
 
   return Object.values(act.nodes)
     .filter(node => {
-      if (done.has(node.id))           return false
+      if (done.has(node.id))            return false
       if (node.id === run.pendingNodeId) return false
-      if (node.parentIds.length === 0)   return completed.size === 0
-      return node.parentIds.some(pid => completed.has(pid))
+      const parents = parentMap[node.id] ?? []
+      if (parents.length === 0)         return completed.size === 0
+      return parents.some(pid => completed.has(pid))
     })
     .map(n => n.id)
 }
@@ -674,9 +687,10 @@ export function getAvailableNodeIds(act: Act, run: RunState): string[] {
  * in the same parent→children group get marked as skipped.
  */
 export function skipSiblings(act: Act, chosenId: string, run: RunState): RunState {
-  const node = act.nodes[chosenId]
+  const parentMap = buildParentMap(act)
+  const parents = parentMap[chosenId] ?? []
   const siblings: string[] = []
-  for (const pid of node.parentIds) {
+  for (const pid of parents) {
     const parent = act.nodes[pid]
     for (const cid of parent.childIds) {
       if (cid !== chosenId && !run.completedNodeIds.includes(cid) && !run.skippedNodeIds.includes(cid)) {

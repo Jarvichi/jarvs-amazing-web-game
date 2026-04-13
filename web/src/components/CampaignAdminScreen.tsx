@@ -220,8 +220,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
       if (key === oldId) continue
       updatedNodes[key] = {
         ...n,
-        parentIds: n.parentIds.map(id => id === oldId ? newId : id),
-        childIds:  n.childIds.map(id => id === oldId ? newId : id),
+        childIds: n.childIds.map(id => id === oldId ? newId : id),
       }
     }
     updatedNodes[newId] = { ...act.nodes[oldId], id: newId }
@@ -243,7 +242,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
     const newId = `node-${Date.now()}`
     const newNode: QuestNode = {
       id: newId, type: 'battle', label: 'New Node', description: '',
-      row: maxRow, col: 0, rowCols: 1, parentIds: [], childIds: [],
+      row: maxRow, col: 0, rowCols: 1, childIds: [],
     }
     const updated = recalculateCols({ ...act.nodes, [newId]: newNode })
     setAct(prev => ({ ...prev, nodes: updated }))
@@ -255,8 +254,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
     const cleaned: Record<string, QuestNode> = Object.fromEntries(
       (Object.entries(rest) as [string, QuestNode][]).map(([k, n]) => [k, {
         ...n,
-        parentIds: n.parentIds.filter(id => id !== nodeId),
-        childIds:  n.childIds.filter(id => id !== nodeId),
+        childIds: n.childIds.filter(id => id !== nodeId),
       }])
     )
     const updated = recalculateCols(cleaned)
@@ -317,7 +315,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
       color: '#ff5555',
       marginTop: '8px',
     }}>
-      Cycle detected — node <strong>{cycleNodeId}</strong> is part of a loop. Fix childIds/parentIds before downloading.
+      Cycle detected — node <strong>{cycleNodeId}</strong> is part of a loop. Fix childIds before downloading.
     </div>
   ) : null
 
@@ -500,20 +498,6 @@ export function CampaignAdminScreen({ onBack }: Props) {
                   value={selectedNode.rowCols}
                   onChange={e => updateNode(selectedNode.id, { rowCols: Math.max(1, parseInt(e.target.value) || 1) })} />
               </div>
-            </div>
-
-            {/* Parent IDs */}
-            <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '6px' }}>
-              <div>
-                <div className="settings-label">Parent nodes</div>
-                <div className="settings-sublabel">Nodes that must be completed before this one unlocks</div>
-              </div>
-              <NodeIdPicker
-                allNodes={sortedNodes}
-                excludeId={selectedNode.id}
-                selectedIds={selectedNode.parentIds}
-                onChange={ids => updateNode(selectedNode.id, { parentIds: ids })}
-              />
             </div>
 
             {/* Child IDs */}
