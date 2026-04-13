@@ -967,7 +967,8 @@
         "ruins"
       ],
       "childIds": [
-        "war-camp"
+        "war-camp",
+        "ambush"
       ],
       "handicap": 1,
       "environment": "ruins",
