@@ -1731,6 +1731,9 @@ export default function App() {
   const handleAbandonRun = useCallback(() => {
     clearRun()
     setRun(null)
+    clearFatigued()
+    setFatiguedCards([])
+    setBonusPackCards([])
     setScreen('title')
   }, [])
 
