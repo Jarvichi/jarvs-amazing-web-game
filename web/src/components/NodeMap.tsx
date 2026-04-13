@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useRef, useEffect, useState } from 'react'
 import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES } from '../game/questline'
 import { StatRow } from './StatRow'
 
@@ -18,6 +18,8 @@ const NODE_ICON: Record<string, string> = {
   event:    '?',
   merchant: '⚖',
 }
+
+const COL_WIDTH = 112 // fixed pixel width per map column slot
 
 const NODE_LABEL: Record<string, string> = {
   battle:   'BATTLE',
@@ -97,7 +99,6 @@ interface ConnProps {
   prevRow:      QuestNode[]
   nextRow:      QuestNode[]
   maxCols:      number
-  center:       number   // visual column for single-node rows
   statusOf:     (id: string) => NodeStatus
   reachableIds: Set<string>
 }
@@ -127,19 +128,24 @@ const LINE_WIDTH: Record<LineVariant, number> = {
   trail: 1.5, frontier: 2, future: 1.5, dead: 1,
 }
 
-function SVGConnector({ prevRow, nextRow, maxCols, center, statusOf, reachableIds }: ConnProps) {
-  const visualCol = (node: QuestNode, row: QuestNode[]) =>
-    row.length === 1 ? center : node.col
+function SVGConnector({ prevRow, nextRow, maxCols, statusOf, reachableIds }: ConnProps) {
+  const prevRowCols = prevRow[0]?.rowCols ?? prevRow.length
+  const nextRowCols = nextRow[0]?.rowCols ?? nextRow.length
 
-  const prevById = new Map(prevRow.map(n => [n.id, n]))
+  // Absolute column position within the maxCols-wide container
+  const visualCol = (node: QuestNode, rowCols: number) =>
+    (maxCols - rowCols) / 2 + node.col
 
-  // Build (parentId, childId, parentVisualCol, childVisualCol) tuples
+  const nextById = new Map(nextRow.map(n => [n.id, n]))
+
+  // Build connections from parent.childIds — fixes missing connectors when only
+  // one direction of the edge is populated in the act JSON.
   const connections: [string, string, number, number][] = []
-  for (const child of nextRow) {
-    for (const parentId of child.parentIds) {
-      const parent = prevById.get(parentId)
-      if (parent) {
-        connections.push([parent.id, child.id, visualCol(parent, prevRow), visualCol(child, nextRow)])
+  for (const parent of prevRow) {
+    for (const childId of parent.childIds) {
+      const child = nextById.get(childId)
+      if (child) {
+        connections.push([parent.id, child.id, visualCol(parent, prevRowCols), visualCol(child, nextRowCols)])
       }
     }
   }
@@ -147,7 +153,7 @@ function SVGConnector({ prevRow, nextRow, maxCols, center, statusOf, reachableId
   if (connections.length === 0) return null
 
   // Column i centre in viewBox units (viewBox is maxCols wide, 1 tall)
-  const cx = (col: number) => col + 0.5
+  const cx = (vc: number) => vc + 0.5
 
   // Deduplicate by visual column pair (keep highest-priority variant)
   const variantPriority: Record<LineVariant, number> = { frontier: 3, trail: 2, future: 1, dead: 0 }
@@ -337,18 +343,31 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
 export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Props) {
   const availableIds  = getAvailableNodeIds(act, run)
   const rows          = useMemo(() => buildRows(act), [act])
-  const maxCols       = useMemo(() => Math.max(...rows.map(r => r.length)), [rows])
+  const maxRowCols    = useMemo(() => Math.max(...rows.map(r => r[0]?.rowCols ?? r.length)), [rows])
   const hpPct         = Math.max(0, run.playerHp / run.maxHp)
-  const center        = Math.floor(maxCols / 2)  // 0-indexed
   const reachableIds  = useMemo(() => computeReachableIds(act, run), [act, run])
 
   const statusOf = (id: string): NodeStatus => getNodeStatus(id, availableIds, run)
 
-  const gridCols = `repeat(${maxCols}, 1fr)`
-
   // Node peek state
   const [peekNode, setPeekNode] = useState<QuestNode | null>(null)
   const nodeHistory = useMemo(() => loadNodeHistory(), [])
+
+  // Scroll to the current node (pending or first available) on mount
+  const mapRef     = useRef<HTMLDivElement>(null)
+  const currentRef = useRef<HTMLDivElement>(null)
+  const currentNodeId = run.pendingNodeId
+    ?? rows.flatMap(r => r).find(n => availableIds.includes(n.id))?.id
+
+  useEffect(() => {
+    const mapEl  = mapRef.current
+    const nodeEl = currentRef.current
+    if (!mapEl || !nodeEl) return
+    const mapRect  = mapEl.getBoundingClientRect()
+    const nodeRect = nodeEl.getBoundingClientRect()
+    mapEl.scrollTop = mapEl.scrollTop + nodeRect.top - mapRect.top
+      - (mapRect.height - nodeRect.height) / 2
+  }, [])
 
   const handleNodeClick = (node: QuestNode) => {
     setPeekNode(node)
@@ -410,9 +429,10 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
       </div>
 
       {/* Map */}
-      <div className="nm-map">
-        <div className="nm-map-inner">
+      <div className="nm-map" ref={mapRef}>
+        <div className="nm-map-inner" style={{ width: `${maxRowCols * COL_WIDTH}px` }}>
           {rows.map((rowNodes, rowIndex) => {
+            const rowCols = rowNodes[0]?.rowCols ?? rowNodes.length
             return (
               <React.Fragment key={rowIndex}>
                 {/* Connector above this row */}
@@ -420,29 +440,35 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                   <SVGConnector
                     prevRow={rows[rowIndex - 1]}
                     nextRow={rowNodes}
-                    maxCols={maxCols}
-                    center={center}
+                    maxCols={maxRowCols}
                     statusOf={statusOf}
                     reachableIds={reachableIds}
                   />
                 )}
 
-                {/* Row of nodes */}
-                <div className="nm-row" style={{ gridTemplateColumns: gridCols }}>
+                {/* Row of nodes — fixed-width columns, centred in the container */}
+                <div
+                  className="nm-row"
+                  style={{
+                    gridTemplateColumns: `repeat(${rowCols}, ${COL_WIDTH}px)`,
+                    width: `${rowCols * COL_WIDTH}px`,
+                    margin: '0 auto',
+                    gap: 0,
+                  }}
+                >
                   {rowNodes.map((node) => {
                     const status    = getNodeStatus(node.id, availableIds, run)
                     const clickable = status === 'available'
-                    // Single-node rows are always centred; multi-node rows use col
-                    const gridCol   = rowNodes.length === 1 ? center + 1 : node.col + 1
-                    // Dim: completed nodes, skipped nodes, and locked nodes not on any reachable path
                     const dim = status === 'completed'
                              || status === 'skipped'
                              || (status === 'locked' && !reachableIds.has(node.id))
+                    const isCurrent = node.id === currentNodeId
 
                     return (
                       <div
                         key={node.id}
-                        style={{ gridColumn: gridCol, display: 'flex', justifyContent: 'center' }}
+                        ref={isCurrent ? currentRef : undefined}
+                        style={{ gridColumn: node.col + 1, display: 'flex', justifyContent: 'center' }}
                       >
                         <button
                           className={[

@@ -3816,13 +3816,11 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow-y: auto;
+  overflow: auto;
   padding: 16px 8px 8px;
 }
 
 .nm-map-inner {
-  width: 100%;
-  max-width: 360px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -3832,8 +3830,6 @@ body {
 
 .nm-row {
   display: grid;
-  gap: 12px;          /* must match .nm-conn gap */
-  width: 100%;
 }
 
 /* ── Node buttons ── */
