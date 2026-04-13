@@ -3904,26 +3904,25 @@ body {
   50%       { box-shadow: 0 0 8px rgba(51, 255, 51, 0.2); }
 }
 
-/* Completed nodes */
+/* Dim modifier — applied to completed, skipped, and unreachable-locked nodes */
+.nm-node--dim {
+  opacity: 0.28;
+  filter: grayscale(55%);
+}
+
+/* Completed nodes — styled by .nm-node--dim for opacity */
 .nm-node--completed {
   border-color: #2a5a2a;
   background: rgba(30, 58, 30, 0.55);
-  opacity: 1;
 }
-.nm-node--completed .nm-node-icon  { opacity: 0.5; }
-.nm-node--completed .nm-node-name  { opacity: 0.6; }
 .nm-node--completed .nm-node-status { color: #33ff33; font-size: 14px; }
 
-/* Locked nodes */
+/* Locked nodes on a reachable future path — normal appearance, no dim */
 .nm-node--locked {
-  opacity: 0.42;
+  border-color: #2a2a2a;
 }
 
-/* Skipped nodes (branch not taken) */
-.nm-node--skipped {
-  opacity: 0.2;
-  filter: grayscale(80%);
-}
+/* Skipped nodes — dim handled by .nm-node--dim */
 .nm-node--skipped .nm-node-status { color: #ff4444; }
 
 /* Pending (in battle) */

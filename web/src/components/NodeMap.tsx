@@ -42,6 +42,32 @@ function getNodeStatus(
   return 'locked'
 }
 
+/**
+ * BFS from start nodes (parentIds === []) following non-skipped edges.
+ * Returns the set of node IDs that can still be reached in the current run.
+ * Completed, available, and future-path nodes are all included; skipped and
+ * their descendants that have no other parent are excluded.
+ */
+function computeReachableIds(act: Act, run: RunState): Set<string> {
+  const skipped = new Set(run.skippedNodeIds)
+  const reachable = new Set<string>()
+
+  function visit(id: string) {
+    if (reachable.has(id) || skipped.has(id)) return
+    reachable.add(id)
+    const node = act.nodes[id]
+    if (!node) return
+    for (const childId of node.childIds) {
+      visit(childId)
+    }
+  }
+
+  for (const [id, node] of Object.entries(act.nodes)) {
+    if (node.parentIds.length === 0 && !skipped.has(id)) visit(id)
+  }
+  return reachable
+}
+
 function hpColor(hp: number, max: number): string {
   const pct = hp / max
   if (pct > 0.6) return '#33ff33'
@@ -63,31 +89,58 @@ function buildRows(act: Act): QuestNode[][] {
 }
 
 // ── SVG connector ────────────────────────────────────────────────────────────
-// Renders the linking lines between two adjacent rows.
-// Uses the explicit parentIds/childIds graph rather than inferring topology
-// from row lengths. viewBox is maxCols×1 so column centres sit at col+0.5,
-// matching the 1fr CSS grid columns exactly. vectorEffect="non-scaling-stroke"
-// keeps the stroke at a fixed 2px regardless of viewBox scaling.
+// Renders cubic-bezier curves between adjacent rows.
+// viewBox is maxCols×1; column centres at col+0.5, matching the CSS grid.
+// Each path is coloured by the status of its parent→child pair.
 
 interface ConnProps {
-  prevRow: QuestNode[]
-  nextRow: QuestNode[]
-  maxCols: number
-  center: number   // visual column for single-node rows
+  prevRow:      QuestNode[]
+  nextRow:      QuestNode[]
+  maxCols:      number
+  center:       number   // visual column for single-node rows
+  statusOf:     (id: string) => NodeStatus
+  reachableIds: Set<string>
 }
 
-function SVGConnector({ prevRow, nextRow, maxCols, center }: ConnProps) {
+type LineVariant = 'trail' | 'frontier' | 'future' | 'dead'
+
+function lineVariant(
+  parentId: string, childId: string,
+  statusOf: (id: string) => NodeStatus,
+  reachableIds: Set<string>,
+): LineVariant {
+  const ps = statusOf(parentId)
+  const cs = statusOf(childId)
+  if (!reachableIds.has(parentId) || !reachableIds.has(childId)) return 'dead'
+  if (ps === 'completed' && (cs === 'completed' || cs === 'pending')) return 'trail'
+  if (ps === 'completed' && cs === 'available')                       return 'frontier'
+  return 'future'
+}
+
+const LINE_STROKE: Record<LineVariant, string> = {
+  trail:    'rgba(51,255,51,0.35)',
+  frontier: 'rgba(51,255,51,0.75)',
+  future:   'rgba(255,255,255,0.1)',
+  dead:     'rgba(255,255,255,0.03)',
+}
+const LINE_WIDTH: Record<LineVariant, number> = {
+  trail: 1.5, frontier: 2, future: 1.5, dead: 1,
+}
+
+function SVGConnector({ prevRow, nextRow, maxCols, center, statusOf, reachableIds }: ConnProps) {
   const visualCol = (node: QuestNode, row: QuestNode[]) =>
     row.length === 1 ? center : node.col
 
   const prevById = new Map(prevRow.map(n => [n.id, n]))
 
-  // Build (parentVisualCol, childVisualCol) pairs from explicit graph edges
-  const connections: [number, number][] = []
+  // Build (parentId, childId, parentVisualCol, childVisualCol) tuples
+  const connections: [string, string, number, number][] = []
   for (const child of nextRow) {
     for (const parentId of child.parentIds) {
       const parent = prevById.get(parentId)
-      if (parent) connections.push([visualCol(parent, prevRow), visualCol(child, nextRow)])
+      if (parent) {
+        connections.push([parent.id, child.id, visualCol(parent, prevRow), visualCol(child, nextRow)])
+      }
     }
   }
 
@@ -96,33 +149,39 @@ function SVGConnector({ prevRow, nextRow, maxCols, center }: ConnProps) {
   // Column i centre in viewBox units (viewBox is maxCols wide, 1 tall)
   const cx = (col: number) => col + 0.5
 
-  // Deduplicate identical paths (same parent col → same child col)
-  const seen = new Set<string>()
-  const unique = connections.filter(([pc, cc]) => {
-    const k = `${pc}:${cc}`
-    if (seen.has(k)) return false
-    seen.add(k)
-    return true
-  })
+  // Deduplicate by visual column pair (keep highest-priority variant)
+  const variantPriority: Record<LineVariant, number> = { frontier: 3, trail: 2, future: 1, dead: 0 }
+  const best = new Map<string, { variant: LineVariant; pc: number; cc: number }>()
+  for (const [pid, cid, pc, cc] of connections) {
+    const key = `${pc}:${cc}`
+    const v = lineVariant(pid, cid, statusOf, reachableIds)
+    const existing = best.get(key)
+    if (!existing || variantPriority[v] > variantPriority[existing.variant]) {
+      best.set(key, { variant: v, pc, cc })
+    }
+  }
 
   return (
     <svg
       viewBox={`0 0 ${maxCols} 1`}
       preserveAspectRatio="none"
-      style={{ width: '100%', height: '40px', display: 'block', overflow: 'visible' }}
+      style={{ width: '100%', height: '44px', display: 'block', overflow: 'visible' }}
     >
-      {unique.map(([pc, cc], i) => (
-        <polyline
-          key={i}
-          // Down to midpoint → across → down to bottom
-          points={`${cx(pc)},0 ${cx(pc)},0.5 ${cx(cc)},0.5 ${cx(cc)},1`}
-          fill="none"
-          stroke="#4a4a4a"
-          strokeWidth="2"
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-        />
-      ))}
+      {Array.from(best.values()).map(({ variant, pc, cc }, i) => {
+        const x1 = cx(pc), x2 = cx(cc)
+        // Cubic bezier: depart/arrive vertically, smooth horizontal transition
+        const d = `M ${x1},0 C ${x1},0.5 ${x2},0.5 ${x2},1`
+        return (
+          <path
+            key={i}
+            d={d}
+            fill="none"
+            stroke={LINE_STROKE[variant]}
+            strokeWidth={LINE_WIDTH[variant]}
+            vectorEffect="non-scaling-stroke"
+          />
+        )
+      })}
     </svg>
   )
 }
@@ -276,11 +335,14 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
 // ── Main component ──────────────────────────────────────────────────────────
 
 export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Props) {
-  const availableIds = getAvailableNodeIds(act, run)
-  const rows         = useMemo(() => buildRows(act), [act])
-  const maxCols      = useMemo(() => Math.max(...rows.map(r => r.length)), [rows])
-  const hpPct        = Math.max(0, run.playerHp / run.maxHp)
-  const center       = Math.floor(maxCols / 2)  // 0-indexed
+  const availableIds  = getAvailableNodeIds(act, run)
+  const rows          = useMemo(() => buildRows(act), [act])
+  const maxCols       = useMemo(() => Math.max(...rows.map(r => r.length)), [rows])
+  const hpPct         = Math.max(0, run.playerHp / run.maxHp)
+  const center        = Math.floor(maxCols / 2)  // 0-indexed
+  const reachableIds  = useMemo(() => computeReachableIds(act, run), [act, run])
+
+  const statusOf = (id: string): NodeStatus => getNodeStatus(id, availableIds, run)
 
   const gridCols = `repeat(${maxCols}, 1fr)`
 
@@ -360,16 +422,22 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                     nextRow={rowNodes}
                     maxCols={maxCols}
                     center={center}
+                    statusOf={statusOf}
+                    reachableIds={reachableIds}
                   />
                 )}
 
                 {/* Row of nodes */}
                 <div className="nm-row" style={{ gridTemplateColumns: gridCols }}>
                   {rowNodes.map((node) => {
-                    const status   = getNodeStatus(node.id, availableIds, run)
+                    const status    = getNodeStatus(node.id, availableIds, run)
                     const clickable = status === 'available'
                     // Single-node rows are always centred; multi-node rows use col
-                    const gridCol  = rowNodes.length === 1 ? center + 1 : node.col + 1
+                    const gridCol   = rowNodes.length === 1 ? center + 1 : node.col + 1
+                    // Dim: completed nodes, skipped nodes, and locked nodes not on any reachable path
+                    const dim = status === 'completed'
+                             || status === 'skipped'
+                             || (status === 'locked' && !reachableIds.has(node.id))
 
                     return (
                       <div
@@ -381,7 +449,8 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                             'nm-node',
                             `nm-node--${node.type}`,
                             `nm-node--${status}`,
-                          ].join(' ')}
+                            dim ? 'nm-node--dim' : '',
+                          ].filter(Boolean).join(' ')}
                           onClick={clickable ? () => handleNodeClick(node) : undefined}
                           disabled={!clickable}
                           title={node.description}
