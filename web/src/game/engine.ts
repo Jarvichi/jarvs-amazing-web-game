@@ -894,10 +894,18 @@ function moveUnits(s: GameState, deltaMs: number): void {
     return nearby.length >= BLOOD_CLUSTER_MIN - 1
   })
 
+  // Pre-compute whether each side still has living enemies on the field.
+  // When all enemies are cleared, movement support behaviors (guard base, affinity hold)
+  // must yield so every unit advances to attack the enemy base.
+  const livingOpponentUnits = s.field.some(u => u.owner === 'opponent' && u.hp > 0)
+  const livingPlayerUnits   = s.field.some(u => u.owner === 'player'   && u.hp > 0)
+
   for (const unit of s.field) {
     if (unit.moveSpeed === 0) continue
     if (unit.spawnGrowTimer != null && unit.spawnGrowTimer > 0) continue
     if (unit.stunTimer != null && unit.stunTimer > 0) continue
+
+    const anyEnemies = unit.owner === 'player' ? livingOpponentUnits : livingPlayerUnits
 
     const nearestAhead = findNearestEnemyByPriority(s.field, unit) ?? findNearestEnemy(s.field, unit)
 
@@ -941,15 +949,18 @@ function moveUnits(s: GameState, deltaMs: number): void {
         if (partnerDist > aff.range) {
           // Seeking: only redirect when not already engaging a target
           if (!hasTarget) {
-            if (unitIsAhead) {
-              // We're ahead — hold position and let partner catch up
+            if (unitIsAhead && anyEnemies) {
+              // We're ahead — hold position and let partner catch up.
+              // Only hold when enemies remain; if the field is clear, fall through
+              // so this unit advances to the enemy base instead of freezing.
               tx = unit.x
               ty = unit.y
-            } else {
+            } else if (!unitIsAhead) {
               // Partner is ahead — rush toward them
               tx = partner.x
               ty = partner.y
             }
+            // else: unitIsAhead && !anyEnemies → fall through to default base movement
           }
         } else {
           // Cohesion: bonded — don't advance more than half the affinity range ahead of partner
@@ -1008,7 +1019,7 @@ function moveUnits(s: GameState, deltaMs: number): void {
         Math.abs(other.x - ownBaseX) < engageRange
       )
       const guardsThisTick = guardDecisionCount[unit.owner] ?? 0
-      if (!enemyNearBase && guardsThisTick < MAX_BASE_GUARDS) {
+      if (!enemyNearBase && guardsThisTick < MAX_BASE_GUARDS && anyEnemies) {
         guardDecisionCount[unit.owner] = guardsThisTick + 1
         // Assign a persistent random y to this unit so guards spread across the field
         // rather than all converging on the same point.
