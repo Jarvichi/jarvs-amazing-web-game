@@ -1130,8 +1130,27 @@
       "row": 2,
       "col": 2,
       "rowCols": 4,
-      "parentIds": [],
-      "childIds": []
+      "parentIds": [
+        "camp"
+      ],
+      "childIds": [
+        "captain"
+      ],
+      "enemyDeck": [
+        "Barbarian",
+        "Barbarian",
+        "Knight",
+        "Knight",
+        "Knight",
+        "Archer",
+        "Knight",
+        "Knight",
+        "Archer",
+        "Knight"
+      ],
+      "opponentIntervalMs": 8000,
+      "environment": "citadel",
+      "opponentBaseHp": 450
     },
     "node-the-lonely-field": {
       "id": "node-the-lonely-field",
