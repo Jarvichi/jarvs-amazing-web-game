@@ -1009,7 +1009,8 @@
         "market"
       ],
       "childIds": [
-        "troll-bridge"
+        "troll-bridge",
+        "ruins"
       ],
       "handicap": 2,
       "opponentBaseHp": 90,
