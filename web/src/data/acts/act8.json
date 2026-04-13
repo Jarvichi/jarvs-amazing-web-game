@@ -46,7 +46,7 @@
     },
     {
       "title": "THE ROOT QUEEN",
-      "text": "The Fungal Deep is not ruled. It is tended.\n\nThe Root Queen is not a person in any conventional sense — she's the oldest node in the mycelium network, the point everything connects back to. She doesn't give orders. She pulses. Things respond.\n\nShe has been aware of you since you entered the first cavern. She has been deciding what to do about you. She has decided."
+      "text": "The Fungal Deep is not ruled. It is tended.\n\nThe Root Queen is not a person in any conventional sense \u2014 she's the oldest node in the mycelium network, the point everything connects back to. She doesn't give orders. She pulses. Things respond.\n\nShe has been aware of you since you entered the first cavern. She has been deciding what to do about you. She has decided."
     },
     {
       "title": "GOING UNDER",
@@ -56,7 +56,7 @@
   "outro": [
     {
       "title": "THE ROOT QUEEN STILLS",
-      "text": "The network doesn't die. That would be too simple.\n\nIt stills — a long, slow reduction, like a fire burning down rather than going out. The Root Queen doesn't speak exactly, but something that constitutes speech passes through the mycelium and reaches you: something that means 'enough.'\n\nThe ley lines pulse clear. The way opens downward."
+      "text": "The network doesn't die. That would be too simple.\n\nIt stills \u2014 a long, slow reduction, like a fire burning down rather than going out. The Root Queen doesn't speak exactly, but something that constitutes speech passes through the mycelium and reaches you: something that means 'enough.'\n\nThe ley lines pulse clear. The way opens downward."
     },
     {
       "title": "WHAT SHE UNDERSTOOD",
@@ -64,7 +64,7 @@
     },
     {
       "title": "THE SPORE BLOOM",
-      "text": "The Spore Bloom sits in your hand — a dense, warm cluster of something that is technically a seed but feels considerably more significant than that.\n\nThe mycelium connected to it as you left, briefly. You got the impression it was saying goodbye.\n\nThe ley lines run deeper. They always run deeper. That, at least, is consistent."
+      "text": "The Spore Bloom sits in your hand \u2014 a dense, warm cluster of something that is technically a seed but feels considerably more significant than that.\n\nThe mycelium connected to it as you left, briefly. You got the impression it was saying goodbye.\n\nThe ley lines run deeper. They always run deeper. That, at least, is consistent."
     }
   ],
   "nodes": {
@@ -76,7 +76,6 @@
       "row": 0,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [],
       "childIds": [
         "spore-shrine",
         "root-hollow"
@@ -110,9 +109,6 @@
       "row": 1,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "dark-descent"
-      ],
       "childIds": [
         "mycelium-crossing",
         "bloom-vent"
@@ -125,7 +121,7 @@
           [
             {
               "label": "Touch the largest cap",
-              "consequence": "The network sends something back — healed 12 HP",
+              "consequence": "The network sends something back \u2014 healed 12 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 12
@@ -133,7 +129,7 @@
             },
             {
               "label": "Touch the largest cap",
-              "consequence": "The spores sting — lose 6 HP",
+              "consequence": "The spores sting \u2014 lose 6 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 6
@@ -159,7 +155,7 @@
           [
             {
               "label": "Listen to the network",
-              "consequence": "Something useful echoes back — uncommon card",
+              "consequence": "Something useful echoes back \u2014 uncommon card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -167,7 +163,7 @@
             },
             {
               "label": "Listen to the network",
-              "consequence": "The pulse heals — restored 10 HP",
+              "consequence": "The pulse heals \u2014 restored 10 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 10
@@ -185,7 +181,7 @@
           [
             {
               "label": "Harvest the caps",
-              "consequence": "Valuable in the right market — +18 crystals",
+              "consequence": "Valuable in the right market \u2014 +18 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 18
@@ -201,7 +197,7 @@
             },
             {
               "label": "Harvest the caps",
-              "consequence": "The network objects — lose 10 HP",
+              "consequence": "The network objects \u2014 lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -219,9 +215,6 @@
       "row": 1,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "dark-descent"
-      ],
       "childIds": [
         "root-archive",
         "deep-trader"
@@ -237,9 +230,6 @@
       "row": 2,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "root-hollow"
-      ],
       "childIds": [
         "deep-rest"
       ],
@@ -253,9 +243,6 @@
       "row": 2,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "spore-shrine"
-      ],
       "childIds": [
         "deep-elite"
       ],
@@ -288,9 +275,6 @@
       "row": 4,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "deep-elite"
-      ],
       "childIds": [
         "queen-approach"
       ],
@@ -323,21 +307,18 @@
       "row": 2,
       "col": 1,
       "rowCols": 4,
-      "parentIds": [
-        "spore-shrine"
-      ],
       "childIds": [
         "deep-elite"
       ],
       "environment": "fungal",
       "eventConfig": {
         "title": "The Bloom Vent",
-        "description": "A wide fissure in the cavern floor, releasing slow pulses of warm spores. The clouds carry bioluminescent fragments — and, somehow, impressions. The network remembers everything that died down here.",
+        "description": "A wide fissure in the cavern floor, releasing slow pulses of warm spores. The clouds carry bioluminescent fragments \u2014 and, somehow, impressions. The network remembers everything that died down here.",
         "pools": [
           [
             {
               "label": "Walk through the bloom",
-              "consequence": "The spores knit wounds — healed 15 HP",
+              "consequence": "The spores knit wounds \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -353,7 +334,7 @@
             },
             {
               "label": "Walk through the bloom",
-              "consequence": "The bloom is toxic here — lose 12 HP",
+              "consequence": "The bloom is toxic here \u2014 lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -404,10 +385,6 @@
       "row": 3,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "mycelium-crossing",
-        "bloom-vent"
-      ],
       "childIds": [
         "rot-cavern"
       ],
@@ -440,10 +417,6 @@
       "row": 5,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [
-        "rot-cavern",
-        "vanguard-elite"
-      ],
       "childIds": [
         "rootqueen"
       ],
@@ -476,21 +449,18 @@
       "row": 2,
       "col": 2,
       "rowCols": 4,
-      "parentIds": [
-        "root-hollow"
-      ],
       "childIds": [
         "deep-rest"
       ],
       "environment": "fungal",
       "eventConfig": {
         "title": "The Root Archive",
-        "description": "Columns of crystallised mycelium, each one preserving impressions of things the network witnessed. The Root Queen's full memory of the Fracture is here — she saw it from below. It reads differently from down here.",
+        "description": "Columns of crystallised mycelium, each one preserving impressions of things the network witnessed. The Root Queen's full memory of the Fracture is here \u2014 she saw it from below. It reads differently from down here.",
         "pools": [
           [
             {
               "label": "Absorb the archive",
-              "consequence": "The memory includes something useful — rare card",
+              "consequence": "The memory includes something useful \u2014 rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -498,7 +468,7 @@
             },
             {
               "label": "Absorb the archive",
-              "consequence": "The network supply routes are mapped — +25 crystals",
+              "consequence": "The network supply routes are mapped \u2014 +25 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 25
@@ -508,7 +478,7 @@
           [
             {
               "label": "Rest in the archive chamber",
-              "consequence": "The spores here are restorative — healed 15 HP",
+              "consequence": "The spores here are restorative \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -534,10 +504,6 @@
       "row": 3,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "root-archive",
-        "deep-trader"
-      ],
       "childIds": [
         "vanguard-elite"
       ],
@@ -552,9 +518,6 @@
       "row": 4,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "deep-rest"
-      ],
       "childIds": [
         "queen-approach"
       ],
@@ -587,9 +550,6 @@
       "row": 6,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [
-        "queen-approach"
-      ],
       "childIds": [],
       "handicap": 28,
       "opponentIntervalMs": 3600,

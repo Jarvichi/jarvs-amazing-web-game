@@ -42,15 +42,15 @@
   "intro": [
     {
       "title": "THE EMBERFALL PEAKS",
-      "text": "The ley lines cut through the mountains here — through layers of volcanic rock still warm from the last eruption. This is the Emberfall Peaks: a chain of active volcanoes that the Fracture cracked open and left to simmer.\n\nThings live here. Heat-adapted things. Things that were dangerous before the Fracture made them angrier.\n\nThe ley path goes through the caldera. There's no route around."
+      "text": "The ley lines cut through the mountains here \u2014 through layers of volcanic rock still warm from the last eruption. This is the Emberfall Peaks: a chain of active volcanoes that the Fracture cracked open and left to simmer.\n\nThings live here. Heat-adapted things. Things that were dangerous before the Fracture made them angrier.\n\nThe ley path goes through the caldera. There's no route around."
     },
     {
       "title": "THE CINDERWARLORD",
-      "text": "The Peaks are held by the Cinderwarlord — a commander who built an army out of whatever the volcanoes threw up: crawlers, hounds, archers who fire molten shot, constructs assembled from cooled lava-flow.\n\nHe has not lost the mountains once. The mountains are on his side. Literally. He has an understanding with them.\n\nYou are going to walk through his territory regardless."
+      "text": "The Peaks are held by the Cinderwarlord \u2014 a commander who built an army out of whatever the volcanoes threw up: crawlers, hounds, archers who fire molten shot, constructs assembled from cooled lava-flow.\n\nHe has not lost the mountains once. The mountains are on his side. Literally. He has an understanding with them.\n\nYou are going to walk through his territory regardless."
     },
     {
       "title": "HEAT AND PRESSURE",
-      "text": "The deeper you go, the hotter it gets. The ley lines are visible here — they glow faintly orange, like metal near a forge, and they point straight toward the caldera at the heart of the range.\n\nWhatever is at the Fracture Core, the ley lines think this is the way.\n\nYou have learned to trust the ley lines. You have also learned to bring extra water."
+      "text": "The deeper you go, the hotter it gets. The ley lines are visible here \u2014 they glow faintly orange, like metal near a forge, and they point straight toward the caldera at the heart of the range.\n\nWhatever is at the Fracture Core, the ley lines think this is the way.\n\nYou have learned to trust the ley lines. You have also learned to bring extra water."
     }
   ],
   "outro": [
@@ -64,7 +64,7 @@
     },
     {
       "title": "DEEPER IN",
-      "text": "The Magma Core sits in your hand — a solid chunk of volcanic glass with something still burning at the centre. The Cinderwarlord's mark of command.\n\nThe ley lines glow brighter past the caldera. Whatever the Fracture Core is, it's warmer on this side.\n\nYou move forward. The mountains stop objecting."
+      "text": "The Magma Core sits in your hand \u2014 a solid chunk of volcanic glass with something still burning at the centre. The Cinderwarlord's mark of command.\n\nThe ley lines glow brighter past the caldera. Whatever the Fracture Core is, it's warmer on this side.\n\nYou move forward. The mountains stop objecting."
     }
   ],
   "nodes": {
@@ -76,7 +76,6 @@
       "row": 0,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [],
       "childIds": [
         "ash-shrine",
         "lava-camp"
@@ -110,9 +109,6 @@
       "row": 1,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "cinder-approach"
-      ],
       "childIds": [
         "magma-ford",
         "cinder-vent"
@@ -120,12 +116,12 @@
       "environment": "volcano",
       "eventConfig": {
         "title": "The Ash Shrine",
-        "description": "A ring of fused volcanic rock, still warm. Ash coils upward in slow spirals — too slow for the wind to explain. Whatever was worshipped here, something is still paying attention.",
+        "description": "A ring of fused volcanic rock, still warm. Ash coils upward in slow spirals \u2014 too slow for the wind to explain. Whatever was worshipped here, something is still paying attention.",
         "pools": [
           [
             {
               "label": "Leave an offering",
-              "consequence": "The ash spirals outward — healed 12 HP",
+              "consequence": "The ash spirals outward \u2014 healed 12 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 12
@@ -133,7 +129,7 @@
             },
             {
               "label": "Leave an offering",
-              "consequence": "Hot ash stings your hands — lose 6 HP",
+              "consequence": "Hot ash stings your hands \u2014 lose 6 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 6
@@ -159,7 +155,7 @@
           [
             {
               "label": "Read the ash patterns",
-              "consequence": "The patterns describe something useful — uncommon card",
+              "consequence": "The patterns describe something useful \u2014 uncommon card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -167,7 +163,7 @@
             },
             {
               "label": "Read the ash patterns",
-              "consequence": "The patterns heal — restored 8 HP",
+              "consequence": "The patterns heal \u2014 restored 8 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 8
@@ -185,7 +181,7 @@
           [
             {
               "label": "Pocket the shrine stones",
-              "consequence": "Still warm — good for +18 crystals in the next market",
+              "consequence": "Still warm \u2014 good for +18 crystals in the next market",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 18
@@ -201,7 +197,7 @@
             },
             {
               "label": "Pocket the shrine stones",
-              "consequence": "One stone discharges — lose 10 HP",
+              "consequence": "One stone discharges \u2014 lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -219,9 +215,6 @@
       "row": 1,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "cinder-approach"
-      ],
       "childIds": [
         "forge-log",
         "ember-bazaar"
@@ -237,9 +230,6 @@
       "row": 2,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "lava-camp"
-      ],
       "childIds": [
         "crater-rest"
       ],
@@ -253,9 +243,6 @@
       "row": 2,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "ash-shrine"
-      ],
       "childIds": [
         "pyroclast-elite"
       ],
@@ -288,9 +275,6 @@
       "row": 4,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "pyroclast-elite"
-      ],
       "childIds": [
         "caldera-gate"
       ],
@@ -323,9 +307,6 @@
       "row": 2,
       "col": 1,
       "rowCols": 4,
-      "parentIds": [
-        "ash-shrine"
-      ],
       "childIds": [
         "pyroclast-elite"
       ],
@@ -345,7 +326,7 @@
             },
             {
               "label": "Reach into the column",
-              "consequence": "The heat is a balm — healed 15 HP",
+              "consequence": "The heat is a balm \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -353,7 +334,7 @@
             },
             {
               "label": "Reach into the column",
-              "consequence": "Something comes out hot — lose 12 HP",
+              "consequence": "Something comes out hot \u2014 lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -371,7 +352,7 @@
           [
             {
               "label": "Follow the vent up the slope",
-              "consequence": "Supply cache wedged in the cooled rim — +30 crystals",
+              "consequence": "Supply cache wedged in the cooled rim \u2014 +30 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 30
@@ -404,10 +385,6 @@
       "row": 3,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "magma-ford",
-        "cinder-vent"
-      ],
       "childIds": [
         "volcanic-battery"
       ],
@@ -440,10 +417,6 @@
       "row": 5,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [
-        "volcanic-battery",
-        "summit-elite"
-      ],
       "childIds": [
         "cinderwarlord"
       ],
@@ -476,21 +449,18 @@
       "row": 2,
       "col": 2,
       "rowCols": 4,
-      "parentIds": [
-        "lava-camp"
-      ],
       "childIds": [
         "crater-rest"
       ],
       "environment": "volcano",
       "eventConfig": {
         "title": "The Forge Post",
-        "description": "A Cinderwarlord field post, evacuated in the fighting. Forge tools, tactical slates, and a map of the caldera. The slate shows the Cinderwarlord's actual position — and something he marked 'signal origin' in the deep caldera.",
+        "description": "A Cinderwarlord field post, evacuated in the fighting. Forge tools, tactical slates, and a map of the caldera. The slate shows the Cinderwarlord's actual position \u2014 and something he marked 'signal origin' in the deep caldera.",
         "pools": [
           [
             {
               "label": "Study the tactical slates",
-              "consequence": "Useful knowledge — rare card",
+              "consequence": "Useful knowledge \u2014 rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -498,7 +468,7 @@
             },
             {
               "label": "Study the tactical slates",
-              "consequence": "The supply caches are marked — +25 crystals",
+              "consequence": "The supply caches are marked \u2014 +25 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 25
@@ -508,7 +478,7 @@
           [
             {
               "label": "Use the forge rest area",
-              "consequence": "Proper heat for once — healed 15 HP",
+              "consequence": "Proper heat for once \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -534,10 +504,6 @@
       "row": 3,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "forge-log",
-        "ember-bazaar"
-      ],
       "childIds": [
         "summit-elite"
       ],
@@ -552,9 +518,6 @@
       "row": 4,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "crater-rest"
-      ],
       "childIds": [
         "caldera-gate"
       ],
@@ -587,9 +550,6 @@
       "row": 6,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [
-        "caldera-gate"
-      ],
       "childIds": [],
       "handicap": 26,
       "opponentIntervalMs": 3600,

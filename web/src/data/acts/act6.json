@@ -41,15 +41,15 @@
   "intro": [
     {
       "title": "THE SKY DOMINION",
-      "text": "You've climbed out of the sea and into the air.\n\nThe Sky Dominion exists on drifting islands — chunks of terrain that broke loose during the Fracture and simply refused to come back down. They've been up here so long they've built cities on them. Militarised them. Connected them with rope-bridges and siege platforms and weapons specifically designed to hit things that are also in the air.\n\nThey do not like visitors."
+      "text": "You've climbed out of the sea and into the air.\n\nThe Sky Dominion exists on drifting islands \u2014 chunks of terrain that broke loose during the Fracture and simply refused to come back down. They've been up here so long they've built cities on them. Militarised them. Connected them with rope-bridges and siege platforms and weapons specifically designed to hit things that are also in the air.\n\nThey do not like visitors."
     },
     {
       "title": "THE CLOUDMARSHAL",
-      "text": "Command of the Sky Dominion belongs to the Cloudmarshal — a general who has never lost a battle because, practically speaking, her armies have always had the high ground.\n\nShe does not consider a tactician without wings a credible threat. She's said this, publicly, several times.\n\nYou are going to prove her wrong. You always find this kind of statement motivating."
+      "text": "Command of the Sky Dominion belongs to the Cloudmarshal \u2014 a general who has never lost a battle because, practically speaking, her armies have always had the high ground.\n\nShe does not consider a tactician without wings a credible threat. She's said this, publicly, several times.\n\nYou are going to prove her wrong. You always find this kind of statement motivating."
     },
     {
       "title": "THE LEY BRIDGE",
-      "text": "The ley lines rise here — thick, crackling columns of energy that punch up through the clouds and connect to something far above. If the Fractured Core exists anywhere, the ley lines suggest it's in a direction the Cloudmarshal considers her personal airspace.\n\nYou will need to break through her defences to reach it.\n\nAt least the view will be good."
+      "text": "The ley lines rise here \u2014 thick, crackling columns of energy that punch up through the clouds and connect to something far above. If the Fractured Core exists anywhere, the ley lines suggest it's in a direction the Cloudmarshal considers her personal airspace.\n\nYou will need to break through her defences to reach it.\n\nAt least the view will be good."
     }
   ],
   "outro": [
@@ -63,7 +63,7 @@
     },
     {
       "title": "HIGHER STILL",
-      "text": "The Stormcaller's Badge sits in your hand — a Sky Dominion medal, given to the first enemy officer who ever reached the upper platforms.\n\nYou aren't an officer. Close enough.\n\nThe ley lines point upward. They always do. You've stopped being surprised by that."
+      "text": "The Stormcaller's Badge sits in your hand \u2014 a Sky Dominion medal, given to the first enemy officer who ever reached the upper platforms.\n\nYou aren't an officer. Close enough.\n\nThe ley lines point upward. They always do. You've stopped being surprised by that."
     }
   ],
   "nodes": {
@@ -75,7 +75,6 @@
       "row": 0,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [],
       "childIds": [
         "wind-shrine",
         "skyport-camp"
@@ -109,9 +108,6 @@
       "row": 1,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "cloudbreach"
-      ],
       "childIds": [
         "gale-crossing",
         "thermal-vent"
@@ -147,7 +143,7 @@
             },
             {
               "label": "Offer something to the wind",
-              "consequence": "A downdraft hits you — lose 5 HP",
+              "consequence": "A downdraft hits you \u2014 lose 5 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 5
@@ -157,7 +153,7 @@
           [
             {
               "label": "Read the wind patterns",
-              "consequence": "The patterns describe a rare card's construction — yours",
+              "consequence": "The patterns describe a rare card's construction \u2014 yours",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -165,7 +161,7 @@
             },
             {
               "label": "Read the wind patterns",
-              "consequence": "The patterns heal — restored 8 HP",
+              "consequence": "The patterns heal \u2014 restored 8 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 8
@@ -183,7 +179,7 @@
           [
             {
               "label": "Pocket the shrine parts",
-              "consequence": "Sold in the next port — +18 crystals",
+              "consequence": "Sold in the next port \u2014 +18 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 18
@@ -199,7 +195,7 @@
             },
             {
               "label": "Pocket the shrine parts",
-              "consequence": "Something electrical discharges — lose 12 HP",
+              "consequence": "Something electrical discharges \u2014 lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -217,9 +213,6 @@
       "row": 1,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "cloudbreach"
-      ],
       "childIds": [
         "archive-isle",
         "sky-bazaar"
@@ -235,9 +228,6 @@
       "row": 2,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "skyport-camp"
-      ],
       "childIds": [
         "high-rest"
       ],
@@ -251,9 +241,6 @@
       "row": 2,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "wind-shrine"
-      ],
       "childIds": [
         "sky-elite"
       ],
@@ -286,9 +273,6 @@
       "row": 4,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "sky-elite"
-      ],
       "childIds": [
         "upper-platform"
       ],
@@ -321,16 +305,13 @@
       "row": 2,
       "col": 1,
       "rowCols": 4,
-      "parentIds": [
-        "wind-shrine"
-      ],
       "childIds": [
         "sky-elite"
       ],
       "environment": "sky",
       "eventConfig": {
         "title": "The Thermal Column",
-        "description": "A powerful updraft punches through a gap in the island's floor. It carries the smell of the shards below — and loose objects that fell off other islands during the Fracture.",
+        "description": "A powerful updraft punches through a gap in the island's floor. It carries the smell of the shards below \u2014 and loose objects that fell off other islands during the Fracture.",
         "pools": [
           [
             {
@@ -343,7 +324,7 @@
             },
             {
               "label": "Reach in",
-              "consequence": "The updraft carries something warm — healed 15 HP",
+              "consequence": "The updraft carries something warm \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -351,7 +332,7 @@
             },
             {
               "label": "Reach in",
-              "consequence": "Something comes up fast and hits you — lose 10 HP",
+              "consequence": "Something comes up fast and hits you \u2014 lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -369,7 +350,7 @@
           [
             {
               "label": "Follow the column up",
-              "consequence": "You find a supply cache on the way — +30 crystals",
+              "consequence": "You find a supply cache on the way \u2014 +30 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 30
@@ -402,10 +383,6 @@
       "row": 3,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "gale-crossing",
-        "thermal-vent"
-      ],
       "childIds": [
         "storm-battery"
       ],
@@ -434,14 +411,10 @@
       "id": "upper-platform",
       "type": "battle",
       "label": "Upper Platform",
-      "description": "The highest inhabited island. From here you can see the ley bridge — and everything defending it.",
+      "description": "The highest inhabited island. From here you can see the ley bridge \u2014 and everything defending it.",
       "row": 5,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [
-        "storm-battery",
-        "summit-elite"
-      ],
       "childIds": [
         "cloudmarshal"
       ],
@@ -474,21 +447,18 @@
       "row": 2,
       "col": 2,
       "rowCols": 4,
-      "parentIds": [
-        "skyport-camp"
-      ],
       "childIds": [
         "high-rest"
       ],
       "environment": "sky",
       "eventConfig": {
         "title": "The Command Post",
-        "description": "An abandoned Dominion command post, still warm from use. Maps, tactical notes, and a half-eaten ration. The logs describe the Fracture from above — and something the Cloudmarshal calls 'the signal.'",
+        "description": "An abandoned Dominion command post, still warm from use. Maps, tactical notes, and a half-eaten ration. The logs describe the Fracture from above \u2014 and something the Cloudmarshal calls 'the signal.'",
         "pools": [
           [
             {
               "label": "Read the tactical logs",
-              "consequence": "The strategy is useful — rare card",
+              "consequence": "The strategy is useful \u2014 rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -496,7 +466,7 @@
             },
             {
               "label": "Read the tactical logs",
-              "consequence": "You find supply caches marked on the map — +25 crystals",
+              "consequence": "You find supply caches marked on the map \u2014 +25 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 25
@@ -506,7 +476,7 @@
           [
             {
               "label": "Rest in the shelter",
-              "consequence": "First proper shelter in hours — healed 15 HP",
+              "consequence": "First proper shelter in hours \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -532,10 +502,6 @@
       "row": 3,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "archive-isle",
-        "sky-bazaar"
-      ],
       "childIds": [
         "summit-elite"
       ],
@@ -550,9 +516,6 @@
       "row": 4,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "high-rest"
-      ],
       "childIds": [
         "upper-platform"
       ],
@@ -585,9 +548,6 @@
       "row": 6,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [
-        "upper-platform"
-      ],
       "childIds": [],
       "handicap": 24,
       "opponentIntervalMs": 3300,

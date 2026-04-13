@@ -41,21 +41,21 @@
   "intro": [
     {
       "title": "THE SUNKEN REEF",
-      "text": "The shard hangs half-submerged — a lattice of coral, sunken ships, and old magic squeezed between two impossible tides.\n\nSomething large lives at its centre. Something old. The traders who escaped this shard don't talk about what they saw, but they all flinch at the same sounds: deep water, and bells."
+      "text": "The shard hangs half-submerged \u2014 a lattice of coral, sunken ships, and old magic squeezed between two impossible tides.\n\nSomething large lives at its centre. Something old. The traders who escaped this shard don't talk about what they saw, but they all flinch at the same sounds: deep water, and bells."
     },
     {
       "title": "THE TIDAL SOVEREIGN",
-      "text": "The Reef's guardian calls itself the Tidal Sovereign — a being of compressed sea-memory and slow, grinding patience.\n\nIt does not distinguish between invaders and travellers. The ocean, it once said, does not distinguish between ships it sinks and ships it simply forgets about.\n\nYou have decided not to be forgotten."
+      "text": "The Reef's guardian calls itself the Tidal Sovereign \u2014 a being of compressed sea-memory and slow, grinding patience.\n\nIt does not distinguish between invaders and travellers. The ocean, it once said, does not distinguish between ships it sinks and ships it simply forgets about.\n\nYou have decided not to be forgotten."
     },
     {
       "title": "THE PASSAGE",
-      "text": "The ley lines that thread through the Sunken Reef are old — older than the Fracture, older than the Dominion. They connect, somewhere in the deep, to the Fractured Core.\n\nIf you can break through the Sovereign's grip on the pathways, you might finally understand what the Fracture Event actually was.\n\nIf. The word is doing significant structural work in that sentence."
+      "text": "The ley lines that thread through the Sunken Reef are old \u2014 older than the Fracture, older than the Dominion. They connect, somewhere in the deep, to the Fractured Core.\n\nIf you can break through the Sovereign's grip on the pathways, you might finally understand what the Fracture Event actually was.\n\nIf. The word is doing significant structural work in that sentence."
     }
   ],
   "outro": [
     {
       "title": "THE SOVEREIGN FALLS",
-      "text": "The Tidal Sovereign does not collapse. It recedes — like a wave pulling back from shore, leaving behind silence and the smell of deep ocean.\n\nThe coral pathways glow. Sealed ley lines crack open. The Reef's memory of the Fracture is vivid and specific and terrifying, and you carry it with you as you leave."
+      "text": "The Tidal Sovereign does not collapse. It recedes \u2014 like a wave pulling back from shore, leaving behind silence and the smell of deep ocean.\n\nThe coral pathways glow. Sealed ley lines crack open. The Reef's memory of the Fracture is vivid and specific and terrifying, and you carry it with you as you leave."
     },
     {
       "title": "WHAT YOU LEARNED",
@@ -63,7 +63,7 @@
     },
     {
       "title": "ONWARD",
-      "text": "The Coral Mantle settles around you — a gift from the Reef, or a remnant of the Sovereign's dissolved form. Either way it fits.\n\nAhead: the Sky Dominion, where the aerial shards drift above clouds no map has ever charted. The ley lines point upward.\n\nYou have always been bad at taking hints."
+      "text": "The Coral Mantle settles around you \u2014 a gift from the Reef, or a remnant of the Sovereign's dissolved form. Either way it fits.\n\nAhead: the Sky Dominion, where the aerial shards drift above clouds no map has ever charted. The ley lines point upward.\n\nYou have always been bad at taking hints."
     }
   ],
   "nodes": {
@@ -75,7 +75,6 @@
       "row": 0,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [],
       "childIds": [
         "tidal-shrine",
         "wreck-camp"
@@ -109,9 +108,6 @@
       "row": 1,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "coral-breach"
-      ],
       "childIds": [
         "sunken-passage",
         "deep-current"
@@ -124,7 +120,7 @@
           [
             {
               "label": "Leave an offering",
-              "consequence": "The tide takes it — and returns 12 HP",
+              "consequence": "The tide takes it \u2014 and returns 12 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 12
@@ -132,7 +128,7 @@
             },
             {
               "label": "Leave an offering",
-              "consequence": "The shrine accepts the gift — +15 crystals",
+              "consequence": "The shrine accepts the gift \u2014 +15 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 15
@@ -147,7 +143,7 @@
             },
             {
               "label": "Leave an offering",
-              "consequence": "Something beneath pulls harder than expected — lose 5 HP",
+              "consequence": "Something beneath pulls harder than expected \u2014 lose 5 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 5
@@ -157,7 +153,7 @@
           [
             {
               "label": "Read the carvings",
-              "consequence": "The glyphs resolve into a card — uncommon",
+              "consequence": "The glyphs resolve into a card \u2014 uncommon",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -165,7 +161,7 @@
             },
             {
               "label": "Read the carvings",
-              "consequence": "The pattern heals old wounds — restored 8 HP",
+              "consequence": "The pattern heals old wounds \u2014 restored 8 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 8
@@ -173,7 +169,7 @@
             },
             {
               "label": "Read the carvings",
-              "consequence": "The knowledge is expensive — lose 10 HP",
+              "consequence": "The knowledge is expensive \u2014 lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -181,7 +177,7 @@
             },
             {
               "label": "Read the carvings",
-              "consequence": "Salt and old magic — +20 crystals",
+              "consequence": "Salt and old magic \u2014 +20 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 20
@@ -191,7 +187,7 @@
           [
             {
               "label": "Smash it for components",
-              "consequence": "The components are worth something — +18 crystals",
+              "consequence": "The components are worth something \u2014 +18 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 18
@@ -207,7 +203,7 @@
             },
             {
               "label": "Smash it for components",
-              "consequence": "The shrine curses you for the disrespect — lose 15 HP",
+              "consequence": "The shrine curses you for the disrespect \u2014 lose 15 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 15
@@ -225,9 +221,6 @@
       "row": 1,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "coral-breach"
-      ],
       "childIds": [
         "drowned-shrine",
         "reef-bazaar"
@@ -243,9 +236,6 @@
       "row": 2,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "wreck-camp"
-      ],
       "childIds": [
         "depth-rest"
       ],
@@ -259,9 +249,6 @@
       "row": 2,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "tidal-shrine"
-      ],
       "childIds": [
         "reef-patrol-elite"
       ],
@@ -294,9 +281,6 @@
       "row": 4,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "reef-patrol-elite"
-      ],
       "childIds": [
         "kelp-crossing"
       ],
@@ -325,20 +309,17 @@
       "id": "deep-current",
       "type": "event",
       "label": "Deep Current",
-      "description": "A ley-line current surfaces here — warm, electric, and full of lost things.",
+      "description": "A ley-line current surfaces here \u2014 warm, electric, and full of lost things.",
       "row": 2,
       "col": 1,
       "rowCols": 4,
-      "parentIds": [
-        "tidal-shrine"
-      ],
       "childIds": [
         "reef-patrol-elite"
       ],
       "environment": "reef",
       "eventConfig": {
         "title": "The Deep Current",
-        "description": "A ley-line current surfaces from a crack in the reef floor. It carries the smell of the Fractured Core — sharp, electric, and ancient. Fragments of Dominion magic swirl in its flow.",
+        "description": "A ley-line current surfaces from a crack in the reef floor. It carries the smell of the Fractured Core \u2014 sharp, electric, and ancient. Fragments of Dominion magic swirl in its flow.",
         "pools": [
           [
             {
@@ -351,7 +332,7 @@
             },
             {
               "label": "Reach in",
-              "consequence": "The current pulls you briefly under — lose 12 HP",
+              "consequence": "The current pulls you briefly under \u2014 lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -359,7 +340,7 @@
             },
             {
               "label": "Reach in",
-              "consequence": "Something warm and healing — restored 15 HP",
+              "consequence": "Something warm and healing \u2014 restored 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -377,7 +358,7 @@
           [
             {
               "label": "Follow it downstream",
-              "consequence": "You find a Dominion salvage cache — +30 crystals",
+              "consequence": "You find a Dominion salvage cache \u2014 +30 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 30
@@ -385,7 +366,7 @@
             },
             {
               "label": "Follow it downstream",
-              "consequence": "The current ends at a dead drop — uncommon card",
+              "consequence": "The current ends at a dead drop \u2014 uncommon card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -410,10 +391,6 @@
       "row": 3,
       "col": 0,
       "rowCols": 4,
-      "parentIds": [
-        "sunken-passage",
-        "deep-current"
-      ],
       "childIds": [
         "abyssal-ambush"
       ],
@@ -446,10 +423,6 @@
       "row": 5,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [
-        "abyssal-ambush",
-        "deep-elite"
-      ],
       "childIds": [
         "tidal-sovereign"
       ],
@@ -482,21 +455,18 @@
       "row": 2,
       "col": 2,
       "rowCols": 4,
-      "parentIds": [
-        "wreck-camp"
-      ],
       "childIds": [
         "depth-rest"
       ],
       "environment": "reef",
       "eventConfig": {
         "title": "The Drowned Archive",
-        "description": "A Dominion archive sits perfectly preserved inside a sealed air pocket — marble shelves, brass fixtures, and a thousand books that have become coral. The card drawers, however, are watertight.",
+        "description": "A Dominion archive sits perfectly preserved inside a sealed air pocket \u2014 marble shelves, brass fixtures, and a thousand books that have become coral. The card drawers, however, are watertight.",
         "pools": [
           [
             {
               "label": "Search the drawers",
-              "consequence": "A rare card, preserved in wax — yours",
+              "consequence": "A rare card, preserved in wax \u2014 yours",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -504,7 +474,7 @@
             },
             {
               "label": "Search the drawers",
-              "consequence": "Only common finds, but several — +20 crystals",
+              "consequence": "Only common finds, but several \u2014 +20 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 20
@@ -512,7 +482,7 @@
             },
             {
               "label": "Search the drawers",
-              "consequence": "A pressure seal breaks — lose 8 HP",
+              "consequence": "A pressure seal breaks \u2014 lose 8 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 8
@@ -522,7 +492,7 @@
           [
             {
               "label": "Rest among the stacks",
-              "consequence": "Dry floor, still air — restored 15 HP",
+              "consequence": "Dry floor, still air \u2014 restored 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -530,7 +500,7 @@
             },
             {
               "label": "Rest among the stacks",
-              "consequence": "A forgotten card falls from a shelf — uncommon",
+              "consequence": "A forgotten card falls from a shelf \u2014 uncommon",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -548,10 +518,6 @@
       "row": 3,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "drowned-shrine",
-        "reef-bazaar"
-      ],
       "childIds": [
         "deep-elite"
       ],
@@ -566,9 +532,6 @@
       "row": 4,
       "col": 3,
       "rowCols": 4,
-      "parentIds": [
-        "depth-rest"
-      ],
       "childIds": [
         "kelp-crossing"
       ],
@@ -601,9 +564,6 @@
       "row": 6,
       "col": 0,
       "rowCols": 1,
-      "parentIds": [
-        "kelp-crossing"
-      ],
       "childIds": [],
       "handicap": 22,
       "opponentIntervalMs": 3400,
