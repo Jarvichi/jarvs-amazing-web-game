@@ -510,9 +510,11 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
         </div>
       </div>
 
+<div style={{ display: 'flex', justifyContent: 'center' }}>
       <button className="action-btn nm-back-btn" onClick={onBack}>
         ← MAIN MENU
       </button>
+</div>
 
       {/* Node peek modal */}
       {peekNode && (
