@@ -1747,8 +1747,7 @@ export default function App() {
       return
     }
     if (isCampaignRef.current) {
-        const gs = gameStateRef.current
-        dispatch({ type: 'SET_GAME_STATE', gameState: { ...gs, phase: { type: 'gameOver', winner: 'opponent' } } })
+       dispatch({ type: 'END' })
     } else {
       // Exiting endless mode mid-run counts as a defeat: log achievements and publish result
       const gs = gameStateRef.current
