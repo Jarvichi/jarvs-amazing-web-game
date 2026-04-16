@@ -1747,7 +1747,7 @@ export default function App() {
       return
     }
     if (isCampaignRef.current) {
-      handleAbandonRun()
+      handleGameOverPrimary()
     } else {
       // Exiting endless mode mid-run counts as a defeat: log achievements and publish result
       const gs = gameStateRef.current
