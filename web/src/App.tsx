@@ -1747,9 +1747,7 @@ export default function App() {
       return
     }
     if (isCampaignRef.current) {
-      // todo: if the player gives up during a battle lose a life and return to the campaign map (in the same way we would if they lost a battle)
-      handleGameOverPrimary()
-      setScreen('game over')
+        dispatch({ type: 'SET_GAME_STATE', gameState: { ...gs, phase: { type: 'gameOver', winner: 'opponent' } } })
     } else {
       // Exiting endless mode mid-run counts as a defeat: log achievements and publish result
       const gs = gameStateRef.current
