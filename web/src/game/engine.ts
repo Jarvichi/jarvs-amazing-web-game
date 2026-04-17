@@ -1,5 +1,5 @@
 import { GameState, Card, Unit, UnitTemplate, UpgradeEffect, CardRarity, LANE_WIDTH, BattleEventState, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE, AnimEvent, BossTraitState, UnitTag } from './types'
-import { makeDeck, makeThorlordDeck, makeKraggDeck, makeAshwalkerDeck, makeNodeDeck, HERO_CARDS, getCardUnit, flushCardValidationErrors } from './cards'
+import { makeDeck, makeThorlordDeck, makeKraggDeck, makeAshwalkerDeck, makeNodeDeck, HERO_CARDS, getCardUnit, getCardCatalog, flushCardValidationErrors } from './cards'
 import { playUnitDeath, playBuildingDestroyed } from './sound'
 import { logError } from '../logger'
 import { isNoDamageMode } from './debug'
@@ -282,6 +282,34 @@ export const MAX_HANDICAP = 20
 
 const RARITY_RANK: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 2, legendary: 3 }
 
+const QUICKPLAY_DECK_SIZE    = 20
+const QUICKPLAY_MIN_UNITS    = 3
+const QUICKPLAY_MIN_LOW_COST = 3
+const QUICKPLAY_MAX_AVG_COST = 4.0
+
+function generateBalancedOpponentDeck(maxRarity: CardRarity): Card[] {
+  const catalog = getCardCatalog().filter(c => RARITY_RANK[c.rarity] <= RARITY_RANK[maxRarity])
+  for (let attempt = 0; attempt < 10; attempt++) {
+    const pool = shuffle([...catalog])
+    const seen = new Set<string>()
+    const deck: Card[] = []
+    for (const card of pool) {
+      if (!seen.has(card.name)) {
+        seen.add(card.name)
+        deck.push(card)
+        if (deck.length >= QUICKPLAY_DECK_SIZE) break
+      }
+    }
+    const unitCount    = deck.filter(c => c.cardType === 'unit').length
+    const lowCostCount = deck.filter(c => c.cost <= 3).length
+    const avgCost      = deck.reduce((s, c) => s + c.cost, 0) / deck.length
+    if (unitCount >= QUICKPLAY_MIN_UNITS && lowCostCount >= QUICKPLAY_MIN_LOW_COST && avgCost <= QUICKPLAY_MAX_AVG_COST) {
+      return shuffle(deck)
+    }
+  }
+  return shuffle(catalog)
+}
+
 function maxRarityForHandicap(h: number): CardRarity {
   if (h >= 12) return 'common'
   if (h >= 7)  return 'uncommon'
@@ -407,8 +435,7 @@ export function newGame(
     }
   } else {
     const maxRarity = maxRarityForHandicap(clamp)
-    const filtered  = makeDeck().filter(c => RARITY_RANK[c.rarity] <= RARITY_RANK[maxRarity])
-    opponentDeck = shuffle(filtered)
+    opponentDeck = generateBalancedOpponentDeck(maxRarity)
   }
 
   // Inject one hero card per side (not for bosses — they have their own identity)
