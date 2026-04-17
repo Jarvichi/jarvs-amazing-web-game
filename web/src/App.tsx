@@ -1139,7 +1139,7 @@ export default function App() {
       const allEntries   = loadDeck()
       const fat          = loadFatigued()
       const restingCount = allEntries.filter(e => fat.includes(e.cardName)).length
-      const isUnderMax   = allEntries.length < DECK_MAX
+      const isUnderMax   = deckTotalCards(allEntries) < DECK_MAX
       if (restingCount > 0 || isUnderMax) {
         setDeckWarningNode(node)
         return
@@ -2350,12 +2350,13 @@ export default function App() {
         const allEntries   = loadDeck()
         const fat          = loadFatigued()
         const restingCount = allEntries.filter(e => fat.includes(e.cardName)).length
-        const isUnderMax   = allEntries.length < DECK_MAX
+        const totalCards   = deckTotalCards(allEntries)
+        const isUnderMax   = totalCards < DECK_MAX
         const parts: string[] = []
         if (restingCount > 0)
           parts.push(`${restingCount} resting card${restingCount !== 1 ? 's' : ''} won't be available in battle`)
         if (isUnderMax)
-          parts.push(`Your deck has only ${allEntries.length} of ${DECK_MAX} cards. Consider adding more cards in the Deck Builder for more consistency.`)
+          parts.push(`Your deck has only ${totalCards} of ${DECK_MAX} cards. Consider adding more cards in the Deck Builder for more consistency.`)
         return (
           <ConfirmModal
             title="Weak Deck"
