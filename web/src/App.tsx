@@ -77,6 +77,7 @@ import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveD
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
+import { getIntegrityViolations, clearIntegrityViolations } from './game/integrity'
 import { useRareEvents } from './hooks/useRareEvents'
 import { useAchievements } from './hooks/useAchievements'
 import { isNoDamageMode } from './game/debug'
@@ -427,6 +428,13 @@ export default function App() {
 
   // Achievement toast notifications
   const { achievementToasts, setAchievementToasts } = useAchievements()
+
+  // Integrity warning (set on mount if tampered data is detected)
+  const [integrityWarning, setIntegrityWarning] = useState(() => {
+    const v = getIntegrityViolations()
+    if (v.length > 0) { clearIntegrityViolations(); return true }
+    return false
+  })
 
   // Firebase auth
   const { user, authLoading } = useAuth()
@@ -2582,6 +2590,14 @@ export default function App() {
           brokenDesc={relicSpinData.brokenDesc}
           onContinue={relicSpinData.onContinue}
         />
+      )}
+
+      {/* Integrity warning */}
+      {integrityWarning && (
+        <div className="integrity-warning" role="alert">
+          <span>⚠ Inventory data was modified externally. Play nice!</span>
+          <button className="integrity-warning-dismiss" onClick={() => setIntegrityWarning(false)}>✕</button>
+        </div>
       )}
 
       {/* Achievement unlock toast */}

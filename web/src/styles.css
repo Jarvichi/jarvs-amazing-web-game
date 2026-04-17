@@ -6780,6 +6780,35 @@ body {
   border-color: #88ff88;
 }
 
+/* ── Integrity warning banner ────────────────────────────── */
+
+.integrity-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: #1a0000;
+  border-bottom: 2px solid #ff3333;
+  color: #ff6666;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.integrity-warning-dismiss {
+  background: none;
+  border: 1px solid #ff3333;
+  color: #ff6666;
+  cursor: pointer;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-family: inherit;
+}
+
 /* ── Achievement toast notifications ─────────────────────── */
 
 .ach-toast-stack {

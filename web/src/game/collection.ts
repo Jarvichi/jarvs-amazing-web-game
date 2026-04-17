@@ -1,6 +1,7 @@
 import { Card, CardRarity } from './types'
 import { getCardCatalog } from './cards'
 import { logError } from '../logger'
+import { validateIntegrity, updateChecksum } from './integrity'
 
 // ─── Types ────────────────────────────────────────────────
 
@@ -360,15 +361,21 @@ function applyMasteryBonus(card: Card, lvl: number): Card {
 export function loadCollection(): CollectionEntry[] {
   try {
     const raw = localStorage.getItem(COLLECTION_KEY)
-    if (raw) return migrateCollectionNames(JSON.parse(raw) as CollectionEntry[])
+    if (raw) {
+      validateIntegrity(COLLECTION_KEY, raw)
+      return migrateCollectionNames(JSON.parse(raw) as CollectionEntry[])
+    }
   } catch { /* ignore */ }
   saveCollection(STARTER_COLLECTION)
   return [...STARTER_COLLECTION.map(e => ({ ...e }))]
 }
 
 export function saveCollection(c: CollectionEntry[]): void {
-  try { localStorage.setItem(COLLECTION_KEY, JSON.stringify(c)) }
-  catch (e) { logError('saveCollection failed', { count: c.length, error: String(e) }) }
+  try {
+    const data = JSON.stringify(c)
+    localStorage.setItem(COLLECTION_KEY, data)
+    updateChecksum(COLLECTION_KEY, data)
+  } catch (e) { logError('saveCollection failed', { count: c.length, error: String(e) }) }
 }
 
 export function addCardsToCollection(newCards: CollectionEntry[]): CollectionEntry[] {

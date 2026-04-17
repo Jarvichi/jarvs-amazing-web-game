@@ -47,6 +47,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { logError } from '../logger'
+import { validateIntegrity, updateChecksum } from './integrity'
 
 export type ItemType = 'consumable' | 'relic' | 'item'
 
@@ -159,7 +160,10 @@ export function loadItemStore(): ItemEntry[] {
   let store: ItemEntry[] = []
   try {
     const raw = localStorage.getItem(ITEM_STORE_KEY)
-    store = raw ? (JSON.parse(raw) as ItemEntry[]) : []
+    if (raw) {
+      validateIntegrity(ITEM_STORE_KEY, raw)
+      store = JSON.parse(raw) as ItemEntry[]
+    }
   } catch {
     store = []
   }
@@ -179,7 +183,9 @@ export function loadItemStore(): ItemEntry[] {
 
 export function saveItemStore(store: ItemEntry[]): void {
   try {
-    localStorage.setItem(ITEM_STORE_KEY, JSON.stringify(store))
+    const data = JSON.stringify(store)
+    localStorage.setItem(ITEM_STORE_KEY, data)
+    updateChecksum(ITEM_STORE_KEY, data)
   } catch (e) {
     logError('saveItemStore failed', { error: String(e) })
   }
