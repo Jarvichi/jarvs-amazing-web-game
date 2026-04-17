@@ -6,7 +6,7 @@ import { useCardDetail } from './useCardDetail'
 import { SpriteImg, AnimatedSpriteImg } from './SpriteImg'
 import { BattleEventOverlay } from './BattleEventOverlay'
 import { isNoDamageMode, isDebugMode } from '../game/debug'
-import { MAX_UPGRADE_LEVEL } from '../game/engine'
+import { MAX_UPGRADE_LEVEL, SUDDEN_DEATH_FORCE_MS } from '../game/engine'
 import { getRelicDef } from '../game/relics'
 import { getUnitLore, getCardCatalog } from '../game/cards'
 import { Button } from './Button'
@@ -23,6 +23,7 @@ interface Props {
   activeRelic?: string | null  // relic name currently equipped, if any
   showBossSplash?: boolean
   activeModifiers?: { label: string }[]  // replay modifiers active this run
+  isCampaign?: boolean
 }
 
 const SPAWN_GROW_MS = 1500
@@ -252,16 +253,18 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
           {unit.name}
         </div>
       )}
-      <div className="lane-unit-hp-row">
-        <div className="lane-unit-hp-bar">
-          <div className="lane-unit-hp-fill" style={{ width: `${hpPct}%` }} />
+      {!isDying && (
+        <div className="lane-unit-hp-row">
+          <div className="lane-unit-hp-bar">
+            <div className="lane-unit-hp-fill" style={{ width: `${hpPct}%` }} />
+          </div>
+          {unit.upgradeLevel != null && unit.upgradeLevel >= 1 && (
+            <span className={`lane-unit-level lane-unit-level--${Math.min(unit.upgradeLevel, MAX_UPGRADE_LEVEL)}`}>
+              {'★'.repeat(unit.upgradeLevel)}
+            </span>
+          )}
         </div>
-        {unit.upgradeLevel != null && unit.upgradeLevel >= 1 && (
-          <span className={`lane-unit-level lane-unit-level--${Math.min(unit.upgradeLevel, MAX_UPGRADE_LEVEL)}`}>
-            {'★'.repeat(unit.upgradeLevel)}
-          </span>
-        )}
-      </div>
+      )}
     </div>
   )
 }
@@ -604,7 +607,7 @@ function opponentPortraitSlug(bossAI: string | undefined, actTheme: string | und
   return 'bandit'
 }
 
-export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPause, actTheme, activeRelic, showBossSplash, activeModifiers }: Props) {
+export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPause, actTheme, activeRelic, showBossSplash, activeModifiers, isCampaign }: Props) {
   const { openDetail, cardDetailNode } = useCardDetail()
   const [heroLightning, setHeroLightning] = useState<{ owner: 'player' | 'opponent'; key: number } | null>(null)
   const [paused, setPaused] = useState(false)
@@ -645,7 +648,13 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   const gameTimeSec = Math.floor(state.gameTime / 1000)
   const minutes = Math.floor(gameTimeSec / 60)
   const seconds = gameTimeSec % 60
-  const timeStr = `${minutes}:${String(seconds).padStart(2, '0')}`
+  const elapsedStr = `${minutes}:${String(seconds).padStart(2, '0')}`
+  const countdownMs = Math.max(0, SUDDEN_DEATH_FORCE_MS - state.gameTime)
+  const cdSec = Math.ceil(countdownMs / 1000)
+  const cdMin = Math.floor(cdSec / 60)
+  const cdSecRem = cdSec % 60
+  const countdownStr = `${cdMin}:${String(cdSecRem).padStart(2, '0')}`
+  const timeStr = (isCampaign && !state.suddenDeath) ? countdownStr : elapsedStr
   const sdSec = Math.ceil(state.suddenDeathTimer / 1000)
   const event = state.activeBattleEvent
 

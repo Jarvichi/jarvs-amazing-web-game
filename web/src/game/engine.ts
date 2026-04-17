@@ -92,7 +92,7 @@ const MANA_REGEN_MS = 3000       // 1 mana every 3 seconds
 const BASE_MAX_MANA = 5
 const SUDDEN_DEATH_MS = 60000
 const SUDDEN_DEATH_BUILDING_INTERVAL_MS = 2000  // building damage tick during sudden death
-const SUDDEN_DEATH_FORCE_MS = 5 * 60 * 1000    // force sudden death after 5 minutes
+export const SUDDEN_DEATH_FORCE_MS = 5 * 60 * 1000    // force sudden death after 5 minutes
 const BATTLE_EVENT_BASE_MS = 30000  // first event after 30s, then every 24-32s
 const SPAWN_GROW_MS = 1500           // building-spawn grow-in animation duration
 const DEATH_LINGER_MS = 1200         // how long a dying unit stays visible
@@ -581,13 +581,13 @@ function applyUpgrade(s: GameState, effect: UpgradeEffect, owner: 'player' | 'op
     for (const u of units) { u.attack += effect.amount; addBuff(u, 'atk') }
     log.push(`${label} units gain +${effect.amount} attack!`)
   } else if (effect.type === 'healUnits') {
-    for (const u of units) u.hp = Math.min(u.maxHp, u.hp + effect.amount)
+    for (const u of units) if (u.hp >= 1) u.hp = Math.min(u.maxHp, u.hp + effect.amount)
     log.push(`${label} units healed ${effect.amount} HP.`)
   } else if (effect.type === 'buffSpeed') {
     for (const u of units) if (u.moveSpeed > 0) { u.moveSpeed += effect.amount; addBuff(u, 'spd') }
     log.push(`${label} units surge +${effect.amount} speed!`)
   } else if (effect.type === 'buffMaxHp') {
-    for (const u of units) if (u.moveSpeed > 0) { u.maxHp += effect.amount; u.hp = Math.min(u.hp + effect.amount, u.maxHp); addBuff(u, 'hp') }
+    for (const u of units) if (u.moveSpeed > 0 && u.hp >= 1) { u.maxHp += effect.amount; u.hp = Math.min(u.hp + effect.amount, u.maxHp); addBuff(u, 'hp') }
     log.push(`${label} units gain +${effect.amount} max HP!`)
   } else if (effect.type === 'buffRange') {
     for (const u of units) if (u.attackRange > 0) { u.attackRange += effect.amount; addBuff(u, 'range') }
@@ -607,13 +607,13 @@ function applyUpgrade(s: GameState, effect: UpgradeEffect, owner: 'player' | 'op
     }
     log.push(`${label} AOE! ${targets.length} enem${targets.length === 1 ? 'y' : 'ies'} hit for ${dmg} damage.`)
   } else if (effect.type === 'buffHp') {
-    for (const u of units) u.hp = Math.min(u.maxHp, u.hp + effect.amount)
+    for (const u of units) if (u.hp >= 1) u.hp = Math.min(u.maxHp, u.hp + effect.amount)
     log.push(`${label} units gain +${effect.amount} HP!`)
   } else if (effect.type === 'buffAttackCooldown') {
     for (const u of units) u.attackCooldownMs = Math.max(500, u.attackCooldownMs + effect.amount)
     log.push(`${label} units attack ${effect.amount < 0 ? 'faster' : 'slower'}!`)
   } else if (effect.type === 'buffHeal') {
-    for (const u of units) u.hp = Math.min(u.maxHp, u.hp + effect.amount)
+    for (const u of units) if (u.hp >= 1) u.hp = Math.min(u.maxHp, u.hp + effect.amount)
     log.push(`${label} units healed for ${effect.amount} HP.`)
   }
 }
@@ -2088,10 +2088,10 @@ export function tick(state: GameState, deltaMs: number): GameState {
     while (s.opponentHand.length < 4 && s.opponentDeck.length > 0) drawCard(s.opponentDeck, s.opponentHand)
   }
   // 10. Sudden death — suppressed in endless mode (death only by base reaching 0)
-  else if (s.bossCardActive) { /* skip sudden death */ }
   else if (!s.suddenDeath) {
     const oppMaxMana = Math.min(10, BASE_MAX_MANA + getManaBonus(s.field, 'opponent'))
     const allExhausted =
+      !s.bossCardActive &&   // boss phase 2 intentionally clears opponent deck; skip exhaustion check
       s.playerDeck.length === 0 && s.opponentDeck.length === 0 &&
       s.playerHand.every(c => c.cost > s.maxMana) &&
       s.opponentHand.every(c => c.cost > oppMaxMana)
