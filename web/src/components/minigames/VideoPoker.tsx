@@ -198,7 +198,7 @@ export function VideoPoker({ onDone }: Props) {
   // ── Playing screen ────────────────────────────────────────────────────────────
 
   const isWin    = result !== null && result.multiplier > 0
-  const canBuy   = phase !== 'done' && credits < MAX_CREDITS && availCrystals >= BUY_COST
+  const canBuy   = credits < MAX_CREDITS && availCrystals >= BUY_COST
 
   const subtitleText = (() => {
     if (phase === 'wager')  return `Blind paid (${BLIND} credit). Fold or choose your bet.`
