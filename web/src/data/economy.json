@@ -25,7 +25,7 @@
     "marblerace":     25,
     "higherOrLower":  5,
     "fruitMachine":   50,
-    "videoPoker":     10
+    "videoPoker":     0
   },
 
   "ticketPrizes": [
