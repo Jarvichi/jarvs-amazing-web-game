@@ -1747,8 +1747,52 @@ export default function App() {
       return
     }
     if (isCampaignRef.current) {
+      isCampaignRef.current = false
+      const currentRun = runRef.current
       dispatch({ type: 'END' })
-      setScreen('title')
+      if (!currentRun) {
+        setScreen('title')
+        return
+      }
+      // Treat give-up as a loss: decrement a life and record the node failure
+      battleLossRecordedRef.current = true
+      const nodeId = currentRun.pendingNodeId
+      const prevCount = nodeId ? (currentRun.nodeFailCounts[nodeId] ?? 0) : 0
+      const newLives = Math.max(0, currentRun.livesRemaining - 1)
+      const withFail: RunState = {
+        ...currentRun,
+        nodeFailCounts: nodeId
+          ? { ...currentRun.nodeFailCounts, [nodeId]: prevCount + 1 }
+          : currentRun.nodeFailCounts,
+        livesRemaining: newLives,
+      }
+      saveRun(withFail)
+      setRun(withFail)
+      if (newLives === 0) {
+        stopBattleMusic()
+        const next = loadCrystals() + 50
+        saveCrystals(next)
+        setCrystals(next)
+        const failUnlocked = incrementAchievementProgress('misc:campaign_failed')
+        if (failUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...failUnlocked])
+        resetWinStreak()
+        setLastRunFailed()
+        clearRun()
+        setRun(null)
+        clearFatigued()
+        setFatiguedCards([])
+        setBonusPackCards([])
+        setScreen('campaignfailed')
+      } else {
+        // Clear pendingNodeId so the node is selectable again on the node map
+        if (withFail.pendingNodeId) {
+          const cleared = { ...withFail, pendingNodeId: null }
+          saveRun(cleared)
+          setRun(cleared)
+        }
+        setScreen('title')
+      }
+      return
     } else {
       // Exiting endless mode mid-run counts as a defeat: log achievements and publish result
       const gs = gameStateRef.current
