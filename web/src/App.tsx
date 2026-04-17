@@ -280,8 +280,8 @@ export default function App() {
       // checks on each launch the way a normal tab does, so we kick one off
       // immediately and then repeat every hour.
       if (r) {
-        r.update()
-        setInterval(() => r.update(), 60 * 60 * 1000)
+        r.update().catch(() => {})
+        setInterval(() => r.update().catch(() => {}), 60 * 60 * 1000)
       }
     },
   })
