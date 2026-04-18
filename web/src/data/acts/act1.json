@@ -725,17 +725,166 @@
     },
     "ruins": {
       "id": "ruins",
-      "type": "rest",
+      "type": "event",
       "label": "Watchtower Ruins",
-      "description": "A crumbling garrison tower, long abandoned. The walls still hold. You make camp inside.",
+      "description": "A crumbling garrison tower leans against the treeline.",
       "row": 4,
       "col": 2,
       "rowCols": 4,
       "childIds": [
         "deep-crossing"
       ],
-      "restHeal": 15,
-      "environment": "ruins"
+      "environment": "ruins",
+      "eventConfig": {
+        "title": "Crumbling Watchtower",
+        "description": "A moss-eaten garrison tower leans against the treeline, abandoned mid-battle. A rusted sword stands upright in the earth beside it. The armory gate hangs open.",
+        "pools": [
+          [
+            {
+              "label": "Rest in the shelter",
+              "consequence": "The quiet heals \u2014 restored 15 HP",
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
+            },
+            {
+              "label": "Rest in the shelter",
+              "consequence": "You sleep badly. Restored 8 HP",
+              "effect": {
+                "type": "healHp",
+                "amount": 8
+              }
+            },
+            {
+              "label": "Rest in the shelter",
+              "consequence": "Something bites you in the night \u2014 lose 6 HP",
+              "effect": {
+                "type": "damageHp",
+                "amount": 6
+              }
+            },
+            {
+              "label": "Rest in the shelter",
+              "consequence": "You find a pouch under the floorboards \u2014 +14 crystals",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 14
+              }
+            },
+            {
+              "label": "Rest in the shelter",
+              "consequence": "You wake to find a small curiosity beside you \u2014 added to inventory",
+              "effect": {
+                "type": "gainItem"
+              }
+            },
+            {
+              "label": "Rest in the shelter",
+              "consequence": "Something rolls under your hand in the dark \u2014 added to inventory",
+              "effect": {
+                "type": "gainItem"
+              }
+            }
+          ],
+          [
+            {
+              "label": "Search the armory",
+              "consequence": "An uncommon card hidden behind a loose brick",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
+            },
+            {
+              "label": "Search the armory",
+              "consequence": "A rare weapon contract \u2014 add a rare card",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
+            },
+            {
+              "label": "Search the armory",
+              "consequence": "Old coin cache \u2014 +20 crystals",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 20
+              }
+            },
+            {
+              "label": "Search the armory",
+              "consequence": "A rusted trap springs \u2014 lose 10 HP",
+              "effect": {
+                "type": "damageHp",
+                "amount": 10
+              }
+            },
+            {
+              "label": "Search the armory",
+              "consequence": "You find a curious object among the debris \u2014 added to inventory",
+              "effect": {
+                "type": "gainItem"
+              }
+            },
+            {
+              "label": "Search the armory",
+              "consequence": "Something rolls out of the rubble \u2014 added to inventory",
+              "effect": {
+                "type": "gainItem"
+              }
+            }
+          ],
+          [
+            {
+              "label": "Climb the watchtower",
+              "consequence": "Good vantage point \u2014 +12 crystals from spotted supply cache",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 12
+              }
+            },
+            {
+              "label": "Climb the watchtower",
+              "consequence": "A common card is wedged in the battlements",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "common"
+              }
+            },
+            {
+              "label": "Climb the watchtower",
+              "consequence": "The stairs collapse \u2014 lose 12 HP",
+              "effect": {
+                "type": "damageHp",
+                "amount": 12
+              }
+            },
+            {
+              "label": "Climb the watchtower",
+              "consequence": "Nothing up there. Wind. Old regrets.",
+              "effect": {
+                "type": "nothing"
+              }
+            },
+            {
+              "label": "Climb the watchtower",
+              "consequence": "Something is jammed in the bell \u2014 you pocket it \u2014 added to inventory",
+              "effect": {
+                "type": "gainItem"
+              }
+            },
+            {
+              "label": "Climb the watchtower",
+              "consequence": "You spot a hidden passage to a safe camp below \u2014 +1 life",
+              "effect": {
+                "type": "gainLife",
+                "amount": 1
+              }
+            }
+          ]
+        ]
+      }
     },
     "war-camp": {
       "id": "war-camp",
