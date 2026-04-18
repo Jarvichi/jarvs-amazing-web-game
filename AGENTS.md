@@ -214,6 +214,22 @@ git push -u origin <branch>
 
 ---
 
+## Editing Act JSON Files
+
+Act files (`web/src/data/acts/actN.json`) are large. Use the cheapest tool for the scope of the change:
+
+| Change scope | Correct tool | Why |
+|---|---|---|
+| A few fields on a few nodes | `Edit` with targeted `old_string` | Minimal tokens — only the diff |
+| Complete nodes section replacement | `Write` with the full file | 1 call; script overhead costs more |
+| Single node deck / HP tweak | `Edit` matching the specific array | Surgical — no metadata risk |
+
+**Never write a temp script to do JSON manipulation.** Writing the script + fixing it + running it + cleaning up = 4–5 tool calls and the script content itself is just as long as a `Write` call. Write the file directly instead.
+
+**Never spawn Explore/Plan agents for act work** — read the relevant files directly with `Read` and `Glob`. Agents are banned unless the user explicitly requests them (see "Development and Token Use" above).
+
+---
+
 ## Acts — Design Rules
 
 All rules for acts, the campaign map, node types, relics, heroes, lives system, music, boss traits, and card authoring are in **[`docs/acts.md`](docs/acts.md)**. Read it before:
