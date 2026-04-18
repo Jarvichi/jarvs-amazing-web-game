@@ -384,6 +384,36 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     reward: { type: 'crystals', crystals: 50 },
     tier: 1,
   },
+  {
+    id: 'event:dev_build',
+    name: 'You Weren\'t Supposed to See That',
+    description: 'Witness an internal debug build during a battle',
+    category: 'events',
+    progressKey: 'event:dev_build',
+    target: 1,
+    reward: { type: 'crystals', crystals: 75 },
+    tier: 1,
+  },
+  {
+    id: 'event:glitched_card',
+    name: 'It Was a Goblin All Along',
+    description: 'Reveal the corrupted card in the Glitched Card rare event',
+    category: 'events',
+    progressKey: 'event:glitched_card',
+    target: 1,
+    reward: { type: 'crystals', crystals: 50 },
+    tier: 1,
+  },
+  {
+    id: 'event:confused_tourist',
+    name: 'Most Welcoming Battlefield',
+    description: 'Receive a visit from a Confused Traveller',
+    category: 'events',
+    progressKey: 'event:confused_tourist',
+    target: 1,
+    reward: { type: 'crystals', crystals: 30 },
+    tier: 1,
+  },
 
   // ── Campaign ──────────────────────────────────────────────────────────────
 
@@ -1668,6 +1698,16 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     target: 1,
     reward: { type: 'crystals', crystals: 400 },
     tier: 2,
+  },
+  {
+    id: 'misc:legend_stare',
+    name: 'Drawn to Power',
+    description: 'Open the detail view of legendary cards 10 times',
+    category: 'misc',
+    progressKey: 'misc:legend_stare',
+    target: 10,
+    reward: { type: 'crystals', crystals: 100 },
+    tier: 1,
   },
 
   // ── Mini Games ────────────────────────────────────────────────────────────
