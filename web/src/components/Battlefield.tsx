@@ -13,6 +13,24 @@ import { getUnitLore, getCardCatalog } from '../game/cards'
 import { Button } from './Button'
 import { ConfirmModal } from './ConfirmModal'
 import { loadPlayerName, loadPlayerAvatar } from '../game/questline'
+import { TutorialOverlay } from './TutorialOverlay'
+import { hasSeen, markSeen } from '../game/tutorial'
+
+const BATTLE_TUTORIAL_ID = 'gameplay'
+const BATTLE_TUTORIAL_STEPS = [
+  {
+    title: 'YOUR HAND',
+    body: 'These cards are ready to play. Tap a card to deploy a unit, build a structure, or cast an upgrade onto the battlefield.',
+  },
+  {
+    title: 'MANA',
+    body: 'Each card costs mana ◆. Your mana refills over time. Build Farm structures to permanently increase your max mana.',
+  },
+  {
+    title: 'OBJECTIVE',
+    body: 'Destroy the enemy base before it destroys yours. Your base is on the left — the enemy\'s is on the right. Good luck!',
+  },
+]
 
 interface Props {
   state: GameState
@@ -615,6 +633,9 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   const [inspectedUnit, setInspectedUnit] = useState<Unit | null>(null)
   const [showDeckViewer, setShowDeckViewer] = useState(false)
   const [confirmGiveUp, setConfirmGiveUp] = useState(false)
+  const [showBattleTutorial, setShowBattleTutorial] = useState(
+    () => !isCampaign && !hasSeen(BATTLE_TUTORIAL_ID)
+  )
   const [pendingAoeCard, setPendingAoeCard] = useState<Card | null>(null)
   const [aoeHoverPos, setAoeHoverPos] = useState<{ top: number; left: number } | null>(null)
   const laneRef = useRef<HTMLDivElement>(null)
@@ -1119,6 +1140,12 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           confirmLabel="Yes, Abandon"
           onConfirm={onGiveUp}
           onCancel={() => setConfirmGiveUp(false)}
+        />
+      )}
+      {showBattleTutorial && (
+        <TutorialOverlay
+          steps={BATTLE_TUTORIAL_STEPS}
+          onDone={() => { markSeen(BATTLE_TUTORIAL_ID); setShowBattleTutorial(false) }}
         />
       )}
     </div>

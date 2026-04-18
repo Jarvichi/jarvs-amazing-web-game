@@ -29,6 +29,24 @@ import { MasteryBar } from './MasteryBar'
 import { useCardDetail } from './useCardDetail'
 import { OverlayScreen } from './OverlayScreen'
 import { ProgressBar } from './ProgressBar'
+import { TutorialOverlay } from './TutorialOverlay'
+import { hasSeen, markSeen } from '../game/tutorial'
+
+const DECK_TUTORIAL_ID = 'deckbuilder'
+const DECK_TUTORIAL_STEPS = [
+  {
+    title: 'YOUR DECK',
+    body: 'Cards you add appear here. You need between 10 and 30 cards to play. You can have up to 4 copies of each card.',
+  },
+  {
+    title: 'COLLECTION',
+    body: 'Your owned cards are listed below. Tap a card to add it to your deck — tap it in the deck to remove it.',
+  },
+  {
+    title: 'FILTERS & SORT',
+    body: 'Use the filter and sort buttons to find what you need. When your deck is ready, tap BACK — it saves automatically.',
+  },
+]
 
 interface Props {
   onBack: () => void
@@ -150,6 +168,9 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   // Split panel collapse state
   const [deckCollapsed, setDeckCollapsed] = useState(false)
   const [collectionCollapsed, setCollectionCollapsed] = useState(false)
+
+  // Tutorial
+  const [showTutorial, setShowTutorial] = useState(() => !hasSeen(DECK_TUTORIAL_ID))
 
   // Modal state
   const [showAutoBuild, setShowAutoBuild] = useState(false)
@@ -945,6 +966,12 @@ setCollectionCollapsed(true)
       )}
 
       {cardDetailNode}
+      {showTutorial && (
+        <TutorialOverlay
+          steps={DECK_TUTORIAL_STEPS}
+          onDone={() => { markSeen(DECK_TUTORIAL_ID); setShowTutorial(false) }}
+        />
+      )}
     </OverlayScreen>
   )
 }

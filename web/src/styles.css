@@ -6799,6 +6799,71 @@ body {
 
 /* ── Integrity warning banner ────────────────────────────── */
 
+/* ── Tutorial overlay ────────────────────────────────────── */
+
+.tutorial-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  z-index: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.tutorial-panel {
+  background: #050f05;
+  border: 2px solid var(--game-text-color);
+  max-width: 360px;
+  width: 100%;
+  padding: 22px 24px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 0 30px rgba(51, 255, 51, 0.18);
+}
+
+.tutorial-step-indicator {
+  font-size: 11px;
+  color: var(--game-text-color-dim);
+  letter-spacing: 1px;
+}
+
+.tutorial-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--game-text-color);
+  letter-spacing: 2px;
+}
+
+.tutorial-body {
+  font-size: 13px;
+  color: var(--game-text-color-dim);
+  line-height: 1.55;
+}
+
+.tutorial-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.tutorial-skip {
+  background: none;
+  border: none;
+  color: var(--game-text-color-muted);
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 4px 0;
+  letter-spacing: 1px;
+}
+.tutorial-skip:hover { color: var(--game-text-color-dim); }
+
+/* ── Integrity warning banner ────────────────────────────── */
+
 .integrity-warning {
   position: fixed;
   top: 0;
