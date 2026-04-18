@@ -652,6 +652,7 @@ export default function App() {
 
   // Guard: if we somehow land on 'actcomplete' without a valid run/actData, escape to title.
   useEffect(() => {
+    // TODO: lots of similar checks across various screens — consider centralizing the logic so we don't have to sprinkle these everywhere. For example, when we setScreen('actcomplete'), we could check the run/act data right there and refuse to set it if invalid, instead of briefly flashing a blank screen and then redirecting.
     if (screen === 'actcomplete' && (!run || !ACTS[run.actId])) {
       rollbar.error('actcomplete screen reached without valid run/actData', {
         runActId: run?.actId,
@@ -664,6 +665,7 @@ export default function App() {
 
   // Guard: catch all other "data-dependent" screens that would render blank if their data is null.
   useEffect(() => {
+    // TODO: Candidate for refactor — instead of guarding each screen with an effect, centralize the logic so that when we setScreen('event', we check the data right there and refuse to set it if invalid. That way we can show an error toast immediately instead of briefly flashing a blank screen and then redirecting.
     if (screen === 'bossdialogue' && !bossDialogueNode?.bossDialogue) {
       rollbar.error('bossdialogue screen reached without bossDialogueNode/dialogue', { runActId: run?.actId })
       setScreen(run ? 'nodemap' : 'title')
@@ -811,8 +813,9 @@ export default function App() {
     // Give a handicap boost scaled to deck size: fewer cards = easier opponent
     // (maxes out at +10 for an empty deck, scales to 0 at DECK_MAX cards)
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
+    // Debatable as to whether the reducer state here should be called "START_FREE_PLAY" instead of "START"
     dispatch({ type: 'START', gameState: newGame(playerCards, Math.min(MAX_HANDICAP, handicap + deckBonus)) })
-    setScreen('playing')
+    setScreen('playing') // TODO — move this into the reducer so the transition is atomic and can't be interrupted by a re-render
     rollRareEvent()
   }, [handicap])
 
@@ -832,8 +835,9 @@ export default function App() {
     const playerCards   = buildDeckCards(effectiveDeck, collection)
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
+    // Debatable as to whether the reducer state here should be called "START_ENDLESS" instead of "START"
     dispatch({ type: 'START', gameState: newGame({ playerCards, opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus), endlessMode: true }) })
-    setScreen('playing')
+    setScreen('playing') // TODO — move this into the reducer so the transition is atomic and can't be interrupted by a re-render
     rollRareEvent()
   }, [handicap])
 
@@ -857,13 +861,14 @@ export default function App() {
     const playerCards   = getDailyPlayerDeck()
     const opponentCards = getDailyOpponentDeck()
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    dispatch({ type: 'START', gameState: newGame({
+    // Debatable as to whether the reducer state here should be called "START_DAILY_CHALLENGE" instead of "START"
+    dispatch({ type: 'START', gameState: newGame({ 
       prebuiltPlayerDeck:   playerCards,
       prebuiltOpponentDeck: opponentCards,
       opponentHandicap: 0,
       quickStart: true,
     }) })
-    setScreen('playing')
+    setScreen('playing') // TODO — move this into the reducer so the transition is atomic and can't be interrupted by a re-render
     rollRareEvent()
   }, [])
 
@@ -879,6 +884,7 @@ export default function App() {
     const playerCards   = getDailyPlayerDeck()
     const opponentCards = getDailyOpponentDeck()
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
+    // Debatable as to whether the reducer state here should be called "START_DAILY_CHALLENGE" instead of "START"
     dispatch({ type: 'START', gameState: newGame({
       prebuiltPlayerDeck:   playerCards,
       prebuiltOpponentDeck: opponentCards,
@@ -1643,6 +1649,7 @@ export default function App() {
     proceedFromSpin(false)
   }, [run])
 
+
   const handleCardRestConfirm = useCallback((resting: string[]) => {
     // Mid-act card rest: accumulate fatigued cards and proceed to the next act
     if (cardRestActDoneRef.current) {
@@ -1686,6 +1693,7 @@ export default function App() {
     setScreen('deckbuilder')
   }, [])
 
+  // TODO: another reducer state candiate here instead of relying on the run state update + useEffect to detect the game over condition
   const handleCampaignRetry = useCallback(() => {
     const currentRun = run
     if (!currentRun) { setScreen('title'); return }
@@ -1740,6 +1748,7 @@ export default function App() {
   }, [run])
 
   const handleAbandonRun = useCallback(() => {
+    // TODO: another reducer state candiate here instead of relying on the run state update + useEffect to detect the game over condition
     clearRun()
     setRun(null)
     clearFatigued()
@@ -1749,6 +1758,7 @@ export default function App() {
   }, [])
 
   const handleGiveUp = useCallback(() => {
+    // TODO: another reducer state candiate here instead of relying on the run state update + useEffect to detect the game over condition, break each case out into separate handlers, and unify with handleCampaignRetry where appropriate
     if (isTrainingModeRef.current) {
       isTrainingModeRef.current = false
       dispatch({ type: 'END' })
@@ -1778,6 +1788,7 @@ export default function App() {
       saveRun(withFail)
       setRun(withFail)
       if (newLives === 0) {
+        // TODO: another reducer state candiate here instead of relying on the run state update + useEffect to detect the game over condition
         stopBattleMusic()
         const next = loadCrystals() + 50
         saveCrystals(next)
@@ -1861,6 +1872,7 @@ export default function App() {
         const eulogy = EULOGIES[Math.floor(Math.random() * EULOGIES.length)](unitName)
         const s = gameStateRef.current
         if (s) {
+          // TODO: we don't display logs anywhere, we should have special banner or something for this — or at least make sure it shows up in the battle summary at the end of the battle
           dispatch({ type: 'SET_GAME_STATE', gameState: { ...s, log: [...s.log.slice(-9), eulogy] } })
         }
       }
@@ -1926,6 +1938,7 @@ export default function App() {
     if (timeCapsuleCheckedRef.current) return
     timeCapsuleCheckedRef.current = true
     const count = incrementBattleCount()
+    // TODO: make this on any multiple of 100, not just the first 100
     if (count === 100) setTimeCapsuleVisible(true)
   }, [screen])
 
@@ -2021,6 +2034,9 @@ export default function App() {
     // Secret 10 — 100 Wins Celebration
     const totalWins = incrementTotalWins()
     if (totalWins === 100) setShowWinCelebration(true)
+    // TODO: Celebrate a win every 100 wins, make the animation bigger for each milestone! Grant a special reward at 1000 wins? Grant Rewards every 100 wins?
+    if (totalWins === 1000) setShowWinCelebration(true)
+    
   }, [gameState?.phase.type])
 
   // Decrement a campaign life as soon as a battle is lost (before any button is clicked)
@@ -2086,6 +2102,7 @@ export default function App() {
     // If lives hit 0, go to campaign-failed instead of title.
     const isLoss = gameState?.phase.type === 'gameOver' && gameState.phase.winner !== 'player'
     if (currentRun && isLoss && currentRun.livesRemaining === 0) {
+      // TODO: This shoul dbe a state in a reducer instead of a ref + side effect
       const crystalReward = 50
       const next = loadCrystals() + crystalReward
       saveCrystals(next)
@@ -2104,6 +2121,8 @@ export default function App() {
       return
     }
 
+
+    // TODO: This shoul dbe a state in a reducer instead of a ref + side effect
     // Clear pendingNodeId so the node is selectable again when the player returns
     // via "Continue Campaign" (covers both mid-battle quit and post-loss main menu).
     if (currentRun?.pendingNodeId) {
