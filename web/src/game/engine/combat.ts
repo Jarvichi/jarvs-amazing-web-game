@@ -2,7 +2,7 @@ import { isNoDamageMode } from '../debug'
 import { playBuildingDestroyed, playUnitDeath } from '../sound'
 import { AnimEvent, GameState, LANE_WIDTH, Unit } from '../types'
 import { DAMAGE_FLASH_MS, BLOOD_POOL_MAX } from './constants'
-import { getAttackAura } from './getManaBonus'
+import { getAttackAura } from './bonusEffects'
 import { animUid } from './helpers'
 import { findAttackTarget, unitDist } from './targeting'
 

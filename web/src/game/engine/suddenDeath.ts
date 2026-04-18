@@ -1,7 +1,7 @@
 import { playBuildingDestroyed } from '../sound'
 import { GameState } from '../types'
 import { BASE_MAX_MANA, DAMAGE_FLASH_MS } from './constants'
-import { getManaBonus } from './getManaBonus'
+import { getManaBonus } from './bonusEffects'
 
 // ─── Sudden Death Constants ───────────────────────────────
 
