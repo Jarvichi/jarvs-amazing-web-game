@@ -2737,6 +2737,23 @@ body {
   animation: fadeFlash 2s ease-out forwards;
   white-space: nowrap;
 }
+
+.collection-secret-toast {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0a0a1a;
+  border: 1px solid #aa88ff;
+  color: #cc99ff;
+  font-size: 13px;
+  padding: 8px 18px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 500;
+  animation: fadeFlash 3.5s ease-out forwards;
+  white-space: nowrap;
+}
 @keyframes fadeFlash {
   0%, 60% { opacity: 1; }
   100%     { opacity: 0; }

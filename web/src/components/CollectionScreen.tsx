@@ -17,6 +17,7 @@ import {
   COPIES_MAX,
 } from '../game/collection'
 import { promotionsRemainingToday } from '../game/commander'
+import { incrementAchievementProgress } from '../game/achievements'
 import { CardTile } from './CardTile'
 import { CardDetailModal } from './CardDetailModal'
 import { OverlayScreen } from './OverlayScreen'
@@ -76,6 +77,8 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   const [disenchantModal, setDisenchantModal] = useState<Array<{cardName: string, crystals: number}> | null>(null)
   const [detailCard, setDetailCard] = useState<import('../game/types').Card | null>(null)
   const [levelUpCard, setLevelUpCard] = useState<string | null>(null)
+  const [secretToast, setSecretToast] = useState<string | null>(null)
+  const legendaryViewCount = useRef(0)
   const filterMenuRef = useRef<HTMLDivElement>(null)
   const sortMenuRef   = useRef<HTMLDivElement>(null)
   const groupMenuRef  = useRef<HTMLDivElement>(null)
@@ -308,6 +311,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
           ★ Upgrade all ({totalUpgradeable})
         </Button>
         {flash && <span className="collection-flash">{flash}</span>}
+        {secretToast && <div className="collection-secret-toast">{secretToast}</div>}
       </div>
 
       {/* Filter / Sort / Group bar */}
@@ -528,7 +532,17 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                     card={card}
                     canAfford={true}
                     upgradeable={extras > 0}
-                    onClick={() => setDetailCard(card)}
+                    onClick={() => {
+                      setDetailCard(card)
+                      if (card.rarity === 'legendary') {
+                        legendaryViewCount.current += 1
+                        if (legendaryViewCount.current === 10) {
+                          incrementAchievementProgress('misc:legend_stare')
+                          setSecretToast('✦ The legendaries have noticed your gaze.')
+                          setTimeout(() => setSecretToast(null), 3500)
+                        }
+                      }
+                    }}
                   />
 
                   <div className="cell-footer">

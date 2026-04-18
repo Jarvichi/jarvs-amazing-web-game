@@ -122,11 +122,14 @@ export function useRareEvents({
     }
     if (completedEvent) {
       const eventKey: Record<string, string> = {
-        blackjack:   'event:blackjack_win',
-        liarsDice:   'event:liarsdice_win',
-        narrator:    'event:narrator_befriend',
-        wrongNumber: 'event:wrong_number',
-        fakeCrash:   'event:fake_crash',
+        blackjack:       'event:blackjack_win',
+        liarsDice:       'event:liarsdice_win',
+        narrator:        'event:narrator_befriend',
+        wrongNumber:     'event:wrong_number',
+        fakeCrash:       'event:fake_crash',
+        devBuild:        'event:dev_build',
+        glitchedCard:    'event:glitched_card',
+        confusedTourist: 'event:confused_tourist',
       }
       const key = eventKey[completedEvent]
       if (key) {
