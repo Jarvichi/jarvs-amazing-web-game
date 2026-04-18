@@ -383,7 +383,7 @@
       "col": 1,
       "rowCols": 2,
       "childIds": [
-        "last-stand"
+        "siege-captain"
       ],
       "environment": "camp",
       "restHeal": 10
@@ -594,7 +594,7 @@
       "col": 0,
       "rowCols": 2,
       "childIds": [
-        "siege-captain"
+        "last-stand"
       ],
       "handicap": 0,
       "environment": "citadel",
@@ -633,7 +633,7 @@
       "label": "Siege Captain",
       "description": "A hardened veteran who has defended this position for three years. He takes it personally.",
       "row": 4,
-      "col": 0,
+      "col": 1,
       "rowCols": 2,
       "childIds": [
         "command-tent"
@@ -681,7 +681,7 @@
       "label": "Last Stand",
       "description": "The remaining garrison makes a final push. Outnumbered. Disciplined.",
       "row": 4,
-      "col": 1,
+      "col": 0,
       "rowCols": 2,
       "childIds": [
         "war-council"
