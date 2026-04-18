@@ -48,7 +48,7 @@
   "intro": [
     {
       "title": "THE ASHEN WASTES",
-      "text": "Before the Fracture, the Ashen Wastes were a mining region — coal seams, slag heaps, villages built around the work. Ordinary.\n\nThe Fracture hit differently here. The shard didn't just shatter. It burned. And whatever dark energy poured into the gap found the dead an accommodating host.\n\nThe Wastes are not quiet. The Wastes have never been quiet since."
+      "text": "Before the Fracture, the Ashen Wastes were a mining region â coal seams, slag heaps, villages built around the work. Ordinary.\n\nThe Fracture hit differently here. The shard didn't just shatter. It burned. And whatever dark energy poured into the gap found the dead an accommodating host.\n\nThe Wastes are not quiet. The Wastes have never been quiet since."
     },
     {
       "title": "THE WANDERER",
@@ -56,7 +56,7 @@
     },
     {
       "title": "THE ASHEN WASTES",
-      "text": "The shard is a landscape of grey ash and collapsed mineshafts, lit by fires that burn without fuel and voices that carry without wind.\n\nAt its centre, the Ashwalker — a figure that predates the Fracture, that may predate the Dominion itself. It does not rule the Wastes. The Wastes simply organise themselves around it."
+      "text": "The shard is a landscape of grey ash and collapsed mineshafts, lit by fires that burn without fuel and voices that carry without wind.\n\nAt its centre, the Ashwalker â a figure that predates the Fracture, that may predate the Dominion itself. It does not rule the Wastes. The Wastes simply organise themselves around it."
     },
     {
       "title": "YOUR MISSION",
@@ -66,7 +66,7 @@
   "outro": [
     {
       "title": "THE ASHES SETTLE",
-      "text": "The Ashwalker collapses inward — not destroyed, exactly. Diminished. The fires that burned without fuel go out one by one.\n\nFor the first time in three years, the Ashen Wastes are quiet. Not silent. Quiet. There is a difference.\n\nYou stand in the ash and wait to see if anything gets back up. Nothing does. You consider this a victory."
+      "text": "The Ashwalker collapses inward â not destroyed, exactly. Diminished. The fires that burned without fuel go out one by one.\n\nFor the first time in three years, the Ashen Wastes are quiet. Not silent. Quiet. There is a difference.\n\nYou stand in the ash and wait to see if anything gets back up. Nothing does. You consider this a victory."
     },
     {
       "title": "SOULSTONE",
@@ -78,7 +78,7 @@
       "Currently, technically, in a place that shouldn't exist.",
       "Professionally speaking, operating outside recommended parameters.",
       "In the occupational sense, doing something the guild specifically warned against.",
-      "Now — by any reasonable safety assessment — somewhere else.",
+      "Now â by any reasonable safety assessment â somewhere else.",
       "Technically alive, which puts you in a minority out here."
     ],
     "jarvIntros": [
@@ -89,25 +89,25 @@
       "You have a deck of cards. Something in the ash is watching you. You choose to treat that as an audience."
     ],
     "wastesDesc": [
-      "The Ashen Wastes spread across the shard like a wound that never healed — grey plains dotted with collapsed shafts, burning slag heaps, and the occasional structure that shouldn't still be standing. The silence is the worst part. Not quiet. Silent.",
+      "The Ashen Wastes spread across the shard like a wound that never healed â grey plains dotted with collapsed shafts, burning slag heaps, and the occasional structure that shouldn't still be standing. The silence is the worst part. Not quiet. Silent.",
       "The Wastes are navigable if you know the routes and avoid the unstable ground. Your map marks both. Your map was also drawn three years ago, before the dead started moving the landmarks.",
-      "Grey ash in every direction, fires that burn cold, and voices that carry meaning without words. The Wastes are not hostile — they are simply indifferent to whether you survive them.",
+      "Grey ash in every direction, fires that burn cold, and voices that carry meaning without words. The Wastes are not hostile â they are simply indifferent to whether you survive them.",
       "The shard smells of coal and old smoke and something older beneath both. The Wandering Scholar called it 'entropy made ambient.' You call it 'bad.'"
     ],
     "ashwalkerDesc": [
-      "The Ashwalker has no name in any record that predates the Fracture, which suggests it either wasn't important enough to name or was important enough to not name. Neither is reassuring.\n\nIt doesn't command the dead. It simply exists, and the dead — finding something more coherent than entropy to organise around — follow.",
+      "The Ashwalker has no name in any record that predates the Fracture, which suggests it either wasn't important enough to name or was important enough to not name. Neither is reassuring.\n\nIt doesn't command the dead. It simply exists, and the dead â finding something more coherent than entropy to organise around â follow.",
       "No one knows what the Ashwalker was before the Fracture. The current theory, held by exactly one scholar who has since stopped talking about it, is that it wasn't anything before the Fracture. That the Fracture made it.\n\nYou are choosing not to find this interesting.",
-      "The Ashwalker moves through the Wastes like weather — present everywhere, localised nowhere, and arriving at inconvenient moments. The dead it commands are an afterthought. The Ashwalker itself is the problem.\n\nYou have a plan for the problem. The plan involves cards.",
+      "The Ashwalker moves through the Wastes like weather â present everywhere, localised nowhere, and arriving at inconvenient moments. The dead it commands are an afterthought. The Ashwalker itself is the problem.\n\nYou have a plan for the problem. The plan involves cards.",
       "Old stories about the Ashwalker agree on one detail: it doesn't fight. It consumes. It converts. It uses what's already there.\n\nYou have made a professional decision to not be there when it arrives."
     ],
     "priorRunSummaries": [
       "The first ashfield looked exactly as you'd imagined it. Which was alarming, because you'd never been here before.",
       "You stepped into the Wastes with the specific sensation of having already made a mistake you couldn't identify yet.",
-      "Something about the first encounter — the way the risen dead were positioned, the angle of the burning slag heaps — felt rehearsed. Like a re-run.",
+      "Something about the first encounter â the way the risen dead were positioned, the angle of the burning slag heaps â felt rehearsed. Like a re-run.",
       "The Wastes felt familiar the way a recurring nightmare feels familiar: not pleasant, but navigable, and carrying a sense that you know how it ends."
     ],
     "priorRunOpenings": [
-      "You remember — and this is the strange part — walking this ash field before. Not recently. Not clearly. But the memory is there.",
+      "You remember â and this is the strange part â walking this ash field before. Not recently. Not clearly. But the memory is there.",
       "The Revenant Witch looked at you before you'd said anything. 'Again?' she said. You didn't ask what she meant.",
       "The Ashwalker, when you reached it, didn't seem surprised. It turned toward you with the deliberate patience of something that has been expecting a specific visitor.",
       "The first risen dead you encountered stopped. Just stopped. Then stepped aside. You kept walking and chose not to investigate why."
@@ -129,7 +129,7 @@
       "Fifty approaches. The Ashwalker sends an escort now. You follow the escort. The escort knows the shortest route."
     ],
     "milestoneOpenings100": [
-      "The Ashwalker is already waiting.\n\nNot in its usual position — at the centre of the Wastes, surrounded by the dead. Here, at the edge. Where you enter.\n\n'I have been counting,' it says. The voice comes from everywhere and nowhere simultaneously. 'A hundred times you have come. A hundred times the fire goes out.'\n\nThe ash around it moves in a slow circle.\n\n'I am beginning to think you might be a habit.'"
+      "The Ashwalker is already waiting.\n\nNot in its usual position â at the centre of the Wastes, surrounded by the dead. Here, at the edge. Where you enter.\n\n'I have been counting,' it says. The voice comes from everywhere and nowhere simultaneously. 'A hundred times you have come. A hundred times the fire goes out.'\n\nThe ash around it moves in a slow circle.\n\n'I am beginning to think you might be a habit.'"
     ]
   },
   "midRunTemplates": [
@@ -339,7 +339,7 @@
         },
         {
           "title": "A MEMORY",
-          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. The Wastes are waiting.\n\nThey are always waiting."
+          "text": "And yet â {pool:priorRunOpenings:0}\n\nYou push the feeling aside. The Wastes are waiting.\n\nThey are always waiting."
         }
       ]
     }
@@ -352,7 +352,7 @@
       "id": "ashfield-scouts",
       "type": "battle",
       "label": "Ashfield Scouts",
-      "description": "The dead that patrol the Wastes' edge — faster than they should be, coordinated in ways the dead shouldn't be.",
+      "description": "The dead that patrol the Wastes' edge â faster than they should be, coordinated in ways the dead shouldn't be.",
       "row": 0,
       "col": 0,
       "rowCols": 1,
@@ -388,13 +388,12 @@
       "col": 0,
       "rowCols": 3,
       "childIds": [
-        "cursed-altar",
         "revenant-witch"
       ],
       "environment": "ruins",
       "eventConfig": {
         "title": "The Soul Shrine",
-        "description": "A shrine built from miners' tools — pickaxes crossed at the base, lanterns fused into its flanks with old soot. The flame inside is black. Whatever souls it was built to honour, they haven't left.",
+        "description": "A shrine built from miners' tools â pickaxes crossed at the base, lanterns fused into its flanks with old soot. The flame inside is black. Whatever souls it was built to honour, they haven't left.",
         "pools": [
           [
             {
@@ -422,7 +421,7 @@
             },
             {
               "label": "Leave an offering",
-              "consequence": "The shrine takes more than offered — lose 10 HP.",
+              "consequence": "The shrine takes more than offered â lose 10 HP.",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -430,7 +429,7 @@
             },
             {
               "label": "Leave an offering",
-              "consequence": "A miner's spirit grants you another chance — +1 life.",
+              "consequence": "A miner's spirit grants you another chance â +1 life.",
               "effect": {
                 "type": "gainLife",
                 "amount": 1
@@ -482,7 +481,7 @@
             },
             {
               "label": "Reach into the black flame",
-              "consequence": "It burns after all — lose 16 HP.",
+              "consequence": "It burns after all â lose 16 HP.",
               "effect": {
                 "type": "damageHp",
                 "amount": 16
@@ -506,7 +505,7 @@
             },
             {
               "label": "Reach into the black flame",
-              "consequence": "Something small and cold falls into your palm — added to inventory",
+              "consequence": "Something small and cold falls into your palm â added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -519,7 +518,7 @@
       "id": "bone-fire",
       "type": "rest",
       "label": "Bone Fire",
-      "description": "A fire that burns cold — but it burns, and in the Wastes that's enough. Rest here.",
+      "description": "A fire that burns cold â but it burns, and in the Wastes that's enough. Rest here.",
       "row": 2,
       "col": 2,
       "rowCols": 3,
@@ -562,7 +561,7 @@
       "id": "ash-grotto",
       "type": "rest",
       "label": "Ash Grotto",
-      "description": "A hollow in the ash-field — sheltered from the wind, the dead, and whatever else the Wastes have decided to send today. Rest here.",
+      "description": "A hollow in the ash-field â sheltered from the wind, the dead, and whatever else the Wastes have decided to send today. Rest here.",
       "row": 5,
       "col": 0,
       "rowCols": 2,
@@ -577,7 +576,7 @@
       "id": "risen-horde",
       "type": "battle",
       "label": "Risen Horde",
-      "description": "The Wastes' standing army — numberless, tireless, and pointed in your direction.",
+      "description": "The Wastes' standing army â numberless, tireless, and pointed in your direction.",
       "row": 3,
       "col": 1,
       "rowCols": 2,
@@ -608,7 +607,7 @@
       "id": "shadow-guard",
       "type": "battle",
       "label": "Shadow Guard",
-      "description": "Risen soldiers who remember their discipline — the most dangerous kind of dead.",
+      "description": "Risen soldiers who remember their discipline â the most dangerous kind of dead.",
       "row": 4,
       "col": 1,
       "rowCols": 3,
@@ -687,7 +686,7 @@
       "id": "cursed-altar",
       "type": "event",
       "label": "Cursed Altar",
-      "description": "A makeshift altar built from the bones of something large — whatever the Wastes worshipped before the Fracture gave it something better to do.",
+      "description": "A makeshift altar built from the bones of something large â whatever the Wastes worshipped before the Fracture gave it something better to do.",
       "row": 4,
       "col": 2,
       "rowCols": 3,
@@ -697,7 +696,7 @@
       "environment": "ashen",
       "eventConfig": {
         "title": "The Cursed Altar",
-        "description": "A makeshift altar built from the bones of something large — whatever the Wastes worshipped before the Fracture gave it something better to do. Dark ichor seeps between the joints. The altar hums.",
+        "description": "A makeshift altar built from the bones of something large â whatever the Wastes worshipped before the Fracture gave it something better to do. Dark ichor seeps between the joints. The altar hums.",
         "pools": [
           [
             {
@@ -710,7 +709,7 @@
             },
             {
               "label": "Make a blood offering",
-              "consequence": "Dark energy surges through you — +1 life, lose 8 HP.",
+              "consequence": "Dark energy surges through you â +1 life, lose 8 HP.",
               "effect": {
                 "type": "damageHp",
                 "amount": 8
@@ -767,7 +766,7 @@
             },
             {
               "label": "Pray to the bones",
-              "consequence": "The altar grants you one more chance — +1 life.",
+              "consequence": "The altar grants you one more chance â +1 life.",
               "effect": {
                 "type": "gainLife",
                 "amount": 1
@@ -775,7 +774,7 @@
             },
             {
               "label": "Pray to the bones",
-              "consequence": "A bone fragment shifts loose and lands in your hand — added to inventory",
+              "consequence": "A bone fragment shifts loose and lands in your hand â added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -784,7 +783,7 @@
           [
             {
               "label": "Desecrate the altar",
-              "consequence": "The altar shatters — +28 crystals from the gem fragments.",
+              "consequence": "The altar shatters â +28 crystals from the gem fragments.",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 28
@@ -800,7 +799,7 @@
             },
             {
               "label": "Desecrate the altar",
-              "consequence": "The altar retaliates — lose 22 HP.",
+              "consequence": "The altar retaliates â lose 22 HP.",
               "effect": {
                 "type": "damageHp",
                 "amount": 22
@@ -821,7 +820,7 @@
       "id": "death-knight",
       "type": "elite",
       "label": "Death Knight",
-      "description": "A Dominion officer who fell in the Fracture and rose again — armoured, organised, and entirely without mercy.",
+      "description": "A Dominion officer who fell in the Fracture and rose again â armoured, organised, and entirely without mercy.",
       "row": 5,
       "col": 1,
       "rowCols": 2,
