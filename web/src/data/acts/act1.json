@@ -355,24 +355,21 @@
         "camp"
       ],
       "handicap": 7,
-      "opponentIntervalMs": 5500,
+      "opponentIntervalMs": 7000,
       "opponentBaseHp": 175,
       "environment": "farmland",
       "enemyDeck": [
-        "Frog Knight",
         "Goblin",
         "Goblin",
         "Goblin",
-        "Bat",
-        "Bat",
-        "Cave Bat",
+        "Goblin",
+        "Archer",
+        "Archer",
+        "Archer",
+        "Bandit",
         "Bandit",
         "Pixie",
-        "Pixie",
-        "Build Wall",
-        "Build Wall",
-        "Rally",
-        "Rally"
+        "Pixie"
       ]
     },
     "camp": {
@@ -388,19 +385,18 @@
         "market"
       ],
       "handicap": 5,
-      "opponentBaseHp": 185,
+      "opponentBaseHp": 160,
       "environment": "forest",
       "enemyDeck": [
         "Bandit",
         "Bandit",
+        "Bandit",
+        "Goblin",
         "Goblin",
         "Goblin",
         "Archer",
-        "Bat",
-        "Cave Bat",
-        "Build Wall",
-        "Rally",
-        "Haste"
+        "Archer",
+        "Archer"
       ]
     },
     "shrine": {
@@ -416,20 +412,20 @@
         "node-the-lonely-field"
       ],
       "handicap": 5,
-      "opponentBaseHp": 180,
+      "opponentBaseHp": 160,
       "environment": "forest",
       "enemyDeck": [
         "Goblin",
         "Goblin",
+        "Goblin",
+        "Archer",
+        "Archer",
+        "Archer",
         "Pixie",
         "Pixie",
-        "Vine Golem",
+        "Bandit",
         "Bat",
-        "Bat",
-        "Thornwall",
-        "Rally",
-        "Rally",
-        "Haste"
+        "Bat"
       ]
     },
     "forest-path": {
@@ -729,166 +725,17 @@
     },
     "ruins": {
       "id": "ruins",
-      "type": "event",
+      "type": "rest",
       "label": "Watchtower Ruins",
-      "description": "A crumbling garrison tower leans against the treeline.",
+      "description": "A crumbling garrison tower, long abandoned. The walls still hold. You make camp inside.",
       "row": 4,
       "col": 2,
       "rowCols": 4,
       "childIds": [
         "deep-crossing"
       ],
-      "environment": "ruins",
-      "eventConfig": {
-        "title": "Crumbling Watchtower",
-        "description": "A moss-eaten garrison tower leans against the treeline, abandoned mid-battle. A rusted sword stands upright in the earth beside it. The armory gate hangs open.",
-        "pools": [
-          [
-            {
-              "label": "Rest in the shelter",
-              "consequence": "The quiet heals \u2014 restored 15 HP",
-              "effect": {
-                "type": "healHp",
-                "amount": 15
-              }
-            },
-            {
-              "label": "Rest in the shelter",
-              "consequence": "You sleep badly. Restored 8 HP",
-              "effect": {
-                "type": "healHp",
-                "amount": 8
-              }
-            },
-            {
-              "label": "Rest in the shelter",
-              "consequence": "Something bites you in the night \u2014 lose 6 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 6
-              }
-            },
-            {
-              "label": "Rest in the shelter",
-              "consequence": "You find a pouch under the floorboards \u2014 +14 crystals",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 14
-              }
-            },
-            {
-              "label": "Rest in the shelter",
-              "consequence": "You wake to find a small curiosity beside you \u2014 added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            },
-            {
-              "label": "Rest in the shelter",
-              "consequence": "Something rolls under your hand in the dark \u2014 added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            }
-          ],
-          [
-            {
-              "label": "Search the armory",
-              "consequence": "An uncommon card hidden behind a loose brick",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "uncommon"
-              }
-            },
-            {
-              "label": "Search the armory",
-              "consequence": "A rare weapon contract \u2014 add a rare card",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
-              }
-            },
-            {
-              "label": "Search the armory",
-              "consequence": "Old coin cache \u2014 +20 crystals",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 20
-              }
-            },
-            {
-              "label": "Search the armory",
-              "consequence": "A rusted trap springs \u2014 lose 10 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 10
-              }
-            },
-            {
-              "label": "Search the armory",
-              "consequence": "You find a curious object among the debris \u2014 added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            },
-            {
-              "label": "Search the armory",
-              "consequence": "Something rolls out of the rubble \u2014 added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            }
-          ],
-          [
-            {
-              "label": "Climb the watchtower",
-              "consequence": "Good vantage point \u2014 +12 crystals from spotted supply cache",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 12
-              }
-            },
-            {
-              "label": "Climb the watchtower",
-              "consequence": "A common card is wedged in the battlements",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "common"
-              }
-            },
-            {
-              "label": "Climb the watchtower",
-              "consequence": "The stairs collapse \u2014 lose 12 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 12
-              }
-            },
-            {
-              "label": "Climb the watchtower",
-              "consequence": "Nothing up there. Wind. Old regrets.",
-              "effect": {
-                "type": "nothing"
-              }
-            },
-            {
-              "label": "Climb the watchtower",
-              "consequence": "Something is jammed in the bell \u2014 you pocket it \u2014 added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            },
-            {
-              "label": "Climb the watchtower",
-              "consequence": "You spot a hidden passage to a safe camp below \u2014 +1 life",
-              "effect": {
-                "type": "gainLife",
-                "amount": 1
-              }
-            }
-          ]
-        ]
-      }
+      "restHeal": 15,
+      "environment": "ruins"
     },
     "war-camp": {
       "id": "war-camp",
@@ -904,19 +751,16 @@
       "handicap": 0,
       "environment": "camp",
       "enemyDeck": [
-        "Barbarian",
-        "Barbarian",
         "Knight",
+        "Knight",
+        "Barbarian",
+        "Barbarian",
         "Crossbow",
         "Crossbow",
-        "Elder Treant",
         "Archer",
-        "Thornwall",
-        "Build Wall",
+        "Archer",
         "Barracks",
-        "Sharpen Blades",
-        "Haste",
-        "Iron Skin"
+        "Build Wall"
       ]
     },
     "market": {
@@ -953,19 +797,18 @@
       "enemyDeck": [
         "Knight",
         "Knight",
-        "Catapult",
-        "Catapult",
+        "Knight",
+        "Knight",
         "Crossbow",
         "Crossbow",
+        "Barbarian",
+        "Barbarian",
         "Shield Guard",
         "Shield Guard",
         "Build Wall",
         "Build Wall",
-        "Garrison",
         "Sharpen Blades",
-        "War Drums",
-        "Iron Skin",
-        "Fortify"
+        "Iron Skin"
       ],
       "opponentIntervalMs": 6000,
       "opponentBaseHp": 92
@@ -983,7 +826,7 @@
         "ruins"
       ],
       "handicap": 2,
-      "opponentBaseHp": 90,
+      "opponentBaseHp": 85,
       "opponentIntervalMs": 6000,
       "environment": "forest",
       "bossDialogue": [
@@ -991,18 +834,18 @@
         "\"The forest has been waiting for something like you.\""
       ],
       "enemyDeck": [
-        "Troll",
-        "Troll",
-        "Thornbeast",
-        "Thornbeast",
-        "Vine Golem",
-        "Vine Golem",
+        "Barbarian",
+        "Barbarian",
+        "Barbarian",
+        "Knight",
+        "Knight",
+        "Goblin",
+        "Goblin",
+        "Archer",
+        "Archer",
         "Cave Bat",
-        "Thornwall",
-        "Thornwall",
-        "Troll Den",
-        "Rally",
-        "Haste"
+        "Cave Bat",
+        "Rally"
       ]
     },
     "troll-bridge": {
@@ -1020,17 +863,14 @@
       "opponentBaseHp": 95,
       "environment": "forest",
       "enemyDeck": [
-        "Troll",
-        "Troll",
-        "Troll",
-        "Vine Golem",
-        "Thornbeast",
-        "Troll Den",
-        "Thornwall",
-        "Thornwall",
+        "Knight",
+        "Knight",
+        "Knight",
+        "Barbarian",
+        "Barbarian",
+        "Crossbow",
+        "Crossbow",
         "Barracks",
-        "Rally",
-        "Rally",
         "Haste"
       ]
     },
@@ -1071,17 +911,16 @@
       "opponentBaseHp": 110,
       "environment": "forest",
       "enemyDeck": [
-        "Troll",
-        "Vine Golem",
-        "Vine Golem",
-        "Thornbeast",
+        "Knight",
+        "Knight",
+        "Barbarian",
+        "Barbarian",
         "Archer",
         "Archer",
-        "Thornwall",
-        "Thornwall",
-        "Ancient Grove",
-        "Rally",
-        "Haste"
+        "Crossbow",
+        "Crossbow",
+        "Barracks",
+        "Garrison"
       ]
     },
     "node-1776083922801": {
@@ -1107,42 +946,24 @@
         "Archer",
         "Knight"
       ],
+      "handicap": 3,
       "opponentIntervalMs": 8000,
       "environment": "citadel",
-      "opponentBaseHp": 450
+      "opponentBaseHp": 200
     },
     "node-the-lonely-field": {
       "id": "node-the-lonely-field",
-      "type": "battle",
-      "label": "The Lonely Field",
-      "description": "The captain stands with a snail on their knurled face. The field before them is empty, bar a single tent, the army has moved on, these poor souls overslept.",
+      "type": "rest",
+      "label": "Abandoned Camp",
+      "description": "The army moved on. A few stragglers are still asleep by the fire. You help yourself to the supplies they left behind.",
       "row": 2,
       "col": 1,
       "rowCols": 4,
       "childIds": [
         "deep-woods"
       ],
-      "opponentIntervalMs": 5000,
-      "opponentBaseHp": 50,
-      "environment": "farmland",
-      "enemyDeck": [
-        "Goblin",
-        "Goblin",
-        "Goblin",
-        "Goblin",
-        "Archer",
-        "Archer",
-        "Archer",
-        "Archer",
-        "Goblin",
-        "Goblin",
-        "Goblin",
-        "Goblin",
-        "Archer",
-        "Archer",
-        "Archer",
-        "Archer"
-      ]
+      "restHeal": 15,
+      "environment": "farmland"
     }
   },
   "mapMusicId": "map",
