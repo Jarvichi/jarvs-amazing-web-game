@@ -15,7 +15,8 @@
  */
 
 import { GameState, BattleStats, Card } from './types'
-import { tick as engineTick, playCard as enginePlayCard } from './engine'
+import { tick as engineTick } from './engine'
+import { playCard as enginePlayCard } from './engine/cards'
 import type { DailyChallengeState } from './dailyChallenge'
 import { generateEndlessRewardChoices } from './questline'
 

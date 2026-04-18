@@ -189,30 +189,13 @@ export interface BattleEventState {
 }
 
 // ─── Terrain ─────────────────────────────────────────────
+// Types and constants owned by engine/terrain.ts; re-exported here for
+// consumers that import from the top-level types module.
 
-export type TerrainType = 'rock' | 'tree' | 'water' | 'ruin'
-
-/**
- * Per-type avoidance ellipse multipliers (applied to obs.radius).
- * fx = forward axis (game x, maps to screen vertical).
- * fy = lateral axis (game y, maps to screen horizontal).
- * Derived from each SVG's width/height ratios so the avoidance shape
- * matches the visual: pine trees are tall+narrow, water pools are wide, etc.
- */
-export const TERRAIN_AVOID_SHAPE: Record<TerrainType, { fx: number; fy: number }> = {
-  rock:  { fx: 1.1, fy: 0.9 },  // mountain peaks: slightly taller than wide
-  tree:  { fx: 1.3, fy: 0.5 },  // pine/fruit/blob trees: tall, narrow trunk
-  water: { fx: 0.6, fy: 1.5 },  // pond: wide and flat
-  ruin:  { fx: 1.0, fy: 0.9 },  // ruins/farmhouse/watchtower: roughly square
-}
-
-export interface TerrainObstacle {
-  id: string
-  type: TerrainType
-  x: number      // forward axis (same coords as units); kept 80–420
-  y: number      // lateral axis; –75 to 75
-  radius: number // base avoidance radius in game units, 12–22
-}
+import type { TerrainObstacle as _TerrainObstacle } from './engine/terrain'
+export type { TerrainType, TerrainObstacle } from './engine/terrain'
+export { TERRAIN_AVOID_SHAPE } from './engine/terrain'
+type TerrainObstacle = _TerrainObstacle
 
 // ─── Game ────────────────────────────────────────────────
 
