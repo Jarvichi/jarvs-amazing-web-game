@@ -23,7 +23,8 @@ vi.mock('./debug', () => ({
 
 // ─── Module under test ────────────────────────────────────────────────────────
 
-import { newGame, playCard, tick, MAX_HANDICAP } from './engine'
+import { newGame, tick, MAX_HANDICAP } from './engine'
+import { playCard } from './engine/cards'
 import { makeDeck } from './cards'
 
 // ─── newGame ──────────────────────────────────────────────────────────────────

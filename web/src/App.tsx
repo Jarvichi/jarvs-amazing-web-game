@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { GameState, Card } from './game/types'
-import { newGame, NewGameOptions, playCard, playAoeCard, MAX_HANDICAP } from './game/engine'
+import { newGame, NewGameOptions, MAX_HANDICAP } from './game/engine'
+import { playCard, playAoeCard } from './game/engine/cards'
 import { makeNodeDeck } from './game/cards'
 import { battleReducer, INITIAL_BATTLE_STATE, TICK_MS } from './game/battleReducer'
 import {
