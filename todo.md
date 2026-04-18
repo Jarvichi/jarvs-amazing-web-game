@@ -1,6 +1,21 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-04-12 (session 39).
+Issues sourced from GitHub. Last synced: 2026-04-18 (session 40).
+
+## 🟣 Features — New (from GitHub, session 40 sync)
+
+- [ ] **#705** Minigame: city builder — Feature Request | Priority: Medium — Use existing units/buildings to build a city that generates resources; spend resources to level up cards. Sub-issues:
+  - [ ] **#712** Core game loop: place units/buildings, collect resources over time
+  - [ ] **#713** Card leveling: spend city resources to level up cards
+  - [ ] **#714** UI screen, grid layout, persistent save state
+- [ ] **#704** Minigame: fishing — Feature Request | Priority: Low — Add a fishing minigame (accessible from minigames hub). No duplicates.
+
+## 🔵 Improvements — New (from GitHub, session 40 sync)
+
+- [ ] **#701** Node Map visual overhaul — Improvement | Priority: Medium — Map currently boxes on black background; needs drawn paths/roads, left-to-right orientation, act-themed background. Sub-issues:
+  - [ ] **#715** Add path/road visuals connecting nodes
+  - [ ] **#716** Change to left-to-right layout
+  - [ ] **#717** Act-themed map background
 
 ## ✅ Done (session 39)
 
