@@ -2,7 +2,7 @@ import bossAIDefsRaw from '../../data/bossAIs.json'
 import { Card, GameState } from '../types'
 import { BASE_MAX_MANA } from './constants'
 import { deployCard } from './cards'
-import { getManaBonus } from './getManaBonus'
+import { getManaBonus } from './bonusEffects'
 import { drawCard } from './helpers'
 import { isPlayable } from './opponentAI'
 

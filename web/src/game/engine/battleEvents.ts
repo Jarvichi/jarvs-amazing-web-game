@@ -5,7 +5,7 @@ export const BATTLE_EVENT_BASE_MS = 30000  // first event after 30s, then every 
 import { isNoDamageMode } from "../debug"
 import { GameState, BattleEventState } from "../types"
 import { BASE_MAX_MANA } from "./constants"
-import { getManaBonus } from "./getManaBonus"
+import { getManaBonus } from "./bonusEffects"
 
 export function triggerBattleEvent(s: GameState, log: string[]): void {
   const roll = Math.random()

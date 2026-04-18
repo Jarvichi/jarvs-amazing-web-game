@@ -4,7 +4,7 @@
 import { Card, GameState } from "../types"
 import { BASE_MAX_MANA } from "./constants"
 import { deployCard } from "./cards"
-import { getManaBonus } from "./getManaBonus"
+import { getManaBonus } from "./bonusEffects"
 import { drawCard } from "./helpers"
 
 /** Hero cards are locked for the first 30 s — same rule as the player. */
