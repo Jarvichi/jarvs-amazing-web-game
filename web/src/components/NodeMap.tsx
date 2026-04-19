@@ -26,20 +26,17 @@ const AVATAR_PADDING = 72  // left space in nm-map-inner for the "node 0" start 
 const AVATAR_SIZE    = 36  // px avatar width/height
 const WALK_DURATION  = 700 // ms for the walk animation
 
-function nodeCenter(
-  rowIndex: number,
-  node: QuestNode,
-  rowCols: number,
-  maxRowCols: number,
-): { x: number; y: number } {
-  const x  = AVATAR_PADDING + rowIndex * (COL_WIDTH + 44) + COL_WIDTH / 2
-  const vr = (maxRowCols - rowCols) / 2 + node.col
-  const y  = vr * ROW_HEIGHT + ROW_HEIGHT / 2
-  return { x, y }
-}
-
 function startPosition(mapHeight: number): { x: number; y: number } {
   return { x: AVATAR_PADDING / 2, y: mapHeight / 2 }
+}
+
+function getRelativeCenter(el: HTMLElement, container: HTMLElement): { x: number; y: number } {
+  const er = el.getBoundingClientRect()
+  const cr = container.getBoundingClientRect()
+  return {
+    x: er.left - cr.left + er.width  / 2,
+    y: er.top  - cr.top  + er.height / 2,
+  }
 }
 
 function lastCompletedNode(act: Act, run: RunState): QuestNode | null {
@@ -723,40 +720,47 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
   const [isWalking, setIsWalking] = useState(false)
   const [walkFrame, setWalkFrame] = useState(0)
 
-  // Initialise avatar at last completed node (or start position) on mount
+  const mapRef         = useRef<HTMLDivElement>(null)
+  const mapInnerRef    = useRef<HTMLDivElement>(null)
+  const currentRef     = useRef<HTMLDivElement>(null)
+  const nodeButtonRefs = useRef<Record<string, HTMLButtonElement | null>>({})
+
+  const currentNodeId = run.pendingNodeId
+    ?? rows.flatMap(r => r).find(n => availableIds.includes(n.id))?.id
+
+  // On mount: scroll to current node, then place avatar using DOM measurement
   useEffect(() => {
+    const mapEl      = mapRef.current
+    const mapInnerEl = mapInnerRef.current
+    const scrollToEl = currentRef.current
+
+    if (mapEl && scrollToEl) {
+      const mapRect  = mapEl.getBoundingClientRect()
+      const nodeRect = scrollToEl.getBoundingClientRect()
+      mapEl.scrollLeft += nodeRect.left - mapRect.left - (mapRect.width - nodeRect.width) / 2
+    }
+
+    if (!mapInnerEl) {
+      setAvatarPos(startPosition(mapHeight))
+      return
+    }
     const lastNode = lastCompletedNode(act, run)
     if (lastNode) {
-      const ri = rows.findIndex(r => r.some(n => n.id === lastNode.id))
-      if (ri >= 0) {
-        const rowCols = rows[ri][0]?.rowCols ?? rows[ri].length
-        setAvatarPos(nodeCenter(ri, lastNode, rowCols, maxRowCols))
+      const nodeBtn = nodeButtonRefs.current[lastNode.id]
+      if (nodeBtn) {
+        setAvatarPos(getRelativeCenter(nodeBtn, mapInnerEl))
         return
       }
     }
     setAvatarPos(startPosition(mapHeight))
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Scroll to the current node (pending or first available) on mount
-  const mapRef     = useRef<HTMLDivElement>(null)
-  const currentRef = useRef<HTMLDivElement>(null)
-  const currentNodeId = run.pendingNodeId
-    ?? rows.flatMap(r => r).find(n => availableIds.includes(n.id))?.id
-
-  useEffect(() => {
-    const mapEl  = mapRef.current
-    const nodeEl = currentRef.current
-    if (!mapEl || !nodeEl) return
-    const mapRect  = mapEl.getBoundingClientRect()
-    const nodeRect = nodeEl.getBoundingClientRect()
-    mapEl.scrollLeft = mapEl.scrollLeft + nodeRect.left - mapRect.left
-      - (mapRect.width - nodeRect.width) / 2
-  }, [])
-
-  const handleNodeClick = (node: QuestNode, rowIndex: number) => {
+  const handleNodeClick = (node: QuestNode) => {
     if (isWalking) return
-    const rowCols = rows[rowIndex][0]?.rowCols ?? rows[rowIndex].length
-    const target  = nodeCenter(rowIndex, node, rowCols, maxRowCols)
+    const mapInnerEl = mapInnerRef.current
+    const nodeBtn    = nodeButtonRefs.current[node.id]
+    if (!mapInnerEl || !nodeBtn) return
+    const target  = getRelativeCenter(nodeBtn, mapInnerEl)
     const from    = avatarPos ?? startPosition(mapHeight)
     const midX    = (from.x + target.x) / 2
     const path    = `M ${from.x},${from.y} C ${midX},${from.y} ${midX},${target.y} ${target.x},${target.y}`
@@ -832,7 +836,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
 
       {/* Map — left-to-right: each act row renders as a vertical column */}
       <div className={`nm-map${act.environment ? ` nm-map--${act.environment}` : ''}`} ref={mapRef}>
-        <div className="nm-map-inner" style={{ height: `${mapHeight}px`, paddingLeft: `${AVATAR_PADDING}px`, position: 'relative' }}>
+        <div className="nm-map-inner" ref={mapInnerRef} style={{ height: `${mapHeight}px`, paddingLeft: `${AVATAR_PADDING}px`, position: 'relative' }}>
           <MapTerrain
             environment={act.environment}
             actId={act.id}
@@ -900,13 +904,14 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                         style={{ gridRow: node.col + 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                       >
                         <button
+                          ref={el => { nodeButtonRefs.current[node.id] = el }}
                           className={[
                             'nm-node',
                             `nm-node--${node.type}`,
                             `nm-node--${status}`,
                             dim ? 'nm-node--dim' : '',
                           ].filter(Boolean).join(' ')}
-                          onClick={clickable && !isWalking ? () => handleNodeClick(node, rowIndex) : undefined}
+                          onClick={clickable && !isWalking ? () => handleNodeClick(node) : undefined}
                           disabled={!clickable}
                           title={node.description}
                         >
