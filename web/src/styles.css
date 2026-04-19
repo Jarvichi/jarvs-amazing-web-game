@@ -3838,6 +3838,22 @@ body {
   align-items: center;
 }
 
+/* Act-environment themed backgrounds */
+.nm-map--forest   { background: radial-gradient(ellipse at center, #0d1f0a 0%, #071208 100%); }
+.nm-map--citadel  { background: radial-gradient(ellipse at center, #16181e 0%, #0e0f13 100%); }
+.nm-map--ruins    { background: radial-gradient(ellipse at center, #141214 0%, #0c0a0c 100%); }
+.nm-map--ashen    { background: radial-gradient(ellipse at center, #1e100a 0%, #100808 100%); }
+.nm-map--farmland { background: radial-gradient(ellipse at center, #131a07 0%, #0a1005 100%); }
+.nm-map--frost    { background: radial-gradient(ellipse at center, #0a1520 0%, #060e18 100%); }
+.nm-map--volcano  { background: radial-gradient(ellipse at center, #1e0a05 0%, #110505 100%); }
+.nm-map--sand     { background: radial-gradient(ellipse at center, #1e1608 0%, #120e05 100%); }
+.nm-map--reef     { background: radial-gradient(ellipse at center, #081820 0%, #04101a 100%); }
+.nm-map--coast    { background: radial-gradient(ellipse at center, #081620 0%, #050e18 100%); }
+.nm-map--sky      { background: radial-gradient(ellipse at center, #0a1220 0%, #070c18 100%); }
+.nm-map--fungal   { background: radial-gradient(ellipse at center, #130a20 0%, #0a0614 100%); }
+.nm-map--vault    { background: radial-gradient(ellipse at center, #181410 0%, #100e0a 100%); }
+.nm-map--camp     { background: radial-gradient(ellipse at center, #161210 0%, #0e0a08 100%); }
+
 .nm-map-inner {
   margin: auto;
   display: flex;

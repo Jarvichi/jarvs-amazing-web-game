@@ -107,6 +107,7 @@ interface ConnProps {
   maxRows:      number
   statusOf:     (id: string) => NodeStatus
   reachableIds: Set<string>
+  environment?: string
 }
 
 type LineVariant = 'trail' | 'frontier' | 'future' | 'dead'
@@ -124,17 +125,27 @@ function lineVariant(
   return 'future'
 }
 
-const LINE_STROKE: Record<LineVariant, string> = {
-  trail:    'rgba(51,255,51,0.35)',
-  frontier: 'rgba(51,255,51,0.75)',
-  future:   'rgba(255,255,255,0.1)',
-  dead:     'rgba(255,255,255,0.03)',
-}
-const LINE_WIDTH: Record<LineVariant, number> = {
-  trail: 1.5, frontier: 2, future: 1.5, dead: 1,
+function envColors(env?: string): { trail: string; frontier: string } {
+  switch (env) {
+    case 'forest':   return { trail: 'rgba(80,140,60,0.6)',   frontier: 'rgba(100,220,80,0.9)'  }
+    case 'citadel':
+    case 'ruins':    return { trail: 'rgba(120,120,140,0.55)', frontier: 'rgba(180,180,210,0.9)' }
+    case 'ashen':    return { trail: 'rgba(160,80,40,0.55)',   frontier: 'rgba(240,120,60,0.9)'  }
+    case 'farmland': return { trail: 'rgba(140,160,60,0.55)',  frontier: 'rgba(200,220,80,0.9)'  }
+    case 'frost':    return { trail: 'rgba(80,160,200,0.55)',  frontier: 'rgba(120,220,255,0.9)' }
+    case 'volcano':  return { trail: 'rgba(200,80,20,0.6)',    frontier: 'rgba(255,120,30,0.95)' }
+    case 'sand':     return { trail: 'rgba(200,160,60,0.55)',  frontier: 'rgba(240,200,80,0.9)'  }
+    case 'reef':
+    case 'coast':    return { trail: 'rgba(40,140,180,0.55)',  frontier: 'rgba(60,200,240,0.9)'  }
+    case 'sky':      return { trail: 'rgba(100,140,200,0.55)', frontier: 'rgba(140,190,255,0.9)' }
+    case 'fungal':   return { trail: 'rgba(120,60,160,0.55)',  frontier: 'rgba(180,80,240,0.9)'  }
+    case 'vault':
+    case 'camp':     return { trail: 'rgba(140,120,80,0.55)',  frontier: 'rgba(200,180,100,0.9)' }
+    default:         return { trail: 'rgba(120,120,120,0.45)', frontier: 'rgba(51,255,51,0.85)'  }
+  }
 }
 
-function SVGConnector({ prevRow, nextRow, maxRows, statusOf, reachableIds }: ConnProps) {
+function SVGConnector({ prevRow, nextRow, maxRows, statusOf, reachableIds, environment }: ConnProps) {
   const prevRowCols = prevRow[0]?.rowCols ?? prevRow.length
   const nextRowCols = nextRow[0]?.rowCols ?? nextRow.length
 
@@ -172,6 +183,8 @@ function SVGConnector({ prevRow, nextRow, maxRows, statusOf, reachableIds }: Con
     }
   }
 
+  const colors = envColors(environment)
+
   return (
     <svg
       viewBox={`0 0 1 ${maxRows}`}
@@ -180,17 +193,33 @@ function SVGConnector({ prevRow, nextRow, maxRows, statusOf, reachableIds }: Con
     >
       {Array.from(best.values()).map(({ variant, pr, cr }, i) => {
         const y1 = cy(pr), y2 = cy(cr)
-        // Cubic bezier: depart/arrive horizontally, smooth vertical transition
         const d = `M 0,${y1} C 0.5,${y1} 0.5,${y2} 1,${y2}`
+
+        if (variant === 'future') {
+          return (
+            <path key={i} d={d} fill="none"
+              stroke="rgba(255,255,255,0.13)" strokeWidth={2}
+              strokeDasharray="0.04 0.06" strokeLinecap="round"
+              vectorEffect="non-scaling-stroke" />
+          )
+        }
+        if (variant === 'dead') {
+          return (
+            <path key={i} d={d} fill="none"
+              stroke="rgba(255,255,255,0.04)" strokeWidth={1}
+              vectorEffect="non-scaling-stroke" />
+          )
+        }
+        // trail / frontier — two-layer road look
+        const surfaceColor = variant === 'frontier' ? colors.frontier : colors.trail
+        const edgeColor    = variant === 'frontier' ? 'rgba(0,0,0,0.55)' : 'rgba(0,0,0,0.4)'
+        const outerWidth   = variant === 'frontier' ? 7 : 6
+        const innerWidth   = variant === 'frontier' ? 4 : 3
         return (
-          <path
-            key={i}
-            d={d}
-            fill="none"
-            stroke={LINE_STROKE[variant]}
-            strokeWidth={LINE_WIDTH[variant]}
-            vectorEffect="non-scaling-stroke"
-          />
+          <React.Fragment key={i}>
+            <path d={d} fill="none" stroke={edgeColor}    strokeWidth={outerWidth} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+            <path d={d} fill="none" stroke={surfaceColor} strokeWidth={innerWidth} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+          </React.Fragment>
         )
       })}
     </svg>
@@ -434,7 +463,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
       </div>
 
       {/* Map — left-to-right: each act row renders as a vertical column */}
-      <div className="nm-map" ref={mapRef}>
+      <div className={`nm-map${act.environment ? ` nm-map--${act.environment}` : ''}`} ref={mapRef}>
         <div className="nm-map-inner" style={{ height: `${maxRowCols * ROW_HEIGHT}px` }}>
           {rows.map((rowNodes, rowIndex) => {
             const rowCols = rowNodes[0]?.rowCols ?? rowNodes.length
@@ -502,6 +531,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                     maxRows={maxRowCols}
                     statusOf={statusOf}
                     reachableIds={reachableIds}
+                    environment={act.environment}
                   />
                 )}
               </React.Fragment>
