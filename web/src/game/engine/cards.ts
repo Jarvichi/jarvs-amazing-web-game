@@ -17,7 +17,7 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
       const existing = s.field.find(u => u.owner === owner && u.name === template.name);
       if (existing) {
         existing.maxHp *= 2;
-        existing.hp = Math.min(existing.hp * 2, existing.maxHp);
+        existing.hp = existing.maxHp;
         existing.upgradeLevel = (existing.upgradeLevel ?? 1) + 1;
         let note = 'HP×2';
         if (existing.structureEffect?.type === 'spawn') {
