@@ -3,7 +3,13 @@ import { CardTile } from './CardTile'
 import { CardDetailModal } from './CardDetailModal'
 import { getCardCatalog } from '../game/cards'
 import { NodeType } from '../game/questline'
-import { Card } from '../game/types'
+import { BattleStats, Card } from '../game/types'
+
+function formatDuration(ms: number): string {
+  const s = Math.floor(ms / 1000)
+  const m = Math.floor(s / 60)
+  return m > 0 ? `${m}m ${s % 60}s` : `${s}s`
+}
 
 interface Props {
   choices: string[]     // 3 card names
@@ -12,6 +18,8 @@ interface Props {
   onPick: (cardName: string) => void
   onSkip: () => void
   headerOverride?: { title: string; sub: string }
+  /** When provided, battle stats are shown above the reward cards. */
+  battleSummary?: { stats: BattleStats; gameTime: number; playerScore: number }
 }
 
 const NODE_FLAVOUR: Record<NodeType, string> = {
@@ -23,7 +31,7 @@ const NODE_FLAVOUR: Record<NodeType, string> = {
   merchant: '',
 }
 
-export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, headerOverride }: Props) {
+export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, headerOverride, battleSummary }: Props) {
   const catalog = getCardCatalog()
   const cards   = choices.map(name => catalog.find(c => c.name === name)).filter(Boolean) as ReturnType<typeof getCardCatalog>[number][]
 
@@ -74,6 +82,15 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
         <div className="reward-sub">{headerOverride?.sub ?? NODE_FLAVOUR[nodeType]}</div>
         {crystals > 0 && <div className="reward-crystals">+{crystals} ◆</div>}
       </div>
+
+      {battleSummary && (
+        <div className="reward-battle-summary">
+          <div className="reward-summary-row"><span>UNITS DEFEATED</span><span>{battleSummary.stats.playerKills}</span></div>
+          <div className="reward-summary-row"><span>UNITS LOST</span><span>{battleSummary.stats.playerUnitsLost}</span></div>
+          <div className="reward-summary-row"><span>DAMAGE DEALT</span><span>{battleSummary.playerScore}</span></div>
+          <div className="reward-summary-row"><span>DURATION</span><span>{formatDuration(battleSummary.gameTime)}</span></div>
+        </div>
+      )}
 
       <div className="reward-cards">
         {cards.map((card, i) => {

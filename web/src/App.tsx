@@ -1442,15 +1442,12 @@ export default function App() {
     saveCrystals(newCrystals)
     setCrystals(newCrystals)
 
-    // Capture stats snapshot then show summary; summary → reward
+    // Go directly to reward screen with battle stats embedded (single screen)
     dispatch({ type: 'SET_SUMMARY_STATS', stats: gameState.battleStats, gameTime: gameState.gameTime, playerScore: gameState.playerScore })
-    summaryDoneRef.current = () => {
-      const choices = generateRewardChoices(node.type, act.rewardTags)
-      setRewardChoices(choices)
-      setRewardCrystals(crystalReward)
-      setScreen('reward')
-    }
-    setScreen('battlesummary')
+    const choices = generateRewardChoices(node.type, act.rewardTags)
+    setRewardChoices(choices)
+    setRewardCrystals(crystalReward)
+    setScreen('reward')
   }, [run, gameState])
 
   const handleRewardPick = useCallback((cardName: string) => {
@@ -2354,6 +2351,7 @@ export default function App() {
           nodeType={run ? ACTS[run.actId].nodes[run.completedNodeIds[run.completedNodeIds.length - 1]]?.type ?? 'battle' : 'battle'}
           onPick={handleRewardPick}
           onSkip={handleRewardSkip}
+          battleSummary={summaryStats ?? undefined}
         />
       )}
 
