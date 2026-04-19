@@ -24,7 +24,7 @@ const BATTLE_TUTORIAL_STEPS = [
   },
   {
     title: 'MANA',
-    body: 'Each card costs mana ◆. Your mana refills over time. Build Farm structures to permanently increase your max mana.',
+    body: 'Each card costs mana ◆. Your mana refills over time. Some cards can place structures to increase your max mana.',
   },
   {
     title: 'OBJECTIVE',
