@@ -32,6 +32,7 @@ import {
   setLastRunFailed, loadLastRunFailed, clearLastRunFailed,
 } from './game/questline'
 import { CardRestSelect }       from './components/CardRestSelect'
+import { CampScreen, CampChoice } from './components/CampScreen'
 import { EventScreen }          from './components/EventScreen'
 import { MerchantScreen, MerchantItem, cardMerchantItem } from './components/MerchantScreen'
 import { MysteryScreen } from './components/MysteryScreen'
@@ -261,6 +262,7 @@ type Screen =
   | 'minigames'
   | 'playerstats'
   | 'statupgrade'
+  | 'camp'
 
 
 function formatTimeAgo(date: Date): string {
@@ -401,6 +403,7 @@ export default function App() {
   const [merchantItems, setMerchantItems] = useState<MerchantItem[]>([])
   const merchantBoughtRef = useRef(0)
   const [mysteryReward, setMysteryReward] = useState<RewardDef | null>(null)
+  const [campNode, setCampNode] = useState<QuestNode | null>(null)
   // Replay briefing state — stored so onBegin can proceed with the correct context
   const replayBriefingRef = useRef<{
     actId: string
@@ -1112,18 +1115,8 @@ export default function App() {
     setRun(updatedRun)
 
     if (node.type === 'rest') {
-      // Instantly heal, mark complete, stay on map
-      // Heal up to maxHp, but never reduce HP that's already above maxHp (bonus HP).
-      const healed = Math.max(updatedRun.playerHp, Math.min(updatedRun.playerHp + (node.restHeal ?? 5), updatedRun.maxHp))
-      const afterRest: RunState = {
-        ...updatedRun,
-        playerHp: healed,
-        completedNodeIds: [...updatedRun.completedNodeIds, node.id],
-        pendingNodeId: null,
-      }
-      recordNodeComplete(updatedRun.actId, node.id)
-      saveRun(afterRest)
-      setRun(afterRest)
+      setCampNode(node)
+      setScreen('camp')
       return
     }
 
@@ -1474,6 +1467,47 @@ export default function App() {
   const handleRewardSkip = useCallback(() => {
     setScreen('nodemap')
   }, [])
+
+  const handleCampChoice = useCallback((choice: CampChoice) => {
+    const currentRun = run
+    if (!currentRun || !campNode) return
+    const healAmount = campNode.restHeal ?? 5
+    let updatedRun = { ...currentRun }
+
+    if (choice === 'heal') {
+      if (updatedRun.playerHp >= updatedRun.maxHp) {
+        // At max — grant bonus HP above the cap
+        updatedRun.playerHp = updatedRun.playerHp + healAmount
+      } else {
+        updatedRun.playerHp = Math.min(updatedRun.playerHp + healAmount, updatedRun.maxHp)
+      }
+      playRestHeal()
+    } else if (choice === 'rest') {
+      const fatigued = loadFatigued()
+      if (fatigued.length > 0 && Math.random() < 0.5) {
+        const idx = Math.floor(Math.random() * fatigued.length)
+        const recovered = fatigued[idx]
+        const newFatigued = fatigued.filter((_, i) => i !== idx)
+        saveFatigued(newFatigued)
+        setFatiguedCards(newFatigued)
+      }
+    } else if (choice === 'meditate') {
+      if (updatedRun.livesRemaining < updatedRun.maxLives && Math.random() < 0.5) {
+        updatedRun.livesRemaining = Math.min(updatedRun.maxLives, updatedRun.livesRemaining + 1)
+      }
+    }
+
+    updatedRun = {
+      ...updatedRun,
+      completedNodeIds: [...updatedRun.completedNodeIds, campNode.id],
+      pendingNodeId: null,
+    }
+    recordNodeComplete(updatedRun.actId, campNode.id)
+    saveRun(updatedRun)
+    setRun(updatedRun)
+    setCampNode(null)
+    setScreen('nodemap')
+  }, [run, campNode])
 
   const handleWaveRewardPick = useCallback((cardName: string) => {
     // Add to collection permanently and inject into the current run deck
@@ -2371,6 +2405,18 @@ export default function App() {
         <MysteryScreen
           reward={mysteryReward}
           onCollect={handleMysteryCollect}
+        />
+      )}
+
+      {screen === 'camp' && campNode && run && (
+        <CampScreen
+          playerHp={run.playerHp}
+          maxHp={run.maxHp}
+          livesRemaining={run.livesRemaining}
+          maxLives={run.maxLives}
+          fatiguedCards={fatiguedCards}
+          healAmount={campNode.restHeal ?? 5}
+          onChoose={handleCampChoice}
         />
       )}
 
