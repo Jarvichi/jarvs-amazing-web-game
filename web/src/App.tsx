@@ -1444,7 +1444,11 @@ export default function App() {
 
     // Go directly to reward screen with battle stats embedded (single screen)
     dispatch({ type: 'SET_SUMMARY_STATS', stats: gameState.battleStats, gameTime: gameState.gameTime, playerScore: gameState.playerScore })
-    const choices = generateRewardChoices(node.type, act.rewardTags)
+    const catalog = getCardCatalog()
+    const uniqueValid = [...new Set(node.enemyDeck ?? [])].filter(name => catalog.some(c => c.name === name))
+    const choices = uniqueValid.length >= 3
+      ? uniqueValid.sort(() => Math.random() - 0.5).slice(0, 3)
+      : generateRewardChoices(node.type, act.rewardTags)
     setRewardChoices(choices)
     setRewardCrystals(crystalReward)
     setScreen('reward')
