@@ -4042,6 +4042,32 @@ body {
   box-shadow: 0 0 12px rgba(255, 170, 50, 0.2);
 }
 
+/* ── Player avatar ── */
+
+.nm-avatar {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.nm-avatar--walking {
+  offset-distance: 0%;
+}
+
+@keyframes nm-avatar-walk {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+@keyframes nm-avatar-idle {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-2px); }
+}
+
+.nm-avatar:not(.nm-avatar--walking) img {
+  animation: nm-avatar-idle 2s ease-in-out infinite;
+}
+
 .nm-back-btn {
   margin-top: auto;
   margin-bottom: 8px;
