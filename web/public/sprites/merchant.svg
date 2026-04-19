@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- pack/sack on back -->
+  <ellipse cx="23" cy="19" rx="5" ry="5" fill="#a07030"/>
+  <ellipse cx="23" cy="17" rx="3.5" ry="3.5" fill="#c8943a"/>
+  <!-- body/robe -->
+  <path d="M9,28 L11,16 Q16,14 21,16 L23,28 Z" fill="#3a6b3a"/>
+  <path d="M11,28 L12,18 Q16,16 20,18 L21,28 Z" fill="#4d8a4d" opacity="0.7"/>
+  <!-- shoulders -->
+  <rect x="8" y="16" width="5" height="4" rx="2" fill="#2d522d"/>
+  <rect x="19" y="16" width="5" height="4" rx="2" fill="#2d522d"/>
+  <!-- neck -->
+  <rect x="14" y="13" width="4" height="4" fill="#d4a060"/>
+  <!-- head -->
+  <ellipse cx="16" cy="10" rx="6" ry="6" fill="#d4a060"/>
+  <!-- hat brim -->
+  <ellipse cx="16" cy="5" rx="8" ry="2" fill="#8b5e1a"/>
+  <!-- hat top -->
+  <rect x="12" y="1" width="8" height="5" rx="2" fill="#a07030"/>
+  <!-- eyes -->
+  <ellipse cx="13.5" cy="10" rx="1.2" ry="1" fill="#111"/>
+  <ellipse cx="18.5" cy="10" rx="1.2" ry="1" fill="#111"/>
+  <circle cx="13.3" cy="9.8" r="0.5" fill="#fff"/>
+  <circle cx="18.3" cy="9.8" r="0.5" fill="#fff"/>
+  <!-- smile -->
+  <path d="M13.5,12.5 Q16,14 18.5,12.5" fill="none" stroke="#7a4020" stroke-width="0.8"/>
+  <!-- coin/gold hint -->
+  <circle cx="14" cy="22" r="2" fill="#ffd700" opacity="0.9"/>
+  <circle cx="14" cy="22" r="1.2" fill="#ffaa00"/>
+</svg>

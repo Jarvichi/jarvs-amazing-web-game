@@ -1,5 +1,6 @@
 import React, { useMemo, useRef, useEffect, useState } from 'react'
 import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES } from '../game/questline'
+import { spriteSlug } from '../game/sprites'
 import { StatRow } from './StatRow'
 
 interface Props {
@@ -29,6 +30,17 @@ const NODE_LABEL: Record<string, string> = {
   rest:     'REST',
   event:    'EVENT',
   merchant: 'SHOP',
+}
+
+function nodeSprite(node: QuestNode): string | null {
+  if (node.type === 'rest')     return '/sprites/campfire.svg'
+  if (node.type === 'merchant') return '/sprites/merchant.svg'
+  if (node.type === 'event')    return '/sprites/event.svg'
+  if (node.type === 'boss' && node.bossAI)
+    return `/sprites/boss-${node.bossAI}.svg`
+  if ((node.type === 'battle' || node.type === 'elite') && node.enemyDeck?.length)
+    return `/sprites/${spriteSlug(node.enemyDeck[0])}.svg`
+  return null
 }
 
 type NodeStatus = 'completed' | 'available' | 'skipped' | 'locked' | 'pending'
@@ -800,7 +812,13 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                           <span className={`nm-node-type-badge nm-node-type-badge--${node.type}`}>
                             {NODE_LABEL[node.type] ?? node.type.toUpperCase()}
                           </span>
-                          <span className="nm-node-icon">{NODE_ICON[node.type] ?? '?'}</span>
+                          {(() => {
+                            const sprite = nodeSprite(node)
+                            return sprite
+                              ? <img src={sprite} alt="" className="nm-node-sprite"
+                                  onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
+                              : <span className="nm-node-icon">{NODE_ICON[node.type] ?? '?'}</span>
+                          })()}
                           <span className="nm-node-name">{node.label}</span>
                           <span className="nm-node-status">
                             {status === 'completed' && '✓'}
