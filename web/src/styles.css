@@ -3831,22 +3831,28 @@ body {
 
 .nm-map {
   display: flex;
-  flex-direction: column;
   flex: 1;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: auto;
   padding: 16px 8px 8px;
+  align-items: center;
 }
 
 .nm-map-inner {
-  margin: 0 auto;
+  margin: auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  flex-shrink: 0;
 }
 
-/* ── Rows ── */
+/* ── Columns (each act-row renders as a vertical column in L→R layout) ── */
 
-.nm-row {
+.nm-col {
   display: grid;
+  align-items: center;
+  justify-items: center;
+  flex-shrink: 0;
 }
 
 /* ── Node buttons ── */

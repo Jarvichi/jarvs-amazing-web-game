@@ -19,7 +19,8 @@ const NODE_ICON: Record<string, string> = {
   merchant: '⚖',
 }
 
-const COL_WIDTH = 112 // fixed pixel width per map column slot
+const COL_WIDTH  = 112 // fixed pixel width per map column slot
+const ROW_HEIGHT = 112 // fixed pixel height per vertical node slot within a column
 
 const NODE_LABEL: Record<string, string> = {
   battle:   'BATTLE',
@@ -96,14 +97,14 @@ function buildRows(act: Act): QuestNode[][] {
 }
 
 // ── SVG connector ────────────────────────────────────────────────────────────
-// Renders cubic-bezier curves between adjacent rows.
-// viewBox is maxCols×1; column centres at col+0.5, matching the CSS grid.
+// Renders cubic-bezier curves between adjacent columns (L→R layout).
+// viewBox is 1×maxRows; row centres at row+0.5, matching the CSS grid.
 // Each path is coloured by the status of its parent→child pair.
 
 interface ConnProps {
   prevRow:      QuestNode[]
   nextRow:      QuestNode[]
-  maxCols:      number
+  maxRows:      number
   statusOf:     (id: string) => NodeStatus
   reachableIds: Set<string>
 }
@@ -133,55 +134,54 @@ const LINE_WIDTH: Record<LineVariant, number> = {
   trail: 1.5, frontier: 2, future: 1.5, dead: 1,
 }
 
-function SVGConnector({ prevRow, nextRow, maxCols, statusOf, reachableIds }: ConnProps) {
+function SVGConnector({ prevRow, nextRow, maxRows, statusOf, reachableIds }: ConnProps) {
   const prevRowCols = prevRow[0]?.rowCols ?? prevRow.length
   const nextRowCols = nextRow[0]?.rowCols ?? nextRow.length
 
-  // Absolute column position within the maxCols-wide container
-  const visualCol = (node: QuestNode, rowCols: number) =>
-    (maxCols - rowCols) / 2 + node.col
+  // Absolute row position within the maxRows-tall container
+  const visualRow = (node: QuestNode, rowCols: number) =>
+    (maxRows - rowCols) / 2 + node.col
 
   const nextById = new Map(nextRow.map(n => [n.id, n]))
 
-  // Build connections from parent.childIds — fixes missing connectors when only
-  // one direction of the edge is populated in the act JSON.
+  // Build connections from parent.childIds
   const connections: [string, string, number, number][] = []
   for (const parent of prevRow) {
     for (const childId of parent.childIds) {
       const child = nextById.get(childId)
       if (child) {
-        connections.push([parent.id, child.id, visualCol(parent, prevRowCols), visualCol(child, nextRowCols)])
+        connections.push([parent.id, child.id, visualRow(parent, prevRowCols), visualRow(child, nextRowCols)])
       }
     }
   }
 
   if (connections.length === 0) return null
 
-  // Column i centre in viewBox units (viewBox is maxCols wide, 1 tall)
-  const cx = (vc: number) => vc + 0.5
+  // Row i centre in viewBox units (viewBox is 1 wide, maxRows tall)
+  const cy = (vr: number) => vr + 0.5
 
-  // Deduplicate by visual column pair (keep highest-priority variant)
+  // Deduplicate by visual row pair (keep highest-priority variant)
   const variantPriority: Record<LineVariant, number> = { frontier: 3, trail: 2, future: 1, dead: 0 }
-  const best = new Map<string, { variant: LineVariant; pc: number; cc: number }>()
-  for (const [pid, cid, pc, cc] of connections) {
-    const key = `${pc}:${cc}`
+  const best = new Map<string, { variant: LineVariant; pr: number; cr: number }>()
+  for (const [pid, cid, pr, cr] of connections) {
+    const key = `${pr}:${cr}`
     const v = lineVariant(pid, cid, statusOf, reachableIds)
     const existing = best.get(key)
     if (!existing || variantPriority[v] > variantPriority[existing.variant]) {
-      best.set(key, { variant: v, pc, cc })
+      best.set(key, { variant: v, pr, cr })
     }
   }
 
   return (
     <svg
-      viewBox={`0 0 ${maxCols} 1`}
+      viewBox={`0 0 1 ${maxRows}`}
       preserveAspectRatio="none"
-      style={{ width: '100%', height: '44px', display: 'block', overflow: 'visible' }}
+      style={{ width: '44px', height: '100%', display: 'block', overflow: 'visible', alignSelf: 'stretch', flexShrink: 0 }}
     >
-      {Array.from(best.values()).map(({ variant, pc, cc }, i) => {
-        const x1 = cx(pc), x2 = cx(cc)
-        // Cubic bezier: depart/arrive vertically, smooth horizontal transition
-        const d = `M ${x1},0 C ${x1},0.5 ${x2},0.5 ${x2},1`
+      {Array.from(best.values()).map(({ variant, pr, cr }, i) => {
+        const y1 = cy(pr), y2 = cy(cr)
+        // Cubic bezier: depart/arrive horizontally, smooth vertical transition
+        const d = `M 0,${y1} C 0.5,${y1} 0.5,${y2} 1,${y2}`
         return (
           <path
             key={i}
@@ -370,8 +370,8 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
     if (!mapEl || !nodeEl) return
     const mapRect  = mapEl.getBoundingClientRect()
     const nodeRect = nodeEl.getBoundingClientRect()
-    mapEl.scrollTop = mapEl.scrollTop + nodeRect.top - mapRect.top
-      - (mapRect.height - nodeRect.height) / 2
+    mapEl.scrollLeft = mapEl.scrollLeft + nodeRect.left - mapRect.left
+      - (mapRect.width - nodeRect.width) / 2
   }, [])
 
   const handleNodeClick = (node: QuestNode) => {
@@ -433,32 +433,21 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
         })}
       </div>
 
-      {/* Map */}
+      {/* Map — left-to-right: each act row renders as a vertical column */}
       <div className="nm-map" ref={mapRef}>
-        <div className="nm-map-inner" style={{ width: `${maxRowCols * COL_WIDTH}px` }}>
+        <div className="nm-map-inner" style={{ height: `${maxRowCols * ROW_HEIGHT}px` }}>
           {rows.map((rowNodes, rowIndex) => {
             const rowCols = rowNodes[0]?.rowCols ?? rowNodes.length
             return (
               <React.Fragment key={rowIndex}>
-                {/* Connector above this row */}
-                {rowIndex > 0 && (
-                  <SVGConnector
-                    prevRow={rows[rowIndex - 1]}
-                    nextRow={rowNodes}
-                    maxCols={maxRowCols}
-                    statusOf={statusOf}
-                    reachableIds={reachableIds}
-                  />
-                )}
-
-                {/* Row of nodes — fixed-width columns, centred in the container */}
+                {/* Column of nodes — fixed-height rows, centred in the container */}
                 <div
-                  className="nm-row"
+                  className="nm-col"
                   style={{
-                    gridTemplateColumns: `repeat(${rowCols}, ${COL_WIDTH}px)`,
-                    width: `${rowCols * COL_WIDTH}px`,
-                    margin: '0 auto',
-                    gap: 0,
+                    gridTemplateRows: `repeat(${rowCols}, ${ROW_HEIGHT}px)`,
+                    height: `${rowCols * ROW_HEIGHT}px`,
+                    width: `${COL_WIDTH}px`,
+                    margin: 'auto 0',
                   }}
                 >
                   {rowNodes.map((node) => {
@@ -473,7 +462,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                       <div
                         key={node.id}
                         ref={isCurrent ? currentRef : undefined}
-                        style={{ gridColumn: node.col + 1, display: 'flex', justifyContent: 'center' }}
+                        style={{ gridRow: node.col + 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                       >
                         <button
                           className={[
@@ -504,6 +493,17 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                     )
                   })}
                 </div>
+
+                {/* Connector to the right of this column */}
+                {rowIndex < rows.length - 1 && (
+                  <SVGConnector
+                    prevRow={rowNodes}
+                    nextRow={rows[rowIndex + 1]}
+                    maxRows={maxRowCols}
+                    statusOf={statusOf}
+                    reachableIds={reachableIds}
+                  />
+                )}
               </React.Fragment>
             )
           })}
