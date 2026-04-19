@@ -130,7 +130,8 @@ export function VideoPoker({ onDone }: Props) {
     let deckIdx = 0
     const newHand = hand.map((card, i) => held[i] ? card : drawDeck[deckIdx++])
     const handResult = evaluateHand(newHand)
-    const win = wager * handResult.multiplier
+    // Return stake + winnings on a win; lose stake on no-win
+    const win = handResult.multiplier > 0 ? wager + wager * handResult.multiplier : 0
     setHand(newHand)
     setResult(handResult)
     setCredits(c => c + win)
@@ -214,7 +215,7 @@ export function VideoPoker({ onDone }: Props) {
       <div className="fm-header">
         <span className="fm-credits">Credits: {credits}</span>
         {phase === 'result' && result && result.multiplier > 0 && (
-          <span className="fm-win-flash">+{wager * result.multiplier}!</span>
+          <span className="fm-win-flash">+{wager + wager * result.multiplier}!</span>
         )}
         {phase === 'result' && result && result.multiplier === 0 && result.name !== 'Fold' && (
           <span className="fm-no-win">No win</span>
@@ -295,7 +296,7 @@ export function VideoPoker({ onDone }: Props) {
           </div>
           {isWin && (
             <div className="minigame-result-breakdown">
-              <div>{wager} × {result.multiplier} = {wager * result.multiplier} credit{wager * result.multiplier !== 1 ? 's' : ''}</div>
+              <div>Stake returned: {wager} + winnings: {wager} × {result.multiplier} = {wager + wager * result.multiplier} credit{wager + wager * result.multiplier !== 1 ? 's' : ''}</div>
             </div>
           )}
           <div className="vp-controls">
