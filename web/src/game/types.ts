@@ -62,6 +62,8 @@ export interface UnitTemplate {
   size?: 'small' | 'medium' | 'large'
   /** Mastery level of this card from the player's collection (0 = unmastered). */
   masteryLevel?: number
+  /** AOE explosion triggered once when this unit first drops to ≤50% HP. */
+  halfHealthEffect?: { damage: number; range: number }
 }
 
 export type BuffTag = 'atk' | 'spd' | 'hp' | 'range'
@@ -120,6 +122,8 @@ export interface Unit extends UnitTemplate {
   targetId?: string
   /** ID of the last enemy unit that dealt damage to this unit (used for target-switch on hit). */
   lastAttackerId?: string
+  /** True once the halfHealthEffect has fired — prevents re-triggering. */
+  halfHealthFired?: boolean
 }
 
 // ─── Animation Events ─────────────────────────────────────
