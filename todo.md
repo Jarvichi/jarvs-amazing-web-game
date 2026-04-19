@@ -1,6 +1,24 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-04-18 (session 40).
+Issues sourced from GitHub. Last synced: 2026-04-19 (session 41).
+
+## 🔵 Improvements — New (from GitHub, session 41 sync — TODO sweep, issue #733)
+
+- [ ] **#750** Centralize screen guard / navigation validation logic — `App.tsx:658,671`; consolidate per-screen guard effects into call-site validation on `setScreen()`
+- [ ] **#751** Move `setScreen('playing')` transitions into the reducer — `App.tsx:821,843,874`; make transitions atomic
+- [ ] **#752** Refactor game-over detection to use reducer state — `App.tsx:1727,1782,1792,1822,2136,2156`; remove useEffect/ref-based detection
+- [ ] **#755** Boss deck selection should use `enemyDeckNames` from act JSON — `engine.ts:177-181`; remove hardcoded boss-name checks
+- [ ] **#756** Relics should be data-driven with generic engine hooks — `engine.ts:534`; `onTick`, `onUnitSpawn`, `onAttack` etc.
+- [ ] **#757** Act progression should be data-driven (`nextAct` field in JSON) — `questline.ts:867`
+
+## 🟣 Features — New (from GitHub, session 41 sync — TODO sweep, issue #733)
+
+- [ ] **#753** Display battle logs in the UI (banner or battle summary) — `App.tsx:1906`
+- [ ] **#754** Win celebration milestones: celebrate every 100 wins with scaling rewards — `App.tsx:1972,2068`
+
+## 🔴 Bugs — New (from GitHub, session 41 sync — TODO sweep, issue #733)
+
+- [ ] **#758** Log unresolvable units to Rollbar — `cards.ts:117`
 
 ## 🟣 Features — New (from GitHub, session 40 sync)
 
