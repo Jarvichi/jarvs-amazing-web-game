@@ -4050,15 +4050,6 @@ body {
   pointer-events: none;
 }
 
-.nm-avatar--walking {
-  offset-distance: 0%;
-}
-
-@keyframes nm-avatar-walk {
-  from { offset-distance: 0%; }
-  to   { offset-distance: 100%; }
-}
-
 @keyframes nm-avatar-idle {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-2px); }

@@ -716,7 +716,6 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
 
   // Avatar state
   const [avatarPos, setAvatarPos] = useState<{ x: number; y: number } | null>(null)
-  const [walkPath,  setWalkPath]  = useState<string | null>(null)
   const [isWalking, setIsWalking] = useState(false)
   const [walkFrame, setWalkFrame] = useState(0)
 
@@ -760,21 +759,16 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
     const mapInnerEl = mapInnerRef.current
     const nodeBtn    = nodeButtonRefs.current[node.id]
     if (!mapInnerEl || !nodeBtn) return
-    const target  = getRelativeCenter(nodeBtn, mapInnerEl)
-    const from    = avatarPos ?? startPosition(mapHeight)
-    const midX    = (from.x + target.x) / 2
-    const path    = `M ${from.x},${from.y} C ${midX},${from.y} ${midX},${target.y} ${target.x},${target.y}`
+    const target = getRelativeCenter(nodeBtn, mapInnerEl)
 
-    setWalkPath(path)
     setIsWalking(true)
+    setAvatarPos(target)  // CSS transition animates the move
     const frameTimer = setInterval(() => setWalkFrame(f => (f % 3) + 1), 175)
 
     setTimeout(() => {
       clearInterval(frameTimer)
       setWalkFrame(0)
       setIsWalking(false)
-      setAvatarPos(target)
-      setWalkPath(null)
       setPeekNode(node)
     }, WALK_DURATION)
   }
@@ -861,10 +855,13 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
           {avatarPos && (
             <div
               className={isWalking ? 'nm-avatar nm-avatar--walking' : 'nm-avatar'}
-              style={isWalking && walkPath
-                ? { offsetPath: `path('${walkPath}')`, animation: `nm-avatar-walk ${WALK_DURATION}ms ease-in-out forwards` }
-                : { left: avatarPos.x - AVATAR_SIZE / 2, top: avatarPos.y - AVATAR_SIZE / 2 }
-              }
+              style={{
+                left: avatarPos.x - AVATAR_SIZE / 2,
+                top:  avatarPos.y - AVATAR_SIZE / 2,
+                transition: isWalking
+                  ? `left ${WALK_DURATION}ms ease-in-out, top ${WALK_DURATION}ms ease-in-out`
+                  : undefined,
+              }}
             >
               <img
                 src={isWalking ? `/sprites/jarv-${walkFrame || 1}.svg` : '/sprites/jarv.svg'}
