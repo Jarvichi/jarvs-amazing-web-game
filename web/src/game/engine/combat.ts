@@ -88,6 +88,25 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
           toX: target.x,   toY: target.y,
           expiresAt: s.gameTime + 300,
         })
+        // Half-health explosion: fires once when unit first drops to ≤50% HP
+        if (
+          !target.halfHealthFired &&
+          target.halfHealthEffect &&
+          target.hp > 0 &&
+          target.hp <= target.maxHp / 2
+        ) {
+          target.halfHealthFired = true
+          const { damage: aoeDmg, range: aoeRange } = target.halfHealthEffect
+          const enemies = s.field.filter(
+            e => e.owner !== target.owner && e.hp > 0 &&
+                 Math.hypot(e.x - target.x, e.y - target.y) <= aoeRange
+          )
+          for (const e of enemies) {
+            e.hp -= aoeDmg
+            e.damageFlashTimer = DAMAGE_FLASH_MS
+          }
+          log.push(`💥 ${target.name} erupts! AOE blast hits ${enemies.length} enemy unit${enemies.length !== 1 ? 's' : ''}!`)
+        }
         if (target.hp <= 0) {
           log.push(`${unit.name} destroyed ${target.name}!`)
           if (target.moveSpeed === 0) playBuildingDestroyed()
