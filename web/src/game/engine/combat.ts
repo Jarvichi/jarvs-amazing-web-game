@@ -3,7 +3,7 @@ import { playBuildingDestroyed, playUnitDeath } from '../sound'
 import { AnimEvent, GameState, LANE_WIDTH, Unit } from '../types'
 import { DAMAGE_FLASH_MS, BLOOD_POOL_MAX } from './constants'
 import { getAttackAura } from './bonusEffects'
-import { animUid } from './helpers'
+import { animUid, spawnUnit } from './helpers'
 import { findAttackTarget, unitDist } from './targeting'
 
 // ─── Combat Constants ─────────────────────────────────────
@@ -181,6 +181,18 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
     if (u.hp <= 0 && u.moveSpeed > 0 && !u.isWall) {
       if (u.owner === 'opponent') s.battleStats.playerKills++
       else                        s.battleStats.playerUnitsLost++
+    }
+  }
+
+  // Spawn buildings: leave a unit behind when destroyed
+  for (const u of s.field) {
+    if (u.hp <= 0 && u.moveSpeed === 0 && u.structureEffect?.type === 'spawn') {
+      const se = u.structureEffect as { type: 'spawn'; unitTemplate: { name: string; maxHp: number } & Parameters<typeof spawnUnit>[0]; intervalMs: number }
+      const survivor = spawnUnit(se.unitTemplate, u.owner)
+      survivor.x = u.x
+      survivor.y = u.y
+      s.field.push(survivor)
+      log.push(`${u.name} collapses — a ${survivor.name} emerges from the rubble!`)
     }
   }
 
