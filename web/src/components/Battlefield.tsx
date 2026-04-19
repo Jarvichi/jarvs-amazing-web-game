@@ -28,7 +28,7 @@ const BATTLE_TUTORIAL_STEPS = [
   },
   {
     title: 'OBJECTIVE',
-    body: 'Destroy the enemy base before it destroys yours. Your base is on the left — the enemy\'s is on the right. Good luck!',
+    body: 'Destroy the enemy base before it destroys yours. Your base is at the bottom — the enemy\'s is at the top. Good luck!',
   },
 ]
 
