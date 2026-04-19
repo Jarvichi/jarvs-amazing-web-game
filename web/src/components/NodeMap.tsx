@@ -20,8 +20,38 @@ const NODE_ICON: Record<string, string> = {
   merchant: '⚖',
 }
 
-const COL_WIDTH  = 112 // fixed pixel width per map column slot
-const ROW_HEIGHT = 112 // fixed pixel height per vertical node slot within a column
+const COL_WIDTH      = 112 // fixed pixel width per map column slot
+const ROW_HEIGHT     = 112 // fixed pixel height per vertical node slot within a column
+const AVATAR_PADDING = 72  // left space in nm-map-inner for the "node 0" start position
+const AVATAR_SIZE    = 36  // px avatar width/height
+const WALK_DURATION  = 700 // ms for the walk animation
+
+function nodeCenter(
+  rowIndex: number,
+  node: QuestNode,
+  rowCols: number,
+  maxRowCols: number,
+): { x: number; y: number } {
+  const x  = AVATAR_PADDING + rowIndex * (COL_WIDTH + 44) + COL_WIDTH / 2
+  const vr = (maxRowCols - rowCols) / 2 + node.col
+  const y  = vr * ROW_HEIGHT + ROW_HEIGHT / 2
+  return { x, y }
+}
+
+function startPosition(mapHeight: number): { x: number; y: number } {
+  return { x: AVATAR_PADDING / 2, y: mapHeight / 2 }
+}
+
+function lastCompletedNode(act: Act, run: RunState): QuestNode | null {
+  if (run.completedNodeIds.length === 0) return null
+  const completed = new Set(run.completedNodeIds)
+  for (const id of run.completedNodeIds) {
+    const node = act.nodes[id]
+    if (!node) continue
+    if (!node.childIds.some(cid => completed.has(cid))) return node
+  }
+  return act.nodes[run.completedNodeIds[run.completedNodeIds.length - 1]] ?? null
+}
 
 const NODE_LABEL: Record<string, string> = {
   battle:   'BATTLE',
@@ -678,11 +708,34 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
   const hpPct         = Math.max(0, run.playerHp / run.maxHp)
   const reachableIds  = useMemo(() => computeReachableIds(act, run), [act, run])
 
+  const mapHeight = maxRowCols * ROW_HEIGHT
+  const mapWidth  = AVATAR_PADDING + rows.length * COL_WIDTH + Math.max(0, rows.length - 1) * 44
+
   const statusOf = (id: string): NodeStatus => getNodeStatus(id, availableIds, run)
 
   // Node peek state
   const [peekNode, setPeekNode] = useState<QuestNode | null>(null)
   const nodeHistory = useMemo(() => loadNodeHistory(), [])
+
+  // Avatar state
+  const [avatarPos, setAvatarPos] = useState<{ x: number; y: number } | null>(null)
+  const [walkPath,  setWalkPath]  = useState<string | null>(null)
+  const [isWalking, setIsWalking] = useState(false)
+  const [walkFrame, setWalkFrame] = useState(0)
+
+  // Initialise avatar at last completed node (or start position) on mount
+  useEffect(() => {
+    const lastNode = lastCompletedNode(act, run)
+    if (lastNode) {
+      const ri = rows.findIndex(r => r.some(n => n.id === lastNode.id))
+      if (ri >= 0) {
+        const rowCols = rows[ri][0]?.rowCols ?? rows[ri].length
+        setAvatarPos(nodeCenter(ri, lastNode, rowCols, maxRowCols))
+        return
+      }
+    }
+    setAvatarPos(startPosition(mapHeight))
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Scroll to the current node (pending or first available) on mount
   const mapRef     = useRef<HTMLDivElement>(null)
@@ -700,8 +753,26 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
       - (mapRect.width - nodeRect.width) / 2
   }, [])
 
-  const handleNodeClick = (node: QuestNode) => {
-    setPeekNode(node)
+  const handleNodeClick = (node: QuestNode, rowIndex: number) => {
+    if (isWalking) return
+    const rowCols = rows[rowIndex][0]?.rowCols ?? rows[rowIndex].length
+    const target  = nodeCenter(rowIndex, node, rowCols, maxRowCols)
+    const from    = avatarPos ?? startPosition(mapHeight)
+    const midX    = (from.x + target.x) / 2
+    const path    = `M ${from.x},${from.y} C ${midX},${from.y} ${midX},${target.y} ${target.x},${target.y}`
+
+    setWalkPath(path)
+    setIsWalking(true)
+    const frameTimer = setInterval(() => setWalkFrame(f => (f % 3) + 1), 175)
+
+    setTimeout(() => {
+      clearInterval(frameTimer)
+      setWalkFrame(0)
+      setIsWalking(false)
+      setAvatarPos(target)
+      setWalkPath(null)
+      setPeekNode(node)
+    }, WALK_DURATION)
   }
 
   const handlePeekEnter = () => {
@@ -761,13 +832,43 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
 
       {/* Map — left-to-right: each act row renders as a vertical column */}
       <div className={`nm-map${act.environment ? ` nm-map--${act.environment}` : ''}`} ref={mapRef}>
-        <div className="nm-map-inner" style={{ height: `${maxRowCols * ROW_HEIGHT}px`, position: 'relative' }}>
+        <div className="nm-map-inner" style={{ height: `${mapHeight}px`, paddingLeft: `${AVATAR_PADDING}px`, position: 'relative' }}>
           <MapTerrain
             environment={act.environment}
             actId={act.id}
-            width={rows.length * COL_WIDTH + Math.max(0, rows.length - 1) * 44}
-            height={maxRowCols * ROW_HEIGHT}
+            width={mapWidth}
+            height={mapHeight}
           />
+          {/* Node-0 campfire marker */}
+          <img
+            src="/sprites/campfire.svg"
+            alt=""
+            style={{
+              position: 'absolute',
+              left: startPosition(mapHeight).x - 18,
+              top:  startPosition(mapHeight).y - 18,
+              width: 36, height: 36,
+              opacity: 0.75,
+              pointerEvents: 'none',
+              zIndex: 1,
+            }}
+          />
+          {/* Player avatar */}
+          {avatarPos && (
+            <div
+              className={isWalking ? 'nm-avatar nm-avatar--walking' : 'nm-avatar'}
+              style={isWalking && walkPath
+                ? { offsetPath: `path('${walkPath}')`, animation: `nm-avatar-walk ${WALK_DURATION}ms ease-in-out forwards` }
+                : { left: avatarPos.x - AVATAR_SIZE / 2, top: avatarPos.y - AVATAR_SIZE / 2 }
+              }
+            >
+              <img
+                src={isWalking ? `/sprites/jarv-${walkFrame || 1}.svg` : '/sprites/jarv.svg'}
+                alt="Jarv"
+                style={{ width: AVATAR_SIZE, height: AVATAR_SIZE, imageRendering: 'pixelated' }}
+              />
+            </div>
+          )}
           {rows.map((rowNodes, rowIndex) => {
             const rowCols = rowNodes[0]?.rowCols ?? rowNodes.length
             return (
@@ -805,7 +906,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                             `nm-node--${status}`,
                             dim ? 'nm-node--dim' : '',
                           ].filter(Boolean).join(' ')}
-                          onClick={clickable ? () => handleNodeClick(node) : undefined}
+                          onClick={clickable && !isWalking ? () => handleNodeClick(node, rowIndex) : undefined}
                           disabled={!clickable}
                           title={node.description}
                         >
