@@ -9964,3 +9964,34 @@ html.light-mode .action-btn {
   color: #888;
   line-height: 1.5;
 }
+
+/* ─── Post-battle summary stats inside reward screen (#721) ─ */
+
+.reward-battle-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  justify-content: center;
+  padding: 10px 16px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.reward-summary-row {
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+  color: #888;
+  letter-spacing: 1px;
+}
+
+.reward-summary-row span:first-child {
+  color: #555;
+}
+
+.reward-summary-row span:last-child {
+  color: #aaa;
+}
