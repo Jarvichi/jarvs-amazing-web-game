@@ -1,5 +1,5 @@
 import { GameState, Card, UnitTemplate, CardRarity } from './types'
-import { makeDeck, makeThorlordDeck, makeKraggDeck, makeAshwalkerDeck, makeNodeDeck, HERO_CARDS, getCardUnit, getCardCatalog, flushCardValidationErrors } from './cards'
+import { makeDeck, makeNodeDeck, HERO_CARDS, getCardUnit, getCardCatalog, flushCardValidationErrors } from './cards'
 import { loadPlayerStats } from './playerStats'
 
 import { moveUnits, processAffinities } from './engine/units'
@@ -174,12 +174,6 @@ export function newGame(
   let opponentDeck: Card[]
   if (prebuiltOpponentDeck && prebuiltOpponentDeck.length > 0) {
     opponentDeck = [...prebuiltOpponentDeck]   // already seeded — preserve order
-  } else if (boss === 'thornlord') { // TODO: this should be using enemyDeckNames from the act JSON, but currently the thornlord node doesn't have that field populated
-    opponentDeck = shuffle(makeThorlordDeck())
-  } else if (boss === 'kragg') { // TODO: this should be using enemyDeckNames from the act JSON, but currently the thornlord node doesn't have that field populated
-    opponentDeck = shuffle(makeKraggDeck())
-  } else if (boss === 'ashwalker') { // TODO: this should be using enemyDeckNames from the act JSON, but currently the thornlord node doesn't have that field populated
-    opponentDeck = shuffle(makeAshwalkerDeck())
   } else if (enemyDeckNames && enemyDeckNames.length > 0) {
     // Preset node deck — deterministic and learnable
     const nodeDeck = makeNodeDeck(enemyDeckNames)

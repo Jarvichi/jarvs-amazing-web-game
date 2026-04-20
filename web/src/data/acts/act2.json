@@ -859,7 +859,18 @@
         "\"You will not pass. The Iron Citadel does not fall to a card player.\""
       ],
       "opponentIntervalMs": 5000,
-      "opponentBaseHp": 95
+      "opponentBaseHp": 95,
+      "enemyDeck": [
+        "Stone Wall","Stone Wall","Stone Wall","Stone Wall",
+        "Catapult","Catapult","Catapult",
+        "Knight","Knight","Knight",
+        "Shield Guard","Shield Guard",
+        "Ballista","Ballista",
+        "Siege Works",
+        "War Drums",
+        "Fortify",
+        "Crossbow","Crossbow"
+      ]
     },
     "citadel-crossing": {
       "id": "citadel-crossing",
