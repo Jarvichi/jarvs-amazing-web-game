@@ -3905,13 +3905,6 @@ body {
 
 .nm-node-icon   { font-size: 22px; line-height: 1; }
 .nm-node-sprite { width: 38px; height: 38px; object-fit: contain; image-rendering: pixelated; }
-.nm-node-sprite--animated { animation: nm-sprite-wander 2.5s ease-in-out infinite; }
-@keyframes nm-sprite-wander {
-  0%        { transform: translateX(0); }
-  30%       { transform: translateX(3px); }
-  70%       { transform: translateX(-3px); }
-  100%      { transform: translateX(0); }
-}
 .nm-node-name  { font-size: 11px; color: var(--game-text-color-dim); letter-spacing: 0.5px; text-align: center; line-height: 1.3; }
 .nm-node-status { font-size: 9px; letter-spacing: 1px; min-height: 12px; }
 
