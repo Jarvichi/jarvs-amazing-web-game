@@ -3879,10 +3879,10 @@ body {
   align-items: center;
   gap: 3px;
   padding: 8px 12px 10px;
-  border: 1px solid #2e2e2e;
+  border: 1px solid transparent;
   border-top-width: 2px;
   border-radius: 6px;
-  background: var(--game-bg);
+  background: transparent;
   cursor: default;
   min-width: 96px;
   transition: all 0.15s;
@@ -3905,39 +3905,35 @@ body {
 
 .nm-node-icon   { font-size: 22px; line-height: 1; }
 .nm-node-sprite { width: 38px; height: 38px; object-fit: contain; image-rendering: pixelated; }
+.nm-node-sprite--animated { animation: nm-sprite-wander 2.5s ease-in-out infinite; }
+@keyframes nm-sprite-wander {
+  0%        { transform: translateX(0); }
+  30%       { transform: translateX(3px); }
+  70%       { transform: translateX(-3px); }
+  100%      { transform: translateX(0); }
+}
 .nm-node-name  { font-size: 11px; color: var(--game-text-color-dim); letter-spacing: 0.5px; text-align: center; line-height: 1.3; }
 .nm-node-status { font-size: 9px; letter-spacing: 1px; min-height: 12px; }
-
-/* Type-coloured top border (visible even when locked) */
-.nm-node--battle   { border-top-color: #282828; }
-.nm-node--elite    { border-top-color: #3a2800; }
-.nm-node--boss     { border-top-color: #3a0a0a; }
-.nm-node--rest     { border-top-color: #0a2535; }
-.nm-node--event    { border-top-color: #250a3a; }
-.nm-node--merchant { border-top-color: #301800; }
 
 /* Available nodes */
 .nm-node--available {
   cursor: pointer;
-  border-color: rgba(51, 255, 51, 0.4);
-  border-top-color: rgba(51, 255, 51, 0.5);
-  background: rgba(51, 255, 51, 0.04);
-  animation: nm-pulse 2s ease-in-out infinite;
 }
 .nm-node--available .nm-node-name { color: var(--game-text-color-dim); }
 .nm-node--available .nm-node-status { color: var(--game-text-color); }
 .nm-node--available .nm-node-type-badge { opacity: 1; }
 .nm-node--available:hover {
-  border-color: var(--game-text-color);
-  border-top-color: var(--game-text-color);
-  background: rgba(51, 255, 51, 0.1);
   transform: translateY(-2px);
-  box-shadow: 0 0 12px rgba(51, 255, 51, 0.25);
+}
+.nm-node--available .nm-node-sprite,
+.nm-node--available .nm-node-icon {
+  filter: drop-shadow(0 0 6px rgba(51, 255, 51, 0.55));
+  animation: nm-sprite-pulse 2s ease-in-out infinite;
 }
 
-@keyframes nm-pulse {
-  0%, 100% { box-shadow: 0 0 0 rgba(51, 255, 51, 0); }
-  50%       { box-shadow: 0 0 8px rgba(51, 255, 51, 0.2); }
+@keyframes nm-sprite-pulse {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(51, 255, 51, 0.4)); }
+  50%       { filter: drop-shadow(0 0 10px rgba(51, 255, 51, 0.75)); }
 }
 
 /* Dim modifier — applied to completed, skipped, and unreachable-locked nodes */
@@ -3946,101 +3942,64 @@ body {
   filter: grayscale(55%);
 }
 
-/* Completed nodes — styled by .nm-node--dim for opacity */
-.nm-node--completed {
-  border-color: #2a5a2a;
-  background: rgba(30, 58, 30, 0.55);
-}
+/* Completed nodes */
 .nm-node--completed .nm-node-status { color: #33ff33; font-size: 14px; }
 
-/* Locked nodes on a reachable future path — normal appearance, no dim */
-.nm-node--locked {
-  border-color: #2a2a2a;
-}
-
-/* Skipped nodes — dim handled by .nm-node--dim */
+/* Skipped nodes */
 .nm-node--skipped .nm-node-status { color: #ff4444; }
 
 /* Pending (in battle) */
-.nm-node--pending {
-  border-color: rgba(255, 200, 50, 0.5);
+.nm-node--pending .nm-node-status { color: #ffc832; }
+.nm-node--pending .nm-node-sprite,
+.nm-node--pending .nm-node-icon {
   animation: nm-pending 1s ease-in-out infinite;
 }
-.nm-node--pending .nm-node-status { color: #ffc832; }
 @keyframes nm-pending {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.6; }
 }
 
-/* Node type colours */
-.nm-node--boss.nm-node--available {
-  border-color: rgba(255, 68, 68, 0.5);
-  border-top-color: #ff4444;
-  background: rgba(255, 0, 0, 0.04);
-  animation: nm-boss-pulse 1.5s ease-in-out infinite;
+/* Type-specific sprite glows for available nodes */
+.nm-node--boss.nm-node--available .nm-node-sprite,
+.nm-node--boss.nm-node--available .nm-node-icon {
+  filter: drop-shadow(0 0 6px rgba(255, 68, 68, 0.6));
+  animation: nm-boss-sprite-pulse 1.5s ease-in-out infinite;
 }
 .nm-node--boss.nm-node--available .nm-node-type-badge { color: #ff5555; opacity: 1; }
-.nm-node--boss.nm-node--available:hover {
-  border-color: #ff4444;
-  border-top-color: #ff6666;
-  background: rgba(255, 68, 68, 0.1);
-  box-shadow: 0 0 16px rgba(255, 68, 68, 0.3);
-}
-@keyframes nm-boss-pulse {
-  0%, 100% { box-shadow: 0 0 0 rgba(255, 68, 68, 0); }
-  50%       { box-shadow: 0 0 10px rgba(255, 68, 68, 0.3); }
+@keyframes nm-boss-sprite-pulse {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 68, 68, 0.5)); }
+  50%       { filter: drop-shadow(0 0 12px rgba(255, 68, 68, 0.9)); }
 }
 
-.nm-node--elite.nm-node--available {
-  border-color: rgba(255, 200, 50, 0.5);
-  border-top-color: #ffc832;
-  background: rgba(255, 200, 50, 0.03);
+.nm-node--elite.nm-node--available .nm-node-sprite,
+.nm-node--elite.nm-node--available .nm-node-icon {
+  filter: drop-shadow(0 0 6px rgba(255, 200, 50, 0.6));
+  animation: nm-elite-sprite-pulse 2s ease-in-out infinite;
 }
 .nm-node--elite.nm-node--available .nm-node-type-badge { color: #ffc832; opacity: 1; }
-.nm-node--elite.nm-node--available:hover {
-  border-color: #ffc832;
-  border-top-color: #ffe080;
-  background: rgba(255, 200, 50, 0.1);
-  box-shadow: 0 0 12px rgba(255, 200, 50, 0.25);
+@keyframes nm-elite-sprite-pulse {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 200, 50, 0.4)); }
+  50%       { filter: drop-shadow(0 0 10px rgba(255, 200, 50, 0.8)); }
 }
 
-.nm-node--rest.nm-node--available {
-  border-color: rgba(100, 200, 255, 0.4);
-  border-top-color: #64c8ff;
-  background: rgba(100, 200, 255, 0.03);
+.nm-node--rest.nm-node--available .nm-node-sprite,
+.nm-node--rest.nm-node--available .nm-node-icon {
+  filter: drop-shadow(0 0 6px rgba(100, 200, 255, 0.6));
 }
 .nm-node--rest.nm-node--available .nm-node-type-badge { color: #64c8ff; opacity: 1; }
-.nm-node--rest.nm-node--available:hover {
-  border-color: #64c8ff;
-  border-top-color: #90d8ff;
-  background: rgba(100, 200, 255, 0.1);
-  box-shadow: 0 0 12px rgba(100, 200, 255, 0.2);
-}
 .nm-node--rest.nm-node--available .nm-node-status { color: #64c8ff; }
 
-.nm-node--event.nm-node--available {
-  border-color: rgba(160, 100, 255, 0.4);
-  border-top-color: #a064ff;
-  background: rgba(160, 100, 255, 0.03);
+.nm-node--event.nm-node--available .nm-node-sprite,
+.nm-node--event.nm-node--available .nm-node-icon {
+  filter: drop-shadow(0 0 6px rgba(160, 100, 255, 0.6));
 }
 .nm-node--event.nm-node--available .nm-node-type-badge { color: #b078ff; opacity: 1; }
-.nm-node--event.nm-node--available:hover {
-  border-color: #a064ff;
-  background: rgba(160, 100, 255, 0.1);
-  box-shadow: 0 0 12px rgba(160, 100, 255, 0.2);
-}
 
-.nm-node--merchant.nm-node--available {
-  border-color: rgba(255, 170, 50, 0.4);
-  border-top-color: #ffaa32;
-  background: rgba(255, 170, 50, 0.03);
+.nm-node--merchant.nm-node--available .nm-node-sprite,
+.nm-node--merchant.nm-node--available .nm-node-icon {
+  filter: drop-shadow(0 0 6px rgba(255, 170, 50, 0.6));
 }
 .nm-node--merchant.nm-node--available .nm-node-type-badge { color: #ffaa32; opacity: 1; }
-.nm-node--merchant.nm-node--available:hover {
-  border-color: #ffaa32;
-  background: rgba(255, 170, 50, 0.1);
-  box-shadow: 0 0 12px rgba(255, 170, 50, 0.2);
-}
 
 /* ── Player avatar ── */
 

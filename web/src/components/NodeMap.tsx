@@ -2,6 +2,7 @@ import React, { useMemo, useRef, useEffect, useState } from 'react'
 import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES } from '../game/questline'
 import { spriteSlug } from '../game/sprites'
 import { StatRow } from './StatRow'
+import { AnimatedSpriteImg } from './SpriteImg'
 
 interface Props {
   act: Act
@@ -916,6 +917,14 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                             {NODE_LABEL[node.type] ?? node.type.toUpperCase()}
                           </span>
                           {(() => {
+                            if ((node.type === 'battle' || node.type === 'elite') && node.enemyDeck?.length) {
+                              return <AnimatedSpriteImg
+                                name={node.enemyDeck[0]}
+                                frameCount={3}
+                                fps={6}
+                                className="nm-node-sprite nm-node-sprite--animated"
+                              />
+                            }
                             const sprite = nodeSprite(node)
                             return sprite
                               ? <img src={sprite} alt="" className="nm-node-sprite"
