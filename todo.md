@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-04-19 (session 41).
+Issues sourced from GitHub. Last synced: 2026-04-20 (session 42).
 
 ## 🔵 Improvements — New (from GitHub, session 41 sync — TODO sweep, issue #733)
 
@@ -15,6 +15,15 @@ Issues sourced from GitHub. Last synced: 2026-04-19 (session 41).
 
 - [ ] **#753** Display battle logs in the UI (banner or battle summary) — `App.tsx:1906`
 - [ ] **#754** Win celebration milestones: celebrate every 100 wins with scaling rewards — `App.tsx:1972,2068`
+
+## 🔵 Improvements — New (from GitHub, session 42 sync)
+
+- [ ] **#725** Quick Battle balancing — Improvement | Priority: Low — Limit opponent card pool to player's collection only; add Easy Mode (1-card reward, opponent uses only cards from player's deck)
+- [ ] **#719** Card Mastery for buildings — Improvement | Priority: Medium — Buff buildings gain no benefit from mastery; define a meaningful mastery bonus for structure cards (e.g. stat boost or effect upgrade)
+
+## 🔴 Bugs — New (from GitHub, session 42 sync)
+
+- [ ] **#742** InvalidStateError: newestWorker is null — Bug | Priority: Low — `swRegRef.current?.update()` in `App.tsx:790` throws when ServiceWorker registration has no newestWorker; guard the call. *(#743 closed as duplicate)*
 
 ## 🔴 Bugs — New (from GitHub, session 41 sync — TODO sweep, issue #733)
 
