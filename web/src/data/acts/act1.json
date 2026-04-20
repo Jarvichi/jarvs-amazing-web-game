@@ -1,5 +1,6 @@
 {
   "id": "act1",
+  "nextActId": "act2",
   "title": "ACT I",
   "subtitle": "The Verdant Shard",
   "rewardRelic": "Bark Shield",

@@ -1,5 +1,6 @@
 {
   "id": "act7",
+  "nextActId": "act8",
   "title": "ACT VII",
   "subtitle": "The Emberfall Peaks",
   "rewardRelic": "Magma Core",

@@ -1,5 +1,6 @@
 {
   "id": "act9",
+  "nextActId": "act10",
   "title": "ACT IX",
   "subtitle": "The Frozen Expanse",
   "rewardRelic": "Frost Mantle",

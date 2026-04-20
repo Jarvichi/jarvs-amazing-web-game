@@ -1,5 +1,6 @@
 {
   "id": "act2",
+  "nextActId": "act3",
   "title": "ACT II",
   "subtitle": "The Iron Citadel",
   "rewardRelic": "Iron Standard",
