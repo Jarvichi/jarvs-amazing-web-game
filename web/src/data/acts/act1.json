@@ -1043,7 +1043,16 @@
         "\"You will not pass. The Verdant Shard does not need another wandering tactician.\""
       ],
       "opponentIntervalMs": 5000,
-      "opponentBaseHp": 95
+      "opponentBaseHp": 95,
+      "enemyDeck": [
+        "Stone Wall","Stone Wall","Stone Wall","Stone Wall","Stone Wall","Stone Wall",
+        "Barracks","Barracks","Barracks",
+        "Farm","Farm",
+        "Crypt","Crypt",
+        "Shield Guard","Shield Guard",
+        "Knight","Knight",
+        "Fortify"
+      ]
     },
     "deep-crossing": {
       "id": "deep-crossing",

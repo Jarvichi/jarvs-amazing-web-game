@@ -220,37 +220,6 @@ export function makeDeck(): Card[] {
 }
 
 /**
- * The Thornlord boss deck — wall-heavy with spawner structures and sturdy defenders.
- * 6× Stone Wall ensures walls go down every turn via thornlordAI priority routing.
- */
-export function makeThorlordDeck(): Card[] {
-  const make = (name: string, count: number): Card[] => {
-    const def = CARD_DEFS.find(d => d.name === name)
-    if (!def) return []
-    return Array.from({ length: count }, () => ({
-      id: uid(),
-      name: def.name,
-      rarity: def.rarity,
-      cost: def.cost,
-      cardType: def.cardType,
-      unit: def.unit,
-      upgradeEffect: def.upgradeEffect,
-      description: def.description,
-      lore: def.lore,
-    }))
-  }
-  return [
-    ...make('Stone Wall',   6),
-    ...make('Barracks',     3),
-    ...make('Farm',         2),
-    ...make('Crypt',        2),
-    ...make('Shield Guard', 2),
-    ...make('Knight',       2),
-    ...make('Fortify',      1),
-  ]
-}
-
-/**
  * Build a deck from an ordered list of card names.
  * Unknown names are silently skipped.
  * Used for node-specific deterministic enemy decks.
@@ -271,57 +240,6 @@ export function makeNodeDeck(names: string[]): Card[] {
       lore: def.lore,
     }]
   })
-}
-
-/**
- * Kragg boss deck — heavy siege weapons, fortified walls, and disciplined infantry.
- */
-export function makeKraggDeck(): Card[] {
-  const make = (name: string, count: number): Card[] => {
-    const def = CARD_DEFS.find(d => d.name === name)
-    if (!def) return []
-    return Array.from({ length: count }, () => ({
-      id: uid(), name: def.name, rarity: def.rarity, cost: def.cost,
-      cardType: def.cardType, unit: def.unit, upgradeEffect: def.upgradeEffect,
-      description: def.description, lore: def.lore,
-    }))
-  }
-  return [
-    ...make('Stone Wall',   4),
-    ...make('Catapult',     3),
-    ...make('Knight',       3),
-    ...make('Shield Guard', 2),
-    ...make('Ballista',     2),
-    ...make('Siege Works',  1),
-    ...make('War Drums',    1),
-    ...make('Fortify',      1),
-    ...make('Crossbow',     2),
-  ]
-}
-
-/**
- * Ashwalker boss deck — undead horde with necromantic support and revenant swarms.
- */
-export function makeAshwalkerDeck(): Card[] {
-  const make = (name: string, count: number): Card[] => {
-    const def = CARD_DEFS.find(d => d.name === name)
-    if (!def) return []
-    return Array.from({ length: count }, () => ({
-      id: uid(), name: def.name, rarity: def.rarity, cost: def.cost,
-      cardType: def.cardType, unit: def.unit, upgradeEffect: def.upgradeEffect,
-      description: def.description, lore: def.lore,
-    }))
-  }
-  return [
-    ...make('Skeleton',    5),
-    ...make('Specter',     3),
-    ...make('Bat',         3),
-    ...make('Crypt',       2),
-    ...make('Necromancer', 2),
-    ...make('Dark Shrine', 2),
-    ...make('Bloodlust',   1),
-    ...make('Vampire',     1),
-  ]
 }
 
 export function getCardUnit(cardName: string): UnitTemplate | undefined {
