@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useEffect, useState } from 'react'
-import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES } from '../game/questline'
+import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES, loadPlayerAvatar } from '../game/questline'
 import { spriteSlug } from '../game/sprites'
 import { StatRow } from './StatRow'
 import { AnimatedSpriteImg } from './SpriteImg'
@@ -895,7 +895,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
               }}
             >
               <img
-                src={isWalking ? `/sprites/jarv-${walkFrame || 1}.svg` : '/sprites/jarv.svg'}
+                src={`/sprites/${loadPlayerAvatar()}.svg`}
                 alt="Jarv"
                 style={{ width: AVATAR_SIZE, height: AVATAR_SIZE, imageRendering: 'pixelated' }}
               />
