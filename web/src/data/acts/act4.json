@@ -50,7 +50,7 @@
   "intro": [
     {
       "title": "THE CRYSTAL SPIRE",
-      "text": "Before the Fracture, the Crystal Spire was the Dominion's arcane research division — a floating fortress of compressed ley-line energy, staffed by scholars who were very important and knew it.\n\nThe Fracture didn't destroy the Spire. It crystallised it. The entire shard froze mid-operation: experiments running, libraries mid-catalogue, staff mid-sentence. The crystal grew inward. The scholars who survived became part of the archive.\n\nThe Archivist survived better than most."
+      "text": "Before the Fracture, the Crystal Spire was the Dominion's arcane research division â a floating fortress of compressed ley-line energy, staffed by scholars who were very important and knew it.\n\nThe Fracture didn't destroy the Spire. It crystallised it. The entire shard froze mid-operation: experiments running, libraries mid-catalogue, staff mid-sentence. The crystal grew inward. The scholars who survived became part of the archive.\n\nThe Archivist survived better than most."
     },
     {
       "title": "THE WANDERER",
@@ -58,7 +58,7 @@
     },
     {
       "title": "THE CRYSTAL SPIRE",
-      "text": "The Spire is a labyrinth of crystallised corridors, arcane constructs, and rooms that echo with the voices of people who stopped speaking three years ago.\n\nAt its heart, the Archivist — scholar, archivist, and now something considerably more and considerably less than either — catalogues everything that enters. He has been cataloguing you since you entered the shard.\n\nHe has extensive notes."
+      "text": "The Spire is a labyrinth of crystallised corridors, arcane constructs, and rooms that echo with the voices of people who stopped speaking three years ago.\n\nAt its heart, the Archivist â scholar, archivist, and now something considerably more and considerably less than either â catalogues everything that enters. He has been cataloguing you since you entered the shard.\n\nHe has extensive notes."
     },
     {
       "title": "YOUR MISSION",
@@ -68,11 +68,11 @@
   "outro": [
     {
       "title": "THE ARCHIVE FALLS SILENT",
-      "text": "The Archivist's crystal matrix collapses. Not violently — methodically. Each facet dims in order, as though even his defeat is being filed.\n\nThe Spire holds its breath. Then, for the first time in three years, a window opens somewhere deep in the structure. Not because it was unlocked. Because whoever had been locking it is no longer in a position to care.\n\nLight comes through. Ordinary, unremarkable light. In the Crystal Spire, it looks like a miracle."
+      "text": "The Archivist's crystal matrix collapses. Not violently â methodically. Each facet dims in order, as though even his defeat is being filed.\n\nThe Spire holds its breath. Then, for the first time in three years, a window opens somewhere deep in the structure. Not because it was unlocked. Because whoever had been locking it is no longer in a position to care.\n\nLight comes through. Ordinary, unremarkable light. In the Crystal Spire, it looks like a miracle."
     },
     {
       "title": "PRISM LENS",
-      "text": "Among the Archivist's collection — catalogued, cross-referenced, annotated in a hand that had become increasingly less human — you find it.\n\nA lens ground from the Spire's heart crystal. It refracts mana the way a prism refracts light: input, multiplied, redirected.\n\nThe Archivist's note reads: *'Item 7,441: Prism Lens. Effect: mana amplification. Recommendation: do not give to wandering tactician.'\n\nYou take it."
+      "text": "Among the Archivist's collection â catalogued, cross-referenced, annotated in a hand that had become increasingly less human â you find it.\n\nA lens ground from the Spire's heart crystal. It refracts mana the way a prism refracts light: input, multiplied, redirected.\n\nThe Archivist's note reads: *'Item 7,441: Prism Lens. Effect: mana amplification. Recommendation: do not give to wandering tactician.'\n\nYou take it."
     }
   ],
   "variantPools": {
@@ -80,7 +80,7 @@
       "Currently, technically, trespassing in a building that has documented every trespasser since the Dominion era.",
       "Professionally speaking, now classified as a hostile anomaly in an active archive.",
       "In the scholarly sense, an unscheduled variable in someone else's extremely long experiment.",
-      "Now — by the Archivist's own notation — Specimen 7,441-B, Category: Recurring.",
+      "Now â by the Archivist's own notation â Specimen 7,441-B, Category: Recurring.",
       "Technically unenrolled, which puts you in a narrow category of people who have entered the Spire and stayed that way."
     ],
     "jarvIntros": [
@@ -92,15 +92,15 @@
     ],
     "spireDesc": [
       "The Crystal Spire floats above the shard floor on compressed ley lines, its corridors refracting light into colours that don't have names. The scholars called it the height of Dominion achievement. From the outside it looks like someone built a fortress out of a prism and forgot to add doors.",
-      "The Spire's outer lattice is a maze of crystallised arcane energy — walls that shift, corridors that echo with old spells still running, and constructs that patrol with the cheerful persistence of things that have never been told to stop.",
+      "The Spire's outer lattice is a maze of crystallised arcane energy â walls that shift, corridors that echo with old spells still running, and constructs that patrol with the cheerful persistence of things that have never been told to stop.",
       "Three years of isolation have given the Spire's internal systems time to optimise themselves. Every approach is monitored. Every intrusion is logged. The Archivist receives notification of your exact position in real time.",
       "The Crystal Spire hums. Constantly. A low, harmonic resonance that carries meaning if you listen long enough. You have been listening for forty minutes. The meaning is 'leave.'"
     ],
     "archivistDesc": [
-      "The Archivist was the Dominion's head of magical research before the Fracture — a precise, methodical scholar who believed that anything worth knowing was worth cataloguing and anything worth cataloguing was worth defending.\n\nThe Fracture gave him more to catalogue than he'd expected. He adapted.",
+      "The Archivist was the Dominion's head of magical research before the Fracture â a precise, methodical scholar who believed that anything worth knowing was worth cataloguing and anything worth cataloguing was worth defending.\n\nThe Fracture gave him more to catalogue than he'd expected. He adapted.",
       "No surviving record of the Archivist exists outside the Spire. This is because the Archivist controls all the surviving records.\n\nHe is, by his own notation, entry 1 in the archive. The entry runs to forty-seven pages and is still being updated.",
       "The Archivist doesn't fight. He categorises. He processes. He applies the appropriate countermeasures from the section labelled 'threats, external, category: persistent.'\n\nYou are in that section. You have been in that section since you crossed the shard boundary. You have a case number.",
-      "In the Spire's early catalogues, the Archivist noted that magic follows rules and rules can be mastered. His later entries — written after the Fracture, in a hand that grew steadily less human — simply note that mastery takes time.\n\nHe has had time."
+      "In the Spire's early catalogues, the Archivist noted that magic follows rules and rules can be mastered. His later entries â written after the Fracture, in a hand that grew steadily less human â simply note that mastery takes time.\n\nHe has had time."
     ],
     "priorRunSummaries": [
       "The outer lattice looked exactly as the recovered schematics described it. Which was suspicious, because the schematics were three years old and the lattice was known to rearrange itself.",
@@ -131,12 +131,12 @@
       "Fifty approaches. The crystal walls show you all your previous visits simultaneously. It looks like a gallery. The Archivist has curated it."
     ],
     "milestoneOpenings100": [
-      "The Archivist is at the entrance.\n\nNot in his chamber — at the entrance. Waiting.\n\n'One hundred visits,' he says. The crystal in his voice has grown, over the years, into something almost warm. 'Do you know what that means, in terms of the archive?'\n\nA pause. A soft chime, somewhere deep in the Spire.\n\n'You have generated more data than the Dominion's entire eastern campaign. I have seventeen volumes dedicated exclusively to your methodology. You are, empirically, the most significant external variable this archive has ever processed.'\n\nHe tilts his crystalline head.\n\n'I have decided to consider this a collaboration.'"
+      "The Archivist is at the entrance.\n\nNot in his chamber â at the entrance. Waiting.\n\n'One hundred visits,' he says. The crystal in his voice has grown, over the years, into something almost warm. 'Do you know what that means, in terms of the archive?'\n\nA pause. A soft chime, somewhere deep in the Spire.\n\n'You have generated more data than the Dominion's entire eastern campaign. I have seventeen volumes dedicated exclusively to your methodology. You are, empirically, the most significant external variable this archive has ever processed.'\n\nHe tilts his crystalline head.\n\n'I have decided to consider this a collaboration.'"
     ]
   },
   "midRunTemplates": [
     "The {ordinalLower} visit to the Crystal Spire. The archive has updated your file. It is now cross-referenced under seventeen categories.",
-    "Campaign {n}. The constructs recognise you on sight. The Archivist has stopped logging your entry time — he predicts it accurately enough to not bother.",
+    "Campaign {n}. The constructs recognise you on sight. The Archivist has stopped logging your entry time â he predicts it accurately enough to not bother.",
     "{n} campaigns through the lattice. The crystal corridors look the same. They always look the same. The Archivist prefers consistency.",
     "{n} times past the outer lattice. Your case number has gained a suffix: 'See also: the persistent one.'",
     "Run {n}. The Archivist's notes on you are now longer than his notes on the Fracture itself. He considers this an appropriate allocation of resources.",
@@ -341,7 +341,7 @@
         },
         {
           "title": "A NOTIFICATION",
-          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. The Spire is waiting.\n\nIt has always been waiting. It files everything."
+          "text": "And yet â {pool:priorRunOpenings:0}\n\nYou push the feeling aside. The Spire is waiting.\n\nIt has always been waiting. It files everything."
         }
       ]
     }
@@ -387,8 +387,8 @@
       "col": 0,
       "rowCols": 2,
       "childIds": [
-        "arcane-court",
-        "echo-halls"
+        "echo-halls",
+        "iron-approach"
       ],
       "handicap": 3,
       "opponentBaseHp": 155,
@@ -415,7 +415,7 @@
       "rowCols": 2,
       "childIds": [
         "null-market",
-        "iron-approach"
+        "arcane-court"
       ],
       "handicap": 3,
       "opponentBaseHp": 155,
@@ -447,12 +447,12 @@
       "environment": "citadel",
       "eventConfig": {
         "title": "The Arcane Court",
-        "description": "Crystalline towers rise around you. Hooded figures stand in a circle, studying a glowing object that floats at the centre. They don’t seem hostile. Not yet.",
+        "description": "Crystalline towers rise around you. Hooded figures stand in a circle, studying a glowing object that floats at the centre. They donât seem hostile. Not yet.",
         "pools": [
           [
             {
               "label": "Step into the circle",
-              "consequence": "The magic steadies you — restored 10 HP",
+              "consequence": "The magic steadies you â restored 10 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 10
@@ -460,7 +460,7 @@
             },
             {
               "label": "Step into the circle",
-              "consequence": "The ritual grants you a boon — +18 crystals",
+              "consequence": "The ritual grants you a boon â +18 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 18
@@ -468,7 +468,7 @@
             },
             {
               "label": "Step into the circle",
-              "consequence": "The energy rejects you — lose 8 HP",
+              "consequence": "The energy rejects you â lose 8 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 8
@@ -484,7 +484,7 @@
             },
             {
               "label": "Step into the circle",
-              "consequence": "Something small falls from the air — added to inventory",
+              "consequence": "Something small falls from the air â added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -493,7 +493,7 @@
           [
             {
               "label": "Observe from the doorway",
-              "consequence": "You note weaknesses — +15 crystals",
+              "consequence": "You note weaknesses â +15 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 15
@@ -501,21 +501,21 @@
             },
             {
               "label": "Observe from the doorway",
-              "consequence": "They don’t notice you. Nothing happens.",
+              "consequence": "They donât notice you. Nothing happens.",
               "effect": {
                 "type": "nothing"
               }
             },
             {
               "label": "Observe from the doorway",
-              "consequence": "One of them nods. You find something on the floor — added to inventory",
+              "consequence": "One of them nods. You find something on the floor â added to inventory",
               "effect": {
                 "type": "gainItem"
               }
             },
             {
               "label": "Observe from the doorway",
-              "consequence": "A fragment drifts toward you — restored 6 HP",
+              "consequence": "A fragment drifts toward you â restored 6 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 6
@@ -523,7 +523,7 @@
             },
             {
               "label": "Observe from the doorway",
-              "consequence": "A curious object rolls under your foot — added to inventory",
+              "consequence": "A curious object rolls under your foot â added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -540,7 +540,7 @@
             },
             {
               "label": "Disrupt the ritual",
-              "consequence": "The explosion throws you back — lose 15 HP",
+              "consequence": "The explosion throws you back â lose 15 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 15
@@ -563,7 +563,7 @@
             },
             {
               "label": "Disrupt the ritual",
-              "consequence": "Something breaks loose in the chaos — added to inventory",
+              "consequence": "Something breaks loose in the chaos â added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -799,7 +799,7 @@
           [
             {
               "label": "Study the crystals",
-              "consequence": "Absorbed energy restores you — restored 8 HP",
+              "consequence": "Absorbed energy restores you â restored 8 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 8
@@ -807,7 +807,7 @@
             },
             {
               "label": "Study the crystals",
-              "consequence": "You extract a pattern — gain a common card",
+              "consequence": "You extract a pattern â gain a common card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "common"
@@ -815,7 +815,7 @@
             },
             {
               "label": "Study the crystals",
-              "consequence": "The knowledge costs you — lose 6 HP",
+              "consequence": "The knowledge costs you â lose 6 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 6
@@ -823,7 +823,7 @@
             },
             {
               "label": "Study the crystals",
-              "consequence": "You find a practical application — +12 crystals",
+              "consequence": "You find a practical application â +12 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 12
@@ -831,7 +831,7 @@
             },
             {
               "label": "Study the crystals",
-              "consequence": "A small crystal detaches from the shelf — added to inventory",
+              "consequence": "A small crystal detaches from the shelf â added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -856,7 +856,7 @@
             },
             {
               "label": "Take a crystal shard",
-              "consequence": "It releases a feedback pulse — lose 10 HP",
+              "consequence": "It releases a feedback pulse â lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -864,7 +864,7 @@
             },
             {
               "label": "Take a crystal shard",
-              "consequence": "Something shifts inside it. You keep it — added to inventory",
+              "consequence": "Something shifts inside it. You keep it â added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -888,7 +888,7 @@
             },
             {
               "label": "Leave an offering of mana",
-              "consequence": "Something flows back in return — restored 15 HP",
+              "consequence": "Something flows back in return â restored 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -896,7 +896,7 @@
             },
             {
               "label": "Leave an offering of mana",
-              "consequence": "The archive takes more than you offered — lose 5 HP",
+              "consequence": "The archive takes more than you offered â lose 5 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 5
@@ -904,14 +904,14 @@
             },
             {
               "label": "Leave an offering of mana",
-              "consequence": "Something small materialises at your feet — added to inventory",
+              "consequence": "Something small materialises at your feet â added to inventory",
               "effect": {
                 "type": "gainItem"
               }
             },
             {
               "label": "Leave an offering of mana",
-              "consequence": "The archive blesses you with renewed vigour — +1 life",
+              "consequence": "The archive blesses you with renewed vigour â +1 life",
               "effect": {
                 "type": "gainLife",
                 "amount": 1
