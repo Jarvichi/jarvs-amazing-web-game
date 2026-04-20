@@ -867,6 +867,7 @@
       "handicap": 0,
       "environment": "ashen",
       "bossAI": "ashwalker",
+      "bossCard": "The Ashwalker",
       "bossName": "The Ashwalker",
       "enemyDeck": [
         "Wight Knight",
