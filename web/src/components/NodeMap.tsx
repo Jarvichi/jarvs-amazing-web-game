@@ -3,6 +3,7 @@ import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNode
 import { spriteSlug } from '../game/sprites'
 import { StatRow } from './StatRow'
 import { AnimatedSpriteImg } from './SpriteImg'
+import { getCardUnit } from '../game/cards'
 
 interface Props {
   act: Act
@@ -948,7 +949,17 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                           </span>
                           {(() => {
                             if ((node.type === 'battle' || node.type === 'elite') && node.enemyDeck?.length) {
-                              return <WanderingSprite name={node.enemyDeck[0]} />
+                              const unitName = node.enemyDeck[0]
+                              if (status === 'completed') {
+                                return <span className="nm-node-icon">🪦</span>
+                              }
+                              const isBuilding = (getCardUnit(unitName)?.moveSpeed ?? 1) === 0
+                              if (isBuilding) {
+                                const slug = spriteSlug(unitName)
+                                return <img src={`/sprites/${slug}.svg`} alt="" className="nm-node-sprite"
+                                  onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
+                              }
+                              return <WanderingSprite name={unitName} />
                             }
                             const sprite = nodeSprite(node)
                             return sprite
