@@ -120,10 +120,12 @@
             {
               "label": "Offer blood (lose 8 HP, gain a rare card)",
               "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
+                "type": "compound",
+                "effects": [
+                  { "type": "damageHp", "amount": 8 },
+                  { "type": "gainCard", "rarity": "rare" }
+                ]
               },
-              "hpCost": 8,
               "consequence": "You receive a rare card."
             }
           ],
@@ -269,10 +271,12 @@
             {
               "label": "Draw from the ley line (gain a rare card, take 5 damage)",
               "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
+                "type": "compound",
+                "effects": [
+                  { "type": "damageHp", "amount": 5 },
+                  { "type": "gainCard", "rarity": "rare" }
+                ]
               },
-              "hpCost": 5,
               "consequence": "You receive a rare card."
             }
           ],
@@ -404,10 +408,12 @@
             {
               "label": "Leave an offering (lose 15 HP, gain 100 crystals)",
               "effect": {
-                "type": "gainCrystals",
-                "amount": 100
+                "type": "compound",
+                "effects": [
+                  { "type": "gainCrystals", "amount": 100 },
+                  { "type": "damageHp", "amount": 15 }
+                ]
               },
-              "hpCost": 15,
               "consequence": "You gain 100 crystals."
             }
           ],

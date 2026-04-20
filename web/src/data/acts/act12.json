@@ -113,10 +113,12 @@
               "label": "Leave an offering (lose 8 HP, gain a rare card)",
               "consequence": "You receive a rare card.",
               "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
-              },
-              "hpCost": 8
+                "type": "compound",
+                "effects": [
+                  { "type": "damageHp", "amount": 8 },
+                  { "type": "gainCard", "rarity": "rare" }
+                ]
+              }
             }
           ],
           [
@@ -244,10 +246,12 @@
               "label": "Force the crossing (gain a rare card, take 6 HP)",
               "consequence": "You receive a rare card.",
               "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
-              },
-              "hpCost": 6
+                "type": "compound",
+                "effects": [
+                  { "type": "damageHp", "amount": 6 },
+                  { "type": "gainCard", "rarity": "rare" }
+                ]
+              }
             }
           ],
           [
@@ -374,10 +378,12 @@
               "label": "Take his coin (gain 100 crystals, lose 15 HP)",
               "consequence": "You gain 100 crystals.",
               "effect": {
-                "type": "gainCrystals",
-                "amount": 100
-              },
-              "hpCost": 15
+                "type": "compound",
+                "effects": [
+                  { "type": "gainCrystals", "amount": 100 },
+                  { "type": "damageHp", "amount": 15 }
+                ]
+              }
             }
           ],
           [
