@@ -1223,58 +1223,63 @@ export default function App() {
     if (!currentRun) return
     const nodeId = currentRun.pendingNodeId!
 
-    // Apply the effect
     let updatedRun: RunState = {
       ...currentRun,
       completedNodeIds: [...currentRun.completedNodeIds, nodeId],
       pendingNodeId: null,
     }
 
-    const effect = choice.effect
-    if (effect.type === 'healHp') {
-      updatedRun = { ...updatedRun, playerHp: Math.min(updatedRun.maxHp, updatedRun.playerHp + effect.amount) }
-    } else if (effect.type === 'damageHp') {
-      if (!isNoDamageMode()) {
-        updatedRun = { ...updatedRun, playerHp: Math.max(1, updatedRun.playerHp - effect.amount) }
-      }
-    } else if (effect.type === 'gainCrystals') {
-      const next = loadCrystals() + effect.amount
-      saveCrystals(next)
-      setCrystals(next)
-    } else if (effect.type === 'gainCard') {
-      const catalog = getCardCatalog()
-      const pool = catalog.filter(c => c.rarity === effect.rarity)
-      const card = pool[Math.floor(Math.random() * pool.length)]
-      if (card) {
-        addCardsToCollection([{ cardName: card.name, count: 1 }])
-        saveRun(updatedRun)
-        setRun(updatedRun)
-        setActiveEvent(null)
-        setScreen('nodemap')
-        setPendingEventCard(card.name)
-        playCardFlip()
-        return   // show card reveal before going to nodemap
-      }
-    } else if (effect.type === 'gainItem') {
-      const item = effect.itemId
-        ? ALL_ITEMS.find(i => i.id === effect.itemId)
-        : computeReward(loadInventory(), ALL_ITEMS)
-      if (item) {
-        recordNodeComplete(updatedRun.actId, nodeId)
-        saveRun(updatedRun)
-        setRun(updatedRun)
-        setActiveEvent(null)
-        setFoundItem(item)
-        setScreen('itemfound')
-        return
-      }
-    } else if (effect.type === 'gainLife') {
-      const newMax   = Math.min(LIVES_MAX, updatedRun.maxLives + effect.amount)
-      const newLives = Math.min(newMax, updatedRun.livesRemaining + effect.amount)
-      updatedRun = { ...updatedRun, livesRemaining: newLives, maxLives: newMax }
-      if (newLives >= LIVES_MAX) {
-        const newlyUnlocked = incrementAchievementProgress('misc:nine_lives', 1)
-        if (newlyUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...newlyUnlocked])
+    // Flatten compound effects into a list of single effects
+    const effects = choice.effect.type === 'compound'
+      ? choice.effect.effects
+      : [choice.effect]
+
+    for (const effect of effects) {
+      if (effect.type === 'healHp') {
+        updatedRun = { ...updatedRun, playerHp: Math.min(updatedRun.maxHp, updatedRun.playerHp + effect.amount) }
+      } else if (effect.type === 'damageHp') {
+        if (!isNoDamageMode()) {
+          updatedRun = { ...updatedRun, playerHp: Math.max(1, updatedRun.playerHp - effect.amount) }
+        }
+      } else if (effect.type === 'gainCrystals') {
+        const next = loadCrystals() + effect.amount
+        saveCrystals(next)
+        setCrystals(next)
+      } else if (effect.type === 'gainCard') {
+        const catalog = getCardCatalog()
+        const pool = catalog.filter(c => c.rarity === effect.rarity)
+        const card = pool[Math.floor(Math.random() * pool.length)]
+        if (card) {
+          addCardsToCollection([{ cardName: card.name, count: 1 }])
+          saveRun(updatedRun)
+          setRun(updatedRun)
+          setActiveEvent(null)
+          setScreen('nodemap')
+          setPendingEventCard(card.name)
+          playCardFlip()
+          return   // show card reveal before going to nodemap
+        }
+      } else if (effect.type === 'gainItem') {
+        const item = effect.itemId
+          ? ALL_ITEMS.find(i => i.id === effect.itemId)
+          : computeReward(loadInventory(), ALL_ITEMS)
+        if (item) {
+          recordNodeComplete(updatedRun.actId, nodeId)
+          saveRun(updatedRun)
+          setRun(updatedRun)
+          setActiveEvent(null)
+          setFoundItem(item)
+          setScreen('itemfound')
+          return
+        }
+      } else if (effect.type === 'gainLife') {
+        const newMax   = Math.min(LIVES_MAX, updatedRun.maxLives + effect.amount)
+        const newLives = Math.min(newMax, updatedRun.livesRemaining + effect.amount)
+        updatedRun = { ...updatedRun, livesRemaining: newLives, maxLives: newMax }
+        if (newLives >= LIVES_MAX) {
+          const newlyUnlocked = incrementAchievementProgress('misc:nine_lives', 1)
+          if (newlyUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...newlyUnlocked])
+        }
       }
     }
 

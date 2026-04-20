@@ -27,10 +27,13 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
   // Preview HP after applying the picked choice's effect
   const previewHp: number = (() => {
     if (!picked) return playerHp
-    const { effect } = picked
-    if (effect.type === 'healHp') return Math.min(maxHp, playerHp + effect.amount)
-    if (effect.type === 'damageHp') return Math.max(1, playerHp - effect.amount)
-    return playerHp
+    const effects = picked.effect.type === 'compound' ? picked.effect.effects : [picked.effect]
+    let hp = playerHp
+    for (const effect of effects) {
+      if (effect.type === 'healHp') hp = Math.min(maxHp, hp + effect.amount)
+      if (effect.type === 'damageHp') hp = Math.max(1, hp - effect.amount)
+    }
+    return hp
   })()
 
   const displayHp  = previewHp
