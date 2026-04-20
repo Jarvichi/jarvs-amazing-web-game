@@ -864,11 +864,9 @@ export function recordNodeComplete(actId: string, nodeId: string): void {
 
 /** Returns the act that follows this one in the campaign, or null if it's the last. */
 export function getNextAct(actId: string): Act | null {
-  // TODO: we should really have something in the act.json that names the preceding act, and look this up here, or use computed value, i.e. if current act is 5, the next will likely be (5+1) act 6, if there is no "act6.json" then we've completed the campaign!
-  const order = ['act1', 'act2', 'act3', 'act4', 'act5', 'act6', 'act7', 'act8', 'act9', 'act10', 'act11', 'act12', 'act13', 'actfinale']
-  const idx = order.indexOf(actId)
-  if (idx < 0 || idx === order.length - 1) return null
-  return ACTS[order[idx + 1]] ?? null
+  const nextId = ACTS[actId]?.nextActId
+  if (!nextId) return null
+  return ACTS[nextId] ?? null
 }
 
 // ─── Player character ─────────────────────────────────────────────────────────

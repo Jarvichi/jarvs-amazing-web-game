@@ -1,5 +1,6 @@
 {
   "id": "act3",
+  "nextActId": "act4",
   "title": "ACT III",
   "subtitle": "The Ashen Wastes",
   "rewardRelic": "Soulstone",

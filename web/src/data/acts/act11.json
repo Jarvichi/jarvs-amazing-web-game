@@ -1,5 +1,6 @@
 {
   "id": "act11",
+  "nextActId": "act12",
   "title": "ACT XI",
   "subtitle": "The Verdant Canopy",
   "rewardRelic": "Living Bark",

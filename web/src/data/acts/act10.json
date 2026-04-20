@@ -1,5 +1,6 @@
 {
   "id": "act10",
+  "nextActId": "act11",
   "title": "ACT X",
   "subtitle": "The Sand Market",
   "rewardRelic": "Golden Compass",

@@ -1,5 +1,6 @@
 {
   "id": "act5",
+  "nextActId": "act6",
   "title": "ACT V",
   "subtitle": "The Sunken Reef",
   "rewardRelic": "Coral Mantle",

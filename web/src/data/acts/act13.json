@@ -1,5 +1,6 @@
 {
   "id": "act13",
+  "nextActId": "actfinale",
   "title": "ACT XIII",
   "subtitle": "The Clockwork Vaults",
   "rewardRelic": "Gear Heart",

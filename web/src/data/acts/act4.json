@@ -1,5 +1,6 @@
 {
   "id": "act4",
+  "nextActId": "act5",
   "title": "ACT IV",
   "subtitle": "The Crystal Spire",
   "rewardRelic": "Prism Lens",
