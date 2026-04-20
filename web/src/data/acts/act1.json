@@ -42,7 +42,7 @@
   "intro": [
     {
       "title": "THE FRACTURE",
-      "text": "Three years ago, the Grand Dominion shattered.\n\nNot in war. Not gradually. In a single catastrophic instant \u2014 a magical detonation the scholars call the Fracture Event. The realm split into isolated shards, each one sealed behind walls of warped space and collapsed ley lines.\n\nNobody knows who caused it. Nobody knows how to undo it."
+      "text": "Three years ago, the Grand Dominion shattered.\n\nNot in war. Not gradually. In a single catastrophic instant — a magical detonation the scholars call the Fracture Event. The realm split into isolated shards, each one sealed behind walls of warped space and collapsed ley lines.\n\nNobody knows who caused it. Nobody knows how to undo it."
     },
     {
       "title": "THE WANDERER",
@@ -50,17 +50,17 @@
     },
     {
       "title": "THE VERDANT SHARD",
-      "text": "Your compass points to the nearest reachable shard \u2014 a dense, ancient forest realm that has grown wild and hostile since the Fracture closed its borders.\n\nThe shard's guardian, a being called the Thornlord, has sealed its internal pathways. Local traders say he was old before the Dominion was founded.\n\nLocal traders also say he hasn't spoken to anyone in forty years. You're choosing to interpret that as optimistically as possible."
+      "text": "Your compass points to the nearest reachable shard — a dense, ancient forest realm that has grown wild and hostile since the Fracture closed its borders.\n\nThe shard's guardian, a being called the Thornlord, has sealed its internal pathways. Local traders say he was old before the Dominion was founded.\n\nLocal traders also say he hasn't spoken to anyone in forty years. You're choosing to interpret that as optimistically as possible."
     },
     {
       "title": "YOUR MISSION",
-      "text": "Break through the shard. Reach the Thornlord. Defeat him. Earn passage.\n\nTake whatever cards and crystals you can carry out the other side \u2014 your collection grows with every run, your mastery deepens, and somewhere in the Fractured Core the answer to all of this is waiting.\n\nProbably."
+      "text": "Break through the shard. Reach the Thornlord. Defeat him. Earn passage.\n\nTake whatever cards and crystals you can carry out the other side — your collection grows with every run, your mastery deepens, and somewhere in the Fractured Core the answer to all of this is waiting.\n\nProbably."
     }
   ],
   "outro": [
     {
       "title": "THE THORNLORD FALLS",
-      "text": "The ancient guardian crumples. Roots unravel. Bark splits along fracture lines older than the Dominion.\n\nFor a moment the whole forest holds its breath \u2014 then it exhales. The sealed pathways glow faintly and open like doors that have been waiting for exactly this."
+      "text": "The ancient guardian crumples. Roots unravel. Bark splits along fracture lines older than the Dominion.\n\nFor a moment the whole forest holds its breath — then it exhales. The sealed pathways glow faintly and open like doors that have been waiting for exactly this."
     },
     {
       "title": "WHAT HE WAS",
@@ -68,7 +68,7 @@
     },
     {
       "title": "THE ROAD AHEAD",
-      "text": "One shard cleared. The ley lines pulse \u2014 faint, but connected.\n\nYour deck returns to its bones. Your collection carries forward. Somewhere beyond the Verdant Shard, the Iron Citadel waits \u2014 and whoever controls it will not be glad to see you.\n\nGood."
+      "text": "One shard cleared. The ley lines pulse — faint, but connected.\n\nYour deck returns to its bones. Your collection carries forward. Somewhere beyond the Verdant Shard, the Iron Citadel waits — and whoever controls it will not be glad to see you.\n\nGood."
     }
   ],
   "variantPools": {
@@ -77,7 +77,7 @@
       "Now, technically, a free agent.",
       "Now, effectively, between employers.",
       "Now, in the administrative sense, without portfolio.",
-      "Now \u2014 if you were being generous \u2014 on sabbatical."
+      "Now — if you were being generous — on sabbatical."
     ],
     "jarvIntros": [
       "You have a deck of cards, a vague sense of mission, and the navigational instincts of someone who has been lost before and considers it acceptable.",
@@ -87,10 +87,10 @@
       "You have a deck of cards. You always have a deck of cards. That, at least, has been consistent."
     ],
     "forestDesc": [
-      "Your compass points to the nearest reachable shard \u2014 a dense, ancient forest realm that has grown wild and hostile since the Fracture closed its borders.",
-      "Your compass points to the Verdant Shard \u2014 a place that smells of pine resin and old magic, where the trees remember things the people forgot.",
+      "Your compass points to the nearest reachable shard — a dense, ancient forest realm that has grown wild and hostile since the Fracture closed its borders.",
+      "Your compass points to the Verdant Shard — a place that smells of pine resin and old magic, where the trees remember things the people forgot.",
       "Your compass points toward the Verdant Shard. The forest ahead is old enough to have opinions about you.",
-      "The Verdant Shard pulses at the edge of your compass bearing \u2014 a realm of old growth and older grudges, sealed since the Fracture."
+      "The Verdant Shard pulses at the edge of your compass bearing — a realm of old growth and older grudges, sealed since the Fracture."
     ],
     "thornlordDesc": [
       "The shard's guardian, a being called the Thornlord, has sealed its internal pathways. Local traders say he was old before the Dominion was founded.\n\nLocal traders also say he hasn't spoken to anyone in forty years. You're choosing to interpret that as optimistically as possible.",
@@ -99,16 +99,16 @@
       "The Thornlord seals every path through the Verdant Shard. Traders who've survived say he is patient, thorough, and has never once reconsidered a decision.\n\nYou have a plan. You've had plans before."
     ],
     "priorRunSummaries": [
-      "The path felt familiar \u2014 the way a dream feels familiar, just before it turns wrong.",
+      "The path felt familiar — the way a dream feels familiar, just before it turns wrong.",
       "You stepped into the Verdant Shard with the uneasy sense that you'd stepped here before. You pushed the feeling aside. There was work to do.",
-      "Something about the first battle. The angle of the light. The particular way the Goblins charged. A d\u00e9j\u00e0 vu so precise it was almost a memory.",
+      "Something about the first battle. The angle of the light. The particular way the Goblins charged. A déjà vu so precise it was almost a memory.",
       "The forest seemed quieter than it should have been. As though it recognised you, and was deciding whether to be pleased about it."
     ],
     "priorRunOpenings": [
-      "You remember \u2014 and here is the strange part \u2014 getting this far before. Not the same choices. But the same road.",
+      "You remember — and here is the strange part — getting this far before. Not the same choices. But the same road.",
       "The scholar on the boulder didn't look up when you approached. 'Again?' he said. 'You're ahead of schedule.'",
       "The Thornlord, when you finally stood before him, was already watching you. As though he had been expecting you. As though he had been expecting this for some time.",
-      "The goblins at the first barricade looked familiar. Not familiar the way people are familiar \u2014 familiar the way furniture in a childhood home is familiar. Something about the arrangement of them."
+      "The goblins at the first barricade looked familiar. Not familiar the way people are familiar — familiar the way furniture in a childhood home is familiar. Something about the arrangement of them."
     ],
     "milestoneOpenings5": [
       "The fifth time through the Verdant Shard, a bird called out your name. That was new.",
@@ -136,7 +136,7 @@
     "{n} campaigns in. The goblins at the first barricade have started placing bets on how quickly you'll get past them.",
     "{n} times you've stood at this shard's edge. The trees have started leaning away slightly when you approach.",
     "Run {n}. You walk in before dawn, which is new. Everything else is exactly as you left it.",
-    "The {ordinalLower} attempt. You recognise the smell now. Damp bark and old magic and something else \u2014 familiarity.",
+    "The {ordinalLower} attempt. You recognise the smell now. Damp bark and old magic and something else — familiarity.",
     "{n} campaigns. The Wandering Scholar has started making tea before you arrive. He knows the timing by heart."
   ],
   "introRules": [
@@ -337,7 +337,7 @@
         },
         {
           "title": "A FEELING",
-          "text": "And yet \u2014 {pool:priorRunOpenings:0}\n\nYou push the feeling aside. You've always pushed the feeling aside.\n\nThat's how you dreamt it happened, as you step out into the battlefield for the first time."
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. You've always pushed the feeling aside.\n\nThat's how you dreamt it happened, as you step out into the battlefield for the first time."
         }
       ]
     }
@@ -448,7 +448,7 @@
           [
             {
               "label": "Leave an offering",
-              "consequence": "The shrine accepts your gift \u2014 restored 12 HP",
+              "consequence": "The shrine accepts your gift — restored 12 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 12
@@ -456,7 +456,7 @@
             },
             {
               "label": "Leave an offering",
-              "consequence": "The glow brightens \u2014 +15 crystals",
+              "consequence": "The glow brightens — +15 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 15
@@ -471,7 +471,7 @@
             },
             {
               "label": "Leave an offering",
-              "consequence": "Something drains your offering \u2014 lose 5 HP",
+              "consequence": "Something drains your offering — lose 5 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 5
@@ -479,14 +479,14 @@
             },
             {
               "label": "Leave an offering",
-              "consequence": "Something small materialises at the altar's base \u2014 added to inventory",
+              "consequence": "Something small materialises at the altar's base — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
             },
             {
               "label": "Leave an offering",
-              "consequence": "The shrine blesses you with renewed fortune \u2014 +1 life",
+              "consequence": "The shrine blesses you with renewed fortune — +1 life",
               "effect": {
                 "type": "gainLife",
                 "amount": 1
@@ -496,7 +496,7 @@
           [
             {
               "label": "Pray for strength",
-              "consequence": "A card materialises from the glow \u2014 uncommon",
+              "consequence": "A card materialises from the glow — uncommon",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -504,7 +504,7 @@
             },
             {
               "label": "Pray for strength",
-              "consequence": "The magic guides your wounds \u2014 restored 8 HP",
+              "consequence": "The magic guides your wounds — restored 8 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 8
@@ -512,7 +512,7 @@
             },
             {
               "label": "Pray for strength",
-              "consequence": "The shrine tests you \u2014 lose 10 HP",
+              "consequence": "The shrine tests you — lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -520,7 +520,7 @@
             },
             {
               "label": "Pray for strength",
-              "consequence": "You feel oddly lucky \u2014 +20 crystals",
+              "consequence": "You feel oddly lucky — +20 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 20
@@ -528,14 +528,14 @@
             },
             {
               "label": "Pray for strength",
-              "consequence": "Something small and inexplicable materialises in your palm \u2014 added to inventory",
+              "consequence": "Something small and inexplicable materialises in your palm — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
             },
             {
               "label": "Pray for strength",
-              "consequence": "A strange object appears in your hand from nowhere \u2014 added to inventory",
+              "consequence": "A strange object appears in your hand from nowhere — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -544,10 +544,19 @@
           [
             {
               "label": "Pocket the ritual stones",
-              "consequence": "You grab them and run \u2014 +18 crystals, lose 8 HP",
+              "consequence": "You grab them and run — +18 crystals, lose 8 HP",
               "effect": {
-                "type": "damageHp",
-                "amount": 8
+                "type": "compound",
+                "effects": [
+                  {
+                    "type": "gainCrystals",
+                    "amount": 18
+                  },
+                  {
+                    "type": "damageHp",
+                    "amount": 8
+                  }
+                ]
               }
             },
             {
@@ -567,7 +576,7 @@
             },
             {
               "label": "Pocket the ritual stones",
-              "consequence": "The shrine curses you \u2014 lose 15 HP",
+              "consequence": "The shrine curses you — lose 15 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 15
@@ -575,7 +584,7 @@
             },
             {
               "label": "Pocket the ritual stones",
-              "consequence": "One of the stones turns out to be something stranger \u2014 added to inventory",
+              "consequence": "One of the stones turns out to be something stranger — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -598,12 +607,12 @@
       "environment": "forest",
       "eventConfig": {
         "title": "The Watching Wood",
-        "description": "A great creature steps from the treeline. Not hostile \u2014 not yet. It tilts its head and watches you with ancient, patient eyes.",
+        "description": "A great creature steps from the treeline. Not hostile — not yet. It tilts its head and watches you with ancient, patient eyes.",
         "pools": [
           [
             {
               "label": "Stand your ground",
-              "consequence": "It respects the stillness \u2014 +15 crystals from its abandoned cache",
+              "consequence": "It respects the stillness — +15 crystals from its abandoned cache",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 15
@@ -611,14 +620,14 @@
             },
             {
               "label": "Stand your ground",
-              "consequence": "It steps forward and presses something into your hand \u2014 added to inventory",
+              "consequence": "It steps forward and presses something into your hand — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
             },
             {
               "label": "Stand your ground",
-              "consequence": "It growls and charges \u2014 lose 12 HP",
+              "consequence": "It growls and charges — lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -633,7 +642,7 @@
             },
             {
               "label": "Stand your ground",
-              "consequence": "Something in its posture says: not today \u2014 restored 10 HP",
+              "consequence": "Something in its posture says: not today — restored 10 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 10
@@ -643,7 +652,7 @@
           [
             {
               "label": "Offer it food",
-              "consequence": "It takes your offering gently \u2014 restored 12 HP",
+              "consequence": "It takes your offering gently — restored 12 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 12
@@ -666,7 +675,7 @@
             },
             {
               "label": "Offer it food",
-              "consequence": "It lashes out \u2014 lose 8 HP",
+              "consequence": "It lashes out — lose 8 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 8
@@ -674,7 +683,7 @@
             },
             {
               "label": "Offer it food",
-              "consequence": "It drops something from its mouth \u2014 a common card",
+              "consequence": "It drops something from its mouth — a common card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "common"
@@ -684,14 +693,14 @@
           [
             {
               "label": "Back away slowly",
-              "consequence": "It lets you go \u2014 nothing happens",
+              "consequence": "It lets you go — nothing happens",
               "effect": {
                 "type": "nothing"
               }
             },
             {
               "label": "Back away slowly",
-              "consequence": "It follows you to the edge of its territory and leaves a crystal cache \u2014 +12 crystals",
+              "consequence": "It follows you to the edge of its territory and leaves a crystal cache — +12 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 12
@@ -699,7 +708,7 @@
             },
             {
               "label": "Back away slowly",
-              "consequence": "It pounces \u2014 lose 15 HP",
+              "consequence": "It pounces — lose 15 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 15
@@ -707,14 +716,14 @@
             },
             {
               "label": "Back away slowly",
-              "consequence": "You find something in the grass as you retreat \u2014 added to inventory",
+              "consequence": "You find something in the grass as you retreat — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
             },
             {
               "label": "Back away slowly",
-              "consequence": "It watches you leave and seems almost disappointed \u2014 restored 6 HP",
+              "consequence": "It watches you leave and seems almost disappointed — restored 6 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 6
@@ -743,7 +752,7 @@
           [
             {
               "label": "Rest in the shelter",
-              "consequence": "The quiet heals \u2014 restored 15 HP",
+              "consequence": "The quiet heals — restored 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -759,7 +768,7 @@
             },
             {
               "label": "Rest in the shelter",
-              "consequence": "Something bites you in the night \u2014 lose 6 HP",
+              "consequence": "Something bites you in the night — lose 6 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 6
@@ -767,7 +776,7 @@
             },
             {
               "label": "Rest in the shelter",
-              "consequence": "You find a pouch under the floorboards \u2014 +14 crystals",
+              "consequence": "You find a pouch under the floorboards — +14 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 14
@@ -775,14 +784,14 @@
             },
             {
               "label": "Rest in the shelter",
-              "consequence": "You wake to find a small curiosity beside you \u2014 added to inventory",
+              "consequence": "You wake to find a small curiosity beside you — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
             },
             {
               "label": "Rest in the shelter",
-              "consequence": "Something rolls under your hand in the dark \u2014 added to inventory",
+              "consequence": "Something rolls under your hand in the dark — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -799,7 +808,7 @@
             },
             {
               "label": "Search the armory",
-              "consequence": "A rare weapon contract \u2014 add a rare card",
+              "consequence": "A rare weapon contract — add a rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -807,7 +816,7 @@
             },
             {
               "label": "Search the armory",
-              "consequence": "Old coin cache \u2014 +20 crystals",
+              "consequence": "Old coin cache — +20 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 20
@@ -815,7 +824,7 @@
             },
             {
               "label": "Search the armory",
-              "consequence": "A rusted trap springs \u2014 lose 10 HP",
+              "consequence": "A rusted trap springs — lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -823,14 +832,14 @@
             },
             {
               "label": "Search the armory",
-              "consequence": "You find a curious object among the debris \u2014 added to inventory",
+              "consequence": "You find a curious object among the debris — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
             },
             {
               "label": "Search the armory",
-              "consequence": "Something rolls out of the rubble \u2014 added to inventory",
+              "consequence": "Something rolls out of the rubble — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -839,7 +848,7 @@
           [
             {
               "label": "Climb the watchtower",
-              "consequence": "Good vantage point \u2014 +12 crystals from spotted supply cache",
+              "consequence": "Good vantage point — +12 crystals from spotted supply cache",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 12
@@ -855,7 +864,7 @@
             },
             {
               "label": "Climb the watchtower",
-              "consequence": "The stairs collapse \u2014 lose 12 HP",
+              "consequence": "The stairs collapse — lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -870,14 +879,14 @@
             },
             {
               "label": "Climb the watchtower",
-              "consequence": "Something is jammed in the bell \u2014 you pocket it \u2014 added to inventory",
+              "consequence": "Something is jammed in the bell — you pocket it — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
             },
             {
               "label": "Climb the watchtower",
-              "consequence": "You spot a hidden passage to a safe camp below \u2014 +1 life",
+              "consequence": "You spot a hidden passage to a safe camp below — +1 life",
               "effect": {
                 "type": "gainLife",
                 "amount": 1
@@ -930,7 +939,7 @@
       "id": "captain",
       "type": "elite",
       "label": "Forest Captain",
-      "description": "A hardened veteran with well-drilled siege troops \u2014 and something the forest has been teaching him about patience.",
+      "description": "A hardened veteran with well-drilled siege troops — and something the forest has been teaching him about patience.",
       "row": 3,
       "col": 0,
       "rowCols": 2,
@@ -1046,12 +1055,23 @@
       "opponentIntervalMs": 5000,
       "opponentBaseHp": 95,
       "enemyDeck": [
-        "Stone Wall","Stone Wall","Stone Wall","Stone Wall","Stone Wall","Stone Wall",
-        "Barracks","Barracks","Barracks",
-        "Farm","Farm",
-        "Crypt","Crypt",
-        "Shield Guard","Shield Guard",
-        "Knight","Knight",
+        "Stone Wall",
+        "Stone Wall",
+        "Stone Wall",
+        "Stone Wall",
+        "Stone Wall",
+        "Stone Wall",
+        "Barracks",
+        "Barracks",
+        "Barracks",
+        "Farm",
+        "Farm",
+        "Crypt",
+        "Crypt",
+        "Shield Guard",
+        "Shield Guard",
+        "Knight",
+        "Knight",
         "Fortify"
       ]
     },

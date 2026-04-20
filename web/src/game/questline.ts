@@ -158,7 +158,7 @@ export interface QuestNode {
 
 // ─── Event system ─────────────────────────────────────────
 
-export type EventEffect =
+export type SingleEventEffect =
   | { type: 'healHp';          amount: number }
   | { type: 'damageHp';        amount: number }
   | { type: 'gainCrystals';    amount: number }
@@ -166,6 +166,9 @@ export type EventEffect =
   | { type: 'gainItem';        itemId?: string }
   | { type: 'gainLife';        amount: number }
   | { type: 'nothing' }
+
+/** An effect that applies multiple SingleEventEffects in sequence. */
+export type EventEffect = SingleEventEffect | { type: 'compound'; effects: SingleEventEffect[] }
 
 export interface EventChoice {
   label: string        // short action label e.g. "Leave an offering"

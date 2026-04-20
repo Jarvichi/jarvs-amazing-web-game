@@ -5,9 +5,38 @@
       "title": "A Suspicious Offer",
       "description": "A goblin scout, notably clean for his kind, sidles up to you from behind a stump. He speaks quickly, gesturing toward a cloth bag that clinks suspiciously.",
       "choices": [
-        { "label": "Take the deal",                  "consequence": "+15 crystals, but lose 8 HP (he bites you on the way out)", "effect": { "type": "damageHp",     "amount": 8  } },
-        { "label": "Trade him a card tip for info",  "consequence": "Add a common card to your collection",                    "effect": { "type": "gainCard",     "rarity": "common" } },
-        { "label": "Chase him off",                  "consequence": "He runs. You feel smart but slightly bored.",              "effect": { "type": "nothing" } }
+        {
+          "label": "Take the deal",
+          "consequence": "+15 crystals, but lose 8 HP (he bites you on the way out)",
+          "effect": {
+            "type": "compound",
+            "effects": [
+              {
+                "type": "gainCrystals",
+                "amount": 15
+              },
+              {
+                "type": "damageHp",
+                "amount": 8
+              }
+            ]
+          }
+        },
+        {
+          "label": "Trade him a card tip for info",
+          "consequence": "Add a common card to your collection",
+          "effect": {
+            "type": "gainCard",
+            "rarity": "common"
+          }
+        },
+        {
+          "label": "Chase him off",
+          "consequence": "He runs. You feel smart but slightly bored.",
+          "effect": {
+            "type": "nothing"
+          }
+        }
       ]
     },
     "wanderer": {
@@ -15,9 +44,30 @@
       "title": "The Wandering Scholar",
       "description": "A robed scholar sits cross-legged on a boulder, annotating a crackling tome. He glances up without surprise. \"Ah. Another one of Jarv's campaigns. Sit.\"",
       "choices": [
-        { "label": "Ask him to heal you",       "consequence": "Restore 8 HP",                                    "effect": { "type": "healHp",       "amount": 8  } },
-        { "label": "Ask about rare tactics",    "consequence": "Add a rare card to your collection",             "effect": { "type": "gainCard",     "rarity": "rare" } },
-        { "label": "Ask for the short version", "consequence": "+12 crystals (he charges for advice)",           "effect": { "type": "gainCrystals", "amount": 12 } }
+        {
+          "label": "Ask him to heal you",
+          "consequence": "Restore 8 HP",
+          "effect": {
+            "type": "healHp",
+            "amount": 8
+          }
+        },
+        {
+          "label": "Ask about rare tactics",
+          "consequence": "Add a rare card to your collection",
+          "effect": {
+            "type": "gainCard",
+            "rarity": "rare"
+          }
+        },
+        {
+          "label": "Ask for the short version",
+          "consequence": "+12 crystals (he charges for advice)",
+          "effect": {
+            "type": "gainCrystals",
+            "amount": 12
+          }
+        }
       ]
     },
     "ambush-merchant": {
@@ -25,9 +75,29 @@
       "title": "Waylaid Merchant",
       "description": "A merchant's cart lists sideways in a ditch, one wheel spinning. The merchant waves you over frantically. \"Help me up and I'll make it worth your while.\"",
       "choices": [
-        { "label": "Help right the cart",              "consequence": "He rewards you — +20 crystals",                                          "effect": { "type": "gainCrystals", "amount": 20 } },
-        { "label": "Take what you need from the cart", "consequence": "Add an uncommon card to your collection (ethically complicated)",        "effect": { "type": "gainCard",     "rarity": "uncommon" } },
-        { "label": "Leave him be",                     "consequence": "You are definitely the villain in his story.",                           "effect": { "type": "nothing" } }
+        {
+          "label": "Help right the cart",
+          "consequence": "He rewards you — +20 crystals",
+          "effect": {
+            "type": "gainCrystals",
+            "amount": 20
+          }
+        },
+        {
+          "label": "Take what you need from the cart",
+          "consequence": "Add an uncommon card to your collection (ethically complicated)",
+          "effect": {
+            "type": "gainCard",
+            "rarity": "uncommon"
+          }
+        },
+        {
+          "label": "Leave him be",
+          "consequence": "You are definitely the villain in his story.",
+          "effect": {
+            "type": "nothing"
+          }
+        }
       ]
     },
     "supply-cache": {
@@ -35,65 +105,338 @@
       "title": "Supply Cache",
       "description": "A Citadel supply depot, hastily abandoned. Crates lie open and torn sacks spill their contents.",
       "choices": [
-        { "label": "Search the crates", "consequence": "+12 crystals from scavenged supplies", "effect": { "type": "gainCrystals", "amount": 12 } },
-        { "label": "Pocket something useful", "consequence": "You find an uncommon card among the spoils", "effect": { "type": "gainCard", "rarity": "uncommon" } },
-        { "label": "Leave quickly", "consequence": "Nothing of use remains — you move on.", "effect": { "type": "nothing" } }
+        {
+          "label": "Search the crates",
+          "consequence": "+12 crystals from scavenged supplies",
+          "effect": {
+            "type": "gainCrystals",
+            "amount": 12
+          }
+        },
+        {
+          "label": "Pocket something useful",
+          "consequence": "You find an uncommon card among the spoils",
+          "effect": {
+            "type": "gainCard",
+            "rarity": "uncommon"
+          }
+        },
+        {
+          "label": "Leave quickly",
+          "consequence": "Nothing of use remains — you move on.",
+          "effect": {
+            "type": "nothing"
+          }
+        }
       ]
     }
   },
-
   "pools": {
     "shrine": {
       "offering": [
-        { "label": "Leave an offering", "consequence": "The shrine accepts your gift — restored 12 HP",                 "effect": { "type": "healHp",       "amount": 12 } },
-        { "label": "Leave an offering", "consequence": "The glow brightens — +15 crystals",                             "effect": { "type": "gainCrystals", "amount": 15 } },
-        { "label": "Leave an offering", "consequence": "The shrine is silent. Nothing happens.",                         "effect": { "type": "nothing" } },
-        { "label": "Leave an offering", "consequence": "Something drains your offering — lose 5 HP",                    "effect": { "type": "damageHp",     "amount": 5  } },
-        { "label": "Leave an offering", "consequence": "The shrine returns your kindness with a curious trinket — added to inventory", "effect": { "type": "gainItem" } },
-        { "label": "Leave an offering", "consequence": "Something small materialises at the altar's base — added to inventory",       "effect": { "type": "gainItem" } },
-        { "label": "Leave an offering", "consequence": "The shrine blesses you with renewed fortune — +1 life",          "effect": { "type": "gainLife",     "amount": 1  } }
+        {
+          "label": "Leave an offering",
+          "consequence": "The shrine accepts your gift — restored 12 HP",
+          "effect": {
+            "type": "healHp",
+            "amount": 12
+          }
+        },
+        {
+          "label": "Leave an offering",
+          "consequence": "The glow brightens — +15 crystals",
+          "effect": {
+            "type": "gainCrystals",
+            "amount": 15
+          }
+        },
+        {
+          "label": "Leave an offering",
+          "consequence": "The shrine is silent. Nothing happens.",
+          "effect": {
+            "type": "nothing"
+          }
+        },
+        {
+          "label": "Leave an offering",
+          "consequence": "Something drains your offering — lose 5 HP",
+          "effect": {
+            "type": "damageHp",
+            "amount": 5
+          }
+        },
+        {
+          "label": "Leave an offering",
+          "consequence": "The shrine returns your kindness with a curious trinket — added to inventory",
+          "effect": {
+            "type": "gainItem"
+          }
+        },
+        {
+          "label": "Leave an offering",
+          "consequence": "Something small materialises at the altar's base — added to inventory",
+          "effect": {
+            "type": "gainItem"
+          }
+        },
+        {
+          "label": "Leave an offering",
+          "consequence": "The shrine blesses you with renewed fortune — +1 life",
+          "effect": {
+            "type": "gainLife",
+            "amount": 1
+          }
+        }
       ],
       "pray": [
-        { "label": "Pray for strength", "consequence": "A card materialises from the glow — uncommon",                  "effect": { "type": "gainCard",     "rarity": "uncommon" } },
-        { "label": "Pray for strength", "consequence": "The magic guides your wounds — restored 8 HP",                  "effect": { "type": "healHp",       "amount": 8  } },
-        { "label": "Pray for strength", "consequence": "The shrine tests you — lose 10 HP",                             "effect": { "type": "damageHp",     "amount": 10 } },
-        { "label": "Pray for strength", "consequence": "You feel oddly lucky — +20 crystals",                           "effect": { "type": "gainCrystals", "amount": 20 } },
-        { "label": "Pray for strength", "consequence": "Something small and inexplicable materialises in your palm — added to inventory", "effect": { "type": "gainItem" } },
-        { "label": "Pray for strength", "consequence": "A strange object appears in your hand from nowhere — added to inventory",           "effect": { "type": "gainItem" } }
+        {
+          "label": "Pray for strength",
+          "consequence": "A card materialises from the glow — uncommon",
+          "effect": {
+            "type": "gainCard",
+            "rarity": "uncommon"
+          }
+        },
+        {
+          "label": "Pray for strength",
+          "consequence": "The magic guides your wounds — restored 8 HP",
+          "effect": {
+            "type": "healHp",
+            "amount": 8
+          }
+        },
+        {
+          "label": "Pray for strength",
+          "consequence": "The shrine tests you — lose 10 HP",
+          "effect": {
+            "type": "damageHp",
+            "amount": 10
+          }
+        },
+        {
+          "label": "Pray for strength",
+          "consequence": "You feel oddly lucky — +20 crystals",
+          "effect": {
+            "type": "gainCrystals",
+            "amount": 20
+          }
+        },
+        {
+          "label": "Pray for strength",
+          "consequence": "Something small and inexplicable materialises in your palm — added to inventory",
+          "effect": {
+            "type": "gainItem"
+          }
+        },
+        {
+          "label": "Pray for strength",
+          "consequence": "A strange object appears in your hand from nowhere — added to inventory",
+          "effect": {
+            "type": "gainItem"
+          }
+        }
       ],
       "take": [
-        { "label": "Pocket the ritual stones", "consequence": "You grab them and run — +18 crystals, lose 8 HP",        "effect": { "type": "damageHp",  "amount": 8  } },
-        { "label": "Pocket the ritual stones", "consequence": "A common card falls from the stones",                    "effect": { "type": "gainCard",  "rarity": "common" } },
-        { "label": "Pocket the ritual stones", "consequence": "The stones crumble to dust. Nothing.",                   "effect": { "type": "nothing" } },
-        { "label": "Pocket the ritual stones", "consequence": "The shrine curses you — lose 15 HP",                     "effect": { "type": "damageHp",  "amount": 15 } },
-        { "label": "Pocket the ritual stones", "consequence": "One of the stones turns out to be something stranger — added to inventory", "effect": { "type": "gainItem" } }
+        {
+          "label": "Pocket the ritual stones",
+          "consequence": "You grab them and run — +18 crystals, lose 8 HP",
+          "effect": {
+            "type": "compound",
+            "effects": [
+              {
+                "type": "gainCrystals",
+                "amount": 18
+              },
+              {
+                "type": "damageHp",
+                "amount": 8
+              }
+            ]
+          }
+        },
+        {
+          "label": "Pocket the ritual stones",
+          "consequence": "A common card falls from the stones",
+          "effect": {
+            "type": "gainCard",
+            "rarity": "common"
+          }
+        },
+        {
+          "label": "Pocket the ritual stones",
+          "consequence": "The stones crumble to dust. Nothing.",
+          "effect": {
+            "type": "nothing"
+          }
+        },
+        {
+          "label": "Pocket the ritual stones",
+          "consequence": "The shrine curses you — lose 15 HP",
+          "effect": {
+            "type": "damageHp",
+            "amount": 15
+          }
+        },
+        {
+          "label": "Pocket the ritual stones",
+          "consequence": "One of the stones turns out to be something stranger — added to inventory",
+          "effect": {
+            "type": "gainItem"
+          }
+        }
       ]
     },
     "ruins": {
       "rest": [
-        { "label": "Rest in the shelter", "consequence": "The quiet heals — restored 15 HP",                            "effect": { "type": "healHp",       "amount": 15 } },
-        { "label": "Rest in the shelter", "consequence": "You sleep badly. Restored 8 HP",                              "effect": { "type": "healHp",       "amount": 8  } },
-        { "label": "Rest in the shelter", "consequence": "Something bites you in the night — lose 6 HP",               "effect": { "type": "damageHp",     "amount": 6  } },
-        { "label": "Rest in the shelter", "consequence": "You find a pouch under the floorboards — +14 crystals",      "effect": { "type": "gainCrystals", "amount": 14 } },
-        { "label": "Rest in the shelter", "consequence": "You wake to find a small curiosity beside you — added to inventory",          "effect": { "type": "gainItem" } },
-        { "label": "Rest in the shelter", "consequence": "Something rolls under your hand in the dark — added to inventory",             "effect": { "type": "gainItem" } }
+        {
+          "label": "Rest in the shelter",
+          "consequence": "The quiet heals — restored 15 HP",
+          "effect": {
+            "type": "healHp",
+            "amount": 15
+          }
+        },
+        {
+          "label": "Rest in the shelter",
+          "consequence": "You sleep badly. Restored 8 HP",
+          "effect": {
+            "type": "healHp",
+            "amount": 8
+          }
+        },
+        {
+          "label": "Rest in the shelter",
+          "consequence": "Something bites you in the night — lose 6 HP",
+          "effect": {
+            "type": "damageHp",
+            "amount": 6
+          }
+        },
+        {
+          "label": "Rest in the shelter",
+          "consequence": "You find a pouch under the floorboards — +14 crystals",
+          "effect": {
+            "type": "gainCrystals",
+            "amount": 14
+          }
+        },
+        {
+          "label": "Rest in the shelter",
+          "consequence": "You wake to find a small curiosity beside you — added to inventory",
+          "effect": {
+            "type": "gainItem"
+          }
+        },
+        {
+          "label": "Rest in the shelter",
+          "consequence": "Something rolls under your hand in the dark — added to inventory",
+          "effect": {
+            "type": "gainItem"
+          }
+        }
       ],
       "search": [
-        { "label": "Search the armory", "consequence": "An uncommon card hidden behind a loose brick",                  "effect": { "type": "gainCard",     "rarity": "uncommon" } },
-        { "label": "Search the armory", "consequence": "A rare weapon contract — add a rare card",                      "effect": { "type": "gainCard",     "rarity": "rare" } },
-        { "label": "Search the armory", "consequence": "Old coin cache — +20 crystals",                                 "effect": { "type": "gainCrystals", "amount": 20 } },
-        { "label": "Search the armory", "consequence": "A rusted trap springs — lose 10 HP",                           "effect": { "type": "damageHp",     "amount": 10 } },
-        { "label": "Search the armory", "consequence": "You find a curious object among the debris — added to inventory",   "effect": { "type": "gainItem" } },
-        { "label": "Search the armory", "consequence": "Something rolls out of the rubble — added to inventory",           "effect": { "type": "gainItem" } }
+        {
+          "label": "Search the armory",
+          "consequence": "An uncommon card hidden behind a loose brick",
+          "effect": {
+            "type": "gainCard",
+            "rarity": "uncommon"
+          }
+        },
+        {
+          "label": "Search the armory",
+          "consequence": "A rare weapon contract — add a rare card",
+          "effect": {
+            "type": "gainCard",
+            "rarity": "rare"
+          }
+        },
+        {
+          "label": "Search the armory",
+          "consequence": "Old coin cache — +20 crystals",
+          "effect": {
+            "type": "gainCrystals",
+            "amount": 20
+          }
+        },
+        {
+          "label": "Search the armory",
+          "consequence": "A rusted trap springs — lose 10 HP",
+          "effect": {
+            "type": "damageHp",
+            "amount": 10
+          }
+        },
+        {
+          "label": "Search the armory",
+          "consequence": "You find a curious object among the debris — added to inventory",
+          "effect": {
+            "type": "gainItem"
+          }
+        },
+        {
+          "label": "Search the armory",
+          "consequence": "Something rolls out of the rubble — added to inventory",
+          "effect": {
+            "type": "gainItem"
+          }
+        }
       ],
       "climb": [
-        { "label": "Climb the watchtower", "consequence": "Good vantage point — +12 crystals from spotted supply cache", "effect": { "type": "gainCrystals", "amount": 12 } },
-        { "label": "Climb the watchtower", "consequence": "A common card is wedged in the battlements",                  "effect": { "type": "gainCard",     "rarity": "common" } },
-        { "label": "Climb the watchtower", "consequence": "The stairs collapse — lose 12 HP",                           "effect": { "type": "damageHp",     "amount": 12 } },
-        { "label": "Climb the watchtower", "consequence": "Nothing up there. Wind. Old regrets.",                        "effect": { "type": "nothing" } },
-        { "label": "Climb the watchtower", "consequence": "Something is jammed in the bell — you pocket it — added to inventory",   "effect": { "type": "gainItem" } },
-        { "label": "Climb the watchtower", "consequence": "Something is stuck to the iron door — you take it — added to inventory", "effect": { "type": "gainItem" } },
-        { "label": "Climb the watchtower", "consequence": "You spot a hidden passage to a safe camp below — +1 life",   "effect": { "type": "gainLife",     "amount": 1  } }
+        {
+          "label": "Climb the watchtower",
+          "consequence": "Good vantage point — +12 crystals from spotted supply cache",
+          "effect": {
+            "type": "gainCrystals",
+            "amount": 12
+          }
+        },
+        {
+          "label": "Climb the watchtower",
+          "consequence": "A common card is wedged in the battlements",
+          "effect": {
+            "type": "gainCard",
+            "rarity": "common"
+          }
+        },
+        {
+          "label": "Climb the watchtower",
+          "consequence": "The stairs collapse — lose 12 HP",
+          "effect": {
+            "type": "damageHp",
+            "amount": 12
+          }
+        },
+        {
+          "label": "Climb the watchtower",
+          "consequence": "Nothing up there. Wind. Old regrets.",
+          "effect": {
+            "type": "nothing"
+          }
+        },
+        {
+          "label": "Climb the watchtower",
+          "consequence": "Something is jammed in the bell — you pocket it — added to inventory",
+          "effect": {
+            "type": "gainItem"
+          }
+        },
+        {
+          "label": "Climb the watchtower",
+          "consequence": "Something is stuck to the iron door — you take it — added to inventory",
+          "effect": {
+            "type": "gainItem"
+          }
+        },
+        {
+          "label": "Climb the watchtower",
+          "consequence": "You spot a hidden passage to a safe camp below — +1 life",
+          "effect": {
+            "type": "gainLife",
+            "amount": 1
+          }
+        }
       ]
     }
   }
