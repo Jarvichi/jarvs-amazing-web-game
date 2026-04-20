@@ -555,6 +555,7 @@
       "opponentIntervalMs": 3600,
       "opponentBaseHp": 270,
       "bossAI": "rootqueen",
+      "bossCard": "Root Queen",
       "environment": "fungal",
       "bossDialogue": [
         "You are not of the network. The network remembers everything that isn't.",
