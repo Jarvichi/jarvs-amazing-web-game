@@ -611,6 +611,36 @@ function collapseModifiers(modifiers: ReplayModifier[]): ReplayModifier[] {
   })
 }
 
+// ── Wandering sprite ─────────────────────────────────────────────────────────
+
+const WANDER_RANGE = 10 // px radius from centre
+
+function WanderingSprite({ name }: { name: string }) {
+  const [pos, setPos] = useState({ x: 0, y: 0 })
+  const [dur, setDur] = useState(1200)
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>
+    function step() {
+      const x = (Math.random() * 2 - 1) * WANDER_RANGE
+      const y = (Math.random() * 2 - 1) * WANDER_RANGE
+      const d = 600 + Math.random() * 1200
+      setPos({ x, y })
+      setDur(d)
+      timer = setTimeout(step, d + 80)
+    }
+    // Stagger startup so sprites don't all move in sync
+    timer = setTimeout(step, Math.random() * 1200)
+    return () => clearTimeout(timer)
+  }, [])
+
+  return (
+    <div style={{ transform: `translate(${pos.x}px,${pos.y}px)`, transition: `transform ${dur}ms ease-in-out` }}>
+      <AnimatedSpriteImg name={name} frameCount={3} fps={6} className="nm-node-sprite" />
+    </div>
+  )
+}
+
 // ── Node Peek Modal ──────────────────────────────────────────────────────────
 
 interface PeekModalProps {
@@ -918,12 +948,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                           </span>
                           {(() => {
                             if ((node.type === 'battle' || node.type === 'elite') && node.enemyDeck?.length) {
-                              return <AnimatedSpriteImg
-                                name={node.enemyDeck[0]}
-                                frameCount={3}
-                                fps={6}
-                                className="nm-node-sprite nm-node-sprite--animated"
-                              />
+                              return <WanderingSprite name={node.enemyDeck[0]} />
                             }
                             const sprite = nodeSprite(node)
                             return sprite
