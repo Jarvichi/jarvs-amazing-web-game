@@ -217,7 +217,7 @@
       "col": 1,
       "rowCols": 5,
       "childIds": [
-        "pyroclast-elite"
+        "summit-elite"
       ],
       "environment": "volcano",
       "restHeal": 10
@@ -231,7 +231,7 @@
       "col": 4,
       "rowCols": 5,
       "childIds": [
-        "crater-rest"
+        "node-1776774411796"
       ],
       "environment": "volcano"
     },
@@ -242,7 +242,7 @@
       "description": "A crossing over a slow lava channel. The Cinderwarlord's regulars hold the far bank.",
       "row": 3,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "crater-rest"
       ],
@@ -273,7 +273,7 @@
       "label": "Volcanic Battery",
       "description": "Artillery emplacements built into the crater wall. Magma vents power the launchers.",
       "row": 4,
-      "col": 1,
+      "col": 0,
       "rowCols": 2,
       "childIds": [
         "crater-rest"
@@ -384,9 +384,9 @@
       "description": "The Cinderwarlord's elite shock troops. They charge through the hot zones without flinching.",
       "row": 3,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
-        "volcanic-battery"
+        "crater-rest"
       ],
       "handicap": 20,
       "opponentIntervalMs": 4000,
@@ -450,7 +450,7 @@
       "col": 3,
       "rowCols": 5,
       "childIds": [
-        "summit-elite"
+        "volcanic-battery"
       ],
       "environment": "volcano",
       "eventConfig": {
@@ -516,7 +516,7 @@
       "label": "Cinderwarlord's Vanguard",
       "description": "The Cinderwarlord's personal guard. They've been briefed on you specifically.",
       "row": 4,
-      "col": 2,
+      "col": 1,
       "rowCols": 2,
       "childIds": [
         "crater-rest"
@@ -618,6 +618,38 @@
       "childIds": [
         "forge-log",
         "ember-bazaar"
+      ]
+    },
+    "node-1776774411796": {
+      "id": "node-1776774411796",
+      "type": "battle",
+      "label": "Magma Forge",
+      "description": "A smithy slaves over a slow lava channel. The Cinderwarlord's regulars hold the far bank.",
+      "row": 3,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "crater-rest"
+      ],
+      "handicap": 14,
+      "opponentIntervalMs": 4600,
+      "opponentBaseHp": 210,
+      "environment": "volcano",
+      "enemyDeck": [
+        "Ember Crawler",
+        "Ember Crawler",
+        "Cinder Hound",
+        "Cinder Hound",
+        "Magma Archer",
+        "Magma Archer",
+        "Fire Salamander",
+        "Fire Salamander",
+        "Cinder Wall",
+        "Cinder Wall",
+        "Ash Turret",
+        "Burning Rush",
+        "Burning Rush",
+        "Smelted Blade"
       ]
     }
   }
