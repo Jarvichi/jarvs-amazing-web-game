@@ -388,6 +388,16 @@ export function CampaignAdminScreen({ onBack }: Props) {
     setSelectedNodeId(newId)
   }
 
+  function handleCopyNode(nodeId: string) {
+    const source = act.nodes[nodeId]
+    const newId = `node-${Date.now()}`
+    const copy: QuestNode = { ...JSON.parse(JSON.stringify(source)), id: newId, childIds: [] }
+    const updated = recalculateCols({ ...act.nodes, [newId]: copy })
+    setAct(prev => ({ ...prev, nodes: updated }))
+    setSelectedNodeId(newId)
+    flash(`Copied "${nodeId}" → "${newId}".`)
+  }
+
   function handleDeleteNode(nodeId: string) {
     const { [nodeId]: _removed, ...rest } = act.nodes
     const cleaned: Record<string, QuestNode> = Object.fromEntries(
@@ -581,6 +591,8 @@ export function CampaignAdminScreen({ onBack }: Props) {
                       onClick={() => setSelectedNodeId(selectedNodeId === node.id ? null : node.id)}>
                       {selectedNodeId === node.id ? 'CLOSE' : 'EDIT'}
                     </button>
+                    <button className="action-btn action-btn--xs" title="Duplicate node"
+                      onClick={() => handleCopyNode(node.id)}>⧉</button>
                     <button className="action-btn action-btn--xs" title="Move to earlier row"
                       onClick={() => handleMoveNodeRow(node.id, -1)} disabled={node.row === 0}>▲</button>
                     <button className="action-btn action-btn--xs" title="Move to later row"
