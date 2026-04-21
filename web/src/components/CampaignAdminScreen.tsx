@@ -14,6 +14,27 @@ const ACT_IDS = [
   'act8','act9','act10','act11','act12','act13','actfinale',
 ]
 const NODE_TYPES: NodeType[] = ['battle', 'elite', 'boss', 'rest', 'event', 'merchant']
+
+const PREV_COL = 90  // px per row slot (rows run left-to-right)
+const PREV_ROW = 72  // px per col slot within each row
+
+const NODE_TYPE_COLOR: Record<string, string> = {
+  battle:   'rgba(220,80,80,0.18)',
+  elite:    'rgba(220,180,50,0.18)',
+  boss:     'rgba(200,40,40,0.28)',
+  rest:     'rgba(50,200,80,0.18)',
+  event:    'rgba(80,130,255,0.18)',
+  merchant: 'rgba(200,160,50,0.18)',
+}
+
+const NODE_ICON: Record<string, string> = {
+  battle:   '⚔',
+  elite:    '★',
+  boss:     '☠',
+  rest:     '⛺',
+  event:    '?',
+  merchant: '⚖',
+}
 const ENVIRONMENTS = Object.keys(
   (battlefieldData as { environments: Record<string, unknown> }).environments
 )
@@ -59,6 +80,123 @@ function findCycle(nodes: Record<string, QuestNode>): string | null {
     if (!colour[id] && dfs(id)) return id
   }
   return null
+}
+
+// ─── MapPreview ───────────────────────────────────────────────────────────────
+
+function MapPreview({ act, selectedNodeId, onSelectNode }: {
+  act: Act
+  selectedNodeId: string | null
+  onSelectNode: (id: string) => void
+}) {
+  const allNodes = Object.values(act.nodes) as QuestNode[]
+  if (allNodes.length === 0) {
+    return <div style={{ padding: '12px', opacity: 0.5, fontSize: '12px' }}>No nodes to preview.</div>
+  }
+
+  const rows = [...new Set(allNodes.map(n => n.row))].sort((a, b) => a - b)
+  const maxRowCols = Math.max(1, ...allNodes.map(n => n.rowCols ?? 1))
+  const mapHeight = maxRowCols * PREV_ROW
+  const mapWidth  = rows.length * PREV_COL
+
+  function nodeCenter(node: QuestNode) {
+    const rowIndex   = rows.indexOf(node.row)
+    const rowCols    = node.rowCols ?? 1
+    const colTopOffset = ((maxRowCols - rowCols) / 2) * PREV_ROW
+    return {
+      x: rowIndex * PREV_COL + PREV_COL / 2,
+      y: colTopOffset + (node.col + 0.5) * PREV_ROW,
+    }
+  }
+
+  const connections: [string, string][] = []
+  for (const node of allNodes) {
+    for (const childId of node.childIds) {
+      if (act.nodes[childId]) connections.push([node.id, childId])
+    }
+  }
+
+  const NODE_W = 58
+  const NODE_H = 46
+
+  return (
+    <div style={{ overflowX: 'auto', padding: '8px 4px 4px' }}>
+      <div style={{ position: 'relative', width: mapWidth, height: mapHeight, margin: '0 auto' }}>
+
+        {/* Connection lines */}
+        <svg
+          width={mapWidth} height={mapHeight}
+          style={{ position: 'absolute', inset: 0, overflow: 'visible', pointerEvents: 'none' }}
+        >
+          {connections.map(([parentId, childId], i) => {
+            const p  = nodeCenter(act.nodes[parentId])
+            const c  = nodeCenter(act.nodes[childId])
+            const mx = (p.x + c.x) / 2
+            return (
+              <path
+                key={i}
+                d={`M ${p.x},${p.y} C ${mx},${p.y} ${mx},${c.y} ${c.x},${c.y}`}
+                fill="none"
+                stroke="rgba(255,255,255,0.18)"
+                strokeWidth={1.5}
+              />
+            )
+          })}
+        </svg>
+
+        {/* Nodes */}
+        {allNodes.map(node => {
+          const { x, y } = nodeCenter(node)
+          const isSelected = node.id === selectedNodeId
+          const isStart    = act.startNodeIds.includes(node.id)
+          return (
+            <button
+              key={node.id}
+              onClick={() => onSelectNode(node.id)}
+              title={`${node.id} [${node.type}]\n${node.label}`}
+              style={{
+                position: 'absolute',
+                left: x - NODE_W / 2,
+                top:  y - NODE_H / 2,
+                width: NODE_W,
+                height: NODE_H,
+                background: isSelected
+                  ? 'rgba(51,255,51,0.22)'
+                  : (NODE_TYPE_COLOR[node.type] ?? 'rgba(255,255,255,0.06)'),
+                border: isSelected
+                  ? '2px solid #33ff33'
+                  : `1px solid rgba(255,255,255,${isStart ? '0.45' : '0.2'})`,
+                borderRadius: 4,
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 1,
+                padding: '2px 3px',
+                fontFamily: 'inherit',
+                zIndex: 1,
+              }}
+            >
+              <span style={{ fontSize: '14px', lineHeight: 1 }}>{NODE_ICON[node.type] ?? '?'}</span>
+              <span style={{
+                fontSize: '7px',
+                opacity: 0.75,
+                lineHeight: 1.2,
+                maxWidth: '100%',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                color: 'var(--game-text-color)',
+              }}>
+                {node.label}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
 }
 
 // ─── NodeIdPicker ─────────────────────────────────────────────────────────────
@@ -146,6 +284,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
   const [nodeIdInput, setNodeIdInput] = useState('')
   const [deckSearch, setDeckSearch] = useState('')
   const [msg, setMsg] = useState<string | null>(null)
+  const [showPreview, setShowPreview] = useState(true)
 
   const allCards = useMemo(() => getCardCatalog(), [])
   const selectedNode = selectedNodeId ? (act.nodes[selectedNodeId] ?? null) : null
@@ -388,6 +527,24 @@ export function CampaignAdminScreen({ onBack }: Props) {
               onChange={ids => updateActField('startNodeIds', ids)}
             />
           </div>
+        </Section>
+
+        {/* Map preview */}
+        <Section bordered title="MAP PREVIEW" headerRight={
+          <button
+            className="action-btn action-btn--xs"
+            onClick={() => setShowPreview(p => !p)}
+          >
+            {showPreview ? 'HIDE' : 'SHOW'}
+          </button>
+        }>
+          {showPreview && (
+            <MapPreview
+              act={act}
+              selectedNodeId={selectedNodeId}
+              onSelectNode={id => setSelectedNodeId(selectedNodeId === id ? null : id)}
+            />
+          )}
         </Section>
 
         {/* Nodes list */}
