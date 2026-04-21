@@ -585,39 +585,61 @@
     "node-1776773449164": {
       "id": "node-1776773449164",
       "type": "battle",
-      "label": "New Node",
-      "description": "",
+      "label": "The Oooze",
+      "description": "Lava drips constantly from a hot spot in the rock.",
       "row": 1,
       "col": 1,
       "rowCols": 3,
       "childIds": [
         "cinder-vent"
+      ],
+      "enemyDeck": [
+        "Blood Tower",
+        "Blood Tower",
+        "Harpy Roost",
+        "Wyvern Roost"
       ]
     },
     "node-1776773449934": {
       "id": "node-1776773449934",
       "type": "battle",
-      "label": "New Node",
-      "description": "",
+      "label": "The Endless Flare",
+      "description": "A flame emits continuously from the ground.",
       "row": 1,
       "col": 0,
       "rowCols": 3,
       "childIds": [
         "ash-shrine",
         "lava-camp"
+      ],
+      "enemyDeck": [
+        "Fire Salamander",
+        "Fire Salamander",
+        "Fire Forge",
+        "Fire Forge",
+        "Fire Mage",
+        "Fire Mage"
       ]
     },
     "node-1776773548319": {
       "id": "node-1776773548319",
       "type": "battle",
-      "label": "New Node",
-      "description": "",
+      "label": "The Eye Of Fire",
+      "description": "A magma bubble frozen in a permanent state looks like an eye, flames flicker around its periphery.",
       "row": 1,
       "col": 2,
       "rowCols": 3,
       "childIds": [
         "forge-log",
         "ember-bazaar"
+      ],
+      "enemyDeck": [
+        "Lava Pool",
+        "Lava Troll",
+        "Lava Spire",
+        "Lava Pool",
+        "Lava Troll",
+        "Lava Spire"
       ]
     },
     "node-1776774411796": {
