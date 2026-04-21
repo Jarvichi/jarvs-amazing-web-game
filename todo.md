@@ -1,6 +1,17 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-04-19 (session 41).
+Issues sourced from GitHub. Last synced: 2026-04-21 (session 42).
+
+## 🔴 Bugs — New (from GitHub, session 42 sync)
+
+- [ ] **#742** `InvalidStateError: newestWorker is null` — Bug | Priority: Low — `App.tsx:790`: `swRegRef.current?.update()` throws when the SW registration has no `newestWorker`; wrap in try/catch with `logError`. Related to (but distinct from) closed noise issues #581/#582.
+
+## 🔵 Improvements — New (from GitHub, session 42 sync)
+
+- [ ] **#725** Quick Battle opponent deck improvements — Improvement | Priority: Medium — Two parts tracked as sub-issues:
+  - [ ] **#773** Limit opponent deck to cards in the player's collection only (fallback to base deck if collection too small)
+  - [ ] **#774** Add Easy Mode: opponent uses only cards from player's active deck; rewards 1 card on win; mode selector on Quick Battle setup screen
+- [ ] **#719** Card Mastery for buildings — Improvement | Priority: Low-Medium — Mastery on buff/structure cards has no visible effect; card inspector implies it does (affinity/damage boost). Define and implement meaningful mastery bonuses for building-type cards.
 
 ## 🔵 Improvements — New (from GitHub, session 41 sync — TODO sweep, issue #733)
 
