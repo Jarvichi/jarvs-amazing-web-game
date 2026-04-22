@@ -404,6 +404,7 @@ export default function App() {
   const merchantBoughtRef = useRef(0)
   const [mysteryReward, setMysteryReward] = useState<RewardDef | null>(null)
   const [campNode, setCampNode] = useState<QuestNode | null>(null)
+  const [campResult, setCampResult] = useState<string | null>(null)
   // Replay briefing state — stored so onBegin can proceed with the correct context
   const replayBriefingRef = useRef<{
     actId: string
@@ -1479,13 +1480,16 @@ export default function App() {
     if (!currentRun || !campNode) return
     const healAmount = campNode.restHeal ?? 5
     let updatedRun = { ...currentRun }
+    let resultMessage = ''
 
     if (choice === 'heal') {
       if (updatedRun.playerHp >= updatedRun.maxHp) {
-        // At max — grant bonus HP above the cap
         updatedRun.playerHp = updatedRun.playerHp + healAmount
+        resultMessage = `Already at full health — gained +${healAmount} bonus HP above your maximum!`
       } else {
+        const gained = Math.min(healAmount, updatedRun.maxHp - updatedRun.playerHp)
         updatedRun.playerHp = Math.min(updatedRun.playerHp + healAmount, updatedRun.maxHp)
+        resultMessage = `Healed ${gained} HP. (${currentRun.playerHp} → ${updatedRun.playerHp})`
       }
       playRestHeal()
     } else if (choice === 'rest') {
@@ -1496,10 +1500,16 @@ export default function App() {
         const newFatigued = fatigued.filter((_, i) => i !== idx)
         saveFatigued(newFatigued)
         setFatiguedCards(newFatigued)
+        resultMessage = `${recovered} has recovered and returned to your deck!`
+      } else {
+        resultMessage = `The troops couldn't recover this time. Better luck next camp.`
       }
     } else if (choice === 'meditate') {
       if (updatedRun.livesRemaining < updatedRun.maxLives && Math.random() < 0.5) {
         updatedRun.livesRemaining = Math.min(updatedRun.maxLives, updatedRun.livesRemaining + 1)
+        resultMessage = `Your focus deepens — gained +1 life!`
+      } else {
+        resultMessage = `Your mind wanders. No extra life gained this time.`
       }
     }
 
@@ -1511,9 +1521,14 @@ export default function App() {
     recordNodeComplete(updatedRun.actId, campNode.id)
     saveRun(updatedRun)
     setRun(updatedRun)
-    setCampNode(null)
-    setScreen('nodemap')
+    setCampResult(resultMessage)
   }, [run, campNode])
+
+  const handleCampContinue = useCallback(() => {
+    setCampNode(null)
+    setCampResult(null)
+    setScreen('nodemap')
+  }, [])
 
   const handleWaveRewardPick = useCallback((cardName: string) => {
     // Add to collection permanently and inject into the current run deck
@@ -2424,6 +2439,8 @@ export default function App() {
           fatiguedCards={fatiguedCards}
           healAmount={campNode.restHeal ?? 5}
           onChoose={handleCampChoice}
+          result={campResult}
+          onContinue={handleCampContinue}
         />
       )}
 
