@@ -1,6 +1,27 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-04-19 (session 41).
+Issues sourced from GitHub. Last synced: 2026-04-22 (session 42).
+
+## 🟣 Features — New (from GitHub, session 42 sync)
+
+- [ ] **#776** Minigame: fruit machine — Feature Request | Priority: Medium — Extend existing fruit machine with full reels engine, persistent feature board, jackpot tiers, holds/nudges/bonus games, and data-driven config. Sub-issues:
+  - [ ] **#779** Core reels system (symbols, paylines, spin resolution)
+  - [ ] **#780** Stake system and game-state machine (IDLE→SPINNING→EVALUATING→…)
+  - [ ] **#781** Feature board (persistent state, advancement triggers, prize nodes)
+  - [ ] **#782** Special features — holds, nudges, and bonus games
+  - [ ] **#783** Jackpot system (Mini/Minor/Major/Grand, fixed + progressive)
+  - [ ] **#784** Data-driven configuration (symbol weights, paytables, board layout)
+
+## 🔵 Improvements — New (from GitHub, session 42 sync)
+
+- [ ] **#725** Quick Battle improvements — Improvement | Priority: Medium — Limit opponent deck to player's collection; add Easy Mode. Sub-issues:
+  - [ ] **#773** Limit opponent deck to cards in player's collection (fallback if collection < N cards)
+  - [ ] **#774** Add Easy Mode: opponent uses player's own deck; rewards only 1 card on win
+- [ ] **#719** Card Mastery: building card mastery should do something — Improvement | Priority: Low — Mastery on buff/building cards currently has no gameplay effect; define and implement a meaningful mastery bonus for building cards
+
+## 🔴 Bugs — New (from GitHub, session 42 sync)
+
+- [ ] **#742** InvalidStateError: newestWorker is null — Bug | Priority: Low — `swRegRef.current?.update()` at `App.tsx:790` throws when ServiceWorker `newestWorker` is null; guard the call or catch the error
 
 ## 🔵 Improvements — New (from GitHub, session 41 sync — TODO sweep, issue #733)
 
