@@ -10,6 +10,8 @@ interface Props {
   fatiguedCards: string[]
   healAmount: number
   onChoose: (choice: CampChoice) => void
+  result: string | null
+  onContinue: () => void
 }
 
 export function CampScreen({
@@ -20,10 +22,30 @@ export function CampScreen({
   fatiguedCards,
   healAmount,
   onChoose,
+  result,
+  onContinue,
 }: Props) {
   const atMaxHp = playerHp >= maxHp
   const atMaxLives = livesRemaining >= maxLives
   const hasRestingCards = fatiguedCards.length > 0
+
+  if (result) {
+    return (
+      <div className="overlay-screen camp-screen">
+        <div className="camp-header">
+          <div className="camp-title">— CAMP —</div>
+          <div className="camp-stats">
+            <span>HP: {playerHp}/{maxHp}</span>
+            <span>Lives: {livesRemaining}/{maxLives}</span>
+          </div>
+        </div>
+        <div className="camp-result">
+          <div className="camp-result-message">{result}</div>
+          <button className="camp-continue" onClick={onContinue}>CONTINUE</button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="overlay-screen camp-screen">
