@@ -47,17 +47,17 @@
     },
     {
       "title": "THE PALE ENGINE",
-      "text": "Nobody built the Pale Engine \u2014 or if they did, they did it so long ago that the Engine has stopped caring about the distinction. It runs on cold and purpose. Its purpose is to hold the Expanse against everything that isn't ice.\n\nIt doesn't sleep. It doesn't negotiate. It processes.\n\nYou represent an input it hasn't encountered before. It is in the process of developing a protocol."
+      "text": "Nobody built the Pale Engine — or if they did, they did it so long ago that the Engine has stopped caring about the distinction. It runs on cold and purpose. Its purpose is to hold the Expanse against everything that isn't ice.\n\nIt doesn't sleep. It doesn't negotiate. It processes.\n\nYou represent an input it hasn't encountered before. It is in the process of developing a protocol."
     },
     {
       "title": "INTO THE WHITE",
-      "text": "The cold here isn't just weather. It's structural. It holds the landscape together in a way that makes you understand why the Pale Engine defends it \u2014 remove the cold and the whole Expanse would need to rethink what it is.\n\nYou aren't here to take the cold. You're here to pass through it.\n\nThe Pale Engine will need to understand that distinction. You will need to explain it forcefully."
+      "text": "The cold here isn't just weather. It's structural. It holds the landscape together in a way that makes you understand why the Pale Engine defends it — remove the cold and the whole Expanse would need to rethink what it is.\n\nYou aren't here to take the cold. You're here to pass through it.\n\nThe Pale Engine will need to understand that distinction. You will need to explain it forcefully."
     }
   ],
   "outro": [
     {
       "title": "THE PALE ENGINE HALTS",
-      "text": "The Pale Engine doesn't fall. It stops \u2014 a precise, deliberate cessation, like a machine completing a cycle rather than failing. The cold continues around it. The Expanse doesn't care who won.\n\nThe ley lines pulse through the ice and keep going. They were never going to stop for this."
+      "text": "The Pale Engine doesn't fall. It stops — a precise, deliberate cessation, like a machine completing a cycle rather than failing. The cold continues around it. The Expanse doesn't care who won.\n\nThe ley lines pulse through the ice and keep going. They were never going to stop for this."
     },
     {
       "title": "WHAT IT PROCESSED",
@@ -65,7 +65,7 @@
     },
     {
       "title": "THE FROST MANTLE",
-      "text": "The Frost Mantle is a layer of something that was once the Engine's outer casing \u2014 dense, cold, and almost ornamental in the way it's settled into a shape that fits across your shoulders.\n\nThe cold doesn't bother you as much as it did. That's the point.\n\nThe ley lines run on. The Expanse recedes behind you."
+      "text": "The Frost Mantle is a layer of something that was once the Engine's outer casing — dense, cold, and almost ornamental in the way it's settled into a shape that fits across your shoulders.\n\nThe cold doesn't bother you as much as it did. That's the point.\n\nThe ley lines run on. The Expanse recedes behind you."
     }
   ],
   "nodes": {
@@ -78,8 +78,7 @@
       "col": 0,
       "rowCols": 1,
       "childIds": [
-        "frost-shrine",
-        "ice-hollow"
+        "node-1776873511309"
       ],
       "handicap": 16,
       "opponentIntervalMs": 4800,
@@ -107,22 +106,21 @@
       "type": "event",
       "label": "Frost Shrine",
       "description": "A column of ice with something preserved at the centre. The cold here is specific.",
-      "row": 1,
+      "row": 6,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 2,
       "childIds": [
-        "ice-crossing",
-        "glacier-vent"
+        "node-1776873661402"
       ],
       "environment": "frost",
       "eventConfig": {
         "title": "The Frost Shrine",
-        "description": "A pillar of ancient ice, perfectly clear. Something is frozen at the centre \u2014 hard to identify, but clearly significant. The cold radiates outward in a way that feels intentional.",
+        "description": "A pillar of ancient ice, perfectly clear. Something is frozen at the centre — hard to identify, but clearly significant. The cold radiates outward in a way that feels intentional.",
         "pools": [
           [
             {
               "label": "Touch the ice",
-              "consequence": "The cold passes through you \u2014 healed 12 HP",
+              "consequence": "The cold passes through you — healed 12 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 12
@@ -130,7 +128,7 @@
             },
             {
               "label": "Touch the ice",
-              "consequence": "The cold bites \u2014 lose 6 HP",
+              "consequence": "The cold bites — lose 6 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 6
@@ -156,7 +154,7 @@
           [
             {
               "label": "Study the preserved form",
-              "consequence": "Useful information \u2014 uncommon card",
+              "consequence": "Useful information — uncommon card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -164,7 +162,7 @@
             },
             {
               "label": "Study the preserved form",
-              "consequence": "The study restores focus \u2014 healed 10 HP",
+              "consequence": "The study restores focus — healed 10 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 10
@@ -182,7 +180,7 @@
           [
             {
               "label": "Chip away the ice",
-              "consequence": "Valuable residue \u2014 +18 crystals",
+              "consequence": "Valuable residue — +18 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 18
@@ -198,7 +196,7 @@
             },
             {
               "label": "Chip away the ice",
-              "consequence": "The ice discharges \u2014 lose 10 HP",
+              "consequence": "The ice discharges — lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -213,12 +211,11 @@
       "type": "rest",
       "label": "Ice Hollow",
       "description": "A carved-out pocket in the glacier wall. Sheltered from the wind.",
-      "row": 1,
-      "col": 3,
-      "rowCols": 4,
+      "row": 4,
+      "col": 0,
+      "rowCols": 2,
       "childIds": [
-        "engine-log",
-        "cold-trader"
+        "node-1776873646236"
       ],
       "environment": "frost",
       "restHeal": 10
@@ -228,11 +225,11 @@
       "type": "merchant",
       "label": "Cold Cache",
       "description": "A trader who operates out of a buried depot. Everything is kept cold. That's not optional.",
-      "row": 2,
-      "col": 3,
-      "rowCols": 4,
+      "row": 4,
+      "col": 1,
+      "rowCols": 2,
       "childIds": [
-        "deep-freeze"
+        "node-1776873646236"
       ],
       "environment": "frost"
     },
@@ -241,11 +238,11 @@
       "type": "battle",
       "label": "Ice Crossing",
       "description": "A frozen ford. The ice holds. The Engine's regulars do not.",
-      "row": 2,
+      "row": 8,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 1,
       "childIds": [
-        "pale-elite"
+        "engine-log"
       ],
       "handicap": 18,
       "opponentIntervalMs": 4600,
@@ -273,11 +270,11 @@
       "type": "battle",
       "label": "Blizzard Battery",
       "description": "Ice artillery emplacements dug into the glacier face.",
-      "row": 4,
+      "row": 12,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 1,
       "childIds": [
-        "engine-approach"
+        "engine-vanguard"
       ],
       "handicap": 20,
       "opponentIntervalMs": 4400,
@@ -305,16 +302,16 @@
       "type": "event",
       "label": "Glacier Vent",
       "description": "A fissure where compressed air vents through the ice. Things get caught in it.",
-      "row": 2,
+      "row": 6,
       "col": 1,
-      "rowCols": 4,
+      "rowCols": 2,
       "childIds": [
-        "pale-elite"
+        "node-1776873661402"
       ],
       "environment": "frost",
       "eventConfig": {
         "title": "The Glacier Vent",
-        "description": "A wide crack in the ice shelf, venting cold air at high pressure. Debris from collapsed structures circulates in the column \u2014 and occasionally something more useful.",
+        "description": "A wide crack in the ice shelf, venting cold air at high pressure. Debris from collapsed structures circulates in the column — and occasionally something more useful.",
         "pools": [
           [
             {
@@ -327,7 +324,7 @@
             },
             {
               "label": "Reach into the vent",
-              "consequence": "The cold air clears wounds \u2014 healed 15 HP",
+              "consequence": "The cold air clears wounds — healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -335,7 +332,7 @@
             },
             {
               "label": "Reach into the vent",
-              "consequence": "The pressure hits hard \u2014 lose 12 HP",
+              "consequence": "The pressure hits hard — lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -353,7 +350,7 @@
           [
             {
               "label": "Follow the vent upward",
-              "consequence": "Supply cache at the top \u2014 +30 crystals",
+              "consequence": "Supply cache at the top — +30 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 30
@@ -383,11 +380,11 @@
       "type": "elite",
       "label": "Pale Guard",
       "description": "The Engine's elite frost constructs. Specifically calibrated against intrusion.",
-      "row": 3,
+      "row": 10,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 1,
       "childIds": [
-        "blizzard-battery"
+        "deep-freeze"
       ],
       "handicap": 24,
       "opponentIntervalMs": 4000,
@@ -415,7 +412,7 @@
       "type": "battle",
       "label": "Engine Approach",
       "description": "The final approach. The glacier here is machine-carved. Precise.",
-      "row": 5,
+      "row": 14,
       "col": 0,
       "rowCols": 1,
       "childIds": [
@@ -447,21 +444,21 @@
       "type": "event",
       "label": "Engine Archive",
       "description": "A cold-storage data post. The Pale Engine records everything.",
-      "row": 2,
-      "col": 2,
-      "rowCols": 4,
+      "row": 9,
+      "col": 0,
+      "rowCols": 1,
       "childIds": [
-        "deep-freeze"
+        "pale-elite"
       ],
       "environment": "frost",
       "eventConfig": {
         "title": "The Engine Archive",
-        "description": "An access node to the Pale Engine's memory lattice \u2014 a crystalline storage of everything it has processed since the Fracture. Its record of the event is purely numerical. That's oddly clarifying.",
+        "description": "An access node to the Pale Engine's memory lattice — a crystalline storage of everything it has processed since the Fracture. Its record of the event is purely numerical. That's oddly clarifying.",
         "pools": [
           [
             {
               "label": "Access the archive",
-              "consequence": "Useful data \u2014 rare card",
+              "consequence": "Useful data — rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -469,7 +466,7 @@
             },
             {
               "label": "Access the archive",
-              "consequence": "Supply routes documented \u2014 +25 crystals",
+              "consequence": "Supply routes documented — +25 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 25
@@ -479,7 +476,7 @@
           [
             {
               "label": "Rest at the node",
-              "consequence": "The warmth of computation \u2014 healed 15 HP",
+              "consequence": "The warmth of computation — healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -502,11 +499,11 @@
       "type": "rest",
       "label": "Thermal Pocket",
       "description": "A geothermal vent keeps one small chamber above freezing. It feels like luxury.",
-      "row": 3,
-      "col": 3,
-      "rowCols": 4,
+      "row": 11,
+      "col": 0,
+      "rowCols": 1,
       "childIds": [
-        "engine-vanguard"
+        "blizzard-battery"
       ],
       "environment": "frost",
       "restHeal": 15
@@ -516,9 +513,9 @@
       "type": "elite",
       "label": "Engine Vanguard",
       "description": "The Pale Engine's direct extensions. Each unit is a direct line to its processing core.",
-      "row": 4,
-      "col": 3,
-      "rowCols": 4,
+      "row": 13,
+      "col": 0,
+      "rowCols": 1,
       "childIds": [
         "engine-approach"
       ],
@@ -547,7 +544,7 @@
       "type": "boss",
       "label": "The Pale Engine",
       "description": "Cold-logic fortress intelligence. It holds the Expanse. It has always held the Expanse.",
-      "row": 6,
+      "row": 15,
       "col": 0,
       "rowCols": 1,
       "childIds": [],
@@ -581,6 +578,200 @@
         "Glacier Hide"
       ],
       "bossCard": "Permafrost Wyrm"
+    },
+    "node-1776873511309": {
+      "id": "node-1776873511309",
+      "type": "battle",
+      "label": "Outer Ice Shelf",
+      "description": "Wind-scoured ice stretches outward. Movement here does not go unnoticed.",
+      "row": 1,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [
+        "node-1776873512682"
+      ],
+      "handicap": 16,
+      "opponentIntervalMs": 4800,
+      "opponentBaseHp": 215,
+      "environment": "frost",
+      "enemyDeck": [
+        "Frost Crawler",
+        "Frost Crawler",
+        "Frost Crawler",
+        "Ice Shard",
+        "Ice Shard",
+        "Frost Archer",
+        "Frost Archer",
+        "Ice Wall",
+        "Ice Wall",
+        "Frost Surge",
+        "Frost Surge",
+        "Glacier Guard",
+        "Ice Wraith",
+        "Glacier Hide"
+      ]
+    },
+    "node-1776873512682": {
+      "id": "node-1776873512682",
+      "type": "battle",
+      "label": "Fractured Glacier Face",
+      "description": "Cracked sheets of ice shift under pressure. Something moves beneath them.",
+      "row": 2,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [
+        "node-1776873630290",
+        "node-1776873634845"
+      ],
+      "handicap": 16,
+      "opponentIntervalMs": 4800,
+      "opponentBaseHp": 215,
+      "environment": "frost",
+      "enemyDeck": [
+        "Frost Crawler",
+        "Frost Crawler",
+        "Frost Crawler",
+        "Ice Shard",
+        "Ice Shard",
+        "Frost Archer",
+        "Frost Archer",
+        "Ice Wall",
+        "Ice Wall",
+        "Frost Surge",
+        "Frost Surge",
+        "Glacier Guard",
+        "Ice Wraith",
+        "Glacier Hide"
+      ]
+    },
+    "node-1776873630290": {
+      "id": "node-1776873630290",
+      "type": "battle",
+      "label": "Collapsed Ice Run",
+      "description": "A partially broken route where the glacier has given way to hidden depths.",
+      "row": 3,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "ice-hollow"
+      ],
+      "handicap": 16,
+      "opponentIntervalMs": 4800,
+      "opponentBaseHp": 215,
+      "environment": "frost",
+      "enemyDeck": [
+        "Frost Crawler",
+        "Frost Crawler",
+        "Frost Crawler",
+        "Ice Shard",
+        "Ice Shard",
+        "Frost Archer",
+        "Frost Archer",
+        "Ice Wall",
+        "Ice Wall",
+        "Frost Surge",
+        "Frost Surge",
+        "Glacier Guard",
+        "Ice Wraith",
+        "Glacier Hide"
+      ]
+    },
+    "node-1776873634845": {
+      "id": "node-1776873634845",
+      "type": "battle",
+      "label": "Wind-Carved Traverse",
+      "description": "Sharp ice ridges shaped by relentless wind. Visibility comes and goes.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "cold-trader"
+      ],
+      "handicap": 16,
+      "opponentIntervalMs": 4800,
+      "opponentBaseHp": 215,
+      "environment": "frost",
+      "enemyDeck": [
+        "Frost Crawler",
+        "Frost Crawler",
+        "Frost Crawler",
+        "Ice Shard",
+        "Ice Shard",
+        "Frost Archer",
+        "Frost Archer",
+        "Ice Wall",
+        "Ice Wall",
+        "Frost Surge",
+        "Frost Surge",
+        "Glacier Guard",
+        "Ice Wraith",
+        "Glacier Hide"
+      ]
+    },
+    "node-1776873646236": {
+      "id": "node-1776873646236",
+      "type": "elite",
+      "label": "Cryo Sentinels",
+      "description": "Advanced frost constructs, tuned to respond instantly to foreign movement.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [
+        "frost-shrine",
+        "glacier-vent"
+      ],
+      "handicap": 24,
+      "opponentIntervalMs": 4000,
+      "opponentBaseHp": 230,
+      "environment": "frost",
+      "enemyDeck": [
+        "Frost Drake",
+        "Avalanche Bear",
+        "Avalanche Bear",
+        "Cold Snap",
+        "Cold Snap",
+        "Frost Turret",
+        "Frost Turret",
+        "Pale Shrine",
+        "Blizzard Blast",
+        "Blizzard Blast",
+        "Glacier Hide",
+        "Permafrost",
+        "Ice Wall",
+        "Ice Wall"
+      ]
+    },
+    "node-1776873661402": {
+      "id": "node-1776873661402",
+      "type": "battle",
+      "label": "Frozen Channel",
+      "description": "A narrow passage of solid ice. The surface is stable, but echoes travel far.",
+      "row": 7,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [
+        "ice-crossing"
+      ],
+      "handicap": 18,
+      "opponentIntervalMs": 4600,
+      "opponentBaseHp": 220,
+      "environment": "frost",
+      "enemyDeck": [
+        "Glacier Guard",
+        "Glacier Guard",
+        "Ice Shard",
+        "Ice Shard",
+        "Frost Archer",
+        "Frost Archer",
+        "Glacier Beacon",
+        "Cryo Forge",
+        "Ice Wall",
+        "Ice Wall",
+        "Frost Surge",
+        "Frost Surge",
+        "Glacier Hide",
+        "Blizzard Blast"
+      ]
     }
   }
 }
