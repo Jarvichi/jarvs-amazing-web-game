@@ -9893,6 +9893,57 @@ html.light-mode .action-btn {
   font-weight: bold;
 }
 
+/* Nudge UI */
+.fm-nudge-ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+}
+
+.fm-nudge-header {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffd700;
+  letter-spacing: 1px;
+}
+
+.fm-nudge-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.fm-nudge-reel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+
+.fm-nudge-btn {
+  width: 80px;
+  padding: 6px 0;
+  background: #0d0d1e;
+  border: 1px solid #555;
+  color: #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.15s;
+}
+
+.fm-nudge-btn:hover:not(:disabled) {
+  background: #1a1a2e;
+  border-color: #ffd700;
+  color: #ffd700;
+}
+
+.fm-nudge-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
 /* Jackpot tiers bar */
 .fm-jackpots {
   display: flex;
