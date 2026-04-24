@@ -32,7 +32,7 @@ export function QuickBattleScreen({ onStartBattle, onBack }: Props) {
             <p>Reward: standard card pack (5 cards).</p>
           </div>
           <button className="action-btn" onClick={() => onStartBattle('easy')}>
-            ▶  PLAY EASY
+            ▶  PLAY MIRROR DECK
           </button>
         </div>
       </div>
