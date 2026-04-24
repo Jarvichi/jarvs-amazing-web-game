@@ -2151,9 +2151,8 @@ export default function App() {
 
   const handleOpenPack = useCallback(() => {
     packBackScreenRef.current = 'title'
-    // Easy Mode rewards only 1 card (#774)
     const pack = generatePack()
-    setPack(isEasyModeRef.current ? pack.slice(0, 1) : pack)
+    setPack(pack)
     setScreen('pack')
   }, [])
 
