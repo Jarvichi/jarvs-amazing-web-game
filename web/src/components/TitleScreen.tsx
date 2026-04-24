@@ -24,8 +24,6 @@ function markKonamiUsed(): void   { try { localStorage.setItem(KONAMI_KEY, '1') 
 interface Props {
   crystals: number
   onPlay: () => void
-  quickBattleMode?: 'normal' | 'easy'
-  onSetQuickBattleMode?: (mode: 'normal' | 'easy') => void
   onEndless: () => void
   onCampaign: () => void
   onCollection: () => void
@@ -51,7 +49,7 @@ interface Props {
   onSignIn: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, quickBattleMode = 'normal', onSetQuickBattleMode, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onPlayerStats, user, onSignOut, onSignIn }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onPlayerStats, user, onSignOut, onSignIn }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -199,23 +197,6 @@ export function TitleScreen({ crystals, onPlay, quickBattleMode = 'normal', onSe
         >
           {valid ? '▶  QUICK BATTLE' : `⚠ DECK (${count}/10)`}
         </TitleButton>
-
-        {valid && onSetQuickBattleMode && (
-          <div className="qb-mode-toggle" title="Easy Mode: opponent uses your deck · 1 card reward">
-            <button
-              className={`filter-btn${quickBattleMode === 'normal' ? ' filter-btn--active' : ''}`}
-              onClick={() => onSetQuickBattleMode('normal')}
-            >
-              Normal
-            </button>
-            <button
-              className={`filter-btn${quickBattleMode === 'easy' ? ' filter-btn--active' : ''}`}
-              onClick={() => onSetQuickBattleMode('easy')}
-            >
-              Easy (1 card)
-            </button>
-          </div>
-        )}
 
         <TitleButton
           onClick={onEndless}

@@ -44,6 +44,7 @@ import { BossDialogueScreen }   from './components/BossDialogueScreen'
 import { Battlefield }        from './components/Battlefield'
 import { GameOver }           from './components/GameOver'
 import { TitleScreen }        from './components/TitleScreen'
+import { QuickBattleScreen }  from './components/QuickBattleScreen'
 import { CollectionScreen }   from './components/CollectionScreen'
 import { DeckBuilder }        from './components/DeckBuilder'
 import { PackOpening }        from './components/PackOpening'
@@ -262,6 +263,7 @@ type Screen =
   | 'campaignAdmin'
   | 'minigames'
   | 'playerstats'
+  | 'quickbattle'
   | 'statupgrade'
   | 'camp'
 
@@ -381,7 +383,6 @@ export default function App() {
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
   const isTrainingModeRef   = useRef(false)                  // true while playing a training battle
   const isEasyModeRef       = useRef(false)                  // true when Quick Battle Easy Mode is active
-  const [quickBattleMode, setQuickBattleMode] = useState<'normal' | 'easy'>('normal')
 
   // Cutscenes & boss dialogue
   const [cutscenePanels, setCutscenePanels]   = useState<CutscenePanel[]>([])
@@ -802,10 +803,10 @@ export default function App() {
 
   // ── Free play ────────────────────────────────────────────
 
-  const handlePlay = useCallback(() => {
+  const handlePlay = useCallback((mode: 'normal' | 'easy') => {
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
-    isEasyModeRef.current = quickBattleMode === 'easy'
+    isEasyModeRef.current = mode === 'easy'
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -824,7 +825,7 @@ export default function App() {
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
 
     let gameOpts: NewGameOptions
-    if (quickBattleMode === 'easy') {
+    if (mode === 'easy') {
       // Easy Mode: opponent mirrors the player's own deck; max handicap so they play slowly
       gameOpts = {
         playerCards,
@@ -846,7 +847,7 @@ export default function App() {
     dispatch({ type: 'START', gameState: newGame(gameOpts) })
     setScreen('playing') // TODO — move this into the reducer so the transition is atomic and can't be interrupted by a re-render
     rollRareEvent()
-  }, [handicap, quickBattleMode])
+  }, [handicap])
 
   const handleEndless = useCallback(() => {
     isCampaignRef.current = false
@@ -2307,9 +2308,7 @@ export default function App() {
         <>
           <TitleScreen
             crystals={crystals}
-            onPlay={handlePlay}
-            quickBattleMode={quickBattleMode}
-            onSetQuickBattleMode={setQuickBattleMode}
+            onPlay={() => setScreen('quickbattle')}
             onEndless={handleEndless}
             onCampaign={handleCampaign}
             onCollection={() => setScreen('collection')}
@@ -2639,6 +2638,10 @@ export default function App() {
 
       {screen === 'campaignfailed' && (
         <CampaignFailedScreen onReturnToMenu={() => { stopBattleMusic(); stopGameOverMusic(); setScreen('title') }} />
+      )}
+
+      {screen === 'quickbattle' && (
+        <QuickBattleScreen onStartBattle={handlePlay} onBack={() => setScreen('title')} />
       )}
 
       {screen === 'dailychallenge' && (
