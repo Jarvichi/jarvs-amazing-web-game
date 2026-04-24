@@ -8489,6 +8489,22 @@ html.light-mode .action-btn {
   color: #eee;
   overflow: hidden;
 }
+.win-celebration-modal--major {
+  border-color: #55ddaa;
+  box-shadow: 0 0 24px rgba(85, 221, 170, 0.35);
+}
+.win-celebration-modal--grand {
+  border-color: #ffd700;
+  box-shadow: 0 0 36px rgba(255, 215, 0, 0.45);
+}
+.win-celebration-modal--grand .win-celebration-header {
+  color: #ffd700;
+  font-size: 1.4rem;
+}
+.win-celebration-modal--major .win-celebration-header {
+  color: #55ddaa;
+  font-size: 1.3rem;
+}
 .win-celebration-header {
   font-size: 1.2rem;
   letter-spacing: 0.1em;
