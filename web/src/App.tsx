@@ -427,6 +427,7 @@ export default function App() {
   const [timeCapsuleVisible, setTimeCapsuleVisible] = useState(false)
   // Secret 10 — 100 Wins Celebration
   const [showWinCelebration, setShowWinCelebration] = useState(false)
+  const [celebrationMilestone, setCelebrationMilestone] = useState(100)
   const campaignPlayCountsRef = useRef<Record<string, number>>({})  // per-battle play tracking
   const gameStateRef = useRef<GameState | null>(null)  // always-current snapshot for callbacks
 
@@ -2017,8 +2018,7 @@ export default function App() {
     if (timeCapsuleCheckedRef.current) return
     timeCapsuleCheckedRef.current = true
     const count = incrementBattleCount()
-    // TODO: make this on any multiple of 100, not just the first 100
-    if (count === 100) setTimeCapsuleVisible(true)
+    if (count > 0 && count % 100 === 0) setTimeCapsuleVisible(true)
   }, [screen])
 
   // Track card play types for per-battle misc achievements
@@ -2110,11 +2110,12 @@ export default function App() {
     }
     if (toasts.length > 0) setAchievementToasts(prev => [...prev, ...toasts])
 
-    // Secret 10 — 100 Wins Celebration
+    // Secret 10 — Wins Celebration: fires at every 100-win milestone, scales with tier
     const totalWins = incrementTotalWins()
-    if (totalWins === 100) setShowWinCelebration(true)
-    // TODO: Celebrate a win every 100 wins, make the animation bigger for each milestone! Grant a special reward at 1000 wins? Grant Rewards every 100 wins?
-    if (totalWins === 1000) setShowWinCelebration(true)
+    if (totalWins > 0 && totalWins % 100 === 0) {
+      setCelebrationMilestone(totalWins)
+      setShowWinCelebration(true)
+    }
     
   }, [gameState?.phase.type])
 
@@ -2873,37 +2874,70 @@ export default function App() {
         />
       )}
 
-      {/* Secret 10 — 100 Wins Celebration */}
-      {showWinCelebration && (
-        <div className="win-celebration-backdrop">
-          <div className="win-celebration-modal">
-            <div className="win-celebration-confetti" aria-hidden="true">
-              {Array.from({ length: 30 }, (_, i) => (
-                <span key={i} className="confetti-char" style={{ '--i': i } as React.CSSProperties}>
-                  {['★', '✦', '◆', '▲', '●', '✿'][i % 6]}
-                </span>
-              ))}
+      {/* Secret 10 — Wins Milestone Celebration */}
+      {showWinCelebration && (() => {
+        const isGrand = celebrationMilestone % 1000 === 0
+        const isMajor = !isGrand && celebrationMilestone % 500 === 0
+        const tier = isGrand ? 'grand' : isMajor ? 'major' : 'standard'
+        const confettiCount = isGrand ? 60 : isMajor ? 45 : 30
+        const crystalBonus = isGrand ? 100 : isMajor ? 50 : 0
+        const legendaryCount = isGrand ? 2 : 1
+        const modalClass = `win-celebration-modal${isGrand ? ' win-celebration-modal--grand' : isMajor ? ' win-celebration-modal--major' : ''}`
+        return (
+          <div className="win-celebration-backdrop">
+            <div className={modalClass}>
+              <div className="win-celebration-confetti" aria-hidden="true">
+                {Array.from({ length: confettiCount }, (_, i) => (
+                  <span key={i} className="confetti-char" style={{ '--i': i } as React.CSSProperties}>
+                    {['★', '✦', '◆', '▲', '●', '✿'][i % 6]}
+                  </span>
+                ))}
+              </div>
+              <div className="win-celebration-header">
+                🎉 {celebrationMilestone.toLocaleString()} VICTORIES! 🎉
+              </div>
+              <div className="win-celebration-body">
+                {isGrand ? (
+                  <>
+                    <p>{celebrationMilestone.toLocaleString()} battles won. A true legend.</p>
+                    <p>The world bows. History remembers.</p>
+                    <p>You have earned {legendaryCount} legendary cards and {crystalBonus} 💎.</p>
+                  </>
+                ) : isMajor ? (
+                  <>
+                    <p>{celebrationMilestone.toLocaleString()} battles won. An epic achievement.</p>
+                    <p>The enemy despairs. The chronicles take note.</p>
+                    <p>You have earned a legendary card and {crystalBonus} 💎.</p>
+                  </>
+                ) : (
+                  <>
+                    <p>{celebrationMilestone.toLocaleString()} battles won.</p>
+                    <p>The enemy trembles. The game developers are impressed.</p>
+                    <p>You have earned a legendary card.</p>
+                  </>
+                )}
+              </div>
+              <button className="action-btn" onClick={() => {
+                const pool = getCardCatalog().filter(c => c.rarity === 'legendary')
+                if (pool.length > 0) {
+                  const picks = Array.from({ length: legendaryCount }, () =>
+                    ({ cardName: pool[Math.floor(Math.random() * pool.length)].name, count: 1 })
+                  )
+                  addCardsToCollection(picks)
+                }
+                if (crystalBonus > 0) {
+                  const next = loadCrystals() + crystalBonus
+                  saveCrystals(next)
+                  setCrystals(next)
+                }
+                setShowWinCelebration(false)
+              }}>
+                {tier === 'grand' ? 'CLAIM GRAND REWARD' : tier === 'major' ? 'CLAIM EPIC REWARD' : 'CLAIM REWARD'}
+              </button>
             </div>
-            <div className="win-celebration-header">🎉 100 VICTORIES! 🎉</div>
-            <div className="win-celebration-body">
-              <p>One hundred battles won.</p>
-              <p>The enemy trembles. The game developers are impressed.</p>
-              <p>You have earned a legendary card.</p>
-            </div>
-            <button className="action-btn" onClick={() => {
-              const catalog = getCardCatalog()
-              const pool = catalog.filter(c => c.rarity === 'legendary')
-              if (pool.length > 0) {
-                const card = pool[Math.floor(Math.random() * pool.length)]
-                addCardsToCollection([{ cardName: card.name, count: 1 }])
-              }
-              setShowWinCelebration(false)
-            }}>
-              CLAIM REWARD
-            </button>
           </div>
-        </div>
-      )}
+        )
+      })()}
 
       {/* Secret 5 — Time Capsule: 100th battle milestone overlay */}
       {timeCapsuleVisible && (
