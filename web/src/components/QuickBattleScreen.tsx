@@ -26,10 +26,10 @@ export function QuickBattleScreen({ onStartBattle, onBack }: Props) {
         </div>
 
         <div className="qb-option qb-option--easy">
-          <div className="qb-option-name">Easy</div>
+          <div className="qb-option-name">Mirror Deck</div>
           <div className="qb-option-desc">
             <p>Opponent uses a copy of your own deck.</p>
-            <p>Reward: 1 card.</p>
+            <p>Reward: standard card pack (5 cards).</p>
           </div>
           <button className="action-btn" onClick={() => onStartBattle('easy')}>
             ▶  PLAY EASY
