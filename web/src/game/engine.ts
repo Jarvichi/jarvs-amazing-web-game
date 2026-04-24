@@ -45,8 +45,8 @@ const QUICKPLAY_MIN_UNITS    = 3
 const QUICKPLAY_MIN_LOW_COST = 3
 const QUICKPLAY_MAX_AVG_COST = 4.0
 
-function generateBalancedOpponentDeck(maxRarity: CardRarity): Card[] {
-  const catalog = getCardCatalog().filter(c => RARITY_RANK[c.rarity] <= RARITY_RANK[maxRarity])
+function generateBalancedOpponentDeck(maxRarity: CardRarity, cardPool?: Card[]): Card[] {
+  const catalog = (cardPool ?? getCardCatalog()).filter(c => RARITY_RANK[c.rarity] <= RARITY_RANK[maxRarity])
   for (let attempt = 0; attempt < 10; attempt++) {
     const pool = shuffle([...catalog])
     const seen = new Set<string>()
@@ -126,6 +126,8 @@ export interface NewGameOptions {
   bossSpawnKillPct?: number
   /** Reduce the initial opponent timer so the first card is played within ~25% of the normal interval. */
   quickStart?: boolean
+  /** Limit the opponent's card pool to these cards (Quick Battle: collection-based matching). Falls back to full catalog if pool is too small. */
+  opponentCardPool?: Card[]
 }
 
 export function newGame(
@@ -162,6 +164,7 @@ export function newGame(
     opponentIntervalMs: intervalOverride,
     opponentBaseHp: hpOverride,
     bossSpawnKillPct,
+    opponentCardPool,
   } = opts
 
   // Pre-built decks are already in seeded order — don't re-shuffle with Math.random()
@@ -187,7 +190,15 @@ export function newGame(
     }
   } else {
     const maxRarity = maxRarityForHandicap(clamp)
-    opponentDeck = generateBalancedOpponentDeck(maxRarity)
+    // If a collection-limited pool is provided and large enough, use it instead of the full catalog
+    const MIN_POOL_SIZE = 20
+    if (opponentCardPool && opponentCardPool.length >= MIN_POOL_SIZE) {
+      const filtered = opponentCardPool.filter(c => RARITY_RANK[c.rarity] <= RARITY_RANK[maxRarity])
+      const pool = filtered.length >= MIN_POOL_SIZE ? filtered : opponentCardPool
+      opponentDeck = generateBalancedOpponentDeck(maxRarity, pool)
+    } else {
+      opponentDeck = generateBalancedOpponentDeck(maxRarity)
+    }
   }
 
   // Inject one hero card per side (not for bosses — they have their own identity)
