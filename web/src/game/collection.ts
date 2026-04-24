@@ -559,6 +559,31 @@ export function generatePack(): string[] {
   return picks
 }
 
+/**
+ * Returns <count> card names in reveal order.
+ * Filtered by rarity if specified, otherwise same distribution as generatePack().
+ */
+export function generateSeededPack(count: number, rarity?: 'uncommon' | 'rare' | 'legendary'): string[] {
+  const catalog = getCardCatalog()
+  const pool = rarity ? catalog.filter(c => c.rarity === rarity) : catalog
+  if (pool.length === 0) return []
+  const results: string[] = []
+  for (let i = 0; i < count; i++) {
+    results.push(pool[Math.floor(Math.random() * pool.length)].name)
+  }
+
+  const rarityOrder: Record<string, number> = { common: 0, uncommon: 1, rare: 2, legendary: 3 }
+  results.sort((a, b) => {
+    const ar = catalog.find(c => c.name === a)?.rarity ?? 'common'
+    const br = catalog.find(c => c.name === b)?.rarity ?? 'common'
+    return (rarityOrder[ar] ?? 0) - (rarityOrder[br] ?? 0)
+  })
+
+  return results
+}
+
+
+// TODO: Win steak has nothing to do with the collection, should be moved to a separate "progress" module or something.
 // ─── Win Streak ───────────────────────────────────────────────────────────────
 
 export function loadWinStreak(): number {

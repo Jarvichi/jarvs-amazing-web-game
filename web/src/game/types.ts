@@ -287,4 +287,6 @@ export interface GameState {
   endlessWaveTruceMs?: number
   /** Mana multiplier applied to opponent each turn; increases per wave. */
   endlessOpponentManaMult?: number
+  /** Allow the player to have unlimited maximum mana. */
+  forgiveManaLimit?: boolean
 }

@@ -43,7 +43,7 @@
   "intro": [
     {
       "title": "THE SAND MARKET",
-      "text": "The ley lines run straight through the desert, which the Sand Market has spent decades making commercially relevant. The market grew up around the ley convergence \u2014 vendors first, then traders, then mercenaries, then the Dune Baron, who saw the strategic value and started charging for it.\n\nEverything here has a price. Including passage through it."
+      "text": "The ley lines run straight through the desert, which the Sand Market has spent decades making commercially relevant. The market grew up around the ley convergence — vendors first, then traders, then mercenaries, then the Dune Baron, who saw the strategic value and started charging for it.\n\nEverything here has a price. Including passage through it."
     },
     {
       "title": "THE DUNE BARON",
@@ -51,13 +51,13 @@
     },
     {
       "title": "THE MARKET ROUTE",
-      "text": "The ley lines converge beneath the market's central spire \u2014 the Dune Baron uses the energy surplus to power the lights, the forges, and the contract-binding seals that make his mercenary arrangements legally enforceable.\n\nYou need the convergence point. He isn't selling it.\n\nYou're going to take it. He'll probably factor this into his pricing for the next traveller."
+      "text": "The ley lines converge beneath the market's central spire — the Dune Baron uses the energy surplus to power the lights, the forges, and the contract-binding seals that make his mercenary arrangements legally enforceable.\n\nYou need the convergence point. He isn't selling it.\n\nYou're going to take it. He'll probably factor this into his pricing for the next traveller."
     }
   ],
   "outro": [
     {
       "title": "THE DUNE BARON SETTLES",
-      "text": "The Dune Baron doesn't lose gracefully. He loses expensively \u2014 which means he calculates the cost of the outcome, determines it was within acceptable parameters, and files the result under 'resolved.'\n\nThe ley lines pulse through the market floor. The convergence point opens.\n\nHe's already thinking about what to charge the next person who shows up."
+      "text": "The Dune Baron doesn't lose gracefully. He loses expensively — which means he calculates the cost of the outcome, determines it was within acceptable parameters, and files the result under 'resolved.'\n\nThe ley lines pulse through the market floor. The convergence point opens.\n\nHe's already thinking about what to charge the next person who shows up."
     },
     {
       "title": "WHAT HE SAID",
@@ -65,7 +65,7 @@
     },
     {
       "title": "THE GOLDEN COMPASS",
-      "text": "The Golden Compass sits warm in your palm \u2014 the Baron's personal navigation tool, used to track ley line convergences across the desert. It still points to them.\n\nIt also, apparently, makes you faster off the mark. The Baron claims he hadn't noticed that. You don't believe him.\n\nThe ley lines point on. The market recedes. The desert is, for once, quiet."
+      "text": "The Golden Compass sits warm in your palm — the Baron's personal navigation tool, used to track ley line convergences across the desert. It still points to them.\n\nIt also, apparently, makes you faster off the mark. The Baron claims he hadn't noticed that. You don't believe him.\n\nThe ley lines point on. The market recedes. The desert is, for once, quiet."
     }
   ],
   "nodes": {
@@ -78,8 +78,9 @@
       "col": 0,
       "rowCols": 1,
       "childIds": [
-        "sand-shrine",
-        "dune-hollow"
+        "market-crossing",
+        "node-1777060791709",
+        "node-1777060793904"
       ],
       "handicap": 18,
       "opponentIntervalMs": 4700,
@@ -107,12 +108,11 @@
       "type": "event",
       "label": "Oasis Shrine",
       "description": "A spring shrine at a desert oasis. The water is real. The hospitality is negotiable.",
-      "row": 1,
+      "row": 2,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 3,
       "childIds": [
-        "market-crossing",
-        "mirage-vent"
+        "caravan-elite"
       ],
       "environment": "sand",
       "eventConfig": {
@@ -122,7 +122,7 @@
           [
             {
               "label": "Drink from the spring",
-              "consequence": "The water restores \u2014 healed 14 HP",
+              "consequence": "The water restores — healed 14 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 14
@@ -130,7 +130,7 @@
             },
             {
               "label": "Drink from the spring",
-              "consequence": "Something in it stings \u2014 lose 6 HP",
+              "consequence": "Something in it stings — lose 6 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 6
@@ -156,7 +156,7 @@
           [
             {
               "label": "Search the offering-stones",
-              "consequence": "Something useful left behind \u2014 uncommon card",
+              "consequence": "Something useful left behind — uncommon card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -164,7 +164,7 @@
             },
             {
               "label": "Search the offering-stones",
-              "consequence": "Coins left as offerings \u2014 +22 crystals",
+              "consequence": "Coins left as offerings — +22 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 22
@@ -181,7 +181,7 @@
           [
             {
               "label": "Fill your reserves",
-              "consequence": "The water heals on the road \u2014 healed 8 HP",
+              "consequence": "The water heals on the road — healed 8 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 8
@@ -207,17 +207,30 @@
         ]
       }
     },
+    "the-outer-ring": {
+      "id": "the-outer-ring",
+      "type": "rest",
+      "label": "The Outer Ring",
+      "description": "The market's outer ring. The Dune Baron's forces don't patrol here, but neither do his customers.",
+      "row": 5,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "node-1777061084011"
+      ],
+      "environment": "sand",
+      "restHeal": 8
+    },
     "dune-hollow": {
       "id": "dune-hollow",
       "type": "rest",
       "label": "Dune Hollow",
       "description": "A sheltered hollow in the dune line. Out of the wind and out of sight.",
-      "row": 1,
-      "col": 3,
-      "rowCols": 4,
+      "row": 2,
+      "col": 2,
+      "rowCols": 3,
       "childIds": [
-        "trade-archive",
-        "outer-bazaar"
+        "desert-spire"
       ],
       "environment": "sand",
       "restHeal": 10
@@ -228,10 +241,11 @@
       "label": "Outer Bazaar",
       "description": "The market's fringe traders. Lower prices than inside. Fewer questions.",
       "row": 2,
-      "col": 3,
-      "rowCols": 4,
+      "col": 1,
+      "rowCols": 3,
       "childIds": [
-        "market-rest"
+        "caravan-elite",
+        "desert-spire"
       ],
       "environment": "sand"
     },
@@ -240,11 +254,11 @@
       "type": "battle",
       "label": "Market Crossing",
       "description": "The contested main road into the market interior. The Baron's guard controls access.",
-      "row": 2,
+      "row": 1,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 3,
       "childIds": [
-        "caravan-elite"
+        "sand-shrine"
       ],
       "handicap": 20,
       "opponentIntervalMs": 4500,
@@ -267,16 +281,96 @@
         "Mercenary Pact"
       ]
     },
+    "bazaar-post": {
+      "id": "bazaar-post",
+      "type": "merchant",
+      "label": "Bazaar Post",
+      "description": "A market stall set up in the middle of the road. The merchant doesn't ask questions, but his prices are higher.",
+      "row": 5,
+      "col": 0,
+      "rowCols": 3,
+      "childIds": [
+        "node-1777061087719"
+      ],
+      "environment": "sand"
+    },
+    "desert-spire": {
+      "id": "desert-spire",
+      "type": "elite",
+      "label": "Desert Spire",
+      "description": "A towering spire of sandstone. The Baron's forces use it as a lookout and a sniper nest.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "node-1777061093504",
+        "node-1777061092626"
+      ],
+      "handicap": 24,
+      "opponentIntervalMs": 4100,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Dune Colossus",
+        "Sand Knight",
+        "Sand Knight",
+        "Sandstorm Shaman",
+        "Sandstorm Shaman",
+        "Mirage Scout",
+        "Mirage Scout",
+        "Desert Spire",
+        "Bazaar Post",
+        "Gold Standard",
+        "Mercenary Pact",
+        "Mercenary Pact",
+        "Sandstorm",
+        "Sand Wall",
+        "Sand Wall"
+      ]
+    },
+    "gold-standard": {
+      "id": "gold-standard",
+      "type": "elite",
+      "label": "Gold Standard",
+      "description": "The Baron's elite shock troops. They don't just fight for money. They fight for the Baron's favor.",
+      "row": 8,
+      "col": 0,
+      "rowCols": 2,
+      "childIds": [
+        "sand-battery"
+      ],
+      "handicap": 26,
+      "opponentIntervalMs": 4000,
+      "opponentBaseHp": 235,
+      "environment": "sand",
+      "enemyDeck": [
+        "Dune Colossus",
+        "Sand Knight",
+        "Sand Knight",
+        "Sandstorm Shaman",
+        "Sandstorm Shaman",
+        "Mirage Scout",
+        "Mirage Scout",
+        "Desert Spire",
+        "Bazaar Post",
+        "Gold Standard",
+        "Mercenary Pact",
+        "Mercenary Pact",
+        "Sandstorm",
+        "Sand Wall",
+        "Sand Wall"
+      ]
+    },
     "sand-battery": {
       "id": "sand-battery",
       "type": "battle",
       "label": "Sand Battery",
       "description": "Desert artillery platforms. The Baron invested heavily in these.",
-      "row": 4,
+      "row": 9,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 2,
       "childIds": [
-        "baron-approach"
+        "node-1777060884035"
       ],
       "handicap": 22,
       "opponentIntervalMs": 4300,
@@ -300,26 +394,85 @@
         "Sandstorm"
       ]
     },
+    "mirage-tower": {
+      "id": "mirage-tower",
+      "type": "elite",
+      "label": "Mirage Tower",
+      "description": "A camouflaged sniper tower. It's not always clear if it's occupied or not.",
+      "row": 8,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "the-black-sands"
+      ],
+      "handicap": 24,
+      "opponentIntervalMs": 4100,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Dune Colossus",
+        "Sand Knight",
+        "Sand Knight",
+        "Sandstorm Shaman",
+        "Sandstorm Shaman",
+        "Mirage Scout",
+        "Mirage Scout",
+        "Desert Spire",
+        "Bazaar Post",
+        "Gold Standard",
+        "Mercenary Pact",
+        "Mercenary Pact",
+        "Sandstorm",
+        "Sand Wall",
+        "Sand Wall"
+      ]
+    },
+    "the-black-sands": {
+      "id": "the-black-sands",
+      "type": "battle",
+      "label": "The Black Sands",
+      "description": "A patch of desert where the sand is blackened by the Baron's forges. The heat is intense, but it makes a good hiding spot.",
+      "row": 9,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "node-1777060884035"
+      ],
+      "handicap": 24,
+      "opponentIntervalMs": 4100,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Scorpion",
+        "Scorpion",
+        "Scorpion",
+        "Desert Spire",
+        "Sandstorm",
+        "Sand Wall",
+        "Sand Wall",
+        "Scorpion"
+      ]
+    },
     "mirage-vent": {
       "id": "mirage-vent",
       "type": "event",
       "label": "Mirage Cache",
       "description": "A hidden supply depot the Baron's forces use. Not all of it is decoy.",
-      "row": 2,
+      "row": 5,
       "col": 1,
-      "rowCols": 4,
+      "rowCols": 3,
       "childIds": [
-        "caravan-elite"
+        "node-1777061085358"
       ],
       "environment": "sand",
       "eventConfig": {
         "title": "The Mirage Cache",
-        "description": "A concealed depot in the dune face \u2014 the Baron's forces maintain several, and not all of them are decoys. This one is real. The lock is good but not insurmountable.",
+        "description": "A concealed depot in the dune face — the Baron's forces maintain several, and not all of them are decoys. This one is real. The lock is good but not insurmountable.",
         "pools": [
           [
             {
               "label": "Open the cache",
-              "consequence": "Weapons inside \u2014 rare card",
+              "consequence": "Weapons inside — rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -327,7 +480,7 @@
             },
             {
               "label": "Open the cache",
-              "consequence": "Supplies \u2014 healed 15 HP",
+              "consequence": "Supplies — healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -335,7 +488,7 @@
             },
             {
               "label": "Open the cache",
-              "consequence": "It was a decoy \u2014 lose 12 HP",
+              "consequence": "It was a decoy — lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -361,7 +514,7 @@
             },
             {
               "label": "Sell the contents",
-              "consequence": "One item worth keeping \u2014 uncommon card",
+              "consequence": "One item worth keeping — uncommon card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -385,9 +538,10 @@
       "description": "The Baron's contracted heavy escort. Expensive, effective, professional.",
       "row": 3,
       "col": 0,
-      "rowCols": 4,
+      "rowCols": 2,
       "childIds": [
-        "sand-battery"
+        "node-1777061071690",
+        "node-1777061093504"
       ],
       "handicap": 26,
       "opponentIntervalMs": 4000,
@@ -416,11 +570,11 @@
       "type": "battle",
       "label": "Baron's Gate",
       "description": "The inner market. The Dune Baron's personal forces take over from the hired guards.",
-      "row": 5,
+      "row": 11,
       "col": 0,
       "rowCols": 1,
       "childIds": [
-        "dunebaron"
+        "node-1777060856595"
       ],
       "handicap": 24,
       "opponentIntervalMs": 4200,
@@ -448,21 +602,21 @@
       "type": "event",
       "label": "Baron's Ledger",
       "description": "The Baron's records room. Every transaction since the market opened.",
-      "row": 2,
-      "col": 2,
-      "rowCols": 4,
+      "row": 13,
+      "col": 0,
+      "rowCols": 2,
       "childIds": [
-        "market-rest"
+        "baron-vanguard"
       ],
       "environment": "sand",
       "eventConfig": {
         "title": "The Baron's Ledger",
-        "description": "The Dune Baron's transaction records \u2014 every contract, every sale, every mercenary hired and dismissed since the market was established. His notes on the Fracture are in here. He logged it as a business disruption.",
+        "description": "The Dune Baron's transaction records — every contract, every sale, every mercenary hired and dismissed since the market was established. His notes on the Fracture are in here. He logged it as a business disruption.",
         "pools": [
           [
             {
               "label": "Study the contracts",
-              "consequence": "Exploitable intel \u2014 rare card",
+              "consequence": "Exploitable intel — rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -470,7 +624,7 @@
             },
             {
               "label": "Study the contracts",
-              "consequence": "Supply chain map \u2014 +28 crystals",
+              "consequence": "Supply chain map — +28 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 28
@@ -480,7 +634,7 @@
           [
             {
               "label": "Rest in the records room",
-              "consequence": "Quiet and warm \u2014 healed 15 HP",
+              "consequence": "Quiet and warm — healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -503,9 +657,9 @@
       "type": "rest",
       "label": "Inner Quarters",
       "description": "The Baron's personal guest quarters. Better than anything outside the market walls.",
-      "row": 3,
-      "col": 3,
-      "rowCols": 4,
+      "row": 13,
+      "col": 1,
+      "rowCols": 2,
       "childIds": [
         "baron-vanguard"
       ],
@@ -517,11 +671,11 @@
       "type": "elite",
       "label": "Baron's Retinue",
       "description": "The Dune Baron's personal guard. These ones aren't contractors.",
-      "row": 4,
-      "col": 3,
-      "rowCols": 4,
+      "row": 14,
+      "col": 0,
+      "rowCols": 1,
       "childIds": [
-        "baron-approach"
+        "dunebaron"
       ],
       "handicap": 28,
       "opponentIntervalMs": 3800,
@@ -549,7 +703,7 @@
       "type": "boss",
       "label": "The Dune Baron",
       "description": "Proprietor of the Sand Market. He treats this battle as a transaction.",
-      "row": 6,
+      "row": 15,
       "col": 0,
       "rowCols": 1,
       "childIds": [],
@@ -583,6 +737,427 @@
         "Desert Rush"
       ],
       "bossCard": "Sand Wyrm"
+    },
+    "node-1777060791709": {
+      "id": "node-1777060791709",
+      "type": "battle",
+      "label": "Market Crossing",
+      "description": "The contested main road into the market interior. The Baron's guard controls access.",
+      "row": 1,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "outer-bazaar"
+      ],
+      "handicap": 20,
+      "opponentIntervalMs": 4500,
+      "opponentBaseHp": 225,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Raider",
+        "Sand Raider",
+        "Mirage Blade",
+        "Mirage Blade",
+        "Desert Archer",
+        "Desert Archer",
+        "Dune Barracks",
+        "Oasis Well",
+        "Sand Wall",
+        "Sand Wall",
+        "Desert Rush",
+        "Desert Rush",
+        "Sandstorm",
+        "Mercenary Pact"
+      ]
+    },
+    "node-1777060793904": {
+      "id": "node-1777060793904",
+      "type": "battle",
+      "label": "Market Crossing",
+      "description": "The contested main road into the market interior. The Baron's guard controls access.",
+      "row": 1,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "dune-hollow"
+      ],
+      "handicap": 20,
+      "opponentIntervalMs": 4500,
+      "opponentBaseHp": 225,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Raider",
+        "Sand Raider",
+        "Mirage Blade",
+        "Mirage Blade",
+        "Desert Archer",
+        "Desert Archer",
+        "Dune Barracks",
+        "Oasis Well",
+        "Sand Wall",
+        "Sand Wall",
+        "Desert Rush",
+        "Desert Rush",
+        "Sandstorm",
+        "Mercenary Pact"
+      ]
+    },
+    "node-1777060856595": {
+      "id": "node-1777060856595",
+      "type": "elite",
+      "label": "The Baron's Court",
+      "description": "The Dune Baron's personal guard. These ones aren't contractors.",
+      "row": 12,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [
+        "trade-archive",
+        "market-rest"
+      ],
+      "handicap": 28,
+      "opponentIntervalMs": 3800,
+      "opponentBaseHp": 242,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Wyrm",
+        "Desert Titan",
+        "Desert Titan",
+        "Sandstorm Shaman",
+        "Sandstorm Shaman",
+        "Mirage Scout",
+        "Mirage Scout",
+        "Desert Spire",
+        "Desert Spire",
+        "Bazaar Post",
+        "Gold Standard",
+        "Gold Standard",
+        "Mercenary Pact",
+        "Sandstorm"
+      ]
+    },
+    "node-1777060884035": {
+      "id": "node-1777060884035",
+      "type": "battle",
+      "label": "The Fortress Approach",
+      "description": "A patch of desert where the sand is blackened by the Baron's forges. The heat is intense, but it makes a good hiding spot.",
+      "row": 10,
+      "col": 0,
+      "rowCols": 1,
+      "childIds": [
+        "baron-approach"
+      ],
+      "handicap": 24,
+      "opponentIntervalMs": 4100,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Scorpion",
+        "Scorpion",
+        "Scorpion",
+        "Desert Spire",
+        "Sandstorm",
+        "Sand Wall",
+        "Sand Wall",
+        "Scorpion"
+      ]
+    },
+    "node-1777061071690": {
+      "id": "node-1777061071690",
+      "type": "battle",
+      "label": "Sand Battery",
+      "description": "Desert artillery platforms. The Baron invested heavily in these.",
+      "row": 4,
+      "col": 0,
+      "rowCols": 3,
+      "childIds": [
+        "bazaar-post"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 4300,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Knight",
+        "Sand Knight",
+        "Mercenary Captain",
+        "Mercenary Captain",
+        "Desert Archer",
+        "Desert Archer",
+        "Sand Wall",
+        "Sand Wall",
+        "Mirage Tower",
+        "Mirage Tower",
+        "Oasis Well",
+        "Desert Rush",
+        "Desert Rush",
+        "Mercenary Pact",
+        "Sandstorm"
+      ]
+    },
+    "node-1777061076072": {
+      "id": "node-1777061076072",
+      "type": "battle",
+      "label": "Sand Battery",
+      "description": "Desert artillery platforms. The Baron invested heavily in these.",
+      "row": 7,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "mirage-tower"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 4300,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Knight",
+        "Sand Knight",
+        "Mercenary Captain",
+        "Mercenary Captain",
+        "Desert Archer",
+        "Desert Archer",
+        "Sand Wall",
+        "Sand Wall",
+        "Mirage Tower",
+        "Mirage Tower",
+        "Oasis Well",
+        "Desert Rush",
+        "Desert Rush",
+        "Mercenary Pact",
+        "Sandstorm"
+      ]
+    },
+    "node-1777061077526": {
+      "id": "node-1777061077526",
+      "type": "battle",
+      "label": "Sand Battery",
+      "description": "Desert artillery platforms. The Baron invested heavily in these.",
+      "row": 7,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "gold-standard",
+        "mirage-tower"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 4300,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Knight",
+        "Sand Knight",
+        "Mercenary Captain",
+        "Mercenary Captain",
+        "Desert Archer",
+        "Desert Archer",
+        "Sand Wall",
+        "Sand Wall",
+        "Mirage Tower",
+        "Mirage Tower",
+        "Oasis Well",
+        "Desert Rush",
+        "Desert Rush",
+        "Mercenary Pact",
+        "Sandstorm"
+      ]
+    },
+    "node-1777061079284": {
+      "id": "node-1777061079284",
+      "type": "battle",
+      "label": "Sand Battery",
+      "description": "Desert artillery platforms. The Baron invested heavily in these.",
+      "row": 7,
+      "col": 0,
+      "rowCols": 3,
+      "childIds": [
+        "gold-standard"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 4300,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Knight",
+        "Sand Knight",
+        "Mercenary Captain",
+        "Mercenary Captain",
+        "Desert Archer",
+        "Desert Archer",
+        "Sand Wall",
+        "Sand Wall",
+        "Mirage Tower",
+        "Mirage Tower",
+        "Oasis Well",
+        "Desert Rush",
+        "Desert Rush",
+        "Mercenary Pact",
+        "Sandstorm"
+      ]
+    },
+    "node-1777061084011": {
+      "id": "node-1777061084011",
+      "type": "battle",
+      "label": "Sand Battery",
+      "description": "Desert artillery platforms. The Baron invested heavily in these.",
+      "row": 6,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "node-1777061076072"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 4300,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Knight",
+        "Sand Knight",
+        "Mercenary Captain",
+        "Mercenary Captain",
+        "Desert Archer",
+        "Desert Archer",
+        "Sand Wall",
+        "Sand Wall",
+        "Mirage Tower",
+        "Mirage Tower",
+        "Oasis Well",
+        "Desert Rush",
+        "Desert Rush",
+        "Mercenary Pact",
+        "Sandstorm"
+      ]
+    },
+    "node-1777061085358": {
+      "id": "node-1777061085358",
+      "type": "battle",
+      "label": "Sand Battery",
+      "description": "Desert artillery platforms. The Baron invested heavily in these.",
+      "row": 6,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "node-1777061077526"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 4300,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Knight",
+        "Sand Knight",
+        "Mercenary Captain",
+        "Mercenary Captain",
+        "Desert Archer",
+        "Desert Archer",
+        "Sand Wall",
+        "Sand Wall",
+        "Mirage Tower",
+        "Mirage Tower",
+        "Oasis Well",
+        "Desert Rush",
+        "Desert Rush",
+        "Mercenary Pact",
+        "Sandstorm"
+      ]
+    },
+    "node-1777061087719": {
+      "id": "node-1777061087719",
+      "type": "battle",
+      "label": "Sand Battery",
+      "description": "Desert artillery platforms. The Baron invested heavily in these.",
+      "row": 6,
+      "col": 0,
+      "rowCols": 3,
+      "childIds": [
+        "node-1777061079284"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 4300,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Knight",
+        "Sand Knight",
+        "Mercenary Captain",
+        "Mercenary Captain",
+        "Desert Archer",
+        "Desert Archer",
+        "Sand Wall",
+        "Sand Wall",
+        "Mirage Tower",
+        "Mirage Tower",
+        "Oasis Well",
+        "Desert Rush",
+        "Desert Rush",
+        "Mercenary Pact",
+        "Sandstorm"
+      ]
+    },
+    "node-1777061092626": {
+      "id": "node-1777061092626",
+      "type": "battle",
+      "label": "Sand Battery",
+      "description": "Desert artillery platforms. The Baron invested heavily in these.",
+      "row": 4,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "the-outer-ring"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 4300,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Knight",
+        "Sand Knight",
+        "Mercenary Captain",
+        "Mercenary Captain",
+        "Desert Archer",
+        "Desert Archer",
+        "Sand Wall",
+        "Sand Wall",
+        "Mirage Tower",
+        "Mirage Tower",
+        "Oasis Well",
+        "Desert Rush",
+        "Desert Rush",
+        "Mercenary Pact",
+        "Sandstorm"
+      ]
+    },
+    "node-1777061093504": {
+      "id": "node-1777061093504",
+      "type": "battle",
+      "label": "Sand Battery",
+      "description": "Desert artillery platforms. The Baron invested heavily in these.",
+      "row": 4,
+      "col": 1,
+      "rowCols": 3,
+      "childIds": [
+        "mirage-vent"
+      ],
+      "handicap": 22,
+      "opponentIntervalMs": 4300,
+      "opponentBaseHp": 230,
+      "environment": "sand",
+      "enemyDeck": [
+        "Sand Knight",
+        "Sand Knight",
+        "Mercenary Captain",
+        "Mercenary Captain",
+        "Desert Archer",
+        "Desert Archer",
+        "Sand Wall",
+        "Sand Wall",
+        "Mirage Tower",
+        "Mirage Tower",
+        "Oasis Well",
+        "Desert Rush",
+        "Desert Rush",
+        "Mercenary Pact",
+        "Sandstorm"
+      ]
     }
   }
 }

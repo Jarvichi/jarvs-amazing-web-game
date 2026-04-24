@@ -4,7 +4,7 @@ import { GameState, Card } from './game/types'
 import { newGame, NewGameOptions, MAX_HANDICAP } from './game/engine'
 import { playCard, playAoeCard } from './game/engine/cards'
 import { shuffle } from './game/engine/helpers'
-import { makeNodeDeck } from './game/cards'
+import { HERO_CARDS, makeNodeDeck } from './game/cards'
 import { battleReducer, INITIAL_BATTLE_STATE, TICK_MS } from './game/battleReducer'
 import {
   loadDeck, saveDeck, buildDeckCards, generatePack,
@@ -13,6 +13,7 @@ import {
   getOwnedCount, DECK_MAX, CRYSTAL_PACK_COST, DeckEntry,
   deckTotalCards, STARTER_DECK,
   loadWinStreak, incrementWinStreak, resetWinStreak, incrementTotalWins,
+  generateSeededPack,
 } from './game/collection'
 import { getCardCatalog } from './game/cards'
 import { applyStatUpgrade } from './game/playerStats'
@@ -44,7 +45,7 @@ import { BossDialogueScreen }   from './components/BossDialogueScreen'
 import { Battlefield }        from './components/Battlefield'
 import { GameOver }           from './components/GameOver'
 import { TitleScreen }        from './components/TitleScreen'
-import { QuickBattleScreen }  from './components/QuickBattleScreen'
+import { QuickBattleMode, QuickBattleScreen }  from './components/QuickBattleScreen'
 import { CollectionScreen }   from './components/CollectionScreen'
 import { DeckBuilder }        from './components/DeckBuilder'
 import { PackOpening }        from './components/PackOpening'
@@ -382,7 +383,7 @@ export default function App() {
   const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
   const isTrainingModeRef   = useRef(false)                  // true while playing a training battle
-  const isEasyModeRef       = useRef(false)                  // true when Quick Battle Easy Mode is active
+   const quickBattleModeRef = useRef<QuickBattleMode>('easy')                //  Quick Battle Mode 
 
   // Cutscenes & boss dialogue
   const [cutscenePanels, setCutscenePanels]   = useState<CutscenePanel[]>([])
@@ -803,10 +804,10 @@ export default function App() {
 
   // ── Free play ────────────────────────────────────────────
 
-  const handlePlay = useCallback((mode: 'normal' | 'easy') => {
+  const handlePlay = useCallback((mode: QuickBattleMode) => {
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
-    isEasyModeRef.current = mode === 'easy'
+    quickBattleModeRef.current = mode
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -825,14 +826,20 @@ export default function App() {
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
 
     let gameOpts: NewGameOptions
-    if (mode === 'easy') {
-      // Easy Mode: opponent mirrors the player's own deck; max handicap so they play slowly
+    if (mode === 'mirror') {
+      // Mirror Mode: opponent mirrors the player's own deck; max handicap so they play slowly
       gameOpts = {
         playerCards,
         opponentHandicap: MAX_HANDICAP,
         prebuiltOpponentDeck: shuffle([...playerCards]),
       }
-    } else {
+    } else if (mode === 'easy') {
+      // Easy Mode: opponent has a handicap; play at normal speed
+      gameOpts = {
+        playerCards,
+        opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus),
+      }
+    } else if (mode === 'normal') {
       // Limit opponent to cards the player actually owns (#773)
       const ownedNames = new Set(collection.filter(e => e.count > 0).map(e => e.cardName))
       const collectionPool = getCardCatalog().filter(c => ownedNames.has(c.name))
@@ -842,7 +849,104 @@ export default function App() {
         opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus),
         opponentCardPool,
       }
+    } else if (mode === 'chaos') {
+      // Chaos Mode: no handicap, no card pool restrictions, play at normal speed
+      const collectionPool = makeNodeDeck(generateSeededPack(20, "legendary"))
+      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+      gameOpts = {
+        playerCards: opponentCardPool,
+        opponentHandicap: 0,
+        opponentCardPool,
+        forgiveManaLimit: true, // allow over-spending mana to play any card in chaos mode
+      }
+    } else if (mode === 'unlimited') {
+      // Unlimited Mode: no handicap, no card pool restrictions, play at normal speed
+      const collectionPool = getCardCatalog()
+      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+      gameOpts = {
+        playerCards,
+        opponentHandicap: 0,
+        opponentCardPool,
+      }
+    } else if (mode === 'common-only') {
+      // Common Only Mode: opponent card pool limited to commons, play at normal speed
+      const collectionPool = getCardCatalog().filter(c => c.rarity === 'common')
+      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+      gameOpts = {
+        playerCards,
+        opponentHandicap: 0,
+        opponentCardPool,
+      }
+    } else if (mode === 'uncommon-only') {
+      // Uncommon Only Mode: opponent card pool limited to uncommons, play at normal speed
+      const collectionPool = getCardCatalog().filter(c => c.rarity === 'uncommon')
+      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+      gameOpts = {
+        playerCards,
+        opponentHandicap: 0,
+        opponentCardPool,
+      }
+    } else if (mode === 'rare-only') {
+      // Rare Only Mode: opponent card pool limited to rares, play at normal speed
+      const collectionPool = getCardCatalog().filter(c => c.rarity === 'rare')
+      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+      gameOpts = {
+        playerCards,
+        opponentHandicap: 0,
+        opponentCardPool,
+      }
+    } else if (mode === 'legendary-only') {
+      // Legendary Only Mode: opponent card pool limited to legendaries, play at normal speed
+      const collectionPool = getCardCatalog().filter(c => c.rarity === 'legendary')
+      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+      gameOpts = {
+        playerCards,
+        opponentHandicap: 0,
+        opponentCardPool,
+      }
+    } else if (mode ==='hero-only') {
+      // Hero Only Mode: opponent card pool limited to heroes, play at normal speed
+      gameOpts = {
+        playerCards,
+        opponentHandicap: 0,
+        opponentCardPool:[...HERO_CARDS, ...HERO_CARDS,...HERO_CARDS],
+        forgiveManaLimit: true, // allow over-spending mana to play any hero in hero-only mode
+      }
+    } else if (mode === 'only-buildings') {
+      // Only Buildings Mode: opponent card pool limited to structures, play at normal speed
+      const collectionPool = getCardCatalog().filter(c => c.cardType.includes('structure'))
+      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+      gameOpts = {
+        playerCards,
+        opponentHandicap: 0,
+        opponentCardPool,
+      }
+    } else if (mode === 'only-units') {
+      // Only Units Mode: opponent card pool limited to mobile units, play at normal speed
+      const collectionPool = getCardCatalog().filter(c => c.cardType.includes('unit'))
+      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+      gameOpts = {
+        playerCards,
+        opponentHandicap: 0,
+        opponentCardPool,
+      }
+    } else if (mode === 'only-spells') {
+      // Only Spells Mode: opponent card pool limited to spells, play at normal speed
+      const collectionPool = getCardCatalog().filter(c => c.cardType.includes('upgrade'))
+      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+      gameOpts = {
+        playerCards,
+        opponentHandicap: 0,
+        opponentCardPool,
+      }
+    } else {  
+      // Default to Easy Mode if we somehow get an unrecognized mode
+      gameOpts = {
+        playerCards,
+        opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus),
+      }
     }
+
     // Debatable as to whether the reducer state here should be called "START_FREE_PLAY" instead of "START"
     dispatch({ type: 'START', gameState: newGame(gameOpts) })
     setScreen('playing') // TODO — move this into the reducer so the transition is atomic and can't be interrupted by a re-render
@@ -2151,8 +2255,27 @@ export default function App() {
 
   const handleOpenPack = useCallback(() => {
     packBackScreenRef.current = 'title'
-    const pack = generatePack()
-    setPack(pack)
+    var pack = generatePack()
+
+    switch(quickBattleModeRef.current) {
+      case  'easy':
+        // Easy mode: 2 cards per pack, no duplicates
+        pack = [...new Set(pack)].slice(0, 2)
+        break
+      case 'normal':
+        case 'mirror':
+        // Normal mode: 5 cards per pack, no duplicates
+        pack = generatePack()
+        break
+      case 'unlimited':
+        pack = generateSeededPack(3, "rare")
+        break
+      default:
+        pack = generatePack()
+        break
+    }
+
+    setPack( pack)
     setScreen('pack')
   }, [])
 

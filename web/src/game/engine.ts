@@ -128,6 +128,8 @@ export interface NewGameOptions {
   quickStart?: boolean
   /** Limit the opponent's card pool to these cards (Quick Battle: collection-based matching). Falls back to full catalog if pool is too small. */
   opponentCardPool?: Card[]
+  /** Allow the player to have unlimited maximum mana. */
+  forgiveManaLimit?: boolean
 }
 
 export function newGame(
@@ -165,6 +167,7 @@ export function newGame(
     opponentBaseHp: hpOverride,
     bossSpawnKillPct,
     opponentCardPool,
+    forgiveManaLimit,
   } = opts
 
   // Pre-built decks are already in seeded order — don't re-shuffle with Math.random()
@@ -230,6 +233,8 @@ export function newGame(
         `Enemy strategy: ${STRATEGY_LABELS[strategy]}`,
       ]
 
+  const maxMana = forgiveManaLimit ? 9 : Math.max(BASE_MAX_MANA, loadPlayerStats().maxMana)
+
   return {
     playerBase: { hp: 50, maxHp: 50 },
     opponentBase: { hp: hpOverride ?? (boss ? 95 : 82), maxHp: hpOverride ?? (boss ? 95 : 82) },
@@ -239,7 +244,7 @@ export function newGame(
     opponentHand,
     opponentDeck,
     mana: 3,
-    maxMana: Math.max(BASE_MAX_MANA, loadPlayerStats().maxMana),
+    maxMana,
     manaAccum: 0,
     playerManaRegenMs: loadPlayerStats().manaRegenMs,
     log: openingLog,
@@ -277,6 +282,7 @@ export function newGame(
     endlessPlayerDeckTemplate: endlessMode ? [...playerDeck] : undefined,
     endlessOpponentDeckTemplate: endlessMode ? [...opponentDeck] : undefined,
     bossSpawnKillPct: bossSpawnKillPct ?? 0.5,
+    forgiveManaLimit: forgiveManaLimit ?? false,
   }
 }
 
@@ -551,7 +557,7 @@ function applyRelicBuffs(s: GameState, deltaMs: number) {
 
 function regenerateMana(s: GameState, deltaMs: number) {
   const manaBonus = getManaBonus(s.field, 'player')
-  s.maxMana = Math.min(10, BASE_MAX_MANA + manaBonus + (s.relicManaBonus ?? 0))
+  s.maxMana = s.forgiveManaLimit ? 9 : Math.min(10, BASE_MAX_MANA + manaBonus + (s.relicManaBonus ?? 0))
 
   if (s.mana < s.maxMana) {
     const speedMult = 1 + getManaSpeedMult(s.field, 'player')
