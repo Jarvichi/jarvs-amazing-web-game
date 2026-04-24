@@ -10,6 +10,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { loadCrystals, saveCrystals } from '../../game/collection'
+import { logError } from '../../logger'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -30,6 +31,13 @@ const TICKETS_PER_CREDIT   = 2
 const SPIN_DURATION_MS     = 1200
 const FEATURE_THRESHOLD    = 5    // feature triggers needed for bonus
 const FEATURE_BONUS_CREDITS = 15  // credits awarded when feature fires
+
+const JACKPOT_TIERS = [
+  { name: 'Mini',  credits: 50,  progressive: false, base: 50  },
+  { name: 'Minor', credits: 100, progressive: false, base: 100 },
+  { name: 'Major', credits: 250, progressive: false, base: 250 },
+  { name: 'Grand', credits: 0,   progressive: true,  base: 500 },
+] as const
 
 function pickSymbol(): string {
   let r = Math.random() * WEIGHTS.reduce((s, w) => s + w, 0)
@@ -95,17 +103,22 @@ export function FruitMachine({ onDone }: Props) {
   const [display, setDisplay]     = useState<[string, string, string]>(() => [pickSymbol(), pickSymbol(), pickSymbol()])
   const [held, setHeld]           = useState<[boolean, boolean, boolean]>([false, false, false])
   const [recentlyHeld, setRecentlyHeld] = useState<[boolean, boolean, boolean]>([false, false, false])
-  const [phase, setPhase]         = useState<'idle' | 'spinning' | 'done'>('idle')
+  const [phase, setPhase]         = useState<'idle' | 'spinning' | 'board-moving' | 'nudge' | 'bonus' | 'jackpot-win' | 'done'>('idle')
   const [credits, setCredits]     = useState(STARTING_CREDITS)
   const [lastWin, setLastWin]     = useState<number | null>(null)
   const [winLabel, setWinLabel]   = useState<string | null>(null)
   const [cashOutTickets, setCashOutTickets] = useState(0)
   const [availCrystals, setAvailCrystals]  = useState(() => loadCrystals())
   const [featureTriggerCount, setFeatureTriggerCount] = useState(0)
+  const [grandJackpot, setGrandJackpot] = useState<number>(() => {
+    try { return parseInt(localStorage.getItem('fm_grand') ?? '500', 10) } catch { return 500 }
+  })
+  const [jackpotWon, setJackpotWon] = useState<{ tier: string; amount: number } | null>(null)
 
   const spinningRef     = useRef<[boolean, boolean, boolean]>([false, false, false])
   const intervalRef     = useRef<ReturnType<typeof setInterval> | null>(null)
   const featureCountRef = useRef(0)  // mirrors featureTriggerCount for use inside setTimeout
+  const grandJackpotRef = useRef(grandJackpot)
 
   // Sync display with reels on first mount
   useEffect(() => {
@@ -141,6 +154,15 @@ export function FruitMachine({ onDone }: Props) {
     spinningRef.current = [!held[0], !held[1], !held[2]]
     setRecentlyHeld([...held] as [boolean, boolean, boolean])
 
+    // Grand jackpot grows by 1 every spin
+    const newGrand = grandJackpotRef.current + 1
+    grandJackpotRef.current = newGrand
+    setGrandJackpot(newGrand)
+    try { localStorage.setItem('fm_grand', String(newGrand)) } catch (e) { logError('fm_grand save', { error: String(e) }) }
+
+    // Detect ⭐⭐⭐ for Grand jackpot trigger
+    const isTripleStar = nextReels[0] === '⭐' && nextReels[1] === '⭐' && nextReels[2] === '⭐'
+
     setPhase('spinning')
     setCredits(c => c - 1)
     setLastWin(null)
@@ -160,6 +182,23 @@ export function FruitMachine({ onDone }: Props) {
       if (intervalRef.current) clearInterval(intervalRef.current)
       spinningRef.current = [false, false, false]
 
+      setReels(nextReels)
+      setDisplay(nextReels)
+      setHeld([false, false, false])
+
+      if (isTripleStar) {
+        const amount = grandJackpotRef.current
+        const resetVal = JACKPOT_TIERS[3].base
+        grandJackpotRef.current = resetVal
+        setGrandJackpot(resetVal)
+        try { localStorage.setItem('fm_grand', String(resetVal)) } catch (e) { logError('fm_grand reset', { error: String(e) }) }
+        setLastWin(amount)
+        setCredits(c => Math.max(0, c + amount))
+        setJackpotWon({ tier: 'Grand', amount })
+        setPhase('jackpot-win')
+        return
+      }
+
       const { credits: win, winType } = calcPayout(nextReels)
       const featureHits = nextReels.filter(x => x === FEATURE).length
 
@@ -174,10 +213,7 @@ export function FruitMachine({ onDone }: Props) {
       }
       setFeatureTriggerCount(featureCountRef.current)
 
-      setReels(nextReels)
-      setDisplay(nextReels)
       setLastWin(win + featureBonus)
-      setHeld([false, false, false])
       // recentlyHeld stays set — blocks those reels from being held next spin
       setCredits(c => Math.max(0, c + win + featureBonus))
 
@@ -193,6 +229,11 @@ export function FruitMachine({ onDone }: Props) {
     }, SPIN_DURATION_MS)
   }
 
+  function dismissJackpotWin() {
+    setJackpotWon(null)
+    setPhase('idle')
+  }
+
   function cashOut() {
     if (phase !== 'idle') return
     const tickets = credits * TICKETS_PER_CREDIT
@@ -205,6 +246,23 @@ export function FruitMachine({ onDone }: Props) {
     saveCrystals(availCrystals - BUY_COST)
     setAvailCrystals(c => c - BUY_COST)
     setCredits(c => Math.min(MAX_CREDITS, c + BUY_AMOUNT))
+  }
+
+  // ── Jackpot win screen ────────────────────────────────────────────────────────
+
+  if (phase === 'jackpot-win' && jackpotWon) {
+    return (
+      <div className="minigame-screen">
+        <div className="minigame-title">🎰 FRUIT MACHINE</div>
+        <div className="fm-jackpot-win-overlay">
+          <div className="fm-jackpot-win-tier">{jackpotWon.tier} JACKPOT!</div>
+          <div className="fm-jackpot-win-amount">+{jackpotWon.amount} credits!</div>
+          <button className="action-btn action-btn--gold" onClick={dismissJackpotWin}>
+            COLLECT
+          </button>
+        </div>
+      </div>
+    )
   }
 
   // ── Done screen ───────────────────────────────────────────────────────────────
@@ -245,6 +303,16 @@ export function FruitMachine({ onDone }: Props) {
   return (
     <div className="minigame-screen">
       <div className="minigame-title">🎰 FRUIT MACHINE</div>
+
+      {/* Jackpot tiers */}
+      <div className="fm-jackpots">
+        {JACKPOT_TIERS.map(t => (
+          <div key={t.name} className={`fm-jackpot-tier${t.progressive ? ' fm-jackpot-tier--grand' : ''}`}>
+            <div className="fm-jackpot-name">{t.name}</div>
+            <div className="fm-jackpot-amount">{t.progressive ? grandJackpot : t.credits}</div>
+          </div>
+        ))}
+      </div>
 
       <div className="fm-header">
         <span className="fm-credits">Credits: {credits}</span>
@@ -317,7 +385,7 @@ export function FruitMachine({ onDone }: Props) {
           <tbody>
             <tr><td>🃏🃏🃏</td><td>40 credits (triple wild)</td></tr>
             <tr><td>💎💎💎</td><td>50 credits</td></tr>
-            <tr><td>⭐⭐⭐</td><td>30 credits</td></tr>
+            <tr><td>⭐⭐⭐</td><td>GRAND JACKPOT 🌠</td></tr>
             <tr><td>🔔🔔🔔</td><td>20 credits</td></tr>
             <tr><td>Any triple</td><td>10 credits</td></tr>
             <tr><td>💎💎 pair</td><td>5 credits</td></tr>

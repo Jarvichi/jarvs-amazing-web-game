@@ -9833,6 +9833,86 @@ html.light-mode .action-btn {
   color: #ffd700;
 }
 
+/* Jackpot tiers bar */
+.fm-jackpots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.fm-jackpot-tier {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #0d0d1e;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 3px 8px;
+  min-width: 56px;
+}
+
+.fm-jackpot-name {
+  font-size: 10px;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fm-jackpot-amount {
+  font-size: 13px;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.fm-jackpot-tier--grand .fm-jackpot-name {
+  color: #ff9900;
+}
+
+.fm-jackpot-tier--grand .fm-jackpot-amount {
+  color: #ff9900;
+  animation: fm-grand-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes fm-grand-pulse {
+  0%, 100% { opacity: 1; text-shadow: 0 0 6px #ff9900; }
+  50%       { opacity: 0.7; text-shadow: 0 0 12px #ffcc00; }
+}
+
+/* Jackpot win overlay */
+.fm-jackpot-win-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 16px;
+  background: linear-gradient(135deg, #1a0a00 0%, #0d0d1e 100%);
+  border: 2px solid #ff9900;
+  border-radius: 8px;
+  margin: 12px 0;
+  animation: fm-jackpot-appear 0.4s ease-out;
+}
+
+@keyframes fm-jackpot-appear {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.fm-jackpot-win-tier {
+  font-size: 28px;
+  font-weight: bold;
+  color: #ff9900;
+  text-shadow: 0 0 20px #ff6600;
+  letter-spacing: 2px;
+  animation: fm-grand-pulse 0.8s ease-in-out infinite;
+}
+
+.fm-jackpot-win-amount {
+  font-size: 22px;
+  color: #ffd700;
+  font-weight: bold;
+}
+
 /* ── Video Poker ──────────────────────────────────────────────────────────── */
 
 .vp-subtitle {
