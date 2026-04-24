@@ -68,7 +68,7 @@ export interface UnitTemplate {
 
 export type BuffTag = 'atk' | 'spd' | 'hp' | 'range'
 
-export type UnitTag = 'flying' | 'ranged' | 'melee' | 'fast' | 'slow' | 'large' | 'magic' | 'undead' | 'beast' | 'armored' | 'siege' | 'fire'
+export type UnitTag = 'flying' | 'ranged' | 'melee' | 'fast' | 'slow' | 'large' | 'magic' | 'undead' | 'beast' | 'armored' | 'siege' | 'fire' | 'swim'
 export type TargetPriority = 'walls' | 'buildings' | 'boss' | 'ranged_first'
 
 export interface AffinityDef {

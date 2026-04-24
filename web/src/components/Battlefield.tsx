@@ -47,6 +47,28 @@ interface Props {
 
 const SPAWN_GROW_MS = 1500
 
+// ─── Moat graphic ────────────────────────────────────────────────────────────
+// Full-width water channel rendered in place of the sprite for moat units.
+
+function MoatSvg({ owner }: { owner: 'player' | 'opponent' }) {
+  const deep = owner === 'player' ? '#1a4a68' : '#1a3050'
+  const mid  = owner === 'player' ? '#2a6888' : '#243858'
+  return (
+    <div style={{ display: 'block', width: '100%', height: 16 }}>
+      <svg width="100%" height="16" viewBox="0 0 360 16" preserveAspectRatio="none"
+        style={{ display: 'block' }} xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="360" height="16" fill={deep} opacity="0.9"/>
+        <rect x="0" y="2" width="360" height="12" fill={mid} opacity="0.6"/>
+        {[20, 65, 110, 155, 200, 245, 290, 335].map((x, i) => (
+          <ellipse key={i} cx={x} cy="8" rx="22" ry="3" fill="none" stroke="rgba(120,210,255,0.35)" strokeWidth="0.9"/>
+        ))}
+        <rect x="0" y="0"  width="360" height="2" fill="rgba(0,0,0,0.5)"/>
+        <rect x="0" y="14" width="360" height="2" fill="rgba(0,0,0,0.5)"/>
+      </svg>
+    </div>
+  )
+}
+
 // ─── Wall graphic ─────────────────────────────────────────────────────────────
 // Rendered in-place of the sprite for wall units.  Full-width SVG showing
 // staggered stone blocks, battlements, and progressive damage cracks.
@@ -181,6 +203,9 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
   if (unit.isWall) {
     // Walls span the full lane width, positioned by their x value
     style = { top: `${topPct}%`, left: 0, right: 0, transform: 'translateY(-50%)' }
+  } else if (unit.isMoat) {
+    // Moat spans full width like a wall — a horizontal water barrier
+    style = { top: `${topPct}%`, left: 0, right: 0, transform: 'translateY(-50%)' }
   } else if (isStructure) {
     // Structures anchor to their base edge; horizontal position from unit.y (same scale as mobile units)
     const hPct = 50 + (unit.y / 80) * 36
@@ -218,6 +243,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
         `lane-unit--${unit.owner}`,
         isStructure ? 'lane-unit--structure' : '',
         unit.isWall ? 'lane-unit--wall' : '',
+        unit.isMoat ? 'lane-unit--moat' : '',
         unit.flying ? 'lane-unit--flying' : '',
         isAttacking ? 'lane-unit--attacking' : '',
         isStructure && unit.upgradeLevel && unit.upgradeLevel >= 2 ? `lane-unit--upgraded-${Math.min(unit.upgradeLevel, MAX_UPGRADE_LEVEL)}` : '',
@@ -261,18 +287,20 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
           )}
         </div>
       )}
-      {unit.isWall
-        ? <WallSvg hp={unit.hp} maxHp={unit.maxHp} owner={unit.owner} wallNames={(wallStack ?? [unit]).map(w => w.name)} />
-        : isStructure
-          ? <SpriteImg name={unit.spriteName ?? unit.name} className={`lane-unit-sprite${spriteDamageClass(unit.hp, unit.maxHp)}`} />
-          : <AnimatedSpriteImg name={unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}${spriteDamageClass(unit.hp, unit.maxHp)}`} />
+      {unit.isMoat
+        ? <MoatSvg owner={unit.owner} />
+        : unit.isWall
+          ? <WallSvg hp={unit.hp} maxHp={unit.maxHp} owner={unit.owner} wallNames={(wallStack ?? [unit]).map(w => w.name)} />
+          : isStructure
+            ? <SpriteImg name={unit.spriteName ?? unit.name} className={`lane-unit-sprite${spriteDamageClass(unit.hp, unit.maxHp)}`} />
+            : <AnimatedSpriteImg name={unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}${spriteDamageClass(unit.hp, unit.maxHp)}`} />
       }
-      {!unit.isWall && showName && (
+      {!unit.isWall && !unit.isMoat && showName && (
         <div className="lane-unit-name">
           {unit.name}
         </div>
       )}
-      {!isDying && (
+      {!isDying && !unit.isMoat && (
         <div className="lane-unit-hp-row">
           <div className="lane-unit-hp-bar">
             <div className="lane-unit-hp-fill" style={{ width: `${hpPct}%` }} />
@@ -868,7 +896,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
               return <LaneUnit key={u.id} unit={u} wallStack={group} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} celebrating={playerWon && u.owner === 'player'} />
             }
             const stackIndex = u.moveSpeed === 0
-              ? state.field.slice(0, i).filter(o => o.moveSpeed === 0 && !o.isWall && o.owner === u.owner).length
+              ? state.field.slice(0, i).filter(o => o.moveSpeed === 0 && !o.isWall && !o.isMoat && o.owner === u.owner).length
               : 0
             return <LaneUnit key={u.id} unit={u} stackIndex={stackIndex} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} celebrating={playerWon && u.owner === 'player'} />
           })

@@ -143,18 +143,25 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     const inWallZone = unit.climber && s.field.some(w =>
       w.isWall && w.owner !== unit.owner && w.hp > 0 && Math.abs(unit.x - w.x) <= WALL_CLIMB_ZONE
     )
-    const moatSlowFactor = s.field.reduce((factor, m) => {
+    const moatSlowFactor = unit.flying ? 1 : s.field.reduce((factor, m) => {
       if (!m.isMoat) return factor
       const effect = m.structureEffect as { type: 'slowZone'; slowFactor: number; radius: number } | undefined
       if (!effect || effect.type !== 'slowZone') return factor
-      if (Math.abs(unit.x - m.x) <= effect.radius) return Math.min(factor, effect.slowFactor)
+      if (Math.abs(unit.x - m.x) <= effect.radius) {
+        if (unit.tags?.includes('swim')) return 1.25  // swim bonus: cross moat faster
+        return Math.min(factor, effect.slowFactor)
+      }
       return factor
     }, 1)
+    // Moat never halts a unit: effective speed stays ≥ 1 px/s
+    const clampedMoatFactor = unit.moveSpeed > 0
+      ? Math.max(moatSlowFactor, 1 / unit.moveSpeed)
+      : moatSlowFactor
     const fogMult     = s.activeBattleEvent?.type === 'fogOfWar' ? 0.5 : 1
     const affMoveMult = (unit.affinityActive && unit.affinity?.effectType === 'moveSpeed')
       ? unit.affinity.effectAmount : 1
     const speed = (inWallZone ? unit.moveSpeed * CLIMB_SPEED_FACTOR : unit.moveSpeed)
-      * deltaSec * fogMult * affMoveMult * moatSlowFactor
+      * deltaSec * fogMult * affMoveMult * clampedMoatFactor
 
     // Terrain avoidance: lateral repulsion from nearby obstacles
     let avoidY = 0
