@@ -163,6 +163,9 @@ export function FruitMachine({ onDone }: Props) {
   const [freeSpin, setFreeSpin]             = useState(false)
   const [nudgesAvailable, setNudgesAvailable] = useState(0)
   const [reelPositions, setReelPositions]   = useState<[number, number, number]>([0, 3, 6])
+  const [bonusTiles, setBonusTiles] = useState<Array<{ value: number; collect: boolean; revealed: boolean }>>([])
+  const [bonusPicksLeft, setBonusPicksLeft] = useState(0)
+  const [bonusTotalWin, setBonusTotalWin]   = useState(0)
 
   const spinningRef     = useRef<[boolean, boolean, boolean]>([false, false, false])
   const intervalRef     = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -221,10 +224,17 @@ export function FruitMachine({ onDone }: Props) {
         setNudgesAvailable(node.value ?? 1)
         setPhase('nudge')
         break
-      case 'bonus-game':
-        pendingBoardNodeRef.current = node
+      case 'bonus-game': {
+        // Build 9 tiles: 7 credit prizes (2–20), 2 collect-early tiles
+        const prizes = Array.from({ length: 7 }, () => ({ value: Math.floor(Math.random() * 19) + 2, collect: false, revealed: false }))
+        const collects = [{ value: 0, collect: true, revealed: false }, { value: 0, collect: true, revealed: false }]
+        const shuffled = [...prizes, ...collects].sort(() => Math.random() - 0.5)
+        setBonusTiles(shuffled)
+        setBonusPicksLeft(3)
+        setBonusTotalWin(0)
         setPhase('bonus')
         break
+      }
       case 'jackpot-mini':
         setCredits(c => c + JACKPOT_TIERS[0].credits)
         setJackpotWon({ tier: 'Mini', amount: JACKPOT_TIERS[0].credits })
@@ -409,6 +419,35 @@ export function FruitMachine({ onDone }: Props) {
     }, SPIN_DURATION_MS)
   }
 
+  function pickBonusTile(idx: number) {
+    if (bonusPicksLeft <= 0) return
+    const tile = bonusTiles[idx]
+    if (tile.revealed) return
+    const newTiles = bonusTiles.map((t, i) => i === idx ? { ...t, revealed: true } : t)
+    setBonusTiles(newTiles)
+    const earned = tile.collect ? 0 : tile.value
+    const newTotal = bonusTotalWin + earned
+    setBonusTotalWin(newTotal)
+    const newPicks = tile.collect ? 0 : bonusPicksLeft - 1
+    setBonusPicksLeft(newPicks)
+    if (newPicks <= 0) {
+      // Reveal remaining tiles after a brief delay then finish
+      setTimeout(() => {
+        setBonusTiles(prev => prev.map(t => ({ ...t, revealed: true })))
+        setTimeout(() => finishBonusWithWin(newTotal), 800)
+      }, 400)
+    }
+  }
+
+  function finishBonusWithWin(total: number) {
+    setCredits(c => c + total)
+    setLastWin(total)
+    setWinLabel(`🎁 BONUS! +${total} credits!`)
+    setBonusTiles([])
+    setBonusPicksLeft(0)
+    setPhase('idle')
+  }
+
   function dismissJackpotWin() {
     setJackpotWon(null)
     setPhase('idle')
@@ -426,6 +465,34 @@ export function FruitMachine({ onDone }: Props) {
     saveCrystals(availCrystals - BUY_COST)
     setAvailCrystals(c => c - BUY_COST)
     setCredits(c => Math.min(MAX_CREDITS, c + BUY_AMOUNT))
+  }
+
+  // ── Bonus game screen ────────────────────────────────────────────────────────
+
+  if (phase === 'bonus' && bonusTiles.length > 0) {
+    return (
+      <div className="minigame-screen">
+        <div className="minigame-title">🎰 FRUIT MACHINE</div>
+        <div className="fm-bonus-game">
+          <div className="fm-bonus-header">BONUS GAME — pick {bonusPicksLeft} {bonusPicksLeft === 1 ? 'prize' : 'prizes'}!</div>
+          {bonusTotalWin > 0 && <div className="fm-bonus-running-total">Running total: +{bonusTotalWin} credits</div>}
+          <div className="fm-bonus-tiles">
+            {bonusTiles.map((tile, i) => (
+              <button
+                key={i}
+                className={`fm-bonus-tile${tile.revealed ? ' fm-bonus-tile--revealed' : ''}`}
+                onClick={() => pickBonusTile(i)}
+                disabled={tile.revealed || bonusPicksLeft <= 0}
+              >
+                {tile.revealed
+                  ? (tile.collect ? '⛔ COLLECT' : `+${tile.value}`)
+                  : '?'}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
   }
 
   // ── Nudge screen ─────────────────────────────────────────────────────────────
