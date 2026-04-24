@@ -67,6 +67,13 @@ const BOARD_NODES: BoardNode[] = [
 
 const BOARD_SIZE = BOARD_NODES.length
 
+// Reel strip — fixed sequence for nudge up/down support
+const REEL_STRIP = [
+  '🍒','🍋','🍊','🍇','⭐','🔔','💎','🃏','🌟','💰',
+  '🍒','🍋','🍊','🍇','⭐','🔔','💎','🍒','🌟','💰',
+  '🍒','🍋','🍊','🍇','⭐','🔔','💎','🃏','🍒','💰',
+]
+
 function pickSymbol(): string {
   let r = Math.random() * WEIGHTS.reduce((s, w) => s + w, 0)
   for (let i = 0; i < SYMBOLS.length; i++) {
@@ -74,6 +81,10 @@ function pickSymbol(): string {
     if (r <= 0) return SYMBOLS[i]
   }
   return SYMBOLS[SYMBOLS.length - 1]
+}
+
+function pickReelPos(): number {
+  return Math.floor(Math.random() * REEL_STRIP.length)
 }
 
 // Base payout for a 3-symbol line — no wilds, bonus handled separately
@@ -148,8 +159,10 @@ export function FruitMachine({ onDone }: Props) {
   const [boardMult, setBoardMult]   = useState<number>(() => {
     try { return parseInt(localStorage.getItem('fm_board_mult') ?? '1', 10) } catch { return 1 }
   })
-  const [boardMessage, setBoardMessage] = useState<string | null>(null)
-  const [freeSpin, setFreeSpin]         = useState(false)
+  const [boardMessage, setBoardMessage]     = useState<string | null>(null)
+  const [freeSpin, setFreeSpin]             = useState(false)
+  const [nudgesAvailable, setNudgesAvailable] = useState(0)
+  const [reelPositions, setReelPositions]   = useState<[number, number, number]>([0, 3, 6])
 
   const spinningRef     = useRef<[boolean, boolean, boolean]>([false, false, false])
   const intervalRef     = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -205,6 +218,7 @@ export function FruitMachine({ onDone }: Props) {
       }
       case 'nudge':
         pendingBoardNodeRef.current = node
+        setNudgesAvailable(node.value ?? 1)
         setPhase('nudge')
         break
       case 'bonus-game':
@@ -254,14 +268,50 @@ export function FruitMachine({ onDone }: Props) {
     setTimeout(stepOnce, 400)
   }
 
+  function nudgeReel(i: 0 | 1 | 2, dir: 1 | -1) {
+    if (nudgesAvailable <= 0) return
+    setReelPositions(prev => {
+      const next = [...prev] as [number, number, number]
+      next[i] = ((next[i] + dir) + REEL_STRIP.length) % REEL_STRIP.length
+      return next
+    })
+    setNudgesAvailable(n => n - 1)
+  }
+
+  function finishNudge() {
+    const nudgedReels: [string, string, string] = [
+      REEL_STRIP[reelPositions[0]],
+      REEL_STRIP[reelPositions[1]],
+      REEL_STRIP[reelPositions[2]],
+    ]
+    setReels(nudgedReels)
+    setDisplay(nudgedReels)
+    const { credits: win, winType } = calcPayout(nudgedReels)
+    if (win > 0) {
+      setLastWin(win)
+      setCredits(c => Math.max(0, c + win))
+      if (winType === 'wild') setWinLabel('🃏 WILD! (nudge)')
+      else if (winType === 'bonus') setWinLabel('💰 BONUS! (nudge)')
+      else setWinLabel(`+${win} credits! (nudge)`)
+    }
+    setNudgesAvailable(0)
+    setPhase('idle')
+  }
+
   function spin() {
     if (phase !== 'idle' || (credits < 1 && !freeSpin)) return
 
-    const nextReels: [string, string, string] = [
-      held[0] ? reels[0] : pickSymbol(),
-      held[1] ? reels[1] : pickSymbol(),
-      held[2] ? reels[2] : pickSymbol(),
+    const nextPositions: [number, number, number] = [
+      held[0] ? reelPositions[0] : pickReelPos(),
+      held[1] ? reelPositions[1] : pickReelPos(),
+      held[2] ? reelPositions[2] : pickReelPos(),
     ]
+    const nextReels: [string, string, string] = [
+      REEL_STRIP[nextPositions[0]],
+      REEL_STRIP[nextPositions[1]],
+      REEL_STRIP[nextPositions[2]],
+    ]
+    setReelPositions(nextPositions)
     spinningRef.current = [!held[0], !held[1], !held[2]]
     setRecentlyHeld([...held] as [boolean, boolean, boolean])
 
@@ -376,6 +426,42 @@ export function FruitMachine({ onDone }: Props) {
     saveCrystals(availCrystals - BUY_COST)
     setAvailCrystals(c => c - BUY_COST)
     setCredits(c => Math.min(MAX_CREDITS, c + BUY_AMOUNT))
+  }
+
+  // ── Nudge screen ─────────────────────────────────────────────────────────────
+
+  if (phase === 'nudge') {
+    const nudgeReels: [string, string, string] = [
+      REEL_STRIP[reelPositions[0]],
+      REEL_STRIP[reelPositions[1]],
+      REEL_STRIP[reelPositions[2]],
+    ]
+    return (
+      <div className="minigame-screen">
+        <div className="minigame-title">🎰 FRUIT MACHINE</div>
+        <div className="fm-nudge-ui">
+          <div className="fm-nudge-header">NUDGE — {nudgesAvailable} remaining</div>
+          <div className="fm-reels">
+            {([0, 1, 2] as const).map(i => (
+              <div key={i} className="fm-reel">
+                <div className="fm-symbol">{nudgeReels[i]}</div>
+              </div>
+            ))}
+          </div>
+          <div className="fm-nudge-controls">
+            {([0, 1, 2] as const).map(i => (
+              <div key={i} className="fm-nudge-reel">
+                <button className="fm-nudge-btn" onClick={() => nudgeReel(i, -1)} disabled={nudgesAvailable <= 0}>▲</button>
+                <button className="fm-nudge-btn" onClick={() => nudgeReel(i, 1)} disabled={nudgesAvailable <= 0}>▼</button>
+              </div>
+            ))}
+          </div>
+          <button className="action-btn action-btn--gold" onClick={finishNudge}>
+            DONE
+          </button>
+        </div>
+      </div>
+    )
   }
 
   // ── Jackpot win screen ────────────────────────────────────────────────────────
