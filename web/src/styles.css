@@ -9893,6 +9893,68 @@ html.light-mode .action-btn {
   font-weight: bold;
 }
 
+/* Bonus pick-and-win game */
+.fm-bonus-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+}
+
+.fm-bonus-header {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffd700;
+  letter-spacing: 1px;
+}
+
+.fm-bonus-running-total {
+  font-size: 13px;
+  color: #55ff55;
+  font-weight: bold;
+}
+
+.fm-bonus-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  gap: 8px;
+}
+
+.fm-bonus-tile {
+  width: 80px;
+  height: 60px;
+  background: #0d0d1e;
+  border: 2px solid #555;
+  border-radius: 6px;
+  color: #aaa;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fm-bonus-tile:hover:not(:disabled) {
+  border-color: #ffd700;
+  background: #1a1a00;
+  color: #ffd700;
+}
+
+.fm-bonus-tile:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.fm-bonus-tile--revealed {
+  border-color: #333;
+  color: #55ff55;
+  font-size: 12px;
+  font-weight: bold;
+  background: #0a1a0a;
+}
+
 /* Nudge UI */
 .fm-nudge-ui {
   display: flex;
