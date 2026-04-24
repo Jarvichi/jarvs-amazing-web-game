@@ -39,6 +39,34 @@ const JACKPOT_TIERS = [
   { name: 'Grand', credits: 0,   progressive: true,  base: 500 },
 ] as const
 
+type BoardNodeType = 'credit' | 'multiplier' | 'extra-spin' | 'nudge' | 'bonus-game' | 'jackpot-mini' | 'jackpot-major' | 'jackpot-grand'
+interface BoardNode { type: BoardNodeType; label: string; value?: number }
+
+const BOARD_NODES: BoardNode[] = [
+  { type: 'credit',       label: '+5cr',    value: 5   },
+  { type: 'extra-spin',   label: 'FREE'              },
+  { type: 'multiplier',   label: '×2',      value: 2   },
+  { type: 'credit',       label: '+8cr',    value: 8   },
+  { type: 'nudge',        label: 'NUDGE',   value: 1   },
+  { type: 'credit',       label: '+3cr',    value: 3   },
+  { type: 'jackpot-mini', label: 'MINI 💰'            },
+  { type: 'credit',       label: '+10cr',   value: 10  },
+  { type: 'multiplier',   label: '×3',      value: 3   },
+  { type: 'extra-spin',   label: 'FREE'              },
+  { type: 'credit',       label: '+5cr',    value: 5   },
+  { type: 'bonus-game',   label: 'BONUS'             },
+  { type: 'credit',       label: '+12cr',   value: 12  },
+  { type: 'nudge',        label: 'NUDGE×2', value: 2   },
+  { type: 'multiplier',   label: '×2',      value: 2   },
+  { type: 'credit',       label: '+6cr',    value: 6   },
+  { type: 'jackpot-major',label: 'MAJOR 🏆'           },
+  { type: 'extra-spin',   label: 'FREE'              },
+  { type: 'credit',       label: '+15cr',   value: 15  },
+  { type: 'jackpot-grand',label: 'GRAND ⭐'           },
+]
+
+const BOARD_SIZE = BOARD_NODES.length
+
 function pickSymbol(): string {
   let r = Math.random() * WEIGHTS.reduce((s, w) => s + w, 0)
   for (let i = 0; i < SYMBOLS.length; i++) {
@@ -114,11 +142,22 @@ export function FruitMachine({ onDone }: Props) {
     try { return parseInt(localStorage.getItem('fm_grand') ?? '500', 10) } catch { return 500 }
   })
   const [jackpotWon, setJackpotWon] = useState<{ tier: string; amount: number } | null>(null)
+  const [boardPos, setBoardPos]     = useState<number>(() => {
+    try { return parseInt(localStorage.getItem('fm_board_pos') ?? '0', 10) } catch { return 0 }
+  })
+  const [boardMult, setBoardMult]   = useState<number>(() => {
+    try { return parseInt(localStorage.getItem('fm_board_mult') ?? '1', 10) } catch { return 1 }
+  })
+  const [boardMessage, setBoardMessage] = useState<string | null>(null)
+  const [freeSpin, setFreeSpin]         = useState(false)
 
   const spinningRef     = useRef<[boolean, boolean, boolean]>([false, false, false])
   const intervalRef     = useRef<ReturnType<typeof setInterval> | null>(null)
   const featureCountRef = useRef(0)  // mirrors featureTriggerCount for use inside setTimeout
   const grandJackpotRef = useRef(grandJackpot)
+  const boardPosRef     = useRef(boardPos)
+  const boardMultRef    = useRef(boardMult)
+  const pendingBoardNodeRef = useRef<BoardNode | null>(null)
 
   // Sync display with reels on first mount
   useEffect(() => {
@@ -143,8 +182,80 @@ export function FruitMachine({ onDone }: Props) {
     })
   }
 
+  function resolveBoardNode(node: BoardNode) {
+    switch (node.type) {
+      case 'credit':
+        setCredits(c => c + (node.value ?? 0))
+        setBoardMessage(`+${node.value} credits!`)
+        setPhase('idle')
+        break
+      case 'extra-spin':
+        setFreeSpin(true)
+        setBoardMessage('Free spin!')
+        setPhase('idle')
+        break
+      case 'multiplier': {
+        const m = node.value ?? 2
+        boardMultRef.current = m
+        setBoardMult(m)
+        try { localStorage.setItem('fm_board_mult', String(m)) } catch (e) { logError('fm_board_mult', { error: String(e) }) }
+        setBoardMessage(`×${m} multiplier active!`)
+        setPhase('idle')
+        break
+      }
+      case 'nudge':
+        pendingBoardNodeRef.current = node
+        setPhase('nudge')
+        break
+      case 'bonus-game':
+        pendingBoardNodeRef.current = node
+        setPhase('bonus')
+        break
+      case 'jackpot-mini':
+        setCredits(c => c + JACKPOT_TIERS[0].credits)
+        setJackpotWon({ tier: 'Mini', amount: JACKPOT_TIERS[0].credits })
+        setPhase('jackpot-win')
+        break
+      case 'jackpot-major':
+        setCredits(c => c + JACKPOT_TIERS[2].credits)
+        setJackpotWon({ tier: 'Major', amount: JACKPOT_TIERS[2].credits })
+        setPhase('jackpot-win')
+        break
+      case 'jackpot-grand': {
+        const amount = grandJackpotRef.current
+        const resetVal = JACKPOT_TIERS[3].base
+        grandJackpotRef.current = resetVal
+        setGrandJackpot(resetVal)
+        try { localStorage.setItem('fm_grand', String(resetVal)) } catch (e) { logError('fm_grand reset', { error: String(e) }) }
+        setCredits(c => c + amount)
+        setJackpotWon({ tier: 'Grand', amount })
+        setPhase('jackpot-win')
+        break
+      }
+    }
+  }
+
+  function advanceBoardBy(steps: number) {
+    if (steps <= 0) { setPhase('idle'); return }
+    setPhase('board-moving')
+    let stepsLeft = steps
+    function stepOnce() {
+      const newPos = (boardPosRef.current + 1) % BOARD_SIZE
+      boardPosRef.current = newPos
+      setBoardPos(newPos)
+      try { localStorage.setItem('fm_board_pos', String(newPos)) } catch (e) { logError('fm_board_pos', { error: String(e) }) }
+      stepsLeft--
+      if (stepsLeft > 0) {
+        setTimeout(stepOnce, 400)
+      } else {
+        resolveBoardNode(BOARD_NODES[newPos])
+      }
+    }
+    setTimeout(stepOnce, 400)
+  }
+
   function spin() {
-    if (phase !== 'idle' || credits < 1) return
+    if (phase !== 'idle' || (credits < 1 && !freeSpin)) return
 
     const nextReels: [string, string, string] = [
       held[0] ? reels[0] : pickSymbol(),
@@ -164,9 +275,12 @@ export function FruitMachine({ onDone }: Props) {
     const isTripleStar = nextReels[0] === '⭐' && nextReels[1] === '⭐' && nextReels[2] === '⭐'
 
     setPhase('spinning')
-    setCredits(c => c - 1)
+    const spinCost = freeSpin ? 0 : 1
+    setFreeSpin(false)
+    setCredits(c => c - spinCost)
     setLastWin(null)
     setWinLabel(null)
+    setBoardMessage(null)
 
     // Rapidly cycle display for non-held reels
     intervalRef.current = setInterval(() => {
@@ -213,19 +327,35 @@ export function FruitMachine({ onDone }: Props) {
       }
       setFeatureTriggerCount(featureCountRef.current)
 
-      setLastWin(win + featureBonus)
-      // recentlyHeld stays set — blocks those reels from being held next spin
-      setCredits(c => Math.max(0, c + win + featureBonus))
-
-      if (featureBonus > 0) {
-        setWinLabel(`🌟 FEATURE! +${featureBonus} credits!`)
-      } else if (winType === 'wild') {
-        setWinLabel('🃏 WILD!')
-      } else if (winType === 'bonus') {
-        setWinLabel('💰 BONUS!')
+      // Apply board multiplier
+      const mult = boardMultRef.current
+      const totalWin = (win + featureBonus) * mult
+      if (mult > 1) {
+        boardMultRef.current = 1
+        setBoardMult(1)
+        try { localStorage.setItem('fm_board_mult', '1') } catch (e) { logError('fm_board_mult reset', { error: String(e) }) }
       }
 
-      setPhase('idle')
+      setLastWin(totalWin)
+      // recentlyHeld stays set — blocks those reels from being held next spin
+      setCredits(c => Math.max(0, c + totalWin))
+
+      if (featureBonus > 0) {
+        setWinLabel(`🌟 FEATURE!${mult > 1 ? ` ×${mult}` : ''} +${totalWin} credits!`)
+      } else if (winType === 'wild') {
+        setWinLabel(`🃏 WILD!${mult > 1 ? ` ×${mult}` : ''}`)
+      } else if (winType === 'bonus') {
+        setWinLabel('💰 BONUS!')
+      } else if (mult > 1 && totalWin > 0) {
+        setWinLabel(`×${mult} MULTIPLIER! +${totalWin} credits!`)
+      }
+
+      // Board advancement triggers
+      const hasTriple = nextReels[0] === nextReels[1] && nextReels[1] === nextReels[2]
+      const bellHits = nextReels.filter(r => r === '🔔').length
+      const boardSteps = bellHits + (featureBonus > 0 ? 2 : 0) + (hasTriple ? 1 : 0)
+
+      advanceBoardBy(boardSteps)
     }, SPIN_DURATION_MS)
   }
 
@@ -297,8 +427,16 @@ export function FruitMachine({ onDone }: Props) {
   // ── Playing screen ────────────────────────────────────────────────────────────
 
   const isSpinning = phase === 'spinning'
+  const isBusy = phase !== 'idle'
+  const canSpin = !isBusy && (credits >= 1 || freeSpin)
   const canBuy = phase === 'idle' && credits > 0 && credits < MAX_CREDITS && availCrystals >= BUY_COST
   const totalWin = lastWin ?? 0
+
+  // Board display window: 5 nodes centred on current position
+  const boardWindow = [-2, -1, 0, 1, 2].map(offset => {
+    const idx = ((boardPos + offset) % BOARD_SIZE + BOARD_SIZE) % BOARD_SIZE
+    return { idx, node: BOARD_NODES[idx], isCurrent: offset === 0 }
+  })
 
   return (
     <div className="minigame-screen">
@@ -327,6 +465,18 @@ export function FruitMachine({ onDone }: Props) {
         {lastWin === 0 && <span className="fm-no-win">No win</span>}
       </div>
 
+      {/* Feature board trail */}
+      <div className="fm-board">
+        {boardWindow.map(({ idx, node, isCurrent }) => (
+          <div key={idx} className={`fm-board-node${isCurrent ? ' fm-board-node--current' : ''}`}>
+            <div className="fm-board-node-label">{node.label}</div>
+          </div>
+        ))}
+      </div>
+      {boardMessage && <div className="fm-board-message">{boardMessage}</div>}
+      {boardMult > 1 && <div className="fm-board-mult-banner">×{boardMult} multiplier active!</div>}
+      {freeSpin && <div className="fm-board-free-spin">FREE SPIN ready!</div>}
+
       {/* Reels */}
       <div className="fm-reels">
         {([0, 1, 2] as const).map(i => (
@@ -346,7 +496,7 @@ export function FruitMachine({ onDone }: Props) {
             key={i}
             className={`fm-hold-btn${held[i] ? ' fm-hold-btn--active' : ''}${recentlyHeld[i] && !held[i] ? ' fm-hold-btn--blocked' : ''}`}
             onClick={() => toggleHold(i)}
-            disabled={isSpinning || recentlyHeld[i]}
+            disabled={isBusy || recentlyHeld[i]}
             title={recentlyHeld[i] ? 'Already held last spin' : undefined}
           >
             {held[i] ? 'HELD' : recentlyHeld[i] ? '—' : 'HOLD'}
@@ -359,14 +509,14 @@ export function FruitMachine({ onDone }: Props) {
         <button
           className="action-btn action-btn--gold"
           onClick={spin}
-          disabled={!(!isSpinning && credits >= 1)}
+          disabled={!canSpin}
         >
-          SPIN (1 credit)
+          {freeSpin ? 'FREE SPIN' : 'SPIN (1 credit)'}
         </button>
         <button
           className="action-btn"
           onClick={cashOut}
-          disabled={isSpinning}
+          disabled={isBusy}
         >
           CASH OUT ({credits * TICKETS_PER_CREDIT} 🎫)
         </button>
