@@ -114,7 +114,7 @@ function resolveCardDef(raw: RawCardDef): CardDef {
     if (!resolved) {
       const msg = `cards.json: unknown unitRef '${raw.unitRef}' for card '${raw.name}' — card will be undeployable`
       console.error('[cards]', msg)
-      // TODO: log to Rollbar so we know what units cannot be resolved 
+      // Deferred: logged to Rollbar via flushCardValidationErrors() called at newGame() time
       _pendingValidationErrors.push({ msg, ctx: { cardName: raw.name, unitRef: raw.unitRef } })
     }
     unit = resolved ? resolveUnit(resolved) : undefined

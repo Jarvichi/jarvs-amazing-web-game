@@ -2,6 +2,11 @@
 // 3-reel slot machine. Spin costs 1 credit; hold reels between spins.
 // Cash out at any time to convert remaining credits to tickets (2 per credit).
 // Buy +5 credits for 25 crystals when running low.
+//
+// Special symbols:
+//   🃏 Wild    — substitutes for any standard symbol; triple-wild pays 40 credits
+//   🌟 Feature — accumulates toward a feature bonus; at 5 triggers: +15 credits
+//   💰 Bonus   — scatter: 2+ anywhere pays 4 credits; 3 pays 15 credits
 
 import React, { useState, useRef, useEffect } from 'react'
 import { loadCrystals, saveCrystals } from '../../game/collection'
@@ -10,14 +15,21 @@ interface Props {
   onDone: (ticketsEarned: number) => void
 }
 
-const SYMBOLS = ['🍒', '🍋', '🍊', '🍇', '⭐', '🔔', '💎']
-const WEIGHTS  = [ 30,   20,   20,   15,    8,    5,    2]  // must sum to 100
-const STARTING_CREDITS  = 10
-const BUY_COST          = 25   // crystals to buy more credits
-const BUY_AMOUNT        = 5    // credits per purchase
-const MAX_CREDITS       = 20   // cap on held credits
-const TICKETS_PER_CREDIT = 2
-const SPIN_DURATION_MS  = 1200
+const SYMBOLS = ['🍒', '🍋', '🍊', '🍇', '⭐', '🔔', '💎', '🃏', '🌟', '💰']
+const WEIGHTS  = [ 25,   17,   17,   12,    7,    5,    2,    3,    4,    8]
+
+const WILD    = '🃏'
+const FEATURE = '🌟'
+const BONUS   = '💰'
+
+const STARTING_CREDITS     = 10
+const BUY_COST             = 25   // crystals to buy more credits
+const BUY_AMOUNT           = 5    // credits per purchase
+const MAX_CREDITS          = 20   // cap on held credits
+const TICKETS_PER_CREDIT   = 2
+const SPIN_DURATION_MS     = 1200
+const FEATURE_THRESHOLD    = 5    // feature triggers needed for bonus
+const FEATURE_BONUS_CREDITS = 15  // credits awarded when feature fires
 
 function pickSymbol(): string {
   let r = Math.random() * WEIGHTS.reduce((s, w) => s + w, 0)
@@ -28,7 +40,8 @@ function pickSymbol(): string {
   return SYMBOLS[SYMBOLS.length - 1]
 }
 
-function calcPayout(s: [string, string, string]): number {
+// Base payout for a 3-symbol line — no wilds, bonus handled separately
+function calcPayoutBase(s: [string, string, string]): number {
   const [a, b, c] = s
   if (a === b && b === c) {
     if (a === '💎') return 50
@@ -46,6 +59,37 @@ function calcPayout(s: [string, string, string]): number {
   return 0
 }
 
+type WinType = 'wild' | 'bonus' | 'feature' | null
+
+function calcPayout(s: [string, string, string]): { credits: number; winType: WinType } {
+  // Scatter: 2+ Bonus symbols anywhere pay regardless of position
+  const bonusCount = s.filter(x => x === BONUS).length
+  if (bonusCount >= 2) {
+    return { credits: bonusCount === 3 ? 15 : 4, winType: 'bonus' }
+  }
+
+  const wildCount = s.filter(x => x === WILD).length
+
+  // Triple wild pays a fixed jackpot
+  if (wildCount === 3) return { credits: 40, winType: 'wild' }
+
+  if (wildCount > 0) {
+    // Substitute each Wild with the best-matching standard symbol
+    const nonWild = s.filter(x => x !== WILD && x !== FEATURE && x !== BONUS)
+    if (nonWild.length === 0) return { credits: 0, winType: null }
+    const candidates = [...new Set(nonWild)]
+    let best = 0
+    for (const sub of candidates) {
+      const subbed = s.map(x => x === WILD ? sub : x) as [string, string, string]
+      const pay = calcPayoutBase(subbed)
+      if (pay > best) best = pay
+    }
+    return { credits: best, winType: best > 0 ? 'wild' : null }
+  }
+
+  return { credits: calcPayoutBase(s), winType: null }
+}
+
 export function FruitMachine({ onDone }: Props) {
   const [reels, setReels]         = useState<[string, string, string]>(() => [pickSymbol(), pickSymbol(), pickSymbol()])
   const [display, setDisplay]     = useState<[string, string, string]>(() => [pickSymbol(), pickSymbol(), pickSymbol()])
@@ -54,11 +98,14 @@ export function FruitMachine({ onDone }: Props) {
   const [phase, setPhase]         = useState<'idle' | 'spinning' | 'done'>('idle')
   const [credits, setCredits]     = useState(STARTING_CREDITS)
   const [lastWin, setLastWin]     = useState<number | null>(null)
+  const [winLabel, setWinLabel]   = useState<string | null>(null)
   const [cashOutTickets, setCashOutTickets] = useState(0)
   const [availCrystals, setAvailCrystals]  = useState(() => loadCrystals())
+  const [featureTriggerCount, setFeatureTriggerCount] = useState(0)
 
-  const spinningRef  = useRef<[boolean, boolean, boolean]>([false, false, false])
-  const intervalRef  = useRef<ReturnType<typeof setInterval> | null>(null)
+  const spinningRef     = useRef<[boolean, boolean, boolean]>([false, false, false])
+  const intervalRef     = useRef<ReturnType<typeof setInterval> | null>(null)
+  const featureCountRef = useRef(0)  // mirrors featureTriggerCount for use inside setTimeout
 
   // Sync display with reels on first mount
   useEffect(() => {
@@ -97,6 +144,7 @@ export function FruitMachine({ onDone }: Props) {
     setPhase('spinning')
     setCredits(c => c - 1)
     setLastWin(null)
+    setWinLabel(null)
 
     // Rapidly cycle display for non-held reels
     intervalRef.current = setInterval(() => {
@@ -112,13 +160,35 @@ export function FruitMachine({ onDone }: Props) {
       if (intervalRef.current) clearInterval(intervalRef.current)
       spinningRef.current = [false, false, false]
 
-      const win = calcPayout(nextReels)
+      const { credits: win, winType } = calcPayout(nextReels)
+      const featureHits = nextReels.filter(x => x === FEATURE).length
+
+      // Compute feature bonus imperatively so we don't need current state in an updater
+      let featureBonus = 0
+      const newFeatureCount = featureCountRef.current + featureHits
+      if (featureHits > 0 && newFeatureCount >= FEATURE_THRESHOLD) {
+        featureBonus = FEATURE_BONUS_CREDITS
+        featureCountRef.current = newFeatureCount % FEATURE_THRESHOLD
+      } else {
+        featureCountRef.current = newFeatureCount
+      }
+      setFeatureTriggerCount(featureCountRef.current)
+
       setReels(nextReels)
       setDisplay(nextReels)
-      setLastWin(win)
+      setLastWin(win + featureBonus)
       setHeld([false, false, false])
       // recentlyHeld stays set — blocks those reels from being held next spin
-      setCredits(c => Math.max(0, c + win))
+      setCredits(c => Math.max(0, c + win + featureBonus))
+
+      if (featureBonus > 0) {
+        setWinLabel(`🌟 FEATURE! +${featureBonus} credits!`)
+      } else if (winType === 'wild') {
+        setWinLabel('🃏 WILD!')
+      } else if (winType === 'bonus') {
+        setWinLabel('💰 BONUS!')
+      }
+
       setPhase('idle')
     }, SPIN_DURATION_MS)
   }
@@ -170,6 +240,7 @@ export function FruitMachine({ onDone }: Props) {
 
   const isSpinning = phase === 'spinning'
   const canBuy = phase === 'idle' && credits > 0 && credits < MAX_CREDITS && availCrystals >= BUY_COST
+  const totalWin = lastWin ?? 0
 
   return (
     <div className="minigame-screen">
@@ -177,8 +248,13 @@ export function FruitMachine({ onDone }: Props) {
 
       <div className="fm-header">
         <span className="fm-credits">Credits: {credits}</span>
-        {lastWin !== null && lastWin > 0 && (
-          <span className="fm-win-flash">+{lastWin} credit{lastWin !== 1 ? 's' : ''}!</span>
+        <span className="fm-feature-counter" title="Land 🌟 symbols to fill the feature meter">
+          Feature: {featureCountRef.current}/{FEATURE_THRESHOLD} 🌟
+        </span>
+        {lastWin !== null && totalWin > 0 && (
+          <span className="fm-win-flash">
+            {winLabel ?? `+${totalWin} credit${totalWin !== 1 ? 's' : ''}!`}
+          </span>
         )}
         {lastWin === 0 && <span className="fm-no-win">No win</span>}
       </div>
@@ -239,6 +315,7 @@ export function FruitMachine({ onDone }: Props) {
         <summary>Payout table</summary>
         <table className="fm-paytable-table">
           <tbody>
+            <tr><td>🃏🃏🃏</td><td>40 credits (triple wild)</td></tr>
             <tr><td>💎💎💎</td><td>50 credits</td></tr>
             <tr><td>⭐⭐⭐</td><td>30 credits</td></tr>
             <tr><td>🔔🔔🔔</td><td>20 credits</td></tr>
@@ -247,6 +324,10 @@ export function FruitMachine({ onDone }: Props) {
             <tr><td>⭐⭐ pair</td><td>3 credits</td></tr>
             <tr><td>Any pair</td><td>2 credits</td></tr>
             <tr><td>🍒 on reel 1</td><td>1 credit</td></tr>
+            <tr><td>🃏 Wild</td><td>substitutes for any symbol</td></tr>
+            <tr><td>💰💰 Bonus</td><td>4 credits (scatter)</td></tr>
+            <tr><td>💰💰💰 Bonus</td><td>15 credits (scatter)</td></tr>
+            <tr><td>🌟 Feature ×{FEATURE_THRESHOLD}</td><td>+{FEATURE_BONUS_CREDITS} credits</td></tr>
           </tbody>
         </table>
       </details>

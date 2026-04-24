@@ -3,6 +3,7 @@ import { useRegisterSW } from 'virtual:pwa-register/react'
 import { GameState, Card } from './game/types'
 import { newGame, NewGameOptions, MAX_HANDICAP } from './game/engine'
 import { playCard, playAoeCard } from './game/engine/cards'
+import { shuffle } from './game/engine/helpers'
 import { makeNodeDeck } from './game/cards'
 import { battleReducer, INITIAL_BATTLE_STATE, TICK_MS } from './game/battleReducer'
 import {
@@ -379,6 +380,8 @@ export default function App() {
   const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
   const isTrainingModeRef   = useRef(false)                  // true while playing a training battle
+  const isEasyModeRef       = useRef(false)                  // true when Quick Battle Easy Mode is active
+  const [quickBattleMode, setQuickBattleMode] = useState<'normal' | 'easy'>('normal')
 
   // Cutscenes & boss dialogue
   const [cutscenePanels, setCutscenePanels]   = useState<CutscenePanel[]>([])
@@ -791,7 +794,7 @@ export default function App() {
 
   // Trigger SW update check whenever the title screen is shown
   useEffect(() => {
-    if (screen === 'title') swRegRef.current?.update()
+    if (screen === 'title') swRegRef.current?.update().catch(() => {})
   }, [screen])
 
   useMusic(screen, gameState, run)
@@ -801,6 +804,7 @@ export default function App() {
   const handlePlay = useCallback(() => {
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
+    isEasyModeRef.current = quickBattleMode === 'easy'
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -817,11 +821,31 @@ export default function App() {
     // Give a handicap boost scaled to deck size: fewer cards = easier opponent
     // (maxes out at +10 for an empty deck, scales to 0 at DECK_MAX cards)
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
+
+    let gameOpts: NewGameOptions
+    if (quickBattleMode === 'easy') {
+      // Easy Mode: opponent mirrors the player's own deck; max handicap so they play slowly
+      gameOpts = {
+        playerCards,
+        opponentHandicap: MAX_HANDICAP,
+        prebuiltOpponentDeck: shuffle([...playerCards]),
+      }
+    } else {
+      // Limit opponent to cards the player actually owns (#773)
+      const ownedNames = new Set(collection.filter(e => e.count > 0).map(e => e.cardName))
+      const collectionPool = getCardCatalog().filter(c => ownedNames.has(c.name))
+      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+      gameOpts = {
+        playerCards,
+        opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus),
+        opponentCardPool,
+      }
+    }
     // Debatable as to whether the reducer state here should be called "START_FREE_PLAY" instead of "START"
-    dispatch({ type: 'START', gameState: newGame(playerCards, Math.min(MAX_HANDICAP, handicap + deckBonus)) })
+    dispatch({ type: 'START', gameState: newGame(gameOpts) })
     setScreen('playing') // TODO — move this into the reducer so the transition is atomic and can't be interrupted by a re-render
     rollRareEvent()
-  }, [handicap])
+  }, [handicap, quickBattleMode])
 
   const handleEndless = useCallback(() => {
     isCampaignRef.current = false
@@ -2125,7 +2149,9 @@ export default function App() {
 
   const handleOpenPack = useCallback(() => {
     packBackScreenRef.current = 'title'
-    setPack(generatePack())
+    // Easy Mode rewards only 1 card (#774)
+    const pack = generatePack()
+    setPack(isEasyModeRef.current ? pack.slice(0, 1) : pack)
     setScreen('pack')
   }, [])
 
@@ -2281,6 +2307,8 @@ export default function App() {
           <TitleScreen
             crystals={crystals}
             onPlay={handlePlay}
+            quickBattleMode={quickBattleMode}
+            onSetQuickBattleMode={setQuickBattleMode}
             onEndless={handleEndless}
             onCampaign={handleCampaign}
             onCollection={() => setScreen('collection')}

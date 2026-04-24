@@ -1310,6 +1310,13 @@ body {
   border-color: rgba(51, 255, 51, 0.65) !important;
 }
 
+.qb-mode-toggle {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: -6px;
+}
+
 /* Secondary nav section: bordered panel with floating label */
 .title-nav-section {
   position: relative;
@@ -9606,6 +9613,12 @@ html.light-mode .action-btn {
   font-size: 15px;
   font-weight: bold;
   color: #ffd700;
+}
+
+.fm-feature-counter {
+  font-size: 13px;
+  color: #aaddff;
+  opacity: 0.85;
 }
 
 .fm-win-flash {
