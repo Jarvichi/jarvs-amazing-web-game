@@ -8653,6 +8653,14 @@ html.light-mode .action-btn {
   color: var(--game-text-color);
 }
 
+.news-item__image {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--game-border);
+}
+
 .news-item__body {
   font-size: 0.857rem;
   color: #aaa;

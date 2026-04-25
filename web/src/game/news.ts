@@ -9,10 +9,11 @@
 //   }
 //
 // Document schema (matches NewsItem):
-//   title:  string
-//   body:   string
-//   date:   string  (ISO date, e.g. "2026-03-29")
-//   tag:    string  (optional, e.g. "NEW FEATURE", "BUG FIX", "UPDATE", "EVENT")
+//   title:    string
+//   body:     string
+//   date:     string  (ISO date, e.g. "2026-03-29")
+//   tag:      string  (optional, e.g. "NEW FEATURE", "BUG FIX", "UPDATE", "EVENT")
+//   imageUrl: string  (optional, URL of an image to display in the post)
 
 import { collection, getDocs, doc, setDoc, deleteDoc } from 'firebase/firestore'
 import { db } from '../firebase'
@@ -27,6 +28,7 @@ export interface NewsItem {
   body: string
   date: string
   tag?: string
+  imageUrl?: string
 }
 
 export const NEWS_TAGS = ['NEW FEATURE', 'UPDATE', 'BUG FIX', 'EVENT'] as const

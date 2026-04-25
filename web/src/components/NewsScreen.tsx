@@ -47,6 +47,13 @@ export function NewsScreen({ onBack }: Props) {
               >✕</button>
             </div>
             <div className="news-item__title">{item.title}</div>
+            {item.imageUrl && (
+              <img
+                className="news-item__image"
+                src={item.imageUrl}
+                alt={item.title}
+              />
+            )}
             <div className="news-item__body">{item.body}</div>
           </div>
         ))}
