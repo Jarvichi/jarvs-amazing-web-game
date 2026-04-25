@@ -62,7 +62,11 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
 
   // Mastery stat bonuses (mirroring applyMasteryBonus in collection.ts)
   const atkBonus = (u && u.moveSpeed > 0) ? masteryLvl : 0
-  const hpBonus  = u ? (u.moveSpeed > 0 ? masteryLvl * 2 : masteryLvl * 10) : 0
+  const hpBonus  = u
+    ? u.moveSpeed > 0
+      ? masteryLvl * 2
+      : Math.round(u.maxHp * (1 + 0.1 * masteryLvl)) - u.maxHp
+    : 0
 
   const cityLevel   = getCardLevel(loadCityState(), card.name)
   const cityAtkBonus  = cityLevel * LEVEL_ATK_BONUS
@@ -221,7 +225,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                 {masteryLvl < 5 && <span className="cdm-mastery-xp">{xpCur}/{xpNeeded} to Lv{masteryLvl + 1}</span>}
               </div>
               <MasteryBar xp={xp} />
-              {u && (
+              {u && u.moveSpeed > 0 && (
                 <div className="cdm-mastery-milestones">
                   <div className={`cdm-milestone${masteryLvl >= 1 ? ' cdm-milestone--unlocked' : ''}`}>
                     Lv1 — Affinity activates
@@ -231,6 +235,38 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                   </div>
                 </div>
               )}
+              {u && u.moveSpeed === 0 && (() => {
+                const se = u.structureEffect as { type: string } | undefined
+                const milestones: { lvl: number; text: string }[] = [
+                  { lvl: 1, text: '+10% max HP per level' },
+                ]
+                if (u.isWall) {
+                  milestones.push({ lvl: 5, text: 'Elite: self-repairs 2 HP every 6s' })
+                } else if (se?.type === 'spawn') {
+                  milestones.push({ lvl: 1, text: '−5% spawn interval per level' })
+                } else if (se?.type === 'mana') {
+                  milestones.push({ lvl: 5, text: 'Elite: +1 mana produced per turn' })
+                } else if (se?.type === 'healAura') {
+                  milestones.push({ lvl: 1, text: '+1 heal per level' })
+                  milestones.push({ lvl: 5, text: 'Elite: 25% faster heal pulses' })
+                } else if (se?.type === 'repairAura') {
+                  milestones.push({ lvl: 1, text: '+1 repair per level' })
+                  milestones.push({ lvl: 5, text: 'Elite: 25% faster repair pulses' })
+                } else if (se?.type === 'attackAura') {
+                  milestones.push({ lvl: 1, text: '+1 ATK aura per 2 levels' })
+                } else if (se?.type === 'manaSpeed') {
+                  milestones.push({ lvl: 1, text: '4% faster mana regen per level' })
+                }
+                return (
+                  <div className="cdm-mastery-milestones">
+                    {milestones.map(m => (
+                      <div key={m.text} className={`cdm-milestone${masteryLvl >= m.lvl ? ' cdm-milestone--unlocked' : ''}`}>
+                        Lv{m.lvl} — {m.text}
+                      </div>
+                    ))}
+                  </div>
+                )
+              })()}
             </div>
 
             {/* Battle stats */}
