@@ -10394,6 +10394,56 @@ html.light-mode .action-btn {
   cursor: default;
 }
 
+/* Nudge reel window — taller to show adjacent symbols above and below */
+.fm-reel--nudge {
+  height: 168px;
+  flex-direction: column;
+  justify-content: space-around;
+  overflow: visible;
+}
+
+.fm-symbol--peek {
+  font-size: 1.571rem;
+  opacity: 0.4;
+  user-select: none;
+}
+
+/* 4th trail reel */
+.fm-ladder-reel-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-left: 8px;
+  padding-left: 8px;
+  border-left: 1px solid #333;
+}
+
+.fm-ladder-reel-label {
+  font-size: 0.571rem;
+  color: #666;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.fm-ladder-reel {
+  width: 64px;
+  border-color: #445588;
+  background: #080818;
+}
+
+.fm-ladder-symbol {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #aaddff;
+  user-select: none;
+  letter-spacing: 0.5px;
+}
+
+.fm-reel--spinning .fm-ladder-symbol {
+  animation: fm-reel-roll 0.08s steps(1) infinite;
+}
+
 /* Jackpot tiers bar */
 .fm-jackpots {
   display: flex;
