@@ -47,9 +47,10 @@ interface Props {
   user: User | null
   onSignOut: () => void
   onSignIn: () => void
+  onFeedback: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onPlayerStats, user, onSignOut, onSignIn }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onPlayerStats, user, onSignOut, onSignIn, onFeedback }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -270,6 +271,12 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           ) : (
             <button className="title-auth-btn" onClick={onSignIn}>SIGN IN</button>
           )}
+          <button
+            className="filter-btn"
+            onClick={onFeedback}
+            title="Send feedback or report a bug"
+            style={{ marginLeft: '6px', fontSize: '13px', padding: '2px 7px' }}
+          >?</button>
         </div>
       </div>
     </div>

@@ -24,6 +24,7 @@ interface Props {
   onGiftAdmin?: () => void
   onNewsAdmin?: () => void
   onCampaignAdmin?: () => void
+  onFeedbackAdmin?: () => void
 }
 
 const TEXT_SIZE_KEY      = 'jarv_text_size'
@@ -132,7 +133,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
-export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin }: Props) {
+export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [textSize,      setTextSize]      = useState(loadTextSize)
   const [textColor,     setTextColor]     = useState(loadTextColor)
@@ -458,7 +459,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
     <></>
         )}
 
-        {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin) && (
+        {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin || onFeedbackAdmin) && (
 <>
       <Section bordered title="DEBUG">
             <div className="settings-row">
@@ -531,6 +532,15 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                   <div className="settings-sublabel">Edit act nodes, enemy decks, and environments</div>
                 </div>
                 <button className="action-btn action-btn--gold" onClick={onCampaignAdmin}>OPEN</button>
+              </div>
+            )}
+            {onFeedbackAdmin && (
+              <div className="settings-row">
+                <div>
+                  <div className="settings-label">Feedback inbox</div>
+                  <div className="settings-sublabel">View and delete player-submitted feedback</div>
+                </div>
+                <button className="action-btn action-btn--gold" onClick={onFeedbackAdmin}>OPEN</button>
               </div>
             )}
           </Section>

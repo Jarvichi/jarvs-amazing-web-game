@@ -78,6 +78,8 @@ import { getUnreadCount as getNewsUnreadCount } from './game/news'
 import { NewsScreen }      from './components/NewsScreen'
 import { NewsAdminScreen } from './components/NewsAdminScreen'
 import { CampaignAdminScreen } from './components/CampaignAdminScreen'
+import { FeedbackModal } from './components/FeedbackModal'
+import { FeedbackAdminScreen } from './components/FeedbackAdminScreen'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
@@ -262,6 +264,7 @@ type Screen =
   | 'news'
   | 'newsAdmin'
   | 'campaignAdmin'
+  | 'feedbackAdmin'
   | 'minigames'
   | 'playerstats'
   | 'quickbattle'
@@ -344,6 +347,7 @@ export default function App() {
 
   const [screen, setScreen]             = useState<Screen>(_startup.screen)
   const [showTitleLoginModal, setShowTitleLoginModal] = useState(false)
+  const [feedbackOpen, setFeedbackOpen] = useState(false)
   // ── Battle state (all ephemeral state that exists only during a battle) ──────
   const [battle, dispatch] = useReducer(battleReducer, {
     ...INITIAL_BATTLE_STATE,
@@ -2454,7 +2458,11 @@ export default function App() {
             user={user}
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
             onSignIn={() => setShowTitleLoginModal(true)}
+            onFeedback={() => setFeedbackOpen(true)}
           />
+          {feedbackOpen && (
+            <FeedbackModal user={user} onClose={() => setFeedbackOpen(false)} />
+          )}
           {showTitleLoginModal && (
             <LoginModal
               user={user}
@@ -2480,6 +2488,7 @@ export default function App() {
           onGiftAdmin={() => setScreen('giftAdmin')}
           onNewsAdmin={() => setScreen('newsAdmin')}
           onCampaignAdmin={() => setScreen('campaignAdmin')}
+          onFeedbackAdmin={() => setScreen('feedbackAdmin')}
         />
       )}
 
@@ -2497,6 +2506,10 @@ export default function App() {
 
       {screen === 'campaignAdmin' && (
         <CampaignAdminScreen onBack={() => setScreen('settings')} />
+      )}
+
+      {screen === 'feedbackAdmin' && (
+        <FeedbackAdminScreen onBack={() => setScreen('settings')} />
       )}
 
       {screen === 'nodemap' && run && actData && (
