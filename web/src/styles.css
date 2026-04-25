@@ -8796,6 +8796,439 @@ html.light-mode .action-btn {
   justify-content: center;
 }
 
+/* ── City Builder Hub Entry ───────────────────────────────────────────────── */
+
+.city-builder-hub-entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #0a1a0a;
+  border: 1px solid #207020;
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin: 8px 0 16px;
+}
+
+.city-builder-hub-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.city-builder-hub-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.city-builder-hub-name {
+  font-size: 13px;
+  font-weight: bold;
+  color: #60d060;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.city-builder-hub-desc {
+  font-size: 11px;
+  color: #669966;
+}
+
+/* ── City Builder Screen ──────────────────────────────────────────────────── */
+
+.city-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.city-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.city-title {
+  flex: 1;
+  font-size: 16px;
+  font-weight: bold;
+  color: #60d060;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.city-gold-display {
+  font-size: 13px;
+  color: #d0a030;
+  font-weight: bold;
+}
+
+.city-subheader {
+  font-size: 11px;
+  color: #669966;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.city-grid {
+  display: grid;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+.city-cell {
+  background: #050a05;
+  border: 1px dashed #1a3a1a;
+  border-radius: 3px;
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 4px;
+  position: relative;
+  transition: border-color 0.15s;
+}
+
+.city-cell:hover {
+  border-color: #3a7a3a;
+  background: #080f08;
+}
+
+.city-cell--occupied {
+  border-style: solid;
+  border-color: #207020;
+  background: #061006;
+}
+
+.city-cell--occupied:hover {
+  border-color: #aa3030;
+  background: #120606;
+}
+
+.city-cell-sprite {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+}
+
+.city-cell-name {
+  font-size: 8px;
+  color: #669966;
+  text-align: center;
+  letter-spacing: 0.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.city-cell-level {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  font-size: 8px;
+  color: #d0a030;
+  font-weight: bold;
+}
+
+.city-cell-empty {
+  font-size: 20px;
+  color: #1a3a1a;
+}
+
+.city-section-title {
+  font-size: 12px;
+  color: #60d060;
+  letter-spacing: 2px;
+  margin-top: 8px;
+  border-bottom: 1px solid #1a3a1a;
+  padding-bottom: 4px;
+}
+
+.city-hint {
+  font-size: 10px;
+  color: #4a7a4a;
+}
+
+.city-toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0a1a0a;
+  border: 1px solid #207020;
+  color: #90e090;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.city-gold {
+  color: #d0a030;
+  font-weight: bold;
+}
+
+/* ── Card Picker ──────────────────────────────────────────────────────────── */
+
+.city-picker-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.city-picker-title {
+  flex: 1;
+  font-size: 14px;
+  color: #60d060;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.city-picker-empty {
+  text-align: center;
+  color: #4a7a4a;
+  font-size: 12px;
+  margin-top: 40px;
+}
+
+.city-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 400px) {
+  .city-picker-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.city-picker-card {
+  background: #060f06;
+  border: 1px solid #1a3a1a;
+  border-radius: 4px;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.city-picker-card:hover {
+  border-color: #40a040;
+  background: #091509;
+}
+
+.city-picker-sprite {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+}
+
+.city-picker-name {
+  font-size: 9px;
+  color: #90d090;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.city-picker-rarity {
+  font-size: 8px;
+  letter-spacing: 0.5px;
+}
+.city-picker-rarity--common    { color: #888; }
+.city-picker-rarity--uncommon  { color: #4a9a4a; }
+.city-picker-rarity--rare      { color: #4a6aba; }
+.city-picker-rarity--legendary { color: #c08020; }
+
+/* ── Level Up Panel ───────────────────────────────────────────────────────── */
+
+.city-level-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 400px) {
+  .city-level-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.city-level-card {
+  background: #060f06;
+  border: 1px solid #1a3a1a;
+  border-radius: 4px;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.city-level-card:hover {
+  border-color: #40a040;
+}
+
+.city-level-card--levelled {
+  border-color: #806020;
+}
+
+.city-level-card-sprite {
+  width: 28px;
+  height: 28px;
+  image-rendering: pixelated;
+}
+
+.city-level-card-name {
+  font-size: 8px;
+  color: #90d090;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.city-level-card-stars {
+  display: flex;
+  gap: 1px;
+}
+
+.city-star-sm {
+  font-size: 8px;
+  color: #2a4a2a;
+}
+
+.city-star-sm--filled {
+  color: #d0a030;
+}
+
+.city-level-card-cost {
+  font-size: 9px;
+  color: #4a7a4a;
+}
+
+.city-level-card-cost--ready {
+  color: #d0a030;
+  font-weight: bold;
+}
+
+.city-level-card-maxed {
+  font-size: 8px;
+  color: #c08020;
+  letter-spacing: 1px;
+}
+
+/* ── Level Detail Screen ──────────────────────────────────────────────────── */
+
+.city-level-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 8px;
+}
+
+.city-level-sprite {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+}
+
+.city-level-name {
+  font-size: 15px;
+  color: #90e090;
+  letter-spacing: 1px;
+}
+
+.city-level-stars {
+  display: flex;
+  gap: 4px;
+}
+
+.city-star {
+  font-size: 18px;
+  color: #2a4a2a;
+}
+
+.city-star--filled {
+  color: #d0a030;
+}
+
+.city-level-stats {
+  font-size: 12px;
+  color: #60d060;
+  text-align: center;
+}
+
+.city-level-cost {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.city-level-costs-table {
+  width: 100%;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.city-cost-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #669966;
+  padding: 3px 6px;
+  border: 1px solid #1a3a1a;
+  border-radius: 2px;
+}
+
+.city-cost-row--done {
+  color: #3a5a3a;
+  text-decoration: line-through;
+}
+
+.city-level-maxed {
+  font-size: 14px;
+  color: #d0a030;
+  letter-spacing: 2px;
+  margin-top: 8px;
+}
+
+/* ── Card tile level badge ────────────────────────────────────────────────── */
+
+.card-city-level {
+  position: absolute;
+  bottom: 22px;
+  right: 3px;
+  font-size: 8px;
+  color: #d0a030;
+  font-weight: bold;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* ── CardDetailModal city level ───────────────────────────────────────────── */
+
+.cdm-city-level {
+  font-size: 11px;
+  color: #d0a030;
+  text-align: center;
+  margin-top: 4px;
+}
+
 /* Title screen button */
 .title-minigames-btn {
   border-color: #6040a0 !important;
