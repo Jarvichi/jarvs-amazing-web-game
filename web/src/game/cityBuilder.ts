@@ -29,7 +29,7 @@ const GOLD_PER_MIN_STRUCTURE: Record<CardRarity, number> = {
 }
 
 /** Level-up costs: index = target level (1-based). cost[0] = cost to reach lvl 1, etc. */
-export const LEVEL_UP_COSTS = [50, 100, 150, 200, 250] // sum = 750 to reach max
+export const LEVEL_UP_COSTS = [50000, 100000, 250000, 500000, 100000] // 
 export const MAX_CARD_LEVEL  = LEVEL_UP_COSTS.length
 
 /** Stat bonuses applied per level (cumulative). */
