@@ -188,7 +188,7 @@ export function CityBuilder({ onBack }: Props) {
     (placedCounts[c.name] ?? 0) < getOwnedCount(collection, c.name)
   )
 
-  const levellable = catalog.filter(c => getOwnedCount(collection, c.name) > 0)
+  const levellable = catalog.filter(c => c.cardType === 'structure' && getOwnedCount(collection, c.name) > 0)
 
   const incomeRate = Math.round(goldIncomeRate(city))
   const wageRate   = Math.round(goldWageRate(city))
@@ -374,8 +374,8 @@ export function CityBuilder({ onBack }: Props) {
       </div>
 
       {/* Level up section */}
-      <div className="city-section-title">LEVEL UP CARDS</div>
-      <div className="city-hint">Spend gold to permanently boost cards in battle.</div>
+      <div className="city-section-title">LEVEL UP BUILDINGS</div>
+      <div className="city-hint">Spend gold to permanently boost your structures in battle.</div>
       <div className="city-level-grid">
         {levellable.map(card => {
           const level     = getCardLevel(city, card.name)
