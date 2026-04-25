@@ -145,7 +145,11 @@ export async function uploadNewsImage(file: File): Promise<string> {
     method: 'POST',
     body: form,
   })
-  if (!res.ok) throw new Error(`Cloudinary upload failed: ${res.statusText}`)
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({})) as { error?: { message?: string } }
+    const detail = body?.error?.message ?? res.statusText
+    throw new Error(`Cloudinary upload failed: ${detail}`)
+  }
   const data = await res.json() as { secure_url: string }
   return data.secure_url
 }
