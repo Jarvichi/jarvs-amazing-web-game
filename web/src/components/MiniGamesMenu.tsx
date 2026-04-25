@@ -22,6 +22,7 @@ import { MarbleRace }     from './minigames/MarbleRace'
 import { HigherOrLower }  from './minigames/HigherOrLower'
 import { FruitMachine }   from './minigames/FruitMachine'
 import { VideoPoker }     from './minigames/VideoPoker'
+import { CityBuilder }    from './minigames/CityBuilder'
 
 interface Props {
   crystals:          number
@@ -31,7 +32,7 @@ interface Props {
   onBack:            () => void
 }
 
-type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard'
+type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder'
 
 // Pick N random cards from catalog, optionally filtered by rarity
 function pickRandomCards(count: number, rarity?: 'uncommon' | 'rare' | 'legendary'): string[] {
@@ -218,6 +219,9 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
   if (subScreen === 'videoPoker') {
     return <VideoPoker onDone={(t) => handleGameDone('videoPoker', t)} />
   }
+  if (subScreen === 'citybuilder') {
+    return <CityBuilder onBack={() => setSubScreen('menu')} />
+  }
 
   return (
     <div className="minigame-hub">
@@ -261,6 +265,18 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
                 </div>
               )
             })}
+          </div>
+
+          {/* City Builder — separate from the ticket economy */}
+          <div className="city-builder-hub-entry">
+            <div className="city-builder-hub-icon">🏙</div>
+            <div className="city-builder-hub-info">
+              <div className="city-builder-hub-name">CITY BUILDER</div>
+              <div className="city-builder-hub-desc">Place units &amp; buildings to earn gold. Level up your cards permanently.</div>
+            </div>
+            <button className="action-btn action-btn--gold" onClick={() => setSubScreen('citybuilder')}>
+              ENTER
+            </button>
           </div>
 
           <div className="minigame-coming-soon">✦ More games coming soon! ✦</div>

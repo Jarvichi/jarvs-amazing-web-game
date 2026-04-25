@@ -12,6 +12,7 @@ import { CardTile } from './CardTile'
 import { ModalBackdrop } from './ModalBackdrop'
 import { MasteryBar } from './MasteryBar'
 import { StatRow } from './StatRow'
+import { loadCityState, getCardLevel, LEVEL_ATK_BONUS, LEVEL_MAX_HP_BONUS } from '../game/cityBuilder'
 
 interface Props {
   card: Card
@@ -63,6 +64,10 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
   const atkBonus = (u && u.moveSpeed > 0) ? masteryLvl : 0
   const hpBonus  = u ? (u.moveSpeed > 0 ? masteryLvl * 2 : masteryLvl * 10) : 0
 
+  const cityLevel   = getCardLevel(loadCityState(), card.name)
+  const cityAtkBonus  = cityLevel * LEVEL_ATK_BONUS
+  const cityHpBonus   = cityLevel * LEVEL_MAX_HP_BONUS
+
   // Build trait tags
   const traits: string[] = []
   if (u) {
@@ -96,6 +101,12 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
           <div className="cdm-card-col">
             <CardTile card={card} canAfford={true} />
             <div className="cdm-owned">×{owned} owned{inDeck > 0 ? ` · ×${inDeck} in deck` : ''}</div>
+            {cityLevel > 0 && (
+              <div className="cdm-city-level">
+                {'★'.repeat(cityLevel)} LVL {cityLevel}
+                {' '}(+{cityAtkBonus} ATK / +{cityHpBonus} HP)
+              </div>
+            )}
           </div>
 
           {/* Right: stats */}
