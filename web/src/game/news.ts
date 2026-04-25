@@ -16,7 +16,8 @@
 //   imageUrl: string  (optional, URL of an image to display in the post)
 
 import { collection, getDocs, doc, setDoc, deleteDoc } from 'firebase/firestore'
-import { db } from '../firebase'
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { db, storage } from '../firebase'
 import { logError } from '../logger'
 import newsData from '../data/news.json'
 
@@ -120,4 +121,21 @@ export async function saveNewsToFirestore(item: NewsItem): Promise<void> {
 /** Delete a news document from Firestore. */
 export async function deleteNewsFromFirestore(id: string): Promise<void> {
   await deleteDoc(doc(db, 'news', id))
+}
+
+/**
+ * Upload an image file to Firebase Storage under news-images/.
+ * Returns the public download URL.
+ *
+ * Storage rules required (deploy via Firebase Console or CLI):
+ *   match /news-images/{filename} {
+ *     allow read: if true;
+ *     allow write: if request.auth.uid == "pAB2tLH049PCOI73cQpFlisKpDw1";
+ *   }
+ */
+export async function uploadNewsImage(file: File, newsId: string): Promise<string> {
+  const ext = file.name.split('.').pop() ?? 'jpg'
+  const storageRef = ref(storage, `news-images/${newsId}_${Date.now()}.${ext}`)
+  await uploadBytes(storageRef, file)
+  return getDownloadURL(storageRef)
 }
