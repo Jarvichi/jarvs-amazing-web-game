@@ -16,8 +16,7 @@
 //   imageUrl: string  (optional, URL of an image to display in the post)
 
 import { collection, getDocs, doc, setDoc, deleteDoc } from 'firebase/firestore'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { db, storage } from '../firebase'
+import { db } from '../firebase'
 import { logError } from '../logger'
 import newsData from '../data/news.json'
 
@@ -124,18 +123,29 @@ export async function deleteNewsFromFirestore(id: string): Promise<void> {
 }
 
 /**
- * Upload an image file to Firebase Storage under news-images/.
- * Returns the public download URL.
+ * Upload an image to Cloudinary using an unsigned upload preset.
+ * Returns the secure CDN URL.
  *
- * Storage rules required (deploy via Firebase Console or CLI):
- *   match /news-images/{filename} {
- *     allow read: if true;
- *     allow write: if request.auth.uid == "pAB2tLH049PCOI73cQpFlisKpDw1";
- *   }
+ * Required env vars (add to .env and GitHub Actions secrets):
+ *   VITE_CLOUDINARY_CLOUD_NAME   — your Cloudinary cloud name
+ *   VITE_CLOUDINARY_UPLOAD_PRESET — an unsigned upload preset name
+ *
+ * Create an unsigned preset at:
+ *   Cloudinary Dashboard → Settings → Upload → Upload presets → Add preset
+ *   (set Signing Mode to "Unsigned")
  */
-export async function uploadNewsImage(file: File, newsId: string): Promise<string> {
-  const ext = file.name.split('.').pop() ?? 'jpg'
-  const storageRef = ref(storage, `news-images/${newsId}_${Date.now()}.${ext}`)
-  await uploadBytes(storageRef, file)
-  return getDownloadURL(storageRef)
+export async function uploadNewsImage(file: File): Promise<string> {
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME as string
+  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET as string
+  const form = new FormData()
+  form.append('file', file)
+  form.append('upload_preset', uploadPreset)
+  form.append('folder', 'news-images')
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+    method: 'POST',
+    body: form,
+  })
+  if (!res.ok) throw new Error(`Cloudinary upload failed: ${res.statusText}`)
+  const data = await res.json() as { secure_url: string }
+  return data.secure_url
 }
