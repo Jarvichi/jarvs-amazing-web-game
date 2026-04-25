@@ -22,7 +22,7 @@ export type UpgradeEffect =
 
 // ─── Cards ───────────────────────────────────────────────
 
-export type CardRarity = 'common' | 'uncommon' | 'rare' | 'legendary'
+export type CardRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary'
 export type CardType = 'unit' | 'structure' | 'upgrade'
 
 export interface UnitTemplate {

@@ -166,6 +166,7 @@ export const SHOP_CARD_PRICES: Record<CardRarity, number> = {
   common:    30,
   uncommon:  75,
   rare:      180,
+  epic:      250,
   legendary: 350,
 }
 

@@ -19,11 +19,11 @@ export const CELL_PX = 72
 const MAX_OFFLINE_MINUTES = 480
 
 /** Income per minute for spawn buildings. */
-const INCOME_SPAWN: Record<CardRarity, number> = { common: 2, uncommon: 4, rare: 6, legendary: 10 }
+const INCOME_SPAWN: Record<CardRarity, number> = { common: 2, uncommon: 4, rare: 6, epic: 8, legendary: 10 }
 /** Income per minute for utility buildings. */
-const INCOME_UTILITY: Record<CardRarity, number> = { common: 1, uncommon: 3, rare: 5, legendary: 8 }
+const INCOME_UTILITY: Record<CardRarity, number> = { common: 1, uncommon: 3, rare: 5, epic: 7, legendary: 8 }
 /** Income per minute for wall / no-effect structures. */
-const INCOME_WALL: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 1, legendary: 2 }
+const INCOME_WALL: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 1, epic: 2, legendary: 2 }
 
 /** Happiness regeneration per minute toward the target value. */
 const HAPPINESS_REGEN = 15
@@ -40,18 +40,19 @@ export const LEVEL_MAX_HP_BONUS = 2
 // ── Resource constants ────────────────────────────────────────────────────────
 
 /** Defence value contributed by walls (per rarity). */
-const WALL_DEFENSE: Record<CardRarity, number> = { common: 5, uncommon: 10, rare: 20, legendary: 40 }
+const WALL_DEFENSE: Record<CardRarity, number> = { common: 5, uncommon: 10, rare: 20, epic: 30, legendary: 40 }
 /** Defence value contributed by spawn buildings (per rarity). */
-const SPAWN_DEFENSE: Record<CardRarity, number> = { common: 3, uncommon: 6, rare: 12, legendary: 25 }
+const SPAWN_DEFENSE: Record<CardRarity, number> = { common: 3, uncommon: 6, rare: 12, epic: 18, legendary: 25 }
 
 /** Wheat consumed per minute by a spawn building (units need feeding). */
-const FOOD_CONSUME_RATE: Record<CardRarity, number> = { common: 1, uncommon: 2, rare: 3, legendary: 5 }
+const FOOD_CONSUME_RATE: Record<CardRarity, number> = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 }
 
 /** Resource cost to place a spawner of a given rarity. */
 export const SPAWNER_PLACE_COST: Record<CardRarity, Partial<ResourceStock>> = {
   common:    { wheat: 20 },
   uncommon:  { wheat: 30, wood: 10 },
   rare:      { wheat: 50, wood: 20, ore: 10 },
+  epic:      { wheat: 65, wood: 30, ore: 15 },
   legendary: { wheat: 80, wood: 40, ore: 20 },
 }
 
