@@ -64,14 +64,10 @@ export function NewsAdminScreen({ onBack }: Props) {
   }
 
   async function handleImageFile(file: File) {
-    if (!draft.id) {
-      setStatus('Set an ID before uploading an image.')
-      return
-    }
     setUploading(true)
     setStatus(null)
     try {
-      const url = await uploadNewsImage(file, draft.id)
+      const url = await uploadNewsImage(file)
       setDraft(d => ({ ...d, imageUrl: url }))
       setStatus('Image uploaded.')
     } catch (e) {
