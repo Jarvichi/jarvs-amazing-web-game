@@ -73,22 +73,29 @@ export const RESOURCE_ICONS: Record<ResourceType, string> = {
  * Buildings not listed here fall back to keyword matching in getBuildingResourceConfig.
  */
 const BUILDING_RESOURCE_CONFIG: Record<string, Partial<ResourceStock>> = {
-  'Farm':         { wheat: 3 },
-  'Canopy Farm':  { wheat: 4 },
-  'Blacksmith':   { metal: 1 },
-  'Stone Mason':  { planks: 2 },
-  'Cryo Forge':   { metal: 1 },
+  'Farm':            { wheat: 3 },
+  'Canopy Farm':     { wheat: 4 },
+  'Bloom Garden':    { wheat: 2 },
+  'Scout Garden':    { wheat: 2 },
+  'Drift Garden':    { wheat: 2 },
+  'Pixie Garden':    { wheat: 3 },
+  'Oasis Well':      { wheat: 2 },
+  'Ancient Spring':  { wheat: 1 },
+  'Blacksmith':      { metal: 1 },
+  'Stone Mason':     { planks: 2 },
+  'Cryo Forge':      { metal: 1 },
   'Clockwork Forge': { metal: 2 },
-  'Titan Forge':  { metal: 2 },
-  'Glacial Forge':{ metal: 1 },
-  'Golem Forge':  { metal: 2 },
-  'Arcane Forge': { metal: 1 },
+  'Titan Forge':     { metal: 2 },
+  'Glacial Forge':   { metal: 1 },
+  'Golem Forge':     { metal: 2 },
+  'Arcane Forge':    { metal: 1 },
   'Automaton Forge': { metal: 2 },
 }
 
 /** Keyword patterns for resource production fallback (checked in order). */
 const KEYWORD_RESOURCE: Array<{ pattern: RegExp; produces: Partial<ResourceStock> }> = [
   { pattern: /farm/i,       produces: { wheat: 2 } },
+  { pattern: /garden|orchard/i, produces: { wheat: 2 } },
   { pattern: /forge|smith/i, produces: { metal: 1 } },
   { pattern: /mason|quarry|stone/i, produces: { planks: 1, ore: 1 } },
   { pattern: /lumber|sawmill|timber/i, produces: { wood: 3 } },
@@ -96,7 +103,7 @@ const KEYWORD_RESOURCE: Array<{ pattern: RegExp; produces: Partial<ResourceStock
   { pattern: /mine|iron hall/i, produces: { ore: 2 } },
 ]
 
-function getBuildingProduces(name: string): Partial<ResourceStock> {
+export function getBuildingProduces(name: string): Partial<ResourceStock> {
   if (BUILDING_RESOURCE_CONFIG[name]) return BUILDING_RESOURCE_CONFIG[name]
   for (const { pattern, produces } of KEYWORD_RESOURCE) {
     if (pattern.test(name)) return produces
