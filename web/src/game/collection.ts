@@ -333,24 +333,36 @@ function applyMasteryBonus(card: Card, lvl: number): Card {
     u.attack = u.attack + lvl
     u.maxHp  = u.maxHp  + lvl * 2
   } else {
-    // Structures: +10% HP per mastery level
+    // Structures: +10% HP per mastery level (all types)
     u.maxHp = Math.round(u.maxHp * (1 + 0.1 * lvl))
-    // Mastery 5 unlocks a type-specific bonus
-    if (lvl >= 5) {
-      if (u.isWall) {
-        // Walls gain a self-repair aura (2 HP every 6 s)
-        u.structureEffect = { type: 'repairAura', amount: 2, intervalMs: 6000 }
-      } else if (u.structureEffect?.type === 'spawn') {
-        // Spawners get 25% faster spawn rate
-        const e = { ...(u.structureEffect as { type: 'spawn'; unitTemplate: import('./types').UnitTemplate; intervalMs: number }) }
-        e.intervalMs = Math.round(e.intervalMs * 0.75)
-        u.structureEffect = e
-      } else if (u.structureEffect?.type === 'mana') {
-        // Farms produce 1 extra mana
-        const e = { ...(u.structureEffect as { type: 'mana'; amount: number }) }
-        e.amount = e.amount + 1
-        u.structureEffect = e
+    if (u.isWall) {
+      // Lv5: walls gain a self-repair aura (2 HP every 6 s)
+      if (lvl >= 5) u.structureEffect = { type: 'repairAura', amount: 2, intervalMs: 6000 }
+    } else if (u.structureEffect) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const e = { ...u.structureEffect } as any
+      if (e.type === 'spawn') {
+        // −5% spawn interval per mastery level (cumulative)
+        e.intervalMs = Math.round(e.intervalMs * Math.pow(0.95, lvl))
+      } else if (e.type === 'mana') {
+        // Lv5: produce 1 extra mana per turn
+        if (lvl >= 5) e.amount = e.amount + 1
+      } else if (e.type === 'healAura') {
+        // +1 heal per mastery level; Lv5: 25% faster pulse
+        e.amount = e.amount + lvl
+        if (lvl >= 5) e.intervalMs = Math.round(e.intervalMs * 0.75)
+      } else if (e.type === 'repairAura') {
+        // +1 repair per mastery level; Lv5: 25% faster pulse
+        e.amount = e.amount + lvl
+        if (lvl >= 5) e.intervalMs = Math.round(e.intervalMs * 0.75)
+      } else if (e.type === 'attackAura') {
+        // +1 ATK aura per 2 mastery levels
+        e.amount = e.amount + Math.floor(lvl / 2)
+      } else if (e.type === 'manaSpeed') {
+        // 4% faster mana regen per mastery level (speedMult floored at 0.1)
+        e.speedMult = Math.max(0.1, +(e.speedMult - lvl * 0.04).toFixed(2))
       }
+      u.structureEffect = e
     }
   }
   return { ...card, unit: u }
