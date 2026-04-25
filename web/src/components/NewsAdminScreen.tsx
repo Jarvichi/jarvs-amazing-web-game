@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { OverlayScreen } from './OverlayScreen'
 import { Section } from './Section'
-import { NewsItem, NEWS_TAGS, getAllNews, saveNewsToFirestore, deleteNewsFromFirestore } from '../game/news'
+import { NewsItem, NEWS_TAGS, getAllNews, saveNewsToFirestore, deleteNewsFromFirestore, uploadNewsImage } from '../game/news'
 
 interface Props {
   onBack: () => void
@@ -26,6 +26,7 @@ export function NewsAdminScreen({ onBack }: Props) {
   const [loading, setLoading] = useState(true)
   const [draft, setDraft] = useState(blankItem())
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [status, setStatus] = useState<string | null>(null)
 
   function refresh() {
@@ -59,6 +60,24 @@ export function NewsAdminScreen({ onBack }: Props) {
       setStatus(`Error: ${String(e)}`)
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function handleImageFile(file: File) {
+    if (!draft.id) {
+      setStatus('Set an ID before uploading an image.')
+      return
+    }
+    setUploading(true)
+    setStatus(null)
+    try {
+      const url = await uploadNewsImage(file, draft.id)
+      setDraft(d => ({ ...d, imageUrl: url }))
+      setStatus('Image uploaded.')
+    } catch (e) {
+      setStatus(`Upload error: ${String(e)}`)
+    } finally {
+      setUploading(false)
     }
   }
 
@@ -133,17 +152,29 @@ export function NewsAdminScreen({ onBack }: Props) {
           </div>
 
           <div>
-            <div className="settings-label">Image URL (optional)</div>
+            <div className="settings-label">Image (optional)</div>
             <input
+              type="file"
+              accept="image/*"
               className="settings-text-input"
-              style={{ width: '100%' }}
-              value={draft.imageUrl ?? ''}
-              onChange={e => setDraft(d => ({ ...d, imageUrl: e.target.value || undefined }))}
-              placeholder="https://…"
+              style={{ cursor: 'pointer' }}
+              disabled={uploading}
+              onChange={e => { const f = e.target.files?.[0]; if (f) handleImageFile(f) }}
             />
+            {uploading && <div className="settings-label" style={{ marginTop: '4px' }}>Uploading…</div>}
+            {draft.imageUrl && !uploading && (
+              <div style={{ marginTop: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <img src={draft.imageUrl} alt="preview" style={{ maxHeight: '80px', maxWidth: '160px', objectFit: 'cover', borderRadius: '3px', border: '1px solid var(--game-border)' }} />
+                <button
+                  className="action-btn action-btn--danger"
+                  style={{ padding: '2px 8px', fontSize: '11px' }}
+                  onClick={() => setDraft(d => ({ ...d, imageUrl: undefined }))}
+                >REMOVE</button>
+              </div>
+            )}
           </div>
 
-          <button className="action-btn" onClick={handleCreate} disabled={saving}>
+          <button className="action-btn" onClick={handleCreate} disabled={saving || uploading}>
             {saving ? 'SAVING…' : 'CREATE POST'}
           </button>
           {status && <div className="settings-label" style={{ color: status.startsWith('Error') ? '#ff4444' : '#33ff33' }}>{status}</div>}
