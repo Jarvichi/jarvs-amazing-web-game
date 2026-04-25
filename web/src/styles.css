@@ -9161,6 +9161,79 @@ html.light-mode .action-btn {
 .city-cost-row--done { color: #3a5a3a; text-decoration: line-through; }
 .city-level-maxed    { font-size: 14px; color: #d0a030; letter-spacing: 2px; margin-top: 8px; }
 
+/* ── City Stats Row ───────────────────────────────────────────────────────── */
+
+.city-stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 4px 8px 6px;
+}
+
+.city-stat {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  background: #0a150a;
+  border: 1px solid #1a3a1a;
+  border-radius: 3px;
+  padding: 2px 6px;
+  color: #90c090;
+}
+
+.city-stat--defense    { border-color: #2a4a8a; color: #80a0d0; }
+.city-stat--population { border-color: #5a3a8a; color: #b090d0; }
+.city-res-pos { color: #60d060; font-size: 9px; margin-left: 2px; }
+.city-res-neg { color: #d06060; font-size: 9px; margin-left: 2px; }
+
+/* ── Speech Bubble ────────────────────────────────────────────────────────── */
+
+.city-speech-bubble {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  border: 1px solid #40a040;
+  border-radius: 4px;
+  padding: 2px 3px;
+  pointer-events: none;
+  white-space: nowrap;
+  animation: city-bubble-pulse 2s ease-in-out infinite;
+}
+
+.city-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #40a040;
+}
+
+.city-speech-icon { width: 12px; height: 12px; image-rendering: pixelated; display: block; }
+
+@keyframes city-bubble-pulse {
+  0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  50%       { opacity: 0.7; transform: translateX(-50%) translateY(-2px); }
+}
+
+/* ── Picker resource cost ─────────────────────────────────────────────────── */
+
+.city-picker-cost {
+  font-size: 9px;
+  color: #a07030;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+.city-picker-card--unaffordable {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 /* ── Card tile level badge ────────────────────────────────────────────────── */
 
 .card-city-level {
