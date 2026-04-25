@@ -17,7 +17,7 @@ interface Props {
 }
 
 const SYMBOLS = ['🍒', '🍋', '🍊', '🍇', '⭐', '🔔', '💎', '🃏', '🌟', '💰']
-const WEIGHTS  = [ 25,   17,   17,   12,    7,    5,    2,    3,    4,    8]
+const WEIGHTS  = [ 20,   25,   25,   25,    10,    5,    2,    5,    1,    5]
 
 const WILD    = '🃏'
 const FEATURE = '🌟'
@@ -33,9 +33,9 @@ const FEATURE_THRESHOLD    = 5    // feature triggers needed for bonus
 const FEATURE_BONUS_CREDITS = 15  // credits awarded when feature fires
 
 const JACKPOT_TIERS = [
-  { name: 'Mini',  credits: 50,  progressive: false, base: 50  },
-  { name: 'Minor', credits: 100, progressive: false, base: 100 },
-  { name: 'Major', credits: 250, progressive: false, base: 250 },
+  { name: 'Mini',  credits: 10,  progressive: false, base: 10  },
+  { name: 'Minor', credits: 25, progressive: false, base: 25 },
+  { name: 'Major', credits: 50, progressive: false, base: 50 },
   { name: 'Grand', credits: 0,   progressive: true,  base: 500 },
 ] as const
 
