@@ -132,6 +132,17 @@ export function NewsAdminScreen({ onBack }: Props) {
             />
           </div>
 
+          <div>
+            <div className="settings-label">Image URL (optional)</div>
+            <input
+              className="settings-text-input"
+              style={{ width: '100%' }}
+              value={draft.imageUrl ?? ''}
+              onChange={e => setDraft(d => ({ ...d, imageUrl: e.target.value || undefined }))}
+              placeholder="https://…"
+            />
+          </div>
+
           <button className="action-btn" onClick={handleCreate} disabled={saving}>
             {saving ? 'SAVING…' : 'CREATE POST'}
           </button>
@@ -156,6 +167,13 @@ export function NewsAdminScreen({ onBack }: Props) {
               </button>
             </div>
             <div className="news-item__title">{item.title}</div>
+            {item.imageUrl && (
+              <img
+                className="news-item__image"
+                src={item.imageUrl}
+                alt={item.title}
+              />
+            )}
             <div className="news-item__body">{item.body}</div>
           </div>
         ))}
