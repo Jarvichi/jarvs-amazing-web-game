@@ -9237,6 +9237,13 @@ html.light-mode .action-btn {
   letter-spacing: 0.5px;
 }
 
+.city-picker-produces {
+  font-size: 9px;
+  color: #4a9a4a;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
 .city-picker-card--unaffordable {
   opacity: 0.4;
   cursor: not-allowed;
