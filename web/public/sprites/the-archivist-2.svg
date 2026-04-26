@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <circle cx="16" cy="7" r="4" fill="#D4AC68"/>
+  <circle cx="14" cy="7" r="1.5" fill="none" stroke="#8B6B3D" stroke-width="0.7"/>
+  <circle cx="18" cy="7" r="1.5" fill="none" stroke="#8B6B3D" stroke-width="0.7"/>
+  <line x1="15.5" y1="7" x2="16.5" y2="7" stroke="#8B6B3D" stroke-width="0.7"/>
+  <line x1="12.5" y1="7" x2="12" y2="6.5" stroke="#8B6B3D" stroke-width="0.7"/>
+  <line x1="19.5" y1="7" x2="20" y2="6.5" stroke="#8B6B3D" stroke-width="0.7"/>
+  <circle cx="14" cy="7" r="0.7" fill="#4A2C17"/>
+  <circle cx="18" cy="7" r="0.7" fill="#4A2C17"/>
+  <ellipse cx="16" cy="4" rx="4" ry="2" fill="#4A2C17"/>
+  <rect x="10" y="11" width="12" height="13" rx="2" fill="#5C3A1E"/>
+  <rect x="10" y="11" width="12" height="3" rx="2" fill="#7A4E28"/>
+  <rect x="3" y="12" width="5" height="8" rx="1" fill="#D4AC68"/>
+  <line x1="4" y1="14" x2="7" y2="14" stroke="#8B6B3D" stroke-width="0.6"/>
+  <line x1="4" y1="16" x2="7" y2="16" stroke="#8B6B3D" stroke-width="0.6"/>
+  <line x1="4" y1="18" x2="7" y2="18" stroke="#8B6B3D" stroke-width="0.6"/>
+  <rect x="5" y="11" width="5" height="9" rx="1" fill="#5C3A1E"/>
+  <rect x="22" y="11" width="5" height="9" rx="1" fill="#5C3A1E"/>
+  <polygon points="25,5 27,2 27,9 25,9" fill="#F9CA24"/>
+  <rect x="25.5" y="9" width="1" height="5" fill="#4A2C17"/>
+  <!-- Legs bob down -->
+  <rect x="11" y="24" width="4" height="7" rx="1" fill="#5C3A1E"/>
+  <rect x="17" y="24" width="4" height="7" rx="1" fill="#5C3A1E"/>
+</svg>

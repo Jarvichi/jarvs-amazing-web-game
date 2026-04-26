@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="2" rx="6" ry="2" fill="#5D6D7E" opacity="0.7"/>
+  <!-- Lightning cast from right hand -->
+  <polygon points="23,9 28,7 25,12 30,10 26,16" fill="#FFD166"/>
+  <circle cx="16" cy="7" r="4" fill="#C9A87C"/>
+  <rect x="12" y="3" width="8" height="3" rx="1" fill="#2C1654"/>
+  <polygon points="12,4 9,1 13,3" fill="#2C1654"/>
+  <polygon points="20,4 23,1 19,3" fill="#2C1654"/>
+  <circle cx="14.5" cy="7" r="1.2" fill="#74B9FF"/>
+  <circle cx="17.5" cy="7" r="1.2" fill="#74B9FF"/>
+  <circle cx="14.5" cy="7" r="0.6" fill="#0984E3"/>
+  <circle cx="17.5" cy="7" r="0.6" fill="#0984E3"/>
+  <rect x="10" y="11" width="12" height="12" rx="2" fill="#2C1654"/>
+  <rect x="10" y="11" width="12" height="4" rx="2" fill="#4A2080"/>
+  <polygon points="14,14 16,12 16,16 18,14 16,18 16,14" fill="#FFD166"/>
+  <rect x="4" y="2" width="2" height="20" rx="1" fill="#8B5E3C"/>
+  <circle cx="5" cy="2" r="3" fill="#5D6D7E" opacity="0.5"/>
+  <circle cx="5" cy="2" r="2" fill="#74B9FF"/>
+  <circle cx="5" cy="2" r="1" fill="#A8E6FF"/>
+  <rect x="5" y="11" width="5" height="9" rx="1" fill="#2C1654"/>
+  <!-- Right arm raised casting -->
+  <rect x="17" y="8" width="5" height="9" rx="1" fill="#2C1654"/>
+  <!-- Legs stride B -->
+  <rect x="11" y="23" width="4" height="8" rx="1" fill="#2C1654" transform="rotate(4 13 27)"/>
+  <rect x="17" y="23" width="4" height="8" rx="1" fill="#2C1654" transform="rotate(-4 19 27)"/>
+</svg>

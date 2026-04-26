@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Massive blocky head -->
+  <rect x="7" y="1" width="18" height="13" rx="2" fill="#B8860B"/>
+  <rect x="7" y="1" width="18" height="6" rx="2" fill="#D4AF37"/>
+  <!-- Rivets on corners -->
+  <circle cx="9" cy="3" r="0.8" fill="#7D5A00"/>
+  <circle cx="23" cy="3" r="0.8" fill="#7D5A00"/>
+  <circle cx="9" cy="12" r="0.8" fill="#7D5A00"/>
+  <circle cx="23" cy="12" r="0.8" fill="#7D5A00"/>
+  <!-- Glowing teal gem eyes -->
+  <rect x="10" y="5" width="5" height="4" rx="1" fill="#00CEC9"/>
+  <rect x="17" y="5" width="5" height="4" rx="1" fill="#00CEC9"/>
+  <rect x="11" y="5.5" width="3" height="3" rx="0.5" fill="#81ECEC"/>
+  <rect x="18" y="5.5" width="3" height="3" rx="0.5" fill="#81ECEC"/>
+  <!-- Jaw grate -->
+  <rect x="11" y="10" width="10" height="3" rx="1" fill="#7D5A00"/>
+  <line x1="14" y1="10" x2="14" y2="13" stroke="#B8860B" stroke-width="0.6"/>
+  <line x1="18" y1="10" x2="18" y2="13" stroke="#B8860B" stroke-width="0.6"/>
+  <!-- Massive body -->
+  <rect x="5" y="14" width="22" height="13" rx="2" fill="#9A7000"/>
+  <!-- Chest gem -->
+  <rect x="12" y="17" width="8" height="6" rx="1" fill="#B8860B"/>
+  <circle cx="16" cy="20" r="3" fill="#00CEC9" opacity="0.9"/>
+  <circle cx="16" cy="20" r="1.5" fill="#81ECEC"/>
+  <!-- Heavy arms -->
+  <rect x="0" y="14" width="5" height="11" rx="1" fill="#9A7000"/>
+  <rect x="27" y="14" width="5" height="11" rx="1" fill="#9A7000"/>
+  <!-- Arm shoulder joints -->
+  <circle cx="2.5" cy="14" r="2" fill="#B8860B"/>
+  <circle cx="29.5" cy="14" r="2" fill="#B8860B"/>
+  <!-- Fists -->
+  <rect x="0" y="23" width="6" height="5" rx="1" fill="#7D5A00"/>
+  <rect x="26" y="23" width="6" height="5" rx="1" fill="#7D5A00"/>
+  <!-- Heavy legs -->
+  <rect x="7" y="27" width="7" height="5" rx="1" fill="#9A7000"/>
+  <rect x="18" y="27" width="7" height="5" rx="1" fill="#9A7000"/>
+</svg>

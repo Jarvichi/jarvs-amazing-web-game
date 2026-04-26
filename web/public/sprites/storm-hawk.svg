@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Wings spread -->
+  <polygon points="16,14 2,7 0,17 8,15" fill="#1E3A5F"/>
+  <polygon points="16,14 30,7 32,17 24,15" fill="#1E3A5F"/>
+  <!-- Wing secondary feathers -->
+  <polygon points="7,15 0,17 2,21 9,18" fill="#2C5F8A"/>
+  <polygon points="25,15 32,17 30,21 23,18" fill="#2C5F8A"/>
+  <!-- Lightning markings on wings -->
+  <polygon points="3,10 6,8 5,12 7,10 5,14" fill="#F8B400" opacity="0.85"/>
+  <polygon points="29,10 26,8 27,12 25,10 27,14" fill="#F8B400" opacity="0.85"/>
+  <!-- Body -->
+  <ellipse cx="16" cy="15" rx="5" ry="5" fill="#1A2B3F"/>
+  <!-- Head -->
+  <circle cx="16" cy="10" r="3.5" fill="#1E3A5F"/>
+  <!-- Crest feathers -->
+  <polygon points="14,7 15,4 16,7" fill="#2C5F8A"/>
+  <polygon points="16,6 17,3 18,6" fill="#3B7DBF"/>
+  <!-- Beak -->
+  <polygon points="19,9 24,10 19,11" fill="#F8B400"/>
+  <!-- Eye -->
+  <circle cx="18" cy="9.5" r="1.2" fill="#F8B400"/>
+  <circle cx="18.3" cy="9.2" r="0.5" fill="#1A2B3F"/>
+  <!-- Storm blue chest patch -->
+  <ellipse cx="16" cy="16" rx="3" ry="3" fill="#3B7DBF" opacity="0.6"/>
+  <!-- Talons -->
+  <ellipse cx="13" cy="21" rx="2" ry="3" fill="#1E3A5F"/>
+  <ellipse cx="19" cy="21" rx="2" ry="3" fill="#1E3A5F"/>
+  <polygon points="11,23 9,26 13,24" fill="#F8B400"/>
+  <polygon points="15,24 14,27 16,25" fill="#F8B400"/>
+  <polygon points="21,23 23,26 19,24" fill="#F8B400"/>
+</svg>
