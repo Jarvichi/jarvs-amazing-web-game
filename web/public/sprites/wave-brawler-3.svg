@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Wave Brawler — frame 3 (body 1px down, right leg fwd, left leg back — mirror of 1) -->
+  <!-- Right leg forward 2px -->
+  <rect x="19" y="23" width="4" height="8" rx="1" fill="#2266aa" transform="rotate(-10,21,27)"/>
+  <!-- Left leg back -->
+  <rect x="9" y="23" width="4" height="8" rx="1" fill="#2266aa" transform="rotate(7,11,27)"/>
+  <!-- Feet -->
+  <ellipse cx="22" cy="30" rx="2.5" ry="1.2" fill="#1a4a88"/>
+  <ellipse cx="11" cy="30" rx="2.5" ry="1.2" fill="#1a4a88"/>
+  <!-- Muscular chest shifted 1px down -->
+  <rect x="9" y="13" width="14" height="11" rx="2" fill="#2266aa" stroke="#1a4a88" stroke-width="1"/>
+  <!-- Wave pattern -->
+  <path d="M9,19 Q12,17 15,19 Q18,21 21,19 Q22,18 23,19" fill="none" stroke="#aaddee" stroke-width="1.2" opacity="0.7"/>
+  <path d="M9,22 Q12,20 15,22 Q18,24 21,22 Q22,21 23,22" fill="none" stroke="#44aacc" stroke-width="0.8" opacity="0.5"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="10" rx="4.5" ry="4.5" fill="#228899"/>
+  <circle cx="14.5" cy="9.5" r="0.8" fill="#002244"/>
+  <circle cx="17.5" cy="9.5" r="0.8" fill="#002244"/>
+  <!-- Arms / fists — right raised, left back -->
+  <rect x="5" y="15" width="4" height="7" rx="1" fill="#2266aa"/>
+  <path d="M5,16 Q3,13 5,15" fill="#228899"/>
+  <rect x="23" y="15" width="4" height="7" rx="1" fill="#2266aa"/>
+  <path d="M27,16 Q29,13 27,15" fill="#228899"/>
+  <!-- Raised fists -->
+  <rect x="5" y="15" width="4" height="3" rx="1" fill="#44aacc"/>
+  <rect x="23" y="12" width="4" height="3" rx="1" fill="#44aacc"/>
+  <ellipse cx="16" cy="15" rx="4" ry="2" fill="#aaddee" opacity="0.3"/>
+</svg>
