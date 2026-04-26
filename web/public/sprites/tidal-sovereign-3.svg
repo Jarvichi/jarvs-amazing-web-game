@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tidal Sovereign — frame 3 (hover tilt right, body 1px lower, mirror of frame 1) -->
+  <!-- Robe body shifted down 1px -->
+  <polygon points="10,29 22,29 20,15 12,15" fill="#1a4a8a"/>
+  <polygon points="11,29 21,29 19,17 13,17" fill="#3366bb" opacity="0.5"/>
+  <path d="M20,15 Q24,21 23,29" fill="#1a4a8a" stroke="#3366bb" stroke-width="0.5"/>
+  <rect x="13" y="11" width="6" height="5" rx="1" fill="#1a4a8a"/>
+  <!-- Head slightly lower -->
+  <ellipse cx="16" cy="9" rx="4" ry="4" fill="#ffccaa"/>
+  <polygon points="12,6 13,3 15,5 16,2 17,5 19,3 20,6 12,6" fill="#ddaa22"/>
+  <rect x="12" y="6" width="8" height="1.5" fill="#ddaa22"/>
+  <circle cx="14.5" cy="9" r="0.7" fill="#002244"/>
+  <circle cx="17.5" cy="9" r="0.7" fill="#002244"/>
+  <!-- Trident tilted right slightly -->
+  <line x1="21" y1="7" x2="22" y2="27" stroke="#44aadd" stroke-width="1.2"/>
+  <path d="M19,7 L21,5 L23,7" fill="none" stroke="#44aadd" stroke-width="1"/>
+  <line x1="21" y1="5" x2="21" y2="8" stroke="#44aadd" stroke-width="1"/>
+  <line x1="10" y1="29" x2="22" y2="29" stroke="#ddaa22" stroke-width="1"/>
+  <line x1="13" y1="15" x2="19" y2="15" stroke="#ddaa22" stroke-width="0.8"/>
+  <ellipse cx="13" cy="29" rx="2" ry="1" fill="#1a3a6a"/>
+  <ellipse cx="19" cy="29" rx="2" ry="1" fill="#1a3a6a"/>
+</svg>

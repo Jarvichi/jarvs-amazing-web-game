@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tide Stalker — frame 2 (mid-stride: normal height, legs centered) -->
+  <ellipse cx="16" cy="18" rx="7" ry="6" fill="#112244"/>
+  <ellipse cx="16" cy="13" rx="5" ry="3.5" fill="#1a4455"/>
+  <ellipse cx="16" cy="11" rx="4" ry="3.5" fill="#112244"/>
+  <circle cx="14" cy="10" r="1.5" fill="#00ffcc"/>
+  <circle cx="18" cy="10" r="1.5" fill="#00ffcc"/>
+  <circle cx="14" cy="10" r="0.6" fill="#aaffee"/>
+  <circle cx="18" cy="10" r="0.6" fill="#aaffee"/>
+  <path d="M9,16 Q5,20 6,25" stroke="#334466" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M6,25 L4,27 M6,25 L7,28 M6,25 L8,26" stroke="#334466" stroke-width="1.2"/>
+  <path d="M23,16 Q27,20 26,25" stroke="#334466" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M26,25 L24,27 M26,25 L27,28 M26,25 L28,26" stroke="#334466" stroke-width="1.2"/>
+  <!-- Both legs near center -->
+  <rect x="13" y="23" width="3" height="6" rx="1" fill="#112244"/>
+  <rect x="16" y="23" width="3" height="6" rx="1" fill="#112244"/>
+  <circle cx="14" cy="17" r="0.8" fill="#00ffcc" opacity="0.5"/>
+  <circle cx="18" cy="19" r="0.8" fill="#00ffcc" opacity="0.5"/>
+</svg>

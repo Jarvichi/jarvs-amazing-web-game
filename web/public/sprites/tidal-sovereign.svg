@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tidal Sovereign — idle (regal water ruler) -->
+  <!-- Robe body -->
+  <polygon points="10,28 22,28 20,14 12,14" fill="#1a4a8a"/>
+  <polygon points="11,28 21,28 19,16 13,16" fill="#3366bb" opacity="0.5"/>
+  <!-- Cape -->
+  <path d="M12,14 Q8,20 9,28" fill="#1a4a8a" stroke="#3366bb" stroke-width="0.5"/>
+  <!-- Torso/neck -->
+  <rect x="13" y="10" width="6" height="5" rx="1" fill="#1a4a8a"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="8" rx="4" ry="4" fill="#ffccaa"/>
+  <!-- Crown -->
+  <polygon points="12,5 13,2 15,4 16,1 17,4 19,2 20,5 12,5" fill="#ddaa22"/>
+  <rect x="12" y="5" width="8" height="1.5" fill="#ddaa22"/>
+  <!-- Eyes -->
+  <circle cx="14.5" cy="8" r="0.7" fill="#002244"/>
+  <circle cx="17.5" cy="8" r="0.7" fill="#002244"/>
+  <!-- Trident (right hand) -->
+  <line x1="21" y1="6" x2="21" y2="26" stroke="#44aadd" stroke-width="1.2"/>
+  <path d="M19,6 L21,4 L23,6" fill="none" stroke="#44aadd" stroke-width="1"/>
+  <line x1="21" y1="4" x2="21" y2="7" stroke="#44aadd" stroke-width="1"/>
+  <!-- Gold trim on robe -->
+  <line x1="10" y1="28" x2="22" y2="28" stroke="#ddaa22" stroke-width="1"/>
+  <line x1="13" y1="14" x2="19" y2="14" stroke="#ddaa22" stroke-width="0.8"/>
+  <!-- Feet -->
+  <ellipse cx="13" cy="28" rx="2" ry="1" fill="#1a3a6a"/>
+  <ellipse cx="19" cy="28" rx="2" ry="1" fill="#1a3a6a"/>
+</svg>
