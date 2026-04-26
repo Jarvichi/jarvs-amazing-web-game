@@ -1813,6 +1813,86 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 1,
   },
 
+  // ── Quick Battle Mode Wins ────────────────────────────────────────────────
+
+  // Easy
+  { id: 'qb:win:easy:1',    name: 'Starter\'s Trophy',   description: 'Win your first Easy battle',      category: 'misc', progressKey: 'qb:win:easy', target: 1,    reward: { type: 'crystals', crystals: 25  }, tier: 1 },
+  { id: 'qb:win:easy:10',   name: 'The Warm-Up',         description: 'Win 10 Easy battles',             category: 'misc', progressKey: 'qb:win:easy', target: 10,   reward: { type: 'crystals', crystals: 100 }, tier: 1 },
+  { id: 'qb:win:easy:100',  name: 'Easy Street',         description: 'Win 100 Easy battles',            category: 'misc', progressKey: 'qb:win:easy', target: 100,  reward: { type: 'crystals', crystals: 300 }, tier: 2 },
+  { id: 'qb:win:easy:1000', name: 'Effortless',          description: 'Win 1,000 Easy battles',          category: 'misc', progressKey: 'qb:win:easy', target: 1000, reward: { type: 'item', item: { id: 'easy_1000_trophy', name: 'Easy Rider Trophy', icon: '🏅', desc: 'You have won 1,000 easy battles. Maybe try normal?' } }, tier: 2 },
+
+  // Normal
+  { id: 'qb:win:normal:1',    name: 'By the Book',         description: 'Win your first Normal battle',    category: 'misc', progressKey: 'qb:win:normal', target: 1,    reward: { type: 'crystals', crystals: 25  }, tier: 1 },
+  { id: 'qb:win:normal:10',   name: 'Standard Issue',      description: 'Win 10 Normal battles',           category: 'misc', progressKey: 'qb:win:normal', target: 10,   reward: { type: 'crystals', crystals: 100 }, tier: 1 },
+  { id: 'qb:win:normal:100',  name: 'Average Enjoyer',     description: 'Win 100 Normal battles',          category: 'misc', progressKey: 'qb:win:normal', target: 100,  reward: { type: 'crystals', crystals: 400 }, tier: 2 },
+  { id: 'qb:win:normal:1000', name: 'The Grind',           description: 'Win 1,000 Normal battles',        category: 'misc', progressKey: 'qb:win:normal', target: 1000, reward: { type: 'item', item: { id: 'normal_1000_trophy', name: 'Normalcy Trophy', icon: '🎖', desc: 'One thousand battles played by the rules. You beautiful, boring legend.' } }, tier: 2 },
+
+  // Mirror
+  { id: 'qb:win:mirror:1',    name: 'Looking Glass',       description: 'Win your first Mirror Deck battle',   category: 'misc', progressKey: 'qb:win:mirror', target: 1,    reward: { type: 'crystals', crystals: 30  }, tier: 1 },
+  { id: 'qb:win:mirror:10',   name: 'Copycat Killer',      description: 'Win 10 Mirror Deck battles',          category: 'misc', progressKey: 'qb:win:mirror', target: 10,   reward: { type: 'crystals', crystals: 125 }, tier: 1 },
+  { id: 'qb:win:mirror:100',  name: 'Better Than Yourself', description: 'Win 100 Mirror Deck battles',        category: 'misc', progressKey: 'qb:win:mirror', target: 100,  reward: { type: 'crystals', crystals: 450 }, tier: 2 },
+  { id: 'qb:win:mirror:1000', name: 'Your Own Worst Enemy', description: 'Win 1,000 Mirror Deck battles',     category: 'misc', progressKey: 'qb:win:mirror', target: 1000, reward: { type: 'item', item: { id: 'mirror_1000_trophy', name: 'Mirror Shattered', icon: '🪞', desc: 'You have defeated yourself one thousand times. A philosopher would have something to say about this.' } }, tier: 2 },
+
+  // Unlimited
+  { id: 'qb:win:unlimited:1',    name: 'No Limits',      description: 'Win your first Unlimited battle',   category: 'misc', progressKey: 'qb:win:unlimited', target: 1,    reward: { type: 'crystals', crystals: 30  }, tier: 1 },
+  { id: 'qb:win:unlimited:10',   name: 'Unbound',        description: 'Win 10 Unlimited battles',          category: 'misc', progressKey: 'qb:win:unlimited', target: 10,   reward: { type: 'crystals', crystals: 125 }, tier: 1 },
+  { id: 'qb:win:unlimited:100',  name: 'Beyond Borders', description: 'Win 100 Unlimited battles',         category: 'misc', progressKey: 'qb:win:unlimited', target: 100,  reward: { type: 'crystals', crystals: 450 }, tier: 2 },
+  { id: 'qb:win:unlimited:1000', name: 'Limitless',      description: 'Win 1,000 Unlimited battles',       category: 'misc', progressKey: 'qb:win:unlimited', target: 1000, reward: { type: 'item', item: { id: 'unlimited_1000_trophy', name: 'The Infinite Cup', icon: '♾️', desc: 'Nothing could stop you. Not even the concept of stopping.' } }, tier: 2 },
+
+  // Chaos (secret mode)
+  { id: 'qb:win:chaos:1',    name: 'Survived the Madness',  description: 'Win your first Chaos battle',    category: 'misc', progressKey: 'qb:win:chaos', target: 1,    reward: { type: 'crystals', crystals: 50  }, tier: 1 },
+  { id: 'qb:win:chaos:10',   name: 'Chaos Agent',           description: 'Win 10 Chaos battles',           category: 'misc', progressKey: 'qb:win:chaos', target: 10,   reward: { type: 'crystals', crystals: 200 }, tier: 1 },
+  { id: 'qb:win:chaos:100',  name: 'Disorder Enjoyer',      description: 'Win 100 Chaos battles',          category: 'misc', progressKey: 'qb:win:chaos', target: 100,  reward: { type: 'crystals', crystals: 750 }, tier: 2 },
+  { id: 'qb:win:chaos:1000', name: 'Lord of Chaos',         description: 'Win 1,000 Chaos battles',        category: 'misc', progressKey: 'qb:win:chaos', target: 1000, reward: { type: 'item', item: { id: 'chaos_1000_trophy', name: 'Crown of Chaos', icon: '👑', desc: 'A thousand victories carved from pure pandemonium. The universe bows to you, reluctantly.' } }, tier: 2 },
+
+  // Hero Only
+  { id: 'qb:win:hero-only:1',    name: 'Hero Hunter',     description: 'Win your first Hero Only battle',   category: 'misc', progressKey: 'qb:win:hero-only', target: 1,    reward: { type: 'crystals', crystals: 50  }, tier: 1 },
+  { id: 'qb:win:hero-only:10',   name: 'Legend Slayer',   description: 'Win 10 Hero Only battles',          category: 'misc', progressKey: 'qb:win:hero-only', target: 10,   reward: { type: 'crystals', crystals: 200 }, tier: 1 },
+  { id: 'qb:win:hero-only:100',  name: 'Hero\'s Bane',    description: 'Win 100 Hero Only battles',         category: 'misc', progressKey: 'qb:win:hero-only', target: 100,  reward: { type: 'crystals', crystals: 750 }, tier: 2 },
+  { id: 'qb:win:hero-only:1000', name: 'Demi-God',        description: 'Win 1,000 Hero Only battles',       category: 'misc', progressKey: 'qb:win:hero-only', target: 1000, reward: { type: 'item', item: { id: 'hero_only_1000_trophy', name: 'Godslayer\'s Laurel', icon: '🌿', desc: 'Heroes feared you. Then fell to you. One thousand times.' } }, tier: 2 },
+
+  // Units Only
+  { id: 'qb:win:only-units:1',    name: 'Unit Breaker',      description: 'Win your first Units Only battle',  category: 'misc', progressKey: 'qb:win:only-units', target: 1,    reward: { type: 'crystals', crystals: 50  }, tier: 1 },
+  { id: 'qb:win:only-units:10',   name: 'Troop Crusher',     description: 'Win 10 Units Only battles',         category: 'misc', progressKey: 'qb:win:only-units', target: 10,   reward: { type: 'crystals', crystals: 200 }, tier: 1 },
+  { id: 'qb:win:only-units:100',  name: 'Army Annihilator',  description: 'Win 100 Units Only battles',        category: 'misc', progressKey: 'qb:win:only-units', target: 100,  reward: { type: 'crystals', crystals: 750 }, tier: 2 },
+  { id: 'qb:win:only-units:1000', name: 'The Last General',  description: 'Win 1,000 Units Only battles',      category: 'misc', progressKey: 'qb:win:only-units', target: 1000, reward: { type: 'item', item: { id: 'units_only_1000_trophy', name: 'Conqueror\'s Standard', icon: '🚩', desc: 'Their armies came in waves. You returned them as dust. A thousand times.' } }, tier: 2 },
+
+  // Spells Only
+  { id: 'qb:win:only-spells:1',    name: 'Counter-Spell',    description: 'Win your first Spells Only battle', category: 'misc', progressKey: 'qb:win:only-spells', target: 1,    reward: { type: 'crystals', crystals: 50  }, tier: 1 },
+  { id: 'qb:win:only-spells:10',   name: 'Spell Breaker',    description: 'Win 10 Spells Only battles',        category: 'misc', progressKey: 'qb:win:only-spells', target: 10,   reward: { type: 'crystals', crystals: 200 }, tier: 1 },
+  { id: 'qb:win:only-spells:100',  name: 'Arcane Nemesis',   description: 'Win 100 Spells Only battles',       category: 'misc', progressKey: 'qb:win:only-spells', target: 100,  reward: { type: 'crystals', crystals: 750 }, tier: 2 },
+  { id: 'qb:win:only-spells:1000', name: 'The Antithesis',   description: 'Win 1,000 Spells Only battles',     category: 'misc', progressKey: 'qb:win:only-spells', target: 1000, reward: { type: 'item', item: { id: 'spells_only_1000_trophy', name: 'Null Rune', icon: '🔮', desc: 'Every spell they cast, you answered with silence. One thousand times.' } }, tier: 2 },
+
+  // Buildings Only
+  { id: 'qb:win:only-buildings:1',    name: 'Demolisher',    description: 'Win your first Buildings Only battle', category: 'misc', progressKey: 'qb:win:only-buildings', target: 1,    reward: { type: 'crystals', crystals: 50  }, tier: 1 },
+  { id: 'qb:win:only-buildings:10',   name: 'Wrecking Crew', description: 'Win 10 Buildings Only battles',       category: 'misc', progressKey: 'qb:win:only-buildings', target: 10,   reward: { type: 'crystals', crystals: 200 }, tier: 1 },
+  { id: 'qb:win:only-buildings:100',  name: 'Urban Renewal', description: 'Win 100 Buildings Only battles',      category: 'misc', progressKey: 'qb:win:only-buildings', target: 100,  reward: { type: 'crystals', crystals: 750 }, tier: 2 },
+  { id: 'qb:win:only-buildings:1000', name: 'City Destroyer', description: 'Win 1,000 Buildings Only battles',  category: 'misc', progressKey: 'qb:win:only-buildings', target: 1000, reward: { type: 'item', item: { id: 'buildings_only_1000_trophy', name: 'Rubble Crown', icon: '🏚️', desc: 'They built. You destroyed. A thousand fortresses reduced to nothing.' } }, tier: 2 },
+
+  // Common Only
+  { id: 'qb:win:common-only:1',    name: 'Common Ground',   description: 'Win your first Common Only battle',  category: 'misc', progressKey: 'qb:win:common-only', target: 1,    reward: { type: 'crystals', crystals: 50  }, tier: 1 },
+  { id: 'qb:win:common-only:10',   name: 'Down to Earth',   description: 'Win 10 Common Only battles',         category: 'misc', progressKey: 'qb:win:common-only', target: 10,   reward: { type: 'crystals', crystals: 200 }, tier: 1 },
+  { id: 'qb:win:common-only:100',  name: 'Common Sense',    description: 'Win 100 Common Only battles',        category: 'misc', progressKey: 'qb:win:common-only', target: 100,  reward: { type: 'crystals', crystals: 750 }, tier: 2 },
+  { id: 'qb:win:common-only:1000', name: 'Commoner King',   description: 'Win 1,000 Common Only battles',      category: 'misc', progressKey: 'qb:win:common-only', target: 1000, reward: { type: 'item', item: { id: 'common_only_1000_trophy', name: 'Peasant\'s Crown', icon: '👑', desc: 'No rares. No legends. Just you and a thousand commons making history.' } }, tier: 2 },
+
+  // Uncommon Only
+  { id: 'qb:win:uncommon-only:1',    name: 'Uncommon Valor',       description: 'Win your first Uncommon Only battle', category: 'misc', progressKey: 'qb:win:uncommon-only', target: 1,    reward: { type: 'crystals', crystals: 50  }, tier: 1 },
+  { id: 'qb:win:uncommon-only:10',   name: 'Above Average',        description: 'Win 10 Uncommon Only battles',        category: 'misc', progressKey: 'qb:win:uncommon-only', target: 10,   reward: { type: 'crystals', crystals: 200 }, tier: 1 },
+  { id: 'qb:win:uncommon-only:100',  name: 'Unconventional',       description: 'Win 100 Uncommon Only battles',       category: 'misc', progressKey: 'qb:win:uncommon-only', target: 100,  reward: { type: 'crystals', crystals: 750 }, tier: 2 },
+  { id: 'qb:win:uncommon-only:1000', name: 'Peculiarly Persistent', description: 'Win 1,000 Uncommon Only battles',   category: 'misc', progressKey: 'qb:win:uncommon-only', target: 1000, reward: { type: 'item', item: { id: 'uncommon_only_1000_trophy', name: 'The Silver Anomaly', icon: '🥈', desc: 'Not quite rare, not quite common. Yet somehow, one thousand victories.' } }, tier: 2 },
+
+  // Rare Only
+  { id: 'qb:win:rare-only:1',    name: 'Rare Find',       description: 'Win your first Rare Only battle',  category: 'misc', progressKey: 'qb:win:rare-only', target: 1,    reward: { type: 'crystals', crystals: 50  }, tier: 1 },
+  { id: 'qb:win:rare-only:10',   name: 'Rarity Check',    description: 'Win 10 Rare Only battles',         category: 'misc', progressKey: 'qb:win:rare-only', target: 10,   reward: { type: 'crystals', crystals: 200 }, tier: 1 },
+  { id: 'qb:win:rare-only:100',  name: 'Precious Metals', description: 'Win 100 Rare Only battles',        category: 'misc', progressKey: 'qb:win:rare-only', target: 100,  reward: { type: 'crystals', crystals: 750 }, tier: 2 },
+  { id: 'qb:win:rare-only:1000', name: 'Gem Crusher',     description: 'Win 1,000 Rare Only battles',      category: 'misc', progressKey: 'qb:win:rare-only', target: 1000, reward: { type: 'item', item: { id: 'rare_only_1000_trophy', name: 'The Gemstone Throne', icon: '💎', desc: 'A thousand rare gems, all crushed underfoot. You glitter with victory.' } }, tier: 2 },
+
+  // Legendary Only
+  { id: 'qb:win:legendary-only:1',    name: 'Legend Buster',  description: 'Win your first Legendary Only battle', category: 'misc', progressKey: 'qb:win:legendary-only', target: 1,    reward: { type: 'crystals', crystals: 75  }, tier: 1 },
+  { id: 'qb:win:legendary-only:10',   name: 'Among Gods',     description: 'Win 10 Legendary Only battles',        category: 'misc', progressKey: 'qb:win:legendary-only', target: 10,   reward: { type: 'crystals', crystals: 300 }, tier: 1 },
+  { id: 'qb:win:legendary-only:100',  name: 'Mythbreaker',    description: 'Win 100 Legendary Only battles',       category: 'misc', progressKey: 'qb:win:legendary-only', target: 100,  reward: { type: 'crystals', crystals: 1000 }, tier: 2 },
+  { id: 'qb:win:legendary-only:1000', name: 'The True Legend', description: 'Win 1,000 Legendary Only battles',   category: 'misc', progressKey: 'qb:win:legendary-only', target: 1000, reward: { type: 'item', item: { id: 'legendary_only_1000_trophy', name: 'The Apex Crown', icon: '✨', desc: 'They were legendary. You were better. A thousand times, you proved it.' } }, tier: 2 },
+
   // ── Play Time ─────────────────────────────────────────────────────────────
   // Progress keys store cumulative milliseconds played.
   // Targets are in ms: 10h = 36_000_000, 100h = 360_000_000, 1000h = 3_600_000_000

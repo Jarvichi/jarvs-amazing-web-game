@@ -2189,6 +2189,7 @@ export default function App() {
     // Quick battle win
     if (!isCampaignRef.current) {
       toasts.push(...incrementAchievementProgress('misc:quick_win'))
+      toasts.push(...incrementAchievementProgress(`qb:win:${quickBattleModeRef.current}`))
     }
     // Flawless
     if (battleFlawlessRef.current) {
