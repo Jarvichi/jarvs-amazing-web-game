@@ -130,6 +130,8 @@ export interface NewGameOptions {
   opponentCardPool?: Card[]
   /** Allow the player to have unlimited maximum mana. */
   forgiveManaLimit?: boolean
+  /** Daily challenge mode: sets max mana floor to the highest card cost in the player's deck. */
+  isDailyChallenge?: boolean
 }
 
 export function newGame(
@@ -168,6 +170,7 @@ export function newGame(
     bossSpawnKillPct,
     opponentCardPool,
     forgiveManaLimit,
+    isDailyChallenge,
   } = opts
 
   // Pre-built decks are already in seeded order — don't re-shuffle with Math.random()
@@ -233,7 +236,10 @@ export function newGame(
         `Enemy strategy: ${STRATEGY_LABELS[strategy]}`,
       ]
 
-  const maxMana = forgiveManaLimit ? 9 : Math.max(BASE_MAX_MANA, loadPlayerStats().maxMana)
+  const deckMaxMana = isDailyChallenge && playerDeck.length > 0
+    ? playerDeck.reduce((m, c) => Math.max(m, c.cost), 0)
+    : undefined
+  const maxMana = forgiveManaLimit ? 9 : Math.max(BASE_MAX_MANA, deckMaxMana ?? 0, loadPlayerStats().maxMana)
 
   return {
     playerBase: { hp: 50, maxHp: 50 },
@@ -283,6 +289,7 @@ export function newGame(
     endlessOpponentDeckTemplate: endlessMode ? [...opponentDeck] : undefined,
     bossSpawnKillPct: bossSpawnKillPct ?? 0.5,
     forgiveManaLimit: forgiveManaLimit ?? false,
+    deckMaxMana,
   }
 }
 
@@ -557,7 +564,8 @@ function applyRelicBuffs(s: GameState, deltaMs: number) {
 
 function regenerateMana(s: GameState, deltaMs: number) {
   const manaBonus = getManaBonus(s.field, 'player')
-  s.maxMana = s.forgiveManaLimit ? 9 : Math.min(10, BASE_MAX_MANA + manaBonus + (s.relicManaBonus ?? 0))
+  const effectiveBase = Math.max(BASE_MAX_MANA, s.deckMaxMana ?? 0)
+  s.maxMana = s.forgiveManaLimit ? 9 : Math.min(10, effectiveBase + manaBonus + (s.relicManaBonus ?? 0))
 
   if (s.mana < s.maxMana) {
     const speedMult = 1 + getManaSpeedMult(s.field, 'player')
