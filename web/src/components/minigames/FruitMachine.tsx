@@ -312,14 +312,37 @@ export function FruitMachine({ onDone }: Props) {
     setPhase('idle')
   }
 
+function regressBoardBy(steps: number) {
+    if (steps === 0) { setPhase('idle'); return }
+    setPhase('board-moving')
+    let stepsLeft = steps
+    function stepOnce() {
+      const newPos = Math.max(0, boardPosRef.current - 1)
+      
+      boardPosRef.current = newPos
+      setBoardPos(newPos)
+
+      try { localStorage.setItem('fm_board_pos', String(newPos)) } catch (e) { logError('fm_board_pos', { error: String(e) }) }
+      stepsLeft++
+      if (stepsLeft < 0 && newPos > 0) {
+        setTimeout(stepOnce, 400)
+      } else {
+        resolveBoardNode(BOARD_NODES[newPos])
+      }
+    }
+    setTimeout(stepOnce, 400)
+  }
+
   function advanceBoardBy(steps: number) {
     if (steps === 0) { setPhase('idle'); return }
     setPhase('board-moving')
     let stepsLeft = steps
     function stepOnce() {
       const newPos = Math.min(BOARD_SIZE - 1, boardPosRef.current + 1)
+      
       boardPosRef.current = newPos
       setBoardPos(newPos)
+
       try { localStorage.setItem('fm_board_pos', String(newPos)) } catch (e) { logError('fm_board_pos', { error: String(e) }) }
       stepsLeft--
       if (stepsLeft > 0 && newPos < BOARD_SIZE - 1) {
@@ -473,10 +496,13 @@ export function FruitMachine({ onDone }: Props) {
 
       // Trail reel drives board; feature completion adds an extra step
       const featureStep = featureBonus > 0 ? 1 : 0
+      const ladderProgress = (nextLadder === '+1' ? 1 : nextLadder === '+2' ? 2 : nextLadder === '-1' ? -1 : nextLadder === '-2' ? -2 : 0) + featureStep
       if (nextLadder === 'Lose') {
         resetBoardToZero()
+      } else if (ladderProgress < 0) {
+        regressBoardBy(ladderProgress)
       } else {
-        advanceBoardBy((nextLadder === '+1' ? 1 : nextLadder === '+2' ? 2 : nextLadder === '-1' ? -1 : nextLadder === '-2' ? -2 : 0) + featureStep)
+        advanceBoardBy(ladderProgress)
       }
     }, SPIN_DURATION_MS)
   }
