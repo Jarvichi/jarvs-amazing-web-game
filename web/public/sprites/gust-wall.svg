@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Wall body -->
+  <rect x="0" y="10" width="32" height="18" fill="#8ab4cc"/>
+  <!-- Battlements -->
+  <rect x="0" y="4" width="6" height="7" fill="#8ab4cc"/>
+  <rect x="8" y="4" width="6" height="7" fill="#8ab4cc"/>
+  <rect x="18" y="4" width="6" height="7" fill="#8ab4cc"/>
+  <rect x="26" y="4" width="6" height="7" fill="#8ab4cc"/>
+  <!-- Highlight band -->
+  <rect x="0" y="12" width="32" height="2" fill="#aaccdd" opacity="0.6"/>
+  <!-- Wind vent slits -->
+  <rect x="3" y="16" width="6" height="3" rx="1.5" fill="#334455" opacity="0.6"/>
+  <rect x="13" y="16" width="6" height="3" rx="1.5" fill="#334455" opacity="0.6"/>
+  <rect x="23" y="16" width="6" height="3" rx="1.5" fill="#334455" opacity="0.6"/>
+  <!-- Wind swirl emanating from vents -->
+  <path d="M6,14 Q9,12 10,14 Q8,16 6,14" fill="none" stroke="#eef8ff" stroke-width="1" opacity="0.8"/>
+  <path d="M16,14 Q19,12 20,14 Q18,16 16,14" fill="none" stroke="#eef8ff" stroke-width="1" opacity="0.8"/>
+  <path d="M26,14 Q29,12 30,14 Q28,16 26,14" fill="none" stroke="#eef8ff" stroke-width="1" opacity="0.8"/>
+  <!-- Wind streaks above wall -->
+  <path d="M2,8 Q8,6 12,8" stroke="#c8e8ff" stroke-width="1" fill="none" opacity="0.7"/>
+  <path d="M14,6 Q20,4 26,6" stroke="#c8e8ff" stroke-width="1" fill="none" opacity="0.6"/>
+  <path d="M4,3 Q10,1 16,3" stroke="#c8e8ff" stroke-width="0.8" fill="none" opacity="0.5"/>
+  <!-- Base shadow -->
+  <rect x="0" y="26" width="32" height="2" fill="#668899" opacity="0.4"/>
+</svg>

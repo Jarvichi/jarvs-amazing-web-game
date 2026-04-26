@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <ellipse cx="16" cy="30" rx="14" ry="2.5" fill="#2a1a3a"/>
+  <!-- Main dark building -->
+  <rect x="5" y="14" width="22" height="18" rx="1" fill="#1a1130"/>
+  <rect x="5" y="14" width="22" height="3" fill="#22193a"/>
+  <!-- Elegant pointed roof -->
+  <polygon points="4,14 16,2 28,14" fill="#110d22"/>
+  <polygon points="6,14 16,4 26,14" fill="#191530"/>
+  <!-- Side spires -->
+  <polygon points="4,16 6,10 8,16" fill="#110d22"/>
+  <polygon points="24,16 26,10 28,16" fill="#110d22"/>
+  <!-- Crescent moon at peak -->
+  <path d="M18,4 Q13,4 13,8 Q13,10 16,10 Q12,10 12,6 Q12,2 16,2 Q17,2 18,4Z" fill="#9933cc" opacity="0.9"/>
+  <!-- Tall narrow windows with purple glow -->
+  <rect x="9" y="17" width="4" height="9" rx="2" fill="#110d22"/>
+  <rect x="9.5" y="17" width="3" height="8" rx="1.5" fill="#6611aa" opacity="0.7"/>
+  <rect x="19" y="17" width="4" height="9" rx="2" fill="#110d22"/>
+  <rect x="19.5" y="17" width="3" height="8" rx="1.5" fill="#6611aa" opacity="0.7"/>
+  <!-- Rune inscriptions -->
+  <line x1="14" y1="28" x2="18" y2="28" stroke="#9933cc" stroke-width="0.8" opacity="0.8"/>
+  <line x1="16" y1="26" x2="16" y2="30" stroke="#9933cc" stroke-width="0.8" opacity="0.8"/>
+  <circle cx="16" cy="28" r="1" fill="none" stroke="#9933cc" stroke-width="0.8" opacity="0.8"/>
+  <!-- Door -->
+  <rect x="13" y="26" width="6" height="6" rx="1" fill="#0a0818"/>
+  <rect x="14" y="26.5" width="4" height="5" rx="0.8" fill="#110d22"/>
+  <!-- Stars/magic particles -->
+  <circle cx="3" cy="10" r="0.8" fill="#9933cc" opacity="0.7"/>
+  <circle cx="29" cy="8" r="0.8" fill="#bb44ee" opacity="0.7"/>
+  <circle cx="6" cy="22" r="0.6" fill="#9933cc" opacity="0.5"/>
+  <circle cx="26" cy="19" r="0.6" fill="#bb44ee" opacity="0.5"/>
+</svg>
