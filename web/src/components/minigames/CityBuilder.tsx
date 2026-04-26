@@ -19,6 +19,7 @@ import {
   getCardLevel, levelUpCost, levelUpCard,
   LEVEL_UP_COSTS, MAX_CARD_LEVEL, LEVEL_ATK_BONUS, LEVEL_MAX_HP_BONUS,
   getBuildingProduces,
+  INCOME_SPAWN, INCOME_UTILITY, INCOME_WALL,
 } from '../../game/cityBuilder'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
 import { Card } from '../../game/types'
@@ -242,6 +243,10 @@ export function CityBuilder({ onBack }: Props) {
               const cost        = isSpawner ? SPAWNER_PLACE_COST[card.rarity] : null
               const produces    = !isSpawner ? getBuildingProduces(card.name) : null
               const producesEntries = produces ? Object.entries(produces).filter(([, v]) => (v ?? 0) > 0) : []
+              const isWall      = !isSpawner && producesEntries.length === 0
+              const incomeRate  = isSpawner
+                ? INCOME_SPAWN[card.rarity]
+                : isWall ? INCOME_WALL[card.rarity] : INCOME_UTILITY[card.rarity]
 
               return (
                 <button
@@ -271,6 +276,9 @@ export function CityBuilder({ onBack }: Props) {
                         `+${amt} ${RESOURCE_ICONS[r as ResourceType]}/min`
                       ).join(' ')}
                     </div>
+                  )}
+                  {incomeRate > 0 && (
+                    <div className="city-picker-income">+{incomeRate} 💰/min</div>
                   )}
                 </button>
               )

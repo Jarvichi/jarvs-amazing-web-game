@@ -19,11 +19,11 @@ export const CELL_PX = 72
 const MAX_OFFLINE_MINUTES = 480
 
 /** Income per minute for spawn buildings. */
-const INCOME_SPAWN: Record<CardRarity, number> = { common: 2, uncommon: 4, rare: 6, epic: 8, legendary: 10 }
+export const INCOME_SPAWN: Record<CardRarity, number> = { common: 2, uncommon: 4, rare: 6, epic: 8, legendary: 10 }
 /** Income per minute for utility buildings. */
-const INCOME_UTILITY: Record<CardRarity, number> = { common: 1, uncommon: 3, rare: 5, epic: 7, legendary: 8 }
+export const INCOME_UTILITY: Record<CardRarity, number> = { common: 1, uncommon: 3, rare: 5, epic: 7, legendary: 8 }
 /** Income per minute for wall / no-effect structures. */
-const INCOME_WALL: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 1, epic: 2, legendary: 2 }
+export const INCOME_WALL: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 1, epic: 2, legendary: 2 }
 
 /** Happiness regeneration per minute toward the target value. */
 const HAPPINESS_REGEN = 15
@@ -81,6 +81,7 @@ const BUILDING_RESOURCE_CONFIG: Record<string, Partial<ResourceStock>> = {
   'Pixie Garden':    { wheat: 3 },
   'Oasis Well':      { wheat: 2 },
   'Ancient Spring':  { wheat: 1 },
+  'Lumber Camp':     { wood: 3 },
   'Blacksmith':      { metal: 1 },
   'Stone Mason':     { planks: 2 },
   'Cryo Forge':      { metal: 1 },
