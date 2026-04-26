@@ -47,7 +47,7 @@ Issues sourced from GitHub. Last synced: 2026-04-22 (session 42).
   - [x] **#712** Core game loop: place units/buildings, collect resources over time
   - [x] **#713** Card leveling: spend city resources to level up cards (max ★5, +1 ATK / +2 HP per level)
   - [x] **#714** UI screen, grid layout (6×4), persistent save state (jarv_city_builder)
-- [ ] **#704** Minigame: fishing — Feature Request | Priority: Low — Add a fishing minigame (accessible from minigames hub). No duplicates.
+- [x] **#704** Minigame: fishing — Feature Request | Priority: Low — Add a fishing minigame (accessible from minigames hub). No duplicates.
 
 ## 🔵 Improvements — New (from GitHub, session 40 sync)
 

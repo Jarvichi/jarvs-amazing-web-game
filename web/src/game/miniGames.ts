@@ -20,7 +20,7 @@ export { getTickets as loadTickets, addTickets, spendTickets }
 
 // ── Game Costs ────────────────────────────────────────────────────────────────
 
-export type MiniGameId = 'marble' | 'tileflip' | 'crystalcatch' | 'spinner' | 'marblerace' | 'higherOrLower' | 'fruitMachine' | 'videoPoker'
+export type MiniGameId = 'marble' | 'tileflip' | 'crystalcatch' | 'spinner' | 'marblerace' | 'higherOrLower' | 'fruitMachine' | 'videoPoker' | 'fishing'
 
 export const MINI_GAME_COSTS = _MINI_GAME_COSTS as Record<MiniGameId, number>
 
@@ -33,6 +33,7 @@ export const MINI_GAME_LABELS: Record<MiniGameId, string> = {
   higherOrLower:  'Higher or Lower',
   fruitMachine:   'Fruit Machine',
   videoPoker:     'Video Poker',
+  fishing:        'Fishing',
 }
 
 export const MINI_GAME_DESCRIPTIONS: Record<MiniGameId, string> = {
@@ -44,6 +45,7 @@ export const MINI_GAME_DESCRIPTIONS: Record<MiniGameId, string> = {
   higherOrLower:  'Guess whether each card is higher or lower. Get all 4 right for the jackpot!',
   fruitMachine:   'Spin the reels, hold your lucky symbols, and cash out your winnings!',
   videoPoker:     'Jacks or Better. Hold your best cards, draw, and win big!',
+  fishing:        'Cast your line and reel in a catch. Rare fish earn big tickets — and sometimes treasure!',
 }
 
 export const MINI_GAME_ICONS: Record<MiniGameId, string> = {
@@ -55,6 +57,7 @@ export const MINI_GAME_ICONS: Record<MiniGameId, string> = {
   higherOrLower:  '🎴',
   fruitMachine:   '🎰',
   videoPoker:     '♠',
+  fishing:        '🎣',
 }
 
 // ── Ticket Prizes ─────────────────────────────────────────────────────────────

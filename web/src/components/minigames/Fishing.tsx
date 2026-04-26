@@ -1,0 +1,350 @@
+// ─── Fishing Minigame ─────────────────────────────────────────────────────────
+// Cast, wait for a bite, reel in. Score = fish weight (grams) published to
+// the leaderboard. 5% chance to snag an item or card instead of a fish.
+
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { addCollectible } from '../../game/itemStore'
+import { addCardsToCollection } from '../../game/collection'
+import { getCardCatalog } from '../../game/cards'
+import ITEMS_DATA from '../../data/items.json'
+import { logError } from '../../logger'
+
+const BITE_WINDOW_MS = 1500
+
+// ── Fish data ─────────────────────────────────────────────────────────────────
+
+interface FishTier {
+  tier: string
+  icon: string
+  names: string[]
+  minG: number; maxG: number
+  minCm: number; maxCm: number
+  minT: number; maxT: number
+  chance: number
+}
+
+const FISH_TIERS: FishTier[] = [
+  {
+    tier: 'Tiddler', icon: '🐟',
+    names: ['Minnow', 'Dace', 'Gudgeon', 'Bleak', 'Stickleback'],
+    minG: 100,   maxG: 500,   minCm: 8,   maxCm: 25,  minT: 2,   maxT: 6,   chance: 40,
+  },
+  {
+    tier: 'Small', icon: '🐠',
+    names: ['Roach', 'Rudd', 'Perch', 'Bream', 'Chub'],
+    minG: 500,   maxG: 2000,  minCm: 25,  maxCm: 45,  minT: 8,   maxT: 18,  chance: 30,
+  },
+  {
+    tier: 'Medium', icon: '🐡',
+    names: ['Carp', 'Tench', 'Barbel', 'Zander', 'Catfish'],
+    minG: 2000,  maxG: 5000,  minCm: 45,  maxCm: 70,  minT: 22,  maxT: 40,  chance: 15,
+  },
+  {
+    tier: 'Large', icon: '🦈',
+    names: ['Pike', 'Salmon', 'Sea Bass', 'Wels Catfish', 'Sturgeon'],
+    minG: 5000,  maxG: 12000, minCm: 70,  maxCm: 110, minT: 42,  maxT: 75,  chance: 9,
+  },
+  {
+    tier: 'Trophy', icon: '🏆',
+    names: ['Giant Carp', 'Monster Pike', 'River Titan', 'Trophy Salmon', 'Great Barbel'],
+    minG: 12000, maxG: 25000, minCm: 110, maxCm: 150, minT: 80,  maxT: 130, chance: 5,
+  },
+  {
+    tier: 'Legendary', icon: '✨',
+    names: ['Ancient Sturgeon', 'Dragon Carp', 'Leviathan Eel', 'World Record Bass', 'Fracture Fish'],
+    minG: 25000, maxG: 50000, minCm: 150, maxCm: 200, minT: 150, maxT: 250, chance: 1,
+  },
+]
+
+// ── Catch types ───────────────────────────────────────────────────────────────
+
+interface FishCatch {
+  kind: 'fish'
+  tier: string
+  tierIcon: string
+  name: string
+  weightGrams: number
+  lengthCm: number
+  tickets: number
+}
+
+interface ItemCatch {
+  kind: 'item'
+  id: string
+  name: string
+  icon: string
+  desc: string
+}
+
+interface CardCatch {
+  kind: 'card'
+  name: string
+  rarity: string
+}
+
+type Catch = FishCatch | ItemCatch | CardCatch
+
+type Phase = 'idle' | 'waiting' | 'bite' | 'missed' | 'caught'
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function rand(min: number, max: number) {
+  return Math.floor(min + Math.random() * (max - min))
+}
+
+function rollFish(): FishCatch {
+  const roll = Math.random() * 100
+  let cum = 0
+  let tier = FISH_TIERS[0]
+  for (const t of FISH_TIERS) {
+    cum += t.chance
+    if (roll < cum) { tier = t; break }
+  }
+  return {
+    kind: 'fish',
+    tier: tier.tier,
+    tierIcon: tier.icon,
+    name: tier.names[rand(0, tier.names.length)],
+    weightGrams: rand(tier.minG, tier.maxG),
+    lengthCm: rand(tier.minCm, tier.maxCm),
+    tickets: rand(tier.minT, tier.maxT),
+  }
+}
+
+function formatWeight(g: number): string {
+  return g < 1000 ? `${g}g` : `${(g / 1000).toFixed(1)}kg`
+}
+
+// ── Component ─────────────────────────────────────────────────────────────────
+
+interface Props {
+  onDone: (ticketsEarned: number, fishWeightGrams: number) => void
+}
+
+export function Fishing({ onDone }: Props) {
+  const [phase, setPhase]   = useState<Phase>('idle')
+  const [result, setResult] = useState<Catch | null>(null)
+  const [biteMs, setBiteMs] = useState(BITE_WINDOW_MS)
+
+  const waitRef     = useRef<ReturnType<typeof setTimeout>  | null>(null)
+  const biteRef     = useRef<ReturnType<typeof setTimeout>  | null>(null)
+  const countRef    = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const clearTimers = useCallback(() => {
+    if (waitRef.current)  clearTimeout(waitRef.current)
+    if (biteRef.current)  clearTimeout(biteRef.current)
+    if (countRef.current) clearInterval(countRef.current)
+  }, [])
+
+  useEffect(() => clearTimers, [clearTimers])
+
+  function startCast() {
+    clearTimers()
+    setPhase('waiting')
+    const delay = 2000 + Math.random() * 4000
+    waitRef.current = setTimeout(triggerBite, delay)
+  }
+
+  function triggerBite() {
+    setPhase('bite')
+    setBiteMs(BITE_WINDOW_MS)
+    const start = Date.now()
+    countRef.current = setInterval(() => {
+      setBiteMs(Math.max(0, BITE_WINDOW_MS - (Date.now() - start)))
+    }, 50)
+    biteRef.current = setTimeout(() => {
+      clearTimers()
+      setPhase('missed')
+    }, BITE_WINDOW_MS)
+  }
+
+  function reelIn() {
+    if (phase !== 'bite') return
+    clearTimers()
+    const catch_ = buildCatch()
+    applyReward(catch_)
+    setResult(catch_)
+    setPhase('caught')
+  }
+
+  function buildCatch(): Catch {
+    if (Math.random() >= 0.05) return rollFish()
+    // 5% special
+    if (Math.random() < 0.5) {
+      const item = ITEMS_DATA[rand(0, ITEMS_DATA.length)]
+      return { kind: 'item', id: item.id, name: item.name, icon: item.icon, desc: item.desc }
+    }
+    const catalog = getCardCatalog()
+    if (catalog.length === 0) {
+      const item = ITEMS_DATA[rand(0, ITEMS_DATA.length)]
+      return { kind: 'item', id: item.id, name: item.name, icon: item.icon, desc: item.desc }
+    }
+    const card = catalog[rand(0, catalog.length)]
+    return { kind: 'card', name: card.name, rarity: card.rarity }
+  }
+
+  function applyReward(c: Catch) {
+    if (c.kind === 'item') {
+      try { addCollectible(c.id) }
+      catch (e) { logError('Fishing: addCollectible failed', { error: String(e) }) }
+    } else if (c.kind === 'card') {
+      addCardsToCollection([{ cardName: c.name, count: 1 }])
+    }
+  }
+
+  function catchTickets(): number {
+    if (!result) return 0
+    if (result.kind === 'fish')  return result.tickets
+    if (result.kind === 'card')  return 10
+    return 5
+  }
+
+  function catchWeightG(): number {
+    if (result?.kind === 'fish') return result.weightGrams
+    return 0
+  }
+
+  function done() { onDone(catchTickets(), catchWeightG()) }
+
+  const biteBarPct = Math.round((biteMs / BITE_WINDOW_MS) * 100)
+
+  return (
+    <div className="fishing-screen">
+      <div className="fishing-header">
+        <div className="fishing-title">🎣 FISHING</div>
+      </div>
+
+      {/* Scene */}
+      <div className="fishing-scene">
+        {phase === 'idle' && (
+          <div className="fishing-art">
+            <div>🎣</div>
+            <div className="fishing-water-idle">≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈</div>
+          </div>
+        )}
+
+        {phase === 'waiting' && (
+          <div className="fishing-art">
+            <div className="fishing-rod-line">🎣</div>
+            <div className="fishing-line">│</div>
+            <div className="fishing-line">│</div>
+            <div className="fishing-bobber-wrap">
+              <span className="fishing-bobber">●</span>
+            </div>
+            <div className="fishing-water">≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈</div>
+          </div>
+        )}
+
+        {phase === 'bite' && (
+          <div className="fishing-art">
+            <div className="fishing-rod-line">🎣</div>
+            <div className="fishing-line fishing-line--taut">╲</div>
+            <div className="fishing-line fishing-line--taut">╲</div>
+            <div className="fishing-bobber-wrap">
+              <span className="fishing-bobber fishing-bobber--bite">◉</span>
+            </div>
+            <div className="fishing-water">≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈</div>
+          </div>
+        )}
+
+        {phase === 'missed' && (
+          <div className="fishing-art fishing-art--missed">
+            <div>🎣 💦</div>
+            <div className="fishing-water-idle">≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈</div>
+          </div>
+        )}
+
+        {phase === 'caught' && result && (
+          <div className="fishing-art fishing-art--caught">
+            <div className="fishing-catch-icon">
+              {result.kind === 'fish' ? result.tierIcon : result.kind === 'item' ? result.icon : '🃏'}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Status */}
+      <div className="fishing-status">
+        {phase === 'idle'    && <p className="fishing-prompt">Cast your line and wait for a bite.</p>}
+        {phase === 'waiting' && <p className="fishing-prompt fishing-prompt--waiting">Waiting for a bite…</p>}
+
+        {phase === 'bite' && (
+          <>
+            <p className="fishing-prompt fishing-prompt--bite">🔴 BITE! REEL IN! 🔴</p>
+            <div className="fishing-bite-bar-wrap">
+              <div className="fishing-bite-bar" style={{ width: `${biteBarPct}%` }} />
+            </div>
+          </>
+        )}
+
+        {phase === 'missed' && (
+          <p className="fishing-prompt fishing-prompt--missed">The fish got away… too slow!</p>
+        )}
+
+        {phase === 'caught' && result?.kind === 'fish' && (
+          <div className="fishing-result">
+            <div className="fishing-result-tier">✦ {result.tier} ✦</div>
+            <div className="fishing-result-name">{result.tierIcon} {result.name}</div>
+            <div className="fishing-result-stats">
+              <span>{formatWeight(result.weightGrams)}</span>
+              <span className="fishing-result-sep">·</span>
+              <span>{result.lengthCm}cm</span>
+            </div>
+            <div className="fishing-result-tickets">+{result.tickets} 🎫</div>
+          </div>
+        )}
+
+        {phase === 'caught' && result?.kind === 'item' && (
+          <div className="fishing-result fishing-result--special">
+            <div className="fishing-result-tier">✦ SPECIAL FIND ✦</div>
+            <div className="fishing-result-name">{result.icon} {result.name}</div>
+            <div className="fishing-result-desc">{result.desc}</div>
+            <div className="fishing-result-tickets">+5 🎫  ·  Added to inventory!</div>
+          </div>
+        )}
+
+        {phase === 'caught' && result?.kind === 'card' && (
+          <div className="fishing-result fishing-result--special">
+            <div className="fishing-result-tier">✦ RARE CARD FOUND ✦</div>
+            <div className="fishing-result-name">🃏 {result.name}</div>
+            <div className="fishing-result-desc">{result.rarity}</div>
+            <div className="fishing-result-tickets">+10 🎫  ·  Added to collection!</div>
+          </div>
+        )}
+      </div>
+
+      {/* Controls */}
+      <div className="fishing-controls">
+        {phase === 'idle' && (
+          <button className="action-btn action-btn--gold" onClick={startCast}>
+            🎣 CAST!
+          </button>
+        )}
+
+        {phase === 'waiting' && (
+          <button className="action-btn" disabled>Waiting…</button>
+        )}
+
+        {phase === 'bite' && (
+          <button className="action-btn action-btn--large fishing-reel-btn" onClick={reelIn}>
+            🐟 REEL IN!
+          </button>
+        )}
+
+        {phase === 'missed' && (
+          <div className="fishing-btn-row">
+            <button className="action-btn action-btn--gold" onClick={startCast}>TRY AGAIN</button>
+            <button className="action-btn action-btn--danger" onClick={() => onDone(0, 0)}>GIVE UP</button>
+          </div>
+        )}
+
+        {phase === 'caught' && (
+          <div className="fishing-btn-row">
+            <button className="action-btn action-btn--gold" onClick={startCast}>FISH AGAIN</button>
+            <button className="action-btn" onClick={done}>DONE</button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
