@@ -23,6 +23,7 @@ import { HigherOrLower }  from './minigames/HigherOrLower'
 import { FruitMachine }   from './minigames/FruitMachine'
 import { VideoPoker }     from './minigames/VideoPoker'
 import { CityBuilder }    from './minigames/CityBuilder'
+import { Fishing }        from './minigames/Fishing'
 
 interface Props {
   crystals:          number
@@ -32,7 +33,7 @@ interface Props {
   onBack:            () => void
 }
 
-type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder'
+type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder' | 'fishing'
 
 // Pick N random cards from catalog, optionally filtered by rarity
 function pickRandomCards(count: number, rarity?: 'uncommon' | 'rare' | 'legendary'): string[] {
@@ -82,7 +83,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
   // ── Game completion handler ───────────────────────────────────────────────────
 
-  const handleGameDone = useCallback((gameId: MiniGameId, ticketsEarned: number, opts?: { perfect?: boolean; jackpot?: boolean }) => {
+  const handleGameDone = useCallback((gameId: MiniGameId, ticketsEarned: number, opts?: { perfect?: boolean; jackpot?: boolean; score?: number }) => {
     if (ticketsEarned > 0) {
       addTickets(ticketsEarned)
       refreshTickets()
@@ -115,6 +116,9 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       setAchievementProgress('miniGame:fruitMachine:bestScore', newBest)
     } else if (gameId === 'videoPoker') {
       setAchievementProgress('miniGame:videoPoker:bestScore', newBest)
+    } else if (gameId === 'fishing') {
+      setAchievementProgress('miniGame:fishing:bestScore', newBest)
+      if (opts?.score) setAchievementProgress('miniGame:fishing:bestWeightG', opts.score)
     }
 
     // Publish to leaderboard if signed in
@@ -123,7 +127,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
         uid: user.uid,
         characterName,
         gameId,
-        score: ticketsEarned,
+        score: opts?.score ?? ticketsEarned,
       }).catch(() => { /* offline — ignore */ })
     }
 
@@ -219,6 +223,13 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
   if (subScreen === 'videoPoker') {
     return <VideoPoker onDone={(t) => handleGameDone('videoPoker', t)} />
   }
+  if (subScreen === 'fishing') {
+    return (
+      <Fishing
+        onDone={(tickets, weightG) => handleGameDone('fishing', tickets, { score: weightG })}
+      />
+    )
+  }
   if (subScreen === 'citybuilder') {
     return <CityBuilder onBack={() => setSubScreen('menu')} />
   }
@@ -241,7 +252,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
         <>
           {/* Game grid */}
           <div className="minigame-grid">
-            {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker'] as MiniGameId[]).map(id => {
+            {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing'] as MiniGameId[]).map(id => {
               const cost    = MINI_GAME_COSTS[id]
               const locked  = currentCrystals < cost
               const best    = loadLocalHighScore(id)
@@ -337,7 +348,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
           <div className="lb-controls">
             <div className="lb-game-tabs">
-              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker'] as MiniGameId[]).map(id => (
+              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing'] as MiniGameId[]).map(id => (
                 <button
                   key={id}
                   className={`filter-btn${lbGame === id ? ' filter-btn--active' : ''}`}
