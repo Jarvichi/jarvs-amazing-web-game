@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Wings level/horizontal -->
+  <polygon points="16,16 0,13 0,19 8,17" fill="#1E3A5F"/>
+  <polygon points="16,16 32,13 32,19 24,17" fill="#1E3A5F"/>
+  <polygon points="7,17 0,19 2,23 10,20" fill="#2C5F8A"/>
+  <polygon points="25,17 32,19 30,23 22,20" fill="#2C5F8A"/>
+  <polygon points="2,14 5,12 4,16 6,14 4,18" fill="#F8B400" opacity="0.85"/>
+  <polygon points="30,14 27,12 28,16 26,14 28,18" fill="#F8B400" opacity="0.85"/>
+  <ellipse cx="16" cy="16" rx="5" ry="5" fill="#1A2B3F"/>
+  <circle cx="16" cy="11" r="3.5" fill="#1E3A5F"/>
+  <polygon points="14,8 15,5 16,8" fill="#2C5F8A"/>
+  <polygon points="16,7 17,4 18,7" fill="#3B7DBF"/>
+  <polygon points="19,10 24,11 19,12" fill="#F8B400"/>
+  <circle cx="18" cy="10.5" r="1.2" fill="#F8B400"/>
+  <circle cx="18.3" cy="10.2" r="0.5" fill="#1A2B3F"/>
+  <ellipse cx="16" cy="17" rx="3" ry="3" fill="#3B7DBF" opacity="0.6"/>
+  <ellipse cx="13" cy="22" rx="2" ry="3.5" fill="#1E3A5F"/>
+  <ellipse cx="19" cy="22" rx="2" ry="3.5" fill="#1E3A5F"/>
+  <polygon points="11,24 9,27 13,25" fill="#F8B400"/>
+  <polygon points="15,25 14,28 16,26" fill="#F8B400"/>
+  <polygon points="21,24 23,27 19,25" fill="#F8B400"/>
+</svg>

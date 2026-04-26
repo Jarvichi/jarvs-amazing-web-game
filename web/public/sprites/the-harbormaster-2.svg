@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect x="9" y="4" width="14" height="2" rx="1" fill="#0D2137"/>
+  <rect x="11" y="2" width="10" height="4" rx="1" fill="#1B3A6B"/>
+  <rect x="14" y="2.5" width="4" height="2" rx="0.5" fill="#F39C12"/>
+  <circle cx="16" cy="9" r="4" fill="#D4AC68"/>
+  <ellipse cx="16" cy="11.5" rx="3" ry="1.2" fill="#4A3B2A"/>
+  <circle cx="14.5" cy="8.5" r="1" fill="#2C3E50"/>
+  <circle cx="17.5" cy="8.5" r="1" fill="#2C3E50"/>
+  <rect x="9" y="13" width="14" height="13" rx="2" fill="#1B3A6B"/>
+  <rect x="9" y="13" width="14" height="4" rx="2" fill="#2C5282"/>
+  <circle cx="16" cy="15" r="0.8" fill="#F39C12"/>
+  <circle cx="16" cy="18" r="0.8" fill="#F39C12"/>
+  <circle cx="16" cy="21" r="0.8" fill="#F39C12"/>
+  <rect x="7" y="13" width="4" height="2" rx="1" fill="#F39C12"/>
+  <rect x="21" y="13" width="4" height="2" rx="1" fill="#F39C12"/>
+  <rect x="4" y="13" width="5" height="9" rx="1" fill="#1B3A6B"/>
+  <rect x="1" y="16" width="7" height="3" rx="1" fill="#8B6B3D"/>
+  <rect x="0" y="16.5" width="3" height="2" rx="0.5" fill="#C9A24C"/>
+  <rect x="23" y="13" width="5" height="9" rx="1" fill="#1B3A6B"/>
+  <!-- Legs bob down -->
+  <rect x="10" y="26" width="5" height="6" rx="1" fill="#0D2137"/>
+  <rect x="17" y="26" width="5" height="6" rx="1" fill="#0D2137"/>
+</svg>

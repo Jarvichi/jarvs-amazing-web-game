@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <circle cx="8" cy="6" r="1" fill="#636E72" opacity="0.6"/>
+  <circle cx="24" cy="9" r="0.8" fill="#636E72" opacity="0.5"/>
+  <circle cx="6" cy="15" r="0.7" fill="#636E72" opacity="0.4"/>
+  <circle cx="26" cy="13" r="0.7" fill="#636E72" opacity="0.4"/>
+  <circle cx="16" cy="7" r="4" fill="#4A4A4A"/>
+  <ellipse cx="14" cy="6.5" rx="1.5" ry="1.2" fill="#E17055"/>
+  <ellipse cx="18" cy="6.5" rx="1.5" ry="1.2" fill="#E17055"/>
+  <ellipse cx="14" cy="6.5" rx="0.8" ry="0.6" fill="#FDCB6E"/>
+  <ellipse cx="18" cy="6.5" rx="0.8" ry="0.6" fill="#FDCB6E"/>
+  <line x1="15" y1="4" x2="14" y2="8" stroke="#2D3436" stroke-width="0.8"/>
+  <line x1="18" y1="5" x2="17" y2="9" stroke="#2D3436" stroke-width="0.8"/>
+  <rect x="10" y="11" width="12" height="13" rx="2" fill="#3D3D3D"/>
+  <line x1="13" y1="12" x2="12" y2="17" stroke="#636E72" stroke-width="0.8"/>
+  <line x1="18" y1="13" x2="19" y2="18" stroke="#636E72" stroke-width="0.8"/>
+  <circle cx="16" cy="17" r="1.5" fill="#E17055" opacity="0.7"/>
+  <circle cx="16" cy="17" r="0.8" fill="#FDCB6E" opacity="0.8"/>
+  <polygon points="10,24 7,29 11,25" fill="#3D3D3D"/>
+  <polygon points="22,24 25,29 21,25" fill="#3D3D3D"/>
+  <rect x="4" y="11" width="6" height="9" rx="1" fill="#3D3D3D"/>
+  <rect x="22" y="11" width="6" height="9" rx="1" fill="#3D3D3D"/>
+  <line x1="6" y1="12" x2="5" y2="16" stroke="#636E72" stroke-width="0.7"/>
+  <line x1="25" y1="13" x2="26" y2="17" stroke="#636E72" stroke-width="0.7"/>
+  <!-- Legs bob down -->
+  <rect x="11" y="24" width="4" height="7" rx="1" fill="#3D3D3D"/>
+  <rect x="17" y="24" width="4" height="7" rx="1" fill="#3D3D3D"/>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect x="7" y="2" width="18" height="13" rx="2" fill="#B8860B"/>
+  <rect x="7" y="2" width="18" height="6" rx="2" fill="#D4AF37"/>
+  <circle cx="9" cy="4" r="0.8" fill="#7D5A00"/>
+  <circle cx="23" cy="4" r="0.8" fill="#7D5A00"/>
+  <circle cx="9" cy="13" r="0.8" fill="#7D5A00"/>
+  <circle cx="23" cy="13" r="0.8" fill="#7D5A00"/>
+  <rect x="10" y="6" width="5" height="4" rx="1" fill="#00CEC9"/>
+  <rect x="17" y="6" width="5" height="4" rx="1" fill="#00CEC9"/>
+  <rect x="11" y="6.5" width="3" height="3" rx="0.5" fill="#81ECEC"/>
+  <rect x="18" y="6.5" width="3" height="3" rx="0.5" fill="#81ECEC"/>
+  <rect x="11" y="11" width="10" height="3" rx="1" fill="#7D5A00"/>
+  <line x1="14" y1="11" x2="14" y2="14" stroke="#B8860B" stroke-width="0.6"/>
+  <line x1="18" y1="11" x2="18" y2="14" stroke="#B8860B" stroke-width="0.6"/>
+  <rect x="5" y="15" width="22" height="13" rx="2" fill="#9A7000"/>
+  <rect x="12" y="18" width="8" height="6" rx="1" fill="#B8860B"/>
+  <circle cx="16" cy="21" r="3" fill="#00CEC9" opacity="0.9"/>
+  <circle cx="16" cy="21" r="1.5" fill="#81ECEC"/>
+  <rect x="0" y="15" width="5" height="11" rx="1" fill="#9A7000"/>
+  <circle cx="2.5" cy="15" r="2" fill="#B8860B"/>
+  <rect x="0" y="24" width="6" height="5" rx="1" fill="#7D5A00"/>
+  <rect x="27" y="15" width="5" height="11" rx="1" fill="#9A7000"/>
+  <circle cx="29.5" cy="15" r="2" fill="#B8860B"/>
+  <rect x="26" y="24" width="6" height="5" rx="1" fill="#7D5A00"/>
+  <!-- Legs bob down -->
+  <rect x="7" y="28" width="7" height="4" rx="1" fill="#9A7000"/>
+  <rect x="18" y="28" width="7" height="4" rx="1" fill="#9A7000"/>
+</svg>
