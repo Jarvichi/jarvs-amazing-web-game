@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Wave Brawler — frame 2 (mid-stride, both legs near center) -->
+  <!-- Both legs centered -->
+  <rect x="12" y="22" width="4" height="8" rx="1" fill="#2266aa"/>
+  <rect x="16" y="22" width="4" height="8" rx="1" fill="#2266aa"/>
+  <!-- Feet -->
+  <ellipse cx="14" cy="30" rx="2.5" ry="1.2" fill="#1a4a88"/>
+  <ellipse cx="18" cy="30" rx="2.5" ry="1.2" fill="#1a4a88"/>
+  <!-- Muscular chest normal height -->
+  <rect x="9" y="12" width="14" height="11" rx="2" fill="#2266aa" stroke="#1a4a88" stroke-width="1"/>
+  <!-- Wave pattern -->
+  <path d="M9,18 Q12,16 15,18 Q18,20 21,18 Q22,17 23,18" fill="none" stroke="#aaddee" stroke-width="1.2" opacity="0.7"/>
+  <path d="M9,21 Q12,19 15,21 Q18,23 21,21 Q22,20 23,21" fill="none" stroke="#44aacc" stroke-width="0.8" opacity="0.5"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="9" rx="4.5" ry="4.5" fill="#228899"/>
+  <circle cx="14.5" cy="8.5" r="0.8" fill="#002244"/>
+  <circle cx="17.5" cy="8.5" r="0.8" fill="#002244"/>
+  <!-- Arms / fists both at mid -->
+  <rect x="5" y="14" width="4" height="7" rx="1" fill="#2266aa"/>
+  <path d="M5,15 Q3,12 5,14" fill="#228899"/>
+  <rect x="23" y="14" width="4" height="7" rx="1" fill="#2266aa"/>
+  <path d="M27,15 Q29,12 27,14" fill="#228899"/>
+  <rect x="5" y="13" width="4" height="3" rx="1" fill="#44aacc"/>
+  <rect x="23" y="13" width="4" height="3" rx="1" fill="#44aacc"/>
+  <ellipse cx="16" cy="14" rx="4" ry="2" fill="#aaddee" opacity="0.3"/>
+</svg>

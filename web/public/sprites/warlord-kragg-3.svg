@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Warlord Kragg — frame 3 (body 1px down, right leg fwd, left leg back — mirror of 1) -->
+  <!-- Right leg forward 2px -->
+  <rect x="19" y="23" width="4" height="8" rx="1" fill="#333344" transform="rotate(-10,21,27)"/>
+  <!-- Left leg back -->
+  <rect x="9" y="23" width="4" height="8" rx="1" fill="#333344" transform="rotate(6,11,27)"/>
+  <!-- Spiked shoulder pads shifted 1px down -->
+  <rect x="4" y="12" width="7" height="5" rx="1" fill="#333344" stroke="#222233" stroke-width="0.8"/>
+  <polygon points="4,12 5,9 6,12" fill="#ddcc88"/>
+  <polygon points="8,12 9,9 10,12" fill="#ddcc88"/>
+  <rect x="21" y="12" width="7" height="5" rx="1" fill="#333344" stroke="#222233" stroke-width="0.8"/>
+  <polygon points="22,12 23,9 24,12" fill="#ddcc88"/>
+  <polygon points="26,12 27,9 28,12" fill="#ddcc88"/>
+  <!-- Broad armored torso shifted 1px down -->
+  <rect x="9" y="13" width="14" height="11" rx="1" fill="#333344" stroke="#222233" stroke-width="1"/>
+  <rect x="9" y="17" width="14" height="2" fill="#aa2222" opacity="0.7"/>
+  <!-- Horned helmet -->
+  <rect x="11" y="5" width="10" height="9" rx="2" fill="#333344" stroke="#222233" stroke-width="1"/>
+  <polygon points="11,7 9,3 12,6" fill="#ddcc88"/>
+  <polygon points="21,7 23,3 20,6" fill="#ddcc88"/>
+  <!-- Orc face -->
+  <ellipse cx="16" cy="9" rx="4" ry="4" fill="#668833"/>
+  <circle cx="14.5" cy="8.5" r="0.8" fill="#aa2222"/>
+  <circle cx="17.5" cy="8.5" r="0.8" fill="#aa2222"/>
+  <rect x="14" y="12" width="1.5" height="2" rx="0.5" fill="#ddcc88"/>
+  <rect x="16.5" y="12" width="1.5" height="2" rx="0.5" fill="#ddcc88"/>
+  <!-- Axe -->
+  <line x1="23" y1="8" x2="25" y2="28" stroke="#222233" stroke-width="1.5"/>
+  <path d="M20,9 Q23,6 26,9 Q24,13 23,13 Z" fill="#333344" stroke="#222233" stroke-width="1"/>
+  <line x1="22" y1="9" x2="25" y2="10" stroke="#aabbcc" stroke-width="0.8"/>
+</svg>

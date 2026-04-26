@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Vault Guardian — frame 2 (mid-stride, body normal height) -->
+  <!-- Left shoulder pauldron -->
+  <rect x="4" y="10" width="6" height="5" rx="1" fill="#445566"/>
+  <!-- Right shoulder pauldron -->
+  <rect x="22" y="10" width="6" height="5" rx="1" fill="#445566"/>
+  <!-- Wide boxy torso -->
+  <rect x="9" y="12" width="14" height="11" rx="1" fill="#445566" stroke="#334455" stroke-width="1"/>
+  <rect x="11" y="14" width="10" height="7" rx="1" fill="#778899" opacity="0.4"/>
+  <!-- Rivets -->
+  <circle cx="11" cy="13" r="0.8" fill="#aabbcc"/>
+  <circle cx="21" cy="13" r="0.8" fill="#aabbcc"/>
+  <circle cx="11" cy="22" r="0.8" fill="#aabbcc"/>
+  <circle cx="21" cy="22" r="0.8" fill="#aabbcc"/>
+  <!-- Helmet -->
+  <rect x="11" y="4" width="10" height="9" rx="2" fill="#445566" stroke="#334455" stroke-width="1"/>
+  <!-- Visor -->
+  <rect x="12" y="7" width="8" height="3" rx="1" fill="#44aaff"/>
+  <rect x="13" y="7.5" width="6" height="2" rx="0.5" fill="#88ccff" opacity="0.7"/>
+  <!-- Both legs near center (mid-stride) -->
+  <rect x="12" y="23" width="4" height="7" rx="1" fill="#445566" stroke="#334455" stroke-width="0.8"/>
+  <rect x="16" y="23" width="4" height="7" rx="1" fill="#445566" stroke="#334455" stroke-width="0.8"/>
+  <!-- Feet -->
+  <rect x="11" y="29" width="5" height="2" rx="1" fill="#334455"/>
+  <rect x="16" y="29" width="5" height="2" rx="1" fill="#334455"/>
+  <!-- Arms -->
+  <rect x="5" y="15" width="4" height="8" rx="1" fill="#445566"/>
+  <rect x="23" y="15" width="4" height="8" rx="1" fill="#445566"/>
+</svg>

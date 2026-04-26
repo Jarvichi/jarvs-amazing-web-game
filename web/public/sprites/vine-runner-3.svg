@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Vine Runner — frame 3 (body 1px down, right leg fwd, left leg back — mirror of 1) -->
+  <!-- Vine tendrils trailing -->
+  <path d="M12,19 Q6,23 4,29" stroke="#3a7a20" stroke-width="1.5" fill="none" opacity="0.8"/>
+  <path d="M13,21 Q7,27 5,32" stroke="#55aa33" stroke-width="1" fill="none" opacity="0.6"/>
+  <!-- Slim body 1px down -->
+  <rect x="12" y="14" width="8" height="10" rx="2" fill="#3a7a20"/>
+  <polygon points="15,14 17,14 19,12 13,12" fill="#55aa33" opacity="0.6"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="10" rx="4" ry="4" fill="#3a7a20" stroke="#553311" stroke-width="0.8"/>
+  <!-- Leaf crest -->
+  <path d="M14,7 Q16,3 18,7 Q16,6 14,7 Z" fill="#88dd44"/>
+  <path d="M13,8 Q15,4 17,8 Q15,7 13,8 Z" fill="#55aa33"/>
+  <!-- Eyes -->
+  <circle cx="14.5" cy="10" r="0.8" fill="#88dd44"/>
+  <circle cx="17.5" cy="10" r="0.8" fill="#88dd44"/>
+  <!-- Arms -->
+  <path d="M12,16 Q8,15 7,19" stroke="#553311" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M20,16 Q24,15 25,19" stroke="#553311" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- Right leg forward 2px, left leg back 1px -->
+  <rect x="17" y="24" width="3" height="7" rx="1" fill="#553311" transform="rotate(-12,18.5,27)"/>
+  <rect x="12" y="24" width="3" height="7" rx="1" fill="#553311" transform="rotate(8,13.5,27)"/>
+  <!-- Feet -->
+  <ellipse cx="21" cy="30" rx="2" ry="1" fill="#3a7a20"/>
+  <ellipse cx="13" cy="30" rx="2" ry="1" fill="#3a7a20"/>
+</svg>

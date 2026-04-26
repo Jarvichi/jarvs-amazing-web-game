@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Vine Runner — idle (fast agile vine creature) -->
+  <!-- Vine tendrils trailing (back) -->
+  <path d="M12,18 Q6,22 4,28" stroke="#3a7a20" stroke-width="1.5" fill="none" opacity="0.8"/>
+  <path d="M13,20 Q7,26 5,31" stroke="#55aa33" stroke-width="1" fill="none" opacity="0.6"/>
+  <!-- Slim body -->
+  <rect x="12" y="13" width="8" height="10" rx="2" fill="#3a7a20"/>
+  <!-- Forward lean -->
+  <polygon points="15,13 17,13 19,11 13,11" fill="#55aa33" opacity="0.6"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="9" rx="4" ry="4" fill="#3a7a20" stroke="#553311" stroke-width="0.8"/>
+  <!-- Leaf crest -->
+  <path d="M14,6 Q16,2 18,6 Q16,5 14,6 Z" fill="#88dd44"/>
+  <path d="M13,7 Q15,3 17,7 Q15,6 13,7 Z" fill="#55aa33"/>
+  <!-- Eyes -->
+  <circle cx="14.5" cy="9" r="0.8" fill="#88dd44"/>
+  <circle cx="17.5" cy="9" r="0.8" fill="#88dd44"/>
+  <!-- Bark texture arms -->
+  <path d="M12,15 Q8,14 7,18" stroke="#553311" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M20,15 Q24,14 25,18" stroke="#553311" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- Slim sprinting legs -->
+  <rect x="13" y="23" width="3" height="7" rx="1" fill="#553311"/>
+  <rect x="16" y="23" width="3" height="7" rx="1" fill="#553311"/>
+  <!-- Feet -->
+  <ellipse cx="14.5" cy="30" rx="2" ry="1" fill="#3a7a20"/>
+  <ellipse cx="17.5" cy="30" rx="2" ry="1" fill="#3a7a20"/>
+</svg>
