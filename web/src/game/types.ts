@@ -289,4 +289,6 @@ export interface GameState {
   endlessOpponentManaMult?: number
   /** Allow the player to have unlimited maximum mana. */
   forgiveManaLimit?: boolean
+  /** Daily challenge: floor for maxMana equal to the highest card cost in the player's deck. */
+  deckMaxMana?: number
 }

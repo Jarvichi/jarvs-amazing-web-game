@@ -1000,11 +1000,12 @@ export default function App() {
     const opponentCards = getDailyOpponentDeck()
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     // Debatable as to whether the reducer state here should be called "START_DAILY_CHALLENGE" instead of "START"
-    dispatch({ type: 'START', gameState: newGame({ 
+    dispatch({ type: 'START', gameState: newGame({
       prebuiltPlayerDeck:   playerCards,
       prebuiltOpponentDeck: opponentCards,
       opponentHandicap: 0,
       quickStart: true,
+      isDailyChallenge: true,
     }) })
     setScreen('playing') // TODO — move this into the reducer so the transition is atomic and can't be interrupted by a re-render
     rollRareEvent()
@@ -1028,6 +1029,7 @@ export default function App() {
       prebuiltOpponentDeck: opponentCards,
       opponentHandicap: 0,
       quickStart: true,
+      isDailyChallenge: true,
     }) })
     setScreen('playing')
     rollRareEvent()
