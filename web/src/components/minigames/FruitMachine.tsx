@@ -373,9 +373,6 @@ export function FruitMachine({ onDone }: Props) {
     setGrandJackpot(newGrand)
     try { localStorage.setItem('fm_grand', String(newGrand)) } catch (e) { logError('fm_grand save', { error: String(e) }) }
 
-    // Detect ⭐⭐⭐ for Grand jackpot trigger
-    const isTripleStar = nextReels[0] === '⭐' && nextReels[1] === '⭐' && nextReels[2] === '⭐'
-
     setPhase('spinning')
     const spinCost = freeSpin ? 0 : 1
     setFreeSpin(false)
@@ -406,19 +403,6 @@ export function FruitMachine({ onDone }: Props) {
       setDisplay(nextReels)
       setLadderDisplay(nextLadder)
       setHeld([false, false, false])
-
-      if (isTripleStar) {
-        const amount = grandJackpotRef.current
-        const resetVal = JACKPOT_TIERS[3].base
-        grandJackpotRef.current = resetVal
-        setGrandJackpot(resetVal)
-        try { localStorage.setItem('fm_grand', String(resetVal)) } catch (e) { logError('fm_grand reset', { error: String(e) }) }
-        setLastWin(amount)
-        setCredits(c => Math.max(0, c + amount))
-        setJackpotWon({ tier: 'Grand', amount })
-        setPhase('jackpot-win')
-        return
-      }
 
       const { credits: win, winType } = calcPayout(nextReels)
       const featureHits = nextReels.filter(x => x === FEATURE).length
@@ -764,7 +748,7 @@ export function FruitMachine({ onDone }: Props) {
           <tbody>
             <tr><td>🃏🃏🃏</td><td>40 credits (triple wild)</td></tr>
             <tr><td>💎💎💎</td><td>50 credits</td></tr>
-            <tr><td>⭐⭐⭐</td><td>GRAND JACKPOT 🌠</td></tr>
+            <tr><td>⭐⭐⭐</td><td>30 credits</td></tr>
             <tr><td>🔔🔔🔔</td><td>20 credits</td></tr>
             <tr><td>Any triple</td><td>10 credits</td></tr>
             <tr><td>💎💎 pair</td><td>5 credits</td></tr>
