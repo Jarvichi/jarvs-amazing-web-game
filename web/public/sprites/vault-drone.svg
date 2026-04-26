@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Vault Drone — idle (small flying mechanical drone) -->
+  <!-- Rotor blades -->
+  <ellipse cx="16" cy="9" rx="9" ry="1.5" fill="#aabbcc" opacity="0.7"/>
+  <line x1="7" y1="9" x2="25" y2="9" stroke="#778899" stroke-width="1"/>
+  <!-- Disc body -->
+  <ellipse cx="16" cy="16" rx="8" ry="5" fill="#778899" stroke="#334455" stroke-width="1"/>
+  <ellipse cx="16" cy="15" rx="5" ry="3" fill="#aabbcc" opacity="0.5"/>
+  <!-- Sensor eye -->
+  <circle cx="16" cy="16" r="2.5" fill="#334455"/>
+  <circle cx="16" cy="16" r="1.5" fill="#ffdd44"/>
+  <circle cx="16.5" cy="15.5" r="0.5" fill="#ffffff" opacity="0.8"/>
+  <!-- Rivets on body -->
+  <circle cx="11" cy="15" r="0.7" fill="#aabbcc"/>
+  <circle cx="21" cy="15" r="0.7" fill="#aabbcc"/>
+  <circle cx="13" cy="19" r="0.7" fill="#aabbcc"/>
+  <circle cx="19" cy="19" r="0.7" fill="#aabbcc"/>
+  <!-- Thruster nozzles bottom -->
+  <rect x="12" y="20" width="3" height="3" rx="1" fill="#334455"/>
+  <rect x="17" y="20" width="3" height="3" rx="1" fill="#334455"/>
+  <ellipse cx="13.5" cy="23" rx="1.5" ry="0.7" fill="#ffdd44" opacity="0.6"/>
+  <ellipse cx="18.5" cy="23" rx="1.5" ry="0.7" fill="#ffdd44" opacity="0.6"/>
+</svg>
