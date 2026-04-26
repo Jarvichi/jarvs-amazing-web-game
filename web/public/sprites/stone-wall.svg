@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Stone wall — heavy grey stonework with battlements -->
+  <!-- Battlements -->
+  <rect x="0" y="0" width="6" height="10" rx="0.5" fill="#7a7a7a" stroke="#555" stroke-width="0.6"/>
+  <rect x="8" y="0" width="6" height="10" rx="0.5" fill="#7a7a7a" stroke="#555" stroke-width="0.6"/>
+  <rect x="16" y="0" width="6" height="10" rx="0.5" fill="#7a7a7a" stroke="#555" stroke-width="0.6"/>
+  <rect x="24" y="0" width="8" height="10" rx="0.5" fill="#7a7a7a" stroke="#555" stroke-width="0.6"/>
+  <!-- Main wall body -->
+  <rect x="0" y="9" width="32" height="23" fill="#888"/>
+  <!-- Row 1 stones -->
+  <rect x="0" y="10" width="13" height="6" rx="0.5" fill="#8a8a8a" stroke="#666" stroke-width="0.5"/>
+  <rect x="15" y="10" width="17" height="6" rx="0.5" fill="#888" stroke="#666" stroke-width="0.5"/>
+  <!-- Row 2 stones (offset) -->
+  <rect x="0" y="18" width="8" height="6" rx="0.5" fill="#999" stroke="#666" stroke-width="0.5"/>
+  <rect x="10" y="18" width="12" height="6" rx="0.5" fill="#878787" stroke="#666" stroke-width="0.5"/>
+  <rect x="24" y="18" width="8" height="6" rx="0.5" fill="#999" stroke="#666" stroke-width="0.5"/>
+  <!-- Row 3 stones -->
+  <rect x="0" y="26" width="15" height="6" rx="0.5" fill="#8a8a8a" stroke="#666" stroke-width="0.5"/>
+  <rect x="17" y="26" width="15" height="6" rx="0.5" fill="#888" stroke="#666" stroke-width="0.5"/>
+  <!-- Mortar lines -->
+  <line x1="0" y1="9" x2="32" y2="9" stroke="#555" stroke-width="1.2"/>
+  <line x1="0" y1="17" x2="32" y2="17" stroke="#555" stroke-width="1.2"/>
+  <line x1="0" y1="25" x2="32" y2="25" stroke="#555" stroke-width="1.2"/>
+  <line x1="14" y1="9" x2="14" y2="17" stroke="#555" stroke-width="1.2"/>
+  <line x1="9" y1="17" x2="9" y2="25" stroke="#555" stroke-width="1.2"/>
+  <line x1="23" y1="17" x2="23" y2="25" stroke="#555" stroke-width="1.2"/>
+  <line x1="16" y1="25" x2="16" y2="32" stroke="#555" stroke-width="1.2"/>
+</svg>
