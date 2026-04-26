@@ -10203,6 +10203,15 @@ html.light-mode .action-btn {
   box-shadow: 0 0 8px rgba(200, 160, 0, 0.4);
 }
 
+.fm-reel--with-peek {
+  height: auto;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 0;
+  overflow: visible;
+}
+
 .fm-reel--spinning .fm-symbol {
   animation: fm-reel-roll 0.08s steps(1) infinite;
 }
@@ -10438,6 +10447,15 @@ html.light-mode .action-btn {
   background: #0a1a0a;
 }
 
+.fm-nudge-banner {
+  text-align: center;
+  font-size: 0.929rem;
+  font-weight: bold;
+  color: #ffd700;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
 /* Nudge UI */
 .fm-nudge-ui {
   display: flex;
@@ -10497,10 +10515,26 @@ html.light-mode .action-btn {
   overflow: visible;
 }
 
+.fm-reel--peek-above {
+  clip-path: inset(60% 0 0 0);
+  transform: translateY(-60%);
+  height: 60px;}
+
+.fm-reel--peek-below {
+  clip-path: inset(0 0 60% 0);
+  transform: translateY(60%);
+  height: 60px;
+}
+
+.fm-peek-row--above {
+}
+
 .fm-symbol--peek {
-  font-size: 1.571rem;
+  font-size: 1.2rem;
   opacity: 0.4;
   user-select: none;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 /* 4th trail reel */
@@ -10515,7 +10549,7 @@ html.light-mode .action-btn {
 }
 
 .fm-ladder-reel-label {
-  font-size: 0.571rem;
+  font-size: 1rem;
   color: #666;
   letter-spacing: 1px;
   text-transform: uppercase;
