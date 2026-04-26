@@ -114,8 +114,8 @@ function pickReelPos(): number {
 }
 
 // 4th "trail" reel — controls how many steps the feature board advances each spin
-const LADDER_SYMBOLS = ['+1', '+2', 'Lose', 'Stay'] as const
-const LADDER_WEIGHTS = [4, 2, 2, 93]  // ≈ 1/25, 1/50, 1/100, rest
+const LADDER_SYMBOLS = ['+1', '+2', 'Lose', 'Stay', '-1', '-2'] as const
+const LADDER_WEIGHTS = [4, 2, 1, 87, 2, 4]  // ≈ 1/25, 1/50, 1/100, rest
 type LadderSymbol = (typeof LADDER_SYMBOLS)[number]
 
 function pickLadderSymbol(): LadderSymbol {
@@ -476,7 +476,7 @@ export function FruitMachine({ onDone }: Props) {
       if (nextLadder === 'Lose') {
         resetBoardToZero()
       } else {
-        advanceBoardBy((nextLadder === '+1' ? 1 : nextLadder === '+2' ? 2 : 0) + featureStep)
+        advanceBoardBy((nextLadder === '+1' ? 1 : nextLadder === '+2' ? 2 : nextLadder === '-1' ? -1 : nextLadder === '-2' ? -2 : 0) + featureStep)
       }
     }, SPIN_DURATION_MS)
   }
