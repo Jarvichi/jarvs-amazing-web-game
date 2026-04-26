@@ -98,6 +98,7 @@ export const STARTER_COLLECTION: CollectionEntry[] = [
   { cardName: 'Knight',         count: 3 },
   { cardName: 'Wizard',         count: 1 },
   { cardName: 'Stone Wall',     count: 4 },
+  { cardName: 'Lumber Camp', count: 2 },
   { cardName: 'Farm',     count: 2 },
   { cardName: 'Barracks',       count: 1 },
   { cardName: 'Sharpen Blades', count: 2 },

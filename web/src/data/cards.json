@@ -10270,6 +10270,29 @@
       "lore": "The first answer to every problem. Usually the second answer too."
     },
     {
+      "name": "Lumber Camp",
+      "rarity": "common",
+      "cost": 2,
+      "cardType": "structure",
+      "unit": {
+        "name": "Lumber Camp",
+        "attack": 0,
+        "maxHp": 15,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "attackAura",
+          "amount": 1
+        }
+      },
+      "description": "All friendly units deal +1 damage. Upgrade: +1 more.",
+      "deckCount": 2,
+      "lore": "Axes for trees, edges for everything else."
+    },
+    {
       "name": "Farm",
       "rarity": "uncommon",
       "cost": 3,

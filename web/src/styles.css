@@ -8951,7 +8951,7 @@ html.light-mode .action-btn {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .city-walker {
@@ -9240,6 +9240,13 @@ html.light-mode .action-btn {
 .city-picker-produces {
   font-size: 9px;
   color: #4a9a4a;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+.city-picker-income {
+  font-size: 9px;
+  color: #d0a030;
   margin-top: 2px;
   letter-spacing: 0.5px;
 }
