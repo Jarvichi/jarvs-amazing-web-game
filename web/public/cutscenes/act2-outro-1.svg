@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#08090c"/>
+
+  <!-- Light flooding through the open gate — the key element -->
+  <radialGradient id="gate-light" cx="50%" cy="65%" r="45%">
+    <stop offset="0%" stop-color="#d09040" stop-opacity="0.9"/>
+    <stop offset="30%" stop-color="#a06820" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#08090c" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#gate-light)"/>
+
+  <!-- Ground -->
+  <rect x="0" y="200" width="400" height="40" fill="#0a0c10"/>
+  <line x1="0" y1="200" x2="400" y2="200" stroke="#141820" stroke-width="1"/>
+
+  <!-- Main wall — cracked, damaged -->
+  <rect x="80" y="50" width="240" height="150" fill="#141720" stroke="#1e2230" stroke-width="1.5"/>
+
+  <!-- Wall cracks from the battle -->
+  <g stroke="#252a38" stroke-width="1" fill="none" opacity="0.7">
+    <path d="M140,80 Q148,95 143,115 Q138,130 145,150"/>
+    <path d="M260,85 Q253,102 258,120 Q263,135 257,155"/>
+    <path d="M180,50 Q185,68 182,85"/>
+    <path d="M230,50 Q226,70 229,88"/>
+  </g>
+  <!-- Heavier cracks near gate -->
+  <g stroke="#303548" stroke-width="1.5" fill="none" opacity="0.5">
+    <path d="M165,150 Q172,165 168,180"/>
+    <path d="M235,150 Q228,168 232,182"/>
+    <path d="M155,130 Q148,140 140,148"/>
+    <path d="M245,128 Q252,138 260,148"/>
+  </g>
+
+  <!-- Wall texture -->
+  <g stroke="#1a1e2c" stroke-width="0.7" opacity="0.4">
+    <line x1="80"  y1="80"  x2="320" y2="80"/>
+    <line x1="80"  y1="110" x2="320" y2="110"/>
+    <line x1="80"  y1="140" x2="320" y2="140"/>
+    <line x1="80"  y1="170" x2="320" y2="170"/>
+  </g>
+
+  <!-- Battlements — some knocked off -->
+  <g fill="#1a1e2c" stroke="#252a38" stroke-width="0.8">
+    <rect x="80"  y="35" width="14" height="17"/>
+    <rect x="98"  y="35" width="14" height="17"/>
+    <rect x="116" y="35" width="14" height="17"/>
+    <!-- gap: 134 — merlon knocked off -->
+    <rect x="152" y="35" width="14" height="17"/>
+    <rect x="170" y="35" width="14" height="17"/>
+    <!-- gap: 188 -->
+    <rect x="206" y="35" width="14" height="17"/>
+    <!-- gap: 224 -->
+    <rect x="242" y="35" width="14" height="17"/>
+    <rect x="260" y="35" width="14" height="17"/>
+    <rect x="278" y="35" width="14" height="17"/>
+    <rect x="296" y="35" width="24" height="17"/>
+  </g>
+
+  <!-- Fallen merlon chunks on ground -->
+  <g fill="#141720" stroke="#1e2230" stroke-width="0.5">
+    <rect x="125" y="196" width="12" height="7" transform="rotate(-15,131,200)"/>
+    <rect x="185" y="198" width="10" height="6" transform="rotate(10,190,201)"/>
+    <rect x="228" y="195" width="13" height="8" transform="rotate(-8,234,199)"/>
+  </g>
+
+  <!-- THE GATE — open, blazing with light from beyond -->
+  <!-- Gate frame -->
+  <rect x="162" y="130" width="76" height="70" fill="#0c0e14" stroke="#303548" stroke-width="2"/>
+  <!-- Inner light from open gate -->
+  <rect x="164" y="132" width="72" height="68" fill="#d09040" opacity="0.85"/>
+  <!-- Light rays emanating from gate -->
+  <g stroke="#e0a848" stroke-width="1" fill="none" opacity="0.5">
+    <line x1="200" y1="165" x2="90"  y2="80"/>
+    <line x1="200" y1="165" x2="310" y2="80"/>
+    <line x1="200" y1="165" x2="60"  y2="165"/>
+    <line x1="200" y1="165" x2="340" y2="165"/>
+    <line x1="200" y1="165" x2="120" y2="240"/>
+    <line x1="200" y1="165" x2="280" y2="240"/>
+    <line x1="200" y1="165" x2="200" y2="240"/>
+  </g>
+  <!-- Gate interior glow — silhouette of open space beyond -->
+  <radialGradient id="gate-interior" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#f0c060" stop-opacity="1"/>
+    <stop offset="60%" stop-color="#d09040" stop-opacity="0.8"/>
+    <stop offset="100%" stop-color="#a06830" stop-opacity="0.6"/>
+  </radialGradient>
+  <rect x="164" y="132" width="72" height="68" fill="url(#gate-interior)"/>
+
+  <!-- Silhouette of figure stepping through the gate (soldier moving toward freedom) -->
+  <g fill="#0c0e14" opacity="0.6">
+    <!-- Body -->
+    <rect x="193" y="155" width="14" height="24"/>
+    <!-- Head -->
+    <circle cx="200" cy="151" r="7"/>
+    <!-- Arm outstretched -->
+    <line x1="207" y1="162" x2="218" y2="168" stroke="#0c0e14" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Kragg's banner — falling, torn -->
+  <line x1="197" y1="10" x2="197" y2="37" stroke="#303548" stroke-width="2"/>
+  <!-- Banner torn, hanging sideways -->
+  <polygon points="197,10 232,18 230,30 200,25" fill="#1e2438" stroke="#3a4060" stroke-width="1" transform="rotate(20,197,18)"/>
+  <!-- Iron cross — now broken / crossed out -->
+  <g stroke="#404860" stroke-width="1.2" opacity="0.5" transform="rotate(20,197,18)">
+    <line x1="208" y1="14" x2="208" y2="24"/>
+    <line x1="202" y1="19" x2="215" y2="19"/>
+  </g>
+  <!-- Falling banner pieces -->
+  <g fill="#1e2438" opacity="0.4">
+    <polygon points="155,25 165,20 162,32" transform="rotate(-30,160,26)"/>
+    <polygon points="240,30 250,22 248,35" transform="rotate(15,245,29)"/>
+  </g>
+
+  <!-- Soldiers moving toward gate — tiny silhouettes at ground level -->
+  <g fill="#0c0e14" opacity="0.7">
+    <!-- Figure 1 -->
+    <circle cx="112" cy="196" r="4"/>
+    <rect x="109" y="200" width="6" height="8"/>
+    <!-- Figure 2 -->
+    <circle cx="130" cy="197" r="3.5"/>
+    <rect x="127" y="201" width="6" height="7"/>
+    <!-- Figure 3 on the other side -->
+    <circle cx="272" cy="197" r="4"/>
+    <rect x="269" y="201" width="6" height="8"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#604020" text-anchor="middle" letter-spacing="3">THE WALL FALLS</text>
+</svg>
