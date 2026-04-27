@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#090908"/>
+
+  <!-- Background — the still aftermath, ash ground, dying embers -->
+  <linearGradient id="soulstone-bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0c0a08"/>
+    <stop offset="100%" stop-color="#161210"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#soulstone-bg)"/>
+
+  <!-- Soft warm glow from the stone — the central light source -->
+  <radialGradient id="stone-warmth" cx="50%" cy="62%" r="35%">
+    <stop offset="0%" stop-color="#8c3808" stop-opacity="0.6"/>
+    <stop offset="40%" stop-color="#501c04" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="#090908" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#stone-warmth)"/>
+
+  <!-- Ash ground -->
+  <rect x="0" y="172" width="400" height="68" fill="#0a0908"/>
+  <rect x="0" y="170" width="400" height="4"  fill="#141210"/>
+
+  <!-- Ground cracks — where the Ashwalker fell -->
+  <g stroke="#1c1610" stroke-width="1" opacity="0.6">
+    <!-- Radial cracks from stone centre (200,190) -->
+    <path d="M200,185 Q185,175 160,168"/>
+    <path d="M200,185 Q215,175 240,168"/>
+    <path d="M200,185 Q190,195 170,205"/>
+    <path d="M200,185 Q210,195 230,205"/>
+    <path d="M200,185 Q200,175 200,160"/>
+    <path d="M200,185 Q175,182 145,185"/>
+    <path d="M200,185 Q225,182 255,185"/>
+  </g>
+  <!-- Glowing cracks — residual heat from the Ashwalker -->
+  <g stroke="#8c3808" stroke-width="0.7" opacity="0.3">
+    <path d="M200,185 Q185,175 160,168"/>
+    <path d="M200,185 Q215,175 240,168"/>
+    <path d="M200,185 Q190,195 170,205"/>
+    <path d="M200,185 Q210,195 230,205"/>
+  </g>
+
+  <!-- Ash pile / depression where the Ashwalker stood -->
+  <ellipse cx="200" cy="188" rx="55" ry="14" fill="#0c0a08" stroke="#1a1610" stroke-width="1"/>
+  <ellipse cx="200" cy="187" rx="38" ry="9"  fill="#0e0c0a"/>
+
+  <!-- THE SOULSTONE — centre, on the ground -->
+  <!-- Stone shadow/base -->
+  <ellipse cx="200" cy="196" rx="22" ry="7" fill="#080706" opacity="0.8"/>
+
+  <!-- Stone body — smooth, rounded, dark with inner warmth -->
+  <!-- Back face -->
+  <ellipse cx="200" cy="186" rx="20" ry="16" fill="#1a1410" stroke="#281e14" stroke-width="1"/>
+  <!-- Stone surface gradient — warm glow from within -->
+  <radialGradient id="stone-surface" cx="40%" cy="40%" r="60%">
+    <stop offset="0%" stop-color="#3a1e0c" stop-opacity="1"/>
+    <stop offset="50%" stop-color="#241408" stop-opacity="1"/>
+    <stop offset="100%" stop-color="#140e06" stop-opacity="1"/>
+  </radialGradient>
+  <ellipse cx="200" cy="185" rx="19" ry="15" fill="url(#stone-surface)"/>
+
+  <!-- Stone vein — glowing soul energy inside -->
+  <g stroke="#d06020" stroke-width="0.8" fill="none" opacity="0.7">
+    <path d="M193,178 Q200,183 207,178"/>
+    <path d="M196,183 Q200,188 204,183"/>
+    <path d="M194,188 Q200,193 206,188"/>
+    <path d="M200,176 Q200,183 200,190"/>
+  </g>
+  <!-- Inner glow through veins -->
+  <radialGradient id="soul-glow" cx="50%" cy="55%" r="45%">
+    <stop offset="0%" stop-color="#e07030" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#e07030" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="185" rx="16" ry="12" fill="url(#soul-glow)"/>
+
+  <!-- Stone highlight — smooth surface -->
+  <ellipse cx="194" cy="179" rx="5" ry="4" fill="#281e12" opacity="0.5"/>
+
+  <!-- Ash / bone fragments around the stone -->
+  <g fill="#1a1610" opacity="0.6">
+    <polygon points="155,183 161,178 163,185"/>
+    <polygon points="240,181 245,175 248,183"/>
+    <polygon points="170,192 175,188 177,194"/>
+    <polygon points="225,191 230,186 233,193"/>
+    <polygon points="145,190 149,186 151,192"/>
+    <polygon points="253,189 258,185 260,191"/>
+  </g>
+
+  <!-- Hand reaching toward stone — Jarv picking it up -->
+  <!-- Arm coming in from the left -->
+  <g fill="#181412" stroke="#221c14" stroke-width="0.8">
+    <!-- Forearm -->
+    <polygon points="60,165 85,162 95,178 70,181"/>
+    <!-- Hand -->
+    <polygon points="90,172 105,168 112,178 108,184 92,182"/>
+    <!-- Fingers reaching toward stone -->
+    <line x1="108" y1="173" x2="168" y2="185" stroke="#181412" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+    <!-- Individual finger lines -->
+    <line x1="106" y1="175" x2="165" y2="183" stroke="#181412" stroke-width="1.5"/>
+    <line x1="108" y1="177" x2="165" y2="186" stroke="#181412" stroke-width="1.5"/>
+    <line x1="107" y1="180" x2="163" y2="188" stroke="#181412" stroke-width="1.5"/>
+  </g>
+
+  <!-- Heat shimmer/aura above the stone -->
+  <g stroke="#6c2c10" stroke-width="0.5" fill="none" opacity="0.3">
+    <path d="M188,170 Q191,163 194,170"/>
+    <path d="M196,168 Q199,160 202,168"/>
+    <path d="M204,170 Q207,162 210,170"/>
+    <path d="M212,172 Q215,165 218,172"/>
+  </g>
+
+  <!-- Floating ash settling into stillness -->
+  <g fill="#2a2018" opacity="0.35">
+    <circle cx="60"  cy="50"  r="1.5"/>
+    <circle cx="130" cy="35"  r="1"/>
+    <circle cx="280" cy="45"  r="1.5"/>
+    <circle cx="350" cy="30"  r="1"/>
+    <circle cx="40"  cy="110" r="1.5"/>
+    <circle cx="360" cy="90"  r="1"/>
+    <circle cx="100" cy="130" r="1"/>
+    <circle cx="300" cy="115" r="1.5"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#3a2c1a" text-anchor="middle" letter-spacing="3">SOULSTONE</text>
+</svg>
