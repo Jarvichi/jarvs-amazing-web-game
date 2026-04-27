@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Central elder tree trunk (thick, gnarled) -->
+  <rect x="12" y="19" width="8" height="12" rx="3" fill="#5a3010"/>
+  <line x1="14" y1="19" x2="13" y2="31" stroke="#3a1a00" stroke-width="1"/>
+  <line x1="18" y1="19" x2="19" y2="31" stroke="#3a1a00" stroke-width="1"/>
+  <!-- Main canopy (large, dark ancient) -->
+  <circle cx="16" cy="12" r="11" fill="#1a5010"/>
+  <circle cx="16" cy="10" r="9" fill="#2a6a18"/>
+  <circle cx="14" cy="11" r="7" fill="#1a5010" opacity="0.5"/>
+  <!-- Flanking elder trees -->
+  <rect x="3" y="22" width="4" height="9" rx="1.5" fill="#4a2a08"/>
+  <circle cx="5" cy="17" r="6" fill="#1a5010"/>
+  <circle cx="5" cy="15" r="4.5" fill="#2a6a18"/>
+  <rect x="25" y="22" width="4" height="9" rx="1.5" fill="#4a2a08"/>
+  <circle cx="27" cy="17" r="6" fill="#1a5010"/>
+  <circle cx="27" cy="15" r="4.5" fill="#2a6a18"/>
+  <!-- Ancient roots spreading -->
+  <ellipse cx="10" cy="31" rx="5" ry="1.5" fill="#3a1a00" transform="rotate(-20,10,31)"/>
+  <ellipse cx="22" cy="31" rx="5" ry="1.5" fill="#3a1a00" transform="rotate(20,22,31)"/>
+  <!-- Golden glow/light through canopy -->
+  <circle cx="16" cy="12" r="4" fill="#88dd44" opacity="0.25"/>
+  <circle cx="16" cy="11" r="2" fill="#aaff55" opacity="0.2"/>
+  <!-- Wisps of ancient magic -->
+  <circle cx="10" cy="10" r="1" fill="#44ff88" opacity="0.5"/>
+  <circle cx="22" cy="9" r="0.8" fill="#44ff88" opacity="0.4"/>
+  <circle cx="8" cy="16" r="0.7" fill="#88ffaa" opacity="0.5"/>
+  <circle cx="24" cy="15" r="0.7" fill="#88ffaa" opacity="0.4"/>
+  <!-- Ancient rune on trunk -->
+  <text x="16" y="27" font-size="6" text-anchor="middle" fill="#88cc44" font-family="monospace">ᚠ</text>
+  <!-- Star/flower at crown -->
+  <circle cx="16" cy="4" r="2" fill="#aaff44" opacity="0.6"/>
+  <circle cx="16" cy="4" r="1" fill="#ccff88" opacity="0.7"/>
+</svg>
