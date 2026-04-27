@@ -1,6 +1,12 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-04-22 (session 42).
+Issues sourced from GitHub. Last synced: 2026-04-27 (session 43).
+
+## 🔵 Improvements — New (from GitHub, session 43 sync)
+
+- [ ] **#820** Fruit machine: jackpot odds balancing — Improvement | Priority: Medium — Adjust trail weight distribution once jackpot ≥ 10,000 (reduce -1/-2 weights, increase + weights, keep total = 100); clamp trail so -1/-2 become +1/+2 when position < 2. Sub-tasks:
+  - [ ] Reduce -1/-2 trail weights and increase + weights when jackpot ≥ 10,000
+  - [ ] When trail position < 2, replace -1/-2 outcomes with +1/+2
 
 ## 🟣 Features — New (from GitHub, session 42 sync)
 
