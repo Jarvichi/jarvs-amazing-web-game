@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Chaotic decay wave — distorted, fragmented arcs -->
+  <!-- Wave 1 (outer, breaking apart) -->
+  <path d="M1,16 Q4,10 7,13 Q9,15 10,12 Q12,8 14,11 Q15,13 16,10" stroke="#8844cc" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M16,10 Q18,7 20,10 Q21,12 23,9 Q25,6 27,10 Q29,13 31,10" stroke="#aa55dd" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <!-- Wave 2 (mid) -->
+  <path d="M1,20 Q3,14 6,17 Q8,19 10,16 Q12,13 15,17 Q16,19 17,16" stroke="#6633aa" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M17,16 Q19,13 21,16 Q23,19 25,15 Q27,12 29,16 Q30,18 31,16" stroke="#7744bb" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <!-- Wave 3 (inner, most chaotic) -->
+  <path d="M2,23 Q5,18 7,21 Q9,24 12,20 Q14,17 16,21 Q17,23 18,20 Q20,17 22,21 Q25,25 27,20 Q29,17 31,21" stroke="#9955ee" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <!-- Entropy particles (fragmenting) -->
+  <circle cx="8" cy="12" r="1.2" fill="#aa55dd" opacity="0.8"/>
+  <circle cx="16" cy="8" r="1" fill="#cc66ff" opacity="0.7"/>
+  <circle cx="24" cy="11" r="1.2" fill="#aa55dd" opacity="0.7"/>
+  <circle cx="4" cy="20" r="0.9" fill="#8833bb" opacity="0.6"/>
+  <circle cx="28" cy="18" r="0.9" fill="#9944cc" opacity="0.6"/>
+  <!-- Decay fragments (squares dissolving) -->
+  <rect x="10" y="6" width="2" height="2" rx="0.3" fill="#7733aa" opacity="0.5"/>
+  <rect x="20" y="5" width="2" height="2" rx="0.3" fill="#8844bb" opacity="0.4"/>
+  <rect x="6" y="25" width="2" height="2" rx="0.3" fill="#6622aa" opacity="0.5"/>
+  <rect x="24" y="24" width="2" height="2" rx="0.3" fill="#7733bb" opacity="0.4"/>
+  <!-- Central entropy burst -->
+  <circle cx="16" cy="17" r="3" fill="#440066" opacity="0.7"/>
+  <circle cx="16" cy="17" r="1.5" fill="#9933cc" opacity="0.8"/>
+  <circle cx="16" cy="17" r="0.7" fill="#cc66ff" opacity="0.9"/>
+</svg>
