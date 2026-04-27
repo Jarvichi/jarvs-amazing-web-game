@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Speed lines trailing left -->
+  <line x1="1" y1="12" x2="14" y2="14" stroke="#ff6600" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <line x1="1" y1="16" x2="12" y2="16" stroke="#ff4400" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  <line x1="1" y1="20" x2="14" y2="18" stroke="#ff6600" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <line x1="3" y1="9" x2="12" y2="12" stroke="#ffaa00" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+  <line x1="3" y1="23" x2="12" y2="20" stroke="#ffaa00" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+  <!-- Flame body (teardrop going right) -->
+  <path d="M10,16 Q12,8 20,10 Q26,12 27,16 Q26,20 20,22 Q12,24 10,16 Z" fill="#ff4400"/>
+  <path d="M12,16 Q14,10 20,12 Q24,14 25,16 Q24,18 20,20 Q14,22 12,16 Z" fill="#ff8800"/>
+  <path d="M14,16 Q16,12 20,13 Q23,14.5 23,16 Q23,17.5 20,19 Q16,20 14,16 Z" fill="#ffcc00"/>
+  <!-- Arrow tip pointing right -->
+  <polygon points="27,16 23,12 23,20" fill="#ffffff" opacity="0.9"/>
+  <polygon points="29,16 25,13 25,19" fill="#ffee44"/>
+  <!-- Flame inner core -->
+  <ellipse cx="19" cy="16" rx="3" ry="2.5" fill="#ffee44" opacity="0.8"/>
+  <ellipse cx="19" cy="16" rx="1.5" ry="1.2" fill="#ffffff" opacity="0.6"/>
+  <!-- Ember sparks -->
+  <circle cx="8" cy="10" r="1.2" fill="#ff8800" opacity="0.7"/>
+  <circle cx="6" cy="16" r="1" fill="#ff6600" opacity="0.6"/>
+  <circle cx="8" cy="22" r="1.2" fill="#ff8800" opacity="0.7"/>
+  <circle cx="14" cy="7" r="0.8" fill="#ffaa00" opacity="0.5"/>
+  <circle cx="14" cy="25" r="0.8" fill="#ffaa00" opacity="0.5"/>
+</svg>
