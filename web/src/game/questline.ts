@@ -232,6 +232,7 @@ export function generateMerchantCards(): string[] {
 export interface CutscenePanel {
   title: string
   text: string
+  image?: string  // path relative to /public, e.g. "cutscenes/act1-intro-1.svg"
 }
 
 // ─── Intro rule system ────────────────────────────────────
