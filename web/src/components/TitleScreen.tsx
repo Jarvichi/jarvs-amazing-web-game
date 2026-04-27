@@ -4,6 +4,8 @@ import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX, load
 import { loadRun } from '../game/questline'
 import { getCardCatalog } from '../game/cards'
 import { hasUnclaimedAchievements } from '../game/achievements'
+import { getDailyShopSellSlots } from '../game/shopSchedule'
+import { loadInventory } from '../game/dailyLogin'
 import { TitleButton } from './TitleButton'
 import { SpriteImg } from './SpriteImg'
 import { TitleIdleAnimation } from './TitleIdleAnimation'
@@ -63,6 +65,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   const catalogTotal        = catalog.length
   const achievementAlert    = hasUnclaimedAchievements()
   const collectionAlert     = collection.some(e => e.count > COPIES_MAX)
+  const shopAlert           = (() => { const inv = loadInventory(); return getDailyShopSellSlots().some(s => inv.some(i => i.id === s.id)) })()
   const winStreak           = loadWinStreak()
   const bestStreak          = loadBestStreak()
   const dailyChallenge      = getDailyChallengeState()
@@ -237,7 +240,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         <div className="title-nav-grid">
           <TitleButton onClick={onDeckBuilder}>DECK BUILDER</TitleButton>
           <TitleButton onClick={onCollection} badge={collectionAlert}>COLLECTION</TitleButton>
-          <TitleButton onClick={onShop}>🛒 SHOP</TitleButton>
+          <TitleButton onClick={onShop} badge={shopAlert}>🛒 SHOP</TitleButton>
           <TitleButton onClick={onHeroCards}>🦸 HEROES</TitleButton>
           <TitleButton onClick={onInventory}>🎒 INVENTORY</TitleButton>
           <TitleButton onClick={onAchievements} badge={achievementAlert}>🏆 ACHIEVEMENTS</TitleButton>

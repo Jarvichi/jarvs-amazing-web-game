@@ -326,7 +326,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
                   </div>
                 )}
                 <button
-                  className="action-btn"
+                  className={`action-btn${!hasItem ? ' action-btn--dim' : ''}`}
                   onClick={() => handleSellClick(slotId, hasItem)}
                   disabled={!hasItem || alreadySold}
                 >
