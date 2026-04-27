@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#090908"/>
+
+  <!-- Fading ember glow at centre — the collapse point -->
+  <radialGradient id="collapse-centre" cx="50%" cy="60%" r="40%">
+    <stop offset="0%" stop-color="#c04808" stop-opacity="0.45"/>
+    <stop offset="50%" stop-color="#601808" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#090908" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#collapse-centre)"/>
+
+  <!-- Ground -->
+  <rect x="0" y="185" width="400" height="55" fill="#0a0908"/>
+  <rect x="0" y="183" width="400" height="4" fill="#131108"/>
+
+  <!-- Cracked ash ground -->
+  <g stroke="#1c1610" stroke-width="0.8" opacity="0.5">
+    <path d="M0,198 Q80,193 160,198 Q240,203 320,197 Q370,194 400,198"/>
+    <path d="M0,212 Q60,208 120,213 Q180,218 250,212 Q320,207 400,213"/>
+  </g>
+
+  <!-- THE ASHWALKER COLLAPSING — centre mass disintegrating inward -->
+  <!-- Outer ash ring / explosion outward -->
+  <g fill="#1e1610" opacity="0.4">
+    <ellipse cx="200" cy="150" rx="80" ry="40" opacity="0.3"/>
+    <ellipse cx="200" cy="150" rx="55" ry="28" opacity="0.4"/>
+  </g>
+
+  <!-- Ash debris flying outward from collapse -->
+  <g fill="#2a2018" opacity="0.7">
+    <!-- Upper fragments flying out -->
+    <polygon points="168,90 175,82 178,94"/>
+    <polygon points="228,85 234,76 237,88"/>
+    <polygon points="148,110 142,100 152,105"/>
+    <polygon points="252,108 258,98 260,110"/>
+    <!-- Side fragments -->
+    <polygon points="120,138 112,130 122,125"/>
+    <polygon points="280,135 288,126 290,138"/>
+    <polygon points="130,158 120,153 126,163"/>
+    <polygon points="272,155 282,150 278,162"/>
+  </g>
+  <!-- Lighter ash wisps -->
+  <g fill="#201a12" opacity="0.5">
+    <polygon points="185,75 189,66 192,77"/>
+    <polygon points="210,72 215,63 217,74"/>
+    <polygon points="140,95 134,88 143,90"/>
+    <polygon points="262,92 268,84 269,95"/>
+  </g>
+
+  <!-- Core of collapsing body — imploding inward -->
+  <!-- The smoke form pulling back into itself -->
+  <!-- Lower mass (legs/roots) crumbling -->
+  <g fill="#1a1410" opacity="0.8">
+    <ellipse cx="200" cy="162" rx="18" ry="10"/>
+    <ellipse cx="190" cy="155" rx="8"  ry="12" transform="rotate(-15,190,155)"/>
+    <ellipse cx="210" cy="154" rx="8"  ry="12" transform="rotate(15,210,154)"/>
+  </g>
+  <!-- Mid body — fragmenting -->
+  <g fill="#161208" opacity="0.75">
+    <ellipse cx="200" cy="142" rx="14" ry="12"/>
+    <polygon points="188,135 196,128 204,135 200,148 192,148"/>
+    <!-- Fragments peeling off -->
+    <polygon points="184,130 178,122 186,120 188,130"/>
+    <polygon points="216,128 220,120 226,124 216,133"/>
+  </g>
+  <!-- Upper body — almost gone, just wisps -->
+  <g fill="#100e08" opacity="0.6">
+    <ellipse cx="200" cy="122" rx="10" ry="10"/>
+    <ellipse cx="200" cy="110" rx="7"  ry="8"/>
+  </g>
+  <!-- The skull — the last thing to go, cracking apart -->
+  <circle cx="200" cy="98" r="9" fill="#0e0c08" stroke="#1a1410" stroke-width="1"/>
+  <!-- Eye sockets — dark, no longer glowing -->
+  <circle cx="196" cy="96" r="2.5" fill="#070605"/>
+  <circle cx="204" cy="96" r="2.5" fill="#070605"/>
+  <!-- Cracks in skull -->
+  <g stroke="#1a1410" stroke-width="0.8" fill="none">
+    <path d="M200,89 Q203,94 200,98"/>
+    <path d="M200,98 Q196,103 194,108"/>
+    <path d="M200,98 Q204,103 206,108"/>
+  </g>
+
+  <!-- Arms — trailing upward, dissolving -->
+  <g stroke="#1a1410" stroke-width="2" fill="none" opacity="0.5">
+    <path d="M188,130 Q170,118 155,108"/>
+    <path d="M155,108 Q140,100 128,95"/>
+  </g>
+  <g stroke="#1a1410" stroke-width="2" fill="none" opacity="0.5">
+    <path d="M212,128 Q232,116 248,107"/>
+    <path d="M248,107 Q264,98 276,93"/>
+  </g>
+
+  <!-- Fires around the field — dimming -->
+  <!-- Left fire — low, dying -->
+  <radialGradient id="dying-fire-l" cx="50%" cy="100%" r="60%">
+    <stop offset="0%" stop-color="#a03808" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#a03808" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="90"  cy="185" rx="20" ry="8" fill="url(#dying-fire-l)"/>
+  <ellipse cx="90"  cy="183" rx="8"  ry="5" fill="#c04808" opacity="0.3"/>
+
+  <!-- Right fire — also dying -->
+  <radialGradient id="dying-fire-r" cx="50%" cy="100%" r="60%">
+    <stop offset="0%" stop-color="#a03808" stop-opacity="0.45"/>
+    <stop offset="100%" stop-color="#a03808" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="318" cy="186" rx="18" ry="7" fill="url(#dying-fire-r)"/>
+  <ellipse cx="318" cy="184" rx="7"  ry="4" fill="#b04008" opacity="0.3"/>
+
+  <!-- Settling ash falling everywhere -->
+  <g fill="#2a2018" opacity="0.5">
+    <circle cx="50"  cy="40"  r="2"/>
+    <circle cx="100" cy="25"  r="1.5"/>
+    <circle cx="155" cy="50"  r="2"/>
+    <circle cx="250" cy="30"  r="1.5"/>
+    <circle cx="310" cy="55"  r="2"/>
+    <circle cx="360" cy="20"  r="1.5"/>
+    <circle cx="380" cy="70"  r="2"/>
+    <circle cx="30"  cy="80"  r="1.5"/>
+    <circle cx="140" cy="75"  r="2"/>
+    <circle cx="290" cy="65"  r="1.5"/>
+  </g>
+  <!-- Settling ash streaks (slowing) -->
+  <g stroke="#2a2018" stroke-width="0.5" opacity="0.35">
+    <line x1="70"  y1="35" x2="68"  y2="50"/>
+    <line x1="170" y1="20" x2="168" y2="38"/>
+    <line x1="275" y1="40" x2="273" y2="55"/>
+    <line x1="355" y1="30" x2="353" y2="48"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#3a2c1a" text-anchor="middle" letter-spacing="3">THE ASHES SETTLE</text>
+</svg>
