@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Zephyr Scout — static/frame 2 -->
+  <!-- Hair/hood (wind-swept) -->
+  <path d="M11,6 Q13,1 16,3 Q19,1 21,6" fill="#ccaa44"/>
+  <path d="M21,6 Q26,3 25,7" fill="#ccaa44" opacity="0.7"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="8" rx="5" ry="5" fill="#f0c898"/>
+  <!-- Eyes (alert, keen) -->
+  <ellipse cx="14" cy="7.5" rx="1.2" ry="1" fill="#1a4a1a"/>
+  <ellipse cx="18" cy="7.5" rx="1.2" ry="1" fill="#1a4a1a"/>
+  <circle cx="14.3" cy="7.3" r="0.4" fill="#ffffff"/>
+  <circle cx="18.3" cy="7.3" r="0.4" fill="#ffffff"/>
+  <!-- Light scarf -->
+  <path d="M11,11 Q16,14 21,11" stroke="#88ccaa" stroke-width="2" fill="none"/>
+  <path d="M21,11 Q25,9 27,12" stroke="#88ccaa" stroke-width="1.5" fill="none" opacity="0.7"/>
+  <!-- Body (light leather vest) -->
+  <rect x="12" y="12" width="8" height="10" rx="2" fill="#7a6a2a"/>
+  <rect x="12" y="12" width="8" height="2.5" fill="#6a5a1a"/>
+  <!-- Belt -->
+  <rect x="12" y="19" width="8" height="1.5" fill="#4a3a0a"/>
+  <!-- Arms (slender) -->
+  <rect x="8" y="13" width="4" height="7" rx="2" fill="#7a6a2a"/>
+  <rect x="20" y="13" width="4" height="7" rx="2" fill="#7a6a2a"/>
+  <!-- Wing cloak (feathered) -->
+  <path d="M12,13 Q5,18 4,24 Q8,22 12,22 Z" fill="#99bb55" opacity="0.8"/>
+  <path d="M20,13 Q27,18 28,24 Q24,22 20,22 Z" fill="#99bb55" opacity="0.8"/>
+  <!-- Feather details -->
+  <line x1="8" y1="16" x2="5" y2="20" stroke="#7a9a33" stroke-width="0.7"/>
+  <line x1="10" y1="18" x2="6" y2="22" stroke="#7a9a33" stroke-width="0.7"/>
+  <line x1="24" y1="16" x2="27" y2="20" stroke="#7a9a33" stroke-width="0.7"/>
+  <line x1="22" y1="18" x2="26" y2="22" stroke="#7a9a33" stroke-width="0.7"/>
+  <!-- Legs -->
+  <rect x="13" y="22" width="3" height="8" rx="1" fill="#5a4a1a"/>
+  <rect x="17" y="22" width="3" height="8" rx="1" fill="#5a4a1a"/>
+  <!-- Boots -->
+  <rect x="12" y="28" width="5" height="3" rx="1" fill="#3a2a0a"/>
+  <rect x="16" y="28" width="5" height="3" rx="1" fill="#3a2a0a"/>
+</svg>
