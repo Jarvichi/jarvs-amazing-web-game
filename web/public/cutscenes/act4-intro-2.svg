@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#06040e"/>
+
+  <!-- Deep arcane sky -->
+  <linearGradient id="sky-wand4" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#08061a"/>
+    <stop offset="100%" stop-color="#140e30"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#sky-wand4)"/>
+
+  <!-- Distant Crystal Spire on horizon — rightward -->
+  <g opacity="0.7">
+    <polygon points="295,170 310,60  325,170" fill="#0e0c28" stroke="#1e1860" stroke-width="0.8"/>
+    <polygon points="310,60 317,90 314,170 308,170 304,130 308,65" fill="#141050" opacity="0.7"/>
+    <circle cx="310" cy="62" r="2" fill="#6090e0" opacity="0.8"/>
+    <polygon points="278,170 290,90  302,170" fill="#0c0a22" stroke="#181850" stroke-width="0.6"/>
+    <circle cx="290" cy="91" r="1.5" fill="#4070c0" opacity="0.6"/>
+    <polygon points="318,170 330,95  342,170" fill="#0c0a22" stroke="#181850" stroke-width="0.6"/>
+    <circle cx="330" cy="96" r="1.5" fill="#4070c0" opacity="0.6"/>
+  </g>
+
+  <!-- Arcane glow from the Spire ahead -->
+  <radialGradient id="spire-distant" cx="77%" cy="65%" r="28%">
+    <stop offset="0%" stop-color="#4060c0" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#4060c0" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#spire-distant)"/>
+
+  <!-- Crystal ground — faint facets -->
+  <rect x="0" y="196" width="400" height="44" fill="#08060e"/>
+  <rect x="0" y="193" width="400" height="5" fill="#100c30"/>
+  <g stroke="#1e1850" stroke-width="0.5" opacity="0.4">
+    <path d="M0,205 Q80,200 160,205 Q240,210 320,204 Q370,200 400,206"/>
+    <path d="M0,218 Q60,214 130,219 Q200,224 280,218 Q350,214 400,220"/>
+  </g>
+
+  <!-- Small crystal formations on the ground path -->
+  <g fill="#0e0c28" stroke="#1e1860" stroke-width="0.5" opacity="0.7">
+    <polygon points="60,196  65,183  70,196"/>
+    <polygon points="73,196  80,178  87,196"/>
+    <polygon points="310,196 316,186 322,196"/>
+    <polygon points="325,196 332,180 339,196"/>
+  </g>
+
+  <!-- JARV — wanderer figure, left of centre, facing right -->
+  <ellipse cx="150" cy="205" rx="22" ry="6" fill="#050408" opacity="0.7"/>
+
+  <!-- Boots -->
+  <ellipse cx="140" cy="208" rx="6" ry="3" fill="#0a0818"/>
+  <ellipse cx="158" cy="207" rx="6" ry="3" fill="#0a0818"/>
+
+  <!-- Legs -->
+  <line x1="144" y1="196" x2="140" y2="208" stroke="#10081e" stroke-width="4" stroke-linecap="round"/>
+  <line x1="154" y1="196" x2="158" y2="207" stroke="#10081e" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Cloak -->
+  <polygon points="133,178 168,178 172,198 129,198" fill="#181430" stroke="#241e48" stroke-width="1"/>
+  <!-- Hood -->
+  <ellipse cx="150" cy="172" rx="11" ry="9" fill="#14102a" stroke="#201a40" stroke-width="1"/>
+  <ellipse cx="151" cy="175" rx="7"  ry="5" fill="#0c0818"/>
+
+  <!-- Left arm — holding Soulstone -->
+  <line x1="134" y1="183" x2="120" y2="190" stroke="#181430" stroke-width="3" stroke-linecap="round"/>
+  <!-- Soulstone in left hand — warm dark glow -->
+  <circle cx="117" cy="192" r="5" fill="#1e140c" stroke="#3a2010" stroke-width="1"/>
+  <radialGradient id="soul-wand" cx="40%" cy="40%" r="60%">
+    <stop offset="0%" stop-color="#8c3808" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#8c3808" stop-opacity="0"/>
+  </radialGradient>
+  <circle cx="117" cy="192" r="5" fill="url(#soul-wand)"/>
+  <circle cx="115" cy="190" r="2" fill="#3a2018" opacity="0.6"/>
+
+  <!-- Right arm — holding Iron Standard upright -->
+  <line x1="166" y1="183" x2="185" y2="168" stroke="#181430" stroke-width="3" stroke-linecap="round"/>
+  <!-- Standard pole -->
+  <line x1="185" y1="135" x2="185" y2="210" stroke="#2a3040" stroke-width="2.5"/>
+  <polygon points="183,135 187,135 185,126" fill="#404860"/>
+  <!-- Banner — wind-blown right (Jarv moving right, wind from left) -->
+  <polygon points="185,138 185,155 218,150 220,136" fill="#1e2438" stroke="#303548" stroke-width="1"/>
+  <g stroke="#3a4060" stroke-width="1.2">
+    <line x1="200" y1="140" x2="200" y2="152"/>
+    <line x1="193" y1="146" x2="208" y2="146"/>
+  </g>
+
+  <!-- Footprints behind Jarv -->
+  <g fill="#0c0a1e" opacity="0.5">
+    <ellipse cx="124" cy="202" rx="4" ry="2" transform="rotate(-12,124,202)"/>
+    <ellipse cx="110" cy="203" rx="4" ry="2" transform="rotate(10,110,203)"/>
+    <ellipse cx="95"  cy="202" rx="3.5" ry="2" transform="rotate(-12,95,202)"/>
+  </g>
+
+  <!-- Floating crystal shards drifting in the air -->
+  <g fill="#1e1c50" stroke="#3040a0" stroke-width="0.5" opacity="0.6">
+    <polygon points="55,80  60,72  63,83  57,88"/>
+    <polygon points="220,55 225,47 228,58 222,63"/>
+    <polygon points="40,130 44,122 48,133 42,138"/>
+    <polygon points="245,95 250,87 254,98 248,103"/>
+    <polygon points="370,60 375,52 378,63 372,68"/>
+  </g>
+
+  <!-- Stars -->
+  <g fill="#3050a0" opacity="0.4">
+    <circle cx="30"  cy="20" r="1"/>
+    <circle cx="80"  cy="10" r="1.5"/>
+    <circle cx="175" cy="30" r="1"/>
+    <circle cx="270" cy="15" r="1.5"/>
+    <circle cx="380" cy="25" r="1"/>
+    <circle cx="25"  cy="60" r="1"/>
+    <circle cx="390" cy="55" r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#2a2480" text-anchor="middle" letter-spacing="3">THE WANDERER</text>
+</svg>
