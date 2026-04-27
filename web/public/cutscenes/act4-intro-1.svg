@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#06040e"/>
+
+  <!-- Deep arcane sky -->
+  <linearGradient id="arcane-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#08061a"/>
+    <stop offset="60%" stop-color="#100c28"/>
+    <stop offset="100%" stop-color="#180f30"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#arcane-sky)"/>
+
+  <!-- Ground / base platform -->
+  <rect x="0" y="195" width="400" height="45" fill="#080614"/>
+  <rect x="0" y="193" width="400" height="4" fill="#12103a"/>
+
+  <!-- Crystal ground surface — faint refraction -->
+  <g stroke="#1e1860" stroke-width="0.6" opacity="0.5">
+    <line x1="0"   y1="205" x2="400" y2="205"/>
+    <line x1="0"   y1="218" x2="400" y2="218"/>
+    <line x1="60"  y1="195" x2="60"  y2="240"/>
+    <line x1="140" y1="195" x2="140" y2="240"/>
+    <line x1="200" y1="195" x2="200" y2="240"/>
+    <line x1="260" y1="195" x2="260" y2="240"/>
+    <line x1="340" y1="195" x2="340" y2="240"/>
+  </g>
+
+  <!-- Distant crystal formations — flanking -->
+  <!-- Left cluster -->
+  <g fill="#0e0c28" stroke="#1e1860" stroke-width="0.8">
+    <polygon points="20,195 30,140 40,195"/>
+    <polygon points="35,195 48,120 60,195"/>
+    <polygon points="52,195 62,155 72,195"/>
+  </g>
+  <!-- Left crystal faces (lighter) -->
+  <g fill="#14104a" opacity="0.6">
+    <polygon points="30,140 37,155 40,195 35,195 20,195 28,170"/>
+    <polygon points="48,120 56,140 60,195 52,195 35,195 44,145"/>
+  </g>
+
+  <!-- Right cluster -->
+  <g fill="#0e0c28" stroke="#1e1860" stroke-width="0.8">
+    <polygon points="328,195 340,155 352,195"/>
+    <polygon points="340,195 352,120 365,195"/>
+    <polygon points="358,195 370,145 382,195"/>
+  </g>
+  <g fill="#14104a" opacity="0.6">
+    <polygon points="340,155 348,172 352,195 340,195"/>
+    <polygon points="352,120 360,145 365,195 352,195 340,195 347,135"/>
+  </g>
+
+  <!-- MAIN SPIRE — centre, soaring upward -->
+  <!-- Base plinth -->
+  <rect x="165" y="180" width="70" height="15" fill="#12103a" stroke="#2a2870" stroke-width="1"/>
+  <rect x="155" y="185" width="90" height="10" fill="#0e0c2e" stroke="#1e1860" stroke-width="1"/>
+
+  <!-- Spire body — four-sided crystal tower -->
+  <!-- Front face (lightest) -->
+  <polygon points="200,10 240,180 160,180" fill="#14105a"/>
+  <!-- Left face (mid) -->
+  <polygon points="200,10 160,180 148,160 188,15" fill="#0e0c40"/>
+  <!-- Right face (mid-light) -->
+  <polygon points="200,10 240,180 252,160 212,15" fill="#181460"/>
+  <!-- Highlight strip down the centre front -->
+  <polygon points="200,10 206,30 203,180 197,180 194,30" fill="#2a2488" opacity="0.6"/>
+
+  <!-- Facet lines on spire face -->
+  <g stroke="#2a2480" stroke-width="0.8" opacity="0.5">
+    <line x1="200" y1="10"  x2="178" y2="100"/>
+    <line x1="200" y1="10"  x2="222" y2="100"/>
+    <line x1="178" y1="100" x2="222" y2="100"/>
+    <line x1="200" y1="10"  x2="170" y2="145"/>
+    <line x1="200" y1="10"  x2="230" y2="145"/>
+    <line x1="170" y1="145" x2="230" y2="145"/>
+  </g>
+
+  <!-- Spire apex glow -->
+  <radialGradient id="apex-glow" cx="50%" cy="4%" r="15%">
+    <stop offset="0%" stop-color="#80c0ff" stop-opacity="0.9"/>
+    <stop offset="100%" stop-color="#80c0ff" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#apex-glow)"/>
+  <circle cx="200" cy="12" r="4" fill="#a0d0ff" opacity="0.9"/>
+  <circle cx="200" cy="12" r="2" fill="#ffffff" opacity="0.95"/>
+
+  <!-- Sub-spires — left and right of main -->
+  <!-- Left sub-spire -->
+  <polygon points="158,25 178,175 138,175" fill="#12104a" stroke="#1e1860" stroke-width="0.8"/>
+  <polygon points="158,25 166,60 162,175 155,175 148,150 152,30" fill="#0e0c38" opacity="0.7"/>
+  <circle cx="158" cy="26" r="2.5" fill="#6090e0" opacity="0.7"/>
+
+  <!-- Right sub-spire -->
+  <polygon points="242,30 262,175 222,175" fill="#12104a" stroke="#1e1860" stroke-width="0.8"/>
+  <polygon points="242,30 250,65 247,175 240,175 233,160 238,35" fill="#181460" opacity="0.7"/>
+  <circle cx="242" cy="31" r="2.5" fill="#6090e0" opacity="0.7"/>
+
+  <!-- Arcane energy bands around spire — horizontal rings -->
+  <g stroke="#4060c0" stroke-width="1" fill="none" opacity="0.4">
+    <ellipse cx="200" cy="80"  rx="22" ry="5"/>
+    <ellipse cx="200" cy="120" rx="32" ry="6"/>
+    <ellipse cx="200" cy="155" rx="40" ry="7"/>
+  </g>
+
+  <!-- Floating crystal shards orbiting the spire -->
+  <g fill="#2a2480" stroke="#4060b0" stroke-width="0.5" opacity="0.7">
+    <polygon points="120,90  126,82  130,94  124,100"/>
+    <polygon points="280,85  287,78  290,91  283,96"/>
+    <polygon points="105,130 111,122 115,134 108,140"/>
+    <polygon points="294,125 300,117 304,130 297,135"/>
+    <polygon points="135,165 140,158 144,168 138,173"/>
+    <polygon points="265,160 271,153 275,164 268,170"/>
+  </g>
+
+  <!-- Stars / magical particles in sky -->
+  <g fill="#3050a0" opacity="0.5">
+    <circle cx="30"  cy="25"  r="1"/>
+    <circle cx="70"  cy="15"  r="1.5"/>
+    <circle cx="110" cy="40"  r="1"/>
+    <circle cx="300" cy="20"  r="1"/>
+    <circle cx="340" cy="40"  r="1.5"/>
+    <circle cx="380" cy="15"  r="1"/>
+    <circle cx="50"  cy="65"  r="1"/>
+    <circle cx="350" cy="70"  r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#2a2480" text-anchor="middle" letter-spacing="3">THE CRYSTAL SPIRE</text>
+</svg>
