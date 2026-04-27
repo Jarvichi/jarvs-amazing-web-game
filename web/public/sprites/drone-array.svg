@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Base platform -->
+  <rect x="8" y="24" width="16" height="6" rx="2" fill="#3a3a4a"/>
+  <rect x="8" y="24" width="16" height="2" fill="#2a2a3a"/>
+  <!-- Vertical struts -->
+  <rect x="12" y="16" width="2" height="9" rx="0.5" fill="#4a4a5a"/>
+  <rect x="18" y="16" width="2" height="9" rx="0.5" fill="#4a4a5a"/>
+  <!-- Central emitter/antenna -->
+  <rect x="15" y="8" width="2" height="16" rx="0.5" fill="#5a5a6a"/>
+  <ellipse cx="16" cy="8" rx="3" ry="2" fill="#4a4a5a"/>
+  <ellipse cx="16" cy="7" rx="2" ry="1.5" fill="#6a6a7a"/>
+  <!-- Core energy orb -->
+  <circle cx="16" cy="15" r="3" fill="#1a1a2a"/>
+  <circle cx="16" cy="15" r="2" fill="#3344cc" opacity="0.9"/>
+  <circle cx="16" cy="15" r="1" fill="#aabbff" opacity="0.8"/>
+  <!-- Orbital ring -->
+  <ellipse cx="16" cy="15" rx="7" ry="3" fill="none" stroke="#4466dd" stroke-width="0.7" opacity="0.6"/>
+  <!-- Drone 1 (top orbit) -->
+  <rect x="20" y="11" width="4" height="2.5" rx="1" fill="#5566aa"/>
+  <line x1="20" y1="11.5" x2="18" y2="13" stroke="#4455aa" stroke-width="0.6"/>
+  <line x1="24" y1="11.5" x2="22" y2="13" stroke="#4455aa" stroke-width="0.6"/>
+  <circle cx="22" cy="12" r="0.8" fill="#88aaff" opacity="0.8"/>
+  <!-- Drone 2 (bottom orbit) -->
+  <rect x="8" y="17" width="4" height="2.5" rx="1" fill="#5566aa"/>
+  <line x1="8" y1="17.5" x2="10" y2="16" stroke="#4455aa" stroke-width="0.6"/>
+  <line x1="12" y1="17.5" x2="14" y2="16" stroke="#4455aa" stroke-width="0.6"/>
+  <circle cx="10" cy="18" r="0.8" fill="#88aaff" opacity="0.8"/>
+  <!-- Energy pulses -->
+  <line x1="16" y1="8" x2="22" y2="11" stroke="#4466dd" stroke-width="0.5" opacity="0.5"/>
+  <line x1="16" y1="8" x2="10" y2="17" stroke="#4466dd" stroke-width="0.5" opacity="0.5"/>
+  <!-- Panel details on base -->
+  <line x1="10" y1="26" x2="22" y2="26" stroke="#5a5a6a" stroke-width="0.6"/>
+  <circle cx="13" cy="27" r="0.8" fill="#6677cc" opacity="0.8"/>
+  <circle cx="16" cy="27" r="0.8" fill="#6677cc" opacity="0.8"/>
+  <circle cx="19" cy="27" r="0.8" fill="#6677cc" opacity="0.8"/>
+</svg>
