@@ -18,6 +18,11 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { loadCrystals, saveCrystals } from '../../game/collection'
 import { logError } from '../../logger'
+import {
+  fetchGrandJackpot,
+  incrementGrandJackpot,
+  claimAndResetGrandJackpot,
+} from '../../game/fruitMachineJackpot'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -223,6 +228,21 @@ export function FruitMachine({ onDone }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Fetch live grand jackpot from Firestore on mount, then poll every 30 s
+  useEffect(() => {
+    let cancelled = false
+    function refresh() {
+      fetchGrandJackpot().then(val => {
+        if (cancelled) return
+        grandJackpotRef.current = val
+        setGrandJackpot(val)
+      })
+    }
+    refresh()
+    const timer = setInterval(refresh, 30_000)
+    return () => { cancelled = true; clearInterval(timer) }
+  }, [])
+
   // Auto cash-out when out of credits
   useEffect(() => {
     if (phase === 'idle' && credits <= 0) {
@@ -288,17 +308,18 @@ export function FruitMachine({ onDone }: Props) {
         setPhase('jackpot-win')
         break
       case 'jackpot-grand': {
-        const amount = grandJackpotRef.current
         const resetVal = JACKPOT_TIERS[3].base
-        grandJackpotRef.current = resetVal
-        setGrandJackpot(resetVal)
-        try { localStorage.setItem('fm_grand', String(resetVal)) } catch (e) { logError('fm_grand reset', { error: String(e) }) }
-        setCredits(c => c + amount)
-        setJackpotWon({ tier: 'Grand', amount })
-        boardPosRef.current = 0
-        setBoardPos(0)
-        try { localStorage.setItem('fm_board_pos', '0') } catch (e) { logError('fm_board_pos grand reset', { error: String(e) }) }
-        setPhase('jackpot-win')
+        // Claim via transaction so two simultaneous winners can't both get the full pot
+        claimAndResetGrandJackpot().then(amount => {
+          grandJackpotRef.current = resetVal
+          setGrandJackpot(resetVal)
+          setCredits(c => c + amount)
+          setJackpotWon({ tier: 'Grand', amount })
+          boardPosRef.current = 0
+          setBoardPos(0)
+          try { localStorage.setItem('fm_board_pos', '0') } catch (e) { logError('fm_board_pos grand reset', { error: String(e) }) }
+          setPhase('jackpot-win')
+        })
         break
       }
     }
@@ -409,11 +430,12 @@ function regressBoardBy(steps: number) {
     ladderSpinRef.current = true
     setRecentlyHeld([...held] as [boolean, boolean, boolean])
 
-    // Grand jackpot grows by 1 every spin
+    // Grand jackpot grows by 1 every spin — increment server-side and mirror locally
     const newGrand = grandJackpotRef.current + 1
     grandJackpotRef.current = newGrand
     setGrandJackpot(newGrand)
     try { localStorage.setItem('fm_grand', String(newGrand)) } catch (e) { logError('fm_grand save', { error: String(e) }) }
+    incrementGrandJackpot()
 
     setPhase('spinning')
     const spinCost = freeSpin ? 0 : 1
