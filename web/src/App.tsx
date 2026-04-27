@@ -295,6 +295,9 @@ export default function App() {
         setInterval(() => r.update().catch(() => {}), 60 * 60 * 1000)
       }
     },
+    onNeedRefresh() {
+      updateServiceWorker(true)
+    },
   })
   useEffect(() => {
     if (needRefresh) updateServiceWorker(true)

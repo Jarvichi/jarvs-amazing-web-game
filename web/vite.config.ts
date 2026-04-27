@@ -16,6 +16,7 @@ export default defineConfig({
   plugins: [react(), VitePWA({
     registerType: 'autoUpdate',
     workbox: {
+      skipWaiting: true,
       clientsClaim: true,
       // Cache all static assets with cache-first strategy
       globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
