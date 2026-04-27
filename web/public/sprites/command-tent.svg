@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tent main canvas -->
+  <polygon points="16,4 2,24 30,24" fill="#8b7a4a"/>
+  <!-- Tent shadow/fold lines -->
+  <line x1="16" y1="4" x2="10" y2="24" stroke="#6b5a2a" stroke-width="0.8"/>
+  <line x1="16" y1="4" x2="22" y2="24" stroke="#6b5a2a" stroke-width="0.8"/>
+  <!-- Tent flap/opening -->
+  <polygon points="16,8 12,24 16,20 20,24" fill="#6b5a2a"/>
+  <!-- Ground skirt -->
+  <rect x="2" y="23" width="28" height="4" rx="0.5" fill="#7a6a3a"/>
+  <line x1="2" y1="24" x2="30" y2="24" stroke="#5a4a1a" stroke-width="0.8"/>
+  <!-- Flag on peak -->
+  <line x1="16" y1="4" x2="16" y2="0" stroke="#5a4a1a" stroke-width="1.2"/>
+  <polygon points="16,0 22,2 16,4" fill="#cc3333"/>
+  <!-- Ropes/pegs -->
+  <line x1="16" y1="4" x2="5" y2="20" stroke="#9a8a4a" stroke-width="0.6"/>
+  <line x1="16" y1="4" x2="27" y2="20" stroke="#9a8a4a" stroke-width="0.6"/>
+  <!-- Map/table silhouette through canvas -->
+  <rect x="12" y="16" width="8" height="5" rx="0.5" fill="#9a8a4a" opacity="0.5"/>
+</svg>
