@@ -139,6 +139,19 @@ export function claimAchievementReward(achievementId: string): AchievementReward
   return def.reward
 }
 
+/** Claim all unlocked-but-unclaimed achievements at once. Returns each claimed reward. */
+export function claimAllAchievementRewards(): { def: AchievementDef; reward: AchievementReward }[] {
+  const save = loadAchievementSave()
+  const results: { def: AchievementDef; reward: AchievementReward }[] = []
+  for (const def of ACHIEVEMENT_DEFS) {
+    if (!save.unlocked[def.id] || save.claimed[def.id]) continue
+    save.claimed[def.id] = true
+    results.push({ def, reward: def.reward })
+  }
+  if (results.length > 0) saveAchievementSave(save)
+  return results
+}
+
 // ─── Helper: build kill achievement pair ─────────────────
 
 function killPair(
