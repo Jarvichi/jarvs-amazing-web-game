@@ -694,12 +694,14 @@ function regressBoardBy(steps: number) {
       <div className="fm-board">
         {boardWindow.map(({ idx, node, isCurrent }) => (
           <div key={idx} className={`fm-board-node${isCurrent ? ' fm-board-node--current' : ''}`}>
-{idx+1}/{BOARD_NODES.length+1}
-<br/>
             <div className="fm-board-node-label">{node.label}</div>
           </div>
         ))}
       </div>
+<div className="fm-board">
+{boardPos+1}/{BOARD_NODES.length+1}
+</div>
+
       {boardMessage && <div className="fm-board-message">{boardMessage}</div>}
       {boardMult > 1 && <div className="fm-board-mult-banner">×{boardMult} multiplier active!</div>}
       {freeSpin && <div className="fm-board-free-spin">FREE SPIN ready!</div>}
