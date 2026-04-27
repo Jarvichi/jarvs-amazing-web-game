@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <ellipse cx="16" cy="30" rx="14" ry="2.5" fill="#4a3a2a"/>
+  <!-- Standing stone monoliths -->
+  <rect x="3" y="10" width="5" height="20" rx="1" fill="#6a6a6a"/>
+  <rect x="3.5" y="10" width="4" height="5" fill="#7a7a7a"/>
+  <rect x="24" y="10" width="5" height="20" rx="1" fill="#6a6a6a"/>
+  <rect x="24.5" y="10" width="4" height="5" fill="#7a7a7a"/>
+  <!-- Capstone across top -->
+  <rect x="1" y="8" width="30" height="4" rx="1" fill="#5a5a5a"/>
+  <rect x="1" y="8" width="30" height="2" fill="#6a6a6a"/>
+  <!-- Central altar stone -->
+  <rect x="9" y="18" width="14" height="10" rx="1" fill="#5a5050"/>
+  <rect x="9" y="18" width="14" height="3" fill="#6a6060"/>
+  <!-- Sacrificial bowl on altar -->
+  <ellipse cx="16" cy="19" rx="4" ry="2" fill="#3a2a1a"/>
+  <ellipse cx="16" cy="18.5" rx="3" ry="1.5" fill="#1a1010"/>
+  <!-- Glowing energy in bowl -->
+  <ellipse cx="16" cy="18" rx="2" ry="1" fill="#aa44ff" opacity="0.8"/>
+  <ellipse cx="16" cy="17.5" rx="1.2" ry="0.8" fill="#dd88ff" opacity="0.7"/>
+  <!-- Energy beam rising -->
+  <line x1="16" y1="6" x2="16" y2="17" stroke="#9922cc" stroke-width="2" opacity="0.6"/>
+  <ellipse cx="16" cy="5" rx="3" ry="2" fill="#9922cc" opacity="0.5"/>
+  <ellipse cx="16" cy="5" rx="1.5" ry="1" fill="#cc66ff" opacity="0.7"/>
+  <!-- Runes on monoliths -->
+  <line x1="5" y1="14" x2="7" y2="16" stroke="#9922cc" stroke-width="0.8" opacity="0.8"/>
+  <line x1="7" y1="14" x2="5" y2="16" stroke="#9922cc" stroke-width="0.8" opacity="0.8"/>
+  <line x1="25" y1="14" x2="27" y2="16" stroke="#9922cc" stroke-width="0.8" opacity="0.8"/>
+  <line x1="27" y1="14" x2="25" y2="16" stroke="#9922cc" stroke-width="0.8" opacity="0.8"/>
+  <!-- Runes on altar face -->
+  <line x1="11" y1="22" x2="15" y2="22" stroke="#7711aa" stroke-width="0.8" opacity="0.7"/>
+  <line x1="13" y1="20.5" x2="13" y2="23.5" stroke="#7711aa" stroke-width="0.8" opacity="0.7"/>
+  <line x1="17" y1="22" x2="21" y2="22" stroke="#7711aa" stroke-width="0.8" opacity="0.7"/>
+  <line x1="19" y1="20.5" x2="19" y2="23.5" stroke="#7711aa" stroke-width="0.8" opacity="0.7"/>
+  <!-- Magic sparks around -->
+  <circle cx="4" cy="20" r="0.8" fill="#aa44ff" opacity="0.7"/>
+  <circle cx="28" cy="18" r="0.8" fill="#cc66ff" opacity="0.7"/>
+  <circle cx="6" cy="26" r="0.6" fill="#9922cc" opacity="0.5"/>
+  <circle cx="26" cy="24" r="0.6" fill="#aa44ff" opacity="0.5"/>
+</svg>
