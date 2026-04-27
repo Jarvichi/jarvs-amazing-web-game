@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sea base -->
+  <path d="M0,27 Q4,25 8,27 Q12,29 16,27 Q20,25 24,27 Q28,29 32,27 L32,32 L0,32 Z" fill="#2266aa" opacity="0.6"/>
+  <!-- Main fortress wall -->
+  <rect x="4" y="13" width="24" height="15" rx="1" fill="#6a6070"/>
+  <rect x="4" y="13" width="24" height="2.5" fill="#5a5060"/>
+  <!-- Stone lines -->
+  <line x1="4" y1="17" x2="28" y2="17" stroke="#5a5060" stroke-width="0.6"/>
+  <line x1="4" y1="21" x2="28" y2="21" stroke="#5a5060" stroke-width="0.6"/>
+  <line x1="4" y1="25" x2="28" y2="25" stroke="#5a5060" stroke-width="0.6"/>
+  <line x1="11" y1="13" x2="11" y2="28" stroke="#5a5060" stroke-width="0.6"/>
+  <line x1="19" y1="13" x2="19" y2="28" stroke="#5a5060" stroke-width="0.6"/>
+  <!-- Corner towers -->
+  <rect x="2" y="8" width="8" height="20" rx="1" fill="#7a7080"/>
+  <rect x="2" y="8" width="8" height="2.5" fill="#5a5060"/>
+  <rect x="22" y="8" width="8" height="20" rx="1" fill="#7a7080"/>
+  <rect x="22" y="8" width="8" height="2.5" fill="#5a5060"/>
+  <!-- Tower crenellations -->
+  <rect x="2" y="4" width="2.5" height="5" rx="0.3" fill="#6a6070"/>
+  <rect x="6" y="4" width="2.5" height="5" rx="0.3" fill="#6a6070"/>
+  <rect x="22" y="4" width="2.5" height="5" rx="0.3" fill="#6a6070"/>
+  <rect x="26" y="4" width="2.5" height="5" rx="0.3" fill="#6a6070"/>
+  <!-- Gate arch -->
+  <path d="M12,28 L12,20 Q16,16 20,20 L20,28 Z" fill="#2a1a2a"/>
+  <!-- Portcullis lines -->
+  <line x1="13" y1="20" x2="13" y2="28" stroke="#4a3a4a" stroke-width="0.7"/>
+  <line x1="16" y1="19" x2="16" y2="28" stroke="#4a3a4a" stroke-width="0.7"/>
+  <line x1="19" y1="20" x2="19" y2="28" stroke="#4a3a4a" stroke-width="0.7"/>
+  <line x1="12" y1="22" x2="20" y2="22" stroke="#4a3a4a" stroke-width="0.7"/>
+  <line x1="12" y1="25" x2="20" y2="25" stroke="#4a3a4a" stroke-width="0.7"/>
+  <!-- Tidal waves at base -->
+  <path d="M0,27 Q3,24 6,27" fill="none" stroke="#88ccff" stroke-width="1" opacity="0.8"/>
+  <path d="M24,27 Q27,24 30,27" fill="none" stroke="#88ccff" stroke-width="1" opacity="0.8"/>
+  <!-- Barnacles/seaweed on base -->
+  <circle cx="5" cy="24" r="1" fill="#3a7a3a" opacity="0.6"/>
+  <circle cx="27" cy="22" r="1" fill="#3a7a3a" opacity="0.6"/>
+  <!-- Flags on towers -->
+  <line x1="6" y1="4" x2="6" y2="1" stroke="#5a5060" stroke-width="0.8"/>
+  <polygon points="6,1 11,2 6,3.5" fill="#4466aa"/>
+  <line x1="26" y1="4" x2="26" y2="1" stroke="#5a5060" stroke-width="0.8"/>
+  <polygon points="26,1 31,2 26,3.5" fill="#4466aa"/>
+</svg>
