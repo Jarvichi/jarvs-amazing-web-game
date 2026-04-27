@@ -49,29 +49,35 @@
   "intro": [
     {
       "title": "THE ASHEN WASTES",
-      "text": "Before the Fracture, the Ashen Wastes were a mining region â coal seams, slag heaps, villages built around the work. Ordinary.\n\nThe Fracture hit differently here. The shard didn't just shatter. It burned. And whatever dark energy poured into the gap found the dead an accommodating host.\n\nThe Wastes are not quiet. The Wastes have never been quiet since."
+      "text": "Before the Fracture, the Ashen Wastes were a mining region â coal seams, slag heaps, villages built around the work. Ordinary.\n\nThe Fracture hit differently here. The shard didn't just shatter. It burned. And whatever dark energy poured into the gap found the dead an accommodating host.\n\nThe Wastes are not quiet. The Wastes have never been quiet since.",
+      "image": "cutscenes/act3-intro-1.svg"
     },
     {
       "title": "THE WANDERER",
-      "text": "You are Jarv. Now carrying an Iron Standard that gives your units a certain military precision.\n\nYou have a deck of cards, a route into the Wastes, and the professional detachment of someone who has learned not to be surprised by anything. Including, apparently, animated dead.\n\nYou are somewhat surprised by the animated dead."
+      "text": "You are Jarv. Now carrying an Iron Standard that gives your units a certain military precision.\n\nYou have a deck of cards, a route into the Wastes, and the professional detachment of someone who has learned not to be surprised by anything. Including, apparently, animated dead.\n\nYou are somewhat surprised by the animated dead.",
+      "image": "cutscenes/act3-intro-2.svg"
     },
     {
       "title": "THE ASHEN WASTES",
-      "text": "The shard is a landscape of grey ash and collapsed mineshafts, lit by fires that burn without fuel and voices that carry without wind.\n\nAt its centre, the Ashwalker â a figure that predates the Fracture, that may predate the Dominion itself. It does not rule the Wastes. The Wastes simply organise themselves around it."
+      "text": "The shard is a landscape of grey ash and collapsed mineshafts, lit by fires that burn without fuel and voices that carry without wind.\n\nAt its centre, the Ashwalker â a figure that predates the Fracture, that may predate the Dominion itself. It does not rule the Wastes. The Wastes simply organise themselves around it.",
+      "image": "cutscenes/act3-intro-3.svg"
     },
     {
       "title": "YOUR MISSION",
-      "text": "Cross the Wastes. Find the Ashwalker. Defeat it.\n\nTry not to think too hard about what 'defeat' means for something that was already dead when the Fracture happened."
+      "text": "Cross the Wastes. Find the Ashwalker. Defeat it.\n\nTry not to think too hard about what 'defeat' means for something that was already dead when the Fracture happened.",
+      "image": "cutscenes/act3-intro-4.svg"
     }
   ],
   "outro": [
     {
       "title": "THE ASHES SETTLE",
-      "text": "The Ashwalker collapses inward â not destroyed, exactly. Diminished. The fires that burned without fuel go out one by one.\n\nFor the first time in three years, the Ashen Wastes are quiet. Not silent. Quiet. There is a difference.\n\nYou stand in the ash and wait to see if anything gets back up. Nothing does. You consider this a victory."
+      "text": "The Ashwalker collapses inward â not destroyed, exactly. Diminished. The fires that burned without fuel go out one by one.\n\nFor the first time in three years, the Ashen Wastes are quiet. Not silent. Quiet. There is a difference.\n\nYou stand in the ash and wait to see if anything gets back up. Nothing does. You consider this a victory.",
+      "image": "cutscenes/act3-outro-1.svg"
     },
     {
       "title": "SOULSTONE",
-      "text": "In the place where the Ashwalker fell, there is a stone. Dark, smooth, warm to the touch in a way that has nothing to do with temperature.\n\nThe Wandering Scholar, when you describe it to him later, goes very still.\n\n'That's a Soulstone,' he says. 'They were theoretical.'\n\nYou put it in your pack. It feels like it belongs there."
+      "text": "In the place where the Ashwalker fell, there is a stone. Dark, smooth, warm to the touch in a way that has nothing to do with temperature.\n\nThe Wandering Scholar, when you describe it to him later, goes very still.\n\n'That's a Soulstone,' he says. 'They were theoretical.'\n\nYou put it in your pack. It feels like it belongs there.",
+      "image": "cutscenes/act3-outro-2.svg"
     }
   ],
   "variantPools": {
