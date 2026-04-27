@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Wreck Diver — frame 2 (mid-stride, body 1px higher) -->
+  <!-- Diving helmet -->
+  <ellipse cx="16" cy="6" rx="5" ry="5.5" fill="#4a7a8a"/>
+  <ellipse cx="16" cy="6" rx="3.5" ry="3" fill="#88ccdd" opacity="0.6"/>
+  <ellipse cx="15" cy="5.5" rx="1.5" ry="1.2" fill="#aaddee" opacity="0.7"/>
+  <ellipse cx="16" cy="10" rx="5.5" ry="1.5" fill="#3a5a6a"/>
+  <!-- Air hose -->
+  <path d="M21,6 Q26,4 27,9 Q28,14 24,15" stroke="#88aa44" stroke-width="1.5" fill="none"/>
+  <!-- Body -->
+  <rect x="11" y="10" width="10" height="11" rx="2" fill="#1a3a4a"/>
+  <rect x="12" y="10" width="8" height="2" fill="#2a4a5a"/>
+  <!-- Belt -->
+  <rect x="11" y="17" width="10" height="2" fill="#6a5a2a"/>
+  <circle cx="16" cy="18" r="1" fill="#ccaa22"/>
+  <!-- Arms -->
+  <rect x="7" y="11" width="4" height="8" rx="2" fill="#1a3a4a"/>
+  <rect x="21" y="11" width="4" height="8" rx="2" fill="#1a3a4a"/>
+  <ellipse cx="9" cy="20" rx="2.5" ry="1.5" fill="#2a5a3a"/>
+  <ellipse cx="23" cy="20" rx="2.5" ry="1.5" fill="#2a5a3a"/>
+  <!-- Legs (mid stride, both roughly even) -->
+  <rect x="11" y="21" width="4" height="9" rx="1" fill="#1a3a4a"/>
+  <rect x="17" y="21" width="4" height="9" rx="1" fill="#1a3a4a"/>
+  <!-- Fins -->
+  <ellipse cx="13" cy="31" rx="4" ry="1.5" fill="#2a5a3a"/>
+  <ellipse cx="20" cy="31" rx="4" ry="1.5" fill="#2a5a3a"/>
+</svg>
