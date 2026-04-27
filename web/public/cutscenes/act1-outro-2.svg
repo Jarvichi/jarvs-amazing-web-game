@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0a0a"/>
+
+  <!-- Leaf litter on ground -->
+  <radialGradient id="leaf-glow" cx="50%" cy="70%" r="40%">
+    <stop offset="0%" stop-color="#1a3010" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#leaf-glow)"/>
+
+  <!-- Fallen bark pieces on ground -->
+  <g fill="#162010" stroke="#202e14" stroke-width="0.8">
+    <ellipse cx="60"  cy="195" rx="35" ry="8" transform="rotate(-15,60,195)"/>
+    <ellipse cx="130" cy="210" rx="28" ry="6" transform="rotate(10,130,210)"/>
+    <ellipse cx="290" cy="198" rx="32" ry="7" transform="rotate(-8,290,198)"/>
+    <ellipse cx="360" cy="208" rx="25" ry="6" transform="rotate(20,360,208)"/>
+    <ellipse cx="200" cy="220" rx="40" ry="9" transform="rotate(-5,200,220)"/>
+  </g>
+  <!-- Small leaves scattered -->
+  <g fill="#1e3015" opacity="0.7">
+    <ellipse cx="80"  cy="188" rx="6"  ry="3" transform="rotate(30,80,188)"/>
+    <ellipse cx="160" cy="202" rx="5"  ry="2" transform="rotate(-20,160,202)"/>
+    <ellipse cx="240" cy="190" rx="7"  ry="3" transform="rotate(15,240,190)"/>
+    <ellipse cx="320" cy="215" rx="5"  ry="2" transform="rotate(-30,320,215)"/>
+    <ellipse cx="50"  cy="215" rx="4"  ry="2" transform="rotate(45,50,215)"/>
+    <ellipse cx="355" cy="185" rx="6"  ry="3" transform="rotate(-10,355,185)"/>
+  </g>
+
+  <!-- Bark Shield — centre-stage, propped up -->
+  <g transform="translate(200,130)">
+    <!-- Shield shadow -->
+    <ellipse cx="0" cy="62" rx="38" ry="8" fill="#000" opacity="0.4"/>
+    <!-- Shield body — rounded top, pointed bottom -->
+    <path d="M-32,-40 Q-32,-52 0,-58 Q32,-52 32,-40 L32,20 Q32,35 0,58 Q-32,35 -32,20 Z"
+          fill="#1e3415" stroke="#3a6020" stroke-width="2"/>
+    <!-- Shield wood grain lines -->
+    <g stroke="#2a4a18" stroke-width="0.8" fill="none" opacity="0.6">
+      <line x1="-20" y1="-30" x2="-20" y2="40"/>
+      <line x1="-8"  y1="-40" x2="-8"  y2="50"/>
+      <line x1="4"   y1="-42" x2="4"   y2="52"/>
+      <line x1="16"  y1="-40" x2="16"  y2="46"/>
+      <line x1="26"  y1="-30" x2="26"  y2="36"/>
+    </g>
+    <!-- Shield face — bark texture patches -->
+    <ellipse cx="-10" cy="-10" rx="8" ry="10" fill="#243a16" opacity="0.5"/>
+    <ellipse cx="14"  cy="15"  rx="7" ry="9"  fill="#1e3012" opacity="0.5"/>
+    <!-- Shield boss (centre emblem) — tree ring motif -->
+    <circle cx="0" cy="0" r="16" fill="none" stroke="#4a7828" stroke-width="1.5"/>
+    <circle cx="0" cy="0" r="10" fill="none" stroke="#3a6020" stroke-width="1"/>
+    <circle cx="0" cy="0" r="4"  fill="#3a6020"/>
+    <!-- Subtle glow around boss -->
+    <circle cx="0" cy="0" r="18" fill="none" stroke="#50a030" stroke-width="0.5" opacity="0.5"/>
+    <!-- Thornlord mark — small thorn cross -->
+    <line x1="0" y1="-18" x2="0" y2="-12" stroke="#50a030" stroke-width="1" opacity="0.6"/>
+    <line x1="-18" y1="0" x2="-12" y2="0" stroke="#50a030" stroke-width="1" opacity="0.6"/>
+    <line x1="12" y1="0"  x2="18" y2="0"  stroke="#50a030" stroke-width="1" opacity="0.6"/>
+    <line x1="0" y1="12"  x2="0" y2="18"  stroke="#50a030" stroke-width="1" opacity="0.6"/>
+  </g>
+
+  <!-- Faint forest silhouette in background -->
+  <g fill="#0c140c" opacity="0.5">
+    <rect x="0"   y="100" width="30"  height="100"/>
+    <rect x="370" y="110" width="30"  height="90"/>
+    <ellipse cx="15"  cy="80"  rx="40" ry="45"/>
+    <ellipse cx="385" cy="90"  rx="40" ry="45"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#2a6020" text-anchor="middle" letter-spacing="3">WHAT HE WAS</text>
+</svg>
