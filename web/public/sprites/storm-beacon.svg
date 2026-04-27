@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Base -->
+  <rect x="10" y="26" width="12" height="5" rx="1" fill="#5a5a6a"/>
+  <rect x="8" y="24" width="16" height="3" rx="1" fill="#6a6a7a"/>
+  <!-- Tower shaft -->
+  <rect x="13" y="10" width="6" height="15" rx="1" fill="#5a5a6a"/>
+  <line x1="15" y1="10" x2="15" y2="25" stroke="#4a4a5a" stroke-width="0.6"/>
+  <!-- Beacon housing -->
+  <ellipse cx="16" cy="10" rx="5" ry="3" fill="#4a4a5a"/>
+  <ellipse cx="16" cy="9" rx="4" ry="2.5" fill="#6a6a7a"/>
+  <!-- Storm orb inside beacon -->
+  <circle cx="16" cy="9" r="3" fill="#1a1a2a"/>
+  <circle cx="16" cy="9" r="2" fill="#4466ff" opacity="0.9"/>
+  <circle cx="16" cy="9" r="1" fill="#aabbff"/>
+  <!-- Lightning bolts emanating -->
+  <path d="M16,6 L14,3 L16,4 L15,1" stroke="#ffee44" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <path d="M20,8 L23,6 L22,8 L25,7" stroke="#ffee44" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <path d="M12,8 L9,6 L10,8 L7,7" stroke="#ffee44" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <!-- Electric glow ring -->
+  <ellipse cx="16" cy="9" rx="6" ry="4" fill="none" stroke="#88aaff" stroke-width="0.7" opacity="0.5"/>
+  <!-- Tower bands -->
+  <rect x="13" y="15" width="6" height="1.5" rx="0.5" fill="#7a7a8a"/>
+  <rect x="13" y="20" width="6" height="1.5" rx="0.5" fill="#7a7a8a"/>
+  <!-- Small spark details -->
+  <circle cx="11" cy="12" r="0.7" fill="#ffee44" opacity="0.7"/>
+  <circle cx="21" cy="11" r="0.7" fill="#ffee44" opacity="0.6"/>
+  <circle cx="9" cy="10" r="0.5" fill="#aabbff" opacity="0.5"/>
+</svg>
