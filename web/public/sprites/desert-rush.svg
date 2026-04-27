@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sand dune ground -->
+  <path d="M0,28 Q8,24 16,26 Q24,28 32,24 L32,32 L0,32 Z" fill="#cc9944" opacity="0.6"/>
+  <!-- Sandstorm trails (left to right) -->
+  <path d="M0,20 Q6,17 12,19 Q18,21 24,18 Q28,16 32,18" stroke="#ddbb66" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <path d="M0,16 Q6,13 14,15 Q22,17 32,13" stroke="#cc9933" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <path d="M0,12 Q8,9 16,11 Q24,13 32,9" stroke="#eebb77" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+  <!-- Sand particles -->
+  <circle cx="4" cy="18" r="1.2" fill="#ddaa44" opacity="0.7"/>
+  <circle cx="10" cy="14" r="1" fill="#ccaa33" opacity="0.6"/>
+  <circle cx="18" cy="10" r="1.2" fill="#ddbb55" opacity="0.6"/>
+  <circle cx="26" cy="15" r="1" fill="#ccaa33" opacity="0.5"/>
+  <circle cx="30" cy="11" r="0.8" fill="#ddaa44" opacity="0.5"/>
+  <!-- Rushing figure silhouette -->
+  <!-- Head -->
+  <circle cx="22" cy="14" r="3" fill="#8a6a2a"/>
+  <!-- Keffiyeh/scarf streaming behind -->
+  <path d="M20,13 Q15,11 10,13 Q8,14 10,16 Q14,14 20,15" fill="#cc4422" opacity="0.85"/>
+  <!-- Body leaning forward -->
+  <ellipse cx="21" cy="19" rx="4" ry="5" fill="#8a6a2a" transform="rotate(-20,21,19)"/>
+  <!-- Legs running -->
+  <rect x="18" y="22" width="3" height="7" rx="1" fill="#6a4a1a" transform="rotate(-15,19.5,25.5)"/>
+  <rect x="22" y="21" width="3" height="6" rx="1" fill="#6a4a1a" transform="rotate(10,23.5,24)"/>
+  <!-- Speed lines from figure -->
+  <line x1="17" y1="14" x2="4" y2="14" stroke="#ffcc44" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="17" y1="17" x2="3" y2="18" stroke="#ffaa22" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+  <line x1="17" y1="20" x2="5" y2="21" stroke="#ffcc44" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+</svg>
