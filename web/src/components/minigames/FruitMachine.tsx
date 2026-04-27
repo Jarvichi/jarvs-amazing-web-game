@@ -659,10 +659,13 @@ function regressBoardBy(steps: number) {
   const canBuy = phase === 'idle' && credits > 0 && credits < MAX_CREDITS && availCrystals >= BUY_COST
   const totalWin = lastWin ?? 0
 
-  // Board display window: 5 nodes centred on current position
-  const boardWindow = [-2, -1, 0, 1, 2].map(offset => {
-    const idx = ((boardPos + offset) % BOARD_SIZE + BOARD_SIZE) % BOARD_SIZE
-    return { idx, node: BOARD_NODES[idx], isCurrent: offset === 0 }
+  // Board display window: up to 5 nodes centred on current position.
+  // Offsets that would go below position 0 are omitted (no wrap-around at rock bottom).
+  const boardWindow = [-2, -1, 0, 1, 2].flatMap(offset => {
+    const absPos = boardPos + offset
+    if (absPos < 0) return []
+    const idx = absPos % BOARD_SIZE
+    return [{ idx, node: BOARD_NODES[idx], isCurrent: offset === 0 }]
   })
 
   return (
