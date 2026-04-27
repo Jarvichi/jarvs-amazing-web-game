@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#06040e"/>
+
+  <!-- Interior — deep arcane chamber glow -->
+  <radialGradient id="chamber-glow" cx="50%" cy="45%" r="50%">
+    <stop offset="0%" stop-color="#2030a0" stop-opacity="0.4"/>
+    <stop offset="60%" stop-color="#101860" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#06040e" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#chamber-glow)"/>
+
+  <!-- Floor — crystal flagstone pattern -->
+  <rect x="0" y="188" width="400" height="52" fill="#080618"/>
+  <!-- Floor crystal lines — perspective grid -->
+  <g stroke="#1a1860" stroke-width="0.8" opacity="0.6">
+    <!-- Horizontal -->
+    <line x1="0"   y1="200" x2="400" y2="200"/>
+    <line x1="0"   y1="215" x2="400" y2="215"/>
+    <line x1="0"   y1="230" x2="400" y2="230"/>
+    <!-- Perspective lines converging to vanishing point (200, 188) -->
+    <line x1="200" y1="188" x2="0"   y2="240"/>
+    <line x1="200" y1="188" x2="50"  y2="240"/>
+    <line x1="200" y1="188" x2="100" y2="240"/>
+    <line x1="200" y1="188" x2="150" y2="240"/>
+    <line x1="200" y1="188" x2="200" y2="240"/>
+    <line x1="200" y1="188" x2="250" y2="240"/>
+    <line x1="200" y1="188" x2="300" y2="240"/>
+    <line x1="200" y1="188" x2="350" y2="240"/>
+    <line x1="200" y1="188" x2="400" y2="240"/>
+  </g>
+  <!-- Floor glow pools from crystals above -->
+  <radialGradient id="floor-reflect" cx="50%" cy="100%" r="40%">
+    <stop offset="0%" stop-color="#2040a0" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#2040a0" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="0" y="188" width="400" height="52" fill="url(#floor-reflect)"/>
+
+  <!-- Walls — crystalline, angular -->
+  <!-- Left wall face -->
+  <polygon points="0,0 80,0 80,188 0,188" fill="#0a0820"/>
+  <!-- Left wall crystal vein lines -->
+  <g stroke="#1e2070" stroke-width="0.8" opacity="0.5">
+    <line x1="15"  y1="0"   x2="15"  y2="188"/>
+    <line x1="35"  y1="0"   x2="35"  y2="188"/>
+    <line x1="55"  y1="0"   x2="55"  y2="188"/>
+    <line x1="0"   y1="50"  x2="80"  y2="50"/>
+    <line x1="0"   y1="100" x2="80"  y2="100"/>
+    <line x1="0"   y1="150" x2="80"  y2="150"/>
+  </g>
+  <!-- Left wall crystal sconce -->
+  <polygon points="58,85 68,80 74,100 64,105" fill="#141260" stroke="#2a2a90" stroke-width="0.8"/>
+  <radialGradient id="sconce-l" cx="50%" cy="50%" r="60%">
+    <stop offset="0%" stop-color="#6080e0" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#6080e0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="66" cy="92" rx="20" ry="16" fill="url(#sconce-l)"/>
+
+  <!-- Right wall face -->
+  <polygon points="320,0 400,0 400,188 320,188" fill="#0a0820"/>
+  <g stroke="#1e2070" stroke-width="0.8" opacity="0.5">
+    <line x1="335" y1="0"   x2="335" y2="188"/>
+    <line x1="355" y1="0"   x2="355" y2="188"/>
+    <line x1="375" y1="0"   x2="375" y2="188"/>
+    <line x1="320" y1="50"  x2="400" y2="50"/>
+    <line x1="320" y1="100" x2="400" y2="100"/>
+    <line x1="320" y1="150" x2="400" y2="150"/>
+  </g>
+  <!-- Right wall crystal sconce -->
+  <polygon points="326,85 336,80 342,100 332,105" fill="#141260" stroke="#2a2a90" stroke-width="0.8"/>
+  <radialGradient id="sconce-r" cx="50%" cy="50%" r="60%">
+    <stop offset="0%" stop-color="#6080e0" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#6080e0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="334" cy="92" rx="20" ry="16" fill="url(#sconce-r)"/>
+
+  <!-- Ceiling — vaulted crystal lattice -->
+  <rect x="80" y="0" width="240" height="35" fill="#0c0a24"/>
+  <!-- Lattice pattern on ceiling -->
+  <g stroke="#2030a0" stroke-width="0.8" opacity="0.5">
+    <line x1="80"  y1="35" x2="200" y2="0"/>
+    <line x1="320" y1="35" x2="200" y2="0"/>
+    <line x1="140" y1="35" x2="200" y2="0"/>
+    <line x1="260" y1="35" x2="200" y2="0"/>
+    <line x1="80"  y1="0"  x2="80"  y2="35"/>
+    <line x1="320" y1="0"  x2="320" y2="35"/>
+    <!-- Horizontal beams -->
+    <line x1="80"  y1="10" x2="320" y2="10"/>
+    <line x1="80"  y1="22" x2="320" y2="22"/>
+  </g>
+  <!-- Central hanging crystal chandelier -->
+  <line x1="200" y1="0" x2="200" y2="40" stroke="#3040a0" stroke-width="1.5"/>
+  <polygon points="188,40 212,40 218,58 182,58" fill="#141260" stroke="#2a2a90" stroke-width="1"/>
+  <!-- Chandelier crystal drops -->
+  <g fill="#1e1c70" stroke="#3a3ab0" stroke-width="0.5">
+    <polygon points="188,58 192,66 186,66"/>
+    <polygon points="196,58 200,68 194,68"/>
+    <polygon points="204,58 208,68 202,68"/>
+    <polygon points="212,58 216,66 210,66"/>
+  </g>
+  <!-- Chandelier glow -->
+  <radialGradient id="chandelier-glow" cx="50%" cy="70%" r="50%">
+    <stop offset="0%" stop-color="#4060d0" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#4060d0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="62" rx="40" ry="20" fill="url(#chandelier-glow)"/>
+
+  <!-- ARCANE CONSTRUCT — centre hallway, looming -->
+  <!-- Body — angular crystalline golem shape -->
+  <g fill="#141260" stroke="#2a2a80" stroke-width="1">
+    <!-- Torso -->
+    <polygon points="185,120 215,120 220,165 180,165"/>
+    <!-- Head — angular crystal -->
+    <polygon points="192,100 208,100 214,120 186,120"/>
+    <!-- Crystal crown/antenna on head -->
+    <polygon points="198,90 202,90 205,100 195,100"/>
+    <polygon points="196,82 200,76 204,82 202,90 198,90"/>
+  </g>
+  <!-- Construct eye glow -->
+  <circle cx="196" cy="110" r="3" fill="#4060d0" opacity="0.8"/>
+  <circle cx="204" cy="110" r="3" fill="#4060d0" opacity="0.8"/>
+  <circle cx="196" cy="110" r="1.5" fill="#80a0ff" opacity="0.9"/>
+  <circle cx="204" cy="110" r="1.5" fill="#80a0ff" opacity="0.9"/>
+  <!-- Construct arms -->
+  <line x1="180" y1="130" x2="160" y2="148" stroke="#1e1c60" stroke-width="5" stroke-linecap="round"/>
+  <line x1="220" y1="130" x2="240" y2="148" stroke="#1e1c60" stroke-width="5" stroke-linecap="round"/>
+  <!-- Arm crystal gauntlets -->
+  <polygon points="155,142 165,140 168,154 158,156" fill="#141260" stroke="#2a2a80" stroke-width="0.8"/>
+  <polygon points="235,142 245,140 248,154 238,156" fill="#141260" stroke="#2a2a80" stroke-width="0.8"/>
+  <!-- Construct legs -->
+  <line x1="190" y1="165" x2="185" y2="188" stroke="#141260" stroke-width="5" stroke-linecap="round"/>
+  <line x1="210" y1="165" x2="215" y2="188" stroke="#141260" stroke-width="5" stroke-linecap="round"/>
+  <!-- Leg crystal feet -->
+  <polygon points="180,184 192,182 192,192 178,192" fill="#141260" stroke="#2a2a80" stroke-width="0.5"/>
+  <polygon points="208,182 220,184 222,192 208,192" fill="#141260" stroke="#2a2a80" stroke-width="0.5"/>
+
+  <!-- Construct energy aura -->
+  <radialGradient id="construct-aura" cx="50%" cy="50%" r="40%">
+    <stop offset="0%" stop-color="#3050c0" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#3050c0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="140" rx="50" ry="45" fill="url(#construct-aura)"/>
+
+  <!-- Floating arcane runes on walls -->
+  <g fill="#2a2890" opacity="0.5" font-family="monospace" font-size="12">
+    <text x="25"  y="70">◈</text>
+    <text x="25"  y="120">◇</text>
+    <text x="25"  y="170">◆</text>
+    <text x="355" y="70">◈</text>
+    <text x="355" y="120">◇</text>
+    <text x="355" y="170">◆</text>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a2480" text-anchor="middle" letter-spacing="3">THE ARCANE SANCTUM</text>
+</svg>
