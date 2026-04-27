@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#3a2a1a" opacity="0.5"/>
+  <!-- Main stone wall -->
+  <rect x="2" y="14" width="28" height="16" rx="1" fill="#7a6a4a"/>
+  <rect x="2" y="14" width="28" height="3" fill="#6a5a3a"/>
+  <!-- Stone block lines -->
+  <line x1="2" y1="18" x2="30" y2="18" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="2" y1="22" x2="30" y2="22" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="2" y1="26" x2="30" y2="26" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="9" y1="18" x2="9" y2="30" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="16" y1="14" x2="16" y2="30" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="23" y1="18" x2="23" y2="30" stroke="#5a4a2a" stroke-width="0.6"/>
+  <!-- Roof (ancient pitched stone) -->
+  <polygon points="0,14 16,4 32,14" fill="#5a4a2a"/>
+  <polygon points="2,14 16,6 30,14" fill="#6a5a3a"/>
+  <!-- Roof ridge -->
+  <line x1="16" y1="4" x2="16" y2="14" stroke="#4a3a1a" stroke-width="1"/>
+  <!-- Battlements -->
+  <rect x="3" y="11" width="4" height="4" rx="0.5" fill="#6a5a3a"/>
+  <rect x="10" y="11" width="4" height="4" rx="0.5" fill="#6a5a3a"/>
+  <rect x="18" y="11" width="4" height="4" rx="0.5" fill="#6a5a3a"/>
+  <rect x="25" y="11" width="4" height="4" rx="0.5" fill="#6a5a3a"/>
+  <!-- Door arch -->
+  <path d="M12,30 L12,22 Q16,18 20,22 L20,30 Z" fill="#2a1a0a"/>
+  <!-- Ivy/moss on wall -->
+  <path d="M2,16 Q4,14 5,17 Q3,19 2,18 Z" fill="#3a6a1a" opacity="0.7"/>
+  <path d="M27,17 Q29,14 30,16 Q29,20 27,19 Z" fill="#3a6a1a" opacity="0.7"/>
+  <path d="M7,22 Q9,20 10,23 Q8,25 7,24 Z" fill="#3a6a1a" opacity="0.6"/>
+  <!-- Banner -->
+  <line x1="16" y1="4" x2="16" y2="1" stroke="#4a3a1a" stroke-width="1"/>
+  <polygon points="16,1 22,2.5 16,4" fill="#8b2222"/>
+</svg>
