@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Cloud base -->
+  <ellipse cx="16" cy="28" rx="14" ry="4" fill="#ccddee"/>
+  <ellipse cx="10" cy="26" rx="7" ry="4" fill="#ddeeff"/>
+  <ellipse cx="22" cy="26" rx="7" ry="4" fill="#ddeeff"/>
+  <ellipse cx="16" cy="25" rx="10" ry="4" fill="#eef5ff"/>
+  <!-- Fort walls (on cloud) -->
+  <rect x="7" y="14" width="18" height="12" rx="1" fill="#cce0f0"/>
+  <rect x="7" y="14" width="18" height="2.5" fill="#aaccdd"/>
+  <!-- Stone texture lines -->
+  <line x1="7" y1="18" x2="25" y2="18" stroke="#99bbcc" stroke-width="0.5"/>
+  <line x1="7" y1="22" x2="25" y2="22" stroke="#99bbcc" stroke-width="0.5"/>
+  <line x1="13" y1="14" x2="13" y2="26" stroke="#99bbcc" stroke-width="0.5"/>
+  <line x1="19" y1="14" x2="19" y2="26" stroke="#99bbcc" stroke-width="0.5"/>
+  <!-- Gate -->
+  <path d="M13,26 L13,20 Q16,17 19,20 L19,26 Z" fill="#3a5a7a"/>
+  <!-- Towers -->
+  <rect x="5" y="10" width="6" height="14" rx="1" fill="#bbcedd"/>
+  <rect x="21" y="10" width="6" height="14" rx="1" fill="#bbcedd"/>
+  <!-- Tower crenellations -->
+  <rect x="5" y="7" width="2" height="4" rx="0.3" fill="#aabbcc"/>
+  <rect x="8.5" y="7" width="2" height="4" rx="0.3" fill="#aabbcc"/>
+  <rect x="21" y="7" width="2" height="4" rx="0.3" fill="#aabbcc"/>
+  <rect x="24.5" y="7" width="2" height="4" rx="0.3" fill="#aabbcc"/>
+  <!-- Lightning energy on towers -->
+  <path d="M8,12 L7,14 L9,13 L8,16" stroke="#88aaff" stroke-width="1" fill="none" opacity="0.8"/>
+  <path d="M24,12 L23,14 L25,13 L24,16" stroke="#88aaff" stroke-width="1" fill="none" opacity="0.8"/>
+  <!-- Flag -->
+  <line x1="16" y1="14" x2="16" y2="10" stroke="#6a8aaa" stroke-width="1"/>
+  <polygon points="16,10 22,11.5 16,13" fill="#5577cc"/>
+  <!-- Cloud wisps -->
+  <ellipse cx="4" cy="27" rx="3" ry="1.5" fill="#ddeeff" opacity="0.7"/>
+  <ellipse cx="28" cy="27" rx="3" ry="1.5" fill="#ddeeff" opacity="0.7"/>
+</svg>
