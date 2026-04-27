@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Deep water background -->
+  <ellipse cx="16" cy="20" rx="14" ry="11" fill="#112244" opacity="0.5"/>
+  <!-- Coral/barnacle armour shield base -->
+  <path d="M16,3 L27,9 L27,21 Q27,30 16,31 Q5,30 5,21 L5,9 Z" fill="#336677"/>
+  <path d="M16,6 L24,11 L24,21 Q24,28 16,29 Q8,28 8,21 L8,11 Z" fill="#447788"/>
+  <!-- Coral growths on shield -->
+  <path d="M8,14 Q5,11 7,9 Q9,7 10,10" fill="#cc6644" opacity="0.8"/>
+  <path d="M24,14 Q27,11 25,9 Q23,7 22,10" fill="#cc6644" opacity="0.8"/>
+  <path d="M10,22 Q7,20 8,18 Q10,16 11,19" fill="#dd7755" opacity="0.7"/>
+  <path d="M22,22 Q25,20 24,18 Q22,16 21,19" fill="#dd7755" opacity="0.7"/>
+  <!-- Barnacle clusters -->
+  <circle cx="9" cy="17" r="1.5" fill="#558899"/>
+  <circle cx="9" cy="17" r="0.8" fill="#669999"/>
+  <circle cx="23" cy="17" r="1.5" fill="#558899"/>
+  <circle cx="23" cy="17" r="0.8" fill="#669999"/>
+  <!-- Shield boss — deep-sea emblem -->
+  <circle cx="16" cy="18" r="5" fill="#224455"/>
+  <circle cx="16" cy="18" r="3.5" fill="#335566"/>
+  <!-- Anchor symbol -->
+  <line x1="16" y1="14" x2="16" y2="22" stroke="#88bbcc" stroke-width="1.2"/>
+  <ellipse cx="16" cy="14" rx="2" ry="1" fill="none" stroke="#88bbcc" stroke-width="1"/>
+  <line x1="13" y1="22" x2="19" y2="22" stroke="#88bbcc" stroke-width="1"/>
+  <path d="M13,22 Q12,24 13.5,25" stroke="#88bbcc" stroke-width="0.8" fill="none"/>
+  <path d="M19,22 Q20,24 18.5,25" stroke="#88bbcc" stroke-width="0.8" fill="none"/>
+  <!-- Bioluminescent edge glow -->
+  <path d="M16,3 L27,9 L27,21 Q27,30 16,31 Q5,30 5,21 L5,9 Z" fill="none" stroke="#44aacc" stroke-width="0.8" opacity="0.6"/>
+  <!-- Water pressure ripple -->
+  <ellipse cx="16" cy="18" rx="8" ry="5" fill="none" stroke="#4488aa" stroke-width="0.6" opacity="0.4"/>
+</svg>
