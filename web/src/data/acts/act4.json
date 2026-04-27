@@ -50,29 +50,35 @@
   "intro": [
     {
       "title": "THE CRYSTAL SPIRE",
-      "text": "Before the Fracture, the Crystal Spire was the Dominion's arcane research division Ã¢ÂÂ a floating fortress of compressed ley-line energy, staffed by scholars who were very important and knew it.\n\nThe Fracture didn't destroy the Spire. It crystallised it. The entire shard froze mid-operation: experiments running, libraries mid-catalogue, staff mid-sentence. The crystal grew inward. The scholars who survived became part of the archive.\n\nThe Archivist survived better than most."
+      "text": "Before the Fracture, the Crystal Spire was the Dominion's arcane research division Ã¢ÂÂ a floating fortress of compressed ley-line energy, staffed by scholars who were very important and knew it.\n\nThe Fracture didn't destroy the Spire. It crystallised it. The entire shard froze mid-operation: experiments running, libraries mid-catalogue, staff mid-sentence. The crystal grew inward. The scholars who survived became part of the archive.\n\nThe Archivist survived better than most.",
+      "image": "cutscenes/act4-intro-1.svg"
     },
     {
       "title": "THE WANDERER",
-      "text": "You are Jarv. Carrying an Iron Standard. Carrying a Soulstone. Carrying the particular exhaustion of someone who has crossed two impossible shards and is beginning to think the Fractured Core is going to be the easiest part of this.\n\nYou have a deck of cards, a route through the Spire's outer lattice, and the professional conviction that scholars who have had three years to perfect their defences have still, somewhere, made at least one mistake."
+      "text": "You are Jarv. Carrying an Iron Standard. Carrying a Soulstone. Carrying the particular exhaustion of someone who has crossed two impossible shards and is beginning to think the Fractured Core is going to be the easiest part of this.\n\nYou have a deck of cards, a route through the Spire's outer lattice, and the professional conviction that scholars who have had three years to perfect their defences have still, somewhere, made at least one mistake.",
+      "image": "cutscenes/act4-intro-2.svg"
     },
     {
       "title": "THE CRYSTAL SPIRE",
-      "text": "The Spire is a labyrinth of crystallised corridors, arcane constructs, and rooms that echo with the voices of people who stopped speaking three years ago.\n\nAt its heart, the Archivist Ã¢ÂÂ scholar, archivist, and now something considerably more and considerably less than either Ã¢ÂÂ catalogues everything that enters. He has been cataloguing you since you entered the shard.\n\nHe has extensive notes."
+      "text": "The Spire is a labyrinth of crystallised corridors, arcane constructs, and rooms that echo with the voices of people who stopped speaking three years ago.\n\nAt its heart, the Archivist Ã¢ÂÂ scholar, archivist, and now something considerably more and considerably less than either Ã¢ÂÂ catalogues everything that enters. He has been cataloguing you since you entered the shard.\n\nHe has extensive notes.",
+      "image": "cutscenes/act4-intro-3.svg"
     },
     {
       "title": "YOUR MISSION",
-      "text": "Breach the outer lattice. Navigate the arcane sanctum. Reach the Archivist.\n\nStop him cataloguing things.\n\nTry not to become a footnote."
+      "text": "Breach the outer lattice. Navigate the arcane sanctum. Reach the Archivist.\n\nStop him cataloguing things.\n\nTry not to become a footnote.",
+      "image": "cutscenes/act4-intro-4.svg"
     }
   ],
   "outro": [
     {
       "title": "THE ARCHIVE FALLS SILENT",
-      "text": "The Archivist's crystal matrix collapses. Not violently Ã¢ÂÂ methodically. Each facet dims in order, as though even his defeat is being filed.\n\nThe Spire holds its breath. Then, for the first time in three years, a window opens somewhere deep in the structure. Not because it was unlocked. Because whoever had been locking it is no longer in a position to care.\n\nLight comes through. Ordinary, unremarkable light. In the Crystal Spire, it looks like a miracle."
+      "text": "The Archivist's crystal matrix collapses. Not violently Ã¢ÂÂ methodically. Each facet dims in order, as though even his defeat is being filed.\n\nThe Spire holds its breath. Then, for the first time in three years, a window opens somewhere deep in the structure. Not because it was unlocked. Because whoever had been locking it is no longer in a position to care.\n\nLight comes through. Ordinary, unremarkable light. In the Crystal Spire, it looks like a miracle.",
+      "image": "cutscenes/act4-outro-1.svg"
     },
     {
       "title": "PRISM LENS",
-      "text": "Among the Archivist's collection Ã¢ÂÂ catalogued, cross-referenced, annotated in a hand that had become increasingly less human Ã¢ÂÂ you find it.\n\nA lens ground from the Spire's heart crystal. It refracts mana the way a prism refracts light: input, multiplied, redirected.\n\nThe Archivist's note reads: *'Item 7,441: Prism Lens. Effect: mana amplification. Recommendation: do not give to wandering tactician.'\n\nYou take it."
+      "text": "Among the Archivist's collection Ã¢ÂÂ catalogued, cross-referenced, annotated in a hand that had become increasingly less human Ã¢ÂÂ you find it.\n\nA lens ground from the Spire's heart crystal. It refracts mana the way a prism refracts light: input, multiplied, redirected.\n\nThe Archivist's note reads: *'Item 7,441: Prism Lens. Effect: mana amplification. Recommendation: do not give to wandering tactician.'\n\nYou take it.",
+      "image": "cutscenes/act4-outro-2.svg"
     }
   ],
   "variantPools": {
