@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Water base -->
+  <rect x="0" y="26" width="32" height="6" rx="0" fill="#2255aa" opacity="0.5"/>
+  <path d="M0,26 Q4,24 8,26 Q12,28 16,26 Q20,24 24,26 Q28,28 32,26 L32,32 L0,32 Z" fill="#3377cc" opacity="0.4"/>
+  <!-- Main wall body -->
+  <rect x="2" y="12" width="28" height="16" rx="1" fill="#8a7a6a"/>
+  <rect x="2" y="12" width="28" height="2" fill="#6a5a4a"/>
+  <!-- Stone block lines horizontal -->
+  <line x1="2" y1="16" x2="30" y2="16" stroke="#6a5a4a" stroke-width="0.7"/>
+  <line x1="2" y1="20" x2="30" y2="20" stroke="#6a5a4a" stroke-width="0.7"/>
+  <line x1="2" y1="24" x2="30" y2="24" stroke="#6a5a4a" stroke-width="0.7"/>
+  <!-- Stone block lines vertical (staggered) -->
+  <line x1="10" y1="12" x2="10" y2="16" stroke="#6a5a4a" stroke-width="0.7"/>
+  <line x1="20" y1="12" x2="20" y2="16" stroke="#6a5a4a" stroke-width="0.7"/>
+  <line x1="6" y1="16" x2="6" y2="20" stroke="#6a5a4a" stroke-width="0.7"/>
+  <line x1="15" y1="16" x2="15" y2="20" stroke="#6a5a4a" stroke-width="0.7"/>
+  <line x1="24" y1="16" x2="24" y2="20" stroke="#6a5a4a" stroke-width="0.7"/>
+  <line x1="10" y1="20" x2="10" y2="24" stroke="#6a5a4a" stroke-width="0.7"/>
+  <line x1="20" y1="20" x2="20" y2="24" stroke="#6a5a4a" stroke-width="0.7"/>
+  <line x1="6" y1="24" x2="6" y2="28" stroke="#6a5a4a" stroke-width="0.7"/>
+  <line x1="15" y1="24" x2="15" y2="28" stroke="#6a5a4a" stroke-width="0.7"/>
+  <line x1="24" y1="24" x2="24" y2="28" stroke="#6a5a4a" stroke-width="0.7"/>
+  <!-- Top crenellations -->
+  <rect x="2" y="8" width="5" height="5" rx="0.5" fill="#7a6a5a"/>
+  <rect x="10" y="8" width="5" height="5" rx="0.5" fill="#7a6a5a"/>
+  <rect x="18" y="8" width="5" height="5" rx="0.5" fill="#7a6a5a"/>
+  <rect x="26" y="8" width="4" height="5" rx="0.5" fill="#7a6a5a"/>
+  <!-- Barnacle/seaweed patches -->
+  <circle cx="5" cy="22" r="1.2" fill="#3a7a3a" opacity="0.7"/>
+  <circle cx="4" cy="24" r="0.8" fill="#2a6a2a" opacity="0.6"/>
+  <circle cx="27" cy="20" r="1" fill="#3a7a3a" opacity="0.7"/>
+  <!-- Water splash at base -->
+  <path d="M0,26 Q3,23 5,26" fill="none" stroke="#88ccff" stroke-width="0.8" opacity="0.7"/>
+  <path d="M26,26 Q29,23 32,26" fill="none" stroke="#88ccff" stroke-width="0.8" opacity="0.7"/>
+</svg>
