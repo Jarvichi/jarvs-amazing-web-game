@@ -694,7 +694,7 @@ function regressBoardBy(steps: number) {
       <div className="fm-board">
         {boardWindow.map(({ idx, node, isCurrent }) => (
           <div key={idx} className={`fm-board-node${isCurrent ? ' fm-board-node--current' : ''}`}>
-            <div className="fm-board-node-label">{node.label}<br>{idx+1}</div>
+            <div className="fm-board-node-label">{node.label}<br/>{idx+1}</div>
           </div>
         ))}
       </div>
