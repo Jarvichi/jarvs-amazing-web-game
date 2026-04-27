@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ice blast core -->
+  <circle cx="16" cy="16" r="6" fill="#aaddff" opacity="0.8"/>
+  <circle cx="16" cy="16" r="4" fill="#ddeeff" opacity="0.9"/>
+  <circle cx="16" cy="16" r="2" fill="#ffffff"/>
+  <!-- Ice shards radiating out -->
+  <!-- Top -->
+  <polygon points="16,10 14.5,5 17.5,5" fill="#88ccff"/>
+  <polygon points="16,10 15,7 17,7" fill="#aaddff" opacity="0.8"/>
+  <!-- Top-right -->
+  <polygon points="20,12 24,7 25,10" fill="#88ccff"/>
+  <!-- Right -->
+  <polygon points="22,16 27,14.5 27,17.5" fill="#88ccff"/>
+  <polygon points="22,16 25,15 25,17" fill="#aaddff" opacity="0.8"/>
+  <!-- Bottom-right -->
+  <polygon points="20,20 24,25 21,26" fill="#88ccff"/>
+  <!-- Bottom -->
+  <polygon points="16,22 14.5,27 17.5,27" fill="#88ccff"/>
+  <polygon points="16,22 15,25 17,25" fill="#aaddff" opacity="0.8"/>
+  <!-- Bottom-left -->
+  <polygon points="12,20 8,25 7,22" fill="#88ccff"/>
+  <!-- Left -->
+  <polygon points="10,16 5,14.5 5,17.5" fill="#88ccff"/>
+  <polygon points="10,16 7,15 7,17" fill="#aaddff" opacity="0.8"/>
+  <!-- Top-left -->
+  <polygon points="12,12 8,7 11,6" fill="#88ccff"/>
+  <!-- Snowflake cross in centre -->
+  <line x1="16" y1="13" x2="16" y2="19" stroke="#ffffff" stroke-width="1.5"/>
+  <line x1="13" y1="16" x2="19" y2="16" stroke="#ffffff" stroke-width="1.5"/>
+  <line x1="14" y1="14" x2="18" y2="18" stroke="#ffffff" stroke-width="1"/>
+  <line x1="18" y1="14" x2="14" y2="18" stroke="#ffffff" stroke-width="1"/>
+  <!-- Frost sparkles -->
+  <circle cx="8" cy="10" r="1" fill="#cceeff" opacity="0.8"/>
+  <circle cx="24" cy="10" r="1" fill="#cceeff" opacity="0.8"/>
+  <circle cx="6" cy="22" r="0.8" fill="#aaddff" opacity="0.7"/>
+  <circle cx="26" cy="22" r="0.8" fill="#aaddff" opacity="0.7"/>
+</svg>
