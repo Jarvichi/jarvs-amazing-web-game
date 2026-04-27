@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0a0a"/>
+
+  <!-- Ambient light from fracturing roots -->
+  <radialGradient id="collapse-glow" cx="50%" cy="45%" r="45%">
+    <stop offset="0%" stop-color="#3a7020" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#collapse-glow)"/>
+
+  <!-- Ground -->
+  <rect x="0" y="200" width="400" height="40" fill="#060e06"/>
+  <line x1="0" y1="200" x2="400" y2="200" stroke="#0f1a0f" stroke-width="1"/>
+
+  <!-- Thornlord crumbling figure — made of geometric root shapes -->
+  <!-- Central body mass disintegrating -->
+  <g opacity="0.9">
+    <!-- Body chunks separating -->
+    <polygon points="175,100 210,95 215,145 170,150" fill="#1a2e10" stroke="#2a4a18" stroke-width="1"/>
+    <polygon points="210,95 235,105 230,140 215,145" fill="#162808" stroke="#243a10" stroke-width="1" transform="rotate(8,222,120)"/>
+    <polygon points="168,105 178,100 170,150 158,140" fill="#162808" stroke="#243a10" stroke-width="1" transform="rotate(-10,165,125)"/>
+  </g>
+
+  <!-- Root arms — one reaching up (left), one collapsing (right) -->
+  <!-- Left arm — reaching skyward, splitting -->
+  <g stroke="#2a4a18" stroke-width="3" fill="none">
+    <path d="M175,110 Q150,80 130,50"/>
+    <path d="M130,50 Q115,30 100,15"/>
+    <path d="M130,50 Q140,25 155,10"/>
+  </g>
+  <!-- Bark splits on left arm -->
+  <g stroke="#40a030" stroke-width="0.8" opacity="0.5">
+    <line x1="155" y1="75" x2="160" y2="65"/>
+    <line x1="140" y1="60" x2="135" y2="50"/>
+    <line x1="120" y1="35" x2="112" y2="28"/>
+  </g>
+
+  <!-- Right arm — dropping, falling apart -->
+  <g stroke="#2a4a18" stroke-width="3" fill="none" opacity="0.7">
+    <path d="M215,115 Q255,100 285,120"/>
+    <path d="M285,120 Q310,135 330,150"/>
+  </g>
+
+  <!-- Legs/roots going into ground -->
+  <g stroke="#1e380e" stroke-width="4" fill="none">
+    <path d="M185,148 Q180,175 170,200"/>
+    <path d="M200,150 Q200,180 200,205"/>
+    <path d="M215,145 Q220,175 235,200"/>
+  </g>
+
+  <!-- Bark fragments flying off -->
+  <g fill="#2a4a18" opacity="0.8">
+    <polygon points="130,80  136,75  133,85"/>
+    <polygon points="260,90  267,85  263,96"/>
+    <polygon points="155,45  160,38  163,47"/>
+    <polygon points="105,20  110,14  112,23"/>
+    <polygon points="290,135 296,130 293,140"/>
+  </g>
+  <!-- Lighter bark shards -->
+  <g fill="#3a6828" opacity="0.5">
+    <polygon points="145,65 150,60 148,69"/>
+    <polygon points="240,108 246,103 243,112"/>
+    <polygon points="170,30 174,25 176,33"/>
+    <polygon points="320,148 325,143 322,152"/>
+  </g>
+
+  <!-- Glowing pathway cracks opening in ground -->
+  <g stroke="#50c030" stroke-width="1.5" fill="none" opacity="0.7">
+    <path d="M100,200 Q150,190 200,195 Q250,200 300,190"/>
+    <path d="M60,210  Q120,202 180,207 Q240,212 320,203 Q360,198 390,205"/>
+  </g>
+  <!-- Glow dots along paths -->
+  <g fill="#50c030" opacity="0.5">
+    <circle cx="150" cy="193" r="2"/>
+    <circle cx="200" cy="196" r="2.5"/>
+    <circle cx="250" cy="192" r="2"/>
+    <circle cx="130" cy="205" r="1.5"/>
+    <circle cx="300" cy="204" r="1.5"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#2a6020" text-anchor="middle" letter-spacing="3">THE THORNLORD FALLS</text>
+</svg>
