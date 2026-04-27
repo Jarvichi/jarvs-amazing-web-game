@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Swirling current (two intertwined streams) -->
+  <!-- Blue water current -->
+  <path d="M4,16 Q8,8 16,10 Q24,12 28,6" stroke="#2288cc" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M4,20 Q8,12 16,14 Q24,16 28,10" stroke="#44aaee" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <!-- Electric current -->
+  <path d="M4,22 Q10,28 16,22 Q22,16 28,22" stroke="#ffee22" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M28,22 L26,20 L27,22 L25,21 L27,23" stroke="#ffee22" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <!-- Mastery hand silhouette (open palm) -->
+  <ellipse cx="16" cy="17" rx="5" ry="6" fill="#c8a060" opacity="0.85"/>
+  <!-- Fingers -->
+  <rect x="11" y="10" width="2" height="6" rx="1" fill="#c8a060"/>
+  <rect x="13.5" y="9" width="2" height="7" rx="1" fill="#c8a060"/>
+  <rect x="16" y="9.5" width="2" height="6.5" rx="1" fill="#c8a060"/>
+  <rect x="18.5" y="10" width="2" height="6" rx="1" fill="#c8a060"/>
+  <!-- Thumb -->
+  <rect x="9" y="13" width="3" height="2" rx="1" fill="#c8a060" transform="rotate(-20,10.5,14)"/>
+  <!-- Energy orb in palm -->
+  <circle cx="16" cy="18" r="3" fill="#1166aa" opacity="0.7"/>
+  <circle cx="16" cy="18" r="1.8" fill="#44aaff" opacity="0.8"/>
+  <circle cx="16" cy="18" r="0.9" fill="#ffffff" opacity="0.7"/>
+  <!-- Lightning arc from orb -->
+  <path d="M16,15 L15,13 L17,14 L16,11" stroke="#ffee22" stroke-width="1" fill="none" stroke-linecap="round"/>
+</svg>
