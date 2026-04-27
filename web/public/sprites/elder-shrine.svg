@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#3a2a1a" opacity="0.5"/>
+  <!-- Stone base/dais -->
+  <rect x="4" y="26" width="24" height="4" rx="1" fill="#6a6050"/>
+  <rect x="4" y="26" width="24" height="1.5" fill="#7a7060"/>
+  <!-- Stone step -->
+  <rect x="6" y="24" width="20" height="3" rx="1" fill="#7a7060"/>
+  <!-- Shrine chamber walls -->
+  <rect x="9" y="12" width="14" height="14" rx="1" fill="#6a5a4a"/>
+  <rect x="9" y="12" width="14" height="3" fill="#5a4a3a"/>
+  <!-- Stone block lines -->
+  <line x1="9" y1="17" x2="23" y2="17" stroke="#4a3a2a" stroke-width="0.5"/>
+  <line x1="9" y1="21" x2="23" y2="21" stroke="#4a3a2a" stroke-width="0.5"/>
+  <line x1="14" y1="12" x2="14" y2="26" stroke="#4a3a2a" stroke-width="0.5"/>
+  <line x1="19" y1="12" x2="19" y2="26" stroke="#4a3a2a" stroke-width="0.5"/>
+  <!-- Arched doorway -->
+  <path d="M12,26 L12,19 Q16,15 20,19 L20,26 Z" fill="#2a1a0a"/>
+  <!-- Interior glow -->
+  <ellipse cx="16" cy="21" rx="3" ry="2" fill="#ffaa22" opacity="0.6"/>
+  <!-- Roof/pediment -->
+  <polygon points="7,12 16,4 25,12" fill="#5a4a3a"/>
+  <polygon points="9,12 16,6 23,12" fill="#6a5a4a"/>
+  <!-- Roof ridge ornament -->
+  <ellipse cx="16" cy="5" rx="2" ry="2.5" fill="#8a7060"/>
+  <ellipse cx="16" cy="4" rx="1.2" ry="1.5" fill="#aa9a70"/>
+  <!-- Offering flame on ridge -->
+  <ellipse cx="16" cy="3" rx="1.5" ry="1" fill="#ff8822" opacity="0.9"/>
+  <ellipse cx="16" cy="2" rx="1" ry="1" fill="#ffcc44" opacity="0.8"/>
+  <ellipse cx="16" cy="1.5" rx="0.6" ry="0.8" fill="#ffffff" opacity="0.6"/>
+  <!-- Side pillars -->
+  <rect x="7" y="12" width="3" height="12" rx="0.5" fill="#7a6a5a"/>
+  <rect x="22" y="12" width="3" height="12" rx="0.5" fill="#7a6a5a"/>
+  <!-- Elder runes on pillars -->
+  <text x="8.5" y="22" font-size="5" text-anchor="middle" fill="#aa8844" font-family="monospace">ᚢ</text>
+  <text x="23.5" y="22" font-size="5" text-anchor="middle" fill="#aa8844" font-family="monospace">ᚦ</text>
+  <!-- Magic sparks -->
+  <circle cx="6" cy="16" r="0.8" fill="#ffaa22" opacity="0.6"/>
+  <circle cx="26" cy="14" r="0.7" fill="#ffcc44" opacity="0.5"/>
+  <circle cx="10" cy="10" r="0.6" fill="#ffaa22" opacity="0.4"/>
+</svg>
