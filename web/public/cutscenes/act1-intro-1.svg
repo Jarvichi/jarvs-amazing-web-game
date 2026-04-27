@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0a0a0a"/>
+
+  <!-- Background glow at centre of fracture -->
+  <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#6b3fa0" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#glow1)"/>
+
+  <!-- Realm shards — jagged polygons breaking apart -->
+  <!-- Upper-left shard -->
+  <polygon points="60,20 180,80 140,130 30,90 10,40" fill="#1a1a2e" stroke="#4a2080" stroke-width="1.5"/>
+  <!-- Upper-right shard -->
+  <polygon points="220,10 390,30 380,110 250,90 200,50" fill="#1a2a1a" stroke="#2a6040" stroke-width="1.5"/>
+  <!-- Lower-left shard -->
+  <polygon points="10,150 150,140 120,220 20,230" fill="#1e1a10" stroke="#604020" stroke-width="1.5"/>
+  <!-- Lower-right shard -->
+  <polygon points="260,160 390,130 390,230 230,235" fill="#1a1a1e" stroke="#203060" stroke-width="1.5"/>
+  <!-- Centre fragment — floating -->
+  <polygon points="170,95 230,85 250,140 220,160 160,150" fill="#150f20" stroke="#8040c0" stroke-width="2"/>
+
+  <!-- Fracture cracks radiating from centre -->
+  <g stroke="#c080ff" stroke-width="1.5" fill="none" opacity="0.8">
+    <line x1="200" y1="120" x2="60" y2="20"/>
+    <line x1="200" y1="120" x2="380" y2="15"/>
+    <line x1="200" y1="120" x2="390" y2="200"/>
+    <line x1="200" y1="120" x2="10" y2="220"/>
+    <line x1="200" y1="120" x2="200" y2="5"/>
+    <line x1="200" y1="120" x2="350" y2="120"/>
+    <line x1="200" y1="120" x2="50" y2="150"/>
+  </g>
+  <!-- Secondary cracks, dimmer -->
+  <g stroke="#8040c0" stroke-width="0.8" fill="none" opacity="0.5">
+    <line x1="200" y1="120" x2="120" y2="50"/>
+    <line x1="200" y1="120" x2="300" y2="60"/>
+    <line x1="200" y1="120" x2="340" y2="170"/>
+    <line x1="200" y1="120" x2="100" y2="200"/>
+  </g>
+
+  <!-- Bright detonation point -->
+  <circle cx="200" cy="120" r="14" fill="#c080ff" opacity="0.9"/>
+  <circle cx="200" cy="120" r="8" fill="#ffffff" opacity="0.95"/>
+  <circle cx="200" cy="120" r="3" fill="#c080ff"/>
+
+  <!-- Floating debris dots -->
+  <circle cx="155" cy="75"  r="2" fill="#8040c0" opacity="0.7"/>
+  <circle cx="245" cy="68"  r="1.5" fill="#6b3fa0" opacity="0.6"/>
+  <circle cx="130" cy="160" r="2" fill="#8040c0" opacity="0.5"/>
+  <circle cx="270" cy="155" r="2.5" fill="#6b3fa0" opacity="0.7"/>
+  <circle cx="310" cy="90"  r="1.5" fill="#8040c0" opacity="0.6"/>
+  <circle cx="80"  cy="130" r="2" fill="#6b3fa0" opacity="0.5"/>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#4a2080" text-anchor="middle" letter-spacing="3">THE FRACTURE EVENT</text>
+</svg>
