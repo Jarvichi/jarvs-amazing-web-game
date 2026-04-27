@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#090908"/>
+
+  <!-- Smoky ashen sky -->
+  <linearGradient id="ash-sky2" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0d0c0a"/>
+    <stop offset="100%" stop-color="#1c1810"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#ash-sky2)"/>
+
+  <!-- Distant ember glow on horizon — the Wastes ahead -->
+  <radialGradient id="wastes-glow" cx="65%" cy="75%" r="35%">
+    <stop offset="0%" stop-color="#c04808" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="#c04808" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#wastes-glow)"/>
+
+  <!-- Ash ground -->
+  <rect x="0" y="196" width="400" height="44" fill="#0d0c0a"/>
+  <rect x="0" y="192" width="400" height="6"  fill="#121008"/>
+
+  <!-- Distant silhouette of the Wastes — slag heaps and fire on horizon -->
+  <polygon points="230,170 270,145 310,168 350,138 400,155 400,170 230,170" fill="#0f0d0a"/>
+  <polygon points="280,170 320,148 360,158 400,148 400,170 280,170" fill="#0c0b08"/>
+  <!-- Ember dots on horizon -->
+  <g fill="#c04808" opacity="0.5">
+    <circle cx="270" cy="148" r="2"/>
+    <circle cx="310" cy="155" r="1.5"/>
+    <circle cx="355" cy="140" r="2"/>
+    <circle cx="340" cy="152" r="1.5"/>
+  </g>
+
+  <!-- WANDERER — centre frame, looking toward the wastes (right) -->
+  <!-- Ground shadow -->
+  <ellipse cx="155" cy="205" rx="22" ry="6" fill="#060604" opacity="0.7"/>
+
+  <!-- Boots -->
+  <ellipse cx="144" cy="208" rx="6" ry="3" fill="#0d0b08"/>
+  <ellipse cx="163" cy="207" rx="6" ry="3" fill="#0d0b08"/>
+
+  <!-- Legs -->
+  <line x1="148" y1="196" x2="144" y2="208" stroke="#141210" stroke-width="4" stroke-linecap="round"/>
+  <line x1="158" y1="196" x2="163" y2="207" stroke="#141210" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Cloak body — ash-dusted grey-brown -->
+  <polygon points="138,178 170,178 174,198 134,198" fill="#1e1a14" stroke="#2a2418" stroke-width="1"/>
+  <!-- Ash dust on cloak shoulders -->
+  <g fill="#2a2620" opacity="0.4">
+    <ellipse cx="141" cy="180" rx="6" ry="2"/>
+    <ellipse cx="167" cy="180" rx="5" ry="2"/>
+  </g>
+
+  <!-- Hood / head -->
+  <ellipse cx="154" cy="172" rx="11" ry="9" fill="#181410" stroke="#262018" stroke-width="1"/>
+  <!-- Face shadow under hood -->
+  <ellipse cx="155" cy="175" rx="7" ry="5" fill="#0e0c08"/>
+
+  <!-- Arm holding Iron Standard pole — right arm outstretched -->
+  <line x1="168" y1="182" x2="195" y2="170" stroke="#1e1a14" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- The Iron Standard (carried from Act 2) -->
+  <!-- Pole -->
+  <line x1="195" y1="140" x2="195" y2="210" stroke="#2a3040" stroke-width="2.5"/>
+  <!-- Spike finial -->
+  <polygon points="193,140 197,140 195,132" fill="#404860"/>
+  <!-- Banner — small, wind-blown left (Jarv moving right) -->
+  <polygon points="195,143 235,149 232,165 195,160" fill="#1e2438" stroke="#303548" stroke-width="1"/>
+  <!-- Iron cross on small banner -->
+  <g stroke="#3a4060" stroke-width="1.2">
+    <line x1="215" y1="147" x2="215" y2="161"/>
+    <line x1="208" y1="154" x2="222" y2="154"/>
+  </g>
+
+  <!-- Left arm — holding cloak closed against ashen wind -->
+  <line x1="140" y1="182" x2="130" y2="191" stroke="#1e1a14" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Falling ash — particles across whole frame -->
+  <g fill="#2e2a20" opacity="0.55">
+    <circle cx="45"  cy="30"  r="1.5"/>
+    <circle cx="85"  cy="20"  r="1"/>
+    <circle cx="120" cy="50"  r="1.5"/>
+    <circle cx="175" cy="35"  r="1"/>
+    <circle cx="240" cy="25"  r="1.5"/>
+    <circle cx="290" cy="45"  r="1"/>
+    <circle cx="330" cy="20"  r="1.5"/>
+    <circle cx="370" cy="55"  r="1"/>
+    <circle cx="30"  cy="75"  r="1"/>
+    <circle cx="95"  cy="90"  r="1.5"/>
+    <circle cx="200" cy="80"  r="1"/>
+    <circle cx="260" cy="70"  r="1.5"/>
+    <circle cx="350" cy="85"  r="1"/>
+    <circle cx="65"  cy="110" r="1.5"/>
+    <circle cx="140" cy="120" r="1"/>
+    <circle cx="310" cy="100" r="1.5"/>
+    <circle cx="380" cy="115" r="1"/>
+    <circle cx="20"  cy="145" r="1"/>
+    <circle cx="220" cy="130" r="1.5"/>
+  </g>
+  <!-- Diagonal ash streaks (wind from right) -->
+  <g stroke="#2e2a20" stroke-width="0.5" opacity="0.35">
+    <line x1="80"  y1="35"  x2="74"  y2="50"/>
+    <line x1="160" y1="15"  x2="154" y2="32"/>
+    <line x1="260" y1="40"  x2="254" y2="55"/>
+    <line x1="350" y1="25"  x2="344" y2="42"/>
+    <line x1="30"  y1="60"  x2="24"  y2="78"/>
+    <line x1="110" y1="95"  x2="104" y2="112"/>
+    <line x1="300" y1="110" x2="294" y2="128"/>
+  </g>
+
+  <!-- Footprints in the ash behind Jarv -->
+  <g fill="#0f0d0a" opacity="0.5">
+    <ellipse cx="126" cy="202" rx="4" ry="2" transform="rotate(-12,126,202)"/>
+    <ellipse cx="112" cy="203" rx="4" ry="2" transform="rotate(10,112,203)"/>
+    <ellipse cx="97"  cy="202" rx="4" ry="2" transform="rotate(-12,97,202)"/>
+    <ellipse cx="82"  cy="203" rx="3.5" ry="2" transform="rotate(10,82,203)"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#3a2c1a" text-anchor="middle" letter-spacing="3">THE WANDERER</text>
+</svg>
