@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#08090c"/>
+
+  <!-- Armoury interior — dark stone walls -->
+  <linearGradient id="armory-wall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0d1018"/>
+    <stop offset="100%" stop-color="#0a0c12"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#armory-wall)"/>
+
+  <!-- Stone floor -->
+  <rect x="0" y="185" width="400" height="55" fill="#0a0b10"/>
+  <!-- Floor flagstones -->
+  <g stroke="#111420" stroke-width="0.8" opacity="0.5">
+    <line x1="0"   y1="200" x2="400" y2="200"/>
+    <line x1="0"   y1="215" x2="400" y2="215"/>
+    <line x1="50"  y1="185" x2="50"  y2="240"/>
+    <line x1="130" y1="185" x2="130" y2="240"/>
+    <line x1="200" y1="185" x2="200" y2="240"/>
+    <line x1="270" y1="185" x2="270" y2="240"/>
+    <line x1="350" y1="185" x2="350" y2="240"/>
+  </g>
+
+  <!-- Left wall weapon racks -->
+  <rect x="10" y="50" width="8" height="135" fill="#0f1218" stroke="#1a1e28" stroke-width="0.8"/>
+  <!-- Weapons hanging on rack -->
+  <g stroke="#252a38" stroke-width="2" fill="none">
+    <line x1="14" y1="60"  x2="14" y2="130"/>
+    <line x1="14" y1="65"  x2="30" y2="65"/>
+    <line x1="14" y1="90"  x2="32" y2="90"/>
+    <line x1="14" y1="115" x2="28" y2="115"/>
+  </g>
+  <!-- Sword shapes -->
+  <g fill="#1e2438" stroke="#303548" stroke-width="0.5">
+    <polygon points="30,58 34,62 30,130 26,62"/><!-- sword 1 -->
+    <polygon points="32,83 36,87 32,155 28,87"/><!-- sword 2 -->
+    <polygon points="28,108 32,112 28,170 24,112"/><!-- sword 3 -->
+  </g>
+
+  <!-- Right wall weapon racks -->
+  <rect x="382" y="50" width="8" height="135" fill="#0f1218" stroke="#1a1e28" stroke-width="0.8"/>
+  <g stroke="#252a38" stroke-width="2" fill="none">
+    <line x1="386" y1="60"  x2="386" y2="130"/>
+    <line x1="386" y1="65"  x2="370" y2="65"/>
+    <line x1="386" y1="90"  x2="368" y2="90"/>
+    <line x1="386" y1="115" x2="372" y2="115"/>
+  </g>
+  <g fill="#1e2438" stroke="#303548" stroke-width="0.5">
+    <polygon points="370,58 374,62 370,130 366,62"/>
+    <polygon points="368,83 372,87 368,155 364,87"/>
+    <polygon points="372,108 376,112 372,170 368,112"/>
+  </g>
+
+  <!-- Armoury torch sconces on side walls -->
+  <g>
+    <!-- Left torch -->
+    <rect x="55" y="80" width="6" height="14" fill="#1e2030" stroke="#303040" stroke-width="0.5"/>
+    <polygon points="52,80 64,80 60,70 56,70" fill="#1e2030" stroke="#303040" stroke-width="0.5"/>
+    <radialGradient id="torch-l" cx="50%" cy="0%" r="80%">
+      <stop offset="0%" stop-color="#c07020" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#c07020" stop-opacity="0"/>
+    </radialGradient>
+    <ellipse cx="58" cy="72" rx="16" ry="12" fill="url(#torch-l)" opacity="0.7"/>
+    <!-- Right torch -->
+    <rect x="339" y="80" width="6" height="14" fill="#1e2030" stroke="#303040" stroke-width="0.5"/>
+    <polygon points="336,80 348,80 344,70 340,70" fill="#1e2030" stroke="#303040" stroke-width="0.5"/>
+    <radialGradient id="torch-r" cx="50%" cy="0%" r="80%">
+      <stop offset="0%" stop-color="#c07020" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#c07020" stop-opacity="0"/>
+    </radialGradient>
+    <ellipse cx="342" cy="72" rx="16" ry="12" fill="url(#torch-r)" opacity="0.7"/>
+  </g>
+
+  <!-- THE IRON STANDARD — centrepiece -->
+  <!-- Stone pedestal / plinth -->
+  <rect x="170" y="160" width="60" height="25" fill="#111520" stroke="#1e2438" stroke-width="1.5"/>
+  <rect x="163" y="178" width="74" height="10" fill="#141820" stroke="#1e2438" stroke-width="1"/>
+  <!-- Inscription on plinth -->
+  <text x="200" y="173" font-family="monospace" font-size="5" fill="#252a38" text-anchor="middle" letter-spacing="1">IRON STANDARD</text>
+
+  <!-- Standard pole -->
+  <rect x="198" y="30" width="4" height="130" fill="#2a3040" stroke="#3a4060" stroke-width="0.8"/>
+  <!-- Pole finial — iron spike -->
+  <polygon points="197,30 203,30 200,20" fill="#404860" stroke="#505878" stroke-width="0.5"/>
+
+  <!-- The banner itself — weathered Dominion banner -->
+  <!-- Main banner cloth -->
+  <polygon points="202,32 268,40 264,90 202,85" fill="#1e2438" stroke="#3a4060" stroke-width="1.5"/>
+  <!-- Banner field — iron grey -->
+  <rect x="204" y="34" width="62" height="49" fill="#202840"/>
+
+  <!-- Iron cross motif on banner — the Dominion symbol -->
+  <g stroke="#505878" stroke-width="3" fill="none">
+    <line x1="235" y1="38" x2="235" y2="79"/>
+    <line x1="214" y1="58" x2="256" y2="58"/>
+  </g>
+  <!-- Cross embellishments -->
+  <g fill="#606888">
+    <rect x="230" y="36" width="10" height="4"/>
+    <rect x="230" y="77" width="10" height="4"/>
+    <rect x="212" y="54" width="4" height="8"/>
+    <rect x="254" y="54" width="4" height="8"/>
+  </g>
+
+  <!-- Worn / battle-damage on banner -->
+  <g stroke="#161c28" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M246,38 Q250,50 248,60"/>
+    <path d="M258,55 Q262,65 260,75"/>
+  </g>
+  <!-- Fringe at bottom of banner -->
+  <g stroke="#303548" stroke-width="1">
+    <line x1="204" y1="83" x2="202" y2="91"/>
+    <line x1="210" y1="84" x2="208" y2="92"/>
+    <line x1="216" y1="84" x2="214" y2="93"/>
+    <line x1="222" y1="84" x2="220" y2="92"/>
+    <line x1="228" y1="84" x2="226" y2="92"/>
+    <line x1="234" y1="84" x2="232" y2="93"/>
+    <line x1="240" y1="84" x2="238" y2="92"/>
+    <line x1="246" y1="84" x2="244" y2="92"/>
+    <line x1="252" y1="84" x2="250" y2="93"/>
+    <line x1="258" y1="84" x2="256" y2="92"/>
+    <line x1="264" y1="84" x2="262" y2="92"/>
+  </g>
+
+  <!-- Atmospheric glow around the standard — iron remembers -->
+  <radialGradient id="standard-glow" cx="56%" cy="45%" r="30%">
+    <stop offset="0%" stop-color="#404860" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#404860" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#standard-glow)"/>
+
+  <!-- Dust motes in armoury air -->
+  <g fill="#303548" opacity="0.3">
+    <circle cx="90"  cy="100" r="1"/>
+    <circle cx="310" cy="90"  r="1"/>
+    <circle cx="155" cy="140" r="0.8"/>
+    <circle cx="250" cy="130" r="0.8"/>
+    <circle cx="170" cy="60"  r="1"/>
+    <circle cx="280" cy="70"  r="0.8"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#303548" text-anchor="middle" letter-spacing="3">THE IRON STANDARD</text>
+</svg>
