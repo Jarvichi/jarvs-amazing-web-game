@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Deep ocean/dark ground layer -->
+  <rect x="0" y="24" width="32" height="8" rx="0" fill="#112233" opacity="0.7"/>
+  <path d="M0,24 Q4,22 8,24 Q12,26 16,24 Q20,22 24,24 Q28,26 32,24 L32,32 L0,32 Z" fill="#1a3344" opacity="0.6"/>
+  <!-- Deep roots anchoring below -->
+  <path d="M13,30 Q12,27 14,24" stroke="#2a5a2a" stroke-width="1.5" fill="none"/>
+  <path d="M19,30 Q20,27 18,24" stroke="#2a5a2a" stroke-width="1.5" fill="none"/>
+  <path d="M16,31 Q16,27 16,24" stroke="#3a6a1a" stroke-width="2" fill="none"/>
+  <!-- Main deep vine erupting upward -->
+  <path d="M16,24 Q14,18 16,12 Q18,6 16,1" stroke="#2a6a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Branch vines -->
+  <path d="M15,20 Q9,17 5,19" stroke="#2a6a1a" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M17,15 Q23,12 27,14" stroke="#2a6a1a" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M15,10 Q9,7 6,9" stroke="#3a7a1a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Bioluminescent leaves (deep-sea glow) -->
+  <ellipse cx="5" cy="18" rx="3.5" ry="2" fill="#22aa55" opacity="0.85" transform="rotate(-25,5,18)"/>
+  <ellipse cx="27" cy="13" rx="3.5" ry="2" fill="#22aa55" opacity="0.85" transform="rotate(25,27,13)"/>
+  <ellipse cx="6" cy="8" rx="3" ry="1.8" fill="#33bb66" opacity="0.8" transform="rotate(-15,6,8)"/>
+  <!-- Top bloom (dark, glowing deep-sea flower) -->
+  <circle cx="16" cy="2" r="4" fill="#116633"/>
+  <circle cx="16" cy="2" r="2.5" fill="#22aa55"/>
+  <circle cx="16" cy="2" r="1.2" fill="#55ffaa" opacity="0.9"/>
+  <!-- Glow halos on leaves -->
+  <ellipse cx="5" cy="18" rx="4.5" ry="3" fill="#22aa55" opacity="0.2" transform="rotate(-25,5,18)"/>
+  <ellipse cx="27" cy="13" rx="4.5" ry="3" fill="#22aa55" opacity="0.2" transform="rotate(25,27,13)"/>
+  <!-- Bubbles rising (deep sea) -->
+  <circle cx="10" cy="22" r="0.8" fill="#4499aa" opacity="0.6"/>
+  <circle cx="22" cy="21" r="0.7" fill="#4499aa" opacity="0.5"/>
+  <circle cx="7" cy="19" r="0.6" fill="#55aabb" opacity="0.4"/>
+</svg>
