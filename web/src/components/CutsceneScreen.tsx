@@ -44,6 +44,9 @@ export function CutsceneScreen({ panels, onDone }: Props) {
     <div className="cutscene-screen" onClick={advance}>
       <div className={`cutscene-content${visible ? ' cutscene-content--visible' : ''}`}>
         <div className="cutscene-act-label">// {panel.title}</div>
+        {panel.image && (
+          <img src={panel.image} alt="" className="cutscene-image" />
+        )}
         <div className="cutscene-body">
           {paragraphs.map((p, i) => (
             <p key={i} className="cutscene-paragraph">{p}</p>

@@ -5242,6 +5242,15 @@ body {
   margin-bottom: 28px;
 }
 
+.cutscene-image {
+  width: 100%;
+  aspect-ratio: 5 / 3;
+  object-fit: cover;
+  border: 1px solid #1a1a1a;
+  margin-bottom: 24px;
+  display: block;
+}
+
 .cutscene-body {
   display: flex;
   flex-direction: column;
