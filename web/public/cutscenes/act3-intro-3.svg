@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#090908"/>
+
+  <!-- Smoky overcast sky — almost no distinction between sky and land -->
+  <linearGradient id="waste-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0d0b08"/>
+    <stop offset="50%" stop-color="#161210"/>
+    <stop offset="100%" stop-color="#1e1810"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#waste-sky)"/>
+
+  <!-- Multiple underground fire glows — fires that never went out -->
+  <radialGradient id="fire-glow1" cx="30%" cy="78%" r="20%">
+    <stop offset="0%" stop-color="#d04808" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#d04808" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#fire-glow1)"/>
+  <radialGradient id="fire-glow2" cx="70%" cy="80%" r="18%">
+    <stop offset="0%" stop-color="#b83808" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#b83808" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#fire-glow2)"/>
+
+  <!-- Ground -->
+  <rect x="0" y="170" width="400" height="70" fill="#0c0b08"/>
+  <rect x="0" y="168" width="400" height="4" fill="#161410"/>
+
+  <!-- Cracked ash ground surface -->
+  <g stroke="#1a1610" stroke-width="0.7" opacity="0.6">
+    <path d="M20,190 Q60,185 80,195 Q100,205 140,198"/>
+    <path d="M160,182 Q200,178 230,185 Q260,192 300,186"/>
+    <path d="M310,195 Q345,190 380,196"/>
+    <path d="M50,210 Q90,206 120,212"/>
+    <path d="M200,208 Q250,204 290,210"/>
+  </g>
+  <!-- Ash cracks glowing orange from below -->
+  <g stroke="#c04808" stroke-width="0.6" opacity="0.3">
+    <path d="M80,185  Q95,178  105,188"/>
+    <path d="M230,180 Q240,172 252,182"/>
+    <path d="M150,200 Q160,194 170,202"/>
+  </g>
+
+  <!-- Ruined mineshaft openings — wider view -->
+  <rect x="50"  y="155" width="44" height="18" fill="#050503" stroke="#141210" stroke-width="1"/>
+  <line x1="48"  y1="152" x2="96"  y2="152" stroke="#181612" stroke-width="2"/>
+  <radialGradient id="shaft1" cx="50%" cy="100%" r="70%">
+    <stop offset="0%" stop-color="#d04808" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#d04808" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="50" y="155" width="44" height="18" fill="url(#shaft1)"/>
+
+  <rect x="290" y="158" width="44" height="18" fill="#050503" stroke="#141210" stroke-width="1"/>
+  <line x1="288" y1="155" x2="336" y2="155" stroke="#181612" stroke-width="2"/>
+  <radialGradient id="shaft2" cx="50%" cy="100%" r="70%">
+    <stop offset="0%" stop-color="#b83808" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#b83808" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="290" y="158" width="44" height="18" fill="url(#shaft2)"/>
+
+  <!-- UNDEAD FIGURES roaming the wastes — bone-white silhouettes -->
+  <!-- Undead 1 — left, standing still -->
+  <g fill="#252018" opacity="0.85">
+    <circle cx="110" cy="160" r="5"/><!-- head (skull) -->
+    <rect   cx="107" cy="165" width="6" height="12"/><!-- torso -->
+    <line x1="108" y1="167" x2="100" y2="174" stroke="#252018" stroke-width="2"/><!-- left arm -->
+    <line x1="113" y1="167" x2="120" y2="172" stroke="#252018" stroke-width="2"/><!-- right arm outstretched -->
+    <line x1="108" y1="177" x2="105" y2="188" stroke="#252018" stroke-width="2"/><!-- left leg -->
+    <line x1="112" y1="177" x2="115" y2="188" stroke="#252018" stroke-width="2"/><!-- right leg -->
+  </g>
+  <!-- Skull details -->
+  <circle cx="108" cy="159" r="1.5" fill="#181410"/>
+  <circle cx="112" cy="159" r="1.5" fill="#181410"/>
+
+  <!-- Undead 2 — centre-left, hunched -->
+  <g fill="#221e16" opacity="0.8">
+    <circle cx="170" cy="163" r="5"/>
+    <rect   x="167" y="168" width="6" height="10" transform="rotate(10,170,172)"/>
+    <line x1="167" y1="170" x2="158" y2="178" stroke="#221e16" stroke-width="2"/>
+    <line x1="173" y1="170" x2="180" y2="176" stroke="#221e16" stroke-width="2"/>
+    <line x1="168" y1="178" x2="164" y2="190" stroke="#221e16" stroke-width="2"/>
+    <line x1="173" y1="178" x2="176" y2="190" stroke="#221e16" stroke-width="2"/>
+  </g>
+  <circle cx="168" cy="162" r="1.5" fill="#151210"/>
+  <circle cx="172" cy="162" r="1.5" fill="#151210"/>
+
+  <!-- Undead 3 — right, walking -->
+  <g fill="#201c14" opacity="0.75">
+    <circle cx="270" cy="161" r="5"/>
+    <rect   x="267" y="166" width="6" height="11"/>
+    <line x1="267" y1="168" x2="258" y2="174" stroke="#201c14" stroke-width="2"/>
+    <line x1="273" y1="168" x2="282" y2="172" stroke="#201c14" stroke-width="2"/>
+    <line x1="268" y1="177" x2="264" y2="190" stroke="#201c14" stroke-width="2"/>
+    <line x1="272" y1="177" x2="277" y2="190" stroke="#201c14" stroke-width="2"/>
+  </g>
+  <circle cx="268" cy="160" r="1.5" fill="#141210"/>
+  <circle cx="272" cy="160" r="1.5" fill="#141210"/>
+
+  <!-- Undead 4 — far right, in distance (smaller) -->
+  <g fill="#1a1810" opacity="0.6">
+    <circle cx="340" cy="166" r="4"/>
+    <rect   x="337" y="170" width="5" height="9"/>
+    <line x1="337" y1="172" x2="330" y2="177" stroke="#1a1810" stroke-width="1.5"/>
+    <line x1="342" y1="172" x2="349" y2="177" stroke="#1a1810" stroke-width="1.5"/>
+    <line x1="338" y1="179" x2="335" y2="188" stroke="#1a1810" stroke-width="1.5"/>
+    <line x1="341" y1="179" x2="345" y2="188" stroke="#1a1810" stroke-width="1.5"/>
+  </g>
+
+  <!-- Floating ash spirits — wispy shapes -->
+  <g stroke="#3a2c18" stroke-width="0.8" fill="none" opacity="0.25">
+    <ellipse cx="60"  cy="130" rx="20" ry="10" transform="rotate(-20,60,130)"/>
+    <ellipse cx="220" cy="120" rx="18" ry="8"  transform="rotate(15,220,120)"/>
+    <ellipse cx="360" cy="135" rx="15" ry="7"  transform="rotate(-10,360,135)"/>
+  </g>
+
+  <!-- Smoke columns from ground cracks -->
+  <g fill="#201a12" opacity="0.2">
+    <ellipse cx="72"  cy="145" rx="10" ry="25"/>
+    <ellipse cx="72"  cy="120" rx="7"  ry="18"/>
+    <ellipse cx="312" cy="148" rx="9"  ry="22"/>
+    <ellipse cx="312" cy="126" rx="6"  ry="16"/>
+    <ellipse cx="190" cy="140" rx="8"  ry="20"/>
+    <ellipse cx="190" cy="118" rx="5"  ry="15"/>
+  </g>
+
+  <!-- Falling ash -->
+  <g fill="#2a2418" opacity="0.45">
+    <circle cx="35"  cy="25"  r="1.5"/>
+    <circle cx="90"  cy="15"  r="1"/>
+    <circle cx="150" cy="40"  r="1.5"/>
+    <circle cx="210" cy="20"  r="1"/>
+    <circle cx="280" cy="35"  r="1.5"/>
+    <circle cx="340" cy="18"  r="1"/>
+    <circle cx="390" cy="50"  r="1.5"/>
+    <circle cx="30"  cy="65"  r="1"/>
+    <circle cx="130" cy="80"  r="1.5"/>
+    <circle cx="250" cy="60"  r="1"/>
+    <circle cx="370" cy="75"  r="1.5"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#3a2c1a" text-anchor="middle" letter-spacing="3">THE ASHEN WASTES</text>
+</svg>
