@@ -815,6 +815,13 @@ function regressBoardBy(steps: number) {
         </button>
       )}
 
+      {/* How to play */}
+      <details className="fm-paytable">
+        <summary>How to play</summary>
+        Spin the reels match symbols for a prize. Getting the feature 🌟 symbol increases the feature level, hit 5 and the trail will progress. the trail is long, reach the end and you'll get the JACKPOT!!!<br />
+        Everyone who plays the game is contributing to the jackpot, and there can only be one winner. Once it's been won the jackpot will reset.
+      </details>
+
       {/* Payout reference */}
       <details className="fm-paytable">
         <summary>Payout table</summary>
