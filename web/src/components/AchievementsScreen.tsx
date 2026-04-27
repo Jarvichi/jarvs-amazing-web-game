@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import {
   ACHIEVEMENT_DEFS, AchievementDef, AchievementCategory,
-  loadAchievementSave, claimAchievementReward,
+  loadAchievementSave, claimAchievementReward, claimAllAchievementRewards,
 } from '../game/achievements'
 import { OverlayScreen } from './OverlayScreen'
 import { addCardsToCollection, loadCrystals, saveCrystals } from '../game/collection'
@@ -86,7 +86,43 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
     setTimeout(() => setJustClaimed(null), 2000)
   }, [onCrystalsChanged])
 
-  const defs = ACHIEVEMENT_DEFS.filter(d => d.category === activeCategory)
+  const handleClaimAll = useCallback(() => {
+    const results = claimAllAchievementRewards()
+    if (results.length === 0) return
+
+    let crystalDelta = 0
+    for (const { reward } of results) {
+      if (reward.type === 'crystals' && reward.crystals) crystalDelta += reward.crystals
+      if (reward.bonusCrystals)                          crystalDelta += reward.bonusCrystals
+      if (reward.type === 'cards' && reward.cardName && reward.count) {
+        addCardsToCollection([{ cardName: reward.cardName, count: reward.count }])
+      }
+      if (reward.bonusCards) {
+        addCardsToCollection(reward.bonusCards)
+      }
+      if (reward.type === 'item' && reward.item) {
+        const full = ALL_ITEMS.find(i => i.id === reward.item!.id) ?? { ...reward.item, lore: '', weight: 1 }
+        addToInventory(full)
+      }
+      if (reward.avatarSlug) {
+        addUnlockedAvatar(reward.avatarSlug)
+      }
+    }
+    if (crystalDelta > 0) {
+      const next = loadCrystals() + crystalDelta
+      saveCrystals(next)
+      onCrystalsChanged(next)
+    }
+    setSave(loadAchievementSave())
+  }, [onCrystalsChanged])
+
+  const defs = ACHIEVEMENT_DEFS
+    .filter(d => d.category === activeCategory)
+    .sort((a, b) => {
+      const aUnclaimed = save.unlocked[a.id] && !save.claimed[a.id] ? 0 : 1
+      const bUnclaimed = save.unlocked[b.id] && !save.claimed[b.id] ? 0 : 1
+      return aUnclaimed - bUnclaimed
+    })
 
   // Count claimable in each category for badge
   function claimableCount(cat: AchievementCategory) {
@@ -96,9 +132,10 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
   }
 
   // Stats
-  const totalUnlocked = Object.values(save.unlocked).filter(Boolean).length
-  const totalClaimed  = Object.values(save.claimed).filter(Boolean).length
-  const total         = ACHIEVEMENT_DEFS.length
+  const totalUnlocked  = Object.values(save.unlocked).filter(Boolean).length
+  const totalClaimed   = Object.values(save.claimed).filter(Boolean).length
+  const total          = ACHIEVEMENT_DEFS.length
+  const totalClaimable = ACHIEVEMENT_DEFS.filter(d => save.unlocked[d.id] && !save.claimed[d.id]).length
 
   return (
     <OverlayScreen
@@ -124,7 +161,14 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
         })}
       </div>
 
-      <div className="ach-category-label">{CATEGORY_LABELS[activeCategory]}</div>
+      <div className="ach-claim-all-bar">
+        <div className="ach-category-label">{CATEGORY_LABELS[activeCategory]}</div>
+        {totalClaimable > 0 && (
+          <button className="action-btn ach-claim-all-btn" onClick={handleClaimAll}>
+            CLAIM ALL ({totalClaimable})
+          </button>
+        )}
+      </div>
 
       <div className="ach-list">
         {defs.map(def => {

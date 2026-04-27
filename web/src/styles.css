@@ -6675,11 +6675,23 @@ body {
   justify-content: center;
 }
 
+.ach-claim-all-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #222;
+}
+
 .ach-category-label {
   padding: 6px 12px 4px;
   font-size: 0.786rem;
   color: var(--game-text-color-muted);
-  border-bottom: 1px solid #222;
+}
+
+.ach-claim-all-btn {
+  margin: 2px 12px;
+  font-size: 0.714rem;
+  padding: 3px 10px;
 }
 
 .ach-list {
