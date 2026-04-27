@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Zephyr Scout — frame 2 (mid-stride, body 1px higher) -->
+  <path d="M11,5 Q13,0 16,2 Q19,0 21,5" fill="#ccaa44"/>
+  <path d="M21,5 Q26,2 25,6" fill="#ccaa44" opacity="0.7"/>
+  <ellipse cx="16" cy="7" rx="5" ry="5" fill="#f0c898"/>
+  <ellipse cx="14" cy="6.5" rx="1.2" ry="1" fill="#1a4a1a"/>
+  <ellipse cx="18" cy="6.5" rx="1.2" ry="1" fill="#1a4a1a"/>
+  <circle cx="14.3" cy="6.3" r="0.4" fill="#ffffff"/>
+  <circle cx="18.3" cy="6.3" r="0.4" fill="#ffffff"/>
+  <path d="M11,10 Q16,13 21,10" stroke="#88ccaa" stroke-width="2" fill="none"/>
+  <path d="M21,10 Q25,8 27,11" stroke="#88ccaa" stroke-width="1.5" fill="none" opacity="0.7"/>
+  <rect x="12" y="11" width="8" height="10" rx="2" fill="#7a6a2a"/>
+  <rect x="12" y="11" width="8" height="2.5" fill="#6a5a1a"/>
+  <rect x="12" y="18" width="8" height="1.5" fill="#4a3a0a"/>
+  <rect x="8" y="12" width="4" height="7" rx="2" fill="#7a6a2a"/>
+  <rect x="20" y="12" width="4" height="7" rx="2" fill="#7a6a2a"/>
+  <path d="M12,12 Q5,17 4,23 Q8,21 12,21 Z" fill="#99bb55" opacity="0.8"/>
+  <path d="M20,12 Q27,17 28,23 Q24,21 20,21 Z" fill="#99bb55" opacity="0.8"/>
+  <line x1="8" y1="15" x2="5" y2="19" stroke="#7a9a33" stroke-width="0.7"/>
+  <line x1="10" y1="17" x2="6" y2="21" stroke="#7a9a33" stroke-width="0.7"/>
+  <line x1="24" y1="15" x2="27" y2="19" stroke="#7a9a33" stroke-width="0.7"/>
+  <line x1="22" y1="17" x2="26" y2="21" stroke="#7a9a33" stroke-width="0.7"/>
+  <!-- Legs mid-stride (both even) -->
+  <rect x="13" y="21" width="3" height="8" rx="1" fill="#5a4a1a"/>
+  <rect x="17" y="21" width="3" height="8" rx="1" fill="#5a4a1a"/>
+  <rect x="12" y="27" width="5" height="3" rx="1" fill="#3a2a0a"/>
+  <rect x="16" y="27" width="5" height="3" rx="1" fill="#3a2a0a"/>
+</svg>
