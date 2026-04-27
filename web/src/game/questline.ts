@@ -449,9 +449,10 @@ export function resolveActIntro(act: Act, n: number): CutscenePanel[] {
   if (n <= 1 || !act.introRules?.length) return act.intro ?? []
   const rule = act.introRules.find(r => matchesCondition(r.condition, n))
   if (!rule) return act.intro ?? []
-  return rule.panels.map(p => ({
+  return rule.panels.map((p, i) => ({
     title: resolvePlaceholders(p.title, n, act),
     text:  resolvePlaceholders(p.text,  n, act),
+    image: p.image ?? act.intro?.[i]?.image,
   }))
 }
 
