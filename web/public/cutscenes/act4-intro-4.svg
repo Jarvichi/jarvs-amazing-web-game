@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#06040e"/>
+
+  <!-- Arcane background glow -->
+  <radialGradient id="mission4-bg" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#141060" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#06040e" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#mission4-bg)"/>
+
+  <!-- Arcane map grid — hexagonal feel via diamond pattern -->
+  <g stroke="#120e40" stroke-width="0.5" opacity="0.6">
+    <line x1="0"   y1="40"  x2="400" y2="40"/>
+    <line x1="0"   y1="80"  x2="400" y2="80"/>
+    <line x1="0"   y1="120" x2="400" y2="120"/>
+    <line x1="0"   y1="160" x2="400" y2="160"/>
+    <line x1="0"   y1="200" x2="400" y2="200"/>
+    <line x1="50"  y1="0"   x2="50"  y2="240"/>
+    <line x1="100" y1="0"   x2="100" y2="240"/>
+    <line x1="150" y1="0"   x2="150" y2="240"/>
+    <line x1="200" y1="0"   x2="200" y2="240"/>
+    <line x1="250" y1="0"   x2="250" y2="240"/>
+    <line x1="300" y1="0"   x2="300" y2="240"/>
+    <line x1="350" y1="0"   x2="350" y2="240"/>
+  </g>
+
+  <!-- Player — left side -->
+  <polygon points="30,120 48,110 66,120 66,140 48,150 30,140" fill="#0c0a28" stroke="#203060" stroke-width="1.5"/>
+  <polygon points="48,118 51,126 59,126 53,131 55,139 48,134 41,139 43,131 37,126 45,126" fill="#203060" opacity="0.8"/>
+
+  <!-- OUTER LATTICE — crystal barrier zone -->
+  <ellipse cx="130" cy="120" rx="25" ry="20" fill="#0e0c30" stroke="#3040a0" stroke-width="1" stroke-dasharray="4,2"/>
+  <!-- Lattice crystal nodes -->
+  <g fill="#1e1c60" stroke="#3040a0" stroke-width="0.8">
+    <polygon points="118,108 124,102 130,108 124,114"/>
+    <polygon points="130,108 136,102 142,108 136,114"/>
+    <polygon points="124,114 130,108 136,114 130,120"/>
+    <polygon points="118,120 124,114 130,120 124,126"/>
+    <polygon points="130,120 136,114 142,120 136,126"/>
+    <polygon points="124,126 130,120 136,126 130,132"/>
+  </g>
+  <text x="130" y="145" font-family="monospace" font-size="6" fill="#3040a0" text-anchor="middle">LATTICE</text>
+
+  <!-- ARCANE SANCTUM — crystal maze -->
+  <ellipse cx="215" cy="112" rx="28" ry="22" fill="#0e0c30" stroke="#3040a0" stroke-width="1" stroke-dasharray="4,2"/>
+  <!-- Maze interior lines -->
+  <g stroke="#2030a0" stroke-width="1" opacity="0.6">
+    <line x1="200" y1="100" x2="200" y2="124"/>
+    <line x1="200" y1="100" x2="230" y2="100"/>
+    <line x1="230" y1="100" x2="230" y2="112"/>
+    <line x1="210" y1="112" x2="230" y2="112"/>
+    <line x1="210" y1="112" x2="210" y2="124"/>
+    <line x1="200" y1="124" x2="220" y2="124"/>
+  </g>
+  <!-- Construct icon in sanctum -->
+  <g fill="#1e1c60" opacity="0.8">
+    <rect x="215" y="103" width="6" height="8"/>
+    <polygon points="213,103 221,103 219,99 215,99"/>
+    <circle cx="217" cy="107" r="1.5" fill="#4060d0"/>
+    <circle cx="220" cy="107" r="1.5" fill="#4060d0"/>
+  </g>
+  <text x="215" y="148" font-family="monospace" font-size="6" fill="#3040a0" text-anchor="middle">SANCTUM</text>
+
+  <!-- THE ARCHIVIST boss marker -->
+  <rect x="338" y="72" width="52" height="68" fill="#0c0a26" stroke="#3a3aa0" stroke-width="2"/>
+  <!-- Archivist silhouette — robed figure with crystal staff -->
+  <g fill="#161460" opacity="0.9">
+    <circle cx="364" cy="86"  r="8"/>
+    <polygon points="355,94 373,94 376,128 352,128"/>
+    <!-- Hood / cowl -->
+    <polygon points="356,86 372,86 368,94 360,94"/>
+  </g>
+  <!-- Eye glow from Archivist -->
+  <circle cx="362" cy="85" r="2" fill="#6080e0" opacity="0.9"/>
+  <circle cx="367" cy="85" r="2" fill="#6080e0" opacity="0.9"/>
+  <!-- Staff -->
+  <line x1="376" y1="94" x2="390" y2="130" stroke="#2a2a80" stroke-width="2"/>
+  <polygon points="384,122 392,118 396,130 388,134" fill="#1e1c60" stroke="#3a3aa0" stroke-width="0.8"/>
+  <!-- Staff crystal -->
+  <circle cx="390" cy="120" r="4" fill="#4060d0" opacity="0.8"/>
+  <!-- Archivist name -->
+  <text x="364" y="148" font-family="monospace" font-size="6" fill="#3a3aa0" text-anchor="middle">ARCHIVIST</text>
+
+  <!-- Route arrows -->
+  <path d="M66,120 Q90,120 105,120" stroke="#203060" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
+  <polygon points="102,117 109,120 102,123" fill="#203060"/>
+  <!-- Through lattice -->
+  <path d="M155,118 Q180,115 187,114" stroke="#3040a0" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
+  <polygon points="184,111 191,114 184,117" fill="#3040a0"/>
+  <!-- Through sanctum -->
+  <path d="M243,110 Q280,105 338,98" stroke="#3a3aa0" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
+  <polygon points="335,95 342,98 335,101" fill="#3a3aa0"/>
+
+  <!-- Crystal hazard markers -->
+  <g stroke="#3040a0" stroke-width="1" opacity="0.5">
+    <line x1="113" y1="103" x2="147" y2="137"/>
+    <line x1="147" y1="103" x2="113" y2="137"/>
+    <line x1="190" y1="94"  x2="240" y2="130"/>
+    <line x1="240" y1="94"  x2="190" y2="130"/>
+  </g>
+
+  <!-- Objective text -->
+  <text x="200" y="22" font-family="monospace" font-size="8" fill="#2a2480" text-anchor="middle" letter-spacing="2">OBJECTIVE: REACH THE ARCHIVIST</text>
+  <line x1="60" y1="27" x2="340" y2="27" stroke="#181860" stroke-width="0.8"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a2480" text-anchor="middle" letter-spacing="3">YOUR MISSION</text>
+</svg>
