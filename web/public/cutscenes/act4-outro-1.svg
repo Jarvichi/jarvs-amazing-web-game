@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#06040e"/>
+
+  <!-- Fading arcane glow — dying down from centre -->
+  <radialGradient id="dying-arcane" cx="50%" cy="50%" r="45%">
+    <stop offset="0%" stop-color="#101880" stop-opacity="0.4"/>
+    <stop offset="50%" stop-color="#080c40" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#06040e" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#dying-arcane)"/>
+
+  <!-- Floor — crystal ground, dimming -->
+  <rect x="0" y="188" width="400" height="52" fill="#07050f"/>
+  <g stroke="#12104a" stroke-width="0.6" opacity="0.3">
+    <line x1="200" y1="188" x2="0"   y2="240"/>
+    <line x1="200" y1="188" x2="100" y2="240"/>
+    <line x1="200" y1="188" x2="200" y2="240"/>
+    <line x1="200" y1="188" x2="300" y2="240"/>
+    <line x1="200" y1="188" x2="400" y2="240"/>
+    <line x1="0"   y1="210" x2="400" y2="210"/>
+  </g>
+
+  <!-- THE ARCHIVIST COLLAPSING — crystal matrix disintegrating -->
+
+  <!-- Outer crystal matrix rings — fragmenting -->
+  <g stroke="#1e2060" stroke-width="1" fill="none" opacity="0.4">
+    <polygon points="200,50 260,90 240,155 160,155 140,90"/>
+    <polygon points="200,65 245,98 229,148 171,148 155,98"/>
+  </g>
+  <!-- Matrix fragments separating and flying outward -->
+  <g fill="#141260" stroke="#2a2a80" stroke-width="0.5" opacity="0.6">
+    <!-- Top fragments -->
+    <polygon points="195,45 202,38 207,48 200,52"/>
+    <polygon points="210,42 218,35 222,46 214,49"/>
+    <polygon points="180,48 186,40 191,50 184,54"/>
+    <!-- Right side -->
+    <polygon points="258,86 266,78 270,90 262,95"/>
+    <polygon points="264,108 272,100 276,112 268,118"/>
+    <!-- Left side -->
+    <polygon points="134,86 140,78 143,90 136,94"/>
+    <polygon points="130,110 136,102 140,114 132,118"/>
+    <!-- Bottom -->
+    <polygon points="160,156 165,148 172,158 165,162"/>
+    <polygon points="235,154 241,146 247,157 240,162"/>
+  </g>
+  <!-- Lighter inner shards -->
+  <g fill="#1e1c70" opacity="0.4">
+    <polygon points="220,38 226,31 230,41"/>
+    <polygon points="170,42 175,34 178,44"/>
+    <polygon points="275,125 281,118 284,129"/>
+    <polygon points="118,122 124,115 127,126"/>
+  </g>
+
+  <!-- The Archivist — body collapsing inward, methodically -->
+  <!-- Outer robe disintegrating -->
+  <g fill="#0e0c2e" opacity="0.7">
+    <polygon points="178,100 222,100 228,165 172,165"/>
+  </g>
+  <!-- Robe facets falling away -->
+  <g fill="#141260" stroke="#2020a0" stroke-width="0.5" opacity="0.5">
+    <polygon points="172,130 178,120 175,145 170,140"/>
+    <polygon points="228,128 224,118 226,145 231,140"/>
+    <polygon points="185,165 190,155 195,168 188,170"/>
+    <polygon points="215,163 220,153 225,167 218,170"/>
+  </g>
+
+  <!-- Head / cowl — cracking apart -->
+  <circle cx="200" cy="90" r="16" fill="#0e0c2e" stroke="#1a1a70" stroke-width="1"/>
+  <!-- Crystal cracks across the head -->
+  <g stroke="#3a3aa0" stroke-width="1" fill="none" opacity="0.6">
+    <path d="M200,74 Q205,82 200,90"/>
+    <path d="M200,90 Q194,97 190,106"/>
+    <path d="M200,90 Q207,97 212,104"/>
+    <path d="M192,80 Q196,85 200,90"/>
+    <path d="M208,80 Q204,85 200,90"/>
+  </g>
+  <!-- Eyes — going dark, last flicker -->
+  <circle cx="195" cy="88" r="3" fill="#1e1c60"/>
+  <circle cx="205" cy="88" r="3" fill="#1e1c60"/>
+  <circle cx="195" cy="88" r="1.5" fill="#3040c0" opacity="0.4"/>
+  <circle cx="205" cy="88" r="1.5" fill="#3040c0" opacity="0.4"/>
+
+  <!-- Staff — falling, crystal at top going dark -->
+  <line x1="215" y1="100" x2="250" y2="185" stroke="#1e1c50" stroke-width="2" transform="rotate(20,215,100)"/>
+  <polygon points="245,178 255,174 260,188 250,192" fill="#0e0c2e" stroke="#1a1a60" stroke-width="0.8" transform="rotate(20,215,100)"/>
+  <circle cx="255" cy="170" r="5" fill="#1a1860" opacity="0.5" transform="rotate(20,215,100)"/>
+
+  <!-- Crystal facets from matrix going dark one by one -->
+  <!-- Facets still lit (faint) -->
+  <g fill="#161480" opacity="0.25">
+    <polygon points="155,100 162,92 167,103 160,108"/>
+    <polygon points="240,98 247,90 252,102 245,107"/>
+    <polygon points="200,55 207,47 212,58 205,62"/>
+  </g>
+
+  <!-- Silence / stillness — dust motes settling, not falling -->
+  <g fill="#1a1860" opacity="0.2">
+    <circle cx="80"  cy="60"  r="1.5"/>
+    <circle cx="310" cy="55"  r="1.5"/>
+    <circle cx="130" cy="140" r="1"/>
+    <circle cx="280" cy="135" r="1"/>
+    <circle cx="50"  cy="170" r="1.5"/>
+    <circle cx="355" cy="165" r="1.5"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#1e1a60" text-anchor="middle" letter-spacing="3">THE ARCHIVE FALLS SILENT</text>
+</svg>
