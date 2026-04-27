@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Medical bag -->
+  <rect x="8" y="16" width="16" height="13" rx="2" fill="#eeeeee"/>
+  <rect x="8" y="16" width="16" height="3" rx="1" fill="#dddddd"/>
+  <!-- Bag handle -->
+  <path d="M12,16 Q12,12 16,12 Q20,12 20,16" fill="none" stroke="#cccccc" stroke-width="2"/>
+  <!-- Red cross on bag -->
+  <rect x="14" y="19" width="4" height="7" rx="0.5" fill="#cc2222"/>
+  <rect x="11" y="21.5" width="10" height="4" rx="0.5" fill="#cc2222"/>
+  <!-- Healing glow emanating -->
+  <ellipse cx="16" cy="22" rx="10" ry="8" fill="#33cc66" opacity="0.15"/>
+  <ellipse cx="16" cy="22" rx="7" ry="5.5" fill="#44dd77" opacity="0.15"/>
+  <!-- Green healing cross above -->
+  <rect x="14.5" y="6" width="3" height="9" rx="1" fill="#33cc55" opacity="0.9"/>
+  <rect x="11" y="9" width="10" height="3" rx="1" fill="#33cc55" opacity="0.9"/>
+  <!-- Cross glow -->
+  <rect x="14.5" y="6" width="3" height="9" rx="1" fill="#88ffaa" opacity="0.3"/>
+  <rect x="11" y="9" width="10" height="3" rx="1" fill="#88ffaa" opacity="0.3"/>
+  <!-- Healing sparkles -->
+  <circle cx="7" cy="12" r="1.2" fill="#44ee77" opacity="0.8"/>
+  <circle cx="25" cy="10" r="1" fill="#55ff88" opacity="0.7"/>
+  <circle cx="5" cy="20" r="0.9" fill="#33cc55" opacity="0.6"/>
+  <circle cx="27" cy="18" r="0.9" fill="#44dd66" opacity="0.6"/>
+  <circle cx="10" cy="8" r="0.7" fill="#66ffaa" opacity="0.5"/>
+  <circle cx="22" cy="7" r="0.7" fill="#66ffaa" opacity="0.5"/>
+  <!-- Bandage roll detail on bag -->
+  <ellipse cx="20" cy="27" rx="2" ry="1" fill="#cccccc" opacity="0.7"/>
+  <line x1="18" y1="27" x2="22" y2="27" stroke="#aaaaaa" stroke-width="0.5"/>
+</svg>
