@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <rect x="1" y="29" width="30" height="3" rx="1" fill="#4a4a5a"/>
+  <!-- Left pillar -->
+  <rect x="2" y="8" width="7" height="22" rx="1" fill="#6a6a7a"/>
+  <rect x="2" y="8" width="7" height="3" fill="#5a5a6a"/>
+  <!-- Left pillar cap -->
+  <rect x="1" y="6" width="9" height="3" rx="0.5" fill="#7a7a8a"/>
+  <!-- Right pillar -->
+  <rect x="23" y="8" width="7" height="22" rx="1" fill="#6a6a7a"/>
+  <rect x="23" y="8" width="7" height="3" fill="#5a5a6a"/>
+  <!-- Right pillar cap -->
+  <rect x="22" y="6" width="9" height="3" rx="0.5" fill="#7a7a8a"/>
+  <!-- Storm orbs on pillar caps -->
+  <circle cx="5.5" cy="5" r="2.5" fill="#3344bb"/>
+  <circle cx="5.5" cy="5" r="1.5" fill="#6688ff" opacity="0.9"/>
+  <circle cx="26.5" cy="5" r="2.5" fill="#3344bb"/>
+  <circle cx="26.5" cy="5" r="1.5" fill="#6688ff" opacity="0.9"/>
+  <!-- Stone block lines on pillars -->
+  <line x1="2" y1="13" x2="9" y2="13" stroke="#5a5a6a" stroke-width="0.6"/>
+  <line x1="2" y1="18" x2="9" y2="18" stroke="#5a5a6a" stroke-width="0.6"/>
+  <line x1="2" y1="23" x2="9" y2="23" stroke="#5a5a6a" stroke-width="0.6"/>
+  <line x1="23" y1="13" x2="30" y2="13" stroke="#5a5a6a" stroke-width="0.6"/>
+  <line x1="23" y1="18" x2="30" y2="18" stroke="#5a5a6a" stroke-width="0.6"/>
+  <line x1="23" y1="23" x2="30" y2="23" stroke="#5a5a6a" stroke-width="0.6"/>
+  <!-- Storm energy arc between pillars -->
+  <path d="M9,10 Q16,4 23,10" stroke="#ffee44" stroke-width="1.5" fill="none" opacity="0.9"/>
+  <path d="M9,10 Q16,7 23,10" stroke="#aabbff" stroke-width="0.8" fill="none" opacity="0.7"/>
+  <!-- Secondary arcs -->
+  <path d="M9,14 Q16,10 23,14" stroke="#ffee44" stroke-width="0.8" fill="none" opacity="0.5"/>
+  <!-- Gate opening (dark interior) -->
+  <rect x="9" y="14" width="14" height="15" fill="#1a1a2a"/>
+  <path d="M9,14 Q16,8 23,14" fill="#1a1a2a"/>
+  <!-- Gate energy shimmer -->
+  <rect x="9" y="14" width="14" height="15" fill="#3355aa" opacity="0.2"/>
+  <!-- Rune glyphs on pillars -->
+  <line x1="4" y1="16" x2="7" y2="16" stroke="#aabbff" stroke-width="0.7" opacity="0.6"/>
+  <line x1="5.5" y1="15" x2="5.5" y2="17" stroke="#aabbff" stroke-width="0.7" opacity="0.6"/>
+  <line x1="25" y1="16" x2="28" y2="16" stroke="#aabbff" stroke-width="0.7" opacity="0.6"/>
+  <line x1="26.5" y1="15" x2="26.5" y2="17" stroke="#aabbff" stroke-width="0.7" opacity="0.6"/>
+</svg>
