@@ -44,29 +44,35 @@
   "intro": [
     {
       "title": "THE IRON CITADEL",
-      "text": "The Fracture spared the Iron Citadel its chaos — or so the stories go. In truth, the Citadel's warlords sealed the shard themselves, the moment they realised sealing it kept everyone else out.\n\nFor three years they have ruled the rubble with a disciplined fist. Trade routes closed. Refugees turned back at the walls. The shard hoards its iron and feeds on order."
+      "text": "The Fracture spared the Iron Citadel its chaos — or so the stories go. In truth, the Citadel's warlords sealed the shard themselves, the moment they realised sealing it kept everyone else out.\n\nFor three years they have ruled the rubble with a disciplined fist. Trade routes closed. Refugees turned back at the walls. The shard hoards its iron and feeds on order.",
+      "image": "cutscenes/act2-intro-1.svg"
     },
     {
       "title": "THE WANDERER",
-      "text": "You are Jarv. Former tactician of the western campaigns, now nominally a free agent.\n\nYou have a deck of cards, a route through the Citadel's outer defences, and the stubborn conviction that warlords who fortify themselves this thoroughly are usually hiding something embarrassing."
+      "text": "You are Jarv. Former tactician of the western campaigns, now nominally a free agent.\n\nYou have a deck of cards, a route through the Citadel's outer defences, and the stubborn conviction that warlords who fortify themselves this thoroughly are usually hiding something embarrassing.",
+      "image": "cutscenes/act2-intro-2.svg"
     },
     {
       "title": "THE IRON CITADEL",
-      "text": "The Citadel is a network of fortified garrison points strung across a shattered canyon. Its defenders are disciplined, well-armed, and have had three years to practice waiting.\n\nAt the top, behind the inner wall, is Warlord Kragg. He was a general before the Fracture. He is considerably less reasonable now."
+      "text": "The Citadel is a network of fortified garrison points strung across a shattered canyon. Its defenders are disciplined, well-armed, and have had three years to practice waiting.\n\nAt the top, behind the inner wall, is Warlord Kragg. He was a general before the Fracture. He is considerably less reasonable now.",
+      "image": "cutscenes/act2-intro-3.svg"
     },
     {
       "title": "YOUR MISSION",
-      "text": "Fight through the garrison line. Reach Warlord Kragg.\n\nBreak the siege. Open the Citadel."
+      "text": "Fight through the garrison line. Reach Warlord Kragg.\n\nBreak the siege. Open the Citadel.",
+      "image": "cutscenes/act2-intro-4.svg"
     }
   ],
   "outro": [
     {
       "title": "THE WALL FALLS",
-      "text": "Kragg's banner comes down.\n\nFor a long moment, nothing happens. Then, from somewhere in the rubble, a single soldier begins to move — not toward you, but toward the sealed gate. Others follow.\n\nThe gate opens for the first time in three years. You watch from the rampart as light floods into the canyon."
+      "text": "Kragg's banner comes down.\n\nFor a long moment, nothing happens. Then, from somewhere in the rubble, a single soldier begins to move — not toward you, but toward the sealed gate. Others follow.\n\nThe gate opens for the first time in three years. You watch from the rampart as light floods into the canyon.",
+      "image": "cutscenes/act2-outro-1.svg"
     },
     {
       "title": "IRON STANDARD",
-      "text": "Among the Citadel's armoury, you find it — the Iron Standard. The banner carried at the front of every Dominion march before the Fracture.\n\nIt no longer represents anything. But the iron in it remembers.\n\nYou take it with you."
+      "text": "Among the Citadel's armoury, you find it — the Iron Standard. The banner carried at the front of every Dominion march before the Fracture.\n\nIt no longer represents anything. But the iron in it remembers.\n\nYou take it with you.",
+      "image": "cutscenes/act2-outro-2.svg"
     }
   ],
   "variantPools": {
