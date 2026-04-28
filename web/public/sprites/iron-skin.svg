@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Body silhouette -->
+  <ellipse cx="16" cy="9" rx="5" ry="5" fill="#888888" stroke="#555555" stroke-width="0.5"/>
+  <rect x="10" y="13" width="12" height="14" rx="2" fill="#888888" stroke="#555555" stroke-width="0.5"/>
+  <!-- Iron plate seams on torso -->
+  <line x1="16" y1="13" x2="16" y2="27" stroke="#555555" stroke-width="0.5" opacity="0.7"/>
+  <line x1="10" y1="18" x2="22" y2="18" stroke="#555555" stroke-width="0.5" opacity="0.7"/>
+  <line x1="10" y1="22" x2="22" y2="22" stroke="#555555" stroke-width="0.5" opacity="0.7"/>
+  <!-- Rivets -->
+  <circle cx="11.5" cy="14.5" r="0.8" fill="#aaaaaa"/>
+  <circle cx="20.5" cy="14.5" r="0.8" fill="#aaaaaa"/>
+  <circle cx="11.5" cy="19.5" r="0.8" fill="#aaaaaa"/>
+  <circle cx="20.5" cy="19.5" r="0.8" fill="#aaaaaa"/>
+  <circle cx="11.5" cy="23.5" r="0.8" fill="#aaaaaa"/>
+  <circle cx="20.5" cy="23.5" r="0.8" fill="#aaaaaa"/>
+  <!-- Metallic highlights on plates -->
+  <rect x="10.5" y="13.5" width="5" height="4" rx="0.3" fill="#aaaaaa" opacity="0.3"/>
+  <rect x="16.5" y="18.5" width="5" height="3" rx="0.3" fill="#aaaaaa" opacity="0.3"/>
+  <!-- Head highlight -->
+  <ellipse cx="14" cy="7" rx="2" ry="2" fill="#bbbbbb" opacity="0.4"/>
+  <!-- Iron glow aura -->
+  <ellipse cx="16" cy="16" rx="13" ry="13" fill="#888888" opacity="0.07"/>
+</svg>
