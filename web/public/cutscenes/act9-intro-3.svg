@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#050c18"/>
+
+  <linearGradient id="white-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#060e1e"/>
+    <stop offset="50%" stop-color="#0c1a2e"/>
+    <stop offset="100%" stop-color="#101e34"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#white-sky)"/>
+
+  <!-- WHITEOUT — the cold is structural, pressing in from all sides -->
+  <!-- Pale diffuse light everywhere — no clear source -->
+  <radialGradient id="white-press" cx="50%" cy="50%" r="60%">
+    <stop offset="0%" stop-color="#1c3048" stop-opacity="0.5"/>
+    <stop offset="80%" stop-color="#0e2038" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#0e2038" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#white-press)"/>
+
+  <!-- Ice wall perspective — corridor of ice, closing in -->
+  <!-- Left wall panels -->
+  <g fill="#060e1c" stroke="#0e1e2e" stroke-width="1">
+    <polygon points="0,0 0,240 65,200 55,160 65,120 52,80 65,40 50,0"/>
+  </g>
+  <!-- Right wall panels -->
+  <g fill="#060e1c" stroke="#0e1e2e" stroke-width="1">
+    <polygon points="400,0 400,240 335,200 345,160 335,120 348,80 335,40 350,0"/>
+  </g>
+  <!-- Ice wall surface sheen — light refracting through blue-white ice -->
+  <g fill="#0e2038" opacity="0.4">
+    <polygon points="0,0  50,0  65,40  52,80  65,120 55,160 65,200 0,240 0,200 55,175 45,140 58,105 45,68 58,30 0,0"/>
+    <polygon points="400,0 350,0 335,40 348,80 335,120 345,160 335,200 400,240 400,200 345,175 355,140 342,105 355,68 342,30 400,0"/>
+  </g>
+
+  <!-- Ground — flat ice, structural, oppressive -->
+  <rect x="0" y="200" width="400" height="40" fill="#060e18"/>
+  <line x1="0" y1="200" x2="400" y2="200" stroke="#0e2030" stroke-width="1.5"/>
+  <!-- Ice surface micro-cracks -->
+  <g stroke="#0e1e2e" stroke-width="0.5" fill="none" opacity="0.4">
+    <path d="M30,205  Q45,210  55,205"/>
+    <path d="M100,208 Q115,215 125,208"/>
+    <path d="M190,204 Q205,210 218,204"/>
+    <path d="M275,207 Q290,214 302,207"/>
+    <path d="M355,205 Q368,211 378,205"/>
+  </g>
+
+  <!-- Ceiling of ice above -->
+  <polygon points="0,0 400,0 400,45 350,38 300,50 250,32 200,46 150,30 100,48 50,34 0,46" fill="#060e1c"/>
+  <!-- Ice ceiling underside — cold blue-white gleam -->
+  <g fill="#0c1e30" opacity="0.5">
+    <polygon points="0,46  50,34 40,46"/>
+    <polygon points="100,48 150,30 138,50"/>
+    <polygon points="200,46 250,32 235,48"/>
+    <polygon points="300,50 350,38 338,52"/>
+  </g>
+
+  <!-- Ley lines — visible through floor and walls, orange contrast against blue-white -->
+  <!-- Floor ley -->
+  <linearGradient id="floor-ley" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#c04000" stop-opacity="0.2"/>
+    <stop offset="25%" stop-color="#ff6020" stop-opacity="0.8"/>
+    <stop offset="50%" stop-color="#ff8030" stop-opacity="1"/>
+    <stop offset="75%" stop-color="#ff6020" stop-opacity="0.8"/>
+    <stop offset="100%" stop-color="#c04000" stop-opacity="0.2"/>
+  </linearGradient>
+  <rect x="0" y="203" width="400" height="4" fill="url(#floor-ley)"/>
+  <rect x="0" y="204" width="400" height="2" fill="#ffb060" opacity="0.4"/>
+  <!-- Wall ley seams — orange lines in blue ice walls -->
+  <line x1="52" y1="0"   x2="52" y2="200" stroke="#d05010" stroke-width="1.5" opacity="0.4"/>
+  <line x1="348" y1="0"  x2="348" y2="200" stroke="#d05010" stroke-width="1.5" opacity="0.4"/>
+  <line x1="53" y1="0"   x2="53" y2="200" stroke="#ff7020" stroke-width="0.6" opacity="0.3"/>
+  <line x1="347" y1="0"  x2="347" y2="200" stroke="#ff7020" stroke-width="0.6" opacity="0.3"/>
+
+  <!-- JARV — centre, small against the vast cold, walking into depth -->
+  <!-- Distant small figure — showing scale of the expanse -->
+  <ellipse cx="200" cy="202" rx="12" ry="3" fill="#030608" opacity="0.7"/>
+  <!-- Legs -->
+  <line x1="197" y1="196" x2="195" y2="202" stroke="#0c0c18" stroke-width="3" stroke-linecap="round"/>
+  <line x1="202" y1="196" x2="204" y2="202" stroke="#0c0c18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Body — mantle tiny but teal visible -->
+  <polygon points="193,182 207,182 210,196 190,196" fill="#0a1e20" stroke="#1a4040" stroke-width="1"/>
+  <g fill="#00c090" opacity="0.5">
+    <circle cx="190" cy="182" r="1.2"/>
+    <circle cx="210" cy="182" r="1.2"/>
+  </g>
+  <!-- Head -->
+  <ellipse cx="200" cy="176" rx="6" ry="5" fill="#0c0c1a" stroke="#181830" stroke-width="0.8"/>
+  <!-- Iron Standard — tiny spear beside -->
+  <line x1="210" y1="182" x2="218" y2="202" stroke="#2a3040" stroke-width="1.5"/>
+
+  <!-- Cold mist / blizzard particles -->
+  <g fill="#a0c0d8" opacity="0.15">
+    <circle cx="80"  cy="90"  r="1.5"/>
+    <circle cx="140" cy="70"  r="1.2"/>
+    <circle cx="260" cy="80"  r="1.5"/>
+    <circle cx="320" cy="65"  r="1.2"/>
+    <circle cx="100" cy="150" r="1"/>
+    <circle cx="300" cy="145" r="1"/>
+    <circle cx="180" cy="110" r="1.2"/>
+    <circle cx="220" cy="120" r="1"/>
+  </g>
+  <!-- Snow streaks -->
+  <g stroke="#8090a8" stroke-width="0.5" fill="none" opacity="0.12">
+    <line x1="60"  y1="40"  x2="68"  y2="55"/>
+    <line x1="150" y1="30"  x2="155" y2="48"/>
+    <line x1="240" y1="25"  x2="244" y2="42"/>
+    <line x1="340" y1="38"  x2="346" y2="55"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1a3050" text-anchor="middle" letter-spacing="3">INTO THE WHITE</text>
+</svg>
