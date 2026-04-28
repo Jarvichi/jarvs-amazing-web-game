@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#030802"/>
+  <linearGradient id="road11-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040a02"/>
+    <stop offset="50%" stop-color="#060e04"/>
+    <stop offset="100%" stop-color="#0a1408"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#road11-sky)"/>
+
+  <!-- Forest edge opening up — light ahead -->
+  <radialGradient id="exit-glow" cx="50%" cy="50%" r="45%">
+    <stop offset="0%" stop-color="#203818" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#203818" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#exit-glow)"/>
+
+  <!-- Receding canopy — trees thinning toward right (the way out) -->
+  <!-- Dense canopy left side, thinning to right -->
+  <g fill="#050c02" opacity="0.9">
+    <polygon points="0,0 200,0 200,65 170,52 140,68 110,50 80,66 50,50 20,64 0,54"/>
+  </g>
+  <g fill="#060e03" opacity="0.6">
+    <ellipse cx="50"  cy="42" rx="55" ry="20"/>
+    <ellipse cx="140" cy="35" rx="60" ry="22"/>
+  </g>
+  <!-- Sparse canopy right side — thinning out -->
+  <g fill="#050c02" opacity="0.5">
+    <polygon points="200,0 400,0 400,50 370,38 330,52 290,36 250,50 220,36 200,46"/>
+  </g>
+
+  <!-- Tree silhouettes left — dense -->
+  <g fill="#050c02" stroke="#0a1404" stroke-width="1">
+    <rect x="0"   y="52" width="38" height="193"/>
+    <rect x="50"  y="60" width="34" height="185"/>
+    <rect x="105" y="55" width="38" height="190"/>
+  </g>
+  <!-- Tree silhouettes right — fewer, more spaced -->
+  <g fill="#060e04" stroke="#0c1606" stroke-width="1" opacity="0.7">
+    <rect x="280" y="72" width="28" height="173"/>
+    <rect x="345" y="80" width="24" height="165"/>
+  </g>
+
+  <!-- Ground — forest floor transitioning to open path -->
+  <polygon points="0,215 400,205 400,240 0,240" fill="#040a02"/>
+  <line x1="0" y1="215" x2="400" y2="205" stroke="#0a1404" stroke-width="1"/>
+  <!-- Root mats thinning toward right -->
+  <g stroke="#0a1404" stroke-width="1" fill="none" opacity="0.4">
+    <path d="M0,222 Q50,218 100,222 Q150,226 200,222"/>
+    <path d="M50,228 Q100,224 150,228 Q200,232 250,228"/>
+  </g>
+
+  <!-- JARV — centre-right, walking toward the light, back to viewer -->
+  <ellipse cx="260" cy="215" rx="18" ry="4" fill="#020401" opacity="0.7"/>
+  <line x1="255" y1="207" x2="254" y2="215" stroke="#0c0c18" stroke-width="3" stroke-linecap="round"/>
+  <line x1="263" y1="207" x2="265" y2="215" stroke="#0c0c18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Coral Mantle — small, walking away -->
+  <polygon points="249,194 271,194 274,207 246,207" fill="#0a1e20" stroke="#1a4040" stroke-width="1"/>
+  <g fill="#00c090" opacity="0.4">
+    <circle cx="246" cy="194" r="1.2"/>
+    <circle cx="274" cy="194" r="1.2"/>
+  </g>
+  <ellipse cx="259" cy="188" rx="7" ry="6" fill="#0c0c1a" stroke="#181830" stroke-width="0.8"/>
+  <!-- Iron Standard over shoulder -->
+  <line x1="270" y1="195" x2="285" y2="208" stroke="#2a3040" stroke-width="2"/>
+  <polygon points="268,195 272,195 270,186" fill="#404860" opacity="0.6"/>
+
+  <!-- The canopy resumes above behind — sound of life returning -->
+  <!-- Ley line faint on the path — still present even outside the forest -->
+  <line x1="230" y1="215" x2="400" y2="210" stroke="#20a030" stroke-width="1" opacity="0.25"/>
+
+  <!-- Forest sounds — abstract leaves drifting up from behind -->
+  <g fill="#183010" opacity="0.4">
+    <ellipse cx="140" cy="155" rx="4" ry="2" transform="rotate(-15 140 155)"/>
+    <ellipse cx="175" cy="130" rx="3" ry="1.5" transform="rotate(10 175 130)"/>
+    <ellipse cx="200" cy="145" rx="4" ry="2" transform="rotate(20 200 145)"/>
+  </g>
+
+  <!-- Open sky ahead — slightly lighter at right -->
+  <radialGradient id="ahead-light" cx="80%" cy="40%" r="35%">
+    <stop offset="0%" stop-color="#182010" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#182010" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="200" y="0" width="200" height="210" fill="url(#ahead-light)"/>
+
+  <!-- Stars where canopy has opened -->
+  <g fill="#60a040" opacity="0.3">
+    <circle cx="310" cy="28" r="1"/>
+    <circle cx="355" cy="18" r="1.2"/>
+    <circle cx="385" cy="35" r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#183010" text-anchor="middle" letter-spacing="3">THE ROAD AHEAD</text>
+</svg>

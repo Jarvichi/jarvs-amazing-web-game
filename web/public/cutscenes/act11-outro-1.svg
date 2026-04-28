@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#030802"/>
+  <linearGradient id="yield-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040a02"/>
+    <stop offset="100%" stop-color="#060e04"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#yield-sky)"/>
+
+  <!-- Dimming forest — the Warden withdrawing, light fading -->
+  <radialGradient id="yield-dim" cx="50%" cy="40%" r="55%">
+    <stop offset="0%" stop-color="#0c2008" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#0c2008" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#yield-dim)"/>
+
+  <!-- Forest floor -->
+  <rect x="0" y="200" width="400" height="40" fill="#040802"/>
+  <line x1="0" y1="200" x2="400" y2="200" stroke="#081204" stroke-width="1"/>
+
+  <!-- Tree trunks — still standing, Warden withdrawing back into them -->
+  <rect x="35"  y="60"  width="42" height="145" fill="#050c02" stroke="#0a1404" stroke-width="1" opacity="0.8"/>
+  <rect x="175" y="45"  width="50" height="160" fill="#050c02" stroke="#0a1404" stroke-width="1" opacity="0.8"/>
+  <rect x="323" y="58"  width="42" height="148" fill="#050c02" stroke="#0a1404" stroke-width="1" opacity="0.8"/>
+  <!-- Root buttresses -->
+  <g fill="#040a02" stroke="#081404" stroke-width="0.8" opacity="0.7">
+    <polygon points="35,195 20,240 35,240"/>
+    <polygon points="77,195 92,240 77,240"/>
+    <polygon points="175,192 158,240 175,240"/>
+    <polygon points="225,192 242,240 225,240"/>
+    <polygon points="323,195 308,240 323,240"/>
+    <polygon points="365,195 380,240 365,240"/>
+  </g>
+
+  <!-- THE WARDEN FORM — dissolving, branching arms retreating back into canopy -->
+  <!-- Central mass — shrinking, losing cohesion -->
+  <ellipse cx="200" cy="140" rx="40" ry="35" fill="#060e04" stroke="#0e1806" stroke-width="1" opacity="0.5"/>
+  <ellipse cx="200" cy="138" rx="25" ry="22" fill="#050c02" opacity="0.7"/>
+  <!-- Arms withdrawing — upward, back into canopy -->
+  <g stroke="#081404" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.5">
+    <path d="M165,128 Q130,108 100,88 Q72,72 50,60"/>
+    <path d="M235,128 Q270,108 300,88 Q328,72 350,60"/>
+    <path d="M185,112 Q165,90 148,70 Q134,54 122,40"/>
+    <path d="M215,112 Q235,90 252,70 Q266,54 278,40"/>
+  </g>
+  <!-- Eyes — fading, closing -->
+  <circle cx="186" cy="138" r="4" fill="#060e04" stroke="#18a030" stroke-width="1" opacity="0.25"/>
+  <circle cx="214" cy="138" r="4" fill="#060e04" stroke="#18a030" stroke-width="1" opacity="0.25"/>
+  <circle cx="186" cy="138" r="2" fill="#20c040" opacity="0.2"/>
+  <circle cx="214" cy="138" r="2" fill="#20c040" opacity="0.2"/>
+  <!-- Branch tips going dark — nodes off -->
+  <g fill="#183010" opacity="0.2">
+    <circle cx="50"  cy="60" r="3"/>
+    <circle cx="350" cy="60" r="3"/>
+    <circle cx="122" cy="40" r="2.5"/>
+    <circle cx="278" cy="40" r="2.5"/>
+  </g>
+
+  <!-- Ley lines — still active, unaffected by withdrawal -->
+  <line x1="199" y1="45" x2="199" y2="200" stroke="#18a030" stroke-width="1.2" opacity="0.3"/>
+  <line x1="201" y1="45" x2="201" y2="200" stroke="#40e060" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- Falling leaves — the Warden shedding as it withdraws -->
+  <g fill="#183010" opacity="0.5">
+    <ellipse cx="80"  cy="170" rx="5" ry="2" transform="rotate(-25 80 170)"/>
+    <ellipse cx="130" cy="155" rx="4" ry="2" transform="rotate(15 130 155)"/>
+    <ellipse cx="270" cy="160" rx="5" ry="2" transform="rotate(20 270 160)"/>
+    <ellipse cx="320" cy="175" rx="4" ry="2" transform="rotate(-15 320 175)"/>
+    <ellipse cx="160" cy="185" rx="3" ry="1.5" transform="rotate(10 160 185)"/>
+    <ellipse cx="240" cy="180" rx="3" ry="1.5" transform="rotate(-10 240 180)"/>
+  </g>
+
+  <!-- Canopy above — denser as the Warden returns to it -->
+  <polygon points="0,0 400,0 400,60 370,48 335,62 295,44 255,60 215,42 185,58 155,40 115,60 75,44 35,60 0,48" fill="#050c02"/>
+  <g fill="#060e03" opacity="0.7">
+    <ellipse cx="100" cy="35" rx="60" ry="22"/>
+    <ellipse cx="200" cy="28" rx="70" ry="24"/>
+    <ellipse cx="300" cy="33" rx="60" ry="22"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#183010" text-anchor="middle" letter-spacing="3">THE CANOPY YIELDS</text>
+</svg>

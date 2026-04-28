@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#030802"/>
+
+  <linearGradient id="canopy-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040a02"/>
+    <stop offset="50%" stop-color="#060e04"/>
+    <stop offset="100%" stop-color="#081206"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#canopy-sky)"/>
+
+  <!-- Forest bioluminescent ambient -->
+  <radialGradient id="canopy-glow" cx="50%" cy="30%" r="55%">
+    <stop offset="0%" stop-color="#102808" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#102808" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#canopy-glow)"/>
+
+  <!-- HIGH CANOPY — dense interlocked branches filling the upper frame -->
+  <g fill="#050c02" stroke="#081202" stroke-width="0.5">
+    <polygon points="0,0 400,0 400,70 360,60 320,75 280,55 240,72 200,48 160,70 120,52 80,68 40,50 0,65"/>
+  </g>
+  <!-- Canopy layer 2 — more branch silhouettes -->
+  <g fill="#060e03" opacity="0.8">
+    <polygon points="0,65 0,0 35,0 30,50"/>
+    <polygon points="400,65 400,0 365,0 368,52"/>
+    <ellipse cx="80"  cy="40" rx="55" ry="22"/>
+    <ellipse cx="200" cy="32" rx="65" ry="25"/>
+    <ellipse cx="320" cy="38" rx="55" ry="22"/>
+  </g>
+  <!-- Ley lines threading through roots — bright green-gold seams -->
+  <g stroke="#20a040" stroke-width="1.2" fill="none" opacity="0.5">
+    <path d="M0,68 Q50,60 100,68 Q150,76 200,65 Q250,54 300,65 Q350,76 400,68"/>
+    <path d="M0,78 Q80,70 160,80 Q240,90 320,78 Q360,72 400,78"/>
+  </g>
+
+  <!-- TREE TRUNKS — massive, ancient, ley veins glowing -->
+  <!-- Left trunk -->
+  <rect x="30" y="65" width="45" height="180" fill="#050c02" stroke="#0a1604" stroke-width="1"/>
+  <!-- Left trunk ley seam -->
+  <line x1="52" y1="65"  x2="50" y2="245" stroke="#18a030" stroke-width="1.5" opacity="0.4"/>
+  <line x1="53" y1="65"  x2="51" y2="245" stroke="#40e060" stroke-width="0.5" opacity="0.3"/>
+  <!-- Root buttresses left -->
+  <g fill="#040a02" stroke="#081404" stroke-width="0.8">
+    <polygon points="30,200 15,240 30,240"/>
+    <polygon points="75,200 90,240 75,240"/>
+    <polygon points="52,195 42,240 62,240"/>
+  </g>
+
+  <!-- Centre trunk — massive -->
+  <rect x="172" y="48" width="56" height="197" fill="#050c02" stroke="#0a1604" stroke-width="1"/>
+  <!-- Centre ley seam — brightest -->
+  <line x1="199" y1="48"  x2="199" y2="245" stroke="#20c040" stroke-width="2" opacity="0.5"/>
+  <line x1="200" y1="48"  x2="200" y2="245" stroke="#60ff80" stroke-width="0.8" opacity="0.4"/>
+  <!-- Root buttresses centre -->
+  <g fill="#040a02" stroke="#081404" stroke-width="0.8">
+    <polygon points="172,195 155,240 172,240"/>
+    <polygon points="228,195 245,240 228,240"/>
+    <polygon points="200,192 185,240 215,240"/>
+  </g>
+
+  <!-- Right trunk -->
+  <rect x="325" y="60" width="45" height="185" fill="#050c02" stroke="#0a1604" stroke-width="1"/>
+  <line x1="347" y1="60"  x2="347" y2="245" stroke="#18a030" stroke-width="1.5" opacity="0.4"/>
+  <g fill="#040a02" stroke="#081404" stroke-width="0.8">
+    <polygon points="325,200 310,240 325,240"/>
+    <polygon points="370,200 385,240 370,240"/>
+  </g>
+
+  <!-- Forest floor — deep leaf litter and roots -->
+  <rect x="0" y="210" width="400" height="30" fill="#040802"/>
+  <!-- Root networks on floor -->
+  <g stroke="#0a1604" stroke-width="1.5" fill="none" opacity="0.5">
+    <path d="M52,245 Q80,230 110,240 Q140,250 160,235"/>
+    <path d="M200,245 Q230,228 260,238 Q290,248 320,232"/>
+  </g>
+
+  <!-- Bioluminescent moss/spores on trunks -->
+  <g fill="#20c040" opacity="0.2">
+    <circle cx="45"  cy="130" r="3"/>
+    <circle cx="65"  cy="155" r="2.5"/>
+    <circle cx="185" cy="120" r="3"/>
+    <circle cx="215" cy="145" r="2.5"/>
+    <circle cx="335" cy="135" r="3"/>
+    <circle cx="350" cy="160" r="2"/>
+  </g>
+
+  <!-- Floating spores — canopy life -->
+  <g fill="#40c060" opacity="0.3">
+    <circle cx="100" cy="110" r="1.2"/>
+    <circle cx="150" cy="90"  r="1"/>
+    <circle cx="250" cy="95"  r="1.2"/>
+    <circle cx="310" cy="112" r="1"/>
+    <circle cx="130" cy="140" r="0.8"/>
+    <circle cx="280" cy="135" r="0.8"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#183010" text-anchor="middle" letter-spacing="3">THE VERDANT CANOPY</text>
+</svg>
