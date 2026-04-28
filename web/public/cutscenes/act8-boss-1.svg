@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#030206"/>
+  <linearGradient id="boss-deep" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#050108"/>
+    <stop offset="50%" stop-color="#06020a"/>
+    <stop offset="100%" stop-color="#08040c"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#boss-deep)"/>
+
+  <!-- Bioluminescent teal atmosphere — deep at the root queen's threshold -->
+  <radialGradient id="bq-threshold" cx="50%" cy="55%" r="55%">
+    <stop offset="0%" stop-color="#004040" stop-opacity="0.35"/>
+    <stop offset="60%" stop-color="#002828" stop-opacity="0.12"/>
+    <stop offset="100%" stop-color="#002828" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#bq-threshold)"/>
+
+  <!-- CEILING — dense mycelium canopy, roots hanging down -->
+  <rect x="0" y="0" width="400" height="45" fill="#050108"/>
+  <!-- Ceiling root mass -->
+  <g fill="#120620" opacity="0.9">
+    <ellipse cx="80"  cy="0" rx="55" ry="30"/>
+    <ellipse cx="200" cy="0" rx="70" ry="35"/>
+    <ellipse cx="320" cy="0" rx="55" ry="28"/>
+  </g>
+  <!-- Hanging root tendrils from ceiling -->
+  <g stroke="#1a0830" stroke-width="2.5" fill="none" opacity="0.8">
+    <path d="M55,0  Q52,20 58,42 Q62,55 55,70"/>
+    <path d="M80,0  Q78,25 85,48 Q88,62 80,78"/>
+    <path d="M120,0 Q118,18 125,38 Q128,52 122,66"/>
+    <path d="M175,0 Q172,22 180,45 Q183,60 175,78"/>
+    <path d="M200,0 Q197,28 205,52 Q208,68 200,88"/>
+    <path d="M225,0 Q228,22 220,45 Q217,60 225,78"/>
+    <path d="M280,0 Q282,18 275,38 Q272,52 278,66"/>
+    <path d="M320,0 Q322,25 315,48 Q312,62 320,78"/>
+    <path d="M345,0 Q348,20 342,42 Q338,55 345,70"/>
+  </g>
+  <!-- Bioluminescent nodes on ceiling tendrils -->
+  <g fill="#00c090" opacity="0.5">
+    <circle cx="55"  cy="70" r="2.5"/>
+    <circle cx="80"  cy="78" r="3"/>
+    <circle cx="122" cy="66" r="2"/>
+    <circle cx="175" cy="78" r="2.5"/>
+    <circle cx="200" cy="88" r="3.5"/>
+    <circle cx="225" cy="78" r="2.5"/>
+    <circle cx="278" cy="66" r="2"/>
+    <circle cx="320" cy="78" r="3"/>
+    <circle cx="345" cy="70" r="2.5"/>
+  </g>
+
+  <!-- FLOOR — mycelium mat, root veins spreading -->
+  <rect x="0" y="188" width="400" height="52" fill="#060108"/>
+  <!-- Floor root veins — converging toward centre -->
+  <g stroke="#1a0830" stroke-width="2" fill="none" opacity="0.7">
+    <path d="M0,220   Q80,210  140,200 Q170,196 200,194"/>
+    <path d="M400,220 Q320,210 260,200 Q230,196 200,194"/>
+    <path d="M0,235   Q100,225 160,210 Q180,204 200,200"/>
+    <path d="M400,235 Q300,225 240,210 Q220,204 200,200"/>
+    <path d="M50,240  Q120,228 170,215 Q185,210 200,206"/>
+    <path d="M350,240 Q280,228 230,215 Q215,210 200,206"/>
+  </g>
+  <!-- Floor glow nodes along veins -->
+  <g fill="#008060" opacity="0.4">
+    <circle cx="110" cy="210" r="2"/>
+    <circle cx="155" cy="202" r="2.5"/>
+    <circle cx="290" cy="210" r="2"/>
+    <circle cx="245" cy="202" r="2.5"/>
+    <circle cx="200" cy="196" r="3"/>
+  </g>
+
+  <!-- WALLS — left and right root columns -->
+  <!-- Left wall roots -->
+  <g stroke="#180628" stroke-width="3" fill="none" opacity="0.6">
+    <path d="M0,60  Q25,80  18,120 Q12,155 25,188"/>
+    <path d="M0,80  Q30,105 22,145 Q16,170 30,188"/>
+    <path d="M0,100 Q20,130 15,165 Q10,180 20,188"/>
+  </g>
+  <!-- Right wall roots -->
+  <g stroke="#180628" stroke-width="3" fill="none" opacity="0.6">
+    <path d="M400,60  Q375,80  382,120 Q388,155 375,188"/>
+    <path d="M400,80  Q370,105 378,145 Q384,170 370,188"/>
+    <path d="M400,100 Q380,130 385,165 Q390,180 380,188"/>
+  </g>
+
+  <!-- CONVERGING ROOT CORRIDOR — tunnelling toward the void at centre-back -->
+  <!-- Left side rails of the corridor -->
+  <path d="M0,188 Q80,175 130,160 Q165,150 200,140" stroke="#200840" stroke-width="2" fill="none" opacity="0.7"/>
+  <path d="M0,108 Q80,118 130,128 Q165,134 200,140"  stroke="#200840" stroke-width="2" fill="none" opacity="0.7"/>
+  <!-- Right side rails -->
+  <path d="M400,188 Q320,175 270,160 Q235,150 200,140" stroke="#200840" stroke-width="2" fill="none" opacity="0.7"/>
+  <path d="M400,108 Q320,118 270,128 Q235,134 200,140" stroke="#200840" stroke-width="2" fill="none" opacity="0.7"/>
+
+  <!-- THE VOID AHEAD — the Root Queen's chamber entrance -->
+  <radialGradient id="bq-void" cx="50%" cy="58%" r="22%">
+    <stop offset="0%" stop-color="#000808" stop-opacity="1"/>
+    <stop offset="50%" stop-color="#001818" stop-opacity="0.9"/>
+    <stop offset="100%" stop-color="#001818" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="140" rx="65" ry="50" fill="url(#bq-void)"/>
+  <!-- Void border glow — teal pulse emanating from within -->
+  <ellipse cx="200" cy="140" rx="65" ry="50" fill="none" stroke="#00c090" stroke-width="1.5" opacity="0.35"/>
+  <ellipse cx="200" cy="140" rx="52" ry="40" fill="none" stroke="#00a070" stroke-width="0.8" opacity="0.25"/>
+  <!-- Inner tendrils reaching from the void outward -->
+  <g stroke="#00c090" stroke-width="0.8" fill="none" opacity="0.3">
+    <path d="M200,90  Q196,110 200,130"/>
+    <path d="M200,90  Q204,110 200,130"/>
+    <path d="M155,120 Q170,128 185,135"/>
+    <path d="M245,120 Q230,128 215,135"/>
+  </g>
+
+  <!-- Floating spore particles -->
+  <g fill="#00c090" opacity="0.3">
+    <circle cx="95"  cy="95"  r="1.2"/>
+    <circle cx="148" cy="78"  r="1"/>
+    <circle cx="72"  cy="140" r="1.2"/>
+    <circle cx="135" cy="160" r="0.8"/>
+    <circle cx="258" cy="82"  r="1.2"/>
+    <circle cx="305" cy="95"  r="1"/>
+    <circle cx="328" cy="140" r="1.2"/>
+    <circle cx="265" cy="158" r="0.8"/>
+    <circle cx="180" cy="105" r="1"/>
+    <circle cx="220" cy="108" r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#006040" text-anchor="middle" letter-spacing="3">THE DEEP REMEMBERS</text>
+</svg>

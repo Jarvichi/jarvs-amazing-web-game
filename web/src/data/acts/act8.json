@@ -588,6 +588,16 @@
         "Spore Surge",
         "Mycelium Surge",
         "Deep Growth"
+      ],
+      "bossIntro": [
+        {
+          "image": "cutscenes/act8-boss-1.svg",
+          "text": "The network thickens. Every surface here breathes — wall, floor, ceiling interwoven with roots that pulse with slow, cold light. This is the oldest part of the Fungal Deep. Nothing here has ever been separate.\n\nSomething knows you are here."
+        },
+        {
+          "image": "cutscenes/act8-boss-2.svg",
+          "text": "She does not rise to meet you. She was already here — has always been here, rooted at the centre of everything, extending through every tendril you have ever seen in this place.\n\nThe Root Queen opens her eyes. All of them."
+        }
       ]
     },
     "node-1776871962308": {
