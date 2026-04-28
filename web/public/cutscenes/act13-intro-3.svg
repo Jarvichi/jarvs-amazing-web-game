@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#070502"/>
+  <linearGradient id="within-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#080602"/>
+    <stop offset="100%" stop-color="#160c04"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#within-sky)"/>
+
+  <!-- Brass and ley glow — mixed warm amber and cool ley blue-green -->
+  <radialGradient id="within-glow" cx="50%" cy="60%" r="50%">
+    <stop offset="0%" stop-color="#604020" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#604020" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#within-glow)"/>
+
+  <!-- Vault chamber walls — massive gear-lined -->
+  <g fill="#09070a" stroke="#131008" stroke-width="1">
+    <rect x="0"   y="0"  width="80"  height="240"/>
+    <rect x="320" y="0"  width="80"  height="240"/>
+  </g>
+  <!-- Gear rows on walls -->
+  <g fill="#0d0b05" stroke="#1c1208" stroke-width="0.8" opacity="0.8">
+    <circle cx="40"  cy="50"  r="28"/>
+    <circle cx="40"  cy="130" r="28"/>
+    <circle cx="40"  cy="210" r="28"/>
+    <circle cx="360" cy="50"  r="28"/>
+    <circle cx="360" cy="130" r="28"/>
+    <circle cx="360" cy="210" r="28"/>
+  </g>
+  <g fill="#181006" opacity="0.5">
+    <circle cx="40"  cy="50"  r="16"/>
+    <circle cx="40"  cy="130" r="16"/>
+    <circle cx="360" cy="50"  r="16"/>
+    <circle cx="360" cy="130" r="16"/>
+  </g>
+  <g fill="#804010" opacity="0.3">
+    <circle cx="40"  cy="50"  r="6"/>
+    <circle cx="40"  cy="130" r="6"/>
+    <circle cx="360" cy="50"  r="6"/>
+    <circle cx="360" cy="130" r="6"/>
+  </g>
+
+  <!-- Vault ceiling with hanging mechanism -->
+  <rect x="0" y="0" width="400" height="38" fill="#090704"/>
+  <g stroke="#141008" stroke-width="1" fill="none" opacity="0.4">
+    <line x1="80"  y1="38" x2="80"  y2="0"/>
+    <line x1="160" y1="38" x2="160" y2="0"/>
+    <line x1="240" y1="38" x2="240" y2="0"/>
+    <line x1="320" y1="38" x2="320" y2="0"/>
+  </g>
+  <!-- Hanging chains / mechanisms -->
+  <g stroke="#181008" stroke-width="2" opacity="0.5">
+    <line x1="120" y1="38" x2="120" y2="70"/>
+    <line x1="200" y1="38" x2="200" y2="75"/>
+    <line x1="280" y1="38" x2="280" y2="70"/>
+  </g>
+  <g fill="#1a1006" opacity="0.5">
+    <circle cx="120" cy="72" r="5"/>
+    <circle cx="200" cy="77" r="6"/>
+    <circle cx="280" cy="72" r="5"/>
+  </g>
+
+  <!-- THE AUTOMATON — small distant form at chamber centre, surrounded by ley coil -->
+  <!-- Ley convergence at chamber centre — the ley lines coiled around it -->
+  <radialGradient id="conv-ley" cx="50%" cy="55%" r="35%">
+    <stop offset="0%" stop-color="#c06010" stop-opacity="0.35"/>
+    <stop offset="40%" stop-color="#903808" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#903808" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="140" rx="80" ry="65" fill="url(#conv-ley)"/>
+  <!-- Ley lines coiling around the Automaton position -->
+  <g stroke="#c06810" stroke-width="1.5" fill="none" opacity="0.4">
+    <path d="M200,75 Q230,95 240,120 Q250,145 235,165 Q220,185 200,192"/>
+    <path d="M200,75 Q170,95 160,120 Q150,145 165,165 Q180,185 200,192"/>
+  </g>
+  <g stroke="#e08820" stroke-width="0.6" fill="none" opacity="0.3">
+    <path d="M200,80 Q225,100 235,125 Q245,150 228,168"/>
+    <path d="M200,80 Q175,100 165,125 Q155,150 172,168"/>
+  </g>
+  <!-- Ley node at centre -->
+  <circle cx="200" cy="135" r="18" fill="#120902" stroke="#c06810" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="200" cy="135" r="10" fill="#1e0e04" opacity="0.8"/>
+  <circle cx="200" cy="135" r="5"  fill="#c06010" opacity="0.4"/>
+
+  <!-- Grand Automaton silhouette at centre — smaller scale, deep in chamber -->
+  <rect x="190" y="118" width="20" height="22" fill="#0a0802" stroke="#181006" stroke-width="0.8"/>
+  <ellipse cx="200" cy="116" rx="10" ry="9" fill="#0a0802" stroke="#181006" stroke-width="0.8"/>
+  <!-- Automaton sensor glow — visible at distance -->
+  <circle cx="200" cy="116" r="4" fill="#c06010" opacity="0.5"/>
+  <!-- Arms reaching into ley coil -->
+  <line x1="190" y1="125" x2="172" y2="118" stroke="#0a0802" stroke-width="3" stroke-linecap="round"/>
+  <line x1="210" y1="125" x2="228" y2="118" stroke="#0a0802" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Ground level perspective — iron grating -->
+  <rect x="80" y="205" width="240" height="35" fill="#0a0804" opacity="0.8"/>
+  <g stroke="#181006" stroke-width="0.6" fill="none" opacity="0.3">
+    <line x1="80"  y1="205" x2="320" y2="205"/>
+    <line x1="80"  y1="215" x2="320" y2="215"/>
+    <line x1="80"  y1="225" x2="320" y2="225"/>
+    <line x1="120" y1="205" x2="120" y2="240"/>
+    <line x1="160" y1="205" x2="160" y2="240"/>
+    <line x1="200" y1="205" x2="200" y2="240"/>
+    <line x1="240" y1="205" x2="240" y2="240"/>
+    <line x1="280" y1="205" x2="280" y2="240"/>
+  </g>
+
+  <!-- Ley line horizontal channels in floor -->
+  <line x1="80" y1="207" x2="320" y2="207" stroke="#c06010" stroke-width="1.5" opacity="0.3"/>
+  <line x1="80" y1="208" x2="320" y2="208" stroke="#e08820" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- Floating gear bits — dust of ancient machinery -->
+  <g fill="#c06010" opacity="0.25">
+    <circle cx="110" cy="90"  r="1.2"/>
+    <circle cx="145" cy="70"  r="1"/>
+    <circle cx="255" cy="75"  r="1.2"/>
+    <circle cx="290" cy="92"  r="1"/>
+    <circle cx="130" cy="160" r="0.8"/>
+    <circle cx="270" cy="155" r="0.8"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1a08" text-anchor="middle" letter-spacing="3">WHAT LIES WITHIN</text>
+</svg>

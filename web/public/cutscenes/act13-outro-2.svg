@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#070502"/>
+  <linearGradient id="gear-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#080602"/>
+    <stop offset="50%" stop-color="#0e0a04"/>
+    <stop offset="100%" stop-color="#160e06"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#gear-sky)"/>
+
+  <!-- Warm amber relic glow -->
+  <radialGradient id="gear-glow" cx="50%" cy="38%" r="45%">
+    <stop offset="0%" stop-color="#804820" stop-opacity="0.5"/>
+    <stop offset="60%" stop-color="#603010" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#603010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#gear-glow)"/>
+
+  <!-- THE GEAR HEART — small, intricate, beautiful -->
+  <!-- Outer aura — amber light -->
+  <radialGradient id="gh-aura" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#c06818" stop-opacity="0.45"/>
+    <stop offset="50%" stop-color="#904010" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#904010" stop-opacity="0"/>
+  </radialGradient>
+  <circle cx="200" cy="90" r="55" fill="url(#gh-aura)"/>
+
+  <!-- Outer gear ring -->
+  <circle cx="200" cy="90" r="42" fill="#080602" stroke="#904010" stroke-width="2"/>
+  <!-- Gear teeth outer ring -->
+  <g fill="#c06010" opacity="0.6">
+    <polygon points="200,48 204,56 196,56"/>
+    <polygon points="223,52 225,61 217,59"/>
+    <polygon points="242,66 241,75 233,72"/>
+    <polygon points="250,88 242,92 242,84"/>
+    <polygon points="243,110 235,110 237,103"/>
+    <polygon points="225,126 219,119 226,116"/>
+    <polygon points="200,132 196,124 204,124"/>
+    <polygon points="175,126 174,118 181,120"/>
+    <polygon points="157,110 163,104 165,111"/>
+    <polygon points="150,88 158,84 158,92"/>
+    <polygon points="158,66 164,72 157,75"/>
+    <polygon points="177,52 175,61 183,59"/>
+  </g>
+
+  <!-- Middle gear ring — second layer, offset rotation -->
+  <circle cx="200" cy="90" r="30" fill="#0c0904" stroke="#703010" stroke-width="1.5"/>
+  <g fill="#a05010" opacity="0.5">
+    <polygon points="200,60 203,67 197,67"/>
+    <polygon points="218,65 218,72 212,70"/>
+    <polygon points="228,82 222,85 222,79"/>
+    <polygon points="225,98 219,96 221,102"/>
+    <polygon points="212,113 209,106 215,105"/>
+    <polygon points="200,118 197,111 203,111"/>
+    <polygon points="188,113 185,106 191,105"/>
+    <polygon points="175,98 179,96 179,102"/>
+    <polygon points="172,82 178,79 178,85"/>
+    <polygon points="182,65 182,72 188,70"/>
+  </g>
+
+  <!-- Inner crystal structure — the drive core -->
+  <circle cx="200" cy="90" r="18" fill="#0e0a02" stroke="#c06818" stroke-width="1.5"/>
+  <!-- Crystal facets -->
+  <g fill="#120c02" stroke="#904010" stroke-width="0.8" opacity="0.8">
+    <polygon points="200,74 210,84 205,98 195,98 190,84"/>
+    <polygon points="200,74 210,84 205,98 200,106 195,98 190,84"/>
+  </g>
+  <!-- Crystal core glow — amber, pulsing -->
+  <circle cx="200" cy="90" r="10" fill="#c06010" opacity="0.4"/>
+  <circle cx="200" cy="90" r="5"  fill="#e08020" opacity="0.6"/>
+  <circle cx="200" cy="90" r="2"  fill="#f0a030" opacity="0.9"/>
+  <!-- Radial lines in crystal — drive pathways -->
+  <g stroke="#c06818" stroke-width="0.6" fill="none" opacity="0.5">
+    <line x1="200" y1="74" x2="200" y2="90"/>
+    <line x1="210" y1="84" x2="200" y2="90"/>
+    <line x1="205" y1="98" x2="200" y2="90"/>
+    <line x1="195" y1="98" x2="200" y2="90"/>
+    <line x1="190" y1="84" x2="200" y2="90"/>
+  </g>
+
+  <!-- JARV — below, arms raised receiving the relic -->
+  <ellipse cx="200" cy="222" rx="20" ry="4" fill="#030201" opacity="0.7"/>
+  <ellipse cx="194" cy="224" rx="4.5" ry="2" fill="#08090e"/>
+  <ellipse cx="206" cy="224" rx="4.5" ry="2" fill="#08090e"/>
+  <line x1="196" y1="215" x2="194" y2="224" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="204" y1="215" x2="206" y2="224" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <polygon points="184,184 216,184 220,214 180,214" fill="#0a1e20" stroke="#1a4040" stroke-width="1.5"/>
+  <g fill="#00c090" opacity="0.4">
+    <circle cx="180" cy="184" r="1.5"/>
+    <circle cx="220" cy="184" r="1.5"/>
+  </g>
+  <line x1="184" y1="191" x2="166" y2="169" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="216" y1="191" x2="234" y2="169" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <polygon points="160,164 170,163 172,174 162,175" fill="#0d0e1a" stroke="#181830" stroke-width="0.8"/>
+  <polygon points="230,164 240,163 242,174 232,175" fill="#0d0e1a" stroke="#181830" stroke-width="0.8"/>
+  <ellipse cx="200" cy="175" rx="9" ry="8" fill="#0c0c1a" stroke="#181830" stroke-width="1"/>
+  <ellipse cx="200" cy="178" rx="5" ry="3" fill="#080810"/>
+
+  <!-- Transfer beam — amber warmth descending to hands -->
+  <g stroke="#904010" stroke-width="0.8" fill="none" opacity="0.3">
+    <path d="M175,118 Q168,140 163,168"/>
+    <path d="M225,118 Q232,140 237,168"/>
+  </g>
+
+  <!-- Vault floor -->
+  <rect x="0" y="228" width="400" height="12" fill="#0a0804"/>
+  <rect x="0" y="230" width="400" height="2" fill="#804010" opacity="0.2"/>
+
+  <!-- Label -->
+  <text x="200" y="238" font-family="monospace" font-size="9" fill="#3a1a08" text-anchor="middle" letter-spacing="3">GEAR HEART</text>
+</svg>

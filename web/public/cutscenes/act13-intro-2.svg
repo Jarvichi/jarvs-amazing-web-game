@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#070502"/>
+  <linearGradient id="auto-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#080602"/>
+    <stop offset="100%" stop-color="#160c04"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#auto-sky)"/>
+
+  <!-- Brass machinery atmosphere -->
+  <radialGradient id="auto-glow" cx="50%" cy="45%" r="50%">
+    <stop offset="0%" stop-color="#503010" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="#503010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#auto-glow)"/>
+
+  <!-- Vault floor — iron grating -->
+  <rect x="0" y="200" width="400" height="40" fill="#0a0804"/>
+  <g stroke="#161008" stroke-width="0.8" fill="none" opacity="0.4">
+    <line x1="0"   y1="200" x2="400" y2="200"/>
+    <line x1="0"   y1="210" x2="400" y2="210"/>
+    <line x1="0"   y1="220" x2="400" y2="220"/>
+    <line x1="50"  y1="200" x2="50"  y2="240"/>
+    <line x1="100" y1="200" x2="100" y2="240"/>
+    <line x1="150" y1="200" x2="150" y2="240"/>
+    <line x1="200" y1="200" x2="200" y2="240"/>
+    <line x1="250" y1="200" x2="250" y2="240"/>
+    <line x1="300" y1="200" x2="300" y2="240"/>
+    <line x1="350" y1="200" x2="350" y2="240"/>
+  </g>
+  <rect x="0" y="204" width="400" height="4" fill="#804010" opacity="0.15"/>
+
+  <!-- Shadow -->
+  <ellipse cx="200" cy="210" rx="65" ry="12" fill="#030201" opacity="0.9"/>
+
+  <!-- THE GRAND AUTOMATON — massive, multi-armed, calculating machine entity -->
+  <!-- Base plinth — wide, heavy -->
+  <rect x="140" y="185" width="120" height="20" rx="3" fill="#0e0c04" stroke="#201408" stroke-width="2"/>
+  <!-- Plinth rivets -->
+  <g fill="#201408" opacity="0.7">
+    <circle cx="152" cy="195" r="2.5"/>
+    <circle cx="248" cy="195" r="2.5"/>
+    <circle cx="165" cy="195" r="2"/>
+    <circle cx="235" cy="195" r="2"/>
+    <circle cx="200" cy="195" r="2.5"/>
+  </g>
+
+  <!-- Lower body — barrel-like torso -->
+  <rect x="158" y="130" width="84" height="57" rx="4" fill="#0c0a04" stroke="#1e1408" stroke-width="2"/>
+  <!-- Torso panel divisions -->
+  <line x1="158" y1="152" x2="242" y2="152" stroke="#181208" stroke-width="1"/>
+  <line x1="158" y1="168" x2="242" y2="168" stroke="#181208" stroke-width="1"/>
+  <!-- Pressure gauges on torso -->
+  <g fill="#080602" stroke="#1a1006" stroke-width="0.8">
+    <circle cx="175" cy="142" r="7"/>
+    <circle cx="200" cy="142" r="7"/>
+    <circle cx="225" cy="142" r="7"/>
+  </g>
+  <!-- Gauge needles — all reading different values, calculating -->
+  <line x1="175" y1="142" x2="178" y2="136" stroke="#c06818" stroke-width="1" opacity="0.6"/>
+  <line x1="200" y1="142" x2="204" y2="138" stroke="#c06818" stroke-width="1" opacity="0.6"/>
+  <line x1="225" y1="142" x2="221" y2="137" stroke="#c06818" stroke-width="1" opacity="0.6"/>
+  <!-- Mechanical pipes connecting sections -->
+  <g stroke="#1a1006" stroke-width="2.5" fill="none">
+    <path d="M158,165 Q148,165 145,175 Q142,185 150,188"/>
+    <path d="M242,165 Q252,165 255,175 Q258,185 250,188"/>
+  </g>
+
+  <!-- Upper body — processor core, multi-faceted -->
+  <polygon points="165,100 235,100 245,130 155,130" fill="#0e0c04" stroke="#201408" stroke-width="1.5"/>
+  <!-- Processing vanes -->
+  <g fill="#0a0802" stroke="#181006" stroke-width="0.8" opacity="0.8">
+    <rect x="172" y="106" width="14" height="10" rx="1"/>
+    <rect x="192" y="104" width="16" height="12" rx="1"/>
+    <rect x="214" y="106" width="14" height="10" rx="1"/>
+  </g>
+  <!-- Calculation lights — amber, active -->
+  <g fill="#c06010" opacity="0.5">
+    <rect x="172" y="106" width="14" height="10" rx="1"/>
+    <rect x="214" y="106" width="14" height="10" rx="1"/>
+  </g>
+  <g fill="#e08020" opacity="0.3">
+    <rect x="192" y="104" width="16" height="12" rx="1"/>
+  </g>
+
+  <!-- HEAD — central sensor dome -->
+  <ellipse cx="200" cy="92" rx="28" ry="24" fill="#0c0a04" stroke="#1e1408" stroke-width="2"/>
+  <!-- Sensor ring around dome -->
+  <circle cx="200" cy="92" r="28" fill="none" stroke="#281a08" stroke-width="0.8"/>
+  <!-- Primary sensor — single large optic, cold and calculating -->
+  <circle cx="200" cy="92" r="14" fill="#080602" stroke="#301808" stroke-width="1.5"/>
+  <circle cx="200" cy="92" r="9"  fill="#120c02" stroke="#401e08" stroke-width="1"/>
+  <circle cx="200" cy="92" r="5"  fill="#c06010" opacity="0.6"/>
+  <circle cx="200" cy="92" r="2"  fill="#f08820" opacity="0.8"/>
+  <!-- Secondary sensors — smaller ring -->
+  <g fill="#c06010" opacity="0.35">
+    <circle cx="182" cy="82" r="3"/>
+    <circle cx="218" cy="82" r="3"/>
+    <circle cx="176" cy="96" r="3"/>
+    <circle cx="224" cy="96" r="3"/>
+    <circle cx="184" cy="108" r="3"/>
+    <circle cx="216" cy="108" r="3"/>
+  </g>
+
+  <!-- FOUR ARMS — the Automaton reaches in multiple directions simultaneously -->
+  <!-- Upper left arm -->
+  <line x1="163" y1="115" x2="128" y2="95" stroke="#0e0c04" stroke-width="7" stroke-linecap="round"/>
+  <line x1="128" y1="95" x2="100" y2="78" stroke="#0e0c04" stroke-width="5" stroke-linecap="round"/>
+  <rect x="88" y="70" width="22" height="16" rx="2" fill="#0c0a04" stroke="#1e1408" stroke-width="1"/>
+  <!-- Lower left arm -->
+  <line x1="160" y1="150" x2="122" y2="155" stroke="#0e0c04" stroke-width="6" stroke-linecap="round"/>
+  <line x1="122" y1="155" x2="92"  y2="165" stroke="#0e0c04" stroke-width="4" stroke-linecap="round"/>
+  <rect x="80" y="158" width="20" height="14" rx="2" fill="#0c0a04" stroke="#1e1408" stroke-width="1"/>
+  <!-- Upper right arm -->
+  <line x1="237" y1="115" x2="272" y2="95" stroke="#0e0c04" stroke-width="7" stroke-linecap="round"/>
+  <line x1="272" y1="95" x2="300" y2="78" stroke="#0e0c04" stroke-width="5" stroke-linecap="round"/>
+  <rect x="290" y="70" width="22" height="16" rx="2" fill="#0c0a04" stroke="#1e1408" stroke-width="1"/>
+  <!-- Lower right arm -->
+  <line x1="240" y1="150" x2="278" y2="155" stroke="#0e0c04" stroke-width="6" stroke-linecap="round"/>
+  <line x1="278" y1="155" x2="308" y2="165" stroke="#0e0c04" stroke-width="4" stroke-linecap="round"/>
+  <rect x="300" y="158" width="20" height="14" rx="2" fill="#0c0a04" stroke="#1e1408" stroke-width="1"/>
+
+  <!-- Gear elements on arms — it is literally made of clock parts -->
+  <g fill="#1a1006" stroke="#281408" stroke-width="0.8" opacity="0.6">
+    <circle cx="115" cy="86"  r="5"/>
+    <circle cx="110" cy="160" r="5"/>
+    <circle cx="285" cy="86"  r="5"/>
+    <circle cx="290" cy="160" r="5"/>
+  </g>
+
+  <!-- Stars of spark — active processing venting heat -->
+  <g fill="#c06010" opacity="0.4">
+    <circle cx="168" cy="85" r="1.2"/>
+    <circle cx="232" cy="83" r="1.2"/>
+    <circle cx="200" cy="68" r="1"/>
+    <circle cx="175" cy="72" r="0.8"/>
+    <circle cx="225" cy="74" r="0.8"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1a08" text-anchor="middle" letter-spacing="3">THE GRAND AUTOMATON</text>
+</svg>

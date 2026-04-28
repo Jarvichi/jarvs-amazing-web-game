@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#070502"/>
+  <linearGradient id="ascend-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0a0806"/>
+    <stop offset="50%" stop-color="#120e08"/>
+    <stop offset="100%" stop-color="#1c160c"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#ascend-sky)"/>
+
+  <!-- Vault machinery continues — built to run forever -->
+  <radialGradient id="tick-glow" cx="20%" cy="55%" r="30%">
+    <stop offset="0%" stop-color="#503010" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#503010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#tick-glow)"/>
+
+  <!-- VAULT DESCENDING BEHIND — Jarv climbing stairs/ladder upward -->
+  <!-- Left wall — gear mechanisms, still turning -->
+  <g fill="#09070a" stroke="#131008" stroke-width="1">
+    <rect x="0"   y="0"  width="72" height="240"/>
+    <rect x="328" y="0"  width="72" height="240"/>
+  </g>
+  <g fill="#0e0c06" stroke="#1c1408" stroke-width="0.8" opacity="0.7">
+    <circle cx="36"  cy="80"  r="26"/>
+    <circle cx="36"  cy="170" r="26"/>
+    <circle cx="364" cy="80"  r="26"/>
+    <circle cx="364" cy="170" r="26"/>
+  </g>
+  <g fill="#181006" opacity="0.5">
+    <circle cx="36"  cy="80"  r="14"/>
+    <circle cx="36"  cy="170" r="14"/>
+    <circle cx="364" cy="80"  r="14"/>
+    <circle cx="364" cy="170" r="14"/>
+  </g>
+  <!-- Gears still turning — ticking marks -->
+  <g fill="#904010" opacity="0.3">
+    <circle cx="36"  cy="56"  r="3"/>
+    <circle cx="54"  cy="62"  r="3"/>
+    <circle cx="60"  cy="80"  r="3"/>
+    <circle cx="364" cy="56"  r="3"/>
+    <circle cx="346" cy="62"  r="3"/>
+    <circle cx="340" cy="80"  r="3"/>
+  </g>
+
+  <!-- Staircase — ascending from lower vault to surface opening above -->
+  <!-- Stair side rails -->
+  <line x1="155" y1="240" x2="165" y2="50" stroke="#181208" stroke-width="2.5"/>
+  <line x1="245" y1="240" x2="235" y2="50" stroke="#181208" stroke-width="2.5"/>
+  <!-- Stair treads — perspective receding upward -->
+  <g stroke="#181208" stroke-width="1" fill="#0e0c04" opacity="0.7">
+    <rect x="156" y="220" width="88" height="7"  rx="0.5"/>
+    <rect x="158" y="205" width="84" height="6.5" rx="0.5"/>
+    <rect x="160" y="190" width="80" height="6"  rx="0.5"/>
+    <rect x="163" y="176" width="74" height="5.5" rx="0.5"/>
+    <rect x="165" y="163" width="70" height="5"  rx="0.5"/>
+    <rect x="167" y="151" width="66" height="4.5" rx="0.5"/>
+    <rect x="169" y="140" width="62" height="4"  rx="0.5"/>
+    <rect x="171" y="130" width="58" height="3.5" rx="0.5"/>
+    <rect x="173" y="121" width="54" height="3"  rx="0.5"/>
+    <rect x="175" y="113" width="50" height="2.5" rx="0.5"/>
+    <rect x="177" y="106" width="46" height="2.5" rx="0.5"/>
+    <rect x="179" y="100" width="42" height="2"  rx="0.5"/>
+  </g>
+  <!-- Stair glow from below — ley light coming up through the vault grating -->
+  <radialGradient id="stair-glow" cx="50%" cy="100%" r="60%">
+    <stop offset="0%" stop-color="#904010" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#904010" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="155" y="80" width="90" height="160" fill="url(#stair-glow)"/>
+
+  <!-- Light above — the surface opening -->
+  <radialGradient id="surface-light" cx="50%" cy="0%" r="50%">
+    <stop offset="0%" stop-color="#282010" stop-opacity="0.6"/>
+    <stop offset="60%" stop-color="#181008" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#181008" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="155" y="0" width="90" height="100" fill="url(#surface-light)"/>
+  <!-- Opening frame at top -->
+  <rect x="155" y="45" width="90" height="8" rx="2" fill="#181008" stroke="#281808" stroke-width="1"/>
+  <!-- Light spilling through opening -->
+  <g stroke="#382010" stroke-width="0.8" fill="none" opacity="0.2">
+    <line x1="200" y1="53" x2="175" y2="80"/>
+    <line x1="200" y1="53" x2="200" y2="85"/>
+    <line x1="200" y1="53" x2="225" y2="80"/>
+  </g>
+
+  <!-- JARV — on stairs, ascending, back to viewer, nearly at the top -->
+  <!-- Mid-stair position -->
+  <ellipse cx="200" cy="113" rx="12" ry="3" fill="#020301" opacity="0.5"/>
+  <line x1="197" y1="106" x2="196" y2="113" stroke="#0c0c18" stroke-width="3" stroke-linecap="round"/>
+  <line x1="202" y1="106" x2="203" y2="113" stroke="#0c0c18" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="192,95 208,95 211,106 189,106" fill="#0a1e20" stroke="#1a4040" stroke-width="1"/>
+  <g fill="#00c090" opacity="0.4">
+    <circle cx="189" cy="95" r="1.2"/>
+    <circle cx="211" cy="95" r="1.2"/>
+  </g>
+  <ellipse cx="200" cy="89" rx="7" ry="6" fill="#0c0c1a" stroke="#181830" stroke-width="0.8"/>
+  <!-- Iron Standard over shoulder -->
+  <line x1="208" y1="96" x2="220" y2="108" stroke="#2a3040" stroke-width="2"/>
+  <polygon points="206,96 210,96 208,87" fill="#404860" opacity="0.7"/>
+
+  <!-- Machinery background details still ticking -->
+  <!-- Left side mechanism dials -->
+  <g fill="#150f05" stroke="#201208" stroke-width="0.8" opacity="0.5">
+    <rect x="82"  y="110" width="30" height="20" rx="1"/>
+    <rect x="82"  y="145" width="30" height="20" rx="1"/>
+    <rect x="288" y="110" width="30" height="20" rx="1"/>
+    <rect x="288" y="145" width="30" height="20" rx="1"/>
+  </g>
+  <!-- Indicator lights — still on -->
+  <g fill="#904010" opacity="0.35">
+    <circle cx="90"  cy="118" r="2"/>
+    <circle cx="90"  cy="152" r="2"/>
+    <circle cx="310" cy="118" r="2"/>
+    <circle cx="310" cy="152" r="2"/>
+  </g>
+
+  <!-- Ceiling of the vault above the opening -->
+  <rect x="0" y="0" width="155" height="52" fill="#090704"/>
+  <rect x="245" y="0" width="155" height="52" fill="#090704"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1a08" text-anchor="middle" letter-spacing="3">ONWARD</text>
+</svg>
