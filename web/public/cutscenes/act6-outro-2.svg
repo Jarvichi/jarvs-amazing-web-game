@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#06091a"/>
+
+  <linearGradient id="still-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#070c1c"/>
+    <stop offset="100%" stop-color="#0e1828"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#still-sky)"/>
+
+  <!-- Quiet clearing in the storm — stars visible, atmosphere calmed -->
+  <radialGradient id="still-glow" cx="50%" cy="30%" r="45%">
+    <stop offset="0%" stop-color="#0c1a38" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#0c1a38" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#still-glow)"/>
+
+  <!-- Island platform — same site, now quiet -->
+  <polygon points="60,196 340,186 350,206 50,212" fill="#0a1020" stroke="#162030" stroke-width="1.5"/>
+  <polygon points="60,196 340,186 342,191 60,203" fill="#101e18" stroke="#1a2e22" stroke-width="1"/>
+
+  <!-- THE CLOUDMARSHAL — left side, turned slightly toward Jarv, staff still planted -->
+  <ellipse cx="135" cy="204" rx="28" ry="6" fill="#050810" opacity="0.6"/>
+  <!-- Boots -->
+  <ellipse cx="128" cy="208" rx="6" ry="2.5" fill="#0a0c18"/>
+  <ellipse cx="144" cy="207" rx="6" ry="2.5" fill="#0a0c18"/>
+  <!-- Legs -->
+  <line x1="130" y1="196" x2="128" y2="208" stroke="#101828" stroke-width="4" stroke-linecap="round"/>
+  <line x1="140" y1="195" x2="144" y2="207" stroke="#101828" stroke-width="4" stroke-linecap="round"/>
+  <!-- Uniform -->
+  <polygon points="120,162 150,162 155,196 115,196" fill="#181c28" stroke="#242c40" stroke-width="1"/>
+  <!-- Epaulettes — dimmed -->
+  <ellipse cx="122" cy="164" rx="8" ry="3.5" fill="#182080" opacity="0.4"/>
+  <ellipse cx="148" cy="164" rx="8" ry="3.5" fill="#182080" opacity="0.4"/>
+  <!-- Head — turned right, toward Jarv -->
+  <ellipse cx="137" cy="150" rx="11" ry="10" fill="#141c28" stroke="#202838" stroke-width="1"/>
+  <rect x="126" y="139" width="22" height="8" rx="2" fill="#0e1420" stroke="#1a2030" stroke-width="1"/>
+  <rect x="122" y="145" width="30" height="4" rx="1" fill="#0c1018" stroke="#182028" stroke-width="0.8"/>
+  <!-- Badge dimmed -->
+  <g fill="#504010" opacity="0.4">
+    <polygon points="135,141 139,141 137,145 141,145 135,149 137,145 133,145"/>
+  </g>
+  <!-- Eyes — open, level gaze at Jarv -->
+  <line x1="130" y1="153" x2="135" y2="152" stroke="#506080" stroke-width="1.5" opacity="0.8"/>
+  <line x1="139" y1="152" x2="144" y2="153" stroke="#506080" stroke-width="1.5" opacity="0.8"/>
+  <!-- Mouth — open slightly, speaking -->
+  <path d="M131,157 Q137,160 143,157" stroke="#283848" stroke-width="1" fill="none"/>
+  <!-- Left arm — at side -->
+  <line x1="120" y1="170" x2="110" y2="182" stroke="#181c28" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="104,178 114,177 115,188 105,189" fill="#1a2030" stroke="#242c40" stroke-width="0.8"/>
+  <!-- Right arm — gesturing toward Jarv, speaking -->
+  <line x1="150" y1="168" x2="163" y2="175" stroke="#181c28" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="158,171 168,169 170,180 160,182" fill="#1a2030" stroke="#242c40" stroke-width="0.8"/>
+  <!-- Staff — planted, leaning slightly away -->
+  <line x1="117" y1="178" x2="113" y2="205" stroke="#202838" stroke-width="2.5"/>
+  <!-- Staff orb — dark, spent -->
+  <circle cx="113" cy="173" r="7" fill="#0a1020" stroke="#1a2838" stroke-width="1.5"/>
+  <circle cx="113" cy="173" r="3" fill="#0e1428" opacity="0.5"/>
+
+  <!-- JARV — right side, facing the Cloudmarshal, listening -->
+  <ellipse cx="270" cy="205" rx="25" ry="5" fill="#050810" opacity="0.6"/>
+  <!-- Boots -->
+  <ellipse cx="263" cy="209" rx="6" ry="2.5" fill="#08090e"/>
+  <ellipse cx="278" cy="208" rx="6" ry="2.5" fill="#08090e"/>
+  <!-- Legs -->
+  <line x1="265" y1="198" x2="263" y2="209" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <line x1="274" y1="197" x2="278" y2="208" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <!-- Coral mantle — draped, teal edge glow -->
+  <polygon points="250,173 290,173 295,198 245,198" fill="#0a1e20" stroke="#1a4040" stroke-width="1.5"/>
+  <g fill="#00c090" opacity="0.5">
+    <circle cx="245" cy="173" r="1.5"/>
+    <circle cx="243" cy="182" r="1.2"/>
+    <circle cx="295" cy="173" r="1.5"/>
+    <circle cx="297" cy="182" r="1.2"/>
+  </g>
+  <!-- Hood / head — turned left toward Cloudmarshal -->
+  <ellipse cx="268" cy="164" rx="11" ry="9" fill="#0c0c1a" stroke="#181830" stroke-width="1"/>
+  <ellipse cx="266" cy="167" rx="6" ry="4" fill="#080810"/>
+  <!-- Iron Standard — resting, held loosely at side -->
+  <line x1="288" y1="180" x2="308" y2="165" stroke="#181830" stroke-width="3" stroke-linecap="round"/>
+  <line x1="308" y1="140" x2="308" y2="210" stroke="#2a3040" stroke-width="2.5"/>
+  <polygon points="306,140 310,140 308,131" fill="#404860"/>
+
+  <!-- Speech indicator — subtle arc above Cloudmarshal, implying speech -->
+  <g stroke="#2a3850" stroke-width="0.8" fill="none" opacity="0.6">
+    <path d="M145,142 Q165,128 175,135 Q165,138 160,145 Z"/>
+  </g>
+  <g fill="#1e3050" opacity="0.7">
+    <circle cx="158" cy="135" r="1.5"/>
+    <circle cx="165" cy="131" r="1.2"/>
+    <circle cx="172" cy="133" r="1"/>
+  </g>
+
+  <!-- Remaining storm wisps — high above, dissipating -->
+  <g fill="#0c1420" opacity="0.25">
+    <ellipse cx="80"  cy="60" rx="60" ry="18"/>
+    <ellipse cx="320" cy="55" rx="55" ry="16"/>
+  </g>
+
+  <!-- Stars — clear sky returning -->
+  <g fill="#2a3860" opacity="0.55">
+    <circle cx="40"  cy="18" r="1.5"/>
+    <circle cx="110" cy="10" r="1"/>
+    <circle cx="200" cy="14" r="1.5"/>
+    <circle cx="290" cy="8"  r="1"/>
+    <circle cx="365" cy="20" r="1.5"/>
+    <circle cx="170" cy="30" r="1"/>
+    <circle cx="340" cy="35" r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1e2e50" text-anchor="middle" letter-spacing="3">WHAT SHE SAID</text>
+</svg>

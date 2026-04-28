@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#05081a"/>
+
+  <linearGradient id="ascent-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#06091e"/>
+    <stop offset="50%" stop-color="#0a1428"/>
+    <stop offset="100%" stop-color="#0c1830"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#ascent-sky)"/>
+
+  <!-- Rising light — breakthrough above clouds -->
+  <radialGradient id="ascent-light" cx="50%" cy="15%" r="40%">
+    <stop offset="0%" stop-color="#2050c0" stop-opacity="0.3"/>
+    <stop offset="60%" stop-color="#1030a0" stop-opacity="0.1"/>
+    <stop offset="100%" stop-color="#1030a0" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#ascent-light)"/>
+
+  <!-- THE STORMCALLER'S BADGE — floating, radiating energy, centre-frame -->
+  <!-- Badge outer ring — electrified -->
+  <circle cx="200" cy="90" r="38" fill="none" stroke="#2040a0" stroke-width="1" opacity="0.4"/>
+  <circle cx="200" cy="90" r="34" fill="none" stroke="#3060d0" stroke-width="0.8" opacity="0.6"/>
+  <!-- Badge body — hexagonal storm motif -->
+  <polygon points="200,56 228,73 228,107 200,124 172,107 172,73" fill="#080e20" stroke="#2848a0" stroke-width="1.5"/>
+  <!-- Badge inner glow -->
+  <radialGradient id="badge-glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#304090" stop-opacity="0.5"/>
+    <stop offset="60%" stop-color="#203080" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#203080" stop-opacity="0"/>
+  </radialGradient>
+  <polygon points="200,56 228,73 228,107 200,124 172,107 172,73" fill="url(#badge-glow)"/>
+  <!-- Central lightning motif on badge -->
+  <g fill="#90a8e0" opacity="0.9">
+    <polygon points="200,66 206,66 200,84 210,84 196,114 200,92 190,92"/>
+  </g>
+  <!-- Badge ring dots — rank indicators -->
+  <g fill="#4060c0" opacity="0.7">
+    <circle cx="200" cy="59" r="2.5"/>
+    <circle cx="225" cy="74" r="2.5"/>
+    <circle cx="225" cy="106" r="2.5"/>
+    <circle cx="200" cy="121" r="2.5"/>
+    <circle cx="175" cy="106" r="2.5"/>
+    <circle cx="175" cy="74" r="2.5"/>
+  </g>
+  <!-- Electric arc discharge from badge -->
+  <g stroke="#80a8ff" stroke-width="0.8" fill="none" opacity="0.5">
+    <path d="M200,56 L196,44 L202,44 L198,36"/>
+    <path d="M228,73 L240,66 L238,72 L250,68"/>
+    <path d="M172,73 L160,66 L162,72 L150,68"/>
+  </g>
+
+  <!-- JARV — below the badge, arms raised receiving it — ascending pose -->
+  <ellipse cx="200" cy="215" rx="24" ry="5" fill="#050608" opacity="0.6"/>
+  <!-- Boots -->
+  <ellipse cx="193" cy="218" rx="5" ry="2" fill="#08090e"/>
+  <ellipse cx="207" cy="218" rx="5" ry="2" fill="#08090e"/>
+  <!-- Legs -->
+  <line x1="195" y1="207" x2="193" y2="218" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <line x1="204" y1="207" x2="207" y2="218" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <!-- Coral mantle — flowing upward at edges, arms raised push it back -->
+  <polygon points="181,178 219,178 224,207 176,207" fill="#0a1e20" stroke="#1a4040" stroke-width="1.5"/>
+  <g fill="#00c090" opacity="0.55">
+    <circle cx="176" cy="178" r="1.5"/>
+    <circle cx="174" cy="187" r="1.2"/>
+    <circle cx="224" cy="178" r="1.5"/>
+    <circle cx="226" cy="187" r="1.2"/>
+  </g>
+  <!-- Arms raised — reaching up toward badge -->
+  <line x1="181" y1="185" x2="162" y2="160" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <line x1="219" y1="185" x2="238" y2="160" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <!-- Hands open, reaching -->
+  <polygon points="156,155 166,153 168,165 158,167" fill="#0d0e1a" stroke="#181830" stroke-width="0.8"/>
+  <polygon points="234,155 244,153 246,165 236,167" fill="#0d0e1a" stroke="#181830" stroke-width="0.8"/>
+  <!-- Head — tilted up toward badge -->
+  <ellipse cx="200" cy="169" rx="11" ry="9" fill="#0c0c1a" stroke="#181830" stroke-width="1"/>
+  <ellipse cx="200" cy="172" rx="6" ry="4" fill="#080810"/>
+
+  <!-- Energy transfer beam — badge to Jarv's hands -->
+  <g stroke="#4060c0" stroke-width="1" fill="none" opacity="0.4">
+    <path d="M172,107 Q166,130 162,160"/>
+    <path d="M228,107 Q234,130 238,160"/>
+  </g>
+
+  <!-- Iron Standard — leaning against invisible wall, temporarily set down -->
+  <line x1="300" y1="170" x2="320" y2="220" stroke="#2a3040" stroke-width="2.5"/>
+  <polygon points="298,170 302,170 300,161" fill="#404860" opacity="0.8"/>
+
+  <!-- Cloud layer far below — they are above it now -->
+  <g fill="#0a1220" opacity="0.5">
+    <ellipse cx="0"   cy="230" rx="80"  ry="20"/>
+    <ellipse cx="100" cy="228" rx="80"  ry="18"/>
+    <ellipse cx="200" cy="232" rx="90"  ry="22"/>
+    <ellipse cx="300" cy="228" rx="80"  ry="18"/>
+    <ellipse cx="400" cy="230" rx="80"  ry="20"/>
+  </g>
+
+  <!-- Stars — vivid, above the storm now -->
+  <g fill="#3050a0" opacity="0.7">
+    <circle cx="30"  cy="15" r="1.5"/>
+    <circle cx="80"  cy="8"  r="1"/>
+    <circle cx="140" cy="20" r="1.5"/>
+    <circle cx="260" cy="18" r="1.5"/>
+    <circle cx="320" cy="10" r="1"/>
+    <circle cx="375" cy="22" r="1.5"/>
+  </g>
+  <g fill="#6080c0" opacity="0.4">
+    <circle cx="55"  cy="40" r="1"/>
+    <circle cx="165" cy="35" r="1"/>
+    <circle cx="240" cy="42" r="1"/>
+    <circle cx="350" cy="38" r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="238" font-family="monospace" font-size="9" fill="#1e2e50" text-anchor="middle" letter-spacing="3">HIGHER STILL</text>
+</svg>
