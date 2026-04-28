@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <!-- Sky background -->
+  <rect width="400" height="240" fill="#06091a"/>
+  <linearGradient id="a6b2-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#05080e"/>
+    <stop offset="50%" stop-color="#08102a"/>
+    <stop offset="100%" stop-color="#0c1838"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#a6b2-sky)"/>
+
+  <!-- Stars — fewer, dimmed by the ambient light -->
+  <g fill="#6080b0" opacity="0.2">
+    <circle cx="40"  cy="12" r="0.8"/>
+    <circle cx="120" cy="8"  r="0.8"/>
+    <circle cx="280" cy="10" r="1"/>
+    <circle cx="360" cy="15" r="0.8"/>
+    <circle cx="20"  cy="35" r="0.6"/>
+    <circle cx="380" cy="30" r="0.6"/>
+  </g>
+
+  <!-- Citadel command platform — wide parapet she stands on -->
+  <polygon points="60,120 340,120 360,138 40,138" fill="#0c1428"/>
+  <polygon points="70,112 330,112 340,120 60,120" fill="#101832"/>
+  <!-- Parapet crenellations -->
+  <g fill="#0e1630">
+    <rect x="70"  y="100" width="16" height="14"/>
+    <rect x="100" y="100" width="16" height="14"/>
+    <rect x="130" y="100" width="16" height="14"/>
+    <rect x="160" y="100" width="16" height="14"/>
+    <rect x="190" y="100" width="16" height="14"/>
+    <rect x="220" y="100" width="16" height="14"/>
+    <rect x="250" y="100" width="16" height="14"/>
+    <rect x="280" y="100" width="16" height="14"/>
+    <rect x="310" y="100" width="16" height="14"/>
+  </g>
+  <!-- Parapet top surface -->
+  <rect x="60" y="110" width="280" height="4" fill="#141e3a" opacity="0.8"/>
+
+  <!-- Platform underside -->
+  <g fill="#080e20" opacity="0.9">
+    <polygon points="40,138 360,138 350,160 50,160"/>
+  </g>
+  <!-- Hanging chains / rigging -->
+  <g stroke="#0e1a30" stroke-width="1" fill="none" opacity="0.6">
+    <path d="M100,138 Q98,148 100,158"/>
+    <path d="M160,138 Q158,150 160,162"/>
+    <path d="M240,138 Q242,150 240,162"/>
+    <path d="M300,138 Q302,148 300,158"/>
+  </g>
+
+  <!-- Background citadel towers behind her -->
+  <g fill="#0a1220" opacity="0.8">
+    <rect x="80"  y="40" width="28" height="72"/>
+    <rect x="292" y="45" width="28" height="67"/>
+    <rect x="140" y="55" width="18" height="57"/>
+    <rect x="242" y="55" width="18" height="57"/>
+  </g>
+  <!-- Tower tops -->
+  <g fill="#080f1c" opacity="0.8">
+    <polygon points="80,40 94,40 108,40 94,28"/>
+    <polygon points="292,45 306,45 320,45 306,33"/>
+  </g>
+  <!-- Tower windows -->
+  <g fill="#2040a0" opacity="0.4">
+    <rect x="86"  y="50" width="5" height="7" rx="1"/>
+    <rect x="96"  y="68" width="5" height="7" rx="1"/>
+    <rect x="298" y="55" width="5" height="7" rx="1"/>
+    <rect x="308" y="72" width="5" height="7" rx="1"/>
+  </g>
+
+  <!-- Ambient sky glow — the dominion's power -->
+  <radialGradient id="a6b2-ambglow" gradientUnits="userSpaceOnUse" cx="200" cy="80" r="180">
+    <stop offset="0%" stop-color="#142880" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#142880" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#a6b2-ambglow)"/>
+
+  <!-- THE CLOUDMARSHAL — military figure, centre platform -->
+  <!-- Cape / cloak flowing behind -->
+  <polygon points="185,112 215,112 225,120 200,138 175,120" fill="#0a1428" opacity="0.9"/>
+  <polygon points="188,111 212,111 222,120 200,136 178,120" fill="#0d1830"/>
+  <!-- Body / armour -->
+  <rect x="191" y="88" width="18" height="28" rx="3" fill="#101e38"/>
+  <!-- Shoulder plates -->
+  <ellipse cx="190" cy="93" rx="10" ry="6" fill="#0e1a32"/>
+  <ellipse cx="210" cy="93" rx="10" ry="6" fill="#0e1a32"/>
+  <!-- Epaulettes / rank insignia -->
+  <g fill="#2a4a90" opacity="0.6">
+    <rect x="183" y="90" width="8" height="3" rx="1"/>
+    <rect x="209" y="90" width="8" height="3" rx="1"/>
+  </g>
+  <!-- Chest plate detail -->
+  <rect x="194" y="94" width="12" height="16" rx="2" fill="#0c1830"/>
+  <line x1="200" y1="94" x2="200" y2="110" stroke="#1a2e60" stroke-width="0.8"/>
+  <!-- Arms — at attention, one raised holding a baton/staff -->
+  <rect x="183" y="94" width="5" height="18" rx="2" fill="#0d1828"/>
+  <rect x="212" y="94" width="5" height="16" rx="2" fill="#0d1828"/>
+  <!-- Command baton in raised right hand -->
+  <rect x="215" y="78" width="3" height="18" rx="1" fill="#1a3060"/>
+  <rect x="213" y="76" width="7" height="4" rx="1" fill="#2a4a90"/>
+  <!-- Head — helmeted -->
+  <ellipse cx="200" cy="83" rx="11" ry="10" fill="#0d1830"/>
+  <ellipse cx="200" cy="80" rx="9" ry="8" fill="#101e3a"/>
+  <!-- Helmet crest / plume -->
+  <path d="M195,74 Q200,65 205,74" stroke="#2040a0" stroke-width="2" fill="none" opacity="0.7"/>
+  <!-- Visor line -->
+  <path d="M191,83 Q200,86 209,83" stroke="#1a2e60" stroke-width="1" fill="none"/>
+  <!-- Eyes — cold pale blue behind visor -->
+  <ellipse cx="196" cy="82" rx="2.5" ry="1.8" fill="#6090e0" opacity="0.8"/>
+  <ellipse cx="204" cy="82" rx="2.5" ry="1.8" fill="#6090e0" opacity="0.8"/>
+  <!-- Eye glow -->
+  <radialGradient id="a6b2-eyes" gradientUnits="userSpaceOnUse" cx="200" cy="82" r="25">
+    <stop offset="0%" stop-color="#3060c0" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#3060c0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="82" rx="25" ry="18" fill="url(#a6b2-eyes)"/>
+  <!-- Legs -->
+  <rect x="193" y="116" width="6" height="14" rx="2" fill="#0c1628"/>
+  <rect x="201" y="116" width="6" height="14" rx="2" fill="#0c1628"/>
+  <!-- Boots -->
+  <ellipse cx="196" cy="130" rx="5" ry="3" fill="#0a1220"/>
+  <ellipse cx="204" cy="130" rx="5" ry="3" fill="#0a1220"/>
+
+  <!-- Wind streaming past her — motion lines -->
+  <g stroke="#1e3870" stroke-width="0.8" fill="none" opacity="0.35">
+    <path d="M0,95  Q80,92  160,96  Q240,100 320,94  Q360,91 400,94"/>
+    <path d="M0,105 Q90,101 170,105 Q260,109 350,103 Q375,101 400,104"/>
+    <path d="M0,85  Q70,82  150,86  Q250,90  330,84  Q370,81 400,85"/>
+  </g>
+
+  <!-- Cloud banks far below — she is above them -->
+  <g fill="#0c1630" opacity="0.5">
+    <ellipse cx="50"  cy="195" rx="80" ry="20"/>
+    <ellipse cx="200" cy="200" rx="110" ry="22"/>
+    <ellipse cx="360" cy="193" rx="75" ry="19"/>
+  </g>
+  <g fill="#101e3a" opacity="0.3">
+    <ellipse cx="130" cy="185" rx="65" ry="14"/>
+    <ellipse cx="290" cy="183" rx="60" ry="14"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="a6b2-vign" cx="50%" cy="45%" r="65%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.7"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#a6b2-vign)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1a2e58" text-anchor="middle" letter-spacing="3">THE CLOUDMARSHAL</text>
+</svg>

@@ -561,6 +561,18 @@
       "opponentBaseHp": 250,
       "bossAI": "cloudmarshal",
       "environment": "sky",
+      "bossIntro": [
+        {
+          "title": "ACT VI — BOSS",
+          "text": "The Sky Dominion rises above the cloud line — towers of pale stone that catch no light because they have never needed to. You are looking up at a place that has never been approached from below.\n\nUntil now.",
+          "image": "cutscenes/act6-boss-1.svg"
+        },
+        {
+          "title": "ACT VI — BOSS",
+          "text": "She is already watching when you reach the parapet. She does not draw a weapon. She is holding a logbook.\n\nThe Cloudmarshal of the Sky Dominion has commanded every engagement from this height for forty years. She has notes on everything.\n\nShe does not have notes on this.",
+          "image": "cutscenes/act6-boss-2.svg"
+        }
+      ],
       "bossDialogue": [
         "You came up from below. That has never happened before. I'm going to note it in the log.",
         "The high ground is everything. You're standing on mine. That is the last time.",
