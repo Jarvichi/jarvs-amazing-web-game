@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0e0804"/>
+  <linearGradient id="market-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#100e06"/>
+    <stop offset="100%" stop-color="#1c1608"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#market-sky)"/>
+
+  <!-- Warm market glow from central spire below -->
+  <radialGradient id="spire-amb" cx="50%" cy="80%" r="55%">
+    <stop offset="0%" stop-color="#904820" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#904820" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#spire-amb)"/>
+
+  <!-- Market floor perspective — looking down the route to the spire -->
+  <polygon points="0,240 400,240 400,190 0,200" fill="#120e04"/>
+  <line x1="0" y1="195" x2="400" y2="190" stroke="#1c1408" stroke-width="1"/>
+  <!-- Stone tiles -->
+  <g stroke="#181008" stroke-width="0.6" fill="none" opacity="0.4">
+    <line x1="0"   y1="200" x2="400" y2="193"/>
+    <line x1="0"   y1="210" x2="400" y2="203"/>
+    <line x1="80"  y1="195" x2="80"  y2="240"/>
+    <line x1="160" y1="193" x2="165" y2="240"/>
+    <line x1="240" y1="192" x2="235" y2="240"/>
+    <line x1="320" y1="194" x2="320" y2="240"/>
+  </g>
+
+  <!-- LEY CONVERGENCE — multiple ley lines meeting at the spire base -->
+  <!-- Left ley -->
+  <line x1="0" y1="200" x2="200" y2="185" stroke="#d09020" stroke-width="2.5" opacity="0.6"/>
+  <line x1="0" y1="200" x2="200" y2="185" stroke="#f0c040" stroke-width="0.8" opacity="0.5"/>
+  <!-- Right ley -->
+  <line x1="400" y1="196" x2="200" y2="185" stroke="#d09020" stroke-width="2.5" opacity="0.6"/>
+  <line x1="400" y1="196" x2="200" y2="185" stroke="#f0c040" stroke-width="0.8" opacity="0.5"/>
+  <!-- Third ley from lower-left -->
+  <line x1="0" y1="215" x2="200" y2="185" stroke="#c07810" stroke-width="1.5" opacity="0.4"/>
+  <!-- Fourth from lower-right -->
+  <line x1="400" y1="210" x2="200" y2="185" stroke="#c07810" stroke-width="1.5" opacity="0.4"/>
+  <!-- Convergence glow at base of spire -->
+  <radialGradient id="conv-glow" cx="50%" cy="77%" r="20%">
+    <stop offset="0%" stop-color="#d09020" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#d09020" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="185" rx="25" ry="15" fill="url(#conv-glow)"/>
+
+  <!-- CENTRAL SPIRE — towering, the Baron's power centre -->
+  <!-- Base -- wide platform -->
+  <rect x="178" y="175" width="44" height="15" rx="2" fill="#140e04" stroke="#201408" stroke-width="1"/>
+  <!-- Shaft -->
+  <rect x="186" y="90" width="28" height="87" fill="#120e04" stroke="#1c1408" stroke-width="1"/>
+  <!-- Shaft windows — lit warm orange -->
+  <g fill="#d06820" opacity="0.5">
+    <rect x="192" y="98"  width="6" height="8" rx="1"/>
+    <rect x="202" y="98"  width="6" height="8" rx="1"/>
+    <rect x="192" y="115" width="6" height="8" rx="1"/>
+    <rect x="202" y="115" width="6" height="8" rx="1"/>
+    <rect x="192" y="132" width="6" height="8" rx="1"/>
+    <rect x="202" y="132" width="6" height="8" rx="1"/>
+    <rect x="192" y="149" width="6" height="8" rx="1"/>
+    <rect x="202" y="149" width="6" height="8" rx="1"/>
+  </g>
+  <!-- Upper narrowing -->
+  <polygon points="182,90 218,90 214,62 186,62" fill="#120e04" stroke="#1c1408" stroke-width="1"/>
+  <!-- Spire tip -->
+  <polygon points="194,62 206,62 200,38" fill="#160e04" stroke="#201408" stroke-width="1"/>
+  <!-- Spire tip glow — ley energy bleeding out at top -->
+  <radialGradient id="tip-glow" cx="50%" cy="100%" r="60%">
+    <stop offset="0%" stop-color="#e0a030" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#e0a030" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="38" rx="15" ry="12" fill="url(#tip-glow)"/>
+
+  <!-- Market structures flanking the route -->
+  <g fill="#100c04" stroke="#181008" stroke-width="0.8" opacity="0.8">
+    <!-- Left stalls -->
+    <rect x="20"  y="170" width="50" height="30"/>
+    <rect x="80"  y="165" width="40" height="35"/>
+    <!-- Awning triangles -->
+    <polygon points="20,170  45,158 70,170"/>
+    <polygon points="80,165 100,155 120,165"/>
+    <!-- Right stalls -->
+    <rect x="330" y="170" width="50" height="30"/>
+    <rect x="280" y="165" width="40" height="35"/>
+    <polygon points="330,170 355,158 380,170"/>
+    <polygon points="280,165 300,155 320,165"/>
+  </g>
+  <!-- Market lanterns strung between stalls -->
+  <g fill="#c07828" opacity="0.5">
+    <circle cx="40"  cy="162" r="3"/>
+    <circle cx="65"  cy="158" r="3"/>
+    <circle cx="90"  cy="155" r="3"/>
+    <circle cx="310" cy="155" r="3"/>
+    <circle cx="335" cy="158" r="3"/>
+    <circle cx="360" cy="162" r="3"/>
+  </g>
+  <g stroke="#c07828" stroke-width="0.6" fill="none" opacity="0.3">
+    <path d="M40,162 Q65,158 90,155"/>
+    <path d="M310,155 Q335,158 360,162"/>
+  </g>
+
+  <!-- Stars -->
+  <g fill="#d0a040" opacity="0.3">
+    <circle cx="50"  cy="18" r="1"/>
+    <circle cx="150" cy="10" r="1.2"/>
+    <circle cx="260" cy="14" r="1"/>
+    <circle cx="370" cy="20" r="1.2"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a2008" text-anchor="middle" letter-spacing="3">THE MARKET ROUTE</text>
+</svg>

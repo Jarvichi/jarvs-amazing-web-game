@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0e0804"/>
+  <linearGradient id="settle-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#100e06"/>
+    <stop offset="100%" stop-color="#1a1208"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#settle-sky)"/>
+
+  <!-- Dimmer market atmosphere — the Baron has accepted the loss -->
+  <radialGradient id="settle-warm" cx="50%" cy="55%" r="45%">
+    <stop offset="0%" stop-color="#402808" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#402808" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#settle-warm)"/>
+
+  <!-- Market floor — same setting -->
+  <polygon points="80,195 320,188 330,210 70,212" fill="#120c04" stroke="#1c1206" stroke-width="1.5"/>
+  <polygon points="80,195 320,188 322,193 80,202" fill="#181006" stroke="#221408" stroke-width="1"/>
+
+  <!-- THE DUNE BARON — standing, composed, no longer threatening — calculating -->
+  <ellipse cx="200" cy="207" rx="38" ry="7" fill="#080402" opacity="0.7"/>
+  <!-- Boots -->
+  <ellipse cx="191" cy="211" rx="7" ry="3" fill="#100c04"/>
+  <ellipse cx="211" cy="210" rx="7" ry="3" fill="#100c04"/>
+  <!-- Legs -->
+  <line x1="193" y1="198" x2="191" y2="211" stroke="#141008" stroke-width="4" stroke-linecap="round"/>
+  <line x1="207" y1="197" x2="211" y2="210" stroke="#141008" stroke-width="4" stroke-linecap="round"/>
+  <!-- Coat — still elegant, perhaps a slight wrinkle now -->
+  <polygon points="178,157 222,157 228,198 172,198" fill="#181208" stroke="#281808" stroke-width="1"/>
+  <!-- Gold trim — intact, he maintains dignity -->
+  <g stroke="#907020" stroke-width="1.2" opacity="0.5">
+    <path d="M179,164 Q200,168 221,164"/>
+    <path d="M178,174 Q200,178 222,174"/>
+  </g>
+  <!-- Hat — still on, still composed -->
+  <ellipse cx="200" cy="142" rx="20" ry="4" fill="#0e0c04" stroke="#181208" stroke-width="1"/>
+  <ellipse cx="200" cy="139" rx="13" ry="10" fill="#121006" stroke="#181408" stroke-width="0.8"/>
+  <ellipse cx="200" cy="142" rx="14" ry="3" fill="none" stroke="#807018" stroke-width="1.2" opacity="0.5"/>
+  <!-- Face — composed, recalculating -->
+  <ellipse cx="200" cy="149" rx="11" ry="10" fill="#141008" stroke="#201408" stroke-width="1"/>
+  <!-- Eyes — neutral, calculating -->
+  <line x1="193" y1="149" x2="198" y2="148" stroke="#705030" stroke-width="1.5" opacity="0.6"/>
+  <line x1="202" y1="148" x2="207" y2="149" stroke="#705030" stroke-width="1.5" opacity="0.6"/>
+  <!-- Slight thinning of mouth — accepting -->
+  <line x1="194" y1="155" x2="206" y2="155" stroke="#201808" stroke-width="1"/>
+  <!-- Moustache -->
+  <path d="M195,153 Q200,154 205,153" stroke="#402808" stroke-width="1.2" fill="none"/>
+  <!-- Arms — both at sides, cane still in right hand but at rest -->
+  <line x1="178" y1="170" x2="162" y2="184" stroke="#141008" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="155,180 165,178 167,190 157,192" fill="#161008" stroke="#221408" stroke-width="0.8"/>
+  <line x1="222" y1="168" x2="240" y2="182" stroke="#141008" stroke-width="4" stroke-linecap="round"/>
+  <line x1="240" y1="182" x2="244" y2="210" stroke="#281808" stroke-width="2.5"/>
+  <circle cx="238" cy="179" r="6" fill="#100c04" stroke="#907020" stroke-width="1.2" opacity="0.6"/>
+
+  <!-- Market stall silhouettes dimmed — night falling -->
+  <g fill="#0e0a04" opacity="0.8">
+    <rect x="60"  y="172" width="50" height="28"/>
+    <rect x="290" y="172" width="50" height="28"/>
+  </g>
+
+  <!-- Distant spire — still lit but lower glow -->
+  <line x1="340" y1="190" x2="340" y2="142" stroke="#181008" stroke-width="3" opacity="0.6"/>
+  <g fill="#905818" opacity="0.3">
+    <rect x="336" y="150" width="5" height="5" rx="0.5"/>
+    <rect x="336" y="162" width="5" height="5" rx="0.5"/>
+    <rect x="336" y="174" width="5" height="5" rx="0.5"/>
+  </g>
+
+  <!-- Stars — desert night -->
+  <g fill="#d0a040" opacity="0.35">
+    <circle cx="50"  cy="20" r="1"/>
+    <circle cx="130" cy="12" r="1.2"/>
+    <circle cx="250" cy="16" r="1"/>
+    <circle cx="370" cy="22" r="1.2"/>
+    <circle cx="200" cy="8"  r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a2008" text-anchor="middle" letter-spacing="3">THE DUNE BARON SETTLES</text>
+</svg>

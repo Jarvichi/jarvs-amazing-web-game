@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0e0804"/>
+
+  <linearGradient id="baron-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#100e06"/>
+    <stop offset="100%" stop-color="#1e1408"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#baron-sky)"/>
+
+  <!-- Warm desert atmosphere -->
+  <radialGradient id="baron-warm" cx="50%" cy="40%" r="50%">
+    <stop offset="0%" stop-color="#583010" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#583010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#baron-warm)"/>
+
+  <!-- Market floor — tiled, desert stone -->
+  <polygon points="80,195 320,188 330,210 70,212" fill="#120c04" stroke="#1c1206" stroke-width="1.5"/>
+  <polygon points="80,195 320,188 322,193 80,202" fill="#181006" stroke="#221408" stroke-width="1"/>
+  <!-- Tile cracks — old stone -->
+  <g stroke="#1c1006" stroke-width="0.6" fill="none" opacity="0.4">
+    <line x1="100" y1="195" x2="100" y2="210"/>
+    <line x1="150" y1="193" x2="152" y2="208"/>
+    <line x1="250" y1="192" x2="248" y2="207"/>
+    <line x1="300" y1="195" x2="300" y2="210"/>
+  </g>
+
+  <!-- Shadow -->
+  <ellipse cx="200" cy="206" rx="45" ry="8" fill="#080402" opacity="0.8"/>
+
+  <!-- THE DUNE BARON — well-dressed, merchant/magnate, hat, walking cane, elaborate coat -->
+  <!-- Boots — polished, ornate -->
+  <ellipse cx="189" cy="210" rx="8" ry="3.5" fill="#100c04"/>
+  <ellipse cx="213" cy="209" rx="8" ry="3.5" fill="#100c04"/>
+  <!-- Legs — tailored trousers -->
+  <line x1="191" y1="196" x2="189" y2="210" stroke="#141008" stroke-width="4" stroke-linecap="round"/>
+  <line x1="207" y1="195" x2="213" y2="209" stroke="#141008" stroke-width="4" stroke-linecap="round"/>
+  <!-- Long merchant coat — ornate, gold trim -->
+  <polygon points="177,155 223,155 230,196 170,196" fill="#181208" stroke="#281808" stroke-width="1"/>
+  <!-- Gold trim on coat -->
+  <g stroke="#a07020" stroke-width="1.5" opacity="0.6">
+    <path d="M178,162 Q200,166 222,162"/>
+    <path d="M177,172 Q200,176 223,172"/>
+    <path d="M176,182 Q200,186 224,182"/>
+  </g>
+  <!-- Coat buttons — gold -->
+  <g fill="#c08828" opacity="0.7">
+    <circle cx="200" cy="163" r="2"/>
+    <circle cx="200" cy="170" r="2"/>
+    <circle cx="200" cy="177" r="2"/>
+    <circle cx="200" cy="184" r="2"/>
+  </g>
+  <!-- Wide-brimmed merchant hat -->
+  <ellipse cx="200" cy="140" rx="20" ry="4" fill="#0e0c04" stroke="#181208" stroke-width="1"/>
+  <ellipse cx="200" cy="137" rx="13" ry="10" fill="#121006" stroke="#181408" stroke-width="0.8"/>
+  <!-- Hat band — gold -->
+  <ellipse cx="200" cy="140" rx="14" ry="3" fill="none" stroke="#a07020" stroke-width="1.5" opacity="0.6"/>
+  <!-- Face — composed, calculating -->
+  <ellipse cx="200" cy="147" rx="11" ry="10" fill="#141008" stroke="#201408" stroke-width="1"/>
+  <!-- Eyes — sharp, assessing value -->
+  <line x1="193" y1="147" x2="198" y2="146" stroke="#806040" stroke-width="1.5" opacity="0.7"/>
+  <line x1="202" y1="146" x2="207" y2="147" stroke="#806040" stroke-width="1.5" opacity="0.7"/>
+  <!-- Slight smirk -->
+  <path d="M194,153 Q200,156 206,153" stroke="#201808" stroke-width="1" fill="none"/>
+  <!-- Thin moustache -->
+  <path d="M195,151 Q200,152 205,151" stroke="#402808" stroke-width="1.2" fill="none"/>
+
+  <!-- Left arm — gesture of presentation, open palm -->
+  <line x1="177" y1="168" x2="155" y2="178" stroke="#141008" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="148,174 158,172 160,184 150,186" fill="#161008" stroke="#221408" stroke-width="0.8"/>
+
+  <!-- Right arm — leaning on ornate walking cane -->
+  <line x1="223" y1="165" x2="240" y2="178" stroke="#141008" stroke-width="4" stroke-linecap="round"/>
+  <!-- Cane shaft -->
+  <line x1="240" y1="178" x2="245" y2="210" stroke="#281808" stroke-width="2.5"/>
+  <!-- Cane handle — ornate gold knob -->
+  <circle cx="238" cy="175" r="7" fill="#100c04" stroke="#907020" stroke-width="1.5"/>
+  <circle cx="238" cy="175" r="3" fill="#a07828" opacity="0.7"/>
+
+  <!-- Market goods/wares in background — amphora, crates silhouettes -->
+  <g fill="#100c04" stroke="#1c1208" stroke-width="0.8" opacity="0.7">
+    <ellipse cx="120" cy="198" rx="14" ry="8"/>
+    <rect x="112" y="190" width="16" height="10" rx="1"/>
+    <ellipse cx="280" cy="197" rx="12" ry="7"/>
+    <rect x="272" y="189" width="14" height="10" rx="1"/>
+    <rect x="145" y="190" width="20" height="12" rx="1"/>
+    <rect x="235" y="191" width="18" height="11" rx="1"/>
+  </g>
+
+  <!-- Desert stars above the market roof -->
+  <g fill="#d0a040" opacity="0.3">
+    <circle cx="50"  cy="22" r="1"/>
+    <circle cx="130" cy="15" r="1.2"/>
+    <circle cx="300" cy="18" r="1"/>
+    <circle cx="370" cy="25" r="1.2"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a2008" text-anchor="middle" letter-spacing="3">THE DUNE BARON</text>
+</svg>

@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0e0804"/>
+  <linearGradient id="comp-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#100e06"/>
+    <stop offset="50%" stop-color="#161006"/>
+    <stop offset="100%" stop-color="#1c1408"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#comp-sky)"/>
+
+  <!-- Golden glow — the Compass radiates warm light -->
+  <radialGradient id="comp-glow" cx="50%" cy="40%" r="45%">
+    <stop offset="0%" stop-color="#a07020" stop-opacity="0.5"/>
+    <stop offset="60%" stop-color="#806010" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#806010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#comp-glow)"/>
+
+  <!-- THE GOLDEN COMPASS — the Baron's personal navigation relic -->
+  <!-- Outer case glow ring -->
+  <circle cx="200" cy="92" r="50" fill="none" stroke="#a07020" stroke-width="0.8" opacity="0.3"/>
+  <circle cx="200" cy="92" r="46" fill="none" stroke="#c09030" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Compass outer ring — ornate gold casing -->
+  <circle cx="200" cy="92" r="40" fill="#0e0c04" stroke="#907020" stroke-width="2"/>
+  <!-- Compass bezel markings — cardinal points -->
+  <g fill="#c09030" opacity="0.7">
+    <!-- N -->
+    <polygon points="200,56 203,64 200,62 197,64"/>
+    <!-- S -->
+    <polygon points="200,128 203,120 200,122 197,120"/>
+    <!-- E -->
+    <polygon points="236,92 228,89 230,92 228,95"/>
+    <!-- W -->
+    <polygon points="164,92 172,89 170,92 172,95"/>
+  </g>
+  <!-- Bezel tick marks -->
+  <g stroke="#806018" stroke-width="0.8" opacity="0.5">
+    <line x1="200" y1="54" x2="200" y2="59"/>
+    <line x1="228" y1="64" x2="225" y2="68"/>
+    <line x1="238" y1="92" x2="233" y2="92"/>
+    <line x1="228" y1="120" x2="225" y2="116"/>
+    <line x1="200" y1="130" x2="200" y2="125"/>
+    <line x1="172" y1="120" x2="175" y2="116"/>
+    <line x1="162" y1="92" x2="167" y2="92"/>
+    <line x1="172" y1="64" x2="175" y2="68"/>
+  </g>
+
+  <!-- Compass rose — inner mechanism -->
+  <circle cx="200" cy="92" r="30" fill="#0c0a02" stroke="#706010" stroke-width="1"/>
+  <!-- Rose radial lines -->
+  <g stroke="#504010" stroke-width="0.8" fill="none" opacity="0.6">
+    <line x1="200" y1="62" x2="200" y2="122"/>
+    <line x1="170" y1="92" x2="230" y2="92"/>
+    <line x1="179" y1="71" x2="221" y2="113"/>
+    <line x1="221" y1="71" x2="179" y2="113"/>
+  </g>
+  <!-- Inner compass disc — gold gradient -->
+  <radialGradient id="comp-inner" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#c09030" stop-opacity="0.4"/>
+    <stop offset="60%" stop-color="#907020" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#907020" stop-opacity="0"/>
+  </radialGradient>
+  <circle cx="200" cy="92" r="28" fill="url(#comp-inner)"/>
+  <!-- Compass needle — gold, pointing to ley convergence -->
+  <polygon points="200,66 203,92 200,118 197,92" fill="#c09030" opacity="0.8"/>
+  <polygon points="200,66 203,92 200,78 197,92" fill="#e0b040" opacity="0.9"/>
+  <!-- Needle pivot -->
+  <circle cx="200" cy="92" r="4" fill="#0e0c04" stroke="#c09030" stroke-width="1.5"/>
+  <circle cx="200" cy="92" r="2" fill="#e0b040" opacity="0.7"/>
+
+  <!-- Engraving on outer ring — Baron's mark -->
+  <circle cx="200" cy="92" r="36" fill="none" stroke="#706010" stroke-width="0.6" stroke-dasharray="3,4" opacity="0.4"/>
+
+  <!-- Jarv below — small, holding compass in outstretched palm -->
+  <ellipse cx="200" cy="222" rx="20" ry="4" fill="#030201" opacity="0.7"/>
+  <ellipse cx="194" cy="224" rx="4.5" ry="2" fill="#08090e"/>
+  <ellipse cx="206" cy="224" rx="4.5" ry="2" fill="#08090e"/>
+  <line x1="196" y1="215" x2="194" y2="224" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="204" y1="215" x2="206" y2="224" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Coral Mantle -->
+  <polygon points="184,184 216,184 220,214 180,214" fill="#0a1e20" stroke="#1a4040" stroke-width="1.5"/>
+  <g fill="#00c090" opacity="0.4">
+    <circle cx="180" cy="184" r="1.5"/>
+    <circle cx="220" cy="184" r="1.5"/>
+  </g>
+  <!-- One arm extended upward, palm open holding compass -->
+  <line x1="184" y1="191" x2="168" y2="172" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="216" y1="191" x2="232" y2="172" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <polygon points="162,167 172,166 174,177 164,178" fill="#0d0e1a" stroke="#181830" stroke-width="0.8"/>
+  <polygon points="228,167 238,166 240,177 230,178" fill="#0d0e1a" stroke="#181830" stroke-width="0.8"/>
+  <!-- Head -->
+  <ellipse cx="200" cy="175" rx="9" ry="8" fill="#0c0c1a" stroke="#181830" stroke-width="1"/>
+  <ellipse cx="200" cy="178" rx="5" ry="3" fill="#080810"/>
+
+  <!-- Golden light on Jarv's hands from the Compass -->
+  <g fill="#c08820" opacity="0.2">
+    <ellipse cx="165" cy="174" rx="8" ry="5"/>
+    <ellipse cx="235" cy="174" rx="8" ry="5"/>
+  </g>
+
+  <!-- Desert sand and stars -->
+  <rect x="0" y="228" width="400" height="12" fill="#120e04"/>
+  <g fill="#d0a040" opacity="0.3">
+    <circle cx="50"  cy="18" r="1"/>
+    <circle cx="150" cy="10" r="1.2"/>
+    <circle cx="260" cy="15" r="1"/>
+    <circle cx="360" cy="22" r="1.2"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="238" font-family="monospace" font-size="9" fill="#3a2008" text-anchor="middle" letter-spacing="3">THE GOLDEN COMPASS</text>
+</svg>
