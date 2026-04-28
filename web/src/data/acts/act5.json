@@ -42,29 +42,35 @@
   "intro": [
     {
       "title": "THE SUNKEN REEF",
-      "text": "The shard hangs half-submerged — a lattice of coral, sunken ships, and old magic squeezed between two impossible tides.\n\nSomething large lives at its centre. Something old. The traders who escaped this shard don't talk about what they saw, but they all flinch at the same sounds: deep water, and bells."
+      "text": "The shard hangs half-submerged — a lattice of coral, sunken ships, and old magic squeezed between two impossible tides.\n\nSomething large lives at its centre. Something old. The traders who escaped this shard don't talk about what they saw, but they all flinch at the same sounds: deep water, and bells.",
+      "image": "cutscenes/act5-intro-1.svg"
     },
     {
       "title": "THE TIDAL SOVEREIGN",
-      "text": "The Reef's guardian calls itself the Tidal Sovereign — a being of compressed sea-memory and slow, grinding patience.\n\nIt does not distinguish between invaders and travellers. The ocean, it once said, does not distinguish between ships it sinks and ships it simply forgets about.\n\nYou have decided not to be forgotten."
+      "text": "The Reef's guardian calls itself the Tidal Sovereign — a being of compressed sea-memory and slow, grinding patience.\n\nIt does not distinguish between invaders and travellers. The ocean, it once said, does not distinguish between ships it sinks and ships it simply forgets about.\n\nYou have decided not to be forgotten.",
+      "image": "cutscenes/act5-intro-2.svg"
     },
     {
       "title": "THE PASSAGE",
-      "text": "The ley lines that thread through the Sunken Reef are old — older than the Fracture, older than the Dominion. They connect, somewhere in the deep, to the Fractured Core.\n\nIf you can break through the Sovereign's grip on the pathways, you might finally understand what the Fracture Event actually was.\n\nIf. The word is doing significant structural work in that sentence."
+      "text": "The ley lines that thread through the Sunken Reef are old — older than the Fracture, older than the Dominion. They connect, somewhere in the deep, to the Fractured Core.\n\nIf you can break through the Sovereign's grip on the pathways, you might finally understand what the Fracture Event actually was.\n\nIf. The word is doing significant structural work in that sentence.",
+      "image": "cutscenes/act5-intro-3.svg"
     }
   ],
   "outro": [
     {
       "title": "THE SOVEREIGN FALLS",
-      "text": "The Tidal Sovereign does not collapse. It recedes — like a wave pulling back from shore, leaving behind silence and the smell of deep ocean.\n\nThe coral pathways glow. Sealed ley lines crack open. The Reef's memory of the Fracture is vivid and specific and terrifying, and you carry it with you as you leave."
+      "text": "The Tidal Sovereign does not collapse. It recedes — like a wave pulling back from shore, leaving behind silence and the smell of deep ocean.\n\nThe coral pathways glow. Sealed ley lines crack open. The Reef's memory of the Fracture is vivid and specific and terrifying, and you carry it with you as you leave.",
+      "image": "cutscenes/act5-outro-1.svg"
     },
     {
       "title": "WHAT YOU LEARNED",
-      "text": "The Fracture Event wasn't an accident.\n\nSomeone caused it deliberately. The Sovereign remembered the moment, the direction, the specific signature of the magic. A weapon that destroyed an empire by tearing the world apart at its seams.\n\nYou don't have a name yet. You have a direction."
+      "text": "The Fracture Event wasn't an accident.\n\nSomeone caused it deliberately. The Sovereign remembered the moment, the direction, the specific signature of the magic. A weapon that destroyed an empire by tearing the world apart at its seams.\n\nYou don't have a name yet. You have a direction.",
+      "image": "cutscenes/act5-outro-2.svg"
     },
     {
       "title": "ONWARD",
-      "text": "The Coral Mantle settles around you — a gift from the Reef, or a remnant of the Sovereign's dissolved form. Either way it fits.\n\nAhead: the Sky Dominion, where the aerial shards drift above clouds no map has ever charted. The ley lines point upward.\n\nYou have always been bad at taking hints."
+      "text": "The Coral Mantle settles around you — a gift from the Reef, or a remnant of the Sovereign's dissolved form. Either way it fits.\n\nAhead: the Sky Dominion, where the aerial shards drift above clouds no map has ever charted. The ley lines point upward.\n\nYou have always been bad at taking hints.",
+      "image": "cutscenes/act5-outro-3.svg"
     }
   ],
   "nodes": {
