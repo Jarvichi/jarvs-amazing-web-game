@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#030810"/>
+
+  <linearGradient id="frost-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040c18"/>
+    <stop offset="50%" stop-color="#081420"/>
+    <stop offset="100%" stop-color="#0c1c2c"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#frost-sky)"/>
+
+  <!-- Cold pale glow — the Frost Mantle radiates a chill light -->
+  <radialGradient id="frost-glow" cx="50%" cy="40%" r="45%">
+    <stop offset="0%" stop-color="#1c3858" stop-opacity="0.5"/>
+    <stop offset="60%" stop-color="#102438" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#102438" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#frost-glow)"/>
+
+  <!-- THE FROST MANTLE — the Engine's outer casing, now a relic -->
+  <!-- Dense, cold, angular — machine-origin but with its own presence -->
+  <!-- Outer glow ring — extreme cold radiating outward -->
+  <radialGradient id="mantle-cold" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#1840a0" stop-opacity="0.35"/>
+    <stop offset="50%" stop-color="#1030a0" stop-opacity="0.1"/>
+    <stop offset="100%" stop-color="#1030a0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="95" rx="70" ry="58" fill="url(#mantle-cold)"/>
+
+  <!-- Ice crystal halo forming around the Mantle -->
+  <g fill="none" stroke="#1840a0" stroke-width="0.8" opacity="0.35">
+    <line x1="200" y1="42" x2="200" y2="28"/>
+    <line x1="200" y1="42" x2="192" y2="32"/>
+    <line x1="200" y1="42" x2="208" y2="32"/>
+    <line x1="248" y1="68" x2="260" y2="60"/>
+    <line x1="248" y1="68" x2="256" y2="75"/>
+    <line x1="248" y1="68" x2="242" y2="60"/>
+    <line x1="152" y1="68" x2="140" y2="60"/>
+    <line x1="152" y1="68" x2="144" y2="75"/>
+    <line x1="152" y1="68" x2="158" y2="60"/>
+    <line x1="248" y1="122" x2="260" y2="130"/>
+    <line x1="152" y1="122" x2="140" y2="130"/>
+    <line x1="200" y1="148" x2="200" y2="162"/>
+    <line x1="200" y1="148" x2="192" y2="158"/>
+    <line x1="200" y1="148" x2="208" y2="158"/>
+  </g>
+
+  <!-- Frost Mantle body — hexagonal plate from the Engine's casing -->
+  <polygon points="200,45 236,65 236,125 200,145 164,125 164,65" fill="#0a1428" stroke="#203858" stroke-width="2"/>
+  <!-- Machine surface texture — grid of cold metal panels -->
+  <g stroke="#142030" stroke-width="0.8" fill="none" opacity="0.7">
+    <line x1="164" y1="75"  x2="236" y2="75"/>
+    <line x1="164" y1="95"  x2="236" y2="95"/>
+    <line x1="164" y1="115" x2="236" y2="115"/>
+    <line x1="177" y1="65"  x2="177" y2="135"/>
+    <line x1="191" y1="52"  x2="191" y2="143"/>
+    <line x1="200" y1="45"  x2="200" y2="145"/>
+    <line x1="209" y1="52"  x2="209" y2="143"/>
+    <line x1="223" y1="65"  x2="223" y2="135"/>
+  </g>
+  <!-- Vent openings — holes in the casing, no longer active -->
+  <g fill="#06101e" stroke="#102030" stroke-width="0.5">
+    <rect x="178" y="68"  width="12" height="8"  rx="1"/>
+    <rect x="210" y="68"  width="12" height="8"  rx="1"/>
+    <rect x="178" y="98"  width="12" height="8"  rx="1"/>
+    <rect x="210" y="98"  width="12" height="8"  rx="1"/>
+    <rect x="178" y="118" width="12" height="8"  rx="1"/>
+    <rect x="210" y="118" width="12" height="8"  rx="1"/>
+  </g>
+  <!-- Frost crystallising in the vents — it's already freezing over -->
+  <g fill="#1840a0" opacity="0.2">
+    <rect x="178" y="68"  width="12" height="8"  rx="1"/>
+    <rect x="210" y="98"  width="12" height="8"  rx="1"/>
+    <rect x="178" y="118" width="12" height="8"  rx="1"/>
+  </g>
+  <!-- Central status indicator — last blue pulse, almost gone -->
+  <circle cx="200" cy="95" r="10" fill="#080e20" stroke="#1840a0" stroke-width="1" opacity="0.7"/>
+  <circle cx="200" cy="95" r="5"  fill="#1030a0" opacity="0.4"/>
+  <circle cx="200" cy="95" r="2"  fill="#4070e0" opacity="0.3"/>
+
+  <!-- JARV — below, small, standard set aside, both arms cradling the Mantle -->
+  <ellipse cx="200" cy="220" rx="22" ry="4" fill="#030608" opacity="0.6"/>
+  <ellipse cx="193" cy="222" rx="5"  ry="2" fill="#08090e"/>
+  <ellipse cx="207" cy="222" rx="5"  ry="2" fill="#08090e"/>
+  <line x1="195" y1="213" x2="193" y2="222" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <line x1="205" y1="213" x2="207" y2="222" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <!-- Coral Mantle -->
+  <polygon points="183,182 217,182 221,212 179,212" fill="#0a1e20" stroke="#1a4040" stroke-width="1.5"/>
+  <g fill="#00c090" opacity="0.4">
+    <circle cx="179" cy="182" r="1.5"/>
+    <circle cx="221" cy="182" r="1.5"/>
+  </g>
+  <!-- Arms raised — receiving -->
+  <line x1="183" y1="190" x2="165" y2="168" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <line x1="217" y1="190" x2="235" y2="168" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="159,163 169,162 171,173 161,174" fill="#0d0e1a" stroke="#181830" stroke-width="0.8"/>
+  <polygon points="231,163 241,162 243,173 233,174" fill="#0d0e1a" stroke="#181830" stroke-width="0.8"/>
+  <!-- Head -->
+  <ellipse cx="200" cy="173" rx="10" ry="9" fill="#0c0c1a" stroke="#181830" stroke-width="1"/>
+  <ellipse cx="200" cy="176" rx="5" ry="3.5" fill="#080810"/>
+
+  <!-- Transfer — cold radiating downward to hands -->
+  <g stroke="#1838a0" stroke-width="0.8" fill="none" opacity="0.3">
+    <path d="M164,125 Q162,145 162,168"/>
+    <path d="M236,125 Q238,145 238,168"/>
+  </g>
+
+  <!-- Ice floor -->
+  <rect x="0" y="225" width="400" height="15" fill="#060e18"/>
+  <!-- Ley line through floor — orange -->
+  <rect x="0" y="227" width="400" height="2" fill="#e05010" opacity="0.3"/>
+
+  <!-- Stars — cold and clear -->
+  <g fill="#a0c0e0" opacity="0.45">
+    <circle cx="40"  cy="18" r="1.5"/>
+    <circle cx="110" cy="10" r="1"/>
+    <circle cx="290" cy="12" r="1.5"/>
+    <circle cx="365" cy="20" r="1"/>
+    <circle cx="170" cy="30" r="1"/>
+    <circle cx="340" cy="35" r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="238" font-family="monospace" font-size="9" fill="#1a3050" text-anchor="middle" letter-spacing="3">THE FROST MANTLE</text>
+</svg>

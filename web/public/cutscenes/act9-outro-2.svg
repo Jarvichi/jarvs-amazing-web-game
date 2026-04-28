@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#030810"/>
+
+  <linearGradient id="proc-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040c18"/>
+    <stop offset="100%" stop-color="#081420"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#proc-sky)"/>
+
+  <!-- Minimal glow — the Engine's last output, a data transmission -->
+  <radialGradient id="data-glow" cx="40%" cy="50%" r="40%">
+    <stop offset="0%" stop-color="#102848" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="#102848" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#data-glow)"/>
+
+  <!-- Ice floor -->
+  <rect x="0" y="198" width="400" height="42" fill="#060e18"/>
+  <line x1="0" y1="198" x2="400" y2="198" stroke="#0e2030" stroke-width="1"/>
+  <rect x="0" y="201" width="400" height="2" fill="#e05010" opacity="0.3"/>
+
+  <!-- THE PALE ENGINE — left side, standing still, one antenna pulsing faintly -->
+  <!-- Smaller rendering — more space for Jarv -->
+  <rect x="58" y="182" width="84" height="16" rx="2" fill="#0e1a28" stroke="#182838" stroke-width="1"/>
+  <rect x="70" y="132" width="60" height="52" fill="#0c1824" stroke="#182838" stroke-width="1.5"/>
+  <line x1="70"  y1="152" x2="130" y2="152" stroke="#182838" stroke-width="0.8"/>
+  <line x1="70"  y1="168" x2="130" y2="168" stroke="#182838" stroke-width="0.8"/>
+  <!-- Vents dark -->
+  <g fill="#060e18" stroke="#101820" stroke-width="0.5">
+    <rect x="76"  y="137" width="14" height="8" rx="1"/>
+    <rect x="110" y="137" width="14" height="8" rx="1"/>
+    <rect x="76"  y="157" width="14" height="8" rx="1"/>
+    <rect x="110" y="157" width="14" height="8" rx="1"/>
+  </g>
+  <rect x="75" y="94" width="50" height="40" fill="#0e1c2c" stroke="#182838" stroke-width="1"/>
+  <!-- Eyes — both dark, halted -->
+  <rect x="80"  y="99" width="12" height="9" rx="1" fill="#060e18" stroke="#101820" stroke-width="0.5"/>
+  <rect x="108" y="99" width="12" height="9" rx="1" fill="#060e18" stroke="#101820" stroke-width="0.5"/>
+  <!-- Antennae — one with a last pulse of blue data light -->
+  <line x1="88"  y1="94" x2="86"  y2="70" stroke="#182030" stroke-width="1.5"/>
+  <line x1="95"  y1="94" x2="95"  y2="64" stroke="#182030" stroke-width="2"/>
+  <line x1="105" y1="94" x2="105" y2="64" stroke="#182030" stroke-width="2"/>
+  <line x1="112" y1="94" x2="114" y2="70" stroke="#182030" stroke-width="1.5"/>
+  <circle cx="95"  cy="63" r="2" fill="#2050a0" opacity="0.5"/>
+  <circle cx="105" cy="63" r="2" fill="#2050a0" opacity="0.3"/>
+  <!-- Data stream — packets flowing out of the transmitting antenna -->
+  <g fill="#3060c0" opacity="0.4">
+    <circle cx="95" cy="55" r="1.5"/>
+    <circle cx="95" cy="48" r="1.2"/>
+    <circle cx="95" cy="41" r="1"/>
+    <circle cx="95" cy="35" r="0.8"/>
+  </g>
+  <!-- Arms hanging still -->
+  <line x1="70"  y1="148" x2="50"  y2="162" stroke="#0e1824" stroke-width="5" stroke-linecap="round"/>
+  <line x1="130" y1="148" x2="150" y2="162" stroke="#0e1824" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- DATA TRANSMISSION — geometric patterns floating in air, its "last words" -->
+  <!-- Binary-like pattern drifting from the Engine toward centre -->
+  <g fill="#2050a0" opacity="0.3">
+    <rect x="155" y="85"  width="4" height="4" rx="0.5"/>
+    <rect x="163" y="85"  width="4" height="4" rx="0.5"/>
+    <rect x="155" y="93"  width="4" height="4" rx="0.5"/>
+    <rect x="171" y="93"  width="4" height="4" rx="0.5"/>
+    <rect x="163" y="101" width="4" height="4" rx="0.5"/>
+    <rect x="171" y="85"  width="4" height="4" rx="0.5"/>
+  </g>
+  <g fill="#1840a0" opacity="0.2">
+    <rect x="182" y="80"  width="3" height="3" rx="0.5"/>
+    <rect x="188" y="86"  width="3" height="3" rx="0.5"/>
+    <rect x="182" y="92"  width="3" height="3" rx="0.5"/>
+    <rect x="194" y="80"  width="3" height="3" rx="0.5"/>
+    <rect x="194" y="92"  width="3" height="3" rx="0.5"/>
+  </g>
+
+  <!-- JARV — right side, standing, facing the Engine -->
+  <ellipse cx="290" cy="206" rx="22" ry="4" fill="#030608" opacity="0.7"/>
+  <ellipse cx="283" cy="208" rx="5" ry="2" fill="#08090e"/>
+  <ellipse cx="296" cy="208" rx="5" ry="2" fill="#08090e"/>
+  <line x1="285" y1="200" x2="283" y2="208" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <line x1="293" y1="199" x2="296" y2="208" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <!-- Coral Mantle -->
+  <polygon points="272,175 308,175 312,200 268,200" fill="#0a1e20" stroke="#1a4040" stroke-width="1.5"/>
+  <g fill="#00c090" opacity="0.45">
+    <circle cx="268" cy="175" r="1.5"/>
+    <circle cx="312" cy="175" r="1.5"/>
+  </g>
+  <!-- Stormcaller Badge on chest — small hex -->
+  <polygon points="290,183 294,186 294,192 290,195 286,192 286,186" fill="#080e20" stroke="#2848a0" stroke-width="0.6"/>
+  <line x1="290" y1="185" x2="290" y2="193" stroke="#4060c0" stroke-width="0.6" opacity="0.5"/>
+  <!-- Head — tilted toward the Engine's data stream -->
+  <ellipse cx="288" cy="166" rx="10" ry="9" fill="#0c0c1a" stroke="#181830" stroke-width="1"/>
+  <ellipse cx="286" cy="169" rx="5.5" ry="3.5" fill="#080810"/>
+  <!-- Iron Standard — planted beside -->
+  <line x1="314" y1="175" x2="332" y2="212" stroke="#2a3040" stroke-width="2.5"/>
+  <polygon points="312,175 316,175 314,166" fill="#404860" opacity="0.7"/>
+
+  <!-- Ice crystals — growing in the cold quiet -->
+  <g fill="#0a1828" stroke="#142238" stroke-width="0.7" opacity="0.7">
+    <polygon points="50,196  54,182  58,196"/>
+    <polygon points="340,196 344,183 348,196"/>
+    <polygon points="38,200  42,188  46,200"/>
+    <polygon points="352,200 356,188 360,200"/>
+  </g>
+
+  <!-- Stars -->
+  <g fill="#a0c0e0" opacity="0.35">
+    <circle cx="60"  cy="18" r="1"/>
+    <circle cx="200" cy="12" r="1.2"/>
+    <circle cx="350" cy="20" r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1a3050" text-anchor="middle" letter-spacing="3">WHAT IT PROCESSED</text>
+</svg>
