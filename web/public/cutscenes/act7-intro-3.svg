@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#060301"/>
+
+  <linearGradient id="deep-rock" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#080402"/>
+    <stop offset="50%" stop-color="#0e0602"/>
+    <stop offset="100%" stop-color="#160802"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#deep-rock)"/>
+
+  <!-- Cave ceiling — jagged rock -->
+  <polygon points="0,0 400,0 400,55 370,45 340,60 300,38 260,58 220,35 180,52 140,32 100,55 60,38 20,52 0,40" fill="#0a0502"/>
+
+  <!-- Rock wall textures -->
+  <g fill="#0e0602" opacity="0.6">
+    <polygon points="0,0 0,120 15,100 10,80 20,60 8,40 15,20 0,10"/>
+    <polygon points="400,0 400,120 385,105 390,85 380,65 392,45 385,25 400,10"/>
+  </g>
+
+  <!-- THE LEY LINES — blazing orange-red seams through the rock -->
+  <!-- Primary central ley channel — horizontal, widest -->
+  <linearGradient id="ley-h-c" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#c03000" stop-opacity="0.4"/>
+    <stop offset="30%" stop-color="#ff5000" stop-opacity="0.9"/>
+    <stop offset="50%" stop-color="#ff8000" stop-opacity="1"/>
+    <stop offset="70%" stop-color="#ff5000" stop-opacity="0.9"/>
+    <stop offset="100%" stop-color="#c03000" stop-opacity="0.4"/>
+  </linearGradient>
+  <rect x="0" y="110" width="400" height="6" fill="url(#ley-h-c)"/>
+  <!-- Core glow -->
+  <rect x="0" y="111" width="400" height="4" fill="#ffb040" opacity="0.7"/>
+
+  <!-- Secondary ley channels — diagonal across rock -->
+  <line x1="0" y1="80"  x2="400" y2="155" stroke="#d04010" stroke-width="3" opacity="0.5"/>
+  <line x1="0" y1="80"  x2="400" y2="155" stroke="#ff7020" stroke-width="1" opacity="0.6"/>
+  <line x1="0" y1="165" x2="400" y2="90"  stroke="#c83010" stroke-width="2.5" opacity="0.4"/>
+  <line x1="0" y1="165" x2="400" y2="90"  stroke="#ff6018" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- Vertical ley seams erupting up from below -->
+  <linearGradient id="ley-v1" x1="0" y1="1" x2="0" y2="0">
+    <stop offset="0%" stop-color="#ff5000" stop-opacity="0.8"/>
+    <stop offset="100%" stop-color="#ff5000" stop-opacity="0"/>
+  </linearGradient>
+  <rect x="98" y="60" width="4" height="180" fill="url(#ley-v1)"/>
+  <rect x="99" y="60" width="2" height="180" fill="#ffb040" opacity="0.5"/>
+
+  <rect x="198" y="40" width="4" height="200" fill="url(#ley-v1)"/>
+  <rect x="199" y="40" width="2" height="200" fill="#ffb040" opacity="0.6"/>
+
+  <rect x="298" y="60" width="4" height="180" fill="url(#ley-v1)"/>
+  <rect x="299" y="60" width="2" height="180" fill="#ffb040" opacity="0.5"/>
+
+  <!-- Ley glow halos -->
+  <radialGradient id="ley-halo-c" cx="50%" cy="50%" r="50%" gradientUnits="userSpaceOnUse" cx="200" cy="113" r="80">
+    <stop offset="0%" stop-color="#c03000" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#c03000" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="0" y="70" width="400" height="90" fill="url(#ley-halo-c)"/>
+
+  <!-- Magma pools at bottom — visible through floor cracks -->
+  <g fill="#180602" opacity="0.9">
+    <rect x="0" y="195" width="400" height="45"/>
+  </g>
+  <!-- Floor cracks revealing magma -->
+  <g stroke="#e04000" stroke-width="2" fill="none" opacity="0.7">
+    <path d="M40,195 Q50,205 55,195"/>
+    <path d="M120,198 Q130,210 140,198 Q150,205 160,198"/>
+    <path d="M230,196 Q240,208 248,196"/>
+    <path d="M310,197 Q320,207 330,197"/>
+  </g>
+  <!-- Magma glow through cracks -->
+  <g fill="#c03000" opacity="0.4">
+    <ellipse cx="48"  cy="200" rx="8"  ry="3"/>
+    <ellipse cx="135" cy="202" rx="12" ry="4"/>
+    <ellipse cx="239" cy="201" rx="9"  ry="3"/>
+    <ellipse cx="320" cy="202" rx="10" ry="3"/>
+  </g>
+
+  <!-- Heat rising — wavering upward distortion indicated by light lines -->
+  <g stroke="#ff4000" stroke-width="0.6" fill="none" opacity="0.2">
+    <path d="M100,195 Q98,180 101,165 Q103,150 100,135"/>
+    <path d="M200,195 Q198,175 201,160 Q203,145 200,130"/>
+    <path d="M300,195 Q298,180 301,165 Q303,148 300,133"/>
+  </g>
+
+  <!-- Rock stalactites at top lit from below -->
+  <g fill="#120804" stroke="#1c0c04" stroke-width="0.5">
+    <polygon points="30,55  38,55  34,75"/>
+    <polygon points="80,45  90,45  85,68"/>
+    <polygon points="150,38 162,38 156,64"/>
+    <polygon points="238,35 248,35 243,62"/>
+    <polygon points="310,42 320,42 315,66"/>
+    <polygon points="368,48 378,48 373,70"/>
+  </g>
+  <!-- Stalactites lit orange from ley glow below -->
+  <g fill="#6a1800" opacity="0.3">
+    <polygon points="30,55  38,55  34,75"/>
+    <polygon points="80,45  90,45  85,68"/>
+    <polygon points="150,38 162,38 156,64"/>
+    <polygon points="238,35 248,35 243,62"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#4a1a04" text-anchor="middle" letter-spacing="3">HEAT AND PRESSURE</text>
+</svg>
