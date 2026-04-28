@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0e0804"/>
+
+  <linearGradient id="desert-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#100e08"/>
+    <stop offset="50%" stop-color="#181206"/>
+    <stop offset="100%" stop-color="#201808"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#desert-sky)"/>
+
+  <!-- Desert heat shimmer — warm amber atmosphere -->
+  <radialGradient id="heat-amb" cx="50%" cy="55%" r="55%">
+    <stop offset="0%" stop-color="#604010" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#604010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#heat-amb)"/>
+
+  <!-- Dune horizon — rolling sand forms -->
+  <!-- Far dunes -->
+  <g fill="#120c04" opacity="0.8">
+    <polygon points="0,155 60,125 120,148 180,120 240,142 300,115 360,138 400,120 400,160 0,160"/>
+  </g>
+  <!-- Mid dunes -->
+  <g fill="#180e06">
+    <polygon points="0,175 50,148 100,162 160,138 220,155 280,132 340,150 400,135 400,200 0,200"/>
+  </g>
+  <!-- Foreground dune curve -->
+  <g fill="#1c1006">
+    <polygon points="0,200 80,175 160,185 240,170 320,182 400,168 400,240 0,240"/>
+  </g>
+  <!-- Sand highlights on dune crests -->
+  <g stroke="#382010" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M0,148 Q60,125 120,148"/>
+    <path d="M180,120 Q240,142 300,115"/>
+    <path d="M160,138 Q220,155 280,132"/>
+  </g>
+
+  <!-- THE LEY LINES — straight through the desert sand, glowing warm gold/orange -->
+  <!-- The Sand Market has made them into trade routes -->
+  <linearGradient id="sand-ley" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#c08020" stop-opacity="0.2"/>
+    <stop offset="30%" stop-color="#e0a030" stop-opacity="0.8"/>
+    <stop offset="50%" stop-color="#f0b840" stop-opacity="1"/>
+    <stop offset="70%" stop-color="#e0a030" stop-opacity="0.8"/>
+    <stop offset="100%" stop-color="#c08020" stop-opacity="0.2"/>
+  </linearGradient>
+  <rect x="0" y="168" width="400" height="4" fill="url(#sand-ley)"/>
+  <rect x="0" y="169" width="400" height="2" fill="#ffd060" opacity="0.4"/>
+  <!-- Second ley path — angled slightly -->
+  <line x1="0" y1="183" x2="400" y2="175" stroke="#c08828" stroke-width="2.5" opacity="0.5"/>
+  <line x1="0" y1="183" x2="400" y2="175" stroke="#e0b040" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- Market spire on the horizon — catching moonlight -->
+  <line x1="200" y1="155" x2="200" y2="95" stroke="#201408" stroke-width="4"/>
+  <!-- Spire top — pointed -->
+  <polygon points="196,95 204,95 200,78" fill="#201808" stroke="#302010" stroke-width="1"/>
+  <!-- Spire windows glowing warm inside -->
+  <g fill="#b06020" opacity="0.5">
+    <rect x="197" y="108" width="6" height="5" rx="1"/>
+    <rect x="197" y="120" width="6" height="5" rx="1"/>
+    <rect x="197" y="132" width="6" height="5" rx="1"/>
+  </g>
+  <!-- Spire glow halo — it's lit from ley energy below -->
+  <radialGradient id="spire-glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#c08020" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#c08020" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="125" rx="35" ry="45" fill="url(#spire-glow)"/>
+
+  <!-- Market stalls/structures silhouetted around the spire -->
+  <g fill="#140e04" stroke="#201408" stroke-width="0.8">
+    <rect x="155" y="148" width="20" height="12"/>
+    <rect x="225" y="150" width="18" height="10"/>
+    <polygon points="155,148 165,138 175,148"/>
+    <polygon points="225,150 234,141 243,150"/>
+    <!-- Awning shapes -->
+    <path d="M150,152 Q165,148 180,152" stroke="#281808" fill="none" stroke-width="1.5"/>
+    <path d="M220,154 Q234,150 248,154" stroke="#281808" fill="none" stroke-width="1.5"/>
+  </g>
+  <!-- Market lights — warm dots around stalls -->
+  <g fill="#c08030" opacity="0.6">
+    <circle cx="155" cy="148" r="2"/>
+    <circle cx="175" cy="148" r="2"/>
+    <circle cx="225" cy="150" r="2"/>
+    <circle cx="243" cy="150" r="2"/>
+    <circle cx="185" cy="153" r="1.5"/>
+    <circle cx="215" cy="153" r="1.5"/>
+  </g>
+
+  <!-- Stars — warm, desert night sky -->
+  <g fill="#d0a040" opacity="0.35">
+    <circle cx="40"  cy="20" r="1.2"/>
+    <circle cx="110" cy="12" r="1"/>
+    <circle cx="180" cy="22" r="1.5"/>
+    <circle cx="260" cy="10" r="1"/>
+    <circle cx="340" cy="18" r="1.2"/>
+    <circle cx="380" cy="30" r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a2008" text-anchor="middle" letter-spacing="3">THE SAND MARKET</text>
+</svg>

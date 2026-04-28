@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#0e0804"/>
+  <linearGradient id="deal-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#100e06"/>
+    <stop offset="100%" stop-color="#1c1608"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#deal-sky)"/>
+
+  <radialGradient id="deal-warm" cx="40%" cy="55%" r="40%">
+    <stop offset="0%" stop-color="#503010" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#503010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#deal-warm)"/>
+
+  <!-- Market floor -->
+  <polygon points="60,198 340,190 350,215 50,217" fill="#120c04" stroke="#1c1206" stroke-width="1.5"/>
+  <polygon points="60,198 340,190 342,196 60,204" fill="#181006" stroke="#221408" stroke-width="1"/>
+
+  <!-- THE DUNE BARON — left side, cane planted, gesturing with one hand as he speaks -->
+  <ellipse cx="125" cy="208" rx="30" ry="6" fill="#080402" opacity="0.7"/>
+  <ellipse cx="119" cy="212" rx="7" ry="3" fill="#100c04"/>
+  <ellipse cx="133" cy="211" rx="7" ry="3" fill="#100c04"/>
+  <line x1="121" y1="199" x2="119" y2="212" stroke="#141008" stroke-width="4" stroke-linecap="round"/>
+  <line x1="130" y1="198" x2="133" y2="211" stroke="#141008" stroke-width="4" stroke-linecap="round"/>
+  <!-- Coat -->
+  <polygon points="106,160 146,160 151,199 101,199" fill="#181208" stroke="#281808" stroke-width="1"/>
+  <g stroke="#907020" stroke-width="1.2" opacity="0.5">
+    <path d="M107,167 Q126,171 145,167"/>
+  </g>
+  <!-- Hat -->
+  <ellipse cx="126" cy="145" rx="19" ry="4" fill="#0e0c04" stroke="#181208" stroke-width="1"/>
+  <ellipse cx="126" cy="142" rx="12" ry="9" fill="#121006" stroke="#181408" stroke-width="0.8"/>
+  <ellipse cx="126" cy="145" rx="13" ry="3" fill="none" stroke="#807018" stroke-width="1.2" opacity="0.5"/>
+  <!-- Face — speaking, slight sardonic amusement -->
+  <ellipse cx="126" cy="152" rx="10" ry="9" fill="#141008" stroke="#201408" stroke-width="1"/>
+  <line x1="120" y1="152" x2="124" y2="151" stroke="#705030" stroke-width="1.5" opacity="0.6"/>
+  <line x1="128" y1="151" x2="132" y2="152" stroke="#705030" stroke-width="1.5" opacity="0.6"/>
+  <path d="M119,157 Q126,160 133,157" stroke="#201808" stroke-width="1" fill="none"/>
+  <path d="M119,155 Q126,156 133,155" stroke="#402808" stroke-width="1.2" fill="none"/>
+  <!-- Left arm — gesturing, open, speaking -->
+  <line x1="106" y1="172" x2="88" y2="162" stroke="#141008" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="82,158 92,156 94,167 84,169" fill="#161008" stroke="#221408" stroke-width="0.8"/>
+  <!-- Right arm — cane -->
+  <line x1="146" y1="170" x2="158" y2="182" stroke="#141008" stroke-width="4" stroke-linecap="round"/>
+  <line x1="158" y1="182" x2="162" y2="210" stroke="#281808" stroke-width="2.5"/>
+  <circle cx="156" cy="179" r="6" fill="#100c04" stroke="#907020" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- Speech direction dots -->
+  <g fill="#604020" opacity="0.5">
+    <circle cx="172" cy="158" r="1.5"/>
+    <circle cx="180" cy="154" r="1.2"/>
+    <circle cx="188" cy="152" r="1"/>
+  </g>
+
+  <!-- JARV — right side, standing, listening -->
+  <ellipse cx="285" cy="210" rx="24" ry="5" fill="#040201" opacity="0.7"/>
+  <ellipse cx="278" cy="213" rx="5.5" ry="2.5" fill="#08090e"/>
+  <ellipse cx="291" cy="213" rx="5.5" ry="2.5" fill="#08090e"/>
+  <line x1="280" y1="203" x2="278" y2="213" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <line x1="289" y1="202" x2="291" y2="213" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <!-- Coral Mantle -->
+  <polygon points="268,178 302,178 306,203 264,203" fill="#0a1e20" stroke="#1a4040" stroke-width="1.5"/>
+  <g fill="#00c090" opacity="0.45">
+    <circle cx="264" cy="178" r="1.5"/>
+    <circle cx="306" cy="178" r="1.5"/>
+  </g>
+  <!-- Stormcaller Badge -->
+  <polygon points="285,186 289,189 289,195 285,198 281,195 281,189" fill="#080e20" stroke="#2848a0" stroke-width="0.6"/>
+  <!-- Head — turned toward Baron -->
+  <ellipse cx="283" cy="169" rx="10" ry="9" fill="#0c0c1a" stroke="#181830" stroke-width="1"/>
+  <ellipse cx="281" cy="172" rx="5.5" ry="3.5" fill="#080810"/>
+  <!-- Iron Standard -->
+  <line x1="310" y1="178" x2="328" y2="215" stroke="#2a3040" stroke-width="2.5"/>
+  <polygon points="308,178 312,178 310,169" fill="#404860" opacity="0.7"/>
+
+  <!-- Desert night -- lanterns lit in the market around them -->
+  <g fill="#c07828" opacity="0.4">
+    <circle cx="60"  cy="175" r="3"/>
+    <circle cx="340" cy="175" r="3"/>
+    <circle cx="200" cy="170" r="2.5"/>
+  </g>
+
+  <!-- Stars -->
+  <g fill="#d0a040" opacity="0.35">
+    <circle cx="60"  cy="20" r="1.2"/>
+    <circle cx="200" cy="12" r="1"/>
+    <circle cx="340" cy="22" r="1.2"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a2008" text-anchor="middle" letter-spacing="3">WHAT HE SAID</text>
+</svg>
