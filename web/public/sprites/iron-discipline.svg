@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sword upright -->
+  <rect x="15" y="5" width="2" height="18" rx="0.5" fill="#cccccc" stroke="#888888" stroke-width="0.5"/>
+  <!-- Sword crossguard -->
+  <rect x="9" y="19" width="14" height="2.5" rx="0.5" fill="#999999" stroke="#555555" stroke-width="0.5"/>
+  <!-- Sword blade highlight -->
+  <line x1="16" y1="6" x2="16" y2="19" stroke="#ffffff" stroke-width="0.5" opacity="0.5"/>
+  <!-- Sword pommel -->
+  <circle cx="16" cy="23" r="3" fill="#888888" stroke="#555555" stroke-width="0.5"/>
+  <circle cx="16" cy="23" r="1.5" fill="#aaaaaa"/>
+  <!-- Discipline aura rings -->
+  <circle cx="16" cy="14" r="11" fill="none" stroke="#aaaaaa" stroke-width="0.5" opacity="0.3"/>
+  <circle cx="16" cy="14" r="8" fill="none" stroke="#aaaaaa" stroke-width="0.4" opacity="0.4"/>
+  <!-- Rank marks (3 pips = command) -->
+  <rect x="7" y="12" width="4" height="1.5" rx="0.3" fill="#ffcc00" opacity="0.9"/>
+  <rect x="7" y="14.5" width="4" height="1.5" rx="0.3" fill="#ffcc00" opacity="0.9"/>
+  <rect x="7" y="17" width="4" height="1.5" rx="0.3" fill="#ffcc00" opacity="0.9"/>
+  <rect x="21" y="12" width="4" height="1.5" rx="0.3" fill="#ffcc00" opacity="0.9"/>
+  <rect x="21" y="14.5" width="4" height="1.5" rx="0.3" fill="#ffcc00" opacity="0.9"/>
+  <rect x="21" y="17" width="4" height="1.5" rx="0.3" fill="#ffcc00" opacity="0.9"/>
+</svg>
