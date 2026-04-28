@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#030206"/>
+
+  <linearGradient id="quiet-deep" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040208"/>
+    <stop offset="100%" stop-color="#080312"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#quiet-deep)"/>
+
+  <!-- Soft bioluminescent ambient — the network is still, but not dead -->
+  <radialGradient id="soft-bio" cx="35%" cy="55%" r="45%">
+    <stop offset="0%" stop-color="#380870" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#380870" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#soft-bio)"/>
+
+  <!-- Cave floor and walls -->
+  <polygon points="0,200 400,193 400,240 0,240" fill="#060309"/>
+  <polygon points="0,195 400,188 402,196 0,202" fill="#0a0412" stroke="#120618" stroke-width="1"/>
+  <!-- Mycelium mat — still, silver-purple -->
+  <g stroke="#1a0830" stroke-width="0.8" fill="none" opacity="0.3">
+    <path d="M0,200 Q80,196 160,200 Q240,204 320,200 Q360,198 400,200"/>
+  </g>
+
+  <!-- THE ROOT QUEEN — left, now just a low mound, mostly dissolved back into the floor -->
+  <!-- Residual form — truncated pillar, much smaller -->
+  <line x1="110" y1="200" x2="110" y2="170" stroke="#180828" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  <!-- Spreading roots / mound -->
+  <ellipse cx="110" cy="200" rx="30" ry="6" fill="#0a0418" opacity="0.7"/>
+  <g stroke="#1a0830" stroke-width="1" fill="none" opacity="0.35">
+    <path d="M100,200 Q88,203 78,206"/>
+    <path d="M110,200 Q110,206 110,212"/>
+    <path d="M120,200 Q132,203 142,206"/>
+  </g>
+  <!-- Faint network glow around the mound -->
+  <radialGradient id="mound-glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#500a90" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#500a90" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="110" cy="190" rx="40" ry="25" fill="url(#mound-glow)"/>
+  <!-- Residual eyes — very dim, level with Jarv, acknowledging -->
+  <circle cx="103" cy="173" r="2" fill="#601898" opacity="0.3"/>
+  <circle cx="117" cy="173" r="2" fill="#601898" opacity="0.3"/>
+
+  <!-- Mycelium tendrils reaching toward Jarv — non-threatening, communicating -->
+  <g stroke="#281048" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M140,190 Q175,183 200,183 Q225,183 255,188"/>
+    <path d="M142,196 Q180,192 210,192 Q240,192 258,196"/>
+  </g>
+  <!-- Glow along the reaching strand -->
+  <circle cx="165" cy="185" r="1.5" fill="#7020c0" opacity="0.4"/>
+  <circle cx="200" cy="183" r="1.5" fill="#7020c0" opacity="0.3"/>
+  <circle cx="235" cy="185" r="1.5" fill="#7020c0" opacity="0.4"/>
+
+  <!-- JARV — right side, kneeling / crouching, at eye level with the mound -->
+  <ellipse cx="290" cy="208" rx="24" ry="5" fill="#030102" opacity="0.7"/>
+  <!-- Crouched — knees bent, sitting back on heels -->
+  <ellipse cx="283" cy="210" rx="6" ry="3" fill="#08090e"/>
+  <ellipse cx="297" cy="210" rx="6" ry="3" fill="#08090e"/>
+  <line x1="285" y1="203" x2="283" y2="210" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <line x1="295" y1="202" x2="297" y2="210" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <!-- Coral mantle draped on floor -->
+  <polygon points="272,180 308,180 312,203 268,203" fill="#0a1e20" stroke="#1a4040" stroke-width="1.5"/>
+  <g fill="#00c090" opacity="0.4">
+    <circle cx="268" cy="180" r="1.5"/>
+    <circle cx="312" cy="180" r="1.5"/>
+  </g>
+  <!-- Head tilted toward the Root Queen mound -->
+  <ellipse cx="288" cy="171" rx="10" ry="9" fill="#0c0c1a" stroke="#181830" stroke-width="1"/>
+  <ellipse cx="286" cy="174" rx="5.5" ry="3.5" fill="#080810"/>
+  <!-- Iron Standard — planted beside, leaning -->
+  <line x1="315" y1="178" x2="332" y2="215" stroke="#2a3040" stroke-width="2.5"/>
+  <polygon points="313,178 317,178 315,169" fill="#404860" opacity="0.7"/>
+
+  <!-- Spores drifting gently -->
+  <g fill="#7020b0" opacity="0.35">
+    <circle cx="70"  cy="80"  r="1"/>
+    <circle cx="130" cy="60"  r="1.2"/>
+    <circle cx="200" cy="50"  r="1"/>
+    <circle cx="260" cy="65"  r="1.2"/>
+    <circle cx="340" cy="75"  r="1"/>
+    <circle cx="160" cy="130" r="0.8"/>
+    <circle cx="250" cy="120" r="0.8"/>
+  </g>
+
+  <!-- Small mushrooms nearby — still softly lit -->
+  <g opacity="0.55">
+    <line x1="360" y1="200" x2="360" y2="180" stroke="#10082a" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="360" cy="179" rx="14" ry="6" fill="#18083c" stroke="#280c58" stroke-width="0.8"/>
+    <radialGradient id="sm-glow" cx="50%" cy="100%" r="70%">
+      <stop offset="0%" stop-color="#7020c0" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#7020c0" stop-opacity="0"/>
+    </radialGradient>
+    <ellipse cx="360" cy="179" rx="14" ry="6" fill="url(#sm-glow)"/>
+  </g>
+
+  <!-- Cave ceiling -->
+  <polygon points="0,0 400,0 400,42 372,32 345,48 308,30 265,46 225,28 185,44 145,28 108,46 65,30 25,46 0,34" fill="#050208"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a1040" text-anchor="middle" letter-spacing="3">WHAT SHE UNDERSTOOD</text>
+</svg>
