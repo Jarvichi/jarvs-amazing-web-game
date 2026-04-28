@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#030206"/>
+  <linearGradient id="rq-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#04010a"/>
+    <stop offset="50%" stop-color="#060208"/>
+    <stop offset="100%" stop-color="#0a040e"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#rq-sky)"/>
+
+  <!-- Root Queen chamber atmosphere -->
+  <radialGradient id="rq-glow" cx="50%" cy="45%" r="50%">
+    <stop offset="0%" stop-color="#004840" stop-opacity="0.5"/>
+    <stop offset="50%" stop-color="#003028" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#003028" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#rq-glow)"/>
+
+  <!-- THE ROOT QUEEN — vast, non-humanoid, ancient -->
+  <!-- Outer root mass — spreading across the whole frame -->
+  <!-- Primary trunk — centre, massive -->
+  <path d="M200,240 Q195,210 198,185 Q200,160 200,140 Q200,120 200,105" stroke="#1a0830" stroke-width="22" stroke-linecap="round" fill="none"/>
+  <path d="M200,240 Q195,210 198,185 Q200,160 200,140 Q200,120 200,105" stroke="#250c3e" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.6"/>
+
+  <!-- Major branches — radiating outward from trunk -->
+  <!-- Upper left major branch -->
+  <path d="M200,140 Q175,128 148,112 Q122,98  92,88" stroke="#1a0830" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M200,140 Q175,128 148,112 Q122,98  92,88" stroke="#250c3e" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.5"/>
+  <!-- Upper right major branch -->
+  <path d="M200,140 Q225,128 252,112 Q278,98  308,88" stroke="#1a0830" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M200,140 Q225,128 252,112 Q278,98  308,88" stroke="#250c3e" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.5"/>
+  <!-- Mid-left branch -->
+  <path d="M200,165 Q165,158 130,148 Q100,140 68,142" stroke="#180628" stroke-width="9" stroke-linecap="round" fill="none"/>
+  <!-- Mid-right branch -->
+  <path d="M200,165 Q235,158 270,148 Q300,140 332,142" stroke="#180628" stroke-width="9" stroke-linecap="round" fill="none"/>
+  <!-- Lower left spreading root -->
+  <path d="M200,200 Q158,195 115,188 Q75,182 35,185" stroke="#140520" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <!-- Lower right spreading root -->
+  <path d="M200,200 Q242,195 285,188 Q325,182 365,185" stroke="#140520" stroke-width="7" stroke-linecap="round" fill="none"/>
+
+  <!-- Secondary branch system — sub-branches off majors -->
+  <g stroke="#160628" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.8">
+    <path d="M148,112 Q130,100 108,95 Q88,92 70,98"/>
+    <path d="M92,88  Q72,82  52,84"/>
+    <path d="M148,112 Q138,96 132,78 Q128,65 135,52"/>
+    <path d="M252,112 Q272,100 292,95 Q310,92 330,98"/>
+    <path d="M308,88  Q328,82  348,84"/>
+    <path d="M252,112 Q262,96 268,78 Q272,65 265,52"/>
+  </g>
+
+  <!-- Tertiary rootlets — fine network -->
+  <g stroke="#200838" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.6">
+    <path d="M108,95 Q95,88 80,90 Q65,92 55,100"/>
+    <path d="M135,52 Q128,38 132,24 Q136,12 142,5"/>
+    <path d="M135,52 Q120,45 108,48"/>
+    <path d="M265,52 Q272,38 268,24 Q264,12 258,5"/>
+    <path d="M265,52 Q280,45 292,48"/>
+    <path d="M292,95 Q305,88 320,90 Q335,92 345,100"/>
+    <path d="M68,142 Q45,138 22,140"/>
+    <path d="M332,142 Q355,138 378,140"/>
+    <path d="M35,185 Q18,182 5,188"/>
+    <path d="M365,185 Q382,182 395,188"/>
+  </g>
+
+  <!-- THE NODE-EYES — multiple, distributed across the root mass -->
+  <!-- Primary eye cluster — at the trunk convergence point -->
+  <circle cx="200" cy="115" r="14" fill="#060210" stroke="#00c090" stroke-width="1.5"/>
+  <circle cx="200" cy="115" r="9"  fill="#030108" stroke="#00e0b0" stroke-width="1"/>
+  <circle cx="200" cy="115" r="4"  fill="#00c090" opacity="0.7"/>
+  <circle cx="200" cy="115" r="2"  fill="#00f0d0" opacity="0.9"/>
+
+  <!-- Secondary eyes — on major branches -->
+  <circle cx="138" cy="110" r="8"  fill="#050110" stroke="#00c090" stroke-width="1.2"/>
+  <circle cx="138" cy="110" r="5"  fill="#020108" stroke="#00a070" stroke-width="0.8"/>
+  <circle cx="138" cy="110" r="2.5" fill="#00c090" opacity="0.8"/>
+
+  <circle cx="262" cy="110" r="8"  fill="#050110" stroke="#00c090" stroke-width="1.2"/>
+  <circle cx="262" cy="110" r="5"  fill="#020108" stroke="#00a070" stroke-width="0.8"/>
+  <circle cx="262" cy="110" r="2.5" fill="#00c090" opacity="0.8"/>
+
+  <!-- Smaller eye nodes scattered across branches -->
+  <g fill="#00c090" opacity="0.6">
+    <circle cx="80"  cy="92"  r="4"/>
+    <circle cx="320" cy="92"  r="4"/>
+    <circle cx="108" cy="142" r="3"/>
+    <circle cx="292" cy="142" r="3"/>
+    <circle cx="48"  cy="184" r="3"/>
+    <circle cx="352" cy="184" r="3"/>
+    <circle cx="140" cy="58"  r="2.5"/>
+    <circle cx="260" cy="58"  r="2.5"/>
+  </g>
+  <!-- Eye gleam highlights -->
+  <g fill="#00f0d0" opacity="0.7">
+    <circle cx="79"  cy="91"  r="1.5"/>
+    <circle cx="319" cy="91"  r="1.5"/>
+    <circle cx="107" cy="141" r="1.2"/>
+    <circle cx="291" cy="141" r="1.2"/>
+  </g>
+
+  <!-- Bioluminescent teal pulse veins — running along major branches -->
+  <g stroke="#00a070" stroke-width="0.8" fill="none" opacity="0.35">
+    <path d="M200,115 Q188,118 148,112"/>
+    <path d="M200,115 Q212,118 252,112"/>
+    <path d="M200,115 Q200,130 200,165"/>
+    <path d="M148,112 Q120,100 80,92"/>
+    <path d="M252,112 Q280,100 320,92"/>
+  </g>
+
+  <!-- Spore cloud — emanating from the Queen -->
+  <g fill="#00c090" opacity="0.2">
+    <circle cx="165" cy="90"  r="1.5"/>
+    <circle cx="172" cy="78"  r="1.2"/>
+    <circle cx="185" cy="68"  r="1"/>
+    <circle cx="215" cy="90"  r="1.5"/>
+    <circle cx="228" cy="78"  r="1.2"/>
+    <circle cx="218" cy="65"  r="1"/>
+    <circle cx="200" cy="72"  r="1.2"/>
+    <circle cx="155" cy="82"  r="1"/>
+    <circle cx="245" cy="80"  r="1"/>
+    <circle cx="118" cy="80"  r="1.2"/>
+    <circle cx="282" cy="78"  r="1.2"/>
+  </g>
+
+  <!-- Floor — root-covered stone -->
+  <rect x="0" y="205" width="400" height="35" fill="#060108"/>
+  <g stroke="#180628" stroke-width="0.8" fill="none" opacity="0.4">
+    <line x1="0" y1="205" x2="400" y2="205"/>
+    <path d="M200,205 Q195,215 198,235"/>
+    <path d="M150,205 Q145,218 148,235"/>
+    <path d="M250,205 Q255,218 252,235"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#006040" text-anchor="middle" letter-spacing="3">THE ROOT QUEEN</text>
+</svg>
