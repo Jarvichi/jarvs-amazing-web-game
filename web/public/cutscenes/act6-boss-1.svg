@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <!-- Deep sky background -->
+  <rect width="400" height="240" fill="#06091a"/>
+  <linearGradient id="a6b1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#04060f"/>
+    <stop offset="40%" stop-color="#080f24"/>
+    <stop offset="100%" stop-color="#0e1a38"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#a6b1-sky)"/>
+
+  <!-- Stars -->
+  <g fill="#8aaacc" opacity="0.25">
+    <circle cx="30"  cy="15" r="0.8"/>
+    <circle cx="80"  cy="8"  r="1"/>
+    <circle cx="160" cy="12" r="0.8"/>
+    <circle cx="240" cy="6"  r="1"/>
+    <circle cx="310" cy="18" r="0.8"/>
+    <circle cx="370" cy="10" r="1"/>
+    <circle cx="55"  cy="30" r="0.6"/>
+    <circle cx="340" cy="28" r="0.6"/>
+    <circle cx="200" cy="22" r="0.8"/>
+  </g>
+
+  <!-- The Sky Dominion citadel — looming above, seen from below -->
+  <!-- Main citadel base slab -->
+  <polygon points="110,55 290,55 310,75 90,75" fill="#0c1428"/>
+  <polygon points="120,45 280,45 290,55 110,55" fill="#101830"/>
+  <polygon points="140,30 260,30 280,45 120,45" fill="#141e38"/>
+  <!-- Citadel towers -->
+  <rect x="130" y="0"  width="18" height="32" fill="#0e1630"/>
+  <rect x="170" y="5"  width="14" height="27" fill="#101830"/>
+  <rect x="216" y="5"  width="14" height="27" fill="#101830"/>
+  <rect x="252" y="0"  width="18" height="32" fill="#0e1630"/>
+  <!-- Tower caps -->
+  <polygon points="130,0 139,0 148,0 139,-8" fill="#0c1428"/>
+  <polygon points="252,0 261,0 270,0 261,-8" fill="#0c1428"/>
+  <!-- Citadel underside detail — buttresses hanging down -->
+  <g fill="#0a1220" opacity="0.9">
+    <polygon points="120,75 140,75 135,95 125,95"/>
+    <polygon points="180,75 200,75 196,92 184,92"/>
+    <polygon points="200,75 220,75 216,92 204,92"/>
+    <polygon points="260,75 280,75 275,95 265,95"/>
+  </g>
+  <!-- Citadel windows glowing pale blue -->
+  <g fill="#2a4a8a" opacity="0.6">
+    <rect x="134" y="10" width="6" height="8" rx="1"/>
+    <rect x="174" y="14" width="5" height="7" rx="1"/>
+    <rect x="221" y="14" width="5" height="7" rx="1"/>
+    <rect x="258" y="10" width="6" height="8" rx="1"/>
+    <rect x="154" y="48" width="4" height="6" rx="1"/>
+    <rect x="198" y="48" width="4" height="6" rx="1"/>
+    <rect x="242" y="48" width="4" height="6" rx="1"/>
+  </g>
+  <!-- Citadel blue glow from below -->
+  <radialGradient id="a6b1-citglow" gradientUnits="userSpaceOnUse" cx="200" cy="60" r="120">
+    <stop offset="0%" stop-color="#1a3870" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="#1a3870" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="0" y="0" width="400" height="150" fill="url(#a6b1-citglow)"/>
+
+  <!-- The viewpoint platform — Jarv's arrival point, a small floating shard -->
+  <ellipse cx="200" cy="200" rx="80" ry="14" fill="#0d1828"/>
+  <ellipse cx="200" cy="196" rx="74" ry="10" fill="#101e32"/>
+  <!-- Platform edge rim -->
+  <path d="M126,200 Q200,210 274,200" stroke="#1a2e50" stroke-width="1.5" fill="none" opacity="0.6"/>
+
+  <!-- Cloud banks between platform and citadel -->
+  <g fill="#0e1830" opacity="0.6">
+    <ellipse cx="60"  cy="140" rx="80" ry="22"/>
+    <ellipse cx="180" cy="130" rx="90" ry="18"/>
+    <ellipse cx="340" cy="138" rx="75" ry="20"/>
+  </g>
+  <g fill="#121e3a" opacity="0.4">
+    <ellipse cx="110" cy="155" rx="70" ry="14"/>
+    <ellipse cx="290" cy="150" rx="65" ry="14"/>
+  </g>
+  <!-- Cloud highlights -->
+  <g fill="#1a2a50" opacity="0.25">
+    <ellipse cx="60"  cy="135" rx="60" ry="10"/>
+    <ellipse cx="340" cy="132" rx="55" ry="10"/>
+  </g>
+
+  <!-- Lightning bolt — storm warning -->
+  <g fill="#4080d0" opacity="0.7">
+    <polygon points="210,90 205,115 212,115 207,140 220,108 213,108 218,90"/>
+  </g>
+  <g fill="#80b8ff" opacity="0.35">
+    <polygon points="209,89 204,114 211,114 206,139 219,107 212,107 217,89"/>
+  </g>
+  <!-- Lightning glow -->
+  <radialGradient id="a6b1-lglow" gradientUnits="userSpaceOnUse" cx="212" cy="115" r="30">
+    <stop offset="0%" stop-color="#4080d0" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#4080d0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="212" cy="115" rx="30" ry="30" fill="url(#a6b1-lglow)"/>
+
+  <!-- Wind streaks -->
+  <g stroke="#1e3060" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M0,170 Q100,165 200,170 Q300,175 400,168"/>
+    <path d="M0,180 Q80,174 180,179 Q280,184 400,178"/>
+    <path d="M0,160 Q120,155 230,161 Q320,166 400,160"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="a6b1-vign" cx="50%" cy="50%" r="70%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.65"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#a6b1-vign)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1a2e58" text-anchor="middle" letter-spacing="3">THE SKY DOMINION</text>
+</svg>
