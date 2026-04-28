@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#06091a"/>
+
+  <linearGradient id="calm-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#080e1e"/>
+    <stop offset="100%" stop-color="#0e1828"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#calm-sky)"/>
+
+  <!-- Fading storm — the energy dissipating -->
+  <radialGradient id="calm-glow" cx="50%" cy="40%" r="50%">
+    <stop offset="0%" stop-color="#101830" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#101830" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#calm-glow)"/>
+
+  <!-- Island platform — the confrontation site -->
+  <polygon points="80,195 320,185 330,205 70,210" fill="#0a1020" stroke="#162030" stroke-width="1.5"/>
+  <polygon points="80,195 320,185 322,190 80,202" fill="#101e18" stroke="#1a2e22" stroke-width="1"/>
+
+  <!-- THE CLOUDMARSHAL — standing, staff lowered, head bowed slightly — conceding -->
+  <ellipse cx="200" cy="204" rx="35" ry="7" fill="#050810" opacity="0.7"/>
+
+  <!-- Boots -->
+  <ellipse cx="191" cy="208" rx="7" ry="3" fill="#0a0c18"/>
+  <ellipse cx="211" cy="207" rx="7" ry="3" fill="#0a0c18"/>
+  <!-- Legs -->
+  <line x1="193" y1="195" x2="191" y2="208" stroke="#101828" stroke-width="4" stroke-linecap="round"/>
+  <line x1="207" y1="194" x2="211" y2="207" stroke="#101828" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Uniform — slightly ragged, battle-worn -->
+  <polygon points="181,158 219,158 224,195 176,195" fill="#181c28" stroke="#242c40" stroke-width="1"/>
+  <!-- Epaulettes — dimmer now -->
+  <ellipse cx="183" cy="160" rx="9" ry="4" fill="#182080" opacity="0.5"/>
+  <ellipse cx="217" cy="160" rx="9" ry="4" fill="#182080" opacity="0.5"/>
+
+  <!-- Head — bowed forward slightly, hat still on -->
+  <ellipse cx="200" cy="146" rx="13" ry="12" fill="#141c28" stroke="#202838" stroke-width="1"/>
+  <rect x="187" y="134" width="26" height="9"  rx="2" fill="#0e1420" stroke="#1a2030" stroke-width="1"/>
+  <rect x="183" y="141" width="34" height="4"  rx="1" fill="#0c1018" stroke="#182028" stroke-width="0.8"/>
+  <!-- Cap badge — lightning bolt, but dimmed -->
+  <g fill="#604010" opacity="0.5">
+    <polygon points="198,136 202,136 200,140 204,140 198,145 200,141 196,141"/>
+  </g>
+  <!-- Face — eyes down, stern but accepting -->
+  <line x1="192" y1="151" x2="197" y2="150" stroke="#283848" stroke-width="1.5"/>
+  <line x1="203" y1="150" x2="208" y2="151" stroke="#283848" stroke-width="1.5"/>
+
+  <!-- Left arm — at side, fist clenched (the concession is not easy) -->
+  <line x1="181" y1="167" x2="170" y2="180" stroke="#181c28" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="163,176 173,174 175,186 165,188" fill="#1a2030" stroke="#242c40" stroke-width="0.8"/>
+
+  <!-- Right arm — staff planted in ground, lowered -->
+  <line x1="219" y1="165" x2="235" y2="178" stroke="#181c28" stroke-width="4" stroke-linecap="round"/>
+  <!-- Staff — tip touching the ground, no longer raised in command -->
+  <line x1="235" y1="178" x2="235" y2="205" stroke="#202838" stroke-width="2.5"/>
+  <!-- Staff orb — dark, energy spent -->
+  <circle cx="235" cy="173" r="9" fill="#0a1020" stroke="#1a2838" stroke-width="1.5"/>
+  <circle cx="235" cy="173" r="4" fill="#0e1428" opacity="0.7"/>
+  <!-- Just a dying flicker in the orb -->
+  <circle cx="235" cy="173" r="2" fill="#2040a0" opacity="0.3"/>
+
+  <!-- Storm clouds — breaking apart, calming -->
+  <g fill="#0c1420" opacity="0.4">
+    <ellipse cx="70"  cy="100" rx="55" ry="22"/>
+    <ellipse cx="50"  cy="88"  rx="35" ry="16"/>
+    <ellipse cx="100" cy="92"  rx="40" ry="18"/>
+  </g>
+  <g fill="#0c1420" opacity="0.35">
+    <ellipse cx="330" cy="95" rx="55" ry="22"/>
+    <ellipse cx="355" cy="83" rx="35" ry="15"/>
+    <ellipse cx="310" cy="88" rx="38" ry="18"/>
+  </g>
+  <!-- Storm lightning — last discharge, fading -->
+  <g stroke="#8090a0" stroke-width="0.8" opacity="0.2">
+    <path d="M60,88  L56,100 L62,100 L58,112"/>
+    <path d="M340,82 L336,94 L342,94 L338,106"/>
+  </g>
+
+  <!-- Calm rays through breaking clouds — light returning -->
+  <g stroke="#1a2840" stroke-width="2" opacity="0.2">
+    <line x1="200" y1="0"   x2="80"  y2="185"/>
+    <line x1="200" y1="0"   x2="200" y2="185"/>
+    <line x1="200" y1="0"   x2="320" y2="185"/>
+    <line x1="200" y1="0"   x2="130" y2="185"/>
+    <line x1="200" y1="0"   x2="270" y2="185"/>
+  </g>
+
+  <!-- Stars returning as storm clears -->
+  <g fill="#2a3860" opacity="0.5">
+    <circle cx="40"  cy="18" r="1.5"/>
+    <circle cx="120" cy="10" r="1"/>
+    <circle cx="280" cy="12" r="1.5"/>
+    <circle cx="360" cy="20" r="1"/>
+    <circle cx="180" cy="6"  r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1e2e50" text-anchor="middle" letter-spacing="3">THE CLOUDMARSHAL FALLS</text>
+</svg>
