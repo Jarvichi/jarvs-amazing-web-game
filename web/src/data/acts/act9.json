@@ -43,29 +43,35 @@
   "intro": [
     {
       "title": "THE FROZEN EXPANSE",
-      "text": "The ley lines don't slow down in the cold. They run straight through the ice, bright orange against the white, like cracks in a frozen river that's trying to remember it used to flow.\n\nThe Frozen Expanse has been like this since before the Fracture. The Fracture just made it larger. Colder. More hostile to visitors.\n\nThe Pale Engine is in there. It has been there for a long time. It is not pleased to have directions."
+      "text": "The ley lines don't slow down in the cold. They run straight through the ice, bright orange against the white, like cracks in a frozen river that's trying to remember it used to flow.\n\nThe Frozen Expanse has been like this since before the Fracture. The Fracture just made it larger. Colder. More hostile to visitors.\n\nThe Pale Engine is in there. It has been there for a long time. It is not pleased to have directions.",
+      "image": "cutscenes/act9-intro-1.svg"
     },
     {
       "title": "THE PALE ENGINE",
-      "text": "Nobody built the Pale Engine — or if they did, they did it so long ago that the Engine has stopped caring about the distinction. It runs on cold and purpose. Its purpose is to hold the Expanse against everything that isn't ice.\n\nIt doesn't sleep. It doesn't negotiate. It processes.\n\nYou represent an input it hasn't encountered before. It is in the process of developing a protocol."
+      "text": "Nobody built the Pale Engine — or if they did, they did it so long ago that the Engine has stopped caring about the distinction. It runs on cold and purpose. Its purpose is to hold the Expanse against everything that isn't ice.\n\nIt doesn't sleep. It doesn't negotiate. It processes.\n\nYou represent an input it hasn't encountered before. It is in the process of developing a protocol.",
+      "image": "cutscenes/act9-intro-2.svg"
     },
     {
       "title": "INTO THE WHITE",
-      "text": "The cold here isn't just weather. It's structural. It holds the landscape together in a way that makes you understand why the Pale Engine defends it — remove the cold and the whole Expanse would need to rethink what it is.\n\nYou aren't here to take the cold. You're here to pass through it.\n\nThe Pale Engine will need to understand that distinction. You will need to explain it forcefully."
+      "text": "The cold here isn't just weather. It's structural. It holds the landscape together in a way that makes you understand why the Pale Engine defends it — remove the cold and the whole Expanse would need to rethink what it is.\n\nYou aren't here to take the cold. You're here to pass through it.\n\nThe Pale Engine will need to understand that distinction. You will need to explain it forcefully.",
+      "image": "cutscenes/act9-intro-3.svg"
     }
   ],
   "outro": [
     {
       "title": "THE PALE ENGINE HALTS",
-      "text": "The Pale Engine doesn't fall. It stops — a precise, deliberate cessation, like a machine completing a cycle rather than failing. The cold continues around it. The Expanse doesn't care who won.\n\nThe ley lines pulse through the ice and keep going. They were never going to stop for this."
+      "text": "The Pale Engine doesn't fall. It stops — a precise, deliberate cessation, like a machine completing a cycle rather than failing. The cold continues around it. The Expanse doesn't care who won.\n\nThe ley lines pulse through the ice and keep going. They were never going to stop for this.",
+      "image": "cutscenes/act9-outro-1.svg"
     },
     {
       "title": "WHAT IT PROCESSED",
-      "text": "At some point during the battle, the Engine processed the situation correctly: you were not there to hold the Expanse, you were there to cross it.\n\nIt had not previously computed that as an option worth defending against.\n\nThis is, apparently, an update to its protocol."
+      "text": "At some point during the battle, the Engine processed the situation correctly: you were not there to hold the Expanse, you were there to cross it.\n\nIt had not previously computed that as an option worth defending against.\n\nThis is, apparently, an update to its protocol.",
+      "image": "cutscenes/act9-outro-2.svg"
     },
     {
       "title": "THE FROST MANTLE",
-      "text": "The Frost Mantle is a layer of something that was once the Engine's outer casing — dense, cold, and almost ornamental in the way it's settled into a shape that fits across your shoulders.\n\nThe cold doesn't bother you as much as it did. That's the point.\n\nThe ley lines run on. The Expanse recedes behind you."
+      "text": "The Frost Mantle is a layer of something that was once the Engine's outer casing — dense, cold, and almost ornamental in the way it's settled into a shape that fits across your shoulders.\n\nThe cold doesn't bother you as much as it did. That's the point.\n\nThe ley lines run on. The Expanse recedes behind you.",
+      "image": "cutscenes/act9-outro-3.svg"
     }
   ],
   "nodes": {
