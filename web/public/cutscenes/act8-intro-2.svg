@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#030206"/>
+
+  <linearGradient id="rq-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040208"/>
+    <stop offset="100%" stop-color="#09041a"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#rq-sky)"/>
+
+  <!-- Mycelial network glow — the Root Queen IS the network -->
+  <radialGradient id="network-glow" cx="50%" cy="50%" r="55%">
+    <stop offset="0%" stop-color="#500a90" stop-opacity="0.4"/>
+    <stop offset="60%" stop-color="#300860" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#300860" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#network-glow)"/>
+
+  <!-- Mycelium strands — the network radiating from the centre -->
+  <!-- Primary strands -->
+  <g stroke="#401070" stroke-width="1.5" fill="none" opacity="0.5">
+    <path d="M200,120 Q170,100 140,80 Q110,60 80,45"/>
+    <path d="M200,120 Q185,90 175,60 Q168,40 165,20"/>
+    <path d="M200,120 Q215,90 225,60 Q232,40 235,20"/>
+    <path d="M200,120 Q230,100 260,80 Q290,60 320,45"/>
+    <path d="M200,120 Q160,115 120,110 Q80,105 40,100"/>
+    <path d="M200,120 Q240,115 280,110 Q320,105 360,100"/>
+    <path d="M200,120 Q175,140 150,165 Q130,182 110,200"/>
+    <path d="M200,120 Q225,140 250,165 Q270,182 290,200"/>
+    <path d="M200,120 Q200,145 200,175 Q200,195 200,215"/>
+  </g>
+  <!-- Secondary branching strands -->
+  <g stroke="#300c58" stroke-width="0.8" fill="none" opacity="0.35">
+    <path d="M140,80 Q120,70 95,62"/>
+    <path d="M260,80 Q280,70 305,62"/>
+    <path d="M175,60 Q160,50 148,38"/>
+    <path d="M225,60 Q240,50 252,38"/>
+    <path d="M120,110 Q100,118 75,125"/>
+    <path d="M280,110 Q300,118 325,125"/>
+    <path d="M150,165 Q135,175 118,185"/>
+    <path d="M250,165 Q265,175 282,185"/>
+  </g>
+  <!-- Node pulses — the network nodes glowing -->
+  <g fill="#8030d0" opacity="0.6">
+    <circle cx="200" cy="120" r="6"/>
+    <circle cx="140" cy="80"  r="3.5"/>
+    <circle cx="260" cy="80"  r="3.5"/>
+    <circle cx="175" cy="60"  r="3"/>
+    <circle cx="225" cy="60"  r="3"/>
+    <circle cx="120" cy="110" r="3"/>
+    <circle cx="280" cy="110" r="3"/>
+    <circle cx="150" cy="165" r="3"/>
+    <circle cx="250" cy="165" r="3"/>
+    <circle cx="80"  cy="45"  r="2.5"/>
+    <circle cx="320" cy="45"  r="2.5"/>
+  </g>
+  <!-- Central core — brightest node -->
+  <circle cx="200" cy="120" r="12" fill="#200840" stroke="#7020c0" stroke-width="1.5" opacity="0.8"/>
+  <circle cx="200" cy="120" r="7"  fill="#6018b0" opacity="0.7"/>
+  <circle cx="200" cy="120" r="3"  fill="#c040ff" opacity="0.9"/>
+
+  <!-- THE ROOT QUEEN — an emergent form rising from the mycelium at centre -->
+  <!-- Not humanoid — a tall, branching pillar of mycelium that suggests a face/presence -->
+  <!-- Main trunk -->
+  <line x1="200" y1="200" x2="200" y2="120" stroke="#2a1040" stroke-width="8" stroke-linecap="round"/>
+  <line x1="200" y1="200" x2="200" y2="120" stroke="#501080" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+  <!-- Branching arms -->
+  <line x1="200" y1="155" x2="170" y2="135" stroke="#200c38" stroke-width="5" stroke-linecap="round"/>
+  <line x1="200" y1="155" x2="230" y2="135" stroke="#200c38" stroke-width="5" stroke-linecap="round"/>
+  <line x1="170" y1="135" x2="155" y2="118" stroke="#180a2c" stroke-width="3" stroke-linecap="round"/>
+  <line x1="230" y1="135" x2="245" y2="118" stroke="#180a2c" stroke-width="3" stroke-linecap="round"/>
+  <!-- Upper filaments — crown-like -->
+  <g stroke="#401870" stroke-width="1.5" fill="none" opacity="0.7">
+    <path d="M200,120 Q192,108 188,96 Q186,86 190,78"/>
+    <path d="M200,120 Q208,108 212,96 Q214,86 210,78"/>
+    <path d="M200,120 Q196,105 194,92"/>
+    <path d="M200,120 Q204,105 206,92"/>
+  </g>
+  <!-- "Face" — suggestion of eyes — two glowing nodes at top of trunk -->
+  <circle cx="194" cy="118" r="3" fill="#8030d0" opacity="0.7"/>
+  <circle cx="206" cy="118" r="3" fill="#8030d0" opacity="0.7"/>
+  <!-- Root base spreading -->
+  <g stroke="#180a28" stroke-width="2" fill="none" opacity="0.6">
+    <path d="M196,200 Q185,205 175,210"/>
+    <path d="M200,200 Q200,208 200,215"/>
+    <path d="M204,200 Q215,205 225,210"/>
+    <path d="M190,200 Q178,208 165,215"/>
+    <path d="M210,200 Q222,208 235,215"/>
+  </g>
+
+  <!-- Spore cloud at top -->
+  <g fill="#6018a0" opacity="0.25">
+    <ellipse cx="200" cy="40" rx="80" ry="22"/>
+    <ellipse cx="160" cy="28" rx="50" ry="14"/>
+    <ellipse cx="240" cy="30" rx="45" ry="12"/>
+  </g>
+
+  <!-- Floating spores -->
+  <g fill="#9030e0" opacity="0.45">
+    <circle cx="80"  cy="50"  r="1.2"/>
+    <circle cx="130" cy="30"  r="1"/>
+    <circle cx="270" cy="35"  r="1.2"/>
+    <circle cx="330" cy="55"  r="1"/>
+    <circle cx="50"  cy="140" r="1"/>
+    <circle cx="350" cy="135" r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a1040" text-anchor="middle" letter-spacing="3">THE ROOT QUEEN</text>
+</svg>
