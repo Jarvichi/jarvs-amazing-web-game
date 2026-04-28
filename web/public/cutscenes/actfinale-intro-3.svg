@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#060408"/>
+  <linearGradient id="road-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0e0620"/>
+    <stop offset="40%" stop-color="#0a0418"/>
+    <stop offset="100%" stop-color="#0c060e"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#road-sky)"/>
+
+  <!-- The Fracture ahead — vast void tear filling upper half -->
+  <radialGradient id="ahead-fracture" cx="50%" cy="20%" r="50%">
+    <stop offset="0%" stop-color="#8018c8" stop-opacity="0.6"/>
+    <stop offset="40%" stop-color="#5010a0" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#400880" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#ahead-fracture)"/>
+
+  <!-- Main void mass -->
+  <ellipse cx="200" cy="80" rx="130" ry="90" fill="#0c0420" opacity="0.7"/>
+  <ellipse cx="200" cy="70" rx="90"  ry="65" fill="#08021a" opacity="0.8"/>
+
+  <!-- Fracture rift lines — radiating from the void -->
+  <g stroke="#a030e0" stroke-width="1.8" fill="none" opacity="0.8">
+    <path d="M200,0 L197,35 L215,52 L188,75"/>
+    <path d="M200,0 L203,35 L185,52 L212,75"/>
+  </g>
+  <g stroke="#8020c0" stroke-width="1.2" fill="none" opacity="0.6">
+    <path d="M215,52 L255,40 L290,32"/>
+    <path d="M185,52 L145,40 L110,32"/>
+    <path d="M188,75 L148,72 L112,78"/>
+    <path d="M212,75 L252,72 L288,78"/>
+    <path d="M188,75 L165,95 L138,108"/>
+    <path d="M212,75 L235,95 L262,108"/>
+  </g>
+  <g stroke="#601090" stroke-width="0.7" fill="none" opacity="0.35">
+    <path d="M110,32 L75,28 L50,35"/>
+    <path d="M290,32 L325,28 L350,35"/>
+    <path d="M112,78 L80,85 L55,80"/>
+    <path d="M288,78 L320,85 L345,80"/>
+  </g>
+
+  <!-- Floating shards -->
+  <g fill="#401068" stroke="#6810a0" stroke-width="0.5" opacity="0.55">
+    <polygon points="148,30 157,25 160,34 152,38"/>
+    <polygon points="240,26 250,21 252,31 244,34"/>
+    <polygon points="95,50 104,45 107,54 99,57"/>
+    <polygon points="292,46 302,41 304,50 296,54"/>
+    <polygon points="118,95 127,90 130,99 122,102"/>
+    <polygon points="270,92 280,87 282,96 274,100"/>
+  </g>
+
+  <!-- Road / ground — stone path ending at the fracture -->
+  <rect x="0" y="175" width="400" height="65" fill="#0a080e"/>
+
+  <!-- Road in perspective — converging toward fracture -->
+  <path d="M0,220 L150,175 L250,175 L400,220" fill="#0e0c14" stroke="#181228" stroke-width="1"/>
+  <!-- Road edge lines -->
+  <line x1="150" y1="175" x2="0" y2="230" stroke="#1e1630" stroke-width="1" opacity="0.5"/>
+  <line x1="250" y1="175" x2="400" y2="230" stroke="#1e1630" stroke-width="1" opacity="0.5"/>
+  <!-- Pavement cracks — void energy splitting the road -->
+  <g stroke="#401080" stroke-width="0.8" fill="none" opacity="0.3">
+    <path d="M185,175 Q190,195 188,220"/>
+    <path d="M215,175 Q210,195 212,220"/>
+    <path d="M145,185 Q160,200 158,225"/>
+    <path d="M255,185 Q240,200 242,225"/>
+  </g>
+
+  <!-- Broken stone pillars flanking the road end -->
+  <rect x="130" y="155" width="14" height="22" rx="1" fill="#100e18" stroke="#1e1830" stroke-width="0.8"/>
+  <rect x="256" y="155" width="14" height="22" rx="1" fill="#100e18" stroke="#1e1830" stroke-width="0.8"/>
+  <!-- Pillar tops — sheared off by fracture energy -->
+  <polygon points="130,155 144,155 142,148 132,148" fill="#140e1e" stroke="#1c1630" stroke-width="0.6"/>
+  <polygon points="256,155 270,155 268,148 258,148" fill="#140e1e" stroke="#1c1630" stroke-width="0.6"/>
+
+  <!-- JARV — small silhouette, facing the fracture, laden with relics -->
+  <!-- Shadow -->
+  <ellipse cx="200" cy="183" rx="16" ry="3.5" fill="#020101" opacity="0.6"/>
+  <!-- Legs -->
+  <line x1="197" y1="177" x2="196" y2="183" stroke="#0c0c18" stroke-width="3" stroke-linecap="round"/>
+  <line x1="202" y1="177" x2="203" y2="183" stroke="#0c0c18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Torso + Coral Mantle -->
+  <polygon points="191,163 209,163 212,177 188,177" fill="#0a1e20" stroke="#1a4040" stroke-width="1"/>
+  <!-- Mantle shoulder detail -->
+  <path d="M191,163 Q185,160 184,166" stroke="#1a5048" stroke-width="1.5" fill="none"/>
+  <path d="M209,163 Q215,160 216,166" stroke="#1a5048" stroke-width="1.5" fill="none"/>
+  <!-- Stormcaller's Badge on chest -->
+  <polygon points="197,167 200,164 203,167 201,170 199,170" fill="#304060" opacity="0.8"/>
+  <!-- Soulstone glow at collar -->
+  <circle cx="200" cy="163" r="1.5" fill="#4060c0" opacity="0.7"/>
+  <!-- Head -->
+  <ellipse cx="200" cy="158" rx="6" ry="5.5" fill="#0c0c1a" stroke="#181830" stroke-width="0.8"/>
+  <!-- Iron Standard over shoulder -->
+  <line x1="209" y1="165" x2="220" y2="152" stroke="#2a3040" stroke-width="1.8"/>
+  <polygon points="207,165 211,165 209,157" fill="#404860" opacity="0.7"/>
+  <!-- Golden Compass at hip -->
+  <circle cx="212" cy="174" r="2" fill="#c09020" opacity="0.6"/>
+  <circle cx="212" cy="174" r="1" fill="#e0b030" opacity="0.5"/>
+  <!-- Gear Heart glow on chest -->
+  <circle cx="200" cy="170" r="1.5" fill="#a04010" opacity="0.5"/>
+  <!-- Salvage Hook at belt -->
+  <path d="M188,174 Q185,172 186,169" stroke="#506070" stroke-width="1.2" fill="none"/>
+
+  <!-- Label -->
+  <text x="200" y="234" font-family="monospace" font-size="9" fill="#4a1878" text-anchor="middle" letter-spacing="3">THE END OF THE ROAD</text>
+</svg>

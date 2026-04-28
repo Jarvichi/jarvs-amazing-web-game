@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#060408"/>
+  <linearGradient id="closing-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0e0620"/>
+    <stop offset="50%" stop-color="#0c0616"/>
+    <stop offset="100%" stop-color="#100a0c"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#closing-sky)"/>
+
+  <!-- The fracture retracting — warmth beginning to bleed through -->
+  <radialGradient id="closing-warmth" cx="50%" cy="40%" r="45%">
+    <stop offset="0%" stop-color="#c06010" stop-opacity="0.25"/>
+    <stop offset="40%" stop-color="#8020c0" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#400880" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#closing-warmth)"/>
+
+  <!-- Fracture entity SHATTERING — fragments flying outward -->
+  <!-- Central void dissolving, edges fragmenting -->
+  <circle cx="200" cy="100" r="55" fill="#0a021a" stroke="#7010a0" stroke-width="1" opacity="0.5"/>
+  <circle cx="200" cy="100" r="38" fill="#06010e" stroke="#5008a0" stroke-width="0.8" opacity="0.6"/>
+
+  <!-- Fracture lines — RETRACTING inward, collapsing -->
+  <g stroke="#8020c0" stroke-width="1.5" fill="none" opacity="0.55">
+    <path d="M200,40 L197,62 L210,75 L194,92"/>
+    <path d="M200,40 L203,62 L190,75 L206,92"/>
+    <path d="M262,58 L244,72 L232,88 L215,100"/>
+    <path d="M138,58 L156,72 L168,88 L185,100"/>
+  </g>
+  <!-- Fading/dissolving fracture arms -->
+  <g stroke="#601090" stroke-width="0.8" fill="none" opacity="0.3">
+    <path d="M262,58 L290,52 L315,46"/>
+    <path d="M138,58 L110,52 L85,46"/>
+    <path d="M232,88 L260,85 L285,88"/>
+    <path d="M168,88 L140,85 L115,88"/>
+  </g>
+
+  <!-- SHATTER FRAGMENTS — entity breaking apart -->
+  <!-- Large fragments flying outward -->
+  <g fill="#300850" stroke="#6010a0" stroke-width="0.6" opacity="0.8">
+    <polygon points="148,52 160,45 164,56 153,62"/>
+    <polygon points="238,48 252,42 255,54 243,59"/>
+    <polygon points="120,88 134,82 138,94 125,99"/>
+    <polygon points="262,85 277,79 280,91 267,96"/>
+    <polygon points="155,130 168,124 172,136 160,141"/>
+    <polygon points="228,128 242,122 246,134 233,139"/>
+    <polygon points="95,110 108,104 112,116 100,120"/>
+    <polygon points="290,108 303,102 307,114 294,118"/>
+  </g>
+  <!-- Smaller sparks -->
+  <g fill="#8020c0" opacity="0.5">
+    <circle cx="172" cy="38" r="2"/>
+    <circle cx="230" cy="35" r="1.5"/>
+    <circle cx="108" cy="72" r="1.5"/>
+    <circle cx="292" cy="68" r="2"/>
+    <circle cx="140" cy="148" r="1.5"/>
+    <circle cx="260" cy="145" r="1.5"/>
+    <circle cx="85" cy="128" r="1.2"/>
+    <circle cx="315" cy="125" r="1.2"/>
+  </g>
+
+  <!-- WARM LIGHT piercing through — amber dawn bleeding into the void -->
+  <radialGradient id="dawn-pierce" cx="50%" cy="100%" r="60%">
+    <stop offset="0%" stop-color="#c04808" stop-opacity="0.35"/>
+    <stop offset="50%" stop-color="#802808" stop-opacity="0.12"/>
+    <stop offset="100%" stop-color="#802808" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#dawn-pierce)"/>
+
+  <!-- Warm light rays through cracks in the fracture -->
+  <g stroke="#c06018" stroke-width="1" fill="none" opacity="0.3">
+    <path d="M185,140 L165,180 L148,220"/>
+    <path d="M200,145 L200,185 L200,230"/>
+    <path d="M215,140 L235,180 L252,220"/>
+  </g>
+
+  <!-- The fracture closing — center wound contracting -->
+  <ellipse cx="200" cy="100" rx="20" ry="16" fill="#100430" stroke="#9020d0" stroke-width="1.5" opacity="0.7"/>
+  <!-- Closing seam — warm light visible at edges -->
+  <path d="M185,100 Q192,96 200,98 Q208,96 215,100" stroke="#c06018" stroke-width="1" fill="none" opacity="0.4"/>
+  <path d="M185,100 Q192,104 200,102 Q208,104 215,100" stroke="#c06018" stroke-width="1" fill="none" opacity="0.4"/>
+
+  <!-- Ground — cracks beginning to close -->
+  <rect x="0" y="192" width="400" height="48" fill="#0c0a0e"/>
+  <g stroke="#200840" stroke-width="0.8" fill="none" opacity="0.3">
+    <line x1="0" y1="192" x2="400" y2="192"/>
+    <path d="M175,192 Q178,210 176,240" stroke-width="1.5"/>
+    <path d="M225,192 Q222,210 224,240" stroke-width="1.5"/>
+  </g>
+  <!-- Warm seam at ground — healing beginning -->
+  <line x1="0" y1="194" x2="400" y2="194" stroke="#802808" stroke-width="0.8" opacity="0.2"/>
+
+  <!-- Label -->
+  <text x="200" y="234" font-family="monospace" font-size="9" fill="#4a1878" text-anchor="middle" letter-spacing="3">THE FRACTURE CLOSES</text>
+</svg>

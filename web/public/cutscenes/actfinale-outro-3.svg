@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#080608"/>
+  <linearGradient id="dawn-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#100c18"/>
+    <stop offset="30%" stop-color="#180e0c"/>
+    <stop offset="70%" stop-color="#201408"/>
+    <stop offset="100%" stop-color="#281806"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#dawn-sky)"/>
+
+  <!-- Dawn warmth — the world's first light since the fracture -->
+  <radialGradient id="dawn-warmth" cx="50%" cy="65%" r="60%">
+    <stop offset="0%" stop-color="#e08020" stop-opacity="0.45"/>
+    <stop offset="40%" stop-color="#c06010" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#904010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#dawn-warmth)"/>
+
+  <!-- Sealed fracture scar — now healed, glowing faint gold -->
+  <radialGradient id="scar-glow" cx="50%" cy="35%" r="30%">
+    <stop offset="0%" stop-color="#e0a030" stop-opacity="0.4"/>
+    <stop offset="60%" stop-color="#c07018" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#c07018" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="80" rx="70" ry="55" fill="url(#scar-glow)"/>
+
+  <!-- The healed wound — sealed scar, warm gold seam -->
+  <path d="M200,30 L198,52 L210,65 L193,82 L206,100 L198,118" stroke="#301828" stroke-width="1.5" fill="none" opacity="0.3"/>
+  <!-- Gold seam over the scar — mended -->
+  <path d="M200,30 L198,52 L210,65 L193,82 L206,100 L198,118" stroke="#e0a030" stroke-width="0.8" fill="none" opacity="0.6"/>
+  <!-- Mending light rays from the sealed scar -->
+  <g stroke="#e08020" stroke-width="0.8" fill="none" opacity="0.2">
+    <line x1="200" y1="75" x2="145" y2="50"/>
+    <line x1="200" y1="75" x2="140" y2="80"/>
+    <line x1="200" y1="75" x2="155" y2="115"/>
+    <line x1="200" y1="75" x2="255" y2="50"/>
+    <line x1="200" y1="75" x2="260" y2="80"/>
+    <line x1="200" y1="75" x2="245" y2="115"/>
+    <line x1="200" y1="75" x2="200" y2="35"/>
+  </g>
+
+  <!-- THE WORLDMENDER'S CREST — the relic, floating above Jarv -->
+  <!-- Outer crest ring — ornate, golden -->
+  <circle cx="200" cy="75" r="28" fill="#100a04" stroke="#d08820" stroke-width="1.8" opacity="0.9"/>
+  <!-- Crest wing elements — left -->
+  <path d="M172,75 Q165,65 168,55 Q174,48 182,52" fill="#140c04" stroke="#c07818" stroke-width="1" opacity="0.8"/>
+  <path d="M172,75 Q162,78 163,88 Q168,96 178,94" fill="#140c04" stroke="#c07818" stroke-width="1" opacity="0.8"/>
+  <!-- Crest wing elements — right -->
+  <path d="M228,75 Q235,65 232,55 Q226,48 218,52" fill="#140c04" stroke="#c07818" stroke-width="1" opacity="0.8"/>
+  <path d="M228,75 Q238,78 237,88 Q232,96 222,94" fill="#140c04" stroke="#c07818" stroke-width="1" opacity="0.8"/>
+  <!-- Inner crest field — the sealed world -->
+  <circle cx="200" cy="75" r="19" fill="#0e0804" stroke="#e09828" stroke-width="1.2" opacity="0.9"/>
+  <!-- World-map inside — simplified fracture-healed shard pattern -->
+  <g fill="none" stroke="#c07018" stroke-width="0.6" opacity="0.5">
+    <circle cx="200" cy="75" r="12"/>
+    <line x1="200" y1="63" x2="200" y2="87"/>
+    <line x1="188" y1="75" x2="212" y2="75"/>
+  </g>
+  <!-- Healed fracture line across the world -->
+  <path d="M195,65 Q199,72 200,75 Q201,78 205,85" stroke="#e0a030" stroke-width="1" fill="none" opacity="0.8"/>
+  <!-- Core light — gold pulse -->
+  <circle cx="200" cy="75" r="7" fill="#e08018" opacity="0.45"/>
+  <circle cx="200" cy="75" r="4" fill="#f0a030" opacity="0.6"/>
+  <circle cx="200" cy="75" r="2" fill="#f8c050" opacity="0.9"/>
+  <!-- Crest rivets / ornamental points -->
+  <g fill="#e09828" opacity="0.7">
+    <circle cx="200" cy="47" r="2"/>
+    <circle cx="200" cy="103" r="2"/>
+    <circle cx="172" cy="75" r="2"/>
+    <circle cx="228" cy="75" r="2"/>
+    <circle cx="180" cy="54" r="1.5"/>
+    <circle cx="220" cy="54" r="1.5"/>
+    <circle cx="180" cy="96" r="1.5"/>
+    <circle cx="220" cy="96" r="1.5"/>
+  </g>
+
+  <!-- JARV — standing at the healed core, facing us for the first time -->
+  <!-- Shadow -->
+  <ellipse cx="200" cy="210" rx="22" ry="5" fill="#030201" opacity="0.6"/>
+  <!-- Legs -->
+  <line x1="196" y1="200" x2="195" y2="210" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="203" y1="200" x2="204" y2="210" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Torso + Coral Mantle (now catching dawn light) -->
+  <polygon points="189,180 211,180 214,200 186,200" fill="#0a1e20" stroke="#1a5048" stroke-width="1.2"/>
+  <!-- Mantle shoulder warmth -->
+  <path d="M189,180 Q182,176 180,183" stroke="#1a6050" stroke-width="1.8" fill="none"/>
+  <path d="M211,180 Q218,176 220,183" stroke="#1a6050" stroke-width="1.8" fill="none"/>
+  <!-- Stormcaller's Badge — glinting in dawn -->
+  <polygon points="197,184 200,181 203,184 201,188 199,188" fill="#506080" opacity="0.9"/>
+  <!-- Soulstone — softly lit -->
+  <circle cx="200" cy="180" r="2" fill="#6080d0" opacity="0.7"/>
+  <!-- Golden Compass at hip — catching dawn -->
+  <circle cx="213" cy="196" r="2.5" fill="#c09020" opacity="0.75"/>
+  <circle cx="213" cy="196" r="1.2" fill="#e0b030" opacity="0.6"/>
+  <!-- Gear Heart on chest — warm amber -->
+  <circle cx="200" cy="190" r="1.8" fill="#a04010" opacity="0.65"/>
+  <!-- Salvage Hook -->
+  <path d="M187,197 Q184,194 185,191" stroke="#506070" stroke-width="1.2" fill="none"/>
+  <!-- Iron Standard — held upright now, not over shoulder -->
+  <line x1="215" y1="200" x2="215" y2="168" stroke="#2a3040" stroke-width="2.2"/>
+  <polygon points="212,168 218,168 215,158" fill="#606880" opacity="0.8"/>
+  <!-- Head -->
+  <ellipse cx="200" cy="172" rx="7.5" ry="7" fill="#0c0c1a" stroke="#181830" stroke-width="0.8"/>
+  <!-- Eyes — visible, facing viewer -->
+  <ellipse cx="197" cy="171" rx="1.8" ry="1.4" fill="#c0c0e0" opacity="0.6"/>
+  <ellipse cx="203" cy="171" rx="1.8" ry="1.4" fill="#c0c0e0" opacity="0.6"/>
+
+  <!-- Dawn horizon line -->
+  <rect x="0" y="218" width="400" height="22" fill="#120e08"/>
+  <line x1="0" y1="218" x2="400" y2="218" stroke="#c07018" stroke-width="1.2" opacity="0.4"/>
+  <line x1="0" y1="220" x2="400" y2="220" stroke="#e09030" stroke-width="0.5" opacity="0.25"/>
+
+  <!-- Label -->
+  <text x="200" y="235" font-family="monospace" font-size="9" fill="#7a4010" text-anchor="middle" letter-spacing="3">WORLDMENDER</text>
+</svg>

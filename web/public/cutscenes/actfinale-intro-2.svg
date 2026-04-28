@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#040208"/>
+
+  <!-- Deep void atmosphere — radial darkness -->
+  <radialGradient id="entity-dark" cx="50%" cy="45%" r="55%">
+    <stop offset="0%" stop-color="#0e0420"/>
+    <stop offset="60%" stop-color="#070214"/>
+    <stop offset="100%" stop-color="#040208"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#entity-dark)"/>
+
+  <!-- Outer fracture aura -->
+  <radialGradient id="entity-aura" cx="50%" cy="45%" r="48%">
+    <stop offset="0%" stop-color="#8020c0" stop-opacity="0.3"/>
+    <stop offset="50%" stop-color="#5008a0" stop-opacity="0.12"/>
+    <stop offset="100%" stop-color="#5008a0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="108" rx="120" ry="100" fill="url(#entity-aura)"/>
+
+  <!-- THE FRACTURE ENTITY — an absence given form -->
+  <!-- Outer crackling boundary lines -->
+  <g stroke="#a030e0" stroke-width="1.5" fill="none" opacity="0.75">
+    <path d="M200,28 L197,52 L212,66 L194,86"/>
+    <path d="M200,28 L203,52 L188,66 L206,86"/>
+    <path d="M278,58 L252,74 L238,92 L218,104"/>
+    <path d="M122,58 L148,74 L162,92 L182,104"/>
+    <path d="M298,110 L270,110 L250,115 L232,110"/>
+    <path d="M102,110 L130,110 L150,115 L168,110"/>
+    <path d="M268,172 L246,152 L228,136 L212,120"/>
+    <path d="M132,172 L154,152 L172,136 L188,120"/>
+  </g>
+  <g stroke="#c860f8" stroke-width="0.6" fill="none" opacity="0.35">
+    <path d="M200,18 L196,46 L214,62 L192,82"/>
+    <path d="M290,52 L262,70 L245,90 L220,102"/>
+    <path d="M110,52 L138,70 L155,90 L180,102"/>
+    <path d="M306,118 L278,118 L255,122"/>
+    <path d="M94,118 L122,118 L145,122"/>
+  </g>
+
+  <!-- Void body — the absence itself -->
+  <circle cx="200" cy="108" r="62" fill="#060118" stroke="#7010b0" stroke-width="1.2" opacity="0.85"/>
+  <circle cx="200" cy="108" r="46" fill="#040010" stroke="#5008a0" stroke-width="0.8" opacity="0.8"/>
+
+  <!-- Internal fracture geometry — broken reality lattice -->
+  <g fill="none" stroke="#6010a0" stroke-width="0.7" opacity="0.5">
+    <polygon points="200,72 228,94 222,128 200,142 178,128 172,94"/>
+    <polygon points="200,80 220,98 215,126 200,136 185,126 180,98"/>
+  </g>
+  <g stroke="#8020c0" stroke-width="0.5" fill="none" opacity="0.3">
+    <line x1="200" y1="72" x2="200" y2="108"/>
+    <line x1="228" y1="94" x2="200" y2="108"/>
+    <line x1="222" y1="128" x2="200" y2="108"/>
+    <line x1="178" y1="128" x2="200" y2="108"/>
+    <line x1="172" y1="94" x2="200" y2="108"/>
+  </g>
+
+  <!-- The eyes — two voids within the void -->
+  <ellipse cx="186" cy="100" rx="10" ry="7" fill="#0c0220" stroke="#9020d0" stroke-width="0.8"/>
+  <ellipse cx="214" cy="100" rx="10" ry="7" fill="#0c0220" stroke="#9020d0" stroke-width="0.8"/>
+  <!-- Iris — fracture-light glow -->
+  <ellipse cx="186" cy="100" rx="5" ry="3.5" fill="#501090" opacity="0.7"/>
+  <ellipse cx="214" cy="100" rx="5" ry="3.5" fill="#501090" opacity="0.7"/>
+  <!-- Pupil gleam -->
+  <circle cx="185" cy="99" r="1.8" fill="#d060ff" opacity="0.9"/>
+  <circle cx="213" cy="99" r="1.8" fill="#d060ff" opacity="0.9"/>
+  <!-- Secondary gleam -->
+  <circle cx="187" cy="102" r="0.8" fill="#e090ff" opacity="0.5"/>
+  <circle cx="215" cy="102" r="0.8" fill="#e090ff" opacity="0.5"/>
+
+  <!-- The fracture-mouth — a crack, not a face -->
+  <path d="M182,120 Q191,128 200,126 Q209,128 218,120" stroke="#9020d0" stroke-width="1.2" fill="none" opacity="0.6"/>
+  <path d="M185,122 Q192,126 200,124 Q208,126 215,122" stroke="#c060f0" stroke-width="0.5" fill="none" opacity="0.3"/>
+
+  <!-- Floating crystal shard fragments -->
+  <g fill="#401068" stroke="#6810a0" stroke-width="0.5" opacity="0.65">
+    <polygon points="144,60 153,55 156,64 148,68"/>
+    <polygon points="244,57 254,52 257,62 248,65"/>
+    <polygon points="130,132 140,127 143,136 134,140"/>
+    <polygon points="258,130 268,125 271,134 262,138"/>
+    <polygon points="160,174 169,169 172,178 163,181"/>
+    <polygon points="228,172 238,167 241,176 232,179"/>
+    <polygon points="96,95 104,90 106,99 99,102"/>
+    <polygon points="296,92 305,87 307,96 299,100"/>
+  </g>
+
+  <!-- Void floor — cracked stone, reality fragmenting -->
+  <rect x="0" y="202" width="400" height="38" fill="#060410"/>
+  <g stroke="#2a1050" stroke-width="0.6" fill="none" opacity="0.35">
+    <line x1="0" y1="202" x2="400" y2="202"/>
+    <path d="M155,202 Q168,218 165,240"/>
+    <path d="M245,202 Q232,218 235,240"/>
+    <path d="M80,202 Q75,220 72,240"/>
+    <path d="M320,202 Q325,220 328,240"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="234" font-family="monospace" font-size="9" fill="#4a1878" text-anchor="middle" letter-spacing="3">THE FORCE WITHIN</text>
+</svg>

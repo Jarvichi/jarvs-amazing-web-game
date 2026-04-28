@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#060408"/>
+  <linearGradient id="void-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0c0618"/>
+    <stop offset="50%" stop-color="#080412"/>
+    <stop offset="100%" stop-color="#0a060e"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#void-sky)"/>
+
+  <!-- Fracture wound glow in sky -->
+  <radialGradient id="fracture-core-glow" cx="50%" cy="28%" r="38%">
+    <stop offset="0%" stop-color="#7010c0" stop-opacity="0.55"/>
+    <stop offset="45%" stop-color="#4008a0" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#400880" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#fracture-core-glow)"/>
+
+  <!-- Primary fracture tear — vertical, jagged void rift -->
+  <path d="M200,0 L196,28 L213,44 L186,68 L208,88 L191,112 L207,132 L195,158" stroke="#b040e8" stroke-width="2.5" fill="none" opacity="0.85"/>
+  <path d="M200,0 L196,28 L213,44 L186,68 L208,88 L191,112 L207,132 L195,158" stroke="#d878ff" stroke-width="0.8" fill="none" opacity="0.35"/>
+
+  <!-- Secondary fracture branches left -->
+  <path d="M186,68 L158,58 L132,52" stroke="#9020d0" stroke-width="1.4" fill="none" opacity="0.65"/>
+  <path d="M208,88 L175,82 L148,86" stroke="#9020d0" stroke-width="1.2" fill="none" opacity="0.55"/>
+  <path d="M158,58 L138,48 L108,54" stroke="#701090" stroke-width="0.9" fill="none" opacity="0.4"/>
+
+  <!-- Secondary fracture branches right -->
+  <path d="M213,44 L248,36 L275,30" stroke="#9020d0" stroke-width="1.4" fill="none" opacity="0.65"/>
+  <path d="M208,88 L244,80 L272,84" stroke="#9020d0" stroke-width="1.2" fill="none" opacity="0.55"/>
+  <path d="M244,80 L276,90 L300,82" stroke="#701090" stroke-width="0.9" fill="none" opacity="0.4"/>
+
+  <!-- Void mass at fracture heart -->
+  <ellipse cx="200" cy="75" rx="32" ry="26" fill="#12042a" opacity="0.75"/>
+  <ellipse cx="200" cy="75" rx="18" ry="14" fill="#0a0218" opacity="0.9"/>
+  <ellipse cx="200" cy="75" rx="8"  ry="6"  fill="#1e0840" opacity="0.7"/>
+
+  <!-- Floating shards of broken reality -->
+  <g fill="#501080" stroke="#8020c0" stroke-width="0.5" opacity="0.6">
+    <polygon points="142,38 150,33 153,42 145,46"/>
+    <polygon points="254,30 264,26 266,36 257,39"/>
+    <polygon points="112,70 121,65 124,74 116,78"/>
+    <polygon points="282,76 293,71 295,81 285,84"/>
+    <polygon points="128,100 137,96 139,104 131,108"/>
+    <polygon points="268,94 278,90 280,99 271,102"/>
+  </g>
+  <g fill="#301060" opacity="0.35">
+    <polygon points="95,54 102,50 103,58"/>
+    <polygon points="303,48 312,44 313,52"/>
+    <polygon points="168,22 175,18 176,26"/>
+    <polygon points="222,18 230,14 231,22"/>
+  </g>
+
+  <!-- Ruined ground — broken stone approach -->
+  <rect x="0" y="178" width="400" height="62" fill="#0a0810"/>
+
+  <!-- Stone floor cracks from fracture energy -->
+  <g stroke="#2a1050" stroke-width="0.8" fill="none" opacity="0.4">
+    <line x1="0" y1="178" x2="400" y2="178"/>
+    <path d="M165,178 Q175,200 172,240"/>
+    <path d="M235,178 Q225,200 228,240"/>
+    <path d="M110,178 Q105,208 100,240"/>
+    <path d="M290,178 Q295,208 300,240"/>
+  </g>
+
+  <!-- Broken left arch -->
+  <path d="M55,178 L55,142 Q55,122 76,122 Q97,122 97,142 L97,178" fill="#0e0c16" stroke="#1c1428" stroke-width="1.5"/>
+  <rect x="50" y="174" width="52" height="7" rx="1" fill="#100e18" stroke="#1e1632" stroke-width="0.8"/>
+
+  <!-- Broken right arch — sheared mid-span -->
+  <line x1="303" y1="178" x2="303" y2="144" stroke="#1c1428" stroke-width="3"/>
+  <path d="M303,144 Q304,128 322,126" stroke="#1c1428" stroke-width="2" fill="none"/>
+  <rect x="298" y="174" width="45" height="7" rx="1" fill="#100e18" stroke="#1e1632" stroke-width="0.8"/>
+
+  <!-- Rubble -->
+  <g fill="#100e18" stroke="#1a1428" stroke-width="0.5" opacity="0.8">
+    <polygon points="120,178 136,162 150,178"/>
+    <polygon points="248,178 264,166 278,178"/>
+    <polygon points="44,178 58,172 64,178"/>
+    <polygon points="336,178 352,170 365,178"/>
+  </g>
+
+  <!-- Ley energy seeping upward through ground cracks — disrupted -->
+  <g stroke="#8020c0" stroke-width="0.8" fill="none" opacity="0.18">
+    <path d="M165,178 Q180,162 200,158"/>
+    <path d="M235,178 Q220,162 200,158"/>
+  </g>
+
+  <!-- Distant collapsed spires -->
+  <g fill="#0c0a14" stroke="#161228" stroke-width="0.8" opacity="0.6">
+    <polygon points="168,178 172,150 176,178"/>
+    <polygon points="224,178 228,155 232,178"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#4a1878" text-anchor="middle" letter-spacing="3">THE FRACTURED CORE</text>
+</svg>
