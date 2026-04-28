@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#040810"/>
+  <linearGradient id="hook-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#060a14"/>
+    <stop offset="50%" stop-color="#0a1420"/>
+    <stop offset="100%" stop-color="#0e1c2c"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#hook-sky)"/>
+
+  <!-- Pale dawn breaking over the water — the tide has pulled back -->
+  <radialGradient id="dawn-coast" cx="50%" cy="70%" r="55%">
+    <stop offset="0%" stop-color="#182840" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#182840" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#dawn-coast)"/>
+
+  <!-- Beach / sand flat — the tide has pulled back, revealing the relic -->
+  <polygon points="0,190 400,182 400,240 0,240" fill="#07090e"/>
+  <line x1="0" y1="190" x2="400" y2="182" stroke="#0e1828" stroke-width="1.5"/>
+  <!-- Sand texture — wet, with tide-line -->
+  <g stroke="#0a1018" stroke-width="0.6" fill="none" opacity="0.4">
+    <path d="M0,195 Q80,191 160,195 Q240,199 320,195 Q370,192 400,195"/>
+    <path d="M0,205 Q100,201 200,205 Q300,209 400,205"/>
+    <path d="M0,218 Q120,214 240,218 Q340,222 400,218"/>
+  </g>
+  <!-- Sea edge — water receding left -->
+  <g stroke="#0e2030" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M0,188 Q40,184 80,188"/>
+  </g>
+  <rect x="0" y="182" width="85" height="58" fill="#060c14" opacity="0.5"/>
+
+  <!-- THE SALVAGE HOOK — half-buried in sand, massive, iron -->
+  <!-- Hook body — curved, nautical -->
+  <!-- Main hook arc -->
+  <path d="M185,155 Q168,155 162,168 Q156,182 165,192 Q175,202 190,200 Q205,198 210,188" stroke="#1e2838" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- Hook tip -->
+  <path d="M210,188 Q222,178 218,168 Q214,158 205,155" stroke="#1e2838" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <!-- Hook point -->
+  <polygon points="202,152 208,152 205,144" fill="#182030" stroke="#2a3848" stroke-width="0.8"/>
+  <!-- Shank — extending up out of sand -->
+  <line x1="185" y1="155" x2="190" y2="120" stroke="#182030" stroke-width="7" stroke-linecap="round"/>
+  <!-- Ring at top of shank -->
+  <circle cx="190" cy="118" r="9" fill="none" stroke="#1e2838" stroke-width="4"/>
+  <!-- Iron surface — corroded, old -->
+  <path d="M185,155 Q168,155 162,168 Q156,182 165,192 Q175,202 190,200 Q205,198 210,188" stroke="#283848" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.4"/>
+  <!-- Rust/barnacle detail -->
+  <g fill="#1e2838" opacity="0.5">
+    <circle cx="170" cy="175" r="3"/>
+    <circle cx="182" cy="195" r="2.5"/>
+    <circle cx="200" cy="192" r="2"/>
+    <circle cx="190" cy="135" r="2"/>
+  </g>
+  <!-- Glow — the hook has ley-energy imbued, symbol of passage -->
+  <radialGradient id="hook-glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#1840a0" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#1840a0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="190" cy="165" rx="45" ry="40" fill="url(#hook-glow)"/>
+  <!-- Half-buried in sand — lower portion disappearing into ground -->
+  <rect x="155" y="190" width="70" height="20" fill="#07090e" opacity="0.7"/>
+
+  <!-- Jarv kneeling beside the hook, reaching for it -->
+  <ellipse cx="255" cy="205" rx="20" ry="4" fill="#020401" opacity="0.6"/>
+  <line x1="251" y1="198" x2="250" y2="205" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="258" y1="198" x2="260" y2="205" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <polygon points="244,183 268,183 271,198 241,198" fill="#0a1e20" stroke="#1a4040" stroke-width="1.5"/>
+  <g fill="#00c090" opacity="0.4">
+    <circle cx="241" cy="183" r="1.5"/>
+    <circle cx="271" cy="183" r="1.5"/>
+  </g>
+  <ellipse cx="254" cy="174" rx="9" ry="8" fill="#0c0c1a" stroke="#181830" stroke-width="1"/>
+  <!-- Arm reaching toward hook -->
+  <line x1="244" y1="190" x2="228" y2="178" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <polygon points="222,174 232,173 234,184 224,185" fill="#0d0e1a" stroke="#181830" stroke-width="0.8"/>
+
+  <!-- Distant sea and clearing sky -->
+  <rect x="0" y="150" width="160" height="40" fill="#060c14" opacity="0.7"/>
+  <g stroke="#0e1c2c" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M0,160 Q40,156 80,160"/>
+    <path d="M0,172 Q50,168 100,172"/>
+  </g>
+
+  <!-- Storm clouds thinning -->
+  <g fill="#0a1018" opacity="0.45">
+    <ellipse cx="70"  cy="68" rx="60" ry="20"/>
+    <ellipse cx="330" cy="62" rx="55" ry="18"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#182030" text-anchor="middle" letter-spacing="3">SALVAGE HOOK</text>
+</svg>

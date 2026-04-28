@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#040810"/>
+  <linearGradient id="horizon-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#060a14"/>
+    <stop offset="40%" stop-color="#0a1420"/>
+    <stop offset="100%" stop-color="#0e1c2e"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#horizon-sky)"/>
+
+  <!-- Dawn breaking on the horizon — open sea ahead -->
+  <radialGradient id="dawn-horizon" cx="85%" cy="55%" r="40%">
+    <stop offset="0%" stop-color="#1a3048" stop-opacity="0.5"/>
+    <stop offset="60%" stop-color="#102030" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#102030" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#dawn-horizon)"/>
+
+  <!-- Open sea — vast, grey-blue, the horizon ahead -->
+  <rect x="0" y="145" width="400" height="95" fill="#060c14"/>
+  <line x1="0" y1="145" x2="400" y2="145" stroke="#0e2030" stroke-width="1.5"/>
+  <g stroke="#0e1c2c" stroke-width="0.8" fill="none" opacity="0.5">
+    <path d="M0,158 Q60,154 120,158 Q180,162 240,158 Q300,154 360,158 Q380,160 400,158"/>
+    <path d="M0,172 Q80,168 160,172 Q240,176 320,172 Q370,170 400,172"/>
+    <path d="M0,188 Q100,184 200,188 Q300,192 400,188"/>
+    <path d="M0,206 Q120,202 240,206 Q340,210 400,206"/>
+  </g>
+  <!-- Far horizon shimmer -->
+  <linearGradient id="sea-horizon" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#0e2030" stop-opacity="0"/>
+    <stop offset="70%" stop-color="#1a3048" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#2a4060" stop-opacity="0.5"/>
+  </linearGradient>
+  <rect x="0" y="138" width="400" height="15" fill="url(#sea-horizon)"/>
+
+  <!-- NEXT SHARD silhouette on horizon — distant, mysterious -->
+  <g fill="#060a10" opacity="0.6">
+    <polygon points="300,145 318,118 336,145"/>
+    <polygon points="328,145 348,105 368,145"/>
+    <polygon points="355,145 368,122 380,145"/>
+  </g>
+  <!-- Faint glow behind next shard -->
+  <radialGradient id="shard-glow" cx="88%" cy="60%" r="20%">
+    <stop offset="0%" stop-color="#2040a0" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#2040a0" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#shard-glow)"/>
+
+  <!-- Shattered coast fragments receding left and behind -->
+  <!-- Left fragment, receding -->
+  <polygon points="0,145 55,138 60,158 50,165 0,162" fill="#07091a" opacity="0.7"/>
+  <g fill="#060a14" opacity="0.6">
+    <rect x="10"  y="120" width="10" height="20"/>
+    <rect x="28"  y="115" width="8"  height="25"/>
+    <rect x="42"  y="122" width="10" height="18"/>
+  </g>
+
+  <!-- JARV'S BOAT — centre, sailing forward, Iron Standard at mast -->
+  <!-- Hull -->
+  <polygon points="148,178 262,178 268,192 142,192" fill="#081018" stroke="#101828" stroke-width="1.2"/>
+  <!-- Mast -->
+  <line x1="200" y1="178" x2="200" y2="138" stroke="#0c1420" stroke-width="2.5"/>
+  <!-- Sail — billowing, moving forward -->
+  <polygon points="200,142 240,158 200,172" fill="#0e1828" stroke="#182030" stroke-width="1" opacity="0.8"/>
+  <!-- Iron Standard at masthead -->
+  <line x1="200" y1="138" x2="200" y2="122" stroke="#2a3040" stroke-width="2"/>
+  <polygon points="198,122 202,122 200,113" fill="#404860" opacity="0.8"/>
+  <!-- Flag banner on standard -->
+  <polygon points="200,125 222,132 200,138" fill="#1e2438" stroke="#303548" stroke-width="0.8" opacity="0.7"/>
+  <!-- Coral Mantle visible on Jarv at the bow -->
+  <ellipse cx="256" cy="179" rx="8" ry="3" fill="#0a1e20" opacity="0.6"/>
+  <g fill="#00c090" opacity="0.4">
+    <circle cx="250" cy="179" r="1.5"/>
+    <circle cx="262" cy="179" r="1.5"/>
+  </g>
+  <!-- Jarv figure at helm -->
+  <ellipse cx="256" cy="175" rx="5" ry="4" fill="#0c0c1a" stroke="#181830" stroke-width="0.8"/>
+
+  <!-- Wake behind boat -->
+  <g stroke="#0e2030" stroke-width="1" fill="none" opacity="0.4">
+    <path d="M148,185 Q120,190 90,188 Q60,186 30,190"/>
+    <path d="M148,188 Q110,194 70,192 Q40,190 10,194"/>
+  </g>
+
+  <!-- Clearing sky — patches of open dark between clouds -->
+  <g fill="#0a1018" opacity="0.5">
+    <ellipse cx="80"  cy="70" rx="70" ry="22"/>
+    <ellipse cx="240" cy="62" rx="55" ry="18"/>
+  </g>
+  <!-- Stars visible in clearing -->
+  <g fill="#8090b0" opacity="0.3">
+    <circle cx="160" cy="30" r="1.2"/>
+    <circle cx="220" cy="20" r="1"/>
+    <circle cx="270" cy="35" r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#182030" text-anchor="middle" letter-spacing="3">THE HORIZON</text>
+</svg>
