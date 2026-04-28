@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#040810"/>
+  <linearGradient id="break-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#060a14"/>
+    <stop offset="100%" stop-color="#0c1624"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#break-sky)"/>
+
+  <!-- Sea at dusk — battle aftermath, water turbulent -->
+  <rect x="0" y="160" width="400" height="80" fill="#050c14"/>
+  <g stroke="#0c1a28" stroke-width="1" fill="none" opacity="0.6">
+    <path d="M0,172 Q50,168 100,172 Q150,176 200,172 Q250,168 300,172 Q350,176 400,172"/>
+    <path d="M0,185 Q60,181 120,185 Q180,189 240,185 Q300,181 360,185 Q380,187 400,185"/>
+    <path d="M0,200 Q80,196 160,200 Q240,204 320,200 Q370,198 400,200"/>
+  </g>
+
+  <!-- THE FLAGSHIP LISTING — taking on water, hull breached, deck tilting -->
+  <!-- Hull — tilted rightward -->
+  <g transform="translate(200,178) rotate(12) translate(-200,-178)">
+    <polygon points="100,165 300,160 315,185 295,200 105,205 85,185" fill="#070c14" stroke="#0f1a28" stroke-width="1.5"/>
+    <polygon points="100,165 300,160 298,168 100,172" fill="#0a1220" stroke="#152030" stroke-width="1"/>
+    <!-- Deck details -->
+    <line x1="200" y1="162" x2="200" y2="140" stroke="#0e1828" stroke-width="2.5"/>
+    <polygon points="200,140 220,152 200,160" fill="#0c1628" opacity="0.6"/>
+    <!-- Hull breach — water entering -->
+    <g stroke="#0e2030" stroke-width="1" fill="none" opacity="0.5">
+      <path d="M240,190 Q250,195 255,190 Q248,200 240,202"/>
+      <path d="M265,188 Q272,195 275,188"/>
+    </g>
+  </g>
+
+  <!-- Water rushing in around the breached hull -->
+  <g fill="#060e1a" opacity="0.5">
+    <ellipse cx="270" cy="195" rx="30" ry="8"/>
+  </g>
+  <g stroke="#0e2030" stroke-width="1.5" fill="none" opacity="0.4">
+    <path d="M240,195 Q255,190 270,195 Q285,200 300,195"/>
+  </g>
+
+  <!-- Debris floating — wreckage in water -->
+  <g fill="#070c14" stroke="#0e182a" stroke-width="0.8" opacity="0.7">
+    <rect x="50"  y="180" width="25" height="8" rx="1" transform="rotate(-5 62 184)"/>
+    <rect x="340" y="182" width="20" height="6" rx="1" transform="rotate(8 350 185)"/>
+    <rect x="115" y="190" width="18" height="5" rx="1" transform="rotate(-3 124 192)"/>
+    <rect x="360" y="192" width="15" height="5" rx="1" transform="rotate(4 367 194)"/>
+  </g>
+
+  <!-- THE HARBORMASTER — standing on stern as it lists, refusing to flee -->
+  <!-- Small figure on tilted deck, right side -->
+  <ellipse cx="275" cy="172" rx="14" ry="4" fill="#030608" opacity="0.7" transform="rotate(12 275 172)"/>
+  <line x1="272" y1="162" x2="271" y2="172" stroke="#0c1020" stroke-width="3" stroke-linecap="round" transform="rotate(12 272 167)"/>
+  <line x1="278" y1="161" x2="280" y2="171" stroke="#0c1020" stroke-width="3" stroke-linecap="round" transform="rotate(12 279 166)"/>
+  <polygon points="267,152 285,152 288,162 264,162" fill="#101828" stroke="#182030" stroke-width="0.8" transform="rotate(12 276 157)"/>
+  <ellipse cx="276" cy="146" rx="8" ry="7" fill="#0e1828" stroke="#182030" stroke-width="0.8" transform="rotate(12 276 146)"/>
+  <!-- Peaked cap stays on -->
+  <rect x="269" y="140" width="18" height="6" rx="1" fill="#0a1018" stroke="#162028" stroke-width="0.8" transform="rotate(12 278 143)"/>
+
+  <!-- JARV'S BOAT — centre, approaching — intact, iron standard flying -->
+  <polygon points="155,182 245,182 250,194 150,194" fill="#081018" stroke="#101828" stroke-width="1"/>
+  <line x1="195" y1="182" x2="195" y2="148" stroke="#0c1420" stroke-width="2"/>
+  <polygon points="195,150 218,162 195,172" fill="#0e1828" stroke="#182030" stroke-width="0.8" opacity="0.7"/>
+  <line x1="195" y1="148" x2="195" y2="135" stroke="#2a3040" stroke-width="1.5"/>
+  <polygon points="193,135 197,135 195,126" fill="#404860" opacity="0.7"/>
+  <!-- Small Coral Mantle visible at bow -->
+  <g fill="#006040" opacity="0.4">
+    <circle cx="240" cy="183" r="2"/>
+    <circle cx="244" cy="182" r="1.5"/>
+  </g>
+
+  <!-- Storm clouds breaking slightly — the iron tide has broken -->
+  <g fill="#0a1018" opacity="0.6">
+    <ellipse cx="80"  cy="65" rx="65" ry="22"/>
+    <ellipse cx="320" cy="60" rx="60" ry="20"/>
+  </g>
+  <!-- Small break in clouds centre — the passage is open now -->
+  <radialGradient id="break-light" cx="50%" cy="30%" r="25%">
+    <stop offset="0%" stop-color="#182030" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#182030" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="140" y="0" width="120" height="100" fill="url(#break-light)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#182030" text-anchor="middle" letter-spacing="3">THE IRON TIDE BREAKS</text>
+</svg>

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#040810"/>
+
+  <linearGradient id="coast-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#060a14"/>
+    <stop offset="50%" stop-color="#0a1020"/>
+    <stop offset="100%" stop-color="#0e1828"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#coast-sky)"/>
+
+  <!-- Overcast grey atmosphere — the Fracture broke more than just land -->
+  <radialGradient id="fracture-atm" cx="50%" cy="40%" r="60%">
+    <stop offset="0%" stop-color="#182030" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#182030" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#fracture-atm)"/>
+
+  <!-- SEA — grey, heavy, churning -->
+  <rect x="0" y="155" width="400" height="85" fill="#060c14"/>
+  <!-- Wave lines -->
+  <g stroke="#0e1c2c" stroke-width="1" fill="none" opacity="0.7">
+    <path d="M0,168 Q40,163 80,168 Q120,173 160,168 Q200,163 240,168 Q280,173 320,168 Q360,163 400,168"/>
+    <path d="M0,182 Q50,177 100,182 Q150,187 200,182 Q250,177 300,182 Q350,187 400,182"/>
+    <path d="M0,198 Q60,193 120,198 Q180,203 240,198 Q300,193 360,198 Q380,200 400,198"/>
+  </g>
+  <!-- Whitecaps -->
+  <g fill="#0e1e30" opacity="0.4">
+    <ellipse cx="60"  cy="166" rx="15" ry="3"/>
+    <ellipse cx="180" cy="170" rx="12" ry="2.5"/>
+    <ellipse cx="300" cy="165" rx="14" ry="3"/>
+    <ellipse cx="380" cy="172" rx="10" ry="2.5"/>
+  </g>
+
+  <!-- THE SHATTERED COAST — city split across several sea-separated fragments -->
+  <!-- Left land fragment -->
+  <polygon points="0,155 100,148 110,170 80,178 0,175" fill="#080c14" stroke="#101824" stroke-width="1.5"/>
+  <polygon points="0,148 100,148 98,154 0,158" fill="#0c1420" stroke="#182030" stroke-width="0.8"/>
+  <!-- Ruins on left fragment -->
+  <g fill="#070a12" stroke="#0e1420" stroke-width="0.8">
+    <rect x="15"  y="130" width="12" height="20"/>
+    <rect x="35"  y="125" width="10" height="25"/>
+    <rect x="55"  y="132" width="14" height="18"/>
+    <rect x="75"  y="128" width="10" height="22"/>
+  </g>
+  <!-- Broken wall on left -->
+  <path d="M10,148 Q30,142 50,148 Q45,138 42,130" stroke="#0e1420" stroke-width="2" fill="none"/>
+
+  <!-- Centre fragment — the main harbour ruins, largest piece -->
+  <polygon points="140,152 265,145 270,165 255,172 140,170" fill="#08101a" stroke="#10182a" stroke-width="1.5"/>
+  <polygon points="140,152 265,145 263,150 140,158" fill="#0c1622" stroke="#182030" stroke-width="0.8"/>
+  <!-- Port ruins — harbour wall, crane, towers -->
+  <g fill="#060a12" stroke="#0c1420" stroke-width="0.8">
+    <rect x="148" y="126" width="16" height="28"/>
+    <rect x="172" y="118" width="12" height="36"/>
+    <rect x="192" y="128" width="20" height="26"/>
+    <rect x="220" y="122" width="14" height="32"/>
+    <rect x="242" y="130" width="16" height="24"/>
+  </g>
+  <!-- Crane arm sticking out over water — collapsed -->
+  <line x1="172" y1="118" x2="155" y2="102" stroke="#0e1828" stroke-width="2.5"/>
+  <line x1="155" y1="102" x2="138" y2="110" stroke="#0e1828" stroke-width="1.5"/>
+  <!-- Broken dock jutting into water -->
+  <rect x="195" y="163" width="30" height="6" fill="#08101a" stroke="#101828" stroke-width="0.8"/>
+
+  <!-- Right fragment -->
+  <polygon points="300,150 400,143 400,165 380,172 300,168" fill="#070c16" stroke="#0f1826" stroke-width="1.5"/>
+  <polygon points="300,150 400,143 400,148 300,156" fill="#0b1420" stroke="#18202e" stroke-width="0.8"/>
+  <!-- Ruins on right -->
+  <g fill="#060a12" stroke="#0c1420" stroke-width="0.8">
+    <rect x="310" y="128" width="12" height="24"/>
+    <rect x="330" y="122" width="14" height="30"/>
+    <rect x="355" y="130" width="10" height="22"/>
+    <rect x="375" y="126" width="14" height="26"/>
+  </g>
+
+  <!-- Fracture lines visible in land fragments — the Fracture event -->
+  <g stroke="#182030" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M50,148 Q55,160 52,172"/>
+    <path d="M195,145 Q200,155 198,168"/>
+    <path d="M340,150 Q338,162 342,172"/>
+  </g>
+
+  <!-- Storm clouds — heavy, pressing down -->
+  <g fill="#0a1018" opacity="0.7">
+    <ellipse cx="80"  cy="80" rx="80" ry="28"/>
+    <ellipse cx="200" cy="70" rx="90" ry="30"/>
+    <ellipse cx="330" cy="78" rx="75" ry="26"/>
+  </g>
+  <g fill="#0c1220" opacity="0.5">
+    <ellipse cx="60"  cy="65" rx="55" ry="18"/>
+    <ellipse cx="200" cy="55" rx="70" ry="22"/>
+    <ellipse cx="350" cy="62" rx="50" ry="18"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#182030" text-anchor="middle" letter-spacing="3">THE SHATTERED COAST</text>
+</svg>
