@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#030206"/>
+
+  <linearGradient id="still-deep" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040208"/>
+    <stop offset="100%" stop-color="#070310"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#still-deep)"/>
+
+  <!-- Dimming glow — the network quieting like a dying fire -->
+  <radialGradient id="dim-glow" cx="50%" cy="50%" r="55%">
+    <stop offset="0%" stop-color="#300860" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#300860" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#dim-glow)"/>
+
+  <!-- Mycelium strands — fading, losing brightness -->
+  <g stroke="#200840" stroke-width="1.2" fill="none" opacity="0.35">
+    <path d="M200,130 Q170,110 140,90 Q110,70 80,55"/>
+    <path d="M200,130 Q215,100 225,70 Q232,50 235,30"/>
+    <path d="M200,130 Q185,100 175,70 Q168,50 165,30"/>
+    <path d="M200,130 Q230,110 260,90 Q290,70 320,55"/>
+    <path d="M200,130 Q155,125 110,120 Q70,115 35,110"/>
+    <path d="M200,130 Q245,125 290,120 Q330,115 365,110"/>
+    <path d="M200,130 Q200,155 200,185 Q200,205 200,220"/>
+  </g>
+  <!-- Network nodes — most dark, a few still faintly lit -->
+  <g fill="#401060" opacity="0.4">
+    <circle cx="140" cy="90"  r="2.5"/>
+    <circle cx="260" cy="90"  r="2.5"/>
+    <circle cx="175" cy="70"  r="2"/>
+    <circle cx="225" cy="70"  r="2"/>
+  </g>
+  <!-- Central node — dimming out -->
+  <circle cx="200" cy="130" r="10" fill="#180630" stroke="#401068" stroke-width="1" opacity="0.6"/>
+  <circle cx="200" cy="130" r="5"  fill="#300c58" opacity="0.5"/>
+  <circle cx="200" cy="130" r="2"  fill="#6018a0" opacity="0.4"/>
+
+  <!-- THE ROOT QUEEN FORM — dispersing, dissolving back into the network -->
+  <!-- Main trunk — fragmenting -->
+  <line x1="200" y1="210" x2="200" y2="130" stroke="#180828" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+  <!-- Fragmenting branches — some breaking away -->
+  <line x1="200" y1="165" x2="172" y2="148" stroke="#140620" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+  <line x1="200" y1="165" x2="228" y2="148" stroke="#140620" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+  <!-- Upper filaments — going dark, drooping -->
+  <g stroke="#280a40" stroke-width="1.2" fill="none" opacity="0.4">
+    <path d="M200,130 Q193,118 189,108 Q188,100 192,93"/>
+    <path d="M200,130 Q207,118 211,108 Q212,100 208,93"/>
+  </g>
+  <!-- Eyes — closing, fading -->
+  <circle cx="194" cy="128" r="2" fill="#400a70" opacity="0.3"/>
+  <circle cx="206" cy="128" r="2" fill="#400a70" opacity="0.3"/>
+  <!-- Disconnecting root tendrils — floating free, dissipating -->
+  <g stroke="#180630" stroke-width="0.8" fill="none" opacity="0.3">
+    <path d="M190,210 Q182,215 175,220"/>
+    <path d="M200,210 Q200,218 200,225"/>
+    <path d="M210,210 Q218,215 225,220"/>
+    <path d="M180,205 Q168,212 155,218"/>
+    <path d="M220,205 Q232,212 245,218"/>
+  </g>
+
+  <!-- Spores — falling now instead of floating up — settling -->
+  <g fill="#601890" opacity="0.35">
+    <circle cx="80"  cy="80"  r="1.2"/>
+    <circle cx="130" cy="65"  r="1"/>
+    <circle cx="180" cy="50"  r="1.2"/>
+    <circle cx="220" cy="55"  r="1"/>
+    <circle cx="270" cy="62"  r="1.2"/>
+    <circle cx="320" cy="75"  r="1"/>
+    <circle cx="100" cy="110" r="0.8"/>
+    <circle cx="300" cy="108" r="0.8"/>
+  </g>
+  <!-- Floor mushrooms — caps drooping slightly -->
+  <g opacity="0.5">
+    <!-- Left mushrooms dim -->
+    <line x1="70" y1="200" x2="68" y2="172" stroke="#100828" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="68" cy="170" rx="18" ry="7" fill="#14082a" stroke="#200a3c" stroke-width="0.8"/>
+    <line x1="340" y1="200" x2="342" y2="172" stroke="#100828" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="342" cy="170" rx="18" ry="7" fill="#14082a" stroke="#200a3c" stroke-width="0.8"/>
+  </g>
+
+  <!-- Cave ceiling -->
+  <polygon points="0,0 400,0 400,40 370,30 340,45 300,28 260,44 220,26 180,42 140,25 100,42 60,28 20,44 0,32" fill="#050208"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a1040" text-anchor="middle" letter-spacing="3">THE ROOT QUEEN STILLS</text>
+</svg>
