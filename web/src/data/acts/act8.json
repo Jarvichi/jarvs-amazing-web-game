@@ -43,29 +43,35 @@
   "intro": [
     {
       "title": "THE FUNGAL DEEP",
-      "text": "The ley lines go down here.\n\nNot metaphorically. They descend through the rock, through collapsed caverns, through layers of earth that haven't seen light since the Fracture shattered the surface above them. The mycelium found the ley lines years ago and grew around them. It's been feeding ever since.\n\nYou will need to go down into it."
+      "text": "The ley lines go down here.\n\nNot metaphorically. They descend through the rock, through collapsed caverns, through layers of earth that haven't seen light since the Fracture shattered the surface above them. The mycelium found the ley lines years ago and grew around them. It's been feeding ever since.\n\nYou will need to go down into it.",
+      "image": "cutscenes/act8-intro-1.svg"
     },
     {
       "title": "THE ROOT QUEEN",
-      "text": "The Fungal Deep is not ruled. It is tended.\n\nThe Root Queen is not a person in any conventional sense — she's the oldest node in the mycelium network, the point everything connects back to. She doesn't give orders. She pulses. Things respond.\n\nShe has been aware of you since you entered the first cavern. She has been deciding what to do about you. She has decided."
+      "text": "The Fungal Deep is not ruled. It is tended.\n\nThe Root Queen is not a person in any conventional sense — she's the oldest node in the mycelium network, the point everything connects back to. She doesn't give orders. She pulses. Things respond.\n\nShe has been aware of you since you entered the first cavern. She has been deciding what to do about you. She has decided.",
+      "image": "cutscenes/act8-intro-2.svg"
     },
     {
       "title": "GOING UNDER",
-      "text": "You've fought in forests and on volcanoes and in the sky. This is different. This is enclosed, and wet, and alive in a way that makes you aware you are the only thing down here that breathes with lungs.\n\nThe mycelium doesn't sleep. It doesn't stop growing. It doesn't get tired.\n\nYou just need to reach the Root Queen before she finishes deciding."
+      "text": "You've fought in forests and on volcanoes and in the sky. This is different. This is enclosed, and wet, and alive in a way that makes you aware you are the only thing down here that breathes with lungs.\n\nThe mycelium doesn't sleep. It doesn't stop growing. It doesn't get tired.\n\nYou just need to reach the Root Queen before she finishes deciding.",
+      "image": "cutscenes/act8-intro-3.svg"
     }
   ],
   "outro": [
     {
       "title": "THE ROOT QUEEN STILLS",
-      "text": "The network doesn't die. That would be too simple.\n\nIt stills — a long, slow reduction, like a fire burning down rather than going out. The Root Queen doesn't speak exactly, but something that constitutes speech passes through the mycelium and reaches you: something that means 'enough.'\n\nThe ley lines pulse clear. The way opens downward."
+      "text": "The network doesn't die. That would be too simple.\n\nIt stills — a long, slow reduction, like a fire burning down rather than going out. The Root Queen doesn't speak exactly, but something that constitutes speech passes through the mycelium and reaches you: something that means 'enough.'\n\nThe ley lines pulse clear. The way opens downward.",
+      "image": "cutscenes/act8-outro-1.svg"
     },
     {
       "title": "WHAT SHE UNDERSTOOD",
-      "text": "She didn't fight because she was angry. She fought because the network told her something was moving through the deep that didn't belong to it, and the network is very old and has very clear feelings about that sort of thing.\n\nShe understood, eventually. You also don't entirely belong to the things that are trying to stop you.\n\nShe let the ley lines pass."
+      "text": "She didn't fight because she was angry. She fought because the network told her something was moving through the deep that didn't belong to it, and the network is very old and has very clear feelings about that sort of thing.\n\nShe understood, eventually. You also don't entirely belong to the things that are trying to stop you.\n\nShe let the ley lines pass.",
+      "image": "cutscenes/act8-outro-2.svg"
     },
     {
       "title": "THE SPORE BLOOM",
-      "text": "The Spore Bloom sits in your hand — a dense, warm cluster of something that is technically a seed but feels considerably more significant than that.\n\nThe mycelium connected to it as you left, briefly. You got the impression it was saying goodbye.\n\nThe ley lines run deeper. They always run deeper. That, at least, is consistent."
+      "text": "The Spore Bloom sits in your hand — a dense, warm cluster of something that is technically a seed but feels considerably more significant than that.\n\nThe mycelium connected to it as you left, briefly. You got the impression it was saying goodbye.\n\nThe ley lines run deeper. They always run deeper. That, at least, is consistent.",
+      "image": "cutscenes/act8-outro-3.svg"
     }
   ],
   "nodes": {
@@ -683,8 +689,8 @@
     "node-1776872005580": {
       "id": "node-1776872005580",
       "type": "elite",
-  "label": "Tendril Nexus",
-  "description": "A knotted mass of aggressive growths converges here, reacting violently to intrusion.",
+      "label": "Tendril Nexus",
+      "description": "A knotted mass of aggressive growths converges here, reacting violently to intrusion.",
       "row": 6,
       "col": 1,
       "rowCols": 2,
@@ -716,8 +722,8 @@
     "node-1776872007977": {
       "id": "node-1776872007977",
       "type": "elite",
-  "label": "Vanguard Cluster",
-  "description": "Fragments of the Root Queen’s will, acting in eerie synchrony.",
+      "label": "Vanguard Cluster",
+      "description": "Fragments of the Root Queen’s will, acting in eerie synchrony.",
       "row": 6,
       "col": 0,
       "rowCols": 2,
@@ -781,8 +787,8 @@
     "node-1776872044010": {
       "id": "node-1776872044010",
       "type": "battle",
-  "label": "Spinecap Expanse",
-  "description": "Tall fungal growths sway slightly, releasing spores that track your movement.",
+      "label": "Spinecap Expanse",
+      "description": "Tall fungal growths sway slightly, releasing spores that track your movement.",
       "row": 7,
       "col": 1,
       "rowCols": 4,
@@ -813,8 +819,8 @@
     "node-1776872044955": {
       "id": "node-1776872044955",
       "type": "battle",
-  "label": "Veil of Spores",
-  "description": "A hazy cloud obscures vision; something moves within it before you do.",
+      "label": "Veil of Spores",
+      "description": "A hazy cloud obscures vision; something moves within it before you do.",
       "row": 7,
       "col": 2,
       "rowCols": 4,
@@ -845,8 +851,8 @@
     "node-1776872045815": {
       "id": "node-1776872045815",
       "type": "battle",
-  "label": "Mycelial Threshold",
-  "description": "A boundary zone where the network thickens, as if resisting your advance.",
+      "label": "Mycelial Threshold",
+      "description": "A boundary zone where the network thickens, as if resisting your advance.",
       "row": 7,
       "col": 3,
       "rowCols": 4,
@@ -877,8 +883,8 @@
     "node-1776872052910": {
       "id": "node-1776872052910",
       "type": "battle",
-  "label": "Fungal Driftway",
-  "description": "Loose layers of fungal matter shift underfoot, carrying signals deeper into the network.",
+      "label": "Fungal Driftway",
+      "description": "Loose layers of fungal matter shift underfoot, carrying signals deeper into the network.",
       "row": 9,
       "col": 0,
       "rowCols": 3,
@@ -909,8 +915,8 @@
     "node-1776872059912": {
       "id": "node-1776872059912",
       "type": "battle",
-  "label": "Sporecurrent Path",
-  "description": "Air currents push spores in rhythmic waves, almost like breathing.",
+      "label": "Sporecurrent Path",
+      "description": "Air currents push spores in rhythmic waves, almost like breathing.",
       "row": 9,
       "col": 1,
       "rowCols": 3,
@@ -941,8 +947,8 @@
     "node-1776872067715": {
       "id": "node-1776872067715",
       "type": "rest",
-  "label": "Silent Reservoir",
-  "description": "A rare untouched pool. The absence of mycelium feels unnatural.",
+      "label": "Silent Reservoir",
+      "description": "A rare untouched pool. The absence of mycelium feels unnatural.",
       "row": 8,
       "col": 0,
       "rowCols": 4,
@@ -955,8 +961,8 @@
     "node-1776872069113": {
       "id": "node-1776872069113",
       "type": "merchant",
-  "label": "Subterranean Broker",
-  "description": "A quiet trader dealing in bioluminescent and questionably sourced goods.",
+      "label": "Subterranean Broker",
+      "description": "A quiet trader dealing in bioluminescent and questionably sourced goods.",
       "row": 8,
       "col": 1,
       "rowCols": 4,
@@ -968,8 +974,8 @@
     "node-1776872070361": {
       "id": "node-1776872070361",
       "type": "event",
-  "label": "Memory Lattice",
-  "description": "Crystalline strands store echoes of the past, faintly humming with old signals.",
+      "label": "Memory Lattice",
+      "description": "Crystalline strands store echoes of the past, faintly humming with old signals.",
       "row": 8,
       "col": 2,
       "rowCols": 4,
@@ -1023,8 +1029,8 @@
     "node-1776872071261": {
       "id": "node-1776872071261",
       "type": "event",
-  "label": "Spore Fissure",
-  "description": "A cracked vent releases bursts of spores carrying fragmented impressions.",
+      "label": "Spore Fissure",
+      "description": "A cracked vent releases bursts of spores carrying fragmented impressions.",
       "row": 8,
       "col": 3,
       "rowCols": 4,
@@ -1101,8 +1107,8 @@
     "node-1776872129768": {
       "id": "node-1776872129768",
       "type": "rest",
-  "label": "Clearwater Hollow",
-  "description": "A calm basin of water, strangely isolated from the surrounding growth.",
+      "label": "Clearwater Hollow",
+      "description": "A calm basin of water, strangely isolated from the surrounding growth.",
       "row": 11,
       "col": 0,
       "rowCols": 1,
@@ -1115,8 +1121,8 @@
     "node-1776872141075": {
       "id": "node-1776872141075",
       "type": "elite",
-  "label": "Heart-Tendrils",
-  "description": "These growths pulse in unison, striking with coordinated precision.",
+      "label": "Heart-Tendrils",
+      "description": "These growths pulse in unison, striking with coordinated precision.",
       "row": 10,
       "col": 0,
       "rowCols": 1,
@@ -1147,8 +1153,8 @@
     "node-1776872152088": {
       "id": "node-1776872152088",
       "type": "battle",
-  "label": "Deepgrowth Crossing",
-  "description": "Here the mycelium grows unchecked, thick enough to feel like muscle beneath you.",
+      "label": "Deepgrowth Crossing",
+      "description": "Here the mycelium grows unchecked, thick enough to feel like muscle beneath you.",
       "row": 9,
       "col": 2,
       "rowCols": 3,
