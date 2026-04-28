@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#04080e"/>
+
+  <!-- Deep ocean gradient — dark above, slightly lighter at depth -->
+  <linearGradient id="ocean-depth" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#060c18"/>
+    <stop offset="50%" stop-color="#081420"/>
+    <stop offset="100%" stop-color="#0a1c2a"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#ocean-depth)"/>
+
+  <!-- Bioluminescent ambient glow -->
+  <radialGradient id="bio-glow" cx="50%" cy="60%" r="45%">
+    <stop offset="0%" stop-color="#00a8a8" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#00a8a8" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#bio-glow)"/>
+
+  <!-- Seabed / reef floor -->
+  <rect x="0" y="188" width="400" height="52" fill="#060e10"/>
+  <rect x="0" y="185" width="400" height="5"  fill="#0a1618"/>
+
+  <!-- Seabed texture — sand ripples -->
+  <g stroke="#0e1e20" stroke-width="0.7" opacity="0.5">
+    <path d="M0,200 Q50,196 100,200 Q150,204 200,200 Q250,196 300,200 Q350,204 400,200"/>
+    <path d="M0,215 Q60,211 120,215 Q180,219 240,215 Q300,211 360,215 Q390,217 400,215"/>
+  </g>
+
+  <!-- Coral formations — left cluster -->
+  <g fill="#1e0c08" stroke="#3a1810" stroke-width="0.8">
+    <!-- Brain coral -->
+    <ellipse cx="45" cy="188" rx="22" ry="14"/>
+    <!-- Maze grooves on brain coral -->
+    <g stroke="#2a0e08" stroke-width="1" fill="none">
+      <path d="M28,186 Q35,180 45,186 Q55,192 62,186"/>
+      <path d="M30,190 Q38,184 48,190 Q58,196 64,190"/>
+    </g>
+  </g>
+  <!-- Branching coral — left -->
+  <g stroke="#4a1808" stroke-width="2.5" fill="none">
+    <path d="M80,188 Q78,170 75,155"/>
+    <path d="M75,155 Q70,140 65,128"/>
+    <path d="M75,155 Q80,140 85,130"/>
+    <path d="M65,128 Q58,115 55,105"/>
+    <path d="M65,128 Q68,113 72,105"/>
+    <path d="M85,130 Q88,115 92,105"/>
+  </g>
+  <!-- Coral polyps glow -->
+  <g fill="#00c0a0" opacity="0.5">
+    <circle cx="55"  cy="105" r="2"/>
+    <circle cx="72"  cy="105" r="2"/>
+    <circle cx="92"  cy="105" r="2"/>
+    <circle cx="65"  cy="128" r="1.5"/>
+    <circle cx="85"  cy="130" r="1.5"/>
+  </g>
+
+  <!-- Coral formations — right cluster -->
+  <g stroke="#3a1808" stroke-width="2.5" fill="none">
+    <path d="M320,188 Q318,168 315,150"/>
+    <path d="M315,150 Q308,133 304,118"/>
+    <path d="M315,150 Q322,134 328,120"/>
+    <path d="M304,118 Q298,103 295,90"/>
+    <path d="M304,118 Q307,102 312,90"/>
+    <path d="M328,120 Q332,104 337,90"/>
+  </g>
+  <g fill="#00c0a0" opacity="0.5">
+    <circle cx="295" cy="90"  r="2"/>
+    <circle cx="312" cy="90"  r="2"/>
+    <circle cx="337" cy="90"  r="2"/>
+    <circle cx="304" cy="118" r="1.5"/>
+    <circle cx="328" cy="120" r="1.5"/>
+  </g>
+
+  <!-- Brain coral right -->
+  <g fill="#1e0c08" stroke="#3a1810" stroke-width="0.8">
+    <ellipse cx="355" cy="188" rx="24" ry="12"/>
+    <g stroke="#2a0e08" stroke-width="1" fill="none">
+      <path d="M336,186 Q344,180 355,186 Q366,192 374,186"/>
+    </g>
+  </g>
+
+  <!-- SUNKEN SHIP — centre/right, tilted, encrusted -->
+  <!-- Hull -->
+  <polygon points="140,145 280,130 290,170 130,178" fill="#0c1820" stroke="#182838" stroke-width="1.5"/>
+  <!-- Hull planks -->
+  <g stroke="#141e2a" stroke-width="0.6" opacity="0.4">
+    <line x1="140" y1="155" x2="288" y2="140"/>
+    <line x1="138" y1="163" x2="290" y2="152"/>
+    <line x1="136" y1="171" x2="290" y2="162"/>
+  </g>
+  <!-- Mast — broken, listing -->
+  <line x1="200" y1="130" x2="196" y2="50" stroke="#162030" stroke-width="4" transform="rotate(-8,200,130)"/>
+  <line x1="196" y1="75"  x2="230" y2="95" stroke="#162030" stroke-width="2.5" transform="rotate(-8,200,130)"/>
+  <!-- Torn sail remnant -->
+  <polygon points="196,55 225,72 210,90 196,80" fill="#0e1828" stroke="#182838" stroke-width="0.8" opacity="0.7" transform="rotate(-8,200,130)"/>
+  <!-- Coral growth on ship -->
+  <g fill="#3a1808" stroke="#5a2810" stroke-width="0.5">
+    <ellipse cx="155" cy="175" rx="8" ry="5"/>
+    <ellipse cx="260" cy="168" rx="7" ry="4"/>
+    <ellipse cx="210" cy="170" rx="9" ry="5"/>
+  </g>
+
+  <!-- Half-submerged section — water surface line (the shard is half above) -->
+  <rect x="0" y="0" width="400" height="50" fill="#060e14" opacity="0.7"/>
+  <!-- Water surface shimmer -->
+  <g stroke="#1a3040" stroke-width="1" opacity="0.6">
+    <path d="M0,48 Q30,44 60,48 Q90,52 120,48 Q150,44 180,48 Q210,52 240,48 Q270,44 300,48 Q330,52 360,48 Q390,44 400,48"/>
+  </g>
+  <!-- Surface light ripples -->
+  <g stroke="#2a4860" stroke-width="0.5" opacity="0.3">
+    <path d="M0,42 Q40,38 80,42 Q120,46 160,42 Q200,38 240,42 Q280,46 320,42 Q360,38 400,42"/>
+    <path d="M0,54 Q50,50 100,54 Q150,58 200,54 Q250,50 300,54 Q350,58 400,54"/>
+  </g>
+
+  <!-- Bioluminescent particles drifting in water -->
+  <g fill="#00d0b0" opacity="0.4">
+    <circle cx="50"  cy="80"  r="1.5"/>
+    <circle cx="100" cy="65"  r="1"/>
+    <circle cx="160" cy="95"  r="1.5"/>
+    <circle cx="240" cy="70"  r="1"/>
+    <circle cx="300" cy="85"  r="1.5"/>
+    <circle cx="360" cy="60"  r="1"/>
+    <circle cx="30"  cy="120" r="1.5"/>
+    <circle cx="130" cy="110" r="1"/>
+    <circle cx="270" cy="115" r="1.5"/>
+    <circle cx="380" cy="100" r="1"/>
+    <circle cx="70"  cy="145" r="1"/>
+    <circle cx="340" cy="140" r="1.5"/>
+  </g>
+
+  <!-- Ley line threads — faintly visible in the water -->
+  <g stroke="#00a8a8" stroke-width="0.8" fill="none" opacity="0.2">
+    <path d="M0,120 Q100,108 200,115 Q300,122 400,110"/>
+    <path d="M0,150 Q80,138 160,145 Q240,152 400,140"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#1a4040" text-anchor="middle" letter-spacing="3">THE SUNKEN REEF</text>
+</svg>
