@@ -43,29 +43,35 @@
   "intro": [
     {
       "title": "THE EMBERFALL PEAKS",
-      "text": "The ley lines cut through the mountains here — through layers of volcanic rock still warm from the last eruption. This is the Emberfall Peaks: a chain of active volcanoes that the Fracture cracked open and left to simmer.\n\nThings live here. Heat-adapted things. Things that were dangerous before the Fracture made them angrier.\n\nThe ley path goes through the caldera. There's no route around."
+      "text": "The ley lines cut through the mountains here — through layers of volcanic rock still warm from the last eruption. This is the Emberfall Peaks: a chain of active volcanoes that the Fracture cracked open and left to simmer.\n\nThings live here. Heat-adapted things. Things that were dangerous before the Fracture made them angrier.\n\nThe ley path goes through the caldera. There's no route around.",
+      "image": "cutscenes/act7-intro-1.svg"
     },
     {
       "title": "THE CINDERWARLORD",
-      "text": "The Peaks are held by the Cinderwarlord — a commander who built an army out of whatever the volcanoes threw up: crawlers, hounds, archers who fire molten shot, constructs assembled from cooled lava-flow.\n\nHe has not lost the mountains once. The mountains are on his side. Literally. He has an understanding with them.\n\nYou are going to walk through his territory regardless."
+      "text": "The Peaks are held by the Cinderwarlord — a commander who built an army out of whatever the volcanoes threw up: crawlers, hounds, archers who fire molten shot, constructs assembled from cooled lava-flow.\n\nHe has not lost the mountains once. The mountains are on his side. Literally. He has an understanding with them.\n\nYou are going to walk through his territory regardless.",
+      "image": "cutscenes/act7-intro-2.svg"
     },
     {
       "title": "HEAT AND PRESSURE",
-      "text": "The deeper you go, the hotter it gets. The ley lines are visible here — they glow faintly orange, like metal near a forge, and they point straight toward the caldera at the heart of the range.\n\nWhatever is at the Fracture Core, the ley lines think this is the way.\n\nYou have learned to trust the ley lines. You have also learned to bring extra water."
+      "text": "The deeper you go, the hotter it gets. The ley lines are visible here — they glow faintly orange, like metal near a forge, and they point straight toward the caldera at the heart of the range.\n\nWhatever is at the Fracture Core, the ley lines think this is the way.\n\nYou have learned to trust the ley lines. You have also learned to bring extra water.",
+      "image": "cutscenes/act7-intro-3.svg"
     }
   ],
   "outro": [
     {
       "title": "THE CINDERWARLORD FALLS",
-      "text": "The Cinderwarlord does not retreat. He stands in the caldera as the ground cracks around him, and he waits for the mountain to finish the job.\n\nThe mountain does not finish the job.\n\nHe concedes the terrain with the precision of someone who has done it once before and always swore he wouldn't do it again."
+      "text": "The Cinderwarlord does not retreat. He stands in the caldera as the ground cracks around him, and he waits for the mountain to finish the job.\n\nThe mountain does not finish the job.\n\nHe concedes the terrain with the precision of someone who has done it once before and always swore he wouldn't do it again.",
+      "image": "cutscenes/act7-outro-1.svg"
     },
     {
       "title": "WHAT HE SAID",
-      "text": "'You shouldn't be able to fight in this heat,' he said.\n\nYou told him you'd had practice.\n\n'That's not the point,' he said. He seemed genuinely bothered by the logistics of it."
+      "text": "'You shouldn't be able to fight in this heat,' he said.\n\nYou told him you'd had practice.\n\n'That's not the point,' he said. He seemed genuinely bothered by the logistics of it.",
+      "image": "cutscenes/act7-outro-2.svg"
     },
     {
       "title": "DEEPER IN",
-      "text": "The Magma Core sits in your hand — a solid chunk of volcanic glass with something still burning at the centre. The Cinderwarlord's mark of command.\n\nThe ley lines glow brighter past the caldera. Whatever the Fracture Core is, it's warmer on this side.\n\nYou move forward. The mountains stop objecting."
+      "text": "The Magma Core sits in your hand — a solid chunk of volcanic glass with something still burning at the centre. The Cinderwarlord's mark of command.\n\nThe ley lines glow brighter past the caldera. Whatever the Fracture Core is, it's warmer on this side.\n\nYou move forward. The mountains stop objecting.",
+      "image": "cutscenes/act7-outro-3.svg"
     }
   ],
   "nodes": {
