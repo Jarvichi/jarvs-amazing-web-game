@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#030206"/>
+
+  <linearGradient id="under-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040208"/>
+    <stop offset="100%" stop-color="#0a0418"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#under-sky)"/>
+
+  <!-- Enclosed warmth — soft purple-green ambient glow -->
+  <radialGradient id="warm-cave" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#380870" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#380870" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#warm-cave)"/>
+
+  <!-- Cave walls — closing in -->
+  <!-- Left wall -->
+  <polygon points="0,0 0,240 70,240 55,200 50,160 60,120 45,80 55,40 40,0" fill="#060309"/>
+  <!-- Right wall -->
+  <polygon points="400,0 400,240 330,240 345,200 350,160 340,120 355,80 345,40 360,0" fill="#060309"/>
+  <!-- Wall texture — mycelium veins -->
+  <g stroke="#1a0830" stroke-width="0.8" fill="none" opacity="0.5">
+    <path d="M50,40 Q40,60 45,80 Q55,100 48,120 Q40,140 50,160"/>
+    <path d="M55,60 Q48,80 52,100"/>
+    <path d="M350,40 Q360,60 355,80 Q345,100 352,120 Q360,140 350,160"/>
+    <path d="M345,60 Q352,80 348,100"/>
+  </g>
+  <!-- Bioluminescent patches on wall -->
+  <g fill="#6020a0" opacity="0.3">
+    <ellipse cx="40"  cy="80"  rx="12" ry="6"/>
+    <ellipse cx="52"  cy="140" rx="10" ry="5"/>
+    <ellipse cx="360" cy="90"  rx="12" ry="6"/>
+    <ellipse cx="348" cy="145" rx="10" ry="5"/>
+  </g>
+
+  <!-- TUNNEL PERSPECTIVE — corridor stretching ahead, getting smaller -->
+  <!-- Tunnel rings — suggesting depth -->
+  <g stroke="#180630" stroke-width="1" fill="none" opacity="0.6">
+    <ellipse cx="200" cy="120" rx="130" ry="90"/>
+    <ellipse cx="200" cy="120" rx="105" ry="72"/>
+    <ellipse cx="200" cy="120" rx="80"  ry="55"/>
+    <ellipse cx="200" cy="120" rx="55"  ry="38"/>
+    <ellipse cx="200" cy="120" rx="32"  ry="22"/>
+    <ellipse cx="200" cy="120" rx="14"  ry="10"/>
+  </g>
+  <!-- Tunnel glow getting brighter at depth — something glowing ahead -->
+  <radialGradient id="depth-glow" cx="50%" cy="50%" r="40%">
+    <stop offset="0%" stop-color="#8030d0" stop-opacity="0.5"/>
+    <stop offset="60%" stop-color="#5020a0" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#5020a0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="120" rx="130" ry="90" fill="url(#depth-glow)"/>
+
+  <!-- Mycelium covering tunnel walls — growing denser deeper in -->
+  <g stroke="#280c48" stroke-width="0.8" fill="none" opacity="0.4">
+    <!-- Outer ring mycelium -->
+    <path d="M70,120 Q90,110 100,90 Q110,70 130,65"/>
+    <path d="M70,120 Q85,130 95,150 Q105,165 125,170"/>
+    <path d="M330,120 Q310,110 300,90 Q290,70 270,65"/>
+    <path d="M330,120 Q315,130 305,150 Q295,165 275,170"/>
+    <!-- Stalactite-like growths at top -->
+    <path d="M140,30 Q145,50 142,70"/>
+    <path d="M200,30 Q200,55 200,75"/>
+    <path d="M260,30 Q255,50 258,70"/>
+  </g>
+
+  <!-- Mushroom silhouettes in mid-ground -->
+  <g fill="#100828" opacity="0.7">
+    <!-- Left set -->
+    <ellipse cx="95"  cy="175" rx="18" ry="7"/>
+    <line x1="95"  y1="182" x2="95"  y2="200" stroke="#100828" stroke-width="4"/>
+    <ellipse cx="115" cy="180" rx="14" ry="6"/>
+    <line x1="115" y1="186" x2="115" y2="200" stroke="#100828" stroke-width="3"/>
+    <!-- Right set -->
+    <ellipse cx="305" cy="175" rx="18" ry="7"/>
+    <line x1="305" y1="182" x2="305" y2="200" stroke="#100828" stroke-width="4"/>
+    <ellipse cx="285" cy="180" rx="14" ry="6"/>
+    <line x1="285" y1="186" x2="285" y2="200" stroke="#100828" stroke-width="3"/>
+  </g>
+  <!-- Glow under mushroom caps -->
+  <g fill="#6018a0" opacity="0.25">
+    <ellipse cx="95"  cy="178" rx="18" ry="5"/>
+    <ellipse cx="305" cy="178" rx="18" ry="5"/>
+  </g>
+
+  <!-- Floating spores — many, this is their home -->
+  <g fill="#9030e0" opacity="0.5">
+    <circle cx="90"  cy="60"  r="1.2"/>
+    <circle cx="130" cy="45"  r="1"/>
+    <circle cx="170" cy="35"  r="1.2"/>
+    <circle cx="230" cy="40"  r="1"/>
+    <circle cx="270" cy="50"  r="1.2"/>
+    <circle cx="310" cy="38"  r="1"/>
+    <circle cx="110" cy="90"  r="0.8"/>
+    <circle cx="290" cy="88"  r="0.8"/>
+    <circle cx="150" cy="80"  r="1"/>
+    <circle cx="250" cy="75"  r="1"/>
+  </g>
+  <g fill="#30c0a0" opacity="0.3">
+    <circle cx="160" cy="55"  r="0.8"/>
+    <circle cx="240" cy="60"  r="0.8"/>
+    <circle cx="80"  cy="110" r="0.8"/>
+    <circle cx="320" cy="108" r="0.8"/>
+  </g>
+
+  <!-- Something watching — two faint eyes in the deep -->
+  <circle cx="194" cy="120" r="2.5" fill="#c050ff" opacity="0.4"/>
+  <circle cx="206" cy="120" r="2.5" fill="#c050ff" opacity="0.4"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a1040" text-anchor="middle" letter-spacing="3">GOING UNDER</text>
+</svg>
