@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Heat haze base -->
+  <ellipse cx="16" cy="28" rx="12" ry="3" fill="#ff4400" opacity="0.25"/>
+  <!-- Outer flame left -->
+  <path d="M6 28 Q4 22 7 18 Q5 15 8 12 Q10 17 9 20 Q12 15 11 10 Q15 16 13 22 Q16 17 15 13 Q19 19 17 24 Q20 19 19 15 Q22 20 21 24 Q23 18 24 14 Q26 19 24 23 Q27 18 27 22 Q29 26 26 28 Z" fill="#ff6600" opacity="0.9"/>
+  <!-- Inner flame -->
+  <path d="M9 28 Q8 23 10 20 Q12 23 11 26 Q14 21 13 17 Q17 22 16 25 Q18 21 18 17 Q21 22 20 26 Q22 22 23 19 Q25 23 23 28 Z" fill="#ff9900"/>
+  <!-- Core flame -->
+  <path d="M12 28 Q11 24 13 21 Q15 24 14 27 Q16 22 16 19 Q18 23 18 26 Q19 22 20 20 Q22 24 20 28 Z" fill="#ffcc00"/>
+  <!-- Ember sparks -->
+  <circle cx="10" cy="14" r="1" fill="#ff6600" opacity="0.8"/>
+  <circle cx="16" cy="10" r="1.2" fill="#ffaa00" opacity="0.9"/>
+  <circle cx="22" cy="12" r="0.8" fill="#ff6600" opacity="0.7"/>
+  <circle cx="13" cy="8" r="0.6" fill="#ffdd44" opacity="0.8"/>
+  <circle cx="20" cy="7" r="0.7" fill="#ffdd44" opacity="0.7"/>
+  <circle cx="8" cy="10" r="0.5" fill="#ff4400" opacity="0.6"/>
+</svg>
