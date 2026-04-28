@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#080402"/>
+
+  <linearGradient id="ember-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0a0604"/>
+    <stop offset="50%" stop-color="#160a04"/>
+    <stop offset="100%" stop-color="#200c04"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#ember-sky)"/>
+
+  <!-- Volcanic glow on horizon — the peaks are hot -->
+  <radialGradient id="horizon-heat" cx="50%" cy="100%" r="60%">
+    <stop offset="0%" stop-color="#802000" stop-opacity="0.5"/>
+    <stop offset="60%" stop-color="#401000" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#401000" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#horizon-heat)"/>
+
+  <!-- Far mountains — dark silhouettes -->
+  <g fill="#0e0604" opacity="0.9">
+    <polygon points="0,140 40,90 80,130 120,80 160,110 200,70 240,100 280,60 320,95 360,75 400,100 400,160 0,160"/>
+  </g>
+
+  <!-- Mid mountains — slightly lighter, volcanic glow at bases -->
+  <g fill="#140806">
+    <polygon points="0,160 30,120 70,145 110,110 150,135 190,105 230,130 270,115 310,140 350,120 400,145 400,200 0,200"/>
+  </g>
+
+  <!-- Lava flows visible on mid mountains — veins of orange -->
+  <g stroke="#c04000" stroke-width="1.5" fill="none" opacity="0.6">
+    <path d="M70,145 Q65,155 60,170 Q58,178 55,190"/>
+    <path d="M190,105 Q185,118 182,132 Q180,145 178,160"/>
+    <path d="M310,140 Q308,152 305,165 Q302,178 300,195"/>
+  </g>
+  <g stroke="#e06010" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M67,148 Q62,158 60,172"/>
+    <path d="M187,108 Q183,122 181,136"/>
+    <path d="M307,143 Q305,155 302,168"/>
+  </g>
+
+  <!-- Foreground peak — large, centre -->
+  <polygon points="100,200 200,100 300,200" fill="#0e0806" stroke="#180c06" stroke-width="1"/>
+  <!-- Caldera glow at peak top -->
+  <radialGradient id="caldera-glow" cx="50%" cy="0%" r="50%">
+    <stop offset="0%" stop-color="#ff4000" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#ff4000" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="100" rx="30" ry="15" fill="url(#caldera-glow)"/>
+  <!-- Smoke from peak -->
+  <g fill="#1a0e08" opacity="0.5">
+    <ellipse cx="195" cy="85"  rx="18" ry="8"/>
+    <ellipse cx="205" cy="72"  rx="14" ry="7"/>
+    <ellipse cx="198" cy="60"  rx="12" ry="6"/>
+    <ellipse cx="208" cy="48"  rx="10" ry="5"/>
+  </g>
+
+  <!-- Left peak -->
+  <polygon points="0,200 60,128 140,200" fill="#0c0604" stroke="#160a04" stroke-width="1"/>
+  <!-- Right peak -->
+  <polygon points="260,200 340,118 400,200" fill="#0c0604" stroke="#160a04" stroke-width="1"/>
+
+  <!-- LEY LINES — glowing orange-red, visible through the volcanic rock -->
+  <!-- Left ley line seam -->
+  <g stroke="#c83000" stroke-width="1.5" fill="none" opacity="0.5">
+    <path d="M50,200 Q55,175 60,155 Q65,135 62,115 Q60,100 65,80"/>
+  </g>
+  <g stroke="#ff6020" stroke-width="0.6" fill="none" opacity="0.3">
+    <path d="M52,200 Q57,175 62,155 Q67,135 64,115"/>
+  </g>
+  <!-- Right ley line seam -->
+  <g stroke="#c83000" stroke-width="1.5" fill="none" opacity="0.5">
+    <path d="M350,200 Q345,175 340,155 Q335,135 338,115 Q340,100 335,80"/>
+  </g>
+
+  <!-- Falling embers — atmosphere -->
+  <g fill="#e04010" opacity="0.6">
+    <circle cx="80"  cy="40"  r="1.2"/>
+    <circle cx="140" cy="25"  r="1"/>
+    <circle cx="260" cy="35"  r="1.2"/>
+    <circle cx="330" cy="20"  r="1"/>
+    <circle cx="180" cy="50"  r="0.8"/>
+    <circle cx="310" cy="55"  r="1"/>
+  </g>
+  <g fill="#ff6020" opacity="0.3">
+    <circle cx="90"  cy="55"  r="0.8"/>
+    <circle cx="220" cy="40"  r="0.8"/>
+    <circle cx="355" cy="45"  r="0.8"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1408" text-anchor="middle" letter-spacing="3">THE EMBERFALL PEAKS</text>
+</svg>
