@@ -42,29 +42,35 @@
   "intro": [
     {
       "title": "THE SKY DOMINION",
-      "text": "You've climbed out of the sea and into the air.\n\nThe Sky Dominion exists on drifting islands — chunks of terrain that broke loose during the Fracture and simply refused to come back down. They've been up here so long they've built cities on them. Militarised them. Connected them with rope-bridges and siege platforms and weapons specifically designed to hit things that are also in the air.\n\nThey do not like visitors."
+      "text": "You've climbed out of the sea and into the air.\n\nThe Sky Dominion exists on drifting islands — chunks of terrain that broke loose during the Fracture and simply refused to come back down. They've been up here so long they've built cities on them. Militarised them. Connected them with rope-bridges and siege platforms and weapons specifically designed to hit things that are also in the air.\n\nThey do not like visitors.",
+      "image": "cutscenes/act6-intro-1.svg"
     },
     {
       "title": "THE CLOUDMARSHAL",
-      "text": "Command of the Sky Dominion belongs to the Cloudmarshal — a general who has never lost a battle because, practically speaking, her armies have always had the high ground.\n\nShe does not consider a tactician without wings a credible threat. She's said this, publicly, several times.\n\nYou are going to prove her wrong. You always find this kind of statement motivating."
+      "text": "Command of the Sky Dominion belongs to the Cloudmarshal — a general who has never lost a battle because, practically speaking, her armies have always had the high ground.\n\nShe does not consider a tactician without wings a credible threat. She's said this, publicly, several times.\n\nYou are going to prove her wrong. You always find this kind of statement motivating.",
+      "image": "cutscenes/act6-intro-2.svg"
     },
     {
       "title": "THE LEY BRIDGE",
-      "text": "The ley lines rise here — thick, crackling columns of energy that punch up through the clouds and connect to something far above. If the Fractured Core exists anywhere, the ley lines suggest it's in a direction the Cloudmarshal considers her personal airspace.\n\nYou will need to break through her defences to reach it.\n\nAt least the view will be good."
+      "text": "The ley lines rise here — thick, crackling columns of energy that punch up through the clouds and connect to something far above. If the Fractured Core exists anywhere, the ley lines suggest it's in a direction the Cloudmarshal considers her personal airspace.\n\nYou will need to break through her defences to reach it.\n\nAt least the view will be good.",
+      "image": "cutscenes/act6-intro-3.svg"
     }
   ],
   "outro": [
     {
       "title": "THE CLOUDMARSHAL FALLS",
-      "text": "The Cloudmarshal does not surrender. She concedes the tactical situation, which is different, and she does it with the kind of grudging precision you only see in people who have never actually had to admit defeat before.\n\nThe ley bridge opens. The sky path clears.\n\nFrom up here, you can almost see where the Fracture scar runs through the upper atmosphere."
+      "text": "The Cloudmarshal does not surrender. She concedes the tactical situation, which is different, and she does it with the kind of grudging precision you only see in people who have never actually had to admit defeat before.\n\nThe ley bridge opens. The sky path clears.\n\nFrom up here, you can almost see where the Fracture scar runs through the upper atmosphere.",
+      "image": "cutscenes/act6-outro-1.svg"
     },
     {
       "title": "WHAT SHE SAID",
-      "text": "'You fight without flying,' she said, as you left. 'That shouldn't work.'\n\nYou told her you'd never found that to be a meaningful constraint.\n\nShe did not look convinced. She did, however, step aside."
+      "text": "'You fight without flying,' she said, as you left. 'That shouldn't work.'\n\nYou told her you'd never found that to be a meaningful constraint.\n\nShe did not look convinced. She did, however, step aside.",
+      "image": "cutscenes/act6-outro-2.svg"
     },
     {
       "title": "HIGHER STILL",
-      "text": "The Stormcaller's Badge sits in your hand — a Sky Dominion medal, given to the first enemy officer who ever reached the upper platforms.\n\nYou aren't an officer. Close enough.\n\nThe ley lines point upward. They always do. You've stopped being surprised by that."
+      "text": "The Stormcaller's Badge sits in your hand — a Sky Dominion medal, given to the first enemy officer who ever reached the upper platforms.\n\nYou aren't an officer. Close enough.\n\nThe ley lines point upward. They always do. You've stopped being surprised by that.",
+      "image": "cutscenes/act6-outro-3.svg"
     }
   ],
   "nodes": {
