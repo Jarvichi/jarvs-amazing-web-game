@@ -43,29 +43,35 @@
   "intro": [
     {
       "title": "THE CLOCKWORK VAULTS",
-      "text": "Deep beneath the shattered earth, the Clockwork Vaults hum with ancient machinery \u2014 built before the Fracture by an artificer order that no longer exists.\n\nThe Grand Automaton maintains it all. Has maintained it for two hundred years. No one knows if it was told to stop."
+      "text": "Deep beneath the shattered earth, the Clockwork Vaults hum with ancient machinery — built before the Fracture by an artificer order that no longer exists.\n\nThe Grand Automaton maintains it all. Has maintained it for two hundred years. No one knows if it was told to stop.",
+      "image": "cutscenes/act13-intro-1.svg"
     },
     {
       "title": "THE GRAND AUTOMATON",
-      "text": "It is not hostile. Hostility implies intent. The Automaton simply optimises \u2014 calculating minimum-force resolutions for all threats to vault integrity.\n\nYou are a threat to vault integrity."
+      "text": "It is not hostile. Hostility implies intent. The Automaton simply optimises — calculating minimum-force resolutions for all threats to vault integrity.\n\nYou are a threat to vault integrity.",
+      "image": "cutscenes/act13-intro-2.svg"
     },
     {
       "title": "WHAT LIES WITHIN",
-      "text": "The ley convergence threads through the Vault's central chamber, coiled around the Automaton's power core. It cannot be extracted without confronting the machine.\n\nThe machine cannot be reasoned with. But it can be defeated."
+      "text": "The ley convergence threads through the Vault's central chamber, coiled around the Automaton's power core. It cannot be extracted without confronting the machine.\n\nThe machine cannot be reasoned with. But it can be defeated.",
+      "image": "cutscenes/act13-intro-3.svg"
     }
   ],
   "outro": [
     {
       "title": "SYSTEMS OFFLINE",
-      "text": "The Grand Automaton's drives wind down with a sound like a long exhale. The vault shudders. Somewhere deep below, something enormous stops moving for the first time in centuries."
+      "text": "The Grand Automaton's drives wind down with a sound like a long exhale. The vault shudders. Somewhere deep below, something enormous stops moving for the first time in centuries.",
+      "image": "cutscenes/act13-outro-1.svg"
     },
     {
       "title": "GEAR HEART",
-      "text": "Amid the cooling machinery, you find a small gear-shaped crystal \u2014 the Automaton's drive core, still faintly warm.\n\nA fitting trophy. It pulses with each heartbeat."
+      "text": "Amid the cooling machinery, you find a small gear-shaped crystal — the Automaton's drive core, still faintly warm.\n\nA fitting trophy. It pulses with each heartbeat.",
+      "image": "cutscenes/act13-outro-2.svg"
     },
     {
       "title": "ONWARD",
-      "text": "The vault's mechanisms continue to tick behind you as you ascend. They were built to run forever.\n\nPerhaps they will."
+      "text": "The vault's mechanisms continue to tick behind you as you ascend. They were built to run forever.\n\nPerhaps they will.",
+      "image": "cutscenes/act13-outro-3.svg"
     }
   ],
   "nodes": {
@@ -115,8 +121,14 @@
               "effect": {
                 "type": "compound",
                 "effects": [
-                  { "type": "damageHp", "amount": 8 },
-                  { "type": "gainCard", "rarity": "rare" }
+                  {
+                    "type": "damageHp",
+                    "amount": 8
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
                 ]
               }
             }
@@ -248,8 +260,14 @@
               "effect": {
                 "type": "compound",
                 "effects": [
-                  { "type": "damageHp", "amount": 5 },
-                  { "type": "gainCard", "rarity": "rare" }
+                  {
+                    "type": "damageHp",
+                    "amount": 5
+                  },
+                  {
+                    "type": "gainCard",
+                    "rarity": "rare"
+                  }
                 ]
               }
             }
@@ -339,7 +357,7 @@
       "id": "repair-bay",
       "type": "rest",
       "label": "Salvaged Repair Bay",
-      "description": "Abandoned repair alcove \u2014 still functional.",
+      "description": "Abandoned repair alcove — still functional.",
       "row": 3,
       "col": 3,
       "rowCols": 4,
@@ -380,8 +398,14 @@
               "effect": {
                 "type": "compound",
                 "effects": [
-                  { "type": "gainCrystals", "amount": 100 },
-                  { "type": "damageHp", "amount": 15 }
+                  {
+                    "type": "gainCrystals",
+                    "amount": 100
+                  },
+                  {
+                    "type": "damageHp",
+                    "amount": 15
+                  }
                 ]
               }
             }

@@ -43,29 +43,35 @@
   "intro": [
     {
       "title": "THE SAND MARKET",
-      "text": "The ley lines run straight through the desert, which the Sand Market has spent decades making commercially relevant. The market grew up around the ley convergence — vendors first, then traders, then mercenaries, then the Dune Baron, who saw the strategic value and started charging for it.\n\nEverything here has a price. Including passage through it."
+      "text": "The ley lines run straight through the desert, which the Sand Market has spent decades making commercially relevant. The market grew up around the ley convergence — vendors first, then traders, then mercenaries, then the Dune Baron, who saw the strategic value and started charging for it.\n\nEverything here has a price. Including passage through it.",
+      "image": "cutscenes/act10-intro-1.svg"
     },
     {
       "title": "THE DUNE BARON",
-      "text": "The Dune Baron is not a warlord in any conventional sense. He's a businessman who happens to employ an army. The distinction matters to him. He'll explain it at length if you have the time.\n\nYou don't have the time. He knows this. He's going to make you spend it anyway.\n\nHe respects efficiency, but only if you can afford it."
+      "text": "The Dune Baron is not a warlord in any conventional sense. He's a businessman who happens to employ an army. The distinction matters to him. He'll explain it at length if you have the time.\n\nYou don't have the time. He knows this. He's going to make you spend it anyway.\n\nHe respects efficiency, but only if you can afford it.",
+      "image": "cutscenes/act10-intro-2.svg"
     },
     {
       "title": "THE MARKET ROUTE",
-      "text": "The ley lines converge beneath the market's central spire — the Dune Baron uses the energy surplus to power the lights, the forges, and the contract-binding seals that make his mercenary arrangements legally enforceable.\n\nYou need the convergence point. He isn't selling it.\n\nYou're going to take it. He'll probably factor this into his pricing for the next traveller."
+      "text": "The ley lines converge beneath the market's central spire — the Dune Baron uses the energy surplus to power the lights, the forges, and the contract-binding seals that make his mercenary arrangements legally enforceable.\n\nYou need the convergence point. He isn't selling it.\n\nYou're going to take it. He'll probably factor this into his pricing for the next traveller.",
+      "image": "cutscenes/act10-intro-3.svg"
     }
   ],
   "outro": [
     {
       "title": "THE DUNE BARON SETTLES",
-      "text": "The Dune Baron doesn't lose gracefully. He loses expensively — which means he calculates the cost of the outcome, determines it was within acceptable parameters, and files the result under 'resolved.'\n\nThe ley lines pulse through the market floor. The convergence point opens.\n\nHe's already thinking about what to charge the next person who shows up."
+      "text": "The Dune Baron doesn't lose gracefully. He loses expensively — which means he calculates the cost of the outcome, determines it was within acceptable parameters, and files the result under 'resolved.'\n\nThe ley lines pulse through the market floor. The convergence point opens.\n\nHe's already thinking about what to charge the next person who shows up.",
+      "image": "cutscenes/act10-outro-1.svg"
     },
     {
       "title": "WHAT HE SAID",
-      "text": "'You fought well,' the Baron said. 'I'll give you that at no charge.'\n\nYou asked about the Golden Compass.\n\n'Consider it a finder's fee,' he said. 'For finding the limits of my hospitality.'"
+      "text": "'You fought well,' the Baron said. 'I'll give you that at no charge.'\n\nYou asked about the Golden Compass.\n\n'Consider it a finder's fee,' he said. 'For finding the limits of my hospitality.'",
+      "image": "cutscenes/act10-outro-2.svg"
     },
     {
       "title": "THE GOLDEN COMPASS",
-      "text": "The Golden Compass sits warm in your palm — the Baron's personal navigation tool, used to track ley line convergences across the desert. It still points to them.\n\nIt also, apparently, makes you faster off the mark. The Baron claims he hadn't noticed that. You don't believe him.\n\nThe ley lines point on. The market recedes. The desert is, for once, quiet."
+      "text": "The Golden Compass sits warm in your palm — the Baron's personal navigation tool, used to track ley line convergences across the desert. It still points to them.\n\nIt also, apparently, makes you faster off the mark. The Baron claims he hadn't noticed that. You don't believe him.\n\nThe ley lines point on. The market recedes. The desert is, for once, quiet.",
+      "image": "cutscenes/act10-outro-3.svg"
     }
   ],
   "nodes": {
