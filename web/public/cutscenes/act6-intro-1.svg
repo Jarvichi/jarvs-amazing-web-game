@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#06091a"/>
+
+  <!-- Sky gradient — high altitude blues -->
+  <linearGradient id="sky6" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#08102a"/>
+    <stop offset="50%" stop-color="#0c1c3a"/>
+    <stop offset="100%" stop-color="#102040"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#sky6)"/>
+
+  <!-- Cloud layer — below the islands -->
+  <g fill="#141e30" opacity="0.7">
+    <ellipse cx="60"  cy="220" rx="70" ry="22"/>
+    <ellipse cx="200" cy="225" rx="90" ry="20"/>
+    <ellipse cx="340" cy="218" rx="75" ry="24"/>
+    <ellipse cx="130" cy="215" rx="55" ry="18"/>
+    <ellipse cx="270" cy="220" rx="60" ry="20"/>
+  </g>
+  <!-- Cloud highlights -->
+  <g fill="#1e2c48" opacity="0.4">
+    <ellipse cx="60"  cy="214" rx="55" ry="12"/>
+    <ellipse cx="200" cy="218" rx="70" ry="12"/>
+    <ellipse cx="340" cy="212" rx="60" ry="14"/>
+  </g>
+
+  <!-- FLOATING ISLANDS -->
+  <!-- Island 1 — large, centre, main platform -->
+  <g>
+    <!-- Underside — rocky, jagged -->
+    <polygon points="120,140 280,130 300,155 240,165 200,170 160,168 100,160" fill="#0a1020" stroke="#162030" stroke-width="1"/>
+    <!-- Dirt/rock underside detail -->
+    <g fill="#0e1828" stroke="#182838" stroke-width="0.5">
+      <polygon points="140,145 160,138 165,155 145,158"/>
+      <polygon points="200,135 220,130 225,150 205,155"/>
+      <polygon points="255,138 275,132 278,155 258,160"/>
+    </g>
+    <!-- Top surface — grass/rock -->
+    <polygon points="120,140 280,130 290,135 280,142 120,150 110,145" fill="#101e18" stroke="#1a2e22" stroke-width="1"/>
+    <!-- Grass tufts -->
+    <g stroke="#1e3828" stroke-width="1.5" fill="none">
+      <path d="M140,140 Q138,133 136,127"/>
+      <path d="M160,138 Q158,131 156,125"/>
+      <path d="M200,133 Q198,126 196,120"/>
+      <path d="M240,132 Q238,125 236,119"/>
+      <path d="M260,134 Q258,127 256,121"/>
+    </g>
+    <!-- Buildings on main island — military towers -->
+    <rect x="175" y="115" width="10" height="25" fill="#0e1828" stroke="#182838" stroke-width="1"/>
+    <rect x="210" y="118" width="10" height="22" fill="#0e1828" stroke="#182838" stroke-width="1"/>
+    <!-- Tower battlements -->
+    <g fill="#141e2c" stroke="#182838" stroke-width="0.5">
+      <rect x="175" y="110" width="4" height="7"/>
+      <rect x="181" y="110" width="4" height="7"/>
+      <rect x="210" y="113" width="4" height="7"/>
+      <rect x="216" y="113" width="4" height="7"/>
+    </g>
+    <!-- Banner on main tower -->
+    <line x1="180" y1="110" x2="180" y2="90" stroke="#1e2838" stroke-width="1.5"/>
+    <polygon points="180,90 205,97 180,104" fill="#182038" stroke="#283050" stroke-width="0.8"/>
+    <!-- Wind symbol on banner -->
+    <path d="M186,95 Q193,98 186,101" stroke="#3040a0" stroke-width="1" fill="none" opacity="0.7"/>
+  </g>
+
+  <!-- Island 2 — smaller, upper left, connected by rope bridge -->
+  <g>
+    <polygon points="20,85 105,78 115,95 80,102 20,100" fill="#0a1020" stroke="#162030" stroke-width="1"/>
+    <polygon points="20,85 105,78 108,82 20,90" fill="#101e18" stroke="#1a2e22" stroke-width="1"/>
+    <!-- Small watchtower -->
+    <rect x="55" y="72" width="8" height="16" fill="#0e1828" stroke="#182838" stroke-width="0.8"/>
+    <rect x="54" y="69" width="4" height="5" fill="#141e2c"/>
+    <rect x="59" y="69" width="4" height="5" fill="#141e2c"/>
+  </g>
+
+  <!-- Island 3 — right, medium -->
+  <g>
+    <polygon points="295,100 380,93 390,115 350,120 295,118" fill="#0a1020" stroke="#162030" stroke-width="1"/>
+    <polygon points="295,100 380,93 382,98 295,108" fill="#101e18" stroke="#1a2e22" stroke-width="1"/>
+    <!-- Landing platform -->
+    <rect x="330" y="88" width="35" height="6" fill="#141e28" stroke="#1e2e38" stroke-width="0.8"/>
+  </g>
+
+  <!-- Rope bridges connecting islands -->
+  <!-- Bridge from island 2 to island 1 -->
+  <g stroke="#1e2838" stroke-width="1" fill="none" opacity="0.7">
+    <path d="M105,90 Q112,105 120,140"/>
+    <path d="M108,90 Q116,106 124,140"/>
+    <!-- Rope rungs -->
+    <line x1="107" y1="100" x2="113" y2="101"/>
+    <line x1="109" y1="112" x2="116" y2="114"/>
+    <line x1="112" y1="124" x2="120" y2="127"/>
+  </g>
+  <!-- Bridge from island 1 to island 3 -->
+  <g stroke="#1e2838" stroke-width="1" fill="none" opacity="0.7">
+    <path d="M280,132 Q287,118 295,108"/>
+    <path d="M283,132 Q290,118 298,108"/>
+    <line x1="282" y1="124" x2="289" y2="120"/>
+    <line x1="284" y1="116" x2="291" y2="112"/>
+  </g>
+
+  <!-- Storm clouds in the distance — gathering -->
+  <g fill="#0e1628" opacity="0.5">
+    <ellipse cx="320" cy="55" rx="50" ry="22"/>
+    <ellipse cx="350" cy="45" rx="40" ry="18"/>
+    <ellipse cx="295" cy="50" rx="35" ry="16"/>
+  </g>
+  <!-- Lightning bolt in storm cloud -->
+  <g stroke="#c0c020" stroke-width="1.5" fill="none" opacity="0.6">
+    <path d="M330,48 L325,60 L332,60 L327,72"/>
+  </g>
+
+  <!-- Sky birds / flying units silhouettes -->
+  <g fill="#1a2840" opacity="0.5">
+    <path d="M150,55 Q155,50 160,55 Q155,52 150,55"/>
+    <path d="M230,40 Q236,35 242,40 Q236,37 230,40"/>
+    <path d="M80,40  Q85,35 90,40 Q85,37 80,40"/>
+  </g>
+
+  <!-- Stars -->
+  <g fill="#2a3860" opacity="0.4">
+    <circle cx="40"  cy="20" r="1"/>
+    <circle cx="110" cy="12" r="1.5"/>
+    <circle cx="180" cy="25" r="1"/>
+    <circle cx="270" cy="15" r="1.5"/>
+    <circle cx="380" cy="20" r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1e2e50" text-anchor="middle" letter-spacing="3">THE SKY DOMINION</text>
+</svg>
