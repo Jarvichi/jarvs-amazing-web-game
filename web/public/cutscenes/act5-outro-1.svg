@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#04080e"/>
+
+  <linearGradient id="recede-bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#060c18"/>
+    <stop offset="100%" stop-color="#0a1c2a"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#recede-bg)"/>
+
+  <!-- Fading glow — the Sovereign's power diminishing -->
+  <radialGradient id="recede-glow" cx="50%" cy="55%" r="45%">
+    <stop offset="0%" stop-color="#006080" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#006080" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#recede-glow)"/>
+
+  <!-- Seabed — the shore, now exposed as the wave pulls back -->
+  <rect x="0" y="185" width="400" height="55" fill="#060e10"/>
+  <!-- Wet sand / exposed reef floor -->
+  <g stroke="#0e2020" stroke-width="0.8" opacity="0.5">
+    <path d="M0,198 Q60,193 120,198 Q180,203 240,198 Q300,193 360,198 Q390,200 400,198"/>
+    <path d="M0,212 Q50,207 110,212 Q170,217 240,212 Q310,207 380,212"/>
+  </g>
+  <!-- Tide pools left behind -->
+  <g fill="#081820" stroke="#102828" stroke-width="0.5">
+    <ellipse cx="60"  cy="196" rx="25" ry="6"/>
+    <ellipse cx="180" cy="198" rx="18" ry="5"/>
+    <ellipse cx="320" cy="196" rx="22" ry="6"/>
+  </g>
+  <!-- Water in tide pools — faint bioluminescent -->
+  <g fill="#006880" opacity="0.2">
+    <ellipse cx="60"  cy="196" rx="22" ry="5"/>
+    <ellipse cx="180" cy="198" rx="15" ry="4"/>
+    <ellipse cx="320" cy="196" rx="19" ry="5"/>
+  </g>
+
+  <!-- THE SOVEREIGN RECEDING — dissolving wave pulling back toward the horizon -->
+  <!-- The mass is moving backward (right to horizon, or sinking down) -->
+  <!-- Bottom mass — already thinning, spreading out -->
+  <g fill="#0a2030" opacity="0.6">
+    <ellipse cx="200" cy="183" rx="110" ry="12"/>
+    <ellipse cx="200" cy="175" rx="85"  ry="12"/>
+  </g>
+  <!-- Mid body — fragments breaking apart -->
+  <g fill="#0c2838" opacity="0.65">
+    <polygon points="168,110 232,110 240,175 160,175"/>
+  </g>
+  <!-- Body striations fading -->
+  <g stroke="#1a4050" stroke-width="0.8" opacity="0.25">
+    <line x1="166" y1="128" x2="234" y2="128"/>
+    <line x1="164" y1="148" x2="236" y2="148"/>
+    <line x1="162" y1="168" x2="238" y2="168"/>
+  </g>
+
+  <!-- Arms — pulling back, becoming foam -->
+  <g fill="#0a2030" opacity="0.4">
+    <!-- Left arm receding -->
+    <path d="M168,130 Q130,118 90,100 Q60,86 30,72"/>
+    <path d="M168,140 Q132,130 94,114 Q64,100 36,88"/>
+  </g>
+  <path d="M168,135 Q131,124 92,107 Q62,93 33,80" stroke="#104050" stroke-width="2" fill="none" opacity="0.4"/>
+  <!-- Left arm dissolving into droplets -->
+  <g fill="#00a0b0" opacity="0.25">
+    <circle cx="30"  cy="72"  r="5"/>
+    <circle cx="18"  cy="68"  r="3"/>
+    <circle cx="8"   cy="65"  r="2"/>
+  </g>
+
+  <!-- Right arm receding -->
+  <g fill="#0a2030" opacity="0.4">
+    <path d="M232,125 Q272,110 312,92 Q342,78 368,65"/>
+    <path d="M232,136 Q270,124 308,108 Q338,95 362,82"/>
+  </g>
+  <path d="M232,130 Q271,117 310,100 Q340,86 365,73" stroke="#104050" stroke-width="2" fill="none" opacity="0.4"/>
+  <g fill="#00a0b0" opacity="0.25">
+    <circle cx="368" cy="65" r="5"/>
+    <circle cx="380" cy="61" r="3"/>
+    <circle cx="390" cy="58" r="2"/>
+  </g>
+
+  <!-- Head — dissolving, eyes going dark -->
+  <ellipse cx="200" cy="88" rx="32" ry="25" fill="#0c2030" stroke="#1a4050" stroke-width="1" opacity="0.7"/>
+  <!-- Coral falling away -->
+  <g stroke="#3a1808" stroke-width="1.5" fill="none" opacity="0.3">
+    <path d="M186,66 Q183,56 181,48"/>
+    <path d="M200,62 Q200,52 200,44"/>
+    <path d="M214,66 Q217,56 219,48"/>
+  </g>
+
+  <!-- Eyes — dark, the light going out -->
+  <circle cx="188" cy="86" r="6" fill="#060e18"/>
+  <circle cx="212" cy="86" r="6" fill="#060e18"/>
+  <circle cx="188" cy="86" r="3" fill="#003848" opacity="0.5"/>
+  <circle cx="212" cy="86" r="3" fill="#003848" opacity="0.5"/>
+  <!-- Last flicker -->
+  <circle cx="188" cy="86" r="1.5" fill="#0090a8" opacity="0.3"/>
+  <circle cx="212" cy="86" r="1.5" fill="#0090a8" opacity="0.3"/>
+
+  <!-- The recession — water streaming away in all directions from the collapsed form -->
+  <g stroke="#0a2838" stroke-width="1.5" fill="none" opacity="0.5">
+    <path d="M160,180 Q90,186 20,182"/>
+    <path d="M240,180 Q310,186 380,182"/>
+    <path d="M155,178 Q100,184 40,188"/>
+    <path d="M245,178 Q300,184 360,188"/>
+  </g>
+
+  <!-- Foam and seafoam bubbles left behind -->
+  <g fill="#0a2838" opacity="0.4">
+    <ellipse cx="100" cy="184" rx="15" ry="4"/>
+    <ellipse cx="295" cy="182" rx="12" ry="4"/>
+    <ellipse cx="200" cy="183" rx="20" ry="5"/>
+  </g>
+
+  <!-- Bioluminescent particles settling — the reef calming -->
+  <g fill="#00a0a8" opacity="0.2">
+    <circle cx="80"  cy="90"  r="1.5"/>
+    <circle cx="140" cy="70"  r="1"/>
+    <circle cx="260" cy="68"  r="1.5"/>
+    <circle cx="320" cy="85"  r="1"/>
+    <circle cx="60"  cy="140" r="1.5"/>
+    <circle cx="345" cy="135" r="1"/>
+    <circle cx="120" cy="155" r="1"/>
+    <circle cx="280" cy="150" r="1.5"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#1a4040" text-anchor="middle" letter-spacing="3">THE SOVEREIGN FALLS</text>
+</svg>
