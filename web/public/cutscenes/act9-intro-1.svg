@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#030810"/>
+
+  <linearGradient id="ice-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040c18"/>
+    <stop offset="50%" stop-color="#081424"/>
+    <stop offset="100%" stop-color="#0c1c30"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#ice-sky)"/>
+
+  <!-- Cold atmospheric haze — pale blue -->
+  <radialGradient id="cold-haze" cx="50%" cy="40%" r="60%">
+    <stop offset="0%" stop-color="#102840" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#102840" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#cold-haze)"/>
+
+  <!-- Distant frozen horizon — flat, vast -->
+  <rect x="0" y="155" width="400" height="85" fill="#060e18"/>
+  <line x1="0" y1="155" x2="400" y2="155" stroke="#10243a" stroke-width="1.5"/>
+
+  <!-- Ice surface texture — flat, cracked -->
+  <g stroke="#0e2030" stroke-width="0.6" fill="none" opacity="0.5">
+    <path d="M0,165 Q60,162 120,165 Q180,168 240,165 Q300,162 360,165 Q380,167 400,165"/>
+    <path d="M0,178 Q80,174 160,178 Q240,182 320,178 Q370,180 400,178"/>
+    <path d="M0,192 Q100,188 200,192 Q300,196 400,192"/>
+    <!-- Cracks in ice -->
+    <path d="M50,160 Q55,170 58,185 Q60,195 62,210"/>
+    <path d="M150,158 Q148,168 153,180 Q156,193 154,208"/>
+    <path d="M280,160 Q285,172 282,186 Q280,198 283,215"/>
+    <path d="M370,162 Q368,175 372,188 Q374,200 370,215"/>
+  </g>
+
+  <!-- THE LEY LINES — bright orange running straight through the ice -->
+  <!-- Main horizontal ley line — most prominent -->
+  <linearGradient id="ley-h" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#c04000" stop-opacity="0.3"/>
+    <stop offset="20%" stop-color="#ff6020" stop-opacity="0.9"/>
+    <stop offset="50%" stop-color="#ff8030" stop-opacity="1"/>
+    <stop offset="80%" stop-color="#ff6020" stop-opacity="0.9"/>
+    <stop offset="100%" stop-color="#c04000" stop-opacity="0.3"/>
+  </linearGradient>
+  <rect x="0" y="166" width="400" height="5" fill="url(#ley-h)"/>
+  <rect x="0" y="167" width="400" height="3" fill="#ffb060" opacity="0.5"/>
+
+  <!-- Secondary ley line — slightly angled, deeper in the ice -->
+  <line x1="0" y1="178" x2="400" y2="172" stroke="#e05010" stroke-width="3" opacity="0.6"/>
+  <line x1="0" y1="178" x2="400" y2="172" stroke="#ff7020" stroke-width="1" opacity="0.5"/>
+
+  <!-- Ley glow through ice above the lines — they're below but glow upward -->
+  <radialGradient id="ley-ice-glow" cx="50%" cy="100%" r="50%">
+    <stop offset="0%" stop-color="#c04000" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#c04000" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="0" y="130" width="400" height="40" fill="url(#ley-ice-glow)"/>
+
+  <!-- Ice formations — frozen pillars/ridges on horizon -->
+  <g fill="#060e1c" stroke="#0e1e2e" stroke-width="1">
+    <!-- Left ridge -->
+    <polygon points="0,155 30,118 60,130 80,108 110,125 130,155"/>
+    <!-- Right ridge -->
+    <polygon points="270,155 295,112 320,128 345,105 370,120 400,140 400,155"/>
+  </g>
+  <!-- Ice sheen on ridges -->
+  <g fill="#102030" opacity="0.5">
+    <polygon points="30,118 45,120 60,130 50,125"/>
+    <polygon points="80,108 95,115 110,125 95,118"/>
+    <polygon points="295,112 310,118 320,128 308,120"/>
+    <polygon points="345,105 358,112 370,120 355,110"/>
+  </g>
+
+  <!-- Stars — cold, blue-white -->
+  <g fill="#a0c0e0" opacity="0.4">
+    <circle cx="40"  cy="20" r="1.2"/>
+    <circle cx="100" cy="12" r="1"/>
+    <circle cx="180" cy="18" r="1.5"/>
+    <circle cx="250" cy="8"  r="1"/>
+    <circle cx="340" cy="22" r="1.2"/>
+    <circle cx="380" cy="14" r="1"/>
+  </g>
+  <!-- Faint aurora — blue-green wash at horizon -->
+  <linearGradient id="aurora" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#102838" stop-opacity="0"/>
+    <stop offset="70%" stop-color="#082838" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#062028" stop-opacity="0.3"/>
+  </linearGradient>
+  <rect x="0" y="60" width="400" height="95" fill="url(#aurora)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1a3050" text-anchor="middle" letter-spacing="3">THE FROZEN EXPANSE</text>
+</svg>
