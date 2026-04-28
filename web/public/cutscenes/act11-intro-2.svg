@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#030802"/>
+  <linearGradient id="warden-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040a02"/>
+    <stop offset="100%" stop-color="#081206"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#warden-sky)"/>
+
+  <!-- Green canopy glow — the Warden IS the canopy -->
+  <radialGradient id="warden-glow" cx="50%" cy="40%" r="55%">
+    <stop offset="0%" stop-color="#184010" stop-opacity="0.45"/>
+    <stop offset="100%" stop-color="#184010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#warden-glow)"/>
+
+  <!-- Forest floor -->
+  <rect x="0" y="200" width="400" height="40" fill="#040802"/>
+  <line x1="0" y1="200" x2="400" y2="200" stroke="#0a1604" stroke-width="1"/>
+  <!-- Root mats -->
+  <g stroke="#0a1406" stroke-width="1" fill="none" opacity="0.4">
+    <path d="M0,205 Q80,200 160,205 Q240,210 320,205 Q370,202 400,205"/>
+  </g>
+
+  <!-- THE ELDER WARDEN — the canopy made sovereign -->
+  <!-- Not humanoid — a vast aggregated form of interlocked branches and living wood -->
+  <!-- Main "body" mass — converging branches forming a presence -->
+  <!-- Root pillar base -->
+  <g fill="#060e04" stroke="#0e1808" stroke-width="1">
+    <polygon points="170,200 230,200 240,240 160,240" fill="#050c02"/>
+    <!-- Spreading root tendrils at base -->
+    <path d="M170,200 Q155,210 140,220 Q125,228 110,235" stroke="#0a1408" stroke-width="3" fill="none"/>
+    <path d="M230,200 Q245,210 260,220 Q275,228 290,235" stroke="#0a1408" stroke-width="3" fill="none"/>
+    <path d="M185,200 Q178,215 172,230" stroke="#0a1408" stroke-width="2" fill="none"/>
+    <path d="M215,200 Q222,215 228,230" stroke="#0a1408" stroke-width="2" fill="none"/>
+  </g>
+  <!-- Central mass — coiling branches -->
+  <g fill="#060e03" stroke="#0e1806" stroke-width="1.5">
+    <ellipse cx="200" cy="155" rx="55" ry="50"/>
+  </g>
+  <!-- Branch arms radiating outward — the Warden's reach -->
+  <g stroke="#081404" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M155,140 Q120,125 85,108 Q60,96 35,88"/>
+    <path d="M245,140 Q280,125 315,108 Q340,96 365,88"/>
+    <path d="M165,120 Q140,100 118,82 Q100,68 82,55"/>
+    <path d="M235,120 Q260,100 282,82 Q300,68 318,55"/>
+    <path d="M200,105 Q195,80 190,58 Q186,42 183,28"/>
+    <path d="M200,105 Q205,80 210,58 Q214,42 217,28"/>
+  </g>
+  <!-- Secondary branch tendrils -->
+  <g stroke="#0a1804" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7">
+    <path d="M85,108 Q70,102 55,95"/>
+    <path d="M315,108 Q330,102 345,95"/>
+    <path d="M118,82 Q108,75 98,65"/>
+    <path d="M282,82 Q292,75 302,65"/>
+  </g>
+  <!-- Branch tips lit with ley energy — green nodes -->
+  <g fill="#20c040" opacity="0.5">
+    <circle cx="35"  cy="88"  r="4"/>
+    <circle cx="365" cy="88"  r="4"/>
+    <circle cx="82"  cy="55"  r="3.5"/>
+    <circle cx="318" cy="55"  r="3.5"/>
+    <circle cx="183" cy="28"  r="3"/>
+    <circle cx="217" cy="28"  r="3"/>
+  </g>
+  <!-- Face of the Warden — two glowing nodes where "eyes" would be -->
+  <circle cx="185" cy="148" r="6" fill="#060e04" stroke="#20a030" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="215" cy="148" r="6" fill="#060e04" stroke="#20a030" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="185" cy="148" r="3" fill="#30c050" opacity="0.6"/>
+  <circle cx="215" cy="148" r="3" fill="#30c050" opacity="0.6"/>
+  <!-- Mouth — a wide seam like bark splitting -->
+  <path d="M180,163 Q200,170 220,163" stroke="#0e1a06" stroke-width="2.5" fill="none" opacity="0.7"/>
+  <!-- Inner canopy texture on body mass -->
+  <g fill="#0a1604" opacity="0.6">
+    <ellipse cx="200" cy="145" rx="35" ry="30"/>
+    <ellipse cx="195" cy="135" rx="18" ry="14"/>
+    <ellipse cx="210" cy="140" rx="14" ry="12"/>
+  </g>
+  <!-- Bioluminescent ley veins on trunk body -->
+  <g stroke="#20c040" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M185,200 Q190,185 188,165 Q186,150 188,135"/>
+    <path d="M215,200 Q210,185 212,165 Q214,150 212,135"/>
+    <path d="M200,200 Q200,180 200,155"/>
+  </g>
+
+  <!-- Falling leaves — the canopy breathing -->
+  <g fill="#184010" opacity="0.4">
+    <ellipse cx="80"  cy="180" rx="4" ry="2" transform="rotate(-30 80 180)"/>
+    <ellipse cx="140" cy="165" rx="3" ry="1.5" transform="rotate(20 140 165)"/>
+    <ellipse cx="260" cy="170" rx="4" ry="2" transform="rotate(15 260 170)"/>
+    <ellipse cx="320" cy="185" rx="3" ry="1.5" transform="rotate(-20 320 185)"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#183010" text-anchor="middle" letter-spacing="3">THE ELDER WARDEN</text>
+</svg>

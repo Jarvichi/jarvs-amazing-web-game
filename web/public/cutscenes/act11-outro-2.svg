@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#030802"/>
+  <linearGradient id="bark-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040a02"/>
+    <stop offset="100%" stop-color="#081006"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#bark-sky)"/>
+
+  <!-- Soft forest warmth — quiet after the Warden's withdrawal -->
+  <radialGradient id="bark-glow" cx="50%" cy="45%" r="45%">
+    <stop offset="0%" stop-color="#183810" stop-opacity="0.4"/>
+    <stop offset="60%" stop-color="#102808" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#102808" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#bark-glow)"/>
+
+  <!-- LIVING BARK — the relic, centre frame -->
+  <!-- Outer glow ring — alive, warm -->
+  <radialGradient id="bark-aura" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#28a040" stop-opacity="0.4"/>
+    <stop offset="50%" stop-color="#18802a" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#18802a" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="95" rx="60" ry="55" fill="url(#bark-aura)"/>
+
+  <!-- Bark shape — irregular, organic strip of living heartwood -->
+  <!-- Main bark body — curved, like a section of ancient trunk -->
+  <path d="M172,55 Q188,48 212,52 Q228,56 232,78 Q235,100 228,122 Q222,140 208,148 Q194,155 180,148 Q166,140 162,118 Q158,96 162,74 Q165,62 172,55 Z" fill="#0a1606" stroke="#183010" stroke-width="2"/>
+  <!-- Bark surface texture — fissures and grain -->
+  <g stroke="#142808" stroke-width="0.8" fill="none" opacity="0.6">
+    <path d="M176,62 Q182,80 178,100 Q175,118 178,136"/>
+    <path d="M190,56 Q194,75 191,96 Q188,114 191,132"/>
+    <path d="M204,58 Q208,78 205,98 Q202,116 205,134"/>
+    <path d="M218,68 Q222,86 219,105 Q216,122 219,138"/>
+  </g>
+  <!-- Horizontal ring marks — age rings visible in cross-section -->
+  <g stroke="#1a3010" stroke-width="0.6" fill="none" opacity="0.4">
+    <path d="M165,80  Q200,76 232,82"/>
+    <path d="M163,100 Q200,96 234,102"/>
+    <path d="M165,120 Q200,116 232,122"/>
+  </g>
+  <!-- Bioluminescent ley veins running through the bark — it's alive -->
+  <g stroke="#30c050" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M182,60 Q186,80 183,100 Q180,118 183,136"/>
+    <path d="M200,55 Q200,76 200,98 Q200,116 200,135"/>
+    <path d="M218,68 Q214,86 216,106 Q218,122 215,138"/>
+  </g>
+  <!-- Living surface glow — ley energy just under the bark -->
+  <radialGradient id="bark-inner" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#28c048" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#28c048" stop-opacity="0"/>
+  </radialGradient>
+  <path d="M172,55 Q188,48 212,52 Q228,56 232,78 Q235,100 228,122 Q222,140 208,148 Q194,155 180,148 Q166,140 162,118 Q158,96 162,74 Q165,62 172,55 Z" fill="url(#bark-inner)"/>
+  <!-- Small bud — inexplicably growing from the top edge of the bark -->
+  <g fill="#20a030" opacity="0.7">
+    <ellipse cx="200" cy="52" rx="5" ry="3" transform="rotate(-10 200 52)"/>
+    <ellipse cx="210" cy="55" rx="4" ry="2.5" transform="rotate(15 210 55)"/>
+  </g>
+  <line x1="200" y1="55" x2="200" y2="48" stroke="#18a028" stroke-width="1" opacity="0.6"/>
+  <line x1="210" y1="58" x2="213" y2="50" stroke="#18a028" stroke-width="1" opacity="0.5"/>
+
+  <!-- JARV — below, arms raised receiving the bark -->
+  <ellipse cx="200" cy="222" rx="20" ry="4" fill="#020401" opacity="0.7"/>
+  <ellipse cx="194" cy="224" rx="4.5" ry="2" fill="#08090e"/>
+  <ellipse cx="206" cy="224" rx="4.5" ry="2" fill="#08090e"/>
+  <line x1="196" y1="215" x2="194" y2="224" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="204" y1="214" x2="206" y2="224" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <polygon points="184,183 216,183 220,213 180,213" fill="#0a1e20" stroke="#1a4040" stroke-width="1.5"/>
+  <g fill="#00c090" opacity="0.4">
+    <circle cx="180" cy="183" r="1.5"/>
+    <circle cx="220" cy="183" r="1.5"/>
+  </g>
+  <line x1="184" y1="190" x2="166" y2="168" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="216" y1="190" x2="234" y2="168" stroke="#0c0c18" stroke-width="3.5" stroke-linecap="round"/>
+  <polygon points="160,163 170,162 172,173 162,174" fill="#0d0e1a" stroke="#181830" stroke-width="0.8"/>
+  <polygon points="230,163 240,162 242,173 232,174" fill="#0d0e1a" stroke="#181830" stroke-width="0.8"/>
+  <ellipse cx="200" cy="174" rx="9" ry="8" fill="#0c0c1a" stroke="#181830" stroke-width="1"/>
+  <ellipse cx="200" cy="177" rx="5" ry="3" fill="#080810"/>
+
+  <!-- Forest floor -->
+  <rect x="0" y="226" width="400" height="14" fill="#040802"/>
+  <g stroke="#0a1404" stroke-width="1" fill="none" opacity="0.3">
+    <path d="M0,228 Q100,225 200,228 Q300,231 400,228"/>
+  </g>
+
+  <!-- Drifting canopy leaves — quietly settling -->
+  <g fill="#183010" opacity="0.4">
+    <ellipse cx="70"  cy="120" rx="4" ry="2" transform="rotate(-20 70 120)"/>
+    <ellipse cx="140" cy="100" rx="3" ry="1.5" transform="rotate(10 140 100)"/>
+    <ellipse cx="260" cy="105" rx="4" ry="2" transform="rotate(18 260 105)"/>
+    <ellipse cx="330" cy="118" rx="3" ry="1.5" transform="rotate(-12 330 118)"/>
+  </g>
+
+  <!-- Canopy framing -->
+  <polygon points="0,0 400,0 400,48 365,36 325,50 285,34 245,50 205,32 175,48 135,32 95,50 55,34 15,50 0,38" fill="#050c02"/>
+
+  <!-- Label -->
+  <text x="200" y="238" font-family="monospace" font-size="9" fill="#183010" text-anchor="middle" letter-spacing="3">LIVING BARK</text>
+</svg>
