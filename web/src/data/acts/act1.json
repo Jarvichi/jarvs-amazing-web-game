@@ -1054,6 +1054,18 @@
       "bossAI": "thornlord",
       "bossCard": "Elder Treant",
       "bossName": "The Thornlord",
+      "bossIntro": [
+        {
+          "title": "ACT I — BOSS",
+          "text": "The path narrows. Ancient roots close behind you like fingers. The trees here have not seen sunlight in centuries — they have no need of it.\n\nSomething ahead breathes. Slowly. Like a forest exhaling.",
+          "image": "cutscenes/act1-boss-1.svg"
+        },
+        {
+          "title": "ACT I — BOSS",
+          "text": "The Thornlord does not move toward you. He does not need to.\n\nHe has been standing in this clearing since before the Dominion was built. His eyes open — two cold lights in a face of bark and centuries.\n\nHe is watching you the way a tree watches an axe.",
+          "image": "cutscenes/act1-boss-2.svg"
+        }
+      ],
       "bossDialogue": [
         "\"You carry the smell of the shattered world.\"",
         "\"I sealed these paths to keep the rot from spreading. Clearly I should have built higher walls.\"",

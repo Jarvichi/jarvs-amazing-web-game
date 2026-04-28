@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <!-- Background -->
+  <rect width="400" height="240" fill="#03080a"/>
+  <linearGradient id="ab2-bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#05100c"/>
+    <stop offset="100%" stop-color="#020508"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#ab2-bg)"/>
+
+  <!-- Distant treeline — silhouette -->
+  <g fill="#040c07" opacity="1">
+    <rect x="0"   y="120" width="30"  height="120"/>
+    <rect x="20"  y="100" width="25"  height="140"/>
+    <rect x="340" y="110" width="28"  height="130"/>
+    <rect x="355" y="95"  width="22"  height="145"/>
+    <rect x="370" y="118" width="30"  height="122"/>
+    <!-- canopy blobs -->
+    <ellipse cx="32"  cy="100" rx="38" ry="30"/>
+    <ellipse cx="10"  cy="90"  rx="28" ry="22"/>
+    <ellipse cx="365" cy="105" rx="36" ry="28"/>
+    <ellipse cx="385" cy="92"  rx="25" ry="20"/>
+  </g>
+
+  <!-- Ground plane -->
+  <ellipse cx="200" cy="210" rx="180" ry="35" fill="#060e08" opacity="0.8"/>
+  <!-- Ground roots radiating from boss -->
+  <g stroke="#0d200f" stroke-width="4" fill="none" opacity="0.8">
+    <path d="M200,200 Q160,210 100,225"/>
+    <path d="M200,200 Q230,215 300,228"/>
+    <path d="M200,200 Q170,220 60,235"/>
+    <path d="M200,200 Q240,222 340,235"/>
+    <path d="M200,200 Q190,215 150,240"/>
+    <path d="M200,200 Q210,215 250,240"/>
+  </g>
+  <g stroke="#122815" stroke-width="2" fill="none" opacity="0.5">
+    <path d="M200,200 Q140,205 80,218"/>
+    <path d="M200,200 Q260,204 320,216"/>
+    <path d="M200,195 Q180,208 130,225"/>
+    <path d="M200,195 Q220,207 270,224"/>
+  </g>
+
+  <!-- The Thornlord — massive tree-being body -->
+  <!-- Trunk / lower body -->
+  <rect x="172" y="120" width="56" height="90" rx="8" fill="#0a1a0c"/>
+  <rect x="180" y="118" width="40" height="88" rx="6" fill="#0d2010"/>
+  <!-- Bark texture lines -->
+  <g stroke="#162c18" stroke-width="1" fill="none" opacity="0.6">
+    <path d="M185,130 Q190,145 185,160 Q182,175 186,190"/>
+    <path d="M200,125 Q198,145 202,165 Q200,180 199,205"/>
+    <path d="M213,130 Q210,148 214,165 Q212,178 215,192"/>
+  </g>
+
+  <!-- Root legs -->
+  <g fill="#0a1a0c">
+    <path d="M178,195 Q155,205 120,215 Q100,220 80,218"/>
+    <path d="M185,198 Q170,212 155,225 Q140,235 120,238"/>
+    <path d="M215,195 Q240,205 275,215 Q300,220 320,218"/>
+    <path d="M220,198 Q235,212 248,225 Q262,235 280,238"/>
+  </g>
+
+  <!-- Upper body / shoulder mass -->
+  <ellipse cx="200" cy="115" rx="55" ry="35" fill="#0c1e0e"/>
+  <ellipse cx="200" cy="110" rx="42" ry="28" fill="#0f2412"/>
+
+  <!-- Branch arms — left -->
+  <g fill="#0a1a0c" stroke="#0d2010" stroke-width="1">
+    <path d="M158,110 Q120,90 90,75 Q70,65 50,70"/>
+    <path d="M158,110 Q130,95 110,100 Q85,105 60,98"/>
+    <path d="M152,100 Q120,75 95,60 Q78,50 60,55"/>
+  </g>
+  <!-- Branch arms — right -->
+  <g fill="#0a1a0c" stroke="#0d2010" stroke-width="1">
+    <path d="M242,110 Q280,90 310,75 Q330,65 350,70"/>
+    <path d="M242,110 Q270,95 290,100 Q315,105 340,98"/>
+    <path d="M248,100 Q280,75 305,60 Q322,50 340,55"/>
+  </g>
+  <!-- Branch arm widths -->
+  <g stroke="#0d2010" stroke-width="5" fill="none">
+    <path d="M158,110 Q115,85 85,68"/>
+    <path d="M242,110 Q285,85 315,68"/>
+  </g>
+  <g stroke="#0a1a0c" stroke-width="8" fill="none">
+    <path d="M162,112 Q118,88 88,70"/>
+    <path d="M238,112 Q282,88 312,70"/>
+  </g>
+
+  <!-- Thorns on branches -->
+  <g stroke="#1a3a1c" stroke-width="1.2" fill="none">
+    <path d="M115,85 L110,75 M115,85 L108,82"/>
+    <path d="M100,78 L95,68 M100,78 L93,75"/>
+    <path d="M285,85 L290,75 M285,85 L292,82"/>
+    <path d="M300,78 L305,68 M300,78 L307,75"/>
+    <path d="M130,92 L125,81 M130,92 L122,90"/>
+    <path d="M270,92 L275,81 M270,92 L278,90"/>
+  </g>
+
+  <!-- Head — gnarled mass of bark and vines -->
+  <ellipse cx="200" cy="82" rx="32" ry="28" fill="#0c2010"/>
+  <ellipse cx="200" cy="80" rx="26" ry="22" fill="#0f2814"/>
+  <!-- Vine wrapping on head -->
+  <g stroke="#1a3a1e" stroke-width="1.5" fill="none" opacity="0.7">
+    <path d="M176,75 Q185,65 196,70 Q210,75 218,68 Q225,62 230,70"/>
+    <path d="M174,85 Q182,80 192,84 Q205,88 215,82 Q224,77 228,85"/>
+  </g>
+  <!-- Crown of thorns -->
+  <g stroke="#1e4020" stroke-width="1.5" fill="none">
+    <path d="M185,60 L182,48 M185,60 L178,52"/>
+    <path d="M195,57 L194,44 M195,57 L189,47"/>
+    <path d="M205,57 L206,44 M205,57 L211,47"/>
+    <path d="M215,60 L218,48 M215,60 L222,52"/>
+    <path d="M200,56 L200,42"/>
+  </g>
+
+  <!-- EYES — glowing amber-green -->
+  <radialGradient id="ab2-eye-l" gradientUnits="userSpaceOnUse" cx="189" cy="80" r="8">
+    <stop offset="0%" stop-color="#c8e840" stop-opacity="0.9"/>
+    <stop offset="40%" stop-color="#80b020" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#204010" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="ab2-eye-r" gradientUnits="userSpaceOnUse" cx="211" cy="80" r="8">
+    <stop offset="0%" stop-color="#c8e840" stop-opacity="0.9"/>
+    <stop offset="40%" stop-color="#80b020" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#204010" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="189" cy="80" rx="7" ry="5" fill="url(#ab2-eye-l)"/>
+  <ellipse cx="211" cy="80" rx="7" ry="5" fill="url(#ab2-eye-r)"/>
+  <!-- Eye pupils -->
+  <ellipse cx="189" cy="80" rx="3" ry="3" fill="#e8ff60" opacity="0.95"/>
+  <ellipse cx="211" cy="80" rx="3" ry="3" fill="#e8ff60" opacity="0.95"/>
+
+  <!-- Eye glow halos -->
+  <radialGradient id="ab2-halo" gradientUnits="userSpaceOnUse" cx="200" cy="80" r="50">
+    <stop offset="0%" stop-color="#60a020" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#60a020" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="80" rx="55" ry="40" fill="url(#ab2-halo)"/>
+
+  <!-- Ambient spores / motes around the figure -->
+  <g fill="#4a8030" opacity="0.45">
+    <circle cx="130" cy="90"  r="1.5"/>
+    <circle cx="108" cy="105" r="1"/>
+    <circle cx="145" cy="70"  r="1"/>
+    <circle cx="270" cy="90"  r="1.5"/>
+    <circle cx="292" cy="105" r="1"/>
+    <circle cx="255" cy="70"  r="1"/>
+    <circle cx="170" cy="55"  r="1.2"/>
+    <circle cx="230" cy="55"  r="1.2"/>
+    <circle cx="160" cy="130" r="1"/>
+    <circle cx="240" cy="130" r="1"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="ab2-vign" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.7"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#ab2-vign)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a4a20" text-anchor="middle" letter-spacing="3">THE THORNLORD</text>
+</svg>
