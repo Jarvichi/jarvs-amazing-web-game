@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#06091a"/>
+
+  <linearGradient id="cm-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#080f20"/>
+    <stop offset="100%" stop-color="#101828"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#cm-sky)"/>
+
+  <!-- Storm atmosphere — her domain -->
+  <radialGradient id="storm-glow" cx="50%" cy="40%" r="50%">
+    <stop offset="0%" stop-color="#203060" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="#203060" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#storm-glow)"/>
+
+  <!-- Ground — floating island platform she stands on -->
+  <polygon points="100,195 300,185 310,205 90,210" fill="#0a1020" stroke="#162030" stroke-width="1.5"/>
+  <polygon points="100,195 300,185 302,190 100,202" fill="#101e18" stroke="#1a2e22" stroke-width="1"/>
+  <!-- Platform edge glow — electricity in the stone -->
+  <path d="M100,195 Q200,185 300,185" stroke="#3040a0" stroke-width="0.8" fill="none" opacity="0.4"/>
+
+  <!-- Shadow -->
+  <ellipse cx="200" cy="202" rx="40" ry="8" fill="#050810" opacity="0.7"/>
+
+  <!-- THE CLOUDMARSHAL — commanding figure, robed in storm-grey, holding a staff -->
+  <!-- Boots -->
+  <ellipse cx="190" cy="207" rx="7" ry="3" fill="#0a0c18"/>
+  <ellipse cx="212" cy="205" rx="7" ry="3" fill="#0a0c18"/>
+  <!-- Legs -->
+  <line x1="192" y1="194" x2="190" y2="207" stroke="#101828" stroke-width="4" stroke-linecap="round"/>
+  <line x1="206" y1="192" x2="212" y2="205" stroke="#101828" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Uniform / coat — military, storm-grey -->
+  <polygon points="178,155 222,155 228,194 172,194" fill="#181c28" stroke="#242c40" stroke-width="1"/>
+  <!-- Coat epaulettes -->
+  <ellipse cx="180" cy="157" rx="10" ry="5" fill="#2030a0" opacity="0.7"/>
+  <ellipse cx="220" cy="157" rx="10" ry="5" fill="#2030a0" opacity="0.7"/>
+  <!-- Gold braiding on uniform -->
+  <g stroke="#806020" stroke-width="1.5" opacity="0.6">
+    <path d="M183,162 Q200,165 217,162"/>
+    <path d="M182,170 Q200,173 218,170"/>
+    <path d="M181,178 Q200,181 219,178"/>
+  </g>
+  <!-- Medals on chest -->
+  <g fill="#806020" opacity="0.7">
+    <circle cx="190" cy="168" r="3"/>
+    <circle cx="196" cy="165" r="2.5"/>
+    <circle cx="202" cy="163" r="2.5"/>
+    <circle cx="208" cy="165" r="2.5"/>
+    <circle cx="214" cy="168" r="3"/>
+  </g>
+
+  <!-- Head — stern face, commanding -->
+  <ellipse cx="200" cy="143" rx="14" ry="13" fill="#141c28" stroke="#202838" stroke-width="1"/>
+  <!-- Hair / military cap -->
+  <rect x="186" y="130" width="28" height="10" rx="2" fill="#0e1420" stroke="#1a2030" stroke-width="1"/>
+  <!-- Cap brim -->
+  <rect x="182" y="138" width="36" height="4" rx="1" fill="#0c1018" stroke="#182028" stroke-width="0.8"/>
+  <!-- Cap badge — lightning bolt -->
+  <g fill="#c0c020" opacity="0.7">
+    <polygon points="198,133 202,133 200,137 204,137 198,142 200,138 196,138"/>
+  </g>
+  <!-- Face -->
+  <line x1="192" y1="148" x2="198" y2="147" stroke="#283848" stroke-width="1.5"/>
+  <line x1="202" y1="147" x2="208" y2="148" stroke="#283848" stroke-width="1.5"/>
+  <!-- Eyes — sharp, assessing -->
+  <line x1="192" y1="143" x2="197" y2="143" stroke="#8090c0" stroke-width="1.5" opacity="0.8"/>
+  <line x1="203" y1="143" x2="208" y2="143" stroke="#8090c0" stroke-width="1.5" opacity="0.8"/>
+
+  <!-- Left arm — gauntleted, pointing to the side -->
+  <line x1="178" y1="165" x2="155" y2="172" stroke="#181c28" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="148,168 160,166 162,178 150,180" fill="#1a2030" stroke="#242c40" stroke-width="0.8"/>
+
+  <!-- Right arm — holding Weather Staff -->
+  <line x1="222" y1="162" x2="245" y2="150" stroke="#181c28" stroke-width="4" stroke-linecap="round"/>
+  <!-- Staff -->
+  <line x1="245" y1="120" x2="245" y2="200" stroke="#202838" stroke-width="2.5"/>
+  <!-- Staff head — storm orb -->
+  <circle cx="245" cy="118" r="10" fill="#0e1428" stroke="#3040a0" stroke-width="1.5"/>
+  <!-- Storm orb glow -->
+  <radialGradient id="orb-glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#4060e0" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#4060e0" stop-opacity="0"/>
+  </radialGradient>
+  <circle cx="245" cy="118" r="10" fill="url(#orb-glow)"/>
+  <circle cx="245" cy="118" r="4" fill="#2040c0" opacity="0.8"/>
+  <!-- Miniature lightning inside orb -->
+  <g stroke="#e0e060" stroke-width="0.8" opacity="0.6">
+    <path d="M243,112 L241,118 L245,118 L242,124"/>
+  </g>
+
+  <!-- Storm clouds swirling around her — she commands them -->
+  <!-- Left cloud -->
+  <g fill="#0e1828" opacity="0.6">
+    <ellipse cx="80"  cy="140" rx="45" ry="18"/>
+    <ellipse cx="55"  cy="130" rx="30" ry="14"/>
+    <ellipse cx="105" cy="132" rx="35" ry="16"/>
+  </g>
+  <!-- Right cloud -->
+  <g fill="#0e1828" opacity="0.6">
+    <ellipse cx="330" cy="135" rx="50" ry="20"/>
+    <ellipse cx="360" cy="125" rx="30" ry="14"/>
+    <ellipse cx="310" cy="128" rx="35" ry="16"/>
+  </g>
+
+  <!-- Lightning arcing from her staff to the clouds -->
+  <g stroke="#c0c820" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M245,118 Q190,110 110,138"/>
+    <path d="M245,118 Q300,110 340,130"/>
+  </g>
+  <!-- Lightning sparks -->
+  <g stroke="#e0e060" stroke-width="0.8" opacity="0.4">
+    <path d="M108,135 L104,145 L110,145 L106,155"/>
+    <path d="M338,127 L334,137 L340,137 L336,147"/>
+  </g>
+
+  <!-- Stars in sky above -->
+  <g fill="#2a3860" opacity="0.4">
+    <circle cx="30"  cy="20" r="1"/>
+    <circle cx="100" cy="15" r="1.5"/>
+    <circle cx="300" cy="10" r="1.5"/>
+    <circle cx="370" cy="22" r="1"/>
+    <circle cx="180" cy="8"  r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1e2e50" text-anchor="middle" letter-spacing="3">THE CLOUDMARSHAL</text>
+</svg>
