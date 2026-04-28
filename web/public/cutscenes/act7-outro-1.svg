@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#060301"/>
+
+  <linearGradient id="caldera-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#080402"/>
+    <stop offset="100%" stop-color="#1e0802"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#caldera-sky)"/>
+
+  <!-- Caldera interior — the confrontation site -->
+  <!-- Glowing magma below — the caldera floor is cracking -->
+  <radialGradient id="caldera-heat" cx="50%" cy="100%" r="60%">
+    <stop offset="0%" stop-color="#c02800" stop-opacity="0.7"/>
+    <stop offset="50%" stop-color="#801400" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#400800" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#caldera-heat)"/>
+
+  <!-- Caldera walls — encircling rock -->
+  <g fill="#0a0602" stroke="#140804" stroke-width="1">
+    <polygon points="0,200 0,100 60,80 80,120 0,200"/>
+    <polygon points="400,200 400,95 340,78 320,118 400,200"/>
+  </g>
+  <!-- Rock ledge — the floor, now cracking -->
+  <polygon points="60,205 340,198 355,220 45,222" fill="#100602" stroke="#1c0802" stroke-width="1.5"/>
+
+  <!-- CRACKING FLOOR — lava seeping through fissures -->
+  <g stroke="#d04000" stroke-width="2" fill="none" opacity="0.8">
+    <path d="M80,205 Q100,210 110,205 Q105,215 90,218"/>
+    <path d="M150,200 Q165,206 175,200 Q185,208 190,200"/>
+    <path d="M220,202 Q235,210 248,202 Q240,212 228,215"/>
+    <path d="M290,205 Q300,212 315,205 Q308,216 295,218"/>
+  </g>
+  <g fill="#b82800" opacity="0.5">
+    <ellipse cx="95"  cy="212" rx="10" ry="4"/>
+    <ellipse cx="170" cy="206" rx="12" ry="4"/>
+    <ellipse cx="234" cy="210" rx="11" ry="4"/>
+    <ellipse cx="302" cy="212" rx="10" ry="4"/>
+  </g>
+
+  <!-- THE CINDERWARLORD — collapsed, armour cracked, visor dark -->
+  <ellipse cx="190" cy="212" rx="40" ry="7" fill="#040200" opacity="0.8"/>
+  <!-- Collapsed body — lying at angle, massive bulk now still -->
+  <polygon points="140,200 240,195 248,210 145,215" fill="#100806" stroke="#1c0c06" stroke-width="1"/>
+  <!-- Cracked chest plate -->
+  <polygon points="155,200 230,196 235,208 152,211" fill="#140c06" stroke="#200e06" stroke-width="0.8"/>
+  <g stroke="#d04010" stroke-width="1" fill="none" opacity="0.6">
+    <path d="M170,202 Q185,207 195,202 Q188,210 174,212"/>
+    <path d="M210,200 Q218,205 225,201"/>
+  </g>
+  <!-- Visor — dark, no longer glowing -->
+  <ellipse cx="190" cy="199" rx="15" ry="10" fill="#0c0804" stroke="#180c04" stroke-width="1"/>
+  <line x1="181" y1="200" x2="188" y2="200" stroke="#1a0c04" stroke-width="1.5" opacity="0.5"/>
+  <line x1="192" y1="200" x2="199" y2="200" stroke="#1a0c04" stroke-width="1.5" opacity="0.5"/>
+  <!-- Hammer fallen beside him -->
+  <line x1="240" y1="195" x2="310" y2="210" stroke="#1a1206" stroke-width="3"/>
+  <rect x="308" y="202" width="22" height="14" rx="2" fill="#0e0c04" stroke="#181008" stroke-width="1"/>
+
+  <!-- Smoke rising from cracked armour — heat dissipating -->
+  <g fill="#1a0a04" opacity="0.4">
+    <ellipse cx="190" cy="188" rx="20" ry="7"/>
+    <ellipse cx="195" cy="176" rx="15" ry="6"/>
+    <ellipse cx="188" cy="164" rx="12" ry="5"/>
+  </g>
+
+  <!-- Lava erupting into air — the defeat breaks the caldera loose -->
+  <!-- Left eruption -->
+  <g stroke="#e04000" stroke-width="1.5" fill="none" opacity="0.6">
+    <path d="M70,200 Q65,180 60,155 Q58,135 62,115"/>
+    <path d="M75,200 Q70,182 72,162"/>
+  </g>
+  <!-- Right eruption -->
+  <g stroke="#e04000" stroke-width="1.5" fill="none" opacity="0.6">
+    <path d="M330,200 Q335,180 340,155 Q342,130 338,110"/>
+    <path d="M325,200 Q330,182 328,162"/>
+  </g>
+  <!-- Ejected lava droplets -->
+  <g fill="#e04000" opacity="0.5">
+    <circle cx="58"  cy="120" r="2"/>
+    <circle cx="72"  cy="140" r="1.5"/>
+    <circle cx="340" cy="115" r="2"/>
+    <circle cx="327" cy="138" r="1.5"/>
+    <circle cx="65"  cy="100" r="1"/>
+    <circle cx="335" cy="105" r="1"/>
+  </g>
+
+  <!-- Falling ash in the air -->
+  <g fill="#2a1006" opacity="0.5">
+    <circle cx="100" cy="80"  r="1.2"/>
+    <circle cx="160" cy="60"  r="1"/>
+    <circle cx="230" cy="70"  r="1.2"/>
+    <circle cx="290" cy="55"  r="1"/>
+    <circle cx="350" cy="80"  r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1408" text-anchor="middle" letter-spacing="3">THE CINDERWARLORD FALLS</text>
+</svg>

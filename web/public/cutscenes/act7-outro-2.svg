@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#060301"/>
+
+  <linearGradient id="still-caldera" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#080402"/>
+    <stop offset="100%" stop-color="#180802"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#still-caldera)"/>
+
+  <!-- Subdued heat glow — battle over, caldera cooling -->
+  <radialGradient id="cool-glow" cx="50%" cy="85%" r="50%">
+    <stop offset="0%" stop-color="#802000" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="#802000" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#cool-glow)"/>
+
+  <!-- Rock ledge — caldera floor, cracked but stable -->
+  <polygon points="50,200 350,192 360,215 40,218" fill="#100602" stroke="#1c0802" stroke-width="1.5"/>
+  <polygon points="50,200 350,192 352,198 50,206" fill="#160a04" stroke="#200a04" stroke-width="1"/>
+  <!-- Cooling lava cracks — dimmer now -->
+  <g stroke="#802000" stroke-width="1" fill="none" opacity="0.4">
+    <path d="M100,202 Q112,207 118,202"/>
+    <path d="M220,196 Q230,202 240,196"/>
+    <path d="M300,200 Q310,205 320,200"/>
+  </g>
+
+  <!-- THE CINDERWARLORD — sitting, slumped against caldera wall left, visor cracked -->
+  <ellipse cx="120" cy="210" rx="30" ry="6" fill="#040200" opacity="0.7"/>
+  <!-- Slumped body — back against wall -->
+  <polygon points="95,175 155,175 160,210 90,210" fill="#141008" stroke="#201408" stroke-width="1"/>
+  <!-- Cracked chest armour -->
+  <g stroke="#501800" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M110,182 Q120,188 130,182 Q125,192 113,194"/>
+  </g>
+  <!-- Arms — slack at sides, hammer gone -->
+  <line x1="95"  y1="182" x2="78" y2="200" stroke="#100c06" stroke-width="5" stroke-linecap="round"/>
+  <line x1="155" y1="182" x2="162" y2="200" stroke="#100c06" stroke-width="5" stroke-linecap="round"/>
+  <!-- Head — helm, visor cracked, dull glow behind crack -->
+  <ellipse cx="120" cy="162" rx="16" ry="14" fill="#0e0c06" stroke="#1c1008" stroke-width="1.5"/>
+  <path d="M106,155 Q120,146 134,155" stroke="#1c1008" stroke-width="2" fill="none"/>
+  <!-- Visor — cracked, faint residual glow -->
+  <line x1="111" y1="163" x2="118" y2="163" stroke="#600e00" stroke-width="1.5" opacity="0.4"/>
+  <line x1="122" y1="163" x2="129" y2="163" stroke="#600e00" stroke-width="1.5" opacity="0.4"/>
+  <!-- Crack across visor -->
+  <path d="M118,156 Q120,163 122,170" stroke="#802000" stroke-width="0.8" fill="none" opacity="0.6"/>
+  <!-- Mouth — open, speaking -->
+  <path d="M113,172 Q120,176 127,172" stroke="#1a0e06" stroke-width="1" fill="none"/>
+
+  <!-- JARV — right side, standing, listening, Coral Mantle and Stormcaller's Badge visible -->
+  <ellipse cx="278" cy="210" rx="26" ry="5" fill="#040201" opacity="0.7"/>
+  <!-- Boots -->
+  <ellipse cx="271" cy="213" rx="6" ry="2.5" fill="#08090e"/>
+  <ellipse cx="285" cy="213" rx="6" ry="2.5" fill="#08090e"/>
+  <!-- Legs -->
+  <line x1="273" y1="203" x2="271" y2="213" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <line x1="282" y1="202" x2="285" y2="213" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <!-- Coral Mantle — teal at edges -->
+  <polygon points="257,176 299,176 304,203 252,203" fill="#0a1e20" stroke="#1a4040" stroke-width="1.5"/>
+  <g fill="#00c090" opacity="0.5">
+    <circle cx="252" cy="176" r="1.5"/>
+    <circle cx="250" cy="184" r="1.2"/>
+    <circle cx="304" cy="176" r="1.5"/>
+    <circle cx="306" cy="184" r="1.2"/>
+  </g>
+  <!-- Stormcaller's Badge — on chest, small hex badge glowing faintly -->
+  <polygon points="278,184 282,187 282,193 278,196 274,193 274,187" fill="#080e20" stroke="#2848a0" stroke-width="0.8"/>
+  <line x1="278" y1="186" x2="278" y2="194" stroke="#4060c0" stroke-width="0.8" opacity="0.6"/>
+  <!-- Head — turned toward Cinderwarlord -->
+  <ellipse cx="276" cy="167" rx="11" ry="9" fill="#0c0c1a" stroke="#181830" stroke-width="1"/>
+  <ellipse cx="274" cy="170" rx="6" ry="4" fill="#080810"/>
+  <!-- Iron Standard resting against rock -->
+  <line x1="310" y1="175" x2="330" y2="218" stroke="#2a3040" stroke-width="2.5"/>
+  <polygon points="308,175 312,175 310,166" fill="#404860" opacity="0.8"/>
+
+  <!-- Speech bubbles / dots — the Cinderwarlord speaks -->
+  <g fill="#2a0e04" opacity="0.6">
+    <circle cx="148" cy="158" r="1.5"/>
+    <circle cx="156" cy="154" r="1.2"/>
+    <circle cx="163" cy="152" r="1"/>
+  </g>
+
+  <!-- Smoke and cooling atmosphere -->
+  <g fill="#140804" opacity="0.35">
+    <ellipse cx="80"  cy="70" rx="55" ry="18"/>
+    <ellipse cx="320" cy="65" rx="50" ry="16"/>
+  </g>
+
+  <!-- Dim ember sparks settling -->
+  <g fill="#c03000" opacity="0.3">
+    <circle cx="180" cy="55" r="1"/>
+    <circle cx="240" cy="45" r="0.8"/>
+    <circle cx="300" cy="60" r="1"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1408" text-anchor="middle" letter-spacing="3">WHAT HE SAID</text>
+</svg>
