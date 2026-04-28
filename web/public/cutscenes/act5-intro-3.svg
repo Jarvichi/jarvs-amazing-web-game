@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#04080e"/>
+
+  <linearGradient id="ley-bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#060c18"/>
+    <stop offset="100%" stop-color="#081620"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#ley-bg)"/>
+
+  <!-- Ley line central glow -->
+  <radialGradient id="ley-glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#00a8c0" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#00a8c0" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#ley-glow)"/>
+
+  <!-- Seabed -->
+  <rect x="0" y="192" width="400" height="48" fill="#060e10"/>
+  <g stroke="#0e1e20" stroke-width="0.6" opacity="0.4">
+    <path d="M0,205 Q80,201 160,205 Q240,209 320,204 Q370,201 400,206"/>
+  </g>
+
+  <!-- Coral arch / gate structure — ancient, pre-Fracture -->
+  <!-- Left pillar -->
+  <rect x="80"  y="80" width="20" height="115" fill="#0e1e18" stroke="#182e28" stroke-width="1"/>
+  <!-- Right pillar -->
+  <rect x="300" y="80" width="20" height="115" fill="#0e1e18" stroke="#182e28" stroke-width="1"/>
+  <!-- Arch spanning pillars — carved stone, coral-encrusted -->
+  <path d="M80,80 Q200,20 320,80" stroke="#182e28" stroke-width="12" fill="none"/>
+  <path d="M80,80 Q200,20 320,80" stroke="#0e1e18" stroke-width="8"  fill="none"/>
+  <!-- Coral on arch -->
+  <g stroke="#3a1808" stroke-width="1.5" fill="none" opacity="0.6">
+    <path d="M120,62 Q118,52 116,44"/>
+    <path d="M160,42 Q158,32 156,24"/>
+    <path d="M200,30 Q200,20 200,12"/>
+    <path d="M240,42 Q242,32 244,24"/>
+    <path d="M280,62 Q282,52 284,44"/>
+  </g>
+  <g fill="#00c090" opacity="0.5">
+    <circle cx="116" cy="44" r="2"/>
+    <circle cx="156" cy="24" r="2"/>
+    <circle cx="200" cy="12" r="2.5"/>
+    <circle cx="244" cy="24" r="2"/>
+    <circle cx="284" cy="44" r="2"/>
+  </g>
+  <!-- Arch keystone -->
+  <polygon points="190,28 210,28 214,42 186,42" fill="#0e1e18" stroke="#182e28" stroke-width="1"/>
+  <!-- Glowing rune on keystone -->
+  <text x="200" y="39" font-family="monospace" font-size="8" fill="#00a8c0" text-anchor="middle" opacity="0.7">◈</text>
+
+  <!-- LEY LINES — glowing threads running through the arch -->
+  <!-- Primary ley line — strong, central -->
+  <path d="M0,118 Q100,110 200,115 Q300,120 400,112" stroke="#00c0d0" stroke-width="2" fill="none" opacity="0.7"/>
+  <!-- Glow around primary ley line -->
+  <path d="M0,118 Q100,110 200,115 Q300,120 400,112" stroke="#00c0d0" stroke-width="8" fill="none" opacity="0.1"/>
+  <!-- Secondary ley lines — fainter, weaving -->
+  <path d="M0,100 Q80,92 160,98 Q240,104 320,96 Q370,92 400,98"  stroke="#0090a8" stroke-width="1" fill="none" opacity="0.4"/>
+  <path d="M0,132 Q90,125 180,130 Q270,135 360,128 Q390,126 400,128" stroke="#0090a8" stroke-width="1" fill="none" opacity="0.4"/>
+  <path d="M0,88  Q120,78 200,84  Q280,90 400,82"  stroke="#006880" stroke-width="0.8" fill="none" opacity="0.25"/>
+  <path d="M0,148 Q100,140 200,144 Q300,148 400,142" stroke="#006880" stroke-width="0.8" fill="none" opacity="0.25"/>
+
+  <!-- Ley node — intersection point at centre of arch -->
+  <circle cx="200" cy="115" r="12" fill="#041018" stroke="#00c0d0" stroke-width="1.5" opacity="0.8"/>
+  <circle cx="200" cy="115" r="7"  fill="#061420" stroke="#00a8c0" stroke-width="1"/>
+  <circle cx="200" cy="115" r="3"  fill="#00d0e0" opacity="0.9"/>
+  <!-- Node spokes -->
+  <g stroke="#00a0b8" stroke-width="0.8" opacity="0.5">
+    <line x1="200" y1="103" x2="200" y2="115"/>
+    <line x1="200" y1="115" x2="200" y2="127"/>
+    <line x1="188" y1="115" x2="212" y2="115"/>
+    <line x1="192" y1="107" x2="208" y2="123"/>
+    <line x1="208" y1="107" x2="192" y2="123"/>
+  </g>
+
+  <!-- Ancient marker stones flanking the passage — engraved with ley symbols -->
+  <!-- Left markers -->
+  <rect x="55"  y="158" width="16" height="35" fill="#0a1818" stroke="#162828" stroke-width="1"/>
+  <text x="63"  y="175" font-family="monospace" font-size="7" fill="#1a4040" text-anchor="middle" opacity="0.6">◇</text>
+  <text x="63"  y="186" font-family="monospace" font-size="7" fill="#1a4040" text-anchor="middle" opacity="0.6">◆</text>
+  <!-- Right markers -->
+  <rect x="329" y="158" width="16" height="35" fill="#0a1818" stroke="#162828" stroke-width="1"/>
+  <text x="337" y="175" font-family="monospace" font-size="7" fill="#1a4040" text-anchor="middle" opacity="0.6">◇</text>
+  <text x="337" y="186" font-family="monospace" font-size="7" fill="#1a4040" text-anchor="middle" opacity="0.6">◆</text>
+
+  <!-- Beyond the arch — the passage tunnel, dim but beckoning -->
+  <ellipse cx="200" cy="155" rx="35" ry="30" fill="#030810" stroke="#0a1820" stroke-width="1" opacity="0.8"/>
+  <radialGradient id="tunnel-light" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#00a0b0" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#00a0b0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="155" rx="35" ry="30" fill="url(#tunnel-light)"/>
+
+  <!-- Bioluminescent particles drifting through the arch -->
+  <g fill="#00d0b0" opacity="0.35">
+    <circle cx="150" cy="95"  r="1.5"/>
+    <circle cx="175" cy="108" r="1"/>
+    <circle cx="225" cy="105" r="1.5"/>
+    <circle cx="250" cy="92"  r="1"/>
+    <circle cx="130" cy="130" r="1"/>
+    <circle cx="270" cy="128" r="1"/>
+    <circle cx="185" cy="145" r="1.5"/>
+    <circle cx="215" cy="142" r="1.5"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#1a4040" text-anchor="middle" letter-spacing="3">THE PASSAGE</text>
+</svg>
