@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#04080e"/>
+
+  <linearGradient id="onward-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#060c18"/>
+    <stop offset="60%" stop-color="#0a1620"/>
+    <stop offset="100%" stop-color="#0c1c28"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#onward-sky)"/>
+
+  <!-- Shore / beach — leaving the reef, stepping onto dry land ahead -->
+  <!-- Ocean behind (right half) -->
+  <rect x="200" y="160" width="200" height="80" fill="#060e14"/>
+  <g stroke="#0e2030" stroke-width="0.7" opacity="0.5">
+    <path d="M200,172 Q240,168 280,172 Q320,176 360,172 Q390,170 400,172"/>
+    <path d="M200,185 Q250,181 300,185 Q350,189 400,185"/>
+    <path d="M200,200 Q260,196 320,200 Q370,204 400,200"/>
+  </g>
+
+  <!-- Dry land ahead (left half) — leading into the distance -->
+  <rect x="0" y="168" width="205" height="72" fill="#0a0c10"/>
+  <g stroke="#141818" stroke-width="0.6" opacity="0.4">
+    <path d="M0,185 Q50,181 100,185 Q150,189 200,185"/>
+    <path d="M0,200 Q60,196 120,200 Q170,204 200,200"/>
+  </g>
+
+  <!-- Shoreline transition -->
+  <path d="M200,168 Q205,172 210,185 Q215,200 210,240" stroke="#0e2030" stroke-width="2" fill="none"/>
+
+  <!-- Horizon line -->
+  <line x1="0" y1="168" x2="400" y2="168" stroke="#141c24" stroke-width="1"/>
+
+  <!-- JARV — centre-left, standing, looking forward (silhouette with relic) -->
+  <ellipse cx="140" cy="208" rx="20" ry="5" fill="#050608" opacity="0.7"/>
+
+  <!-- Boots -->
+  <ellipse cx="132" cy="210" rx="6" ry="3" fill="#08090e"/>
+  <ellipse cx="150" cy="210" rx="6" ry="3" fill="#08090e"/>
+  <!-- Legs -->
+  <line x1="136" y1="198" x2="132" y2="210" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+  <line x1="145" y1="198" x2="150" y2="210" stroke="#0c0c18" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- THE CORAL MANTLE — draped around Jarv's shoulders, it glows faintly teal -->
+  <!-- Mantle body — flowing, coral-like at edges -->
+  <polygon points="112,175 168,175 174,200 106,200" fill="#0a1e20" stroke="#1a4040" stroke-width="1.5"/>
+  <!-- Mantle coral edge detail -->
+  <g stroke="#2a6040" stroke-width="1.5" fill="none" opacity="0.7">
+    <!-- Left edge coral nubs -->
+    <path d="M112,185 Q108,178 106,172"/>
+    <path d="M112,195 Q106,188 103,182"/>
+    <!-- Right edge coral nubs -->
+    <path d="M168,185 Q172,178 174,172"/>
+    <path d="M168,195 Q174,188 177,182"/>
+  </g>
+  <!-- Coral polyp glow on mantle edges -->
+  <g fill="#00c090" opacity="0.6">
+    <circle cx="106" cy="172" r="2"/>
+    <circle cx="103" cy="182" r="1.5"/>
+    <circle cx="174" cy="172" r="2"/>
+    <circle cx="177" cy="182" r="1.5"/>
+  </g>
+  <!-- Mantle inner glow — bioluminescent teal seeping through -->
+  <radialGradient id="mantle-glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#008060" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#008060" stop-opacity="0"/>
+  </radialGradient>
+  <polygon points="112,175 168,175 174,200 106,200" fill="url(#mantle-glow)"/>
+
+  <!-- Hood / head -->
+  <ellipse cx="140" cy="168" rx="12" ry="10" fill="#0c0c1a" stroke="#181830" stroke-width="1"/>
+  <ellipse cx="141" cy="171" rx="7"  ry="5"  fill="#080810"/>
+
+  <!-- Iron Standard in right hand -->
+  <line x1="162" y1="178" x2="185" y2="160" stroke="#181830" stroke-width="3" stroke-linecap="round"/>
+  <line x1="185" y1="130" x2="185" y2="212" stroke="#2a3040" stroke-width="2.5"/>
+  <polygon points="183,130 187,130 185,121" fill="#404860"/>
+  <polygon points="185,132 215,140 213,155 185,148" fill="#1e2438" stroke="#303548" stroke-width="1"/>
+  <g stroke="#3a4060" stroke-width="1.2">
+    <line x1="197" y1="136" x2="197" y2="148"/>
+    <line x1="191" y1="142" x2="204" y2="142"/>
+  </g>
+
+  <!-- THE ROAD AHEAD — path stretching forward from Jarv's position into the distant land -->
+  <path d="M140,210 Q160,205 200,202 Q260,198 340,196 Q380,195 400,195" stroke="#141c20" stroke-width="2" fill="none"/>
+  <path d="M140,215 Q160,210 200,207 Q260,203 340,201 Q380,200 400,200" stroke="#101618" stroke-width="1.5" fill="none" opacity="0.5"/>
+
+  <!-- Distant shard silhouettes on the horizon — the acts yet to come -->
+  <g fill="#0a0c14" opacity="0.6">
+    <!-- Shard 1 -->
+    <polygon points="240,168 248,148 256,168"/>
+    <!-- Shard 2 -->
+    <polygon points="268,168 278,138 288,168"/>
+    <!-- Shard 3 -->
+    <polygon points="300,168 312,152 324,168"/>
+    <!-- Shard 4 -->
+    <polygon points="340,168 350,142 362,168"/>
+  </g>
+  <!-- Faint glow behind distant shards — mysterious, beckoning -->
+  <radialGradient id="horizon-mystery" cx="80%" cy="68%" r="25%">
+    <stop offset="0%" stop-color="#401060" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#401060" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#horizon-mystery)"/>
+
+  <!-- Stars -->
+  <g fill="#2a3050" opacity="0.4">
+    <circle cx="30"  cy="20" r="1"/>
+    <circle cx="80"  cy="12" r="1.5"/>
+    <circle cx="150" cy="30" r="1"/>
+    <circle cx="210" cy="15" r="1.5"/>
+    <circle cx="290" cy="25" r="1"/>
+    <circle cx="350" cy="10" r="1.5"/>
+    <circle cx="390" cy="35" r="1"/>
+  </g>
+
+  <!-- Bioluminescent sea behind, fading -->
+  <g fill="#004858" opacity="0.2">
+    <circle cx="240" cy="175" r="2"/>
+    <circle cx="280" cy="180" r="1.5"/>
+    <circle cx="320" cy="175" r="2"/>
+    <circle cx="360" cy="180" r="1.5"/>
+  </g>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1a4040" text-anchor="middle" letter-spacing="3">ONWARD</text>
+</svg>
