@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#04080e"/>
+
+  <radialGradient id="mem-glow" cx="50%" cy="45%" r="50%">
+    <stop offset="0%" stop-color="#1a1040" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#04080e" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#mem-glow)"/>
+
+  <!-- The memory — fractured world-map style, showing the Fracture Event being caused deliberately -->
+  <!-- Background: the pre-Fracture world, intact -->
+  <!-- Continent-like shape — the Dominion, whole -->
+  <g fill="#0c0c20" stroke="#1a1840" stroke-width="1" opacity="0.7">
+    <polygon points="80,50 180,30 280,40 340,80 320,140 260,170 180,175 100,160 60,120 50,80"/>
+  </g>
+  <!-- Dominion regions -->
+  <g stroke="#141430" stroke-width="0.5" opacity="0.4">
+    <line x1="160" y1="30"  x2="155" y2="175"/>
+    <line x1="240" y1="38"  x2="245" y2="172"/>
+    <line x1="50"  y1="105" x2="340" y2="105"/>
+  </g>
+
+  <!-- Region labels — faint -->
+  <g fill="#1e1850" opacity="0.45" font-family="monospace" font-size="6">
+    <text x="100" y="80">VERDANT</text>
+    <text x="175" y="72">IRON</text>
+    <text x="255" y="78">CRYSTAL</text>
+    <text x="100" y="135">ASHEN</text>
+    <text x="190" y="145">REEF</text>
+    <text x="270" y="140">SKY</text>
+  </g>
+
+  <!-- The FRACTURE EVENT being caused — a single deliberate strike point -->
+  <!-- Strike point — not at a natural fault, but at the Dominion's heart -->
+  <circle cx="200" cy="102" r="8" fill="#200818" stroke="#601020" stroke-width="1.5"/>
+  <circle cx="200" cy="102" r="4" fill="#400c10" stroke="#801828" stroke-width="1"/>
+  <circle cx="200" cy="102" r="2" fill="#c02030" opacity="0.9"/>
+
+  <!-- The fracture lines radiating OUT from the strike — deliberate, not natural -->
+  <g stroke="#6010a0" stroke-width="1.5" fill="none" opacity="0.7">
+    <line x1="200" y1="102" x2="80"  y2="30"/>
+    <line x1="200" y1="102" x2="340" y2="40"/>
+    <line x1="200" y1="102" x2="340" y2="145"/>
+    <line x1="200" y1="102" x2="60"  y2="130"/>
+    <line x1="200" y1="102" x2="180" y2="175"/>
+    <line x1="200" y1="102" x2="240" y2="172"/>
+    <line x1="200" y1="102" x2="200" y2="15"/>
+    <line x1="200" y1="102" x2="350" y2="95"/>
+    <line x1="200" y1="102" x2="50"  y2="90"/>
+  </g>
+  <!-- Secondary fracture lines -->
+  <g stroke="#40086a" stroke-width="0.8" fill="none" opacity="0.4">
+    <line x1="200" y1="102" x2="130" y2="45"/>
+    <line x1="200" y1="102" x2="270" y2="48"/>
+    <line x1="200" y1="102" x2="310" y2="125"/>
+    <line x1="200" y1="102" x2="100" y2="150"/>
+  </g>
+
+  <!-- The world shattering into shards -->
+  <g fill="#0a0818" stroke="#1a1040" stroke-width="1" opacity="0.5">
+    <polygon points="80,50  160,30 155,100 60,90"   transform="translate(-5,-8)"/>
+    <polygon points="160,30 280,40 248,100 155,100"  transform="translate(2,-6)"/>
+    <polygon points="248,100 320,80 340,145 260,155" transform="translate(8,4)"/>
+    <polygon points="60,90  155,100 160,160 60,140"  transform="translate(-8,5)"/>
+    <polygon points="155,100 248,100 245,172 160,175" transform="translate(-2,8)"/>
+  </g>
+
+  <!-- A HAND — the figure who caused it (silhouette only, anonymous) -->
+  <!-- Reaching down from top, finger touching the strike point -->
+  <!-- Arm from top-right -->
+  <g fill="#0c0a18" stroke="#181430" stroke-width="1.5" opacity="0.8">
+    <!-- Forearm shape -->
+    <polygon points="340,0 370,0 360,60 330,70"/>
+    <!-- Hand -->
+    <polygon points="320,68 340,60 360,60 355,85 340,88 325,82 318,76"/>
+    <!-- Pointing finger toward strike point -->
+    <path d="M325,80 Q270,92 210,100" stroke="#0c0a18" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <circle cx="210" cy="100" r="5" fill="#0c0a18"/>
+  </g>
+  <!-- Finger glow — the deliberate act -->
+  <radialGradient id="finger-glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#c02030" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#c02030" stop-opacity="0"/>
+  </radialGradient>
+  <circle cx="205" cy="101" r="15" fill="url(#finger-glow)"/>
+
+  <!-- Memory fragments — the Sovereign's recollection, watery -->
+  <g fill="#006880" opacity="0.15">
+    <circle cx="60"  cy="20"  r="8"/>
+    <circle cx="30"  cy="55"  r="6"/>
+    <circle cx="15"  cy="90"  r="5"/>
+    <circle cx="25"  cy="130" r="7"/>
+    <circle cx="50"  cy="170" r="5"/>
+  </g>
+
+  <!-- Warning text — the revelation -->
+  <text x="200" y="208" font-family="monospace" font-size="7" fill="#3a1040" text-anchor="middle" letter-spacing="1">THE FRACTURE WAS NO ACCIDENT</text>
+  <line x1="70" y1="212" x2="330" y2="212" stroke="#1a0820" stroke-width="0.8"/>
+
+  <!-- Label -->
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#1a4040" text-anchor="middle" letter-spacing="3">WHAT YOU LEARNED</text>
+</svg>
