@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Stone wall glow -->
+  <rect x="4" y="10" width="24" height="18" rx="1" fill="#6b7a5a" opacity="0.3"/>
+  <!-- Stone blocks row 1 -->
+  <rect x="4" y="16" width="11" height="6" rx="0.5" fill="#8a9070" stroke="#4a5040" stroke-width="0.5"/>
+  <rect x="16" y="16" width="12" height="6" rx="0.5" fill="#8a9070" stroke="#4a5040" stroke-width="0.5"/>
+  <!-- Stone blocks row 2 -->
+  <rect x="4" y="22" width="7" height="6" rx="0.5" fill="#7a8060" stroke="#4a5040" stroke-width="0.5"/>
+  <rect x="12" y="22" width="9" height="6" rx="0.5" fill="#7a8060" stroke="#4a5040" stroke-width="0.5"/>
+  <rect x="22" y="22" width="6" height="6" rx="0.5" fill="#7a8060" stroke="#4a5040" stroke-width="0.5"/>
+  <!-- Battlements (top) -->
+  <rect x="4" y="10" width="5" height="7" rx="0.5" fill="#8a9070" stroke="#4a5040" stroke-width="0.5"/>
+  <rect x="11" y="10" width="5" height="7" rx="0.5" fill="#8a9070" stroke="#4a5040" stroke-width="0.5"/>
+  <rect x="18" y="10" width="5" height="7" rx="0.5" fill="#8a9070" stroke="#4a5040" stroke-width="0.5"/>
+  <rect x="25" y="10" width="3" height="7" rx="0.5" fill="#8a9070" stroke="#4a5040" stroke-width="0.5"/>
+  <!-- Fortify glow aura -->
+  <ellipse cx="16" cy="19" rx="14" ry="10" fill="#aaffaa" opacity="0.1"/>
+  <!-- Gold fortify rune -->
+  <circle cx="16" cy="19" r="3.5" fill="#ffdd44" opacity="0.25"/>
+  <text x="16" y="21.5" font-size="6" text-anchor="middle" fill="#ffdd44" font-family="monospace" opacity="0.9">✦</text>
+</svg>
