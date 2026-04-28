@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <!-- Sky / deep canopy darkness -->
+  <rect width="400" height="240" fill="#040a06"/>
+  <linearGradient id="ab1-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#06100a"/>
+    <stop offset="60%" stop-color="#0a1a0e"/>
+    <stop offset="100%" stop-color="#040a06"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#ab1-sky)"/>
+
+  <!-- Background tree silhouettes — far -->
+  <g fill="#060e08" opacity="0.9">
+    <rect x="0"   y="40"  width="18" height="200"/>
+    <rect x="22"  y="20"  width="14" height="220"/>
+    <rect x="50"  y="50"  width="12" height="190"/>
+    <rect x="320" y="45"  width="16" height="195"/>
+    <rect x="350" y="25"  width="14" height="215"/>
+    <rect x="375" y="55"  width="20" height="185"/>
+  </g>
+  <!-- Mid tree trunks -->
+  <g fill="#071008" opacity="0.95">
+    <rect x="60"  y="60"  width="22" height="180"/>
+    <rect x="310" y="60"  width="22" height="180"/>
+  </g>
+  <!-- Foreground trunks — frame the path -->
+  <rect x="30"  y="80" width="32" height="160" fill="#050d07"/>
+  <rect x="338" y="80" width="32" height="160" fill="#050d07"/>
+
+  <!-- Tree canopy arching overhead — dark mass -->
+  <g fill="#071208" opacity="0.85">
+    <ellipse cx="46"  cy="70" rx="60" ry="45"/>
+    <ellipse cx="354" cy="70" rx="60" ry="45"/>
+    <ellipse cx="200" cy="30" rx="120" ry="50"/>
+  </g>
+  <!-- Canopy inner dark -->
+  <ellipse cx="200" cy="20" rx="100" ry="40" fill="#040a05" opacity="0.9"/>
+
+  <!-- The path — pale dirt leading deeper -->
+  <polygon points="130,240 270,240 220,100 180,100" fill="#0c1a0d" opacity="0.7"/>
+  <polygon points="155,240 245,240 215,130 185,130" fill="#0f1f10" opacity="0.5"/>
+
+  <!-- Eerie green glow at the vanishing point — the Thornlord's presence -->
+  <radialGradient id="ab1-glow" gradientUnits="userSpaceOnUse" cx="200" cy="100" r="70">
+    <stop offset="0%" stop-color="#204a28" stop-opacity="0.7"/>
+    <stop offset="50%" stop-color="#122a16" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#122a16" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="0" y="0" width="400" height="240" fill="url(#ab1-glow)"/>
+
+  <!-- Roots snaking across the ground -->
+  <g stroke="#0d1e10" stroke-width="3" fill="none" opacity="0.9">
+    <path d="M0,220 Q60,210 100,225 Q140,235 170,215"/>
+    <path d="M400,218 Q340,208 300,222 Q260,234 230,214"/>
+    <path d="M0,235 Q80,225 140,230 Q180,232 200,225"/>
+    <path d="M400,233 Q320,222 260,228 Q220,231 200,225"/>
+  </g>
+  <g stroke="#162814" stroke-width="2" fill="none" opacity="0.6">
+    <path d="M30,240 Q70,220 90,210 Q110,202 130,215"/>
+    <path d="M370,240 Q330,219 310,209 Q290,201 270,214"/>
+  </g>
+
+  <!-- Thorns / briars on path edges -->
+  <g stroke="#1a3018" stroke-width="1.2" fill="none" opacity="0.7">
+    <path d="M130,185 L118,170 M130,185 L122,168"/>
+    <path d="M140,200 L128,183 M140,200 L125,190"/>
+    <path d="M270,185 L282,170 M270,185 L278,168"/>
+    <path d="M260,200 L272,183 M260,200 L275,190"/>
+    <path d="M150,210 L140,195 L148,188"/>
+    <path d="M250,210 L260,195 L252,188"/>
+  </g>
+
+  <!-- Fireflies / spores drifting in the dark -->
+  <g fill="#3a7a40" opacity="0.5">
+    <circle cx="100" cy="120" r="1.5"/>
+    <circle cx="145" cy="95"  r="1"/>
+    <circle cx="175" cy="140" r="1.2"/>
+    <circle cx="225" cy="85"  r="1"/>
+    <circle cx="255" cy="115" r="1.5"/>
+    <circle cx="300" cy="130" r="1"/>
+    <circle cx="85"  cy="155" r="1"/>
+    <circle cx="315" cy="150" r="1.2"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="ab1-vign" cx="50%" cy="50%" r="70%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.6"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#ab1-vign)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1e3a22" text-anchor="middle" letter-spacing="3">THE THORNWOOD GATE</text>
+</svg>

@@ -1295,6 +1295,17 @@ export default function App() {
     }
     skipDeckWarningRef.current = false
 
+    // Boss intro cutscene (shown before dialogue)
+    if (node.bossIntro && node.bossIntro.length > 0) {
+      setCutscenePanels(applyPlayerName(node.bossIntro))
+      cutsceneDoneRef.current = () => {
+        setBossDialogueNode(node)
+        setScreen('bossdialogue')
+      }
+      setScreen('cutscene')
+      return
+    }
+
     // Boss pre-battle dialogue
     if (node.bossDialogue && node.bossDialogue.length > 0) {
       setBossDialogueNode(node)

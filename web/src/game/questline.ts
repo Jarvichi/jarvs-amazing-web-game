@@ -146,6 +146,7 @@ export interface QuestNode {
   bossHpMultiplier?: number  // multiplier applied to boss card unit's HP (default 10)
   eventConfig?: NodeEventConfig
   bossDialogue?: string[]  // lines the boss speaks before the fight
+  bossIntro?: CutscenePanel[]  // cutscene panels shown before boss dialogue
   /** Preset enemy deck — card names in order. Makes each node deterministic and learnable. */
   enemyDeck?: string[]
   /** Visual background theme for this node's battlefield ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen'). */
