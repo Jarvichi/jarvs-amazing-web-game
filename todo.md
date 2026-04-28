@@ -1,6 +1,19 @@
 # Jarv's Amazing Web Game — Todo List
 
-Issues sourced from GitHub. Last synced: 2026-04-22 (session 42).
+Issues sourced from GitHub. Last synced: 2026-04-28 (session 43).
+
+## 🔵 Improvements — New (from GitHub, session 43 sync)
+
+- [ ] **#837** Act review — Improvement | Priority: Medium — Ensure each battle node in acts 1–8 has a unique, themed enemy deck; currently many nodes reuse copy-pasted compositions. Sub-issues:
+  - [ ] **#847** Act 1 review — unique themed units per node
+  - [ ] **#848** Act 2 review — unique themed units per node
+  - [ ] **#849** Act 3 review — unique themed units per node
+  - [ ] **#850** Act 4 review — unique themed units per node
+  - [ ] **#851** Act 5 review — unique themed units per node
+  - [ ] **#852** Act 6 review — unique themed units per node
+  - [ ] **#853** Act 7 review — unique themed units per node
+  - [ ] **#854** Act 8 review — unique themed units per node
+- [ ] **#820** Fruit machine: increase jackpot odds over time — Improvement | Priority: Low — Once jackpot hits 10,000, reduce -1/-2 trail weights and increase + weights to favour the player; when trail position is <2, convert -1/-2 outcomes into +1/+2
 
 ## 🟣 Features — New (from GitHub, session 42 sync)
 
