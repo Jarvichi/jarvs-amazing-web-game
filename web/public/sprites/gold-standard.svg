@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Banner pole -->
+  <rect x="15" y="3" width="2" height="26" rx="0.5" fill="#8a6622" stroke="#5a3a00" stroke-width="0.4"/>
+  <!-- Banner flag -->
+  <polygon points="17,4 28,9 17,14" fill="#ffcc00" stroke="#cc9900" stroke-width="0.5"/>
+  <!-- Banner emblem -->
+  <circle cx="22" cy="9" r="2.5" fill="#ffaa00" opacity="0.8"/>
+  <text x="22" y="11" font-size="5" text-anchor="middle" fill="#5a3a00" font-family="monospace" opacity="0.9">★</text>
+  <!-- Gold coins stacked at base -->
+  <ellipse cx="16" cy="28" rx="6" ry="2" fill="#ffdd44" stroke="#cc9900" stroke-width="0.5"/>
+  <ellipse cx="16" cy="26.5" rx="6" ry="2" fill="#ffcc00" stroke="#cc9900" stroke-width="0.5"/>
+  <ellipse cx="16" cy="25" rx="6" ry="2" fill="#ffdd44" stroke="#cc9900" stroke-width="0.5"/>
+  <!-- Shine lines on coins -->
+  <line x1="12" y1="25" x2="20" y2="25" stroke="#ffffff" stroke-width="0.4" opacity="0.4"/>
+  <!-- Gold glow aura -->
+  <ellipse cx="16" cy="16" rx="14" ry="14" fill="#ffcc00" opacity="0.06"/>
+</svg>
