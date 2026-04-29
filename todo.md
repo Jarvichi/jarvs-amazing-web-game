@@ -14,9 +14,9 @@ Issues sourced from GitHub. Last synced: 2026-04-22 (session 42).
 
 ## 🔵 Improvements — New (from GitHub, session 42 sync)
 
-- [ ] **#725** Quick Battle improvements — Improvement | Priority: Medium — Limit opponent deck to player's collection; add Easy Mode. Sub-issues:
-  - [ ] **#773** Limit opponent deck to cards in player's collection (fallback if collection < N cards)
-  - [ ] **#774** Add Easy Mode: opponent uses player's own deck; rewards only 1 card on win
+- [x] **#725** Quick Battle improvements — limit opponent deck to player's collection; Easy Mode added. Sub-issues:
+  - [x] **#773** Limit opponent deck to cards in player's collection (fallback if collection < N cards)
+  - [x] **#774** Add Easy Mode: opponent uses player's own deck; rewards only 1 card on win
 - [ ] **#719** Card Mastery: building card mastery should do something — Improvement | Priority: Low — Mastery on buff/building cards currently has no gameplay effect; define and implement a meaningful mastery bonus for building cards
 
 ## 🔴 Bugs — New (from GitHub, session 42 sync)
