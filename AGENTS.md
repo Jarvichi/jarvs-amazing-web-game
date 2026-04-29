@@ -1,6 +1,6 @@
 # Jarv's Amazing Web Game — Agent & Claude Documentation
 
-> **Pending work:** [`todo.md`](todo.md) — single source of truth for all tasks and GitHub issues.
+> **Pending work:** [GitHub Issues](https://github.com/Jarvichi/jarvs-amazing-web-game/issues) — single source of truth for all tasks.
 
 ---
 
@@ -37,7 +37,7 @@ This replays unmerged commits on top of updated main and drops already-merged on
 On PC: use `gh` CLI and read `.env` for tokens. On mobile/cloud: use `curl` for GitHub API access.
 
 ## Reading Issues From GitHub
-Read the full issue text. Break multiple requirements into sub-tasks tracked in `todo.md` or as GitHub sub-issues. Only close the parent issue once all parts are complete.
+Read the full issue text. Break multiple requirements into GitHub sub-issues. Only close the parent issue once all parts are complete.
 
 **Before starting work on any issue:** check the issue on GitHub to confirm it is still open and has no recent commit/PR that already resolves it. Do not implement work that is already done.
 ```bash
@@ -149,9 +149,7 @@ Complex constants that are likely to be extended (multiplicity) should be JSON c
 At the start of every session (or when asked):
 1. Fetch open issues: `curl -s "https://api.github.com/repos/Jarvichi/jarvs-amazing-web-game/issues?state=open&per_page=50"`
 2. Prioritise by: **critical bugs → gameplay bugs → UX bugs → enhancements → large features**
-3. Add new issues to `todo.md` with their GitHub issue number
-4. Commit `todo.md` before starting any work
-5. After fixing an issue, close it via the API:
+3. After fixing an issue, close it via the API:
    ```bash
    curl -s -X POST "https://api.github.com/repos/Jarvichi/jarvs-amazing-web-game/issues/<N>/comments" \
      -H "Authorization: token $GITHUB_TOKEN" \
@@ -165,15 +163,6 @@ At the start of every session (or when asked):
 - Issue branch: `<issue-number>-<short-description>`
 - Dependent branches: `<issue-number>-part-<1|2|3>`
 - Non-issue (direct prompt): `<DD-MM-YY-HHMM>-<short-description>`
-
-## Todo Tracking Workflow
-
-For every piece of work:
-1. Update `todo.md` (include GitHub issue number if applicable)
-2. Commit `todo.md` **before** starting work
-3. Do the work, commit, and push
-4. Mark done in `todo.md`, commit and push
-5. Close the GitHub issue with a comment
 
 ---
 
