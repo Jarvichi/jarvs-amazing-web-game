@@ -1,7 +1,8 @@
 import React from 'react'
 import { Button } from './Button'
+import type { QuickBattleMode } from '../game/campaignHelpers'
 
-export type QuickBattleMode = 'easy' | 'normal' | 'mirror' | 'unlimited' | 'chaos' | 'only-units' | 'only-spells' | 'only-buildings' | 'common-only' | 'uncommon-only' | 'rare-only' | 'legendary-only' | 'hero-only'
+export type { QuickBattleMode }
 
 
 interface Props {
