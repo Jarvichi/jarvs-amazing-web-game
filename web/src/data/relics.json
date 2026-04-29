@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Bark Shield",
+    "icon": "🛡️",
+    "desc": "Your base gains +10 max HP at the start of every battle.",
+    "effects": [{ "type": "baseHp", "amount": 10 }]
+  },
+  {
+    "name": "Iron Standard",
+    "icon": "⚔️",
+    "desc": "All your units start with +1 ATK.",
+    "effects": [{ "type": "unitAtk", "amount": 1 }]
+  },
+  {
+    "name": "Soulstone",
+    "icon": "💎",
+    "desc": "Once per battle, when one of your units is destroyed, it is immediately revived with half its original HP.",
+    "effects": [{ "type": "unitRevive", "hp": "half" }]
+  },
+  {
+    "name": "Prism Lens",
+    "icon": "🔮",
+    "desc": "Your maximum mana is increased by 1.",
+    "effects": [{ "type": "maxMana", "amount": 1 }]
+  },
+  {
+    "name": "Coral Mantle",
+    "icon": "🐚",
+    "desc": "At the start of every battle your units gain +3 max HP.",
+    "effects": [{ "type": "unitHp", "amount": 3 }]
+  },
+  {
+    "name": "Stormcaller's Badge",
+    "icon": "⚡",
+    "desc": "All your units gain +2 attack at battle start.",
+    "effects": [{ "type": "unitAtk", "amount": 2 }]
+  },
+  {
+    "name": "Frost Mantle",
+    "icon": "🧊",
+    "desc": "All your units gain +2 max HP and your base gains +8 max HP at the start of every battle.",
+    "effects": [
+      { "type": "baseHp", "amount": 8 },
+      { "type": "unitHp", "amount": 2 }
+    ]
+  },
+  {
+    "name": "Golden Compass",
+    "icon": "🧭",
+    "desc": "You start each battle with +1 mana.",
+    "effects": [{ "type": "startMana", "amount": 1 }]
+  },
+  {
+    "name": "Spore Bloom",
+    "icon": "🍄",
+    "desc": "Your units regenerate 1 HP every 3 seconds during battle.",
+    "effects": [{ "type": "tickHeal", "amount": 1, "intervalMs": 3000 }]
+  },
+  {
+    "name": "Magma Core",
+    "icon": "🌋",
+    "desc": "Your units gain +2 ATK at battle start whenever your base HP is below 50%.",
+    "effects": [{ "type": "unitAtk", "amount": 2, "condition": "baseBelowHalf" }]
+  },
+  {
+    "name": "Living Bark",
+    "icon": "🌿",
+    "desc": "Your base gains +15 max HP at the start of every battle.",
+    "effects": [{ "type": "baseHp", "amount": 15 }]
+  },
+  {
+    "name": "Salvage Hook",
+    "icon": "🪝",
+    "desc": "Once per battle, one of your destroyed units is revived at 1 HP.",
+    "effects": [{ "type": "unitRevive", "hp": 1 }]
+  },
+  {
+    "name": "Gear Heart",
+    "icon": "⚙️",
+    "desc": "All your units gain +1 ATK when played, and your base gains +1 max HP at battle start.",
+    "effects": [
+      { "type": "onPlayAtk", "amount": 1 },
+      { "type": "baseHp", "amount": 1 }
+    ]
+  },
+  {
+    "name": "Worldmender's Crest",
+    "icon": "🌐",
+    "desc": "Your base gains +5 max HP at the start of every battle.",
+    "effects": [{ "type": "baseHp", "amount": 5 }]
+  }
+]
