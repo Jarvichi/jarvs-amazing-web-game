@@ -1,5 +1,84 @@
 import { QuestNode, Act, ReplayModifier } from './questline'
 import { NewGameOptions, MAX_HANDICAP } from './engine'
+import { Card } from './types'
+import { shuffle } from './engine/helpers'
+import { HERO_CARDS, makeNodeDeck, getCardCatalog } from './cards'
+import {
+  buildDeckCards, DECK_MAX, STARTER_DECK, deckTotalCards,
+  generateSeededPack, loadCollection, loadDeck,
+} from './collection'
+
+export type QuickBattleMode =
+  | 'easy' | 'normal' | 'mirror' | 'unlimited' | 'chaos'
+  | 'only-units' | 'only-spells' | 'only-buildings'
+  | 'common-only' | 'uncommon-only' | 'rare-only' | 'legendary-only' | 'hero-only'
+
+export function loadCurrentDeckInfo(): { playerCards: Card[]; deckBonus: number } {
+  const collection  = loadCollection()
+  const deckEntries = loadDeck()
+  const deckCount   = deckTotalCards(deckEntries)
+  const effectiveDeck = deckCount > 0 ? deckEntries : STARTER_DECK
+  const playerCards   = buildDeckCards(effectiveDeck, collection)
+  const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
+  return { playerCards, deckBonus }
+}
+
+export function buildQuickBattleOpts(
+  mode: QuickBattleMode,
+  handicap: number,
+): { opts: NewGameOptions; playerCards: Card[] } {
+  const collection    = loadCollection()
+  const deckEntries   = loadDeck()
+  const deckCount     = deckTotalCards(deckEntries)
+  const effectiveDeck = deckCount > 0 ? deckEntries : STARTER_DECK
+  const playerCards   = buildDeckCards(effectiveDeck, collection)
+  const deckBonus     = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
+  const adjustedHandicap = Math.min(MAX_HANDICAP, handicap + deckBonus)
+
+  if (mode === 'mirror') {
+    return { playerCards, opts: { playerCards, opponentHandicap: MAX_HANDICAP, prebuiltOpponentDeck: shuffle([...playerCards]) } }
+  }
+  if (mode === 'easy') {
+    return { playerCards, opts: { playerCards, opponentHandicap: adjustedHandicap } }
+  }
+  if (mode === 'normal') {
+    const ownedNames       = new Set(collection.filter(e => e.count > 0).map(e => e.cardName))
+    const collectionPool   = getCardCatalog().filter(c => ownedNames.has(c.name))
+    const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+    return { playerCards, opts: { playerCards, opponentHandicap: adjustedHandicap, opponentCardPool } }
+  }
+  if (mode === 'chaos') {
+    const collectionPool   = makeNodeDeck(generateSeededPack(20, 'legendary'))
+    const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+    return { playerCards, opts: { playerCards: opponentCardPool, opponentHandicap: 0, opponentCardPool, forgiveManaLimit: true } }
+  }
+  if (mode === 'unlimited') {
+    const collectionPool   = getCardCatalog()
+    const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+    return { playerCards, opts: { playerCards, opponentHandicap: 0, opponentCardPool } }
+  }
+  if (mode === 'hero-only') {
+    return { playerCards, opts: { playerCards, opponentHandicap: 0, opponentCardPool: [...HERO_CARDS, ...HERO_CARDS, ...HERO_CARDS], forgiveManaLimit: true } }
+  }
+  // Rarity / type filter modes
+  const filterMap: Record<string, (c: Card) => boolean> = {
+    'common-only':    c => c.rarity === 'common',
+    'uncommon-only':  c => c.rarity === 'uncommon',
+    'rare-only':      c => c.rarity === 'rare',
+    'legendary-only': c => c.rarity === 'legendary',
+    'only-buildings': c => c.cardType.includes('structure'),
+    'only-units':     c => c.cardType.includes('unit'),
+    'only-spells':    c => c.cardType.includes('upgrade'),
+  }
+  const filter = filterMap[mode]
+  if (filter) {
+    const collectionPool   = getCardCatalog().filter(filter)
+    const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
+    return { playerCards, opts: { playerCards, opponentHandicap: 0, opponentCardPool } }
+  }
+  // Fallback: easy
+  return { playerCards, opts: { playerCards, opponentHandicap: adjustedHandicap } }
+}
 
 export const HANDICAP_KEY = 'jarvs_handicap'
 

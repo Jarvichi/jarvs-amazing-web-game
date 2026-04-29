@@ -1,14 +1,13 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer } from 'react'
-import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY } from './game/campaignHelpers'
+import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo } from './game/campaignHelpers'
 import { usePlaytime } from './hooks/usePlaytime'
 import { useStartupData } from './hooks/useStartupData'
 import { useCloudSync } from './hooks/useCloudSync'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { GameState, Card } from './game/types'
-import { newGame, NewGameOptions, MAX_HANDICAP } from './game/engine'
+import { newGame, MAX_HANDICAP } from './game/engine'
 import { playCard, playAoeCard } from './game/engine/cards'
-import { shuffle } from './game/engine/helpers'
-import { HERO_CARDS, makeNodeDeck } from './game/cards'
+import { makeNodeDeck } from './game/cards'
 import { battleReducer, INITIAL_BATTLE_STATE, TICK_MS } from './game/battleReducer'
 import {
   loadDeck, saveDeck, buildDeckCards, generatePack,
@@ -611,144 +610,11 @@ export default function App() {
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
-
     prevOpponentUnitsRef.current = new Map()
     prevPlayerUnitsRef.current = new Map()
-    const collection  = loadCollection()
-    const deckEntries = loadDeck()
-    const deckCount   = deckTotalCards(deckEntries)
-    // Fall back to starter deck if player has no cards built yet
-    const effectiveDeck = deckCount > 0 ? deckEntries : STARTER_DECK
-    const playerCards   = buildDeckCards(effectiveDeck, collection)
+    const { opts, playerCards } = buildQuickBattleOpts(mode, handicap)
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    // Give a handicap boost scaled to deck size: fewer cards = easier opponent
-    // (maxes out at +10 for an empty deck, scales to 0 at DECK_MAX cards)
-    const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
-
-    let gameOpts: NewGameOptions
-    if (mode === 'mirror') {
-      // Mirror Mode: opponent mirrors the player's own deck; max handicap so they play slowly
-      gameOpts = {
-        playerCards,
-        opponentHandicap: MAX_HANDICAP,
-        prebuiltOpponentDeck: shuffle([...playerCards]),
-      }
-    } else if (mode === 'easy') {
-      // Easy Mode: opponent has a handicap; play at normal speed
-      gameOpts = {
-        playerCards,
-        opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus),
-      }
-    } else if (mode === 'normal') {
-      // Limit opponent to cards the player actually owns (#773)
-      const ownedNames = new Set(collection.filter(e => e.count > 0).map(e => e.cardName))
-      const collectionPool = getCardCatalog().filter(c => ownedNames.has(c.name))
-      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-      gameOpts = {
-        playerCards,
-        opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus),
-        opponentCardPool,
-      }
-    } else if (mode === 'chaos') {
-      // Chaos Mode: no handicap, no card pool restrictions, play at normal speed
-      const collectionPool = makeNodeDeck(generateSeededPack(20, "legendary"))
-      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-      gameOpts = {
-        playerCards: opponentCardPool,
-        opponentHandicap: 0,
-        opponentCardPool,
-        forgiveManaLimit: true, // allow over-spending mana to play any card in chaos mode
-      }
-    } else if (mode === 'unlimited') {
-      // Unlimited Mode: no handicap, no card pool restrictions, play at normal speed
-      const collectionPool = getCardCatalog()
-      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-      gameOpts = {
-        playerCards,
-        opponentHandicap: 0,
-        opponentCardPool,
-      }
-    } else if (mode === 'common-only') {
-      // Common Only Mode: opponent card pool limited to commons, play at normal speed
-      const collectionPool = getCardCatalog().filter(c => c.rarity === 'common')
-      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-      gameOpts = {
-        playerCards,
-        opponentHandicap: 0,
-        opponentCardPool,
-      }
-    } else if (mode === 'uncommon-only') {
-      // Uncommon Only Mode: opponent card pool limited to uncommons, play at normal speed
-      const collectionPool = getCardCatalog().filter(c => c.rarity === 'uncommon')
-      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-      gameOpts = {
-        playerCards,
-        opponentHandicap: 0,
-        opponentCardPool,
-      }
-    } else if (mode === 'rare-only') {
-      // Rare Only Mode: opponent card pool limited to rares, play at normal speed
-      const collectionPool = getCardCatalog().filter(c => c.rarity === 'rare')
-      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-      gameOpts = {
-        playerCards,
-        opponentHandicap: 0,
-        opponentCardPool,
-      }
-    } else if (mode === 'legendary-only') {
-      // Legendary Only Mode: opponent card pool limited to legendaries, play at normal speed
-      const collectionPool = getCardCatalog().filter(c => c.rarity === 'legendary')
-      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-      gameOpts = {
-        playerCards,
-        opponentHandicap: 0,
-        opponentCardPool,
-      }
-    } else if (mode ==='hero-only') {
-      // Hero Only Mode: opponent card pool limited to heroes, play at normal speed
-      gameOpts = {
-        playerCards,
-        opponentHandicap: 0,
-        opponentCardPool:[...HERO_CARDS, ...HERO_CARDS,...HERO_CARDS],
-        forgiveManaLimit: true, // allow over-spending mana to play any hero in hero-only mode
-      }
-    } else if (mode === 'only-buildings') {
-      // Only Buildings Mode: opponent card pool limited to structures, play at normal speed
-      const collectionPool = getCardCatalog().filter(c => c.cardType.includes('structure'))
-      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-      gameOpts = {
-        playerCards,
-        opponentHandicap: 0,
-        opponentCardPool,
-      }
-    } else if (mode === 'only-units') {
-      // Only Units Mode: opponent card pool limited to mobile units, play at normal speed
-      const collectionPool = getCardCatalog().filter(c => c.cardType.includes('unit'))
-      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-      gameOpts = {
-        playerCards,
-        opponentHandicap: 0,
-        opponentCardPool,
-      }
-    } else if (mode === 'only-spells') {
-      // Only Spells Mode: opponent card pool limited to spells, play at normal speed
-      const collectionPool = getCardCatalog().filter(c => c.cardType.includes('upgrade'))
-      const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-      gameOpts = {
-        playerCards,
-        opponentHandicap: 0,
-        opponentCardPool,
-      }
-    } else {  
-      // Default to Easy Mode if we somehow get an unrecognized mode
-      gameOpts = {
-        playerCards,
-        opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus),
-      }
-    }
-
-    // Debatable as to whether the reducer state here should be called "START_FREE_PLAY" instead of "START"
-    startBattle(newGame(gameOpts))
+    startBattle(newGame(opts))
     rollRareEvent()
   }, [handicap])
 
@@ -758,17 +624,10 @@ export default function App() {
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
-
     prevOpponentUnitsRef.current = new Map()
     prevPlayerUnitsRef.current = new Map()
-    const collection  = loadCollection()
-    const deckEntries = loadDeck()
-    const deckCount   = deckTotalCards(deckEntries)
-    const effectiveDeck = deckCount > 0 ? deckEntries : STARTER_DECK
-    const playerCards   = buildDeckCards(effectiveDeck, collection)
+    const { playerCards, deckBonus } = loadCurrentDeckInfo()
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
-    // Debatable as to whether the reducer state here should be called "START_ENDLESS" instead of "START"
     startBattle(newGame({ playerCards, opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus), endlessMode: true }))
     rollRareEvent()
   }, [handicap])
@@ -853,13 +712,8 @@ export default function App() {
         : handicap
     try { localStorage.setItem(HANDICAP_KEY, String(nextHandicap)) } catch { /* ignore */ }
     setHandicap(nextHandicap)
-    const collection  = loadCollection()
-    const deckEntries = loadDeck()
-    const deckCount   = deckTotalCards(deckEntries)
-    const effectiveDeck = deckCount > 0 ? deckEntries : STARTER_DECK
-    const playerCards   = buildDeckCards(effectiveDeck, collection)
+    const { playerCards, deckBonus } = loadCurrentDeckInfo()
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
     startBattle(newGame(playerCards, Math.min(MAX_HANDICAP, nextHandicap + deckBonus)))
     rollRareEvent()
   }, [gameState, handicap])
