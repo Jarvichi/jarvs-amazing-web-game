@@ -358,6 +358,14 @@ export default function App() {
   })
   const { gameState, showBossShockwave, dcGameOverState, summaryStats, showFingerSmash, fingerSmashNames, waveRewardChoices } = battle
 
+  // Initialise battle state and transition to the playing screen in one call so
+  // the two state updates are always kept together (React 18 batches them into a
+  // single render within the same synchronous handler).
+  const startBattle = useCallback((gs: GameState) => {
+    dispatch({ type: 'START', gameState: gs })
+    setScreen('playing')
+  }, [])
+
   /**
    * Compatibility wrapper so existing code that calls setGameState(x) or
    * setGameState(s => ...) continues to work during the migration.
@@ -955,8 +963,7 @@ export default function App() {
     }
 
     // Debatable as to whether the reducer state here should be called "START_FREE_PLAY" instead of "START"
-    dispatch({ type: 'START', gameState: newGame(gameOpts) })
-    setScreen('playing') // TODO — move this into the reducer so the transition is atomic and can't be interrupted by a re-render
+    startBattle(newGame(gameOpts))
     rollRareEvent()
   }, [handicap])
 
@@ -977,8 +984,7 @@ export default function App() {
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
     // Debatable as to whether the reducer state here should be called "START_ENDLESS" instead of "START"
-    dispatch({ type: 'START', gameState: newGame({ playerCards, opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus), endlessMode: true }) })
-    setScreen('playing') // TODO — move this into the reducer so the transition is atomic and can't be interrupted by a re-render
+    startBattle(newGame({ playerCards, opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus), endlessMode: true }))
     rollRareEvent()
   }, [handicap])
 
@@ -1003,14 +1009,13 @@ export default function App() {
     const opponentCards = getDailyOpponentDeck()
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     // Debatable as to whether the reducer state here should be called "START_DAILY_CHALLENGE" instead of "START"
-    dispatch({ type: 'START', gameState: newGame({
+    startBattle(newGame({
       prebuiltPlayerDeck:   playerCards,
       prebuiltOpponentDeck: opponentCards,
       opponentHandicap: 0,
       quickStart: true,
       isDailyChallenge: true,
-    }) })
-    setScreen('playing') // TODO — move this into the reducer so the transition is atomic and can't be interrupted by a re-render
+    }))
     rollRareEvent()
   }, [])
 
@@ -1027,14 +1032,13 @@ export default function App() {
     const opponentCards = getDailyOpponentDeck()
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     // Debatable as to whether the reducer state here should be called "START_DAILY_CHALLENGE" instead of "START"
-    dispatch({ type: 'START', gameState: newGame({
+    startBattle(newGame({
       prebuiltPlayerDeck:   playerCards,
       prebuiltOpponentDeck: opponentCards,
       opponentHandicap: 0,
       quickStart: true,
       isDailyChallenge: true,
-    }) })
-    setScreen('playing')
+    }))
     rollRareEvent()
   }, [])
 
@@ -1071,8 +1075,7 @@ export default function App() {
     const playerCards   = buildDeckCards(effectiveDeck, collection)
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const deckBonus = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
-    dispatch({ type: 'START', gameState: newGame(playerCards, Math.min(MAX_HANDICAP, nextHandicap + deckBonus)) })
-    setScreen('playing')
+    startBattle(newGame(playerCards, Math.min(MAX_HANDICAP, nextHandicap + deckBonus)))
     rollRareEvent()
   }, [gameState, handicap])
 
@@ -1090,8 +1093,7 @@ export default function App() {
     prevPlayerUnitsRef.current   = new Map()
     // Build a 30-card opponent deck of just the chosen unit
     const opponentDeck = makeNodeDeck(Array.from({ length: 30 }, () => enemyUnitName))
-    dispatch({ type: 'START', gameState: newGame({ playerCards, prebuiltOpponentDeck: opponentDeck, opponentHandicap: 0, quickStart: true }) })
-    setScreen('playing')
+    startBattle(newGame({ playerCards, prebuiltOpponentDeck: opponentDeck, opponentHandicap: 0, quickStart: true }))
   }, [])
 
   // ── Campaign ─────────────────────────────────────────────
@@ -1152,8 +1154,7 @@ export default function App() {
           const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
           state.playerBase = { hp: activeRun.playerHp, maxHp: activeRun.maxHp }
           if (activeRun.activeRelic) getRelicDef(activeRun.activeRelic)?.applyToGame(state)
-          dispatch({ type: 'START', gameState: state })
-          setScreen('playing')
+          startBattle(state)
           rollRareEvent()
           return
         }
@@ -1334,8 +1335,7 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods733) })
     state.playerBase = { hp: updatedRun.playerHp, maxHp: updatedRun.maxHp }
     if (updatedRun.activeRelic) getRelicDef(updatedRun.activeRelic)?.applyToGame(state)
-    dispatch({ type: 'START', gameState: state })
-    setScreen('playing')
+    startBattle(state)
     rollRareEvent()
   }, [run])
 
@@ -1364,8 +1364,7 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods761) })
     state.playerBase = { hp: run.playerHp, maxHp: run.maxHp }
     if (run.activeRelic) getRelicDef(run.activeRelic)?.applyToGame(state)
-    dispatch({ type: 'START', gameState: state })
-    setScreen('playing')
+    startBattle(state)
     rollRareEvent()
   }, [bossDialogueNode, run])
 
@@ -1947,8 +1946,7 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), modsRetry) })
     state.playerBase = { hp: currentRun.playerHp, maxHp: currentRun.maxHp }
     if (currentRun.activeRelic) getRelicDef(currentRun.activeRelic)?.applyToGame(state)
-    dispatch({ type: 'START', gameState: state })
-    setScreen('playing')
+    startBattle(state)
     rollRareEvent()
   }, [run])
 
