@@ -72,7 +72,7 @@ Issues sourced from GitHub. Last synced: 2026-04-22 (session 42).
 
 ## 🟣 Features — New (from GitHub, session 39 sync)
 
-- [ ] **#671** Final Act — make Act 13 the campaign end; add a "Finale" act with a single linear node path of battles that closes the story
+- [x] **#671** Final Act — actfinale.json implemented (session 39); campaign ends at Act 13 → Finale
 
 ## ✅ Done (session 38)
 
@@ -309,19 +309,24 @@ Units need 4 files each (`{slug}.svg` + `-1` `-2` `-3`). Buildings/upgrades need
 
 ## 🔵 In Progress
 
-- [ ] **#180** Campaign: extend to 25 acts — Acts 1–6 complete. Remaining acts planned below (1 act per session, sprites deferred).
+- [x] **#180** Campaign 1 complete — Acts 1–13 + Finale (actfinale.json). Campaign ends with Act 13: The Clockwork Vaults → The Fracture finale.
 
-### Acts 7–25 Plan
+### Acts 7–13 Progress (Campaign 1 — complete)
+- [x] Act 7 — The Emberfall Peaks (session 26)
+- [x] Act 8 — The Fungal Deep (session 26)
+- [x] Act 9 — The Frozen Expanse (session 27)
+- [x] Act 10 — The Sand Market (session 27)
+- [x] Act 11 — The Verdant Canopy (session 29)
+- [x] Act 12 — The Shattered Coast (session 29)
+- [x] Act 13 — The Clockwork Vaults (session 29)
+- [x] Finale — The Fracture Core (session 39: actfinale.json, thefracture boss, Worldmender's Crest relic)
+
+### Acts 14–25 — Deferred to Campaign 2 (#181)
+
+Planned for the second story arc ("The Forbidden Word" or similar). Design preserved below for reference.
 
 | Act | Title | Theme/Tags | Boss AI | Relic |
 |-----|-------|------------|---------|-------|
-| 7  | The Emberfall Peaks      | `ember`, `volcano`     | `cinderwarlord`    | Magma Core *(+2 ATK when base HP < 50%)* |
-| 8  | The Fungal Deep          | `fungal`, `spore`      | `rootqueen`        | Spore Bloom *(units heal 1 HP/turn)* |
-| 9  | The Frozen Expanse       | `frost`, `glacier`     | `paleengine`       | Frost Mantle *(+2 max HP, slow attackers)* |
-| 10 | The Sand Market          | `sand`, `mercenary`    | `dunebaron`        | Golden Compass *(+1 mana at battle start)* |
-| 11 | The Verdant Canopy       | `canopy`, `ancient`    | `elderwarden`      | Living Bark *(base +15 max HP)* |
-| 12 | The Shattered Coast      | `wreck`, `storm`       | `harbormaster`     | Salvage Hook *(revive 1 unit at 1 HP once)* |
-| 13 | The Clockwork Vaults     | `clockwork`, `vault`   | `grandautomaton`   | Gear Heart *(+1 ATK & +1 max HP after each win)* |
 | 14 | The Plague Fens          | `plague`, `fen`        | `bogsovereign`     | Antitoxin Vial *(base immune to poison; +4 HP)* |
 | 15 | The Glass Wastes         | `glass`, `shard`       | `resonantcolossus` | Shard Lens *(mana +1; +1 dmg vs structures)* |
 | 16 | The Mirrorlands          | `mirror`, `echo`       | `hollowking`       | Echo Stone *(copy strongest unit at half HP)* |
@@ -334,34 +339,6 @@ Units need 4 files each (`{slug}.svg` + `-1` `-2` `-3`). Buildings/upgrades need
 | 23 | The Inner Scar           | `scar`, `echo`         | `fractureecho`     | Time Splinter *(reset all unit cooldowns once)* |
 | 24 | The Dominion Heart       | `dominion`, `ruin`     | `lastemperor`      | Emperor's Seal *(all relics apply twice)* |
 | 25 | The Fracture Core        | `core`, `void`         | `fractureitself`   | The Shard *(run victory item)* |
-
-**Implementation checklist per act:**
-- [ ] `web/src/data/acts/actN.json` — 13-node map, boss node, event configs
-- [ ] 25 themed cards + unit templates in `web/src/data/cards.json`
-- [ ] Boss AI config entry in `web/src/data/bossAIs.json`
-- [ ] Relic in `web/src/game/relics.ts`
-- [ ] Act import + export in `web/src/game/questline.ts`
-
-**Progress:**
-- [x] Act 7 — The Emberfall Peaks (session 26: act7.json, cinderwarlord AI, Magma Core relic; cards/templates already done session 25)
-- [x] Act 8 — The Fungal Deep (session 26: 25 cards + templates, act8.json, rootqueen AI, Spore Bloom relic with per-tick heal engine hook)
-- [x] Act 9 — The Frozen Expanse (session 27: 25 frost/glacier cards, act9.json, paleengine AI, Frost Mantle relic)
-- [x] Act 10 — The Sand Market (session 27: 25 sand/mercenary cards, act10.json, dunebaron AI, Golden Compass relic)
-- [x] Act 11 — The Verdant Canopy (session 29: 25 canopy/ancient cards, act11.json, elderwarden AI, Living Bark relic)
-- [x] Act 12 — The Shattered Coast (session 29: 26 wreck/storm cards, act12.json, harbormaster AI, Salvage Hook relic)
-- [x] Act 13 — The Clockwork Vaults (session 29: 25 clockwork/vault cards, act13.json, grandautomaton AI, Gear Heart relic with engine ATK-on-spawn hook)
-- [ ] Act 14 — The Plague Fens
-- [ ] Act 15 — The Glass Wastes
-- [ ] Act 16 — The Mirrorlands
-- [ ] Act 17 — The Abyssal Veil
-- [ ] Act 18 — The Ashen Crown
-- [ ] Act 19 — The Rift Bazaar
-- [ ] Act 20 — The Sunken Archive
-- [ ] Act 21 — The Storm Crucible
-- [ ] Act 22 — The Fracture Frontier
-- [ ] Act 23 — The Inner Scar
-- [ ] Act 24 — The Dominion Heart
-- [ ] Act 25 — The Fracture Core
 
 ### Sprite Generation Backlog (deferred)
 
