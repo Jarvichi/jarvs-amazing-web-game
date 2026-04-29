@@ -1,4 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer } from 'react'
+import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY } from './game/campaignHelpers'
+import { usePlaytime } from './hooks/usePlaytime'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { GameState, Card } from './game/types'
 import { newGame, NewGameOptions, MAX_HANDICAP } from './game/engine'
@@ -95,7 +97,6 @@ import { TrainingScreen }  from './components/TrainingScreen'
 import {
   incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
-import { addPlaytime, loadPlaytime, savePlaytime } from './game/playtime'
 import { AchievementsScreen } from './components/AchievementsScreen'
 import { HeroCardsScreen }   from './components/HeroCardsScreen'
 import FingerSmash from './components/FingerSmash'
@@ -124,76 +125,9 @@ applyTextSettings()
 apply8bitMode(load8bitEnabled())
 applyLightMode(loadLightMode())
 
-const HANDICAP_KEY = 'jarvs_handicap'
-
 const BROKEN_RELIC_ITEMS: Record<string, { name: string; icon: string; desc: string }> =
   Object.fromEntries((brokenRelicsData as { relicName: string; name: string; icon: string; desc: string }[])
     .map(r => [r.relicName, { name: r.name, icon: r.icon, desc: r.desc }]))
-
-// ─── Campaign difficulty scaling ─────────────────────────────────────────────
-//
-// Each run past the first the opponent gets tougher:
-//   - handicap reduced by 2 per run (AI draws better cards / acts faster)
-//   - base HP raised by 10 per run (opponent has more staying power)
-//
-// Example: a node with handicap=7 and default HP 82
-//   run 1 → handicap 7, HP 82
-//   run 2 → handicap 5, HP 92
-//   run 3 → handicap 3, HP 102
-//   run 4 → handicap 1, HP 112
-//   run 5+ → handicap 0, HP 122+
-
-function resolvedNodeOpts(
-  node: QuestNode,
-  act: Act | undefined,
-  runCount: number,
-  modifiers: ReplayModifier[],
-): Omit<NewGameOptions, 'playerCards'> {
-  const extra = Math.max(0, runCount - 1)
-  const handicapReduction = Math.min(extra * 2, MAX_HANDICAP)
-
-  // Stack modifier values
-  let hpPctBonus = 0
-  let intervalReduction = 0
-  let handBonus = 0
-  for (const m of modifiers) {
-    if (m.type === 'enemyHpPercent') hpPctBonus += m.value
-    if (m.type === 'enemyIntervalReduction') intervalReduction += m.value
-    if (m.type === 'enemyHandBonus') handBonus += m.value
-  }
-
-  const adjustedHandicap = Math.max(0, (node.handicap ?? 0) - handicapReduction)
-  // Boss default HP is 95; non-boss 82 (mirrors engine.ts defaults)
-  const defaultHp = node.bossAI ? 95 : 82
-  const baseHp = node.opponentBaseHp ?? defaultHp
-  const adjustedHp = Math.round(baseHp * (1 + hpPctBonus / 100))
-
-  // When a modifier reduces interval, fall back to 4000ms base if node didn't specify one
-  const baseInterval = node.opponentIntervalMs ?? (intervalReduction > 0 ? 4000 : undefined)
-  const adjustedInterval = baseInterval !== undefined
-    ? Math.max(1000, baseInterval - intervalReduction)
-    : undefined
-
-  // Boss shockwave kill pct: starts at 50%, increases by 10% per run, capped at 100%
-  const bossSpawnKillPct = node.bossAI
-    ? Math.min(1.0, 0.5 + (runCount - 1) * 0.1)
-    : undefined
-
-  return {
-    opponentHandicap: adjustedHandicap,
-    bossAI: node.bossAI,
-    bossCard: node.bossCard,
-    bossName: node.bossName,
-    bossHpMultiplier: node.bossHpMultiplier,
-    enemyDeckNames: node.enemyDeck,
-    terrainSeed: node.id,
-    environment: node.environment ?? act?.environment,
-    opponentIntervalMs: adjustedInterval,
-    opponentBaseHp: adjustedHp,
-    opponentStartCards: handBonus,
-    bossSpawnKillPct,
-  }
-}
 
 /** Build merchant item list: 3 cards + ~1-in-5 chance of 1 unowned inventory 'Curiosity' at 10–20 crystals. */
 function buildMerchantItems(): MerchantItem[] {
@@ -217,14 +151,6 @@ function buildMerchantItems(): MerchantItem[] {
     items.push({ kind: 'consumable', def: c, price: c.price })
   }
   return items
-}
-
-function loadHandicap(): number {
-  try {
-    const v = localStorage.getItem(HANDICAP_KEY)
-    if (v !== null) return Math.min(MAX_HANDICAP, Math.max(0, parseInt(v, 10)))
-  } catch { /* ignore */ }
-  return 0
 }
 
 type Screen =
@@ -545,63 +471,7 @@ export default function App() {
   }, [])
 
   // ── Playtime tracking ─────────────────────────────────────────────────────
-  // Both refs are null when no timing segment is active (tab hidden).
-  // When active: gameTimerRef = segment start; battleTimerRef = battle start or null.
-  const gameTimerRef   = useRef<number | null>(document.hidden ? null : Date.now())
-  const battleTimerRef = useRef<number | null>(null)
-
-  /**
-   * Flush the current in-memory session playtime to localStorage without
-   * changing screen state or firing achievement checks. Resets the ref
-   * timers to `now` so the next applyPlaytimeTransition won't double-count.
-   * Call this immediately before any uploadSave so the cloud save captures
-   * the live session time.
-   */
-  const flushPlaytimeToStorage = useCallback(() => {
-    const now = Date.now()
-    const totalDelta  = gameTimerRef.current  !== null ? Math.max(0, now - gameTimerRef.current)  : 0
-    const battleDelta = battleTimerRef.current !== null ? Math.max(0, now - battleTimerRef.current) : 0
-    if (totalDelta > 0 || battleDelta > 0) {
-      if (gameTimerRef.current  !== null) gameTimerRef.current  = now
-      if (battleTimerRef.current !== null) battleTimerRef.current = now
-      const { totalMs, battleMs } = loadPlaytime()
-      savePlaytime({ totalMs: totalMs + totalDelta, battleMs: battleMs + battleDelta })
-    }
-  }, [])
-
-  // Save whatever has accumulated since the last reset, then apply the new state.
-  // newScreen / newHidden describe the *incoming* state (after the transition).
-  const applyPlaytimeTransition = useCallback((newScreen: string, newHidden: boolean) => {
-    const now = Date.now()
-
-    // Compute deltas from the outgoing segment (whatever was running before).
-    const totalDelta  = gameTimerRef.current !== null ? Math.max(0, now - gameTimerRef.current) : 0
-    const battleDelta = battleTimerRef.current !== null ? Math.max(0, now - battleTimerRef.current) : 0
-
-    // Set up refs for the incoming state.
-    if (newHidden) {
-      gameTimerRef.current   = null   // stop all timing while hidden
-      battleTimerRef.current = null
-    } else {
-      gameTimerRef.current   = now
-      battleTimerRef.current = newScreen === 'playing' ? now : null
-    }
-
-    if (totalDelta <= 0 && battleDelta <= 0) return
-    const newlyUnlocked = addPlaytime(totalDelta, battleDelta)
-    if (newlyUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...newlyUnlocked])
-  }, [setAchievementToasts])
-
-  useEffect(() => {
-    applyPlaytimeTransition(screen, isTabHidden)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [screen, isTabHidden])
-
-  // Flush on unmount (best-effort — page may close before this runs).
-  useEffect(() => {
-    return () => { applyPlaytimeTransition(screen, isTabHidden) }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const { flushPlaytimeToStorage } = usePlaytime({ screen, isTabHidden, setAchievementToasts })
 
   // ── Game loop ────────────────────────────────────────────
   useEffect(() => {
