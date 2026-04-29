@@ -1,155 +1,89 @@
 /**
  * Relic system — passive bonuses earned at act completion.
- * Each relic persists in RunState for the duration of the run.
+ * Relic definitions live in src/data/relics.json; this module provides the
+ * typed effect union, the applyToGame engine, and persistence helpers.
  */
+
+import type { GameState } from './types'
+import relicsCatalog from '../data/relics.json'
+
+// ─── Effect types ─────────────────────────────────────────
+
+export type RelicEffect =
+  | { type: 'baseHp';     amount: number }
+  | { type: 'unitAtk';    amount: number; condition?: 'baseBelowHalf' }
+  | { type: 'unitHp';     amount: number }
+  | { type: 'maxMana';    amount: number }
+  | { type: 'startMana';  amount: number }
+  | { type: 'unitRevive'; hp: 'half' | number }
+  | { type: 'tickHeal';   amount: number; intervalMs: number }
+  | { type: 'onPlayAtk';  amount: number }
+
+interface RelicData {
+  name: string
+  icon: string
+  desc: string
+  effects: RelicEffect[]
+}
+
+// ─── Public relic definition type ─────────────────────────
 
 export interface RelicDef {
   name: string
   icon: string
   desc: string
-  /** Apply this relic's passive effect at the start of a new battle. */
-  applyToGame: (state: import('./types').GameState) => void
+  applyToGame: (state: GameState) => void
 }
 
-const RELIC_CATALOG: RelicDef[] = [
-  {
-    name: 'Bark Shield',
-    icon: '🛡️',
-    desc: 'Your base gains +10 max HP at the start of every battle.',
-    applyToGame(state) {
-      state.playerBase.maxHp += 10
-      state.playerBase.hp    += 10
-    },
-  },
-  {
-    name: 'Iron Standard',
-    icon: '⚔️',
-    desc: 'All your units start with +1 ATK.',
-    applyToGame(state) {
-      for (const u of state.field) {
-        if (u.owner === 'player') u.attack = Math.max(0, u.attack + 1)
+// ─── Effect applicator ────────────────────────────────────
+
+function buildApplyToGame(effects: RelicEffect[]): (state: GameState) => void {
+  return function(state: GameState) {
+    for (const effect of effects) {
+      switch (effect.type) {
+        case 'baseHp':
+          state.playerBase.maxHp += effect.amount
+          state.playerBase.hp    += effect.amount
+          break
+        case 'unitAtk':
+          if (effect.condition === 'baseBelowHalf' && state.playerBase.hp >= state.playerBase.maxHp * 0.5) break
+          for (const u of state.field) {
+            if (u.owner === 'player') u.attack = Math.max(0, u.attack + effect.amount)
+          }
+          break
+        case 'unitHp':
+          for (const u of state.field) {
+            if (u.owner === 'player') { u.maxHp += effect.amount; u.hp += effect.amount }
+          }
+          break
+        case 'maxMana':
+          state.relicManaBonus = (state.relicManaBonus ?? 0) + effect.amount
+          break
+        case 'startMana':
+          state.mana = Math.min(state.mana + effect.amount, state.maxMana)
+          break
+        case 'unitRevive':
+          state.unitReviveHp = effect.hp
+          break
+        case 'tickHeal':
+          state.tickEffects = [...(state.tickEffects ?? []), { type: 'healPlayerUnits', amount: effect.amount, intervalMs: effect.intervalMs, timer: effect.intervalMs }]
+          break
+        case 'onPlayAtk':
+          state.onCardPlayedEffects = [...(state.onCardPlayedEffects ?? []), { attackBonus: effect.amount }]
+          break
       }
-    },
-  },
-  {
-    name: 'Soulstone',
-    icon: '💎',
-    desc: 'Once per battle, when one of your units is destroyed, it is immediately revived with half its original HP.',
-    applyToGame(state) {
-      state.soulstoneReviveAvailable = true
-    },
-  },
-  {
-    name: 'Prism Lens',
-    icon: '🔮',
-    desc: 'Your maximum mana is increased by 1.',
-    applyToGame(state) {
-      state.relicManaBonus = (state.relicManaBonus ?? 0) + 1
-    },
-  },
-  {
-    name: 'Coral Mantle',
-    icon: '🐚',
-    desc: 'At the start of every battle your units gain +3 max HP.',
-    applyToGame(state) {
-      for (const u of state.field) {
-        if (u.owner === 'player') {
-          u.maxHp += 3
-          u.hp    += 3
-        }
-      }
-    },
-  },
-  {
-    name: "Stormcaller's Badge",
-    icon: '⚡',
-    desc: 'All your units gain +2 attack at battle start.',
-    applyToGame(state) {
-      for (const u of state.field) {
-        if (u.owner === 'player') u.attack = Math.max(0, u.attack + 2)
-      }
-    },
-  },
-  {
-    name: 'Frost Mantle',
-    icon: '🧊',
-    desc: 'All your units gain +2 max HP and your base gains +8 max HP at the start of every battle.',
-    applyToGame(state) {
-      state.playerBase.maxHp += 8
-      state.playerBase.hp   += 8
-      for (const u of state.field) {
-        if (u.owner === 'player') {
-          u.maxHp += 2
-          u.hp    += 2
-        }
-      }
-    },
-  },
-  {
-    name: 'Golden Compass',
-    icon: '🧭',
-    desc: 'You start each battle with +1 mana.',
-    applyToGame(state) {
-      state.mana = Math.min(state.mana + 1, state.maxMana)
-    },
-  },
-  {
-    name: 'Spore Bloom',
-    icon: '🍄',
-    desc: 'Your units regenerate 1 HP every 3 seconds during battle.',
-    applyToGame(state) {
-      state.tickEffects = [...(state.tickEffects ?? []), { type: 'healPlayerUnits', amount: 1, intervalMs: 3000, timer: 3000 }]
-    },
-  },
-  {
-    name: 'Magma Core',
-    icon: '🌋',
-    desc: 'Your units gain +2 ATK at battle start whenever your base HP is below 50%.',
-    applyToGame(state) {
-      if (state.playerBase.hp < state.playerBase.maxHp * 0.5) {
-        for (const u of state.field) {
-          if (u.owner === 'player') u.attack = Math.max(0, u.attack + 2)
-        }
-      }
-    },
-  },
-  {
-    name: 'Living Bark',
-    icon: '🌿',
-    desc: 'Your base gains +15 max HP at the start of every battle.',
-    applyToGame(state) {
-      state.playerBase.maxHp += 15
-      state.playerBase.hp   += 15
-    },
-  },
-  {
-    name: 'Salvage Hook',
-    icon: '🪝',
-    desc: 'Once per battle, one of your destroyed units is revived at 1 HP.',
-    applyToGame(state) {
-      state.soulstoneReviveAvailable = true
-    },
-  },
-  {
-    name: 'Gear Heart',
-    icon: '⚙️',
-    desc: 'All your units gain +1 ATK when played, and your base gains +1 max HP at battle start.',
-    applyToGame(state) {
-      state.onCardPlayedEffects = [...(state.onCardPlayedEffects ?? []), { attackBonus: 1 }]
-      state.playerBase.maxHp += 1
-      state.playerBase.hp   += 1
-    },
-  },
-  {
-    name: "Worldmender's Crest",
-    icon: '🌐',
-    desc: 'Your base gains +5 max HP at the start of every battle.',
-    applyToGame(state) {
-      state.playerBase.maxHp += 5
-      state.playerBase.hp    += 5
-    },
-  },
-]
+    }
+  }
+}
+
+// ─── Catalog ──────────────────────────────────────────────
+
+const RELIC_CATALOG: RelicDef[] = (relicsCatalog as RelicData[]).map(data => ({
+  name: data.name,
+  icon: data.icon,
+  desc: data.desc,
+  applyToGame: buildApplyToGame(data.effects),
+}))
 
 export function getRelicDef(name: string): RelicDef | undefined {
   return RELIC_CATALOG.find(r => r.name === name)
@@ -209,4 +143,3 @@ export function removeBrokenRelic(name: string): void {
     localStorage.setItem(BROKEN_RELICS_KEY, JSON.stringify(loadBrokenRelics().filter(n => n !== name)))
   } catch { /* ignore */ }
 }
-

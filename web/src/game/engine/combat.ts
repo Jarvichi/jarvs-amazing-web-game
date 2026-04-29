@@ -166,13 +166,13 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
     }
   }
 
-  // Soulstone relic: auto-revive the first dead player unit once per battle
-  if (s.soulstoneReviveAvailable) {
+  // Auto-revive: once per battle, restore the first dead player unit
+  if (s.unitReviveHp !== undefined) {
     const dead = s.field.find(u => u.owner === 'player' && u.hp <= 0 && u.moveSpeed > 0)
     if (dead) {
-      dead.hp = Math.ceil(dead.maxHp / 2)
-      s.soulstoneReviveAvailable = false
-      log.push(`💎 Soulstone! ${dead.name} rises from the dead!`)
+      dead.hp = s.unitReviveHp === 'half' ? Math.ceil(dead.maxHp / 2) : s.unitReviveHp
+      s.unitReviveHp = undefined
+      log.push(`${dead.name} rises from the dead!`)
     }
   }
 

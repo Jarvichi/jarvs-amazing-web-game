@@ -276,7 +276,7 @@ export interface GameState {
   bossTraitState?: BossTraitState
   terrain: TerrainObstacle[]
   environment?: string       // battlefield background theme ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen')
-  soulstoneReviveAvailable?: boolean  // one unit auto-revives per battle (set by Soulstone/Salvage Hook relics)
+  unitReviveHp?: 'half' | number      // pending one-time unit revive at this HP value (set by Soulstone/Salvage Hook relics)
   relicManaBonus?: number             // passive +N to maxMana cap (set by Prism Lens relic)
   playerManaRegenMs?: number          // player's upgraded mana regen interval (default 3000 ms)
   tickEffects?: TickEffect[]          // periodic effects applied each engine tick
