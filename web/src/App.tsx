@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer } from 'react'
 import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY } from './game/campaignHelpers'
 import { usePlaytime } from './hooks/usePlaytime'
+import { useStartupData } from './hooks/useStartupData'
+import { useCloudSync } from './hooks/useCloudSync'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { GameState, Card } from './game/types'
 import { newGame, NewGameOptions, MAX_HANDICAP } from './game/engine'
@@ -74,9 +76,8 @@ import { GiftClaimModal }    from './components/GiftClaimModal'
 import { GiftAdminScreen }  from './components/GiftAdminScreen'
 import { LoginModal }        from './components/LoginModal'
 import { InventoryScreen }   from './components/InventoryScreen'
-import { peekDailyReward, markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
-import { getUnclaimedGifts, applyGiftRewards, GiftDef } from './game/gifts'
-import { getUnreadCount as getNewsUnreadCount } from './game/news'
+import { markDailyRewardClaimed, addToInventory, computeReward, loadInventory, RewardDef, ALL_ITEMS } from './game/dailyLogin'
+import { applyGiftRewards, GiftDef } from './game/gifts'
 import { NewsScreen }      from './components/NewsScreen'
 import { NewsAdminScreen } from './components/NewsAdminScreen'
 import { CampaignAdminScreen } from './components/CampaignAdminScreen'
@@ -118,7 +119,7 @@ import brokenRelicsData from './data/broken-relics.json'
 import rollbar, { updateRollbarPerson } from './rollbar'
 import { useAuth } from './hooks/useAuth'
 import { auth } from './firebase'
-import { uploadSave, applySave, getRemoteSaveIfNewer } from './game/cloudSave'
+import { uploadSave, applySave } from './game/cloudSave'
 
 // Apply saved display settings on load
 applyTextSettings()
@@ -400,18 +401,7 @@ export default function App() {
   // Commander (virtual pet)
   const [commander, setCommander] = useState<CommanderState | null>(loadCommander)
 
-  // Daily login reward
-  const [dailyReward, setDailyReward] = useState<RewardDef | null>(null)
-
-  // Developer gifts
-  const [pendingGifts, setPendingGifts] = useState<GiftDef[]>([])
-
-  // News unread count
-  const [newsUnreadCount, setNewsUnreadCount] = useState(0)
-
-  // Cloud sync prompt: shown when a newer remote save is detected on the title screen
-  const [syncPrompt, setSyncPrompt] = useState<{ remoteDate: Date; data: Record<string, string> } | null>(null)
-  const syncPromptedRef = useRef(false)
+  const { dailyReward, setDailyReward, pendingGifts, setPendingGifts, newsUnreadCount, setNewsUnreadCount } = useStartupData()
 
   const [isUserPaused, setIsUserPaused] = useState(false)
   // Reset the user-pause flag whenever we leave the battle screen so it doesn't
@@ -423,40 +413,6 @@ export default function App() {
     gameState, screen, setGameState, setCrystals, setAchievementToasts,
   })
   const isGamePaused = isRareEventPaused || isUserPaused
-
-  // ── Daily login reward ────────────────────────────────────
-  // Peek at the reward on load (no claim yet — reward is granted when user taps CLAIM)
-  useEffect(() => {
-    const raw = peekDailyReward()
-    if (!raw) return
-    let reward = raw
-    const catalog = getCardCatalog()
-    if (reward.type === 'card') {
-      // Resolve card: pick random by rarity if needed
-      const pool = reward.rarity
-        ? catalog.filter(c => c.rarity === reward.rarity)
-        : catalog
-      const src = pool.length > 0 ? pool : catalog
-      const card = src[Math.floor(Math.random() * src.length)]
-      reward = { ...reward, cardName: card.name }
-    }
-    setDailyReward(reward)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // ── Developer gifts ───────────────────────────────────────
-  useEffect(() => {
-    getUnclaimedGifts().then(unclaimed => {
-      if (unclaimed.length > 0) setPendingGifts(unclaimed)
-    }).catch(() => {})
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // ── News unread count ─────────────────────────────────────
-  useEffect(() => {
-    getNewsUnreadCount().then(setNewsUnreadCount).catch(() => {})
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   // Keep gameStateRef in sync so callbacks can read current state without stale closures
   gameStateRef.current = gameState
@@ -504,32 +460,7 @@ export default function App() {
     if (run) updateRollbarPerson({ actId: run.actId, runCount: loadRunCount() })
   }, [run?.actId])
 
-  // On arriving at the title screen, check if the remote save is newer and prompt the user.
-  // Reset the prompted flag whenever we leave the title so re-visiting prompts again if needed.
-  useEffect(() => {
-    if (screen !== 'title') { syncPromptedRef.current = false; return }
-    const uid = user?.uid
-    if (!uid || user?.isAnonymous) return
-    if (syncPromptedRef.current) return
-    if (!navigator.onLine) return
-    syncPromptedRef.current = true
-    getRemoteSaveIfNewer(uid).then(remote => {
-      if (remote) setSyncPrompt({ remoteDate: remote.savedAt.toDate(), data: remote.data })
-    }).catch(() => { /* offline or error — silently skip */ })
-  }, [screen, user])
-
-  // Periodic auto-sync: upload local save every 5 minutes while on the title screen and online.
-  useEffect(() => {
-    if (screen !== 'title') return
-    const uid = user?.uid
-    if (!uid || user?.isAnonymous) return
-    const id = setInterval(() => {
-      if (!navigator.onLine) return
-      flushPlaytimeToStorage()
-      uploadSave(uid).catch(() => { /* silent */ })
-    }, 5 * 60 * 1000)
-    return () => clearInterval(id)
-  }, [screen, user, flushPlaytimeToStorage])
+  const { syncPrompt, clearSyncPrompt } = useCloudSync({ user, screen, flushPlaytimeToStorage })
 
   // Single guard for all data-dependent screens. Fires after render as a backstop
   // against programming errors — if required data is missing, log to Rollbar and
@@ -2853,13 +2784,13 @@ export default function App() {
             <div className="sync-prompt-buttons">
               <button className="action-btn" onClick={() => {
                 applySave(syncPrompt.data)
-                setSyncPrompt(null)
+                clearSyncPrompt()
                 window.location.reload()
               }}>
                 ☁ LOAD REMOTE
               </button>
               <button className="action-btn action-btn--dim" onClick={() => {
-                setSyncPrompt(null)
+                clearSyncPrompt()
                 const uid = user?.uid
                 if (uid && !user?.isAnonymous) { flushPlaytimeToStorage(); uploadSave(uid).catch(() => {}) }
               }}>
