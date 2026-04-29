@@ -67,7 +67,11 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
       if (bonus.atk   > 0) unit.attack = unit.attack + bonus.atk;
       if (bonus.maxHp > 0) { unit.maxHp += bonus.maxHp; unit.hp += bonus.maxHp; }
     }
-    if (owner === 'player' && s.relicGearHeart) unit.attack = Math.max(0, unit.attack + 1);
+    if (owner === 'player' && s.onCardPlayedEffects?.length) {
+      for (const e of s.onCardPlayedEffects) {
+        if (e.attackBonus) unit.attack = Math.max(0, unit.attack + e.attackBonus)
+      }
+    }
     if (card.lore) unit.lore = card.lore;
     // Hero units use the card's display name but keep the base unit sprite
     if (card.isHero) {

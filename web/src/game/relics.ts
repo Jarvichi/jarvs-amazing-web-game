@@ -98,8 +98,7 @@ const RELIC_CATALOG: RelicDef[] = [
     icon: '🍄',
     desc: 'Your units regenerate 1 HP every 3 seconds during battle.',
     applyToGame(state) {
-      state.relicSporeBloom = true
-      state.relicSporeBloomTimer = 3000
+      state.tickEffects = [...(state.tickEffects ?? []), { type: 'healPlayerUnits', amount: 1, intervalMs: 3000, timer: 3000 }]
     },
   },
   {
@@ -136,7 +135,7 @@ const RELIC_CATALOG: RelicDef[] = [
     icon: '⚙️',
     desc: 'All your units gain +1 ATK when played, and your base gains +1 max HP at battle start.',
     applyToGame(state) {
-      state.relicGearHeart = true
+      state.onCardPlayedEffects = [...(state.onCardPlayedEffects ?? []), { attackBonus: 1 }]
       state.playerBase.maxHp += 1
       state.playerBase.hp   += 1
     },

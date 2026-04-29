@@ -399,8 +399,8 @@ export function tick(state: GameState, deltaMs: number): GameState {
   // 1. Mana regen
   regenerateMana(s, deltaMs)
 
-  // 1b. apply relic buffs
-  applyRelicBuffs(s, deltaMs)
+  // 1b. apply tick effects (periodic relic buffs)
+  applyTickEffects(s, deltaMs)
 
   // 2. Move all units
   moveUnits(s, deltaMs)
@@ -548,16 +548,17 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
   }
 }
 
-function applyRelicBuffs(s: GameState, deltaMs: number) {
-  // TODO: Having named relic abilities in code is bad. Relics should be data-driven and their effects applied via generic engine hooks (e.g. onTick, onUnitSpawn, onAttack, etc.). 
-  // FIXME: This is currently just a quick hack to get the Spore Bloom relic working without a full engine refactor, but it should be replaced with a proper data-driven system.
-  if (s.relicSporeBloom) {
-    s.relicSporeBloomTimer = (s.relicSporeBloomTimer ?? 3000) - deltaMs
-    if (s.relicSporeBloomTimer <= 0) {
-      for (const u of s.field) {
-        if (u.owner === 'player' && u.hp < u.maxHp) u.hp = Math.min(u.maxHp, u.hp + 1)
+function applyTickEffects(s: GameState, deltaMs: number) {
+  if (!s.tickEffects?.length) return
+  for (const effect of s.tickEffects) {
+    if (effect.type === 'healPlayerUnits') {
+      effect.timer -= deltaMs
+      if (effect.timer <= 0) {
+        for (const u of s.field) {
+          if (u.owner === 'player' && u.hp < u.maxHp) u.hp = Math.min(u.maxHp, u.hp + effect.amount)
+        }
+        effect.timer += effect.intervalMs
       }
-      s.relicSporeBloomTimer += 3000
     }
   }
 }

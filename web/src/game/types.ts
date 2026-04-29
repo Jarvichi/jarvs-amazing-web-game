@@ -1,3 +1,18 @@
+// ─── Relic Engine Hook Effects ────────────────────────────
+
+/** Periodic effect applied each engine tick (e.g. heal all player units every N ms). */
+export type TickEffect = {
+  type: 'healPlayerUnits'
+  amount: number
+  intervalMs: number
+  timer: number
+}
+
+/** Effect applied each time the player plays a card. */
+export type OnCardPlayedEffect = {
+  attackBonus: number
+}
+
 // ─── Structure & Upgrade Effects ─────────────────────────
 
 export type StructureEffect =
@@ -261,12 +276,11 @@ export interface GameState {
   bossTraitState?: BossTraitState
   terrain: TerrainObstacle[]
   environment?: string       // battlefield background theme ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen')
-  soulstoneReviveAvailable?: boolean  // Soulstone relic: one unit auto-revives per battle
-  relicManaBonus?: number             // Prism Lens relic: +N to maxMana cap
+  soulstoneReviveAvailable?: boolean  // one unit auto-revives per battle (set by Soulstone/Salvage Hook relics)
+  relicManaBonus?: number             // passive +N to maxMana cap (set by Prism Lens relic)
   playerManaRegenMs?: number          // player's upgraded mana regen interval (default 3000 ms)
-  relicSporeBloom?: boolean           // Spore Bloom relic: player units heal 1 HP every 3s
-  relicSporeBloomTimer?: number       // countdown ms until next Spore Bloom tick
-  relicGearHeart?: boolean            // Gear Heart relic: +1 ATK on every player unit spawn
+  tickEffects?: TickEffect[]          // periodic effects applied each engine tick
+  onCardPlayedEffects?: OnCardPlayedEffect[]  // effects applied when the player plays a card
   bossSpawnKillPct?: number           // Fraction of player units killed by boss shockwave (0.5 base, scales with run count)
   battleStats: BattleStats
   /** Transient animation events (projectiles, hit flashes). Cleared each tick after expiry. */
