@@ -662,60 +662,45 @@ export default function App() {
     return () => clearInterval(id)
   }, [screen, user, flushPlaytimeToStorage])
 
-  // Guard: if screen is 'cutscene' but there are no panels, we'd show a blank screen.
-  // Redirect to nodemap (or title if no run), and log to Rollbar so we can debug the root cause.
+  // Single guard for all data-dependent screens. Fires after render as a backstop
+  // against programming errors — if required data is missing, log to Rollbar and
+  // redirect before the user sees a broken screen. Add new screens here.
   useEffect(() => {
+    const fallback = run ? 'nodemap' : 'title'
     if (screen === 'cutscene' && cutscenePanels.length === 0) {
-      rollbar.error('Blank cutscene guard triggered — screen is cutscene but panels are empty', {
+      rollbar.error('cutscene screen reached with no panels', {
         runActId: run?.actId,
         pendingNodeId: run?.pendingNodeId,
         pendingActComplete: run?.pendingActComplete,
       })
-      setScreen(run ? 'nodemap' : 'title')
-    }
-  }, [screen, cutscenePanels, run])
-
-  // Guard: if we somehow land on 'actcomplete' without a valid run/actData, escape to title.
-  useEffect(() => {
-    // TODO: lots of similar checks across various screens — consider centralizing the logic so we don't have to sprinkle these everywhere. For example, when we setScreen('actcomplete'), we could check the run/act data right there and refuse to set it if invalid, instead of briefly flashing a blank screen and then redirecting.
-    if (screen === 'actcomplete' && (!run || !ACTS[run.actId])) {
-      rollbar.error('actcomplete screen reached without valid run/actData', {
-        runActId: run?.actId,
-      })
+      setScreen(fallback)
+    } else if (screen === 'actcomplete' && (!run || !ACTS[run.actId])) {
+      rollbar.error('actcomplete screen reached without valid run/actData', { runActId: run?.actId })
       clearRun()
       setRun(null)
       setScreen('title')
-    }
-  }, [screen, run])
-
-  // Guard: catch all other "data-dependent" screens that would render blank if their data is null.
-  useEffect(() => {
-    // TODO: Candidate for refactor — instead of guarding each screen with an effect, centralize the logic so that when we setScreen('event', we check the data right there and refuse to set it if invalid. That way we can show an error toast immediately instead of briefly flashing a blank screen and then redirecting.
-    if (screen === 'bossdialogue' && !bossDialogueNode?.bossDialogue) {
+    } else if (screen === 'bossdialogue' && !bossDialogueNode?.bossDialogue) {
       rollbar.error('bossdialogue screen reached without bossDialogueNode/dialogue', { runActId: run?.actId })
-      setScreen(run ? 'nodemap' : 'title')
+      setScreen(fallback)
     } else if (screen === 'event' && (!activeEvent || !run)) {
       rollbar.error('event screen reached without activeEvent or run', { runActId: run?.actId, hasEvent: !!activeEvent })
-      setScreen(run ? 'nodemap' : 'title')
+      setScreen(fallback)
     } else if (screen === 'merchant' && merchantItems.length === 0) {
       rollbar.error('merchant screen reached with empty merchantItems', { runActId: run?.actId })
-      setScreen(run ? 'nodemap' : 'title')
+      setScreen(fallback)
     } else if (screen === 'mystery' && !mysteryReward) {
       rollbar.error('mystery screen reached without mysteryReward', { runActId: run?.actId })
-      setScreen(run ? 'nodemap' : 'title')
+      setScreen(fallback)
     } else if (screen === 'itemfound' && !foundItem) {
       rollbar.error('itemfound screen reached without foundItem', { runActId: run?.actId })
-      setScreen(run ? 'nodemap' : 'title')
-    } else if (screen === 'cutscene' && cutscenePanels.length === 0) {
-      rollbar.error('cutscene screen reached with no panels', { runActId: run?.actId })
-      setScreen(run ? 'nodemap' : 'title')
+      setScreen(fallback)
     } else if (screen === 'nodemap' && (!run || !ACTS[run.actId])) {
       rollbar.error('nodemap screen reached without valid run/actData', { runActId: run?.actId })
       clearRun()
       setRun(null)
       setScreen('title')
     }
-  }, [screen, bossDialogueNode, activeEvent, merchantItems, mysteryReward, foundItem, run, cutscenePanels])
+  }, [screen, cutscenePanels, run, bossDialogueNode, activeEvent, merchantItems, mysteryReward, foundItem])
 
   // Show boss fight splash when phase 2 triggers.
   useEffect(() => {
