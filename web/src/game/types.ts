@@ -79,6 +79,8 @@ export interface UnitTemplate {
   masteryLevel?: number
   /** AOE explosion triggered once when this unit first drops to ≤50% HP. */
   halfHealthEffect?: { damage: number; range: number }
+  /** AOE explosion triggered when this unit dies. */
+  onDeathEffect?: { damage: number; range: number }
 }
 
 export type BuffTag = 'atk' | 'spd' | 'hp' | 'range'

@@ -54,6 +54,7 @@ interface RawUnitDef {
   flying?: boolean
   climber?: boolean
   structureEffect?: RawStructureEffect
+  onDeathEffect?: { damage: number; range: number }
 }
 
 interface RawCardDef {

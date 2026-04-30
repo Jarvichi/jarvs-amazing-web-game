@@ -19544,14 +19544,14 @@
         "moveSpeed": 20,
         "attackRange": 55,
         "attackCooldownMs": 2200,
-        "halfHealthEffect": { "damage": 12, "range": 80 },
+        "onDeathEffect": { "damage": 20, "range": 90 },
         "tags": ["magic", "ranged"]
       },
       "heroEffect": {
         "type": "buffAttack",
         "amount": 3
       },
-      "description": "HERO: Deploys Rob — a reckless wizard who explodes at half health, blasting nearby enemies! Also grants all units +3 attack.",
+      "description": "HERO: Deploys Rob — a reckless wizard who explodes on death, blasting all nearby enemies! Also grants all units +3 attack.",
       "lore": "Big smile. Bigger explosions. The glasses are purely decorative."
     }
   ]
