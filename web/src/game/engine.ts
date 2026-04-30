@@ -517,42 +517,6 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
         Math.abs(unit.x - w.x) <= 30
       )
     }
-    const sEffect = unit.structureEffect
-    if (unit.spawnTimer == null || !sEffect) continue
-    if (sEffect.type !== 'spawn' && sEffect.type !== 'healAura' && sEffect.type !== 'repairAura') continue
-    unit.spawnTimer -= deltaMs
-    if (unit.spawnTimer <= 0) {
-      if (sEffect.type === 'spawn') {
-        const effect = sEffect as { type: 'spawn'; unitTemplate: UnitTemplate; intervalMs: number} 
-        const spawned = spawnUnit(effect.unitTemplate, unit.owner)
-        spawned.x = unit.x
-        spawned.y = unit.y
-        spawned.spawnGrowTimer = SPAWN_GROW_MS
-        s.field.push(spawned)
-        const who = unit.owner === 'player' ? 'Your' : 'Enemy'
-        log.push(`${who} ${unit.name} spawned a ${spawned.name}!`)
-        unit.spawnTimer = effect.intervalMs
-      } else if (sEffect.type === 'healAura') {
-        const { amount, intervalMs } = sEffect as { type: 'healAura'; amount: number; intervalMs: number} 
-        const targets = s.field.filter(u => u.owner === unit.owner && u.moveSpeed > 0 && u.hp < u.maxHp)
-        for (const t of targets) t.hp = Math.min(t.maxHp, t.hp + amount)
-        if (targets.length > 0) {
-          const who = unit.owner === 'player' ? 'Your' : 'Enemy'
-          log.push(`${who} ${unit.name} healed ${targets.length} unit(s) for ${amount} HP.`)
-        }
-        unit.spawnTimer = intervalMs
-      } else if (sEffect.type === 'repairAura') {
-        const { amount, intervalMs } = sEffect as { type: 'repairAura'; amount: number; intervalMs: number} 
-        // Walls with mastery 5 repairAura can repair themselves; others only repair neighbours
-        const targets = s.field.filter(u => u.owner === unit.owner && u.moveSpeed === 0 && (u !== unit || unit.isWall) && u.hp < u.maxHp)
-        for (const t of targets) t.hp = Math.min(t.maxHp, t.hp + amount)
-        if (targets.length > 0) {
-          const who = unit.owner === 'player' ? 'Your' : 'Enemy'
-          log.push(`${who} ${unit.name} repaired ${targets.length} structure(s) for ${amount} HP.`)
-        }
-        unit.spawnTimer = intervalMs
-      }
-    }
 
     // Teleport ability: blink forward every cooldownMs
     if (unit.teleportAbility && unit.moveSpeed > 0 && unit.hp > 0) {
@@ -574,7 +538,6 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
     // Invisibility ability: cycle between active (invisible) and cooldown phases
     if (unit.invisibilityAbility && unit.moveSpeed > 0 && unit.hp > 0) {
       if (unit.invisTimer == null && unit.invisCooldownTimer == null) {
-        // First tick — begin invisible immediately
         unit.invisTimer = unit.invisibilityAbility.activeMs
         log.push(`!!${unit.name} vanishes into shadow!`)
       } else if (unit.invisTimer != null && unit.invisTimer > 0) {
@@ -660,6 +623,43 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
           }
         }
         unit.buildTimer = buildInterval
+      }
+    }
+
+    const sEffect = unit.structureEffect
+    if (unit.spawnTimer == null || !sEffect) continue
+    if (sEffect.type !== 'spawn' && sEffect.type !== 'healAura' && sEffect.type !== 'repairAura') continue
+    unit.spawnTimer -= deltaMs
+    if (unit.spawnTimer <= 0) {
+      if (sEffect.type === 'spawn') {
+        const effect = sEffect as { type: 'spawn'; unitTemplate: UnitTemplate; intervalMs: number} 
+        const spawned = spawnUnit(effect.unitTemplate, unit.owner)
+        spawned.x = unit.x
+        spawned.y = unit.y
+        spawned.spawnGrowTimer = SPAWN_GROW_MS
+        s.field.push(spawned)
+        const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+        log.push(`${who} ${unit.name} spawned a ${spawned.name}!`)
+        unit.spawnTimer = effect.intervalMs
+      } else if (sEffect.type === 'healAura') {
+        const { amount, intervalMs } = sEffect as { type: 'healAura'; amount: number; intervalMs: number} 
+        const targets = s.field.filter(u => u.owner === unit.owner && u.moveSpeed > 0 && u.hp < u.maxHp)
+        for (const t of targets) t.hp = Math.min(t.maxHp, t.hp + amount)
+        if (targets.length > 0) {
+          const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+          log.push(`${who} ${unit.name} healed ${targets.length} unit(s) for ${amount} HP.`)
+        }
+        unit.spawnTimer = intervalMs
+      } else if (sEffect.type === 'repairAura') {
+        const { amount, intervalMs } = sEffect as { type: 'repairAura'; amount: number; intervalMs: number} 
+        // Walls with mastery 5 repairAura can repair themselves; others only repair neighbours
+        const targets = s.field.filter(u => u.owner === unit.owner && u.moveSpeed === 0 && (u !== unit || unit.isWall) && u.hp < u.maxHp)
+        for (const t of targets) t.hp = Math.min(t.maxHp, t.hp + amount)
+        if (targets.length > 0) {
+          const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+          log.push(`${who} ${unit.name} repaired ${targets.length} structure(s) for ${amount} HP.`)
+        }
+        unit.spawnTimer = intervalMs
       }
     }
   }
