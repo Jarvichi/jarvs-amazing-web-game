@@ -116,21 +116,51 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       }
     }
 
-    // Builder trait: seek nearest friendly building rather than advancing toward enemy
+    // Builder trait: seek nearest friendly building; once charges exhausted, run to enemy base
     if (unit.unitTrait?.builderMode) {
-      const buildings = s.field.filter(b => b.owner === unit.owner && b.moveSpeed === 0 && !b.isWall && b.hp > 0)
-      if (buildings.length > 0) {
-        const nearest = buildings.reduce((a, b) => unitDist(unit, a) < unitDist(unit, b) ? a : b)
-        const dist = unitDist(unit, nearest)
-        if (dist <= 30) {
-          // Already adjacent to a building — hold position
-          tx = unit.x
-          ty = unit.y
+      if (unit.builderSaboteurMode) {
+        // Sprint to enemy base, steering away from nearby enemies
+        const enemyBaseX = unit.owner === 'player' ? LANE_WIDTH : 0
+        const fleeRange = 80
+        let fvx = 0, fvy = 0, fleeCount = 0
+        for (const other of s.field) {
+          if (other.owner === unit.owner || other.hp <= 0) continue
+          const dist = unitDist(unit, other)
+          if (dist > fleeRange || dist === 0) continue
+          fvx += unit.x - other.x
+          fvy += unit.y - other.y
+          fleeCount++
+        }
+        if (fleeCount > 0) {
+          const len = Math.sqrt(fvx * fvx + fvy * fvy) || 1
+          tx = enemyBaseX + (fvx / len) * 80
+          ty = unit.y + (fvy / len) * 40
         } else {
-          tx = nearest.x
-          ty = nearest.y
+          tx = enemyBaseX
+          ty = 0
         }
         hasTarget = true
+      } else {
+        // Normal mode: seek nearest friendly building, skipping the one last serviced
+        let buildings = s.field.filter(
+          b => b.owner === unit.owner && b.moveSpeed === 0 && !b.isWall && b.hp > 0 &&
+               b.id !== unit.builderLastBuildingId
+        )
+        if (buildings.length === 0) {
+          buildings = s.field.filter(b => b.owner === unit.owner && b.moveSpeed === 0 && !b.isWall && b.hp > 0)
+        }
+        if (buildings.length > 0) {
+          const nearest = buildings.reduce((a, b) => unitDist(unit, a) < unitDist(unit, b) ? a : b)
+          const dist = unitDist(unit, nearest)
+          if (dist <= 30) {
+            tx = unit.x
+            ty = unit.y
+          } else {
+            tx = nearest.x
+            ty = nearest.y
+          }
+          hasTarget = true
+        }
       }
     }
 

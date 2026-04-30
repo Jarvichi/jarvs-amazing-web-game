@@ -577,52 +577,83 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
       }
     }
 
-    // Builder ability: repair damaged buildings or upgrade fully-healed ones
+    // Builder ability: repair/upgrade buildings (3 charges), then run to enemy base and detonate
     if (unit.unitTrait?.builderMode && unit.moveSpeed > 0 && unit.hp > 0) {
-      const buildInterval = unit.unitTrait.buildIntervalMs ?? 3000
-      const repairAmt = unit.unitTrait.buildRepairAmount ?? 8
-      if (unit.buildTimer == null) unit.buildTimer = buildInterval
-      unit.buildTimer -= deltaMs
-      if (unit.buildTimer <= 0) {
-        const nearBuilding = s.field.find(
-          b => b.owner === unit.owner && b.moveSpeed === 0 && !b.isWall && b.hp > 0 &&
-               unitDist(unit, b) <= 60
+      if (unit.builderChargesLeft == null) {
+        unit.builderChargesLeft = unit.unitTrait.buildCharges ?? 3
+      }
+
+      if (unit.builderSaboteurMode) {
+        // Detonate on contact with any enemy building
+        const enemyBuilding = s.field.find(
+          b => b.owner !== unit.owner && b.moveSpeed === 0 && !b.isWall && b.hp > 0 &&
+               unitDist(unit, b) <= 40
         )
-        if (nearBuilding) {
-          if (nearBuilding.hp < nearBuilding.maxHp) {
-            nearBuilding.hp = Math.min(nearBuilding.maxHp, nearBuilding.hp + repairAmt)
-            const who = unit.owner === 'player' ? 'Your' : 'Enemy'
-            log.push(`${who} ${unit.name} repaired ${nearBuilding.name} for ${repairAmt} HP.`)
-          } else if ((nearBuilding.upgradeLevel ?? 1) < MAX_UPGRADE_LEVEL) {
-            nearBuilding.maxHp *= 2
-            nearBuilding.hp = nearBuilding.maxHp
-            nearBuilding.upgradeLevel = (nearBuilding.upgradeLevel ?? 1) + 1
-            let note = 'HP×2'
-            if (nearBuilding.structureEffect?.type === 'spawn') {
-              const eff = nearBuilding.structureEffect as { type: 'spawn'; unitTemplate: UnitTemplate; intervalMs: number }
-              eff.intervalMs = Math.max(1500, Math.floor(eff.intervalMs / 2))
-              if (nearBuilding.spawnTimer != null) nearBuilding.spawnTimer = Math.min(nearBuilding.spawnTimer, eff.intervalMs)
-              note += ', spawn×2'
-            }
-            if (nearBuilding.structureEffect?.type === 'mana') {
-              (nearBuilding.structureEffect as { type: 'mana'; amount: number }).amount += 1
-              note += ', mana+1'
-            }
-            if (nearBuilding.structureEffect?.type === 'healAura') {
-              const eff = nearBuilding.structureEffect as { type: 'healAura'; amount: number; intervalMs: number }
-              eff.intervalMs = Math.max(2000, Math.floor(eff.intervalMs / 2))
-              note += ', heal×2'
-            }
-            if (nearBuilding.structureEffect?.type === 'repairAura') {
-              const eff = nearBuilding.structureEffect as { type: 'repairAura'; amount: number; intervalMs: number }
-              eff.intervalMs = Math.max(2000, Math.floor(eff.intervalMs / 2))
-              note += ', repair×2'
-            }
-            const who = unit.owner === 'player' ? 'Your' : 'Enemy'
-            log.push(`!!${who} ${unit.name} upgraded ${nearBuilding.name}! (${note})`)
-          }
+        if (enemyBuilding) {
+          const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+          log.push(`!!${who} ${unit.name} detonates at ${enemyBuilding.name}, destroying it!`)
+          enemyBuilding.hp = 0
+          unit.hp = 0
         }
-        unit.buildTimer = buildInterval
+      } else {
+        const buildInterval = unit.unitTrait.buildIntervalMs ?? 3000
+        const repairAmt = unit.unitTrait.buildRepairAmount ?? 8
+        if (unit.buildTimer == null) unit.buildTimer = buildInterval
+        unit.buildTimer -= deltaMs
+        if (unit.buildTimer <= 0) {
+          const nearBuilding = s.field.find(
+            b => b.owner === unit.owner && b.moveSpeed === 0 && !b.isWall && b.hp > 0 &&
+                 unitDist(unit, b) <= 60
+          )
+          if (nearBuilding) {
+            let actionTaken = false
+            if (nearBuilding.hp < nearBuilding.maxHp) {
+              nearBuilding.hp = Math.min(nearBuilding.maxHp, nearBuilding.hp + repairAmt)
+              const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+              log.push(`${who} ${unit.name} repaired ${nearBuilding.name} for ${repairAmt} HP.`)
+              actionTaken = true
+            } else if ((nearBuilding.upgradeLevel ?? 1) < MAX_UPGRADE_LEVEL) {
+              nearBuilding.maxHp *= 2
+              nearBuilding.hp = nearBuilding.maxHp
+              nearBuilding.upgradeLevel = (nearBuilding.upgradeLevel ?? 1) + 1
+              let note = 'HP×2'
+              if (nearBuilding.structureEffect?.type === 'spawn') {
+                const eff = nearBuilding.structureEffect as { type: 'spawn'; unitTemplate: UnitTemplate; intervalMs: number }
+                eff.intervalMs = Math.max(1500, Math.floor(eff.intervalMs / 2))
+                if (nearBuilding.spawnTimer != null) nearBuilding.spawnTimer = Math.min(nearBuilding.spawnTimer, eff.intervalMs)
+                note += ', spawn×2'
+              }
+              if (nearBuilding.structureEffect?.type === 'mana') {
+                (nearBuilding.structureEffect as { type: 'mana'; amount: number }).amount += 1
+                note += ', mana+1'
+              }
+              if (nearBuilding.structureEffect?.type === 'healAura') {
+                const eff = nearBuilding.structureEffect as { type: 'healAura'; amount: number; intervalMs: number }
+                eff.intervalMs = Math.max(2000, Math.floor(eff.intervalMs / 2))
+                note += ', heal×2'
+              }
+              if (nearBuilding.structureEffect?.type === 'repairAura') {
+                const eff = nearBuilding.structureEffect as { type: 'repairAura'; amount: number; intervalMs: number }
+                eff.intervalMs = Math.max(2000, Math.floor(eff.intervalMs / 2))
+                note += ', repair×2'
+              }
+              const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+              log.push(`!!${who} ${unit.name} upgraded ${nearBuilding.name}! (${note})`)
+              actionTaken = true
+            }
+
+            if (actionTaken) {
+              unit.builderChargesLeft! -= 1
+              unit.builderLastBuildingId = nearBuilding.id
+              if (unit.builderChargesLeft! <= 0) {
+                unit.builderSaboteurMode = true
+                const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+                log.push(`!!${who} ${unit.name} has used all charges — running to the enemy base!`)
+              }
+            }
+          }
+          unit.buildTimer = buildInterval
+        }
       }
     }
 

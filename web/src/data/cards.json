@@ -19693,14 +19693,14 @@
         "moveSpeed": 10,
         "attackRange": 5,
         "attackCooldownMs": 2200,
-        "unitTrait": { "builderMode": true, "buildIntervalMs": 3000, "buildRepairAmount": 8 },
+        "unitTrait": { "builderMode": true, "buildIntervalMs": 3000, "buildRepairAmount": 8, "buildCharges": 3 },
         "tags": ["melee", "slow"]
       },
       "heroEffect": {
         "type": "buffMaxHp",
         "amount": 18
       },
-      "description": "HERO: Deploys the Builder — a tireless worker who repairs nearby buildings every 3s and upgrades them once they're at full health! All units gain +18 max HP.",
+      "description": "HERO: Deploys the Builder — repairs or upgrades a building every 3s (3 charges). After all charges are spent, he sprints to the enemy base avoiding enemies and detonates on the first enemy building he reaches! All units gain +18 max HP.",
       "lore": "Can fix anything. Given enough time. And lumber."
     }
   ]

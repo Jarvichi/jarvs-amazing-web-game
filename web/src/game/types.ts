@@ -119,6 +119,8 @@ export interface UnitTrait {
   buildIntervalMs?: number
   /** HP healed to a damaged building per builder tick (default 8). */
   buildRepairAmount?: number
+  /** Total number of repair/upgrade charges before entering saboteur mode (default 3). */
+  buildCharges?: number
 }
 
 export interface Unit extends UnitTemplate {
@@ -163,6 +165,12 @@ export interface Unit extends UnitTemplate {
   bloodSummonTimer?: number
   /** ms until next builder repair/upgrade tick. */
   buildTimer?: number
+  /** Remaining charges before the builder enters saboteur mode. */
+  builderChargesLeft?: number
+  /** True once all charges are spent — builder runs to enemy base to self-destruct. */
+  builderSaboteurMode?: boolean
+  /** ID of the last building the builder serviced — excluded when picking next target. */
+  builderLastBuildingId?: string
 }
 
 // ─── Animation Events ─────────────────────────────────────
