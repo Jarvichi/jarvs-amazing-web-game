@@ -10,7 +10,12 @@
     "arcane":      ["floor-crystal", "crystal-left", "crystal-right", "path-arcane-center"],
     "reef":        ["floor-sand", "reef-left", "reef-right", "path-coral-center"],
     "sky":         ["floor-cloud", "cloud-left", "cloud-right", "path-sky-center"],
-    "volcano":     ["floor-lava", "lava-left", "lava-right", "path-ember-center"]
+    "volcano":     ["floor-lava", "lava-left", "lava-right", "path-ember-center"],
+    "fungal":      ["floor-fungal", "fungal-left", "fungal-right", "path-spore-center"],
+    "frost":       ["floor-frost", "frost-left", "frost-right", "path-ice-center"],
+    "sand":        ["floor-desert", "dune-left", "dune-right", "path-dust-center"],
+    "coast":       ["floor-coast", "coast-left", "coast-right", "path-shore-center"],
+    "vault":       ["floor-vault", "vault-left", "vault-right", "path-vault-center"]
   },
   "seasonLayers": {
     "spring": ["season-spring-flowers"],

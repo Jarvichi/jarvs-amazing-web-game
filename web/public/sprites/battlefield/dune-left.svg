@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Desert dune strip left -->
+  <rect x="0" y="0" width="24" height="220" fill="#a87838"/>
+  <!-- Dune ridges -->
+  <ellipse cx="12" cy="50"  rx="14" ry="4"   fill="#c09048" opacity="0.6"/>
+  <ellipse cx="12" cy="130" rx="14" ry="4"   fill="#c09048" opacity="0.55"/>
+  <ellipse cx="12" cy="200" rx="13" ry="3.5" fill="#c09048" opacity="0.5"/>
+  <!-- Wind-blown sand lines -->
+  <line x1="2"  y1="80"  x2="20" y2="78"  stroke="#d4a060" stroke-width="0.5" opacity="0.5"/>
+  <line x1="4"  y1="160" x2="22" y2="158" stroke="#d4a060" stroke-width="0.5" opacity="0.45"/>
+  <!-- Desert rock -->
+  <ellipse cx="10" cy="105" rx="6" ry="3.5" fill="#8a6030" opacity="0.55"/>
+  <line x1="24" y1="0" x2="24" y2="220" stroke="#886030" stroke-width="0.5" opacity="0.5"/>
+</svg>

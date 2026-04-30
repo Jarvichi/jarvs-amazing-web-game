@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Dusty desert track center -->
+  <path d="M34,0 C33,50 36,105 34,148 C32,182 35,202 34,220 L66,220 C65,202 68,182 66,148 C64,105 67,50 66,0 Z" fill="#8a6028" opacity="0.9"/>
+  <path d="M36,0 C35,48 38,103 36,146 C34,180 37,201 36,220 L64,220 C63,201 66,180 64,146 C62,103 65,48 64,0 Z" fill="#a07838"/>
+  <!-- Dust marks -->
+  <ellipse cx="50" cy="60"  rx="6" ry="2"   fill="#c09858" opacity="0.35"/>
+  <ellipse cx="50" cy="130" rx="7" ry="2"   fill="#c09858" opacity="0.3"/>
+  <ellipse cx="50" cy="190" rx="5" ry="1.5" fill="#b08848" opacity="0.35"/>
+</svg>
