@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Blood Wraith — frame 1 (float low) -->
+  <path d="M10,31 Q8,23 9,17 L23,17 Q24,23 22,31 Q19,28 16,31 Q13,28 10,31" fill="#4a0000" opacity="0.85"/>
+  <path d="M9,31 Q11,27 9,25" fill="none" stroke="#cc2222" stroke-width="1" opacity="0.7"/>
+  <path d="M23,31 Q21,27 23,25" fill="none" stroke="#cc2222" stroke-width="1" opacity="0.7"/>
+  <ellipse cx="16" cy="13" rx="7" ry="5" fill="#660000"/>
+  <ellipse cx="16" cy="12" rx="6" ry="4" fill="#881111"/>
+  <circle cx="16" cy="8" r="6" fill="#d0c0b0"/>
+  <ellipse cx="13" cy="7.5" rx="2" ry="2.2" fill="#110000"/>
+  <ellipse cx="19" cy="7.5" rx="2" ry="2.2" fill="#110000"/>
+  <ellipse cx="13" cy="7.5" rx="1.2" ry="1.3" fill="#cc0000" opacity="0.7"/>
+  <ellipse cx="19" cy="7.5" rx="1.2" ry="1.3" fill="#cc0000" opacity="0.7"/>
+  <path d="M11,11 Q16,13 21,11" fill="none" stroke="#888" stroke-width="0.8"/>
+  <line x1="14" y1="11" x2="14" y2="12.5" stroke="#888" stroke-width="0.7"/>
+  <line x1="16" y1="11.5" x2="16" y2="13" stroke="#888" stroke-width="0.7"/>
+  <line x1="18" y1="11" x2="18" y2="12.5" stroke="#888" stroke-width="0.7"/>
+  <path d="M9,13 Q5,11 4,8" fill="none" stroke="#660000" stroke-width="2"/>
+  <line x1="4" y1="8" x2="2" y2="6" stroke="#880000" stroke-width="1"/>
+  <line x1="4" y1="8" x2="3" y2="5" stroke="#880000" stroke-width="1"/>
+  <path d="M23,13 Q27,11 28,8" fill="none" stroke="#660000" stroke-width="2"/>
+  <line x1="28" y1="8" x2="30" y2="6" stroke="#880000" stroke-width="1"/>
+  <line x1="28" y1="8" x2="29" y2="5" stroke="#880000" stroke-width="1"/>
+</svg>

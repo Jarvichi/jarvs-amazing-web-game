@@ -7828,6 +7828,12 @@ html.light-mode .action-btn {
   animation: climbing-anim 0.4s ease-in-out infinite;
 }
 
+/* Invisible units — player can see them faintly; enemies cannot target them */
+.lane-unit--invisible {
+  opacity: 0.28;
+  filter: blur(0.5px) saturate(0.4);
+}
+
 /* Persistent damage/blood augments — three tiers based on remaining HP */
 /* Mild (75–100% HP lost): slight red tint, visibly darker */
 .lane-unit-sprite--damaged {

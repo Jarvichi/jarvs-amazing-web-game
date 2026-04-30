@@ -26,6 +26,7 @@ export function findNearestEnemy(field: Unit[], unit: Unit): Unit | null {
     if (other.isWall && (unit.flying || unit.climber)) continue
     if (unit.owner === 'player'   && other.x < unit.x) continue
     if (unit.owner === 'opponent' && other.x > unit.x) continue
+    if (other.invisTimer != null && other.invisTimer > 0) continue
     const d = unitDist(unit, other)
     if (d < nearestDist) { nearestDist = d; nearest = other }
   }
@@ -47,6 +48,7 @@ export function findNearestEnemyByPriority(field: Unit[], unit: Unit): Unit | nu
     if (other.isWall && (unit.flying || unit.climber)) continue
     const ahead = isPlayer ? other.x >= unit.x : other.x <= unit.x
     if (!ahead) continue
+    if (other.invisTimer != null && other.invisTimer > 0) continue
     const matches = (pri === 'walls' && other.isWall) ||
       (pri === 'buildings' && other.moveSpeed === 0 && !other.isWall) ||
       (pri === 'boss' && !!other.isHero) ||
@@ -67,6 +69,7 @@ export function findEnemyBehind(field: Unit[], unit: Unit): Unit | null {
     if (other.isWall && (unit.flying || unit.climber)) continue
     if (unit.owner === 'player'   && other.x >= unit.x) continue
     if (unit.owner === 'opponent' && other.x <= unit.x) continue
+    if (other.invisTimer != null && other.invisTimer > 0) continue
     const d = unitDist(unit, other)
     if (d < nearestDist) { nearestDist = d; nearest = other }
   }
@@ -86,6 +89,7 @@ export function findAttackTarget(field: Unit[], unit: Unit): Unit | null {
     if (other.owner === unit.owner || other.hp <= 0) continue
     if (other.isMoat) continue
     if (other.isWall && (unit.bypassWall || unit.climber)) continue
+    if (other.invisTimer != null && other.invisTimer > 0) continue
     const d = unitDist(unit, other)
     if (d > unit.attackRange) continue
     if (unit.targetUnitType === 'flying'     && !other.flying)  continue

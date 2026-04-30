@@ -1,14 +1,16 @@
-import { GameState, Card, UnitTemplate, CardRarity } from './types'
+import { GameState, Card, UnitTemplate, CardRarity, LANE_WIDTH } from './types'
 import { makeDeck, makeNodeDeck, HERO_CARDS, getCardUnit, getCardCatalog, flushCardValidationErrors } from './cards'
 import { loadPlayerStats } from './playerStats'
 
 import { moveUnits, processAffinities } from './engine/units'
 import { processAttacks } from './engine/combat'
-import { BASE_MAX_MANA, BLOOD_POOL_FADE_MS, MANA_REGEN_MS, OPPONENT_INTERVAL_MS, PLAYER_SPAWN_X, SPAWN_GROW_MS } from './engine/constants'
+import { BASE_MAX_MANA, BLOOD_POOL_FADE_MS, BASE_STOP_MARGIN, MANA_REGEN_MS, OPPONENT_INTERVAL_MS, PLAYER_SPAWN_X, SPAWN_GROW_MS } from './engine/constants'
 import { genericBossAI, getBossAIDef } from './engine/boss'
 import { tickBossTrait } from './engine/bossTraits'
 import { getManaBonus, getManaSpeedMult } from './engine/bonusEffects'
 import { uid, shuffle, spawnUnit } from './engine/helpers'
+import { MAX_UPGRADE_LEVEL } from './engine/cards'
+import { unitDist } from './engine/targeting'
 import { opponentAI } from './engine/opponentAI'
 import { triggerBattleEvent, BATTLE_EVENT_BASE_MS } from './engine/battleEvents'
 import { generateTerrain } from './engine/terrain'
@@ -549,6 +551,115 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
           log.push(`${who} ${unit.name} repaired ${targets.length} structure(s) for ${amount} HP.`)
         }
         unit.spawnTimer = intervalMs
+      }
+    }
+
+    // Teleport ability: blink forward every cooldownMs
+    if (unit.teleportAbility && unit.moveSpeed > 0 && unit.hp > 0) {
+      if (unit.teleportTimer == null) unit.teleportTimer = unit.teleportAbility.cooldownMs
+      unit.teleportTimer -= deltaMs
+      if (unit.teleportTimer <= 0) {
+        const dist = unit.teleportAbility.distancePx
+        if (unit.owner === 'player') {
+          unit.x = Math.min(LANE_WIDTH - BASE_STOP_MARGIN, unit.x + dist)
+        } else {
+          unit.x = Math.max(BASE_STOP_MARGIN, unit.x - dist)
+        }
+        unit.damageFlashTimer = 150
+        unit.teleportTimer = unit.teleportAbility.cooldownMs
+        log.push(`${unit.name} blinks forward!`)
+      }
+    }
+
+    // Invisibility ability: cycle between active (invisible) and cooldown phases
+    if (unit.invisibilityAbility && unit.moveSpeed > 0 && unit.hp > 0) {
+      if (unit.invisTimer == null && unit.invisCooldownTimer == null) {
+        // First tick — begin invisible immediately
+        unit.invisTimer = unit.invisibilityAbility.activeMs
+        log.push(`!!${unit.name} vanishes into shadow!`)
+      } else if (unit.invisTimer != null && unit.invisTimer > 0) {
+        unit.invisTimer = Math.max(0, unit.invisTimer - deltaMs)
+        if (unit.invisTimer === 0) {
+          unit.invisCooldownTimer = unit.invisibilityAbility.cooldownMs
+        }
+      } else if (unit.invisCooldownTimer != null && unit.invisCooldownTimer > 0) {
+        unit.invisCooldownTimer = Math.max(0, unit.invisCooldownTimer - deltaMs)
+        if (unit.invisCooldownTimer === 0) {
+          unit.invisTimer = unit.invisibilityAbility.activeMs
+          log.push(`!!${unit.name} vanishes again!`)
+        }
+      }
+    }
+
+    // Blood summon ability: consume a nearby blood pool to raise a minion
+    if (unit.bloodSummonAbility && unit.moveSpeed > 0 && unit.hp > 0) {
+      if (unit.bloodSummonTimer == null) unit.bloodSummonTimer = unit.bloodSummonAbility.cooldownMs
+      unit.bloodSummonTimer -= deltaMs
+      if (unit.bloodSummonTimer <= 0) {
+        const pool = s.bloodPools.find(
+          p => p.fadingAt === undefined &&
+               Math.hypot(p.x - unit.x, p.y - unit.y) <= unit.bloodSummonAbility!.range
+        )
+        if (pool) {
+          pool.fadingAt = s.gameTime
+          const minion = spawnUnit(unit.bloodSummonAbility.minionTemplate, unit.owner)
+          minion.x = pool.x
+          minion.y = pool.y
+          minion.spawnGrowTimer = SPAWN_GROW_MS
+          s.field.push(minion)
+          const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+          log.push(`!!${who} ${unit.name} raises a ${minion.name} from the fallen!`)
+        }
+        unit.bloodSummonTimer = unit.bloodSummonAbility.cooldownMs
+      }
+    }
+
+    // Builder ability: repair damaged buildings or upgrade fully-healed ones
+    if (unit.unitTrait?.builderMode && unit.moveSpeed > 0 && unit.hp > 0) {
+      const buildInterval = unit.unitTrait.buildIntervalMs ?? 3000
+      const repairAmt = unit.unitTrait.buildRepairAmount ?? 8
+      if (unit.buildTimer == null) unit.buildTimer = buildInterval
+      unit.buildTimer -= deltaMs
+      if (unit.buildTimer <= 0) {
+        const nearBuilding = s.field.find(
+          b => b.owner === unit.owner && b.moveSpeed === 0 && !b.isWall && b.hp > 0 &&
+               unitDist(unit, b) <= 60
+        )
+        if (nearBuilding) {
+          if (nearBuilding.hp < nearBuilding.maxHp) {
+            nearBuilding.hp = Math.min(nearBuilding.maxHp, nearBuilding.hp + repairAmt)
+            const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+            log.push(`${who} ${unit.name} repaired ${nearBuilding.name} for ${repairAmt} HP.`)
+          } else if ((nearBuilding.upgradeLevel ?? 1) < MAX_UPGRADE_LEVEL) {
+            nearBuilding.maxHp *= 2
+            nearBuilding.hp = nearBuilding.maxHp
+            nearBuilding.upgradeLevel = (nearBuilding.upgradeLevel ?? 1) + 1
+            let note = 'HP×2'
+            if (nearBuilding.structureEffect?.type === 'spawn') {
+              const eff = nearBuilding.structureEffect as { type: 'spawn'; unitTemplate: UnitTemplate; intervalMs: number }
+              eff.intervalMs = Math.max(1500, Math.floor(eff.intervalMs / 2))
+              if (nearBuilding.spawnTimer != null) nearBuilding.spawnTimer = Math.min(nearBuilding.spawnTimer, eff.intervalMs)
+              note += ', spawn×2'
+            }
+            if (nearBuilding.structureEffect?.type === 'mana') {
+              (nearBuilding.structureEffect as { type: 'mana'; amount: number }).amount += 1
+              note += ', mana+1'
+            }
+            if (nearBuilding.structureEffect?.type === 'healAura') {
+              const eff = nearBuilding.structureEffect as { type: 'healAura'; amount: number; intervalMs: number }
+              eff.intervalMs = Math.max(2000, Math.floor(eff.intervalMs / 2))
+              note += ', heal×2'
+            }
+            if (nearBuilding.structureEffect?.type === 'repairAura') {
+              const eff = nearBuilding.structureEffect as { type: 'repairAura'; amount: number; intervalMs: number }
+              eff.intervalMs = Math.max(2000, Math.floor(eff.intervalMs / 2))
+              note += ', repair×2'
+            }
+            const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+            log.push(`!!${who} ${unit.name} upgraded ${nearBuilding.name}! (${note})`)
+          }
+        }
+        unit.buildTimer = buildInterval
       }
     }
   }

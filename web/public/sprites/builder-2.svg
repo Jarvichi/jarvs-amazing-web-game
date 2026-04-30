@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Builder — frame 2 (hammer swinging down) -->
+  <rect x="9" y="12" width="14" height="12" rx="2" fill="#8b6530"/>
+  <rect x="10" y="13" width="12" height="10" rx="1" fill="#a87840"/>
+  <rect x="12" y="13" width="8" height="1.5" fill="#5a3a10"/>
+  <rect x="10" y="24" width="5" height="7" rx="1" fill="#7a5528"/>
+  <rect x="17" y="24" width="5" height="7" rx="1" fill="#7a5528"/>
+  <rect x="9" y="29" width="6" height="3" rx="1" fill="#3a2010"/>
+  <rect x="17" y="29" width="6" height="3" rx="1" fill="#3a2010"/>
+  <circle cx="16" cy="9" r="5.5" fill="#f0c888"/>
+  <rect x="10" y="6" width="12" height="4" rx="2" fill="#e8c000"/>
+  <rect x="8" y="8" width="16" height="2" rx="1" fill="#cc9900"/>
+  <circle cx="14" cy="10" r="1.2" fill="#333"/>
+  <circle cx="18" cy="10" r="1.2" fill="#333"/>
+  <path d="M13,12 Q16,14 19,12" fill="#7a5528" stroke="#5a3a10" stroke-width="0.5"/>
+  <!-- Hammer striking down -->
+  <rect x="24" y="14" width="2.5" height="12" rx="1" fill="#5a3a1a"/>
+  <rect x="21" y="12" width="7" height="5" rx="1.5" fill="#888"/>
+  <rect x="21" y="13" width="7" height="2" rx="0.5" fill="#aaaaaa"/>
+  <!-- Impact marks -->
+  <line x1="22" y1="26" x2="20" y2="27" stroke="#888" stroke-width="0.8" opacity="0.7"/>
+  <line x1="26" y1="26" x2="28" y2="27" stroke="#888" stroke-width="0.8" opacity="0.7"/>
+  <rect x="4" y="13" width="6" height="2.5" rx="1" fill="#8b6530"/>
+  <rect x="9" y="23" width="14" height="2" rx="1" fill="#5a3a10"/>
+  <circle cx="16" cy="24" r="1" fill="#cc9900"/>
+</svg>

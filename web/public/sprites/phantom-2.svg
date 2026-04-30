@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Phantom — frame 2 (drawing bow) -->
+  <ellipse cx="16" cy="15" rx="13" ry="13" fill="none" stroke="#6699ff" stroke-width="0.6" opacity="0.6"/>
+  <path d="M10,30 Q8,22 10,17 L22,17 Q24,21 22,30 Q19,27 16,30 Q13,27 10,30" fill="#3a2a7a" opacity="0.85"/>
+  <rect x="10" y="10" width="12" height="8" rx="3" fill="#4a35a0"/>
+  <path d="M8,11 Q8,3 16,2 Q24,3 24,11 Q21,9 16,10 Q11,9 8,11" fill="#2a1a5a"/>
+  <ellipse cx="16" cy="10" rx="4" ry="3.5" fill="#c8b4ff" opacity="0.6"/>
+  <circle cx="14" cy="10" r="1.5" fill="#99ccff"/>
+  <circle cx="18" cy="10" r="1.5" fill="#99ccff"/>
+  <!-- Arms pulling bow string -->
+  <rect x="4" y="11" width="7" height="2.5" rx="1" fill="#4a35a0" transform="rotate(-10,7,12)"/>
+  <rect x="21" y="11" width="7" height="2.5" rx="1" fill="#4a35a0" transform="rotate(10,24,12)"/>
+  <!-- Bow fully drawn -->
+  <path d="M27,7 Q30,12.5 27,18" fill="none" stroke="#8844cc" stroke-width="2"/>
+  <line x1="27" y1="7" x2="27" y2="18" stroke="#ccaaff" stroke-width="0.8" stroke-dasharray="1,1"/>
+  <line x1="21" y1="12" x2="27" y2="12" stroke="#ccaaff" stroke-width="1.2"/>
+  <circle cx="21" cy="12" r="1.2" fill="#ccaaff"/>
+  <!-- Glowing arrow tip -->
+  <line x1="19" y1="12" x2="21" y2="12" stroke="#ffffff" stroke-width="1.5"/>
+  <circle cx="5" cy="7" r="0.8" fill="#99ccff" opacity="0.9"/>
+  <circle cx="29" cy="25" r="0.7" fill="#99ccff" opacity="0.5"/>
+</svg>
