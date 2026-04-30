@@ -716,6 +716,13 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
     })
   }
 
+  // Auto-dismiss the current important message after 3.5 s (resets for each new message)
+  useEffect(() => {
+    if (importantMsgQueue.length === 0) return
+    const id = setTimeout(dismissImportantMsg, 3500)
+    return () => clearTimeout(id)
+  }, [importantMsgQueue[0]])
+
   const gameTimeSec = Math.floor(state.gameTime / 1000)
   const minutes = Math.floor(gameTimeSec / 60)
   const seconds = gameTimeSec % 60
@@ -740,12 +747,11 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
 
       {/* Important message banner — pauses game until dismissed */}
       {importantMsgQueue.length > 0 && (
-        <div className="bf-important-msg" onClick={dismissImportantMsg} role="alertdialog">
+        <div key={importantMsgQueue[0]} className="bf-important-msg" onClick={dismissImportantMsg} role="alertdialog">
           <div className="bf-important-msg-text">{importantMsgQueue[0]}</div>
           {importantMsgQueue.length > 1 && (
             <div className="bf-important-msg-count">+{importantMsgQueue.length - 1} more</div>
           )}
-          <div className="bf-important-msg-hint">▶ TAP TO CONTINUE</div>
         </div>
       )}
 
