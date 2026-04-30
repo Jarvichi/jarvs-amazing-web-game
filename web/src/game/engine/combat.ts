@@ -108,6 +108,18 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
           log.push(`💥 ${target.name} erupts! AOE blast hits ${enemies.length} enemy unit${enemies.length !== 1 ? 's' : ''}!`)
         }
         if (target.hp <= 0) {
+          if (target.onDeathEffect) {
+            const { damage: aoeDmg, range: aoeRange } = target.onDeathEffect
+            const blastTargets = s.field.filter(
+              e => e.owner !== target.owner && e.hp > 0 &&
+                   Math.hypot(e.x - target.x, e.y - target.y) <= aoeRange
+            )
+            for (const e of blastTargets) {
+              e.hp = Math.max(0, e.hp - aoeDmg)
+              e.damageFlashTimer = DAMAGE_FLASH_MS
+            }
+            log.push(`💥 ${target.name} explodes! ${blastTargets.length} unit${blastTargets.length !== 1 ? 's' : ''} caught in the blast!`)
+          }
           log.push(`${unit.name} destroyed ${target.name}!`)
           if (target.moveSpeed === 0) playBuildingDestroyed()
           else                        playUnitDeath()
