@@ -1,87 +1,122 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
   <rect width="400" height="240" fill="#0a0a0a"/>
 
-  <!-- Forest path perspective — converging to a light at horizon -->
   <!-- Ground -->
   <polygon points="0,240 400,240 260,140 140,140" fill="#060e06"/>
-  <!-- Path -->
   <polygon points="175,240 225,240 215,140 185,140" fill="#0c160c"/>
-  <!-- Path edge lines -->
+
   <line x1="175" y1="240" x2="185" y2="140" stroke="#122012" stroke-width="1"/>
   <line x1="225" y1="240" x2="215" y2="140" stroke="#122012" stroke-width="1"/>
 
-  <!-- Tree trunks perspective — left side -->
+  <!-- LEFT TREES (parallax sway) -->
   <g fill="#061006">
-    <rect x="0"   y="60"  width="60"  height="180"/>
-    <rect x="55"  y="100" width="38"  height="140"/>
-    <rect x="90"  y="125" width="24"  height="115"/>
-    <rect x="112" y="140" width="16"  height="100"/>
-    <rect x="128" y="148" width="10"  height="92"/>
-    <rect x="138" y="153" width="8"   height="87"/>
+    <animateTransform attributeName="transform" type="skewX"
+      values="0;1.2;0" dur="9s" repeatCount="indefinite"/>
+    <rect x="0" y="60" width="60" height="180"/>
+    <rect x="55" y="100" width="38" height="140"/>
+    <rect x="90" y="125" width="24" height="115"/>
+    <rect x="112" y="140" width="16" height="100"/>
+    <rect x="128" y="148" width="10" height="92"/>
+    <rect x="138" y="153" width="8" height="87"/>
   </g>
-  <!-- Canopies left -->
+
   <g fill="#0a1a0a" opacity="0.9">
-    <ellipse cx="30"  cy="40"  rx="70" ry="65"/>
-    <ellipse cx="74"  cy="78"  rx="50" ry="48"/>
+    <animateTransform attributeName="transform" type="skewX"
+      values="0;0.8;0" dur="9s" repeatCount="indefinite"/>
+    <ellipse cx="30" cy="40" rx="70" ry="65"/>
+    <ellipse cx="74" cy="78" rx="50" ry="48"/>
     <ellipse cx="102" cy="105" rx="36" ry="34"/>
     <ellipse cx="120" cy="122" rx="24" ry="22"/>
     <ellipse cx="133" cy="133" rx="16" ry="14"/>
     <ellipse cx="142" cy="138" rx="12" ry="10"/>
   </g>
 
-  <!-- Tree trunks — right side -->
+  <!-- RIGHT TREES -->
   <g fill="#061006">
-    <rect x="340" y="60"  width="60"  height="180"/>
-    <rect x="307" y="100" width="38"  height="140"/>
-    <rect x="276" y="125" width="24"  height="115"/>
-    <rect x="252" y="140" width="16"  height="100"/>
-    <rect x="234" y="148" width="10"  height="92"/>
-    <rect x="224" y="153" width="8"   height="87"/>
+    <animateTransform attributeName="transform" type="skewX"
+      values="0;-1.2;0" dur="9s" repeatCount="indefinite"/>
+    <rect x="340" y="60" width="60" height="180"/>
+    <rect x="307" y="100" width="38" height="140"/>
+    <rect x="276" y="125" width="24" height="115"/>
+    <rect x="252" y="140" width="16" height="100"/>
+    <rect x="234" y="148" width="10" height="92"/>
+    <rect x="224" y="153" width="8" height="87"/>
   </g>
-  <!-- Canopies right -->
+
   <g fill="#0a1a0a" opacity="0.9">
-    <ellipse cx="370" cy="40"  rx="70" ry="65"/>
-    <ellipse cx="326" cy="78"  rx="50" ry="48"/>
+    <animateTransform attributeName="transform" type="skewX"
+      values="0;-0.8;0" dur="9s" repeatCount="indefinite"/>
+    <ellipse cx="370" cy="40" rx="70" ry="65"/>
+    <ellipse cx="326" cy="78" rx="50" ry="48"/>
     <ellipse cx="298" cy="105" rx="36" ry="34"/>
     <ellipse cx="280" cy="122" rx="24" ry="22"/>
     <ellipse cx="267" cy="133" rx="16" ry="14"/>
     <ellipse cx="258" cy="138" rx="12" ry="10"/>
   </g>
 
-  <!-- Ley line glow at vanishing point -->
+  <!-- Ley glow -->
   <radialGradient id="ley-glow" cx="50%" cy="58%" r="20%">
-    <stop offset="0%" stop-color="#40c060" stop-opacity="0.7"/>
+    <stop offset="0%" stop-color="#40c060">
+      <animate attributeName="stop-opacity" values="0.4;0.8;0.4" dur="6s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="60%" stop-color="#206030" stop-opacity="0.2"/>
     <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
   </radialGradient>
   <rect x="140" y="100" width="120" height="80" fill="url(#ley-glow)"/>
 
-  <!-- Ley line tendrils along path -->
-  <g stroke="#30a050" stroke-width="0.8" fill="none" opacity="0.6">
-    <path d="M200,240 Q198,200 200,140"/>
-    <path d="M200,240 Q193,200 188,140" opacity="0.4"/>
-    <path d="M200,240 Q207,200 212,140" opacity="0.4"/>
+  <!-- Ley tendrils (flowing) -->
+  <g stroke="#30a050" stroke-width="0.8" fill="none">
+    <path d="M200,240 Q198,200 200,140"
+          stroke-dasharray="6 10">
+      <animate attributeName="stroke-dashoffset"
+        values="0;-32" dur="4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M200,240 Q193,200 188,140"
+          opacity="0.4" stroke-dasharray="4 10">
+      <animate attributeName="stroke-dashoffset"
+        values="0;-26" dur="4.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M200,240 Q207,200 212,140"
+          opacity="0.4" stroke-dasharray="4 10">
+      <animate attributeName="stroke-dashoffset"
+        values="0;-26" dur="4.8s" repeatCount="indefinite"/>
+    </path>
   </g>
 
-  <!-- Compass in foreground — bottom centre -->
+  <!-- Path mist -->
+  <rect x="160" y="180" width="80" height="40" fill="#0a150a" opacity="0.35">
+    <animateTransform attributeName="transform" type="translate"
+      values="0 0; 10 0; 0 0" dur="12s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Compass -->
   <g transform="translate(200,210)">
     <circle r="18" fill="#0e1a0e" stroke="#2a5030" stroke-width="1.5"/>
-    <!-- Compass ring marks -->
+
     <g stroke="#2a5030" stroke-width="0.8">
       <line x1="0" y1="-15" x2="0" y2="-12"/>
-      <line x1="0" y1="12"  x2="0" y2="15"/>
+      <line x1="0" y1="12" x2="0" y2="15"/>
       <line x1="-15" y1="0" x2="-12" y2="0"/>
-      <line x1="12"  y1="0" x2="15" y2="0"/>
+      <line x1="12" y1="0" x2="15" y2="0"/>
     </g>
-    <!-- Compass needle pointing up (north = into forest) -->
-    <polygon points="0,-12 2,0 0,3 -2,0" fill="#40c060"/>
-    <polygon points="0,3 2,0 0,12 -2,0" fill="#333"/>
-    <!-- Centre pivot -->
+
+    <!-- Needle wobble -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+        values="-3;3;-3" dur="5s" repeatCount="indefinite"/>
+      <polygon points="0,-12 2,0 0,3 -2,0" fill="#40c060"/>
+      <polygon points="0,3 2,0 0,12 -2,0" fill="#333"/>
+    </g>
+
     <circle r="2" fill="#60e080"/>
-    <!-- N label -->
-    <text x="0" y="-6" font-family="monospace" font-size="4" fill="#40c060" text-anchor="middle">N</text>
+    <text x="0" y="-6" font-family="monospace" font-size="4"
+          fill="#40c060" text-anchor="middle">N</text>
   </g>
 
   <!-- Label -->
-  <text x="200" y="15" font-family="monospace" font-size="9" fill="#2a6030" text-anchor="middle" letter-spacing="3">YOUR MISSION</text>
+  <text x="200" y="15" font-family="monospace" font-size="9"
+        fill="#2a6030" text-anchor="middle" letter-spacing="3">
+    YOUR MISSION
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="6s" repeatCount="indefinite"/>
+  </text>
 </svg>
