@@ -466,7 +466,7 @@
       "col": 0,
       "rowCols": 1,
       "childIds": [],
-      "handicap": 32,
+      "handicap": 0,
       "opponentIntervalMs": 4800,
       "opponentBaseHp": 285,
       "environment": "coast",
@@ -485,7 +485,8 @@
         "Every wreck on this coast earned its fate.",
         "The sea always collects its toll."
       ],
-      "bossCard": "Coast Leviathan"
+      "bossCard": "Coast Leviathan",
+      "bossName": "The Grand Serpent "
     }
   }
 }
