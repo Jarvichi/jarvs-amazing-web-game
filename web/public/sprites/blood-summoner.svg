@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Blood Summoner — dark necromancer with skull staff, crimson robes -->
+  <!-- Robe — wide dark red -->
+  <path d="M8,30 Q7,20 9,15 L23,15 Q25,20 24,30 Q20,27 16,30 Q12,27 8,30" fill="#5a0000"/>
+  <path d="M9,28 Q8,20 10,15 L22,15 Q24,20 23,28 Q20,25 16,28 Q12,25 9,28" fill="#7a0a0a"/>
+  <!-- Body -->
+  <rect x="10" y="9" width="12" height="7" rx="2" fill="#6a0808"/>
+  <!-- Crimson trim -->
+  <rect x="10" y="14" width="12" height="2" fill="#cc1111"/>
+  <!-- Head -->
+  <circle cx="16" cy="7" r="5.5" fill="#e8c090"/>
+  <!-- Dark hood -->
+  <path d="M9,8 Q9,2 16,1 Q23,2 23,8 Q20,6 16,7 Q12,6 9,8" fill="#2a0000"/>
+  <!-- Hollow eyes (shadow lord look) -->
+  <circle cx="14" cy="7" r="1.8" fill="#ff2222" opacity="0.9"/>
+  <circle cx="18" cy="7" r="1.8" fill="#ff2222" opacity="0.9"/>
+  <!-- Skull staff (right hand) -->
+  <rect x="25" y="3" width="2" height="22" rx="1" fill="#5a3a1a"/>
+  <!-- Skull top -->
+  <circle cx="26" cy="4" r="3" fill="#e8e0d0"/>
+  <circle cx="24.5" cy="4.5" r="0.8" fill="#333"/>
+  <circle cx="27.5" cy="4.5" r="0.8" fill="#333"/>
+  <path d="M24.5,6 Q26,7 27.5,6" fill="none" stroke="#333" stroke-width="0.7"/>
+  <!-- Left arm raised (summoning gesture) -->
+  <rect x="4" y="10" width="7" height="2.5" rx="1" fill="#6a0808" transform="rotate(-30,7,11)"/>
+  <!-- Blood drip effect from staff -->
+  <circle cx="26" cy="24" r="1.2" fill="#cc0000" opacity="0.8"/>
+  <circle cx="26" cy="27" r="0.8" fill="#cc0000" opacity="0.6"/>
+</svg>

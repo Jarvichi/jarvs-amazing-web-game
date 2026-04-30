@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Builder — frame 3 (stride B, hammer at side) -->
+  <rect x="9" y="13" width="14" height="11" rx="2" fill="#8b6530"/>
+  <rect x="10" y="14" width="12" height="9" rx="1" fill="#a87840"/>
+  <rect x="12" y="14" width="8" height="1.5" fill="#5a3a10"/>
+  <!-- Right foot forward -->
+  <rect x="9" y="24" width="5" height="7" rx="1" fill="#7a5528" transform="rotate(6,11,24)"/>
+  <rect x="18" y="24" width="5" height="7" rx="1" fill="#7a5528" transform="rotate(-8,20,24)"/>
+  <rect x="8" y="29" width="6" height="3" rx="1" fill="#3a2010"/>
+  <rect x="18" y="29" width="6" height="3" rx="1" fill="#3a2010"/>
+  <circle cx="16" cy="10" r="5.5" fill="#f0c888"/>
+  <rect x="10" y="7" width="12" height="4" rx="2" fill="#e8c000"/>
+  <rect x="8" y="9" width="16" height="2" rx="1" fill="#cc9900"/>
+  <circle cx="14" cy="11" r="1.2" fill="#333"/>
+  <circle cx="18" cy="11" r="1.2" fill="#333"/>
+  <path d="M13,13 Q16,15 19,13" fill="#7a5528" stroke="#5a3a10" stroke-width="0.5"/>
+  <rect x="23" y="14" width="2.5" height="14" rx="1" fill="#5a3a1a"/>
+  <rect x="21" y="12" width="7" height="5" rx="1.5" fill="#888"/>
+  <rect x="21" y="13" width="7" height="2" rx="0.5" fill="#aaaaaa"/>
+  <rect x="4" y="14" width="6" height="2.5" rx="1" fill="#8b6530" transform="rotate(-15,7,15)"/>
+  <rect x="9" y="23" width="14" height="2" rx="1" fill="#5a3a10"/>
+  <circle cx="16" cy="24" r="1" fill="#cc9900"/>
+</svg>

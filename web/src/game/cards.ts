@@ -55,6 +55,9 @@ interface RawUnitDef {
   climber?: boolean
   structureEffect?: RawStructureEffect
   onDeathEffect?: { damage: number; range: number }
+  teleportAbility?: { cooldownMs: number; distancePx: number }
+  invisibilityAbility?: { activeMs: number; cooldownMs: number }
+  bloodSummonAbility?: { cooldownMs: number; minionTemplate: RawUnitDef; range: number }
 }
 
 interface RawCardDef {

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Blood Summoner — frame 3 (stride B, staff trailing) -->
+  <path d="M9,30 Q8,20 10,15 L23,15 Q26,20 24,30 Q20,27 16,30 Q12,27 9,30" fill="#5a0000"/>
+  <path d="M10,28 Q9,20 11,15 L22,15 Q25,20 23,28 Q20,25 16,28 Q13,25 10,28" fill="#7a0a0a"/>
+  <rect x="10" y="9" width="12" height="7" rx="2" fill="#6a0808"/>
+  <rect x="10" y="14" width="12" height="2" fill="#cc1111"/>
+  <circle cx="16" cy="7" r="5.5" fill="#e8c090"/>
+  <path d="M9,8 Q9,2 16,1 Q23,2 23,8 Q20,6 16,7 Q12,6 9,8" fill="#2a0000"/>
+  <circle cx="14" cy="7" r="1.8" fill="#ff2222" opacity="0.9"/>
+  <circle cx="18" cy="7" r="1.8" fill="#ff2222" opacity="0.9"/>
+  <!-- Staff slightly angled back -->
+  <rect x="24" y="4" width="2" height="22" rx="1" fill="#5a3a1a" transform="rotate(8,25,15)"/>
+  <circle cx="25" cy="4" r="3" fill="#e8e0d0"/>
+  <circle cx="23.5" cy="4.5" r="0.8" fill="#333"/>
+  <circle cx="26.5" cy="4.5" r="0.8" fill="#333"/>
+  <path d="M23.5,6 Q25,7 26.5,6" fill="none" stroke="#333" stroke-width="0.7"/>
+  <rect x="4" y="11" width="7" height="2.5" rx="1" fill="#6a0808" transform="rotate(-20,7,12)"/>
+  <circle cx="25" cy="24" r="1.2" fill="#cc0000" opacity="0.8"/>
+  <circle cx="25" cy="27" r="0.8" fill="#cc0000" opacity="0.5"/>
+</svg>

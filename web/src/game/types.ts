@@ -81,6 +81,12 @@ export interface UnitTemplate {
   halfHealthEffect?: { damage: number; range: number }
   /** AOE explosion triggered when this unit dies. */
   onDeathEffect?: { damage: number; range: number }
+  /** Periodic forward blink — unit teleports ahead every cooldownMs ms. */
+  teleportAbility?: { cooldownMs: number; distancePx: number }
+  /** Periodic invisibility — unit becomes untargetable for activeMs, then enters cooldownMs cooldown. */
+  invisibilityAbility?: { activeMs: number; cooldownMs: number }
+  /** Blood pool consumption — unit raises a minion from a nearby blood pool every cooldownMs. */
+  bloodSummonAbility?: { cooldownMs: number; minionTemplate: UnitTemplate; range: number }
 }
 
 export type BuffTag = 'atk' | 'spd' | 'hp' | 'range'
@@ -107,6 +113,12 @@ export interface UnitTrait {
   baseGuardRange?: number
   /** Enemy proximity to own base that breaks the guard stance (default 180 px). */
   engageRange?: number
+  /** Builder mode — unit moves to nearest friendly building, repairing and upgrading it. */
+  builderMode?: boolean
+  /** ms between builder repair/upgrade ticks (default 3000). */
+  buildIntervalMs?: number
+  /** HP healed to a damaged building per builder tick (default 8). */
+  buildRepairAmount?: number
 }
 
 export interface Unit extends UnitTemplate {
@@ -141,6 +153,16 @@ export interface Unit extends UnitTemplate {
   lastAttackerId?: string
   /** True once the halfHealthEffect has fired — prevents re-triggering. */
   halfHealthFired?: boolean
+  /** ms until next teleport blink. */
+  teleportTimer?: number
+  /** ms remaining invisible (> 0 = invisible; enemies cannot target this unit). */
+  invisTimer?: number
+  /** ms remaining in invisibility cooldown before the next active phase. */
+  invisCooldownTimer?: number
+  /** ms until next blood pool summon attempt. */
+  bloodSummonTimer?: number
+  /** ms until next builder repair/upgrade tick. */
+  buildTimer?: number
 }
 
 // ─── Animation Events ─────────────────────────────────────

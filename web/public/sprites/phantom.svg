@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Phantom (Teleporter) — spectral hooded archer, blue/purple -->
+  <!-- Ethereal glow aura -->
+  <ellipse cx="16" cy="16" rx="13" ry="14" fill="none" stroke="#6699ff" stroke-width="0.6" opacity="0.5"/>
+  <!-- Flowing robe / ghostly lower body -->
+  <path d="M10,30 Q8,22 10,18 L22,18 Q24,22 22,30 Q19,27 16,30 Q13,27 10,30" fill="#3a2a7a" opacity="0.85"/>
+  <!-- Body -->
+  <rect x="10" y="11" width="12" height="8" rx="3" fill="#4a35a0"/>
+  <!-- Hood -->
+  <path d="M8,12 Q8,4 16,3 Q24,4 24,12 Q21,10 16,11 Q11,10 8,12" fill="#2a1a5a"/>
+  <!-- Glowing face area (barely visible under hood) -->
+  <ellipse cx="16" cy="11" rx="4" ry="3.5" fill="#c8b4ff" opacity="0.6"/>
+  <!-- Glowing eyes -->
+  <circle cx="14" cy="11" r="1.5" fill="#99ccff"/>
+  <circle cx="18" cy="11" r="1.5" fill="#99ccff"/>
+  <!-- Arms -->
+  <rect x="5" y="12" width="6" height="2.5" rx="1" fill="#4a35a0" transform="rotate(-20,8,13)"/>
+  <rect x="21" y="12" width="6" height="2.5" rx="1" fill="#4a35a0" transform="rotate(20,24,13)"/>
+  <!-- Glowing arrow/bow -->
+  <line x1="26" y1="9" x2="26" y2="20" stroke="#8844cc" stroke-width="1.5"/>
+  <path d="M24,12 Q26,14.5 28,12" fill="none" stroke="#aaaaff" stroke-width="0.8"/>
+  <line x1="22" y1="14" x2="26" y2="14" stroke="#ccaaff" stroke-width="1"/>
+  <circle cx="22" cy="14" r="1" fill="#ccaaff"/>
+  <!-- Teleport sparkles -->
+  <circle cx="6" cy="6" r="1" fill="#99ccff" opacity="0.7"/>
+  <circle cx="28" cy="26" r="0.8" fill="#99ccff" opacity="0.5"/>
+  <circle cx="4" cy="24" r="0.7" fill="#ccaaff" opacity="0.6"/>
+</svg>

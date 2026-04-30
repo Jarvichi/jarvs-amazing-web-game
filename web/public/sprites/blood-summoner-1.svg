@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Blood Summoner — frame 1 (stride A, summoning gesture) -->
+  <path d="M8,31 Q7,20 9,15 L23,15 Q25,20 23,31 Q19,28 16,31 Q13,28 8,31" fill="#5a0000"/>
+  <path d="M9,29 Q8,20 10,15 L22,15 Q24,20 22,29 Q19,26 16,29 Q13,26 9,29" fill="#7a0a0a"/>
+  <rect x="10" y="9" width="12" height="7" rx="2" fill="#6a0808"/>
+  <rect x="10" y="14" width="12" height="2" fill="#cc1111"/>
+  <circle cx="16" cy="7" r="5.5" fill="#e8c090"/>
+  <path d="M9,8 Q9,2 16,1 Q23,2 23,8 Q20,6 16,7 Q12,6 9,8" fill="#2a0000"/>
+  <circle cx="14" cy="7" r="1.8" fill="#ff2222" opacity="0.9"/>
+  <circle cx="18" cy="7" r="1.8" fill="#ff2222" opacity="0.9"/>
+  <rect x="25" y="2" width="2" height="22" rx="1" fill="#5a3a1a"/>
+  <circle cx="26" cy="3" r="3" fill="#e8e0d0"/>
+  <circle cx="24.5" cy="3.5" r="0.8" fill="#333"/>
+  <circle cx="27.5" cy="3.5" r="0.8" fill="#333"/>
+  <path d="M24.5,5 Q26,6 27.5,5" fill="none" stroke="#333" stroke-width="0.7"/>
+  <!-- Arm raised high — summoning -->
+  <rect x="3" y="8" width="8" height="2.5" rx="1" fill="#6a0808" transform="rotate(-45,7,9)"/>
+  <!-- Blood pool glow beneath -->
+  <ellipse cx="10" cy="31" rx="5" ry="1.5" fill="#cc0000" opacity="0.5"/>
+  <circle cx="26" cy="23" r="1.2" fill="#cc0000" opacity="0.9"/>
+  <circle cx="26" cy="26" r="0.8" fill="#cc0000" opacity="0.7"/>
+</svg>

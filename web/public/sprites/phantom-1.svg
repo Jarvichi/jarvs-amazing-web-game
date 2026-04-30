@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Phantom — frame 1 (robe sway left) -->
+  <ellipse cx="16" cy="16" rx="13" ry="14" fill="none" stroke="#6699ff" stroke-width="0.6" opacity="0.5"/>
+  <path d="M11,31 Q8,23 10,18 L22,18 Q24,22 21,31 Q18,28 16,31 Q13,28 11,31" fill="#3a2a7a" opacity="0.85"/>
+  <rect x="10" y="11" width="12" height="8" rx="3" fill="#4a35a0"/>
+  <path d="M8,12 Q8,4 16,3 Q24,4 24,12 Q21,10 16,11 Q11,10 8,12" fill="#2a1a5a"/>
+  <ellipse cx="16" cy="11" rx="4" ry="3.5" fill="#c8b4ff" opacity="0.6"/>
+  <circle cx="14" cy="11" r="1.5" fill="#99ccff"/>
+  <circle cx="18" cy="11" r="1.5" fill="#99ccff"/>
+  <rect x="4" y="13" width="6" height="2.5" rx="1" fill="#4a35a0" transform="rotate(-25,7,14)"/>
+  <rect x="22" y="11" width="6" height="2.5" rx="1" fill="#4a35a0" transform="rotate(15,25,12)"/>
+  <line x1="26" y1="8" x2="26" y2="19" stroke="#8844cc" stroke-width="1.5"/>
+  <path d="M24,11 Q26,13.5 28,11" fill="none" stroke="#aaaaff" stroke-width="0.8"/>
+  <line x1="22" y1="13" x2="26" y2="13" stroke="#ccaaff" stroke-width="1"/>
+  <circle cx="22" cy="13" r="1" fill="#ccaaff"/>
+  <circle cx="5" cy="5" r="1.2" fill="#99ccff" opacity="0.8"/>
+  <circle cx="27" cy="28" r="0.6" fill="#99ccff" opacity="0.4"/>
+  <circle cx="3" cy="22" r="0.9" fill="#ccaaff" opacity="0.7"/>
+</svg>

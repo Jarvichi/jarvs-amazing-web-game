@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Blood Wraith — ethereal undead, crimson and shadow -->
+  <!-- Ghostly lower form -->
+  <path d="M10,32 Q8,24 9,18 L23,18 Q24,24 22,32 Q19,29 16,32 Q13,29 10,32" fill="#4a0000" opacity="0.85"/>
+  <!-- Wisps at bottom -->
+  <path d="M10,32 Q12,28 10,26" fill="none" stroke="#cc2222" stroke-width="1" opacity="0.7"/>
+  <path d="M22,32 Q20,28 22,26" fill="none" stroke="#cc2222" stroke-width="1" opacity="0.7"/>
+  <!-- Body -->
+  <ellipse cx="16" cy="14" rx="7" ry="5" fill="#660000"/>
+  <ellipse cx="16" cy="13" rx="6" ry="4" fill="#881111"/>
+  <!-- Skull-like head -->
+  <circle cx="16" cy="9" r="6" fill="#d0c0b0"/>
+  <!-- Empty eye sockets -->
+  <ellipse cx="13" cy="8.5" rx="2" ry="2.2" fill="#110000"/>
+  <ellipse cx="19" cy="8.5" rx="2" ry="2.2" fill="#110000"/>
+  <!-- Red glow in sockets -->
+  <ellipse cx="13" cy="8.5" rx="1.2" ry="1.3" fill="#cc0000" opacity="0.7"/>
+  <ellipse cx="19" cy="8.5" rx="1.2" ry="1.3" fill="#cc0000" opacity="0.7"/>
+  <!-- Jaw -->
+  <path d="M11,12 Q16,14 21,12" fill="none" stroke="#888" stroke-width="0.8"/>
+  <line x1="14" y1="12" x2="14" y2="13.5" stroke="#888" stroke-width="0.7"/>
+  <line x1="16" y1="12.5" x2="16" y2="14" stroke="#888" stroke-width="0.7"/>
+  <line x1="18" y1="12" x2="18" y2="13.5" stroke="#888" stroke-width="0.7"/>
+  <!-- Clawed arms -->
+  <path d="M9,14 Q5,12 4,9" fill="none" stroke="#660000" stroke-width="2"/>
+  <line x1="4" y1="9" x2="2" y2="7" stroke="#880000" stroke-width="1"/>
+  <line x1="4" y1="9" x2="3" y2="6" stroke="#880000" stroke-width="1"/>
+  <path d="M23,14 Q27,12 28,9" fill="none" stroke="#660000" stroke-width="2"/>
+  <line x1="28" y1="9" x2="30" y2="7" stroke="#880000" stroke-width="1"/>
+  <line x1="28" y1="9" x2="29" y2="6" stroke="#880000" stroke-width="1"/>
+</svg>

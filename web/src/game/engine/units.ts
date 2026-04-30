@@ -116,6 +116,24 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       }
     }
 
+    // Builder trait: seek nearest friendly building rather than advancing toward enemy
+    if (unit.unitTrait?.builderMode) {
+      const buildings = s.field.filter(b => b.owner === unit.owner && b.moveSpeed === 0 && !b.isWall && b.hp > 0)
+      if (buildings.length > 0) {
+        const nearest = buildings.reduce((a, b) => unitDist(unit, a) < unitDist(unit, b) ? a : b)
+        const dist = unitDist(unit, nearest)
+        if (dist <= 30) {
+          // Already adjacent to a building — hold position
+          tx = unit.x
+          ty = unit.y
+        } else {
+          tx = nearest.x
+          ty = nearest.y
+        }
+        hasTarget = true
+      }
+    }
+
     // Unit trait: guard base (active for first 2 minutes only)
     if (unit.unitTrait?.guardBase && s.gameTime < 120000) {
       const ownBaseX      = unit.owner === 'player' ? 0 : LANE_WIDTH

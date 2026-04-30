@@ -19553,6 +19553,151 @@
       },
       "description": "HERO: Deploys Rob — a reckless wizard who explodes on death, blasting all nearby enemies! Also grants all units +3 attack.",
       "lore": "Big smile. Bigger explosions. The glasses are purely decorative."
+    },
+    {
+      "id": "hero-blast-maiden",
+      "name": "Blast Maiden",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "unit",
+      "isHero": true,
+      "unit": {
+        "name": "Blast Maiden",
+        "attack": 11,
+        "maxHp": 65,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 13,
+        "attackRange": 5,
+        "attackCooldownMs": 1900,
+        "onDeathEffect": { "damage": 35, "range": 120 },
+        "tags": ["melee", "large"]
+      },
+      "heroEffect": {
+        "type": "buffMaxHp",
+        "amount": 15
+      },
+      "description": "HERO: Deploys the Blast Maiden — a fearless warrior carrying explosives. On death she detonates for massive AoE damage! All units also gain +15 max HP.",
+      "lore": "She doesn't fear death. Death fears the radius."
+    },
+    {
+      "id": "hero-phantom-dasher",
+      "name": "Phantom Dasher",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "unit",
+      "isHero": true,
+      "unit": {
+        "name": "Phantom",
+        "attack": 13,
+        "maxHp": 32,
+        "isWall": false,
+        "bypassWall": true,
+        "moveSpeed": 18,
+        "attackRange": 45,
+        "attackCooldownMs": 2000,
+        "teleportAbility": { "cooldownMs": 5500, "distancePx": 130 },
+        "tags": ["ranged", "magic"]
+      },
+      "heroEffect": {
+        "type": "buffSpeed",
+        "amount": 12
+      },
+      "description": "HERO: Deploys the Phantom — a spectral archer who teleports forward every 5.5s, bypassing obstacles! All units gain +12 speed.",
+      "lore": "Location is a state of mind. Mind is overrated."
+    },
+    {
+      "id": "hero-shadow",
+      "name": "Shadow",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "unit",
+      "isHero": true,
+      "unit": {
+        "name": "Shadow Stalker",
+        "attack": 16,
+        "maxHp": 32,
+        "isWall": false,
+        "bypassWall": false,
+        "climber": true,
+        "moveSpeed": 52,
+        "attackRange": 5,
+        "attackCooldownMs": 1300,
+        "invisibilityAbility": { "activeMs": 4000, "cooldownMs": 7000 },
+        "tags": ["melee", "fast"]
+      },
+      "heroEffect": {
+        "type": "buffAttackCooldown",
+        "amount": -400
+      },
+      "description": "HERO: Deploys the Shadow Stalker — a fast melee assassin who vanishes into invisibility periodically, becoming untargetable! All units also gain -400ms attack cooldown.",
+      "lore": "Always watching. Never seen."
+    },
+    {
+      "id": "hero-blood-summoner",
+      "name": "Blood Summoner",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "unit",
+      "isHero": true,
+      "unit": {
+        "name": "Blood Summoner",
+        "attack": 7,
+        "maxHp": 45,
+        "isWall": false,
+        "bypassWall": true,
+        "moveSpeed": 14,
+        "attackRange": 40,
+        "attackCooldownMs": 2500,
+        "bloodSummonAbility": {
+          "cooldownMs": 5000,
+          "range": 150,
+          "minionTemplate": {
+            "name": "Blood Wraith",
+            "attack": 9,
+            "maxHp": 20,
+            "isWall": false,
+            "bypassWall": false,
+            "moveSpeed": 34,
+            "attackRange": 5,
+            "attackCooldownMs": 1600,
+            "tags": ["undead", "fast"]
+          }
+        },
+        "tags": ["magic", "ranged"]
+      },
+      "heroEffect": {
+        "type": "healUnits",
+        "amount": 10
+      },
+      "description": "HERO: Deploys the Blood Summoner — a dark mage who raises Blood Wraiths from fallen enemies' blood pools every 5s! All units are also healed for 10 HP.",
+      "lore": "Blood doesn't lie. It just... gets around."
+    },
+    {
+      "id": "hero-the-builder",
+      "name": "The Builder",
+      "rarity": "legendary",
+      "cost": 5,
+      "cardType": "unit",
+      "isHero": true,
+      "unit": {
+        "name": "Builder",
+        "attack": 5,
+        "maxHp": 58,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 10,
+        "attackRange": 5,
+        "attackCooldownMs": 2200,
+        "unitTrait": { "builderMode": true, "buildIntervalMs": 3000, "buildRepairAmount": 8 },
+        "tags": ["melee", "slow"]
+      },
+      "heroEffect": {
+        "type": "buffMaxHp",
+        "amount": 18
+      },
+      "description": "HERO: Deploys the Builder — a tireless worker who repairs nearby buildings every 3s and upgrades them once they're at full health! All units gain +18 max HP.",
+      "lore": "Can fix anything. Given enough time. And lumber."
     }
   ]
 }

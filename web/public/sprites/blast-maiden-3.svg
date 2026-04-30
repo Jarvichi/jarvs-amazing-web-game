@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Blast Maiden — stride B (right foot forward) -->
+  <rect x="9" y="13" width="14" height="10" rx="2" fill="#c45c00"/>
+  <rect x="10" y="14" width="12" height="8" rx="1" fill="#e07020"/>
+  <!-- Legs — right forward -->
+  <rect x="9" y="23" width="5" height="7" rx="1" fill="#8b3a00" transform="rotate(6,11,23)"/>
+  <rect x="18" y="23" width="5" height="7" rx="1" fill="#8b3a00" transform="rotate(-8,20,23)"/>
+  <rect x="9" y="28" width="6" height="3" rx="1" fill="#4a2000"/>
+  <rect x="17" y="28" width="6" height="3" rx="1" fill="#4a2000"/>
+  <circle cx="16" cy="10" r="6" fill="#f4c08a"/>
+  <path d="M10,10 Q10,4 16,3 Q22,4 22,10" fill="#c45c00"/>
+  <rect x="10" y="9" width="12" height="3" fill="#c45c00" rx="1"/>
+  <line x1="13" y1="10" x2="15" y2="10" stroke="#333" stroke-width="1.2"/>
+  <line x1="17" y1="10" x2="19" y2="10" stroke="#333" stroke-width="1.2"/>
+  <circle cx="25" cy="18" r="4.5" fill="#333"/>
+  <path d="M25,13 Q27,11 28,9" fill="none" stroke="#ff8c00" stroke-width="1.5"/>
+  <circle cx="28" cy="9" r="1" fill="#ff4400"/>
+  <rect x="22" y="15" width="4" height="3" rx="1" fill="#c45c00" transform="rotate(-10,24,17)"/>
+  <rect x="5" y="15" width="5" height="3" rx="1" fill="#c45c00"/>
+</svg>
