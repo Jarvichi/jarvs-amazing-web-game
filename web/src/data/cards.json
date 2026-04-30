@@ -19340,13 +19340,14 @@
         "flying": true,
         "moveSpeed": 18,
         "attackRange": 50,
-        "attackCooldownMs": 3000
+        "attackCooldownMs": 3000,
+        "halfHealthEffect": { "damage": 25, "range": 100 }
       },
       "heroEffect": {
         "type": "buffAttack",
         "amount": 6
       },
-      "description": "HERO: Deploys a mighty Dragon & grants all units +6 attack!",
+      "description": "HERO: Deploys a mighty Dragon & grants all units +6 attack! At half health the Dragon erupts in a fire breath AoE.",
       "lore": "Commands dragons. Dragons pretend not to notice."
     },
     {
@@ -19364,13 +19365,14 @@
         "bypassWall": false,
         "moveSpeed": 16,
         "attackRange": 5,
-        "attackCooldownMs": 1800
+        "attackCooldownMs": 1800,
+        "halfHealthEffect": { "damage": 18, "range": 80 }
       },
       "heroEffect": {
         "type": "buffMaxHp",
         "amount": 20
       },
-      "description": "HERO: Deploys an armored Paladin & fortifies all units with +20 max HP!",
+      "description": "HERO: Deploys an armored Paladin & fortifies all units with +20 max HP! At half health the Paladin unleashes a divine smite AoE.",
       "lore": "Won sixteen wars. Lost zero negotiations."
     },
     {
@@ -19389,13 +19391,14 @@
         "flying": true,
         "moveSpeed": 38,
         "attackRange": 55,
-        "attackCooldownMs": 2000
+        "attackCooldownMs": 2000,
+        "halfHealthEffect": { "damage": 30, "range": 95 }
       },
       "heroEffect": {
         "type": "buffRange",
         "amount": 40
       },
-      "description": "HERO: Deploys a fearsome Wyvern & blesses all units with +40 attack range!",
+      "description": "HERO: Deploys a fearsome Wyvern & blesses all units with +40 attack range! At half health the Wyvern calls down a lightning strike AoE.",
       "lore": "The sky does what she says. Eventually."
     },
     {
@@ -19467,13 +19470,14 @@
         "bypassWall": false,
         "moveSpeed": 12,
         "attackRange": 5,
-        "attackCooldownMs": 2200
+        "attackCooldownMs": 2200,
+        "halfHealthEffect": { "damage": 15, "range": 75 }
       },
       "heroEffect": {
         "type": "buffHeal",
         "amount": 4
       },
-      "description": "HERO: Deploys a mighty Elder Treant & rejuvenates all units with +4 HP heal every 10s!",
+      "description": "HERO: Deploys a mighty Elder Treant & rejuvenates all units with +4 HP heal every 10s! At half health the Treant erupts in a bark burst AoE.",
       "lore": "The forest is alive. It has opinions on your strategy."
     },
     {
