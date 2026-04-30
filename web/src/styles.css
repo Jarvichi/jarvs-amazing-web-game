@@ -5776,9 +5776,10 @@ body {
 
 @keyframes importantMsgIn {
   0%   { opacity: 0; transform: translate(-50%, -56%) scale(0.88); }
-  12%  { opacity: 1; transform: translate(-50%, -50%) scale(1.03); }
-  20%  { transform: translate(-50%, -50%) scale(1); }
-  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  10%  { opacity: 1; transform: translate(-50%, -50%) scale(1.03); }
+  18%  { transform: translate(-50%, -50%) scale(1); }
+  78%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -44%) scale(0.95); }
 }
 
 .bf-important-msg {
@@ -5801,7 +5802,8 @@ body {
   box-shadow: 0 0 60px rgba(255, 180, 0, 0.2), inset 0 0 30px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(3px);
   cursor: pointer;
-  animation: importantMsgIn 0.35s ease forwards;
+  animation: importantMsgIn 3.5s ease forwards;
+  pointer-events: auto;
 }
 
 .bf-important-msg-text {
@@ -5818,13 +5820,6 @@ body {
   color: var(--game-text-color-muted);
 }
 
-.bf-important-msg-hint {
-  font-size: 0.714rem;
-  color: var(--game-text-color-dim);
-  letter-spacing: 2px;
-  margin-top: 4px;
-  animation: pulse 1.2s ease-in-out infinite;
-}
 
 /* ─── Battle highlights on GameOver screen ────────────────── */
 
