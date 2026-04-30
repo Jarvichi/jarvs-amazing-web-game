@@ -375,6 +375,12 @@ function checkGameOver(s: GameState): boolean {
         }
       }
       s.bossCardActive = true
+      // Reset boss trait state so hp_pct thresholds re-fire against the boss unit HP in phase 2
+      if (s.bossTraitState) {
+        s.bossTraitState.firedThresholds = []
+        s.bossTraitState.traitFired = false
+        s.bossTraitState.lastTraitFireMs = s.gameTime
+      }
       return false
     }
     s.playerScore += VICTORY_BONUS
