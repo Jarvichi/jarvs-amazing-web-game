@@ -197,7 +197,13 @@ export function tickBossTrait(s: GameState, log: string[]): void {
   }
 
   // ── HP threshold traits ───────────────────────────────────
-  const hpPct = (s.opponentBase.hp / s.opponentBase.maxHp) * 100
+  // In phase 2, check the boss unit's HP; in phase 1, check the base HP
+  const hpPct = (s.bossCardActive && s.bossCard)
+    ? (() => {
+        const bossUnit = s.field.find(u => u.owner === 'opponent' && u.name === s.bossCard && u.hp > 0)
+        return bossUnit ? (bossUnit.hp / bossUnit.maxHp) * 100 : 100
+      })()
+    : (s.opponentBase.hp / s.opponentBase.maxHp) * 100
 
   if (trait.trigger === 'hp_pct' && trait.triggerHpPct !== undefined) {
     if (hpPct <= trait.triggerHpPct && !ts.firedThresholds.includes(trait.triggerHpPct)) {
