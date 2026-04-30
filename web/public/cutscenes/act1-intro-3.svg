@@ -3,8 +3,10 @@
 
   <!-- Deep forest ambient gradient -->
   <radialGradient id="forest-glow" cx="50%" cy="60%" r="55%">
-    <stop offset="0%" stop-color="#0a2010" stop-opacity="1"/>
-    <stop offset="100%" stop-color="#0a0a0a" stop-opacity="1"/>
+    <stop offset="0%" stop-color="#0a2010">
+      <animate attributeName="stop-opacity" values="0.9;1;0.9" dur="8s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="100%" stop-color="#0a0a0a"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#forest-glow)"/>
 
@@ -14,12 +16,14 @@
 
   <!-- Background trees (far) -->
   <g fill="#0c180c" opacity="0.8">
-    <!-- Trunks -->
+    <animateTransform attributeName="transform" type="skewX"
+      values="0;0.4;0" dur="14s" repeatCount="indefinite"/>
+
     <rect x="60"  y="120" width="8"  height="75"/>
     <rect x="105" y="110" width="10" height="85"/>
     <rect x="290" y="115" width="9"  height="80"/>
     <rect x="330" y="108" width="11" height="87"/>
-    <!-- Canopies -->
+
     <ellipse cx="64"  cy="105" rx="28" ry="30"/>
     <ellipse cx="110" cy="88"  rx="35" ry="38"/>
     <ellipse cx="295" cy="100" rx="30" ry="32"/>
@@ -28,60 +32,87 @@
 
   <!-- Mid trees -->
   <g fill="#0f2210" opacity="0.9">
+    <animateTransform attributeName="transform" type="skewX"
+      values="0;-0.8;0" dur="10s" repeatCount="indefinite"/>
+
     <rect x="20"  y="130" width="12" height="65"/>
     <rect x="155" y="105" width="14" height="90"/>
     <rect x="230" y="112" width="13" height="83"/>
     <rect x="375" y="125" width="11" height="70"/>
+
     <ellipse cx="26"  cy="110" rx="38" ry="44"/>
     <ellipse cx="162" cy="80"  rx="45" ry="48"/>
     <ellipse cx="237" cy="88"  rx="42" ry="46"/>
     <ellipse cx="380" cy="104" rx="36" ry="40"/>
   </g>
 
-  <!-- Foreground trees (close, dark) -->
+  <!-- Foreground trees -->
   <g fill="#061006">
+    <animateTransform attributeName="transform" type="skewX"
+      values="0;1.2;0" dur="7s" repeatCount="indefinite"/>
+
     <rect x="0"   y="80"  width="16" height="160"/>
     <rect x="185" y="60"  width="20" height="180"/>
     <rect x="385" y="90"  width="15" height="150"/>
+
     <ellipse cx="8"   cy="55"  rx="50" ry="60"/>
     <ellipse cx="195" cy="28"  rx="60" ry="65"/>
     <ellipse cx="392" cy="62"  rx="48" ry="55"/>
   </g>
 
-  <!-- Sealed gate at centre -->
-  <!-- Gate pillars -->
+  <!-- Sealed gate -->
   <rect x="158" y="130" width="12" height="65" fill="#1a3020" stroke="#2a5030" stroke-width="1"/>
   <rect x="230" y="130" width="12" height="65" fill="#1a3020" stroke="#2a5030" stroke-width="1"/>
-  <!-- Gate arch -->
   <path d="M158,130 Q200,95 242,130" fill="none" stroke="#2a5030" stroke-width="2"/>
-  <!-- Gate barrier — sealed glowing runes -->
+
   <rect x="170" y="130" width="60" height="65" fill="#0a1a0a" stroke="#1a3020" stroke-width="0.5" opacity="0.8"/>
-  <!-- Rune lines on gate -->
+
+  <!-- Rune lines -->
   <g stroke="#3a8050" stroke-width="0.8" opacity="0.6">
+    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="6s" repeatCount="indefinite"/>
     <line x1="175" y1="145" x2="225" y2="145"/>
     <line x1="175" y1="158" x2="225" y2="158"/>
     <line x1="175" y1="171" x2="225" y2="171"/>
     <line x1="200" y1="133" x2="200" y2="192"/>
   </g>
+
   <!-- Seal glow -->
   <radialGradient id="seal-glow" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#40a060" stop-opacity="0.3"/>
+    <stop offset="0%" stop-color="#40a060">
+      <animate attributeName="stop-opacity" values="0.15;0.35;0.15" dur="5s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
   </radialGradient>
   <rect x="155" y="90" width="90" height="110" fill="url(#seal-glow)"/>
-  <!-- Glowing rune symbol -->
-  <circle cx="200" cy="160" r="10" fill="none" stroke="#40a060" stroke-width="1" opacity="0.5"/>
-  <text x="200" y="164" font-family="monospace" font-size="8" fill="#40a060" text-anchor="middle" opacity="0.7">✦</text>
 
-  <!-- Roots on ground -->
+  <!-- Rune symbol -->
+  <circle cx="200" cy="160" r="10" fill="none" stroke="#40a060" stroke-width="1">
+    <animate attributeName="r" values="9;12;9" dur="5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="5s" repeatCount="indefinite"/>
+  </circle>
+  <text x="200" y="164" font-family="monospace" font-size="8" fill="#40a060" text-anchor="middle">
+    ✦
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="5s" repeatCount="indefinite"/>
+  </text>
+
+  <!-- Roots -->
   <g stroke="#1a2a1a" stroke-width="2" fill="none" opacity="0.7">
+    <animateTransform attributeName="transform" type="translate"
+      values="0 0; 2 0; 0 0" dur="9s" repeatCount="indefinite"/>
     <path d="M0,215 Q40,200 80,210 Q100,215 130,205"/>
     <path d="M270,208 Q310,195 350,210 Q380,220 400,208"/>
   </g>
 
-  <!-- Misty atmosphere -->
-  <rect x="0" y="170" width="400" height="30" fill="#0a150a" opacity="0.4"/>
+  <!-- Mist -->
+  <rect x="-40" y="170" width="440" height="30" fill="#0a150a" opacity="0.4">
+    <animateTransform attributeName="transform" type="translate"
+      values="0 0; 40 0; 0 0" dur="18s" repeatCount="indefinite"/>
+  </rect>
 
   <!-- Label -->
-  <text x="200" y="228" font-family="monospace" font-size="9" fill="#2a6030" text-anchor="middle" letter-spacing="3">THE VERDANT SHARD</text>
+  <text x="200" y="228" font-family="monospace" font-size="9"
+        fill="#2a6030" text-anchor="middle" letter-spacing="3">
+    THE VERDANT SHARD
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="7s" repeatCount="indefinite"/>
+  </text>
 </svg>
