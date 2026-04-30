@@ -1720,8 +1720,7 @@ export default function App() {
         const eulogy = EULOGIES[Math.floor(Math.random() * EULOGIES.length)](unitName)
         const s = gameStateRef.current
         if (s) {
-          // TODO: we don't display logs anywhere, we should have special banner or something for this — or at least make sure it shows up in the battle summary at the end of the battle
-          dispatch({ type: 'SET_GAME_STATE', gameState: { ...s, log: [...s.log.slice(-9), eulogy] } })
+          dispatch({ type: 'SET_GAME_STATE', gameState: { ...s, log: [...s.log, '!!' + eulogy] } })
         }
       }
     }

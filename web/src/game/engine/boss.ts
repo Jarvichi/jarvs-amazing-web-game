@@ -135,7 +135,7 @@ export function genericBossAI(s: GameState, log: string[], def: BossAIDef): void
   if (phase.announceOnce && phase.condition?.gameTimeGte !== undefined) {
     const t = phase.condition.gameTimeGte
     if (s.gameTime >= t && s.gameTime < t + 1000) {
-      log.push(phase.announceOnce)
+      log.push('!!' + phase.announceOnce)
     }
   }
 

@@ -129,6 +129,19 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
         )}
       </div>
 
+      {(() => {
+        const highlights = state.log.filter(e => e.startsWith('!!')).map(e => e.slice(2))
+        if (highlights.length === 0) return null
+        return (
+          <div className="gameover-highlights">
+            <div className="gameover-highlights-title">── BATTLE HIGHLIGHTS ──</div>
+            {highlights.map((entry, i) => (
+              <div key={i} className="gameover-highlights-entry">{entry}</div>
+            ))}
+          </div>
+        )
+      })()}
+
       {isEndlessDefeat && (
         <div className="gameover-endless-lb">
           <div className="gameover-endless-lb-title">∞ ENDLESS LEADERBOARD</div>

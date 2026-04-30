@@ -351,8 +351,8 @@ function checkGameOver(s: GameState): boolean {
         const bossUnit = spawnUnit(boostedTemplate, 'opponent')
         s.field.push(bossUnit)
         const displayName = s.bossName ?? s.bossCard
-        s.log.push(`⚡ PHASE 2! ${displayName} rises from the ruins!`)
-        s.log.push(`Destroy ${displayName} to win!`)
+        s.log.push(`!!⚡ PHASE 2! ${displayName} rises from the ruins!`)
+        s.log.push(`!!Destroy ${displayName} to win!`)
 
         // Shockwave: kills a scaling fraction of player's mobile non-hero units, always leaving at least 3
         const shockwavePool = s.field.filter(

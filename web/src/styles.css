@@ -5772,6 +5772,88 @@ body {
   box-shadow: 0 0 40px rgba(255,180,0,0.2);
 }
 
+/* ─── Important message banner (pauses game, requires dismiss) ──── */
+
+@keyframes importantMsgIn {
+  0%   { opacity: 0; transform: translate(-50%, -56%) scale(0.88); }
+  12%  { opacity: 1; transform: translate(-50%, -50%) scale(1.03); }
+  20%  { transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.bf-important-msg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 22px 32px;
+  min-width: 240px;
+  max-width: 88%;
+  border-radius: 6px;
+  border: 2px solid rgba(255, 204, 0, 0.6);
+  background: rgba(10, 10, 10, 0.94);
+  box-shadow: 0 0 60px rgba(255, 180, 0, 0.2), inset 0 0 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  cursor: pointer;
+  animation: importantMsgIn 0.35s ease forwards;
+}
+
+.bf-important-msg-text {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffe066;
+  text-shadow: 0 0 12px rgba(255, 220, 80, 0.6);
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}
+
+.bf-important-msg-count {
+  font-size: 0.714rem;
+  color: var(--game-text-color-muted);
+}
+
+.bf-important-msg-hint {
+  font-size: 0.714rem;
+  color: var(--game-text-color-dim);
+  letter-spacing: 2px;
+  margin-top: 4px;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+/* ─── Battle highlights on GameOver screen ────────────────── */
+
+.gameover-highlights {
+  width: 100%;
+  max-width: 340px;
+  border-top: 1px dashed #444;
+  border-bottom: 1px dashed #444;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gameover-highlights-title {
+  font-size: 0.714rem;
+  color: var(--game-text-color-muted);
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.gameover-highlights-entry {
+  font-size: 0.786rem;
+  color: #ffe066;
+  line-height: 1.5;
+  text-align: center;
+}
+
 /* Persistent event status chip in the top bar */
 .event-status-chip {
   font-size: 0.643rem;

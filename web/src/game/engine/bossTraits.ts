@@ -90,8 +90,8 @@ function fireSplitTrait(s: GameState, trait: BossTraitDef, log: string[]): void 
 
   ts.splitActive  = true
   ts.splitUnitIds = splitIds
-  log.push(trait.splitLog ?? trait.announceText)
-  log.push(`Destroy all ${count} Boss Fragments to win!`)
+  log.push('!!' + (trait.splitLog ?? trait.announceText))
+  log.push('!!' + `Destroy all ${count} Boss Fragments to win!`)
 }
 
 // ─── Invulnerable launch ──────────────────────────────────
@@ -108,7 +108,7 @@ function fireInvulnerableLaunch(
   )
   ts.landX = pos.x
   ts.landY = pos.y
-  log.push(trait.announceText)
+  log.push('!!' + trait.announceText)
 }
 
 // ─── Tick ─────────────────────────────────────────────────
@@ -178,7 +178,7 @@ export function tickBossTrait(s: GameState, log: string[]): void {
         const colX     = 90 + Math.random() * 320
         const bandWidth = 25
         const slowMs   = trait.mechanics.slowDurationMs ?? 4000
-        log.push(trait.announceText)
+        log.push('!!' + trait.announceText)
         let hit = 0
         for (const u of s.field) {
           if (u.owner !== 'player' || u.hp <= 0) continue
