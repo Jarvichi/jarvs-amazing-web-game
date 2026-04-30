@@ -94,7 +94,7 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
     const who = owner === 'player' ? 'You' : 'Opponent';
     // Hero cards deploy their unit AND apply a buff to all friendly units
     if (card.isHero && card.heroEffect) {
-      log.push(`★ HERO ${card.name} unleashed by ${who}!`);
+      log.push(`!!★ HERO ${card.name} unleashed by ${who}!`);
       applyUpgrade(s, card.heroEffect, owner, log);
     } else {
       log.push(`${who} ${verb} ${unit.name}.`);

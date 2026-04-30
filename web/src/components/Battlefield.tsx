@@ -658,6 +658,8 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   const { openDetail, cardDetailNode } = useCardDetail()
   const [heroLightning, setHeroLightning] = useState<{ owner: 'player' | 'opponent'; key: number } | null>(null)
   const [paused, setPaused] = useState(false)
+  const [importantMsgQueue, setImportantMsgQueue] = useState<string[]>([])
+  const lastLogLenRef = useRef(0)
   const [inspectedUnit, setInspectedUnit] = useState<Unit | null>(null)
   const [showDeckViewer, setShowDeckViewer] = useState(false)
   const [confirmGiveUp, setConfirmGiveUp] = useState(false)
@@ -695,6 +697,25 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
     prevHeroIdsRef.current = heroIds
   }, [state.field])
 
+  // Watch for important log messages (prefixed !!) and auto-pause to show them
+  useEffect(() => {
+    if (state.log.length < lastLogLenRef.current) lastLogLenRef.current = 0  // new battle
+    const newEntries = state.log.slice(lastLogLenRef.current)
+    lastLogLenRef.current = state.log.length
+    const important = newEntries.filter(e => e.startsWith('!!')).map(e => e.slice(2))
+    if (important.length === 0) return
+    setImportantMsgQueue(q => [...q, ...important])
+    onPause?.(true)
+  }, [state.log])
+
+  const dismissImportantMsg = () => {
+    setImportantMsgQueue(prev => {
+      const next = prev.slice(1)
+      if (next.length === 0 && !paused) onPause?.(false)
+      return next
+    })
+  }
+
   const gameTimeSec = Math.floor(state.gameTime / 1000)
   const minutes = Math.floor(gameTimeSec / 60)
   const seconds = gameTimeSec % 60
@@ -716,6 +737,17 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
 
       {/* Dramatic battle event overlay (center-screen flash) */}
       <BattleEventOverlay event={event} />
+
+      {/* Important message banner — pauses game until dismissed */}
+      {importantMsgQueue.length > 0 && (
+        <div className="bf-important-msg" onClick={dismissImportantMsg} role="alertdialog">
+          <div className="bf-important-msg-text">{importantMsgQueue[0]}</div>
+          {importantMsgQueue.length > 1 && (
+            <div className="bf-important-msg-count">+{importantMsgQueue.length - 1} more</div>
+          )}
+          <div className="bf-important-msg-hint">▶ TAP TO CONTINUE</div>
+        </div>
+      )}
 
       {/* Hero spawn lightning bolt */}
       {heroLightning && (
@@ -1033,7 +1065,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       )}
 
       {/* Pause panel — anchored, no backdrop so the field remains tappable */}
-      {paused && (
+      {paused && importantMsgQueue.length === 0 && (
         <div className="bf-pause-panel" onClick={e => e.stopPropagation()}>
             {inspectedUnit ? (
               <div className="bf-inspect-panel">
