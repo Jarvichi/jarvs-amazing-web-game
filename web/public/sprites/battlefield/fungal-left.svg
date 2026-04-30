@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Fungal strip left -->
+  <rect x="0" y="0" width="24" height="220" fill="#1e1226"/>
+  <!-- Mushroom cap 1 -->
+  <ellipse cx="12" cy="45" rx="10" ry="6" fill="#8a3070" opacity="0.85"/>
+  <rect x="10" y="45" width="4" height="12" fill="#5a2040" rx="1"/>
+  <!-- Mushroom cap 2 -->
+  <ellipse cx="10" cy="140" rx="9" ry="5" fill="#6a2860" opacity="0.8"/>
+  <rect x="8"  y="140" width="4" height="10" fill="#4a1830" rx="1"/>
+  <!-- Spore tendrils -->
+  <path d="M14,70 C10,80 16,88 12,96"  stroke="#c080d0" stroke-width="0.8" fill="none" opacity="0.5"/>
+  <path d="M8,165 C12,175 8,182 11,190" stroke="#b070c0" stroke-width="0.8" fill="none" opacity="0.45"/>
+  <!-- Spore glow dots -->
+  <circle cx="16" cy="78"  r="1" fill="#d090e0" opacity="0.55"/>
+  <circle cx="9"  cy="175" r="1" fill="#c080d0" opacity="0.5"/>
+  <line x1="24" y1="0" x2="24" y2="220" stroke="#180c20" stroke-width="0.5" opacity="0.5"/>
+</svg>

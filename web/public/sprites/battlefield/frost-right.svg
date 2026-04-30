@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Frost strip right -->
+  <rect x="76" y="0" width="24" height="220" fill="#a8c8e0"/>
+  <!-- Ice crystal 1 -->
+  <polygon points="90,35 86,55 94,55"  fill="#d8eeff" opacity="0.8"/>
+  <polygon points="90,35 84,50 96,50"  fill="#c0e0f8" opacity="0.6"/>
+  <!-- Ice crystal 2 -->
+  <polygon points="86,128 82,150 90,150" fill="#d0e8f8" opacity="0.75"/>
+  <!-- Frost branch 1 -->
+  <line x1="92" y1="90" x2="82" y2="80"  stroke="#e0f0ff" stroke-width="1"   opacity="0.6"/>
+  <line x1="92" y1="90" x2="82" y2="100" stroke="#e0f0ff" stroke-width="1"   opacity="0.6"/>
+  <line x1="92" y1="90" x2="98" y2="90"  stroke="#e0f0ff" stroke-width="1"   opacity="0.5"/>
+  <!-- Frost branch 2 -->
+  <line x1="88" y1="185" x2="80" y2="175" stroke="#d8ecff" stroke-width="0.8" opacity="0.55"/>
+  <line x1="88" y1="185" x2="80" y2="195" stroke="#d8ecff" stroke-width="0.8" opacity="0.55"/>
+  <line x1="76" y1="0" x2="76" y2="220" stroke="#88a8c0" stroke-width="0.5" opacity="0.5"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Wet-packed shore path center -->
+  <path d="M34,0 C33,50 36,105 34,148 C32,182 35,202 34,220 L66,220 C65,202 68,182 66,148 C64,105 67,50 66,0 Z" fill="#806838" opacity="0.9"/>
+  <path d="M36,0 C35,48 38,103 36,146 C34,180 37,201 36,220 L64,220 C63,201 66,180 64,146 C62,103 65,48 64,0 Z" fill="#9a7848"/>
+  <!-- Shell marks -->
+  <circle cx="50" cy="58"  r="1.2" fill="#c0a870" opacity="0.45"/>
+  <circle cx="48" cy="120" r="1"   fill="#c0a870" opacity="0.4"/>
+  <circle cx="52" cy="175" r="1.2" fill="#b89860" opacity="0.45"/>
+</svg>

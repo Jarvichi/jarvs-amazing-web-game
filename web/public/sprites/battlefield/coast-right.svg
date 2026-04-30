@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Coastal water strip right -->
+  <rect x="76" y="0" width="24" height="220" fill="#2060a0"/>
+  <!-- Wave lines -->
+  <path d="M76,55  C82,51  88,59 94,55  C96,53 98,55 100,55"  stroke="#80c0f0" stroke-width="1.2" fill="none" opacity="0.6"/>
+  <path d="M76,135 C84,131 90,139 96,135 C98,133 99,135 100,135" stroke="#80c0f0" stroke-width="1"   fill="none" opacity="0.55"/>
+  <path d="M76,205 C82,201 88,209 94,205 C97,203 99,205 100,205" stroke="#70b0e0" stroke-width="1.2" fill="none" opacity="0.6"/>
+  <!-- Sea foam dots -->
+  <circle cx="82" cy="78"  r="2"   fill="#c0e8ff" opacity="0.4"/>
+  <circle cx="94" cy="92"  r="1.5" fill="#c0e8ff" opacity="0.35"/>
+  <circle cx="88" cy="162" r="2"   fill="#c0e8ff" opacity="0.4"/>
+  <!-- Coastal rock -->
+  <ellipse cx="90" cy="112" rx="8" ry="4" fill="#506080" opacity="0.6"/>
+  <line x1="76" y1="0" x2="76" y2="220" stroke="#104880" stroke-width="0.5" opacity="0.5"/>
+</svg>

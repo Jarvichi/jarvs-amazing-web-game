@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <!-- Frozen ice path center -->
+  <path d="M34,0 C33,50 36,105 34,148 C32,182 35,202 34,220 L66,220 C65,202 68,182 66,148 C64,105 67,50 66,0 Z" fill="#88b8d8" opacity="0.7"/>
+  <path d="M36,0 C35,48 38,103 36,146 C34,180 37,201 36,220 L64,220 C63,201 66,180 64,146 C62,103 65,48 64,0 Z" fill="#a0c8e8" opacity="0.85"/>
+  <!-- Ice crack details -->
+  <line x1="42" y1="50"  x2="58" y2="62"  stroke="#c8e8ff" stroke-width="0.7" opacity="0.55"/>
+  <line x1="44" y1="110" x2="56" y2="122" stroke="#c8e8ff" stroke-width="0.6" opacity="0.5"/>
+  <line x1="42" y1="165" x2="58" y2="178" stroke="#b8d8f8" stroke-width="0.7" opacity="0.55"/>
+</svg>

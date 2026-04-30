@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 220" preserveAspectRatio="none">
+  <rect width="100" height="220" fill="#c8a050"/>
+  <!-- Dune shadow ripples -->
+  <ellipse cx="50" cy="55"  rx="25" ry="8"  fill="#b08840" opacity="0.35"/>
+  <ellipse cx="50" cy="130" rx="28" ry="9"  fill="#b08840" opacity="0.3"/>
+  <ellipse cx="50" cy="200" rx="22" ry="7"  fill="#b08840" opacity="0.35"/>
+  <!-- Sand texture dots -->
+  <circle cx="30" cy="85"  r="1" fill="#d8b870" opacity="0.3"/>
+  <circle cx="70" cy="155" r="1" fill="#d8b870" opacity="0.25"/>
+  <circle cx="45" cy="185" r="1" fill="#e0c080" opacity="0.25"/>
+</svg>
