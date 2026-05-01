@@ -43,6 +43,8 @@ const TICKETS_PER_CREDIT = 2
 const SPIN_DURATION_MS = 1200
 const FEATURE_THRESHOLD = 5    // feature triggers needed for bonus
 const FEATURE_BONUS_CREDITS = 15  // credits awarded when feature fires
+const LOSER_THRESHOLD = 5    // 'Lose' hits needed to light full LOSER word
+const LOSER_JUMP_POS = 35    // board position jumped to on full LOSER word
 
 const JACKPOT_TIERS = [
   { name: 'Mini', credits: 10, progressive: false, base: 10 },
@@ -195,6 +197,7 @@ export function FruitMachine({ onDone }: Props) {
   const [cashOutTickets, setCashOutTickets] = useState(0)
   const [availCrystals, setAvailCrystals] = useState(() => loadCrystals())
   const [featureTriggerCount, setFeatureTriggerCount] = useState(0)
+  const [loserCount, setLoserCount] = useState(0)
   const [grandJackpot, setGrandJackpot] = useState<number>(() => {
     try { return parseInt(localStorage.getItem('fm_grand') ?? '500', 10) } catch { return 500 }
   })
@@ -217,6 +220,7 @@ export function FruitMachine({ onDone }: Props) {
   const ladderSpinRef = useRef(false)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const featureCountRef = useRef(0)  // mirrors featureTriggerCount for use inside setTimeout
+  const loserCountRef = useRef(0)   // mirrors loserCount for use inside setTimeout
   const grandJackpotRef = useRef(grandJackpot)
   const boardPosRef = useRef(boardPos)
   const boardMultRef = useRef(boardMult)
@@ -520,7 +524,20 @@ function regressBoardBy(steps: number) {
       const featureStep = featureBonus > 0 ? 1 : 0
       const ladderProgress = (nextLadder === '+1' ? 1 : nextLadder === '+2' ? 2 : nextLadder === '-1' ? -1 : nextLadder === '-2' ? -2 : 0) + featureStep
       if (nextLadder === 'Lose') {
-        resetBoardToZero()
+        const newLoserCount = loserCountRef.current + 1
+        if (newLoserCount >= LOSER_THRESHOLD) {
+          loserCountRef.current = 0
+          setLoserCount(0)
+          boardPosRef.current = LOSER_JUMP_POS
+          setBoardPos(LOSER_JUMP_POS)
+          try { localStorage.setItem('fm_board_pos', String(LOSER_JUMP_POS)) } catch (e) { logError('fm_board_pos loser jump', { error: String(e) }) }
+          setBoardMessage('L-O-S-E-R complete! Jump to position 35!')
+          setPhase('idle')
+        } else {
+          loserCountRef.current = newLoserCount
+          setLoserCount(newLoserCount)
+          resetBoardToZero()
+        }
       } else if (ladderProgress < 0) {
         regressBoardBy(ladderProgress)
       } else {
@@ -684,10 +701,18 @@ function regressBoardBy(steps: number) {
 
       <div className="fm-header">
         <span className="fm-credits">Credits: {credits}</span>
-        <span className="fm-feature-counter" title="Land 🌟 symbols to fill the feature meter">
-          Feature: {featureCountRef.current}/{FEATURE_THRESHOLD} 🌟
-        </span>
-
+        <div className="fm-word-meters">
+          <div className="fm-word-meter" title="Land 🌟 symbols to spell TRAIL and advance the board">
+            {['T','R','A','I','L'].map((letter, i) => (
+              <span key={letter} className={`fm-word-letter${i < featureTriggerCount ? ' fm-word-letter--lit' : ''}`}>{letter}</span>
+            ))}
+          </div>
+          <div className="fm-word-meter" title="Each trail Lose lights a letter — spell LOSER to jump to position 35">
+            {['L','O','S','E','R'].map((letter, i) => (
+              <span key={letter+i} className={`fm-word-letter fm-word-letter--loser${i < loserCount ? ' fm-word-letter--lit' : ''}`}>{letter}</span>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Feature board trail */}
