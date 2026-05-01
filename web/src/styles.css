@@ -1731,6 +1731,13 @@ body {
   opacity: 0.55;
 }
 
+.shop-pack-qty-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 /* Shop consumables */
 .shop-consumables {
   display: flex;

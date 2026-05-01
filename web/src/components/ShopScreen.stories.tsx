@@ -15,7 +15,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     crystals: 250,
-    onBuyCrystalPack: fn(),
+    onBuyCrystalPack: fn<(qty: number) => void>(),
     onBack: fn(),
     onCrystalsChange: fn(),
   },
