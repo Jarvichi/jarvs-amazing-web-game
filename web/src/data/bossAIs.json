@@ -834,17 +834,15 @@
         },
         "priorities": [
           {
-            "type": "structure",
-            "subType": "spawn",
-            "order": "first"
+            "cardType": "structure",
+            "structureEffect": "spawn"
           },
           {
-            "type": "unit",
-            "order": "cost_desc"
+            "cardType": "unit",
+            "sortBy": "cost_desc"
           },
           {
-            "type": "upgrade",
-            "order": "first"
+            "cardType": "upgrade"
           }
         ]
       },
@@ -855,23 +853,20 @@
         },
         "priorities": [
           {
-            "type": "unit",
-            "tag": "ranged",
-            "order": "cost_desc"
+            "cardType": "unit",
+            "flying": true,
+            "sortBy": "cost_desc"
           },
           {
-            "type": "unit",
-            "tag": "flying",
-            "order": "cost_desc"
+            "cardType": "structure",
+            "structureEffect": "spawn"
           },
           {
-            "type": "structure",
-            "subType": "spawn",
-            "order": "first"
+            "cardType": "unit",
+            "sortBy": "cost_desc"
           },
           {
-            "type": "upgrade",
-            "order": "first"
+            "cardType": "upgrade"
           }
         ],
         "announceOnce": "The Harbormaster signals his fleet!"
@@ -883,17 +878,15 @@
         "announceOnce": "The iron tide rises! No mercy!",
         "priorities": [
           {
-            "type": "unit",
-            "order": "cost_desc"
+            "cardType": "unit",
+            "sortBy": "cost_desc"
           },
           {
-            "type": "structure",
-            "subType": "spawn",
-            "order": "first"
+            "cardType": "structure",
+            "structureEffect": "spawn"
           },
           {
-            "type": "upgrade",
-            "order": "first"
+            "cardType": "upgrade"
           }
         ]
       }
