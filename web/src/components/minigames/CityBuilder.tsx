@@ -5,7 +5,10 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { getCardCatalog } from '../../game/cards'
-import { loadCollection, getOwnedCount } from '../../game/collection'
+import {
+  loadCollection, saveCollection, getOwnedCount,
+  getMasteryXp, masteryLevel, masteryXpForLevel, masteryProgress,
+} from '../../game/collection'
 import {
   CITY_COLS, CITY_ROWS, CITY_CELLS, CELL_PX,
   CityCell, CityState, ResourceType, ResourceStock,
@@ -17,10 +20,11 @@ import {
   canAffordPlacement,
   resourceProductionRate, resourceConsumptionRate,
   getCardLevel, levelUpCost, levelUpCard,
-  LEVEL_UP_COSTS, MAX_CARD_LEVEL, LEVEL_ATK_BONUS, LEVEL_MAX_HP_BONUS,
+  LEVEL_UP_COSTS,
   getBuildingProduces,
   INCOME_SPAWN, INCOME_UTILITY, INCOME_WALL,
 } from '../../game/cityBuilder'
+import { MasteryBar } from '../MasteryBar'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
 import { Card } from '../../game/types'
 
@@ -182,7 +186,24 @@ export function CityBuilder({ onBack }: Props) {
     const next = levelUpCard(city, cardName)
     if (!next) { showToast('Not enough gold!'); return }
     save(next)
-    showToast(`${cardName} levelled up to ★${next.cardLevels[cardName]}!`)
+
+    // Grant enough mastery XP to advance the card by exactly one mastery level.
+    const col = loadCollection()
+    const currentXp = getMasteryXp(col, cardName)
+    const currentLvl = masteryLevel(currentXp)
+    const xpToGrant = masteryXpForLevel(currentLvl + 1) - currentXp
+    const updatedCol = col.map(e =>
+      e.cardName === cardName
+        ? { ...e, masteryXp: (e.masteryXp ?? 0) + xpToGrant }
+        : e
+    )
+    // If the card has no collection entry yet, add one.
+    if (!updatedCol.find(e => e.cardName === cardName)) {
+      updatedCol.push({ cardName, count: 0, masteryXp: xpToGrant })
+    }
+    saveCollection(updatedCol)
+
+    showToast(`${cardName} levelled up! Mastery ★${currentLvl + 1}`)
   }
 
   // ── Derived data ──────────────────────────────────────────────────────────────
@@ -308,7 +329,9 @@ export function CityBuilder({ onBack }: Props) {
           {levellable.map(card => {
             const level     = getCardLevel(city, card.name)
             const cost      = levelUpCost(level)
-            const canAfford = cost !== null && city.gold >= cost
+            const canAfford = city.gold >= cost
+            const xp        = getMasteryXp(loadCollection(), card.name)
+            const mLvl      = masteryLevel(xp)
             return (
               <button
                 key={card.name}
@@ -317,18 +340,10 @@ export function CityBuilder({ onBack }: Props) {
               >
                 <SpriteImg name={card.name} className="city-level-card-sprite" />
                 <div className="city-level-card-name">{card.name}</div>
-                <div className="city-level-card-stars">
-                  {Array.from({ length: MAX_CARD_LEVEL }, (_, i) => (
-                    <span key={i} className={`city-star-sm${i < level ? ' city-star-sm--filled' : ''}`}>★</span>
-                  ))}
+                <div className="city-level-card-stars">★{mLvl} mastery</div>
+                <div className={`city-level-card-cost${canAfford ? ' city-level-card-cost--ready' : ''}`}>
+                  ⚙ {cost.toLocaleString()}
                 </div>
-                {level < MAX_CARD_LEVEL ? (
-                  <div className={`city-level-card-cost${canAfford ? ' city-level-card-cost--ready' : ''}`}>
-                    ⚙ {cost}
-                  </div>
-                ) : (
-                  <div className="city-level-card-maxed">MAX</div>
-                )}
               </button>
             )
           })}
@@ -340,9 +355,11 @@ export function CityBuilder({ onBack }: Props) {
   // ── Level-up detail sub-screen ────────────────────────────────────────────────
 
   if (screen === 'levelup' && levelCard !== null) {
-    const card  = catalog.find(c => c.name === levelCard)
-    const level = getCardLevel(city, levelCard)
-    const cost  = levelUpCost(level)
+    const card     = catalog.find(c => c.name === levelCard)
+    const level    = getCardLevel(city, levelCard)
+    const cost     = levelUpCost(level)
+    const xp       = getMasteryXp(loadCollection(), levelCard)
+    const { level: mLvl } = masteryProgress(xp)
     return (
       <div className="city-screen">
         <div className="city-picker-header">
@@ -352,40 +369,33 @@ export function CityBuilder({ onBack }: Props) {
         <div className="city-level-detail">
           {card && <SpriteImg name={card.name} className="city-level-sprite" />}
           <div className="city-level-name">{levelCard}</div>
-          <div className="city-level-stars">
-            {Array.from({ length: MAX_CARD_LEVEL }, (_, i) => (
-              <span key={i} className={`city-star${i < level ? ' city-star--filled' : ''}`}>★</span>
-            ))}
-          </div>
           <div className="city-level-stats">
-            <div>+{level * LEVEL_ATK_BONUS} ATK bonus</div>
-            <div>+{level * LEVEL_MAX_HP_BONUS} max HP bonus</div>
+            <div style={{ marginBottom: 4 }}>Mastery</div>
+            <MasteryBar xp={xp} />
           </div>
-          {level < MAX_CARD_LEVEL ? (
-            <>
-              <div className="city-level-cost">
-                Next level costs <span className="city-gold">⚙ {cost}</span>
+          <div className="city-level-cost">
+            Next upgrade costs <span className="city-gold">⚙ {cost.toLocaleString()}</span>
+            {' '}and grants mastery ★{mLvl + 1}
+          </div>
+          <div className="city-level-costs-table">
+            {LEVEL_UP_COSTS.map((c, i) => (
+              <div key={i} className={`city-cost-row${i < level ? ' city-cost-row--done' : ''}`}>
+                <span>Upgrade {i + 1}</span>
+                <span>⚙ {c.toLocaleString()}</span>
               </div>
-              <div className="city-level-costs-table">
-                {LEVEL_UP_COSTS.map((c, i) => (
-                  <div key={i} className={`city-cost-row${i < level ? ' city-cost-row--done' : ''}`}>
-                    <span>★{i + 1}</span>
-                    <span>⚙ {c}</span>
-                    <span>+{(i + 1) * LEVEL_ATK_BONUS} ATK / +{(i + 1) * LEVEL_MAX_HP_BONUS} HP</span>
-                  </div>
-                ))}
-              </div>
-              <button
-                className={`action-btn${city.gold >= (cost ?? 0) ? ' action-btn--gold' : ''}`}
-                onClick={() => handleLevelUp(levelCard)}
-                disabled={city.gold < (cost ?? 0)}
-              >
-                {city.gold >= (cost ?? 0) ? `LEVEL UP (⚙ ${cost})` : `NEED ⚙ ${cost}`}
-              </button>
-            </>
-          ) : (
-            <div className="city-level-maxed">MAX LEVEL REACHED!</div>
-          )}
+            ))}
+            <div className={`city-cost-row${level >= LEVEL_UP_COSTS.length ? ' city-cost-row--done' : ''}`}>
+              <span>Upgrade {LEVEL_UP_COSTS.length + 1}+</span>
+              <span>⚙ {LEVEL_UP_COSTS[LEVEL_UP_COSTS.length - 1].toLocaleString()}</span>
+            </div>
+          </div>
+          <button
+            className={`action-btn${city.gold >= cost ? ' action-btn--gold' : ''}`}
+            onClick={() => handleLevelUp(levelCard)}
+            disabled={city.gold < cost}
+          >
+            {city.gold >= cost ? `LEVEL UP (⚙ ${cost.toLocaleString()})` : `NEED ⚙ ${cost.toLocaleString()}`}
+          </button>
         </div>
       </div>
     )
