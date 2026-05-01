@@ -700,16 +700,18 @@ function regressBoardBy(steps: number) {
       </div>
 
       <div className="fm-header">
+        <div className="fm-word-meters">
+          <div className="fm-word-meter" title="Each trail Lose lights a letter — spell LOSER to jump to position 35">
+            {['L','O','S','E','R'].map((letter, i) => (
+              <span key={letter+i} className={`fm-word-letter fm-word-letter--loser${i < loserCount ? ' fm-word-letter--lit' : ''}`}>{letter}</span>
+            ))}
+          </div>
+        </div>
         <span className="fm-credits">Credits: {credits}</span>
         <div className="fm-word-meters">
           <div className="fm-word-meter" title="Land 🌟 symbols to spell TRAIL and advance the board">
             {['T','R','A','I','L'].map((letter, i) => (
               <span key={letter} className={`fm-word-letter${i < featureTriggerCount ? ' fm-word-letter--lit' : ''}`}>{letter}</span>
-            ))}
-          </div>
-          <div className="fm-word-meter" title="Each trail Lose lights a letter — spell LOSER to jump to position 35">
-            {['L','O','S','E','R'].map((letter, i) => (
-              <span key={letter+i} className={`fm-word-letter fm-word-letter--loser${i < loserCount ? ' fm-word-letter--lit' : ''}`}>{letter}</span>
             ))}
           </div>
         </div>
