@@ -20,6 +20,12 @@ function chooseTraitLandingPos(target: string | undefined, field: Unit[]): { x: 
   if (target === 'battlefield_centre') {
     return { x: LANE_WIDTH / 2, y: 0 }
   }
+  if (target === 'random') {
+    return {
+      x: OPPONENT_SPAWN_X - 40 - Math.random() * 60,
+      y: LANE_POSITIONS[Math.floor(Math.random() * LANE_POSITIONS.length)],
+    }
+  }
   if (target === 'player_densest_cluster') {
     const players = field.filter(u => u.owner === 'player' && u.hp > 0)
     let bx = LANE_WIDTH / 4, by = 0, best = 0
@@ -109,6 +115,12 @@ function fireInvulnerableLaunch(
   ts.landX = pos.x
   ts.landY = pos.y
   log.push('!!' + trait.announceText)
+
+  // Make the boss unit untargetable during the launch sequence
+  if (s.bossCardActive && s.bossCard) {
+    const bossUnit = s.field.find(u => u.owner === 'opponent' && u.name === s.bossCard && u.hp > 0)
+    if (bossUnit) bossUnit.invisTimer = duration + 500
+  }
 }
 
 // ─── Tick ─────────────────────────────────────────────────
@@ -161,6 +173,18 @@ export function tickBossTrait(s: GameState, log: string[]): void {
       }
     }
 
+    // For burrow-type traits: teleport the boss unit to the landing position
+    if (trait.type === 'burrow' && s.bossCardActive && s.bossCard) {
+      const bossUnit = s.field.find(u => u.owner === 'opponent' && u.name === s.bossCard && u.hp > 0)
+      if (bossUnit) { bossUnit.x = lx; bossUnit.y = ly }
+    }
+
+    // Restore boss unit visibility
+    if (s.bossCardActive && s.bossCard) {
+      const bossUnit = s.field.find(u => u.owner === 'opponent' && u.name === s.bossCard && u.hp > 0)
+      if (bossUnit) bossUnit.invisTimer = 0
+    }
+
     ts.baseInvulnerableUntilMs = 0
     ts.landingAtMs = undefined
     ts.landX = undefined
@@ -170,6 +194,9 @@ export function tickBossTrait(s: GameState, log: string[]): void {
 
   // ── Periodic traits ───────────────────────────────────────
   if (trait.trigger === 'periodic') {
+    // Don't fire before the boss unit enters in a two-phase fight
+    if (s.bossCard && !s.bossCardActive) return
+
     const interval = trait.triggerIntervalMs ?? 30000
     if (s.gameTime >= interval && s.gameTime - ts.lastTraitFireMs >= interval && ts.landingAtMs === undefined) {
       ts.lastTraitFireMs = s.gameTime
