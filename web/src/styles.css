@@ -10271,6 +10271,36 @@ html.light-mode .action-btn {
   opacity: 0.85;
 }
 
+.fm-word-meters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.fm-word-meter {
+  display: flex;
+  gap: 3px;
+}
+
+.fm-word-letter {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #444;
+  text-shadow: none;
+  transition: color 0.2s, text-shadow 0.2s;
+  letter-spacing: 1px;
+}
+
+.fm-word-letter--lit {
+  color: #ffd700;
+  text-shadow: 0 0 6px #ffd700, 0 0 12px #ffaa00;
+}
+
+.fm-word-letter--loser.fm-word-letter--lit {
+  color: #ff4444;
+  text-shadow: 0 0 6px #ff4444, 0 0 12px #cc0000;
+}
+
 .fm-win-flash {
   font-size: 1rem;
   font-weight: bold;
