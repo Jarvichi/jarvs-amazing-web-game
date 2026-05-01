@@ -381,7 +381,14 @@ function checkGameOver(s: GameState): boolean {
       if (s.bossTraitState) {
         s.bossTraitState.firedThresholds = []
         s.bossTraitState.traitFired = false
-        s.bossTraitState.lastTraitFireMs = s.gameTime
+        const bDef = s.bossAI ? getBossAIDef(s.bossAI) : undefined
+        if (bDef?.trait?.trigger === 'periodic') {
+          // Allow first periodic ability to fire ~5s after phase 2 starts
+          const interval = bDef.trait.triggerIntervalMs ?? 30000
+          s.bossTraitState.lastTraitFireMs = s.gameTime - interval + 5000
+        } else {
+          s.bossTraitState.lastTraitFireMs = s.gameTime
+        }
       }
       return false
     }
