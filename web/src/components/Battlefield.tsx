@@ -16,6 +16,7 @@ import { loadPlayerName, loadPlayerAvatar } from '../game/questline'
 import { TutorialOverlay } from './TutorialOverlay'
 import { hasSeen, markSeen } from '../game/tutorial'
 
+const modalAutoDismissTime = 2000
 const BATTLE_TUTORIAL_ID = 'gameplay'
 const BATTLE_TUTORIAL_STEPS = [
   {
@@ -717,10 +718,10 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
     })
   }
 
-  // Auto-dismiss the current important message after 3.5 s (resets for each new message)
+  // Auto-dismiss the current important message after x s (resets for each new message)
   useEffect(() => {
     if (importantMsgQueue.length === 0) return
-    const id = setTimeout(dismissImportantMsg, 3500)
+    const id = setTimeout(dismissImportantMsg, modalAutoDismissTime)
     return () => clearTimeout(id)
   }, [importantMsgQueue[0]])
 
