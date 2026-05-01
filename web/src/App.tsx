@@ -312,7 +312,7 @@ export default function App() {
     [],
   )
 
-  const [pack, setPack]           = useState<string[]>([])
+  const [packs, setPacks]         = useState<string[][]>([])
   const [handicap, setHandicap]   = useState<number>(loadHandicap)
   const [crystals, setCrystals]   = useState<number>(loadCrystals)
 
@@ -1914,18 +1914,19 @@ export default function App() {
         break
     }
 
-    setPack( pack)
+    setPacks([pack])
     setScreen('pack')
   }, [])
 
-  const handleBuyCrystalPack = useCallback(() => {
+  const handleBuyCrystalPack = useCallback((qty: number = 1) => {
     const current = loadCrystals()
-    if (current < CRYSTAL_PACK_COST) return
-    const next = current - CRYSTAL_PACK_COST
+    const totalCost = CRYSTAL_PACK_COST * qty
+    if (current < totalCost) return
+    const next = current - totalCost
     saveCrystals(next)
     setCrystals(next)
     packBackScreenRef.current = 'shop'
-    setPack(generatePack())
+    setPacks(Array.from({ length: qty }, () => generatePack()))
     setScreen('pack')
   }, [])
 
@@ -2390,7 +2391,7 @@ export default function App() {
       )}
 
       {screen === 'pack' && (
-        <PackOpening pack={pack} onDone={handlePackDone} />
+        <PackOpening packs={packs} onDone={handlePackDone} />
       )}
 
       {screen === 'inventory' && (

@@ -74,13 +74,16 @@ function formatShiftTimeNatural(seconds: number): string {
 
 interface Props {
   crystals: number
-  onBuyCrystalPack: () => void
+  onBuyCrystalPack: (qty: number) => void
   onCrystalsChange: (newAmount: number) => void
   onBack: () => void
 }
 
+const PACK_QUANTITIES = [1, 3, 5, 10]
+
 export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBack }: Props) {
-  const canBuyPack = crystals >= CRYSTAL_PACK_COST
+  const [packQty, setPackQty] = useState(1)
+  const canBuyPack = crystals >= CRYSTAL_PACK_COST * packQty
 
   const [npc, setNpc] = useState(() => getDailyShopNPC())
   const [dailyCards, setDailyCards] = useState(() => getDailyShopCards())
@@ -153,7 +156,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
   function handleBuyPackClick() {
     if (canBuyPack) {
-      onBuyCrystalPack()
+      onBuyCrystalPack(packQty)
     } else {
       incrementAchievementProgress('misc:shop_broke_click')
     }
@@ -283,12 +286,25 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
           <div className="shop-item-desc">
             5 cards · 2 Common · 1 Uncommon · 1 Rare · 1 Bonus
           </div>
+          <div className="shop-pack-qty-row">
+            {PACK_QUANTITIES.map(q => (
+              <button
+                key={q}
+                className={`filter-btn${packQty === q ? ' filter-btn--active' : ''}`}
+                onClick={() => setPackQty(q)}
+              >
+                ×{q}
+              </button>
+            ))}
+          </div>
           <button
             className="action-btn action-btn--gold"
             onClick={handleBuyPackClick}
             disabled={false}
           >
-            {canBuyPack ? `Buy — ${CRYSTAL_PACK_COST} 💎` : `Need ${CRYSTAL_PACK_COST - crystals} more 💎`}
+            {canBuyPack
+              ? `Buy ${packQty > 1 ? `${packQty}× ` : ''}— ${CRYSTAL_PACK_COST * packQty} 💎`
+              : `Need ${CRYSTAL_PACK_COST * packQty - crystals} more 💎`}
           </button>
         </div>
 
