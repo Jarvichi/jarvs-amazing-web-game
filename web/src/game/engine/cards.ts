@@ -3,7 +3,6 @@ import { GameState, UpgradeEffect, Unit, BuffTag, LANE_WIDTH } from '../types';
 import { spawnUnit } from './helpers';
 import { drawCard } from './helpers';
 import {  Card, UnitTemplate } from '../types';
-import { getCardBonuses } from '../cityBuilder';
 
 // ─── Deploy a card onto the field ────────────────────────
 export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent', log: string[]): void {
@@ -62,11 +61,6 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
       }
     }
     const unit = spawnUnit(card.unit, owner);
-    if (owner === 'player') {
-      const bonus = getCardBonuses(card.name);
-      if (bonus.atk   > 0) unit.attack = unit.attack + bonus.atk;
-      if (bonus.maxHp > 0) { unit.maxHp += bonus.maxHp; unit.hp += bonus.maxHp; }
-    }
     if (owner === 'player' && s.onCardPlayedEffects?.length) {
       for (const e of s.onCardPlayedEffects) {
         if (e.attackBonus) unit.attack = Math.max(0, unit.attack + e.attackBonus)

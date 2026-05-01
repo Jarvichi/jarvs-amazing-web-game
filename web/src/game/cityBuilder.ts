@@ -30,12 +30,8 @@ const HAPPINESS_REGEN = 15
 /** Happiness drain per minute away from target when conditions not met. */
 const HAPPINESS_DRAIN = 10
 
-/** Level-up costs: index = target level (1-based). */
-export const LEVEL_UP_COSTS = [50000, 100000, 250000, 500000, 100000]
-export const MAX_CARD_LEVEL  = LEVEL_UP_COSTS.length
-
-export const LEVEL_ATK_BONUS    = 1
-export const LEVEL_MAX_HP_BONUS = 2
+/** Level-up costs: index = target level (1-based). Beyond the table, the last entry repeats. */
+export const LEVEL_UP_COSTS = [50000, 100000, 250000, 500000, 1000000]
 
 // ── Resource constants ────────────────────────────────────────────────────────
 
@@ -377,36 +373,18 @@ export function getCardLevel(state: CityState, cardName: string): number {
   return state.cardLevels[cardName] ?? 0
 }
 
-export function levelUpCost(currentLevel: number): number | null {
-  if (currentLevel >= MAX_CARD_LEVEL) return null
-  return LEVEL_UP_COSTS[currentLevel]
+export function levelUpCost(currentLevel: number): number {
+  return LEVEL_UP_COSTS[Math.min(currentLevel, LEVEL_UP_COSTS.length - 1)]
 }
 
 export function levelUpCard(state: CityState, cardName: string): CityState | null {
   const current = getCardLevel(state, cardName)
   const cost    = levelUpCost(current)
-  if (cost === null || state.gold < cost) return null
+  if (state.gold < cost) return null
   return {
     ...state,
     gold:       state.gold - cost,
     cardLevels: { ...state.cardLevels, [cardName]: current + 1 },
-  }
-}
-
-// ── Battle stat bonus helpers ─────────────────────────────────────────────────
-
-export function getCardBonuses(cardName: string): { atk: number; maxHp: number } {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return { atk: 0, maxHp: 0 }
-    const state = JSON.parse(raw) as Partial<CityState>
-    const level = (state.cardLevels ?? {})[cardName] ?? 0
-    return {
-      atk:   level * LEVEL_ATK_BONUS,
-      maxHp: level * LEVEL_MAX_HP_BONUS,
-    }
-  } catch {
-    return { atk: 0, maxHp: 0 }
   }
 }
 
