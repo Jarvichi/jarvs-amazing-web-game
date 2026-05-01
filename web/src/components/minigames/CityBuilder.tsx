@@ -19,8 +19,7 @@ import {
   cityDefense, cityPopulation,
   canAffordPlacement,
   resourceProductionRate, resourceConsumptionRate,
-  getCardLevel, levelUpCost, levelUpCard,
-  LEVEL_UP_COSTS,
+  levelUpCost, levelUpCard, LEVEL_UP_COSTS,
   getBuildingProduces,
   INCOME_SPAWN, INCOME_UTILITY, INCOME_WALL,
 } from '../../game/cityBuilder'
@@ -332,11 +331,10 @@ export function CityBuilder({ onBack }: Props) {
             const mLvl      = masteryLevel(xp)
             const cost      = levelUpCost(mLvl)
             const canAfford = city.gold >= cost
-            const level     = getCardLevel(city, card.name)
             return (
               <button
                 key={card.name}
-                className={`city-level-card${level > 0 ? ' city-level-card--levelled' : ''}`}
+                className={`city-level-card${mLvl > 0 ? ' city-level-card--levelled' : ''}`}
                 onClick={() => { setLevelCard(card.name); setScreen('levelup') }}
               >
                 <SpriteImg name={card.name} className="city-level-card-sprite" />
@@ -357,7 +355,6 @@ export function CityBuilder({ onBack }: Props) {
 
   if (screen === 'levelup' && levelCard !== null) {
     const card     = catalog.find(c => c.name === levelCard)
-    const level    = getCardLevel(city, levelCard)
     const xp       = getMasteryXp(loadCollection(), levelCard)
     const { level: mLvl } = masteryProgress(xp)
     const cost     = levelUpCost(mLvl)
@@ -380,13 +377,13 @@ export function CityBuilder({ onBack }: Props) {
           </div>
           <div className="city-level-costs-table">
             {LEVEL_UP_COSTS.map((c, i) => (
-              <div key={i} className={`city-cost-row${i < level ? ' city-cost-row--done' : ''}`}>
-                <span>Upgrade {i + 1}</span>
+              <div key={i} className={`city-cost-row${i < mLvl ? ' city-cost-row--done' : ''}`}>
+                <span>★{i} → ★{i + 1}</span>
                 <span>⚙ {c.toLocaleString()}</span>
               </div>
             ))}
-            <div className={`city-cost-row${level >= LEVEL_UP_COSTS.length ? ' city-cost-row--done' : ''}`}>
-              <span>Upgrade {LEVEL_UP_COSTS.length + 1}+</span>
+            <div className={`city-cost-row${mLvl >= LEVEL_UP_COSTS.length ? ' city-cost-row--done' : ''}`}>
+              <span>★{LEVEL_UP_COSTS.length}+</span>
               <span>⚙ {LEVEL_UP_COSTS[LEVEL_UP_COSTS.length - 1].toLocaleString()}</span>
             </div>
           </div>
@@ -474,8 +471,8 @@ export function CityBuilder({ onBack }: Props) {
                   <>
                     <SpriteImg name={cell.cardName} className="city-cell-sprite" />
                     <div className="city-cell-name">{cell.cardName}</div>
-                    {getCardLevel(city, cell.cardName) > 0 && (
-                      <div className="city-cell-level">★{getCardLevel(city, cell.cardName)}</div>
+                    {masteryLevel(getMasteryXp(collection, cell.cardName)) > 0 && (
+                      <div className="city-cell-level">★{masteryLevel(getMasteryXp(collection, cell.cardName))}</div>
                     )}
                     {cell.spawnedUnitName && (
                       <div
