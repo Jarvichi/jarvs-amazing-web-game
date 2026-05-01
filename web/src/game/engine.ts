@@ -272,7 +272,7 @@ export function newGame(
     bossCard,
     bossName,
     bossCardActive: false,
-    bossHpMultiplier: bossHpMultiplier ?? (bossCard ? 10 : undefined),
+    bossHpMultiplier: bossHpMultiplier ?? (bossCard ? 25 : undefined),
     bossTraitState: boss ? {
       firedThresholds: [],
       lastTraitFireMs: 0,
@@ -348,7 +348,7 @@ function checkGameOver(s: GameState): boolean {
       s.field.forEach(u => { if (u.owner === 'player') u.x = PLAYER_SPAWN_X })
       const template = getCardUnit(s.bossCard)
       if (template) {
-        const mult = s.bossHpMultiplier ?? 10
+        const mult = s.bossHpMultiplier ?? 25
         const boostedTemplate = { ...template, maxHp: Math.round(template.maxHp * mult) }
         const bossUnit = spawnUnit(boostedTemplate, 'opponent')
         s.field.push(bossUnit)
