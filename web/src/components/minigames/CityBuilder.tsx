@@ -183,14 +183,15 @@ export function CityBuilder({ onBack }: Props) {
   // ── Level up ──────────────────────────────────────────────────────────────────
 
   function handleLevelUp(cardName: string) {
-    const next = levelUpCard(city, cardName)
+    const col = loadCollection()
+    const currentXp = getMasteryXp(col, cardName)
+    const currentLvl = masteryLevel(currentXp)
+
+    const next = levelUpCard(city, cardName, currentLvl)
     if (!next) { showToast('Not enough gold!'); return }
     save(next)
 
     // Grant enough mastery XP to advance the card by exactly one mastery level.
-    const col = loadCollection()
-    const currentXp = getMasteryXp(col, cardName)
-    const currentLvl = masteryLevel(currentXp)
     const xpToGrant = masteryXpForLevel(currentLvl + 1) - currentXp
     const updatedCol = col.map(e =>
       e.cardName === cardName
@@ -327,11 +328,11 @@ export function CityBuilder({ onBack }: Props) {
         </div>
         <div className="city-level-grid">
           {levellable.map(card => {
-            const level     = getCardLevel(city, card.name)
-            const cost      = levelUpCost(level)
-            const canAfford = city.gold >= cost
             const xp        = getMasteryXp(loadCollection(), card.name)
             const mLvl      = masteryLevel(xp)
+            const cost      = levelUpCost(mLvl)
+            const canAfford = city.gold >= cost
+            const level     = getCardLevel(city, card.name)
             return (
               <button
                 key={card.name}
@@ -357,9 +358,9 @@ export function CityBuilder({ onBack }: Props) {
   if (screen === 'levelup' && levelCard !== null) {
     const card     = catalog.find(c => c.name === levelCard)
     const level    = getCardLevel(city, levelCard)
-    const cost     = levelUpCost(level)
     const xp       = getMasteryXp(loadCollection(), levelCard)
     const { level: mLvl } = masteryProgress(xp)
+    const cost     = levelUpCost(mLvl)
     return (
       <div className="city-screen">
         <div className="city-picker-header">
