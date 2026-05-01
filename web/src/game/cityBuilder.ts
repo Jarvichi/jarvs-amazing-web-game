@@ -377,9 +377,9 @@ export function levelUpCost(currentLevel: number): number {
   return LEVEL_UP_COSTS[Math.min(currentLevel, LEVEL_UP_COSTS.length - 1)]
 }
 
-export function levelUpCard(state: CityState, cardName: string): CityState | null {
+export function levelUpCard(state: CityState, cardName: string, masteryLvl: number): CityState | null {
   const current = getCardLevel(state, cardName)
-  const cost    = levelUpCost(current)
+  const cost    = levelUpCost(masteryLvl)
   if (state.gold < cost) return null
   return {
     ...state,
