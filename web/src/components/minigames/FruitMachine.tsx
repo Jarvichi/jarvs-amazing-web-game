@@ -196,8 +196,12 @@ export function FruitMachine({ onDone }: Props) {
   const [winLabel, setWinLabel] = useState<string | null>(null)
   const [cashOutTickets, setCashOutTickets] = useState(0)
   const [availCrystals, setAvailCrystals] = useState(() => loadCrystals())
-  const [featureTriggerCount, setFeatureTriggerCount] = useState(0)
-  const [loserCount, setLoserCount] = useState(0)
+  const [featureTriggerCount, setFeatureTriggerCount] = useState<number>(() => {
+    try { return parseInt(localStorage.getItem('fm_trail') ?? '0', 10) } catch { return 0 }
+  })
+  const [loserCount, setLoserCount] = useState<number>(() => {
+    try { return parseInt(localStorage.getItem('fm_loser') ?? '0', 10) } catch { return 0 }
+  })
   const [grandJackpot, setGrandJackpot] = useState<number>(() => {
     try { return parseInt(localStorage.getItem('fm_grand') ?? '500', 10) } catch { return 500 }
   })
@@ -219,8 +223,8 @@ export function FruitMachine({ onDone }: Props) {
   const spinningRef = useRef<[boolean, boolean, boolean]>([false, false, false])
   const ladderSpinRef = useRef(false)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const featureCountRef = useRef(0)  // mirrors featureTriggerCount for use inside setTimeout
-  const loserCountRef = useRef(0)   // mirrors loserCount for use inside setTimeout
+  const featureCountRef = useRef(featureTriggerCount)
+  const loserCountRef = useRef(loserCount)
   const grandJackpotRef = useRef(grandJackpot)
   const boardPosRef = useRef(boardPos)
   const boardMultRef = useRef(boardMult)
@@ -485,6 +489,7 @@ function regressBoardBy(steps: number) {
         featureCountRef.current = newFeatureCount
       }
       setFeatureTriggerCount(featureCountRef.current)
+      try { localStorage.setItem('fm_trail', String(featureCountRef.current)) } catch (e) { logError('fm_trail save', { error: String(e) }) }
 
       // Apply board multiplier
       const mult = boardMultRef.current
@@ -528,6 +533,7 @@ function regressBoardBy(steps: number) {
         if (newLoserCount >= LOSER_THRESHOLD) {
           loserCountRef.current = 0
           setLoserCount(0)
+          try { localStorage.setItem('fm_loser', '0') } catch (e) { logError('fm_loser reset', { error: String(e) }) }
           boardPosRef.current = LOSER_JUMP_POS
           setBoardPos(LOSER_JUMP_POS)
           try { localStorage.setItem('fm_board_pos', String(LOSER_JUMP_POS)) } catch (e) { logError('fm_board_pos loser jump', { error: String(e) }) }
@@ -536,6 +542,7 @@ function regressBoardBy(steps: number) {
         } else {
           loserCountRef.current = newLoserCount
           setLoserCount(newLoserCount)
+          try { localStorage.setItem('fm_loser', String(newLoserCount)) } catch (e) { logError('fm_loser save', { error: String(e) }) }
           resetBoardToZero()
         }
       } else if (ladderProgress < 0) {
