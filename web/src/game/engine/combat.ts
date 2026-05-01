@@ -182,7 +182,7 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
   if (s.unitReviveHp !== undefined) {
     const dead = s.field.find(u => u.owner === 'player' && u.hp <= 0 && u.moveSpeed > 0)
     if (dead) {
-      dead.hp = s.unitReviveHp === 'half' ? Math.ceil(dead.maxHp / 2) : s.unitReviveHp
+      dead.hp = s.unitReviveHp === 'half' ? Math.ceil(dead.maxHp / 2) : s.unitReviveHp === 'full' ? dead.maxHp : s.unitReviveHp
       s.unitReviveHp = undefined
       log.push(`${dead.name} rises from the dead!`)
     }
