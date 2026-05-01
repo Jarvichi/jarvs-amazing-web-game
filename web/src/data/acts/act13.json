@@ -4,7 +4,7 @@
   "title": "ACT XIII",
   "subtitle": "The Clockwork Vaults",
   "rewardRelic": "Gear Heart",
-  "rewardRelicDesc": "All your units gain +1 ATK when played, and your base gains +1 max HP each battle.",
+  "rewardRelicDesc": "All your units gain +3 ATK and +3 max HP at battle start, and gain an additional +2 ATK whenever any card is played.",
   "environment": "vault",
   "rewardTags": [
     "clockwork",
@@ -43,12 +43,12 @@
   "intro": [
     {
       "title": "THE CLOCKWORK VAULTS",
-      "text": "Deep beneath the shattered earth, the Clockwork Vaults hum with ancient machinery — built before the Fracture by an artificer order that no longer exists.\n\nThe Grand Automaton maintains it all. Has maintained it for two hundred years. No one knows if it was told to stop.",
+      "text": "Deep beneath the shattered earth, the Clockwork Vaults hum with ancient machinery \u2014 built before the Fracture by an artificer order that no longer exists.\n\nThe Grand Automaton maintains it all. Has maintained it for two hundred years. No one knows if it was told to stop.",
       "image": "cutscenes/act13-intro-1.svg"
     },
     {
       "title": "THE GRAND AUTOMATON",
-      "text": "It is not hostile. Hostility implies intent. The Automaton simply optimises — calculating minimum-force resolutions for all threats to vault integrity.\n\nYou are a threat to vault integrity.",
+      "text": "It is not hostile. Hostility implies intent. The Automaton simply optimises \u2014 calculating minimum-force resolutions for all threats to vault integrity.\n\nYou are a threat to vault integrity.",
       "image": "cutscenes/act13-intro-2.svg"
     },
     {
@@ -65,7 +65,7 @@
     },
     {
       "title": "GEAR HEART",
-      "text": "Amid the cooling machinery, you find a small gear-shaped crystal — the Automaton's drive core, still faintly warm.\n\nA fitting trophy. It pulses with each heartbeat.",
+      "text": "Amid the cooling machinery, you find a small gear-shaped crystal \u2014 the Automaton's drive core, still faintly warm.\n\nA fitting trophy. It pulses with each heartbeat.",
       "image": "cutscenes/act13-outro-2.svg"
     },
     {
@@ -357,7 +357,7 @@
       "id": "repair-bay",
       "type": "rest",
       "label": "Salvaged Repair Bay",
-      "description": "Abandoned repair alcove — still functional.",
+      "description": "Abandoned repair alcove \u2014 still functional.",
       "row": 3,
       "col": 3,
       "rowCols": 4,

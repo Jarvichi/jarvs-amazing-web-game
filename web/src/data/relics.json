@@ -47,8 +47,8 @@
   {
     "name": "Golden Compass",
     "icon": "🧭",
-    "desc": "You start each battle with +1 mana.",
-    "effects": [{ "type": "startMana", "amount": 1 }]
+    "desc": "You start each battle with full mana.",
+    "effects": [{ "type": "startMana", "amount": 99 }]
   },
   {
     "name": "Spore Bloom",
@@ -65,28 +65,37 @@
   {
     "name": "Living Bark",
     "icon": "🌿",
-    "desc": "Your base gains +15 max HP at the start of every battle.",
-    "effects": [{ "type": "baseHp", "amount": 15 }]
+    "desc": "Your base gains +25 max HP and all your units gain +4 max HP at the start of every battle.",
+    "effects": [
+      { "type": "baseHp", "amount": 25 },
+      { "type": "unitHp", "amount": 4 }
+    ]
   },
   {
     "name": "Salvage Hook",
     "icon": "🪝",
-    "desc": "Once per battle, one of your destroyed units is revived at 1 HP.",
-    "effects": [{ "type": "unitRevive", "hp": 1 }]
+    "desc": "Once per battle, one of your destroyed units is revived at full HP.",
+    "effects": [{ "type": "unitRevive", "hp": "full" }]
   },
   {
     "name": "Gear Heart",
     "icon": "⚙️",
-    "desc": "All your units gain +1 ATK when played, and your base gains +1 max HP at battle start.",
+    "desc": "All your units gain +3 ATK and +3 max HP at battle start, and gain an additional +2 ATK whenever any card is played.",
     "effects": [
-      { "type": "onPlayAtk", "amount": 1 },
-      { "type": "baseHp", "amount": 1 }
+      { "type": "unitAtk", "amount": 3 },
+      { "type": "unitHp", "amount": 3 },
+      { "type": "onPlayAtk", "amount": 2 }
     ]
   },
   {
     "name": "Worldmender's Crest",
     "icon": "🌐",
-    "desc": "Your base gains +5 max HP at the start of every battle.",
-    "effects": [{ "type": "baseHp", "amount": 5 }]
+    "desc": "The mark of the Worldmender. Your base gains +30 max HP, all units gain +6 ATK and +8 max HP, and your maximum mana is increased by 2.",
+    "effects": [
+      { "type": "baseHp", "amount": 30 },
+      { "type": "unitAtk", "amount": 6 },
+      { "type": "unitHp", "amount": 8 },
+      { "type": "maxMana", "amount": 2 }
+    ]
   }
 ]

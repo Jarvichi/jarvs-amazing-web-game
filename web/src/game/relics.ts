@@ -15,7 +15,7 @@ export type RelicEffect =
   | { type: 'unitHp';     amount: number }
   | { type: 'maxMana';    amount: number }
   | { type: 'startMana';  amount: number }
-  | { type: 'unitRevive'; hp: 'half' | number }
+  | { type: 'unitRevive'; hp: 'half' | 'full' | number }
   | { type: 'tickHeal';   amount: number; intervalMs: number }
   | { type: 'onPlayAtk';  amount: number }
 
