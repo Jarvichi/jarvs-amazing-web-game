@@ -25,6 +25,7 @@ import {
   publishGrandJackpotWin,
 } from '../../game/fruitMachineJackpot'
 import { loadPlayerName } from '../../game/questline'
+import { LedScroller } from '../LedScroller'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -742,6 +743,11 @@ function regressBoardBy(steps: number) {
       {boardMessage && <div className="fm-board-message">{boardMessage}</div>}
       {boardMult > 1 && <div className="fm-board-mult-banner">×{boardMult} multiplier active!</div>}
       {freeSpin && <div className="fm-board-free-spin">FREE SPIN ready!</div>}
+
+        <LedScroller message={
+boardMessage ? boardMessage : freeSpin ? 'FREE SPIN ready!' : boardMult > 1 ? `×${boardMult} multiplier active!` : lastWin !== null && totalWin > 0 ? winLabel ?? `+${totalWin} credits!` : lastWin === 0 ? 'No win' : ''
+
+        }></LedScroller>
 
       {/* Reels + trail reel */}
       <div className="fm-reels" >
