@@ -341,7 +341,7 @@ export function FruitMachine({ onDone }: Props) {
     boardPosRef.current = 0
     setBoardPos(0)
     try { localStorage.setItem('fm_board_pos', '0') } catch (e) { logError('fm_board_pos reset', { error: String(e) }) }
-    setBoardMessage('Lose! Back to start')
+    setBoardMessage('Lose! You hit rock bottom!')
     setPhase('idle')
   }
 
