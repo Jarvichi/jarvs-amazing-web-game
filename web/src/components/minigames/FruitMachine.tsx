@@ -22,7 +22,9 @@ import {
   fetchGrandJackpot,
   incrementGrandJackpot,
   claimAndResetGrandJackpot,
+  publishGrandJackpotWin,
 } from '../../game/fruitMachineJackpot'
+import { loadPlayerName } from '../../game/questline'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -327,6 +329,7 @@ export function FruitMachine({ onDone }: Props) {
           setBoardPos(0)
           try { localStorage.setItem('fm_board_pos', '0') } catch (e) { logError('fm_board_pos grand reset', { error: String(e) }) }
           setPhase('jackpot-win')
+          publishGrandJackpotWin(loadPlayerName(), amount)
         })
         break
       }
