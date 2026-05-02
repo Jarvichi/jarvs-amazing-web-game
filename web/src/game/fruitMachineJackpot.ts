@@ -4,10 +4,12 @@
 // claiming the same pot simultaneously.
 
 import {
-  doc, getDoc, setDoc, runTransaction, increment, Timestamp,
+  doc, getDoc, setDoc, runTransaction, increment, Timestamp, collection, addDoc,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import { logError } from '../logger'
+
+const JACKPOT_WINS_COLLECTION = 'jackpotWins'
 
 const JACKPOT_DOC = doc(db, 'globalState', 'fruitMachineJackpot')
 const GRAND_BASE = 500
@@ -63,6 +65,19 @@ export async function claimAndResetGrandJackpot(): Promise<number> {
     const local = localJackpot()
     try { localStorage.setItem(LOCAL_KEY, String(GRAND_BASE)) } catch { /* ignore */ }
     return local
+  }
+}
+
+/** Records a Grand jackpot win in Firestore for display in the news feed. */
+export async function publishGrandJackpotWin(playerName: string, amount: number): Promise<void> {
+  try {
+    await addDoc(collection(db, JACKPOT_WINS_COLLECTION), {
+      playerName,
+      amount,
+      wonAt: Timestamp.now(),
+    })
+  } catch (e) {
+    logError('publishGrandJackpotWin', { error: String(e) })
   }
 }
 

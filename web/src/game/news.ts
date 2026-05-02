@@ -15,7 +15,7 @@
 //   tag:      string  (optional, e.g. "NEW FEATURE", "BUG FIX", "UPDATE", "EVENT")
 //   imageUrl: string  (optional, URL of an image to display in the post)
 
-import { collection, getDocs, doc, setDoc, deleteDoc } from 'firebase/firestore'
+import { collection, getDocs, doc, setDoc, deleteDoc, Timestamp } from 'firebase/firestore'
 import { db } from '../firebase'
 import { logError } from '../logger'
 import newsData from '../data/news.json'
@@ -82,23 +82,47 @@ async function fetchNewsFromFirestore(): Promise<NewsItem[]> {
   return snap.docs.map(d => ({ id: d.id, ...d.data() } as NewsItem))
 }
 
+async function fetchJackpotWinsAsNews(): Promise<NewsItem[]> {
+  const snap = await getDocs(collection(db, 'jackpotWins'))
+  return snap.docs.map(d => {
+    const data = d.data() as { playerName: string; amount: number; wonAt: Timestamp }
+    const date = data.wonAt ? data.wonAt.toDate() : new Date()
+    const dateStr = date.toISOString().split('T')[0]
+    const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    return {
+      id: `jackpot-win-${d.id}`,
+      title: '🎰 Grand Jackpot Won!',
+      body: `${data.playerName} won the Grand Jackpot of ${data.amount} credits at ${timeStr} on ${dateStr}!`,
+      date: dateStr,
+      tag: 'EVENT',
+    } satisfies NewsItem
+  })
+}
+
 // ── Registry ─────────────────────────────────────────────────────────────────
 
 /**
  * Fetch all news: Firestore first, local news.json as fallback.
- * Merges both sources; Firestore items take precedence over local ones.
+ * Also merges jackpot win events from the jackpotWins collection.
+ * Firestore items take precedence over local ones.
  */
 export async function getAllNews(): Promise<NewsItem[]> {
   let remote: NewsItem[] = []
+  let jackpotNews: NewsItem[] = []
   try {
     remote = await fetchNewsFromFirestore()
   } catch (e) {
     logError('fetchNewsFromFirestore failed, using local fallback', { error: String(e) })
   }
+  try {
+    jackpotNews = await fetchJackpotWinsAsNews()
+  } catch (e) {
+    logError('fetchJackpotWinsAsNews failed', { error: String(e) })
+  }
 
   const remoteIds = new Set(remote.map(n => n.id))
   const local = (newsData as NewsItem[]).filter(n => !remoteIds.has(n.id))
-  const all = [...remote, ...local]
+  const all = [...remote, ...jackpotNews, ...local]
   return all.sort((a, b) => b.date.localeCompare(a.date))
 }
 
