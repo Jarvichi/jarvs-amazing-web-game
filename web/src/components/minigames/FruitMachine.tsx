@@ -741,7 +741,7 @@ function regressBoardBy(steps: number) {
 </div>
 
         <LedScroller message={
-boardMessage ? boardMessage : freeSpin ? 'FREE SPIN ready!' : boardMult > 1 ? `×${boardMult} multiplier active!` : lastWin !== null && totalWin > 0 ? winLabel ?? `+${totalWin} credits!` : lastWin === 0 ? 'No win' : ''
+boardMessage ? boardMessage : freeSpin ? 'FREE SPIN ready!' : boardMult > 1 ? `×${boardMult} multiplier active!` : lastWin !== null && totalWin > 0 ? winLabel ?? `+${totalWin} credit${totalWin > 1 ? 's' : ''}!` : lastWin === 0 ? 'No win' : ''
 
         }></LedScroller>
 
