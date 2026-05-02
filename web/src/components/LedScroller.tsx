@@ -263,7 +263,7 @@ function charToLED(theChar: string = ' '): boolean[][] {
     case '+': return [
       [false, false, false, false, false, false, false],
       [false, false, false, true, false, false, false],
-      [false, true, true, true, true, true, false],
+      [true, true, true, true, true, true, true],
       [false, false, false, true, false, false, false],
       [false, false, false, false, false, false, false]]
     case ':': return [
@@ -272,6 +272,13 @@ function charToLED(theChar: string = ' '): boolean[][] {
       [false, false, true, false, false, true, false],
       [false, false, false, false, false, false, false],
       [false, false, false, false, false, false, false]]
+    case '×': return [
+      [false, true, false, false, false, true, false],
+      [false, false, true, false, true, false, false],
+      [false, false, false, true, false, false, false],
+      [false, false, true, false, true, false, false],
+      [false, true, false, false, false, true, false]]
+
     default:
       return [[false, false, false, false, false, false, false]]
   }
