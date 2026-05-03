@@ -25,7 +25,7 @@ import {
   publishGrandJackpotWin,
 } from '../../game/fruitMachineJackpot'
 import { loadPlayerName } from '../../game/questline'
-import { LedScroller } from '../LedScroller'
+import { LedScroller, LedScrollerMessage } from '../LedScroller'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -196,7 +196,6 @@ export function FruitMachine({ onDone }: Props) {
   const [phase, setPhase] = useState<'idle' | 'spinning' | 'board-moving' | 'nudge' | 'bonus' | 'jackpot-win' | 'done'>('idle')
   const [credits, setCredits] = useState(STARTING_CREDITS)
   const [lastWin, setLastWin] = useState<number | null>(null)
-  const [winLabel, setWinLabel] = useState<string | null>(null)
   const [cashOutTickets, setCashOutTickets] = useState(0)
   const [availCrystals, setAvailCrystals] = useState(() => loadCrystals())
   const [featureTriggerCount, setFeatureTriggerCount] = useState<number>(() => {
@@ -294,6 +293,7 @@ export function FruitMachine({ onDone }: Props) {
       }
       case 'nudge':
         pendingBoardNodeRef.current = node
+        setBoardMessage('NUDGES ACTIVE! ')
         setNudgesAvailable(node.value ?? 1)
         setPhase('nudge')
         break
@@ -310,16 +310,19 @@ export function FruitMachine({ onDone }: Props) {
       }
       case 'jackpot-mini':
         setCredits(c => c + JACKPOT_TIERS[0].credits)
+        setBoardMessage(`MINI JACKPOT! +${JACKPOT_TIERS[0].credits} credits!`)
         setJackpotWon({ tier: 'Mini', amount: JACKPOT_TIERS[0].credits })
         setPhase('jackpot-win')
         break
       case 'jackpot-major':
         setCredits(c => c + JACKPOT_TIERS[2].credits)
+        setBoardMessage(`MAJOR JACKPOT! +${JACKPOT_TIERS[2].credits} credits!`)
         setJackpotWon({ tier: 'Major', amount: JACKPOT_TIERS[2].credits })
         setPhase('jackpot-win')
         break
       case 'jackpot-grand': {
         const resetVal = JACKPOT_TIERS[3].base
+        setBoardMessage(`GRAND JACKPOT! +${JACKPOT_TIERS[3].credits} credits!`)
         // Claim via transaction so two simultaneous winners can't both get the full pot
         claimAndResetGrandJackpot().then(amount => {
           grandJackpotRef.current = resetVal
@@ -404,6 +407,7 @@ function regressBoardBy(steps: number) {
   }
 
   function finishNudge() {
+    clearMessages()
     const nudgedReels: [string, string, string] = [
       REEL_STRIP[reelPositions[0]],
       REEL_STRIP[reelPositions[1]],
@@ -415,15 +419,17 @@ function regressBoardBy(steps: number) {
     if (win > 0) {
       setLastWin(win)
       setCredits(c => Math.max(0, c + win))
-      if (winType === 'wild') setWinLabel('🃏 WILD! (nudge)')
-      else if (winType === 'bonus') setWinLabel('💰 BONUS! (nudge)')
-      else setWinLabel(`+${win} credits! (nudge)`)
+      if (winType === 'wild') setBoardMessage(`🃏 WILD! +${win} credits!`)
+      else if (winType === 'bonus') setBoardMessage(`💰 BONUS! +${win} credits! `)
+      else setBoardMessage(`+${win} credits!`)
     }
     setNudgesAvailable(0)
     setPhase('idle')
   }
 
   function spin() {
+    clearMessages()
+
     if (phase !== 'idle' || (credits < 1 && !freeSpin)) return
 
     const nextPositions: [number, number, number] = [
@@ -454,7 +460,6 @@ function regressBoardBy(steps: number) {
     setFreeSpin(false)
     setCredits(c => c - spinCost)
     setLastWin(null)
-    setWinLabel(null)
     setBoardMessage(null)
 
     // Rapidly cycle display for non-held reels and the ladder reel
@@ -509,28 +514,38 @@ function regressBoardBy(steps: number) {
       // After a winning spin, block all holds so the player can't chain wins by holding
       if (totalWin > 0) setRecentlyHeld([true, true, true])
 
+      var boardMsg = ''
+
       if (featureBonus > 0) {
-        setWinLabel(`🌟 FEATURE!${mult > 1 ? ` ×${mult}` : ''} +${totalWin} credits!`)
+        setBoardMessage(`🌟 FEATURE!${mult > 1 ? ` ×${mult}` : ''} +${totalWin} credits!`)
       } else if (winType === 'wild') {
         if( totalWin > 0){
-        setWinLabel(`🃏 WILD!${mult > 1 ? ` ×${mult}` : ''} +${totalWin} credits!`)
+        boardMsg = `🃏 WILD!${mult > 1 ? ` ×${mult}` : ''} +${totalWin} credits!`
 
         } else {
-        setWinLabel(`🃏 WILD!${mult > 1 ? ` ×${mult}` : ''}`)
+        boardMsg = `🃏 WILD!${mult > 1 ? ` ×${mult}` : ''}`
         }
       } else if (winType === 'bonus') {
                 if( totalWin > 0){
-        setWinLabel(`💰 BONUS! +${totalWin} credits!`)
+        boardMsg = `💰 BONUS! +${totalWin} credits!`
 
         } else {
-        setWinLabel('💰 BONUS!')
+        boardMsg = '💰 BONUS!'
         }
       } else if (mult > 1 && totalWin > 0) {
-        setWinLabel(`×${mult} MULTIPLIER! +${totalWin} credits!`)
+        boardMsg = `×${mult} MULTIPLIER! +${totalWin} credits!`
+      } else if (totalWin > 0) {
+        boardMsg = `+${totalWin} credits!`
+      } else {
+        boardMsg = 'No win!'
       }
+
 
       // Trail reel drives board; feature completion adds an extra step
       const featureStep = featureBonus > 0 ? 1 : 0
+      const trailMessage = featureHits > 0 ? `+${featureHits} to TRAIL!` : ''
+      var ladderMessage = ''
+
       const ladderProgress = (nextLadder === '+1' ? 1 : nextLadder === '+2' ? 2 : nextLadder === '-1' ? -1 : nextLadder === '-2' ? -2 : 0) + featureStep
       if (nextLadder === 'Lose') {
         const newLoserCount = loserCountRef.current + 1
@@ -541,7 +556,7 @@ function regressBoardBy(steps: number) {
           boardPosRef.current = LOSER_JUMP_POS
           setBoardPos(LOSER_JUMP_POS)
           try { localStorage.setItem('fm_board_pos', String(LOSER_JUMP_POS)) } catch (e) { logError('fm_board_pos loser jump', { error: String(e) }) }
-          setBoardMessage('L-O-S-E-R complete! Jump to position 35!')
+          ladderMessage=('L-O-S-E-R complete! Jump to position 35!')
           setPhase('idle')
         } else {
           loserCountRef.current = newLoserCount
@@ -550,10 +565,16 @@ function regressBoardBy(steps: number) {
           resetBoardToZero()
         }
       } else if (ladderProgress < 0) {
+        ladderMessage =  `Go Back ${-ladderProgress} step${-ladderProgress > 1 ? 's' : ''}!`
         regressBoardBy(ladderProgress)
-      } else {
+      } else if (ladderProgress > 0) {
+        ladderMessage =  `Advance ${ladderProgress} step${ladderProgress > 1 ? 's' : ''}!`
         advanceBoardBy(ladderProgress)
+      } else {
+        setPhase('idle')
       }
+
+      setBoardMessage(boardMsg + ' ' + trailMessage + ' ' + ladderMessage)
     }, SPIN_DURATION_MS)
   }
 
@@ -580,7 +601,7 @@ function regressBoardBy(steps: number) {
   function finishBonusWithWin(total: number) {
     setCredits(c => c + total)
     setLastWin(total)
-    setWinLabel(`🎁 BONUS! +${total} credits!`)
+    setBoardMessage(`🎁 BONUS! +${total} credits!`)
     setBonusTiles([])
     setBonusPicksLeft(0)
     setPhase('idle')
@@ -696,6 +717,32 @@ function regressBoardBy(steps: number) {
     return [{ idx, node: BOARD_NODES[idx], isCurrent: offset === 0 }]
   })
 
+  // const message = boardMessage ? boardMessage : freeSpin ? 'FREE SPIN ready!' : boardMult > 1 ? `×${boardMult} multiplier active!` : lastWin !== null && totalWin > 0 ? winLabel ?? `+${totalWin} credit${totalWin > 1 ? 's' : ''}!` : lastWin === 0 ? 'No win' : ''
+  const [messages, setMessages] = useState([] as LedScrollerMessage[])
+
+  function publishMessage(newMessage: string) {
+    console.log('Publishing message:', newMessage)
+    setMessages(prev => [...prev, { text: newMessage, id: Date.now().toString() }])
+  }
+
+  function dismissMessage() {
+    setMessages(prev => prev.slice(1))
+  }
+
+  function clearMessages() {
+    setMessages([])
+  }
+
+
+    useEffect(() => {
+    if (boardMessage) {
+      publishMessage(boardMessage)
+    } else {
+      clearMessages()
+    }
+  }, [ boardMessage])
+
+
   return (
     <div className="minigame-screen">
       <div className="minigame-title">🎰 FRUIT MACHINE</div>
@@ -740,27 +787,20 @@ function regressBoardBy(steps: number) {
 {boardPos+1}/{BOARD_NODES.length+1}
 </div>
 
-        <LedScroller message={
-boardMessage ? boardMessage : freeSpin ? 'FREE SPIN ready!' : boardMult > 1 ? `×${boardMult} multiplier active!` : lastWin !== null && totalWin > 0 ? winLabel ?? `+${totalWin} credit${totalWin > 1 ? 's' : ''}!` : lastWin === 0 ? 'No win' : ''
-
-        }></LedScroller>
+        <LedScroller messages={messages}></LedScroller>
 
       {/* Reels + trail reel */}
       <div className="fm-reels" >
         <table style={{ borderCollapse: 'collapse', borderSpacing: '0' }}>
           <thead >
             <td colSpan={3} align='center'>
-                      {lastWin !== null && totalWin > 0 && (
-          <span className="fm-win-flash">
-            {winLabel ?? `+${totalWin} credit${totalWin !== 1 ? 's' : ''}!`}
-          </span>
-        )}
-        {lastWin === 0 && <span className="fm-no-win">No win</span>}
+              &nbsp;
             </td>
             <td className="fm-ladder-reel-label">
-              <div className="fm-ladder-reel-wrap">Trail</div>
+           
             </td>
           </thead>
+          <tbody>
           {/* Up Nudges */}
           <tr>
             {([0, 1, 2] as const).map(i => (
@@ -768,7 +808,7 @@ boardMessage ? boardMessage : freeSpin ? 'FREE SPIN ready!' : boardMult > 1 ? `�
                 <button className="fm-nudge-btn" onClick={() => nudgeReel(i, -1)} disabled={nudgesAvailable <= 0}>▲</button>
               </td>
             ))}
-            <td></td>
+            <td className="fm-ladder-reel-label">    <div className="fm-ladder-reel-wrap">Trail</div></td>
           </tr>
           {/* Main reels with peek symbols above/below */}
           <tr>
@@ -818,6 +858,7 @@ boardMessage ? boardMessage : freeSpin ? 'FREE SPIN ready!' : boardMult > 1 ? `�
             ))}
             <td></td>
           </tr>
+          </tbody>
         </table>
       </div>
 

@@ -5,10 +5,17 @@ const HEIGHT = 7
 const FPS = 30
 
 
+export interface LedScrollerMessage {
+    text: string
+    id: string // unique ID for the message, used to track it across updates
+}
+
 export interface Props {
-  message: string
+  message?: LedScrollerMessage
+  messages?: LedScrollerMessage[] // if set, rotate through these messages instead of the main one
   dotRadius?: number 
   dotPitch?: number
+  colour?: string
 }
 
 // Each entry is an array of columns; each column is HEIGHT booleans (row 0 = top)
@@ -172,15 +179,15 @@ function charToLED(theChar: string = ' '): boolean[][] {
       [true, true, false, false, false, false, true]]
     case '0': return [
       [false, true, true, true, true, true, false],
-      [true, false, false, false, false, true, true],
       [true, false, false, false, true, false, true],
-      [true, true, false, false, false, false, true],
+      [true, false, false, true, false, false, true],
+      [true, false, true, false, false, false, true],
       [false, true, true, true, true, true, false]]
     case '1': return [
       [false, false, false, false, false, false, false],
-      [true, false, false, false, false, true, false],
+      [false, true, false, false, false, false, true],
       [true, true, true, true, true, true, true],
-      [true, false, false, false, false, false, false],
+      [false, false, false, false, false, false, true],
       [false, false, false, false, false, false, false]]
     case '2': return [
       [true, false, false, false, false, true, true],
@@ -214,8 +221,8 @@ function charToLED(theChar: string = ' '): boolean[][] {
       [false, true, false, false, true, true, false]]
     case '7': return [
       [true, false, false, false, false, false, false],
-      [true, false, false, false, false, true, true],
-      [true, false, false, false, true, false, false],
+      [true, false, false, false, false, false, false],
+      [true, false, false, false, true, true, true],
       [true, false, false, true, false, false, false],
       [true, true, true, false, false, false, false]]
     case '8': return [
@@ -225,7 +232,7 @@ function charToLED(theChar: string = ' '): boolean[][] {
       [true, false, false, true, false, false, true],
       [false, true, true, false, true, true, false]]
     case '9': return [
-      [false, true, false, false, true, true, false],
+      [false, true, true, false, false, true, false],
       [true, false, false, true, false, false, true],
       [true, false, false, true, false, false, true],
       [true, false, false, true, false, false, true],
@@ -239,8 +246,8 @@ function charToLED(theChar: string = ' '): boolean[][] {
     case '?': return [
       [false, false, false, false, false, false, false],
       [true, false, false, false, false, false, false],
-      [true, false, false, false, true, true, true],
-      [false, true, false, false, false, false, false],
+      [true, false, false, true, true, false, true],
+      [false, true, false, true, false, false, false],
       [false, false, true, true, false, false, false]]
     case '.': return [
       [false, false, false, false, false, false, false],
@@ -250,9 +257,9 @@ function charToLED(theChar: string = ' '): boolean[][] {
       [false, false, false, false, false, false, false]]
     case ',': return [
       [false, false, false, false, false, false, false],
-      [false, false, false, false, false, false, false],
-      [false, false, false, false, false, true, false],
       [false, false, false, false, false, false, true],
+      [false, false, false, false, false, true, false],
+      [false, false, false, false, false, false, false],
       [false, false, false, false, false, false, false]]
     case '-': return [
       [false, false, false, false, false, false, false],
@@ -278,7 +285,131 @@ function charToLED(theChar: string = ' '): boolean[][] {
       [false, false, false, true, false, false, false],
       [false, false, true, false, true, false, false],
       [false, true, false, false, false, true, false]]
+    case '&': return [
+        [false, true, false, true, true, true, false],
+        [true, false, true, false, false, false, true],
+        [true, false, true, true, false, false, true],
+        [false, true, false, false, true, true, false],
+        [false, false, false, true, false, false, true]]
+    case '(': return [
+              [false, false, false, false, false, false, false],
 
+      [false, false, true, true, true, false, false],
+      [false, true, false, false, false, true, false],
+      [true, false, false, false, false, false, true],
+      [false, false, false, false, false, false, false]]
+    case ')': return [
+      [false, false, false, false, false, false, false],
+      [true, false, false, false, false, false, true],
+      [false, true, false, false, false, true, false],
+      [false, false, true, true, true, false, false],
+      [false, false, false, false, false, false, false]]
+      case '=': return [
+        [false, false, true, false, true, false, false],
+        [false, false, true, false, true, false, false],
+        [false, false, true, false, true, false, false],
+        [false, false, true, false, true, false, false],
+        [false, false, true, false, true, false, false]]
+    case '"': return [
+      [false, false, false, false, false, false, false],
+      [true, true, false, false, false, false, false],
+      [false, false, false, false, false, false, false],
+      [true, true, false, false, false, false, false],
+      [false, false, false, false, false, false, false]]
+    case "'": return [
+      [false, false, false, false, false, false, false],
+      [false, false, false, false, false, false, false],
+      [true, true, false, false, false, false, false],
+      [false, false, false, false, false, false, false],
+      [false, false, false, false, false, false, false]]
+    case '<': return [
+      [false, false, false, true, false, false, false],
+      [false, false, true, false, false, false, false],
+      [false, true, false, false, false, false, false],
+      [false, false, true, false, false, false, false],
+      [false, false, false, true, false, false, false]]
+    case '>': return [
+      [false, false, false, true, false, false, false],
+      [false, false, false, false, true, false, false],
+      [false, false, false, false, false, true, false],
+      [false, false, false, false, true, false, false],
+      [false, false, false, true, false, false, false]]
+      case '/': return [
+        [false, false, false, false, false, true, false],
+        [false, false, false, false, true, false, false],
+        [false, false, false, true, false, false, false],
+        [false, false, true, false, false, false, false],
+        [false, true, false, false, false, false, false]]
+case '🌟': return [
+  [true, false, true, false, false, false, true],
+  [false, false, true, true, true, false, false],
+  [false, true, true, true, false, false, true],
+  [false, false, true, true, true, false, false],
+  [true, false, true, false, false, false, true],
+]
+case '🃏': return [
+  [false, false, false, false, true, false, false],
+  [false, true, false, false, false, true, false],
+  [false, false, false, true, false, true, false],
+  [false, true, false, false, false, true, false],
+  [false, false, false, false, true, false, false],
+]
+case '💰': return [
+  [false, false, true, false, false, true, false],
+  [false, true, false, true, false, true, false],
+  [true, true, true, true, true, true, true],
+  [false, true, false, true, false, true, false],
+  [false, true, false, false, true, false, false],
+]
+case '💎': return [
+  [false, false, true, false, false, false, false],
+  [false, true, true, true, false, false, false],
+  [false, true, true, true, true, false, false],
+  [false, true, true, true, false, false, false],
+  [false, false, true, false, false, false, false],
+]
+case '🍒': return [
+  [false, true, false, false, true, false, false],
+  [true, true, true, false, true, true, false],
+  [true, true, true, true, true, true, false],
+  [false, true, true, true, true, false, false],
+  [false, false, true, false, false, false, false],
+]
+case '🍋': return [
+  [false, false, true, true, true, false, false],
+  [false, true, true, true, true, true, false],
+  [true, true, true, true, true, true, true],
+  [false, true, true, true, true, true, false],
+  [false, false, true, true, true, false, false],
+]
+case '🍊': return [
+  [false, false, true, true, true, false, false],
+  [false, true, true, true, true, true, false],
+  [true, true, true, true, true, true, true],
+  [false, true, true, true, true, true, false],
+  [false, false, true, true, true, false, false],
+]
+case '🍇': return [
+  [false, false, true, true, true, false, false],
+  [false, true, true, true, true, true, false],
+  [false, true, true, true, true, true, false],
+  [false, false, true, true, true, false, false],
+  [false, false, true, false, true, false, false],
+]
+case '⭐': return [
+  [false, false, true, false, false, false, false],
+  [false, false, true, true, true, false, false],
+  [false, true, true, true, false, false, false],
+  [false, false, true, true, true, false, false],
+  [false, false, true, false, false, false, false],
+]
+case '🔔': return [
+  [false, false, false, false, false, true, false],
+  [false, true, true, true, true, true, false],
+  [true, true, true, true, true, true, true],
+  [false, true, true, true, true, true, false],
+  [false, false, false, false, false, true, false],
+]
     default:
       return [[false, false, false, false, false, false, false]]
   }
@@ -293,7 +424,10 @@ function textToLED(theWord: string): boolean[][] {
   return ([] as boolean[][]).concat(...cols)
 }
 
-export function LedScroller({ message, dotRadius = 2.2, dotPitch = dotRadius * 2.5 }: Props) {
+export function LedScroller({ message={
+    text: '',
+    id: ''
+},messages=[], dotRadius = 2.2, dotPitch = dotRadius * 2.5, colour = '#ff8800' }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -304,7 +438,13 @@ export function LedScroller({ message, dotRadius = 2.2, dotPitch = dotRadius * 2
     canvas.height = HEIGHT * dotPitch
     const ctx = canvas.getContext('2d')!
 
-    const messageArray = textToLED(message)
+    const messageArray = textToLED(message?.text || '')
+
+    for (const msg of messages) {
+      const arr = textToLED(msg?.text || '')
+      messageArray.push(...arr, ...charToLED(' ')) // add a gap between messages
+    }
+
     let leftPointer = SCROLLER_LENGTH + 1
     const furthestLeftPoint = -messageArray.length
     let lastTime = 0
@@ -326,7 +466,7 @@ export function LedScroller({ message, dotRadius = 2.2, dotPitch = dotRadius * 2
         const msgCol = col - leftPointer
         for (let row = 0; row < HEIGHT; row++) {
           const on = msgCol >= 0 && msgCol < messageArray.length && messageArray[msgCol][row]
-          ctx.fillStyle = on ? '#ff8800' : '#1f0e00'
+          ctx.fillStyle = on ? colour : '#1f0e00'
           ctx.beginPath()
           ctx.arc(
             col * dotPitch + dotPitch / 2,
@@ -343,7 +483,7 @@ export function LedScroller({ message, dotRadius = 2.2, dotPitch = dotRadius * 2
 
     animId = requestAnimationFrame(draw)
     return () => cancelAnimationFrame(animId)
-  }, [message])
+  }, [message, messages, dotPitch, dotRadius])
 
   return (
     <canvas
