@@ -222,6 +222,8 @@ export function FruitMachine({ onDone }: Props) {
   const [bonusPicksLeft, setBonusPicksLeft] = useState(0)
   const [bonusTotalWin, setBonusTotalWin] = useState(0)
 
+  const [messages, setMessages] = useState([] as LedScrollerMessage[])
+
   const spinningRef = useRef<[boolean, boolean, boolean]>([false, false, false])
   const ladderSpinRef = useRef(false)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -260,6 +262,26 @@ export function FruitMachine({ onDone }: Props) {
       setPhase('done')
     }
   }, [credits, phase])
+
+  function publishMessage(newMessage: string) {
+    setMessages(prev => [...prev, { text: newMessage, id: Date.now().toString() }])
+  }
+
+  function dismissMessage() {
+    setMessages(prev => prev.slice(1))
+  }
+
+  function clearMessages() {
+    setMessages([])
+  }
+
+  useEffect(() => {
+    if (boardMessage) {
+      publishMessage(boardMessage)
+    } else {
+      clearMessages()
+    }
+  }, [boardMessage])
 
   function toggleHold(i: 0 | 1 | 2) {
     if (phase !== 'idle' || recentlyHeld[i]) return
@@ -718,29 +740,6 @@ function regressBoardBy(steps: number) {
   })
 
   // const message = boardMessage ? boardMessage : freeSpin ? 'FREE SPIN ready!' : boardMult > 1 ? `×${boardMult} multiplier active!` : lastWin !== null && totalWin > 0 ? winLabel ?? `+${totalWin} credit${totalWin > 1 ? 's' : ''}!` : lastWin === 0 ? 'No win' : ''
-  const [messages, setMessages] = useState([] as LedScrollerMessage[])
-
-  function publishMessage(newMessage: string) {
-    console.log('Publishing message:', newMessage)
-    setMessages(prev => [...prev, { text: newMessage, id: Date.now().toString() }])
-  }
-
-  function dismissMessage() {
-    setMessages(prev => prev.slice(1))
-  }
-
-  function clearMessages() {
-    setMessages([])
-  }
-
-
-    useEffect(() => {
-    if (boardMessage) {
-      publishMessage(boardMessage)
-    } else {
-      clearMessages()
-    }
-  }, [ boardMessage])
 
 
   return (
