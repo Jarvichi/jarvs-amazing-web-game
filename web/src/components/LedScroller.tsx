@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 const SCROLLER_LENGTH = 60
 const HEIGHT = 7
 const FPS = 30
+const VERTICAL_FPS = 8
 
 
 export interface LedScrollerMessage {
@@ -445,27 +446,39 @@ export function LedScroller({ message={
       messageArray.push(...arr, ...charToLED(' ')) // add a gap between messages
     }
 
+    const fits = messageArray.length <= SCROLLER_LENGTH
+    const startCol = fits ? Math.floor((SCROLLER_LENGTH - messageArray.length) / 2) : 0
+
     let leftPointer = SCROLLER_LENGTH + 1
-    const furthestLeftPoint = -messageArray.length
+    let vertOffset = HEIGHT + 1
     let lastTime = 0
     let animId = 0
 
     function draw(time: number) {
       animId = requestAnimationFrame(draw)
-      if (time - lastTime < 1000 / FPS) return
+      if (time - lastTime < 1000 / (fits ? VERTICAL_FPS : FPS)) return
       lastTime = time
 
-      if (leftPointer === furthestLeftPoint) {
-        leftPointer = SCROLLER_LENGTH + 1
+      if (fits) {
+        if (vertOffset === -HEIGHT) vertOffset = HEIGHT + 1
+      } else {
+        if (leftPointer === -messageArray.length) leftPointer = SCROLLER_LENGTH + 1
       }
 
       ctx.fillStyle = '#0a0500'
       ctx.fillRect(0, 0, canvas!.width, canvas!.height)
 
       for (let col = 0; col < SCROLLER_LENGTH; col++) {
-        const msgCol = col - leftPointer
         for (let row = 0; row < HEIGHT; row++) {
-          const on = msgCol >= 0 && msgCol < messageArray.length && messageArray[msgCol][row]
+          let on: boolean
+          if (fits) {
+            const msgCol = col - startCol
+            const msgRow = row - vertOffset
+            on = msgCol >= 0 && msgCol < messageArray.length && msgRow >= 0 && msgRow < HEIGHT && messageArray[msgCol][msgRow]
+          } else {
+            const msgCol = col - leftPointer
+            on = msgCol >= 0 && msgCol < messageArray.length && messageArray[msgCol][row]
+          }
           ctx.fillStyle = on ? colour : '#1f0e00'
           ctx.beginPath()
           ctx.arc(
@@ -478,7 +491,8 @@ export function LedScroller({ message={
         }
       }
 
-      leftPointer--
+      if (fits) vertOffset--
+      else leftPointer--
     }
 
     animId = requestAnimationFrame(draw)
