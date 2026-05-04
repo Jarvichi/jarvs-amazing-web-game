@@ -438,13 +438,46 @@ function regressBoardBy(steps: number) {
     setReels(nudgedReels)
     setDisplay(nudgedReels)
     const { credits: win, winType } = calcPayout(nudgedReels)
-    if (win > 0) {
-      setLastWin(win)
-      setCredits(c => Math.max(0, c + win))
-      if (winType === 'wild') setBoardMessage(`🃏 WILD! +${win} credits!`)
-      else if (winType === 'bonus') setBoardMessage(`💰 BONUS! +${win} credits! `)
-      else setBoardMessage(`+${win} credits!`)
+    const featureHits = nudgedReels.filter(x => x === FEATURE).length
+
+    let featureBonus = 0
+    const newFeatureCount = featureCountRef.current + featureHits
+    if (featureHits > 0 && newFeatureCount >= FEATURE_THRESHOLD) {
+      featureBonus = FEATURE_BONUS_CREDITS
+      featureCountRef.current = newFeatureCount % FEATURE_THRESHOLD
+    } else {
+      featureCountRef.current = newFeatureCount
     }
+    setFeatureTriggerCount(featureCountRef.current)
+    try { localStorage.setItem('fm_trail', String(featureCountRef.current)) } catch (e) { logError('fm_trail save', { error: String(e) }) }
+
+    const mult = boardMultRef.current
+    const totalWin = (win + featureBonus) * mult
+    if (mult > 1) {
+      boardMultRef.current = 1
+      setBoardMult(1)
+      try { localStorage.setItem('fm_board_mult', '1') } catch (e) { logError('fm_board_mult reset', { error: String(e) }) }
+    }
+
+    if (totalWin > 0) {
+      setLastWin(totalWin)
+      setCredits(c => Math.max(0, c + totalWin))
+    }
+
+    if (featureBonus > 0) {
+      setBoardMessage(`🌟 FEATURE!${mult > 1 ? ` ×${mult}` : ''} +${totalWin} credits!`)
+    } else if (winType === 'wild') {
+      if (totalWin > 0) setBoardMessage(`🃏 WILD!${mult > 1 ? ` ×${mult}` : ''} +${totalWin} credits!`)
+      else setBoardMessage('🃏 WILD!')
+    } else if (winType === 'bonus') {
+      if (totalWin > 0) setBoardMessage(`💰 BONUS! +${totalWin} credits!`)
+      else setBoardMessage('💰 BONUS!')
+    } else if (mult > 1 && totalWin > 0) {
+      setBoardMessage(`×${mult} MULTIPLIER! +${totalWin} credits!`)
+    } else if (totalWin > 0) {
+      setBoardMessage(`+${totalWin} credits!`)
+    }
+
     setNudgesAvailable(0)
     setPhase('idle')
   }
