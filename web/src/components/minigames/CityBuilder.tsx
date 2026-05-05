@@ -364,7 +364,10 @@ export function CityBuilder({ onBack }: Props) {
       return
     }
 
-    const affinityWith = card.unit?.affinity?.withName
+    // For spawners, affinity lives on the spawned unit template, not the structure card itself
+    const affinityWith = isSpawner
+      ? (spawnEffect as { type: 'spawn'; unitTemplate: { affinity?: { withName: string } }; intervalMs: number }).unitTemplate.affinity?.withName
+      : card.unit?.affinity?.withName
 
     const cell: CityCell = {
       cardName: card.name,
