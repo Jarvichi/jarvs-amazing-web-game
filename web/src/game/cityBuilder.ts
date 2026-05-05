@@ -188,6 +188,18 @@ export function saveCityState(state: CityState): void {
   }
 }
 
+// ── Mastery helpers ───────────────────────────────────────────────────────────
+
+/** Resource output multiplier for a building at the given mastery level: 2^level. */
+export function masteryOutputMultiplier(level: number): number {
+  return Math.pow(2, level)
+}
+
+/** How many units a spawner should field: mastery 0 → 1, mastery N → N+1. */
+export function spawnerUnitCount(state: CityState, cardName: string): number {
+  return (state.cardLevels[cardName] ?? 0) + 1
+}
+
 // ── Structure classification ──────────────────────────────────────────────────
 
 export function getStructureKind(cell: CityCell): StructureKind {
@@ -269,15 +281,17 @@ export function tickCity(state: CityState): CityState {
 
     // Resource production (utility/non-spawner buildings that produce resources)
     if (!cell.spawnedUnitName) {
+      const masteryMult = masteryOutputMultiplier(state.cardLevels[cell.cardName] ?? 0)
       const produces = getBuildingProduces(cell.cardName)
       for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
-        if (rate > 0) newResources[res] = (newResources[res] ?? 0) + rate * minutes
+        if (rate > 0) newResources[res] = (newResources[res] ?? 0) + rate * masteryMult * minutes
       }
     }
 
-    // Spawners consume food (wheat)
+    // Spawners consume food (wheat) — more units at higher mastery means more consumption
     if (cell.spawnedUnitName && happy) {
-      const consume = FOOD_CONSUME_RATE[cell.rarity] * minutes
+      const unitCount = spawnerUnitCount(state, cell.cardName)
+      const consume = FOOD_CONSUME_RATE[cell.rarity] * unitCount * minutes
       newResources.wheat = Math.max(0, (newResources.wheat ?? 0) - consume)
     }
   }
@@ -394,9 +408,10 @@ export function resourceProductionRate(state: CityState): Partial<ResourceStock>
   const rates: Partial<ResourceStock> = {}
   for (const cell of state.grid) {
     if (!cell || cell.spawnedUnitName) continue
+    const masteryMult = masteryOutputMultiplier(state.cardLevels[cell.cardName] ?? 0)
     const produces = getBuildingProduces(cell.cardName)
     for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
-      rates[res] = (rates[res] ?? 0) + rate
+      rates[res] = (rates[res] ?? 0) + rate * masteryMult
     }
   }
   return rates
@@ -409,7 +424,8 @@ export function resourceConsumptionRate(state: CityState): Partial<ResourceStock
     if (!cell?.spawnedUnitName) continue
     const happy = (state.happiness[i] ?? 100) > 0
     if (!happy) continue
-    rates.wheat = (rates.wheat ?? 0) + FOOD_CONSUME_RATE[cell.rarity]
+    const unitCount = spawnerUnitCount(state, cell.cardName)
+    rates.wheat = (rates.wheat ?? 0) + FOOD_CONSUME_RATE[cell.rarity] * unitCount
   }
   return rates
 }
