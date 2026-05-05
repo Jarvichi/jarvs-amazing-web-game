@@ -197,6 +197,43 @@ export function playMinigameWrong() {
   node(180, 'square',   t + 0.08, 0.12, 0.22)
 }
 
+export function playShopPurchase() {
+  const t = now()
+  // "Ka-ching": high coin tink + mid register + low resonance
+  node(1200, 'sine',     t,        0.05, 0.32)
+  node(1800, 'sine',     t + 0.02, 0.06, 0.28)
+  node(900,  'triangle', t + 0.05, 0.10, 0.24)
+  node(600,  'sine',     t + 0.10, 0.12, 0.20)
+}
+
+export function playFruitMachineSpin() {
+  const t = now()
+  // Short mechanical click-whirr
+  node(180, 'sawtooth', t,        0.03, 0.18)
+  node(260, 'square',   t + 0.02, 0.03, 0.14)
+  node(140, 'sawtooth', t + 0.05, 0.04, 0.12)
+}
+
+export function playFruitMachineWin() {
+  const t = now()
+  // Punchy ascending win fanfare
+  const melody = [523, 659, 784, 1047, 1318]
+  melody.forEach((f, i) => node(f, 'sine', t + i * 0.09, 0.14, 0.32))
+}
+
+export function playFruitMachineLose() {
+  const t = now()
+  const melody = [440, 370, 294, 220]
+  melody.forEach((f, i) => node(f, 'sawtooth', t + i * 0.12, 0.16, 0.26))
+}
+
+export function playMapFootstep() {
+  const t = now()
+  // Soft thud — low sine click
+  node(120, 'sine',     t,        0.05, 0.22)
+  node(80,  'sawtooth', t + 0.02, 0.04, 0.14)
+}
+
 // ─── Music Engine ─────────────────────────────────────────────────────────────
 // Look-ahead scheduler pattern — runs a setInterval every SCHEDULE_MS and
 // pre-schedules Web Audio notes up to LOOKAHEAD_SEC ahead of playback.
@@ -633,6 +670,8 @@ export type SoundId =
   | 'victory' | 'defeat' | 'battleEvent'
   | 'buttonClick' | 'cardFlip' | 'restHeal' | 'manaGain'
   | 'minigameCorrect' | 'minigameWrong'
+  | 'shopPurchase' | 'fruitMachineSpin' | 'fruitMachineWin' | 'fruitMachineLose'
+  | 'mapFootstep'
 
 const SOUND_MAP: Record<SoundId, () => void> = {
   cardPlay:          playCardPlay,
@@ -651,6 +690,11 @@ const SOUND_MAP: Record<SoundId, () => void> = {
   manaGain:          playManaGain,
   minigameCorrect:   playMinigameCorrect,
   minigameWrong:     playMinigameWrong,
+  shopPurchase:      playShopPurchase,
+  fruitMachineSpin:  playFruitMachineSpin,
+  fruitMachineWin:   playFruitMachineWin,
+  fruitMachineLose:  playFruitMachineLose,
+  mapFootstep:       playMapFootstep,
 }
 
 export function emitSound(id: SoundId): void {

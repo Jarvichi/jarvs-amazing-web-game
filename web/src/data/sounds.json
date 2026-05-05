@@ -15,6 +15,11 @@
     { "id": "restHeal",         "name": "Rest Heal",          "category": "ui",       "description": "Gentle ascending chord at rest-node healing" },
     { "id": "manaGain",         "name": "Mana Gain",          "category": "ui",       "description": "Rising double-tone when mana increases" },
     { "id": "minigameCorrect",  "name": "Minigame Correct",   "category": "minigame", "description": "Bright ping for a correct guess or successful catch" },
-    { "id": "minigameWrong",    "name": "Minigame Wrong",     "category": "minigame", "description": "Low buzz for a wrong guess, mismatch, or bomb" }
+    { "id": "minigameWrong",    "name": "Minigame Wrong",     "category": "minigame", "description": "Low buzz for a wrong guess, mismatch, or bomb" },
+    { "id": "shopPurchase",     "name": "Shop Purchase",      "category": "ui",       "description": "Ka-ching ascending coin tink when buying from a shop or merchant" },
+    { "id": "fruitMachineSpin", "name": "Fruit Machine Spin", "category": "minigame", "description": "Short mechanical click-whirr each time the reels begin spinning" },
+    { "id": "fruitMachineWin",  "name": "Fruit Machine Win",  "category": "minigame", "description": "Punchy ascending fanfare when the fruit machine pays out" },
+    { "id": "fruitMachineLose", "name": "Fruit Machine Lose", "category": "minigame", "description": "Descending sawtooth lament when the fruit machine resets to zero" },
+    { "id": "mapFootstep",      "name": "Map Footstep",       "category": "ui",       "description": "Soft thud when the player avatar begins walking to a new node" }
   ]
 }

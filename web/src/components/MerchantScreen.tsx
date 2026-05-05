@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { emitSound } from '../game/sound'
 import { Card } from '../game/types'
 import { UselessItem } from '../game/dailyLogin'
 import { MERCHANT_PRICES, ConsumableDef } from '../game/questline'
@@ -37,6 +38,7 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
     // Consumables can be bought multiple times
     if (item.kind !== 'consumable' && purchased.has(key)) return
     if (balance < item.price) return
+    emitSound('shopPurchase')
     setBalance(b => b - item.price)
     if (item.kind !== 'consumable') setPurchased(p => new Set([...p, key]))
     onBuy(item)
