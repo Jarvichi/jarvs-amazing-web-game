@@ -317,10 +317,11 @@ export function tickCity(state: CityState): CityState {
     const cell = state.grid[i]
     if (!cell?.spawnedUnitName) continue
 
-    // Affinity is a neighbour requirement: wants the named unit in an adjacent cell
-    const affinityMet = !cell.affinityWith || getNeighbourIndices(i).some(ni => {
+    // Wants affinity unit next door; falls back to same unit type if no affinity defined
+    const wantedNeighbour = cell.affinityWith ?? cell.spawnedUnitName
+    const affinityMet = getNeighbourIndices(i).some(ni => {
       const nc = state.grid[ni]
-      return nc?.spawnedUnitName === cell.affinityWith && (state.happiness[ni] ?? 100) > 0
+      return nc?.spawnedUnitName === wantedNeighbour && (state.happiness[ni] ?? 100) > 0
     })
     const cellTarget  = affinityMet ? baseTarget : 0
 
