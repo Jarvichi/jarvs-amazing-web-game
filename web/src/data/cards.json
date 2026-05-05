@@ -28,7 +28,14 @@
         ],
         "fleeRange": 80
       },
-      "size": "small"
+      "size": "small",
+      "affinity": {
+        "withName": "Archer",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Battle Cry"
+      }
     },
     "archer": {
       "name": "Archer",
@@ -54,6 +61,13 @@
         "guardBase": true,
         "baseGuardRange": 80,
         "engageRange": 170
+      },
+      "affinity": {
+        "withName": "Goblin",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Battle Cry"
       }
     },
     "dragon": {
@@ -318,6 +332,13 @@
         "guardBase": true,
         "baseGuardRange": 90,
         "engageRange": 200
+      },
+      "affinity": {
+        "withName": "Ballista",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Siege Pair"
       }
     },
     "werewolf": {
@@ -934,6 +955,13 @@
         "guardBase": true,
         "baseGuardRange": 80,
         "engageRange": 185
+      },
+      "affinity": {
+        "withName": "Fire Salamander",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Ember Bond"
       }
     },
     "executioner": {
@@ -1026,6 +1054,13 @@
         "guardBase": true,
         "baseGuardRange": 80,
         "engageRange": 165
+      },
+      "affinity": {
+        "withName": "Shadow Stalker",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Shadow Bond"
       }
     },
     "necromancer": {
@@ -1086,7 +1121,14 @@
         "magic"
       ],
       "targetPriority": "walls",
-      "size": "large"
+      "size": "large",
+      "affinity": {
+        "withName": "Behemoth",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Titan Kin"
+      }
     },
     "wyvern": {
       "name": "Wyvern",
@@ -1150,7 +1192,14 @@
         "magic"
       ],
       "targetPriority": "walls",
-      "size": "large"
+      "size": "large",
+      "affinity": {
+        "withName": "Giant",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Titan Kin"
+      }
     },
     "vine-golem": {
       "name": "Vine Golem",
@@ -1203,6 +1252,13 @@
           "large"
         ],
         "fleeRange": 72
+      },
+      "affinity": {
+        "withName": "Mushroom Hulk",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Fungal Swarm"
       }
     },
     "thornbeast": {
@@ -1695,7 +1751,14 @@
         "siege"
       ],
       "size": "large",
-      "targetPriority": "boss"
+      "targetPriority": "boss",
+      "affinity": {
+        "withName": "Mana Wisp",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.2,
+        "label": "Arcane Sync"
+      }
     },
     "mana-wisp": {
       "name": "Mana Wisp",
@@ -1727,6 +1790,13 @@
           "armored"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Arcane Golem",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Arcane Sync"
       }
     },
     "rune-knight": {
@@ -1755,6 +1825,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 175
+      },
+      "affinity": {
+        "withName": "Spellblade",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Arcane Blade"
       }
     },
     "spellblade": {
@@ -1785,6 +1862,13 @@
           "armored"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Rune Knight",
+        "range": 70,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Arcane Blade"
       }
     },
     "crystal-hydra": {
@@ -1815,6 +1899,13 @@
         "guardBase": true,
         "baseGuardRange": 90,
         "engageRange": 190
+      },
+      "affinity": {
+        "withName": "Arcane Golem",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Crystal Resonance"
       }
     },
     "dryad-sentinel": {
@@ -2506,6 +2597,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 175
+      },
+      "affinity": {
+        "withName": "Crystal Hydra",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Prism Guard"
       }
     },
     "shard-familiar": {
@@ -2538,6 +2636,13 @@
           "armored"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Prism Warden",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Shard Bond"
       }
     },
     "reef-crawler": {
@@ -2567,6 +2672,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Coral Guard",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Reef Bond"
       }
     },
     "tide-sprite": {
@@ -2597,6 +2709,13 @@
           "armored"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Tide Caller",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Tidal Chorus"
       }
     },
     "coral-guard": {
@@ -2627,6 +2746,13 @@
           "siege"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Reef Crawler",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Reef Bond"
       }
     },
     "seahorse-lancer": {
@@ -2657,6 +2783,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Reef Warden",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Coral Lance"
       }
     },
     "jellyfish-drifter": {
@@ -2686,6 +2819,13 @@
         "guardBase": true,
         "baseGuardRange": 75,
         "engageRange": 175
+      },
+      "affinity": {
+        "withName": "Anglerfish Lurker",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.2,
+        "label": "Deep Current"
       }
     },
     "eel-striker": {
@@ -2715,6 +2855,13 @@
         "guardBase": true,
         "baseGuardRange": 80,
         "engageRange": 185
+      },
+      "affinity": {
+        "withName": "Reef Shark",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Hunter's Run"
       }
     },
     "reef-shark": {
@@ -2745,6 +2892,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Eel Striker",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Hunter's Run"
       }
     },
     "tide-caller": {
@@ -2772,6 +2926,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 200
+      },
+      "affinity": {
+        "withName": "Tide Sprite",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Tidal Chorus"
       }
     },
     "shipwreck-golem": {
@@ -2798,7 +2959,14 @@
         "siege"
       ],
       "size": "large",
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Wave Brawler",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Wreck Crew"
+      }
     },
     "abyssal-hunter": {
       "name": "Abyssal Hunter",
@@ -2827,6 +2995,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 210
+      },
+      "affinity": {
+        "withName": "Leviathan",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Abyss Bond"
       }
     },
     "tide-dragon": {
@@ -2857,6 +3032,13 @@
         "guardBase": true,
         "baseGuardRange": 100,
         "engageRange": 220
+      },
+      "affinity": {
+        "withName": "Sea Witch",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Sea Pact"
       }
     },
     "leviathan": {
@@ -2884,7 +3066,14 @@
         "siege"
       ],
       "size": "large",
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Abyssal Hunter",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Abyss Bond"
+      }
     },
     "sea-witch": {
       "name": "Sea Witch",
@@ -2911,6 +3100,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 200
+      },
+      "affinity": {
+        "withName": "Tide Dragon",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Sea Pact"
       }
     },
     "crab-shielder": {
@@ -2954,6 +3150,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Jellyfish Drifter",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Deep Current"
       }
     },
     "wind-sprite": {
@@ -2984,6 +3187,13 @@
           "armored"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Air Sprite",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Sky Kin"
       }
     },
     "skyguard": {
@@ -3016,6 +3226,13 @@
           "siege"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Cloud Hawk",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Sky Watch"
       }
     },
     "cloud-hawk": {
@@ -3047,6 +3264,13 @@
           "armored"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Skyguard",
+        "range": 70,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Sky Watch"
       }
     },
     "stormcaller": {
@@ -3077,6 +3301,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 200
+      },
+      "affinity": {
+        "withName": "Thunder Drake",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Storm Pact"
       }
     },
     "lightning-archer": {
@@ -3105,6 +3336,13 @@
         "guardBase": true,
         "baseGuardRange": 90,
         "engageRange": 215
+      },
+      "affinity": {
+        "withName": "Storm Hawk",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Storm Arrow"
       }
     },
     "thunder-drake": {
@@ -3135,6 +3373,13 @@
         "guardBase": true,
         "baseGuardRange": 100,
         "engageRange": 210
+      },
+      "affinity": {
+        "withName": "Stormcaller",
+        "range": 70,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Storm Pact"
       }
     },
     "sky-leviathan": {
@@ -3166,6 +3411,13 @@
         "guardBase": true,
         "baseGuardRange": 110,
         "engageRange": 230
+      },
+      "affinity": {
+        "withName": "Cloudborn Colossus",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Storm Titan"
       }
     },
     "sky-sentinel": {
@@ -3196,6 +3448,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 180
+      },
+      "affinity": {
+        "withName": "Sky Mage",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Heavensguard"
       }
     },
     "zephyr-scout": {
@@ -3227,6 +3486,13 @@
           "armored"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Gale Warden",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Wind Patrol"
       }
     },
     "gale-warden": {
@@ -3256,6 +3522,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 200
+      },
+      "affinity": {
+        "withName": "Zephyr Scout",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Wind Patrol"
       }
     },
     "cloudborn-colossus": {
@@ -3284,7 +3557,14 @@
         "magic"
       ],
       "size": "large",
-      "targetPriority": "boss"
+      "targetPriority": "boss",
+      "affinity": {
+        "withName": "Sky Leviathan",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Storm Titan"
+      }
     },
     "air-sprite": {
       "name": "Air Sprite",
@@ -3314,6 +3594,13 @@
           "armored"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Wind Sprite",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Sky Kin"
       }
     },
     "ember-crawler": {
@@ -3333,6 +3620,13 @@
           "large"
         ],
         "fleeRange": 72
+      },
+      "affinity": {
+        "withName": "Pyroclast Runner",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Ash Trail"
       }
     },
     "cinder-hound": {
@@ -3352,6 +3646,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Ash Stalker",
+        "range": 70,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Pack Hunt"
       }
     },
     "magma-archer": {
@@ -3370,6 +3671,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 205
+      },
+      "affinity": {
+        "withName": "Scorch Bat",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Flame Spotter"
       }
     },
     "scorch-bat": {
@@ -3391,6 +3699,13 @@
           "armored"
         ],
         "fleeRange": 68
+      },
+      "affinity": {
+        "withName": "Magma Archer",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Flame Spotter"
       }
     },
     "ash-stalker": {
@@ -3410,6 +3725,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Cinder Hound",
+        "range": 70,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Pack Hunt"
       }
     },
     "pyroclast-runner": {
@@ -3429,6 +3751,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Ember Crawler",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Ash Trail"
       }
     },
     "fire-salamander": {
@@ -3449,6 +3778,13 @@
           "armored"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Fire Mage",
+        "range": 70,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Ember Bond"
       }
     },
     "cinder-knight": {
@@ -3469,6 +3805,13 @@
           "siege"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Flame Warden",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Blazing Guard"
       }
     },
     "ash-revenant": {
@@ -3489,6 +3832,13 @@
           "armored"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Volcanic Golem",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Ashborn Fury"
       }
     },
     "lava-troll": {
@@ -3503,7 +3853,14 @@
         "ember"
       ],
       "name": "Lava Troll",
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Molten Colossus",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Magma Pact"
+      }
     },
     "ember-wyrm": {
       "attack": 14,
@@ -3518,7 +3875,14 @@
         "ember"
       ],
       "name": "Ember Wyrm",
-      "targetPriority": "boss"
+      "targetPriority": "boss",
+      "affinity": {
+        "withName": "Inferno Drake",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Dragonfire Bond"
+      }
     },
     "flame-warden": {
       "attack": 13,
@@ -3532,7 +3896,14 @@
         "ember"
       ],
       "name": "Flame Warden",
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Cinder Knight",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Blazing Guard"
+      }
     },
     "volcanic-golem": {
       "attack": 16,
@@ -3546,7 +3917,14 @@
         "ember"
       ],
       "name": "Volcanic Golem",
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Ash Revenant",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Ashborn Fury"
+      }
     },
     "inferno-drake": {
       "attack": 18,
@@ -3561,7 +3939,14 @@
         "ember"
       ],
       "name": "Inferno Drake",
-      "targetPriority": "boss"
+      "targetPriority": "boss",
+      "affinity": {
+        "withName": "Ember Wyrm",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Dragonfire Bond"
+      }
     },
     "molten-colossus": {
       "attack": 22,
@@ -3575,7 +3960,14 @@
         "ember"
       ],
       "name": "Molten Colossus",
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Lava Troll",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Magma Pact"
+      }
     },
     "spore-crawler": {
       "name": "Spore Crawler",
@@ -3594,6 +3986,13 @@
           "large"
         ],
         "fleeRange": 72
+      },
+      "affinity": {
+        "withName": "Fungal Shambler",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Mycelium Bond"
       }
     },
     "mycelium-guard": {
@@ -3613,6 +4012,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Mycelium Hulk",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Fungal Wall"
       }
     },
     "spore-archer": {
@@ -3631,6 +4037,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 215
+      },
+      "affinity": {
+        "withName": "Spore Drifter",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Spore Cloud"
       }
     },
     "rot-stalker": {
@@ -3650,6 +4063,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Root Wraith",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Rot Bond"
       }
     },
     "fungal-shambler": {
@@ -3669,6 +4089,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Spore Crawler",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Mycelium Bond"
       }
     },
     "bloom-sprite": {
@@ -3691,6 +4118,13 @@
           "armored"
         ],
         "fleeRange": 68
+      },
+      "affinity": {
+        "withName": "Ancient Sprite",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Sprite Circle"
       }
     },
     "toadstool-knight": {
@@ -3711,6 +4145,13 @@
           "armored"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Mycelium Hulk",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Fungal Guard"
       }
     },
     "mycelium-hulk": {
@@ -3725,7 +4166,14 @@
       "tags": [
         "fungal"
       ],
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Mycelium Guard",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Fungal Wall"
+      }
     },
     "spore-colossus": {
       "name": "Spore Colossus",
@@ -3740,7 +4188,14 @@
         "fungal",
         "spore"
       ],
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Queen Spore",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Spore Sovereign"
+      }
     },
     "bloom-wisp": {
       "name": "Bloom Wisp",
@@ -3760,6 +4215,13 @@
           "large"
         ],
         "fleeRange": 72
+      },
+      "affinity": {
+        "withName": "Bloom Sprite",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Bloom Aura"
       }
     },
     "rot-titan": {
@@ -3774,7 +4236,14 @@
       "tags": [
         "fungal"
       ],
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Queen Spore",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Rot Sovereign"
+      }
     },
     "mycelium-wall": {
       "name": "Mycelium Wall",
@@ -3891,6 +4360,13 @@
           "large"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Rot Stalker",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Rot Bond"
       }
     },
     "queen-spore": {
@@ -3906,7 +4382,14 @@
         "fungal",
         "spore"
       ],
-      "targetPriority": "boss"
+      "targetPriority": "boss",
+      "affinity": {
+        "withName": "Rot Titan",
+        "range": 80,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Rot Sovereign"
+      }
     },
     "frost-crawler": {
       "name": "Frost Crawler",
@@ -3925,6 +4408,13 @@
           "large"
         ],
         "fleeRange": 72
+      },
+      "affinity": {
+        "withName": "Cold Snap",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Frost Pack"
       }
     },
     "ice-shard": {
@@ -3944,6 +4434,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Rime Stalker",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Rime Strike"
       }
     },
     "glacier-guard": {
@@ -3965,6 +4462,13 @@
           "siege"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Frost Archer",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Ice Bulwark"
       }
     },
     "frost-archer": {
@@ -3983,6 +4487,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 210
+      },
+      "affinity": {
+        "withName": "Glacier Guard",
+        "range": 70,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Ice Bulwark"
       }
     },
     "blizzard-runner": {
@@ -4002,6 +4513,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Frost Drake",
+        "range": 70,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Blizzard Pace"
       }
     },
     "ice-wraith": {
@@ -4022,6 +4540,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Frozen Knight",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Glacial Bond"
       }
     },
     "rime-stalker": {
@@ -4041,6 +4566,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Ice Shard",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Rime Strike"
       }
     },
     "frozen-knight": {
@@ -4062,6 +4594,13 @@
           "siege"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Ice Wraith",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Glacial Bond"
       }
     },
     "cold-snap": {
@@ -4082,6 +4621,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Frost Crawler",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Frost Pack"
       }
     },
     "frost-drake": {
@@ -4098,7 +4644,14 @@
         "frost",
         "glacier"
       ],
-      "targetPriority": "boss"
+      "targetPriority": "boss",
+      "affinity": {
+        "withName": "Blizzard Runner",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Blizzard Pace"
+      }
     },
     "glacier-titan": {
       "name": "Glacier Titan",
@@ -4112,7 +4665,14 @@
       "tags": [
         "glacier"
       ],
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Ice Colossus",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Ancient Frost"
+      }
     },
     "ice-colossus": {
       "name": "Ice Colossus",
@@ -4127,7 +4687,14 @@
         "frost",
         "glacier"
       ],
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Glacier Titan",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Ancient Frost"
+      }
     },
     "permafrost-wyrm": {
       "name": "Permafrost Wyrm",
@@ -4141,7 +4708,14 @@
       "tags": [
         "glacier"
       ],
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Frost Drake",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Wyrm Kin"
+      }
     },
     "ice-wall": {
       "name": "Ice Wall",
@@ -4257,6 +4831,13 @@
           "large"
         ],
         "fleeRange": 72
+      },
+      "affinity": {
+        "withName": "Dune Stalker",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Desert Pack"
       }
     },
     "dune-stalker": {
@@ -4276,6 +4857,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Sand Raider",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Desert Pack"
       }
     },
     "desert-archer": {
@@ -4295,6 +4883,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 210
+      },
+      "affinity": {
+        "withName": "Mirage Scout",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Desert Eye"
       }
     },
     "sandstorm-runner": {
@@ -4314,6 +4909,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Mirage Blade",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.35,
+        "label": "Sandstorm Rush"
       }
     },
     "mirage-blade": {
@@ -4335,6 +4937,13 @@
           "armored"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Sandstorm Runner",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Sandstorm Rush"
       }
     },
     "dune-bat": {
@@ -4356,6 +4965,13 @@
           "armored"
         ],
         "fleeRange": 68
+      },
+      "affinity": {
+        "withName": "Sand Raider",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.2,
+        "label": "Night Raid"
       }
     },
     "sand-knight": {
@@ -4376,6 +4992,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Mercenary Captain",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Hired Blade"
       }
     },
     "mercenary-captain": {
@@ -4396,6 +5019,13 @@
           "armored"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Sand Knight",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Hired Blade"
       }
     },
     "mirage-scout": {
@@ -4418,6 +5048,13 @@
           "armored"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Desert Archer",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Desert Eye"
       }
     },
     "sandstorm-shaman": {
@@ -4436,6 +5073,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 210
+      },
+      "affinity": {
+        "withName": "Sand Wyrm",
+        "range": 70,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Summoner's Bond"
       }
     },
     "dune-colossus": {
@@ -4450,7 +5094,14 @@
       "tags": [
         "sand"
       ],
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Dune Stalker",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Dune Warden"
+      }
     },
     "desert-titan": {
       "name": "Desert Titan",
@@ -4465,7 +5116,14 @@
         "sand",
         "mercenary"
       ],
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Sand Wyrm",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Titan Kin"
+      }
     },
     "sand-wyrm": {
       "name": "Sand Wyrm",
@@ -4479,7 +5137,14 @@
       "tags": [
         "sand"
       ],
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Desert Titan",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Titan Kin"
+      }
     },
     "sand-wall": {
       "name": "Sand Wall",
@@ -4596,6 +5261,13 @@
           "siege"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Bark Hound",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Beast Pack"
       }
     },
     "glass-dancer": {
@@ -4615,6 +5287,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 210
+      },
+      "affinity": {
+        "withName": "Ancient Sprite",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Prism Dance"
       }
     },
     "canopy-scout": {
@@ -4644,6 +5323,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Vine Runner",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Forest Flow"
       }
     },
     "vine-runner": {
@@ -4674,6 +5360,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Canopy Scout",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Forest Flow"
       }
     },
     "root-creeper": {
@@ -4705,6 +5398,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 175
+      },
+      "affinity": {
+        "withName": "Root Walker",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Root Network"
       }
     },
     "bark-hound": {
@@ -4736,6 +5436,13 @@
           "armored"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Canopy Archer",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Forest Hunt"
       }
     },
     "ancient-sprite": {
@@ -4768,6 +5475,13 @@
           "armored"
         ],
         "fleeRange": 68
+      },
+      "affinity": {
+        "withName": "Bloom Sprite",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Sprite Circle"
       }
     },
     "elderwood-guard": {
@@ -4798,6 +5512,13 @@
         "guardBase": true,
         "baseGuardRange": 90,
         "engageRange": 185
+      },
+      "affinity": {
+        "withName": "Jungle Stalker",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Jungle Vigil"
       }
     },
     "canopy-archer": {
@@ -4826,6 +5547,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 205
+      },
+      "affinity": {
+        "withName": "Bark Hound",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Forest Hunt"
       }
     },
     "ancient-treant": {
@@ -4855,7 +5583,14 @@
         "fast"
       ],
       "size": "large",
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "The Elder Warden",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Elder Grove"
+      }
     },
     "jungle-stalker": {
       "name": "Jungle Stalker",
@@ -4886,6 +5621,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Elderwood Guard",
+        "range": 70,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Jungle Vigil"
       }
     },
     "spore-drifter": {
@@ -4916,6 +5658,13 @@
         "guardBase": true,
         "baseGuardRange": 80,
         "engageRange": 185
+      },
+      "affinity": {
+        "withName": "Spore Archer",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Spore Cloud"
       }
     },
     "ancient-barracks": {
@@ -5016,7 +5765,14 @@
         "fast"
       ],
       "size": "large",
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Root Creeper",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Root Network"
+      }
     },
     "canopy-drake": {
       "name": "Canopy Drake",
@@ -5046,6 +5802,13 @@
         "guardBase": true,
         "baseGuardRange": 95,
         "engageRange": 195
+      },
+      "affinity": {
+        "withName": "The Elder Warden",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Canopy Bond"
       }
     },
     "vine-colossus": {
@@ -5077,7 +5840,14 @@
         "flying"
       ],
       "size": "large",
-      "targetPriority": "walls"
+      "targetPriority": "walls",
+      "affinity": {
+        "withName": "Vine Golem",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Ancient Growth"
+      }
     },
     "elder-grove": {
       "name": "Elder Grove",
@@ -5132,6 +5902,13 @@
         "guardBase": true,
         "baseGuardRange": 100,
         "engageRange": 220
+      },
+      "affinity": {
+        "withName": "Ancient Treant",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Elder Guardian"
       }
     },
     "shore-scout": {
@@ -5162,6 +5939,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Tide Stalker",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Coastal Patrol"
       }
     },
     "tide-runner": {
@@ -5192,6 +5976,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Coastal Skirmisher",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Tide Rush"
       }
     },
     "salvage-hauler": {
@@ -5223,6 +6014,13 @@
           "siege"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Wreck Diver",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.2,
+        "label": "Deep Salvage"
       }
     },
     "wave-brawler": {
@@ -5252,6 +6050,13 @@
           "large"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Wreck Golem",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Tidal Force"
       }
     },
     "coastal-skirmisher": {
@@ -5281,6 +6086,13 @@
         "guardBase": true,
         "baseGuardRange": 75,
         "engageRange": 155
+      },
+      "affinity": {
+        "withName": "Tide Stalker",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Coastal Raid"
       }
     },
     "wreck-diver": {
@@ -5311,6 +6123,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Salvage Hauler",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Deep Salvage"
       }
     },
     "reef-warden": {
@@ -5341,6 +6160,13 @@
         "guardBase": true,
         "baseGuardRange": 90,
         "engageRange": 185
+      },
+      "affinity": {
+        "withName": "Seahorse Lancer",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Coral Lance"
       }
     },
     "tide-stalker": {
@@ -5372,6 +6198,13 @@
           "large"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Shore Scout",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Coastal Patrol"
       }
     },
     "storm-hawk": {
@@ -5404,6 +6237,13 @@
           "armored"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Lightning Archer",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Storm Arrow"
       }
     },
     "wreck-golem": {
@@ -5432,7 +6272,14 @@
         "magic"
       ],
       "size": "large",
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Wave Brawler",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Tidal Force"
+      }
     },
     "tempest-rider": {
       "name": "Tempest Rider",
@@ -5458,7 +6305,14 @@
         "magic"
       ],
       "size": "medium",
-      "targetPriority": "boss"
+      "targetPriority": "boss",
+      "affinity": {
+        "withName": "Storm Hawk",
+        "range": 70,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Storm Charge"
+      }
     },
     "coast-leviathan": {
       "name": "Coast Leviathan",
@@ -5487,7 +6341,14 @@
         "magic"
       ],
       "size": "large",
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "The Harbormaster",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Harbor Lord"
+      }
     },
     "the-harbormaster": {
       "name": "The Harbormaster",
@@ -5520,6 +6381,13 @@
         "guardBase": true,
         "baseGuardRange": 100,
         "engageRange": 220
+      },
+      "affinity": {
+        "withName": "Coast Leviathan",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Harbor Lord"
       }
     },
     "breakwater-wall": {
@@ -5563,6 +6431,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Cog Runner",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Gear Sync"
       }
     },
     "cog-runner": {
@@ -5593,6 +6468,13 @@
           "large"
         ],
         "fleeRange": 75
+      },
+      "affinity": {
+        "withName": "Gear Scout",
+        "range": 60,
+        "effectType": "moveSpeed",
+        "effectAmount": 1.3,
+        "label": "Gear Sync"
       }
     },
     "brass-sentry": {
@@ -5622,6 +6504,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 175
+      },
+      "affinity": {
+        "withName": "Vault Guardian",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Vault Guard"
       }
     },
     "vault-guardian": {
@@ -5652,6 +6541,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 180
+      },
+      "affinity": {
+        "withName": "Brass Sentry",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 0.8,
+        "label": "Vault Guard"
       }
     },
     "clockwork-archer": {
@@ -5680,6 +6576,13 @@
         "guardBase": true,
         "baseGuardRange": 80,
         "engageRange": 160
+      },
+      "affinity": {
+        "withName": "Vault Drone",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.3,
+        "label": "Precision Array"
       }
     },
     "piston-brawler": {
@@ -5710,6 +6613,13 @@
           "siege"
         ],
         "fleeRange": 65
+      },
+      "affinity": {
+        "withName": "Steam Walker",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Steam Drive"
       }
     },
     "steam-walker": {
@@ -5740,6 +6650,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 175
+      },
+      "affinity": {
+        "withName": "Piston Brawler",
+        "range": 60,
+        "effectType": "damage",
+        "effectAmount": 1.2,
+        "label": "Steam Drive"
       }
     },
     "vault-drone": {
@@ -5771,6 +6688,13 @@
           "large"
         ],
         "fleeRange": 70
+      },
+      "affinity": {
+        "withName": "Clockwork Archer",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Precision Array"
       }
     },
     "drift-net": {
@@ -6011,7 +6935,14 @@
         "magic"
       ],
       "size": "large",
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Clockwork Titan",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Iron Pact"
+      }
     },
     "clockwork-titan": {
       "name": "Clockwork Titan",
@@ -6039,7 +6970,14 @@
         "fast"
       ],
       "size": "large",
-      "targetPriority": "buildings"
+      "targetPriority": "buildings",
+      "affinity": {
+        "withName": "Iron Colossus",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Iron Pact"
+      }
     },
     "the-grand-automaton": {
       "name": "The Grand Automaton",
@@ -6068,7 +7006,14 @@
         "fast"
       ],
       "size": "large",
-      "targetPriority": "boss"
+      "targetPriority": "boss",
+      "affinity": {
+        "withName": "Iron Colossus",
+        "range": 80,
+        "effectType": "damage",
+        "effectAmount": 1.3,
+        "label": "Grand Design"
+      }
     },
     "boss-thornlord": {
       "name": "Thornlord",
@@ -6430,6 +7375,13 @@
           "large"
         ],
         "fleeRange": 72
+      },
+      "affinity": {
+        "withName": "Bat",
+        "range": 60,
+        "effectType": "attackSpeed",
+        "effectAmount": 1.25,
+        "label": "Cave Swarm"
       }
     },
     "sky-mage": {
@@ -6460,6 +7412,13 @@
         "guardBase": true,
         "baseGuardRange": 85,
         "engageRange": 200
+      },
+      "affinity": {
+        "withName": "Sky Sentinel",
+        "range": 70,
+        "effectType": "damage",
+        "effectAmount": 1.25,
+        "label": "Heavensguard"
       }
     },
     "abyssal-crevasse": {
@@ -19341,7 +20300,10 @@
         "moveSpeed": 18,
         "attackRange": 50,
         "attackCooldownMs": 3000,
-        "halfHealthEffect": { "damage": 25, "range": 100 }
+        "halfHealthEffect": {
+          "damage": 25,
+          "range": 100
+        }
       },
       "heroEffect": {
         "type": "buffAttack",
@@ -19366,7 +20328,10 @@
         "moveSpeed": 16,
         "attackRange": 5,
         "attackCooldownMs": 1800,
-        "halfHealthEffect": { "damage": 18, "range": 80 }
+        "halfHealthEffect": {
+          "damage": 18,
+          "range": 80
+        }
       },
       "heroEffect": {
         "type": "buffMaxHp",
@@ -19392,7 +20357,10 @@
         "moveSpeed": 38,
         "attackRange": 55,
         "attackCooldownMs": 2000,
-        "halfHealthEffect": { "damage": 30, "range": 95 }
+        "halfHealthEffect": {
+          "damage": 30,
+          "range": 95
+        }
       },
       "heroEffect": {
         "type": "buffRange",
@@ -19471,7 +20439,10 @@
         "moveSpeed": 12,
         "attackRange": 5,
         "attackCooldownMs": 2200,
-        "halfHealthEffect": { "damage": 15, "range": 75 }
+        "halfHealthEffect": {
+          "damage": 15,
+          "range": 75
+        }
       },
       "heroEffect": {
         "type": "buffHeal",
@@ -19548,14 +20519,20 @@
         "moveSpeed": 20,
         "attackRange": 55,
         "attackCooldownMs": 2200,
-        "onDeathEffect": { "damage": 20, "range": 90 },
-        "tags": ["magic", "ranged"]
+        "onDeathEffect": {
+          "damage": 20,
+          "range": 90
+        },
+        "tags": [
+          "magic",
+          "ranged"
+        ]
       },
       "heroEffect": {
         "type": "buffAttack",
         "amount": 3
       },
-      "description": "HERO: Deploys Rob — a reckless wizard who explodes on death, blasting all nearby enemies! Also grants all units +3 attack.",
+      "description": "HERO: Deploys Rob \u2014 a reckless wizard who explodes on death, blasting all nearby enemies! Also grants all units +3 attack.",
       "lore": "Big smile. Bigger explosions. The glasses are purely decorative."
     },
     {
@@ -19574,14 +20551,20 @@
         "moveSpeed": 13,
         "attackRange": 5,
         "attackCooldownMs": 1900,
-        "onDeathEffect": { "damage": 35, "range": 120 },
-        "tags": ["melee", "large"]
+        "onDeathEffect": {
+          "damage": 35,
+          "range": 120
+        },
+        "tags": [
+          "melee",
+          "large"
+        ]
       },
       "heroEffect": {
         "type": "buffMaxHp",
         "amount": 15
       },
-      "description": "HERO: Deploys the Blast Maiden — a fearless warrior carrying explosives. On death she detonates for massive AoE damage! All units also gain +15 max HP.",
+      "description": "HERO: Deploys the Blast Maiden \u2014 a fearless warrior carrying explosives. On death she detonates for massive AoE damage! All units also gain +15 max HP.",
       "lore": "She doesn't fear death. Death fears the radius."
     },
     {
@@ -19600,14 +20583,20 @@
         "moveSpeed": 18,
         "attackRange": 45,
         "attackCooldownMs": 2000,
-        "teleportAbility": { "cooldownMs": 5500, "distancePx": 130 },
-        "tags": ["ranged", "magic"]
+        "teleportAbility": {
+          "cooldownMs": 5500,
+          "distancePx": 130
+        },
+        "tags": [
+          "ranged",
+          "magic"
+        ]
       },
       "heroEffect": {
         "type": "buffSpeed",
         "amount": 12
       },
-      "description": "HERO: Deploys the Phantom — a spectral archer who teleports forward every 5.5s, bypassing obstacles! All units gain +12 speed.",
+      "description": "HERO: Deploys the Phantom \u2014 a spectral archer who teleports forward every 5.5s, bypassing obstacles! All units gain +12 speed.",
       "lore": "Location is a state of mind. Mind is overrated."
     },
     {
@@ -19627,14 +20616,20 @@
         "moveSpeed": 52,
         "attackRange": 5,
         "attackCooldownMs": 1300,
-        "invisibilityAbility": { "activeMs": 4000, "cooldownMs": 7000 },
-        "tags": ["melee", "fast"]
+        "invisibilityAbility": {
+          "activeMs": 4000,
+          "cooldownMs": 7000
+        },
+        "tags": [
+          "melee",
+          "fast"
+        ]
       },
       "heroEffect": {
         "type": "buffAttackCooldown",
         "amount": -400
       },
-      "description": "HERO: Deploys the Shadow Stalker — a fast melee assassin who vanishes into invisibility periodically, becoming untargetable! All units also gain -400ms attack cooldown.",
+      "description": "HERO: Deploys the Shadow Stalker \u2014 a fast melee assassin who vanishes into invisibility periodically, becoming untargetable! All units also gain -400ms attack cooldown.",
       "lore": "Always watching. Never seen."
     },
     {
@@ -19665,16 +20660,22 @@
             "moveSpeed": 34,
             "attackRange": 5,
             "attackCooldownMs": 1600,
-            "tags": ["undead", "fast"]
+            "tags": [
+              "undead",
+              "fast"
+            ]
           }
         },
-        "tags": ["magic", "ranged"]
+        "tags": [
+          "magic",
+          "ranged"
+        ]
       },
       "heroEffect": {
         "type": "healUnits",
         "amount": 10
       },
-      "description": "HERO: Deploys the Blood Summoner — a dark mage who raises Blood Wraiths from fallen enemies' blood pools every 5s! All units are also healed for 10 HP.",
+      "description": "HERO: Deploys the Blood Summoner \u2014 a dark mage who raises Blood Wraiths from fallen enemies' blood pools every 5s! All units are also healed for 10 HP.",
       "lore": "Blood doesn't lie. It just... gets around."
     },
     {
@@ -19693,14 +20694,22 @@
         "moveSpeed": 10,
         "attackRange": 5,
         "attackCooldownMs": 2200,
-        "unitTrait": { "builderMode": true, "buildIntervalMs": 3000, "buildRepairAmount": 8, "buildCharges": 3 },
-        "tags": ["melee", "slow"]
+        "unitTrait": {
+          "builderMode": true,
+          "buildIntervalMs": 3000,
+          "buildRepairAmount": 8,
+          "buildCharges": 3
+        },
+        "tags": [
+          "melee",
+          "slow"
+        ]
       },
       "heroEffect": {
         "type": "buffMaxHp",
         "amount": 18
       },
-      "description": "HERO: Deploys the Builder — repairs or upgrades a building every 3s (3 charges). After all charges are spent, he sprints to the enemy base avoiding enemies and detonates on the first enemy building he reaches! All units gain +18 max HP.",
+      "description": "HERO: Deploys the Builder \u2014 repairs or upgrades a building every 3s (3 charges). After all charges are spent, he sprints to the enemy base avoiding enemies and detonates on the first enemy building he reaches! All units gain +18 max HP.",
       "lore": "Can fix anything. Given enough time. And lumber."
     }
   ]
