@@ -27,8 +27,8 @@ export const INCOME_WALL: Record<CardRarity, number> = { common: 0, uncommon: 1,
 
 /** Happiness regeneration per minute toward the target value. */
 const HAPPINESS_REGEN = 15
-/** Happiness drain per minute away from target when conditions not met. */
-const HAPPINESS_DRAIN = 10
+/** Happiness drain per minute away from target when conditions not met (~50 min to fully despawn). */
+const HAPPINESS_DRAIN = 2
 
 /** Level-up costs: index = target level (1-based). Beyond the table, the last entry repeats. */
 export const LEVEL_UP_COSTS = [50000, 100000, 250000, 500000, 1000000]
@@ -296,19 +296,31 @@ export function tickCity(state: CityState): CityState {
     }
   }
 
-  // Update happiness toward target based on food and defence
+  // Base happiness target from food and defence (applies to all spawners)
   const foodScore    = Math.min(100, (newResources.wheat / population) * 5)
   const defenseScore = Math.min(100, (defense / population) * 8)
-  const happyTarget  = Math.round(foodScore * 0.6 + defenseScore * 0.4)
+  const baseTarget   = Math.round(foodScore * 0.6 + defenseScore * 0.4)
+
+  // Unit names that are currently alive (happiness > 0) — used for affinity checks
+  const aliveUnitNames = new Set(
+    state.grid
+      .map((c, i) => c?.spawnedUnitName && (newHappy[i] ?? 100) > 0 ? c.spawnedUnitName : null)
+      .filter(Boolean) as string[]
+  )
 
   for (let i = 0; i < state.grid.length; i++) {
     const cell = state.grid[i]
     if (!cell?.spawnedUnitName) continue
+
+    // Affinity is a hard requirement: missing friend → target forced to 0
+    const affinityMet = !cell.affinityWith || aliveUnitNames.has(cell.affinityWith)
+    const cellTarget  = affinityMet ? baseTarget : 0
+
     const current = newHappy[i] ?? 100
-    if (current < happyTarget) {
-      newHappy[i] = Math.min(happyTarget, current + HAPPINESS_REGEN * minutes)
-    } else if (current > happyTarget) {
-      newHappy[i] = Math.max(happyTarget, current - HAPPINESS_DRAIN * minutes)
+    if (current < cellTarget) {
+      newHappy[i] = Math.min(cellTarget, current + HAPPINESS_REGEN * minutes)
+    } else if (current > cellTarget) {
+      newHappy[i] = Math.max(0, current - HAPPINESS_DRAIN * minutes)
     }
   }
 
