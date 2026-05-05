@@ -9431,6 +9431,23 @@ html.light-mode .action-btn {
 .city-req-item--met   { color: #60a060; }
 .city-req-item--unmet { color: #c08080; }
 
+/* ── City Builder — building resident panel ─────────────────────────────── */
+.city-bld-section-title { font-size: 10px; color: #609060; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start; }
+.city-bld-vacant        { font-size: 10px; color: #606060; font-style: italic; }
+.city-bld-resident {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 0;
+  border-top: 1px solid #2a3a2a;
+}
+.city-bld-resident-sprite { width: 24px; height: 24px; image-rendering: pixelated; flex-shrink: 0; }
+.city-bld-resident-info   { display: flex; flex-direction: column; gap: 2px; }
+.city-bld-resident-name   { font-size: 11px; color: #90d090; }
+.city-bld-resident-req    { font-size: 9px; color: #d07070; }
+.city-bld-produces-row    { font-size: 11px; color: #a0d0a0; align-self: flex-start; }
+
 /* Title screen button */
 .title-minigames-btn {
   border-color: #6040a0 !important;

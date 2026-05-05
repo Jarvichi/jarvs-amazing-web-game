@@ -65,6 +65,19 @@ function getUnitRequirements(
   return reqs
 }
 
+// ── Resident name generator ───────────────────────────────────────────────────
+
+const RESIDENT_FIRST_NAMES = [
+  'Bob', 'Grak', 'Mira', 'Thorin', 'Zyx', 'Elda', 'Fang', 'Nix', 'Wren', 'Dusk',
+  'Pip', 'Crux', 'Vale', 'Sorn', 'Brix', 'Holt', 'Vera', 'Kurn', 'Dex', 'Ori',
+  'Sable', 'Flint', 'Rook', 'Ivy', 'Bryn', 'Quill', 'Ash', 'Moss', 'Thorn', 'Lark',
+]
+
+function residentName(unitName: string, cellIndex: number, unitIndex: number): string {
+  const seed = cellIndex * 17 + unitIndex * 31
+  return `${RESIDENT_FIRST_NAMES[seed % RESIDENT_FIRST_NAMES.length]} the ${unitName}`
+}
+
 // ── Walking unit state ────────────────────────────────────────────────────────
 
 const OVERLAY_W = CITY_COLS * CELL_PX
@@ -115,6 +128,7 @@ export function CityBuilder({ onBack }: Props) {
   const [toast, setToast]     = useState<string | null>(null)
   const [walkers, setWalkers] = useState<Walker[]>([])
   const [selectedWalkerCell, setSelectedWalkerCell] = useState<number | null>(null)
+  const [selectedBuildingCell, setSelectedBuildingCell] = useState<number | null>(null)
 
   function showToast(msg: string) {
     setToast(msg)
@@ -189,9 +203,7 @@ export function CityBuilder({ onBack }: Props) {
 
   function handleCellTap(index: number) {
     if (city.grid[index]) {
-      const cell = city.grid[index]!
-      save(removeCard(city, index))
-      showToast(`${cell.cardName} removed.`)
+      setSelectedBuildingCell(index)
     } else {
       setPickerIndex(index)
       setScreen('picker')
@@ -483,6 +495,65 @@ export function CityBuilder({ onBack }: Props) {
         )
       })()}
 
+      {/* Building resident panel */}
+      {selectedBuildingCell !== null && (() => {
+        const cell = city.grid[selectedBuildingCell]
+        if (!cell) return null
+        const happiness  = cell.spawnedUnitName ? (city.happiness[selectedBuildingCell] ?? 100) : 100
+        const unitCount  = cell.spawnedUnitName ? spawnerUnitCount(city, cell.cardName) : 0
+        const moodKey    = happiness === 0 ? 'gone' : happiness < 30 ? 'furious' : happiness < 60 ? 'unsettled' : 'content'
+        const produces   = getBuildingProduces(cell.cardName)
+        const masteryMult = masteryOutputMultiplier(city.cardLevels[cell.cardName] ?? 0)
+        const produceEntries = Object.entries(produces).filter(([, v]) => (v ?? 0) > 0)
+        return (
+          <div className="city-req-overlay" onClick={() => setSelectedBuildingCell(null)}>
+            <div className="city-req-modal" onClick={e => e.stopPropagation()}>
+              <div className="city-req-header">
+                <SpriteImg name={cell.cardName} className="city-req-sprite" />
+                <div className="city-req-name">{cell.cardName}</div>
+              </div>
+              {cell.spawnedUnitName ? (
+                <>
+                  <div className="city-bld-section-title">Residents ({happiness === 0 ? 0 : unitCount})</div>
+                  {happiness === 0 ? (
+                    <div className="city-bld-vacant">Building is vacant — unit left the city</div>
+                  ) : (
+                    Array.from({ length: unitCount }, (_, u) => {
+                      const reqs = getUnitRequirements(cell, city, presentUnitNames)
+                      const unmet = reqs.filter(r => !r.met)
+                      return (
+                        <div key={u} className="city-bld-resident">
+                          <AnimatedSpriteImg name={cell.spawnedUnitName!} frameCount={3} fps={6} className="city-bld-resident-sprite" />
+                          <div className="city-bld-resident-info">
+                            <div className="city-bld-resident-name">{residentName(cell.spawnedUnitName!, selectedBuildingCell, u)}</div>
+                            <div className={`city-req-mood city-req-mood--${moodKey}`}>{rageDescription(happiness)}</div>
+                            {unmet.map((r, i) => (
+                              <div key={i} className="city-bld-resident-req">✗ {r.text}</div>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    })
+                  )}
+                </>
+              ) : produceEntries.length > 0 ? (
+                <>
+                  <div className="city-bld-section-title">Produces</div>
+                  {produceEntries.map(([res, amt]) => (
+                    <div key={res} className="city-bld-produces-row">
+                      +{Math.round((amt as number) * masteryMult)} {RESOURCE_ICONS[res as ResourceType]}/min
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <div className="city-bld-section-title">Defensive structure</div>
+              )}
+              <button className="action-btn" onClick={() => setSelectedBuildingCell(null)}>CLOSE</button>
+            </div>
+          </div>
+        )
+      })()}
+
       {/* Header */}
       <div className="city-header">
         <button className="action-btn" onClick={onBack}>← BACK</button>
@@ -544,7 +615,7 @@ export function CityBuilder({ onBack }: Props) {
                 key={i}
                 className={`city-cell${cell ? ' city-cell--occupied' : ''}`}
                 onClick={() => handleCellTap(i)}
-                title={cell ? `${cell.cardName} — tap to remove` : 'Empty — tap to place'}
+                title={cell ? `${cell.cardName} — tap to inspect` : 'Empty — tap to place'}
               >
                 {cell ? (
                   <>
