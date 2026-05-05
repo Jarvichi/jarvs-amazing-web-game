@@ -1,0 +1,20 @@
+{
+  "sounds": [
+    { "id": "cardPlay",         "name": "Card Play",          "category": "battle",   "description": "Played when any card is placed from hand" },
+    { "id": "unitDeath",        "name": "Unit Death",         "category": "battle",   "description": "Short descending cry when a mobile unit is destroyed" },
+    { "id": "buildingDestroyed","name": "Building Destroyed", "category": "battle",   "description": "Deep crumbling crash when a structure is destroyed" },
+    { "id": "unitAttack",       "name": "Unit Attack",        "category": "battle",   "description": "Quick strike sound when a player unit attacks (throttled)" },
+    { "id": "baseHit",          "name": "Base Hit",           "category": "battle",   "description": "Heavy impact when a unit damages a base" },
+    { "id": "battleStart",      "name": "Battle Start",       "category": "battle",   "description": "Rising 3-note war-horn fanfare at the start of a battle" },
+    { "id": "upgrade",          "name": "Upgrade",            "category": "battle",   "description": "Ascending sparkle when a player structure is upgraded" },
+    { "id": "victory",          "name": "Victory",            "category": "battle",   "description": "Short ascending melody on winning a battle" },
+    { "id": "defeat",           "name": "Defeat",             "category": "battle",   "description": "Descending lament on losing a battle" },
+    { "id": "battleEvent",      "name": "Battle Event",       "category": "battle",   "description": "Dramatic sting when a mid-battle event fires" },
+    { "id": "buttonClick",      "name": "Button Click",       "category": "ui",       "description": "Subtle tick on UI button presses" },
+    { "id": "cardFlip",         "name": "Card Flip",          "category": "ui",       "description": "Soft swish when cards are revealed or flipped" },
+    { "id": "restHeal",         "name": "Rest Heal",          "category": "ui",       "description": "Gentle ascending chord at rest-node healing" },
+    { "id": "manaGain",         "name": "Mana Gain",          "category": "ui",       "description": "Rising double-tone when mana increases" },
+    { "id": "minigameCorrect",  "name": "Minigame Correct",   "category": "minigame", "description": "Bright ping for a correct guess or successful catch" },
+    { "id": "minigameWrong",    "name": "Minigame Wrong",     "category": "minigame", "description": "Low buzz for a wrong guess, mismatch, or bomb" }
+  ]
+}
