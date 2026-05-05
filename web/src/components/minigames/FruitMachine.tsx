@@ -221,6 +221,8 @@ export function FruitMachine({ onDone }: Props) {
   const [bonusTiles, setBonusTiles] = useState<Array<{ value: number; collect: boolean; revealed: boolean }>>([])
   const [bonusPicksLeft, setBonusPicksLeft] = useState(0)
   const [bonusTotalWin, setBonusTotalWin] = useState(0)
+  const [spinCount, setSpinCount] = useState<1 | 5 | 10 | 50>(1)
+  const [autoSpinsLeft, setAutoSpinsLeft] = useState(0)
 
   const [messages, setMessages] = useState([] as LedScrollerMessage[])
 
@@ -233,6 +235,8 @@ export function FruitMachine({ onDone }: Props) {
   const boardPosRef = useRef(boardPos)
   const boardMultRef = useRef(boardMult)
   const pendingBoardNodeRef = useRef<BoardNode | null>(null)
+  const autoSpinsLeftRef = useRef(0)
+  const spinRef = useRef<() => void>(() => {})
 
   // Sync display with reels on first mount
   useEffect(() => {
@@ -262,6 +266,29 @@ export function FruitMachine({ onDone }: Props) {
       setPhase('done')
     }
   }, [credits, phase])
+
+  // Auto-spin: keep spinning when a sequence is running
+  useEffect(() => {
+    if (phase === 'nudge' || phase === 'bonus' || phase === 'jackpot-win') {
+      if (autoSpinsLeftRef.current > 0) {
+        autoSpinsLeftRef.current = 0
+        setAutoSpinsLeft(0)
+      }
+      return
+    }
+    if (phase !== 'idle' || autoSpinsLeftRef.current <= 0) return
+    if (credits < 1 && !freeSpin) {
+      autoSpinsLeftRef.current = 0
+      setAutoSpinsLeft(0)
+      return
+    }
+    const timer = setTimeout(() => {
+      autoSpinsLeftRef.current -= 1
+      setAutoSpinsLeft(autoSpinsLeftRef.current)
+      spinRef.current()
+    }, 400)
+    return () => clearTimeout(timer)
+  }, [phase, credits, freeSpin])
 
   function publishMessage(newMessage: string) {
     setMessages(prev => [...prev, { text: newMessage, id: Date.now().toString() }])
@@ -633,6 +660,21 @@ function regressBoardBy(steps: number) {
     }, SPIN_DURATION_MS)
   }
 
+  spinRef.current = spin
+
+  function startSpin() {
+    if (spinCount > 1) {
+      autoSpinsLeftRef.current = spinCount - 1
+      setAutoSpinsLeft(spinCount - 1)
+    }
+    spin()
+  }
+
+  function stopAutoSpin() {
+    autoSpinsLeftRef.current = 0
+    setAutoSpinsLeft(0)
+  }
+
   function pickBonusTile(idx: number) {
     if (bonusPicksLeft <= 0) return
     const tile = bonusTiles[idx]
@@ -759,7 +801,8 @@ function regressBoardBy(steps: number) {
 
   const isSpinning = phase === 'spinning'
   const isBusy = phase !== 'idle'
-  const canSpin = !isBusy && (credits >= 1 || freeSpin)
+  const isInAutoSpin = autoSpinsLeft > 0
+  const canSpin = !isBusy && !isInAutoSpin && (credits >= 1 || freeSpin)
   const canBuy = phase === 'idle' && credits > 0 && credits < MAX_CREDITS && availCrystals >= BUY_COST
   const totalWin = lastWin ?? 0
 
@@ -899,14 +942,34 @@ function regressBoardBy(steps: number) {
       {phase === 'nudge' && (
         <div className="fm-nudge-banner">NUDGE — {nudgesAvailable} remaining</div>
       )}
+      {isInAutoSpin && (
+        <div className="fm-auto-spin-banner">Auto-spin: {autoSpinsLeft} remaining</div>
+      )}
+      <div className="fm-spin-count-selector">
+        {([1, 5, 10, 50] as const).map(n => (
+          <button
+            key={n}
+            className={`filter-btn filter-btn--gold${spinCount === n ? ' filter-btn--active' : ''}`}
+            onClick={() => setSpinCount(n)}
+            disabled={isBusy || isInAutoSpin}
+          >
+            {n}
+          </button>
+        ))}
+      </div>
       <div className="fm-controls">
         <button
           className="action-btn action-btn--gold"
-          onClick={spin}
+          onClick={startSpin}
           disabled={!canSpin}
         >
-          {freeSpin ? 'FREE SPIN' : 'SPIN (1 credit)'}
+          {freeSpin ? 'FREE SPIN' : spinCount === 1 ? 'SPIN (1 credit)' : `SPIN ×${spinCount} (${spinCount} credits)`}
         </button>
+        {isInAutoSpin && (
+          <button className="action-btn action-btn--danger" onClick={stopAutoSpin}>
+            STOP
+          </button>
+        )}
         {phase === 'nudge' && (
           <button className="action-btn action-btn--gold" onClick={finishNudge}>
             DONE
@@ -915,7 +978,7 @@ function regressBoardBy(steps: number) {
         <button
           className="action-btn"
           onClick={cashOut}
-          disabled={isBusy}
+          disabled={isBusy || isInAutoSpin}
         >
           CASH OUT ({credits * TICKETS_PER_CREDIT} 🎫)
         </button>

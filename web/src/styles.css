@@ -10597,6 +10597,21 @@ html.light-mode .action-btn {
   margin-bottom: 6px;
 }
 
+.fm-auto-spin-banner {
+  text-align: center;
+  font-size: 0.857rem;
+  color: #aabbcc;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.fm-spin-count-selector {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
 /* Nudge UI */
 .fm-nudge-ui {
   display: flex;
