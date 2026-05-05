@@ -16,6 +16,7 @@
 //   Stay (rest) — no board movement
 
 import React, { useState, useRef, useEffect } from 'react'
+import { emitSound } from '../../game/sound'
 import { loadCrystals, saveCrystals } from '../../game/collection'
 import { logError } from '../../logger'
 import {
@@ -390,6 +391,7 @@ export function FruitMachine({ onDone }: Props) {
   }
 
   function resetBoardToZero() {
+    emitSound('fruitMachineLose')
     boardPosRef.current = 0
     setBoardPos(0)
     try { localStorage.setItem('fm_board_pos', '0') } catch (e) { logError('fm_board_pos reset', { error: String(e) }) }
@@ -537,6 +539,7 @@ function regressBoardBy(steps: number) {
     try { localStorage.setItem('fm_grand', String(newGrand)) } catch (e) { logError('fm_grand save', { error: String(e) }) }
     incrementGrandJackpot()
 
+    emitSound('fruitMachineSpin')
     setPhase('spinning')
     const spinCost = freeSpin ? 0 : 1
     setFreeSpin(false)
@@ -593,6 +596,7 @@ function regressBoardBy(steps: number) {
 
       setLastWin(totalWin)
       setCredits(c => Math.max(0, c + totalWin))
+      if (totalWin > 0) emitSound('fruitMachineWin')
       // After a winning spin, block all holds so the player can't chain wins by holding
       if (totalWin > 0) setRecentlyHeld([true, true, true])
 

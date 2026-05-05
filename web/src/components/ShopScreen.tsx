@@ -17,6 +17,7 @@ import {
 import { loadInventory, removeFromInventory } from '../game/dailyLogin'
 import { ALL_CONSUMABLES, addToConsumableStash } from '../game/questline'
 import { saveCrystals } from '../game/collection'
+import { emitSound } from '../game/sound'
 import { SpriteImg } from './SpriteImg'
 import { OverlayScreen } from './OverlayScreen'
 import { getCardCatalog } from '../game/cards'
@@ -149,6 +150,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
       return
     }
     const next = crystals - effectivePrice
+    emitSound('shopPurchase')
     saveCrystals(next)
     onCrystalsChange(next)
     addToConsumableStash(id)
@@ -156,6 +158,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
   function handleBuyPackClick() {
     if (canBuyPack) {
+      emitSound('shopPurchase')
       onBuyCrystalPack(packQty)
     } else {
       incrementAchievementProgress('misc:shop_broke_click')
@@ -166,6 +169,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
     const price = cardPrice(deal)
     if (crystals < price || deal.cardName === '') return
     const next = crystals - price
+    emitSound('shopPurchase')
     onCrystalsChange(next)
     addCardsToCollection([{ cardName: deal.cardName, count: 1 }])
     const updated = { ...shopState, boughtCardNames: [...shopState.boughtCardNames, deal.cardName] }
