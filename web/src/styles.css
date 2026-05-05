@@ -9070,6 +9070,8 @@ html.light-mode .action-btn {
   position: absolute;
   width: 20px;
   height: 20px;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .city-walker-sprite {
@@ -9392,7 +9394,7 @@ html.light-mode .action-btn {
 
 /* ── City Builder — unit requirements modal ─────────────────────────────── */
 .city-req-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.7);
   display: flex;

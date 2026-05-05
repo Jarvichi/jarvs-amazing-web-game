@@ -578,16 +578,11 @@ export function CityBuilder({ onBack }: Props) {
         <div className="city-title">🏙 CITY</div>
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <div className="city-gold-display">⚙ {city.gold.toLocaleString()}</div>
-          <button
-            className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
-            onClick={toggleBulldozer}
-            title={bulldozerMode ? 'Bulldozer mode ON — tap buildings to demolish' : 'Bulldozer mode OFF — tap to toggle'}
-          >🏗 BULLDOZE</button>
           <button className="filter-btn" onClick={() => setScreen('upgrade')}>★ UPGRADES</button>
         </div>
       </div>
 
-      {/* Income summary */}
+      {/* Income summary + bulldozer toggle */}
       <div className="city-income-row">
         <span className="city-income-in">+{incomeRate} gold</span>
         {bulldozerMode
@@ -596,6 +591,11 @@ export function CityBuilder({ onBack }: Props) {
               {netRate >= 0 ? `+${netRate}` : `${netRate}`}/min
             </span>
         }
+        <button
+          className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
+          onClick={toggleBulldozer}
+          title={bulldozerMode ? 'Bulldozer ON — tap to demolish' : 'Toggle bulldozer to demolish buildings'}
+        >🏗{bulldozerMode ? ' ON' : ''}</button>
       </div>
 
       {/* City stats */}
