@@ -440,6 +440,30 @@ export function CityBuilder({ onBack }: Props) {
   // ── Card picker sub-screen ────────────────────────────────────────────────────
 
   if (screen === 'picker') {
+    type PickerGroup = { label: string; cards: typeof availableForPlace }
+    const groups: PickerGroup[] = [
+      {
+        label: 'SPAWNERS',
+        cards: availableForPlace.filter(c => c.unit?.structureEffect?.type === 'spawn'),
+      },
+      {
+        label: 'PRODUCERS',
+        cards: availableForPlace.filter(c => {
+          if (c.unit?.structureEffect?.type === 'spawn') return false
+          const p = getBuildingProduces(c.name)
+          return Object.values(p).some(v => (v ?? 0) > 0)
+        }),
+      },
+      {
+        label: 'DEFENCE',
+        cards: availableForPlace.filter(c => {
+          if (c.unit?.structureEffect?.type === 'spawn') return false
+          const p = getBuildingProduces(c.name)
+          return !Object.values(p).some(v => (v ?? 0) > 0)
+        }),
+      },
+    ].filter(g => g.cards.length > 0)
+
     return (
       <div className="city-screen">
         <div className="city-picker-header">
@@ -449,59 +473,66 @@ export function CityBuilder({ onBack }: Props) {
         {availableForPlace.length === 0 ? (
           <div className="city-picker-empty">No buildings available. Earn more from battles!</div>
         ) : (
-          <div className="city-picker-grid">
-            {availableForPlace.map(card => {
-              const spawnEffect = card.unit?.structureEffect
-              const isSpawner   = spawnEffect?.type === 'spawn'
-              const spawnName   = isSpawner
-                ? (spawnEffect as { type: 'spawn'; unitTemplate: { name: string }; intervalMs: number }).unitTemplate.name
-                : null
-              const affordable  = !isSpawner || canAffordPlacement(city, card.rarity)
-              const cost        = isSpawner ? SPAWNER_PLACE_COST[card.rarity] : null
-              const produces    = !isSpawner ? getBuildingProduces(card.name) : null
-              const masteryMult = !isSpawner ? masteryOutputMultiplier(city.cardLevels[card.name] ?? 0) : 1
-              const producesEntries = produces ? Object.entries(produces).filter(([, v]) => (v ?? 0) > 0) : []
-              const isWall      = !isSpawner && producesEntries.length === 0
-              const incomeRate  = isSpawner
-                ? INCOME_SPAWN[card.rarity]
-                : isWall ? INCOME_WALL[card.rarity] : INCOME_UTILITY[card.rarity]
+          groups.map(group => (
+            <div key={group.label} className="city-picker-section">
+              <div className="city-picker-section-label">{group.label}</div>
+              <div className="city-picker-grid">
+                {group.cards.map(card => {
+                  const spawnEffect = card.unit?.structureEffect
+                  const isSpawner   = spawnEffect?.type === 'spawn'
+                  const spawnName   = isSpawner
+                    ? (spawnEffect as { type: 'spawn'; unitTemplate: { name: string }; intervalMs: number }).unitTemplate.name
+                    : null
+                  const affordable  = !isSpawner || canAffordPlacement(city, card.rarity)
+                  const cost        = isSpawner ? SPAWNER_PLACE_COST[card.rarity] : null
+                  const produces    = !isSpawner ? getBuildingProduces(card.name) : null
+                  const mLvl        = masteryLevel(getMasteryXp(collection, card.name))
+                  const masteryMult = !isSpawner ? masteryOutputMultiplier(city.cardLevels[card.name] ?? 0) : 1
+                  const producesEntries = produces ? Object.entries(produces).filter(([, v]) => (v ?? 0) > 0) : []
+                  const incomeRate  = isSpawner
+                    ? INCOME_SPAWN[card.rarity]
+                    : producesEntries.length === 0 ? INCOME_WALL[card.rarity] : INCOME_UTILITY[card.rarity]
 
-              return (
-                <button
-                  key={card.name}
-                  className={`city-picker-card${!affordable ? ' city-picker-card--unaffordable' : ''}`}
-                  onClick={() => handlePickCard(card)}
-                  disabled={!affordable}
-                >
-                  <SpriteImg name={card.name} className="city-picker-sprite" />
-                  <div className="city-picker-name">{card.name}</div>
-                  <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
-                  {spawnName && (
-                    <div className="city-picker-spawns">
-                      spawns <SpriteImg name={spawnName} className="city-picker-spawn-icon" />
-                    </div>
-                  )}
-                  {cost && (
-                    <div className="city-picker-cost">
-                      {Object.entries(cost).map(([r, amt]) =>
-                        `${RESOURCE_ICONS[r as ResourceType]}${amt}`
-                      ).join(' ')}
-                    </div>
-                  )}
-                  {producesEntries.length > 0 && (
-                    <div className="city-picker-produces">
-                      {producesEntries.map(([r, amt]) =>
-                        `+${Math.round((amt as number) * masteryMult)} ${RESOURCE_ICONS[r as ResourceType]}/min`
-                      ).join(' ')}
-                    </div>
-                  )}
-                  {incomeRate > 0 && (
-                    <div className="city-picker-income">+{incomeRate} 💰/min</div>
-                  )}
-                </button>
-              )
-            })}
-          </div>
+                  return (
+                    <button
+                      key={card.name}
+                      className={`city-picker-card${!affordable ? ' city-picker-card--unaffordable' : ''}`}
+                      onClick={() => handlePickCard(card)}
+                      disabled={!affordable}
+                    >
+                      <SpriteImg name={card.name} className="city-picker-sprite" />
+                      <div className="city-picker-name">{card.name}</div>
+                      <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
+                      {mLvl > 0 && <div className="city-picker-mastery">★{mLvl}</div>}
+                      {spawnName && (
+                        <div className="city-picker-spawns">
+                          <SpriteImg name={spawnName} className="city-picker-spawn-icon" />
+                          <span>{spawnName}</span>
+                        </div>
+                      )}
+                      {cost && (
+                        <div className="city-picker-cost">
+                          {Object.entries(cost).map(([r, amt]) =>
+                            `${RESOURCE_ICONS[r as ResourceType]}${amt}`
+                          ).join(' ')}
+                        </div>
+                      )}
+                      {producesEntries.length > 0 && (
+                        <div className="city-picker-produces">
+                          {producesEntries.map(([r, amt]) =>
+                            `+${Math.round((amt as number) * masteryMult)} ${RESOURCE_ICONS[r as ResourceType]}/min`
+                          ).join(' ')}
+                        </div>
+                      )}
+                      {incomeRate > 0 && (
+                        <div className="city-picker-income">+{incomeRate} 💰/min</div>
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          ))
         )}
       </div>
     )

@@ -9221,6 +9221,21 @@ html.light-mode .action-btn {
 .city-picker-rarity--rare     { color: #4a6aba; }
 .city-picker-rarity--legendary{ color: #c08020; }
 
+.city-picker-section { margin-bottom: 12px; }
+
+.city-picker-section-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #508050;
+  margin-bottom: 6px;
+  padding-left: 2px;
+}
+
+.city-picker-mastery {
+  font-size: 9px;
+  color: #c0a030;
+}
+
 .city-picker-spawns {
   display: flex;
   align-items: center;
