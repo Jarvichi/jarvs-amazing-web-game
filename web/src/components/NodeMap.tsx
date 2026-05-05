@@ -794,13 +794,15 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
     if (!mapInnerEl || !nodeBtn) return
     const target = getRelativeCenter(nodeBtn, mapInnerEl)
 
-    emitSound('mapFootstep')
     setIsWalking(true)
     setAvatarPos(target)  // CSS transition animates the move
     const frameTimer = setInterval(() => setWalkFrame(f => (f % 3) + 1), 175)
+    emitSound('mapFootstep')
+    const stepTimer  = setInterval(() => emitSound('mapFootstep'), 350)
 
     setTimeout(() => {
       clearInterval(frameTimer)
+      clearInterval(stepTimer)
       setWalkFrame(0)
       setIsWalking(false)
       setPeekNode(node)
