@@ -28,6 +28,43 @@ import { MasteryBar } from '../MasteryBar'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
 import { Card } from '../../game/types'
 
+// ── Unit requirement helpers ──────────────────────────────────────────────────
+
+function rageDescription(happiness: number): string {
+  if (happiness === 0)   return 'Left the city'
+  if (happiness < 30)    return 'Furious — leaving soon!'
+  if (happiness < 60)    return 'Unsettled'
+  if (happiness < 90)    return 'A little uneasy'
+  return 'Content'
+}
+
+function getUnitRequirements(
+  cell: CityCell,
+  cityState: CityState,
+  presentNames: Set<string>,
+): { text: string; met: boolean }[] {
+  const reqs: { text: string; met: boolean }[] = []
+
+  if (cell.affinityWith) {
+    reqs.push({
+      text: `Wants a ${cell.affinityWith} in the city`,
+      met: presentNames.has(cell.affinityWith),
+    })
+  }
+
+  const pop = Math.max(cityPopulation(cityState), 1)
+  const foodScore = Math.min(100, (cityState.resources.wheat / pop) * 5)
+  reqs.push({ text: 'Needs adequate food supply', met: foodScore >= 50 })
+
+  const defense = cityDefense(cityState)
+  const defenseScore = Math.min(100, (defense / pop) * 8)
+  if (defense > 0 || defenseScore < 30) {
+    reqs.push({ text: 'Needs city defenses', met: defenseScore >= 50 })
+  }
+
+  return reqs
+}
+
 // ── Walking unit state ────────────────────────────────────────────────────────
 
 const OVERLAY_W = CITY_COLS * CELL_PX
@@ -77,6 +114,7 @@ export function CityBuilder({ onBack }: Props) {
   const [levelCard, setLevelCard]     = useState<string | null>(null)
   const [toast, setToast]     = useState<string | null>(null)
   const [walkers, setWalkers] = useState<Walker[]>([])
+  const [selectedWalkerCell, setSelectedWalkerCell] = useState<number | null>(null)
 
   function showToast(msg: string) {
     setToast(msg)
@@ -416,6 +454,35 @@ export function CityBuilder({ onBack }: Props) {
     <div className="city-screen">
       {toast && <div className="city-toast" role="alert">{toast}</div>}
 
+      {/* Unit requirements modal */}
+      {selectedWalkerCell !== null && (() => {
+        const cell = city.grid[selectedWalkerCell]
+        if (!cell?.spawnedUnitName) return null
+        const happiness = city.happiness[selectedWalkerCell] ?? 100
+        const reqs = getUnitRequirements(cell, city, presentUnitNames)
+        const moodKey = happiness === 0 ? 'gone' : happiness < 30 ? 'furious' : happiness < 60 ? 'unsettled' : 'content'
+        return (
+          <div className="city-req-overlay" onClick={() => setSelectedWalkerCell(null)}>
+            <div className="city-req-modal" onClick={e => e.stopPropagation()}>
+              <div className="city-req-header">
+                <AnimatedSpriteImg name={cell.spawnedUnitName} frameCount={3} fps={6} className="city-req-sprite" />
+                <div className="city-req-name">{cell.spawnedUnitName}</div>
+              </div>
+              <div className={`city-req-mood city-req-mood--${moodKey}`}>{rageDescription(happiness)}</div>
+              <div className="city-req-list">
+                {reqs.map((r, idx) => (
+                  <div key={idx} className={`city-req-item${r.met ? ' city-req-item--met' : ' city-req-item--unmet'}`}>
+                    <span className="city-req-icon">{r.met ? '✓' : '✗'}</span>
+                    {r.text}
+                  </div>
+                ))}
+              </div>
+              <button className="action-btn" onClick={() => setSelectedWalkerCell(null)}>CLOSE</button>
+            </div>
+          </div>
+        )
+      })()}
+
       {/* Header */}
       <div className="city-header">
         <button className="action-btn" onClick={onBack}>← BACK</button>
@@ -507,7 +574,7 @@ export function CityBuilder({ onBack }: Props) {
         </div>
 
         {/* Walking units overlay */}
-        <div className="city-unit-overlay" aria-hidden="true">
+        <div className="city-unit-overlay">
           {walkers.map(w => {
             const happiness   = city.happiness[w.cellIndex] ?? 100
             const rage        = 100 - happiness
@@ -515,8 +582,12 @@ export function CityBuilder({ onBack }: Props) {
             return (
               <div
                 key={`${w.cellIndex}-${w.unitIndex}`}
+                role="button"
+                tabIndex={0}
                 className={`city-walker${rage >= 60 ? ' city-walker--unhappy' : ''}`}
                 style={{ left: Math.round(w.x), top: Math.round(w.y) }}
+                onClick={e => { e.stopPropagation(); setSelectedWalkerCell(w.cellIndex) }}
+                onKeyDown={e => { if (e.key === 'Enter') { e.stopPropagation(); setSelectedWalkerCell(w.cellIndex) } }}
               >
                 {wantsFriend && (
                   <div className="city-speech-bubble" title={`Wants a ${w.affinityWith}!`}>
