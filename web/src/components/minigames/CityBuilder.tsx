@@ -22,6 +22,7 @@ import {
   levelUpCost, levelUpCard, LEVEL_UP_COSTS,
   getBuildingProduces,
   INCOME_SPAWN, INCOME_UTILITY, INCOME_WALL,
+  spawnerUnitCount, masteryOutputMultiplier,
 } from '../../game/cityBuilder'
 import { MasteryBar } from '../MasteryBar'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
@@ -35,8 +36,9 @@ const UNIT_SIZE = 20
 const SPEED     = 0.8 // px per 100 ms tick
 
 interface Walker {
-  cellIndex: number
-  unitName:  string
+  cellIndex:  number
+  unitIndex:  number
+  unitName:   string
   affinityWith?: string
   x:   number
   y:   number
@@ -45,10 +47,11 @@ interface Walker {
   turnTimer: number
 }
 
-function makeWalker(cellIndex: number, unitName: string, affinityWith?: string): Walker {
+function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affinityWith?: string): Walker {
   const angle = Math.random() * Math.PI * 2
   return {
     cellIndex,
+    unitIndex,
     unitName,
     affinityWith,
     x: Math.random() * (OVERLAY_W - UNIT_SIZE),
@@ -93,13 +96,16 @@ export function CityBuilder({ onBack }: Props) {
       for (let i = 0; i < city.grid.length; i++) {
         const cell = city.grid[i]
         if (!cell?.spawnedUnitName) continue
-        const existing = prev.find(w => w.cellIndex === i && w.unitName === cell.spawnedUnitName)
-        next.push(existing ?? makeWalker(i, cell.spawnedUnitName, cell.affinityWith))
+        const count = spawnerUnitCount(city, cell.cardName)
+        for (let u = 0; u < count; u++) {
+          const existing = prev.find(w => w.cellIndex === i && w.unitIndex === u && w.unitName === cell.spawnedUnitName)
+          next.push(existing ?? makeWalker(i, u, cell.spawnedUnitName, cell.affinityWith))
+        }
       }
       return next
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city.grid])
+  }, [city.grid, city.cardLevels])
 
   // ── Animation loop ────────────────────────────────────────────────────────────
 
@@ -263,6 +269,7 @@ export function CityBuilder({ onBack }: Props) {
               const affordable  = !isSpawner || canAffordPlacement(city, card.rarity)
               const cost        = isSpawner ? SPAWNER_PLACE_COST[card.rarity] : null
               const produces    = !isSpawner ? getBuildingProduces(card.name) : null
+              const masteryMult = !isSpawner ? masteryOutputMultiplier(city.cardLevels[card.name] ?? 0) : 1
               const producesEntries = produces ? Object.entries(produces).filter(([, v]) => (v ?? 0) > 0) : []
               const isWall      = !isSpawner && producesEntries.length === 0
               const incomeRate  = isSpawner
@@ -294,7 +301,7 @@ export function CityBuilder({ onBack }: Props) {
                   {producesEntries.length > 0 && (
                     <div className="city-picker-produces">
                       {producesEntries.map(([r, amt]) =>
-                        `+${amt} ${RESOURCE_ICONS[r as ResourceType]}/min`
+                        `+${Math.round((amt as number) * masteryMult)} ${RESOURCE_ICONS[r as ResourceType]}/min`
                       ).join(' ')}
                     </div>
                   )}
@@ -500,7 +507,7 @@ export function CityBuilder({ onBack }: Props) {
             const wantsFriend  = w.affinityWith && !presentUnitNames.has(w.affinityWith)
             return (
               <div
-                key={w.cellIndex}
+                key={`${w.cellIndex}-${w.unitIndex}`}
                 className={`city-walker${happiness === 0 ? ' city-walker--unhappy' : ''}`}
                 style={{ left: Math.round(w.x), top: Math.round(w.y) }}
               >
