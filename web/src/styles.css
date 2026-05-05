@@ -9431,6 +9431,19 @@ html.light-mode .action-btn {
 .city-req-item--met   { color: #60a060; }
 .city-req-item--unmet { color: #c08080; }
 
+/* ── City Builder — bulldozer mode ─────────────────────────────────────── */
+.city-bulldozer-btn--active {
+  border-color: #a03020 !important;
+  color: #e06040 !important;
+  background: rgba(160,48,32,0.15) !important;
+}
+.city-cell--bulldoze {
+  border-color: #a03020 !important;
+  background: rgba(160,48,32,0.2) !important;
+}
+.city-cell--bulldoze:hover { background: rgba(160,48,32,0.4) !important; }
+.city-bulldozer-paused { font-size: 10px; color: #e06040; letter-spacing: 1px; }
+
 /* ── City Builder — building resident panel ─────────────────────────────── */
 .city-bld-section-title { font-size: 10px; color: #609060; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start; }
 .city-bld-vacant        { font-size: 10px; color: #606060; font-style: italic; }
