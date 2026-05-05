@@ -83,6 +83,108 @@ function residentName(unitName: string, cellIndex: number, unitIndex: number): s
   return `${RESIDENT_FIRST_NAMES[seed % RESIDENT_FIRST_NAMES.length]} the ${unitName}`
 }
 
+// ── Resident thought lines ────────────────────────────────────────────────────
+
+const HAPPY_THOUGHTS = [
+  'Lovely day in the city!',
+  'I feel right at home here.',
+  'Things couldn\'t be better.',
+  'This is a fine place to live.',
+  'I\'m quite content, all things considered.',
+]
+
+const FOOD_THOUGHTS = [
+  'I\'m absolutely starving!',
+  'When\'s the next harvest?',
+  'My stomach is growling...',
+  'Could really go for a meal right now.',
+]
+
+const DEFENCE_THOUGHTS = [
+  'Those walls look rather thin.',
+  'I don\'t feel very safe around here.',
+  'Has anyone seen the guards?',
+  'I sleep with one eye open.',
+]
+
+const AFFINITY_THOUGHTS = (wanted: string) => [
+  `I really wish there was a ${wanted} next door.`,
+  `A ${wanted} neighbour would make all the difference.`,
+  `No ${wanted} nearby — I can\'t settle like this.`,
+]
+
+const LEAVING_THOUGHTS = [
+  'I\'ve had enough. I\'m leaving.',
+  'That\'s it — I\'m packing my bags.',
+  'This city doesn\'t deserve me.',
+]
+
+interface ResidentThought {
+  name: string
+  unitName: string
+  thought: string
+  happy: boolean
+}
+
+function buildResidentThoughts(
+  city: CityState,
+  population: number,
+): ResidentThought[] {
+  const thoughts: ResidentThought[] = []
+  const pop = Math.max(population, 1)
+  const foodScore    = Math.min(100, (city.resources.wheat / pop) * 5)
+  const defenseScore = Math.min(100, (cityDefense(city) / pop) * 8)
+
+  for (let i = 0; i < city.grid.length; i++) {
+    const cell = city.grid[i]
+    if (!cell?.spawnedUnitName) continue
+    const happiness = city.happiness[i] ?? 100
+    const count = spawnerUnitCount(city, cell.cardName)
+
+    for (let u = 0; u < count; u++) {
+      const name = residentName(cell.spawnedUnitName, i, u)
+      const seed = (i * 17 + u * 31 + Math.floor(Date.now() / 15_000)) % 1000
+
+      let thought: string
+      let happy = true
+
+      if (happiness === 0) {
+        thought = LEAVING_THOUGHTS[seed % LEAVING_THOUGHTS.length]
+        happy = false
+      } else if (cell.affinityWith) {
+        const neighbourMet = getNeighbourIndices(i).some(ni => {
+          const nc = city.grid[ni]
+          return nc?.spawnedUnitName === cell.affinityWith && (city.happiness[ni] ?? 100) > 0
+        })
+        if (!neighbourMet) {
+          const lines = AFFINITY_THOUGHTS(cell.affinityWith)
+          thought = lines[seed % lines.length]
+          happy = false
+        } else if (foodScore < 50) {
+          thought = FOOD_THOUGHTS[seed % FOOD_THOUGHTS.length]
+          happy = false
+        } else if (defenseScore < 50) {
+          thought = DEFENCE_THOUGHTS[seed % DEFENCE_THOUGHTS.length]
+          happy = false
+        } else {
+          thought = HAPPY_THOUGHTS[seed % HAPPY_THOUGHTS.length]
+        }
+      } else if (foodScore < 50) {
+        thought = FOOD_THOUGHTS[seed % FOOD_THOUGHTS.length]
+        happy = false
+      } else if (defenseScore < 50) {
+        thought = DEFENCE_THOUGHTS[seed % DEFENCE_THOUGHTS.length]
+        happy = false
+      } else {
+        thought = HAPPY_THOUGHTS[seed % HAPPY_THOUGHTS.length]
+      }
+
+      thoughts.push({ name, unitName: cell.spawnedUnitName, thought, happy })
+    }
+  }
+  return thoughts
+}
+
 // ── Walking unit state ────────────────────────────────────────────────────────
 
 const OVERLAY_W = CITY_COLS * CELL_PX
@@ -136,6 +238,7 @@ export function CityBuilder({ onBack }: Props) {
   const [selectedBuildingCell, setSelectedBuildingCell] = useState<number | null>(null)
   const [bulldozerMode, setBulldozerMode] = useState(false)
   const bulldozerRef = useRef(false)
+  const [residentThoughts, setResidentThoughts] = useState<ResidentThought[]>([])
 
   function showToast(msg: string) {
     setToast(msg)
@@ -207,6 +310,20 @@ export function CityBuilder({ onBack }: Props) {
         return next
       })
     }, 10_000)
+    return () => clearInterval(id)
+  }, [])
+
+  // ── Resident thoughts (rebuild every 15 s and on city change) ────────────────
+
+  useEffect(() => {
+    setResidentThoughts(buildResidentThoughts(city, cityPopulation(city)))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city])
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCity(prev => { setResidentThoughts(buildResidentThoughts(prev, cityPopulation(prev))); return prev })
+    }, 15_000)
     return () => clearInterval(id)
   }, [])
 
@@ -704,6 +821,20 @@ export function CityBuilder({ onBack }: Props) {
           })}
         </div>
       </div>
+
+      {/* Resident thoughts feed */}
+      {residentThoughts.length > 0 && (
+        <div className="city-thoughts">
+          <div className="city-thoughts-title">RESIDENT THOUGHTS</div>
+          {residentThoughts.map((t, idx) => (
+            <div key={idx} className={`city-thought-row${t.happy ? ' city-thought-row--happy' : ' city-thought-row--unhappy'}`}>
+              <AnimatedSpriteImg name={t.unitName} frameCount={3} fps={6} className="city-thought-sprite" />
+              <span className="city-thought-name">{t.name}:</span>
+              <span className="city-thought-text">"{t.thought}"</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

@@ -9096,6 +9096,39 @@ html.light-mode .action-btn {
   line-height: 1;
 }
 
+/* ── Resident thoughts feed ──────────────────────────────────────────────── */
+.city-thoughts {
+  margin-top: 8px;
+  padding: 6px 8px;
+  border: 1px solid #1a3a1a;
+  background: #040a04;
+  font-family: monospace;
+  font-size: 11px;
+}
+.city-thoughts-title {
+  color: #508050;
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.city-thought-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+  border-bottom: 1px solid #0d1f0d;
+}
+.city-thought-row:last-child { border-bottom: none; }
+.city-thought-sprite { width: 16px; height: 16px; image-rendering: pixelated; flex-shrink: 0; }
+.city-thought-name {
+  color: #80b080;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.city-thought-text { color: #a0c0a0; font-style: italic; }
+.city-thought-row--unhappy .city-thought-name { color: #c07050; }
+.city-thought-row--unhappy .city-thought-text { color: #b08060; }
+
 /* ── Misc city UI ─────────────────────────────────────────────────────────── */
 
 .city-section-title {
