@@ -3,6 +3,7 @@
 // Crystals = +3 tickets, coins = +1, bombs = -10 (game ends if tickets hit 0).
 
 import React, { useState, useEffect, useRef } from 'react'
+import { playMinigameCorrect, playMinigameWrong } from '../../game/sound'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -117,6 +118,8 @@ export function CrystalCatch({ onDone }: Props) {
   function catchItem(id: number, kind: ItemKind, x: number, y: number) {
     setItems(prev => prev.filter(i => i.id !== id))
     const delta = VALUE[kind]
+    if (kind === 'bomb') playMinigameWrong()
+    else playMinigameCorrect()
     const newTickets = Math.max(0, ticketsRef.current + delta)
     ticketsRef.current = newTickets
     setTickets(newTickets)

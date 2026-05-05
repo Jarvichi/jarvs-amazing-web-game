@@ -84,7 +84,7 @@ import { FeedbackModal } from './components/FeedbackModal'
 import { FeedbackAdminScreen } from './components/FeedbackAdminScreen'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
-import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, stopBattleMusic, stopGameOverMusic } from './game/sound'
+import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
 import { getIntegrityViolations, clearIntegrityViolations } from './game/integrity'
 import { useRareEvents } from './hooks/useRareEvents'
@@ -290,6 +290,7 @@ export default function App() {
   const startBattle = useCallback((gs: GameState) => {
     dispatch({ type: 'START', gameState: gs })
     setScreen('playing')
+    playBattleStart()
   }, [])
 
   /**
@@ -585,6 +586,7 @@ export default function App() {
   // Victory celebration: auto-transition to gameOver after 3 seconds
   useEffect(() => {
     if (gameState?.phase.type !== 'celebration') return
+    playVictory()
     const t = setTimeout(() => {
       const gs = gameStateRef.current
       if (gs?.phase.type === 'celebration') {
@@ -592,6 +594,12 @@ export default function App() {
       }
     }, 3000)
     return () => clearTimeout(t)
+  }, [gameState?.phase.type])
+
+  // Defeat fanfare: play when player loses
+  useEffect(() => {
+    if (gameState?.phase.type !== 'gameOver') return
+    if ((gameState.phase as { type: 'gameOver'; winner: string }).winner !== 'player') playDefeat()
   }, [gameState?.phase.type])
 
   // Trigger SW update check whenever the title screen is shown

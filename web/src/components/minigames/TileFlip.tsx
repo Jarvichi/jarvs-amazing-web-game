@@ -3,6 +3,7 @@
 // Earn 5 tickets per match + bonus for zero mistakes or fast completion.
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { playMinigameCorrect, playMinigameWrong } from '../../game/sound'
 
 interface Props {
   onDone: (ticketsEarned: number, perfect: boolean) => void
@@ -76,6 +77,7 @@ export function TileFlip({ onDone }: Props) {
       const [a, b] = newSelected
       if (tiles[a] === tiles[b]) {
         // Match!
+        playMinigameCorrect()
         setTimeout(() => {
           const newMatched = [...matched]
           newMatched[a] = true
@@ -87,6 +89,7 @@ export function TileFlip({ onDone }: Props) {
         }, 400)
       } else {
         // No match
+        playMinigameWrong()
         setMistakes(m => m + 1)
         setTimeout(() => {
           const resetFlipped = [...newFlipped]

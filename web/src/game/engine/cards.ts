@@ -3,6 +3,7 @@ import { GameState, UpgradeEffect, Unit, BuffTag, LANE_WIDTH } from '../types';
 import { spawnUnit } from './helpers';
 import { drawCard } from './helpers';
 import {  Card, UnitTemplate } from '../types';
+import { playUpgrade } from '../sound';
 
 // ─── Deploy a card onto the field ────────────────────────
 export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent', log: string[]): void {
@@ -57,6 +58,7 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
         }
         const who = owner === 'player' ? 'You' : 'Opponent';
         log.push(`${who} upgraded ${existing.name}! (${note})`);
+        if (owner === 'player') playUpgrade();
         return;
       }
     }
