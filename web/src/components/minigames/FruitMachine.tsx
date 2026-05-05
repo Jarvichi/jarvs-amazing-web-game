@@ -194,7 +194,7 @@ export function FruitMachine({ onDone }: Props) {
   const [ladderDisplay, setLadderDisplay] = useState<LadderSymbol>('Stay')
   const [held, setHeld] = useState<[boolean, boolean, boolean]>([false, false, false])
   const [recentlyHeld, setRecentlyHeld] = useState<[boolean, boolean, boolean]>([false, false, false])
-  const [phase, setPhase] = useState<'idle' | 'spinning' | 'board-moving' | 'nudge' | 'bonus' | 'jackpot-win' | 'done'>('idle')
+  const [phase, setPhase] = useState<'idle' | 'spinning' | 'board-moving' | 'nudge' | 'bonus' | 'jackpot-win' | 'lucky' | 'done'>('idle')
   const [credits, setCredits] = useState(STARTING_CREDITS)
   const [lastWin, setLastWin] = useState<number | null>(null)
   const [cashOutTickets, setCashOutTickets] = useState(0)
@@ -229,6 +229,8 @@ export function FruitMachine({ onDone }: Props) {
 
   const spinningRef = useRef<[boolean, boolean, boolean]>([false, false, false])
   const ladderSpinRef = useRef(false)
+  const luckyIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const currentLadderRef = useRef<LadderSymbol>('Stay')
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const featureCountRef = useRef(featureTriggerCount)
   const loserCountRef = useRef(loserCount)
@@ -270,7 +272,7 @@ export function FruitMachine({ onDone }: Props) {
 
   // Auto-spin: keep spinning when a sequence is running
   useEffect(() => {
-    if (phase === 'nudge' || phase === 'bonus' || phase === 'jackpot-win') {
+    if (phase === 'nudge' || phase === 'bonus' || phase === 'jackpot-win' || phase === 'lucky') {
       if (autoSpinsLeftRef.current > 0) {
         autoSpinsLeftRef.current = 0
         setAutoSpinsLeft(0)
@@ -511,6 +513,52 @@ function regressBoardBy(steps: number) {
     setPhase('idle')
   }
 
+  function startLuckyMinigame() {
+    setPhase('lucky')
+    luckyIntervalRef.current = setInterval(() => {
+      const sym = LADDER_SYMBOLS[Math.floor(Math.random() * LADDER_SYMBOLS.length)]
+      currentLadderRef.current = sym
+      setLadderDisplay(sym)
+    }, 80)
+  }
+
+  function stopLucky() {
+    if (luckyIntervalRef.current) {
+      clearInterval(luckyIntervalRef.current)
+      luckyIntervalRef.current = null
+    }
+    const result = currentLadderRef.current
+    if (result === 'Lose') {
+      const newLoserCount = loserCountRef.current + 1
+      if (newLoserCount >= LOSER_THRESHOLD) {
+        loserCountRef.current = 0
+        setLoserCount(0)
+        try { localStorage.setItem('fm_loser', '0') } catch (e) { logError('fm_loser reset', { error: String(e) }) }
+        boardPosRef.current = LOSER_JUMP_POS
+        setBoardPos(LOSER_JUMP_POS)
+        try { localStorage.setItem('fm_board_pos', String(LOSER_JUMP_POS)) } catch (e) { logError('fm_board_pos loser jump', { error: String(e) }) }
+        setBoardMessage('L-O-S-E-R complete! Jump to position 35!')
+        setPhase('idle')
+      } else {
+        loserCountRef.current = newLoserCount
+        setLoserCount(newLoserCount)
+        try { localStorage.setItem('fm_loser', String(newLoserCount)) } catch (e) { logError('fm_loser save', { error: String(e) }) }
+        resetBoardToZero()
+      }
+    } else if (result === '-1' || result === '-2') {
+      const steps = result === '-1' ? -1 : -2
+      setBoardMessage(`Go Back ${-steps} step${-steps > 1 ? 's' : ''}!`)
+      regressBoardBy(steps)
+    } else if (result === '+1' || result === '+2') {
+      const steps = result === '+1' ? 1 : 2
+      setBoardMessage(`Advance ${steps} step${steps > 1 ? 's' : ''}!`)
+      advanceBoardBy(steps)
+    } else {
+      setBoardMessage('Lucky! Stay put!')
+      setPhase('idle')
+    }
+  }
+
   function spin() {
     clearMessages()
 
@@ -634,21 +682,26 @@ function regressBoardBy(steps: number) {
 
       const ladderProgress = (nextLadder === '+1' ? 1 : nextLadder === '+2' ? 2 : nextLadder === '-1' ? -1 : nextLadder === '-2' ? -2 : 0) + featureStep
       if (nextLadder === 'Lose') {
-        const newLoserCount = loserCountRef.current + 1
-        if (newLoserCount >= LOSER_THRESHOLD) {
-          loserCountRef.current = 0
-          setLoserCount(0)
-          try { localStorage.setItem('fm_loser', '0') } catch (e) { logError('fm_loser reset', { error: String(e) }) }
-          boardPosRef.current = LOSER_JUMP_POS
-          setBoardPos(LOSER_JUMP_POS)
-          try { localStorage.setItem('fm_board_pos', String(LOSER_JUMP_POS)) } catch (e) { logError('fm_board_pos loser jump', { error: String(e) }) }
-          ladderMessage=('L-O-S-E-R complete! Jump to position 35!')
-          setPhase('idle')
+        if (grandJackpotRef.current > 2500) {
+          ladderMessage = 'Lucky? Tap STOP!'
+          startLuckyMinigame()
         } else {
-          loserCountRef.current = newLoserCount
-          setLoserCount(newLoserCount)
-          try { localStorage.setItem('fm_loser', String(newLoserCount)) } catch (e) { logError('fm_loser save', { error: String(e) }) }
-          resetBoardToZero()
+          const newLoserCount = loserCountRef.current + 1
+          if (newLoserCount >= LOSER_THRESHOLD) {
+            loserCountRef.current = 0
+            setLoserCount(0)
+            try { localStorage.setItem('fm_loser', '0') } catch (e) { logError('fm_loser reset', { error: String(e) }) }
+            boardPosRef.current = LOSER_JUMP_POS
+            setBoardPos(LOSER_JUMP_POS)
+            try { localStorage.setItem('fm_board_pos', String(LOSER_JUMP_POS)) } catch (e) { logError('fm_board_pos loser jump', { error: String(e) }) }
+            ladderMessage=('L-O-S-E-R complete! Jump to position 35!')
+            setPhase('idle')
+          } else {
+            loserCountRef.current = newLoserCount
+            setLoserCount(newLoserCount)
+            try { localStorage.setItem('fm_loser', String(newLoserCount)) } catch (e) { logError('fm_loser save', { error: String(e) }) }
+            resetBoardToZero()
+          }
         }
       } else if (ladderProgress < 0) {
         ladderMessage =  `Go Back ${-ladderProgress} step${-ladderProgress > 1 ? 's' : ''}!`
@@ -887,7 +940,7 @@ function regressBoardBy(steps: number) {
                 <button className="fm-nudge-btn" onClick={() => nudgeReel(i, -1)} disabled={nudgesAvailable <= 0}>▲</button>
               </td>
             ))}
-            <td className="fm-ladder-reel-label">    <div className="fm-ladder-reel-wrap">Trail</div></td>
+            <td className="fm-ladder-reel-label">    <div className="fm-ladder-reel-wrap">{phase === 'lucky' ? 'Lucky?' : 'Trail'}</div></td>
           </tr>
           {/* Main reels with peek symbols above/below */}
           <tr>
@@ -906,7 +959,7 @@ function regressBoardBy(steps: number) {
             ))}
             <td>
               <div className="fm-ladder-reel-wrap">
-                <div className={`fm-reel fm-ladder-reel${isSpinning ? ' fm-reel--spinning' : ''}`}>
+                <div className={`fm-reel fm-ladder-reel${(isSpinning || phase === 'lucky') ? ' fm-reel--spinning' : ''}`}>
                   <div className="fm-ladder-symbol">{ladderDisplay}</div>
                 </div>
               </div>
@@ -946,6 +999,9 @@ function regressBoardBy(steps: number) {
       {phase === 'nudge' && (
         <div className="fm-nudge-banner">NUDGE — {nudgesAvailable} remaining</div>
       )}
+      {phase === 'lucky' && (
+        <div className="fm-nudge-banner">LUCKY? — Tap STOP to freeze the trail reel!</div>
+      )}
       {isInAutoSpin && (
         <div className="fm-auto-spin-banner">Auto-spin: {autoSpinsLeft} remaining</div>
       )}
@@ -962,13 +1018,19 @@ function regressBoardBy(steps: number) {
         ))}
       </div>
       <div className="fm-controls">
-        <button
-          className="action-btn action-btn--gold"
-          onClick={startSpin}
-          disabled={!canSpin}
-        >
-          {freeSpin ? 'FREE SPIN' : spinCount === 1 ? 'SPIN (1 credit)' : `SPIN ×${spinCount} (${spinCount} credits)`}
-        </button>
+        {phase === 'lucky' ? (
+          <button className="action-btn action-btn--gold action-btn--large" onClick={stopLucky}>
+            STOP
+          </button>
+        ) : (
+          <button
+            className="action-btn action-btn--gold"
+            onClick={startSpin}
+            disabled={!canSpin}
+          >
+            {freeSpin ? 'FREE SPIN' : spinCount === 1 ? 'SPIN (1 credit)' : `SPIN ×${spinCount} (${spinCount} credits)`}
+          </button>
+        )}
         {isInAutoSpin && (
           <button className="action-btn action-btn--danger" onClick={stopAutoSpin}>
             STOP
