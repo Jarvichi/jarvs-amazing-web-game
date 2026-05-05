@@ -207,6 +207,18 @@ export function getStructureKind(cell: CityCell): StructureKind {
   return 'utility'
 }
 
+/** Returns grid indices of the 4 orthogonally adjacent cells (no diagonals, no wrap). */
+export function getNeighbourIndices(index: number): number[] {
+  const row = Math.floor(index / CITY_COLS)
+  const col = index % CITY_COLS
+  const result: number[] = []
+  if (col > 0)             result.push(index - 1)
+  if (col < CITY_COLS - 1) result.push(index + 1)
+  if (row > 0)             result.push(index - CITY_COLS)
+  if (row < CITY_ROWS - 1) result.push(index + CITY_COLS)
+  return result
+}
+
 function cellIncomeRate(cell: CityCell, happy: boolean, unitCount: number): number {
   const kind = getStructureKind(cell)
   if (kind === 'spawn') {
@@ -301,19 +313,15 @@ export function tickCity(state: CityState): CityState {
   const defenseScore = Math.min(100, (defense / population) * 8)
   const baseTarget   = Math.round(foodScore * 0.6 + defenseScore * 0.4)
 
-  // Unit names that are currently alive (happiness > 0) — used for affinity checks
-  const aliveUnitNames = new Set(
-    state.grid
-      .map((c, i) => c?.spawnedUnitName && (newHappy[i] ?? 100) > 0 ? c.spawnedUnitName : null)
-      .filter(Boolean) as string[]
-  )
-
   for (let i = 0; i < state.grid.length; i++) {
     const cell = state.grid[i]
     if (!cell?.spawnedUnitName) continue
 
-    // Affinity is a hard requirement: missing friend → target forced to 0
-    const affinityMet = !cell.affinityWith || aliveUnitNames.has(cell.affinityWith)
+    // Affinity is a neighbour requirement: wants the named unit in an adjacent cell
+    const affinityMet = !cell.affinityWith || getNeighbourIndices(i).some(ni => {
+      const nc = state.grid[ni]
+      return nc?.spawnedUnitName === cell.affinityWith && (state.happiness[ni] ?? 100) > 0
+    })
     const cellTarget  = affinityMet ? baseTarget : 0
 
     const current = newHappy[i] ?? 100

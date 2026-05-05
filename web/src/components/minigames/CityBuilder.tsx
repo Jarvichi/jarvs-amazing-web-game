@@ -23,6 +23,7 @@ import {
   getBuildingProduces,
   INCOME_SPAWN, INCOME_UTILITY, INCOME_WALL,
   spawnerUnitCount, masteryOutputMultiplier,
+  getNeighbourIndices,
 } from '../../game/cityBuilder'
 import { MasteryBar } from '../MasteryBar'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
@@ -41,14 +42,18 @@ function rageDescription(happiness: number): string {
 function getUnitRequirements(
   cell: CityCell,
   cityState: CityState,
-  presentNames: Set<string>,
+  cellIndex: number,
 ): { text: string; met: boolean }[] {
   const reqs: { text: string; met: boolean }[] = []
 
   if (cell.affinityWith) {
+    const neighbourMet = getNeighbourIndices(cellIndex).some(ni => {
+      const nc = cityState.grid[ni]
+      return nc?.spawnedUnitName === cell.affinityWith && (cityState.happiness[ni] ?? 100) > 0
+    })
     reqs.push({
-      text: `Wants a ${cell.affinityWith} in the city`,
-      met: presentNames.has(cell.affinityWith),
+      text: `Wants a ${cell.affinityWith} next door`,
+      met: neighbourMet,
     })
   }
 
@@ -312,13 +317,6 @@ export function CityBuilder({ onBack }: Props) {
   const prodRates = resourceProductionRate(city)
   const consRates = resourceConsumptionRate(city)
 
-  // Unit names that are alive (happiness > 0) — despawned units don't count for affinity
-  const presentUnitNames = new Set(
-    city.grid
-      .filter((c, i) => c?.spawnedUnitName && (city.happiness[i] ?? 100) > 0)
-      .map(c => c!.spawnedUnitName!) as string[]
-  )
-
   // ── Card picker sub-screen ────────────────────────────────────────────────────
 
   if (screen === 'picker') {
@@ -489,7 +487,7 @@ export function CityBuilder({ onBack }: Props) {
         const cell = city.grid[selectedWalkerCell]
         if (!cell?.spawnedUnitName) return null
         const happiness = city.happiness[selectedWalkerCell] ?? 100
-        const reqs = getUnitRequirements(cell, city, presentUnitNames)
+        const reqs = getUnitRequirements(cell, city, selectedWalkerCell)
         const moodKey = happiness === 0 ? 'gone' : happiness < 30 ? 'furious' : happiness < 60 ? 'unsettled' : 'content'
         return (
           <div className="city-req-overlay" onClick={() => setSelectedWalkerCell(null)}>
@@ -537,7 +535,7 @@ export function CityBuilder({ onBack }: Props) {
                     <div className="city-bld-vacant">Building is vacant — unit left the city</div>
                   ) : (
                     Array.from({ length: unitCount }, (_, u) => {
-                      const reqs = getUnitRequirements(cell, city, presentUnitNames)
+                      const reqs = getUnitRequirements(cell, city, selectedBuildingCell)
                       const unmet = reqs.filter(r => !r.met)
                       return (
                         <div key={u} className="city-bld-resident">
@@ -675,7 +673,10 @@ export function CityBuilder({ onBack }: Props) {
           {walkers.map(w => {
             const happiness   = city.happiness[w.cellIndex] ?? 100
             const rage        = 100 - happiness
-            const wantsFriend = w.affinityWith && !presentUnitNames.has(w.affinityWith)
+            const wantsFriend = w.affinityWith && !getNeighbourIndices(w.cellIndex).some(ni => {
+              const nc = city.grid[ni]
+              return nc?.spawnedUnitName === w.affinityWith && (city.happiness[ni] ?? 100) > 0
+            })
             return (
               <div
                 key={`${w.cellIndex}-${w.unitIndex}`}
