@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import {
   signOut as firebaseSignOut, type User,
 } from 'firebase/auth'
-import { isSoundEnabled, setSoundEnabled } from '../game/sound'
+import { isSoundEnabled, setSoundEnabled, getSoundVolume, setSoundVolume, getMusicVolume, setMusicVolume } from '../game/sound'
 import { OverlayScreen } from './OverlayScreen'
 import { Section } from './Section'
 import { LoginModal } from './LoginModal'
@@ -135,6 +135,8 @@ function exportLocalStorage(): void {
 
 export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
+  const [soundVolume,   setSoundVolumeState]   = useState(getSoundVolume)
+  const [musicVolume,   setMusicVolumeState]   = useState(getMusicVolume)
   const [textSize,      setTextSize]      = useState(loadTextSize)
   const [textColor,     setTextColor]     = useState(loadTextColor)
   const [skipIntro,     setSkipIntro]     = useState(loadSkipIntro)
@@ -222,6 +224,16 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
     setSoundEnabled(next)
   }
 
+  function handleSoundVolumeChange(val: number) {
+    setSoundVolumeState(val)
+    setSoundVolume(val)
+  }
+
+  function handleMusicVolumeChange(val: number) {
+    setMusicVolumeState(val)
+    setMusicVolume(val)
+  }
+
   function handleEightbitToggle() {
     const next = !eightbitOn
     setEightbitOn(next)
@@ -291,10 +303,41 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               <div className="settings-label">Sound effects</div>
               <div className="settings-sublabel">Procedurally generated audio</div>
             </div>
-            <div className="settings-toggle" onClick={handleSoundToggle}>
-              <div className={`settings-toggle-track${soundOn ? ' settings-toggle-track--on' : ''}`}>
-                <div className="settings-toggle-thumb" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <input
+                type="range"
+                className="settings-slider"
+                min={0}
+                max={1}
+                step={0.05}
+                value={soundVolume}
+                disabled={!soundOn}
+                onChange={e => handleSoundVolumeChange(Number(e.target.value))}
+              />
+              <span className="settings-value">{Math.round(soundVolume * 100)}%</span>
+              <div className="settings-toggle" onClick={handleSoundToggle}>
+                <div className={`settings-toggle-track${soundOn ? ' settings-toggle-track--on' : ''}`}>
+                  <div className="settings-toggle-thumb" />
+                </div>
               </div>
+            </div>
+          </div>
+          <div className="settings-row">
+            <div>
+              <div className="settings-label">Music</div>
+              <div className="settings-sublabel">Background music volume</div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <input
+                type="range"
+                className="settings-slider"
+                min={0}
+                max={1}
+                step={0.05}
+                value={musicVolume}
+                onChange={e => handleMusicVolumeChange(Number(e.target.value))}
+              />
+              <span className="settings-value">{Math.round(musicVolume * 100)}%</span>
             </div>
           </div>
         </Section>

@@ -4,7 +4,10 @@
 let ctx: AudioContext | null = null
 let masterGain: GainNode | null = null
 
-const SETTINGS_KEY = 'jarv_sound_enabled'
+const SETTINGS_KEY      = 'jarv_sound_enabled'
+const SOUND_VOLUME_KEY  = 'jarv_sound_volume'
+const MUSIC_VOLUME_KEY  = 'jarv_music_volume'
+const SOUND_BASE_GAIN   = 0.35
 
 export function isSoundEnabled(): boolean {
   try { return localStorage.getItem(SETTINGS_KEY) !== 'false' }
@@ -16,13 +19,37 @@ export function setSoundEnabled(val: boolean): void {
   catch { /* ignore */ }
 }
 
+export function getSoundVolume(): number {
+  try { return Math.min(1, Math.max(0, parseFloat(localStorage.getItem(SOUND_VOLUME_KEY) ?? '1') || 1)) }
+  catch { return 1 }
+}
+
+export function setSoundVolume(val: number): void {
+  try { localStorage.setItem(SOUND_VOLUME_KEY, String(val)) } catch { /* ignore */ }
+  if (masterGain) masterGain.gain.value = SOUND_BASE_GAIN * val
+}
+
+export function getMusicVolume(): number {
+  try { return Math.min(1, Math.max(0, parseFloat(localStorage.getItem(MUSIC_VOLUME_KEY) ?? '1') || 1)) }
+  catch { return 1 }
+}
+
+export function setMusicVolume(val: number): void {
+  try { localStorage.setItem(MUSIC_VOLUME_KEY, String(val)) } catch { /* ignore */ }
+  for (const track of _tracks.values()) {
+    if (track.gainNode && track.baseVol !== undefined) {
+      track.gainNode.gain.value = track.baseVol * val
+    }
+  }
+}
+
 function getCtx(): AudioContext | null {
   if (!isSoundEnabled()) return null
   try {
     if (!ctx) {
       ctx = new (window.AudioContext || (window as never as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
       masterGain = ctx.createGain()
-      masterGain.gain.value = 0.35
+      masterGain.gain.value = SOUND_BASE_GAIN * getSoundVolume()
       masterGain.connect(ctx.destination)
     }
     return ctx
@@ -182,18 +209,20 @@ interface MusicTrack {
   nextBeatTime: number
   beatIndex:    number
   gainNode:     GainNode | null
+  baseVol:      number
 }
 
 function makeTrack(): MusicTrack {
-  return { scheduler: null, nextBeatTime: 0, beatIndex: 0, gainNode: null }
+  return { scheduler: null, nextBeatTime: 0, beatIndex: 0, gainNode: null, baseVol: 0.1 }
 }
 
 function trackGain(track: MusicTrack, vol: number): GainNode | null {
   const c = getCtx()
   if (!c) return null
   if (!track.gainNode) {
+    track.baseVol = vol
     track.gainNode = c.createGain()
-    track.gainNode.gain.value = vol
+    track.gainNode.gain.value = vol * getMusicVolume()
     track.gainNode.connect(c.destination)
   }
   return track.gainNode
