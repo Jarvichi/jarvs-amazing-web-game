@@ -435,7 +435,7 @@ export function CityBuilder({ onBack }: Props) {
         <div className="city-stat city-stat--defense" title="City Defence">
           🛡 {defense}
         </div>
-        <div className="city-stat city-stat--population" title="Population (active units)">
+        <div className="city-stat city-stat--population" title="Population — each unit earns gold for its spawner">
           👥 {population}
         </div>
         {(['wheat', 'wood', 'ore', 'bread', 'planks', 'metal'] as ResourceType[]).map(res => {

@@ -207,13 +207,12 @@ export function getStructureKind(cell: CityCell): StructureKind {
   return 'utility'
 }
 
-function cellIncomeRate(cell: CityCell, happy: boolean): number {
+function cellIncomeRate(cell: CityCell, happy: boolean, unitCount: number): number {
   const kind = getStructureKind(cell)
-  const base = kind === 'spawn'
-    ? INCOME_SPAWN[cell.rarity]
-    : INCOME_UTILITY[cell.rarity]
-  if (kind === 'spawn' && !happy) return base * 0.5
-  return base
+  if (kind === 'spawn') {
+    return happy ? INCOME_SPAWN[cell.rarity] * unitCount : 0
+  }
+  return INCOME_UTILITY[cell.rarity]
 }
 
 /** Defence value a wall contributes (full if city has any spawners, half otherwise). */
@@ -275,9 +274,10 @@ export function tickCity(state: CityState): CityState {
     if (!cell) continue
 
     const happy = (newHappy[i] ?? 100) > 0
+    const unitCount = cell.spawnedUnitName ? spawnerUnitCount(state, cell.cardName) : 1
 
     // Gold income
-    goldEarned += cellIncomeRate(cell, happy) * minutes
+    goldEarned += cellIncomeRate(cell, happy, unitCount) * minutes
 
     // Resource production (utility/non-spawner buildings that produce resources)
     if (!cell.spawnedUnitName) {
@@ -372,7 +372,8 @@ export function goldIncomeRate(state: CityState): number {
     const cell = state.grid[i]
     if (!cell) continue
     const happy = (state.happiness[i] ?? 100) > 0
-    total += cellIncomeRate(cell, happy)
+    const unitCount = cell.spawnedUnitName ? spawnerUnitCount(state, cell.cardName) : 1
+    total += cellIncomeRate(cell, happy, unitCount)
   }
   return total
 }
