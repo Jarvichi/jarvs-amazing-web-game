@@ -1,5 +1,5 @@
 import { isNoDamageMode } from '../debug'
-import { playBuildingDestroyed, playUnitDeath } from '../sound'
+import { playBuildingDestroyed, playUnitDeath, playUnitAttack, playBaseHit } from '../sound'
 import { AnimEvent, GameState, LANE_WIDTH, Unit } from '../types'
 import { DAMAGE_FLASH_MS, BLOOD_POOL_MAX } from './constants'
 import { getAttackAura } from './bonusEffects'
@@ -46,6 +46,7 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
     const atkAura   = isPlayer ? playerAtkAura : opponentAtkAura
 
     if (target) {
+      if (unit.owner === 'player') playUnitAttack()
       const prevHp         = target.hp
       const bloodMoonMult  = s.activeBattleEvent?.type === 'bloodMoon' ? 2 : 1
       const targetTags     = target.tags ?? []
@@ -160,6 +161,7 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
             s.opponentBase.hp = Math.max(0, s.opponentBase.hp - dmg)
             s.playerScore += prev - s.opponentBase.hp
             log.push(`${unit.name} hits Enemy Base! -${dmg}HP`)
+            playBaseHit()
           }
         } else {
           if (!isNoDamageMode()) {
@@ -167,6 +169,7 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
             s.playerBase.hp = Math.max(0, s.playerBase.hp - dmg)
             s.opponentScore += prev - s.playerBase.hp
             log.push(`${unit.name} hits Your Base! -${dmg}HP`)
+            playBaseHit()
           } else {
             log.push(`${unit.name} hits Your Base! (dev mode — no damage)`)
           }

@@ -4,6 +4,7 @@
 // Ties always count as a loss.
 
 import React, { useState } from 'react'
+import { playMinigameCorrect, playMinigameWrong } from '../../game/sound'
 
 interface Props {
   onDone: (ticketsEarned: number) => void
@@ -61,11 +62,13 @@ export function HigherOrLower({ onDone }: Props) {
     setRevealed(newRevealed)
 
     if (!correct) {
+      playMinigameWrong()
       setFeedback('wrong')
       setPhase('lost')
       return
     }
 
+    playMinigameCorrect()
     setFeedback('correct')
     setTimeout(() => setFeedback(null), 600)
 

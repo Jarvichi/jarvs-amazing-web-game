@@ -125,6 +125,51 @@ export function playManaGain() {
   node(1050, 'sine', t + 0.05, 0.07, 0.15)
 }
 
+// Throttle so rapid multi-unit attacks don't flood the audio channel
+let _lastAttackSoundMs = 0
+export function playUnitAttack() {
+  const now2 = Date.now()
+  if (now2 - _lastAttackSoundMs < 80) return
+  _lastAttackSoundMs = now2
+  const t = now()
+  node(180, 'sawtooth', t,        0.04, 0.22)
+  node(280, 'square',   t + 0.02, 0.03, 0.15)
+}
+
+export function playBaseHit() {
+  const t = now()
+  node(100, 'sawtooth', t,        0.10, 0.38)
+  node(60,  'sine',     t,        0.15, 0.32)
+  node(220, 'square',   t + 0.04, 0.06, 0.20)
+}
+
+export function playBattleStart() {
+  const t = now()
+  // Rising 3-note war horn fanfare
+  node(220, 'sawtooth', t,        0.14, 0.35)
+  node(330, 'sawtooth', t + 0.15, 0.14, 0.38)
+  node(440, 'sawtooth', t + 0.30, 0.22, 0.42)
+  node(440, 'sine',     t + 0.30, 0.22, 0.28)
+}
+
+export function playUpgrade() {
+  const t = now()
+  const notes = [523, 659, 784, 1047]
+  notes.forEach((f, i) => node(f, 'sine', t + i * 0.07, 0.12, 0.22))
+}
+
+export function playMinigameCorrect() {
+  const t = now()
+  node(880,  'sine', t,        0.07, 0.28)
+  node(1320, 'sine', t + 0.07, 0.10, 0.24)
+}
+
+export function playMinigameWrong() {
+  const t = now()
+  node(280, 'sawtooth', t,        0.09, 0.30)
+  node(180, 'square',   t + 0.08, 0.12, 0.22)
+}
+
 // ─── Music Engine ─────────────────────────────────────────────────────────────
 // Look-ahead scheduler pattern — runs a setInterval every SCHEDULE_MS and
 // pre-schedules Web Audio notes up to LOOKAHEAD_SEC ahead of playback.
