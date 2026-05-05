@@ -8936,6 +8936,7 @@ html.light-mode .action-btn {
 /* ── City Builder Screen ──────────────────────────────────────────────────── */
 
 .city-screen {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -9388,6 +9389,47 @@ html.light-mode .action-btn {
   text-align: center;
   margin-top: 4px;
 }
+
+/* ── City Builder — unit requirements modal ─────────────────────────────── */
+.city-req-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+.city-req-modal {
+  background: #1a2a1a;
+  border: 1px solid #3a6a3a;
+  border-radius: 4px;
+  padding: 14px 16px;
+  min-width: 200px;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.city-req-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.city-req-sprite  { width: 36px; height: 36px; image-rendering: pixelated; }
+.city-req-name    { font-size: 14px; color: #90e090; letter-spacing: 1px; }
+.city-req-mood              { font-size: 11px; letter-spacing: 1px; padding: 2px 6px; border-radius: 2px; }
+.city-req-mood--content     { color: #60d060; border: 1px solid #3a6a3a; }
+.city-req-mood--unsettled   { color: #d0a030; border: 1px solid #6a5010; }
+.city-req-mood--furious     { color: #e06030; border: 1px solid #6a3010; }
+.city-req-mood--gone        { color: #808080; border: 1px solid #404040; }
+.city-req-list  { width: 100%; display: flex; flex-direction: column; gap: 4px; }
+.city-req-item  { font-size: 10px; color: #a0a0a0; display: flex; align-items: flex-start; gap: 5px; line-height: 1.4; }
+.city-req-item--met   .city-req-icon { color: #60d060; }
+.city-req-item--unmet .city-req-icon { color: #d06060; }
+.city-req-item--met   { color: #60a060; }
+.city-req-item--unmet { color: #c08080; }
 
 /* Title screen button */
 .title-minigames-btn {
