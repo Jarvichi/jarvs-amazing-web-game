@@ -129,6 +129,8 @@ export function CityBuilder({ onBack }: Props) {
   const [walkers, setWalkers] = useState<Walker[]>([])
   const [selectedWalkerCell, setSelectedWalkerCell] = useState<number | null>(null)
   const [selectedBuildingCell, setSelectedBuildingCell] = useState<number | null>(null)
+  const [bulldozerMode, setBulldozerMode] = useState(false)
+  const bulldozerRef = useRef(false)
 
   function showToast(msg: string) {
     setToast(msg)
@@ -186,10 +188,14 @@ export function CityBuilder({ onBack }: Props) {
     return () => clearInterval(id)
   }, [])
 
+  // Keep ref in sync so the tick interval can read current bulldozer state
+  useEffect(() => { bulldozerRef.current = bulldozerMode }, [bulldozerMode])
+
   // ── Gold + resource tick (every 10 s while screen is open) ───────────────────
 
   useEffect(() => {
     const id = setInterval(() => {
+      if (bulldozerRef.current) return  // paused while bulldozer is active
       setCity(prev => {
         const next = tickCity(prev)
         saveCityState(next)
@@ -203,11 +209,23 @@ export function CityBuilder({ onBack }: Props) {
 
   function handleCellTap(index: number) {
     if (city.grid[index]) {
-      setSelectedBuildingCell(index)
+      if (bulldozerMode) {
+        const cell = city.grid[index]!
+        save(removeCard(city, index))
+        showToast(`${cell.cardName} demolished.`)
+      } else {
+        setSelectedBuildingCell(index)
+      }
     } else {
       setPickerIndex(index)
       setScreen('picker')
     }
+  }
+
+  function toggleBulldozer() {
+    setBulldozerMode(prev => !prev)
+    setSelectedBuildingCell(null)
+    setSelectedWalkerCell(null)
   }
 
   // ── Place a card ──────────────────────────────────────────────────────────────
@@ -560,6 +578,11 @@ export function CityBuilder({ onBack }: Props) {
         <div className="city-title">🏙 CITY</div>
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <div className="city-gold-display">⚙ {city.gold.toLocaleString()}</div>
+          <button
+            className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
+            onClick={toggleBulldozer}
+            title={bulldozerMode ? 'Bulldozer mode ON — tap buildings to demolish' : 'Bulldozer mode OFF — tap to toggle'}
+          >🏗 BULLDOZE</button>
           <button className="filter-btn" onClick={() => setScreen('upgrade')}>★ UPGRADES</button>
         </div>
       </div>
@@ -567,9 +590,12 @@ export function CityBuilder({ onBack }: Props) {
       {/* Income summary */}
       <div className="city-income-row">
         <span className="city-income-in">+{incomeRate} gold</span>
-        <span className={`city-income-net${netRate >= 0 ? ' city-income-net--pos' : ' city-income-net--neg'}`}>
-          {netRate >= 0 ? `+${netRate}` : `${netRate}`}/min
-        </span>
+        {bulldozerMode
+          ? <span className="city-bulldozer-paused">⏸ PAUSED</span>
+          : <span className={`city-income-net${netRate >= 0 ? ' city-income-net--pos' : ' city-income-net--neg'}`}>
+              {netRate >= 0 ? `+${netRate}` : `${netRate}`}/min
+            </span>
+        }
       </div>
 
       {/* City stats */}
@@ -613,9 +639,9 @@ export function CityBuilder({ onBack }: Props) {
             return (
               <button
                 key={i}
-                className={`city-cell${cell ? ' city-cell--occupied' : ''}`}
+                className={`city-cell${cell ? ' city-cell--occupied' : ''}${cell && bulldozerMode ? ' city-cell--bulldoze' : ''}`}
                 onClick={() => handleCellTap(i)}
-                title={cell ? `${cell.cardName} — tap to inspect` : 'Empty — tap to place'}
+                title={cell ? (bulldozerMode ? `${cell.cardName} — tap to demolish` : `${cell.cardName} — tap to inspect`) : 'Empty — tap to place'}
               >
                 {cell ? (
                   <>
