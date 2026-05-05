@@ -96,6 +96,8 @@ export function CityBuilder({ onBack }: Props) {
       for (let i = 0; i < city.grid.length; i++) {
         const cell = city.grid[i]
         if (!cell?.spawnedUnitName) continue
+        // Skip despawned units (happiness reached 0)
+        if ((city.happiness[i] ?? 100) === 0) continue
         const count = spawnerUnitCount(city, cell.cardName)
         for (let u = 0; u < count; u++) {
           const existing = prev.find(w => w.cellIndex === i && w.unitIndex === u && w.unitName === cell.spawnedUnitName)
@@ -242,9 +244,11 @@ export function CityBuilder({ onBack }: Props) {
   const prodRates = resourceProductionRate(city)
   const consRates = resourceConsumptionRate(city)
 
-  // Which unit names are currently present in the city as walkers
+  // Unit names that are alive (happiness > 0) — despawned units don't count for affinity
   const presentUnitNames = new Set(
-    city.grid.filter(Boolean).map(c => c!.spawnedUnitName).filter(Boolean) as string[]
+    city.grid
+      .filter((c, i) => c?.spawnedUnitName && (city.happiness[i] ?? 100) > 0)
+      .map(c => c!.spawnedUnitName!) as string[]
   )
 
   // ── Card picker sub-screen ────────────────────────────────────────────────────
@@ -466,7 +470,8 @@ export function CityBuilder({ onBack }: Props) {
           {Array.from({ length: CITY_CELLS }, (_, i) => {
             const cell      = city.grid[i]
             const happiness = cell?.spawnedUnitName ? (city.happiness[i] ?? 100) : 100
-            const unhappy   = happiness === 0
+            const rage      = 100 - happiness
+            const despawned = cell?.spawnedUnitName && happiness === 0
             return (
               <button
                 key={i}
@@ -481,16 +486,17 @@ export function CityBuilder({ onBack }: Props) {
                     {masteryLevel(getMasteryXp(collection, cell.cardName)) > 0 && (
                       <div className="city-cell-level">★{masteryLevel(getMasteryXp(collection, cell.cardName))}</div>
                     )}
-                    {cell.spawnedUnitName && (
+                    {cell.spawnedUnitName && rage > 0 && (
                       <div
                         className="city-cell-happiness"
                         style={{
-                          width: `${happiness}%`,
-                          background: happiness > 60 ? '#40a040' : happiness > 30 ? '#a0a020' : '#a03020',
+                          width: `${rage}%`,
+                          background: rage < 40 ? '#a0a020' : rage < 70 ? '#c05010' : '#a03020',
                         }}
                       />
                     )}
-                    {unhappy && <span className="city-cell-unhappy-icon">⚠</span>}
+                    {despawned && <span className="city-cell-unhappy-icon">💀</span>}
+                    {!despawned && rage >= 60 && <span className="city-cell-unhappy-icon">⚠</span>}
                   </>
                 ) : (
                   <span className="city-cell-empty">+</span>
@@ -503,12 +509,13 @@ export function CityBuilder({ onBack }: Props) {
         {/* Walking units overlay */}
         <div className="city-unit-overlay" aria-hidden="true">
           {walkers.map(w => {
-            const happiness    = city.happiness[w.cellIndex] ?? 100
-            const wantsFriend  = w.affinityWith && !presentUnitNames.has(w.affinityWith)
+            const happiness   = city.happiness[w.cellIndex] ?? 100
+            const rage        = 100 - happiness
+            const wantsFriend = w.affinityWith && !presentUnitNames.has(w.affinityWith)
             return (
               <div
                 key={`${w.cellIndex}-${w.unitIndex}`}
-                className={`city-walker${happiness === 0 ? ' city-walker--unhappy' : ''}`}
+                className={`city-walker${rage >= 60 ? ' city-walker--unhappy' : ''}`}
                 style={{ left: Math.round(w.x), top: Math.round(w.y) }}
               >
                 {wantsFriend && (
@@ -522,7 +529,7 @@ export function CityBuilder({ onBack }: Props) {
                   fps={6}
                   className="city-walker-sprite"
                 />
-                {happiness < 30 && <span className="city-walker-need">!</span>}
+                {rage >= 40 && <span className="city-walker-need">!</span>}
               </div>
             )
           })}
