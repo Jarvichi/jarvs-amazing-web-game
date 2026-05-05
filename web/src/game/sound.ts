@@ -592,3 +592,38 @@ export const MUSIC_TRACKS: Record<string, MusicTrackConfig> = {
   map:     MAP_MUSIC,
   gameover: GAME_OVER_MUSIC_VICTORY,
 }
+
+// ─── emitSound — unified dispatch API ────────────────────────────────────────
+// Single entry point for all one-shot sound effects.  IDs match the `id`
+// fields in src/data/sounds.json.  Existing play*() helpers remain exported
+// for direct use; emitSound() is the preferred API for new call-sites.
+
+export type SoundId =
+  | 'cardPlay' | 'unitDeath' | 'buildingDestroyed'
+  | 'unitAttack' | 'baseHit' | 'battleStart' | 'upgrade'
+  | 'victory' | 'defeat' | 'battleEvent'
+  | 'buttonClick' | 'cardFlip' | 'restHeal' | 'manaGain'
+  | 'minigameCorrect' | 'minigameWrong'
+
+const SOUND_MAP: Record<SoundId, () => void> = {
+  cardPlay:          playCardPlay,
+  unitDeath:         playUnitDeath,
+  buildingDestroyed: playBuildingDestroyed,
+  unitAttack:        playUnitAttack,
+  baseHit:           playBaseHit,
+  battleStart:       playBattleStart,
+  upgrade:           playUpgrade,
+  victory:           playVictory,
+  defeat:            playDefeat,
+  battleEvent:       playBattleEvent,
+  buttonClick:       playButtonClick,
+  cardFlip:          playCardFlip,
+  restHeal:          playRestHeal,
+  manaGain:          playManaGain,
+  minigameCorrect:   playMinigameCorrect,
+  minigameWrong:     playMinigameWrong,
+}
+
+export function emitSound(id: SoundId): void {
+  SOUND_MAP[id]?.()
+}
