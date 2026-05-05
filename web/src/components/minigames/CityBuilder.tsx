@@ -46,13 +46,16 @@ function getUnitRequirements(
 ): { text: string; met: boolean }[] {
   const reqs: { text: string; met: boolean }[] = []
 
-  if (cell.affinityWith) {
+  const wantedNeighbour = cell.affinityWith ?? cell.spawnedUnitName
+  if (wantedNeighbour) {
     const neighbourMet = getNeighbourIndices(cellIndex).some(ni => {
       const nc = cityState.grid[ni]
-      return nc?.spawnedUnitName === cell.affinityWith && (cityState.happiness[ni] ?? 100) > 0
+      return nc?.spawnedUnitName === wantedNeighbour && (cityState.happiness[ni] ?? 100) > 0
     })
     reqs.push({
-      text: `Wants a ${cell.affinityWith} next door`,
+      text: cell.affinityWith
+        ? `Wants a ${wantedNeighbour} next door`
+        : `Wants another ${wantedNeighbour} next door`,
       met: neighbourMet,
     })
   }
@@ -148,27 +151,19 @@ function buildResidentThoughts(
       let thought: string
       let happy = true
 
+      const wantedNeighbour = cell.affinityWith ?? cell.spawnedUnitName
+      const neighbourMet = getNeighbourIndices(i).some(ni => {
+        const nc = city.grid[ni]
+        return nc?.spawnedUnitName === wantedNeighbour && (city.happiness[ni] ?? 100) > 0
+      })
+
       if (happiness === 0) {
         thought = LEAVING_THOUGHTS[seed % LEAVING_THOUGHTS.length]
         happy = false
-      } else if (cell.affinityWith) {
-        const neighbourMet = getNeighbourIndices(i).some(ni => {
-          const nc = city.grid[ni]
-          return nc?.spawnedUnitName === cell.affinityWith && (city.happiness[ni] ?? 100) > 0
-        })
-        if (!neighbourMet) {
-          const lines = AFFINITY_THOUGHTS(cell.affinityWith)
-          thought = lines[seed % lines.length]
-          happy = false
-        } else if (foodScore < 50) {
-          thought = FOOD_THOUGHTS[seed % FOOD_THOUGHTS.length]
-          happy = false
-        } else if (defenseScore < 50) {
-          thought = DEFENCE_THOUGHTS[seed % DEFENCE_THOUGHTS.length]
-          happy = false
-        } else {
-          thought = HAPPY_THOUGHTS[seed % HAPPY_THOUGHTS.length]
-        }
+      } else if (!neighbourMet) {
+        const lines = AFFINITY_THOUGHTS(wantedNeighbour)
+        thought = lines[seed % lines.length]
+        happy = false
       } else if (foodScore < 50) {
         thought = FOOD_THOUGHTS[seed % FOOD_THOUGHTS.length]
         happy = false
@@ -795,9 +790,10 @@ export function CityBuilder({ onBack }: Props) {
           {walkers.map(w => {
             const happiness   = city.happiness[w.cellIndex] ?? 100
             const rage        = 100 - happiness
-            const wantsFriend = w.affinityWith && !getNeighbourIndices(w.cellIndex).some(ni => {
+            const wantedNeighbour = w.affinityWith ?? w.unitName
+            const wantsFriend = !getNeighbourIndices(w.cellIndex).some(ni => {
               const nc = city.grid[ni]
-              return nc?.spawnedUnitName === w.affinityWith && (city.happiness[ni] ?? 100) > 0
+              return nc?.spawnedUnitName === wantedNeighbour && (city.happiness[ni] ?? 100) > 0
             })
             return (
               <div
@@ -810,8 +806,8 @@ export function CityBuilder({ onBack }: Props) {
                 onKeyDown={e => { if (e.key === 'Enter') { e.stopPropagation(); setSelectedWalkerCell(w.cellIndex) } }}
               >
                 {wantsFriend && (
-                  <div className="city-speech-bubble" title={`Wants a ${w.affinityWith}!`}>
-                    <SpriteImg name={w.affinityWith!} className="city-speech-icon" />
+                  <div className="city-speech-bubble" title={`Wants a ${wantedNeighbour} next door!`}>
+                    <SpriteImg name={wantedNeighbour} className="city-speech-icon" />
                   </div>
                 )}
                 <AnimatedSpriteImg
