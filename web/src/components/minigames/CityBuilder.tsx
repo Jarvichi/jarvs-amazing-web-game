@@ -182,7 +182,12 @@ function buildResidentThoughts(
       thoughts.push({ name, unitName: cell.spawnedUnitName, thought, happy })
     }
   }
-  return thoughts
+  // Shuffle and cap at 5 so the feed shows a rotating sample
+  for (let i = thoughts.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [thoughts[i], thoughts[j]] = [thoughts[j], thoughts[i]]
+  }
+  return thoughts.slice(0, 5)
 }
 
 // ── Walking unit state ────────────────────────────────────────────────────────
