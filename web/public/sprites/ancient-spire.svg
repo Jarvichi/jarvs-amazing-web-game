@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="9" ry="1.5" fill="#3a2a1a" opacity="0.5"/>
+  <!-- Base steps -->
+  <rect x="4" y="26" width="24" height="5" rx="1" fill="#7a6a4a"/>
+  <rect x="6" y="24" width="20" height="3" fill="#8a7a5a"/>
+  <rect x="8" y="22" width="16" height="3" fill="#7a6a4a"/>
+  <!-- Main tower body -->
+  <rect x="10" y="10" width="12" height="13" fill="#8a7a5a"/>
+  <rect x="10" y="10" width="12" height="3" fill="#9a8a6a"/>
+  <!-- Stone block detail -->
+  <line x1="10" y1="14" x2="22" y2="14" stroke="#6a5a3a" stroke-width="0.6"/>
+  <line x1="10" y1="17" x2="22" y2="17" stroke="#6a5a3a" stroke-width="0.6"/>
+  <line x1="10" y1="20" x2="22" y2="20" stroke="#6a5a3a" stroke-width="0.6"/>
+  <line x1="14" y1="10" x2="14" y2="22" stroke="#6a5a3a" stroke-width="0.6"/>
+  <line x1="18" y1="10" x2="18" y2="22" stroke="#6a5a3a" stroke-width="0.6"/>
+  <!-- Narrowing upper tower -->
+  <rect x="12" y="5" width="8" height="6" fill="#9a8a6a"/>
+  <rect x="12" y="5" width="8" height="2" fill="#aA9a7a"/>
+  <!-- Spire tip -->
+  <polygon points="16,0 20,5 12,5" fill="#6a5a3a"/>
+  <polygon points="16,0 18,5 14,5" fill="#8a7a5a"/>
+  <!-- Ancient glowing runes -->
+  <line x1="12" y1="15" x2="15" y2="15" stroke="#cc8800" stroke-width="0.8" opacity="0.8"/>
+  <line x1="12" y1="18" x2="15" y2="18" stroke="#cc8800" stroke-width="0.8" opacity="0.8"/>
+  <line x1="17" y1="15" x2="20" y2="15" stroke="#cc8800" stroke-width="0.8" opacity="0.7"/>
+  <line x1="13" y1="14" x2="13" y2="16" stroke="#cc8800" stroke-width="0.8" opacity="0.8"/>
+  <!-- Window slits -->
+  <rect x="14" y="12" width="4" height="2" fill="#2a1a0a"/>
+  <rect x="14" y="7" width="4" height="2" fill="#2a1a0a" opacity="0.8"/>
+  <!-- Glowing tip -->
+  <circle cx="16" cy="0" r="1.5" fill="#ffcc00" opacity="0.8"/>
+  <circle cx="16" cy="0" r="0.8" fill="#ffffff" opacity="0.9"/>
+  <!-- Magical aura -->
+  <ellipse cx="16" cy="0" rx="3" ry="2" fill="#ffaa00" opacity="0.2"/>
+  <!-- Ivy/age marks -->
+  <path d="M10,16 Q8,14 9,18 Q10,20 11,18" fill="#3a6a1a" opacity="0.5"/>
+  <path d="M22,14 Q24,12 23,16 Q22,18 21,16" fill="#3a6a1a" opacity="0.5"/>
+</svg>

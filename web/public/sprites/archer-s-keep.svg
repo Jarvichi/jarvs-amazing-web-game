@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="12" ry="1.5" fill="#3a2a1a" opacity="0.5"/>
+  <!-- Keep base -->
+  <rect x="3" y="16" width="26" height="15" rx="1" fill="#7a6a4a"/>
+  <rect x="3" y="16" width="26" height="3" fill="#8a7a5a"/>
+  <!-- Stone blocks on base -->
+  <line x1="3" y1="20" x2="29" y2="20" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="3" y1="24" x2="29" y2="24" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="3" y1="28" x2="29" y2="28" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="9" y1="16" x2="9" y2="31" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="16" y1="16" x2="16" y2="31" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="23" y1="16" x2="23" y2="31" stroke="#5a4a2a" stroke-width="0.6"/>
+  <!-- Main tower -->
+  <rect x="9" y="5" width="14" height="12" fill="#8a7a5a"/>
+  <rect x="9" y="5" width="14" height="3" fill="#9a8a6a"/>
+  <!-- Tower stone detail -->
+  <line x1="9" y1="9" x2="23" y2="9" stroke="#6a5a3a" stroke-width="0.6"/>
+  <line x1="9" y1="12" x2="23" y2="12" stroke="#6a5a3a" stroke-width="0.6"/>
+  <line x1="13" y1="5" x2="13" y2="16" stroke="#6a5a3a" stroke-width="0.6"/>
+  <line x1="19" y1="5" x2="19" y2="16" stroke="#6a5a3a" stroke-width="0.6"/>
+  <!-- Battlements on tower -->
+  <rect x="9" y="2" width="3" height="4" fill="#8a7a5a"/>
+  <rect x="14" y="2" width="3" height="4" fill="#8a7a5a"/>
+  <rect x="19" y="2" width="3" height="4" fill="#8a7a5a"/>
+  <!-- Arrow slits on tower -->
+  <rect x="12" y="7" width="2" height="4" fill="#1a0a00" rx="1"/>
+  <rect x="18" y="7" width="2" height="4" fill="#1a0a00" rx="1"/>
+  <!-- Arrow slits on keep base -->
+  <rect x="6" y="19" width="2" height="3" fill="#1a0a00" rx="1"/>
+  <rect x="21" y="19" width="2" height="3" fill="#1a0a00" rx="1"/>
+  <!-- Gate door -->
+  <path d="M13,31 L13,24 Q16,21 19,24 L19,31 Z" fill="#2a1a0a"/>
+  <!-- Drawbridge chains -->
+  <line x1="13" y1="24" x2="8" y2="22" stroke="#6a5a3a" stroke-width="0.8"/>
+  <line x1="19" y1="24" x2="24" y2="22" stroke="#6a5a3a" stroke-width="0.8"/>
+  <!-- Banner/flag on tower -->
+  <line x1="16" y1="0" x2="16" y2="3" stroke="#5a4a2a" stroke-width="1"/>
+  <polygon points="16,0 23,1.5 16,3" fill="#aa2222"/>
+</svg>

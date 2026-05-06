@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Water surface -->
+  <rect x="0" y="18" width="32" height="14" fill="#1a4a6a"/>
+  <rect x="0" y="18" width="32" height="3" fill="#2a6a8a"/>
+  <!-- Water ripples -->
+  <line x1="4" y1="21" x2="12" y2="21" stroke="#3a8aaa" stroke-width="0.8" opacity="0.6"/>
+  <line x1="20" y1="21" x2="28" y2="21" stroke="#3a8aaa" stroke-width="0.8" opacity="0.6"/>
+  <line x1="8" y1="24" x2="16" y2="24" stroke="#2a7090" stroke-width="0.6" opacity="0.5"/>
+  <line x1="18" y1="25" x2="26" y2="25" stroke="#2a7090" stroke-width="0.6" opacity="0.5"/>
+  <!-- Dark deep trench below water -->
+  <ellipse cx="16" cy="24" rx="8" ry="4" fill="#0a2030" opacity="0.7"/>
+  <ellipse cx="16" cy="25" rx="5" ry="3" fill="#050f1a" opacity="0.8"/>
+  <!-- Dock/platform structure -->
+  <rect x="2" y="14" width="28" height="5" rx="1" fill="#5a3a1a"/>
+  <rect x="2" y="14" width="28" height="2" fill="#7a5a2a"/>
+  <!-- Dock planks -->
+  <line x1="5" y1="14" x2="5" y2="19" stroke="#4a2a0a" stroke-width="0.8"/>
+  <line x1="9" y1="14" x2="9" y2="19" stroke="#4a2a0a" stroke-width="0.8"/>
+  <line x1="13" y1="14" x2="13" y2="19" stroke="#4a2a0a" stroke-width="0.8"/>
+  <line x1="17" y1="14" x2="17" y2="19" stroke="#4a2a0a" stroke-width="0.8"/>
+  <line x1="21" y1="14" x2="21" y2="19" stroke="#4a2a0a" stroke-width="0.8"/>
+  <line x1="25" y1="14" x2="25" y2="19" stroke="#4a2a0a" stroke-width="0.8"/>
+  <!-- Dock posts going into water -->
+  <rect x="4" y="15" width="2" height="8" fill="#3a2a0a"/>
+  <rect x="12" y="15" width="2" height="10" fill="#3a2a0a"/>
+  <rect x="20" y="15" width="2" height="10" fill="#3a2a0a"/>
+  <rect x="27" y="15" width="2" height="8" fill="#3a2a0a"/>
+  <!-- Fishing rod/equipment -->
+  <line x1="8" y1="4" x2="8" y2="14" stroke="#6a4a2a" stroke-width="1.5"/>
+  <line x1="8" y1="4" x2="18" y2="8" stroke="#6a4a2a" stroke-width="1"/>
+  <!-- Fishing line -->
+  <line x1="18" y1="8" x2="18" y2="22" stroke="#aaaaaa" stroke-width="0.5" opacity="0.6"/>
+  <!-- Fish hook glint in water -->
+  <circle cx="18" cy="22" r="0.8" fill="#cccccc" opacity="0.7"/>
+  <!-- Net hanging from dock -->
+  <path d="M21,14 L21,18 L27,18 L27,14" fill="none" stroke="#8a6a3a" stroke-width="0.5" opacity="0.7"/>
+  <line x1="23" y1="14" x2="23" y2="18" stroke="#8a6a3a" stroke-width="0.4" opacity="0.7"/>
+  <line x1="25" y1="14" x2="25" y2="18" stroke="#8a6a3a" stroke-width="0.4" opacity="0.7"/>
+  <line x1="21" y1="16" x2="27" y2="16" stroke="#8a6a3a" stroke-width="0.4" opacity="0.7"/>
+  <!-- Glowing lure bait in depths -->
+  <circle cx="14" cy="25" r="1" fill="#00ff88" opacity="0.5"/>
+  <circle cx="20" cy="27" r="0.7" fill="#00dd66" opacity="0.4"/>
+</svg>
