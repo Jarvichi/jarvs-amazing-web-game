@@ -13,7 +13,7 @@ import {
   CITY_COLS, CITY_ROWS, CITY_CELLS, CELL_PX, MAX_CITY_ROWS,
   CityCell, CityState, ResourceType, ResourceStock, AttackEvent,
   RESOURCE_ICONS, SPAWNER_PLACE_COST,
-  FORT_MAX_HP, FORT_DEFENSE, EXPANSION_COSTS,
+  FORT_MAX_HP, FORT_DEFENSE, EXPANSION_COSTS, MAX_TOTAL_FORTS,
   loadCityState, saveCityState, tickCity,
   placeCard, removeCard,
   addFortification, removeFortification,
@@ -442,7 +442,9 @@ export function CityBuilder({ onBack }: Props) {
   // ── Fortification handlers ────────────────────────────────────────────────────
 
   function handleAddFort(card: Card) {
-    save(addFortification(city, card.name, card.rarity))
+    const next = addFortification(city, card.name, card.rarity)
+    if (!next) { showToast(`Fort limit reached (${MAX_TOTAL_FORTS} max).`); return }
+    save(next)
     showToast(`${card.name} added as fortification!`)
   }
 
@@ -529,7 +531,7 @@ export function CityBuilder({ onBack }: Props) {
       <div className="city-screen">
         <div className="city-picker-header">
           <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
-          <div className="city-picker-title">🛡 FORTIFICATIONS</div>
+          <div className="city-picker-title">🛡 FORTIFICATIONS ({city.fortifications.length}/{MAX_TOTAL_FORTS})</div>
         </div>
 
         <div className="city-fort-info-row">
@@ -568,7 +570,9 @@ export function CityBuilder({ onBack }: Props) {
         )}
 
         <div className="city-picker-section-label">ADD WALL / MOAT</div>
-        {availableDefenceCards.length === 0 ? (
+        {city.fortifications.length >= MAX_TOTAL_FORTS ? (
+          <div className="city-picker-empty">Fort limit reached ({MAX_TOTAL_FORTS}/{MAX_TOTAL_FORTS}). Remove one to add another.</div>
+        ) : availableDefenceCards.length === 0 ? (
           <div className="city-picker-empty">
             {ownedStructures.some(c => isDefenceCard(c.name, c.unit?.structureEffect?.type === 'spawn'))
               ? 'All owned defence cards are already deployed.'

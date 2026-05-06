@@ -90,11 +90,14 @@ const ATTACK_INTERVAL_JITTER_MS = 2 * 3600 * 1000
 // ── Expansion costs: current rows → cost to add one more row ─────────────────
 
 export const EXPANSION_COSTS: Record<number, { gold: number; resources: Partial<ResourceStock> }> = {
-  4: { gold: 2000,  resources: { wood: 50,  ore: 25  } },
-  5: { gold: 5000,  resources: { wood: 100, ore: 50  } },
-  6: { gold: 12000, resources: { wood: 200, ore: 100 } },
-  7: { gold: 25000, resources: { wood: 400, ore: 200 } },
+  4: { gold: 500_000,    resources: { wood: 2000,  ore: 1000, planks: 500   } },
+  5: { gold: 2_000_000,  resources: { wood: 5000,  ore: 2500, planks: 1500  } },
+  6: { gold: 5_000_000,  resources: { wood: 8000,  ore: 4000, planks: 3000  } },
+  7: { gold: 15_000_000, resources: { wood: 10000, ore: 6000, planks: 5000  } },
 }
+
+/** Hard cap on total fortifications (prevents unlimited stacking). */
+export const MAX_TOTAL_FORTS = 20
 
 // ── Resource building config ──────────────────────────────────────────────────
 
@@ -561,7 +564,8 @@ export function removeCard(state: CityState, index: number): CityState {
 
 // ── Fortification helpers ─────────────────────────────────────────────────────
 
-export function addFortification(state: CityState, cardName: string, rarity: CardRarity): CityState {
+export function addFortification(state: CityState, cardName: string, rarity: CardRarity): CityState | null {
+  if (state.fortifications.length >= MAX_TOTAL_FORTS) return null
   const maxHp = FORT_MAX_HP[rarity]
   const fort: Fortification = { cardName, rarity, hp: maxHp, maxHp }
   return { ...state, fortifications: [...state.fortifications, fort] }
