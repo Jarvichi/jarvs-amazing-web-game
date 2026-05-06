@@ -663,6 +663,31 @@ body {
 
 /* ─── Hand Panel ─────────────────────────────────────── */
 
+.stance-bar {
+  display: flex;
+  gap: 4px;
+  padding: 4px 6px;
+  border-top: 1px solid var(--game-border);
+  flex-shrink: 0;
+}
+
+.stance-bar .filter-btn {
+  flex: 1;
+  text-align: center;
+}
+
+.stance-bar__speed {
+  flex: 0 0 auto !important;
+  min-width: 36px;
+  border-color: #5a5a00 !important;
+  color: #cccc44 !important;
+}
+
+.stance-bar__speed:hover {
+  border-color: #aaaa00 !important;
+  color: #ffff66 !important;
+}
+
 .hand-panel {
   flex-shrink: 0;
   border-top: 2px solid var(--game-border);

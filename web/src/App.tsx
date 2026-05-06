@@ -282,7 +282,7 @@ export default function App() {
     ...INITIAL_BATTLE_STATE,
     gameState: _startup.gameState,
   })
-  const { gameState, showBossShockwave, dcGameOverState, summaryStats, showFingerSmash, fingerSmashNames, waveRewardChoices } = battle
+  const { gameState, showBossShockwave, dcGameOverState, summaryStats, showFingerSmash, fingerSmashNames, waveRewardChoices, speedMultiplier } = battle
 
   // Initialise battle state and transition to the playing screen in one call so
   // the two state updates are always kept together (React 18 batches them into a
@@ -512,6 +512,14 @@ export default function App() {
     }
     prevBossCardActiveRef.current = active
   }, [gameState?.bossCardActive])
+
+  // On sudden death: force Attack stance and reset speed to x1 (speed button stays enabled).
+  useEffect(() => {
+    if (gameState?.suddenDeath) {
+      dispatch({ type: 'SET_STANCE', stance: 'attack' })
+      dispatch({ type: 'SET_SPEED', multiplier: 1 })
+    }
+  }, [gameState?.suddenDeath])
 
   // Save daily challenge result the moment the battle ends
   useEffect(() => {
@@ -1337,6 +1345,16 @@ export default function App() {
   const handleWaveRewardSkip = useCallback(() => {
     dispatch({ type: 'WAVE_REWARD_SKIP' })
   }, [])
+
+  const handleSetStance = useCallback((s: NonNullable<GameState['playerStance']>) => {
+    dispatch({ type: 'SET_STANCE', stance: s })
+  }, [])
+
+  const handleCycleSpeed = useCallback(() => {
+    const order = [1, 2, 4, 8] as const
+    const next = order[(order.indexOf(battle.speedMultiplier) + 1) % order.length]
+    dispatch({ type: 'SET_SPEED', multiplier: next })
+  }, [battle.speedMultiplier])
 
   const handleActComplete = useCallback(() => {
     const currentRun = run
@@ -2545,7 +2563,7 @@ export default function App() {
         if (gameState.phase.type === 'celebration') {
           return (
             <>
-              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} isCampaign={isCampaign} />
+              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={false} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} />
               <VictoryPanel
                 playerScore={gameState.playerScore}
                 opponentScore={gameState.opponentScore}
@@ -2562,7 +2580,7 @@ export default function App() {
           const fp = gameState.phase as { type: 'fingerSmash'; wave: number; smashedNames: string[]; rewardDue: boolean }
           return (
             <>
-              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} isCampaign={isCampaign} />
+              <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} />
               <FingerSmash
                 smashedNames={fingerSmashNames}
                 onDone={() => {
@@ -2618,7 +2636,7 @@ export default function App() {
           />
         ) : (
           <>
-            <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} isCampaign={isCampaign} />
+            <Battlefield state={gameState} onPlayCard={handlePlayCard} onPlayAoeCard={handlePlayAoeCard} onGiveUp={handleGiveUp} onPause={setIsUserPaused} actTheme={actTheme} activeRelic={run?.activeRelic} showBossSplash={showBossSplash} activeModifiers={run ? getModifiersByCount(ACTS[run.actId], run.activeModifierCount) : []} isCampaign={isCampaign} stance={gameState.playerStance ?? 'auto'} onSetStance={handleSetStance} speedMultiplier={speedMultiplier} onCycleSpeed={handleCycleSpeed} />
             {showBossShockwave && <BossShockwave onDone={() => dispatch({ type: 'HIDE_BOSS_SHOCKWAVE' })} />}
             {activeRareEvent === 'fakeCrash'   && <FakeCrashEvent   onDone={handleRareEventDone} />}
             {activeRareEvent === 'blackjack'   && <BlackjackEvent   onDone={handleRareEventDone} />}
