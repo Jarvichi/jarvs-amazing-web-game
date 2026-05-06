@@ -106,7 +106,7 @@ export const EXPANSION_COSTS: Record<number, { gold: number; resources: Partial<
 }
 
 /** Hard cap on total fortifications (prevents unlimited stacking). */
-export const MAX_TOTAL_FORTS = 20
+export const MAX_TOTAL_FORTS = 12
 
 // ── Resource building config ──────────────────────────────────────────────────
 
