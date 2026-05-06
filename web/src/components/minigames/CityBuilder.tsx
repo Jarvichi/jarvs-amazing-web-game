@@ -192,7 +192,6 @@ function buildResidentThoughts(
 
 // ── Walking unit state ────────────────────────────────────────────────────────
 
-const OVERLAY_W = CITY_COLS * CELL_PX
 const UNIT_SIZE = 20
 const SPEED     = 0.8
 
@@ -208,15 +207,15 @@ interface Walker {
   turnTimer: number
 }
 
-function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affinityWith?: string): Walker {
+function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affinityWith?: string, w = CITY_COLS * CELL_PX, h = CITY_ROWS * CELL_PX): Walker {
   const angle = Math.random() * Math.PI * 2
   return {
     cellIndex,
     unitIndex,
     unitName,
     affinityWith,
-    x: Math.random() * (OVERLAY_W - UNIT_SIZE),
-    y: Math.random() * (OVERLAY_W - UNIT_SIZE),
+    x: Math.random() * Math.max(1, w - UNIT_SIZE),
+    y: Math.random() * Math.max(1, h - UNIT_SIZE),
     vx: Math.cos(angle) * SPEED,
     vy: Math.sin(angle) * SPEED,
     turnTimer: 20 + Math.floor(Math.random() * 30),
@@ -260,6 +259,8 @@ export function CityBuilder({ onBack }: Props) {
   const [attackReport, setAttackReport] = useState<AttackEvent | null>(null)
   const attackShownRef = useRef<number | null>(null)
   const [currentTime, setCurrentTime] = useState(Date.now())
+  const worldRef = useRef<HTMLDivElement>(null)
+  const worldDimsRef = useRef({ w: CITY_COLS * CELL_PX, h: CITY_ROWS * CELL_PX })
 
   function showToast(msg: string) {
     setToast(msg)
@@ -285,6 +286,17 @@ export function CityBuilder({ onBack }: Props) {
     return () => clearInterval(id)
   }, [])
 
+  // Track actual grid pixel dimensions for walker bounds
+  useEffect(() => {
+    const el = worldRef.current
+    if (!el) return
+    const update = () => { worldDimsRef.current = { w: el.clientWidth, h: el.clientHeight } }
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
   // ── Sync walkers when grid changes ───────────────────────────────────────────
 
   useEffect(() => {
@@ -297,7 +309,8 @@ export function CityBuilder({ onBack }: Props) {
         const count = spawnerUnitCount(city, cell.cardName)
         for (let u = 0; u < count; u++) {
           const existing = prev.find(w => w.cellIndex === i && w.unitIndex === u && w.unitName === cell.spawnedUnitName)
-          next.push(existing ?? makeWalker(i, u, cell.spawnedUnitName, cell.affinityWith))
+          const { w: dw, h: dh } = worldDimsRef.current
+          next.push(existing ?? makeWalker(i, u, cell.spawnedUnitName, cell.affinityWith, dw, dh))
         }
       }
       return next
@@ -308,17 +321,16 @@ export function CityBuilder({ onBack }: Props) {
   // ── Animation loop ────────────────────────────────────────────────────────────
 
   useEffect(() => {
-    const gridRows = city.rows ?? CITY_ROWS
-    const overlayH = gridRows * CELL_PX
     const id = setInterval(() => {
+      const { w: overlayW, h: overlayH } = worldDimsRef.current
       setWalkers(prev => prev.map(w => {
         let { x, y, vx, vy, turnTimer } = w
         x += vx
         y += vy
-        if (x < 0)                     { x = 0;                    vx = Math.abs(vx) }
-        if (x > OVERLAY_W - UNIT_SIZE) { x = OVERLAY_W - UNIT_SIZE; vx = -Math.abs(vx) }
-        if (y < 0)                     { y = 0;                    vy = Math.abs(vy) }
-        if (y > overlayH - UNIT_SIZE)  { y = overlayH - UNIT_SIZE; vy = -Math.abs(vy) }
+        if (x < 0)                      { x = 0;                     vx = Math.abs(vx) }
+        if (x > overlayW - UNIT_SIZE)   { x = overlayW - UNIT_SIZE;  vx = -Math.abs(vx) }
+        if (y < 0)                      { y = 0;                     vy = Math.abs(vy) }
+        if (y > overlayH - UNIT_SIZE)   { y = overlayH - UNIT_SIZE;  vy = -Math.abs(vy) }
         turnTimer--
         if (turnTimer <= 0) {
           const angle = Math.random() * Math.PI * 2
@@ -330,8 +342,7 @@ export function CityBuilder({ onBack }: Props) {
       }))
     }, 100)
     return () => clearInterval(id)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city.rows])
+  }, [])
 
   useEffect(() => { bulldozerRef.current = bulldozerMode }, [bulldozerMode])
 
@@ -1022,71 +1033,70 @@ export function CityBuilder({ onBack }: Props) {
         )
       })()}
 
-      {/* Header */}
+      {/* Header: back | title | gold | action buttons */}
       <div className="city-header">
         <button className="action-btn" onClick={onBack}>← BACK</button>
         <div className="city-title">🏙 CITY</div>
-        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+        <div className="city-header-right">
           <div className="city-gold-display">⚙ {city.gold.toLocaleString()}</div>
-          <button className="filter-btn" onClick={() => setScreen('fortify')}>🛡</button>
-          <button className="filter-btn" onClick={() => setScreen('upgrade')}>★</button>
+          <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 WALLS</button>
+          <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UP</button>
+          <button
+            className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
+            onClick={toggleBulldozer}
+            title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}
+          >{bulldozerMode ? '🏗 ON' : '🏗'}</button>
         </div>
       </div>
 
-      {/* Income + bulldozer row */}
-      <div className="city-income-row">
-        <span className="city-income-in">+{incomeRate} gold</span>
-        {bulldozerMode
-          ? <span className="city-bulldozer-paused">⏸ PAUSED</span>
-          : <span className={`city-income-net${netRate >= 0 ? ' city-income-net--pos' : ' city-income-net--neg'}`}>
-              {netRate >= 0 ? `+${netRate}` : `${netRate}`}/min
-            </span>
-        }
-        <button
-          className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
-          onClick={toggleBulldozer}
-          title={bulldozerMode ? 'Bulldozer ON — tap to demolish' : 'Toggle bulldozer to demolish buildings'}
-        >🏗{bulldozerMode ? ' ON' : ''}</button>
-      </div>
-
-      {/* Attack countdown */}
-      <div className={`city-attack-row city-attack-row--${attackUrgency}`}>
-        <span className="city-attack-icon">⚔</span>
-        <span className="city-attack-label">
-          {msToAttack <= 0 ? 'ATTACK IMMINENT' : `ATTACK IN ${attackCountdown}`}
+      {/* Compact info strip: attack countdown + defence + income + pop */}
+      <div className="city-info-strip">
+        <span className={`city-attack-pill city-attack-pill--${attackUrgency}`}>
+          ⚔ {msToAttack <= 0 ? 'NOW!' : attackCountdown}
         </span>
-        <span className="city-attack-defense">🛡 {defense}</span>
+        <span className="city-info-chip">🛡 {defense}</span>
+        <span className="city-info-chip">
+          {bulldozerMode
+            ? <span className="city-bulldozer-paused">⏸ PAUSED</span>
+            : `+${incomeRate}/m`}
+        </span>
+        <span className="city-info-chip">👥 {population}</span>
+        {cityRows < MAX_CITY_ROWS && expansionCost && (
+          <button
+            className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
+            onClick={handleExpand}
+            disabled={!affordable}
+            title={affordable ? `Expand city to ${cityRows + 1} rows` : 'Not enough resources to expand'}
+          >+ EXPAND</button>
+        )}
       </div>
 
-      {/* City stats */}
-      <div className="city-stats-row">
-        <div className="city-stat city-stat--population" title="Population">
-          👥 {population}
-        </div>
+      {/* Resources: horizontally scrollable chip strip */}
+      <div className="city-res-strip">
         {(['wheat', 'wood', 'ore', 'bread', 'planks', 'metal'] as ResourceType[]).map(res => {
-          const stock   = Math.floor(city.resources[res])
-          const prod    = prodRates[res] ?? 0
-          const cons    = consRates[res] ?? 0
-          const net     = prod - cons
+          const stock = Math.floor(city.resources[res])
+          const prod  = prodRates[res] ?? 0
+          const cons  = consRates[res] ?? 0
+          const net   = prod - cons
           if (stock === 0 && prod === 0) return null
+          const label = stock >= 10000 ? `${(stock / 1000).toFixed(0)}k` : stock >= 1000 ? `${(stock / 1000).toFixed(1)}k` : `${stock}`
           return (
-            <div key={res} className="city-stat" title={`${res}: ${stock} stock, ${net >= 0 ? '+' : ''}${net}/min`}>
-              {RESOURCE_ICONS[res]} {stock}
-              {net !== 0 && (
-                <span className={net > 0 ? 'city-res-pos' : 'city-res-neg'}>
-                  {net > 0 ? `+${net}` : net}/m
-                </span>
-              )}
-            </div>
+            <span key={res} className="city-res-chip" title={`${res}: ${stock} stock, ${net >= 0 ? '+' : ''}${net}/min`}>
+              {RESOURCE_ICONS[res]}{label}
+              {net !== 0 && <span className={net > 0 ? 'city-res-pos' : 'city-res-neg'}>{net > 0 ? `+${net}` : net}</span>}
+            </span>
           )
         })}
       </div>
 
-      {/* City world: grid + walker overlay */}
-      <div className="city-world">
+      {/* City world: fixed 50vh, scales with rows */}
+      <div className="city-world" ref={worldRef}>
         <div
           className="city-grid"
-          style={{ gridTemplateColumns: `repeat(${CITY_COLS}, 1fr)` }}
+          style={{
+            gridTemplateColumns: `repeat(${CITY_COLS}, 1fr)`,
+            gridTemplateRows:    `repeat(${cityRows}, 1fr)`,
+          }}
         >
           {Array.from({ length: cityCells }, (_, i) => {
             const cell      = city.grid[i]
@@ -1129,11 +1139,11 @@ export function CityBuilder({ onBack }: Props) {
         {/* Walking units overlay */}
         <div className="city-unit-overlay">
           {walkers.map(w => {
-            const happiness   = city.happiness[w.cellIndex] ?? 100
-            const rage        = 100 - happiness
+            const happiness       = city.happiness[w.cellIndex] ?? 100
+            const rage            = 100 - happiness
             const wantedNeighbour = w.affinityWith ?? w.unitName
-            const gridRows2 = city.rows ?? CITY_ROWS
-            const wantsFriend = !getNeighbourIndices(w.cellIndex, gridRows2).some(ni => {
+            const gridRows2       = city.rows ?? CITY_ROWS
+            const wantsFriend     = !getNeighbourIndices(w.cellIndex, gridRows2).some(ni => {
               const nc = city.grid[ni]
               return nc?.spawnedUnitName === wantedNeighbour && (city.happiness[ni] ?? 100) > 0
             })
@@ -1152,12 +1162,7 @@ export function CityBuilder({ onBack }: Props) {
                     <SpriteImg name={wantedNeighbour} className="city-speech-icon" />
                   </div>
                 )}
-                <AnimatedSpriteImg
-                  name={w.unitName}
-                  frameCount={3}
-                  fps={6}
-                  className="city-walker-sprite"
-                />
+                <AnimatedSpriteImg name={w.unitName} frameCount={3} fps={6} className="city-walker-sprite" />
                 {rage >= 40 && <span className="city-walker-need">!</span>}
               </div>
             )
@@ -1165,7 +1170,7 @@ export function CityBuilder({ onBack }: Props) {
         </div>
       </div>
 
-      {/* City perimeter — fortification sprites shown as the city wall */}
+      {/* City perimeter — fortification sprites as the city wall */}
       {city.fortifications.length > 0 && (
         <div
           className="city-perimeter"
@@ -1175,14 +1180,13 @@ export function CityBuilder({ onBack }: Props) {
           onKeyDown={e => { if (e.key === 'Enter') setScreen('fortify') }}
           title="City fortifications — tap to manage"
         >
-          <div className="city-perimeter-label">🛡 CITY WALLS</div>
           <div className="city-perimeter-forts">
             {city.fortifications.map((fort, idx) => {
-              const hpPct = fort.hp / fort.maxHp
+              const hpPct  = fort.hp / fort.maxHp
               const hpColor = hpPct > 0.6 ? '#308030' : hpPct > 0.3 ? '#806020' : '#803020'
               return (
                 <div key={idx} className="city-perimeter-fort">
-                  <div className="city-perimeter-fort-bg" style={{ opacity: 0.25 + hpPct * 0.55, background: hpColor }} />
+                  <div className="city-perimeter-fort-bg" style={{ opacity: 0.2 + hpPct * 0.5, background: hpColor }} />
                   <SpriteImg name={fort.cardName} className="city-perimeter-sprite" />
                   <div className="city-perimeter-hp" style={{ width: `${Math.round(hpPct * 100)}%`, background: hpColor }} />
                 </div>
@@ -1192,37 +1196,21 @@ export function CityBuilder({ onBack }: Props) {
         </div>
       )}
 
-      {/* Expand city button */}
-      {cityRows < MAX_CITY_ROWS && expansionCost && (
-        <div className="city-expand-row">
-          <button
-            className={`action-btn${affordable ? ' action-btn--gold' : ''}`}
-            onClick={handleExpand}
-            disabled={!affordable}
-            title={affordable ? 'Expand your city by one row' : 'Not enough resources to expand'}
-          >
-            EXPAND CITY ({cityRows}→{cityRows + 1} rows)
-            {' '}⚙{expansionCost.gold.toLocaleString()}
-            {Object.entries(expansionCost.resources).map(([r, a]) =>
-              ` ${RESOURCE_ICONS[r as ResourceType]}${a}`
-            ).join('')}
-          </button>
-        </div>
-      )}
-
-      {/* Resident thoughts feed */}
-      {residentThoughts.length > 0 && (
-        <div className="city-thoughts">
-          <div className="city-thoughts-title">RESIDENT THOUGHTS</div>
-          {residentThoughts.map((t, idx) => (
-            <div key={idx} className={`city-thought-row${t.happy ? ' city-thought-row--happy' : ' city-thought-row--unhappy'}`}>
-              <AnimatedSpriteImg name={t.unitName} frameCount={3} fps={6} className="city-thought-sprite" />
-              <span className="city-thought-name">{t.name}:</span>
-              <span className="city-thought-text">"{t.thought}"</span>
-            </div>
-          ))}
-        </div>
-      )}
+      {/* Scrollable bottom: resident thoughts */}
+      <div className="city-bottom-scroll">
+        {residentThoughts.length > 0 && (
+          <div className="city-thoughts">
+            <div className="city-thoughts-title">RESIDENT THOUGHTS</div>
+            {residentThoughts.map((t, idx) => (
+              <div key={idx} className={`city-thought-row${t.happy ? ' city-thought-row--happy' : ' city-thought-row--unhappy'}`}>
+                <AnimatedSpriteImg name={t.unitName} frameCount={3} fps={6} className="city-thought-sprite" />
+                <span className="city-thought-name">{t.name}:</span>
+                <span className="city-thought-text">"{t.thought}"</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

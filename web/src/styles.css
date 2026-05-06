@@ -8964,17 +8964,25 @@ html.light-mode .action-btn {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 12px;
+  gap: 4px;
+  padding: 8px 8px 0;
   height: 100%;
-  overflow-y: auto;
+  overflow: hidden;
   box-sizing: border-box;
 }
 
 .city-header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.city-header-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  flex-wrap: nowrap;
 }
 
 .city-title {
@@ -8992,17 +9000,84 @@ html.light-mode .action-btn {
   font-weight: bold;
 }
 
-/* Income / wage row */
-.city-income-row {
-  font-size: 11px;
-  text-align: center;
+/* ── Compact info strip ───────────────────────────────────────────────────── */
+.city-info-strip {
   display: flex;
-  justify-content: center;
-  gap: 6px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 1px;
 }
+.city-info-strip::-webkit-scrollbar { display: none; }
+
+.city-attack-pill {
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.city-attack-pill--calm     { color: #508050; }
+.city-attack-pill--soon     { color: #c08020; }
+.city-attack-pill--imminent { color: #d06030; animation: city-pulse 1.2s ease-in-out infinite; }
+
+.city-info-chip {
+  font-size: 10px;
+  color: #608060;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.city-expand-btn {
+  font-size: 9px !important;
+  padding: 2px 5px !important;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.city-expand-btn--ready {
+  border-color: #d0a030 !important;
+  color: #d0a030 !important;
+  background: rgba(208,160,48,0.08) !important;
+}
+
+/* ── Resource chip strip ─────────────────────────────────────────────────── */
+.city-res-strip {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  flex-shrink: 0;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.city-res-strip::-webkit-scrollbar { display: none; }
+
+.city-res-chip {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  color: #80a080;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Scrollable bottom ───────────────────────────────────────────────────── */
+.city-bottom-scroll {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-bottom: 8px;
+}
+
+/* Legacy income row kept for sub-screens that still use it */
 .city-income-in   { color: #60a060; }
-.city-income-wage { color: #a06060; }
 .city-income-net--pos { color: #60d060; font-weight: bold; }
 .city-income-net--neg { color: #d06060; font-weight: bold; }
 
@@ -9011,26 +9086,28 @@ html.light-mode .action-btn {
 .city-world {
   position: relative;
   width: 100%;
-  /* height is determined by grid content */
+  flex: 0 0 50vh;
+  height: 50vh;
+  overflow: hidden;
 }
 
 .city-grid {
   display: grid;
-  gap: 3px;
+  gap: 2px;
   width: 100%;
+  height: 100%;
 }
 
 .city-cell {
   background: #050a05;
   border: 1px dashed #1a3a1a;
-  border-radius: 3px;
-  min-height: 72px;
+  border-radius: 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 4px 2px 8px;
+  padding: 1px;
   position: relative;
   transition: border-color 0.15s;
   overflow: hidden;
@@ -9040,7 +9117,7 @@ html.light-mode .action-btn {
 .city-cell--occupied         { border-style: dashed; border-color: #1a3a1a; background: #061006; }
 .city-cell--occupied:hover   { border-color: #aa3030; background: #120606; }
 
-.city-cell-sprite  { width: 32px; height: 32px; image-rendering: pixelated; }
+.city-cell-sprite  { width: 65%; height: 65%; max-width: 36px; max-height: 36px; image-rendering: pixelated; }
 
 .city-cell-name { display: none; }
 
@@ -9511,28 +9588,10 @@ html.light-mode .action-btn {
 .city-cell--bulldoze:hover { background: rgba(160,48,32,0.4) !important; }
 .city-bulldozer-paused { font-size: 10px; color: #e06040; letter-spacing: 1px; }
 
-/* ── City Builder — attack countdown row ────────────────────────────────── */
-.city-attack-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-family: monospace;
-  padding: 4px 6px;
-  border: 1px solid #1a3a1a;
-  border-radius: 3px;
-  background: #040a04;
-}
-.city-attack-row--calm    { border-color: #204020; color: #508050; }
-.city-attack-row--soon    { border-color: #604010; color: #c08020; }
-.city-attack-row--imminent { border-color: #602010; color: #d06030; animation: city-pulse 1.2s ease-in-out infinite; }
 @keyframes city-pulse {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.5; }
 }
-.city-attack-icon  { font-size: 13px; }
-.city-attack-label { flex: 1; font-weight: bold; letter-spacing: 1px; }
-.city-attack-defense { color: #40a060; font-size: 10px; }
 
 /* ── City Builder — attack report modal ─────────────────────────────────── */
 .city-attack-report-header {
@@ -9596,28 +9655,21 @@ html.light-mode .action-btn {
 
 /* ── City Builder — city perimeter (wall/moat visual strip) ─────────────── */
 .city-perimeter {
-  border: 1px solid #1a3a1a;
   border-top: 2px solid #204a20;
   background: #040a04;
-  padding: 4px 6px 6px;
+  padding: 3px 6px 4px;
   cursor: pointer;
-  border-radius: 0 0 4px 4px;
+  flex-shrink: 0;
 }
-.city-perimeter:hover { border-color: #308030; }
-.city-perimeter-label {
-  font-size: 9px;
-  color: #406040;
-  letter-spacing: 2px;
-  margin-bottom: 4px;
-}
+.city-perimeter:hover { border-top-color: #308030; }
 .city-perimeter-forts {
   display: flex;
   flex-wrap: wrap;
-  gap: 3px;
+  gap: 2px;
 }
 .city-perimeter-fort {
   position: relative;
-  width: 28px;
+  width: 24px;
   flex-shrink: 0;
 }
 .city-perimeter-fort-bg {
@@ -9626,8 +9678,8 @@ html.light-mode .action-btn {
   border-radius: 2px;
 }
 .city-perimeter-sprite {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   image-rendering: pixelated;
   display: block;
   position: relative;
@@ -9639,16 +9691,6 @@ html.light-mode .action-btn {
   transition: width 0.5s, background 0.5s;
 }
 
-/* ── City Builder — expand city ──────────────────────────────────────────── */
-.city-expand-row {
-  display: flex;
-  justify-content: center;
-  padding: 4px 0;
-}
-.city-expand-row .action-btn {
-  font-size: 10px;
-  letter-spacing: 1px;
-}
 
 /* ── City Builder — building resident panel ─────────────────────────────── */
 .city-search {
