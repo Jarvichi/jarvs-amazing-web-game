@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#2a1a0a" opacity="0.5"/>
+  <!-- Massive base walls -->
+  <rect x="1" y="18" width="30" height="13" rx="1" fill="#6a5030"/>
+  <rect x="1" y="18" width="30" height="3" fill="#7a6040"/>
+  <!-- Heavy stone blocks -->
+  <line x1="1" y1="22" x2="31" y2="22" stroke="#4a3010" stroke-width="0.8"/>
+  <line x1="1" y1="26" x2="31" y2="26" stroke="#4a3010" stroke-width="0.8"/>
+  <line x1="8" y1="18" x2="8" y2="31" stroke="#4a3010" stroke-width="0.8"/>
+  <line x1="16" y1="18" x2="16" y2="31" stroke="#4a3010" stroke-width="0.8"/>
+  <line x1="24" y1="18" x2="24" y2="31" stroke="#4a3010" stroke-width="0.8"/>
+  <!-- Corner towers (thick) -->
+  <rect x="1" y="10" width="8" height="9" fill="#7a6040"/>
+  <rect x="23" y="10" width="8" height="9" fill="#7a6040"/>
+  <rect x="1" y="10" width="8" height="3" fill="#8a7050"/>
+  <rect x="23" y="10" width="8" height="3" fill="#8a7050"/>
+  <!-- Corner tower battlements -->
+  <rect x="1" y="7" width="2" height="4" fill="#7a6040"/>
+  <rect x="4" y="7" width="2" height="4" fill="#7a6040"/>
+  <rect x="7" y="7" width="2" height="4" fill="#7a6040"/>
+  <rect x="23" y="7" width="2" height="4" fill="#7a6040"/>
+  <rect x="26" y="7" width="2" height="4" fill="#7a6040"/>
+  <rect x="29" y="7" width="2" height="4" fill="#7a6040"/>
+  <!-- Keep top center -->
+  <rect x="9" y="12" width="14" height="7" fill="#8a7050"/>
+  <rect x="9" y="12" width="14" height="3" fill="#9a8060"/>
+  <!-- Chains/shackles on gate -->
+  <line x1="11" y1="22" x2="14" y2="25" stroke="#8a7a5a" stroke-width="1.2"/>
+  <line x1="21" y1="22" x2="18" y2="25" stroke="#8a7a5a" stroke-width="1.2"/>
+  <!-- Reinforced gate door -->
+  <rect x="11" y="22" width="10" height="9" fill="#3a2010"/>
+  <!-- Gate iron bars -->
+  <line x1="13" y1="22" x2="13" y2="31" stroke="#5a5040" stroke-width="1"/>
+  <line x1="16" y1="22" x2="16" y2="31" stroke="#5a5040" stroke-width="1"/>
+  <line x1="19" y1="22" x2="19" y2="31" stroke="#5a5040" stroke-width="1"/>
+  <line x1="11" y1="25" x2="21" y2="25" stroke="#5a5040" stroke-width="1"/>
+  <line x1="11" y1="28" x2="21" y2="28" stroke="#5a5040" stroke-width="1"/>
+  <!-- Deep crack in walls (from behemoth inside) -->
+  <path d="M16,18 L14,22 L17,26 L15,31" fill="none" stroke="#2a1000" stroke-width="1.2" opacity="0.6"/>
+  <!-- Arrow slits on towers -->
+  <rect x="4" y="12" width="2" height="4" fill="#1a0a00" rx="1"/>
+  <rect x="26" y="12" width="2" height="4" fill="#1a0a00" rx="1"/>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#2a1a0a" opacity="0.4"/>
+  <!-- Fenced enclosure ground -->
+  <rect x="0" y="22" width="32" height="10" fill="#5a4a2a"/>
+  <rect x="0" y="22" width="32" height="2" fill="#6a5a3a"/>
+  <!-- Fence posts and rails -->
+  <line x1="2" y1="18" x2="2" y2="28" stroke="#5a3a1a" stroke-width="2"/>
+  <line x1="8" y1="17" x2="8" y2="27" stroke="#5a3a1a" stroke-width="2"/>
+  <line x1="24" y1="17" x2="24" y2="27" stroke="#5a3a1a" stroke-width="2"/>
+  <line x1="30" y1="18" x2="30" y2="28" stroke="#5a3a1a" stroke-width="2"/>
+  <!-- Fence rail top -->
+  <line x1="2" y1="19" x2="30" y2="19" stroke="#7a5a2a" stroke-width="1.5"/>
+  <!-- Fence rail bottom -->
+  <line x1="2" y1="23" x2="30" y2="23" stroke="#7a5a2a" stroke-width="1.5"/>
+  <!-- Bear shelter/den building -->
+  <rect x="8" y="10" width="16" height="12" rx="1" fill="#6a5030"/>
+  <rect x="8" y="10" width="16" height="3" fill="#7a6040"/>
+  <!-- Log wall texture lines -->
+  <line x1="8" y1="13" x2="24" y2="13" stroke="#5a3a1a" stroke-width="0.7"/>
+  <line x1="8" y1="16" x2="24" y2="16" stroke="#5a3a1a" stroke-width="0.7"/>
+  <line x1="8" y1="19" x2="24" y2="19" stroke="#5a3a1a" stroke-width="0.7"/>
+  <!-- Heavy log roof -->
+  <polygon points="6,10 16,3 26,10" fill="#5a3a1a"/>
+  <polygon points="8,10 16,4 24,10" fill="#6a4a2a"/>
+  <!-- Den entrance (wide arched) -->
+  <path d="M12,22 L12,16 Q16,13 20,16 L20,22 Z" fill="#1a0a00"/>
+  <!-- Bear paw prints inside enclosure -->
+  <circle cx="5" cy="25" r="1.2" fill="#4a3a1a"/>
+  <circle cx="4" cy="27.5" r="1" fill="#4a3a1a"/>
+  <circle cx="7" cy="28" r="1" fill="#4a3a1a"/>
+  <circle cx="26" cy="24" r="1.2" fill="#4a3a1a"/>
+  <circle cx="28" cy="26" r="1" fill="#4a3a1a"/>
+  <!-- Fish in enclosure (bear food) -->
+  <path d="M14,26 Q16,24 18,26 Q16,28 14,26 Z" fill="#6a8a9a"/>
+  <polygon points="18,26 21,24 21,28" fill="#6a8a9a"/>
+  <!-- Feeding trough -->
+  <rect x="10" y="26" width="12" height="3" rx="1" fill="#5a3a1a"/>
+  <rect x="11" y="26" width="10" height="2" fill="#3a1a00"/>
+</svg>

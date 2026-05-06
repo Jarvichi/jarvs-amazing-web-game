@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#2a1a0a" opacity="0.5"/>
+  <!-- Rocky hillside base -->
+  <polygon points="0,32 0,22 5,18 12,20 16,16 20,20 27,18 32,22 32,32" fill="#5a4a2a"/>
+  <!-- Cave entrance -->
+  <path d="M8,25 Q16,12 24,25 Z" fill="#1a0a00"/>
+  <!-- Cave arch rocks -->
+  <path d="M8,25 Q16,12 24,25" fill="none" stroke="#6a5a2a" stroke-width="2"/>
+  <!-- Cave depth darkness -->
+  <ellipse cx="16" cy="22" rx="6" ry="5" fill="#0d0500"/>
+  <ellipse cx="16" cy="22" rx="4" ry="3.5" fill="#050200"/>
+  <!-- Dim torchlight inside -->
+  <ellipse cx="16" cy="22" rx="2" ry="2" fill="#7a3a00" opacity="0.4"/>
+  <!-- Barricade/fence across entrance -->
+  <line x1="9" y1="24" x2="23" y2="24" stroke="#5a3a0a" stroke-width="1.5"/>
+  <line x1="10" y1="22" x2="10" y2="26" stroke="#5a3a0a" stroke-width="1.2"/>
+  <line x1="13" y1="21" x2="13" y2="26" stroke="#5a3a0a" stroke-width="1.2"/>
+  <line x1="16" y1="20" x2="16" y2="26" stroke="#5a3a0a" stroke-width="1.2"/>
+  <line x1="19" y1="21" x2="19" y2="26" stroke="#5a3a0a" stroke-width="1.2"/>
+  <line x1="22" y1="22" x2="22" y2="26" stroke="#5a3a0a" stroke-width="1.2"/>
+  <!-- Watch post above -->
+  <rect x="12" y="8" width="8" height="6" fill="#5a4a2a"/>
+  <rect x="12" y="8" width="8" height="2" fill="#6a5a3a"/>
+  <!-- Lookout window -->
+  <rect x="14" y="9" width="4" height="3" fill="#1a0a00"/>
+  <!-- Torchlight flicker from post -->
+  <circle cx="11" cy="8" r="1.5" fill="#ff8800" opacity="0.7"/>
+  <circle cx="21" cy="8" r="1.5" fill="#ff8800" opacity="0.7"/>
+  <!-- Skull on post warning -->
+  <circle cx="16" cy="5" r="2" fill="#c0b090"/>
+  <rect x="15" y="6" width="2" height="2" fill="#c0b090"/>
+  <circle cx="15" cy="4.5" r="0.5" fill="#1a0a00"/>
+  <circle cx="17" cy="4.5" r="0.5" fill="#1a0a00"/>
+  <line x1="15" y1="6" x2="17" y2="6" stroke="#1a0a00" stroke-width="0.5"/>
+  <!-- Flag/banner -->
+  <line x1="16" y1="3" x2="16" y2="1" stroke="#4a3a1a" stroke-width="1"/>
+  <polygon points="16,1 22,2 16,3" fill="#551111"/>
+</svg>

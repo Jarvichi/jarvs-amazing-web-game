@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Snow/ice ground -->
+  <rect x="0" y="26" width="32" height="6" fill="#c8ddf0"/>
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#aaccdd" opacity="0.5"/>
+  <!-- Gate pillars (ice-encrusted stone) -->
+  <rect x="2" y="8" width="7" height="20" rx="1" fill="#7a9ab0"/>
+  <rect x="23" y="8" width="7" height="20" rx="1" fill="#7a9ab0"/>
+  <!-- Ice layer on pillars -->
+  <rect x="2" y="8" width="2" height="20" fill="#a8c8e0" opacity="0.7"/>
+  <rect x="23" y="8" width="2" height="20" fill="#a8c8e0" opacity="0.7"/>
+  <!-- Pillar tops with icicles -->
+  <rect x="1" y="6" width="9" height="3" rx="1" fill="#8aaac0"/>
+  <rect x="22" y="6" width="9" height="3" rx="1" fill="#8aaac0"/>
+  <!-- Icicles hanging from pillar tops -->
+  <polygon points="3,9 4,9 3.5,14" fill="#c8e0f0"/>
+  <polygon points="5,9 6,9 5.5,16" fill="#c8e0f0"/>
+  <polygon points="7,9 8,9 7.5,13" fill="#c8e0f0"/>
+  <polygon points="24,9 25,9 24.5,14" fill="#c8e0f0"/>
+  <polygon points="26,9 27,9 26.5,16" fill="#c8e0f0"/>
+  <polygon points="28,9 29,9 28.5,13" fill="#c8e0f0"/>
+  <!-- Arch crossbar (ice crystal) -->
+  <rect x="9" y="7" width="14" height="3" rx="1" fill="#a0c0d8"/>
+  <!-- Blizzard portal between pillars -->
+  <rect x="9" y="10" width="14" height="18" fill="#d0eaff" opacity="0.3"/>
+  <!-- Snowstorm swirls in gate -->
+  <path d="M10,14 Q16,10 22,14 Q16,18 10,22 Q16,18 22,22" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.6"/>
+  <ellipse cx="16" cy="18" rx="4" ry="6" fill="#c0dfff" opacity="0.2"/>
+  <!-- Snowflakes -->
+  <line x1="13" y1="12" x2="13" y2="15" stroke="#ffffff" stroke-width="0.7" opacity="0.7"/>
+  <line x1="11.5" y1="13.5" x2="14.5" y2="13.5" stroke="#ffffff" stroke-width="0.7" opacity="0.7"/>
+  <line x1="19" y1="16" x2="19" y2="19" stroke="#ffffff" stroke-width="0.7" opacity="0.7"/>
+  <line x1="17.5" y1="17.5" x2="20.5" y2="17.5" stroke="#ffffff" stroke-width="0.7" opacity="0.7"/>
+  <line x1="14" y1="21" x2="14" y2="24" stroke="#ffffff" stroke-width="0.7" opacity="0.6"/>
+  <line x1="12.5" y1="22.5" x2="15.5" y2="22.5" stroke="#ffffff" stroke-width="0.7" opacity="0.6"/>
+  <!-- Snow drifts at base -->
+  <ellipse cx="5" cy="26" rx="5" ry="2" fill="#e0f0ff"/>
+  <ellipse cx="27" cy="26" rx="5" ry="2" fill="#e0f0ff"/>
+  <ellipse cx="16" cy="28" rx="8" ry="1.5" fill="#e8f4ff"/>
+</svg>

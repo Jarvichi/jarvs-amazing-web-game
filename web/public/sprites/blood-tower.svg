@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow (dark stained) -->
+  <ellipse cx="16" cy="31" rx="10" ry="1.5" fill="#2a0000" opacity="0.6"/>
+  <!-- Tower base -->
+  <rect x="6" y="24" width="20" height="7" rx="1" fill="#5a2020"/>
+  <rect x="6" y="24" width="20" height="2" fill="#6a3030"/>
+  <!-- Main tower body -->
+  <rect x="8" y="10" width="16" height="15" fill="#6a2020"/>
+  <rect x="8" y="10" width="16" height="3" fill="#7a3030"/>
+  <!-- Stone block lines -->
+  <line x1="8" y1="14" x2="24" y2="14" stroke="#4a1010" stroke-width="0.6"/>
+  <line x1="8" y1="18" x2="24" y2="18" stroke="#4a1010" stroke-width="0.6"/>
+  <line x1="8" y1="21" x2="24" y2="21" stroke="#4a1010" stroke-width="0.6"/>
+  <line x1="13" y1="10" x2="13" y2="24" stroke="#4a1010" stroke-width="0.6"/>
+  <line x1="19" y1="10" x2="19" y2="24" stroke="#4a1010" stroke-width="0.6"/>
+  <!-- Upper tower (narrower) -->
+  <rect x="10" y="4" width="12" height="7" fill="#7a2020"/>
+  <rect x="10" y="4" width="12" height="2" fill="#8a3030"/>
+  <!-- Battlements -->
+  <rect x="10" y="1" width="3" height="4" fill="#7a2020"/>
+  <rect x="14.5" y="1" width="3" height="4" fill="#7a2020"/>
+  <rect x="19" y="1" width="3" height="4" fill="#7a2020"/>
+  <!-- Dripping blood from battlements -->
+  <path d="M11.5,5 Q11.5,8 11,10" fill="none" stroke="#cc0000" stroke-width="1" opacity="0.8"/>
+  <circle cx="11" cy="10" r="0.8" fill="#cc0000" opacity="0.8"/>
+  <path d="M16,5 Q16,9 15.5,12" fill="none" stroke="#cc0000" stroke-width="1" opacity="0.7"/>
+  <circle cx="15.5" cy="12" r="0.8" fill="#cc0000" opacity="0.7"/>
+  <path d="M20.5,5 Q20.5,8 21,10" fill="none" stroke="#cc0000" stroke-width="1" opacity="0.8"/>
+  <circle cx="21" cy="10" r="0.8" fill="#cc0000" opacity="0.8"/>
+  <!-- Blood-stained wall streaks -->
+  <path d="M12,10 Q11,15 12,20" fill="none" stroke="#880000" stroke-width="0.8" opacity="0.5"/>
+  <path d="M20,10 Q21,16 20,21" fill="none" stroke="#880000" stroke-width="0.8" opacity="0.5"/>
+  <!-- Arrow slits (glowing red inside) -->
+  <rect x="11" y="12" width="2" height="4" fill="#440000" rx="1"/>
+  <rect x="11" y="12" width="2" height="2" fill="#cc2200" rx="1" opacity="0.5"/>
+  <rect x="19" y="12" width="2" height="4" fill="#440000" rx="1"/>
+  <rect x="19" y="12" width="2" height="2" fill="#cc2200" rx="1" opacity="0.5"/>
+  <!-- Gated doorway -->
+  <path d="M13,24 L13,19 Q16,16 19,19 L19,24 Z" fill="#220000"/>
+  <!-- Blood pool at base -->
+  <ellipse cx="16" cy="30" rx="6" ry="1.5" fill="#880000" opacity="0.5"/>
+</svg>
