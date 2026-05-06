@@ -9611,6 +9611,12 @@ html.light-mode .action-btn {
 .city-attack-warn { font-size: 10px; color: #c08020; font-style: italic; }
 
 /* ── City Builder — fortification panel ─────────────────────────────────── */
+.city-subscreen-scroll {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
 .city-fort-info-row {
   display: flex;
   justify-content: space-between;
