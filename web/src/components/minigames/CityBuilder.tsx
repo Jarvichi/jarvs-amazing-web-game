@@ -547,6 +547,7 @@ export function CityBuilder({ onBack }: Props) {
           <div className="city-picker-title">🛡 FORTIFICATIONS ({city.fortifications.length}/{MAX_TOTAL_FORTS})</div>
         </div>
 
+        <div className="city-subscreen-scroll">
         <div className="city-fort-info-row">
           <span>Total defence from forts: <strong>{
             city.fortifications.reduce((sum, f) => sum + Math.round(FORT_DEFENSE[f.rarity] * (f.hp / f.maxHp)), 0)
@@ -619,6 +620,7 @@ export function CityBuilder({ onBack }: Props) {
             })}
           </div>
         )}
+        </div>
       </div>
     )
   }
@@ -653,79 +655,81 @@ export function CityBuilder({ onBack }: Props) {
           <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
           <div className="city-picker-title">PLACE A BUILDING</div>
         </div>
-        <input
-          className="city-search"
-          type="search"
-          placeholder="Search buildings…"
-          value={pickerSearch}
-          onChange={e => setPickerSearch(e.target.value)}
-        />
-        {availableForPlace.length === 0 ? (
-          <div className="city-picker-empty">No buildings available. Earn more from battles!</div>
-        ) : groups.length === 0 ? (
-          <div className="city-picker-empty">No buildings match "{pickerSearch}"</div>
-        ) : (
-          groups.map(group => (
-            <div key={group.label} className="city-picker-section">
-              <div className="city-picker-section-label">{group.label}</div>
-              <div className="city-picker-grid">
-                {group.cards.map(card => {
-                  const spawnEffect = card.unit?.structureEffect
-                  const isSpawner   = spawnEffect?.type === 'spawn'
-                  const spawnName   = isSpawner
-                    ? (spawnEffect as { type: 'spawn'; unitTemplate: { name: string }; intervalMs: number }).unitTemplate.name
-                    : null
-                  const affordable  = !isSpawner || canAffordPlacement(city, card.rarity)
-                  const cost        = isSpawner ? SPAWNER_PLACE_COST[card.rarity] : null
-                  const produces    = !isSpawner ? getBuildingProduces(card.name) : null
-                  const mLvl        = masteryLevel(getMasteryXp(collection, card.name))
-                  const masteryMult = !isSpawner ? masteryOutputMultiplier(city.cardLevels[card.name] ?? 0) : 1
-                  const producesEntries = produces ? Object.entries(produces).filter(([, v]) => (v ?? 0) > 0) : []
-                  const incomeRateVal = isSpawner
-                    ? INCOME_SPAWN[card.rarity]
-                    : producesEntries.length === 0 ? INCOME_WALL[card.rarity] : INCOME_UTILITY[card.rarity]
+        <div className="city-subscreen-scroll">
+          <input
+            className="city-search"
+            type="search"
+            placeholder="Search buildings…"
+            value={pickerSearch}
+            onChange={e => setPickerSearch(e.target.value)}
+          />
+          {availableForPlace.length === 0 ? (
+            <div className="city-picker-empty">No buildings available. Earn more from battles!</div>
+          ) : groups.length === 0 ? (
+            <div className="city-picker-empty">No buildings match "{pickerSearch}"</div>
+          ) : (
+            groups.map(group => (
+              <div key={group.label} className="city-picker-section">
+                <div className="city-picker-section-label">{group.label}</div>
+                <div className="city-picker-grid">
+                  {group.cards.map(card => {
+                    const spawnEffect = card.unit?.structureEffect
+                    const isSpawner   = spawnEffect?.type === 'spawn'
+                    const spawnName   = isSpawner
+                      ? (spawnEffect as { type: 'spawn'; unitTemplate: { name: string }; intervalMs: number }).unitTemplate.name
+                      : null
+                    const affordable  = !isSpawner || canAffordPlacement(city, card.rarity)
+                    const cost        = isSpawner ? SPAWNER_PLACE_COST[card.rarity] : null
+                    const produces    = !isSpawner ? getBuildingProduces(card.name) : null
+                    const mLvl        = masteryLevel(getMasteryXp(collection, card.name))
+                    const masteryMult = !isSpawner ? masteryOutputMultiplier(city.cardLevels[card.name] ?? 0) : 1
+                    const producesEntries = produces ? Object.entries(produces).filter(([, v]) => (v ?? 0) > 0) : []
+                    const incomeRateVal = isSpawner
+                      ? INCOME_SPAWN[card.rarity]
+                      : producesEntries.length === 0 ? INCOME_WALL[card.rarity] : INCOME_UTILITY[card.rarity]
 
-                  return (
-                    <button
-                      key={card.name}
-                      className={`city-picker-card${!affordable ? ' city-picker-card--unaffordable' : ''}`}
-                      onClick={() => handlePickCard(card)}
-                      disabled={!affordable}
-                    >
-                      <SpriteImg name={card.name} className="city-picker-sprite" />
-                      <div className="city-picker-name">{card.name}</div>
-                      <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
-                      {mLvl > 0 && <div className="city-picker-mastery">★{mLvl}</div>}
-                      {spawnName && (
-                        <div className="city-picker-spawns">
-                          <SpriteImg name={spawnName} className="city-picker-spawn-icon" />
-                          <span>{spawnName}</span>
-                        </div>
-                      )}
-                      {cost && (
-                        <div className="city-picker-cost">
-                          {Object.entries(cost).map(([r, amt]) =>
-                            `${RESOURCE_ICONS[r as ResourceType]}${amt}`
-                          ).join(' ')}
-                        </div>
-                      )}
-                      {producesEntries.length > 0 && (
-                        <div className="city-picker-produces">
-                          {producesEntries.map(([r, amt]) =>
-                            `+${Math.round((amt as number) * masteryMult)} ${RESOURCE_ICONS[r as ResourceType]}/min`
-                          ).join(' ')}
-                        </div>
-                      )}
-                      {incomeRateVal > 0 && (
-                        <div className="city-picker-income">+{incomeRateVal} 💰/min</div>
-                      )}
-                    </button>
-                  )
-                })}
+                    return (
+                      <button
+                        key={card.name}
+                        className={`city-picker-card${!affordable ? ' city-picker-card--unaffordable' : ''}`}
+                        onClick={() => handlePickCard(card)}
+                        disabled={!affordable}
+                      >
+                        <SpriteImg name={card.name} className="city-picker-sprite" />
+                        <div className="city-picker-name">{card.name}</div>
+                        <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
+                        {mLvl > 0 && <div className="city-picker-mastery">★{mLvl}</div>}
+                        {spawnName && (
+                          <div className="city-picker-spawns">
+                            <SpriteImg name={spawnName} className="city-picker-spawn-icon" />
+                            <span>{spawnName}</span>
+                          </div>
+                        )}
+                        {cost && (
+                          <div className="city-picker-cost">
+                            {Object.entries(cost).map(([r, amt]) =>
+                              `${RESOURCE_ICONS[r as ResourceType]}${amt}`
+                            ).join(' ')}
+                          </div>
+                        )}
+                        {producesEntries.length > 0 && (
+                          <div className="city-picker-produces">
+                            {producesEntries.map(([r, amt]) =>
+                              `+${Math.round((amt as number) * masteryMult)} ${RESOURCE_ICONS[r as ResourceType]}/min`
+                            ).join(' ')}
+                          </div>
+                        )}
+                        {incomeRateVal > 0 && (
+                          <div className="city-picker-income">+{incomeRateVal} 💰/min</div>
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </div>
     )
   }
@@ -768,49 +772,51 @@ export function CityBuilder({ onBack }: Props) {
           <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
           <div className="city-picker-title">UPGRADE BUILDINGS</div>
         </div>
-        <div className="city-gold-display" style={{ textAlign: 'center', padding: '4px' }}>
-          ⚙ {city.gold.toLocaleString()} gold
-        </div>
-        <input
-          className="city-search"
-          type="search"
-          placeholder="Search buildings…"
-          value={upgradeSearch}
-          onChange={e => setUpgradeSearch(e.target.value)}
-        />
-        {upgradeGroups.length === 0 ? (
-          <div className="city-picker-empty">
-            {upgradeQ ? `No buildings match "${upgradeSearch}"` : 'No buildings to upgrade yet.'}
+        <div className="city-subscreen-scroll">
+          <div className="city-gold-display" style={{ textAlign: 'center', padding: '4px' }}>
+            ⚙ {city.gold.toLocaleString()} gold
           </div>
-        ) : (
-          upgradeGroups.map(group => (
-            <div key={group.label} className="city-picker-section">
-              <div className="city-picker-section-label">{group.label}</div>
-              <div className="city-level-grid">
-                {group.cards.map(card => {
-                  const xp        = getMasteryXp(loadCollection(), card.name)
-                  const mLvl      = masteryLevel(xp)
-                  const cost      = levelUpCost(mLvl)
-                  const canAfford = city.gold >= cost
-                  return (
-                    <button
-                      key={card.name}
-                      className={`city-level-card${mLvl > 0 ? ' city-level-card--levelled' : ''}`}
-                      onClick={() => { setLevelCard(card.name); setScreen('levelup') }}
-                    >
-                      <SpriteImg name={card.name} className="city-level-card-sprite" />
-                      <div className="city-level-card-name">{card.name}</div>
-                      <div className="city-level-card-stars">★{mLvl} mastery</div>
-                      <div className={`city-level-card-cost${canAfford ? ' city-level-card-cost--ready' : ''}`}>
-                        ⚙ {cost.toLocaleString()}
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
+          <input
+            className="city-search"
+            type="search"
+            placeholder="Search buildings…"
+            value={upgradeSearch}
+            onChange={e => setUpgradeSearch(e.target.value)}
+          />
+          {upgradeGroups.length === 0 ? (
+            <div className="city-picker-empty">
+              {upgradeQ ? `No buildings match "${upgradeSearch}"` : 'No buildings to upgrade yet.'}
             </div>
-          ))
-        )}
+          ) : (
+            upgradeGroups.map(group => (
+              <div key={group.label} className="city-picker-section">
+                <div className="city-picker-section-label">{group.label}</div>
+                <div className="city-level-grid">
+                  {group.cards.map(card => {
+                    const xp        = getMasteryXp(loadCollection(), card.name)
+                    const mLvl      = masteryLevel(xp)
+                    const cost      = levelUpCost(mLvl)
+                    const canAfford = city.gold >= cost
+                    return (
+                      <button
+                        key={card.name}
+                        className={`city-level-card${mLvl > 0 ? ' city-level-card--levelled' : ''}`}
+                        onClick={() => { setLevelCard(card.name); setScreen('levelup') }}
+                      >
+                        <SpriteImg name={card.name} className="city-level-card-sprite" />
+                        <div className="city-level-card-name">{card.name}</div>
+                        <div className="city-level-card-stars">★{mLvl} mastery</div>
+                        <div className={`city-level-card-cost${canAfford ? ' city-level-card-cost--ready' : ''}`}>
+                          ⚙ {cost.toLocaleString()}
+                        </div>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     )
   }
