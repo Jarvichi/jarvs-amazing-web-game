@@ -44,19 +44,23 @@ function EightbitCanvas({ src, alt, className }: { src: string; alt: string; cla
 interface Props {
   /** Unit or building name — used to derive the sprite slug. */
   name: string
+  /** Optional secondary name to try if the primary name has no sprite file. */
+  fallbackName?: string
   className?: string
 }
 
 /**
  * Tries to load `sprites/{slug}.png`, then `sprites/{slug}.svg`, then
- * `sprites/fallback.svg`. Renders nothing only if all three fail.
+ * `sprites/{fallbackSlug}.svg` (if fallbackName provided), then
+ * `sprites/fallback.svg`. Renders nothing only if all fail.
  * In 8-bit mode renders via a low-res canvas for a pixelated look.
  */
-export function SpriteImg({ name, className }: Props) {
-  const slug        = spriteSlug(name)
-  const pngSrc      = `${BASE}sprites/${slug}.png`
-  const svgSrc      = `${BASE}sprites/${slug}.svg`
-  const fallbackSrc = `${BASE}sprites/fallback.svg`
+export function SpriteImg({ name, fallbackName, className }: Props) {
+  const slug            = spriteSlug(name)
+  const pngSrc          = `${BASE}sprites/${slug}.png`
+  const svgSrc          = `${BASE}sprites/${slug}.svg`
+  const fallbackNameSrc = fallbackName ? `${BASE}sprites/${spriteSlug(fallbackName)}.svg` : null
+  const genericSrc      = `${BASE}sprites/fallback.svg`
 
   const [src,     setSrc]     = useState(pngSrc)
   const [loaded,  setLoaded]  = useState(false)
@@ -84,7 +88,8 @@ export function SpriteImg({ name, className }: Props) {
       onLoad={() => setLoaded(true)}
       onError={() => {
         if (src === pngSrc) setSrc(svgSrc)
-        else if (src === svgSrc) setSrc(fallbackSrc)
+        else if (src === svgSrc) setSrc(fallbackNameSrc ?? genericSrc)
+        else if (fallbackNameSrc && src === fallbackNameSrc) setSrc(genericSrc)
         else setFailed(true)
       }}
     />

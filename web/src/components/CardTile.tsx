@@ -175,7 +175,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         {card.unit
           ? <SpriteImg name={card.unit.name} className="card-sprite" />
           : card.upgradeEffect
-            ? <SpriteImg name={UPGRADE_SPRITE[card.upgradeEffect.type] ?? 'upgrade'} className="card-sprite" />
+            ? <SpriteImg name={card.name} fallbackName={UPGRADE_SPRITE[card.upgradeEffect.type] ?? 'upgrade'} className="card-sprite" />
             : null
         }
       </div>
