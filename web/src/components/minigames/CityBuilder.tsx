@@ -13,7 +13,8 @@ import {
   CITY_COLS, CITY_ROWS, CITY_CELLS, CELL_PX, MAX_CITY_ROWS,
   CityCell, CityState, ResourceType, ResourceStock, AttackEvent,
   RESOURCE_ICONS, SPAWNER_PLACE_COST,
-  FORT_MAX_HP, FORT_DEFENSE, EXPANSION_COSTS, MAX_TOTAL_FORTS,
+  FORT_MAX_HP, FORT_DEFENSE, FORT_PLACE_COST, EXPANSION_COSTS, MAX_TOTAL_FORTS,
+  canAffordFortification,
   loadCityState, saveCityState, tickCity,
   placeCard, removeCard,
   addFortification, removeFortification,
@@ -442,10 +443,11 @@ export function CityBuilder({ onBack }: Props) {
   // ── Fortification handlers ────────────────────────────────────────────────────
 
   function handleAddFort(card: Card) {
+    if (!canAffordFortification(city, card.rarity)) { showToast('Not enough resources!'); return }
     const next = addFortification(city, card.name, card.rarity)
     if (!next) { showToast(`Fort limit reached (${MAX_TOTAL_FORTS} max).`); return }
     save(next)
-    showToast(`${card.name} added as fortification!`)
+    showToast(`${card.name} built!`)
   }
 
   function handleRemoveFort(index: number) {
@@ -580,19 +582,30 @@ export function CityBuilder({ onBack }: Props) {
           </div>
         ) : (
           <div className="city-picker-grid">
-            {availableDefenceCards.map(card => (
-              <button
-                key={card.name}
-                className="city-picker-card"
-                onClick={() => handleAddFort(card)}
-              >
-                <SpriteImg name={card.name} className="city-picker-sprite" />
-                <div className="city-picker-name">{card.name}</div>
-                <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
-                <div className="city-picker-income">🛡 {FORT_DEFENSE[card.rarity]}</div>
-                <div className="city-picker-income">{FORT_MAX_HP[card.rarity]} HP</div>
-              </button>
-            ))}
+            {availableDefenceCards.map(card => {
+              const cost = FORT_PLACE_COST[card.rarity]
+              const affordable = canAffordFortification(city, card.rarity)
+              return (
+                <button
+                  key={card.name}
+                  className={`city-picker-card${!affordable ? ' city-picker-card--unaffordable' : ''}`}
+                  onClick={() => handleAddFort(card)}
+                  disabled={!affordable}
+                >
+                  <SpriteImg name={card.name} className="city-picker-sprite" />
+                  <div className="city-picker-name">{card.name}</div>
+                  <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
+                  <div className="city-picker-income">🛡 {FORT_DEFENSE[card.rarity]} · {FORT_MAX_HP[card.rarity]} HP</div>
+                  <div className="city-picker-cost">
+                    ⚙{cost.gold.toLocaleString()}
+                    {(Object.keys(cost) as (keyof typeof cost)[])
+                      .filter(k => k !== 'gold' && (cost[k] ?? 0) > 0)
+                      .map(k => ` ${RESOURCE_ICONS[k as ResourceType]}${cost[k]}`)
+                      .join('')}
+                  </div>
+                </button>
+              )
+            })}
           </div>
         )}
       </div>
@@ -1151,6 +1164,33 @@ export function CityBuilder({ onBack }: Props) {
           })}
         </div>
       </div>
+
+      {/* City perimeter — fortification sprites shown as the city wall */}
+      {city.fortifications.length > 0 && (
+        <div
+          className="city-perimeter"
+          role="button"
+          tabIndex={0}
+          onClick={() => setScreen('fortify')}
+          onKeyDown={e => { if (e.key === 'Enter') setScreen('fortify') }}
+          title="City fortifications — tap to manage"
+        >
+          <div className="city-perimeter-label">🛡 CITY WALLS</div>
+          <div className="city-perimeter-forts">
+            {city.fortifications.map((fort, idx) => {
+              const hpPct = fort.hp / fort.maxHp
+              const hpColor = hpPct > 0.6 ? '#308030' : hpPct > 0.3 ? '#806020' : '#803020'
+              return (
+                <div key={idx} className="city-perimeter-fort">
+                  <div className="city-perimeter-fort-bg" style={{ opacity: 0.25 + hpPct * 0.55, background: hpColor }} />
+                  <SpriteImg name={fort.cardName} className="city-perimeter-sprite" />
+                  <div className="city-perimeter-hp" style={{ width: `${Math.round(hpPct * 100)}%`, background: hpColor }} />
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Expand city button */}
       {cityRows < MAX_CITY_ROWS && expansionCost && (

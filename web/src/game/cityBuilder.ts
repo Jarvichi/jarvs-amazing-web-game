@@ -75,6 +75,15 @@ export const FORT_DEFENSE: Record<CardRarity, number> = {
   common: 10, uncommon: 20, rare: 40, epic: 60, legendary: 80,
 }
 
+/** Gold + resource cost to build a fortification of each rarity. */
+export const FORT_PLACE_COST: Record<CardRarity, { gold: number } & Partial<ResourceStock>> = {
+  common:    { gold: 200,   wood: 15 },
+  uncommon:  { gold: 600,   wood: 30, ore: 10 },
+  rare:      { gold: 2000,  wood: 75, ore: 30 },
+  epic:      { gold: 6000,  wood: 150, ore: 75, planks: 20 },
+  legendary: { gold: 15000, wood: 300, ore: 150, planks: 60 },
+}
+
 /** HP repaired per minute per fortification per population point (capped). */
 const FORT_REPAIR_RATE = 3
 /** Wood cost per 20 HP repaired. */
@@ -564,11 +573,31 @@ export function removeCard(state: CityState, index: number): CityState {
 
 // ── Fortification helpers ─────────────────────────────────────────────────────
 
+export function canAffordFortification(state: CityState, rarity: CardRarity): boolean {
+  const cost = FORT_PLACE_COST[rarity]
+  if (state.gold < cost.gold) return false
+  for (const res of Object.keys(state.resources) as ResourceType[]) {
+    if ((cost[res] ?? 0) > 0 && state.resources[res] < (cost[res] as number)) return false
+  }
+  return true
+}
+
 export function addFortification(state: CityState, cardName: string, rarity: CardRarity): CityState | null {
   if (state.fortifications.length >= MAX_TOTAL_FORTS) return null
+  if (!canAffordFortification(state, rarity)) return null
+  const cost = FORT_PLACE_COST[rarity]
+  const newResources = { ...state.resources }
+  for (const res of Object.keys(newResources) as ResourceType[]) {
+    newResources[res] = Math.max(0, newResources[res] - ((cost[res] as number) ?? 0))
+  }
   const maxHp = FORT_MAX_HP[rarity]
   const fort: Fortification = { cardName, rarity, hp: maxHp, maxHp }
-  return { ...state, fortifications: [...state.fortifications, fort] }
+  return {
+    ...state,
+    gold:           state.gold - cost.gold,
+    resources:      newResources,
+    fortifications: [...state.fortifications, fort],
+  }
 }
 
 export function removeFortification(state: CityState, index: number): CityState {
