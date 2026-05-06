@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="12" ry="1.5" fill="#1a1a3a" opacity="0.5"/>
+  <!-- Twilight gradient suggestion on building face -->
+  <!-- Base platform -->
+  <rect x="3" y="24" width="26" height="7" rx="1" fill="#3a3050"/>
+  <rect x="3" y="24" width="26" height="2" fill="#4a4060"/>
+  <!-- Main sanctum building -->
+  <rect x="5" y="13" width="22" height="12" fill="#4a3a5a"/>
+  <rect x="5" y="13" width="22" height="3" fill="#5a4a6a"/>
+  <!-- Stone block lines -->
+  <line x1="5" y1="17" x2="27" y2="17" stroke="#2a2038" stroke-width="0.6"/>
+  <line x1="5" y1="20" x2="27" y2="20" stroke="#2a2038" stroke-width="0.6"/>
+  <line x1="11" y1="13" x2="11" y2="24" stroke="#2a2038" stroke-width="0.6"/>
+  <line x1="21" y1="13" x2="21" y2="24" stroke="#2a2038" stroke-width="0.6"/>
+  <!-- Domed roof -->
+  <ellipse cx="16" cy="13" rx="11" ry="4" fill="#3a2a4a"/>
+  <ellipse cx="16" cy="11" rx="8" ry="4" fill="#4a3a5a"/>
+  <ellipse cx="16" cy="9" rx="5" ry="3" fill="#5a4a6a"/>
+  <!-- Crescent moon and star ornament on dome -->
+  <path d="M14,7 Q12,9 14,11 Q12,10 12,9 Q12,7 14,7" fill="#ffcc44"/>
+  <circle cx="17" cy="7" r="1" fill="#ffee88"/>
+  <circle cx="19" cy="9" r="0.7" fill="#ffee88"/>
+  <!-- Windows with dusk glow -->
+  <rect x="7" y="15" width="3" height="4" fill="#1a0a10" rx="1"/>
+  <rect x="7" y="15" width="3" height="2" fill="#ff8844" opacity="0.5"/>
+  <rect x="22" y="15" width="3" height="4" fill="#1a0a10" rx="1"/>
+  <rect x="22" y="15" width="3" height="2" fill="#ff8844" opacity="0.5"/>
+  <rect x="14" y="14" width="4" height="4" fill="#1a0a10" rx="1"/>
+  <rect x="14" y="14" width="4" height="2" fill="#ff6633" opacity="0.6"/>
+  <!-- Door -->
+  <path d="M13,24 L13,19 Q16,16 19,19 L19,24 Z" fill="#1a0a10"/>
+  <!-- Dusk light glow through door -->
+  <ellipse cx="16" cy="22" rx="2.5" ry="2" fill="#ff6633" opacity="0.3"/>
+  <!-- Stars around sanctum -->
+  <circle cx="3" cy="8" r="0.7" fill="#ffee88" opacity="0.7"/>
+  <circle cx="29" cy="7" r="0.7" fill="#ffee88" opacity="0.7"/>
+  <circle cx="6" cy="5" r="0.5" fill="#ffcc44" opacity="0.6"/>
+  <circle cx="26" cy="5" r="0.5" fill="#ffcc44" opacity="0.6"/>
+  <circle cx="16" cy="3" r="0.6" fill="#ffee88" opacity="0.6"/>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Lagoon water -->
+  <ellipse cx="16" cy="22" rx="15" ry="10" fill="#1a7a9a"/>
+  <ellipse cx="16" cy="21" rx="14" ry="9" fill="#2a8aaa"/>
+  <!-- Water surface ripples -->
+  <ellipse cx="16" cy="20" rx="10" ry="5" fill="none" stroke="#3a9abb" stroke-width="0.8" opacity="0.6"/>
+  <ellipse cx="16" cy="20" rx="6" ry="3" fill="none" stroke="#4aaace" stroke-width="0.6" opacity="0.5"/>
+  <!-- Sandy shores -->
+  <ellipse cx="16" cy="30" rx="15" ry="4" fill="#c8a040"/>
+  <ellipse cx="4" cy="22" rx="5" ry="6" fill="#b89030" opacity="0.7"/>
+  <ellipse cx="28" cy="22" rx="5" ry="6" fill="#b89030" opacity="0.7"/>
+  <!-- Drifting log/platform structure -->
+  <rect x="8" y="17" width="16" height="5" rx="2" fill="#7a5a2a"/>
+  <rect x="8" y="17" width="16" height="2" fill="#8a6a3a"/>
+  <!-- Log plank lines -->
+  <line x1="10" y1="17" x2="10" y2="22" stroke="#5a3a0a" stroke-width="0.7"/>
+  <line x1="14" y1="17" x2="14" y2="22" stroke="#5a3a0a" stroke-width="0.7"/>
+  <line x1="18" y1="17" x2="18" y2="22" stroke="#5a3a0a" stroke-width="0.7"/>
+  <line x1="22" y1="17" x2="22" y2="22" stroke="#5a3a0a" stroke-width="0.7"/>
+  <!-- Rope moorings to shore -->
+  <line x1="8" y1="19" x2="3" y2="22" stroke="#9a8a5a" stroke-width="1"/>
+  <line x1="24" y1="19" x2="29" y2="22" stroke="#9a8a5a" stroke-width="1"/>
+  <!-- Tent/shelter on platform -->
+  <polygon points="8,17 16,10 24,17" fill="#cc8822"/>
+  <polygon points="10,17 16,12 22,17" fill="#dd9933"/>
+  <!-- Shelter entrance -->
+  <path d="M14,17 Q16,14 18,17 Z" fill="#1a0a00"/>
+  <!-- Tropical palm trees on shore -->
+  <!-- Left palm -->
+  <line x1="4" y1="28" x2="6" y2="18" stroke="#5a3a10" stroke-width="1.5"/>
+  <ellipse cx="7" cy="16" rx="4" ry="2" fill="#3a7a18" transform="rotate(-20 7 16)"/>
+  <ellipse cx="5" cy="15" rx="3" ry="1.5" fill="#4a8a20" transform="rotate(10 5 15)"/>
+  <ellipse cx="8" cy="14" rx="3" ry="1.5" fill="#3a7a18" transform="rotate(-30 8 14)"/>
+  <!-- Right palm -->
+  <line x1="28" y1="28" x2="26" y2="18" stroke="#5a3a10" stroke-width="1.5"/>
+  <ellipse cx="25" cy="16" rx="4" ry="2" fill="#3a7a18" transform="rotate(20 25 16)"/>
+  <ellipse cx="27" cy="15" rx="3" ry="1.5" fill="#4a8a20" transform="rotate(-10 27 15)"/>
+  <!-- Coconuts -->
+  <circle cx="6" cy="18" r="1" fill="#7a4a1a"/>
+  <circle cx="26" cy="18" r="1" fill="#7a4a1a"/>
+</svg>
