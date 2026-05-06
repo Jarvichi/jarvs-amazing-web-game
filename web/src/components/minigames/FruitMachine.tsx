@@ -126,16 +126,29 @@ function pickReelPos(): number {
 
 // 4th "trail" reel — controls how many steps the feature board advances each spin
 const LADDER_SYMBOLS = ['+1', '+2', 'Lose', 'Stay', '-1', '-2'] as const
-const LADDER_WEIGHTS = [4, 2, 1, 87, 2, 4]  // ≈ 1/25, 1/50, 1/100, rest
+// Standard weights; when jackpot reaches 10 000 the negative weights shift to positives
+const LADDER_WEIGHTS_NORMAL = [4, 2, 1, 87, 2, 4]
+const LADDER_WEIGHTS_HIGH   = [7, 5, 1, 87, 0, 0]  // -1/-2 removed, redistributed to +1/+2
+const JACKPOT_HIGH_THRESHOLD = 10_000
 type LadderSymbol = (typeof LADDER_SYMBOLS)[number]
 
-function pickLadderSymbol(): LadderSymbol {
+function pickLadderSymbol(jackpot: number): LadderSymbol {
+  const weights = jackpot >= JACKPOT_HIGH_THRESHOLD ? LADDER_WEIGHTS_HIGH : LADDER_WEIGHTS_NORMAL
   let r = Math.random() * 100
   for (let i = 0; i < LADDER_SYMBOLS.length; i++) {
-    r -= LADDER_WEIGHTS[i]
+    r -= weights[i]
     if (r <= 0) return LADDER_SYMBOLS[i]
   }
   return 'Stay'
+}
+
+// When the player is at the bottom of the board (pos < 2), backwards steps make no
+// sense — flip -1/-2 into +1/+2 so the player always gets forward movement.
+function adjustLadderForBoardPos(symbol: LadderSymbol, pos: number): LadderSymbol {
+  if (pos < 2 && (symbol === '-1' || symbol === '-2')) {
+    return symbol === '-1' ? '+1' : '+2'
+  }
+  return symbol
 }
 
 // Base payout for a 3-symbol line — no wilds, bonus handled separately
@@ -527,7 +540,7 @@ function regressBoardBy(steps: number) {
       clearInterval(luckyIntervalRef.current)
       luckyIntervalRef.current = null
     }
-    const result = currentLadderRef.current
+    const result = adjustLadderForBoardPos(currentLadderRef.current, boardPosRef.current)
     if (result === 'Lose') {
       const newLoserCount = loserCountRef.current + 1
       if (newLoserCount >= LOSER_THRESHOLD) {
@@ -574,7 +587,7 @@ function regressBoardBy(steps: number) {
       REEL_STRIP[nextPositions[1]],
       REEL_STRIP[nextPositions[2]],
     ]
-    const nextLadder = pickLadderSymbol()
+    const nextLadder = adjustLadderForBoardPos(pickLadderSymbol(grandJackpotRef.current), boardPosRef.current)
     setReelPositions(nextPositions)
     spinningRef.current = [!held[0], !held[1], !held[2]]
     ladderSpinRef.current = true
