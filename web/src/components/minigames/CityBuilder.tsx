@@ -10,17 +10,20 @@ import {
   getMasteryXp, masteryLevel, masteryXpForLevel, masteryProgress,
 } from '../../game/collection'
 import {
-  CITY_COLS, CITY_ROWS, CITY_CELLS, CELL_PX,
-  CityCell, CityState, ResourceType, ResourceStock,
+  CITY_COLS, CITY_ROWS, CITY_CELLS, CELL_PX, MAX_CITY_ROWS,
+  CityCell, CityState, ResourceType, ResourceStock, AttackEvent,
   RESOURCE_ICONS, SPAWNER_PLACE_COST,
+  FORT_MAX_HP, FORT_DEFENSE, EXPANSION_COSTS,
   loadCityState, saveCityState, tickCity,
   placeCard, removeCard,
+  addFortification, removeFortification,
+  expandCity, canAffordExpansion,
   goldIncomeRate, goldNetRate,
   cityDefense, cityPopulation,
   canAffordPlacement,
   resourceProductionRate, resourceConsumptionRate,
   levelUpCost, levelUpCard, LEVEL_UP_COSTS,
-  getBuildingProduces,
+  getBuildingProduces, isDefenceCard,
   INCOME_SPAWN, INCOME_UTILITY, INCOME_WALL,
   spawnerUnitCount, masteryOutputMultiplier,
   getNeighbourIndices,
@@ -45,10 +48,11 @@ function getUnitRequirements(
   cellIndex: number,
 ): { text: string; met: boolean }[] {
   const reqs: { text: string; met: boolean }[] = []
+  const gridRows = cityState.rows ?? CITY_ROWS
 
   const wantedNeighbour = cell.affinityWith ?? cell.spawnedUnitName
   if (wantedNeighbour) {
-    const neighbourMet = getNeighbourIndices(cellIndex).some(ni => {
+    const neighbourMet = getNeighbourIndices(cellIndex, gridRows).some(ni => {
       const nc = cityState.grid[ni]
       return nc?.spawnedUnitName === wantedNeighbour && (cityState.happiness[ni] ?? 100) > 0
     })
@@ -137,6 +141,7 @@ function buildResidentThoughts(
   const pop = Math.max(population, 1)
   const foodScore    = Math.min(100, (city.resources.wheat / pop) * 5)
   const defenseScore = Math.min(100, (cityDefense(city) / pop) * 8)
+  const gridRows = city.rows ?? CITY_ROWS
 
   for (let i = 0; i < city.grid.length; i++) {
     const cell = city.grid[i]
@@ -152,7 +157,7 @@ function buildResidentThoughts(
       let happy = true
 
       const wantedNeighbour = cell.affinityWith ?? cell.spawnedUnitName
-      const neighbourMet = getNeighbourIndices(i).some(ni => {
+      const neighbourMet = getNeighbourIndices(i, gridRows).some(ni => {
         const nc = city.grid[ni]
         return nc?.spawnedUnitName === wantedNeighbour && (city.happiness[ni] ?? 100) > 0
       })
@@ -177,7 +182,6 @@ function buildResidentThoughts(
       thoughts.push({ name, unitName: cell.spawnedUnitName, thought, happy })
     }
   }
-  // Shuffle and cap at 5 so the feed shows a rotating sample
   for (let i = thoughts.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [thoughts[i], thoughts[j]] = [thoughts[j], thoughts[i]]
@@ -188,9 +192,8 @@ function buildResidentThoughts(
 // ── Walking unit state ────────────────────────────────────────────────────────
 
 const OVERLAY_W = CITY_COLS * CELL_PX
-const OVERLAY_H = CITY_ROWS * CELL_PX
 const UNIT_SIZE = 20
-const SPEED     = 0.8 // px per 100 ms tick
+const SPEED     = 0.8
 
 interface Walker {
   cellIndex:  number
@@ -212,11 +215,22 @@ function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affi
     unitName,
     affinityWith,
     x: Math.random() * (OVERLAY_W - UNIT_SIZE),
-    y: Math.random() * (OVERLAY_H - UNIT_SIZE),
+    y: Math.random() * (OVERLAY_W - UNIT_SIZE),
     vx: Math.cos(angle) * SPEED,
     vy: Math.sin(angle) * SPEED,
     turnTimer: 20 + Math.floor(Math.random() * 30),
   }
+}
+
+// ── Attack countdown helpers ──────────────────────────────────────────────────
+
+function formatCountdown(ms: number): string {
+  if (ms <= 0) return 'IMMINENT'
+  const totalMin = Math.floor(ms / 60_000)
+  const hours = Math.floor(totalMin / 60)
+  const mins  = totalMin % 60
+  if (hours > 0) return `${hours}h ${mins}m`
+  return `${mins}m`
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -225,7 +239,7 @@ interface Props {
   onBack: () => void
 }
 
-type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup'
+type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify'
 
 export function CityBuilder({ onBack }: Props) {
   const [city, setCity]       = useState<CityState>(() => tickCity(loadCityState()))
@@ -242,6 +256,9 @@ export function CityBuilder({ onBack }: Props) {
   const [bulldozerMode, setBulldozerMode] = useState(false)
   const bulldozerRef = useRef(false)
   const [residentThoughts, setResidentThoughts] = useState<ResidentThought[]>([])
+  const [attackReport, setAttackReport] = useState<AttackEvent | null>(null)
+  const attackShownRef = useRef<number | null>(null)
+  const [currentTime, setCurrentTime] = useState(Date.now())
 
   function showToast(msg: string) {
     setToast(msg)
@@ -253,6 +270,20 @@ export function CityBuilder({ onBack }: Props) {
     saveCityState(next)
   }
 
+  // Show attack report when a new attack is detected
+  useEffect(() => {
+    if (city.lastAttack && city.lastAttack.at !== attackShownRef.current) {
+      setAttackReport(city.lastAttack)
+      attackShownRef.current = city.lastAttack.at
+    }
+  }, [city.lastAttack])
+
+  // Update countdown clock every minute
+  useEffect(() => {
+    const id = setInterval(() => setCurrentTime(Date.now()), 60_000)
+    return () => clearInterval(id)
+  }, [])
+
   // ── Sync walkers when grid changes ───────────────────────────────────────────
 
   useEffect(() => {
@@ -261,7 +292,6 @@ export function CityBuilder({ onBack }: Props) {
       for (let i = 0; i < city.grid.length; i++) {
         const cell = city.grid[i]
         if (!cell?.spawnedUnitName) continue
-        // Skip despawned units (happiness reached 0)
         if ((city.happiness[i] ?? 100) === 0) continue
         const count = spawnerUnitCount(city, cell.cardName)
         for (let u = 0; u < count; u++) {
@@ -277,6 +307,8 @@ export function CityBuilder({ onBack }: Props) {
   // ── Animation loop ────────────────────────────────────────────────────────────
 
   useEffect(() => {
+    const gridRows = city.rows ?? CITY_ROWS
+    const overlayH = gridRows * CELL_PX
     const id = setInterval(() => {
       setWalkers(prev => prev.map(w => {
         let { x, y, vx, vy, turnTimer } = w
@@ -285,7 +317,7 @@ export function CityBuilder({ onBack }: Props) {
         if (x < 0)                     { x = 0;                    vx = Math.abs(vx) }
         if (x > OVERLAY_W - UNIT_SIZE) { x = OVERLAY_W - UNIT_SIZE; vx = -Math.abs(vx) }
         if (y < 0)                     { y = 0;                    vy = Math.abs(vy) }
-        if (y > OVERLAY_H - UNIT_SIZE) { y = OVERLAY_H - UNIT_SIZE; vy = -Math.abs(vy) }
+        if (y > overlayH - UNIT_SIZE)  { y = overlayH - UNIT_SIZE; vy = -Math.abs(vy) }
         turnTimer--
         if (turnTimer <= 0) {
           const angle = Math.random() * Math.PI * 2
@@ -297,16 +329,16 @@ export function CityBuilder({ onBack }: Props) {
       }))
     }, 100)
     return () => clearInterval(id)
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city.rows])
 
-  // Keep ref in sync so the tick interval can read current bulldozer state
   useEffect(() => { bulldozerRef.current = bulldozerMode }, [bulldozerMode])
 
   // ── Gold + resource tick (every 10 s while screen is open) ───────────────────
 
   useEffect(() => {
     const id = setInterval(() => {
-      if (bulldozerRef.current) return  // paused while bulldozer is active
+      if (bulldozerRef.current) return
       setCity(prev => {
         const next = tickCity(prev)
         saveCityState(next)
@@ -368,7 +400,6 @@ export function CityBuilder({ onBack }: Props) {
       return
     }
 
-    // For spawners, affinity lives on the spawned unit template, not the structure card itself
     const affinityWith = isSpawner
       ? (spawnEffect as { type: 'spawn'; unitTemplate: { affinity?: { withName: string } }; intervalMs: number }).unitTemplate.affinity?.withName
       : card.unit?.affinity?.withName
@@ -395,20 +426,39 @@ export function CityBuilder({ onBack }: Props) {
     if (!next) { showToast('Not enough gold!'); return }
     save(next)
 
-    // Grant enough mastery XP to advance the card by exactly one mastery level.
     const xpToGrant = masteryXpForLevel(currentLvl + 1) - currentXp
     const updatedCol = col.map(e =>
       e.cardName === cardName
         ? { ...e, masteryXp: (e.masteryXp ?? 0) + xpToGrant }
         : e
     )
-    // If the card has no collection entry yet, add one.
     if (!updatedCol.find(e => e.cardName === cardName)) {
       updatedCol.push({ cardName, count: 0, masteryXp: xpToGrant })
     }
     saveCollection(updatedCol)
-
     showToast(`${cardName} levelled up! Mastery ★${currentLvl + 1}`)
+  }
+
+  // ── Fortification handlers ────────────────────────────────────────────────────
+
+  function handleAddFort(card: Card) {
+    save(addFortification(city, card.name, card.rarity))
+    showToast(`${card.name} added as fortification!`)
+  }
+
+  function handleRemoveFort(index: number) {
+    const fort = city.fortifications[index]
+    save(removeFortification(city, index))
+    showToast(`${fort.cardName} removed.`)
+  }
+
+  // ── Expansion ─────────────────────────────────────────────────────────────────
+
+  function handleExpand() {
+    const next = expandCity(city)
+    if (!next) { showToast('Cannot expand!'); return }
+    save(next)
+    showToast(`City expanded to ${next.rows} rows!`)
   }
 
   // ── Derived data ──────────────────────────────────────────────────────────────
@@ -425,9 +475,31 @@ export function CityBuilder({ onBack }: Props) {
     if (cell) placedCounts[cell.cardName] = (placedCounts[cell.cardName] ?? 0) + 1
   }
 
-  const availableForPlace = ownedStructures.filter(c =>
-    (placedCounts[c.name] ?? 0) < getOwnedCount(collection, c.name)
-  )
+  const fortCounts: Record<string, number> = {}
+  for (const fort of city.fortifications) {
+    fortCounts[fort.cardName] = (fortCounts[fort.cardName] ?? 0) + 1
+  }
+
+  // Total deployed = grid + fortifications
+  const totalDeployed: Record<string, number> = {}
+  for (const name of [...Object.keys(placedCounts), ...Object.keys(fortCounts)]) {
+    totalDeployed[name] = (placedCounts[name] ?? 0) + (fortCounts[name] ?? 0)
+  }
+
+  const availableForPlace = ownedStructures.filter(c => {
+    // Defence cards cannot be placed on the grid — they go to fortifications
+    const spawnEffect = c.unit?.structureEffect
+    const spawner = spawnEffect?.type === 'spawn'
+    if (!spawner && isDefenceCard(c.name, false)) return false
+    return (placedCounts[c.name] ?? 0) < getOwnedCount(collection, c.name)
+  })
+
+  const availableDefenceCards = ownedStructures.filter(c => {
+    const spawnEffect = c.unit?.structureEffect
+    const spawner = spawnEffect?.type === 'spawn'
+    return isDefenceCard(c.name, spawner) &&
+      (totalDeployed[c.name] ?? 0) < getOwnedCount(collection, c.name)
+  })
 
   const levellable = catalog.filter(c =>
     c.cardType === 'structure' && getOwnedCount(collection, c.name) > 0
@@ -440,6 +512,88 @@ export function CityBuilder({ onBack }: Props) {
 
   const prodRates = resourceProductionRate(city)
   const consRates = resourceConsumptionRate(city)
+
+  const cityRows  = city.rows ?? CITY_ROWS
+  const cityCells = CITY_COLS * cityRows
+  const expansionCost = EXPANSION_COSTS[cityRows]
+  const affordable = canAffordExpansion(city)
+
+  const msToAttack = Math.max(0, city.nextAttackAt - currentTime)
+  const attackCountdown = formatCountdown(msToAttack)
+  const attackUrgency = msToAttack < 3_600_000 ? 'imminent' : msToAttack < 10_800_000 ? 'soon' : 'calm'
+
+  // ── Fortify sub-screen ────────────────────────────────────────────────────────
+
+  if (screen === 'fortify') {
+    return (
+      <div className="city-screen">
+        <div className="city-picker-header">
+          <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
+          <div className="city-picker-title">🛡 FORTIFICATIONS</div>
+        </div>
+
+        <div className="city-fort-info-row">
+          <span>Total defence from forts: <strong>{
+            city.fortifications.reduce((sum, f) => sum + Math.round(FORT_DEFENSE[f.rarity] * (f.hp / f.maxHp)), 0)
+          } 🛡</strong></span>
+          <span className="city-fort-repair-note">Residents repair walls using 🪵</span>
+        </div>
+
+        {city.fortifications.length > 0 && (
+          <>
+            <div className="city-picker-section-label">BUILT ({city.fortifications.length})</div>
+            <div className="city-fort-list">
+              {city.fortifications.map((fort, idx) => {
+                const hpPct = Math.round((fort.hp / fort.maxHp) * 100)
+                const hpColor = hpPct > 60 ? '#40a040' : hpPct > 30 ? '#c08020' : '#c04020'
+                return (
+                  <div key={idx} className="city-fort-item">
+                    <SpriteImg name={fort.cardName} className="city-fort-sprite" />
+                    <div className="city-fort-details">
+                      <div className="city-fort-name">{fort.cardName}</div>
+                      <div className="city-fort-hp-track">
+                        <div className="city-fort-hp-bar">
+                          <div className="city-fort-hp-fill" style={{ width: `${hpPct}%`, background: hpColor }} />
+                        </div>
+                        <span className="city-fort-hp-text">{Math.round(fort.hp)}/{fort.maxHp}</span>
+                      </div>
+                      <div className="city-fort-defense-val">🛡 {Math.round(FORT_DEFENSE[fort.rarity] * (fort.hp / fort.maxHp))}</div>
+                    </div>
+                    <button className="filter-btn city-fort-remove" onClick={() => handleRemoveFort(idx)}>×</button>
+                  </div>
+                )
+              })}
+            </div>
+          </>
+        )}
+
+        <div className="city-picker-section-label">ADD WALL / MOAT</div>
+        {availableDefenceCards.length === 0 ? (
+          <div className="city-picker-empty">
+            {ownedStructures.some(c => isDefenceCard(c.name, c.unit?.structureEffect?.type === 'spawn'))
+              ? 'All owned defence cards are already deployed.'
+              : 'No wall or moat cards in collection. Earn them from battles!'}
+          </div>
+        ) : (
+          <div className="city-picker-grid">
+            {availableDefenceCards.map(card => (
+              <button
+                key={card.name}
+                className="city-picker-card"
+                onClick={() => handleAddFort(card)}
+              >
+                <SpriteImg name={card.name} className="city-picker-sprite" />
+                <div className="city-picker-name">{card.name}</div>
+                <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
+                <div className="city-picker-income">🛡 {FORT_DEFENSE[card.rarity]}</div>
+                <div className="city-picker-income">{FORT_MAX_HP[card.rarity]} HP</div>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  }
 
   // ── Card picker sub-screen ────────────────────────────────────────────────────
 
@@ -461,14 +615,6 @@ export function CityBuilder({ onBack }: Props) {
           if (c.unit?.structureEffect?.type === 'spawn') return false
           const p = getBuildingProduces(c.name)
           return Object.values(p).some(v => (v ?? 0) > 0)
-        }),
-      },
-      {
-        label: 'DEFENCE',
-        cards: filteredForPlace.filter(c => {
-          if (c.unit?.structureEffect?.type === 'spawn') return false
-          const p = getBuildingProduces(c.name)
-          return !Object.values(p).some(v => (v ?? 0) > 0)
         }),
       },
     ].filter(g => g.cards.length > 0)
@@ -507,7 +653,7 @@ export function CityBuilder({ onBack }: Props) {
                   const mLvl        = masteryLevel(getMasteryXp(collection, card.name))
                   const masteryMult = !isSpawner ? masteryOutputMultiplier(city.cardLevels[card.name] ?? 0) : 1
                   const producesEntries = produces ? Object.entries(produces).filter(([, v]) => (v ?? 0) > 0) : []
-                  const incomeRate  = isSpawner
+                  const incomeRateVal = isSpawner
                     ? INCOME_SPAWN[card.rarity]
                     : producesEntries.length === 0 ? INCOME_WALL[card.rarity] : INCOME_UTILITY[card.rarity]
 
@@ -542,8 +688,8 @@ export function CityBuilder({ onBack }: Props) {
                           ).join(' ')}
                         </div>
                       )}
-                      {incomeRate > 0 && (
-                        <div className="city-picker-income">+{incomeRate} 💰/min</div>
+                      {incomeRateVal > 0 && (
+                        <div className="city-picker-income">+{incomeRateVal} 💰/min</div>
                       )}
                     </button>
                   )
@@ -556,7 +702,7 @@ export function CityBuilder({ onBack }: Props) {
     )
   }
 
-  // ── Upgrade sub-screen (card level-up grid) ───────────────────────────────────
+  // ── Upgrade sub-screen ────────────────────────────────────────────────────────
 
   if (screen === 'upgrade') {
     const upgradeQ = upgradeSearch.toLowerCase()
@@ -695,6 +841,39 @@ export function CityBuilder({ onBack }: Props) {
     <div className="city-screen">
       {toast && <div className="city-toast" role="alert">{toast}</div>}
 
+      {/* Attack report modal */}
+      {attackReport && (
+        <div className="city-req-overlay" onClick={() => setAttackReport(null)}>
+          <div className="city-req-modal" onClick={e => e.stopPropagation()}>
+            <div className={`city-attack-report-header city-attack-report--${attackReport.outcome}`}>
+              {attackReport.outcome === 'repelled' && '⚔ ATTACK REPELLED'}
+              {attackReport.outcome === 'partial'  && '⚔ CITY RAIDED'}
+              {attackReport.outcome === 'defeated' && '💀 CITY DEFEATED'}
+            </div>
+            <div className="city-attack-report-body">
+              <div className="city-attack-stat">
+                Attacker power: <strong>{attackReport.power}</strong> vs your defence: <strong>{attackReport.defense}</strong>
+              </div>
+              {attackReport.outcome === 'repelled' && (
+                <div className="city-attack-good">Your defences held! Minor wall damage only.</div>
+              )}
+              {attackReport.stolenGold > 0 && (
+                <div className="city-attack-bad">⚙ {attackReport.stolenGold.toLocaleString()} gold stolen</div>
+              )}
+              {attackReport.destroyedBuildings.length > 0 && (
+                <div className="city-attack-bad">
+                  Buildings destroyed: {attackReport.destroyedBuildings.join(', ')}
+                </div>
+              )}
+              {city.fortifications.some(f => f.hp < f.maxHp) && (
+                <div className="city-attack-warn">Fortifications damaged — residents are repairing.</div>
+              )}
+            </div>
+            <button className="action-btn" onClick={() => setAttackReport(null)}>CLOSE</button>
+          </div>
+        </div>
+      )}
+
       {/* Unit requirements modal */}
       {selectedWalkerCell !== null && (() => {
         const cell = city.grid[selectedWalkerCell]
@@ -724,7 +903,7 @@ export function CityBuilder({ onBack }: Props) {
         )
       })()}
 
-      {/* Building inspect modal — 2 tabs: Residents & Upgrade */}
+      {/* Building inspect modal */}
       {selectedBuildingCell !== null && (() => {
         const cell = city.grid[selectedBuildingCell]
         if (!cell) return null
@@ -745,7 +924,6 @@ export function CityBuilder({ onBack }: Props) {
                 <SpriteImg name={cell.cardName} className="city-req-sprite" />
                 <div className="city-req-name">{cell.cardName}</div>
               </div>
-              {/* Tabs */}
               <div className="city-bld-tabs">
                 <button
                   className={`city-bld-tab${buildingTab === 'residents' ? ' city-bld-tab--active' : ''}`}
@@ -833,11 +1011,12 @@ export function CityBuilder({ onBack }: Props) {
         <div className="city-title">🏙 CITY</div>
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <div className="city-gold-display">⚙ {city.gold.toLocaleString()}</div>
-          <button className="filter-btn" onClick={() => setScreen('upgrade')}>★ UPGRADES</button>
+          <button className="filter-btn" onClick={() => setScreen('fortify')}>🛡</button>
+          <button className="filter-btn" onClick={() => setScreen('upgrade')}>★</button>
         </div>
       </div>
 
-      {/* Income summary + bulldozer toggle */}
+      {/* Income + bulldozer row */}
       <div className="city-income-row">
         <span className="city-income-in">+{incomeRate} gold</span>
         {bulldozerMode
@@ -853,12 +1032,18 @@ export function CityBuilder({ onBack }: Props) {
         >🏗{bulldozerMode ? ' ON' : ''}</button>
       </div>
 
+      {/* Attack countdown */}
+      <div className={`city-attack-row city-attack-row--${attackUrgency}`}>
+        <span className="city-attack-icon">⚔</span>
+        <span className="city-attack-label">
+          {msToAttack <= 0 ? 'ATTACK IMMINENT' : `ATTACK IN ${attackCountdown}`}
+        </span>
+        <span className="city-attack-defense">🛡 {defense}</span>
+      </div>
+
       {/* City stats */}
       <div className="city-stats-row">
-        <div className="city-stat city-stat--defense" title="City Defence">
-          🛡 {defense}
-        </div>
-        <div className="city-stat city-stat--population" title="Population — each unit earns gold for its spawner">
+        <div className="city-stat city-stat--population" title="Population">
           👥 {population}
         </div>
         {(['wheat', 'wood', 'ore', 'bread', 'planks', 'metal'] as ResourceType[]).map(res => {
@@ -886,7 +1071,7 @@ export function CityBuilder({ onBack }: Props) {
           className="city-grid"
           style={{ gridTemplateColumns: `repeat(${CITY_COLS}, 1fr)` }}
         >
-          {Array.from({ length: CITY_CELLS }, (_, i) => {
+          {Array.from({ length: cityCells }, (_, i) => {
             const cell      = city.grid[i]
             const happiness = cell?.spawnedUnitName ? (city.happiness[i] ?? 100) : 100
             const rage      = 100 - happiness
@@ -901,7 +1086,6 @@ export function CityBuilder({ onBack }: Props) {
                 {cell ? (
                   <>
                     <SpriteImg name={cell.cardName} className="city-cell-sprite" />
-                    <div className="city-cell-name">{cell.cardName}</div>
                     {masteryLevel(getMasteryXp(collection, cell.cardName)) > 0 && (
                       <div className="city-cell-level">★{masteryLevel(getMasteryXp(collection, cell.cardName))}</div>
                     )}
@@ -931,7 +1115,8 @@ export function CityBuilder({ onBack }: Props) {
             const happiness   = city.happiness[w.cellIndex] ?? 100
             const rage        = 100 - happiness
             const wantedNeighbour = w.affinityWith ?? w.unitName
-            const wantsFriend = !getNeighbourIndices(w.cellIndex).some(ni => {
+            const gridRows2 = city.rows ?? CITY_ROWS
+            const wantsFriend = !getNeighbourIndices(w.cellIndex, gridRows2).some(ni => {
               const nc = city.grid[ni]
               return nc?.spawnedUnitName === wantedNeighbour && (city.happiness[ni] ?? 100) > 0
             })
@@ -962,6 +1147,24 @@ export function CityBuilder({ onBack }: Props) {
           })}
         </div>
       </div>
+
+      {/* Expand city button */}
+      {cityRows < MAX_CITY_ROWS && expansionCost && (
+        <div className="city-expand-row">
+          <button
+            className={`action-btn${affordable ? ' action-btn--gold' : ''}`}
+            onClick={handleExpand}
+            disabled={!affordable}
+            title={affordable ? 'Expand your city by one row' : 'Not enough resources to expand'}
+          >
+            EXPAND CITY ({cityRows}→{cityRows + 1} rows)
+            {' '}⚙{expansionCost.gold.toLocaleString()}
+            {Object.entries(expansionCost.resources).map(([r, a]) =>
+              ` ${RESOURCE_ICONS[r as ResourceType]}${a}`
+            ).join('')}
+          </button>
+        </div>
+      )}
 
       {/* Resident thoughts feed */}
       {residentThoughts.length > 0 && (
