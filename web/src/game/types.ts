@@ -337,4 +337,6 @@ export interface GameState {
   forgiveManaLimit?: boolean
   /** Daily challenge: floor for maxMana equal to the highest card cost in the player's deck. */
   deckMaxMana?: number
+  /** Player unit movement stance. Defaults to 'auto' (original behaviour). */
+  playerStance?: 'auto' | 'attack' | 'hold' | 'defend'
 }

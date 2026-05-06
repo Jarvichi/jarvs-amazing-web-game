@@ -42,6 +42,8 @@ export interface BattleState {
   fingerSmashNames: string[]
   /** Card name choices available on the wave-reward screen. */
   waveRewardChoices: string[]
+  /** Game speed multiplier (1 / 2 / 4 / 8). Applied to deltaMs each tick. */
+  speedMultiplier: 1 | 2 | 4 | 8
 }
 
 export const INITIAL_BATTLE_STATE: BattleState = {
@@ -52,6 +54,7 @@ export const INITIAL_BATTLE_STATE: BattleState = {
   showFingerSmash: false,
   fingerSmashNames: [],
   waveRewardChoices: [],
+  speedMultiplier: 1,
 }
 
 // ─── Actions ──────────────────────────────────────────────
@@ -91,6 +94,10 @@ export type BattleAction =
   | { type: 'SET_DC_GAME_OVER'; state: DailyChallengeState }
   /** Store post-battle stats for the BattleSummary screen. */
   | { type: 'SET_SUMMARY_STATS'; stats: BattleStats; gameTime: number; playerScore: number }
+  /** Change the player unit movement stance. */
+  | { type: 'SET_STANCE'; stance: NonNullable<GameState['playerStance']> }
+  /** Change the game speed multiplier. */
+  | { type: 'SET_SPEED'; multiplier: 1 | 2 | 4 | 8 }
 
 // ─── Reducer ──────────────────────────────────────────────
 
@@ -104,7 +111,7 @@ export function battleReducer(state: BattleState, action: BattleAction): BattleS
 
     case 'TICK': {
       if (!state.gameState) return state
-      return { ...state, gameState: engineTick(state.gameState, TICK_MS) }
+      return { ...state, gameState: engineTick(state.gameState, TICK_MS * state.speedMultiplier) }
     }
 
     case 'SET_GAME_STATE':
@@ -156,6 +163,14 @@ export function battleReducer(state: BattleState, action: BattleAction): BattleS
         ...state,
         summaryStats: { stats: action.stats, gameTime: action.gameTime, playerScore: action.playerScore },
       }
+
+    case 'SET_STANCE': {
+      if (!state.gameState) return state
+      return { ...state, gameState: { ...state.gameState, playerStance: action.stance } }
+    }
+
+    case 'SET_SPEED':
+      return { ...state, speedMultiplier: action.multiplier }
 
     default:
       return state

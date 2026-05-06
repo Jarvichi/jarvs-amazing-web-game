@@ -1,5 +1,5 @@
 import { GameState, LANE_WIDTH, TERRAIN_AVOID_SHAPE, Unit, UnitTag } from '../types'
-import { BASE_STOP_MARGIN, DAMAGE_FLASH_MS } from './constants'
+import { BASE_STOP_MARGIN, DAMAGE_FLASH_MS, PLAYER_SPAWN_X } from './constants'
 import { LANE_MAX_Y, LANE_MIN_Y } from './helpers'
 import { unitDist, findNearestEnemy, findNearestEnemyByPriority, findEnemyBehind } from './targeting'
 
@@ -13,6 +13,7 @@ const MAX_BASE_GUARDS      = 2     // max units per side allowed to stay in guar
 
 export function moveUnits(s: GameState, deltaMs: number): void {
   const deltaSec = deltaMs / 1000
+  const stance = s.playerStance ?? 'auto'
 
   const guardDecisionCount: Record<string, number> = {}
 
@@ -36,6 +37,9 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     if (unit.spawnGrowTimer != null && unit.spawnGrowTimer > 0) continue
     if (unit.stunTimer      != null && unit.stunTimer      > 0) continue
 
+    // Hold: player units freeze in place (combat system still handles attacks)
+    if (unit.owner === 'player' && stance === 'hold') continue
+
     const anyEnemies = unit.owner === 'player' ? livingOpponentUnits : livingPlayerUnits
 
     const nearestAhead = findNearestEnemyByPriority(s.field, unit) ?? findNearestEnemy(s.field, unit)
@@ -46,10 +50,14 @@ export function moveUnits(s: GameState, deltaMs: number): void {
 
     if (nearestAhead) {
       if (unitDist(unit, nearestAhead) <= unit.attackRange) continue
-      tx = nearestAhead.x
-      ty = nearestAhead.isWall ? unit.y : nearestAhead.y
-      hasTarget = true
-    } else {
+      // Attack/defend: don't chase enemies — keep charging toward destination
+      if (unit.owner !== 'player' || stance === 'auto') {
+        tx = nearestAhead.x
+        ty = nearestAhead.isWall ? unit.y : nearestAhead.y
+        hasTarget = true
+      }
+    } else if (unit.owner !== 'player' || stance === 'auto') {
+      // Only turn back for enemies behind in auto mode
       const behind = findEnemyBehind(s.field, unit)
       if (behind) {
         if (unitDist(unit, behind) <= unit.attackRange) continue
@@ -59,8 +67,18 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       }
     }
 
+    // Defend: pull back toward the player spawn area
+    if (unit.owner === 'player' && stance === 'defend') {
+      tx = PLAYER_SPAWN_X + 40
+      ty = 0
+      hasTarget = false
+    }
+
+    // Trait-based movement overrides are suppressed in attack/defend/hold stances
+    const useTraitMovement = unit.owner !== 'player' || stance === 'auto'
+
     // Affinity group movement: seek partner if out of range; leash once bonded
-    if (unit.affinity && !unit.isWall) {
+    if (useTraitMovement && unit.affinity && !unit.isWall) {
       const aff     = unit.affinity
       const partner = s.field.find(
         u => u.owner === unit.owner && u.id !== unit.id && u.hp > 0 && u.name === aff.withName
@@ -91,7 +109,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     }
 
     // Unit trait: flee
-    if (unit.unitTrait?.fleeFrom?.length && !hasTarget) {
+    if (useTraitMovement && unit.unitTrait?.fleeFrom?.length && !hasTarget) {
       const fleeRange = unit.unitTrait.fleeRange ?? 80
       let fvx = 0, fvy = 0, fleeCount = 0
       for (const other of s.field) {
@@ -117,7 +135,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     }
 
     // Builder trait: seek nearest friendly building; once charges exhausted, run to enemy base
-    if (unit.unitTrait?.builderMode) {
+    if (useTraitMovement && unit.unitTrait?.builderMode) {
       if (unit.builderSaboteurMode) {
         // Sprint to enemy base, steering away from nearby enemies
         const enemyBaseX = unit.owner === 'player' ? LANE_WIDTH : 0
@@ -165,7 +183,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     }
 
     // Unit trait: guard base (active for first 2 minutes only)
-    if (unit.unitTrait?.guardBase && s.gameTime < 120000) {
+    if (useTraitMovement && unit.unitTrait?.guardBase && s.gameTime < 120000) {
       const ownBaseX      = unit.owner === 'player' ? 0 : LANE_WIDTH
       const engageRange   = unit.unitTrait.engageRange   ?? 180
       const baseGuardRange = unit.unitTrait.baseGuardRange ?? 80

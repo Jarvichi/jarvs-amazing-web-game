@@ -90,6 +90,7 @@ describe('battleReducer', () => {
         showFingerSmash: true,
         fingerSmashNames: ['Goblin', 'Rat'],
         waveRewardChoices: ['Goblin', 'Rat', 'Spider'],
+        speedMultiplier: 4,
       }
       const gs = makeGameState()
       const next = battleReducer(dirtyState, { type: 'START', gameState: gs })
@@ -116,6 +117,7 @@ describe('battleReducer', () => {
         showFingerSmash: true,
         fingerSmashNames: ['Goblin'],
         waveRewardChoices: ['Card A'],
+        speedMultiplier: 2,
       }
       const next = battleReducer(active, { type: 'END' })
 

@@ -44,6 +44,10 @@ interface Props {
   showBossSplash?: boolean
   activeModifiers?: { label: string }[]  // replay modifiers active this run
   isCampaign?: boolean
+  stance?: NonNullable<GameState['playerStance']>
+  onSetStance?: (s: NonNullable<GameState['playerStance']>) => void
+  speedMultiplier?: 1 | 2 | 4 | 8
+  onCycleSpeed?: () => void
 }
 
 const SPAWN_GROW_MS = 1500
@@ -656,7 +660,7 @@ function opponentPortraitSlug(bossAI: string | undefined, actTheme: string | und
   return 'bandit'
 }
 
-export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPause, actTheme, activeRelic, showBossSplash, activeModifiers, isCampaign }: Props) {
+export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPause, actTheme, activeRelic, showBossSplash, activeModifiers, isCampaign, stance = 'auto', onSetStance, speedMultiplier = 1, onCycleSpeed }: Props) {
   const { openDetail, cardDetailNode } = useCardDetail()
   const [heroLightning, setHeroLightning] = useState<{ owner: 'player' | 'opponent'; key: number } | null>(null)
   const [paused, setPaused] = useState(false)
@@ -1023,6 +1027,23 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           MANA {state.mana}/{state.maxMana}
           <ManaBar mana={state.mana} maxMana={state.maxMana} manaAccum={state.manaAccum} />
         </span>
+      </div>
+
+      {/* Stance + speed controls */}
+      <div className="stance-bar">
+        {(['attack', 'hold', 'defend', 'auto'] as const).map(s => (
+          <button
+            key={s}
+            className={`filter-btn${stance === s ? ' filter-btn--active' : ''}`}
+            onClick={() => onSetStance?.(s)}
+            disabled={state.suddenDeath && s !== 'attack'}
+          >
+            {s === 'attack' ? 'ATTACK' : s === 'hold' ? 'HOLD' : s === 'defend' ? 'DEFEND' : 'AUTO'}
+          </button>
+        ))}
+        <button className="filter-btn stance-bar__speed" onClick={onCycleSpeed}>
+          x{speedMultiplier}
+        </button>
       </div>
 
       {/* Hand */}
