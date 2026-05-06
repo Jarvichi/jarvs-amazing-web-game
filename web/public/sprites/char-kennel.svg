@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#1a0a00" opacity="0.5"/>
+  <!-- Scorched ground -->
+  <rect x="0" y="24" width="32" height="8" fill="#2a1a0a"/>
+  <ellipse cx="16" cy="28" rx="12" ry="3" fill="#3a2010" opacity="0.5"/>
+  <!-- Burnt/charred kennel building -->
+  <rect x="4" y="14" width="24" height="11" rx="1" fill="#2a2010"/>
+  <rect x="4" y="14" width="24" height="3" fill="#3a3020"/>
+  <!-- Charred wood grain -->
+  <line x1="4" y1="18" x2="28" y2="18" stroke="#1a1008" stroke-width="0.7"/>
+  <line x1="4" y1="21" x2="28" y2="21" stroke="#1a1008" stroke-width="0.7"/>
+  <line x1="10" y1="14" x2="10" y2="24" stroke="#1a1008" stroke-width="0.7"/>
+  <line x1="22" y1="14" x2="22" y2="24" stroke="#1a1008" stroke-width="0.7"/>
+  <!-- Scorched/warped roof -->
+  <polygon points="2,14 16,4 30,14" fill="#1a1008"/>
+  <polygon points="4,14 16,5 28,14" fill="#2a2010"/>
+  <!-- Ember glows in damaged sections -->
+  <circle cx="8" cy="12" r="1.5" fill="#ff4400" opacity="0.5"/>
+  <circle cx="24" cy="11" r="1.5" fill="#ff6600" opacity="0.4"/>
+  <circle cx="16" cy="7" r="2" fill="#ff3300" opacity="0.3"/>
+  <!-- Smoke rising from roof -->
+  <path d="M10,5 Q9,2 11,0" fill="none" stroke="#444030" stroke-width="1.2" opacity="0.6"/>
+  <path d="M16,4 Q15,1 17,0" fill="none" stroke="#555040" stroke-width="1.2" opacity="0.5"/>
+  <path d="M22,5 Q23,2 21,0" fill="none" stroke="#444030" stroke-width="1.2" opacity="0.6"/>
+  <!-- Fire-hound lair opening (glowing inside) -->
+  <path d="M12,24 L12,18 Q16,15 20,18 L20,24 Z" fill="#1a0a00"/>
+  <ellipse cx="16" cy="20" rx="3" ry="2.5" fill="#cc3300" opacity="0.4"/>
+  <ellipse cx="16" cy="20" rx="1.5" ry="1.5" fill="#ff6600" opacity="0.5"/>
+  <!-- Burn marks/scorch patterns on walls -->
+  <path d="M6,16 Q8,13 9,16" fill="#1a0808" opacity="0.6"/>
+  <path d="M23,16 Q25,13 26,16" fill="#1a0808" opacity="0.6"/>
+  <!-- Chain stake (fire-proof) -->
+  <line x1="16" y1="24" x2="16" y2="28" stroke="#5a5040" stroke-width="1.5"/>
+  <circle cx="16" cy="24" r="1.2" fill="#6a6050"/>
+  <!-- Red embers on ground -->
+  <circle cx="8" cy="26" r="0.8" fill="#ff4400" opacity="0.4"/>
+  <circle cx="24" cy="27" r="0.8" fill="#ff3300" opacity="0.4"/>
+  <circle cx="12" cy="29" r="0.6" fill="#cc2200" opacity="0.5"/>
+</svg>

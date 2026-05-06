@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="9" ry="1.5" fill="#2a1a0a" opacity="0.4"/>
+  <!-- Tower base -->
+  <rect x="7" y="24" width="18" height="7" rx="1" fill="#6a5a40"/>
+  <rect x="7" y="24" width="18" height="2" fill="#7a6a50"/>
+  <!-- Main tower body -->
+  <rect x="9" y="12" width="14" height="13" fill="#7a6a50"/>
+  <rect x="9" y="12" width="14" height="3" fill="#8a7a60"/>
+  <!-- Bone inlay on walls (horizontal) -->
+  <line x1="9" y1="16" x2="23" y2="16" stroke="#c8b890" stroke-width="0.8"/>
+  <line x1="9" y1="20" x2="23" y2="20" stroke="#c8b890" stroke-width="0.8"/>
+  <!-- Bone cross motif -->
+  <line x1="13" y1="13" x2="13" y2="24" stroke="#c8b890" stroke-width="0.6" opacity="0.6"/>
+  <line x1="19" y1="13" x2="19" y2="24" stroke="#c8b890" stroke-width="0.6" opacity="0.6"/>
+  <!-- Upper tower (narrower) -->
+  <rect x="11" y="5" width="10" height="8" fill="#8a7a60"/>
+  <rect x="11" y="5" width="10" height="2" fill="#9a8a70"/>
+  <!-- Bone battlements -->
+  <rect x="11" y="2" width="2" height="4" fill="#c8b890"/>
+  <rect x="15" y="2" width="2" height="4" fill="#c8b890"/>
+  <rect x="19" y="2" width="2" height="4" fill="#c8b890"/>
+  <!-- Skull on top -->
+  <circle cx="16" cy="1" r="2" fill="#c8b890"/>
+  <circle cx="15.3" cy="0.5" r="0.5" fill="#2a1a0a"/>
+  <circle cx="16.7" cy="0.5" r="0.5" fill="#2a1a0a"/>
+  <rect x="15" y="1.5" width="2" height="1.5" fill="#c8b890"/>
+  <!-- Arrow slits -->
+  <rect x="13" y="7" width="2" height="4" fill="#1a0a00" rx="1"/>
+  <rect x="17" y="7" width="2" height="4" fill="#1a0a00" rx="1"/>
+  <rect x="11" y="15" width="2" height="3" fill="#1a0a00" rx="1"/>
+  <rect x="19" y="15" width="2" height="3" fill="#1a0a00" rx="1"/>
+  <!-- Bone trim on base -->
+  <line x1="7" y1="26" x2="25" y2="26" stroke="#c8b890" stroke-width="1"/>
+  <!-- Femur bones stacked on base sides -->
+  <line x1="8" y1="25" x2="11" y2="23" stroke="#c8b890" stroke-width="1.5"/>
+  <circle cx="8" cy="25" r="0.7" fill="#c8b890"/>
+  <circle cx="11" cy="23" r="0.7" fill="#c8b890"/>
+  <line x1="24" y1="25" x2="21" y2="23" stroke="#c8b890" stroke-width="1.5"/>
+  <circle cx="24" cy="25" r="0.7" fill="#c8b890"/>
+  <circle cx="21" cy="23" r="0.7" fill="#c8b890"/>
+</svg>

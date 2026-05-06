@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#3a2a1a" opacity="0.4"/>
+  <!-- Reinforced base platform -->
+  <rect x="2" y="23" width="28" height="8" rx="1" fill="#6a5030"/>
+  <rect x="2" y="23" width="28" height="2" fill="#7a6040"/>
+  <!-- Wheels -->
+  <circle cx="7" cy="26" r="4" fill="none" stroke="#5a3a1a" stroke-width="2"/>
+  <circle cx="7" cy="26" r="1.5" fill="#5a3a1a"/>
+  <line x1="7" y1="22" x2="7" y2="30" stroke="#5a3a1a" stroke-width="1"/>
+  <line x1="3" y1="26" x2="11" y2="26" stroke="#5a3a1a" stroke-width="1"/>
+  <circle cx="25" cy="26" r="4" fill="none" stroke="#5a3a1a" stroke-width="2"/>
+  <circle cx="25" cy="26" r="1.5" fill="#5a3a1a"/>
+  <line x1="25" y1="22" x2="25" y2="30" stroke="#5a3a1a" stroke-width="1"/>
+  <line x1="21" y1="26" x2="29" y2="26" stroke="#5a3a1a" stroke-width="1"/>
+  <!-- Frame sides -->
+  <line x1="10" y1="23" x2="8" y2="14" stroke="#6a4a1a" stroke-width="2.5"/>
+  <line x1="22" y1="23" x2="24" y2="14" stroke="#6a4a1a" stroke-width="2.5"/>
+  <!-- Cross brace -->
+  <line x1="8" y1="20" x2="24" y2="20" stroke="#7a5a2a" stroke-width="1.5"/>
+  <line x1="8" y1="14" x2="24" y2="14" stroke="#6a4a1a" stroke-width="2"/>
+  <!-- Pivot axle -->
+  <circle cx="16" cy="14" r="2" fill="#5a4a2a"/>
+  <!-- Throwing arm (angled, pulled back) -->
+  <line x1="16" y1="14" x2="26" y2="8" stroke="#6a4a1a" stroke-width="2.5"/>
+  <!-- Counterweight bucket -->
+  <rect x="24" y="4" width="5" height="5" rx="1" fill="#5a4030"/>
+  <rect x="24" y="4" width="5" height="2" fill="#6a5040"/>
+  <!-- Weight chain -->
+  <line x1="26.5" y1="4" x2="26" y2="8" stroke="#6a6050" stroke-width="1"/>
+  <!-- Sling cup at end with boulder -->
+  <circle cx="4" cy="20" r="3" fill="#7a7060"/>
+  <circle cx="4" cy="20" r="2" fill="#8a8070"/>
+  <!-- Sling rope -->
+  <line x1="4" y1="17" x2="10" y2="14" stroke="#9a8060" stroke-width="1"/>
+  <!-- Tensioning ropes -->
+  <line x1="10" y1="20" x2="14" y2="23" stroke="#8a6a3a" stroke-width="0.8"/>
+  <line x1="22" y1="20" x2="18" y2="23" stroke="#8a6a3a" stroke-width="0.8"/>
+</svg>

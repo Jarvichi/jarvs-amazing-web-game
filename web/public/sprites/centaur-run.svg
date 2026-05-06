@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#3a2a1a" opacity="0.4"/>
+  <!-- Grassy track ground -->
+  <rect x="0" y="24" width="32" height="8" fill="#5a7020"/>
+  <rect x="0" y="24" width="32" height="2" fill="#6a8030"/>
+  <!-- Track lane markings -->
+  <line x1="0" y1="27" x2="32" y2="27" stroke="#8a9040" stroke-width="0.6" stroke-dasharray="3,3"/>
+  <!-- Archway entrance posts -->
+  <rect x="2" y="8" width="5" height="17" rx="1" fill="#7a6a40"/>
+  <rect x="25" y="8" width="5" height="17" rx="1" fill="#7a6a40"/>
+  <rect x="2" y="8" width="5" height="2" fill="#8a7a50"/>
+  <rect x="25" y="8" width="5" height="2" fill="#8a7a50"/>
+  <!-- Arch over gate -->
+  <path d="M2,8 Q16,0 30,8" fill="none" stroke="#7a6a40" stroke-width="3"/>
+  <path d="M3,8 Q16,1 29,8" fill="none" stroke="#8a7a50" stroke-width="1"/>
+  <!-- Centaur silhouette on arch banner -->
+  <!-- Horse body -->
+  <ellipse cx="16" cy="5" rx="4" ry="2" fill="#6a4a20"/>
+  <!-- Horse legs -->
+  <line x1="13" y1="6" x2="12" y2="9" stroke="#5a3a10" stroke-width="1.2"/>
+  <line x1="15" y1="6.5" x2="14" y2="9" stroke="#5a3a10" stroke-width="1.2"/>
+  <line x1="17" y1="6.5" x2="18" y2="9" stroke="#5a3a10" stroke-width="1.2"/>
+  <line x1="19" y1="6" x2="20" y2="9" stroke="#5a3a10" stroke-width="1.2"/>
+  <!-- Human torso -->
+  <rect x="15" y="2" width="3" height="4" fill="#6a4a20"/>
+  <!-- Head -->
+  <circle cx="16.5" cy="1.5" r="1.5" fill="#8a6a40"/>
+  <!-- Arrow/bow raised -->
+  <line x1="17" y1="2" x2="22" y2="0" stroke="#5a3a10" stroke-width="0.8"/>
+  <!-- Decorative wreaths on posts -->
+  <circle cx="4.5" cy="9" r="2" fill="none" stroke="#3a7a18" stroke-width="1"/>
+  <circle cx="27.5" cy="9" r="2" fill="none" stroke="#3a7a18" stroke-width="1"/>
+  <!-- Hurdle/fence on track -->
+  <rect x="13" y="21" width="6" height="3" rx="1" fill="#7a5a2a"/>
+  <line x1="14" y1="21" x2="14" y2="25" stroke="#5a3a0a" stroke-width="1.2"/>
+  <line x1="18" y1="21" x2="18" y2="25" stroke="#5a3a0a" stroke-width="1.2"/>
+  <!-- Hoof marks on track -->
+  <ellipse cx="7" cy="26" rx="1.2" ry="0.8" fill="#4a5a18" opacity="0.5"/>
+  <ellipse cx="9" cy="28" rx="1.2" ry="0.8" fill="#4a5a18" opacity="0.5"/>
+  <ellipse cx="22" cy="25" rx="1.2" ry="0.8" fill="#4a5a18" opacity="0.5"/>
+  <ellipse cx="25" cy="28" rx="1.2" ry="0.8" fill="#4a5a18" opacity="0.5"/>
+</svg>
