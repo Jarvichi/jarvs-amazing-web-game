@@ -236,6 +236,9 @@ export function CityBuilder({ onBack }: Props) {
   const [walkers, setWalkers] = useState<Walker[]>([])
   const [selectedWalkerCell, setSelectedWalkerCell] = useState<number | null>(null)
   const [selectedBuildingCell, setSelectedBuildingCell] = useState<number | null>(null)
+  const [buildingTab, setBuildingTab] = useState<'residents' | 'upgrade'>('residents')
+  const [pickerSearch, setPickerSearch]   = useState('')
+  const [upgradeSearch, setUpgradeSearch] = useState('')
   const [bulldozerMode, setBulldozerMode] = useState(false)
   const bulldozerRef = useRef(false)
   const [residentThoughts, setResidentThoughts] = useState<ResidentThought[]>([])
@@ -336,6 +339,7 @@ export function CityBuilder({ onBack }: Props) {
         save(removeCard(city, index))
         showToast(`${cell.cardName} demolished.`)
       } else {
+        setBuildingTab('residents')
         setSelectedBuildingCell(index)
       }
     } else {
@@ -440,15 +444,20 @@ export function CityBuilder({ onBack }: Props) {
   // ── Card picker sub-screen ────────────────────────────────────────────────────
 
   if (screen === 'picker') {
+    const pickerQ = pickerSearch.toLowerCase()
+    const filteredForPlace = pickerQ
+      ? availableForPlace.filter(c => c.name.toLowerCase().includes(pickerQ))
+      : availableForPlace
+
     type PickerGroup = { label: string; cards: typeof availableForPlace }
     const groups: PickerGroup[] = [
       {
         label: 'SPAWNERS',
-        cards: availableForPlace.filter(c => c.unit?.structureEffect?.type === 'spawn'),
+        cards: filteredForPlace.filter(c => c.unit?.structureEffect?.type === 'spawn'),
       },
       {
         label: 'PRODUCERS',
-        cards: availableForPlace.filter(c => {
+        cards: filteredForPlace.filter(c => {
           if (c.unit?.structureEffect?.type === 'spawn') return false
           const p = getBuildingProduces(c.name)
           return Object.values(p).some(v => (v ?? 0) > 0)
@@ -456,7 +465,7 @@ export function CityBuilder({ onBack }: Props) {
       },
       {
         label: 'DEFENCE',
-        cards: availableForPlace.filter(c => {
+        cards: filteredForPlace.filter(c => {
           if (c.unit?.structureEffect?.type === 'spawn') return false
           const p = getBuildingProduces(c.name)
           return !Object.values(p).some(v => (v ?? 0) > 0)
@@ -470,8 +479,17 @@ export function CityBuilder({ onBack }: Props) {
           <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
           <div className="city-picker-title">PLACE A BUILDING</div>
         </div>
+        <input
+          className="city-search"
+          type="search"
+          placeholder="Search buildings…"
+          value={pickerSearch}
+          onChange={e => setPickerSearch(e.target.value)}
+        />
         {availableForPlace.length === 0 ? (
           <div className="city-picker-empty">No buildings available. Earn more from battles!</div>
+        ) : groups.length === 0 ? (
+          <div className="city-picker-empty">No buildings match "{pickerSearch}"</div>
         ) : (
           groups.map(group => (
             <div key={group.label} className="city-picker-section">
@@ -541,6 +559,35 @@ export function CityBuilder({ onBack }: Props) {
   // ── Upgrade sub-screen (card level-up grid) ───────────────────────────────────
 
   if (screen === 'upgrade') {
+    const upgradeQ = upgradeSearch.toLowerCase()
+    const filteredLevellable = upgradeQ
+      ? levellable.filter(c => c.name.toLowerCase().includes(upgradeQ))
+      : levellable
+
+    type UpgradeGroup = { label: string; cards: typeof levellable }
+    const upgradeGroups: UpgradeGroup[] = [
+      {
+        label: 'SPAWNERS',
+        cards: filteredLevellable.filter(c => c.unit?.structureEffect?.type === 'spawn'),
+      },
+      {
+        label: 'PRODUCERS',
+        cards: filteredLevellable.filter(c => {
+          if (c.unit?.structureEffect?.type === 'spawn') return false
+          const p = getBuildingProduces(c.name)
+          return Object.values(p).some(v => (v ?? 0) > 0)
+        }),
+      },
+      {
+        label: 'DEFENCE',
+        cards: filteredLevellable.filter(c => {
+          if (c.unit?.structureEffect?.type === 'spawn') return false
+          const p = getBuildingProduces(c.name)
+          return !Object.values(p).some(v => (v ?? 0) > 0)
+        }),
+      },
+    ].filter(g => g.cards.length > 0)
+
     return (
       <div className="city-screen">
         <div className="city-picker-header">
@@ -550,31 +597,46 @@ export function CityBuilder({ onBack }: Props) {
         <div className="city-gold-display" style={{ textAlign: 'center', padding: '4px' }}>
           ⚙ {city.gold.toLocaleString()} gold
         </div>
-        <div className="city-hint" style={{ textAlign: 'center', marginBottom: 6 }}>
-          Spend gold to permanently boost structures in battle.
-        </div>
-        <div className="city-level-grid">
-          {levellable.map(card => {
-            const xp        = getMasteryXp(loadCollection(), card.name)
-            const mLvl      = masteryLevel(xp)
-            const cost      = levelUpCost(mLvl)
-            const canAfford = city.gold >= cost
-            return (
-              <button
-                key={card.name}
-                className={`city-level-card${mLvl > 0 ? ' city-level-card--levelled' : ''}`}
-                onClick={() => { setLevelCard(card.name); setScreen('levelup') }}
-              >
-                <SpriteImg name={card.name} className="city-level-card-sprite" />
-                <div className="city-level-card-name">{card.name}</div>
-                <div className="city-level-card-stars">★{mLvl} mastery</div>
-                <div className={`city-level-card-cost${canAfford ? ' city-level-card-cost--ready' : ''}`}>
-                  ⚙ {cost.toLocaleString()}
-                </div>
-              </button>
-            )
-          })}
-        </div>
+        <input
+          className="city-search"
+          type="search"
+          placeholder="Search buildings…"
+          value={upgradeSearch}
+          onChange={e => setUpgradeSearch(e.target.value)}
+        />
+        {upgradeGroups.length === 0 ? (
+          <div className="city-picker-empty">
+            {upgradeQ ? `No buildings match "${upgradeSearch}"` : 'No buildings to upgrade yet.'}
+          </div>
+        ) : (
+          upgradeGroups.map(group => (
+            <div key={group.label} className="city-picker-section">
+              <div className="city-picker-section-label">{group.label}</div>
+              <div className="city-level-grid">
+                {group.cards.map(card => {
+                  const xp        = getMasteryXp(loadCollection(), card.name)
+                  const mLvl      = masteryLevel(xp)
+                  const cost      = levelUpCost(mLvl)
+                  const canAfford = city.gold >= cost
+                  return (
+                    <button
+                      key={card.name}
+                      className={`city-level-card${mLvl > 0 ? ' city-level-card--levelled' : ''}`}
+                      onClick={() => { setLevelCard(card.name); setScreen('levelup') }}
+                    >
+                      <SpriteImg name={card.name} className="city-level-card-sprite" />
+                      <div className="city-level-card-name">{card.name}</div>
+                      <div className="city-level-card-stars">★{mLvl} mastery</div>
+                      <div className={`city-level-card-cost${canAfford ? ' city-level-card-cost--ready' : ''}`}>
+                        ⚙ {cost.toLocaleString()}
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          ))
+        )}
       </div>
     )
   }
@@ -662,16 +724,20 @@ export function CityBuilder({ onBack }: Props) {
         )
       })()}
 
-      {/* Building resident panel */}
+      {/* Building inspect modal — 2 tabs: Residents & Upgrade */}
       {selectedBuildingCell !== null && (() => {
         const cell = city.grid[selectedBuildingCell]
         if (!cell) return null
-        const happiness  = cell.spawnedUnitName ? (city.happiness[selectedBuildingCell] ?? 100) : 100
-        const unitCount  = cell.spawnedUnitName ? spawnerUnitCount(city, cell.cardName) : 0
-        const moodKey    = happiness === 0 ? 'gone' : happiness < 30 ? 'furious' : happiness < 60 ? 'unsettled' : 'content'
-        const produces   = getBuildingProduces(cell.cardName)
-        const masteryMult = masteryOutputMultiplier(city.cardLevels[cell.cardName] ?? 0)
+        const happiness    = cell.spawnedUnitName ? (city.happiness[selectedBuildingCell] ?? 100) : 100
+        const unitCount    = cell.spawnedUnitName ? spawnerUnitCount(city, cell.cardName) : 0
+        const moodKey      = happiness === 0 ? 'gone' : happiness < 30 ? 'furious' : happiness < 60 ? 'unsettled' : 'content'
+        const produces     = getBuildingProduces(cell.cardName)
+        const masteryMult  = masteryOutputMultiplier(city.cardLevels[cell.cardName] ?? 0)
         const produceEntries = Object.entries(produces).filter(([, v]) => (v ?? 0) > 0)
+        const xp           = getMasteryXp(collection, cell.cardName)
+        const { level: mLvl } = masteryProgress(xp)
+        const upgradeCost  = levelUpCost(mLvl)
+        const canAfford    = city.gold >= upgradeCost
         return (
           <div className="city-req-overlay" onClick={() => setSelectedBuildingCell(null)}>
             <div className="city-req-modal" onClick={e => e.stopPropagation()}>
@@ -679,42 +745,82 @@ export function CityBuilder({ onBack }: Props) {
                 <SpriteImg name={cell.cardName} className="city-req-sprite" />
                 <div className="city-req-name">{cell.cardName}</div>
               </div>
-              {cell.spawnedUnitName ? (
-                <>
-                  <div className="city-bld-section-title">Residents ({happiness === 0 ? 0 : unitCount})</div>
-                  {happiness === 0 ? (
-                    <div className="city-bld-vacant">Building is vacant — unit left the city</div>
-                  ) : (
-                    Array.from({ length: unitCount }, (_, u) => {
-                      const reqs = getUnitRequirements(cell, city, selectedBuildingCell)
-                      const unmet = reqs.filter(r => !r.met)
-                      return (
-                        <div key={u} className="city-bld-resident">
-                          <AnimatedSpriteImg name={cell.spawnedUnitName!} frameCount={3} fps={6} className="city-bld-resident-sprite" />
-                          <div className="city-bld-resident-info">
-                            <div className="city-bld-resident-name">{residentName(cell.spawnedUnitName!, selectedBuildingCell, u)}</div>
-                            <div className={`city-req-mood city-req-mood--${moodKey}`}>{rageDescription(happiness)}</div>
-                            {unmet.map((r, i) => (
-                              <div key={i} className="city-bld-resident-req">✗ {r.text}</div>
-                            ))}
+              {/* Tabs */}
+              <div className="city-bld-tabs">
+                <button
+                  className={`city-bld-tab${buildingTab === 'residents' ? ' city-bld-tab--active' : ''}`}
+                  onClick={() => setBuildingTab('residents')}
+                >Residents</button>
+                <button
+                  className={`city-bld-tab${buildingTab === 'upgrade' ? ' city-bld-tab--active' : ''}`}
+                  onClick={() => setBuildingTab('upgrade')}
+                >Upgrade</button>
+              </div>
+
+              {buildingTab === 'residents' && (
+                cell.spawnedUnitName ? (
+                  <>
+                    <div className="city-bld-section-title">Residents ({happiness === 0 ? 0 : unitCount})</div>
+                    {happiness === 0 ? (
+                      <div className="city-bld-vacant">Building is vacant — unit left the city</div>
+                    ) : (
+                      Array.from({ length: unitCount }, (_, u) => {
+                        const reqs = getUnitRequirements(cell, city, selectedBuildingCell)
+                        const unmet = reqs.filter(r => !r.met)
+                        return (
+                          <div key={u} className="city-bld-resident">
+                            <AnimatedSpriteImg name={cell.spawnedUnitName!} frameCount={3} fps={6} className="city-bld-resident-sprite" />
+                            <div className="city-bld-resident-info">
+                              <div className="city-bld-resident-name">{residentName(cell.spawnedUnitName!, selectedBuildingCell, u)}</div>
+                              <div className={`city-req-mood city-req-mood--${moodKey}`}>{rageDescription(happiness)}</div>
+                              {unmet.map((r, i) => (
+                                <div key={i} className="city-bld-resident-req">✗ {r.text}</div>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )
-                    })
-                  )}
-                </>
-              ) : produceEntries.length > 0 ? (
-                <>
-                  <div className="city-bld-section-title">Produces</div>
-                  {produceEntries.map(([res, amt]) => (
-                    <div key={res} className="city-bld-produces-row">
-                      +{Math.round((amt as number) * masteryMult)} {RESOURCE_ICONS[res as ResourceType]}/min
-                    </div>
-                  ))}
-                </>
-              ) : (
-                <div className="city-bld-section-title">Defensive structure</div>
+                        )
+                      })
+                    )}
+                  </>
+                ) : produceEntries.length > 0 ? (
+                  <>
+                    <div className="city-bld-section-title">Produces</div>
+                    {produceEntries.map(([res, amt]) => (
+                      <div key={res} className="city-bld-produces-row">
+                        +{Math.round((amt as number) * masteryMult)} {RESOURCE_ICONS[res as ResourceType]}/min
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <div className="city-bld-section-title">Defensive structure</div>
+                )
               )}
+
+              {buildingTab === 'upgrade' && (
+                <div className="city-bld-upgrade">
+                  <div className="city-gold-display" style={{ alignSelf: 'center' }}>⚙ {city.gold.toLocaleString()} gold</div>
+                  <MasteryBar xp={xp} />
+                  <div className="city-level-cost">
+                    Next upgrade: <span className="city-gold">⚙ {upgradeCost.toLocaleString()}</span> → ★{mLvl + 1}
+                  </div>
+                  <div className="city-level-costs-table">
+                    {LEVEL_UP_COSTS.map((c, i) => (
+                      <div key={i} className={`city-cost-row${i < mLvl ? ' city-cost-row--done' : ''}`}>
+                        <span>★{i} → ★{i + 1}</span>
+                        <span>⚙ {c.toLocaleString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    className={`action-btn${canAfford ? ' action-btn--gold' : ''}`}
+                    onClick={() => { handleLevelUp(cell.cardName); setBuildingTab('upgrade') }}
+                    disabled={!canAfford}
+                  >
+                    {canAfford ? `LEVEL UP (⚙ ${upgradeCost.toLocaleString()})` : `NEED ⚙ ${upgradeCost.toLocaleString()}`}
+                  </button>
+                </div>
+              )}
+
               <button className="action-btn" onClick={() => setSelectedBuildingCell(null)}>CLOSE</button>
             </div>
           </div>
