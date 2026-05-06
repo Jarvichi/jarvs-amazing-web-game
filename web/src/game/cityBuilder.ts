@@ -11,6 +11,7 @@ import { CardRarity } from './types'
 export const CITY_COLS  = 6
 export const CITY_ROWS  = 4
 export const CITY_CELLS = CITY_COLS * CITY_ROWS
+export const MAX_CITY_ROWS = 8
 
 /** Each grid cell is this many pixels wide/tall in the overlay. */
 export const CELL_PX = 72
@@ -60,6 +61,39 @@ export const RESOURCE_ICONS: Record<ResourceType, string> = {
   bread:  '🍞',
   planks: '🪚',
   metal:  '⚔',
+}
+
+// ── Fortification constants ───────────────────────────────────────────────────
+
+/** Max HP for a fortification of each rarity. */
+export const FORT_MAX_HP: Record<CardRarity, number> = {
+  common: 50, uncommon: 100, rare: 200, epic: 350, legendary: 500,
+}
+
+/** Defense value contributed by a fortification at full HP. */
+export const FORT_DEFENSE: Record<CardRarity, number> = {
+  common: 10, uncommon: 20, rare: 40, epic: 60, legendary: 80,
+}
+
+/** HP repaired per minute per fortification per population point (capped). */
+const FORT_REPAIR_RATE = 3
+/** Wood cost per 20 HP repaired. */
+const FORT_REPAIR_WOOD_PER_HP = 1 / 20
+
+// ── Attack constants ──────────────────────────────────────────────────────────
+
+/** Base attack interval in ms (6 hours). */
+const BASE_ATTACK_INTERVAL_MS = 6 * 3600 * 1000
+/** Random extra time added to each interval (up to 2 hours). */
+const ATTACK_INTERVAL_JITTER_MS = 2 * 3600 * 1000
+
+// ── Expansion costs: current rows → cost to add one more row ─────────────────
+
+export const EXPANSION_COSTS: Record<number, { gold: number; resources: Partial<ResourceStock> }> = {
+  4: { gold: 2000,  resources: { wood: 50,  ore: 25  } },
+  5: { gold: 5000,  resources: { wood: 100, ore: 50  } },
+  6: { gold: 12000, resources: { wood: 200, ore: 100 } },
+  7: { gold: 25000, resources: { wood: 400, ore: 200 } },
 }
 
 // ── Resource building config ──────────────────────────────────────────────────
@@ -124,14 +158,38 @@ export interface CityCell {
   affinityWith?:     string
 }
 
+export interface Fortification {
+  cardName: string
+  rarity:   CardRarity
+  hp:       number
+  maxHp:    number
+}
+
+export interface AttackEvent {
+  at:                  number
+  power:               number
+  defense:             number
+  outcome:             'repelled' | 'partial' | 'defeated'
+  stolenGold:          number
+  destroyedBuildings:  string[]
+}
+
 export interface CityState {
-  grid:       (CityCell | undefined)[]
-  gold:       number
-  resources:  ResourceStock
-  lastTick:   number
-  cardLevels: Record<string, number>
+  grid:           (CityCell | undefined)[]
+  gold:           number
+  resources:      ResourceStock
+  lastTick:       number
+  cardLevels:     Record<string, number>
   /** cellIndex → happiness 0–100 (only meaningful for spawn buildings). */
-  happiness:  Record<number, number>
+  happiness:      Record<number, number>
+  /** Dynamic grid height; starts at CITY_ROWS (4). */
+  rows:           number
+  /** Timestamp when the next attack will occur. */
+  nextAttackAt:   number
+  /** Wall/moat fortifications outside the building grid. */
+  fortifications: Fortification[]
+  /** Most recent attack result (shown as notification). */
+  lastAttack:     AttackEvent | null
 }
 
 // ── Storage ───────────────────────────────────────────────────────────────────
@@ -144,12 +202,16 @@ function emptyResources(): ResourceStock {
 
 function defaultState(): CityState {
   return {
-    grid:       Array(CITY_CELLS).fill(undefined),
-    gold:       500,
-    resources:  { wheat: 300, wood: 300, ore: 150, bread: 0, planks: 0, metal: 0 },
-    lastTick:   Date.now(),
-    cardLevels: {},
-    happiness:  {},
+    grid:           Array(CITY_CELLS).fill(undefined),
+    gold:           500,
+    resources:      { wheat: 300, wood: 300, ore: 150, bread: 0, planks: 0, metal: 0 },
+    lastTick:       Date.now(),
+    cardLevels:     {},
+    happiness:      {},
+    rows:           CITY_ROWS,
+    nextAttackAt:   Date.now() + BASE_ATTACK_INTERVAL_MS + Math.random() * ATTACK_INTERVAL_JITTER_MS,
+    fortifications: [],
+    lastAttack:     null,
   }
 }
 
@@ -159,9 +221,15 @@ export function loadCityState(): CityState {
     if (!raw) return defaultState()
     const parsed = JSON.parse(raw) as Partial<CityState>
     const savedResources = (parsed.resources ?? {}) as Partial<ResourceStock>
+    const rows = parsed.rows ?? CITY_ROWS
+    const cells = CITY_COLS * rows
+    const savedGrid = parsed.grid ?? Array(cells).fill(undefined)
+    const grid = savedGrid.length < cells
+      ? [...savedGrid, ...Array(cells - savedGrid.length).fill(undefined)]
+      : savedGrid
     return {
-      grid:       parsed.grid       ?? Array(CITY_CELLS).fill(undefined),
-      gold:       parsed.gold       ?? 0,
+      grid,
+      gold:           parsed.gold       ?? 0,
       resources:  {
         wheat:  savedResources.wheat  ?? 0,
         wood:   savedResources.wood   ?? 0,
@@ -170,9 +238,13 @@ export function loadCityState(): CityState {
         planks: savedResources.planks ?? 0,
         metal:  savedResources.metal  ?? 0,
       },
-      lastTick:   parsed.lastTick   ?? Date.now(),
-      cardLevels: parsed.cardLevels ?? {},
-      happiness:  parsed.happiness  ?? {},
+      lastTick:       parsed.lastTick   ?? Date.now(),
+      cardLevels:     parsed.cardLevels ?? {},
+      happiness:      parsed.happiness  ?? {},
+      rows,
+      nextAttackAt:   parsed.nextAttackAt ?? Date.now() + BASE_ATTACK_INTERVAL_MS,
+      fortifications: parsed.fortifications ?? [],
+      lastAttack:     parsed.lastAttack ?? null,
     }
   } catch (err) {
     logError('loadCityState failed', err as Record<string, unknown>)
@@ -207,15 +279,24 @@ export function getStructureKind(cell: CityCell): StructureKind {
   return 'utility'
 }
 
+/** Returns true if a card is a pure defence structure (not spawner, not resource producer). */
+export function isDefenceCard(cardName: string, isSpawner: boolean): boolean {
+  if (isSpawner) return false
+  const p = getBuildingProduces(cardName)
+  return !Object.values(p).some(v => (v ?? 0) > 0)
+}
+
 /** Returns grid indices of the 4 orthogonally adjacent cells (no diagonals, no wrap). */
-export function getNeighbourIndices(index: number): number[] {
-  const row = Math.floor(index / CITY_COLS)
-  const col = index % CITY_COLS
+export function getNeighbourIndices(index: number, rows?: number): number[] {
+  const gridRows = rows ?? CITY_ROWS
+  const cols = CITY_COLS
+  const row = Math.floor(index / cols)
+  const col = index % cols
   const result: number[] = []
-  if (col > 0)             result.push(index - 1)
-  if (col < CITY_COLS - 1) result.push(index + 1)
-  if (row > 0)             result.push(index - CITY_COLS)
-  if (row < CITY_ROWS - 1) result.push(index + CITY_COLS)
+  if (col > 0)          result.push(index - 1)
+  if (col < cols - 1)   result.push(index + 1)
+  if (row > 0)          result.push(index - cols)
+  if (row < gridRows-1) result.push(index + cols)
   return result
 }
 
@@ -242,19 +323,21 @@ export function cityDefense(state: CityState): number {
     if (!cell) continue
     if (cell.spawnedUnitName) {
       total += SPAWN_DEFENSE[cell.rarity]
-    } else if (!cell.spawnedUnitName && WALL_DEFENSE[cell.rarity] !== undefined) {
-      // Determine if it's actually a wall by checking income table (walls earn 0 base)
-      const incomeIfWall = INCOME_WALL[cell.rarity]
-      const incomeIfUtil = INCOME_UTILITY[cell.rarity]
-      // A cell is wall-like if its income would be 0 for common rarity and hasn't a spawn
-      // We detect walls by checking if the cell has no produced resource and no spawner
+    } else {
       const produces = getBuildingProduces(cell.cardName)
       const isResourceProducer = Object.values(produces).some(v => (v ?? 0) > 0)
-      if (!isResourceProducer && incomeIfWall < incomeIfUtil) {
+      if (!isResourceProducer) {
         total += wallDefense(cell, hasSpawners)
       }
     }
   }
+
+  // Add fortification defense (scales with current HP)
+  for (const fort of state.fortifications ?? []) {
+    const hpFraction = fort.maxHp > 0 ? fort.hp / fort.maxHp : 0
+    total += Math.round(FORT_DEFENSE[fort.rarity] * hpFraction)
+  }
+
   return total
 }
 
@@ -265,6 +348,82 @@ export function cityPopulation(state: CityState): number {
     if (cell?.spawnedUnitName && (state.happiness[i] ?? 100) > 0) count++
   }
   return count
+}
+
+// ── Attack resolution ─────────────────────────────────────────────────────────
+
+function processAttack(state: CityState): CityState {
+  const defense = cityDefense(state)
+  const occupiedCount = state.grid.filter(c => c != null).length
+  const power = 20 + occupiedCount * 3 + Math.floor(Math.random() * 25)
+
+  let newGold = state.gold
+  const newResources = { ...state.resources }
+  const newGrid = [...state.grid]
+  const newForts = state.fortifications.map(f => ({ ...f }))
+
+  const ratio = defense / Math.max(power, 1)
+  let outcome: 'repelled' | 'partial' | 'defeated'
+  let stolenGold = 0
+  const destroyedBuildings: string[] = []
+  let fortDmg: number
+
+  if (ratio >= 1.0) {
+    outcome = 'repelled'
+    fortDmg = 5 + Math.floor(Math.random() * 10)
+  } else if (ratio >= 0.6) {
+    outcome = 'partial'
+    fortDmg = 15 + Math.floor(Math.random() * 20)
+    stolenGold = Math.floor(newGold * (0.08 + Math.random() * 0.07))
+    newGold -= stolenGold
+    for (const res of Object.keys(newResources) as ResourceType[]) {
+      newResources[res] = Math.floor(newResources[res] * 0.85)
+    }
+  } else {
+    outcome = 'defeated'
+    fortDmg = 35 + Math.floor(Math.random() * 30)
+    stolenGold = Math.floor(newGold * (0.20 + Math.random() * 0.15))
+    newGold -= stolenGold
+    for (const res of Object.keys(newResources) as ResourceType[]) {
+      newResources[res] = Math.floor(newResources[res] * 0.65)
+    }
+    // Destroy 1–2 occupied buildings
+    const occupied = newGrid
+      .map((cell, i) => ({ cell, i }))
+      .filter(({ cell }) => cell != null)
+    const toDestroy = Math.min(occupied.length, 1 + Math.floor(Math.random() * 2))
+    const shuffled = [...occupied].sort(() => Math.random() - 0.5)
+    for (const { cell, i } of shuffled.slice(0, toDestroy)) {
+      destroyedBuildings.push(cell!.cardName)
+      newGrid[i] = undefined
+    }
+  }
+
+  // Apply damage to fortifications
+  for (const fort of newForts) {
+    fort.hp = Math.max(0, fort.hp - fortDmg)
+  }
+
+  const nextInterval = BASE_ATTACK_INTERVAL_MS + Math.random() * ATTACK_INTERVAL_JITTER_MS
+
+  const event: AttackEvent = {
+    at: state.nextAttackAt,
+    power,
+    defense,
+    outcome,
+    stolenGold,
+    destroyedBuildings,
+  }
+
+  return {
+    ...state,
+    gold:           Math.max(0, newGold),
+    resources:      newResources,
+    grid:           newGrid,
+    fortifications: newForts,
+    nextAttackAt:   state.nextAttackAt + nextInterval,
+    lastAttack:     event,
+  }
 }
 
 // ── Offline tick ──────────────────────────────────────────────────────────────
@@ -300,7 +459,7 @@ export function tickCity(state: CityState): CityState {
       }
     }
 
-    // Spawners consume food (wheat) — more units at higher mastery means more consumption
+    // Spawners consume food (wheat)
     if (cell.spawnedUnitName && happy) {
       const unitCount = spawnerUnitCount(state, cell.cardName)
       const consume = FOOD_CONSUME_RATE[cell.rarity] * unitCount * minutes
@@ -308,18 +467,18 @@ export function tickCity(state: CityState): CityState {
     }
   }
 
-  // Base happiness target from food and defence (applies to all spawners)
+  // Base happiness target from food and defence
   const foodScore    = Math.min(100, (newResources.wheat / population) * 5)
   const defenseScore = Math.min(100, (defense / population) * 8)
   const baseTarget   = Math.round(foodScore * 0.6 + defenseScore * 0.4)
 
+  const gridRows = state.rows ?? CITY_ROWS
   for (let i = 0; i < state.grid.length; i++) {
     const cell = state.grid[i]
     if (!cell?.spawnedUnitName) continue
 
-    // Wants affinity unit next door; falls back to same unit type if no affinity defined
     const wantedNeighbour = cell.affinityWith ?? cell.spawnedUnitName
-    const affinityMet = getNeighbourIndices(i).some(ni => {
+    const affinityMet = getNeighbourIndices(i, gridRows).some(ni => {
       const nc = state.grid[ni]
       return nc?.spawnedUnitName === wantedNeighbour && (state.happiness[ni] ?? 100) > 0
     })
@@ -333,18 +492,43 @@ export function tickCity(state: CityState): CityState {
     }
   }
 
+  // Repair fortifications using wood
+  const pop = cityPopulation(state)
+  const newForts = state.fortifications.map(f => ({ ...f }))
+  if (pop > 0) {
+    for (const fort of newForts) {
+      if (fort.hp < fort.maxHp && newResources.wood > 0) {
+        const repairRate = Math.min(pop * FORT_REPAIR_RATE, 10)
+        const toRepair = Math.min(fort.maxHp - fort.hp, repairRate * minutes)
+        const woodCost = toRepair * FORT_REPAIR_WOOD_PER_HP
+        if (newResources.wood >= woodCost) {
+          fort.hp = Math.min(fort.maxHp, fort.hp + toRepair)
+          newResources.wood = Math.max(0, newResources.wood - woodCost)
+        }
+      }
+    }
+  }
+
   // Clamp resources
   for (const key of Object.keys(newResources) as ResourceType[]) {
     newResources[key] = Math.max(0, newResources[key])
   }
 
-  return {
+  let result: CityState = {
     ...state,
-    gold:      Math.max(0, state.gold + Math.floor(goldEarned)),
-    resources: newResources,
-    lastTick:  now,
-    happiness: newHappy,
+    gold:           Math.max(0, state.gold + Math.floor(goldEarned)),
+    resources:      newResources,
+    lastTick:       now,
+    happiness:      newHappy,
+    fortifications: newForts,
   }
+
+  // Process attack if due (only one per tick to avoid runaway offline destruction)
+  if (now >= state.nextAttackAt) {
+    result = processAttack(result)
+  }
+
+  return result
 }
 
 // ── Grid helpers ──────────────────────────────────────────────────────────────
@@ -373,6 +557,57 @@ export function removeCard(state: CityState, index: number): CityState {
   const happiness = { ...state.happiness }
   delete happiness[index]
   return { ...state, grid, happiness }
+}
+
+// ── Fortification helpers ─────────────────────────────────────────────────────
+
+export function addFortification(state: CityState, cardName: string, rarity: CardRarity): CityState {
+  const maxHp = FORT_MAX_HP[rarity]
+  const fort: Fortification = { cardName, rarity, hp: maxHp, maxHp }
+  return { ...state, fortifications: [...state.fortifications, fort] }
+}
+
+export function removeFortification(state: CityState, index: number): CityState {
+  const fortifications = state.fortifications.filter((_, i) => i !== index)
+  return { ...state, fortifications }
+}
+
+// ── City expansion ────────────────────────────────────────────────────────────
+
+export function canAffordExpansion(state: CityState): boolean {
+  const rows = state.rows ?? CITY_ROWS
+  const cost = EXPANSION_COSTS[rows]
+  if (!cost) return false
+  if (rows >= MAX_CITY_ROWS) return false
+  if (state.gold < cost.gold) return false
+  for (const [res, amt] of Object.entries(cost.resources) as [ResourceType, number][]) {
+    if ((state.resources[res] ?? 0) < amt) return false
+  }
+  return true
+}
+
+export function expandCity(state: CityState): CityState | null {
+  const rows = state.rows ?? CITY_ROWS
+  if (rows >= MAX_CITY_ROWS) return null
+  const cost = EXPANSION_COSTS[rows]
+  if (!cost) return null
+  if (!canAffordExpansion(state)) return null
+
+  const newRows = rows + 1
+  const newCells = CITY_COLS * newRows
+  const newGrid = [...state.grid, ...Array(newCells - state.grid.length).fill(undefined)]
+  const newResources = { ...state.resources, gold: state.gold }
+  for (const [res, amt] of Object.entries(cost.resources) as [ResourceType, number][]) {
+    newResources[res] = Math.max(0, (state.resources[res] ?? 0) - amt)
+  }
+
+  return {
+    ...state,
+    rows:      newRows,
+    grid:      newGrid,
+    gold:      state.gold - cost.gold,
+    resources: newResources,
+  }
 }
 
 // ── Affordability ─────────────────────────────────────────────────────────────

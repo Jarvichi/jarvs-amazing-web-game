@@ -9037,20 +9037,12 @@ html.light-mode .action-btn {
 }
 
 .city-cell:hover             { border-color: #3a7a3a; background: #080f08; }
-.city-cell--occupied         { border-style: solid; border-color: #207020; background: #061006; }
+.city-cell--occupied         { border-style: dashed; border-color: #1a3a1a; background: #061006; }
 .city-cell--occupied:hover   { border-color: #aa3030; background: #120606; }
 
 .city-cell-sprite  { width: 32px; height: 32px; image-rendering: pixelated; }
 
-.city-cell-name {
-  font-size: 7px;
-  color: #669966;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 100%;
-}
+.city-cell-name { display: none; }
 
 .city-cell-level {
   position: absolute;
@@ -9518,6 +9510,100 @@ html.light-mode .action-btn {
 }
 .city-cell--bulldoze:hover { background: rgba(160,48,32,0.4) !important; }
 .city-bulldozer-paused { font-size: 10px; color: #e06040; letter-spacing: 1px; }
+
+/* ── City Builder — attack countdown row ────────────────────────────────── */
+.city-attack-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-family: monospace;
+  padding: 4px 6px;
+  border: 1px solid #1a3a1a;
+  border-radius: 3px;
+  background: #040a04;
+}
+.city-attack-row--calm    { border-color: #204020; color: #508050; }
+.city-attack-row--soon    { border-color: #604010; color: #c08020; }
+.city-attack-row--imminent { border-color: #602010; color: #d06030; animation: city-pulse 1.2s ease-in-out infinite; }
+@keyframes city-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+.city-attack-icon  { font-size: 13px; }
+.city-attack-label { flex: 1; font-weight: bold; letter-spacing: 1px; }
+.city-attack-defense { color: #40a060; font-size: 10px; }
+
+/* ── City Builder — attack report modal ─────────────────────────────────── */
+.city-attack-report-header {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 8px 0;
+  text-align: center;
+}
+.city-attack-report--repelled { color: #40d040; }
+.city-attack-report--partial  { color: #d0a020; }
+.city-attack-report--defeated { color: #d04020; }
+.city-attack-report-body { display: flex; flex-direction: column; gap: 6px; width: 100%; padding: 4px 0; }
+.city-attack-stat { font-size: 10px; color: #80a080; }
+.city-attack-good { font-size: 11px; color: #40d040; }
+.city-attack-bad  { font-size: 11px; color: #d06040; }
+.city-attack-warn { font-size: 10px; color: #c08020; font-style: italic; }
+
+/* ── City Builder — fortification panel ─────────────────────────────────── */
+.city-fort-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: #608060;
+  padding: 2px 4px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.city-fort-repair-note { color: #404040; font-style: italic; }
+.city-fort-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.city-fort-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  background: #060f06;
+  border: 1px solid #1a3a1a;
+  border-radius: 3px;
+}
+.city-fort-sprite { width: 32px; height: 32px; image-rendering: pixelated; flex-shrink: 0; }
+.city-fort-details { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.city-fort-name { font-size: 11px; color: #90d090; }
+.city-fort-hp-track { display: flex; align-items: center; gap: 6px; }
+.city-fort-hp-bar {
+  flex: 1;
+  height: 5px;
+  background: #1a2a1a;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.city-fort-hp-fill { height: 100%; border-radius: 2px; transition: width 0.5s; }
+.city-fort-hp-text { font-size: 9px; color: #608060; white-space: nowrap; }
+.city-fort-defense-val { font-size: 9px; color: #40a060; }
+.city-fort-remove { font-size: 14px !important; padding: 2px 6px !important; line-height: 1; }
+
+/* ── City Builder — expand city ──────────────────────────────────────────── */
+.city-expand-row {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+}
+.city-expand-row .action-btn {
+  font-size: 10px;
+  letter-spacing: 1px;
+}
 
 /* ── City Builder — building resident panel ─────────────────────────────── */
 .city-search {
