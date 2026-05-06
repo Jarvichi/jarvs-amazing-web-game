@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a0a00" opacity="0.5"/>
+  <!-- Base walls (wide, heavy) -->
+  <rect x="1" y="16" width="30" height="15" rx="1" fill="#4a3020"/>
+  <rect x="1" y="16" width="30" height="3" fill="#5a4030"/>
+  <!-- Scorched stone blocks -->
+  <line x1="1" y1="20" x2="31" y2="20" stroke="#2a1808" stroke-width="0.7"/>
+  <line x1="1" y1="24" x2="31" y2="24" stroke="#2a1808" stroke-width="0.7"/>
+  <line x1="1" y1="28" x2="31" y2="28" stroke="#2a1808" stroke-width="0.7"/>
+  <line x1="8" y1="16" x2="8" y2="31" stroke="#2a1808" stroke-width="0.7"/>
+  <line x1="16" y1="16" x2="16" y2="31" stroke="#2a1808" stroke-width="0.7"/>
+  <line x1="24" y1="16" x2="24" y2="31" stroke="#2a1808" stroke-width="0.7"/>
+  <!-- Corner towers -->
+  <rect x="1" y="8" width="8" height="9" fill="#5a3a20"/>
+  <rect x="23" y="8" width="8" height="9" fill="#5a3a20"/>
+  <rect x="1" y="8" width="8" height="3" fill="#6a4a30"/>
+  <rect x="23" y="8" width="8" height="3" fill="#6a4a30"/>
+  <!-- Cinder/ember battlements -->
+  <rect x="1" y="5" width="2" height="4" fill="#5a3a20"/>
+  <rect x="4" y="5" width="2" height="4" fill="#5a3a20"/>
+  <rect x="7" y="5" width="2" height="4" fill="#5a3a20"/>
+  <rect x="23" y="5" width="2" height="4" fill="#5a3a20"/>
+  <rect x="26" y="5" width="2" height="4" fill="#5a3a20"/>
+  <rect x="29" y="5" width="2" height="4" fill="#5a3a20"/>
+  <!-- Glowing ember cores in battlements -->
+  <circle cx="2" cy="6" r="0.6" fill="#ff6600" opacity="0.6"/>
+  <circle cx="5" cy="6" r="0.6" fill="#ff4400" opacity="0.6"/>
+  <circle cx="8" cy="6" r="0.6" fill="#ff6600" opacity="0.6"/>
+  <circle cx="24" cy="6" r="0.6" fill="#ff4400" opacity="0.6"/>
+  <circle cx="27" cy="6" r="0.6" fill="#ff6600" opacity="0.6"/>
+  <circle cx="30" cy="6" r="0.6" fill="#ff4400" opacity="0.6"/>
+  <!-- Center keep -->
+  <rect x="9" y="10" width="14" height="7" fill="#6a4a30"/>
+  <rect x="9" y="10" width="14" height="2" fill="#7a5a40"/>
+  <!-- Flame-lit windows -->
+  <rect x="11" y="11" width="3" height="3" fill="#1a0800"/>
+  <rect x="11" y="11" width="3" height="2" fill="#ff6600" opacity="0.5" rx="1"/>
+  <rect x="18" y="11" width="3" height="3" fill="#1a0800"/>
+  <rect x="18" y="11" width="3" height="2" fill="#ff6600" opacity="0.5" rx="1"/>
+  <!-- Gate door -->
+  <rect x="13" y="22" width="6" height="9" fill="#1a0800"/>
+  <!-- Fire glow from gate interior -->
+  <ellipse cx="16" cy="28" rx="2.5" ry="2" fill="#cc3300" opacity="0.4"/>
+  <!-- Cinder particles floating -->
+  <circle cx="4" cy="14" r="0.7" fill="#ff6600" opacity="0.5"/>
+  <circle cx="28" cy="12" r="0.7" fill="#ff4400" opacity="0.5"/>
+  <circle cx="16" cy="6" r="0.8" fill="#ff8800" opacity="0.4"/>
+</svg>

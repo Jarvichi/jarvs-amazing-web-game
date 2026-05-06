@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sea surface -->
+  <rect x="0" y="16" width="32" height="16" fill="#1a4060"/>
+  <rect x="0" y="16" width="32" height="3" fill="#2a5070"/>
+  <!-- Wave crests -->
+  <path d="M0,17 Q4,15 8,17 Q12,19 16,17 Q20,15 24,17 Q28,19 32,17" fill="none" stroke="#3a7090" stroke-width="1" opacity="0.7"/>
+  <!-- Coastal cliff face -->
+  <polygon points="0,16 0,0 12,0 14,16" fill="#6a5a3a"/>
+  <polygon points="0,0 12,0 14,16 0,16" fill="#7a6a4a"/>
+  <!-- Cliff rock texture -->
+  <line x1="2" y1="4" x2="8" y2="6" stroke="#5a4a2a" stroke-width="0.7"/>
+  <line x1="3" y1="9" x2="9" y2="11" stroke="#5a4a2a" stroke-width="0.7"/>
+  <line x1="4" y1="14" x2="10" y2="15" stroke="#5a4a2a" stroke-width="0.7"/>
+  <!-- Abyss opening in sea floor (visible through clear water) -->
+  <ellipse cx="22" cy="26" rx="8" ry="4" fill="#0a1520" opacity="0.8"/>
+  <ellipse cx="22" cy="26" rx="6" ry="3" fill="#050810"/>
+  <ellipse cx="22" cy="26" rx="4" ry="2" fill="#020408"/>
+  <!-- Glowing abyss core deep below -->
+  <ellipse cx="22" cy="26" rx="2" ry="1" fill="#2200aa" opacity="0.5"/>
+  <!-- Dark tentacle/creature emerging from abyss -->
+  <path d="M20,24 Q18,20 16,18" fill="none" stroke="#0a0820" stroke-width="2"/>
+  <path d="M22,23 Q24,19 26,17" fill="none" stroke="#0a0820" stroke-width="2"/>
+  <path d="M24,25 Q26,22 28,20" fill="none" stroke="#0a0820" stroke-width="1.5"/>
+  <!-- Water foam/bubbles near abyss -->
+  <circle cx="16" cy="20" r="0.8" fill="#4a90b0" opacity="0.5"/>
+  <circle cx="28" cy="21" r="0.8" fill="#4a90b0" opacity="0.5"/>
+  <circle cx="19" cy="18" r="0.6" fill="#5aa0c0" opacity="0.4"/>
+  <!-- Lighthouse-like beacon on cliff -->
+  <rect x="4" y="2" width="4" height="8" fill="#9a8a6a"/>
+  <rect x="3" y="1" width="6" height="2" rx="1" fill="#7a6a4a"/>
+  <circle cx="6" cy="1" r="1.5" fill="#ffee88" opacity="0.8"/>
+</svg>
