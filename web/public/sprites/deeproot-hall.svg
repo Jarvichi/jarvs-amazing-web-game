@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#1a3010" opacity="0.5"/>
+  <!-- Deep roots spreading from building into ground -->
+  <path d="M8,28 Q4,30 2,32" fill="none" stroke="#3a2a10" stroke-width="2"/>
+  <path d="M12,28 Q8,32 5,32" fill="none" stroke="#3a2a10" stroke-width="1.5"/>
+  <path d="M20,28 Q24,32 27,32" fill="none" stroke="#3a2a10" stroke-width="2"/>
+  <path d="M24,28 Q28,31 30,32" fill="none" stroke="#3a2a10" stroke-width="1.5"/>
+  <path d="M16,30 Q14,32 12,32" fill="none" stroke="#4a3a18" stroke-width="1.2"/>
+  <path d="M16,30 Q18,32 20,32" fill="none" stroke="#4a3a18" stroke-width="1.2"/>
+  <!-- Hall walls (carved from living wood/roots) -->
+  <rect x="3" y="14" width="26" height="15" rx="2" fill="#5a4020"/>
+  <rect x="3" y="14" width="26" height="3" fill="#6a5030"/>
+  <!-- Wood grain lines -->
+  <line x1="3" y1="18" x2="29" y2="18" stroke="#3a2a10" stroke-width="0.7"/>
+  <line x1="3" y1="22" x2="29" y2="22" stroke="#3a2a10" stroke-width="0.7"/>
+  <line x1="3" y1="26" x2="29" y2="26" stroke="#3a2a10" stroke-width="0.7"/>
+  <!-- Gnarled wood columns -->
+  <path d="M5,14 Q4,10 6,8 Q5,11 7,14" fill="#4a3018" stroke="#3a2008" stroke-width="0.5"/>
+  <path d="M27,14 Q28,10 26,8 Q27,11 25,14" fill="#4a3018" stroke="#3a2008" stroke-width="0.5"/>
+  <!-- Living tree roof with large canopy -->
+  <ellipse cx="16" cy="10" rx="14" ry="5" fill="#2a6010"/>
+  <ellipse cx="10" cy="9" rx="7" ry="4" fill="#3a7018"/>
+  <ellipse cx="22" cy="9" rx="7" ry="4" fill="#3a7018"/>
+  <ellipse cx="16" cy="7" rx="10" ry="4" fill="#4a8020"/>
+  <!-- Canopy top detail -->
+  <circle cx="8" cy="7" r="3.5" fill="#3a7018"/>
+  <circle cx="16" cy="5" r="4" fill="#4a8020"/>
+  <circle cx="24" cy="7" r="3.5" fill="#3a7018"/>
+  <!-- Hall entrance (root-framed arch) -->
+  <path d="M12,29 L12,22 Q16,18 20,22 L20,29 Z" fill="#1a0a00"/>
+  <path d="M12,22 Q16,17 20,22" fill="none" stroke="#4a3018" stroke-width="1.5"/>
+  <!-- Glowing lights from windows -->
+  <rect x="5" y="19" width="3" height="4" fill="#1a0a00"/>
+  <rect x="5" y="19" width="3" height="2" fill="#88cc44" opacity="0.4" rx="1"/>
+  <rect x="24" y="19" width="3" height="4" fill="#1a0a00"/>
+  <rect x="24" y="19" width="3" height="2" fill="#88cc44" opacity="0.4" rx="1"/>
+  <!-- Hanging moss -->
+  <path d="M8,18 Q7,22 8,26" fill="none" stroke="#2a5010" stroke-width="1" opacity="0.6"/>
+  <path d="M24,18 Q25,22 24,26" fill="none" stroke="#2a5010" stroke-width="1" opacity="0.6"/>
+</svg>

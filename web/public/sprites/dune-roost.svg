@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sand dune landscape -->
+  <ellipse cx="16" cy="30" rx="16" ry="5" fill="#c8a040"/>
+  <ellipse cx="8" cy="28" rx="10" ry="4" fill="#d8b050"/>
+  <ellipse cx="24" cy="29" rx="10" ry="4" fill="#c8a040"/>
+  <!-- Tall sandstone pillar/roost post -->
+  <rect x="13" y="8" width="6" height="22" rx="1" fill="#c8a040"/>
+  <rect x="13" y="8" width="6" height="3" fill="#d8b050"/>
+  <!-- Pillar weathering lines -->
+  <line x1="13" y1="12" x2="19" y2="12" stroke="#a08020" stroke-width="0.6"/>
+  <line x1="13" y1="16" x2="19" y2="16" stroke="#a08020" stroke-width="0.6"/>
+  <line x1="13" y1="20" x2="19" y2="20" stroke="#a08020" stroke-width="0.6"/>
+  <line x1="13" y1="24" x2="19" y2="24" stroke="#a08020" stroke-width="0.6"/>
+  <!-- Horizontal roost branches -->
+  <rect x="6" y="9" width="20" height="2" rx="1" fill="#8a6820"/>
+  <rect x="8" y="14" width="16" height="2" rx="1" fill="#8a6820"/>
+  <!-- Nests on branches -->
+  <ellipse cx="8" cy="9" rx="3" ry="1.5" fill="#9a7a3a"/>
+  <ellipse cx="24" cy="9" rx="3" ry="1.5" fill="#9a7a3a"/>
+  <ellipse cx="11" cy="14" rx="2.5" ry="1.2" fill="#9a7a3a"/>
+  <ellipse cx="21" cy="14" rx="2.5" ry="1.2" fill="#9a7a3a"/>
+  <!-- Bird silhouettes perched -->
+  <ellipse cx="8" cy="8" rx="2" ry="1" fill="#3a2a1a"/>
+  <path d="M6,7.5 Q8,5 10,7.5" fill="none" stroke="#2a1a0a" stroke-width="1"/>
+  <ellipse cx="24" cy="8" rx="2" ry="1" fill="#3a2a1a"/>
+  <path d="M22,7.5 Q24,5 26,7.5" fill="none" stroke="#2a1a0a" stroke-width="1"/>
+  <!-- Flying bird silhouette above -->
+  <path d="M10,3 Q13,0 16,3 Q19,0 22,3" fill="none" stroke="#2a1a0a" stroke-width="1.2"/>
+  <!-- Sand ripples around base -->
+  <path d="M4,29 Q8,27 12,29" fill="none" stroke="#d8b050" stroke-width="0.8" opacity="0.6"/>
+  <path d="M20,29 Q24,27 28,29" fill="none" stroke="#d8b050" stroke-width="0.8" opacity="0.6"/>
+  <!-- Scorpion/beetle on sand (desert detail) -->
+  <ellipse cx="5" cy="28" rx="1.5" ry="1" fill="#8a6820"/>
+  <line x1="3.5" y1="28" x2="2" y2="27" stroke="#8a6820" stroke-width="0.6"/>
+  <line x1="3.5" y1="28" x2="2" y2="29" stroke="#8a6820" stroke-width="0.6"/>
+  <line x1="6.5" y1="28" x2="8" y2="27" stroke="#8a6820" stroke-width="0.6"/>
+  <line x1="6.5" y1="28" x2="8" y2="29" stroke="#8a6820" stroke-width="0.6"/>
+</svg>

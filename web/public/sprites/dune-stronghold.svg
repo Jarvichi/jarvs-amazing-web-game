@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#7a5010" opacity="0.5"/>
+  <!-- Sand dune base -->
+  <ellipse cx="16" cy="30" rx="15" ry="4" fill="#c8a040"/>
+  <!-- Massive sandstone walls -->
+  <rect x="1" y="16" width="30" height="14" rx="1" fill="#c8a040"/>
+  <rect x="1" y="16" width="30" height="3" fill="#d8b050"/>
+  <!-- Stone block detail -->
+  <line x1="1" y1="20" x2="31" y2="20" stroke="#a08020" stroke-width="0.7"/>
+  <line x1="1" y1="24" x2="31" y2="24" stroke="#a08020" stroke-width="0.7"/>
+  <line x1="1" y1="28" x2="31" y2="28" stroke="#a08020" stroke-width="0.7"/>
+  <line x1="8" y1="16" x2="8" y2="30" stroke="#a08020" stroke-width="0.7"/>
+  <line x1="16" y1="16" x2="16" y2="30" stroke="#a08020" stroke-width="0.7"/>
+  <line x1="24" y1="16" x2="24" y2="30" stroke="#a08020" stroke-width="0.7"/>
+  <!-- Corner towers -->
+  <rect x="1" y="8" width="8" height="9" fill="#d8b050"/>
+  <rect x="23" y="8" width="8" height="9" fill="#d8b050"/>
+  <rect x="1" y="8" width="8" height="3" fill="#e8c060"/>
+  <rect x="23" y="8" width="8" height="3" fill="#e8c060"/>
+  <!-- Tower battlements (stepped pyramid style) -->
+  <rect x="1" y="5" width="2" height="4" fill="#c8a040"/>
+  <rect x="4" y="5" width="2" height="4" fill="#c8a040"/>
+  <rect x="7" y="5" width="2" height="4" fill="#c8a040"/>
+  <rect x="23" y="5" width="2" height="4" fill="#c8a040"/>
+  <rect x="26" y="5" width="2" height="4" fill="#c8a040"/>
+  <rect x="29" y="5" width="2" height="4" fill="#c8a040"/>
+  <!-- Central keep -->
+  <rect x="9" y="10" width="14" height="7" fill="#d8b050"/>
+  <rect x="9" y="10" width="14" height="2" fill="#e8c060"/>
+  <!-- Arrow slits on towers -->
+  <rect x="4" y="10" width="2" height="5" fill="#4a2a00" rx="1"/>
+  <rect x="26" y="10" width="2" height="5" fill="#4a2a00" rx="1"/>
+  <!-- Gate (ornate arch) -->
+  <path d="M13,30 L13,22 Q16,18 19,22 L19,30 Z" fill="#4a2a00"/>
+  <path d="M13,22 Q16,17 19,22" fill="none" stroke="#d8b050" stroke-width="1.5"/>
+  <!-- Sand drifting against walls -->
+  <ellipse cx="5" cy="28" rx="4" ry="2" fill="#d8b050" opacity="0.4"/>
+  <ellipse cx="27" cy="28" rx="4" ry="2" fill="#d8b050" opacity="0.4"/>
+  <!-- Banner/flag -->
+  <line x1="16" y1="8" x2="16" y2="5" stroke="#a08020" stroke-width="1"/>
+  <polygon points="16,5 22,6.5 16,8" fill="#cc8800"/>
+</svg>

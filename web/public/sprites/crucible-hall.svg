@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#2a0a00" opacity="0.5"/>
+  <!-- Hall base -->
+  <rect x="2" y="18" width="28" height="13" rx="1" fill="#5a3a20"/>
+  <rect x="2" y="18" width="28" height="3" fill="#6a4a30"/>
+  <!-- Stone block lines -->
+  <line x1="2" y1="22" x2="30" y2="22" stroke="#3a1a08" stroke-width="0.6"/>
+  <line x1="2" y1="26" x2="30" y2="26" stroke="#3a1a08" stroke-width="0.6"/>
+  <line x1="9" y1="18" x2="9" y2="31" stroke="#3a1a08" stroke-width="0.6"/>
+  <line x1="16" y1="18" x2="16" y2="31" stroke="#3a1a08" stroke-width="0.6"/>
+  <line x1="23" y1="18" x2="23" y2="31" stroke="#3a1a08" stroke-width="0.6"/>
+  <!-- Gabled roof -->
+  <polygon points="0,18 16,4 32,18" fill="#3a1a08"/>
+  <polygon points="2,18 16,6 30,18" fill="#4a2a18"/>
+  <!-- Central crucible chimney (huge) -->
+  <rect x="12" y="4" width="8" height="15" rx="1" fill="#4a4040"/>
+  <rect x="12" y="4" width="8" height="3" fill="#5a5050"/>
+  <!-- Molten metal glow from chimney top -->
+  <ellipse cx="16" cy="4" rx="5" ry="2.5" fill="#ff4400" opacity="0.7"/>
+  <ellipse cx="16" cy="3" rx="3.5" ry="2" fill="#ff7700" opacity="0.8"/>
+  <ellipse cx="16" cy="2" rx="2" ry="1.5" fill="#ffaa00" opacity="0.9"/>
+  <!-- Side chimneys -->
+  <rect x="5" y="10" width="5" height="9" rx="1" fill="#4a4040"/>
+  <rect x="22" y="10" width="5" height="9" rx="1" fill="#4a4040"/>
+  <circle cx="7.5" cy="9" r="2" fill="#ff5500" opacity="0.6"/>
+  <circle cx="24.5" cy="9" r="2" fill="#ff5500" opacity="0.6"/>
+  <!-- Crucible/cauldron visible in doorway -->
+  <path d="M13,31 L13,24 Q16,21 19,24 L19,31 Z" fill="#1a0800"/>
+  <ellipse cx="16" cy="24" rx="3.5" ry="1.5" fill="#cc3300" opacity="0.7"/>
+  <ellipse cx="16" cy="23.5" rx="2.5" ry="1" fill="#ff6600" opacity="0.8"/>
+  <!-- Flame eruptions from base -->
+  <circle cx="5" cy="17" r="1.5" fill="#ff6600" opacity="0.4"/>
+  <circle cx="27" cy="17" r="1.5" fill="#ff4400" opacity="0.4"/>
+  <!-- Rivets/bolts on chimney -->
+  <circle cx="13" cy="7" r="0.6" fill="#7a7060"/>
+  <circle cx="19" cy="7" r="0.6" fill="#7a7060"/>
+  <circle cx="13" cy="12" r="0.6" fill="#7a7060"/>
+  <circle cx="19" cy="12" r="0.6" fill="#7a7060"/>
+</svg>
