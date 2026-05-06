@@ -66,6 +66,28 @@ function applyTraitAOE(
   if (hit > 0) log.push(`${hit} unit(s) caught in the blast!`)
 }
 
+// ─── Column AOE ───────────────────────────────────────────
+
+function fireColumnAOE(s: GameState, trait: BossTraitDef, log: string[]): void {
+  const dmg      = trait.mechanics.pulseDamage ?? 6
+  const colX     = 90 + Math.random() * 320
+  const bandWidth = 25
+  const slowMs   = trait.mechanics.slowDurationMs ?? 4000
+  const stunMs   = trait.mechanics.stunDurationMs
+  log.push('!!' + trait.announceText)
+  let hit = 0
+  for (const u of s.field) {
+    if (u.owner !== 'player' || u.hp <= 0) continue
+    if (Math.abs(u.x - colX) > bandWidth) continue
+    u.hp = Math.max(0, u.hp - dmg)
+    u.attackTimer = Math.max(u.attackTimer, slowMs)
+    if (stunMs) { u.stunTimer = stunMs; u.attackTimer = Math.max(u.attackTimer, stunMs) }
+    hit++
+  }
+  if (trait.fireText) log.push(trait.fireText)
+  if (hit > 0) log.push(`${hit} unit(s) hit by the pulse!`)
+}
+
 // ─── Split trait ──────────────────────────────────────────
 
 function fireSplitTrait(s: GameState, trait: BossTraitDef, log: string[]): void {
@@ -201,21 +223,7 @@ export function tickBossTrait(s: GameState, log: string[]): void {
     if (s.gameTime >= interval && s.gameTime - ts.lastTraitFireMs >= interval && ts.landingAtMs === undefined) {
       ts.lastTraitFireMs = s.gameTime
       if (trait.type === 'column_aoe') {
-        const dmg      = trait.mechanics.pulseDamage ?? 6
-        const colX     = 90 + Math.random() * 320
-        const bandWidth = 25
-        const slowMs   = trait.mechanics.slowDurationMs ?? 4000
-        log.push('!!' + trait.announceText)
-        let hit = 0
-        for (const u of s.field) {
-          if (u.owner !== 'player' || u.hp <= 0) continue
-          if (Math.abs(u.x - colX) > bandWidth) continue
-          u.hp = Math.max(0, u.hp - dmg)
-          u.attackTimer = Math.max(u.attackTimer, slowMs)
-          hit++
-        }
-        if (trait.fireText) log.push(trait.fireText)
-        if (hit > 0) log.push(`${hit} unit(s) hit by the pulse!`)
+        fireColumnAOE(s, trait, log)
       } else {
         fireInvulnerableLaunch(s, trait, ts, log)
       }
@@ -236,6 +244,7 @@ export function tickBossTrait(s: GameState, log: string[]): void {
     if (hpPct <= trait.triggerHpPct && !ts.firedThresholds.includes(trait.triggerHpPct)) {
       ts.firedThresholds.push(trait.triggerHpPct)
       if (trait.type === 'split') fireSplitTrait(s, trait, log)
+      else if (trait.type === 'column_aoe') fireColumnAOE(s, trait, log)
       else                        fireInvulnerableLaunch(s, trait, ts, log)
     }
   }
@@ -244,7 +253,8 @@ export function tickBossTrait(s: GameState, log: string[]): void {
     for (const threshold of trait.triggerHpPcts) {
       if (hpPct <= threshold && !ts.firedThresholds.includes(threshold) && ts.landingAtMs === undefined) {
         ts.firedThresholds.push(threshold)
-        fireInvulnerableLaunch(s, trait, ts, log)
+        if (trait.type === 'column_aoe') fireColumnAOE(s, trait, log)
+        else fireInvulnerableLaunch(s, trait, ts, log)
         break
       }
     }

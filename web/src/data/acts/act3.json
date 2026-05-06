@@ -687,7 +687,8 @@
         "\"I was a healer, before. The Wastes found that funny.\""
       ],
       "opponentIntervalMs": 5000,
-      "opponentBaseHp": 165
+      "opponentBaseHp": 165,
+      "bossAI": "ashen-elite"
     },
     "cursed-altar": {
       "id": "cursed-altar",
@@ -860,7 +861,8 @@
         "\"The Dominion is gone. My orders are not.\""
       ],
       "opponentIntervalMs": 7000,
-      "opponentBaseHp": 105
+      "opponentBaseHp": 105,
+      "bossAI": "ashen-elite"
     },
     "ashwalker": {
       "id": "ashwalker",

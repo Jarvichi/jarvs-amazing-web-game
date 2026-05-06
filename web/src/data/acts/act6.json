@@ -412,7 +412,8 @@
         "Wind Surge",
         "Aerial Volley",
         "Feather Step"
-      ]
+      ],
+      "bossAI": "sky-elite"
     },
     "upper-platform": {
       "id": "upper-platform",
@@ -545,7 +546,8 @@
         "Wind Surge",
         "Wind Surge",
         "Feather Step"
-      ]
+      ],
+      "bossAI": "sky-elite"
     },
     "cloudmarshal": {
       "id": "cloudmarshal",
