@@ -9495,6 +9495,53 @@ html.light-mode .action-btn {
 .city-bulldozer-paused { font-size: 10px; color: #e06040; letter-spacing: 1px; }
 
 /* ── City Builder — building resident panel ─────────────────────────────── */
+.city-search {
+  width: 100%;
+  box-sizing: border-box;
+  background: #060f06;
+  border: 1px solid #1a3a1a;
+  border-radius: 3px;
+  color: #90d090;
+  font-family: monospace;
+  font-size: 11px;
+  padding: 5px 8px;
+  margin-bottom: 8px;
+  outline: none;
+}
+.city-search::placeholder { color: #3a5a3a; }
+.city-search:focus { border-color: #40a040; }
+
+.city-bld-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+.city-bld-tab {
+  flex: 1;
+  background: #060f06;
+  border: 1px solid #1a3a1a;
+  border-radius: 3px;
+  color: #609060;
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 5px;
+  cursor: pointer;
+}
+.city-bld-tab--active {
+  border-color: #40a040;
+  color: #90d090;
+  background: #091509;
+}
+
+.city-bld-upgrade {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
 .city-bld-section-title { font-size: 10px; color: #609060; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start; }
 .city-bld-vacant        { font-size: 10px; color: #606060; font-style: italic; }
 .city-bld-resident {
