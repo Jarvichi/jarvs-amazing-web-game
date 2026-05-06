@@ -678,7 +678,8 @@
         "Arcane Tower",
         "Iron Skin",
         "Iron Skin"
-      ]
+      ],
+      "bossAI": "arcane-elite"
     },
     "arcanist-champion": {
       "id": "arcanist-champion",
@@ -715,7 +716,8 @@
         "Build Wall",
         "Build Wall",
         "Iron Skin"
-      ]
+      ],
+      "bossAI": "arcane-elite"
     },
     "golem-forge": {
       "id": "golem-forge",

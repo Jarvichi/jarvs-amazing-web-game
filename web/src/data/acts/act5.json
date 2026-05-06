@@ -420,7 +420,8 @@
         "Deep Resilience",
         "Deep Resilience",
         "Pearl Power"
-      ]
+      ],
+      "bossAI": "tidal-elite"
     },
     "kelp-crossing": {
       "id": "kelp-crossing",
@@ -561,7 +562,8 @@
         "Deep Resilience",
         "Current Mastery",
         "Pearl Power"
-      ]
+      ],
+      "bossAI": "tidal-elite"
     },
     "tidal-sovereign": {
       "id": "tidal-sovereign",

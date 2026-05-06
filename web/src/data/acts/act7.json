@@ -413,7 +413,8 @@
         "Smelted Blade",
         "Smelted Blade",
         "Volcanic Hide"
-      ]
+      ],
+      "bossAI": "sky-elite"
     },
     "caldera-gate": {
       "id": "caldera-gate",
@@ -546,7 +547,8 @@
         "Smelted Blade",
         "Volcanic Hide",
         "Volcanic Hide"
-      ]
+      ],
+      "bossAI": "sky-elite"
     },
     "cinderwarlord": {
       "id": "cinderwarlord",

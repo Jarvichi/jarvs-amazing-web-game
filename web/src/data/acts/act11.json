@@ -43,34 +43,34 @@
   "intro": [
     {
       "title": "THE VERDANT CANOPY",
-      "text": "The ley lines rise into the high canopy here, threading through root systems older than memory. The forest above the treeline moves differently. It doesn't react to you \u2014 it notices you.\n\nThe Elder Warden has kept this canopy since before the Fracture. It has watched dozens of expeditions attempt passage. None returned changed for the better.",
+      "text": "The ley lines rise into the high canopy here, threading through root systems older than memory. The forest above the treeline moves differently. It doesn't react to you — it notices you.\n\nThe Elder Warden has kept this canopy since before the Fracture. It has watched dozens of expeditions attempt passage. None returned changed for the better.",
       "image": "cutscenes/act11-intro-1.svg"
     },
     {
       "title": "THE ELDER WARDEN",
-      "text": "It is not a creature in any familiar sense. The Warden is the canopy made sovereign \u2014 a convergence of root and memory and something older that has no name in any language you speak.\n\nIt does not hate you. Hatred requires noticing something as a peer. The Warden sees you as disruption. Disruptions are removed.",
+      "text": "It is not a creature in any familiar sense. The Warden is the canopy made sovereign — a convergence of root and memory and something older that has no name in any language you speak.\n\nIt does not hate you. Hatred requires noticing something as a peer. The Warden sees you as disruption. Disruptions are removed.",
       "image": "cutscenes/act11-intro-2.svg"
     },
     {
       "title": "THE PATH THROUGH",
-      "text": "The ley convergence runs through the ancient heartwood at the canopy's centre. Scholars have theorised about it for decades. None have gotten close enough to verify.\n\nYou will need to fight through layers of living defence \u2014 root walls, grove-spawned treants, flying watchers \u2014 before the Warden descends. And then you will need to convince it, by force, that disruption can be useful.",
+      "text": "The ley convergence runs through the ancient heartwood at the canopy's centre. Scholars have theorised about it for decades. None have gotten close enough to verify.\n\nYou will need to fight through layers of living defence — root walls, grove-spawned treants, flying watchers — before the Warden descends. And then you will need to convince it, by force, that disruption can be useful.",
       "image": "cutscenes/act11-intro-3.svg"
     }
   ],
   "outro": [
     {
       "title": "THE CANOPY YIELDS",
-      "text": "The Elder Warden does not fall. It withdraws \u2014 slowly, deliberately, as though choosing to end the engagement rather than being forced to. The distinction matters to it.\n\nThe ley convergence is exposed. The heartwood pulses with calm energy, older than anything you've touched before.",
+      "text": "The Elder Warden does not fall. It withdraws — slowly, deliberately, as though choosing to end the engagement rather than being forced to. The distinction matters to it.\n\nThe ley convergence is exposed. The heartwood pulses with calm energy, older than anything you've touched before.",
       "image": "cutscenes/act11-outro-1.svg"
     },
     {
       "title": "LIVING BARK",
-      "text": "Where the Warden stood, a strip of bark remains \u2014 thick, warm to the touch, and inexplicably alive. It hardens in your hands into something like armour, or maybe a shield, or maybe just the canopy saying: you've earned a layer of protection.\n\nYou don't question it. The canopy rewards results.",
+      "text": "Where the Warden stood, a strip of bark remains — thick, warm to the touch, and inexplicably alive. It hardens in your hands into something like armour, or maybe a shield, or maybe just the canopy saying: you've earned a layer of protection.\n\nYou don't question it. The canopy rewards results.",
       "image": "cutscenes/act11-outro-2.svg"
     },
     {
       "title": "THE ROAD AHEAD",
-      "text": "The Verdant Canopy recedes behind you as you descend. Above, you hear the canopy resume its ordinary rhythms \u2014 something enormous moving between branches, watchers returning to their posts.\n\nThe Warden is already repairing the damage. It won't hold a grudge. It's too old for that. It will simply be ready when you return.",
+      "text": "The Verdant Canopy recedes behind you as you descend. Above, you hear the canopy resume its ordinary rhythms — something enormous moving between branches, watchers returning to their posts.\n\nThe Warden is already repairing the damage. It won't hold a grudge. It's too old for that. It will simply be ready when you return.",
       "image": "cutscenes/act11-outro-3.svg"
     }
   ],
@@ -120,7 +120,7 @@
       ],
       "eventConfig": {
         "title": "The Root Shrine",
-        "description": "A gnarled shrine wrapped in glowing roots. You can feel something ancient in it. The options it presents are simple \u2014 give something, take something, or leave it alone.",
+        "description": "A gnarled shrine wrapped in glowing roots. You can feel something ancient in it. The options it presents are simple — give something, take something, or leave it alone.",
         "pools": [
           [
             {
@@ -277,7 +277,7 @@
       ],
       "eventConfig": {
         "title": "The Canopy Rift",
-        "description": "A gap in the ancient canopy shows the raw ley lines beneath \u2014 shimmering, strange, and old. You can attempt to draw on them, or simply study them from a safe distance.",
+        "description": "A gap in the ancient canopy shows the raw ley lines beneath — shimmering, strange, and old. You can attempt to draw on them, or simply study them from a safe distance.",
         "pools": [
           [
             {
@@ -362,7 +362,8 @@
         "Root Surge",
         "Root Network",
         "Canopy Growth"
-      ]
+      ],
+      "bossAI": "verdant-elite"
     },
     "heartwood-path": {
       "id": "heartwood-path",
@@ -410,7 +411,7 @@
       ],
       "eventConfig": {
         "title": "The Warden's Gaze",
-        "description": "You feel it before you see it \u2014 a presence older than stone watching from the high branches. It hasn't moved. It's waiting to see what you do. Your choice here will define what follows.",
+        "description": "You feel it before you see it — a presence older than stone watching from the high branches. It hasn't moved. It's waiting to see what you do. Your choice here will define what follows.",
         "pools": [
           [
             {
@@ -509,7 +510,8 @@
         "Root Surge",
         "Root Network",
         "Canopy Growth"
-      ]
+      ],
+      "bossAI": "verdant-elite"
     },
     "elder-warden": {
       "id": "elder-warden",

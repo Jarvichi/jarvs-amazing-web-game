@@ -411,7 +411,8 @@
         "Permafrost",
         "Ice Wall",
         "Ice Wall"
-      ]
+      ],
+      "bossAI": "iron-elite"
     },
     "engine-approach": {
       "id": "engine-approach",
@@ -543,7 +544,8 @@
         "Glacier Hide",
         "Blizzard Blast",
         "Blizzard Blast"
-      ]
+      ],
+      "bossAI": "iron-elite"
     },
     "paleengine": {
       "id": "paleengine",
@@ -747,7 +749,8 @@
         "Permafrost",
         "Ice Wall",
         "Ice Wall"
-      ]
+      ],
+      "bossAI": "iron-elite"
     },
     "node-1776873661402": {
       "id": "node-1776873661402",

@@ -977,7 +977,8 @@
         "Iron Skin"
       ],
       "opponentIntervalMs": 6000,
-      "opponentBaseHp": 92
+      "opponentBaseHp": 92,
+      "bossAI": "verdant-elite"
     },
     "deep-woods": {
       "id": "deep-woods",
@@ -1012,7 +1013,8 @@
         "Cave Bat",
         "Cave Bat",
         "Rally"
-      ]
+      ],
+      "bossAI": "verdant-elite"
     },
     "troll-bridge": {
       "id": "troll-bridge",

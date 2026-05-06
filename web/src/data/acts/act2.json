@@ -666,7 +666,8 @@
         "Sharpen Blades"
       ],
       "opponentIntervalMs": 6000,
-      "opponentBaseHp": 82
+      "opponentBaseHp": 82,
+      "bossAI": "iron-elite"
     },
     "command-tent": {
       "id": "command-tent",
@@ -868,15 +869,25 @@
       "opponentIntervalMs": 5000,
       "opponentBaseHp": 95,
       "enemyDeck": [
-        "Stone Wall","Stone Wall","Stone Wall","Stone Wall",
-        "Catapult","Catapult","Catapult",
-        "Knight","Knight","Knight",
-        "Shield Guard","Shield Guard",
-        "Ballista","Ballista",
+        "Stone Wall",
+        "Stone Wall",
+        "Stone Wall",
+        "Stone Wall",
+        "Catapult",
+        "Catapult",
+        "Catapult",
+        "Knight",
+        "Knight",
+        "Knight",
+        "Shield Guard",
+        "Shield Guard",
+        "Ballista",
+        "Ballista",
         "Siege Works",
         "War Drums",
         "Fortify",
-        "Crossbow","Crossbow"
+        "Crossbow",
+        "Crossbow"
       ]
     },
     "citadel-crossing": {
@@ -931,7 +942,8 @@
         "Gallows",
         "Execution Post",
         "Execution Post"
-      ]
+      ],
+      "bossAI": "iron-elite"
     },
     "node-1776114718648": {
       "id": "node-1776114718648",

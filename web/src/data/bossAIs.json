@@ -717,16 +717,16 @@
     "trait": {
       "name": "Root Surge",
       "implemented": true,
-      "trigger": "hp_pct_once",
+      "trigger": "hp_pct",
       "triggerHpPct": 50,
-      "type": "aoe_column",
+      "type": "column_aoe",
       "description": "At 50% HP the Elder Warden drives its roots into the earth, sending a shockwave along a random column. All player units in that column take 6 damage and are rooted (movement stopped) for 3 seconds.",
       "mechanics": {
-        "damage": 6,
-        "rootDurationMs": 3000,
-        "columnWidth": 60
+        "pulseDamage": 6,
+        "stunDurationMs": 3000
       },
-      "announceText": "THE ELDER WARDEN PLUNGES ITS ROOTS \u2014 the ground trembles!"
+      "announceText": "THE ELDER WARDEN PLUNGES ITS ROOTS \u2014 the ground trembles!",
+      "fireText": "The roots tear through the column \u2014 units are rooted!"
     },
     "phases": [
       {
@@ -822,10 +822,18 @@
     ],
     "trait": {
       "name": "Tidal Surge",
-      "type": "aoe_row",
       "implemented": true,
-      "triggerCondition": "playerBaseHpBelow50Pct",
-      "description": "At 50% HP, surges a wall of water across the front row, dealing 10 damage to all player units."
+      "trigger": "hp_pct",
+      "triggerHpPct": 50,
+      "type": "fly",
+      "description": "At 50% HP the Harbormaster calls the tide — he vanishes for 2.5 seconds then a wall of water crashes across the battlefield, dealing 10 damage to all player units and pushing them back 2 tiles.",
+      "mechanics": {
+        "invulnerableDurationMs": 2500,
+        "waveDamage": 10,
+        "wavePushTiles": 2
+      },
+      "announceText": "The Harbormaster calls the tide — BRACE YOURSELF!",
+      "surfaceText": "A wall of water crashes across the battlefield!"
     },
     "phases": [
       {
@@ -903,10 +911,17 @@
     ],
     "trait": {
       "name": "Gear Cascade",
-      "type": "aoe_column",
       "implemented": true,
-      "triggerCondition": "playerBaseHpBelow50Pct",
-      "description": "At 50% HP, releases a cascade of gears that deal 8 damage in a column AOE, slowing hit units for 3 seconds."
+      "trigger": "hp_pct",
+      "triggerHpPct": 50,
+      "type": "column_aoe",
+      "description": "At 50% HP the Grand Automaton releases a cascade of spinning gears down a random column, dealing 8 damage to all player units in that column and slowing their attacks for 3 seconds.",
+      "mechanics": {
+        "pulseDamage": 8,
+        "slowDurationMs": 3000
+      },
+      "announceText": "GEAR CASCADE INITIATED — the Automaton releases its payload!",
+      "fireText": "Gears shred through the column — units slow to a crawl!"
     },
     "phases": [
       {
@@ -915,22 +930,20 @@
         },
         "priorities": [
           {
-            "type": "structure",
-            "subType": "spawn",
-            "order": "first"
+            "cardType": "structure",
+            "structureEffect": "spawn"
           },
           {
-            "type": "structure",
-            "subType": "mana",
-            "order": "first"
+            "cardType": "structure",
+            "structureEffect": "mana"
           },
           {
-            "type": "unit",
-            "order": "cost_desc"
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
           },
           {
-            "type": "upgrade",
-            "order": "first"
+            "cardType": "upgrade"
           }
         ]
       },
@@ -941,17 +954,16 @@
         },
         "priorities": [
           {
-            "type": "unit",
-            "order": "cost_desc"
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
           },
           {
-            "type": "structure",
-            "subType": "spawn",
-            "order": "first"
+            "cardType": "structure",
+            "structureEffect": "spawn"
           },
           {
-            "type": "upgrade",
-            "order": "first"
+            "cardType": "upgrade"
           }
         ],
         "announceOnce": "ESCALATING TO THREAT LEVEL: MAXIMUM."
@@ -963,17 +975,16 @@
         "announceOnce": "ACTIVATING FINAL PROTOCOL. VAULT WILL NOT FALL.",
         "priorities": [
           {
-            "type": "unit",
-            "order": "cost_desc"
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
           },
           {
-            "type": "structure",
-            "subType": "spawn",
-            "order": "first"
+            "cardType": "structure",
+            "structureEffect": "spawn"
           },
           {
-            "type": "upgrade",
-            "order": "first"
+            "cardType": "upgrade"
           }
         ]
       }
@@ -988,6 +999,23 @@
       "THE FRACTURE awakens. The wound at the world's heart tears open.",
       "This is the end. Yours, or the Fracture's."
     ],
+    "trait": {
+      "name": "Void Tear",
+      "implemented": true,
+      "trigger": "hp_pct_multi",
+      "triggerHpPcts": [65, 35],
+      "type": "fly",
+      "description": "At 65% and again at 35% HP, the Fracture tears open a void rift and vanishes for 4 seconds. It then crashes back down onto the player's densest cluster, dealing 8 AOE damage in a 3-tile radius and silencing all hit units for 2 seconds.",
+      "mechanics": {
+        "invulnerableDurationMs": 4000,
+        "landingDamage": 8,
+        "landingRadiusTiles": 3,
+        "stunDurationMs": 2000,
+        "repositionTarget": "player_densest_cluster"
+      },
+      "announceText": "THE FRACTURE TEARS OPEN \u2014 reality dissolves around you!",
+      "landText": "Reality SNAPS back \u2014 the void shockwave tears through your ranks!"
+    },
     "phases": [
       {
         "condition": {
@@ -1044,6 +1072,343 @@
           {
             "cardType": "upgrade"
           }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "verdant-elite",
+    "intervalMs": 5000,
+    "idleMessage": "The forest watches…",
+    "maxPlaysPerTurn": 2,
+    "openingLog": [
+      "An elite guardian of the Verdant Shard blocks the path.",
+      "The roots run deep here."
+    ],
+    "trait": {
+      "name": "Burrow Strike",
+      "implemented": true,
+      "trigger": "hp_pct",
+      "triggerHpPct": 50,
+      "type": "burrow",
+      "description": "At 50% HP the guardian sinks underground then erupts at a random position, dealing 4 AOE damage.",
+      "mechanics": {
+        "invulnerableDurationMs": 2000,
+        "landingDamage": 4,
+        "landingRadiusTiles": 2,
+        "repositionTarget": "random"
+      },
+      "announceText": "The guardian sinks into the earth!",
+      "surfaceText": "The ground erupts beneath your feet!"
+    },
+    "phases": [
+      {
+        "condition": {
+          "gameTimeLt": 30000
+        },
+        "priorities": [
+          { "cardType": "structure", "isWall": true },
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_asc" },
+          { "cardType": "upgrade" }
+        ]
+      },
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "upgrade" },
+          { "cardType": "structure", "structureEffect": "spawn" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "iron-elite",
+    "intervalMs": 5200,
+    "idleMessage": "The iron line holds…",
+    "maxPlaysPerTurn": 2,
+    "openingLog": [
+      "An elite Iron Citadel commander bars your advance.",
+      "Expect walls and siege fire."
+    ],
+    "trait": {
+      "name": "Iron Leap",
+      "implemented": true,
+      "trigger": "periodic",
+      "triggerIntervalMs": 35000,
+      "type": "jump_aoe",
+      "description": "Every 35 seconds the commander leaps and crashes down on the player's side, dealing 6 AOE damage and stunning nearby units for 1.5 seconds.",
+      "mechanics": {
+        "invulnerableDurationMs": 1500,
+        "landingDamage": 6,
+        "landingRadiusTiles": 2,
+        "stunDurationMs": 1500,
+        "landingTarget": "player_side_random"
+      },
+      "announceText": "Iron might descends upon you!",
+      "landText": "CRASH — the iron shockwave hits!"
+    },
+    "phases": [
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "structure", "isWall": true },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "upgrade" },
+          { "cardType": "structure", "structureEffect": "spawn" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ashen-elite",
+    "intervalMs": 4800,
+    "idleMessage": "The ash whispers…",
+    "maxPlaysPerTurn": 2,
+    "openingLog": [
+      "An Ashen Wastes champion rises from the cinders.",
+      "The dead don't tire."
+    ],
+    "trait": {
+      "name": "Ash Wave",
+      "implemented": true,
+      "trigger": "hp_pct",
+      "triggerHpPct": 40,
+      "type": "fly",
+      "description": "At 40% HP the champion disperses into ash for 2 seconds, then a choking wave deals 3 damage to all player units and pushes them back.",
+      "mechanics": {
+        "invulnerableDurationMs": 2000,
+        "waveDamage": 3,
+        "wavePushTiles": 2
+      },
+      "announceText": "The Ashen champion disperses into dust!",
+      "surfaceText": "Ash and bone rain down — your units are pushed back!"
+    },
+    "phases": [
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_asc" },
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "upgrade" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arcane-elite",
+    "intervalMs": 5000,
+    "idleMessage": "The wards pulse…",
+    "maxPlaysPerTurn": 2,
+    "openingLog": [
+      "A Crystal Spire sentinel activates its ward protocols.",
+      "Arcane constructs and silence await."
+    ],
+    "trait": {
+      "name": "Arcane Silence",
+      "implemented": true,
+      "trigger": "game_time_gte",
+      "triggerGameTimeMs": 60000,
+      "type": "fly",
+      "description": "60 seconds into the fight the sentinel ascends for 3 seconds then descends at the battlefield centre, silencing all player units for 2 seconds.",
+      "mechanics": {
+        "invulnerableDurationMs": 3000,
+        "landingDamage": 0,
+        "landingRadiusTiles": 20,
+        "stunDurationMs": 2000,
+        "repositionTarget": "battlefield_centre"
+      },
+      "announceText": "The arcane sentinel reaches full power — silence descends!",
+      "landText": "Arcane silence! Your units are stunned!"
+    },
+    "phases": [
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "upgrade", "sortBy": "cost_desc" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tidal-elite",
+    "intervalMs": 4800,
+    "idleMessage": "The tide rises…",
+    "maxPlaysPerTurn": 2,
+    "openingLog": [
+      "A Sunken Reef champion surges from the depths.",
+      "The reef provides cover for its waves."
+    ],
+    "trait": {
+      "name": "Riptide",
+      "implemented": true,
+      "trigger": "hp_pct",
+      "triggerHpPct": 50,
+      "type": "fly",
+      "description": "At 50% HP the champion dives under for 2 seconds then a wave crashes down, dealing 4 damage to all player units and pushing them back 2 tiles.",
+      "mechanics": {
+        "invulnerableDurationMs": 2000,
+        "waveDamage": 4,
+        "wavePushTiles": 2
+      },
+      "announceText": "A riptide surges — the wave is incoming!",
+      "surfaceText": "The wave CRASHES — all units pushed back!"
+    },
+    "phases": [
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "unit", "flying": true, "sortBy": "cost_desc" },
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "upgrade" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sky-elite",
+    "intervalMs": 4800,
+    "idleMessage": "Wings beat overhead…",
+    "maxPlaysPerTurn": 2,
+    "openingLog": [
+      "A Sky Dominion ace drops from the clouds.",
+      "Aerial and fast — keep your ranged units ready."
+    ],
+    "trait": {
+      "name": "Lightning Column",
+      "implemented": true,
+      "trigger": "periodic",
+      "triggerIntervalMs": 40000,
+      "type": "column_aoe",
+      "description": "Every 40 seconds the ace calls a lightning strike down a random column, dealing 5 damage and slowing hit units for 3 seconds.",
+      "mechanics": {
+        "pulseDamage": 5,
+        "slowDurationMs": 3000
+      },
+      "announceText": "Lightning strikes from above!",
+      "fireText": "A bolt of sky energy scorches the column!"
+    },
+    "phases": [
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "unit", "flying": true, "sortBy": "cost_desc" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "upgrade" },
+          { "cardType": "structure", "structureEffect": "spawn" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fungal-elite",
+    "intervalMs": 5000,
+    "idleMessage": "Spores drift through the air…",
+    "maxPlaysPerTurn": 2,
+    "openingLog": [
+      "A Fungal Deep overseer emerges from the mycelium.",
+      "The spore network is everywhere."
+    ],
+    "trait": {
+      "name": "Spore Burst",
+      "implemented": true,
+      "trigger": "periodic",
+      "triggerIntervalMs": 45000,
+      "type": "column_aoe",
+      "description": "Every 45 seconds the overseer erupts a spore column, dealing 4 damage to all units in the column and slowing them for 4 seconds.",
+      "mechanics": {
+        "pulseDamage": 4,
+        "slowDurationMs": 4000
+      },
+      "announceText": "Spores burst from the elite!",
+      "fireText": "Units caught in the spore cloud slow to a crawl!"
+    },
+    "phases": [
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "unit", "isWall": false, "costLt": 3, "sortBy": "cost_asc" },
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "upgrade" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "desert-elite",
+    "intervalMs": 4800,
+    "idleMessage": "The sand shifts…",
+    "maxPlaysPerTurn": 2,
+    "openingLog": [
+      "A Scorched Expanse warlord strides from the dunes.",
+      "Fast and relentless — the desert does not tire."
+    ],
+    "trait": {
+      "name": "Sand Strike",
+      "implemented": true,
+      "trigger": "hp_pct",
+      "triggerHpPct": 50,
+      "type": "burrow",
+      "description": "At 50% HP the warlord dives into sand for 2 seconds then erupts next to the player's highest-HP unit, dealing 4 AOE damage.",
+      "mechanics": {
+        "invulnerableDurationMs": 2000,
+        "landingDamage": 4,
+        "landingRadiusTiles": 2,
+        "repositionTarget": "nearest_player_highest_hp"
+      },
+      "announceText": "The warlord vanishes into the sand!",
+      "surfaceText": "Sand erupts — the warlord strikes from below!"
+    },
+    "phases": [
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "unit", "isWall": false, "costGte": 3, "sortBy": "cost_desc" },
+          { "cardType": "upgrade" },
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "unit", "isWall": false }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "void-elite",
+    "intervalMs": 5000,
+    "idleMessage": "The void whispers…",
+    "maxPlaysPerTurn": 2,
+    "openingLog": [
+      "A herald of the Fracture blocks your path to the core.",
+      "It carries a shard of the void."
+    ],
+    "trait": {
+      "name": "Void Pulse",
+      "implemented": true,
+      "trigger": "hp_pct",
+      "triggerHpPct": 60,
+      "type": "fly",
+      "description": "At 60% HP the herald tears a void rift and vanishes for 3 seconds, then crashes down onto the player's densest cluster dealing 6 AOE damage and silencing units for 2 seconds.",
+      "mechanics": {
+        "invulnerableDurationMs": 3000,
+        "landingDamage": 6,
+        "landingRadiusTiles": 2,
+        "stunDurationMs": 2000,
+        "repositionTarget": "player_densest_cluster"
+      },
+      "announceText": "A void rift tears open around the herald!",
+      "landText": "The void pulse detonates — your units are silenced!"
+    },
+    "phases": [
+      {
+        "condition": null,
+        "priorities": [
+          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
+          { "cardType": "structure", "structureEffect": "spawn" },
+          { "cardType": "upgrade" }
         ]
       }
     ]

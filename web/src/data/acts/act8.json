@@ -415,7 +415,8 @@
         "Mycelium Surge",
         "Mycelium Surge",
         "Deep Growth"
-      ]
+      ],
+      "bossAI": "fungal-elite"
     },
     "queen-approach": {
       "id": "queen-approach",
@@ -548,7 +549,8 @@
         "Mycelium Surge",
         "Deep Growth",
         "Deep Growth"
-      ]
+      ],
+      "bossAI": "fungal-elite"
     },
     "rootqueen": {
       "id": "rootqueen",
@@ -729,7 +731,8 @@
         "Mycelium Surge",
         "Mycelium Surge",
         "Deep Growth"
-      ]
+      ],
+      "bossAI": "fungal-elite"
     },
     "node-1776872007977": {
       "id": "node-1776872007977",
@@ -762,7 +765,8 @@
         "Mycelium Surge",
         "Deep Growth",
         "Deep Growth"
-      ]
+      ],
+      "bossAI": "fungal-elite"
     },
     "node-1776872032924": {
       "id": "node-1776872032924",
@@ -1160,7 +1164,8 @@
         "Mycelium Surge",
         "Mycelium Surge",
         "Deep Growth"
-      ]
+      ],
+      "bossAI": "fungal-elite"
     },
     "node-1776872152088": {
       "id": "node-1776872152088",
