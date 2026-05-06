@@ -917,16 +917,17 @@
       "handicap": 0,
       "environment": "camp",
       "enemyDeck": [
-        "Knight",
-        "Knight",
         "Barbarian",
         "Barbarian",
-        "Crossbow",
-        "Crossbow",
-        "Archer",
-        "Archer",
-        "Barracks",
-        "Build Wall"
+        "Barbarian",
+        "Troll",
+        "Troll",
+        "Harpy",
+        "Harpy",
+        "Centaur",
+        "Centaur",
+        "Cave Bat",
+        "Rally"
       ]
     },
     "market": {
@@ -961,20 +962,20 @@
         "\"The Thornlord doesn't see visitors. That's why I'm here.\""
       ],
       "enemyDeck": [
-        "Knight",
-        "Knight",
-        "Knight",
-        "Knight",
-        "Crossbow",
-        "Crossbow",
         "Barbarian",
         "Barbarian",
-        "Shield Guard",
-        "Shield Guard",
-        "Build Wall",
-        "Build Wall",
-        "Sharpen Blades",
-        "Iron Skin"
+        "Barbarian",
+        "Troll",
+        "Troll",
+        "Centaur",
+        "Centaur",
+        "Harpy",
+        "Harpy",
+        "Vine Golem",
+        "Vine Golem",
+        "Dryad Sentinel",
+        "Dryad Sentinel",
+        "Rally"
       ],
       "opponentIntervalMs": 6000,
       "opponentBaseHp": 92,
@@ -1004,8 +1005,8 @@
         "Barbarian",
         "Barbarian",
         "Barbarian",
-        "Knight",
-        "Knight",
+        "Frog Knight",
+        "Frog Knight",
         "Goblin",
         "Goblin",
         "Archer",
@@ -1031,15 +1032,16 @@
       "opponentBaseHp": 95,
       "environment": "forest",
       "enemyDeck": [
-        "Knight",
-        "Knight",
-        "Knight",
+        "Troll",
+        "Troll",
+        "Troll",
         "Barbarian",
         "Barbarian",
-        "Crossbow",
-        "Crossbow",
-        "Barracks",
-        "Haste"
+        "Cave Bat",
+        "Cave Bat",
+        "Goblin",
+        "Goblin",
+        "Rally"
       ]
     },
     "thornlord": {
@@ -1111,16 +1113,18 @@
       "opponentBaseHp": 110,
       "environment": "forest",
       "enemyDeck": [
-        "Knight",
-        "Knight",
+        "Troll",
+        "Troll",
         "Barbarian",
         "Barbarian",
-        "Archer",
-        "Archer",
-        "Crossbow",
-        "Crossbow",
-        "Barracks",
-        "Garrison"
+        "Barbarian",
+        "Vine Golem",
+        "Vine Golem",
+        "Centaur",
+        "Centaur",
+        "Harpy",
+        "Harpy",
+        "Rally"
       ]
     },
     "node-1776083922801": {
@@ -1135,20 +1139,20 @@
         "captain"
       ],
       "enemyDeck": [
+        "Goblin",
+        "Goblin",
+        "Archer",
+        "Archer",
         "Barbarian",
         "Barbarian",
-        "Knight",
-        "Knight",
-        "Knight",
-        "Archer",
-        "Knight",
-        "Knight",
-        "Archer",
-        "Knight"
+        "Centaur",
+        "Centaur",
+        "Pixie",
+        "Pixie"
       ],
       "handicap": 3,
       "opponentIntervalMs": 8000,
-      "environment": "citadel",
+      "environment": "forest",
       "opponentBaseHp": 200
     },
     "node-the-lonely-field": {
