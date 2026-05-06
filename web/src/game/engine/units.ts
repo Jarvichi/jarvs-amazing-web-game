@@ -32,6 +32,23 @@ export function moveUnits(s: GameState, deltaMs: number): void {
   const livingOpponentUnits = s.field.some(u => u.owner === 'opponent' && u.hp > 0)
   const livingPlayerUnits   = s.field.some(u => u.owner === 'player'   && u.hp > 0)
 
+  // Defend overflow: if ≥15 defenders, the 5 furthest-forward units charge instead.
+  const defendOverflowAttackers = new Set<string>()
+  if (stance === 'defend') {
+    const defenders = s.field.filter(
+      u => u.owner === 'player' && u.hp > 0 && u.moveSpeed > 0 &&
+           (u.spawnGrowTimer == null || u.spawnGrowTimer <= 0) &&
+           (u.stunTimer      == null || u.stunTimer      <= 0)
+    )
+    if (defenders.length >= 15) {
+      defenders.sort((a, b) => b.x - a.x)
+      defenders.slice(0, 5).forEach(u => defendOverflowAttackers.add(u.id))
+    }
+  }
+
+  // Y positions defenders spread across so they don't all converge on a single point.
+  const DEFEND_Y_SLOTS = [-64, -40, -20, 0, 20, 40, 64]
+
   for (const unit of s.field) {
     if (unit.moveSpeed === 0) continue
     if (unit.spawnGrowTimer != null && unit.spawnGrowTimer > 0) continue
@@ -67,10 +84,11 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       }
     }
 
-    // Defend: pull back toward the player spawn area
-    if (unit.owner === 'player' && stance === 'defend') {
+    // Defend: pull back toward spawn, spread across Y slots; overflow units charge forward.
+    if (unit.owner === 'player' && stance === 'defend' && !defendOverflowAttackers.has(unit.id)) {
+      const idNum = parseInt(unit.id.replace(/\D/g, ''), 10) || 0
       tx = PLAYER_SPAWN_X + 40
-      ty = 0
+      ty = DEFEND_Y_SLOTS[idNum % DEFEND_Y_SLOTS.length]
       hasTarget = false
     }
 
