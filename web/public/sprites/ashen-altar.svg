@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground ash/dust -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#3a2a1a" opacity="0.4"/>
+  <!-- Altar base slab -->
+  <rect x="2" y="24" width="28" height="6" rx="1" fill="#5a4a3a"/>
+  <rect x="2" y="24" width="28" height="2" fill="#6a5a4a"/>
+  <!-- Ash covering base -->
+  <ellipse cx="16" cy="24" rx="12" ry="2" fill="#9a9090" opacity="0.3"/>
+  <!-- Altar table top -->
+  <rect x="4" y="18" width="24" height="7" rx="1" fill="#6a5a3a"/>
+  <rect x="4" y="18" width="24" height="2.5" fill="#7a6a4a"/>
+  <!-- Altar stone blocks -->
+  <line x1="4" y1="21" x2="28" y2="21" stroke="#4a3a1a" stroke-width="0.6"/>
+  <line x1="12" y1="18" x2="12" y2="25" stroke="#4a3a1a" stroke-width="0.6"/>
+  <line x1="20" y1="18" x2="20" y2="25" stroke="#4a3a1a" stroke-width="0.6"/>
+  <!-- Ash piles on altar surface -->
+  <ellipse cx="10" cy="18" rx="3" ry="1" fill="#9a9080" opacity="0.5"/>
+  <ellipse cx="22" cy="18" rx="3" ry="1" fill="#9a9080" opacity="0.5"/>
+  <ellipse cx="16" cy="18" rx="4" ry="1.2" fill="#aaa090" opacity="0.4"/>
+  <!-- Central charred bowl -->
+  <ellipse cx="16" cy="17.5" rx="4" ry="2" fill="#2a1a0a"/>
+  <ellipse cx="16" cy="17" rx="3" ry="1.5" fill="#1a0a00"/>
+  <!-- Smouldering embers -->
+  <ellipse cx="14" cy="17" rx="1.5" ry="0.7" fill="#cc4400" opacity="0.6"/>
+  <ellipse cx="18" cy="17" rx="1" ry="0.6" fill="#dd5500" opacity="0.5"/>
+  <circle cx="16" cy="16.5" rx="1" r="0.8" fill="#ff6600" opacity="0.7"/>
+  <!-- Rising ash smoke -->
+  <path d="M14,16 Q12,12 14,8 Q15,5 16,4" fill="none" stroke="#8a8078" stroke-width="1.5" opacity="0.5"/>
+  <path d="M16,16 Q17,11 15,7 Q14,4 15,2" fill="none" stroke="#9a9088" stroke-width="1.2" opacity="0.4"/>
+  <path d="M18,16 Q20,12 18,8 Q17,5 17,3" fill="none" stroke="#8a8078" stroke-width="1" opacity="0.4"/>
+  <!-- Ash cloud top -->
+  <ellipse cx="15" cy="4" rx="4" ry="2" fill="#9a9080" opacity="0.3"/>
+  <ellipse cx="16" cy="3" rx="3" ry="1.5" fill="#aaa090" opacity="0.25"/>
+  <!-- Bone/relic fragments on altar -->
+  <line x1="8" y1="19" x2="11" y2="17.5" stroke="#c0b0a0" stroke-width="0.8" opacity="0.6"/>
+  <line x1="23" y1="19" x2="21" y2="17.5" stroke="#c0b0a0" stroke-width="0.8" opacity="0.6"/>
+  <!-- Rune marks burned into stone -->
+  <line x1="6" y1="20" x2="9" y2="20" stroke="#cc4400" stroke-width="0.7" opacity="0.5"/>
+  <line x1="23" y1="20" x2="26" y2="20" stroke="#cc4400" stroke-width="0.7" opacity="0.5"/>
+</svg>

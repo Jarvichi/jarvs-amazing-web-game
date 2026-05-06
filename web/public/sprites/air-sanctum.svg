@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="12" ry="1.5" fill="#5a7090" opacity="0.4"/>
+  <!-- Base platform -->
+  <rect x="3" y="25" width="26" height="5" rx="1" fill="#b0c8e8"/>
+  <rect x="3" y="25" width="26" height="2" fill="#c8dff5"/>
+  <!-- Columns -->
+  <rect x="5" y="12" width="4" height="15" fill="#c8dff5"/>
+  <rect x="13" y="10" width="4" height="17" fill="#d8eeff"/>
+  <rect x="21" y="12" width="4" height="15" fill="#c8dff5"/>
+  <!-- Column highlights -->
+  <rect x="5" y="12" width="1" height="15" fill="#e8f5ff"/>
+  <rect x="13" y="10" width="1" height="17" fill="#e8f5ff"/>
+  <rect x="21" y="12" width="1" height="15" fill="#e8f5ff"/>
+  <!-- Roof/dome -->
+  <ellipse cx="16" cy="10" rx="13" ry="4" fill="#b0c8e8"/>
+  <ellipse cx="16" cy="9" rx="11" ry="3" fill="#c8dff5"/>
+  <!-- Dome top -->
+  <ellipse cx="16" cy="6" rx="5" ry="3" fill="#d8eeff"/>
+  <ellipse cx="16" cy="5" rx="3" ry="2" fill="#e8f5ff"/>
+  <!-- Wind spire -->
+  <line x1="16" y1="3" x2="16" y2="0" stroke="#a0b8d8" stroke-width="1.5"/>
+  <ellipse cx="16" cy="0" rx="2" ry="1" fill="#b0c8e8"/>
+  <!-- Wind swirls around sanctum -->
+  <path d="M2,15 Q5,12 8,15 Q5,18 2,15" fill="none" stroke="#a0c0e0" stroke-width="1" opacity="0.6"/>
+  <path d="M24,13 Q27,10 30,13 Q27,16 24,13" fill="none" stroke="#a0c0e0" stroke-width="1" opacity="0.6"/>
+  <path d="M4,21 Q7,19 10,21" fill="none" stroke="#b0d0f0" stroke-width="0.8" opacity="0.5"/>
+  <path d="M22,21 Q25,19 28,21" fill="none" stroke="#b0d0f0" stroke-width="0.8" opacity="0.5"/>
+  <!-- Floating wind motes -->
+  <circle cx="8" cy="8" r="0.8" fill="#c8e0ff" opacity="0.7"/>
+  <circle cx="24" cy="7" r="0.8" fill="#c8e0ff" opacity="0.7"/>
+  <circle cx="6" cy="18" r="0.6" fill="#d0e8ff" opacity="0.6"/>
+  <circle cx="26" cy="17" r="0.6" fill="#d0e8ff" opacity="0.6"/>
+  <!-- Interior glow -->
+  <ellipse cx="16" cy="18" rx="5" ry="4" fill="#aac8ff" opacity="0.2"/>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground scorched ring -->
+  <ellipse cx="16" cy="28" rx="13" ry="3" fill="#2a2020" opacity="0.7"/>
+  <ellipse cx="16" cy="28" rx="10" ry="2" fill="#3a2a2a" opacity="0.5"/>
+  <!-- Outer ash swirl - wide -->
+  <path d="M4,22 Q2,16 6,10 Q10,4 16,4 Q22,4 26,10 Q30,16 28,22" fill="none" stroke="#888080" stroke-width="2" opacity="0.4"/>
+  <!-- Mid ash swirl -->
+  <path d="M7,22 Q5,17 8,12 Q11,7 16,7 Q21,7 24,12 Q27,17 25,22" fill="none" stroke="#aaa0a0" stroke-width="1.5" opacity="0.5"/>
+  <!-- Inner swirl -->
+  <path d="M10,22 Q8,18 10,14 Q13,9 16,9 Q19,9 22,14 Q24,18 22,22" fill="none" stroke="#bbafaf" stroke-width="1" opacity="0.6"/>
+  <!-- Core vortex -->
+  <ellipse cx="16" cy="18" rx="5" ry="6" fill="#4a3a3a" opacity="0.6"/>
+  <ellipse cx="16" cy="18" rx="3.5" ry="4" fill="#5a4a4a" opacity="0.5"/>
+  <ellipse cx="16" cy="18" rx="2" ry="2.5" fill="#6a5a5a" opacity="0.6"/>
+  <ellipse cx="16" cy="18" rx="1" ry="1.5" fill="#888080" opacity="0.7"/>
+  <!-- Rotating ash particles outer ring -->
+  <circle cx="6" cy="14" r="1" fill="#9a9090" opacity="0.6"/>
+  <circle cx="26" cy="14" r="1" fill="#9a9090" opacity="0.6"/>
+  <circle cx="5" cy="22" r="0.8" fill="#aaa0a0" opacity="0.5"/>
+  <circle cx="27" cy="22" r="0.8" fill="#aaa0a0" opacity="0.5"/>
+  <circle cx="11" cy="6" r="0.8" fill="#9a9090" opacity="0.5"/>
+  <circle cx="21" cy="6" r="0.8" fill="#9a9090" opacity="0.5"/>
+  <!-- Inner particles -->
+  <circle cx="11" cy="15" r="0.7" fill="#bbb0b0" opacity="0.7"/>
+  <circle cx="21" cy="15" r="0.7" fill="#bbb0b0" opacity="0.7"/>
+  <circle cx="13" cy="23" r="0.6" fill="#ccbfbf" opacity="0.6"/>
+  <circle cx="19" cy="23" r="0.6" fill="#ccbfbf" opacity="0.6"/>
+  <!-- Ember glow in center -->
+  <circle cx="16" cy="18" r="1.5" fill="#ff6600" opacity="0.4"/>
+  <circle cx="16" cy="18" r="0.7" fill="#ff8800" opacity="0.6"/>
+  <!-- Ash streaks spinning -->
+  <line x1="8" y1="12" x2="11" y2="15" stroke="#aaa0a0" stroke-width="0.8" opacity="0.5"/>
+  <line x1="24" y1="12" x2="21" y2="15" stroke="#aaa0a0" stroke-width="0.8" opacity="0.5"/>
+  <line x1="9" y1="24" x2="12" y2="21" stroke="#aaa0a0" stroke-width="0.8" opacity="0.5"/>
+  <line x1="23" y1="24" x2="20" y2="21" stroke="#aaa0a0" stroke-width="0.8" opacity="0.5"/>
+</svg>
