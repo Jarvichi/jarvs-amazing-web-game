@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#2a1a0a" opacity="0.4"/>
+  <!-- Main hall walls -->
+  <rect x="2" y="14" width="28" height="16" rx="1" fill="#7a6a50"/>
+  <rect x="2" y="14" width="28" height="3" fill="#8a7a60"/>
+  <!-- Stone block lines -->
+  <line x1="2" y1="18" x2="30" y2="18" stroke="#5a4a30" stroke-width="0.6"/>
+  <line x1="2" y1="22" x2="30" y2="22" stroke="#5a4a30" stroke-width="0.6"/>
+  <line x1="2" y1="26" x2="30" y2="26" stroke="#5a4a30" stroke-width="0.6"/>
+  <line x1="9" y1="14" x2="9" y2="30" stroke="#5a4a30" stroke-width="0.6"/>
+  <line x1="16" y1="14" x2="16" y2="30" stroke="#5a4a30" stroke-width="0.6"/>
+  <line x1="23" y1="14" x2="23" y2="30" stroke="#5a4a30" stroke-width="0.6"/>
+  <!-- Bone-draped roof gable -->
+  <polygon points="0,14 16,3 32,14" fill="#5a4a30"/>
+  <polygon points="2,14 16,5 30,14" fill="#6a5a40"/>
+  <!-- Skull ornaments on roofline -->
+  <circle cx="8" cy="11" r="2" fill="#c8b890"/>
+  <rect x="7" y="12" width="2" height="2" fill="#c8b890"/>
+  <circle cx="7.5" cy="10.5" r="0.4" fill="#2a1a0a"/>
+  <circle cx="8.5" cy="10.5" r="0.4" fill="#2a1a0a"/>
+  <circle cx="24" cy="11" r="2" fill="#c8b890"/>
+  <rect x="23" y="12" width="2" height="2" fill="#c8b890"/>
+  <circle cx="23.5" cy="10.5" r="0.4" fill="#2a1a0a"/>
+  <circle cx="24.5" cy="10.5" r="0.4" fill="#2a1a0a"/>
+  <!-- Bone crossbeams on walls -->
+  <line x1="4" y1="16" x2="8" y2="16" stroke="#c8b890" stroke-width="1.5"/>
+  <circle cx="4" cy="16" r="0.8" fill="#c8b890"/>
+  <circle cx="8" cy="16" r="0.8" fill="#c8b890"/>
+  <line x1="24" y1="16" x2="28" y2="16" stroke="#c8b890" stroke-width="1.5"/>
+  <circle cx="24" cy="16" r="0.8" fill="#c8b890"/>
+  <circle cx="28" cy="16" r="0.8" fill="#c8b890"/>
+  <!-- Door arch (bone-framed) -->
+  <path d="M12,30 L12,22 Q16,18 20,22 L20,30 Z" fill="#1a0a00"/>
+  <path d="M12,22 Q16,17 20,22" fill="none" stroke="#c8b890" stroke-width="1.2"/>
+  <!-- Windows with bone cross motif -->
+  <rect x="4" y="19" width="4" height="5" fill="#1a0a00"/>
+  <line x1="6" y1="19" x2="6" y2="24" stroke="#c8b890" stroke-width="0.8"/>
+  <line x1="4" y1="21.5" x2="8" y2="21.5" stroke="#c8b890" stroke-width="0.8"/>
+  <rect x="24" y="19" width="4" height="5" fill="#1a0a00"/>
+  <line x1="26" y1="19" x2="26" y2="24" stroke="#c8b890" stroke-width="0.8"/>
+  <line x1="24" y1="21.5" x2="28" y2="21.5" stroke="#c8b890" stroke-width="0.8"/>
+</svg>
