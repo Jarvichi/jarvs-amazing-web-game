@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path d="M2 9  Q10 4  20 9  Q28 13 30 9"  fill="none" stroke="#66aaff" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M2 16 Q11 11 22 16 Q30 20 30 16" fill="none" stroke="#99ccff" stroke-width="3"   stroke-linecap="round"/>
+  <path d="M2 23 Q10 18 20 23 Q28 27 30 23" fill="none" stroke="#66aaff" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M4 9 Q1 13 4 17 Q7 21 4 25" fill="none" stroke="#4488cc" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <circle cx="8"  cy="12" r="1.2" fill="#cceeFF" opacity="0.9"/>
+  <circle cx="16" cy="8"  r="1.2" fill="#cceeFF" opacity="0.9"/>
+  <circle cx="24" cy="12" r="1.2" fill="#cceeFF" opacity="0.9"/>
+  <circle cx="8"  cy="26" r="1.2" fill="#cceeFF" opacity="0.9"/>
+  <circle cx="16" cy="22" r="1.2" fill="#cceeFF" opacity="0.9"/>
+  <circle cx="24" cy="26" r="1.2" fill="#cceeFF" opacity="0.9"/>
+  <line x1="28" y1="6"  x2="32" y2="4"  stroke="#aaddff" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  <line x1="29" y1="20" x2="32" y2="22" stroke="#aaddff" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+</svg>
