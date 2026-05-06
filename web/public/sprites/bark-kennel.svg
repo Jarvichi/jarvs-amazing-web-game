@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#2a1a0a" opacity="0.4"/>
+  <!-- Ground/yard -->
+  <rect x="0" y="24" width="32" height="8" fill="#5a4a2a"/>
+  <rect x="0" y="24" width="32" height="2" fill="#6a5a3a"/>
+  <!-- Kennel building main structure -->
+  <rect x="4" y="14" width="24" height="11" rx="1" fill="#7a5a2a"/>
+  <rect x="4" y="14" width="24" height="3" fill="#8a6a3a"/>
+  <!-- Wood plank lines -->
+  <line x1="4" y1="18" x2="28" y2="18" stroke="#5a3a0a" stroke-width="0.7"/>
+  <line x1="4" y1="21" x2="28" y2="21" stroke="#5a3a0a" stroke-width="0.7"/>
+  <line x1="10" y1="14" x2="10" y2="24" stroke="#5a3a0a" stroke-width="0.7"/>
+  <line x1="22" y1="14" x2="22" y2="24" stroke="#5a3a0a" stroke-width="0.7"/>
+  <!-- Pitched bark/wood roof -->
+  <polygon points="2,14 16,5 30,14" fill="#6a4a1a"/>
+  <polygon points="4,14 16,6 28,14" fill="#7a5a2a"/>
+  <!-- Roof ridge -->
+  <line x1="16" y1="5" x2="16" y2="14" stroke="#5a3a0a" stroke-width="0.8"/>
+  <!-- Kennel door openings (2 stalls) -->
+  <path d="M7,24 L7,19 Q10,16 13,19 L13,24 Z" fill="#2a1a0a"/>
+  <path d="M19,24 L19,19 Q22,16 25,19 L25,24 Z" fill="#2a1a0a"/>
+  <!-- Dog/wolf paw prints on ground -->
+  <circle cx="8" cy="26" r="0.8" fill="#4a3a1a"/>
+  <circle cx="10" cy="27" r="0.8" fill="#4a3a1a"/>
+  <circle cx="6" cy="28" r="0.8" fill="#4a3a1a"/>
+  <circle cx="22" cy="26" r="0.8" fill="#4a3a1a"/>
+  <circle cx="24" cy="27" r="0.8" fill="#4a3a1a"/>
+  <circle cx="20" cy="28" r="0.8" fill="#4a3a1a"/>
+  <!-- Bone on ground -->
+  <line x1="14" y1="27" x2="18" y2="27" stroke="#c0b090" stroke-width="1.2"/>
+  <circle cx="14" cy="27" r="1" fill="#c0b090"/>
+  <circle cx="18" cy="27" r="1" fill="#c0b090"/>
+  <!-- Chain post -->
+  <line x1="16" y1="24" x2="16" y2="28" stroke="#6a6060" stroke-width="1"/>
+  <circle cx="16" cy="24" r="1" fill="#7a7070"/>
+</svg>

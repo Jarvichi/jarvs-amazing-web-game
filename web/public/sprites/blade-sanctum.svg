@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="12" ry="1.5" fill="#2a1a1a" opacity="0.5"/>
+  <!-- Base platform -->
+  <rect x="3" y="24" width="26" height="7" rx="1" fill="#5a4a4a"/>
+  <rect x="3" y="24" width="26" height="2" fill="#6a5a5a"/>
+  <!-- Main temple walls -->
+  <rect x="6" y="13" width="20" height="12" fill="#6a5555"/>
+  <rect x="6" y="13" width="20" height="3" fill="#7a6565"/>
+  <!-- Stone block detail -->
+  <line x1="6" y1="17" x2="26" y2="17" stroke="#4a3535" stroke-width="0.6"/>
+  <line x1="6" y1="20" x2="26" y2="20" stroke="#4a3535" stroke-width="0.6"/>
+  <line x1="12" y1="13" x2="12" y2="24" stroke="#4a3535" stroke-width="0.6"/>
+  <line x1="20" y1="13" x2="20" y2="24" stroke="#4a3535" stroke-width="0.6"/>
+  <!-- Peaked roof -->
+  <polygon points="4,13 16,3 28,13" fill="#4a3535"/>
+  <polygon points="6,13 16,5 26,13" fill="#5a4545"/>
+  <!-- Crossed blades on facade -->
+  <line x1="10" y1="19" x2="22" y2="14" stroke="#c8a020" stroke-width="1.5"/>
+  <line x1="10" y1="14" x2="22" y2="19" stroke="#c8a020" stroke-width="1.5"/>
+  <!-- Blade tips -->
+  <polygon points="10,19 8,21 11,20" fill="#c8a020"/>
+  <polygon points="22,14 24,12 21,13" fill="#c8a020"/>
+  <polygon points="10,14 8,12 11,13" fill="#c8a020"/>
+  <polygon points="22,19 24,21 21,20" fill="#c8a020"/>
+  <!-- Door -->
+  <path d="M13,24 L13,19 Q16,16 19,19 L19,24 Z" fill="#1a0a0a"/>
+  <!-- Glowing altar light through door -->
+  <ellipse cx="16" cy="21" rx="2" ry="1.5" fill="#ff6600" opacity="0.3"/>
+  <!-- Blade ornaments on roofline -->
+  <polygon points="16,3 17.5,6 14.5,6" fill="#c8a020"/>
+  <line x1="16" y1="0" x2="16" y2="3" stroke="#a08010" stroke-width="1.5"/>
+  <!-- Wall sconces with blade designs -->
+  <line x1="8" y1="15" x2="8" y2="18" stroke="#c8a020" stroke-width="0.8" opacity="0.7"/>
+  <line x1="24" y1="15" x2="24" y2="18" stroke="#c8a020" stroke-width="0.8" opacity="0.7"/>
+  <!-- Red trim on walls (blood/honour) -->
+  <line x1="6" y1="13" x2="26" y2="13" stroke="#880000" stroke-width="0.8"/>
+  <line x1="3" y1="24" x2="29" y2="24" stroke="#880000" stroke-width="0.8"/>
+</svg>
