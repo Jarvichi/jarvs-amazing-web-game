@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="9" ry="1.5" fill="#3a2a1a" opacity="0.4"/>
+  <!-- Tower base -->
+  <rect x="8" y="24" width="16" height="7" rx="1" fill="#6a5a3a"/>
+  <rect x="8" y="24" width="16" height="2" fill="#7a6a4a"/>
+  <!-- Tower body -->
+  <rect x="10" y="12" width="12" height="13" fill="#7a6a4a"/>
+  <rect x="10" y="12" width="12" height="3" fill="#8a7a5a"/>
+  <!-- Stone block detail -->
+  <line x1="10" y1="16" x2="22" y2="16" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="10" y1="19" x2="22" y2="19" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="10" y1="22" x2="22" y2="22" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="14" y1="12" x2="14" y2="24" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="18" y1="12" x2="18" y2="24" stroke="#5a4a2a" stroke-width="0.6"/>
+  <!-- Upper platform with crossbow mount -->
+  <rect x="8" y="7" width="16" height="6" fill="#8a7a5a"/>
+  <rect x="8" y="7" width="16" height="2" fill="#9a8a6a"/>
+  <!-- Crossbow mounted on platform -->
+  <!-- Bow limbs -->
+  <path d="M9,9 Q12,7 16,9" fill="none" stroke="#5a3a1a" stroke-width="2"/>
+  <path d="M16,9 Q20,7 23,9" fill="none" stroke="#5a3a1a" stroke-width="2"/>
+  <!-- Stock/tiller -->
+  <rect x="13" y="8" width="8" height="2" rx="1" fill="#6a4a1a"/>
+  <!-- Bowstring -->
+  <line x1="9" y1="9" x2="23" y2="9" stroke="#c0a060" stroke-width="0.8"/>
+  <!-- Bolt loaded -->
+  <line x1="14" y1="9" x2="22" y2="9" stroke="#4a2a0a" stroke-width="1.5"/>
+  <polygon points="22,8.3 25,9 22,9.7" fill="#8a6a2a"/>
+  <!-- Battlements -->
+  <rect x="8" y="4" width="3" height="4" fill="#7a6a4a"/>
+  <rect x="13" y="4" width="3" height="4" fill="#7a6a4a"/>
+  <rect x="18" y="4" width="3" height="4" fill="#7a6a4a"/>
+  <!-- Arrow slits on tower body -->
+  <rect x="12" y="14" width="2" height="4" fill="#1a0a00" rx="1"/>
+  <rect x="18" y="14" width="2" height="4" fill="#1a0a00" rx="1"/>
+  <!-- Quiver of bolts leaning on tower -->
+  <rect x="8" y="16" width="2" height="6" rx="1" fill="#6a4a1a"/>
+  <line x1="8.5" y1="14" x2="8.5" y2="16" stroke="#8a6a2a" stroke-width="1"/>
+  <line x1="9.5" y1="14" x2="9.5" y2="16" stroke="#8a6a2a" stroke-width="1"/>
+  <line x1="9" y1="14" x2="9" y2="16" stroke="#8a6a2a" stroke-width="1"/>
+</svg>

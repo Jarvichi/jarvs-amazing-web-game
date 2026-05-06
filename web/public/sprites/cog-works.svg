@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#2a2010" opacity="0.5"/>
+  <!-- Workshop base -->
+  <rect x="2" y="22" width="28" height="9" rx="1" fill="#5a5030"/>
+  <rect x="2" y="22" width="28" height="2" fill="#6a6040"/>
+  <!-- Main workshop building -->
+  <rect x="4" y="12" width="24" height="11" fill="#6a6040"/>
+  <rect x="4" y="12" width="24" height="3" fill="#7a7050"/>
+  <!-- Shed roof (slanted) -->
+  <polygon points="2,12 30,12 28,6 4,6" fill="#5a5030"/>
+  <polygon points="4,12 28,12 26,7 6,7" fill="#6a6040"/>
+  <!-- Large display gear on front -->
+  <circle cx="16" cy="18" r="6" fill="none" stroke="#b0a040" stroke-width="1.5"/>
+  <circle cx="16" cy="18" r="4" fill="none" stroke="#8a8030" stroke-width="1"/>
+  <circle cx="16" cy="18" r="2" fill="#b0a040"/>
+  <!-- Gear teeth (8 teeth) -->
+  <rect x="15" y="11.5" width="2" height="2" fill="#b0a040" rx="0.3"/>
+  <rect x="15" y="22.5" width="2" height="2" fill="#b0a040" rx="0.3"/>
+  <rect x="9.5" y="17" width="2" height="2" fill="#b0a040" rx="0.3"/>
+  <rect x="20.5" y="17" width="2" height="2" fill="#b0a040" rx="0.3"/>
+  <rect x="11" y="13" width="1.5" height="1.5" fill="#b0a040" rx="0.3" transform="rotate(45 11.75 13.75)"/>
+  <rect x="19.5" y="13" width="1.5" height="1.5" fill="#b0a040" rx="0.3" transform="rotate(45 20.25 13.75)"/>
+  <rect x="11" y="21.5" width="1.5" height="1.5" fill="#b0a040" rx="0.3" transform="rotate(45 11.75 22.25)"/>
+  <rect x="19.5" y="21.5" width="1.5" height="1.5" fill="#b0a040" rx="0.3" transform="rotate(45 20.25 22.25)"/>
+  <!-- Gear spokes -->
+  <line x1="16" y1="14" x2="16" y2="22" stroke="#8a8030" stroke-width="0.7"/>
+  <line x1="12" y1="18" x2="20" y2="18" stroke="#8a8030" stroke-width="0.7"/>
+  <line x1="13.2" y1="15.2" x2="18.8" y2="20.8" stroke="#8a8030" stroke-width="0.7"/>
+  <line x1="18.8" y1="15.2" x2="13.2" y2="20.8" stroke="#8a8030" stroke-width="0.7"/>
+  <!-- Small gear top right -->
+  <circle cx="26" cy="9" r="2.5" fill="none" stroke="#b0a040" stroke-width="1"/>
+  <circle cx="26" cy="9" r="1" fill="#9a9030"/>
+  <!-- Small gear top left -->
+  <circle cx="6" cy="10" r="2" fill="none" stroke="#b0a040" stroke-width="1"/>
+  <circle cx="6" cy="10" r="0.8" fill="#9a9030"/>
+  <!-- Gear connecting shaft -->
+  <line x1="8" y1="10" x2="23.5" y2="9.5" stroke="#8a8030" stroke-width="0.8"/>
+  <!-- Workshop door -->
+  <rect x="13" y="18" width="6" height="5" fill="#2a2010"/>
+</svg>

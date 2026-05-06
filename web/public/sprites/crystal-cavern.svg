@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Cave background -->
+  <rect x="0" y="8" width="32" height="24" fill="#1a1030"/>
+  <rect x="0" y="8" width="32" height="4" fill="#2a2040"/>
+  <!-- Cave entrance arch -->
+  <path d="M2,32 L2,16 Q16,4 30,16 L30,32 Z" fill="#2a2040"/>
+  <path d="M4,32 L4,16 Q16,6 28,16 L28,32 Z" fill="#1a1030"/>
+  <!-- Ground crystals cluster bottom -->
+  <polygon points="12,32 14,26 16,32" fill="#6644cc"/>
+  <polygon points="14,32 16,24 18,32" fill="#8866ee"/>
+  <polygon points="16,32 18,27 20,32" fill="#6644cc"/>
+  <polygon points="10,32 11,28 13,32" fill="#5533bb"/>
+  <polygon points="19,32 21,27 22,32" fill="#7755dd"/>
+  <!-- Large crystal formations on sides -->
+  <!-- Left cluster -->
+  <polygon points="2,28 5,18 7,28" fill="#5533bb"/>
+  <polygon points="5,28 8,15 10,28" fill="#7755dd"/>
+  <polygon points="3,28 4,22 6,28" fill="#8866ee" opacity="0.8"/>
+  <!-- Right cluster -->
+  <polygon points="22,28 24,16 27,28" fill="#5533bb"/>
+  <polygon points="25,28 27,18 30,28" fill="#7755dd"/>
+  <polygon points="26,28 28,22 30,28" fill="#8866ee" opacity="0.8"/>
+  <!-- Ceiling crystals (stalactite-style) -->
+  <polygon points="8,8 10,8 9,16" fill="#6644cc" opacity="0.8"/>
+  <polygon points="14,8 16,8 15,18" fill="#8866ee" opacity="0.8"/>
+  <polygon points="22,8 24,8 23,15" fill="#6644cc" opacity="0.8"/>
+  <!-- Crystal glow reflections -->
+  <ellipse cx="10" cy="24" rx="3" ry="1.5" fill="#aa88ff" opacity="0.3"/>
+  <ellipse cx="22" cy="22" rx="3" ry="1.5" fill="#aa88ff" opacity="0.3"/>
+  <ellipse cx="16" cy="26" rx="4" ry="1.5" fill="#cc99ff" opacity="0.3"/>
+  <!-- Sparkling crystal facets -->
+  <circle cx="9" cy="20" r="0.8" fill="#ffffff" opacity="0.8"/>
+  <circle cx="24" cy="18" r="0.8" fill="#ffffff" opacity="0.8"/>
+  <circle cx="15" cy="25" r="0.6" fill="#ffffff" opacity="0.7"/>
+  <circle cx="6" cy="26" r="0.6" fill="#ddccff" opacity="0.6"/>
+  <circle cx="26" cy="25" r="0.6" fill="#ddccff" opacity="0.6"/>
+</svg>

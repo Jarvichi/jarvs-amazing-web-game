@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sky background suggestion -->
+  <rect x="0" y="0" width="32" height="32" fill="#c8dcf0" opacity="0.2"/>
+  <!-- Cloud platform base -->
+  <ellipse cx="16" cy="24" rx="14" ry="5" fill="#e8f0ff"/>
+  <ellipse cx="10" cy="23" rx="7" ry="4" fill="#f0f5ff"/>
+  <ellipse cx="22" cy="23" rx="7" ry="4" fill="#f0f5ff"/>
+  <ellipse cx="16" cy="22" rx="12" ry="4.5" fill="#ffffff"/>
+  <!-- Fluffy cloud puffs -->
+  <circle cx="5" cy="21" r="4" fill="#f0f5ff"/>
+  <circle cx="10" cy="19" r="4.5" fill="#ffffff"/>
+  <circle cx="16" cy="18" rx="5" r="5" fill="#f0f5ff"/>
+  <circle cx="22" cy="19" r="4.5" fill="#ffffff"/>
+  <circle cx="27" cy="21" r="4" fill="#f0f5ff"/>
+  <!-- Nest perch on top of cloud -->
+  <ellipse cx="16" cy="17" rx="6" ry="2" fill="#8a6a3a"/>
+  <ellipse cx="16" cy="16.5" rx="5" ry="1.5" fill="#9a7a4a"/>
+  <!-- Twig details of nest -->
+  <line x1="11" y1="17" x2="14" y2="15" stroke="#6a4a1a" stroke-width="0.8"/>
+  <line x1="18" y1="15" x2="21" y2="17" stroke="#6a4a1a" stroke-width="0.8"/>
+  <line x1="13" y1="16" x2="12" y2="14" stroke="#6a4a1a" stroke-width="0.6"/>
+  <line x1="19" y1="16" x2="20" y2="14" stroke="#6a4a1a" stroke-width="0.6"/>
+  <!-- Eggs in nest -->
+  <ellipse cx="14" cy="16" rx="1.5" ry="1" fill="#ddd8c0"/>
+  <ellipse cx="17" cy="15.5" rx="1.5" ry="1" fill="#e8e4cc"/>
+  <!-- Perch post -->
+  <line x1="16" y1="17" x2="16" y2="22" stroke="#7a5a2a" stroke-width="1.5"/>
+  <!-- Bird/gryphon silhouette soaring above -->
+  <path d="M8,10 Q12,6 16,10 Q20,6 24,10" fill="none" stroke="#5a5a6a" stroke-width="1.5"/>
+  <ellipse cx="16" cy="10" rx="2" ry="1.2" fill="#6a6a7a"/>
+  <!-- Feathers floating down -->
+  <ellipse cx="9" cy="15" rx="0.8" ry="2" fill="#d0d8e8" opacity="0.7" transform="rotate(-20 9 15)"/>
+  <ellipse cx="23" cy="14" rx="0.8" ry="2" fill="#d0d8e8" opacity="0.7" transform="rotate(20 23 14)"/>
+  <ellipse cx="6" cy="24" rx="0.6" ry="1.5" fill="#d0d8e8" opacity="0.5" transform="rotate(-10 6 24)"/>
+  <ellipse cx="26" cy="26" rx="0.6" ry="1.5" fill="#d0d8e8" opacity="0.5" transform="rotate(10 26 26)"/>
+</svg>

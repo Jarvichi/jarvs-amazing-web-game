@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <ellipse cx="16" cy="31" rx="8" ry="1.5" fill="#1a0a00" opacity="0.5"/>
+  <!-- Base -->
+  <rect x="8" y="25" width="16" height="6" rx="1" fill="#3a2a10"/>
+  <rect x="8" y="25" width="16" height="2" fill="#4a3a20"/>
+  <!-- Scorched stone tower -->
+  <rect x="10" y="10" width="12" height="16" fill="#4a3020"/>
+  <rect x="10" y="10" width="12" height="3" fill="#5a4030"/>
+  <!-- Scorch marks on stone -->
+  <path d="M12,14 Q11,18 12,22" fill="none" stroke="#2a1008" stroke-width="1.5" opacity="0.6"/>
+  <path d="M20,14 Q21,17 20,21" fill="none" stroke="#2a1008" stroke-width="1.5" opacity="0.6"/>
+  <line x1="10" y1="15" x2="22" y2="15" stroke="#2a1008" stroke-width="0.6"/>
+  <line x1="10" y1="19" x2="22" y2="19" stroke="#2a1008" stroke-width="0.6"/>
+  <!-- Upper watch platform -->
+  <rect x="8" y="6" width="16" height="5" fill="#5a4030"/>
+  <rect x="8" y="6" width="16" height="2" fill="#6a5040"/>
+  <!-- Ember battlements -->
+  <rect x="8" y="3" width="3" height="4" fill="#4a3020"/>
+  <rect x="12.5" y="3" width="3" height="4" fill="#4a3020"/>
+  <rect x="17" y="3" width="3" height="4" fill="#4a3020"/>
+  <rect x="21" y="3" width="3" height="4" fill="#4a3020"/>
+  <!-- Glowing embers in battlements -->
+  <circle cx="9.5" cy="4" r="0.8" fill="#ff5500" opacity="0.7"/>
+  <circle cx="14" cy="4" r="0.8" fill="#ff7700" opacity="0.7"/>
+  <circle cx="18.5" cy="4" r="0.8" fill="#ff5500" opacity="0.7"/>
+  <circle cx="22.5" cy="4" r="0.8" fill="#ff7700" opacity="0.7"/>
+  <!-- Arrow slits -->
+  <rect x="13" y="12" width="2" height="5" fill="#1a0800" rx="1"/>
+  <rect x="17" y="12" width="2" height="5" fill="#1a0800" rx="1"/>
+  <!-- Fire brazier on top -->
+  <rect x="14" y="2" width="4" height="2" rx="1" fill="#3a2010"/>
+  <ellipse cx="16" cy="2" rx="3" ry="1.5" fill="#ff4400" opacity="0.8"/>
+  <ellipse cx="16" cy="1.5" rx="2" ry="1.2" fill="#ff8800" opacity="0.7"/>
+  <ellipse cx="16" cy="1" rx="1.2" ry="0.8" fill="#ffcc00" opacity="0.8"/>
+  <!-- Smoke from brazier -->
+  <path d="M14,1 Q13,0 14,-1" fill="none" stroke="#555040" stroke-width="0.8" opacity="0.5"/>
+  <path d="M18,1 Q19,0 18,-1" fill="none" stroke="#555040" stroke-width="0.8" opacity="0.5"/>
+  <!-- Cinder sparks rising -->
+  <circle cx="13" cy="8" r="0.6" fill="#ff6600" opacity="0.5"/>
+  <circle cx="19" cy="7" r="0.6" fill="#ff4400" opacity="0.5"/>
+</svg>
