@@ -470,8 +470,14 @@ export function CityBuilder({ onBack }: Props) {
   // ── Expansion ─────────────────────────────────────────────────────────────────
 
   function handleExpand() {
+    if (!canAffordExpansion(city)) {
+      const rows = city.rows ?? CITY_ROWS
+      const cost = EXPANSION_COSTS[rows]
+      if (cost) showToast(`Need ⚙${cost.gold.toLocaleString()} gold + resources to expand`)
+      return
+    }
     const next = expandCity(city)
-    if (!next) { showToast('Cannot expand!'); return }
+    if (!next) return
     save(next)
     showToast(`City expanded to ${next.rows} rows!`)
   }
@@ -1071,7 +1077,6 @@ export function CityBuilder({ onBack }: Props) {
           <button
             className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
             onClick={handleExpand}
-            disabled={!affordable}
             title={affordable ? `Expand city to ${cityRows + 1} rows` : 'Not enough resources to expand'}
           >+ EXPAND</button>
         )}
