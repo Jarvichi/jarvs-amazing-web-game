@@ -1399,7 +1399,10 @@ export function CityBuilder({ onBack }: Props) {
                     {!despawned && rage >= 60 && <span className="city-cell-unhappy-icon">⚠</span>}
                   </>
                 ) : (
-                  <span className="city-cell-empty">+</span>
+                  <span className="city-cell-empty">
+                    <span className="city-cell-forsale-sign">FOR<br/>SALE</span>
+                    <span className="city-cell-forsale-post" />
+                  </span>
                 )}
               </button>
             )
