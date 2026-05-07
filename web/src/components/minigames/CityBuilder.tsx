@@ -206,6 +206,10 @@ const REST_TICKS_MIN  = 4 * IDLE_TASK_TICKS   // ~32 s — at least 4 task cycle
 const REST_TICKS_MAX  = 7 * IDLE_TASK_TICKS   // ~56 s
 const BUBBLE_TICKS    = 30   // 3 s — how long a task bubble stays visible
 const ATTACK_WARN_MS  = 30 * 60 * 1000  // show panic tasks when attack < 30 min away
+const PATROL_DEFENSE_PER_WALKER = 5     // defense units added per patrolling resident
+const TASK_RESOURCE_GOLD: Partial<Record<ResourceType, number>> = {
+  wheat: 2, wood: 2, ore: 3, bread: 4, planks: 4, metal: 5,
+}
 
 type TaskType = 'idle' | 'resting' | 'eating' | 'patrolling' | 'gathering' | 'visiting' | 'playing'
 
@@ -215,6 +219,7 @@ interface WalkerTask {
   targetX?:         number
   targetY?:         number
   targetWalkerKey?: string   // `${cellIndex}-${unitIndex}` for visiting
+  resource?:        ResourceType  // resource consumed/earned by this task
 }
 
 interface Walker {
@@ -316,7 +321,7 @@ function pickTask(
   if (farms.length > 0) {
     const { i } = farms[Math.floor(Math.random() * farms.length)]
     const pos = cellPos(i)
-    available.push({ type: 'eating', label: '🌾 Getting food', targetX: pos.x, targetY: pos.y })
+    available.push({ type: 'eating', label: '🌾 Getting food', targetX: pos.x, targetY: pos.y, resource: 'wheat' })
   }
 
   // Patrolling — walk to a random perimeter cell
@@ -343,7 +348,7 @@ function pickTask(
     if (producers.length > 0) {
       const { i } = producers[Math.floor(Math.random() * producers.length)]
       const pos = cellPos(i)
-      available.push({ type: 'gathering', label, targetX: pos.x, targetY: pos.y })
+      available.push({ type: 'gathering', label, targetX: pos.x, targetY: pos.y, resource: key })
     }
   }
 
@@ -630,6 +635,44 @@ export function CityBuilder({ onBack }: Props) {
         return prev
       })
     }, 15_000)
+    return () => clearInterval(id)
+  }, [])
+
+  // ── Resident task economy (every 5 s) ────────────────────────────────────────
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      const ws = walkersRef.current
+      let goldDelta = 0
+      const resDelta: Partial<Record<ResourceType, number>> = {}
+      let patrolCount = 0
+
+      for (const w of ws) {
+        if (w.hidden) continue
+        if (w.task.type === 'patrolling') {
+          patrolCount++
+        } else if ((w.task.type === 'eating' || w.task.type === 'gathering') && w.task.resource) {
+          const res = w.task.resource as ResourceType
+          resDelta[res] = (resDelta[res] ?? 0) - 1
+          goldDelta += TASK_RESOURCE_GOLD[res] ?? 2
+        }
+      }
+
+      if (goldDelta !== 0 || Object.keys(resDelta).length > 0 || patrolCount >= 0) {
+        setCity(prev => {
+          const newResources = { ...prev.resources }
+          for (const [key, delta] of Object.entries(resDelta) as [ResourceType, number][]) {
+            newResources[key] = Math.max(0, newResources[key] + delta)
+          }
+          return {
+            ...prev,
+            gold:        Math.max(0, prev.gold + goldDelta),
+            resources:   newResources,
+            patrolBonus: patrolCount * PATROL_DEFENSE_PER_WALKER,
+          }
+        })
+      }
+    }, 5_000)
     return () => clearInterval(id)
   }, [])
 
@@ -1180,6 +1223,7 @@ export function CityBuilder({ onBack }: Props) {
         const happiness = city.happiness[selectedWalkerCell] ?? 100
         const reqs = getUnitRequirements(cell, city, selectedWalkerCell)
         const moodKey = happiness === 0 ? 'gone' : happiness < 30 ? 'furious' : happiness < 60 ? 'unsettled' : 'content'
+        const cellWalkers = walkers.filter(w => w.cellIndex === selectedWalkerCell)
         return (
           <div className="city-req-overlay" onClick={() => setSelectedWalkerCell(null)}>
             <div className="city-req-modal" onClick={e => e.stopPropagation()}>
@@ -1188,6 +1232,17 @@ export function CityBuilder({ onBack }: Props) {
                 <div className="city-req-name">{cell.spawnedUnitName}</div>
               </div>
               <div className={`city-req-mood city-req-mood--${moodKey}`}>{rageDescription(happiness)}</div>
+              {cellWalkers.length > 0 && (
+                <div className="city-req-list">
+                  {cellWalkers.map(w => (
+                    <div key={`${w.cellIndex}-${w.unitIndex}`} className="city-req-item city-req-item--met">
+                      <span className="city-req-icon">📍</span>
+                      {residentName(w.unitName, w.cellIndex, w.unitIndex).split(' ')[0]}:{' '}
+                      {w.hidden ? '🏠 Resting at home' : w.task.label}
+                    </div>
+                  ))}
+                </div>
+              )}
               <div className="city-req-list">
                 {reqs.map((r, idx) => (
                   <div key={idx} className={`city-req-item${r.met ? ' city-req-item--met' : ' city-req-item--unmet'}`}>
@@ -1221,7 +1276,10 @@ export function CityBuilder({ onBack }: Props) {
             <div className="city-req-modal" onClick={e => e.stopPropagation()}>
               <div className="city-req-header">
                 <SpriteImg name={cell.cardName} className="city-req-sprite" />
-                <div className="city-req-name">{cell.cardName}</div>
+                <div className="city-req-name">
+                  {cell.cardName}
+                  {mLvl > 0 && <span className="city-req-mastery"> ★{mLvl}</span>}
+                </div>
               </div>
               <div className="city-bld-tabs">
                 <button
@@ -1244,12 +1302,17 @@ export function CityBuilder({ onBack }: Props) {
                       Array.from({ length: unitCount }, (_, u) => {
                         const reqs = getUnitRequirements(cell, city, selectedBuildingCell)
                         const unmet = reqs.filter(r => !r.met)
+                        const walker = walkers.find(wk => wk.cellIndex === selectedBuildingCell && wk.unitIndex === u)
+                        const taskLabel = walker
+                          ? (walker.hidden ? '🏠 Resting at home' : walker.task.label)
+                          : null
                         return (
                           <div key={u} className="city-bld-resident">
                             <AnimatedSpriteImg name={cell.spawnedUnitName!} frameCount={3} fps={6} className="city-bld-resident-sprite" />
                             <div className="city-bld-resident-info">
                               <div className="city-bld-resident-name">{residentName(cell.spawnedUnitName!, selectedBuildingCell, u)}</div>
                               <div className={`city-req-mood city-req-mood--${moodKey}`}>{rageDescription(happiness)}</div>
+                              {taskLabel && <div className="city-bld-resident-task">{taskLabel}</div>}
                               {unmet.map((r, i) => (
                                 <div key={i} className="city-bld-resident-req">✗ {r.text}</div>
                               ))}

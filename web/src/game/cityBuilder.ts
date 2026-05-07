@@ -202,6 +202,8 @@ export interface CityState {
   fortifications: Fortification[]
   /** Most recent attack result (shown as notification). */
   lastAttack:     AttackEvent | null
+  /** Temporary defense bonus from actively patrolling residents. */
+  patrolBonus?:   number
 }
 
 // ── Storage ───────────────────────────────────────────────────────────────────
@@ -350,7 +352,7 @@ export function cityDefense(state: CityState): number {
     total += Math.round(FORT_DEFENSE[fort.rarity] * hpFraction)
   }
 
-  return total
+  return total + (state.patrolBonus ?? 0)
 }
 
 export function cityPopulation(state: CityState): number {

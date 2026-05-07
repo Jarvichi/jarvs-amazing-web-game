@@ -9816,7 +9816,9 @@ html.light-mode .action-btn {
 .city-bld-resident-sprite { width: 24px; height: 24px; image-rendering: pixelated; flex-shrink: 0; }
 .city-bld-resident-info   { display: flex; flex-direction: column; gap: 2px; }
 .city-bld-resident-name   { font-size: 11px; color: #90d090; }
+.city-bld-resident-task   { font-size: 9px; color: #a8c8ff; margin-top: 1px; }
 .city-bld-resident-req    { font-size: 9px; color: #d07070; }
+.city-req-mastery         { font-size: 11px; color: #f0c060; margin-left: 6px; }
 .city-bld-produces-row    { font-size: 11px; color: #a0d0a0; align-self: flex-start; }
 
 /* Title screen button */
