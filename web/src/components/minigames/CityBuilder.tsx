@@ -257,7 +257,14 @@ export function CityBuilder({ onBack }: Props) {
   const bulldozerRef = useRef(false)
   const [residentThoughts, setResidentThoughts] = useState<ResidentThought[]>([])
   const [attackReport, setAttackReport] = useState<AttackEvent | null>(null)
-  const attackShownRef = useRef<number | null>(null)
+  const attackShownRef = useRef<number | null>(
+    (() => {
+      try {
+        const stored = localStorage.getItem('city-attack-shown-at')
+        return stored ? parseInt(stored, 10) : null
+      } catch { return null }
+    })()
+  )
   const [currentTime, setCurrentTime] = useState(Date.now())
   const worldRef = useRef<HTMLDivElement>(null)
   const worldDimsRef = useRef({ w: CITY_COLS * CELL_PX, h: CITY_ROWS * CELL_PX })
@@ -277,8 +284,14 @@ export function CityBuilder({ onBack }: Props) {
     if (city.lastAttack && city.lastAttack.at !== attackShownRef.current) {
       setAttackReport(city.lastAttack)
       attackShownRef.current = city.lastAttack.at
+      try { localStorage.setItem('city-attack-shown-at', String(city.lastAttack.at)) } catch { /* ignore */ }
     }
   }, [city.lastAttack])
+
+  // Reset building modal to residents tab when returning to city screen
+  useEffect(() => {
+    if (screen === 'city') setBuildingTab('residents')
+  }, [screen])
 
   // Update countdown clock every minute
   useEffect(() => {
