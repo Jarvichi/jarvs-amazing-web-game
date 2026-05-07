@@ -192,19 +192,37 @@ function buildResidentThoughts(
 
 // ── Walking unit state ────────────────────────────────────────────────────────
 
-const UNIT_SIZE = 20
-const SPEED     = 0.8
+const UNIT_SIZE       = 20
+const SPEED           = 0.8
+const ARRIVE_DIST     = 14   // pixels — close enough to count as "arrived"
+const IDLE_TASK_TICKS = 80   // ~8 s of random wandering before picking a new task
+const REST_TICKS_MIN  = 100  // ~10 s hidden at home
+const REST_TICKS_MAX  = 300  // ~30 s hidden at home
+
+type TaskType = 'idle' | 'resting' | 'eating' | 'patrolling' | 'gathering' | 'visiting' | 'playing'
+
+interface WalkerTask {
+  type:             TaskType
+  label:            string
+  targetX?:         number
+  targetY?:         number
+  targetWalkerKey?: string   // `${cellIndex}-${unitIndex}` for visiting
+}
 
 interface Walker {
-  cellIndex:  number
-  unitIndex:  number
-  unitName:   string
+  cellIndex:    number
+  unitIndex:    number
+  unitName:     string
   affinityWith?: string
-  x:   number
-  y:   number
-  vx:  number
-  vy:  number
-  turnTimer: number
+  x:            number
+  y:            number
+  vx:           number
+  vy:           number
+  turnTimer:    number
+  task:         WalkerTask
+  taskTimer:    number   // ticks remaining for idle phase; 0 = pick new task on next tick
+  hidden:       boolean  // true while resting at home
+  hiddenTimer:  number   // ticks remaining before waking from rest
 }
 
 function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affinityWith?: string, w = CITY_COLS * CELL_PX, h = CITY_ROWS * CELL_PX): Walker {
@@ -219,7 +237,110 @@ function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affi
     vx: Math.cos(angle) * SPEED,
     vy: Math.sin(angle) * SPEED,
     turnTimer: 20 + Math.floor(Math.random() * 30),
+    task:        { type: 'idle', label: '🚶 Taking a stroll' },
+    taskTimer:   Math.floor(Math.random() * IDLE_TASK_TICKS),
+    hidden:      false,
+    hiddenTimer: 0,
   }
+}
+
+// ── Task selection ────────────────────────────────────────────────────────────
+
+function pickTask(
+  w: Walker,
+  allWalkers: Walker[],
+  city: CityState,
+  overlayW: number,
+  overlayH: number,
+): WalkerTask {
+  const cityRows = city.rows ?? CITY_ROWS
+
+  function cellPos(idx: number) {
+    return {
+      x: ((idx % CITY_COLS) + 0.5) * (overlayW / CITY_COLS),
+      y: (Math.floor(idx / CITY_COLS) + 0.5) * (overlayH / cityRows),
+    }
+  }
+
+  const available: WalkerTask[] = []
+
+  // Idle — always available
+  available.push({ type: 'idle', label: '🚶 Taking a stroll' })
+
+  // Resting — return to home building
+  const home = cellPos(w.cellIndex)
+  available.push({ type: 'resting', label: '💤 Heading home', targetX: home.x, targetY: home.y })
+
+  // Eating — walk to a wheat-producing building
+  const farms = city.grid
+    .map((cell, i) => ({ cell, i }))
+    .filter(({ cell }) => cell && !cell.spawnedUnitName && (getBuildingProduces(cell.cardName).wheat ?? 0) > 0)
+  if (farms.length > 0) {
+    const { i } = farms[Math.floor(Math.random() * farms.length)]
+    const pos = cellPos(i)
+    available.push({ type: 'eating', label: '🌾 Getting food', targetX: pos.x, targetY: pos.y })
+  }
+
+  // Patrolling — walk to a random perimeter cell
+  const perimCells: { col: number; row: number }[] = []
+  for (let col = 0; col < CITY_COLS; col++) {
+    perimCells.push({ col, row: 0 }, { col, row: cityRows - 1 })
+  }
+  for (let row = 1; row < cityRows - 1; row++) {
+    perimCells.push({ col: 0, row }, { col: CITY_COLS - 1, row })
+  }
+  const perim = perimCells[Math.floor(Math.random() * perimCells.length)]
+  available.push({
+    type: 'patrolling',
+    label: '🛡 Patrolling the walls',
+    targetX: (perim.col + 0.5) * (overlayW / CITY_COLS),
+    targetY: (perim.row + 0.5) * (overlayH / cityRows),
+  })
+
+  // Gathering — walk to a resource-producing building
+  const resourceJobs: { key: ResourceType; label: string }[] = [
+    { key: 'wood',   label: '🪵 Chopping wood' },
+    { key: 'ore',    label: '⛏ Mining ore' },
+    { key: 'planks', label: '🪵 Fetching planks' },
+    { key: 'metal',  label: '⚙ Getting metal' },
+    { key: 'bread',  label: '🍞 Buying bread' },
+  ]
+  for (const { key, label } of resourceJobs) {
+    const producers = city.grid
+      .map((cell, i) => ({ cell, i }))
+      .filter(({ cell }) => cell && !cell.spawnedUnitName && (getBuildingProduces(cell.cardName)[key] ?? 0) > 0)
+    if (producers.length > 0) {
+      const { i } = producers[Math.floor(Math.random() * producers.length)]
+      const pos = cellPos(i)
+      available.push({ type: 'gathering', label, targetX: pos.x, targetY: pos.y })
+    }
+  }
+
+  // Visiting — walk to another resident (and follow them)
+  const others = allWalkers.filter(
+    other => !(other.cellIndex === w.cellIndex && other.unitIndex === w.unitIndex) && !other.hidden,
+  )
+  if (others.length > 0) {
+    const target = others[Math.floor(Math.random() * others.length)]
+    const name = residentName(target.unitName, target.cellIndex, target.unitIndex)
+    available.push({
+      type: 'visiting',
+      label: `👋 Visiting ${name.split(' ')[0]}`,
+      targetX: target.x,
+      targetY: target.y,
+      targetWalkerKey: `${target.cellIndex}-${target.unitIndex}`,
+    })
+  }
+
+  // Playing — wander to a random open spot
+  available.push({
+    type: 'playing',
+    label: '🎉 Playing around',
+    targetX: Math.random() * Math.max(1, overlayW - UNIT_SIZE),
+    targetY: Math.random() * Math.max(1, overlayH - UNIT_SIZE),
+  })
+
+  return available[Math.floor(Math.random() * available.length)]
 }
 
 // ── Attack countdown helpers ──────────────────────────────────────────────────
@@ -268,6 +389,7 @@ export function CityBuilder({ onBack }: Props) {
   const [currentTime, setCurrentTime] = useState(Date.now())
   const worldRef = useRef<HTMLDivElement>(null)
   const worldDimsRef = useRef({ w: CITY_COLS * CELL_PX, h: CITY_ROWS * CELL_PX })
+  const cityRef = useRef(city)
 
   function showToast(msg: string) {
     setToast(msg)
@@ -278,6 +400,9 @@ export function CityBuilder({ onBack }: Props) {
     setCity(next)
     saveCityState(next)
   }
+
+  // Keep cityRef in sync so the animation loop always sees the latest city state
+  useEffect(() => { cityRef.current = city }, [city])
 
   // Show attack report when a new attack is detected
   useEffect(() => {
@@ -347,22 +472,89 @@ export function CityBuilder({ onBack }: Props) {
       const { w: _w, h: _h } = worldDimsRef.current
       const overlayW = _w || CITY_COLS * CELL_PX
       const overlayH = _h || CITY_ROWS * CELL_PX
+
       setWalkers(prev => prev.map(w => {
-        let { x, y, vx, vy, turnTimer } = w
+        // ── Resting at home ──────────────────────────────────────────────────
+        if (w.hidden) {
+          const hiddenTimer = w.hiddenTimer - 1
+          if (hiddenTimer <= 0) {
+            const task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
+            return {
+              ...w, hidden: false, hiddenTimer: 0,
+              task, taskTimer: task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0,
+            }
+          }
+          return { ...w, hiddenTimer }
+        }
+
+        let { x, y, vx, vy, turnTimer, task, taskTimer } = w
+
+        // ── Update visiting target to follow the other walker ─────────────────
+        if (task.type === 'visiting' && task.targetWalkerKey) {
+          const [ci, ui] = task.targetWalkerKey.split('-').map(Number)
+          const target = prev.find(o => o.cellIndex === ci && o.unitIndex === ui && !o.hidden)
+          if (target) {
+            task = { ...task, targetX: target.x, targetY: target.y }
+          } else {
+            task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
+            taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
+          }
+        }
+
+        // ── Idle: count down and pick a new task when timer expires ──────────
+        if (task.type === 'idle') {
+          taskTimer--
+          if (taskTimer <= 0) {
+            task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
+            taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
+          }
+        }
+
+        // ── Directed movement ────────────────────────────────────────────────
+        if (task.type !== 'idle' && task.targetX !== undefined && task.targetY !== undefined) {
+          const dx = task.targetX - x
+          const dy = task.targetY - y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+
+          if (dist < ARRIVE_DIST) {
+            // Arrived!
+            if (task.type === 'resting') {
+              return {
+                ...w, x, y, vx: 0, vy: 0, task,
+                hidden: true,
+                hiddenTimer: REST_TICKS_MIN + Math.floor(Math.random() * (REST_TICKS_MAX - REST_TICKS_MIN)),
+              }
+            }
+            // For all other tasks: pick new task immediately
+            task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
+            taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
+            // Keep moving with current velocity until next tick steers differently
+          } else {
+            vx = (dx / dist) * SPEED
+            vy = (dy / dist) * SPEED
+          }
+        }
+
+        // ── Apply movement ───────────────────────────────────────────────────
         x += vx
         y += vy
-        if (x < 0)                      { x = 0;                     vx = Math.abs(vx) }
-        if (x > overlayW - UNIT_SIZE)   { x = overlayW - UNIT_SIZE;  vx = -Math.abs(vx) }
-        if (y < 0)                      { y = 0;                     vy = Math.abs(vy) }
-        if (y > overlayH - UNIT_SIZE)   { y = overlayH - UNIT_SIZE;  vy = -Math.abs(vy) }
-        turnTimer--
-        if (turnTimer <= 0) {
-          const angle = Math.random() * Math.PI * 2
-          vx = Math.cos(angle) * SPEED
-          vy = Math.sin(angle) * SPEED
-          turnTimer = 20 + Math.floor(Math.random() * 30)
+        if (x < 0)                    { x = 0;                    vx = Math.abs(vx) }
+        if (x > overlayW - UNIT_SIZE) { x = overlayW - UNIT_SIZE; vx = -Math.abs(vx) }
+        if (y < 0)                    { y = 0;                    vy = Math.abs(vy) }
+        if (y > overlayH - UNIT_SIZE) { y = overlayH - UNIT_SIZE; vy = -Math.abs(vy) }
+
+        // Random direction changes for idle wandering only
+        if (task.type === 'idle') {
+          turnTimer--
+          if (turnTimer <= 0) {
+            const angle = Math.random() * Math.PI * 2
+            vx = Math.cos(angle) * SPEED
+            vy = Math.sin(angle) * SPEED
+            turnTimer = 20 + Math.floor(Math.random() * 30)
+          }
         }
-        return { ...w, x, y, vx, vy, turnTimer }
+
+        return { ...w, x, y, vx, vy, turnTimer, task, taskTimer }
       }))
     }, 100)
     return () => clearInterval(id)
@@ -1174,6 +1366,7 @@ export function CityBuilder({ onBack }: Props) {
         {/* Walking units overlay */}
         <div className="city-unit-overlay">
           {walkers.map(w => {
+            if (w.hidden) return null
             const happiness       = city.happiness[w.cellIndex] ?? 100
             const rage            = 100 - happiness
             const wantedNeighbour = w.affinityWith ?? w.unitName
@@ -1182,6 +1375,7 @@ export function CityBuilder({ onBack }: Props) {
               const nc = city.grid[ni]
               return nc?.spawnedUnitName === wantedNeighbour && (city.happiness[ni] ?? 100) > 0
             })
+            const showTaskBubble = w.task.type !== 'idle'
             return (
               <div
                 key={`${w.cellIndex}-${w.unitIndex}`}
@@ -1192,7 +1386,10 @@ export function CityBuilder({ onBack }: Props) {
                 onClick={e => { e.stopPropagation(); setSelectedWalkerCell(w.cellIndex) }}
                 onKeyDown={e => { if (e.key === 'Enter') { e.stopPropagation(); setSelectedWalkerCell(w.cellIndex) } }}
               >
-                {wantsFriend && (
+                {showTaskBubble && (
+                  <div className="city-task-bubble">{w.task.label}</div>
+                )}
+                {!showTaskBubble && wantsFriend && (
                   <div className="city-speech-bubble" title={`Wants a ${wantedNeighbour} next door!`}>
                     <SpriteImg name={wantedNeighbour} className="city-speech-icon" />
                   </div>
