@@ -619,8 +619,9 @@ export function CityBuilder({ onBack }: Props) {
 
   useEffect(() => {
     setResidentThoughts(buildResidentThoughts(city, cityPopulation(city), walkersRef.current))
+  // walkersRef.current used intentionally — avoids rebuilding every animation tick
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city, walkers])
+  }, [city])
 
   useEffect(() => {
     const id = setInterval(() => {
