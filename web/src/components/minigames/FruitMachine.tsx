@@ -235,7 +235,7 @@ export function FruitMachine({ onDone }: Props) {
   const [bonusTiles, setBonusTiles] = useState<Array<{ value: number; collect: boolean; revealed: boolean }>>([])
   const [bonusPicksLeft, setBonusPicksLeft] = useState(0)
   const [bonusTotalWin, setBonusTotalWin] = useState(0)
-  const [spinCount, setSpinCount] = useState<1 | 5 | 10 | 50>(1)
+  const [spinCount, setSpinCount] = useState<1 | 5 | 10 | 25 | 50>(1)
   const [autoSpinsLeft, setAutoSpinsLeft] = useState(0)
 
   const [messages, setMessages] = useState([] as LedScrollerMessage[])
@@ -1009,17 +1009,26 @@ function regressBoardBy(steps: number) {
 
 
       {/* Controls */}
-      {phase === 'nudge' && (
-        <div className="fm-nudge-banner">NUDGE — {nudgesAvailable} remaining</div>
-      )}
-      {phase === 'lucky' && (
-        <div className="fm-nudge-banner">LUCKY? — Tap STOP to freeze the trail reel!</div>
-      )}
-      {isInAutoSpin && (
-        <div className="fm-auto-spin-banner">Auto-spin: {autoSpinsLeft} remaining</div>
-      )}
-      <div className="fm-spin-count-selector">
-        {([1, 5, 10, 50] as const).map(n => (
+      <div className="fm-controls">
+
+          <div  className={`action-btn ${( phase === 'nudge' || phase === 'lucky')? 'action-btn--disabled' : 'action-btn--gold'}`} >
+
+      {
+      phase === 'nudge' ? (
+        <div className={`action-btn action-btn--noborder-disabled`}>NUDGE — {nudgesAvailable} remaining</div>
+      ) :       phase === 'lucky' ? (
+        <div className={`action-btn action-btn--noborder-disabled`}>LUCKY? — Tap STOP to freeze the trail reel!</div>
+      ) : (
+<>
+          <button
+            className={`action-btn ${ 'action-btn--noborder'}`}
+            onClick={startSpin}
+            disabled={!canSpin}
+          >
+            {freeSpin ? 'FREE SPIN' : spinCount === 1 ? 'SPIN (1 credit)' : `SPIN ×${isInAutoSpin ? autoSpinsLeft : spinCount} (${spinCount} credits)`}
+          </button>
+                <div className="fm-spin-count-selector">
+        {([1, 5, 10,25, 50] as const).map(n => (
           <button
             key={n}
             className={`filter-btn filter-btn--gold${spinCount === n ? ' filter-btn--active' : ''}`}
@@ -1028,32 +1037,26 @@ function regressBoardBy(steps: number) {
           >
             {n}
           </button>
-        ))}
+         
+        ))} 
+        </div>
+                </>
+        )
+      }
+
       </div>
+       
+            <button 
+            className={`action-btn ${isInAutoSpin ? 'action-btn--danger': phase === 'nudge' ? 'action-btn--gold' : 'action-btn--disabled'}`} 
+            onClick={isInAutoSpin ?stopAutoSpin : phase === 'nudge'? finishNudge : phase === 'lucky' ? stopLucky : undefined} 
+            disabled={(!isInAutoSpin && (phase !== 'nudge'))}>
+           { isInAutoSpin ? 'STOP' : phase === 'nudge' ? 'DONE' : 'STOP' }
+          </button>
+      </div>
+
+      
       <div className="fm-controls">
-        {phase === 'lucky' ? (
-          <button className="action-btn action-btn--gold action-btn--large" onClick={stopLucky}>
-            STOP
-          </button>
-        ) : (
-          <button
-            className="action-btn action-btn--gold"
-            onClick={startSpin}
-            disabled={!canSpin}
-          >
-            {freeSpin ? 'FREE SPIN' : spinCount === 1 ? 'SPIN (1 credit)' : `SPIN ×${spinCount} (${spinCount} credits)`}
-          </button>
-        )}
-        {isInAutoSpin && (
-          <button className="action-btn action-btn--danger" onClick={stopAutoSpin}>
-            STOP
-          </button>
-        )}
-        {phase === 'nudge' && (
-          <button className="action-btn action-btn--gold" onClick={finishNudge}>
-            DONE
-          </button>
-        )}
+    
         <button
           className="action-btn"
           onClick={cashOut}

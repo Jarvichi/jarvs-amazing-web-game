@@ -1210,6 +1210,40 @@ body {
   box-shadow: 0 0 10px rgba(255, 68, 68, 0.2);
 }
 
+.action-btn--disabled {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+}
+
+.action-btn--disabled:hover {
+  background: none;
+  box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.action-btn--noborder {
+  border: none;
+  color: #ffcc00;
+}
+.action-btn--noborder:hover {
+  background: none;
+  box-shadow: none;
+}
+
+.action-btn--noborder-disabled {
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+}
+.action-btn--noborder-disabled:hover {
+  background: none;
+  box-shadow: none;
+    border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.3);
+}
+
 /* ─── Game Over: action row ──────────────────────────── */
 
 .gameover-actions {
