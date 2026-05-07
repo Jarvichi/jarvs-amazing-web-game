@@ -9089,18 +9089,19 @@ html.light-mode .action-btn {
   flex: 0 0 50vh;
   height: 50vh;
   overflow: hidden;
+  background: #6b4c2a; /* dirt/path colour shows through grid gaps */
 }
 
 .city-grid {
   display: grid;
-  gap: 2px;
+  gap: 4px;
   width: 100%;
   height: 100%;
 }
 
 .city-cell {
-  background: #050a05;
-  border: 1px dashed #1a3a1a;
+  background: #2d5a27;
+  border: none;
   border-radius: 2px;
   display: flex;
   flex-direction: column;
@@ -9109,13 +9110,13 @@ html.light-mode .action-btn {
   cursor: pointer;
   padding: 1px;
   position: relative;
-  transition: border-color 0.15s;
+  transition: background 0.15s;
   overflow: hidden;
 }
 
-.city-cell:hover             { border-color: #3a7a3a; background: #080f08; }
-.city-cell--occupied         { border-style: dashed; border-color: #1a3a1a; background: #061006; }
-.city-cell--occupied:hover   { border-color: #aa3030; background: #120606; }
+.city-cell:hover             { background: #3a7a30; }
+.city-cell--occupied         { background: #244d1e; }
+.city-cell--occupied:hover   { background: #4a1010; }
 
 .city-cell-sprite  { width: 65%; height: 65%; max-width: 36px; max-height: 36px; image-rendering: pixelated; }
 
@@ -9639,8 +9640,7 @@ html.light-mode .action-btn {
   background: rgba(160,48,32,0.15) !important;
 }
 .city-cell--bulldoze {
-  border-color: #a03020 !important;
-  background: rgba(160,48,32,0.2) !important;
+  background: rgba(160,48,32,0.35) !important;
 }
 .city-cell--bulldoze:hover { background: rgba(160,48,32,0.4) !important; }
 .city-bulldozer-paused { font-size: 10px; color: #e06040; letter-spacing: 1px; }

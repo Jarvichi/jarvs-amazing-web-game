@@ -202,8 +202,8 @@ const UNIT_SIZE       = 20
 const SPEED           = 0.8
 const ARRIVE_DIST     = 14   // pixels — close enough to count as "arrived"
 const IDLE_TASK_TICKS = 80   // ~8 s of random wandering before picking a new task
-const REST_TICKS_MIN  = 100  // ~10 s hidden at home
-const REST_TICKS_MAX  = 300  // ~30 s hidden at home
+const REST_TICKS_MIN  = 4 * IDLE_TASK_TICKS   // ~32 s — at least 4 task cycles at home
+const REST_TICKS_MAX  = 7 * IDLE_TASK_TICKS   // ~56 s
 const BUBBLE_TICKS    = 30   // 3 s — how long a task bubble stays visible
 const ATTACK_WARN_MS  = 30 * 60 * 1000  // show panic tasks when attack < 30 min away
 
@@ -1383,9 +1383,6 @@ export function CityBuilder({ onBack }: Props) {
                 {cell ? (
                   <>
                     <SpriteImg name={cell.cardName} className="city-cell-sprite" />
-                    {masteryLevel(getMasteryXp(collection, cell.cardName)) > 0 && (
-                      <div className="city-cell-level">★{masteryLevel(getMasteryXp(collection, cell.cardName))}</div>
-                    )}
                     {cell.spawnedUnitName && rage > 0 && (
                       <div
                         className="city-cell-happiness"
