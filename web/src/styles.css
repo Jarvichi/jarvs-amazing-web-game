@@ -1240,7 +1240,7 @@ body {
 .action-btn--noborder-disabled:hover {
   background: none;
   box-shadow: none;
-    border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.3);
 }
 
