@@ -1423,7 +1423,7 @@ export function CityBuilder({ onBack }: Props) {
 
       <div className="city-header">
                        <div className={`city-attack-pill city-attack-pill--${attackUrgency}`}>    
-          ⚔ {msToAttack <= 0 ? 'NOW!' : attackCountdown}
+          ⚔ ATTACK INCOMING {msToAttack <= 0 ? 'NOW!' : attackCountdown}
         
                   </div>
                 <div className="city-header-right">
