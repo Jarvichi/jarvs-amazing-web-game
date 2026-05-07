@@ -33,6 +33,7 @@ const SKIP_INTRO_KEY     = 'jarv_skip_intro'
 const EIGHTBIT_UNLOCKED_KEY = 'jarv_8bit_unlocked'
 const EIGHTBIT_ENABLED_KEY  = 'jarv_8bit_enabled'
 const LIGHT_MODE_KEY        = 'jarv_light_mode'
+const BATTLE_POPUPS_KEY     = 'jarv_battle_popups'
 
 export function loadSkipIntro(): boolean {
   try { return localStorage.getItem(SKIP_INTRO_KEY) === 'true' }
@@ -98,6 +99,15 @@ export function applyLightMode(enabled: boolean): void {
   }
 }
 
+export function loadBattlePopups(): boolean {
+  try { return localStorage.getItem(BATTLE_POPUPS_KEY) !== 'false' }
+  catch { return true }
+}
+
+export function saveBattlePopups(val: boolean): void {
+  try { localStorage.setItem(BATTLE_POPUPS_KEY, String(val)) } catch { /* ignore */ }
+}
+
 export function applyTextSettings(): void {
   const size  = loadTextSize()
   const color = loadTextColor()
@@ -143,6 +153,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
   const [eightbitOn,    setEightbitOn]    = useState(load8bitEnabled)
   const [eightbitUnlocked]               = useState(load8bitUnlocked)
   const [lightModeOn,   setLightModeOn]   = useState(loadLightMode)
+  const [battlePopups,  setBattlePopups]  = useState(loadBattlePopups)
   const [confirmReset,  setConfirmReset]  = useState(false)
   const [importMsg,     setImportMsg]     = useState<string | null>(null)
   const [rollbarMsg,    setRollbarMsg]    = useState<string | null>(null)
@@ -246,6 +257,12 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
     setLightModeOn(next)
     saveLightMode(next)
     applyLightMode(next)
+  }
+
+  function handleBattlePopupsToggle() {
+    const next = !battlePopups
+    setBattlePopups(next)
+    saveBattlePopups(next)
   }
 
   function handleSkipIntroToggle() {
@@ -427,6 +444,17 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
         )}
 
         <Section bordered title="DISPLAY">
+          <div className="settings-row">
+            <div>
+              <div className="settings-label">Battle event popups</div>
+              <div className="settings-sublabel">Show mid-battle popups for notable events (e.g. hero summons)</div>
+            </div>
+            <div className="settings-toggle" onClick={handleBattlePopupsToggle}>
+              <div className={`settings-toggle-track${battlePopups ? ' settings-toggle-track--on' : ''}`}>
+                <div className="settings-toggle-thumb" />
+              </div>
+            </div>
+          </div>
           <div className="settings-row">
             <div>
               <div className="settings-label">Light mode</div>
