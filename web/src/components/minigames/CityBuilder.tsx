@@ -1410,7 +1410,8 @@ export function CityBuilder({ onBack }: Props) {
           const cons  = consRates[res] ?? 0
           const net   = prod - cons
           if (stock === 0 && prod === 0) return null
-          const label = stock >= 10000 ? `${(stock / 1000).toFixed(0)}k` : stock >= 1000 ? `${(stock / 1000).toFixed(1)}k` : `${stock}`
+          // const label = stock >= 10000 ? `${(stock / 1000).toFixed(0)}k` : stock >= 1000 ? `${(stock / 1000).toFixed(1)}k` : `${stock}`
+          const label = `${stock}`
           return (
             <span key={res} className="city-res-chip" title={`${res}: ${stock} stock, ${net >= 0 ? '+' : ''}${net}/min`}>
               {RESOURCE_ICONS[res]}{label}
