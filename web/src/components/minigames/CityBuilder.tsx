@@ -137,6 +137,7 @@ interface ResidentThought {
 function buildResidentThoughts(
   city: CityState,
   population: number,
+  walkers: Walker[] = [],
 ): ResidentThought[] {
   const thoughts: ResidentThought[] = []
   const pop = Math.max(population, 1)
@@ -177,7 +178,12 @@ function buildResidentThoughts(
         thought = DEFENCE_THOUGHTS[seed % DEFENCE_THOUGHTS.length]
         happy = false
       } else {
-        thought = HAPPY_THOUGHTS[seed % HAPPY_THOUGHTS.length]
+        const walker = walkers.find(wk => wk.cellIndex === i && wk.unitIndex === u)
+        if (happiness === 100 && walker && walker.task.type !== 'idle') {
+          thought = walker.task.label
+        } else {
+          thought = HAPPY_THOUGHTS[seed % HAPPY_THOUGHTS.length]
+        }
       }
 
       thoughts.push({ name, unitName: cell.spawnedUnitName, thought, happy })
@@ -198,6 +204,8 @@ const ARRIVE_DIST     = 14   // pixels — close enough to count as "arrived"
 const IDLE_TASK_TICKS = 80   // ~8 s of random wandering before picking a new task
 const REST_TICKS_MIN  = 100  // ~10 s hidden at home
 const REST_TICKS_MAX  = 300  // ~30 s hidden at home
+const BUBBLE_TICKS    = 30   // 3 s — how long a task bubble stays visible
+const ATTACK_WARN_MS  = 30 * 60 * 1000  // show panic tasks when attack < 30 min away
 
 type TaskType = 'idle' | 'resting' | 'eating' | 'patrolling' | 'gathering' | 'visiting' | 'playing'
 
@@ -221,6 +229,7 @@ interface Walker {
   turnTimer:    number
   task:         WalkerTask
   taskTimer:    number   // ticks remaining for idle phase; 0 = pick new task on next tick
+  bubbleTimer:  number   // ticks remaining to show speech bubble (BUBBLE_TICKS → 0)
   hidden:       boolean  // true while resting at home
   hiddenTimer:  number   // ticks remaining before waking from rest
 }
@@ -239,6 +248,7 @@ function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affi
     turnTimer: 20 + Math.floor(Math.random() * 30),
     task:        { type: 'idle', label: '🚶 Taking a stroll' },
     taskTimer:   Math.floor(Math.random() * IDLE_TASK_TICKS),
+    bubbleTimer: 0,
     hidden:      false,
     hiddenTimer: 0,
   }
@@ -262,13 +272,41 @@ function pickTask(
     }
   }
 
+  const home = cellPos(w.cellIndex)
+
+  // Perimeter cells (shared by patrol and panic tasks)
+  const perimCells: { col: number; row: number }[] = []
+  for (let col = 0; col < CITY_COLS; col++) {
+    perimCells.push({ col, row: 0 }, { col, row: cityRows - 1 })
+  }
+  for (let row = 1; row < cityRows - 1; row++) {
+    perimCells.push({ col: 0, row }, { col: CITY_COLS - 1, row })
+  }
+
+  // ── Attack imminent: residents panic ─────────────────────────────────────────
+  const msToAttack = city.nextAttackAt - Date.now()
+  if (msToAttack > 0 && msToAttack <= ATTACK_WARN_MS) {
+    const perim = perimCells[Math.floor(Math.random() * perimCells.length)]
+    const defendTarget = {
+      targetX: (perim.col + 0.5) * (overlayW / CITY_COLS),
+      targetY: (perim.row + 0.5) * (overlayH / cityRows),
+    }
+    const panicTasks: WalkerTask[] = [
+      { type: 'resting',    label: '🏠 Taking shelter!',      targetX: home.x, targetY: home.y },
+      { type: 'resting',    label: '🏠 Hiding at home!',       targetX: home.x, targetY: home.y },
+      { type: 'patrolling', label: '⚔ Preparing to defend!',  ...defendTarget },
+      { type: 'patrolling', label: '🛡 Defending the walls!',  ...defendTarget },
+    ]
+    return panicTasks[Math.floor(Math.random() * panicTasks.length)]
+  }
+
+  // ── Normal task selection ─────────────────────────────────────────────────────
   const available: WalkerTask[] = []
 
   // Idle — always available
   available.push({ type: 'idle', label: '🚶 Taking a stroll' })
 
   // Resting — return to home building
-  const home = cellPos(w.cellIndex)
   available.push({ type: 'resting', label: '💤 Heading home', targetX: home.x, targetY: home.y })
 
   // Eating — walk to a wheat-producing building
@@ -282,13 +320,6 @@ function pickTask(
   }
 
   // Patrolling — walk to a random perimeter cell
-  const perimCells: { col: number; row: number }[] = []
-  for (let col = 0; col < CITY_COLS; col++) {
-    perimCells.push({ col, row: 0 }, { col, row: cityRows - 1 })
-  }
-  for (let row = 1; row < cityRows - 1; row++) {
-    perimCells.push({ col: 0, row }, { col: CITY_COLS - 1, row })
-  }
   const perim = perimCells[Math.floor(Math.random() * perimCells.length)]
   available.push({
     type: 'patrolling',
@@ -389,7 +420,8 @@ export function CityBuilder({ onBack }: Props) {
   const [currentTime, setCurrentTime] = useState(Date.now())
   const worldRef = useRef<HTMLDivElement>(null)
   const worldDimsRef = useRef({ w: CITY_COLS * CELL_PX, h: CITY_ROWS * CELL_PX })
-  const cityRef = useRef(city)
+  const cityRef    = useRef(city)
+  const walkersRef = useRef(walkers)
 
   function showToast(msg: string) {
     setToast(msg)
@@ -401,8 +433,9 @@ export function CityBuilder({ onBack }: Props) {
     saveCityState(next)
   }
 
-  // Keep cityRef in sync so the animation loop always sees the latest city state
-  useEffect(() => { cityRef.current = city }, [city])
+  // Keep refs in sync so the animation loop and intervals always see the latest state
+  useEffect(() => { cityRef.current    = city    }, [city])
+  useEffect(() => { walkersRef.current = walkers }, [walkers])
 
   // Show attack report when a new attack is detected
   useEffect(() => {
@@ -479,15 +512,18 @@ export function CityBuilder({ onBack }: Props) {
           const hiddenTimer = w.hiddenTimer - 1
           if (hiddenTimer <= 0) {
             const task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
+            const bubbleTimer = task.type !== 'idle' ? BUBBLE_TICKS : 0
             return {
               ...w, hidden: false, hiddenTimer: 0,
               task, taskTimer: task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0,
+              bubbleTimer,
             }
           }
           return { ...w, hiddenTimer }
         }
 
-        let { x, y, vx, vy, turnTimer, task, taskTimer } = w
+        let { x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer } = w
+        bubbleTimer = Math.max(0, bubbleTimer - 1)
 
         // ── Update visiting target to follow the other walker ─────────────────
         if (task.type === 'visiting' && task.targetWalkerKey) {
@@ -498,6 +534,7 @@ export function CityBuilder({ onBack }: Props) {
           } else {
             task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
             taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
+            if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
           }
         }
 
@@ -507,6 +544,7 @@ export function CityBuilder({ onBack }: Props) {
           if (taskTimer <= 0) {
             task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
             taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
+            if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
           }
         }
 
@@ -520,7 +558,7 @@ export function CityBuilder({ onBack }: Props) {
             // Arrived!
             if (task.type === 'resting') {
               return {
-                ...w, x, y, vx: 0, vy: 0, task,
+                ...w, x, y, vx: 0, vy: 0, task, bubbleTimer,
                 hidden: true,
                 hiddenTimer: REST_TICKS_MIN + Math.floor(Math.random() * (REST_TICKS_MAX - REST_TICKS_MIN)),
               }
@@ -528,6 +566,7 @@ export function CityBuilder({ onBack }: Props) {
             // For all other tasks: pick new task immediately
             task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
             taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
+            if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
             // Keep moving with current velocity until next tick steers differently
           } else {
             vx = (dx / dist) * SPEED
@@ -554,7 +593,7 @@ export function CityBuilder({ onBack }: Props) {
           }
         }
 
-        return { ...w, x, y, vx, vy, turnTimer, task, taskTimer }
+        return { ...w, x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer }
       }))
     }, 100)
     return () => clearInterval(id)
@@ -579,13 +618,16 @@ export function CityBuilder({ onBack }: Props) {
   // ── Resident thoughts (rebuild every 15 s and on city change) ────────────────
 
   useEffect(() => {
-    setResidentThoughts(buildResidentThoughts(city, cityPopulation(city)))
+    setResidentThoughts(buildResidentThoughts(city, cityPopulation(city), walkersRef.current))
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city])
+  }, [city, walkers])
 
   useEffect(() => {
     const id = setInterval(() => {
-      setCity(prev => { setResidentThoughts(buildResidentThoughts(prev, cityPopulation(prev))); return prev })
+      setCity(prev => {
+        setResidentThoughts(buildResidentThoughts(prev, cityPopulation(prev), walkersRef.current))
+        return prev
+      })
     }, 15_000)
     return () => clearInterval(id)
   }, [])
@@ -1365,7 +1407,15 @@ export function CityBuilder({ onBack }: Props) {
 
         {/* Walking units overlay */}
         <div className="city-unit-overlay">
-          {walkers.map(w => {
+          {(() => {
+            const visibleBubbleSet = new Set(
+              walkers
+                .filter(w => !w.hidden && w.bubbleTimer > 0 && w.task.type !== 'idle')
+                .sort((a, b) => b.bubbleTimer - a.bubbleTimer)
+                .slice(0, 3)
+                .map(w => `${w.cellIndex}-${w.unitIndex}`)
+            )
+            return walkers.map(w => {
             if (w.hidden) return null
             const happiness       = city.happiness[w.cellIndex] ?? 100
             const rage            = 100 - happiness
@@ -1375,7 +1425,7 @@ export function CityBuilder({ onBack }: Props) {
               const nc = city.grid[ni]
               return nc?.spawnedUnitName === wantedNeighbour && (city.happiness[ni] ?? 100) > 0
             })
-            const showTaskBubble = w.task.type !== 'idle'
+            const showTaskBubble = visibleBubbleSet.has(`${w.cellIndex}-${w.unitIndex}`)
             return (
               <div
                 key={`${w.cellIndex}-${w.unitIndex}`}
@@ -1398,7 +1448,8 @@ export function CityBuilder({ onBack }: Props) {
                 {rage >= 40 && <span className="city-walker-need">!</span>}
               </div>
             )
-          })}
+          })
+          })()}
         </div>
       </div>
 
