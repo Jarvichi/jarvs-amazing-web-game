@@ -84,6 +84,10 @@ const RESIDENT_FIRST_NAMES = [
   'Bob', 'Grak', 'Mira', 'Thorin', 'Zyx', 'Elda', 'Fang', 'Nix', 'Wren', 'Dusk',
   'Pip', 'Crux', 'Vale', 'Sorn', 'Brix', 'Holt', 'Vera', 'Kurn', 'Dex', 'Ori',
   'Sable', 'Flint', 'Rook', 'Ivy', 'Bryn', 'Quill', 'Ash', 'Moss', 'Thorn', 'Lark',
+  'Grit', 'Nyx', 'Rune', 'Cora', 'Drake', 'Frey', 'Vex', 'Sage', 'Onyx', 'Luna',
+  'Zara', 'Kade', 'Ember', 'Riven', 'Sylas', 'Jade', 'Dorian', 'Nyssa', 'Orin', 'Soren',
+  'Tess', 'Galen', 'Vira', 'Kira', 'Bram', 'Lena', 'Zane', 'Mara', 'Rhea', 'Dax',
+  'Cyrus', 'Elara', 'Fen', 'Nora', 'Vaughn', 'Sia', 'Kieran', 'Lyra', 'Rook', 'Eira',
 ]
 
 function residentName(unitName: string, cellIndex: number, unitIndex: number): string {
@@ -1370,42 +1374,36 @@ export function CityBuilder({ onBack }: Props) {
       {/* Header: back | title | gold | action buttons */}
       <div className="city-header">
         <button className="action-btn" onClick={onBack}>← BACK</button>
-        <div className="city-title">🏙 CITY</div>
+        <div className="city-title">
+          {bulldozerMode
+            ? '⏸ PAUSED'
+            : '🏙 CITY'}
+          
+          </div>
         <div className="city-header-right">
-          <div className="city-gold-display">⚙ {city.gold.toLocaleString()}</div>
-          <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 WALLS</button>
-          <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UP</button>
-          <button
-            className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
-            onClick={toggleBulldozer}
-            title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}
-          >{bulldozerMode ? '🏗 ON' : '🏗'}</button>
+
+                    <div className="city-gold-display">⚙ {city.gold.toLocaleString() } (+{incomeRate}/min)</div>
+
+         
         </div>
       </div>
 
       {/* Compact info strip: attack countdown + defence + income + pop */}
       <div className="city-info-strip">
-        <span className={`city-attack-pill city-attack-pill--${attackUrgency}`}>
-          ⚔ {msToAttack <= 0 ? 'NOW!' : attackCountdown}
-        </span>
-        <span className="city-info-chip">🛡 {defense}</span>
-        <span className="city-info-chip">
-          {bulldozerMode
-            ? <span className="city-bulldozer-paused">⏸ PAUSED</span>
-            : `+${incomeRate}/m`}
-        </span>
-        <span className="city-info-chip">👥 {population}</span>
-        {cityRows < MAX_CITY_ROWS && expansionCost && (
-          <button
-            className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
-            onClick={handleExpand}
-            title={affordable ? `Expand city to ${cityRows + 1} rows` : 'Not enough resources to expand'}
-          >+ EXPAND</button>
-        )}
+       
+
+
+
       </div>
+
+
 
       {/* Resources: horizontally scrollable chip strip */}
       <div className="city-res-strip">
+        <span className="city-info-chip"  title={`Defense: ${defense}`}>🛡 {defense}</span>
+
+        <span className="city-info-chip" title={`Population: ${population}`}>👥 {population}</span>
+
         {(['wheat', 'wood', 'ore', 'bread', 'planks', 'metal'] as ResourceType[]).map(res => {
           const stock = Math.floor(city.resources[res])
           const prod  = prodRates[res] ?? 0
@@ -1420,6 +1418,24 @@ export function CityBuilder({ onBack }: Props) {
             </span>
           )
         })}
+      </div>
+
+      <div className="city-header">
+                       <div className={`city-attack-pill city-attack-pill--${attackUrgency}`}>    
+          ⚔ {msToAttack <= 0 ? 'NOW!' : attackCountdown}
+        
+                  </div>
+                <div className="city-header-right">
+        <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
+
+                {cityRows < MAX_CITY_ROWS && expansionCost && (
+          <button
+            className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
+            onClick={handleExpand}
+            title={affordable ? `Expand city to ${cityRows + 1} rows` : 'Not enough resources to expand'}
+          >🏢 EXPAND CITY</button>
+        )}
+        </div>
       </div>
 
       {/* City world: fixed 50vh, scales with rows */}
@@ -1542,6 +1558,16 @@ export function CityBuilder({ onBack }: Props) {
           </div>
         </div>
       )}
+
+            <div className="city-header">
+        <button
+          className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
+          onClick={toggleBulldozer}
+          title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}
+        >{bulldozerMode ? '🏗 DEMOLISH' : '🏗 BUILD'}</button>
+        <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTIFICATIONS</button>
+
+      </div>
 
       {/* Scrollable bottom: resident thoughts */}
       <div className="city-bottom-scroll">
