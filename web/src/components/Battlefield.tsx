@@ -13,6 +13,7 @@ import { getUnitLore, getCardCatalog } from '../game/cards'
 import { Button } from './Button'
 import { ConfirmModal } from './ConfirmModal'
 import { loadPlayerName, loadPlayerAvatar } from '../game/questline'
+import { loadBattlePopups } from './SettingsScreen'
 import { TutorialOverlay } from './TutorialOverlay'
 import { hasSeen, markSeen } from '../game/tutorial'
 
@@ -708,6 +709,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
     if (state.log.length < lastLogLenRef.current) lastLogLenRef.current = 0  // new battle
     const newEntries = state.log.slice(lastLogLenRef.current)
     lastLogLenRef.current = state.log.length
+    if (!loadBattlePopups()) return
     const important = newEntries.filter(e => e.startsWith('!!')).map(e => e.slice(2))
     if (important.length === 0) return
     setImportantMsgQueue(q => [...q, ...important])
