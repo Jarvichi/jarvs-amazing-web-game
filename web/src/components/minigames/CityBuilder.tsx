@@ -261,7 +261,7 @@ export function CityBuilder({ onBack }: Props) {
     (() => {
       try {
         const stored = localStorage.getItem('city-attack-shown-at')
-        return stored ? parseInt(stored, 10) : null
+        return stored ? Number(stored) : null
       } catch { return null }
     })()
   )
@@ -299,16 +299,23 @@ export function CityBuilder({ onBack }: Props) {
     return () => clearInterval(id)
   }, [])
 
-  // Track actual grid pixel dimensions for walker bounds
+  // Track actual grid pixel dimensions for walker bounds.
+  // Re-run on screen changes so the observer re-attaches to the remounted city-world div
+  // and ignores the zero-size callback fired when the div is removed from the DOM.
   useEffect(() => {
     const el = worldRef.current
     if (!el) return
-    const update = () => { worldDimsRef.current = { w: el.clientWidth, h: el.clientHeight } }
+    const update = () => {
+      if (el.clientWidth > 0 && el.clientHeight > 0) {
+        worldDimsRef.current = { w: el.clientWidth, h: el.clientHeight }
+      }
+    }
     update()
     const ro = new ResizeObserver(update)
     ro.observe(el)
     return () => ro.disconnect()
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen])
 
   // ── Sync walkers when grid changes ───────────────────────────────────────────
 
@@ -323,7 +330,9 @@ export function CityBuilder({ onBack }: Props) {
         for (let u = 0; u < count; u++) {
           const existing = prev.find(w => w.cellIndex === i && w.unitIndex === u && w.unitName === cell.spawnedUnitName)
           const { w: dw, h: dh } = worldDimsRef.current
-          next.push(existing ?? makeWalker(i, u, cell.spawnedUnitName, cell.affinityWith, dw, dh))
+          const effectiveDw = dw || CITY_COLS * CELL_PX
+          const effectiveDh = dh || CITY_ROWS * CELL_PX
+          next.push(existing ?? makeWalker(i, u, cell.spawnedUnitName, cell.affinityWith, effectiveDw, effectiveDh))
         }
       }
       return next
@@ -335,7 +344,9 @@ export function CityBuilder({ onBack }: Props) {
 
   useEffect(() => {
     const id = setInterval(() => {
-      const { w: overlayW, h: overlayH } = worldDimsRef.current
+      const { w: _w, h: _h } = worldDimsRef.current
+      const overlayW = _w || CITY_COLS * CELL_PX
+      const overlayH = _h || CITY_ROWS * CELL_PX
       setWalkers(prev => prev.map(w => {
         let { x, y, vx, vy, turnTimer } = w
         x += vx
