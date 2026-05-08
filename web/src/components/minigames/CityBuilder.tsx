@@ -11,7 +11,7 @@ import {
 } from '../../game/collection'
 import {
   CITY_COLS, CITY_ROWS, CITY_CELLS, CELL_PX, MAX_CITY_ROWS,
-  CityCell, CityState, ResourceType, ResourceStock, AttackEvent,
+  CityCell, CityState, Fortification, BuildQueueEntry, ResourceType, ResourceStock, AttackEvent,
   RESOURCE_ICONS, SPAWNER_PLACE_COST,
   FORT_MAX_HP, FORT_DEFENSE, FORT_PLACE_COST, FORT_MAX_ATTACKS, EXPANSION_COSTS, MAX_TOTAL_FORTS,
   DEFAULT_BUILDER_COUNT, MAX_BUILDER_COUNT, BUILDER_HIRE_COSTS,
@@ -503,8 +503,11 @@ export function CityBuilder({ onBack }: Props) {
     })()
   )
   const [currentTime, setCurrentTime] = useState(Date.now())
+  const [fortSlotSel, setFortSlotSel] = useState<number | null>(null)
   const worldRef = useRef<HTMLDivElement>(null)
   const worldDimsRef = useRef({ w: CITY_COLS * CELL_PX, h: CITY_ROWS * CELL_PX })
+  const fortRingRef = useRef<HTMLDivElement>(null)
+  const fortRingDimsRef = useRef({ w: CITY_COLS * CELL_PX, h: CITY_ROWS * CELL_PX })
   const cityRef           = useRef(city)
   const walkersRef        = useRef(walkers)
   const builderWalkersRef = useRef(builderWalkers)
@@ -553,6 +556,22 @@ export function CityBuilder({ onBack }: Props) {
     const update = () => {
       if (el.clientWidth > 0 && el.clientHeight > 0) {
         worldDimsRef.current = { w: el.clientWidth, h: el.clientHeight }
+      }
+    }
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    return () => ro.disconnect()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen])
+
+  // Track fort ring dimensions
+  useEffect(() => {
+    const el = fortRingRef.current
+    if (!el) return
+    const update = () => {
+      if (el.clientWidth > 0 && el.clientHeight > 0) {
+        fortRingDimsRef.current = { w: el.clientWidth, h: el.clientHeight }
       }
     }
     update()
@@ -995,143 +1014,266 @@ export function CityBuilder({ onBack }: Props) {
   // ── Fortify sub-screen ────────────────────────────────────────────────────────
 
   if (screen === 'fortify') {
-    const builderCount = city.builderCount ?? DEFAULT_BUILDER_COUNT
-    const freeBuilders = builderCount - city.builderQueue.length
-    const builderCost  = nextBuilderCost(city)
-    const totalSlots   = city.fortifications.length + city.builderQueue.length
+    const builderCount  = city.builderCount ?? DEFAULT_BUILDER_COUNT
+    const freeBuilders  = builderCount - city.builderQueue.length
+    const builderCost   = nextBuilderCost(city)
+    const totalDefense  = city.fortifications.reduce((s, f) => s + Math.round(FORT_DEFENSE[f.rarity] * (f.hp / f.maxHp)), 0)
+
+    // Unified 12-slot array: active forts first, then building, then empty
+    type FortSlot =
+      | { kind: 'active';    fort: Fortification;   fortIndex:  number }
+      | { kind: 'building';  entry: BuildQueueEntry; queueIndex: number }
+      | { kind: 'empty' }
+    const fortSlots: FortSlot[] = Array.from({ length: MAX_TOTAL_FORTS }, (_, i) => {
+      if (i < city.fortifications.length) return { kind: 'active', fort: city.fortifications[i], fortIndex: i }
+      const qi = i - city.fortifications.length
+      if (qi < city.builderQueue.length) return { kind: 'building', entry: city.builderQueue[qi], queueIndex: qi }
+      return { kind: 'empty' }
+    })
+
+    // Slot → CSS grid-area.
+    // Layout:  [0][1][2][3]  top
+    //          [4][ct  ][5]  mid-1  (left/right single cells, city thumb center)
+    //          [6][ct  ][7]  mid-2
+    //          [8][9][10][11] bottom
+    const SLOT_AREA = ['f0','f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11']
+
+    const selSlot = fortSlotSel !== null ? fortSlots[fortSlotSel] : null
+
     return (
       <div className="city-screen">
+        {/* Header */}
         <div className="city-picker-header">
-          <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
-          <div className="city-picker-title">🛡 FORTIFICATIONS ({totalSlots}/{MAX_TOTAL_FORTS})</div>
+          <button className="action-btn" onClick={() => { setFortSlotSel(null); setScreen('city') }}>← BACK</button>
+          <div className="city-picker-title">🛡 WALLS &amp; FORTIFICATIONS</div>
         </div>
 
-        <div className="city-subscreen-scroll">
+        {/* Stats + builder info strip */}
         <div className="city-fort-info-row">
-          <span>Total defence: <strong>{
-            city.fortifications.reduce((sum, f) => sum + Math.round(FORT_DEFENSE[f.rarity] * (f.hp / f.maxHp)), 0)
-          } 🛡</strong></span>
-          <span className="city-fort-repair-note">🪵 Repairs: 1 HP / 5 min</span>
-        </div>
-
-        {/* Builder slots */}
-        <div className="city-picker-section-label">
-          BUILDERS ({freeBuilders}/{builderCount} free)
-        </div>
-        <div className="city-fort-builders-row">
-          {Array.from({ length: builderCount }, (_, i) => {
-            const entry = city.builderQueue[i]
-            if (entry) {
-              const msLeft = Math.max(0, entry.completesAt - currentTime)
-              return (
-                <div key={i} className="city-fort-builder city-fort-builder--busy">
-                  <SpriteImg name={entry.cardName} className="city-fort-builder-sprite" />
-                  <div className="city-fort-builder-label">🔨 {entry.cardName}</div>
-                  <div className="city-fort-builder-eta">{formatCountdown(msLeft)}</div>
-                </div>
-              )
-            }
-            return (
-              <div key={i} className="city-fort-builder city-fort-builder--free">
-                🏗 Builder available
-              </div>
-            )
-          })}
-          {builderCount < MAX_BUILDER_COUNT && builderCost !== null && (
+          <span>🛡 {totalDefense} defence</span>
+          <span>🏗 {freeBuilders}/{builderCount} builders free</span>
+          {builderCost !== null && builderCount < MAX_BUILDER_COUNT && (
             <button
-              className={`city-fort-builder city-fort-builder--hire${city.gold >= builderCost ? ' city-fort-builder--hire-ready' : ''}`}
+              className={`filter-btn${city.gold >= builderCost ? ' action-btn--gold' : ''}`}
+              style={{ fontSize: 9, padding: '2px 6px' }}
               onClick={handleBuyBuilder}
               disabled={city.gold < builderCost}
-              title={`Hire builder for ⚙ ${builderCost.toLocaleString()}`}
-            >
-              + Hire Builder<br/>
-              <span className="city-fort-builder-cost">⚙ {builderCost.toLocaleString()}</span>
-            </button>
+            >+ Builder ⚙{builderCost.toLocaleString()}</button>
           )}
         </div>
 
-        {city.fortifications.length > 0 && (
-          <>
-            <div className="city-picker-section-label">ACTIVE ({city.fortifications.length})</div>
-            <div className="city-fort-list">
-              {city.fortifications.map((fort, idx) => {
-                const hpPct = Math.round((fort.hp / fort.maxHp) * 100)
-                const hpColor = hpPct > 60 ? '#40a040' : hpPct > 30 ? '#c08020' : '#c04020'
-                const maxAtks = FORT_MAX_ATTACKS[fort.rarity]
-                const atksLeft = maxAtks - (fort.attacksTaken ?? 0)
-                const lifePct = Math.round((atksLeft / maxAtks) * 100)
-                const lifeColor = lifePct > 60 ? '#305080' : lifePct > 30 ? '#705020' : '#702020'
-                return (
-                  <div key={idx} className="city-fort-item">
-                    <SpriteImg name={fort.cardName} className="city-fort-sprite" />
-                    <div className="city-fort-details">
-                      <div className="city-fort-name">{fort.cardName}</div>
-                      <div className="city-fort-hp-track">
-                        <div className="city-fort-hp-bar">
-                          <div className="city-fort-hp-fill" style={{ width: `${hpPct}%`, background: hpColor }} />
-                        </div>
-                        <span className="city-fort-hp-text">{Math.round(fort.hp)}/{fort.maxHp} HP</span>
-                      </div>
-                      <div className="city-fort-hp-track" title={`${atksLeft} attacks remaining before permanent destruction`}>
-                        <div className="city-fort-hp-bar">
-                          <div className="city-fort-hp-fill" style={{ width: `${lifePct}%`, background: lifeColor }} />
-                        </div>
-                        <span className="city-fort-hp-text" style={{ color: lifeColor }}>
-                          {atksLeft}/{maxAtks} raids
-                        </span>
-                      </div>
-                      <div className="city-fort-defense-val">🛡 {Math.round(FORT_DEFENSE[fort.rarity] * (fort.hp / fort.maxHp))}</div>
-                    </div>
-                    <button className="filter-btn city-fort-remove" onClick={() => handleRemoveFort(idx)}>×</button>
-                  </div>
-                )
-              })}
-            </div>
-          </>
-        )}
+        {/* Ring layout */}
+        <div className="fort-ring-wrap" ref={fortRingRef}>
+          <div className="fort-ring-grid">
 
-        <div className="city-picker-section-label">ADD WALL / MOAT</div>
-        {totalSlots >= MAX_TOTAL_FORTS ? (
-          <div className="city-picker-empty">Fort limit reached ({MAX_TOTAL_FORTS}/{MAX_TOTAL_FORTS}). Remove one to add another.</div>
-        ) : !canQueueFortification(city) ? (
-          <div className="city-picker-empty">All builders are busy. Wait for a fort to finish, or hire another builder.</div>
-        ) : availableDefenceCards.length === 0 ? (
-          <div className="city-picker-empty">
-            {ownedStructures.some(c => isDefenceCard(c.name, c.unit?.structureEffect?.type === 'spawn'))
-              ? 'All owned defence cards are already deployed.'
-              : 'No wall or moat cards in collection. Earn them from battles!'}
-          </div>
-        ) : (
-          <div className="city-picker-grid">
-            {availableDefenceCards.map(card => {
-              const cost = FORT_PLACE_COST[card.rarity]
-              const affordable = canAffordFortification(city, card.rarity) && canQueueFortification(city)
-              const buildMins = FORT_MAX_HP[card.rarity]
+            {/* 12 fort cells */}
+            {fortSlots.map((slot, idx) => {
+              const area = SLOT_AREA[idx]
+              if (slot.kind === 'empty') {
+                return (
+                  <button
+                    key={idx}
+                    className="fort-ring-cell"
+                    style={{ gridArea: area }}
+                    onClick={() => setFortSlotSel(idx)}
+                    title="Tap to build a fortification"
+                  >
+                    <span className="city-cell-forsale-sign">FOR<br/>SALE</span>
+                    <span className="city-cell-forsale-post" />
+                  </button>
+                )
+              }
+              if (slot.kind === 'building') {
+                const msLeft = Math.max(0, slot.entry.completesAt - currentTime)
+                return (
+                  <button
+                    key={idx}
+                    className="fort-ring-cell fort-ring-cell--building"
+                    style={{ gridArea: area }}
+                    onClick={() => setFortSlotSel(idx)}
+                    title={`Building: ${formatCountdown(msLeft)} left`}
+                  >
+                    <SpriteImg name={slot.entry.cardName} className="fort-ring-sprite" />
+                    <div className="fort-ring-building-badge">🔨</div>
+                    <div className="fort-ring-eta">{formatCountdown(msLeft)}</div>
+                  </button>
+                )
+              }
+              // active fort
+              const hpPct   = slot.fort.hp / slot.fort.maxHp
+              const maxAtks = FORT_MAX_ATTACKS[slot.fort.rarity]
+              const atksLeft = maxAtks - (slot.fort.attacksTaken ?? 0)
+              const hpColor  = hpPct > 0.6 ? '#308030' : hpPct > 0.3 ? '#806020' : '#802020'
+              const lifeColor = atksLeft / maxAtks > 0.5 ? '#305080' : atksLeft / maxAtks > 0.25 ? '#705020' : '#702020'
               return (
                 <button
-                  key={card.name}
-                  className={`city-picker-card${!affordable ? ' city-picker-card--unaffordable' : ''}`}
-                  onClick={() => handleAddFort(card)}
-                  disabled={!affordable}
+                  key={idx}
+                  className="fort-ring-cell fort-ring-cell--active"
+                  style={{ gridArea: area }}
+                  onClick={() => setFortSlotSel(idx)}
+                  title={`${slot.fort.cardName} — tap to inspect`}
                 >
-                  <SpriteImg name={card.name} className="city-picker-sprite" />
-                  <div className="city-picker-name">{card.name}</div>
-                  <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
-                  <div className="city-picker-income">🛡 {FORT_DEFENSE[card.rarity]} · {FORT_MAX_HP[card.rarity]} HP · {FORT_MAX_ATTACKS[card.rarity]} raids</div>
-                  <div className="city-picker-income" style={{ color: '#888' }}>🔨 {buildMins} min build</div>
-                  <div className="city-picker-cost">
-                    ⚙{cost.gold.toLocaleString()}
-                    {(Object.keys(cost) as (keyof typeof cost)[])
-                      .filter(k => k !== 'gold' && (cost[k] ?? 0) > 0)
-                      .map(k => ` ${RESOURCE_ICONS[k as ResourceType]}${cost[k]}`)
-                      .join('')}
+                  <SpriteImg name={slot.fort.cardName} className="fort-ring-sprite" />
+                  <div className="fort-ring-bar-row">
+                    <div className="fort-ring-bar" style={{ background: '#1a2a1a' }}>
+                      <div className="fort-ring-bar-fill" style={{ width: `${Math.round(hpPct * 100)}%`, background: hpColor }} />
+                    </div>
                   </div>
+                  <div className="fort-ring-bar-row">
+                    <div className="fort-ring-bar" style={{ background: '#0a1018' }}>
+                      <div className="fort-ring-bar-fill" style={{ width: `${Math.round(atksLeft / maxAtks * 100)}%`, background: lifeColor }} />
+                    </div>
+                  </div>
+                  <div className="fort-ring-defense">🛡{Math.round(FORT_DEFENSE[slot.fort.rarity] * hpPct)}</div>
                 </button>
               )
             })}
+
+            {/* City thumbnail — centre of the ring */}
+            <div className="fort-ring-city" style={{ gridArea: 'ct' }}>
+              <div
+                className="fort-ring-city-grid"
+                style={{ gridTemplateColumns: `repeat(${CITY_COLS}, 1fr)`, gridTemplateRows: `repeat(${cityRows}, 1fr)` }}
+              >
+                {Array.from({ length: cityCells }, (_, i) => {
+                  const cell = city.grid[i]
+                  return (
+                    <div key={i} className="fort-ring-city-cell">
+                      {cell && <SpriteImg name={cell.cardName} className="fort-ring-city-sprite" />}
+                    </div>
+                  )
+                })}
+              </div>
+              <div className="fort-ring-city-label">CITY</div>
+            </div>
           </div>
-        )}
+
+          {/* Builder walkers overlay — same sprites, coords mapped to ring dims */}
+          <div className="city-unit-overlay" style={{ pointerEvents: 'none' }}>
+            {builderWalkers.map((b, idx) => {
+              const { w: rw, h: rh } = fortRingDimsRef.current
+              const { w: ww, h: wh } = worldDimsRef.current
+              const rx = ww > 0 ? b.x * (rw / ww) : b.x
+              const ry = wh > 0 ? b.y * (rh / wh) : b.y
+              return (
+                <div key={idx} className="city-walker city-builder-walker"
+                  style={{ left: Math.round(rx), top: Math.round(ry) }}>
+                  <div className="city-builder-bubble">{b.label}</div>
+                  <AnimatedSpriteImg name="Builder" frameCount={3} fps={8} className="city-walker-sprite" />
+                </div>
+              )
+            })}
+          </div>
         </div>
+
+        {/* Fort slot modal — picker (empty) or info (active/building) */}
+        {fortSlotSel !== null && selSlot !== null && (() => {
+          if (selSlot.kind === 'empty') {
+            const canQueue = canQueueFortification(city)
+            return (
+              <div className="city-req-overlay" onClick={() => setFortSlotSel(null)}>
+                <div className="city-req-modal" onClick={e => e.stopPropagation()}>
+                  <div className="city-req-header">
+                    <div className="city-req-name">Build a Fortification</div>
+                  </div>
+                  {!canQueue ? (
+                    <div className="city-picker-empty" style={{ padding: '12px 0' }}>
+                      All builders are busy — wait for one to finish, or hire another.
+                    </div>
+                  ) : availableDefenceCards.length === 0 ? (
+                    <div className="city-picker-empty" style={{ padding: '12px 0' }}>
+                      No defence cards available. Earn them in battles!
+                    </div>
+                  ) : (
+                    <div className="city-picker-grid" style={{ maxHeight: '55vh', overflowY: 'auto' }}>
+                      {availableDefenceCards.map(card => {
+                        const cost      = FORT_PLACE_COST[card.rarity]
+                        const affordable = canAffordFortification(city, card.rarity)
+                        return (
+                          <button
+                            key={card.name}
+                            className={`city-picker-card${!affordable ? ' city-picker-card--unaffordable' : ''}`}
+                            disabled={!affordable}
+                            onClick={() => { handleAddFort(card); setFortSlotSel(null) }}
+                          >
+                            <SpriteImg name={card.name} className="city-picker-sprite" />
+                            <div className="city-picker-name">{card.name}</div>
+                            <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
+                            <div className="city-picker-income">🛡{FORT_DEFENSE[card.rarity]} · {FORT_MAX_HP[card.rarity]}HP · {FORT_MAX_ATTACKS[card.rarity]} raids</div>
+                            <div className="city-picker-income" style={{ color: '#888' }}>🔨 {FORT_MAX_HP[card.rarity]} min</div>
+                            <div className="city-picker-cost">
+                              ⚙{cost.gold.toLocaleString()}
+                              {(Object.keys(cost) as (keyof typeof cost)[])
+                                .filter(k => k !== 'gold' && (cost[k] ?? 0) > 0)
+                                .map(k => ` ${RESOURCE_ICONS[k as ResourceType]}${cost[k]}`).join('')}
+                            </div>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  )}
+                  <button className="action-btn" onClick={() => setFortSlotSel(null)}>CLOSE</button>
+                </div>
+              </div>
+            )
+          }
+
+          if (selSlot.kind === 'building') {
+            const msLeft = Math.max(0, selSlot.entry.completesAt - currentTime)
+            return (
+              <div className="city-req-overlay" onClick={() => setFortSlotSel(null)}>
+                <div className="city-req-modal" onClick={e => e.stopPropagation()}>
+                  <div className="city-req-header">
+                    <div style={{ opacity: 0.5 }}><SpriteImg name={selSlot.entry.cardName} className="city-req-sprite" /></div>
+                    <div className="city-req-name">{selSlot.entry.cardName}</div>
+                  </div>
+                  <div className="city-bld-section-title">🔨 Under Construction</div>
+                  <div style={{ textAlign: 'center', color: '#c09040', fontSize: 14, margin: '8px 0' }}>
+                    {formatCountdown(msLeft)} remaining
+                  </div>
+                  <div style={{ fontSize: 10, color: '#608060', textAlign: 'center' }}>
+                    🛡 {FORT_DEFENSE[selSlot.entry.rarity]} defence when complete · {FORT_MAX_HP[selSlot.entry.rarity]} HP · {FORT_MAX_ATTACKS[selSlot.entry.rarity]} raids lifespan
+                  </div>
+                  <button className="action-btn" style={{ marginTop: 12 }} onClick={() => setFortSlotSel(null)}>CLOSE</button>
+                </div>
+              </div>
+            )
+          }
+
+          // active fort
+          const { fort, fortIndex } = selSlot
+          const hpPct    = fort.hp / fort.maxHp
+          const hpColor  = hpPct > 0.6 ? '#40a040' : hpPct > 0.3 ? '#c08020' : '#c04020'
+          const maxAtks  = FORT_MAX_ATTACKS[fort.rarity]
+          const atksLeft = maxAtks - (fort.attacksTaken ?? 0)
+          const lifePct  = atksLeft / maxAtks
+          const lifeColor = lifePct > 0.5 ? '#305080' : lifePct > 0.25 ? '#705020' : '#702020'
+          return (
+            <div className="city-req-overlay" onClick={() => setFortSlotSel(null)}>
+              <div className="city-req-modal" onClick={e => e.stopPropagation()}>
+                <div className="city-req-header">
+                  <SpriteImg name={fort.cardName} className="city-req-sprite" />
+                  <div className="city-req-name">{fort.cardName}</div>
+                </div>
+                <div className="city-fort-details" style={{ width: '100%', gap: 6 }}>
+                  <div className="city-fort-hp-track">
+                    <div className="city-fort-hp-bar"><div className="city-fort-hp-fill" style={{ width: `${Math.round(hpPct * 100)}%`, background: hpColor }} /></div>
+                    <span className="city-fort-hp-text">{Math.round(fort.hp)}/{fort.maxHp} HP</span>
+                  </div>
+                  <div className="city-fort-hp-track" title="Raids until permanent destruction">
+                    <div className="city-fort-hp-bar"><div className="city-fort-hp-fill" style={{ width: `${Math.round(lifePct * 100)}%`, background: lifeColor }} /></div>
+                    <span className="city-fort-hp-text" style={{ color: lifeColor }}>{atksLeft}/{maxAtks} raids</span>
+                  </div>
+                  <div className="city-fort-defense-val">🛡 {Math.round(FORT_DEFENSE[fort.rarity] * hpPct)} defence · 🪵 repairs 1HP/5min</div>
+                </div>
+                <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+                  <button className="action-btn action-btn--danger" onClick={() => { handleRemoveFort(fortIndex); setFortSlotSel(null) }}>REMOVE</button>
+                  <button className="action-btn" onClick={() => setFortSlotSel(null)}>CLOSE</button>
+                </div>
+              </div>
+            </div>
+          )
+        })()}
       </div>
     )
   }
