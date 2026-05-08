@@ -9750,6 +9750,52 @@ html.light-mode .action-btn {
 .city-fort-defense-val { font-size: 9px; color: #40a060; }
 .city-fort-remove { font-size: 14px !important; padding: 2px 6px !important; line-height: 1; }
 
+/* ── City Builder — builder slots ────────────────────────────────────────── */
+.city-fort-builders-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px 0;
+  width: 100%;
+}
+.city-fort-builder {
+  flex: 1;
+  min-width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 8px;
+  border-radius: 3px;
+  font-size: 10px;
+  text-align: center;
+  border: 1px solid #1a2a1a;
+}
+.city-fort-builder--free {
+  background: #060e06;
+  color: #408040;
+  border-color: #204020;
+}
+.city-fort-builder--busy {
+  background: #0a0f06;
+  color: #90c080;
+  border-color: #30501a;
+}
+.city-fort-builder-sprite { width: 24px; height: 24px; image-rendering: pixelated; }
+.city-fort-builder-label { font-size: 10px; color: #80c060; }
+.city-fort-builder-eta { font-size: 9px; color: #c09040; font-weight: bold; }
+.city-fort-builder--hire {
+  background: #06080a;
+  color: #6080a0;
+  border-color: #203040;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.city-fort-builder--hire:hover:not(:disabled) { background: #0a1018; }
+.city-fort-builder--hire-ready { color: #c0d040; border-color: #506020; }
+.city-fort-builder--hire-ready:hover:not(:disabled) { background: #0c1004; }
+.city-fort-builder-cost { font-size: 9px; color: #809040; }
+
 /* ── City Builder — city perimeter (wall/moat visual strip) ─────────────── */
 .city-perimeter {
   border-top: 2px solid #204a20;

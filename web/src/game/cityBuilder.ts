@@ -84,10 +84,22 @@ export const FORT_PLACE_COST: Record<CardRarity, { gold: number } & Partial<Reso
   legendary: { gold: 15000, wood: 300, ore: 150, planks: 60 },
 }
 
-/** HP repaired per minute per fortification per population point (capped). */
-const FORT_REPAIR_RATE = 3
+/** HP repaired per minute per fortification (1 HP every 5 minutes). */
+const FORT_REPAIR_RATE = 0.2
 /** Wood cost per 20 HP repaired. */
 const FORT_REPAIR_WOOD_PER_HP = 1 / 20
+
+/** Number of attacks a fortification can survive before permanent destruction. */
+export const FORT_MAX_ATTACKS: Record<CardRarity, number> = {
+  common: 5, uncommon: 8, rare: 12, epic: 18, legendary: 25,
+}
+
+/** Gold cost to hire additional builders (index = number of extras already hired). */
+export const BUILDER_HIRE_COSTS = [1_000_000, 5_000_000, 10_000_000, 20_000_000, 40_000_000, 80_000_000, 160_000_000, 320_000_000]
+
+/** Default and max number of builders. */
+export const DEFAULT_BUILDER_COUNT = 2
+export const MAX_BUILDER_COUNT = 10
 
 // ── Attack constants ──────────────────────────────────────────────────────────
 
@@ -171,10 +183,17 @@ export interface CityCell {
 }
 
 export interface Fortification {
-  cardName: string
-  rarity:   CardRarity
-  hp:       number
-  maxHp:    number
+  cardName:     string
+  rarity:       CardRarity
+  hp:           number
+  maxHp:        number
+  attacksTaken: number
+}
+
+export interface BuildQueueEntry {
+  cardName:     string
+  rarity:       CardRarity
+  completesAt:  number
 }
 
 export interface AttackEvent {
@@ -200,6 +219,10 @@ export interface CityState {
   nextAttackAt:   number
   /** Wall/moat fortifications outside the building grid. */
   fortifications: Fortification[]
+  /** Fortifications currently under construction. */
+  builderQueue:   BuildQueueEntry[]
+  /** Number of available builders (default 2). */
+  builderCount:   number
   /** Most recent attack result (shown as notification). */
   lastAttack:     AttackEvent | null
   /** Temporary defense bonus from actively patrolling residents. */
@@ -225,6 +248,8 @@ function defaultState(): CityState {
     rows:           CITY_ROWS,
     nextAttackAt:   Date.now() + BASE_ATTACK_INTERVAL_MS + Math.random() * ATTACK_INTERVAL_JITTER_MS,
     fortifications: [],
+    builderQueue:   [],
+    builderCount:   DEFAULT_BUILDER_COUNT,
     lastAttack:     null,
   }
 }
@@ -257,7 +282,12 @@ export function loadCityState(): CityState {
       happiness:      parsed.happiness  ?? {},
       rows,
       nextAttackAt:   parsed.nextAttackAt ?? Date.now() + BASE_ATTACK_INTERVAL_MS,
-      fortifications: parsed.fortifications ?? [],
+      fortifications: (parsed.fortifications ?? []).map(f => ({
+        ...f,
+        attacksTaken: (f as Fortification).attacksTaken ?? 0,
+      })),
+      builderQueue:   parsed.builderQueue ?? [],
+      builderCount:   parsed.builderCount ?? DEFAULT_BUILDER_COUNT,
       lastAttack:     parsed.lastAttack ?? null,
     }
   } catch (err) {
@@ -413,10 +443,14 @@ function processAttack(state: CityState): CityState {
     }
   }
 
-  // Apply damage to fortifications
+  // Apply damage to fortifications and track attack count
   for (const fort of newForts) {
     fort.hp = Math.max(0, fort.hp - fortDmg)
+    fort.attacksTaken = (fort.attacksTaken ?? 0) + 1
   }
+
+  // Remove permanently destroyed forts (exceeded max attacks)
+  const survivingForts = newForts.filter(f => f.attacksTaken < FORT_MAX_ATTACKS[f.rarity])
 
   const nextInterval = BASE_ATTACK_INTERVAL_MS + Math.random() * ATTACK_INTERVAL_JITTER_MS
 
@@ -434,7 +468,7 @@ function processAttack(state: CityState): CityState {
     gold:           Math.max(0, newGold),
     resources:      newResources,
     grid:           newGrid,
-    fortifications: newForts,
+    fortifications: survivingForts,
     nextAttackAt:   state.nextAttackAt + nextInterval,
     lastAttack:     event,
   }
@@ -506,20 +540,32 @@ export function tickCity(state: CityState): CityState {
     }
   }
 
-  // Repair fortifications using wood
-  const pop = cityPopulation(state)
+  // Repair fortifications using wood (1 HP every 5 minutes = 0.2 HP/min)
   const newForts = state.fortifications.map(f => ({ ...f }))
-  if (pop > 0) {
-    for (const fort of newForts) {
-      if (fort.hp < fort.maxHp && newResources.wood > 0) {
-        const repairRate = Math.min(pop * FORT_REPAIR_RATE, 10)
-        const toRepair = Math.min(fort.maxHp - fort.hp, repairRate * minutes)
-        const woodCost = toRepair * FORT_REPAIR_WOOD_PER_HP
-        if (newResources.wood >= woodCost) {
-          fort.hp = Math.min(fort.maxHp, fort.hp + toRepair)
-          newResources.wood = Math.max(0, newResources.wood - woodCost)
-        }
+  for (const fort of newForts) {
+    if (fort.hp < fort.maxHp && newResources.wood > 0) {
+      const toRepair = Math.min(fort.maxHp - fort.hp, FORT_REPAIR_RATE * minutes)
+      const woodCost = toRepair * FORT_REPAIR_WOOD_PER_HP
+      if (newResources.wood >= woodCost) {
+        fort.hp = Math.min(fort.maxHp, fort.hp + toRepair)
+        newResources.wood = Math.max(0, newResources.wood - woodCost)
       }
+    }
+  }
+
+  // Process builder queue: move completed forts into fortifications
+  const now2 = now
+  const remainingQueue = state.builderQueue.filter(e => e.completesAt > now2)
+  const completedBuilds = state.builderQueue.filter(e => e.completesAt <= now2)
+  for (const entry of completedBuilds) {
+    if (newForts.length < MAX_TOTAL_FORTS) {
+      newForts.push({
+        cardName:     entry.cardName,
+        rarity:       entry.rarity,
+        hp:           FORT_MAX_HP[entry.rarity],
+        maxHp:        FORT_MAX_HP[entry.rarity],
+        attacksTaken: 0,
+      })
     }
   }
 
@@ -535,6 +581,7 @@ export function tickCity(state: CityState): CityState {
     lastTick:       now,
     happiness:      newHappy,
     fortifications: newForts,
+    builderQueue:   remainingQueue,
   }
 
   // Process attack if due (only one per tick to avoid runaway offline destruction)
@@ -584,21 +631,46 @@ export function canAffordFortification(state: CityState, rarity: CardRarity): bo
   return true
 }
 
+/** Returns true if a builder slot is free (queue not full). */
+export function canQueueFortification(state: CityState): boolean {
+  return state.builderQueue.length < (state.builderCount ?? DEFAULT_BUILDER_COUNT) &&
+    (state.fortifications.length + state.builderQueue.length) < MAX_TOTAL_FORTS
+}
+
 export function addFortification(state: CityState, cardName: string, rarity: CardRarity): CityState | null {
-  if (state.fortifications.length >= MAX_TOTAL_FORTS) return null
+  if (!canQueueFortification(state)) return null
   if (!canAffordFortification(state, rarity)) return null
   const cost = FORT_PLACE_COST[rarity]
   const newResources = { ...state.resources }
   for (const res of Object.keys(newResources) as ResourceType[]) {
     newResources[res] = Math.max(0, newResources[res] - ((cost[res] as number) ?? 0))
   }
-  const maxHp = FORT_MAX_HP[rarity]
-  const fort: Fortification = { cardName, rarity, hp: maxHp, maxHp }
+  const buildMinutes = FORT_MAX_HP[rarity]
+  const completesAt = Date.now() + buildMinutes * 60_000
+  const entry: BuildQueueEntry = { cardName, rarity, completesAt }
   return {
     ...state,
-    gold:           state.gold - cost.gold,
-    resources:      newResources,
-    fortifications: [...state.fortifications, fort],
+    gold:         state.gold - cost.gold,
+    resources:    newResources,
+    builderQueue: [...state.builderQueue, entry],
+  }
+}
+
+/** Cost to hire the next extra builder (beyond DEFAULT_BUILDER_COUNT). */
+export function nextBuilderCost(state: CityState): number | null {
+  const extras = (state.builderCount ?? DEFAULT_BUILDER_COUNT) - DEFAULT_BUILDER_COUNT
+  if (extras >= BUILDER_HIRE_COSTS.length) return null
+  if ((state.builderCount ?? DEFAULT_BUILDER_COUNT) >= MAX_BUILDER_COUNT) return null
+  return BUILDER_HIRE_COSTS[extras]
+}
+
+export function buyBuilder(state: CityState): CityState | null {
+  const cost = nextBuilderCost(state)
+  if (cost === null || state.gold < cost) return null
+  return {
+    ...state,
+    gold:         state.gold - cost,
+    builderCount: (state.builderCount ?? DEFAULT_BUILDER_COUNT) + 1,
   }
 }
 

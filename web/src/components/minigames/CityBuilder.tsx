@@ -13,8 +13,9 @@ import {
   CITY_COLS, CITY_ROWS, CITY_CELLS, CELL_PX, MAX_CITY_ROWS,
   CityCell, CityState, ResourceType, ResourceStock, AttackEvent,
   RESOURCE_ICONS, SPAWNER_PLACE_COST,
-  FORT_MAX_HP, FORT_DEFENSE, FORT_PLACE_COST, EXPANSION_COSTS, MAX_TOTAL_FORTS,
-  canAffordFortification,
+  FORT_MAX_HP, FORT_DEFENSE, FORT_PLACE_COST, FORT_MAX_ATTACKS, EXPANSION_COSTS, MAX_TOTAL_FORTS,
+  DEFAULT_BUILDER_COUNT, MAX_BUILDER_COUNT, BUILDER_HIRE_COSTS,
+  canAffordFortification, canQueueFortification,
   loadCityState, saveCityState, tickCity,
   placeCard, removeCard,
   addFortification, removeFortification,
@@ -28,6 +29,7 @@ import {
   INCOME_SPAWN, INCOME_UTILITY, INCOME_WALL,
   spawnerUnitCount, masteryOutputMultiplier,
   getNeighbourIndices,
+  nextBuilderCost, buyBuilder,
 } from '../../game/cityBuilder'
 import { MasteryBar } from '../MasteryBar'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
@@ -760,11 +762,31 @@ export function CityBuilder({ onBack }: Props) {
   // ── Fortification handlers ────────────────────────────────────────────────────
 
   function handleAddFort(card: Card) {
+    if (!canQueueFortification(city)) {
+      const builderCount = city.builderCount ?? DEFAULT_BUILDER_COUNT
+      if (city.builderQueue.length >= builderCount) {
+        showToast('All builders are busy! Wait for one to finish.')
+      } else {
+        showToast(`Fort limit reached (${MAX_TOTAL_FORTS} max).`)
+      }
+      return
+    }
     if (!canAffordFortification(city, card.rarity)) { showToast('Not enough resources!'); return }
     const next = addFortification(city, card.name, card.rarity)
-    if (!next) { showToast(`Fort limit reached (${MAX_TOTAL_FORTS} max).`); return }
+    if (!next) { showToast('Cannot build — check builder slots and resources.'); return }
+    const buildMinutes = FORT_MAX_HP[card.rarity]
     save(next)
-    showToast(`${card.name} built!`)
+    showToast(`${card.name} queued — ${buildMinutes} min build time.`)
+  }
+
+  function handleBuyBuilder() {
+    const cost = nextBuilderCost(city)
+    if (cost === null) { showToast('Maximum builders reached!'); return }
+    if (city.gold < cost) { showToast(`Need ⚙ ${cost.toLocaleString()} gold to hire a builder.`); return }
+    const next = buyBuilder(city)
+    if (!next) return
+    save(next)
+    showToast(`Builder hired! Now ${next.builderCount} builders.`)
   }
 
   function handleRemoveFort(index: number) {
@@ -852,28 +874,72 @@ export function CityBuilder({ onBack }: Props) {
   // ── Fortify sub-screen ────────────────────────────────────────────────────────
 
   if (screen === 'fortify') {
+    const builderCount = city.builderCount ?? DEFAULT_BUILDER_COUNT
+    const freeBuilders = builderCount - city.builderQueue.length
+    const builderCost  = nextBuilderCost(city)
+    const totalSlots   = city.fortifications.length + city.builderQueue.length
     return (
       <div className="city-screen">
         <div className="city-picker-header">
           <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
-          <div className="city-picker-title">🛡 FORTIFICATIONS ({city.fortifications.length}/{MAX_TOTAL_FORTS})</div>
+          <div className="city-picker-title">🛡 FORTIFICATIONS ({totalSlots}/{MAX_TOTAL_FORTS})</div>
         </div>
 
         <div className="city-subscreen-scroll">
         <div className="city-fort-info-row">
-          <span>Total defence from forts: <strong>{
+          <span>Total defence: <strong>{
             city.fortifications.reduce((sum, f) => sum + Math.round(FORT_DEFENSE[f.rarity] * (f.hp / f.maxHp)), 0)
           } 🛡</strong></span>
-          <span className="city-fort-repair-note">Residents repair walls using 🪵</span>
+          <span className="city-fort-repair-note">🪵 Repairs: 1 HP / 5 min</span>
+        </div>
+
+        {/* Builder slots */}
+        <div className="city-picker-section-label">
+          BUILDERS ({freeBuilders}/{builderCount} free)
+        </div>
+        <div className="city-fort-builders-row">
+          {Array.from({ length: builderCount }, (_, i) => {
+            const entry = city.builderQueue[i]
+            if (entry) {
+              const msLeft = Math.max(0, entry.completesAt - currentTime)
+              return (
+                <div key={i} className="city-fort-builder city-fort-builder--busy">
+                  <SpriteImg name={entry.cardName} className="city-fort-builder-sprite" />
+                  <div className="city-fort-builder-label">🔨 {entry.cardName}</div>
+                  <div className="city-fort-builder-eta">{formatCountdown(msLeft)}</div>
+                </div>
+              )
+            }
+            return (
+              <div key={i} className="city-fort-builder city-fort-builder--free">
+                🏗 Builder available
+              </div>
+            )
+          })}
+          {builderCount < MAX_BUILDER_COUNT && builderCost !== null && (
+            <button
+              className={`city-fort-builder city-fort-builder--hire${city.gold >= builderCost ? ' city-fort-builder--hire-ready' : ''}`}
+              onClick={handleBuyBuilder}
+              disabled={city.gold < builderCost}
+              title={`Hire builder for ⚙ ${builderCost.toLocaleString()}`}
+            >
+              + Hire Builder<br/>
+              <span className="city-fort-builder-cost">⚙ {builderCost.toLocaleString()}</span>
+            </button>
+          )}
         </div>
 
         {city.fortifications.length > 0 && (
           <>
-            <div className="city-picker-section-label">BUILT ({city.fortifications.length})</div>
+            <div className="city-picker-section-label">ACTIVE ({city.fortifications.length})</div>
             <div className="city-fort-list">
               {city.fortifications.map((fort, idx) => {
                 const hpPct = Math.round((fort.hp / fort.maxHp) * 100)
                 const hpColor = hpPct > 60 ? '#40a040' : hpPct > 30 ? '#c08020' : '#c04020'
+                const maxAtks = FORT_MAX_ATTACKS[fort.rarity]
+                const atksLeft = maxAtks - (fort.attacksTaken ?? 0)
+                const lifePct = Math.round((atksLeft / maxAtks) * 100)
+                const lifeColor = lifePct > 60 ? '#305080' : lifePct > 30 ? '#705020' : '#702020'
                 return (
                   <div key={idx} className="city-fort-item">
                     <SpriteImg name={fort.cardName} className="city-fort-sprite" />
@@ -883,7 +949,15 @@ export function CityBuilder({ onBack }: Props) {
                         <div className="city-fort-hp-bar">
                           <div className="city-fort-hp-fill" style={{ width: `${hpPct}%`, background: hpColor }} />
                         </div>
-                        <span className="city-fort-hp-text">{Math.round(fort.hp)}/{fort.maxHp}</span>
+                        <span className="city-fort-hp-text">{Math.round(fort.hp)}/{fort.maxHp} HP</span>
+                      </div>
+                      <div className="city-fort-hp-track" title={`${atksLeft} attacks remaining before permanent destruction`}>
+                        <div className="city-fort-hp-bar">
+                          <div className="city-fort-hp-fill" style={{ width: `${lifePct}%`, background: lifeColor }} />
+                        </div>
+                        <span className="city-fort-hp-text" style={{ color: lifeColor }}>
+                          {atksLeft}/{maxAtks} raids
+                        </span>
                       </div>
                       <div className="city-fort-defense-val">🛡 {Math.round(FORT_DEFENSE[fort.rarity] * (fort.hp / fort.maxHp))}</div>
                     </div>
@@ -896,8 +970,10 @@ export function CityBuilder({ onBack }: Props) {
         )}
 
         <div className="city-picker-section-label">ADD WALL / MOAT</div>
-        {city.fortifications.length >= MAX_TOTAL_FORTS ? (
+        {totalSlots >= MAX_TOTAL_FORTS ? (
           <div className="city-picker-empty">Fort limit reached ({MAX_TOTAL_FORTS}/{MAX_TOTAL_FORTS}). Remove one to add another.</div>
+        ) : !canQueueFortification(city) ? (
+          <div className="city-picker-empty">All builders are busy. Wait for a fort to finish, or hire another builder.</div>
         ) : availableDefenceCards.length === 0 ? (
           <div className="city-picker-empty">
             {ownedStructures.some(c => isDefenceCard(c.name, c.unit?.structureEffect?.type === 'spawn'))
@@ -908,7 +984,8 @@ export function CityBuilder({ onBack }: Props) {
           <div className="city-picker-grid">
             {availableDefenceCards.map(card => {
               const cost = FORT_PLACE_COST[card.rarity]
-              const affordable = canAffordFortification(city, card.rarity)
+              const affordable = canAffordFortification(city, card.rarity) && canQueueFortification(city)
+              const buildMins = FORT_MAX_HP[card.rarity]
               return (
                 <button
                   key={card.name}
@@ -919,7 +996,8 @@ export function CityBuilder({ onBack }: Props) {
                   <SpriteImg name={card.name} className="city-picker-sprite" />
                   <div className="city-picker-name">{card.name}</div>
                   <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
-                  <div className="city-picker-income">🛡 {FORT_DEFENSE[card.rarity]} · {FORT_MAX_HP[card.rarity]} HP</div>
+                  <div className="city-picker-income">🛡 {FORT_DEFENSE[card.rarity]} · {FORT_MAX_HP[card.rarity]} HP · {FORT_MAX_ATTACKS[card.rarity]} raids</div>
+                  <div className="city-picker-income" style={{ color: '#888' }}>🔨 {buildMins} min build</div>
                   <div className="city-picker-cost">
                     ⚙{cost.gold.toLocaleString()}
                     {(Object.keys(cost) as (keyof typeof cost)[])
