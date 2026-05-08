@@ -9253,6 +9253,37 @@ html.light-mode .action-btn {
   line-height: 1;
 }
 
+/* Builder walkers (construction) */
+.city-builder-walker {
+  pointer-events: none;
+  cursor: default;
+  z-index: 5;
+}
+.city-builder-bubble {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1200;
+  border: 1px solid #806020;
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-size: 8px;
+  color: #d0b040;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0.9;
+}
+.city-builder-bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 3px solid transparent;
+  border-top-color: #806020;
+}
+
 /* ── Resident thoughts feed ──────────────────────────────────────────────── */
 .city-thoughts {
   margin-top: 8px;
