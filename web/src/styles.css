@@ -9832,6 +9832,7 @@ html.light-mode .action-btn {
   position: relative;
   flex-shrink: 0;
   padding: 4px 6px;
+  background: #6b4c2a; /* dirt/path — same as city world, shows through gaps */
 }
 .fort-ring-grid {
   display: grid;
@@ -9844,7 +9845,7 @@ html.light-mode .action-btn {
     "f8  f9  f10 f11";
   gap: 4px;
 }
-/* Fort cells */
+/* Fort cells — grass background matching the city */
 .fort-ring-cell {
   position: relative;
   display: flex;
@@ -9852,32 +9853,29 @@ html.light-mode .action-btn {
   align-items: center;
   justify-content: center;
   aspect-ratio: 1;
-  background: #050d05;
-  border: 1px dashed #1a3a1a;
-  border-radius: 3px;
+  background: #2d5a27;
+  border: none;
+  border-radius: 2px;
   cursor: pointer;
   padding: 2px;
   gap: 1px;
   overflow: hidden;
-  transition: border-color 0.15s;
+  transition: background 0.15s;
 }
-.fort-ring-cell:hover { border-color: #308030; }
+.fort-ring-cell:hover { background: #3a6e33; }
 .fort-ring-cell .city-cell-forsale-sign {
   font-size: 7px;
   line-height: 1.2;
+  color: #c8a060;
 }
 .fort-ring-cell .city-cell-forsale-post {
   height: 6px;
 }
 .fort-ring-cell--building {
-  border-style: solid;
-  border-color: #304820;
-  background: #08100a;
+  background: #304828;
 }
 .fort-ring-cell--active {
-  border-style: solid;
-  border-color: #204a20;
-  background: #060e06;
+  background: #233a1e;
 }
 .fort-ring-sprite {
   width: 28px;
@@ -9924,10 +9922,9 @@ html.light-mode .action-btn {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #040a04;
-  border: 1px solid #1a3a1a;
-  border-radius: 3px;
-  padding: 4px;
+  background: #6b4c2a; /* dirt bg like city world */
+  border-radius: 2px;
+  padding: 2px;
   gap: 2px;
   overflow: hidden;
 }
@@ -9935,10 +9932,10 @@ html.light-mode .action-btn {
   display: grid;
   width: 100%;
   flex: 1;
-  gap: 1px;
+  gap: 2px;
 }
 .fort-ring-city-cell {
-  background: #060e06;
+  background: #2d5a27; /* grass */
   border-radius: 1px;
   display: flex;
   align-items: center;
@@ -9953,9 +9950,20 @@ html.light-mode .action-btn {
 }
 .fort-ring-city-label {
   font-size: 8px;
-  color: #204a20;
+  color: #4a7a30;
   letter-spacing: 2px;
   flex-shrink: 0;
+}
+
+/* Builder walker scaled down for ring view */
+.city-builder-walker--ring {
+  width: 14px;
+  height: 14px;
+}
+.city-builder-walker-sprite--ring {
+  width: 14px;
+  height: 14px;
+  image-rendering: pixelated;
 }
 
 /* ── City Builder — city perimeter (wall/moat visual strip) ─────────────── */

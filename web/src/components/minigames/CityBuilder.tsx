@@ -204,33 +204,89 @@ function buildResidentThoughts(
 
 // ── Builder walker (construction) ─────────────────────────────────────────────
 
-const BUILDER_SPEED = 1.1  // slightly faster than residents
+const BUILDER_SPEED    = 1.1  // slightly faster than residents
+const RING_UNIT_SIZE   = 14   // smaller sprite on the ring view
+const RING_ARRIVE_DIST = 12
+
+// Slot → [row, col] in the 4-column ring grid:
+//   row 0: cols 0-3  (slots 0-3, top)
+//   row 1: col 0 (slot 4) and col 3 (slot 5)
+//   row 2: col 0 (slot 6) and col 3 (slot 7)
+//   row 3: cols 0-3  (slots 8-11, bottom)
+const SLOT_GRID_POS: [number, number][] = [
+  [0,0],[0,1],[0,2],[0,3],
+  [1,0],[1,3],
+  [2,0],[2,3],
+  [3,0],[3,1],[3,2],[3,3],
+]
 
 interface BuilderWalker {
-  queueIndex: number
-  cardName:   string
-  x:          number
-  y:          number
-  vx:         number
-  vy:         number
-  phase:      'fetching' | 'delivering'
-  targetX:    number
-  targetY:    number
-  label:      string
+  queueIndex:  number
+  cardName:    string
+  // City-world position
+  x: number; y: number; vx: number; vy: number
+  phase:       'fetching' | 'delivering'
+  targetX:     number;  targetY:     number
+  label:       string
+  // Ring-view position (independent animation, own phase)
+  ringX:       number;  ringY:       number
+  ringVx:      number;  ringVy:      number
+  ringPhase:   'fetching' | 'delivering'
+  ringTargetX: number;  ringTargetY: number
+}
+
+function pickRingTarget(
+  phase: 'fetching' | 'delivering',
+  queueIndex: number,
+  city: CityState,
+  ringW: number,
+  ringH: number,
+): { targetX: number; targetY: number } {
+  if (phase === 'delivering') {
+    const slotIndex = Math.min(city.fortifications.length + queueIndex, 11)
+    const [row, col] = SLOT_GRID_POS[slotIndex]
+    return {
+      targetX: (col + 0.3 + Math.random() * 0.4) / 4 * ringW,
+      targetY: (row + 0.3 + Math.random() * 0.4) / 4 * ringH,
+    }
+  } else {
+    // Fetch from inside the city thumbnail (cols 1-2, rows 1-2 of the 4x4 ring)
+    const cityRows = city.rows ?? CITY_ROWS
+    const resourceCells = city.grid
+      .map((cell, i) => ({ cell, i }))
+      .filter(({ cell }) => cell && !cell.spawnedUnitName && Object.values(getBuildingProduces(cell.cardName)).some(v => (v ?? 0) > 0))
+    if (resourceCells.length > 0) {
+      const { i } = resourceCells[Math.floor(Math.random() * resourceCells.length)]
+      const gCol = i % CITY_COLS
+      const gRow = Math.floor(i / CITY_COLS)
+      return {
+        targetX: ringW * (0.25 + (gCol + 0.3 + Math.random() * 0.4) / CITY_COLS * 0.5),
+        targetY: ringH * (0.25 + (gRow + 0.3 + Math.random() * 0.4) / cityRows * 0.5),
+      }
+    }
+    return { targetX: ringW * (0.3 + Math.random() * 0.4), targetY: ringH * (0.3 + Math.random() * 0.4) }
+  }
 }
 
 function makeBuilderWalker(queueIndex: number, cardName: string, overlayW: number, overlayH: number): BuilderWalker {
+  const ringW = CITY_COLS * CELL_PX
+  const ringH = CITY_ROWS * CELL_PX
   return {
     queueIndex,
     cardName,
     x: Math.random() * Math.max(1, overlayW - UNIT_SIZE),
     y: Math.random() * Math.max(1, overlayH * 0.5),
-    vx: 0,
-    vy: 0,
+    vx: 0, vy: 0,
     phase: 'fetching',
     targetX: Math.random() * overlayW,
     targetY: Math.random() * overlayH * 0.7,
     label: '🪵 Fetching materials',
+    ringX:     ringW * (0.3 + Math.random() * 0.4),
+    ringY:     ringH * (0.3 + Math.random() * 0.4),
+    ringVx: 0, ringVy: 0,
+    ringPhase: 'fetching',
+    ringTargetX: ringW * 0.5,
+    ringTargetY: ringH * 0.5,
   }
 }
 
@@ -719,32 +775,37 @@ export function CityBuilder({ onBack }: Props) {
 
       // Animate builder walkers
       setBuilderWalkers(prev => prev.map(b => {
-        let { x, y, vx, vy, phase, targetX, targetY, label } = b
-        const dx = targetX - x
-        const dy = targetY - y
+        let { x, y, vx, vy, phase, targetX, targetY, label,
+              ringX, ringY, ringVx, ringVy, ringPhase, ringTargetX, ringTargetY } = b
+        const { w: rw, h: rh } = fortRingDimsRef.current
+
+        // ── City-world movement ─────────────────────────────────────────────
+        const dx = targetX - x, dy = targetY - y
         const dist = Math.sqrt(dx * dx + dy * dy)
-
         if (dist < 18) {
-          // Arrived — flip phase and pick next target
           const next = pickBuilderTarget(phase, cityRef.current, overlayW, overlayH)
-          phase   = next.nextPhase
-          targetX = next.targetX
-          targetY = next.targetY
-          label   = next.label
+          phase = next.nextPhase; targetX = next.targetX; targetY = next.targetY; label = next.label
         }
-
-        // Steer toward target
-        if (dist > 1) {
-          vx = (dx / dist) * BUILDER_SPEED
-          vy = (dy / dist) * BUILDER_SPEED
-        }
-
-        x += vx
-        y += vy
+        if (dist > 1) { vx = (dx / dist) * BUILDER_SPEED; vy = (dy / dist) * BUILDER_SPEED }
+        x += vx; y += vy
         x = Math.max(0, Math.min(overlayW - UNIT_SIZE, x))
         y = Math.max(0, Math.min(overlayH - UNIT_SIZE, y))
 
-        return { ...b, x, y, vx, vy, phase, targetX, targetY, label }
+        // ── Ring-view movement (independent phase, correct slot targets) ────
+        const rdx = ringTargetX - ringX, rdy = ringTargetY - ringY
+        const rdist = Math.sqrt(rdx * rdx + rdy * rdy)
+        if (rdist < RING_ARRIVE_DIST) {
+          ringPhase = ringPhase === 'fetching' ? 'delivering' : 'fetching'
+          const rt = pickRingTarget(ringPhase, b.queueIndex, cityRef.current, rw || CITY_COLS * CELL_PX, rh || CITY_ROWS * CELL_PX)
+          ringTargetX = rt.targetX; ringTargetY = rt.targetY
+        }
+        if (rdist > 1) { ringVx = (rdx / rdist) * BUILDER_SPEED; ringVy = (rdy / rdist) * BUILDER_SPEED }
+        ringX += ringVx; ringY += ringVy
+        ringX = Math.max(0, Math.min((rw || CITY_COLS * CELL_PX) - RING_UNIT_SIZE, ringX))
+        ringY = Math.max(0, Math.min((rh || CITY_ROWS * CELL_PX) - RING_UNIT_SIZE, ringY))
+
+        return { ...b, x, y, vx, vy, phase, targetX, targetY, label,
+                 ringX, ringY, ringVx, ringVy, ringPhase, ringTargetX, ringTargetY }
       }))
     }, 100)
     return () => clearInterval(id)
@@ -1148,21 +1209,15 @@ export function CityBuilder({ onBack }: Props) {
             </div>
           </div>
 
-          {/* Builder walkers overlay — same sprites, coords mapped to ring dims */}
+          {/* Builder walkers overlay — ring-space coords, scaled-down sprite */}
           <div className="city-unit-overlay" style={{ pointerEvents: 'none' }}>
-            {builderWalkers.map((b, idx) => {
-              const { w: rw, h: rh } = fortRingDimsRef.current
-              const { w: ww, h: wh } = worldDimsRef.current
-              const rx = ww > 0 ? b.x * (rw / ww) : b.x
-              const ry = wh > 0 ? b.y * (rh / wh) : b.y
-              return (
-                <div key={idx} className="city-walker city-builder-walker"
-                  style={{ left: Math.round(rx), top: Math.round(ry) }}>
-                  <div className="city-builder-bubble">{b.label}</div>
-                  <AnimatedSpriteImg name="Builder" frameCount={3} fps={8} className="city-walker-sprite" />
-                </div>
-              )
-            })}
+            {builderWalkers.map((b, idx) => (
+              <div key={idx} className="city-walker city-builder-walker city-builder-walker--ring"
+                style={{ left: Math.round(b.ringX), top: Math.round(b.ringY) }}>
+                <div className="city-builder-bubble">{b.ringPhase === 'delivering' ? '🏗 Building the wall' : '🪵 Fetching materials'}</div>
+                <AnimatedSpriteImg name="Builder" frameCount={3} fps={8} className="city-builder-walker-sprite--ring" />
+              </div>
+            ))}
           </div>
         </div>
 
