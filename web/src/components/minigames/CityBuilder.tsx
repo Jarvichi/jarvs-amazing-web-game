@@ -202,6 +202,79 @@ function buildResidentThoughts(
   return thoughts.slice(0, 5)
 }
 
+// ── Builder walker (construction) ─────────────────────────────────────────────
+
+const BUILDER_SPEED = 1.1  // slightly faster than residents
+
+interface BuilderWalker {
+  queueIndex: number
+  cardName:   string
+  x:          number
+  y:          number
+  vx:         number
+  vy:         number
+  phase:      'fetching' | 'delivering'
+  targetX:    number
+  targetY:    number
+  label:      string
+}
+
+function makeBuilderWalker(queueIndex: number, cardName: string, overlayW: number, overlayH: number): BuilderWalker {
+  return {
+    queueIndex,
+    cardName,
+    x: Math.random() * Math.max(1, overlayW - UNIT_SIZE),
+    y: Math.random() * Math.max(1, overlayH * 0.5),
+    vx: 0,
+    vy: 0,
+    phase: 'fetching',
+    targetX: Math.random() * overlayW,
+    targetY: Math.random() * overlayH * 0.7,
+    label: '🪵 Fetching materials',
+  }
+}
+
+function pickBuilderTarget(
+  phase: BuilderWalker['phase'],
+  city: CityState,
+  overlayW: number,
+  overlayH: number,
+): { targetX: number; targetY: number; nextPhase: BuilderWalker['phase']; label: string } {
+  if (phase === 'fetching') {
+    // Delivered — now go fetch more materials from a resource building or random cell
+    const resourceCells = city.grid
+      .map((cell, i) => ({ cell, i }))
+      .filter(({ cell }) => cell && !cell.spawnedUnitName && Object.values(getBuildingProduces(cell.cardName)).some(v => (v ?? 0) > 0))
+    const cityRows = city.rows ?? CITY_ROWS
+    if (resourceCells.length > 0) {
+      const { i } = resourceCells[Math.floor(Math.random() * resourceCells.length)]
+      const col = i % CITY_COLS
+      const row = Math.floor(i / CITY_COLS)
+      return {
+        targetX: (col + 0.3 + Math.random() * 0.4) * (overlayW / CITY_COLS),
+        targetY: (row + 0.3 + Math.random() * 0.4) * (overlayH / cityRows),
+        nextPhase: 'delivering',
+        label: '🪵 Fetching materials',
+      }
+    }
+    // No resource buildings — wander around center of city
+    return {
+      targetX: overlayW * (0.2 + Math.random() * 0.6),
+      targetY: overlayH * (0.2 + Math.random() * 0.6),
+      nextPhase: 'delivering',
+      label: '⛏ Gathering supplies',
+    }
+  } else {
+    // Fetched — deliver to the fort wall (bottom edge of overlay)
+    return {
+      targetX: overlayW * (0.1 + Math.random() * 0.8),
+      targetY: overlayH - UNIT_SIZE * 0.5,
+      nextPhase: 'fetching',
+      label: '🏗 Building the wall',
+    }
+  }
+}
+
 // ── Walking unit state ────────────────────────────────────────────────────────
 
 const UNIT_SIZE       = 20
@@ -411,6 +484,7 @@ export function CityBuilder({ onBack }: Props) {
   const [levelCard, setLevelCard]     = useState<string | null>(null)
   const [toast, setToast]     = useState<string | null>(null)
   const [walkers, setWalkers] = useState<Walker[]>([])
+  const [builderWalkers, setBuilderWalkers] = useState<BuilderWalker[]>([])
   const [selectedWalkerCell, setSelectedWalkerCell] = useState<number | null>(null)
   const [selectedBuildingCell, setSelectedBuildingCell] = useState<number | null>(null)
   const [buildingTab, setBuildingTab] = useState<'residents' | 'upgrade'>('residents')
@@ -431,8 +505,9 @@ export function CityBuilder({ onBack }: Props) {
   const [currentTime, setCurrentTime] = useState(Date.now())
   const worldRef = useRef<HTMLDivElement>(null)
   const worldDimsRef = useRef({ w: CITY_COLS * CELL_PX, h: CITY_ROWS * CELL_PX })
-  const cityRef    = useRef(city)
-  const walkersRef = useRef(walkers)
+  const cityRef           = useRef(city)
+  const walkersRef        = useRef(walkers)
+  const builderWalkersRef = useRef(builderWalkers)
 
   function showToast(msg: string) {
     setToast(msg)
@@ -445,8 +520,9 @@ export function CityBuilder({ onBack }: Props) {
   }
 
   // Keep refs in sync so the animation loop and intervals always see the latest state
-  useEffect(() => { cityRef.current    = city    }, [city])
-  useEffect(() => { walkersRef.current = walkers }, [walkers])
+  useEffect(() => { cityRef.current           = city          }, [city])
+  useEffect(() => { walkersRef.current        = walkers       }, [walkers])
+  useEffect(() => { builderWalkersRef.current = builderWalkers }, [builderWalkers])
 
   // Show attack report when a new attack is detected
   useEffect(() => {
@@ -508,6 +584,21 @@ export function CityBuilder({ onBack }: Props) {
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city.grid, city.cardLevels])
+
+  // ── Sync builder walkers when queue changes ───────────────────────────────────
+
+  useEffect(() => {
+    setBuilderWalkers(prev => {
+      const { w: dw, h: dh } = worldDimsRef.current
+      const overlayW = dw || CITY_COLS * CELL_PX
+      const overlayH = dh || CITY_ROWS * CELL_PX
+      return city.builderQueue.map((entry, i) => {
+        const existing = prev.find(b => b.queueIndex === i && b.cardName === entry.cardName)
+        return existing ?? makeBuilderWalker(i, entry.cardName, overlayW, overlayH)
+      })
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city.builderQueue])
 
   // ── Animation loop ────────────────────────────────────────────────────────────
 
@@ -605,6 +696,36 @@ export function CityBuilder({ onBack }: Props) {
         }
 
         return { ...w, x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer }
+      }))
+
+      // Animate builder walkers
+      setBuilderWalkers(prev => prev.map(b => {
+        let { x, y, vx, vy, phase, targetX, targetY, label } = b
+        const dx = targetX - x
+        const dy = targetY - y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+
+        if (dist < 18) {
+          // Arrived — flip phase and pick next target
+          const next = pickBuilderTarget(phase, cityRef.current, overlayW, overlayH)
+          phase   = next.nextPhase
+          targetX = next.targetX
+          targetY = next.targetY
+          label   = next.label
+        }
+
+        // Steer toward target
+        if (dist > 1) {
+          vx = (dx / dist) * BUILDER_SPEED
+          vy = (dy / dist) * BUILDER_SPEED
+        }
+
+        x += vx
+        y += vy
+        x = Math.max(0, Math.min(overlayW - UNIT_SIZE, x))
+        y = Math.max(0, Math.min(overlayH - UNIT_SIZE, y))
+
+        return { ...b, x, y, vx, vy, phase, targetX, targetY, label }
       }))
     }, 100)
     return () => clearInterval(id)
@@ -1609,6 +1730,19 @@ export function CityBuilder({ onBack }: Props) {
             )
           })
           })()}
+
+          {/* Builder walkers — one per fort under construction */}
+          {builderWalkers.map((b, idx) => (
+            <div
+              key={`builder-${idx}`}
+              className="city-walker city-builder-walker"
+              style={{ left: Math.round(b.x), top: Math.round(b.y) }}
+              title={b.label}
+            >
+              <div className="city-builder-bubble">{b.label}</div>
+              <AnimatedSpriteImg name="Builder" frameCount={3} fps={8} className="city-walker-sprite" />
+            </div>
+          ))}
         </div>
       </div>
 
