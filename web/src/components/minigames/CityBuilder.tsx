@@ -1919,7 +1919,7 @@ export function CityBuilder({ onBack }: Props) {
           className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
           onClick={toggleBulldozer}
           title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}
-        >{bulldozerMode ? '🏗 DEMOLISH' : '🏗 BUILD'}</button>
+        >{bulldozerMode ? '🧱 DEMOLISH' : '👷 BUILD'}</button>
         <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTIFICATIONS</button>
 
       </div>
