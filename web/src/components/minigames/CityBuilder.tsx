@@ -39,7 +39,11 @@ import { Card } from '../../game/types'
 
 function rageDescription(happiness: number): string {
   if (happiness === 0)   return 'Left the city'
-  if (happiness < 30)    return 'Furious — leaving soon!'
+  if (happiness < 5)    return "I'm packing my bags!"
+  if (happiness < 10)    return 'Furious — leaving soon!'
+  if (happiness < 20)    return 'Furious — on the brink of leaving!'
+  if (happiness < 30)    return 'Very unhappy — on edge!'
+  if (happiness < 50)    return 'Very unhappy — restless and loud!'
   if (happiness < 60)    return 'Unsettled'
   if (happiness < 90)    return 'A little uneasy'
   return 'Content'
@@ -89,7 +93,10 @@ const RESIDENT_FIRST_NAMES = [
   'Grit', 'Nyx', 'Rune', 'Cora', 'Drake', 'Frey', 'Vex', 'Sage', 'Onyx', 'Luna',
   'Zara', 'Kade', 'Ember', 'Riven', 'Sylas', 'Jade', 'Dorian', 'Nyssa', 'Orin', 'Soren',
   'Tess', 'Galen', 'Vira', 'Kira', 'Bram', 'Lena', 'Zane', 'Mara', 'Rhea', 'Dax',
-  'Cyrus', 'Elara', 'Fen', 'Nora', 'Vaughn', 'Sia', 'Kieran', 'Lyra', 'Rook', 'Eira',
+  'Cyrus', 'Elara', 'Fen', 'Nora', 'Vaughn', 'Sia', 'Kieran', 'Lyra', 'Eira', 'Zev',
+  'Mina', 'Thane', 'Vela', 'Kass', 'Dara', 'Orion', 'Faye', 'Gideon', 'Lira', 'Kara',
+  'Elys', 'Kael', 'Varyn', 'Selene', 'Torik', 'Xara', 'Brakka', 'Zephyr', 'Isolde', 'Malric',
+  'Tavra', 'Voren', 'Calyx', 'Seraph', 'Nymer', 'Talon', 'Velric', 'Auren', 'Morwen', 'Zyra'
 ]
 
 function residentName(unitName: string, cellIndex: number, unitIndex: number): string {

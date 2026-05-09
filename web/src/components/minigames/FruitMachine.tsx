@@ -240,7 +240,7 @@ export function FruitMachine({ onDone }: Props) {
     setGrandJackpot(newGrand)
     try { localStorage.setItem('fm_grand', String(newGrand)) } catch (e) { logError('fm_grand save', { error: String(e) }) }
     incrementGrandJackpot(amount)
-    setBoardMessage(`Grand jackpot up by ${amount}! Now ${newGrand} credits!`)
+    setBoardMessage(`Grand jackpot Now ${newGrand} credits!`)
   }
 
   function calcPayout(s: [string, string, string]): { credits: number; winType: WinType } {
