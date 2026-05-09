@@ -392,11 +392,13 @@ export function FruitMachine({ onDone }: Props) {
         setBoardMessage(`MINI JACKPOT! +${JACKPOT_TIERS[0].credits} credits!`)
         setJackpotWon({ tier: 'Mini', amount: JACKPOT_TIERS[0].credits })
         setPhase('jackpot-win')
+        updateGrandJackpot(JACKPOT_TIERS[0].credits)
         break
       case 'jackpot-major':
         setCredits(c => c + JACKPOT_TIERS[2].credits)
         setBoardMessage(`MAJOR JACKPOT! +${JACKPOT_TIERS[2].credits} credits!`)
         setJackpotWon({ tier: 'Major', amount: JACKPOT_TIERS[2].credits })
+        updateGrandJackpot(JACKPOT_TIERS[2].credits)
         setPhase('jackpot-win')
         break
       case 'jackpot-grand': {
@@ -502,6 +504,7 @@ function regressBoardBy(steps: number) {
     const newFeatureCount = featureCountRef.current + featureHits
     if (featureHits > 0 && newFeatureCount >= FEATURE_THRESHOLD) {
       featureBonus = FEATURE_BONUS_CREDITS
+      updateGrandJackpot(FEATURE_BONUS_CREDITS)
       featureCountRef.current = newFeatureCount % FEATURE_THRESHOLD
     } else {
       featureCountRef.current = newFeatureCount
