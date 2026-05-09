@@ -279,7 +279,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
             onClick={onFeedback}
             title="Send feedback or report a bug"
             style={{ marginLeft: '6px', fontSize: '13px', padding: '2px 7px' }}
-          >?</button>
+          >Feedback</button>
         </div>
       </div>
     </div>

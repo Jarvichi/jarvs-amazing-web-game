@@ -166,6 +166,17 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
       onClick={clickable ? onClick : undefined}
       title={heroLocked ? `Hero cards unlock after 30 seconds (${lockedSecs}s remaining)` : card.description}
     >
+      {card.isHero && <>
+      
+
+        <div className="hero-badge-wrap">
+         <span className="hero-badge">HERO</span>
+        </div>
+      </>}     
+
+
+
+
       <div className="card-cost">{card.cost}</div>
       {upgradeable && <div className="card-upgrade-badge">UPGRADE</div>}
       <div className="card-title">{card.name}</div>
@@ -177,7 +188,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
             : null
         }
       </div>
-      {card.isHero && <span className="hero-badge">HERO</span>}
+
       <div className="card-stats">{stats}</div>
       <div className="card-bottom-row">
         <div className="card-rarity">{rarityStars(card.rarity)}</div>

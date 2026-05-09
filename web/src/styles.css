@@ -784,20 +784,34 @@ body {
   text-shadow: none;
 }
 
-.hero-badge {
+.hero-badge-wrap {
   position: absolute;
-  bottom: 52px;
+  top: 0;
   left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 0.571rem;
-  font-weight: bold;
-  letter-spacing: 1px;
-  color: #111;
-  background: #e798ff;
-  padding: 2px 0;
-  text-shadow: none;
+  width: 86px;
+  height: 80px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 10;
 }
+
+.hero-badge {
+   position: absolute;
+  top: 4px;
+  right: -38px;
+  width: 100px;
+  color: #111;
+  background: #f5d208;
+  text-align: center;
+  text-wrap: auto;
+  transform: rotate(45deg);
+  font-size: 0.5rem;
+  font-weight: bold;
+  padding: 3px 0;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
 
 .card-title {
   font-size: 0.786rem;
