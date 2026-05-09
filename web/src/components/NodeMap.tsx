@@ -978,7 +978,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                             {status === 'skipped'   && '╳'}
                             {status === 'available' && node.type === 'rest'
                               ? `+${node.restHeal} HP`
-                              : status === 'available' ? 'PEEK' : ''}
+                              : status === 'available' ? '' : ''}
                           </span>
                         </button>
                       </div>
