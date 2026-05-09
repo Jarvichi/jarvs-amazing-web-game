@@ -172,34 +172,6 @@ function calcPayoutBase(s: [string, string, string]): number {
 
 type WinType = 'wild' | 'bonus' | 'feature' | null
 
-function calcPayout(s: [string, string, string]): { credits: number; winType: WinType } {
-  // Scatter: 2+ Bonus symbols anywhere pay regardless of position
-  const bonusCount = s.filter(x => x === BONUS).length
-  if (bonusCount >= 2) {
-    return { credits: bonusCount === 3 ? 15 : 4, winType: 'bonus' }
-  }
-
-  const wildCount = s.filter(x => x === WILD).length
-
-  // Triple wild pays a fixed jackpot
-  if (wildCount === 3) return { credits: 40, winType: 'wild' }
-
-  if (wildCount > 0) {
-    // Substitute each Wild with the best-matching standard symbol
-    const nonWild = s.filter(x => x !== WILD && x !== FEATURE && x !== BONUS)
-    if (nonWild.length === 0) return { credits: 0, winType: null }
-    const candidates = [...new Set(nonWild)]
-    let best = 0
-    for (const sub of candidates) {
-      const subbed = s.map(x => x === WILD ? sub : x) as [string, string, string]
-      const pay = calcPayoutBase(subbed)
-      if (pay > best) best = pay
-    }
-    return { credits: best, winType: best > 0 ? 'wild' : null }
-  }
-
-  return { credits: calcPayoutBase(s), winType: null }
-}
 
 export function FruitMachine({ onDone }: Props) {
   const [reels, setReels] = useState<[string, string, string]>(() => [pickSymbol(), pickSymbol(), pickSymbol()])
@@ -259,6 +231,48 @@ export function FruitMachine({ onDone }: Props) {
     setDisplay([...reels] as [string, string, string])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+
+  function updateGrandJackpot(amount: number = 1) {
+    // Grand jackpot grows by the specified amount every spin — increment server-side and mirror locally
+    const newGrand = grandJackpotRef.current + amount
+    grandJackpotRef.current = newGrand
+    setGrandJackpot(newGrand)
+    try { localStorage.setItem('fm_grand', String(newGrand)) } catch (e) { logError('fm_grand save', { error: String(e) }) }
+    incrementGrandJackpot(amount)
+    setBoardMessage(`Grand jackpot up by ${amount}! Now ${newGrand} credits!`)
+  }
+
+  function calcPayout(s: [string, string, string]): { credits: number; winType: WinType } {
+    // Scatter: 2+ Bonus symbols anywhere pay regardless of position
+    const bonusCount = s.filter(x => x === BONUS).length
+    if (bonusCount >= 2) {
+      return { credits: bonusCount === 3 ? 15 : 4, winType: 'bonus' }
+    }
+
+    updateGrandJackpot(bonusCount * 10)  // Each Bonus symbol adds 10 to the Grand jackpot
+
+    const wildCount = s.filter(x => x === WILD).length
+
+    // Triple wild pays a fixed jackpot
+    if (wildCount === 3) return { credits: 40, winType: 'wild' }
+
+    if (wildCount > 0) {
+      // Substitute each Wild with the best-matching standard symbol
+      const nonWild = s.filter(x => x !== WILD && x !== FEATURE && x !== BONUS)
+      if (nonWild.length === 0) return { credits: 0, winType: null }
+      const candidates = [...new Set(nonWild)]
+      let best = 0
+      for (const sub of candidates) {
+        const subbed = s.map(x => x === WILD ? sub : x) as [string, string, string]
+        const pay = calcPayoutBase(subbed)
+        if (pay > best) best = pay
+      }
+      return { credits: best, winType: best > 0 ? 'wild' : null }
+    }
+
+    return { credits: calcPayoutBase(s), winType: null }
+  }
 
   // Fetch live grand jackpot from Firestore on mount, then poll every 30 s
   useEffect(() => {
@@ -572,6 +586,8 @@ function regressBoardBy(steps: number) {
     }
   }
 
+
+
   function spin() {
     clearMessages()
 
@@ -593,13 +609,8 @@ function regressBoardBy(steps: number) {
     ladderSpinRef.current = true
     setRecentlyHeld([...held] as [boolean, boolean, boolean])
 
-    // Grand jackpot grows by 1 every spin — increment server-side and mirror locally
-    const newGrand = grandJackpotRef.current + 1
-    grandJackpotRef.current = newGrand
-    setGrandJackpot(newGrand)
-    try { localStorage.setItem('fm_grand', String(newGrand)) } catch (e) { logError('fm_grand save', { error: String(e) }) }
-    incrementGrandJackpot()
-
+    updateGrandJackpot()
+    
     emitSound('fruitMachineSpin')
     setPhase('spinning')
     const spinCost = freeSpin ? 0 : 1
