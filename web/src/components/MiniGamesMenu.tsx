@@ -250,6 +250,18 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
       {subScreen === 'menu' && (
         <>
+          {/* City Builder — separate from the ticket economy */}
+          <div className="city-builder-hub-entry">
+            <div className="city-builder-hub-icon">🏙</div>
+            <div className="city-builder-hub-info">
+              <div className="city-builder-hub-name">CITY BUILDER</div>
+              <div className="city-builder-hub-desc">Place units &amp; buildings to earn gold. Level up your cards permanently.</div>
+            </div>
+            <button className="action-btn action-btn--gold" onClick={() => setSubScreen('citybuilder')}>
+              ENTER
+            </button>
+          </div>
+
           {/* Game grid */}
           <div className="minigame-grid">
             {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing'] as MiniGameId[]).map(id => {
@@ -278,19 +290,8 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
             })}
           </div>
 
-          {/* City Builder — separate from the ticket economy */}
-          <div className="city-builder-hub-entry">
-            <div className="city-builder-hub-icon">🏙</div>
-            <div className="city-builder-hub-info">
-              <div className="city-builder-hub-name">CITY BUILDER</div>
-              <div className="city-builder-hub-desc">Place units &amp; buildings to earn gold. Level up your cards permanently.</div>
-            </div>
-            <button className="action-btn action-btn--gold" onClick={() => setSubScreen('citybuilder')}>
-              ENTER
-            </button>
-          </div>
 
-          <div className="minigame-coming-soon">✦ More games coming soon! ✦</div>
+
 
           <div className="minigame-hub-actions">
             <button className="action-btn" onClick={() => setSubScreen('prizes')}>

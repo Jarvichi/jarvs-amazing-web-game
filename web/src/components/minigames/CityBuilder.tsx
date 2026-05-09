@@ -14,7 +14,7 @@ import {
   CityCell, CityState, Fortification, BuildQueueEntry, ResourceType, ResourceStock, AttackEvent,
   RESOURCE_ICONS, SPAWNER_PLACE_COST,
   FORT_MAX_HP, FORT_DEFENSE, FORT_PLACE_COST, FORT_MAX_ATTACKS, EXPANSION_COSTS, MAX_TOTAL_FORTS,
-  DEFAULT_BUILDER_COUNT, MAX_BUILDER_COUNT, BUILDER_HIRE_COSTS,
+  DEFAULT_BUILDER_COUNT, MAX_BUILDER_COUNT,
   canAffordFortification, canQueueFortification,
   loadCityState, saveCityState, tickCity,
   placeCard, removeCard,
@@ -29,7 +29,7 @@ import {
   INCOME_SPAWN, INCOME_UTILITY, INCOME_WALL,
   spawnerUnitCount, masteryOutputMultiplier,
   getNeighbourIndices,
-  nextBuilderCost, buyBuilder,
+  nextBuilderCost, buyBuilder, getCardMasteryLevel,
 } from '../../game/cityBuilder'
 import { MasteryBar } from '../MasteryBar'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
@@ -96,7 +96,8 @@ const RESIDENT_FIRST_NAMES = [
   'Cyrus', 'Elara', 'Fen', 'Nora', 'Vaughn', 'Sia', 'Kieran', 'Lyra', 'Eira', 'Zev',
   'Mina', 'Thane', 'Vela', 'Kass', 'Dara', 'Orion', 'Faye', 'Gideon', 'Lira', 'Kara',
   'Elys', 'Kael', 'Varyn', 'Selene', 'Torik', 'Xara', 'Brakka', 'Zephyr', 'Isolde', 'Malric',
-  'Tavra', 'Voren', 'Calyx', 'Seraph', 'Nymer', 'Talon', 'Velric', 'Auren', 'Morwen', 'Zyra'
+  'Tavra', 'Voren', 'Calyx', 'Seraph', 'Nymer', 'Talon', 'Velric', 'Auren', 'Morwen', 'Zyra',
+  'Graham', 'Rob', 'Jarv', 'Jason'
 ]
 
 function residentName(unitName: string, cellIndex: number, unitIndex: number): string {
@@ -665,7 +666,7 @@ export function CityBuilder({ onBack }: Props) {
       return next
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city.grid, city.cardLevels])
+  }, [city.grid])
 
   // ── Sync builder walkers when queue changes ───────────────────────────────────
 
@@ -1397,7 +1398,7 @@ export function CityBuilder({ onBack }: Props) {
                     const cost        = isSpawner ? SPAWNER_PLACE_COST[card.rarity] : null
                     const produces    = !isSpawner ? getBuildingProduces(card.name) : null
                     const mLvl        = masteryLevel(getMasteryXp(collection, card.name))
-                    const masteryMult = !isSpawner ? masteryOutputMultiplier(city.cardLevels[card.name] ?? 0) : 1
+                    const masteryMult = !isSpawner ? masteryOutputMultiplier(getCardMasteryLevel(card.name) ?? 0) : 1
                     const producesEntries = produces ? Object.entries(produces).filter(([, v]) => (v ?? 0) > 0) : []
                     const incomeRateVal = isSpawner
                       ? INCOME_SPAWN[card.rarity]
@@ -1672,7 +1673,7 @@ export function CityBuilder({ onBack }: Props) {
         const unitCount    = cell.spawnedUnitName ? spawnerUnitCount(city, cell.cardName) : 0
         const moodKey      = happiness === 0 ? 'gone' : happiness < 30 ? 'furious' : happiness < 60 ? 'unsettled' : 'content'
         const produces     = getBuildingProduces(cell.cardName)
-        const masteryMult  = masteryOutputMultiplier(city.cardLevels[cell.cardName] ?? 0)
+        const masteryMult  = masteryOutputMultiplier(getCardMasteryLevel(cell.cardName) ?? 0)
         const produceEntries = Object.entries(produces).filter(([, v]) => (v ?? 0) > 0)
         const xp           = getMasteryXp(collection, cell.cardName)
         const { level: mLvl } = masteryProgress(xp)

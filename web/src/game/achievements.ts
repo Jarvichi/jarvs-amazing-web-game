@@ -1715,7 +1715,7 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   {
     id: 'misc:legend_stare',
     name: 'Drawn to Power',
-    description: 'Open the detail view of legendary cards 10 times',
+    description: 'Have the legendaries notice your gaze. They are intrigued. You have drawn their attention 10 times.',
     category: 'misc',
     progressKey: 'misc:legend_stare',
     target: 10,
@@ -1756,6 +1756,16 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     tier: 2,
   },
   {
+    id: 'miniGame:play_10000',
+    name: 'Living For The Game',
+    description: 'Play 10,000 arcade mini games.',
+    category: 'misc',
+    progressKey: 'miniGame:gamesPlayed',
+    target: 10000,
+    reward: { type: 'cards', count: 25 },
+    tier: 2,
+  },  
+  {
     id: 'miniGame:earn_100',
     name: 'Ticket Collector',
     description: 'Earn a total of 100 arcade tickets.',
@@ -1773,6 +1783,16 @@ export const ACHIEVEMENT_DEFS: AchievementDef[] = [
     progressKey: 'miniGame:ticketsEarned',
     target: 1000,
     reward: { type: 'cards', count: 5 },
+    tier: 2,
+  },
+    {
+    id: 'miniGame:earn_1000000',
+    name: 'Epic Winner',
+    description: 'Earn a total of 1,000,000 arcade tickets.',
+    category: 'misc',
+    progressKey: 'miniGame:ticketsEarned',
+    target: 1000000,
+    reward: { type: 'cards', count: 25 },
     tier: 2,
   },
   {

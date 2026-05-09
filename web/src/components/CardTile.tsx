@@ -3,7 +3,6 @@ import { Card } from '../game/types'
 import { rarityStars } from '../game/cards'
 import { SpriteImg } from './SpriteImg'
 import { useCardDetail } from './useCardDetail'
-import { loadCityState, getCardLevel } from '../game/cityBuilder'
 
 const UPGRADE_SPRITE: Record<string, string> = {
   buffAttack: 'upgrade-attack',
@@ -135,7 +134,6 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
   const heroLocked = card.isHero && lockedSecs > 0
   const clickable = canAfford && !disabled && !heroLocked
   const { openDetail, cardDetailNode } = useCardDetail()
-  const cityLevel = getCardLevel(loadCityState(), card.name)
 
   let stats: string
 
@@ -180,7 +178,6 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         }
       </div>
       {card.isHero && <span className="hero-badge">HERO</span>}
-      {cityLevel > 0 && <span className="card-city-level">{'★'.repeat(cityLevel)}</span>}
       <div className="card-stats">{stats}</div>
       <div className="card-bottom-row">
         <div className="card-rarity">{rarityStars(card.rarity)}</div>

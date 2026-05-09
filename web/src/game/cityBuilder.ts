@@ -4,6 +4,7 @@
 // each tick. Happiness is driven by food availability and city defence.
 
 import { logError } from '../logger'
+import { getMasteryXp, loadCollection, masteryLevel } from './collection'
 import { CardRarity } from './types'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -210,7 +211,7 @@ export interface CityState {
   gold:           number
   resources:      ResourceStock
   lastTick:       number
-  cardLevels:     Record<string, number>
+  // cardLevels:     Record<string, number>
   /** cellIndex → happiness 0–100 (only meaningful for spawn buildings). */
   happiness:      Record<number, number>
   /** Dynamic grid height; starts at CITY_ROWS (4). */
@@ -243,7 +244,7 @@ function defaultState(): CityState {
     gold:           500,
     resources:      { wheat: 300, wood: 300, ore: 150, bread: 0, planks: 0, metal: 0 },
     lastTick:       Date.now(),
-    cardLevels:     {},
+    // cardLevels:     {},
     happiness:      {},
     rows:           CITY_ROWS,
     nextAttackAt:   Date.now() + BASE_ATTACK_INTERVAL_MS + Math.random() * ATTACK_INTERVAL_JITTER_MS,
@@ -278,7 +279,7 @@ export function loadCityState(): CityState {
         metal:  savedResources.metal  ?? 0,
       },
       lastTick:       parsed.lastTick   ?? Date.now(),
-      cardLevels:     parsed.cardLevels ?? {},
+      // cardLevels:     parsed.cardLevels ?? {},
       happiness:      parsed.happiness  ?? {},
       rows,
       nextAttackAt:   parsed.nextAttackAt ?? Date.now() + BASE_ATTACK_INTERVAL_MS,
@@ -313,7 +314,14 @@ export function masteryOutputMultiplier(level: number): number {
 
 /** How many units a spawner should field: mastery 0 → 1, mastery N → N+1. */
 export function spawnerUnitCount(state: CityState, cardName: string): number {
-  return (state.cardLevels[cardName] ?? 0) + 1
+  return (getCardMasteryLevel(cardName) ?? 0) + 1
+}
+
+export function getCardMasteryLevel(cardName: string): number {
+    const col = loadCollection()
+    const currentXp = getMasteryXp(col, cardName)
+    const currentLvl = masteryLevel(currentXp)
+    return currentLvl
 }
 
 // ── Structure classification ──────────────────────────────────────────────────
@@ -500,7 +508,7 @@ export function tickCity(state: CityState): CityState {
 
     // Resource production (utility/non-spawner buildings that produce resources)
     if (!cell.spawnedUnitName) {
-      const masteryMult = masteryOutputMultiplier(state.cardLevels[cell.cardName] ?? 0)
+      const masteryMult = masteryOutputMultiplier(getCardMasteryLevel(cell.cardName) ?? 0)
       const produces = getBuildingProduces(cell.cardName)
       for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
         if (rate > 0) newResources[res] = (newResources[res] ?? 0) + rate * masteryMult * minutes
@@ -748,7 +756,7 @@ export function goldNetRate(state: CityState): number {
 // ── Card levelling ────────────────────────────────────────────────────────────
 
 export function getCardLevel(state: CityState, cardName: string): number {
-  return state.cardLevels[cardName] ?? 0
+  return getCardMasteryLevel(cardName) ?? 0
 }
 
 export function levelUpCost(currentLevel: number): number {
@@ -762,7 +770,6 @@ export function levelUpCard(state: CityState, cardName: string, masteryLvl: numb
   return {
     ...state,
     gold:       state.gold - cost,
-    cardLevels: { ...state.cardLevels, [cardName]: current + 1 },
   }
 }
 
@@ -772,7 +779,7 @@ export function resourceProductionRate(state: CityState): Partial<ResourceStock>
   const rates: Partial<ResourceStock> = {}
   for (const cell of state.grid) {
     if (!cell || cell.spawnedUnitName) continue
-    const masteryMult = masteryOutputMultiplier(state.cardLevels[cell.cardName] ?? 0)
+    const masteryMult = masteryOutputMultiplier(getCardMasteryLevel(cell.cardName) ?? 0)
     const produces = getBuildingProduces(cell.cardName)
     for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
       rates[res] = (rates[res] ?? 0) + rate * masteryMult
