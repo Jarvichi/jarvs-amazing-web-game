@@ -875,12 +875,20 @@ body {
   justify-content: center;
 }
 
+.card-art-flame {
+  position: absolute;
+  font-size: 48px;
+  z-index: 1;
+  opacity: 0.5;
+}
+
 .card-sprite {
   max-width: 64px;
   max-height: 40px;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   display: block;
+  z-index: 0;
 }
 
 /* ─── Hand card wrapper + info button ───────────────── */

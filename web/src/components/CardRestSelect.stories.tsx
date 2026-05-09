@@ -14,11 +14,18 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     "candidates": [
-      "candidates"
+      "Goblin",
+      "Knight",
+      "Archer"
     ],
     "playCounts": {
-      "candidates": 1
+      "Goblin": 10,
+      "Knight": 8,
+      "Archer": 5,
     },
+    "alreadyResting": [
+      "Spear Thrower", "Giant"
+    ],
     "onConfirm": fn()
   },
 };

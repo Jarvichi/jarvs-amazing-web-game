@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { SpriteImg } from './SpriteImg'
+import { CardRestSelectCandidate } from './CardRestSelectCandidate'
 
 interface Props {
   /** Top 3 most-played card names for this act — candidates to rest. */
@@ -44,7 +46,10 @@ export function CardRestSelect({ candidates, playCounts, alreadyResting = [], on
           <div className="card-rest-already-label">ALREADY RESTING</div>
           <div className="card-rest-already-list">
             {alreadyResting.map(name => (
-              <span key={name} className="card-rest-already-item">[ZZZ] {name}</span>
+              <>
+                <SpriteImg name={name} className="card-sprite" />
+                <span key={name} className="card-rest-already-item">[ZZZ] {name}</span>
+              </>
             ))}
           </div>
           <div className="card-rest-already-note">
@@ -57,19 +62,15 @@ export function CardRestSelect({ candidates, playCounts, alreadyResting = [], on
         {candidates.map((name, i) => {
           const isSelected = selected.has(name)
           return (
-            <div
-              key={name}
-              className={[
-                'card-rest-candidate',
-                isSelected ? 'card-rest-candidate--selected' : '',
-              ].join(' ')}
-              onClick={() => toggle(name)}
-            >
-              <div className="crc-checkbox">{isSelected ? '[✓]' : '[ ]'}</div>
-              <div className="crc-rank">#{i + 1} most used</div>
-              <div className="crc-name">{name}</div>
-              <div className="crc-count">×{playCounts[name] ?? 0} plays this act</div>
-            </div>
+            <CardRestSelectCandidate 
+            key={name} 
+            name={name} 
+            playCount={playCounts[name] ?? 0} 
+            rank={i + 1} 
+            isSelected={isSelected} 
+            onClick={() => toggle(name)}
+             />
+
           )
         })}
       </div>
