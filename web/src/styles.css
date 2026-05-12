@@ -9083,6 +9083,22 @@ html.light-mode .action-btn {
 .city-attack-pill--soon     { color: #c08020; }
 .city-attack-pill--imminent { color: #d06030; animation: city-pulse 1.2s ease-in-out infinite; }
 
+/* Attack strength badge inside the pill */
+.city-attack-strength {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+}
+.strength--weak      { background: rgba(76,175,80,0.2);  color: #4caf50; border: 1px solid #4caf50; }
+.strength--mod       { background: rgba(255,193,7,0.15); color: #ffc107; border: 1px solid #ffc107; }
+.strength--strong    { background: rgba(255,87,34,0.15); color: #ff5722; border: 1px solid #ff5722; }
+.strength--overwhelm { background: rgba(176,0,32,0.2);  color: #ff1744; border: 1px solid #ff1744; }
+
 .city-info-chip {
   font-size: 11px;
   color: #608060;
