@@ -231,7 +231,7 @@ interface SpawnEntry {
   spawnAt: number   // game-time ms when this enemy should enter
 }
 
-export type TDPhase = 'prep' | 'wave' | 'between' | 'victory' | 'defeat'
+export type TDPhase = 'prep' | 'wave' | 'between' | 'milestone' | 'victory' | 'defeat'
 
 export interface TDGameState {
   phase: TDPhase
@@ -256,7 +256,8 @@ export interface TDGameState {
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 export const TD_MAX_LIVES = 3
-export const TD_TOTAL_WAVES = TD_WAVES.length
+export const TD_TOTAL_WAVES = 100
+export const TD_MILESTONE_EVERY = 10   // extended break + field reset every N waves
 export const TD_CELL_PX = 48
 export const TD_STARTING_MANA = 120
 export const TD_MAX_UPGRADES = 2
@@ -277,6 +278,28 @@ export function upgradeCost(tower: TDTower): number {
 /** ATK multiplier for a tower at its current upgrade tier. */
 export function upgradeAttackMult(upgrades: number): number {
   return 1 + upgrades * 0.5
+}
+
+/**
+ * Generate wave definition for any wave index 0–(TD_TOTAL_WAVES-1).
+ * Cycles through TD_WAVES with escalating HP and count per 10-wave cycle.
+ */
+function generateWave(waveIndex: number): WaveDefinition {
+  const baseIdx = waveIndex % TD_WAVES.length
+  const cycle   = Math.floor(waveIndex / TD_WAVES.length)
+  const base    = TD_WAVES[baseIdx]
+  const hpScale = 1 + cycle * 0.5                               // +50% HP per cycle
+  const countMult = cycle >= 4 ? 1 + Math.floor((cycle - 3) / 2) : 1  // more enemies in later cycles
+  const baseLabel = base.label.replace(/^Wave \d+ — /, '')
+  return {
+    wave: waveIndex + 1,
+    label: `Wave ${waveIndex + 1} — ${baseLabel}${cycle > 0 ? ` [×${hpScale.toFixed(1)}]` : ''}`,
+    spawns: base.spawns.map(s => ({
+      ...s,
+      count:  Math.round(s.count * countMult),
+      hpMult: +(s.hpMult * hpScale).toFixed(2),
+    })),
+  }
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -448,11 +471,10 @@ export function moveTower(state: TDGameState, towerId: number, col: number, row:
   }
 }
 
-/** Begin the next wave from prep or between phase. */
+/** Begin the next wave from prep, between, or milestone phase. */
 export function startWave(state: TDGameState): TDGameState {
-  if (state.phase !== 'prep' && state.phase !== 'between') return state
-  const waveDef = TD_WAVES[state.currentWaveIndex]
-  if (!waveDef) return state
+  if (state.phase !== 'prep' && state.phase !== 'between' && state.phase !== 'milestone') return state
+  const waveDef = generateWave(state.currentWaveIndex)
   const queue = buildSpawnQueue(waveDef, state.gameTimeMs)
   return {
     ...state,
@@ -570,17 +592,22 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   if (s.phase === 'wave' && s.spawnQueue.length === 0 && s.enemies.length === 0) {
     s.wavesCompleted += 1
     if (s.wavesCompleted >= TD_TOTAL_WAVES) {
-      s.log = [...s.log.slice(-9), 'All waves defeated! Victory!']
+      s.log = [...s.log.slice(-9), 'All 100 waves defeated! Legendary victory!']
       return { ...s, phase: 'victory' }
     }
     s.currentWaveIndex += 1
+    // Every TD_MILESTONE_EVERY waves: extended break, no auto-advance
+    if (s.wavesCompleted % TD_MILESTONE_EVERY === 0) {
+      s.log = [...s.log.slice(-9), `🎉 ${s.wavesCompleted} waves cleared! Take a break — sell, move or upgrade your towers!`]
+      return { ...s, phase: 'milestone' }
+    }
     s.nextWaveAt = s.gameTimeMs + BETWEEN_WAVE_MS
-    const nextWave = TD_WAVES[s.currentWaveIndex]
-    s.log = [...s.log.slice(-9), `Wave ${s.wavesCompleted} cleared! Next wave in 5 s — ${nextWave?.label ?? ''}`]
+    const nextWave = generateWave(s.currentWaveIndex)
+    s.log = [...s.log.slice(-9), `Wave ${s.wavesCompleted} cleared! Next in 5 s — ${nextWave.label}`]
     return { ...s, phase: 'between' }
   }
 
-  // ── Auto-advance between phase ─────────────────────────────────────────────
+  // ── Auto-advance between phase (milestone never auto-advances) ─────────────
   if (s.phase === 'between' && s.gameTimeMs >= s.nextWaveAt) {
     return startWave(s)
   }

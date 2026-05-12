@@ -8,7 +8,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { UnitTemplate } from '../../game/types'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
 import {
-  TD_COLS, TD_ROWS, TD_PATH, TD_WAVES, TD_TOTAL_WAVES, TD_MAX_LIVES, TD_CELL_PX, TD_MAX_UPGRADES,
+  TD_COLS, TD_ROWS, TD_PATH, TD_TOTAL_WAVES, TD_MAX_LIVES, TD_CELL_PX, TD_MAX_UPGRADES, TD_MILESTONE_EVERY,
   TDGameState, TDTower, TDEnemy, TDAttackEvent,
   isPathCell,
   createTDGame, placeTower, removeTower, moveTower, upgradeTower, startWave, tickTD,
@@ -85,7 +85,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
     while (accRef.current >= TICK_MS) {
       accRef.current -= TICK_MS
       setGame(prev => {
-        if (prev.phase === 'prep' || prev.phase === 'victory' || prev.phase === 'defeat') return prev
+        if (prev.phase === 'prep' || prev.phase === 'milestone' || prev.phase === 'victory' || prev.phase === 'defeat') return prev
         return tickTD(prev, TICK_MS)
       })
     }
@@ -142,7 +142,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
 
     // No tower selected, no tower at cell: place if a unit chip is chosen
     if (!selected || isOnPath(col, row)) return
-    if (g.phase !== 'prep' && g.phase !== 'between' && g.phase !== 'wave') return
+    if (g.phase !== 'prep' && g.phase !== 'between' && g.phase !== 'wave' && g.phase !== 'milestone') return
     const next = placeTower(g, selected, col, row)
     if (next) setGame(next)
   }
@@ -166,7 +166,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
 
   // ── Derived ─────────────────────────────────────────────────────────────────
 
-  const isPlacingPhase  = game.phase === 'prep' || game.phase === 'between'
+  const isPlacingPhase  = game.phase === 'prep' || game.phase === 'between' || game.phase === 'milestone'
   const canPlaceTowers  = isPlacingPhase || game.phase === 'wave'
   const reward = mode === 'city' ? calcGoldReward(game.wavesCompleted) : calcTicketReward(game.wavesCompleted)
   const rewardLabel = mode === 'city'
@@ -254,6 +254,11 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
         )}
         {game.phase === 'between' && (
           <span className="td-header-active">⏳ Next wave…</span>
+        )}
+        {game.phase === 'milestone' && (
+          <span className="td-header-milestone">
+            🎉 {game.wavesCompleted}/{TD_TOTAL_WAVES} — Reorganise!
+          </span>
         )}
 
         <button className="action-btn action-btn--danger td-header-btn" onClick={() => onDone(reward)}>

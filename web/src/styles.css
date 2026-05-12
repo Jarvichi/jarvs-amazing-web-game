@@ -12100,12 +12100,13 @@ html.light-mode .action-btn {
   flex-shrink: 0;
   flex-wrap: wrap;
 }
-.td-header-lives  { font-size: 14px; letter-spacing: 1px; }
-.td-header-wave   { font-size: 12px; color: #aaa; flex: 1; text-align: center; }
-.td-header-score  { font-size: 12px; color: #4caf50; }
-.td-header-mana   { font-size: 12px; color: #64b5f6; font-weight: bold; }
-.td-header-active { font-size: 12px; color: #f90; }
-.td-header-btn    { padding: 4px 10px !important; font-size: 11px !important; }
+.td-header-lives     { font-size: 14px; letter-spacing: 1px; }
+.td-header-wave      { font-size: 12px; color: #aaa; flex: 1; text-align: center; }
+.td-header-score     { font-size: 12px; color: #4caf50; }
+.td-header-mana      { font-size: 12px; color: #64b5f6; font-weight: bold; }
+.td-header-active    { font-size: 12px; color: #f90; }
+.td-header-milestone { font-size: 11px; color: #ffd700; font-weight: bold; animation: city-pulse 1.5s ease-in-out infinite; }
+.td-header-btn       { padding: 4px 10px !important; font-size: 11px !important; }
 
 /* Wave progress bar */
 .td-wave-progress-wrap {
