@@ -349,43 +349,19 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
             <AttackEffect key={ev.id} ev={ev} />
           ))}
 
-          {/* Tower tooltip — show for selected or hovered tower */}
+          {/* Tower tooltip — hover info only, no action buttons */}
           {(selectedTower || hoveredTower) && (() => {
             const t = selectedTower ?? hoveredTower!
-            const isSel = t.id === selectedTowerId
             const atk = Math.round(t.template.attack * upgradeAttackMult(t.upgrades))
-            const sellRefund = Math.floor(towerCost(t.template) * 0.5)
-            const upCost = upgradeCost(t)
-            const canAffordUp = game.mana >= upCost
             return (
               <div
                 className="td-tower-tooltip"
-                style={{
-                  left: t.col * CELL_PX,
-                  top: Math.max(0, t.row * CELL_PX - (isSel ? 100 : 72)),
-                }}
+                style={{ left: t.col * CELL_PX, top: Math.max(0, t.row * CELL_PX - 56) }}
               >
                 <strong>{t.template.name}</strong>
                 {t.upgrades > 0 && <span className="td-tower-tier-label"> {'★'.repeat(t.upgrades)}</span>}
                 <div>HP {t.hp}/{t.maxHp} · ATK {atk} · R {t.rangeInCells}</div>
-                {isSel ? (
-                  <div className="td-tower-actions">
-                    <button className="td-tower-action-btn td-tower-action-btn--sell"
-                      onClick={e => { e.stopPropagation(); handleSellTower(t) }}>
-                      SELL +💧{sellRefund}
-                    </button>
-                    {t.upgrades < TD_MAX_UPGRADES && (
-                      <button
-                        className={`td-tower-action-btn td-tower-action-btn--upgrade${canAffordUp ? '' : ' td-tower-action-btn--disabled'}`}
-                        onClick={e => { e.stopPropagation(); if (canAffordUp) handleUpgradeTower(t) }}>
-                        ★ UP 💧{upCost}
-                      </button>
-                    )}
-                    <div className="td-tooltip-hint">Tap empty cell to move</div>
-                  </div>
-                ) : (
-                  <div className="td-tooltip-hint">Tap to select</div>
-                )}
+                {t.id !== selectedTowerId && <div className="td-tooltip-hint">Tap to select</div>}
               </div>
             )
           })()}
@@ -393,13 +369,51 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
         </div>{/* td-grid-scaler */}
       </div>
 
+      {/* ── Selected tower action panel ── */}
+      {selectedTower && (() => {
+        const t = selectedTower
+        const atk = Math.round(t.template.attack * upgradeAttackMult(t.upgrades))
+        const sellRefund = Math.floor(towerCost(t.template) * 0.5)
+        const upCost = upgradeCost(t)
+        const canAffordUp = game.mana >= upCost
+        return (
+          <div className="td-selected-panel">
+            <div className="td-selected-panel-info">
+              <strong>{t.template.name}</strong>
+              {t.upgrades > 0 && <span className="td-tower-tier-label"> {'★'.repeat(t.upgrades)}</span>}
+              <span className="td-selected-panel-stats"> · ATK {atk} · HP {t.hp}/{t.maxHp} · R {t.rangeInCells}</span>
+            </div>
+            <div className="td-selected-panel-actions">
+              <button className="td-selected-action-btn td-selected-action-btn--sell"
+                onClick={() => handleSellTower(t)}>
+                SELL +💧{sellRefund}
+              </button>
+              {t.upgrades < TD_MAX_UPGRADES ? (
+                <button
+                  className={`td-selected-action-btn td-selected-action-btn--upgrade${canAffordUp ? '' : ' td-selected-action-btn--disabled'}`}
+                  onClick={() => canAffordUp && handleUpgradeTower(t)}>
+                  ★ UPGRADE 💧{upCost}
+                </button>
+              ) : (
+                <span className="td-selected-panel-maxed">★★ MAX</span>
+              )}
+              <button className="td-selected-action-btn td-selected-action-btn--cancel"
+                onClick={() => setSelectedTowerId(null)}>
+                ✕
+              </button>
+            </div>
+            <div className="td-selected-panel-hint">Tap an empty cell on the grid to move this tower</div>
+          </div>
+        )
+      })()}
+
       {/* ── Bottom panel ── */}
       <div className="td-panel">
         {/* Log line */}
         <div className="td-panel-log">{lastLog}</div>
 
         {/* Hint */}
-        {canPlaceTowers && (
+        {canPlaceTowers && !selectedTower && (
           <div className="td-panel-hint">
             {selected
               ? `Placing ${selected.name} (💧${towerCost(selected)}) — tap a green cell`
