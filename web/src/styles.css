@@ -12213,6 +12213,47 @@ html.light-mode .action-btn {
 }
 .td-enemy-hp-fill { height: 100%; border-radius: 2px; transition: width 0.05s; }
 
+/* ── Selected tower action panel ── */
+.td-selected-panel {
+  flex-shrink: 0;
+  background: #131a13;
+  border-top: 2px solid #ffd700;
+  border-bottom: 1px solid #333;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.td-selected-panel-info { font-size: 13px; color: #e0e0e0; }
+.td-selected-panel-stats { color: #aaa; font-size: 11px; }
+.td-selected-panel-hint { font-size: 10px; color: #666; }
+.td-selected-panel-maxed { font-size: 12px; color: #ffd700; align-self: center; }
+.td-selected-panel-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.td-selected-action-btn {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: 1px solid #555;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+.td-selected-action-btn:hover:not(.td-selected-action-btn--disabled) { background: #252525; }
+.td-selected-action-btn--sell    { border-color: #f44336; color: #f44336; }
+.td-selected-action-btn--sell:hover { background: rgba(244,67,54,0.12); }
+.td-selected-action-btn--upgrade { border-color: #ffd700; color: #ffd700; }
+.td-selected-action-btn--upgrade:hover:not(.td-selected-action-btn--disabled) { background: rgba(255,215,0,0.08); }
+.td-selected-action-btn--cancel  { border-color: #444; color: #777; padding: 6px 10px; }
+.td-selected-action-btn--disabled { opacity: 0.35; cursor: not-allowed; }
+
 /* ── Bottom panel ── */
 .td-panel {
   flex-shrink: 0;
