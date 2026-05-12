@@ -4,7 +4,7 @@
 //   [board]   scrollable grid (fills remaining height)
 //   [panel]   horizontal unit strip + log line
 
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { UnitTemplate } from '../../game/types'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
 import {
@@ -12,7 +12,7 @@ import {
   TDGameState, TDTower, TDEnemy, TDAttackEvent,
   isPathCell,
   createTDGame, placeTower, removeTower, startWave, tickTD,
-  calcTicketReward, calcGoldReward,
+  calcTicketReward, calcGoldReward, towerCost,
 } from '../../game/towerDefence'
 
 // ── Props ─────────────────────────────────────────────────────────────────────
@@ -57,13 +57,16 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
   )
   const [selected, setSelected] = useState<UnitTemplate | null>(null)
   const [hoveredTower, setHoveredTower] = useState<TDTower | null>(null)
+  const [hoveredCell, setHoveredCell] = useState<{ col: number; row: number } | null>(null)
+  const [gridScale, setGridScale] = useState(1)
 
   const gameRef = useRef(game)
   gameRef.current = game
 
-  const rafRef      = useRef<number | null>(null)
-  const lastTimeRef = useRef<number | null>(null)
-  const accRef      = useRef(0)
+  const boardWrapRef = useRef<HTMLDivElement>(null)
+  const rafRef       = useRef<number | null>(null)
+  const lastTimeRef  = useRef<number | null>(null)
+  const accRef       = useRef(0)
 
   // ── Game loop ───────────────────────────────────────────────────────────────
 
@@ -89,16 +92,35 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
     return () => { if (rafRef.current !== null) cancelAnimationFrame(rafRef.current) }
   }, [tick])
 
+  // ── Grid scaling ────────────────────────────────────────────────────────────
+
+  useEffect(() => {
+    const el = boardWrapRef.current
+    if (!el) return
+    const obs = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const w = entry.contentRect.width
+        const factor = Math.min(1, w / (TD_COLS * CELL_PX))
+        setGridScale(factor)
+      }
+    })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
   // ── Interactions ────────────────────────────────────────────────────────────
 
   function handleCellClick(col: number, row: number) {
     const g = gameRef.current
-    if (g.phase !== 'prep' && g.phase !== 'between') return
+    if (g.phase !== 'prep' && g.phase !== 'between' && g.phase !== 'wave') return
 
     const existing = g.towers.find(t => t.col === col && t.row === row)
     if (existing) {
-      setGame(prev => removeTower(prev, existing.id))
-      setHoveredTower(null)
+      // Only allow removal during non-wave phases
+      if (g.phase === 'prep' || g.phase === 'between') {
+        setGame(prev => removeTower(prev, existing.id))
+        setHoveredTower(null)
+      }
       return
     }
 
@@ -117,11 +139,40 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
 
   // ── Derived ─────────────────────────────────────────────────────────────────
 
-  const isPlacingPhase = game.phase === 'prep' || game.phase === 'between'
+  const isPlacingPhase  = game.phase === 'prep' || game.phase === 'between'
+  const canPlaceTowers  = isPlacingPhase || game.phase === 'wave'
   const reward = mode === 'city' ? calcGoldReward(game.wavesCompleted) : calcTicketReward(game.wavesCompleted)
   const rewardLabel = mode === 'city'
     ? `${reward.toLocaleString()} 🪙 city gold`
     : `${reward} 🎫 tickets`
+
+  // Wave progress (0..1): proportion of enemies that have been spawned
+  const waveProgress = game.waveSpawnTotal > 0
+    ? (game.waveSpawnTotal - game.spawnQueue.length) / game.waveSpawnTotal
+    : 0
+
+  // Cells to highlight for range preview
+  const rangeHighlight = useMemo<Set<string>>(() => {
+    let refCol: number | null = null
+    let refRow: number | null = null
+    let rangeInCells = 1
+    if (hoveredTower) {
+      refCol = hoveredTower.col; refRow = hoveredTower.row; rangeInCells = hoveredTower.rangeInCells
+    } else if (selected && hoveredCell) {
+      refCol = hoveredCell.col; refRow = hoveredCell.row
+      rangeInCells = Math.max(1, Math.round(selected.attackRange / CELL_PX))
+    }
+    if (refCol === null || refRow === null) return new Set()
+    const cells = new Set<string>()
+    for (let r = 0; r < TD_ROWS; r++) {
+      for (let c = 0; c < TD_COLS; c++) {
+        if (Math.sqrt((c - refCol) ** 2 + (r - refRow) ** 2) <= rangeInCells) {
+          cells.add(`${c},${r}`)
+        }
+      }
+    }
+    return cells
+  }, [hoveredTower, selected, hoveredCell])
 
   // ── End screen ──────────────────────────────────────────────────────────────
 
@@ -160,6 +211,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
         </div>
 
         <div className="td-header-score">⭐ {game.score}</div>
+        <div className="td-header-mana">💧 {game.mana}</div>
 
         {isPlacingPhase && (
           <button className="action-btn action-btn--gold td-header-btn" onClick={handleStartWave}>
@@ -167,7 +219,10 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
           </button>
         )}
         {game.phase === 'wave' && (
-          <span className="td-header-active">⚔ Fighting…</span>
+          <div className="td-wave-progress-wrap">
+            <div className="td-wave-progress-fill" style={{ width: `${waveProgress * 100}%` }} />
+            <span className="td-wave-progress-label">⚔ {Math.round(waveProgress * 100)}%</span>
+          </div>
         )}
         {game.phase === 'between' && (
           <span className="td-header-active">⏳ Next wave…</span>
@@ -179,19 +234,32 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
       </div>
 
       {/* ── Board (scrollable) ── */}
-      <div className="td-board-wrap">
+      <div className="td-board-wrap" ref={boardWrapRef}>
+        <div
+          className="td-grid-scaler"
+          style={{
+            width: TD_COLS * CELL_PX * gridScale,
+            height: TD_ROWS * CELL_PX * gridScale,
+          }}
+        >
         <div
           className="td-grid"
-          style={{ width: TD_COLS * CELL_PX, height: TD_ROWS * CELL_PX }}
+          style={{
+            width: TD_COLS * CELL_PX,
+            height: TD_ROWS * CELL_PX,
+            transform: `scale(${gridScale})`,
+            transformOrigin: 'top left',
+          }}
         >
           {/* Cells */}
           {Array.from({ length: TD_ROWS }, (_, row) =>
             Array.from({ length: TD_COLS }, (_, col) => {
-              const onPath   = isOnPath(col, row)
-              const isStart  = col === TD_PATH[0].col && row === TD_PATH[0].row
-              const isEnd    = col === TD_PATH[TD_PATH.length - 1].col && row === TD_PATH[TD_PATH.length - 1].row
-              const tower    = game.towers.find(t => t.col === col && t.row === row)
-              const canDrop  = selected && !onPath && !tower && isPlacingPhase
+              const onPath    = isOnPath(col, row)
+              const isStart   = col === TD_PATH[0].col && row === TD_PATH[0].row
+              const isEnd     = col === TD_PATH[TD_PATH.length - 1].col && row === TD_PATH[TD_PATH.length - 1].row
+              const tower     = game.towers.find(t => t.col === col && t.row === row)
+              const canDrop   = selected && !onPath && !tower && canPlaceTowers
+              const inRange   = rangeHighlight.has(`${col},${row}`)
 
               return (
                 <div
@@ -203,11 +271,18 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                     isEnd    ? 'td-cell--end'     : '',
                     canDrop  ? 'td-cell--droppable' : '',
                     tower    ? 'td-cell--occupied' : '',
+                    inRange  ? 'td-cell--in-range' : '',
                   ].filter(Boolean).join(' ')}
                   style={{ left: col * CELL_PX, top: row * CELL_PX, width: CELL_PX, height: CELL_PX }}
                   onClick={() => handleCellClick(col, row)}
-                  onMouseEnter={() => { if (tower) setHoveredTower(tower) }}
-                  onMouseLeave={() => setHoveredTower(null)}
+                  onMouseEnter={() => {
+                    if (tower) setHoveredTower(tower)
+                    setHoveredCell({ col, row })
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredTower(null)
+                    setHoveredCell(null)
+                  }}
                 >
                   {isStart && <span className="td-cell-label">IN</span>}
                   {isEnd   && <span className="td-cell-label">BASE</span>}
@@ -252,6 +327,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
             </div>
           )}
         </div>
+        </div>{/* td-grid-scaler */}
       </div>
 
       {/* ── Bottom panel ── */}
@@ -260,10 +336,10 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
         <div className="td-panel-log">{lastLog}</div>
 
         {/* Hint */}
-        {isPlacingPhase && (
+        {canPlaceTowers && (
           <div className="td-panel-hint">
             {selected
-              ? `Placing ${selected.name} — tap a green cell`
+              ? `Placing ${selected.name} (💧${towerCost(selected)}) — tap a green cell`
               : 'Tap a unit below to select, then tap the grid'}
           </div>
         )}
@@ -272,8 +348,10 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
         <div className="td-unit-strip">
           {pool.map(({ template }) => {
             const remaining = game.remainingPlacements[template.name] ?? 0
+            const cost      = towerCost(template)
             const isSel     = selected?.name === template.name
-            const disabled  = !isPlacingPhase || remaining === 0
+            const cantAfford = game.mana < cost
+            const disabled  = !canPlaceTowers || remaining === 0 || cantAfford
             return (
               <button
                 key={template.name}
@@ -283,7 +361,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                   disabled ? 'td-unit-chip--disabled'  : '',
                 ].filter(Boolean).join(' ')}
                 onClick={() => !disabled && handleSelectUnit(template)}
-                title={`${template.name} — ATK ${template.attack}, HP ${template.maxHp}, Range ${Math.max(1, Math.round(template.attackRange / 64))} cells`}
+                title={`${template.name} — ATK ${template.attack}, HP ${template.maxHp}, Range ${Math.max(1, Math.round(template.attackRange / CELL_PX))} cells, Cost ${cost} mana`}
               >
                 <div className="td-unit-chip-sprite">
                   <SpriteImg name={template.name} />
@@ -291,6 +369,9 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                 <div className="td-unit-chip-name">{template.name}</div>
                 <span className={`td-unit-chip-count ${remaining === 0 ? 'td-unit-chip-count--zero' : ''}`}>
                   ×{remaining}
+                </span>
+                <span className={`td-unit-chip-cost ${cantAfford ? 'td-unit-chip-cost--unaffordable' : ''}`}>
+                  💧{cost}
                 </span>
               </button>
             )

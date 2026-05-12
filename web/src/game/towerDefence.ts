@@ -242,19 +242,19 @@ export type TDPhase = 'prep' | 'wave' | 'between' | 'victory' | 'defeat'
 export interface TDGameState {
   phase: TDPhase
   lives: number
+  mana: number                  // spendable currency (earn from kills, spend to place towers)
   wavesCompleted: number
-  currentWaveIndex: number    // index into TD_WAVES
+  currentWaveIndex: number
   gameTimeMs: number
   towers: TDTower[]
   enemies: TDEnemy[]
   spawnQueue: SpawnEntry[]
-  nextWaveAt: number          // game-time ms when next wave's first spawn fires (between phase)
+  waveSpawnTotal: number        // total spawns queued when current wave started (for progress bar)
+  nextWaveAt: number
   log: string[]
-  score: number               // enemies killed × reward
+  score: number
   attackEvents: TDAttackEvent[]
-  // Available tower pool (derived from collection or city; passed in at start)
   availableTemplates: UnitTemplate[]
-  // How many of each unit (by name) the player has left to place
   remainingPlacements: Record<string, number>
   mode: 'collection' | 'city'
 }
@@ -265,10 +265,16 @@ export const TD_MAX_LIVES = 3
 export const TD_TOTAL_WAVES = TD_WAVES.length
 /** Pixel size of each grid cell — shared with the React component. */
 export const TD_CELL_PX = 48
+export const TD_STARTING_MANA = 80
 // Between-wave pause (ms)
 const BETWEEN_WAVE_MS = 5000
 // Strength bonus multiplier
 const STRENGTH_MULT = 1.5
+
+/** Mana cost to place a tower based on its stats. */
+export function towerCost(template: UnitTemplate): number {
+  return Math.max(5, Math.round(template.attack * 2 + template.maxHp / 20))
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -335,12 +341,14 @@ export function createTDGame(
   return {
     phase: 'prep',
     lives: TD_MAX_LIVES,
+    mana: TD_STARTING_MANA,
     wavesCompleted: 0,
     currentWaveIndex: 0,
     gameTimeMs: 0,
     towers: [],
     enemies: [],
     spawnQueue: [],
+    waveSpawnTotal: 0,
     nextWaveAt: 0,
     log: ['Place your towers, then press START WAVE.'],
     attackEvents: [],
@@ -363,6 +371,8 @@ export function placeTower(
   if (state.towers.some(t => t.col === col && t.row === row)) return null
   const remaining = state.remainingPlacements[template.name] ?? 0
   if (remaining <= 0) return null
+  const cost = towerCost(template)
+  if (state.mana < cost) return null
 
   const rangeInCells = Math.max(1, Math.round(template.attackRange / TD_CELL_PX))
   const tower: TDTower = {
@@ -376,12 +386,13 @@ export function placeTower(
   }
   return {
     ...state,
+    mana: state.mana - cost,
     towers: [...state.towers, tower],
     remainingPlacements: {
       ...state.remainingPlacements,
       [template.name]: remaining - 1,
     },
-    log: [...state.log.slice(-9), `Placed ${template.name}.`],
+    log: [...state.log.slice(-9), `Placed ${template.name} (-${cost} mana).`],
   }
 }
 
@@ -389,14 +400,16 @@ export function placeTower(
 export function removeTower(state: TDGameState, towerId: number): TDGameState {
   const tower = state.towers.find(t => t.id === towerId)
   if (!tower) return state
+  const refund = Math.floor(towerCost(tower.template) * 0.5)
   return {
     ...state,
+    mana: state.mana + refund,
     towers: state.towers.filter(t => t.id !== towerId),
     remainingPlacements: {
       ...state.remainingPlacements,
       [tower.template.name]: (state.remainingPlacements[tower.template.name] ?? 0) + 1,
     },
-    log: [...state.log.slice(-9), `Removed ${tower.template.name}.`],
+    log: [...state.log.slice(-9), `Removed ${tower.template.name} (+${refund} mana).`],
   }
 }
 
@@ -410,6 +423,7 @@ export function startWave(state: TDGameState): TDGameState {
     ...state,
     phase: 'wave',
     spawnQueue: queue,
+    waveSpawnTotal: queue.length,
     log: [...state.log.slice(-9), waveDef.label + '!'],
   }
 }
@@ -488,6 +502,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
           if (newHp <= 0) {
             deadEnemyIds.add(target.id)
             s.score += target.template.reward
+            s.mana += target.template.reward
           } else {
             s.enemies = s.enemies.map(e => e.id === target.id ? { ...e, hp: newHp } : e)
           }
