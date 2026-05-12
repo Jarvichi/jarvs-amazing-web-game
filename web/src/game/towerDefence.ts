@@ -590,12 +590,12 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
 
 /** Compute ticket reward for arcade mode based on waves cleared. */
 export function calcTicketReward(wavesCompleted: number): number {
-  return wavesCompleted * 5
+  return wavesCompleted * 10
 }
 
 /** Compute city gold reward for city mode based on waves cleared. */
 export function calcGoldReward(wavesCompleted: number): number {
-  return wavesCompleted * 5
+  return wavesCompleted * 2500
 }
 
 export { ENEMY_TEMPLATES }
