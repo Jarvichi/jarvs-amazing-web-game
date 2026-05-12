@@ -220,6 +220,16 @@ export interface TDEnemy {
   y: number
 }
 
+// Attack visual event — used by the UI to show projectile + hit spark
+export interface TDAttackEvent {
+  id: number
+  fromX: number
+  fromY: number
+  toX: number
+  toY: number
+  expiresAt: number   // game-time ms
+}
+
 // Pending spawn queue entry
 interface SpawnEntry {
   template: TDEnemyTemplate
@@ -241,6 +251,7 @@ export interface TDGameState {
   nextWaveAt: number          // game-time ms when next wave's first spawn fires (between phase)
   log: string[]
   score: number               // enemies killed × reward
+  attackEvents: TDAttackEvent[]
   // Available tower pool (derived from collection or city; passed in at start)
   availableTemplates: UnitTemplate[]
   // How many of each unit (by name) the player has left to place
@@ -252,8 +263,8 @@ export interface TDGameState {
 
 export const TD_MAX_LIVES = 3
 export const TD_TOTAL_WAVES = TD_WAVES.length
-// Pixels per cell (used to convert attackRange)
-const CELL_SIZE_PX = 64
+/** Pixel size of each grid cell — shared with the React component. */
+export const TD_CELL_PX = 48
 // Between-wave pause (ms)
 const BETWEEN_WAVE_MS = 5000
 // Strength bonus multiplier
@@ -262,7 +273,7 @@ const STRENGTH_MULT = 1.5
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function cellToXY(col: number, row: number): { x: number; y: number } {
-  return { x: col * CELL_SIZE_PX + CELL_SIZE_PX / 2, y: row * CELL_SIZE_PX + CELL_SIZE_PX / 2 }
+  return { x: col * TD_CELL_PX + TD_CELL_PX / 2, y: row * TD_CELL_PX + TD_CELL_PX / 2 }
 }
 
 function pathIndexToXY(progress: number): { x: number; y: number } {
@@ -271,8 +282,8 @@ function pathIndexToXY(progress: number): { x: number; y: number } {
   const a = TD_PATH[i]
   const b = TD_PATH[Math.min(i + 1, TD_PATH.length - 1)]
   return {
-    x: (a.col + (b.col - a.col) * frac) * CELL_SIZE_PX + CELL_SIZE_PX / 2,
-    y: (a.row + (b.row - a.row) * frac) * CELL_SIZE_PX + CELL_SIZE_PX / 2,
+    x: (a.col + (b.col - a.col) * frac) * TD_CELL_PX + TD_CELL_PX / 2,
+    y: (a.row + (b.row - a.row) * frac) * TD_CELL_PX + TD_CELL_PX / 2,
   }
 }
 
@@ -283,9 +294,9 @@ function dist(ax: number, ay: number, bx: number, by: number): number {
 function towerCanHit(tower: TDTower, enemy: TDEnemy): boolean {
   // Non-bypassing towers can't hit flying enemies
   if (enemy.template.flying && !tower.template.bypassWall) return false
-  const tx = tower.col * CELL_SIZE_PX + CELL_SIZE_PX / 2
-  const ty = tower.row * CELL_SIZE_PX + CELL_SIZE_PX / 2
-  return dist(tx, ty, enemy.x, enemy.y) <= tower.rangeInCells * CELL_SIZE_PX
+  const tx = tower.col * TD_CELL_PX + TD_CELL_PX / 2
+  const ty = tower.row * TD_CELL_PX + TD_CELL_PX / 2
+  return dist(tx, ty, enemy.x, enemy.y) <= tower.rangeInCells * TD_CELL_PX
 }
 
 function damageDealt(tower: TDTower, enemy: TDEnemy): number {
@@ -332,6 +343,7 @@ export function createTDGame(
     spawnQueue: [],
     nextWaveAt: 0,
     log: ['Place your towers, then press START WAVE.'],
+    attackEvents: [],
     score: 0,
     availableTemplates,
     remainingPlacements: { ...placementsPerTemplate },
@@ -352,7 +364,7 @@ export function placeTower(
   const remaining = state.remainingPlacements[template.name] ?? 0
   if (remaining <= 0) return null
 
-  const rangeInCells = Math.max(1, Math.round(template.attackRange / CELL_SIZE_PX))
+  const rangeInCells = Math.max(1, Math.round(template.attackRange / TD_CELL_PX))
   const tower: TDTower = {
     id: nextId(),
     col, row,
@@ -457,6 +469,8 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   // ── Tower attacks ──────────────────────────────────────────────────────────
   const deadEnemyIds = new Set<number>()
   const updatedTowers: TDTower[] = []
+  // Prune expired attack events, then collect new ones this tick
+  const newAttackEvents: TDAttackEvent[] = s.attackEvents.filter(e => e.expiresAt > s.gameTimeMs)
 
   for (const tower of s.towers) {
     let cd = Math.max(0, tower.attackCooldownRemaining - dtMs)
@@ -478,11 +492,20 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
             s.enemies = s.enemies.map(e => e.id === target.id ? { ...e, hp: newHp } : e)
           }
         }
+        // Emit visual attack event
+        const txy = cellToXY(tower.col, tower.row)
+        newAttackEvents.push({
+          id: nextId(),
+          fromX: txy.x, fromY: txy.y,
+          toX: target.x, toY: target.y,
+          expiresAt: s.gameTimeMs + 500,
+        })
         cd = tower.template.attackCooldownMs
       }
     }
     updatedTowers.push({ ...tower, attackCooldownRemaining: cd })
   }
+  s.attackEvents = newAttackEvents
 
   s.towers = updatedTowers
   s.enemies = s.enemies.filter(e => !deadEnemyIds.has(e.id))

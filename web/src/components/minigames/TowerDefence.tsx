@@ -6,10 +6,10 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { UnitTemplate } from '../../game/types'
-import { SpriteImg } from '../SpriteImg'
+import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
 import {
-  TD_COLS, TD_ROWS, TD_PATH, TD_WAVES, TD_TOTAL_WAVES, TD_MAX_LIVES,
-  TDGameState, TDTower, TDEnemy,
+  TD_COLS, TD_ROWS, TD_PATH, TD_WAVES, TD_TOTAL_WAVES, TD_MAX_LIVES, TD_CELL_PX,
+  TDGameState, TDTower, TDEnemy, TDAttackEvent,
   isPathCell,
   createTDGame, placeTower, removeTower, startWave, tickTD,
   calcTicketReward, calcGoldReward,
@@ -30,7 +30,7 @@ interface Props {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const CELL_PX = 48
+const CELL_PX = TD_CELL_PX   // single source of truth from game logic
 const TICK_MS = 50
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -232,6 +232,11 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
             <EnemyToken key={enemy.id} enemy={enemy} />
           ))}
 
+          {/* Attack effects */}
+          {game.attackEvents.map(ev => (
+            <AttackEffect key={ev.id} ev={ev} />
+          ))}
+
           {/* Tower tooltip overlay */}
           {hoveredTower && (
             <div
@@ -306,11 +311,49 @@ function EnemyToken({ enemy }: { enemy: TDEnemy }) {
       className="td-enemy"
       style={{ left: enemy.x - size / 2, top: enemy.y - size / 2, width: size }}
     >
-      <SpriteImg name={enemy.template.spriteName} className="td-enemy-sprite" />
+      <AnimatedSpriteImg name={enemy.template.spriteName} frameCount={3} fps={6} className="td-enemy-sprite" />
       <div className="td-enemy-hp-bar">
         <div className="td-enemy-hp-fill"
           style={{ width: `${hpFrac * 100}%`, background: hpBarColor(hpFrac) }} />
       </div>
     </div>
+  )
+}
+
+function AttackEffect({ ev }: { ev: TDAttackEvent }) {
+  const dx = ev.toX - ev.fromX
+  const dy = ev.toY - ev.fromY
+  const len = Math.hypot(dx, dy)
+  const angle = Math.atan2(dy, dx) * 180 / Math.PI
+  return (
+    <>
+      {/* Projectile line */}
+      <div
+        className="anim-projectile"
+        style={{
+          position: 'absolute',
+          left: ev.fromX,
+          top: ev.fromY,
+          width: len,
+          height: 4,
+          transform: `translate(0, -50%) rotate(${angle}deg)`,
+          transformOrigin: '0 50%',
+          pointerEvents: 'none',
+          zIndex: 15,
+        }}
+      />
+      {/* Hit spark */}
+      <div
+        className="anim-hit"
+        style={{
+          position: 'absolute',
+          left: ev.toX,
+          top: ev.toY,
+          transform: 'translate(-50%, -50%)',
+          pointerEvents: 'none',
+          zIndex: 16,
+        }}
+      />
+    </>
   )
 }
