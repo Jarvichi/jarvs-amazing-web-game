@@ -28,7 +28,7 @@ interface Props {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const CELL_PX = 64
+const CELL_PX = 48
 const TICK_MS = 50   // ~20 fps simulation (RAF handles rendering)
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -313,7 +313,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
 // ── Enemy token ───────────────────────────────────────────────────────────────
 
 function EnemyToken({ enemy }: { enemy: TDEnemy }) {
-  const size = 36
+  const size = 28
   const hpFrac = enemy.hp / enemy.maxHp
   return (
     <div
@@ -322,10 +322,9 @@ function EnemyToken({ enemy }: { enemy: TDEnemy }) {
         left: enemy.x - size / 2,
         top: enemy.y - size / 2,
         width: size,
-        height: size,
       }}
     >
-      <div className="td-enemy-icon">{enemy.template.icon}</div>
+      <SpriteImg name={enemy.template.spriteName} className="td-enemy-sprite" />
       <div className="td-enemy-hp-bar">
         <div
           className="td-enemy-hp-fill"

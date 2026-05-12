@@ -59,7 +59,7 @@ export function isPathCell(col: number, row: number): boolean {
 export interface TDEnemyTemplate {
   id: string
   label: string
-  icon: string
+  spriteName: string  // name passed to SpriteImg
   hp: number
   speed: number       // path-cells per second
   attack: number      // damage dealt to base on arrival
@@ -70,33 +70,33 @@ export interface TDEnemyTemplate {
 
 const ENEMY_TEMPLATES: Record<string, TDEnemyTemplate> = {
   footSoldier: {
-    id: 'footSoldier', label: 'Foot Soldier', icon: '🗡️',
+    id: 'footSoldier', label: 'Foot Soldier', spriteName: 'Goblin',
     hp: 80, speed: 1.0, attack: 1, reward: 10,
     tags: ['melee'],
   },
   scout: {
-    id: 'scout', label: 'Scout', icon: '🏹',
+    id: 'scout', label: 'Scout', spriteName: 'Archer',
     hp: 40, speed: 2.2, attack: 1, reward: 8,
     tags: ['fast', 'ranged'],
   },
   brute: {
-    id: 'brute', label: 'Brute', icon: '🪨',
+    id: 'brute', label: 'Brute', spriteName: 'Ogre',
     hp: 280, speed: 0.6, attack: 2, reward: 25,
     tags: ['slow', 'large', 'armored'],
   },
   flyer: {
-    id: 'flyer', label: 'Flyer', icon: '🦅',
+    id: 'flyer', label: 'Flyer', spriteName: 'Harpy',
     hp: 60, speed: 1.8, attack: 1, reward: 15,
     tags: ['flying', 'fast'],
     flying: true,
   },
   necromancer: {
-    id: 'necromancer', label: 'Necromancer', icon: '💀',
+    id: 'necromancer', label: 'Necromancer', spriteName: 'Necromancer',
     hp: 120, speed: 0.9, attack: 1, reward: 20,
     tags: ['magic', 'undead'],
   },
   siegeEngine: {
-    id: 'siegeEngine', label: 'Siege Engine', icon: '⚙️',
+    id: 'siegeEngine', label: 'Siege Engine', spriteName: 'Ballista',
     hp: 400, speed: 0.4, attack: 3, reward: 40,
     tags: ['siege', 'slow', 'large', 'armored'],
   },
