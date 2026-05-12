@@ -1424,8 +1424,7 @@ export function CityBuilder({ onBack }: Props) {
 
   if (screen === 'towerdefence') {
     const pool = buildCityTowerPool(city)
-    function handleTDDone(score: number) {
-      const gold = calcGoldReward(score)
+    function handleTDDone(gold: number) {
       if (gold > 0) {
         setCity(prev => ({ ...prev, gold: prev.gold + gold }))
         saveCityState({ ...city, gold: city.gold + gold })
