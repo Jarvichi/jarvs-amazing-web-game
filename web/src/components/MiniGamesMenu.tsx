@@ -11,7 +11,7 @@ import {
   loadLocalHighScore, saveLocalHighScore,
   publishMiniGameScore, fetchMiniGameLeaderboard, MiniGameLeaderboardEntry,
 } from '../game/miniGames'
-import { loadCrystals, saveCrystals, addCardsToCollection } from '../game/collection'
+import { loadCrystals, saveCrystals, addCardsToCollection, loadCollection, getOwnedCount } from '../game/collection'
 import { getCardCatalog } from '../game/cards'
 import { incrementAchievementProgress, setAchievementProgress } from '../game/achievements'
 import { MarbleRun }      from './minigames/MarbleRun'
@@ -24,6 +24,7 @@ import { FruitMachine }   from './minigames/FruitMachine'
 import { VideoPoker }     from './minigames/VideoPoker'
 import { CityBuilder }    from './minigames/CityBuilder'
 import { Fishing }        from './minigames/Fishing'
+import { TowerDefence, TowerPool } from './minigames/TowerDefence'
 
 interface Props {
   crystals:          number
@@ -33,7 +34,16 @@ interface Props {
   onBack:            () => void
 }
 
-type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder' | 'fishing'
+type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder' | 'fishing' | 'towerDefence'
+
+// Build tower pool from owned unit cards in the player's collection
+function buildCollectionTowerPool(): TowerPool[] {
+  const catalog    = getCardCatalog()
+  const collection = loadCollection()
+  return catalog
+    .filter(c => c.cardType === 'unit' && c.unit && !c.unit.isWall && getOwnedCount(collection, c.name) > 0)
+    .map(c => ({ template: c.unit!, total: getOwnedCount(collection, c.name) }))
+}
 
 // Pick N random cards from catalog, optionally filtered by rarity
 function pickRandomCards(count: number, rarity?: 'uncommon' | 'rare' | 'legendary'): string[] {
@@ -119,6 +129,8 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
     } else if (gameId === 'fishing') {
       setAchievementProgress('miniGame:fishing:bestScore', newBest)
       if (opts?.score) setAchievementProgress('miniGame:fishing:bestWeightG', opts.score)
+    } else if (gameId === 'towerDefence') {
+      setAchievementProgress('miniGame:towerDefence:bestScore', newBest)
     }
 
     // Publish to leaderboard if signed in
@@ -230,6 +242,16 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       />
     )
   }
+  if (subScreen === 'towerDefence') {
+    const pool = buildCollectionTowerPool()
+    return (
+      <TowerDefence
+        pool={pool}
+        mode="collection"
+        onDone={(tickets) => handleGameDone('towerDefence', tickets)}
+      />
+    )
+  }
   if (subScreen === 'citybuilder') {
     return <CityBuilder onBack={() => setSubScreen('menu')} />
   }
@@ -264,7 +286,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
           {/* Game grid */}
           <div className="minigame-grid">
-            {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing'] as MiniGameId[]).map(id => {
+            {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => {
               const cost    = MINI_GAME_COSTS[id]
               const locked  = currentCrystals < cost
               const best    = loadLocalHighScore(id)
@@ -349,7 +371,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
           <div className="lb-controls">
             <div className="lb-game-tabs">
-              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing'] as MiniGameId[]).map(id => (
+              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => (
                 <button
                   key={id}
                   className={`filter-btn${lbGame === id ? ' filter-btn--active' : ''}`}

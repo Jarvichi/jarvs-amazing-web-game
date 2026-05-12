@@ -33,7 +33,9 @@ import {
 } from '../../game/cityBuilder'
 import { MasteryBar } from '../MasteryBar'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
-import { Card } from '../../game/types'
+import { Card, UnitTemplate } from '../../game/types'
+import { TowerDefence, TowerPool } from './TowerDefence'
+import { calcGoldReward } from '../../game/towerDefence'
 
 // ── Unit requirement helpers ──────────────────────────────────────────────────
 
@@ -533,13 +535,43 @@ function formatCountdown(ms: number): string {
   return `${mins}m`
 }
 
+// ── City tower pool ───────────────────────────────────────────────────────────
+
+function buildCityTowerPool(city: CityState): TowerPool[] {
+  const catalog = getCardCatalog()
+  const counts: Record<string, number> = {}
+
+  for (let i = 0; i < city.grid.length; i++) {
+    const cell = city.grid[i]
+    if (!cell?.spawnedUnitName) continue
+    if ((city.happiness[i] ?? 100) <= 0) continue
+    const unitCount = spawnerUnitCount(city, cell.cardName)
+    counts[cell.spawnedUnitName] = (counts[cell.spawnedUnitName] ?? 0) + unitCount
+  }
+
+  const pool: TowerPool[] = []
+  for (const [unitName, total] of Object.entries(counts)) {
+    // Find the UnitTemplate by matching the name of the spawned unit
+    let template: UnitTemplate | undefined
+    for (const card of catalog) {
+      if (card.unit?.structureEffect?.type === 'spawn') {
+        const se = card.unit.structureEffect as { type: 'spawn'; unitTemplate: UnitTemplate }
+        if (se.unitTemplate.name === unitName) { template = se.unitTemplate; break }
+      }
+      if (card.unit?.name === unitName) { template = card.unit; break }
+    }
+    if (template) pool.push({ template, total })
+  }
+  return pool
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 interface Props {
   onBack: () => void
 }
 
-type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify'
+type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence'
 
 export function CityBuilder({ onBack }: Props) {
   const [city, setCity]       = useState<CityState>(() => tickCity(loadCityState()))
@@ -1341,6 +1373,44 @@ export function CityBuilder({ onBack }: Props) {
     )
   }
 
+  // ── Tower Defence sub-screen ──────────────────────────────────────────────────
+
+  if (screen === 'towerdefence') {
+    const pool = buildCityTowerPool(city)
+    function handleTDDone(score: number) {
+      const gold = calcGoldReward(score)
+      if (gold > 0) {
+        setCity(prev => ({ ...prev, gold: prev.gold + gold }))
+        saveCityState({ ...city, gold: city.gold + gold })
+        setToast(`Your defenders earned ${gold.toLocaleString()} 🪙 gold!`)
+        setTimeout(() => setToast(null), 4000)
+      }
+      setScreen('city')
+    }
+    if (pool.length === 0) {
+      return (
+        <div className="city-screen">
+          <div className="city-header">
+            <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
+            <div className="city-title">⚔ DEFEND</div>
+          </div>
+          <div style={{ padding: 24, color: '#888', textAlign: 'center' }}>
+            <p>No residents available to defend the city.</p>
+            <p>Place some spawn buildings with happy residents first!</p>
+            <button className="action-btn" onClick={() => setScreen('city')}>BACK TO CITY</button>
+          </div>
+        </div>
+      )
+    }
+    return (
+      <TowerDefence
+        pool={pool}
+        mode="city"
+        onDone={handleTDDone}
+      />
+    )
+  }
+
   // ── Card picker sub-screen ────────────────────────────────────────────────────
 
   if (screen === 'picker') {
@@ -1785,10 +1855,10 @@ export function CityBuilder({ onBack }: Props) {
           
           </div>
         <div className="city-header-right">
-
-                    <div className="city-gold-display">⚙ {city.gold.toLocaleString() } (+{incomeRate}/min)</div>
-
-         
+          <div className="city-gold-display">⚙ {city.gold.toLocaleString()} (+{incomeRate}/min)</div>
+          <button className="action-btn" onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers">
+            ⚔ DEFEND
+          </button>
         </div>
       </div>
 

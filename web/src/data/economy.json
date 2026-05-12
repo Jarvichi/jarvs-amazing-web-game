@@ -28,7 +28,8 @@
     "higherOrLower":  5,
     "fruitMachine":   50,
     "videoPoker":     0,
-    "fishing":       15
+    "fishing":       15,
+    "towerDefence":  50
   },
 
   "ticketPrizes": [
