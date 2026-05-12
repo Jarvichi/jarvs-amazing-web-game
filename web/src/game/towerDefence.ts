@@ -377,7 +377,7 @@ export function placeTower(
   const cost = towerCost(template)
   if (state.mana < cost) return null
 
-  const rangeInCells = Math.max(1, Math.round(template.attackRange / TD_CELL_PX))
+  const rangeInCells = Math.max(1.5, Math.round(template.attackRange / TD_CELL_PX))
   const tower: TDTower = {
     id: nextId(),
     col, row,
