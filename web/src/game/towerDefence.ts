@@ -13,33 +13,33 @@ export type GridPos = { col: number; row: number }
 // Portrait path: enters top-left, winds down through 7×13 grid, exits bottom-right.
 export const TD_PATH: GridPos[] = [
   // Right along row 0
-  { col: 0, row: 0 }, { col: 1, row: 0 }, { col: 2, row: 0 }, { col: 3, row: 0 }, { col: 4, row: 0 },
-  // Down col 4
-  { col: 4, row: 1 }, { col: 4, row: 2 },
+  { col: 0, row: 0 }, { col: 1, row: 0 }, { col: 2, row: 0 }, { col: 3, row: 0 }, { col: 4, row: 0 },{ col: 5, row: 0 },
+  // Down col 5
+  { col: 5, row: 1 }, { col: 5, row: 2 },
   // Left along row 2
-  { col: 3, row: 2 }, { col: 2, row: 2 }, { col: 1, row: 2 },
+  { col: 4, row: 2 },{ col: 3, row: 2 }, { col: 2, row: 2 }, { col: 1, row: 2 },
   // Down col 1
   { col: 1, row: 3 }, { col: 1, row: 4 }, { col: 1, row: 5 },
   // Right along row 5
-  { col: 2, row: 5 }, { col: 3, row: 5 }, { col: 4, row: 5 }, { col: 5, row: 5 },
+  { col: 2, row: 5 }, { col: 3, row: 5 }, { col: 4, row: 5 },
   // Up col 5
-  { col: 5, row: 4 }, { col: 5, row: 3 },
+  { col: 4, row: 4 },
   // Right to col 6
-  { col: 6, row: 3 },
+  { col: 5, row: 4 },
   // Down col 6
   { col: 6, row: 4 }, { col: 6, row: 5 }, { col: 6, row: 6 }, { col: 6, row: 7 },
   // Left along row 7
-  { col: 5, row: 7 }, { col: 4, row: 7 }, { col: 3, row: 7 }, { col: 2, row: 7 },
-  // Down col 2
-  { col: 2, row: 8 }, { col: 2, row: 9 },
+  { col: 5, row: 7 }, { col: 4, row: 7 }, { col: 3, row: 7 }, { col: 2, row: 7 },{ col: 1, row: 7 },
+  // Down col 1
+  { col: 1, row: 8 }, { col: 1, row: 9 },{ col: 1, row: 10 }, { col: 1, row: 11 },
   // Right along row 9
-  { col: 3, row: 9 }, { col: 4, row: 9 }, { col: 5, row: 9 }, { col: 6, row: 9 },
+  { col: 2, row: 11 },{ col: 3, row:11 }, 
+  // Up col 3
+  { col: 3, row: 10 }, { col: 3, row: 9 }, 
+  // Right along row 9
+  { col: 4, row: 9 }, { col: 5, row: 9 }, { col: 6, row: 9 },
   // Down col 6
-  { col: 6, row: 10 }, { col: 6, row: 11 },
-  // Left along row 11
-  { col: 5, row: 11 }, { col: 4, row: 11 }, { col: 3, row: 11 },
-  // Down col 3 to row 12, then right to exit
-  { col: 3, row: 12 }, { col: 4, row: 12 }, { col: 5, row: 12 }, { col: 6, row: 12 },
+  { col: 6, row: 10 }, { col: 6, row: 11 },{ col: 6, row: 12 },
 ]
 
 // Set of path cells for O(1) lookup
