@@ -71,33 +71,33 @@ export interface TDEnemyTemplate {
 const ENEMY_TEMPLATES: Record<string, TDEnemyTemplate> = {
   footSoldier: {
     id: 'footSoldier', label: 'Foot Soldier', spriteName: 'Goblin',
-    hp: 80, speed: 1.0, attack: 1, reward: 10,
+    hp: 80, speed: 0.6, attack: 1, reward: 10,
     tags: ['melee'],
   },
   scout: {
     id: 'scout', label: 'Scout', spriteName: 'Archer',
-    hp: 40, speed: 2.2, attack: 1, reward: 8,
+    hp: 40, speed: 1.3, attack: 1, reward: 8,
     tags: ['fast', 'ranged'],
   },
   brute: {
     id: 'brute', label: 'Brute', spriteName: 'Ogre',
-    hp: 280, speed: 0.6, attack: 2, reward: 25,
+    hp: 280, speed: 0.35, attack: 2, reward: 25,
     tags: ['slow', 'large', 'armored'],
   },
   flyer: {
     id: 'flyer', label: 'Flyer', spriteName: 'Harpy',
-    hp: 60, speed: 1.8, attack: 1, reward: 15,
+    hp: 60, speed: 1.1, attack: 1, reward: 15,
     tags: ['flying', 'fast'],
     flying: true,
   },
   necromancer: {
     id: 'necromancer', label: 'Necromancer', spriteName: 'Necromancer',
-    hp: 120, speed: 0.9, attack: 1, reward: 20,
+    hp: 120, speed: 0.55, attack: 1, reward: 20,
     tags: ['magic', 'undead'],
   },
   siegeEngine: {
     id: 'siegeEngine', label: 'Siege Engine', spriteName: 'Ballista',
-    hp: 400, speed: 0.4, attack: 3, reward: 40,
+    hp: 400, speed: 0.25, attack: 3, reward: 40,
     tags: ['siege', 'slow', 'large', 'armored'],
   },
 }
@@ -265,7 +265,7 @@ export const TD_MAX_LIVES = 3
 export const TD_TOTAL_WAVES = TD_WAVES.length
 /** Pixel size of each grid cell — shared with the React component. */
 export const TD_CELL_PX = 48
-export const TD_STARTING_MANA = 80
+export const TD_STARTING_MANA = 120
 // Between-wave pause (ms)
 const BETWEEN_WAVE_MS = 5000
 // Strength bonus multiplier
