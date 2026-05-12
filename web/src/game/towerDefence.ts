@@ -204,8 +204,8 @@ export interface TDTower {
   hp: number
   maxHp: number
   attackCooldownRemaining: number   // ms until next attack
-  // attackRange in grid cells (converted from UnitTemplate.attackRange pixels)
   rangeInCells: number
+  upgrades: number                  // 0–TD_MAX_UPGRADES
 }
 
 export interface TDEnemy {
@@ -263,10 +263,9 @@ export interface TDGameState {
 
 export const TD_MAX_LIVES = 3
 export const TD_TOTAL_WAVES = TD_WAVES.length
-/** Pixel size of each grid cell — shared with the React component. */
 export const TD_CELL_PX = 48
 export const TD_STARTING_MANA = 120
-// Between-wave pause (ms)
+export const TD_MAX_UPGRADES = 2
 const BETWEEN_WAVE_MS = 5000
 // Strength bonus multiplier
 const STRENGTH_MULT = 1.5
@@ -274,6 +273,16 @@ const STRENGTH_MULT = 1.5
 /** Mana cost to place a tower based on its stats. */
 export function towerCost(template: UnitTemplate): number {
   return Math.max(5, Math.round(template.attack * 2 + template.maxHp / 20))
+}
+
+/** Mana cost to upgrade a tower to the next tier. */
+export function upgradeCost(tower: TDTower): number {
+  return Math.round(towerCost(tower.template) * (tower.upgrades + 1))
+}
+
+/** ATK multiplier for a tower at its current upgrade tier. */
+export function upgradeAttackMult(upgrades: number): number {
+  return 1 + upgrades * 0.5
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -306,7 +315,7 @@ function towerCanHit(tower: TDTower, enemy: TDEnemy): boolean {
 }
 
 function damageDealt(tower: TDTower, enemy: TDEnemy): number {
-  let dmg = tower.template.attack
+  let dmg = Math.round(tower.template.attack * upgradeAttackMult(tower.upgrades))
   if (tower.template.strengths?.some(tag => enemy.template.tags.includes(tag))) {
     dmg = Math.round(dmg * STRENGTH_MULT)
   }
@@ -383,6 +392,7 @@ export function placeTower(
     maxHp: template.maxHp,
     attackCooldownRemaining: 0,
     rangeInCells,
+    upgrades: 0,
   }
   return {
     ...state,
@@ -410,6 +420,37 @@ export function removeTower(state: TDGameState, towerId: number): TDGameState {
       [tower.template.name]: (state.remainingPlacements[tower.template.name] ?? 0) + 1,
     },
     log: [...state.log.slice(-9), `Removed ${tower.template.name} (+${refund} mana).`],
+  }
+}
+
+/** Upgrade a tower's attack power. Returns null if not affordable or at max tier. */
+export function upgradeTower(state: TDGameState, towerId: number): TDGameState | null {
+  const tower = state.towers.find(t => t.id === towerId)
+  if (!tower) return null
+  if (tower.upgrades >= TD_MAX_UPGRADES) return null
+  const cost = upgradeCost(tower)
+  if (state.mana < cost) return null
+  return {
+    ...state,
+    mana: state.mana - cost,
+    towers: state.towers.map(t =>
+      t.id === towerId ? { ...t, upgrades: t.upgrades + 1 } : t,
+    ),
+    log: [...state.log.slice(-9), `${tower.template.name} upgraded to tier ${tower.upgrades + 1}! (-${cost} mana)`],
+  }
+}
+
+/** Move a placed tower to a new cell at no mana cost. */
+export function moveTower(state: TDGameState, towerId: number, col: number, row: number): TDGameState | null {
+  if (isPathCell(col, row)) return null
+  if (col < 0 || col >= TD_COLS || row < 0 || row >= TD_ROWS) return null
+  const tower = state.towers.find(t => t.id === towerId)
+  if (!tower) return null
+  if (state.towers.some(t => t.id !== towerId && t.col === col && t.row === row)) return null
+  return {
+    ...state,
+    towers: state.towers.map(t => t.id === towerId ? { ...t, col, row } : t),
+    log: [...state.log.slice(-9), `Moved ${tower.template.name}.`],
   }
 }
 
@@ -560,7 +601,7 @@ export function calcTicketReward(wavesCompleted: number): number {
 
 /** Compute city gold reward for city mode based on waves cleared. */
 export function calcGoldReward(wavesCompleted: number): number {
-  return wavesCompleted * 500
+  return wavesCompleted * 5
 }
 
 export { ENEMY_TEMPLATES }

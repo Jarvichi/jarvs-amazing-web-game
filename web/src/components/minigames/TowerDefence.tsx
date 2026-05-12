@@ -8,11 +8,11 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { UnitTemplate } from '../../game/types'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
 import {
-  TD_COLS, TD_ROWS, TD_PATH, TD_WAVES, TD_TOTAL_WAVES, TD_MAX_LIVES, TD_CELL_PX,
+  TD_COLS, TD_ROWS, TD_PATH, TD_WAVES, TD_TOTAL_WAVES, TD_MAX_LIVES, TD_CELL_PX, TD_MAX_UPGRADES,
   TDGameState, TDTower, TDEnemy, TDAttackEvent,
   isPathCell,
-  createTDGame, placeTower, removeTower, startWave, tickTD,
-  calcTicketReward, calcGoldReward, towerCost,
+  createTDGame, placeTower, removeTower, moveTower, upgradeTower, startWave, tickTD,
+  calcTicketReward, calcGoldReward, towerCost, upgradeCost, upgradeAttackMult,
 } from '../../game/towerDefence'
 
 // ── Props ─────────────────────────────────────────────────────────────────────
@@ -57,8 +57,14 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
   )
   const [selected, setSelected] = useState<UnitTemplate | null>(null)
   const [hoveredTower, setHoveredTower] = useState<TDTower | null>(null)
+  const [selectedTowerId, setSelectedTowerId] = useState<number | null>(null)
   const [hoveredCell, setHoveredCell] = useState<{ col: number; row: number } | null>(null)
   const [gridScale, setGridScale] = useState(1)
+
+  // Always derived from game state so it stays in sync after upgrades/moves
+  const selectedTower = selectedTowerId !== null
+    ? game.towers.find(t => t.id === selectedTowerId) ?? null
+    : null
 
   const gameRef = useRef(game)
   gameRef.current = game
@@ -112,29 +118,50 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
 
   function handleCellClick(col: number, row: number) {
     const g = gameRef.current
-    if (g.phase !== 'prep' && g.phase !== 'between' && g.phase !== 'wave') return
+    if (g.phase === 'victory' || g.phase === 'defeat') return
 
-    const existing = g.towers.find(t => t.col === col && t.row === row)
-    if (existing) {
-      // Only allow removal during non-wave phases
-      if (g.phase === 'prep' || g.phase === 'between') {
-        setGame(prev => removeTower(prev, existing.id))
-        setHoveredTower(null)
+    const towerAtCell = g.towers.find(t => t.col === col && t.row === row)
+
+    // A tower is selected in move-mode: clicking an empty valid cell moves it
+    if (selectedTowerId !== null && !towerAtCell && !isOnPath(col, row)) {
+      const next = moveTower(g, selectedTowerId, col, row)
+      if (next) { setGame(next); setSelectedTowerId(null) }
+      return
+    }
+
+    // Clicking a tower: select/deselect
+    if (towerAtCell) {
+      if (selectedTowerId === towerAtCell.id) {
+        setSelectedTowerId(null)
+      } else {
+        setSelectedTowerId(towerAtCell.id)
+        setSelected(null)
       }
       return
     }
 
-    if (!selected) return
-    if (isOnPath(col, row)) return
-
+    // No tower selected, no tower at cell: place if a unit chip is chosen
+    if (!selected || isOnPath(col, row)) return
+    if (g.phase !== 'prep' && g.phase !== 'between' && g.phase !== 'wave') return
     const next = placeTower(g, selected, col, row)
     if (next) setGame(next)
+  }
+
+  function handleSellTower(tower: TDTower) {
+    setGame(prev => removeTower(prev, tower.id))
+    setSelectedTowerId(null)
+    setHoveredTower(null)
+  }
+
+  function handleUpgradeTower(tower: TDTower) {
+    setGame(prev => upgradeTower(prev, tower.id) ?? prev)
   }
 
   function handleStartWave() { setGame(prev => startWave(prev)) }
 
   function handleSelectUnit(template: UnitTemplate) {
     setSelected(prev => prev?.name === template.name ? null : template)
+    setSelectedTowerId(null)
   }
 
   // ── Derived ─────────────────────────────────────────────────────────────────
@@ -156,8 +183,9 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
     let refCol: number | null = null
     let refRow: number | null = null
     let rangeInCells = 1
-    if (hoveredTower) {
-      refCol = hoveredTower.col; refRow = hoveredTower.row; rangeInCells = hoveredTower.rangeInCells
+    const refTower = selectedTower ?? hoveredTower
+    if (refTower) {
+      refCol = refTower.col; refRow = refTower.row; rangeInCells = refTower.rangeInCells
     } else if (selected && hoveredCell) {
       refCol = hoveredCell.col; refRow = hoveredCell.row
       rangeInCells = Math.max(1, Math.round(selected.attackRange / CELL_PX))
@@ -172,7 +200,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
       }
     }
     return cells
-  }, [hoveredTower, selected, hoveredCell])
+  }, [selectedTower, hoveredTower, selected, hoveredCell])
 
   // ── End screen ──────────────────────────────────────────────────────────────
 
@@ -258,7 +286,12 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
               const isStart   = col === TD_PATH[0].col && row === TD_PATH[0].row
               const isEnd     = col === TD_PATH[TD_PATH.length - 1].col && row === TD_PATH[TD_PATH.length - 1].row
               const tower     = game.towers.find(t => t.col === col && t.row === row)
-              const canDrop   = selected && !onPath && !tower && canPlaceTowers
+              const isTowerSelected = tower?.id === selectedTowerId
+              // canDrop: valid placement cell, or valid move destination for selected tower
+              const canDrop   = !onPath && !tower && (
+                (selected && canPlaceTowers) ||
+                (selectedTowerId !== null)
+              )
               const inRange   = rangeHighlight.has(`${col},${row}`)
 
               return (
@@ -266,12 +299,13 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                   key={`${col},${row}`}
                   className={[
                     'td-cell',
-                    onPath   ? 'td-cell--path'   : 'td-cell--grass',
-                    isStart  ? 'td-cell--start'  : '',
-                    isEnd    ? 'td-cell--end'     : '',
-                    canDrop  ? 'td-cell--droppable' : '',
-                    tower    ? 'td-cell--occupied' : '',
-                    inRange  ? 'td-cell--in-range' : '',
+                    onPath          ? 'td-cell--path'     : 'td-cell--grass',
+                    isStart         ? 'td-cell--start'    : '',
+                    isEnd           ? 'td-cell--end'      : '',
+                    canDrop         ? 'td-cell--droppable' : '',
+                    tower           ? 'td-cell--occupied' : '',
+                    inRange         ? 'td-cell--in-range' : '',
+                    isTowerSelected ? 'td-cell--tower-selected' : '',
                   ].filter(Boolean).join(' ')}
                   style={{ left: col * CELL_PX, top: row * CELL_PX, width: CELL_PX, height: CELL_PX }}
                   onClick={() => handleCellClick(col, row)}
@@ -289,6 +323,9 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                   {tower && (
                     <div className="td-tower-inner">
                       <SpriteImg name={tower.template.name} />
+                      {tower.upgrades > 0 && (
+                        <div className="td-tower-tier">{'★'.repeat(tower.upgrades)}</div>
+                      )}
                       <div className="td-tower-hp-bar">
                         <div className="td-tower-hp-fill" style={{
                           width: `${(tower.hp / tower.maxHp) * 100}%`,
@@ -312,20 +349,46 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
             <AttackEffect key={ev.id} ev={ev} />
           ))}
 
-          {/* Tower tooltip overlay */}
-          {hoveredTower && (
-            <div
-              className="td-tower-tooltip"
-              style={{
-                left: hoveredTower.col * CELL_PX,
-                top: Math.max(0, hoveredTower.row * CELL_PX - 72),
-              }}
-            >
-              <strong>{hoveredTower.template.name}</strong>
-              <div>HP {hoveredTower.hp}/{hoveredTower.maxHp} · ATK {hoveredTower.template.attack} · R {hoveredTower.rangeInCells}</div>
-              {isPlacingPhase && <div className="td-tooltip-hint">Tap to remove</div>}
-            </div>
-          )}
+          {/* Tower tooltip — show for selected or hovered tower */}
+          {(selectedTower || hoveredTower) && (() => {
+            const t = selectedTower ?? hoveredTower!
+            const isSel = t.id === selectedTowerId
+            const atk = Math.round(t.template.attack * upgradeAttackMult(t.upgrades))
+            const sellRefund = Math.floor(towerCost(t.template) * 0.5)
+            const upCost = upgradeCost(t)
+            const canAffordUp = game.mana >= upCost
+            return (
+              <div
+                className="td-tower-tooltip"
+                style={{
+                  left: t.col * CELL_PX,
+                  top: Math.max(0, t.row * CELL_PX - (isSel ? 100 : 72)),
+                }}
+              >
+                <strong>{t.template.name}</strong>
+                {t.upgrades > 0 && <span className="td-tower-tier-label"> {'★'.repeat(t.upgrades)}</span>}
+                <div>HP {t.hp}/{t.maxHp} · ATK {atk} · R {t.rangeInCells}</div>
+                {isSel ? (
+                  <div className="td-tower-actions">
+                    <button className="td-tower-action-btn td-tower-action-btn--sell"
+                      onClick={e => { e.stopPropagation(); handleSellTower(t) }}>
+                      SELL +💧{sellRefund}
+                    </button>
+                    {t.upgrades < TD_MAX_UPGRADES && (
+                      <button
+                        className={`td-tower-action-btn td-tower-action-btn--upgrade${canAffordUp ? '' : ' td-tower-action-btn--disabled'}`}
+                        onClick={e => { e.stopPropagation(); if (canAffordUp) handleUpgradeTower(t) }}>
+                        ★ UP 💧{upCost}
+                      </button>
+                    )}
+                    <div className="td-tooltip-hint">Tap empty cell to move</div>
+                  </div>
+                ) : (
+                  <div className="td-tooltip-hint">Tap to select</div>
+                )}
+              </div>
+            )
+          })()}
         </div>
         </div>{/* td-grid-scaler */}
       </div>
