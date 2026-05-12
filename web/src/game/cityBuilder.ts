@@ -78,11 +78,11 @@ export const FORT_DEFENSE: Record<CardRarity, number> = {
 
 /** Gold + resource cost to build a fortification of each rarity. */
 export const FORT_PLACE_COST: Record<CardRarity, { gold: number } & Partial<ResourceStock>> = {
-  common:    { gold: 200,   wood: 15 },
-  uncommon:  { gold: 600,   wood: 30, ore: 10 },
-  rare:      { gold: 2000,  wood: 75, ore: 30 },
-  epic:      { gold: 6000,  wood: 150, ore: 75, planks: 20 },
-  legendary: { gold: 15000, wood: 300, ore: 150, planks: 60 },
+  common:    { gold: 1000,   wood: 25 },
+  uncommon:  { gold: 3500,   wood: 50,  ore: 20 },
+  rare:      { gold: 12000,  wood: 120, ore: 50 },
+  epic:      { gold: 40000,  wood: 250, ore: 120, planks: 35 },
+  legendary: { gold: 100000, wood: 500, ore: 250, planks: 100 },
 }
 
 /** HP repaired per minute per fortification (1 HP every 5 minutes). */
@@ -203,6 +203,7 @@ export interface AttackEvent {
   defense:             number
   outcome:             'repelled' | 'partial' | 'defeated'
   stolenGold:          number
+  goldEarned:          number   // loot dropped by attacker on successful defence
   destroyedBuildings:  string[]
 }
 
@@ -420,9 +421,12 @@ function processAttack(state: CityState): CityState {
   const destroyedBuildings: string[] = []
   let fortDmg: number
 
+  let goldEarned = 0
   if (ratio >= 1.0) {
     outcome = 'repelled'
     fortDmg = 5 + Math.floor(Math.random() * 10)
+    goldEarned = 10000 + Math.floor(Math.random() * 15001)
+    newGold += goldEarned
   } else if (ratio >= 0.6) {
     outcome = 'partial'
     fortDmg = 15 + Math.floor(Math.random() * 20)
@@ -468,6 +472,7 @@ function processAttack(state: CityState): CityState {
     defense,
     outcome,
     stolenGold,
+    goldEarned,
     destroyedBuildings,
   }
 
