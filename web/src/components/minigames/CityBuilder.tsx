@@ -350,13 +350,16 @@ const IDLE_TASK_TICKS = 80   // ~8 s of random wandering before picking a new ta
 const REST_TICKS_MIN  = 4 * IDLE_TASK_TICKS   // ~32 s — at least 4 task cycles at home
 const REST_TICKS_MAX  = 7 * IDLE_TASK_TICKS   // ~56 s
 const BUBBLE_TICKS    = 30   // 3 s — how long a task bubble stays visible
+const CHAT_TICKS      = 80   // 8 s — how long two walkers chat when they meet
+const CHAT_DIST       = ARRIVE_DIST * 2.5  // proximity to trigger chat
+const CHAT_EMOJIS     = ['😅', '😬', '😢', '🤔', '🥳', '🥱', '😎', '🤣', '😍', '🥰', '🤩', '😤', '🤬', '🤯', '🥵']
 const ATTACK_WARN_MS  = 30 * 60 * 1000  // show panic tasks when attack < 30 min away
 const PATROL_DEFENSE_PER_WALKER = 5     // defense units added per patrolling resident
 const TASK_RESOURCE_GOLD: Partial<Record<ResourceType, number>> = {
   wheat: 2, wood: 2, ore: 3, bread: 4, planks: 4, metal: 5,
 }
 
-type TaskType = 'idle' | 'resting' | 'eating' | 'patrolling' | 'gathering' | 'visiting' | 'playing'
+type TaskType = 'idle' | 'resting' | 'eating' | 'patrolling' | 'gathering' | 'visiting' | 'playing' | 'chatting'
 
 interface WalkerTask {
   type:             TaskType
@@ -723,95 +726,139 @@ export function CityBuilder({ onBack }: Props) {
       const overlayW = _w || CITY_COLS * CELL_PX
       const overlayH = _h || CITY_ROWS * CELL_PX
 
-      setWalkers(prev => prev.map(w => {
-        // ── Resting at home ──────────────────────────────────────────────────
-        if (w.hidden) {
-          const hiddenTimer = w.hiddenTimer - 1
-          if (hiddenTimer <= 0) {
-            const task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
-            const bubbleTimer = task.type !== 'idle' ? BUBBLE_TICKS : 0
-            return {
-              ...w, hidden: false, hiddenTimer: 0,
-              task, taskTimer: task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0,
-              bubbleTimer,
-            }
-          }
-          return { ...w, hiddenTimer }
-        }
-
-        let { x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer } = w
-        bubbleTimer = Math.max(0, bubbleTimer - 1)
-
-        // ── Update visiting target to follow the other walker ─────────────────
-        if (task.type === 'visiting' && task.targetWalkerKey) {
-          const [ci, ui] = task.targetWalkerKey.split('-').map(Number)
+      setWalkers(prev => {
+        // ── Pass 1: find visiting walkers close enough to trigger chat ────────
+        const chatPairs = new Map<string, string>()  // walkerKey → emoji
+        for (const w of prev) {
+          if (w.hidden || w.task.type !== 'visiting' || !w.task.targetWalkerKey) continue
+          const wKey = `${w.cellIndex}-${w.unitIndex}`
+          if (chatPairs.has(wKey)) continue
+          const [ci, ui] = w.task.targetWalkerKey.split('-').map(Number)
           const target = prev.find(o => o.cellIndex === ci && o.unitIndex === ui && !o.hidden)
-          if (target) {
-            task = { ...task, targetX: target.x, targetY: target.y }
-          } else {
-            task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
-            taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
-            if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
+          if (!target || target.task.type === 'chatting') continue
+          const dx = target.x - w.x
+          const dy = target.y - w.y
+          if (Math.sqrt(dx * dx + dy * dy) < CHAT_DIST) {
+            const tKey = `${target.cellIndex}-${target.unitIndex}`
+            chatPairs.set(wKey, CHAT_EMOJIS[Math.floor(Math.random() * CHAT_EMOJIS.length)])
+            chatPairs.set(tKey, CHAT_EMOJIS[Math.floor(Math.random() * CHAT_EMOJIS.length)])
           }
         }
 
-        // ── Idle: count down and pick a new task when timer expires ──────────
-        if (task.type === 'idle') {
-          taskTimer--
-          if (taskTimer <= 0) {
-            task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
-            taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
-            if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
-          }
-        }
+        // ── Pass 2: update each walker ────────────────────────────────────────
+        return prev.map(w => {
+          const wKey = `${w.cellIndex}-${w.unitIndex}`
 
-        // ── Directed movement ────────────────────────────────────────────────
-        if (task.type !== 'idle' && task.targetX !== undefined && task.targetY !== undefined) {
-          const dx = task.targetX - x
-          const dy = task.targetY - y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-
-          if (dist < ARRIVE_DIST) {
-            // Arrived!
-            if (task.type === 'resting') {
+          // ── Resting at home ────────────────────────────────────────────────
+          if (w.hidden) {
+            const hiddenTimer = w.hiddenTimer - 1
+            if (hiddenTimer <= 0) {
+              const task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
+              const bubbleTimer = task.type !== 'idle' ? BUBBLE_TICKS : 0
               return {
-                ...w, x, y, vx: 0, vy: 0, task, bubbleTimer,
-                hidden: true,
-                hiddenTimer: REST_TICKS_MIN + Math.floor(Math.random() * (REST_TICKS_MAX - REST_TICKS_MIN)),
+                ...w, hidden: false, hiddenTimer: 0,
+                task, taskTimer: task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0,
+                bubbleTimer,
               }
             }
-            // For all other tasks: pick new task immediately
-            task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
-            taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
-            if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
-            // Keep moving with current velocity until next tick steers differently
-          } else {
-            vx = (dx / dist) * SPEED
-            vy = (dy / dist) * SPEED
+            return { ...w, hiddenTimer }
           }
-        }
 
-        // ── Apply movement ───────────────────────────────────────────────────
-        x += vx
-        y += vy
-        if (x < 0)                    { x = 0;                    vx = Math.abs(vx) }
-        if (x > overlayW - UNIT_SIZE) { x = overlayW - UNIT_SIZE; vx = -Math.abs(vx) }
-        if (y < 0)                    { y = 0;                    vy = Math.abs(vy) }
-        if (y > overlayH - UNIT_SIZE) { y = overlayH - UNIT_SIZE; vy = -Math.abs(vy) }
-
-        // Random direction changes for idle wandering only
-        if (task.type === 'idle') {
-          turnTimer--
-          if (turnTimer <= 0) {
-            const angle = Math.random() * Math.PI * 2
-            vx = Math.cos(angle) * SPEED
-            vy = Math.sin(angle) * SPEED
-            turnTimer = 20 + Math.floor(Math.random() * 30)
+          // ── Start chatting (triggered by Pass 1) ───────────────────────────
+          if (chatPairs.has(wKey) && w.task.type !== 'chatting') {
+            return {
+              ...w, vx: 0, vy: 0,
+              task: { type: 'chatting', label: chatPairs.get(wKey)! },
+              taskTimer: CHAT_TICKS,
+              bubbleTimer: CHAT_TICKS,
+            }
           }
-        }
 
-        return { ...w, x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer }
-      }))
+          let { x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer } = w
+          bubbleTimer = Math.max(0, bubbleTimer - 1)
+
+          // ── Chatting: count down, then resume ──────────────────────────────
+          if (task.type === 'chatting') {
+            taskTimer--
+            if (taskTimer <= 0) {
+              task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
+              taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
+              bubbleTimer = BUBBLE_TICKS
+              const angle = Math.random() * Math.PI * 2
+              vx = Math.cos(angle) * SPEED
+              vy = Math.sin(angle) * SPEED
+            }
+            return { ...w, vx, vy, task, taskTimer, bubbleTimer }
+          }
+
+          // ── Update visiting target to follow the other walker ──────────────
+          if (task.type === 'visiting' && task.targetWalkerKey) {
+            const [ci, ui] = task.targetWalkerKey.split('-').map(Number)
+            const target = prev.find(o => o.cellIndex === ci && o.unitIndex === ui && !o.hidden)
+            if (target) {
+              task = { ...task, targetX: target.x, targetY: target.y }
+            } else {
+              task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
+              taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
+              if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
+            }
+          }
+
+          // ── Idle: count down and pick a new task when timer expires ────────
+          if (task.type === 'idle') {
+            taskTimer--
+            if (taskTimer <= 0) {
+              task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
+              taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
+              if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
+            }
+          }
+
+          // ── Directed movement ──────────────────────────────────────────────
+          if (task.type !== 'idle' && task.targetX !== undefined && task.targetY !== undefined) {
+            const dx = task.targetX - x
+            const dy = task.targetY - y
+            const dist = Math.sqrt(dx * dx + dy * dy)
+
+            if (dist < ARRIVE_DIST) {
+              if (task.type === 'resting') {
+                return {
+                  ...w, x, y, vx: 0, vy: 0, task, bubbleTimer,
+                  hidden: true,
+                  hiddenTimer: REST_TICKS_MIN + Math.floor(Math.random() * (REST_TICKS_MAX - REST_TICKS_MIN)),
+                }
+              }
+              task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
+              taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
+              if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
+            } else {
+              vx = (dx / dist) * SPEED
+              vy = (dy / dist) * SPEED
+            }
+          }
+
+          // ── Apply movement ─────────────────────────────────────────────────
+          x += vx
+          y += vy
+          if (x < 0)                    { x = 0;                    vx = Math.abs(vx) }
+          if (x > overlayW - UNIT_SIZE) { x = overlayW - UNIT_SIZE; vx = -Math.abs(vx) }
+          if (y < 0)                    { y = 0;                    vy = Math.abs(vy) }
+          if (y > overlayH - UNIT_SIZE) { y = overlayH - UNIT_SIZE; vy = -Math.abs(vy) }
+
+          // Random direction changes for idle wandering only
+          if (task.type === 'idle') {
+            turnTimer--
+            if (turnTimer <= 0) {
+              const angle = Math.random() * Math.PI * 2
+              vx = Math.cos(angle) * SPEED
+              vy = Math.sin(angle) * SPEED
+              turnTimer = 20 + Math.floor(Math.random() * 30)
+            }
+          }
+
+          return { ...w, x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer }
+        })
+      })
 
       // Animate builder walkers
       setBuilderWalkers(prev => prev.map(b => {
@@ -1677,6 +1724,9 @@ export function CityBuilder({ onBack }: Props) {
               {attackReport.outcome === 'repelled' && (
                 <div className="city-attack-good">Your defences held! Minor wall damage only.</div>
               )}
+              {attackReport.goldEarned > 0 && (
+                <div className="city-attack-good">🪙 +{attackReport.goldEarned.toLocaleString()} gold — enemy loot seized!</div>
+              )}
               {attackReport.stolenGold > 0 && (
                 <div className="city-attack-bad">⚙ {attackReport.stolenGold.toLocaleString()} gold stolen</div>
               )}
@@ -1991,7 +2041,10 @@ export function CityBuilder({ onBack }: Props) {
                 onClick={e => { e.stopPropagation(); setSelectedWalkerCell(w.cellIndex) }}
                 onKeyDown={e => { if (e.key === 'Enter') { e.stopPropagation(); setSelectedWalkerCell(w.cellIndex) } }}
               >
-                {showTaskBubble && (
+                {w.task.type === 'chatting' && (
+                  <div className="city-chat-bubble">{w.task.label}</div>
+                )}
+                {showTaskBubble && w.task.type !== 'chatting' && (
                   <div className="city-task-bubble">{w.task.label}</div>
                 )}
                 {!showTaskBubble && wantsFriend && (
