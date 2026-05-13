@@ -12203,15 +12203,19 @@ html.light-mode .action-btn {
 /* Player units — walk from building to path cell, then fight */
 .td-unit {
   position: absolute;
+  top: 0; left: 0;
   pointer-events: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   z-index: 12;
+  will-change: transform;
+  transition: transform 100ms linear;
 }
 .td-unit-sprite { width: 26px; height: 26px; image-rendering: pixelated; }
 .td-unit--walking { opacity: 0.85; }
 .td-unit--stationed { filter: drop-shadow(0 0 3px #4caf50); }
+.td-unit-count { font-size: 8px; font-weight: bold; color: #fff; background: rgba(0,0,0,0.6); border-radius: 3px; padding: 0 2px; line-height: 1.3; }
 
 /* Tower tooltip (positioned inside grid) */
 .td-tower-tooltip {
@@ -12257,11 +12261,14 @@ html.light-mode .action-btn {
 /* Enemies */
 .td-enemy {
   position: absolute;
+  top: 0; left: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   pointer-events: none;
   z-index: 10;
+  will-change: transform;
+  transition: transform 100ms linear;
 }
 .td-enemy-sprite { width: 100%; display: block; }
 .td-enemy-hp-bar {
