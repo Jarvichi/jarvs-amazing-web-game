@@ -369,9 +369,16 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
             })
           )}
 
-          {/* Player units — each at its own cell (cell occupancy enforced in game logic) */}
-          {game.units.map(unit => (
-            <UnitToken key={unit.id} unit={unit} />
+          {/* Player units — grouped per building, one cell per group */}
+          {Array.from(
+            game.units.reduce((map, u) => {
+              const g = map.get(u.towerId) ?? []
+              g.push(u)
+              map.set(u.towerId, g)
+              return map
+            }, new Map<number, TDUnit[]>())
+          ).map(([towerId, units]) => (
+            <UnitGroupToken key={towerId} units={units} />
           ))}
 
           {/* Enemies */}
@@ -496,19 +503,47 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
   )
 }
 
-// ── Player unit token ─────────────────────────────────────────────────────────
+// ── Player unit group token (all units from same building move as one) ────────
 
-function UnitToken({ unit }: { unit: TDUnit }) {
-  const size = 15
-  const hpFrac = unit.hp / unit.maxHp
+function UnitGroupToken({ units }: { units: TDUnit[] }) {
+  const lead = units[0]
+  const stationed = units.some(u => u.stationed)
+  const minHpFrac = Math.min(...units.map(u => u.hp / u.maxHp))
+  const n = units.length
+  const sz = 15, gap = 3
+
+  let slots: Array<{ dx: number; dy: number }>
+  let containerW: number, containerH: number
+
+  if (n >= 3) {
+    containerW = sz * 2 + gap; containerH = sz * 2 + gap
+    slots = [
+      { dx: (containerW - sz) / 2, dy: 0 },
+      { dx: 0, dy: sz + gap },
+      { dx: sz + gap, dy: sz + gap },
+    ]
+  } else if (n === 2) {
+    containerW = sz * 2 + gap; containerH = sz
+    slots = [{ dx: 0, dy: 0 }, { dx: sz + gap, dy: 0 }]
+  } else {
+    containerW = sz; containerH = sz
+    slots = [{ dx: 0, dy: 0 }]
+  }
+
   return (
     <div
-      className={`td-unit${unit.stationed ? ' td-unit--stationed' : ' td-unit--walking'}`}
-      style={{ transform: `translate(${unit.x - size / 2}px, ${unit.y - size / 2}px)`, width: size }}
+      className={`td-unit${stationed ? ' td-unit--stationed' : ' td-unit--walking'}`}
+      style={{ transform: `translate(${lead.x - containerW / 2}px, ${lead.y - containerH / 2}px)`, width: containerW }}
     >
-      <AnimatedSpriteImg name={unit.template.name} frameCount={3} fps={unit.stationed ? 4 : 8} className="td-unit-sprite" />
+      <div style={{ position: 'relative', width: containerW, height: containerH }}>
+        {slots.map((slot, i) => (
+          <div key={i} style={{ position: 'absolute', left: slot.dx, top: slot.dy, width: sz, height: sz }}>
+            <AnimatedSpriteImg name={units[i].template.name} frameCount={3} fps={stationed ? 4 : 8} className="td-unit-sprite" />
+          </div>
+        ))}
+      </div>
       <div className="td-enemy-hp-bar">
-        <div className="td-enemy-hp-fill" style={{ width: `${hpFrac * 100}%`, background: hpBarColor(hpFrac) }} />
+        <div className="td-enemy-hp-fill" style={{ width: `${minHpFrac * 100}%`, background: hpBarColor(minHpFrac) }} />
       </div>
     </div>
   )
