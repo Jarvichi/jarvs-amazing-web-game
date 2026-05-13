@@ -9,10 +9,10 @@ import { UnitTemplate } from '../../game/types'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
 import {
   TD_COLS, TD_ROWS, TD_PATH, TD_TOTAL_WAVES, TD_MAX_LIVES, TD_CELL_PX, TD_MAX_UPGRADES, TD_MILESTONE_EVERY,
-  TDGameState, TDTower, TDEnemy, TDAttackEvent,
+  TDGameState, TDTower, TDUnit, TDEnemy, TDAttackEvent,
   isPathCell,
   createTDGame, placeTower, removeTower, moveTower, upgradeTower, startWave, tickTD,
-  calcTicketReward, calcGoldReward, towerCost, upgradeCost, upgradeAttackMult,
+  calcTicketReward, calcGoldReward, towerCost, upgradeCost, buildingUnitCount,
 } from '../../game/towerDefence'
 
 // ── Props ─────────────────────────────────────────────────────────────────────
@@ -20,6 +20,7 @@ import {
 export interface TowerPool {
   template: UnitTemplate
   total: number
+  buildingName: string
 }
 
 interface Props {
@@ -143,7 +144,9 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
     // No tower selected, no tower at cell: place if a unit chip is chosen
     if (!selected || isOnPath(col, row)) return
     if (g.phase !== 'prep' && g.phase !== 'between' && g.phase !== 'wave' && g.phase !== 'milestone') return
-    const next = placeTower(g, selected, col, row)
+    const entry = pool.find(p => p.template.name === selected.name)
+    if (!entry) return
+    const next = placeTower(g, selected, entry.buildingName, col, row)
     if (next) setGame(next)
   }
 
@@ -178,29 +181,45 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
     ? (game.waveSpawnTotal - game.spawnQueue.length) / game.waveSpawnTotal
     : 0
 
-  // Cells to highlight for range preview
+  // Cells to highlight for range preview — based on unit stationed position (path cell)
   const rangeHighlight = useMemo<Set<string>>(() => {
-    let refCol: number | null = null
-    let refRow: number | null = null
-    let rangeInCells = 1
+    const cells = new Set<string>()
     const refTower = selectedTower ?? hoveredTower
     if (refTower) {
-      refCol = refTower.col; refRow = refTower.row; rangeInCells = refTower.rangeInCells
-    } else if (selected && hoveredCell) {
-      refCol = hoveredCell.col; refRow = hoveredCell.row
-      rangeInCells = Math.max(1, Math.round(selected.attackRange / CELL_PX))
+      // Use the first stationed unit's position, or the building cell as fallback
+      const units = game.units.filter(u => u.towerId === refTower.id)
+      const rangeInCells = Math.max(1.5, Math.round(refTower.template.attackRange / CELL_PX))
+      const origins = units.length > 0
+        ? units.map(u => ({ x: u.targetX / CELL_PX - 0.5, y: u.targetY / CELL_PX - 0.5 }))
+        : [{ x: refTower.col, y: refTower.row }]
+      for (let r = 0; r < TD_ROWS; r++) {
+        for (let c = 0; c < TD_COLS; c++) {
+          if (origins.some(o => Math.sqrt((c - o.x) ** 2 + (r - o.y) ** 2) <= rangeInCells)) {
+            cells.add(`${c},${r}`)
+          }
+        }
+      }
+      return cells
     }
-    if (refCol === null || refRow === null) return new Set()
-    const cells = new Set<string>()
-    for (let r = 0; r < TD_ROWS; r++) {
-      for (let c = 0; c < TD_COLS; c++) {
-        if (Math.sqrt((c - refCol) ** 2 + (r - refRow) ** 2) <= rangeInCells) {
-          cells.add(`${c},${r}`)
+    if (selected && hoveredCell) {
+      // Preview: highlight from the nearest path cell to the hovered cell
+      const rangeInCells = Math.max(1, Math.round(selected.attackRange / CELL_PX))
+      // Find nearest path cell
+      let bestCol = hoveredCell.col, bestRow = hoveredCell.row, bestDist = Infinity
+      for (const p of TD_PATH) {
+        const d = Math.sqrt((p.col - hoveredCell.col) ** 2 + (p.row - hoveredCell.row) ** 2)
+        if (d < bestDist) { bestDist = d; bestCol = p.col; bestRow = p.row }
+      }
+      for (let r = 0; r < TD_ROWS; r++) {
+        for (let c = 0; c < TD_COLS; c++) {
+          if (Math.sqrt((c - bestCol) ** 2 + (r - bestRow) ** 2) <= rangeInCells) {
+            cells.add(`${c},${r}`)
+          }
         }
       }
     }
     return cells
-  }, [selectedTower, hoveredTower, selected, hoveredCell])
+  }, [selectedTower, hoveredTower, selected, hoveredCell, game.units])
 
   // ── End screen ──────────────────────────────────────────────────────────────
 
@@ -327,22 +346,24 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                   {isEnd   && <span className="td-cell-label">BASE</span>}
                   {tower && (
                     <div className="td-tower-inner">
-                      <SpriteImg name={tower.template.name} />
+                      <SpriteImg name={tower.buildingName} />
                       {tower.upgrades > 0 && (
                         <div className="td-tower-tier">{'★'.repeat(tower.upgrades)}</div>
                       )}
-                      <div className="td-tower-hp-bar">
-                        <div className="td-tower-hp-fill" style={{
-                          width: `${(tower.hp / tower.maxHp) * 100}%`,
-                          background: hpBarColor(tower.hp / tower.maxHp),
-                        }} />
-                      </div>
+                      {tower.respawnTimers.length > 0 && (
+                        <div className="td-tower-respawn">⏳</div>
+                      )}
                     </div>
                   )}
                 </div>
               )
             })
           )}
+
+          {/* Player units — walk from building to path, then fight */}
+          {game.units.map(unit => (
+            <UnitToken key={unit.id} unit={unit} />
+          ))}
 
           {/* Enemies */}
           {game.enemies.map(enemy => (
@@ -354,18 +375,19 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
             <AttackEffect key={ev.id} ev={ev} />
           ))}
 
-          {/* Tower tooltip — hover info only, no action buttons */}
+          {/* Building tooltip */}
           {(selectedTower || hoveredTower) && (() => {
             const t = selectedTower ?? hoveredTower!
-            const atk = Math.round(t.template.attack * upgradeAttackMult(t.upgrades))
+            const unitCount = buildingUnitCount(t)
+            const activeUnits = game.units.filter(u => u.towerId === t.id)
             return (
               <div
                 className="td-tower-tooltip"
                 style={{ left: t.col * CELL_PX, top: Math.max(0, t.row * CELL_PX - 56) }}
               >
-                <strong>{t.template.name}</strong>
+                <strong>{t.buildingName}</strong>
                 {t.upgrades > 0 && <span className="td-tower-tier-label"> {'★'.repeat(t.upgrades)}</span>}
-                <div>HP {t.hp}/{t.maxHp} · ATK {atk} · R {t.rangeInCells}</div>
+                <div>{t.template.name} · {activeUnits.length}/{unitCount} active</div>
                 {t.id !== selectedTowerId && <div className="td-tooltip-hint">Tap to select</div>}
               </div>
             )
@@ -377,16 +399,17 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
       {/* ── Selected tower action panel ── */}
       {selectedTower && (() => {
         const t = selectedTower
-        const atk = Math.round(t.template.attack * upgradeAttackMult(t.upgrades))
         const sellRefund = Math.floor(towerCost(t.template) * 0.5)
         const upCost = upgradeCost(t)
         const canAffordUp = game.mana >= upCost
+        const unitCount = buildingUnitCount(t)
+        const activeUnits = game.units.filter(u => u.towerId === t.id)
         return (
           <div className="td-selected-panel">
             <div className="td-selected-panel-info">
-              <strong>{t.template.name}</strong>
+              <strong>{t.buildingName}</strong>
               {t.upgrades > 0 && <span className="td-tower-tier-label"> {'★'.repeat(t.upgrades)}</span>}
-              <span className="td-selected-panel-stats"> · ATK {atk} · HP {t.hp}/{t.maxHp} · R {t.rangeInCells}</span>
+              <span className="td-selected-panel-stats"> · {t.template.name} · {activeUnits.length}/{unitCount} units</span>
             </div>
             <div className="td-selected-panel-actions">
               <button className="td-selected-action-btn td-selected-action-btn--sell"
@@ -397,17 +420,17 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                 <button
                   className={`td-selected-action-btn td-selected-action-btn--upgrade${canAffordUp ? '' : ' td-selected-action-btn--disabled'}`}
                   onClick={() => canAffordUp && handleUpgradeTower(t)}>
-                  ★ UPGRADE 💧{upCost}
+                  ★ UPGRADE (+1 unit) 💧{upCost}
                 </button>
               ) : (
-                <span className="td-selected-panel-maxed">★★ MAX</span>
+                <span className="td-selected-panel-maxed">★★ MAX ({unitCount} units)</span>
               )}
               <button className="td-selected-action-btn td-selected-action-btn--cancel"
                 onClick={() => setSelectedTowerId(null)}>
                 ✕
               </button>
             </div>
-            <div className="td-selected-panel-hint">Tap an empty cell on the grid to move this tower</div>
+            <div className="td-selected-panel-hint">Tap an empty cell on the grid to move this building</div>
           </div>
         )
       })()}
@@ -421,14 +444,14 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
         {canPlaceTowers && !selectedTower && (
           <div className="td-panel-hint">
             {selected
-              ? `Placing ${selected.name} (💧${towerCost(selected)}) — tap a green cell`
-              : 'Tap a unit below to select, then tap the grid'}
+              ? `Placing ${pool.find(p => p.template.name === selected.name)?.buildingName ?? selected.name} (💧${towerCost(selected)}) — tap a green cell`
+              : 'Tap a building below to select, then tap the grid'}
           </div>
         )}
 
         {/* Unit strip */}
         <div className="td-unit-strip">
-          {pool.map(({ template }) => {
+          {pool.map(({ template, buildingName }) => {
             const remaining = game.remainingPlacements[template.name] ?? 0
             const cost      = towerCost(template)
             const isSel     = selected?.name === template.name
@@ -443,12 +466,12 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                   disabled ? 'td-unit-chip--disabled'  : '',
                 ].filter(Boolean).join(' ')}
                 onClick={() => !disabled && handleSelectUnit(template)}
-                title={`${template.name} — ATK ${template.attack}, HP ${template.maxHp}, Range ${Math.max(1, Math.round(template.attackRange / CELL_PX))} cells, Cost ${cost} mana`}
+                title={`${buildingName} — spawns ${template.name}, ATK ${template.attack}, HP ${template.maxHp}, Cost ${cost} mana`}
               >
                 <div className="td-unit-chip-sprite">
-                  <SpriteImg name={template.name} />
+                  <SpriteImg name={buildingName} />
                 </div>
-                <div className="td-unit-chip-name">{template.name}</div>
+                <div className="td-unit-chip-name">{buildingName}</div>
                 <span className={`td-unit-chip-count ${remaining === 0 ? 'td-unit-chip-count--zero' : ''}`}>
                   ×{remaining}
                 </span>
@@ -459,6 +482,24 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
             )
           })}
         </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Player unit token ────────────────────────────────────────────────────────
+
+function UnitToken({ unit }: { unit: TDUnit }) {
+  const size = 26
+  const hpFrac = unit.hp / unit.maxHp
+  return (
+    <div
+      className={`td-unit${unit.stationed ? ' td-unit--stationed' : ' td-unit--walking'}`}
+      style={{ left: unit.x - size / 2, top: unit.y - size / 2, width: size }}
+    >
+      <AnimatedSpriteImg name={unit.template.name} frameCount={3} fps={unit.stationed ? 4 : 8} className="td-unit-sprite" />
+      <div className="td-enemy-hp-bar">
+        <div className="td-enemy-hp-fill" style={{ width: `${hpFrac * 100}%`, background: hpBarColor(hpFrac) }} />
       </div>
     </div>
   )

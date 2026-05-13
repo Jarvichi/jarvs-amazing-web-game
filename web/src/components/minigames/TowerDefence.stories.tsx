@@ -26,7 +26,7 @@ const unitTemplate : UnitTemplate = {
 export const Default: Story = {
   args: {
     pool: [
-      { template: unitTemplate, total: 10 },
+      { template: unitTemplate, total: 10, buildingName: 'Goblin Camp' },
     ],
     mode: 'collection',
     "onDone": fn(),
