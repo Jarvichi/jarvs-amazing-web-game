@@ -339,4 +339,18 @@ export interface GameState {
   deckMaxMana?: number
   /** Player unit movement stance. Defaults to 'auto' (original behaviour). */
   playerStance?: 'auto' | 'attack' | 'hold' | 'defend'
+  /** Rules governing stance availability; undefined = no restrictions (current behaviour). */
+  stanceRules?: StanceRules
+  /** gameTime ms at which the current non-auto stance auto-expires. */
+  stanceActiveUntil?: number
+  /** gameTime ms before which no non-auto stance can be activated (cooldown). */
+  stanceCooldownUntil?: number
+}
+
+export interface StanceRules {
+  allowed: Array<'auto' | 'attack' | 'hold' | 'defend'>
+  /** How long a non-auto stance lasts before auto-reverting to 'auto' (ms). Omit for no limit. */
+  durationMs?: number
+  /** How long the player must wait after a stance expires before activating another (ms). */
+  cooldownMs?: number
 }

@@ -1032,21 +1032,48 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       </div>
 
       {/* Stance + speed controls */}
-      <div className="stance-bar">
-        {(['attack', 'hold', 'defend', 'auto'] as const).map(s => (
-          <button
-            key={s}
-            className={`filter-btn${stance === s ? ' filter-btn--active' : ''}`}
-            onClick={() => onSetStance?.(s)}
-            disabled={state.suddenDeath && s !== 'attack'}
-          >
-            {s === 'attack' ? 'ATTACK' : s === 'hold' ? 'HOLD' : s === 'defend' ? 'DEFEND' : 'AUTO'}
-          </button>
-        ))}
-        <button className="filter-btn stance-bar__speed" onClick={onCycleSpeed}>
-          x{speedMultiplier}
-        </button>
-      </div>
+      {(() => {
+        const rules = state.stanceRules
+        const onCooldown = rules?.cooldownMs !== undefined &&
+          state.stanceCooldownUntil !== undefined &&
+          state.gameTime < state.stanceCooldownUntil
+        const cooldownSecsLeft = onCooldown
+          ? Math.ceil((state.stanceCooldownUntil! - state.gameTime) / 1000)
+          : 0
+        const durationSecsLeft = (state.stanceActiveUntil !== undefined && stance !== 'auto')
+          ? Math.ceil((state.stanceActiveUntil - state.gameTime) / 1000)
+          : 0
+
+        return (
+          <div className="stance-bar">
+            {(['attack', 'hold', 'defend', 'auto'] as const).map(s => {
+              const isAllowed = !rules || rules.allowed.includes(s)
+              if (!isAllowed) return null
+              const label = s === 'attack' ? 'ATTACK' : s === 'hold' ? 'HOLD' : s === 'defend' ? 'DEFEND' : 'AUTO'
+              const isActive = stance === s
+              const isCoolingDown = onCooldown && s !== 'auto' && !isActive
+              const showCountdown = isActive && s !== 'auto' && durationSecsLeft > 0
+              const showCooldown  = isCoolingDown && cooldownSecsLeft > 0
+              return (
+                <button
+                  key={s}
+                  className={`filter-btn${isActive ? ' filter-btn--active' : ''}${isCoolingDown ? ' filter-btn--cooldown' : ''}`}
+                  onClick={() => onSetStance?.(s)}
+                  disabled={(state.suddenDeath && s !== 'attack') || isCoolingDown}
+                  title={isCoolingDown ? `Available in ${cooldownSecsLeft}s` : undefined}
+                >
+                  {label}
+                  {showCountdown && <span className="stance-timer"> {durationSecsLeft}s</span>}
+                  {showCooldown  && <span className="stance-timer stance-timer--cd"> {cooldownSecsLeft}s</span>}
+                </button>
+              )
+            })}
+            <button className="filter-btn stance-bar__speed" onClick={onCycleSpeed}>
+              x{speedMultiplier}
+            </button>
+          </div>
+        )
+      })()}
 
       {/* Hand */}
       <div className="hand-panel">

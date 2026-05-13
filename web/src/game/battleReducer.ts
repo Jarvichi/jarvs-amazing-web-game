@@ -166,7 +166,39 @@ export function battleReducer(state: BattleState, action: BattleAction): BattleS
 
     case 'SET_STANCE': {
       if (!state.gameState) return state
-      return { ...state, gameState: { ...state.gameState, playerStance: action.stance } }
+      const gs = state.gameState
+      const rules = gs.stanceRules
+      const newStance = action.stance
+
+      // Block disallowed stances
+      if (rules && !rules.allowed.includes(newStance)) return state
+
+      // Block non-auto activation while on cooldown
+      if (newStance !== 'auto' && rules?.cooldownMs !== undefined &&
+          gs.stanceCooldownUntil !== undefined && gs.gameTime < gs.stanceCooldownUntil) {
+        return state
+      }
+
+      // When manually switching back to auto from a non-auto stance, start cooldown
+      const wasNonAuto = (gs.playerStance ?? 'auto') !== 'auto'
+      const cooldownUntil = (wasNonAuto && newStance === 'auto' && rules?.cooldownMs !== undefined)
+        ? gs.gameTime + rules.cooldownMs
+        : gs.stanceCooldownUntil
+
+      // Set expiry for timed non-auto stances
+      const activeUntil = (newStance !== 'auto' && rules?.durationMs !== undefined)
+        ? gs.gameTime + rules.durationMs
+        : undefined
+
+      return {
+        ...state,
+        gameState: {
+          ...gs,
+          playerStance: newStance,
+          stanceActiveUntil: activeUntil,
+          stanceCooldownUntil: cooldownUntil,
+        },
+      }
     }
 
     case 'SET_SPEED':
