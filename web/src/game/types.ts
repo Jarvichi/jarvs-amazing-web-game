@@ -147,6 +147,10 @@ export interface Unit extends UnitTemplate {
   killFlashTimer?: number
   /** ms remaining stunned — unit cannot move or attack while > 0 (boss trait effect). */
   stunTimer?: number
+  /** True for commander units — the base avatar that fights on the field. */
+  isCommander?: boolean
+  /** X position the commander is leashed to; cannot wander beyond COMMANDER_LEASH_PX from here. */
+  commanderHomeX?: number
   /** Persistent random y position assigned to a guardBase unit (lazy, set on first guard tick). */
   guardY?: number
   /** ID of the enemy unit this unit is currently locked onto as an attack target. */
@@ -345,6 +349,8 @@ export interface GameState {
   stanceActiveUntil?: number
   /** gameTime ms before which no non-auto stance can be activated (cooldown). */
   stanceCooldownUntil?: number
+  /** Boss HP value at which phase 2 triggers (boss battles only — boss spawned at game start). */
+  bossPhase2Hp?: number
 }
 
 export interface StanceRules {
