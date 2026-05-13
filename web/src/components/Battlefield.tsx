@@ -1049,7 +1049,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
             {(['attack', 'hold', 'defend', 'auto'] as const).map(s => {
               const isAllowed = !rules || rules.allowed.includes(s)
               if (!isAllowed) return null
-              const label = s === 'attack' ? 'ATTACK' : s === 'hold' ? 'HOLD' : s === 'defend' ? 'DEFEND' : 'AUTO'
+              const label = s === 'attack' ? 'CHARGE' : s === 'hold' ? 'HOLD' : s === 'defend' ? 'DEFEND' : 'ATTACK'
               const isActive = stance === s
               const isCoolingDown = onCooldown && s !== 'auto' && !isActive
               const showCountdown = isActive && s !== 'auto' && durationSecsLeft > 0
