@@ -4,7 +4,7 @@ import { loadPlayerStats } from './playerStats'
 
 import { moveUnits, processAffinities } from './engine/units'
 import { processAttacks } from './engine/combat'
-import { BASE_MAX_MANA, BLOOD_POOL_FADE_MS, BASE_STOP_MARGIN, MANA_REGEN_MS, OPPONENT_INTERVAL_MS, PLAYER_SPAWN_X, SPAWN_GROW_MS } from './engine/constants'
+import { BASE_MAX_MANA, BLOOD_POOL_FADE_MS, BASE_STOP_MARGIN, MANA_REGEN_MS, OPPONENT_INTERVAL_MS, PLAYER_SPAWN_X, SPAWN_GROW_MS, COMMANDER_HOME_X } from './engine/constants'
 import { genericBossAI, getBossAIDef } from './engine/boss'
 import { tickBossTrait } from './engine/bossTraits'
 import { getManaBonus, getManaSpeedMult } from './engine/bonusEffects'
@@ -92,6 +92,21 @@ const STRATEGY_LABELS: Record<GameState['opponentStrategy'], string> = {
 }
 
 /** Inject one hero card into the first ~8 positions of a shuffled deck. */
+function spawnCommander(owner: 'player' | 'opponent', hp: number): import('./types').Unit {
+  const homeX = owner === 'player' ? COMMANDER_HOME_X : LANE_WIDTH - COMMANDER_HOME_X
+  const unit = spawnUnit(
+    { name: owner === 'player' ? 'Commander' : 'Warlord',
+      attack: 15, maxHp: hp, isWall: false, bypassWall: false,
+      moveSpeed: 8, attackRange: 35, attackCooldownMs: 2000 },
+    owner
+  )
+  unit.isCommander    = true
+  unit.commanderHomeX = homeX
+  unit.x              = homeX
+  unit.y              = 0
+  return unit
+}
+
 function injectHero(deck: Card[], heroPool: Card[]): void {
   if (heroPool.length === 0) return
   const hero = heroPool[Math.floor(Math.random() * heroPool.length)]
@@ -243,10 +258,33 @@ export function newGame(
     : undefined
   const maxMana = forgiveManaLimit ? 9 : Math.max(BASE_MAX_MANA, deckMaxMana ?? 0, loadPlayerStats().maxMana)
 
+  const baseOpponentHp = hpOverride ?? (boss ? 95 : 82)
+  const initialField: import('./types').Unit[] = []
+  let opponentBaseHp  = baseOpponentHp
+  let bossPhase2Hp: number | undefined
+
+  if (bossCard && !endlessMode) {
+    // Boss battle: spawn boss immediately with combined HP (base portion + boss portion)
+    const template = getCardUnit(bossCard)
+    if (template) {
+      const mult       = bossHpMultiplier ?? 25
+      const boostedHp  = Math.round(template.maxHp * mult)
+      const totalHp    = boostedHp + baseOpponentHp
+      const bossUnit   = spawnUnit({ ...template, maxHp: totalHp }, 'opponent')
+      initialField.push(bossUnit)
+      opponentBaseHp = totalHp
+      bossPhase2Hp   = boostedHp   // phase 2 triggers when boss.hp drops to this
+    }
+  } else if (!endlessMode) {
+    // Normal/elite battle: spawn commander units at each base
+    initialField.push(spawnCommander('player', 50))
+    initialField.push(spawnCommander('opponent', baseOpponentHp))
+  }
+
   return {
     playerBase: { hp: 50, maxHp: 50 },
-    opponentBase: { hp: hpOverride ?? (boss ? 95 : 82), maxHp: hpOverride ?? (boss ? 95 : 82) },
-    field: [],
+    opponentBase: { hp: opponentBaseHp, maxHp: opponentBaseHp },
+    field: initialField,
     playerHand,
     playerDeck,
     opponentHand,
@@ -292,6 +330,7 @@ export function newGame(
     bossSpawnKillPct: bossSpawnKillPct ?? 0.5,
     forgiveManaLimit: forgiveManaLimit ?? false,
     deckMaxMana,
+    bossPhase2Hp,
   }
 }
 
@@ -339,51 +378,45 @@ function checkGameOver(s: GameState): boolean {
     s.phase = { type: 'gameOver', winner: 'opponent' }
     return true
   }
-  if (s.opponentBase.hp <= 0) {
-    if (s.endlessMode) return triggerNextEndlessWave(s)
-    if (s.bossCard && !s.bossCardActive) {
-      // Trigger phase 2: restore base, clear opponent minions, push player units back, deploy boss
-      s.opponentBase.hp = s.opponentBase.maxHp
-      s.field = s.field.filter(u => u.owner !== 'opponent')
-      s.field.forEach(u => { if (u.owner === 'player') u.x = PLAYER_SPAWN_X })
-      const template = getCardUnit(s.bossCard)
-      if (template) {
-        const mult = s.bossHpMultiplier ?? 25
-        const boostedTemplate = { ...template, maxHp: Math.round(template.maxHp * mult) }
-        const bossUnit = spawnUnit(boostedTemplate, 'opponent')
-        s.field.push(bossUnit)
-        const displayName = s.bossName ?? s.bossCard
-        s.log.push(`!!⚡ PHASE 2! ${displayName} rises from the ruins!`)
-        s.log.push(`!!Destroy ${displayName} to win!`)
 
-        // Shockwave: kills a scaling fraction of player's mobile non-hero units, always leaving at least 3
-        const shockwavePool = s.field.filter(
-          u => u.owner === 'player' && u.moveSpeed > 0 && !u.isHero && !u.dyingTimer
-        )
-        const MIN_SURVIVORS = 3
-        const killPct = Math.min(1.0, s.bossSpawnKillPct ?? 0.5)
-        let killCount = Math.floor(shockwavePool.length * killPct)
-        killCount = Math.min(killCount, Math.max(0, shockwavePool.length - MIN_SURVIVORS))
-        if (killCount > 0) {
-          const shuffled = [...shockwavePool]
-          for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
-          }
-          const victims = shuffled.slice(0, killCount)
-          const victimIds = new Set(victims.map(u => u.id))
-          s.field = s.field.filter(u => !victimIds.has(u.id))
-          s.log.push(`💥 The shockwave obliterates ${victims.map(u => u.name).join(', ')}!`)
+  // Boss battle phase 2: boss spawns at game start — trigger phase 2 when HP drops to the threshold
+  if (s.bossCard && !s.bossCardActive && s.bossPhase2Hp !== undefined && !s.endlessMode) {
+    const bossUnit = s.field.find(u => u.owner === 'opponent' && u.name === s.bossCard && u.hp > 0)
+    if (bossUnit && bossUnit.hp <= s.bossPhase2Hp) {
+      const displayName = s.bossName ?? s.bossCard
+      // Clear minions but keep the boss unit
+      s.field = s.field.filter(u => u.owner !== 'opponent' || u.name === s.bossCard)
+      s.field.forEach(u => { if (u.owner === 'player') u.x = PLAYER_SPAWN_X })
+      s.log.push(`!!⚡ PHASE 2! ${displayName} stomps the ground in fury!`)
+      s.log.push(`!!Destroy ${displayName} to win!`)
+
+      // Shockwave: kills a scaling fraction of player's mobile non-hero units, always leaving at least 3
+      const shockwavePool = s.field.filter(
+        u => u.owner === 'player' && u.moveSpeed > 0 && !u.isHero && !u.dyingTimer
+      )
+      const MIN_SURVIVORS = 3
+      const killPct = Math.min(1.0, s.bossSpawnKillPct ?? 0.5)
+      let killCount = Math.floor(shockwavePool.length * killPct)
+      killCount = Math.min(killCount, Math.max(0, shockwavePool.length - MIN_SURVIVORS))
+      if (killCount > 0) {
+        const shuffled = [...shockwavePool]
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1))
+          ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
         }
+        const victims = shuffled.slice(0, killCount)
+        const victimIds = new Set(victims.map(u => u.id))
+        s.field = s.field.filter(u => !victimIds.has(u.id))
+        s.log.push(`💥 The shockwave obliterates ${victims.map(u => u.name).join(', ')}!`)
       }
+
       s.bossCardActive = true
-      // Reset boss trait state so hp_pct thresholds re-fire against the boss unit HP in phase 2
+      // Reset boss trait state so hp_pct thresholds re-fire in phase 2
       if (s.bossTraitState) {
         s.bossTraitState.firedThresholds = []
         s.bossTraitState.traitFired = false
         const bDef = s.bossAI ? getBossAIDef(s.bossAI) : undefined
         if (bDef?.trait?.trigger === 'periodic') {
-          // Allow first periodic ability to fire ~5s after phase 2 starts
           const interval = bDef.trait.triggerIntervalMs ?? 30000
           s.bossTraitState.lastTraitFireMs = s.gameTime - interval + 5000
         } else {
@@ -392,10 +425,19 @@ function checkGameOver(s: GameState): boolean {
       }
       return false
     }
+    return false
+  }
+
+  // Endless mode: wave clear when opponent base reaches 0
+  if (s.opponentBase.hp <= 0 && s.endlessMode) return triggerNextEndlessWave(s)
+
+  // Non-boss win: opponent commander dead (synced to opponentBase.hp)
+  if (s.opponentBase.hp <= 0 && !s.bossCard) {
     s.playerScore += VICTORY_BONUS
     s.phase = { type: 'celebration', winner: 'player' }
     return true
   }
+
   return false
 }
 
@@ -434,6 +476,22 @@ export function tick(state: GameState, deltaMs: number): GameState {
 
   // 4. Process per-unit attacks
   processAttacks(s, deltaMs, log)
+
+  // 4a. Sync commander/boss HP → base HP so game-over check and UI bars are accurate
+  const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')
+  if (playerCmd) {
+    s.playerBase.hp = Math.max(0, playerCmd.hp)
+  } else if (s.field.some(u => u.isCommander && u.owner === 'player')) {
+    s.playerBase.hp = 0  // commander is dying (dyingTimer still running)
+  }
+  if (s.bossCard && !s.endlessMode) {
+    const bossUnit = s.field.find(u => u.owner === 'opponent' && u.name === s.bossCard && u.hp > 0)
+    if (bossUnit) s.opponentBase.hp = bossUnit.hp
+  } else {
+    const opCmd = s.field.find(u => u.isCommander && u.owner === 'opponent')
+    if (opCmd) s.opponentBase.hp = Math.max(0, opCmd.hp)
+    else if (s.field.some(u => u.isCommander && u.owner === 'opponent')) s.opponentBase.hp = 0
+  }
 
   // 4b. Check for game over before processing timers, so player still gets credit for killing a boss in the same tick that it kills them
   if (checkGameOver(s)) {

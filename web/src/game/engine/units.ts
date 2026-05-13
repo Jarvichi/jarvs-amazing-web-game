@@ -1,5 +1,5 @@
 import { GameState, LANE_WIDTH, TERRAIN_AVOID_SHAPE, Unit, UnitTag } from '../types'
-import { BASE_STOP_MARGIN, DAMAGE_FLASH_MS, PLAYER_SPAWN_X } from './constants'
+import { BASE_STOP_MARGIN, COMMANDER_LEASH_PX, DAMAGE_FLASH_MS, PLAYER_SPAWN_X } from './constants'
 import { LANE_MAX_Y, LANE_MIN_Y } from './helpers'
 import { unitDist, findNearestEnemy, findNearestEnemyByPriority, findEnemyBehind } from './targeting'
 
@@ -290,6 +290,11 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     const step = Math.min(speed, d)
     unit.x = Math.min(LANE_WIDTH - BASE_STOP_MARGIN, Math.max(BASE_STOP_MARGIN, unit.x + (dx / d) * step))
     unit.y = Math.min(LANE_MAX_Y, Math.max(LANE_MIN_Y, unit.y + (dy / d) * step + avoidY * deltaSec))
+
+    // Commanders cannot stray beyond their leash radius
+    if (unit.isCommander && unit.commanderHomeX !== undefined) {
+      unit.x = Math.min(unit.commanderHomeX + COMMANDER_LEASH_PX, Math.max(unit.commanderHomeX - COMMANDER_LEASH_PX, unit.x))
+    }
   }
 }
 

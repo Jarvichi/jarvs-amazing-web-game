@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Body -->
+  <rect x="11" y="14" width="10" height="11" rx="2" fill="#4a9e4a"/>
+  <!-- Head -->
+  <circle cx="16" cy="10" r="5" fill="#f0c87a"/>
+  <!-- Helmet -->
+  <path d="M11 10 Q11 4 16 4 Q21 4 21 10" fill="#3a7a3a"/>
+  <!-- Plume -->
+  <path d="M16 4 Q14 1 13 0 Q15 2 16 4 Q17 2 19 0 Q18 1 16 4" fill="#e04040"/>
+  <!-- Shield (left arm) -->
+  <rect x="7" y="14" width="5" height="8" rx="1" fill="#2a5a8a"/>
+  <line x1="9.5" y1="14" x2="9.5" y2="22" stroke="#4a8acc" stroke-width="1"/>
+  <!-- Sword (right arm) -->
+  <rect x="20" y="11" width="2.5" height="13" rx="0.5" fill="#c0c0c0"/>
+  <rect x="18.5" y="16" width="5.5" height="1.5" rx="0.5" fill="#8a6a20"/>
+  <!-- Legs -->
+  <rect x="11" y="24" width="4" height="5" rx="1" fill="#3a7a3a"/>
+  <rect x="16" y="24" width="4" height="5" rx="1" fill="#3a7a3a"/>
+  <!-- Boots -->
+  <rect x="10.5" y="28" width="5" height="3" rx="1" fill="#3a2010"/>
+  <rect x="15.5" y="28" width="5" height="3" rx="1" fill="#3a2010"/>
+</svg>

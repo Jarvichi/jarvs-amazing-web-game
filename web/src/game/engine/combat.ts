@@ -1,6 +1,6 @@
 import { isNoDamageMode } from '../debug'
-import { playBuildingDestroyed, playUnitDeath, playUnitAttack, playBaseHit } from '../sound'
-import { AnimEvent, GameState, LANE_WIDTH, Unit } from '../types'
+import { playBuildingDestroyed, playUnitDeath, playUnitAttack } from '../sound'
+import { AnimEvent, GameState, Unit } from '../types'
 import { DAMAGE_FLASH_MS, BLOOD_POOL_MAX } from './constants'
 import { getAttackAura } from './bonusEffects'
 import { animUid, spawnUnit } from './helpers'
@@ -141,43 +141,6 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
       const affSpeedMult = (unit.affinityActive && unit.affinity?.effectType === 'attackSpeed')
         ? unit.affinity.effectAmount : 1
       unit.attackTimer = unit.attackCooldownMs / affSpeedMult
-    } else {
-      // No enemies in range — attack the base if close enough
-      const baseDist = isPlayer
-        ? Math.hypot(LANE_WIDTH - unit.x, unit.y)
-        : Math.hypot(unit.x, unit.y)
-
-      if (baseDist <= unit.attackRange) {
-        const bloodMoonMult = s.activeBattleEvent?.type === 'bloodMoon' ? 2 : 1
-        const dmg = (unit.attack + atkAura) * bloodMoonMult
-        if (isPlayer) {
-          const traitProtected = s.bossTraitState != null && s.bossTraitState.baseInvulnerableUntilMs > s.gameTime
-          if (s.endlessWaveTruceMs != null && s.endlessWaveTruceMs > 0) {
-            log.push(`${unit.name} hits Enemy Base! (truce — no damage)`)
-          } else if (traitProtected) {
-            log.push(`${unit.name} hits Enemy Base — it's protected!`)
-          } else {
-            const prev = s.opponentBase.hp
-            s.opponentBase.hp = Math.max(0, s.opponentBase.hp - dmg)
-            s.playerScore += prev - s.opponentBase.hp
-            log.push(`${unit.name} hits Enemy Base! -${dmg}HP`)
-            playBaseHit()
-          }
-        } else {
-          if (!isNoDamageMode()) {
-            const prev = s.playerBase.hp
-            s.playerBase.hp = Math.max(0, s.playerBase.hp - dmg)
-            s.opponentScore += prev - s.playerBase.hp
-            log.push(`${unit.name} hits Your Base! -${dmg}HP`)
-            playBaseHit()
-          } else {
-            log.push(`${unit.name} hits Your Base! (dev mode — no damage)`)
-          }
-        }
-        const affSpeedMult2 = (unit.affinityActive && unit.affinity?.effectType === 'attackSpeed')
-          ? unit.affinity.effectAmount : 1
-        unit.attackTimer = unit.attackCooldownMs / affSpeedMult2
-      }
     }
   }
 
