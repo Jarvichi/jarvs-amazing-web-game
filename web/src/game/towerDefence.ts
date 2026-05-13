@@ -190,16 +190,31 @@ export const TD_WAVES: WaveDefinition[] = [
 let _nextId = 1
 function nextId() { return _nextId++ }
 
+// Building placed by the player on a non-path cell.
 export interface TDTower {
   id: number
   col: number
   row: number
   template: UnitTemplate
+  buildingName: string        // card name for building sprite
+  upgrades: number            // 0–TD_MAX_UPGRADES; determines how many units it spawns
+  respawnTimers: number[]     // countdown (ms) for each dead unit awaiting respawn
+}
+
+// A unit spawned by a building — walks to the nearest path cell and fights there.
+export interface TDUnit {
+  id: number
+  towerId: number
+  template: UnitTemplate
   hp: number
   maxHp: number
-  attackCooldownRemaining: number   // ms until next attack
+  x: number               // current pixel position
+  y: number
+  targetX: number         // nearest path-cell centre
+  targetY: number
+  stationed: boolean      // false = still walking, true = at path cell fighting
+  attackCooldownRemaining: number
   rangeInCells: number
-  upgrades: number                  // 0–TD_MAX_UPGRADES
 }
 
 export interface TDEnemy {
@@ -207,11 +222,10 @@ export interface TDEnemy {
   template: TDEnemyTemplate
   hp: number
   maxHp: number
-  // Position along the path: integer = at node, fractional = between nodes
-  pathProgress: number   // 0 = start, TD_PATH.length-1 = end
-  // Pixel position (derived from pathProgress) — used only for UI
+  pathProgress: number    // 0 = start, TD_PATH.length-1 = end
   x: number
   y: number
+  unitAttackCd: number    // ms until this enemy next attacks a player unit
 }
 
 // Attack visual event — used by the UI to show projectile + hit spark
@@ -236,14 +250,15 @@ export type TDPhase = 'prep' | 'wave' | 'between' | 'milestone' | 'victory' | 'd
 export interface TDGameState {
   phase: TDPhase
   lives: number
-  mana: number                  // spendable currency (earn from kills, spend to place towers)
+  mana: number
   wavesCompleted: number
   currentWaveIndex: number
   gameTimeMs: number
   towers: TDTower[]
+  units: TDUnit[]
   enemies: TDEnemy[]
   spawnQueue: SpawnEntry[]
-  waveSpawnTotal: number        // total spawns queued when current wave started (for progress bar)
+  waveSpawnTotal: number
   nextWaveAt: number
   log: string[]
   score: number
@@ -257,27 +272,28 @@ export interface TDGameState {
 
 export const TD_MAX_LIVES = 3
 export const TD_TOTAL_WAVES = 100
-export const TD_MILESTONE_EVERY = 10   // extended break + field reset every N waves
+export const TD_MILESTONE_EVERY = 10
 export const TD_CELL_PX = 48
 export const TD_STARTING_MANA = 120
 export const TD_MAX_UPGRADES = 2
 const BETWEEN_WAVE_MS = 5000
-// Strength bonus multiplier
 const STRENGTH_MULT = 1.5
+const RESPAWN_DELAY_MS = 5000     // ms before a dead unit respawns
+const UNIT_WALK_SPEED_PX = TD_CELL_PX * 2   // px/sec walking from building to path
 
-/** Mana cost to place a tower based on its stats. */
+/** Mana cost to place a building based on its unit stats. */
 export function towerCost(template: UnitTemplate): number {
   return Math.max(5, Math.round(template.attack * 2 + template.maxHp / 20))
 }
 
-/** Mana cost to upgrade a tower to the next tier. */
+/** Mana cost to upgrade a building (spawns one more unit). */
 export function upgradeCost(tower: TDTower): number {
   return Math.round(towerCost(tower.template) * (tower.upgrades + 1))
 }
 
-/** ATK multiplier for a tower at its current upgrade tier. */
-export function upgradeAttackMult(upgrades: number): number {
-  return 1 + upgrades * 0.5
+/** Number of units a building spawns at its current upgrade level. */
+export function buildingUnitCount(tower: TDTower): number {
+  return tower.upgrades + 1
 }
 
 /**
@@ -351,20 +367,51 @@ function dist(ax: number, ay: number, bx: number, by: number): number {
   return Math.sqrt((ax - bx) ** 2 + (ay - by) ** 2)
 }
 
-function towerCanHit(tower: TDTower, enemy: TDEnemy): boolean {
-  // Non-bypassing towers can't hit flying enemies
-  if (enemy.template.flying && !tower.template.bypassWall) return false
-  const tx = tower.col * TD_CELL_PX + TD_CELL_PX / 2
-  const ty = tower.row * TD_CELL_PX + TD_CELL_PX / 2
-  return dist(tx, ty, enemy.x, enemy.y) <= tower.rangeInCells * TD_CELL_PX
+function unitCanHit(unit: TDUnit, enemy: TDEnemy): boolean {
+  if (enemy.template.flying && !unit.template.bypassWall) return false
+  return dist(unit.x, unit.y, enemy.x, enemy.y) <= unit.rangeInCells * TD_CELL_PX
 }
 
-function damageDealt(tower: TDTower, enemy: TDEnemy): number {
-  let dmg = Math.round(tower.template.attack * upgradeAttackMult(tower.upgrades))
-  if (tower.template.strengths?.some(tag => enemy.template.tags.includes(tag))) {
+function unitDamageDealt(unit: TDUnit, enemy: TDEnemy): number {
+  let dmg = Math.round(unit.template.attack)
+  if (unit.template.strengths?.some(tag => enemy.template.tags.includes(tag))) {
     dmg = Math.round(dmg * STRENGTH_MULT)
   }
   return dmg
+}
+
+/** Return the path cell closest to building cell (col, row). */
+function nearestPathCell(col: number, row: number): GridPos {
+  const cx = col * TD_CELL_PX + TD_CELL_PX / 2
+  const cy = row * TD_CELL_PX + TD_CELL_PX / 2
+  let best = TD_PATH[0]
+  let bestDist = Infinity
+  for (const p of TD_PATH) {
+    const d = dist(cx, cy, p.col * TD_CELL_PX + TD_CELL_PX / 2, p.row * TD_CELL_PX + TD_CELL_PX / 2)
+    if (d < bestDist) { bestDist = d; best = p }
+  }
+  return best
+}
+
+/** Create a fresh unit that walks from its building to the nearest path cell. */
+function spawnUnitFromBuilding(tower: TDTower): TDUnit {
+  const start  = cellToXY(tower.col, tower.row)
+  const target = nearestPathCell(tower.col, tower.row)
+  const txy    = cellToXY(target.col, target.row)
+  return {
+    id: nextId(),
+    towerId: tower.id,
+    template: tower.template,
+    hp: tower.template.maxHp,
+    maxHp: tower.template.maxHp,
+    x: start.x,
+    y: start.y,
+    targetX: txy.x,
+    targetY: txy.y,
+    stationed: false,
+    attackCooldownRemaining: 0,
+    rangeInCells: Math.max(1.5, Math.round(tower.template.attackRange / TD_CELL_PX)),
+  }
 }
 
 function buildSpawnQueue(waveDef: WaveDefinition, startTimeMs: number): SpawnEntry[] {
@@ -400,11 +447,12 @@ export function createTDGame(
     currentWaveIndex: 0,
     gameTimeMs: 0,
     towers: [],
+    units: [],
     enemies: [],
     spawnQueue: [],
     waveSpawnTotal: 0,
     nextWaveAt: 0,
-    log: ['Place your towers, then press START WAVE.'],
+    log: ['Place your buildings, then press START WAVE.'],
     attackEvents: [],
     score: 0,
     availableTemplates,
@@ -413,10 +461,11 @@ export function createTDGame(
   }
 }
 
-/** Place a tower on the grid. Returns updated state or null if invalid. */
+/** Place a building on the grid. Returns updated state or null if invalid. */
 export function placeTower(
   state: TDGameState,
   template: UnitTemplate,
+  buildingName: string,
   col: number,
   row: number,
 ): TDGameState | null {
@@ -428,30 +477,29 @@ export function placeTower(
   const cost = towerCost(template)
   if (state.mana < cost) return null
 
-  const rangeInCells = Math.max(1.5, Math.round(template.attackRange / TD_CELL_PX))
   const tower: TDTower = {
     id: nextId(),
     col, row,
     template,
-    hp: template.maxHp,
-    maxHp: template.maxHp,
-    attackCooldownRemaining: 0,
-    rangeInCells,
+    buildingName,
     upgrades: 0,
+    respawnTimers: [],
   }
+  const unit = spawnUnitFromBuilding(tower)
   return {
     ...state,
     mana: state.mana - cost,
     towers: [...state.towers, tower],
+    units: [...state.units, unit],
     remainingPlacements: {
       ...state.remainingPlacements,
       [template.name]: remaining - 1,
     },
-    log: [...state.log.slice(-9), `Placed ${template.name} (-${cost} mana).`],
+    log: [...state.log.slice(-9), `Placed ${buildingName} — ${template.name} marching out!`],
   }
 }
 
-/** Remove a tower and refund its placement slot. */
+/** Sell a building, recall its units, and refund mana. */
 export function removeTower(state: TDGameState, towerId: number): TDGameState {
   const tower = state.towers.find(t => t.id === towerId)
   if (!tower) return state
@@ -460,42 +508,52 @@ export function removeTower(state: TDGameState, towerId: number): TDGameState {
     ...state,
     mana: state.mana + refund,
     towers: state.towers.filter(t => t.id !== towerId),
+    units: state.units.filter(u => u.towerId !== towerId),
     remainingPlacements: {
       ...state.remainingPlacements,
       [tower.template.name]: (state.remainingPlacements[tower.template.name] ?? 0) + 1,
     },
-    log: [...state.log.slice(-9), `Removed ${tower.template.name} (+${refund} mana).`],
+    log: [...state.log.slice(-9), `Sold ${tower.buildingName} (+${refund} mana).`],
   }
 }
 
-/** Upgrade a tower's attack power. Returns null if not affordable or at max tier. */
+/** Upgrade a building — spawns one more unit. Returns null if not affordable or at max. */
 export function upgradeTower(state: TDGameState, towerId: number): TDGameState | null {
   const tower = state.towers.find(t => t.id === towerId)
   if (!tower) return null
   if (tower.upgrades >= TD_MAX_UPGRADES) return null
   const cost = upgradeCost(tower)
   if (state.mana < cost) return null
+  const upgradedTower = { ...tower, upgrades: tower.upgrades + 1 }
+  const newUnit = spawnUnitFromBuilding(upgradedTower)
   return {
     ...state,
     mana: state.mana - cost,
-    towers: state.towers.map(t =>
-      t.id === towerId ? { ...t, upgrades: t.upgrades + 1 } : t,
-    ),
-    log: [...state.log.slice(-9), `${tower.template.name} upgraded to tier ${tower.upgrades + 1}! (-${cost} mana)`],
+    towers: state.towers.map(t => t.id === towerId ? upgradedTower : t),
+    units: [...state.units, newUnit],
+    log: [...state.log.slice(-9), `${tower.buildingName} upgraded to ★${tower.upgrades + 1} — extra ${tower.template.name} dispatched! (-${cost} mana)`],
   }
 }
 
-/** Move a placed tower to a new cell at no mana cost. */
+/** Move a building to a new cell — its units walk to the new nearest path cell. */
 export function moveTower(state: TDGameState, towerId: number, col: number, row: number): TDGameState | null {
   if (isPathCell(col, row)) return null
   if (col < 0 || col >= TD_COLS || row < 0 || row >= TD_ROWS) return null
   const tower = state.towers.find(t => t.id === towerId)
   if (!tower) return null
   if (state.towers.some(t => t.id !== towerId && t.col === col && t.row === row)) return null
+  const movedTower = { ...tower, col, row }
+  const target = nearestPathCell(col, row)
+  const txy = cellToXY(target.col, target.row)
+  const startXY = cellToXY(col, row)
   return {
     ...state,
-    towers: state.towers.map(t => t.id === towerId ? { ...t, col, row } : t),
-    log: [...state.log.slice(-9), `Moved ${tower.template.name}.`],
+    towers: state.towers.map(t => t.id === towerId ? movedTower : t),
+    units: state.units.map(u =>
+      u.towerId !== towerId ? u
+        : { ...u, x: startXY.x, y: startXY.y, targetX: txy.x, targetY: txy.y, stationed: false }
+    ),
+    log: [...state.log.slice(-9), `Moved ${tower.buildingName}.`],
   }
 }
 
@@ -515,17 +573,16 @@ export function startWave(state: TDGameState): TDGameState {
 
 /** Advance simulation by dtMs milliseconds. Returns next state. */
 export function tickTD(state: TDGameState, dtMs: number): TDGameState {
-  if (state.phase === 'prep' || state.phase === 'victory' || state.phase === 'defeat') {
-    return state
-  }
+  if (state.phase === 'prep' || state.phase === 'victory' || state.phase === 'defeat') return state
 
   let s = { ...state, gameTimeMs: state.gameTimeMs + dtMs }
   s.towers = [...s.towers]
+  s.units = [...s.units]
   s.enemies = [...s.enemies]
   s.spawnQueue = [...s.spawnQueue]
   s.log = [...s.log]
 
-  // ── Spawn enemies from queue ───────────────────────────────────────────────
+  // ── Spawn enemies ─────────────────────────────────────────────────────────
   while (s.spawnQueue.length > 0) {
     const next = s.spawnQueue[s.spawnQueue.length - 1]
     if (next.spawnAt > s.gameTimeMs) break
@@ -535,88 +592,135 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     s.enemies = [...s.enemies, {
       id: nextId(),
       template: next.template,
-      hp,
-      maxHp: hp,
+      hp, maxHp: hp,
       pathProgress: 0,
-      x: startXY.x,
-      y: startXY.y,
+      x: startXY.x, y: startXY.y,
+      unitAttackCd: 0,
     }]
   }
 
-  // ── Move enemies ───────────────────────────────────────────────────────────
+  // ── Move enemies ──────────────────────────────────────────────────────────
   const dtSec = dtMs / 1000
   let livesLost = 0
   const survivingEnemies: TDEnemy[] = []
-
   for (const enemy of s.enemies) {
-    const newProgress = enemy.pathProgress + enemy.template.speed * dtSec
-    if (newProgress >= TD_PATH.length - 1) {
-      // Reached the end
+    const np = enemy.pathProgress + enemy.template.speed * dtSec
+    if (np >= TD_PATH.length - 1) {
       livesLost += enemy.template.attack
     } else {
-      const xy = pathIndexToXY(newProgress)
-      survivingEnemies.push({ ...enemy, pathProgress: newProgress, x: xy.x, y: xy.y })
+      const xy = pathIndexToXY(np)
+      survivingEnemies.push({ ...enemy, pathProgress: np, x: xy.x, y: xy.y })
     }
   }
   s.enemies = survivingEnemies
-
   if (livesLost > 0) {
     s.lives = Math.max(0, s.lives - livesLost)
     s.log = [...s.log.slice(-9), `${livesLost} ${livesLost === 1 ? 'enemy' : 'enemies'} reached your base!`]
   }
 
-  // ── Tower attacks ──────────────────────────────────────────────────────────
+  // ── Move units toward their target path cell ──────────────────────────────
+  s.units = s.units.map(u => {
+    if (u.stationed) return u
+    const dx = u.targetX - u.x
+    const dy = u.targetY - u.y
+    const d  = Math.sqrt(dx * dx + dy * dy)
+    const step = UNIT_WALK_SPEED_PX * dtSec
+    if (d <= step) return { ...u, x: u.targetX, y: u.targetY, stationed: true }
+    return { ...u, x: u.x + dx / d * step, y: u.y + dy / d * step }
+  })
+
+  // ── Units attack enemies ──────────────────────────────────────────────────
   const deadEnemyIds = new Set<number>()
-  const updatedTowers: TDTower[] = []
-  // Prune expired attack events, then collect new ones this tick
   const newAttackEvents: TDAttackEvent[] = s.attackEvents.filter(e => e.expiresAt > s.gameTimeMs)
 
-  for (const tower of s.towers) {
-    let cd = Math.max(0, tower.attackCooldownRemaining - dtMs)
+  s.units = s.units.map(unit => {
+    if (!unit.stationed) return unit
+    let cd = Math.max(0, unit.attackCooldownRemaining - dtMs)
     if (cd <= 0 && s.enemies.length > 0) {
-      // Pick the enemy furthest along the path that is in range
       const targets = s.enemies
-        .filter(e => !deadEnemyIds.has(e.id) && towerCanHit(tower, e))
+        .filter(e => !deadEnemyIds.has(e.id) && unitCanHit(unit, e))
         .sort((a, b) => b.pathProgress - a.pathProgress)
       if (targets.length > 0) {
         const target = targets[0]
-        const dmg = damageDealt(tower, target)
-        const idx = s.enemies.findIndex(e => e.id === target.id)
-        if (idx !== -1) {
-          const newHp = s.enemies[idx].hp - dmg
-          if (newHp <= 0) {
-            deadEnemyIds.add(target.id)
-            s.score += target.template.reward
-            s.mana += target.template.reward
-          } else {
-            s.enemies = s.enemies.map(e => e.id === target.id ? { ...e, hp: newHp } : e)
-          }
+        const dmg = unitDamageDealt(unit, target)
+        const newHp = target.hp - dmg
+        if (newHp <= 0) {
+          deadEnemyIds.add(target.id)
+          s.score += target.template.reward
+          s.mana += target.template.reward
+        } else {
+          s.enemies = s.enemies.map(e => e.id === target.id ? { ...e, hp: newHp } : e)
         }
-        // Emit visual attack event
-        const txy = cellToXY(tower.col, tower.row)
         newAttackEvents.push({
           id: nextId(),
-          fromX: txy.x, fromY: txy.y,
+          fromX: unit.x, fromY: unit.y,
           toX: target.x, toY: target.y,
-          expiresAt: s.gameTimeMs + 500,
+          expiresAt: s.gameTimeMs + 400,
         })
-        cd = tower.template.attackCooldownMs
+        cd = unit.template.attackCooldownMs
       }
     }
-    updatedTowers.push({ ...tower, attackCooldownRemaining: cd })
-  }
+    return { ...unit, attackCooldownRemaining: cd }
+  })
   s.attackEvents = newAttackEvents
-
-  s.towers = updatedTowers
   s.enemies = s.enemies.filter(e => !deadEnemyIds.has(e.id))
 
-  // ── Check defeat ───────────────────────────────────────────────────────────
+  // ── Enemies retaliate against stationed units ─────────────────────────────
+  const unitHpDeltas: Record<number, number> = {}
+  const unitDeaths = new Set<number>()
+
+  s.enemies = s.enemies.map(enemy => {
+    let ucd = Math.max(0, enemy.unitAttackCd - dtMs)
+    if (ucd <= 0) {
+      const target = s.units
+        .filter(u => u.stationed && !unitDeaths.has(u.id))
+        .sort((a, b) => dist(a.x, a.y, enemy.x, enemy.y) - dist(b.x, b.y, enemy.x, enemy.y))
+        .find(u => dist(u.x, u.y, enemy.x, enemy.y) <= TD_CELL_PX * 1.5)
+      if (target) {
+        const prev = unitHpDeltas[target.id] ?? target.hp
+        const next = prev - enemy.template.attack
+        unitHpDeltas[target.id] = next
+        if (next <= 0) unitDeaths.add(target.id)
+        ucd = 1500
+      }
+    }
+    return { ...enemy, unitAttackCd: ucd }
+  })
+
+  // Collect dead unit respawn info before removing them
+  const respawnAdditions: Record<number, number> = {}
+  for (const uid of unitDeaths) {
+    const u = s.units.find(u => u.id === uid)
+    if (u) {
+      respawnAdditions[u.towerId] = (respawnAdditions[u.towerId] ?? 0) + 1
+      s.log = [...s.log.slice(-9), `${u.template.name} fell in battle — reinforcements en route!`]
+    }
+  }
+
+  s.units = s.units
+    .filter(u => !unitDeaths.has(u.id))
+    .map(u => unitHpDeltas[u.id] !== undefined ? { ...u, hp: Math.max(1, unitHpDeltas[u.id]) } : u)
+
+  // ── Tick respawn timers and spawn new units ────────────────────────────────
+  const newlySpawned: TDUnit[] = []
+  s.towers = s.towers.map(tower => {
+    let timers = tower.respawnTimers.map(t => t - dtMs)
+    const addCount = respawnAdditions[tower.id] ?? 0
+    for (let i = 0; i < addCount; i++) timers.push(RESPAWN_DELAY_MS)
+    const toSpawn = timers.filter(t => t <= 0).length
+    timers = timers.filter(t => t > 0)
+    for (let i = 0; i < toSpawn; i++) newlySpawned.push(spawnUnitFromBuilding(tower))
+    return { ...tower, respawnTimers: timers }
+  })
+  s.units = [...s.units, ...newlySpawned]
+
+  // ── Check defeat ──────────────────────────────────────────────────────────
   if (s.lives <= 0) {
     s.log = [...s.log.slice(-9), 'Your base has fallen!']
     return { ...s, phase: 'defeat' }
   }
 
-  // ── Check wave complete ────────────────────────────────────────────────────
+  // ── Check wave complete ───────────────────────────────────────────────────
   if (s.phase === 'wave' && s.spawnQueue.length === 0 && s.enemies.length === 0) {
     s.wavesCompleted += 1
     if (s.wavesCompleted >= TD_TOTAL_WAVES) {
@@ -624,9 +728,8 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
       return { ...s, phase: 'victory' }
     }
     s.currentWaveIndex += 1
-    // Every TD_MILESTONE_EVERY waves: extended break, no auto-advance
     if (s.wavesCompleted % TD_MILESTONE_EVERY === 0) {
-      s.log = [...s.log.slice(-9), `🎉 ${s.wavesCompleted} waves cleared! Take a break — sell, move or upgrade your towers!`]
+      s.log = [...s.log.slice(-9), `🎉 ${s.wavesCompleted} waves cleared! Take a break — sell, move or upgrade!`]
       return { ...s, phase: 'milestone' }
     }
     s.nextWaveAt = s.gameTimeMs + BETWEEN_WAVE_MS
@@ -635,10 +738,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     return { ...s, phase: 'between' }
   }
 
-  // ── Auto-advance between phase (milestone never auto-advances) ─────────────
-  if (s.phase === 'between' && s.gameTimeMs >= s.nextWaveAt) {
-    return startWave(s)
-  }
+  if (s.phase === 'between' && s.gameTimeMs >= s.nextWaveAt) return startWave(s)
 
   return s
 }

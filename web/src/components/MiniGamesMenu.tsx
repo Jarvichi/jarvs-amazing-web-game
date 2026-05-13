@@ -42,7 +42,7 @@ function buildCollectionTowerPool(): TowerPool[] {
   const collection = loadCollection()
   return catalog
     .filter(c => c.cardType === 'unit' && c.unit && !c.unit.isWall && getOwnedCount(collection, c.name) > 0)
-    .map(c => ({ template: c.unit!, total: getOwnedCount(collection, c.name) }))
+    .map(c => ({ template: c.unit!, total: getOwnedCount(collection, c.name), buildingName: c.name }))
 }
 
 // Pick N random cards from catalog, optionally filtered by rarity

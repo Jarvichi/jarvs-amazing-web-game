@@ -554,16 +554,16 @@ function buildCityTowerPool(city: CityState): TowerPool[] {
 
   const pool: TowerPool[] = []
   for (const [unitName, total] of Object.entries(counts)) {
-    // Find the UnitTemplate by matching the name of the spawned unit
     let template: UnitTemplate | undefined
+    let buildingName: string | undefined
     for (const card of catalog) {
       if (card.unit?.structureEffect?.type === 'spawn') {
         const se = card.unit.structureEffect as { type: 'spawn'; unitTemplate: UnitTemplate }
-        if (se.unitTemplate.name === unitName) { template = se.unitTemplate; break }
+        if (se.unitTemplate.name === unitName) { template = se.unitTemplate; buildingName = card.name; break }
       }
-      if (card.unit?.name === unitName) { template = card.unit; break }
+      if (card.unit?.name === unitName) { template = card.unit; buildingName = card.name; break }
     }
-    if (template) pool.push({ template, total })
+    if (template && buildingName) pool.push({ template, total, buildingName })
   }
   return pool
 }
