@@ -227,6 +227,9 @@ export interface TDEnemy {
   y: number
   unitAttackCd: number    // ms until this enemy next attacks a player unit
   speedMult: number       // 1.05^(waveIndex-10) for waves > 10
+  shielded: boolean       // absorbs next hit entirely (introduced wave 30+)
+  splitsOnDeath: boolean  // spawns 2 half-hp copies on death (wave 50+)
+  slowsUnits: boolean     // emits aura that delays nearby unit attacks (wave 70+)
 }
 
 // Attack visual event — used by the UI to show projectile + hit spark
@@ -239,11 +242,37 @@ export interface TDAttackEvent {
   expiresAt: number   // game-time ms
 }
 
+// Global passive bonuses accumulated through milestone upgrades
+export interface TDPassives {
+  attackSpeedMult: number  // divides attack cooldown reset (>1 = faster)
+  rangeBonus: number       // extra cells added to each unit's range
+  damageMult: number       // multiplied onto damage dealt
+  respawnMult: number      // divides respawn timer (>1 = faster)
+}
+
+export interface MilestoneUpgrade {
+  id: string
+  label: string
+  description: string
+}
+
+export const ALL_MILESTONE_UPGRADES: MilestoneUpgrade[] = [
+  { id: 'attack_speed', label: '⚡ Battle Rhythm',   description: 'All units attack 20% faster' },
+  { id: 'range',        label: '🎯 Eagle Eye',        description: 'All units gain +1 range' },
+  { id: 'damage',       label: '💥 Sharpened Blades', description: 'Units deal 25% more damage' },
+  { id: 'mana',         label: '💧 Mana Spring',      description: 'Gain 100 bonus mana' },
+  { id: 'life',         label: '❤️ Fortified Walls',  description: 'Gain 2 extra lives' },
+  { id: 'respawn',      label: '🔄 Quick Recovery',   description: 'Units respawn twice as fast' },
+]
+
 // Pending spawn queue entry
 interface SpawnEntry {
   template: TDEnemyTemplate
   hpMult: number
   speedMult: number
+  shielded: boolean
+  splitsOnDeath: boolean
+  slowsUnits: boolean
   spawnAt: number   // game-time ms when this enemy should enter
 }
 
@@ -268,6 +297,8 @@ export interface TDGameState {
   availableTemplates: UnitTemplate[]
   remainingPlacements: Record<string, number>
   mode: 'collection' | 'city'
+  passives: TDPassives
+  milestoneChoices: MilestoneUpgrade[] | null
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -291,7 +322,7 @@ export function towerCost(template: UnitTemplate): number {
 
 /** Mana cost to upgrade a building (spawns one more unit). */
 export function upgradeCost(tower: TDTower): number {
-  return Math.round(towerCost(tower.template) * (tower.upgrades + 1))
+  return Math.round(towerCost(tower.template) * Math.pow(2, tower.upgrades + 1))
 }
 
 /** Number of units a building spawns at its current upgrade level. */
@@ -370,9 +401,9 @@ function dist(ax: number, ay: number, bx: number, by: number): number {
   return Math.sqrt((ax - bx) ** 2 + (ay - by) ** 2)
 }
 
-function unitCanHit(unit: TDUnit, enemy: TDEnemy): boolean {
+function unitCanHit(unit: TDUnit, enemy: TDEnemy, rangeBonus: number): boolean {
   if (enemy.template.flying && !unit.template.bypassWall) return false
-  return dist(unit.x, unit.y, enemy.x, enemy.y) <= unit.rangeInCells * TD_CELL_PX
+  return dist(unit.x, unit.y, enemy.x, enemy.y) <= (unit.rangeInCells + rangeBonus) * TD_CELL_PX
 }
 
 function unitDamageDealt(unit: TDUnit, enemy: TDEnemy): number {
@@ -409,14 +440,25 @@ function buildSpawnQueue(waveDef: WaveDefinition, startTimeMs: number, waveIndex
   for (const group of waveDef.spawns) {
     const tpl = ENEMY_TEMPLATES[group.enemyId]
     if (!tpl) continue
+    const isArmored = tpl.tags.includes('armored')
+    const isLarge   = tpl.tags.includes('large')
+    const isMagic   = tpl.tags.includes('magic')
+    const shielded     = waveIndex >= 30 && isArmored
+    const splitsOnDeath = waveIndex >= 50 && isLarge
+    const slowsUnits    = waveIndex >= 70 && isMagic
     for (let i = 0; i < group.count; i++) {
-      queue.push({ template: tpl, hpMult: group.hpMult, speedMult, spawnAt: t })
+      queue.push({ template: tpl, hpMult: group.hpMult, speedMult, shielded, splitsOnDeath, slowsUnits, spawnAt: t })
       t += group.intervalMs
     }
   }
   // sort ascending so we can pop from the end
   queue.sort((a, b) => b.spawnAt - a.spawnAt)
   return queue
+}
+
+function sampleMilestoneChoices(): MilestoneUpgrade[] {
+  const shuffled = [...ALL_MILESTONE_UPGRADES].sort(() => Math.random() - 0.5)
+  return shuffled.slice(0, 3)
 }
 
 // ── Public API ────────────────────────────────────────────────────────────────
@@ -447,6 +489,8 @@ export function createTDGame(
     availableTemplates,
     remainingPlacements: { ...placementsPerTemplate },
     mode,
+    passives: { attackSpeedMult: 1, rangeBonus: 0, damageMult: 1, respawnMult: 1 },
+    milestoneChoices: null,
   }
 }
 
@@ -544,9 +588,27 @@ export function moveTower(state: TDGameState, towerId: number, col: number, row:
   }
 }
 
+/** Apply a chosen milestone upgrade and clear the pending choices. */
+export function chooseMilestoneUpgrade(state: TDGameState, id: string): TDGameState {
+  if (!state.milestoneChoices) return state
+  const p = { ...state.passives }
+  let extra: Partial<TDGameState> = {}
+  switch (id) {
+    case 'attack_speed': p.attackSpeedMult *= 1.2; break
+    case 'range':        p.rangeBonus += 1; break
+    case 'damage':       p.damageMult *= 1.25; break
+    case 'mana':         extra = { mana: state.mana + 100 }; break
+    case 'life':         extra = { lives: state.lives + 2 }; break
+    case 'respawn':      p.respawnMult *= 2; break
+  }
+  return { ...state, ...extra, passives: p, milestoneChoices: null,
+    log: [...state.log.slice(-9), `Upgrade chosen: ${ALL_MILESTONE_UPGRADES.find(u => u.id === id)?.label ?? id}`] }
+}
+
 /** Begin the next wave from prep, between, or milestone phase. */
 export function startWave(state: TDGameState): TDGameState {
   if (state.phase !== 'prep' && state.phase !== 'between' && state.phase !== 'milestone') return state
+  if (state.milestoneChoices !== null) return state  // must pick upgrade first
   const waveDef = generateWave(state.currentWaveIndex)
   const queue = buildSpawnQueue(waveDef, state.gameTimeMs, state.currentWaveIndex)
   return {
@@ -584,6 +646,9 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
       x: startXY.x, y: startXY.y,
       unitAttackCd: 0,
       speedMult: next.speedMult,
+      shielded: next.shielded,
+      splitsOnDeath: next.splitsOnDeath,
+      slowsUnits: next.slowsUnits,
     }]
   }
 
@@ -639,25 +704,44 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   })
 
   // ── Units attack enemies ──────────────────────────────────────────────────
+  const { attackSpeedMult, rangeBonus, damageMult, respawnMult } = s.passives
+
+  // Compute which units are within a slow aura this tick
+  const slowedUnitIds = new Set<number>()
+  for (const enemy of s.enemies) {
+    if (enemy.slowsUnits) {
+      for (const unit of s.units) {
+        if (dist(unit.x, unit.y, enemy.x, enemy.y) <= TD_CELL_PX * 2) slowedUnitIds.add(unit.id)
+      }
+    }
+  }
+
   const deadEnemyIds = new Set<number>()
+  const shieldedEnemyIds = new Set<number>()  // shield absorbed a hit this tick
   const newAttackEvents: TDAttackEvent[] = s.attackEvents.filter(e => e.expiresAt > s.gameTimeMs)
 
   s.units = s.units.map(unit => {
     let cd = Math.max(0, unit.attackCooldownRemaining - dtMs)
     if (cd <= 0 && s.enemies.length > 0) {
       const targets = s.enemies
-        .filter(e => !deadEnemyIds.has(e.id) && unitCanHit(unit, e))
+        .filter(e => !deadEnemyIds.has(e.id) && !shieldedEnemyIds.has(e.id) && unitCanHit(unit, e, rangeBonus))
         .sort((a, b) => b.pathProgress - a.pathProgress)
       if (targets.length > 0) {
         const target = targets[0]
-        const dmg = unitDamageDealt(unit, target)
-        const newHp = target.hp - dmg
-        if (newHp <= 0) {
-          deadEnemyIds.add(target.id)
-          s.score += target.template.reward
-          s.mana += target.template.reward
+        if (target.shielded) {
+          // Shield absorbs the hit — break it and skip damage
+          shieldedEnemyIds.add(target.id)
+          s.enemies = s.enemies.map(e => e.id === target.id ? { ...e, shielded: false } : e)
         } else {
-          s.enemies = s.enemies.map(e => e.id === target.id ? { ...e, hp: newHp } : e)
+          const dmg = Math.round(unitDamageDealt(unit, target) * damageMult)
+          const newHp = target.hp - dmg
+          if (newHp <= 0) {
+            deadEnemyIds.add(target.id)
+            s.score += target.template.reward
+            s.mana += target.template.reward
+          } else {
+            s.enemies = s.enemies.map(e => e.id === target.id ? { ...e, hp: newHp } : e)
+          }
         }
         newAttackEvents.push({
           id: nextId(),
@@ -665,13 +749,31 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
           toX: target.x, toY: target.y,
           expiresAt: s.gameTimeMs + 400,
         })
-        cd = unit.template.attackCooldownMs
+        const slowPenalty = slowedUnitIds.has(unit.id) ? 1.5 : 1
+        cd = unit.template.attackCooldownMs / attackSpeedMult * slowPenalty
       }
     }
     return { ...unit, attackCooldownRemaining: cd }
   })
   s.attackEvents = newAttackEvents
-  s.enemies = s.enemies.filter(e => !deadEnemyIds.has(e.id))
+
+  // Split-on-death: collect offspring before removing dead enemies
+  const splitOffspring: TDEnemy[] = []
+  for (const enemy of s.enemies) {
+    if (deadEnemyIds.has(enemy.id) && enemy.splitsOnDeath) {
+      const halfHp = Math.max(1, Math.floor(enemy.maxHp / 2))
+      for (let i = 0; i < 2; i++) {
+        splitOffspring.push({
+          ...enemy,
+          id: nextId(),
+          hp: halfHp, maxHp: halfHp,
+          splitsOnDeath: false,
+          shielded: false,
+        })
+      }
+    }
+  }
+  s.enemies = [...s.enemies.filter(e => !deadEnemyIds.has(e.id)), ...splitOffspring]
 
   // ── Enemies retaliate against stationed units ─────────────────────────────
   const unitHpDeltas: Record<number, number> = {}
@@ -714,7 +816,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   s.towers = s.towers.map(tower => {
     let timers = tower.respawnTimers.map(t => t - dtMs)
     const addCount = respawnAdditions[tower.id] ?? 0
-    for (let i = 0; i < addCount; i++) timers.push(RESPAWN_DELAY_MS)
+    for (let i = 0; i < addCount; i++) timers.push(RESPAWN_DELAY_MS / respawnMult)
     const toSpawn = timers.filter(t => t <= 0).length
     timers = timers.filter(t => t > 0)
     for (let i = 0; i < toSpawn; i++) newlySpawned.push(spawnUnitFromBuilding(tower))
@@ -737,8 +839,8 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     }
     s.currentWaveIndex += 1
     if (s.wavesCompleted % TD_MILESTONE_EVERY === 0) {
-      s.log = [...s.log.slice(-9), `🎉 ${s.wavesCompleted} waves cleared! Take a break — sell, move or upgrade!`]
-      return { ...s, phase: 'milestone' }
+      s.log = [...s.log.slice(-9), `🎉 ${s.wavesCompleted} waves cleared! Choose a reward, then reorganise!`]
+      return { ...s, phase: 'milestone', milestoneChoices: sampleMilestoneChoices() }
     }
     s.nextWaveAt = s.gameTimeMs + BETWEEN_WAVE_MS
     const nextWave = generateWave(s.currentWaveIndex)

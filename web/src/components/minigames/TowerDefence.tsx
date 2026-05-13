@@ -9,10 +9,10 @@ import { UnitTemplate } from '../../game/types'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
 import {
   TD_COLS, TD_ROWS, TD_PATH, TD_TOTAL_WAVES, TD_MAX_LIVES, TD_CELL_PX, TD_MAX_UPGRADES, TD_MILESTONE_EVERY,
-  TDGameState, TDTower, TDUnit, TDEnemy, TDAttackEvent,
+  TDGameState, TDTower, TDUnit, TDEnemy, TDAttackEvent, MilestoneUpgrade,
   isPathCell,
   createTDGame, placeTower, removeTower, moveTower, upgradeTower, startWave, tickTD,
-  calcTicketReward, calcGoldReward, towerCost, upgradeCost, buildingUnitCount,
+  calcTicketReward, calcGoldReward, towerCost, upgradeCost, buildingUnitCount, chooseMilestoneUpgrade,
 } from '../../game/towerDefence'
 
 // ── Props ─────────────────────────────────────────────────────────────────────
@@ -166,6 +166,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
   }
 
   function handleStartWave() { setGame(prev => startWave(prev)) }
+  function handleChooseMilestone(id: string) { setGame(prev => chooseMilestoneUpgrade(prev, id)) }
 
   function handleSelectUnit(template: UnitTemplate) {
     setSelected(prev => prev?.name === template.name ? null : template)
@@ -253,7 +254,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
         <div className="td-header-score">⭐ {game.score}</div>
         <div className="td-header-mana">💧 {game.mana}</div>
 
-        {isPlacingPhase && (
+        {isPlacingPhase && !game.milestoneChoices && (
           <button className="action-btn action-btn--gold td-header-btn" onClick={handleStartWave}>
             ▶ START
           </button>
@@ -277,6 +278,21 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
           ✕
         </button>
       </div>
+
+      {/* ── Milestone reward choices ── */}
+      {game.milestoneChoices && (
+        <div className="td-milestone-choices">
+          <div className="td-milestone-choices-title">Choose your reward</div>
+          <div className="td-milestone-choices-cards">
+            {game.milestoneChoices.map((choice: MilestoneUpgrade) => (
+              <button key={choice.id} className="td-milestone-choice-card" onClick={() => handleChooseMilestone(choice.id)}>
+                <div className="td-milestone-choice-label">{choice.label}</div>
+                <div className="td-milestone-choice-desc">{choice.description}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ── Board (scrollable) ── */}
       <div className="td-board-wrap" ref={boardWrapRef}>
@@ -552,9 +568,14 @@ function UnitGroupToken({ units }: { units: TDUnit[] }) {
 function EnemyToken({ enemy }: { enemy: TDEnemy }) {
   const size = 15
   const hpFrac = enemy.hp / enemy.maxHp
+  const cls = [
+    'td-enemy',
+    enemy.shielded    ? 'td-enemy--shielded' : '',
+    enemy.slowsUnits  ? 'td-enemy--slows'    : '',
+  ].filter(Boolean).join(' ')
   return (
     <div
-      className="td-enemy"
+      className={cls}
       style={{ transform: `translate(${enemy.x - size / 2}px, ${enemy.y - size / 2}px)`, width: size }}
     >
       <AnimatedSpriteImg name={enemy.template.spriteName} frameCount={3} fps={6} className="td-enemy-sprite" />

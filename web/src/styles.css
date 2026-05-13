@@ -12279,6 +12279,46 @@ html.light-mode .action-btn {
   margin-top: 1px;
 }
 .td-enemy-hp-fill { height: 100%; border-radius: 2px; transition: width 0.05s; }
+.td-enemy--shielded { filter: drop-shadow(0 0 3px #4fc3f7) drop-shadow(0 0 6px #0288d1); }
+.td-enemy--slows    { filter: drop-shadow(0 0 3px #ce93d8) drop-shadow(0 0 6px #7b1fa2); }
+
+/* ── Milestone reward choices ── */
+.td-milestone-choices {
+  flex-shrink: 0;
+  padding: 8px 10px;
+  background: rgba(0,0,0,0.7);
+  border-bottom: 1px solid #ffd700;
+}
+.td-milestone-choices-title {
+  font-size: 11px;
+  font-weight: bold;
+  color: #ffd700;
+  text-align: center;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.td-milestone-choices-cards {
+  display: flex;
+  gap: 8px;
+}
+.td-milestone-choice-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 6px;
+  background: #111;
+  border: 1px solid #444;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  transition: border-color 0.15s, background 0.15s;
+}
+.td-milestone-choice-card:hover { border-color: #ffd700; background: #1a1600; }
+.td-milestone-choice-label { font-size: 11px; font-weight: bold; color: #ffd700; }
+.td-milestone-choice-desc  { font-size: 9px; color: #bbb; text-align: center; }
 
 /* ── Selected tower action panel ── */
 .td-selected-panel {
