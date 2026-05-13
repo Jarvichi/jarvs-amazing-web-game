@@ -487,20 +487,62 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
   )
 }
 
-// ── Player unit group token (one sprite per building, ×N badge) ───────────────
+// ── Player unit group token (tiled sprites per building) ─────────────────────
 
 function UnitGroupToken({ units }: { units: TDUnit[] }) {
   const lead = units[0]
-  const size = 26
-  const minHpFrac = Math.min(...units.map(u => u.hp / u.maxHp))
   const stationed = units.some(u => u.stationed)
+  const minHpFrac = Math.min(...units.map(u => u.hp / u.maxHp))
+  const n = units.length
+
+  let spriteSize: number
+  let slots: Array<{ dx: number; dy: number }>
+  let containerW: number
+  let containerH: number
+
+  if (n >= 3) {
+    // V shape: top-center, bottom-left, bottom-right
+    spriteSize = 15
+    const gap = 3
+    containerW = spriteSize * 2 + gap
+    containerH = spriteSize * 2 + gap
+    slots = [
+      { dx: (containerW - spriteSize) / 2, dy: 0 },
+      { dx: 0,                             dy: spriteSize + gap },
+      { dx: spriteSize + gap,              dy: spriteSize + gap },
+    ]
+  } else if (n === 2) {
+    // Side by side
+    spriteSize = 18
+    const gap = 4
+    containerW = spriteSize * 2 + gap
+    containerH = spriteSize
+    slots = [
+      { dx: 0,               dy: 0 },
+      { dx: spriteSize + gap, dy: 0 },
+    ]
+  } else {
+    spriteSize = 26
+    containerW = spriteSize
+    containerH = spriteSize
+    slots = [{ dx: 0, dy: 0 }]
+  }
+
   return (
     <div
       className={`td-unit${stationed ? ' td-unit--stationed' : ' td-unit--walking'}`}
-      style={{ transform: `translate(${lead.x - size / 2}px, ${lead.y - size / 2}px)`, width: size }}
+      style={{ transform: `translate(${lead.x - containerW / 2}px, ${lead.y - containerH / 2}px)`, width: containerW }}
     >
-      <AnimatedSpriteImg name={lead.template.name} frameCount={3} fps={stationed ? 4 : 8} className="td-unit-sprite" />
-      {units.length > 1 && <div className="td-unit-count">×{units.length}</div>}
+      <div style={{ position: 'relative', width: containerW, height: containerH }}>
+        {slots.map((slot, i) => (
+          <div
+            key={i}
+            style={{ position: 'absolute', left: slot.dx, top: slot.dy, width: spriteSize, height: spriteSize }}
+          >
+            <AnimatedSpriteImg name={units[i].template.name} frameCount={3} fps={stationed ? 4 : 8} className="td-unit-sprite" />
+          </div>
+        ))}
+      </div>
       <div className="td-enemy-hp-bar">
         <div className="td-enemy-hp-fill" style={{ width: `${minHpFrac * 100}%`, background: hpBarColor(minHpFrac) }} />
       </div>
