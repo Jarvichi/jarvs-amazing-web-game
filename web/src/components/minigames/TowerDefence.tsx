@@ -500,10 +500,10 @@ function UnitGroupToken({ units }: { units: TDUnit[] }) {
   let containerW: number
   let containerH: number
 
+  spriteSize = 15
+  const gap = 3
   if (n >= 3) {
     // V shape: top-center, bottom-left, bottom-right
-    spriteSize = 15
-    const gap = 3
     containerW = spriteSize * 2 + gap
     containerH = spriteSize * 2 + gap
     slots = [
@@ -513,16 +513,13 @@ function UnitGroupToken({ units }: { units: TDUnit[] }) {
     ]
   } else if (n === 2) {
     // Side by side
-    spriteSize = 18
-    const gap = 4
     containerW = spriteSize * 2 + gap
     containerH = spriteSize
     slots = [
-      { dx: 0,               dy: 0 },
+      { dx: 0,                dy: 0 },
       { dx: spriteSize + gap, dy: 0 },
     ]
   } else {
-    spriteSize = 26
     containerW = spriteSize
     containerH = spriteSize
     slots = [{ dx: 0, dy: 0 }]
