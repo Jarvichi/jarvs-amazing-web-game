@@ -4,7 +4,7 @@ import { usePlaytime } from './hooks/usePlaytime'
 import { useStartupData } from './hooks/useStartupData'
 import { useCloudSync } from './hooks/useCloudSync'
 import { useRegisterSW } from 'virtual:pwa-register/react'
-import { GameState, Card } from './game/types'
+import { GameState, Card, StanceRules } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
 import { playCard, playAoeCard } from './game/engine/cards'
 import { makeNodeDeck } from './game/cards'
@@ -197,6 +197,15 @@ type Screen =
   | 'statupgrade'
   | 'camp'
 
+
+const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
+  // Normal battles: no restrictions (current behaviour)
+  battle: undefined,
+  // Elite: 15 s duration, 20 s cooldown — timing tactics matter
+  elite: { allowed: ['auto', 'attack', 'hold', 'defend'], durationMs: 15_000, cooldownMs: 20_000 },
+  // Boss: defend and auto only — must react to the boss, can't mass-charge
+  boss: { allowed: ['auto', 'defend'] },
+}
 
 function formatTimeAgo(date: Date): string {
   const diffMin = Math.round((Date.now() - date.getTime()) / 60_000)
@@ -809,6 +818,7 @@ export default function App() {
           const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
           state.playerBase = { hp: activeRun.playerHp, maxHp: activeRun.maxHp }
           if (activeRun.activeRelic) getRelicDef(activeRun.activeRelic)?.applyToGame(state)
+          state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
           startBattle(state)
           rollRareEvent()
           return
@@ -990,6 +1000,7 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods733) })
     state.playerBase = { hp: updatedRun.playerHp, maxHp: updatedRun.maxHp }
     if (updatedRun.activeRelic) getRelicDef(updatedRun.activeRelic)?.applyToGame(state)
+    state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
   }, [run])
@@ -1019,6 +1030,7 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods761) })
     state.playerBase = { hp: run.playerHp, maxHp: run.maxHp }
     if (run.activeRelic) getRelicDef(run.activeRelic)?.applyToGame(state)
+    state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
   }, [bossDialogueNode, run])
@@ -1621,6 +1633,7 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), modsRetry) })
     state.playerBase = { hp: withFail.playerHp, maxHp: withFail.maxHp }
     if (withFail.activeRelic) getRelicDef(withFail.activeRelic)?.applyToGame(state)
+    state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
   }, [run])

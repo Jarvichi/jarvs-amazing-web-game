@@ -1952,6 +1952,21 @@ body {
   background: rgba(51, 255, 51, 0.08);
 }
 
+.filter-btn--cooldown {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.stance-timer {
+  font-size: 0.7em;
+  opacity: 0.85;
+  margin-left: 3px;
+}
+
+.stance-timer--cd {
+  color: #ff9944;
+}
+
 .filter-group-label {
   font-size: 0.643rem;
   color: var(--game-text-color-muted);

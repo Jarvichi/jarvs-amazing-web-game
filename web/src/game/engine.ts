@@ -411,6 +411,15 @@ export function tick(state: GameState, deltaMs: number): GameState {
 
   s.gameTime += deltaMs
 
+  // 0. Expire timed stance → revert to auto, start cooldown
+  if (s.stanceActiveUntil !== undefined && s.gameTime >= s.stanceActiveUntil) {
+    s.playerStance = 'auto'
+    s.stanceActiveUntil = undefined
+    if (s.stanceRules?.cooldownMs !== undefined) {
+      s.stanceCooldownUntil = s.gameTime + s.stanceRules.cooldownMs
+    }
+  }
+
   // 1. Mana regen
   regenerateMana(s, deltaMs)
 
