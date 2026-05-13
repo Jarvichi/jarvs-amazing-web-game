@@ -226,6 +226,7 @@ export interface TDEnemy {
   x: number
   y: number
   unitAttackCd: number    // ms until this enemy next attacks a player unit
+  speedMult: number       // 1.05^(waveIndex-10) for waves > 10
 }
 
 // Attack visual event — used by the UI to show projectile + hit spark
@@ -242,6 +243,7 @@ export interface TDAttackEvent {
 interface SpawnEntry {
   template: TDEnemyTemplate
   hpMult: number
+  speedMult: number
   spawnAt: number   // game-time ms when this enemy should enter
 }
 
@@ -400,14 +402,15 @@ function spawnUnitFromBuilding(tower: TDTower): TDUnit {
   }
 }
 
-function buildSpawnQueue(waveDef: WaveDefinition, startTimeMs: number): SpawnEntry[] {
+function buildSpawnQueue(waveDef: WaveDefinition, startTimeMs: number, waveIndex: number): SpawnEntry[] {
+  const speedMult = waveIndex >= 10 ? Math.pow(1.05, waveIndex - 10) : 1
   const queue: SpawnEntry[] = []
   let t = startTimeMs
   for (const group of waveDef.spawns) {
     const tpl = ENEMY_TEMPLATES[group.enemyId]
     if (!tpl) continue
     for (let i = 0; i < group.count; i++) {
-      queue.push({ template: tpl, hpMult: group.hpMult, spawnAt: t })
+      queue.push({ template: tpl, hpMult: group.hpMult, speedMult, spawnAt: t })
       t += group.intervalMs
     }
   }
@@ -545,7 +548,7 @@ export function moveTower(state: TDGameState, towerId: number, col: number, row:
 export function startWave(state: TDGameState): TDGameState {
   if (state.phase !== 'prep' && state.phase !== 'between' && state.phase !== 'milestone') return state
   const waveDef = generateWave(state.currentWaveIndex)
-  const queue = buildSpawnQueue(waveDef, state.gameTimeMs)
+  const queue = buildSpawnQueue(waveDef, state.gameTimeMs, state.currentWaveIndex)
   return {
     ...state,
     phase: 'wave',
@@ -580,6 +583,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
       pathProgress: 0,
       x: startXY.x, y: startXY.y,
       unitAttackCd: 0,
+      speedMult: next.speedMult,
     }]
   }
 
@@ -588,7 +592,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   let livesLost = 0
   const survivingEnemies: TDEnemy[] = []
   for (const enemy of s.enemies) {
-    const np = enemy.pathProgress + enemy.template.speed * dtSec
+    const np = enemy.pathProgress + enemy.template.speed * enemy.speedMult * dtSec
     if (np >= TD_PATH.length - 1) {
       livesLost += enemy.template.attack
     } else {
