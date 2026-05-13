@@ -32,7 +32,7 @@ interface Props {
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const CELL_PX = TD_CELL_PX   // single source of truth from game logic
-const TICK_MS = 50
+const TICK_MS = 100           // game-logic rate; CSS transition interpolates visuals between steps
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -79,15 +79,20 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
 
   const tick = useCallback((timestamp: number) => {
     if (lastTimeRef.current === null) lastTimeRef.current = timestamp
-    const dt = timestamp - lastTimeRef.current
+    // Cap dt to 200ms to avoid spiral-of-death after a long pause
+    const dt = Math.min(timestamp - lastTimeRef.current, 200)
     lastTimeRef.current = timestamp
     accRef.current += dt
 
-    while (accRef.current >= TICK_MS) {
-      accRef.current -= TICK_MS
+    const numTicks = Math.floor(accRef.current / TICK_MS)
+    if (numTicks > 0) {
+      accRef.current -= numTicks * TICK_MS
+      // Single state update per frame — React only re-renders once regardless of tick count
       setGame(prev => {
         if (prev.phase === 'prep' || prev.phase === 'milestone' || prev.phase === 'victory' || prev.phase === 'defeat') return prev
-        return tickTD(prev, TICK_MS)
+        let s = prev
+        for (let i = 0; i < numTicks; i++) s = tickTD(s, TICK_MS)
+        return s
       })
     }
 
@@ -348,9 +353,16 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
             })
           )}
 
-          {/* Player units — walk from building to path, then fight */}
-          {game.units.map(unit => (
-            <UnitToken key={unit.id} unit={unit} />
+          {/* Player units — grouped per building to avoid sprite stacking */}
+          {Array.from(
+            game.units.reduce((map, u) => {
+              const list = map.get(u.towerId) ?? []
+              list.push(u)
+              map.set(u.towerId, list)
+              return map
+            }, new Map<number, TDUnit[]>())
+          ).map(([towerId, units]) => (
+            <UnitGroupToken key={towerId} units={units} />
           ))}
 
           {/* Enemies */}
@@ -475,19 +487,22 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
   )
 }
 
-// ── Player unit token ────────────────────────────────────────────────────────
+// ── Player unit group token (one sprite per building, ×N badge) ───────────────
 
-function UnitToken({ unit }: { unit: TDUnit }) {
+function UnitGroupToken({ units }: { units: TDUnit[] }) {
+  const lead = units[0]
   const size = 26
-  const hpFrac = unit.hp / unit.maxHp
+  const minHpFrac = Math.min(...units.map(u => u.hp / u.maxHp))
+  const stationed = units.some(u => u.stationed)
   return (
     <div
-      className={`td-unit${unit.stationed ? ' td-unit--stationed' : ' td-unit--walking'}`}
-      style={{ left: unit.x - size / 2, top: unit.y - size / 2, width: size }}
+      className={`td-unit${stationed ? ' td-unit--stationed' : ' td-unit--walking'}`}
+      style={{ transform: `translate(${lead.x - size / 2}px, ${lead.y - size / 2}px)`, width: size }}
     >
-      <AnimatedSpriteImg name={unit.template.name} frameCount={3} fps={unit.stationed ? 4 : 8} className="td-unit-sprite" />
+      <AnimatedSpriteImg name={lead.template.name} frameCount={3} fps={stationed ? 4 : 8} className="td-unit-sprite" />
+      {units.length > 1 && <div className="td-unit-count">×{units.length}</div>}
       <div className="td-enemy-hp-bar">
-        <div className="td-enemy-hp-fill" style={{ width: `${hpFrac * 100}%`, background: hpBarColor(hpFrac) }} />
+        <div className="td-enemy-hp-fill" style={{ width: `${minHpFrac * 100}%`, background: hpBarColor(minHpFrac) }} />
       </div>
     </div>
   )
@@ -501,7 +516,7 @@ function EnemyToken({ enemy }: { enemy: TDEnemy }) {
   return (
     <div
       className="td-enemy"
-      style={{ left: enemy.x - size / 2, top: enemy.y - size / 2, width: size }}
+      style={{ transform: `translate(${enemy.x - size / 2}px, ${enemy.y - size / 2}px)`, width: size }}
     >
       <AnimatedSpriteImg name={enemy.template.spriteName} frameCount={3} fps={6} className="td-enemy-sprite" />
       <div className="td-enemy-hp-bar">
