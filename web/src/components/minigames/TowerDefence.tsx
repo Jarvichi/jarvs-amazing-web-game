@@ -550,7 +550,7 @@ function UnitGroupToken({ units }: { units: TDUnit[] }) {
 // ── Enemy token ───────────────────────────────────────────────────────────────
 
 function EnemyToken({ enemy }: { enemy: TDEnemy }) {
-  const size = 28
+  const size = 15
   const hpFrac = enemy.hp / enemy.maxHp
   return (
     <div
