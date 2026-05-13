@@ -12212,10 +12212,9 @@ html.light-mode .action-btn {
   will-change: transform;
   transition: transform 100ms linear;
 }
-.td-unit-sprite { width: 26px; height: 26px; image-rendering: pixelated; }
+.td-unit-sprite { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
 .td-unit--walking { opacity: 0.85; }
 .td-unit--stationed { filter: drop-shadow(0 0 3px #4caf50); }
-.td-unit-count { font-size: 8px; font-weight: bold; color: #fff; background: rgba(0,0,0,0.6); border-radius: 3px; padding: 0 2px; line-height: 1.3; }
 
 /* Tower tooltip (positioned inside grid) */
 .td-tower-tooltip {
