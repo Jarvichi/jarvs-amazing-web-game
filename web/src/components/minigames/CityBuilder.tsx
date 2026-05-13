@@ -1472,7 +1472,15 @@ export function CityBuilder({ onBack }: Props) {
   if (screen === 'picker') {
     const pickerQ = pickerSearch.toLowerCase()
     const filteredForPlace = pickerQ
-      ? availableForPlace.filter(c => c.name.toLowerCase().includes(pickerQ))
+      ? availableForPlace.filter(c => {
+          if (c.name.toLowerCase().includes(pickerQ)) return true
+          const se = c.unit?.structureEffect
+          if (se?.type === 'spawn') {
+            const spawnedName = (se as { type: 'spawn'; unitTemplate: { name: string } }).unitTemplate.name
+            if (spawnedName.toLowerCase().includes(pickerQ)) return true
+          }
+          return false
+        })
       : availableForPlace
 
     type PickerGroup = { label: string; cards: typeof availableForPlace }
