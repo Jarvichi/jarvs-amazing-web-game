@@ -282,23 +282,51 @@ export function upgradeAttackMult(upgrades: number): number {
 
 /**
  * Generate wave definition for any wave index 0–(TD_TOTAL_WAVES-1).
- * Cycles through TD_WAVES with escalating HP and count per 10-wave cycle.
+ *
+ * Waves 1–10 use the base definitions directly.
+ * Wave 11 onward is cumulative: it starts from wave 10's content and for every
+ * wave after that we add the corresponding base wave cycling through 1–10.
+ *   wave 11 = wave 10 + wave 1
+ *   wave 12 = wave 11 + wave 2
+ *   …
+ *   wave 20 = wave 19 + wave 10  (= all base waves combined)
+ *   wave 100 ≈ wave 10 × 10
  */
 function generateWave(waveIndex: number): WaveDefinition {
-  const baseIdx = waveIndex % TD_WAVES.length
-  const cycle   = Math.floor(waveIndex / TD_WAVES.length)
-  const base    = TD_WAVES[baseIdx]
-  const hpScale = 1 + cycle * 0.5                               // +50% HP per cycle
-  const countMult = cycle >= 4 ? 1 + Math.floor((cycle - 3) / 2) : 1  // more enemies in later cycles
-  const baseLabel = base.label.replace(/^Wave \d+ — /, '')
+  const n   = waveIndex + 1
+  const len = TD_WAVES.length  // 10
+
+  if (waveIndex < len) {
+    const base = TD_WAVES[waveIndex]
+    return {
+      wave: n,
+      label: `Wave ${n} — ${base.label.replace(/^Wave \d+ — /, '')}`,
+      spawns: base.spawns.map(s => ({ ...s })),
+    }
+  }
+
+  // Merge spawn lists, keyed by enemyId+hpMult+intervalMs to preserve HP variety.
+  const merged = new Map<string, WaveSpawn>()
+  const add = (baseIdx: number) => {
+    for (const s of TD_WAVES[baseIdx].spawns) {
+      const key = `${s.enemyId}|${s.hpMult}|${s.intervalMs}`
+      const ex  = merged.get(key)
+      merged.set(key, ex ? { ...ex, count: ex.count + s.count } : { ...s })
+    }
+  }
+
+  // Base: always include wave 10
+  add(9)
+  // Wave 11 adds W1, wave 12 adds W2, … cycling through W1–W10
+  for (let i = 10; i <= waveIndex; i++) add((i - 10) % len)
+
+  const cycle    = Math.floor((waveIndex - 10) / len) + 2
+  const addedIdx = (waveIndex - 10) % len
+  const baseLabel = TD_WAVES[addedIdx].label.replace(/^Wave \d+ — /, '')
   return {
-    wave: waveIndex + 1,
-    label: `Wave ${waveIndex + 1} — ${baseLabel}${cycle > 0 ? ` [×${hpScale.toFixed(1)}]` : ''}`,
-    spawns: base.spawns.map(s => ({
-      ...s,
-      count:  Math.round(s.count * countMult),
-      hpMult: +(s.hpMult * hpScale).toFixed(2),
-    })),
+    wave: n,
+    label: `Wave ${n} — ${baseLabel} [Cycle ${cycle}]`,
+    spawns: [...merged.values()],
   }
 }
 
