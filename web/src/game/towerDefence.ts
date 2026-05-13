@@ -689,7 +689,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   function claimCellNear(
     preferCol: number, preferRow: number,
     homeX: number, homeY: number,
-    unitId: number,
+    claimId: number,
   ): { x: number; y: number } | null {
     // Try preferred cell first, then 8 neighbours, all within UNIT_REACH_PX
     const candidates: Array<{ col: number; row: number }> = [
@@ -705,36 +705,49 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
       const cx = col * TD_CELL_PX + TD_CELL_PX / 2
       const cy = row * TD_CELL_PX + TD_CELL_PX / 2
       if (dist(cx, cy, homeX, homeY) > UNIT_REACH_PX) continue
-      claimedUnitCells.set(key, unitId)
+      claimedUnitCells.set(key, claimId)
       return { x: cx, y: cy }
     }
     return null
   }
 
-  const movedUnits: TDUnit[] = []
+  // Group by towerId so all units from the same building move as one entity
+  const unitsByTower = new Map<number, TDUnit[]>()
   for (const unit of s.units) {
-    const nearbyEnemy = s.enemies
-      .filter(e => dist(e.x, e.y, unit.homeX, unit.homeY) <= UNIT_REACH_PX + TD_CELL_PX * 0.5)
-      .sort((a, b) => dist(a.x, a.y, unit.x, unit.y) - dist(b.x, b.y, unit.x, unit.y))[0] ?? null
+    const g = unitsByTower.get(unit.towerId) ?? []
+    g.push(unit)
+    unitsByTower.set(unit.towerId, g)
+  }
 
+  const movedUnits: TDUnit[] = []
+  for (const [towerId, group] of unitsByTower) {
+    const leader = group[0]
+    const nearbyEnemy = s.enemies
+      .filter(e => dist(e.x, e.y, leader.homeX, leader.homeY) <= UNIT_REACH_PX + TD_CELL_PX * 0.5)
+      .sort((a, b) => dist(a.x, a.y, leader.x, leader.y) - dist(b.x, b.y, leader.x, leader.y))[0] ?? null
+
+    // One cell claimed for the whole group (towerId is the claim key)
     const destXY = nearbyEnemy
       ? claimCellNear(
           Math.floor(nearbyEnemy.x / TD_CELL_PX), Math.floor(nearbyEnemy.y / TD_CELL_PX),
-          unit.homeX, unit.homeY, unit.id,
+          leader.homeX, leader.homeY, towerId,
         )
       : claimCellNear(
-          Math.floor(unit.homeX / TD_CELL_PX), Math.floor(unit.homeY / TD_CELL_PX),
-          unit.homeX, unit.homeY, unit.id,
+          Math.floor(leader.homeX / TD_CELL_PX), Math.floor(leader.homeY / TD_CELL_PX),
+          leader.homeX, leader.homeY, towerId,
         )
 
-    let newX = unit.x, newY = unit.y
-    if (destXY) {
-      const dx = destXY.x - unit.x, dy = destXY.y - unit.y
-      const d = Math.sqrt(dx * dx + dy * dy)
-      const step = UNIT_WALK_SPEED_PX * dtSec
-      if (d > 2) { newX = unit.x + dx / d * Math.min(step, d); newY = unit.y + dy / d * Math.min(step, d) }
+    // Move every unit in the group toward the same destination
+    for (const unit of group) {
+      let newX = unit.x, newY = unit.y
+      if (destXY) {
+        const dx = destXY.x - unit.x, dy = destXY.y - unit.y
+        const d = Math.sqrt(dx * dx + dy * dy)
+        const step = UNIT_WALK_SPEED_PX * dtSec
+        if (d > 2) { newX = unit.x + dx / d * Math.min(step, d); newY = unit.y + dy / d * Math.min(step, d) }
+      }
+      movedUnits.push({ ...unit, x: newX, y: newY, stationed: nearbyEnemy !== null })
     }
-    movedUnits.push({ ...unit, x: newX, y: newY, stationed: nearbyEnemy !== null })
   }
   s.units = movedUnits
 
