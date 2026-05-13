@@ -186,33 +186,21 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
     const cells = new Set<string>()
     const refTower = selectedTower ?? hoveredTower
     if (refTower) {
-      // Use the first stationed unit's position, or the building cell as fallback
-      const units = game.units.filter(u => u.towerId === refTower.id)
-      const rangeInCells = Math.max(1.5, Math.round(refTower.template.attackRange / CELL_PX))
-      const origins = units.length > 0
-        ? units.map(u => ({ x: u.targetX / CELL_PX - 0.5, y: u.targetY / CELL_PX - 0.5 }))
-        : [{ x: refTower.col, y: refTower.row }]
+      // Effective range = attack range + how far the unit can roam (1.5 cells) from the building
+      const rangeInCells = Math.max(1.5, Math.round(refTower.template.attackRange / CELL_PX)) + 1.5
+      const ox = refTower.col, oy = refTower.row
       for (let r = 0; r < TD_ROWS; r++) {
         for (let c = 0; c < TD_COLS; c++) {
-          if (origins.some(o => Math.sqrt((c - o.x) ** 2 + (r - o.y) ** 2) <= rangeInCells)) {
-            cells.add(`${c},${r}`)
-          }
+          if (Math.sqrt((c - ox) ** 2 + (r - oy) ** 2) <= rangeInCells) cells.add(`${c},${r}`)
         }
       }
       return cells
     }
     if (selected && hoveredCell) {
-      // Preview: highlight from the nearest path cell to the hovered cell
-      const rangeInCells = Math.max(1, Math.round(selected.attackRange / CELL_PX))
-      // Find nearest path cell
-      let bestCol = hoveredCell.col, bestRow = hoveredCell.row, bestDist = Infinity
-      for (const p of TD_PATH) {
-        const d = Math.sqrt((p.col - hoveredCell.col) ** 2 + (p.row - hoveredCell.row) ** 2)
-        if (d < bestDist) { bestDist = d; bestCol = p.col; bestRow = p.row }
-      }
+      const rangeInCells = Math.max(1, Math.round(selected.attackRange / CELL_PX)) + 1.5
       for (let r = 0; r < TD_ROWS; r++) {
         for (let c = 0; c < TD_COLS; c++) {
-          if (Math.sqrt((c - bestCol) ** 2 + (r - bestRow) ** 2) <= rangeInCells) {
+          if (Math.sqrt((c - hoveredCell.col) ** 2 + (r - hoveredCell.row) ** 2) <= rangeInCells) {
             cells.add(`${c},${r}`)
           }
         }

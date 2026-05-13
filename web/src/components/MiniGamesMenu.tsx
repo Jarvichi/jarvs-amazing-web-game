@@ -42,7 +42,14 @@ function buildCollectionTowerPool(): TowerPool[] {
   const collection = loadCollection()
   return catalog
     .filter(c => c.cardType === 'unit' && c.unit && !c.unit.isWall && getOwnedCount(collection, c.name) > 0)
-    .map(c => ({ template: c.unit!, total: getOwnedCount(collection, c.name), buildingName: c.name }))
+    .map(c => {
+      // Use the spawner building's name if one exists, otherwise fall back to the unit card name
+      const spawner = catalog.find(s =>
+        s.unit?.structureEffect?.type === 'spawn' &&
+        (s.unit.structureEffect as { type: 'spawn'; unitTemplate: { name: string } }).unitTemplate.name === c.unit!.name
+      )
+      return { template: c.unit!, total: getOwnedCount(collection, c.name), buildingName: spawner?.name ?? c.name }
+    })
 }
 
 // Pick N random cards from catalog, optionally filtered by rarity

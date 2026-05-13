@@ -201,18 +201,18 @@ export interface TDTower {
   respawnTimers: number[]     // countdown (ms) for each dead unit awaiting respawn
 }
 
-// A unit spawned by a building — walks to the nearest path cell and fights there.
+// A unit spawned by a building — roams within 1 cell of the building, chases nearby enemies.
 export interface TDUnit {
   id: number
   towerId: number
   template: UnitTemplate
   hp: number
   maxHp: number
-  x: number               // current pixel position
+  x: number
   y: number
-  targetX: number         // nearest path-cell centre
-  targetY: number
-  stationed: boolean      // false = still walking, true = at path cell fighting
+  homeX: number           // building cell centre — unit stays within UNIT_REACH_PX of this
+  homeY: number
+  stationed: boolean      // true = engaged chasing an enemy, false = idle at home
   attackCooldownRemaining: number
   rangeInCells: number
 }
@@ -278,8 +278,9 @@ export const TD_STARTING_MANA = 120
 export const TD_MAX_UPGRADES = 2
 const BETWEEN_WAVE_MS = 5000
 const STRENGTH_MULT = 1.5
-const RESPAWN_DELAY_MS = 5000     // ms before a dead unit respawns
-const UNIT_WALK_SPEED_PX = TD_CELL_PX * 2   // px/sec walking from building to path
+const RESPAWN_DELAY_MS = 5000
+const UNIT_WALK_SPEED_PX = TD_CELL_PX * 3   // px/sec
+const UNIT_REACH_PX = TD_CELL_PX * 1.5      // max distance a unit can roam from its building
 
 /** Mana cost to place a building based on its unit stats. */
 export function towerCost(template: UnitTemplate): number {
@@ -380,34 +381,19 @@ function unitDamageDealt(unit: TDUnit, enemy: TDEnemy): number {
   return dmg
 }
 
-/** Return the path cell closest to building cell (col, row). */
-function nearestPathCell(col: number, row: number): GridPos {
-  const cx = col * TD_CELL_PX + TD_CELL_PX / 2
-  const cy = row * TD_CELL_PX + TD_CELL_PX / 2
-  let best = TD_PATH[0]
-  let bestDist = Infinity
-  for (const p of TD_PATH) {
-    const d = dist(cx, cy, p.col * TD_CELL_PX + TD_CELL_PX / 2, p.row * TD_CELL_PX + TD_CELL_PX / 2)
-    if (d < bestDist) { bestDist = d; best = p }
-  }
-  return best
-}
-
-/** Create a fresh unit that walks from its building to the nearest path cell. */
+/** Create a fresh unit starting at its building — it will roam to chase nearby enemies. */
 function spawnUnitFromBuilding(tower: TDTower): TDUnit {
-  const start  = cellToXY(tower.col, tower.row)
-  const target = nearestPathCell(tower.col, tower.row)
-  const txy    = cellToXY(target.col, target.row)
+  const home = cellToXY(tower.col, tower.row)
   return {
     id: nextId(),
     towerId: tower.id,
     template: tower.template,
     hp: tower.template.maxHp,
     maxHp: tower.template.maxHp,
-    x: start.x,
-    y: start.y,
-    targetX: txy.x,
-    targetY: txy.y,
+    x: home.x,
+    y: home.y,
+    homeX: home.x,
+    homeY: home.y,
     stationed: false,
     attackCooldownRemaining: 0,
     rangeInCells: Math.max(1.5, Math.round(tower.template.attackRange / TD_CELL_PX)),
@@ -543,15 +529,13 @@ export function moveTower(state: TDGameState, towerId: number, col: number, row:
   if (!tower) return null
   if (state.towers.some(t => t.id !== towerId && t.col === col && t.row === row)) return null
   const movedTower = { ...tower, col, row }
-  const target = nearestPathCell(col, row)
-  const txy = cellToXY(target.col, target.row)
-  const startXY = cellToXY(col, row)
+  const newHome = cellToXY(col, row)
   return {
     ...state,
     towers: state.towers.map(t => t.id === towerId ? movedTower : t),
     units: state.units.map(u =>
       u.towerId !== towerId ? u
-        : { ...u, x: startXY.x, y: startXY.y, targetX: txy.x, targetY: txy.y, stationed: false }
+        : { ...u, x: newHome.x, y: newHome.y, homeX: newHome.x, homeY: newHome.y, stationed: false }
     ),
     log: [...state.log.slice(-9), `Moved ${tower.buildingName}.`],
   }
@@ -618,15 +602,36 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     s.log = [...s.log.slice(-9), `${livesLost} ${livesLost === 1 ? 'enemy' : 'enemies'} reached your base!`]
   }
 
-  // ── Move units toward their target path cell ──────────────────────────────
-  s.units = s.units.map(u => {
-    if (u.stationed) return u
-    const dx = u.targetX - u.x
-    const dy = u.targetY - u.y
+  // ── Move units — chase nearby enemies, return home when idle ─────────────
+  s.units = s.units.map(unit => {
+    // Find the closest enemy within reach of the building
+    const nearbyEnemy = s.enemies
+      .filter(e => dist(e.x, e.y, unit.homeX, unit.homeY) <= UNIT_REACH_PX + TD_CELL_PX * 0.5)
+      .sort((a, b) => dist(a.x, a.y, unit.x, unit.y) - dist(b.x, b.y, unit.x, unit.y))[0] ?? null
+
+    const tx = nearbyEnemy ? nearbyEnemy.x : unit.homeX
+    const ty = nearbyEnemy ? nearbyEnemy.y : unit.homeY
+    const dx = tx - unit.x
+    const dy = ty - unit.y
     const d  = Math.sqrt(dx * dx + dy * dy)
     const step = UNIT_WALK_SPEED_PX * dtSec
-    if (d <= step) return { ...u, x: u.targetX, y: u.targetY, stationed: true }
-    return { ...u, x: u.x + dx / d * step, y: u.y + dy / d * step }
+
+    let newX = unit.x, newY = unit.y
+    if (d > 2) {
+      const mx = unit.x + dx / d * Math.min(step, d)
+      const my = unit.y + dy / d * Math.min(step, d)
+      // Clamp position to within reach of home
+      const dFromHome = dist(mx, my, unit.homeX, unit.homeY)
+      if (dFromHome <= UNIT_REACH_PX) {
+        newX = mx; newY = my
+      } else {
+        const cx = mx - unit.homeX, cy = my - unit.homeY
+        const cl = Math.sqrt(cx * cx + cy * cy)
+        newX = unit.homeX + cx / cl * UNIT_REACH_PX
+        newY = unit.homeY + cy / cl * UNIT_REACH_PX
+      }
+    }
+    return { ...unit, x: newX, y: newY, stationed: nearbyEnemy !== null }
   })
 
   // ── Units attack enemies ──────────────────────────────────────────────────
@@ -634,7 +639,6 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   const newAttackEvents: TDAttackEvent[] = s.attackEvents.filter(e => e.expiresAt > s.gameTimeMs)
 
   s.units = s.units.map(unit => {
-    if (!unit.stationed) return unit
     let cd = Math.max(0, unit.attackCooldownRemaining - dtMs)
     if (cd <= 0 && s.enemies.length > 0) {
       const targets = s.enemies
@@ -673,7 +677,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     let ucd = Math.max(0, enemy.unitAttackCd - dtMs)
     if (ucd <= 0) {
       const target = s.units
-        .filter(u => u.stationed && !unitDeaths.has(u.id))
+        .filter(u => !unitDeaths.has(u.id))
         .sort((a, b) => dist(a.x, a.y, enemy.x, enemy.y) - dist(b.x, b.y, enemy.x, enemy.y))
         .find(u => dist(u.x, u.y, enemy.x, enemy.y) <= TD_CELL_PX * 1.5)
       if (target) {
