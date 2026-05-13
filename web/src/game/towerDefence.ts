@@ -652,16 +652,28 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     }]
   }
 
-  // ── Move enemies ──────────────────────────────────────────────────────────
+  // ── Move enemies — max 1 per cell (leaders advance first) ───────────────
   const dtSec = dtMs / 1000
   let livesLost = 0
+  const claimedEnemyCells = new Set<string>()
   const survivingEnemies: TDEnemy[] = []
-  for (const enemy of s.enemies) {
+  // Process most-advanced enemies first so they claim cells before followers
+  const enemiesByProgress = [...s.enemies].sort((a, b) => b.pathProgress - a.pathProgress)
+  for (const enemy of enemiesByProgress) {
     const np = enemy.pathProgress + enemy.template.speed * enemy.speedMult * dtSec
     if (np >= TD_PATH.length - 1) {
       livesLost += enemy.template.attack
+      continue
+    }
+    const xy = pathIndexToXY(np)
+    const destKey = `${Math.floor(xy.x / TD_CELL_PX)},${Math.floor(xy.y / TD_CELL_PX)}`
+    if (claimedEnemyCells.has(destKey)) {
+      // Cell ahead occupied — hold position, claim current cell
+      const curKey = `${Math.floor(enemy.x / TD_CELL_PX)},${Math.floor(enemy.y / TD_CELL_PX)}`
+      claimedEnemyCells.add(curKey)
+      survivingEnemies.push(enemy)
     } else {
-      const xy = pathIndexToXY(np)
+      claimedEnemyCells.add(destKey)
       survivingEnemies.push({ ...enemy, pathProgress: np, x: xy.x, y: xy.y })
     }
   }
@@ -671,37 +683,60 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     s.log = [...s.log.slice(-9), `${livesLost} ${livesLost === 1 ? 'enemy' : 'enemies'} reached your base!`]
   }
 
-  // ── Move units — chase nearby enemies, return home when idle ─────────────
-  s.units = s.units.map(unit => {
-    // Find the closest enemy within reach of the building
+  // ── Move units — max 1 per cell; overflow to adjacent cells within reach ─
+  const claimedUnitCells = new Map<string, number>()  // "col,row" -> unit id
+
+  function claimCellNear(
+    preferCol: number, preferRow: number,
+    homeX: number, homeY: number,
+    unitId: number,
+  ): { x: number; y: number } | null {
+    // Try preferred cell first, then 8 neighbours, all within UNIT_REACH_PX
+    const candidates: Array<{ col: number; row: number }> = [
+      { col: preferCol, row: preferRow },
+      ...[-1, 0, 1].flatMap(dc => [-1, 0, 1]
+        .filter(dr => dc !== 0 || dr !== 0)
+        .map(dr => ({ col: preferCol + dc, row: preferRow + dr }))),
+    ]
+    for (const { col, row } of candidates) {
+      if (col < 0 || col >= TD_COLS || row < 0 || row >= TD_ROWS) continue
+      const key = `${col},${row}`
+      if (claimedUnitCells.has(key)) continue
+      const cx = col * TD_CELL_PX + TD_CELL_PX / 2
+      const cy = row * TD_CELL_PX + TD_CELL_PX / 2
+      if (dist(cx, cy, homeX, homeY) > UNIT_REACH_PX) continue
+      claimedUnitCells.set(key, unitId)
+      return { x: cx, y: cy }
+    }
+    return null
+  }
+
+  const movedUnits: TDUnit[] = []
+  for (const unit of s.units) {
     const nearbyEnemy = s.enemies
       .filter(e => dist(e.x, e.y, unit.homeX, unit.homeY) <= UNIT_REACH_PX + TD_CELL_PX * 0.5)
       .sort((a, b) => dist(a.x, a.y, unit.x, unit.y) - dist(b.x, b.y, unit.x, unit.y))[0] ?? null
 
-    const tx = nearbyEnemy ? nearbyEnemy.x : unit.homeX
-    const ty = nearbyEnemy ? nearbyEnemy.y : unit.homeY
-    const dx = tx - unit.x
-    const dy = ty - unit.y
-    const d  = Math.sqrt(dx * dx + dy * dy)
-    const step = UNIT_WALK_SPEED_PX * dtSec
+    const destXY = nearbyEnemy
+      ? claimCellNear(
+          Math.floor(nearbyEnemy.x / TD_CELL_PX), Math.floor(nearbyEnemy.y / TD_CELL_PX),
+          unit.homeX, unit.homeY, unit.id,
+        )
+      : claimCellNear(
+          Math.floor(unit.homeX / TD_CELL_PX), Math.floor(unit.homeY / TD_CELL_PX),
+          unit.homeX, unit.homeY, unit.id,
+        )
 
     let newX = unit.x, newY = unit.y
-    if (d > 2) {
-      const mx = unit.x + dx / d * Math.min(step, d)
-      const my = unit.y + dy / d * Math.min(step, d)
-      // Clamp position to within reach of home
-      const dFromHome = dist(mx, my, unit.homeX, unit.homeY)
-      if (dFromHome <= UNIT_REACH_PX) {
-        newX = mx; newY = my
-      } else {
-        const cx = mx - unit.homeX, cy = my - unit.homeY
-        const cl = Math.sqrt(cx * cx + cy * cy)
-        newX = unit.homeX + cx / cl * UNIT_REACH_PX
-        newY = unit.homeY + cy / cl * UNIT_REACH_PX
-      }
+    if (destXY) {
+      const dx = destXY.x - unit.x, dy = destXY.y - unit.y
+      const d = Math.sqrt(dx * dx + dy * dy)
+      const step = UNIT_WALK_SPEED_PX * dtSec
+      if (d > 2) { newX = unit.x + dx / d * Math.min(step, d); newY = unit.y + dy / d * Math.min(step, d) }
     }
-    return { ...unit, x: newX, y: newY, stationed: nearbyEnemy !== null }
-  })
+    movedUnits.push({ ...unit, x: newX, y: newY, stationed: nearbyEnemy !== null })
+  }
+  s.units = movedUnits
 
   // ── Units attack enemies ──────────────────────────────────────────────────
   const { attackSpeedMult, rangeBonus, damageMult, respawnMult } = s.passives
