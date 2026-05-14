@@ -11104,6 +11104,20 @@
         "arcane",
         "armored"
       ]
+    },
+    "forge-knight": {
+      "name": "Forge Knight",
+      "attack": 22,
+      "maxHp": 55,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 38,
+      "attackRange": 8,
+      "attackCooldownMs": 1400,
+      "tags": [
+        "melee",
+        "armored"
+      ]
     }
   },
   "cards": [
@@ -20658,20 +20672,7 @@
         "structureEffect": {
           "type": "spawn",
           "intervalMs": 2000,
-          "unitTemplate": {
-            "name": "Forge Knight",
-            "attack": 22,
-            "maxHp": 55,
-            "isWall": false,
-            "bypassWall": false,
-            "moveSpeed": 38,
-            "attackRange": 8,
-            "attackCooldownMs": 1400,
-            "tags": [
-              "melee",
-              "armored"
-            ]
-          }
+          "unitTemplateRef": "forge-knight"
         }
       },
       "description": "Mythic structure \u2014 forges an armoured knight every 2 seconds. Cannot be destroyed.",
