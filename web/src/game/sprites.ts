@@ -1,8 +1,14 @@
 // Maps unit display names to their sprite file slug (without extension).
 const NAME_MAP: Record<string, string> = {
-  'Arc.Tower':  'arcane-tower',
-  'DrgnLair':   'dragon-lair',
-  'ManaSpring': 'mana-spring',
+  'Arc.Tower':     'arcane-tower',
+  'DrgnLair':      'dragon-lair',
+  'ManaSpring':    'mana-spring',
+  // Mythic card sprite mappings (no dedicated sprites, reuse closest match)
+  'Prism Wyrm':    'prism-warden',
+  'Void Titan':    'pale-colossus',
+  'Eternal Forge': 'arcane-forge',
+  'Dreadnought':   'iron-colossus',
+  'Forge Knight':  'cinder-knight',
 }
 
 /** Returns the sprite filename slug for a given unit name. */
