@@ -12,10 +12,10 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
       logError('deployCard: card has no valid unit template', { cardName: card.name, cardType: card.cardType, owner });
       return;
     }
-    // If playing a structure and one of the same type already exists, upgrade it instead
+    // If playing a structure and one of the same type exists below max level, upgrade it instead
     if (card.cardType === 'structure') {
       const template = card.unit;
-      const existing = s.field.find(u => u.owner === owner && u.name === template.name);
+      const existing = s.field.find(u => u.owner === owner && u.name === template.name && (u.upgradeLevel ?? 1) < MAX_UPGRADE_LEVEL);
       if (existing) {
         existing.maxHp *= 2;
         existing.hp = existing.maxHp;
@@ -111,29 +111,20 @@ export function playCard(state: GameState, cardId: string): GameState {
   const card = state.playerHand[cardIdx]
   if (state.mana < card.cost) return state
 
-  // Prevent playing a structure that is already at max upgrade level
+  // For structures: if there's no upgradeable copy below max level, a new building will be placed.
+  // In endless mode, block that new placement once the 3-row limit is reached.
   if (card.cardType === 'structure' && card.unit) {
-    const existing = state.field.find(u => u.owner === 'player' && u.name === card.unit!.name)
-    if (existing && (existing.upgradeLevel ?? 1) >= MAX_UPGRADE_LEVEL) {
-      const s = structuredClone(state)
-      s.log.push(`${existing.name} is already at max level — upgrade blocked.`)
-      return s
-    }
-  }
-
-  // Endless mode: block new (non-upgrade) structures beyond 3 rows from player base
-  if (state.endlessMode && card.cardType === 'structure' && card.unit && !card.unit.isWall) {
-    const existing = state.field.find(u => u.owner === 'player' && u.name === card.unit!.name)
-    // Count current player structures to determine next row position
-    const playerStructures = state.field.filter(u => u.owner === 'player' && u.moveSpeed === 0 && !u.isWall)
-    const nextIdx = existing ? playerStructures.findIndex(u => u.name === card.unit!.name) : playerStructures.length
-    // Each structure sits at x=10 base; rows push x outward by ~44px step — 3 rows ≈ x ≤ 60
-    // Block new structures that would land in row 3+ (0-indexed: rows 0,1,2 = max 18 buildings)
-    const row = Math.floor(nextIdx / 6)
-    if (!existing && row >= 3) {
-      const s = structuredClone(state)
-      s.log.push('Endless mode: buildings are limited to 3 rows from your base.')
-      return s
+    const upgradeable = state.field.find(
+      u => u.owner === 'player' && u.name === card.unit!.name && (u.upgradeLevel ?? 1) < MAX_UPGRADE_LEVEL
+    )
+    if (!upgradeable && state.endlessMode && !card.unit.isWall) {
+      const playerStructures = state.field.filter(u => u.owner === 'player' && u.moveSpeed === 0 && !u.isWall)
+      const row = Math.floor(playerStructures.length / 6)
+      if (row >= 3) {
+        const s = structuredClone(state)
+        s.log.push('Endless mode: buildings are limited to 3 rows from your base.')
+        return s
+      }
     }
   }
 
