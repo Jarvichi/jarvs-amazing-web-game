@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect x="9" y="3" width="14" height="2" rx="1" fill="#0D2137"/>
+  <rect x="11" y="1" width="10" height="4" rx="1" fill="#1B3A6B"/>
+  <rect x="14" y="1.5" width="4" height="2" rx="0.5" fill="#F39C12"/>
+  <circle cx="16" cy="8" r="4" fill="#D4AC68"/>
+  <ellipse cx="16" cy="10.5" rx="3" ry="1.2" fill="#4A3B2A"/>
+  <circle cx="14.5" cy="7.5" r="1" fill="#2C3E50"/>
+  <circle cx="17.5" cy="7.5" r="1" fill="#2C3E50"/>
+  <rect x="9" y="12" width="14" height="13" rx="2" fill="#1B3A6B"/>
+  <rect x="9" y="12" width="14" height="4" rx="2" fill="#2C5282"/>
+  <circle cx="16" cy="14" r="0.8" fill="#F39C12"/>
+  <circle cx="16" cy="17" r="0.8" fill="#F39C12"/>
+  <circle cx="16" cy="20" r="0.8" fill="#F39C12"/>
+  <rect x="7" y="12" width="4" height="2" rx="1" fill="#F39C12"/>
+  <rect x="21" y="12" width="4" height="2" rx="1" fill="#F39C12"/>
+  <!-- Left arm (telescope) raised to eye -->
+  <rect x="4" y="9" width="5" height="9" rx="1" fill="#1B3A6B"/>
+  <rect x="1" y="12" width="7" height="3" rx="1" fill="#8B6B3D"/>
+  <rect x="0" y="12.5" width="3" height="2" rx="0.5" fill="#C9A24C"/>
+  <rect x="23" y="12" width="5" height="9" rx="1" fill="#1B3A6B"/>
+  <!-- Stride A -->
+  <rect x="10" y="25" width="5" height="7" rx="1" fill="#0D2137" transform="rotate(-4 12.5 28.5)"/>
+  <rect x="17" y="25" width="5" height="7" rx="1" fill="#0D2137" transform="rotate(4 19.5 28.5)"/>
+</svg>

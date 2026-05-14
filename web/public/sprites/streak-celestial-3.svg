@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Celestial Guardian: white/gold divine armour, halo, star motifs -->
+  <!-- Divine glow -->
+  <ellipse cx="16" cy="16" rx="14" ry="15" fill="#ffffaa" opacity="0.15"/>
+  <!-- Halo -->
+  <ellipse cx="16" cy="5" rx="7" ry="2" fill="none" stroke="#ffd700" stroke-width="1.5" opacity="0.9"/>
+  <!-- Body -->
+  <rect x="10" y="14" width="12" height="11" rx="1" fill="#e8e0c8"/>
+  <!-- Gold trim lines -->
+  <rect x="10" y="14" width="12" height="1.5" fill="#ffd700"/>
+  <rect x="10" y="24" width="12" height="1.5" fill="#ffd700"/>
+  <rect x="15" y="14" width="2" height="11" fill="#ffd700" opacity="0.4"/>
+  <!-- Star on chest -->
+  <polygon points="16,16 17,19 20,19 17.5,21 18.5,24 16,22 13.5,24 14.5,21 12,19 15,19" fill="#ffd700" transform="scale(0.6) translate(10.7,11)"/>
+  <!-- Wings -->
+  <path d="M10,15 Q2,12 3,22 Q7,18 10,21Z" fill="#f0e8c0" opacity="0.85"/>
+  <path d="M22,15 Q30,12 29,22 Q25,18 22,21Z" fill="#f0e8c0" opacity="0.85"/>
+  <!-- Helm -->
+  <rect x="11" y="7" width="10" height="8" rx="3" fill="#e8e0c8"/>
+  <rect x="11" y="7" width="10" height="1.5" fill="#ffd700"/>
+  <!-- Visor -->
+  <rect x="12" y="10" width="8" height="2" rx="1" fill="#b8a870"/>
+  <rect x="13" y="10" width="6" height="1" fill="#fff8d0"/>
+  <!-- Legs -->
+  <rect x="11" y="25" width="4" height="5" rx="1" fill="#e8e0c8"/>
+  <rect x="17" y="25" width="4" height="5" rx="1" fill="#e8e0c8"/>
+  <rect x="10" y="29" width="6" height="2" rx="1" fill="#ffd700"/>
+  <rect x="16" y="29" width="6" height="2" rx="1" fill="#ffd700"/>
+</svg>
