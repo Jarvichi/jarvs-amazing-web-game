@@ -1,6 +1,6 @@
 import { logError } from '../../logger';
 import { Card, UnitTemplate, Unit, LANE_WIDTH } from '../types';
-import { PLAYER_SPAWN_X, OPPONENT_SPAWN_X } from './constants';
+import { PLAYER_SPAWN_X, OPPONENT_SPAWN_X, COMMANDER_HOME_X } from './constants';
 
 // ─── Helpers ─────────────────────────────────────────────
 let _unitId = 0;
@@ -58,4 +58,19 @@ export function spawnUnit(template: UnitTemplate, owner: 'player' | 'opponent'):
     unit.y = LANE_POSITIONS[Math.floor(Math.random() * LANE_POSITIONS.length)];
   }
   return unit;
+}
+
+export function spawnCommander(owner: 'player' | 'opponent', hp: number): Unit {
+  const homeX = owner === 'player' ? COMMANDER_HOME_X : LANE_WIDTH - COMMANDER_HOME_X
+  const unit = spawnUnit(
+    { name: owner === 'player' ? 'Commander' : 'Warlord',
+      attack: 15, maxHp: hp, isWall: false, bypassWall: false,
+      moveSpeed: 8, attackRange: 35, attackCooldownMs: 2000, size: 'large' },
+    owner
+  )
+  unit.isCommander    = true
+  unit.commanderHomeX = homeX
+  unit.x              = homeX
+  unit.y              = 0
+  return unit
 }
