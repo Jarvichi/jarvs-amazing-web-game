@@ -168,10 +168,6 @@ export const SHOP_CARD_PRICES: Record<CardRarity, number> = {
   rare:      180,
   epic:      250,
   legendary: 350,
-  mythic:    2000,
-  shiny:     1000,
-  holofoil:  1000,
-  glass:     800,
 }
 
 export interface ShopCardDeal {

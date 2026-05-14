@@ -434,7 +434,6 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
         unit.size ? `lane-unit--size-${unit.size}` : '',
         isCelebrating ? 'lane-unit--celebrating' : '',
         unit.invisTimer != null && unit.invisTimer > 0 ? 'lane-unit--invisible' : '',
-        unit.cardVariant ? `lane-unit--variant-${unit.cardVariant}` : '',
       ].filter(Boolean).join(' ')}
       style={isCelebrating ? { ...style, animationDelay: `${(unit.id.charCodeAt(0) % 7) * 0.1}s` } : style}
       title={`${unit.name} — ${unit.hp}/${unit.maxHp} HP, ${unit.attack} ATK`}
