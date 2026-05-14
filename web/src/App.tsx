@@ -784,6 +784,7 @@ export default function App() {
   // ── Campaign ─────────────────────────────────────────────
 
   const handleCampaign = useCallback(() => {
+    const doLaunch = () => {
     const existing = loadRun()
 
     const goToNodemap = () => {
@@ -926,6 +927,13 @@ export default function App() {
 
     // First-time run (or act has no modifiers): start normally with 0 active modifiers
     proceedWithModifiers(0)
+    } // end doLaunch
+
+    if (loadDeckSlot('b').length > 0) {
+      setPendingBattleFn(() => doLaunch)
+    } else {
+      doLaunch()
+    }
   }, [])
 
   const handleSelectNode = useCallback((node: QuestNode) => {
