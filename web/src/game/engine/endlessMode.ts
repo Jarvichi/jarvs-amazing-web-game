@@ -1,6 +1,40 @@
-import { GameState } from '../types'
-import { BLOOD_POOL_MAX, PLAYER_SPAWN_X } from './constants'
-import { shuffle, drawCard, recycleCardId, spawnCommander } from './helpers'
+import { GameState, UnitTemplate, LANE_WIDTH } from '../types'
+import { BLOOD_POOL_MAX, PLAYER_SPAWN_X, COMMANDER_HOME_X } from './constants'
+import { shuffle, drawCard, recycleCardId, spawnCommander, spawnUnit } from './helpers'
+import { getCardCatalog, getCardUnit } from '../cards'
+
+// ─── Wave commander selection ─────────────────────────────
+// Each wave the opponent gets a random unit from the card pool as their
+// commander. Max card cost scales with wave number so early waves face
+// cheap/weak commanders and later waves face heavier ones.
+function maxCostForWave(wave: number): number {
+  return Math.min(6, 2 + Math.floor((wave - 1) / 2))
+}
+
+function pickEndlessCommanderTemplate(wave: number): UnitTemplate | undefined {
+  const maxCost = maxCostForWave(wave)
+  const templates = getCardCatalog()
+    .filter(c => c.cardType === 'unit' && c.cost >= 1 && c.cost <= maxCost)
+    .map(c => getCardUnit(c.name))
+    .filter((t): t is UnitTemplate => t != null && !t.isWall && !t.isMoat && (t.moveSpeed ?? 0) > 0)
+  if (templates.length === 0) return undefined
+  return templates[Math.floor(Math.random() * templates.length)]
+}
+
+export function spawnEndlessCommander(wave: number, hp: number): import('../types').Unit {
+  const homeX   = LANE_WIDTH - COMMANDER_HOME_X
+  const template = pickEndlessCommanderTemplate(wave)
+  if (template) {
+    const unit = spawnUnit({ ...template, maxHp: hp, size: 'large' }, 'opponent')
+    unit.isCommander    = true
+    unit.commanderHomeX = homeX
+    unit.x              = homeX
+    unit.y              = 0
+    return unit
+  }
+  // Fallback: generic warlord if catalog lookup fails
+  return spawnCommander('opponent', hp)
+}
 
 // ─── Wave transition ──────────────────────────────────────
 
@@ -26,7 +60,7 @@ export function triggerNextEndlessWave(s: GameState): false {
 
   // Clear opponent units + reshuffle opponent deck, then spawn fresh opponent commander
   s.field = s.field.filter(u => u.owner !== 'opponent')
-  s.field.push(spawnCommander('opponent', newOpHp))
+  s.field.push(spawnEndlessCommander(wave, newOpHp))
   s.opponentDeck = shuffle([...(s.endlessOpponentDeckTemplate ?? [])])
 
   // Draw bonus cards into opponent hand based on wave number
