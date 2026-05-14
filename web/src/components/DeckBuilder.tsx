@@ -351,7 +351,6 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   }
 
   function addCard(name: string) {
-    if (fatiguedCards.includes(name)) return
     const owned = getOwnedCount(collection, name)
     const inDeck = inDeckCount(name)
     if (inDeck >= Math.min(owned, COPIES_MAX)) return
@@ -387,12 +386,13 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
 
   function handleSwitchSlot(slot: DeckSlot) {
     if (slot === activeSlot) return
+    saveDeck(deck)
     setActiveDeckSlot(slot)
     setActiveSlot(slot)
     setDeck(loadDeck().filter(e => catalog.some(c => c.name === e.cardName)))
   }
 
-  function handleSave() {
+  function handleBack() {
     saveDeck(deck)
     onBack()
   }
@@ -463,7 +463,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   return (
     <OverlayScreen
       title="DECK BUILDER"
-      onBack={onBack}
+      onBack={handleBack}
       right={
         <span className={`overlay-count${valid ? ' overlay-count--valid' : ' overlay-count--invalid'}`}>
           {total}/{playerDeckMax} cards
@@ -492,14 +492,6 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                 onClick={() => setShowShare(true)}
                 title="Share Deck"
               >🔗 SHARE</button>
-              <button
-                className={`action-btn db-action-sm${valid ? ' db-save-btn' : ''}`}
-                onClick={handleSave}
-                disabled={!valid}
-                title={valid ? 'Save deck and exit' : `Need ${DECK_MIN}+ cards`}
-              >
-                {valid ? '✓ SAVE' : `NEED ${DECK_MIN - total} MORE`}
-              </button>
 </div>
 
       <div className="deckbuilder-split">
@@ -820,7 +812,7 @@ setCollectionCollapsed(true)
                       const owned   = getOwnedCount(collection, card.name)
                       const inDeck  = inDeckCount(card.name)
                       const resting = fatiguedCards.includes(card.name)
-                      const canAdd  = !resting && inDeck < Math.min(owned, COPIES_MAX) && total < playerDeckMax
+                      const canAdd  = inDeck < Math.min(owned, COPIES_MAX) && total < playerDeckMax
                       const xp      = getMasteryXp(collection, card.name)
                       const { level: lvl } = masteryProgress(xp)
                       const label   = groupLabel(card)
@@ -840,7 +832,7 @@ setCollectionCollapsed(true)
                             <div className="cell-footer">
                               <span className="cell-count">
                                 {resting
-                                  ? <span className="cell-resting-label">💤</span>
+                                  ? <><span className="cell-resting-label">💤</span> {inDeck}/{owned}</>
                                   : <>{inDeck}/{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}</>
                                 }
                               </span>
