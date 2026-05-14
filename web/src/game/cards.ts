@@ -1,4 +1,4 @@
-import { Card, CardRarity, CardType, UnitTemplate, UpgradeEffect } from './types'
+import { AttackEffect, Card, CardRarity, CardType, UnitTemplate, UpgradeEffect } from './types'
 import { logError } from '../logger'
 import cardsData from '../data/cards.json'
 
@@ -53,11 +53,25 @@ interface RawUnitDef {
   attackCooldownMs: number
   flying?: boolean
   climber?: boolean
+  tags?: string[]
   structureEffect?: RawStructureEffect
   onDeathEffect?: { damage: number; range: number }
   teleportAbility?: { cooldownMs: number; distancePx: number }
   invisibilityAbility?: { activeMs: number; cooldownMs: number }
   bloodSummonAbility?: { cooldownMs: number; minionTemplate: RawUnitDef; range: number }
+}
+
+function deriveAttackEffect(tags: string[] | undefined, attack: number): AttackEffect | undefined {
+  if (!tags || attack === 0) return undefined
+  if (tags.includes('fire') || tags.includes('ember'))
+    return { type: 'burn',   chance: 0.70, durationMs: 3000, dps: 8 }
+  if (tags.includes('frost') || tags.includes('glacier'))
+    return { type: 'freeze', chance: 0.75, durationMs: 2500, slowFactor: 0.35 }
+  if (tags.includes('lightning'))
+    return { type: 'shock',  chance: 0.50, durationMs: 600 }
+  if (tags.includes('poison'))
+    return { type: 'poison', chance: 0.65, durationMs: 5000, dps: 5 }
+  return undefined
 }
 
 interface RawCardDef {
@@ -92,8 +106,9 @@ interface RawHeroCard {
 const TEMPLATES = cardsData.templates as Record<string, RawUnitDef>
 
 function resolveUnit(raw: RawUnitDef): UnitTemplate {
+  const attackEffect = deriveAttackEffect(raw.tags, raw.attack)
   if (!raw.structureEffect || raw.structureEffect.type !== 'spawn') {
-    return raw as UnitTemplate
+    return attackEffect ? { ...(raw as UnitTemplate), attackEffect } : raw as UnitTemplate
   }
   const { unitTemplateRef, intervalMs } = raw.structureEffect
   const resolved = unitTemplateRef ? TEMPLATES[unitTemplateRef] : undefined
@@ -105,6 +120,7 @@ function resolveUnit(raw: RawUnitDef): UnitTemplate {
   const unitTemplate = (resolved ?? {}) as UnitTemplate
   return {
     ...(raw as unknown as UnitTemplate),
+    ...(attackEffect ? { attackEffect } : {}),
     structureEffect: { type: 'spawn' as const, unitTemplate, intervalMs: intervalMs ?? 0 },
   }
 }

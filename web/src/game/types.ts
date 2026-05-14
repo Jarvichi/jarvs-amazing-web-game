@@ -91,11 +91,26 @@ export interface UnitTemplate {
   invisibilityAbility?: { activeMs: number; cooldownMs: number }
   /** Blood pool consumption — unit raises a minion from a nearby blood pool every cooldownMs. */
   bloodSummonAbility?: { cooldownMs: number; minionTemplate: UnitTemplate; range: number }
+  /** Elemental on-hit effect applied when this unit attacks. Auto-derived from tags when not set. */
+  attackEffect?: AttackEffect
 }
 
 export type BuffTag = 'atk' | 'spd' | 'hp' | 'range'
 
-export type UnitTag = 'flying' | 'ranged' | 'melee' | 'fast' | 'slow' | 'large' | 'magic' | 'undead' | 'beast' | 'armored' | 'siege' | 'fire' | 'swim'
+export type UnitTag = 'flying' | 'ranged' | 'melee' | 'fast' | 'slow' | 'large' | 'magic' | 'undead' | 'beast' | 'armored' | 'siege' | 'fire' | 'swim' | 'ember' | 'frost' | 'glacier' | 'lightning' | 'poison'
+
+/** Elemental on-hit effect applied by units with matching tags (fire→burn, frost→freeze, etc.). */
+export interface AttackEffect {
+  type: 'burn' | 'freeze' | 'poison' | 'shock'
+  /** 0–1 probability per hit. */
+  chance: number
+  /** Duration in ms. */
+  durationMs: number
+  /** Damage per second — for burn and poison. */
+  dps?: number
+  /** 0–1 speed multiplier while frozen — 0 = complete stop, 0.35 = 35 % speed. */
+  slowFactor?: number
+}
 export type TargetPriority = 'walls' | 'buildings' | 'boss' | 'ranged_first'
 
 export interface AffinityDef {
@@ -179,6 +194,15 @@ export interface Unit extends UnitTemplate {
   builderSaboteurMode?: boolean
   /** ID of the last building the builder serviced — excluded when picking next target. */
   builderLastBuildingId?: string
+  /** ms remaining burning — unit takes burnDps damage per second while > 0. */
+  burnTimer?: number
+  burnDps?: number
+  /** ms remaining frozen — unit's move speed is multiplied by freezeSlow while > 0. */
+  freezeTimer?: number
+  freezeSlow?: number
+  /** ms remaining poisoned — unit takes poisonDps damage per second while > 0. */
+  poisonTimer?: number
+  poisonDps?: number
 }
 
 // ─── Animation Events ─────────────────────────────────────

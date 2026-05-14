@@ -3,7 +3,7 @@ import { makeDeck, makeNodeDeck, HERO_CARDS, getCardUnit, getCardCatalog, flushC
 import { loadPlayerStats } from './playerStats'
 
 import { moveUnits, processAffinities } from './engine/units'
-import { processAttacks } from './engine/combat'
+import { processAttacks, DEATH_LINGER_MS } from './engine/combat'
 import { BASE_MAX_MANA, BLOOD_POOL_FADE_MS, BASE_STOP_MARGIN, MANA_REGEN_MS, OPPONENT_INTERVAL_MS, PLAYER_SPAWN_X, SPAWN_GROW_MS, COMMANDER_HOME_X } from './engine/constants'
 import { genericBossAI, getBossAIDef } from './engine/boss'
 import { tickBossTrait } from './engine/bossTraits'
@@ -580,6 +580,32 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
     }
     if (unit.stunTimer != null && unit.stunTimer > 0) {
       unit.stunTimer = Math.max(0, unit.stunTimer - deltaMs)
+    }
+    // Freeze timer
+    if (unit.freezeTimer != null && unit.freezeTimer > 0) {
+      unit.freezeTimer = Math.max(0, unit.freezeTimer - deltaMs)
+    }
+    // Burn DoT — ticks down and deals damage each frame
+    if (unit.burnTimer != null && unit.burnTimer > 0 && unit.hp > 0) {
+      unit.burnTimer = Math.max(0, unit.burnTimer - deltaMs)
+      unit.hp = Math.max(0, unit.hp - (unit.burnDps ?? 8) * deltaMs / 1000)
+      if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
+      if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
+        unit.dyingTimer = DEATH_LINGER_MS
+        if (!unit.flying) s.bloodPools.push({ id: `burn-${unit.id}`, x: unit.x, y: unit.y ?? 0 })
+        log.push(`${unit.name} burns to ash!`)
+      }
+    }
+    // Poison DoT — ticks down and deals damage each frame
+    if (unit.poisonTimer != null && unit.poisonTimer > 0 && unit.hp > 0) {
+      unit.poisonTimer = Math.max(0, unit.poisonTimer - deltaMs)
+      unit.hp = Math.max(0, unit.hp - (unit.poisonDps ?? 5) * deltaMs / 1000)
+      if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
+      if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
+        unit.dyingTimer = DEATH_LINGER_MS
+        if (!unit.flying) s.bloodPools.push({ id: `poison-${unit.id}`, x: unit.x, y: unit.y ?? 0 })
+        log.push(`${unit.name} succumbs to poison!`)
+      }
     }
     // Update climbing flag: true when climber unit is inside an enemy wall zone
     if (unit.climber && unit.moveSpeed > 0) {

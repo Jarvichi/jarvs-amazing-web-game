@@ -501,7 +501,8 @@
       "tags": [
         "melee",
         "fast",
-        "beast"
+        "beast",
+        "poison"
       ],
       "strengths": [
         "slow",
@@ -3285,7 +3286,8 @@
       "flying": false,
       "tags": [
         "ranged",
-        "magic"
+        "magic",
+        "lightning"
       ],
       "strengths": [
         "armored",
@@ -3322,7 +3324,8 @@
       "flying": true,
       "tags": [
         "ranged",
-        "magic"
+        "magic",
+        "lightning"
       ],
       "strengths": [
         "melee",
@@ -3359,7 +3362,8 @@
         "ranged",
         "flying",
         "large",
-        "magic"
+        "magic",
+        "lightning"
       ],
       "strengths": [
         "melee",
