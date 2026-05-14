@@ -3457,6 +3457,25 @@ body {
   font-size: 0.65rem;
 }
 
+.deck-selector-row--resting .deck-selector-name,
+.deck-selector-row--resting .deck-selector-cost,
+.deck-selector-row--resting .deck-selector-qty {
+  text-decoration: line-through;
+  opacity: 0.45;
+}
+
+.deck-selector-rest-badge {
+  flex-shrink: 0;
+  font-size: 0.6rem;
+  color: #f0a040;
+  letter-spacing: 0;
+}
+
+.deck-selector-resting {
+  color: #f0a040;
+  font-size: 0.65rem;
+}
+
 .deck-selector-actions {
   display: flex;
   gap: 10px;
