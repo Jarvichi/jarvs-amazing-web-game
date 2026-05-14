@@ -588,7 +588,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
     // Burn DoT — ticks down and deals damage each frame
     if (unit.burnTimer != null && unit.burnTimer > 0 && unit.hp > 0) {
       unit.burnTimer = Math.max(0, unit.burnTimer - deltaMs)
-      unit.hp = Math.max(0, unit.hp - (unit.burnDps ?? 8) * deltaMs / 1000)
+      unit.hp = Math.max(0, Math.round(unit.hp - (unit.burnDps ?? 8) * deltaMs / 1000))
       if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
       if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
         unit.dyingTimer = DEATH_LINGER_MS
@@ -599,7 +599,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
     // Poison DoT — ticks down and deals damage each frame
     if (unit.poisonTimer != null && unit.poisonTimer > 0 && unit.hp > 0) {
       unit.poisonTimer = Math.max(0, unit.poisonTimer - deltaMs)
-      unit.hp = Math.max(0, unit.hp - (unit.poisonDps ?? 5) * deltaMs / 1000)
+      unit.hp = Math.max(0, Math.round(unit.hp - (unit.poisonDps ?? 5) * deltaMs / 1000))
       if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
       if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
         unit.dyingTimer = DEATH_LINGER_MS
