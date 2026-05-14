@@ -23,6 +23,7 @@ export function findNearestEnemy(field: Unit[], unit: Unit): Unit | null {
   let nearestDist = Infinity
   for (const other of field) {
     if (other.owner === unit.owner || other.hp <= 0) continue
+    if (other.isMoat) continue  // moats are walked through, not targeted
     if (other.isWall && (unit.flying || unit.climber)) continue
     if (unit.owner === 'player'   && other.x < unit.x) continue
     if (unit.owner === 'opponent' && other.x > unit.x) continue
@@ -45,6 +46,7 @@ export function findNearestEnemyByPriority(field: Unit[], unit: Unit): Unit | nu
   let nearestDist = Infinity
   for (const other of field) {
     if (other.owner === unit.owner || other.hp <= 0) continue
+    if (other.isMoat) continue
     if (other.isWall && (unit.flying || unit.climber)) continue
     const ahead = isPlayer ? other.x >= unit.x : other.x <= unit.x
     if (!ahead) continue
@@ -66,6 +68,7 @@ export function findEnemyBehind(field: Unit[], unit: Unit): Unit | null {
   let nearestDist = Infinity
   for (const other of field) {
     if (other.owner === unit.owner || other.hp <= 0) continue
+    if (other.isMoat) continue
     if (other.isWall && (unit.flying || unit.climber)) continue
     if (unit.owner === 'player'   && other.x >= unit.x) continue
     if (unit.owner === 'opponent' && other.x <= unit.x) continue
