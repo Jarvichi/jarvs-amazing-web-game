@@ -33,6 +33,10 @@ const RARITY_COLOUR: Record<string, string> = {
   rare:      '#bb66ff',
   epic:      '#ff8800',
   legendary: '#ffcc00',
+  mythic:    '#e040fb',
+  shiny:     '#ffe066',
+  holofoil:  '#40e0d0',
+  glass:     '#a0d8ef',
 }
 
 
@@ -90,7 +94,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
         <div className="cdm-header">
           <span className="cdm-name" style={{ color: rarityCol }}>{card.name}</span>
           <span className="cdm-rarity" style={{ color: rarityCol }}>
-            {'★'.repeat({ common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 }[card.rarity])}
+            {'★'.repeat(({ common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6, shiny: 4, holofoil: 4, glass: 4 } as Record<string,number>)[card.rarity] ?? 1)}
             {' '}{card.rarity.toUpperCase()}
           </span>
           <button className="cdm-close" onClick={onClose}>✕</button>

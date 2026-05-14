@@ -40,7 +40,7 @@ export const MAX_HANDICAP = 20
 // Thresholds also apply to campaign nodes: a node with handicap 8 puts the
 // opponent on uncommon-max, making early acts beatable with a starter deck.
 
-const RARITY_RANK: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 }
+const RARITY_RANK: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4, mythic: 5, shiny: 5, holofoil: 5, glass: 5 }
 
 const QUICKPLAY_DECK_SIZE    = 20
 const QUICKPLAY_MIN_UNITS    = 3
