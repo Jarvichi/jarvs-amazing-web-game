@@ -82,6 +82,8 @@ import { NewsAdminScreen } from './components/NewsAdminScreen'
 import { CampaignAdminScreen } from './components/CampaignAdminScreen'
 import { FeedbackModal } from './components/FeedbackModal'
 import { FeedbackAdminScreen } from './components/FeedbackAdminScreen'
+import { DeckSelectorModal } from './components/DeckSelectorModal'
+import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic, stopGameOverMusic } from './game/sound'
@@ -381,6 +383,9 @@ export default function App() {
   // Secret 10 — 100 Wins Celebration
   const [showWinCelebration, setShowWinCelebration] = useState(false)
   const [celebrationMilestone, setCelebrationMilestone] = useState(100)
+
+  // Deck selector modal (shown before quick battle / endless when Deck B has cards)
+  const [pendingBattleFn, setPendingBattleFn] = useState<null | (() => void)>(null)
   const campaignPlayCountsRef = useRef<Record<string, number>>({})  // per-battle play tracking
   const gameStateRef = useRef<GameState | null>(null)  // always-current snapshot for callbacks
 
@@ -628,7 +633,7 @@ export default function App() {
 
   // ── Free play ────────────────────────────────────────────
 
-  const handlePlay = useCallback((mode: QuickBattleMode) => {
+  const launchQuickBattle = useCallback((mode: QuickBattleMode) => {
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
     quickBattleModeRef.current = mode
@@ -643,7 +648,15 @@ export default function App() {
     rollRareEvent()
   }, [handicap])
 
-  const handleEndless = useCallback(() => {
+  const handlePlay = useCallback((mode: QuickBattleMode) => {
+    if (loadDeckSlot('b').length > 0) {
+      setPendingBattleFn(() => () => launchQuickBattle(mode))
+    } else {
+      launchQuickBattle(mode)
+    }
+  }, [launchQuickBattle])
+
+  const launchEndless = useCallback(() => {
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
     battleFlawlessRef.current = true
@@ -656,6 +669,14 @@ export default function App() {
     startBattle(newGame({ playerCards, opponentHandicap: Math.min(MAX_HANDICAP, handicap + deckBonus), endlessMode: true }))
     rollRareEvent()
   }, [handicap])
+
+  const handleEndless = useCallback(() => {
+    if (loadDeckSlot('b').length > 0) {
+      setPendingBattleFn(() => launchEndless)
+    } else {
+      launchEndless()
+    }
+  }, [launchEndless])
 
   const handleDailyChallenge = useCallback(() => {
     setScreen('dailychallenge')
@@ -2841,6 +2862,18 @@ export default function App() {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Deck selector — shown before quick battle / endless when Deck B has content */}
+      {pendingBattleFn && (
+        <DeckSelectorModal
+          onConfirm={() => {
+            const fn = pendingBattleFn
+            setPendingBattleFn(null)
+            fn()
+          }}
+          onCancel={() => setPendingBattleFn(null)}
+        />
       )}
 
       {/* Daily login reward modal — shown as overlay on first visit each day */}

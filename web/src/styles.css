@@ -3345,6 +3345,130 @@ body {
   justify-content: center;
 }
 
+/* ─── Deck Selector Modal ────────────────────────────── */
+
+.deck-selector-modal {
+  background: var(--game-bg, #0a0a0a);
+  border: 1px solid var(--game-border, #333);
+  padding: 20px 18px 16px;
+  width: min(680px, 96vw);
+  font-family: var(--font-mono, monospace);
+}
+
+.deck-selector-title {
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: var(--game-accent, #f0c040);
+  text-align: center;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.deck-selector-panels {
+  display: flex;
+  gap: 12px;
+}
+
+.deck-selector-panel {
+  flex: 1;
+  border: 2px solid #333;
+  border-radius: 4px;
+  padding: 10px 10px 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  min-height: 120px;
+  max-height: 52vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.deck-selector-panel:hover { border-color: #666; background: rgba(255,255,255,0.04); }
+.deck-selector-panel--active { border-color: #6ab07a; background: rgba(74,124,89,0.15); }
+
+.deck-selector-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.deck-selector-slot-label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: var(--game-text, #ccc);
+}
+
+.deck-selector-active-badge {
+  font-size: 0.65rem;
+  color: #6ab07a;
+  letter-spacing: 0.05em;
+}
+
+.deck-selector-count {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: var(--game-text-color-dim, #888);
+}
+
+.deck-selector-empty {
+  font-size: 0.72rem;
+  color: #666;
+  text-align: center;
+  padding: 16px 0;
+}
+
+.deck-selector-list {
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: thin;
+}
+
+.deck-selector-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 1px 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.deck-selector-cost {
+  flex-shrink: 0;
+  width: 14px;
+  text-align: right;
+  color: #f0c040;
+  font-weight: bold;
+}
+
+.deck-selector-name {
+  color: var(--game-text, #ccc);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.deck-selector-qty {
+  flex-shrink: 0;
+  color: #888;
+  font-size: 0.65rem;
+}
+
+.deck-selector-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+@media (max-width: 480px) {
+  .deck-selector-panels { flex-direction: column; }
+  .deck-selector-panel { max-height: 36vh; }
+}
+
 /* ─── Card Detail Modal ──────────────────────────────── */
 
 .cdm-backdrop {

@@ -431,6 +431,17 @@ function deckStorageKey(): string {
   return getActiveDeckSlot() === 'b' ? DECK_B_KEY : DECK_KEY
 }
 
+/** Load a specific slot without changing the active slot. */
+export function loadDeckSlot(slot: DeckSlot): DeckEntry[] {
+  const key = slot === 'b' ? DECK_B_KEY : DECK_KEY
+  try {
+    const raw = localStorage.getItem(key)
+    if (raw) return migrateDeckNames(JSON.parse(raw) as DeckEntry[])
+  } catch { /* ignore */ }
+  if (slot === 'a') return [...STARTER_DECK.map(e => ({ ...e }))]
+  return []
+}
+
 export function loadDeck(): DeckEntry[] {
   try {
     const raw = localStorage.getItem(deckStorageKey())
