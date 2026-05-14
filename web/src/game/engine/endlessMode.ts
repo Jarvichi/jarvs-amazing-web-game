@@ -1,4 +1,4 @@
-import { GameState, UnitTemplate, LANE_WIDTH } from '../types'
+import { GameState, UnitTemplate, LANE_WIDTH, SECRET_RARITIES } from '../types'
 import { BLOOD_POOL_MAX, PLAYER_SPAWN_X, COMMANDER_HOME_X } from './constants'
 import { shuffle, drawCard, recycleCardId, spawnCommander, spawnUnit } from './helpers'
 import { getCardCatalog, getCardUnit } from '../cards'
@@ -14,7 +14,7 @@ function maxCostForWave(wave: number): number {
 function pickEndlessCommanderTemplate(wave: number): UnitTemplate | undefined {
   const maxCost = maxCostForWave(wave)
   const templates = getCardCatalog()
-    .filter(c => c.cardType === 'unit' && c.cost >= 1 && c.cost <= maxCost)
+    .filter(c => c.cardType === 'unit' && c.cost >= 1 && c.cost <= maxCost && !SECRET_RARITIES.has(c.rarity))
     .map(c => getCardUnit(c.name))
     .filter((t): t is UnitTemplate => t != null && !t.isWall && !t.isMoat && (t.moveSpeed ?? 0) > 0)
   if (templates.length === 0) return undefined

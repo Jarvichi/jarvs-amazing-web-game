@@ -1,6 +1,6 @@
 import { QuestNode, Act, ReplayModifier } from './questline'
 import { NewGameOptions, MAX_HANDICAP } from './engine'
-import { Card } from './types'
+import { Card, SECRET_RARITIES } from './types'
 import { shuffle } from './engine/helpers'
 import { HERO_CARDS, makeNodeDeck, getCardCatalog } from './cards'
 import {
@@ -53,7 +53,7 @@ export function buildQuickBattleOpts(
     return { playerCards, opts: { playerCards: opponentCardPool, opponentHandicap: 0, opponentCardPool, forgiveManaLimit: true } }
   }
   if (mode === 'unlimited') {
-    const collectionPool   = getCardCatalog()
+    const collectionPool   = getCardCatalog().filter(c => !SECRET_RARITIES.has(c.rarity))
     const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
     return { playerCards, opts: { playerCards, opponentHandicap: 0, opponentCardPool } }
   }
@@ -72,7 +72,7 @@ export function buildQuickBattleOpts(
   }
   const filter = filterMap[mode]
   if (filter) {
-    const collectionPool   = getCardCatalog().filter(filter)
+    const collectionPool   = getCardCatalog().filter(c => filter(c) && !SECRET_RARITIES.has(c.rarity))
     const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
     return { playerCards, opts: { playerCards, opponentHandicap: 0, opponentCardPool } }
   }
