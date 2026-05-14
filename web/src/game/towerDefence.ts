@@ -652,10 +652,10 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     }]
   }
 
-  // ── Move enemies — max 1 per cell (leaders advance first) ───────────────
+  // ── Move enemies — max 3 per cell (leaders advance first) ──────────────
   const dtSec = dtMs / 1000
   let livesLost = 0
-  const claimedEnemyCells = new Set<string>()
+  const claimedEnemyCells = new Map<string, number>()  // "col,row" -> occupant count
   const survivingEnemies: TDEnemy[] = []
   // Process most-advanced enemies first so they claim cells before followers
   const enemiesByProgress = [...s.enemies].sort((a, b) => b.pathProgress - a.pathProgress)
@@ -667,13 +667,14 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     }
     const xy = pathIndexToXY(np)
     const destKey = `${Math.floor(xy.x / TD_CELL_PX)},${Math.floor(xy.y / TD_CELL_PX)}`
-    if (claimedEnemyCells.has(destKey)) {
-      // Cell ahead occupied — hold position, claim current cell
+    const destCount = claimedEnemyCells.get(destKey) ?? 0
+    if (destCount >= 3) {
+      // Cell ahead full — hold position, claim current cell
       const curKey = `${Math.floor(enemy.x / TD_CELL_PX)},${Math.floor(enemy.y / TD_CELL_PX)}`
-      claimedEnemyCells.add(curKey)
+      claimedEnemyCells.set(curKey, (claimedEnemyCells.get(curKey) ?? 0) + 1)
       survivingEnemies.push(enemy)
     } else {
-      claimedEnemyCells.add(destKey)
+      claimedEnemyCells.set(destKey, destCount + 1)
       survivingEnemies.push({ ...enemy, pathProgress: np, x: xy.x, y: xy.y })
     }
   }
