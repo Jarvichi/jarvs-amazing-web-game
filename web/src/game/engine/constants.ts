@@ -16,4 +16,4 @@ export const PLAYER_SPAWN_X      = 30               // where player units appear
 export const OPPONENT_SPAWN_X    = LANE_WIDTH - 30  // where opponent units appear
 export const BASE_STOP_MARGIN    = 0                // units may reach the base character position exactly
 export const COMMANDER_HOME_X    = 15               // player commander's home position
-export const COMMANDER_LEASH_PX  = 80              // max px a commander can stray from home
+export const COMMANDER_LEASH_PX  = 40              // max px a commander can stray from home

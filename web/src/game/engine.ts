@@ -97,7 +97,7 @@ function spawnCommander(owner: 'player' | 'opponent', hp: number): import('./typ
   const unit = spawnUnit(
     { name: owner === 'player' ? 'Commander' : 'Warlord',
       attack: 15, maxHp: hp, isWall: false, bypassWall: false,
-      moveSpeed: 8, attackRange: 35, attackCooldownMs: 2000 },
+      moveSpeed: 8, attackRange: 35, attackCooldownMs: 2000, size: 'large' },
     owner
   )
   unit.isCommander    = true

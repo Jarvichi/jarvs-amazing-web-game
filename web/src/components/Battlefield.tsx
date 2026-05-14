@@ -189,7 +189,7 @@ function spriteDamageClass(hp: number, maxHp: number): string {
   return ' lane-unit-sprite--damaged'
 }
 
-function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebrating = false }: { unit: Unit; stackIndex?: number; wallStack?: Unit[]; onInspect?: (u: Unit) => void; showName?: boolean; celebrating?: boolean }) {
+function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebrating = false, spriteOverride }: { unit: Unit; stackIndex?: number; wallStack?: Unit[]; onInspect?: (u: Unit) => void; showName?: boolean; celebrating?: boolean; spriteOverride?: string }) {
   const hpPct = Math.max(0, (unit.hp / unit.maxHp) * 100)
   const isStructure = unit.moveSpeed === 0
 
@@ -300,6 +300,8 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
           ? <WallSvg hp={unit.hp} maxHp={unit.maxHp} owner={unit.owner} wallNames={(wallStack ?? [unit]).map(w => w.name)} />
           : isStructure
             ? <SpriteImg name={unit.spriteName ?? unit.name} className={`lane-unit-sprite${spriteDamageClass(unit.hp, unit.maxHp)}`} />
+            : unit.isCommander
+            ? <SpriteImg name={spriteOverride ?? unit.spriteName ?? unit.name} className={`lane-unit-sprite${spriteDamageClass(unit.hp, unit.maxHp)}`} />
             : <AnimatedSpriteImg name={unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}${spriteDamageClass(unit.hp, unit.maxHp)}`} />
       }
       {!unit.isWall && !unit.isMoat && showName && (
@@ -868,13 +870,6 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
         <div className="lane-ground" />
         <LaneBackground env={state.environment} />
         <ForestBorder theme={actTheme} />
-        {/* Base sprites — fixed targets at top (opponent) and bottom (player) of lane */}
-        <div className="lane-base lane-base--opponent">
-          <img src={`${BASE_SPRITE_PATH}${opponentPortraitSlug(state.bossAI, actTheme)}.svg`} alt="Enemy Base" className={spriteDamageClass(state.opponentBase.hp, state.opponentBase.maxHp).trim() || undefined} />
-        </div>
-        <div className="lane-base lane-base--player">
-          <img src={`${BASE_SPRITE_PATH}${playerAvatar}.svg`} alt="Your Base" className={spriteDamageClass(state.playerBase.hp, state.playerBase.maxHp).trim() || undefined} />
-        </div>
         {(state.terrain ?? []).map(obs => <TerrainTile key={obs.id} obs={obs} />)}
         {isDebugMode() && (state.terrain ?? []).map(obs => {
           // Avoidance ellipse matching TERRAIN_AVOID_SHAPE used by the engine.
@@ -934,17 +929,20 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
 
           const playerWon = (state.phase.type === 'gameOver' || state.phase.type === 'celebration') && state.phase.winner === 'player'
           return state.field.map((u, i) => {
+            const commanderSprite = u.isCommander
+              ? (u.owner === 'player' ? playerAvatar : opponentPortraitSlug(state.bossAI, actTheme))
+              : undefined
             if (u.isWall) {
               const key = `${u.owner}:${Math.round(u.x)}`
               const group = wallGroups.get(key)!
               if (group[0].id !== u.id) return null  // only render the first in each group
               renderedWallIds.add(u.id)
-              return <LaneUnit key={u.id} unit={u} wallStack={group} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} celebrating={playerWon && u.owner === 'player'} />
+              return <LaneUnit key={u.id} unit={u} wallStack={group} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} celebrating={playerWon && u.owner === 'player'} spriteOverride={commanderSprite} />
             }
             const stackIndex = u.moveSpeed === 0
               ? state.field.slice(0, i).filter(o => o.moveSpeed === 0 && !o.isWall && !o.isMoat && o.owner === u.owner).length
               : 0
-            return <LaneUnit key={u.id} unit={u} stackIndex={stackIndex} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} celebrating={playerWon && u.owner === 'player'} />
+            return <LaneUnit key={u.id} unit={u} stackIndex={stackIndex} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} celebrating={playerWon && u.owner === 'player'} spriteOverride={commanderSprite} />
           })
         })()}
         {/* Animation events: projectiles and hit sparks */}
