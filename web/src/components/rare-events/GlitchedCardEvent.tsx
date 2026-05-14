@@ -22,7 +22,7 @@ const HOVER_REVEAL = 'Real card restored. The glitch has been... contained. Prob
 
 export function GlitchedCardEvent({ onDone }: Props) {
   const [revealed, setRevealed] = useState(false)
-  const glitchName = GLITCH_NAMES[Math.floor(Math.random() * GLITCH_NAMES.length)]
+  const [glitchName] = useState(() => GLITCH_NAMES[Math.floor(Math.random() * GLITCH_NAMES.length)])
 
   useEffect(() => {
     if (!revealed) return
