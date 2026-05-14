@@ -51,6 +51,7 @@ function makeGameState(overrides: Partial<GameState> = {}): GameState {
     battleStats: { cardsPlayed: {}, playerKills: 0, playerUnitsLost: 0 } satisfies BattleStats,
     animEvents: [],
     bloodPools: [],
+    hazards: [],
     ...overrides,
   }
 }

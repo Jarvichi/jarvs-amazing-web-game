@@ -93,4 +93,5 @@ terrain: [],
 battleStats: exampleBattleStats,
 animEvents: [exampleAnimEvent],
 bloodPools: [{ id: 'bp1', x: 2, y: 3 }],
+hazards: [],
 };

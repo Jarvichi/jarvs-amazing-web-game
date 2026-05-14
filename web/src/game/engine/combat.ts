@@ -1,6 +1,6 @@
 import { isNoDamageMode } from '../debug'
 import { playBuildingDestroyed, playUnitDeath, playUnitAttack } from '../sound'
-import { AnimEvent, GameState, Unit } from '../types'
+import { AnimEvent, GameState, Unit, getProjectileType } from '../types'
 import { DAMAGE_FLASH_MS, BLOOD_POOL_MAX } from './constants'
 import { getAttackAura } from './bonusEffects'
 import { animUid, spawnUnit } from './helpers'
@@ -67,6 +67,8 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
           fromX: unit.x, fromY: unit.y,
           toX: target.x, toY: target.y,
           expiresAt: s.gameTime + travelMs,
+          projectileType: getProjectileType(unit.tags),
+          aoeRadius: unit.attackEffect?.aoeRadius,
         }
         s.animEvents.push(proj)
       }
@@ -83,7 +85,7 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
           target.targetId = unit.id
         }
         target.damageFlashTimer = DAMAGE_FLASH_MS
-        // Apply elemental on-hit effect (burn, freeze, poison, shock)
+        // Apply elemental on-hit effect (burn, freeze, poison, shock, aoe, gascloud)
         const eff = unit.attackEffect
         if (eff && target.hp > 0 && Math.random() < eff.chance) {
           if (eff.type === 'burn') {
@@ -97,6 +99,44 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
             target.poisonDps   = eff.dps ?? 5
           } else if (eff.type === 'shock') {
             target.stunTimer = Math.max(target.stunTimer ?? 0, eff.durationMs)
+          } else if (eff.type === 'aoe' && eff.aoeRadius) {
+            // AOE burst: deal same damage to all enemies within radius
+            const aoeTargets = s.field.filter(
+              e => e.owner !== unit.owner && e.hp > 0 && e.id !== target.id &&
+                   Math.hypot(e.x - target.x, e.y - target.y) <= eff.aoeRadius!
+            )
+            for (const e of aoeTargets) {
+              e.hp = Math.max(0, e.hp - dmg)
+              e.damageFlashTimer = DAMAGE_FLASH_MS
+              if (isPlayer) s.playerScore += Math.min(dmg, prevHp)
+              else          s.opponentScore += Math.min(dmg, prevHp)
+            }
+            // AOE ring visual
+            s.animEvents.push({
+              id: animUid(), kind: 'aoe',
+              fromX: target.x, fromY: target.y,
+              toX: target.x,   toY: target.y,
+              expiresAt: s.gameTime + 500,
+              aoeRadius: eff.aoeRadius,
+            })
+          } else if (eff.type === 'gascloud' && eff.aoeRadius) {
+            // Drop a lingering gas cloud at the target position
+            s.hazards.push({
+              id: animUid(),
+              x: target.x, y: target.y,
+              radius: eff.aoeRadius,
+              dps: eff.dps ?? 6,
+              owner: unit.owner,
+              expiresAt: s.gameTime + eff.durationMs,
+            })
+            // Cloud visual (long-lived AnimEvent used for rendering)
+            s.animEvents.push({
+              id: animUid(), kind: 'gascloud',
+              fromX: target.x, fromY: target.y,
+              toX: target.x,   toY: target.y,
+              expiresAt: s.gameTime + eff.durationMs,
+              aoeRadius: eff.aoeRadius,
+            })
           }
         }
         s.animEvents.push({

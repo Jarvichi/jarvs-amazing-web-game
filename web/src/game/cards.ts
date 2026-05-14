@@ -64,13 +64,17 @@ interface RawUnitDef {
 function deriveAttackEffect(tags: string[] | undefined, attack: number): AttackEffect | undefined {
   if (!tags || attack === 0) return undefined
   if (tags.includes('fire') || tags.includes('ember'))
-    return { type: 'burn',   chance: 0.70, durationMs: 3000, dps: 8 }
+    return { type: 'burn',     chance: 0.70, durationMs: 3000, dps: 8 }
   if (tags.includes('frost') || tags.includes('glacier'))
-    return { type: 'freeze', chance: 0.75, durationMs: 2500, slowFactor: 0.35 }
+    return { type: 'freeze',   chance: 0.75, durationMs: 2500, slowFactor: 0.35 }
+  if (tags.includes('gascloud'))
+    return { type: 'gascloud', chance: 1.00, durationMs: 8000, aoeRadius: 72, dps: 6 }
+  if (tags.includes('aoe'))
+    return { type: 'aoe',      chance: 1.00, durationMs: 500,  aoeRadius: 72 }
   if (tags.includes('lightning'))
-    return { type: 'shock',  chance: 0.50, durationMs: 600 }
+    return { type: 'shock',    chance: 0.50, durationMs: 600 }
   if (tags.includes('poison'))
-    return { type: 'poison', chance: 0.65, durationMs: 5000, dps: 5 }
+    return { type: 'poison',   chance: 0.65, durationMs: 5000, dps: 5 }
   return undefined
 }
 
