@@ -121,6 +121,7 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
       unit.hp = 0;
       unit.dyingTimer = 400;
       log.push(`💎 ${unit.name} shattered!`);
+      s.glassShatterCount = (s.glassShatterCount ?? 0) + 1;
     }
   } else if (card.cardType === 'upgrade' && card.upgradeEffect) {
     applyUpgrade(s, card.upgradeEffect, owner, log);

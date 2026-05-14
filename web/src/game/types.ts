@@ -361,6 +361,8 @@ export interface GameState {
   bossPhase2Hp?: number
   /** Names of secret-rare cards obtained during this game session (flushed to collection on win/end). */
   secretRaresObtained?: string[]
+  /** Count of glass cards that shattered on play this session. */
+  glassShatterCount?: number
 }
 
 export interface StanceRules {

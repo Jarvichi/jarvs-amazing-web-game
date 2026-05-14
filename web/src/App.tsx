@@ -1926,6 +1926,53 @@ export default function App() {
     
   }, [gameState?.phase.type])
 
+  // Track secret-rarity achievements at any battle end (win or loss)
+  useEffect(() => {
+    if (!gameState || gameState.phase.type !== 'gameOver') return
+    if (isTrainingModeRef.current) return
+
+    const toasts: AchievementDef[] = []
+
+    // Secret rare cards drawn this game
+    const obtained = gameState.secretRaresObtained ?? []
+    if (obtained.length > 0) {
+      const TYPES_KEY = 'jarv_secret_types_seen'
+      let seenTypes: Set<string>
+      try {
+        const raw = localStorage.getItem(TYPES_KEY)
+        seenTypes = raw ? new Set(JSON.parse(raw) as string[]) : new Set()
+      } catch { seenTypes = new Set() }
+
+      for (const cardName of obtained) {
+        toasts.push(...incrementAchievementProgress('secret:any'))
+        if (cardName.startsWith('Shiny ')) {
+          toasts.push(...incrementAchievementProgress('secret:shiny'))
+          seenTypes.add('shiny')
+        } else if (cardName.startsWith('Holo ')) {
+          toasts.push(...incrementAchievementProgress('secret:holofoil'))
+          seenTypes.add('holofoil')
+        } else if (cardName.startsWith('Glass ')) {
+          toasts.push(...incrementAchievementProgress('secret:glass'))
+          seenTypes.add('glass')
+        } else {
+          toasts.push(...incrementAchievementProgress('secret:mythic'))
+          seenTypes.add('mythic')
+        }
+      }
+
+      try { localStorage.setItem(TYPES_KEY, JSON.stringify([...seenTypes])) } catch { /* ignore */ }
+      toasts.push(...setAchievementProgress('secret:types_seen', seenTypes.size))
+    }
+
+    // Glass shatter count
+    const shatterCount = gameState.glassShatterCount ?? 0
+    if (shatterCount > 0) {
+      toasts.push(...incrementAchievementProgress('secret:glass_shattered', shatterCount))
+    }
+
+    if (toasts.length > 0) setAchievementToasts(prev => [...prev, ...toasts])
+  }, [gameState?.phase.type])
+
 
   // ── Pack ─────────────────────────────────────────────────
 
