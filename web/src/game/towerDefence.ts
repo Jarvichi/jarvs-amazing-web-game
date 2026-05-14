@@ -663,11 +663,11 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     let e = { ...enemy }
     if (e.burnTimer != null && e.burnTimer > 0) {
       e.burnTimer = Math.max(0, e.burnTimer - dtMs)
-      e.hp = Math.max(0, e.hp - (e.burnDps ?? 8) * dtSec)
+      e.hp = Math.max(0, Math.round(e.hp - (e.burnDps ?? 8) * dtSec))
     }
     if (e.poisonTimer != null && e.poisonTimer > 0) {
       e.poisonTimer = Math.max(0, e.poisonTimer - dtMs)
-      e.hp = Math.max(0, e.hp - (e.poisonDps ?? 5) * dtSec)
+      e.hp = Math.max(0, Math.round(e.hp - (e.poisonDps ?? 5) * dtSec))
     }
     if (e.freezeTimer != null && e.freezeTimer > 0) {
       e.freezeTimer = Math.max(0, e.freezeTimer - dtMs)
