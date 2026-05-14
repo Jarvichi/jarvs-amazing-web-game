@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Pit walls -->
+  <rect x="1" y="10" width="30" height="3" rx="1" fill="#5a4a38"/>
+  <rect x="1" y="20" width="30" height="3" rx="1" fill="#5a4a38"/>
+  <!-- Pit floor (dark earth) -->
+  <rect x="1" y="13" width="30" height="7" fill="#2a1a0a"/>
+  <!-- Iron spikes -->
+  <polygon points="5,20  3,13  7,13"  fill="#8a8a8a" stroke="#4a4a4a" stroke-width="0.4"/>
+  <polygon points="11,20 9,13  13,13" fill="#9a9a9a" stroke="#4a4a4a" stroke-width="0.4"/>
+  <polygon points="17,20 15,13 19,13" fill="#8a8a8a" stroke="#4a4a4a" stroke-width="0.4"/>
+  <polygon points="23,20 21,13 25,13" fill="#9a9a9a" stroke="#4a4a4a" stroke-width="0.4"/>
+  <polygon points="29,20 27,13 31,13" fill="#8a8a8a" stroke="#4a4a4a" stroke-width="0.4"/>
+  <!-- Blood stains on spikes -->
+  <ellipse cx="5"  cy="19" rx="1.5" ry="0.8" fill="#800020" opacity="0.6"/>
+  <ellipse cx="17" cy="19" rx="1.5" ry="0.8" fill="#800020" opacity="0.5"/>
+  <!-- Pit edge stones -->
+  <rect x="2"  y="10" width="8" height="2" rx="0" fill="#4a3a28" opacity="0.5"/>
+  <rect x="22" y="10" width="8" height="2" rx="0" fill="#4a3a28" opacity="0.5"/>
+</svg>

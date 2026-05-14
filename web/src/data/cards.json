@@ -13686,6 +13686,273 @@
       "deckCount": 0
     },
     {
+      "name": "Lava Moat",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "tags": ["fire"],
+      "unit": {
+        "name": "Lava Moat",
+        "attack": 0,
+        "maxHp": 9999,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "slowZone",
+          "slowFactor": 0.35,
+          "radius": 28,
+          "damagePerSec": 15
+        },
+        "isMoat": true
+      },
+      "description": "River of molten rock \u2014 slows enemies and burns them for 15 damage/s. Cannot be destroyed.",
+      "lore": "The screaming gets quieter as the lava deepens.",
+      "deckCount": 0
+    },
+    {
+      "name": "Acid Moat",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "tags": ["iron"],
+      "unit": {
+        "name": "Acid Moat",
+        "attack": 0,
+        "maxHp": 9999,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "slowZone",
+          "slowFactor": 0.45,
+          "radius": 26,
+          "damagePerSec": 8
+        },
+        "isMoat": true
+      },
+      "description": "Corrosive channel \u2014 slows and deals 8 damage/s to crossing units. Cannot be destroyed.",
+      "lore": "Armour is merely seasoning.",
+      "deckCount": 0
+    },
+    {
+      "name": "Spike Pit",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "tags": ["iron"],
+      "unit": {
+        "name": "Spike Pit",
+        "attack": 0,
+        "maxHp": 9999,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "slowZone",
+          "slowFactor": 0.5,
+          "radius": 24,
+          "damagePerSec": 12
+        },
+        "isMoat": true
+      },
+      "description": "Pit of iron spikes \u2014 slows and impales crossing units for 12 damage/s. Cannot be destroyed.",
+      "lore": "Every step a decision. Most of them bad.",
+      "deckCount": 0
+    },
+    {
+      "name": "Tar Pit",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "tags": ["iron"],
+      "unit": {
+        "name": "Tar Pit",
+        "attack": 0,
+        "maxHp": 9999,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "slowZone",
+          "slowFactor": 0.2,
+          "radius": 30
+        },
+        "isMoat": true
+      },
+      "description": "Thick black tar \u2014 dramatically slows all units that cross it. Cannot be destroyed.",
+      "lore": "Armies have been lost here. Most of them still are.",
+      "deckCount": 0
+    },
+    {
+      "name": "Frost Moat",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "tags": ["iron"],
+      "unit": {
+        "name": "Frost Moat",
+        "attack": 0,
+        "maxHp": 9999,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "slowZone",
+          "slowFactor": 0.25,
+          "radius": 28,
+          "damagePerSec": 4
+        },
+        "isMoat": true
+      },
+      "description": "Frozen channel \u2014 severely slows enemies and freezes them for 4 damage/s. Cannot be destroyed.",
+      "lore": "The cold doesn't kill. It just makes you wish it would.",
+      "deckCount": 0
+    },
+    {
+      "name": "Poison Bog",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "tags": ["iron"],
+      "unit": {
+        "name": "Poison Bog",
+        "attack": 0,
+        "maxHp": 9999,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "slowZone",
+          "slowFactor": 0.4,
+          "radius": 26,
+          "damagePerSec": 6
+        },
+        "isMoat": true
+      },
+      "description": "Murky poisonous swamp \u2014 slows and poisons crossing units for 6 damage/s. Cannot be destroyed.",
+      "lore": "The bubbles are from the bodies below.",
+      "deckCount": 0
+    },
+    {
+      "name": "Lightning Rift",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "structure",
+      "tags": ["iron"],
+      "unit": {
+        "name": "Lightning Rift",
+        "attack": 0,
+        "maxHp": 9999,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "slowZone",
+          "slowFactor": 0.45,
+          "radius": 26,
+          "damagePerSec": 10
+        },
+        "isMoat": true
+      },
+      "description": "Crackling chasm of electricity \u2014 slows and shocks crossing units for 10 damage/s. Cannot be destroyed.",
+      "lore": "You can hear it from a mile away. You can smell it from two.",
+      "deckCount": 0
+    },
+    {
+      "name": "Quicksand",
+      "rarity": "common",
+      "cost": 1,
+      "cardType": "structure",
+      "tags": ["iron"],
+      "unit": {
+        "name": "Quicksand",
+        "attack": 0,
+        "maxHp": 9999,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "slowZone",
+          "slowFactor": 0.15,
+          "radius": 28
+        },
+        "isMoat": true
+      },
+      "description": "Treacherous sand trap \u2014 nearly halts all units that cross it. Cannot be destroyed.",
+      "lore": "Fighting it only makes it worse.",
+      "deckCount": 0
+    },
+    {
+      "name": "Blood Pool",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "tags": ["iron"],
+      "unit": {
+        "name": "Blood Pool",
+        "attack": 0,
+        "maxHp": 9999,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "slowZone",
+          "slowFactor": 0.35,
+          "radius": 28,
+          "damagePerSec": 5
+        },
+        "isMoat": true
+      },
+      "description": "Grim pool of blood \u2014 slows and drains crossing units for 5 damage/s. Cannot be destroyed.",
+      "lore": "Nobody ever asks whose blood it is.",
+      "deckCount": 0
+    },
+    {
+      "name": "Shadow Mire",
+      "rarity": "uncommon",
+      "cost": 2,
+      "cardType": "structure",
+      "tags": ["iron"],
+      "unit": {
+        "name": "Shadow Mire",
+        "attack": 0,
+        "maxHp": 9999,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "slowZone",
+          "slowFactor": 0.3,
+          "radius": 30
+        },
+        "isMoat": true
+      },
+      "description": "Void of shadow \u2014 heavily slows all units that cross it. Cannot be destroyed.",
+      "lore": "Where shadows pool, so does dread.",
+      "deckCount": 0
+    },
+    {
       "name": "Battle Hardened",
       "rarity": "uncommon",
       "cost": 1,

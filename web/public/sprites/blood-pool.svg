@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dark stone edges -->
+  <rect x="1" y="10" width="30" height="4" rx="1" fill="#4a2028"/>
+  <rect x="1" y="20" width="30" height="4" rx="1" fill="#4a2028"/>
+  <!-- Blood body -->
+  <rect x="1" y="14" width="30" height="6" fill="#5a0010"/>
+  <rect x="1" y="14" width="30" height="2" fill="#a00028" opacity="0.6"/>
+  <!-- Blood ripples -->
+  <path d="M3,17 Q7,16 11,17 Q15,18 19,17 Q23,16 27,17" stroke="#cc0030" stroke-width="0.8" fill="none" opacity="0.5"/>
+  <path d="M3,18.5 Q8,17.5 13,18.5 Q18,19.5 23,18.5 Q26,17.5 29,18.5" stroke="#900020" stroke-width="0.6" fill="none" opacity="0.4"/>
+  <!-- Dark clots -->
+  <ellipse cx="9"  cy="17" rx="2.5" ry="1" fill="#3a0010" opacity="0.55"/>
+  <ellipse cx="23" cy="16.5" rx="3" ry="1" fill="#3a0010" opacity="0.5"/>
+  <!-- Stone staining -->
+  <rect x="3"  y="13" width="5" height="1" rx="0" fill="#800020" opacity="0.4"/>
+  <rect x="24" y="20" width="5" height="1" rx="0" fill="#800020" opacity="0.4"/>
+</svg>

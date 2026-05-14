@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sandy edges -->
+  <rect x="1" y="10" width="30" height="4" rx="1" fill="#b8904a"/>
+  <rect x="1" y="20" width="30" height="4" rx="1" fill="#b8904a"/>
+  <!-- Sand body -->
+  <rect x="1" y="14" width="30" height="6" fill="#a07830"/>
+  <rect x="1" y="14" width="30" height="2" fill="#d0aa60" opacity="0.5"/>
+  <!-- Sand ripples / vortex lines -->
+  <ellipse cx="16" cy="17" rx="11" ry="2.5" fill="none" stroke="#c09040" stroke-width="0.8" opacity="0.5"/>
+  <ellipse cx="16" cy="17" rx="7"  ry="1.5" fill="none" stroke="#c09040" stroke-width="0.6" opacity="0.4"/>
+  <ellipse cx="16" cy="17" rx="3"  ry="0.8" fill="#8a6010" opacity="0.4"/>
+  <!-- Sinking indicator (footprint) -->
+  <ellipse cx="10" cy="16.5" rx="1.5" ry="0.8" fill="#7a5820" opacity="0.5"/>
+  <ellipse cx="22" cy="17.5" rx="1.5" ry="0.8" fill="#7a5820" opacity="0.5"/>
+  <!-- Sandy texture -->
+  <rect x="3"  y="11" width="7" height="2" rx="0" fill="#c89a50" opacity="0.4"/>
+  <rect x="22" y="21" width="7" height="2" rx="0" fill="#c89a50" opacity="0.4"/>
+</svg>

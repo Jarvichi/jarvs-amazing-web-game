@@ -19,15 +19,21 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
       if (existing) {
         // Moat: indestructible — upgrade widens and deepens the slow zone instead of doubling HP
         if (existing.isMoat) {
-          const effect = existing.structureEffect as { type: 'slowZone'; slowFactor: number; radius: number } | undefined
+          const effect = existing.structureEffect as { type: 'slowZone'; slowFactor: number; radius: number; damagePerSec?: number } | undefined
           if (effect?.type === 'slowZone') {
             const oldRadius = effect.radius
-            effect.radius      = Math.round(effect.radius * 1.5)
-            effect.slowFactor  = Math.max(0.15, parseFloat((effect.slowFactor - 0.05).toFixed(2)))
+            effect.radius     = Math.round(effect.radius * 1.5)
+            effect.slowFactor = Math.max(0.15, parseFloat((effect.slowFactor - 0.05).toFixed(2)))
             existing.upgradeLevel = (existing.upgradeLevel ?? 1) + 1
             const pct = Math.round(effect.slowFactor * 100)
             const who = owner === 'player' ? 'You' : 'Opponent'
-            log.push(`${who} upgraded ${existing.name}! (${oldRadius}→${effect.radius}px wide, slows to ${pct}% speed)`)
+            let note = `${oldRadius}→${effect.radius}px wide, slows to ${pct}% speed`
+            if (effect.damagePerSec) {
+              const oldDmg = effect.damagePerSec
+              effect.damagePerSec = Math.round(effect.damagePerSec * 1.35)
+              note += `, dmg ${oldDmg}→${effect.damagePerSec}/s`
+            }
+            log.push(`${who} upgraded ${existing.name}! (${note})`)
             if (owner === 'player') playUpgrade()
           }
           return

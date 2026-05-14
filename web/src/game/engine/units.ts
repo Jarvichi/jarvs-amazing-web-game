@@ -227,16 +227,25 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     const inWallZone = unit.climber && s.field.some(w =>
       w.isWall && w.owner !== unit.owner && w.hp > 0 && Math.abs(unit.x - w.x) <= WALL_CLIMB_ZONE
     )
-    const moatSlowFactor = unit.flying ? 1 : s.field.reduce((factor, m) => {
-      if (!m.isMoat) return factor
-      const effect = m.structureEffect as { type: 'slowZone'; slowFactor: number; radius: number } | undefined
-      if (!effect || effect.type !== 'slowZone') return factor
-      if (Math.abs(unit.x - m.x) <= effect.radius) {
-        if (unit.tags?.includes('swim')) return 1.25  // swim bonus: cross moat faster
-        return Math.min(factor, effect.slowFactor)
+    let moatSlowFactor = 1
+    if (!unit.flying) {
+      for (const m of s.field) {
+        if (!m.isMoat) continue
+        const effect = m.structureEffect as { type: 'slowZone'; slowFactor: number; radius: number; damagePerSec?: number } | undefined
+        if (!effect || effect.type !== 'slowZone') continue
+        if (Math.abs(unit.x - m.x) <= effect.radius) {
+          if (unit.tags?.includes('swim')) {
+            moatSlowFactor = Math.max(moatSlowFactor, 1.25)
+          } else {
+            moatSlowFactor = Math.min(moatSlowFactor, effect.slowFactor)
+          }
+          if (effect.damagePerSec && unit.hp > 0) {
+            unit.hp = Math.max(0, unit.hp - effect.damagePerSec * deltaSec)
+            if (unit.damageFlashTimer == null || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
+          }
+        }
       }
-      return factor
-    }, 1)
+    }
     // Moat never halts a unit: effective speed stays ≥ 1 px/s
     const clampedMoatFactor = unit.moveSpeed > 0
       ? Math.max(moatSlowFactor, 1 / unit.moveSpeed)
