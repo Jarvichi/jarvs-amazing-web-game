@@ -301,7 +301,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
           : isStructure
             ? <SpriteImg name={unit.spriteName ?? unit.name} className={`lane-unit-sprite${spriteDamageClass(unit.hp, unit.maxHp)}`} />
             : unit.isCommander
-            ? <SpriteImg name={spriteOverride ?? unit.spriteName ?? unit.name} className={`lane-unit-sprite${spriteDamageClass(unit.hp, unit.maxHp)}`} />
+            ? <AnimatedSpriteImg name={spriteOverride ?? unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${spriteDamageClass(unit.hp, unit.maxHp)}`} />
             : <AnimatedSpriteImg name={unit.spriteName ?? unit.name} frameCount={3} fps={6} className={`lane-unit-sprite${unit.isHero ? ' lane-unit-sprite--hero' : ''}${spriteDamageClass(unit.hp, unit.maxHp)}`} />
       }
       {!unit.isWall && !unit.isMoat && showName && (
