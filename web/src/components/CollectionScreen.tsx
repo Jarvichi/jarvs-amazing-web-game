@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { Card, CardRarity, CardType, UnitTag } from '../game/types'
+import { Card, CardRarity, CardType, UnitTag, SECRET_RARITIES } from '../game/types'
 import { getCardCatalog, getCardThemeTags } from '../game/cards'
 import {
   loadCollection,
@@ -121,6 +121,8 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   const totalUpgradeable = collection.reduce((s, e) => s + (Math.max(0, e.count - COPIES_MAX) > 0 ? 1 : 0), 0)
 
   const filtered = catalog.filter(c => {
+    // Secret rarities are hidden until the player has obtained at least one copy
+    if (SECRET_RARITIES.has(c.rarity) && getOwnedCount(collection, c.name) === 0) return false
     if (typeFilter   !== 'all' && c.cardType !== typeFilter)   return false
     if (rarityFilter !== 'all' && c.rarity   !== rarityFilter) return false
     if (specialFilter === 'upgradeable') {
@@ -138,7 +140,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
     return true
   })
 
-  const RARITY_ORDER: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 }
+  const RARITY_ORDER: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4, mythic: 5, shiny: 6, holofoil: 7, glass: 8 }
   const TYPE_ORDER: Record<CardType, number>     = { unit: 0, structure: 1, upgrade: 2 }
 
   // Default sort: spawn buildings appear immediately after the unit they spawn.

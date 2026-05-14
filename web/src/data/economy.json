@@ -8,7 +8,11 @@
     "uncommon": 15,
     "rare":     40,
     "epic":     65,
-    "legendary": 100
+    "legendary": 100,
+    "mythic":   500,
+    "shiny":    250,
+    "holofoil": 250,
+    "glass":    200
   },
 
   "merchantPrices": {
@@ -16,7 +20,11 @@
     "uncommon":  90,
     "rare":     200,
     "epic":     280,
-    "legendary": 400
+    "legendary": 400,
+    "mythic":   2000,
+    "shiny":    1000,
+    "holofoil": 1000,
+    "glass":    800
   },
 
   "miniGameCosts": {
