@@ -83,6 +83,22 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
           target.targetId = unit.id
         }
         target.damageFlashTimer = DAMAGE_FLASH_MS
+        // Apply elemental on-hit effect (burn, freeze, poison, shock)
+        const eff = unit.attackEffect
+        if (eff && target.hp > 0 && Math.random() < eff.chance) {
+          if (eff.type === 'burn') {
+            target.burnTimer  = eff.durationMs
+            target.burnDps    = eff.dps ?? 8
+          } else if (eff.type === 'freeze') {
+            target.freezeTimer = eff.durationMs
+            target.freezeSlow  = eff.slowFactor ?? 0.35
+          } else if (eff.type === 'poison') {
+            target.poisonTimer = eff.durationMs
+            target.poisonDps   = eff.dps ?? 5
+          } else if (eff.type === 'shock') {
+            target.stunTimer = Math.max(target.stunTimer ?? 0, eff.durationMs)
+          }
+        }
         s.animEvents.push({
           id: animUid(), kind: 'hit',
           fromX: target.x, fromY: target.y,

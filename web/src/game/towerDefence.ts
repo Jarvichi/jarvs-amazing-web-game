@@ -230,6 +230,12 @@ export interface TDEnemy {
   shielded: boolean       // absorbs next hit entirely (introduced wave 30+)
   splitsOnDeath: boolean  // spawns 2 half-hp copies on death (wave 50+)
   slowsUnits: boolean     // emits aura that delays nearby unit attacks (wave 70+)
+  burnTimer?: number
+  burnDps?: number
+  freezeTimer?: number
+  freezeSlow?: number
+  poisonTimer?: number
+  poisonDps?: number
 }
 
 // Attack visual event — used by the UI to show projectile + hit spark
@@ -652,6 +658,28 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     }]
   }
 
+  // ── Elemental DoT on enemies ─────────────────────────────────────────────
+  s.enemies = s.enemies.map(enemy => {
+    let e = { ...enemy }
+    if (e.burnTimer != null && e.burnTimer > 0) {
+      e.burnTimer = Math.max(0, e.burnTimer - dtMs)
+      e.hp = Math.max(0, e.hp - (e.burnDps ?? 8) * dtSec)
+    }
+    if (e.poisonTimer != null && e.poisonTimer > 0) {
+      e.poisonTimer = Math.max(0, e.poisonTimer - dtMs)
+      e.hp = Math.max(0, e.hp - (e.poisonDps ?? 5) * dtSec)
+    }
+    if (e.freezeTimer != null && e.freezeTimer > 0) {
+      e.freezeTimer = Math.max(0, e.freezeTimer - dtMs)
+    }
+    return e
+  })
+  // Award score/mana for DoT kills before movement removes them
+  for (const e of s.enemies) {
+    if (e.hp <= 0) { s.score += e.template.reward; s.mana += e.template.reward }
+  }
+  s.enemies = s.enemies.filter(e => e.hp > 0)
+
   // ── Move enemies — max 3 per cell (leaders advance first) ──────────────
   const dtSec = dtMs / 1000
   let livesLost = 0
@@ -660,7 +688,9 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   // Process most-advanced enemies first so they claim cells before followers
   const enemiesByProgress = [...s.enemies].sort((a, b) => b.pathProgress - a.pathProgress)
   for (const enemy of enemiesByProgress) {
-    const np = enemy.pathProgress + enemy.template.speed * enemy.speedMult * dtSec
+    const freezeFactor = (enemy.freezeTimer != null && enemy.freezeTimer > 0 && enemy.freezeSlow != null)
+      ? enemy.freezeSlow : 1
+    const np = enemy.pathProgress + enemy.template.speed * enemy.speedMult * dtSec * freezeFactor
     if (np >= TD_PATH.length - 1) {
       livesLost += enemy.template.attack
       continue
@@ -784,6 +814,18 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
         } else {
           const dmg = Math.round(unitDamageDealt(unit, target) * damageMult)
           const newHp = target.hp - dmg
+          // Apply elemental on-hit effect
+          const eff = unit.template.attackEffect
+          if (eff && newHp > 0 && Math.random() < eff.chance) {
+            s.enemies = s.enemies.map(e => {
+              if (e.id !== target.id) return e
+              if (eff.type === 'burn')    return { ...e, burnTimer:   eff.durationMs, burnDps:   eff.dps ?? 8 }
+              if (eff.type === 'freeze')  return { ...e, freezeTimer: eff.durationMs, freezeSlow: eff.slowFactor ?? 0.35 }
+              if (eff.type === 'poison')  return { ...e, poisonTimer: eff.durationMs, poisonDps: eff.dps ?? 5 }
+              if (eff.type === 'shock')   return { ...e, freezeTimer: eff.durationMs, freezeSlow: 0 }
+              return e
+            })
+          }
           if (newHp <= 0) {
             deadEnemyIds.add(target.id)
             s.score += target.template.reward

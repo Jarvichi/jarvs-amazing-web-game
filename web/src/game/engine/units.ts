@@ -253,8 +253,10 @@ export function moveUnits(s: GameState, deltaMs: number): void {
     const fogMult     = s.activeBattleEvent?.type === 'fogOfWar' ? 0.5 : 1
     const affMoveMult = (unit.affinityActive && unit.affinity?.effectType === 'moveSpeed')
       ? unit.affinity.effectAmount : 1
+    const freezeFactor = (unit.freezeTimer != null && unit.freezeTimer > 0 && unit.freezeSlow != null)
+      ? unit.freezeSlow : 1
     const speed = (inWallZone ? unit.moveSpeed * CLIMB_SPEED_FACTOR : unit.moveSpeed)
-      * deltaSec * fogMult * affMoveMult * clampedMoatFactor
+      * deltaSec * fogMult * affMoveMult * clampedMoatFactor * freezeFactor
 
     // Terrain avoidance: lateral repulsion from nearby obstacles
     let avoidY = 0
