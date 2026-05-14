@@ -1,6 +1,6 @@
 import { GameState } from '../types'
 import { BLOOD_POOL_MAX, PLAYER_SPAWN_X } from './constants'
-import { shuffle, drawCard, recycleCardId } from './helpers'
+import { shuffle, drawCard, recycleCardId, spawnCommander } from './helpers'
 
 // ─── Wave transition ──────────────────────────────────────
 
@@ -13,8 +13,9 @@ export function triggerNextEndlessWave(s: GameState): false {
   const wave   = (s.endlessWave ?? 1) + 1
   s.endlessWave = wave
 
-  const hpMult = 1 + (wave - 1) * 0.8
-  s.opponentBase = { hp: Math.round(82 * hpMult), maxHp: Math.round(82 * hpMult) }
+  const hpMult  = 1 + (wave - 1) * 0.8
+  const newOpHp = Math.round(82 * hpMult)
+  s.opponentBase = { hp: newOpHp, maxHp: newOpHp }
 
   // Scale opponent speed aggressively each wave (min 2000ms)
   s.opponentIntervalMs = Math.max(2000, s.opponentIntervalMs - 500)
@@ -23,8 +24,9 @@ export function triggerNextEndlessWave(s: GameState): false {
   // Boost opponent mana regen each wave (capped at 2.5×)
   s.endlessOpponentManaMult = Math.min(2.5, (s.endlessOpponentManaMult ?? 1) + 0.2)
 
-  // Clear opponent units + reshuffle opponent deck
+  // Clear opponent units + reshuffle opponent deck, then spawn fresh opponent commander
   s.field = s.field.filter(u => u.owner !== 'opponent')
+  s.field.push(spawnCommander('opponent', newOpHp))
   s.opponentDeck = shuffle([...(s.endlessOpponentDeckTemplate ?? [])])
 
   // Draw bonus cards into opponent hand based on wave number
@@ -39,8 +41,8 @@ export function triggerNextEndlessWave(s: GameState): false {
     }
   })
 
-  // Finger smash: a giant finger crushes 75–95% of the player's units/structures
-  const playerUnits   = s.field.filter(u => u.owner === 'player' && !u.dyingTimer)
+  // Finger smash: a giant finger crushes 75–95% of the player's units/structures (commander is spared)
+  const playerUnits   = s.field.filter(u => u.owner === 'player' && !u.dyingTimer && !u.isCommander)
   const smashFraction = 0.75 + Math.random() * 0.20
   const smashCount    = Math.round(playerUnits.length * smashFraction)
   const smashedNames: string[] = []

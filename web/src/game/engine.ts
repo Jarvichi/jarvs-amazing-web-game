@@ -8,7 +8,7 @@ import { BASE_MAX_MANA, BLOOD_POOL_FADE_MS, BASE_STOP_MARGIN, MANA_REGEN_MS, OPP
 import { genericBossAI, getBossAIDef } from './engine/boss'
 import { tickBossTrait } from './engine/bossTraits'
 import { getManaBonus, getManaSpeedMult } from './engine/bonusEffects'
-import { uid, shuffle, spawnUnit } from './engine/helpers'
+import { uid, shuffle, spawnUnit, spawnCommander } from './engine/helpers'
 import { MAX_UPGRADE_LEVEL } from './engine/cards'
 import { unitDist } from './engine/targeting'
 import { opponentAI } from './engine/opponentAI'
@@ -92,21 +92,6 @@ const STRATEGY_LABELS: Record<GameState['opponentStrategy'], string> = {
 }
 
 /** Inject one hero card into the first ~8 positions of a shuffled deck. */
-function spawnCommander(owner: 'player' | 'opponent', hp: number): import('./types').Unit {
-  const homeX = owner === 'player' ? COMMANDER_HOME_X : LANE_WIDTH - COMMANDER_HOME_X
-  const unit = spawnUnit(
-    { name: owner === 'player' ? 'Commander' : 'Warlord',
-      attack: 15, maxHp: hp, isWall: false, bypassWall: false,
-      moveSpeed: 8, attackRange: 35, attackCooldownMs: 2000, size: 'large' },
-    owner
-  )
-  unit.isCommander    = true
-  unit.commanderHomeX = homeX
-  unit.x              = homeX
-  unit.y              = 0
-  return unit
-}
-
 function injectHero(deck: Card[], heroPool: Card[]): void {
   if (heroPool.length === 0) return
   const hero = heroPool[Math.floor(Math.random() * heroPool.length)]
@@ -271,12 +256,19 @@ export function newGame(
       const boostedHp  = Math.round(template.maxHp * mult)
       const totalHp    = boostedHp + baseOpponentHp
       const bossUnit   = spawnUnit({ ...template, maxHp: totalHp }, 'opponent')
+      // Phase 1: treat boss as a leashed commander so it doesn't charge straight to the player
+      const bossHomeX  = LANE_WIDTH - COMMANDER_HOME_X
+      bossUnit.isCommander    = true
+      bossUnit.commanderHomeX = bossHomeX
+      bossUnit.x              = bossHomeX
+      bossUnit.y              = 0
       initialField.push(bossUnit)
+      initialField.push(spawnCommander('player', 50))
       opponentBaseHp = totalHp
       bossPhase2Hp   = boostedHp   // phase 2 triggers when boss.hp drops to this
     }
-  } else if (!endlessMode) {
-    // Normal/elite battle: spawn commander units at each base
+  } else {
+    // Normal/elite/endless: spawn commander units at each base
     initialField.push(spawnCommander('player', 50))
     initialField.push(spawnCommander('opponent', baseOpponentHp))
   }
@@ -384,6 +376,9 @@ function checkGameOver(s: GameState): boolean {
     const bossUnit = s.field.find(u => u.owner === 'opponent' && u.name === s.bossCard && u.hp > 0)
     if (bossUnit && bossUnit.hp <= s.bossPhase2Hp) {
       const displayName = s.bossName ?? s.bossCard
+      // Release boss from leash so it charges freely in phase 2
+      bossUnit.isCommander    = false
+      bossUnit.commanderHomeX = undefined
       // Clear minions but keep the boss unit
       s.field = s.field.filter(u => u.owner !== 'opponent' || u.name === s.bossCard)
       s.field.forEach(u => { if (u.owner === 'player') u.x = PLAYER_SPAWN_X })
@@ -392,7 +387,7 @@ function checkGameOver(s: GameState): boolean {
 
       // Shockwave: kills a scaling fraction of player's mobile non-hero units, always leaving at least 3
       const shockwavePool = s.field.filter(
-        u => u.owner === 'player' && u.moveSpeed > 0 && !u.isHero && !u.dyingTimer
+        u => u.owner === 'player' && u.moveSpeed > 0 && !u.isHero && !u.isCommander && !u.dyingTimer
       )
       const MIN_SURVIVORS = 3
       const killPct = Math.min(1.0, s.bossSpawnKillPct ?? 0.5)
