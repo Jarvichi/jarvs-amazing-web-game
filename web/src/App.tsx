@@ -2875,6 +2875,7 @@ export default function App() {
       {/* Deck selector — shown before quick battle / endless when Deck B has content */}
       {pendingBattleFn && (
         <DeckSelectorModal
+          fatiguedCards={fatiguedCards}
           onConfirm={() => {
             const fn = pendingBattleFn
             setPendingBattleFn(null)
