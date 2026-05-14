@@ -21,11 +21,11 @@ export const CELL_PX = 72
 const MAX_OFFLINE_MINUTES = 480
 
 /** Income per minute for spawn buildings. */
-export const INCOME_SPAWN: Record<CardRarity, number> = { common: 2, uncommon: 4, rare: 6, epic: 8, legendary: 10 }
+export const INCOME_SPAWN: Record<CardRarity, number> = { common: 2, uncommon: 4, rare: 6, epic: 8, legendary: 10, mythic: 15, shiny: 10, holofoil: 10, glass: 10 }
 /** Income per minute for utility buildings. */
-export const INCOME_UTILITY: Record<CardRarity, number> = { common: 1, uncommon: 3, rare: 5, epic: 7, legendary: 8 }
+export const INCOME_UTILITY: Record<CardRarity, number> = { common: 1, uncommon: 3, rare: 5, epic: 7, legendary: 8, mythic: 12, shiny: 8, holofoil: 8, glass: 8 }
 /** Income per minute for wall / no-effect structures. */
-export const INCOME_WALL: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 1, epic: 2, legendary: 2 }
+export const INCOME_WALL: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 1, epic: 2, legendary: 2, mythic: 3, shiny: 2, holofoil: 2, glass: 2 }
 
 /** Happiness regeneration per minute toward the target value. */
 const HAPPINESS_REGEN = 15
@@ -38,12 +38,12 @@ export const LEVEL_UP_COSTS = [50000, 100000, 250000, 500000, 1000000]
 // ── Resource constants ────────────────────────────────────────────────────────
 
 /** Defence value contributed by walls (per rarity). */
-const WALL_DEFENSE: Record<CardRarity, number> = { common: 5, uncommon: 10, rare: 20, epic: 30, legendary: 40 }
+const WALL_DEFENSE: Record<CardRarity, number> = { common: 5, uncommon: 10, rare: 20, epic: 30, legendary: 40, mythic: 60, shiny: 40, holofoil: 40, glass: 40 }
 /** Defence value contributed by spawn buildings (per rarity). */
-const SPAWN_DEFENSE: Record<CardRarity, number> = { common: 3, uncommon: 6, rare: 12, epic: 18, legendary: 25 }
+const SPAWN_DEFENSE: Record<CardRarity, number> = { common: 3, uncommon: 6, rare: 12, epic: 18, legendary: 25, mythic: 40, shiny: 25, holofoil: 25, glass: 25 }
 
 /** Wheat consumed per minute by a spawn building (units need feeding). */
-const FOOD_CONSUME_RATE: Record<CardRarity, number> = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 }
+const FOOD_CONSUME_RATE: Record<CardRarity, number> = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6, shiny: 5, holofoil: 5, glass: 5 }
 
 /** Resource cost to place a spawner of a given rarity. */
 export const SPAWNER_PLACE_COST: Record<CardRarity, Partial<ResourceStock>> = {
@@ -52,6 +52,10 @@ export const SPAWNER_PLACE_COST: Record<CardRarity, Partial<ResourceStock>> = {
   rare:      { wheat: 50, wood: 20, ore: 10 },
   epic:      { wheat: 65, wood: 30, ore: 15 },
   legendary: { wheat: 80, wood: 40, ore: 20 },
+  mythic:    { wheat: 100, wood: 60, ore: 30 },
+  shiny:     { wheat: 80, wood: 40, ore: 20 },
+  holofoil:  { wheat: 80, wood: 40, ore: 20 },
+  glass:     { wheat: 80, wood: 40, ore: 20 },
 }
 
 /** Icons for each resource type (used in UI). */
@@ -69,11 +73,13 @@ export const RESOURCE_ICONS: Record<ResourceType, string> = {
 /** Max HP for a fortification of each rarity. */
 export const FORT_MAX_HP: Record<CardRarity, number> = {
   common: 50, uncommon: 100, rare: 200, epic: 350, legendary: 500,
+  mythic: 800, shiny: 500, holofoil: 500, glass: 500,
 }
 
 /** Defense value contributed by a fortification at full HP. */
 export const FORT_DEFENSE: Record<CardRarity, number> = {
   common: 10, uncommon: 20, rare: 40, epic: 60, legendary: 80,
+  mythic: 120, shiny: 80, holofoil: 80, glass: 80,
 }
 
 /** Gold + resource cost to build a fortification of each rarity. */
@@ -83,6 +89,10 @@ export const FORT_PLACE_COST: Record<CardRarity, { gold: number } & Partial<Reso
   rare:      { gold: 12000,  wood: 120, ore: 50 },
   epic:      { gold: 40000,  wood: 250, ore: 120, planks: 35 },
   legendary: { gold: 100000, wood: 500, ore: 250, planks: 100 },
+  mythic:    { gold: 500000, wood: 1000, ore: 500, planks: 250 },
+  shiny:     { gold: 100000, wood: 500, ore: 250, planks: 100 },
+  holofoil:  { gold: 100000, wood: 500, ore: 250, planks: 100 },
+  glass:     { gold: 100000, wood: 500, ore: 250, planks: 100 },
 }
 
 /** HP repaired per minute per fortification (1 HP every 5 minutes). */
@@ -93,6 +103,7 @@ const FORT_REPAIR_WOOD_PER_HP = 1 / 20
 /** Number of attacks a fortification can survive before permanent destruction. */
 export const FORT_MAX_ATTACKS: Record<CardRarity, number> = {
   common: 5, uncommon: 8, rare: 12, epic: 18, legendary: 25,
+  mythic: 40, shiny: 25, holofoil: 25, glass: 25,
 }
 
 /** Gold cost to hire additional builders (index = number of extras already hired). */

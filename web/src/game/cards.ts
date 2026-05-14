@@ -251,5 +251,6 @@ export function getCardUnit(cardName: string): UnitTemplate | undefined {
 }
 
 export function rarityStars(r: CardRarity): string {
-  return '\u2605'.repeat({ common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 }[r])
+  const counts: Record<CardRarity, number> = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6, shiny: 4, holofoil: 4, glass: 4 }
+  return '\u2605'.repeat(counts[r] ?? 1)
 }

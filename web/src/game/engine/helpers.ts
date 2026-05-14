@@ -1,5 +1,7 @@
 import { logError } from '../../logger';
 import { Card, UnitTemplate, Unit, LANE_WIDTH } from '../types';
+import { rollSecretRarity, makeShinyVariant, makeHolofoilVariant, makeGlassVariant } from '../secretRarities';
+import { getCardCatalog } from '../cards';
 import { PLAYER_SPAWN_X, OPPONENT_SPAWN_X, COMMANDER_HOME_X } from './constants';
 
 // ─── Helpers ─────────────────────────────────────────────
@@ -16,8 +18,30 @@ export function shuffle<T>(arr: T[]): T[] {
   }
   return a;
 }
-export function drawCard(deck: Card[], hand: Card[]): void {
-  if (deck.length > 0) hand.push(deck.shift()!);
+export function drawCard(deck: Card[], hand: Card[], secretLog?: string[]): void {
+  if (deck.length === 0) return
+  let card = deck.shift()!
+  const secretType = rollSecretRarity()
+  if (secretType !== null) {
+    if (secretType === 'shiny') {
+      card = makeShinyVariant(card)
+    } else if (secretType === 'holofoil') {
+      card = makeHolofoilVariant(card)
+    } else if (secretType === 'glass') {
+      card = makeGlassVariant(card)
+    } else {
+      // mythic — inject a random mythic card from the catalog; fall back to shiny if none exist
+      const mythics = getCardCatalog().filter((c: Card) => c.rarity === 'mythic')
+      if (mythics.length > 0) {
+        const base = mythics[Math.floor(Math.random() * mythics.length)] as Card
+        card = { ...base, id: `mythic-${Math.random().toString(36).slice(2, 9)}` }
+      } else {
+        card = makeShinyVariant(card)
+      }
+    }
+    secretLog?.push(card.name)
+  }
+  hand.push(card)
 }
 // Five lanes evenly spread across the battle-field's lateral (Y) axis.
 // Y=0 is centre; units move continuously between these positions.

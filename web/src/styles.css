@@ -759,6 +759,100 @@ body {
 .card-tile--rare      { border-color: rgba(187, 102, 255, 0.55); background: rgba(187, 102, 255, 0.05); }
 .card-tile--legendary { border-color: rgba(255, 204, 0, 0.6);   background: rgba(255, 204, 0, 0.04); }
 
+/* ─── Secret-rarity card tiles ────────────────────────────────────────────── */
+@keyframes secret-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes holo-shift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+@keyframes mythic-pulse {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(224,64,251,0.55), inset 0 0 12px rgba(224,64,251,0.18); }
+  50%       { box-shadow: 0 0 18px 5px rgba(224,64,251,0.85), inset 0 0 20px rgba(224,64,251,0.3); }
+}
+@keyframes glass-crack {
+  0%, 90%, 100% { opacity: 0; }
+  93%, 97%      { opacity: 0.4; }
+}
+
+/* Shiny: warm gold shimmer sweep */
+.card-tile--shiny {
+  border-color: rgba(255, 220, 60, 0.8);
+  background: linear-gradient(
+    105deg,
+    rgba(255,220,60,0.04) 0%,
+    rgba(255,255,180,0.22) 48%,
+    rgba(255,220,60,0.04) 100%
+  );
+  background-size: 200% auto;
+  animation: secret-shimmer 2.4s linear infinite;
+}
+.card-tile--shiny .card-rarity { color: #ffe066; text-shadow: 0 0 8px rgba(255,220,60,0.9); }
+
+/* Holofoil: rainbow prism shift */
+.card-tile--holofoil {
+  border-color: rgba(64, 224, 208, 0.75);
+  background: linear-gradient(
+    120deg,
+    rgba(255,80,120,0.08) 0%,
+    rgba(64,224,208,0.12) 25%,
+    rgba(100,180,255,0.10) 50%,
+    rgba(200,80,255,0.10) 75%,
+    rgba(255,220,60,0.08) 100%
+  );
+  background-size: 300% 300%;
+  animation: holo-shift 3s ease infinite;
+}
+.card-tile--holofoil .card-rarity { color: #40e0d0; text-shadow: 0 0 8px rgba(64,224,208,0.9); }
+
+/* Glass: frosted crystal look, subtle crack flash */
+.card-tile--glass {
+  border-color: rgba(160, 216, 239, 0.8);
+  background: rgba(200, 235, 255, 0.06);
+  backdrop-filter: blur(1px);
+  position: relative;
+}
+.card-tile--glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    65deg,
+    transparent 0px,
+    transparent 18px,
+    rgba(200,235,255,0.07) 18px,
+    rgba(200,235,255,0.07) 19px
+  );
+  animation: glass-crack 5s ease-in-out infinite;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.card-tile--glass .card-rarity { color: #a0d8ef; text-shadow: 0 0 6px rgba(160,216,239,0.8); }
+
+/* Mythic: deep void purple with cosmic pulse */
+.card-tile--mythic {
+  border-color: rgba(224, 64, 251, 0.85);
+  background: linear-gradient(160deg, rgba(40,0,60,0.55) 0%, rgba(10,0,20,0.55) 100%);
+  animation: mythic-pulse 2s ease-in-out infinite;
+}
+.card-tile--mythic .card-rarity { color: #e040fb; text-shadow: 0 0 10px rgba(224,64,251,1); }
+.card-tile--mythic .card-title  { color: #e8b0ff; }
+.card-tile--mythic .card-cost   { color: #e040fb; text-shadow: 0 0 10px rgba(224,64,251,0.9); }
+
+/* pack reveal / shop rarity labels */
+.pack-card-rarity--mythic   { color: #e040fb; text-shadow: 0 0 8px rgba(224,64,251,0.8); }
+.pack-card-rarity--shiny    { color: #ffe066; text-shadow: 0 0 6px rgba(255,220,60,0.9); }
+.pack-card-rarity--holofoil { color: #40e0d0; text-shadow: 0 0 6px rgba(64,224,208,0.9); }
+.pack-card-rarity--glass    { color: #a0d8ef; text-shadow: 0 0 6px rgba(160,216,239,0.8); }
+
+.shop-card-deal--mythic   { border-top: 2px solid #e040fb; }
+.shop-card-deal--shiny    { border-top: 2px solid #ffe066; }
+.shop-card-deal--holofoil { border-top: 2px solid #40e0d0; }
+.shop-card-deal--glass    { border-top: 2px solid #a0d8ef; }
+
 .card-cost {
   position: absolute;
   top: 3px;
@@ -782,6 +876,36 @@ body {
   background: #ffd700;
   padding: 2px 0;
   text-shadow: none;
+}
+
+/* Secret rarity badge (top-left ribbon) */
+.card-secret-badge {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 0.52rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 12;
+  text-transform: uppercase;
+}
+.card-secret-badge--mythic   { background: rgba(224,64,251,0.25); color: #e040fb; border: 1px solid rgba(224,64,251,0.6); }
+.card-secret-badge--shiny    { background: rgba(255,220,60,0.2);  color: #ffe066; border: 1px solid rgba(255,220,60,0.6); }
+.card-secret-badge--holofoil { background: rgba(64,224,208,0.2);  color: #40e0d0; border: 1px solid rgba(64,224,208,0.6); }
+.card-secret-badge--glass    { background: rgba(160,216,239,0.15); color: #a0d8ef; border: 1px solid rgba(160,216,239,0.6); }
+
+/* Glass break-chance icon */
+.card-glass-warning {
+  position: absolute;
+  bottom: 50px;
+  right: 5px;
+  font-size: 0.75rem;
+  opacity: 0.75;
+  pointer-events: none;
+  z-index: 12;
 }
 
 .hero-badge-wrap {
@@ -7963,6 +8087,26 @@ html.light-mode .action-btn {
 .lane-unit--kill-flash {
   animation: kill-flash-anim 0.5s ease-out forwards;
 }
+
+/* ─── Secret-variant unit visual effects ──────────────────────────────────── */
+@keyframes variant-shiny-glow {
+  0%, 100% { filter: brightness(1.1) drop-shadow(0 0 3px rgba(255,220,60,0.6)); }
+  50%       { filter: brightness(1.3) drop-shadow(0 0 8px rgba(255,220,60,1)); }
+}
+@keyframes variant-holo-shift {
+  0%   { filter: hue-rotate(0deg)   brightness(1.15) saturate(1.4); }
+  50%  { filter: hue-rotate(180deg) brightness(1.25) saturate(1.6); }
+  100% { filter: hue-rotate(360deg) brightness(1.15) saturate(1.4); }
+}
+@keyframes variant-mythic-aura {
+  0%, 100% { filter: brightness(1.1) drop-shadow(0 0 4px rgba(224,64,251,0.7)); }
+  50%       { filter: brightness(1.35) drop-shadow(0 0 12px rgba(224,64,251,1)); }
+}
+
+.lane-unit--variant-shiny    { animation: variant-shiny-glow   2s ease-in-out infinite; }
+.lane-unit--variant-holofoil { animation: variant-holo-shift   3s linear infinite; }
+.lane-unit--variant-glass    { opacity: 0.88; filter: brightness(1.15) drop-shadow(0 0 4px rgba(160,216,239,0.7)); }
+.lane-unit--variant-mythic   { animation: variant-mythic-aura  1.8s ease-in-out infinite; }
 
 /* Projectile: a glowing streak travelling from attacker to target */
 @keyframes projectile-travel {
