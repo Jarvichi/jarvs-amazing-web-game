@@ -14,7 +14,7 @@ import { unitDist } from './engine/targeting'
 import { opponentAI } from './engine/opponentAI'
 import { triggerBattleEvent, BATTLE_EVENT_BASE_MS } from './engine/battleEvents'
 import { generateTerrain } from './engine/terrain'
-import { processEndlessModeAdditions, triggerNextEndlessWave } from './engine/endlessMode'
+import { processEndlessModeAdditions, triggerNextEndlessWave, spawnEndlessCommander } from './engine/endlessMode'
 import { handleSuddentDeath } from './engine/suddenDeath'
 
 
@@ -270,7 +270,8 @@ export function newGame(
   } else {
     // Normal/elite/endless: spawn commander units at each base
     initialField.push(spawnCommander('player', 50))
-    initialField.push(spawnCommander('opponent', baseOpponentHp))
+    // In endless mode wave 1: pick a random card-pool unit as the commander
+    initialField.push(endlessMode ? spawnEndlessCommander(1, baseOpponentHp) : spawnCommander('opponent', baseOpponentHp))
   }
 
   return {

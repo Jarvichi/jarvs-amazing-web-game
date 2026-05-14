@@ -930,7 +930,11 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           const playerWon = (state.phase.type === 'gameOver' || state.phase.type === 'celebration') && state.phase.winner === 'player'
           return state.field.map((u, i) => {
             const commanderSprite = u.isCommander
-              ? (u.owner === 'player' ? playerAvatar : opponentPortraitSlug(state.bossAI, actTheme))
+              ? u.owner === 'player'
+                ? playerAvatar
+                : state.endlessMode
+                  ? undefined  // use the unit's own sprite so it changes each wave
+                  : opponentPortraitSlug(state.bossAI, actTheme)
               : undefined
             if (u.isWall) {
               const key = `${u.owner}:${Math.round(u.x)}`
