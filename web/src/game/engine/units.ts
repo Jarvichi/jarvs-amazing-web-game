@@ -233,7 +233,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
         if (!m.isMoat) continue
         const effect = m.structureEffect as { type: 'slowZone'; slowFactor: number; radius: number; damagePerSec?: number } | undefined
         if (!effect || effect.type !== 'slowZone') continue
-        if (Math.abs(unit.x - m.x) <= effect.radius) {
+        if (m.owner !== unit.owner && Math.abs(unit.x - m.x) <= effect.radius) {
           if (unit.tags?.includes('swim')) {
             moatSlowFactor = Math.max(moatSlowFactor, 1.25)
           } else {
