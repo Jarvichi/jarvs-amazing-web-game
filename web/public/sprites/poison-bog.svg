@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Muddy edges -->
+  <rect x="1" y="10" width="30" height="4" rx="1" fill="#3a4a28"/>
+  <rect x="1" y="20" width="30" height="4" rx="1" fill="#3a4a28"/>
+  <!-- Bog body -->
+  <rect x="1" y="14" width="30" height="6" fill="#0e200e"/>
+  <rect x="1" y="14" width="30" height="2" fill="#3a6020" opacity="0.5"/>
+  <!-- Murky ripples -->
+  <path d="M3,17 Q7,16 11,17 Q15,18 19,17 Q23,16 27,17" stroke="#3a8020" stroke-width="0.7" fill="none" opacity="0.5"/>
+  <!-- Algae patches -->
+  <ellipse cx="8"  cy="17" rx="3" ry="1.2" fill="#2a6018" opacity="0.5"/>
+  <ellipse cx="22" cy="17" rx="4" ry="1.5" fill="#2a6018" opacity="0.45"/>
+  <!-- Poison bubbles -->
+  <circle cx="14" cy="16" r="1.2" fill="rgba(100,200,40,0.4)"/>
+  <circle cx="26" cy="18" r="0.9" fill="rgba(100,200,40,0.35)"/>
+  <!-- Exposed roots -->
+  <path d="M4,14 Q5,12 7,11" stroke="#4a3820" stroke-width="0.7" fill="none" opacity="0.6"/>
+  <path d="M28,14 Q27,12 25,11" stroke="#4a3820" stroke-width="0.7" fill="none" opacity="0.6"/>
+</svg>

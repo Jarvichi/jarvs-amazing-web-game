@@ -22,7 +22,7 @@ export type StructureEffect =
   | { type: 'healAura'; amount: number; intervalMs: number }
   | { type: 'repairAura'; amount: number; intervalMs: number }
   | { type: 'attackAura'; amount: number }
-  | { type: 'slowZone'; slowFactor: number; radius: number }
+  | { type: 'slowZone'; slowFactor: number; radius: number; damagePerSec?: number }
 
 export type UpgradeEffect =
   | { type: 'buffAttack'; amount: number }

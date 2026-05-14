@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Stone edges -->
+  <rect x="1" y="10" width="30" height="4" rx="1" fill="#556644"/>
+  <rect x="1" y="20" width="30" height="4" rx="1" fill="#556644"/>
+  <!-- Acid body -->
+  <rect x="1" y="14" width="30" height="6" fill="#1a3a00"/>
+  <rect x="1" y="14" width="30" height="2" fill="#4aaa00" opacity="0.5"/>
+  <!-- Bubbles -->
+  <circle cx="7"  cy="16" r="1.5" fill="#60cc10" opacity="0.6"/>
+  <circle cx="16" cy="17" r="1"   fill="#70dd20" opacity="0.5"/>
+  <circle cx="24" cy="15.5" r="2" fill="#50bb00" opacity="0.55"/>
+  <!-- Acid ripples -->
+  <path d="M3,18 Q7,17 11,18 Q15,19 19,18 Q23,17 27,18" stroke="#80ee30" stroke-width="0.8" fill="none" opacity="0.6"/>
+  <!-- Corroded stone -->
+  <rect x="4"  y="11" width="6" height="2" rx="0" fill="#3a4a20" opacity="0.5"/>
+  <rect x="22" y="11" width="6" height="2" rx="0" fill="#3a4a20" opacity="0.5"/>
+  <!-- Drip marks -->
+  <line x1="8"  y1="14" x2="8"  y2="11" stroke="#60cc10" stroke-width="0.6" opacity="0.4"/>
+  <line x1="20" y1="20" x2="20" y2="23" stroke="#60cc10" stroke-width="0.6" opacity="0.4"/>
+</svg>

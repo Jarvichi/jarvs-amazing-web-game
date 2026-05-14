@@ -55,22 +55,194 @@ interface Props {
 const SPAWN_GROW_MS = 1500
 
 // ─── Moat graphic ────────────────────────────────────────────────────────────
-// Full-width water channel rendered in place of the sprite for moat units.
+// Full-width terrain channel rendered in place of the sprite for moat units.
+// Each variant has distinct colours and detail elements.
 
-function MoatSvg({ owner }: { owner: 'player' | 'opponent' }) {
+function MoatSvg({ owner, name }: { owner: 'player' | 'opponent'; name: string }) {
+  const W = 360, H = 16
+  const edgeCol = 'rgba(0,0,0,0.55)'
+  const rippleXs = [20, 65, 110, 155, 200, 245, 290, 335]
+
+  // ── Lava Moat ─────────────────────────────────────────────────────────────
+  if (name === 'Lava Moat') {
+    return (
+      <div style={{ display:'block', width:'100%', height: H }}>
+        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width={W} height={H} fill="#6a1000"/>
+          <rect x="0" y="2" width={W} height="12" fill="#c83000" opacity="0.7"/>
+          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="20" ry="3" fill="none" stroke="rgba(255,180,0,0.45)" strokeWidth="1"/>)}
+          {[40, 120, 200, 280].map((x, i) => <ellipse key={i} cx={x} cy="8" rx="8" ry="4" fill="#ff6a00" opacity="0.5"/>)}
+          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
+          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
+        </svg>
+      </div>
+    )
+  }
+
+  // ── Acid Moat ─────────────────────────────────────────────────────────────
+  if (name === 'Acid Moat') {
+    return (
+      <div style={{ display:'block', width:'100%', height: H }}>
+        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width={W} height={H} fill="#1a3a00"/>
+          <rect x="0" y="2" width={W} height="12" fill="#4aaa00" opacity="0.6"/>
+          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="20" ry="3" fill="none" stroke="rgba(150,255,50,0.4)" strokeWidth="0.9"/>)}
+          {[55, 135, 215, 300].map((x, i) => <circle key={i} cx={x} cy="6" r="3" fill="rgba(180,255,0,0.5)"/>)}
+          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
+          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
+        </svg>
+      </div>
+    )
+  }
+
+  // ── Spike Pit ─────────────────────────────────────────────────────────────
+  if (name === 'Spike Pit') {
+    const spikePts = (cx: number) => `${cx},2 ${cx-4},14 ${cx},10 ${cx+4},14`
+    return (
+      <div style={{ display:'block', width:'100%', height: H }}>
+        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width={W} height={H} fill="#2a1a0a"/>
+          <rect x="0" y="10" width={W} height="6" fill="#3a2a18" opacity="0.9"/>
+          {[30, 75, 120, 165, 210, 255, 300, 345].map((x, i) => (
+            <polygon key={i} points={spikePts(x)} fill="#8a8a8a" stroke="#4a4a4a" strokeWidth="0.5"/>
+          ))}
+          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
+          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
+        </svg>
+      </div>
+    )
+  }
+
+  // ── Tar Pit ───────────────────────────────────────────────────────────────
+  if (name === 'Tar Pit') {
+    return (
+      <div style={{ display:'block', width:'100%', height: H }}>
+        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width={W} height={H} fill="#0a0808"/>
+          <rect x="0" y="2" width={W} height="12" fill="#1a1212" opacity="0.85"/>
+          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="18" ry="2.5" fill="none" stroke="rgba(80,60,40,0.5)" strokeWidth="0.8"/>)}
+          {[90, 180, 270].map((x, i) => <circle key={i} cx={x} cy="7" r="4" fill="rgba(30,20,10,0.8)" stroke="rgba(60,40,20,0.4)" strokeWidth="0.5"/>)}
+          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
+          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
+        </svg>
+      </div>
+    )
+  }
+
+  // ── Frost Moat ────────────────────────────────────────────────────────────
+  if (name === 'Frost Moat') {
+    return (
+      <div style={{ display:'block', width:'100%', height: H }}>
+        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width={W} height={H} fill="#0a2040"/>
+          <rect x="0" y="2" width={W} height="12" fill="#3080b0" opacity="0.55"/>
+          <rect x="0" y="0" width={W} height="5" fill="#c8e8ff" opacity="0.3"/>
+          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="20" ry="3" fill="none" stroke="rgba(200,240,255,0.45)" strokeWidth="0.9"/>)}
+          {[50, 150, 250, 350].map((x, i) => <polygon key={i} points={`${x},4 ${x-3},9 ${x},7 ${x+3},9`} fill="rgba(200,240,255,0.55)"/>)}
+          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
+          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
+        </svg>
+      </div>
+    )
+  }
+
+  // ── Poison Bog ────────────────────────────────────────────────────────────
+  if (name === 'Poison Bog') {
+    return (
+      <div style={{ display:'block', width:'100%', height: H }}>
+        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width={W} height={H} fill="#0e200e"/>
+          <rect x="0" y="2" width={W} height="12" fill="#2a5020" opacity="0.7"/>
+          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="18" ry="2.5" fill="none" stroke="rgba(100,200,50,0.3)" strokeWidth="0.8"/>)}
+          {[45, 130, 210, 295].map((x, i) => <ellipse key={i} cx={x} cy="7" rx="6" ry="3" fill="rgba(60,150,20,0.45)"/>)}
+          {[80, 185, 275].map((x, i) => <circle key={i} cx={x} cy="9" r="2" fill="rgba(160,255,80,0.35)"/>)}
+          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
+          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
+        </svg>
+      </div>
+    )
+  }
+
+  // ── Lightning Rift ────────────────────────────────────────────────────────
+  if (name === 'Lightning Rift') {
+    return (
+      <div style={{ display:'block', width:'100%', height: H }}>
+        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width={W} height={H} fill="#0a0a30"/>
+          <rect x="0" y="2" width={W} height="12" fill="#1a1a60" opacity="0.7"/>
+          {[40, 120, 200, 280].map((x, i) => (
+            <polyline key={i} points={`${x},2 ${x-5},7 ${x+3},7 ${x-3},14`} fill="none" stroke="rgba(180,200,255,0.7)" strokeWidth="1.2"/>
+          ))}
+          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="18" ry="2.5" fill="none" stroke="rgba(100,120,255,0.35)" strokeWidth="0.8"/>)}
+          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
+          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
+        </svg>
+      </div>
+    )
+  }
+
+  // ── Quicksand ─────────────────────────────────────────────────────────────
+  if (name === 'Quicksand') {
+    return (
+      <div style={{ display:'block', width:'100%', height: H }}>
+        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width={W} height={H} fill="#a08040"/>
+          <rect x="0" y="2" width={W} height="12" fill="#c8a850" opacity="0.6"/>
+          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="20" ry="3" fill="none" stroke="rgba(200,160,80,0.4)" strokeWidth="0.9"/>)}
+          {[60, 160, 260].map((x, i) => <ellipse key={i} cx={x} cy="9" rx="9" ry="4" fill="rgba(140,100,30,0.45)"/>)}
+          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
+          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
+        </svg>
+      </div>
+    )
+  }
+
+  // ── Blood Pool ────────────────────────────────────────────────────────────
+  if (name === 'Blood Pool') {
+    return (
+      <div style={{ display:'block', width:'100%', height: H }}>
+        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width={W} height={H} fill="#3a0010"/>
+          <rect x="0" y="2" width={W} height="12" fill="#800020" opacity="0.75"/>
+          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="20" ry="3" fill="none" stroke="rgba(200,0,40,0.35)" strokeWidth="0.8"/>)}
+          {[70, 170, 270].map((x, i) => <ellipse key={i} cx={x} cy="8" rx="7" ry="3.5" fill="rgba(180,0,30,0.45)"/>)}
+          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
+          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
+        </svg>
+      </div>
+    )
+  }
+
+  // ── Shadow Mire ───────────────────────────────────────────────────────────
+  if (name === 'Shadow Mire') {
+    return (
+      <div style={{ display:'block', width:'100%', height: H }}>
+        <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display:'block' }} xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width={W} height={H} fill="#0a0018"/>
+          <rect x="0" y="2" width={W} height="12" fill="#280050" opacity="0.7"/>
+          {rippleXs.map((x, i) => <ellipse key={i} cx={x} cy="8" rx="20" ry="3" fill="none" stroke="rgba(160,80,255,0.35)" strokeWidth="0.9"/>)}
+          {[50, 150, 250, 320].map((x, i) => <circle key={i} cx={x} cy="7" r="3" fill="rgba(120,0,200,0.4)"/>)}
+          <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
+          <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
+        </svg>
+      </div>
+    )
+  }
+
+  // ── Default water moat ────────────────────────────────────────────────────
   const deep = owner === 'player' ? '#1a4a68' : '#1a3050'
   const mid  = owner === 'player' ? '#2a6888' : '#243858'
   return (
-    <div style={{ display: 'block', width: '100%', height: 16 }}>
-      <svg width="100%" height="16" viewBox="0 0 360 16" preserveAspectRatio="none"
+    <div style={{ display: 'block', width: '100%', height: H }}>
+      <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none"
         style={{ display: 'block' }} xmlns="http://www.w3.org/2000/svg">
-        <rect x="0" y="0" width="360" height="16" fill={deep} opacity="0.9"/>
-        <rect x="0" y="2" width="360" height="12" fill={mid} opacity="0.6"/>
-        {[20, 65, 110, 155, 200, 245, 290, 335].map((x, i) => (
+        <rect x="0" y="0" width={W} height={H} fill={deep} opacity="0.9"/>
+        <rect x="0" y="2" width={W} height="12" fill={mid} opacity="0.6"/>
+        {rippleXs.map((x, i) => (
           <ellipse key={i} cx={x} cy="8" rx="22" ry="3" fill="none" stroke="rgba(120,210,255,0.35)" strokeWidth="0.9"/>
         ))}
-        <rect x="0" y="0"  width="360" height="2" fill="rgba(0,0,0,0.5)"/>
-        <rect x="0" y="14" width="360" height="2" fill="rgba(0,0,0,0.5)"/>
+        <rect x="0" y="0"  width={W} height="2" fill={edgeCol}/>
+        <rect x="0" y={H-2} width={W} height="2" fill={edgeCol}/>
       </svg>
     </div>
   )
@@ -296,7 +468,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
         </div>
       )}
       {unit.isMoat
-        ? <MoatSvg owner={unit.owner} />
+        ? <MoatSvg owner={unit.owner} name={unit.name} />
         : unit.isWall
           ? <WallSvg hp={unit.hp} maxHp={unit.maxHp} owner={unit.owner} wallNames={(wallStack ?? [unit]).map(w => w.name)} />
           : isStructure
