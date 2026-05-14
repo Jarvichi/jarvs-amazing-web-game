@@ -116,12 +116,6 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
     } else {
       log.push(`${who} ${verb} ${unit.name}.`);
     }
-    // Glass cards: chance to shatter immediately after deployment
-    if (card.glassBreakChance && Math.random() < card.glassBreakChance) {
-      unit.hp = 0;
-      unit.dyingTimer = 400;
-      log.push(`💎 ${unit.name} shattered!`);
-    }
   } else if (card.cardType === 'upgrade' && card.upgradeEffect) {
     applyUpgrade(s, card.upgradeEffect, owner, log);
   }
@@ -160,8 +154,7 @@ export function playCard(state: GameState, cardId: string): GameState {
   s.mana -= card.cost
 
   deployCard(s, card, 'player', s.log)
-  if (!s.secretRaresObtained) s.secretRaresObtained = []
-  drawCard(s.playerDeck, s.playerHand, s.secretRaresObtained)
+  drawCard(s.playerDeck, s.playerHand)
   return s
 }
 /** Play an AoE upgrade card with a player-chosen target point (cx, cy in game units). */
@@ -191,8 +184,7 @@ export function playAoeCard(state: GameState, cardId: string, cx: number, cy: nu
   }
   s.log.push(`Your AOE! ${targets.length} enem${targets.length === 1 ? 'y' : 'ies'} hit for ${dmg} damage.`)
 
-  if (!s.secretRaresObtained) s.secretRaresObtained = []
-  drawCard(s.playerDeck, s.playerHand, s.secretRaresObtained)
+  drawCard(s.playerDeck, s.playerHand)
   return s
 }
 // ─── Apply Upgrade ────────────────────────────────────────

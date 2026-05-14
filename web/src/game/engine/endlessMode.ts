@@ -160,7 +160,6 @@ export function processEndlessModeAdditions(s: GameState, deltaMs: number, log: 
     s.opponentDeck.push(...fresh)
   }
 
-  if (!s.secretRaresObtained) s.secretRaresObtained = []
-  while (s.playerHand.length < 4   && s.playerDeck.length > 0)   drawCard(s.playerDeck, s.playerHand, s.secretRaresObtained)
+  while (s.playerHand.length < 4   && s.playerDeck.length > 0)   drawCard(s.playerDeck, s.playerHand)
   while (s.opponentHand.length < 4 && s.opponentDeck.length > 0) drawCard(s.opponentDeck, s.opponentHand)
 }

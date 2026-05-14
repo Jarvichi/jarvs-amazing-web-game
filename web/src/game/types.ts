@@ -37,9 +37,7 @@ export type UpgradeEffect =
 
 // ─── Cards ───────────────────────────────────────────────
 
-export type CardRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic' | 'shiny' | 'holofoil' | 'glass'
-/** Rarities that are secret — hidden in collections until obtained. */
-export const SECRET_RARITIES: ReadonlySet<CardRarity> = new Set(['mythic', 'shiny', 'holofoil', 'glass'])
+export type CardRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary'
 export type CardType = 'unit' | 'structure' | 'upgrade'
 
 export interface UnitTemplate {
@@ -77,8 +75,6 @@ export interface UnitTemplate {
   lore?: string
   /** Visual size of the unit sprite on the battlefield. Defaults to 'medium'. */
   size?: 'small' | 'medium' | 'large'
-  /** Secret-rarity visual tag — applied to units spawned from shiny/holofoil/glass/mythic cards. */
-  cardVariant?: 'shiny' | 'holofoil' | 'glass' | 'mythic'
   /** Mastery level of this card from the player's collection (0 = unmastered). */
   masteryLevel?: number
   /** AOE explosion triggered once when this unit first drops to ≤50% HP. */
@@ -212,10 +208,6 @@ export interface Card {
   lore?: string              // flavour text shown in the card detail view
   isHero?: boolean           // hero cards deploy a unit AND trigger a heroEffect buff
   heroEffect?: UpgradeEffect // the permanent buff applied to all friendly units when played
-  /** Secret variant type — set on dynamically-generated shiny/holofoil/glass cards. */
-  variant?: 'shiny' | 'holofoil' | 'glass'
-  /** Glass cards: probability (0–1) the card shatters when played (unit instantly dies). */
-  glassBreakChance?: number
 }
 
 // ─── Boss Trait State ─────────────────────────────────────
@@ -359,8 +351,6 @@ export interface GameState {
   stanceCooldownUntil?: number
   /** Boss HP value at which phase 2 triggers (boss battles only — boss spawned at game start). */
   bossPhase2Hp?: number
-  /** Names of secret-rare cards obtained during this game session (flushed to collection on win/end). */
-  secretRaresObtained?: string[]
 }
 
 export interface StanceRules {
