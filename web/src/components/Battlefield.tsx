@@ -4,6 +4,7 @@ import { GameState, Unit, LANE_WIDTH, Card, TerrainObstacle, TerrainType, BuffTa
 import { CardTile } from './CardTile'
 import { useCardDetail } from './useCardDetail'
 import { SpriteImg, AnimatedSpriteImg } from './SpriteImg'
+import { spriteSlug } from '../game/sprites'
 import { BattleEventOverlay } from './BattleEventOverlay'
 import { isNoDamageMode, isDebugMode } from '../game/debug'
 import { MAX_UPGRADE_LEVEL } from '../game/engine/cards'
@@ -681,6 +682,14 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   const playerName   = loadPlayerName()
   const playerAvatar = loadPlayerAvatar()
 
+  // Derive the opponent portrait slug from the actual commander/boss unit on the field
+  // so the health bar portrait always matches what's rendered on the battlefield.
+  const opponentCmd = state.field.find(u => u.isCommander && u.owner === 'opponent')
+    ?? state.field.find(u => u.owner === 'opponent' && !!state.bossCard && u.name === state.bossCard)
+  const opponentCommanderSlug = opponentCmd
+    ? spriteSlug(opponentCmd.spriteName ?? opponentCmd.name)
+    : opponentPortraitSlug(state.bossAI, actTheme)
+
   const doPause = (p: boolean) => { setPaused(p); onPause?.(p); if (!p) { setInspectedUnit(null); setShowDeckViewer(false) } }
   const prevHeroIdsRef = useRef<Set<string>>(new Set())
 
@@ -832,7 +841,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       <div className="base-bar base-bar--opponent">
         <img
           className="base-bar-portrait base-bar-portrait--opponent"
-          src={`${BASE_SPRITE_PATH}${opponentPortraitSlug(state.bossAI, actTheme)}.svg`}
+          src={`${BASE_SPRITE_PATH}${opponentCommanderSlug}.svg`}
           alt="opponent"
         />
         <HpBar current={state.opponentBase.hp} max={state.opponentBase.maxHp} color="#ff4444" />
@@ -930,11 +939,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           const playerWon = (state.phase.type === 'gameOver' || state.phase.type === 'celebration') && state.phase.winner === 'player'
           return state.field.map((u, i) => {
             const commanderSprite = u.isCommander
-              ? u.owner === 'player'
-                ? playerAvatar
-                : state.endlessMode
-                  ? undefined  // use the unit's own sprite so it changes each wave
-                  : opponentPortraitSlug(state.bossAI, actTheme)
+              ? (u.owner === 'player' ? playerAvatar : opponentCommanderSlug)
               : undefined
             if (u.isWall) {
               const key = `${u.owner}:${Math.round(u.x)}`
