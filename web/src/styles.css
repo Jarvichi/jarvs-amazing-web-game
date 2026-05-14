@@ -694,6 +694,23 @@ body {
   padding-top: 5px;
 }
 
+.hand-panel--truce .hand-cards {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.hand-truce-banner {
+  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: #aaa;
+  padding: 2px 0 4px;
+}
+.hand-truce-secs {
+  color: #ffcc00;
+  font-weight: bold;
+}
+
 .hand-header {
   display: flex;
   justify-content: space-between;
@@ -2402,6 +2419,31 @@ body {
   letter-spacing: 1px;
   color: var(--game-text-color-dim);
   white-space: nowrap;
+}
+
+.deck-slot-toggle {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0 6px;
+}
+.deck-slot-btn {
+  font-size: 0.714rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border: 1px solid #444;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.05);
+  color: var(--game-text-color-dim);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.deck-slot-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.deck-slot-btn--active {
+  background: #4a7c59;
+  border-color: #6ab07a;
+  color: #fff;
 }
 
 .deckbuilder-header-actions {

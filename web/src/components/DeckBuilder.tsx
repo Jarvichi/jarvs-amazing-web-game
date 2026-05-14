@@ -15,6 +15,9 @@ import {
   DECK_MAX,
   COPIES_MAX,
   getPlayerMaxDeckSize,
+  getActiveDeckSlot,
+  setActiveDeckSlot,
+  DeckSlot,
   CollectionEntry,
   DeckEntry,
   SavedDeck,
@@ -160,6 +163,7 @@ function buildAutoDeck(
 export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   const catalog = useMemo(() => getCardCatalog(), [])
   const [collection] = useState<CollectionEntry[]>(loadCollection)
+  const [activeSlot, setActiveSlot] = useState<DeckSlot>(getActiveDeckSlot)
   const [deck, setDeck] = useState<DeckEntry[]>(() =>
     loadDeck().filter(e => catalog.some(c => c.name === e.cardName))
   )
@@ -381,6 +385,13 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
     setShowAutoBuild(false)
   }
 
+  function handleSwitchSlot(slot: DeckSlot) {
+    if (slot === activeSlot) return
+    setActiveDeckSlot(slot)
+    setActiveSlot(slot)
+    setDeck(loadDeck().filter(e => catalog.some(c => c.name === e.cardName)))
+  }
+
   function handleSave() {
     saveDeck(deck)
     onBack()
@@ -499,6 +510,18 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
             <span className="deckbuilder-panel-label">
               DECK — click to remove
             </span>
+            <div className="deck-slot-toggle">
+              <button
+                className={`deck-slot-btn${activeSlot === 'a' ? ' deck-slot-btn--active' : ''}`}
+                onClick={() => handleSwitchSlot('a')}
+                title="Deck A"
+              >A</button>
+              <button
+                className={`deck-slot-btn${activeSlot === 'b' ? ' deck-slot-btn--active' : ''}`}
+                onClick={() => handleSwitchSlot('b')}
+                title="Deck B"
+              >B</button>
+            </div>
             <div className="deckbuilder-header-actions">
            
               <button

@@ -73,6 +73,8 @@ function migrateDeckNames(entries: DeckEntry[]): DeckEntry[] {
 
 const COLLECTION_KEY  = 'jarv_collection'
 const DECK_KEY        = 'jarv_deck'
+const DECK_B_KEY      = 'jarv_deck_b'
+const ACTIVE_SLOT_KEY = 'jarv_active_slot'
 const CRYSTALS_KEY    = 'jarv_crystals'
 const WIN_STREAK_KEY      = 'jarv_win_streak'
 const BEST_STREAK_KEY     = 'jarv_best_streak'
@@ -411,17 +413,38 @@ export function getOwnedCount(collection: CollectionEntry[], cardName: string): 
 
 // ─── Deck CRUD ────────────────────────────────────────────
 
+export type DeckSlot = 'a' | 'b'
+
+export function getActiveDeckSlot(): DeckSlot {
+  try {
+    const v = localStorage.getItem(ACTIVE_SLOT_KEY)
+    if (v === 'b') return 'b'
+  } catch { /* ignore */ }
+  return 'a'
+}
+
+export function setActiveDeckSlot(slot: DeckSlot): void {
+  try { localStorage.setItem(ACTIVE_SLOT_KEY, slot) } catch { /* ignore */ }
+}
+
+function deckStorageKey(): string {
+  return getActiveDeckSlot() === 'b' ? DECK_B_KEY : DECK_KEY
+}
+
 export function loadDeck(): DeckEntry[] {
   try {
-    const raw = localStorage.getItem(DECK_KEY)
+    const raw = localStorage.getItem(deckStorageKey())
     if (raw) return migrateDeckNames(JSON.parse(raw) as DeckEntry[])
   } catch { /* ignore */ }
-  saveDeck(STARTER_DECK)
-  return [...STARTER_DECK.map(e => ({ ...e }))]
+  if (getActiveDeckSlot() === 'a') {
+    saveDeck(STARTER_DECK)
+    return [...STARTER_DECK.map(e => ({ ...e }))]
+  }
+  return []
 }
 
 export function saveDeck(d: DeckEntry[]): void {
-  try { localStorage.setItem(DECK_KEY, JSON.stringify(d)) }
+  try { localStorage.setItem(deckStorageKey(), JSON.stringify(d)) }
   catch (e) { logError('saveDeck failed', { count: d.length, error: String(e) }) }
 }
 

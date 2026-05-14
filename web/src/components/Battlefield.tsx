@@ -1256,7 +1256,16 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       })()}
 
       {/* Hand */}
-      <div className="hand-panel">
+      {(() => {
+        const truceMs = state.endlessWaveTruceMs ?? 0
+        const truceLocked = truceMs > 0
+        return (
+      <div className={`hand-panel${truceLocked ? ' hand-panel--truce' : ''}`}>
+        {truceLocked && (
+          <div className="hand-truce-banner">
+            Regrouping… <span className="hand-truce-secs">{Math.ceil(truceMs / 1000)}s</span>
+          </div>
+        )}
         <div className="hand-cards">
           {state.playerHand.length === 0
             ? <span className="field-empty">No cards</span>
@@ -1272,6 +1281,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
                   card={card}
                   canAfford={!isMaxUpgrade && state.mana >= card.cost}
                   onClick={() => {
+                    if (truceLocked) return
                     if (onPlayAoeCard && card.cardType === 'upgrade' && card.upgradeEffect?.type === 'aoe') {
                       setPendingAoeCard(card)
                     } else {
@@ -1288,6 +1298,8 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
             )})}
         </div>
       </div>
+        )
+      })()}
 
       {cardDetailNode}
 
