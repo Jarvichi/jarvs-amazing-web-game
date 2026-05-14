@@ -156,6 +156,9 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
     stats = ''
   }
 
+  const isSecret = card.rarity === 'mythic' || card.rarity === 'shiny' || card.rarity === 'holofoil' || card.rarity === 'glass'
+  const secretLabel: Record<string, string> = { mythic: 'MYTHIC', shiny: 'SHINY', holofoil: 'HOLO', glass: 'GLASS' }
+
   return (
     <div
       className={[
@@ -166,13 +169,21 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
       onClick={clickable ? onClick : undefined}
       title={heroLocked ? `Hero cards unlock after 30 seconds (${lockedSecs}s remaining)` : card.description}
     >
+      {isSecret && (
+        <div className={`card-secret-badge card-secret-badge--${card.rarity}`}>
+          {secretLabel[card.rarity]}
+        </div>
+      )}
+      {card.rarity === 'glass' && card.glassBreakChance && (
+        <div className="card-glass-warning" title={`${Math.round(card.glassBreakChance * 100)}% chance to shatter on play`}>💎</div>
+      )}
       {card.isHero && <>
-      
+
 
         <div className="hero-badge-wrap">
          <span className="hero-badge">HERO</span>
         </div>
-      </>}     
+      </>}
 
 
 

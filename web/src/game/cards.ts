@@ -79,9 +79,10 @@ interface RawHeroCard {
   rarity: string
   cost: number
   cardType: string
-  isHero: true
-  unit: RawUnitDef
-  heroEffect: { type: string; amount: number }
+  isHero?: true
+  unit?: RawUnitDef
+  heroEffect?: { type: string; amount: number }
+  upgradeEffect?: { type: string; amount?: number; damage?: number; range?: number }
   description: string
   lore?: string
 }
@@ -167,8 +168,9 @@ export const HERO_CARDS: Card[] = (cardsData.heroCards as RawHeroCard[]).map(raw
   cost: raw.cost,
   cardType: raw.cardType as CardType,
   isHero: true as const,
-  unit: resolveUnit(raw.unit),
-  heroEffect: raw.heroEffect as UpgradeEffect,
+  unit: raw.unit ? resolveUnit(raw.unit) : undefined,
+  heroEffect: raw.heroEffect as UpgradeEffect | undefined,
+  upgradeEffect: raw.upgradeEffect as UpgradeEffect | undefined,
   description: raw.description,
   lore: raw.lore,
 }))
@@ -251,5 +253,6 @@ export function getCardUnit(cardName: string): UnitTemplate | undefined {
 }
 
 export function rarityStars(r: CardRarity): string {
-  return '\u2605'.repeat({ common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 }[r])
+  const counts: Record<CardRarity, number> = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6, shiny: 4, holofoil: 4, glass: 4 }
+  return '\u2605'.repeat(counts[r] ?? 1)
 }
