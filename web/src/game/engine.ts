@@ -315,6 +315,7 @@ export function newGame(
     battleStats: { cardsPlayed: {}, playerKills: 0, playerUnitsLost: 0 },
     animEvents: [],
     bloodPools: [],
+    hazards: [],
     endlessMode: endlessMode ?? false,
     endlessWave: endlessMode ? 1 : undefined,
     endlessSurvivalMs: endlessMode ? 0 : undefined,
@@ -526,6 +527,7 @@ export function tick(state: GameState, deltaMs: number): GameState {
 function tidyBattlefield(s: GameState) {
   s.animEvents = s.animEvents.filter(e => e.expiresAt > s.gameTime)
   s.bloodPools = s.bloodPools.filter(p => p.fadingAt === undefined || s.gameTime - p.fadingAt <= BLOOD_POOL_FADE_MS)
+  s.hazards    = s.hazards.filter(h => h.expiresAt > s.gameTime)
 }
 
 function processBattleEvents(s: GameState, deltaMs: number, log: string[]) {
@@ -605,6 +607,19 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
         unit.dyingTimer = DEATH_LINGER_MS
         if (!unit.flying) s.bloodPools.push({ id: `poison-${unit.id}`, x: unit.x, y: unit.y ?? 0 })
         log.push(`${unit.name} succumbs to poison!`)
+      }
+    }
+    // Ground hazard damage (gas clouds, etc.)
+    for (const hazard of s.hazards) {
+      if (hazard.owner === unit.owner || unit.hp <= 0) continue
+      if (Math.hypot(unit.x - hazard.x, unit.y - hazard.y) <= hazard.radius) {
+        unit.hp = Math.max(0, Math.round(unit.hp - hazard.dps * deltaMs / 1000))
+        if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
+        if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
+          unit.dyingTimer = DEATH_LINGER_MS
+          if (!unit.flying) s.bloodPools.push({ id: `hazard-${unit.id}`, x: unit.x, y: unit.y ?? 0 })
+          log.push(`${unit.name} chokes in the gas!`)
+        }
       }
     }
     // Update climbing flag: true when climber unit is inside an enemy wall zone

@@ -97,19 +97,35 @@ export interface UnitTemplate {
 
 export type BuffTag = 'atk' | 'spd' | 'hp' | 'range'
 
-export type UnitTag = 'flying' | 'ranged' | 'melee' | 'fast' | 'slow' | 'large' | 'magic' | 'undead' | 'beast' | 'armored' | 'siege' | 'fire' | 'swim' | 'ember' | 'frost' | 'glacier' | 'lightning' | 'poison'
+export type UnitTag = 'flying' | 'ranged' | 'melee' | 'fast' | 'slow' | 'large' | 'magic' | 'undead' | 'beast' | 'armored' | 'siege' | 'fire' | 'swim' | 'ember' | 'frost' | 'glacier' | 'lightning' | 'poison' | 'aoe' | 'gascloud'
+
+/** Visual style of a projectile — drives rendering in both the battle and TD renderers. */
+export type ProjectileType = 'arrow' | 'fireball' | 'icebolt' | 'poisonblob' | 'magic' | 'lightning' | 'aoe'
+
+/** Derive a projectile visual type from a unit's tags. */
+export function getProjectileType(tags: UnitTag[] | undefined): ProjectileType {
+  if (!tags) return 'magic'
+  if (tags.includes('fire') || tags.includes('ember'))          return 'fireball'
+  if (tags.includes('frost') || tags.includes('glacier'))       return 'icebolt'
+  if (tags.includes('poison') || tags.includes('gascloud'))     return 'poisonblob'
+  if (tags.includes('lightning') || tags.includes('aoe'))       return 'lightning'
+  if (tags.includes('ranged'))                                   return 'arrow'
+  return 'magic'
+}
 
 /** Elemental on-hit effect applied by units with matching tags (fire→burn, frost→freeze, etc.). */
 export interface AttackEffect {
-  type: 'burn' | 'freeze' | 'poison' | 'shock'
+  type: 'burn' | 'freeze' | 'poison' | 'shock' | 'aoe' | 'gascloud'
   /** 0–1 probability per hit. */
   chance: number
-  /** Duration in ms. */
+  /** Duration in ms — for burn/poison: DoT duration; for freeze: slow duration; for gascloud: cloud lifetime. */
   durationMs: number
-  /** Damage per second — for burn and poison. */
+  /** Damage per second — for burn, poison, and gascloud. */
   dps?: number
-  /** 0–1 speed multiplier while frozen — 0 = complete stop, 0.35 = 35 % speed. */
+  /** 0–1 speed multiplier while frozen — 0 = complete stop. */
   slowFactor?: number
+  /** Pixel radius — for aoe: splash radius; for gascloud: cloud radius on the map. */
+  aoeRadius?: number
 }
 export type TargetPriority = 'walls' | 'buildings' | 'boss' | 'ranged_first'
 
@@ -205,9 +221,24 @@ export interface Unit extends UnitTemplate {
   poisonDps?: number
 }
 
+// ─── Ground Hazards ───────────────────────────────────────
+
+/** Persistent ground hazard (e.g. poison gas cloud) — damages units that move through it. */
+export interface Hazard {
+  id: string
+  x: number
+  y: number
+  radius: number
+  /** Damage per second dealt to enemies within radius. */
+  dps: number
+  owner: 'player' | 'opponent'
+  /** Absolute ms game-time when this hazard expires. */
+  expiresAt: number
+}
+
 // ─── Animation Events ─────────────────────────────────────
 
-export type AnimEventKind = 'projectile' | 'hit'
+export type AnimEventKind = 'projectile' | 'hit' | 'aoe' | 'gascloud'
 
 export interface AnimEvent {
   id: string
@@ -222,6 +253,10 @@ export interface AnimEvent {
   toY: number
   /** Absolute game-time (ms) when this event expires and should be removed. */
   expiresAt: number
+  /** Visual style of the projectile — arrow, fireball, icebolt, etc. */
+  projectileType?: ProjectileType
+  /** For AOE projectiles: radius of the impact ring in px. */
+  aoeRadius?: number
 }
 
 export interface Card {
@@ -355,6 +390,8 @@ export interface GameState {
   animEvents: AnimEvent[]
   /** Persistent blood pool stains left by fallen units. FIFO-capped at 25; older pools fade out. */
   bloodPools: Array<{ id: string; x: number; y: number; fadingAt?: number }>
+  /** Active ground hazards (e.g. gas clouds) — damage units within radius while alive. */
+  hazards: Hazard[]
   /** True when running in Endless Mode (wave survival). */
   endlessMode?: boolean
   /** Current wave number in Endless Mode (starts at 1). */

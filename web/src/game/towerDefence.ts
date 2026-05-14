@@ -1,7 +1,7 @@
 // ─── Tower Defence — pure game logic ──────────────────────────────────────────
 // No React imports. All state is plain objects; tick() returns a new state.
 
-import { UnitTemplate, UnitTag } from './types'
+import { UnitTemplate, UnitTag, ProjectileType, getProjectileType } from './types'
 
 // ── Grid ──────────────────────────────────────────────────────────────────────
 
@@ -246,6 +246,18 @@ export interface TDAttackEvent {
   toX: number
   toY: number
   expiresAt: number   // game-time ms
+  projectileType?: ProjectileType
+  aoeRadius?: number
+}
+
+// Persistent ground hazard — gas cloud, etc.
+export interface TDHazard {
+  id: number
+  x: number
+  y: number
+  radius: number
+  dps: number
+  expiresAt: number  // gameTimeMs when it expires
 }
 
 // Global passive bonuses accumulated through milestone upgrades
@@ -300,6 +312,7 @@ export interface TDGameState {
   log: string[]
   score: number
   attackEvents: TDAttackEvent[]
+  hazards: TDHazard[]
   availableTemplates: UnitTemplate[]
   remainingPlacements: Record<string, number>
   mode: 'collection' | 'city'
@@ -491,6 +504,7 @@ export function createTDGame(
     nextWaveAt: 0,
     log: ['Place your buildings, then press START WAVE.'],
     attackEvents: [],
+    hazards: [],
     score: 0,
     availableTemplates,
     remainingPlacements: { ...placementsPerTemplate },
@@ -630,11 +644,13 @@ export function startWave(state: TDGameState): TDGameState {
 export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   if (state.phase === 'prep' || state.phase === 'victory' || state.phase === 'defeat') return state
 
+  const dtSec = dtMs / 1000
   let s = { ...state, gameTimeMs: state.gameTimeMs + dtMs }
   s.towers = [...s.towers]
   s.units = [...s.units]
   s.enemies = [...s.enemies]
   s.spawnQueue = [...s.spawnQueue]
+  s.hazards = [...s.hazards]
   s.log = [...s.log]
 
   // ── Spawn enemies ─────────────────────────────────────────────────────────
@@ -681,7 +697,6 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   s.enemies = s.enemies.filter(e => e.hp > 0)
 
   // ── Move enemies — max 3 per cell (leaders advance first) ──────────────
-  const dtSec = dtMs / 1000
   let livesLost = 0
   const claimedEnemyCells = new Map<string, number>()  // "col,row" -> occupant count
   const survivingEnemies: TDEnemy[] = []
@@ -816,15 +831,33 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
           const newHp = target.hp - dmg
           // Apply elemental on-hit effect
           const eff = unit.template.attackEffect
-          if (eff && newHp > 0 && Math.random() < eff.chance) {
-            s.enemies = s.enemies.map(e => {
-              if (e.id !== target.id) return e
-              if (eff.type === 'burn')    return { ...e, burnTimer:   eff.durationMs, burnDps:   eff.dps ?? 8 }
-              if (eff.type === 'freeze')  return { ...e, freezeTimer: eff.durationMs, freezeSlow: eff.slowFactor ?? 0.35 }
-              if (eff.type === 'poison')  return { ...e, poisonTimer: eff.durationMs, poisonDps: eff.dps ?? 5 }
-              if (eff.type === 'shock')   return { ...e, freezeTimer: eff.durationMs, freezeSlow: 0 }
-              return e
-            })
+          if (eff && Math.random() < eff.chance) {
+            if (eff.type === 'burn' || eff.type === 'freeze' || eff.type === 'poison' || eff.type === 'shock') {
+              if (newHp > 0) {
+                s.enemies = s.enemies.map(e => {
+                  if (e.id !== target.id) return e
+                  if (eff.type === 'burn')   return { ...e, burnTimer:   eff.durationMs, burnDps:   eff.dps ?? 8 }
+                  if (eff.type === 'freeze') return { ...e, freezeTimer: eff.durationMs, freezeSlow: eff.slowFactor ?? 0.35 }
+                  if (eff.type === 'poison') return { ...e, poisonTimer: eff.durationMs, poisonDps: eff.dps ?? 5 }
+                  if (eff.type === 'shock')  return { ...e, freezeTimer: eff.durationMs, freezeSlow: 0 }
+                  return e
+                })
+              }
+            } else if (eff.type === 'aoe' && eff.aoeRadius) {
+              // AOE burst: deal same damage to all enemies in radius
+              s.enemies = s.enemies.map(e => {
+                if (e.id === target.id || deadEnemyIds.has(e.id) || e.hp <= 0) return e
+                if (dist(e.x, e.y, target.x, target.y) > eff.aoeRadius!) return e
+                const splashHp = e.hp - dmg
+                if (splashHp <= 0) { deadEnemyIds.add(e.id); s.score += e.template.reward; s.mana += e.template.reward }
+                return { ...e, hp: Math.max(0, splashHp) }
+              })
+              // AOE ring visual
+              newAttackEvents.push({ id: nextId(), fromX: target.x, fromY: target.y, toX: target.x, toY: target.y, expiresAt: s.gameTimeMs + 500, aoeRadius: eff.aoeRadius })
+            } else if (eff.type === 'gascloud' && eff.aoeRadius) {
+              // Drop lingering gas cloud at target position
+              s.hazards = [...s.hazards, { id: nextId(), x: target.x, y: target.y, radius: eff.aoeRadius, dps: eff.dps ?? 6, expiresAt: s.gameTimeMs + eff.durationMs }]
+            }
           }
           if (newHp <= 0) {
             deadEnemyIds.add(target.id)
@@ -839,6 +872,8 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
           fromX: unit.x, fromY: unit.y,
           toX: target.x, toY: target.y,
           expiresAt: s.gameTimeMs + 400,
+          projectileType: getProjectileType(unit.template.tags),
+          aoeRadius: unit.template.attackEffect?.aoeRadius,
         })
         const slowPenalty = slowedUnitIds.has(unit.id) ? 1.5 : 1
         cd = unit.template.attackCooldownMs / attackSpeedMult * slowPenalty
@@ -914,6 +949,27 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     return { ...tower, respawnTimers: timers }
   })
   s.units = [...s.units, ...newlySpawned]
+
+  // ── Hazard damage on enemies ─────────────────────────────────────────────
+  s.hazards = s.hazards.filter(h => h.expiresAt > s.gameTimeMs)
+  if (s.hazards.length > 0) {
+    const hazardDeadIds = new Set<number>()
+    s.enemies = s.enemies.map(enemy => {
+      let e = { ...enemy }
+      for (const hazard of s.hazards) {
+        if (dist(e.x, e.y, hazard.x, hazard.y) <= hazard.radius) {
+          e.hp = Math.max(0, Math.round(e.hp - hazard.dps * dtSec))
+          if (e.hp <= 0 && !hazardDeadIds.has(e.id)) {
+            hazardDeadIds.add(e.id)
+            s.score += e.template.reward
+            s.mana += e.template.reward
+          }
+        }
+      }
+      return e
+    })
+    s.enemies = s.enemies.filter(e => !hazardDeadIds.has(e.id))
+  }
 
   // ── Check defeat ──────────────────────────────────────────────────────────
   if (s.lives <= 0) {

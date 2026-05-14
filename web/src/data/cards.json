@@ -3279,7 +3279,7 @@
       "attack": 8,
       "maxHp": 24,
       "isWall": false,
-      "bypassWall": false,
+      "bypassWall": true,
       "moveSpeed": 50,
       "attackRange": 85,
       "attackCooldownMs": 1500,
@@ -3287,7 +3287,8 @@
       "tags": [
         "ranged",
         "magic",
-        "lightning"
+        "lightning",
+        "aoe"
       ],
       "strengths": [
         "armored",
@@ -3363,7 +3364,8 @@
         "flying",
         "large",
         "magic",
-        "lightning"
+        "lightning",
+        "aoe"
       ],
       "strengths": [
         "melee",
@@ -3384,6 +3386,61 @@
         "effectType": "attackSpeed",
         "effectAmount": 1.25,
         "label": "Storm Pact"
+      }
+    },
+    "plague-shaman": {
+      "name": "Plague Shaman",
+      "attack": 4,
+      "maxHp": 22,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 28,
+      "attackRange": 100,
+      "attackCooldownMs": 2500,
+      "flying": false,
+      "tags": [
+        "ranged",
+        "magic",
+        "poison",
+        "gascloud"
+      ],
+      "strengths": [
+        "melee",
+        "beast"
+      ],
+      "weaknesses": [
+        "fire",
+        "fast"
+      ],
+      "size": "medium"
+    },
+    "marksman": {
+      "name": "Marksman",
+      "attack": 20,
+      "maxHp": 18,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 22,
+      "attackRange": 200,
+      "attackCooldownMs": 3500,
+      "flying": false,
+      "tags": [
+        "ranged",
+        "slow"
+      ],
+      "strengths": [
+        "large",
+        "flying"
+      ],
+      "weaknesses": [
+        "fast",
+        "melee"
+      ],
+      "size": "medium",
+      "unitTrait": {
+        "guardBase": true,
+        "baseGuardRange": 120,
+        "engageRange": 250
       }
     },
     "sky-leviathan": {
@@ -12000,6 +12057,19 @@
       "lore": "One is an annoyance. A hundred is a catastrophe."
     },
     {
+      "name": "Plague Shaman",
+      "rarity": "rare",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "plague-shaman",
+      "description": "Ranged magic. Lobs poison gas clouds that linger on the battlefield.",
+      "deckCount": 1,
+      "tags": [
+        "ashen"
+      ],
+      "lore": "The cloud arrives before the caster does. The caster prefers it that way."
+    },
+    {
       "name": "Bandit",
       "rarity": "common",
       "cost": 1,
@@ -15020,6 +15090,19 @@
         "sky"
       ],
       "lore": "The arrows are made of compressed storm. The quiver is a weather system."
+    },
+    {
+      "name": "Marksman",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "unit",
+      "unitRef": "marksman",
+      "description": "Slow-firing sniper. Extreme range, very high damage per shot.",
+      "deckCount": 1,
+      "tags": [
+        "forest"
+      ],
+      "lore": "One bolt. One corpse. No wasted words."
     },
     {
       "name": "Gale Warden",

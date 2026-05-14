@@ -1098,6 +1098,18 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
             />
           )
         })}
+        {/* Ground hazards — poison gas clouds */}
+        {(state.hazards ?? []).map(h => {
+          const topPct  = (1 - h.x / LANE_WIDTH) * 100
+          const leftPct = 50 + (h.y / 80) * 36
+          return (
+            <div
+              key={h.id}
+              className="battlefield-hazard"
+              style={{ top: `${topPct}%`, left: `${leftPct}%` }}
+            />
+          )
+        })}
         {(() => {
           // Group walls by owner+x so stacked wall types can share a composite graphic
           const wallGroups = new Map<string, Unit[]>()
@@ -1127,9 +1139,9 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
             return <LaneUnit key={u.id} unit={u} stackIndex={stackIndex} onInspect={paused ? u => { setInspectedUnit(u) } : undefined} showName={paused} celebrating={playerWon && u.owner === 'player'} spriteOverride={commanderSprite} />
           })
         })()}
-        {/* Animation events: projectiles and hit sparks */}
+        {/* Animation events: projectiles, hit sparks, AOE rings, gas clouds */}
         {(state.animEvents ?? []).map(ev => {
-          // Convert game coords to CSS % (same mapping as LaneUnit)
+          // Convert game coords to CSS %
           // x (forward 0-500) → top% = (1 - x/500)*100
           // y (lateral -80..80) → left% = 50 + (y/80)*36
           const fromJitter = ev.fromUnitId ? unitJitter(ev.fromUnitId) : { dxPct: 0, dyPct: 0 }
@@ -1137,6 +1149,26 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           const fromLeft = 50 + (ev.fromY / 80) * 36 + fromJitter.dxPct
           const toTop    = (1 - ev.toX / LANE_WIDTH) * 100
           const toLeft   = 50 + (ev.toY / 80) * 36
+          const pType = ev.projectileType ?? 'magic'
+
+          if (ev.kind === 'gascloud') {
+            return (
+              <div
+                key={ev.id}
+                className="battlefield-gascloud"
+                style={{ position: 'absolute', top: `${toTop}%`, left: `${toLeft}%`, pointerEvents: 'none', zIndex: 12 }}
+              />
+            )
+          }
+          if (ev.kind === 'aoe') {
+            return (
+              <div
+                key={ev.id}
+                className="anim-aoe-ring"
+                style={{ position: 'absolute', top: `${toTop}%`, left: `${toLeft}%`, transform: 'translate(-50%,-50%)', pointerEvents: 'none', zIndex: 60 }}
+              />
+            )
+          }
           if (ev.kind === 'projectile') {
             const dx = toLeft - fromLeft
             const dy = toTop  - fromTop
@@ -1145,13 +1177,12 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
             return (
               <div
                 key={ev.id}
-                className="anim-projectile"
+                className={`anim-projectile anim-projectile--${pType}`}
                 style={{
                   position: 'absolute',
                   top: `${fromTop}%`,
                   left: `${fromLeft}%`,
                   width: `${len}%`,
-                  height: 4,
                   transform: `translate(-0%, -50%) rotate(${angleDeg}deg)`,
                   transformOrigin: '0 50%',
                   pointerEvents: 'none',
@@ -1164,7 +1195,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           return (
             <div
               key={ev.id}
-              className="anim-hit"
+              className={`anim-hit anim-hit--${pType}`}
               style={{
                 position: 'absolute',
                 top: `${fromTop}%`,

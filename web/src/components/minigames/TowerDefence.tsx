@@ -9,7 +9,7 @@ import { UnitTemplate } from '../../game/types'
 import { SpriteImg, AnimatedSpriteImg } from '../SpriteImg'
 import {
   TD_COLS, TD_ROWS, TD_PATH, TD_TOTAL_WAVES, TD_MAX_LIVES, TD_CELL_PX, TD_MAX_UPGRADES, TD_MILESTONE_EVERY,
-  TDGameState, TDTower, TDUnit, TDEnemy, TDAttackEvent, MilestoneUpgrade,
+  TDGameState, TDTower, TDUnit, TDEnemy, TDAttackEvent, TDHazard, MilestoneUpgrade,
   isPathCell,
   createTDGame, placeTower, removeTower, moveTower, upgradeTower, startWave, tickTD,
   calcTicketReward, calcGoldReward, towerCost, upgradeCost, buildingUnitCount, chooseMilestoneUpgrade,
@@ -386,6 +386,11 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
             <EnemyToken key={enemy.id} enemy={enemy} />
           ))}
 
+          {/* Gas cloud hazards */}
+          {game.hazards.map(h => (
+            <HazardCloud key={h.id} hazard={h} />
+          ))}
+
           {/* Attack effects */}
           {game.attackEvents.map(ev => (
             <AttackEffect key={ev.id} ev={ev} />
@@ -556,8 +561,11 @@ function EnemyToken({ enemy }: { enemy: TDEnemy }) {
   const hpFrac = enemy.hp / enemy.maxHp
   const cls = [
     'td-enemy',
-    enemy.shielded    ? 'td-enemy--shielded' : '',
-    enemy.slowsUnits  ? 'td-enemy--slows'    : '',
+    enemy.shielded                                            ? 'td-enemy--shielded' : '',
+    enemy.slowsUnits                                          ? 'td-enemy--slows'    : '',
+    enemy.burnTimer   != null && enemy.burnTimer   > 0        ? 'td-enemy--burning'  : '',
+    enemy.freezeTimer != null && enemy.freezeTimer > 0        ? 'td-enemy--frozen'   : '',
+    enemy.poisonTimer != null && enemy.poisonTimer > 0        ? 'td-enemy--poisoned' : '',
   ].filter(Boolean).join(' ')
   return (
     <div
@@ -573,31 +581,71 @@ function EnemyToken({ enemy }: { enemy: TDEnemy }) {
   )
 }
 
+function HazardCloud({ hazard }: { hazard: TDHazard }) {
+  const d = hazard.radius * 2
+  return (
+    <div
+      className="td-hazard"
+      style={{
+        position: 'absolute',
+        left: hazard.x - hazard.radius,
+        top:  hazard.y - hazard.radius,
+        width: d,
+        height: d,
+        borderRadius: '50%',
+        pointerEvents: 'none',
+        zIndex: 8,
+      }}
+    />
+  )
+}
+
 function AttackEffect({ ev }: { ev: TDAttackEvent }) {
   const dx = ev.toX - ev.fromX
   const dy = ev.toY - ev.fromY
   const len = Math.hypot(dx, dy)
   const angle = Math.atan2(dy, dx) * 180 / Math.PI
+  const pType = ev.projectileType ?? 'magic'
+
+  // AOE ring: no travel line, just an expanding ring at target
+  if (pType === 'aoe' || (ev.aoeRadius && len < 2)) {
+    const r = ev.aoeRadius ?? 48
+    return (
+      <div
+        className="anim-aoe-ring"
+        style={{
+          position: 'absolute',
+          left: ev.toX - r,
+          top:  ev.toY - r,
+          width: r * 2,
+          height: r * 2,
+          borderRadius: '50%',
+          pointerEvents: 'none',
+          zIndex: 16,
+        }}
+      />
+    )
+  }
+
   return (
     <>
-      {/* Projectile line */}
+      {/* Projectile line — typed class drives colour/thickness */}
       <div
-        className="anim-projectile"
+        className={`anim-projectile anim-projectile--${pType}`}
         style={{
           position: 'absolute',
           left: ev.fromX,
           top: ev.fromY,
           width: len,
-          height: 4,
           transform: `translate(0, -50%) rotate(${angle}deg)`,
           transformOrigin: '0 50%',
           pointerEvents: 'none',
           zIndex: 15,
         }}
       />
-      {/* Hit spark */}
+      {/* Hit spark — typed class drives colour */}
       <div
-        className="anim-hit"
+        className={`anim-hit anim-hit--${pType}`}
         style={{
           position: 'absolute',
           left: ev.toX,
