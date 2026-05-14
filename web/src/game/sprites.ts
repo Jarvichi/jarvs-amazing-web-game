@@ -9,6 +9,11 @@ const NAME_MAP: Record<string, string> = {
   'Eternal Forge': 'arcane-forge',
   'Dreadnought':   'iron-colossus',
   'Forge Knight':  'cinder-knight',
+  // New units without dedicated sprites — reuse closest visual match
+  'Plague Shaman': 'sandstorm-shaman',
+  'Marksman':      'desert-archer',
+  'Plague Den':    'rot-shrine',
+  'Sniper Post':   'aerie-tower',
 }
 
 /** Returns the sprite filename slug for a given unit name. */

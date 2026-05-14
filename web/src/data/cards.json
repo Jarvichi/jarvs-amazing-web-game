@@ -3443,6 +3443,40 @@
         "engageRange": 250
       }
     },
+    "plague-den": {
+      "name": "Plague Den",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "plague-shaman",
+        "intervalMs": 12000
+      },
+      "tags": [
+        "ashen"
+      ]
+    },
+    "sniper-post": {
+      "name": "Sniper Post",
+      "attack": 0,
+      "maxHp": 20,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "marksman",
+        "intervalMs": 15000
+      },
+      "tags": []
+    },
     "sky-leviathan": {
       "name": "Sky Leviathan",
       "attack": 20,
@@ -12070,6 +12104,19 @@
       "lore": "The cloud arrives before the caster does. The caster prefers it that way."
     },
     {
+      "name": "Plague Den",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "plague-den",
+      "description": "Spawner. Periodically releases Plague Shamans who drop lingering gas clouds.",
+      "deckCount": 1,
+      "tags": [
+        "ashen"
+      ],
+      "lore": "The smell arrives a full minute before the shamans do."
+    },
+    {
       "name": "Bandit",
       "rarity": "common",
       "cost": 1,
@@ -15103,6 +15150,19 @@
         "forest"
       ],
       "lore": "One bolt. One corpse. No wasted words."
+    },
+    {
+      "name": "Sniper Post",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "sniper-post",
+      "description": "Spawner. Deploys a Marksman — extreme range, slow reload.",
+      "deckCount": 1,
+      "tags": [
+        "forest"
+      ],
+      "lore": "High ground. Clear line of sight. No witnesses."
     },
     {
       "name": "Gale Warden",
