@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Fracture Lord: reality-shattered armour, multi-colour cracks, void and light collide -->
+  <!-- Reality distortion ring -->
+  <ellipse cx="16" cy="16" rx="14" ry="15" fill="none" stroke="#ff00ff" stroke-width="0.5" opacity="0.4"/>
+  <ellipse cx="16" cy="16" rx="12" ry="13" fill="none" stroke="#00ffff" stroke-width="0.4" opacity="0.3"/>
+  <!-- Body: split between void and light -->
+  <rect x="10" y="14" width="6" height="11" rx="1" fill="#050510"/>
+  <rect x="16" y="14" width="6" height="11" rx="1" fill="#fffff0"/>
+  <!-- Fracture cracks across body -->
+  <line x1="16" y1="14" x2="13" y2="25" stroke="#ff00ff" stroke-width="1" opacity="0.9"/>
+  <line x1="16" y1="14" x2="19" y2="25" stroke="#00ffff" stroke-width="1" opacity="0.9"/>
+  <line x1="10" y1="18" x2="22" y2="20" stroke="#ffff00" stroke-width="0.6" opacity="0.7"/>
+  <line x1="11" y1="22" x2="21" y2="17" stroke="#ff4400" stroke-width="0.5" opacity="0.6"/>
+  <!-- Helm: split dark/light -->
+  <rect x="11" y="6" width="5" height="9" rx="2" fill="#050510"/>
+  <rect x="16" y="6" width="5" height="9" rx="2" fill="#fffff0"/>
+  <!-- Crown: chaos spikes -->
+  <polygon points="11,6 10,2 13,6" fill="#ff00ff"/>
+  <polygon points="14,6 15,1 17,6" fill="#ffff00"/>
+  <polygon points="21,6 22,2 19,6" fill="#00ffff"/>
+  <!-- Eye slit: prismatic -->
+  <rect x="12" y="10" width="8" height="2" rx="1" fill="#111"/>
+  <rect x="12" y="10" width="3" height="1" fill="#ff00ff"/>
+  <rect x="15" y="10" width="2" height="1" fill="#ffffff"/>
+  <rect x="17" y="10" width="3" height="1" fill="#00ffff"/>
+  <!-- Fractured pauldrons -->
+  <polygon points="10,14 6,12 7,17 10,18" fill="#220033" opacity="0.8"/>
+  <polygon points="22,14 26,12 25,17 22,18" fill="#fffff0" opacity="0.7"/>
+  <!-- Legs -->
+  <rect x="11" y="25" width="4" height="5" rx="1" fill="#050510"/>
+  <rect x="17" y="25" width="4" height="5" rx="1" fill="#ddddcc"/>
+  <!-- Fracture portal feet -->
+  <ellipse cx="13" cy="31" rx="4" ry="1.5" fill="#ff00ff" opacity="0.6"/>
+  <ellipse cx="19" cy="31" rx="4" ry="1.5" fill="#00ffff" opacity="0.6"/>
+</svg>
