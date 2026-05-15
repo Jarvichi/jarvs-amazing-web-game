@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a1a2a" opacity="0.5"/>
+  <!-- Burial mound (snowy hill) -->
+  <ellipse cx="16" cy="26" rx="14" ry="8" fill="#3a5a6a"/>
+  <ellipse cx="16" cy="24" rx="13" ry="7" fill="#4a6a8a"/>
+  <!-- Snow cap -->
+  <ellipse cx="16" cy="22" rx="10" ry="5" fill="#aaccdd"/>
+  <ellipse cx="16" cy="20" rx="8" ry="4" fill="#cce8f0"/>
+  <!-- Stone entrance lintel -->
+  <rect x="10" y="22" width="12" height="3" rx="0.5" fill="#5a7a8a"/>
+  <!-- Dark entrance -->
+  <path d="M12,30 L12,24 Q16,20 20,24 L20,30 Z" fill="#0a1a2a"/>
+  <!-- Ice crystals at entrance -->
+  <polygon points="12,22 10,18 14,21" fill="#88ccee" opacity="0.8"/>
+  <polygon points="20,22 22,18 18,21" fill="#88ccee" opacity="0.8"/>
+  <!-- Snowflake decoration on lintel -->
+  <line x1="16" y1="21" x2="16" y2="25" stroke="#aaccdd" stroke-width="0.8"/>
+  <line x1="14" y1="23" x2="18" y2="23" stroke="#aaccdd" stroke-width="0.8"/>
+  <line x1="14.5" y1="21.5" x2="17.5" y2="24.5" stroke="#aaccdd" stroke-width="0.5"/>
+  <line x1="17.5" y1="21.5" x2="14.5" y2="24.5" stroke="#aaccdd" stroke-width="0.5"/>
+  <!-- Ice spikes above mound -->
+  <polygon points="8,18 10,12 12,18" fill="#88ccee" opacity="0.7"/>
+  <polygon points="21,18 23,11 25,18" fill="#88ccee" opacity="0.6"/>
+  <polygon points="14,16 16,10 18,16" fill="#aaddff" opacity="0.8"/>
+  <!-- Snow particles -->
+  <circle cx="5" cy="15" r="0.8" fill="#cce8f0" opacity="0.6"/>
+  <circle cx="27" cy="13" r="0.7" fill="#cce8f0" opacity="0.5"/>
+  <circle cx="22" cy="8" r="0.6" fill="#cce8f0" opacity="0.4"/>
+</svg>

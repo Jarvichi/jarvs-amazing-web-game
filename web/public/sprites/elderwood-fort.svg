@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#1a2a0a" opacity="0.5"/>
+  <!-- Fort base walls -->
+  <rect x="3" y="14" width="26" height="16" rx="1" fill="#5a7a3a"/>
+  <!-- Wood plank texture -->
+  <line x1="3" y1="18" x2="29" y2="18" stroke="#3a5a1a" stroke-width="0.7"/>
+  <line x1="3" y1="22" x2="29" y2="22" stroke="#3a5a1a" stroke-width="0.7"/>
+  <line x1="3" y1="26" x2="29" y2="26" stroke="#3a5a1a" stroke-width="0.7"/>
+  <!-- Corner towers -->
+  <rect x="1" y="10" width="8" height="20" rx="1" fill="#6a8a4a"/>
+  <rect x="23" y="10" width="8" height="20" rx="1" fill="#6a8a4a"/>
+  <!-- Tower battlements -->
+  <rect x="1" y="8" width="3" height="4" rx="0.5" fill="#7a9a5a"/>
+  <rect x="6" y="8" width="3" height="4" rx="0.5" fill="#7a9a5a"/>
+  <rect x="23" y="8" width="3" height="4" rx="0.5" fill="#7a9a5a"/>
+  <rect x="28" y="8" width="3" height="4" rx="0.5" fill="#7a9a5a"/>
+  <!-- Gate opening -->
+  <path d="M12,30 L12,20 Q16,16 20,20 L20,30 Z" fill="#1a2a0a"/>
+  <!-- Gate door bars -->
+  <line x1="14" y1="22" x2="14" y2="30" stroke="#3a4a1a" stroke-width="1"/>
+  <line x1="18" y1="22" x2="18" y2="30" stroke="#3a4a1a" stroke-width="1"/>
+  <!-- Elderwood tree growing through fort -->
+  <rect x="14" y="2" width="4" height="14" fill="#6a4a1a"/>
+  <ellipse cx="16" cy="5" rx="7" ry="5" fill="#2a6a1a"/>
+  <ellipse cx="11" cy="8" rx="4" ry="3" fill="#3a7a2a"/>
+  <ellipse cx="21" cy="8" rx="4" ry="3" fill="#3a7a2a"/>
+  <!-- Ivy on fort walls -->
+  <path d="M3,15 Q5,13 6,16" fill="none" stroke="#2a5a0a" stroke-width="1" opacity="0.8"/>
+  <path d="M26,16 Q28,14 29,17" fill="none" stroke="#2a5a0a" stroke-width="1" opacity="0.8"/>
+</svg>
