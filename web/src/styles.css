@@ -12625,6 +12625,7 @@ html.light-mode .action-btn {
   color: #e0e0e0;
   font-family: 'Courier New', monospace;
   overflow: hidden;
+  position: relative;
 }
 
 /* ── Header ── */
@@ -12678,14 +12679,15 @@ html.light-mode .action-btn {
 /* ── Board ── */
 .td-board-wrap {
   flex: 1;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   min-height: 0;
   background: #0d0d0d;
 }
 
 /* Scaling wrapper — sized to the post-scale dimensions so the layout is correct */
 .td-grid-scaler {
-  overflow: hidden;
+  overflow: visible;
   flex-shrink: 0;
 }
 
@@ -12882,10 +12884,13 @@ html.light-mode .action-btn {
 
 /* ── Selected tower action panel ── */
 .td-selected-panel {
-  flex-shrink: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
   background: #131a13;
   border-top: 2px solid #ffd700;
-  border-bottom: 1px solid #333;
   padding: 8px 12px;
   display: flex;
   flex-direction: column;
