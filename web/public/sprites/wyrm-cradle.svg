@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Stone nest base -->
+  <ellipse cx="16" cy="27" rx="13" ry="5" fill="#4a4a3a"/>
+  <!-- Nest walls (curved stone) -->
+  <path d="M3,24 Q5,16 16,15 Q27,16 29,24" fill="#5a5a4a" stroke="#3a3a2a" stroke-width="0.5"/>
+  <!-- Nest interior -->
+  <ellipse cx="16" cy="23" rx="10" ry="6" fill="#3a3a2a"/>
+  <!-- Straw/grass nest lining -->
+  <ellipse cx="16" cy="24" rx="8" ry="4.5" fill="#4a4a1a"/>
+  <!-- Large wyrm eggs -->
+  <ellipse cx="11" cy="24" rx="3" ry="4" fill="#3a5a2a"/>
+  <ellipse cx="16" cy="23" rx="3" ry="4" fill="#4a5a2a"/>
+  <ellipse cx="21" cy="24" rx="3" ry="4" fill="#3a5a2a"/>
+  <!-- Egg scale pattern -->
+  <path d="M9,24 Q11,22 13,24 Q11,26 9,24" fill="#2a4a1a" opacity="0.5"/>
+  <path d="M14,23 Q16,21 18,23 Q16,25 14,23" fill="#3a4a1a" opacity="0.5"/>
+  <path d="M19,24 Q21,22 23,24 Q21,26 19,24" fill="#2a4a1a" opacity="0.5"/>
+  <!-- Glowing egg cracks (about to hatch) -->
+  <line x1="16" y1="20" x2="17" y2="22" stroke="#aaff00" stroke-width="0.5" opacity="0.7"/>
+  <line x1="16" y1="22" x2="15" y2="23" stroke="#aaff00" stroke-width="0.5" opacity="0.7"/>
+  <!-- Flanking stone pillars -->
+  <rect x="1" y="14" width="4" height="14" rx="0.5" fill="#5a5a4a"/>
+  <rect x="27" y="14" width="4" height="14" rx="0.5" fill="#5a5a4a"/>
+  <!-- Pillar caps -->
+  <rect x="0" y="12" width="6" height="3" rx="0.3" fill="#6a6a5a"/>
+  <rect x="26" y="12" width="6" height="3" rx="0.3" fill="#6a6a5a"/>
+</svg>
