@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a1a1a" opacity="0.5"/>
+  <!-- Large industrial foundry base -->
+  <rect x="1" y="18" width="30" height="12" rx="1" fill="#4a4a4a"/>
+  <!-- Main hall -->
+  <rect x="3" y="9" width="26" height="11" rx="1" fill="#5a5a5a"/>
+  <!-- Large rooftop with multi-chimney array -->
+  <polygon points="1,9 16,2 31,9" fill="#3a3a3a"/>
+  <polygon points="3,9 16,4 29,9" fill="#4a4a4a"/>
+  <!-- Three chimneys -->
+  <rect x="7" y="2" width="4" height="8" rx="0.5" fill="#4a4a4a"/>
+  <rect x="14" y="1" width="4" height="9" rx="0.5" fill="#4a4a4a"/>
+  <rect x="21" y="2" width="4" height="8" rx="0.5" fill="#4a4a4a"/>
+  <!-- Heavy smoke columns -->
+  <ellipse cx="9" cy="2" rx="3" ry="2" fill="#6a6a6a" opacity="0.6"/>
+  <ellipse cx="9" cy="0" rx="2" ry="1.5" fill="#5a5a5a" opacity="0.4"/>
+  <ellipse cx="16" cy="1" rx="3" ry="2" fill="#6a6a6a" opacity="0.6"/>
+  <ellipse cx="16" cy="-1" rx="2" ry="1.5" fill="#5a5a5a" opacity="0.4"/>
+  <ellipse cx="23" cy="2" rx="3" ry="2" fill="#6a6a6a" opacity="0.6"/>
+  <!-- Foundry vents with molten glow -->
+  <circle cx="8" cy="12" r="2.5" fill="#1a1a1a"/>
+  <circle cx="8" cy="12" r="1.8" fill="#cc4400" opacity="0.8"/>
+  <circle cx="8" cy="12" r="1" fill="#ff8800" opacity="0.9"/>
+  <circle cx="24" cy="12" r="2.5" fill="#1a1a1a"/>
+  <circle cx="24" cy="12" r="1.8" fill="#cc4400" opacity="0.8"/>
+  <circle cx="24" cy="12" r="1" fill="#ff8800" opacity="0.9"/>
+  <!-- Completed golem displayed at front -->
+  <rect x="13" y="20" width="6" height="8" rx="0.5" fill="#6a6a7a"/>
+  <ellipse cx="16" cy="19" rx="3" ry="2.5" fill="#7a7a8a"/>
+  <!-- Golem eye slits -->
+  <line x1="14" y1="19" x2="15.5" y2="19" stroke="#ff4400" stroke-width="0.8"/>
+  <line x1="16.5" y1="19" x2="18" y2="19" stroke="#ff4400" stroke-width="0.8"/>
+</svg>

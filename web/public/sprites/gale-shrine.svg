@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="11" ry="1.5" fill="#1a1a2a" opacity="0.5"/>
+  <!-- Stone platform -->
+  <rect x="5" y="24" width="22" height="6" rx="1" fill="#6a6a7a"/>
+  <!-- Shrine pillars -->
+  <rect x="7" y="10" width="4" height="16" rx="0.5" fill="#7a7a8a"/>
+  <rect x="21" y="10" width="4" height="16" rx="0.5" fill="#7a7a8a"/>
+  <!-- Shrine roof (torii style) -->
+  <rect x="4" y="8" width="24" height="3" rx="0.5" fill="#5a5a6a"/>
+  <rect x="2" y="6" width="28" height="2.5" rx="0.5" fill="#6a6a7a"/>
+  <!-- Wind swirls in shrine -->
+  <path d="M10,16 Q16,10 22,16 Q16,22 10,16Z" fill="none" stroke="#aaaaff" stroke-width="1" opacity="0.6"/>
+  <path d="M11,16 Q16,12 21,16 Q16,20 11,16Z" fill="none" stroke="#8888ff" stroke-width="0.8" opacity="0.5"/>
+  <ellipse cx="16" cy="16" rx="3" ry="3" fill="#aaaaff" opacity="0.2"/>
+  <ellipse cx="16" cy="16" rx="1.5" ry="1.5" fill="#ccccff" opacity="0.3"/>
+  <!-- Wind spiral marks -->
+  <path d="M13,14 Q15,12 17,14 Q18,16 16,18 Q14,17 13,14Z" fill="none" stroke="#8888ff" stroke-width="0.7" opacity="0.7"/>
+  <!-- Flying leaves/petals in wind -->
+  <ellipse cx="8" cy="12" rx="1.5" ry="0.5" fill="#aaaaff" opacity="0.5" transform="rotate(-30 8 12)"/>
+  <ellipse cx="24" cy="11" rx="1.5" ry="0.5" fill="#aaaaff" opacity="0.4" transform="rotate(20 24 11)"/>
+  <ellipse cx="20" cy="19" rx="1" ry="0.4" fill="#8888ff" opacity="0.5" transform="rotate(-15 20 19)"/>
+  <!-- Bell hanging from roof -->
+  <path d="M14,9 Q16,12 18,9" fill="#8a8a7a" stroke="#5a5a6a" stroke-width="0.5"/>
+  <line x1="16" y1="9" x2="16" y2="8" stroke="#5a5a6a" stroke-width="0.6"/>
+  <!-- Cloud wisps at top -->
+  <ellipse cx="8" cy="5" rx="3" ry="1.5" fill="#ddddff" opacity="0.3"/>
+  <ellipse cx="24" cy="4" rx="3" ry="1.5" fill="#ddddff" opacity="0.3"/>
+</svg>

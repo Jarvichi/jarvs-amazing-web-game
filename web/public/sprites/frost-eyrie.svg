@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="11" ry="1.5" fill="#0a1a2a" opacity="0.5"/>
+  <!-- Rocky cliff base -->
+  <polygon points="4,30 8,20 14,24 18,18 24,22 28,30" fill="#4a5a6a"/>
+  <!-- Ice tower -->
+  <rect x="11" y="8" width="10" height="16" rx="1" fill="#5a8aaa"/>
+  <!-- Ice texture -->
+  <line x1="11" y1="12" x2="21" y2="12" stroke="#4a7a9a" stroke-width="0.6"/>
+  <line x1="11" y1="17" x2="21" y2="17" stroke="#4a7a9a" stroke-width="0.6"/>
+  <line x1="16" y1="8" x2="16" y2="24" stroke="#4a7a9a" stroke-width="0.4"/>
+  <!-- Icy spire peak -->
+  <polygon points="9,8 16,1 23,8" fill="#3a6a8a"/>
+  <polygon points="11,8 16,3 21,8" fill="#6aaabb"/>
+  <!-- Ice crystal tip -->
+  <polygon points="14,3 16,0 18,3 16,5" fill="#aaddff"/>
+  <!-- Nest at top (eyrie) -->
+  <path d="M11,9 Q13,7 16,8 Q19,7 21,9" fill="none" stroke="#6a4a2a" stroke-width="1.5"/>
+  <!-- Egg in nest -->
+  <ellipse cx="16" cy="9" rx="2" ry="1.5" fill="#cce8f0"/>
+  <!-- Arrow slits -->
+  <rect x="13" y="14" width="2" height="4" rx="0.3" fill="#1a2a3a"/>
+  <rect x="17" y="14" width="2" height="4" rx="0.3" fill="#1a2a3a"/>
+  <!-- Icicles hanging -->
+  <polygon points="12,24 13,28 14,24" fill="#88ccee"/>
+  <polygon points="15,24 16,29 17,24" fill="#88ccee"/>
+  <polygon points="18,24 19,27 20,24" fill="#88ccee"/>
+  <!-- Ice sparkles -->
+  <circle cx="9" cy="6" r="0.7" fill="#aaddff" opacity="0.7"/>
+  <circle cx="23" cy="5" r="0.6" fill="#aaddff" opacity="0.6"/>
+</svg>
