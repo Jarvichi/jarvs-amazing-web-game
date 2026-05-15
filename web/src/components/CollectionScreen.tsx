@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useEffect, useCallback, memo } from 'react'
 import { Card, CardRarity, CardType, UnitTag, SECRET_RARITIES } from '../game/types'
 import { getCardCatalog, getCardThemeTags } from '../game/cards'
 import {
@@ -45,6 +45,27 @@ const ALL_TAGS: UnitTag[] = [
   'magic', 'undead', 'beast', 'armored', 'siege', 'fire',
 ]
 
+const LazyCell = memo(function LazyCell({ children, className }: { children: React.ReactNode; className: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect() } },
+      { rootMargin: '200px' }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={ref} className={className}>
+      {visible ? children : null}
+    </div>
+  )
+})
 
 export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commanderName, onPromoteCommander }: Props) {
   const catalog = getCardCatalog()
@@ -529,7 +550,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                 {showHeader && (
                   <div className="collection-group-header">{label}</div>
                 )}
-                <div className={`collection-cell${owned === 0 ? ' collection-cell--unowned' : ''}${levelUpCard === card.name ? ' collection-cell--levelup' : ''}`}>
+                <LazyCell className={`collection-cell${owned === 0 ? ' collection-cell--unowned' : ''}${levelUpCard === card.name ? ' collection-cell--levelup' : ''}`}>
                   <CardTile
                     card={card}
                     canAfford={true}
@@ -554,7 +575,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                   </div>
 
                   {xp > 0 && <MasteryBar xp={xp} />}
-                </div>
+                </LazyCell>
               </React.Fragment>
             )
           })
