@@ -1,6 +1,8 @@
 import { BattleEventState, Card, GameState, UnitTemplate,Unit, UpgradeEffect, GamePhase, BattleStats, AnimEvent } from "./types";
+import { Act, RunState, ConsumableDef } from "./questline";
+import { RewardDef, UselessItem } from "./dailyLogin";
 
-const exampleUnitTemplate:UnitTemplate = {
+export const exampleUnitTemplate: UnitTemplate = {
   name: 'Example Unit',
   attack: 5,
   maxHp: 4,
@@ -14,7 +16,7 @@ const exampleUnitTemplate:UnitTemplate = {
   attackCooldownMs: 1000,
 };
 
-const exampleUnit:Unit={
+export const exampleUnit: Unit = {
   ...exampleUnitTemplate,
   id: 'example-unit-1',
   owner: 'player',
@@ -22,10 +24,9 @@ const exampleUnit:Unit={
   x: 0,
   y: 0,
   attackTimer: 0,
+};
 
-}
-
-const exampleUpgradeEffect :UpgradeEffect = { type: 'buffAttack', amount: 2 };
+const exampleUpgradeEffect: UpgradeEffect = { type: 'buffAttack', amount: 2 };
 
 export const exampleCard: Card = {
   id: 'example-card',
@@ -64,6 +65,69 @@ const exampleAnimEvent:AnimEvent = {
   toY: 3,
   expiresAt: 500,
 }
+
+export const exampleUselessItem: UselessItem = {
+  id: 'rusty_fork',
+  name: 'Rusty Fork',
+  icon: '🍴',
+  desc: 'A fork of questionable origin.',
+  lore: 'Someone left this here.',
+  acquiredDate: '2026-01-01',
+};
+
+export const exampleRewardDef: RewardDef = {
+  id: 'example-reward',
+  name: 'Bag of Crystals',
+  icon: '💎',
+  desc: 'A generous helping of crystals.',
+  lore: 'Shiny.',
+  weight: 1,
+  type: 'crystals',
+  amount: 25,
+};
+
+export const exampleConsumableDef: ConsumableDef = {
+  id: 'healing_herb',
+  name: 'Healing Herb',
+  icon: '🌿',
+  desc: 'Restores 10 HP.',
+  lore: 'A plant with restorative properties.',
+  healAmount: 10,
+  price: 20,
+};
+
+export const exampleAct: Act = {
+  id: 'example-act',
+  title: 'The Verdant Wood',
+  subtitle: 'A Sample Adventure',
+  nodes: {
+    'node-1': { id: 'node-1', type: 'battle',   label: 'The Clearing',        description: 'Face a scouting party.',         row: 0, col: 0, rowCols: 2, childIds: ['node-2', 'node-3'] },
+    'node-2': { id: 'node-2', type: 'rest',      label: 'Campfire',            description: 'Rest and recover.',              row: 1, col: 0, rowCols: 2, childIds: ['node-4'] },
+    'node-3': { id: 'node-3', type: 'merchant',  label: 'Wandering Merchant',  description: 'Browse the wares.',              row: 1, col: 1, rowCols: 2, childIds: ['node-4'] },
+    'node-4': { id: 'node-4', type: 'boss',      label: 'The Thornlord',       description: 'A fearsome guardian blocks the path.', row: 2, col: 0, rowCols: 1, childIds: [] },
+  },
+  startNodeIds: ['node-1'],
+  rewardRelic: 'Bark Shield',
+  rewardRelicDesc: 'Your base gains +10 max HP at the start of every battle.',
+};
+
+export const exampleRunState: RunState = {
+  actId: 'example-act',
+  completedNodeIds: ['node-1'],
+  skippedNodeIds: [],
+  pendingNodeId: null,
+  playerHp: 40,
+  maxHp: 50,
+  livesRemaining: 2,
+  maxLives: 3,
+  cardPlayCounts: {},
+  nodeFailCounts: {},
+  earnedCards: ['Goblin', 'Archer'],
+  activeRelic: 'Bark Shield',
+  crystalBonus: 0,
+  consumables: [],
+  activeModifierCount: 0,
+};
 
 export const exampleGameState: GameState = {
   playerBase: { hp: 20, maxHp: 20 },

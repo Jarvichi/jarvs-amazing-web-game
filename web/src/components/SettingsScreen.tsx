@@ -317,8 +317,23 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
         <Section bordered title="AUDIO">
           <div className="settings-row">
             <div>
-              <div className="settings-label">Sound effects</div>
+              <div className="settings-label">Sound</div>
               <div className="settings-sublabel">Procedurally generated audio</div>
+            </div>
+
+                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>     <span className="settings-value">Sound On/Off</span>
+                            <div className="settings-toggle" onClick={handleSoundToggle}>
+                <div className={`settings-toggle-track${soundOn ? ' settings-toggle-track--on' : ''}`}>
+                  <div className="settings-toggle-thumb" />
+                </div>
+              </div>
+            </div>
+           
+          </div>
+                    <div className="settings-row">
+            <div>
+              <div className="settings-label">Effects</div>
+              <div className="settings-sublabel">In game sounds</div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <input
@@ -332,11 +347,6 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 onChange={e => handleSoundVolumeChange(Number(e.target.value))}
               />
               <span className="settings-value">{Math.round(soundVolume * 100)}%</span>
-              <div className="settings-toggle" onClick={handleSoundToggle}>
-                <div className={`settings-toggle-track${soundOn ? ' settings-toggle-track--on' : ''}`}>
-                  <div className="settings-toggle-thumb" />
-                </div>
-              </div>
             </div>
           </div>
           <div className="settings-row">

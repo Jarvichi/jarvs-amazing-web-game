@@ -3,6 +3,7 @@ import { getCardCatalog } from '../game/cards'
 import { rarityStars } from '../game/cards'
 import { addCardsToCollection } from '../game/collection'
 import { CardTile } from './CardTile'
+import { ModalBackdrop } from './ModalBackdrop'
 import { useCardDetail } from './useCardDetail'
 
 interface Props {
@@ -12,6 +13,14 @@ interface Props {
 }
 
 const TAP_REQUIRED: Partial<Record<string, number>> = { rare: 3, legendary: 5 }
+
+function rarityColor(rarity: string | undefined): string {
+  if (rarity === 'legendary' || rarity === 'mythic') return '#ffcc00'
+  if (rarity === 'epic') return '#cc55ff'
+  if (rarity === 'rare') return '#5599ff'
+  if (rarity === 'uncommon') return '#55cc55'
+  return 'inherit'
+}
 
 export function PackOpening({ packs, onDone }: Props) {
   const catalog = getCardCatalog()
@@ -31,6 +40,10 @@ export function PackOpening({ packs, onDone }: Props) {
   const [allDone, setAllDone] = useState(false)
   const [spotlightCard, setSpotlightCard] = useState<number | null>(null)
   const [spotlightExiting, setSpotlightExiting] = useState(false)
+  const [showSummary, setShowSummary] = useState(false)
+
+  // Track which packs have already had addCardsToCollection called
+  const processedPacks = useRef<Set<number>>(new Set())
 
   // Clean up decay timers on unmount
   useEffect(() => () => { Object.values(decayTimers.current).forEach(clearTimeout) }, [])
@@ -76,7 +89,10 @@ export function PackOpening({ packs, onDone }: Props) {
   // When all cards in the current pack are revealed, advance to next pack or finish
   useEffect(() => {
     if (revealed >= pack.length && pack.length > 0) {
-      addCardsToCollection(pack.map(name => ({ cardName: name, count: 1 })))
+      if (!processedPacks.current.has(packIdxRef.current)) {
+        processedPacks.current.add(packIdxRef.current)
+        addCardsToCollection(pack.map(name => ({ cardName: name, count: 1 })))
+      }
       if (packIdxRef.current < packs.length - 1) {
         const t = setTimeout(advanceToNextPack, 1000)
         return () => clearTimeout(t)
@@ -131,6 +147,16 @@ export function PackOpening({ packs, onDone }: Props) {
       setWobbleKeys(prev => ({ ...prev, [i]: (prev[i] ?? 0) + 1 }))
       scheduleDecay(i)
     }
+  }
+
+  function handleSkip() {
+    packs.forEach((p, i) => {
+      if (!processedPacks.current.has(i)) {
+        processedPacks.current.add(i)
+        addCardsToCollection(p.map(name => ({ cardName: name, count: 1 })))
+      }
+    })
+    setShowSummary(true)
   }
 
   function renderCard(card: typeof cards[0], i: number) {
@@ -198,6 +224,9 @@ export function PackOpening({ packs, onDone }: Props) {
 
   const isMultiPack = packs.length > 1
 
+  const allCardNames = packs.flat()
+  const allCardObjects = allCardNames.map(name => catalog.find(c => c.name === name) ?? null)
+
   return (
     <div className="pack-screen">
       <div className="pack-title">✦ PACK OPENED ✦</div>
@@ -219,8 +248,13 @@ export function PackOpening({ packs, onDone }: Props) {
           CONTINUE →
         </button>
       ) : (
-        <div className="pack-wait">
-          {waitingForTap ? 'Tap the card to reveal it!' : 'Revealing…'}
+        <div className="pack-wait" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+          <span>{waitingForTap ? 'Tap the card to reveal it!' : 'Revealing…'}</span>
+          {isMultiPack && (
+            <button className="action-btn" style={{ fontSize: 11, padding: '4px 12px' }} onClick={handleSkip}>
+              Skip to end
+            </button>
+          )}
         </div>
       )}
 
@@ -254,6 +288,26 @@ export function PackOpening({ packs, onDone }: Props) {
           </div>
         )
       })()}
+
+      {showSummary && (
+        <ModalBackdrop onClose={onDone} zIndex={300}>
+          <div className="daily-modal" style={{ maxWidth: 360, textAlign: 'left' }}>
+            <div className="daily-modal-header">✦ ALL CARDS</div>
+            <div className="daily-modal-sub">
+              {allCardNames.length} card{allCardNames.length !== 1 ? 's' : ''} across {packs.length} packs
+            </div>
+            <div style={{ width: '100%', maxHeight: 300, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {allCardObjects.map((card, i) => (
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '3px 0', borderBottom: '1px solid #222' }}>
+                  <span>{card?.name ?? '?'}</span>
+                  <span style={{ color: rarityColor(card?.rarity) }}>{rarityStars(card?.rarity ?? 'common')}</span>
+                </div>
+              ))}
+            </div>
+            <button className="action-btn" onClick={onDone}>CONTINUE →</button>
+          </div>
+        </ModalBackdrop>
+      )}
     </div>
   )
 }

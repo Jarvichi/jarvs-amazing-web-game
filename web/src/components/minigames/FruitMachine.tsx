@@ -26,7 +26,7 @@ import {
   publishGrandJackpotWin,
 } from '../../game/fruitMachineJackpot'
 import { loadPlayerName } from '../../game/questline'
-import { LedScroller, LedScrollerMessage } from '../LedScroller'
+import { LedScroller, LedScrollerMessage } from '../BuildingBlocks/LedScroller/LedScroller'
 
 interface Props {
   onDone: (ticketsEarned: number) => void

@@ -14,6 +14,7 @@ import {
   createTDGame, placeTower, removeTower, moveTower, upgradeTower, startWave, tickTD,
   calcTicketReward, calcGoldReward, towerCost, upgradeCost, buildingUnitCount, chooseMilestoneUpgrade,
 } from '../../game/towerDefence'
+import { Lives } from '../BuildingBlocks/Lives/Lives'
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 
@@ -244,11 +245,27 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
       {/* ── Header ── */}
       <div className="td-header">
         <div className="td-header-lives">
-          {'❤️'.repeat(game.lives)}{'🖤'.repeat(Math.max(0, TD_MAX_LIVES - game.lives))}
+          <Lives maxLives={TD_MAX_LIVES} currentLives={game.lives} />
         </div>
 
         <div className="td-header-wave">
           Wave {game.wavesCompleted + 1}/{TD_TOTAL_WAVES}
+                  {game.phase === 'wave' && (
+          <div className="td-wave-progress-wrap">
+            <div className="td-wave-progress-fill" style={{ width: `${waveProgress * 100}%` }} />
+            <span className="td-wave-progress-label">⚔ {Math.round(waveProgress * 100)}%</span>
+          </div>
+        )}
+                {game.phase === 'between' && (
+                  <div className="td-wave-progress-wrap">
+          <span className="td-header-active">⏳ Next wave…</span></div>
+        )}
+        {game.phase === 'milestone' && (
+          <div className="td-wave-progress-wrap">
+          <span className="td-header-milestone">
+            🎉 {game.wavesCompleted}/{TD_TOTAL_WAVES} — Reorganise!
+          </span></div>
+        )}
         </div>
 
         <div className="td-header-score">⭐ {game.score}</div>
@@ -259,20 +276,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
             ▶ START
           </button>
         )}
-        {game.phase === 'wave' && (
-          <div className="td-wave-progress-wrap">
-            <div className="td-wave-progress-fill" style={{ width: `${waveProgress * 100}%` }} />
-            <span className="td-wave-progress-label">⚔ {Math.round(waveProgress * 100)}%</span>
-          </div>
-        )}
-        {game.phase === 'between' && (
-          <span className="td-header-active">⏳ Next wave…</span>
-        )}
-        {game.phase === 'milestone' && (
-          <span className="td-header-milestone">
-            🎉 {game.wavesCompleted}/{TD_TOTAL_WAVES} — Reorganise!
-          </span>
-        )}
+
 
         <button className="action-btn action-btn--danger td-header-btn" onClick={() => onDone(reward)}>
           ✕
