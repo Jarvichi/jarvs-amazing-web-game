@@ -9,8 +9,9 @@
   </linearGradient>
   <rect width="400" height="240" fill="url(#sky6)"/>
 
-  <!-- Cloud layer — below the islands -->
+  <!-- Cloud layer — slowly drifting -->
   <g fill="#141e30" opacity="0.7">
+    <animateTransform attributeName="transform" type="translate" values="0 0; 3 0; 0 0; -3 0; 0 0" dur="20s" repeatCount="indefinite"/>
     <ellipse cx="60"  cy="220" rx="70" ry="22"/>
     <ellipse cx="200" cy="225" rx="90" ry="20"/>
     <ellipse cx="340" cy="218" rx="75" ry="24"/>
@@ -25,8 +26,9 @@
   </g>
 
   <!-- FLOATING ISLANDS -->
-  <!-- Island 1 — large, centre, main platform -->
+  <!-- Island 1 — large, centre, main platform — gentle bob -->
   <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -2; 0 0; 0 2; 0 0" dur="8s" repeatCount="indefinite"/>
     <!-- Underside — rocky, jagged -->
     <polygon points="120,140 280,130 300,155 240,165 200,170 160,168 100,160" fill="#0a1020" stroke="#162030" stroke-width="1"/>
     <!-- Dirt/rock underside detail -->
@@ -55,15 +57,20 @@
       <rect x="210" y="113" width="4" height="7"/>
       <rect x="216" y="113" width="4" height="7"/>
     </g>
-    <!-- Banner on main tower -->
+  </g>
+
+  <!-- Banner + pole — sway separately -->
+  <g>
+    <animateTransform attributeName="transform" type="skewX" values="0; 4; 0; -4; 0" dur="6s" repeatCount="indefinite"/>
     <line x1="180" y1="110" x2="180" y2="90" stroke="#1e2838" stroke-width="1.5"/>
     <polygon points="180,90 205,97 180,104" fill="#182038" stroke="#283050" stroke-width="0.8"/>
     <!-- Wind symbol on banner -->
     <path d="M186,95 Q193,98 186,101" stroke="#3040a0" stroke-width="1" fill="none" opacity="0.7"/>
   </g>
 
-  <!-- Island 2 — smaller, upper left, connected by rope bridge -->
+  <!-- Island 2 — smaller, upper left — offset bob -->
   <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -1.5; 0 0; 0 1.5; 0 0" dur="10s" begin="2s" repeatCount="indefinite"/>
     <polygon points="20,85 105,78 115,95 80,102 20,100" fill="#0a1020" stroke="#162030" stroke-width="1"/>
     <polygon points="20,85 105,78 108,82 20,90" fill="#101e18" stroke="#1a2e22" stroke-width="1"/>
     <!-- Small watchtower -->
@@ -72,8 +79,9 @@
     <rect x="59" y="69" width="4" height="5" fill="#141e2c"/>
   </g>
 
-  <!-- Island 3 — right, medium -->
+  <!-- Island 3 — right, medium — offset bob -->
   <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 2; 0 0; 0 -2; 0 0" dur="9s" begin="4s" repeatCount="indefinite"/>
     <polygon points="295,100 380,93 390,115 350,120 295,118" fill="#0a1020" stroke="#162030" stroke-width="1"/>
     <polygon points="295,100 380,93 382,98 295,108" fill="#101e18" stroke="#1a2e22" stroke-width="1"/>
     <!-- Landing platform -->
@@ -85,7 +93,6 @@
   <g stroke="#1e2838" stroke-width="1" fill="none" opacity="0.7">
     <path d="M105,90 Q112,105 120,140"/>
     <path d="M108,90 Q116,106 124,140"/>
-    <!-- Rope rungs -->
     <line x1="107" y1="100" x2="113" y2="101"/>
     <line x1="109" y1="112" x2="116" y2="114"/>
     <line x1="112" y1="124" x2="120" y2="127"/>
@@ -104,8 +111,9 @@
     <ellipse cx="350" cy="45" rx="40" ry="18"/>
     <ellipse cx="295" cy="50" rx="35" ry="16"/>
   </g>
-  <!-- Lightning bolt in storm cloud -->
-  <g stroke="#c0c020" stroke-width="1.5" fill="none" opacity="0.6">
+  <!-- Lightning bolt in storm cloud — flickering -->
+  <g stroke="#c0c020" stroke-width="1.5" fill="none">
+    <animate attributeName="opacity" values="0.6;0;0.6;0;0.6;0.2;0.6" dur="4s" repeatCount="indefinite"/>
     <path d="M330,48 L325,60 L332,60 L327,72"/>
   </g>
 
@@ -116,15 +124,27 @@
     <path d="M80,40  Q85,35 90,40 Q85,37 80,40"/>
   </g>
 
-  <!-- Stars -->
-  <g fill="#2a3860" opacity="0.4">
-    <circle cx="40"  cy="20" r="1"/>
-    <circle cx="110" cy="12" r="1.5"/>
-    <circle cx="180" cy="25" r="1"/>
-    <circle cx="270" cy="15" r="1.5"/>
-    <circle cx="380" cy="20" r="1"/>
+  <!-- Stars — twinkling -->
+  <g fill="#2a3860">
+    <circle cx="40"  cy="20" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="110" cy="12" r="1.5" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.2;0.9;0.4" dur="6s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="180" cy="25" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;1;0.2;0.4" dur="5s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="270" cy="15" r="1.5" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.8;0.2;0.4" dur="7s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="380" cy="20" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="5s" begin="3s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1e2e50" text-anchor="middle" letter-spacing="3">THE SKY DOMINION</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1e2e50" text-anchor="middle" letter-spacing="3">THE SKY DOMINION
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>
