@@ -7,9 +7,11 @@
   </linearGradient>
   <rect width="400" height="240" fill="url(#ley-bg)"/>
 
-  <!-- Ley line central glow -->
+  <!-- Ley line central glow — pulsing -->
   <radialGradient id="ley-glow" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#00a8c0" stop-opacity="0.25"/>
+    <stop offset="0%" stop-color="#00a8c0" stop-opacity="0.25">
+      <animate attributeName="stop-opacity" values="0.25;0.5;0.25" dur="6s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#00a8c0" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#ley-glow)"/>
@@ -25,7 +27,7 @@
   <rect x="80"  y="80" width="20" height="115" fill="#0e1e18" stroke="#182e28" stroke-width="1"/>
   <!-- Right pillar -->
   <rect x="300" y="80" width="20" height="115" fill="#0e1e18" stroke="#182e28" stroke-width="1"/>
-  <!-- Arch spanning pillars — carved stone, coral-encrusted -->
+  <!-- Arch spanning pillars -->
   <path d="M80,80 Q200,20 320,80" stroke="#182e28" stroke-width="12" fill="none"/>
   <path d="M80,80 Q200,20 320,80" stroke="#0e1e18" stroke-width="8"  fill="none"/>
   <!-- Coral on arch -->
@@ -36,33 +38,64 @@
     <path d="M240,42 Q242,32 244,24"/>
     <path d="M280,62 Q282,52 284,44"/>
   </g>
-  <g fill="#00c090" opacity="0.5">
-    <circle cx="116" cy="44" r="2"/>
-    <circle cx="156" cy="24" r="2"/>
-    <circle cx="200" cy="12" r="2.5"/>
-    <circle cx="244" cy="24" r="2"/>
-    <circle cx="284" cy="44" r="2"/>
+  <!-- Coral polyp tips — twinkling -->
+  <g fill="#00c090">
+    <circle cx="116" cy="44" r="2" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.2;0.8;0.5" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="156" cy="24" r="2" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;1;0.5" dur="4s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="200" cy="12" r="2.5" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.3;0.5" dur="6s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="244" cy="24" r="2" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.3;0.9;0.5" dur="4.5s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="284" cy="44" r="2" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.2;0.5" dur="5.5s" begin="1.5s" repeatCount="indefinite"/>
+    </circle>
   </g>
   <!-- Arch keystone -->
   <polygon points="190,28 210,28 214,42 186,42" fill="#0e1e18" stroke="#182e28" stroke-width="1"/>
-  <!-- Glowing rune on keystone -->
-  <text x="200" y="39" font-family="monospace" font-size="8" fill="#00a8c0" text-anchor="middle" opacity="0.7">◈</text>
+  <!-- Glowing rune on keystone — pulsing -->
+  <text x="200" y="39" font-family="monospace" font-size="8" fill="#00a8c0" text-anchor="middle" opacity="0.7">◈
+    <animate attributeName="opacity" values="0.7;1;0.3;0.7" dur="4s" repeatCount="indefinite"/>
+  </text>
 
-  <!-- LEY LINES — glowing threads running through the arch -->
-  <!-- Primary ley line — strong, central -->
-  <path d="M0,118 Q100,110 200,115 Q300,120 400,112" stroke="#00c0d0" stroke-width="2" fill="none" opacity="0.7"/>
+  <!-- LEY LINES — animated flow -->
+  <!-- Primary ley line -->
+  <path d="M0,118 Q100,110 200,115 Q300,120 400,112" stroke="#00c0d0" stroke-width="2" fill="none" opacity="0.7" stroke-dasharray="12,6">
+    <animate attributeName="stroke-dashoffset" from="0" to="-36" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="5s" repeatCount="indefinite"/>
+  </path>
   <!-- Glow around primary ley line -->
-  <path d="M0,118 Q100,110 200,115 Q300,120 400,112" stroke="#00c0d0" stroke-width="8" fill="none" opacity="0.1"/>
-  <!-- Secondary ley lines — fainter, weaving -->
-  <path d="M0,100 Q80,92 160,98 Q240,104 320,96 Q370,92 400,98"  stroke="#0090a8" stroke-width="1" fill="none" opacity="0.4"/>
-  <path d="M0,132 Q90,125 180,130 Q270,135 360,128 Q390,126 400,128" stroke="#0090a8" stroke-width="1" fill="none" opacity="0.4"/>
-  <path d="M0,88  Q120,78 200,84  Q280,90 400,82"  stroke="#006880" stroke-width="0.8" fill="none" opacity="0.25"/>
-  <path d="M0,148 Q100,140 200,144 Q300,148 400,142" stroke="#006880" stroke-width="0.8" fill="none" opacity="0.25"/>
+  <path d="M0,118 Q100,110 200,115 Q300,120 400,112" stroke="#00c0d0" stroke-width="8" fill="none" opacity="0.1">
+    <animate attributeName="opacity" values="0.1;0.2;0.1" dur="5s" repeatCount="indefinite"/>
+  </path>
+  <!-- Secondary ley lines — animated flow, fainter -->
+  <path d="M0,100 Q80,92 160,98 Q240,104 320,96 Q370,92 400,98" stroke="#0090a8" stroke-width="1" fill="none" opacity="0.4" stroke-dasharray="8,4">
+    <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2.5s" repeatCount="indefinite"/>
+  </path>
+  <path d="M0,132 Q90,125 180,130 Q270,135 360,128 Q390,126 400,128" stroke="#0090a8" stroke-width="1" fill="none" opacity="0.4" stroke-dasharray="8,4">
+    <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2.5s" repeatCount="indefinite"/>
+  </path>
+  <path d="M0,88  Q120,78 200,84  Q280,90 400,82" stroke="#006880" stroke-width="0.8" fill="none" opacity="0.25" stroke-dasharray="6,4">
+    <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <path d="M0,148 Q100,140 200,144 Q300,148 400,142" stroke="#006880" stroke-width="0.8" fill="none" opacity="0.25" stroke-dasharray="6,4">
+    <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="3s" repeatCount="indefinite"/>
+  </path>
 
-  <!-- Ley node — intersection point at centre of arch -->
-  <circle cx="200" cy="115" r="12" fill="#041018" stroke="#00c0d0" stroke-width="1.5" opacity="0.8"/>
+  <!-- Ley node — intersection point — pulsing -->
+  <circle cx="200" cy="115" r="12" fill="#041018" stroke="#00c0d0" stroke-width="1.5" opacity="0.8">
+    <animate attributeName="stroke-opacity" values="0.8;0.3;0.8" dur="4s" repeatCount="indefinite"/>
+  </circle>
   <circle cx="200" cy="115" r="7"  fill="#061420" stroke="#00a8c0" stroke-width="1"/>
-  <circle cx="200" cy="115" r="3"  fill="#00d0e0" opacity="0.9"/>
+  <circle cx="200" cy="115" r="3"  fill="#00d0e0" opacity="0.9">
+    <animate attributeName="r" values="3;5;3" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.9;0.4;0.9" dur="4s" repeatCount="indefinite"/>
+  </circle>
   <!-- Node spokes -->
   <g stroke="#00a0b8" stroke-width="0.8" opacity="0.5">
     <line x1="200" y1="103" x2="200" y2="115"/>
@@ -72,36 +105,72 @@
     <line x1="208" y1="107" x2="192" y2="123"/>
   </g>
 
-  <!-- Ancient marker stones flanking the passage — engraved with ley symbols -->
+  <!-- Ancient marker stones — rune text fading -->
   <!-- Left markers -->
   <rect x="55"  y="158" width="16" height="35" fill="#0a1818" stroke="#162828" stroke-width="1"/>
-  <text x="63"  y="175" font-family="monospace" font-size="7" fill="#1a4040" text-anchor="middle" opacity="0.6">◇</text>
-  <text x="63"  y="186" font-family="monospace" font-size="7" fill="#1a4040" text-anchor="middle" opacity="0.6">◆</text>
+  <text x="63"  y="175" font-family="monospace" font-size="7" fill="#1a4040" text-anchor="middle" opacity="0.6">◇
+    <animate attributeName="opacity" values="0.6;1;0.2;0.6" dur="7s" repeatCount="indefinite"/>
+  </text>
+  <text x="63"  y="186" font-family="monospace" font-size="7" fill="#1a4040" text-anchor="middle" opacity="0.6">◆
+    <animate attributeName="opacity" values="0.6;0.2;1;0.6" dur="9s" begin="2s" repeatCount="indefinite"/>
+  </text>
   <!-- Right markers -->
   <rect x="329" y="158" width="16" height="35" fill="#0a1818" stroke="#162828" stroke-width="1"/>
-  <text x="337" y="175" font-family="monospace" font-size="7" fill="#1a4040" text-anchor="middle" opacity="0.6">◇</text>
-  <text x="337" y="186" font-family="monospace" font-size="7" fill="#1a4040" text-anchor="middle" opacity="0.6">◆</text>
+  <text x="337" y="175" font-family="monospace" font-size="7" fill="#1a4040" text-anchor="middle" opacity="0.6">◇
+    <animate attributeName="opacity" values="0.6;0.2;0.9;0.6" dur="8s" begin="1s" repeatCount="indefinite"/>
+  </text>
+  <text x="337" y="186" font-family="monospace" font-size="7" fill="#1a4040" text-anchor="middle" opacity="0.6">◆
+    <animate attributeName="opacity" values="0.6;1;0.2;0.6" dur="6s" begin="3s" repeatCount="indefinite"/>
+  </text>
 
-  <!-- Beyond the arch — the passage tunnel, dim but beckoning -->
+  <!-- Beyond the arch — passage tunnel — glow pulse -->
   <ellipse cx="200" cy="155" rx="35" ry="30" fill="#030810" stroke="#0a1820" stroke-width="1" opacity="0.8"/>
   <radialGradient id="tunnel-light" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#00a0b0" stop-opacity="0.2"/>
+    <stop offset="0%" stop-color="#00a0b0" stop-opacity="0.2">
+      <animate attributeName="stop-opacity" values="0.2;0.5;0.2" dur="5s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#00a0b0" stop-opacity="0"/>
   </radialGradient>
   <ellipse cx="200" cy="155" rx="35" ry="30" fill="url(#tunnel-light)"/>
 
   <!-- Bioluminescent particles drifting through the arch -->
-  <g fill="#00d0b0" opacity="0.35">
-    <circle cx="150" cy="95"  r="1.5"/>
-    <circle cx="175" cy="108" r="1"/>
-    <circle cx="225" cy="105" r="1.5"/>
-    <circle cx="250" cy="92"  r="1"/>
-    <circle cx="130" cy="130" r="1"/>
-    <circle cx="270" cy="128" r="1"/>
-    <circle cx="185" cy="145" r="1.5"/>
-    <circle cx="215" cy="142" r="1.5"/>
+  <g fill="#00d0b0">
+    <circle cx="150" cy="95"  r="1.5" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 5 5; 10 10; 15 15" dur="10s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="10s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="175" cy="108" r="1" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 4 4; 8 8; 12 12" dur="12s" begin="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="12s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="225" cy="105" r="1.5" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -4 5; -8 10; -12 15" dur="11s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="11s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="250" cy="92"  r="1" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -5 4; -10 8; -15 12" dur="13s" begin="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="13s" begin="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="130" cy="130" r="1" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 6 3; 12 6; 18 9" dur="9s" begin="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="9s" begin="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="270" cy="128" r="1" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -6 3; -12 6; -18 9" dur="9s" begin="6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="9s" begin="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="185" cy="145" r="1.5" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 2 6; 4 12; 6 18" dur="10s" begin="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="10s" begin="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="215" cy="142" r="1.5" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -2 6; -4 12; -6 18" dur="10s" begin="7s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="10s" begin="7s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Label -->
-  <text x="200" y="228" font-family="monospace" font-size="9" fill="#1a4040" text-anchor="middle" letter-spacing="3">THE PASSAGE</text>
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#1a4040" text-anchor="middle" letter-spacing="3">THE PASSAGE
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>
