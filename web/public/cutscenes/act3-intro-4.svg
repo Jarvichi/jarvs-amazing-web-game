@@ -1,15 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
   <rect width="400" height="240" fill="#090908"/>
 
-  <!-- Dark background with ember glow at centre -->
+  <!-- Ember glow at centre — pulsing -->
   <radialGradient id="mission3-glow" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#1e1408" stop-opacity="0.7"/>
+    <stop offset="0%" stop-color="#1e1408" stop-opacity="0.7">
+      <animate attributeName="stop-opacity" values="0.5;0.9;0.5" dur="5s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#090908" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#mission3-glow)"/>
 
-  <!-- Map grid lines -->
-  <g stroke="#161210" stroke-width="0.5" opacity="0.5">
+  <!-- Map grid lines — scanning pulse -->
+  <g stroke="#161210" stroke-width="0.5">
+    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="5s" repeatCount="indefinite"/>
     <line x1="0"   y1="40"  x2="400" y2="40"/>
     <line x1="0"   y1="80"  x2="400" y2="80"/>
     <line x1="0"   y1="120" x2="400" y2="120"/>
@@ -24,34 +27,39 @@
     <line x1="350" y1="0"   x2="350" y2="240"/>
   </g>
 
-  <!-- Player position marker — left side -->
-  <polygon points="30,120 48,110 66,120 66,140 48,150 30,140" fill="#0f1410" stroke="#204030" stroke-width="1.5"/>
+  <!-- Player marker — pulsing -->
+  <polygon points="30,120 48,110 66,120 66,140 48,150 30,140" fill="#0f1410" stroke="#204030" stroke-width="1.5">
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite"/>
+  </polygon>
   <polygon points="48,118 51,126 59,126 53,131 55,139 48,134 41,139 43,131 37,126 45,126" fill="#204030" opacity="0.8"/>
 
-  <!-- Ash zone hazard markers along the path -->
-  <!-- Zone 1 — patch of cracked ground -->
-  <ellipse cx="125" cy="120" rx="20" ry="12" fill="#1a1208" stroke="#c04808" stroke-width="0.8" stroke-dasharray="3,2"/>
-  <!-- Undead cluster in zone 1 -->
+  <!-- Hazard zone 1 — ember border pulsing -->
+  <ellipse cx="125" cy="120" rx="20" ry="12" fill="#1a1208" stroke="#c04808" stroke-width="0.8" stroke-dasharray="3,2">
+    <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+  </ellipse>
   <g fill="#201a10" opacity="0.7">
     <circle cx="118" cy="117" r="3"/>
     <circle cx="126" cy="115" r="3"/>
     <circle cx="132" cy="120" r="3"/>
   </g>
 
-  <!-- Zone 2 — collapsed mine area -->
-  <ellipse cx="205" cy="112" rx="22" ry="14" fill="#1a1208" stroke="#c04808" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <!-- Hazard zone 2 -->
+  <ellipse cx="205" cy="112" rx="22" ry="14" fill="#1a1208" stroke="#c04808" stroke-width="0.8" stroke-dasharray="3,2">
+    <animate attributeName="stroke-opacity" values="0.4;0.9;0.4" dur="2.5s" repeatCount="indefinite"/>
+  </ellipse>
   <g fill="#201a10" opacity="0.7">
     <circle cx="196" cy="108" r="3"/>
     <circle cx="207" cy="106" r="3"/>
     <circle cx="215" cy="112" r="3"/>
     <circle cx="200" cy="116" r="3"/>
   </g>
-  <!-- Mine shaft icon in zone 2 -->
   <rect x="200" y="117" width="10" height="6" fill="#0a0808"/>
   <line x1="198" y1="115" x2="212" y2="115" stroke="#2a2014" stroke-width="1.5"/>
 
-  <!-- Zone 3 — pre-boss undead horde -->
-  <ellipse cx="285" cy="115" rx="20" ry="13" fill="#1a1208" stroke="#c04808" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <!-- Hazard zone 3 -->
+  <ellipse cx="285" cy="115" rx="20" ry="13" fill="#1a1208" stroke="#c04808" stroke-width="0.8" stroke-dasharray="3,2">
+    <animate attributeName="stroke-opacity" values="0.6;1;0.6" dur="1.8s" repeatCount="indefinite"/>
+  </ellipse>
   <g fill="#201a10" opacity="0.7">
     <circle cx="276" cy="110" r="3"/>
     <circle cx="283" cy="108" r="3"/>
@@ -60,49 +68,51 @@
     <circle cx="288" cy="119" r="3"/>
   </g>
 
-  <!-- THE ASHWALKER boss marker — far right, ominous column of smoke -->
-  <rect x="342" y="72" width="48" height="68" fill="#120e08" stroke="#3a2808" stroke-width="2"/>
-  <!-- Ashwalker silhouette inside marker -->
-  <!-- Body — elongated smoke form -->
+  <!-- Ashwalker boss marker — threat pulse -->
+  <rect x="342" y="72" width="48" height="68" fill="#120e08" stroke="#3a2808" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+  </rect>
   <g fill="#1e1610" opacity="0.9">
-    <!-- Lower trunk -->
     <ellipse cx="366" cy="122" rx="12" ry="8"/>
-    <!-- Mid body widening upward -->
     <ellipse cx="366" cy="108" rx="10" ry="10"/>
-    <!-- Upper body -->
     <ellipse cx="366" cy="94" rx="8"  ry="8"/>
-    <!-- Skull-head -->
     <circle  cx="366" cy="82" r="7"/>
-    <!-- Eye sockets -->
     <circle cx="363" cy="80" r="2" fill="#090806"/>
     <circle cx="369" cy="80" r="2" fill="#090806"/>
-    <!-- Arms — wisps -->
     <ellipse cx="352" cy="100" rx="8" ry="3" transform="rotate(-30,352,100)"/>
     <ellipse cx="380" cy="100" rx="8" ry="3" transform="rotate(30,380,100)"/>
   </g>
-  <!-- Ember glow emanating from Ashwalker -->
   <radialGradient id="boss-glow3" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#c04808" stop-opacity="0.3"/>
+    <stop offset="0%" stop-color="#c04808" stop-opacity="0.3">
+      <animate attributeName="stop-opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#c04808" stop-opacity="0"/>
   </radialGradient>
   <rect x="342" y="72" width="48" height="68" fill="url(#boss-glow3)"/>
   <text x="366" y="148" font-family="monospace" font-size="6" fill="#3a2808" text-anchor="middle">ASHWALKER</text>
 
-  <!-- Route arrows -->
-  <path d="M66,120 Q90,120 105,120" stroke="#204030" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
+  <!-- Route arrows — marching ants -->
+  <path d="M66,120 Q90,120 105,120" stroke="#204030" stroke-width="1.5" fill="none" stroke-dasharray="5,3">
+    <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1.2s" repeatCount="indefinite"/>
+  </path>
   <polygon points="102,117 109,120 102,123" fill="#204030"/>
-  <!-- Through zone 1 -->
-  <path d="M145,120 Q172,116 183,113" stroke="#204030" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
+  <path d="M145,120 Q172,116 183,113" stroke="#204030" stroke-width="1.5" fill="none" stroke-dasharray="5,3">
+    <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1.4s" repeatCount="indefinite"/>
+  </path>
   <polygon points="180,110 187,113 180,116" fill="#204030"/>
-  <!-- Through zone 2 -->
-  <path d="M227,111 Q253,113 265,114" stroke="#204030" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
+  <path d="M227,111 Q253,113 265,114" stroke="#204030" stroke-width="1.5" fill="none" stroke-dasharray="5,3">
+    <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1.3s" repeatCount="indefinite"/>
+  </path>
   <polygon points="262,111 269,114 262,117" fill="#204030"/>
-  <!-- To boss -->
-  <path d="M305,115 Q322,110 342,105" stroke="#3a2808" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
+  <path d="M305,115 Q322,110 342,105" stroke="#3a2808" stroke-width="2" fill="none" stroke-dasharray="5,3">
+    <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+  </path>
   <polygon points="339,102 346,105 339,108" fill="#3a2808"/>
 
-  <!-- Hazard X marks on zones -->
-  <g stroke="#c04808" stroke-width="1" opacity="0.5">
+  <!-- Hazard X marks — flicker -->
+  <g stroke="#c04808" stroke-width="1">
+    <animate attributeName="opacity" values="0.4;0.7;0.4" dur="2s" repeatCount="indefinite"/>
     <line x1="112" y1="112" x2="138" y2="128"/>
     <line x1="138" y1="112" x2="112" y2="128"/>
     <line x1="190" y1="104" x2="220" y2="120"/>
@@ -112,9 +122,13 @@
   </g>
 
   <!-- Objective text -->
-  <text x="200" y="22" font-family="monospace" font-size="8" fill="#3a2808" text-anchor="middle" letter-spacing="2">OBJECTIVE: FIND AND DESTROY THE ASHWALKER</text>
+  <text x="200" y="22" font-family="monospace" font-size="8" fill="#3a2808" text-anchor="middle" letter-spacing="2">OBJECTIVE: FIND AND DESTROY THE ASHWALKER
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite"/>
+  </text>
   <line x1="50" y1="27" x2="350" y2="27" stroke="#201808" stroke-width="0.8"/>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a2c1a" text-anchor="middle" letter-spacing="3">YOUR MISSION</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a2c1a" text-anchor="middle" letter-spacing="3">YOUR MISSION
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="5s" repeatCount="indefinite"/>
+  </text>
 </svg>
