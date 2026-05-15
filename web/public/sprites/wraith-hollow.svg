@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a0a1a" opacity="0.5"/>
+  <!-- Dead hollow tree -->
+  <rect x="12" y="8" width="8" height="22" rx="1" fill="#2a2a3a"/>
+  <!-- Hollow opening -->
+  <ellipse cx="16" cy="20" rx="3" ry="5" fill="#0a0a14"/>
+  <!-- Gnarled roots -->
+  <path d="M12,28 Q8,30 5,30" fill="none" stroke="#2a2a3a" stroke-width="1.5"/>
+  <path d="M20,28 Q24,30 27,30" fill="none" stroke="#2a2a3a" stroke-width="1.5"/>
+  <path d="M12,26 Q9,28 7,31" fill="none" stroke="#2a2a3a" stroke-width="1.2"/>
+  <!-- Dead branches -->
+  <line x1="12" y1="12" x2="5" y2="8" stroke="#2a2a3a" stroke-width="1.2"/>
+  <line x1="5" y1="8" x2="3" y2="5" stroke="#2a2a3a" stroke-width="0.8"/>
+  <line x1="20" y1="12" x2="27" y2="8" stroke="#2a2a3a" stroke-width="1.2"/>
+  <line x1="27" y1="8" x2="29" y2="5" stroke="#2a2a3a" stroke-width="0.8"/>
+  <line x1="16" y1="8" x2="13" y2="4" stroke="#2a2a3a" stroke-width="1"/>
+  <line x1="16" y1="8" x2="19" y2="4" stroke="#2a2a3a" stroke-width="1"/>
+  <!-- Wraith energy inside hollow -->
+  <ellipse cx="16" cy="20" rx="2" ry="3" fill="#5555cc" opacity="0.4"/>
+  <ellipse cx="16" cy="20" rx="1" ry="2" fill="#8888ff" opacity="0.5"/>
+  <!-- Ghostly mist at base -->
+  <ellipse cx="16" cy="30" rx="10" ry="1.5" fill="#4444aa" opacity="0.15"/>
+  <ellipse cx="16" cy="29" rx="7" ry="1" fill="#6666cc" opacity="0.1"/>
+</svg>
