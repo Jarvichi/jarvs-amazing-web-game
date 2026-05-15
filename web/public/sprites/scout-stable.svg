@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Stable building -->
+  <rect x="2" y="14" width="28" height="16" rx="1" fill="#8a6a3a"/>
+  <!-- Wooden plank texture -->
+  <line x1="2" y1="18" x2="30" y2="18" stroke="#6a4a1a" stroke-width="0.7"/>
+  <line x1="2" y1="22" x2="30" y2="22" stroke="#6a4a1a" stroke-width="0.7"/>
+  <line x1="2" y1="26" x2="30" y2="26" stroke="#6a4a1a" stroke-width="0.7"/>
+  <line x1="10" y1="14" x2="10" y2="30" stroke="#6a4a1a" stroke-width="0.5"/>
+  <line x1="22" y1="14" x2="22" y2="30" stroke="#6a4a1a" stroke-width="0.5"/>
+  <!-- Low-pitched roof (stable style) -->
+  <polygon points="0,14 16,6 32,14" fill="#5a3a1a"/>
+  <polygon points="2,14 16,8 30,14" fill="#7a5a2a"/>
+  <!-- Ventilation gap in roof peak -->
+  <line x1="16" y1="6" x2="16" y2="14" stroke="#4a2a0a" stroke-width="1"/>
+  <!-- Stable stalls (divided) -->
+  <rect x="12" y="18" width="8" height="12" rx="0.3" fill="#2a1a0a"/>
+  <!-- Horse silhouette in stall -->
+  <ellipse cx="16" cy="23" rx="3" ry="4" fill="#4a3a2a"/>
+  <ellipse cx="16" cy="19" rx="2" ry="2" fill="#5a4a3a"/>
+  <path d="M18,19 Q21,17 21,20" fill="none" stroke="#5a4a3a" stroke-width="1.5"/>
+  <!-- Hay bale outside stall -->
+  <rect x="3" y="22" width="6" height="5" rx="0.5" fill="#cc9933"/>
+  <line x1="3" y1="24.5" x2="9" y2="24.5" stroke="#aa7722" stroke-width="0.8"/>
+  <!-- Saddle/tack on wall -->
+  <path d="M23" fill="none"/>
+  <rect x="24" y="16" width="4" height="3" rx="0.5" fill="#6a4a2a"/>
+  <ellipse cx="26" cy="15" rx="2.5" ry="1.5" fill="#7a5a3a"/>
+  <!-- Scout banner (lightweight pennant) -->
+  <line x1="16" y1="6" x2="16" y2="3" stroke="#5a4a2a" stroke-width="0.8"/>
+  <polygon points="16,3 22,4.5 16,6" fill="#2a6a2a"/>
+</svg>

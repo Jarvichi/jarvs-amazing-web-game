@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="9" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Totem base stone -->
+  <rect x="12" y="26" width="8" height="4" rx="1" fill="#5a4a2a"/>
+  <!-- Main totem pole -->
+  <rect x="14" y="6" width="4" height="22" rx="0.5" fill="#7a5a2a"/>
+  <!-- Top face (spirit face) -->
+  <ellipse cx="16" cy="7" rx="4" ry="4" fill="#8a6a3a"/>
+  <!-- Top face features -->
+  <ellipse cx="14.5" cy="6.5" rx="1" ry="0.8" fill="#1a0a00"/>
+  <ellipse cx="17.5" cy="6.5" rx="1" ry="0.8" fill="#1a0a00"/>
+  <circle cx="14.5" cy="6.5" r="0.5" fill="#ff4400" opacity="0.7"/>
+  <circle cx="17.5" cy="6.5" r="0.5" fill="#ff4400" opacity="0.7"/>
+  <path d="M14,8.5 Q16,9.5 18,8.5" fill="none" stroke="#1a0a00" stroke-width="0.7"/>
+  <!-- Headdress feathers -->
+  <line x1="12" y1="4" x2="10" y2="0" stroke="#cc4422" stroke-width="1.5"/>
+  <line x1="14" y1="3" x2="13" y2="0" stroke="#dd6633" stroke-width="1.5"/>
+  <line x1="16" y1="3" x2="16" y2="0" stroke="#ffaa00" stroke-width="1.5"/>
+  <line x1="18" y1="3" x2="19" y2="0" stroke="#dd6633" stroke-width="1.5"/>
+  <line x1="20" y1="4" x2="22" y2="0" stroke="#cc4422" stroke-width="1.5"/>
+  <!-- Middle carved face -->
+  <ellipse cx="16" cy="15" rx="3.5" ry="3" fill="#7a5a2a"/>
+  <ellipse cx="14.5" cy="14.5" rx="0.8" ry="0.7" fill="#1a0a00"/>
+  <ellipse cx="17.5" cy="14.5" rx="0.8" ry="0.7" fill="#1a0a00"/>
+  <path d="M14.5,16.5 Q16,17.5 17.5,16.5" fill="none" stroke="#1a0a00" stroke-width="0.6"/>
+  <!-- Tribal rings/decorations -->
+  <rect x="13" y="19" width="6" height="1.5" rx="0.3" fill="#cc4422"/>
+  <rect x="13" y="22" width="6" height="1.5" rx="0.3" fill="#ffaa00"/>
+  <!-- Spiritual energy glow -->
+  <ellipse cx="16" cy="10" rx="6" ry="5" fill="#ffaa00" opacity="0.1"/>
+</svg>

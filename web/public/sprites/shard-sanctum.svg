@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="12" ry="1.5" fill="#1a1a2a" opacity="0.5"/>
+  <!-- Crystal shard base cluster -->
+  <polygon points="4,30 7,22 10,28 13,20 16,26 19,20 22,28 25,22 28,30" fill="#3a3a5a"/>
+  <!-- Sanctum central building -->
+  <rect x="8" y="12" width="16" height="16" rx="1" fill="#4a4a6a"/>
+  <!-- Crystal lattice on walls -->
+  <line x1="8" y1="16" x2="24" y2="16" stroke="#5577aa" stroke-width="0.6"/>
+  <line x1="8" y1="20" x2="24" y2="20" stroke="#5577aa" stroke-width="0.5"/>
+  <line x1="16" y1="12" x2="16" y2="28" stroke="#5577aa" stroke-width="0.4"/>
+  <!-- Shard spire roof -->
+  <polygon points="6,12 16,2 26,12" fill="#2a2a4a"/>
+  <polygon points="8,12 16,4 24,12" fill="#3a3a5a"/>
+  <!-- Multiple shard tips -->
+  <polygon points="12,4 14,1 16,4 14,6" fill="#8899ff"/>
+  <polygon points="16,3 18,0 20,3 18,5" fill="#aabbff"/>
+  <polygon points="9,7 10,5 11,7 10,8" fill="#7788ee"/>
+  <!-- Glowing crystal windows -->
+  <rect x="10" y="14" width="4" height="5" rx="0.5" fill="#1a1a2a"/>
+  <rect x="11" y="15" width="2" height="3" fill="#6677ff" opacity="0.6"/>
+  <rect x="18" y="14" width="4" height="5" rx="0.5" fill="#1a1a2a"/>
+  <rect x="19" y="15" width="2" height="3" fill="#6677ff" opacity="0.6"/>
+  <!-- Arcane arch entrance -->
+  <path d="M13,28 L13,22 Q16,18 19,22 L19,28 Z" fill="#1a1a2a"/>
+  <!-- Crystal shards orbiting sanctum -->
+  <polygon points="5,10 6,8 7,10 6,11" fill="#8899ff" opacity="0.7"/>
+  <polygon points="25,10 26,8 27,10 26,11" fill="#8899ff" opacity="0.7"/>
+</svg>

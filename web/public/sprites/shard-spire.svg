@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="9" ry="1.5" fill="#1a1a2a" opacity="0.5"/>
+  <!-- Crystal shard cluster base -->
+  <polygon points="8,30 10,24 13,28 16,22 19,28 22,24 24,30" fill="#4a4a6a"/>
+  <!-- Main central spire -->
+  <polygon points="10,22 16,4 22,22" fill="#5566aa" opacity="0.9"/>
+  <polygon points="11,22 16,6 21,22" fill="#7788cc" opacity="0.8"/>
+  <!-- Highlight -->
+  <polygon points="12,22 14,8 15,22" fill="#aabbee" opacity="0.4"/>
+  <!-- Left shard -->
+  <polygon points="7,22 10,10 13,22" fill="#4455aa" opacity="0.8"/>
+  <polygon points="8,22 10,12 12,22" fill="#6677cc" opacity="0.7"/>
+  <!-- Right shard -->
+  <polygon points="19,22 22,10 25,22" fill="#4455aa" opacity="0.8"/>
+  <polygon points="20,22 22,12 24,22" fill="#6677cc" opacity="0.7"/>
+  <!-- Tiny flanking shards -->
+  <polygon points="4,22 6,15 8,22" fill="#3344aa" opacity="0.7"/>
+  <polygon points="24,22 26,15 28,22" fill="#3344aa" opacity="0.7"/>
+  <!-- Crystal tips glow -->
+  <circle cx="16" cy="4" r="1.5" fill="#aabbff" opacity="0.8"/>
+  <circle cx="10" cy="10" r="1" fill="#8899ff" opacity="0.7"/>
+  <circle cx="22" cy="10" r="1" fill="#8899ff" opacity="0.7"/>
+  <!-- Prismatic refraction lines -->
+  <line x1="16" y1="5" x2="5" y2="23" stroke="#ff8888" stroke-width="0.6" opacity="0.25"/>
+  <line x1="16" y1="5" x2="27" y2="23" stroke="#8888ff" stroke-width="0.6" opacity="0.25"/>
+  <line x1="16" y1="5" x2="16" y2="23" stroke="#88ffaa" stroke-width="0.6" opacity="0.2"/>
+  <!-- Ground glow -->
+  <ellipse cx="16" cy="30" rx="10" ry="1.5" fill="#8899ff" opacity="0.2"/>
+</svg>
