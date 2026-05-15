@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a1a1a" opacity="0.5"/>
+  <!-- Massive iron hall base -->
+  <rect x="1" y="14" width="30" height="16" rx="1" fill="#4a4a5a"/>
+  <!-- Iron plate lines (horizontal) -->
+  <line x1="1" y1="19" x2="31" y2="19" stroke="#3a3a4a" stroke-width="0.8"/>
+  <line x1="1" y1="24" x2="31" y2="24" stroke="#3a3a4a" stroke-width="0.8"/>
+  <line x1="1" y1="28" x2="31" y2="28" stroke="#3a3a4a" stroke-width="0.8"/>
+  <!-- Iron plate lines (vertical) -->
+  <line x1="7" y1="14" x2="7" y2="30" stroke="#3a3a4a" stroke-width="0.6"/>
+  <line x1="16" y1="14" x2="16" y2="30" stroke="#3a3a4a" stroke-width="0.6"/>
+  <line x1="25" y1="14" x2="25" y2="30" stroke="#3a3a4a" stroke-width="0.6"/>
+  <!-- Rivet grid -->
+  <circle cx="3" cy="17" r="0.8" fill="#6a6a7a"/>
+  <circle cx="3" cy="22" r="0.8" fill="#6a6a7a"/>
+  <circle cx="29" cy="17" r="0.8" fill="#6a6a7a"/>
+  <circle cx="29" cy="22" r="0.8" fill="#6a6a7a"/>
+  <!-- Flat iron roof with raised centre -->
+  <rect x="0" y="11" width="32" height="4" fill="#3a3a4a"/>
+  <rect x="6" y="8" width="20" height="4" rx="0.5" fill="#4a4a5a"/>
+  <rect x="10" y="6" width="12" height="3" rx="0.5" fill="#3a3a4a"/>
+  <!-- Large double doors (iron-banded) -->
+  <rect x="11" y="18" width="6" height="12" rx="0.3" fill="#2a2a3a"/>
+  <rect x="17" y="18" width="6" height="12" rx="0.3" fill="#2a2a3a"/>
+  <!-- Door handle rings -->
+  <circle cx="16" cy="24" r="1.2" fill="none" stroke="#6a6a7a" stroke-width="0.8"/>
+  <circle cx="18" cy="24" r="1.2" fill="none" stroke="#6a6a7a" stroke-width="0.8"/>
+  <!-- Tall narrow windows -->
+  <rect x="4" y="16" width="3" height="7" rx="0.3" fill="#1a1a2a"/>
+  <rect x="25" y="16" width="3" height="7" rx="0.3" fill="#1a1a2a"/>
+  <!-- Iron sigil above door -->
+  <polygon points="16,14 14,16 16,18 18,16" fill="#6a6a7a"/>
+  <!-- Torch sconces -->
+  <circle cx="9" cy="15" r="1.5" fill="#ffaa00" opacity="0.7"/>
+  <circle cx="23" cy="15" r="1.5" fill="#ffaa00" opacity="0.7"/>
+</svg>

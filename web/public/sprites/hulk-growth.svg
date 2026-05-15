@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a2a0a" opacity="0.5"/>
+  <!-- Massive overgrown root mound -->
+  <ellipse cx="16" cy="27" rx="14" ry="6" fill="#2a5a1a"/>
+  <!-- Giant mushroom cap -->
+  <ellipse cx="16" cy="18" rx="13" ry="7" fill="#5a8a2a"/>
+  <ellipse cx="16" cy="17" rx="12" ry="6" fill="#6a9a3a"/>
+  <!-- Mushroom highlight -->
+  <ellipse cx="12" cy="15" rx="4" ry="3" fill="#7aaa4a" opacity="0.5"/>
+  <!-- Mushroom stalk/trunk -->
+  <rect x="12" y="18" width="8" height="12" rx="2" fill="#4a7a2a"/>
+  <!-- Oversized pulsing vines -->
+  <path d="M3,28 Q6,20 10,18" fill="none" stroke="#3a6a1a" stroke-width="2.5"/>
+  <path d="M29,28 Q26,20 22,18" fill="none" stroke="#3a6a1a" stroke-width="2.5"/>
+  <!-- Growth spores/bubbles -->
+  <circle cx="5" cy="22" r="1.5" fill="#88cc44" opacity="0.6"/>
+  <circle cx="27" cy="21" r="1.2" fill="#88cc44" opacity="0.5"/>
+  <circle cx="8" cy="15" r="1" fill="#aadd66" opacity="0.5"/>
+  <circle cx="24" cy="14" r="1" fill="#aadd66" opacity="0.5"/>
+  <!-- Toxic drips from cap edge -->
+  <circle cx="5" cy="21" r="0.8" fill="#aaff00" opacity="0.6"/>
+  <circle cx="10" cy="23" r="0.6" fill="#aaff00" opacity="0.5"/>
+  <circle cx="22" cy="23" r="0.7" fill="#aaff00" opacity="0.5"/>
+  <circle cx="27" cy="21" r="0.8" fill="#aaff00" opacity="0.6"/>
+  <!-- Spots on cap -->
+  <circle cx="10" cy="16" r="2" fill="#ffffff" opacity="0.2"/>
+  <circle cx="19" cy="14" r="1.5" fill="#ffffff" opacity="0.2"/>
+  <circle cx="23" cy="17" r="1.2" fill="#ffffff" opacity="0.15"/>
+</svg>

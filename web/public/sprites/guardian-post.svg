@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="10" ry="1.5" fill="#1a1a1a" opacity="0.5"/>
+  <!-- Post base platform -->
+  <rect x="8" y="24" width="16" height="6" rx="1" fill="#5a5a6a"/>
+  <!-- Guard post tower -->
+  <rect x="11" y="10" width="10" height="16" rx="1" fill="#6a6a7a"/>
+  <!-- Roof overhang -->
+  <rect x="8" y="9" width="16" height="3" rx="0.5" fill="#5a5a6a"/>
+  <!-- Pointed roof -->
+  <polygon points="7,9 16,2 25,9" fill="#4a4a5a"/>
+  <polygon points="9,9 16,4 23,9" fill="#5a5a6a"/>
+  <!-- Arrow slit windows -->
+  <rect x="13" y="13" width="3" height="5" rx="0.3" fill="#2a2a3a"/>
+  <path d="M13,13 Q14.5,11 16,13" fill="#2a2a3a"/>
+  <!-- Shield emblem on front -->
+  <polygon points="16,17 12,19 12,23 16,25 20,23 20,19" fill="#7a7a8a"/>
+  <polygon points="16,18 13,20 13,23 16,24.5 19,23 19,20" fill="#4a4a5a"/>
+  <!-- Cross on shield -->
+  <line x1="16" y1="19" x2="16" y2="24" stroke="#aaaacc" stroke-width="0.8"/>
+  <line x1="13.5" y1="21.5" x2="18.5" y2="21.5" stroke="#aaaacc" stroke-width="0.8"/>
+  <!-- Flagpole with pennant -->
+  <line x1="16" y1="2" x2="16" y2="0" stroke="#4a4a5a" stroke-width="0.8"/>
+  <polygon points="16,0 22,1 16,2" fill="#4a6a9a"/>
+  <!-- Torch lights flanking -->
+  <circle cx="9" cy="11" r="1.5" fill="#ffaa00" opacity="0.7"/>
+  <circle cx="23" cy="11" r="1.5" fill="#ffaa00" opacity="0.7"/>
+</svg>
