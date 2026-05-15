@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a1a0a" opacity="0.4"/>
+  <!-- Massive sand dune -->
+  <ellipse cx="16" cy="24" rx="16" ry="10" fill="#cc9933"/>
+  <ellipse cx="16" cy="23" rx="15" ry="9" fill="#ddaa44"/>
+  <!-- Dune crest highlights -->
+  <path d="M2,20 Q8,15 16,18 Q24,15 30,20" fill="none" stroke="#eebb55" stroke-width="1.5"/>
+  <!-- Dune surface ripple lines -->
+  <path d="M5,22 Q10,20 16,21 Q22,20 27,22" fill="none" stroke="#cc8822" stroke-width="0.6" opacity="0.5"/>
+  <path d="M6,25 Q11,23 16,24 Q21,23 26,25" fill="none" stroke="#cc8822" stroke-width="0.5" opacity="0.4"/>
+  <!-- Giant buried titan statue head emerging -->
+  <ellipse cx="16" cy="19" rx="7" ry="6" fill="#9a8855"/>
+  <ellipse cx="16" cy="18" rx="6" ry="5" fill="#aa9966"/>
+  <!-- Titan eye sockets -->
+  <ellipse cx="13" cy="17" rx="2" ry="1.5" fill="#2a1a0a"/>
+  <ellipse cx="19" cy="17" rx="2" ry="1.5" fill="#2a1a0a"/>
+  <!-- Titan eyes glowing ancient orange -->
+  <circle cx="13" cy="17" r="1" fill="#cc6600" opacity="0.7"/>
+  <circle cx="19" cy="17" r="1" fill="#cc6600" opacity="0.7"/>
+  <!-- Titan nose ridge -->
+  <path d="M15,18 Q16,20 17,18" fill="none" stroke="#9a8855" stroke-width="1"/>
+  <!-- Ancient crown half-buried -->
+  <path d="M10,13 Q13,10 16,12 Q19,10 22,13" fill="none" stroke="#ccaa44" stroke-width="2"/>
+  <polygon points="10,13 11,9 12,13" fill="#ccaa44"/>
+  <polygon points="15,12 16,7 17,12" fill="#ddbb55"/>
+  <polygon points="20,13 21,9 22,13" fill="#ccaa44"/>
+  <!-- Sandstorm wisps at dune peak -->
+  <ellipse cx="8" cy="15" rx="4" ry="1.5" fill="#ddbb66" opacity="0.3" transform="rotate(-15 8 15)"/>
+  <ellipse cx="24" cy="14" rx="4" ry="1.5" fill="#ddbb66" opacity="0.3" transform="rotate(15 24 14)"/>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tidal water around base -->
+  <rect x="0" y="26" width="32" height="6" fill="#0a3a5a" opacity="0.4"/>
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a1a2a" opacity="0.4"/>
+  <!-- Stable on stilts above tidal zone -->
+  <line x1="5" y1="20" x2="4" y2="30" stroke="#5a4a2a" stroke-width="1.5"/>
+  <line x1="12" y1="20" x2="11" y2="30" stroke="#5a4a2a" stroke-width="1.5"/>
+  <line x1="20" y1="20" x2="21" y2="30" stroke="#5a4a2a" stroke-width="1.5"/>
+  <line x1="27" y1="20" x2="28" y2="30" stroke="#5a4a2a" stroke-width="1.5"/>
+  <!-- Platform -->
+  <rect x="3" y="18" width="26" height="3" rx="0.5" fill="#6a5a3a"/>
+  <!-- Stable building -->
+  <rect x="3" y="8" width="26" height="11" rx="1" fill="#7a6a4a"/>
+  <!-- Stable roof (sea-green thatching) -->
+  <polygon points="1,8 16,1 31,8" fill="#4a6a4a"/>
+  <polygon points="3,8 16,3 29,8" fill="#5a7a5a"/>
+  <!-- Seaweed thatch detail -->
+  <line x1="16" y1="1" x2="8" y2="8" stroke="#3a5a3a" stroke-width="0.5"/>
+  <line x1="16" y1="1" x2="24" y2="8" stroke="#3a5a3a" stroke-width="0.5"/>
+  <!-- Sea horse silhouette inside stall (tide stable = sea horses!) -->
+  <path d="M10,14 Q11,10 13,11 Q14,12 13,14 Q12,15 11,15 Q10,15 10,14Z" fill="#4a5a6a"/>
+  <line x1="13" y1="14" x2="14" y2="18" stroke="#4a5a6a" stroke-width="1.5"/>
+  <!-- Second sea horse -->
+  <path d="M20,14 Q21,10 23,11 Q24,12 23,14 Q22,15 21,15 Q20,15 20,14Z" fill="#4a5a6a"/>
+  <line x1="23" y1="14" x2="24" y2="18" stroke="#4a5a6a" stroke-width="1.5"/>
+  <!-- Water shimmer -->
+  <path d="M0,28 Q8,26 16,28 Q24,30 32,28" fill="none" stroke="#1a5a7a" stroke-width="0.6" opacity="0.4"/>
+</svg>

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- River below bridge -->
+  <rect x="0" y="20" width="32" height="12" fill="#1a3a5a"/>
+  <!-- Water shimmer -->
+  <path d="M0,22 Q8,20 16,22 Q24,24 32,22" fill="none" stroke="#2a5a7a" stroke-width="0.7" opacity="0.4"/>
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1" fill="#0a1a2a" opacity="0.3"/>
+  <!-- Bridge supports/pylons -->
+  <rect x="5" y="16" width="6" height="16" rx="1" fill="#6a5a4a"/>
+  <rect x="21" y="16" width="6" height="16" rx="1" fill="#6a5a4a"/>
+  <!-- Stone arch -->
+  <path d="M5,20 Q16,10 27,20" fill="#5a4a3a" stroke="#4a3a2a" stroke-width="1"/>
+  <!-- Bridge deck (stone slabs) -->
+  <rect x="3" y="14" width="26" height="5" rx="0.5" fill="#7a6a4a"/>
+  <line x1="3" y1="15.5" x2="29" y2="15.5" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="8" y1="14" x2="8" y2="19" stroke="#5a4a2a" stroke-width="0.5"/>
+  <line x1="14" y1="14" x2="14" y2="19" stroke="#5a4a2a" stroke-width="0.5"/>
+  <line x1="18" y1="14" x2="18" y2="19" stroke="#5a4a2a" stroke-width="0.5"/>
+  <line x1="24" y1="14" x2="24" y2="19" stroke="#5a4a2a" stroke-width="0.5"/>
+  <!-- Troll under bridge (classic) -->
+  <ellipse cx="16" cy="22" rx="5" ry="4" fill="#4a6a2a"/>
+  <circle cx="16" cy="19" r="3.5" fill="#5a7a3a"/>
+  <!-- Troll eyes -->
+  <circle cx="14.5" cy="18.5" r="0.8" fill="#ffcc00" opacity="0.9"/>
+  <circle cx="17.5" cy="18.5" r="0.8" fill="#ffcc00" opacity="0.9"/>
+  <!-- Troll club -->
+  <line x1="20" y1="20" x2="24" y2="16" stroke="#6a4a1a" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="24" cy="15" r="2" fill="#5a3a0a"/>
+  <!-- Bridge railing (rough stones) -->
+  <rect x="3" y="12" width="5" height="2.5" rx="0.3" fill="#8a7a5a"/>
+  <rect x="9" y="12" width="5" height="2.5" rx="0.3" fill="#7a6a4a"/>
+  <rect x="18" y="12" width="5" height="2.5" rx="0.3" fill="#8a7a5a"/>
+  <rect x="24" y="12" width="5" height="2.5" rx="0.3" fill="#7a6a4a"/>
+</svg>

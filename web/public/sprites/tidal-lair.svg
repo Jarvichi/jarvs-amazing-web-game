@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tidal water -->
+  <rect x="0" y="20" width="32" height="12" fill="#0a3a5a"/>
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a1a2a" opacity="0.4"/>
+  <!-- Tidal rock formation -->
+  <polygon points="1,30 3,14 8,18 12,10 16,16 20,10 24,18 29,14 31,30" fill="#3a4a4a"/>
+  <!-- Sea cave lair entrance -->
+  <ellipse cx="16" cy="24" rx="9" ry="7" fill="#0a1a2a"/>
+  <!-- Tidal creature glow within -->
+  <ellipse cx="16" cy="26" rx="7" ry="5" fill="#003355" opacity="0.5"/>
+  <ellipse cx="16" cy="27" rx="5" ry="3" fill="#0055aa" opacity="0.4"/>
+  <ellipse cx="16" cy="28" rx="3" ry="1.8" fill="#0088cc" opacity="0.3"/>
+  <!-- Tidal creature eyes -->
+  <circle cx="13" cy="23" r="1.2" fill="#00aaff" opacity="0.8"/>
+  <circle cx="19" cy="23" r="1.2" fill="#00aaff" opacity="0.8"/>
+  <!-- Barnacles/coral on rocks -->
+  <circle cx="6" cy="18" r="1.5" fill="#cc4422" opacity="0.6"/>
+  <circle cx="26" cy="18" r="1.5" fill="#cc4422" opacity="0.5"/>
+  <circle cx="10" cy="14" r="1" fill="#dd5533" opacity="0.5"/>
+  <!-- Seaweed at entrance -->
+  <path d="M8,26 Q7,22 8,18 Q9,22 8,25" fill="none" stroke="#1a5a2a" stroke-width="1.2"/>
+  <path d="M24,26 Q25,22 24,18 Q23,22 24,25" fill="none" stroke="#1a5a2a" stroke-width="1.2"/>
+  <!-- Water shimmer -->
+  <path d="M0,22 Q8,20 16,22 Q24,24 32,22" fill="none" stroke="#1a5a7a" stroke-width="0.7" opacity="0.4"/>
+  <!-- Sea foam at rock base -->
+  <ellipse cx="6" cy="26" rx="4" ry="1.5" fill="#aaccdd" opacity="0.2"/>
+  <ellipse cx="26" cy="26" rx="4" ry="1.5" fill="#aaccdd" opacity="0.2"/>
+</svg>

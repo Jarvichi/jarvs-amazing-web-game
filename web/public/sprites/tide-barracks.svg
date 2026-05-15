@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tidal water at base -->
+  <rect x="0" y="26" width="32" height="6" fill="#0a3a5a" opacity="0.5"/>
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#0a1a2a" opacity="0.4"/>
+  <!-- Barracks walls (sea-worn stone) -->
+  <rect x="2" y="12" width="28" height="16" rx="1" fill="#4a5a6a"/>
+  <!-- Coral/barnacle encrusting on lower walls -->
+  <rect x="2" y="22" width="28" height="6" fill="#5a4a4a" opacity="0.4"/>
+  <!-- Stone block lines -->
+  <line x1="2" y1="16" x2="30" y2="16" stroke="#3a4a5a" stroke-width="0.7"/>
+  <line x1="2" y1="20" x2="30" y2="20" stroke="#3a4a5a" stroke-width="0.6"/>
+  <line x1="2" y1="24" x2="30" y2="24" stroke="#3a4a5a" stroke-width="0.5"/>
+  <!-- Wave-arched roof -->
+  <path d="M0,12 Q8,6 16,9 Q24,6 32,12" fill="#3a4a5a"/>
+  <!-- Battlements -->
+  <rect x="2" y="9" width="3" height="4" rx="0.3" fill="#4a5a6a"/>
+  <rect x="8" y="9" width="3" height="4" rx="0.3" fill="#4a5a6a"/>
+  <rect x="21" y="9" width="3" height="4" rx="0.3" fill="#4a5a6a"/>
+  <rect x="27" y="9" width="3" height="4" rx="0.3" fill="#4a5a6a"/>
+  <!-- Water-arched gate entrance -->
+  <path d="M13,28 L13,18 Q16,14 19,18 L19,28 Z" fill="#0a1a2a"/>
+  <!-- Wave crest banner above gate -->
+  <path d="M12,14 Q14,11 16,13 Q18,11 20,14" fill="none" stroke="#5a9aaa" stroke-width="1.5"/>
+  <!-- Arrow slits (fish-eye shaped) -->
+  <ellipse cx="7" cy="17" rx="1.5" ry="2" fill="#0a1a2a"/>
+  <ellipse cx="25" cy="17" rx="1.5" ry="2" fill="#0a1a2a"/>
+  <!-- Seaweed on walls -->
+  <path d="M4,22 Q3,18 4,14 Q5,18 4,21" fill="none" stroke="#1a5a2a" stroke-width="1"/>
+  <path d="M28,22 Q29,18 28,14 Q27,18 28,21" fill="none" stroke="#1a5a2a" stroke-width="1"/>
+</svg>
