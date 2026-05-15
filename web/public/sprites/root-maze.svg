@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#0a1a0a" opacity="0.5"/>
+  <!-- Earthy ground -->
+  <rect x="0" y="25" width="32" height="7" fill="#3a2a1a" opacity="0.5"/>
+  <!-- Maze of thick roots forming walls -->
+  <!-- Outer root ring -->
+  <path d="M2,28 Q4,20 8,16 Q12,10 16,8 Q20,10 24,16 Q28,20 30,28" fill="none" stroke="#5a3a1a" stroke-width="4"/>
+  <!-- Inner root passages -->
+  <path d="M8,28 Q10,22 12,18 Q14,14 16,12" fill="none" stroke="#6a4a2a" stroke-width="3"/>
+  <path d="M24,28 Q22,22 20,18 Q18,14 16,12" fill="none" stroke="#6a4a2a" stroke-width="3"/>
+  <!-- Cross root -->
+  <path d="M6,20 Q10,18 14,20 Q18,22 22,20 Q26,18 28,22" fill="none" stroke="#7a5a2a" stroke-width="2"/>
+  <!-- Central tree/root node -->
+  <circle cx="16" cy="12" r="4" fill="#4a3a1a"/>
+  <circle cx="16" cy="12" r="2.5" fill="#5a4a2a"/>
+  <!-- Glowing eye in center -->
+  <circle cx="16" cy="12" r="1.5" fill="#22aa22" opacity="0.7"/>
+  <circle cx="16" cy="12" r="0.8" fill="#44ff44" opacity="0.8"/>
+  <!-- Leaf clusters on roots -->
+  <ellipse cx="5" cy="17" rx="3" ry="2" fill="#2a6a1a" opacity="0.7"/>
+  <ellipse cx="27" cy="17" rx="3" ry="2" fill="#2a6a1a" opacity="0.7"/>
+  <ellipse cx="16" cy="8" rx="4" ry="2.5" fill="#3a7a2a" opacity="0.7"/>
+  <!-- Small glowing orbs marking path -->
+  <circle cx="10" cy="24" r="0.8" fill="#44ff44" opacity="0.5"/>
+  <circle cx="22" cy="24" r="0.8" fill="#44ff44" opacity="0.5"/>
+  <circle cx="7" cy="20" r="0.7" fill="#22cc22" opacity="0.4"/>
+</svg>

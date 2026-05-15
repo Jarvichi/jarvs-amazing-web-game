@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#0a1a0a" opacity="0.5"/>
+  <!-- Wall of interwoven roots -->
+  <!-- Base root layer (thick) -->
+  <path d="M0,28 Q8,24 16,26 Q24,28 32,24" fill="none" stroke="#5a3a1a" stroke-width="5"/>
+  <!-- Middle root layer -->
+  <path d="M0,22 Q6,18 12,20 Q18,22 24,18 Q28,16 32,18" fill="none" stroke="#6a4a2a" stroke-width="4.5"/>
+  <!-- Upper root layer -->
+  <path d="M0,16 Q8,12 16,14 Q24,16 32,12" fill="none" stroke="#5a3a1a" stroke-width="4"/>
+  <!-- Top root layer -->
+  <path d="M2,10 Q10,6 16,8 Q22,10 30,6" fill="none" stroke="#6a4a2a" stroke-width="3.5"/>
+  <!-- Vertical binding roots -->
+  <line x1="6" y1="8" x2="5" y2="28" stroke="#4a2a0a" stroke-width="2"/>
+  <line x1="16" y1="6" x2="16" y2="28" stroke="#4a2a0a" stroke-width="2"/>
+  <line x1="26" y1="8" x2="27" y2="28" stroke="#4a2a0a" stroke-width="2"/>
+  <!-- Leaf/sprout nodes where roots cross -->
+  <circle cx="6" cy="20" r="3" fill="#2a6a1a" opacity="0.7"/>
+  <circle cx="16" cy="18" r="3" fill="#3a7a2a" opacity="0.7"/>
+  <circle cx="26" cy="20" r="3" fill="#2a6a1a" opacity="0.7"/>
+  <!-- Thorny spikes on top roots -->
+  <polygon points="4,9 5,6 6,9" fill="#4a3a1a"/>
+  <polygon points="10,7 11,4 12,7" fill="#4a3a1a"/>
+  <polygon points="16,5 17,2 18,5" fill="#4a3a1a"/>
+  <polygon points="21,7 22,4 23,7" fill="#4a3a1a"/>
+  <polygon points="27,8 28,5 29,8" fill="#4a3a1a"/>
+  <!-- Green glow from life force -->
+  <ellipse cx="16" cy="16" rx="15" ry="8" fill="#22aa22" opacity="0.07"/>
+</svg>

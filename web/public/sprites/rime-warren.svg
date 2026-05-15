@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Snow ground -->
+  <rect x="0" y="26" width="32" height="6" fill="#aaccdd" opacity="0.4"/>
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a1a2a" opacity="0.5"/>
+  <!-- Frozen mound (snow-covered warren) -->
+  <ellipse cx="16" cy="25" rx="14" ry="8" fill="#5a7a8a"/>
+  <ellipse cx="16" cy="24" rx="13" ry="7" fill="#6a8a9a"/>
+  <!-- Snow cap -->
+  <ellipse cx="16" cy="20" rx="11" ry="5" fill="#aaccdd"/>
+  <ellipse cx="16" cy="19" rx="9" ry="4" fill="#cce8f0"/>
+  <!-- Frost rime pattern on snow -->
+  <path d="M8,19 Q12,17 16,19 Q20,21 24,19" fill="none" stroke="#88aacc" stroke-width="0.6" opacity="0.5"/>
+  <!-- Main tunnel entrance (frozen arch) -->
+  <ellipse cx="16" cy="26" rx="5.5" ry="4.5" fill="#1a2a3a"/>
+  <!-- Ice framing entrance -->
+  <polygon points="11,23 12,27 13,23" fill="#88ccee"/>
+  <polygon points="19,23 20,27 21,23" fill="#88ccee"/>
+  <!-- Side warrens -->
+  <ellipse cx="7" cy="27" rx="3.5" ry="3" fill="#1a2a3a"/>
+  <ellipse cx="25" cy="27" rx="3.5" ry="3" fill="#1a2a3a"/>
+  <!-- Glowing icy-white eyes -->
+  <circle cx="15" cy="26" r="0.9" fill="#aaddff" opacity="0.9"/>
+  <circle cx="17" cy="26" r="0.9" fill="#aaddff" opacity="0.9"/>
+  <circle cx="6" cy="27" r="0.7" fill="#88ccee" opacity="0.8"/>
+  <circle cx="24" cy="27" r="0.7" fill="#88ccee" opacity="0.8"/>
+  <!-- Ice spikes protruding from mound -->
+  <polygon points="6,16 7,11 8,16" fill="#88ccee" opacity="0.7"/>
+  <polygon points="14,14 15,9 16,14" fill="#aaddff" opacity="0.8"/>
+  <polygon points="24,15 25,10 26,15" fill="#88ccee" opacity="0.7"/>
+  <!-- Snow particles -->
+  <circle cx="4" cy="14" r="0.7" fill="#cce8f0" opacity="0.5"/>
+  <circle cx="28" cy="12" r="0.6" fill="#cce8f0" opacity="0.4"/>
+  <circle cx="20" cy="10" r="0.6" fill="#cce8f0" opacity="0.4"/>
+</svg>
