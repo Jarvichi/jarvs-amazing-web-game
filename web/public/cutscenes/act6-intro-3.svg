@@ -7,9 +7,9 @@
   </linearGradient>
   <rect width="400" height="240" fill="url(#ley6-sky)"/>
 
-  <!-- Thick cloud layer — the ley lines punch through it -->
-  <!-- Lower cloud bank -->
+  <!-- Thick cloud layer — slowly drifting -->
   <g fill="#0c1520" opacity="0.8">
+    <animateTransform attributeName="transform" type="translate" values="0 0; 4 0; 0 0; -4 0; 0 0" dur="25s" repeatCount="indefinite"/>
     <ellipse cx="0"   cy="190" rx="80"  ry="30"/>
     <ellipse cx="80"  cy="185" rx="70"  ry="28"/>
     <ellipse cx="160" cy="188" rx="75"  ry="32"/>
@@ -24,117 +24,160 @@
     <ellipse cx="380" cy="178" rx="55"  ry="20"/>
   </g>
 
-  <!-- Upper cloud wisps — just below the top islands -->
+  <!-- Upper cloud wisps -->
   <g fill="#0c1520" opacity="0.4">
     <ellipse cx="60"  cy="60" rx="50" ry="15"/>
     <ellipse cx="340" cy="55" rx="55" ry="16"/>
     <ellipse cx="200" cy="50" rx="45" ry="12"/>
   </g>
 
-  <!-- THE LEY LINE COLUMNS — crackling vertical energy rising up through the clouds -->
-  <!-- Left ley column -->
+  <!-- LEFT LEY COLUMN — crackling vertical energy -->
   <g opacity="0.8">
-    <!-- Column body — thick, crackling -->
     <rect x="88" y="0" width="24" height="240" fill="#080c20" opacity="0.6"/>
-    <!-- Inner core glow -->
     <linearGradient id="ley-col-l" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#40a0e0" stop-opacity="0.8"/>
-      <stop offset="50%" stop-color="#2060c0" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#40a0e0" stop-opacity="0.8"/>
+      <stop offset="0%" stop-color="#40a0e0" stop-opacity="0.8">
+        <animate attributeName="stop-opacity" values="0.8;0.4;0.8" dur="5s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#2060c0" stop-opacity="0.6">
+        <animate attributeName="stop-opacity" values="0.6;1;0.6" dur="5s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#40a0e0" stop-opacity="0.8">
+        <animate attributeName="stop-opacity" values="0.8;0.4;0.8" dur="5s" repeatCount="indefinite"/>
+      </stop>
     </linearGradient>
     <rect x="96" y="0" width="8" height="240" fill="url(#ley-col-l)"/>
-    <!-- Crackling discharge sparks on left column -->
-    <g stroke="#80c0ff" stroke-width="0.8" fill="none" opacity="0.6">
+    <!-- Crackling discharge sparks — flickering -->
+    <g stroke="#80c0ff" stroke-width="0.8" fill="none">
+      <animate attributeName="opacity" values="0.6;0;0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
       <path d="M96,40  L90,52  L98,52  L92,64"/>
       <path d="M104,90  L110,102 L102,102 L108,114"/>
       <path d="M96,145 L90,157 L98,157 L92,169"/>
     </g>
-    <!-- Outer glow -->
     <radialGradient id="ley-glow-l" gradientUnits="userSpaceOnUse" cx="100" cy="120" r="30">
-      <stop offset="0%" stop-color="#2060c0" stop-opacity="0.3"/>
+      <stop offset="0%" stop-color="#2060c0" stop-opacity="0.3">
+        <animate attributeName="stop-opacity" values="0.3;0.6;0.3" dur="5s" repeatCount="indefinite"/>
+      </stop>
       <stop offset="100%" stop-color="#2060c0" stop-opacity="0"/>
     </radialGradient>
     <rect x="70" y="0" width="60" height="240" fill="url(#ley-glow-l)" opacity="0.4"/>
   </g>
 
-  <!-- Centre ley column — strongest -->
+  <!-- CENTRE LEY COLUMN — strongest — pulsing -->
   <g opacity="0.9">
     <rect x="188" y="0" width="24" height="240" fill="#080c20" opacity="0.6"/>
     <linearGradient id="ley-col-c" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#60c0ff" stop-opacity="0.9"/>
-      <stop offset="40%" stop-color="#3080e0" stop-opacity="0.7"/>
-      <stop offset="100%" stop-color="#60c0ff" stop-opacity="0.9"/>
+      <stop offset="0%" stop-color="#60c0ff" stop-opacity="0.9">
+        <animate attributeName="stop-opacity" values="0.9;0.5;0.9" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="40%" stop-color="#3080e0" stop-opacity="0.7">
+        <animate attributeName="stop-opacity" values="0.7;1;0.7" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#60c0ff" stop-opacity="0.9">
+        <animate attributeName="stop-opacity" values="0.9;0.5;0.9" dur="4s" repeatCount="indefinite"/>
+      </stop>
     </linearGradient>
     <rect x="196" y="0" width="8" height="240" fill="url(#ley-col-c)"/>
-    <g stroke="#a0d8ff" stroke-width="1" fill="none" opacity="0.7">
+    <!-- Centre sparks — offset flicker -->
+    <g stroke="#a0d8ff" stroke-width="1" fill="none">
+      <animate attributeName="opacity" values="0.7;0;0.7;0.3;0.7" dur="1.8s" begin="0.3s" repeatCount="indefinite"/>
       <path d="M196,30  L190,44  L198,44  L192,58"/>
       <path d="M204,75  L210,89  L202,89  L208,103"/>
       <path d="M196,130 L190,144 L198,144 L192,158"/>
       <path d="M204,175 L210,189 L202,189 L208,203"/>
     </g>
     <radialGradient id="ley-glow-c" gradientUnits="userSpaceOnUse" cx="200" cy="120" r="40">
-      <stop offset="0%" stop-color="#3080e0" stop-opacity="0.35"/>
+      <stop offset="0%" stop-color="#3080e0" stop-opacity="0.35">
+        <animate attributeName="stop-opacity" values="0.35;0.7;0.35" dur="4s" repeatCount="indefinite"/>
+      </stop>
       <stop offset="100%" stop-color="#3080e0" stop-opacity="0"/>
     </radialGradient>
     <rect x="160" y="0" width="80" height="240" fill="url(#ley-glow-c)" opacity="0.4"/>
   </g>
 
-  <!-- Right ley column -->
+  <!-- RIGHT LEY COLUMN -->
   <g opacity="0.8">
     <rect x="288" y="0" width="24" height="240" fill="#080c20" opacity="0.6"/>
     <linearGradient id="ley-col-r" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#40a0e0" stop-opacity="0.8"/>
-      <stop offset="50%" stop-color="#2060c0" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#40a0e0" stop-opacity="0.8"/>
+      <stop offset="0%" stop-color="#40a0e0" stop-opacity="0.8">
+        <animate attributeName="stop-opacity" values="0.8;0.4;0.8" dur="5s" begin="2s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#2060c0" stop-opacity="0.6">
+        <animate attributeName="stop-opacity" values="0.6;1;0.6" dur="5s" begin="2s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#40a0e0" stop-opacity="0.8">
+        <animate attributeName="stop-opacity" values="0.8;0.4;0.8" dur="5s" begin="2s" repeatCount="indefinite"/>
+      </stop>
     </linearGradient>
     <rect x="296" y="0" width="8" height="240" fill="url(#ley-col-r)"/>
-    <g stroke="#80c0ff" stroke-width="0.8" fill="none" opacity="0.6">
+    <!-- Right sparks — offset flicker -->
+    <g stroke="#80c0ff" stroke-width="0.8" fill="none">
+      <animate attributeName="opacity" values="0.6;0.2;0;0.6;0;0.6" dur="2.5s" begin="1s" repeatCount="indefinite"/>
       <path d="M296,55  L290,67  L298,67  L292,79"/>
       <path d="M304,110 L310,122 L302,122 L308,134"/>
       <path d="M296,165 L290,177 L298,177 L292,189"/>
     </g>
     <radialGradient id="ley-glow-r" gradientUnits="userSpaceOnUse" cx="300" cy="120" r="30">
-      <stop offset="0%" stop-color="#2060c0" stop-opacity="0.3"/>
+      <stop offset="0%" stop-color="#2060c0" stop-opacity="0.3">
+        <animate attributeName="stop-opacity" values="0.3;0.6;0.3" dur="5s" begin="2s" repeatCount="indefinite"/>
+      </stop>
       <stop offset="100%" stop-color="#2060c0" stop-opacity="0"/>
     </radialGradient>
     <rect x="270" y="0" width="60" height="240" fill="url(#ley-glow-r)" opacity="0.4"/>
   </g>
 
-  <!-- Island platforms where ley lines connect — top anchors -->
-  <!-- Left island top anchor -->
+  <!-- Island platforms — top anchors — pulsing glow -->
+  <!-- Left anchor -->
   <rect x="78" y="50" width="44" height="10" rx="2" fill="#0e1828" stroke="#1a2838" stroke-width="1"/>
   <radialGradient id="anchor-l" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#3080e0" stop-opacity="0.5"/>
+    <stop offset="0%" stop-color="#3080e0" stop-opacity="0.5">
+      <animate attributeName="stop-opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#3080e0" stop-opacity="0"/>
   </radialGradient>
   <rect x="78" y="50" width="44" height="10" rx="2" fill="url(#anchor-l)"/>
 
-  <!-- Centre island top anchor -->
+  <!-- Centre anchor -->
   <rect x="178" y="38" width="44" height="10" rx="2" fill="#0e1828" stroke="#1a2838" stroke-width="1"/>
   <rect x="178" y="38" width="44" height="10" rx="2" fill="url(#anchor-l)"/>
 
-  <!-- Right island top anchor -->
+  <!-- Right anchor -->
   <rect x="278" y="46" width="44" height="10" rx="2" fill="#0e1828" stroke="#1a2838" stroke-width="1"/>
   <rect x="278" y="46" width="44" height="10" rx="2" fill="url(#anchor-l)"/>
 
-  <!-- Horizontal ley bridge connecting the columns — the bridge Jarv must cross -->
-  <!-- Bridge platform floating on ley energy -->
+  <!-- Horizontal ley bridge — glow pulse -->
   <rect x="100" y="115" width="100" height="8" fill="#0c1428" stroke="#1a2848" stroke-width="1"/>
   <rect x="200" y="112" width="100" height="8" fill="#0c1428" stroke="#1a2848" stroke-width="1"/>
-  <!-- Bridge glow -->
-  <rect x="100" y="115" width="100" height="8" fill="url(#ley-glow-c)" opacity="0.6"/>
-  <rect x="200" y="112" width="100" height="8" fill="url(#ley-glow-c)" opacity="0.6"/>
+  <rect x="100" y="115" width="100" height="8" fill="url(#ley-glow-c)">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="200" y="112" width="100" height="8" fill="url(#ley-glow-c)">
+    <animate attributeName="opacity" values="0.6;0.3;0.6" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+  </rect>
 
-  <!-- Stars -->
-  <g fill="#1a2848" opacity="0.4">
-    <circle cx="30"  cy="20" r="1"/>
-    <circle cx="150" cy="15" r="1"/>
-    <circle cx="250" cy="22" r="1.5"/>
-    <circle cx="370" cy="18" r="1"/>
-    <circle cx="50"  cy="38" r="1"/>
-    <circle cx="355" cy="35" r="1"/>
+  <!-- Stars — twinkling -->
+  <g fill="#1a2848">
+    <circle cx="30"  cy="20" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="15" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.2;0.8;0.4" dur="7s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="250" cy="22" r="1.5" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;1;0.2;0.4" dur="4s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="370" cy="18" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.8;0.3;0.4" dur="6s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="50"  cy="38" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="5s" begin="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="355" cy="35" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.2;0.9;0.4" dur="8s" begin="1.5s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1e2e50" text-anchor="middle" letter-spacing="3">THE LEY BRIDGE</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1e2e50" text-anchor="middle" letter-spacing="3">THE LEY BRIDGE
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>
