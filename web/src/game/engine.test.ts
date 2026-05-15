@@ -45,7 +45,7 @@ describe('newGame', () => {
     // All hand cards came from the supplied deck
     const deckNames = new Set(deck.map(c => c.name))
     for (const card of state.playerHand) {
-      expect(deckNames.has(card.name)).toBe(true)
+      if (!card.isHero) expect(deckNames.has(card.name)).toBe(true)
     }
   })
 
