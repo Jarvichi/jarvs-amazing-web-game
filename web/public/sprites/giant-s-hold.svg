@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Massive stone wall base -->
+  <rect x="1" y="16" width="30" height="14" rx="1" fill="#7a7a5a"/>
+  <!-- Giant-sized stone blocks -->
+  <line x1="1" y1="21" x2="31" y2="21" stroke="#5a5a3a" stroke-width="1"/>
+  <line x1="1" y1="26" x2="31" y2="26" stroke="#5a5a3a" stroke-width="1"/>
+  <line x1="8" y1="16" x2="8" y2="30" stroke="#5a5a3a" stroke-width="0.8"/>
+  <line x1="16" y1="16" x2="16" y2="30" stroke="#5a5a3a" stroke-width="0.8"/>
+  <line x1="24" y1="16" x2="24" y2="30" stroke="#5a5a3a" stroke-width="0.8"/>
+  <!-- Towers flanking hold -->
+  <rect x="1" y="8" width="9" height="22" rx="1" fill="#8a8a6a"/>
+  <rect x="22" y="8" width="9" height="22" rx="1" fill="#8a8a6a"/>
+  <!-- Tower tops (extra large battlements) -->
+  <rect x="1" y="5" width="4" height="5" rx="0.5" fill="#9a9a7a"/>
+  <rect x="6" y="5" width="4" height="5" rx="0.5" fill="#9a9a7a"/>
+  <rect x="22" y="5" width="4" height="5" rx="0.5" fill="#9a9a7a"/>
+  <rect x="27" y="5" width="4" height="5" rx="0.5" fill="#9a9a7a"/>
+  <!-- Giant footprint above door -->
+  <ellipse cx="16" cy="14" rx="5" ry="3" fill="#5a5a3a" opacity="0.5"/>
+  <!-- Enormous arched gate -->
+  <path d="M11,30 L11,18 Q16,12 21,18 L21,30 Z" fill="#1a1a0a"/>
+  <!-- Gate chain/bar -->
+  <line x1="11" y1="22" x2="21" y2="22" stroke="#5a5a3a" stroke-width="1.5"/>
+  <!-- Bone trophies on wall -->
+  <line x1="5" y1="10" x2="5" y2="15" stroke="#ccbb99" stroke-width="1.5"/>
+  <ellipse cx="5" cy="9" rx="2" ry="1.5" fill="#ccbb99"/>
+  <line x1="27" y1="10" x2="27" y2="15" stroke="#ccbb99" stroke-width="1.5"/>
+  <ellipse cx="27" cy="9" rx="2" ry="1.5" fill="#ccbb99"/>
+</svg>
