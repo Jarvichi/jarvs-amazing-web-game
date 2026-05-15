@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="12" ry="1.5" fill="#1a1a1a" opacity="0.5"/>
+  <!-- Post/building base -->
+  <rect x="6" y="18" width="20" height="12" rx="1" fill="#6a5a3a"/>
+  <!-- Stone/wood texture -->
+  <line x1="6" y1="22" x2="26" y2="22" stroke="#5a4a2a" stroke-width="0.7"/>
+  <line x1="6" y1="26" x2="26" y2="26" stroke="#5a4a2a" stroke-width="0.6"/>
+  <line x1="14" y1="18" x2="14" y2="30" stroke="#5a4a2a" stroke-width="0.4"/>
+  <!-- Roof -->
+  <polygon points="4,18 16,9 28,18" fill="#4a3a1a"/>
+  <polygon points="6,18 16,11 26,18" fill="#5a4a2a"/>
+  <!-- Battle-worn door -->
+  <rect x="13" y="22" width="6" height="8" rx="0.3" fill="#2a1a0a"/>
+  <!-- Notch marks on door (battle tally) -->
+  <line x1="14" y1="23" x2="14" y2="28" stroke="#3a2a0a" stroke-width="0.5"/>
+  <line x1="15.5" y1="23" x2="15.5" y2="28" stroke="#3a2a0a" stroke-width="0.5"/>
+  <line x1="17" y1="23" x2="17" y2="28" stroke="#3a2a0a" stroke-width="0.5"/>
+  <line x1="18.5" y1="23" x2="18.5" y2="28" stroke="#3a2a0a" stroke-width="0.5"/>
+  <!-- Medal/honor shield hanging above door -->
+  <polygon points="16,14 13,16 13,19 16,21 19,19 19,16" fill="#8a7a4a"/>
+  <polygon points="16,15 14,17 14,19 16,20.5 18,19 18,17" fill="#aa9955"/>
+  <!-- Cross/symbol on shield -->
+  <line x1="16" y1="15.5" x2="16" y2="20" stroke="#ffcc00" stroke-width="0.8"/>
+  <line x1="14" y1="17.5" x2="18" y2="17.5" stroke="#ffcc00" stroke-width="0.8"/>
+  <!-- Trophy weapons on walls -->
+  <line x1="8" y1="20" x2="11" y2="18" stroke="#8a8a8a" stroke-width="1.2"/>
+  <polygon points="11,18 13,16 12,19" fill="#8a8a8a"/>
+  <line x1="24" y1="20" x2="21" y2="18" stroke="#8a8a8a" stroke-width="1.2"/>
+  <polygon points="21,18 19,16 20,19" fill="#8a8a8a"/>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#0a0a1a" opacity="0.5"/>
+  <!-- Pale stone barracks walls (wight - undead) -->
+  <rect x="2" y="12" width="28" height="18" rx="1" fill="#4a4a5a"/>
+  <!-- Bone-white stone texture -->
+  <line x1="2" y1="17" x2="30" y2="17" stroke="#3a3a4a" stroke-width="0.7"/>
+  <line x1="2" y1="22" x2="30" y2="22" stroke="#3a3a4a" stroke-width="0.7"/>
+  <line x1="2" y1="27" x2="30" y2="27" stroke="#3a3a4a" stroke-width="0.5"/>
+  <line x1="9" y1="12" x2="9" y2="30" stroke="#3a3a4a" stroke-width="0.5"/>
+  <line x1="23" y1="12" x2="23" y2="30" stroke="#3a3a4a" stroke-width="0.5"/>
+  <!-- Pale roof with pointed battlement -->
+  <polygon points="0,12 16,4 32,12" fill="#2a2a3a"/>
+  <polygon points="2,12 16,6 30,12" fill="#3a3a4a"/>
+  <!-- Corner towers -->
+  <rect x="0" y="8" width="7" height="22" rx="0.5" fill="#5a5a6a"/>
+  <rect x="25" y="8" width="7" height="22" rx="0.5" fill="#5a5a6a"/>
+  <!-- Wight eye-glow windows -->
+  <ellipse cx="4" cy="13" rx="1.5" ry="1" fill="#0a0a1a"/>
+  <ellipse cx="4" cy="13" rx="1" ry="0.7" fill="#8888ff" opacity="0.6"/>
+  <ellipse cx="28" cy="13" rx="1.5" ry="1" fill="#0a0a1a"/>
+  <ellipse cx="28" cy="13" rx="1" ry="0.7" fill="#8888ff" opacity="0.6"/>
+  <!-- Gate arch with death rune -->
+  <path d="M13,30 L13,20 Q16,15 19,20 L19,30 Z" fill="#0a0a14"/>
+  <!-- Wight rune above gate -->
+  <line x1="14" y1="16" x2="18" y2="16" stroke="#6666ff" stroke-width="0.7" opacity="0.7"/>
+  <line x1="16" y1="14" x2="16" y2="18" stroke="#6666ff" stroke-width="0.7" opacity="0.7"/>
+  <!-- Undead mist at ground level -->
+  <ellipse cx="16" cy="30" rx="13" ry="1.5" fill="#4444aa" opacity="0.1"/>
+  <!-- Pale banners -->
+  <line x1="16" y1="4" x2="16" y2="1" stroke="#2a2a3a" stroke-width="0.8"/>
+  <polygon points="16,1 22,2.5 16,4" fill="#3a3a5a"/>
+</svg>

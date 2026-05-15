@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="11" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Drum platform/stand -->
+  <rect x="8" y="26" width="16" height="4" rx="0.5" fill="#5a4a2a"/>
+  <line x1="10" y1="27" x2="10" y2="30" stroke="#4a3a1a" stroke-width="1.5"/>
+  <line x1="22" y1="27" x2="22" y2="30" stroke="#4a3a1a" stroke-width="1.5"/>
+  <!-- Drum body (large war drum) -->
+  <ellipse cx="16" cy="16" rx="12" ry="5" fill="#8a6a2a"/>
+  <rect x="4" y="12" width="24" height="14" rx="1" fill="#7a5a1a"/>
+  <ellipse cx="16" cy="26" rx="12" ry="5" fill="#6a4a1a"/>
+  <!-- Drum heads -->
+  <ellipse cx="16" cy="12" rx="12" ry="5" fill="#cc9944"/>
+  <ellipse cx="16" cy="12" rx="11" ry="4.5" fill="#ddaa55"/>
+  <!-- Drum head lacing (zig-zag rope) -->
+  <path d="M5,14 L7,10 L9,14 L11,10 L13,14 L15,10 L17,14 L19,10 L21,14 L23,10 L25,14 L27,10" fill="none" stroke="#8a6a2a" stroke-width="0.8"/>
+  <!-- Drum beaters/sticks laid on drum -->
+  <line x1="9" y1="10" x2="14" y2="14" stroke="#8a6a2a" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="23" y1="10" x2="18" y2="14" stroke="#8a6a2a" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Impact marks on drum head (battle-worn) -->
+  <circle cx="14" cy="12" r="1.5" fill="#bb8833" opacity="0.5"/>
+  <circle cx="18" cy="11" r="1" fill="#bb8833" opacity="0.4"/>
+  <!-- Tribal symbols painted on drum body -->
+  <line x1="12" y1="18" x2="14" y2="18" stroke="#cc6622" stroke-width="0.8" opacity="0.6"/>
+  <line x1="13" y1="17" x2="13" y2="19" stroke="#cc6622" stroke-width="0.8" opacity="0.6"/>
+  <line x1="18" y1="18" x2="20" y2="18" stroke="#cc6622" stroke-width="0.8" opacity="0.6"/>
+  <!-- Sound waves radiating -->
+  <path d="M0,12 Q3,12 3,12" fill="none" stroke="#cc9944" stroke-width="0.5" opacity="0.25"/>
+  <path d="M32,12 Q29,12 29,12" fill="none" stroke="#cc9944" stroke-width="0.5" opacity="0.25"/>
+</svg>

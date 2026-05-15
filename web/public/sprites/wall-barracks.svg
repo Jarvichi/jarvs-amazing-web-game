@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a1a1a" opacity="0.5"/>
+  <!-- Very thick wall (reinforced barracks) -->
+  <rect x="0" y="12" width="32" height="18" rx="0.5" fill="#7a7a6a"/>
+  <!-- Wall blocks (larger than normal) -->
+  <line x1="0" y1="17" x2="32" y2="17" stroke="#5a5a4a" stroke-width="0.8"/>
+  <line x1="0" y1="22" x2="32" y2="22" stroke="#5a5a4a" stroke-width="0.8"/>
+  <line x1="0" y1="27" x2="32" y2="27" stroke="#5a5a4a" stroke-width="0.7"/>
+  <line x1="8" y1="12" x2="8" y2="30" stroke="#5a5a4a" stroke-width="0.6"/>
+  <line x1="16" y1="12" x2="16" y2="30" stroke="#5a5a4a" stroke-width="0.5"/>
+  <line x1="24" y1="12" x2="24" y2="30" stroke="#5a5a4a" stroke-width="0.6"/>
+  <!-- Battlements (large crenels) -->
+  <rect x="0" y="8" width="5" height="5" rx="0.3" fill="#8a8a7a"/>
+  <rect x="7" y="8" width="5" height="5" rx="0.3" fill="#8a8a7a"/>
+  <rect x="14" y="8" width="5" height="5" rx="0.3" fill="#8a8a7a"/>
+  <rect x="21" y="8" width="5" height="5" rx="0.3" fill="#8a8a7a"/>
+  <rect x="28" y="8" width="4" height="5" rx="0.3" fill="#8a8a7a"/>
+  <!-- Barracks building set INTO the wall -->
+  <rect x="10" y="10" width="12" height="10" rx="0.5" fill="#6a6a5a"/>
+  <!-- Barracks roof (flush with wall top) -->
+  <rect x="9" y="9" width="14" height="2" rx="0.3" fill="#5a5a4a"/>
+  <!-- Barracks windows -->
+  <rect x="12" y="12" width="3" height="3" rx="0.2" fill="#2a2a1a"/>
+  <rect x="17" y="12" width="3" height="3" rx="0.2" fill="#2a2a1a"/>
+  <!-- Wall gate passage -->
+  <rect x="13" y="22" width="6" height="8" rx="0.3" fill="#1a1a1a"/>
+  <!-- Gate portcullis bars -->
+  <line x1="14" y1="22" x2="14" y2="30" stroke="#3a3a3a" stroke-width="0.7"/>
+  <line x1="16" y1="22" x2="16" y2="30" stroke="#3a3a3a" stroke-width="0.7"/>
+  <line x1="18" y1="22" x2="18" y2="30" stroke="#3a3a3a" stroke-width="0.7"/>
+  <line x1="13" y1="24" x2="19" y2="24" stroke="#3a3a3a" stroke-width="0.5"/>
+  <line x1="13" y1="27" x2="19" y2="27" stroke="#3a3a3a" stroke-width="0.5"/>
+</svg>
