@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Massive sandstone walls -->
+  <rect x="1" y="14" width="30" height="16" rx="1" fill="#cc9944"/>
+  <!-- Sandstone block lines -->
+  <line x1="1" y1="19" x2="31" y2="19" stroke="#aa7722" stroke-width="0.8"/>
+  <line x1="1" y1="24" x2="31" y2="24" stroke="#aa7722" stroke-width="0.8"/>
+  <line x1="1" y1="28" x2="31" y2="28" stroke="#aa7722" stroke-width="0.6"/>
+  <line x1="7" y1="14" x2="7" y2="30" stroke="#aa7722" stroke-width="0.6"/>
+  <line x1="16" y1="14" x2="16" y2="30" stroke="#aa7722" stroke-width="0.4"/>
+  <line x1="25" y1="14" x2="25" y2="30" stroke="#aa7722" stroke-width="0.6"/>
+  <!-- Flanking towers -->
+  <rect x="0" y="8" width="9" height="22" rx="1" fill="#ddaa55"/>
+  <rect x="23" y="8" width="9" height="22" rx="1" fill="#ddaa55"/>
+  <!-- Tower battlements -->
+  <rect x="0" y="6" width="3.5" height="4" rx="0.3" fill="#cc9944"/>
+  <rect x="5.5" y="6" width="3.5" height="4" rx="0.3" fill="#cc9944"/>
+  <rect x="23" y="6" width="3.5" height="4" rx="0.3" fill="#cc9944"/>
+  <rect x="28.5" y="6" width="3.5" height="4" rx="0.3" fill="#cc9944"/>
+  <!-- Central keep tower -->
+  <rect x="11" y="4" width="10" height="12" rx="0.5" fill="#eebb66"/>
+  <rect x="10" y="3" width="12" height="2.5" rx="0.3" fill="#cc9944"/>
+  <!-- Pyramid-like ornament on top -->
+  <polygon points="13,3 16,0 19,3" fill="#aa7722"/>
+  <!-- Ornate arched gate -->
+  <path d="M12,30 L12,20 Q16,14 20,20 L20,30 Z" fill="#2a1a0a"/>
+  <!-- Carved relief above gate -->
+  <ellipse cx="16" cy="17" rx="3" ry="2" fill="#cc9944"/>
+  <circle cx="16" cy="17" r="1.5" fill="#ffcc55"/>
+  <circle cx="16" cy="17" r="0.8" fill="#ffee88"/>
+  <!-- Desert heat shimmer at base -->
+  <ellipse cx="16" cy="30" rx="12" ry="1" fill="#ffdd88" opacity="0.15"/>
+</svg>

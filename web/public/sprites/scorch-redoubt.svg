@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#2a0a00" opacity="0.5"/>
+  <!-- Scorched, blackened earth base -->
+  <rect x="2" y="24" width="28" height="6" rx="1" fill="#2a1a0a"/>
+  <!-- Burnt/scorched redoubt walls -->
+  <rect x="3" y="12" width="26" height="14" rx="1" fill="#3a2a1a"/>
+  <!-- Scorch marks on walls -->
+  <rect x="3" y="12" width="6" height="14" fill="#1a0a00" opacity="0.4"/>
+  <rect x="23" y="14" width="6" height="12" fill="#1a0a00" opacity="0.3"/>
+  <!-- Stone block texture (partly melted) -->
+  <line x1="3" y1="16" x2="29" y2="16" stroke="#1a1a0a" stroke-width="0.7"/>
+  <line x1="3" y1="21" x2="29" y2="21" stroke="#1a1a0a" stroke-width="0.6"/>
+  <!-- Scorched battlements -->
+  <rect x="3" y="9" width="4" height="4" rx="0.3" fill="#2a1a0a"/>
+  <rect x="10" y="9" width="4" height="4" rx="0.3" fill="#3a2a1a"/>
+  <rect x="18" y="9" width="4" height="4" rx="0.3" fill="#2a1a0a"/>
+  <rect x="25" y="9" width="4" height="4" rx="0.3" fill="#3a2a1a"/>
+  <!-- Fire still burning in redoubt -->
+  <path d="M11,20 Q13,15 15,18 Q13,21 11,20Z" fill="#ff4400" opacity="0.6"/>
+  <path d="M17,19 Q19,14 21,17 Q19,20 17,19Z" fill="#ff6600" opacity="0.5"/>
+  <path d="M13,21 Q14,18 15.5,20" fill="none" stroke="#ffaa00" stroke-width="0.8" opacity="0.6"/>
+  <!-- Fire embrasures (arrow slits with fire) -->
+  <rect x="6" y="14" width="2" height="4" rx="0.2" fill="#1a0a00"/>
+  <rect x="24" y="14" width="2" height="4" rx="0.2" fill="#1a0a00"/>
+  <circle cx="7" cy="15" r="1" fill="#ff4400" opacity="0.6"/>
+  <circle cx="25" cy="15" r="1" fill="#ff4400" opacity="0.6"/>
+  <!-- Gate (fire-blasted) -->
+  <path d="M13,26 L13,18 Q16,14 19,18 L19,26 Z" fill="#0a0500"/>
+  <!-- Ember glow at base -->
+  <ellipse cx="16" cy="27" rx="10" ry="1.5" fill="#ff4400" opacity="0.15"/>
+</svg>
