@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a1a0a" opacity="0.5"/>
+  <!-- Sandy/muddy mound -->
+  <ellipse cx="16" cy="26" rx="14" ry="7" fill="#5a5a1a"/>
+  <ellipse cx="16" cy="25" rx="13" ry="6" fill="#6a6a2a"/>
+  <!-- Swamp water around mound -->
+  <ellipse cx="5" cy="29" rx="5" ry="2" fill="#1a3a1a" opacity="0.6"/>
+  <ellipse cx="27" cy="29" rx="5" ry="2" fill="#1a3a1a" opacity="0.6"/>
+  <!-- Main burrow entrance -->
+  <ellipse cx="16" cy="27" rx="5" ry="4" fill="#1a1a0a"/>
+  <!-- Secondary entrances -->
+  <ellipse cx="7" cy="28" rx="3" ry="2.5" fill="#1a1a0a"/>
+  <ellipse cx="25" cy="28" rx="3" ry="2.5" fill="#1a1a0a"/>
+  <!-- Lizardman eyes in main entrance -->
+  <circle cx="14" cy="26" r="0.9" fill="#ffcc00" opacity="0.9"/>
+  <circle cx="18" cy="26" r="0.9" fill="#ffcc00" opacity="0.9"/>
+  <!-- Lizardman eyes in side entrances -->
+  <circle cx="7" cy="28" r="0.7" fill="#aacc00" opacity="0.8"/>
+  <circle cx="25" cy="28" r="0.7" fill="#aacc00" opacity="0.8"/>
+  <!-- Bones and trophies -->
+  <line x1="5" y1="22" x2="5" y2="26" stroke="#ccbb99" stroke-width="1.2"/>
+  <line x1="4" y1="22" x2="6" y2="24" stroke="#ccbb99" stroke-width="0.8"/>
+  <line x1="27" y1="22" x2="27" y2="26" stroke="#ccbb99" stroke-width="1.2"/>
+  <line x1="26" y1="22" x2="28" y2="24" stroke="#ccbb99" stroke-width="0.8"/>
+  <!-- Mud/scale patterns on mound -->
+  <path d="M8,23 Q10,21 12,23" fill="none" stroke="#4a4a10" stroke-width="0.8" opacity="0.6"/>
+  <path d="M20,22 Q22,20 24,22" fill="none" stroke="#4a4a10" stroke-width="0.8" opacity="0.6"/>
+  <!-- Swamp grass tufts -->
+  <path d="M2,26 Q3,22 4,26" fill="none" stroke="#3a5a1a" stroke-width="1"/>
+  <path d="M28,26 Q29,22 30,26" fill="none" stroke="#3a5a1a" stroke-width="1"/>
+</svg>

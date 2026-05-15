@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sand/heat shimmer base -->
+  <ellipse cx="16" cy="30" rx="14" ry="2" fill="#aa7700" opacity="0.3"/>
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#1a1a0a" opacity="0.4"/>
+  <!-- Desert sandstone pillars -->
+  <rect x="3" y="10" width="7" height="20" rx="1" fill="#cc9933"/>
+  <rect x="22" y="10" width="7" height="20" rx="1" fill="#cc9933"/>
+  <!-- Pillar highlights -->
+  <rect x="3" y="10" width="2" height="20" fill="#ddaa44" opacity="0.5"/>
+  <rect x="22" y="10" width="2" height="20" fill="#ddaa44" opacity="0.5"/>
+  <!-- Pillar carved lines -->
+  <line x1="3" y1="16" x2="10" y2="16" stroke="#aa7722" stroke-width="0.6"/>
+  <line x1="3" y1="22" x2="10" y2="22" stroke="#aa7722" stroke-width="0.6"/>
+  <line x1="22" y1="16" x2="29" y2="16" stroke="#aa7722" stroke-width="0.6"/>
+  <line x1="22" y1="22" x2="29" y2="22" stroke="#aa7722" stroke-width="0.6"/>
+  <!-- Pillar top ornaments -->
+  <rect x="2" y="8" width="9" height="3" rx="0.5" fill="#ddaa44"/>
+  <rect x="21" y="8" width="9" height="3" rx="0.5" fill="#ddaa44"/>
+  <!-- Mirage shimmer portal between pillars -->
+  <rect x="10" y="12" width="12" height="18" fill="#aa8800" opacity="0.1"/>
+  <ellipse cx="16" cy="21" rx="6" ry="9" fill="#ffcc44" opacity="0.08"/>
+  <!-- Heat wave lines -->
+  <path d="M10,15 Q13,13 16,15 Q19,17 22,15" fill="none" stroke="#ffdd88" stroke-width="0.7" opacity="0.4"/>
+  <path d="M10,19 Q13,17 16,19 Q19,21 22,19" fill="none" stroke="#ffdd88" stroke-width="0.7" opacity="0.3"/>
+  <path d="M10,23 Q13,21 16,23 Q19,25 22,23" fill="none" stroke="#ffdd88" stroke-width="0.7" opacity="0.3"/>
+  <!-- Connecting arch -->
+  <path d="M10,12 Q16,5 22,12" fill="none" stroke="#ddaa44" stroke-width="2"/>
+  <!-- Sun ornament at arch top -->
+  <circle cx="16" cy="6" r="2.5" fill="#ffcc00"/>
+  <circle cx="16" cy="6" r="1.5" fill="#ffee44"/>
+  <!-- Sun rays -->
+  <line x1="16" y1="2" x2="16" y2="4" stroke="#ffcc00" stroke-width="0.8"/>
+  <line x1="19" y1="3" x2="18" y2="4.5" stroke="#ffcc00" stroke-width="0.8"/>
+  <line x1="13" y1="3" x2="14" y2="4.5" stroke="#ffcc00" stroke-width="0.8"/>
+</svg>
