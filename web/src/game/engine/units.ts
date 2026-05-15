@@ -32,6 +32,15 @@ export function moveUnits(s: GameState, deltaMs: number): void {
   const livingOpponentUnits = s.field.some(u => u.owner === 'opponent' && u.hp > 0)
   const livingPlayerUnits   = s.field.some(u => u.owner === 'player'   && u.hp > 0)
 
+  // Pre-find commanders so rally logic can reference them without re-scanning per unit.
+  const playerCommander   = s.field.find(u => u.owner === 'player'   && u.isCommander && u.hp > 0)
+  const opponentCommander = s.field.find(u => u.owner === 'opponent' && u.isCommander && u.hp > 0)
+
+  // Distance within which units rally to protect their commander.
+  const COMMANDER_RALLY_PX  = 180
+  // Distance within which the commander itself retreats from enemies.
+  const COMMANDER_FLEE_PX   = 90
+
   // Defend overflow: if ≥15 defenders, the 5 furthest-forward units charge instead.
   const defendOverflowAttackers = new Set<string>()
   if (stance === 'defend') {
@@ -195,6 +204,39 @@ export function moveUnits(s: GameState, deltaMs: number): void {
             tx = nearest.x
             ty = nearest.y
           }
+          hasTarget = true
+        }
+      }
+    }
+
+    // Commander: retreat from nearby enemies rather than engaging them directly.
+    // Moves back toward commanderHomeX so allies can intercept first.
+    if (unit.isCommander && unit.commanderHomeX !== undefined && useTraitMovement) {
+      const threats = s.field.filter(
+        e => e.owner !== unit.owner && e.hp > 0 && unitDist(unit, e) <= COMMANDER_FLEE_PX
+      )
+      if (threats.length > 0) {
+        tx = unit.commanderHomeX
+        ty = unit.y
+        hasTarget = true
+      }
+    }
+
+    // Ally rally: when the commander is actively taking damage, nearby allies override their
+    // movement target to intercept the commander's attacker.
+    if (!unit.isCommander && useTraitMovement) {
+      const ownCommander = unit.owner === 'player' ? playerCommander : opponentCommander
+      if (
+        ownCommander &&
+        ownCommander.damageFlashTimer != null && ownCommander.damageFlashTimer > 0 &&
+        ownCommander.lastAttackerId &&
+        unitDist(unit, ownCommander) <= COMMANDER_RALLY_PX
+      ) {
+        const attacker = s.field.find(u => u.id === ownCommander.lastAttackerId && u.hp > 0)
+        if (attacker) {
+          if (unitDist(unit, attacker) <= unit.attackRange) continue
+          tx = attacker.x
+          ty = attacker.y
           hasTarget = true
         }
       }
