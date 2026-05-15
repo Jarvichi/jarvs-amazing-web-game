@@ -282,8 +282,14 @@ export function moveUnits(s: GameState, deltaMs: number): void {
             moatSlowFactor = Math.min(moatSlowFactor, effect.slowFactor)
           }
           if (effect.damagePerSec && unit.hp > 0) {
-            unit.hp = Math.max(0, unit.hp - effect.damagePerSec * deltaSec)
-            if (unit.damageFlashTimer == null || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
+            if (unit.moatDamageTimer == null) unit.moatDamageTimer = 0
+            unit.moatDamageTimer -= deltaMs
+            if (unit.moatDamageTimer <= 0) {
+              const pulse = Math.round(effect.damagePerSec * 0.4)
+              unit.hp = Math.max(0, unit.hp - pulse)
+              unit.damageFlashTimer = 80
+              unit.moatDamageTimer = 1000
+            }
           }
         }
       }
