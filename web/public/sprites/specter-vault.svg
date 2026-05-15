@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a0a1a" opacity="0.6"/>
+  <!-- Dark stone vault -->
+  <rect x="3" y="14" width="26" height="16" rx="1" fill="#2a2a3a"/>
+  <!-- Stone blocks -->
+  <line x1="3" y1="18" x2="29" y2="18" stroke="#1a1a2a" stroke-width="0.7"/>
+  <line x1="3" y1="23" x2="29" y2="23" stroke="#1a1a2a" stroke-width="0.7"/>
+  <line x1="3" y1="27" x2="29" y2="27" stroke="#1a1a2a" stroke-width="0.5"/>
+  <!-- Ghostly arched roof -->
+  <ellipse cx="16" cy="14" rx="13" ry="5" fill="#3a3a4a"/>
+  <ellipse cx="16" cy="13" rx="11" ry="4" fill="#4a4a5a"/>
+  <!-- Spectral energy dome -->
+  <ellipse cx="16" cy="12" rx="9" ry="4" fill="#2200aa" opacity="0.2"/>
+  <ellipse cx="16" cy="11" rx="6" ry="3" fill="#4400cc" opacity="0.15"/>
+  <!-- Vault door -->
+  <rect x="11" y="18" width="10" height="12" rx="0.5" fill="#1a1a2a"/>
+  <rect x="10" y="17" width="12" height="14" rx="0.5" fill="none" stroke="#5555aa" stroke-width="1"/>
+  <!-- Lock with specter glow -->
+  <circle cx="16" cy="24" r="2.5" fill="#2a2a3a"/>
+  <circle cx="16" cy="24" r="1.5" fill="#3333aa"/>
+  <circle cx="16" cy="24" r="0.7" fill="#8888ff"/>
+  <!-- Ghostly figures floating at sides -->
+  <ellipse cx="5" cy="17" rx="2.5" ry="3.5" fill="#4444aa" opacity="0.25"/>
+  <circle cx="5" cy="14.5" r="1.5" fill="#5555bb" opacity="0.3"/>
+  <ellipse cx="27" cy="17" rx="2.5" ry="3.5" fill="#4444aa" opacity="0.25"/>
+  <circle cx="27" cy="14.5" r="1.5" fill="#5555bb" opacity="0.3"/>
+  <!-- Specter eye glows -->
+  <circle cx="4.5" cy="15" r="0.6" fill="#8888ff" opacity="0.7"/>
+  <circle cx="5.5" cy="15" r="0.6" fill="#8888ff" opacity="0.7"/>
+  <circle cx="26.5" cy="15" r="0.6" fill="#8888ff" opacity="0.7"/>
+  <circle cx="27.5" cy="15" r="0.6" fill="#8888ff" opacity="0.7"/>
+</svg>

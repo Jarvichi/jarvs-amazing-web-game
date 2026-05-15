@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Cathedral body (organic/fungal) -->
+  <rect x="3" y="14" width="26" height="16" rx="1" fill="#5a3a2a"/>
+  <!-- Fungal texture on walls -->
+  <rect x="3" y="14" width="4" height="16" fill="#6a4a3a" opacity="0.4"/>
+  <rect x="25" y="16" width="4" height="14" fill="#6a4a3a" opacity="0.3"/>
+  <!-- Mushroom arch/spires on roof -->
+  <ellipse cx="8" cy="13" rx="5" ry="4" fill="#774422"/>
+  <ellipse cx="8" cy="12" rx="4" ry="3" fill="#995533"/>
+  <rect x="6.5" y="12" width="3" height="5" rx="0.5" fill="#663311"/>
+  <ellipse cx="24" cy="13" rx="5" ry="4" fill="#774422"/>
+  <ellipse cx="24" cy="12" rx="4" ry="3" fill="#995533"/>
+  <rect x="22.5" y="12" width="3" height="5" rx="0.5" fill="#663311"/>
+  <!-- Central giant mushroom spire -->
+  <ellipse cx="16" cy="9" rx="7" ry="5" fill="#884422"/>
+  <ellipse cx="16" cy="8" rx="6" ry="4" fill="#aa6633"/>
+  <rect x="13.5" y="8" width="5" height="8" rx="1" fill="#6a3311"/>
+  <!-- Spots on mushrooms -->
+  <circle cx="5" cy="12" r="1.2" fill="#ffffff" opacity="0.3"/>
+  <circle cx="16" cy="6" r="1.5" fill="#ffffff" opacity="0.3"/>
+  <circle cx="27" cy="12" r="1.2" fill="#ffffff" opacity="0.3"/>
+  <!-- Spore windows (glowing) -->
+  <rect x="6" y="17" width="4" height="6" rx="0.5" fill="#1a0a00"/>
+  <rect x="7" y="18" width="2" height="4" fill="#ccaa44" opacity="0.4"/>
+  <rect x="22" y="17" width="4" height="6" rx="0.5" fill="#1a0a00"/>
+  <rect x="23" y="18" width="2" height="4" fill="#ccaa44" opacity="0.4"/>
+  <!-- Arched entrance -->
+  <path d="M13,30 L13,20 Q16,16 19,20 L19,30 Z" fill="#1a0a00"/>
+  <!-- Spore cloud above cathedral -->
+  <circle cx="10" cy="4" r="2.5" fill="#ddcc77" opacity="0.2"/>
+  <circle cx="22" cy="3" r="2" fill="#ddcc77" opacity="0.2"/>
+  <circle cx="16" cy="2" r="2.5" fill="#eedd88" opacity="0.15"/>
+</svg>

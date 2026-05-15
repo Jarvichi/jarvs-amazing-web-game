@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow (faint) -->
+  <ellipse cx="16" cy="31" rx="11" ry="1" fill="#1a1a2a" opacity="0.2"/>
+  <!-- Cloud base supporting sanctum -->
+  <ellipse cx="16" cy="24" rx="14" ry="5" fill="#ddddff" opacity="0.5"/>
+  <ellipse cx="16" cy="23" rx="12" ry="4" fill="#eeeeff" opacity="0.4"/>
+  <ellipse cx="8" cy="24" rx="7" ry="3" fill="#ddddff" opacity="0.4"/>
+  <ellipse cx="24" cy="24" rx="7" ry="3" fill="#ddddff" opacity="0.4"/>
+  <!-- Sanctum building on clouds -->
+  <rect x="6" y="12" width="20" height="13" rx="1" fill="#9aaecc"/>
+  <!-- Marble/stone texture -->
+  <line x1="6" y1="16" x2="26" y2="16" stroke="#7a9aaa" stroke-width="0.5"/>
+  <line x1="6" y1="20" x2="26" y2="20" stroke="#7a9aaa" stroke-width="0.5"/>
+  <!-- Domed roof -->
+  <ellipse cx="16" cy="12" rx="10" ry="5" fill="#8a9abb"/>
+  <ellipse cx="16" cy="11" rx="8" ry="4" fill="#aabbcc"/>
+  <!-- Gold cross at dome peak -->
+  <line x1="16" y1="7" x2="16" y2="3" stroke="#ffcc00" stroke-width="1.2"/>
+  <line x1="14" y1="5" x2="18" y2="5" stroke="#ffcc00" stroke-width="1.2"/>
+  <!-- Celestial glow around dome -->
+  <ellipse cx="16" cy="9" rx="12" ry="6" fill="#aabbff" opacity="0.1"/>
+  <!-- Arched windows -->
+  <rect x="8" y="14" width="3" height="5" rx="0.5" fill="#1a2a3a"/>
+  <path d="M8,14 Q9.5,12 11,14" fill="#1a2a3a"/>
+  <rect x="13" y="13" width="6" height="6" rx="0.5" fill="#1a2a3a"/>
+  <path d="M13,13 Q16,10 19,13" fill="#1a2a3a"/>
+  <rect x="21" y="14" width="3" height="5" rx="0.5" fill="#1a2a3a"/>
+  <path d="M21,14 Q22.5,12 24,14" fill="#1a2a3a"/>
+  <!-- Holy light from windows -->
+  <rect x="9" y="15" width="1.5" height="3" fill="#ffffaa" opacity="0.25"/>
+  <rect x="14" y="14" width="4" height="4" fill="#ffffaa" opacity="0.2"/>
+  <!-- Entrance arch -->
+  <path d="M13,25 L13,20 Q16,17 19,20 L19,25 Z" fill="#0a1a2a"/>
+</svg>
