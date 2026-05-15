@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#0a1a0a" opacity="0.5"/>
+  <!-- Cathedral body (overgrown with vines) -->
+  <rect x="3" y="14" width="26" height="16" rx="1" fill="#3a4a2a"/>
+  <!-- Vine-covered walls -->
+  <rect x="3" y="14" width="5" height="16" fill="#2a5a1a" opacity="0.5"/>
+  <rect x="24" y="16" width="5" height="14" fill="#2a5a1a" opacity="0.4"/>
+  <!-- Stone texture under vines -->
+  <line x1="3" y1="18" x2="29" y2="18" stroke="#2a3a1a" stroke-width="0.6"/>
+  <line x1="3" y1="23" x2="29" y2="23" stroke="#2a3a1a" stroke-width="0.5"/>
+  <!-- Cathedral spire (vine-wrapped) -->
+  <polygon points="3,14 16,3 29,14" fill="#2a3a1a"/>
+  <polygon points="5,14 16,5 27,14" fill="#3a4a2a"/>
+  <!-- Large vine spiraling up spire -->
+  <path d="M16,14 Q14,11 15,8 Q17,5 16,3" fill="none" stroke="#2a7a1a" stroke-width="1.5"/>
+  <!-- Flower blooms at vine tips -->
+  <circle cx="15" cy="4" r="1.5" fill="#ff4488" opacity="0.7"/>
+  <circle cx="5" cy="12" r="1.2" fill="#ff6644" opacity="0.6"/>
+  <circle cx="27" cy="12" r="1.2" fill="#ffcc00" opacity="0.6"/>
+  <!-- Gothic windows (arched, filled with vines) -->
+  <rect x="6" y="16" width="4" height="6" rx="0.5" fill="#1a2a1a"/>
+  <path d="M6,16 Q8,13 10,16" fill="#1a2a1a"/>
+  <circle cx="8" cy="17" r="1" fill="#2a6a1a" opacity="0.5"/>
+  <rect x="22" y="16" width="4" height="6" rx="0.5" fill="#1a2a1a"/>
+  <path d="M22,16 Q24,13 26,16" fill="#1a2a1a"/>
+  <!-- Main entrance arch (overgrown) -->
+  <path d="M13,30 L13,20 Q16,16 19,20 L19,30 Z" fill="#1a2a0a"/>
+  <path d="M13,20 Q16,14 19,20" fill="none" stroke="#2a7a1a" stroke-width="1.5"/>
+  <!-- Creeping ivy on entire facade -->
+  <path d="M3,14 Q1,18 3,22 Q2,19 4,17" fill="none" stroke="#2a6a1a" stroke-width="0.8" opacity="0.6"/>
+  <path d="M29,16 Q31,20 29,24 Q30,21 28,19" fill="none" stroke="#2a6a1a" stroke-width="0.8" opacity="0.6"/>
+</svg>

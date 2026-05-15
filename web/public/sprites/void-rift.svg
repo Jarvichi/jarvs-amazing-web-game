@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="11" ry="1.5" fill="#0a0a1a" opacity="0.6"/>
+  <!-- Rift tear in reality (dark oval crack) -->
+  <ellipse cx="16" cy="18" rx="12" ry="14" fill="#0a0014" opacity="0.9"/>
+  <!-- Void layers -->
+  <ellipse cx="16" cy="18" rx="10" ry="12" fill="#000000"/>
+  <ellipse cx="16" cy="18" rx="7" ry="9" fill="#0a0033"/>
+  <ellipse cx="16" cy="18" rx="4" ry="6" fill="#110044"/>
+  <ellipse cx="16" cy="18" rx="2" ry="3.5" fill="#220066"/>
+  <!-- Void core -->
+  <ellipse cx="16" cy="18" rx="0.8" ry="1.5" fill="#4400aa" opacity="0.8"/>
+  <!-- Reality crack marks emanating from rift -->
+  <path d="M5,10 Q8,14 7,18" fill="none" stroke="#4400aa" stroke-width="1" opacity="0.5"/>
+  <path d="M27,10 Q24,14 25,18" fill="none" stroke="#4400aa" stroke-width="1" opacity="0.5"/>
+  <path d="M4,20 Q7,18 5,22" fill="none" stroke="#3300aa" stroke-width="0.8" opacity="0.4"/>
+  <path d="M28,20 Q25,18 27,22" fill="none" stroke="#3300aa" stroke-width="0.8" opacity="0.4"/>
+  <!-- Void energy crackling at rift edges -->
+  <path d="M8,8 Q10,10 8,12" fill="none" stroke="#8800ff" stroke-width="1.2" opacity="0.6"/>
+  <path d="M24,8 Q22,10 24,12" fill="none" stroke="#8800ff" stroke-width="1.2" opacity="0.6"/>
+  <!-- Void wisps escaping rift -->
+  <circle cx="6" cy="12" r="1.5" fill="#4400aa" opacity="0.4"/>
+  <circle cx="26" cy="11" r="1.2" fill="#5500bb" opacity="0.4"/>
+  <circle cx="10" cy="6" r="1" fill="#6600cc" opacity="0.3"/>
+  <circle cx="22" cy="5" r="1.2" fill="#6600cc" opacity="0.3"/>
+  <!-- Stars disappearing into rift -->
+  <circle cx="3" cy="8" r="0.7" fill="#8888ff" opacity="0.4"/>
+  <circle cx="29" cy="7" r="0.6" fill="#8888ff" opacity="0.4"/>
+  <circle cx="16" cy="4" r="0.8" fill="#aaaaff" opacity="0.3"/>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a1a0a" opacity="0.6"/>
+  <!-- Pit rim/stone ring -->
+  <ellipse cx="16" cy="24" rx="14" ry="6" fill="#2a3a1a"/>
+  <ellipse cx="16" cy="23" rx="13" ry="5.5" fill="#3a4a2a"/>
+  <!-- Venom/acid fill (sickly green) -->
+  <ellipse cx="16" cy="24" rx="10" ry="4" fill="#1a3a00"/>
+  <ellipse cx="16" cy="24" rx="8" ry="3" fill="#225500" opacity="0.9"/>
+  <ellipse cx="16" cy="24" rx="5" ry="2" fill="#338800" opacity="0.8"/>
+  <ellipse cx="16" cy="24" rx="2.5" ry="1.2" fill="#55cc00" opacity="0.7"/>
+  <!-- Venom bubbles -->
+  <circle cx="12" cy="23" r="1.2" fill="#44aa00" opacity="0.6"/>
+  <circle cx="20" cy="24" r="1" fill="#55bb00" opacity="0.6"/>
+  <circle cx="16" cy="22" r="1.5" fill="#66cc00" opacity="0.5"/>
+  <!-- Rising toxic fumes -->
+  <path d="M12,20 Q13,17 14,15" fill="none" stroke="#4a6a1a" stroke-width="1" opacity="0.4"/>
+  <path d="M20,20 Q19,17 18,15" fill="none" stroke="#4a6a1a" stroke-width="1" opacity="0.4"/>
+  <circle cx="13" cy="14" r="1.5" fill="#6a8a1a" opacity="0.3"/>
+  <circle cx="18" cy="13" r="1.2" fill="#6a8a1a" opacity="0.3"/>
+  <!-- Fanged snake lurking at rim -->
+  <path d="M5,22 Q8,20 11,22 Q9,24 7,23 Q5,23 5,22Z" fill="#2a4a1a"/>
+  <!-- Snake eyes -->
+  <circle cx="6" cy="22" r="0.6" fill="#ffcc00" opacity="0.8"/>
+  <!-- Thorn/spike decorations on rim -->
+  <polygon points="4,20 5,17 6,20" fill="#1a2a0a"/>
+  <polygon points="26,20 27,17 28,20" fill="#1a2a0a"/>
+</svg>
