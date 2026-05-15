@@ -11,9 +11,11 @@
 
   <!-- Canyon floor — deep dark chasm -->
   <rect x="80" y="148" width="240" height="92" fill="#050608"/>
-  <!-- Canyon floor glow — sickly pale -->
+  <!-- Chasm glow — pulsing -->
   <radialGradient id="chasm-glow" cx="50%" cy="90%" r="40%">
-    <stop offset="0%" stop-color="#202840" stop-opacity="0.4"/>
+    <stop offset="0%" stop-color="#202840" stop-opacity="0.4">
+      <animate attributeName="stop-opacity" values="0.3;0.6;0.3" dur="5s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#202840" stop-opacity="0"/>
   </radialGradient>
   <rect x="80" y="148" width="240" height="92" fill="url(#chasm-glow)"/>
@@ -36,9 +38,8 @@
     <line x1="332" y1="160" x2="392" y2="152"/>
   </g>
 
-  <!-- Garrison point A — left wall ledge -->
+  <!-- Garrison A — left wall ledge -->
   <rect x="5" y="105" width="68" height="40" fill="#131620" stroke="#1e2230" stroke-width="1"/>
-  <!-- Battlements A -->
   <g fill="#1a1e2c" stroke="#1e2230" stroke-width="0.8">
     <rect x="5"  y="96" width="10" height="11"/>
     <rect x="18" y="96" width="10" height="11"/>
@@ -46,12 +47,14 @@
     <rect x="44" y="96" width="10" height="11"/>
     <rect x="57" y="96" width="10" height="11"/>
   </g>
-  <!-- Torch A -->
-  <circle cx="36" cy="102" r="2" fill="#b06010" opacity="0.7"/>
+  <!-- Torch A — flickering -->
+  <circle cx="36" cy="102" r="2" fill="#b06010">
+    <animate attributeName="opacity" values="0.7;1;0.4;0.9;0.7" dur="1.9s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="2;2.8;1.6;2.6;2" dur="1.9s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- Garrison point B — right wall ledge -->
+  <!-- Garrison B — right wall ledge -->
   <rect x="327" y="100" width="68" height="40" fill="#131620" stroke="#1e2230" stroke-width="1"/>
-  <!-- Battlements B -->
   <g fill="#1a1e2c" stroke="#1e2230" stroke-width="0.8">
     <rect x="327" y="91" width="10" height="11"/>
     <rect x="340" y="91" width="10" height="11"/>
@@ -59,10 +62,13 @@
     <rect x="366" y="91" width="10" height="11"/>
     <rect x="379" y="91" width="16" height="11"/>
   </g>
-  <!-- Torch B -->
-  <circle cx="360" cy="97" r="2" fill="#b06010" opacity="0.7"/>
+  <!-- Torch B — flickering -->
+  <circle cx="360" cy="97" r="2" fill="#b06010">
+    <animate attributeName="opacity" values="0.5;0.9;0.7;1;0.5" dur="2.2s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="2;2.5;1.8;3;2" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- Garrison point C — hanging chain bridge platform centre-left -->
+  <!-- Garrison C — hanging platform centre-left -->
   <rect x="100" y="130" width="60" height="30" fill="#131620" stroke="#1e2230" stroke-width="1"/>
   <g fill="#1a1e2c" stroke="#1e2230" stroke-width="0.8">
     <rect x="100" y="121" width="9"  height="11"/>
@@ -71,12 +77,16 @@
     <rect x="136" y="121" width="9"  height="11"/>
     <rect x="148" y="121" width="12" height="11"/>
   </g>
-  <!-- Chain to left wall -->
-  <path d="M73,120 Q87,128 100,130" stroke="#252a38" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+  <!-- Chain to left wall — swaying -->
+  <path d="M73,120 Q87,128 100,130" stroke="#252a38" stroke-width="1.5" fill="none" stroke-dasharray="4,3">
+    <animateTransform attributeName="transform" type="translate" values="0 0; 1 2; 0 0; -1 2; 0 0" dur="6s" repeatCount="indefinite"/>
+  </path>
   <!-- Chain to right (toward D) -->
-  <path d="M160,140 Q195,145 240,140" stroke="#252a38" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+  <path d="M160,140 Q195,145 240,140" stroke="#252a38" stroke-width="1.5" fill="none" stroke-dasharray="4,3">
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 2; 0 0; 0 -1; 0 0" dur="7s" repeatCount="indefinite"/>
+  </path>
 
-  <!-- Garrison point D — centre-right platform -->
+  <!-- Garrison D — centre-right platform -->
   <rect x="240" y="128" width="60" height="32" fill="#131620" stroke="#1e2230" stroke-width="1"/>
   <g fill="#1a1e2c" stroke="#1e2230" stroke-width="0.8">
     <rect x="240" y="119" width="9"  height="11"/>
@@ -86,7 +96,9 @@
     <rect x="288" y="119" width="12" height="11"/>
   </g>
   <!-- Chain to right wall -->
-  <path d="M300,138 Q311,132 327,125" stroke="#252a38" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+  <path d="M300,138 Q311,132 327,125" stroke="#252a38" stroke-width="1.5" fill="none" stroke-dasharray="4,3">
+    <animateTransform attributeName="transform" type="translate" values="0 0; -1 2; 0 0; 1 1; 0 0" dur="8s" repeatCount="indefinite"/>
+  </path>
 
   <!-- Chains dropping into chasm -->
   <g stroke="#252a38" stroke-width="1" fill="none" opacity="0.4" stroke-dasharray="3,4">
@@ -96,15 +108,13 @@
     <line x1="285" y1="160" x2="288" y2="200"/>
   </g>
 
-  <!-- INNER WALL — Kragg's sanctum — back of canyon, elevated -->
+  <!-- Inner wall — Kragg's sanctum -->
   <rect x="130" y="45" width="140" height="75" fill="#161924" stroke="#2a3040" stroke-width="2"/>
-  <!-- Inner wall stone courses -->
   <g stroke="#1e2230" stroke-width="0.8" opacity="0.5">
     <line x1="130" y1="65"  x2="270" y2="65"/>
     <line x1="130" y1="85"  x2="270" y2="85"/>
     <line x1="130" y1="105" x2="270" y2="105"/>
   </g>
-  <!-- Inner wall battlements -->
   <g fill="#1e2232" stroke="#2a3040" stroke-width="1">
     <rect x="130" y="33" width="14" height="14"/>
     <rect x="148" y="33" width="14" height="14"/>
@@ -115,17 +125,29 @@
     <rect x="238" y="33" width="14" height="14"/>
     <rect x="256" y="33" width="14" height="14"/>
   </g>
-  <!-- Kragg's banner flying above inner wall -->
-  <line x1="197" y1="5"  x2="197" y2="34" stroke="#2a3040" stroke-width="2"/>
-  <polygon points="197,6 236,14 197,24" fill="#1e2438" stroke="#3a4060" stroke-width="1"/>
-  <g stroke="#4a5880" stroke-width="1.5">
-    <line x1="208" y1="12" x2="208" y2="20"/>
-    <line x1="202" y1="16" x2="215" y2="16"/>
+
+  <!-- Kragg's banner — swaying -->
+  <g>
+    <animateTransform attributeName="transform" type="skewX"
+      values="0; 4; 0; -4; 0" dur="6s" repeatCount="indefinite"/>
+    <line x1="197" y1="5"  x2="197" y2="34" stroke="#2a3040" stroke-width="2"/>
+    <polygon points="197,6 236,14 197,24" fill="#1e2438" stroke="#3a4060" stroke-width="1"/>
+    <g stroke="#4a5880" stroke-width="1.5">
+      <line x1="208" y1="12" x2="208" y2="20"/>
+      <line x1="202" y1="16" x2="215" y2="16"/>
+    </g>
   </g>
-  <!-- Inner wall torches — slightly warmer than outer -->
-  <circle cx="148" cy="40" r="2.5" fill="#c07020" opacity="0.8"/>
-  <circle cx="200" cy="40" r="2.5" fill="#c07020" opacity="0.8"/>
-  <circle cx="252" cy="40" r="2.5" fill="#c07020" opacity="0.8"/>
+
+  <!-- Inner wall torches — flickering -->
+  <circle cx="148" cy="40" r="2.5" fill="#c07020">
+    <animate attributeName="opacity" values="0.8;1;0.5;0.9;0.8" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="200" cy="40" r="2.5" fill="#c07020">
+    <animate attributeName="opacity" values="0.7;0.4;1;0.8;0.7" dur="1.7s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="252" cy="40" r="2.5" fill="#c07020">
+    <animate attributeName="opacity" values="0.9;0.6;0.8;1;0.9" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
 
   <!-- Inner wall gate — sealed -->
   <rect x="178" y="90" width="44" height="30" fill="#0c0e14" stroke="#2a3040" stroke-width="1.5"/>
@@ -144,5 +166,7 @@
   <path d="M130,145 Q145,115 155,120" stroke="#1e2230" stroke-width="2" fill="none"/>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a3040" text-anchor="middle" letter-spacing="3">THE GARRISON NETWORK</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a3040" text-anchor="middle" letter-spacing="3">THE GARRISON NETWORK
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="6s" repeatCount="indefinite"/>
+  </text>
 </svg>

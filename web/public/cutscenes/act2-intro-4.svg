@@ -1,15 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
   <rect width="400" height="240" fill="#08090c"/>
 
-  <!-- Dark background -->
+  <!-- Dark background — pulsing -->
   <radialGradient id="mission-glow" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#1a1e30" stop-opacity="0.6"/>
+    <stop offset="0%" stop-color="#1a1e30" stop-opacity="0.6">
+      <animate attributeName="stop-opacity" values="0.4;0.7;0.4" dur="7s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#08090c" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#mission-glow)"/>
 
-  <!-- Tactical map grid lines — faint -->
-  <g stroke="#141820" stroke-width="0.5" opacity="0.6">
+  <!-- Tactical map grid lines — scanning pulse -->
+  <g stroke="#141820" stroke-width="0.5">
+    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="4s" repeatCount="indefinite"/>
     <line x1="0"   y1="40"  x2="400" y2="40"/>
     <line x1="0"   y1="80"  x2="400" y2="80"/>
     <line x1="0"   y1="120" x2="400" y2="120"/>
@@ -24,13 +27,12 @@
     <line x1="350" y1="0"   x2="350" y2="240"/>
   </g>
 
-  <!-- Left side: player position marker -->
-  <!-- Small shield / base icon at left -->
-  <polygon points="30,120 48,110 66,120 66,140 48,150 30,140" fill="#0f1820" stroke="#204060" stroke-width="1.5"/>
-  <!-- Player star -->
+  <!-- Player position marker -->
+  <polygon points="30,120 48,110 66,120 66,140 48,150 30,140" fill="#0f1820" stroke="#204060" stroke-width="1.5">
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite"/>
+  </polygon>
   <polygon points="48,118 51,126 59,126 53,131 55,139 48,134 41,139 43,131 37,126 45,126" fill="#204060" opacity="0.8"/>
 
-  <!-- Garrison points along the path — enemy positions (left to right) -->
   <!-- Garrison 1 -->
   <rect x="108" y="104" width="24" height="32" fill="#141820" stroke="#2a3040" stroke-width="1.5"/>
   <g fill="#2a3040">
@@ -38,8 +40,9 @@
     <rect x="118" y="97" width="7" height="9"/>
     <rect x="128" y="97" width="4" height="9"/>
   </g>
-  <!-- Garrison 1 torch -->
-  <circle cx="120" cy="103" r="2" fill="#b05820" opacity="0.6"/>
+  <circle cx="120" cy="103" r="2" fill="#b05820">
+    <animate attributeName="opacity" values="0.6;1;0.4;0.8;0.6" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
 
   <!-- Garrison 2 -->
   <rect x="188" y="96" width="24" height="34" fill="#141820" stroke="#2a3040" stroke-width="1.5"/>
@@ -48,49 +51,61 @@
     <rect x="198" y="88" width="7" height="10"/>
     <rect x="208" y="88" width="4" height="10"/>
   </g>
-  <circle cx="200" cy="95" r="2" fill="#b05820" opacity="0.6"/>
+  <circle cx="200" cy="95" r="2" fill="#b05820">
+    <animate attributeName="opacity" values="0.4;0.9;0.6;1;0.4" dur="2.1s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- Garrison 3 — final before boss -->
+  <!-- Garrison 3 -->
   <rect x="268" y="100" width="24" height="30" fill="#141820" stroke="#2a3040" stroke-width="1.5"/>
   <g fill="#2a3040">
     <rect x="268" y="92" width="7" height="10"/>
     <rect x="278" y="92" width="7" height="10"/>
     <rect x="288" y="92" width="4" height="10"/>
   </g>
-  <circle cx="280" cy="98" r="2" fill="#b05820" opacity="0.6"/>
+  <circle cx="280" cy="98" r="2" fill="#b05820">
+    <animate attributeName="opacity" values="0.7;0.4;1;0.8;0.7" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- BOSS marker — Warlord Kragg — far right, fortress icon -->
-  <rect x="342" y="80" width="48" height="60" fill="#161c28" stroke="#3a4060" stroke-width="2"/>
+  <!-- Boss marker — pulsing threat -->
+  <rect x="342" y="80" width="48" height="60" fill="#161c28" stroke="#3a4060" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="0.6;1;0.6" dur="2.5s" repeatCount="indefinite"/>
+  </rect>
   <g fill="#202838" stroke="#3a4060" stroke-width="1">
     <rect x="342" y="70" width="13" height="12"/>
     <rect x="358" y="70" width="13" height="12"/>
     <rect x="374" y="70" width="16" height="12"/>
   </g>
-  <!-- Boss skull icon -->
-  <circle cx="366" cy="104" r="10" fill="#0e1220" stroke="#3a4060" stroke-width="1"/>
+  <circle cx="366" cy="104" r="10" fill="#0e1220" stroke="#3a4060" stroke-width="1">
+    <animate attributeName="r" values="10;12;10" dur="2.5s" repeatCount="indefinite"/>
+    <animate attributeName="stroke-opacity" values="0.6;1;0.6" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
   <circle cx="362" cy="101" r="2.5" fill="#3a4060"/>
   <circle cx="370" cy="101" r="2.5" fill="#3a4060"/>
   <path d="M360,108 Q366,112 372,108" stroke="#3a4060" stroke-width="1" fill="none"/>
   <line x1="362" y1="110" x2="362" y2="113" stroke="#3a4060" stroke-width="1"/>
   <line x1="366" y1="111" x2="366" y2="113" stroke="#3a4060" stroke-width="1"/>
   <line x1="370" y1="110" x2="370" y2="113" stroke="#3a4060" stroke-width="1"/>
-  <!-- Boss name text -->
   <text x="366" y="130" font-family="monospace" font-size="7" fill="#3a4060" text-anchor="middle">KRAGG</text>
 
-  <!-- Path / route arrows from player to garrison 1 -->
-  <path d="M66,120 Q87,120 108,120" stroke="#204060" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#arr)"/>
-  <!-- Path from garrison 1 to 2 -->
-  <path d="M132,120 Q160,112 188,113" stroke="#204060" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
-  <!-- Arrow head manually -->
+  <!-- Animated route arrows — marching ants -->
+  <path d="M66,120 Q87,120 108,120" stroke="#204060" stroke-width="1.5" fill="none" stroke-dasharray="5,3">
+    <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1.2s" repeatCount="indefinite"/>
+  </path>
+  <path d="M132,120 Q160,112 188,113" stroke="#204060" stroke-width="1.5" fill="none" stroke-dasharray="5,3">
+    <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1.4s" repeatCount="indefinite"/>
+  </path>
   <polygon points="185,110 192,113 185,116" fill="#204060"/>
-  <!-- Path from garrison 2 to 3 -->
-  <path d="M212,113 Q240,106 268,110" stroke="#204060" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
+  <path d="M212,113 Q240,106 268,110" stroke="#204060" stroke-width="1.5" fill="none" stroke-dasharray="5,3">
+    <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1.3s" repeatCount="indefinite"/>
+  </path>
   <polygon points="265,107 272,110 265,113" fill="#204060"/>
-  <!-- Path from garrison 3 to boss -->
-  <path d="M292,115 Q317,110 342,110" stroke="#3a4060" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
+  <path d="M292,115 Q317,110 342,110" stroke="#3a4060" stroke-width="2" fill="none" stroke-dasharray="5,3">
+    <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+  </path>
   <polygon points="339,107 346,110 339,113" fill="#3a4060"/>
 
-  <!-- X markers on garrison positions — "must clear" -->
+  <!-- X markers on garrison positions -->
   <g stroke="#3a4060" stroke-width="1.5" opacity="0.6">
     <line x1="112" y1="115" x2="128" y2="130"/>
     <line x1="128" y1="115" x2="112" y2="130"/>
@@ -106,10 +121,14 @@
   <path d="M330,55 Q320,95 330,145" stroke="#1a1e2a" stroke-width="3" fill="none"/>
   <path d="M330,145 Q320,175 325,218" stroke="#1a1e2a" stroke-width="3" fill="none"/>
 
-  <!-- Objective text at top -->
-  <text x="200" y="22" font-family="monospace" font-size="8" fill="#204060" text-anchor="middle" letter-spacing="2">OBJECTIVE: BREACH THE INNER WALL</text>
+  <!-- Objective text -->
+  <text x="200" y="22" font-family="monospace" font-size="8" fill="#204060" text-anchor="middle" letter-spacing="2">OBJECTIVE: BREACH THE INNER WALL
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite"/>
+  </text>
   <line x1="60" y1="27" x2="340" y2="27" stroke="#1a2030" stroke-width="0.8"/>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a3040" text-anchor="middle" letter-spacing="3">YOUR MISSION</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a3040" text-anchor="middle" letter-spacing="3">YOUR MISSION
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="5s" repeatCount="indefinite"/>
+  </text>
 </svg>

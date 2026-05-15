@@ -8,6 +8,15 @@
   </linearGradient>
   <rect width="400" height="180" fill="url(#sky2)"/>
 
+  <!-- Ambient dread glow — pulses slowly -->
+  <radialGradient id="citadel-amb" cx="50%" cy="30%" r="45%">
+    <stop offset="0%" stop-color="#202840" stop-opacity="0.3">
+      <animate attributeName="stop-opacity" values="0.2;0.4;0.2" dur="8s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="100%" stop-color="#08090c" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#citadel-amb)"/>
+
   <!-- Ground / rubble base -->
   <rect x="0" y="185" width="400" height="55" fill="#0a0b0e"/>
   <line x1="0" y1="185" x2="400" y2="185" stroke="#151820" stroke-width="1"/>
@@ -89,27 +98,50 @@
   <!-- Gate arch shadow -->
   <ellipse cx="200" cy="140" rx="32" ry="6" fill="#0a0c10" opacity="0.8"/>
 
-  <!-- Warlord banner atop centre -->
-  <line x1="197" y1="10" x2="197" y2="44" stroke="#303548" stroke-width="2"/>
-  <polygon points="197,10 230,20 197,30" fill="#1e2438" stroke="#303548" stroke-width="1"/>
-  <!-- Iron cross on banner -->
-  <g stroke="#404860" stroke-width="1.5">
-    <line x1="206" y1="18" x2="206" y2="28"/>
-    <line x1="201" y1="23" x2="212" y2="23"/>
+  <!-- Warlord banner — sways gently -->
+  <g>
+    <animateTransform attributeName="transform" type="skewX"
+      values="0; 3; 0; -3; 0" dur="7s" repeatCount="indefinite"/>
+    <line x1="197" y1="10" x2="197" y2="44" stroke="#303548" stroke-width="2"/>
+    <polygon points="197,10 230,20 197,30" fill="#1e2438" stroke="#303548" stroke-width="1"/>
+    <g stroke="#404860" stroke-width="1.5">
+      <line x1="206" y1="18" x2="206" y2="28"/>
+      <line x1="201" y1="23" x2="212" y2="23"/>
+    </g>
   </g>
 
-  <!-- Distant torches on battlements — tiny warm glows -->
-  <circle cx="118" cy="59" r="2.5" fill="#c07020" opacity="0.7"/>
-  <circle cx="156" cy="59" r="2"   fill="#c07020" opacity="0.6"/>
-  <circle cx="244" cy="59" r="2"   fill="#c07020" opacity="0.6"/>
-  <circle cx="280" cy="59" r="2.5" fill="#c07020" opacity="0.7"/>
+  <!-- Torches — flickering warm glow -->
+  <circle cx="118" cy="59" r="2.5" fill="#c07020">
+    <animate attributeName="opacity" values="0.7;1;0.5;0.9;0.7" dur="1.8s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="2.5;3.2;2;3;2.5" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="156" cy="59" r="2" fill="#c07020">
+    <animate attributeName="opacity" values="0.6;0.9;0.4;0.8;0.6" dur="2.1s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="2;2.8;1.8;2.6;2" dur="2.1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="244" cy="59" r="2" fill="#c07020">
+    <animate attributeName="opacity" values="0.5;0.8;0.6;1;0.5" dur="1.6s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="2;2.6;1.8;3;2" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="280" cy="59" r="2.5" fill="#c07020">
+    <animate attributeName="opacity" values="0.7;0.5;1;0.8;0.7" dur="2.3s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="2.5;3.4;2;2.8;2.5" dur="2.3s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- Arrow slit windows — dim glow -->
-  <g fill="#c07020" opacity="0.3">
-    <rect x="126" y="100" width="4" height="10" rx="2"/>
-    <rect x="150" y="100" width="4" height="10" rx="2"/>
-    <rect x="246" y="100" width="4" height="10" rx="2"/>
-    <rect x="270" y="100" width="4" height="10" rx="2"/>
+  <!-- Arrow slit windows — pulsing dim glow -->
+  <g fill="#c07020">
+    <rect x="126" y="100" width="4" height="10" rx="2">
+      <animate attributeName="opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="150" y="100" width="4" height="10" rx="2">
+      <animate attributeName="opacity" values="0.3;0.5;0.2;0.6;0.3" dur="5s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="246" y="100" width="4" height="10" rx="2">
+      <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3.5s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="270" y="100" width="4" height="10" rx="2">
+      <animate attributeName="opacity" values="0.2;0.5;0.3;0.6;0.2" dur="4.5s" repeatCount="indefinite"/>
+    </rect>
   </g>
 
   <!-- Rubble at base -->
@@ -121,5 +153,7 @@
   </g>
 
   <!-- Label -->
-  <text x="200" y="230" font-family="monospace" font-size="9" fill="#303548" text-anchor="middle" letter-spacing="3">THE IRON CITADEL</text>
+  <text x="200" y="230" font-family="monospace" font-size="9" fill="#303548" text-anchor="middle" letter-spacing="3">THE IRON CITADEL
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="6s" repeatCount="indefinite"/>
+  </text>
 </svg>
