@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a1a0a" opacity="0.6"/>
+  <!-- Diseased mound (sickly green-brown) -->
+  <ellipse cx="16" cy="26" rx="14" ry="7" fill="#3a4a1a"/>
+  <ellipse cx="16" cy="25" rx="13" ry="6" fill="#4a5a2a"/>
+  <!-- Putrid pustules on mound -->
+  <circle cx="8" cy="23" r="2" fill="#6a7a1a" opacity="0.7"/>
+  <circle cx="22" cy="22" r="1.5" fill="#5a6a1a" opacity="0.7"/>
+  <circle cx="12" cy="21" r="1.8" fill="#7a8a2a" opacity="0.6"/>
+  <circle cx="20" cy="24" r="1.2" fill="#6a7a1a" opacity="0.6"/>
+  <!-- Main burrow entrance -->
+  <ellipse cx="16" cy="27" rx="6" ry="4.5" fill="#0a1a00"/>
+  <!-- Secondary burrows -->
+  <ellipse cx="7" cy="27" rx="3.5" ry="3" fill="#0a1a00"/>
+  <ellipse cx="25" cy="27" rx="3.5" ry="3" fill="#0a1a00"/>
+  <!-- Glowing sick-green eyes -->
+  <circle cx="15" cy="27" r="0.9" fill="#88ff00" opacity="0.8"/>
+  <circle cx="17" cy="27" r="0.9" fill="#88ff00" opacity="0.8"/>
+  <circle cx="6" cy="27" r="0.7" fill="#66cc00" opacity="0.7"/>
+  <circle cx="24" cy="27" r="0.7" fill="#66cc00" opacity="0.7"/>
+  <!-- Toxic gas clouds -->
+  <circle cx="10" cy="18" r="3" fill="#4a6a00" opacity="0.3"/>
+  <circle cx="22" cy="17" r="2.5" fill="#4a6a00" opacity="0.3"/>
+  <circle cx="16" cy="14" r="3.5" fill="#5a7a00" opacity="0.25"/>
+  <!-- Plague flies swarming -->
+  <circle cx="6" cy="14" r="0.5" fill="#1a1a0a" opacity="0.7"/>
+  <circle cx="8" cy="12" r="0.5" fill="#1a1a0a" opacity="0.7"/>
+  <circle cx="25" cy="13" r="0.5" fill="#1a1a0a" opacity="0.7"/>
+  <circle cx="27" cy="15" r="0.5" fill="#1a1a0a" opacity="0.7"/>
+  <!-- Bones scattered nearby -->
+  <line x1="3" y1="28" x2="5" y2="27" stroke="#ccbb99" stroke-width="1"/>
+  <line x1="29" y1="28" x2="27" y2="27" stroke="#ccbb99" stroke-width="1"/>
+</svg>

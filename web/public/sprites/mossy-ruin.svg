@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#0a1a0a" opacity="0.5"/>
+  <!-- Crumbled stone wall sections -->
+  <rect x="2" y="18" width="8" height="12" rx="0.5" fill="#6a6a5a"/>
+  <rect x="22" y="16" width="8" height="14" rx="0.5" fill="#6a6a5a"/>
+  <!-- Fallen blocks scattered -->
+  <rect x="12" y="24" width="5" height="4" rx="0.3" fill="#5a5a4a"/>
+  <rect x="16" y="22" width="4" height="4" rx="0.3" fill="#6a6a5a"/>
+  <rect x="1" y="14" width="5" height="5" rx="0.3" fill="#5a5a4a"/>
+  <rect x="26" y="12" width="5" height="5" rx="0.3" fill="#5a5a4a"/>
+  <!-- Partial arch remnant -->
+  <path d="M10,18 Q16,10 22,16" fill="none" stroke="#6a6a5a" stroke-width="3"/>
+  <!-- Stone texture on walls -->
+  <line x1="2" y1="21" x2="10" y2="21" stroke="#5a5a4a" stroke-width="0.6"/>
+  <line x1="2" y1="25" x2="10" y2="25" stroke="#5a5a4a" stroke-width="0.6"/>
+  <line x1="22" y1="20" x2="30" y2="20" stroke="#5a5a4a" stroke-width="0.6"/>
+  <line x1="22" y1="24" x2="30" y2="24" stroke="#5a5a4a" stroke-width="0.6"/>
+  <!-- Thick moss patches on ruins -->
+  <ellipse cx="4" cy="18" rx="4" ry="2" fill="#3a6a1a" opacity="0.7"/>
+  <ellipse cx="27" cy="16" rx="4" ry="2" fill="#3a6a1a" opacity="0.6"/>
+  <ellipse cx="14" cy="24" rx="3" ry="1.5" fill="#2a5a0a" opacity="0.7"/>
+  <!-- Vines growing over arch -->
+  <path d="M10,18 Q13,14 16,15" fill="none" stroke="#2a6a0a" stroke-width="1.2"/>
+  <path d="M22,16 Q19,13 16,15" fill="none" stroke="#2a6a0a" stroke-width="1.2"/>
+  <!-- Small flowering weeds in cracks -->
+  <circle cx="6" cy="17" r="1" fill="#ffcc44" opacity="0.6"/>
+  <circle cx="25" cy="15" r="1" fill="#ff8844" opacity="0.6"/>
+  <circle cx="15" cy="22" r="0.8" fill="#ffaa44" opacity="0.5"/>
+  <!-- Rubble pile on ground -->
+  <polygon points="10,30 14,26 18,30" fill="#5a5a4a"/>
+  <polygon points="14,30 17,27 20,30" fill="#6a6a5a"/>
+</svg>

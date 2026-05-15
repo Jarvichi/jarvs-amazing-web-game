@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Earthy mound base -->
+  <ellipse cx="16" cy="27" rx="14" ry="6" fill="#4a3a1a"/>
+  <ellipse cx="16" cy="26" rx="13" ry="5" fill="#5a4a2a"/>
+  <!-- Large central mushroom -->
+  <rect x="13" y="19" width="6" height="9" rx="1" fill="#aa5533"/>
+  <ellipse cx="16" cy="19" rx="10" ry="5" fill="#cc6644"/>
+  <ellipse cx="16" cy="18" rx="9" ry="4" fill="#dd7755"/>
+  <!-- White spots on cap -->
+  <circle cx="10" cy="17" r="1.5" fill="#ffffff" opacity="0.5"/>
+  <circle cx="16" cy="15" r="2" fill="#ffffff" opacity="0.5"/>
+  <circle cx="22" cy="17" r="1.5" fill="#ffffff" opacity="0.5"/>
+  <circle cx="13" cy="19" r="1" fill="#ffffff" opacity="0.4"/>
+  <circle cx="20" cy="19" r="1" fill="#ffffff" opacity="0.4"/>
+  <!-- Medium mushrooms flanking -->
+  <rect x="5" y="22" width="4" height="7" rx="0.5" fill="#996633"/>
+  <ellipse cx="7" cy="22" rx="5.5" ry="3" fill="#bb7744"/>
+  <circle cx="5" cy="21" r="1" fill="#ffffff" opacity="0.4"/>
+  <circle cx="9" cy="21" r="0.8" fill="#ffffff" opacity="0.4"/>
+  <rect x="23" y="22" width="4" height="7" rx="0.5" fill="#996633"/>
+  <ellipse cx="25" cy="22" rx="5.5" ry="3" fill="#bb7744"/>
+  <circle cx="23" cy="21" r="1" fill="#ffffff" opacity="0.4"/>
+  <!-- Small mushrooms -->
+  <rect x="9" y="25" width="2" height="4" rx="0.3" fill="#aa6644"/>
+  <ellipse cx="10" cy="25" rx="3" ry="1.5" fill="#cc7755"/>
+  <rect x="21" y="25" width="2" height="4" rx="0.3" fill="#aa6644"/>
+  <ellipse cx="22" cy="25" rx="3" ry="1.5" fill="#cc7755"/>
+  <!-- Spore particles -->
+  <circle cx="8" cy="13" r="0.7" fill="#ffcc44" opacity="0.5"/>
+  <circle cx="24" cy="12" r="0.6" fill="#ffcc44" opacity="0.4"/>
+  <circle cx="16" cy="10" r="0.8" fill="#ffdd66" opacity="0.5"/>
+</svg>
