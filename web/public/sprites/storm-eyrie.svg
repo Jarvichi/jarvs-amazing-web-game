@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="10" ry="1.5" fill="#1a1a2a" opacity="0.4"/>
+  <!-- Storm cloud base swirling around eyrie -->
+  <ellipse cx="16" cy="20" rx="15" ry="6" fill="#3a3a5a" opacity="0.4"/>
+  <ellipse cx="6" cy="22" rx="8" ry="4" fill="#4a4a6a" opacity="0.3"/>
+  <ellipse cx="26" cy="22" rx="8" ry="4" fill="#4a4a6a" opacity="0.3"/>
+  <!-- Rocky mountain peak -->
+  <polygon points="4,30 8,16 14,20 16,10 18,20 24,16 28,30" fill="#4a4a5a"/>
+  <!-- Eyrie nest platform at peak -->
+  <ellipse cx="16" cy="10" rx="9" ry="3.5" fill="#5a5a4a"/>
+  <ellipse cx="16" cy="9.5" rx="8" ry="3" fill="#7a6a3a"/>
+  <!-- Nest material (sticks, lightning-scorched) -->
+  <path d="M9,9 Q12,7 16,8.5 Q20,7 23,9" fill="none" stroke="#4a3a1a" stroke-width="1.2"/>
+  <!-- Storm eagle silhouette in nest -->
+  <ellipse cx="16" cy="9" rx="3" ry="2" fill="#3a3a4a"/>
+  <circle cx="18" cy="8" r="1.5" fill="#4a4a5a"/>
+  <!-- Eagle wings spread (storm-dark) -->
+  <path d="M9,9 Q6,7 7,5 Q11,8 9,9Z" fill="#5a5a6a" opacity="0.8"/>
+  <path d="M23,9 Q26,7 25,5 Q21,8 23,9Z" fill="#5a5a6a" opacity="0.8"/>
+  <!-- Lightning crackling from wings -->
+  <line x1="7" y1="7" x2="4" y2="5" stroke="#ffff44" stroke-width="0.8" opacity="0.6"/>
+  <line x1="25" y1="7" x2="28" y2="5" stroke="#ffff44" stroke-width="0.8" opacity="0.6"/>
+  <!-- Eagle yellow eye -->
+  <circle cx="18.5" cy="7.5" r="0.6" fill="#ffcc00" opacity="0.9"/>
+  <!-- Rain streaks -->
+  <line x1="4" y1="15" x2="3" y2="20" stroke="#aabbff" stroke-width="0.5" opacity="0.3"/>
+  <line x1="28" y1="14" x2="27" y2="19" stroke="#aabbff" stroke-width="0.5" opacity="0.3"/>
+  <line x1="8" y1="25" x2="7" y2="30" stroke="#aabbff" stroke-width="0.5" opacity="0.25"/>
+</svg>

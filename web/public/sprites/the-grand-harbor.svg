@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Harbor water -->
+  <rect x="0" y="18" width="32" height="14" fill="#0a3a5a"/>
+  <!-- Water shimmer -->
+  <path d="M0,20 Q8,18 16,20 Q24,22 32,20" fill="none" stroke="#1a5a7a" stroke-width="0.8" opacity="0.5"/>
+  <!-- Ground shadow -->
+  <ellipse cx="8" cy="31" rx="10" ry="1" fill="#0a1a2a" opacity="0.3"/>
+  <!-- Grand stone harbor wall/quay -->
+  <rect x="0" y="16" width="32" height="4" rx="0.5" fill="#7a6a4a"/>
+  <line x1="0" y1="17.5" x2="32" y2="17.5" stroke="#5a4a2a" stroke-width="0.6"/>
+  <!-- Lighthouse on left pier -->
+  <rect x="1" y="3" width="6" height="15" rx="0.5" fill="#ddcc99"/>
+  <!-- Lighthouse stripes -->
+  <rect x="1" y="6" width="6" height="2" fill="#cc3322" opacity="0.7"/>
+  <rect x="1" y="10" width="6" height="2" fill="#cc3322" opacity="0.7"/>
+  <rect x="1" y="14" width="6" height="2" fill="#cc3322" opacity="0.7"/>
+  <!-- Lighthouse top -->
+  <rect x="0" y="1" width="8" height="3" rx="0.5" fill="#ccbb88"/>
+  <circle cx="4" cy="1" r="2" fill="#ffcc00" opacity="0.7"/>
+  <!-- Harbor master's building -->
+  <rect x="8" y="8" width="14" height="10" rx="0.5" fill="#bb9966"/>
+  <polygon points="8,8 15,3 22,8" fill="#998855"/>
+  <!-- Building flag -->
+  <line x1="15" y1="3" x2="15" y2="0" stroke="#7a6a3a" stroke-width="0.8"/>
+  <polygon points="15,0 21,1.5 15,3" fill="#2255aa"/>
+  <!-- Building windows -->
+  <rect x="10" y="10" width="3" height="3" rx="0.3" fill="#1a2a3a"/>
+  <rect x="17" y="10" width="3" height="3" rx="0.3" fill="#1a2a3a"/>
+  <!-- Sailing ship in harbor -->
+  <path d="M22,22 Q26,20 30,22 Q28,26 24,26 Q22,24 22,22Z" fill="#8a6a2a"/>
+  <line x1="26" y1="18" x2="26" y2="22" stroke="#6a4a1a" stroke-width="0.8"/>
+  <path d="M23,18 Q26,16 29,18" fill="#ddddcc" opacity="0.6"/>
+  <!-- Dock pilings -->
+  <line x1="22" y1="18" x2="20" y2="26" stroke="#6a5a2a" stroke-width="1.5"/>
+  <line x1="30" y1="18" x2="32" y2="26" stroke="#6a5a2a" stroke-width="1.5"/>
+</svg>

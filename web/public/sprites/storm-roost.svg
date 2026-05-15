@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="10" ry="1.5" fill="#1a1a2a" opacity="0.4"/>
+  <!-- Thunder-dark pillar -->
+  <rect x="11" y="18" width="10" height="12" rx="1" fill="#3a3a5a"/>
+  <!-- Storm-darkened nest platform -->
+  <ellipse cx="16" cy="18" rx="11" ry="3.5" fill="#4a4a5a"/>
+  <ellipse cx="16" cy="17.5" rx="10" ry="3" fill="#5a5a6a"/>
+  <!-- Singed nest material -->
+  <path d="M7,17 Q11,14 16,16 Q21,14 25,17" fill="none" stroke="#3a2a1a" stroke-width="1.2"/>
+  <!-- Storm bird silhouette perched -->
+  <ellipse cx="16" cy="16" rx="3.5" ry="2.5" fill="#3a3a4a"/>
+  <circle cx="19" cy="15" r="2" fill="#4a4a5a"/>
+  <!-- Wings half-spread (showing lightning) -->
+  <path d="M8,16 Q5,14 6,12 Q10,15 8,16Z" fill="#5a5a6a" opacity="0.8"/>
+  <path d="M24,16 Q27,14 26,12 Q22,15 24,16Z" fill="#5a5a6a" opacity="0.8"/>
+  <!-- Lightning bolt emanating from bird -->
+  <path d="M19,14 L22,10 L20,11 L23,6" stroke="#ffff44" stroke-width="1.5" fill="none" opacity="0.8"/>
+  <!-- Storm clouds swirling around roost top -->
+  <ellipse cx="10" cy="12" rx="6" ry="3" fill="#3a3a5a" opacity="0.5"/>
+  <ellipse cx="22" cy="11" rx="6" ry="3" fill="#4a4a6a" opacity="0.4"/>
+  <ellipse cx="16" cy="9" rx="8" ry="3.5" fill="#3a3a5a" opacity="0.4"/>
+  <!-- Rain streaks -->
+  <line x1="6" y1="22" x2="5" y2="28" stroke="#aabbff" stroke-width="0.5" opacity="0.3"/>
+  <line x1="26" y1="22" x2="25" y2="28" stroke="#aabbff" stroke-width="0.5" opacity="0.3"/>
+  <!-- Thunder crack marks on pillar -->
+  <path d="M13,22 L14,25 L12,28" fill="none" stroke="#ffffaa" stroke-width="0.6" opacity="0.3"/>
+</svg>

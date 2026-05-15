@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a1a2a" opacity="0.5"/>
+  <!-- Dark storm walls -->
+  <rect x="1" y="14" width="30" height="16" rx="1" fill="#3a3a5a"/>
+  <!-- Wall detail lines -->
+  <line x1="1" y1="19" x2="31" y2="19" stroke="#2a2a4a" stroke-width="0.8"/>
+  <line x1="1" y1="24" x2="31" y2="24" stroke="#2a2a4a" stroke-width="0.7"/>
+  <!-- Corner towers -->
+  <rect x="0" y="8" width="9" height="22" rx="0.5" fill="#4a4a6a"/>
+  <rect x="23" y="8" width="9" height="22" rx="0.5" fill="#4a4a6a"/>
+  <!-- Tower battlements (jagged like lightning) -->
+  <polygon points="0,8 2,4 4,8" fill="#3a3a5a"/>
+  <polygon points="5,8 7,4 9,8" fill="#3a3a5a"/>
+  <polygon points="23,8 25,4 27,8" fill="#3a3a5a"/>
+  <polygon points="28,8 30,4 32,8" fill="#3a3a5a"/>
+  <!-- Central storm spire -->
+  <rect x="12" y="4" width="8" height="12" rx="0.5" fill="#4a4a6a"/>
+  <polygon points="10,4 16,0 22,4" fill="#2a2a4a"/>
+  <!-- Lightning conductor at peak -->
+  <line x1="16" y1="0" x2="16" y2="-3" stroke="#7a7a8a" stroke-width="1.2"/>
+  <circle cx="16" cy="-3" r="1" fill="#ffff88" opacity="0.7"/>
+  <!-- Lightning crackling down spire -->
+  <path d="M16,0 L14,3 L16,2.5 L14,7" stroke="#ffff44" stroke-width="1" fill="none" opacity="0.7"/>
+  <!-- Storm windows (glowing) -->
+  <rect x="3" y="12" width="3" height="5" rx="0.2" fill="#1a1a2a"/>
+  <rect x="4" y="13" width="1.5" height="3" fill="#ffffaa" opacity="0.3"/>
+  <rect x="26" y="12" width="3" height="5" rx="0.2" fill="#1a1a2a"/>
+  <rect x="27" y="13" width="1.5" height="3" fill="#ffffaa" opacity="0.3"/>
+  <!-- Gate arch -->
+  <path d="M13,30 L13,20 Q16,15 19,20 L19,30 Z" fill="#1a1a2a"/>
+  <!-- Storm cloud wisps at top -->
+  <ellipse cx="8" cy="6" rx="5" ry="2.5" fill="#4a4a6a" opacity="0.5"/>
+  <ellipse cx="24" cy="6" rx="5" ry="2.5" fill="#4a4a6a" opacity="0.5"/>
+</svg>
