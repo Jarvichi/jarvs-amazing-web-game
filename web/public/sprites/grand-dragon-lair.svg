@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a0a00" opacity="0.6"/>
+  <!-- Mountain cave base -->
+  <polygon points="1,30 5,16 12,20 16,12 20,20 27,16 31,30" fill="#5a3a1a"/>
+  <!-- Cave entrance (grand arch) -->
+  <ellipse cx="16" cy="26" rx="10" ry="8" fill="#1a0800"/>
+  <ellipse cx="16" cy="28" rx="9" ry="6" fill="#1a0800"/>
+  <!-- Dragon glow deep within -->
+  <ellipse cx="16" cy="28" rx="7" ry="4" fill="#aa2200" opacity="0.5"/>
+  <ellipse cx="16" cy="29" rx="5" ry="2.5" fill="#dd4400" opacity="0.4"/>
+  <ellipse cx="16" cy="30" rx="3" ry="1.5" fill="#ff8800" opacity="0.3"/>
+  <!-- Dragon silhouette in lair -->
+  <path d="M8,28 Q12,22 16,24 Q20,22 24,28" fill="#2a1200" opacity="0.8"/>
+  <!-- Dragon eyes -->
+  <circle cx="13" cy="25" r="1.2" fill="#ffaa00" opacity="0.9"/>
+  <circle cx="19" cy="25" r="1.2" fill="#ffaa00" opacity="0.9"/>
+  <!-- Gold treasure glint at cave floor -->
+  <ellipse cx="16" cy="30" rx="6" ry="1" fill="#cc8800" opacity="0.4"/>
+  <circle cx="12" cy="30" r="0.8" fill="#ffaa00" opacity="0.5"/>
+  <circle cx="20" cy="30" r="0.6" fill="#ffaa00" opacity="0.5"/>
+  <!-- Mountain rock textures -->
+  <path d="M1,30 Q5,22 8,26" fill="none" stroke="#3a2a1a" stroke-width="1" opacity="0.5"/>
+  <path d="M31,30 Q27,22 24,26" fill="none" stroke="#3a2a1a" stroke-width="1" opacity="0.5"/>
+  <!-- Bone trophies on cave entrance -->
+  <line x1="7" y1="21" x2="7" y2="25" stroke="#ccbb99" stroke-width="1.2"/>
+  <ellipse cx="7" cy="20" rx="1.5" ry="1.2" fill="#ccbb99"/>
+  <line x1="25" y1="21" x2="25" y2="25" stroke="#ccbb99" stroke-width="1.2"/>
+  <ellipse cx="25" cy="20" rx="1.5" ry="1.2" fill="#ccbb99"/>
+  <!-- Smoke/steam wisps -->
+  <circle cx="10" cy="14" r="1.5" fill="#8a6a4a" opacity="0.3"/>
+  <circle cx="22" cy="13" r="1.2" fill="#8a6a4a" opacity="0.3"/>
+</svg>
