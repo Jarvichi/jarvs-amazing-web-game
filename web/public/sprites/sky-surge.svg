@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sky background -->
+  <ellipse cx="16" cy="16" rx="14" ry="14" fill="#1a2a4a" opacity="0.4"/>
+  <!-- Storm cloud -->
+  <ellipse cx="16" cy="10" rx="10" ry="5" fill="#4a5a7a"/>
+  <ellipse cx="10" cy="11" rx="6" ry="4" fill="#5a6a8a"/>
+  <ellipse cx="22" cy="11" rx="6" ry="4" fill="#5a6a8a"/>
+  <!-- Lightning bolt (attack buff symbol) -->
+  <polygon points="18,10 14,18 17,18 13,28 20,17 16,17" fill="#ffff44"/>
+  <polygon points="18,10 14,18 17,18 13,28 20,17 16,17" fill="#ffee00" opacity="0.5" transform="translate(0.5,0.5)"/>
+  <!-- Lightning glow -->
+  <ellipse cx="16" cy="19" rx="4" ry="5" fill="#ffff44" opacity="0.15"/>
+  <!-- Spark dots -->
+  <circle cx="8" cy="20" r="1" fill="#ffff44" opacity="0.7"/>
+  <circle cx="24" cy="22" r="1" fill="#ffff44" opacity="0.7"/>
+  <circle cx="6" cy="25" r="0.8" fill="#ffffaa" opacity="0.5"/>
+  <circle cx="26" cy="14" r="0.8" fill="#ffffaa" opacity="0.5"/>
+  <!-- Wind streaks -->
+  <path d="M3,14 Q8,12 12,14" fill="none" stroke="#8899cc" stroke-width="0.7" opacity="0.5"/>
+  <path d="M20,22 Q25,20 29,22" fill="none" stroke="#8899cc" stroke-width="0.7" opacity="0.5"/>
+</svg>

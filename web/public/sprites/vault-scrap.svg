@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Industrial background -->
+  <ellipse cx="16" cy="16" rx="14" ry="14" fill="#2a2a1a" opacity="0.4"/>
+  <!-- Central HP heart/shield (buff symbol) -->
+  <path d="M16,22 Q9,17 9,12 Q9,8 13,8 Q15,8 16,10 Q17,8 19,8 Q23,8 23,12 Q23,17 16,22 Z" fill="#cc4444"/>
+  <path d="M16,20 Q10.5,15.5 10.5,12 Q10.5,9.5 13,9.5 Q14.5,9.5 16,11.5 Q17.5,9.5 19,9.5 Q21.5,9.5 21.5,12 Q21.5,15.5 16,20 Z" fill="#ee6666"/>
+  <!-- Metal scrap pieces around it -->
+  <rect x="3" y="8" width="4" height="3" rx="0.3" fill="#5a5a4a" transform="rotate(-20 5 9.5)"/>
+  <rect x="25" y="8" width="4" height="3" rx="0.3" fill="#5a5a4a" transform="rotate(20 27 9.5)"/>
+  <rect x="4" y="20" width="3" height="4" rx="0.3" fill="#6a6a5a" transform="rotate(15 5.5 22)"/>
+  <rect x="25" y="20" width="3" height="4" rx="0.3" fill="#6a6a5a" transform="rotate(-15 26.5 22)"/>
+  <rect x="13" y="25" width="3" height="4" rx="0.3" fill="#5a5a4a" transform="rotate(5 14.5 27)"/>
+  <rect x="16" y="24" width="4" height="3" rx="0.3" fill="#6a6a5a" transform="rotate(-10 18 25.5)"/>
+  <!-- Rivets/bolts on scrap -->
+  <circle cx="5" cy="9" r="0.5" fill="#8a8a7a"/>
+  <circle cx="27" cy="9" r="0.5" fill="#8a8a7a"/>
+  <!-- HP glow -->
+  <ellipse cx="16" cy="15" rx="6" ry="6" fill="#cc4444" opacity="0.12"/>
+  <!-- Plus symbol (HP buff indicator) -->
+  <line x1="14" y1="14" x2="18" y2="14" stroke="#ffaaaa" stroke-width="1" opacity="0.6"/>
+  <line x1="16" y1="12" x2="16" y2="16" stroke="#ffaaaa" stroke-width="1" opacity="0.6"/>
+</svg>

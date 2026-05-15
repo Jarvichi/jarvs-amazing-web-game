@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background glow -->
+  <ellipse cx="16" cy="16" rx="14" ry="14" fill="#2a4a1a" opacity="0.4"/>
+  <!-- Pollen burst center flower -->
+  <circle cx="16" cy="16" r="5" fill="#aacc44"/>
+  <circle cx="16" cy="16" r="3" fill="#ddff44"/>
+  <!-- Pollen petals -->
+  <ellipse cx="16" cy="9" rx="2" ry="3" fill="#88bb22"/>
+  <ellipse cx="16" cy="23" rx="2" ry="3" fill="#88bb22"/>
+  <ellipse cx="9" cy="16" rx="3" ry="2" fill="#88bb22"/>
+  <ellipse cx="23" cy="16" rx="3" ry="2" fill="#88bb22"/>
+  <ellipse cx="11" cy="11" rx="2" ry="2.5" fill="#88bb22" transform="rotate(-45 11 11)"/>
+  <ellipse cx="21" cy="11" rx="2" ry="2.5" fill="#88bb22" transform="rotate(45 21 11)"/>
+  <ellipse cx="11" cy="21" rx="2" ry="2.5" fill="#88bb22" transform="rotate(45 11 21)"/>
+  <ellipse cx="21" cy="21" rx="2" ry="2.5" fill="#88bb22" transform="rotate(-45 21 21)"/>
+  <!-- Floating pollen dots -->
+  <circle cx="6" cy="8" r="1.2" fill="#ddff44" opacity="0.8"/>
+  <circle cx="26" cy="7" r="1" fill="#ddff44" opacity="0.7"/>
+  <circle cx="28" cy="22" r="1.2" fill="#ddff44" opacity="0.8"/>
+  <circle cx="4" cy="24" r="1" fill="#ddff44" opacity="0.6"/>
+  <circle cx="9" cy="28" r="0.8" fill="#aacc44" opacity="0.7"/>
+  <circle cx="24" cy="26" r="0.8" fill="#aacc44" opacity="0.7"/>
+  <!-- Speed streaks -->
+  <line x1="3" y1="16" x2="8" y2="16" stroke="#ddff44" stroke-width="1" opacity="0.5"/>
+  <line x1="24" y1="16" x2="29" y2="16" stroke="#ddff44" stroke-width="1" opacity="0.5"/>
+</svg>
