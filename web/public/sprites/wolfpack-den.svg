@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Rocky hillside den -->
+  <polygon points="0,30 4,16 10,20 16,12 22,20 28,16 32,30" fill="#4a4a3a"/>
+  <!-- Den entrance (cave mouth) -->
+  <ellipse cx="16" cy="24" rx="7" ry="6" fill="#1a1a0a"/>
+  <ellipse cx="16" cy="26" rx="5" ry="4" fill="#0a0a00"/>
+  <!-- Rocky arch above entrance -->
+  <path d="M9,24 Q16,14 23,24" fill="#5a5a4a" stroke="#3a3a2a" stroke-width="0.5"/>
+  <!-- Claw marks on rock face -->
+  <line x1="6" y1="18" x2="8" y2="24" stroke="#3a3a2a" stroke-width="0.8"/>
+  <line x1="7" y1="17" x2="9" y2="23" stroke="#3a3a2a" stroke-width="0.6"/>
+  <line x1="24" y1="18" x2="22" y2="24" stroke="#3a3a2a" stroke-width="0.8"/>
+  <line x1="23" y1="17" x2="21" y2="23" stroke="#3a3a2a" stroke-width="0.6"/>
+  <!-- Wolf eyes glowing in darkness -->
+  <circle cx="13" cy="22" r="1" fill="#ffaa00" opacity="0.9"/>
+  <circle cx="13" cy="22" r="0.5" fill="#ffdd44" opacity="0.9"/>
+  <circle cx="19" cy="22" r="1" fill="#ffaa00" opacity="0.9"/>
+  <circle cx="19" cy="22" r="0.5" fill="#ffdd44" opacity="0.9"/>
+  <!-- Bones at entrance -->
+  <line x1="11" y1="29" x2="14" y2="29" stroke="#ccbbaa" stroke-width="1"/>
+  <line x1="18" y1="29" x2="21" y2="29" stroke="#ccbbaa" stroke-width="1"/>
+  <!-- Pine trees flanking -->
+  <polygon points="2,20 5,10 8,20" fill="#2a3a2a"/>
+  <polygon points="24,20 27,10 30,20" fill="#2a3a2a"/>
+</svg>

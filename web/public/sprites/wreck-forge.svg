@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Ruined forge walls -->
+  <rect x="3" y="14" width="26" height="16" rx="1" fill="#4a4a3a"/>
+  <!-- Crumbling sections -->
+  <polygon points="3,14 3,22 6,22 6,14 8,14 8,18 10,18 10,14" fill="#5a5a4a"/>
+  <polygon points="22,14 22,18 24,18 24,14 26,14 26,22 29,22 29,14" fill="#5a5a4a"/>
+  <!-- Collapsed roof remnants -->
+  <polygon points="5,14 14,8 20,14" fill="#3a3a2a"/>
+  <polygon points="16,14 22,10 28,14" fill="#3a3a2a" opacity="0.7"/>
+  <!-- Rubble piles -->
+  <ellipse cx="6" cy="29" rx="4" ry="2" fill="#5a5a4a"/>
+  <ellipse cx="26" cy="29" rx="4" ry="2" fill="#5a5a4a"/>
+  <!-- Forge fire pit (still active) -->
+  <rect x="12" y="20" width="8" height="6" rx="0.5" fill="#2a2a1a"/>
+  <ellipse cx="16" cy="20" rx="4" ry="2" fill="#ff6600" opacity="0.8"/>
+  <ellipse cx="16" cy="20" rx="2.5" ry="1.2" fill="#ffaa00" opacity="0.8"/>
+  <ellipse cx="16" cy="19" rx="1.5" ry="1" fill="#ffff44" opacity="0.7"/>
+  <!-- Smoke rising from fire -->
+  <ellipse cx="16" cy="15" rx="3" ry="2" fill="#5a5a5a" opacity="0.4"/>
+  <ellipse cx="15" cy="12" rx="2" ry="1.5" fill="#4a4a4a" opacity="0.3"/>
+  <!-- Broken tools -->
+  <line x1="8" y1="26" x2="11" y2="23" stroke="#6a6a5a" stroke-width="1"/>
+  <line x1="24" y1="26" x2="21" y2="23" stroke="#6a6a5a" stroke-width="1"/>
+</svg>
