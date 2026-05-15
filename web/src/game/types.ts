@@ -219,6 +219,8 @@ export interface Unit extends UnitTemplate {
   /** ms remaining poisoned — unit takes poisonDps damage per second while > 0. */
   poisonTimer?: number
   poisonDps?: number
+  /** ms until the next moat damage pulse — prevents continuous per-frame chip damage. */
+  moatDamageTimer?: number
 }
 
 // ─── Ground Hazards ───────────────────────────────────────
