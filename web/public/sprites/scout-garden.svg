@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#0a1a0a" opacity="0.5"/>
+  <!-- Garden ground -->
+  <ellipse cx="16" cy="28" rx="14" ry="5" fill="#3a5a1a"/>
+  <!-- Low hedge walls (camouflage) -->
+  <rect x="2" y="18" width="28" height="8" rx="1" fill="#2a6a1a" opacity="0.9"/>
+  <ellipse cx="6" cy="18" rx="5" ry="3" fill="#3a7a2a"/>
+  <ellipse cx="14" cy="17" rx="5" ry="3" fill="#4a8a3a"/>
+  <ellipse cx="22" cy="18" rx="5" ry="3" fill="#3a7a2a"/>
+  <ellipse cx="28" cy="19" rx="4" ry="3" fill="#2a6a1a"/>
+  <!-- Scout post inside garden (camouflaged tower) -->
+  <rect x="12" y="8" width="8" height="12" rx="0.5" fill="#4a6a2a"/>
+  <!-- Leafy camouflage on tower -->
+  <ellipse cx="16" cy="8" rx="8" ry="4" fill="#3a7a2a"/>
+  <ellipse cx="10" cy="10" rx="4" ry="3" fill="#2a6a1a"/>
+  <ellipse cx="22" cy="10" rx="4" ry="3" fill="#2a6a1a"/>
+  <!-- Observation slit on tower -->
+  <rect x="14" y="11" width="4" height="2" rx="0.2" fill="#0a1a0a"/>
+  <!-- Patrol path markers (stones) -->
+  <circle cx="6" cy="25" r="1" fill="#7a7a5a"/>
+  <circle cx="12" cy="26" r="0.8" fill="#7a7a5a"/>
+  <circle cx="20" cy="26" r="0.8" fill="#7a7a5a"/>
+  <circle cx="26" cy="25" r="1" fill="#7a7a5a"/>
+  <!-- Flowers scattered (camouflage) -->
+  <circle cx="4" cy="21" r="1.2" fill="#ff4488" opacity="0.5"/>
+  <circle cx="28" cy="21" r="1.2" fill="#ffcc00" opacity="0.5"/>
+  <circle cx="16" cy="20" r="1" fill="#ff8844" opacity="0.4"/>
+  <!-- Scout flag (small, hidden) -->
+  <line x1="16" y1="4" x2="16" y2="2" stroke="#4a5a2a" stroke-width="0.7"/>
+  <polygon points="16,2 20,3 16,4" fill="#4a8a2a" opacity="0.7"/>
+</svg>

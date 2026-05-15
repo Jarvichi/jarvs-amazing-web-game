@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a0a1a" opacity="0.6"/>
+  <!-- Dark shadowy mound -->
+  <ellipse cx="16" cy="26" rx="14" ry="7" fill="#1a1a2a"/>
+  <ellipse cx="16" cy="25" rx="13" ry="6" fill="#2a2a3a"/>
+  <!-- Shadow tendrils spreading from mound -->
+  <path d="M3,29 Q6,24 10,26" fill="none" stroke="#1a1a2a" stroke-width="2" opacity="0.7"/>
+  <path d="M29,29 Q26,24 22,26" fill="none" stroke="#1a1a2a" stroke-width="2" opacity="0.7"/>
+  <path d="M1,31 Q4,26 7,28" fill="none" stroke="#0a0a1a" stroke-width="1.5" opacity="0.5"/>
+  <!-- Main shadow burrow entrance -->
+  <ellipse cx="16" cy="27" rx="6" ry="4.5" fill="#0a0a0a"/>
+  <!-- Shadow void within -->
+  <ellipse cx="16" cy="27.5" rx="4" ry="3" fill="#000000" opacity="0.9"/>
+  <!-- Glowing purple eyes in void -->
+  <circle cx="14" cy="27" r="1" fill="#8800ff" opacity="0.9"/>
+  <circle cx="18" cy="27" r="1" fill="#8800ff" opacity="0.9"/>
+  <!-- Secondary shadow holes -->
+  <ellipse cx="7" cy="28" rx="3.5" ry="2.5" fill="#0a0a0a"/>
+  <circle cx="7" cy="28" r="0.8" fill="#6600cc" opacity="0.7"/>
+  <ellipse cx="25" cy="28" rx="3.5" ry="2.5" fill="#0a0a0a"/>
+  <circle cx="25" cy="28" r="0.8" fill="#6600cc" opacity="0.7"/>
+  <!-- Shadow miasma cloud above -->
+  <ellipse cx="16" cy="20" rx="10" ry="4" fill="#1a1a2a" opacity="0.5"/>
+  <ellipse cx="16" cy="17" rx="7" ry="3" fill="#2a1a3a" opacity="0.4"/>
+  <ellipse cx="16" cy="14" rx="5" ry="3" fill="#3a1a4a" opacity="0.3"/>
+  <!-- Shadow wisps -->
+  <circle cx="8" cy="18" r="1" fill="#6600cc" opacity="0.3"/>
+  <circle cx="24" cy="17" r="1" fill="#8800ff" opacity="0.3"/>
+</svg>
