@@ -8,10 +8,14 @@
   </linearGradient>
   <rect width="400" height="240" fill="url(#ember-sky)"/>
 
-  <!-- Volcanic glow on horizon — the peaks are hot -->
+  <!-- Volcanic glow on horizon — pulsing heat -->
   <radialGradient id="horizon-heat" cx="50%" cy="100%" r="60%">
-    <stop offset="0%" stop-color="#802000" stop-opacity="0.5"/>
-    <stop offset="60%" stop-color="#401000" stop-opacity="0.2"/>
+    <stop offset="0%" stop-color="#802000" stop-opacity="0.5">
+      <animate attributeName="stop-opacity" values="0.5;0.8;0.5" dur="6s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="60%" stop-color="#401000" stop-opacity="0.2">
+      <animate attributeName="stop-opacity" values="0.2;0.4;0.2" dur="6s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#401000" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#horizon-heat)"/>
@@ -26,13 +30,15 @@
     <polygon points="0,160 30,120 70,145 110,110 150,135 190,105 230,130 270,115 310,140 350,120 400,145 400,200 0,200"/>
   </g>
 
-  <!-- Lava flows visible on mid mountains — veins of orange -->
-  <g stroke="#c04000" stroke-width="1.5" fill="none" opacity="0.6">
+  <!-- Lava flows visible on mid mountains — flickering -->
+  <g stroke="#c04000" stroke-width="1.5" fill="none">
+    <animate attributeName="opacity" values="0.6;1;0.4;0.8;0.6" dur="4s" repeatCount="indefinite"/>
     <path d="M70,145 Q65,155 60,170 Q58,178 55,190"/>
     <path d="M190,105 Q185,118 182,132 Q180,145 178,160"/>
     <path d="M310,140 Q308,152 305,165 Q302,178 300,195"/>
   </g>
-  <g stroke="#e06010" stroke-width="0.8" fill="none" opacity="0.4">
+  <g stroke="#e06010" stroke-width="0.8" fill="none">
+    <animate attributeName="opacity" values="0.4;0.7;0.2;0.5;0.4" dur="4s" begin="1s" repeatCount="indefinite"/>
     <path d="M67,148 Q62,158 60,172"/>
     <path d="M187,108 Q183,122 181,136"/>
     <path d="M307,143 Q305,155 302,168"/>
@@ -40,18 +46,29 @@
 
   <!-- Foreground peak — large, centre -->
   <polygon points="100,200 200,100 300,200" fill="#0e0806" stroke="#180c06" stroke-width="1"/>
-  <!-- Caldera glow at peak top -->
+  <!-- Caldera glow at peak top — pulsing -->
   <radialGradient id="caldera-glow" cx="50%" cy="0%" r="50%">
-    <stop offset="0%" stop-color="#ff4000" stop-opacity="0.4"/>
+    <stop offset="0%" stop-color="#ff4000" stop-opacity="0.4">
+      <animate attributeName="stop-opacity" values="0.4;0.8;0.4" dur="5s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#ff4000" stop-opacity="0"/>
   </radialGradient>
   <ellipse cx="200" cy="100" rx="30" ry="15" fill="url(#caldera-glow)"/>
-  <!-- Smoke from peak -->
+
+  <!-- Smoke from peak — rising -->
   <g fill="#1a0e08" opacity="0.5">
-    <ellipse cx="195" cy="85"  rx="18" ry="8"/>
-    <ellipse cx="205" cy="72"  rx="14" ry="7"/>
-    <ellipse cx="198" cy="60"  rx="12" ry="6"/>
-    <ellipse cx="208" cy="48"  rx="10" ry="5"/>
+    <ellipse cx="195" cy="85"  rx="18" ry="8">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 2 -10; 0 0" dur="8s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="205" cy="72"  rx="14" ry="7">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -2 -8; 0 0" dur="9s" begin="1s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="198" cy="60"  rx="12" ry="6">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 3 -7; 0 0" dur="7s" begin="2s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="208" cy="48"  rx="10" ry="5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -1 -6; 0 0" dur="10s" begin="3s" repeatCount="indefinite"/>
+    </ellipse>
   </g>
 
   <!-- Left peak -->
@@ -59,34 +76,64 @@
   <!-- Right peak -->
   <polygon points="260,200 340,118 400,200" fill="#0c0604" stroke="#160a04" stroke-width="1"/>
 
-  <!-- LEY LINES — glowing orange-red, visible through the volcanic rock -->
-  <!-- Left ley line seam -->
-  <g stroke="#c83000" stroke-width="1.5" fill="none" opacity="0.5">
+  <!-- LEY LINES — orange-red seams through volcanic rock — flickering -->
+  <g stroke="#c83000" stroke-width="1.5" fill="none">
+    <animate attributeName="opacity" values="0.5;0.9;0.3;0.7;0.5" dur="5s" repeatCount="indefinite"/>
     <path d="M50,200 Q55,175 60,155 Q65,135 62,115 Q60,100 65,80"/>
   </g>
-  <g stroke="#ff6020" stroke-width="0.6" fill="none" opacity="0.3">
+  <g stroke="#ff6020" stroke-width="0.6" fill="none">
+    <animate attributeName="opacity" values="0.3;0.6;0.1;0.4;0.3" dur="5s" begin="1s" repeatCount="indefinite"/>
     <path d="M52,200 Q57,175 62,155 Q67,135 64,115"/>
   </g>
-  <!-- Right ley line seam -->
-  <g stroke="#c83000" stroke-width="1.5" fill="none" opacity="0.5">
+  <g stroke="#c83000" stroke-width="1.5" fill="none">
+    <animate attributeName="opacity" values="0.5;0.3;0.9;0.5" dur="5s" begin="2s" repeatCount="indefinite"/>
     <path d="M350,200 Q345,175 340,155 Q335,135 338,115 Q340,100 335,80"/>
   </g>
 
-  <!-- Falling embers — atmosphere -->
-  <g fill="#e04010" opacity="0.6">
-    <circle cx="80"  cy="40"  r="1.2"/>
-    <circle cx="140" cy="25"  r="1"/>
-    <circle cx="260" cy="35"  r="1.2"/>
-    <circle cx="330" cy="20"  r="1"/>
-    <circle cx="180" cy="50"  r="0.8"/>
-    <circle cx="310" cy="55"  r="1"/>
+  <!-- Falling embers — drifting downward -->
+  <g fill="#e04010">
+    <circle cx="80"  cy="40"  r="1.2" opacity="0.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -3 60; -3 120" dur="8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.6;0" dur="8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="140" cy="25"  r="1" opacity="0.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 2 50; 2 100" dur="9s" begin="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.6;0" dur="9s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="260" cy="35"  r="1.2" opacity="0.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -2 55; -2 110" dur="7s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.6;0" dur="7s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="330" cy="20"  r="1" opacity="0.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 3 45; 3 90" dur="10s" begin="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.6;0" dur="10s" begin="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="180" cy="50"  r="0.8" opacity="0.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -1 40; -1 80" dur="6s" begin="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.6;0" dur="6s" begin="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="310" cy="55"  r="1" opacity="0.6">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 2 35; 2 70" dur="7s" begin="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.6;0" dur="7s" begin="5s" repeatCount="indefinite"/>
+    </circle>
   </g>
-  <g fill="#ff6020" opacity="0.3">
-    <circle cx="90"  cy="55"  r="0.8"/>
-    <circle cx="220" cy="40"  r="0.8"/>
-    <circle cx="355" cy="45"  r="0.8"/>
+  <g fill="#ff6020">
+    <circle cx="90"  cy="55"  r="0.8" opacity="0.3">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -2 50; -2 100" dur="11s" begin="6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.3;0" dur="11s" begin="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="220" cy="40"  r="0.8" opacity="0.3">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 2 40; 2 80" dur="8s" begin="7s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.3;0" dur="8s" begin="7s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="355" cy="45"  r="0.8" opacity="0.3">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -3 35; -3 70" dur="9s" begin="8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.3;0" dur="9s" begin="8s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1408" text-anchor="middle" letter-spacing="3">THE EMBERFALL PEAKS</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1408" text-anchor="middle" letter-spacing="3">THE EMBERFALL PEAKS
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>

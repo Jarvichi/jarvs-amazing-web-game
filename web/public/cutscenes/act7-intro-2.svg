@@ -7,18 +7,21 @@
   </linearGradient>
   <rect width="400" height="240" fill="url(#cin-sky)"/>
 
-  <!-- Heat shimmer atmosphere -->
+  <!-- Heat shimmer atmosphere — pulsing -->
   <radialGradient id="heat-atm" cx="50%" cy="60%" r="50%">
-    <stop offset="0%" stop-color="#601800" stop-opacity="0.3"/>
+    <stop offset="0%" stop-color="#601800" stop-opacity="0.3">
+      <animate attributeName="stop-opacity" values="0.3;0.5;0.3" dur="7s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#601800" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#heat-atm)"/>
 
-  <!-- Volcanic platform he stands on -->
+  <!-- Volcanic platform -->
   <polygon points="80,200 320,190 330,212 70,215" fill="#100806" stroke="#201008" stroke-width="1.5"/>
   <polygon points="80,200 320,190 322,196 80,207" fill="#1a0e08" stroke="#280e06" stroke-width="1"/>
-  <!-- Lava cracks in platform -->
-  <g stroke="#c03000" stroke-width="1" fill="none" opacity="0.5">
+  <!-- Lava cracks in platform — flickering -->
+  <g stroke="#c03000" stroke-width="1" fill="none">
+    <animate attributeName="opacity" values="0.5;1;0.2;0.7;0.5" dur="3s" repeatCount="indefinite"/>
     <path d="M100,200 Q110,203 120,200 Q115,206 105,207"/>
     <path d="M200,192 Q210,196 215,192 Q212,199 203,200"/>
     <path d="M280,196 Q285,200 295,198 Q290,206 280,207"/>
@@ -27,11 +30,11 @@
   <!-- Shadow -->
   <ellipse cx="200" cy="208" rx="42" ry="8" fill="#050201" opacity="0.8"/>
 
-  <!-- THE CINDERWARLORD — massive armoured figure, built from welded scrap -->
-  <!-- Boots — heavy, iron-shod -->
+  <!-- THE CINDERWARLORD — massive armoured figure -->
+  <!-- Boots -->
   <ellipse cx="188" cy="213" rx="9" ry="4" fill="#0c0806"/>
   <ellipse cx="214" cy="212" rx="9" ry="4" fill="#0c0806"/>
-  <!-- Legs — thick armoured plates -->
+  <!-- Legs -->
   <rect x="183" y="195" width="10" height="18" rx="2" fill="#141008" stroke="#201408" stroke-width="0.8"/>
   <rect x="209" y="194" width="10" height="18" rx="2" fill="#141008" stroke="#201408" stroke-width="0.8"/>
 
@@ -45,34 +48,44 @@
     <circle cx="218" cy="178" r="2"/>
     <circle cx="200" cy="170" r="2.5"/>
   </g>
-  <!-- Forge-fire rune on chest — glowing orange -->
-  <g stroke="#e04000" stroke-width="1.2" fill="none" opacity="0.6">
+  <!-- Forge-fire rune on chest — flickering -->
+  <g stroke="#e04000" stroke-width="1.2" fill="none">
+    <animate attributeName="opacity" values="0.6;1;0.3;0.8;0.6" dur="3s" repeatCount="indefinite"/>
     <path d="M193,165 L200,158 L207,165 L207,175 L200,182 L193,175 Z"/>
   </g>
-  <circle cx="200" cy="170" r="3" fill="#c03000" opacity="0.5"/>
+  <circle cx="200" cy="170" r="3" fill="#c03000">
+    <animate attributeName="opacity" values="0.5;1;0.2;0.7;0.5" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- Pauldrons — massive, forge-blackened -->
+  <!-- Pauldrons -->
   <ellipse cx="173" cy="158" rx="14" ry="7" fill="#100c06" stroke="#201408" stroke-width="1"/>
   <ellipse cx="227" cy="158" rx="14" ry="7" fill="#100c06" stroke="#201408" stroke-width="1"/>
   <!-- Shoulder spikes -->
   <polygon points="163,156 169,148 165,158" fill="#1a1008"/>
   <polygon points="237,156 231,148 235,158" fill="#1a1008"/>
 
-  <!-- Head — enclosed helm, no face visible, visor slits glow -->
+  <!-- Head — enclosed helm -->
   <ellipse cx="200" cy="142" rx="16" ry="15" fill="#100c06" stroke="#201408" stroke-width="1.5"/>
   <!-- Helm ridge -->
   <path d="M186,135 Q200,126 214,135" stroke="#201408" stroke-width="2" fill="none"/>
-  <!-- Visor slits — glowing orange-red -->
-  <line x1="190" y1="143" x2="198" y2="143" stroke="#e04000" stroke-width="2" opacity="0.8"/>
-  <line x1="202" y1="143" x2="210" y2="143" stroke="#e04000" stroke-width="2" opacity="0.8"/>
-  <!-- Glow through visor -->
+  <!-- Visor slits — pulsing orange-red -->
+  <line x1="190" y1="143" x2="198" y2="143" stroke="#e04000" stroke-width="2">
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+  </line>
+  <line x1="202" y1="143" x2="210" y2="143" stroke="#e04000" stroke-width="2">
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+  </line>
+  <!-- Glow through visor — pulsing -->
   <radialGradient id="visor-glow" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#c03000" stop-opacity="0.5"/>
+    <stop offset="0%" stop-color="#c03000" stop-opacity="0.5">
+      <animate attributeName="stop-opacity" values="0.5;1;0.3;0.7;0.5" dur="2s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#c03000" stop-opacity="0"/>
   </radialGradient>
   <ellipse cx="200" cy="143" rx="12" ry="5" fill="url(#visor-glow)"/>
 
-  <!-- Left arm — gauntleted fist, raised in command -->
+  <!-- Left arm — gauntleted fist -->
   <line x1="175" y1="165" x2="152" y2="148" stroke="#141008" stroke-width="6" stroke-linecap="round"/>
   <!-- Gauntlet fist -->
   <rect x="143" y="141" width="14" height="12" rx="2" fill="#120e06" stroke="#201408" stroke-width="0.8"/>
@@ -86,39 +99,62 @@
   <line x1="225" y1="162" x2="252" y2="145" stroke="#141008" stroke-width="6" stroke-linecap="round"/>
   <!-- Hammer haft -->
   <line x1="252" y1="118" x2="252" y2="200" stroke="#1e1408" stroke-width="3"/>
-  <!-- Hammer head — massive, square -->
+  <!-- Hammer head -->
   <rect x="240" y="108" width="28" height="20" rx="2" fill="#120e06" stroke="#281408" stroke-width="1.5"/>
-  <!-- Glowing forge cracks on hammer -->
-  <g stroke="#c83010" stroke-width="0.8" opacity="0.6">
+  <!-- Glowing forge cracks on hammer — flickering -->
+  <g stroke="#c83010" stroke-width="0.8">
+    <animate attributeName="opacity" values="0.6;1;0.2;0.8;0.6" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
     <path d="M243,112 Q248,118 252,112"/>
     <path d="M256,115 Q260,120 256,125"/>
   </g>
 
-  <!-- Ember sparks rising from armour — he runs hot -->
-  <g fill="#e04000" opacity="0.5">
-    <circle cx="165" cy="145" r="1.2"/>
-    <circle cx="235" cy="140" r="1"/>
-    <circle cx="200" cy="128" r="1.2"/>
-    <circle cx="180" cy="130" r="0.8"/>
-    <circle cx="220" cy="132" r="0.8"/>
+  <!-- Ember sparks rising from armour -->
+  <g fill="#e04000">
+    <circle cx="165" cy="145" r="1.2" opacity="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -3 -20; -3 -40" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.5;0" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="235" cy="140" r="1" opacity="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 3 -18; 3 -36" dur="6s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.5;0" dur="6s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="200" cy="128" r="1.2" opacity="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -2 -22; -2 -44" dur="7s" begin="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.5;0" dur="7s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="180" cy="130" r="0.8" opacity="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 2 -15; 2 -30" dur="5s" begin="0.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.5;0" dur="5s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="220" cy="132" r="0.8" opacity="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -2 -18; -2 -36" dur="6s" begin="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.5;0" dur="6s" begin="3s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
-  <!-- Background — distant peaks glowing -->
+  <!-- Background — distant peaks glowing — pulsing -->
   <g fill="#0c0604" opacity="0.7">
     <polygon points="0,195 50,155 100,195"/>
     <polygon points="300,195 350,148 400,195"/>
   </g>
-  <g fill="#802000" opacity="0.15">
+  <g fill="#802000">
+    <animate attributeName="opacity" values="0.15;0.3;0.15" dur="6s" repeatCount="indefinite"/>
     <circle cx="50"  cy="155" r="20"/>
     <circle cx="350" cy="148" r="20"/>
   </g>
 
-  <!-- Smoke wisps at top -->
+  <!-- Smoke wisps at top — rising -->
   <g fill="#140a04" opacity="0.4">
-    <ellipse cx="100" cy="50" rx="40" ry="12"/>
-    <ellipse cx="310" cy="45" rx="35" ry="10"/>
+    <ellipse cx="100" cy="50" rx="40" ry="12">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 3 -8; 0 0" dur="12s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="310" cy="45" rx="35" ry="10">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -3 -7; 0 0" dur="10s" begin="2s" repeatCount="indefinite"/>
+    </ellipse>
   </g>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1408" text-anchor="middle" letter-spacing="3">THE CINDERWARLORD</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1408" text-anchor="middle" letter-spacing="3">THE CINDERWARLORD
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>

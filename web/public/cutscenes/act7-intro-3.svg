@@ -18,66 +18,99 @@
   </g>
 
   <!-- THE LEY LINES — blazing orange-red seams through the rock -->
-  <!-- Primary central ley channel — horizontal, widest -->
+  <!-- Primary central ley channel — horizontal, pulsing -->
   <linearGradient id="ley-h-c" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%" stop-color="#c03000" stop-opacity="0.4"/>
-    <stop offset="30%" stop-color="#ff5000" stop-opacity="0.9"/>
-    <stop offset="50%" stop-color="#ff8000" stop-opacity="1"/>
-    <stop offset="70%" stop-color="#ff5000" stop-opacity="0.9"/>
-    <stop offset="100%" stop-color="#c03000" stop-opacity="0.4"/>
+    <stop offset="0%" stop-color="#c03000" stop-opacity="0.4">
+      <animate attributeName="stop-opacity" values="0.4;0.8;0.4" dur="5s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="30%" stop-color="#ff5000" stop-opacity="0.9">
+      <animate attributeName="stop-opacity" values="0.9;0.5;0.9" dur="5s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="50%" stop-color="#ff8000" stop-opacity="1">
+      <animate attributeName="stop-opacity" values="1;0.6;1" dur="5s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="70%" stop-color="#ff5000" stop-opacity="0.9">
+      <animate attributeName="stop-opacity" values="0.9;0.5;0.9" dur="5s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="100%" stop-color="#c03000" stop-opacity="0.4">
+      <animate attributeName="stop-opacity" values="0.4;0.8;0.4" dur="5s" repeatCount="indefinite"/>
+    </stop>
   </linearGradient>
   <rect x="0" y="110" width="400" height="6" fill="url(#ley-h-c)"/>
   <!-- Core glow -->
-  <rect x="0" y="111" width="400" height="4" fill="#ffb040" opacity="0.7"/>
+  <rect x="0" y="111" width="400" height="4" fill="#ffb040">
+    <animate attributeName="opacity" values="0.7;1;0.4;0.8;0.7" dur="5s" repeatCount="indefinite"/>
+  </rect>
 
-  <!-- Secondary ley channels — diagonal across rock -->
-  <line x1="0" y1="80"  x2="400" y2="155" stroke="#d04010" stroke-width="3" opacity="0.5"/>
-  <line x1="0" y1="80"  x2="400" y2="155" stroke="#ff7020" stroke-width="1" opacity="0.6"/>
-  <line x1="0" y1="165" x2="400" y2="90"  stroke="#c83010" stroke-width="2.5" opacity="0.4"/>
-  <line x1="0" y1="165" x2="400" y2="90"  stroke="#ff6018" stroke-width="0.8" opacity="0.5"/>
+  <!-- Secondary ley channels — diagonal, flickering -->
+  <line x1="0" y1="80"  x2="400" y2="155" stroke="#d04010" stroke-width="3">
+    <animate attributeName="opacity" values="0.5;0.9;0.3;0.6;0.5" dur="6s" repeatCount="indefinite"/>
+  </line>
+  <line x1="0" y1="80"  x2="400" y2="155" stroke="#ff7020" stroke-width="1">
+    <animate attributeName="opacity" values="0.6;0.2;0.8;0.5;0.6" dur="6s" begin="1s" repeatCount="indefinite"/>
+  </line>
+  <line x1="0" y1="165" x2="400" y2="90"  stroke="#c83010" stroke-width="2.5">
+    <animate attributeName="opacity" values="0.4;0.8;0.2;0.5;0.4" dur="6s" begin="2s" repeatCount="indefinite"/>
+  </line>
+  <line x1="0" y1="165" x2="400" y2="90"  stroke="#ff6018" stroke-width="0.8">
+    <animate attributeName="opacity" values="0.5;0.1;0.7;0.4;0.5" dur="6s" begin="3s" repeatCount="indefinite"/>
+  </line>
 
-  <!-- Vertical ley seams erupting up from below -->
+  <!-- Vertical ley seams erupting up from below — pulsing -->
   <linearGradient id="ley-v1" x1="0" y1="1" x2="0" y2="0">
-    <stop offset="0%" stop-color="#ff5000" stop-opacity="0.8"/>
+    <stop offset="0%" stop-color="#ff5000" stop-opacity="0.8">
+      <animate attributeName="stop-opacity" values="0.8;0.4;0.8" dur="4s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#ff5000" stop-opacity="0"/>
   </linearGradient>
   <rect x="98" y="60" width="4" height="180" fill="url(#ley-v1)"/>
-  <rect x="99" y="60" width="2" height="180" fill="#ffb040" opacity="0.5"/>
+  <rect x="99" y="60" width="2" height="180" fill="#ffb040">
+    <animate attributeName="opacity" values="0.5;0.9;0.2;0.6;0.5" dur="4s" repeatCount="indefinite"/>
+  </rect>
 
   <rect x="198" y="40" width="4" height="200" fill="url(#ley-v1)"/>
-  <rect x="199" y="40" width="2" height="200" fill="#ffb040" opacity="0.6"/>
+  <rect x="199" y="40" width="2" height="200" fill="#ffb040">
+    <animate attributeName="opacity" values="0.6;0.2;1;0.5;0.6" dur="4s" begin="1s" repeatCount="indefinite"/>
+  </rect>
 
   <rect x="298" y="60" width="4" height="180" fill="url(#ley-v1)"/>
-  <rect x="299" y="60" width="2" height="180" fill="#ffb040" opacity="0.5"/>
+  <rect x="299" y="60" width="2" height="180" fill="#ffb040">
+    <animate attributeName="opacity" values="0.5;1;0.3;0.7;0.5" dur="4s" begin="2s" repeatCount="indefinite"/>
+  </rect>
 
-  <!-- Ley glow halos -->
+  <!-- Ley glow halos — pulsing -->
   <radialGradient id="ley-halo-c" gradientUnits="userSpaceOnUse" cx="200" cy="113" r="80">
-    <stop offset="0%" stop-color="#c03000" stop-opacity="0.4"/>
+    <stop offset="0%" stop-color="#c03000" stop-opacity="0.4">
+      <animate attributeName="stop-opacity" values="0.4;0.7;0.4" dur="5s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#c03000" stop-opacity="0"/>
   </radialGradient>
   <rect x="0" y="70" width="400" height="90" fill="url(#ley-halo-c)"/>
 
-  <!-- Magma pools at bottom — visible through floor cracks -->
+  <!-- Magma pools at bottom -->
   <g fill="#180602" opacity="0.9">
     <rect x="0" y="195" width="400" height="45"/>
   </g>
-  <!-- Floor cracks revealing magma -->
-  <g stroke="#e04000" stroke-width="2" fill="none" opacity="0.7">
+  <!-- Floor cracks revealing magma — flickering -->
+  <g stroke="#e04000" stroke-width="2" fill="none">
+    <animate attributeName="opacity" values="0.7;1;0.3;0.8;0.7" dur="3s" repeatCount="indefinite"/>
     <path d="M40,195 Q50,205 55,195"/>
     <path d="M120,198 Q130,210 140,198 Q150,205 160,198"/>
     <path d="M230,196 Q240,208 248,196"/>
     <path d="M310,197 Q320,207 330,197"/>
   </g>
-  <!-- Magma glow through cracks -->
-  <g fill="#c03000" opacity="0.4">
+  <!-- Magma glow through cracks — pulsing -->
+  <g fill="#c03000">
+    <animate attributeName="opacity" values="0.4;0.8;0.2;0.5;0.4" dur="3s" begin="0.5s" repeatCount="indefinite"/>
     <ellipse cx="48"  cy="200" rx="8"  ry="3"/>
     <ellipse cx="135" cy="202" rx="12" ry="4"/>
     <ellipse cx="239" cy="201" rx="9"  ry="3"/>
     <ellipse cx="320" cy="202" rx="10" ry="3"/>
   </g>
 
-  <!-- Heat rising — wavering upward distortion indicated by light lines -->
-  <g stroke="#ff4000" stroke-width="0.6" fill="none" opacity="0.2">
+  <!-- Heat rising — wavering upward -->
+  <g stroke="#ff4000" stroke-width="0.6" fill="none">
+    <animate attributeName="opacity" values="0.2;0.4;0.1;0.3;0.2" dur="4s" repeatCount="indefinite"/>
     <path d="M100,195 Q98,180 101,165 Q103,150 100,135"/>
     <path d="M200,195 Q198,175 201,160 Q203,145 200,130"/>
     <path d="M300,195 Q298,180 301,165 Q303,148 300,133"/>
@@ -92,8 +125,9 @@
     <polygon points="310,42 320,42 315,66"/>
     <polygon points="368,48 378,48 373,70"/>
   </g>
-  <!-- Stalactites lit orange from ley glow below -->
-  <g fill="#6a1800" opacity="0.3">
+  <!-- Stalactites lit orange from ley glow below — pulsing -->
+  <g fill="#6a1800">
+    <animate attributeName="opacity" values="0.3;0.6;0.2;0.4;0.3" dur="5s" repeatCount="indefinite"/>
     <polygon points="30,55  38,55  34,75"/>
     <polygon points="80,45  90,45  85,68"/>
     <polygon points="150,38 162,38 156,64"/>
@@ -101,5 +135,7 @@
   </g>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#4a1a04" text-anchor="middle" letter-spacing="3">HEAT AND PRESSURE</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#4a1a04" text-anchor="middle" letter-spacing="3">HEAT AND PRESSURE
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>
