@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="11" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Root network spreading from post base -->
+  <path d="M16,26 Q8,28 2,30" fill="none" stroke="#8a6a2a" stroke-width="1.2" opacity="0.6"/>
+  <path d="M16,26 Q24,28 30,30" fill="none" stroke="#8a6a2a" stroke-width="1.2" opacity="0.6"/>
+  <path d="M16,26 Q10,30 6,32" fill="none" stroke="#7a5a1a" stroke-width="0.8" opacity="0.5"/>
+  <path d="M16,26 Q22,30 26,32" fill="none" stroke="#7a5a1a" stroke-width="0.8" opacity="0.5"/>
+  <!-- Stone post base -->
+  <rect x="12" y="22" width="8" height="8" rx="1" fill="#5a5a3a"/>
+  <!-- Mushroom-cluster post -->
+  <rect x="14" y="8" width="4" height="16" rx="1" fill="#7a5a2a"/>
+  <!-- Mycelium web on post -->
+  <path d="M14,12 Q12,10 14,8" fill="none" stroke="#ccaa44" stroke-width="0.6" opacity="0.6"/>
+  <path d="M18,14 Q20,11 18,8" fill="none" stroke="#ccaa44" stroke-width="0.6" opacity="0.6"/>
+  <!-- Top mushroom cap cluster -->
+  <ellipse cx="16" cy="9" rx="9" ry="4" fill="#996633"/>
+  <ellipse cx="16" cy="8" rx="8" ry="3" fill="#bb7744"/>
+  <!-- Cap spots -->
+  <circle cx="11" cy="8" r="1.2" fill="#ffffff" opacity="0.4"/>
+  <circle cx="16" cy="6" r="1.5" fill="#ffffff" opacity="0.4"/>
+  <circle cx="21" cy="8" r="1.2" fill="#ffffff" opacity="0.4"/>
+  <!-- Hanging spore filaments -->
+  <line x1="9" y1="12" x2="8" y2="16" stroke="#ccaa44" stroke-width="0.6" opacity="0.5"/>
+  <line x1="11" y1="12" x2="10" y2="17" stroke="#ccaa44" stroke-width="0.5" opacity="0.4"/>
+  <line x1="21" y1="12" x2="22" y2="17" stroke="#ccaa44" stroke-width="0.6" opacity="0.5"/>
+  <line x1="23" y1="12" x2="24" y2="16" stroke="#ccaa44" stroke-width="0.5" opacity="0.4"/>
+  <!-- Spore puffs -->
+  <circle cx="8" cy="6" r="1.5" fill="#ddcc77" opacity="0.3"/>
+  <circle cx="24" cy="5" r="1.2" fill="#ddcc77" opacity="0.3"/>
+  <!-- Small mushrooms at base -->
+  <ellipse cx="10" cy="22" rx="3" ry="1.5" fill="#aa7744"/>
+  <rect x="9.5" y="22" width="1.5" height="4" rx="0.3" fill="#8a5533"/>
+  <ellipse cx="22" cy="22" rx="3" ry="1.5" fill="#aa7744"/>
+  <rect x="21.5" y="22" width="1.5" height="4" rx="0.3" fill="#8a5533"/>
+</svg>

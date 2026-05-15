@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Chapel base -->
+  <rect x="4" y="16" width="24" height="14" rx="1" fill="#c8b98a"/>
+  <!-- Stone block texture -->
+  <line x1="4" y1="20" x2="28" y2="20" stroke="#aa9966" stroke-width="0.6"/>
+  <line x1="4" y1="24" x2="28" y2="24" stroke="#aa9966" stroke-width="0.6"/>
+  <line x1="4" y1="28" x2="28" y2="28" stroke="#aa9966" stroke-width="0.6"/>
+  <line x1="12" y1="16" x2="12" y2="30" stroke="#aa9966" stroke-width="0.4"/>
+  <line x1="20" y1="16" x2="20" y2="30" stroke="#aa9966" stroke-width="0.4"/>
+  <!-- Chapel roof (pointed) -->
+  <polygon points="2,16 16,5 30,16" fill="#9a8855"/>
+  <polygon points="4,16 16,7 28,16" fill="#bbaa77"/>
+  <!-- Bell tower above roof -->
+  <rect x="13" y="1" width="6" height="8" rx="0.5" fill="#bbaa77"/>
+  <rect x="11" y="0" width="10" height="2" rx="0.3" fill="#9a8855"/>
+  <!-- Holy cross at peak -->
+  <line x1="16" y1="0" x2="16" y2="-4" stroke="#9a8855" stroke-width="1"/>
+  <line x1="16" y1="5" x2="16" y2="1" stroke="#ffffff" stroke-width="1.2"/>
+  <line x1="14" y1="3" x2="18" y2="3" stroke="#ffffff" stroke-width="1.2"/>
+  <!-- Stained glass window (rose) -->
+  <circle cx="16" cy="12" r="3" fill="#1a1a2a"/>
+  <circle cx="16" cy="12" r="2" fill="#3355aa" opacity="0.7"/>
+  <circle cx="16" cy="12" r="1" fill="#aabbff" opacity="0.8"/>
+  <line x1="13" y1="12" x2="19" y2="12" stroke="#5577cc" stroke-width="0.5"/>
+  <line x1="16" y1="9" x2="16" y2="15" stroke="#5577cc" stroke-width="0.5"/>
+  <!-- Arched entrance -->
+  <path d="M13,30 L13,22 Q16,18 19,22 L19,30 Z" fill="#1a1a2a"/>
+  <!-- Holy light glow from windows -->
+  <ellipse cx="8" cy="20" rx="2" ry="3" fill="#ffffaa" opacity="0.15"/>
+  <ellipse cx="24" cy="20" rx="2" ry="3" fill="#ffffaa" opacity="0.15"/>
+  <!-- Banner -->
+  <line x1="16" y1="0" x2="16" y2="-3" stroke="#9a8855" stroke-width="0.8"/>
+  <polygon points="16,-3 22,-1.5 16,0" fill="#4466aa"/>
+</svg>
