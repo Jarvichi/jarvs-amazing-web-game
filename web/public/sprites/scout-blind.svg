@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="11" ry="1.5" fill="#0a1a0a" opacity="0.5"/>
+  <!-- Ground / undergrowth -->
+  <rect x="0" y="26" width="32" height="6" fill="#2a5a1a" opacity="0.4"/>
+  <!-- Camouflage frame (wooden) -->
+  <rect x="6" y="12" width="20" height="16" rx="0.5" fill="#5a4a1a" opacity="0.8"/>
+  <!-- Dense leafy covering (camouflage) -->
+  <ellipse cx="16" cy="11" rx="14" ry="5" fill="#2a7a1a"/>
+  <ellipse cx="8" cy="13" rx="7" ry="5" fill="#3a8a2a"/>
+  <ellipse cx="24" cy="13" rx="7" ry="5" fill="#3a8a2a"/>
+  <ellipse cx="16" cy="14" rx="10" ry="5" fill="#4a9a3a"/>
+  <!-- Side leaf clusters -->
+  <ellipse cx="4" cy="18" rx="5" ry="4" fill="#2a7a1a"/>
+  <ellipse cx="28" cy="17" rx="5" ry="4" fill="#2a7a1a"/>
+  <!-- Narrow observation slit -->
+  <rect x="8" y="16" width="16" height="3" rx="0.3" fill="#0a0a0a"/>
+  <!-- Scout eye in slit -->
+  <ellipse cx="16" cy="17.5" rx="3" ry="1" fill="#0a0a0a"/>
+  <circle cx="16" cy="17.5" r="0.7" fill="#ff4400" opacity="0.7"/>
+  <!-- Stilts holding blind above ground -->
+  <line x1="8" y1="22" x2="7" y2="30" stroke="#5a4a1a" stroke-width="1.5"/>
+  <line x1="14" y1="22" x2="13" y2="30" stroke="#5a4a1a" stroke-width="1.5"/>
+  <line x1="20" y1="22" x2="21" y2="30" stroke="#5a4a1a" stroke-width="1.5"/>
+  <line x1="24" y1="22" x2="25" y2="30" stroke="#5a4a1a" stroke-width="1.5"/>
+  <!-- Small flowers on top (camouflage) -->
+  <circle cx="6" cy="10" r="1.2" fill="#ff4488" opacity="0.5"/>
+  <circle cx="26" cy="11" r="1" fill="#ffcc00" opacity="0.5"/>
+  <circle cx="16" cy="8" r="1" fill="#ff8844" opacity="0.4"/>
+</svg>
