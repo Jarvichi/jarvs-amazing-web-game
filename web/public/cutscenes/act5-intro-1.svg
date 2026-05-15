@@ -9,9 +9,11 @@
   </linearGradient>
   <rect width="400" height="240" fill="url(#ocean-depth)"/>
 
-  <!-- Bioluminescent ambient glow -->
+  <!-- Bioluminescent ambient glow — pulsing -->
   <radialGradient id="bio-glow" cx="50%" cy="60%" r="45%">
-    <stop offset="0%" stop-color="#00a8a8" stop-opacity="0.15"/>
+    <stop offset="0%" stop-color="#00a8a8" stop-opacity="0.15">
+      <animate attributeName="stop-opacity" values="0.15;0.3;0.15" dur="7s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#00a8a8" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#bio-glow)"/>
@@ -45,13 +47,23 @@
     <path d="M65,128 Q68,113 72,105"/>
     <path d="M85,130 Q88,115 92,105"/>
   </g>
-  <!-- Coral polyps glow -->
-  <g fill="#00c0a0" opacity="0.5">
-    <circle cx="55"  cy="105" r="2"/>
-    <circle cx="72"  cy="105" r="2"/>
-    <circle cx="92"  cy="105" r="2"/>
-    <circle cx="65"  cy="128" r="1.5"/>
-    <circle cx="85"  cy="130" r="1.5"/>
+  <!-- Coral polyps glow — twinkling -->
+  <g fill="#00c0a0">
+    <circle cx="55"  cy="105" r="2" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.2;0.8;0.5" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="72"  cy="105" r="2" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;1;0.5" dur="5s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="92"  cy="105" r="2" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.3;0.5" dur="3.5s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="65"  cy="128" r="1.5" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.9;0.2;0.5" dur="6s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="85"  cy="130" r="1.5" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.8;0.5" dur="4.5s" begin="1.5s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Coral formations — right cluster -->
@@ -63,12 +75,22 @@
     <path d="M304,118 Q307,102 312,90"/>
     <path d="M328,120 Q332,104 337,90"/>
   </g>
-  <g fill="#00c0a0" opacity="0.5">
-    <circle cx="295" cy="90"  r="2"/>
-    <circle cx="312" cy="90"  r="2"/>
-    <circle cx="337" cy="90"  r="2"/>
-    <circle cx="304" cy="118" r="1.5"/>
-    <circle cx="328" cy="120" r="1.5"/>
+  <g fill="#00c0a0">
+    <circle cx="295" cy="90"  r="2" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;1;0.5" dur="4s" begin="0.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="312" cy="90"  r="2" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.3;0.5" dur="5.5s" begin="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="337" cy="90"  r="2" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.8;0.2;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="304" cy="118" r="1.5" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.9;0.5" dur="6s" begin="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="328" cy="120" r="1.5" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.2;0.5" dur="4.5s" begin="1s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Brain coral right -->
@@ -88,11 +110,14 @@
     <line x1="138" y1="163" x2="290" y2="152"/>
     <line x1="136" y1="171" x2="290" y2="162"/>
   </g>
-  <!-- Mast — broken, listing -->
-  <line x1="200" y1="130" x2="196" y2="50" stroke="#162030" stroke-width="4" transform="rotate(-8,200,130)"/>
-  <line x1="196" y1="75"  x2="230" y2="95" stroke="#162030" stroke-width="2.5" transform="rotate(-8,200,130)"/>
-  <!-- Torn sail remnant -->
-  <polygon points="196,55 225,72 210,90 196,80" fill="#0e1828" stroke="#182838" stroke-width="0.8" opacity="0.7" transform="rotate(-8,200,130)"/>
+  <!-- Mast — broken, listing, gentle sway -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-8 200 130; -6 200 130; -8 200 130; -10 200 130; -8 200 130" dur="14s" repeatCount="indefinite"/>
+    <line x1="200" y1="130" x2="196" y2="50" stroke="#162030" stroke-width="4"/>
+    <line x1="196" y1="75"  x2="230" y2="95" stroke="#162030" stroke-width="2.5"/>
+    <!-- Torn sail remnant -->
+    <polygon points="196,55 225,72 210,90 196,80" fill="#0e1828" stroke="#182838" stroke-width="0.8" opacity="0.7"/>
+  </g>
   <!-- Coral growth on ship -->
   <g fill="#3a1808" stroke="#5a2810" stroke-width="0.5">
     <ellipse cx="155" cy="175" rx="8" ry="5"/>
@@ -100,10 +125,11 @@
     <ellipse cx="210" cy="170" rx="9" ry="5"/>
   </g>
 
-  <!-- Half-submerged section — water surface line (the shard is half above) -->
+  <!-- Half-submerged section — water surface line -->
   <rect x="0" y="0" width="400" height="50" fill="#060e14" opacity="0.7"/>
-  <!-- Water surface shimmer -->
-  <g stroke="#1a3040" stroke-width="1" opacity="0.6">
+  <!-- Water surface shimmer — pulsing -->
+  <g stroke="#1a3040" stroke-width="1">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="5s" repeatCount="indefinite"/>
     <path d="M0,48 Q30,44 60,48 Q90,52 120,48 Q150,44 180,48 Q210,52 240,48 Q270,44 300,48 Q330,52 360,48 Q390,44 400,48"/>
   </g>
   <!-- Surface light ripples -->
@@ -112,28 +138,70 @@
     <path d="M0,54 Q50,50 100,54 Q150,58 200,54 Q250,50 300,54 Q350,58 400,54"/>
   </g>
 
-  <!-- Bioluminescent particles drifting in water -->
+  <!-- Bioluminescent particles drifting upward in water -->
   <g fill="#00d0b0" opacity="0.4">
-    <circle cx="50"  cy="80"  r="1.5"/>
-    <circle cx="100" cy="65"  r="1"/>
-    <circle cx="160" cy="95"  r="1.5"/>
-    <circle cx="240" cy="70"  r="1"/>
-    <circle cx="300" cy="85"  r="1.5"/>
-    <circle cx="360" cy="60"  r="1"/>
-    <circle cx="30"  cy="120" r="1.5"/>
-    <circle cx="130" cy="110" r="1"/>
-    <circle cx="270" cy="115" r="1.5"/>
-    <circle cx="380" cy="100" r="1"/>
-    <circle cx="70"  cy="145" r="1"/>
-    <circle cx="340" cy="140" r="1.5"/>
+    <circle cx="50"  cy="80"  r="1.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -2 -30; -2 -60" dur="12s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="12s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="100" cy="65"  r="1">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 2 -40; 2 -80" dur="14s" begin="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="14s" begin="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="95"  r="1.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -3 -35; -3 -70" dur="13s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="13s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="240" cy="70"  r="1">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 2 -25; 2 -50" dur="11s" begin="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="11s" begin="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="300" cy="85"  r="1.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -2 -30; -2 -60" dur="12s" begin="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="12s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="360" cy="60"  r="1">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 3 -20; 3 -40" dur="10s" begin="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="10s" begin="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="30"  cy="120" r="1.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -2 -40; -2 -80" dur="15s" begin="6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="15s" begin="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="130" cy="110" r="1">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 2 -35; 2 -70" dur="13s" begin="7s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="13s" begin="7s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="270" cy="115" r="1.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -3 -30; -3 -60" dur="14s" begin="8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="14s" begin="8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="380" cy="100" r="1">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 2 -25; 2 -50" dur="12s" begin="9s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="12s" begin="9s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="70"  cy="145" r="1">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -2 -50; -2 -100" dur="18s" begin="10s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="18s" begin="10s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="340" cy="140" r="1.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 3 -45; 3 -90" dur="16s" begin="11s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="16s" begin="11s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
-  <!-- Ley line threads — faintly visible in the water -->
-  <g stroke="#00a8a8" stroke-width="0.8" fill="none" opacity="0.2">
-    <path d="M0,120 Q100,108 200,115 Q300,122 400,110"/>
-    <path d="M0,150 Q80,138 160,145 Q240,152 400,140"/>
+  <!-- Ley line threads — animated flow -->
+  <g fill="none" opacity="0.2">
+    <path d="M0,120 Q100,108 200,115 Q300,122 400,110" stroke="#00a8a8" stroke-width="0.8" stroke-dasharray="8,4">
+      <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M0,150 Q80,138 160,145 Q240,152 400,140" stroke="#00a8a8" stroke-width="0.8" stroke-dasharray="8,4">
+      <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="3.5s" repeatCount="indefinite"/>
+    </path>
   </g>
 
   <!-- Label -->
-  <text x="200" y="228" font-family="monospace" font-size="9" fill="#1a4040" text-anchor="middle" letter-spacing="3">THE SUNKEN REEF</text>
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#1a4040" text-anchor="middle" letter-spacing="3">THE SUNKEN REEF
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>
