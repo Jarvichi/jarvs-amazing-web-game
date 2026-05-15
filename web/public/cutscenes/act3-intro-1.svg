@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
   <rect width="400" height="240" fill="#090908"/>
 
-  <!-- Ashen sky — hazy smoke gradient -->
+  <!-- Ashen sky -->
   <linearGradient id="ash-sky" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0%" stop-color="#0e0c0a"/>
     <stop offset="60%" stop-color="#1a1610"/>
@@ -9,138 +9,163 @@
   </linearGradient>
   <rect width="400" height="240" fill="url(#ash-sky)"/>
 
-  <!-- Distant glow of underground fires on horizon -->
+  <!-- Horizon fire glow — pulsing -->
   <linearGradient id="horizon-glow" x1="0" y1="1" x2="0" y2="0">
-    <stop offset="0%" stop-color="#c05010" stop-opacity="0.4"/>
+    <stop offset="0%" stop-color="#c05010" stop-opacity="0.4">
+      <animate attributeName="stop-opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#c05010" stop-opacity="0"/>
   </linearGradient>
   <rect x="0" y="140" width="400" height="60" fill="url(#horizon-glow)"/>
 
-  <!-- Ash ground — flat and grey -->
+  <!-- Ash ground -->
   <rect x="0" y="170" width="400" height="70" fill="#0f0e0c"/>
   <rect x="0" y="168" width="400" height="4" fill="#1a1714"/>
 
-  <!-- Ash ground texture — subtle ripples -->
+  <!-- Ground texture ripples -->
   <g stroke="#161410" stroke-width="0.6" opacity="0.5">
     <path d="M0,180 Q50,177 100,180 Q150,183 200,180 Q250,177 300,180 Q350,183 400,180"/>
     <path d="M0,192 Q60,189 120,192 Q180,195 240,192 Q300,189 360,192 Q390,194 400,192"/>
     <path d="M0,205 Q40,203 80,205 Q120,207 160,205 Q200,203 240,205 Q280,207 320,205 Q360,203 400,205"/>
   </g>
 
-  <!-- Collapsed mineshaft entrances — dark rectangles sunk into the ground -->
-  <!-- Mine shaft left -->
+  <!-- Mine shaft left — ember glow pulsing -->
   <rect x="30" y="152" width="50" height="22" fill="#060604" stroke="#1a1714" stroke-width="1"/>
   <rect x="28" y="149" width="6"  height="6"  fill="#1a1714"/>
   <rect x="72" y="149" width="6"  height="6"  fill="#1a1714"/>
-  <!-- Support beams -->
   <line x1="28" y1="149" x2="78" y2="149" stroke="#1e1c16" stroke-width="2"/>
-  <!-- Ember glow inside shaft -->
   <radialGradient id="shaft-glow-l" cx="50%" cy="100%" r="60%">
-    <stop offset="0%" stop-color="#c05010" stop-opacity="0.5"/>
+    <stop offset="0%" stop-color="#c05010" stop-opacity="0.5">
+      <animate attributeName="stop-opacity" values="0.3;0.7;0.4;0.8;0.3" dur="3s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#c05010" stop-opacity="0"/>
   </radialGradient>
   <rect x="30" y="152" width="50" height="22" fill="url(#shaft-glow-l)"/>
 
-  <!-- Mine shaft right -->
+  <!-- Mine shaft right — ember glow pulsing -->
   <rect x="310" y="155" width="55" height="20" fill="#060604" stroke="#1a1714" stroke-width="1"/>
   <line x1="308" y1="152" x2="367" y2="152" stroke="#1e1c16" stroke-width="2"/>
   <rect x="308" y="149" width="6" height="5" fill="#1a1714"/>
   <rect x="361" y="149" width="6" height="5" fill="#1a1714"/>
   <radialGradient id="shaft-glow-r" cx="50%" cy="100%" r="60%">
-    <stop offset="0%" stop-color="#c05010" stop-opacity="0.4"/>
+    <stop offset="0%" stop-color="#c05010" stop-opacity="0.4">
+      <animate attributeName="stop-opacity" values="0.5;0.2;0.6;0.3;0.5" dur="3.5s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#c05010" stop-opacity="0"/>
   </radialGradient>
   <rect x="310" y="155" width="55" height="20" fill="url(#shaft-glow-r)"/>
 
-  <!-- Slag heap — left mid -->
+  <!-- Slag heap left -->
   <polygon points="0,170 55,120 110,170" fill="#131210" stroke="#1e1c16" stroke-width="1"/>
   <polygon points="10,170 50,128 90,170"  fill="#0f0e0c"/>
-  <!-- Slag cracks with ember glow -->
-  <g stroke="#c05010" stroke-width="0.8" opacity="0.4">
+  <g stroke="#c05010" stroke-width="0.8">
+    <animate attributeName="opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite"/>
     <path d="M40,155 Q48,148 55,142"/>
     <path d="M55,142 Q60,148 65,155"/>
     <path d="M50,162 Q55,155 62,162"/>
   </g>
 
-  <!-- Slag heap — right mid -->
+  <!-- Slag heap right -->
   <polygon points="290,170 345,118 400,170" fill="#131210" stroke="#1e1c16" stroke-width="1"/>
   <polygon points="300,170 344,126 395,170" fill="#0f0e0c"/>
-  <g stroke="#c05010" stroke-width="0.8" opacity="0.3">
+  <g stroke="#c05010" stroke-width="0.8">
+    <animate attributeName="opacity" values="0.1;0.4;0.1" dur="4s" repeatCount="indefinite"/>
     <path d="M328,152 Q335,145 342,138"/>
     <path d="M342,138 Q348,145 355,155"/>
   </g>
 
-  <!-- Ruined mining tower structure — centre -->
-  <!-- Main tower frame -->
+  <!-- Mining tower — centre -->
   <rect x="178" y="80" width="6"  height="90" fill="#161412" stroke="#221e18" stroke-width="0.5"/>
   <rect x="216" y="80" width="6"  height="90" fill="#161412" stroke="#221e18" stroke-width="0.5"/>
-  <!-- Cross beams -->
   <line x1="178" y1="95"  x2="222" y2="95"  stroke="#1e1c16" stroke-width="3"/>
   <line x1="178" y1="115" x2="222" y2="115" stroke="#1e1c16" stroke-width="3"/>
   <line x1="178" y1="135" x2="222" y2="135" stroke="#1e1c16" stroke-width="3"/>
-  <!-- X-brace -->
   <line x1="178" y1="80"  x2="222" y2="160" stroke="#1a1814" stroke-width="1.5" opacity="0.6"/>
   <line x1="222" y1="80"  x2="178" y2="160" stroke="#1a1814" stroke-width="1.5" opacity="0.6"/>
-  <!-- Pulley wheel at top -->
-  <circle cx="200" cy="78" r="10" fill="none" stroke="#221e18" stroke-width="2"/>
+  <!-- Pulley wheel -->
+  <circle cx="200" cy="78" r="10" fill="none" stroke="#221e18" stroke-width="2">
+    <animateTransform attributeName="transform" type="rotate" values="0 200 78; 5 200 78; 0 200 78; -5 200 78; 0 200 78" dur="8s" repeatCount="indefinite"/>
+  </circle>
   <circle cx="200" cy="78" r="4"  fill="#161412"/>
-  <!-- Cable hanging down -->
+  <!-- Cable and swinging ore bucket -->
   <line x1="200" y1="88" x2="200" y2="170" stroke="#1a1814" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <!-- Ore bucket on cable -->
-  <polygon points="194,140 206,140 208,155 192,155" fill="#1a1814" stroke="#221e18" stroke-width="0.8"/>
+  <polygon points="194,140 206,140 208,155 192,155" fill="#1a1814" stroke="#221e18" stroke-width="0.8">
+    <animateTransform attributeName="transform" type="translate" values="0 0; 3 0; 0 0; -3 0; 0 0" dur="5s" repeatCount="indefinite"/>
+  </polygon>
 
-  <!-- Fire/ember patches on ground -->
-  <g opacity="0.7">
-    <radialGradient id="ember1" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#e06010" stop-opacity="0.8"/>
-      <stop offset="100%" stop-color="#e06010" stop-opacity="0"/>
-    </radialGradient>
-    <ellipse cx="145" cy="175" rx="12" ry="6" fill="url(#ember1)"/>
-    <radialGradient id="ember2" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#c04808" stop-opacity="0.7"/>
-      <stop offset="100%" stop-color="#c04808" stop-opacity="0"/>
-    </radialGradient>
-    <ellipse cx="255" cy="178" rx="9"  ry="5" fill="url(#ember2)"/>
-    <radialGradient id="ember3" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#d05810" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#d05810" stop-opacity="0"/>
-    </radialGradient>
-    <ellipse cx="90"  cy="182" rx="7"  ry="4" fill="url(#ember3)"/>
+  <!-- Ground embers — pulsing -->
+  <radialGradient id="ember1" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#e06010" stop-opacity="0.8">
+      <animate attributeName="stop-opacity" values="0.5;0.9;0.5" dur="2.5s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="100%" stop-color="#e06010" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="145" cy="175" rx="12" ry="6" fill="url(#ember1)"/>
+  <radialGradient id="ember2" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#c04808" stop-opacity="0.7">
+      <animate attributeName="stop-opacity" values="0.4;0.8;0.4" dur="3.2s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="100%" stop-color="#c04808" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="255" cy="178" rx="9"  ry="5" fill="url(#ember2)"/>
+  <radialGradient id="ember3" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#d05810" stop-opacity="0.6">
+      <animate attributeName="stop-opacity" values="0.6;0.3;0.7;0.4;0.6" dur="2s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="100%" stop-color="#d05810" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="90"  cy="182" rx="7"  ry="4" fill="url(#ember3)"/>
+
+  <!-- Falling ash — drifting down -->
+  <g fill="#302c24">
+    <circle cx="60"  cy="40"  r="1.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -4 60; -4 120" dur="12s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.5;0" dur="12s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="110" cy="25"  r="1">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -3 80; -3 160" dur="16s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="16s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="160" cy="55"  r="1.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -5 50; -5 100" dur="10s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.5;0" dur="10s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="240" cy="30"  r="1">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -4 70; -4 140" dur="14s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="14s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="290" cy="50"  r="1.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -3 55; -3 110" dur="11s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.5;0" dur="11s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="340" cy="20"  r="1">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -4 90; -4 180" dur="18s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.4;0" dur="18s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="380" cy="65"  r="1.5">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -3 45; -3 90" dur="9s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.5;0" dur="9s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
-  <!-- Falling ash particles -->
-  <g fill="#302c24" opacity="0.5">
-    <circle cx="60"  cy="40"  r="1.5"/>
-    <circle cx="110" cy="25"  r="1"/>
-    <circle cx="160" cy="55"  r="1.5"/>
-    <circle cx="240" cy="30"  r="1"/>
-    <circle cx="290" cy="50"  r="1.5"/>
-    <circle cx="340" cy="20"  r="1"/>
-    <circle cx="380" cy="65"  r="1.5"/>
-    <circle cx="20"  cy="70"  r="1"/>
-    <circle cx="320" cy="75"  r="1"/>
-    <circle cx="80"  cy="85"  r="1.5"/>
-    <circle cx="200" cy="45"  r="1"/>
-  </g>
-  <!-- Ash streaks falling diagonally -->
-  <g stroke="#302c24" stroke-width="0.5" opacity="0.3">
-    <line x1="50"  y1="20" x2="46"  y2="35"/>
-    <line x1="130" y1="10" x2="126" y2="28"/>
-    <line x1="220" y1="15" x2="216" y2="30"/>
-    <line x1="310" y1="25" x2="306" y2="40"/>
-    <line x1="370" y1="10" x2="366" y2="28"/>
-  </g>
-
-  <!-- Smoke columns rising from slag and shafts -->
+  <!-- Smoke columns rising -->
   <g fill="#1a1814" opacity="0.25">
-    <ellipse cx="55"  cy="115" rx="18" ry="30" transform="translate(0,-10)"/>
-    <ellipse cx="55"  cy="95"  rx="12" ry="20"/>
-    <ellipse cx="55"  cy="75"  rx="8"  ry="15"/>
-    <ellipse cx="344" cy="110" rx="16" ry="28" transform="translate(0,-8)"/>
-    <ellipse cx="344" cy="92"  rx="10" ry="18"/>
-    <ellipse cx="200" cy="60"  rx="6"  ry="12"/>
+    <ellipse cx="55"  cy="115" rx="18" ry="30">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 2 -8; 0 0" dur="10s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="55"  cy="95"  rx="12" ry="20">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 3 -10; 0 0" dur="8s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="344" cy="110" rx="16" ry="28">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -2 -9; 0 0" dur="11s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="200" cy="60"  rx="6"  ry="12">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 1 -6; 0 0" dur="7s" repeatCount="indefinite"/>
+    </ellipse>
   </g>
 
   <!-- Label -->
-  <text x="200" y="228" font-family="monospace" font-size="9" fill="#3a2c1a" text-anchor="middle" letter-spacing="3">THE ASHEN WASTES</text>
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#3a2c1a" text-anchor="middle" letter-spacing="3">THE ASHEN WASTES
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="6s" repeatCount="indefinite"/>
+  </text>
 </svg>
