@@ -8273,6 +8273,102 @@ html.light-mode .action-btn {
   animation: kill-flash-anim 0.5s ease-out forwards;
 }
 
+/* ─── Elemental status effect overlays ────────────────────────────────────── */
+
+/* Shared overlay base */
+.status-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* ── Burning ── */
+@keyframes flame-flicker {
+  0%   { transform: scaleY(1)    scaleX(1)    translateY(0);   opacity: 0.85; }
+  25%  { transform: scaleY(1.08) scaleX(0.95) translateY(-1px); opacity: 1; }
+  50%  { transform: scaleY(0.95) scaleX(1.05) translateY(1px);  opacity: 0.75; }
+  75%  { transform: scaleY(1.1)  scaleX(0.92) translateY(-2px); opacity: 0.9; }
+  100% { transform: scaleY(1)    scaleX(1)    translateY(0);   opacity: 0.85; }
+}
+.lane-unit--burning {
+  filter: drop-shadow(0 0 5px rgba(255,100,0,0.9)) drop-shadow(0 -2px 8px rgba(255,60,0,0.7));
+}
+.status-overlay--burning {
+  background: linear-gradient(
+    to top,
+    rgba(255,80,0,0.55) 0%,
+    rgba(255,160,0,0.35) 45%,
+    rgba(255,220,0,0.15) 70%,
+    transparent 100%
+  );
+  animation: flame-flicker 0.35s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
+}
+
+/* ── Frozen ── */
+@keyframes frost-shimmer {
+  0%   { opacity: 0.55; filter: brightness(1.1); }
+  50%  { opacity: 0.75; filter: brightness(1.3); }
+  100% { opacity: 0.55; filter: brightness(1.1); }
+}
+.lane-unit--frozen {
+  filter: saturate(0.3) brightness(1.2) drop-shadow(0 0 6px rgba(120,200,255,0.9)) drop-shadow(0 0 12px rgba(80,160,255,0.5));
+}
+.status-overlay--frozen {
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    rgba(180,230,255,0.55) 0%,
+    rgba(100,180,255,0.30) 55%,
+    transparent 80%
+  );
+  animation: frost-shimmer 1.2s ease-in-out infinite;
+}
+
+/* ── Poisoned ── */
+@keyframes poison-bubble {
+  0%   { transform: translateY(0)    scale(1);    opacity: 0.7; }
+  40%  { transform: translateY(-4px) scale(1.05); opacity: 0.9; }
+  100% { transform: translateY(0)    scale(1);    opacity: 0.7; }
+}
+.lane-unit--poisoned {
+  filter: hue-rotate(55deg) saturate(1.4) drop-shadow(0 0 5px rgba(60,180,60,0.8));
+}
+.status-overlay--poisoned {
+  background: radial-gradient(
+    ellipse at 50% 60%,
+    rgba(80,200,80,0.45) 0%,
+    rgba(40,140,40,0.25) 55%,
+    transparent 80%
+  );
+  animation: poison-bubble 0.9s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+/* ── Shocked ── */
+@keyframes shock-arc {
+  0%   { opacity: 0;    transform: scale(0.8); }
+  15%  { opacity: 1;    transform: scale(1.1); }
+  30%  { opacity: 0.3;  transform: scale(0.9); }
+  45%  { opacity: 0.9;  transform: scale(1.05); }
+  60%  { opacity: 0;    transform: scale(1); }
+  100% { opacity: 0;    transform: scale(1); }
+}
+.lane-unit--shocked {
+  filter: brightness(1.4) drop-shadow(0 0 8px rgba(200,230,255,1)) drop-shadow(0 0 16px rgba(160,200,255,0.7));
+}
+.status-overlay--shocked {
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(200,230,255,0.7) 0%,
+    rgba(120,180,255,0.4) 40%,
+    transparent 70%
+  );
+  animation: shock-arc 0.6s ease-out infinite;
+  mix-blend-mode: screen;
+}
+
 /* ─── Secret-variant unit visual effects ──────────────────────────────────── */
 @keyframes variant-shiny-glow {
   0%, 100% { filter: brightness(1.1) drop-shadow(0 0 3px rgba(255,220,60,0.6)); }
@@ -8386,24 +8482,35 @@ html.light-mode .action-btn {
 
 /* Gas cloud hazard — battlefield lane version */
 @keyframes hazard-drift {
-  0%   { opacity: 0.35; transform: translate(-50%,-50%) scale(0.9); }
-  50%  { opacity: 0.55; transform: translate(-50%,-50%) scale(1.05); }
-  100% { opacity: 0.35; transform: translate(-50%,-50%) scale(0.9); }
+  0%   { opacity: 0.55; transform: translate(-50%,-50%) scale(0.88) rotate(-4deg); }
+  30%  { opacity: 0.80; transform: translate(-50%,-50%) scale(1.06) rotate(2deg); }
+  60%  { opacity: 0.60; transform: translate(-50%,-50%) scale(0.95) rotate(-2deg); }
+  100% { opacity: 0.55; transform: translate(-50%,-50%) scale(0.88) rotate(-4deg); }
+}
+@keyframes hazard-drift-inner {
+  0%   { opacity: 0.7; transform: scale(0.6) rotate(8deg); }
+  50%  { opacity: 1;   transform: scale(0.8) rotate(-5deg); }
+  100% { opacity: 0.7; transform: scale(0.6) rotate(8deg); }
 }
 .battlefield-hazard {
-  width: 48px;
-  height: 48px;
+  position: absolute;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(80,200,80,0.55) 0%, rgba(40,140,40,0.3) 60%, transparent 85%);
-  animation: hazard-drift 2s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(60,210,60,0.7) 0%, rgba(30,160,30,0.45) 50%, rgba(20,100,20,0.2) 75%, transparent 90%);
+  box-shadow: 0 0 18px 6px rgba(40,200,40,0.4), inset 0 0 10px rgba(100,255,100,0.3);
+  animation: hazard-drift 2.4s ease-in-out infinite;
+  mix-blend-mode: screen;
 }
 .battlefield-gascloud {
-  width: 40px;
-  height: 40px;
+  position: absolute;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(80,200,80,0.6) 0%, rgba(40,140,40,0.35) 60%, transparent 85%);
-  transform: translate(-50%,-50%);
-  animation: hazard-drift 1.8s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(60,210,60,0.75) 0%, rgba(30,160,30,0.5) 50%, rgba(20,100,20,0.2) 75%, transparent 90%);
+  box-shadow: 0 0 16px 5px rgba(40,200,40,0.45), inset 0 0 8px rgba(100,255,100,0.3);
+  animation: hazard-drift 1.9s ease-in-out infinite;
+  mix-blend-mode: screen;
 }
 
 /* ─────────────────────────────────────────────────────────

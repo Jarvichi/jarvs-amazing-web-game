@@ -414,6 +414,10 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
   const isDamageFlash = unit.damageFlashTimer != null && unit.damageFlashTimer > 0
   const isKillFlash = unit.killFlashTimer != null && unit.killFlashTimer > 0
   const isCelebrating = celebrating && !isDying && !isStructure && !unit.isWall
+  const isBurning  = !isDying && unit.burnTimer   != null && unit.burnTimer   > 0
+  const isFrozen   = !isDying && unit.freezeTimer  != null && unit.freezeTimer  > 0
+  const isPoisoned = !isDying && unit.poisonTimer  != null && unit.poisonTimer  > 0
+  const isShocked  = !isDying && unit.stunTimer    != null && unit.stunTimer    > 0 && !isBurning && !isFrozen && !isPoisoned
 
   return (
     <div
@@ -435,6 +439,10 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
         isCelebrating ? 'lane-unit--celebrating' : '',
         unit.invisTimer != null && unit.invisTimer > 0 ? 'lane-unit--invisible' : '',
         unit.cardVariant ? `lane-unit--variant-${unit.cardVariant}` : '',
+        isBurning  ? 'lane-unit--burning'  : '',
+        isFrozen   ? 'lane-unit--frozen'   : '',
+        isPoisoned ? 'lane-unit--poisoned' : '',
+        isShocked  ? 'lane-unit--shocked'  : '',
       ].filter(Boolean).join(' ')}
       style={isCelebrating ? { ...style, animationDelay: `${(unit.id.charCodeAt(0) % 7) * 0.1}s` } : style}
       title={`${unit.name} — ${unit.hp}/${unit.maxHp} HP, ${unit.attack} ATK`}
@@ -495,6 +503,10 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
           )}
         </div>
       )}
+      {isBurning  && <div className="status-overlay status-overlay--burning"  aria-hidden />}
+      {isFrozen   && <div className="status-overlay status-overlay--frozen"   aria-hidden />}
+      {isPoisoned && <div className="status-overlay status-overlay--poisoned" aria-hidden />}
+      {isShocked  && <div className="status-overlay status-overlay--shocked"  aria-hidden />}
     </div>
   )
 }
