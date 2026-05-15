@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#2a0a00" opacity="0.6"/>
+  <!-- Sanctum base -->
+  <rect x="4" y="18" width="24" height="12" rx="1" fill="#5a2a1a"/>
+  <!-- Black stone walls -->
+  <rect x="6" y="10" width="20" height="10" rx="1" fill="#4a1a0a"/>
+  <!-- Flame channel grooves -->
+  <line x1="6" y1="14" x2="26" y2="14" stroke="#aa3300" stroke-width="0.8" opacity="0.7"/>
+  <line x1="6" y1="17" x2="26" y2="17" stroke="#aa3300" stroke-width="0.6" opacity="0.5"/>
+  <!-- Peaked roof with flame tip -->
+  <polygon points="4,10 16,2 28,10" fill="#3a1a0a"/>
+  <polygon points="6,10 16,4 26,10" fill="#4a2a1a"/>
+  <!-- Flame at peak -->
+  <path d="M14,4 Q16,0 18,4 Q17,6 16,5 Q15,6 14,4Z" fill="#ff4400"/>
+  <path d="M15,4 Q16,1 17,4 Q16.5,5.5 16,5 Q15.5,5.5 15,4Z" fill="#ffaa00"/>
+  <!-- Ember windows -->
+  <rect x="9" y="13" width="4" height="5" rx="1" fill="#1a0800"/>
+  <rect x="19" y="13" width="4" height="5" rx="1" fill="#1a0800"/>
+  <ellipse cx="11" cy="15.5" rx="1.5" ry="2" fill="#ff6600" opacity="0.7"/>
+  <ellipse cx="21" cy="15.5" rx="1.5" ry="2" fill="#ff6600" opacity="0.7"/>
+  <!-- Arched door -->
+  <path d="M13,30 L13,22 Q16,18 19,22 L19,30 Z" fill="#1a0800"/>
+  <!-- Ember glow at base -->
+  <ellipse cx="16" cy="29" rx="10" ry="1.5" fill="#ff4400" opacity="0.2"/>
+  <!-- Floating embers -->
+  <circle cx="9" cy="8" r="0.7" fill="#ff6600" opacity="0.6"/>
+  <circle cx="23" cy="7" r="0.6" fill="#ffaa00" opacity="0.5"/>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a1a0a" opacity="0.6"/>
+  <!-- Trench walls -->
+  <rect x="2" y="12" width="28" height="18" rx="1" fill="#1a3a2a"/>
+  <!-- Water fill -->
+  <rect x="3" y="16" width="26" height="13" rx="1" fill="#0a2a3a"/>
+  <!-- Water surface shimmer -->
+  <path d="M4,17 Q10,15 16,17 Q22,19 28,17" fill="none" stroke="#1a5a7a" stroke-width="1" opacity="0.8"/>
+  <path d="M4,20 Q10,18 16,20 Q22,22 28,20" fill="none" stroke="#1a4a6a" stroke-width="0.8" opacity="0.5"/>
+  <!-- Eel silhouettes -->
+  <path d="M5,22 Q10,19 15,22 Q20,25 25,22" fill="none" stroke="#2a7a4a" stroke-width="2" opacity="0.8"/>
+  <path d="M7,26 Q12,23 17,26 Q22,28 27,26" fill="none" stroke="#1a6a3a" stroke-width="1.5" opacity="0.7"/>
+  <!-- Eel eyes -->
+  <circle cx="5" cy="22" r="1" fill="#88ffaa" opacity="0.9"/>
+  <circle cx="7" cy="26" r="1" fill="#66ee88" opacity="0.8"/>
+  <!-- Electric sparks -->
+  <path d="M14,18 L16,15 L18,18" fill="none" stroke="#aaff00" stroke-width="0.8" opacity="0.7"/>
+  <circle cx="16" cy="14" r="1" fill="#ccff44" opacity="0.6"/>
+  <!-- Trench rim top -->
+  <rect x="2" y="10" width="28" height="3" rx="1" fill="#2a4a3a"/>
+  <rect x="4" y="9" width="5" height="2" rx="0.5" fill="#3a5a4a"/>
+  <rect x="14" y="9" width="5" height="2" rx="0.5" fill="#3a5a4a"/>
+  <rect x="23" y="9" width="5" height="2" rx="0.5" fill="#3a5a4a"/>
+</svg>

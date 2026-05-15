@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#1a1a1a" opacity="0.5"/>
+  <!-- Yard ground / work surface -->
+  <rect x="1" y="20" width="30" height="10" rx="1" fill="#4a4a3a"/>
+  <!-- Workshop building -->
+  <rect x="2" y="10" width="18" height="12" rx="1" fill="#5a5a4a"/>
+  <!-- Roof -->
+  <polygon points="1,10 11,3 21,10" fill="#3a3a2a"/>
+  <polygon points="3,10 11,5 19,10" fill="#4a4a3a"/>
+  <!-- Workshop window -->
+  <rect x="6" y="13" width="5" height="4" rx="0.5" fill="#2a2a1a"/>
+  <line x1="8.5" y1="13" x2="8.5" y2="17" stroke="#6a6a4a" stroke-width="0.5"/>
+  <line x1="6" y1="15" x2="11" y2="15" stroke="#6a6a4a" stroke-width="0.5"/>
+  <!-- Workshop door -->
+  <rect x="13" y="16" width="5" height="6" rx="0.5" fill="#2a2a1a"/>
+  <!-- Equipment in yard: siege engine / catapult arm -->
+  <rect x="21" y="16" width="9" height="5" rx="1" fill="#6a5a2a"/>
+  <rect x="24" y="11" width="3" height="8" rx="0.5" fill="#8a6a2a"/>
+  <ellipse cx="25.5" cy="11" rx="2.5" ry="1.5" fill="#4a3a1a"/>
+  <!-- Wheels -->
+  <circle cx="23" cy="21" r="2.5" fill="#3a2a1a"/>
+  <circle cx="23" cy="21" r="1.5" fill="#5a4a2a"/>
+  <circle cx="29" cy="21" r="2.5" fill="#3a2a1a"/>
+  <circle cx="29" cy="21" r="1.5" fill="#5a4a2a"/>
+  <!-- Tools on ground -->
+  <line x1="3" y1="22" x2="7" y2="22" stroke="#8a7a4a" stroke-width="1.5"/>
+  <line x1="4" y1="25" x2="4" y2="22" stroke="#8a7a4a" stroke-width="1.5"/>
+  <!-- Chimney smoke -->
+  <circle cx="10" cy="4" r="1.5" fill="#8a8a7a" opacity="0.4"/>
+  <circle cx="9" cy="2" r="1" fill="#8a8a7a" opacity="0.3"/>
+</svg>
