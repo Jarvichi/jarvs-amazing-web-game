@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="11" ry="1.5" fill="#1a1a2a" opacity="0.5"/>
+  <!-- Well base/rim -->
+  <ellipse cx="16" cy="24" rx="11" ry="4" fill="#4a4a6a"/>
+  <ellipse cx="16" cy="23" rx="10" ry="3.5" fill="#5a5a7a"/>
+  <!-- Stone well cylinder -->
+  <rect x="6" y="16" width="20" height="9" rx="1" fill="#4a4a6a"/>
+  <ellipse cx="16" cy="16" rx="10" ry="3.5" fill="#5a5a7a"/>
+  <!-- Mana water inside well -->
+  <ellipse cx="16" cy="16" rx="8" ry="2.5" fill="#2244aa"/>
+  <ellipse cx="16" cy="16" rx="6" ry="1.8" fill="#3366cc"/>
+  <ellipse cx="16" cy="16" rx="3" ry="1" fill="#5588ff" opacity="0.8"/>
+  <!-- Mana glow overflowing -->
+  <ellipse cx="16" cy="16" rx="11" ry="4" fill="#4466ff" opacity="0.15"/>
+  <!-- Well roof structure -->
+  <line x1="9" y1="8" x2="9" y2="16" stroke="#5a5a6a" stroke-width="1.5"/>
+  <line x1="23" y1="8" x2="23" y2="16" stroke="#5a5a6a" stroke-width="1.5"/>
+  <polygon points="6,8 16,2 26,8" fill="#3a3a5a"/>
+  <polygon points="8,8 16,4 24,8" fill="#4a4a6a"/>
+  <!-- Arcane crystal at peak -->
+  <polygon points="14,4 16,1 18,4 16,6" fill="#8899ff"/>
+  <circle cx="16" cy="3" r="1" fill="#aabbff" opacity="0.9"/>
+  <!-- Pulley and rope -->
+  <circle cx="16" cy="8" r="1.5" fill="#6a6a7a"/>
+  <line x1="16" y1="9" x2="14" y2="16" stroke="#8a7a5a" stroke-width="0.7"/>
+  <!-- Mana rune stones around base -->
+  <circle cx="7" cy="25" r="1" fill="#5577ff" opacity="0.6"/>
+  <circle cx="25" cy="25" r="1" fill="#5577ff" opacity="0.6"/>
+  <circle cx="16" cy="27" r="1" fill="#5577ff" opacity="0.5"/>
+  <!-- Stone block lines on well -->
+  <line x1="6" y1="19" x2="26" y2="19" stroke="#3a3a5a" stroke-width="0.5"/>
+  <line x1="11" y1="16" x2="11" y2="25" stroke="#3a3a5a" stroke-width="0.4"/>
+  <line x1="21" y1="16" x2="21" y2="25" stroke="#3a3a5a" stroke-width="0.4"/>
+</svg>

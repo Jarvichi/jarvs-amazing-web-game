@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Ground -->
+  <rect x="0" y="26" width="32" height="5" fill="#4a3a1a" opacity="0.6"/>
+  <!-- Main cabin -->
+  <rect x="2" y="14" width="16" height="12" rx="1" fill="#7a5a2a"/>
+  <!-- Log texture on cabin -->
+  <line x1="2" y1="17" x2="18" y2="17" stroke="#6a4a1a" stroke-width="0.7"/>
+  <line x1="2" y1="20" x2="18" y2="20" stroke="#6a4a1a" stroke-width="0.7"/>
+  <line x1="2" y1="23" x2="18" y2="23" stroke="#6a4a1a" stroke-width="0.7"/>
+  <!-- Cabin roof -->
+  <polygon points="0,14 9,7 18,14" fill="#5a3a1a"/>
+  <polygon points="2,14 9,9 16,14" fill="#6a4a2a"/>
+  <!-- Chimney -->
+  <rect x="11" y="7" width="3" height="7" rx="0.5" fill="#5a4a3a"/>
+  <circle cx="12.5" cy="7" r="2" fill="#7a7a6a" opacity="0.4"/>
+  <!-- Cabin door -->
+  <rect x="7" y="18" width="5" height="8" rx="0.5" fill="#4a2a0a"/>
+  <!-- Stacked lumber logs to the right -->
+  <rect x="20" y="20" width="11" height="4" rx="0.5" fill="#8a6a2a"/>
+  <rect x="20" y="17" width="11" height="4" rx="0.5" fill="#9a7a3a"/>
+  <rect x="20" y="14" width="11" height="4" rx="0.5" fill="#8a6a2a"/>
+  <!-- Log end circles -->
+  <circle cx="30" cy="22" r="1.5" fill="#7a5a1a"/>
+  <circle cx="30" cy="19" r="1.5" fill="#6a4a1a"/>
+  <circle cx="30" cy="16" r="1.5" fill="#7a5a1a"/>
+  <!-- Axe leaning against logs -->
+  <line x1="19" y1="13" x2="19" y2="26" stroke="#8a6a3a" stroke-width="1.5"/>
+  <polygon points="16,14 19,13 19,17 17,17" fill="#8a8a8a"/>
+  <!-- Tree stump -->
+  <ellipse cx="5" cy="27" rx="4" ry="2" fill="#8a6a2a"/>
+  <ellipse cx="5" cy="26" rx="3.5" ry="1.5" fill="#9a7a3a"/>
+  <!-- Cut log on stump -->
+  <ellipse cx="5" cy="25" rx="3" ry="1.2" fill="#7a5a1a"/>
+</svg>
