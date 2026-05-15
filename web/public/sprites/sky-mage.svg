@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Hat -->
+  <polygon points="10,10 16,1 22,10" fill="#2a4a6a"/>
+  <rect x="9" y="9" width="14" height="2" rx="0.5" fill="#3a5a7a"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="13" rx="5" ry="4.5" fill="#f4c07a"/>
+  <!-- Eyes -->
+  <circle cx="14" cy="12.5" r="0.9" fill="#1a2a4a"/>
+  <circle cx="18" cy="12.5" r="0.9" fill="#1a2a4a"/>
+  <!-- Beard -->
+  <ellipse cx="16" cy="16" rx="3" ry="2" fill="#ccddee" opacity="0.8"/>
+  <!-- Robe body -->
+  <path d="M11,17 L10,30 L22,30 L21,17 Q16,20 11,17 Z" fill="#3a5a7a"/>
+  <!-- Robe belt -->
+  <rect x="11" y="22" width="10" height="1.5" fill="#2a3a5a"/>
+  <!-- Staff (right side) -->
+  <line x1="24" y1="5" x2="24" y2="30" stroke="#6a5a3a" stroke-width="1.5"/>
+  <!-- Staff orb -->
+  <circle cx="24" cy="5" r="2.5" fill="#2a3a5a"/>
+  <circle cx="24" cy="5" r="1.5" fill="#4488cc"/>
+  <circle cx="24" cy="5" r="0.8" fill="#88ccff" opacity="0.8"/>
+  <!-- Magic aura -->
+  <ellipse cx="24" cy="5" rx="4" ry="3" fill="#4488cc" opacity="0.15"/>
+</svg>

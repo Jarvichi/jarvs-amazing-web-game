@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Hat (raised 1px mid-stride) -->
+  <polygon points="10,9 16,0 22,9" fill="#2a4a6a"/>
+  <rect x="9" y="8" width="14" height="2" rx="0.5" fill="#3a5a7a"/>
+  <!-- Head (raised 1px) -->
+  <ellipse cx="16" cy="12" rx="5" ry="4.5" fill="#f4c07a"/>
+  <!-- Eyes -->
+  <circle cx="14" cy="11.5" r="0.9" fill="#1a2a4a"/>
+  <circle cx="18" cy="11.5" r="0.9" fill="#1a2a4a"/>
+  <!-- Beard -->
+  <ellipse cx="16" cy="15" rx="3" ry="2" fill="#ccddee" opacity="0.8"/>
+  <!-- Robe body -->
+  <path d="M11,16 L11,23 L21,23 L21,16 Q16,19 11,16 Z" fill="#3a5a7a"/>
+  <!-- Robe belt -->
+  <rect x="11" y="21" width="10" height="1.5" fill="#2a3a5a"/>
+  <!-- Staff -->
+  <line x1="24" y1="4" x2="24" y2="27" stroke="#6a5a3a" stroke-width="1.5"/>
+  <!-- Staff orb -->
+  <circle cx="24" cy="4" r="2.5" fill="#2a3a5a"/>
+  <circle cx="24" cy="4" r="1.5" fill="#4488cc"/>
+  <circle cx="24" cy="4" r="0.8" fill="#88ccff" opacity="0.8"/>
+  <!-- Magic aura (brighter mid-stride) -->
+  <ellipse cx="24" cy="4" rx="5" ry="4" fill="#4488cc" opacity="0.2"/>
+  <!-- Legs: both symmetric mid-stride -->
+  <rect x="11" y="23" width="5" height="5" rx="1" fill="#2a4a6a"/>
+  <rect x="17" y="23" width="5" height="5" rx="1" fill="#2a4a6a"/>
+  <!-- Boots -->
+  <rect x="10" y="26" width="7" height="3" rx="1" fill="#1a2a3a"/>
+  <rect x="17" y="26" width="7" height="3" rx="1" fill="#1a2a3a"/>
+</svg>
