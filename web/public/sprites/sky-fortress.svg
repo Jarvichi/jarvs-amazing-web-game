@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow (faint — high altitude) -->
+  <ellipse cx="16" cy="31" rx="12" ry="1" fill="#1a1a2a" opacity="0.2"/>
+  <!-- Clouds -->
+  <ellipse cx="4" cy="26" rx="6" ry="3" fill="#ddddff" opacity="0.3"/>
+  <ellipse cx="28" cy="27" rx="6" ry="3" fill="#ddddff" opacity="0.25"/>
+  <!-- Massive floating stone fortress base -->
+  <ellipse cx="16" cy="22" rx="14" ry="5" fill="#5a5a6a"/>
+  <ellipse cx="16" cy="21" rx="13" ry="4.5" fill="#6a6a7a"/>
+  <!-- Floating rock underside -->
+  <polygon points="4,22 6,26 10,24 14,28 18,24 22,26 26,22 28,26 30,24" fill="#4a4a5a" opacity="0.7"/>
+  <!-- Main fortress walls -->
+  <rect x="4" y="10" width="24" height="13" rx="1" fill="#5a5a6a"/>
+  <!-- Wall details -->
+  <line x1="4" y1="15" x2="28" y2="15" stroke="#4a4a5a" stroke-width="0.7"/>
+  <line x1="4" y1="19" x2="28" y2="19" stroke="#4a4a5a" stroke-width="0.6"/>
+  <!-- Corner towers -->
+  <rect x="2" y="6" width="8" height="17" rx="0.5" fill="#6a6a7a"/>
+  <rect x="22" y="6" width="8" height="17" rx="0.5" fill="#6a6a7a"/>
+  <!-- Tower battlements -->
+  <rect x="2" y="4" width="3" height="3" rx="0.3" fill="#7a7a8a"/>
+  <rect x="7" y="4" width="3" height="3" rx="0.3" fill="#7a7a8a"/>
+  <rect x="22" y="4" width="3" height="3" rx="0.3" fill="#7a7a8a"/>
+  <rect x="27" y="4" width="3" height="3" rx="0.3" fill="#7a7a8a"/>
+  <!-- Central keep -->
+  <rect x="10" y="4" width="12" height="8" rx="0.5" fill="#7a7a8a"/>
+  <!-- Keep roof/spire -->
+  <polygon points="8,4 16,0 24,4" fill="#4a4a5a"/>
+  <line x1="16" y1="0" x2="16" y2="-2" stroke="#4a4a5a" stroke-width="0.8"/>
+  <!-- Gate with drawbridge -->
+  <path d="M13,23 L13,16 Q16,12 19,16 L19,23 Z" fill="#1a1a2a"/>
+  <!-- Drawbridge chains -->
+  <line x1="13" y1="20" x2="10" y2="22" stroke="#7a7a8a" stroke-width="0.7"/>
+  <line x1="19" y1="20" x2="22" y2="22" stroke="#7a7a8a" stroke-width="0.7"/>
+  <!-- Cloud wisps at sides -->
+  <ellipse cx="2" cy="15" rx="3" ry="2" fill="#ddddff" opacity="0.3"/>
+  <ellipse cx="30" cy="14" rx="3" ry="2" fill="#ddddff" opacity="0.3"/>
+</svg>
