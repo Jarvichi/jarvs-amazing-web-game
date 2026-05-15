@@ -445,7 +445,38 @@ function checkGameOver(s: GameState): boolean {
 export function tick(state: GameState, deltaMs: number): GameState {
   if (state.phase.type !== 'playing') return state
 
-  const s = structuredClone(state)
+  // Targeted shallow copy — only arrays/objects mutated during tick get fresh references.
+  // Card decks, unit ability objects, terrain, and other read-only data are shared by reference.
+  const s: GameState = {
+    ...state,
+    field: state.field.map(u => ({
+      ...u,
+      // structureEffect fields (intervalMs, amount) are mutated by the builder trait
+      structureEffect: u.structureEffect ? { ...u.structureEffect } : undefined,
+    })),
+    playerBase:        { ...state.playerBase },
+    opponentBase:      { ...state.opponentBase },
+    log:               [...state.log],
+    animEvents:        [...state.animEvents],
+    // pool.fadingAt is set in-place by combat — needs own copy per tick
+    bloodPools:        state.bloodPools.map(p => ({ ...p })),
+    hazards:           [...state.hazards],
+    playerHand:        [...state.playerHand],
+    playerDeck:        [...state.playerDeck],
+    opponentHand:      [...state.opponentHand],
+    opponentDeck:      [...state.opponentDeck],
+    activeBattleEvent: state.activeBattleEvent ? { ...state.activeBattleEvent } : null,
+    bossTraitState:    state.bossTraitState ? {
+      ...state.bossTraitState,
+      firedThresholds: [...state.bossTraitState.firedThresholds],
+      splitUnitIds:    state.bossTraitState.splitUnitIds
+                         ? [...state.bossTraitState.splitUnitIds]
+                         : undefined,
+    } : undefined,
+    battleStats:  { ...state.battleStats },
+    phase:        { ...state.phase },
+    tickEffects:  state.tickEffects?.map(e => ({ ...e })),
+  }
   const log: string[] = []
 
   s.gameTime += deltaMs

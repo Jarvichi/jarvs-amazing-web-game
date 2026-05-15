@@ -3,6 +3,17 @@ import { BASE_STOP_MARGIN, COMMANDER_LEASH_PX, DAMAGE_FLASH_MS, PLAYER_SPAWN_X }
 import { LANE_MAX_Y, LANE_MIN_Y } from './helpers'
 import { unitDist, findNearestEnemy, findNearestEnemyByPriority, findEnemyBehind } from './targeting'
 
+// Cache parsed numeric suffix of unit IDs — avoids regex+parseInt on every movement tick.
+const _idNumCache = new Map<string, number>()
+function idNum(id: string): number {
+  let n = _idNumCache.get(id)
+  if (n === undefined) {
+    n = parseInt(id.replace(/\D/g, ''), 10) || 0
+    _idNumCache.set(id, n)
+  }
+  return n
+}
+
 // ─── Movement ─────────────────────────────────────────────
 
 const CLIMB_SPEED_FACTOR   = 0.25  // climbers move at 25% speed through wall zones
@@ -95,9 +106,8 @@ export function moveUnits(s: GameState, deltaMs: number): void {
 
     // Defend: pull back toward spawn, spread across Y slots; overflow units charge forward.
     if (unit.owner === 'player' && stance === 'defend' && !defendOverflowAttackers.has(unit.id)) {
-      const idNum = parseInt(unit.id.replace(/\D/g, ''), 10) || 0
       tx = PLAYER_SPAWN_X + 40
-      ty = DEFEND_Y_SLOTS[idNum % DEFEND_Y_SLOTS.length]
+      ty = DEFEND_Y_SLOTS[idNum(unit.id) % DEFEND_Y_SLOTS.length]
       hasTarget = false
     }
 
@@ -320,8 +330,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
           const strength = 1 - normDist
           let lateralDir: number
           if (Math.abs(toObsY) < 5) {
-            const idNum = parseInt(unit.id.replace(/\D/g, ''), 10) || 0
-            lateralDir = (idNum % 2 === 0) ? -1 : 1
+              lateralDir = (idNum(unit.id) % 2 === 0) ? -1 : 1
           } else {
             lateralDir = -Math.sign(toObsY)
           }
@@ -337,7 +346,7 @@ export function moveUnits(s: GameState, deltaMs: number): void {
         if (dist < BLOOD_CLUSTER_RADIUS && dist > 0) {
           const strength    = 1 - dist / BLOOD_CLUSTER_RADIUS
           const lateralDir  = Math.abs(toPoolY) < 5
-            ? ((parseInt(unit.id.replace(/\D/g, ''), 10) || 0) % 2 === 0 ? -1 : 1)
+            ? (idNum(unit.id) % 2 === 0 ? -1 : 1)
             : -Math.sign(toPoolY)
           const isAhead     = unit.owner === 'player' ? toPoolX > 0 : toPoolX < 0
           const deflectMult = isAhead ? 1.8 : 1.2
