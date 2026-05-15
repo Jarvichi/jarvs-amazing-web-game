@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Swamp water -->
+  <rect x="0" y="22" width="32" height="10" fill="#1a3a1a" opacity="0.7"/>
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a1a0a" opacity="0.5"/>
+  <!-- Murky water ripples -->
+  <path d="M0,24 Q8,22 16,24 Q24,26 32,24" fill="none" stroke="#2a4a2a" stroke-width="0.7" opacity="0.4"/>
+  <!-- Swamp mound above water -->
+  <ellipse cx="16" cy="22" rx="13" ry="5" fill="#2a3a1a"/>
+  <ellipse cx="16" cy="21" rx="12" ry="4.5" fill="#3a4a2a"/>
+  <!-- Den entrance (mud/root-framed) -->
+  <ellipse cx="16" cy="24" rx="7" ry="5.5" fill="#0a1a00"/>
+  <!-- Swamp gas glow within -->
+  <ellipse cx="16" cy="25" rx="5" ry="3.5" fill="#336600" opacity="0.3"/>
+  <ellipse cx="16" cy="26" rx="3" ry="2" fill="#448800" opacity="0.25"/>
+  <!-- Yellow predator eyes in darkness -->
+  <circle cx="14" cy="23" r="1" fill="#ccff00" opacity="0.8"/>
+  <circle cx="18" cy="23" r="1" fill="#ccff00" opacity="0.8"/>
+  <!-- Gnarled roots framing entrance -->
+  <path d="M9,22 Q8,18 10,16" fill="none" stroke="#3a2a0a" stroke-width="2"/>
+  <path d="M23,22 Q24,18 22,16" fill="none" stroke="#3a2a0a" stroke-width="2"/>
+  <!-- Lily pads on water -->
+  <ellipse cx="5" cy="26" rx="3.5" ry="1.5" fill="#2a6a1a" opacity="0.7"/>
+  <ellipse cx="27" cy="26" rx="3.5" ry="1.5" fill="#2a6a1a" opacity="0.7"/>
+  <!-- Swamp gas bubbles -->
+  <circle cx="8" cy="25" r="1" fill="#88cc00" opacity="0.3"/>
+  <circle cx="24" cy="25" r="0.8" fill="#88cc00" opacity="0.3"/>
+  <!-- Reeds/tall grass -->
+  <path d="M2,20 Q3,16 4,18" fill="none" stroke="#4a7a2a" stroke-width="1"/>
+  <path d="M4,19 Q5,15 6,17" fill="none" stroke="#3a6a1a" stroke-width="1"/>
+  <path d="M28,20 Q27,16 26,18" fill="none" stroke="#4a7a2a" stroke-width="1"/>
+  <!-- Skull half-submerged in water -->
+  <ellipse cx="10" cy="28" rx="2.5" ry="1.8" fill="#ccbb99" opacity="0.6"/>
+  <circle cx="9" cy="27.5" r="0.5" fill="#1a0a0a" opacity="0.5"/>
+  <circle cx="11" cy="27.5" r="0.5" fill="#1a0a0a" opacity="0.5"/>
+</svg>

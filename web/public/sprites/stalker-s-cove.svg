@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sea water -->
+  <rect x="0" y="20" width="32" height="12" fill="#0a2a3a"/>
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a1a2a" opacity="0.4"/>
+  <!-- Dark rock formation around cove -->
+  <polygon points="0,30 0,10 6,14 10,8 16,12 22,8 26,14 32,10 32,30" fill="#2a2a3a"/>
+  <!-- Cove entrance (dark, narrow) -->
+  <ellipse cx="16" cy="22" rx="8" ry="7" fill="#0a0a14"/>
+  <!-- Bioluminescent glow from within -->
+  <ellipse cx="16" cy="24" rx="5" ry="4" fill="#004488" opacity="0.3"/>
+  <ellipse cx="16" cy="26" rx="3" ry="2.5" fill="#0066aa" opacity="0.25"/>
+  <!-- Stalker creature eyes (multiple pairs) in darkness -->
+  <circle cx="13" cy="21" r="0.8" fill="#00aaff" opacity="0.8"/>
+  <circle cx="15" cy="21" r="0.8" fill="#00aaff" opacity="0.8"/>
+  <circle cx="17.5" cy="23" r="0.7" fill="#0088dd" opacity="0.7"/>
+  <circle cx="19.5" cy="23" r="0.7" fill="#0088dd" opacity="0.7"/>
+  <circle cx="12" cy="25" r="0.6" fill="#0066bb" opacity="0.6"/>
+  <!-- Sharp rock spikes around entrance -->
+  <polygon points="9,18 10,14 11,18" fill="#3a3a4a"/>
+  <polygon points="22,18 23,14 24,18" fill="#3a3a4a"/>
+  <polygon points="7,22 8,17 9,22" fill="#2a2a3a"/>
+  <polygon points="24,22 25,17 26,22" fill="#2a2a3a"/>
+  <!-- Dark kelp/seaweed -->
+  <path d="M4,28 Q5,24 6,20 Q7,24 6,28" fill="none" stroke="#0a3a1a" stroke-width="1.2"/>
+  <path d="M28,28 Q27,24 26,20 Q25,24 26,28" fill="none" stroke="#0a3a1a" stroke-width="1.2"/>
+  <!-- Water shimmer -->
+  <path d="M0,22 Q8,20 16,22 Q24,24 32,22" fill="none" stroke="#1a4a6a" stroke-width="0.7" opacity="0.4"/>
+</svg>
