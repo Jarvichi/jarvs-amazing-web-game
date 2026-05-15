@@ -517,7 +517,10 @@ export function tick(state: GameState, deltaMs: number): GameState {
   // 10. Sudden death — suppressed in endless mode (death only by base reaching 0)
   handleSuddentDeath(s, deltaMs, log)
 
-  if (log.length > 0) s.log = [...s.log, ...log]
+  if (log.length > 0) {
+    const combined = [...s.log, ...log]
+    s.log = combined.length > 150 ? combined.slice(-150) : combined
+  }
   return s
 }
 

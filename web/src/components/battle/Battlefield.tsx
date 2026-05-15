@@ -58,7 +58,7 @@ const SPAWN_GROW_MS = 1500
 // Full-width terrain channel rendered in place of the sprite for moat units.
 // Each variant has distinct colours and detail elements.
 
-function MoatSvg({ owner, name }: { owner: 'player' | 'opponent'; name: string }) {
+const MoatSvg = React.memo(function MoatSvg({ owner, name }: { owner: 'player' | 'opponent'; name: string }) {
   const W = 360, H = 16
   const edgeCol = 'rgba(0,0,0,0.55)'
   const rippleXs = [20, 65, 110, 155, 200, 245, 290, 335]
@@ -246,13 +246,13 @@ function MoatSvg({ owner, name }: { owner: 'player' | 'opponent'; name: string }
       </svg>
     </div>
   )
-}
+})
 
 // ─── Wall graphic ─────────────────────────────────────────────────────────────
 // Rendered in-place of the sprite for wall units.  Full-width SVG showing
 // staggered stone blocks, battlements, and progressive damage cracks.
 
-function WallSvg({ hp, maxHp, owner, wallNames = [] }: { hp: number; maxHp: number; owner: 'player' | 'opponent'; wallNames?: string[] }) {
+const WallSvg = React.memo(function WallSvg({ hp, maxHp, owner, wallNames = [] }: { hp: number; maxHp: number; owner: 'player' | 'opponent'; wallNames?: string[] }) {
   const dmgPct = 1 - hp / maxHp
   // Player = cool grey-blue stone; opponent = warm tan stone
   const [stone, hiStone, merlon] = owner === 'player'
@@ -341,7 +341,12 @@ function WallSvg({ hp, maxHp, owner, wallNames = [] }: { hp: number; maxHp: numb
     </svg>
     </div>
   )
-}
+}, (prev, next) =>
+  prev.hp === next.hp &&
+  prev.maxHp === next.maxHp &&
+  prev.owner === next.owner &&
+  (prev.wallNames ?? []).join() === (next.wallNames ?? []).join()
+)
 
 /** Stable per-unit percentage offset derived from ID so overlapping units don't pile up. */
 function unitJitter(id: string): { dxPct: number; dyPct: number } {
@@ -362,7 +367,7 @@ function spriteDamageClass(hp: number, maxHp: number): string {
   return ' lane-unit-sprite--damaged'
 }
 
-function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebrating = false, spriteOverride }: { unit: Unit; stackIndex?: number; wallStack?: Unit[]; onInspect?: (u: Unit) => void; showName?: boolean; celebrating?: boolean; spriteOverride?: string }) {
+const LaneUnit = React.memo(function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebrating = false, spriteOverride }: { unit: Unit; stackIndex?: number; wallStack?: Unit[]; onInspect?: (u: Unit) => void; showName?: boolean; celebrating?: boolean; spriteOverride?: string }) {
   const hpPct = Math.max(0, (unit.hp / unit.maxHp) * 100)
   const isStructure = unit.moveSpeed === 0
 
@@ -509,7 +514,32 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
       {isShocked  && <div className="status-overlay status-overlay--shocked"  aria-hidden />}
     </div>
   )
-}
+}, (prev, next) => {
+  const pu = prev.unit, nu = next.unit
+  return (
+    pu.hp === nu.hp &&
+    pu.x === nu.x && pu.y === nu.y &&
+    pu.dyingTimer === nu.dyingTimer &&
+    pu.damageFlashTimer === nu.damageFlashTimer &&
+    pu.killFlashTimer === nu.killFlashTimer &&
+    pu.spawnGrowTimer === nu.spawnGrowTimer &&
+    pu.burnTimer === nu.burnTimer &&
+    pu.freezeTimer === nu.freezeTimer &&
+    pu.poisonTimer === nu.poisonTimer &&
+    pu.stunTimer === nu.stunTimer &&
+    pu.invisTimer === nu.invisTimer &&
+    pu.attackTimer === nu.attackTimer &&
+    pu.affinityActive === nu.affinityActive &&
+    pu.climbing === nu.climbing &&
+    pu.upgradeLevel === nu.upgradeLevel &&
+    (pu.buffs?.length ?? 0) === (nu.buffs?.length ?? 0) &&
+    prev.stackIndex === next.stackIndex &&
+    prev.showName === next.showName &&
+    prev.celebrating === next.celebrating &&
+    prev.spriteOverride === next.spriteOverride &&
+    (prev.onInspect !== undefined) === (next.onInspect !== undefined)
+  )
+})
 
 // ─── Lane background ──────────────────────────────────────────────────────────
 // Full-size SVG rendered as the ground layer: grass, dirt path, crop rows,
@@ -517,7 +547,7 @@ function LaneUnit({ unit, stackIndex = 0, wallStack, onInspect, showName, celebr
 
 const BATTLEFIELD_SPRITE_PATH = '/sprites/battlefield/'
 
-function BattlefieldBackground({ env }: { env?: string }) {
+const BattlefieldBackground = React.memo(function BattlefieldBackground({ env }: { env?: string }) {
   const key = (env && env in battlefieldConfig.environments)
     ? env as keyof typeof battlefieldConfig.environments
     : 'forest'
@@ -536,7 +566,7 @@ function BattlefieldBackground({ env }: { env?: string }) {
       ))}
     </div>
   )
-}
+})
 
 // Alias for callers that still use the old name
 const LaneBackground = BattlefieldBackground
@@ -673,7 +703,7 @@ function BorderBlob({ size, shade, theme }: { size: number; shade: number; theme
   return <BlobSvg size={size} shade={shade} />
 }
 
-function ForestBorder({ theme }: { theme?: string }) {
+const ForestBorder = React.memo(function ForestBorder({ theme }: { theme?: string }) {
   const blobs: { key: string; top: number; left: number; size: number; shade: number }[] = []
 
   // Left (y≈-95) and right (y≈+95) — tight wall just outside the playable field
@@ -717,7 +747,7 @@ function ForestBorder({ theme }: { theme?: string }) {
       ))}
     </div>
   )
-}
+})
 
 // Bridge shown over large water obstacles — runs top-to-bottom (unit travel direction)
 function BridgeSvg({ size }: { size: number }) {

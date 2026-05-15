@@ -360,16 +360,21 @@ export function moveUnits(s: GameState, deltaMs: number): void {
 // ─── Affinity Processing ──────────────────────────────────
 
 export function processAffinities(field: Unit[]): void {
+  const byOwnerName = new Map<string, Unit[]>()
+  for (const u of field) {
+    if (u.hp <= 0) continue
+    const key = `${u.owner}:${u.name}`
+    const arr = byOwnerName.get(key)
+    if (arr) arr.push(u)
+    else byOwnerName.set(key, [u])
+  }
+
   for (const unit of field) {
     if (!unit.affinity || unit.hp <= 0 || (unit.masteryLevel ?? 0) < 1) {
       unit.affinityActive = false
       continue
     }
-    const aff  = unit.affinity
-    const ally = field.find(
-      u => u.owner === unit.owner && u.id !== unit.id && u.hp > 0 &&
-        u.name === aff.withName && unitDist(unit, u) <= aff.range
-    )
-    unit.affinityActive = ally !== undefined
+    const candidates = byOwnerName.get(`${unit.owner}:${unit.affinity.withName}`) ?? []
+    unit.affinityActive = candidates.some(u => u.id !== unit.id && unitDist(unit, u) <= unit.affinity!.range)
   }
 }
