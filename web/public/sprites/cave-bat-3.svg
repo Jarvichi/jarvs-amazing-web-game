@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Body -->
+  <ellipse cx="16" cy="18" rx="5" ry="4" fill="#2a1a2a"/>
+  <!-- Head -->
+  <ellipse cx="16" cy="13" rx="4" ry="3.5" fill="#3a2a3a"/>
+  <!-- Ears -->
+  <polygon points="13,13 11,8 14,12" fill="#2a1a2a"/>
+  <polygon points="19,13 21,8 18,12" fill="#2a1a2a"/>
+  <!-- Eyes (glowing red) -->
+  <circle cx="14.5" cy="12.5" r="1" fill="#cc0000"/>
+  <circle cx="17.5" cy="12.5" r="1" fill="#cc0000"/>
+  <circle cx="14.5" cy="12.5" r="0.5" fill="#ff4444"/>
+  <circle cx="17.5" cy="12.5" r="0.5" fill="#ff4444"/>
+  <!-- Wings swept down -->
+  <path d="M12,16 Q7,22 2,22 Q4,17 12,16" fill="#2a1a2a"/>
+  <path d="M20,16 Q25,22 30,22 Q28,17 20,16" fill="#2a1a2a"/>
+  <!-- Wing membrane detail -->
+  <line x1="12" y1="16" x2="2" y2="22" stroke="#3a2a3a" stroke-width="0.5"/>
+  <line x1="20" y1="16" x2="30" y2="22" stroke="#3a2a3a" stroke-width="0.5"/>
+  <!-- Feet -->
+  <line x1="14" y1="22" x2="13" y2="26" stroke="#2a1a2a" stroke-width="1"/>
+  <line x1="18" y1="22" x2="19" y2="26" stroke="#2a1a2a" stroke-width="1"/>
+</svg>
