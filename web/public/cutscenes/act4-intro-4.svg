@@ -1,15 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
   <rect width="400" height="240" fill="#06040e"/>
 
-  <!-- Arcane background glow -->
+  <!-- Arcane background glow — pulsing -->
   <radialGradient id="mission4-bg" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#141060" stop-opacity="0.5"/>
+    <stop offset="0%" stop-color="#141060" stop-opacity="0.5">
+      <animate attributeName="stop-opacity" values="0.5;0.8;0.5" dur="8s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#06040e" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#mission4-bg)"/>
 
-  <!-- Arcane map grid — hexagonal feel via diamond pattern -->
-  <g stroke="#120e40" stroke-width="0.5" opacity="0.6">
+  <!-- Arcane map grid — scanning pulse -->
+  <g stroke="#120e40" stroke-width="0.5">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="6s" repeatCount="indefinite"/>
     <line x1="0"   y1="40"  x2="400" y2="40"/>
     <line x1="0"   y1="80"  x2="400" y2="80"/>
     <line x1="0"   y1="120" x2="400" y2="120"/>
@@ -24,12 +27,18 @@
     <line x1="350" y1="0"   x2="350" y2="240"/>
   </g>
 
-  <!-- Player — left side -->
-  <polygon points="30,120 48,110 66,120 66,140 48,150 30,140" fill="#0c0a28" stroke="#203060" stroke-width="1.5"/>
-  <polygon points="48,118 51,126 59,126 53,131 55,139 48,134 41,139 43,131 37,126 45,126" fill="#203060" opacity="0.8"/>
+  <!-- Player — left side — pulsing -->
+  <polygon points="30,120 48,110 66,120 66,140 48,150 30,140" fill="#0c0a28" stroke="#203060" stroke-width="1.5">
+    <animate attributeName="stroke-opacity" values="1;0.4;1" dur="3s" repeatCount="indefinite"/>
+  </polygon>
+  <polygon points="48,118 51,126 59,126 53,131 55,139 48,134 41,139 43,131 37,126 45,126" fill="#203060" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.4;0.8" dur="3s" repeatCount="indefinite"/>
+  </polygon>
 
-  <!-- OUTER LATTICE — crystal barrier zone -->
-  <ellipse cx="130" cy="120" rx="25" ry="20" fill="#0e0c30" stroke="#3040a0" stroke-width="1" stroke-dasharray="4,2"/>
+  <!-- OUTER LATTICE — crystal barrier zone — border pulse -->
+  <ellipse cx="130" cy="120" rx="25" ry="20" fill="#0e0c30" stroke="#3040a0" stroke-width="1" stroke-dasharray="4,2">
+    <animate attributeName="stroke-opacity" values="1;0.3;1" dur="4s" repeatCount="indefinite"/>
+  </ellipse>
   <!-- Lattice crystal nodes -->
   <g fill="#1e1c60" stroke="#3040a0" stroke-width="0.8">
     <polygon points="118,108 124,102 130,108 124,114"/>
@@ -41,8 +50,10 @@
   </g>
   <text x="130" y="145" font-family="monospace" font-size="6" fill="#3040a0" text-anchor="middle">LATTICE</text>
 
-  <!-- ARCANE SANCTUM — crystal maze -->
-  <ellipse cx="215" cy="112" rx="28" ry="22" fill="#0e0c30" stroke="#3040a0" stroke-width="1" stroke-dasharray="4,2"/>
+  <!-- ARCANE SANCTUM — crystal maze — border pulse -->
+  <ellipse cx="215" cy="112" rx="28" ry="22" fill="#0e0c30" stroke="#3040a0" stroke-width="1" stroke-dasharray="4,2">
+    <animate attributeName="stroke-opacity" values="1;0.3;1" dur="4s" begin="1.5s" repeatCount="indefinite"/>
+  </ellipse>
   <!-- Maze interior lines -->
   <g stroke="#2030a0" stroke-width="1" opacity="0.6">
     <line x1="200" y1="100" x2="200" y2="124"/>
@@ -56,13 +67,27 @@
   <g fill="#1e1c60" opacity="0.8">
     <rect x="215" y="103" width="6" height="8"/>
     <polygon points="213,103 221,103 219,99 215,99"/>
-    <circle cx="217" cy="107" r="1.5" fill="#4060d0"/>
-    <circle cx="220" cy="107" r="1.5" fill="#4060d0"/>
+    <circle cx="217" cy="107" r="1.5" fill="#4060d0">
+      <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="220" cy="107" r="1.5" fill="#4060d0">
+      <animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
   </g>
   <text x="215" y="148" font-family="monospace" font-size="6" fill="#3040a0" text-anchor="middle">SANCTUM</text>
 
   <!-- THE ARCHIVIST boss marker -->
-  <rect x="338" y="72" width="52" height="68" fill="#0c0a26" stroke="#3a3aa0" stroke-width="2"/>
+  <rect x="338" y="72" width="52" height="68" fill="#0c0a26" stroke="#3a3aa0" stroke-width="2">
+    <animate attributeName="stroke-opacity" values="1;0.4;1" dur="3s" repeatCount="indefinite"/>
+  </rect>
+  <!-- Archivist boss glow overlay — pulsing -->
+  <radialGradient id="boss-glow4" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#4060d0" stop-opacity="0.3">
+      <animate attributeName="stop-opacity" values="0.3;0.6;0.3" dur="3s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="100%" stop-color="#4060d0" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="338" y="72" width="52" height="68" fill="url(#boss-glow4)"/>
   <!-- Archivist silhouette — robed figure with crystal staff -->
   <g fill="#161460" opacity="0.9">
     <circle cx="364" cy="86"  r="8"/>
@@ -70,39 +95,59 @@
     <!-- Hood / cowl -->
     <polygon points="356,86 372,86 368,94 360,94"/>
   </g>
-  <!-- Eye glow from Archivist -->
-  <circle cx="362" cy="85" r="2" fill="#6080e0" opacity="0.9"/>
-  <circle cx="367" cy="85" r="2" fill="#6080e0" opacity="0.9"/>
+  <!-- Eye glow from Archivist — pulsing -->
+  <circle cx="362" cy="85" r="2" fill="#6080e0" opacity="0.9">
+    <animate attributeName="r" values="2;3;2" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="367" cy="85" r="2" fill="#6080e0" opacity="0.9">
+    <animate attributeName="r" values="2;3;2" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+  </circle>
   <!-- Staff -->
   <line x1="376" y1="94" x2="390" y2="130" stroke="#2a2a80" stroke-width="2"/>
   <polygon points="384,122 392,118 396,130 388,134" fill="#1e1c60" stroke="#3a3aa0" stroke-width="0.8"/>
-  <!-- Staff crystal -->
-  <circle cx="390" cy="120" r="4" fill="#4060d0" opacity="0.8"/>
+  <!-- Staff crystal — pulsing -->
+  <circle cx="390" cy="120" r="4" fill="#4060d0" opacity="0.8">
+    <animate attributeName="r" values="4;6;4" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;1;0.4;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
   <!-- Archivist name -->
   <text x="364" y="148" font-family="monospace" font-size="6" fill="#3a3aa0" text-anchor="middle">ARCHIVIST</text>
 
-  <!-- Route arrows -->
-  <path d="M66,120 Q90,120 105,120" stroke="#203060" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
+  <!-- Route arrows — marching ants -->
+  <path d="M66,120 Q90,120 105,120" stroke="#203060" stroke-width="1.5" fill="none" stroke-dasharray="5,3">
+    <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1.2s" repeatCount="indefinite"/>
+  </path>
   <polygon points="102,117 109,120 102,123" fill="#203060"/>
   <!-- Through lattice -->
-  <path d="M155,118 Q180,115 187,114" stroke="#3040a0" stroke-width="1.5" fill="none" stroke-dasharray="5,3"/>
+  <path d="M155,118 Q180,115 187,114" stroke="#3040a0" stroke-width="1.5" fill="none" stroke-dasharray="5,3">
+    <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1.2s" repeatCount="indefinite"/>
+  </path>
   <polygon points="184,111 191,114 184,117" fill="#3040a0"/>
-  <!-- Through sanctum -->
-  <path d="M243,110 Q280,105 338,98" stroke="#3a3aa0" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
+  <!-- Through sanctum to boss -->
+  <path d="M243,110 Q280,105 338,98" stroke="#3a3aa0" stroke-width="2" fill="none" stroke-dasharray="5,3">
+    <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1s" repeatCount="indefinite"/>
+  </path>
   <polygon points="335,95 342,98 335,101" fill="#3a3aa0"/>
 
-  <!-- Crystal hazard markers -->
-  <g stroke="#3040a0" stroke-width="1" opacity="0.5">
+  <!-- Crystal hazard markers — flickering -->
+  <g stroke="#3040a0" stroke-width="1">
+    <animate attributeName="opacity" values="0.5;1;0.2;0.7;0.5" dur="3s" repeatCount="indefinite"/>
     <line x1="113" y1="103" x2="147" y2="137"/>
     <line x1="147" y1="103" x2="113" y2="137"/>
     <line x1="190" y1="94"  x2="240" y2="130"/>
     <line x1="240" y1="94"  x2="190" y2="130"/>
   </g>
 
-  <!-- Objective text -->
-  <text x="200" y="22" font-family="monospace" font-size="8" fill="#2a2480" text-anchor="middle" letter-spacing="2">OBJECTIVE: REACH THE ARCHIVIST</text>
+  <!-- Objective text — fade pulse -->
+  <text x="200" y="22" font-family="monospace" font-size="8" fill="#2a2480" text-anchor="middle" letter-spacing="2">OBJECTIVE: REACH THE ARCHIVIST
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="5s" repeatCount="indefinite"/>
+  </text>
   <line x1="60" y1="27" x2="340" y2="27" stroke="#181860" stroke-width="0.8"/>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a2480" text-anchor="middle" letter-spacing="3">YOUR MISSION</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a2480" text-anchor="middle" letter-spacing="3">YOUR MISSION
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>

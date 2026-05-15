@@ -73,55 +73,102 @@
     <line x1="170" y1="145" x2="230" y2="145"/>
   </g>
 
-  <!-- Spire apex glow -->
+  <!-- Spire apex glow — pulsing -->
   <radialGradient id="apex-glow" cx="50%" cy="4%" r="15%">
-    <stop offset="0%" stop-color="#80c0ff" stop-opacity="0.9"/>
+    <stop offset="0%" stop-color="#80c0ff" stop-opacity="0.9">
+      <animate attributeName="stop-opacity" values="0.9;0.5;0.9" dur="4s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#80c0ff" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#apex-glow)"/>
-  <circle cx="200" cy="12" r="4" fill="#a0d0ff" opacity="0.9"/>
-  <circle cx="200" cy="12" r="2" fill="#ffffff" opacity="0.95"/>
+  <circle cx="200" cy="12" r="4" fill="#a0d0ff" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.5;0.9" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="4;6;4" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="200" cy="12" r="2" fill="#ffffff" opacity="0.95">
+    <animate attributeName="opacity" values="0.95;0.4;0.95" dur="4s" repeatCount="indefinite"/>
+  </circle>
 
   <!-- Sub-spires — left and right of main -->
   <!-- Left sub-spire -->
   <polygon points="158,25 178,175 138,175" fill="#12104a" stroke="#1e1860" stroke-width="0.8"/>
   <polygon points="158,25 166,60 162,175 155,175 148,150 152,30" fill="#0e0c38" opacity="0.7"/>
-  <circle cx="158" cy="26" r="2.5" fill="#6090e0" opacity="0.7"/>
+  <circle cx="158" cy="26" r="2.5" fill="#6090e0" opacity="0.7">
+    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="5s" repeatCount="indefinite"/>
+  </circle>
 
   <!-- Right sub-spire -->
   <polygon points="242,30 262,175 222,175" fill="#12104a" stroke="#1e1860" stroke-width="0.8"/>
   <polygon points="242,30 250,65 247,175 240,175 233,160 238,35" fill="#181460" opacity="0.7"/>
-  <circle cx="242" cy="31" r="2.5" fill="#6090e0" opacity="0.7"/>
+  <circle cx="242" cy="31" r="2.5" fill="#6090e0" opacity="0.7">
+    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="5s" begin="2s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- Arcane energy bands around spire — horizontal rings -->
-  <g stroke="#4060c0" stroke-width="1" fill="none" opacity="0.4">
-    <ellipse cx="200" cy="80"  rx="22" ry="5"/>
-    <ellipse cx="200" cy="120" rx="32" ry="6"/>
-    <ellipse cx="200" cy="155" rx="40" ry="7"/>
+  <!-- Arcane energy bands — pulsing -->
+  <g stroke="#4060c0" stroke-width="1" fill="none">
+    <ellipse cx="200" cy="80"  rx="22" ry="5" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.8;0.4" dur="6s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="200" cy="120" rx="32" ry="6" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.7;0.4" dur="6s" begin="2s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="200" cy="155" rx="40" ry="7" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.7;0.4" dur="6s" begin="4s" repeatCount="indefinite"/>
+    </ellipse>
   </g>
 
   <!-- Floating crystal shards orbiting the spire -->
   <g fill="#2a2480" stroke="#4060b0" stroke-width="0.5" opacity="0.7">
-    <polygon points="120,90  126,82  130,94  124,100"/>
-    <polygon points="280,85  287,78  290,91  283,96"/>
-    <polygon points="105,130 111,122 115,134 108,140"/>
-    <polygon points="294,125 300,117 304,130 297,135"/>
-    <polygon points="135,165 140,158 144,168 138,173"/>
-    <polygon points="265,160 271,153 275,164 268,170"/>
+    <polygon points="120,90  126,82  130,94  124,100">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -4 -6; 0 0; 4 6; 0 0" dur="12s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="280,85  287,78  290,91  283,96">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 4 -5; 0 0; -4 5; 0 0" dur="14s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="105,130 111,122 115,134 108,140">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -5 4; 0 0; 5 -4; 0 0" dur="10s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="294,125 300,117 304,130 297,135">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 5 3; 0 0; -5 -3; 0 0" dur="11s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="135,165 140,158 144,168 138,173">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -3 -4; 0 0; 3 4; 0 0" dur="9s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="265,160 271,153 275,164 268,170">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 3 -4; 0 0; -3 4; 0 0" dur="13s" repeatCount="indefinite"/>
+    </polygon>
   </g>
 
-  <!-- Stars / magical particles in sky -->
-  <g fill="#3050a0" opacity="0.5">
-    <circle cx="30"  cy="25"  r="1"/>
-    <circle cx="70"  cy="15"  r="1.5"/>
-    <circle cx="110" cy="40"  r="1"/>
-    <circle cx="300" cy="20"  r="1"/>
-    <circle cx="340" cy="40"  r="1.5"/>
-    <circle cx="380" cy="15"  r="1"/>
-    <circle cx="50"  cy="65"  r="1"/>
-    <circle cx="350" cy="70"  r="1"/>
+  <!-- Stars / magical particles in sky — twinkling -->
+  <g fill="#3050a0">
+    <circle cx="30"  cy="25"  r="1" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="70"  cy="15"  r="1.5" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.2;0.8;0.5" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="110" cy="40"  r="1" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.8;0.5" dur="4s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="300" cy="20"  r="1" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="340" cy="40"  r="1.5" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.9;0.5" dur="4s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="380" cy="15"  r="1" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="7s" begin="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="50"  cy="65"  r="1" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.2;0.8;0.5" dur="5s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="350" cy="70"  r="1" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.3;0.5" dur="6s" begin="1.5s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Label -->
-  <text x="200" y="228" font-family="monospace" font-size="9" fill="#2a2480" text-anchor="middle" letter-spacing="3">THE CRYSTAL SPIRE</text>
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#2a2480" text-anchor="middle" letter-spacing="3">THE CRYSTAL SPIRE
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>

@@ -1,10 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
   <rect width="400" height="240" fill="#06040e"/>
 
-  <!-- Interior — deep arcane chamber glow -->
+  <!-- Interior — deep arcane chamber glow — pulsing -->
   <radialGradient id="chamber-glow" cx="50%" cy="45%" r="50%">
-    <stop offset="0%" stop-color="#2030a0" stop-opacity="0.4"/>
-    <stop offset="60%" stop-color="#101860" stop-opacity="0.2"/>
+    <stop offset="0%" stop-color="#2030a0" stop-opacity="0.4">
+      <animate attributeName="stop-opacity" values="0.4;0.7;0.4" dur="8s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="60%" stop-color="#101860" stop-opacity="0.2">
+      <animate attributeName="stop-opacity" values="0.2;0.4;0.2" dur="8s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#06040e" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#chamber-glow)"/>
@@ -28,9 +32,11 @@
     <line x1="200" y1="188" x2="350" y2="240"/>
     <line x1="200" y1="188" x2="400" y2="240"/>
   </g>
-  <!-- Floor glow pools from crystals above -->
+  <!-- Floor glow pools from crystals above — pulsing -->
   <radialGradient id="floor-reflect" cx="50%" cy="100%" r="40%">
-    <stop offset="0%" stop-color="#2040a0" stop-opacity="0.25"/>
+    <stop offset="0%" stop-color="#2040a0" stop-opacity="0.25">
+      <animate attributeName="stop-opacity" values="0.25;0.5;0.25" dur="6s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#2040a0" stop-opacity="0"/>
   </radialGradient>
   <rect x="0" y="188" width="400" height="52" fill="url(#floor-reflect)"/>
@@ -47,10 +53,12 @@
     <line x1="0"   y1="100" x2="80"  y2="100"/>
     <line x1="0"   y1="150" x2="80"  y2="150"/>
   </g>
-  <!-- Left wall crystal sconce -->
+  <!-- Left wall crystal sconce — glow pulse -->
   <polygon points="58,85 68,80 74,100 64,105" fill="#141260" stroke="#2a2a90" stroke-width="0.8"/>
   <radialGradient id="sconce-l" cx="50%" cy="50%" r="60%">
-    <stop offset="0%" stop-color="#6080e0" stop-opacity="0.7"/>
+    <stop offset="0%" stop-color="#6080e0" stop-opacity="0.7">
+      <animate attributeName="stop-opacity" values="0.7;1;0.4;0.9;0.7" dur="3s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#6080e0" stop-opacity="0"/>
   </radialGradient>
   <ellipse cx="66" cy="92" rx="20" ry="16" fill="url(#sconce-l)"/>
@@ -65,10 +73,12 @@
     <line x1="320" y1="100" x2="400" y2="100"/>
     <line x1="320" y1="150" x2="400" y2="150"/>
   </g>
-  <!-- Right wall crystal sconce -->
+  <!-- Right wall crystal sconce — glow pulse (offset) -->
   <polygon points="326,85 336,80 342,100 332,105" fill="#141260" stroke="#2a2a90" stroke-width="0.8"/>
   <radialGradient id="sconce-r" cx="50%" cy="50%" r="60%">
-    <stop offset="0%" stop-color="#6080e0" stop-opacity="0.7"/>
+    <stop offset="0%" stop-color="#6080e0" stop-opacity="0.7">
+      <animate attributeName="stop-opacity" values="0.7;0.4;0.9;1;0.7" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#6080e0" stop-opacity="0"/>
   </radialGradient>
   <ellipse cx="334" cy="92" rx="20" ry="16" fill="url(#sconce-r)"/>
@@ -97,9 +107,11 @@
     <polygon points="204,58 208,68 202,68"/>
     <polygon points="212,58 216,66 210,66"/>
   </g>
-  <!-- Chandelier glow -->
+  <!-- Chandelier glow — pulsing -->
   <radialGradient id="chandelier-glow" cx="50%" cy="70%" r="50%">
-    <stop offset="0%" stop-color="#4060d0" stop-opacity="0.5"/>
+    <stop offset="0%" stop-color="#4060d0" stop-opacity="0.5">
+      <animate attributeName="stop-opacity" values="0.5;0.9;0.5" dur="5s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#4060d0" stop-opacity="0"/>
   </radialGradient>
   <ellipse cx="200" cy="62" rx="40" ry="20" fill="url(#chandelier-glow)"/>
@@ -115,11 +127,19 @@
     <polygon points="198,90 202,90 205,100 195,100"/>
     <polygon points="196,82 200,76 204,82 202,90 198,90"/>
   </g>
-  <!-- Construct eye glow -->
-  <circle cx="196" cy="110" r="3" fill="#4060d0" opacity="0.8"/>
-  <circle cx="204" cy="110" r="3" fill="#4060d0" opacity="0.8"/>
-  <circle cx="196" cy="110" r="1.5" fill="#80a0ff" opacity="0.9"/>
-  <circle cx="204" cy="110" r="1.5" fill="#80a0ff" opacity="0.9"/>
+  <!-- Construct eye glow — pulsing -->
+  <circle cx="196" cy="110" r="3" fill="#4060d0" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;1;0.4;1;0.8" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="204" cy="110" r="3" fill="#4060d0" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.4;1;0.8" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="196" cy="110" r="1.5" fill="#80a0ff" opacity="0.9">
+    <animate attributeName="r" values="1.5;2.5;1.5" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="204" cy="110" r="1.5" fill="#80a0ff" opacity="0.9">
+    <animate attributeName="r" values="1.5;2.5;1.5" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
+  </circle>
   <!-- Construct arms -->
   <line x1="180" y1="130" x2="160" y2="148" stroke="#1e1c60" stroke-width="5" stroke-linecap="round"/>
   <line x1="220" y1="130" x2="240" y2="148" stroke="#1e1c60" stroke-width="5" stroke-linecap="round"/>
@@ -133,23 +153,27 @@
   <polygon points="180,184 192,182 192,192 178,192" fill="#141260" stroke="#2a2a80" stroke-width="0.5"/>
   <polygon points="208,182 220,184 222,192 208,192" fill="#141260" stroke="#2a2a80" stroke-width="0.5"/>
 
-  <!-- Construct energy aura -->
+  <!-- Construct energy aura — pulsing -->
   <radialGradient id="construct-aura" cx="50%" cy="50%" r="40%">
-    <stop offset="0%" stop-color="#3050c0" stop-opacity="0.3"/>
+    <stop offset="0%" stop-color="#3050c0" stop-opacity="0.3">
+      <animate attributeName="stop-opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#3050c0" stop-opacity="0"/>
   </radialGradient>
   <ellipse cx="200" cy="140" rx="50" ry="45" fill="url(#construct-aura)"/>
 
-  <!-- Floating arcane runes on walls -->
-  <g fill="#2a2890" opacity="0.5" font-family="monospace" font-size="12">
-    <text x="25"  y="70">◈</text>
-    <text x="25"  y="120">◇</text>
-    <text x="25"  y="170">◆</text>
-    <text x="355" y="70">◈</text>
-    <text x="355" y="120">◇</text>
-    <text x="355" y="170">◆</text>
+  <!-- Floating arcane runes on walls — fading in/out -->
+  <g fill="#2a2890" font-family="monospace" font-size="12">
+    <text x="25"  y="70" opacity="0.5">◈<animate attributeName="opacity" values="0.5;1;0.2;0.8;0.5" dur="7s" repeatCount="indefinite"/></text>
+    <text x="25"  y="120" opacity="0.5">◇<animate attributeName="opacity" values="0.5;0.2;0.9;0.5" dur="9s" begin="2s" repeatCount="indefinite"/></text>
+    <text x="25"  y="170" opacity="0.5">◆<animate attributeName="opacity" values="0.5;1;0.3;0.5" dur="6s" begin="4s" repeatCount="indefinite"/></text>
+    <text x="355" y="70" opacity="0.5">◈<animate attributeName="opacity" values="0.5;0.2;1;0.5" dur="8s" begin="1s" repeatCount="indefinite"/></text>
+    <text x="355" y="120" opacity="0.5">◇<animate attributeName="opacity" values="0.5;0.9;0.2;0.5" dur="7s" begin="3s" repeatCount="indefinite"/></text>
+    <text x="355" y="170" opacity="0.5">◆<animate attributeName="opacity" values="0.5;0.3;1;0.5" dur="9s" begin="5s" repeatCount="indefinite"/></text>
   </g>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a2480" text-anchor="middle" letter-spacing="3">THE ARCANE SANCTUM</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#2a2480" text-anchor="middle" letter-spacing="3">THE ARCANE SANCTUM
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>

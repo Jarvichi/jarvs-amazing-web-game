@@ -12,16 +12,24 @@
   <g opacity="0.7">
     <polygon points="295,170 310,60  325,170" fill="#0e0c28" stroke="#1e1860" stroke-width="0.8"/>
     <polygon points="310,60 317,90 314,170 308,170 304,130 308,65" fill="#141050" opacity="0.7"/>
-    <circle cx="310" cy="62" r="2" fill="#6090e0" opacity="0.8"/>
+    <circle cx="310" cy="62" r="2" fill="#6090e0" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="4s" repeatCount="indefinite"/>
+    </circle>
     <polygon points="278,170 290,90  302,170" fill="#0c0a22" stroke="#181850" stroke-width="0.6"/>
-    <circle cx="290" cy="91" r="1.5" fill="#4070c0" opacity="0.6"/>
+    <circle cx="290" cy="91" r="1.5" fill="#4070c0" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="5s" begin="1s" repeatCount="indefinite"/>
+    </circle>
     <polygon points="318,170 330,95  342,170" fill="#0c0a22" stroke="#181850" stroke-width="0.6"/>
-    <circle cx="330" cy="96" r="1.5" fill="#4070c0" opacity="0.6"/>
+    <circle cx="330" cy="96" r="1.5" fill="#4070c0" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="5s" begin="2.5s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
-  <!-- Arcane glow from the Spire ahead -->
+  <!-- Arcane glow from the Spire ahead — pulsing -->
   <radialGradient id="spire-distant" cx="77%" cy="65%" r="28%">
-    <stop offset="0%" stop-color="#4060c0" stop-opacity="0.25"/>
+    <stop offset="0%" stop-color="#4060c0" stop-opacity="0.25">
+      <animate attributeName="stop-opacity" values="0.25;0.5;0.25" dur="7s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#4060c0" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#spire-distant)"/>
@@ -42,44 +50,54 @@
     <polygon points="325,196 332,180 339,196"/>
   </g>
 
-  <!-- JARV — wanderer figure, left of centre, facing right -->
-  <ellipse cx="150" cy="205" rx="22" ry="6" fill="#050408" opacity="0.7"/>
+  <!-- JARV — wanderer figure, walking body-bob -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -1.5; 0 0; 0 -1.5; 0 0" dur="0.8s" repeatCount="indefinite"/>
 
-  <!-- Boots -->
-  <ellipse cx="140" cy="208" rx="6" ry="3" fill="#0a0818"/>
-  <ellipse cx="158" cy="207" rx="6" ry="3" fill="#0a0818"/>
+    <ellipse cx="150" cy="205" rx="22" ry="6" fill="#050408" opacity="0.7"/>
 
-  <!-- Legs -->
-  <line x1="144" y1="196" x2="140" y2="208" stroke="#10081e" stroke-width="4" stroke-linecap="round"/>
-  <line x1="154" y1="196" x2="158" y2="207" stroke="#10081e" stroke-width="4" stroke-linecap="round"/>
+    <!-- Boots -->
+    <ellipse cx="140" cy="208" rx="6" ry="3" fill="#0a0818"/>
+    <ellipse cx="158" cy="207" rx="6" ry="3" fill="#0a0818"/>
 
-  <!-- Cloak -->
-  <polygon points="133,178 168,178 172,198 129,198" fill="#181430" stroke="#241e48" stroke-width="1"/>
-  <!-- Hood -->
-  <ellipse cx="150" cy="172" rx="11" ry="9" fill="#14102a" stroke="#201a40" stroke-width="1"/>
-  <ellipse cx="151" cy="175" rx="7"  ry="5" fill="#0c0818"/>
+    <!-- Legs -->
+    <line x1="144" y1="196" x2="140" y2="208" stroke="#10081e" stroke-width="4" stroke-linecap="round"/>
+    <line x1="154" y1="196" x2="158" y2="207" stroke="#10081e" stroke-width="4" stroke-linecap="round"/>
 
-  <!-- Left arm — holding Soulstone -->
-  <line x1="134" y1="183" x2="120" y2="190" stroke="#181430" stroke-width="3" stroke-linecap="round"/>
-  <!-- Soulstone in left hand — warm dark glow -->
-  <circle cx="117" cy="192" r="5" fill="#1e140c" stroke="#3a2010" stroke-width="1"/>
-  <radialGradient id="soul-wand" cx="40%" cy="40%" r="60%">
-    <stop offset="0%" stop-color="#8c3808" stop-opacity="0.6"/>
-    <stop offset="100%" stop-color="#8c3808" stop-opacity="0"/>
-  </radialGradient>
-  <circle cx="117" cy="192" r="5" fill="url(#soul-wand)"/>
-  <circle cx="115" cy="190" r="2" fill="#3a2018" opacity="0.6"/>
+    <!-- Cloak -->
+    <polygon points="133,178 168,178 172,198 129,198" fill="#181430" stroke="#241e48" stroke-width="1"/>
+    <!-- Hood -->
+    <ellipse cx="150" cy="172" rx="11" ry="9" fill="#14102a" stroke="#201a40" stroke-width="1"/>
+    <ellipse cx="151" cy="175" rx="7"  ry="5" fill="#0c0818"/>
 
-  <!-- Right arm — holding Iron Standard upright -->
-  <line x1="166" y1="183" x2="185" y2="168" stroke="#181430" stroke-width="3" stroke-linecap="round"/>
-  <!-- Standard pole -->
-  <line x1="185" y1="135" x2="185" y2="210" stroke="#2a3040" stroke-width="2.5"/>
-  <polygon points="183,135 187,135 185,126" fill="#404860"/>
-  <!-- Banner — wind-blown right (Jarv moving right, wind from left) -->
-  <polygon points="185,138 185,155 218,150 220,136" fill="#1e2438" stroke="#303548" stroke-width="1"/>
-  <g stroke="#3a4060" stroke-width="1.2">
-    <line x1="200" y1="140" x2="200" y2="152"/>
-    <line x1="193" y1="146" x2="208" y2="146"/>
+    <!-- Left arm — holding Soulstone -->
+    <line x1="134" y1="183" x2="120" y2="190" stroke="#181430" stroke-width="3" stroke-linecap="round"/>
+    <!-- Soulstone in left hand — warm dark glow -->
+    <circle cx="117" cy="192" r="5" fill="#1e140c" stroke="#3a2010" stroke-width="1"/>
+    <radialGradient id="soul-wand" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#8c3808" stop-opacity="0.6">
+        <animate attributeName="stop-opacity" values="0.6;1;0.6" dur="5s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#8c3808" stop-opacity="0"/>
+    </radialGradient>
+    <circle cx="117" cy="192" r="5" fill="url(#soul-wand)"/>
+    <circle cx="115" cy="190" r="2" fill="#3a2018" opacity="0.6"/>
+
+    <!-- Right arm — holding Iron Standard upright -->
+    <line x1="166" y1="183" x2="185" y2="168" stroke="#181430" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Standard pole + banner as separate group for sway -->
+  <g>
+    <animateTransform attributeName="transform" type="skewX" values="0; 2; 0; -2; 0" dur="9s" repeatCount="indefinite"/>
+    <line x1="185" y1="135" x2="185" y2="210" stroke="#2a3040" stroke-width="2.5"/>
+    <polygon points="183,135 187,135 185,126" fill="#404860"/>
+    <!-- Banner — wind-blown right -->
+    <polygon points="185,138 185,155 218,150 220,136" fill="#1e2438" stroke="#303548" stroke-width="1"/>
+    <g stroke="#3a4060" stroke-width="1.2">
+      <line x1="200" y1="140" x2="200" y2="152"/>
+      <line x1="193" y1="146" x2="208" y2="146"/>
+    </g>
   </g>
 
   <!-- Footprints behind Jarv -->
@@ -91,24 +109,50 @@
 
   <!-- Floating crystal shards drifting in the air -->
   <g fill="#1e1c50" stroke="#3040a0" stroke-width="0.5" opacity="0.6">
-    <polygon points="55,80  60,72  63,83  57,88"/>
-    <polygon points="220,55 225,47 228,58 222,63"/>
-    <polygon points="40,130 44,122 48,133 42,138"/>
-    <polygon points="245,95 250,87 254,98 248,103"/>
-    <polygon points="370,60 375,52 378,63 372,68"/>
+    <polygon points="55,80  60,72  63,83  57,88">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -3 -5; 0 0; 3 5; 0 0" dur="11s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="220,55 225,47 228,58 222,63">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 4 -4; 0 0; -4 4; 0 0" dur="13s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="40,130 44,122 48,133 42,138">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -4 3; 0 0; 4 -3; 0 0" dur="9s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="245,95 250,87 254,98 248,103">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 3 -5; 0 0; -3 5; 0 0" dur="12s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="370,60 375,52 378,63 372,68">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -5 -3; 0 0; 5 3; 0 0" dur="10s" repeatCount="indefinite"/>
+    </polygon>
   </g>
 
-  <!-- Stars -->
-  <g fill="#3050a0" opacity="0.4">
-    <circle cx="30"  cy="20" r="1"/>
-    <circle cx="80"  cy="10" r="1.5"/>
-    <circle cx="175" cy="30" r="1"/>
-    <circle cx="270" cy="15" r="1.5"/>
-    <circle cx="380" cy="25" r="1"/>
-    <circle cx="25"  cy="60" r="1"/>
-    <circle cx="390" cy="55" r="1"/>
+  <!-- Stars — twinkling -->
+  <g fill="#3050a0">
+    <circle cx="30"  cy="20" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="80"  cy="10" r="1.5" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.9;0.2;0.7;0.4" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="175" cy="30" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.2;0.8;0.4" dur="5s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="270" cy="15" r="1.5" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="7s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="380" cy="25" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.8;0.2;0.4" dur="5s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="25"  cy="60" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="6s" begin="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="390" cy="55" r="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.2;0.9;0.4" dur="4s" begin="1.5s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Label -->
-  <text x="200" y="228" font-family="monospace" font-size="9" fill="#2a2480" text-anchor="middle" letter-spacing="3">THE WANDERER</text>
+  <text x="200" y="228" font-family="monospace" font-size="9" fill="#2a2480" text-anchor="middle" letter-spacing="3">THE WANDERER
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>
