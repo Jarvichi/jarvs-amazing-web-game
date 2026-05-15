@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#1a1a0a" opacity="0.6"/>
+  <!-- Decayed, rotting mound -->
+  <ellipse cx="16" cy="26" rx="14" ry="7" fill="#3a2a1a"/>
+  <ellipse cx="16" cy="25" rx="13" ry="6" fill="#4a3a2a"/>
+  <!-- Rot/decay patches (dark splotches) -->
+  <ellipse cx="8" cy="23" rx="3" ry="2" fill="#2a1a0a" opacity="0.6"/>
+  <ellipse cx="22" cy="24" rx="2.5" ry="1.5" fill="#2a1a0a" opacity="0.5"/>
+  <ellipse cx="15" cy="22" rx="2" ry="1.5" fill="#1a0a00" opacity="0.6"/>
+  <!-- Decomposing wood/bone sticking out -->
+  <line x1="5" y1="22" x2="7" y2="27" stroke="#5a3a1a" stroke-width="2"/>
+  <line x1="27" y1="23" x2="25" y2="27" stroke="#5a3a1a" stroke-width="2"/>
+  <!-- Main burrow (dark rot-brown) -->
+  <ellipse cx="16" cy="27" rx="6" ry="4.5" fill="#0a0800"/>
+  <!-- Side burrows -->
+  <ellipse cx="7" cy="27" rx="3.5" ry="3" fill="#0a0800"/>
+  <ellipse cx="25" cy="27" rx="3.5" ry="3" fill="#0a0800"/>
+  <!-- Glowing yellow rot-eyes -->
+  <circle cx="15" cy="27" r="0.9" fill="#cc8800" opacity="0.8"/>
+  <circle cx="17" cy="27" r="0.9" fill="#cc8800" opacity="0.8"/>
+  <circle cx="6" cy="27" r="0.7" fill="#aa6600" opacity="0.7"/>
+  <circle cx="24" cy="27" r="0.7" fill="#aa6600" opacity="0.7"/>
+  <!-- Fungal growth on mound -->
+  <ellipse cx="10" cy="21" rx="2" ry="1" fill="#7a6a2a" opacity="0.6"/>
+  <rect x="9.5" y="21" width="1" height="2" rx="0.3" fill="#5a4a1a"/>
+  <ellipse cx="21" cy="21" rx="1.5" ry="0.8" fill="#7a6a2a" opacity="0.5"/>
+  <!-- Gas bubbles -->
+  <circle cx="12" cy="18" r="1.5" fill="#6a6a1a" opacity="0.3"/>
+  <circle cx="20" cy="17" r="1.2" fill="#6a6a1a" opacity="0.3"/>
+  <circle cx="16" cy="15" r="1.8" fill="#5a5a10" opacity="0.25"/>
+</svg>

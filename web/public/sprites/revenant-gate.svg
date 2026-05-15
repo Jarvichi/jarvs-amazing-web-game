@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="13" ry="1.5" fill="#0a0a1a" opacity="0.6"/>
+  <!-- Gate pillars (ancient dark stone) -->
+  <rect x="2" y="8" width="7" height="22" rx="1" fill="#2a2a3a"/>
+  <rect x="23" y="8" width="7" height="22" rx="1" fill="#2a2a3a"/>
+  <!-- Pillar highlights -->
+  <rect x="2" y="8" width="2" height="22" fill="#3a3a4a"/>
+  <rect x="23" y="8" width="2" height="22" fill="#3a3a4a"/>
+  <!-- Pillar cap stones -->
+  <rect x="1" y="6" width="9" height="3" rx="0.5" fill="#3a3a4a"/>
+  <rect x="22" y="6" width="9" height="3" rx="0.5" fill="#3a3a4a"/>
+  <!-- Ghost/revenant skull ornaments -->
+  <ellipse cx="5.5" cy="4.5" rx="3" ry="2.5" fill="#1a1a2a"/>
+  <circle cx="4.2" cy="4" r="0.8" fill="#8888ff" opacity="0.8"/>
+  <circle cx="6.8" cy="4" r="0.8" fill="#8888ff" opacity="0.8"/>
+  <ellipse cx="26.5" cy="4.5" rx="3" ry="2.5" fill="#1a1a2a"/>
+  <circle cx="25.2" cy="4" r="0.8" fill="#8888ff" opacity="0.8"/>
+  <circle cx="27.8" cy="4" r="0.8" fill="#8888ff" opacity="0.8"/>
+  <!-- Ghostly portal between pillars -->
+  <rect x="9" y="10" width="14" height="20" fill="#0a0014"/>
+  <ellipse cx="16" cy="20" rx="5" ry="8" fill="#1a0044" opacity="0.7"/>
+  <ellipse cx="16" cy="20" rx="3" ry="5.5" fill="#2a0066" opacity="0.6"/>
+  <ellipse cx="16" cy="20" rx="1.5" ry="3" fill="#4400aa" opacity="0.7"/>
+  <!-- Revenant spirit swirls -->
+  <path d="M12,16 Q16,11 20,16" fill="none" stroke="#6666ff" stroke-width="0.8" opacity="0.5"/>
+  <path d="M11,20 Q16,14 21,20" fill="none" stroke="#4444cc" stroke-width="0.8" opacity="0.4"/>
+  <path d="M12,24 Q16,18 20,24" fill="none" stroke="#6666ff" stroke-width="0.8" opacity="0.4"/>
+  <!-- Arch over gate -->
+  <path d="M9,10 Q16,3 23,10" fill="none" stroke="#3a3a4a" stroke-width="2"/>
+  <!-- Rune marks -->
+  <line x1="3" y1="14" x2="7" y2="14" stroke="#6644aa" stroke-width="0.7" opacity="0.7"/>
+  <line x1="3" y1="18" x2="7" y2="18" stroke="#6644aa" stroke-width="0.7" opacity="0.7"/>
+  <line x1="25" y1="14" x2="29" y2="14" stroke="#6644aa" stroke-width="0.7" opacity="0.7"/>
+  <line x1="25" y1="18" x2="29" y2="18" stroke="#6644aa" stroke-width="0.7" opacity="0.7"/>
+</svg>

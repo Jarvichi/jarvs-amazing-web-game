@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#1a1a0a" opacity="0.5"/>
+  <!-- Barracks wall -->
+  <rect x="2" y="14" width="28" height="16" rx="1" fill="#7a6a4a"/>
+  <!-- Stone texture lines -->
+  <line x1="2" y1="18" x2="30" y2="18" stroke="#5a4a2a" stroke-width="0.7"/>
+  <line x1="2" y1="22" x2="30" y2="22" stroke="#5a4a2a" stroke-width="0.7"/>
+  <line x1="2" y1="26" x2="30" y2="26" stroke="#5a4a2a" stroke-width="0.7"/>
+  <line x1="9" y1="14" x2="9" y2="30" stroke="#5a4a2a" stroke-width="0.5"/>
+  <line x1="23" y1="14" x2="23" y2="30" stroke="#5a4a2a" stroke-width="0.5"/>
+  <!-- Roof with ram horn arch -->
+  <polygon points="0,14 16,5 32,14" fill="#4a3a1a"/>
+  <polygon points="2,14 16,7 30,14" fill="#6a5a2a"/>
+  <!-- Ram skull and horn emblem above gate -->
+  <ellipse cx="16" cy="9" rx="3" ry="2.5" fill="#4a3a1a"/>
+  <!-- Ram horns (curved) -->
+  <path d="M13,9 Q9,6 10,11" fill="none" stroke="#8a7a5a" stroke-width="2" stroke-linecap="round"/>
+  <path d="M19,9 Q23,6 22,11" fill="none" stroke="#8a7a5a" stroke-width="2" stroke-linecap="round"/>
+  <!-- Corner guard towers -->
+  <rect x="0" y="10" width="7" height="20" rx="0.5" fill="#8a7a5a"/>
+  <rect x="25" y="10" width="7" height="20" rx="0.5" fill="#8a7a5a"/>
+  <!-- Tower battlements -->
+  <rect x="0" y="8" width="3" height="3" rx="0.3" fill="#9a8a6a"/>
+  <rect x="4" y="8" width="3" height="3" rx="0.3" fill="#9a8a6a"/>
+  <rect x="25" y="8" width="3" height="3" rx="0.3" fill="#9a8a6a"/>
+  <rect x="29" y="8" width="3" height="3" rx="0.3" fill="#9a8a6a"/>
+  <!-- Gate entrance -->
+  <path d="M13,30 L13,20 Q16,16 19,20 L19,30 Z" fill="#1a1a0a"/>
+  <!-- Battering ram leaning against wall -->
+  <rect x="4" y="22" width="12" height="3" rx="1" fill="#6a4a1a" transform="rotate(-10 10 24)"/>
+  <!-- Ram head on battering ram -->
+  <ellipse cx="5" cy="21" rx="2.5" ry="2" fill="#5a4a1a" transform="rotate(-10 5 21)"/>
+</svg>
