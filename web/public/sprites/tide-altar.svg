@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tidal water at base -->
+  <rect x="0" y="24" width="32" height="8" fill="#0a3a5a" opacity="0.7"/>
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="11" ry="1.5" fill="#0a1a2a" opacity="0.4"/>
+  <!-- Altar steps (partially submerged) -->
+  <rect x="6" y="22" width="20" height="5" rx="0.5" fill="#4a5a6a"/>
+  <rect x="8" y="18" width="16" height="5" rx="0.5" fill="#5a6a7a"/>
+  <rect x="10" y="14" width="12" height="5" rx="0.5" fill="#6a7a8a"/>
+  <!-- Altar top stone -->
+  <rect x="11" y="11" width="10" height="4" rx="0.3" fill="#7a8a9a"/>
+  <!-- Wave/tide symbol carved in altar -->
+  <path d="M12,13 Q14,11 16,13 Q18,15 20,13" fill="none" stroke="#4a8aaa" stroke-width="1" opacity="0.7"/>
+  <!-- Trident idol on altar -->
+  <line x1="16" y1="6" x2="16" y2="11" stroke="#6a8aaa" stroke-width="1.2"/>
+  <line x1="13" y1="8" x2="19" y2="8" stroke="#6a8aaa" stroke-width="0.8"/>
+  <line x1="13" y1="8" x2="13" y2="6" stroke="#6a8aaa" stroke-width="0.8"/>
+  <line x1="16" y1="6" x2="16" y2="5" stroke="#6a8aaa" stroke-width="0.8"/>
+  <line x1="19" y1="8" x2="19" y2="6" stroke="#6a8aaa" stroke-width="0.8"/>
+  <!-- Tide water lapping at altar steps -->
+  <path d="M0,25 Q8,23 16,25 Q24,27 32,25" fill="none" stroke="#2a6a8a" stroke-width="0.8" opacity="0.5"/>
+  <!-- Sea foam around altar base -->
+  <ellipse cx="8" cy="27" rx="5" ry="1.5" fill="#aaccdd" opacity="0.25"/>
+  <ellipse cx="24" cy="27" rx="5" ry="1.5" fill="#aaccdd" opacity="0.25"/>
+  <!-- Coral on submerged steps -->
+  <ellipse cx="6" cy="24" rx="2.5" ry="1.5" fill="#cc4422" opacity="0.5"/>
+  <ellipse cx="26" cy="24" rx="2.5" ry="1.5" fill="#dd5533" opacity="0.4"/>
+  <!-- Shell offering on altar -->
+  <ellipse cx="14" cy="11" rx="1.5" ry="1" fill="#ccaa88"/>
+  <ellipse cx="18" cy="11" rx="1.5" ry="1" fill="#bbaa77"/>
+</svg>
