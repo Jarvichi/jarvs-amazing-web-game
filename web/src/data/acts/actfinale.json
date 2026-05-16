@@ -190,6 +190,10 @@
       ],
       "bossAI": "thefracture",
       "bossCard": "Iron Colossus",
+      "bossIntro": [
+        {"title": "THE FRACTURED CORE", "image": "cutscenes/actfinale-boss-1.svg", "text": "The Fractured Core is the wound at the centre of everything — a void tear that has been bleeding reality for three years, radiating fracture energy through every shard you have crossed. This is where it began. This is where it ends."},
+        {"title": "THE FRACTURE", "image": "cutscenes/actfinale-boss-2.svg", "text": "The Fracture is not a creature. It is the absence of the world that used to be here — an entity of pure void, its fracture-light eyes burning with the weight of a shattered age. You should not have come here. Everything breaks. Everything."}
+      ],
       "bossDialogue": [
         "YOU SHOULD NOT HAVE COME HERE.",
         "THE FRACTURE IS ETERNAL. YOU ARE NOT.",

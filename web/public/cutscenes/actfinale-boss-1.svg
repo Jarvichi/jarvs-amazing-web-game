@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#040208"/>
+  <linearGradient id="core-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#060318"/>
+    <stop offset="50%" stop-color="#08041e"/>
+    <stop offset="100%" stop-color="#0c0624"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#core-sky)"/>
+
+  <!-- The Fracture Core glow — purple-void, vast -->
+  <radialGradient id="core-glow" cx="50%" cy="38%" r="60%">
+    <stop offset="0%" stop-color="#7010c0" stop-opacity="0.6"/>
+    <stop offset="40%" stop-color="#4008a0" stop-opacity="0.28"/>
+    <stop offset="100%" stop-color="#300868" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#core-glow)"/>
+
+  <!-- Secondary void pulse -->
+  <radialGradient id="core-pulse" cx="50%" cy="35%" r="35%">
+    <stop offset="0%" stop-color="#8020d0" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#8020d0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="80" rx="120" ry="85" fill="url(#core-pulse)"/>
+
+  <!-- Void mass — the Fracture's heart -->
+  <ellipse cx="200" cy="72" rx="110" ry="78" fill="#080218" opacity="0.7"/>
+  <ellipse cx="200" cy="65" rx="75"  ry="55" fill="#06011a" opacity="0.8"/>
+  <ellipse cx="200" cy="62" rx="40"  ry="32" fill="#04010e" opacity="0.85"/>
+
+  <!-- PRIMARY FRACTURE RIFT — central wound -->
+  <g stroke="#b040e8" stroke-width="3" fill="none" opacity="0.9">
+    <path d="M200,0 L196,30 L215,48 L185,72 L208,92 L190,118 L208,138 L194,162"/>
+  </g>
+  <g stroke="#d878ff" stroke-width="1" fill="none" opacity="0.4">
+    <path d="M200,0 L196,30 L215,48 L185,72 L208,92 L190,118 L208,138 L194,162"/>
+  </g>
+  <!-- Rift core brightness -->
+  <g stroke="#e8a0ff" stroke-width="0.6" fill="none" opacity="0.25">
+    <path d="M200,0 L197,28 L213,44 L187,68 L208,88 L192,112 L207,132 L196,158"/>
+  </g>
+
+  <!-- Fracture branch arms — radiating reality tears -->
+  <!-- Left branches -->
+  <g stroke="#9020d0" stroke-width="1.5" fill="none" opacity="0.7">
+    <path d="M185,72 L155,62 L125,56"/>
+    <path d="M208,92 L172,86 L142,90"/>
+    <path d="M190,118 L155,112 L122,118"/>
+  </g>
+  <g stroke="#701090" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M155,62 L130,52 L98,58"/>
+    <path d="M142,90 L112,96 L82,90"/>
+  </g>
+  <!-- Right branches -->
+  <g stroke="#9020d0" stroke-width="1.5" fill="none" opacity="0.7">
+    <path d="M215,48 L248,40 L278,34"/>
+    <path d="M208,92 L248,84 L280,88"/>
+    <path d="M208,138 L248,130 L282,134"/>
+  </g>
+  <g stroke="#701090" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M278,34 L310,28 L345,35"/>
+    <path d="M280,88 L318,94 L350,88"/>
+  </g>
+
+  <!-- Floating void shards — reality breaking -->
+  <g fill="#501080" stroke="#8020c0" stroke-width="0.5" opacity="0.65">
+    <polygon points="138,42 148,37 152,47 143,51"/>
+    <polygon points="250,34 262,28 264,40 254,43"/>
+    <polygon points="108,75 118,70 122,80 113,84"/>
+    <polygon points="284,80 296,74 298,85 288,88"/>
+    <polygon points="120,105 130,100 133,110 124,114"/>
+    <polygon points="270,100 282,95 284,106 274,109"/>
+  </g>
+  <g fill="#301060" opacity="0.35">
+    <polygon points="90,50 98,46 100,54"/>
+    <polygon points="305,44 315,40 317,50"/>
+    <polygon points="165,20 172,16 174,24"/>
+    <polygon points="225,18 233,14 235,22"/>
+  </g>
+
+  <!-- RUINED FRACTURED CORE APPROACH — shattered stone around the wound -->
+  <!-- Ground mass — broken, tilted -->
+  <rect x="0" y="180" width="400" height="60" fill="#08060e"/>
+  <!-- Tilted rock slabs -->
+  <g fill="#0c0a14" stroke="#161228" stroke-width="0.8" opacity="0.7">
+    <polygon points="0,195 55,180 60,240 0,240"/>
+    <polygon points="340,180 400,195 400,240 345,240"/>
+    <polygon points="120,180 145,175 148,240 122,240"/>
+    <polygon points="258,175 282,180 280,240 256,240"/>
+  </g>
+
+  <!-- Broken arch ruins at the core threshold -->
+  <path d="M148,240 L148,150 Q148,130 170,128 Q200,124 230,128 Q252,130 252,150 L252,240" fill="#0a0810" stroke="#181428" stroke-width="2"/>
+  <!-- Arch rift crack -->
+  <g stroke="#601090" stroke-width="1" fill="none" opacity="0.4">
+    <path d="M200,126 L202,134 L199,144"/>
+    <path d="M200,126 L197,135"/>
+  </g>
+  <!-- Void arch interior -->
+  <rect x="150" y="126" width="100" height="114" fill="#040208"/>
+
+  <!-- Stone floor fractures -->
+  <g stroke="#2a1050" stroke-width="0.8" fill="none" opacity="0.4">
+    <line x1="0" y1="180" x2="400" y2="180"/>
+    <path d="M162,180 Q175,205 172,240"/>
+    <path d="M238,180 Q225,205 228,240"/>
+    <path d="M108,180 Q102,210 98,240"/>
+    <path d="M292,180 Q298,210 302,240"/>
+  </g>
+
+  <!-- Ley energy seeping up through cracks -->
+  <g stroke="#8020c0" stroke-width="0.8" fill="none" opacity="0.2">
+    <path d="M162,180 Q178,165 200,162"/>
+    <path d="M238,180 Q222,165 200,162"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-fc1" cx="50%" cy="50%" r="68%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.65"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-fc1)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#4a1878" text-anchor="middle" letter-spacing="3">THE FRACTURED CORE</text>
+</svg>
