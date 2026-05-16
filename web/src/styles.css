@@ -84,6 +84,7 @@ html.light-mode {
 .u-just-end   { justify-content: flex-end; }
 .u-grow       { flex: 1; }
 
+
 /* Text */
 .u-text-c     { text-align: center; }
 .u-text-r     { text-align: right; }
@@ -110,6 +111,24 @@ html.light-mode {
 .u-pad-sm  { padding: var(--gap-2) var(--gap-4); }
 .u-pad-md  { padding: var(--gap-3) var(--gap-5); }
 .u-pad-lg  { padding: var(--gap-4) var(--gap-6); }
+
+/* Margin shorthands */
+.u-mg-sm  { margin: var(--gap-2) var(--gap-4); }
+.u-mg-md  { margin: var(--gap-3) var(--gap-5); }
+.u-mg-lg  { margin: var(--gap-4) var(--gap-6); }
+
+.u-mg-l-sm { margin-left: var(--gap-2); }
+.u-mg-l-md { margin-left: var(--gap-3); }
+.u-mg-l-lg { margin-left: var(--gap-4); }
+.u-mg-r-sm { margin-right: var(--gap-2); }
+.u-mg-r-md { margin-right: var(--gap-3); }
+.u-mg-r-lg { margin-right: var(--gap-4); }
+.u-mg-t-sm { margin-top: var(--gap-2); }
+.u-mg-t-md { margin-top: var(--gap-3); }
+.u-mg-t-lg { margin-top: var(--gap-4); }
+.u-mg-b-sm { margin-bottom: var(--gap-2); }
+.u-mg-b-md { margin-bottom: var(--gap-3); }
+.u-mg-b-lg { margin-bottom: var(--gap-4); }
 
 /* Display / positioning */
 .u-hidden    { display: none; }
@@ -1638,6 +1657,9 @@ body {
 }
 
 .title-auth-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin-top: 0;
   font-size: var(--font-sm);
   color: var(--game-text-color-dim);
@@ -7823,7 +7845,8 @@ html.light-mode .action-btn {
 
 /* Hit spark: brief starburst at impact point */
 @keyframes hit-spark-anim {
-  0%   { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+  0%   { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
+  10%  { opacity: 1; }
   60%  { transform: translate(-50%, -50%) scale(1.4); opacity: 0.8; }
   100% { transform: translate(-50%, -50%) scale(2);   opacity: 0; }
 }
@@ -7832,7 +7855,7 @@ html.light-mode .action-btn {
   height: 24px;
   background: radial-gradient(circle, rgba(255,230,80,0.95) 0%, rgba(255,100,20,0.6) 50%, transparent 80%);
   border-radius: 50%;
-  animation: hit-spark-anim 0.3s ease-out forwards;
+  animation: hit-spark-anim 0.3s ease-out both;
 }
 /* Typed hit sparks */
 .anim-hit--arrow     { background: radial-gradient(circle, rgba(200,160,80,0.95) 0%, rgba(120,80,20,0.5) 60%, transparent 80%); }

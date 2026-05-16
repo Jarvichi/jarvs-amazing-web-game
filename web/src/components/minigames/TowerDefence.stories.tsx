@@ -2,7 +2,7 @@ import { fn } from "storybook/test";
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { TowerDefence } from './TowerDefence';
-import { exampleUnitTemplate } from "../../game/types.sample";
+import { exampleTowerPool, exampleUnitTemplate } from "../../game/types.sample";
 
 const meta = {
   component: TowerDefence,
@@ -14,9 +14,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    pool: [
-      { template: exampleUnitTemplate, total: 10, buildingName: 'Goblin Camp' },
-    ],
+    pool: exampleTowerPool,
     mode: 'collection',
     "onDone": fn(),
   },

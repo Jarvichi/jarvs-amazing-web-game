@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { type User } from 'firebase/auth'
 import { loadDeck, loadCollection, deckTotalCards, isDeckValid, COPIES_MAX, loadWinStreak, loadBestStreak } from '../../game/collection'
-import { loadRun } from '../../game/questline'
+import { loadPlayerName, loadRun } from '../../game/questline'
 import { getCardCatalog } from '../../game/cards'
 import { hasUnclaimedAchievements } from '../../game/achievements'
 import { getDailyShopSellSlots } from '../../game/shopSchedule'
@@ -13,6 +13,8 @@ import { load8bitUnlocked, unlock8bitMode, save8bitEnabled, apply8bitMode } from
 import { incrementAchievementProgress } from '../../game/achievements'
 import { getDailyChallengeState } from '../../game/dailyChallenge'
 import { generatePack, addCardsToCollection } from '../../game/collection'
+import { WinStreak } from './WinStreak'
+import { LoginButton } from '../ui/LoginButton'
 
 const CAMPAIGN_UNLOCK_CARDS = 30
 const EIGHTBIT_CLICKS = 8
@@ -23,7 +25,7 @@ const KONAMI_KEY = 'jarv_konami_used'
 function hasUsedKonami(): boolean { try { return !!localStorage.getItem(KONAMI_KEY) } catch { return false } }
 function markKonamiUsed(): void   { try { localStorage.setItem(KONAMI_KEY, '1') } catch { /* ignore */ } }
 
-interface Props {
+export interface Props {
   crystals: number
   onPlay: () => void
   onEndless: () => void
@@ -70,6 +72,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   const winStreak           = loadWinStreak()
   const bestStreak          = loadBestStreak()
   const dailyChallenge      = getDailyChallengeState()
+  const playerName = loadPlayerName()
 
   // City attack alert — read directly from localStorage so App.tsx doesn't need changing
   const cityAttackAlert = (() => {
@@ -166,17 +169,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         <div className="konami-toast" role="alert">{konamiToast}</div>
       )}
 
-      {/* Win streak ribbon (top-left corner) */}
-      {winStreak > 0 && (
-        <div className="streak-ribbon-wrap">
-          <div className="streak-ribbon">🔥 {winStreak}</div>
-        </div>
-      )}
-      {bestStreak > 1 && winStreak === 0 && (
-        <div className="streak-ribbon-wrap">
-          <div className="streak-ribbon streak-ribbon--faded">🏆 {bestStreak}</div>
-        </div>
-      )}
+      <WinStreak winStreak={winStreak} bestStreak={bestStreak} />
 
       <TitleIdleAnimation />
 
@@ -285,14 +278,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           }
         </div>
         <div className="title-auth-bar u-flex u-items-c u-gap-5">
-          {user && !user.isAnonymous ? (
-            <>
-              <span className="title-auth-label">👤 {user.displayName ?? user.email}</span>
-              <button className="title-auth-btn" onClick={onSignOut}>SIGN OUT</button>
-            </>
-          ) : (
-            <button className="title-auth-btn" onClick={onSignIn}>SIGN IN</button>
-          )}
+          <LoginButton onSignIn={onSignIn} onSignOut={onSignOut} user={user} playerName={playerName} />
           <button
             className="filter-btn"
             onClick={onFeedback}

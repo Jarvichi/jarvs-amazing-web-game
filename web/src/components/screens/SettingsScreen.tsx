@@ -77,6 +77,20 @@ export function apply8bitMode(enabled: boolean): void {
   window.dispatchEvent(new Event('eightbit-change'))
 }
 
+export function loadMonochromeEnabled(): boolean {
+  try { return localStorage.getItem('jarv_monochrome_enabled') === 'true' }
+  catch { return false }
+}
+
+export function saveMonochromeEnabled(val: boolean): void {
+  try { localStorage.setItem('jarv_monochrome_enabled', String(val)) } catch { /* ignore */ }
+}
+
+export function applyMonochromeMode(enabled: boolean): void {
+  document.documentElement.classList.toggle('monochrome-mode', enabled)
+  window.dispatchEvent(new Event('monochrome-change'))
+}
+
 export function loadLightMode(): boolean {
   try { return localStorage.getItem(LIGHT_MODE_KEY) === 'true' }
   catch { return false }
@@ -152,6 +166,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
   const [skipIntro,     setSkipIntro]     = useState(loadSkipIntro)
   const [eightbitOn,    setEightbitOn]    = useState(load8bitEnabled)
   const [eightbitUnlocked]               = useState(load8bitUnlocked)
+  const [monochromeOn,   setMonochromeOn]   = useState(loadMonochromeEnabled)
   const [lightModeOn,   setLightModeOn]   = useState(loadLightMode)
   const [battlePopups,  setBattlePopups]  = useState(loadBattlePopups)
   const [confirmReset,  setConfirmReset]  = useState(false)
@@ -250,6 +265,13 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
     setEightbitOn(next)
     save8bitEnabled(next)
     apply8bitMode(next)
+  }
+
+  function handleMonochromeToggle() {
+    const next = !monochromeOn
+    setMonochromeOn(next)
+    saveMonochromeEnabled(next)
+    applyMonochromeMode(next)
   }
 
   function handleLightModeToggle() {
@@ -452,6 +474,20 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
             </div>
           </Section>
         )}
+        
+        <Section bordered title="MONOCHROME MODE">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+              <div>
+                <div className="settings-label">Monochrome visual filter</div>
+                <div className="settings-sublabel">Green and black terminal-style palette</div>
+              </div>
+              <div className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select" onClick={handleMonochromeToggle}>
+                <div className={`settings-toggle-track${monochromeOn ? ' settings-toggle-track--on' : ''}`}>
+                  <div className="settings-toggle-thumb" />
+                </div>
+              </div>
+            </div>
+          </Section>
 
         <Section bordered title="DISPLAY">
           <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">

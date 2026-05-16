@@ -380,6 +380,13 @@ export function buildingUnitCount(tower: TDTower): number {
   return tower.upgradeUnits + 1
 }
 
+
+export function hpBarColor(frac: number): string {
+  if (frac > 0.6) return '#4caf50'
+  if (frac > 0.3) return '#ff9800'
+  return '#f44336'
+}
+
 /**
  * Generate wave definition for any wave index 0–(TD_TOTAL_WAVES-1).
  *
