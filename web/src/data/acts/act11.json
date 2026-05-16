@@ -96,7 +96,7 @@
       "Fifty campaigns. The Bark Sentinels stand aside when your silhouette appears at the outer treeline. The Warden has calculated something and reached a conclusion it hasn't shared yet."
     ],
     "milestoneOpenings100": [
-      "The Warden is at the treeline. Not distributed through the canopy — concentrated, in the way it concentrates when it wants to be understood as a single thing.\n\nIt does not speak with words. It speaks with the canopy.\n\nThe branches above you shift into a pattern you have seen before. You have been seeing it for a hundred visits. You have only just started to read it.\n\nIt means: I have been here since before the Dominion. I have watched things it would take you several lifetimes to name. And you — you small, persistent, unkillable thing — you are the most interesting visitor I have ever had.\n\nThe canopy parts.\n\nThe heartwood path is clear.\n\nThe branches above you make the pattern one more time, in case you missed it."
+      "The Warden is at the treeline. Not distributed through the canopy — concentrated, in the way it concentrates when it wants to be understood as a single thing.\n\nIt does not speak with words. It speaks with the canopy.\n\nThe branches above you shift into a pattern you have seen before. You have been seeing it for a hundred visits. You have only just started to read it.\n\nIt means: I have been here since before the Dominion. I have watched things it would take you several lifetimes to name. And you — you small, relentless, unkillable thing — you are the most interesting visitor I have ever had.\n\nThe canopy parts.\n\nThe heartwood path is clear.\n\nThe branches above you make the pattern one more time, in case you missed it."
     ]
   },
   "midRunTemplates": [
@@ -110,7 +110,10 @@
   ],
   "introRules": [
     {
-      "condition": { "op": "gte", "value": 100 },
+      "condition": {
+        "op": "gte",
+        "value": 100
+      },
       "panels": [
         {
           "title": "THE WARDEN SPEAKS",
@@ -123,7 +126,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 51, "max": 99 },
+      "condition": {
+        "op": "range",
+        "min": 51,
+        "max": 99
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -144,7 +151,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 50 },
+      "condition": {
+        "op": "eq",
+        "value": 50
+      },
       "panels": [
         {
           "title": "FIFTY CAMPAIGNS",
@@ -165,7 +175,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 26, "max": 49 },
+      "condition": {
+        "op": "range",
+        "min": 26,
+        "max": 49
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -182,7 +196,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 25 },
+      "condition": {
+        "op": "eq",
+        "value": 25
+      },
       "panels": [
         {
           "title": "TWENTY-FIVE",
@@ -199,7 +216,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 11, "max": 24 },
+      "condition": {
+        "op": "range",
+        "min": 11,
+        "max": 24
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -220,7 +241,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 10 },
+      "condition": {
+        "op": "eq",
+        "value": 10
+      },
       "panels": [
         {
           "title": "THE TENTH TIME",
@@ -241,7 +265,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 5, "max": 9 },
+      "condition": {
+        "op": "range",
+        "min": 5,
+        "max": 9
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -258,7 +286,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 2, "max": 4 },
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 4
+      },
       "panels": [
         {
           "title": "THE VERDANT CANOPY",
