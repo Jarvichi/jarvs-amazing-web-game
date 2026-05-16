@@ -40,6 +40,245 @@
   "startNodeIds": [
     "dune-approach"
   ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, technically, a recurring customer the Dune Baron has stopped finding surprising.",
+      "Now, effectively, the sort of person who fights through desert markets for a living.",
+      "Now, in the commercial sense, back for another transaction the Baron didn't invoice for.",
+      "Now — by every merchant's assessment — bad for business in ways that keep being underestimated.",
+      "Now, technically, a repeat visitor the Baron has started factoring into his quarterly projections."
+    ],
+    "jarvIntros": [
+      "You have a deck of cards, a working knowledge of the Sand Market's layout, and the settled certainty that commerce and combat are not as different as people like to think.",
+      "You have a deck of cards, a familiarity with the Dune Baron's pricing model, and the quietly uncomfortable sense that he has started adjusting his prices in anticipation of your visits.",
+      "You have a deck of cards, a working theory about which market stalls are also defensive positions, and the growing certainty that the Baron has drawn up the same theory about you.",
+      "You have a deck of cards, a repeat-visitor discount you haven't actually been offered, and the sense that the Baron's ledger has a column that might be labelled 'the Jarv problem'.",
+      "You have a deck of cards. The Baron has you in his books now. He has had you in his books for some time. This doesn't seem to be helping him."
+    ],
+    "marketDesc": [
+      "The ley lines run straight through the desert, which the Sand Market has spent decades making commercially relevant. The market sits at the convergence — spice stalls, weapon traders, and things that aren't technically legal but are priced very professionally.",
+      "The Sand Market smells like spice and hot metal and the particular anxiety of an economy that is built on top of a ley convergence and hoping nobody destabilises it.",
+      "The Sand Market waits at the desert's heart, its spire visible from two days out. The Baron's banners hang in the windless heat. They have been there since before you arrived. They will be there after.",
+      "The ley lines converge beneath the market's central spire. The Dune Baron uses the energy surplus to power his lights, his weapons, and his extremely comprehensive record-keeping."
+    ],
+    "baronDesc": [
+      "The Dune Baron is not a warlord in any conventional sense. He's a businessman who happens to employ an army. The distinction matters to him professionally.\n\nHe does not consider you a warrior. He considers you a liability that keeps showing up on his balance sheet.",
+      "The Dune Baron holds the market's ley convergence with the methodical calm of someone who has turned every crisis into a line item.\n\nYou are a line item he keeps having to revise upward.",
+      "The Dune Baron runs the Sand Market with the precision of someone who has never once made a financial error he didn't immediately account for.\n\nYou are the one thing in his ledger he hasn't found a way to account for yet.",
+      "The Dune Baron has been briefed on your approach. His response, according to his aide, was to update the insurance on the central spire and order more of whatever he lost last time."
+    ],
+    "priorRunSummaries": [
+      "The heat felt familiar — the particular weight of it, the way it turned sound sluggish and light sharp. Like a market you'd been overcharged in before.",
+      "The first approach through the dune corridor was wrong. Not directionally wrong — patterned wrong, the way a route feels wrong when someone has added defensive positions since you were last here.",
+      "Something about the patrol spacing at the market perimeter. The exact interval of it. You adjusted your approach without thinking, which meant you'd made that adjustment before.",
+      "The market was quieter on approach than it should have been. As though someone had sent a message ahead that a particular customer was returning."
+    ],
+    "priorRunOpenings": [
+      "You had been here. Your feet found the route through the first dune corridor before the heat haze cleared enough to confirm it.",
+      "The Sand Raider unit at the outer perimeter didn't charge. They looked at each other. Then sent a runner to the Baron. Then charged.",
+      "The Dune Baron's opening deployment was different this time — heavier on the left flank, lighter on the spire approach. He'd been studying your patterns.",
+      "The market bells rang when you arrived. Not the welcoming ones. The other ones."
+    ],
+    "milestoneOpenings5": [
+      "The fifth time through the Sand Market, the outer patrol has started forming up before you crest the last dune. They've learned your approach timing.",
+      "Fifth run. The Baron has filed an insurance claim specifically referencing your previous four visits. The insurer has declined to cover what he described as 'a recurring tactical weather event.'"
+    ],
+    "milestoneOpenings10": [
+      "Ten campaigns. The Dune Baron has restructured his defensive formation specifically around your movement patterns. He's been doing the work.",
+      "The tenth time through the Sand Market, you notice the central spire has new reinforcements on the side you typically approach from. The Baron has been doing infrastructure investment between visits."
+    ],
+    "milestoneOpenings25": [
+      "Twenty-five campaigns. The market does not sound the alert when you arrive anymore. The Baron has a separate protocol for this situation now. It is labelled, in his ledger, 'the standing contingency'.",
+      "After twenty-five runs, the Dune Baron greets you from the central spire rather than the command tent. He's stopped pretending the tent is a strategically neutral location."
+    ],
+    "milestoneOpenings50": [
+      "The fiftieth time through the Sand Market. The Baron has adjusted his prices. Everything you'd want costs more. Everything that would slow you down costs less. He's been doing economic modelling.",
+      "Fifty campaigns. The Sand Raiders at the outer perimeter part when you arrive. Not in welcome. The Baron has run the numbers and determined that the cost of the initial engagement no longer justifies the outcome."
+    ],
+    "milestoneOpenings100": [
+      "The Dune Baron is waiting at the market entrance. Not in the command position. Not surrounded by his army. Just standing, in his merchant's coat, with a ledger under his arm.\n\n'A hundred visits,' he says. 'I have calculated the total cost. I have also calculated the total cost of the next hundred.' He opens the ledger. A long column of figures. 'They are the same cost.'\n\nHe closes it.\n\n'I am a businessman,' he says. 'I know when to cut losses and when to recognise a standing arrangement.'\n\nHe steps aside and makes a gesture toward the market interior.\n\n'The Golden Compass is already at the gate. Consider your account settled. Consider it very settled. Please do not come back.'\n\nHe pauses.\n\n'You will come back,' he says. 'Of course you will.'"
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} time through the Sand Market. The Dune Baron has pre-deployed his formation before you've cleared the outer dunes.",
+    "Campaign {n}. The market insurance has been updated again. The new policy specifically excludes damage attributable to a single recurring visitor.",
+    "{n} campaigns in. The Sand Raiders at the outer perimeter have started placing bets. The smart money has been consistently on you for some time.",
+    "{n} times you've walked through the Baron's market. The heat is the same. Your tolerance for the Baron's particular brand of economic warfare has become something he finds professionally frustrating.",
+    "Run {n}. You arrive at the outer dunes and find the patrol already in position. The Baron has been running projections.",
+    "The {ordinalLower} attempt. The market smells the same — spice and hot metal and something expensive. Your reaction to it has become something close to routine.",
+    "{n} campaigns. The Dune Baron's ledger entry for 'the Jarv problem' is now the longest single entry in his accounting history."
+  ],
+  "introRules": [
+    {
+      "condition": { "op": "gte", "value": 100 },
+      "panels": [
+        {
+          "title": "THE BARON SETTLES ACCOUNTS",
+          "text": "{pool:milestoneOpenings100:0}"
+        },
+        {
+          "title": "THE SAND MARKET",
+          "text": "{pool:marketDesc:3}\n\n{pool:baronDesc:2}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 51, "max": 99 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE SAND MARKET",
+          "text": "{pool:marketDesc:2}\n\n{pool:baronDesc:1}"
+        },
+        {
+          "title": "THE MARKET ROUTE",
+          "text": "Break through. Reach the Baron. Defeat him.\n\nYou know the market. You always know the market."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 50 },
+      "panels": [
+        {
+          "title": "FIFTY CAMPAIGNS",
+          "text": "{pool:milestoneOpenings50:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE SAND MARKET",
+          "text": "{pool:marketDesc:2}\n\n{pool:baronDesc:1}"
+        },
+        {
+          "title": "THE MARKET ROUTE",
+          "text": "Break through. Reach the Baron. Defeat him.\n\nYou know the market. You always know the market."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 26, "max": 49 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE SAND MARKET",
+          "text": "{pool:marketDesc:1}\n\n{pool:baronDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 25 },
+      "panels": [
+        {
+          "title": "TWENTY-FIVE",
+          "text": "{pool:milestoneOpenings25:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE SAND MARKET",
+          "text": "{pool:marketDesc:1}\n\n{pool:baronDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 11, "max": 24 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE SAND MARKET",
+          "text": "{pool:marketDesc:0}\n\n{pool:baronDesc:0}"
+        },
+        {
+          "title": "THE MARKET ROUTE",
+          "text": "Break through the shard. Reach the Baron.\n\nYou know how this goes. He knows how this goes. Neither of you is surprised."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 10 },
+      "panels": [
+        {
+          "title": "THE TENTH TIME",
+          "text": "{pool:milestoneOpenings10:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE SAND MARKET",
+          "text": "{pool:marketDesc:0}\n\n{pool:baronDesc:0}"
+        },
+        {
+          "title": "THE MARKET ROUTE",
+          "text": "Break through the shard. Reach the Baron.\n\nYou know how this goes. He knows how this goes. Neither of you is surprised."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 5, "max": 9 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{pool:milestoneOpenings5:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE SAND MARKET",
+          "text": "{pool:marketDesc:0}\n\n{pool:baronDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 2, "max": 4 },
+      "panels": [
+        {
+          "title": "THE SAND MARKET",
+          "text": "The ley lines run through the desert — again.\n\n{pool:priorRunSummaries:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE DUNE BARON",
+          "text": "{pool:baronDesc:0}"
+        },
+        {
+          "title": "A FEELING",
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+        }
+      ]
+    }
+  ],
   "intro": [
     {
       "title": "THE SAND MARKET",
