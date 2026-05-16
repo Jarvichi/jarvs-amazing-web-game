@@ -19,14 +19,14 @@
   font-size: var(--game-font-size);
 
   /* Colour palette */
-  --color-gold:         var(--color-gold);
-  --color-gold-alt:     var(--color-gold-alt);
-  --color-gold-dim:     var(--color-gold-dim);
-  --color-gold-light:   var(--color-gold-light);
-  --color-red:          var(--color-red);
-  --color-orange:       var(--color-orange);
-  --color-orange-alt:   var(--color-orange-alt);
-  --color-green-bright: var(--color-green-bright);
+  --color-gold:         #ffd700;
+  --color-gold-alt:     #ffcc00;
+  --color-gold-dim:     #d0a030;
+  --color-gold-light:   #ffcc44;
+  --color-red:          #ff4444;
+  --color-orange:       #ff9900;
+  --color-orange-alt:   #ff9944;
+  --color-green-bright: #4caf50;
   --color-gray-3:  #222;
   --color-gray-5:  #444;
   --color-gray-6:  #555;
@@ -36,13 +36,13 @@
   --color-gray-10: #ccc;
 
   /* Font-size scale */
-  --font-xxs:  var(--font-xxs);
-  --font-xs:   var(--font-xs);
-  --font-sm:   var(--font-sm);
-  --font-md:   var(--font-md);
-  --font-base: var(--font-base);
+  --font-xxs:  0.643rem;
+  --font-xs:   0.714rem;
+  --font-sm:   0.786rem;
+  --font-md:   0.857rem;
+  --font-base: 0.929rem;
   --font-lg:   1rem;
-  --font-xl:   var(--font-xl);
+  --font-xl:   1.143rem;
 
   /* Spacing scale */
   --gap-1: 2px;
