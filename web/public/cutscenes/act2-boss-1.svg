@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#080c14"/>
+  <linearGradient id="citadel-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#080c14"/>
+    <stop offset="60%" stop-color="#0e1220"/>
+    <stop offset="100%" stop-color="#141828"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#citadel-sky)"/>
+
+  <!-- Torchlight glow from below — warm amber -->
+  <radialGradient id="torch-glow" cx="50%" cy="75%" r="55%">
+    <stop offset="0%" stop-color="#604010" stop-opacity="0.45"/>
+    <stop offset="50%" stop-color="#402808" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#402808" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#torch-glow)"/>
+
+  <!-- Distant sky — overcast iron clouds -->
+  <g fill="#0c1018" opacity="0.6">
+    <ellipse cx="80"  cy="30" rx="70" ry="18"/>
+    <ellipse cx="220" cy="20" rx="90" ry="14"/>
+    <ellipse cx="350" cy="35" rx="65" ry="16"/>
+  </g>
+
+  <!-- Far towers — left -->
+  <rect x="30"  y="60" width="30" height="115" fill="#0c0e14" stroke="#14182a" stroke-width="1"/>
+  <rect x="26"  y="55" width="38" height="10"  fill="#0e1018" stroke="#14182a" stroke-width="0.8"/>
+  <g fill="#0e1018" stroke="#14182a" stroke-width="0.8">
+    <rect x="26"  y="50" width="7" height="8"/>
+    <rect x="38"  y="50" width="7" height="8"/>
+    <rect x="50"  y="50" width="7" height="8"/>
+  </g>
+  <!-- Far tower window glow -->
+  <rect x="40" y="80" width="8" height="10" rx="1" fill="#6a4010" opacity="0.7"/>
+
+  <!-- Far towers — right -->
+  <rect x="340" y="55" width="30" height="120" fill="#0c0e14" stroke="#14182a" stroke-width="1"/>
+  <rect x="336" y="50" width="38" height="10"  fill="#0e1018" stroke="#14182a" stroke-width="0.8"/>
+  <g fill="#0e1018" stroke="#14182a" stroke-width="0.8">
+    <rect x="336" y="45" width="7" height="8"/>
+    <rect x="348" y="45" width="7" height="8"/>
+    <rect x="360" y="45" width="7" height="8"/>
+  </g>
+  <rect x="350" y="78" width="8" height="10" rx="1" fill="#6a4010" opacity="0.7"/>
+
+  <!-- Main keep — central mass -->
+  <rect x="100" y="75" width="200" height="100" fill="#0c0e18" stroke="#181c2c" stroke-width="1.5"/>
+
+  <!-- Keep battlements -->
+  <g fill="#0e1018" stroke="#181c2c" stroke-width="0.8">
+    <rect x="100" y="66" width="12" height="12"/>
+    <rect x="118" y="66" width="12" height="12"/>
+    <rect x="136" y="66" width="12" height="12"/>
+    <rect x="154" y="66" width="12" height="12"/>
+    <rect x="172" y="66" width="12" height="12"/>
+    <rect x="190" y="66" width="12" height="12"/>
+    <rect x="208" y="66" width="12" height="12"/>
+    <rect x="226" y="66" width="12" height="12"/>
+    <rect x="244" y="66" width="12" height="12"/>
+    <rect x="262" y="66" width="12" height="12"/>
+    <rect x="280" y="66" width="12" height="12"/>
+  </g>
+
+  <!-- Keep windows — arrow slits -->
+  <g fill="#5a3808" opacity="0.7">
+    <rect x="130" y="92"  width="5" height="14" rx="1"/>
+    <rect x="155" y="92"  width="5" height="14" rx="1"/>
+    <rect x="240" y="92"  width="5" height="14" rx="1"/>
+    <rect x="265" y="92"  width="5" height="14" rx="1"/>
+    <rect x="130" y="118" width="5" height="14" rx="1"/>
+    <rect x="265" y="118" width="5" height="14" rx="1"/>
+  </g>
+
+  <!-- Iron war banner — left -->
+  <line x1="170" y1="68" x2="170" y2="40" stroke="#202436" stroke-width="1.5"/>
+  <rect x="170" y="40" width="24" height="16" rx="1" fill="#181c30" stroke="#2a2e40" stroke-width="0.8"/>
+  <path d="M170,48 L185,44 L185,52 Z" fill="#252838" opacity="0.7"/>
+
+  <!-- Iron war banner — right -->
+  <line x1="230" y1="68" x2="230" y2="40" stroke="#202436" stroke-width="1.5"/>
+  <rect x="206" y="40" width="24" height="16" rx="1" fill="#181c30" stroke="#2a2e40" stroke-width="0.8"/>
+  <path d="M230,48 L215,44 L215,52 Z" fill="#252838" opacity="0.7"/>
+
+  <!-- Central gate arch — iron portcullis -->
+  <path d="M160,175 L160,120 Q160,108 175,108 Q200,105 225,108 Q240,108 240,120 L240,175" fill="#080c14" stroke="#181c2c" stroke-width="2"/>
+  <!-- Portcullis bars vertical -->
+  <g stroke="#141828" stroke-width="1.5" opacity="0.8">
+    <line x1="172" y1="108" x2="172" y2="175"/>
+    <line x1="184" y1="107" x2="184" y2="175"/>
+    <line x1="196" y1="106" x2="196" y2="175"/>
+    <line x1="208" y1="106" x2="208" y2="175"/>
+    <line x1="220" y1="107" x2="220" y2="175"/>
+    <line x1="232" y1="108" x2="232" y2="175"/>
+  </g>
+  <!-- Portcullis bars horizontal -->
+  <g stroke="#141828" stroke-width="1" opacity="0.6">
+    <line x1="162" y1="120" x2="238" y2="120"/>
+    <line x1="162" y1="132" x2="238" y2="132"/>
+    <line x1="162" y1="144" x2="238" y2="144"/>
+    <line x1="162" y1="156" x2="238" y2="156"/>
+  </g>
+  <!-- Gate torch glow through portcullis -->
+  <radialGradient id="gate-glow" cx="50%" cy="80%" r="30%">
+    <stop offset="0%" stop-color="#804010" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#804010" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="160" y="108" width="80" height="67" fill="url(#gate-glow)"/>
+
+  <!-- Wall torches — left -->
+  <line x1="140" y1="82" x2="140" y2="92" stroke="#302010" stroke-width="2"/>
+  <polygon points="136,80 144,80 142,74 138,74" fill="#402808"/>
+  <radialGradient id="t1" cx="50%" cy="40%" r="60%">
+    <stop offset="0%" stop-color="#e08020" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#e08020" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="140" cy="76" rx="10" ry="12" fill="url(#t1)"/>
+
+  <!-- Wall torches — right -->
+  <line x1="260" y1="82" x2="260" y2="92" stroke="#302010" stroke-width="2"/>
+  <polygon points="256,80 264,80 262,74 258,74" fill="#402808"/>
+  <radialGradient id="t2" cx="50%" cy="40%" r="60%">
+    <stop offset="0%" stop-color="#e08020" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#e08020" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="260" cy="76" rx="10" ry="12" fill="url(#t2)"/>
+
+  <!-- Cobblestone approach road -->
+  <rect x="0" y="175" width="400" height="65" fill="#0a0c10"/>
+  <path d="M140,175 L0,240 M260,175 L400,240" stroke="#141828" stroke-width="1" opacity="0.5"/>
+  <!-- Stone flags -->
+  <g stroke="#12161e" stroke-width="0.6" fill="none" opacity="0.3">
+    <path d="M0,192 Q100,188 200,190 Q300,192 400,188"/>
+    <path d="M0,210 Q100,206 200,208 Q300,210 400,206"/>
+    <path d="M0,228 Q100,224 200,226 Q300,228 400,224"/>
+  </g>
+
+  <!-- Guard silhouettes on battlements -->
+  <g fill="#0a0c14" opacity="0.85">
+    <rect x="113" y="58" width="5" height="8"/>
+    <ellipse cx="115" cy="56" rx="3" ry="3"/>
+    <rect x="285" y="58" width="5" height="8"/>
+    <ellipse cx="287" cy="56" rx="3" ry="3"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="vign" cx="50%" cy="50%" r="70%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.65"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1a2030" text-anchor="middle" letter-spacing="3">THE IRON CITADEL</text>
+</svg>
