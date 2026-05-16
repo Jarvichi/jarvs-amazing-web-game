@@ -2,7 +2,7 @@ import React from 'react'
 import { HERO_CARDS } from '../../game/cards'
 import { CardTile } from '../cards/CardTile'
 import { useCardDetail } from '../cards/useCardDetail'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
+import { OverlayScreen } from '../ui/OverlayScreen'
 
 interface Props {
   onBack: () => void

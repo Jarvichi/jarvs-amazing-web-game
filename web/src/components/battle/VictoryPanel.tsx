@@ -1,5 +1,5 @@
 import React from 'react'
-import { StatRow } from '../BuildingBlocks/StatRow'
+import { StatRow } from '../ui/StatRow'
 
 interface Props {
   playerScore: number

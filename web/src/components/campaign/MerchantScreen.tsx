@@ -4,7 +4,7 @@ import { Card } from '../../game/types'
 import { UselessItem } from '../../game/dailyLogin'
 import { MERCHANT_PRICES, ConsumableDef } from '../../game/questline'
 import { CardTile } from '../cards/CardTile'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
+import { OverlayScreen } from '../ui/OverlayScreen'
 
 export type MerchantItem =
   | { kind: 'card'; card: Card; price: number }

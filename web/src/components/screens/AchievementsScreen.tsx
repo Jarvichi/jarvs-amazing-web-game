@@ -3,7 +3,7 @@ import {
   ACHIEVEMENT_DEFS, AchievementDef, AchievementCategory,
   loadAchievementSave, claimAchievementReward, claimAllAchievementRewards,
 } from '../../game/achievements'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
+import { OverlayScreen } from '../ui/OverlayScreen'
 import { addCardsToCollection, loadCrystals, saveCrystals } from '../../game/collection'
 import { addToInventory, ALL_ITEMS } from '../../game/dailyLogin'
 import { addUnlockedAvatar } from '../../game/questline'

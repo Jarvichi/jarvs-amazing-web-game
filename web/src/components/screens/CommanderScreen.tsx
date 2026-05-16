@@ -12,8 +12,8 @@ import {
   clearCommander,
 } from '../../game/commander'
 import { getMasteryXp, masteryProgress, loadCollection } from '../../game/collection'
-import { AnimatedSpriteImg } from '../BuildingBlocks/SpriteImg'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
+import { AnimatedSpriteImg } from '../ui/SpriteImg'
+import { OverlayScreen } from '../ui/OverlayScreen'
 
 interface Props {
   commander: CommanderState

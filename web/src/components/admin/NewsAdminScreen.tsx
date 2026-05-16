@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
-import { Section } from '../BuildingBlocks/Section'
+import { OverlayScreen } from '../ui/OverlayScreen'
+import { Section } from '../ui/Section'
 import { NewsItem, NEWS_TAGS, getAllNews, saveNewsToFirestore, deleteNewsFromFirestore, uploadNewsImage } from '../../game/news'
 
 interface Props {

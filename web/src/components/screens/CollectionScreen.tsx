@@ -20,10 +20,10 @@ import { promotionsRemainingToday } from '../../game/commander'
 import { incrementAchievementProgress } from '../../game/achievements'
 import { CardTile } from '../cards/CardTile'
 import { CardDetailModal } from '../cards/CardDetailModal'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
-import { MasteryBar } from '../BuildingBlocks/MasteryBar'
-import { ModalBackdrop } from '../BuildingBlocks/ModalBackdrop'
-import { Button } from '../BuildingBlocks/Button'
+import { OverlayScreen } from '../ui/OverlayScreen'
+import { MasteryBar } from '../ui/MasteryBar'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { Button } from '../ui/Button'
 
 interface Props {
   crystals: number

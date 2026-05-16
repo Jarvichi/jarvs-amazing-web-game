@@ -51,12 +51,15 @@ type AvatarTab = 'base' | 'streak' | 'boss'
 
 export function CharacterScreen({ onDone }: Props) {
   const [name,      setName]      = useState(loadPlayerName())
+  const [nameChanged, setNameChanged] = useState(false)
   const [avatar,    setAvatar]    = useState<AvatarSlug>(loadPlayerAvatar())
   const [saving,    setSaving]    = useState(false)
   const [nameError, setNameError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<AvatarTab>('base')
 
   async function handleSave() {
+
+    if (nameChanged) {
     const finalName = sanitiseName(name).trim() || 'Jarv'
     const user = auth.currentUser
     if (user) {
@@ -70,8 +73,22 @@ export function CharacterScreen({ onDone }: Props) {
       }
     }
     savePlayerName(finalName)
+  }
     savePlayerAvatar(avatar)
     onDone()
+  }
+
+  async function handleNameChange(newName: string) {
+    const sanitised = sanitiseName(newName)
+
+    if (newName === name) {
+      // No change, do nothing
+      return
+    }
+
+    setName(sanitised)
+    setNameChanged(true)
+    setNameError(null) 
   }
 
   return (
@@ -90,7 +107,7 @@ export function CharacterScreen({ onDone }: Props) {
             maxLength={20}
             value={name}
             placeholder="Jarv"
-            onChange={e => { setName(sanitiseName(e.target.value)); setNameError(null) }}
+            onChange={e =>handleNameChange(e.target.value)}
           />
           {nameError && (
             <div style={{ color: '#ff6666', fontSize: '0.75rem', marginTop: '0.3rem' }}>

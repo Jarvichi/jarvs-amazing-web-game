@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
+import { OverlayScreen } from '../ui/OverlayScreen'
 import { getAllNews, markNewsRead, dismissNewsItem, loadDismissedNewsIds, NewsItem } from '../../game/news'
 
 interface Props {

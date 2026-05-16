@@ -1,5 +1,5 @@
 import React from 'react'
-import { ModalBackdrop } from '../BuildingBlocks/ModalBackdrop'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
 
 interface Props {
   title: string

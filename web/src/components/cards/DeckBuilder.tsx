@@ -28,10 +28,10 @@ import {
   decodeDeck,
 } from '../../game/collection'
 import { CardTile } from './CardTile'
-import { MasteryBar } from '../BuildingBlocks/MasteryBar'
+import { MasteryBar } from '../ui/MasteryBar'
 import { useCardDetail } from './useCardDetail'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
-import { ProgressBar } from '../BuildingBlocks/ProgressBar'
+import { OverlayScreen } from '../ui/OverlayScreen'
+import { ProgressBar } from '../ui/ProgressBar'
 import { TutorialOverlay } from '../modals/TutorialOverlay'
 import { hasSeen, markSeen } from '../../game/tutorial'
 

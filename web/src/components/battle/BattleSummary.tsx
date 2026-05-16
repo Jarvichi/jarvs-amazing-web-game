@@ -1,6 +1,6 @@
 import React from 'react'
 import { BattleStats } from '../../game/types'
-import { StatRow } from '../BuildingBlocks/StatRow'
+import { StatRow } from '../ui/StatRow'
 
 interface Props {
   stats: BattleStats

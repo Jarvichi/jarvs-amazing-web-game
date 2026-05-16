@@ -134,6 +134,33 @@ Key shared button classes:
 - `action-btn--danger` — red variant for destructive/abandon actions
 - `filter-btn` — compact filter/toggle button
 
+## Component Extraction and Storybook Stories
+
+**Break screen-level components into focused sub-components, each with its own story.**
+
+When a screen component grows large, extract its visual pieces into a subfolder named after the screen:
+```
+components/
+  minigames/
+    TowerDefence.tsx          ← screen: imports sub-components
+    towerdefence/
+      AttackEffect.tsx        ← extracted piece
+      AttackEffect.stories.tsx
+      BottomPanel.tsx
+      BottomPanel.stories.tsx
+      ...
+```
+
+Rules:
+- Every extracted component gets a `.stories.tsx` file alongside it — no exceptions.
+- The story must cover at least the default visual state so it can be inspected in Storybook.
+- Sub-components are pure visual: no game state, no localStorage, props only.
+- The parent screen component orchestrates data and passes it down.
+
+**Why:** Isolated Storybook stories let you see each piece independently. Visual bugs (wrong layout, broken animations, missing sprites) are caught at the component level — not buried inside a running game session. This is how the hit-spark animation timing bug was spotted.
+
+**Apply this pattern to all future components, and refactor existing large screens when touching them for other reasons.**
+
 ## Constants vs JSON Config
 Complex constants that are likely to be extended (multiplicity) should be JSON config files, or added to an existing JSON file if colocating makes sense.
 

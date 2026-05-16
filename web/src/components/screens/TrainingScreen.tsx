@@ -2,8 +2,8 @@ import React, { useState, useMemo } from 'react'
 import { getCardCatalog } from '../../game/cards'
 import { loadCollection, loadDeck, buildDeckCards, deckTotalCards, STARTER_DECK } from '../../game/collection'
 import { Card } from '../../game/types'
-import { SpriteImg } from '../BuildingBlocks/SpriteImg'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
+import { SpriteImg } from '../ui/SpriteImg'
+import { OverlayScreen } from '../ui/OverlayScreen'
 interface Props {
   onBack: () => void
   onStart: (enemyUnitName: string, playerCards: Card[]) => void

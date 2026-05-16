@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
-import { Section } from '../BuildingBlocks/Section'
+import { OverlayScreen } from '../ui/OverlayScreen'
+import { Section } from '../ui/Section'
 import { ACTS, Act, QuestNode, NodeType } from '../../game/questline'
 import { getCardCatalog } from '../../game/cards'
 import battlefieldData from '../../data/battlefield.json'

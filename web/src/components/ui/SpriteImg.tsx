@@ -12,13 +12,19 @@ function is8bitMode(): boolean {
   return document.documentElement.classList.contains('eightbit-mode')
 }
 
+function isMonochromeMode(): boolean {
+  return document.documentElement.classList.contains('monochrome-mode')
+}
+
 /** Draws src onto a tiny canvas and subscribes to 8-bit mode changes. */
-function EightbitCanvas({ src, alt, className }: { src: string; alt: string; className?: string }) {
+function EightbitCanvas({ src, alt, className, onError }: { src: string; alt: string; className?: string; onError?: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
+    let cancelled = false
     const img = new window.Image()
     img.onload = () => {
+      if (cancelled) return
       const canvas = canvasRef.current
       if (!canvas) return
       const ctx = canvas.getContext('2d')
@@ -27,8 +33,10 @@ function EightbitCanvas({ src, alt, className }: { src: string; alt: string; cla
       ctx.clearRect(0, 0, EIGHTBIT_PX, EIGHTBIT_PX)
       ctx.drawImage(img, 0, 0, EIGHTBIT_PX, EIGHTBIT_PX)
     }
+    img.onerror = () => { if (!cancelled) onError?.() }
     img.src = src
-  }, [src])
+    return () => { cancelled = true }
+  }, [src, onError])
 
   return (
     <canvas
@@ -40,6 +48,38 @@ function EightbitCanvas({ src, alt, className }: { src: string; alt: string; cla
     />
   )
 }
+
+/** Draws src onto a black and white canvas. */
+function MonochromeCanvas({ src, alt, className, onError }: { src: string; alt: string; className?: string; onError?: () => void }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    const img = new window.Image()
+    img.onload = () => {
+      if (cancelled) return
+      const canvas = canvasRef.current
+      if (!canvas) return
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
+      canvas.width  = img.width
+      canvas.height = img.height
+      ctx.drawImage(img, 0, 0)
+      const imageData = ctx.getImageData(0, 0, img.width, img.height)
+      for (let i = 0; i < imageData.data.length; i += 4) {
+        const gray = (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3
+        imageData.data[i] = imageData.data[i + 1] = imageData.data[i + 2] = gray
+      }
+      ctx.putImageData(imageData, 0, 0)
+    }
+    img.onerror = () => { if (!cancelled) onError?.() }
+    img.src = src
+    return () => { cancelled = true }
+  }, [src, onError])
+
+  return <canvas ref={canvasRef} className={className} aria-label={alt} />
+}
+
 
 interface Props {
   /** Unit or building name — used to derive the sprite slug. */
@@ -66,6 +106,7 @@ export function SpriteImg({ name, fallbackName, className }: Props) {
   const [loaded,  setLoaded]  = useState(false)
   const [failed,  setFailed]  = useState(false)
   const [eightbit, setEightbit] = useState(is8bitMode)
+  const [monochrome, setMonochrome] = useState(isMonochromeMode)
 
   useEffect(() => {
     const handler = () => setEightbit(is8bitMode())
@@ -73,10 +114,19 @@ export function SpriteImg({ name, fallbackName, className }: Props) {
     return () => window.removeEventListener('eightbit-change', handler)
   }, [])
 
+  useEffect(() => {
+    const handler = () => setMonochrome(isMonochromeMode())
+    window.addEventListener('monochrome-change', handler)
+    return () => window.removeEventListener('monochrome-change', handler)
+  }, [])
+
   if (failed) return null
 
   if (eightbit && loaded) {
     return <EightbitCanvas src={src} alt={name} className={className} />
+  }
+  if (monochrome && loaded) {
+    return <MonochromeCanvas src={src} alt={name} className={className} />
   }
 
   return (
@@ -116,12 +166,18 @@ export function AnimatedSpriteImg({ name, frameCount, fps, className }: Animated
   const [frame,       setFrame]       = useState(1)
   const [useFallback, setUseFallback] = useState(false)
   const [eightbit,    setEightbit]    = useState(is8bitMode)
+  const [monochrome, setMonochrome]    = useState(isMonochromeMode)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
     const handler = () => setEightbit(is8bitMode())
     window.addEventListener('eightbit-change', handler)
     return () => window.removeEventListener('eightbit-change', handler)
+  }, [])
+  useEffect(() => {
+    const handler = () => setMonochrome(isMonochromeMode())
+    window.addEventListener('monochrome-change', handler)
+    return () => window.removeEventListener('monochrome-change', handler)
   }, [])
 
   useEffect(() => {
@@ -140,9 +196,18 @@ export function AnimatedSpriteImg({ name, frameCount, fps, className }: Animated
 
   const src = `${BASE}sprites/${slug}-${frame}.svg`
 
-  if (eightbit) {
-    return <EightbitCanvas src={src} alt={name} className={className} />
+  const handleFrameError = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    setUseFallback(true)
   }
+
+  if (eightbit) {
+    return <EightbitCanvas src={src} alt={name} className={className} onError={handleFrameError} />
+  }
+  if (monochrome) {
+    return <MonochromeCanvas src={src} alt={name} className={className} onError={handleFrameError} />
+  }
+
 
   return (
     <img
