@@ -46,7 +46,7 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
       <div className="event-title">{event.title}</div>
 
       {/* HP bar */}
-      <div className="event-hp-area">
+      <div className="event-hp-area u-flex u-items-c u-gap-3">
         <span className="event-hp-label">HP</span>
         <div className="event-hp-track">
           <div
@@ -63,7 +63,7 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
 
       <div className="event-description">{event.description.replace(/\bJarv\b/g, playerName)}</div>
 
-      <div className="event-choices">
+      <div className="event-choices u-col u-gap-4">
         {event.choices.map((choice, i) => {
           const isChosen   = picked?.label === choice.label
           const isDisabled = picked !== null && !isChosen

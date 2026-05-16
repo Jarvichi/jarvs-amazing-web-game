@@ -191,7 +191,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
       <div className="card-cost">{card.cost}</div>
       {upgradeable && <div className="card-upgrade-badge">UPGRADE</div>}
       <div className="card-title">{card.name}</div>
-      <div className="card-art">
+      <div className="card-art u-flex u-items-c u-just-c">
         {card.unit
           ? <SpriteImg name={card.unit.name} className="card-sprite" />
           : card.upgradeEffect
@@ -201,7 +201,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
       </div>
 
       <div className="card-stats">{stats}</div>
-      <div className="card-bottom-row">
+      <div className="card-bottom-row u-flex u-items-c u-just-sb u-gap-1">
         <div className="card-rarity">{rarityStars(card.rarity)}</div>
         <div className={`card-type-badge card-type-badge--${getCardCategory(card)}`}>
           {CATEGORY_ICON[getCardCategory(card)]}
@@ -218,7 +218,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
         )} 
       </div>
       {heroLocked && (
-        <div className="card-hero-lock">
+        <div className="card-hero-lock u-absolute u-col u-items-c u-just-c">
           <span className="card-hero-lock-icon">⏳</span>
           <span className="card-hero-lock-secs">{lockedSecs}s</span>
         </div>

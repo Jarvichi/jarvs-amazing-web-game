@@ -2212,7 +2212,7 @@ export default function App() {
         const card = catalog.find(c => c.name === pendingEventCard)
         if (!card) { setPendingEventCard(null); return null }
         return (
-          <div className="event-card-reveal-backdrop" onClick={() => { setPendingEventCard(null); setScreen('nodemap') }}>
+          <div className="event-card-reveal-backdrop u-col u-items-c u-just-c u-gap-8" onClick={() => { setPendingEventCard(null); setScreen('nodemap') }}>
             <div className="event-card-reveal-label">YOU GAINED A CARD</div>
             <CardTile card={card} canAfford={true} />
             <div className="event-card-reveal-sub">Click anywhere to continue</div>
@@ -2771,7 +2771,7 @@ export default function App() {
               ({formatTimeAgo(syncPrompt.remoteDate)})
             </div>
             <div className="sync-prompt-question">Which save would you like to keep?</div>
-            <div className="sync-prompt-buttons">
+            <div className="sync-prompt-buttons u-col u-gap-4">
               <button className="action-btn" onClick={() => {
                 applySave(syncPrompt.data)
                 clearSyncPrompt()

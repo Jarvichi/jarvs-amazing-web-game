@@ -427,7 +427,7 @@ const LaneUnit = React.memo(function LaneUnit({ unit, stackIndex = 0, wallStack,
   return (
     <div
       className={[
-        'lane-unit',
+        'lane-unit u-absolute u-col u-items-c u-gap-1',
         `lane-unit--${unit.owner}`,
         isStructure ? 'lane-unit--structure' : '',
         unit.isWall ? 'lane-unit--wall' : '',
@@ -470,7 +470,7 @@ const LaneUnit = React.memo(function LaneUnit({ unit, stackIndex = 0, wallStack,
       )}
       {/* Buffs above the sprite so they aren't clipped by lane overflow:hidden at the base edge */}
       {(unit.buffs && unit.buffs.length > 0 || unit.affinityActive) && (
-        <div className="lane-unit-buffs">
+        <div className="lane-unit-buffs u-row u-just-c">
           {unit.buffs?.map(tag => (
             <span key={tag} className={`lane-unit-buff lane-unit-buff--${tag}`}>
               {tag === 'atk' ? '⚔' : tag === 'spd' ? '▶' : tag === 'hp' ? '♥' : '◎'}
@@ -497,7 +497,7 @@ const LaneUnit = React.memo(function LaneUnit({ unit, stackIndex = 0, wallStack,
         </div>
       )}
       {!isDying && !unit.isMoat && (
-        <div className="lane-unit-hp-row">
+        <div className="lane-unit-hp-row u-flex u-items-c u-gap-1">
           <div className="lane-unit-hp-bar">
             <div className="lane-unit-hp-fill" style={{ width: `${hpPct}%` }} />
           </div>
@@ -805,7 +805,7 @@ function TerrainTile({ obs }: { obs: TerrainObstacle }) {
 
   return (
     <div
-      className={`terrain-obstacle terrain-obstacle--${obs.type}`}
+      className={`terrain-obstacle u-absolute u-no-select u-flex u-items-c u-just-c terrain-obstacle--${obs.type}`}
       style={{
         top:       `${topPct}%`,
         left:      `${leftPct}%`,
@@ -829,7 +829,7 @@ function ManaBar({ mana, maxMana, manaAccum }: { mana: number; maxMana: number; 
     return 'empty'
   })
   return (
-    <div className="mana-bar">
+    <div className="mana-bar u-flex u-items-c">
       {pips.map((pipState, i) => (
         <span key={i} className={`mana-pip mana-pip--${pipState}`}>
           {pipState === 'partial'
@@ -972,7 +972,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
 
   return (
     <div
-      className={`battlefield${actTheme ? ` battlefield--${actTheme}` : ''}${paused ? ' battlefield--paused' : ''}`}
+      className={`battlefield u-col u-grow${actTheme ? ` battlefield--${actTheme}` : ''}${paused ? ' battlefield--paused' : ''}`}
       onClick={paused && !inspectedUnit ? () => doPause(false) : undefined}
     >
 
@@ -1045,7 +1045,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
 
       {/* Replay modifier strip — only shown in pause menu */}
       {paused && activeModifiers && activeModifiers.length > 0 && (
-        <div className="replay-modifier-strip">
+        <div className="replay-modifier-strip u-flex u-wrap u-gap-2">
           {activeModifiers.map((m, i) => (
             <span key={i} className="replay-modifier-tag">⚠ {m.label}</span>
           ))}
@@ -1060,7 +1060,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           alt="opponent"
         />
         <HpBar current={state.opponentBase.hp} max={state.opponentBase.maxHp} color="#ff4444" />
-        <span className="base-bar-info">
+        <span className="base-bar-info u-flex u-items-c u-gap-3">
           {STRATEGY_LABELS[state.opponentStrategy] && (
             <span className="strategy-label">{STRATEGY_LABELS[state.opponentStrategy]}</span>
           )}
@@ -1278,7 +1278,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
           alt={playerName}
         />
         <HpBar current={state.playerBase.hp} max={state.playerBase.maxHp} color="#33ff33" />
-        <span className="base-bar-info">
+        <span className="base-bar-info u-flex u-items-c u-gap-3">
           MANA {state.mana}/{state.maxMana}
           <ManaBar mana={state.mana} maxMana={state.maxMana} manaAccum={state.manaAccum} />
         </span>
@@ -1339,7 +1339,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
             Regrouping… <span className="hand-truce-secs">{Math.ceil(truceMs / 1000)}s</span>
           </div>
         )}
-        <div className="hand-cards">
+        <div className="hand-cards u-flex u-gap-3 u-just-c">
           {state.playerHand.length === 0
             ? <span className="field-empty">No cards</span>
             : state.playerHand.map(card => {
@@ -1349,7 +1349,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
               const isMaxUpgrade = card.cardType === 'structure' && card.unit != null &&
                 state.field.some(u => u.owner === 'player' && u.name === card.unit!.name && (u.upgradeLevel ?? 1) >= MAX_UPGRADE_LEVEL)
               return (
-              <div key={card.id} className="hand-card-wrap" title={isMaxUpgrade ? 'Already at max level' : undefined}>
+              <div key={card.id} className="hand-card-wrap u-relative u-col" title={isMaxUpgrade ? 'Already at max level' : undefined}>
                 <CardTile
                   card={card}
                   canAfford={!isMaxUpgrade && state.mana >= card.cost}
@@ -1377,8 +1377,8 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       {cardDetailNode}
 
       {showBossSplash && (
-        <div className="boss-splash-overlay">
-          <div className="boss-splash-content">
+        <div className="boss-splash-overlay u-absolute u-flex u-items-c u-just-c">
+          <div className="boss-splash-content u-text-c u-col u-gap-4">
             <div className="boss-splash-warning">⚡ WARNING ⚡</div>
             <div className="boss-splash-title">BOSS FIGHT</div>
             <div className="boss-splash-unit">{state.bossName ?? state.bossCard}</div>
@@ -1391,7 +1391,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       {paused && importantMsgQueue.length === 0 && (
         <div className="bf-pause-panel" onClick={e => e.stopPropagation()}>
             {inspectedUnit ? (
-              <div className="bf-inspect-panel">
+              <div className="bf-inspect-panel u-col u-items-c u-gap-2 u-grow">
                 {/* Name + buffs */}
                 <div className="bf-inspect-name" style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                   <span>
@@ -1403,7 +1403,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
                     )}
                   </span>
                   {(inspectedUnit.buffs && inspectedUnit.buffs.length > 0 || inspectedUnit.affinityActive) && (
-                    <div className="lane-unit-buffs" style={{ justifyContent: 'flex-start', gap: 4 }}>
+                    <div className="lane-unit-buffs u-row u-just-c" style={{ justifyContent: 'flex-start', gap: 4 }}>
                       {inspectedUnit.buffs?.map(tag => (
                         <span key={tag} className={`lane-unit-buff lane-unit-buff--${tag}`}>
                           {tag === 'atk' ? '⚔ atk' : tag === 'spd' ? '▶ spd' : tag === 'hp' ? '♥ hp' : '◎ rng'}
@@ -1427,14 +1427,14 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
                   if (u.bypassWall && u.moveSpeed > 0) traits.push('ranged')
                   for (const t of (u.tags ?? [])) { if (!traits.includes(t)) traits.push(t) }
                   return traits.length > 0 ? (
-                    <div className="cdm-traits">
+                    <div className="cdm-traits u-flex u-wrap u-gap-2">
                       {traits.map(t => <span key={t} className="cdm-trait">{t}</span>)}
                     </div>
                   ) : null
                 })()}
 
                 {/* Scrollable detail area */}
-                <div className="bf-inspect-scroll">
+                <div className="bf-inspect-scroll u-grow u-col u-gap-2">
                   <div className="bf-inspect-stats">
                     <div className="bf-inspect-row"><span>HP</span><span>{inspectedUnit.hp}/{inspectedUnit.maxHp}</span></div>
                     {inspectedUnit.attack > 0 && (
@@ -1447,7 +1447,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
 
                   {/* Strengths, Weaknesses & Affinity — all on one line */}
                   {(inspectedUnit.strengths?.length || inspectedUnit.weaknesses?.length || inspectedUnit.affinity) ? (
-                    <div className="cdm-sw-row" style={{ flexWrap: 'wrap', gap: '0 8px' }}>
+                    <div className="cdm-sw-row u-flex u-gap-3" style={{ flexWrap: 'wrap', gap: '0 8px' }}>
                       {inspectedUnit.strengths && inspectedUnit.strengths.length > 0 && (
                         <span className="cdm-sw-label--strong">↑ {inspectedUnit.strengths.join(', ')}</span>
                       )}
@@ -1469,12 +1469,12 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
                 <Button size="xs" style={{ marginTop: 4 }} onClick={() => setInspectedUnit(null)}>← Back</Button>
               </div>
             ) : showDeckViewer ? (
-              <div className="bf-deck-viewer">
+              <div className="bf-deck-viewer u-col u-gap-3">
                 <div className="bf-deck-viewer-header">
                   <span>MY DECK</span>
                   <Button size="xs" onClick={() => setShowDeckViewer(false)}>← Back</Button>
                 </div>
-                <div className="bf-deck-viewer-list">
+                <div className="bf-deck-viewer-list u-grow u-col u-gap-1">
                   {(() => {
                     const catalog = getCardCatalog()
                     const inHand = new Set(state.playerHand.map(c => c.id))
@@ -1505,7 +1505,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
             ) : (
               <>
                 <div className="bf-pause-hint">Tap a unit or building on the field to inspect it</div>
-                <div className="bf-pause-actions">
+                <div className="bf-pause-actions u-row u-gap-5">
                   <Button size="lg" onClick={() => doPause(false)}>▶ Resume</Button>
                   <Button size="md" onClick={() => setShowDeckViewer(true)}>📋 My Deck</Button>
                   {onGiveUp && (

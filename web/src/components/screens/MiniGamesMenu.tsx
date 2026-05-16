@@ -269,7 +269,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       {toast && <div className="minigame-toast" role="alert">{toast}</div>}
 
       {/* Header */}
-      <div className="minigame-hub-header">
+      <div className="minigame-hub-header u-flex u-items-c u-just-sb">
         <button className="action-btn" onClick={onBack}>← BACK</button>
         <div className="minigame-hub-title">🎮 ARCADE</div>
         <div className="ticket-balance">🎫 {tickets} tickets</div>
@@ -298,11 +298,11 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
               const locked  = currentCrystals < cost
               const best    = loadLocalHighScore(id)
               return (
-                <div key={id} className={`minigame-card${locked ? ' minigame-card--locked' : ''}`}>
+                <div key={id} className={`minigame-card u-col u-items-c u-gap-3 u-text-c${locked ? ' minigame-card--locked' : ''}`}>
                   <div className="minigame-card-icon">{MINI_GAME_ICONS[id]}</div>
                   <div className="minigame-card-name">{MINI_GAME_LABELS[id]}</div>
                   <div className="minigame-card-desc">{MINI_GAME_DESCRIPTIONS[id]}</div>
-                  <div className="minigame-card-meta">
+                  <div className="minigame-card-meta u-flex u-gap-6">
                     <span className="minigame-card-cost">💎 {cost}</span>
                     {best > 0 && <span className="minigame-card-best">Best: {best} 🎫</span>}
                   </div>
@@ -322,7 +322,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
 
 
-          <div className="minigame-hub-actions">
+          <div className="minigame-hub-actions u-flex u-gap-6 u-wrap u-just-c">
             <button className="action-btn" onClick={() => setSubScreen('prizes')}>
               🎁 PRIZE SHOP ({tickets} 🎫)
             </button>
@@ -334,8 +334,8 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       )}
 
       {subScreen === 'prizes' && (
-        <div className="prize-screen">
-          <div className="prize-screen-header">
+        <div className="prize-screen u-col">
+          <div className="prize-screen-header u-flex u-items-c u-just-sb">
             <button className="action-btn" onClick={() => setSubScreen('menu')}>← BACK</button>
             <div className="prize-screen-title">🎁 PRIZE SHOP</div>
             <div className="ticket-balance">🎫 {tickets}</div>
@@ -343,16 +343,16 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
           {prizeToast && <div className="minigame-toast minigame-toast--prize" role="alert">{prizeToast}</div>}
 
-          <div className="prize-list">
+          <div className="prize-list u-col u-gap-3">
             {TICKET_PRIZES.map(prize => {
               const canAfford = tickets >= prize.cost
               return (
-                <div key={prize.id} className={`prize-row${canAfford ? '' : ' prize-row--locked'}`}>
+                <div key={prize.id} className={`prize-row u-flex u-items-c u-just-sb u-gap-5${canAfford ? '' : ' prize-row--locked'}`}>
                   <div className="prize-row-info u-grow">
                     <div className="prize-row-label">{prize.label}</div>
                     <div className="prize-row-desc">{prize.desc}</div>
                   </div>
-                  <div className="prize-row-right">
+                  <div className="prize-row-right u-col u-items-end u-gap-2">
                     <div className="prize-row-cost">🎫 {prize.cost.toLocaleString()}</div>
                     <button
                       className={`action-btn${canAfford ? ' action-btn--gold' : ''}`}
@@ -370,13 +370,13 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       )}
 
       {subScreen === 'leaderboard' && (
-        <div className="lb-screen">
-          <div className="lb-screen-header">
+        <div className="lb-screen u-col">
+          <div className="lb-screen-header u-flex u-items-c u-just-sb">
             <button className="action-btn" onClick={() => setSubScreen('menu')}>← BACK</button>
             <div className="lb-screen-title">🏆 LEADERBOARDS</div>
           </div>
 
-          <div className="lb-controls">
+          <div className="lb-controls u-col u-gap-3">
             <div className="lb-game-tabs">
               {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => (
                 <button

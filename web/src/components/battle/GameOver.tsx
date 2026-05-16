@@ -102,7 +102,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
   const survivalStr = `${survivalMin}:${String(survivalRem).padStart(2, '0')}`
 
   return (
-    <div className={`gameover-screen ${css}`}>
+    <div className={`gameover-screen u-col u-items-c u-gap-7 u-grow u-just-c ${css}`}>
       <div className="gameover-title">{title}</div>
       {isEndless && (
         <div className="gameover-endless-badge">∞ ENDLESS MODE</div>
@@ -110,7 +110,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
       <pre className="gameover-ascii">{art}</pre>
       <div className="gameover-message">{message}</div>
       {isEndless ? (
-        <div className="gameover-endless-stats">
+        <div className="gameover-endless-stats u-col u-items-c u-gap-2">
           <div className="gameover-endless-wave">WAVE {state.endlessWave ?? 1}</div>
           <div className="gameover-endless-time">Survived {survivalStr}</div>
         </div>
@@ -130,7 +130,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
       </div>
 
       {isEndlessDefeat && (
-        <div className="gameover-endless-lb">
+        <div className="gameover-endless-lb u-col u-gap-3">
           <div className="gameover-endless-lb-title">∞ ENDLESS LEADERBOARD</div>
           {endlessBest && (
             <div className="gameover-endless-lb-best">
@@ -142,9 +142,9 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
           ) : endlessLb.length === 0 ? (
             <div className="gameover-endless-lb-empty">⏳ No scores yet — be the first!</div>
           ) : (
-            <ol className="gameover-endless-lb-list">
+            <ol className="gameover-endless-lb-list u-col u-gap-1">
               {endlessLb.map((entry, i) => (
-                <li key={entry.uid} className="gameover-endless-lb-entry">
+                <li key={entry.uid} className="gameover-endless-lb-entry u-flex u-items-c u-gap-3">
                   <span className="gameover-lb-rank">{i + 1}.</span>
                   <span className="gameover-lb-name u-grow">{entry.characterName}</span>
                   <span className="gameover-lb-wave">Wave {entry.wave}</span>
@@ -183,7 +183,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
         </div>
       )}
 
-      <div className="gameover-actions">
+      <div className="gameover-actions u-col u-items-c u-gap-5">
         {won && onOpenPack && (
           <button className="action-btn action-btn--large action-btn--gold" onClick={onOpenPack}>
             ✦ OPEN PACK ✦

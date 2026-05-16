@@ -103,7 +103,7 @@ export function LiarsDiceEvent({ onDone }: Props) {
           </span>
         </div>
 
-        <div className="ld-dice-row">
+        <div className="ld-dice-row u-flex u-gap-7 u-just-c">
           <div className="ld-dice-col">
             <div className="ld-dice-label">YOUR DICE</div>
             <div className="ld-dice">
@@ -126,7 +126,7 @@ export function LiarsDiceEvent({ onDone }: Props) {
 
         {/* Bidding phase */}
         {phase === 'intro' && (
-          <div className="ld-bid-box">
+          <div className="ld-bid-box u-col u-items-c u-gap-6">
             <button className="action-btn action-btn--large" onClick={() => setPhase('bidding')}>
               ROLL THE DICE →
             </button>
@@ -134,7 +134,7 @@ export function LiarsDiceEvent({ onDone }: Props) {
         )}
 
         {phase === 'bidding' && (
-          <div className="ld-bid-box">
+          <div className="ld-bid-box u-col u-items-c u-gap-6">
             <div className="ld-bid-text">
               Stranger bids: <strong>at least {strangerBid.qty} × {DICE_FACES[strangerBid.face - 1]}</strong>
             </div>
@@ -150,7 +150,7 @@ export function LiarsDiceEvent({ onDone }: Props) {
         )}
 
         {phase === 'challenge' && (
-          <div className="ld-bid-box">
+          <div className="ld-bid-box u-col u-items-c u-gap-6">
             {strangerCalledLiar ? (
               <>
                 <div className="ld-bid-text">
@@ -176,7 +176,7 @@ export function LiarsDiceEvent({ onDone }: Props) {
         )}
 
         {phase === 'reveal' && (
-          <div className="ld-bid-box">
+          <div className="ld-bid-box u-col u-items-c u-gap-6">
             <div className="ld-bid-text">
               {DICE_FACES[strangerBid.face - 1]} appears{' '}
               <strong>{countFace(allDice, strangerBid.face)} times</strong> across all dice.
@@ -190,7 +190,7 @@ export function LiarsDiceEvent({ onDone }: Props) {
         )}
 
         {phase === 'result' && (
-          <div className="ld-bid-box">
+          <div className="ld-bid-box u-col u-items-c u-gap-6">
             <div className={`ld-result${playerWon ? ' ld-result--win' : ' ld-result--lose u-text-red'}`}>
               {playerWon ? 'YOU WIN' : 'YOU LOSE'}
             </div>

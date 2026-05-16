@@ -93,7 +93,7 @@ export function FeedbackModal({ user, onClose }: Props) {
               )}
             </div>
 
-            <div className="confirm-modal-actions" style={{ marginTop: '14px' }}>
+            <div className="confirm-modal-actions u-flex u-gap-5 u-just-c" style={{ marginTop: '14px' }}>
               <button className="action-btn" onClick={handleSubmit} disabled={status === 'sending' || !subject.trim() || !body.trim()}>
                 {status === 'sending' ? 'SENDING…' : 'SEND'}
               </button>

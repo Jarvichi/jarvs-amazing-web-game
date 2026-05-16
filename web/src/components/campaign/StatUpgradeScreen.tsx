@@ -57,7 +57,7 @@ export function StatUpgradeScreen({ onSelect }: Props) {
         </div>
       </div>
 
-      <div className="relic-select-grid">
+      <div className="relic-select-grid u-col u-gap-5">
         {OPTIONS.map(opt => (
           <button
             key={opt.stat}

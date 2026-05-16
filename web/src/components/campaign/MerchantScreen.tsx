@@ -61,13 +61,13 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
           </div>
         )}
 
-        <div className="shop-content">
+        <div className="shop-content u-col u-items-c u-gap-8">
 
           {/* ── Card stock ── */}
           {cardItems.length > 0 && (
             <div className="shop-section">
               <div className="shop-section-header">Cards for Sale</div>
-              <div className="shop-daily-cards">
+              <div className="shop-daily-cards u-flex u-gap-6 u-wrap u-just-c">
                 {cardItems.map(item => {
                   if (item.kind !== 'card') return null
                   const key    = itemKey(item)
@@ -99,7 +99,7 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
           {nonCardItems.length > 0 && (
             <div className="shop-section">
               <div className="shop-section-header">Supplies & Curiosities</div>
-              <div className="shop-consumables">
+              <div className="shop-consumables u-flex u-gap-6 u-wrap u-just-c">
                 {nonCardItems.map(item => {
                   const key = itemKey(item)
 
@@ -107,7 +107,7 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
                     const def = item.def
                     const canBuy = balance >= item.price
                     return (
-                      <div key={key} className="shop-consumable-tile">
+                      <div key={key} className="shop-consumable-tile u-col u-items-c u-gap-3 u-grow">
                         <div className="shop-consumable-icon">{def.icon}</div>
                         <div className="shop-consumable-name">{def.name}</div>
                         <div className="shop-consumable-desc">{def.desc}</div>
@@ -127,7 +127,7 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
                   const bought = purchased.has(key)
                   const canBuy = !bought && balance >= item.price
                   return (
-                    <div key={key} className="shop-consumable-tile">
+                    <div key={key} className="shop-consumable-tile u-col u-items-c u-gap-3 u-grow">
                       <div className="shop-consumable-icon">{inv.icon}</div>
                       <div className="shop-consumable-name">✦ {inv.name}</div>
                       <div className="shop-consumable-desc">{inv.desc}</div>

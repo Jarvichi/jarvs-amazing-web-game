@@ -469,18 +469,18 @@ export function CampaignAdminScreen({ onBack }: Props) {
   ) : null
 
   return (
-    <OverlayScreen title="CAMPAIGN EDITOR" onBack={onBack} className="settings-screen">
-      <div className="settings-body">
+    <OverlayScreen title="CAMPAIGN EDITOR" onBack={onBack} className="settings-screen u-col u-grow">
+      <div className="settings-body u-col u-gap-3 u-grow">
 
         {/* Flash message */}
         {msg && (
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div className="settings-sublabel" style={{ color: '#33ff33' }}>{msg}</div>
           </div>
         )}
 
         {/* Act selector */}
-        <div className="settings-row">
+        <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
           <div className="settings-label">Act</div>
           <select
             className="settings-select"
@@ -495,17 +495,17 @@ export function CampaignAdminScreen({ onBack }: Props) {
 
         {/* Act info */}
         <Section bordered title="ACT INFO">
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div className="settings-label">Title</div>
             <input className="settings-text-input" value={act.title}
               onChange={e => updateActField('title', e.target.value)} />
           </div>
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div className="settings-label">Subtitle</div>
             <input className="settings-text-input" value={act.subtitle}
               onChange={e => updateActField('subtitle', e.target.value)} />
           </div>
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div>
               <div className="settings-label">Environment</div>
               <div className="settings-sublabel">Default battlefield for this act</div>
@@ -516,17 +516,17 @@ export function CampaignAdminScreen({ onBack }: Props) {
               {ENVIRONMENTS.map(env => <option key={env} value={env}>{env}</option>)}
             </select>
           </div>
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div className="settings-label">Reward relic</div>
             <input className="settings-text-input" value={act.rewardRelic}
               onChange={e => updateActField('rewardRelic', e.target.value)} />
           </div>
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div className="settings-label">Relic description</div>
             <input className="settings-text-input" value={act.rewardRelicDesc}
               onChange={e => updateActField('rewardRelicDesc', e.target.value)} />
           </div>
-          <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '6px' }}>
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '6px' }}>
             <div>
               <div className="settings-label">Start nodes</div>
               <div className="settings-sublabel">Entry points into this act</div>
@@ -559,7 +559,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
 
         {/* Nodes list */}
         <Section bordered title="NODES">
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <button className="action-btn action-btn--gold action-btn--sm" onClick={handleAddNode}>
               + ADD NODE
             </button>
@@ -573,7 +573,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
                 ROW {row}
               </div>
               {nodesByRow[row].map(node => (
-                <div key={node.id} className="settings-row" style={{
+                <div key={node.id} className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{
                   padding: '4px 6px',
                   background: selectedNodeId === node.id ? 'rgba(51,255,51,0.07)' : 'transparent',
                   border: selectedNodeId === node.id ? '1px solid rgba(51,255,51,0.25)' : '1px solid transparent',
@@ -606,7 +606,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
           ))}
 
           {sortedRows.length === 0 && (
-            <div className="settings-row"><div className="settings-sublabel">No nodes yet.</div></div>
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7"><div className="settings-sublabel">No nodes yet.</div></div>
           )}
         </Section>
 
@@ -615,7 +615,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
           <Section bordered title={`NODE: ${selectedNode.id}`}>
 
             {/* ID */}
-            <div className="settings-row">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
                 <div className="settings-label">ID</div>
                 <div className="settings-sublabel">Blur to rename — updates all refs</div>
@@ -625,7 +625,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
             </div>
 
             {/* Type */}
-            <div className="settings-row">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div className="settings-label">Type</div>
               <select className="settings-select" value={selectedNode.type}
                 onChange={e => updateNode(selectedNode.id, { type: e.target.value as NodeType })}>
@@ -634,21 +634,21 @@ export function CampaignAdminScreen({ onBack }: Props) {
             </div>
 
             {/* Label */}
-            <div className="settings-row">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div className="settings-label">Label</div>
               <input className="settings-text-input" value={selectedNode.label}
                 onChange={e => updateNode(selectedNode.id, { label: e.target.value })} />
             </div>
 
             {/* Description */}
-            <div className="settings-row">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div className="settings-label">Description</div>
               <input className="settings-text-input" value={selectedNode.description}
                 onChange={e => updateNode(selectedNode.id, { description: e.target.value })} />
             </div>
 
             {/* Row / Col / RowCols */}
-            <div className="settings-row">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
                 <div className="settings-label">Row / Col / RowCols</div>
                 <div className="settings-sublabel">▲▼ buttons auto-recalculate col</div>
@@ -670,7 +670,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
             </div>
 
             {/* Child IDs */}
-            <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '6px' }}>
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '6px' }}>
               <div>
                 <div className="settings-label">Child nodes</div>
                 <div className="settings-sublabel">Nodes unlocked when this one is completed</div>
@@ -689,13 +689,13 @@ export function CampaignAdminScreen({ onBack }: Props) {
             {/* ── Battle / Elite / Boss fields ───────────────────────── */}
             {isBattleType && (
               <>
-                <div className="settings-row" style={{ marginTop: '10px', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '10px' }}>
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ marginTop: '10px', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '10px' }}>
                   <div className="settings-sublabel" style={{ color: 'var(--game-text-color)', fontWeight: 'bold', letterSpacing: '0.05em' }}>
                     BATTLE SETTINGS
                   </div>
                 </div>
 
-                <div className="settings-row">
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                   <div>
                     <div className="settings-label">Handicap</div>
                     <div className="settings-sublabel">0 = full strength · 7 = easiest</div>
@@ -705,7 +705,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
                     onChange={e => updateNode(selectedNode.id, { handicap: Math.max(0, Math.min(7, parseInt(e.target.value) || 0)) })} />
                 </div>
 
-                <div className="settings-row">
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                   <div>
                     <div className="settings-label">Opponent interval (ms)</div>
                     <div className="settings-sublabel">Override AI play speed</div>
@@ -715,7 +715,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
                     onChange={e => { const v = parseInt(e.target.value); updateNode(selectedNode.id, { opponentIntervalMs: isNaN(v) ? undefined : v }) }} />
                 </div>
 
-                <div className="settings-row">
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                   <div>
                     <div className="settings-label">Opponent base HP</div>
                     <div className="settings-sublabel">Override opponent starting HP</div>
@@ -725,7 +725,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
                     onChange={e => { const v = parseInt(e.target.value); updateNode(selectedNode.id, { opponentBaseHp: isNaN(v) ? undefined : v }) }} />
                 </div>
 
-                <div className="settings-row">
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                   <div>
                     <div className="settings-label">Environment</div>
                     <div className="settings-sublabel">Override act default</div>
@@ -738,14 +738,14 @@ export function CampaignAdminScreen({ onBack }: Props) {
                 </div>
 
                 {/* Enemy deck */}
-                <div className="settings-row" style={{ marginTop: '10px', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '10px' }}>
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ marginTop: '10px', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '10px' }}>
                   <div className="settings-sublabel" style={{ color: 'var(--game-text-color)', fontWeight: 'bold', letterSpacing: '0.05em' }}>
                     ENEMY DECK ({selectedNode.enemyDeck?.length ?? 0} cards)
                   </div>
                 </div>
 
                 {(selectedNode.enemyDeck ?? []).map((cardName, idx) => (
-                  <div key={idx} className="settings-row" style={{ padding: '2px 0', gap: '4px' }}>
+                  <div key={idx} className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ padding: '2px 0', gap: '4px' }}>
                     <span style={{ flex: 1, fontSize: '12px', fontFamily: 'monospace', opacity: 0.85 }}>
                       {idx + 1}. {cardName}
                     </span>
@@ -755,7 +755,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
                   </div>
                 ))}
 
-                <div className="settings-row" style={{ marginTop: '6px' }}>
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ marginTop: '6px' }}>
                   <div>
                     <div className="settings-label">Add card</div>
                     <div className="settings-sublabel">Search, then click to append</div>
@@ -784,16 +784,16 @@ export function CampaignAdminScreen({ onBack }: Props) {
             {/* ── Boss-specific fields ────────────────────────────────── */}
             {isBossType && (
               <>
-                <div className="settings-row" style={{ marginTop: '10px', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '10px' }}>
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ marginTop: '10px', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '10px' }}>
                   <div className="settings-sublabel" style={{ color: 'var(--game-text-color)', fontWeight: 'bold', letterSpacing: '0.05em' }}>BOSS SETTINGS</div>
                 </div>
 
-                <div className="settings-row">
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                   <div className="settings-label">Boss AI</div>
                   <input className="settings-text-input" value={selectedNode.bossAI ?? ''} placeholder="e.g. thornlord"
                     onChange={e => updateNode(selectedNode.id, { bossAI: e.target.value || undefined })} />
                 </div>
-                <div className="settings-row">
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                   <div>
                     <div className="settings-label">Boss card</div>
                     <div className="settings-sublabel">Deployed when opponent base falls</div>
@@ -801,12 +801,12 @@ export function CampaignAdminScreen({ onBack }: Props) {
                   <input className="settings-text-input" value={selectedNode.bossCard ?? ''} placeholder="card name"
                     onChange={e => updateNode(selectedNode.id, { bossCard: e.target.value || undefined })} />
                 </div>
-                <div className="settings-row">
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                   <div className="settings-label">Boss name</div>
                   <input className="settings-text-input" value={selectedNode.bossName ?? ''} placeholder="display name override"
                     onChange={e => updateNode(selectedNode.id, { bossName: e.target.value || undefined })} />
                 </div>
-                <div className="settings-row">
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                   <div>
                     <div className="settings-label">HP multiplier</div>
                     <div className="settings-sublabel">Applied to boss card HP (default 10)</div>
@@ -816,7 +816,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
                     onChange={e => { const v = parseFloat(e.target.value); updateNode(selectedNode.id, { bossHpMultiplier: isNaN(v) ? undefined : v }) }} />
                 </div>
 
-                <div className="settings-row">
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                   <div>
                     <div className="settings-label">Boss dialogue</div>
                     <div className="settings-sublabel">Pre-battle lines</div>
@@ -827,7 +827,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
                   </button>
                 </div>
                 {(selectedNode.bossDialogue ?? []).map((line, idx) => (
-                  <div key={idx} className="settings-row" style={{ gap: '6px' }}>
+                  <div key={idx} className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ gap: '6px' }}>
                     <input className="settings-text-input" style={{ flex: 1 }} value={line}
                       onChange={e => {
                         const lines = [...(selectedNode.bossDialogue ?? [])]
@@ -847,10 +847,10 @@ export function CampaignAdminScreen({ onBack }: Props) {
             {/* ── Rest-specific fields ────────────────────────────────── */}
             {selectedNode.type === 'rest' && (
               <>
-                <div className="settings-row" style={{ marginTop: '10px', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '10px' }}>
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ marginTop: '10px', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '10px' }}>
                   <div className="settings-sublabel" style={{ color: 'var(--game-text-color)', fontWeight: 'bold', letterSpacing: '0.05em' }}>REST SETTINGS</div>
                 </div>
-                <div className="settings-row">
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                   <div>
                     <div className="settings-label">Heal amount</div>
                     <div className="settings-sublabel">HP restored (default 5)</div>
@@ -868,7 +868,7 @@ export function CampaignAdminScreen({ onBack }: Props) {
         {/* Export */}
         <Section bordered title="EXPORT">
           {cycleWarning}
-          <div className="settings-row" style={{ marginTop: cycleWarning ? '8px' : undefined }}>
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ marginTop: cycleWarning ? '8px' : undefined }}>
             <div>
               <div className="settings-label">Download {actId}.json</div>
               <div className="settings-sublabel">Save the edited act file, then commit it to the repo</div>

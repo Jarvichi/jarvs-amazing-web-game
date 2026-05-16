@@ -17,9 +17,9 @@ export function HeroCardsScreen({ onBack }: Props) {
         One hero appears in every battle.<br/>
         Hero cards are shuffled into your deck at the start of each battle. You cannot choose which hero appears — fate decides.
       </div>
-      <div className="collection-grid" style={{ padding: '12px' }}>
+      <div className="collection-grid u-flex u-wrap u-just-c u-gap-4 u-grow" style={{ padding: '12px' }}>
         {HERO_CARDS.map(card => (
-          <div key={card.id} className="collection-cell">
+          <div key={card.id} className="collection-cell u-col">
             <CardTile
               card={card}
               canAfford={true}

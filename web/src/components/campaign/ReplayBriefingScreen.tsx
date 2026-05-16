@@ -101,7 +101,7 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, onBe
 
   return (
     <div className="replay-briefing">
-      <div className="rb-header">
+      <div className="rb-header u-text-c u-col u-gap-3">
         <div className="rb-act-label">{act.title}</div>
         <div className="rb-title">// CAMPAIGN REPLAY</div>
         {mercy ? (
@@ -128,7 +128,7 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, onBe
         )}
       </div>
 
-      <div className="rb-tiers">
+      <div className="rb-tiers u-col u-gap-5">
         {tiers.map(tier => {
           const isSelected = selected === tier.count
           return (
@@ -137,7 +137,7 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, onBe
               className={`rb-tier${isSelected ? ' rb-tier--selected' : ''}`}
               onClick={() => setSelected(tier.count)}
             >
-              <div className="rb-tier-top">
+              <div className="rb-tier-top u-flex u-items-c u-gap-4 u-wrap">
                 <span className="rb-tier-label">{tier.label}</span>
                 {tier.isBase && <span className="rb-tier-tag rb-tier-tag--required">REQUIRED</span>}
                 {!tier.isBase && <span className="rb-tier-tag rb-tier-tag--optional">OPTIONAL</span>}
@@ -147,14 +147,14 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, onBe
               </div>
               <ul className="rb-tier-mods">
                 {tier.modifiers.length === 0 && (
-                  <li className="rb-tier-mod rb-tier-mod--required">
+                  <li className="rb-tier-mod u-flex u-items-c u-gap-3 rb-tier-mod--required">
                     <span className="rb-tier-mod-label">No modifiers active</span>
                   </li>
                 )}
                 {tier.modifiers.map((m, i) => (
                   <li
                     key={i}
-                    className={`rb-tier-mod${mercy || i < completionCount ? ' rb-tier-mod--required' : ' rb-tier-mod--bonus'}`}
+                    className={`rb-tier-mod u-flex u-items-c u-gap-3${mercy || i < completionCount ? ' rb-tier-mod--required' : ' rb-tier-mod--bonus'}`}
                   >
                     <span className="rb-tier-mod-icon">{modifierIcon(m.type)}</span>
                     <span className="rb-tier-mod-label">{m.label}</span>
@@ -166,7 +166,7 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, onBe
         })}
       </div>
 
-      <div className="rb-actions">
+      <div className="rb-actions u-col u-gap-5 u-items-c">
         <button className="action-btn action-btn--large rb-begin-btn" onClick={() => onBegin(selected)}>
           BEGIN RUN ›
         </button>

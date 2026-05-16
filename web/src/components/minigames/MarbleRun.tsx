@@ -222,7 +222,7 @@ export function MarbleRun({ onDone }: Props) {
       </p>
 
       {/* Drop column selectors */}
-      <div className="marble-col-selectors">
+      <div className="marble-col-selectors u-flex u-gap-2">
         {phase === 'choose' && Array.from({ length: COLS }, (_, c) => (
           <button
             key={c}
@@ -235,16 +235,16 @@ export function MarbleRun({ onDone }: Props) {
       </div>
 
       {/* Peg board */}
-      <div className="marble-board">
+      <div className="marble-board u-col u-gap-1">
         {Array.from({ length: ROWS }, (_, row) => (
-          <div key={row} className="marble-peg-row">
+          <div key={row} className="marble-peg-row u-flex u-gap-2">
             {Array.from({ length: COLS }, (_, col) => {
               const isMarble = marbleCol === col && marbleRow === row
               const obs = getObstacleAt(row, col)
               return (
                 <div
                   key={col}
-                  className={`marble-cell${isMarble ? ' marble-cell--active' : ''}${obs ? ' marble-cell--obstacle' : ''}`}
+                  className={`marble-cell u-flex u-items-c u-just-c${isMarble ? ' marble-cell--active' : ''}${obs ? ' marble-cell--obstacle' : ''}`}
                 >
                   {isMarble
                     ? <span className="marble-ball">●</span>
@@ -256,7 +256,7 @@ export function MarbleRun({ onDone }: Props) {
         ))}
 
         {/* Slot row */}
-        <div className="marble-slot-row">
+        <div className="marble-slot-row u-flex u-gap-2">
           {slotValues.map((val, idx) => {
             const isMarbleHere = phase === 'dropping' && marbleRow >= ROWS && marbleCol === idx
             const isResult = results.includes(idx)
@@ -274,7 +274,7 @@ export function MarbleRun({ onDone }: Props) {
 
       {/* Drop history */}
       {results.length > 0 && (
-        <div className="marble-results">
+        <div className="marble-results u-flex u-wrap u-gap-3 u-just-c">
           {results.map((slot, i) => (
             <span key={i} className="marble-result-chip">
               Drop {i + 1}: +{slotValues[slot]} 🎫
@@ -285,7 +285,7 @@ export function MarbleRun({ onDone }: Props) {
       )}
 
       {phase === 'result' && (
-        <div className="minigame-result-panel">
+        <div className="minigame-result-panel u-col u-items-c u-gap-5">
           <div className="minigame-result-headline">You earned {totalTickets} tickets!</div>
           <button className="action-btn action-btn--gold" onClick={() => onDone(totalTickets)}>
             COLLECT &amp; EXIT
@@ -295,7 +295,7 @@ export function MarbleRun({ onDone }: Props) {
 
       {/* Random Drop column */}
     {phase === 'choose' && (
-      <div className="minigame-result-panel">
+      <div className="minigame-result-panel u-col u-items-c u-gap-5">
         <button
           className="action-btn action-btn--gold"
           onClick={() => dropMarble(Math.floor(Math.random() * 9))}

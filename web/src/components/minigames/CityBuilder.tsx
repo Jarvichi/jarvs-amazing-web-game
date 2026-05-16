@@ -1206,15 +1206,15 @@ export function CityBuilder({ onBack }: Props) {
     const selSlot = fortSlotSel !== null ? fortSlots[fortSlotSel] : null
 
     return (
-      <div className="city-screen">
+      <div className="city-screen u-relative u-col u-gap-2">
         {/* Header */}
-        <div className="city-picker-header">
+        <div className="city-picker-header u-flex u-items-c u-gap-5">
           <button className="action-btn" onClick={() => { setFortSlotSel(null); setScreen('city') }}>← BACK</button>
           <div className="city-picker-title">🛡 WALLS &amp; FORTIFICATIONS</div>
         </div>
 
         {/* Stats + builder info strip */}
-        <div className="city-fort-info-row">
+        <div className="city-fort-info-row u-flex u-just-sb u-items-c u-wrap u-gap-2">
           <span>🛡 {totalDefense} defence</span>
           <span>🏗 {freeBuilders}/{builderCount} builders free</span>
           {builderCost !== null && builderCount < MAX_BUILDER_COUNT && (
@@ -1295,15 +1295,15 @@ export function CityBuilder({ onBack }: Props) {
             })}
 
             {/* City thumbnail — centre of the ring */}
-            <div className="fort-ring-city" style={{ gridArea: 'ct' }}>
+            <div className="fort-ring-city u-col u-items-c u-just-c u-gap-1" style={{ gridArea: 'ct' }}>
               <div
-                className="fort-ring-city-grid"
+                className="fort-ring-city-grid u-grow u-gap-1"
                 style={{ gridTemplateColumns: `repeat(${CITY_COLS}, 1fr)`, gridTemplateRows: `repeat(${cityRows}, 1fr)` }}
               >
                 {Array.from({ length: cityCells }, (_, i) => {
                   const cell = city.grid[i]
                   return (
-                    <div key={i} className="fort-ring-city-cell">
+                    <div key={i} className="fort-ring-city-cell u-flex u-items-c u-just-c">
                       {cell && <SpriteImg name={cell.cardName} className="fort-ring-city-sprite" />}
                     </div>
                   )
@@ -1332,7 +1332,7 @@ export function CityBuilder({ onBack }: Props) {
             return (
               <div className="city-req-overlay" onClick={() => setFortSlotSel(null)}>
                 <div className="city-req-modal" onClick={e => e.stopPropagation()}>
-                  <div className="city-req-header">
+                  <div className="city-req-header u-flex u-items-c u-gap-4">
                     <div className="city-req-name">Build a Fortification</div>
                   </div>
                   {!canQueue ? (
@@ -1356,7 +1356,7 @@ export function CityBuilder({ onBack }: Props) {
                     })
                     return (
                       <>
-                        <div className="city-fort-controls">
+                        <div className="city-fort-controls u-flex u-just-sb u-items-c u-gap-3 u-wrap">
                           <div className="city-fort-filter">
                             {(['all', ...rarities] as string[]).map(r => (
                               <button key={r}
@@ -1385,7 +1385,7 @@ export function CityBuilder({ onBack }: Props) {
                             return (
                               <button
                                 key={card.name}
-                                className={`city-picker-card${!affordable ? ' city-picker-card--unaffordable' : ''}`}
+                                className={`city-picker-card u-col u-items-c u-gap-2 u-pointer${!affordable ? ' city-picker-card--unaffordable' : ''}`}
                                 disabled={!affordable}
                                 onClick={() => { handleAddFort(card); setFortSlotSel(null) }}
                               >
@@ -1418,7 +1418,7 @@ export function CityBuilder({ onBack }: Props) {
             return (
               <div className="city-req-overlay" onClick={() => setFortSlotSel(null)}>
                 <div className="city-req-modal" onClick={e => e.stopPropagation()}>
-                  <div className="city-req-header">
+                  <div className="city-req-header u-flex u-items-c u-gap-4">
                     <div style={{ opacity: 0.5 }}><SpriteImg name={selSlot.entry.cardName} className="city-req-sprite" /></div>
                     <div className="city-req-name">{selSlot.entry.cardName}</div>
                   </div>
@@ -1446,7 +1446,7 @@ export function CityBuilder({ onBack }: Props) {
           return (
             <div className="city-req-overlay" onClick={() => setFortSlotSel(null)}>
               <div className="city-req-modal" onClick={e => e.stopPropagation()}>
-                <div className="city-req-header">
+                <div className="city-req-header u-flex u-items-c u-gap-4">
                   <SpriteImg name={fort.cardName} className="city-req-sprite" />
                   <div className="city-req-name">{fort.cardName}</div>
                 </div>
@@ -1488,8 +1488,8 @@ export function CityBuilder({ onBack }: Props) {
     }
     if (pool.length === 0) {
       return (
-        <div className="city-screen">
-          <div className="city-header">
+        <div className="city-screen u-relative u-col u-gap-2">
+          <div className="city-header u-flex u-items-c u-gap-3">
             <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
             <div className="city-title">⚔ DEFEND</div>
           </div>
@@ -1543,8 +1543,8 @@ export function CityBuilder({ onBack }: Props) {
     ].filter(g => g.cards.length > 0)
 
     return (
-      <div className="city-screen">
-        <div className="city-picker-header">
+      <div className="city-screen u-relative u-col u-gap-2">
+        <div className="city-picker-header u-flex u-items-c u-gap-5">
           <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
           <div className="city-picker-title">PLACE A BUILDING</div>
         </div>
@@ -1584,7 +1584,7 @@ export function CityBuilder({ onBack }: Props) {
                     return (
                       <button
                         key={card.name}
-                        className={`city-picker-card${!affordable ? ' city-picker-card--unaffordable' : ''}`}
+                        className={`city-picker-card u-col u-items-c u-gap-2 u-pointer${!affordable ? ' city-picker-card--unaffordable' : ''}`}
                         onClick={() => handlePickCard(card)}
                         disabled={!affordable}
                       >
@@ -1660,8 +1660,8 @@ export function CityBuilder({ onBack }: Props) {
     ].filter(g => g.cards.length > 0)
 
     return (
-      <div className="city-screen">
-        <div className="city-picker-header">
+      <div className="city-screen u-relative u-col u-gap-2">
+        <div className="city-picker-header u-flex u-items-c u-gap-5">
           <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
           <div className="city-picker-title">UPGRADE BUILDINGS</div>
         </div>
@@ -1722,12 +1722,12 @@ export function CityBuilder({ onBack }: Props) {
     const { level: mLvl } = masteryProgress(xp)
     const cost     = levelUpCost(mLvl)
     return (
-      <div className="city-screen">
-        <div className="city-picker-header">
+      <div className="city-screen u-relative u-col u-gap-2">
+        <div className="city-picker-header u-flex u-items-c u-gap-5">
           <button className="action-btn" onClick={() => setScreen('upgrade')}>← BACK</button>
           <div className="city-picker-title">LEVEL UP CARD</div>
         </div>
-        <div className="city-level-detail">
+        <div className="city-level-detail u-col u-items-c u-gap-5">
           {card && <SpriteImg name={card.name} className="city-level-sprite" />}
           <div className="city-level-name">{levelCard}</div>
           <div className="city-level-stats">
@@ -1738,7 +1738,7 @@ export function CityBuilder({ onBack }: Props) {
             Next upgrade costs <span className="city-gold">⚙ {cost.toLocaleString()}</span>
             {' '}and grants mastery ★{mLvl + 1}
           </div>
-          <div className="city-level-costs-table">
+          <div className="city-level-costs-table u-col u-gap-2">
             {LEVEL_UP_COSTS.map((c, i) => (
               <div key={i} className={`city-cost-row${i < mLvl ? ' city-cost-row--done' : ''}`}>
                 <span>★{i} → ★{i + 1}</span>
@@ -1765,7 +1765,7 @@ export function CityBuilder({ onBack }: Props) {
   // ── Main city view ────────────────────────────────────────────────────────────
 
   return (
-    <div className="city-screen">
+    <div className="city-screen u-relative u-col u-gap-2">
       {toast && <div className="city-toast" role="alert">{toast}</div>}
 
       {/* Attack report modal */}
@@ -1822,7 +1822,7 @@ export function CityBuilder({ onBack }: Props) {
         return (
           <div className="city-req-overlay" onClick={() => setSelectedWalkerCell(null)}>
             <div className="city-req-modal" onClick={e => e.stopPropagation()}>
-              <div className="city-req-header">
+              <div className="city-req-header u-flex u-items-c u-gap-4">
                 <AnimatedSpriteImg name={cell.spawnedUnitName} frameCount={3} fps={6} className="city-req-sprite" />
                 <div className="city-req-name">{cell.spawnedUnitName}</div>
               </div>
@@ -1869,14 +1869,14 @@ export function CityBuilder({ onBack }: Props) {
         return (
           <div className="city-req-overlay" onClick={() => setSelectedBuildingCell(null)}>
             <div className="city-req-modal" onClick={e => e.stopPropagation()}>
-              <div className="city-req-header">
+              <div className="city-req-header u-flex u-items-c u-gap-4">
                 <SpriteImg name={cell.cardName} className="city-req-sprite" />
                 <div className="city-req-name">
                   {cell.cardName}
                   {mLvl > 0 && <span className="city-req-mastery"> ★{mLvl}</span>}
                 </div>
               </div>
-              <div className="city-bld-tabs">
+              <div className="city-bld-tabs u-flex u-gap-2">
                 <button
                   className={`city-bld-tab${buildingTab === 'residents' ? ' city-bld-tab--active' : ''}`}
                   onClick={() => setBuildingTab('residents')}
@@ -1932,13 +1932,13 @@ export function CityBuilder({ onBack }: Props) {
               )}
 
               {buildingTab === 'upgrade' && (
-                <div className="city-bld-upgrade">
+                <div className="city-bld-upgrade u-col u-gap-4">
                   <div className="city-gold-display" style={{ alignSelf: 'center' }}>⚙ {city.gold.toLocaleString()} gold</div>
                   <MasteryBar xp={xp} />
                   <div className="city-level-cost">
                     Next upgrade: <span className="city-gold">⚙ {upgradeCost.toLocaleString()}</span> → ★{mLvl + 1}
                   </div>
-                  <div className="city-level-costs-table">
+                  <div className="city-level-costs-table u-col u-gap-2">
                     {LEVEL_UP_COSTS.map((c, i) => (
                       <div key={i} className={`city-cost-row${i < mLvl ? ' city-cost-row--done' : ''}`}>
                         <span>★{i} → ★{i + 1}</span>
@@ -1963,7 +1963,7 @@ export function CityBuilder({ onBack }: Props) {
       })()}
 
       {/* Header: back | title | gold | action buttons */}
-      <div className="city-header">
+      <div className="city-header u-flex u-items-c u-gap-3">
         <button className="action-btn" onClick={onBack}>← BACK</button>
         <div className="city-title">
           {bulldozerMode
@@ -1971,7 +1971,7 @@ export function CityBuilder({ onBack }: Props) {
             : '🏙 CITY'}
           
           </div>
-        <div className="city-header-right">
+        <div className="city-header-right u-flex u-items-c u-gap-2">
           <div className="city-gold-display">⚙ {city.gold.toLocaleString()} (+{incomeRate}/min)</div>
           <button className="action-btn" onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers">
             ⚔ DEFEND
@@ -2012,13 +2012,13 @@ export function CityBuilder({ onBack }: Props) {
         })}
       </div>
 
-      <div className="city-header">
+      <div className="city-header u-flex u-items-c u-gap-3">
                        <div className={`city-attack-pill city-attack-pill--${attackUrgency}`}>    
           ⚔ ATTACK INCOMING {msToAttack <= 0 ? 'NOW!' : attackCountdown}
           <span className={`city-attack-strength ${attackStrengthLabel.cls}`}>{attackStrengthLabel.text}</span>
         
                   </div>
-                <div className="city-header-right">
+                <div className="city-header-right u-flex u-items-c u-gap-2">
         <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
 
                 {cityRows < MAX_CITY_ROWS && expansionCost && (
@@ -2048,7 +2048,7 @@ export function CityBuilder({ onBack }: Props) {
             return (
               <button
                 key={i}
-                className={`city-cell${cell ? ' city-cell--occupied' : ''}${cell && bulldozerMode ? ' city-cell--bulldoze' : ''}`}
+                className={`city-cell u-col u-items-c u-just-c u-pointer u-relative${cell ? ' city-cell--occupied' : ''}${cell && bulldozerMode ? ' city-cell--bulldoze' : ''}`}
                 onClick={() => handleCellTap(i)}
                 title={cell ? (bulldozerMode ? `${cell.cardName} — tap to demolish` : `${cell.cardName} — tap to inspect`) : 'Empty — tap to place'}
               >
@@ -2068,7 +2068,7 @@ export function CityBuilder({ onBack }: Props) {
                     {!despawned && rage >= 60 && <span className="city-cell-unhappy-icon">⚠</span>}
                   </>
                 ) : (
-                  <span className="city-cell-empty">
+                  <span className="city-cell-empty u-col u-items-c u-just-end">
                     <span className="city-cell-forsale-sign">FOR<br/>SALE</span>
                     <span className="city-cell-forsale-post" />
                   </span>
@@ -2152,7 +2152,7 @@ export function CityBuilder({ onBack }: Props) {
           onKeyDown={e => { if (e.key === 'Enter') setScreen('fortify') }}
           title="City fortifications — tap to manage"
         >
-          <div className="city-perimeter-forts">
+          <div className="city-perimeter-forts u-flex u-wrap u-gap-1">
             {city.fortifications.map((fort, idx) => {
               const hpPct  = fort.hp / fort.maxHp
               const hpColor = hpPct > 0.6 ? '#308030' : hpPct > 0.3 ? '#806020' : '#803020'
@@ -2168,7 +2168,7 @@ export function CityBuilder({ onBack }: Props) {
         </div>
       )}
 
-            <div className="city-header">
+            <div className="city-header u-flex u-items-c u-gap-3">
         <button
           className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
           onClick={toggleBulldozer}
@@ -2184,7 +2184,7 @@ export function CityBuilder({ onBack }: Props) {
           <div className="city-thoughts">
             <div className="city-thoughts-title">RESIDENT THOUGHTS</div>
             {residentThoughts.map((t, idx) => (
-              <div key={idx} className={`city-thought-row${t.happy ? ' city-thought-row--happy' : ' city-thought-row--unhappy'}`}>
+              <div key={idx} className={`city-thought-row u-flex u-items-c u-gap-3${t.happy ? ' city-thought-row--happy' : ' city-thought-row--unhappy'}`}>
                 <AnimatedSpriteImg name={t.unitName} frameCount={3} fps={6} className="city-thought-sprite" />
                 <span className="city-thought-name">{t.name}:</span>
                 <span className="city-thought-text">"{t.thought}"</span>

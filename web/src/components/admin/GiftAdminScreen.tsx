@@ -195,17 +195,17 @@ export function GiftAdminScreen({ onBack }: Props) {
   }
 
   return (
-    <OverlayScreen title="GIFT ADMIN" onBack={onBack} className="settings-screen">
-      <div className="settings-body">
+    <OverlayScreen title="GIFT ADMIN" onBack={onBack} className="settings-screen u-col u-grow">
+      <div className="settings-body u-col u-gap-3 u-grow">
 
         {/* Existing gifts */}
         <Section bordered title="ACTIVE GIFTS">
           {loading ? (
-            <div className="settings-row"><div className="settings-sublabel">Loading…</div></div>
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7"><div className="settings-sublabel">Loading…</div></div>
           ) : gifts.length === 0 ? (
-            <div className="settings-row"><div className="settings-sublabel">No gifts yet.</div></div>
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7"><div className="settings-sublabel">No gifts yet.</div></div>
           ) : gifts.map(g => (
-            <div key={g.id} className="settings-row" style={{ alignItems: 'flex-start', gap: '8px' }}>
+            <div key={g.id} className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ alignItems: 'flex-start', gap: '8px' }}>
               <div style={{ flex: 1 }}>
                 <div className="settings-label">🎁 {g.name} <span style={{ opacity: 0.5, fontSize: '10px' }}>({g.id})</span></div>
                 <div className="settings-sublabel">{g.description}</div>
@@ -238,7 +238,7 @@ export function GiftAdminScreen({ onBack }: Props) {
 
         {/* Create new gift */}
         <Section bordered title="CREATE GIFT">
-          <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '8px', width: '100%' }}>
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '8px', width: '100%' }}>
 
             <div style={{ display: 'flex', gap: '8px', width: '100%', flexWrap: 'wrap' }}>
               <div style={{ flex: 1, minWidth: '140px' }}>
@@ -331,7 +331,7 @@ export function GiftAdminScreen({ onBack }: Props) {
         </Section>
 
         {msg && (
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div className="settings-sublabel" style={{ color: msg.ok ? '#33ff33' : '#ff5555' }}>
               {msg.text}
             </div>

@@ -28,7 +28,7 @@ export function BattleSummary({ stats, gameTime, playerScore, onContinue }: Prop
       <div className="bsummary-panel">
         <div className="bsummary-title">— BATTLE COMPLETE —</div>
 
-        <div className="bsummary-stats">
+        <div className="bsummary-stats u-col u-gap-3">
           <StatRow accent label="UNITS DEFEATED" value={stats.playerKills} />
           <StatRow accent label="UNITS LOST"     value={stats.playerUnitsLost} />
           <StatRow accent label="DAMAGE DEALT"   value={playerScore} />
@@ -37,10 +37,10 @@ export function BattleSummary({ stats, gameTime, playerScore, onContinue }: Prop
         </div>
 
         {topCards.length > 0 && (
-          <div className="bsummary-cards">
+          <div className="bsummary-cards u-col u-gap-2">
             <div className="bsummary-cards-label">TOP CARDS</div>
             {topCards.map(([name, count]) => (
-              <div key={name} className="bsummary-card-row">
+              <div key={name} className="bsummary-card-row u-flex u-just-sb">
                 <span className="bsummary-card-name">{name}</span>
                 <span className="bsummary-card-count">×{count}</span>
               </div>

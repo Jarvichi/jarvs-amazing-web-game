@@ -30,7 +30,7 @@ export function BossDialogueScreen({ bossName, lines, onDone }: Props) {
   return (
     <div className="boss-dialogue-screen" onClick={advance}>
       <div className="boss-dialogue-speaker">[{bossName.toUpperCase()}]</div>
-      <div className="boss-dialogue-lines">
+      <div className="boss-dialogue-lines u-col u-gap-8">
         {lines.slice(0, shownCount).map((line, i) => (
           <div
             key={i}

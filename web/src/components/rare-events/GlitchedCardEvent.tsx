@@ -35,7 +35,7 @@ export function GlitchedCardEvent({ onDone }: Props) {
   }, [revealed, glitchName, onDone])
 
   return (
-    <div className="glitch-card-overlay">
+    <div className="glitch-card-overlay u-absolute u-col u-items-c u-just-c">
       <div className="glitch-card-label">⚠ CARD CORRUPTION DETECTED</div>
       <div
         className={`glitch-card-tile${revealed ? ' glitch-card-tile--revealed' : ''}`}

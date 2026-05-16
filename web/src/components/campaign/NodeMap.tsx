@@ -664,7 +664,7 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
       <div className="nm-peek-panel" onClick={e => e.stopPropagation()}>
 
         {/* Header */}
-        <div className="nm-peek-header">
+        <div className="nm-peek-header u-col u-items-c u-gap-1">
           <span className={`nm-peek-type nm-node-type-badge--${node.type}`}>
             {NODE_LABEL[node.type] ?? node.type.toUpperCase()}
           </span>
@@ -690,7 +690,7 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
 
         {/* Previously completed — reveal opponent deck */}
         {hasPreviouslyCompleted && isBattle && (
-          <div className="nm-peek-history">
+          <div className="nm-peek-history u-col u-gap-2">
             <div className="nm-peek-history-label">— INTEL (from previous run) —</div>
             <div className="nm-peek-history-body">{playstyleDescription(node)}</div>
           </div>
@@ -701,7 +701,7 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
           <div className="nm-peek-modifiers">
             <div className="nm-peek-modifiers-label">— REPLAY MODIFIERS —</div>
             {collapseModifiers(activeModifiers).map((m, i) => (
-              <div key={i} className="nm-peek-modifier-row">
+              <div key={i} className="nm-peek-modifier-row u-flex u-items-c u-gap-3">
                 <span className="nm-peek-modifier-icon">⚠</span>
                 <span className="nm-peek-modifier-text">{m.label}</span>
               </div>
@@ -710,7 +710,7 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
         )}
 
         {/* Actions */}
-        <div className="nm-peek-actions">
+        <div className="nm-peek-actions u-flex u-gap-4">
           {(isBattle || node.type === 'event' || node.type === 'merchant') ? (
             <button className="action-btn nm-peek-enter-btn u-grow" onClick={onEnter}>
               {node.type === 'rest' ? 'REST' : node.type === 'merchant' ? 'ENTER SHOP' : node.type === 'event' ? 'APPROACH' : 'ENTER BATTLE'}
@@ -817,14 +817,14 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
   }
 
   return (
-    <div className="nodemap">
+    <div className="nodemap u-col u-grow">
       {/* Header */}
-      <div className="nm-header">
-        <div className="nm-act-label">
+      <div className="nm-header u-flex u-items-c u-gap-6">
+        <div className="nm-act-label u-col">
           <span className="nm-act-title">{act.title}</span>
           <span className="nm-act-sub">{act.subtitle}</span>
         </div>
-        <div className="nm-hp-area">
+        <div className="nm-hp-area u-flex u-items-c u-gap-3">
           <span className="nm-hp-label">HP</span>
           <div className="nm-hp-track">
             <div
@@ -836,13 +836,13 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
             {run.playerHp}/{run.maxHp}
           </span>
         </div>
-        <div className="nm-lives-area" title="Lives remaining — lose them all and the campaign ends">
+        <div className="nm-lives-area u-flex u-items-c u-gap-1" title="Lives remaining — lose them all and the campaign ends">
           <Lives maxLives={run.maxLives ?? 3} currentLives={run.livesRemaining ?? 3} />
         </div>
       </div>
 
       {/* Consumables bar */}
-      <div className="nm-consumables-bar">
+      <div className="nm-consumables-bar u-flex u-items-c u-gap-3 u-wrap">
         <span className="nm-consumables-label">ITEMS</span>
         {ALL_CONSUMABLES.map(def => {
           const rc = run.consumables?.find(c => c.id === def.id)
@@ -864,8 +864,8 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
       </div>
 
       {/* Map — left-to-right: each act row renders as a vertical column */}
-      <div className={`nm-map${act.environment ? ` nm-map--${act.environment}` : ''}`} ref={mapRef}>
-        <div className="nm-map-inner" ref={mapInnerRef} style={{ height: `${mapHeight}px`, paddingLeft: `${AVATAR_PADDING}px`, position: 'relative' }}>
+      <div className={`nm-map u-flex u-grow u-items-c${act.environment ? ` nm-map--${act.environment}` : ''}`} ref={mapRef}>
+        <div className="nm-map-inner u-row u-items-c" ref={mapInnerRef} style={{ height: `${mapHeight}px`, paddingLeft: `${AVATAR_PADDING}px`, position: 'relative' }}>
           <MapTerrain
             environment={act.environment}
             actId={act.id}

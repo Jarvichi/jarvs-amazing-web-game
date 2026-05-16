@@ -135,7 +135,7 @@ export function LoginModal({ user, authLoading, onClose, onLoginSuccess }: Props
         <div className="login-modal-header">SIGN IN</div>
         <div className="login-modal-sub">Back up and sync your save across devices.</div>
 
-        <div className="login-modal-fields">
+        <div className="login-modal-fields u-col u-gap-3">
           <input
             type="email"
             className="settings-slider"
@@ -161,7 +161,7 @@ export function LoginModal({ user, authLoading, onClose, onLoginSuccess }: Props
           </div>
         )}
 
-        <div className="login-modal-buttons">
+        <div className="login-modal-buttons u-flex u-gap-4 u-wrap">
           <button className="action-btn" onClick={handleEmailSignIn} disabled={emailBusy || authLoading}>
             {emailBusy ? 'PLEASE WAIT...' : 'SIGN IN'}
           </button>

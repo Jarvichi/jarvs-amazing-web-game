@@ -89,13 +89,13 @@ export function HigherOrLower({ onDone }: Props) {
     <div className="minigame-screen">
       <div className="minigame-title">🎴 HIGHER OR LOWER</div>
 
-      <div className="hol-cards-row">
+      <div className="hol-cards-row u-flex u-gap-5 u-just-c u-wrap">
         {cards.map((card, i) => {
           const faceUp = i < revealed
           return (
             <div
               key={i}
-              className={`hol-card${faceUp ? ' hol-card--face-up' : ' hol-card--face-down'}${
+              className={`hol-card u-col u-items-c u-just-c u-gap-1 u-no-select${faceUp ? ' hol-card--face-up' : ' hol-card--face-down'}${
                 faceUp && i === revealed - 1 ? ' hol-card--current' : ''
               }`}
             >
@@ -123,7 +123,7 @@ export function HigherOrLower({ onDone }: Props) {
       )}
 
       {phase === 'playing' && (
-        <div className="hol-buttons">
+        <div className="hol-buttons u-flex u-gap-7">
           <button className="action-btn action-btn--large" onClick={() => guess('higher')}>
             ▲ HIGHER
           </button>
@@ -134,7 +134,7 @@ export function HigherOrLower({ onDone }: Props) {
       )}
 
       {(phase === 'won' || phase === 'lost') && (
-        <div className="minigame-result-panel">
+        <div className="minigame-result-panel u-col u-items-c u-gap-5">
           <div className="minigame-result-headline">
             {phase === 'won' ? '🎉 JACKPOT!' : 'Bad luck!'}
           </div>

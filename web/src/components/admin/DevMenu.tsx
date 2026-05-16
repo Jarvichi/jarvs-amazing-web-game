@@ -116,14 +116,14 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
 
   return (
     <Section bordered title="DEV TOOLS">
-      <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '4px' }}>
+      <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '4px' }}>
         <div className="settings-label" style={{ color: '#ff5555' }}>
           ⚠ Dev mode active — run in incognito to protect your save
         </div>
       </div>
 
       {/* Force rare event */}
-      <div className="settings-row">
+      <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
         <div>
           <div className="settings-label">Force rare event</div>
           <div className="settings-sublabel">Triggers at 100% on the next battle</div>
@@ -141,7 +141,7 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
       </div>
 
       {/* Add crystals */}
-      <div className="settings-row">
+      <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
         <div>
           <div className="settings-label">Add crystals</div>
           <div className="settings-sublabel">Instantly added to current balance</div>
@@ -160,7 +160,7 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
       </div>
 
       {/* Set handicap */}
-      <div className="settings-row">
+      <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
         <div>
           <div className="settings-label">Set handicap</div>
           <div className="settings-sublabel">0 = full strength, {MAX_HANDICAP} = easiest</div>
@@ -179,7 +179,7 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
       </div>
 
       {/* Grant all cards */}
-      <div className="settings-row">
+      <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
         <div>
           <div className="settings-label">Grant all cards</div>
           <div className="settings-sublabel">Adds one copy of every missing card to collection</div>
@@ -188,7 +188,7 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
       </div>
 
       {/* Skip to act */}
-      <div className="settings-row">
+      <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
         <div>
           <div className="settings-label">Skip to act</div>
           <div className="settings-sublabel">Overwrites active run — go to Campaign to begin</div>
@@ -206,7 +206,7 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
       </div>
 
       {/* Clear dev config */}
-      <div className="settings-row">
+      <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
         <div>
           <div className="settings-label">Clear dev config</div>
           <div className="settings-sublabel">Removes all forced overrides from jarv_dev_config</div>
@@ -218,7 +218,7 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
       <GiftAdmin onFlash={flash} />
 
       {msg && (
-        <div className="settings-row">
+        <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
           <div className="settings-sublabel" style={{ color: '#33ff33' }}>{msg}</div>
         </div>
       )}
@@ -246,7 +246,7 @@ function GiftAdmin({ onFlash }: { onFlash: (msg: string) => void }) {
 
   return (
     <>
-      <div className="settings-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '4px', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '4px', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="settings-label">Gift registry</div>
         <div className="settings-sublabel">
           Add gifts via the Firestore console — collection: <code>gifts</code>, document ID = gift ID.
@@ -255,16 +255,16 @@ function GiftAdmin({ onFlash }: { onFlash: (msg: string) => void }) {
       </div>
 
       {loading ? (
-        <div className="settings-row">
+        <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
           <div className="settings-sublabel">Loading…</div>
         </div>
       ) : gifts.length === 0 ? (
-        <div className="settings-row">
+        <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
           <div className="settings-sublabel">No gifts defined.</div>
         </div>
       ) : (
         gifts.map(g => (
-          <div key={g.id} className="settings-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+          <div key={g.id} className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
             <div className="settings-label" style={{ fontSize: '11px' }}>
               {claimed.has(g.id) ? '✓' : '○'} <strong>{g.name}</strong> <span style={{ opacity: 0.5 }}>({g.id})</span>
             </div>
@@ -273,7 +273,7 @@ function GiftAdmin({ onFlash }: { onFlash: (msg: string) => void }) {
         ))
       )}
 
-      <div className="settings-row">
+      <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
         <div>
           <div className="settings-label">Reset gift claims</div>
           <div className="settings-sublabel">Clears jarv_claimed_gifts — gifts will reappear on next load</div>

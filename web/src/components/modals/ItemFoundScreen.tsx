@@ -8,7 +8,7 @@ interface Props {
 
 export function ItemFoundScreen({ item, onCollect }: Props) {
   return (
-    <div className="item-found-screen">
+    <div className="item-found-screen u-col u-items-c u-gap-8 u-text-c">
       <div className="item-found-header">// ITEM FOUND</div>
 
       <div className="item-found-icon">{item.icon}</div>

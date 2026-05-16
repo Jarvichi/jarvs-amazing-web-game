@@ -130,7 +130,7 @@ export function TileFlip({ onDone }: Props) {
       </div>
 
       {phase === 'result' && (
-        <div className="minigame-result-panel">
+        <div className="minigame-result-panel u-col u-items-c u-gap-5">
           <div className="minigame-result-headline">
             {mistakes === 0 ? '✨ PERFECT!' : 'Nice work!'}
           </div>

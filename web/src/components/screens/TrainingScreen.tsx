@@ -117,7 +117,7 @@ export function TrainingScreen({ onBack, onStart }: Props) {
       </div>
 
       {totalPages > 1 && (
-        <div className="training-pagination">
+        <div className="training-pagination u-flex u-items-c u-just-c">
           <button
             className="filter-btn"
             onClick={() => setPage(p => Math.max(0, p - 1))}

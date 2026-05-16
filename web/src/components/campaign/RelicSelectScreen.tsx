@@ -34,7 +34,7 @@ export function RelicSelectScreen({ earnedRelics, currentRelic, brokenRelic, onS
         </div>
       </div>
 
-      <div className="relic-select-grid">
+      <div className="relic-select-grid u-col u-gap-5">
         {defs.map(({ name, def }) => (
           <button
             key={name}

@@ -173,7 +173,7 @@ export function VideoPoker({ onDone }: Props) {
     return (
       <div className="minigame-screen">
         <div className="minigame-title">♠ VIDEO POKER</div>
-        <div className="minigame-result-panel">
+        <div className="minigame-result-panel u-col u-items-c u-gap-5">
           <div className="minigame-result-headline">
             {cashOutTickets > 0 ? 'Cashed out!' : 'Out of credits!'}
           </div>
@@ -212,7 +212,7 @@ export function VideoPoker({ onDone }: Props) {
     <div className="minigame-screen">
       <div className="minigame-title">♠ VIDEO POKER</div>
 
-      <div className="fm-header">
+      <div className="fm-header u-flex u-items-c u-gap-7">
         <span className="fm-credits">Credits: {credits}</span>
         {phase === 'result' && result && result.multiplier > 0 && (
           <span className="fm-win-flash">+{wager + wager * result.multiplier}!</span>
@@ -225,16 +225,16 @@ export function VideoPoker({ onDone }: Props) {
       <div className="vp-subtitle">{subtitleText}</div>
 
       {/* Hand */}
-      <div className="vp-hand">
+      <div className="vp-hand u-row u-gap-5 u-just-c">
         {hand.map((card, i) => (
           <div
             key={i}
-            className={`vp-card-wrap${held[i] ? ' vp-card-wrap--held' : ''}`}
+            className={`vp-card-wrap u-col u-items-c u-pointer${held[i] ? ' vp-card-wrap--held' : ''}`}
             onClick={() => toggleHold(i)}
             role="button"
             aria-pressed={held[i]}
           >
-            <div className="hol-card hol-card--face-up">
+            <div className="hol-card u-col u-items-c u-just-c u-gap-1 u-no-select hol-card--face-up">
               <span className={`hol-card-rank${isRed(card.suit) ? ' hol-card-red' : ''}`}>
                 {rankLabel(card.rank)}
               </span>
@@ -251,7 +251,7 @@ export function VideoPoker({ onDone }: Props) {
 
       {/* Wager phase controls */}
       {phase === 'wager' && (
-        <div className="vp-controls">
+        <div className="vp-controls u-flex u-just-c">
           <button className="action-btn action-btn--danger" onClick={fold}>
             FOLD
           </button>
@@ -281,7 +281,7 @@ export function VideoPoker({ onDone }: Props) {
 
       {/* Hold phase controls */}
       {phase === 'hold' && (
-        <div className="vp-controls">
+        <div className="vp-controls u-flex u-just-c">
           <button className="action-btn action-btn--gold action-btn--large" onClick={draw}>
             DRAW
           </button>
@@ -290,7 +290,7 @@ export function VideoPoker({ onDone }: Props) {
 
       {/* Result phase controls */}
       {phase === 'result' && result && (
-        <div className="minigame-result-panel">
+        <div className="minigame-result-panel u-col u-items-c u-gap-5">
           <div className={`vp-result-name${isWin ? ' vp-result-name--win' : ''}`}>
             {result.name}
           </div>
@@ -299,7 +299,7 @@ export function VideoPoker({ onDone }: Props) {
               <div>Stake returned: {wager} + winnings: {wager} × {result.multiplier} = {wager + wager * result.multiplier} credit{wager + wager * result.multiplier !== 1 ? 's' : ''}</div>
             </div>
           )}
-          <div className="vp-controls">
+          <div className="vp-controls u-flex u-just-c">
             <button className="action-btn action-btn--gold" onClick={dealAgain}>
               DEAL AGAIN
             </button>

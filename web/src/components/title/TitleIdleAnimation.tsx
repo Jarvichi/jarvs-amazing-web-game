@@ -256,14 +256,14 @@ export function TitleIdleAnimation() {
       className={`title-idle-overlay${isClickable ? ' title-idle-overlay--active' : ''}`}
       onClick={isClickable ? handleTap : undefined}
     >
-      <div className="title-idle-unit" style={unitStyle}>
+      <div className="title-idle-unit u-absolute u-col u-items-c u-gap-2" style={unitStyle}>
         {showBubble && (
           <div className="title-idle-bubble">
             <p className="title-idle-bubble-text">{message}</p>
             <div className="title-idle-bubble-tail" />
           </div>
         )}
-        <div className="title-idle-sprite-wrap" style={spriteFlip}>
+        <div className="title-idle-sprite-wrap u-flex u-just-c" style={spriteFlip}>
           <AnimatedSpriteImg name={card.name} frameCount={3} fps={8} className="title-idle-sprite" />
         </div>
         <div className="title-idle-name">{card.name}</div>

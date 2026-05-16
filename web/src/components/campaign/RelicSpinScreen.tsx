@@ -32,7 +32,7 @@ export function RelicSpinScreen({
   ].join(' ')
 
   return (
-    <div className="relic-spin-screen">
+    <div className="relic-spin-screen u-col u-items-c u-just-c u-gap-8 u-text-c">
       <div className="rss-bg-glow" />
 
       <div className="rss-header">RELIC CHECK</div>

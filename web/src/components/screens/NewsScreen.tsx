@@ -36,8 +36,8 @@ export function NewsScreen({ onBack }: Props) {
           <div className="news-empty">No news yet.</div>
         )}
         {!loading && visible.map(item => (
-          <div key={item.id} className="news-item">
-            <div className="news-item__meta">
+          <div key={item.id} className="news-item u-col u-gap-3">
+            <div className="news-item__meta u-flex u-items-c u-gap-4">
               <span className="news-item__date">{item.date}</span>
               {item.tag && <span className="news-item__tag">{item.tag}</span>}
               <button

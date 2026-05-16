@@ -10,7 +10,7 @@ export function MasteryBar({ xp }: Props) {
   const { level, current, needed } = masteryProgress(xp)
   const pct = needed > 0 ? Math.round((current / needed) * 100) : 100
   return (
-    <div className="mastery-bar-wrap">
+    <div className="mastery-bar-wrap u-flex u-items-c">
       <span className="mastery-level">★{level}</span>
       <ProgressBar pct={pct} color="linear-gradient(90deg, #b8860b, #ffd700)" className="mastery-bar-track" />
       <span className="mastery-xp">{current}/{needed}</span>

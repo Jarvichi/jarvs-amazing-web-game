@@ -15,7 +15,7 @@ export function ConfirmModal({ title, body, confirmLabel, onConfirm, onCancel }:
       <div className="confirm-modal">
         <div className="confirm-modal-title">{title}</div>
         <div className="confirm-modal-body">{body}</div>
-        <div className="confirm-modal-actions">
+        <div className="confirm-modal-actions u-flex u-gap-5 u-just-c">
           <button className="action-btn" onClick={onCancel}>Cancel</button>
           <button className="action-btn action-btn--danger" onClick={onConfirm}>{confirmLabel}</button>
         </div>

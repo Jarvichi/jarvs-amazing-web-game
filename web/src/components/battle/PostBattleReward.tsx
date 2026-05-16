@@ -76,7 +76,7 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
   const allFlipped = flipped.every(Boolean)
 
   return (
-    <div className="reward-screen">
+    <div className="reward-screen u-col u-items-c u-gap-8 u-grow">
       <div className="reward-header u-text-c">
         <div className="reward-title">{headerOverride?.title ?? 'VICTORY'}</div>
         <div className="reward-sub">{headerOverride?.sub ?? NODE_FLAVOUR[nodeType]}</div>
@@ -92,13 +92,13 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
         </div>
       )}
 
-      <div className="reward-cards">
+      <div className="reward-cards u-flex u-gap-7 u-just-c u-wrap">
         {cards.map((card, i) => {
           const isSelected  = selected === card.name
           const shouldDim   = claimed ? claimed !== card.name : selected ? selected !== card.name : false
 
           return (
-            <div key={card.name} className="reward-card-flip-wrap">
+            <div key={card.name} className="reward-card-flip-wrap u-col u-items-c u-gap-3">
               <div
                 className={[
                   'reward-card-flipper',
@@ -135,7 +135,7 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
       </div>
 
       {allFlipped && !claimed && (
-        <div className="reward-actions">
+        <div className="reward-actions u-col u-items-c u-gap-4">
           <button
             className="action-btn"
             onClick={() => {

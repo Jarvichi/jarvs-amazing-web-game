@@ -217,14 +217,14 @@ export function Fishing({ onDone }: Props) {
       {/* Scene */}
       <div className="fishing-scene">
         {phase === 'idle' && (
-          <div className="fishing-art">
+          <div className="fishing-art u-col u-items-c u-gap-1">
             <div>🎣</div>
             <div className="fishing-water-idle">≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈</div>
           </div>
         )}
 
         {phase === 'waiting' && (
-          <div className="fishing-art">
+          <div className="fishing-art u-col u-items-c u-gap-1">
             <div className="fishing-rod-line">🎣</div>
             <div className="fishing-line">│</div>
             <div className="fishing-line">│</div>
@@ -236,7 +236,7 @@ export function Fishing({ onDone }: Props) {
         )}
 
         {phase === 'bite' && (
-          <div className="fishing-art">
+          <div className="fishing-art u-col u-items-c u-gap-1">
             <div className="fishing-rod-line">🎣</div>
             <div className="fishing-line fishing-line--taut">╲</div>
             <div className="fishing-line fishing-line--taut">╲</div>
@@ -248,14 +248,14 @@ export function Fishing({ onDone }: Props) {
         )}
 
         {phase === 'missed' && (
-          <div className="fishing-art fishing-art--missed">
+          <div className="fishing-art u-col u-items-c u-gap-1 fishing-art--missed">
             <div>🎣 💦</div>
             <div className="fishing-water-idle">≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈</div>
           </div>
         )}
 
         {phase === 'caught' && result && (
-          <div className="fishing-art fishing-art--caught">
+          <div className="fishing-art u-col u-items-c u-gap-1 fishing-art--caught">
             <div className="fishing-catch-icon">
               {result.kind === 'fish' ? result.tierIcon : result.kind === 'item' ? result.icon : '🃏'}
             </div>
@@ -282,10 +282,10 @@ export function Fishing({ onDone }: Props) {
         )}
 
         {phase === 'caught' && result?.kind === 'fish' && (
-          <div className="fishing-result">
+          <div className="fishing-result u-col u-items-c u-gap-2">
             <div className="fishing-result-tier">✦ {result.tier} ✦</div>
             <div className="fishing-result-name">{result.tierIcon} {result.name}</div>
-            <div className="fishing-result-stats">
+            <div className="fishing-result-stats u-flex u-gap-4 u-items-c">
               <span>{formatWeight(result.weightGrams)}</span>
               <span className="fishing-result-sep">·</span>
               <span>{result.lengthCm}cm</span>
@@ -295,7 +295,7 @@ export function Fishing({ onDone }: Props) {
         )}
 
         {phase === 'caught' && result?.kind === 'item' && (
-          <div className="fishing-result fishing-result--special">
+          <div className="fishing-result u-col u-items-c u-gap-2 fishing-result--special">
             <div className="fishing-result-tier">✦ SPECIAL FIND ✦</div>
             <div className="fishing-result-name">{result.icon} {result.name}</div>
             <div className="fishing-result-desc">{result.desc}</div>
@@ -304,7 +304,7 @@ export function Fishing({ onDone }: Props) {
         )}
 
         {phase === 'caught' && result?.kind === 'card' && (
-          <div className="fishing-result fishing-result--special">
+          <div className="fishing-result u-col u-items-c u-gap-2 fishing-result--special">
             <div className="fishing-result-tier">✦ RARE CARD FOUND ✦</div>
             <div className="fishing-result-name">🃏 {result.name}</div>
             <div className="fishing-result-desc">{result.rarity}</div>
@@ -314,7 +314,7 @@ export function Fishing({ onDone }: Props) {
       </div>
 
       {/* Controls */}
-      <div className="fishing-controls">
+      <div className="fishing-controls u-col u-items-c u-gap-4">
         {phase === 'idle' && (
           <button className="action-btn action-btn--gold" onClick={startCast}>
             🎣 CAST!
@@ -332,14 +332,14 @@ export function Fishing({ onDone }: Props) {
         )}
 
         {phase === 'missed' && (
-          <div className="fishing-btn-row">
+          <div className="fishing-btn-row u-flex u-gap-4 u-just-c">
             <button className="action-btn action-btn--gold" onClick={startCast}>TRY AGAIN</button>
             <button className="action-btn action-btn--danger" onClick={() => onDone(0, 0)}>GIVE UP</button>
           </div>
         )}
 
         {phase === 'caught' && (
-          <div className="fishing-btn-row">
+          <div className="fishing-btn-row u-flex u-gap-4 u-just-c">
             <button className="action-btn action-btn--gold" onClick={startCast}>FISH AGAIN</button>
             <button className="action-btn" onClick={done}>DONE</button>
           </div>

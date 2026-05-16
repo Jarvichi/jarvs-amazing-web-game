@@ -70,7 +70,7 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
         ) : (
           <ol className="dc-leaderboard-list">
             {leaderboard.map((entry, i) => (
-              <li key={entry.uid} className="dc-leaderboard-entry">
+              <li key={entry.uid} className="dc-leaderboard-entry u-flex u-items-c u-gap-4">
                 <span className="dc-lb-rank">{i + 1}.</span>
                 <span className="dc-lb-name u-grow">{entry.characterName}</span>
                 <span className="dc-lb-attempts">
@@ -97,7 +97,7 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
         </ul>
       </div>
 
-      <div className="dc-actions">
+      <div className="dc-actions u-col u-gap-4">
         <button className="action-btn action-btn--large" onClick={onStart}>
           {state.attempts === 0 ? '▶ START CHALLENGE' : '▶ TRY AGAIN'}
         </button>

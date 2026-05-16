@@ -471,7 +471,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
         </span>
       }
     >
-<div className="deckbuilder-header-actions">
+<div className="deckbuilder-header-actions u-flex u-items-c u-gap-2 u-wrap">
    {showManaWarning && (
                 <span className="deckbuilder-mana-warn" title={`Deck has ${maxDeckCost}-cost cards but no mana structure`}>
                   ⚠ no mana building
@@ -494,7 +494,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
               >🔗 SHARE</button>
 </div>
 
-      <div className="deckbuilder-split">
+      <div className="deckbuilder-split u-col u-grow">
 
         {/* ── TOP PANEL: current deck ── */}
         <div className={`deckbuilder-top-panel${deckCollapsed ? ' deckbuilder-panel--collapsed' : ''}`}>
@@ -502,7 +502,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
             <span className="deckbuilder-panel-label">
               DECK — click to remove
             </span>
-            <div className="deck-slot-toggle">
+            <div className="deck-slot-toggle u-flex u-items-c u-gap-1">
               <button
                 className={`deck-slot-btn${activeSlot === 'a' ? ' deck-slot-btn--active' : ''}`}
                 onClick={() => handleSwitchSlot('a')}
@@ -514,7 +514,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
                 title="Deck B"
               >B</button>
             </div>
-            <div className="deckbuilder-header-actions">
+            <div className="deckbuilder-header-actions u-flex u-items-c u-gap-2 u-wrap">
            
               <button
                 className="db-collapse-btn"
@@ -544,7 +544,7 @@ setCollectionCollapsed(false)
                 ) : deckList.length === 0 ? (
                   <div className="deck-empty">No deck cards match "{search}".</div>
                 ) : (
-                  <div className="collection-grid">
+                  <div className="collection-grid u-flex u-wrap u-just-c u-gap-4 u-grow">
                     {deckList.map(entry => {
                       const card    = catalog.find(c => c.name === entry.cardName)!
                       const resting = fatiguedCards.includes(entry.cardName)
@@ -552,7 +552,7 @@ setCollectionCollapsed(false)
                       return (
                         <div
                           key={entry.cardName}
-                          className={`collection-cell deck-cell${resting ? ' deck-cell--resting' : ''}`}
+                          className={`collection-cell u-col deck-cell${resting ? ' deck-cell--resting' : ''}`}
                         >
                           {resting && (
                             <div className="resting-overlay">
@@ -582,7 +582,7 @@ setCollectionCollapsed(false)
 
         {/* ── DIVIDER ── */}
         <div
-          className="deckbuilder-divider"
+          className="deckbuilder-divider u-flex u-items-c u-just-c u-pointer u-no-select"
           title="Swap expanded panel"
           onClick={() => {
             if (deckCollapsed) {
@@ -602,7 +602,7 @@ setCollectionCollapsed(false)
         <div className={`deckbuilder-bottom-panel${collectionCollapsed ? ' deckbuilder-panel--collapsed' : ''}`}>
           <div className="deckbuilder-panel-header">
             <span className="deckbuilder-panel-label">COLLECTION — click to add</span>
-            <div className="deckbuilder-header-actions">
+            <div className="deckbuilder-header-actions u-flex u-items-c u-gap-2 u-wrap">
               <span className="filter-owned" style={{ fontSize: '10px' }}>{filtered.length} cards</span>
               <button
                 className="db-collapse-btn"
@@ -623,9 +623,9 @@ setCollectionCollapsed(true)
           </div>
 
           {!collectionCollapsed && (
-            <div className="deckbuilder-collection-inner">
+            <div className="deckbuilder-collection-inner u-grow u-col">
               {/* Search */}
-              <div className="deckbuilder-search-wrap">
+              <div className="deckbuilder-search-wrap u-row">
                 <input
                   className="deckbuilder-search"
                   type="text"
@@ -648,9 +648,9 @@ setCollectionCollapsed(true)
                   </button>
                   {filterMenuOpen && (
                     <div className="filter-popup">
-                      <div className="filter-popup-section">
+                      <div className="filter-popup-section u-col">
                         <span className="filter-group-label">TYPE</span>
-                        <div className="filter-popup-btns">
+                        <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                           {(['all', 'unit', 'structure', 'upgrade'] as const).map(val => (
                             <button
                               key={val}
@@ -662,9 +662,9 @@ setCollectionCollapsed(true)
                           ))}
                         </div>
                       </div>
-                      <div className="filter-popup-section">
+                      <div className="filter-popup-section u-col">
                         <span className="filter-group-label">RARITY</span>
-                        <div className="filter-popup-btns">
+                        <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                           {(['all', 'common', 'uncommon', 'rare', 'legendary'] as const).map(val => (
                             <button
                               key={val}
@@ -676,9 +676,9 @@ setCollectionCollapsed(true)
                           ))}
                         </div>
                       </div>
-                      <div className="filter-popup-section">
+                      <div className="filter-popup-section u-col">
                         <span className="filter-group-label">TAGS <span className="filter-group-hint">(any match)</span></span>
-                        <div className="filter-popup-btns">
+                        <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                           {ALL_TAGS.map(tag => (
                             <button
                               key={tag}
@@ -691,9 +691,9 @@ setCollectionCollapsed(true)
                         </div>
                       </div>
                       {allAffinityLabels.length > 0 && (
-                        <div className="filter-popup-section">
+                        <div className="filter-popup-section u-col">
                           <span className="filter-group-label">AFFINITY</span>
-                          <div className="filter-popup-btns">
+                          <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                             {allAffinityLabels.map(label => (
                               <button
                                 key={label}
@@ -727,8 +727,8 @@ setCollectionCollapsed(true)
                   </button>
                   {sortMenuOpen && (
                     <div className="filter-popup">
-                      <div className="filter-popup-section">
-                        <div className="filter-popup-btns">
+                      <div className="filter-popup-section u-col">
+                        <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                           {([
                             ['default',   'Default'],
                             ['az',        'A → Z'],
@@ -761,8 +761,8 @@ setCollectionCollapsed(true)
                   </button>
                   {groupMenuOpen && (
                     <div className="filter-popup">
-                      <div className="filter-popup-section">
-                        <div className="filter-popup-btns">
+                      <div className="filter-popup-section u-col">
+                        <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                           {([
                             ['none',    'None'],
                             ['type',    'Type'],
@@ -786,7 +786,7 @@ setCollectionCollapsed(true)
 
                 {/* Active filter pills */}
                 {activeFilterCount > 0 && (
-                  <div className="filter-active-pills">
+                  <div className="filter-active-pills u-flex u-gap-2 u-grow u-items-c">
                     {typeFilter !== 'all' && (
                       <span className="filter-pill">{typeFilter}s <button onClick={() => setTypeFilter('all')}>✕</button></span>
                     )}
@@ -805,7 +805,7 @@ setCollectionCollapsed(true)
 
               {/* Collection grid */}
               <div className="deckbuilder-collection-grid">
-                <div className="collection-grid">
+                <div className="collection-grid u-flex u-wrap u-just-c u-gap-4 u-grow">
                   {(() => {
                     let lastGroup: string | null = null
                     return sorted.map(card => {
@@ -823,7 +823,7 @@ setCollectionCollapsed(true)
                           {showHeader && (
                             <div className="collection-group-header">{label}</div>
                           )}
-                          <div className={`collection-cell${resting ? ' collection-cell--resting' : ''}`}>
+                          <div className={`collection-cell u-col${resting ? ' collection-cell--resting' : ''}`}>
                             <CardTile
                               card={card}
                               canAfford={canAdd}
@@ -867,7 +867,7 @@ setCollectionCollapsed(true)
                 Resting cards are excluded.
               </div>
             </div>
-            <div className="autobuild-strategies">
+            <div className="autobuild-strategies u-col u-gap-4">
               {AUTO_STRATEGIES.map(s => (
                 <button
                   key={s.id}
@@ -896,7 +896,7 @@ setCollectionCollapsed(true)
             ) : (
               <ul className="saveddecks-list">
                 {savedDecks.map(d => (
-                  <li key={d.name} className="saveddecks-item">
+                  <li key={d.name} className="saveddecks-item u-flex u-items-c u-gap-4">
                     <span className="saveddecks-name">{d.name}</span>
                     <span className="saveddecks-count">{deckTotalCards(d.deck)} cards</span>
                     <button className="filter-btn" onClick={() => handleLoadSaved(d)}>LOAD</button>
@@ -905,7 +905,7 @@ setCollectionCollapsed(true)
                 ))}
               </ul>
             )}
-            <div className="saveddecks-save-row">
+            <div className="saveddecks-save-row u-flex u-gap-4 u-items-c">
               <input
                 className="deckbuilder-search saveddecks-name-input u-grow"
                 type="text"
@@ -936,7 +936,7 @@ setCollectionCollapsed(true)
         <div className="autobuild-backdrop" onClick={() => setShowShare(false)}>
           <div className="autobuild-panel share-panel" onClick={e => e.stopPropagation()}>
             <div className="autobuild-title">🔗 SHARE DECK</div>
-            <div className="share-section">
+            <div className="share-section u-col u-gap-3">
               <div className="share-label">EXPORT — copy this code and share it:</div>
               <textarea
                 ref={shareCodeRef}
@@ -954,7 +954,7 @@ setCollectionCollapsed(true)
               </button>
             </div>
             <div className="share-divider">──────────</div>
-            <div className="share-section">
+            <div className="share-section u-col u-gap-3">
               <div className="share-label">IMPORT — paste a deck code:</div>
               <textarea
                 className="share-code-box"

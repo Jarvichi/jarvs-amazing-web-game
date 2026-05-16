@@ -42,8 +42,8 @@ export function FeedbackAdminScreen({ onBack }: Props) {
         {loading && <div className="news-loading">Loading…</div>}
         {!loading && items.length === 0 && <div className="news-empty">No feedback yet.</div>}
         {!loading && items.map(item => (
-          <div key={item.id} className="news-item">
-            <div className="news-item__meta">
+          <div key={item.id} className="news-item u-col u-gap-3">
+            <div className="news-item__meta u-flex u-items-c u-gap-4">
               <span className="news-item__tag">{TYPE_LABELS[item.type] ?? item.type}</span>
               <span className="news-item__date">{item.submittedAt.slice(0, 16).replace('T', ' ')}</span>
               {item.userId && (

@@ -56,7 +56,7 @@ export function DailyLoginModal({ reward, onClose }: Props) {
         </div>
         <div className="daily-modal-sub">Welcome back, {playerName}.</div>
 
-        <div className="daily-modal-reward">
+        <div className="daily-modal-reward u-col u-items-c u-gap-4">
           {reward.type === 'crystals' && (
             <>
               <div className="daily-modal-icon">💎</div>
