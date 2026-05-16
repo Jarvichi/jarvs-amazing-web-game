@@ -26,15 +26,16 @@ import { CityBuilder }    from '../minigames/CityBuilder'
 import { Fishing }        from '../minigames/Fishing'
 import { TowerDefence, TowerPool } from '../minigames/TowerDefence'
 
-interface Props {
-  crystals:          number
-  onCrystalsChange:  (n: number) => void
-  user:              User | null
-  characterName:     string
-  onBack:            () => void
-}
-
 type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder' | 'fishing' | 'towerDefence'
+
+interface Props {
+  crystals:           number
+  onCrystalsChange:   (n: number) => void
+  user:               User | null
+  characterName:      string
+  onBack:             () => void
+  initialSubScreen?:  SubScreen
+}
 
 // Build tower pool from owned unit cards in the player's collection
 function buildCollectionTowerPool(): TowerPool[] {
@@ -64,8 +65,8 @@ function pickRandomCards(count: number, rarity?: 'uncommon' | 'rare' | 'legendar
   return results
 }
 
-export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName, onBack }: Props) {
-  const [subScreen, setSubScreen] = useState<SubScreen>('menu')
+export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName, onBack, initialSubScreen }: Props) {
+  const [subScreen, setSubScreen] = useState<SubScreen>(initialSubScreen ?? 'menu')
   const [tickets, setTickets]     = useState(() => loadTickets())
   const [toast, setToast]         = useState<string | null>(null)
   const [lbEntries, setLbEntries] = useState<MiniGameLeaderboardEntry[]>([])
