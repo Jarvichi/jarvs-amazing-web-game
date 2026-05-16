@@ -11213,6 +11213,102 @@
         "melee",
         "armored"
       ]
+    },
+    "wizard": {
+      "name": "Wizard",
+      "attack": 6,
+      "maxHp": 12,
+      "isWall": false,
+      "bypassWall": true,
+      "moveSpeed": 22,
+      "attackRange": 70,
+      "attackCooldownMs": 2000,
+      "flying": false
+    },
+    "barbarian": {
+      "name": "Barbarian",
+      "attack": 7,
+      "maxHp": 15,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 35,
+      "attackRange": 5,
+      "attackCooldownMs": 1800,
+      "flying": false,
+      "tags": [
+        "forest"
+      ]
+    },
+    "knight": {
+      "name": "Knight",
+      "attack": 4,
+      "maxHp": 25,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 22,
+      "attackRange": 5,
+      "attackCooldownMs": 1500,
+      "flying": false,
+      "tags": [
+        "citadel"
+      ]
+    },
+    "wizard-academy": {
+      "name": "Wizard Academy",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "wizard",
+        "intervalMs": 14000
+      },
+      "tags": [
+        "magic"
+      ]
+    },
+    "barbarian-den": {
+      "name": "Barbarian Den",
+      "attack": 0,
+      "maxHp": 30,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "barbarian",
+        "intervalMs": 12500
+      },
+      "tags": [
+        "forest"
+      ]
+    },
+    "knight-barracks": {
+      "name": "Knight Barracks",
+      "attack": 0,
+      "maxHp": 35,
+      "isWall": false,
+      "bypassWall": false,
+      "moveSpeed": 0,
+      "attackRange": 0,
+      "attackCooldownMs": 99999,
+      "flying": false,
+      "structureEffect": {
+        "type": "spawn",
+        "unitTemplateRef": "knight",
+        "intervalMs": 12000
+      },
+      "tags": [
+        "citadel"
+      ]
     }
   },
   "cards": [
@@ -15157,7 +15253,7 @@
       "cost": 3,
       "cardType": "structure",
       "unitRef": "sniper-post",
-      "description": "Spawner. Deploys a Marksman — extreme range, slow reload.",
+      "description": "Spawner. Deploys a Marksman \u2014 extreme range, slow reload.",
       "deckCount": 1,
       "tags": [
         "forest"
@@ -20856,6 +20952,45 @@
       "description": "Mythic siege engine \u2014 absurd HP, unstoppable advance. At 50% HP detonates for 60 AoE.",
       "lore": "There is no wall it cannot break. There is no army it cannot outlast.",
       "deckCount": 0
+    },
+    {
+      "name": "Wizard Academy",
+      "rarity": "rare",
+      "cost": 4,
+      "cardType": "structure",
+      "unitRef": "wizard-academy",
+      "description": "Spawner. Periodically releases Wizards whose magic bypasses walls.",
+      "deckCount": 1,
+      "tags": [
+        "magic"
+      ],
+      "lore": "Knowledge is power. Power is deployable."
+    },
+    {
+      "name": "Barbarian Den",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "barbarian-den",
+      "description": "Spawner. Periodically releases rampaging Barbarians.",
+      "deckCount": 2,
+      "tags": [
+        "forest"
+      ],
+      "lore": "The screaming is intentional. Mostly."
+    },
+    {
+      "name": "Knight Barracks",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unitRef": "knight-barracks",
+      "description": "Spawner. Periodically releases armoured Knights.",
+      "deckCount": 2,
+      "tags": [
+        "citadel"
+      ],
+      "lore": "Honor is a shield. The actual shields help too."
     }
   ],
   "heroCards": [
