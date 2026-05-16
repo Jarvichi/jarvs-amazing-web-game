@@ -36,6 +36,245 @@
   "startNodeIds": [
     "last-bridge"
   ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, technically, here again — at the end of the world, which keeps needing to be ended.",
+      "Now, effectively, the sort of person who has closed the world's deepest wound more than once.",
+      "Now, in every sense that matters, back at the place where everything either stops or starts.",
+      "Now — by every possible measure — doing this again, which should not be possible, and yet.",
+      "Now, technically, the only person who has ever stood here more than once and understood what that means."
+    ],
+    "jarvIntros": [
+      "You have a deck of cards, thirteen shards of hard-won knowledge, and the particular weight of someone who has already done this and is doing it again anyway.",
+      "You have a deck of cards, a familiarity with the Core's wound that no one else alive possesses, and the unsettling sense that the wound has a familiarity with you.",
+      "You have a deck of cards, a detailed understanding of what the Fracture is and who caused it, and the slowly dawning realisation that knowing all of this hasn't made the entity any easier to face.",
+      "You have a deck of cards, a complete record of thirteen shard campaigns, and the growing certainty that the Core has been expecting you specifically.",
+      "You have a deck of cards. The world has been broken and mended and broken again. You are the constant. You have always been the constant."
+    ],
+    "coreDesc": [
+      "The Fractured Core is the wound at the world's heart — the scar left by whatever tore the Dominion apart in a single catastrophic instant.",
+      "The Fractured Core smells like the absence of things — a place where the normal rules of what is and isn't are doing their best but not quite succeeding.",
+      "The Fractured Core has been here since the Fracture Event. It has been waiting since the Fracture Event. It has been waiting for you, specifically, since the last time you closed it.",
+      "The ley lines converge here — all of them, from every shard, from every act, drawing to this single point. They have been drawing toward this moment since the beginning. Since the last beginning. Since every beginning."
+    ],
+    "entityDesc": [
+      "The entity within has no name. No origin. It is the fracture given will and hunger — the will of something that exists because the world was broken, and the hunger of something that does not want the world to be whole.\n\nIt will fight you. It always fights you. That is the one constant.",
+      "The entity holds the Core together and apart simultaneously. It is the wound and the thing that lives in the wound. It has been defeated before.\n\nIt knows this. It has been thinking about it.",
+      "The entity does not speak. It does not need to. You have met it before. You know what it wants. It knows what you want. The conversation has already been had, many times, in the only language available: force.\n\nYou are about to have it again.",
+      "The entity has been here since you left. It has been rebuilding, regathering, re-fracturing the world at a rate calibrated to your expected return.\n\nIt has been expecting your return for some time."
+    ],
+    "priorRunSummaries": [
+      "The wrongness felt familiar — the particular quality of a place where reality is doing its best but not quite managing. Like coming back to a wound you'd healed that had opened again.",
+      "The approach was wrong. Not directionally wrong — tonally wrong, the way a path feels wrong when you've walked it before and know what's at the end.",
+      "Something about the silence at the Core's threshold. The exact quality of it. You'd heard this silence before. It meant the entity already knew you were here.",
+      "The Core was different on approach — smaller, somehow. As though it had been waiting in a compact configuration, expecting to need to expand for you specifically."
+    ],
+    "priorRunOpenings": [
+      "You had been here. The wrongness of the place settled around you like something that had been fitted to your measurements.",
+      "The entity's first manifestation was different this time — more direct. It had skipped the opening. It had seen the opening before.",
+      "The ley lines pulled harder when you arrived. As though they had been watching for you. As though they had been holding something back until you came to receive it.",
+      "The wound was already open when you arrived. It had opened ahead of your approach. Something in the Core had been tracking you since the last time you left."
+    ],
+    "milestoneOpenings5": [
+      "The fifth time at the Fractured Core. The entity does not perform its opening sequence. It simply manifests. It has decided the sequence is unnecessary.",
+      "Fifth finale. The ley lines at the Core's threshold are brighter than they should be — charged beyond the normal convergence threshold. The Core has been building up energy since your last visit."
+    ],
+    "milestoneOpenings10": [
+      "Ten times at the Fractured Core. The entity is already at full manifestation when you arrive. It has stopped the pretence of requiring a build-up. It knows how quickly you close the distance.",
+      "The tenth finale. The wound is wider than it was on the first approach, and narrower than it was on the ninth. The entity has been calibrating. It is learning the difference between what it can hold and what you will close."
+    ],
+    "milestoneOpenings25": [
+      "Twenty-five times. The Fractured Core does not resist when you arrive. It reverberates — a deep, resonant frequency that might be recognition, or might be dread. The distinction has become unclear.",
+      "After twenty-five finales, the entity manifests in a form that is slightly different from the last. It has been trying new configurations. None of them have worked. It is trying to understand why."
+    ],
+    "milestoneOpenings50": [
+      "The fiftieth time at the Fractured Core. The wound is the wrong shape — not open enough to be a threat, not closed enough to be a victory. As though the entity has decided that opening fully is no longer a strategy worth attempting.",
+      "Fifty finales. The ley lines at the threshold are calm when you arrive. Unnervingly calm. As though the Core has processed something and reached a conclusion it hasn't shared yet."
+    ],
+    "milestoneOpenings100": [
+      "The entity manifests before you've crossed the threshold.\n\nNot the wound. Not the fracture-given-hunger. Just — presence. The specific presence that has faced you a hundred times and lost a hundred times and is now doing something different.\n\nIt is looking at you. Not at Jarv. At you.\n\n'You are not from here,' it says. Its voice is every frequency at once. 'You are not from any of the shards. You are from the place behind the cards — the place that moves Jarv's hands.'\n\nA long silence. The wound behind it pulses.\n\n'I have been trying to understand why the world keeps breaking. I think,' it says, 'that you are why. Not maliciously. Just — inevitably. The world breaks so that you can mend it. The wound opens so that you can close it. This is what you are for.'\n\nAnother pulse. The ley lines converge.\n\n'I have decided to stop fighting this.' A pause. 'It will not last. I cannot stop being what I am. But for this iteration — go. Close the wound. I will try to mean it.'\n\nThe Core opens."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} time at the Fractured Core. The entity is already manifesting as you cross the threshold. It has stopped needing the preamble.",
+    "Finale {n}. The world has healed and broken and healed again. The Core waits. The entity waits. You are, as always, the variable.",
+    "{n} times you've stood here. The wound at the world's heart has your footprints worn into the approach. The ley lines have learned your weight.",
+    "{n} times. The entity has tried {n} configurations. None of them have worked. It is still working on why.",
+    "Finale {n}. You arrive. The Core recognises you. The recognition has stopped feeling welcoming and started feeling like inevitability.",
+    "The {ordinalLower} finale. The wrongness of this place settles around you the way familiar things settle. That is either very good or very bad.",
+    "{n} finales. The entity has been dreading this specific moment since the last one ended."
+  ],
+  "introRules": [
+    {
+      "condition": { "op": "gte", "value": 100 },
+      "panels": [
+        {
+          "title": "THE ENTITY UNDERSTANDS",
+          "text": "{pool:milestoneOpenings100:0}"
+        },
+        {
+          "title": "THE FRACTURED CORE",
+          "text": "{pool:coreDesc:3}\n\n{pool:entityDesc:2}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 51, "max": 99 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE FRACTURED CORE",
+          "text": "{pool:coreDesc:2}\n\n{pool:entityDesc:1}"
+        },
+        {
+          "title": "THE END OF THE ROAD",
+          "text": "Close the wound. Defeat the entity.\n\nYou know how. You have always known how."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 50 },
+      "panels": [
+        {
+          "title": "FIFTY FINALES",
+          "text": "{pool:milestoneOpenings50:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE FRACTURED CORE",
+          "text": "{pool:coreDesc:2}\n\n{pool:entityDesc:1}"
+        },
+        {
+          "title": "THE END OF THE ROAD",
+          "text": "Close the wound. Defeat the entity.\n\nYou know how. You have always known how."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 26, "max": 49 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE FRACTURED CORE",
+          "text": "{pool:coreDesc:1}\n\n{pool:entityDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 25 },
+      "panels": [
+        {
+          "title": "TWENTY-FIVE FINALES",
+          "text": "{pool:milestoneOpenings25:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE FRACTURED CORE",
+          "text": "{pool:coreDesc:1}\n\n{pool:entityDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 11, "max": 24 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE FRACTURED CORE",
+          "text": "{pool:coreDesc:0}\n\n{pool:entityDesc:0}"
+        },
+        {
+          "title": "THE END OF THE ROAD",
+          "text": "You are the only one who has ever closed this wound.\n\nClose it again."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 10 },
+      "panels": [
+        {
+          "title": "THE TENTH FINALE",
+          "text": "{pool:milestoneOpenings10:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE FRACTURED CORE",
+          "text": "{pool:coreDesc:0}\n\n{pool:entityDesc:0}"
+        },
+        {
+          "title": "THE END OF THE ROAD",
+          "text": "You are the only one who has ever closed this wound.\n\nClose it again."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 5, "max": 9 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{pool:milestoneOpenings5:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE FRACTURED CORE",
+          "text": "{pool:coreDesc:0}\n\n{pool:entityDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 2, "max": 4 },
+      "panels": [
+        {
+          "title": "THE FRACTURED CORE",
+          "text": "You have been here before. You closed this wound. It opened again.\n\n{pool:priorRunSummaries:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE FORCE WITHIN",
+          "text": "{pool:entityDesc:0}"
+        },
+        {
+          "title": "A FEELING",
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+        }
+      ]
+    }
+  ],
   "intro": [
     {
       "title": "THE FRACTURED CORE",
