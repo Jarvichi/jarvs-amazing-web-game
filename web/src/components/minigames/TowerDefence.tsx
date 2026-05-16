@@ -8,11 +8,11 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { UnitTemplate } from '../../game/types'
 import { SpriteImg, AnimatedSpriteImg } from '../BuildingBlocks/SpriteImg'
 import {
-  TD_COLS, TD_ROWS, TD_PATH, TD_TOTAL_WAVES, TD_MAX_LIVES, TD_CELL_PX, TD_MAX_UPGRADES, TD_MILESTONE_EVERY,
-  TDGameState, TDTower, TDUnit, TDEnemy, TDAttackEvent, TDHazard, MilestoneUpgrade,
+  TD_COLS, TD_ROWS, TD_PATH, TD_TOTAL_WAVES, TD_MAX_LIVES, TD_CELL_PX, TD_MAX_UPGRADES, TD_MAX_UPGRADE_PER_TYPE, TD_MAX_UNIT_UPGRADES, TD_MILESTONE_EVERY,
+  TDGameState, TDTower, TDUnit, TDEnemy, TDAttackEvent, TDHazard, MilestoneUpgrade, TDUpgradeType,
   isPathCell,
-  createTDGame, placeTower, removeTower, moveTower, upgradeTower, startWave, tickTD,
-  calcTicketReward, calcGoldReward, towerCost, upgradeCost, xpToUpgrade, buildingUnitCount, chooseMilestoneUpgrade,
+  createTDGame, placeTower, removeTower, moveTower, upgradeTowerWith, startWave, tickTD,
+  calcTicketReward, calcGoldReward, towerCost, upgradeCost, xpToUpgrade, sellRefund, buildingUnitCount, chooseMilestoneUpgrade,
 } from '../../game/towerDefence'
 import { Lives } from '../BuildingBlocks/Lives/Lives'
 
@@ -162,8 +162,8 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
     setHoveredTower(null)
   }
 
-  function handleUpgradeTower(tower: TDTower) {
-    setGame(prev => upgradeTower(prev, tower.id) ?? prev)
+  function handleUpgradeTower(tower: TDTower, type: TDUpgradeType) {
+    setGame(prev => upgradeTowerWith(prev, tower.id, type) ?? prev)
   }
 
   function handleStartWave() { setGame(prev => startWave(prev)) }
@@ -361,7 +361,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                     <div className="td-tower-inner">
                       <SpriteImg name={tower.buildingName} />
                       {tower.upgrades > 0 && (
-                        <div className="td-tower-tier">{'★'.repeat(tower.upgrades)}</div>
+                        <div className="td-tower-tier">★{tower.upgrades}</div>
                       )}
                       {tower.respawnTimers.length > 0 && (
                         <div className="td-tower-respawn">⏳</div>
@@ -434,22 +434,45 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
       {/* ── Selected tower action panel ── */}
       {selectedTower && (() => {
         const t = selectedTower
-        const sellRefund = Math.floor(towerCost(t.template) * 0.5)
-        const upCost = upgradeCost(t)
+        const refund   = sellRefund(t)
+        const upCost   = upgradeCost(t)
         const xpNeeded = xpToUpgrade(t)
-        const hasXp = t.xp >= xpNeeded
-        const canAffordUp = game.mana >= upCost
-        const canUpgrade = hasXp && canAffordUp
+        const hasXp    = t.xp >= xpNeeded
+        const canAfford = game.mana >= upCost
         const unitCount = buildingUnitCount(t)
         const activeUnits = game.units.filter(u => u.towerId === t.id)
+        const totalMaxed = t.upgrades >= TD_MAX_UPGRADES
+
+        const upgradeOptions: Array<{
+          type: TDUpgradeType; icon: string; label: string; current: number; max: number
+        }> = [
+          { type: 'units',  icon: '👤', label: '+Unit',  current: t.upgradeUnits,  max: TD_MAX_UNIT_UPGRADES  },
+          { type: 'speed',  icon: '⚡', label: 'Speed',  current: t.upgradeSpeed,  max: TD_MAX_UPGRADE_PER_TYPE },
+          { type: 'range',  icon: '🎯', label: 'Range',  current: t.upgradeRange,  max: TD_MAX_UPGRADE_PER_TYPE },
+          { type: 'damage', icon: '⚔',  label: 'Damage', current: t.upgradeDamage, max: TD_MAX_UPGRADE_PER_TYPE },
+        ]
+
         return (
           <div className="td-selected-panel">
-            <div className="td-selected-panel-info">
-              <strong>{t.buildingName}</strong>
-              {t.upgrades > 0 && <span className="td-tower-tier-label"> {'★'.repeat(t.upgrades)}</span>}
-              <span className="td-selected-panel-stats"> · {t.template.name} · {activeUnits.length}/{unitCount} units</span>
+            <div className="td-selected-panel-row">
+              <div className="td-selected-panel-info">
+                <strong>{t.buildingName}</strong>
+                {t.upgrades > 0 && <span className="td-tower-tier-label"> ★{t.upgrades}</span>}
+                <span className="td-selected-panel-stats"> · {activeUnits.length}/{unitCount} units</span>
+              </div>
+              <div className="td-selected-panel-row-actions">
+                <button className="td-selected-action-btn td-selected-action-btn--sell"
+                  onClick={() => handleSellTower(t)}>
+                  SELL +💧{refund}
+                </button>
+                <button className="td-selected-action-btn td-selected-action-btn--cancel"
+                  onClick={() => setSelectedTowerId(null)}>
+                  ✕
+                </button>
+              </div>
             </div>
-            {t.upgrades < TD_MAX_UPGRADES && (
+
+            {!totalMaxed && (
               <div className="td-selected-panel-xp">
                 <div className="td-selected-panel-xp-bar">
                   <div
@@ -458,29 +481,37 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                   />
                 </div>
                 <span className={hasXp ? 'td-selected-panel-xp-label--ready' : 'td-selected-panel-xp-label'}>
-                  {hasXp ? '⬆ Ready to upgrade!' : `${t.xp}/${xpNeeded} kills to unlock`}
+                  {hasXp ? `⬆ Upgrade ready! 💧${upCost}` : `${t.xp}/${xpNeeded} kills to unlock`}
                 </span>
               </div>
             )}
-            <div className="td-selected-panel-actions">
-              <button className="td-selected-action-btn td-selected-action-btn--sell"
-                onClick={() => handleSellTower(t)}>
-                SELL +💧{sellRefund}
-              </button>
-              {t.upgrades < TD_MAX_UPGRADES ? (
-                <button
-                  className={`td-selected-action-btn td-selected-action-btn--upgrade${canUpgrade ? '' : ' td-selected-action-btn--disabled'}`}
-                  onClick={() => canUpgrade && handleUpgradeTower(t)}>
-                  ★ UPGRADE (+1 unit) 💧{upCost}
-                </button>
-              ) : (
-                <span className="td-selected-panel-maxed">★★ MAX ({unitCount} units)</span>
-              )}
-              <button className="td-selected-action-btn td-selected-action-btn--cancel"
-                onClick={() => setSelectedTowerId(null)}>
-                ✕
-              </button>
-            </div>
+
+            {totalMaxed ? (
+              <div className="td-selected-panel-maxed">★ FULLY UPGRADED ({unitCount} units)</div>
+            ) : (
+              <div className="td-upgrade-options">
+                {upgradeOptions.map(({ type, icon, label, current, max }) => {
+                  const maxed   = current >= max
+                  const enabled = hasXp && canAfford && !maxed
+                  const dotsMax = Math.min(max, 10)
+                  return (
+                    <button
+                      key={type}
+                      className={`td-upgrade-option${enabled ? '' : ' td-upgrade-option--disabled'}${maxed ? ' td-upgrade-option--maxed' : ''}`}
+                      onClick={() => enabled && handleUpgradeTower(t, type)}
+                    >
+                      <span className="td-upgrade-option-icon">{icon}</span>
+                      <span className="td-upgrade-option-label">{label}</span>
+                      <span className="td-upgrade-option-dots">
+                        {current}/{max}
+                        {max <= 5 ? ' ' + '●'.repeat(current) + '○'.repeat(dotsMax - current) : ''}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+
             <div className="td-selected-panel-hint">Tap an empty cell on the grid to move this building</div>
           </div>
         )
@@ -544,25 +575,20 @@ function UnitGroupToken({ units }: { units: TDUnit[] }) {
   const lead = units[0]
   const stationed = units.some(u => u.stationed)
   const minHpFrac = Math.min(...units.map(u => u.hp / u.maxHp))
-  const n = units.length
-  const sz = 15, gap = 3
+  const n = Math.min(units.length, 10)
+  const sz = 11, gap = 2
+  const COLS = 5
 
-  let slots: Array<{ dx: number; dy: number }>
-  let containerW: number, containerH: number
+  const rows = Math.ceil(n / COLS)
+  const cols = Math.min(n, COLS)
+  const containerW = cols * sz + (cols - 1) * gap
+  const containerH = rows * sz + (rows - 1) * gap
 
-  if (n >= 3) {
-    containerW = sz * 2 + gap; containerH = sz * 2 + gap
-    slots = [
-      { dx: (containerW - sz) / 2, dy: 0 },
-      { dx: 0, dy: sz + gap },
-      { dx: sz + gap, dy: sz + gap },
-    ]
-  } else if (n === 2) {
-    containerW = sz * 2 + gap; containerH = sz
-    slots = [{ dx: 0, dy: 0 }, { dx: sz + gap, dy: 0 }]
-  } else {
-    containerW = sz; containerH = sz
-    slots = [{ dx: 0, dy: 0 }]
+  const slots: Array<{ dx: number; dy: number }> = []
+  for (let i = 0; i < n; i++) {
+    const row = Math.floor(i / COLS)
+    const col = i % COLS
+    slots.push({ dx: col * (sz + gap), dy: row * (sz + gap) })
   }
 
   return (

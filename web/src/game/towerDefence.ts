@@ -196,8 +196,12 @@ export interface TDTower {
   col: number
   row: number
   template: UnitTemplate
-  buildingName: string        // card name for building sprite
-  upgrades: number            // 0–TD_MAX_UPGRADES; determines how many units it spawns
+  buildingName: string
+  upgrades: number            // total upgrades purchased (XP/cost gate)
+  upgradeUnits: number        // 0–TD_MAX_UPGRADE_PER_TYPE: extra units spawned
+  upgradeSpeed: number        // 0–TD_MAX_UPGRADE_PER_TYPE: attack speed bonus
+  upgradeRange: number        // 0–TD_MAX_UPGRADE_PER_TYPE: range bonus (cells)
+  upgradeDamage: number       // 0–TD_MAX_UPGRADE_PER_TYPE: damage bonus
   respawnTimers: number[]     // countdown (ms) for each dead unit awaiting respawn
   xp: number                  // kills earned by this tower's units; upgrade unlocks at threshold
 }
@@ -216,6 +220,9 @@ export interface TDUnit {
   stationed: boolean      // true = engaged chasing an enemy, false = idle at home
   attackCooldownRemaining: number
   rangeInCells: number
+  speedMult: number       // reduces attack cooldown (1 = base, 1.25 = 25% faster, etc.)
+  rangeBonus: number      // extra cells of range from tower upgrades
+  damageMult: number      // damage multiplier from tower upgrades
 }
 
 export interface TDEnemy {
@@ -328,7 +335,10 @@ export const TD_TOTAL_WAVES = 100
 export const TD_MILESTONE_EVERY = 10
 export const TD_CELL_PX = 48
 export const TD_STARTING_MANA = 120
-export const TD_MAX_UPGRADES = 2
+export const TD_MAX_UNIT_UPGRADES = 9        // units type: allows up to 10 spawned units total
+export const TD_MAX_UPGRADE_PER_TYPE = 2     // max levels for speed / range / damage
+export const TD_MAX_UPGRADES = TD_MAX_UNIT_UPGRADES + TD_MAX_UPGRADE_PER_TYPE * 3  // = 15
+export type TDUpgradeType = 'units' | 'speed' | 'range' | 'damage'
 const BETWEEN_WAVE_MS = 5000
 const STRENGTH_MULT = 1.5
 const RESPAWN_DELAY_MS = 5000
@@ -340,9 +350,24 @@ export function towerCost(template: UnitTemplate): number {
   return Math.max(5, Math.round(template.attack * 2 + template.maxHp / 20))
 }
 
-/** Mana cost to upgrade a building (spawns one more unit). */
+/** Mana cost for the next upgrade purchase (scales linearly with total upgrades purchased). */
 export function upgradeCost(tower: TDTower): number {
-  return Math.round(towerCost(tower.template) * Math.pow(2, tower.upgrades + 1))
+  return Math.round(towerCost(tower.template) * (tower.upgrades + 1) * 2)
+}
+
+/** Total mana spent on a tower (placement + all upgrades). */
+export function totalManaSpent(tower: TDTower): number {
+  const base = towerCost(tower.template)
+  let total = base
+  for (let i = 0; i < tower.upgrades; i++) {
+    total += Math.round(base * (i + 1) * 2)
+  }
+  return total
+}
+
+/** Sell refund = half of all mana spent on this tower. */
+export function sellRefund(tower: TDTower): number {
+  return Math.floor(totalManaSpent(tower) * 0.5)
 }
 
 /** Kills required to unlock the next upgrade tier. */
@@ -352,7 +377,7 @@ export function xpToUpgrade(tower: TDTower): number {
 
 /** Number of units a building spawns at its current upgrade level. */
 export function buildingUnitCount(tower: TDTower): number {
-  return tower.upgrades + 1
+  return tower.upgradeUnits + 1
 }
 
 /**
@@ -455,7 +480,20 @@ function spawnUnitFromBuilding(tower: TDTower): TDUnit {
     stationed: false,
     attackCooldownRemaining: 0,
     rangeInCells: Math.max(1.5, Math.round(tower.template.attackRange / TD_CELL_PX)),
+    speedMult:   1 + tower.upgradeSpeed  * 0.25,
+    rangeBonus:  tower.upgradeRange,
+    damageMult:  1 + tower.upgradeDamage * 0.30,
   }
+}
+
+/** Refresh per-unit multipliers on all units belonging to a tower (call after upgrade). */
+function refreshTowerUnits(units: TDUnit[], tower: TDTower): TDUnit[] {
+  const sm = 1 + tower.upgradeSpeed  * 0.25
+  const rb = tower.upgradeRange
+  const dm = 1 + tower.upgradeDamage * 0.30
+  return units.map(u =>
+    u.towerId === tower.id ? { ...u, speedMult: sm, rangeBonus: rb, damageMult: dm } : u
+  )
 }
 
 function buildSpawnQueue(waveDef: WaveDefinition, startTimeMs: number, waveIndex: number): SpawnEntry[] {
@@ -542,6 +580,10 @@ export function placeTower(
     template,
     buildingName,
     upgrades: 0,
+    upgradeUnits: 0,
+    upgradeSpeed: 0,
+    upgradeRange: 0,
+    upgradeDamage: 0,
     respawnTimers: [],
     xp: 0,
   }
@@ -563,7 +605,7 @@ export function placeTower(
 export function removeTower(state: TDGameState, towerId: number): TDGameState {
   const tower = state.towers.find(t => t.id === towerId)
   if (!tower) return state
-  const refund = Math.floor(towerCost(tower.template) * 0.5)
+  const refund = sellRefund(tower)
   return {
     ...state,
     mana: state.mana + refund,
@@ -578,21 +620,50 @@ export function removeTower(state: TDGameState, towerId: number): TDGameState {
 }
 
 /** Upgrade a building — spawns one more unit. Returns null if not affordable or at max. */
-export function upgradeTower(state: TDGameState, towerId: number): TDGameState | null {
+const UPGRADE_LABELS: Record<TDUpgradeType, string> = {
+  units:  'extra unit dispatched',
+  speed:  'attack speed increased',
+  range:  'attack range extended',
+  damage: 'damage boosted',
+}
+
+export function upgradeTowerWith(
+  state: TDGameState,
+  towerId: number,
+  type: TDUpgradeType,
+): TDGameState | null {
   const tower = state.towers.find(t => t.id === towerId)
   if (!tower) return null
   if (tower.upgrades >= TD_MAX_UPGRADES) return null
   if (tower.xp < xpToUpgrade(tower)) return null
+  const currentLevel = type === 'units'  ? tower.upgradeUnits
+                     : type === 'speed'  ? tower.upgradeSpeed
+                     : type === 'range'  ? tower.upgradeRange
+                     :                    tower.upgradeDamage
+  const maxForType = type === 'units' ? TD_MAX_UNIT_UPGRADES : TD_MAX_UPGRADE_PER_TYPE
+  if (currentLevel >= maxForType) return null
   const cost = upgradeCost(tower)
   if (state.mana < cost) return null
-  const upgradedTower = { ...tower, upgrades: tower.upgrades + 1, xp: 0 }
-  const newUnit = spawnUnitFromBuilding(upgradedTower)
+
+  const upgradedTower: TDTower = {
+    ...tower,
+    upgrades:      tower.upgrades + 1,
+    xp:            0,
+    upgradeUnits:  type === 'units'  ? tower.upgradeUnits  + 1 : tower.upgradeUnits,
+    upgradeSpeed:  type === 'speed'  ? tower.upgradeSpeed  + 1 : tower.upgradeSpeed,
+    upgradeRange:  type === 'range'  ? tower.upgradeRange  + 1 : tower.upgradeRange,
+    upgradeDamage: type === 'damage' ? tower.upgradeDamage + 1 : tower.upgradeDamage,
+  }
+
+  let units = refreshTowerUnits(state.units, upgradedTower)
+  if (type === 'units') units = [...units, spawnUnitFromBuilding(upgradedTower)]
+
   return {
     ...state,
     mana: state.mana - cost,
     towers: state.towers.map(t => t.id === towerId ? upgradedTower : t),
-    units: [...state.units, newUnit],
-    log: [...state.log.slice(-9), `${tower.buildingName} upgraded to ★${tower.upgrades + 1} — extra ${tower.template.name} dispatched! (-${cost} mana)`],
+    units,
+    log: [...state.log.slice(-9), `${tower.buildingName} ★${upgradedTower.upgrades} — ${UPGRADE_LABELS[type]}! (-${cost} mana)`],
   }
 }
 
@@ -827,7 +898,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     let cd = Math.max(0, unit.attackCooldownRemaining - dtMs)
     if (cd <= 0 && s.enemies.length > 0) {
       const targets = s.enemies
-        .filter(e => !deadEnemyIds.has(e.id) && !shieldedEnemyIds.has(e.id) && unitCanHit(unit, e, rangeBonus))
+        .filter(e => !deadEnemyIds.has(e.id) && !shieldedEnemyIds.has(e.id) && unitCanHit(unit, e, rangeBonus + unit.rangeBonus))
         .sort((a, b) => b.pathProgress - a.pathProgress)
       if (targets.length > 0) {
         const target = targets[0]
@@ -836,7 +907,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
           shieldedEnemyIds.add(target.id)
           s.enemies = s.enemies.map(e => e.id === target.id ? { ...e, shielded: false } : e)
         } else {
-          const dmg = Math.round(unitDamageDealt(unit, target) * damageMult)
+          const dmg = Math.round(unitDamageDealt(unit, target) * damageMult * unit.damageMult)
           const newHp = target.hp - dmg
           // Apply elemental on-hit effect
           const eff = unit.template.attackEffect
@@ -886,7 +957,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
           aoeRadius: unit.template.attackEffect?.aoeRadius,
         })
         const slowPenalty = slowedUnitIds.has(unit.id) ? 1.5 : 1
-        cd = unit.template.attackCooldownMs / attackSpeedMult * slowPenalty
+        cd = unit.template.attackCooldownMs / (attackSpeedMult * unit.speedMult) * slowPenalty
       }
     }
     return { ...unit, attackCooldownRemaining: cd }

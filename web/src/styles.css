@@ -12935,12 +12935,13 @@ html.light-mode .action-btn {
 }
 .td-selected-panel-xp-label       { font-size: 10px; color: #888; white-space: nowrap; }
 .td-selected-panel-xp-label--ready { font-size: 10px; color: #4caf50; font-weight: bold; white-space: nowrap; animation: td-upgrade-pulse 0.8s ease-in-out infinite alternate; }
-.td-selected-panel-actions {
+.td-selected-panel-row {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
+.td-selected-panel-row-actions { display: flex; gap: 6px; flex-shrink: 0; }
 .td-selected-action-btn {
   font-family: 'Courier New', monospace;
   font-size: 12px;
@@ -12956,10 +12957,38 @@ html.light-mode .action-btn {
 .td-selected-action-btn:hover:not(.td-selected-action-btn--disabled) { background: #252525; }
 .td-selected-action-btn--sell    { border-color: #f44336; color: #f44336; }
 .td-selected-action-btn--sell:hover { background: rgba(244,67,54,0.12); }
-.td-selected-action-btn--upgrade { border-color: #ffd700; color: #ffd700; }
-.td-selected-action-btn--upgrade:hover:not(.td-selected-action-btn--disabled) { background: rgba(255,215,0,0.08); }
 .td-selected-action-btn--cancel  { border-color: #444; color: #777; padding: 6px 10px; }
 .td-selected-action-btn--disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* 2×2 upgrade option grid */
+.td-upgrade-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+.td-upgrade-option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #1a1a1a;
+  border: 1px solid #4caf50;
+  border-radius: 5px;
+  padding: 5px 8px;
+  cursor: pointer;
+  color: #e0e0e0;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  transition: background 0.1s, border-color 0.1s;
+}
+.td-upgrade-option:hover:not(.td-upgrade-option--disabled):not(.td-upgrade-option--maxed) {
+  background: #162616;
+}
+.td-upgrade-option--disabled { border-color: #333; opacity: 0.45; cursor: not-allowed; }
+.td-upgrade-option--maxed    { border-color: #ffd700; color: #ffd700; cursor: default; opacity: 0.7; }
+.td-upgrade-option-icon  { font-size: 14px; flex-shrink: 0; }
+.td-upgrade-option-label { flex: 1; font-weight: bold; }
+.td-upgrade-option-dots  { font-size: 10px; color: #4caf50; letter-spacing: 1px; flex-shrink: 0; }
+.td-upgrade-option--maxed .td-upgrade-option-dots { color: #ffd700; }
 
 /* ── Bottom panel ── */
 .td-panel {
