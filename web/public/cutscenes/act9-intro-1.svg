@@ -8,31 +8,31 @@
   </linearGradient>
   <rect width="400" height="240" fill="url(#ice-sky)"/>
 
-  <!-- Cold atmospheric haze — pale blue -->
+  <!-- Cold atmospheric haze — pale blue, slow breathe -->
   <radialGradient id="cold-haze" cx="50%" cy="40%" r="60%">
-    <stop offset="0%" stop-color="#102840" stop-opacity="0.3"/>
+    <stop offset="0%" stop-color="#102840" stop-opacity="0.3">
+      <animate attributeName="stop-opacity" values="0.3;0.5;0.3" dur="9s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#102840" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#cold-haze)"/>
 
-  <!-- Distant frozen horizon — flat, vast -->
+  <!-- Distant frozen horizon -->
   <rect x="0" y="155" width="400" height="85" fill="#060e18"/>
   <line x1="0" y1="155" x2="400" y2="155" stroke="#10243a" stroke-width="1.5"/>
 
-  <!-- Ice surface texture — flat, cracked -->
+  <!-- Ice surface texture — cracks -->
   <g stroke="#0e2030" stroke-width="0.6" fill="none" opacity="0.5">
     <path d="M0,165 Q60,162 120,165 Q180,168 240,165 Q300,162 360,165 Q380,167 400,165"/>
     <path d="M0,178 Q80,174 160,178 Q240,182 320,178 Q370,180 400,178"/>
     <path d="M0,192 Q100,188 200,192 Q300,196 400,192"/>
-    <!-- Cracks in ice -->
     <path d="M50,160 Q55,170 58,185 Q60,195 62,210"/>
     <path d="M150,158 Q148,168 153,180 Q156,193 154,208"/>
     <path d="M280,160 Q285,172 282,186 Q280,198 283,215"/>
     <path d="M370,162 Q368,175 372,188 Q374,200 370,215"/>
   </g>
 
-  <!-- THE LEY LINES — bright orange running straight through the ice -->
-  <!-- Main horizontal ley line — most prominent -->
+  <!-- Main horizontal ley line — pulsing flow -->
   <linearGradient id="ley-h" x1="0" y1="0" x2="1" y2="0">
     <stop offset="0%" stop-color="#c04000" stop-opacity="0.3"/>
     <stop offset="20%" stop-color="#ff6020" stop-opacity="0.9"/>
@@ -41,24 +41,30 @@
     <stop offset="100%" stop-color="#c04000" stop-opacity="0.3"/>
   </linearGradient>
   <rect x="0" y="166" width="400" height="5" fill="url(#ley-h)"/>
-  <rect x="0" y="167" width="400" height="3" fill="#ffb060" opacity="0.5"/>
+  <rect x="0" y="167" width="400" height="3" fill="#ffb060" opacity="0.5">
+    <animate attributeName="opacity" values="0.5;0.8;0.3;0.7;0.5" dur="5s" repeatCount="indefinite"/>
+  </rect>
 
-  <!-- Secondary ley line — slightly angled, deeper in the ice -->
-  <line x1="0" y1="178" x2="400" y2="172" stroke="#e05010" stroke-width="3" opacity="0.6"/>
-  <line x1="0" y1="178" x2="400" y2="172" stroke="#ff7020" stroke-width="1" opacity="0.5"/>
+  <!-- Secondary ley line — flickering -->
+  <line x1="0" y1="178" x2="400" y2="172" stroke="#e05010" stroke-width="3" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.9;0.4;0.7;0.6" dur="6s" begin="1s" repeatCount="indefinite"/>
+  </line>
+  <line x1="0" y1="178" x2="400" y2="172" stroke="#ff7020" stroke-width="1" opacity="0.5">
+    <animate attributeName="opacity" values="0.5;0.8;0.2;0.6;0.5" dur="6s" begin="1s" repeatCount="indefinite"/>
+  </line>
 
-  <!-- Ley glow through ice above the lines — they're below but glow upward -->
+  <!-- Ley glow through ice — pulsing upward -->
   <radialGradient id="ley-ice-glow" cx="50%" cy="100%" r="50%">
-    <stop offset="0%" stop-color="#c04000" stop-opacity="0.3"/>
+    <stop offset="0%" stop-color="#c04000" stop-opacity="0.3">
+      <animate attributeName="stop-opacity" values="0.3;0.5;0.3" dur="5s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#c04000" stop-opacity="0"/>
   </radialGradient>
   <rect x="0" y="130" width="400" height="40" fill="url(#ley-ice-glow)"/>
 
-  <!-- Ice formations — frozen pillars/ridges on horizon -->
+  <!-- Ice formations — ridges -->
   <g fill="#060e1c" stroke="#0e1e2e" stroke-width="1">
-    <!-- Left ridge -->
     <polygon points="0,155 30,118 60,130 80,108 110,125 130,155"/>
-    <!-- Right ridge -->
     <polygon points="270,155 295,112 320,128 345,105 370,120 400,140 400,155"/>
   </g>
   <!-- Ice sheen on ridges -->
@@ -69,23 +75,40 @@
     <polygon points="345,105 358,112 370,120 355,110"/>
   </g>
 
-  <!-- Stars — cold, blue-white -->
-  <g fill="#a0c0e0" opacity="0.4">
-    <circle cx="40"  cy="20" r="1.2"/>
-    <circle cx="100" cy="12" r="1"/>
-    <circle cx="180" cy="18" r="1.5"/>
-    <circle cx="250" cy="8"  r="1"/>
-    <circle cx="340" cy="22" r="1.2"/>
-    <circle cx="380" cy="14" r="1"/>
-  </g>
-  <!-- Faint aurora — blue-green wash at horizon -->
+  <!-- Stars — cold blue-white, twinkling -->
+  <circle cx="40"  cy="20" r="1.2" fill="#a0c0e0" opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.9;0.2;0.7;0.4" dur="5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="12" r="1"   fill="#a0c0e0" opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.8;0.3;0.9;0.4" dur="7s" begin="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="180" cy="18" r="1.5" fill="#a0c0e0" opacity="0.4">
+    <animate attributeName="opacity" values="0.4;1;0.2;0.6;0.4" dur="6s" begin="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="250" cy="8"  r="1"   fill="#a0c0e0" opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.7;0.1;0.8;0.4" dur="8s" begin="0.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="340" cy="22" r="1.2" fill="#a0c0e0" opacity="0.4">
+    <animate attributeName="opacity" values="0.4;1;0.3;0.7;0.4" dur="5s" begin="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="380" cy="14" r="1"   fill="#a0c0e0" opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.8;0.2;0.9;0.4" dur="9s" begin="1.5s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Faint aurora — slow drift -->
   <linearGradient id="aurora" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0%" stop-color="#102838" stop-opacity="0"/>
-    <stop offset="70%" stop-color="#082838" stop-opacity="0.2"/>
-    <stop offset="100%" stop-color="#062028" stop-opacity="0.3"/>
+    <stop offset="70%" stop-color="#082838" stop-opacity="0.2">
+      <animate attributeName="stop-opacity" values="0.2;0.35;0.1;0.25;0.2" dur="12s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="100%" stop-color="#062028" stop-opacity="0.3">
+      <animate attributeName="stop-opacity" values="0.3;0.5;0.15;0.35;0.3" dur="12s" repeatCount="indefinite"/>
+    </stop>
   </linearGradient>
   <rect x="0" y="60" width="400" height="95" fill="url(#aurora)"/>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1a3050" text-anchor="middle" letter-spacing="3">THE FROZEN EXPANSE</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1a3050" text-anchor="middle" letter-spacing="3">THE FROZEN EXPANSE
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>
