@@ -7,6 +7,7 @@ import { AnimatedSpriteImg } from "../../ui/SpriteImg"
 export interface Props { units: TDUnit[] }
 
 export function UnitGroupToken({ units }: Props) {
+  if (units.length === 0) return null
   const lead = units[0]
   const stationed = units.some(u => u.stationed)
   const minHpFrac = Math.min(...units.map(u => u.hp / u.maxHp))
