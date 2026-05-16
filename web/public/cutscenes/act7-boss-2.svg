@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#0e0400"/>
+
+  <!-- Volcanic forge atmosphere -->
+  <radialGradient id="cw-atm" cx="50%" cy="55%" r="58%">
+    <stop offset="0%" stop-color="#1e0800" stop-opacity="0.75"/>
+    <stop offset="65%" stop-color="#120500" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#0e0400" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#cw-atm)"/>
+
+  <!-- Fire eye glow -->
+  <radialGradient id="cw-eyes" cx="50%" cy="41%" r="22%">
+    <stop offset="0%" stop-color="#e06010" stop-opacity="0.55"/>
+    <stop offset="45%" stop-color="#802010" stop-opacity="0.22"/>
+    <stop offset="100%" stop-color="#802010" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="98" rx="65" ry="42" fill="url(#cw-eyes)"/>
+
+  <!-- Lava glow from below -->
+  <radialGradient id="cw-lava" cx="50%" cy="92%" r="50%">
+    <stop offset="0%" stop-color="#802010" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#802010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#cw-lava)"/>
+
+  <!-- Ember particles in the air -->
+  <g fill="#e04018" opacity="0.3">
+    <circle cx="120" cy="80"  r="1.2"/>
+    <circle cx="148" cy="55"  r="0.8"/>
+    <circle cx="165" cy="100" r="1"/>
+    <circle cx="238" cy="92"  r="1"/>
+    <circle cx="258" cy="62"  r="0.8"/>
+    <circle cx="280" cy="85"  r="1.2"/>
+    <circle cx="140" cy="145" r="0.9"/>
+    <circle cx="262" cy="140" r="0.9"/>
+    <circle cx="100" cy="168" r="0.7"/>
+    <circle cx="298" cy="160" r="0.7"/>
+  </g>
+
+  <!-- THE CINDERWARLORD — armoured volcanic commander -->
+  <!-- Shadow -->
+  <ellipse cx="200" cy="228" rx="55" ry="8" fill="#060200" opacity="0.7"/>
+
+  <!-- Legs — thick volcanic armour -->
+  <rect x="180" y="188" width="16" height="38" rx="2" fill="#180800" stroke="#281400" stroke-width="1"/>
+  <rect x="204" y="188" width="16" height="38" rx="2" fill="#180800" stroke="#281400" stroke-width="1"/>
+  <!-- Boot plates — heavy, reinforced -->
+  <rect x="177" y="220" width="22" height="8" rx="1" fill="#141000" stroke="#201400" stroke-width="0.8"/>
+  <rect x="201" y="220" width="22" height="8" rx="1" fill="#141000" stroke="#201400" stroke-width="0.8"/>
+
+  <!-- Tassets — volcanic plate skirting -->
+  <polygon points="176,188 224,188 220,202 180,202" fill="#180800" stroke="#281400" stroke-width="1"/>
+  <!-- Lava seam in tasset join -->
+  <line x1="180" y1="195" x2="220" y2="195" stroke="#802010" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- Body — massive forge-plate cuirass -->
+  <rect x="168" y="128" width="64" height="65" rx="3" fill="#1a0900" stroke="#2a1400" stroke-width="1.5"/>
+  <!-- Chest ridge — central keel plate -->
+  <line x1="200" y1="130" x2="200" y2="190" stroke="#281200" stroke-width="3" opacity="0.7"/>
+  <!-- Forge rivets on chest -->
+  <g fill="#221000" opacity="0.6">
+    <circle cx="178" cy="135" r="2"/>
+    <circle cx="178" cy="145" r="2"/>
+    <circle cx="222" cy="135" r="2"/>
+    <circle cx="222" cy="145" r="2"/>
+  </g>
+  <!-- Volcanic ore inlaid on chest — glowing seams -->
+  <g stroke="#a03018" stroke-width="1" fill="none" opacity="0.45">
+    <path d="M178,155 L190,148 L200,152 L210,148 L222,155"/>
+    <path d="M178,165 L190,158 L200,162 L210,158 L222,165"/>
+  </g>
+  <!-- Command insignia — forged iron mountain symbol -->
+  <polygon points="200,140 206,152 200,158 194,152" fill="#281400" stroke="#401800" stroke-width="0.8"/>
+  <circle cx="200" cy="149" r="3" fill="#401800" opacity="0.7"/>
+
+  <!-- PAULDRONS — huge, multi-layered, smoking -->
+  <!-- Left pauldron -->
+  <path d="M168,132 Q138,122 128,145 Q124,168 146,175 L168,168" fill="#1a0900" stroke="#2a1600" stroke-width="1.5"/>
+  <!-- Pauldron edge rims -->
+  <g stroke="#221200" stroke-width="1" fill="#140800" opacity="0.7">
+    <rect x="134" y="148" width="22" height="7" rx="1"/>
+    <rect x="130" y="158" width="22" height="7" rx="1"/>
+    <rect x="134" y="168" width="20" height="6" rx="1"/>
+  </g>
+  <!-- Lava vent crack on pauldron -->
+  <path d="M140,155 Q138,160 141,165" stroke="#c03018" stroke-width="1.5" fill="none" opacity="0.6"/>
+
+  <!-- Right pauldron -->
+  <path d="M232,132 Q262,122 272,145 Q276,168 254,175 L232,168" fill="#1a0900" stroke="#2a1600" stroke-width="1.5"/>
+  <g stroke="#221200" stroke-width="1" fill="#140800" opacity="0.7">
+    <rect x="244" y="148" width="22" height="7" rx="1"/>
+    <rect x="248" y="158" width="22" height="7" rx="1"/>
+    <rect x="246" y="168" width="20" height="6" rx="1"/>
+  </g>
+  <path d="M260,155 Q262,160 259,165" stroke="#c03018" stroke-width="1.5" fill="none" opacity="0.6"/>
+
+  <!-- Right arm — holding volcanic war axe -->
+  <line x1="254" y1="155" x2="278" y2="192" stroke="#1a0900" stroke-width="12" stroke-linecap="round"/>
+  <!-- Gauntlet right -->
+  <ellipse cx="282" cy="196" rx="9" ry="8" fill="#160800" stroke="#221200" stroke-width="1"/>
+  <!-- War axe handle -->
+  <line x1="282" y1="202" x2="286" y2="240" stroke="#1e1000" stroke-width="5"/>
+  <!-- Axe head -->
+  <polygon points="275,200 295,195 298,215 272,218" fill="#180a00" stroke="#281400" stroke-width="1"/>
+  <!-- Axe lava crack -->
+  <path d="M278,205 Q283,208 280,215" stroke="#c03018" stroke-width="1.2" fill="none" opacity="0.7"/>
+
+  <!-- Left arm — raised fist -->
+  <line x1="146" y1="155" x2="122" y2="188" stroke="#1a0900" stroke-width="12" stroke-linecap="round"/>
+  <!-- Gauntlet left -->
+  <ellipse cx="118" cy="192" rx="9" ry="8" fill="#160800" stroke="#221200" stroke-width="1"/>
+
+  <!-- Neck gorget — high, protective -->
+  <rect x="186" y="120" width="28" height="14" rx="2" fill="#180900" stroke="#281400" stroke-width="1"/>
+
+  <!-- HELM — full great helm with forged crest -->
+  <!-- Helm base -->
+  <path d="M172,100 Q172,70 200,67 Q228,70 228,100 L228,122 Q200,128 172,122 Z" fill="#1a0900" stroke="#2a1600" stroke-width="1.5"/>
+  <!-- Helm ridge crest -->
+  <rect x="197" y="48" width="6" height="22" rx="1" fill="#160900" stroke="#221200" stroke-width="0.8"/>
+  <polygon points="194,48 206,48 203,38 197,36 191,38" fill="#1c0a00" stroke="#2a1400" stroke-width="0.8"/>
+  <!-- Crest lava marking -->
+  <line x1="200" y1="38" x2="200" y2="65" stroke="#a02010" stroke-width="0.8" opacity="0.6"/>
+  <!-- T-shaped visor -->
+  <rect x="180" y="91" width="40" height="9" rx="1" fill="#0e0600" stroke="#181000" stroke-width="0.8"/>
+  <rect x="196" y="85" width="8"  height="22" rx="1" fill="#0e0600" stroke="#181000" stroke-width="0.8"/>
+  <!-- EYE GLOW — volcanic fire, amber-orange -->
+  <radialGradient id="eye-cl" cx="30%" cy="50%" r="60%">
+    <stop offset="0%" stop-color="#e06010"/>
+    <stop offset="55%" stop-color="#901808" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#901808" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="eye-cr" cx="70%" cy="50%" r="60%">
+    <stop offset="0%" stop-color="#e06010"/>
+    <stop offset="55%" stop-color="#901808" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#901808" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="180" y="91" width="40" height="9" rx="1" fill="url(#eye-cl)" opacity="0.85"/>
+  <!-- Fire eye gleams -->
+  <ellipse cx="188" cy="95" rx="5" ry="3" fill="#f08030" opacity="0.9"/>
+  <ellipse cx="212" cy="95" rx="5" ry="3" fill="#f08030" opacity="0.9"/>
+  <circle cx="187" cy="94" r="2" fill="#ffe040" opacity="0.9"/>
+  <circle cx="211" cy="94" r="2" fill="#ffe040" opacity="0.9"/>
+  <!-- Helm brow ridge — heavy -->
+  <path d="M172,95 Q200,88 228,95" stroke="#281600" stroke-width="2.5" fill="none" opacity="0.7"/>
+  <!-- Helm cheek plates -->
+  <path d="M172,102 Q168,112 170,122" stroke="#221200" stroke-width="2" fill="none"/>
+  <path d="M228,102 Q232,112 230,122" stroke="#221200" stroke-width="2" fill="none"/>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-cw2" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.72"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-cw2)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#281008" text-anchor="middle" letter-spacing="3">THE CINDERWARLORD</text>
+</svg>

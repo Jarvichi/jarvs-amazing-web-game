@@ -564,6 +564,10 @@
       "opponentBaseHp": 260,
       "bossAI": "cinderwarlord",
       "environment": "volcano",
+      "bossIntro": [
+        {"title": "THE EMBERFALL CALDERA", "image": "cutscenes/act7-boss-1.svg", "text": "The Emberfall Caldera is the Cinderwarlord's seat of power — a volcanic command post built above an active lava lake, its bridge spanning the heat of eleven years of unbroken authority. The mountains do what he tells them."},
+        {"title": "THE CINDERWARLORD", "image": "cutscenes/act7-boss-2.svg", "text": "The Cinderwarlord has held the caldera for eleven years. His forge-plate armour runs with active lava seams. His eyes burn with command-fire. He has never lost a defensive position, and he does not intend to start this afternoon."}
+      ],
       "bossDialogue": [
         "You walked through my mountains. I respect that. I'm still going to end this.",
         "The volcanoes do what I tell them. You should factor that into your strategy.",

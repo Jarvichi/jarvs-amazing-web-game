@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#0e0400"/>
+  <linearGradient id="caldera-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#120500"/>
+    <stop offset="40%" stop-color="#1a0600"/>
+    <stop offset="100%" stop-color="#220800"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#caldera-sky)"/>
+
+  <!-- Volcanic fire glow — horizon bleeding upward -->
+  <radialGradient id="caldera-glow" cx="50%" cy="72%" r="60%">
+    <stop offset="0%" stop-color="#801810" stop-opacity="0.55"/>
+    <stop offset="40%" stop-color="#501008" stop-opacity="0.28"/>
+    <stop offset="100%" stop-color="#400800" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#caldera-glow)"/>
+
+  <!-- Ash cloud ceiling — oppressive, lit from below -->
+  <g fill="#180a00" opacity="0.75">
+    <ellipse cx="80"  cy="22" rx="90" ry="20"/>
+    <ellipse cx="240" cy="16" rx="110" ry="18"/>
+    <ellipse cx="380" cy="25" rx="80" ry="18"/>
+    <ellipse cx="150" cy="38" rx="70" ry="14"/>
+    <ellipse cx="310" cy="35" rx="75" ry="14"/>
+  </g>
+  <!-- Cloud undersides lit by lava glow -->
+  <g fill="#401008" opacity="0.25">
+    <ellipse cx="80"  cy="38" rx="80" ry="10"/>
+    <ellipse cx="240" cy="30" rx="90" ry="10"/>
+    <ellipse cx="380" cy="40" rx="70" ry="10"/>
+  </g>
+
+  <!-- Left volcano flank -->
+  <polygon points="0,240 0,80 80,175" fill="#110600" stroke="#1c0800" stroke-width="1"/>
+  <polygon points="0,80 55,55 130,175" fill="#140700" stroke="#1e0900" stroke-width="0.8"/>
+  <!-- Left lava channel -->
+  <path d="M30,80 Q40,110 38,140 Q36,160 40,175" stroke="#802010" stroke-width="3" fill="none" opacity="0.7"/>
+  <path d="M30,80 Q40,110 38,140 Q36,160 40,175" stroke="#c04020" stroke-width="1" fill="none" opacity="0.4"/>
+
+  <!-- Right volcano flank -->
+  <polygon points="400,240 400,75 320,175" fill="#110600" stroke="#1c0800" stroke-width="1"/>
+  <polygon points="400,75 345,50 270,175" fill="#140700" stroke="#1e0900" stroke-width="0.8"/>
+  <!-- Right lava channel -->
+  <path d="M370,75 Q360,108 362,138 Q364,160 360,175" stroke="#802010" stroke-width="3" fill="none" opacity="0.7"/>
+  <path d="M370,75 Q360,108 362,138 Q364,160 360,175" stroke="#c04020" stroke-width="1" fill="none" opacity="0.4"/>
+
+  <!-- THE CALDERA FLOOR — lava lake in the heart -->
+  <!-- Outer rock ring -->
+  <ellipse cx="200" cy="200" rx="150" ry="45" fill="#140800" stroke="#201000" stroke-width="1"/>
+  <!-- Inner lava lake -->
+  <ellipse cx="200" cy="200" rx="100" ry="30" fill="#5a1008" stroke="#802010" stroke-width="1.5"/>
+  <ellipse cx="200" cy="200" rx="70"  ry="20" fill="#7a1810" opacity="0.8"/>
+  <!-- Lava surface cracks — bright -->
+  <g stroke="#e04020" stroke-width="1.5" fill="none" opacity="0.6">
+    <path d="M155,200 Q175,195 200,197 Q225,195 245,200"/>
+    <path d="M170,205 Q185,200 200,202 Q215,200 230,205"/>
+  </g>
+  <!-- Lava glow reflected on rock walls -->
+  <g fill="#601008" opacity="0.2">
+    <ellipse cx="130" cy="195" rx="30" ry="12"/>
+    <ellipse cx="270" cy="195" rx="30" ry="12"/>
+  </g>
+
+  <!-- COMMAND BRIDGE over the caldera -->
+  <!-- Bridge pillars -->
+  <g fill="#140800" stroke="#201000" stroke-width="1.5">
+    <rect x="154" y="162" width="12" height="38"/>
+    <rect x="234" y="162" width="12" height="38"/>
+  </g>
+  <!-- Bridge span -->
+  <rect x="148" y="155" width="104" height="12" rx="1" fill="#160900" stroke="#221100" stroke-width="1.5"/>
+  <!-- Bridge guard rails -->
+  <g stroke="#201000" stroke-width="1" fill="none" opacity="0.7">
+    <line x1="148" y1="158" x2="252" y2="158"/>
+    <line x1="148" y1="165" x2="252" y2="165"/>
+    <!-- Rail posts -->
+    <line x1="162" y1="155" x2="162" y2="167"/>
+    <line x1="180" y1="155" x2="180" y2="167"/>
+    <line x1="200" y1="155" x2="200" y2="167"/>
+    <line x1="220" y1="155" x2="220" y2="167"/>
+    <line x1="238" y1="155" x2="238" y2="167"/>
+  </g>
+  <!-- Heat shimmer above lava -->
+  <g stroke="#602010" stroke-width="0.5" fill="none" opacity="0.2">
+    <path d="M160,195 Q165,180 162,165"/>
+    <path d="M200,192 Q205,175 202,160"/>
+    <path d="M240,195 Q235,180 238,165"/>
+  </g>
+
+  <!-- Ember particles rising -->
+  <g fill="#d04018" opacity="0.35">
+    <circle cx="168" cy="152" r="1.2"/>
+    <circle cx="185" cy="138" r="0.8"/>
+    <circle cx="200" cy="130" r="1"/>
+    <circle cx="218" cy="142" r="0.8"/>
+    <circle cx="232" cy="150" r="1.2"/>
+    <circle cx="145" cy="125" r="0.8"/>
+    <circle cx="255" cy="128" r="0.8"/>
+    <circle cx="110" cy="148" r="0.7"/>
+    <circle cx="290" cy="145" r="0.7"/>
+  </g>
+
+  <!-- Distant fortification on the caldera rim -->
+  <g fill="#120700" stroke="#1c0c00" stroke-width="1" opacity="0.7">
+    <rect x="65"  y="155" width="35" height="25"/>
+    <rect x="300" y="152" width="35" height="28"/>
+  </g>
+  <!-- Fortification battlements -->
+  <g fill="#160900" stroke="#1c0c00" stroke-width="0.8" opacity="0.6">
+    <rect x="65"  y="149" width="6" height="9"/>
+    <rect x="76"  y="149" width="6" height="9"/>
+    <rect x="87"  y="149" width="6" height="9"/>
+    <rect x="300" y="146" width="6" height="9"/>
+    <rect x="311" y="146" width="6" height="9"/>
+    <rect x="322" y="146" width="6" height="9"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-cv" cx="50%" cy="50%" r="68%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.65"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-cv)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#281008" text-anchor="middle" letter-spacing="3">THE EMBERFALL CALDERA</text>
+</svg>
