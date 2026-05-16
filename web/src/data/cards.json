@@ -11346,19 +11346,10 @@
       "tags": [
         "forest"
       ],
-      "unit": {
-        "name": "Barbarian",
-        "attack": 7,
-        "maxHp": 15,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 35,
-        "attackRange": 5,
-        "attackCooldownMs": 1800
-      },
       "description": "Hard-hitting melee fighter.",
       "deckCount": 3,
-      "lore": "Trained by no one, feared by everyone. Mostly feared because of the screaming."
+      "lore": "Trained by no one, feared by everyone. Mostly feared because of the screaming.",
+      "unitRef": "barbarian"
     },
     {
       "name": "Knight",
@@ -11368,38 +11359,20 @@
       "tags": [
         "citadel"
       ],
-      "unit": {
-        "name": "Knight",
-        "attack": 4,
-        "maxHp": 25,
-        "isWall": false,
-        "bypassWall": false,
-        "moveSpeed": 22,
-        "attackRange": 5,
-        "attackCooldownMs": 1500
-      },
       "description": "Armored frontline tank.",
       "deckCount": 3,
-      "lore": "The kingdom's finest. Polished armour hides a spectacular collection of bruises."
+      "lore": "The kingdom's finest. Polished armour hides a spectacular collection of bruises.",
+      "unitRef": "knight"
     },
     {
       "name": "Wizard",
       "rarity": "rare",
       "cost": 3,
       "cardType": "unit",
-      "unit": {
-        "name": "Wizard",
-        "attack": 6,
-        "maxHp": 12,
-        "isWall": false,
-        "bypassWall": true,
-        "moveSpeed": 22,
-        "attackRange": 70,
-        "attackCooldownMs": 2000
-      },
       "description": "Magic bypasses walls.",
       "deckCount": 2,
-      "lore": "Years of magical study. Thousands of gold in reagents. Wages still less than a goblin."
+      "lore": "Years of magical study. Thousands of gold in reagents. Wages still less than a goblin.",
+      "unitRef": "wizard"
     },
     {
       "name": "Dragon",
