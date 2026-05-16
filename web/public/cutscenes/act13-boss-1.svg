@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#060402"/>
+  <linearGradient id="vault-b-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#080602"/>
+    <stop offset="50%" stop-color="#100a04"/>
+    <stop offset="100%" stop-color="#180e06"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#vault-b-sky)"/>
+
+  <!-- Brass ley glow from the vault machinery -->
+  <radialGradient id="vault-b-glow" cx="50%" cy="58%" r="55%">
+    <stop offset="0%" stop-color="#604020" stop-opacity="0.4"/>
+    <stop offset="50%" stop-color="#402808" stop-opacity="0.18"/>
+    <stop offset="100%" stop-color="#402808" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vault-b-glow)"/>
+
+  <!-- Vault stone ceiling — massive, ancient -->
+  <polygon points="0,0 400,0 400,45 370,35 335,48 300,34 265,50 230,32 200,48 170,32 135,48 100,34 65,50 30,36 0,45" fill="#080604"/>
+  <!-- Ceiling joint shadows -->
+  <g fill="#0c0a06" opacity="0.5">
+    <polygon points="65,50 100,34 92,52"/>
+    <polygon points="135,48 170,32 162,52"/>
+    <polygon points="230,32 265,50 255,52"/>
+    <polygon points="300,34 335,48 328,54"/>
+  </g>
+
+  <!-- LEFT WALL — massive gear banks -->
+  <g fill="#080604" stroke="#140e06" stroke-width="1">
+    <rect x="0" y="45" width="72" height="195"/>
+  </g>
+  <!-- Great gear — left wall -->
+  <circle cx="36" cy="96"  r="30" fill="#0c0a04" stroke="#1a1008" stroke-width="1.5"/>
+  <circle cx="36" cy="96"  r="18" fill="#181006" opacity="0.5"/>
+  <circle cx="36" cy="96"  r="7"  fill="#804010" opacity="0.4"/>
+  <!-- Gear teeth left -->
+  <g fill="#140e04" stroke="#1e1408" stroke-width="0.8" opacity="0.7">
+    <circle cx="36" cy="63"  r="4"/>
+    <circle cx="56" cy="68"  r="4"/>
+    <circle cx="66" cy="88"  r="4"/>
+    <circle cx="66" cy="104" r="4"/>
+    <circle cx="56" cy="122" r="4"/>
+    <circle cx="36" cy="128" r="4"/>
+    <circle cx="16" cy="122" r="4"/>
+    <circle cx="6"  cy="104" r="4"/>
+    <circle cx="6"  cy="88"  r="4"/>
+    <circle cx="16" cy="68"  r="4"/>
+  </g>
+  <!-- Left lower gear -->
+  <circle cx="36" cy="185" r="28" fill="#0a0804" stroke="#181008" stroke-width="1.2"/>
+  <circle cx="36" cy="185" r="16" fill="#141006" opacity="0.5"/>
+  <circle cx="36" cy="185" r="7"  fill="#804010" opacity="0.35"/>
+
+  <!-- RIGHT WALL — great gear banks -->
+  <g fill="#080604" stroke="#140e06" stroke-width="1">
+    <rect x="328" y="45" width="72" height="195"/>
+  </g>
+  <circle cx="364" cy="96"  r="30" fill="#0c0a04" stroke="#1a1008" stroke-width="1.5"/>
+  <circle cx="364" cy="96"  r="18" fill="#181006" opacity="0.5"/>
+  <circle cx="364" cy="96"  r="7"  fill="#804010" opacity="0.4"/>
+  <g fill="#140e04" stroke="#1e1408" stroke-width="0.8" opacity="0.7">
+    <circle cx="364" cy="63"  r="4"/>
+    <circle cx="384" cy="68"  r="4"/>
+    <circle cx="394" cy="88"  r="4"/>
+    <circle cx="394" cy="104" r="4"/>
+    <circle cx="384" cy="122" r="4"/>
+    <circle cx="364" cy="128" r="4"/>
+    <circle cx="344" cy="122" r="4"/>
+    <circle cx="334" cy="104" r="4"/>
+    <circle cx="334" cy="88"  r="4"/>
+    <circle cx="344" cy="68"  r="4"/>
+  </g>
+  <circle cx="364" cy="185" r="28" fill="#0a0804" stroke="#181008" stroke-width="1.2"/>
+  <circle cx="364" cy="185" r="16" fill="#141006" opacity="0.5"/>
+  <circle cx="364" cy="185" r="7"  fill="#804010" opacity="0.35"/>
+
+  <!-- Central column / shaft -->
+  <line x1="200" y1="45" x2="200" y2="240" stroke="#1e1206" stroke-width="8"/>
+  <!-- Ley coil around shaft -->
+  <g stroke="#c06010" stroke-width="1" fill="none" opacity="0.35">
+    <path d="M196,50 Q190,62 196,74 Q202,86 196,98 Q190,110 196,122 Q202,134 196,146 Q190,158 196,170 Q202,182 196,194"/>
+    <path d="M204,58 Q210,70 204,82 Q198,94 204,106 Q210,118 204,130 Q198,142 204,154 Q210,166 204,178"/>
+  </g>
+  <!-- Shaft hub -->
+  <circle cx="200" cy="142" r="14" fill="#0c0804" stroke="#c06010" stroke-width="1.2" opacity="0.5"/>
+  <circle cx="200" cy="142" r="7"  fill="#c06010" opacity="0.3"/>
+
+  <!-- Vault floor — iron grating, glowing beneath -->
+  <rect x="72" y="215" width="256" height="25" fill="#0c0a04" opacity="0.8"/>
+  <g stroke="#1a1006" stroke-width="0.6" fill="none" opacity="0.3">
+    <line x1="72"  y1="215" x2="328" y2="215"/>
+    <line x1="72"  y1="223" x2="328" y2="223"/>
+    <line x1="112" y1="215" x2="112" y2="240"/>
+    <line x1="152" y1="215" x2="152" y2="240"/>
+    <line x1="200" y1="215" x2="200" y2="240"/>
+    <line x1="248" y1="215" x2="248" y2="240"/>
+    <line x1="288" y1="215" x2="288" y2="240"/>
+  </g>
+  <!-- Grating glow channel -->
+  <line x1="72" y1="217" x2="328" y2="217" stroke="#c06010" stroke-width="1.5" opacity="0.25"/>
+
+  <!-- Hanging chains / mechanisms -->
+  <g stroke="#1a1008" stroke-width="2" opacity="0.5">
+    <line x1="130" y1="45" x2="130" y2="72"/>
+    <line x1="200" y1="45" x2="200" y2="45"/>
+    <line x1="270" y1="45" x2="270" y2="72"/>
+  </g>
+  <g fill="#1c1206" opacity="0.5">
+    <circle cx="130" cy="74" r="5"/>
+    <circle cx="270" cy="74" r="5"/>
+  </g>
+
+  <!-- Grand Automaton's position — distant sensor glow at chamber centre -->
+  <circle cx="200" cy="130" r="20" fill="#100a02" stroke="#c06010" stroke-width="1" opacity="0.5"/>
+  <circle cx="200" cy="130" r="10" fill="#180c04" opacity="0.7"/>
+  <circle cx="200" cy="130" r="5"  fill="#c06010" opacity="0.4"/>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-vb1" cx="50%" cy="50%" r="68%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.65"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-vb1)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1808" text-anchor="middle" letter-spacing="3">THE CLOCKWORK VAULTS</text>
+</svg>
