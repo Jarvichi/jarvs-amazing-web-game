@@ -40,6 +40,245 @@
   "startNodeIds": [
     "dark-descent"
   ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, technically, underground in both the geographic and philosophical sense.",
+      "Now, effectively, the sort of person who descends into fungal cave systems by choice.",
+      "Now, professionally speaking, operating at depths where the sky is a concept rather than a fact.",
+      "Now — by any measure — somewhere that smells significantly worse than the previous shard.",
+      "Now, technically, in a place that is alive in ways that make the word 'alive' do a lot of work."
+    ],
+    "jarvIntros": [
+      "You have a deck of cards, a tolerance for enclosed spaces, and the settled certainty that going down is sometimes the only way forward.",
+      "You have a deck of cards, a residual memory of which tunnels branch left, and the quietly unsettling sense that the fungal network has a residual memory of you.",
+      "You have a deck of cards, a working knowledge of which spores are toxic and which are merely unpleasant, and the growing feeling that the Deep has already decided how this visit ends.",
+      "You have a deck of cards, a familiarity with the Root Queen's patterns that she has not authorised, and the certainty that the network noticed you the moment you crossed the threshold.",
+      "You have a deck of cards. The network has been tracking you since your first descent. You have both learned from the experience."
+    ],
+    "deepDesc": [
+      "The ley lines go down here — descending through collapsed caverns, through layered rock, into something old and wet and completely unbothered by the concept of visitors.",
+      "The Fungal Deep smells like the inside of something that has been growing for longer than any surface thing has been alive.",
+      "The Fungal Deep waits beneath the surface, its bioluminescent light pulsing in rhythms that are almost — almost — regular enough to ignore.",
+      "The ley lines thread through the mycelium here. The network and the ley lines have reached an arrangement. You were not consulted."
+    ],
+    "queenDesc": [
+      "The Root Queen is not a person in any conventional sense — she's the oldest fungal network in the shard, given something like will by the Fracture's magic.\n\nShe does not fight. She tends. The distinction, from inside the network, is not always clear.",
+      "The Root Queen holds every pathway through the Deep. She is patient, distributed, and aware of everything that moves through her mycelium.\n\nShe was aware of you before you started descending.",
+      "The Root Queen tends the Deep with the calm certainty of something that has never once needed to hurry.\n\nYou are about to give her a reason to reconsider her pace.",
+      "The Root Queen is already aware of your approach. She has been aware since your last visit. The network has very good memory, and it has been waiting to see what you do differently."
+    ],
+    "priorRunSummaries": [
+      "The dark felt familiar — the particular quality of it, the way the bioluminescence pulsed. Like something that had been waiting to be recognised.",
+      "The first tunnel fork was wrong. Not structurally wrong — arranged wrong, the way a path feels wrong when you've taken the other one before.",
+      "Something about the spore density in the upper tunnels. The exact pattern of it. You adjusted your breathing accordingly, which meant you'd breathed here before.",
+      "The network was quieter on approach than it should have been. As though it had already finished deciding something about your visit."
+    ],
+    "priorRunOpenings": [
+      "You had been here. Your feet found the route through the first cavern before your eyes adjusted to the dark.",
+      "The Spore Drifter colony at the first tunnel junction didn't spread defensively. They observed. Then spread.",
+      "The Root Queen's first pulse through the network was different this time — slower, more deliberate. She had considered her approach.",
+      "The bioluminescence changed colour when you entered. Just slightly. A frequency shift that might have been a greeting, or might have been an alarm. The distinction, down here, is not always clear."
+    ],
+    "milestoneOpenings5": [
+      "The fifth time through the Fungal Deep, the tunnels have started growing slightly wider where you typically walk. The network has been making structural adjustments.",
+      "Fifth run. The Spore Drifters at the upper cavern have started venting in a formation that's harder to walk through than last time. They've been practising."
+    ],
+    "milestoneOpenings10": [
+      "Ten campaigns. The Root Queen has rerouted the mycelium threads in the lower caverns. She's been studying your movement patterns.",
+      "The tenth time through the Fungal Deep, the bioluminescent growths along your usual route are dimmer than the rest. As though the network has decided that making things easy for you is not in its interests."
+    ],
+    "milestoneOpenings25": [
+      "Twenty-five campaigns. The Deep does not resist when you enter. It adjusts. There is a difference, and the Root Queen has stopped pretending she doesn't know what it means.",
+      "After twenty-five runs, the Root Queen sends a single pulse through the network when you cross the threshold. You've learned to read it as acknowledgement rather than warning."
+    ],
+    "milestoneOpenings50": [
+      "The fiftieth time through the Fungal Deep. The tunnels are the wrong temperature — warmer than they should be near your route, as though the network has been warming them between visits.",
+      "Fifty campaigns. The Spore Drifters at the entrance form a corridor when they see you. Not a welcoming corridor. A resigned one. The distinction matters to them."
+    ],
+    "milestoneOpenings100": [
+      "The Root Queen does not speak. She pulses.\n\nThe pulse travels through the entire network — every tunnel, every cavern, every thread of mycelium from the surface to the deepest chamber. It reaches you before you've taken three steps into the dark.\n\nYou have learned, over a hundred descents, what the pulses mean.\n\nThis one means: I know. I have always known. A hundred times you have come here and I have tried to tend you out. A hundred times I have failed.\n\nA pause. The bioluminescence dims.\n\nThe network parts.\n\nThis one means: go, then. You have earned the passage, if nothing else."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} time through the Fungal Deep. The Root Queen has pre-reconfigured the mycelium before you've reached the lower caverns.",
+    "Campaign {n}. The tunnel network has been restructured again. Someone — something — submitted the work order specifically in response to your last visit.",
+    "{n} campaigns in. The Spore Drifters at the upper junction have started forming defensively before you reach them. They've learned your pace.",
+    "{n} times you've descended into the Deep. The bioluminescence pulses differently when you're here. The network notices.",
+    "Run {n}. You enter the first tunnel and find the air already adjusted to your preferred breathable ratio. The network has been doing maintenance.",
+    "The {ordinalLower} attempt. The dark is the same. Your tolerance for it has become something the Root Queen finds taxonomically interesting.",
+    "{n} campaigns. The Root Queen's mycelium record of your visits is the most detailed thing she has ever tended."
+  ],
+  "introRules": [
+    {
+      "condition": { "op": "gte", "value": 100 },
+      "panels": [
+        {
+          "title": "THE QUEEN KNOWS",
+          "text": "{pool:milestoneOpenings100:0}"
+        },
+        {
+          "title": "THE FUNGAL DEEP",
+          "text": "{pool:deepDesc:3}\n\n{pool:queenDesc:2}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 51, "max": 99 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE FUNGAL DEEP",
+          "text": "{pool:deepDesc:2}\n\n{pool:queenDesc:1}"
+        },
+        {
+          "title": "GOING UNDER",
+          "text": "Break through. Reach the Root Queen. Defeat her.\n\nYou know the way down. You always know the way down."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 50 },
+      "panels": [
+        {
+          "title": "FIFTY CAMPAIGNS",
+          "text": "{pool:milestoneOpenings50:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE FUNGAL DEEP",
+          "text": "{pool:deepDesc:2}\n\n{pool:queenDesc:1}"
+        },
+        {
+          "title": "GOING UNDER",
+          "text": "Break through. Reach the Root Queen. Defeat her.\n\nYou know the way down. You always know the way down."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 26, "max": 49 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE FUNGAL DEEP",
+          "text": "{pool:deepDesc:1}\n\n{pool:queenDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 25 },
+      "panels": [
+        {
+          "title": "TWENTY-FIVE",
+          "text": "{pool:milestoneOpenings25:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE FUNGAL DEEP",
+          "text": "{pool:deepDesc:1}\n\n{pool:queenDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 11, "max": 24 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE FUNGAL DEEP",
+          "text": "{pool:deepDesc:0}\n\n{pool:queenDesc:0}"
+        },
+        {
+          "title": "GOING UNDER",
+          "text": "Break through the shard. Reach the Root Queen.\n\nYou know how this goes. You've always known how this goes."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 10 },
+      "panels": [
+        {
+          "title": "THE TENTH TIME",
+          "text": "{pool:milestoneOpenings10:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE FUNGAL DEEP",
+          "text": "{pool:deepDesc:0}\n\n{pool:queenDesc:0}"
+        },
+        {
+          "title": "GOING UNDER",
+          "text": "Break through the shard. Reach the Root Queen.\n\nYou know how this goes. You've always known how this goes."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 5, "max": 9 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{pool:milestoneOpenings5:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE FUNGAL DEEP",
+          "text": "{pool:deepDesc:0}\n\n{pool:queenDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 2, "max": 4 },
+      "panels": [
+        {
+          "title": "THE FUNGAL DEEP",
+          "text": "The ley lines go down here — again.\n\n{pool:priorRunSummaries:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE ROOT QUEEN",
+          "text": "{pool:queenDesc:0}"
+        },
+        {
+          "title": "A FEELING",
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+        }
+      ]
+    }
+  ],
   "intro": [
     {
       "title": "THE FUNGAL DEEP",
