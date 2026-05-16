@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#020810"/>
+  <linearGradient id="reef-depth" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#030c18"/>
+    <stop offset="50%" stop-color="#041020"/>
+    <stop offset="100%" stop-color="#061428"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#reef-depth)"/>
+
+  <!-- Bioluminescent reef glow — cold teal from below -->
+  <radialGradient id="reef-glow" cx="50%" cy="65%" r="55%">
+    <stop offset="0%" stop-color="#004840" stop-opacity="0.35"/>
+    <stop offset="50%" stop-color="#002830" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#002830" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#reef-glow)"/>
+
+  <!-- Water surface — rippled, light from above barely reaching -->
+  <linearGradient id="water-surf" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#051828" stop-opacity="0.8"/>
+    <stop offset="100%" stop-color="#051828" stop-opacity="0"/>
+  </linearGradient>
+  <rect x="0" y="0" width="400" height="30" fill="url(#water-surf)"/>
+  <!-- Caustic ripples -->
+  <g stroke="#0a2840" stroke-width="0.6" fill="none" opacity="0.4">
+    <ellipse cx="80"  cy="10" rx="30" ry="6"/>
+    <ellipse cx="200" cy="8"  rx="50" ry="8"/>
+    <ellipse cx="330" cy="12" rx="35" ry="5"/>
+    <ellipse cx="150" cy="20" rx="25" ry="4"/>
+    <ellipse cx="260" cy="18" rx="30" ry="5"/>
+  </g>
+
+  <!-- Vast coral spires — rising from the reef floor -->
+  <!-- Left spires -->
+  <g fill="#04101e" stroke="#0a1e30" stroke-width="1" opacity="0.8">
+    <polygon points="25,240 38,140 51,240"/>
+    <polygon points="45,240 60,165 75,240"/>
+    <polygon points="10,240 22,170 34,240"/>
+  </g>
+  <!-- Left spire bioluminescent rim -->
+  <g stroke="#006850" stroke-width="0.8" fill="none" opacity="0.35">
+    <line x1="38" y1="140" x2="25" y2="240"/>
+    <line x1="60" y1="165" x2="75" y2="240"/>
+  </g>
+
+  <!-- Right spires -->
+  <g fill="#04101e" stroke="#0a1e30" stroke-width="1" opacity="0.8">
+    <polygon points="349,240 362,142 375,240"/>
+    <polygon points="325,240 340,168 355,240"/>
+    <polygon points="365,240 378,172 391,240"/>
+  </g>
+  <g stroke="#006850" stroke-width="0.8" fill="none" opacity="0.35">
+    <line x1="362" y1="142" x2="375" y2="240"/>
+    <line x1="340" y1="168" x2="325" y2="240"/>
+  </g>
+
+  <!-- Mid-ground reef formations — layered -->
+  <g fill="#051218" stroke="#0c2030" stroke-width="1" opacity="0.7">
+    <polygon points="80,240 95,190 110,240"/>
+    <polygon points="100,240 118,200 136,240"/>
+    <polygon points="290,240 305,195 320,240"/>
+    <polygon points="268,240 284,188 300,240"/>
+  </g>
+  <!-- Mid reef bioluminescent nodes -->
+  <g fill="#008870" opacity="0.2">
+    <circle cx="95"  cy="192" r="3"/>
+    <circle cx="118" cy="202" r="2.5"/>
+    <circle cx="305" cy="197" r="3"/>
+    <circle cx="284" cy="190" r="2.5"/>
+  </g>
+
+  <!-- THE SOVEREIGN'S THRONE CHAMBER — sunken ruins -->
+  <!-- Left arch ruin -->
+  <path d="M130,240 L130,165 Q130,148 150,145 Q170,142 170,160 L170,240" fill="#06101c" stroke="#0e1e2c" stroke-width="1.5"/>
+  <!-- Right arch ruin -->
+  <path d="M270,240 L270,165 Q270,148 250,145 Q230,142 230,160 L230,240" fill="#06101c" stroke="#0e1e2c" stroke-width="1.5"/>
+  <!-- Arch keystone — encrusted with coral -->
+  <ellipse cx="200" cy="143" rx="30" ry="8" fill="#07121e" stroke="#0e2030" stroke-width="1"/>
+  <!-- Coral encrusting keystone -->
+  <g fill="#003828" opacity="0.4">
+    <circle cx="185" cy="142" r="3"/>
+    <circle cx="195" cy="140" r="2.5"/>
+    <circle cx="205" cy="140" r="2.5"/>
+    <circle cx="215" cy="142" r="3"/>
+  </g>
+
+  <!-- Seafloor — dark, silt and sediment -->
+  <rect x="0" y="210" width="400" height="30" fill="#040c14"/>
+  <g fill="#071018" opacity="0.5">
+    <ellipse cx="100" cy="218" rx="50" ry="7"/>
+    <ellipse cx="260" cy="220" rx="60" ry="7"/>
+    <ellipse cx="200" cy="215" rx="40" ry="5"/>
+  </g>
+
+  <!-- Kelp / seagrass waving -->
+  <g stroke="#004030" stroke-width="1.5" fill="none" opacity="0.5">
+    <path d="M55,240 Q50,220 55,200 Q60,180 54,160"/>
+    <path d="M65,240 Q70,218 64,198 Q58,178 64,158"/>
+    <path d="M342,240 Q347,220 342,200 Q337,180 343,160"/>
+    <path d="M352,240 Q347,218 353,198 Q359,178 353,158"/>
+  </g>
+
+  <!-- Deep bioluminescent particles -->
+  <g fill="#00c8a0" opacity="0.2">
+    <circle cx="90"  cy="80"  r="1.2"/>
+    <circle cx="140" cy="60"  r="0.8"/>
+    <circle cx="165" cy="95"  r="1"/>
+    <circle cx="235" cy="88"  r="1"/>
+    <circle cx="265" cy="65"  r="0.8"/>
+    <circle cx="310" cy="82"  r="1.2"/>
+    <circle cx="75"  cy="130" r="0.9"/>
+    <circle cx="325" cy="125" r="0.9"/>
+    <circle cx="180" cy="120" r="0.8"/>
+    <circle cx="220" cy="115" r="0.8"/>
+  </g>
+
+  <!-- Shipwrecks on the seafloor -->
+  <g fill="#050e18" stroke="#0c1c28" stroke-width="0.8" opacity="0.6">
+    <polygon points="110,212 145,205 152,212"/>
+    <polygon points="255,210 290,203 297,210"/>
+  </g>
+  <!-- Wreck mast -->
+  <line x1="135" y1="205" x2="135" y2="190" stroke="#0a1a24" stroke-width="1.5" opacity="0.5"/>
+  <line x1="278" y1="203" x2="278" y2="188" stroke="#0a1a24" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-reef" cx="50%" cy="50%" r="68%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.65"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-reef)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#0a2030" text-anchor="middle" letter-spacing="3">THE SUNKEN REEF</text>
+</svg>
