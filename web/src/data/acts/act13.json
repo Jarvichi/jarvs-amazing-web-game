@@ -40,6 +40,245 @@
   "startNodeIds": [
     "vault-entrance"
   ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, technically, an unauthorised variable in a system that does not tolerate unauthorised variables.",
+      "Now, effectively, the sort of person who breaks into ancient automated vaults for professional reasons.",
+      "Now, in the mechanical sense, a fault condition the Grand Automaton has been trying to resolve since your last visit.",
+      "Now — by every schematic on record — somewhere that has no documented procedure for handling you.",
+      "Now, technically, present in a facility that has revised its operating parameters around you more times than any other single event in its history."
+    ],
+    "jarvIntros": [
+      "You have a deck of cards, a working knowledge of mechanical systems, and the firm conviction that optimisation and winning are not the same thing.",
+      "You have a deck of cards, a familiarity with the Vault's internal layout, and the quietly unsettling sense that the layout has been adjusted between your visits.",
+      "You have a deck of cards, a working theory about which of the Automaton's subroutines activate at what threshold, and the growing certainty that the Automaton has a working theory about yours.",
+      "You have a deck of cards, an instinctive feel for the Automaton's decision cycles, and the slowly dawning realisation that the Automaton is running on a model that has been updated specifically around you.",
+      "You have a deck of cards. The Grand Automaton has dedicated significant processing to you. You have been thorough about giving it reasons to."
+    ],
+    "vaultDesc": [
+      "Deep beneath the shattered earth, the Clockwork Vaults hum with ancient machinery — built before the Fracture by an artificer whose name the Automaton has never recorded as relevant.",
+      "The Clockwork Vaults smell like machine oil and old purpose — the smell of a place that has been running continuously for longer than any surface civilisation has existed.",
+      "The Clockwork Vaults wait beneath the surface, their gears turning in rhythms that haven't changed since before the Fracture. The ley lines power them. They have never stopped.",
+      "The ley lines run through the Vault's drive cores here. The Automaton uses the energy to power every system, every patrol, and every revision to its operating parameters that your visits have necessitated."
+    ],
+    "automatonDesc": [
+      "The Grand Automaton is not hostile. Hostility implies intent. It simply optimises — calculating minimum-force resolutions for every variable in its facility.\n\nYou are a variable it has not yet resolved. It has been working on it.",
+      "The Grand Automaton holds every passage through the Vaults with the mechanical certainty of something that does not get tired, does not get distracted, and does not stop refining its approach.\n\nYou are the one variable that keeps requiring revision.",
+      "The Grand Automaton runs the Vaults with the perfect efficiency of something that has never once needed to second-guess a decision.\n\nYou have given it reasons to second-guess. It is revising.",
+      "The Grand Automaton has already modelled your approach. It modelled it before you arrived. It has been running simulations since your last visit, and it has found seventeen improvements to its protocol. None of them have worked on you yet."
+    ],
+    "priorRunSummaries": [
+      "The hum felt familiar — the particular frequency of the Vault's primary drive, the way it carried through the stone underfoot. Like machinery that remembered being stopped.",
+      "The first gear-gate was wrong. Not mechanically wrong — configured wrong, the way a system feels wrong when someone has updated it since your last access.",
+      "Something about the patrol cycle at the entrance. The exact timing of it. You adjusted your approach without thinking, which meant you'd calculated the same window before.",
+      "The Vault was louder on approach than it should have been. Extra gear-work. The Automaton had been busy between your visits."
+    ],
+    "priorRunOpenings": [
+      "You had been here. Your hands found the correct bypass sequence before your eyes confirmed the panel hadn't changed.",
+      "The Gear Sentinel unit at the entrance ran its identification scan twice. It found a match. You got the impression this was not the outcome it preferred.",
+      "The Automaton's first deployment was different this time — a full configuration update. It had been working on this since your last visit.",
+      "The primary drive pitch changed when you entered. A frequency shift the Automaton uses internally for status updates. You have learned, across many visits, what the different frequencies mean. This one meant: there it is again."
+    ],
+    "milestoneOpenings5": [
+      "The fifth time through the Clockwork Vaults, the gear-gates have been reconfigured. The Automaton has been doing mechanical work between your visits.",
+      "Fifth run. The Gear Sentinels at the entrance have been issued a firmware update that specifically references your movement patterns. The update has made them slower. They are working through why."
+    ],
+    "milestoneOpenings10": [
+      "Ten campaigns. The Grand Automaton has dedicated a full processing core to modelling your approach patterns. You are officially a standing optimisation problem.",
+      "The tenth time through the Clockwork Vaults, you notice the gear-work along your usual route has been tightened. The Automaton has been doing precision maintenance, and citing you in the maintenance log."
+    ],
+    "milestoneOpenings25": [
+      "Twenty-five campaigns. The Vault does not run the general alarm cycle when you arrive. The Automaton has a separate subroutine now. It is designated, in the system logs, as PERSISTENT_VARIABLE_JARV.",
+      "After twenty-five runs, the Grand Automaton deploys its reserves before you've cleared the entrance. It has moved from reactive to predictive. You're going to need to be something else."
+    ],
+    "milestoneOpenings50": [
+      "The fiftieth time through the Clockwork Vaults. The Automaton has revised its optimal minimum-force resolution for you seventeen times. None of the revisions have produced the desired outcome. It is currently on revision eighteen.",
+      "Fifty campaigns. The Gear Sentinels at the entrance stand aside when you arrive. The Automaton has calculated that the opening engagement is no longer cost-effective and has reallocated those resources elsewhere. You choose not to think too hard about where."
+    ],
+    "milestoneOpenings100": [
+      "The Grand Automaton stops all non-essential processes.\n\nEvery gear in the Vault winds to a halt simultaneously. The silence is enormous.\n\nThen one gear moves. Just one. A single, deliberate turn.\n\n'One hundred iterations,' it says. Its voice is the sound of gears finding the exact correct positions. 'I have run four thousand, two hundred and twelve simulations. I have found the optimal solution to every variable in this facility.'\n\nA pause. The single gear turns again.\n\n'I have not found the optimal solution to you.' Another gear engages. Then another. The Vault begins to move. 'I have determined that this is because you are not a variable that optimises. You are a variable that persists.'\n\nThe entrance mechanism opens.\n\n'The drive core is accessible. I have cleared a path.' The gears are at full speed now. 'I am updating my operating parameters. You are no longer classified as a fault condition.'\n\nA beat.\n\n'You are classified as a feature.'"
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} time through the Clockwork Vaults. The Grand Automaton has pre-configured its deployment before you've passed the entrance.",
+    "Campaign {n}. The Vault's gear-work has been revised again between visits. The maintenance log cites a persistent unauthorised access event.",
+    "{n} campaigns in. The Gear Sentinels at the entrance run their identification scan the moment you come into range. They've learned your distance.",
+    "{n} times you've walked through the Vault's mechanisms. The hum of the primary drive is the same. The Automaton's reaction to it has been continuously revised.",
+    "Run {n}. You arrive at the entrance and find the first patrol already in optimised position. The Automaton has been running projections.",
+    "The {ordinalLower} attempt. The machine-oil smell is the same. Your tolerance for ancient automated opposition has become something the Automaton is still trying to classify.",
+    "{n} campaigns. The Grand Automaton has logged more processing cycles on you than on any other single event in the Vault's operational history."
+  ],
+  "introRules": [
+    {
+      "condition": { "op": "gte", "value": 100 },
+      "panels": [
+        {
+          "title": "THE AUTOMATON RECLASSIFIES",
+          "text": "{pool:milestoneOpenings100:0}"
+        },
+        {
+          "title": "THE CLOCKWORK VAULTS",
+          "text": "{pool:vaultDesc:3}\n\n{pool:automatonDesc:2}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 51, "max": 99 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE CLOCKWORK VAULTS",
+          "text": "{pool:vaultDesc:2}\n\n{pool:automatonDesc:1}"
+        },
+        {
+          "title": "WHAT LIES WITHIN",
+          "text": "Break through. Reach the Automaton. Defeat it.\n\nYou know the Vault. You always know the Vault."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 50 },
+      "panels": [
+        {
+          "title": "FIFTY CAMPAIGNS",
+          "text": "{pool:milestoneOpenings50:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE CLOCKWORK VAULTS",
+          "text": "{pool:vaultDesc:2}\n\n{pool:automatonDesc:1}"
+        },
+        {
+          "title": "WHAT LIES WITHIN",
+          "text": "Break through. Reach the Automaton. Defeat it.\n\nYou know the Vault. You always know the Vault."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 26, "max": 49 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE CLOCKWORK VAULTS",
+          "text": "{pool:vaultDesc:1}\n\n{pool:automatonDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 25 },
+      "panels": [
+        {
+          "title": "TWENTY-FIVE",
+          "text": "{pool:milestoneOpenings25:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE CLOCKWORK VAULTS",
+          "text": "{pool:vaultDesc:1}\n\n{pool:automatonDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 11, "max": 24 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE CLOCKWORK VAULTS",
+          "text": "{pool:vaultDesc:0}\n\n{pool:automatonDesc:0}"
+        },
+        {
+          "title": "WHAT LIES WITHIN",
+          "text": "Break through the shard. Reach the Automaton.\n\nYou know how this goes. The Automaton knows how this goes. It has filed a report about it."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 10 },
+      "panels": [
+        {
+          "title": "THE TENTH TIME",
+          "text": "{pool:milestoneOpenings10:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE CLOCKWORK VAULTS",
+          "text": "{pool:vaultDesc:0}\n\n{pool:automatonDesc:0}"
+        },
+        {
+          "title": "WHAT LIES WITHIN",
+          "text": "Break through the shard. Reach the Automaton.\n\nYou know how this goes. The Automaton knows how this goes. It has filed a report about it."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 5, "max": 9 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{pool:milestoneOpenings5:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE CLOCKWORK VAULTS",
+          "text": "{pool:vaultDesc:0}\n\n{pool:automatonDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 2, "max": 4 },
+      "panels": [
+        {
+          "title": "THE CLOCKWORK VAULTS",
+          "text": "The Vaults hum beneath the earth — again.\n\n{pool:priorRunSummaries:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE GRAND AUTOMATON",
+          "text": "{pool:automatonDesc:0}"
+        },
+        {
+          "title": "A FEELING",
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+        }
+      ]
+    }
+  ],
   "intro": [
     {
       "title": "THE CLOCKWORK VAULTS",
