@@ -6,19 +6,21 @@
   </linearGradient>
   <rect width="400" height="240" fill="url(#within-sky)"/>
 
-  <!-- Brass and ley glow — mixed warm amber and cool ley blue-green -->
+  <!-- Brass and ley ambient pulse -->
   <radialGradient id="within-glow" cx="50%" cy="60%" r="50%">
-    <stop offset="0%" stop-color="#604020" stop-opacity="0.4"/>
+    <stop offset="0%" stop-color="#604020">
+      <animate attributeName="stop-opacity" values="0.4;0.65;0.4" dur="4s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#604020" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#within-glow)"/>
 
-  <!-- Vault chamber walls — massive gear-lined -->
+  <!-- Vault chamber walls -->
   <g fill="#09070a" stroke="#131008" stroke-width="1">
     <rect x="0"   y="0"  width="80"  height="240"/>
     <rect x="320" y="0"  width="80"  height="240"/>
   </g>
-  <!-- Gear rows on walls -->
+  <!-- Wall gear outlines -->
   <g fill="#0d0b05" stroke="#1c1208" stroke-width="0.8" opacity="0.8">
     <circle cx="40"  cy="50"  r="28"/>
     <circle cx="40"  cy="130" r="28"/>
@@ -27,20 +29,32 @@
     <circle cx="360" cy="130" r="28"/>
     <circle cx="360" cy="210" r="28"/>
   </g>
+  <!-- Wall gear inner rings -->
   <g fill="#181006" opacity="0.5">
     <circle cx="40"  cy="50"  r="16"/>
     <circle cx="40"  cy="130" r="16"/>
     <circle cx="360" cy="50"  r="16"/>
     <circle cx="360" cy="130" r="16"/>
   </g>
-  <g fill="#804010" opacity="0.3">
-    <circle cx="40"  cy="50"  r="6"/>
-    <circle cx="40"  cy="130" r="6"/>
-    <circle cx="360" cy="50"  r="6"/>
-    <circle cx="360" cy="130" r="6"/>
-  </g>
+  <!-- Wall gear hub glows — staggered pulse -->
+  <circle cx="40"  cy="50"  r="6" fill="#804010">
+    <animate attributeName="opacity" values="0.3;0.62;0.3" dur="4s" begin="0s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="6;8;6" dur="4s" begin="0s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="40"  cy="130" r="6" fill="#804010">
+    <animate attributeName="opacity" values="0.3;0.62;0.3" dur="4s" begin="1s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="6;8;6" dur="4s" begin="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="360" cy="50"  r="6" fill="#804010">
+    <animate attributeName="opacity" values="0.3;0.62;0.3" dur="4s" begin="2s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="6;8;6" dur="4s" begin="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="360" cy="130" r="6" fill="#804010">
+    <animate attributeName="opacity" values="0.3;0.62;0.3" dur="4s" begin="3s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="6;8;6" dur="4s" begin="3s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- Vault ceiling with hanging mechanism -->
+  <!-- Vault ceiling -->
   <rect x="0" y="0" width="400" height="38" fill="#090704"/>
   <g stroke="#141008" stroke-width="1" fill="none" opacity="0.4">
     <line x1="80"  y1="38" x2="80"  y2="0"/>
@@ -48,50 +62,74 @@
     <line x1="240" y1="38" x2="240" y2="0"/>
     <line x1="320" y1="38" x2="320" y2="0"/>
   </g>
-  <!-- Hanging chains / mechanisms -->
-  <g stroke="#181008" stroke-width="2" opacity="0.5">
-    <line x1="120" y1="38" x2="120" y2="70"/>
-    <line x1="200" y1="38" x2="200" y2="75"/>
-    <line x1="280" y1="38" x2="280" y2="70"/>
-  </g>
-  <g fill="#1a1006" opacity="0.5">
-    <circle cx="120" cy="72" r="5"/>
-    <circle cx="200" cy="77" r="6"/>
-    <circle cx="280" cy="72" r="5"/>
+  <!-- Hanging mechanisms — gentle bob -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 2.5; 0 0; 0 2.5; 0 0" dur="6s" repeatCount="indefinite"/>
+    <g stroke="#181008" stroke-width="2" opacity="0.5">
+      <line x1="120" y1="38" x2="120" y2="70"/>
+      <line x1="200" y1="38" x2="200" y2="75"/>
+      <line x1="280" y1="38" x2="280" y2="70"/>
+    </g>
+    <g fill="#1a1006" opacity="0.5">
+      <circle cx="120" cy="72" r="5"/>
+      <circle cx="200" cy="77" r="6"/>
+      <circle cx="280" cy="72" r="5"/>
+    </g>
   </g>
 
-  <!-- THE AUTOMATON — small distant form at chamber centre, surrounded by ley coil -->
-  <!-- Ley convergence at chamber centre — the ley lines coiled around it -->
+  <!-- Ley convergence — animated gradient -->
   <radialGradient id="conv-ley" cx="50%" cy="55%" r="35%">
-    <stop offset="0%" stop-color="#c06010" stop-opacity="0.35"/>
-    <stop offset="40%" stop-color="#903808" stop-opacity="0.15"/>
+    <stop offset="0%" stop-color="#c06010">
+      <animate attributeName="stop-opacity" values="0.35;0.65;0.35" dur="3s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="40%" stop-color="#903808">
+      <animate attributeName="stop-opacity" values="0.15;0.3;0.15" dur="3s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#903808" stop-opacity="0"/>
   </radialGradient>
   <ellipse cx="200" cy="140" rx="80" ry="65" fill="url(#conv-ley)"/>
-  <!-- Ley lines coiling around the Automaton position -->
-  <g stroke="#c06810" stroke-width="1.5" fill="none" opacity="0.4">
-    <path d="M200,75 Q230,95 240,120 Q250,145 235,165 Q220,185 200,192"/>
-    <path d="M200,75 Q170,95 160,120 Q150,145 165,165 Q180,185 200,192"/>
-  </g>
-  <g stroke="#e08820" stroke-width="0.6" fill="none" opacity="0.3">
-    <path d="M200,80 Q225,100 235,125 Q245,150 228,168"/>
-    <path d="M200,80 Q175,100 165,125 Q155,150 172,168"/>
-  </g>
-  <!-- Ley node at centre -->
-  <circle cx="200" cy="135" r="18" fill="#120902" stroke="#c06810" stroke-width="1.5" opacity="0.6"/>
-  <circle cx="200" cy="135" r="10" fill="#1e0e04" opacity="0.8"/>
-  <circle cx="200" cy="135" r="5"  fill="#c06010" opacity="0.4"/>
 
-  <!-- Grand Automaton silhouette at centre — smaller scale, deep in chamber -->
+  <!-- Ley coil paths — marching-ant flow -->
+  <path d="M200,75 Q230,95 240,120 Q250,145 235,165 Q220,185 200,192" stroke="#c06810" stroke-width="1.5" fill="none" stroke-dasharray="10,8">
+    <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="1.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <path d="M200,75 Q170,95 160,120 Q150,145 165,165 Q180,185 200,192" stroke="#c06810" stroke-width="1.5" fill="none" stroke-dasharray="10,8">
+    <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="1.5s" begin="0.75s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+  </path>
+  <path d="M200,80 Q225,100 235,125 Q245,150 228,168" stroke="#e08820" stroke-width="0.6" fill="none" stroke-dasharray="7,6">
+    <animate attributeName="stroke-dashoffset" from="0" to="-13" dur="1.2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0.55;0.3" dur="2.5s" repeatCount="indefinite"/>
+  </path>
+  <path d="M200,80 Q175,100 165,125 Q155,150 172,168" stroke="#e08820" stroke-width="0.6" fill="none" stroke-dasharray="7,6">
+    <animate attributeName="stroke-dashoffset" from="0" to="-13" dur="1.2s" begin="0.6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0.55;0.3" dur="2.5s" begin="1.25s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- Ley node — r+opacity pulse -->
+  <circle cx="200" cy="135" r="18" fill="#120902" stroke="#c06810" stroke-width="1.5">
+    <animate attributeName="opacity" values="0.6;0.9;0.6" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="200" cy="135" r="10" fill="#1e0e04" opacity="0.8"/>
+  <circle cx="200" cy="135" r="5" fill="#c06010">
+    <animate attributeName="r" values="5;7;5" dur="2.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0.72;0.4" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Grand Automaton silhouette -->
   <rect x="190" y="118" width="20" height="22" fill="#0a0802" stroke="#181006" stroke-width="0.8"/>
   <ellipse cx="200" cy="116" rx="10" ry="9" fill="#0a0802" stroke="#181006" stroke-width="0.8"/>
-  <!-- Automaton sensor glow — visible at distance -->
-  <circle cx="200" cy="116" r="4" fill="#c06010" opacity="0.5"/>
-  <!-- Arms reaching into ley coil -->
+  <!-- Automaton sensor glow pulse -->
+  <circle cx="200" cy="116" r="4" fill="#c06010">
+    <animate attributeName="opacity" values="0.5;1;0.3;0.85;0.5" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="4;5.5;3.5;5;4" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- Arms reaching into coil -->
   <line x1="190" y1="125" x2="172" y2="118" stroke="#0a0802" stroke-width="3" stroke-linecap="round"/>
   <line x1="210" y1="125" x2="228" y2="118" stroke="#0a0802" stroke-width="3" stroke-linecap="round"/>
 
-  <!-- Ground level perspective — iron grating -->
+  <!-- Iron grating floor -->
   <rect x="80" y="205" width="240" height="35" fill="#0a0804" opacity="0.8"/>
   <g stroke="#181006" stroke-width="0.6" fill="none" opacity="0.3">
     <line x1="80"  y1="205" x2="320" y2="205"/>
@@ -103,20 +141,39 @@
     <line x1="240" y1="205" x2="240" y2="240"/>
     <line x1="280" y1="205" x2="280" y2="240"/>
   </g>
+  <!-- Floor ley channels — opacity pulse -->
+  <line x1="80" y1="207" x2="320" y2="207" stroke="#c06010" stroke-width="1.5">
+    <animate attributeName="opacity" values="0.3;0.55;0.3" dur="3s" repeatCount="indefinite"/>
+  </line>
+  <line x1="80" y1="208" x2="320" y2="208" stroke="#e08820" stroke-width="0.5">
+    <animate attributeName="opacity" values="0.2;0.4;0.2" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+  </line>
 
-  <!-- Ley line horizontal channels in floor -->
-  <line x1="80" y1="207" x2="320" y2="207" stroke="#c06010" stroke-width="1.5" opacity="0.3"/>
-  <line x1="80" y1="208" x2="320" y2="208" stroke="#e08820" stroke-width="0.5" opacity="0.2"/>
-
-  <!-- Floating gear bits — dust of ancient machinery -->
-  <g fill="#c06010" opacity="0.25">
-    <circle cx="110" cy="90"  r="1.2"/>
-    <circle cx="145" cy="70"  r="1"/>
-    <circle cx="255" cy="75"  r="1.2"/>
-    <circle cx="290" cy="92"  r="1"/>
-    <circle cx="130" cy="160" r="0.8"/>
-    <circle cx="270" cy="155" r="0.8"/>
-  </g>
+  <!-- Floating gear bits — drift and fade -->
+  <circle cx="110" cy="90"  r="1.2" fill="#c06010">
+    <animateTransform attributeName="transform" type="translate" values="0 0; 4 -8; 6 -14" dur="5s" begin="0s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.25;0.4;0" dur="5s" begin="0s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="145" cy="70"  r="1" fill="#c06010">
+    <animateTransform attributeName="transform" type="translate" values="0 0; -3 -10; -5 -18" dur="6s" begin="1s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.25;0.45;0" dur="6s" begin="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="255" cy="75"  r="1.2" fill="#c06010">
+    <animateTransform attributeName="transform" type="translate" values="0 0; 3 -9; 5 -16" dur="5.5s" begin="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.25;0.4;0" dur="5.5s" begin="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="290" cy="92"  r="1" fill="#c06010">
+    <animateTransform attributeName="transform" type="translate" values="0 0; -4 -8; -6 -15" dur="4.5s" begin="0.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.25;0.45;0" dur="4.5s" begin="0.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="130" cy="160" r="0.8" fill="#c06010">
+    <animateTransform attributeName="transform" type="translate" values="0 0; 2 -6; 3 -12" dur="4s" begin="1.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.25;0.4;0" dur="4s" begin="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="270" cy="155" r="0.8" fill="#c06010">
+    <animateTransform attributeName="transform" type="translate" values="0 0; -2 -7; -3 -13" dur="4.8s" begin="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.25;0.4;0" dur="4.8s" begin="3s" repeatCount="indefinite"/>
+  </circle>
 
   <!-- Label -->
   <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1a08" text-anchor="middle" letter-spacing="3">WHAT LIES WITHIN</text>
