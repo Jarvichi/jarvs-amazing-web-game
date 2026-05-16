@@ -286,6 +286,7 @@ export default function App() {
   })
 
   const [screen, setScreen]             = useState<Screen>(_startup.screen)
+  const [miniGamesEntry, setMiniGamesEntry] = useState<'menu' | 'citybuilder'>('menu')
   const [showTitleLoginModal, setShowTitleLoginModal] = useState(false)
   const [feedbackOpen, setFeedbackOpen] = useState(false)
   // ── Battle state (all ephemeral state that exists only during a battle) ──────
@@ -2248,6 +2249,7 @@ export default function App() {
             onNews={() => setScreen('news')}
             hasUnreadNews={newsUnreadCount > 0}
             onMiniGames={() => setScreen('minigames')}
+            onCityBuilder={() => { setMiniGamesEntry('citybuilder'); setScreen('minigames') }}
             onPlayerStats={() => setScreen('playerstats')}
             user={user}
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
@@ -2627,7 +2629,8 @@ export default function App() {
           onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
           user={user}
           characterName={loadPlayerName()}
-          onBack={() => setScreen('title')}
+          onBack={() => { setMiniGamesEntry('menu'); setScreen('title') }}
+          initialSubScreen={miniGamesEntry}
         />
       )}
 

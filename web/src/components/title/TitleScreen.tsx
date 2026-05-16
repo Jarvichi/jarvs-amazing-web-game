@@ -45,6 +45,7 @@ interface Props {
   onNews: () => void
   hasUnreadNews: boolean
   onMiniGames: () => void
+  onCityBuilder: () => void
   onPlayerStats: () => void
   user: User | null
   onSignOut: () => void
@@ -52,7 +53,7 @@ interface Props {
   onFeedback: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onPlayerStats, user, onSignOut, onSignIn, onFeedback }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onPlayerStats, user, onSignOut, onSignIn, onFeedback }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -239,12 +240,11 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         <TitleButton onClick={onMiniGames} extraClass={`title-minigames-btn`}>
           🎮  MINI GAMES
         </TitleButton>
-        {cityAttackAlert &&
-        // TODO: Make this button go straight to the city view.
-                <TitleButton           variant="large" onClick={onMiniGames} extraClass={`title-campaign-btn title-minigames-btn title-btn--alert title-alert-badge`}>
-         ⚔ CITY ALERT
-        </TitleButton>
-}
+        {cityAttackAlert && (
+          <TitleButton variant="large" onClick={onCityBuilder} extraClass="title-campaign-btn title-minigames-btn title-btn--alert title-alert-badge">
+            ⚔ CITY ALERT
+          </TitleButton>
+        )}
       </div>
 
       {!campaignUnlocked && (
