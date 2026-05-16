@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground shadow -->
+  <ellipse cx="16" cy="31" rx="14" ry="1.5" fill="#0a0a0a" opacity="0.5"/>
+  <!-- Main building (stone) -->
+  <rect x="2" y="13" width="28" height="17" rx="1" fill="#888899"/>
+  <!-- Stone texture -->
+  <line x1="2" y1="18" x2="30" y2="18" stroke="#6a6a7a" stroke-width="0.7"/>
+  <line x1="2" y1="23" x2="30" y2="23" stroke="#6a6a7a" stroke-width="0.7"/>
+  <line x1="2" y1="28" x2="30" y2="28" stroke="#6a6a7a" stroke-width="0.5"/>
+  <line x1="9" y1="13" x2="9" y2="30" stroke="#6a6a7a" stroke-width="0.5"/>
+  <line x1="23" y1="13" x2="23" y2="30" stroke="#6a6a7a" stroke-width="0.5"/>
+  <!-- Battlements along top -->
+  <rect x="2" y="8" width="5" height="6" rx="0.5" fill="#777788"/>
+  <rect x="9" y="8" width="5" height="6" rx="0.5" fill="#777788"/>
+  <rect x="18" y="8" width="5" height="6" rx="0.5" fill="#777788"/>
+  <rect x="25" y="8" width="5" height="6" rx="0.5" fill="#777788"/>
+  <!-- Wall connecting battlements -->
+  <rect x="2" y="11" width="28" height="3" fill="#888899"/>
+  <!-- Corner towers -->
+  <rect x="0" y="9" width="6" height="21" rx="0.5" fill="#999aaa"/>
+  <rect x="26" y="9" width="6" height="21" rx="0.5" fill="#999aaa"/>
+  <!-- Tower windows -->
+  <rect x="1" y="14" width="3" height="4" rx="1" fill="#2a2a44"/>
+  <rect x="28" y="14" width="3" height="4" rx="1" fill="#2a2a44"/>
+  <!-- Gate arch -->
+  <path d="M12,30 L12,21 Q12,16 16,16 Q20,16 20,21 L20,30 Z" fill="#1a1a2a"/>
+  <!-- Shield emblem above gate -->
+  <path d="M14,12 L14,8 L18,8 L18,12 L16,14 Z" fill="#ccccdd"/>
+  <path d="M14.5,12 L14.5,8.5 L17.5,8.5 L17.5,12 L16,13.5 Z" fill="#aaaacc"/>
+  <!-- Cross on shield -->
+  <line x1="16" y1="8.5" x2="16" y2="13" stroke="#cc2222" stroke-width="0.9"/>
+  <line x1="14.5" y1="10.5" x2="17.5" y2="10.5" stroke="#cc2222" stroke-width="0.9"/>
+  <!-- Flagpole -->
+  <line x1="16" y1="3" x2="16" y2="8" stroke="#555566" stroke-width="1.2"/>
+  <!-- Flag (silver/blue) -->
+  <polygon points="16,3 24,5 16,7" fill="#4444cc"/>
+  <!-- Sword on flag -->
+  <line x1="18" y1="4" x2="22" y2="6" stroke="#ffcc00" stroke-width="0.8"/>
+  <line x1="20" y1="3.5" x2="20" y2="6.5" stroke="#ffcc00" stroke-width="0.6"/>
+</svg>
