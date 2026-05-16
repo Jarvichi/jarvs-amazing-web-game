@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#030804"/>
+  <linearGradient id="canopy-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#040a04"/>
+    <stop offset="50%" stop-color="#060e06"/>
+    <stop offset="100%" stop-color="#081208"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#canopy-sky)"/>
+
+  <!-- Ley-green bioluminescence from below -->
+  <radialGradient id="canopy-glow" cx="50%" cy="60%" r="55%">
+    <stop offset="0%" stop-color="#104820" stop-opacity="0.4"/>
+    <stop offset="50%" stop-color="#083010" stop-opacity="0.18"/>
+    <stop offset="100%" stop-color="#083010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#canopy-glow)"/>
+
+  <!-- UPPER CANOPY — vast interlocking ancient trees -->
+  <!-- Canopy ceiling mass -->
+  <rect x="0" y="0" width="400" height="50" fill="#040a04"/>
+  <path d="M0,0 Q50,30 100,20 Q150,35 200,18 Q250,32 300,20 Q350,34 400,22 L400,0 Z" fill="#060e06"/>
+  <!-- Canopy underside texture — leaf clusters -->
+  <g fill="#081208" opacity="0.8">
+    <ellipse cx="50"  cy="42" rx="40" ry="16"/>
+    <ellipse cx="140" cy="38" rx="45" ry="18"/>
+    <ellipse cx="240" cy="40" rx="50" ry="16"/>
+    <ellipse cx="340" cy="35" rx="42" ry="18"/>
+  </g>
+  <!-- Canopy leaf edges — ley glow seeping through -->
+  <g fill="#0c1e0c" opacity="0.5">
+    <ellipse cx="80"  cy="50" rx="30" ry="10"/>
+    <ellipse cx="190" cy="48" rx="35" ry="12"/>
+    <ellipse cx="295" cy="46" rx="30" ry="10"/>
+  </g>
+
+  <!-- Left giant tree trunk -->
+  <rect x="0"  y="45" width="55" height="195" fill="#040a04" stroke="#081408" stroke-width="1"/>
+  <rect x="12" y="45" width="10" height="195" fill="#060e06" opacity="0.5"/>
+  <!-- Root buttresses left -->
+  <path d="M55,240 Q65,200 60,175 Q68,155 55,130" fill="#040a04" stroke="#081408" stroke-width="0.8"/>
+  <path d="M55,240 Q45,210 50,185 Q40,165 55,140" fill="#050c05" opacity="0.5"/>
+
+  <!-- Right giant tree trunk -->
+  <rect x="345" y="45" width="55" height="195" fill="#040a04" stroke="#081408" stroke-width="1"/>
+  <rect x="378" y="45" width="10" height="195" fill="#060e06" opacity="0.5"/>
+  <!-- Root buttresses right -->
+  <path d="M345,240 Q335,200 340,175 Q332,155 345,130" fill="#040a04" stroke="#081408" stroke-width="0.8"/>
+  <path d="M345,240 Q355,210 350,185 Q360,165 345,140" fill="#050c05" opacity="0.5"/>
+
+  <!-- Mid-ground trees — flanking -->
+  <g fill="#050c05" stroke="#090f08" stroke-width="0.8" opacity="0.8">
+    <rect x="62"  y="65" width="30" height="175"/>
+    <rect x="308" y="65" width="30" height="175"/>
+    <rect x="95"  y="85" width="22" height="155"/>
+    <rect x="283" y="85" width="22" height="155"/>
+  </g>
+
+  <!-- Central approach path — ancient stone, moss-covered -->
+  <path d="M140,240 L168,145 L232,145 L260,240" fill="#060c06" stroke="#0c140c" stroke-width="1"/>
+  <!-- Path stones -->
+  <g stroke="#0a1208" stroke-width="0.6" fill="none" opacity="0.4">
+    <path d="M152,200 Q170,195 185,200 Q200,205 215,200 Q230,195 248,200"/>
+    <path d="M148,220 Q168,215 183,220 Q200,225 217,220 Q232,215 252,220"/>
+  </g>
+
+  <!-- Central WARDEN'S GATE — ancient arch of living wood -->
+  <path d="M152,240 L152,160 Q152,140 175,135 Q200,130 225,135 Q248,140 248,160 L248,240" fill="#050c05" stroke="#0c1a0a" stroke-width="2"/>
+  <!-- Arch bark texture -->
+  <g stroke="#091208" stroke-width="0.7" fill="none" opacity="0.5">
+    <path d="M155,162 Q160,148 175,140"/>
+    <path d="M245,162 Q240,148 225,140"/>
+    <path d="M200,132 Q205,138 200,145 Q195,138 200,132"/>
+  </g>
+  <!-- Ley vines climbing the arch -->
+  <g stroke="#1a5020" stroke-width="1.2" fill="none" opacity="0.4">
+    <path d="M152,200 Q148,180 153,162 Q158,148 175,138"/>
+    <path d="M248,200 Q252,180 247,162 Q242,148 225,138"/>
+  </g>
+  <!-- Living wood bioluminescent nodes -->
+  <g fill="#308040" opacity="0.3">
+    <circle cx="158" cy="170" r="2.5"/>
+    <circle cx="242" cy="168" r="2.5"/>
+    <circle cx="160" cy="150" r="2"/>
+    <circle cx="240" cy="150" r="2"/>
+    <circle cx="185" cy="137" r="2"/>
+    <circle cx="215" cy="137" r="2"/>
+    <circle cx="200" cy="132" r="2.5"/>
+  </g>
+  <!-- Arch inner darkness -->
+  <rect x="155" y="138" width="90" height="102" fill="#030704"/>
+
+  <!-- Hanging bioluminescent pods / fungi -->
+  <g fill="#10401a" opacity="0.3">
+    <ellipse cx="100" cy="105" rx="5" ry="8"/>
+    <ellipse cx="130" cy="95"  rx="4" ry="7"/>
+    <ellipse cx="165" cy="110" rx="5" ry="9"/>
+    <ellipse cx="235" cy="108" rx="5" ry="9"/>
+    <ellipse cx="270" cy="95"  rx="4" ry="7"/>
+    <ellipse cx="300" cy="105" rx="5" ry="8"/>
+  </g>
+  <!-- Pod glow -->
+  <g fill="#40c060" opacity="0.15">
+    <circle cx="100" cy="110" r="5"/>
+    <circle cx="130" cy="100" r="4"/>
+    <circle cx="165" cy="115" r="5"/>
+    <circle cx="235" cy="113" r="5"/>
+    <circle cx="270" cy="100" r="4"/>
+    <circle cx="300" cy="110" r="5"/>
+  </g>
+
+  <!-- Forest floor — moss, roots, leaf litter -->
+  <rect x="55" y="200" width="290" height="40" fill="#050c04"/>
+  <g fill="#081008" opacity="0.5">
+    <ellipse cx="100" cy="210" rx="40" ry="7"/>
+    <ellipse cx="200" cy="215" rx="60" ry="8"/>
+    <ellipse cx="300" cy="208" rx="42" ry="7"/>
+  </g>
+  <!-- Surface root lines -->
+  <g stroke="#091008" stroke-width="1.2" fill="none" opacity="0.4">
+    <path d="M55,215 Q80,205 105,210 Q125,215 140,210"/>
+    <path d="M260,212 Q285,205 310,210 Q330,215 345,210"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-vc" cx="50%" cy="50%" r="68%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.65"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-vc)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#102010" text-anchor="middle" letter-spacing="3">THE VERDANT CANOPY</text>
+</svg>
