@@ -1794,6 +1794,7 @@ body {
 }
 
 .overlay-header {
+  width: 100%;
   padding: 6px 0 8px;
   border-bottom: 2px solid var(--game-border);
   flex-shrink: 0;
@@ -7169,12 +7170,6 @@ html.eightbit-mode .lane-layer {
   font-family: var(--game-font);
   color: var(--game-text-color);
 }
-.dc-label {
-  font-size: 1.429rem;
-  font-weight: bold;
-  letter-spacing: 2px;
-  color: #8bc34a;
-}
 .dc-date {
   font-size: var(--font-md);
   color: var(--game-text-color-muted);
@@ -7318,12 +7313,6 @@ html.eightbit-mode .lane-layer {
   font-family: var(--game-font);
   color: var(--game-text-color);
 }
-.el-label {
-  font-size: 1.429rem;
-  font-weight: bold;
-  letter-spacing: 2px;
-  color: #80cbc4;
-}
 .el-subtitle {
   font-size: var(--font-md);
   color: var(--game-text-color-muted);
@@ -7368,12 +7357,6 @@ html.eightbit-mode .lane-layer {
   border-bottom: 1px solid var(--game-border);
   padding-bottom: 4px;
 }
-.el-actions {
-  width: 100%;
-  max-width: 260px;
-  margin-top: 4px;
-}
-
 /* ── Replay Briefing Screen ─────────────────────────────────────────────── */
 
 .replay-briefing {
@@ -8748,19 +8731,6 @@ html.light-mode .action-btn {
   color: #c8c8d8;
   font-family: monospace;
   box-sizing: border-box;
-}
-
-.minigame-hub-header {
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: 4px;
-}
-
-.minigame-hub-title {
-  font-size: 1.571rem;
-  font-weight: bold;
-  color: var(--color-gold);
-  letter-spacing: 2px;
 }
 
 .ticket-balance {
@@ -10322,17 +10292,6 @@ html.light-mode .action-btn {
   max-width: 600px;
 }
 
-.prize-screen-header {
-  margin-bottom: 12px;
-}
-
-.prize-screen-title {
-  font-size: var(--font-xl);
-  font-weight: bold;
-  color: var(--color-gold);
-  letter-spacing: 2px;
-}
-
 .prize-list {
   width: 100%;
   max-height: 65vh;
@@ -10374,17 +10333,6 @@ html.light-mode .action-btn {
 .lb-screen {
   width: 100%;
   max-width: 500px;
-}
-
-.lb-screen-header {
-  margin-bottom: 12px;
-}
-
-.lb-screen-title {
-  font-size: var(--font-xl);
-  font-weight: bold;
-  color: var(--color-gold);
-  letter-spacing: 2px;
 }
 
 .lb-controls {

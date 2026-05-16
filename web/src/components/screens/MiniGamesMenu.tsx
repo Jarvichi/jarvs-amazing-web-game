@@ -270,9 +270,9 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       {toast && <div className="minigame-toast" role="alert">{toast}</div>}
 
       {/* Header */}
-      <div className="minigame-hub-header u-flex u-items-c u-just-sb">
+      <div className="overlay-header u-flex u-items-c u-gap-6">
         <button className="action-btn" onClick={onBack}>← BACK</button>
-        <div className="minigame-hub-title">🎮 ARCADE</div>
+        <span className="overlay-title">🎮 ARCADE</span>
         <div className="ticket-balance">🎫 {tickets} tickets</div>
       </div>
 
@@ -336,9 +336,9 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
       {subScreen === 'prizes' && (
         <div className="prize-screen u-col">
-          <div className="prize-screen-header u-flex u-items-c u-just-sb">
+          <div className="overlay-header u-flex u-items-c u-gap-6">
             <button className="action-btn" onClick={() => setSubScreen('menu')}>← BACK</button>
-            <div className="prize-screen-title">🎁 PRIZE SHOP</div>
+            <span className="overlay-title">🎁 PRIZE SHOP</span>
             <div className="ticket-balance">🎫 {tickets}</div>
           </div>
 
@@ -372,9 +372,9 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
 
       {subScreen === 'leaderboard' && (
         <div className="lb-screen u-col">
-          <div className="lb-screen-header u-flex u-items-c u-just-sb">
+          <div className="overlay-header u-flex u-items-c u-gap-6">
             <button className="action-btn" onClick={() => setSubScreen('menu')}>← BACK</button>
-            <div className="lb-screen-title">🏆 LEADERBOARDS</div>
+            <span className="overlay-title">🏆 LEADERBOARDS</span>
           </div>
 
           <div className="lb-controls u-col u-gap-3">
