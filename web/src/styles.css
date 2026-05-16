@@ -8890,6 +8890,7 @@ html.light-mode .action-btn {
   font-size: 13px;
   color: var(--color-gold-dim);
   font-weight: bold;
+  white-space: nowrap;
 }
 
 /* ── Compact info strip ───────────────────────────────────────────────────── */
@@ -9218,17 +9219,6 @@ html.light-mode .action-btn {
 
 /* ── Card Picker ──────────────────────────────────────────────────────────── */
 
-.city-picker-header {
-  margin-bottom: 8px;
-}
-
-.city-picker-title {
-  flex: 1;
-  font-size: 14px;
-  color: #60d060;
-  letter-spacing: 2px;
-  text-align: center;
-}
 
 .city-picker-empty { text-align: center; color: #4a7a4a; font-size: 12px; margin-top: 40px; }
 
