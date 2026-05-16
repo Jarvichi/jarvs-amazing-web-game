@@ -65,9 +65,10 @@ describe('newGame', () => {
   it('supports prebuiltPlayerDeck without reshuffling', () => {
     const deck = makeDeck().slice(0, 12)
     const state = newGame({ prebuiltPlayerDeck: deck })
-    // Hand should consist of the first 4 cards of the supplied deck (in order)
-    expect(state.playerHand[0].name).toBe(deck[0].name)
-    expect(state.playerHand[1].name).toBe(deck[1].name)
+    // A hero may be injected at a random position; exclude it before checking order
+    const nonHero = state.playerHand.filter(c => !c.isHero)
+    expect(nonHero[0].name).toBe(deck[0].name)
+    expect(nonHero[1].name).toBe(deck[1].name)
   })
 })
 
