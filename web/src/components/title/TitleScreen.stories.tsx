@@ -1,7 +1,8 @@
 import { fn } from 'storybook/test';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { User } from 'firebase/auth';
 
-import { TitleScreen } from './TitleScreen';
+import { TitleScreen, Props } from './TitleScreen';
 
 const meta = {
   component: TitleScreen,
@@ -33,11 +34,19 @@ const callbacks = {
   onSignOut: fn(),
   onSignIn: fn(),
   onFeedback: fn(),
+  onCityBuilder: fn(),
+};
+
+const defaultProps: Props = {
+  ...callbacks,
+  crystals: 250,
+  user: null,
+  hasUnreadNews: false,
 };
 
 export const Default: Story = {
   args: {
-    ...callbacks,
+    ...defaultProps,
     crystals: 250,
     user: null,
     hasUnreadNews: false,
@@ -46,7 +55,7 @@ export const Default: Story = {
 
 export const WithUnreadNews: Story = {
   args: {
-    ...callbacks,
+    ...defaultProps,
     crystals: 250,
     user: null,
     hasUnreadNews: true,
@@ -55,11 +64,24 @@ export const WithUnreadNews: Story = {
 
 export const WithCommander: Story = {
   args: {
-    ...callbacks,
+    ...defaultProps,
     crystals: 1200,
     user: null,
     hasUnreadNews: false,
     commanderName: 'Valeria',
     onCommander: fn(),
+  },
+};
+
+export const LoggedIn: Story = {
+  args: {
+    ...defaultProps,
+    crystals: 1234,
+    user: {
+      uid:         'preview-user',
+      displayName: 'Andrew',
+      email:       'andrewglawson@gmail.com',
+      isAnonymous: false,
+    } as User,
   },
 };
