@@ -1979,56 +1979,36 @@ export function CityBuilder({ onBack }: Props) {
         </div>
       </div>
 
-      {/* Compact info strip: attack countdown + defence + income + pop */}
-      <div className="city-info-strip">
-       
-
-
-
-      </div>
-
-
-
-      {/* Resources: horizontally scrollable chip strip */}
+      {/* Info + resource strip: attack pill · stats · resources · actions */}
       <div className="city-res-strip">
-        <span className="city-info-chip"  title={`Defense: ${defense}`}>🛡 {defense}</span>
-
+        <div className={`city-attack-pill city-attack-pill--${attackUrgency}`}>
+          ⚔ ATTACK INCOMING {msToAttack <= 0 ? 'NOW!' : attackCountdown}
+          <span className={`city-attack-strength ${attackStrengthLabel.cls}`}>{attackStrengthLabel.text}</span>
+        </div>
+        <span className="city-info-chip" title={`Defense: ${defense}`}>🛡 {defense}</span>
         <span className="city-info-chip" title={`Population: ${population}`}>👥 {population}</span>
-
         {(['wheat', 'wood', 'ore', 'bread', 'planks', 'metal'] as ResourceType[]).map(res => {
           const stock = Math.floor(city.resources[res])
           const prod  = prodRates[res] ?? 0
           const cons  = consRates[res] ?? 0
           const net   = prod - cons
           if (stock === 0 && prod === 0) return null
-          // const label = stock >= 10000 ? `${(stock / 1000).toFixed(0)}k` : stock >= 1000 ? `${(stock / 1000).toFixed(1)}k` : `${stock}`
-          const label = `${stock}`
           return (
             <span key={res} className="city-res-chip" title={`${res}: ${stock} stock, ${net >= 0 ? '+' : ''}${net}/min`}>
-              {RESOURCE_ICONS[res]}{label}
+              {RESOURCE_ICONS[res]}{stock}
               {net !== 0 && <span className={net > 0 ? 'city-res-pos' : 'city-res-neg'}>{net > 0 ? `+${net}` : net}</span>}
             </span>
           )
         })}
-      </div>
-
-      <div className="city-header u-flex u-items-c u-gap-3">
-                       <div className={`city-attack-pill city-attack-pill--${attackUrgency}`}>    
-          ⚔ ATTACK INCOMING {msToAttack <= 0 ? 'NOW!' : attackCountdown}
-          <span className={`city-attack-strength ${attackStrengthLabel.cls}`}>{attackStrengthLabel.text}</span>
-        
-                  </div>
-                <div className="city-header-right u-flex u-items-c u-gap-2">
-        <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
-
-                {cityRows < MAX_CITY_ROWS && expansionCost && (
+        <button className="filter-btn" style={{ marginLeft: 'auto', flexShrink: 0 }} onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
+        {cityRows < MAX_CITY_ROWS && expansionCost && (
           <button
             className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
+            style={{ flexShrink: 0 }}
             onClick={handleExpand}
             title={affordable ? `Expand city to ${cityRows + 1} rows` : 'Not enough resources to expand'}
           >🏢 EXPAND CITY</button>
         )}
-        </div>
       </div>
 
       {/* City world: fixed 50vh, scales with rows */}
