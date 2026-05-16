@@ -39,6 +39,245 @@
   "startNodeIds": [
     "coral-breach"
   ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, technically, damp.",
+      "Now, technically, waterlogged in both the literal and professional sense.",
+      "Now, somewhere between drowned and determined.",
+      "Now, effectively, the sort of person who fights sea creatures for a living.",
+      "Now — by any measure — overdue for dry land."
+    ],
+    "jarvIntros": [
+      "You have a deck of cards, an understanding of tidal patterns, and a strong conviction that the ocean does not care about you.",
+      "You have a deck of cards, salt in places salt should not be, and the hardheaded certainty that this shard will open if you push hard enough.",
+      "You have a deck of cards, a working theory about why the ley lines bend at the tideline, and the slowly dawning realisation that this is not your first reef.",
+      "You have a deck of cards, a growing familiarity with the current's timing, and the unsettling sense that the current has a growing familiarity with you.",
+      "You have a deck of cards. The sea has had your number since the first time. That hasn't stopped you yet."
+    ],
+    "reefDesc": [
+      "The shard hangs half-submerged — a lattice of coral, sunken ships, and old magic squeezed between two impossible tides.",
+      "The Sunken Reef smells like the bottom of the world — salt and brine and something older than weather.",
+      "The Sunken Reef waits at the edge of your bearing, half-drowned and utterly indifferent to your arrival.",
+      "The ley lines thread through the reef like roots through rock. The water knows exactly what it's doing."
+    ],
+    "sovereignDesc": [
+      "The Reef's guardian calls itself the Tidal Sovereign — a being of compressed sea-memory and slow, grinding patience.\n\nIt does not rush. It does not need to. The tide has never once been in a hurry.",
+      "The Tidal Sovereign holds the Reef's pathways closed. It has been doing this since before your concept of 'waiting' existed.\n\nIt is not worried about you. That, ironically, is the problem.",
+      "The Tidal Sovereign seals every passage through the Reef. Traders who've survived call it patient, deliberate, and entirely without urgency.\n\nYou've found urgency works well enough as a substitute.",
+      "The Tidal Sovereign waits at the Reef's heart. It has not moved in a very long time. You suspect, this time, that it has been expecting exactly this."
+    ],
+    "priorRunSummaries": [
+      "The water felt familiar — the particular weight of it, the way it carried sound. Like walking back into a room you'd left a light on in.",
+      "The coral formations were wrong. Not wrong wrong — wrong the way a remembered face is wrong when you see it again after a long time.",
+      "Something about the current. The angle of it. The way it pushed you slightly left at every junction. You pushed back. That felt familiar too.",
+      "The reef was quieter on approach than it should have been. As though it knew you were coming, and had decided not to make a fuss about it."
+    ],
+    "priorRunOpenings": [
+      "You had been here. Not in the way that means you remembered it clearly — in the way that means your hands knew what to do before you told them.",
+      "The first patrol of Sea Wraiths didn't seem surprised to see you. Not exactly. More like: resigned.",
+      "The Tidal Sovereign's opening gambit was different this time. Slower. As though it had considered changing tactics and then thought better of it.",
+      "The tide was going out when you arrived. Last time it was coming in. You noted this. You weren't sure what it meant, but you noted it."
+    ],
+    "milestoneOpenings5": [
+      "The fifth time through the Sunken Reef, the coral formations have started parting slightly before you reach them.",
+      "Fifth run. The Sea Wraiths at the outer barrier formed up more slowly than last time. As though they'd had a meeting about it and hadn't reached consensus."
+    ],
+    "milestoneOpenings10": [
+      "Ten campaigns. The Tidal Sovereign was already positioned at the convergence point when you arrived. Waiting. You got the impression it had stopped finding your return surprising.",
+      "The tenth time through the Sunken Reef, a name is scratched into the hull of one of the wrecks. You recognise the handwriting. You choose not to investigate further."
+    ],
+    "milestoneOpenings25": [
+      "Twenty-five campaigns. The reef does not resist when you arrive. It parts. There is a difference, and you have learned to notice it.",
+      "After twenty-five runs, the Tidal Sovereign no longer opens with the speech about tide and inevitability. It just looks at you. Somehow that is worse."
+    ],
+    "milestoneOpenings50": [
+      "The fiftieth time through the Sunken Reef. The water is the wrong temperature — not cold, not warm. Exactly the same temperature as you. As though the sea has decided that fighting you on this particular front is no longer productive.",
+      "Fifty campaigns. You walk in at low tide. The tide seems to have checked your schedule and adjusted accordingly."
+    ],
+    "milestoneOpenings100": [
+      "The Tidal Sovereign looks at you. Not at Jarv. At you — the person moving the pieces.\n\n'A hundred tides,' it says. Its voice sounds like a wave breaking on stone. 'A hundred returns. I have outlasted coral formations. I have outlasted ships. I have outlasted things that thought themselves permanent.'\n\nA pause. The water around it stills completely.\n\n'And yet here you are. Again. I believe I have been underestimating the situation.'\n\nIt sounds, if such a thing is possible, almost respectful."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} time through the Sunken Reef. The Tidal Sovereign has stopped bothering with the opening monologue.",
+    "Campaign {n}. The coral formations have started arranging themselves out of your way without being asked.",
+    "{n} campaigns in. The Sea Wraiths at the outer barrier have started placing bets on how quickly you'll get past them.",
+    "{n} times you've walked into the reef's depths. The ley lines pulse slightly faster when they feel you approaching.",
+    "Run {n}. You arrive, and the water is, for once, briefly cooperative.",
+    "The {ordinalLower} attempt. The reef smells the same. Your reaction to it has become something close to familiarity.",
+    "{n} campaigns. The old wreck at the outer barrier has your name on its hull now. The marine life has opinions."
+  ],
+  "introRules": [
+    {
+      "condition": { "op": "gte", "value": 100 },
+      "panels": [
+        {
+          "title": "THE SOVEREIGN KNOWS",
+          "text": "{pool:milestoneOpenings100:0}"
+        },
+        {
+          "title": "THE SUNKEN REEF",
+          "text": "{pool:reefDesc:3}\n\n{pool:sovereignDesc:2}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 51, "max": 99 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE SUNKEN REEF",
+          "text": "{pool:reefDesc:2}\n\n{pool:sovereignDesc:1}"
+        },
+        {
+          "title": "THE PASSAGE",
+          "text": "Break through. Reach the Sovereign. Defeat it.\n\nYou know the way. You always know the way."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 50 },
+      "panels": [
+        {
+          "title": "FIFTY CAMPAIGNS",
+          "text": "{pool:milestoneOpenings50:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE SUNKEN REEF",
+          "text": "{pool:reefDesc:2}\n\n{pool:sovereignDesc:1}"
+        },
+        {
+          "title": "THE PASSAGE",
+          "text": "Break through. Reach the Sovereign. Defeat it.\n\nYou know the way. You always know the way."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 26, "max": 49 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE SUNKEN REEF",
+          "text": "{pool:reefDesc:1}\n\n{pool:sovereignDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 25 },
+      "panels": [
+        {
+          "title": "TWENTY-FIVE",
+          "text": "{pool:milestoneOpenings25:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE SUNKEN REEF",
+          "text": "{pool:reefDesc:1}\n\n{pool:sovereignDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 11, "max": 24 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE SUNKEN REEF",
+          "text": "{pool:reefDesc:0}\n\n{pool:sovereignDesc:0}"
+        },
+        {
+          "title": "THE PASSAGE",
+          "text": "Break through the shard. Reach the Sovereign.\n\nYou know how this goes. You've always known how this goes."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 10 },
+      "panels": [
+        {
+          "title": "THE TENTH TIME",
+          "text": "{pool:milestoneOpenings10:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE SUNKEN REEF",
+          "text": "{pool:reefDesc:0}\n\n{pool:sovereignDesc:0}"
+        },
+        {
+          "title": "THE PASSAGE",
+          "text": "Break through the shard. Reach the Sovereign.\n\nYou know how this goes. You've always known how this goes."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 5, "max": 9 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{pool:milestoneOpenings5:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE SUNKEN REEF",
+          "text": "{pool:reefDesc:0}\n\n{pool:sovereignDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 2, "max": 4 },
+      "panels": [
+        {
+          "title": "THE SUNKEN REEF",
+          "text": "The shard hangs half-submerged — a lattice of coral, sunken ships, and old magic.\n\n{pool:priorRunSummaries:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE TIDAL SOVEREIGN",
+          "text": "{pool:sovereignDesc:0}"
+        },
+        {
+          "title": "A FEELING",
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+        }
+      ]
+    }
+  ],
   "intro": [
     {
       "title": "THE SUNKEN REEF",
