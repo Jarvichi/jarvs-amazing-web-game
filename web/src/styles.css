@@ -8958,6 +8958,7 @@ html.light-mode .action-btn {
 /* ── Resource chip strip ─────────────────────────────────────────────────── */
 .city-res-strip {
   display: flex;
+  align-items: center;
   gap: 5px;
   overflow-x: auto;
   flex-shrink: 0;
