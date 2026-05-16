@@ -354,7 +354,7 @@ const CHAT_TICKS      = 80   // 8 s — how long two walkers chat when they meet
 const CHAT_DIST       = ARRIVE_DIST * 2.5  // proximity to trigger chat
 const CHAT_EMOJIS     = ['😅', '😬', '😢', '🤔', '🥳', '🥱', '😎', '🤣', '😍', '🥰', '🤩', '😤', '🤬', '🤯', '🥵']
 const ATTACK_WARN_MS  = 30 * 60 * 1000  // show panic tasks when attack < 30 min away
-const PATROL_DEFENSE_PER_WALKER = 5     // defense units added per patrolling resident
+const PATROL_DEFENSE_PER_WALKER = 1     // residents give minimal defence — build fortifications
 const TASK_RESOURCE_GOLD: Partial<Record<ResourceType, number>> = {
   wheat: 2, wood: 2, ore: 3, bread: 4, planks: 4, metal: 5,
 }
@@ -608,6 +608,8 @@ export function CityBuilder({ onBack }: Props) {
   )
   const [currentTime, setCurrentTime] = useState(Date.now())
   const [fortSlotSel, setFortSlotSel] = useState<number | null>(null)
+  const [fortFilter, setFortFilter]   = useState<string>('all')
+  const [fortSort, setFortSort]       = useState<'defense' | 'name' | 'rarity'>('defense')
   const worldRef = useRef<HTMLDivElement>(null)
   const worldDimsRef = useRef({ w: CITY_COLS * CELL_PX, h: CITY_ROWS * CELL_PX })
   const fortRingRef = useRef<HTMLDivElement>(null)
@@ -1341,34 +1343,70 @@ export function CityBuilder({ onBack }: Props) {
                     <div className="city-picker-empty" style={{ padding: '12px 0' }}>
                       No defence cards available. Earn them in battles!
                     </div>
-                  ) : (
-                    <div className="city-picker-grid" style={{ maxHeight: '55vh', overflowY: 'auto' }}>
-                      {availableDefenceCards.map(card => {
-                        const cost      = FORT_PLACE_COST[card.rarity]
-                        const affordable = canAffordFortification(city, card.rarity)
-                        return (
-                          <button
-                            key={card.name}
-                            className={`city-picker-card${!affordable ? ' city-picker-card--unaffordable' : ''}`}
-                            disabled={!affordable}
-                            onClick={() => { handleAddFort(card); setFortSlotSel(null) }}
-                          >
-                            <SpriteImg name={card.name} className="city-picker-sprite" />
-                            <div className="city-picker-name">{card.name}</div>
-                            <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
-                            <div className="city-picker-income">🛡{FORT_DEFENSE[card.rarity]} · {FORT_MAX_HP[card.rarity]}HP · {FORT_MAX_ATTACKS[card.rarity]} raids</div>
-                            <div className="city-picker-income" style={{ color: '#888' }}>🔨 {FORT_MAX_HP[card.rarity]} min</div>
-                            <div className="city-picker-cost">
-                              ⚙{cost.gold.toLocaleString()}
-                              {(Object.keys(cost) as (keyof typeof cost)[])
-                                .filter(k => k !== 'gold' && (cost[k] ?? 0) > 0)
-                                .map(k => ` ${RESOURCE_ICONS[k as ResourceType]}${cost[k]}`).join('')}
-                            </div>
-                          </button>
-                        )
-                      })}
-                    </div>
-                  )}
+                  ) : (() => {
+                    const rarities = [...new Set(availableDefenceCards.map(c => c.rarity))]
+                    const RARITY_ORDER = ['common','uncommon','rare','epic','legendary','mythic','shiny','holofoil','glass']
+                    const filtered = fortFilter === 'all'
+                      ? availableDefenceCards
+                      : availableDefenceCards.filter(c => c.rarity === fortFilter)
+                    const sorted = [...filtered].sort((a, b) => {
+                      if (fortSort === 'defense') return FORT_DEFENSE[b.rarity] - FORT_DEFENSE[a.rarity]
+                      if (fortSort === 'name')    return a.name.localeCompare(b.name)
+                      return RARITY_ORDER.indexOf(a.rarity) - RARITY_ORDER.indexOf(b.rarity)
+                    })
+                    return (
+                      <>
+                        <div className="city-fort-controls">
+                          <div className="city-fort-filter">
+                            {(['all', ...rarities] as string[]).map(r => (
+                              <button key={r}
+                                className={`city-fort-filter-btn${fortFilter === r ? ' city-fort-filter-btn--active' : ''}`}
+                                onClick={() => setFortFilter(r)}>
+                                {r === 'all' ? 'All' : r}
+                              </button>
+                            ))}
+                          </div>
+                          <div className="city-fort-sort">
+                            {(['defense','name','rarity'] as const).map(s => (
+                              <button key={s}
+                                className={`city-fort-sort-btn${fortSort === s ? ' city-fort-sort-btn--active' : ''}`}
+                                onClick={() => setFortSort(s)}>
+                                {s === 'defense' ? '🛡' : s === 'name' ? 'A–Z' : '★'}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="city-picker-grid" style={{ maxHeight: '45vh', overflowY: 'auto' }}>
+                          {sorted.length === 0 ? (
+                            <div className="city-picker-empty">No cards match this filter.</div>
+                          ) : sorted.map(card => {
+                            const cost      = FORT_PLACE_COST[card.rarity]
+                            const affordable = canAffordFortification(city, card.rarity)
+                            return (
+                              <button
+                                key={card.name}
+                                className={`city-picker-card${!affordable ? ' city-picker-card--unaffordable' : ''}`}
+                                disabled={!affordable}
+                                onClick={() => { handleAddFort(card); setFortSlotSel(null) }}
+                              >
+                                <SpriteImg name={card.name} className="city-picker-sprite" />
+                                <div className="city-picker-name">{card.name}</div>
+                                <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
+                                <div className="city-picker-income">🛡{FORT_DEFENSE[card.rarity]} · {FORT_MAX_HP[card.rarity]}HP · {FORT_MAX_ATTACKS[card.rarity]} raids</div>
+                                <div className="city-picker-income" style={{ color: '#888' }}>🔨 {FORT_MAX_HP[card.rarity]} min</div>
+                                <div className="city-picker-cost">
+                                  ⚙{cost.gold.toLocaleString()}
+                                  {(Object.keys(cost) as (keyof typeof cost)[])
+                                    .filter(k => k !== 'gold' && (cost[k] ?? 0) > 0)
+                                    .map(k => ` ${RESOURCE_ICONS[k as ResourceType]}${cost[k]}`).join('')}
+                                </div>
+                              </button>
+                            )
+                          })}
+                        </div>
+                      </>
+                    )
+                  })()}
                   <button className="action-btn" onClick={() => setFortSlotSel(null)}>CLOSE</button>
                 </div>
               </div>
@@ -1735,15 +1773,22 @@ export function CityBuilder({ onBack }: Props) {
         <div className="city-req-overlay" onClick={() => setAttackReport(null)}>
           <div className="city-req-modal" onClick={e => e.stopPropagation()}>
             <div className={`city-attack-report-header city-attack-report--${attackReport.outcome}`}>
-              {attackReport.outcome === 'repelled' && '⚔ ATTACK REPELLED'}
-              {attackReport.outcome === 'partial'  && '⚔ CITY RAIDED'}
-              {attackReport.outcome === 'defeated' && '💀 CITY DEFEATED'}
+              {(attackReport.count ?? 1) > 1 && `${attackReport.count} RAIDS WHILE YOU WERE AWAY`}
+              {(attackReport.count ?? 1) === 1 && attackReport.outcome === 'repelled' && '⚔ ATTACK REPELLED'}
+              {(attackReport.count ?? 1) === 1 && attackReport.outcome === 'partial'  && '⚔ CITY RAIDED'}
+              {(attackReport.count ?? 1) === 1 && attackReport.outcome === 'defeated' && '💀 CITY DEFEATED'}
             </div>
             <div className="city-attack-report-body">
-              <div className="city-attack-stat">
-                Attacker power: <strong>{attackReport.power}</strong> vs your defence: <strong>{attackReport.defense}</strong>
-              </div>
-              {attackReport.outcome === 'repelled' && (
+              {(attackReport.count ?? 1) > 1 ? (
+                <div className="city-attack-stat">
+                  Worst outcome: <strong>{attackReport.outcome}</strong> · {attackReport.count} raids processed
+                </div>
+              ) : (
+                <div className="city-attack-stat">
+                  Attacker power: <strong>{attackReport.power}</strong> vs your defence: <strong>{attackReport.defense}</strong>
+                </div>
+              )}
+              {attackReport.outcome === 'repelled' && (attackReport.count ?? 1) === 1 && (
                 <div className="city-attack-good">Your defences held! Minor wall damage only.</div>
               )}
               {attackReport.goldEarned > 0 && (

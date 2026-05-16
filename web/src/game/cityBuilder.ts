@@ -39,8 +39,8 @@ export const LEVEL_UP_COSTS = [50000, 100000, 250000, 500000, 1000000]
 
 /** Defence value contributed by walls (per rarity). */
 const WALL_DEFENSE: Record<CardRarity, number> = { common: 5, uncommon: 10, rare: 20, epic: 30, legendary: 40, mythic: 60, shiny: 40, holofoil: 40, glass: 40 }
-/** Defence value contributed by spawn buildings (per rarity). */
-const SPAWN_DEFENSE: Record<CardRarity, number> = { common: 3, uncommon: 6, rare: 12, epic: 18, legendary: 25, mythic: 40, shiny: 25, holofoil: 25, glass: 25 }
+/** Defence value contributed by spawn buildings (per rarity) — intentionally small; fortifications carry the load. */
+const SPAWN_DEFENSE: Record<CardRarity, number> = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6, shiny: 5, holofoil: 5, glass: 5 }
 
 /** Wheat consumed per minute by a spawn building (units need feeding). */
 const FOOD_CONSUME_RATE: Record<CardRarity, number> = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6, shiny: 5, holofoil: 5, glass: 5 }
@@ -216,6 +216,7 @@ export interface AttackEvent {
   stolenGold:          number
   goldEarned:          number   // loot dropped by attacker on successful defence
   destroyedBuildings:  string[]
+  count?:              number   // set when summarising multiple missed attacks
 }
 
 export interface CityState {
@@ -454,16 +455,29 @@ function processAttack(state: CityState): CityState {
     for (const res of Object.keys(newResources) as ResourceType[]) {
       newResources[res] = Math.floor(newResources[res] * 0.65)
     }
-    // Destroy 1–2 occupied buildings
+    // Destroy 1–2 occupied buildings — always protect the last farm
+    const farmIndices = new Set(
+      newGrid.map((c, i) => ({ c, i })).filter(({ c }) => c && (getBuildingProduces(c.cardName).wheat ?? 0) > 0).map(({ i }) => i)
+    )
     const occupied = newGrid
       .map((cell, i) => ({ cell, i }))
       .filter(({ cell }) => cell != null)
     const toDestroy = Math.min(occupied.length, 1 + Math.floor(Math.random() * 2))
     const shuffled = [...occupied].sort(() => Math.random() - 0.5)
-    for (const { cell, i } of shuffled.slice(0, toDestroy)) {
+    let farmsLeft = farmIndices.size
+    for (const { cell, i } of shuffled) {
+      if (destroyedBuildings.length >= toDestroy) break
+      if (farmIndices.has(i) && farmsLeft <= 1) continue  // spare the last farm
+      if (farmIndices.has(i)) farmsLeft--
       destroyedBuildings.push(cell!.cardName)
       newGrid[i] = undefined
     }
+  }
+
+  // Mercy floor: raiders always leave at least 100 gold and 100 of each resource
+  newGold = Math.max(100, newGold)
+  for (const res of Object.keys(newResources) as ResourceType[]) {
+    newResources[res] = Math.max(100, newResources[res])
   }
 
   // Apply damage to fortifications and track attack count
@@ -608,9 +622,58 @@ export function tickCity(state: CityState): CityState {
     builderQueue:   remainingQueue,
   }
 
-  // Process attack if due (only one per tick to avoid runaway offline destruction)
-  if (now >= state.nextAttackAt) {
-    result = processAttack(result)
+  // Process any pending attacks — batch if more than one was missed while offline
+  if (now >= result.nextAttackAt) {
+    // Count how many attacks are overdue
+    let probe = result.nextAttackAt
+    let missedCount = 0
+    while (probe <= now) {
+      missedCount++
+      probe += BASE_ATTACK_INTERVAL_MS  // rough estimate for counting
+      if (missedCount > 50) break       // safety cap
+    }
+
+    if (missedCount <= 1) {
+      // Single attack — show it normally
+      result = processAttack(result)
+    } else {
+      // Multiple missed attacks — batch them and show a summary
+      let totalStolenGold = 0
+      let totalGoldEarned = 0
+      const allDestroyed: string[] = []
+      let worstOutcome: AttackEvent['outcome'] = 'repelled'
+      let lastPower = 0
+      let lastDefense = 0
+
+      for (let i = 0; i < missedCount; i++) {
+        if (result.nextAttackAt > now) break
+        result = processAttack(result)
+        const ev = result.lastAttack!
+        totalStolenGold += ev.stolenGold
+        totalGoldEarned += ev.goldEarned
+        allDestroyed.push(...ev.destroyedBuildings)
+        if (ev.outcome === 'defeated' || (ev.outcome === 'partial' && worstOutcome === 'repelled')) {
+          worstOutcome = ev.outcome
+        }
+        lastPower   = ev.power
+        lastDefense = ev.defense
+      }
+
+      // Replace lastAttack with a summary event
+      result = {
+        ...result,
+        lastAttack: {
+          at:                 now,
+          power:              lastPower,
+          defense:            lastDefense,
+          outcome:            worstOutcome,
+          stolenGold:         totalStolenGold,
+          goldEarned:         totalGoldEarned,
+          destroyedBuildings: allDestroyed,
+          count:              missedCount,
+        },
+      }
+    }
   }
 
   return result

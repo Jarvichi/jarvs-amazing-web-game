@@ -9942,6 +9942,34 @@ html.light-mode .action-btn {
 
 .city-picker-empty { text-align: center; color: #4a7a4a; font-size: 12px; margin-top: 40px; }
 
+/* Fortification sort / filter bar */
+.city-fort-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0 4px;
+  flex-wrap: wrap;
+}
+.city-fort-filter { display: flex; gap: 4px; flex-wrap: wrap; }
+.city-fort-filter-btn, .city-fort-sort-btn {
+  font-family: inherit;
+  font-size: 10px;
+  padding: 3px 7px;
+  border-radius: 3px;
+  border: 1px solid #2a4a2a;
+  background: #0d1a0d;
+  color: #6a9a6a;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+.city-fort-filter-btn--active, .city-fort-sort-btn--active {
+  background: #1a3a1a;
+  border-color: #4caf50;
+  color: #4caf50;
+}
+.city-fort-sort { display: flex; gap: 4px; }
+
 .city-picker-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -10681,6 +10709,22 @@ html.light-mode .action-btn {
 .title-minigames-btn {
   border-color: #6040a0 !important;
   color: #c090ff !important;
+}
+.title-btn--alert {
+  border-color: #f44336 !important;
+  animation: title-alert-pulse 1.2s ease-in-out infinite alternate;
+}
+@keyframes title-alert-pulse {
+  from { box-shadow: 0 0 6px rgba(244,67,54,0.4); }
+  to   { box-shadow: 0 0 16px rgba(244,67,54,0.8); }
+}
+.title-alert-badge {
+  display: block;
+  font-size: 9px;
+  color: #f44336;
+  font-weight: bold;
+  letter-spacing: 1px;
+  animation: title-alert-pulse 1.2s ease-in-out infinite alternate;
 }
 
 /* ── Toast ───────────────────────────────────────────────────────────────── */

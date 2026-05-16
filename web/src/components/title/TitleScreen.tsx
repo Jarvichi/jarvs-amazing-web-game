@@ -70,6 +70,19 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   const bestStreak          = loadBestStreak()
   const dailyChallenge      = getDailyChallengeState()
 
+  // City attack alert — read directly from localStorage so App.tsx doesn't need changing
+  const cityAttackAlert = (() => {
+    try {
+      const raw = localStorage.getItem('jarv_city_builder')
+      if (!raw) return false
+      const parsed = JSON.parse(raw) as { nextAttackAt?: number; lastAttack?: { outcome?: string } }
+      const now = Date.now()
+      const overdue = (parsed.nextAttackAt ?? Infinity) <= now
+      const recentDefeat = parsed.lastAttack?.outcome === 'defeated' || parsed.lastAttack?.outcome === 'partial'
+      return overdue || recentDefeat
+    } catch { return false }
+  })()
+
   const logoClickCount = useRef(0)
   const logoClickTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [logoFlash, setLogoFlash] = useState(false)
@@ -223,8 +236,8 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           ⚔  TRAINING MODE
         </TitleButton>
 
-        <TitleButton onClick={onMiniGames} extraClass="title-minigames-btn">
-          🎮  MINI GAMES
+        <TitleButton onClick={onMiniGames} extraClass={`title-minigames-btn${cityAttackAlert ? ' title-btn--alert' : ''}`}>
+          🎮  MINI GAMES{cityAttackAlert && <span className="title-alert-badge">⚔ CITY ALERT</span>}
         </TitleButton>
       </div>
 
