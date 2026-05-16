@@ -1893,6 +1893,7 @@ body {
 .shop-card-name { font-size: var(--font-md); color: var(--game-text-color); text-align: center; }
 .shop-card-buy-btn { position: relative; font-size: var(--font-md); }
 .shop-card-buy-btn--poor { opacity: 0.45; cursor: not-allowed; }
+.shop-consumable-buy-btn { position: relative; }
 .shop-purchased { font-size: var(--font-xxs); color: #33cc66; letter-spacing: 2px; }
 .shop-discount-badge {
   position: absolute;
