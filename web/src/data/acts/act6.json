@@ -39,6 +39,245 @@
   "startNodeIds": [
     "cloudbreach"
   ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, technically, airborne by association.",
+      "Now, effectively, the ground-based problem the Sky Dominion forgot to account for.",
+      "Now, professionally speaking, operating outside intended parameters.",
+      "Now, in the tactical sense, at an elevation disadvantage everyone keeps mentioning.",
+      "Now — by most measures — the only person in this shard who arrived by climbing."
+    ],
+    "jarvIntros": [
+      "You have a deck of cards, no wings, and a history of winning fights where the terrain was supposed to be the deciding factor.",
+      "You have a deck of cards, a healthy disregard for the concept of the high ground, and the particular stubbornness of someone who has been told this won't work before.",
+      "You have a deck of cards, an increasingly detailed mental map of the Sky Dominion's patrol routes, and the growing sense that the Cloudmarshal has been briefed about you.",
+      "You have a deck of cards, altitude sickness, and the hardheaded certainty that being wrong about someone without wings has happened to better generals than her.",
+      "You have a deck of cards. You have always had a deck of cards. The Cloudmarshal is learning what that means."
+    ],
+    "dominionDesc": [
+      "The Sky Dominion exists on drifting islands — chunks of terrain that broke loose during the Fracture and simply refused to come back down.",
+      "The Sky Dominion smells like ozone and old stone and the particular anxiety of a military operation that has run unchallenged for too long.",
+      "The Sky Dominion drifts above the cloud line, its rope-bridges and siege platforms and anti-air weaponry pointed at everything that moves.",
+      "The ley lines rise through the clouds here. The Sky Dominion has built its entire doctrine around the assumption that anything worth fighting is beneath them."
+    ],
+    "marshalDesc": [
+      "Command belongs to the Cloudmarshal — a general who has never lost a battle because, practically speaking, her armies have always had the high ground.\n\nShe does not consider a tactician without wings a credible threat. You are going to prove her wrong.",
+      "The Cloudmarshal holds every aerial pathway closed. She is methodical, experienced, and completely certain that altitude is destiny.\n\nYou've found certainty like that makes people predictable.",
+      "The Cloudmarshal commands the Sky Dominion with the calm precision of someone who has never once had to reconsider a strategy.\n\nYou are about to give her that opportunity.",
+      "The Cloudmarshal waits at the upper platforms. She has been told you're coming. She has been told this, apparently, several times now, and her briefings have become increasingly specific."
+    ],
+    "priorRunSummaries": [
+      "The clouds felt familiar — the particular weight of the air up here, the way sound carried differently above the treeline. Like a place you'd been to in a dream that was trying very hard to be remembered.",
+      "The first island was wrong. Not visually wrong — wrong the way a route feels wrong when you've taken it before and know it doesn't end well.",
+      "Something about the patrol formation on the bridge platform. The exact spacing of it. You adjusted your approach accordingly, which meant you'd adjusted it before.",
+      "The rope-bridge to the upper tier was already swaying when you arrived. As though someone had crossed it recently. As though you had crossed it recently."
+    ],
+    "priorRunOpenings": [
+      "You'd been here. Your hands knew the footing on the first platform before your eyes confirmed it.",
+      "The Stormhawk rider at the outer perimeter didn't engage immediately. She looked at you for a long moment first. Then engaged.",
+      "The Cloudmarshal's opening volley was aimed slightly differently this time. She'd adjusted. You'd made her adjust.",
+      "The wind was blowing in the wrong direction when you arrived. You took it as a sign. Of what, exactly, you weren't prepared to say."
+    ],
+    "milestoneOpenings5": [
+      "The fifth time through the Sky Dominion, the outer patrol has started forming up before you reach them. They've learned your pace.",
+      "Fifth run. The Stormhawk riders at the lower platform are wearing slightly more armour than last time. You take that as a compliment."
+    ],
+    "milestoneOpenings10": [
+      "Ten campaigns. The Cloudmarshal has updated her briefing on you. You know this because the patrols have changed. Someone did the work.",
+      "The tenth time through the Sky Dominion, you notice they've reinforced the rope-bridge to the upper tier. Specifically. Because of you."
+    ],
+    "milestoneOpenings25": [
+      "Twenty-five campaigns. The Sky Dominion no longer sounds the general alarm when you arrive. They've moved past alarm into something more like grim resignation.",
+      "After twenty-five runs, the Cloudmarshal meets you at the lower platform instead of the summit. She's stopped waiting in the command position. She's starting to understand the dynamic."
+    ],
+    "milestoneOpenings50": [
+      "The fiftieth time through the Sky Dominion. The islands have drifted slightly. The Cloudmarshal has rerouted her patrol lines. You follow the new ones without thinking, which means you've learned them before.",
+      "Fifty campaigns. The outer sentinels stand aside when they see your silhouette approaching through the clouds. Not in welcome. In the way of people who have been through this enough times to know that standing aside is correct."
+    ],
+    "milestoneOpenings100": [
+      "The Cloudmarshal is waiting at the lower platform. Not in battle formation. Just waiting.\n\n'A hundred approaches,' she says. Her voice is flat. Controlled. The voice of a general processing a tactical reality she cannot explain.\n\n'I have read every debrief. I have reviewed every engagement. I have updated the doctrine four times.' A pause. The wind pulls at her coat.\n\n'You are still here. I am still losing. I have decided to stop calling that a surprise and start calling it data.'\n\nShe steps aside.\n\n'Go,' she says. 'I'll have the upper platforms cleared.'"
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} time through the Sky Dominion. The Cloudmarshal has pre-positioned her reserves before you even reach the lower platforms.",
+    "Campaign {n}. The rope-bridges have been reinforced again. Someone submitted a requisition specifically referencing you.",
+    "{n} campaigns in. The Stormhawk riders at the outer perimeter have started placing bets. You are consistently profitable for whoever bets against the house.",
+    "{n} times you've climbed up through the clouds. The sky itself seems to expect you now.",
+    "Run {n}. You arrive at altitude and find the first patrol already in position. They've stopped being surprised by your timing.",
+    "The {ordinalLower} attempt. The air tastes the same. The drop on either side of the first bridge is exactly as far as it's always been.",
+    "{n} campaigns. The Cloudmarshal's briefing on you is longer than her briefing on any war she has ever actually fought."
+  ],
+  "introRules": [
+    {
+      "condition": { "op": "gte", "value": 100 },
+      "panels": [
+        {
+          "title": "THE MARSHAL KNOWS",
+          "text": "{pool:milestoneOpenings100:0}"
+        },
+        {
+          "title": "THE SKY DOMINION",
+          "text": "{pool:dominionDesc:3}\n\n{pool:marshalDesc:2}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 51, "max": 99 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE SKY DOMINION",
+          "text": "{pool:dominionDesc:2}\n\n{pool:marshalDesc:1}"
+        },
+        {
+          "title": "THE LEY BRIDGE",
+          "text": "Break through. Reach the Cloudmarshal. Defeat her.\n\nYou know the way. You always know the way."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 50 },
+      "panels": [
+        {
+          "title": "FIFTY CAMPAIGNS",
+          "text": "{pool:milestoneOpenings50:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE SKY DOMINION",
+          "text": "{pool:dominionDesc:2}\n\n{pool:marshalDesc:1}"
+        },
+        {
+          "title": "THE LEY BRIDGE",
+          "text": "Break through. Reach the Cloudmarshal. Defeat her.\n\nYou know the way. You always know the way."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 26, "max": 49 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE SKY DOMINION",
+          "text": "{pool:dominionDesc:1}\n\n{pool:marshalDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 25 },
+      "panels": [
+        {
+          "title": "TWENTY-FIVE",
+          "text": "{pool:milestoneOpenings25:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE SKY DOMINION",
+          "text": "{pool:dominionDesc:1}\n\n{pool:marshalDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 11, "max": 24 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE SKY DOMINION",
+          "text": "{pool:dominionDesc:0}\n\n{pool:marshalDesc:0}"
+        },
+        {
+          "title": "THE LEY BRIDGE",
+          "text": "Break through the shard. Reach the Cloudmarshal.\n\nYou know how this goes. You've always known how this goes."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 10 },
+      "panels": [
+        {
+          "title": "THE TENTH TIME",
+          "text": "{pool:milestoneOpenings10:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE SKY DOMINION",
+          "text": "{pool:dominionDesc:0}\n\n{pool:marshalDesc:0}"
+        },
+        {
+          "title": "THE LEY BRIDGE",
+          "text": "Break through the shard. Reach the Cloudmarshal.\n\nYou know how this goes. You've always known how this goes."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 5, "max": 9 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{pool:milestoneOpenings5:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE SKY DOMINION",
+          "text": "{pool:dominionDesc:0}\n\n{pool:marshalDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 2, "max": 4 },
+      "panels": [
+        {
+          "title": "THE SKY DOMINION",
+          "text": "You've climbed out of the sea and into the air — again.\n\n{pool:priorRunSummaries:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE CLOUDMARSHAL",
+          "text": "{pool:marshalDesc:0}"
+        },
+        {
+          "title": "A FEELING",
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+        }
+      ]
+    }
+  ],
   "intro": [
     {
       "title": "THE SKY DOMINION",
