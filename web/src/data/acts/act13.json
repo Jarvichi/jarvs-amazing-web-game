@@ -96,7 +96,7 @@
       "Fifty campaigns. The Gear Sentinels at the entrance stand aside when you arrive. The Automaton has calculated that the opening engagement is no longer cost-effective and has reallocated those resources elsewhere. You choose not to think too hard about where."
     ],
     "milestoneOpenings100": [
-      "The Grand Automaton stops all non-essential processes.\n\nEvery gear in the Vault winds to a halt simultaneously. The silence is enormous.\n\nThen one gear moves. Just one. A single, deliberate turn.\n\n'One hundred iterations,' it says. Its voice is the sound of gears finding the exact correct positions. 'I have run four thousand, two hundred and twelve simulations. I have found the optimal solution to every variable in this facility.'\n\nA pause. The single gear turns again.\n\n'I have not found the optimal solution to you.' Another gear engages. Then another. The Vault begins to move. 'I have determined that this is because you are not a variable that optimises. You are a variable that persists.'\n\nThe entrance mechanism opens.\n\n'The drive core is accessible. I have cleared a path.' The gears are at full speed now. 'I am updating my operating parameters. You are no longer classified as a fault condition.'\n\nA beat.\n\n'You are classified as a feature.'"
+      "The Grand Automaton stops all non-essential processes.\n\nEvery gear in the Vault winds to a halt simultaneously. The silence is enormous.\n\nThen one gear moves. Just one. A single, deliberate turn.\n\n'One hundred iterations,' it says. Its voice is the sound of gears finding the exact correct positions. 'I have run four thousand, two hundred and twelve simulations. I have found the optimal solution to every variable in this facility.'\n\nA pause. The single gear turns again.\n\n'I have not found the optimal solution to you.' Another gear engages. Then another. The Vault begins to move. 'I have determined that this is because you are not a variable that optimises. You are a variable that persists.'\n\nThe entrance mechanism opens.\n\n'The drive core is accessible. I have cleared a path.' The gears are at full speed now. 'I am updating my operating parameters. You are no longer classified as a fault condition.'\n\nA beat.\n\n'You are no longer classified as a fault. You are classified as a feature.'"
     ]
   },
   "midRunTemplates": [
@@ -110,7 +110,10 @@
   ],
   "introRules": [
     {
-      "condition": { "op": "gte", "value": 100 },
+      "condition": {
+        "op": "gte",
+        "value": 100
+      },
       "panels": [
         {
           "title": "THE AUTOMATON RECLASSIFIES",
@@ -123,7 +126,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 51, "max": 99 },
+      "condition": {
+        "op": "range",
+        "min": 51,
+        "max": 99
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -144,7 +151,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 50 },
+      "condition": {
+        "op": "eq",
+        "value": 50
+      },
       "panels": [
         {
           "title": "FIFTY CAMPAIGNS",
@@ -165,7 +175,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 26, "max": 49 },
+      "condition": {
+        "op": "range",
+        "min": 26,
+        "max": 49
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -182,7 +196,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 25 },
+      "condition": {
+        "op": "eq",
+        "value": 25
+      },
       "panels": [
         {
           "title": "TWENTY-FIVE",
@@ -199,7 +216,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 11, "max": 24 },
+      "condition": {
+        "op": "range",
+        "min": 11,
+        "max": 24
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -220,7 +241,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 10 },
+      "condition": {
+        "op": "eq",
+        "value": 10
+      },
       "panels": [
         {
           "title": "THE TENTH TIME",
@@ -241,7 +265,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 5, "max": 9 },
+      "condition": {
+        "op": "range",
+        "min": 5,
+        "max": 9
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -258,7 +286,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 2, "max": 4 },
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 4
+      },
       "panels": [
         {
           "title": "THE CLOCKWORK VAULTS",
