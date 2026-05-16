@@ -17,12 +17,14 @@ function isMonochromeMode(): boolean {
 }
 
 /** Draws src onto a tiny canvas and subscribes to 8-bit mode changes. */
-function EightbitCanvas({ src, alt, className }: { src: string; alt: string; className?: string }) {
+function EightbitCanvas({ src, alt, className, onError }: { src: string; alt: string; className?: string; onError?: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
+    let cancelled = false
     const img = new window.Image()
     img.onload = () => {
+      if (cancelled) return
       const canvas = canvasRef.current
       if (!canvas) return
       const ctx = canvas.getContext('2d')
@@ -31,8 +33,10 @@ function EightbitCanvas({ src, alt, className }: { src: string; alt: string; cla
       ctx.clearRect(0, 0, EIGHTBIT_PX, EIGHTBIT_PX)
       ctx.drawImage(img, 0, 0, EIGHTBIT_PX, EIGHTBIT_PX)
     }
+    img.onerror = () => { if (!cancelled) onError?.() }
     img.src = src
-  }, [src])
+    return () => { cancelled = true }
+  }, [src, onError])
 
   return (
     <canvas
@@ -46,7 +50,7 @@ function EightbitCanvas({ src, alt, className }: { src: string; alt: string; cla
 }
 
 /** Draws src onto a black and white canvas. */
-function MonochromeCanvas({ src, alt, className }: { src: string; alt: string; className?: string }) {
+function MonochromeCanvas({ src, alt, className, onError }: { src: string; alt: string; className?: string; onError?: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -68,9 +72,10 @@ function MonochromeCanvas({ src, alt, className }: { src: string; alt: string; c
       }
       ctx.putImageData(imageData, 0, 0)
     }
+    img.onerror = () => { if (!cancelled) onError?.() }
     img.src = src
     return () => { cancelled = true }
-  }, [src])
+  }, [src, onError])
 
   return <canvas ref={canvasRef} className={className} aria-label={alt} />
 }
@@ -191,11 +196,16 @@ export function AnimatedSpriteImg({ name, frameCount, fps, className }: Animated
 
   const src = `${BASE}sprites/${slug}-${frame}.svg`
 
+  const handleFrameError = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    setUseFallback(true)
+  }
+
   if (eightbit) {
-    return <EightbitCanvas src={src} alt={name} className={className} />
+    return <EightbitCanvas src={src} alt={name} className={className} onError={handleFrameError} />
   }
   if (monochrome) {
-    return <MonochromeCanvas src={src} alt={name} className={className} />
+    return <MonochromeCanvas src={src} alt={name} className={className} onError={handleFrameError} />
   }
 
 
