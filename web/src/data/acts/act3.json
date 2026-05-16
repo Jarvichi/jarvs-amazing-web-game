@@ -899,6 +899,10 @@
         "Iron Skin",
         "Rally"
       ],
+      "bossIntro": [
+        {"title": "THE ASHEN WASTES", "image": "cutscenes/act3-boss-1.svg", "text": "The Fracture burned through the Wastes three years ago and left them like this — a grey expanse of fallen cities and cold ash drifts. Nothing lives here. Nothing has left, either."},
+        {"title": "THE ASHWALKER", "image": "cutscenes/act3-boss-2.svg", "text": "The Ashwalker was not summoned. It was not created. It is what the Wastes became after they forgot how to be empty — a cold patience given hollow eyes and the memory of purpose."}
+      ],
       "bossDialogue": [
         "\"You carry the warmth of the living. I remember what that felt like.\"",
         "\"The Wastes take everything eventually. I am simply the mechanism.\"",

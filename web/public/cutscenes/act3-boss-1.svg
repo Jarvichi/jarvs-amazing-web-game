@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#080a08"/>
+  <linearGradient id="ash-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0a0c0a"/>
+    <stop offset="50%" stop-color="#0e100c"/>
+    <stop offset="100%" stop-color="#141410"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#ash-sky)"/>
+
+  <!-- Ashen glow — pale, cold light diffused through soot -->
+  <radialGradient id="ash-glow" cx="50%" cy="40%" r="55%">
+    <stop offset="0%" stop-color="#282820" stop-opacity="0.3"/>
+    <stop offset="60%" stop-color="#181810" stop-opacity="0.12"/>
+    <stop offset="100%" stop-color="#181810" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#ash-glow)"/>
+
+  <!-- Distant smouldering horizon — dull orange seam -->
+  <linearGradient id="horizon-glow" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%"   stop-color="#301808" stop-opacity="0"/>
+    <stop offset="20%"  stop-color="#402010" stop-opacity="0.3"/>
+    <stop offset="50%"  stop-color="#503018" stop-opacity="0.45"/>
+    <stop offset="80%"  stop-color="#402010" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#301808" stop-opacity="0"/>
+  </linearGradient>
+  <rect x="0" y="108" width="400" height="8" fill="url(#horizon-glow)"/>
+
+  <!-- Ash clouds — heavy, oppressive -->
+  <g fill="#0e100c" opacity="0.7">
+    <ellipse cx="60"  cy="35" rx="80" ry="22"/>
+    <ellipse cx="200" cy="20" rx="100" ry="18"/>
+    <ellipse cx="340" cy="38" rx="75" ry="20"/>
+    <ellipse cx="130" cy="55" rx="60" ry="14"/>
+    <ellipse cx="280" cy="50" rx="65" ry="15"/>
+  </g>
+  <!-- Ash cloud inner darker mass -->
+  <g fill="#080a08" opacity="0.5">
+    <ellipse cx="200" cy="18" rx="70" ry="12"/>
+    <ellipse cx="80"  cy="32" rx="50" ry="12"/>
+    <ellipse cx="330" cy="36" rx="55" ry="12"/>
+  </g>
+
+  <!-- Fallen dead city — ruined facades across mid-ground -->
+  <!-- Left ruin cluster -->
+  <g fill="#0a0c0a" stroke="#10120e" stroke-width="0.8">
+    <rect x="20"  y="100" width="28" height="75"/>
+    <rect x="52"  y="115" width="20" height="60"/>
+    <rect x="75"  y="95"  width="24" height="80"/>
+  </g>
+  <!-- Collapsed roof angles -->
+  <polygon points="20,100 48,100 40,90" fill="#0c0e0a" stroke="#10120e" stroke-width="0.5"/>
+  <polygon points="75,95  99,95  92,85" fill="#0c0e0a" stroke="#10120e" stroke-width="0.5"/>
+  <!-- Ruined windows — dark voids -->
+  <g fill="#060806" opacity="0.8">
+    <rect x="26" y="108" width="8" height="10"/>
+    <rect x="38" y="108" width="8" height="10"/>
+    <rect x="26" y="128" width="8" height="10"/>
+    <rect x="80" y="105" width="7"  height="10"/>
+    <rect x="90" y="105" width="7"  height="10"/>
+  </g>
+
+  <!-- Right ruin cluster -->
+  <g fill="#0a0c0a" stroke="#10120e" stroke-width="0.8">
+    <rect x="300" y="105" width="22" height="70"/>
+    <rect x="326" y="95"  width="30" height="80"/>
+    <rect x="358" y="112" width="22" height="63"/>
+  </g>
+  <polygon points="326,95 356,95 348,85" fill="#0c0e0a" stroke="#10120e" stroke-width="0.5"/>
+  <g fill="#060806" opacity="0.8">
+    <rect x="332" y="103" width="8" height="10"/>
+    <rect x="344" y="103" width="8" height="10"/>
+    <rect x="332" y="123" width="8" height="10"/>
+  </g>
+
+  <!-- Central ruined archway -->
+  <path d="M150,175 L150,130 Q150,112 175,112 Q200,108 225,112 Q250,112 250,130 L250,175" fill="#0a0c0a" stroke="#141410" stroke-width="1.5"/>
+  <!-- Arch keystone cracks -->
+  <g stroke="#0e100c" stroke-width="0.8" fill="none" opacity="0.6">
+    <path d="M200,110 L202,118 L199,126"/>
+    <path d="M200,110 L196,120"/>
+  </g>
+  <!-- Arch interior — absolute dark -->
+  <rect x="155" y="132" width="90" height="43" fill="#060808"/>
+
+  <!-- Fallen columns -->
+  <g fill="#0c0e0a" stroke="#12140e" stroke-width="1" opacity="0.8">
+    <rect x="108" y="155" width="28" height="8" rx="2"/>
+    <rect x="100" y="163" width="24" height="8" rx="2"/>
+    <rect x="270" y="152" width="28" height="8" rx="2"/>
+    <rect x="275" y="160" width="22" height="8" rx="2"/>
+  </g>
+
+  <!-- Ash floor — grey drifts -->
+  <rect x="0" y="175" width="400" height="65" fill="#0c0e0c"/>
+  <!-- Ash texture -->
+  <g fill="#101210" opacity="0.4">
+    <ellipse cx="80"  cy="185" rx="40" ry="5"/>
+    <ellipse cx="200" cy="188" rx="60" ry="6"/>
+    <ellipse cx="320" cy="184" rx="45" ry="5"/>
+    <ellipse cx="150" cy="210" rx="35" ry="4"/>
+    <ellipse cx="270" cy="208" rx="38" ry="4"/>
+  </g>
+
+  <!-- Ash motes drifting upward — sparse dots -->
+  <g fill="#282820" opacity="0.3">
+    <circle cx="90"  cy="140" r="1.2"/>
+    <circle cx="135" cy="120" r="0.8"/>
+    <circle cx="180" cy="95"  r="1"/>
+    <circle cx="220" cy="108" r="0.8"/>
+    <circle cx="265" cy="125" r="1.2"/>
+    <circle cx="310" cy="98"  r="0.8"/>
+    <circle cx="350" cy="140" r="1"/>
+    <circle cx="60"  cy="160" r="0.9"/>
+    <circle cx="340" cy="162" r="0.9"/>
+  </g>
+
+  <!-- Distant bone cairns — markers -->
+  <g fill="#141412" stroke="#1c1c18" stroke-width="0.5" opacity="0.6">
+    <polygon points="120,175 127,155 134,175"/>
+    <polygon points="268,175 275,158 282,175"/>
+    <polygon points="58,175  63,162  68,175"/>
+    <polygon points="338,175 343,162 348,175"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-ash" cx="50%" cy="50%" r="68%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.62"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-ash)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#222018" text-anchor="middle" letter-spacing="3">THE ASHEN WASTES</text>
+</svg>
