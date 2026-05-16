@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#100c06"/>
+  <linearGradient id="sand-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#120e08"/>
+    <stop offset="40%" stop-color="#180e06"/>
+    <stop offset="100%" stop-color="#201408"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#sand-sky)"/>
+
+  <!-- Desert heat glow — warm amber baking upward -->
+  <radialGradient id="sand-glow" cx="50%" cy="68%" r="60%">
+    <stop offset="0%" stop-color="#704818" stop-opacity="0.45"/>
+    <stop offset="50%" stop-color="#483010" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#483010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#sand-glow)"/>
+
+  <!-- Stars in the desert sky — sparse, clear night -->
+  <g fill="#c0a060" opacity="0.25">
+    <circle cx="42"  cy="18" r="0.8"/>
+    <circle cx="88"  cy="28" r="1"/>
+    <circle cx="135" cy="12" r="0.8"/>
+    <circle cx="178" cy="22" r="0.7"/>
+    <circle cx="220" cy="8"  r="1"/>
+    <circle cx="258" cy="20" r="0.8"/>
+    <circle cx="305" cy="14" r="0.8"/>
+    <circle cx="355" cy="25" r="0.7"/>
+    <circle cx="390" cy="10" r="0.8"/>
+    <circle cx="68"  cy="45" r="0.7"/>
+    <circle cx="330" cy="40" r="0.7"/>
+  </g>
+
+  <!-- THE SAND MARKET — vast mercantile citadel -->
+  <!-- Distant sand dunes horizon -->
+  <path d="M0,115 Q50,100 120,108 Q180,95 240,105 Q300,92 380,102 L400,110 L400,240 L0,240 Z" fill="#1a1008"/>
+  <!-- Dune highlight ridge -->
+  <path d="M0,115 Q50,100 120,108 Q180,95 240,105 Q300,92 380,102 L400,110" stroke="#281808" stroke-width="1" fill="none" opacity="0.5"/>
+
+  <!-- Market towers — left cluster -->
+  <g fill="#141008" stroke="#201408" stroke-width="1">
+    <rect x="30"  y="88" width="28" height="87"/>
+    <rect x="62"  y="100" width="22" height="75"/>
+    <rect x="18"  y="105" width="18" height="70"/>
+  </g>
+  <!-- Left tower domes / tops -->
+  <ellipse cx="44"  cy="86" rx="16" ry="7" fill="#181208" stroke="#241808" stroke-width="0.8"/>
+  <ellipse cx="73"  cy="98" rx="12" ry="6" fill="#181208" stroke="#241808" stroke-width="0.8"/>
+  <!-- Left tower lantern glow -->
+  <g fill="#906020" opacity="0.35">
+    <circle cx="44" cy="85" r="5"/>
+    <circle cx="73" cy="97" r="4"/>
+  </g>
+  <!-- Left tower windows -->
+  <g fill="#806030" opacity="0.4">
+    <rect x="38"  y="100" width="6" height="9" rx="2"/>
+    <rect x="48"  y="100" width="6" height="9" rx="2"/>
+    <rect x="38"  y="118" width="6" height="9" rx="2"/>
+    <rect x="65"  y="112" width="5" height="8" rx="2"/>
+  </g>
+
+  <!-- Market towers — right cluster -->
+  <g fill="#141008" stroke="#201408" stroke-width="1">
+    <rect x="350" y="90" width="28" height="85"/>
+    <rect x="316" y="102" width="22" height="73"/>
+    <rect x="362" y="108" width="18" height="67"/>
+  </g>
+  <ellipse cx="364" cy="88" rx="16" ry="7" fill="#181208" stroke="#241808" stroke-width="0.8"/>
+  <ellipse cx="327" cy="100" rx="12" ry="6" fill="#181208" stroke="#241808" stroke-width="0.8"/>
+  <g fill="#906020" opacity="0.35">
+    <circle cx="364" cy="87" r="5"/>
+    <circle cx="327" cy="99" r="4"/>
+  </g>
+  <g fill="#806030" opacity="0.4">
+    <rect x="358" y="102" width="6" height="9" rx="2"/>
+    <rect x="368" y="102" width="6" height="9" rx="2"/>
+    <rect x="358" y="120" width="6" height="9" rx="2"/>
+    <rect x="320" y="114" width="5" height="8" rx="2"/>
+  </g>
+
+  <!-- Central SAND MARKET entrance — grand, ornate -->
+  <!-- Market gate towers -->
+  <rect x="142" y="70" width="36" height="105" fill="#151008" stroke="#221608" stroke-width="1.5"/>
+  <rect x="222" y="70" width="36" height="105" fill="#151008" stroke="#221608" stroke-width="1.5"/>
+  <!-- Tower domes -->
+  <ellipse cx="160" cy="68" rx="20" ry="10" fill="#1a1208" stroke="#282008" stroke-width="1"/>
+  <ellipse cx="240" cy="68" rx="20" ry="10" fill="#1a1208" stroke="#282008" stroke-width="1"/>
+  <!-- Dome finials -->
+  <line x1="160" y1="52" x2="160" y2="64" stroke="#281808" stroke-width="2"/>
+  <polygon points="156,52 164,52 160,44" fill="#201408"/>
+  <line x1="240" y1="52" x2="240" y2="64" stroke="#281808" stroke-width="2"/>
+  <polygon points="236,52 244,52 240,44" fill="#201408"/>
+  <!-- Dome lantern glows -->
+  <radialGradient id="dome-l" cx="50%" cy="60%" r="60%">
+    <stop offset="0%" stop-color="#c08030" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#c08030" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="160" cy="67" rx="15" ry="8" fill="url(#dome-l)"/>
+  <ellipse cx="240" cy="67" rx="15" ry="8" fill="url(#dome-l)"/>
+  <!-- Gate tower windows -->
+  <g fill="#c08030" opacity="0.35">
+    <rect x="150" y="82"  width="8" height="14" rx="2"/>
+    <rect x="163" y="82"  width="8" height="14" rx="2"/>
+    <rect x="150" y="105" width="8" height="14" rx="2"/>
+    <rect x="163" y="105" width="8" height="14" rx="2"/>
+    <rect x="230" y="82"  width="8" height="14" rx="2"/>
+    <rect x="243" y="82"  width="8" height="14" rx="2"/>
+    <rect x="230" y="105" width="8" height="14" rx="2"/>
+    <rect x="243" y="105" width="8" height="14" rx="2"/>
+  </g>
+
+  <!-- Grand gate arch -->
+  <path d="M178,175 L178,118 Q178,100 200,97 Q222,100 222,118 L222,175" fill="#0e0c06" stroke="#1e1608" stroke-width="2"/>
+  <!-- Arch decorative border -->
+  <path d="M180,120 Q180,104 200,101 Q220,104 220,120" stroke="#302010" stroke-width="1.5" fill="none" opacity="0.7"/>
+  <!-- Gate light beyond arch -->
+  <radialGradient id="gate-sand" cx="50%" cy="75%" r="40%">
+    <stop offset="0%" stop-color="#c08020" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#c08020" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="178" y="97" width="44" height="78" fill="url(#gate-sand)"/>
+  <!-- Gate market banner -->
+  <rect x="188" y="90" width="24" height="14" rx="1" fill="#1e1408" stroke="#2c2010" stroke-width="0.8"/>
+  <!-- Banner gold accent -->
+  <path d="M191,93 L197,90 L200,96 L203,90 L209,93" stroke="#806020" stroke-width="0.8" fill="none" opacity="0.6"/>
+
+  <!-- Market stalls in foreground -->
+  <!-- Left stall canopy -->
+  <path d="M95,175 L95,155 L145,155 L145,175" fill="#120e06" stroke="#1e1608" stroke-width="1"/>
+  <path d="M92,158 L148,158" stroke="#201808" stroke-width="2" opacity="0.8"/>
+  <!-- Stall goods piles (silhouette) -->
+  <g fill="#0e0c06" opacity="0.7">
+    <ellipse cx="105" cy="175" rx="8"  ry="5"/>
+    <ellipse cx="125" cy="175" rx="10" ry="4"/>
+    <ellipse cx="140" cy="175" rx="6"  ry="4"/>
+  </g>
+  <!-- Right stall canopy -->
+  <path d="M255,175 L255,155 L305,155 L305,175" fill="#120e06" stroke="#1e1608" stroke-width="1"/>
+  <path d="M252,158 L308,158" stroke="#201808" stroke-width="2" opacity="0.8"/>
+  <g fill="#0e0c06" opacity="0.7">
+    <ellipse cx="265" cy="175" rx="8"  ry="5"/>
+    <ellipse cx="280" cy="175" rx="10" ry="4"/>
+    <ellipse cx="298" cy="175" rx="6"  ry="4"/>
+  </g>
+
+  <!-- Sand ground — drifted -->
+  <rect x="0" y="175" width="400" height="65" fill="#181008"/>
+  <g fill="#201408" opacity="0.4">
+    <ellipse cx="80"  cy="185" rx="55" ry="6"/>
+    <ellipse cx="220" cy="190" rx="70" ry="7"/>
+    <ellipse cx="340" cy="183" rx="50" ry="6"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-sm" cx="50%" cy="50%" r="68%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.65"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-sm)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#281808" text-anchor="middle" letter-spacing="3">THE SAND MARKET</text>
+</svg>
