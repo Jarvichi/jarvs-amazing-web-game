@@ -6,19 +6,21 @@
   </linearGradient>
   <rect width="400" height="240" fill="url(#path-sky)"/>
 
-  <!-- Ancient forest warmth — enclosed, breathing -->
+  <!-- Ancient forest warmth — breathing -->
   <radialGradient id="path-glow" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#142a08" stop-opacity="0.4"/>
+    <stop offset="0%" stop-color="#142a08" stop-opacity="0.4">
+      <animate attributeName="stop-opacity" values="0.4;0.65;0.4" dur="7s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#142a08" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#path-glow)"/>
 
-  <!-- Dense tree walls — left and right -->
+  <!-- Dense tree walls -->
   <g fill="#050c02" stroke="#0a1404" stroke-width="1">
     <rect x="0"   y="0" width="75" height="240"/>
     <rect x="325" y="0" width="75" height="240"/>
   </g>
-  <!-- Tree wall texture — bark lines -->
+  <!-- Bark lines -->
   <g stroke="#081204" stroke-width="0.6" fill="none" opacity="0.4">
     <line x1="20" y1="0" x2="18" y2="240"/>
     <line x1="40" y1="0" x2="42" y2="240"/>
@@ -27,30 +29,38 @@
     <line x1="360" y1="0" x2="358" y2="240"/>
     <line x1="380" y1="0" x2="382" y2="240"/>
   </g>
-  <!-- Bioluminescent moss patches on walls -->
-  <g fill="#20c040" opacity="0.18">
-    <ellipse cx="30"  cy="80"  rx="15" ry="6"/>
-    <ellipse cx="50"  cy="140" rx="12" ry="5"/>
-    <ellipse cx="25"  cy="190" rx="14" ry="5"/>
-    <ellipse cx="370" cy="90"  rx="15" ry="6"/>
-    <ellipse cx="350" cy="145" rx="12" ry="5"/>
-    <ellipse cx="375" cy="195" rx="14" ry="5"/>
-  </g>
+  <!-- Bioluminescent moss patches — staggered -->
+  <ellipse cx="30"  cy="80"  rx="15" ry="6" fill="#20c040" opacity="0.18">
+    <animate attributeName="opacity" values="0.18;0.4;0.18" dur="5s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="50"  cy="140" rx="12" ry="5" fill="#20c040" opacity="0.18">
+    <animate attributeName="opacity" values="0.18;0.4;0.18" dur="5s" begin="1.2s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="25"  cy="190" rx="14" ry="5" fill="#20c040" opacity="0.18">
+    <animate attributeName="opacity" values="0.18;0.4;0.18" dur="5s" begin="2.4s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="370" cy="90"  rx="15" ry="6" fill="#20c040" opacity="0.18">
+    <animate attributeName="opacity" values="0.18;0.4;0.18" dur="5s" begin="0.6s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="350" cy="145" rx="12" ry="5" fill="#20c040" opacity="0.18">
+    <animate attributeName="opacity" values="0.18;0.4;0.18" dur="5s" begin="1.8s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="375" cy="195" rx="14" ry="5" fill="#20c040" opacity="0.18">
+    <animate attributeName="opacity" values="0.18;0.4;0.18" dur="5s" begin="3s" repeatCount="indefinite"/>
+  </ellipse>
 
-  <!-- Canopy ceiling — thick interlocked branches -->
+  <!-- Canopy ceiling -->
   <polygon points="0,0 400,0 400,62 370,50 335,65 300,48 265,62 230,44 200,58 170,42 135,60 100,46 65,62 30,48 0,58" fill="#050c02"/>
-  <!-- Canopy layer -->
   <g fill="#060e03" opacity="0.7">
     <ellipse cx="80"  cy="38" rx="50" ry="20"/>
     <ellipse cx="200" cy="30" rx="60" ry="22"/>
     <ellipse cx="320" cy="36" rx="50" ry="20"/>
   </g>
 
-  <!-- THE PATH — narrow corridor through ancient heartwood -->
-  <!-- Path floor — mossy, root-crossed -->
+  <!-- Path floor -->
   <polygon points="75,200 325,200 325,240 75,240" fill="#050a02"/>
   <polygon points="75,200 325,200 320,240 80,240" fill="#060c03" opacity="0.5"/>
-  <!-- Root ridges crossing the path -->
+  <!-- Root ridges -->
   <g stroke="#0a1404" stroke-width="2" fill="none" opacity="0.5">
     <path d="M75,215 Q130,210 200,215 Q270,220 325,215"/>
     <path d="M75,228 Q140,224 200,228 Q260,232 325,228"/>
@@ -59,54 +69,91 @@
     <path d="M310,210 Q300,220 305,230"/>
   </g>
 
-  <!-- LEY CONVERGENCE — the heartwood ahead glows bright green-gold -->
-  <!-- Ley lines running along the path floor -->
+  <!-- LEY CONVERGENCE — heartwood glow pulsing ahead -->
   <linearGradient id="path-ley" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0%" stop-color="#20b040" stop-opacity="0"/>
-    <stop offset="60%" stop-color="#40d060" stop-opacity="0.7"/>
+    <stop offset="60%" stop-color="#40d060" stop-opacity="0.7">
+      <animate attributeName="stop-opacity" values="0.7;1;0.7" dur="4s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#20b040" stop-opacity="0.9"/>
   </linearGradient>
-  <rect x="188" y="80" width="24" height="160" fill="url(#path-ley)" opacity="0.4"/>
-  <rect x="196" y="80" width="8"  height="160" fill="#60ff80" opacity="0.2"/>
+  <rect x="188" y="80" width="24" height="160" fill="url(#path-ley)" opacity="0.4">
+    <animate attributeName="opacity" values="0.4;0.7;0.4" dur="4s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="196" y="80" width="8"  height="160" fill="#60ff80" opacity="0.2">
+    <animate attributeName="opacity" values="0.2;0.4;0.1;0.35;0.2" dur="4s" repeatCount="indefinite"/>
+  </rect>
 
-  <!-- Heartwood ahead — the convergence point glowing in the distance -->
+  <!-- Heartwood ahead — convergence glow -->
   <radialGradient id="heart-glow" cx="50%" cy="60%" r="40%">
-    <stop offset="0%" stop-color="#30c050" stop-opacity="0.6"/>
-    <stop offset="50%" stop-color="#18a030" stop-opacity="0.25"/>
+    <stop offset="0%" stop-color="#30c050" stop-opacity="0.6">
+      <animate attributeName="stop-opacity" values="0.6;0.9;0.6" dur="5s" repeatCount="indefinite"/>
+    </stop>
+    <stop offset="50%" stop-color="#18a030" stop-opacity="0.25">
+      <animate attributeName="stop-opacity" values="0.25;0.45;0.25" dur="5s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#18a030" stop-opacity="0"/>
   </radialGradient>
   <rect x="75" y="80" width="250" height="160" fill="url(#heart-glow)"/>
-  <!-- Ancient heartwood silhouette — massive trunk in the middle-distance -->
+  <!-- Heartwood trunk silhouette -->
   <rect x="178" y="125" width="44" height="120" fill="#040902" stroke="#081204" stroke-width="1"/>
-  <!-- Ley veins on heartwood -->
-  <line x1="199" y1="125" x2="198" y2="245" stroke="#30d050" stroke-width="1.5" opacity="0.5"/>
-  <line x1="201" y1="125" x2="202" y2="245" stroke="#60ff80" stroke-width="0.6" opacity="0.35"/>
-  <!-- Heartwood glow -->
+  <!-- Ley veins on heartwood — pulse -->
+  <line x1="199" y1="125" x2="198" y2="245" stroke="#30d050" stroke-width="1.5" opacity="0.5">
+    <animate attributeName="opacity" values="0.5;0.85;0.5" dur="4s" repeatCount="indefinite"/>
+  </line>
+  <line x1="201" y1="125" x2="202" y2="245" stroke="#60ff80" stroke-width="0.6" opacity="0.35">
+    <animate attributeName="opacity" values="0.35;0.7;0.2;0.55;0.35" dur="4s" repeatCount="indefinite"/>
+  </line>
+  <!-- Heartwood local glow -->
   <radialGradient id="hw-glow" cx="50%" cy="40%" r="50%">
-    <stop offset="0%" stop-color="#40e060" stop-opacity="0.4"/>
+    <stop offset="0%" stop-color="#40e060" stop-opacity="0.4">
+      <animate attributeName="stop-opacity" values="0.4;0.7;0.4" dur="5s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#40e060" stop-opacity="0"/>
   </radialGradient>
   <rect x="168" y="125" width="64" height="60" fill="url(#hw-glow)"/>
 
-  <!-- JARV — small, at mid-ground, walking toward the heartwood -->
-  <!-- Tiny silhouette to show scale of the ancient trees -->
+  <!-- JARV — walking toward heartwood, body-bob -->
   <ellipse cx="200" cy="200" rx="10" ry="2.5" fill="#020401" opacity="0.7"/>
-  <line x1="197" y1="193" x2="196" y2="200" stroke="#0c0c18" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="202" y1="193" x2="203" y2="200" stroke="#0c0c18" stroke-width="2.5" stroke-linecap="round"/>
-  <polygon points="193,181 207,181 210,193 190,193" fill="#0a1e20" stroke="#1a4040" stroke-width="0.8"/>
-  <ellipse cx="200" cy="175" rx="7" ry="6" fill="#0c0c1a" stroke="#181830" stroke-width="0.8"/>
-  <line x1="207" y1="183" x2="214" y2="196" stroke="#2a3040" stroke-width="1.5"/>
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -1; 0 0; 0 -1; 0 0" dur="0.8s" repeatCount="indefinite"/>
+    <line x1="197" y1="193" x2="196" y2="200" stroke="#0c0c18" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="202" y1="193" x2="203" y2="200" stroke="#0c0c18" stroke-width="2.5" stroke-linecap="round"/>
+    <polygon points="193,181 207,181 210,193 190,193" fill="#0a1e20" stroke="#1a4040" stroke-width="0.8"/>
+    <ellipse cx="200" cy="175" rx="7" ry="6" fill="#0c0c1a" stroke="#181830" stroke-width="0.8"/>
+    <line x1="207" y1="183" x2="214" y2="196" stroke="#2a3040" stroke-width="1.5"/>
+  </g>
 
-  <!-- Floating spores drifting down path -->
-  <g fill="#40c060" opacity="0.35">
-    <circle cx="110" cy="120" r="1.2"/>
-    <circle cx="150" cy="100" r="1"/>
-    <circle cx="250" cy="108" r="1.2"/>
-    <circle cx="290" cy="122" r="1"/>
-    <circle cx="130" cy="155" r="0.8"/>
-    <circle cx="270" cy="148" r="0.8"/>
+  <!-- Floating spores drifting down path toward heartwood -->
+  <g fill="#40c060">
+    <circle cx="110" cy="120" r="1.2" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 5 15; 10 30" dur="10s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="10s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="100" r="1"   opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 4 12; 8 24" dur="9s" begin="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="9s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="250" cy="108" r="1.2" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -5 14; -10 28" dur="11s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="11s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="290" cy="122" r="1"   opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -4 10; -8 22" dur="8s" begin="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="8s" begin="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="130" cy="155" r="0.8" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 3 10; 7 20" dur="12s" begin="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="12s" begin="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="270" cy="148" r="0.8" opacity="0.35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -3 10; -6 22" dur="13s" begin="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0.35;0" dur="13s" begin="5s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#183010" text-anchor="middle" letter-spacing="3">THE PATH THROUGH</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#183010" text-anchor="middle" letter-spacing="3">THE PATH THROUGH
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>
