@@ -199,6 +199,7 @@ export interface TDTower {
   buildingName: string        // card name for building sprite
   upgrades: number            // 0–TD_MAX_UPGRADES; determines how many units it spawns
   respawnTimers: number[]     // countdown (ms) for each dead unit awaiting respawn
+  xp: number                  // kills earned by this tower's units; upgrade unlocks at threshold
 }
 
 // A unit spawned by a building — roams within 1 cell of the building, chases nearby enemies.
@@ -342,6 +343,11 @@ export function towerCost(template: UnitTemplate): number {
 /** Mana cost to upgrade a building (spawns one more unit). */
 export function upgradeCost(tower: TDTower): number {
   return Math.round(towerCost(tower.template) * Math.pow(2, tower.upgrades + 1))
+}
+
+/** Kills required to unlock the next upgrade tier. */
+export function xpToUpgrade(tower: TDTower): number {
+  return (tower.upgrades + 1) * 5
 }
 
 /** Number of units a building spawns at its current upgrade level. */
@@ -537,6 +543,7 @@ export function placeTower(
     buildingName,
     upgrades: 0,
     respawnTimers: [],
+    xp: 0,
   }
   const unit = spawnUnitFromBuilding(tower)
   return {
@@ -575,9 +582,10 @@ export function upgradeTower(state: TDGameState, towerId: number): TDGameState |
   const tower = state.towers.find(t => t.id === towerId)
   if (!tower) return null
   if (tower.upgrades >= TD_MAX_UPGRADES) return null
+  if (tower.xp < xpToUpgrade(tower)) return null
   const cost = upgradeCost(tower)
   if (state.mana < cost) return null
-  const upgradedTower = { ...tower, upgrades: tower.upgrades + 1 }
+  const upgradedTower = { ...tower, upgrades: tower.upgrades + 1, xp: 0 }
   const newUnit = spawnUnitFromBuilding(upgradedTower)
   return {
     ...state,
@@ -813,6 +821,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   const deadEnemyIds = new Set<number>()
   const shieldedEnemyIds = new Set<number>()  // shield absorbed a hit this tick
   const newAttackEvents: TDAttackEvent[] = s.attackEvents.filter(e => e.expiresAt > s.gameTimeMs)
+  const towerXpGains: Record<number, number> = {}
 
   s.units = s.units.map(unit => {
     let cd = Math.max(0, unit.attackCooldownRemaining - dtMs)
@@ -849,7 +858,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
                 if (e.id === target.id || deadEnemyIds.has(e.id) || e.hp <= 0) return e
                 if (dist(e.x, e.y, target.x, target.y) > eff.aoeRadius!) return e
                 const splashHp = e.hp - dmg
-                if (splashHp <= 0) { deadEnemyIds.add(e.id); s.score += e.template.reward; s.mana += e.template.reward }
+                if (splashHp <= 0) { deadEnemyIds.add(e.id); s.score += e.template.reward; s.mana += e.template.reward; towerXpGains[unit.towerId] = (towerXpGains[unit.towerId] ?? 0) + 1 }
                 return { ...e, hp: Math.max(0, splashHp) }
               })
               // AOE ring visual
@@ -863,6 +872,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
             deadEnemyIds.add(target.id)
             s.score += target.template.reward
             s.mana += target.template.reward
+            towerXpGains[unit.towerId] = (towerXpGains[unit.towerId] ?? 0) + 1
           } else {
             s.enemies = s.enemies.map(e => e.id === target.id ? { ...e, hp: newHp } : e)
           }
@@ -882,6 +892,13 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     return { ...unit, attackCooldownRemaining: cd }
   })
   s.attackEvents = newAttackEvents
+
+  // Award kill XP to the towers whose units made the kills
+  if (Object.keys(towerXpGains).length > 0) {
+    s.towers = s.towers.map(t =>
+      towerXpGains[t.id] ? { ...t, xp: t.xp + towerXpGains[t.id] } : t
+    )
+  }
 
   // Split-on-death: collect offspring before removing dead enemies
   const splitOffspring: TDEnemy[] = []
