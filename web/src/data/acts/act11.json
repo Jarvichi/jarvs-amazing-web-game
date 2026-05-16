@@ -40,6 +40,245 @@
   "startNodeIds": [
     "canopy-approach"
   ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, technically, in a forest that is old enough to have an opinion about it.",
+      "Now, effectively, the sort of person who disturbs ancient canopy ecosystems for professional reasons.",
+      "Now, professionally speaking, back under a canopy that has been watching you since the first time.",
+      "Now — by any arborist's estimate — somewhere that was perfectly quiet before you arrived.",
+      "Now, technically, in a place that has been alive longer than the concept of visiting it has existed."
+    ],
+    "jarvIntros": [
+      "You have a deck of cards, a respectful relationship with the idea of trees, and the firm conviction that 'respectful' and 'unopposed' are different things.",
+      "You have a deck of cards, a familiarity with the Canopy's root patterns, and the quietly unsettling sense that the Canopy has a familiarity with yours.",
+      "You have a deck of cards, a working knowledge of which high branches are structural and which are the Warden's extensions, and the growing certainty that the Warden has the same knowledge about you.",
+      "You have a deck of cards, an instinctive feel for the Warden's movement patterns, and the slowly dawning realisation that the Warden is working from a similar instinct in the other direction.",
+      "You have a deck of cards. The Canopy has been monitoring you since your first approach. The Warden has been making decisions. You have been making decisions. This has been going on for some time."
+    ],
+    "canopyDesc": [
+      "The ley lines rise into the high canopy here, threading through root systems older than memory and up into the living dark of the oldest forest in the shards.",
+      "The Verdant Canopy smells like green age — the particular scent of a place that has been photosynthesising since before the things living near it had names.",
+      "The Verdant Canopy waits above the treeline, its interlocking branches forming a second sky. The ley lines are somewhere in the dark above. Something sovereign is between you and them.",
+      "The ley lines thread through the heartwood of the Canopy's oldest trees. The Warden grew around them. They are, in some sense the Warden understands and you are still working out, the same thing."
+    ],
+    "wardenDesc": [
+      "The Elder Warden is not a creature in any familiar sense — it is the canopy made sovereign, a convergence of root and memory and the particular will that forms when something old enough stops being patient.\n\nIt does not distinguish between threats and visitors. The canopy doesn't make that distinction. Neither does it.",
+      "The Elder Warden holds every approach through the Canopy closed. It is ancient, distributed, and aware of everything that passes beneath the oldest branches.\n\nIt was aware of you before you reached the treeline.",
+      "The Elder Warden tends the Canopy with the unhurried certainty of something that has outlasted every other argument against its existence.\n\nYou are about to become its most recent argument.",
+      "The Elder Warden has been aware of your approach since your last departure. It has been growing responses. The Canopy is very good at growing things."
+    ],
+    "priorRunSummaries": [
+      "The canopy felt familiar — the particular quality of the light through it, the way it filtered everything into green patience. Like a place that had been waiting to be returned to.",
+      "The first branch crossing was wrong. Not physically wrong — patterned wrong, the way a route feels wrong when the things guarding it have had time to reconsider the arrangement.",
+      "Something about the root configuration at the outer treeline. The exact placement of it. You adjusted your approach without thinking, which meant you'd adjusted it before.",
+      "The canopy was quieter than it should have been on approach. Not birdsong-quiet. Decision-quiet. The kind of quiet that means something is finishing a thought."
+    ],
+    "priorRunOpenings": [
+      "You had been here. Your feet found the gap between the outer roots before the light confirmed it was passable.",
+      "The Bark Sentinel unit at the treeline didn't engage immediately. They swayed slightly — the way the Warden sways when it's processing something — and then engaged.",
+      "The Warden's first extension was different this time. A branch that hadn't been there before. It had been growing it between your visits.",
+      "The canopy breathed when you arrived. A long, slow movement through the highest branches. You've learned, by now, that this is the Warden noticing."
+    ],
+    "milestoneOpenings5": [
+      "The fifth time through the Verdant Canopy, the outer roots have started parting slightly when you approach. Not in welcome. In something the Warden would call assessment.",
+      "Fifth run. The Bark Sentinels at the treeline have started assuming a different formation than last time. The Warden has been reviewing your approach patterns."
+    ],
+    "milestoneOpenings10": [
+      "Ten campaigns. The Elder Warden has grown new branches across your usual route through the mid-canopy. It has been studying your movement and doing infrastructure work.",
+      "The tenth time through the Verdant Canopy, the light is slightly different — filtered through leaves that weren't there before. The Warden has been growing countermeasures."
+    ],
+    "milestoneOpenings25": [
+      "Twenty-five campaigns. The Canopy does not resist when you arrive. It observes. There is a difference, and the Warden has been alive long enough to know exactly what it means.",
+      "After twenty-five runs, the Elder Warden meets you at the outer treeline rather than the heartwood. It has stopped holding the high ground. It has started holding the first one."
+    ],
+    "milestoneOpenings50": [
+      "The fiftieth time through the Verdant Canopy. The branches along your usual route are slightly smoother than the rest. The bark has been worn down by repeated passage. The Canopy has been recording your visits in the only medium it has.",
+      "Fifty campaigns. The Bark Sentinels stand aside when your silhouette appears at the outer treeline. The Warden has calculated something and reached a conclusion it hasn't shared yet."
+    ],
+    "milestoneOpenings100": [
+      "The Warden is at the treeline. Not distributed through the canopy — concentrated, in the way it concentrates when it wants to be understood as a single thing.\n\nIt does not speak with words. It speaks with the canopy.\n\nThe branches above you shift into a pattern you have seen before. You have been seeing it for a hundred visits. You have only just started to read it.\n\nIt means: I have been here since before the Dominion. I have watched things it would take you several lifetimes to name. And you — you small, persistent, unkillable thing — you are the most interesting visitor I have ever had.\n\nThe canopy parts.\n\nThe heartwood path is clear.\n\nThe branches above you make the pattern one more time, in case you missed it."
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} time through the Verdant Canopy. The Elder Warden has grown new branches overnight specifically where you usually walk.",
+    "Campaign {n}. The canopy has restructured itself again between visits. The Warden files its work in the only archive it has: the living wood.",
+    "{n} campaigns in. The Bark Sentinels at the treeline form up in a configuration designed specifically around your movement patterns. The Warden has been doing the work.",
+    "{n} times you've walked beneath the oldest branches. The light through the canopy is the same. Your tolerance for ancient things trying to stop you has become something they find philosophically interesting.",
+    "Run {n}. You arrive at the treeline and find the first root formation already adjusted. The Warden anticipated your timing.",
+    "The {ordinalLower} attempt. The canopy smells the same. Your reaction to it has become something close to respect. The feeling appears to be mutual, in the way ancient things express mutual feelings.",
+    "{n} campaigns. The Elder Warden has been growing a record of your visits in the rings of the heartwood tree. It is the most detailed record it has ever kept of anything."
+  ],
+  "introRules": [
+    {
+      "condition": { "op": "gte", "value": 100 },
+      "panels": [
+        {
+          "title": "THE WARDEN SPEAKS",
+          "text": "{pool:milestoneOpenings100:0}"
+        },
+        {
+          "title": "THE VERDANT CANOPY",
+          "text": "{pool:canopyDesc:3}\n\n{pool:wardenDesc:2}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 51, "max": 99 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE VERDANT CANOPY",
+          "text": "{pool:canopyDesc:2}\n\n{pool:wardenDesc:1}"
+        },
+        {
+          "title": "THE PATH THROUGH",
+          "text": "Break through. Reach the Warden. Defeat it.\n\nYou know the way through the trees. You always know the way through the trees."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 50 },
+      "panels": [
+        {
+          "title": "FIFTY CAMPAIGNS",
+          "text": "{pool:milestoneOpenings50:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE VERDANT CANOPY",
+          "text": "{pool:canopyDesc:2}\n\n{pool:wardenDesc:1}"
+        },
+        {
+          "title": "THE PATH THROUGH",
+          "text": "Break through. Reach the Warden. Defeat it.\n\nYou know the way through the trees. You always know the way through the trees."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 26, "max": 49 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE VERDANT CANOPY",
+          "text": "{pool:canopyDesc:1}\n\n{pool:wardenDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 25 },
+      "panels": [
+        {
+          "title": "TWENTY-FIVE",
+          "text": "{pool:milestoneOpenings25:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE VERDANT CANOPY",
+          "text": "{pool:canopyDesc:1}\n\n{pool:wardenDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 11, "max": 24 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE VERDANT CANOPY",
+          "text": "{pool:canopyDesc:0}\n\n{pool:wardenDesc:0}"
+        },
+        {
+          "title": "THE PATH THROUGH",
+          "text": "Break through the shard. Reach the Warden.\n\nYou know how this goes. You've always known how this goes."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 10 },
+      "panels": [
+        {
+          "title": "THE TENTH TIME",
+          "text": "{pool:milestoneOpenings10:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE VERDANT CANOPY",
+          "text": "{pool:canopyDesc:0}\n\n{pool:wardenDesc:0}"
+        },
+        {
+          "title": "THE PATH THROUGH",
+          "text": "Break through the shard. Reach the Warden.\n\nYou know how this goes. You've always known how this goes."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 5, "max": 9 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{pool:milestoneOpenings5:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE VERDANT CANOPY",
+          "text": "{pool:canopyDesc:0}\n\n{pool:wardenDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 2, "max": 4 },
+      "panels": [
+        {
+          "title": "THE VERDANT CANOPY",
+          "text": "The ley lines rise into the high canopy — again.\n\n{pool:priorRunSummaries:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE ELDER WARDEN",
+          "text": "{pool:wardenDesc:0}"
+        },
+        {
+          "title": "A FEELING",
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+        }
+      ]
+    }
+  ],
   "intro": [
     {
       "title": "THE VERDANT CANOPY",
