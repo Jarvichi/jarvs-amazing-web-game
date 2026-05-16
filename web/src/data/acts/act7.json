@@ -96,7 +96,7 @@
       "Fifty campaigns. The base camp sentinels step aside when your silhouette crests the ridge. Not in welcome. In the way of people who have learned that certain things are inevitable and have made their peace with it."
     ],
     "milestoneOpenings100": [
-      "The Cinderwarlord is standing at the base of the caldera pass. Not in formation. Not surrounded by soldiers. Just standing.\n\n'A hundred campaigns,' he says. The volcanic glow makes his expression hard to read. It doesn't matter. His voice says everything. 'I built my army out of this mountain. I have fought in conditions that have killed things that were supposed to be immortal.'\n\nA rumble. A slow exhalation of steam from the caldera above.\n\n'And you keep coming back.' He looks at you — not at Jarv, at you. 'I have stopped calling this a problem. I am calling it a phenomenon.'\n\nHe steps aside.\n\n'The path is yours. It has been yours for some time.'"
+      "The Cinderwarlord is standing at the base of the caldera pass. Not in formation. Not surrounded by soldiers. Just standing.\n\n'A hundred campaigns,' he says. The volcanic glow makes his expression hard to read. It doesn't matter. His voice says everything. 'I built my army out of this mountain. I have fought in conditions that have killed things that were supposed to be immortal.'\n\nA rumble. A slow exhalation of steam from the caldera above.\n\n'And you keep coming back.' He looks at you — not at Jarv, at you. 'I have stopped calling this a problem. I am calling it a fact.'\n\nHe steps aside.\n\n'The path is yours. It has been yours for some time.'"
     ]
   },
   "midRunTemplates": [
@@ -110,7 +110,10 @@
   ],
   "introRules": [
     {
-      "condition": { "op": "gte", "value": 100 },
+      "condition": {
+        "op": "gte",
+        "value": 100
+      },
       "panels": [
         {
           "title": "THE WARLORD KNOWS",
@@ -123,7 +126,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 51, "max": 99 },
+      "condition": {
+        "op": "range",
+        "min": 51,
+        "max": 99
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -144,7 +151,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 50 },
+      "condition": {
+        "op": "eq",
+        "value": 50
+      },
       "panels": [
         {
           "title": "FIFTY CAMPAIGNS",
@@ -165,7 +175,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 26, "max": 49 },
+      "condition": {
+        "op": "range",
+        "min": 26,
+        "max": 49
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -182,7 +196,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 25 },
+      "condition": {
+        "op": "eq",
+        "value": 25
+      },
       "panels": [
         {
           "title": "TWENTY-FIVE",
@@ -199,7 +216,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 11, "max": 24 },
+      "condition": {
+        "op": "range",
+        "min": 11,
+        "max": 24
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -220,7 +241,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 10 },
+      "condition": {
+        "op": "eq",
+        "value": 10
+      },
       "panels": [
         {
           "title": "THE TENTH TIME",
@@ -241,7 +265,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 5, "max": 9 },
+      "condition": {
+        "op": "range",
+        "min": 5,
+        "max": 9
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -258,7 +286,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 2, "max": 4 },
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 4
+      },
       "panels": [
         {
           "title": "THE EMBERFALL PEAKS",
