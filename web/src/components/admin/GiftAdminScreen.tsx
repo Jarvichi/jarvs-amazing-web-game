@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
-import { Section } from '../BuildingBlocks/Section'
+import { OverlayScreen } from '../ui/OverlayScreen'
+import { Section } from '../ui/Section'
 import {
   GiftDef, GiftReward, GiftRewardType,
   getAllGifts, saveGiftToFirestore, deleteGiftFromFirestore,

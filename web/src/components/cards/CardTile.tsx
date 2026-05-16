@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card } from '../../game/types'
 import { rarityStars } from '../../game/cards'
-import { SpriteImg } from '../BuildingBlocks/SpriteImg'
+import { SpriteImg } from '../ui/SpriteImg'
 import { useCardDetail } from './useCardDetail'
 
 const UPGRADE_SPRITE: Record<string, string> = {

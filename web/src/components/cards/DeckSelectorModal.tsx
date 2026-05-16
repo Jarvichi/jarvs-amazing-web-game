@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { ModalBackdrop } from '../BuildingBlocks/ModalBackdrop'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { getCardCatalog } from '../../game/cards'
 import {
   DeckSlot,

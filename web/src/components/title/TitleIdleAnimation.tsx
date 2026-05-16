@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { getCardCatalog } from '../../game/cards'
 import { Card } from '../../game/types'
 import { spriteSlug } from '../../game/sprites'
-import { AnimatedSpriteImg } from '../BuildingBlocks/SpriteImg'
+import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { getAchievementProgress, incrementAchievementProgress } from '../../game/achievements'
 
 // Unit slugs that have walk-frame sprites ({slug}-1/2/3.svg)

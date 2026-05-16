@@ -9,9 +9,9 @@ import {
   getCardStats,
 } from '../../game/collection'
 import { CardTile } from './CardTile'
-import { ModalBackdrop } from '../BuildingBlocks/ModalBackdrop'
-import { MasteryBar } from '../BuildingBlocks/MasteryBar'
-import { StatRow } from '../BuildingBlocks/StatRow'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { MasteryBar } from '../ui/MasteryBar'
+import { StatRow } from '../ui/StatRow'
 
 interface Props {
   card: Card

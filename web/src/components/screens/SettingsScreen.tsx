@@ -3,8 +3,8 @@ import {
   signOut as firebaseSignOut, type User,
 } from 'firebase/auth'
 import { isSoundEnabled, setSoundEnabled, getSoundVolume, setSoundVolume, getMusicVolume, setMusicVolume } from '../../game/sound'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
-import { Section } from '../BuildingBlocks/Section'
+import { OverlayScreen } from '../ui/OverlayScreen'
+import { Section } from '../ui/Section'
 import { LoginModal } from '../modals/LoginModal'
 import rollbar from '../../rollbar'
 import { auth } from '../../firebase'

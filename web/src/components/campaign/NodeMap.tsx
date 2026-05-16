@@ -2,10 +2,10 @@ import React, { useMemo, useRef, useEffect, useState } from 'react'
 import { emitSound } from '../../game/sound'
 import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES, loadPlayerAvatar } from '../../game/questline'
 import { spriteSlug } from '../../game/sprites'
-import { StatRow } from '../BuildingBlocks/StatRow'
-import { AnimatedSpriteImg } from '../BuildingBlocks/SpriteImg'
+import { StatRow } from '../ui/StatRow'
+import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { getCardUnit } from '../../game/cards'
-import { Lives } from '../BuildingBlocks/Lives/Lives'
+import { Lives } from '../ui/Lives/Lives'
 
 interface Props {
   act: Act

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Section } from '../BuildingBlocks/Section'
+import { Section } from '../ui/Section'
 import { ALL_RARE_EVENTS, RareEventKind } from '../rare-events/types'
 import { loadDevConfig, patchDevConfig, clearDevConfig } from '../../game/devStore'
 import { getCardCatalog } from '../../game/cards'

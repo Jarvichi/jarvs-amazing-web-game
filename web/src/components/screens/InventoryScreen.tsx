@@ -4,8 +4,8 @@ import { saveCrystals, loadCrystals } from '../../game/collection'
 import { loadEarnedRelics, getRelicDef, RelicDef } from '../../game/relics'
 import { loadConsumableStash, loadRunConsumables, ALL_CONSUMABLES, ConsumableDef } from '../../game/questline'
 import { loadItemStore } from '../../game/itemStore'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
-import { Section } from '../BuildingBlocks/Section'
+import { OverlayScreen } from '../ui/OverlayScreen'
+import { Section } from '../ui/Section'
 
 interface Props {
   onBack: () => void

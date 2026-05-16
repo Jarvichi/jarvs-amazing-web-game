@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { type User } from 'firebase/auth'
-import { ModalBackdrop } from '../BuildingBlocks/ModalBackdrop'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { submitFeedback, FeedbackType } from '../../game/feedback'
 import { logError } from '../../logger'
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { SpriteImg } from '../BuildingBlocks/SpriteImg'
+import { SpriteImg } from '../ui/SpriteImg'
 import { CardRestSelectCandidate } from './CardRestSelectCandidate'
 
 interface Props {

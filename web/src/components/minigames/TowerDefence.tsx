@@ -6,7 +6,7 @@
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { UnitTemplate } from '../../game/types'
-import { SpriteImg, AnimatedSpriteImg } from '../BuildingBlocks/SpriteImg'
+import { SpriteImg, AnimatedSpriteImg } from '../ui/SpriteImg'
 import {
   TD_COLS, TD_ROWS, TD_PATH, TD_TOTAL_WAVES, TD_MAX_LIVES, TD_CELL_PX, TD_MAX_UPGRADES, TD_MAX_UPGRADE_PER_TYPE, TD_MAX_UNIT_UPGRADES, TD_MILESTONE_EVERY,
   TDGameState, TDTower, TDUnit, TDEnemy, TDAttackEvent, TDHazard, MilestoneUpgrade, TDUpgradeType,
@@ -14,7 +14,7 @@ import {
   createTDGame, placeTower, removeTower, moveTower, upgradeTowerWith, startWave, tickTD,
   calcTicketReward, calcGoldReward, towerCost, upgradeCost, xpToUpgrade, sellRefund, buildingUnitCount, chooseMilestoneUpgrade,
 } from '../../game/towerDefence'
-import { Lives } from '../BuildingBlocks/Lives/Lives'
+import { Lives } from '../ui/Lives/Lives'
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 

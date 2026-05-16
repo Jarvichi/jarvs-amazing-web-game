@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from '../BuildingBlocks/Button'
+import { Button } from '../ui/Button'
 
 interface Props {
   relicName:   string

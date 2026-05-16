@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '../BuildingBlocks/Button'
+import { Button } from '../ui/Button'
 import type { QuickBattleMode } from '../../game/campaignHelpers'
 
 export type { QuickBattleMode }

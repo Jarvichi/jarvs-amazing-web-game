@@ -1,5 +1,5 @@
 import React from 'react'
-import { OverlayScreen } from '../BuildingBlocks/OverlayScreen'
+import { OverlayScreen } from '../ui/OverlayScreen'
 import { loadPlayerStats } from '../../game/playerStats'
 
 interface Props {

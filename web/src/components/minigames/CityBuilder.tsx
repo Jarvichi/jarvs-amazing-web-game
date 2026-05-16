@@ -31,8 +31,8 @@ import {
   getNeighbourIndices,
   nextBuilderCost, buyBuilder, getCardMasteryLevel,
 } from '../../game/cityBuilder'
-import { MasteryBar } from '../BuildingBlocks/MasteryBar'
-import { SpriteImg, AnimatedSpriteImg } from '../BuildingBlocks/SpriteImg'
+import { MasteryBar } from '../ui/MasteryBar'
+import { SpriteImg, AnimatedSpriteImg } from '../ui/SpriteImg'
 import { Card, UnitTemplate } from '../../game/types'
 import { TowerDefence, TowerPool } from './TowerDefence'
 import { calcGoldReward } from '../../game/towerDefence'

@@ -3,7 +3,7 @@ import { getCardCatalog } from '../../game/cards'
 import { rarityStars } from '../../game/cards'
 import { addCardsToCollection } from '../../game/collection'
 import { CardTile } from './CardTile'
-import { ModalBackdrop } from '../BuildingBlocks/ModalBackdrop'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { useCardDetail } from './useCardDetail'
 
 interface Props {
