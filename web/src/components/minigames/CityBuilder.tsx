@@ -1979,7 +1979,7 @@ export function CityBuilder({ onBack }: Props) {
         </div>
       </div>
 
-      {/* Info + resource strip: attack pill · stats · resources · actions */}
+      {/* Info + resource strip: attack pill · stats · resources */}
       <div className="city-res-strip">
         <div className={`city-attack-pill city-attack-pill--${attackUrgency}`}>
           ⚔ ATTACK INCOMING {msToAttack <= 0 ? 'NOW!' : attackCountdown}
@@ -2000,15 +2000,6 @@ export function CityBuilder({ onBack }: Props) {
             </span>
           )
         })}
-        <button className="filter-btn" style={{ marginLeft: 'auto', flexShrink: 0 }} onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
-        {cityRows < MAX_CITY_ROWS && expansionCost && (
-          <button
-            className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
-            style={{ flexShrink: 0 }}
-            onClick={handleExpand}
-            title={affordable ? `Expand city to ${cityRows + 1} rows` : 'Not enough resources to expand'}
-          >🏢 EXPAND CITY</button>
-        )}
       </div>
 
       {/* City world: fixed 50vh, scales with rows */}
@@ -2148,14 +2139,21 @@ export function CityBuilder({ onBack }: Props) {
         </div>
       )}
 
-            <div className="city-header u-flex u-items-c u-gap-3">
+      <div className="city-header u-flex u-items-c u-gap-3">
         <button
           className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
           onClick={toggleBulldozer}
           title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}
         >{bulldozerMode ? '🧱 DEMOLISH' : '👷 BUILD'}</button>
         <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTIFICATIONS</button>
-
+        <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
+        {cityRows < MAX_CITY_ROWS && expansionCost && (
+          <button
+            className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
+            onClick={handleExpand}
+            title={affordable ? `Expand city to ${cityRows + 1} rows` : 'Not enough resources to expand'}
+          >🏢 EXPAND CITY</button>
+        )}
       </div>
 
       {/* Scrollable bottom: resident thoughts */}
