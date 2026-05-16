@@ -1208,9 +1208,9 @@ export function CityBuilder({ onBack }: Props) {
     return (
       <div className="city-screen u-relative u-col u-gap-2">
         {/* Header */}
-        <div className="city-picker-header u-flex u-items-c u-gap-5">
+        <div className="overlay-header u-flex u-items-c u-gap-6">
           <button className="action-btn" onClick={() => { setFortSlotSel(null); setScreen('city') }}>← BACK</button>
-          <div className="city-picker-title">🛡 WALLS &amp; FORTIFICATIONS</div>
+          <div className="overlay-title">🛡 WALLS &amp; FORTIFICATIONS</div>
         </div>
 
         {/* Stats + builder info strip */}
@@ -1544,9 +1544,9 @@ export function CityBuilder({ onBack }: Props) {
 
     return (
       <div className="city-screen u-relative u-col u-gap-2">
-        <div className="city-picker-header u-flex u-items-c u-gap-5">
+        <div className="overlay-header u-flex u-items-c u-gap-6">
           <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
-          <div className="city-picker-title">PLACE A BUILDING</div>
+          <div className="overlay-title">PLACE A BUILDING</div>
         </div>
         <div className="city-subscreen-scroll">
           <input
@@ -1661,9 +1661,9 @@ export function CityBuilder({ onBack }: Props) {
 
     return (
       <div className="city-screen u-relative u-col u-gap-2">
-        <div className="city-picker-header u-flex u-items-c u-gap-5">
+        <div className="overlay-header u-flex u-items-c u-gap-6">
           <button className="action-btn" onClick={() => setScreen('city')}>← BACK</button>
-          <div className="city-picker-title">UPGRADE BUILDINGS</div>
+          <div className="overlay-title">UPGRADE BUILDINGS</div>
         </div>
         <div className="city-subscreen-scroll">
           <div className="city-gold-display" style={{ textAlign: 'center', padding: '4px' }}>
@@ -1723,9 +1723,9 @@ export function CityBuilder({ onBack }: Props) {
     const cost     = levelUpCost(mLvl)
     return (
       <div className="city-screen u-relative u-col u-gap-2">
-        <div className="city-picker-header u-flex u-items-c u-gap-5">
+        <div className="overlay-header u-flex u-items-c u-gap-6">
           <button className="action-btn" onClick={() => setScreen('upgrade')}>← BACK</button>
-          <div className="city-picker-title">LEVEL UP CARD</div>
+          <div className="overlay-title">LEVEL UP CARD</div>
         </div>
         <div className="city-level-detail u-col u-items-c u-gap-5">
           {card && <SpriteImg name={card.name} className="city-level-sprite" />}
@@ -1963,14 +1963,9 @@ export function CityBuilder({ onBack }: Props) {
       })()}
 
       {/* Header: back | title | gold | action buttons */}
-      <div className="city-header u-flex u-items-c u-gap-3">
+      <div className="overlay-header u-flex u-items-c u-gap-6">
         <button className="action-btn" onClick={onBack}>← BACK</button>
-        <div className="city-title">
-          {bulldozerMode
-            ? '⏸ PAUSED'
-            : '🏙 CITY'}
-          
-          </div>
+        <span className="overlay-title">{bulldozerMode ? '⏸ PAUSED' : '🏙 CITY'}</span>
         <div className="city-header-right u-flex u-items-c u-gap-2">
           <div className="city-gold-display">⚙ {city.gold.toLocaleString()} (+{incomeRate}/min)</div>
           <button className="action-btn" onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers">
@@ -1979,12 +1974,16 @@ export function CityBuilder({ onBack }: Props) {
         </div>
       </div>
 
-      {/* Info + resource strip: attack pill · stats · resources */}
-      <div className="city-res-strip">
+      {/* Attack strip */}
+      <div className="city-attack-strip">
         <div className={`city-attack-pill city-attack-pill--${attackUrgency}`}>
           ⚔ ATTACK INCOMING {msToAttack <= 0 ? 'NOW!' : attackCountdown}
           <span className={`city-attack-strength ${attackStrengthLabel.cls}`}>{attackStrengthLabel.text}</span>
         </div>
+      </div>
+
+      {/* Resource strip: defence · population · resources */}
+      <div className="city-res-strip">
         <span className="city-info-chip" title={`Defense: ${defense}`}>🛡 {defense}</span>
         <span className="city-info-chip" title={`Population: ${population}`}>👥 {population}</span>
         {(['wheat', 'wood', 'ore', 'bread', 'planks', 'metal'] as ResourceType[]).map(res => {
@@ -2139,7 +2138,7 @@ export function CityBuilder({ onBack }: Props) {
         </div>
       )}
 
-      <div className="city-header u-flex u-items-c u-gap-3">
+      <div className="city-header u-flex u-items-c u-just-c u-gap-3">
         <button
           className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
           onClick={toggleBulldozer}

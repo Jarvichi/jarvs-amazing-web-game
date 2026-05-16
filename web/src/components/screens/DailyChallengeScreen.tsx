@@ -38,8 +38,11 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
 
   return (
     <div className="dc-screen">
-      <div className="dc-header u-text-c">
-        <div className="dc-label">DAILY CHALLENGE</div>
+      <div className="overlay-header u-flex u-items-c u-gap-6">
+        <button className="action-btn" onClick={onBack}>← BACK</button>
+        <span className="overlay-title">DAILY CHALLENGE</span>
+      </div>
+      <div className="u-text-c">
         <div className="dc-date">{today}</div>
         <div className="dc-reset-time">Resets at {getResetTimeLocal()}</div>
       </div>
@@ -101,7 +104,6 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
         <button className="action-btn action-btn--large" onClick={onStart}>
           {state.attempts === 0 ? '▶ START CHALLENGE' : '▶ TRY AGAIN'}
         </button>
-        <button className="action-btn" onClick={onBack}>← BACK</button>
       </div>
     </div>
   )

@@ -62,8 +62,9 @@ export function EndlessLeaderboardScreen({ onBack }: Props) {
 
   return (
     <div className="el-screen">
-      <div className="el-header u-text-c">
-        <div className="el-label">🏆 LEADERBOARDS</div>
+      <div className="overlay-header u-flex u-items-c u-gap-6">
+        <button className="action-btn" onClick={onBack}>← BACK</button>
+        <span className="overlay-title">🏆 LEADERBOARDS</span>
       </div>
 
       <div className="el-section u-col u-gap-3">
@@ -110,9 +111,6 @@ export function EndlessLeaderboardScreen({ onBack }: Props) {
         </div>
       </div>
 
-      <div className="el-actions u-col u-gap-4">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-      </div>
     </div>
   )
 }
