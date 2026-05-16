@@ -53,7 +53,7 @@ export function LuckySpinner({ onDone }: Props) {
     <div className="minigame-screen">
       <div className="minigame-title">🎡 LUCKY SPINNER</div>
 
-      <div className="spinner-wrap">
+      <div className="spinner-wrap u-relative u-col u-items-c">
         {/* Pointer */}
         <div className="spinner-pointer">▼</div>
 
@@ -120,7 +120,7 @@ export function LuckySpinner({ onDone }: Props) {
       )}
 
       {phase === 'result' && result !== null && (
-        <div className="minigame-result-panel">
+        <div className="minigame-result-panel u-col u-items-c u-gap-5">
           {isJackpot && <div className="spinner-jackpot-flash">⭐ JACKPOT! ⭐</div>}
           <div className="minigame-result-headline">You won {result} tickets!</div>
           <button className="action-btn action-btn--gold" onClick={() => onDone(result, isJackpot)}>

@@ -9,7 +9,7 @@ interface Props {
 
 export function Section({ title, children, bordered = false, headerRight }: Props) {
   return (
-    <div className={`section${bordered ? ' section--bordered' : ''}`}>
+    <div className={`section u-col u-gap-3${bordered ? ' section--bordered' : ''}`}>
       <div className="section-title" style={headerRight ? { display: 'flex', alignItems: 'center', justifyContent: 'space-between' } : undefined}>
         <span>{title}</span>
         {headerRight}

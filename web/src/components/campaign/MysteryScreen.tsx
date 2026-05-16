@@ -26,17 +26,17 @@ export function MysteryScreen({ reward, onCollect }: Props) {
         : 'A reward'
 
   return (
-    <div className="mystery-screen">
+    <div className="mystery-screen u-col u-items-c u-gap-8 u-text-c">
       <div className="mystery-header">// MYSTERY NODE</div>
 
-      <div className="mystery-field">
+      <div className="mystery-field u-col u-items-c u-gap-3">
         <div className="mystery-field-icon">🌫</div>
         <div className="mystery-field-label">EMPTY BATTLEFIELD</div>
       </div>
 
       <div className="mystery-lore">{lore}</div>
 
-      <div className="mystery-chest">
+      <div className="mystery-chest u-col u-items-c u-gap-3">
         <div className="mystery-chest-icon">📦</div>
         <div className="mystery-chest-label">UNCLAIMED REWARD</div>
         <div className="mystery-reward-value">{rewardLabel}</div>

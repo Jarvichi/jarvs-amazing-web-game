@@ -76,7 +76,7 @@ export function FakeCrashEvent({ onDone }: Props) {
 
   return (
     <div className="rc-screen">
-      <div className="rc-content">
+      <div className="rc-content u-col u-gap-8">
         <div className="rc-sad">:(</div>
 
         <p className="rc-headline">

@@ -32,7 +32,7 @@ export function CardRestSelect({ candidates, playCounts, alreadyResting = [], on
 
   return (
     <div className="overlay-screen card-rest-screen">
-      <div className="card-rest-header">
+      <div className="card-rest-header u-text-c">
         <div className="card-rest-title">TROOPS NEED REST</div>
         <div className="card-rest-sub">
           Your most-relied-upon troops must recover between acts.<br />
@@ -44,7 +44,7 @@ export function CardRestSelect({ candidates, playCounts, alreadyResting = [], on
       {alreadyResting.length > 0 && (
         <div className="card-rest-already">
           <div className="card-rest-already-label">ALREADY RESTING</div>
-          <div className="card-rest-already-list">
+          <div className="card-rest-already-list u-flex u-wrap u-gap-4">
             {alreadyResting.map(name => (
               <>
                 <SpriteImg name={name} className="card-sprite" />
@@ -58,7 +58,7 @@ export function CardRestSelect({ candidates, playCounts, alreadyResting = [], on
         </div>
       )}
 
-      <div className="card-rest-candidates">
+      <div className="card-rest-candidates u-flex u-gap-7 u-wrap u-just-c">
         {candidates.map((name, i) => {
           const isSelected = selected.has(name)
           return (
@@ -75,7 +75,7 @@ export function CardRestSelect({ candidates, playCounts, alreadyResting = [], on
         })}
       </div>
 
-      <div className="card-rest-footer">
+      <div className="card-rest-footer u-col u-items-c u-gap-6 u-text-c">
         <div className="card-rest-note">
           Rested cards show as [RESTING] in the Deck Builder and can't be added to your deck.
         </div>

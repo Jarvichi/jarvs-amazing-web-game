@@ -39,7 +39,7 @@ function DeckPreview({ entries, slot, selected, fatiguedCards, onSelect }: {
       tabIndex={0}
       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') onSelect() }}
     >
-      <div className="deck-selector-panel-header">
+      <div className="deck-selector-panel-header u-flex u-items-c u-gap-3">
         <span className="deck-selector-slot-label">DECK {slot.toUpperCase()}</span>
         {selected && <span className="deck-selector-active-badge">✓ ACTIVE</span>}
         <span className="deck-selector-count">
@@ -82,7 +82,7 @@ export function DeckSelectorModal({ fatiguedCards = [], onConfirm, onCancel }: P
     <ModalBackdrop onClose={onCancel}>
       <div className="deck-selector-modal">
         <div className="deck-selector-title">CHOOSE YOUR DECK</div>
-        <div className="deck-selector-panels">
+        <div className="deck-selector-panels u-flex u-gap-6">
           <DeckPreview
             entries={deckA}
             slot="a"
@@ -98,7 +98,7 @@ export function DeckSelectorModal({ fatiguedCards = [], onConfirm, onCancel }: P
             onSelect={() => setSelected('b')}
           />
         </div>
-        <div className="deck-selector-actions">
+        <div className="deck-selector-actions u-flex u-gap-5 u-just-end">
           <button className="action-btn" onClick={onCancel}>Cancel</button>
           <button className="action-btn action-btn--primary" onClick={handleConfirm}>
             ▶ Battle with Deck {selected.toUpperCase()}

@@ -216,7 +216,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
         </div>
       </div>
 
-      <div className="shop-content">
+      <div className="shop-content u-col u-items-c u-gap-8">
 
         {/* ── Daily card deals ── */}
         <div className="shop-section">
@@ -225,7 +225,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
       
 
 </div>
-          <div className="shop-daily-cards">
+          <div className="shop-daily-cards u-flex u-gap-6 u-wrap u-just-c">
             {dailyCards.map(deal => {
               const bought = shopState.boughtCardNames.includes(deal.cardName)
               const price = cardPrice(deal)
@@ -259,13 +259,13 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
         {/* ── Consumables ── */}
         <div className="shop-section">
           <div className="shop-section-header">Campaign Supplies — always in stock</div>
-          <div className="shop-consumables">
+          <div className="shop-consumables u-flex u-gap-6 u-wrap u-just-c">
             {ALL_CONSUMABLES.map(c => {
               const effectivePrice = npc.role === 'apprentice' && weekend ? Math.floor(c.price * 0.9) : c.price
               const discounted = npc.role === 'apprentice' && weekend
               const canAfford = crystals >= effectivePrice
               return (
-                <div key={c.id} className="shop-consumable-tile">
+                <div key={c.id} className="shop-consumable-tile u-col u-items-c u-gap-3 u-grow">
                   <div className="shop-consumable-icon">{c.icon}</div>
                   <div className="shop-consumable-name">{c.name}</div>
                   <div className="shop-consumable-desc">{c.desc}</div>
@@ -290,7 +290,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
           <div className="shop-item-desc">
             5 cards · 2 Common · 1 Uncommon · 1 Rare · 1 Bonus
           </div>
-          <div className="shop-pack-qty-row">
+          <div className="shop-pack-qty-row u-flex u-gap-4 u-just-c u-wrap">
             {PACK_QUANTITIES.map(q => (
               <button
                 key={q}

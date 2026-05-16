@@ -6,7 +6,7 @@ interface Props {
 
 export function CampaignFailedScreen({ onReturnToMenu }: Props) {
   return (
-    <div className="campaign-failed">
+    <div className="campaign-failed u-col u-items-c u-just-c u-relative u-text-c">
       <div className="cf-glow" />
       <pre className="cf-ascii">{`  ╔══════════════════╗
   ║ CAMPAIGN  FAILED ║

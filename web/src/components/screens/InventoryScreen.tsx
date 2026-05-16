@@ -85,7 +85,7 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
   return (
     <OverlayScreen title="INVENTORY" onBack={onBack} right={<span className="inventory-count">{items.length} items</span>}>
 
-      <div className="inventory-body">
+      <div className="inventory-body u-grow u-col u-gap-4">
         <div className="inventory-intro">
           Items collected from daily logins. Completely useless.
           <br/>
@@ -108,7 +108,7 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
 
         {ownedConsumables.length > 0 && (
           <Section title="CONSUMABLES">
-            <div className="inventory-grid">
+            <div className="inventory-grid u-flex u-wrap u-gap-4 u-just-c u-grow">
               {ownedConsumables.map((entry: { def: ConsumableDef; count: number }) => {
                 const { def, count } = entry
                 return (
@@ -126,7 +126,7 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
 
         {earnedRelics.length > 0 && (
           <Section title="RELICS">
-            <div className="inventory-grid">
+            <div className="inventory-grid u-flex u-wrap u-gap-4 u-just-c u-grow">
               {earnedRelics.map(relic => (
                 <button
                   key={relic.name}
@@ -144,11 +144,11 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
 
         <Section title={earnedRelics.length > 0 ? 'ITEMS' : ''}>
           {items.length === 0 ? (
-            <div className="inventory-empty">
+            <div className="inventory-empty u-grow u-flex u-items-c u-just-c">
               Nothing here yet. Come back tomorrow.
             </div>
           ) : (
-            <div className="inventory-grid">
+            <div className="inventory-grid u-flex u-wrap u-gap-4 u-just-c u-grow">
               {items.map((item, idx) => (
                 <button
                   key={idx}

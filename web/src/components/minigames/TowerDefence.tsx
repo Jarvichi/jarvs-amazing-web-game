@@ -221,7 +221,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
   if (game.phase === 'victory' || game.phase === 'defeat') {
     const won = game.phase === 'victory'
     return (
-      <div className="td-end-screen">
+      <div className="td-end-screen u-col u-items-c u-just-c u-gap-7 u-text-c">
         <div className={`td-end-title ${won ? 'td-end-title--win' : 'td-end-title--lose'}`}>
           {won ? '⚔ VICTORY!' : '💀 DEFEATED'}
         </div>
@@ -243,7 +243,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
     <div className="td-root">
 
       {/* ── Header ── */}
-      <div className="td-header">
+      <div className="td-header u-flex u-items-c u-gap-4 u-wrap">
         <div className="td-header-lives">
           <Lives maxLives={TD_MAX_LIVES} currentLives={game.lives} />
         </div>
@@ -287,7 +287,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
       {game.milestoneChoices && (
         <div className="td-milestone-choices">
           <div className="td-milestone-choices-title">Choose your reward</div>
-          <div className="td-milestone-choices-cards">
+          <div className="td-milestone-choices-cards u-flex u-gap-4">
             {game.milestoneChoices.map((choice: MilestoneUpgrade) => (
               <button key={choice.id} className="td-milestone-choice-card" onClick={() => handleChooseMilestone(choice.id)}>
                 <div className="td-milestone-choice-label">{choice.label}</div>
@@ -335,7 +335,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                 <div
                   key={`${col},${row}`}
                   className={[
-                    'td-cell',
+                    'td-cell u-absolute u-pointer u-flex u-items-c u-just-c u-no-select',
                     onPath          ? 'td-cell--path'     : 'td-cell--grass',
                     isStart         ? 'td-cell--start'    : '',
                     isEnd           ? 'td-cell--end'      : '',
@@ -358,7 +358,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                   {isStart && <span className="td-cell-label">IN</span>}
                   {isEnd   && <span className="td-cell-label">BASE</span>}
                   {tower && (
-                    <div className="td-tower-inner">
+                    <div className="td-tower-inner u-col u-items-c">
                       <SpriteImg name={tower.buildingName} />
                       {tower.upgrades > 0 && (
                         <div className="td-tower-tier">★{tower.upgrades}</div>
@@ -416,7 +416,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                 style={{ left: t.col * CELL_PX, top: Math.max(0, t.row * CELL_PX - 56) }}
               >
                 <strong>{t.buildingName}</strong>
-                {t.upgrades > 0 && <span className="td-tower-tier-label"> {'★'.repeat(t.upgrades)}</span>}
+                {t.upgrades > 0 && <span className="td-tower-tier-label u-text-gold"> {'★'.repeat(t.upgrades)}</span>}
                 <div>{t.template.name} · {activeUnits.length}/{unitCount} active</div>
                 {t.upgrades < TD_MAX_UPGRADES && (
                   <div className={xpReady ? 'td-tooltip-xp-ready' : 'td-tooltip-xp'}>
@@ -454,10 +454,10 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
 
         return (
           <div className="td-selected-panel">
-            <div className="td-selected-panel-row">
+            <div className="td-selected-panel-row u-flex u-items-c u-just-sb u-gap-4">
               <div className="td-selected-panel-info">
                 <strong>{t.buildingName}</strong>
-                {t.upgrades > 0 && <span className="td-tower-tier-label"> ★{t.upgrades}</span>}
+                {t.upgrades > 0 && <span className="td-tower-tier-label u-text-gold"> ★{t.upgrades}</span>}
                 <span className="td-selected-panel-stats"> · {activeUnits.length}/{unitCount} units</span>
               </div>
               <div className="td-selected-panel-row-actions">

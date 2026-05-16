@@ -107,7 +107,7 @@ export function GamblerEvent({ onDone }: Props) {
 
         {/* Intro phase */}
         {phase === 'intro' && (
-          <div className="ld-bid-box">
+          <div className="ld-bid-box u-col u-items-c u-gap-6">
             <div className="ld-bid-text" style={{ fontStyle: 'italic', textAlign: 'center', lineHeight: 1.6 }}>
               {introLine}
             </div>
@@ -124,7 +124,7 @@ export function GamblerEvent({ onDone }: Props) {
 
         {/* Tapping phase */}
         {phase === 'tapping' && (
-          <div className="ld-bid-box" style={{ gap: 12 }}>
+          <div className="ld-bid-box u-col u-items-c u-gap-6" style={{ gap: 12 }}>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 13, color: 'var(--game-text-color-dim)', marginBottom: 4 }}>TAPS SO FAR</div>
               <div style={{ fontSize: 52, fontWeight: 'bold', color: '#ffd700', lineHeight: 1 }}>
@@ -161,7 +161,7 @@ export function GamblerEvent({ onDone }: Props) {
 
         {/* Won */}
         {phase === 'won' && (
-          <div className="ld-bid-box">
+          <div className="ld-bid-box u-col u-items-c u-gap-6">
             <div className="ld-result ld-result--win" style={{ fontSize: 22 }}>
               EXACT MATCH — YOU WIN
             </div>
@@ -180,7 +180,7 @@ export function GamblerEvent({ onDone }: Props) {
 
         {/* Walked away / stopped at wrong number */}
         {phase === 'walked' && (
-          <div className="ld-bid-box">
+          <div className="ld-bid-box u-col u-items-c u-gap-6">
             <div style={{ textAlign: 'center', fontSize: 36 }}>🐔</div>
             <div className="ld-bid-text" style={{ textAlign: 'center', fontStyle: 'italic' }}>
               {chickenLine}
@@ -204,7 +204,7 @@ export function GamblerEvent({ onDone }: Props) {
 
         {/* Bust — game reset */}
         {phase === 'bust' && (
-          <div className="ld-bid-box">
+          <div className="ld-bid-box u-col u-items-c u-gap-6">
             <div className="ld-result ld-result--lose" style={{ fontSize: 18 }}>
               YOU WENT OVER
             </div>

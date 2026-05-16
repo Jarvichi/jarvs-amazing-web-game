@@ -204,7 +204,7 @@ export function PackOpening({ packs, onDone }: Props) {
           </div>
           <div className="pack-card-front">
             {card ? (
-              <div className="pack-card-reveal">
+              <div className="pack-card-reveal u-col u-items-c u-gap-2">
                 <CardTile card={card} canAfford={true} onClick={allDone ? () => openDetail(card) : undefined} />
                 <div className={`pack-card-rarity pack-card-rarity--${card.rarity}`}>
                   {rarityStars(card.rarity)}
@@ -228,7 +228,7 @@ export function PackOpening({ packs, onDone }: Props) {
   const allCardObjects = allCardNames.map(name => catalog.find(c => c.name === name) ?? null)
 
   return (
-    <div className="pack-screen">
+    <div className="pack-screen u-col u-items-c u-just-c u-grow u-gap-7">
       <div className="pack-title">✦ PACK OPENED ✦</div>
       {isMultiPack ? (
         <div className="pack-subtitle">Pack {packIdx + 1} of {packs.length}</div>
@@ -236,10 +236,10 @@ export function PackOpening({ packs, onDone }: Props) {
         <div className="pack-subtitle">You earned a reward for winning!</div>
       )}
 
-      <div className="pack-rows" key={packIdx}>
-        <div className="pack-cards">{row1.map((card, i) => renderCard(card, i))}</div>
+      <div className="pack-rows u-col u-items-c u-gap-5" key={packIdx}>
+        <div className="pack-cards u-flex u-gap-4 u-just-c">{row1.map((card, i) => renderCard(card, i))}</div>
         {row2.length > 0 && (
-          <div className="pack-cards">{row2.map((card, i) => renderCard(card, i + 3))}</div>
+          <div className="pack-cards u-flex u-gap-4 u-just-c">{row2.map((card, i) => renderCard(card, i + 3))}</div>
         )}
       </div>
 

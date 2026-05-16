@@ -11,7 +11,7 @@ interface Props {
 export function OverlayScreen({ title, onBack, right, children, className = 'overlay-screen' }: Props) {
   return (
     <div className={className}>
-      <div className="overlay-header">
+      <div className="overlay-header u-flex u-items-c u-gap-6">
         <button className="action-btn" onClick={onBack}>← BACK</button>
         <span className="overlay-title">{title}</span>
         {right}

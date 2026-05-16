@@ -813,7 +813,7 @@ function regressBoardBy(steps: number) {
     return (
       <div className="minigame-screen">
         <div className="minigame-title">🎰 FRUIT MACHINE</div>
-        <div className="fm-bonus-game">
+        <div className="fm-bonus-game u-col u-items-c u-gap-5">
           <div className="fm-bonus-header">BONUS GAME — pick {bonusPicksLeft} {bonusPicksLeft === 1 ? 'prize' : 'prizes'}!</div>
           {bonusTotalWin > 0 && <div className="fm-bonus-running-total">Running total: +{bonusTotalWin} credits</div>}
           <div className="fm-bonus-tiles">
@@ -858,7 +858,7 @@ function regressBoardBy(steps: number) {
     return (
       <div className="minigame-screen">
         <div className="minigame-title">🎰 FRUIT MACHINE</div>
-        <div className="minigame-result-panel">
+        <div className="minigame-result-panel u-col u-items-c u-gap-5">
           <div className="minigame-result-headline">
             {cashOutTickets > 0 ? 'Cashed out!' : 'Out of credits!'}
           </div>
@@ -907,7 +907,7 @@ function regressBoardBy(steps: number) {
       <div className="minigame-title">🎰 FRUIT MACHINE</div>
 
       {/* Jackpot tiers */}
-      <div className="fm-jackpots">
+      <div className="fm-jackpots u-flex u-gap-3 u-just-c">
         {JACKPOT_TIERS.map(t => (
           <div key={t.name} className={`fm-jackpot-tier${t.progressive ? ' fm-jackpot-tier--grand' : ''}`}>
             <div className="fm-jackpot-name">{t.name}</div>
@@ -916,8 +916,8 @@ function regressBoardBy(steps: number) {
         ))}
       </div>
 
-      <div className="fm-header">
-        <div className="fm-word-meters">
+      <div className="fm-header u-flex u-items-c u-gap-7">
+        <div className="fm-word-meters u-flex u-gap-6 u-items-c">
           <div className="fm-word-meter" title="Each trail Lose lights a letter — spell LOSER to jump to position 35">
             {['L','O','S','E','R'].map((letter, i) => (
               <span key={letter+i} className={`fm-word-letter fm-word-letter--loser${i < loserCount ? ' fm-word-letter--lit' : ''}`}>{letter}</span>
@@ -925,7 +925,7 @@ function regressBoardBy(steps: number) {
           </div>
         </div>
         <span className="fm-credits">Credits: {credits}</span>
-        <div className="fm-word-meters">
+        <div className="fm-word-meters u-flex u-gap-6 u-items-c">
           <div className="fm-word-meter" title="Land 🌟 symbols to spell TRAIL and advance the board">
             {['T','R','A','I','L'].map((letter, i) => (
               <span key={letter} className={`fm-word-letter${i < featureTriggerCount ? ' fm-word-letter--lit' : ''}`}>{letter}</span>
@@ -935,21 +935,21 @@ function regressBoardBy(steps: number) {
       </div>
 
       {/* Feature board trail */}
-      <div className="fm-board">
+      <div className="fm-board u-flex u-gap-2 u-just-c">
         {boardWindow.map(({ idx, node, isCurrent }) => (
           <div key={idx} className={`fm-board-node${isCurrent ? ' fm-board-node--current' : ''}`}>
             <div className="fm-board-node-label">{node.label}</div>
           </div>
         ))}
       </div>
-<div className="fm-board">
+<div className="fm-board u-flex u-gap-2 u-just-c">
 {boardPos+1}/{BOARD_NODES.length+1}
 </div>
 
         <LedScroller messages={messages}></LedScroller>
 
       {/* Reels + trail reel */}
-      <div className="fm-reels" >
+      <div className="fm-reels u-flex u-gap-6 u-just-c" >
         <table style={{ borderCollapse: 'collapse', borderSpacing: '0' }}>
           <thead >
             <td colSpan={3} align='center'>
@@ -967,7 +967,7 @@ function regressBoardBy(steps: number) {
                 <button className="fm-nudge-btn" onClick={() => nudgeReel(i, -1)} disabled={nudgesAvailable <= 0}>▲</button>
               </td>
             ))}
-            <td className="fm-ladder-reel-label">    <div className="fm-ladder-reel-wrap">{phase === 'lucky' ? 'Lucky?' : 'Trail'}</div></td>
+            <td className="fm-ladder-reel-label">    <div className="fm-ladder-reel-wrap u-col u-items-c u-gap-1">{phase === 'lucky' ? 'Lucky?' : 'Trail'}</div></td>
           </tr>
           {/* Main reels with peek symbols above/below */}
           <tr>
@@ -985,7 +985,7 @@ function regressBoardBy(steps: number) {
               </td>
             ))}
             <td>
-              <div className="fm-ladder-reel-wrap">
+              <div className="fm-ladder-reel-wrap u-col u-items-c u-gap-1">
                 <div className={`fm-reel fm-ladder-reel${(isSpinning || phase === 'lucky') ? ' fm-reel--spinning' : ''}`}>
                   <div className="fm-ladder-symbol">{ladderDisplay}</div>
                 </div>
@@ -1023,7 +1023,7 @@ function regressBoardBy(steps: number) {
 
 
       {/* Controls */}
-      <div className="fm-controls">
+      <div className="fm-controls u-flex u-gap-6 u-just-c u-wrap">
         <div className={`action-btn ${phase === 'nudge' || phase === 'lucky' ? 'action-btn--disabled' : 'action-btn--gold'}`}>
           {phase === 'nudge' ? (
             <div className="action-btn action-btn--noborder-disabled">NUDGE — {nudgesAvailable} remaining</div>
@@ -1038,7 +1038,7 @@ function regressBoardBy(steps: number) {
               >
                 {freeSpin ? 'FREE SPIN' : spinCount === 1 ? 'SPIN (1 credit)' : `SPIN ×${isInAutoSpin ? autoSpinsLeft : spinCount} (${spinCount} credits)`}
               </button>
-              <div className="fm-spin-count-selector">
+              <div className="fm-spin-count-selector u-flex u-gap-3 u-just-c">
                 {([1, 5, 10, 25, 50] as const).map(n => (
                   <button
                     key={n}
@@ -1064,7 +1064,7 @@ function regressBoardBy(steps: number) {
       </div>
 
       
-      <div className="fm-controls">
+      <div className="fm-controls u-flex u-gap-6 u-just-c u-wrap">
     
         <button
           className="action-btn"

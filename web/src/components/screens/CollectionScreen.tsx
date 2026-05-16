@@ -313,7 +313,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
     <OverlayScreen title="COLLECTION" onBack={onBack} right={<span className="crystal-count">💎 {crystals.toLocaleString()}</span>}>
 
       {/* Action row */}
-      <div className="collection-action-row">
+      <div className="collection-action-row u-flex u-items-c u-gap-4 u-wrap">
         <Button
           size="sm"
           className="collection-disenchant-btn"
@@ -351,9 +351,9 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
           {filterMenuOpen && (
             <div className="filter-popup">
               {/* TYPE */}
-              <div className="filter-popup-section">
+              <div className="filter-popup-section u-col">
                 <span className="filter-group-label">TYPE</span>
-                <div className="filter-popup-btns">
+                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                   {(['all', 'unit', 'structure', 'upgrade'] as const).map(val => (
                     <button
                       key={val}
@@ -367,9 +367,9 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
               </div>
 
               {/* RARITY */}
-              <div className="filter-popup-section">
+              <div className="filter-popup-section u-col">
                 <span className="filter-group-label">RARITY</span>
-                <div className="filter-popup-btns">
+                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                   {(['all', 'common', 'uncommon', 'rare', 'legendary'] as const).map(val => (
                     <button
                       key={val}
@@ -383,9 +383,9 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
               </div>
 
               {/* TAGS */}
-              <div className="filter-popup-section">
+              <div className="filter-popup-section u-col">
                 <span className="filter-group-label">TAGS <span className="filter-group-hint">(any match)</span></span>
-                <div className="filter-popup-btns">
+                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                   {ALL_TAGS.map(tag => (
                     <button
                       key={tag}
@@ -399,9 +399,9 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
               </div>
 
               {/* AFFINITY */}
-              <div className="filter-popup-section">
+              <div className="filter-popup-section u-col">
                 <span className="filter-group-label">AFFINITY</span>
-                <div className="filter-popup-btns">
+                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                   {allAffinityLabels.map(label => (
                     <button
                       key={label}
@@ -415,9 +415,9 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
               </div>
 
               {/* SPECIAL */}
-              <div className="filter-popup-section">
+              <div className="filter-popup-section u-col">
                 <span className="filter-group-label">SPECIAL</span>
-                <div className="filter-popup-btns">
+                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                   <button
                     className={`filter-btn filter-btn--sm${specialFilter === 'upgradeable' ? ' filter-btn--active filter-btn--gold' : ''}`}
                     onClick={() => setSpecialFilter(prev => prev === 'upgradeable' ? null : 'upgradeable')}
@@ -450,8 +450,8 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
 
           {sortMenuOpen && (
             <div className="filter-popup">
-              <div className="filter-popup-section">
-                <div className="filter-popup-btns">
+              <div className="filter-popup-section u-col">
+                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                   {([
                     ['default',   'Default'],
                     ['az',        'A → Z'],
@@ -485,8 +485,8 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
 
           {groupMenuOpen && (
             <div className="filter-popup">
-              <div className="filter-popup-section">
-                <div className="filter-popup-btns">
+              <div className="filter-popup-section u-col">
+                <div className="filter-popup-btns u-flex u-wrap u-gap-2">
                   {([
                     ['none',    'None'],
                     ['type',    'Type'],
@@ -510,7 +510,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
 
         {/* Active filter pills */}
         {activeFilterCount > 0 && (
-          <div className="filter-active-pills">
+          <div className="filter-active-pills u-flex u-gap-2 u-grow u-items-c">
             {typeFilter !== 'all' && (
               <span className="filter-pill">{typeFilter}s <button onClick={() => setTypeFilter('all')}>✕</button></span>
             )}
@@ -533,7 +533,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
       </div>
 
       {/* Grid */}
-      <div className="collection-grid">
+      <div className="collection-grid u-flex u-wrap u-just-c u-gap-4 u-grow">
         {(() => {
           let lastGroup: string | null = null
           return sorted.map(card => {
@@ -550,7 +550,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                 {showHeader && (
                   <div className="collection-group-header">{label}</div>
                 )}
-                <LazyCell className={`collection-cell${owned === 0 ? ' collection-cell--unowned' : ''}${levelUpCard === card.name ? ' collection-cell--levelup' : ''}`}>
+                <LazyCell className={`collection-cell u-col${owned === 0 ? ' collection-cell--unowned' : ''}${levelUpCard === card.name ? ' collection-cell--levelup' : ''}`}>
                   <CardTile
                     card={card}
                     canAfford={true}

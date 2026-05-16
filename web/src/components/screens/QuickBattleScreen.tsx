@@ -16,13 +16,13 @@ export function QuickBattleScreen({ onStartBattle, onBack }: Props) {
 
   return (
     <div className="qb-screen">
-      <div className="qb-header">
+      <div className="qb-header u-text-c">
         <div className="qb-title">⚔  QUICK BATTLE</div>
         <div className="qb-subtitle">Choose your difficulty</div>
       </div>
 
-      <div className="qb-options">
-        <div className="qb-option">
+      <div className="qb-options u-col">
+        <div className="qb-option u-col u-gap-5">
           <Button className="action-btn" onClick={() => onStartBattle('easy')}>
             ▶  PLAY EASY
           </Button>
@@ -33,7 +33,7 @@ export function QuickBattleScreen({ onStartBattle, onBack }: Props) {
 
         </div>
 
-        <div className="qb-option">
+        <div className="qb-option u-col u-gap-5">
           <Button className="action-btn" onClick={() => onStartBattle('normal')}>
             ▶  PLAY NORMAL
           </Button>
@@ -44,7 +44,7 @@ export function QuickBattleScreen({ onStartBattle, onBack }: Props) {
 
         </div>
 
-        <div className="qb-option">
+        <div className="qb-option u-col u-gap-5">
           <Button className="action-btn" onClick={() => onStartBattle('mirror')}>
             ▶  PLAY MIRROR DECK
           </Button>
@@ -54,7 +54,7 @@ export function QuickBattleScreen({ onStartBattle, onBack }: Props) {
           </div>
 
         </div>
-        <div className="qb-option">
+        <div className="qb-option u-col u-gap-5">
           {
             getRandomMode(onStartBattle, d20)
           }

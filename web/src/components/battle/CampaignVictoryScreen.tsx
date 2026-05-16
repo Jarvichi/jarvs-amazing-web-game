@@ -8,7 +8,7 @@ interface Props {
 export function CampaignVictoryScreen({ onBeginAnew }: Props) {
   const playerName = loadPlayerName()
   return (
-    <div className="campaign-victory">
+    <div className="campaign-victory u-col u-items-c u-just-c u-relative u-text-c">
       <div className="cv-glow" />
       <pre className="cv-ascii">{`  ╔══════════════════════╗
   ║  QUESTLINE  COMPLETE ║

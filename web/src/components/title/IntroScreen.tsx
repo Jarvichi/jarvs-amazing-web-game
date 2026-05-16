@@ -33,13 +33,13 @@ export function IntroScreen({ onDone }: Props) {
 
   return (
     <div
-      className="intro-screen"
+      className="intro-screen u-col u-items-c u-just-c u-pointer"
       onClick={advance}
       title="Click to skip"
     >
-      <div className="intro-content" style={{ opacity: fading ? 0 : 1 }}>
+      <div className="intro-content u-col u-items-c u-just-c" style={{ opacity: fading ? 0 : 1 }}>
         {slide === 'awesome' && (
-          <div className="intro-slide intro-slide--awesome">
+          <div className="intro-slide u-col u-items-c u-just-c u-gap-8 intro-slide--awesome">
             <img
               src={`${import.meta.env.BASE_URL}awesome-software-logo.jpg`}
               alt="Awesome Software"
@@ -50,7 +50,7 @@ export function IntroScreen({ onDone }: Props) {
         )}
 
         {slide === 'jarv' && (
-          <div className="intro-slide intro-slide--jarv">
+          <div className="intro-slide u-col u-items-c u-just-c u-gap-8 intro-slide--jarv">
             <img
               src={`${import.meta.env.BASE_URL}jarv-logo.svg`}
               alt="Jarv"

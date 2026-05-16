@@ -312,17 +312,17 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
   }
 
   return (
-    <OverlayScreen title="SETTINGS" onBack={onBack} className="settings-screen">
-      <div className="settings-body">
+    <OverlayScreen title="SETTINGS" onBack={onBack} className="settings-screen u-col u-grow">
+      <div className="settings-body u-col u-gap-3 u-grow">
         <Section bordered title="AUDIO">
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div>
               <div className="settings-label">Sound</div>
               <div className="settings-sublabel">Procedurally generated audio</div>
             </div>
 
                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>     <span className="settings-value">Sound On/Off</span>
-                            <div className="settings-toggle" onClick={handleSoundToggle}>
+                            <div className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select" onClick={handleSoundToggle}>
                 <div className={`settings-toggle-track${soundOn ? ' settings-toggle-track--on' : ''}`}>
                   <div className="settings-toggle-thumb" />
                 </div>
@@ -330,7 +330,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
             </div>
            
           </div>
-                    <div className="settings-row">
+                    <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div>
               <div className="settings-label">Effects</div>
               <div className="settings-sublabel">In game sounds</div>
@@ -349,7 +349,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               <span className="settings-value">{Math.round(soundVolume * 100)}%</span>
             </div>
           </div>
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div>
               <div className="settings-label">Music</div>
               <div className="settings-sublabel">Background music volume</div>
@@ -370,12 +370,12 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
         </Section>
 
         <Section bordered title="STARTUP">
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div>
               <div className="settings-label">Skip intro on startup</div>
               <div className="settings-sublabel">Skip the Awesome Software splash screens</div>
             </div>
-            <div className="settings-toggle" onClick={handleSkipIntroToggle}>
+            <div className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select" onClick={handleSkipIntroToggle}>
               <div className={`settings-toggle-track${skipIntro ? ' settings-toggle-track--on' : ''}`}>
                 <div className="settings-toggle-thumb" />
               </div>
@@ -387,7 +387,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           {!user?.isAnonymous ? (
             // Signed in with Google
             <>
-              <div className="settings-row">
+              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                 <div>
                   <div className="settings-label">{user?.displayName ?? user?.email ?? 'Google account'}</div>
                   <div className="settings-sublabel">
@@ -404,7 +404,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 </div>
               </div>
               {pendingCloudSave && (
-                <div className="settings-row" style={{ flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
                   <div className="settings-label" style={{ color: '#ffbb33' }}>
                     Cloud save found ({pendingCloudSave.savedAt.toDate().toLocaleString()})
                   </div>
@@ -418,7 +418,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
             </>
           ) : (
             // Anonymous — not yet signed in
-            <div className="settings-row">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
                 <div className="settings-label">Sync save across devices</div>
                 <div className="settings-sublabel">Sign in to back up and restore your progress</div>
@@ -429,7 +429,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
             </div>
           )}
           {syncMsg && (
-            <div className="settings-row">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div className="settings-sublabel" style={{ color: (syncMsg.includes('failed') || syncMsg.includes('Incorrect') || syncMsg.includes('No account') || syncMsg.includes('Invalid') || syncMsg.includes('already exists') || syncMsg.includes('must be') || syncMsg.includes('Could not')) ? '#ff5555' : '#33ff33' }}>
                 {syncMsg}
               </div>
@@ -439,12 +439,12 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
 
         {eightbitUnlocked && (
           <Section bordered title="🕹 8-BIT MODE">
-            <div className="settings-row">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
                 <div className="settings-label">8-bit visual filter</div>
                 <div className="settings-sublabel">Posterised palette + pixelated sprites</div>
               </div>
-              <div className="settings-toggle" onClick={handleEightbitToggle}>
+              <div className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select" onClick={handleEightbitToggle}>
                 <div className={`settings-toggle-track${eightbitOn ? ' settings-toggle-track--on' : ''}`}>
                   <div className="settings-toggle-thumb" />
                 </div>
@@ -454,29 +454,29 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
         )}
 
         <Section bordered title="DISPLAY">
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div>
               <div className="settings-label">Battle event popups</div>
               <div className="settings-sublabel">Show mid-battle popups for notable events (e.g. hero summons)</div>
             </div>
-            <div className="settings-toggle" onClick={handleBattlePopupsToggle}>
+            <div className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select" onClick={handleBattlePopupsToggle}>
               <div className={`settings-toggle-track${battlePopups ? ' settings-toggle-track--on' : ''}`}>
                 <div className="settings-toggle-thumb" />
               </div>
             </div>
           </div>
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div>
               <div className="settings-label">Light mode</div>
               <div className="settings-sublabel">Switch to a light parchment background</div>
             </div>
-            <div className="settings-toggle" onClick={handleLightModeToggle}>
+            <div className="settings-toggle u-flex u-items-c u-gap-3 u-pointer u-no-select" onClick={handleLightModeToggle}>
               <div className={`settings-toggle-track${lightModeOn ? ' settings-toggle-track--on' : ''}`}>
                 <div className="settings-toggle-thumb" />
               </div>
             </div>
           </div>
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div>
               <div className="settings-label">Text size</div>
               <div className="settings-sublabel">{textSize}px</div>
@@ -494,7 +494,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               <span className="settings-value">{textSize}px</span>
             </div>
           </div>
-          <div className="settings-row" style={{ flexWrap: 'wrap', gap: '10px' }}>
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7" style={{ flexWrap: 'wrap', gap: '10px' }}>
             <div>
               <div className="settings-label">Text colour</div>
               <div className="settings-sublabel">Choose a terminal palette</div>
@@ -515,15 +515,15 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
         </Section>
 
         <Section bordered title="GAME DATA">
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div>
               <div className="settings-label">Reset all progress</div>
               <div className="settings-sublabel">Clears collection, deck, crystals, campaign and stats</div>
             </div>
           </div>
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             {confirmReset ? (
-              <div className="settings-confirm-row">
+              <div className="settings-confirm-row u-flex u-gap-4 u-items-c u-just-end">
                 <span className="settings-confirm-msg">Are you sure? This cannot be undone.</span>
                 <button className="action-btn action-btn--danger settings-danger-btn" onClick={handleReset}>CONFIRM RESET</button>
                 <button className="action-btn" onClick={() => setConfirmReset(false)} style={{ fontSize: '11px', padding: '6px 12px' }}>CANCEL</button>
@@ -543,14 +543,14 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
         {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin || onFeedbackAdmin) && (
 <>
       <Section bordered title="DEBUG">
-            <div className="settings-row">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
                 <div className="settings-label">Export save data</div>
                 <div className="settings-sublabel">Download all localStorage as a JSON file</div>
               </div>
               <button className="action-btn" onClick={exportLocalStorage}>EXPORT</button>
             </div>
-            <div className="settings-row">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
                 <div className="settings-label">Import save data</div>
                 <div className="settings-sublabel">Load a previously exported JSON save file</div>
@@ -559,20 +559,20 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               <input ref={importRef} type="file" accept=".json" style={{ display: 'none' }} onChange={handleImport} />
             </div>
             {importMsg && (
-              <div className="settings-row">
+              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                 <div className="settings-sublabel" style={{ color: importMsg.startsWith('Error') ? '#ff5555' : '#33ff33' }}>
                   {importMsg}
                 </div>
               </div>
             )}
-            <div className="settings-row">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
                 <div className="settings-label">Rollbar: send info</div>
                 <div className="settings-sublabel">Send a test info event to Rollbar</div>
               </div>
               <button className="action-btn" onClick={handleRollbarTest}>SEND INFO</button>
             </div>
-            <div className="settings-row">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
                 <div className="settings-label">Rollbar: trigger error</div>
                 <div className="settings-sublabel">Throw an intentional error for Rollbar to capture</div>
@@ -580,7 +580,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               <button className="action-btn action-btn--danger" onClick={handleRollbarError}>TRIGGER ERROR</button>
             </div>
             {rollbarMsg && (
-              <div className="settings-row">
+              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                 <div className="settings-sublabel" style={{ color: '#33ff33' }}>
                   {rollbarMsg}
                 </div>
@@ -589,7 +589,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </Section>
           <Section bordered title="ADMIN">
             {onGiftAdmin && (
-              <div className="settings-row">
+              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                 <div>
                   <div className="settings-label">Gift management</div>
                   <div className="settings-sublabel">Create and delete one-off player gifts</div>
@@ -598,7 +598,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               </div>
             )}
             {onNewsAdmin && (
-              <div className="settings-row">
+              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                 <div>
                   <div className="settings-label">News / What's New</div>
                   <div className="settings-sublabel">Post new feature announcements and patch notes</div>
@@ -607,7 +607,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               </div>
             )}
             {onCampaignAdmin && (
-              <div className="settings-row">
+              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                 <div>
                   <div className="settings-label">Campaign editor</div>
                   <div className="settings-sublabel">Edit act nodes, enemy decks, and environments</div>
@@ -616,7 +616,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               </div>
             )}
             {onFeedbackAdmin && (
-              <div className="settings-row">
+              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                 <div>
                   <div className="settings-label">Feedback inbox</div>
                   <div className="settings-sublabel">View and delete player-submitted feedback</div>
@@ -636,13 +636,13 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
         )}
 
         <Section bordered title="ABOUT">
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div>
               <div className="settings-label">Jarv's Amazing Web Game</div>
               <div className="settings-sublabel">A browser-based strategy card game</div>
             </div>
           </div>
-          <div className="settings-row">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
             <div>
               <div className="settings-label">Build</div>
               <div className="settings-sublabel">{new Date(__BUILD_DATE__).toLocaleString()}</div>
@@ -652,13 +652,13 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
             const { totalMs, battleMs } = loadPlaytime()
             return (
               <>
-                <div className="settings-row">
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                   <div>
                     <div className="settings-label">Time in game</div>
                     <div className="settings-sublabel">{formatPlaytime(totalMs)}</div>
                   </div>
                 </div>
-                <div className="settings-row">
+                <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
                   <div>
                     <div className="settings-label">Time in battle</div>
                     <div className="settings-sublabel">{formatPlaytime(battleMs)}</div>

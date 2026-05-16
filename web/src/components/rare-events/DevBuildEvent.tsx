@@ -49,7 +49,7 @@ export function DevBuildEvent({ onDone }: Props) {
   }, [done, onDone])
 
   return (
-    <div className="dev-build-overlay">
+    <div className="dev-build-overlay u-absolute u-col u-items-c u-just-c">
       <div className="dev-build-header">
         ⚠ INTERNAL BUILD — NOT FOR DISTRIBUTION
       </div>

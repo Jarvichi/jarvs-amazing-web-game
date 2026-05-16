@@ -46,7 +46,7 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
       <div className="event-title">{event.title}</div>
 
       {/* HP bar */}
-      <div className="event-hp-area">
+      <div className="event-hp-area u-flex u-items-c u-gap-3">
         <span className="event-hp-label">HP</span>
         <div className="event-hp-track">
           <div
@@ -56,14 +56,14 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
         </div>
         <span className="event-hp-text" style={{ color: hpColor(displayHp, maxHp) }}>
           {hpChanged
-            ? <>{playerHp} <span className="event-hp-delta">→ {displayHp}</span></>
+            ? <>{playerHp} <span className="event-hp-delta u-text-red">→ {displayHp}</span></>
             : <>{displayHp}/{maxHp}</>}
         </span>
       </div>
 
       <div className="event-description">{event.description.replace(/\bJarv\b/g, playerName)}</div>
 
-      <div className="event-choices">
+      <div className="event-choices u-col u-gap-4">
         {event.choices.map((choice, i) => {
           const isChosen   = picked?.label === choice.label
           const isDisabled = picked !== null && !isChosen
@@ -79,7 +79,7 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
               disabled={isDisabled}
             >
               <span className="event-choice-letter">{String.fromCharCode(65 + i)}.</span>
-              <span className="event-choice-label">{choice.label}</span>
+              <span className="event-choice-label u-grow">{choice.label}</span>
             </button>
           )
         })}

@@ -36,7 +36,7 @@ function EndlessTable({ entries, ghostWave }: { entries: EndlessLeaderboardEntry
   return (
     <ol className="el-leaderboard-list">
       {display.map((entry, i) => (
-        <li key={entry.uid} className={`el-leaderboard-entry${entry.isGhost ? ' el-lb-ghost' : ''}`}>
+        <li key={entry.uid} className={`el-leaderboard-entry u-flex u-items-c u-gap-4${entry.isGhost ? ' el-lb-ghost' : ''}`}>
           <span className="el-lb-rank">{entry.isGhost ? '?' : `${i + 1}.`}</span>
           <span className="el-lb-name">{entry.characterName}</span>
           <span className="el-lb-wave">{entry.isGhost ? `Wave ${entry.wave}` : `Wave ${entry.wave}`}</span>
@@ -62,11 +62,11 @@ export function EndlessLeaderboardScreen({ onBack }: Props) {
 
   return (
     <div className="el-screen">
-      <div className="el-header">
+      <div className="el-header u-text-c">
         <div className="el-label">🏆 LEADERBOARDS</div>
       </div>
 
-      <div className="el-section">
+      <div className="el-section u-col u-gap-3">
         <div className="el-section-title">📅 DAILY CHALLENGE</div>
         <div className="el-subtitle">Today's top players</div>
         <div className="el-leaderboard">
@@ -77,7 +77,7 @@ export function EndlessLeaderboardScreen({ onBack }: Props) {
           ) : (
             <ol className="el-leaderboard-list">
               {dailyLb.map((entry, i) => (
-                <li key={entry.uid} className="el-leaderboard-entry">
+                <li key={entry.uid} className="el-leaderboard-entry u-flex u-items-c u-gap-4">
                   <span className="el-lb-rank">{i + 1}.</span>
                   <span className="el-lb-name">{entry.characterName}</span>
                   <span className="el-lb-wave">
@@ -90,7 +90,7 @@ export function EndlessLeaderboardScreen({ onBack }: Props) {
         </div>
       </div>
 
-      <div className="el-section">
+      <div className="el-section u-col u-gap-3">
         <div className="el-section-title">∞ ENDLESS MODE</div>
 
         {best && (
@@ -110,7 +110,7 @@ export function EndlessLeaderboardScreen({ onBack }: Props) {
         </div>
       </div>
 
-      <div className="el-actions">
+      <div className="el-actions u-col u-gap-4">
         <button className="action-btn" onClick={onBack}>← BACK</button>
       </div>
     </div>

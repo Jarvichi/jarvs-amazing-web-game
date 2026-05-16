@@ -11,7 +11,7 @@ interface Props {
 
 export function RelicBreakModal({ relicName, brokenName, brokenIcon, brokenDesc, onContinue }: Props) {
   return (
-    <div className="relic-break-modal">
+    <div className="relic-break-modal u-col u-items-c u-just-c u-gap-8 u-text-c">
       <div className="rbm-glow" />
 
       <div className="rbm-header">⚠ RELIC DAMAGED</div>

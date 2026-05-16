@@ -32,9 +32,9 @@ export function CampScreen({
   if (result) {
     return (
       <div className="overlay-screen camp-screen">
-        <div className="camp-header">
+        <div className="camp-header u-text-c">
           <div className="camp-title">— CAMP —</div>
-          <div className="camp-stats">
+          <div className="camp-stats u-flex u-gap-8 u-just-c">
             <span>HP: {playerHp}/{maxHp}</span>
             <span>Lives: {livesRemaining}/{maxLives}</span>
           </div>
@@ -49,17 +49,17 @@ export function CampScreen({
 
   return (
     <div className="overlay-screen camp-screen">
-      <div className="camp-header">
+      <div className="camp-header u-text-c">
         <div className="camp-title">— CAMP —</div>
         <div className="camp-sub">Rest your weary troops. Choose wisely.</div>
-        <div className="camp-stats">
+        <div className="camp-stats u-flex u-gap-8 u-just-c">
           <span>HP: {playerHp}/{maxHp}</span>
           <span>Lives: {livesRemaining}/{maxLives}</span>
           {fatiguedCards.length > 0 && <span>Resting: {fatiguedCards.join(', ')}</span>}
         </div>
       </div>
 
-      <div className="camp-choices">
+      <div className="camp-choices u-col">
         <button className="camp-choice" onClick={() => onChoose('heal')}>
           <div className="camp-choice-icon">⛺</div>
           <div className="camp-choice-name">HEAL</div>

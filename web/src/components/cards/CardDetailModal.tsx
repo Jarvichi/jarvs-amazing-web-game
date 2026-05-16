@@ -100,20 +100,20 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
           <button className="cdm-close" onClick={onClose}>✕</button>
         </div>
 
-        <div className="cdm-body">
+        <div className="cdm-body u-flex u-gap-6">
           {/* Left: card visual */}
-          <div className="cdm-card-col">
+          <div className="cdm-card-col u-col u-items-c u-gap-3">
             <CardTile card={card} canAfford={true} />
             <div className="cdm-owned">×{owned} owned{inDeck > 0 ? ` · ×${inDeck} in deck` : ''}</div>
           </div>
 
           {/* Right: stats */}
-          <div className="cdm-info-col">
+          <div className="cdm-info-col u-grow u-col u-gap-4">
             <div className="cdm-desc">{card.description}</div>
 
             {/* Unit stats */}
             {u && u.moveSpeed > 0 && (
-              <div className="cdm-stats-block">
+              <div className="cdm-stats-block u-flex u-wrap">
                 <StatRow compact label="ATK" value={atkBonus > 0 ? <>{u.attack + atkBonus} <span className="cdm-stat-bonus">(+{atkBonus})</span></> : u.attack} />
                 <StatRow compact label="HP"  value={hpBonus  > 0 ? <>{u.maxHp  + hpBonus}  <span className="cdm-stat-bonus">(+{hpBonus})</span></> : u.maxHp} />
                 <StatRow compact label="SPD" value={u.moveSpeed} />
@@ -122,7 +122,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
               </div>
             )}
             {u && u.moveSpeed === 0 && u.maxHp > 0 && (
-              <div className="cdm-stats-block">
+              <div className="cdm-stats-block u-flex u-wrap">
                 <StatRow compact label="HP" value={hpBonus > 0 ? <>{u.maxHp + hpBonus} <span className="cdm-stat-bonus">(+{hpBonus})</span></> : u.maxHp} />
                 {u.structureEffect?.type === 'spawn' && (() => {
                   const rates: number[] = []
@@ -147,17 +147,17 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
 
             {/* Traits */}
             {traits.length > 0 && (
-              <div className="cdm-traits">
+              <div className="cdm-traits u-flex u-wrap u-gap-2">
                 {traits.map(t => <span key={t} className="cdm-trait">{t}</span>)}
               </div>
             )}
 
             {/* Strengths, Weaknesses & Affinity */}
             {u && (u.strengths?.length || u.weaknesses?.length || u.affinity) ? (
-              <div className="cdm-sw-block">
+              <div className="cdm-sw-block u-col u-gap-1">
                 {u.strengths && u.strengths.length > 0 && (
                   <>
-                    <button className="cdm-sw-row cdm-sw-row--btn" onClick={() => toggleRow('strong')}>
+                    <button className="cdm-sw-row u-flex u-gap-3 cdm-sw-row--btn" onClick={() => toggleRow('strong')}>
                       <span className="cdm-sw-label cdm-sw-label--strong">⚔ Strong vs</span>
                       <span className="cdm-sw-tags">{u.strengths.join(', ')}</span>
                       <span className="cdm-sw-chevron">{expandedRow === 'strong' ? '▲' : '▼'}</span>
@@ -172,7 +172,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                 )}
                 {u.weaknesses && u.weaknesses.length > 0 && (
                   <>
-                    <button className="cdm-sw-row cdm-sw-row--btn" onClick={() => toggleRow('weak')}>
+                    <button className="cdm-sw-row u-flex u-gap-3 cdm-sw-row--btn" onClick={() => toggleRow('weak')}>
                       <span className="cdm-sw-label cdm-sw-label--weak">⚠ Weak to</span>
                       <span className="cdm-sw-tags">{u.weaknesses.join(', ')}</span>
                       <span className="cdm-sw-chevron">{expandedRow === 'weak' ? '▲' : '▼'}</span>
@@ -188,7 +188,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                 )}
                 {u.affinity && (
                   <>
-                    <button className="cdm-sw-row cdm-sw-row--btn" onClick={() => toggleRow('affinity')}>
+                    <button className="cdm-sw-row u-flex u-gap-3 cdm-sw-row--btn" onClick={() => toggleRow('affinity')}>
                       <span className="cdm-sw-label cdm-sw-label--affinity">
                         {masteryLvl < 1 ? '🔒' : '✦'} Affinity
                       </span>
@@ -221,10 +221,10 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
               <MasteryBar xp={xp} />
               {u && u.moveSpeed > 0 && (
                 <div className="cdm-mastery-milestones">
-                  <div className={`cdm-milestone${masteryLvl >= 1 ? ' cdm-milestone--unlocked' : ''}`}>
+                  <div className={`cdm-milestone${masteryLvl >= 1 ? ' cdm-milestone--unlocked u-text-gold' : ''}`}>
                     Lv1 — Affinity activates
                   </div>
-                  <div className={`cdm-milestone${masteryLvl >= 5 ? ' cdm-milestone--unlocked' : ''}`}>
+                  <div className={`cdm-milestone${masteryLvl >= 5 ? ' cdm-milestone--unlocked u-text-gold' : ''}`}>
                     Lv5 — Elite: +10% damage dealt
                   </div>
                 </div>
@@ -254,7 +254,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                 return (
                   <div className="cdm-mastery-milestones">
                     {milestones.map(m => (
-                      <div key={m.text} className={`cdm-milestone${masteryLvl >= m.lvl ? ' cdm-milestone--unlocked' : ''}`}>
+                      <div key={m.text} className={`cdm-milestone${masteryLvl >= m.lvl ? ' cdm-milestone--unlocked u-text-gold' : ''}`}>
                         Lv{m.lvl} — {m.text}
                       </div>
                     ))}
@@ -264,7 +264,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
             </div>
 
             {/* Battle stats */}
-            <div className="cdm-battle-stats">
+            <div className="cdm-battle-stats u-col u-gap-1">
               <StatRow compact label="Times played" value={statsPlayed.played} />
               {statsUnit && <StatRow compact label="Units lost" value={statsUnit.died} />}
             </div>

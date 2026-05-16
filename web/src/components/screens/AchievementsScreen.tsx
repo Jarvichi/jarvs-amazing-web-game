@@ -145,7 +145,7 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
     >
 
       {/* Category tabs */}
-      <div className="ach-tabs">
+      <div className="ach-tabs u-flex u-wrap u-gap-2">
         {CATEGORY_ORDER.map(cat => {
           const badge = claimableCount(cat)
           return (
@@ -161,7 +161,7 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
         })}
       </div>
 
-      <div className="ach-claim-all-bar">
+      <div className="ach-claim-all-bar u-flex u-items-c u-just-sb">
         <div className="ach-category-label">{CATEGORY_LABELS[activeCategory]}</div>
         {totalClaimable > 0 && (
           <button className="action-btn ach-claim-all-btn" onClick={handleClaimAll}>
@@ -170,7 +170,7 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
         )}
       </div>
 
-      <div className="ach-list">
+      <div className="ach-list u-grow u-col u-gap-3">
         {defs.map(def => {
           const progress  = save.progress[def.progressKey] ?? 0
           const unlocked  = !!save.unlocked[def.id]
@@ -182,9 +182,9 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
               key={def.id}
               className={`ach-row${unlocked ? ' ach-row--unlocked' : ''}${isClaimed ? ' ach-row--claimed' : ''}`}
             >
-              <div className="ach-row-left">
+              <div className="ach-row-left u-flex u-gap-4 u-grow">
                 <div className="ach-tier">{def.tier === 2 ? '★★' : '★'}</div>
-                <div className="ach-text">
+                <div className="ach-text u-col u-gap-1">
                   <div className="ach-name">{unlocked ? '✓ ' : ''}{def.name}</div>
                   <div className="ach-desc">{def.description}</div>
                   {!isClaimed && (
@@ -193,7 +193,7 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
                   <div className="ach-reward">Reward: {formatReward(def)}</div>
                 </div>
               </div>
-              <div className="ach-row-right">
+              <div className="ach-row-right u-flex u-items-c">
                 {isClaimed ? (
                   <span className="ach-status-claimed">CLAIMED</span>
                 ) : unlocked ? (

@@ -156,7 +156,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   }, [])
 
   return (
-    <div className="title-screen">
+    <div className="title-screen u-relative u-col u-items-c u-just-c u-grow">
       {/* Animated background scan line */}
       <div className="title-bg-scan" aria-hidden="true" />
 
@@ -180,7 +180,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
       <TitleIdleAnimation />
 
       {/* Header: logo + subtitle */}
-      <div className="title-header">
+      <div className="title-header u-col u-items-c u-gap-3 u-relative">
         <div
           className={`title-logo${logoFlash ? ' title-logo--flash' : ''}`}
           onClick={handleLogoClick}
@@ -236,9 +236,15 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           ⚔  TRAINING MODE
         </TitleButton>
 
-        <TitleButton onClick={onMiniGames} extraClass={`title-minigames-btn${cityAttackAlert ? ' title-btn--alert' : ''}`}>
-          🎮  MINI GAMES{cityAttackAlert && <span className="title-alert-badge">⚔ CITY ALERT</span>}
+        <TitleButton onClick={onMiniGames} extraClass={`title-minigames-btn`}>
+          🎮  MINI GAMES
         </TitleButton>
+        {cityAttackAlert &&
+        // TODO: Make this button go straight to the city view.
+                <TitleButton           variant="large" onClick={onMiniGames} extraClass={`title-campaign-btn title-minigames-btn title-btn--alert title-alert-badge`}>
+         ⚔ CITY ALERT
+        </TitleButton>
+}
       </div>
 
       {!campaignUnlocked && (
@@ -271,14 +277,14 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
       </div>
 
       {/* Footer: stats + auth */}
-      <div className="title-footer">
+      <div className="title-footer u-col u-items-c u-gap-2 u-relative">
         <div className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>
           {wrongSave
             ? <>{wrongSave.cards}/{catalogTotal} cards &nbsp;·&nbsp; 💎 {wrongSave.crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {wrongSave.deck}</>
             : <>{distinctUnlocked}/{catalogTotal} cards &nbsp;·&nbsp; 💎 {crystals.toLocaleString()} &nbsp;·&nbsp; Deck: {count}</>
           }
         </div>
-        <div className="title-auth-bar">
+        <div className="title-auth-bar u-flex u-items-c u-gap-5">
           {user && !user.isAnonymous ? (
             <>
               <span className="title-auth-label">👤 {user.displayName ?? user.email}</span>

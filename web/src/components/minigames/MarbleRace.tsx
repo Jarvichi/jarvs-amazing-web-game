@@ -169,14 +169,14 @@ export function MarbleRace({ onDone }: Props) {
 
         <div className="race-prize-table">
           {PLACE_LABELS.map((label, i) => (
-            <div key={i} className="race-prize-row">
+            <div key={i} className="race-prize-row u-flex u-just-sb u-gap-7">
               <span className="race-prize-place">{label}</span>
               <span className="race-prize-tickets">+{PLACE_PRIZES[i]} 🎫</span>
             </div>
           ))}
         </div>
 
-        <div className="race-pick-row">
+        <div className="race-pick-row u-flex u-gap-4 u-wrap u-just-c">
           {MARBLE_NAMES.map((name, i) => (
             <button
               key={i}
@@ -191,7 +191,7 @@ export function MarbleRace({ onDone }: Props) {
           ))}
         </div>
 
-        <div className="minigame-result-panel">
+        <div className="minigame-result-panel u-col u-items-c u-gap-5">
           <button
             className="action-btn action-btn--gold"
             onClick={startRace}
@@ -320,14 +320,14 @@ export function MarbleRace({ onDone }: Props) {
 
       {/* ── Finishing order ── */}
       {phase === 'result' && finishOrder.length > 0 && (
-        <div className="race-results">
+        <div className="race-results u-col u-gap-2">
           {finishOrder.map((marbleIdx, pos) => (
             <div
               key={marbleIdx}
               className={`race-result-row${marbleIdx === chosen ? ' race-result-row--chosen' : ''}`}
             >
               <span className="race-result-place">{PLACE_LABELS[pos]}</span>
-              <span className="race-result-marble">
+              <span className="race-result-marble u-grow">
                 {MARBLE_EMOJIS[marbleIdx]} {MARBLE_NAMES[marbleIdx]}
               </span>
               {marbleIdx === chosen && (
@@ -339,7 +339,7 @@ export function MarbleRace({ onDone }: Props) {
       )}
 
       {phase === 'result' && (
-        <div className="minigame-result-panel">
+        <div className="minigame-result-panel u-col u-items-c u-gap-5">
           <div className="minigame-result-headline">
             You earned {ticketsEarned} ticket{ticketsEarned !== 1 ? 's' : ''}!
           </div>

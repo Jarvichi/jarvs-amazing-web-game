@@ -12,8 +12,8 @@ export function StarterPackSelect({ onPick, fatiguedCards = [], bonusCards = [] 
   const catalog = getCardCatalog()
 
   return (
-    <div className="starter-select">
-      <div className="starter-select-header">
+    <div className="starter-select u-col u-items-c u-gap-8">
+      <div className="starter-select-header u-text-c">
         <div className="starter-select-title">DECK RESET</div>
         <div className="starter-select-sub">
           Your deck returns to basics. Choose a starter kit for the next act.<br />
@@ -33,9 +33,9 @@ export function StarterPackSelect({ onPick, fatiguedCards = [], bonusCards = [] 
         )}
       </div>
 
-      <div className="starter-packs">
+      <div className="starter-packs u-flex u-gap-6 u-just-c u-wrap">
         {STARTER_PACK_OPTIONS.map(pack => (
-          <div key={pack.id} className="starter-pack" onClick={() => onPick(pack.cards)}>
+          <div key={pack.id} className="starter-pack u-col u-gap-4 u-grow u-pointer" onClick={() => onPick(pack.cards)}>
             <div className="starter-pack-name">{pack.name}</div>
             <div className="starter-pack-desc">{pack.description}</div>
             <ul className="starter-pack-list">
@@ -43,7 +43,7 @@ export function StarterPackSelect({ onPick, fatiguedCards = [], bonusCards = [] 
                 const card = catalog.find(c => c.name === entry.cardName)
                 const isFatigued = fatiguedCards.includes(entry.cardName)
                 return (
-                  <li key={entry.cardName} className={`spl-item spl-item--${card?.rarity ?? 'common'}${isFatigued ? ' spl-item--resting' : ''}`}>
+                  <li key={entry.cardName} className={`spl-item u-flex u-gap-3 spl-item--${card?.rarity ?? 'common'}${isFatigued ? ' spl-item--resting' : ''}`}>
                     <span className="spl-count">×{entry.count}</span>
                     <span className="spl-name">{entry.cardName}</span>
                     {isFatigued && <span className="spl-resting-badge">ZZZ</span>}

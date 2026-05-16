@@ -11,7 +11,7 @@ interface Props {
 
 export function ActComplete({ actTitle, actSubtitle, relicName, relicDesc, onContinue, hasNextAct = false }: Props) {
   return (
-    <div className="act-complete">
+    <div className="act-complete u-col u-items-c u-gap-8 u-grow u-text-c u-relative">
       <div className="ac-glow" />
 
       <div className="ac-header">

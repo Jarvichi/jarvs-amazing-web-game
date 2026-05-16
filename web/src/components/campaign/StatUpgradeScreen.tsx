@@ -50,14 +50,14 @@ export function StatUpgradeScreen({ onSelect }: Props) {
 
   return (
     <div className="relic-select-screen">
-      <div className="relic-select-header">
+      <div className="relic-select-header u-text-c">
         <div className="relic-select-title">PERMANENT UPGRADE</div>
         <div className="relic-select-subtitle">
           Choose one upgrade to carry into every future campaign run.
         </div>
       </div>
 
-      <div className="relic-select-grid">
+      <div className="relic-select-grid u-col u-gap-5">
         {OPTIONS.map(opt => (
           <button
             key={opt.stat}

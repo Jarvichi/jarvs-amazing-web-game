@@ -21,7 +21,7 @@ export function TutorialOverlay({ steps, onDone }: Props) {
         <div className="tutorial-step-indicator">[ {index + 1} / {steps.length} ]</div>
         <div className="tutorial-title">{step.title}</div>
         <div className="tutorial-body">{step.body}</div>
-        <div className="tutorial-actions">
+        <div className="tutorial-actions u-flex u-just-sb u-items-c">
           <button className="tutorial-skip" onClick={onDone}>SKIP</button>
           <button
             className="action-btn"

@@ -20,10 +20,10 @@ function formatTime(ms: number): string {
 export function VictoryPanel({ playerScore, opponentScore, playerBaseHp, playerBaseMaxHp, unitsDefeated, gameTime, onContinue }: Props) {
   return (
     <div className="bsummary-backdrop">
-      <div className="bsummary-panel vpanel">
+      <div className="bsummary-panel vpanel u-text-c u-items-c">
         <div className="victory-text vpanel-headline">YOU WIN!</div>
 
-        <div className="bsummary-stats">
+        <div className="bsummary-stats u-col u-gap-3">
           <StatRow accent label="SCORE"          value={`${playerScore} — ${opponentScore}`} />
           <StatRow accent label="BASE HP"        value={`${playerBaseHp} / ${playerBaseMaxHp}`} />
           <StatRow accent label="UNITS DEFEATED" value={unitsDefeated} />

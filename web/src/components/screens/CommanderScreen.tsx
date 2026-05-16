@@ -81,7 +81,7 @@ function CommanderXpBar({ xp }: { xp: number }) {
   const { level, current, needed } = masteryProgress(xp)
   const pct = needed > 0 ? Math.min(100, Math.round((current / needed) * 100)) : 100
   return (
-    <div className="commander-xp-wrap">
+    <div className="commander-xp-wrap u-relative u-flex u-items-c u-gap-3">
       <span className="commander-xp-label">Lv.{level}</span>
       <div className="commander-xp-bar">
         <div className="commander-xp-fill" style={{ width: `${pct}%` }} />
@@ -305,7 +305,7 @@ export function CommanderScreen({
 
         {/* Level-up overlay */}
         {levelUp && (
-          <div className="commander-levelup">
+          <div className="commander-levelup u-absolute u-flex u-items-c u-just-c">
             <span className="commander-levelup-text">⭐ LEVEL UP! ⭐</span>
           </div>
         )}
@@ -316,14 +316,14 @@ export function CommanderScreen({
       </div>
 
       {/* Toast messages */}
-      <div className="commander-toasts" aria-live="polite">
+      <div className="commander-toasts u-col u-gap-2 u-text-c" aria-live="polite">
         {toasts.map(t => (
           <div key={t.id} className="commander-toast">{t.text}</div>
         ))}
       </div>
 
       {/* Actions */}
-      <div className="commander-actions">
+      <div className="commander-actions u-flex u-gap-4 u-just-c u-wrap">
         {(['feed', 'play', 'pet'] as PetAction[]).map(action => {
           const ready = cooldowns[action] === 0
           return (
@@ -349,13 +349,13 @@ export function CommanderScreen({
       </div>
 
       {/* Dismiss section */}
-      <div className="commander-dismiss-wrap">
+      <div className="commander-dismiss-wrap u-flex u-just-c">
         {!confirmDismiss ? (
           <button className="action-btn action-btn--danger" onClick={() => setConfirmDismiss(true)}>
             Dismiss Commander
           </button>
         ) : (
-          <div className="commander-confirm">
+          <div className="commander-confirm u-flex u-items-c u-gap-4 u-wrap u-just-c">
             <span>Dismiss {state.cardName}? ({promosLeft} promotion{promosLeft !== 1 ? 's' : ''} left today)</span>
             <button className="action-btn action-btn--danger" onClick={handleDismiss}>Confirm</button>
             <button className="action-btn" onClick={() => setConfirmDismiss(false)}>Cancel</button>

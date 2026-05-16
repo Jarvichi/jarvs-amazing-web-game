@@ -145,7 +145,7 @@ export function CrystalCatch({ onDone }: Props) {
       <div className="minigame-title">💎 CRYSTAL CATCH</div>
 
       {phase === 'ready' && (
-        <div className="minigame-ready">
+        <div className="minigame-ready u-col u-items-c u-gap-5">
           <p>Catch 🔮 crystals (+3) and 🪙 coins (+1).</p>
           <p>Avoid 💣 bombs (-10 tickets). Timer: 30 seconds.</p>
           <button className="action-btn action-btn--gold" onClick={startGame}>START</button>
@@ -188,7 +188,7 @@ export function CrystalCatch({ onDone }: Props) {
       )}
 
       {phase === 'result' && (
-        <div className="minigame-result-panel">
+        <div className="minigame-result-panel u-col u-items-c u-gap-5">
           <div className="minigame-result-headline">You caught {ticketsRef.current} tickets!</div>
           <button className="action-btn action-btn--gold" onClick={() => onDone(ticketsRef.current)}>
             COLLECT &amp; EXIT
