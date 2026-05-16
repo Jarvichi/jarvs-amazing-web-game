@@ -12,7 +12,7 @@ import {
   TDGameState, TDTower, TDUnit, TDEnemy, TDAttackEvent, TDHazard, MilestoneUpgrade,
   isPathCell,
   createTDGame, placeTower, removeTower, moveTower, upgradeTower, startWave, tickTD,
-  calcTicketReward, calcGoldReward, towerCost, upgradeCost, buildingUnitCount, chooseMilestoneUpgrade,
+  calcTicketReward, calcGoldReward, towerCost, upgradeCost, xpToUpgrade, buildingUnitCount, chooseMilestoneUpgrade,
 } from '../../game/towerDefence'
 import { Lives } from '../BuildingBlocks/Lives/Lives'
 
@@ -366,6 +366,9 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                       {tower.respawnTimers.length > 0 && (
                         <div className="td-tower-respawn">⏳</div>
                       )}
+                      {tower.upgrades < TD_MAX_UPGRADES && tower.xp >= xpToUpgrade(tower) && (
+                        <div className="td-tower-upgrade-ready">⬆</div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -405,6 +408,8 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
             const t = selectedTower ?? hoveredTower!
             const unitCount = buildingUnitCount(t)
             const activeUnits = game.units.filter(u => u.towerId === t.id)
+            const xpNeeded = xpToUpgrade(t)
+            const xpReady = t.upgrades < TD_MAX_UPGRADES && t.xp >= xpNeeded
             return (
               <div
                 className="td-tower-tooltip"
@@ -413,6 +418,11 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                 <strong>{t.buildingName}</strong>
                 {t.upgrades > 0 && <span className="td-tower-tier-label"> {'★'.repeat(t.upgrades)}</span>}
                 <div>{t.template.name} · {activeUnits.length}/{unitCount} active</div>
+                {t.upgrades < TD_MAX_UPGRADES && (
+                  <div className={xpReady ? 'td-tooltip-xp-ready' : 'td-tooltip-xp'}>
+                    {xpReady ? '⬆ Upgrade ready!' : `XP ${t.xp}/${xpNeeded} kills`}
+                  </div>
+                )}
                 {t.id !== selectedTowerId && <div className="td-tooltip-hint">Tap to select</div>}
               </div>
             )
@@ -426,7 +436,10 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
         const t = selectedTower
         const sellRefund = Math.floor(towerCost(t.template) * 0.5)
         const upCost = upgradeCost(t)
+        const xpNeeded = xpToUpgrade(t)
+        const hasXp = t.xp >= xpNeeded
         const canAffordUp = game.mana >= upCost
+        const canUpgrade = hasXp && canAffordUp
         const unitCount = buildingUnitCount(t)
         const activeUnits = game.units.filter(u => u.towerId === t.id)
         return (
@@ -436,6 +449,19 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
               {t.upgrades > 0 && <span className="td-tower-tier-label"> {'★'.repeat(t.upgrades)}</span>}
               <span className="td-selected-panel-stats"> · {t.template.name} · {activeUnits.length}/{unitCount} units</span>
             </div>
+            {t.upgrades < TD_MAX_UPGRADES && (
+              <div className="td-selected-panel-xp">
+                <div className="td-selected-panel-xp-bar">
+                  <div
+                    className="td-selected-panel-xp-fill"
+                    style={{ width: `${Math.min(100, (t.xp / xpNeeded) * 100)}%` }}
+                  />
+                </div>
+                <span className={hasXp ? 'td-selected-panel-xp-label--ready' : 'td-selected-panel-xp-label'}>
+                  {hasXp ? '⬆ Ready to upgrade!' : `${t.xp}/${xpNeeded} kills to unlock`}
+                </span>
+              </div>
+            )}
             <div className="td-selected-panel-actions">
               <button className="td-selected-action-btn td-selected-action-btn--sell"
                 onClick={() => handleSellTower(t)}>
@@ -443,8 +469,8 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
               </button>
               {t.upgrades < TD_MAX_UPGRADES ? (
                 <button
-                  className={`td-selected-action-btn td-selected-action-btn--upgrade${canAffordUp ? '' : ' td-selected-action-btn--disabled'}`}
-                  onClick={() => canAffordUp && handleUpgradeTower(t)}>
+                  className={`td-selected-action-btn td-selected-action-btn--upgrade${canUpgrade ? '' : ' td-selected-action-btn--disabled'}`}
+                  onClick={() => canUpgrade && handleUpgradeTower(t)}>
                   ★ UPGRADE (+1 unit) 💧{upCost}
                 </button>
               ) : (

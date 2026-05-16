@@ -12739,6 +12739,22 @@ html.light-mode .action-btn {
 .td-tower-hp-fill { height: 100%; border-radius: 2px; transition: width 0.2s; }
 .td-tower-tier { font-size: 8px; color: #ffd700; line-height: 1; text-align: center; pointer-events: none; }
 .td-tower-respawn { font-size: 10px; line-height: 1; text-align: center; pointer-events: none; }
+.td-tower-upgrade-ready {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  color: #4caf50;
+  pointer-events: none;
+  animation: td-upgrade-pulse 0.8s ease-in-out infinite alternate;
+  text-shadow: 0 0 6px #4caf50;
+  z-index: 10;
+}
+@keyframes td-upgrade-pulse {
+  from { transform: translateX(-50%) translateY(0px); opacity: 0.8; }
+  to   { transform: translateX(-50%) translateY(-3px); opacity: 1; }
+}
 
 /* Player units — walk from building to path cell, then fight */
 .td-unit {
@@ -12770,6 +12786,8 @@ html.light-mode .action-btn {
   white-space: nowrap;
 }
 .td-tooltip-hint { color: #f44; font-size: 9px; margin-top: 2px; }
+.td-tooltip-xp       { font-size: 9px; color: #888; margin-top: 1px; }
+.td-tooltip-xp-ready { font-size: 9px; color: #4caf50; font-weight: bold; margin-top: 1px; }
 .td-tower-tier-label { color: #ffd700; }
 
 /* Tower action buttons (inside tooltip) */
@@ -12900,6 +12918,23 @@ html.light-mode .action-btn {
 .td-selected-panel-stats { color: #aaa; font-size: 11px; }
 .td-selected-panel-hint { font-size: 10px; color: #666; }
 .td-selected-panel-maxed { font-size: 12px; color: #ffd700; align-self: center; }
+.td-selected-panel-xp { display: flex; align-items: center; gap: 6px; }
+.td-selected-panel-xp-bar {
+  flex: 1;
+  height: 5px;
+  background: #222;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid #333;
+}
+.td-selected-panel-xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2e7d32, #4caf50);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+.td-selected-panel-xp-label       { font-size: 10px; color: #888; white-space: nowrap; }
+.td-selected-panel-xp-label--ready { font-size: 10px; color: #4caf50; font-weight: bold; white-space: nowrap; animation: td-upgrade-pulse 0.8s ease-in-out infinite alternate; }
 .td-selected-panel-actions {
   display: flex;
   gap: 8px;
