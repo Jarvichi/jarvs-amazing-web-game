@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#04080c"/>
+  <linearGradient id="expanse-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#060c12"/>
+    <stop offset="50%" stop-color="#080e16"/>
+    <stop offset="100%" stop-color="#0c1220"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#expanse-sky)"/>
+
+  <!-- Cold pale steel glow — machine light in the void -->
+  <radialGradient id="expanse-glow" cx="50%" cy="45%" r="55%">
+    <stop offset="0%" stop-color="#304050" stop-opacity="0.3"/>
+    <stop offset="50%" stop-color="#182030" stop-opacity="0.12"/>
+    <stop offset="100%" stop-color="#182030" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#expanse-glow)"/>
+
+  <!-- Frozen atmosphere — aurora-like cold light bands -->
+  <g fill="#182840" opacity="0.12">
+    <rect x="0" y="15" width="400" height="8"/>
+    <rect x="0" y="30" width="400" height="5"/>
+    <rect x="0" y="42" width="400" height="6"/>
+  </g>
+
+  <!-- THE PALE ENGINE'S FORTRESS — a vast cold-logic construct -->
+  <!-- Central fortress mass — geometric, inhuman precision -->
+  <!-- Outer hull lower -->
+  <polygon points="80,240 80,148 120,130 200,122 280,130 320,148 320,240" fill="#080c14" stroke="#0e1828" stroke-width="1.5"/>
+  <!-- Inner hull -->
+  <polygon points="110,240 110,155 145,138 200,130 255,138 290,155 290,240" fill="#0a1018" stroke="#101e2c" stroke-width="1"/>
+
+  <!-- Fortress upper structure — rising machine architecture -->
+  <rect x="140" y="90"  width="120" height="44"  rx="1" fill="#090e18" stroke="#101c2c" stroke-width="1.2"/>
+  <rect x="160" y="65"  width="80"  height="30"   rx="1" fill="#08101a" stroke="#0e1c2c" stroke-width="1"/>
+  <rect x="178" y="45"  width="44"  height="24"   rx="1" fill="#08101c" stroke="#0e1c2c" stroke-width="0.8"/>
+  <rect x="190" y="32"  width="20"  height="16"   rx="1" fill="#091220" stroke="#10202e" stroke-width="0.8"/>
+
+  <!-- Machine precision grids — horizontal lines on hull -->
+  <g stroke="#0e1c2c" stroke-width="0.6" fill="none" opacity="0.6">
+    <line x1="80"  y1="160" x2="320" y2="160"/>
+    <line x1="80"  y1="175" x2="320" y2="175"/>
+    <line x1="80"  y1="190" x2="320" y2="190"/>
+    <line x1="80"  y1="205" x2="320" y2="205"/>
+    <line x1="80"  y1="220" x2="320" y2="220"/>
+    <!-- Vertical divisions -->
+    <line x1="130" y1="148" x2="130" y2="240"/>
+    <line x1="170" y1="132" x2="170" y2="240"/>
+    <line x1="200" y1="122" x2="200" y2="240"/>
+    <line x1="230" y1="132" x2="230" y2="240"/>
+    <line x1="270" y1="148" x2="270" y2="240"/>
+  </g>
+
+  <!-- Upper structure grid -->
+  <g stroke="#0e1c2c" stroke-width="0.5" fill="none" opacity="0.5">
+    <line x1="140" y1="100" x2="260" y2="100"/>
+    <line x1="140" y1="108" x2="260" y2="108"/>
+    <line x1="140" y1="116" x2="260" y2="116"/>
+    <line x1="160" y1="72"  x2="240" y2="72"/>
+    <line x1="160" y1="80"  x2="240" y2="80"/>
+  </g>
+
+  <!-- Sensor arrays — side flanks of fortress -->
+  <g fill="#08101e" stroke="#0e1c2e" stroke-width="0.8" opacity="0.7">
+    <rect x="80"  y="152" width="28" height="8" rx="1"/>
+    <rect x="80"  y="164" width="28" height="8" rx="1"/>
+    <rect x="80"  y="176" width="28" height="8" rx="1"/>
+    <rect x="292" y="152" width="28" height="8" rx="1"/>
+    <rect x="292" y="164" width="28" height="8" rx="1"/>
+    <rect x="292" y="176" width="28" height="8" rx="1"/>
+  </g>
+  <!-- Sensor glow -->
+  <g fill="#304050" opacity="0.3">
+    <circle cx="94"  cy="156" r="2"/>
+    <circle cx="94"  cy="168" r="2"/>
+    <circle cx="94"  cy="180" r="2"/>
+    <circle cx="306" cy="156" r="2"/>
+    <circle cx="306" cy="168" r="2"/>
+    <circle cx="306" cy="180" r="2"/>
+  </g>
+
+  <!-- PRIMARY SENSOR ARRAY — the Engine's eyes -->
+  <!-- Sensor band across upper structure -->
+  <rect x="148" y="93" width="104" height="10" rx="1" fill="#060e18" stroke="#101c2c" stroke-width="0.8"/>
+  <!-- Main sensor eyes — cold pale blue -->
+  <g fill="#203040" opacity="0.8">
+    <rect x="155" y="95" width="16" height="6" rx="1"/>
+    <rect x="178" y="95" width="16" height="6" rx="1"/>
+    <rect x="206" y="95" width="16" height="6" rx="1"/>
+    <rect x="229" y="95" width="16" height="6" rx="1"/>
+  </g>
+  <g fill="#80a8c0" opacity="0.5">
+    <rect x="157" y="96" width="12" height="4" rx="1"/>
+    <rect x="180" y="96" width="12" height="4" rx="1"/>
+    <rect x="208" y="96" width="12" height="4" rx="1"/>
+    <rect x="231" y="96" width="12" height="4" rx="1"/>
+  </g>
+  <!-- Central primary sensor — brighter -->
+  <rect x="188" y="94" width="24" height="8" rx="1" fill="#0e1e30" stroke="#182840" stroke-width="0.8"/>
+  <rect x="190" y="95" width="20" height="6" rx="1" fill="#80a8c0" opacity="0.7"/>
+  <circle cx="200" cy="98" r="3" fill="#c0e0f0" opacity="0.85"/>
+
+  <!-- Data transmission lines — geometric ley analogue -->
+  <g stroke="#203040" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M80,170 Q120,165 140,145 Q160,125 178,100"/>
+    <path d="M320,170 Q280,165 260,145 Q240,125 222,100"/>
+    <path d="M200,32  L200,45"/>
+    <path d="M190,45  L210,45"/>
+  </g>
+  <!-- Data node points -->
+  <g fill="#304050" opacity="0.5">
+    <circle cx="140" cy="145" r="2.5"/>
+    <circle cx="260" cy="145" r="2.5"/>
+    <circle cx="200" cy="32"  r="2"/>
+  </g>
+
+  <!-- Frozen ground — ice-dusted steel -->
+  <rect x="0" y="215" width="400" height="25" fill="#06080e"/>
+  <g fill="#0e1828" opacity="0.4">
+    <ellipse cx="100" cy="222" rx="50" ry="5"/>
+    <ellipse cx="280" cy="220" rx="55" ry="5"/>
+    <ellipse cx="200" cy="224" rx="60" ry="5"/>
+  </g>
+  <!-- Ice crystals on ground -->
+  <g stroke="#182840" stroke-width="0.6" fill="none" opacity="0.35">
+    <path d="M60,218 L65,215 L70,218 L65,221 Z"/>
+    <path d="M330,217 L335,214 L340,217 L335,220 Z"/>
+    <path d="M155,216 L158,213 L161,216 L158,219 Z"/>
+    <path d="M242,216 L245,213 L248,216 L245,219 Z"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-pe1" cx="50%" cy="50%" r="68%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.65"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-pe1)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#182030" text-anchor="middle" letter-spacing="3">THE PALE EXPANSE</text>
+</svg>
