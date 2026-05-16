@@ -7,15 +7,16 @@
   <rect width="400" height="240" fill="url(#hm-sky)"/>
 
   <radialGradient id="hm-atm" cx="50%" cy="40%" r="50%">
-    <stop offset="0%" stop-color="#162028" stop-opacity="0.25"/>
+    <stop offset="0%" stop-color="#162028" stop-opacity="0.25">
+      <animate attributeName="stop-opacity" values="0.25;0.45;0.25" dur="8s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#162028" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#hm-atm)"/>
 
-  <!-- Harbour dock — he stands on the remaining pier -->
+  <!-- Harbour dock -->
   <polygon points="80,195 320,188 328,208 72,210" fill="#080c14" stroke="#10182a" stroke-width="1.5"/>
   <polygon points="80,195 320,188 321,193 80,202" fill="#0c1420" stroke="#182030" stroke-width="1"/>
-  <!-- Dock planks -->
   <g stroke="#0e1828" stroke-width="0.6" fill="none" opacity="0.4">
     <line x1="100" y1="195" x2="102" y2="210"/>
     <line x1="130" y1="194" x2="130" y2="209"/>
@@ -24,86 +25,103 @@
     <line x1="270" y1="193" x2="270" y2="208"/>
     <line x1="300" y1="194" x2="300" y2="209"/>
   </g>
-  <!-- Sea around dock -->
-  <g stroke="#0e1c2c" stroke-width="0.8" fill="none" opacity="0.5">
-    <path d="M0,200 Q40,196 80,200"/>
-    <path d="M320,196 Q360,192 400,196"/>
+  <!-- Sea waves -->
+  <g stroke="#0e1c2c" stroke-width="0.8" fill="none" opacity="0.5" stroke-dasharray="12,8">
+    <path d="M0,200 Q40,196 80,200">
+      <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M320,196 Q360,192 400,196">
+      <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="6s" begin="0.5s" repeatCount="indefinite"/>
+    </path>
   </g>
 
   <!-- Shadow -->
   <ellipse cx="200" cy="204" rx="42" ry="7" fill="#030608" opacity="0.8"/>
 
-  <!-- THE HARBORMASTER — once a port inspector, now something else -->
-  <!-- Boots — worn, practical -->
-  <ellipse cx="191" cy="208" rx="8" ry="3.5" fill="#08090e"/>
-  <ellipse cx="211" cy="207" rx="8" ry="3.5" fill="#08090e"/>
-  <line x1="193" y1="195" x2="191" y2="208" stroke="#0c1020" stroke-width="4" stroke-linecap="round"/>
-  <line x1="207" y1="194" x2="211" y2="207" stroke="#0c1020" stroke-width="4" stroke-linecap="round"/>
-  <!-- Heavy coat — waterproofed, iron-grey -->
-  <polygon points="178,155 222,155 228,195 172,195" fill="#101828" stroke="#182030" stroke-width="1"/>
-  <!-- Coat buckles -->
-  <g fill="#283848" opacity="0.6">
-    <rect x="185" y="162" width="8" height="5" rx="1"/>
-    <rect x="207" y="162" width="8" height="5" rx="1"/>
-    <rect x="196" y="175" width="8" height="5" rx="1"/>
+  <!-- THE HARBORMASTER — body-bob -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -0.8; 0 0; 0 -0.8; 0 0" dur="6s" repeatCount="indefinite"/>
+    <!-- Boots -->
+    <ellipse cx="191" cy="208" rx="8" ry="3.5" fill="#08090e"/>
+    <ellipse cx="211" cy="207" rx="8" ry="3.5" fill="#08090e"/>
+    <line x1="193" y1="195" x2="191" y2="208" stroke="#0c1020" stroke-width="4" stroke-linecap="round"/>
+    <line x1="207" y1="194" x2="211" y2="207" stroke="#0c1020" stroke-width="4" stroke-linecap="round"/>
+    <!-- Heavy coat -->
+    <polygon points="178,155 222,155 228,195 172,195" fill="#101828" stroke="#182030" stroke-width="1"/>
+    <!-- Coat buckles -->
+    <g fill="#283848" opacity="0.6">
+      <rect x="185" y="162" width="8" height="5" rx="1"/>
+      <rect x="207" y="162" width="8" height="5" rx="1"/>
+      <rect x="196" y="175" width="8" height="5" rx="1"/>
+    </g>
+    <!-- Shoulder boards -->
+    <ellipse cx="180" cy="157" rx="10" ry="5" fill="#142030" opacity="0.8"/>
+    <ellipse cx="220" cy="157" rx="10" ry="5" fill="#142030" opacity="0.8"/>
+    <g fill="#283848" opacity="0.5">
+      <circle cx="180" cy="157" r="3"/>
+      <circle cx="220" cy="157" r="3"/>
+    </g>
+    <!-- Head + peaked cap -->
+    <ellipse cx="200" cy="143" rx="13" ry="12" fill="#0e1828" stroke="#182030" stroke-width="1"/>
+    <rect x="186" y="131" width="28" height="9" rx="2" fill="#0a1018" stroke="#162028" stroke-width="1"/>
+    <rect x="182" y="138" width="36" height="4" rx="1" fill="#080e16" stroke="#142024" stroke-width="0.8"/>
+    <!-- Cap badge — subtle flicker -->
+    <g fill="#283040">
+      <circle cx="200" cy="134" r="3" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;0.9;0.6" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <line x1="200" y1="131" x2="200" y2="137" stroke="#283040" stroke-width="1" opacity="0.6"/>
+      <line x1="197" y1="137" x2="203" y2="137" stroke="#283040" stroke-width="1" opacity="0.6"/>
+    </g>
+    <!-- Eyes -->
+    <line x1="192" y1="145" x2="197" y2="144" stroke="#405060" stroke-width="1.5" opacity="0.8"/>
+    <line x1="203" y1="144" x2="208" y2="145" stroke="#405060" stroke-width="1.5" opacity="0.8"/>
+    <!-- Tight mouth -->
+    <line x1="193" y1="150" x2="207" y2="150" stroke="#182028" stroke-width="1.2"/>
+    <!-- Left arm — ledger -->
+    <line x1="178" y1="168" x2="158" y2="178" stroke="#0c1020" stroke-width="4" stroke-linecap="round"/>
+    <rect x="148" y="172" width="18" height="22" rx="1" fill="#0a1018" stroke="#182030" stroke-width="0.8"/>
+    <g stroke="#182030" stroke-width="0.5" opacity="0.5">
+      <line x1="151" y1="177" x2="163" y2="177"/>
+      <line x1="151" y1="181" x2="163" y2="181"/>
+      <line x1="151" y1="185" x2="163" y2="185"/>
+    </g>
+    <!-- Right arm — pointing DENIED -->
+    <line x1="222" y1="165" x2="248" y2="155" stroke="#0c1020" stroke-width="4" stroke-linecap="round"/>
+    <polygon points="243,148 253,150 250,162 240,160" fill="#0e1428" stroke="#182030" stroke-width="0.8"/>
   </g>
-  <!-- Shoulder board — HARBORMASTER insignia, iron -->
-  <ellipse cx="180" cy="157" rx="10" ry="5" fill="#142030" opacity="0.8"/>
-  <ellipse cx="220" cy="157" rx="10" ry="5" fill="#142030" opacity="0.8"/>
-  <!-- Anchor emblem on shoulder -->
-  <g fill="#283848" opacity="0.5">
-    <circle cx="180" cy="157" r="3"/>
-    <circle cx="220" cy="157" r="3"/>
-  </g>
-  <!-- Head — weathered, set jaw, peaked cap -->
-  <ellipse cx="200" cy="143" rx="13" ry="12" fill="#0e1828" stroke="#182030" stroke-width="1"/>
-  <rect x="186" y="131" width="28" height="9" rx="2" fill="#0a1018" stroke="#162028" stroke-width="1"/>
-  <rect x="182" y="138" width="36" height="4" rx="1" fill="#080e16" stroke="#142024" stroke-width="0.8"/>
-  <!-- Cap badge — anchor, tarnished -->
-  <g fill="#283040" opacity="0.6">
-    <circle cx="200" cy="134" r="3"/>
-    <line x1="200" y1="131" x2="200" y2="137" stroke="#283040" stroke-width="1"/>
-    <line x1="197" y1="137" x2="203" y2="137" stroke="#283040" stroke-width="1"/>
-  </g>
-  <!-- Eyes — flat, bureaucratic iron -->
-  <line x1="192" y1="145" x2="197" y2="144" stroke="#405060" stroke-width="1.5" opacity="0.8"/>
-  <line x1="203" y1="144" x2="208" y2="145" stroke="#405060" stroke-width="1.5" opacity="0.8"/>
-  <!-- Tight mouth — no warmth -->
-  <line x1="193" y1="150" x2="207" y2="150" stroke="#182028" stroke-width="1.2"/>
 
-  <!-- Left arm — holding a ledger/clipboard — permit authority -->
-  <line x1="178" y1="168" x2="158" y2="178" stroke="#0c1020" stroke-width="4" stroke-linecap="round"/>
-  <rect x="148" y="172" width="18" height="22" rx="1" fill="#0a1018" stroke="#182030" stroke-width="0.8"/>
-  <!-- Pages in ledger -->
-  <g stroke="#182030" stroke-width="0.5" opacity="0.5">
-    <line x1="151" y1="177" x2="163" y2="177"/>
-    <line x1="151" y1="181" x2="163" y2="181"/>
-    <line x1="151" y1="185" x2="163" y2="185"/>
-  </g>
-
-  <!-- Right arm — pointing — ACCESS DENIED gesture -->
-  <line x1="222" y1="165" x2="248" y2="155" stroke="#0c1020" stroke-width="4" stroke-linecap="round"/>
-  <polygon points="243,148 253,150 250,162 240,160" fill="#0e1428" stroke="#182030" stroke-width="0.8"/>
-
-  <!-- Flagship in background — large iron hull moored at dock -->
-  <g fill="#060a14" stroke="#0e182a" stroke-width="1" opacity="0.7">
-    <polygon points="30,195 80,185 90,198 35,202"/>
-    <rect x="35" y="170" width="50" height="18"/>
+  <!-- Flagship ships in background — slight bob -->
+  <g opacity="0.7">
+    <g fill="#060a14" stroke="#0e182a" stroke-width="1">
+      <polygon points="30,195 80,185 90,198 35,202"/>
+      <rect x="35" y="170" width="50" height="18"/>
+    </g>
     <line x1="60" y1="170" x2="60" y2="145" stroke="#0e182a" stroke-width="2"/>
     <polygon points="60,145 80,155 60,162" fill="#0c1628" opacity="0.5"/>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -1.5; 0 0; 0 -1.5; 0 0" dur="7s" repeatCount="indefinite"/>
   </g>
-  <g fill="#060a14" stroke="#0e182a" stroke-width="1" opacity="0.7">
-    <polygon points="310,193 365,184 370,197 315,200"/>
-    <rect x="315" y="168" width="50" height="18"/>
+  <g opacity="0.7">
+    <g fill="#060a14" stroke="#0e182a" stroke-width="1">
+      <polygon points="310,193 365,184 370,197 315,200"/>
+      <rect x="315" y="168" width="50" height="18"/>
+    </g>
     <line x1="340" y1="168" x2="340" y2="143" stroke="#0e182a" stroke-width="2"/>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -1.5; 0 0; 0 -1.5; 0 0" dur="8s" begin="1s" repeatCount="indefinite"/>
   </g>
 
-  <!-- Storm sky -->
+  <!-- Storm sky — drifting -->
   <g fill="#0a1018" opacity="0.6">
-    <ellipse cx="100" cy="75" rx="70" ry="25"/>
-    <ellipse cx="300" cy="70" rx="65" ry="24"/>
+    <ellipse cx="100" cy="75" rx="70" ry="25">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -10 1; 0 0" dur="22s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="300" cy="70" rx="65" ry="24">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -12 1; 0 0" dur="20s" begin="2s" repeatCount="indefinite"/>
+    </ellipse>
   </g>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#182030" text-anchor="middle" letter-spacing="3">THE HARBORMASTER</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#182030" text-anchor="middle" letter-spacing="3">THE HARBORMASTER
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>

@@ -7,38 +7,49 @@
   <rect width="400" height="240" fill="url(#permit-sky)"/>
 
   <radialGradient id="permit-atm" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#142028" stop-opacity="0.3"/>
+    <stop offset="0%" stop-color="#142028" stop-opacity="0.3">
+      <animate attributeName="stop-opacity" values="0.3;0.5;0.3" dur="9s" repeatCount="indefinite"/>
+    </stop>
     <stop offset="100%" stop-color="#142028" stop-opacity="0"/>
   </radialGradient>
   <rect width="400" height="240" fill="url(#permit-atm)"/>
 
-  <!-- THE SEA ROUTE — narrow passage between two shattered land fragments -->
   <!-- Left fragment wall -->
   <polygon points="0,0 0,240 75,240 68,200 72,160 62,120 70,80 58,40 68,0" fill="#060a12"/>
   <!-- Right fragment wall -->
   <polygon points="400,0 400,240 325,240 332,200 328,160 338,120 330,80 342,40 332,0" fill="#060a12"/>
-  <!-- Cliff face detail — rough shattered stone -->
+  <!-- Cliff face detail -->
   <g stroke="#0c1420" stroke-width="1" fill="none" opacity="0.4">
     <path d="M65,40 Q58,60 62,80 Q70,100 62,120 Q54,140 65,160 Q74,178 68,200"/>
     <path d="M335,40 Q342,60 338,80 Q330,100 338,120 Q346,140 335,160 Q326,178 332,200"/>
   </g>
-  <!-- Fracture lines in cliff faces -->
-  <g stroke="#182030" stroke-width="1.5" fill="none" opacity="0.5">
-    <path d="M30,60 Q38,80 32,100"/>
-    <path d="M370,65 Q362,85 368,105"/>
-  </g>
+  <!-- Fracture lines in cliffs — subtle flicker -->
+  <path d="M30,60 Q38,80 32,100" stroke="#182030" stroke-width="1.5" fill="none" opacity="0.5">
+    <animate attributeName="opacity" values="0.5;0.8;0.3;0.6;0.5" dur="6s" repeatCount="indefinite"/>
+  </path>
+  <path d="M370,65 Q362,85 368,105" stroke="#182030" stroke-width="1.5" fill="none" opacity="0.5">
+    <animate attributeName="opacity" values="0.5;0.8;0.3;0.6;0.5" dur="6s" begin="1s" repeatCount="indefinite"/>
+  </path>
 
   <!-- THE SEA — filling the passage -->
   <rect x="75" y="175" width="250" height="65" fill="#060c14"/>
-  <g stroke="#0e1c2c" stroke-width="0.8" fill="none" opacity="0.6">
-    <path d="M75,188 Q125,184 175,188 Q225,192 275,188 Q305,185 325,188"/>
-    <path d="M75,202 Q140,198 200,202 Q260,206 325,202"/>
-    <path d="M75,215 Q150,211 200,215 Q250,219 325,215"/>
+  <!-- Wave lines — rolling through passage -->
+  <g stroke="#0e1c2c" stroke-width="0.8" fill="none" opacity="0.6" stroke-dasharray="15,8">
+    <path d="M75,188 Q125,184 175,188 Q225,192 275,188 Q305,185 325,188">
+      <animate attributeName="stroke-dashoffset" from="0" to="-46" dur="5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M75,202 Q140,198 200,202 Q260,206 325,202">
+      <animate attributeName="stroke-dashoffset" from="0" to="-46" dur="6s" begin="0.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M75,215 Q150,211 200,215 Q250,219 325,215">
+      <animate attributeName="stroke-dashoffset" from="0" to="-46" dur="7s" begin="1.5s" repeatCount="indefinite"/>
+    </path>
   </g>
 
-  <!-- PERMIT SIGN — big iron notice board, bolted to left cliff -->
-  <rect x="20" y="95" width="52" height="65" rx="2" fill="#080e18" stroke="#182030" stroke-width="2"/>
-  <!-- Sign text lines — bureaucratic officialdom -->
+  <!-- PERMIT SIGNS — subtle lightning-illuminated flicker -->
+  <rect x="20" y="95" width="52" height="65" rx="2" fill="#080e18" stroke="#182030" stroke-width="2">
+    <animate attributeName="opacity" values="1;1;1;0.7;1;1;1" dur="8s" repeatCount="indefinite"/>
+  </rect>
   <g stroke="#182838" stroke-width="1" fill="none" opacity="0.6">
     <line x1="26" y1="105" x2="66" y2="105"/>
     <line x1="26" y1="112" x2="66" y2="112"/>
@@ -48,15 +59,14 @@
     <line x1="26" y1="140" x2="66" y2="140"/>
     <line x1="26" y1="147" x2="50" y2="147"/>
   </g>
-  <!-- Anchor stamp at bottom — the Harbormaster's seal -->
   <circle cx="46" cy="154" r="5" fill="none" stroke="#283848" stroke-width="1" opacity="0.5"/>
   <circle cx="46" cy="154" r="2" fill="#283848" opacity="0.4"/>
-  <!-- Sign bracket -->
   <line x1="46" y1="95" x2="46" y2="88" stroke="#182030" stroke-width="2.5"/>
   <line x1="38" y1="88" x2="54" y2="88" stroke="#182030" stroke-width="1.5"/>
 
-  <!-- Mirror sign on right cliff -->
-  <rect x="328" y="98" width="52" height="65" rx="2" fill="#080e18" stroke="#182030" stroke-width="2"/>
+  <rect x="328" y="98" width="52" height="65" rx="2" fill="#080e18" stroke="#182030" stroke-width="2">
+    <animate attributeName="opacity" values="1;1;1;0.7;1;1;1" dur="8s" begin="0.1s" repeatCount="indefinite"/>
+  </rect>
   <g stroke="#182838" stroke-width="1" fill="none" opacity="0.6">
     <line x1="334" y1="108" x2="374" y2="108"/>
     <line x1="334" y1="115" x2="374" y2="115"/>
@@ -70,28 +80,44 @@
   <line x1="354" y1="98" x2="354" y2="91" stroke="#182030" stroke-width="2.5"/>
   <line x1="346" y1="91" x2="362" y2="91" stroke="#182030" stroke-width="1.5"/>
 
-  <!-- JARV — centre of the passage, small boat silhouette approaching from left -->
-  <!-- Small boat hull -->
-  <polygon points="148,185 230,185 235,195 143,195" fill="#08101a" stroke="#101828" stroke-width="1"/>
-  <!-- Mast -->
-  <line x1="185" y1="185" x2="185" y2="152" stroke="#0c1420" stroke-width="2"/>
-  <!-- Sail — small, furled -->
-  <polygon points="185,155 210,165 185,175" fill="#0e1828" stroke="#182030" stroke-width="0.8" opacity="0.7"/>
-  <!-- Jarv at bow, Iron Standard as mast-head -->
-  <line x1="185" y1="152" x2="185" y2="138" stroke="#2a3040" stroke-width="1.5"/>
-  <polygon points="183,138 187,138 185,129" fill="#404860" opacity="0.7"/>
-
-  <!-- Looming storm above the passage -->
-  <g fill="#0a1018" opacity="0.7">
-    <ellipse cx="200" cy="60" rx="100" ry="35"/>
-    <ellipse cx="140" cy="45" rx="60" ry="22"/>
-    <ellipse cx="270" cy="48" rx="55" ry="20"/>
+  <!-- JARV in small boat — bobbing on waves -->
+  <ellipse cx="190" cy="193" rx="45" ry="5" fill="#030508" opacity="0.5"/>
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -2; 0 0; 0 -2; 0 0" dur="4s" repeatCount="indefinite"/>
+    <!-- Boat hull -->
+    <polygon points="148,185 230,185 235,195 143,195" fill="#08101a" stroke="#101828" stroke-width="1"/>
+    <!-- Mast -->
+    <line x1="185" y1="185" x2="185" y2="152" stroke="#0c1420" stroke-width="2"/>
+    <!-- Sail — slight sway -->
+    <polygon points="185,155 210,165 185,175" fill="#0e1828" stroke="#182030" stroke-width="0.8" opacity="0.7">
+      <animateTransform attributeName="transform" type="skewX" values="0; 2; 0; -2; 0" dur="4s" repeatCount="indefinite"/>
+    </polygon>
+    <!-- Iron Standard at mast-head -->
+    <line x1="185" y1="152" x2="185" y2="138" stroke="#2a3040" stroke-width="1.5"/>
+    <polygon points="183,138 187,138 185,129" fill="#404860" opacity="0.7"/>
   </g>
-  <!-- Lightning potential — tension -->
-  <g stroke="#304050" stroke-width="0.8" fill="none" opacity="0.2">
-    <path d="M190,90 L187,100 L193,100 L190,110"/>
+
+  <!-- Storm clouds — drifting -->
+  <g fill="#0a1018" opacity="0.7">
+    <ellipse cx="200" cy="60" rx="100" ry="35">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -10 1; 0 0" dur="20s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="140" cy="45" rx="60" ry="22">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -8 1; 0 0" dur="22s" begin="1s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="270" cy="48" rx="55" ry="20">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -12 0; 0 0" dur="18s" begin="2s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+  <!-- Lightning potential — flickering tension -->
+  <g stroke="#304050" stroke-width="0.8" fill="none">
+    <path d="M190,90 L187,100 L193,100 L190,110" opacity="0.2">
+      <animate attributeName="opacity" values="0.2;0;0;0.6;0;0;0.2" dur="5s" repeatCount="indefinite"/>
+    </path>
   </g>
 
   <!-- Label -->
-  <text x="200" y="232" font-family="monospace" font-size="9" fill="#182030" text-anchor="middle" letter-spacing="3">NO PERMIT</text>
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#182030" text-anchor="middle" letter-spacing="3">NO PERMIT
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="8s" repeatCount="indefinite"/>
+  </text>
 </svg>
