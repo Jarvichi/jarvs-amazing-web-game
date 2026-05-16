@@ -40,6 +40,245 @@
   "startNodeIds": [
     "shore-landing"
   ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, technically, a nautical problem the Harbormaster has stopped being surprised by.",
+      "Now, effectively, the sort of person who fights through fractured port cities without a permit.",
+      "Now, in the maritime sense, an unlicensed vessel the Harbormaster cannot seem to impound.",
+      "Now — by every coastal regulation — in violation of several statutes the Harbormaster has stopped bothering to cite.",
+      "Now, technically, a repeat offender the Harbormaster has started filing standing orders against."
+    ],
+    "jarvIntros": [
+      "You have a deck of cards, no maritime permit, and the firm conviction that bureaucratic obstruction and physical obstruction are fundamentally the same problem.",
+      "You have a deck of cards, a familiarity with the Harbormaster's patrol patterns, and the quietly uncomfortable sense that he has started building the patrol patterns around yours.",
+      "You have a deck of cards, a working knowledge of which shoreline routes are defensible and which are checkpoints in disguise, and the growing certainty that the Harbormaster has the same knowledge working in the opposite direction.",
+      "You have a deck of cards, a standing violation on the Harbormaster's ledger that he keeps failing to collect on, and the sense that the failure is starting to bother him more than the violation.",
+      "You have a deck of cards. The Harbormaster has a file on you now. It is the thickest file in the port authority's history and it hasn't helped him once."
+    ],
+    "coastDesc": [
+      "The Shattered Coast was once a thriving port city — before the Fracture split it across seven separate shards. Now the docks connect pieces that don't belong together, and the iron tide brings things from one piece that don't belong in the others.",
+      "The Shattered Coast smells like salt water and impounded cargo and the particular frustration of a bureaucracy trying to regulate something that fundamentally does not want to be regulated.",
+      "The Shattered Coast waits at the edge of your bearing — fractured, grey, and defended by someone who has made chaos into a system.",
+      "The ley lines run through the old harbour bed here. The Harbormaster uses the energy surplus to run his iron fleet and his extremely comprehensive permit system."
+    ],
+    "harbormasterDesc": [
+      "The Harbormaster was a port inspector once, before the Fracture. Now he controls the coast's only viable passage — with an iron fleet, a permit system, and the particular authority of someone who has turned disorder into a personal monopoly.\n\nYou don't have his permit. You're not going to get one.",
+      "The Harbormaster holds every coastal route with the methodical determination of someone who has converted bureaucratic principle into military doctrine.\n\nYou are a permit violation he can't seem to close.",
+      "The Harbormaster defends the Shattered Coast with the calm stubbornness of a man who has decided that rules are what he says they are.\n\nYou've found that stubbornness like that makes people predictable.",
+      "The Harbormaster has been briefed on your approach. His response was to update the standing violation on your file and order additional iron for the harbour defences. He has also, apparently, updated the permit requirements specifically to exclude you."
+    ],
+    "priorRunSummaries": [
+      "The salt air felt familiar — the particular way it carried the sound of iron hulls and tide bells. Like a port you'd been refused entry to before.",
+      "The first shoreline approach was wrong. Not navigationally wrong — defensively wrong, the way a route feels wrong when the checkpoints have been moved since your last visit.",
+      "Something about the patrol pattern at the harbour mouth. The exact interval of it. You adjusted your approach without thinking, which meant you'd made that adjustment before.",
+      "The iron tide sounded different on approach. Lower. More deliberate. As though someone had changed the bell pattern after reviewing the footage of your last visit."
+    ],
+    "priorRunOpenings": [
+      "You had been here. Your feet found the gap in the harbour defences before the tide charts confirmed it was still there.",
+      "The Iron Guard unit at the shore landing didn't engage immediately. One of them checked a document. Then engaged.",
+      "The Harbormaster's opening blockade was different this time — heavier on the right flank. He'd been reviewing his formation after your last visit.",
+      "The harbour bells rang when you landed. A specific pattern. You've learned, by now, that this is the code for 'that one again'."
+    ],
+    "milestoneOpenings5": [
+      "The fifth time through the Shattered Coast, the Harbormaster has filed a standing pre-arrival enforcement order. He's been doing paperwork between your visits.",
+      "Fifth run. The Iron Guard at the shore landing has been issued updated orders specifically referencing your previous four approaches. The orders are longer than the original patrol manual."
+    ],
+    "milestoneOpenings10": [
+      "Ten campaigns. The Harbormaster has restructured the harbour defences specifically around your movement patterns. He's been doing the architectural work.",
+      "The tenth time through the Shattered Coast, you notice the harbour mouth has new chain barriers at the angles you typically enter from. The Harbormaster has been doing infrastructure investment between visits, and citing you in the budget justification."
+    ],
+    "milestoneOpenings25": [
+      "Twenty-five campaigns. The Coast does not sound the general alarm when you arrive anymore. The Harbormaster has a dedicated protocol now. It is filed under 'the standing incursion'.",
+      "After twenty-five runs, the Harbormaster meets you at the harbour mouth rather than the command post. He's stopped holding the high ground. He's starting to understand where the high ground actually is."
+    ],
+    "milestoneOpenings50": [
+      "The fiftieth time through the Shattered Coast. The Harbormaster has issued you a permit. It is valid for one crossing, non-transferable, and lists seventeen conditions. You have never met a single one of them. He keeps issuing it anyway.",
+      "Fifty campaigns. The Iron Guard at the shore landing steps aside when your silhouette appears on the approach. The Harbormaster has calculated something and decided the opening engagement is no longer cost-effective."
+    ],
+    "milestoneOpenings100": [
+      "The Harbormaster is at the shore landing. Not in uniform. In his old inspector's coat — the one he wore before all of this.\n\n'A hundred crossings,' he says. 'I have the file here.' He holds it up. It is very thick. 'A hundred violations. A hundred failed containments. A hundred updated protocols.'\n\nHe sets it down on the dock.\n\n'I was a port inspector,' he says. 'Before the Fracture. I inspected things. I approved things. I denied things.' He looks at you — not at Jarv, at you. 'I have never, in forty years of this work, encountered something I could not eventually process correctly.'\n\nA pause. The tide moves.\n\n'I am going to process this correctly.' He steps aside. 'The coast is clear. The permit is granted retroactively for all previous crossings. Do not tell anyone I said that.'"
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} time through the Shattered Coast. The Harbormaster has issued a pre-arrival enforcement notice. He's been doing the paperwork.",
+    "Campaign {n}. The harbour defences have been updated again. A budget justification was filed citing a persistent unlicensed crossing event.",
+    "{n} campaigns in. The Iron Guard at the shore landing has started forming up before you're visible from the post. They've learned your approach timing.",
+    "{n} times you've landed on this coast. The salt air is the same. Your outstanding permit violations have become something the Harbormaster finds professionally destabilising.",
+    "Run {n}. You arrive at the shore and find the first patrol already in position. The Harbormaster has been running projections.",
+    "The {ordinalLower} attempt. The coast smells the same — salt and iron and the particular frustration of a system that keeps failing to process one specific person.",
+    "{n} campaigns. The Harbormaster's file on you is the longest active case in the port authority's history. It has achieved a kind of institutional legend."
+  ],
+  "introRules": [
+    {
+      "condition": { "op": "gte", "value": 100 },
+      "panels": [
+        {
+          "title": "THE HARBORMASTER DECIDES",
+          "text": "{pool:milestoneOpenings100:0}"
+        },
+        {
+          "title": "THE SHATTERED COAST",
+          "text": "{pool:coastDesc:3}\n\n{pool:harbormasterDesc:2}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 51, "max": 99 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE SHATTERED COAST",
+          "text": "{pool:coastDesc:2}\n\n{pool:harbormasterDesc:1}"
+        },
+        {
+          "title": "NO PERMIT",
+          "text": "Break through. Reach the Harbormaster. Defeat him.\n\nYou know the coast. You always know the coast."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 50 },
+      "panels": [
+        {
+          "title": "FIFTY CAMPAIGNS",
+          "text": "{pool:milestoneOpenings50:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE SHATTERED COAST",
+          "text": "{pool:coastDesc:2}\n\n{pool:harbormasterDesc:1}"
+        },
+        {
+          "title": "NO PERMIT",
+          "text": "Break through. Reach the Harbormaster. Defeat him.\n\nYou know the coast. You always know the coast."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 26, "max": 49 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE SHATTERED COAST",
+          "text": "{pool:coastDesc:1}\n\n{pool:harbormasterDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 25 },
+      "panels": [
+        {
+          "title": "TWENTY-FIVE",
+          "text": "{pool:milestoneOpenings25:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE SHATTERED COAST",
+          "text": "{pool:coastDesc:1}\n\n{pool:harbormasterDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 11, "max": 24 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE SHATTERED COAST",
+          "text": "{pool:coastDesc:0}\n\n{pool:harbormasterDesc:0}"
+        },
+        {
+          "title": "NO PERMIT",
+          "text": "Break through the shard. Reach the Harbormaster.\n\nYou know how this goes. He knows how this goes. The file is very thick."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 10 },
+      "panels": [
+        {
+          "title": "THE TENTH TIME",
+          "text": "{pool:milestoneOpenings10:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE SHATTERED COAST",
+          "text": "{pool:coastDesc:0}\n\n{pool:harbormasterDesc:0}"
+        },
+        {
+          "title": "NO PERMIT",
+          "text": "Break through the shard. Reach the Harbormaster.\n\nYou know how this goes. He knows how this goes. The file is very thick."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 5, "max": 9 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{pool:milestoneOpenings5:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE SHATTERED COAST",
+          "text": "{pool:coastDesc:0}\n\n{pool:harbormasterDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 2, "max": 4 },
+      "panels": [
+        {
+          "title": "THE SHATTERED COAST",
+          "text": "The coast, again — fractured, grey, and still not issuing permits.\n\n{pool:priorRunSummaries:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE HARBORMASTER",
+          "text": "{pool:harbormasterDesc:0}"
+        },
+        {
+          "title": "A FEELING",
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+        }
+      ]
+    }
+  ],
   "intro": [
     {
       "title": "THE SHATTERED COAST",
