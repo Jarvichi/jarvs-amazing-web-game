@@ -3,7 +3,7 @@ name: Test
 on:
   push:
     paths:
-      - web/arc/**
+      - web/src/**
 
 jobs:
   test:
