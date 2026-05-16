@@ -1046,6 +1046,10 @@
       "bossAI": "archivist",
       "bossCard": "Giant",
       "bossName": "The Archivist",
+      "bossIntro": [
+        {"title": "THE CRYSTAL SPIRE", "image": "cutscenes/act4-boss-1.svg", "text": "The Crystal Spire is a labyrinth of catalogued corridors and indexed vaults — every surface inscribed, every chamber filed. Whatever knowledge the Fracture shattered, it was brought here. Sorted. Kept."},
+        {"title": "THE ARCHIVIST", "image": "cutscenes/act4-boss-2.svg", "text": "The Archivist has catalogued every card you carry, every decision you made to reach this room. He was a scholar once. Now he is the index — and he has very thorough notes on you."}
+      ],
       "bossDialogue": [
         "\"Every card you carry. Every decision you made to reach this room. I have catalogued all of it.\"",
         "\"You think your deck is your own? I wrote the first copy.\"",
