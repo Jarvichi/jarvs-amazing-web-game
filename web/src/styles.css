@@ -8959,6 +8959,7 @@ html.light-mode .action-btn {
 .city-attack-strip {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
@@ -8966,6 +8967,7 @@ html.light-mode .action-btn {
 .city-res-strip {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   overflow-x: auto;
   flex-shrink: 0;

@@ -2143,7 +2143,7 @@ export function CityBuilder({ onBack }: Props) {
         </div>
       )}
 
-      <div className="city-header u-flex u-items-c u-gap-3">
+      <div className="city-header u-flex u-items-c u-just-c u-gap-3">
         <button
           className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
           onClick={toggleBulldozer}
