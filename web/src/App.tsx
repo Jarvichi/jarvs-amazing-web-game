@@ -392,6 +392,8 @@ export default function App() {
   // Unit death tracking
   const prevPlayerUnitsRef   = useRef<Map<string, string>>(new Map())
   const prevOpponentUnitsRef = useRef<Map<string, string>>(new Map())
+  // Commander HP tracking (null = not yet sampled this battle)
+  const prevCommanderHpRef   = useRef<number | null>(null)
 
   // Achievement toast notifications
   const { achievementToasts, setAchievementToasts } = useAchievements()
@@ -1830,6 +1832,25 @@ export default function App() {
       battleFlawlessRef.current = false
     }
   }, [gameState?.playerBase?.hp, screen])
+
+  // Reset commander HP ref between battles so a new battle never false-triggers
+  useEffect(() => {
+    prevCommanderHpRef.current = null
+  }, [screen])
+
+  // Drop to 1x speed when the player's commander takes damage
+  useEffect(() => {
+    if (!gameState || screen !== 'playing') return
+    let commander: (typeof gameState.field)[number] | undefined
+    for (const u of gameState.field) {
+      if (u.isCommander && u.owner === 'player') { commander = u; break }
+    }
+    const currentHp = commander?.hp ?? null
+    if (prevCommanderHpRef.current !== null && currentHp !== null && currentHp < prevCommanderHpRef.current) {
+      if (battle.speedMultiplier > 1) dispatch({ type: 'SET_SPEED', multiplier: 1 })
+    }
+    prevCommanderHpRef.current = currentHp
+  }, [gameState?.field])
 
   // Secret 4 — Tired Game: after midnight, units occasionally yawn
   useEffect(() => {
