@@ -56,7 +56,7 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
         </div>
         <span className="event-hp-text" style={{ color: hpColor(displayHp, maxHp) }}>
           {hpChanged
-            ? <>{playerHp} <span className="event-hp-delta">→ {displayHp}</span></>
+            ? <>{playerHp} <span className="event-hp-delta u-text-red">→ {displayHp}</span></>
             : <>{displayHp}/{maxHp}</>}
         </span>
       </div>
@@ -79,7 +79,7 @@ export function EventScreen({ event, onChoice, playerHp, maxHp }: Props) {
               disabled={isDisabled}
             >
               <span className="event-choice-letter">{String.fromCharCode(65 + i)}.</span>
-              <span className="event-choice-label">{choice.label}</span>
+              <span className="event-choice-label u-grow">{choice.label}</span>
             </button>
           )
         })}

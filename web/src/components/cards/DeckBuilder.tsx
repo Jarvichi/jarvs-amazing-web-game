@@ -907,7 +907,7 @@ setCollectionCollapsed(true)
             )}
             <div className="saveddecks-save-row">
               <input
-                className="deckbuilder-search saveddecks-name-input"
+                className="deckbuilder-search saveddecks-name-input u-grow"
                 type="text"
                 maxLength={24}
                 placeholder="Deck name…"

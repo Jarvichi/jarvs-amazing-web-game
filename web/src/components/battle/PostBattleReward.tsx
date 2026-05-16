@@ -77,7 +77,7 @@ export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, 
 
   return (
     <div className="reward-screen">
-      <div className="reward-header">
+      <div className="reward-header u-text-c">
         <div className="reward-title">{headerOverride?.title ?? 'VICTORY'}</div>
         <div className="reward-sub">{headerOverride?.sub ?? NODE_FLAVOUR[nodeType]}</div>
         {crystals > 0 && <div className="reward-crystals">+{crystals} ◆</div>}

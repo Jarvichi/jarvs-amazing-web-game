@@ -416,7 +416,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                 style={{ left: t.col * CELL_PX, top: Math.max(0, t.row * CELL_PX - 56) }}
               >
                 <strong>{t.buildingName}</strong>
-                {t.upgrades > 0 && <span className="td-tower-tier-label"> {'★'.repeat(t.upgrades)}</span>}
+                {t.upgrades > 0 && <span className="td-tower-tier-label u-text-gold"> {'★'.repeat(t.upgrades)}</span>}
                 <div>{t.template.name} · {activeUnits.length}/{unitCount} active</div>
                 {t.upgrades < TD_MAX_UPGRADES && (
                   <div className={xpReady ? 'td-tooltip-xp-ready' : 'td-tooltip-xp'}>
@@ -457,7 +457,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
             <div className="td-selected-panel-row">
               <div className="td-selected-panel-info">
                 <strong>{t.buildingName}</strong>
-                {t.upgrades > 0 && <span className="td-tower-tier-label"> ★{t.upgrades}</span>}
+                {t.upgrades > 0 && <span className="td-tower-tier-label u-text-gold"> ★{t.upgrades}</span>}
                 <span className="td-selected-panel-stats"> · {activeUnits.length}/{unitCount} units</span>
               </div>
               <div className="td-selected-panel-row-actions">

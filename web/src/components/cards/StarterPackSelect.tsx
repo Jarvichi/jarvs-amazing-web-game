@@ -13,7 +13,7 @@ export function StarterPackSelect({ onPick, fatiguedCards = [], bonusCards = [] 
 
   return (
     <div className="starter-select">
-      <div className="starter-select-header">
+      <div className="starter-select-header u-text-c">
         <div className="starter-select-title">DECK RESET</div>
         <div className="starter-select-sub">
           Your deck returns to basics. Choose a starter kit for the next act.<br />

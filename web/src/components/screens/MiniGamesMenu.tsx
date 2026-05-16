@@ -348,7 +348,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
               const canAfford = tickets >= prize.cost
               return (
                 <div key={prize.id} className={`prize-row${canAfford ? '' : ' prize-row--locked'}`}>
-                  <div className="prize-row-info">
+                  <div className="prize-row-info u-grow">
                     <div className="prize-row-label">{prize.label}</div>
                     <div className="prize-row-desc">{prize.desc}</div>
                   </div>

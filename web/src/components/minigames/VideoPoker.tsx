@@ -242,7 +242,7 @@ export function VideoPoker({ onDone }: Props) {
                 {card.suit}
               </span>
             </div>
-            <div className={`vp-hold-badge${held[i] ? ' vp-hold-badge--active' : ''}`}>
+            <div className={`vp-hold-badge${held[i] ? ' vp-hold-badge--active u-text-gold' : ''}`}>
               {held[i] ? 'HOLD' : ''}
             </div>
           </div>

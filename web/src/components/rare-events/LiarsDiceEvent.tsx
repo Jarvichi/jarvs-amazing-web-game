@@ -191,7 +191,7 @@ export function LiarsDiceEvent({ onDone }: Props) {
 
         {phase === 'result' && (
           <div className="ld-bid-box">
-            <div className={`ld-result${playerWon ? ' ld-result--win' : ' ld-result--lose'}`}>
+            <div className={`ld-result${playerWon ? ' ld-result--win' : ' ld-result--lose u-text-red'}`}>
               {playerWon ? 'YOU WIN' : 'YOU LOSE'}
             </div>
             <div className="ld-bid-text">

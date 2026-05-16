@@ -327,7 +327,7 @@ export function MarbleRace({ onDone }: Props) {
               className={`race-result-row${marbleIdx === chosen ? ' race-result-row--chosen' : ''}`}
             >
               <span className="race-result-place">{PLACE_LABELS[pos]}</span>
-              <span className="race-result-marble">
+              <span className="race-result-marble u-grow">
                 {MARBLE_EMOJIS[marbleIdx]} {MARBLE_NAMES[marbleIdx]}
               </span>
               {marbleIdx === chosen && (

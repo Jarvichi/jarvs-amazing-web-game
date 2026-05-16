@@ -712,11 +712,11 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
         {/* Actions */}
         <div className="nm-peek-actions">
           {(isBattle || node.type === 'event' || node.type === 'merchant') ? (
-            <button className="action-btn nm-peek-enter-btn" onClick={onEnter}>
+            <button className="action-btn nm-peek-enter-btn u-grow" onClick={onEnter}>
               {node.type === 'rest' ? 'REST' : node.type === 'merchant' ? 'ENTER SHOP' : node.type === 'event' ? 'APPROACH' : 'ENTER BATTLE'}
             </button>
           ) : (
-            <button className="action-btn nm-peek-enter-btn" onClick={onEnter}>
+            <button className="action-btn nm-peek-enter-btn u-grow" onClick={onEnter}>
               {node.type === 'rest' ? 'REST HERE' : 'PROCEED'}
             </button>
           )}
@@ -856,7 +856,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
               onClick={() => onUseConsumable(def.id)}
             >
               <span className="nm-consumable-icon">{def.icon}</span>
-              <span className="nm-consumable-name">{def.name}</span>
+              <span className="nm-consumable-name u-text-sm">{def.name}</span>
               <span className="nm-consumable-count">×{count}</span>
             </button>
           )

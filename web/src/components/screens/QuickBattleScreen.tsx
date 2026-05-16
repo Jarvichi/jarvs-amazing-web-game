@@ -16,7 +16,7 @@ export function QuickBattleScreen({ onStartBattle, onBack }: Props) {
 
   return (
     <div className="qb-screen">
-      <div className="qb-header">
+      <div className="qb-header u-text-c">
         <div className="qb-title">⚔  QUICK BATTLE</div>
         <div className="qb-subtitle">Choose your difficulty</div>
       </div>

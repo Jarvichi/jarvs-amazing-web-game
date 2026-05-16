@@ -32,7 +32,7 @@ export function CardRestSelect({ candidates, playCounts, alreadyResting = [], on
 
   return (
     <div className="overlay-screen card-rest-screen">
-      <div className="card-rest-header">
+      <div className="card-rest-header u-text-c">
         <div className="card-rest-title">TROOPS NEED REST</div>
         <div className="card-rest-sub">
           Your most-relied-upon troops must recover between acts.<br />

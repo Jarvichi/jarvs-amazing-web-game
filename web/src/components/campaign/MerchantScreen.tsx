@@ -112,7 +112,7 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
                         <div className="shop-consumable-name">{def.name}</div>
                         <div className="shop-consumable-desc">{def.desc}</div>
                         <button
-                          className={`action-btn action-btn--gold shop-consumable-buy-btn${canBuy ? '' : ' shop-card-buy-btn--poor'}`}
+                          className={`action-btn action-btn--gold shop-consumable-buy-btn u-text-md${canBuy ? '' : ' shop-card-buy-btn--poor'}`}
                           onClick={() => handleBuy(item)}
                           disabled={!canBuy}
                         >
@@ -135,7 +135,7 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
                         <div className="shop-purchased">PURCHASED ✓</div>
                       ) : (
                         <button
-                          className={`action-btn action-btn--gold shop-consumable-buy-btn${canBuy ? '' : ' shop-card-buy-btn--poor'}`}
+                          className={`action-btn action-btn--gold shop-consumable-buy-btn u-text-md${canBuy ? '' : ' shop-card-buy-btn--poor'}`}
                           onClick={() => handleBuy(item)}
                           disabled={!canBuy}
                         >

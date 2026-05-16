@@ -170,7 +170,7 @@ export function ReplayBriefingScreen({ act, completionCount, lastRunFailed, onBe
         <button className="action-btn action-btn--large rb-begin-btn" onClick={() => onBegin(selected)}>
           BEGIN RUN ›
         </button>
-        <button className="action-btn rb-back-btn" onClick={onBack}>
+        <button className="action-btn rb-back-btn u-text-md" onClick={onBack}>
           ← BACK
         </button>
       </div>

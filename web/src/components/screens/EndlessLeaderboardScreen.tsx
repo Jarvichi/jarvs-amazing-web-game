@@ -62,7 +62,7 @@ export function EndlessLeaderboardScreen({ onBack }: Props) {
 
   return (
     <div className="el-screen">
-      <div className="el-header">
+      <div className="el-header u-text-c">
         <div className="el-label">🏆 LEADERBOARDS</div>
       </div>
 

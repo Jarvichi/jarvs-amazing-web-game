@@ -236,9 +236,14 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           ⚔  TRAINING MODE
         </TitleButton>
 
-        <TitleButton onClick={onMiniGames} extraClass={`title-minigames-btn${cityAttackAlert ? ' title-btn--alert' : ''}`}>
-          🎮  MINI GAMES{cityAttackAlert && <span className="title-alert-badge">⚔ CITY ALERT</span>}
+        <TitleButton onClick={onMiniGames} extraClass={`title-minigames-btn`}>
+          🎮  MINI GAMES
         </TitleButton>
+        {cityAttackAlert &&
+                <TitleButton           variant="large" onClick={onMiniGames} extraClass={`title-campaign-btn title-minigames-btn title-btn--alert title-alert-badge`}>
+         ⚔ CITY ALERT
+        </TitleButton>
+}
       </div>
 
       {!campaignUnlocked && (

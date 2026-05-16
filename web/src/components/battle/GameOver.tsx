@@ -146,7 +146,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
               {endlessLb.map((entry, i) => (
                 <li key={entry.uid} className="gameover-endless-lb-entry">
                   <span className="gameover-lb-rank">{i + 1}.</span>
-                  <span className="gameover-lb-name">{entry.characterName}</span>
+                  <span className="gameover-lb-name u-grow">{entry.characterName}</span>
                   <span className="gameover-lb-wave">Wave {entry.wave}</span>
                   <span className="gameover-lb-time">{formatSurvival(entry.survivalMs)}</span>
                 </li>
@@ -193,7 +193,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
           {campaignAbandon ? (won ? '[ Claim Reward ]' : '[ Retry Node ]') : '[ Play Again ]'}
         </button>
         {campaignAbandon && (
-          <button className="action-btn action-btn--danger gameover-abandon-btn" onClick={() => setConfirmAbandon(true)}>
+          <button className="action-btn action-btn--danger gameover-abandon-btn u-text-sm" onClick={() => setConfirmAbandon(true)}>
             [ Abandon Run ]
           </button>
         )}

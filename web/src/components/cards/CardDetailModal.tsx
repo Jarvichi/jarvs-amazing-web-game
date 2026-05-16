@@ -221,10 +221,10 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
               <MasteryBar xp={xp} />
               {u && u.moveSpeed > 0 && (
                 <div className="cdm-mastery-milestones">
-                  <div className={`cdm-milestone${masteryLvl >= 1 ? ' cdm-milestone--unlocked' : ''}`}>
+                  <div className={`cdm-milestone${masteryLvl >= 1 ? ' cdm-milestone--unlocked u-text-gold' : ''}`}>
                     Lv1 — Affinity activates
                   </div>
-                  <div className={`cdm-milestone${masteryLvl >= 5 ? ' cdm-milestone--unlocked' : ''}`}>
+                  <div className={`cdm-milestone${masteryLvl >= 5 ? ' cdm-milestone--unlocked u-text-gold' : ''}`}>
                     Lv5 — Elite: +10% damage dealt
                   </div>
                 </div>
@@ -254,7 +254,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                 return (
                   <div className="cdm-mastery-milestones">
                     {milestones.map(m => (
-                      <div key={m.text} className={`cdm-milestone${masteryLvl >= m.lvl ? ' cdm-milestone--unlocked' : ''}`}>
+                      <div key={m.text} className={`cdm-milestone${masteryLvl >= m.lvl ? ' cdm-milestone--unlocked u-text-gold' : ''}`}>
                         Lv{m.lvl} — {m.text}
                       </div>
                     ))}

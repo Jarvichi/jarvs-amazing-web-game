@@ -27,7 +27,7 @@ export function RelicSelectScreen({ earnedRelics, currentRelic, brokenRelic, onS
         </div>
       )}
 
-      <div className="relic-select-header">
+      <div className="relic-select-header u-text-c">
         <div className="relic-select-title">CHOOSE YOUR RELIC</div>
         <div className="relic-select-subtitle">
           One relic may be equipped per run. Its effect applies at the start of every battle.

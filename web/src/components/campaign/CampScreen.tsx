@@ -32,7 +32,7 @@ export function CampScreen({
   if (result) {
     return (
       <div className="overlay-screen camp-screen">
-        <div className="camp-header">
+        <div className="camp-header u-text-c">
           <div className="camp-title">— CAMP —</div>
           <div className="camp-stats">
             <span>HP: {playerHp}/{maxHp}</span>
@@ -49,7 +49,7 @@ export function CampScreen({
 
   return (
     <div className="overlay-screen camp-screen">
-      <div className="camp-header">
+      <div className="camp-header u-text-c">
         <div className="camp-title">— CAMP —</div>
         <div className="camp-sub">Rest your weary troops. Choose wisely.</div>
         <div className="camp-stats">

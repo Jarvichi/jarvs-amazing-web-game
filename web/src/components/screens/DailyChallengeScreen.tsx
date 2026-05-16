@@ -38,7 +38,7 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
 
   return (
     <div className="dc-screen">
-      <div className="dc-header">
+      <div className="dc-header u-text-c">
         <div className="dc-label">DAILY CHALLENGE</div>
         <div className="dc-date">{today}</div>
         <div className="dc-reset-time">Resets at {getResetTimeLocal()}</div>
@@ -72,7 +72,7 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
             {leaderboard.map((entry, i) => (
               <li key={entry.uid} className="dc-leaderboard-entry">
                 <span className="dc-lb-rank">{i + 1}.</span>
-                <span className="dc-lb-name">{entry.characterName}</span>
+                <span className="dc-lb-name u-grow">{entry.characterName}</span>
                 <span className="dc-lb-attempts">
                   {entry.attempts === 1 ? '1 attempt' : `${entry.attempts} attempts`}
                 </span>
@@ -91,7 +91,7 @@ export function DailyChallengeScreen({ onStart, onBack }: Props) {
                 {rarityIcon[card.rarity] ?? '○'}
               </span>
               <span className="dc-card-cost">{card.cost}💎</span>
-              <span className="dc-card-name">{card.name}</span>
+              <span className="dc-card-name u-grow">{card.name}</span>
             </li>
           ))}
         </ul>
