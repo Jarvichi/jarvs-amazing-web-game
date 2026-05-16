@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#040810"/>
+  <linearGradient id="coast-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#060c18"/>
+    <stop offset="40%" stop-color="#081018"/>
+    <stop offset="100%" stop-color="#0c1420"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#coast-sky)"/>
+
+  <!-- Storm sea glow — dark, cold, maritime -->
+  <radialGradient id="coast-glow" cx="50%" cy="62%" r="55%">
+    <stop offset="0%" stop-color="#1a3050" stop-opacity="0.35"/>
+    <stop offset="50%" stop-color="#101828" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#101828" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#coast-glow)"/>
+
+  <!-- Storm clouds — heavy, rolling -->
+  <g fill="#060e18" opacity="0.8">
+    <ellipse cx="60"  cy="25" rx="80" ry="22"/>
+    <ellipse cx="200" cy="18" rx="100" ry="20"/>
+    <ellipse cx="350" cy="28" rx="75" ry="20"/>
+    <ellipse cx="140" cy="42" rx="65" ry="15"/>
+    <ellipse cx="290" cy="38" rx="70" ry="16"/>
+  </g>
+  <!-- Lightning in clouds -->
+  <g stroke="#303858" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M75,25 L72,35 L78,35 L74,48"/>
+    <path d="M315,22 L312,32 L318,32 L313,46"/>
+  </g>
+
+  <!-- THE SHATTERED COAST — ruined harbour infrastructure -->
+  <!-- Left sea wall ruins -->
+  <g fill="#080c14" stroke="#101828" stroke-width="1" opacity="0.8">
+    <rect x="0"  y="100" width="45" height="140"/>
+    <rect x="28" y="88"  width="25" height="155"/>
+  </g>
+  <!-- Wall battlements -->
+  <g fill="#0a0e16" stroke="#101828" stroke-width="0.8">
+    <rect x="0"  y="94"  width="8" height="10"/>
+    <rect x="12" y="94"  width="8" height="10"/>
+    <rect x="24" y="94"  width="8" height="10"/>
+    <rect x="28" y="82"  width="8" height="10"/>
+    <rect x="38" y="82"  width="8" height="10"/>
+  </g>
+  <!-- Cannon on wall -->
+  <rect x="18" y="100" width="18" height="6" rx="1" fill="#080c12" stroke="#141e28" stroke-width="0.8"/>
+  <!-- Wall signal lantern -->
+  <circle cx="20" cy="90" r="3" fill="#4060a0" opacity="0.5"/>
+
+  <!-- Right sea wall ruins -->
+  <g fill="#080c14" stroke="#101828" stroke-width="1" opacity="0.8">
+    <rect x="355" y="100" width="45" height="140"/>
+    <rect x="347" y="88"  width="25" height="155"/>
+  </g>
+  <g fill="#0a0e16" stroke="#101828" stroke-width="0.8">
+    <rect x="355" y="94" width="8" height="10"/>
+    <rect x="367" y="94" width="8" height="10"/>
+    <rect x="379" y="94" width="8" height="10"/>
+    <rect x="347" y="82" width="8" height="10"/>
+    <rect x="359" y="82" width="8" height="10"/>
+  </g>
+  <rect x="364" y="100" width="18" height="6" rx="1" fill="#080c12" stroke="#141e28" stroke-width="0.8"/>
+  <circle cx="380" cy="90" r="3" fill="#4060a0" opacity="0.5"/>
+
+  <!-- HARBOUR GATE — great chain boom across the entrance -->
+  <!-- Gate towers -->
+  <rect x="85"  y="82" width="35" height="118" fill="#090c16" stroke="#101828" stroke-width="1.5"/>
+  <rect x="280" y="82" width="35" height="118" fill="#090c16" stroke="#101828" stroke-width="1.5"/>
+  <!-- Tower tops battlemented -->
+  <g fill="#0b0e18" stroke="#101828" stroke-width="0.8">
+    <rect x="85"  y="75" width="8" height="10"/>
+    <rect x="97"  y="75" width="8" height="10"/>
+    <rect x="109" y="75" width="8" height="10"/>
+    <rect x="280" y="75" width="8" height="10"/>
+    <rect x="292" y="75" width="8" height="10"/>
+    <rect x="304" y="75" width="8" height="10"/>
+  </g>
+  <!-- Tower signal fires -->
+  <radialGradient id="sig1" cx="50%" cy="40%" r="60%">
+    <stop offset="0%" stop-color="#3060a0" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#3060a0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="103" cy="74" rx="10" ry="8" fill="url(#sig1)"/>
+  <ellipse cx="297" cy="74" rx="10" ry="8" fill="url(#sig1)"/>
+
+  <!-- CHAIN BOOM across the harbour entrance -->
+  <!-- Chain links -->
+  <g stroke="#182030" stroke-width="3" fill="none" opacity="0.8">
+    <path d="M120,155 Q160,148 200,150 Q240,148 280,155"/>
+  </g>
+  <g stroke="#202838" stroke-width="1.5" fill="none" opacity="0.5">
+    <path d="M120,155 Q160,148 200,150 Q240,148 280,155"/>
+  </g>
+  <!-- Chain link detail marks -->
+  <g fill="#182030" opacity="0.6">
+    <circle cx="140" cy="151" r="3"/>
+    <circle cx="160" cy="149" r="3"/>
+    <circle cx="180" cy="150" r="3"/>
+    <circle cx="200" cy="150" r="3"/>
+    <circle cx="220" cy="150" r="3"/>
+    <circle cx="240" cy="149" r="3"/>
+    <circle cx="260" cy="151" r="3"/>
+  </g>
+  <!-- Chain anchor cleats on towers -->
+  <rect x="116" y="150" width="8" height="12" rx="1" fill="#0c1018" stroke="#182030" stroke-width="0.8"/>
+  <rect x="276" y="150" width="8" height="12" rx="1" fill="#0c1018" stroke="#182030" stroke-width="0.8"/>
+
+  <!-- Harbour water — dark, choppy -->
+  <rect x="55" y="175" width="290" height="65" fill="#070a10"/>
+  <!-- Wave lines -->
+  <g stroke="#0e1828" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M55,185 Q90,180 130,183 Q170,186 210,182 Q250,178 290,182 Q310,184 345,180"/>
+    <path d="M55,198 Q90,193 130,196 Q170,199 210,195 Q250,191 290,195 Q310,197 345,193"/>
+    <path d="M55,212 Q90,207 130,210 Q170,213 210,209 Q250,205 290,209 Q310,211 345,207"/>
+  </g>
+
+  <!-- Wrecked ships -->
+  <!-- Left wreck -->
+  <path d="M72,175 Q85,168 105,170 Q120,172 125,178 L72,178 Z" fill="#070a10" stroke="#0e1828" stroke-width="0.8" opacity="0.8"/>
+  <line x1="95" y1="165" x2="95" y2="148" stroke="#0c1420" stroke-width="2" opacity="0.6"/>
+  <!-- Right wreck -->
+  <path d="M278,175 Q295,168 315,170 Q330,172 335,178 L278,178 Z" fill="#070a10" stroke="#0e1828" stroke-width="0.8" opacity="0.8"/>
+  <line x1="310" y1="165" x2="310" y2="148" stroke="#0c1420" stroke-width="2" opacity="0.6"/>
+
+  <!-- Coastline approach road -->
+  <rect x="0" y="215" width="400" height="25" fill="#060810"/>
+  <g fill="#0a0e14" opacity="0.4">
+    <ellipse cx="100" cy="222" rx="55" ry="5"/>
+    <ellipse cx="300" cy="220" rx="55" ry="5"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-hm1" cx="50%" cy="50%" r="68%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.65"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-hm1)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#182030" text-anchor="middle" letter-spacing="3">THE SHATTERED COAST</text>
+</svg>
