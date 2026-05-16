@@ -411,6 +411,3 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
 
 
 }
-
-
-
