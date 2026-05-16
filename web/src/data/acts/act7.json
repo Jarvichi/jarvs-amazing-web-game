@@ -40,6 +40,245 @@
   "startNodeIds": [
     "cinder-approach"
   ],
+  "variantPools": {
+    "jarvMoods": [
+      "Now, technically, on fire in the metaphorical sense. Possibly also the literal one.",
+      "Now, effectively, the sort of person who climbs active volcanoes as a professional choice.",
+      "Now, in the thermal sense, significantly overdressed for the ambient temperature.",
+      "Now — by any rational measure — somewhere that a reasonable person would not be.",
+      "Now, technically, at an elevation where the ground is a suggestion rather than a guarantee."
+    ],
+    "jarvIntros": [
+      "You have a deck of cards, a high tolerance for extreme heat, and the hard-won understanding that fire is less of a problem when you stop treating it as one.",
+      "You have a deck of cards, the residual warmth of three previous visits baked into your boots, and the quiet certainty that the Cinderwarlord has been briefed on you specifically.",
+      "You have a deck of cards, a working theory about volcanic timing, and the slowly dawning realisation that the Peaks recognise you now.",
+      "You have a deck of cards, a familiarity with the lava flows that would disturb a geologist, and the growing sense that the mountain is waiting to see what you do differently this time.",
+      "You have a deck of cards. The mountain has been here for ten thousand years. You have been here enough times that it has started to feel personal."
+    ],
+    "peaksDesc": [
+      "The Emberfall Peaks rise through sulphur clouds — a range of active volcanoes threaded with ley lines that glow orange through the rock.",
+      "The Peaks smell like the end of something — sulphur and scorched stone and the particular heat of a place that has been on fire for longer than anyone has been alive.",
+      "The Emberfall Peaks wait at your bearing's edge, exhaling steam and ash. They have been waiting exactly this long for exactly this reason.",
+      "The ley lines glow through the volcanic rock like veins. The Peaks have been channelling this energy since before the Dominion had a name for what they were doing."
+    ],
+    "warlordDesc": [
+      "The Peaks are held by the Cinderwarlord — a commander who built an army out of whatever the volcanoes threw up: crawlers, fire spirits, things that are basically lava with ambitions.\n\nHe does not negotiate. The mountain does not negotiate. He considers this a professional alignment.",
+      "The Cinderwarlord commands every approach through the Peaks. He was forged here, in the practical sense, by decades of fighting in conditions that kill most soldiers before they can become problems.\n\nYou are about to become a problem.",
+      "The Cinderwarlord holds the caldera pass with the patience of a man who knows the terrain will do most of the work for him.\n\nYou've found that patience like that makes generals predictable.",
+      "The Cinderwarlord waits at the caldera. He has been told you're coming. His response, according to scouts, was: 'Again?'"
+    ],
+    "priorRunSummaries": [
+      "The heat felt familiar — the particular way it pressed against everything, the way it made distance hard to judge. Like a memory that had been stored somewhere warm.",
+      "The first lava field was wrong. Not impassable wrong — arranged wrong, the way things are arranged when someone has recently moved them and not yet put them back.",
+      "Something about the patrol spacing on the obsidian ridge. The exact interval of it. You adjusted your approach without thinking, which meant you'd thought about it before.",
+      "The Peaks were louder on approach than they should have been. As though the mountain had something to say about your return."
+    ],
+    "priorRunOpenings": [
+      "You had been here. Your hands knew the footing on the first lava crossing before your eyes confirmed it was safe.",
+      "The Ember Crawler unit at the base camp didn't charge immediately. They looked at each other first. Then charged.",
+      "The Cinderwarlord's opening formation was different this time — denser on the left flank. He'd adjusted for you. You adjusted for his adjustment.",
+      "The caldera was venting more aggressively when you arrived. You chose to interpret this as the mountain expressing an opinion."
+    ],
+    "milestoneOpenings5": [
+      "The fifth time through the Emberfall Peaks, the lava flows have started routing around your preferred path. The mountain has learned your habits.",
+      "Fifth run. The Ember Crawlers at the base have started forming up with noticeably more armour than last time. They've filed a requisition that specifically references your previous visits."
+    ],
+    "milestoneOpenings10": [
+      "Ten campaigns. The Cinderwarlord has repositioned his reserves before the first engagement. He knows your opening. He's been studying.",
+      "The tenth time through the Emberfall Peaks, the obsidian ridge has fresh footholds cut into it. Someone put them there between your visits. For you. You're not sure how to feel about this."
+    ],
+    "milestoneOpenings25": [
+      "Twenty-five campaigns. The Peaks no longer sound the warning horns when you arrive. The scouts just send a runner to the Cinderwarlord that says 'again'.",
+      "After twenty-five runs, the Cinderwarlord meets you at the base of the caldera pass instead of the summit. He's stopped holding the high ground. Something in him has recalibrated."
+    ],
+    "milestoneOpenings50": [
+      "The fiftieth time through the Emberfall Peaks. The lava flows are the wrong temperature — cooler near the paths you use, as though the mountain has been making accommodations it hasn't mentioned.",
+      "Fifty campaigns. The base camp sentinels step aside when your silhouette crests the ridge. Not in welcome. In the way of people who have learned that certain things are inevitable and have made their peace with it."
+    ],
+    "milestoneOpenings100": [
+      "The Cinderwarlord is standing at the base of the caldera pass. Not in formation. Not surrounded by soldiers. Just standing.\n\n'A hundred campaigns,' he says. The volcanic glow makes his expression hard to read. It doesn't matter. His voice says everything. 'I built my army out of this mountain. I have fought in conditions that have killed things that were supposed to be immortal.'\n\nA rumble. A slow exhalation of steam from the caldera above.\n\n'And you keep coming back.' He looks at you — not at Jarv, at you. 'I have stopped calling this a problem. I am calling it a phenomenon.'\n\nHe steps aside.\n\n'The path is yours. It has been yours for some time.'"
+    ]
+  },
+  "midRunTemplates": [
+    "The {ordinalLower} time through the Emberfall Peaks. The Cinderwarlord has pre-positioned his reserves before the first exchange.",
+    "Campaign {n}. The lava flows have been rerouted again. Someone has been doing geological work specifically to inconvenience you.",
+    "{n} campaigns in. The Ember Crawlers at the base camp have started placing bets on how quickly you'll clear the caldera pass.",
+    "{n} times you've walked through the Peaks. The sulphur smell has become something close to familiar.",
+    "Run {n}. You crest the first ridge and find the patrol already watching you. They've learned your timing.",
+    "The {ordinalLower} attempt. The heat presses down the same way it always has. Your tolerance for it has become something the Cinderwarlord finds professionally offensive.",
+    "{n} campaigns. The Cinderwarlord's tactical briefing on you is longer than any briefing he has ever filed on an actual war."
+  ],
+  "introRules": [
+    {
+      "condition": { "op": "gte", "value": 100 },
+      "panels": [
+        {
+          "title": "THE WARLORD KNOWS",
+          "text": "{pool:milestoneOpenings100:0}"
+        },
+        {
+          "title": "THE EMBERFALL PEAKS",
+          "text": "{pool:peaksDesc:3}\n\n{pool:warlordDesc:2}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 51, "max": 99 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE EMBERFALL PEAKS",
+          "text": "{pool:peaksDesc:2}\n\n{pool:warlordDesc:1}"
+        },
+        {
+          "title": "HEAT AND PRESSURE",
+          "text": "Break through. Reach the Cinderwarlord. Defeat him.\n\nYou know the way. You always know the way."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 50 },
+      "panels": [
+        {
+          "title": "FIFTY CAMPAIGNS",
+          "text": "{pool:milestoneOpenings50:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:1}"
+        },
+        {
+          "title": "THE EMBERFALL PEAKS",
+          "text": "{pool:peaksDesc:2}\n\n{pool:warlordDesc:1}"
+        },
+        {
+          "title": "HEAT AND PRESSURE",
+          "text": "Break through. Reach the Cinderwarlord. Defeat him.\n\nYou know the way. You always know the way."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 26, "max": 49 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE EMBERFALL PEAKS",
+          "text": "{pool:peaksDesc:1}\n\n{pool:warlordDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 25 },
+      "panels": [
+        {
+          "title": "TWENTY-FIVE",
+          "text": "{pool:milestoneOpenings25:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:2}"
+        },
+        {
+          "title": "THE EMBERFALL PEAKS",
+          "text": "{pool:peaksDesc:1}\n\n{pool:warlordDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 11, "max": 24 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{midRunTemplate}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE EMBERFALL PEAKS",
+          "text": "{pool:peaksDesc:0}\n\n{pool:warlordDesc:0}"
+        },
+        {
+          "title": "HEAT AND PRESSURE",
+          "text": "Break through the shard. Reach the Cinderwarlord.\n\nYou know how this goes. You've always known how this goes."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "eq", "value": 10 },
+      "panels": [
+        {
+          "title": "THE TENTH TIME",
+          "text": "{pool:milestoneOpenings10:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:3}"
+        },
+        {
+          "title": "THE EMBERFALL PEAKS",
+          "text": "{pool:peaksDesc:0}\n\n{pool:warlordDesc:0}"
+        },
+        {
+          "title": "HEAT AND PRESSURE",
+          "text": "Break through the shard. Reach the Cinderwarlord.\n\nYou know how this goes. You've always known how this goes."
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 5, "max": 9 },
+      "panels": [
+        {
+          "title": "THE {ORDINAL} TIME",
+          "text": "{pool:milestoneOpenings5:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE EMBERFALL PEAKS",
+          "text": "{pool:peaksDesc:0}\n\n{pool:warlordDesc:0}"
+        }
+      ]
+    },
+    {
+      "condition": { "op": "range", "min": 2, "max": 4 },
+      "panels": [
+        {
+          "title": "THE EMBERFALL PEAKS",
+          "text": "The ley lines cut through the mountains here — again.\n\n{pool:priorRunSummaries:0}"
+        },
+        {
+          "title": "THE WANDERER",
+          "text": "You are Jarv. {pool:jarvMoods:0}\n\n{pool:jarvIntros:0}"
+        },
+        {
+          "title": "THE CINDERWARLORD",
+          "text": "{pool:warlordDesc:0}"
+        },
+        {
+          "title": "A FEELING",
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+        }
+      ]
+    }
+  ],
   "intro": [
     {
       "title": "THE EMBERFALL PEAKS",
