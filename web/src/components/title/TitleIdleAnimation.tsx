@@ -1,23 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { getCardCatalog } from '../../game/cards'
+import { loadCollection } from '../../game/collection'
 import { Card } from '../../game/types'
-import { spriteSlug } from '../../game/sprites'
 import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { getAchievementProgress, incrementAchievementProgress } from '../../game/achievements'
-
-// Unit slugs that have walk-frame sprites ({slug}-1/2/3.svg)
-const ANIMATED_SLUGS = new Set([
-  'arcane-golem', 'archer', 'ash-elemental', 'ballista', 'bandit', 'barbarian',
-  'bat', 'behemoth', 'bone-archer', 'catapult', 'centaur', 'crossbow',
-  'crystal-hydra', 'dark-elf', 'dragon', 'elder-treant', 'executioner',
-  'fire-mage', 'frog-knight', 'giant', 'goblin', 'golem', 'griffin',
-  'grizzled-vet', 'harpy', 'ironclad-guard', 'knight', 'lich-apprentice',
-  'lizardman', 'mammoth', 'mana-wisp', 'necromancer', 'ogre', 'paladin',
-  'pixie', 'plague-rat', 'revenant', 'rogue', 'rune-knight', 'scorpion',
-  'shield-guard', 'shield-wall', 'siege-engineer', 'skeleton', 'specter',
-  'spellblade', 'spore-bat', 'thornbeast', 'troll', 'vampire', 'vine-golem',
-  'war-drummer', 'werewolf', 'wight-knight', 'wizard', 'wyvern',
-])
 
 const RANDOM_FACTS = [
   'The background has never moved. Not once.',
@@ -130,11 +116,13 @@ export function TitleIdleAnimation() {
   const startAnimation = useCallback(() => {
     if (phaseRef.current !== 'idle') return
 
-    const catalog = getCardCatalog()
+    const catalog    = getCardCatalog()
+    const collection = loadCollection()
+    const owned      = new Set(collection.filter(e => e.count > 0).map(e => e.cardName))
     const candidates = catalog.filter(c => {
       if (c.cardType !== 'unit' || !c.unit) return false
       if (c.unit.isWall || c.unit.moveSpeed === 0) return false
-      return ANIMATED_SLUGS.has(spriteSlug(c.name))
+      return owned.has(c.name)
     })
     if (candidates.length === 0) return
 
@@ -266,7 +254,6 @@ export function TitleIdleAnimation() {
         <div className="title-idle-sprite-wrap u-flex u-just-c" style={spriteFlip}>
           <AnimatedSpriteImg name={card.name} frameCount={3} fps={8} className="title-idle-sprite" />
         </div>
-        <div className="title-idle-name">{card.name}</div>
       </div>
     </div>
   )
