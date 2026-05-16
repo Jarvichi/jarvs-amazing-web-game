@@ -1979,12 +1979,16 @@ export function CityBuilder({ onBack }: Props) {
         </div>
       </div>
 
-      {/* Info + resource strip: attack pill · stats · resources */}
-      <div className="city-res-strip">
+      {/* Attack strip */}
+      <div className="city-attack-strip">
         <div className={`city-attack-pill city-attack-pill--${attackUrgency}`}>
           ⚔ ATTACK INCOMING {msToAttack <= 0 ? 'NOW!' : attackCountdown}
           <span className={`city-attack-strength ${attackStrengthLabel.cls}`}>{attackStrengthLabel.text}</span>
         </div>
+      </div>
+
+      {/* Resource strip: defence · population · resources */}
+      <div className="city-res-strip">
         <span className="city-info-chip" title={`Defense: ${defense}`}>🛡 {defense}</span>
         <span className="city-info-chip" title={`Population: ${population}`}>👥 {population}</span>
         {(['wheat', 'wood', 'ore', 'bread', 'planks', 'metal'] as ResourceType[]).map(res => {

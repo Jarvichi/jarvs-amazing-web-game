@@ -8955,6 +8955,13 @@ html.light-mode .action-btn {
   background: rgba(208,160,48,0.08) !important;
 }
 
+/* ── Attack strip ────────────────────────────────────────────────────────── */
+.city-attack-strip {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 /* ── Resource chip strip ─────────────────────────────────────────────────── */
 .city-res-strip {
   display: flex;
