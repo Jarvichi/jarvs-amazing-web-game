@@ -333,7 +333,7 @@ export interface TDGameState {
 
 export const TD_MAX_LIVES = 3
 export const TD_TOTAL_WAVES = 100
-export const TD_MILESTONE_EVERY = 10
+export const TD_MILESTONE_EVERY = 5
 export const TD_CELL_PX = 48
 export const TD_STARTING_MANA = 120
 export const TD_MAX_UNIT_UPGRADES = 3        // units type: allows up to 4 spawned units total
