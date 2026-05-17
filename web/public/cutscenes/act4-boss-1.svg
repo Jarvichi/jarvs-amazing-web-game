@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#06040e"/>
+  <linearGradient id="spire-sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#080618"/>
+    <stop offset="50%" stop-color="#0c0820"/>
+    <stop offset="100%" stop-color="#100c28"/>
+  </linearGradient>
+  <rect width="400" height="240" fill="url(#spire-sky)"/>
+
+  <!-- Deep arcane glow -->
+  <radialGradient id="spire-glow" cx="50%" cy="55%" r="55%">
+    <stop offset="0%" stop-color="#3010a0" stop-opacity="0.35"/>
+    <stop offset="50%" stop-color="#200880" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#200880" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#spire-glow)"/>
+
+  <!-- Crystal lattice ceiling — vaulted, geometrically precise -->
+  <g fill="#0a0820" stroke="#180c40" stroke-width="0.8" opacity="0.7">
+    <polygon points="0,0 200,45 400,0 400,12 200,58 0,12"/>
+    <polygon points="0,12 200,58 400,12 400,24 200,70 0,24"/>
+  </g>
+  <!-- Hanging crystal prisms from ceiling -->
+  <g fill="#120a30" stroke="#2010a0" stroke-width="0.7" opacity="0.6">
+    <polygon points="80,24 88,24 84,48"/>
+    <polygon points="140,30 150,30 145,56"/>
+    <polygon points="200,28 210,28 205,55"/>
+    <polygon points="252,32 260,32 256,52"/>
+    <polygon points="316,26 324,26 320,50"/>
+  </g>
+  <!-- Crystal inner glow -->
+  <g fill="#3010a0" opacity="0.3">
+    <polygon points="83,26 87,26 85,44"/>
+    <polygon points="143,32 149,32 146,52"/>
+    <polygon points="203,30 209,30 206,50"/>
+    <polygon points="254,34 259,34 257,50"/>
+    <polygon points="318,28 323,28 321,46"/>
+  </g>
+
+  <!-- Crystal walls — left -->
+  <rect x="0" y="0" width="70" height="240" fill="#080618" stroke="#160c38" stroke-width="1"/>
+  <!-- Crystal formation left -->
+  <g fill="#0c0828" stroke="#2010a0" stroke-width="0.8" opacity="0.65">
+    <polygon points="0,60 22,48 28,80 8,85"/>
+    <polygon points="0,100 18,90 24,120 5,122"/>
+    <polygon points="10,140 30,128 35,158 14,162"/>
+    <polygon points="0,170 20,162 22,190 0,192"/>
+  </g>
+
+  <!-- Crystal walls — right -->
+  <rect x="330" y="0" width="70" height="240" fill="#080618" stroke="#160c38" stroke-width="1"/>
+  <g fill="#0c0828" stroke="#2010a0" stroke-width="0.8" opacity="0.65">
+    <polygon points="400,58 378,46 372,78 392,83"/>
+    <polygon points="400,98 382,88 376,118 395,120"/>
+    <polygon points="390,138 370,126 365,156 386,160"/>
+    <polygon points="400,168 380,160 378,188 400,190"/>
+  </g>
+
+  <!-- Crystal columns — left pair -->
+  <rect x="85"  y="55" width="18" height="175" rx="2" fill="#0a0824" stroke="#1c0c50" stroke-width="1"/>
+  <rect x="92"  y="55" width="4"  height="175" fill="#180a40" opacity="0.4"/>
+  <!-- Column crystal cap -->
+  <polygon points="85,55 103,55 97,40 91,38 85,40" fill="#0e0a30" stroke="#200c60" stroke-width="0.8"/>
+
+  <!-- Crystal columns — right pair -->
+  <rect x="297" y="55" width="18" height="175" rx="2" fill="#0a0824" stroke="#1c0c50" stroke-width="1"/>
+  <rect x="301" y="55" width="4"  height="175" fill="#180a40" opacity="0.4"/>
+  <polygon points="297,55 315,55 309,40 303,38 297,40" fill="#0e0a30" stroke="#200c60" stroke-width="0.8"/>
+
+  <!-- Index shelves receding into depth — rows of catalogued crystals -->
+  <g fill="#0a0820" stroke="#140a38" stroke-width="0.8" opacity="0.7">
+    <rect x="110" y="80"  width="55" height="6"/>
+    <rect x="110" y="100" width="55" height="6"/>
+    <rect x="110" y="120" width="55" height="6"/>
+    <rect x="110" y="140" width="55" height="6"/>
+    <rect x="235" y="80"  width="55" height="6"/>
+    <rect x="235" y="100" width="55" height="6"/>
+    <rect x="235" y="120" width="55" height="6"/>
+    <rect x="235" y="140" width="55" height="6"/>
+  </g>
+  <!-- Crystal records on shelves — tiny prisms -->
+  <g fill="#2010a0" opacity="0.35">
+    <rect x="113" y="75" width="3" height="6"/>
+    <rect x="118" y="74" width="3" height="7"/>
+    <rect x="123" y="76" width="3" height="5"/>
+    <rect x="128" y="74" width="3" height="7"/>
+    <rect x="133" y="75" width="3" height="6"/>
+    <rect x="138" y="73" width="3" height="8"/>
+    <rect x="143" y="76" width="3" height="5"/>
+    <rect x="238" y="75" width="3" height="6"/>
+    <rect x="243" y="74" width="3" height="7"/>
+    <rect x="248" y="76" width="3" height="5"/>
+    <rect x="253" y="74" width="3" height="7"/>
+    <rect x="258" y="75" width="3" height="6"/>
+    <rect x="263" y="73" width="3" height="8"/>
+    <rect x="268" y="76" width="3" height="5"/>
+  </g>
+
+  <!-- Central archway to the inner vault -->
+  <path d="M152,230 L152,140 Q152,118 175,115 Q200,110 225,115 Q248,118 248,140 L248,230" fill="#080618" stroke="#1a0c48" stroke-width="2"/>
+  <!-- Arch crystal trim -->
+  <g stroke="#3010a0" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M155,142 Q155,122 175,118 Q200,114 225,118 Q245,122 245,142"/>
+  </g>
+  <!-- Arcane runes inscribed on arch -->
+  <g fill="none" stroke="#2010a0" stroke-width="0.6" opacity="0.4">
+    <path d="M162,150 L162,158 M158,154 L166,154"/>
+    <path d="M238,150 L238,158 M234,154 L242,154"/>
+    <path d="M162,168 L164,174 L162,180"/>
+    <path d="M238,168 L236,174 L238,180"/>
+  </g>
+  <!-- Inner arch glow — the vault chamber beyond -->
+  <radialGradient id="arch-glow" cx="50%" cy="65%" r="30%">
+    <stop offset="0%" stop-color="#4010c0" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#4010c0" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="152" y="110" width="96" height="120" fill="url(#arch-glow)"/>
+
+  <!-- Crystal floor — reflective -->
+  <rect x="70" y="210" width="260" height="30" fill="#090720" opacity="0.8"/>
+  <g stroke="#1a0c48" stroke-width="0.6" fill="none" opacity="0.3">
+    <line x1="70" y1="210" x2="330" y2="210"/>
+    <line x1="120" y1="210" x2="120" y2="240"/>
+    <line x1="170" y1="210" x2="170" y2="240"/>
+    <line x1="200" y1="210" x2="200" y2="240"/>
+    <line x1="230" y1="210" x2="230" y2="240"/>
+    <line x1="280" y1="210" x2="280" y2="240"/>
+  </g>
+  <!-- Floor arcane light -->
+  <line x1="70" y1="212" x2="330" y2="212" stroke="#3010a0" stroke-width="1" opacity="0.3"/>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-sp" cx="50%" cy="50%" r="68%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.65"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-sp)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1e1040" text-anchor="middle" letter-spacing="3">THE CRYSTAL SPIRE</text>
+</svg>

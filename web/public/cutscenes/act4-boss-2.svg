@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#06040e"/>
+
+  <!-- Deep arcane library atmosphere -->
+  <radialGradient id="arch-atm" cx="50%" cy="50%" r="60%">
+    <stop offset="0%" stop-color="#120a30" stop-opacity="0.8"/>
+    <stop offset="70%" stop-color="#08041a" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#06040e" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#arch-atm)"/>
+
+  <!-- Violet eye aura -->
+  <radialGradient id="arch-eyes-glow" cx="50%" cy="40%" r="24%">
+    <stop offset="0%" stop-color="#8060e0" stop-opacity="0.5"/>
+    <stop offset="50%" stop-color="#5030c0" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#5030c0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="96" rx="70" ry="45" fill="url(#arch-eyes-glow)"/>
+
+  <!-- Background crystal wall — indexed records filling every surface -->
+  <g fill="#0a0820" stroke="#14083a" stroke-width="0.5" opacity="0.5">
+    <rect x="0"   y="0" width="90"  height="240"/>
+    <rect x="310" y="0" width="90"  height="240"/>
+  </g>
+  <g fill="#180a48" opacity="0.2">
+    <rect x="6"  y="10" width="4" height="12"/>
+    <rect x="14" y="10" width="4" height="12"/>
+    <rect x="22" y="10" width="4" height="12"/>
+    <rect x="6"  y="30" width="4" height="12"/>
+    <rect x="14" y="30" width="4" height="12"/>
+    <rect x="320" y="10" width="4" height="12"/>
+    <rect x="328" y="10" width="4" height="12"/>
+    <rect x="336" y="10" width="4" height="12"/>
+    <rect x="320" y="30" width="4" height="12"/>
+    <rect x="328" y="30" width="4" height="12"/>
+  </g>
+
+  <!-- Floating crystal index nodes — orbiting the Archivist -->
+  <g fill="#1a0a50" stroke="#4020c0" stroke-width="0.8" opacity="0.7">
+    <polygon points="130,70 140,65 145,76 136,80"/>
+    <polygon points="255,68 266,63 270,74 261,78"/>
+    <polygon points="118,108 128,103 133,114 124,118"/>
+    <polygon points="268,106 279,101 283,112 274,116"/>
+    <polygon points="135,148 145,142 149,154 140,157"/>
+    <polygon points="252,145 263,140 266,151 257,155"/>
+  </g>
+  <!-- Crystal node inner glow -->
+  <g fill="#5030c0" opacity="0.4">
+    <polygon points="133,72 138,68 141,75 137,78"/>
+    <polygon points="258,70 264,66 267,73 263,76"/>
+  </g>
+
+  <!-- THE ARCHIVIST — robed scholar figure, tall and angular -->
+  <!-- Floor shadow -->
+  <ellipse cx="200" cy="228" rx="45" ry="7" fill="#020108" opacity="0.6"/>
+
+  <!-- Robes — long, layered, arcane scholar attire -->
+  <!-- Outer robe -->
+  <polygon points="168,145 232,145 238,230 162,230" fill="#0c0828" stroke="#1a0c50" stroke-width="1"/>
+  <!-- Inner robe lighter layer -->
+  <polygon points="180,148 220,148 225,228 175,228" fill="#0e0a30" stroke="#16083a" stroke-width="0.8"/>
+  <!-- Robe hem geometric trim -->
+  <g stroke="#2510a0" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M168,208 L175,202 L182,208 L189,202 L196,208 L203,202 L210,208 L217,202 L224,208 L231,202 L238,208"/>
+    <path d="M168,218 L175,212 L182,218 L189,212 L196,218 L203,212 L210,218 L217,212 L224,218 L231,212 L238,218"/>
+  </g>
+
+  <!-- Sash / belt with crystal clasp -->
+  <rect x="180" y="170" width="40" height="7" rx="1" fill="#140a38" stroke="#2010a0" stroke-width="0.8"/>
+  <polygon points="197,170 203,170 205,177 195,177" fill="#3010a0" opacity="0.7"/>
+
+  <!-- Arms — stretched forward, open palms, crystal index hovering between them -->
+  <!-- Left arm -->
+  <line x1="174" y1="152" x2="148" y2="172" stroke="#0c0828" stroke-width="7" stroke-linecap="round"/>
+  <!-- Left hand -->
+  <ellipse cx="144" cy="175" rx="7" ry="5" fill="#0e0a2a" stroke="#1a0c48" stroke-width="0.8"/>
+  <!-- Right arm -->
+  <line x1="226" y1="152" x2="252" y2="172" stroke="#0c0828" stroke-width="7" stroke-linecap="round"/>
+  <!-- Right hand -->
+  <ellipse cx="256" cy="175" rx="7" ry="5" fill="#0e0a2a" stroke="#1a0c48" stroke-width="0.8"/>
+  <!-- Crystal tome / index shard floating between hands -->
+  <polygon points="170,158 200,150 230,158 215,178 185,178" fill="#100830" stroke="#3010a0" stroke-width="1" opacity="0.8"/>
+  <polygon points="180,160 200,154 220,160 210,174 190,174" fill="#180a48" stroke="#4020c0" stroke-width="0.6" opacity="0.6"/>
+  <!-- Tome inner glow -->
+  <ellipse cx="200" cy="164" rx="14" ry="8" fill="#4020c0" opacity="0.25"/>
+  <!-- Rune lines on tome -->
+  <g stroke="#6040e0" stroke-width="0.5" fill="none" opacity="0.5">
+    <line x1="188" y1="160" x2="212" y2="160"/>
+    <line x1="186" y1="164" x2="214" y2="164"/>
+    <line x1="188" y1="168" x2="212" y2="168"/>
+    <line x1="200" y1="156" x2="200" y2="172"/>
+  </g>
+
+  <!-- Body beneath robes — tall, gaunt -->
+  <rect x="186" y="118" width="28" height="30" rx="1" fill="#0c0828" stroke="#1a0c48" stroke-width="0.8"/>
+  <!-- Chest arcane sigil -->
+  <g stroke="#3010a0" stroke-width="0.7" fill="none" opacity="0.5">
+    <polygon points="200,122 204,128 200,134 196,128"/>
+    <circle cx="200" cy="128" r="4"/>
+  </g>
+
+  <!-- Neck collar -->
+  <rect x="194" y="110" width="12" height="12" rx="1" fill="#0c0828" stroke="#1a0a40" stroke-width="0.8"/>
+
+  <!-- HEAD — angular, thin-faced scholar -->
+  <ellipse cx="200" cy="100" rx="20" ry="18" fill="#0c0828" stroke="#1a0c48" stroke-width="1.2"/>
+  <!-- Brow ridge — high, intellectual -->
+  <path d="M182,96 Q200,90 218,96" stroke="#201050" stroke-width="2" fill="none" opacity="0.7"/>
+  <!-- High collar behind head -->
+  <path d="M182,110 Q178,100 180,94" stroke="#1a0c48" stroke-width="2" fill="none"/>
+  <path d="M218,110 Q222,100 220,94" stroke="#1a0c48" stroke-width="2" fill="none"/>
+
+  <!-- Eyes — violet, luminous, all-cataloguing -->
+  <ellipse cx="188" cy="100" rx="9" ry="7" fill="#06040e"/>
+  <ellipse cx="212" cy="100" rx="9" ry="7" fill="#06040e"/>
+  <!-- Eye glow — violet, deep -->
+  <radialGradient id="eye-vl" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#a070f0"/>
+    <stop offset="55%" stop-color="#6040c0" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#6040c0" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="eye-vr" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#a070f0"/>
+    <stop offset="55%" stop-color="#6040c0" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#6040c0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="188" cy="100" rx="9" ry="7" fill="url(#eye-vl)" opacity="0.85"/>
+  <ellipse cx="212" cy="100" rx="9" ry="7" fill="url(#eye-vr)" opacity="0.85"/>
+  <ellipse cx="188" cy="99" rx="4" ry="3" fill="#c090ff" opacity="0.9"/>
+  <ellipse cx="212" cy="99" rx="4" ry="3" fill="#c090ff" opacity="0.9"/>
+  <circle cx="187" cy="98" r="1.5" fill="#e8d0ff" opacity="0.95"/>
+  <circle cx="211" cy="98" r="1.5" fill="#e8d0ff" opacity="0.95"/>
+
+  <!-- Tall archivist's hat / cowl -->
+  <polygon points="192,82 208,82 206,60 200,55 194,60" fill="#0c0828" stroke="#1a0a48" stroke-width="1"/>
+  <rect x="186" y="80" width="28" height="5" rx="1" fill="#10093a" stroke="#1c0c50" stroke-width="0.8"/>
+  <!-- Hat trim arcane marking -->
+  <line x1="192" y1="82" x2="208" y2="82" stroke="#3010a0" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-a4" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.72"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-a4)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1e1040" text-anchor="middle" letter-spacing="3">THE ARCHIVIST</text>
+</svg>
