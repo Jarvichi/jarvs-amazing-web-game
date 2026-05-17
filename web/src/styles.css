@@ -12038,7 +12038,23 @@ html.light-mode .action-btn {
 .td-unit-chip:hover:not(.td-unit-chip--disabled) { background: #222; border-color: var(--color-green-bright); }
 .td-unit-chip--selected { border-color: var(--color-green-bright) !important; background: #162616 !important; }
 
-.td-unit-chip-sprite { width: 36px; height: 36px; }
+.td-unit-chip-sprite { width: 36px; height: 36px; position: relative; }
+.td-unit-chip-effect {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  font-size: 11px;
+  line-height: 1;
+  border-radius: 50%;
+  padding: 1px 2px;
+  background: #111c;
+}
+.effect--burn     { filter: drop-shadow(0 0 3px #ff6600); }
+.effect--freeze   { filter: drop-shadow(0 0 3px #4dd0e1); }
+.effect--poison   { filter: drop-shadow(0 0 3px #66bb6a); }
+.effect--shock    { filter: drop-shadow(0 0 3px #ffd600); }
+.effect--aoe      { filter: drop-shadow(0 0 3px #ce93d8); }
+.effect--gascloud { filter: drop-shadow(0 0 3px #80cbc4); }
 .td-unit-chip-name {
   font-size: 9px;
   color: #aaa;
