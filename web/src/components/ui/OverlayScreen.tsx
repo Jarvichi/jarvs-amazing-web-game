@@ -1,4 +1,5 @@
 import React from 'react'
+import { PageHeader } from './PageHeader'
 
 interface Props {
   title: string
@@ -8,14 +9,10 @@ interface Props {
   className?: string
 }
 
-export function OverlayScreen({ title, onBack, right, children, className = 'overlay-screen' }: Props) {
+export function OverlayScreen({ title, onBack, right, children, className = 'overlay-screen u-col u-grow' }: Props) {
   return (
     <div className={className}>
-      <div className="overlay-header u-flex u-items-c u-gap-6">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <span className="overlay-title">{title}</span>
-        {right}
-      </div>
+      <PageHeader title={title} onBack={onBack} right={right} />
       {children}
     </div>
   )

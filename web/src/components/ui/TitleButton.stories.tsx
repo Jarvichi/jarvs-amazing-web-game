@@ -5,7 +5,8 @@ import { TitleButton } from './TitleButton';
 
 const meta = {
   component: TitleButton,
-} satisfies Meta<typeof TitleButton>;
+  title: 'UI/TitleButton',
+  parameters: { layout: 'centered' },  } satisfies Meta<typeof TitleButton>;
 
 export default meta;
 

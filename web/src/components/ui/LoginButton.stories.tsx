@@ -4,6 +4,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { LoginButton, Props } from './LoginButton';
 
 const meta = {
+  title: 'UI/LoginButton',
+  parameters: { layout: 'centered' },  
   component: LoginButton,
 } satisfies Meta<typeof LoginButton>;
 

@@ -14,32 +14,34 @@ import {
 import { loadCrystals, saveCrystals, addCardsToCollection, loadCollection, getOwnedCount } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { incrementAchievementProgress, setAchievementProgress } from '../../game/achievements'
-import { MarbleRun }      from '../minigames/MarbleRun'
-import { TileFlip }       from '../minigames/TileFlip'
-import { CrystalCatch }   from '../minigames/CrystalCatch'
-import { LuckySpinner }   from '../minigames/LuckySpinner'
-import { MarbleRace }     from '../minigames/MarbleRace'
-import { HigherOrLower }  from '../minigames/HigherOrLower'
-import { FruitMachine }   from '../minigames/FruitMachine'
-import { VideoPoker }     from '../minigames/VideoPoker'
-import { CityBuilder }    from '../minigames/CityBuilder'
-import { Fishing }        from '../minigames/Fishing'
+import { MarbleRun } from '../minigames/MarbleRun'
+import { TileFlip } from '../minigames/TileFlip'
+import { CrystalCatch } from '../minigames/CrystalCatch'
+import { LuckySpinner } from '../minigames/LuckySpinner'
+import { MarbleRace } from '../minigames/MarbleRace'
+import { HigherOrLower } from '../minigames/HigherOrLower'
+import { FruitMachine } from '../minigames/FruitMachine'
+import { VideoPoker } from '../minigames/VideoPoker'
+import { CityBuilder } from '../minigames/CityBuilder'
+import { Fishing } from '../minigames/Fishing'
 import { TowerDefence, TowerPool } from '../minigames/TowerDefence'
+import { PageHeader } from '../ui/PageHeader'
+import { OverlayScreen } from '../ui/OverlayScreen'
 
 type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder' | 'fishing' | 'towerDefence'
 
 interface Props {
-  crystals:           number
-  onCrystalsChange:   (n: number) => void
-  user:               User | null
-  characterName:      string
-  onBack:             () => void
-  initialSubScreen?:  SubScreen
+  crystals: number
+  onCrystalsChange: (n: number) => void
+  user: User | null
+  characterName: string
+  onBack: () => void
+  initialSubScreen?: SubScreen
 }
 
 // Build tower pool from owned unit cards in the player's collection
 function buildCollectionTowerPool(): TowerPool[] {
-  const catalog    = getCardCatalog()
+  const catalog = getCardCatalog()
   const collection = loadCollection()
   return catalog
     .filter(c => c.cardType === 'unit' && c.unit && !c.unit.isWall && getOwnedCount(collection, c.name) > 0)
@@ -67,11 +69,11 @@ function pickRandomCards(count: number, rarity?: 'uncommon' | 'rare' | 'legendar
 
 export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName, onBack, initialSubScreen }: Props) {
   const [subScreen, setSubScreen] = useState<SubScreen>(initialSubScreen ?? 'menu')
-  const [tickets, setTickets]     = useState(() => loadTickets())
-  const [toast, setToast]         = useState<string | null>(null)
+  const [tickets, setTickets] = useState(() => loadTickets())
+  const [toast, setToast] = useState<string | null>(null)
   const [lbEntries, setLbEntries] = useState<MiniGameLeaderboardEntry[]>([])
-  const [lbGame, setLbGame]       = useState<MiniGameId>('marble')
-  const [lbMode, setLbMode]       = useState<'today' | 'allTime'>('allTime')
+  const [lbGame, setLbGame] = useState<MiniGameId>('marble')
+  const [lbMode, setLbMode] = useState<'today' | 'allTime'>('allTime')
   const [lbLoading, setLbLoading] = useState(false)
   const [prizeToast, setPrizeToast] = useState<string | null>(null)
 
@@ -212,7 +214,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
     if (subScreen === 'leaderboard') {
       loadLeaderboard(lbGame, lbMode)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subScreen])
 
   const currentCrystals = crystals
@@ -265,163 +267,162 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
   }
 
   return (
-    <div className="minigame-hub">
-      {/* Toast */}
-      {toast && <div className="minigame-toast" role="alert">{toast}</div>}
+    <OverlayScreen title="🎮 ARCADE" onBack={onBack} right={
+      <div className="ticket-balance"><span>🎫 {tickets} tickets</span></div>
+    } >
 
-      {/* Header */}
-      <div className="overlay-header u-flex u-items-c u-gap-6">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <span className="overlay-title">🎮 ARCADE</span>
-        <div className="ticket-balance">🎫 {tickets} tickets</div>
-      </div>
+      <div className="minigame-hub">
+        {/* Toast */}
+        {toast && <div className="minigame-toast" role="alert">{toast}</div>}
 
-      <div className="minigame-hub-currency">💎 {currentCrystals.toLocaleString()} crystals</div>
 
-      {subScreen === 'menu' && (
-        <>
-          {/* City Builder — separate from the ticket economy */}
-          <div className="city-builder-hub-entry">
-            <div className="city-builder-hub-icon">🏙</div>
-            <div className="city-builder-hub-info">
-              <div className="city-builder-hub-name">CITY BUILDER</div>
-              <div className="city-builder-hub-desc">Place units &amp; buildings to earn gold. Level up your cards permanently.</div>
+        <div className="minigame-hub-currency">💎 {currentCrystals.toLocaleString()} crystals</div>
+
+        {subScreen === 'menu' && (
+          <>
+            {/* City Builder — separate from the ticket economy */}
+            <div className="city-builder-hub-entry">
+              <div className="city-builder-hub-icon">🏙</div>
+              <div className="city-builder-hub-info">
+                <div className="city-builder-hub-name">CITY BUILDER</div>
+                <div className="city-builder-hub-desc">Place units &amp; buildings to earn gold. Level up your cards permanently.</div>
+              </div>
+              <button className="action-btn action-btn--gold" onClick={() => setSubScreen('citybuilder')}>
+                ENTER
+              </button>
             </div>
-            <button className="action-btn action-btn--gold" onClick={() => setSubScreen('citybuilder')}>
-              ENTER
-            </button>
-          </div>
 
-          {/* Game grid */}
-          <div className="minigame-grid">
-            {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => {
-              const cost    = MINI_GAME_COSTS[id]
-              const locked  = currentCrystals < cost
-              const best    = loadLocalHighScore(id)
-              return (
-                <div key={id} className={`minigame-card u-col u-items-c u-gap-3 u-text-c${locked ? ' minigame-card--locked' : ''}`}>
-                  <div className="minigame-card-icon">{MINI_GAME_ICONS[id]}</div>
-                  <div className="minigame-card-name">{MINI_GAME_LABELS[id]}</div>
-                  <div className="minigame-card-desc">{MINI_GAME_DESCRIPTIONS[id]}</div>
-                  <div className="minigame-card-meta u-flex u-gap-6">
-                    <span className="minigame-card-cost">💎 {cost}</span>
-                    {best > 0 && <span className="minigame-card-best">Best: {best} 🎫</span>}
-                  </div>
-                  <button
-                    className={`action-btn${locked ? '' : ' action-btn--gold'}`}
-                    onClick={() => startGame(id)}
-                    disabled={locked}
-                    title={locked ? `Need ${cost} crystals to play` : undefined}
-                  >
-                    {locked ? `NEED ${cost} 💎` : 'PLAY'}
-                  </button>
-                </div>
-              )
-            })}
-          </div>
-
-
-
-
-          <div className="minigame-hub-actions u-flex u-gap-6 u-wrap u-just-c">
-            <button className="action-btn" onClick={() => setSubScreen('prizes')}>
-              🎁 PRIZE SHOP ({tickets} 🎫)
-            </button>
-            <button className="action-btn" onClick={() => setSubScreen('leaderboard')}>
-              🏆 LEADERBOARDS
-            </button>
-          </div>
-        </>
-      )}
-
-      {subScreen === 'prizes' && (
-        <div className="prize-screen u-col">
-          <div className="overlay-header u-flex u-items-c u-gap-6">
-            <button className="action-btn" onClick={() => setSubScreen('menu')}>← BACK</button>
-            <span className="overlay-title">🎁 PRIZE SHOP</span>
-            <div className="ticket-balance">🎫 {tickets}</div>
-          </div>
-
-          {prizeToast && <div className="minigame-toast minigame-toast--prize" role="alert">{prizeToast}</div>}
-
-          <div className="prize-list u-col u-gap-3">
-            {TICKET_PRIZES.map(prize => {
-              const canAfford = tickets >= prize.cost
-              return (
-                <div key={prize.id} className={`prize-row u-flex u-items-c u-just-sb u-gap-5${canAfford ? '' : ' prize-row--locked'}`}>
-                  <div className="prize-row-info u-grow">
-                    <div className="prize-row-label">{prize.label}</div>
-                    <div className="prize-row-desc">{prize.desc}</div>
-                  </div>
-                  <div className="prize-row-right u-col u-items-end u-gap-2">
-                    <div className="prize-row-cost">🎫 {prize.cost.toLocaleString()}</div>
+            {/* Game grid */}
+            <div className="minigame-grid">
+              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => {
+                const cost = MINI_GAME_COSTS[id]
+                const locked = currentCrystals < cost
+                const best = loadLocalHighScore(id)
+                return (
+                  <div key={id} className={`minigame-card u-col u-items-c u-gap-3 u-text-c${locked ? ' minigame-card--locked' : ''}`}>
+                    <div className="minigame-card-icon">{MINI_GAME_ICONS[id]}</div>
+                    <div className="minigame-card-name">{MINI_GAME_LABELS[id]}</div>
+                    <div className="minigame-card-desc">{MINI_GAME_DESCRIPTIONS[id]}</div>
+                    <div className="minigame-card-meta u-flex u-gap-6">
+                      <span className="minigame-card-cost">💎 {cost}</span>
+                      {best > 0 && <span className="minigame-card-best">Best: {best} 🎫</span>}
+                    </div>
                     <button
-                      className={`action-btn${canAfford ? ' action-btn--gold' : ''}`}
-                      onClick={() => redeemPrize(prize)}
-                      disabled={!canAfford}
+                      className={`action-btn${locked ? '' : ' action-btn--gold'}`}
+                      onClick={() => startGame(id)}
+                      disabled={locked}
+                      title={locked ? `Need ${cost} crystals to play` : undefined}
                     >
-                      REDEEM
+                      {locked ? `NEED ${cost} 💎` : 'PLAY'}
                     </button>
                   </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      )}
+                )
+              })}
+            </div>
 
-      {subScreen === 'leaderboard' && (
-        <div className="lb-screen u-col">
-          <div className="overlay-header u-flex u-items-c u-gap-6">
-            <button className="action-btn" onClick={() => setSubScreen('menu')}>← BACK</button>
-            <span className="overlay-title">🏆 LEADERBOARDS</span>
-          </div>
 
-          <div className="lb-controls u-col u-gap-3">
-            <div className="lb-game-tabs">
-              {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => (
+
+
+            <div className="minigame-hub-actions u-flex u-gap-6 u-wrap u-just-c">
+              <button className="action-btn" onClick={() => setSubScreen('prizes')}>
+                🎁 PRIZE SHOP ({tickets} 🎫)
+              </button>
+              <button className="action-btn" onClick={() => setSubScreen('leaderboard')}>
+                🏆 LEADERBOARDS
+              </button>
+            </div>
+          </>
+        )}
+
+        {subScreen === 'prizes' && (
+          <div className="prize-screen u-col">
+            <div className="overlay-header u-flex u-items-c u-gap-6">
+              <button className="action-btn" onClick={() => setSubScreen('menu')}>← BACK</button>
+              <span className="overlay-title">🎁 PRIZE SHOP</span>
+              <div className="ticket-balance">🎫 {tickets}</div>
+            </div>
+
+            {prizeToast && <div className="minigame-toast minigame-toast--prize" role="alert">{prizeToast}</div>}
+
+            <div className="prize-list u-col u-gap-3">
+              {TICKET_PRIZES.map(prize => {
+                const canAfford = tickets >= prize.cost
+                return (
+                  <div key={prize.id} className={`prize-row u-flex u-items-c u-just-sb u-gap-5${canAfford ? '' : ' prize-row--locked'}`}>
+                    <div className="prize-row-info u-grow">
+                      <div className="prize-row-label">{prize.label}</div>
+                      <div className="prize-row-desc">{prize.desc}</div>
+                    </div>
+                    <div className="prize-row-right u-col u-items-end u-gap-2">
+                      <div className="prize-row-cost">🎫 {prize.cost.toLocaleString()}</div>
+                      <button
+                        className={`action-btn${canAfford ? ' action-btn--gold' : ''}`}
+                        onClick={() => redeemPrize(prize)}
+                        disabled={!canAfford}
+                      >
+                        REDEEM
+                      </button>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {subScreen === 'leaderboard' && (
+          <div className="lb-screen u-col">
+            <div className="overlay-header u-flex u-items-c u-gap-6">
+              <button className="action-btn" onClick={() => setSubScreen('menu')}>← BACK</button>
+              <span className="overlay-title">🏆 LEADERBOARDS</span>
+            </div>
+
+            <div className="lb-controls u-col u-gap-3">
+              <div className="lb-game-tabs">
+                {(['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence'] as MiniGameId[]).map(id => (
+                  <button
+                    key={id}
+                    className={`filter-btn${lbGame === id ? ' filter-btn--active' : ''}`}
+                    onClick={() => loadLeaderboard(id, lbMode)}
+                  >
+                    {MINI_GAME_ICONS[id]} {MINI_GAME_LABELS[id]}
+                  </button>
+                ))}
+              </div>
+              <div className="lb-mode-tabs">
                 <button
-                  key={id}
-                  className={`filter-btn${lbGame === id ? ' filter-btn--active' : ''}`}
-                  onClick={() => loadLeaderboard(id, lbMode)}
+                  className={`filter-btn${lbMode === 'today' ? ' filter-btn--active' : ''}`}
+                  onClick={() => loadLeaderboard(lbGame, 'today')}
                 >
-                  {MINI_GAME_ICONS[id]} {MINI_GAME_LABELS[id]}
+                  TODAY
                 </button>
-              ))}
+                <button
+                  className={`filter-btn${lbMode === 'allTime' ? ' filter-btn--active' : ''}`}
+                  onClick={() => loadLeaderboard(lbGame, 'allTime')}
+                >
+                  ALL TIME
+                </button>
+              </div>
             </div>
-            <div className="lb-mode-tabs">
-              <button
-                className={`filter-btn${lbMode === 'today' ? ' filter-btn--active' : ''}`}
-                onClick={() => loadLeaderboard(lbGame, 'today')}
-              >
-                TODAY
-              </button>
-              <button
-                className={`filter-btn${lbMode === 'allTime' ? ' filter-btn--active' : ''}`}
-                onClick={() => loadLeaderboard(lbGame, 'allTime')}
-              >
-                ALL TIME
-              </button>
-            </div>
-          </div>
 
-          {lbLoading && <div className="lb-loading">Loading...</div>}
-          {!lbLoading && lbEntries.length === 0 && (
-            <div className="lb-empty">No scores yet. Be the first!</div>
-          )}
-          {!lbLoading && lbEntries.length > 0 && (
-            <ol className="lb-list">
-              {lbEntries.map((e, i) => (
-                <li key={e.uid} className="lb-entry">
-                  <span className="lb-rank">{i + 1}</span>
-                  <span className="lb-name">{e.characterName}</span>
-                  <span className="lb-score">{e.score} 🎫</span>
-                </li>
-              ))}
-            </ol>
-          )}
-        </div>
-      )}
-    </div>
+            {lbLoading && <div className="lb-loading">Loading...</div>}
+            {!lbLoading && lbEntries.length === 0 && (
+              <div className="lb-empty">No scores yet. Be the first!</div>
+            )}
+            {!lbLoading && lbEntries.length > 0 && (
+              <ol className="lb-list">
+                {lbEntries.map((e, i) => (
+                  <li key={e.uid} className="lb-entry">
+                    <span className="lb-rank">{i + 1}</span>
+                    <span className="lb-name">{e.characterName}</span>
+                    <span className="lb-score">{e.score} 🎫</span>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
+        )}
+      </div>
+    </OverlayScreen>
   )
 }

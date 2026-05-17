@@ -5,6 +5,7 @@ import { OverlayScreen } from './OverlayScreen';
 
 const meta = {
   component: OverlayScreen,
+  title: 'UI/OverlayScreen',
   parameters: { layout: 'fullscreen' },
 } satisfies Meta<typeof OverlayScreen>;
 

@@ -4,6 +4,8 @@ import { SpriteImg, AnimatedSpriteImg } from './SpriteImg';
 
 const meta = {
   component: SpriteImg,
+  title: 'UI/SpriteImg',
+  parameters: { layout: 'centered' },  
 } satisfies Meta<typeof SpriteImg>;
 
 export default meta;

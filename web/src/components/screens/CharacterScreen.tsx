@@ -8,6 +8,8 @@ import {
 } from '../../game/questline'
 import { auth } from '../../firebase'
 import { claimPlayerName } from '../../game/playerName'
+import { OverlayScreen } from '../ui/OverlayScreen'
+import { Button } from '../ui/Button'
 
 const SPRITE_BASE = '/sprites/'
 
@@ -92,9 +94,9 @@ export function CharacterScreen({ onDone }: Props) {
   }
 
   return (
+    <OverlayScreen title="Character" onBack={onDone}>
     <div className="character-screen-scroll">
-      <div className="event-screen" style={{ maxWidth: 480 }}>
-        <div className="event-type-tag">[CHARACTER]</div>
+      <div className="event-screen" >
         <div className="event-title">Who are you?</div>
 
         <div style={{ margin: '1rem 0 0.5rem' }}>
@@ -177,15 +179,15 @@ export function CharacterScreen({ onDone }: Props) {
           )}
         </div>
 
-        <button
-          className="action-btn action-btn--large"
-          style={{ marginTop: '1.5rem' }}
+        <Button
           onClick={handleSave}
           disabled={saving}
+          size={'lg'}
         >
           {saving ? 'CHECKING NAME…' : 'SAVE & CONTINUE ›'}
-        </button>
+        </Button>
       </div>
     </div>
+    </OverlayScreen>
   )
 }
