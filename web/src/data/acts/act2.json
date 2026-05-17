@@ -861,6 +861,10 @@
       "bossAI": "kragg",
       "bossCard": "Golem",
       "bossName": "Warlord Kragg",
+      "bossIntro": [
+        {"title": "THE IRON CITADEL", "image": "cutscenes/act2-boss-1.svg", "text": "The inner keep of the Iron Citadel rises from the bedrock of the Marches — three years of war and not one gate has been breached. Torchlight flickers through iron portcullis bars. The garrison is silent. Disciplined. Ready."},
+        {"title": "WARLORD KRAGG", "image": "cutscenes/act2-boss-2.svg", "text": "Warlord Kragg commands from the keep's heart, amber eyes burning through his great helm's visor. He has broken every assault that has ever come to these walls. He will not yield — not to steel, not to strategy, not to a stranger with a deck of cards."}
+      ],
       "bossDialogue": [
         "\"You walked through my garrison. My garrison that has held for three years.\"",
         "\"I don't know what you are. But I know what I am. And I have not lost a defensive engagement in my career.\"",

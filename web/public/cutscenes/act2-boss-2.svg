@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#080c14"/>
+
+  <!-- Deep iron atmosphere -->
+  <radialGradient id="kragg-atm" cx="50%" cy="55%" r="55%">
+    <stop offset="0%" stop-color="#141828" stop-opacity="0.8"/>
+    <stop offset="60%" stop-color="#0c1018" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#080c14" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#kragg-atm)"/>
+
+  <!-- Amber eye glow -->
+  <radialGradient id="kragg-eyes" cx="50%" cy="42%" r="20%">
+    <stop offset="0%" stop-color="#c08030" stop-opacity="0.5"/>
+    <stop offset="50%" stop-color="#805020" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#805020" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="100" rx="60" ry="40" fill="url(#kragg-eyes)"/>
+
+  <!-- Torchlight from below — illuminating the figure -->
+  <radialGradient id="kragg-torch" cx="50%" cy="85%" r="50%">
+    <stop offset="0%" stop-color="#604010" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="#604010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#kragg-torch)"/>
+
+  <!-- Stone wall background texture -->
+  <g fill="#0c0e18" stroke="#10141e" stroke-width="1" opacity="0.5">
+    <rect x="0"   y="0"   width="100" height="240"/>
+    <rect x="300" y="0"   width="100" height="240"/>
+  </g>
+  <!-- Wall joints -->
+  <g stroke="#0e1220" stroke-width="0.6" fill="none" opacity="0.4">
+    <line x1="0"   y1="40"  x2="100" y2="40"/>
+    <line x1="0"   y1="80"  x2="100" y2="80"/>
+    <line x1="0"   y1="120" x2="100" y2="120"/>
+    <line x1="300" y1="40"  x2="400" y2="40"/>
+    <line x1="300" y1="80"  x2="400" y2="80"/>
+    <line x1="300" y1="120" x2="400" y2="120"/>
+  </g>
+
+  <!-- WARLORD KRAGG — armoured commander -->
+  <!-- Shadow on floor -->
+  <ellipse cx="200" cy="228" rx="55" ry="8" fill="#020408" opacity="0.7"/>
+
+  <!-- Legs — greaves -->
+  <rect x="182" y="185" width="14" height="38" rx="2" fill="#141828" stroke="#1e2438" stroke-width="1"/>
+  <rect x="204" y="185" width="14" height="38" rx="2" fill="#141828" stroke="#1e2438" stroke-width="1"/>
+  <!-- Boot sabaton -->
+  <rect x="180" y="218" width="18" height="8"  rx="1" fill="#10141e" stroke="#181e2c" stroke-width="0.8"/>
+  <rect x="202" y="218" width="18" height="8"  rx="1" fill="#10141e" stroke="#181e2c" stroke-width="0.8"/>
+
+  <!-- Tassets (hip armor) -->
+  <polygon points="178,185 222,185 218,198 182,198" fill="#141828" stroke="#1e2438" stroke-width="1"/>
+
+  <!-- Body — heavy plate cuirass -->
+  <rect x="172" y="130" width="56" height="60" rx="3" fill="#141828" stroke="#202438" stroke-width="1.5"/>
+  <!-- Chest ridge detail -->
+  <line x1="200" y1="132" x2="200" y2="188" stroke="#1e2840" stroke-width="2" opacity="0.7"/>
+  <!-- Pauldron insets -->
+  <g fill="#181e30" opacity="0.5">
+    <rect x="175" y="132" width="20" height="8"/>
+    <rect x="205" y="132" width="20" height="8"/>
+  </g>
+  <!-- Iron command medal / insignia -->
+  <polygon points="200,148 204,155 200,162 196,155" fill="#282c3e" stroke="#3a4060" stroke-width="0.8"/>
+  <circle cx="200" cy="155" r="3" fill="#3a4060" opacity="0.7"/>
+
+  <!-- Pauldrons — massive shoulderplates -->
+  <!-- Left pauldron -->
+  <path d="M172,134 Q148,128 142,148 Q140,165 158,170 L172,165" fill="#141828" stroke="#1e2840" stroke-width="1.5"/>
+  <path d="M156,132 Q140,126 134,146" stroke="#242c42" stroke-width="2.5" fill="none" opacity="0.7"/>
+  <!-- Pauldron edge plates -->
+  <g stroke="#202438" stroke-width="1" fill="#10141e" opacity="0.6">
+    <rect x="148" y="148" width="18" height="6" rx="1"/>
+    <rect x="144" y="156" width="18" height="6" rx="1"/>
+  </g>
+
+  <!-- Right pauldron -->
+  <path d="M228,134 Q252,128 258,148 Q260,165 242,170 L228,165" fill="#141828" stroke="#1e2840" stroke-width="1.5"/>
+  <path d="M244,132 Q260,126 266,146" stroke="#242c42" stroke-width="2.5" fill="none" opacity="0.7"/>
+  <g stroke="#202438" stroke-width="1" fill="#10141e" opacity="0.6">
+    <rect x="234" y="148" width="18" height="6" rx="1"/>
+    <rect x="238" y="156" width="18" height="6" rx="1"/>
+  </g>
+
+  <!-- Arms — right arm holding sword hilt -->
+  <line x1="258" y1="158" x2="278" y2="195" stroke="#141828" stroke-width="10" stroke-linecap="round"/>
+  <!-- Gauntlet right -->
+  <ellipse cx="280" cy="198" rx="8" ry="7" fill="#10141e" stroke="#1a2030" stroke-width="1"/>
+  <!-- Sword grip -->
+  <line x1="280" y1="202" x2="285" y2="240" stroke="#1a2030" stroke-width="4"/>
+  <!-- Cross-guard -->
+  <line x1="273" y1="206" x2="293" y2="206" stroke="#242c40" stroke-width="3"/>
+
+  <!-- Arms — left arm, fist raised -->
+  <line x1="142" y1="158" x2="124" y2="190" stroke="#141828" stroke-width="10" stroke-linecap="round"/>
+  <!-- Gauntlet left -->
+  <ellipse cx="122" cy="193" rx="8" ry="7" fill="#10141e" stroke="#1a2030" stroke-width="1"/>
+
+  <!-- Neck gorget -->
+  <rect x="188" y="122" width="24" height="12" rx="2" fill="#141828" stroke="#1e2440" stroke-width="1"/>
+
+  <!-- HELM — full face great helm -->
+  <!-- Helm base -->
+  <path d="M178,100 Q178,75 200,72 Q222,75 222,100 L222,122 Q200,126 178,122 Z" fill="#141828" stroke="#1e2840" stroke-width="1.5"/>
+  <!-- Helm top ridge -->
+  <line x1="200" y1="72" x2="200" y2="100" stroke="#242c42" stroke-width="2" opacity="0.7"/>
+  <!-- Visor slit — where eyes glow -->
+  <rect x="182" y="93" width="36" height="8" rx="1" fill="#080c12" stroke="#141a28" stroke-width="0.8"/>
+  <!-- EYE GLOW through visor — amber, iron-willed -->
+  <radialGradient id="eye-l" cx="38%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#c08030"/>
+    <stop offset="60%" stop-color="#805020" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#805020" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="eye-r" cx="62%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#c08030"/>
+    <stop offset="60%" stop-color="#805020" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#805020" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="182" y="93" width="36" height="8" rx="1" fill="url(#eye-l)" opacity="0.85"/>
+  <!-- Inner eye glints -->
+  <ellipse cx="192" cy="97" rx="4" ry="2.5" fill="#d09040" opacity="0.9"/>
+  <ellipse cx="208" cy="97" rx="4" ry="2.5" fill="#d09040" opacity="0.9"/>
+  <circle cx="191" cy="96" r="1.5" fill="#ffe0a0" opacity="0.9"/>
+  <circle cx="207" cy="96" r="1.5" fill="#ffe0a0" opacity="0.9"/>
+  <!-- Helm cheek plates -->
+  <path d="M178,100 Q174,110 176,122" stroke="#1e2840" stroke-width="2" fill="none"/>
+  <path d="M222,100 Q226,110 224,122" stroke="#1e2840" stroke-width="2" fill="none"/>
+  <!-- Helm brow ridge -->
+  <path d="M178,95 Q200,90 222,95" stroke="#252e48" stroke-width="2" fill="none" opacity="0.7"/>
+  <!-- Plume socket (empty — no plume, pure iron) -->
+  <circle cx="200" cy="73" r="3" fill="#1a2030" stroke="#242c40" stroke-width="0.8"/>
+
+  <!-- Vignette -->
+  <radialGradient id="vign2" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.72"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign2)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#1a2030" text-anchor="middle" letter-spacing="3">WARLORD KRAGG</text>
+</svg>
