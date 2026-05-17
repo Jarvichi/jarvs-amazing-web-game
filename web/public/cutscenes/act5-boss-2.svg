@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#020810"/>
+
+  <!-- Deep ocean atmosphere -->
+  <radialGradient id="sov-atm" cx="50%" cy="50%" r="60%">
+    <stop offset="0%" stop-color="#06141e" stop-opacity="0.8"/>
+    <stop offset="70%" stop-color="#040c18" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#020810" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#sov-atm)"/>
+
+  <!-- Bioluminescent eye glow -->
+  <radialGradient id="sov-eyes" cx="50%" cy="40%" r="28%">
+    <stop offset="0%" stop-color="#00c0d0" stop-opacity="0.55"/>
+    <stop offset="45%" stop-color="#007090" stop-opacity="0.22"/>
+    <stop offset="100%" stop-color="#007090" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="96" rx="75" ry="48" fill="url(#sov-eyes)"/>
+
+  <!-- Reef glow from beneath -->
+  <radialGradient id="sov-reef" cx="50%" cy="88%" r="45%">
+    <stop offset="0%" stop-color="#005040" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#005040" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#sov-reef)"/>
+
+  <!-- Bioluminescent particles around figure -->
+  <g fill="#00c8a0" opacity="0.22">
+    <circle cx="120" cy="70"  r="1.2"/>
+    <circle cx="145" cy="45"  r="0.8"/>
+    <circle cx="165" cy="85"  r="1"/>
+    <circle cx="235" cy="80"  r="1"/>
+    <circle cx="258" cy="55"  r="0.8"/>
+    <circle cx="280" cy="88"  r="1.2"/>
+    <circle cx="130" cy="140" r="0.9"/>
+    <circle cx="270" cy="135" r="0.9"/>
+    <circle cx="100" cy="175" r="0.8"/>
+    <circle cx="300" cy="170" r="0.8"/>
+  </g>
+
+  <!-- THE TIDAL SOVEREIGN — vast, ancient leviathan-form entity -->
+  <!-- Floor shadow — vast, diffuse -->
+  <ellipse cx="200" cy="230" rx="90" ry="10" fill="#010406" opacity="0.6"/>
+
+  <!-- Lower body — coiled serpentine tail, submerged -->
+  <path d="M145,200 Q120,210 115,228 Q140,235 200,232 Q260,235 285,228 Q280,210 255,200 Z" fill="#061018" stroke="#0e2030" stroke-width="1" opacity="0.8"/>
+  <!-- Tail scale pattern -->
+  <g stroke="#0c1e2c" stroke-width="0.6" fill="none" opacity="0.4">
+    <path d="M130,218 Q155,212 180,216"/>
+    <path d="M220,216 Q245,212 270,218"/>
+    <path d="M140,226 Q170,220 200,224 Q230,220 260,226"/>
+  </g>
+  <!-- Tail fin edges -->
+  <g fill="#051020" stroke="#0a1e2e" stroke-width="0.8" opacity="0.7">
+    <polygon points="115,228 105,220 118,215"/>
+    <polygon points="285,228 295,220 282,215"/>
+  </g>
+
+  <!-- Upper body — broad-shouldered, armoured by coral and chitin -->
+  <!-- Main torso mass -->
+  <path d="M148,120 Q140,135 140,160 Q142,185 160,195 Q180,205 200,205 Q220,205 240,195 Q258,185 260,160 Q260,135 252,120 Z" fill="#07101e" stroke="#0e2030" stroke-width="1.5"/>
+  <!-- Chest armour plates — natural coral growth -->
+  <g fill="#060e1a" stroke="#0c1e2e" stroke-width="1" opacity="0.8">
+    <path d="M168,130 Q200,124 232,130 Q228,148 200,152 Q172,148 168,130 Z"/>
+    <path d="M170,155 Q200,150 230,155 Q225,168 200,172 Q175,168 170,155 Z"/>
+  </g>
+  <!-- Armour plate bio-luminescent seams -->
+  <g stroke="#00a890" stroke-width="0.8" fill="none" opacity="0.35">
+    <path d="M172,132 Q200,127 228,132"/>
+    <path d="M174,156 Q200,152 226,156"/>
+    <path d="M200,152 L200,168"/>
+  </g>
+
+  <!-- Arms — vast, fin-like -->
+  <!-- Left arm -->
+  <path d="M148,130 Q115,125 100,148 Q90,168 108,180 Q120,188 140,180 L148,165 Z" fill="#061018" stroke="#0e2030" stroke-width="1.2"/>
+  <!-- Fin spines left -->
+  <g stroke="#0c1e2e" stroke-width="1" fill="none" opacity="0.6">
+    <line x1="110" y1="135" x2="100" y2="150"/>
+    <line x1="118" y1="130" x2="108" y2="147"/>
+    <line x1="126" y1="128" x2="116" y2="145"/>
+    <line x1="136" y1="128" x2="126" y2="144"/>
+  </g>
+
+  <!-- Right arm -->
+  <path d="M252,130 Q285,125 300,148 Q310,168 292,180 Q280,188 260,180 L252,165 Z" fill="#061018" stroke="#0e2030" stroke-width="1.2"/>
+  <g stroke="#0c1e2e" stroke-width="1" fill="none" opacity="0.6">
+    <line x1="290" y1="135" x2="300" y2="150"/>
+    <line x1="282" y1="130" x2="292" y2="147"/>
+    <line x1="274" y1="128" x2="284" y2="145"/>
+    <line x1="264" y1="128" x2="274" y2="144"/>
+  </g>
+
+  <!-- Neck -->
+  <rect x="186" y="105" width="28" height="20" rx="3" fill="#07101e" stroke="#0e2030" stroke-width="1"/>
+
+  <!-- HEAD — vast, ancient, impassive -->
+  <!-- Skull base -->
+  <ellipse cx="200" cy="90" rx="42" ry="30" fill="#07101e" stroke="#0e2030" stroke-width="1.5"/>
+  <!-- Brow ridges — heavy, armoured -->
+  <path d="M162,85 Q180,78 200,76 Q220,78 238,85" stroke="#0e2030" stroke-width="3" fill="none"/>
+  <path d="M166,82 Q183,76 200,74 Q217,76 234,82" stroke="#142840" stroke-width="1.5" fill="none" opacity="0.6"/>
+  <!-- Crown spines — regal, coral -->
+  <g fill="#060e1a" stroke="#0c1e2e" stroke-width="0.8" opacity="0.8">
+    <polygon points="200,62 206,76 194,76"/>
+    <polygon points="182,66 188,79 176,80"/>
+    <polygon points="218,66 224,79 212,80"/>
+    <polygon points="167,76 172,87 160,89"/>
+    <polygon points="233,76 240,87 228,89"/>
+  </g>
+  <!-- Crown bio-luminescent tips -->
+  <g fill="#00c8a0" opacity="0.4">
+    <circle cx="200" cy="63" r="2"/>
+    <circle cx="182" cy="67" r="1.5"/>
+    <circle cx="218" cy="67" r="1.5"/>
+    <circle cx="168" cy="77" r="1.2"/>
+    <circle cx="233" cy="77" r="1.2"/>
+  </g>
+  <!-- Jaw / lower face -->
+  <path d="M162,92 Q175,110 200,114 Q225,110 238,92" fill="#060e1a" stroke="#0e2030" stroke-width="1"/>
+  <!-- Gill slits on jaw -->
+  <g stroke="#0c2030" stroke-width="0.8" fill="none" opacity="0.5">
+    <path d="M165,94 Q168,100 165,106"/>
+    <path d="M170,96 Q173,102 170,108"/>
+    <path d="M230,94 Q227,100 230,106"/>
+    <path d="M235,96 Q232,102 235,108"/>
+  </g>
+
+  <!-- Eye sockets -->
+  <ellipse cx="181" cy="88" rx="14" ry="10" fill="#030810"/>
+  <ellipse cx="219" cy="88" rx="14" ry="10" fill="#030810"/>
+  <!-- THE EYES — bioluminescent teal, vast and cold -->
+  <radialGradient id="eye-sl" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#00d8e8"/>
+    <stop offset="50%" stop-color="#008090" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#008090" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="eye-sr" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#00d8e8"/>
+    <stop offset="50%" stop-color="#008090" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#008090" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="181" cy="88" rx="14" ry="10" fill="url(#eye-sl)" opacity="0.85"/>
+  <ellipse cx="219" cy="88" rx="14" ry="10" fill="url(#eye-sr)" opacity="0.85"/>
+  <ellipse cx="181" cy="87" rx="6" ry="4.5" fill="#00f0ff" opacity="0.9"/>
+  <ellipse cx="219" cy="87" rx="6" ry="4.5" fill="#00f0ff" opacity="0.9"/>
+  <circle cx="180" cy="86" r="2.5" fill="#d0ffff" opacity="0.95"/>
+  <circle cx="218" cy="86" r="2.5" fill="#d0ffff" opacity="0.95"/>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-s2" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.72"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-s2)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#0a2030" text-anchor="middle" letter-spacing="3">THE TIDAL SOVEREIGN</text>
+</svg>

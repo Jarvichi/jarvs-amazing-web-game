@@ -579,6 +579,10 @@
       "opponentBaseHp": 240,
       "bossAI": "tidalsovereign",
       "environment": "reef",
+      "bossIntro": [
+        {"title": "THE SUNKEN REEF", "image": "cutscenes/act5-boss-1.svg", "text": "The Sunken Reef stretches beneath the Fracture's surface wound — coral spires rising from the dark, bioluminescent light tracing the bones of a thousand shipwrecks. Nothing that enters leaves without permission."},
+        {"title": "THE TIDAL SOVEREIGN", "image": "cutscenes/act5-boss-2.svg", "text": "The Tidal Sovereign is the Reef's ancient guardian — patient, vast, and profoundly unimpressed. Its cold luminescent eyes have watched ships sink for longer than anyone remembers. It does not fight. It simply decides who belongs here."}
+      ],
       "bossDialogue": [
         "You carry the smell of land. We do not welcome that here.",
         "The Fracture opened a wound in the sea's memory. You will not reopen it.",
