@@ -84,6 +84,10 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
     ? game.towers.find(t => t.id === selectedTowerId) ?? null
     : null
 
+  const [gameSpeed, setGameSpeed] = useState(1)
+  const gameSpeedRef = useRef(1)
+  gameSpeedRef.current = gameSpeed
+
   const gameRef = useRef(game)
   gameRef.current = game
 
@@ -92,6 +96,13 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
   const lastTimeRef = useRef<number | null>(null)
   const accRef = useRef(0)
 
+  // Drop to 1× whenever a life is lost
+  const prevLivesRef = useRef(game.lives)
+  useEffect(() => {
+    if (game.lives < prevLivesRef.current) setGameSpeed(1)
+    prevLivesRef.current = game.lives
+  }, [game.lives])
+
   // ── Game loop ───────────────────────────────────────────────────────────────
 
   const tick = useCallback((timestamp: number) => {
@@ -99,7 +110,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
     // Cap dt to 200ms to avoid spiral-of-death after a long pause
     const dt = Math.min(timestamp - lastTimeRef.current, 200)
     lastTimeRef.current = timestamp
-    accRef.current += dt
+    accRef.current += dt * gameSpeedRef.current
 
     const numTicks = Math.floor(accRef.current / TICK_MS)
     if (numTicks > 0) {
@@ -280,6 +291,15 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
           </button>
         )}
 
+        <div className="td-speed-btns">
+          {([1, 2, 4, 8] as const).map(s => (
+            <button
+              key={s}
+              className={`td-speed-btn${gameSpeed === s ? ' td-speed-btn--active' : ''}`}
+              onClick={() => setGameSpeed(s)}
+            >{s}×</button>
+          ))}
+        </div>
 
         <button className="action-btn action-btn--danger td-header-btn" onClick={() => onDone(reward)}>
           ✕
