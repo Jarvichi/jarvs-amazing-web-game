@@ -70,6 +70,19 @@ export const RESOURCE_ICONS: Record<ResourceType, string> = {
 
 // ── Fortification constants ───────────────────────────────────────────────────
 
+/** Build time in minutes per rarity. Legendary = 3 days; others scaled proportionally. */
+export const FORT_BUILD_MINUTES: Record<CardRarity, number> = {
+  common:    432,   // ~7 h
+  uncommon:  864,   // ~14 h
+  rare:     1728,   // ~1.2 days
+  epic:     3024,   // ~2.1 days
+  legendary: 4320,  // 3 days
+  mythic:    6912,  // ~4.8 days
+  shiny:     4320,
+  holofoil:  4320,
+  glass:     4320,
+}
+
 /** Max HP for a fortification of each rarity. */
 export const FORT_MAX_HP: Record<CardRarity, number> = {
   common: 50, uncommon: 100, rare: 200, epic: 350, legendary: 500,
@@ -732,7 +745,7 @@ export function addFortification(state: CityState, cardName: string, rarity: Car
   for (const res of Object.keys(newResources) as ResourceType[]) {
     newResources[res] = Math.max(0, newResources[res] - ((cost[res] as number) ?? 0))
   }
-  const buildMinutes = FORT_MAX_HP[rarity]
+  const buildMinutes = FORT_BUILD_MINUTES[rarity]
   const completesAt = Date.now() + buildMinutes * 60_000
   const entry: BuildQueueEntry = { cardName, rarity, completesAt }
   return {

@@ -13,7 +13,7 @@ import {
 import {
   CITY_COLS, CITY_ROWS, CELL_PX, MAX_CITY_ROWS,
   CityCell, CityState, BuildQueueEntry, ResourceType, AttackEvent,
-  FORT_MAX_HP, EXPANSION_COSTS, MAX_TOTAL_FORTS,
+  FORT_MAX_HP, FORT_BUILD_MINUTES, EXPANSION_COSTS, MAX_TOTAL_FORTS,
   DEFAULT_BUILDER_COUNT, MAX_BUILDER_COUNT,
   canAffordFortification, canQueueFortification,
   loadCityState, saveCityState, tickCity,
@@ -978,9 +978,14 @@ export function CityBuilder({ onBack }: Props) {
     if (!canAffordFortification(city, card.rarity)) { showToast('Not enough resources!'); return }
     const next = addFortification(city, card.name, card.rarity)
     if (!next) { showToast('Cannot build — check builder slots and resources.'); return }
-    const buildMinutes = FORT_MAX_HP[card.rarity]
+    const buildMinutes = FORT_BUILD_MINUTES[card.rarity]
+    const buildLabel = buildMinutes >= 1440
+      ? `${(buildMinutes / 1440).toFixed(1).replace(/\.0$/, '')} days`
+      : buildMinutes >= 60
+        ? `${(buildMinutes / 60).toFixed(1).replace(/\.0$/, '')} hrs`
+        : `${buildMinutes} min`
     save(next)
-    showToast(`${card.name} queued — ${buildMinutes} min build time.`)
+    showToast(`${card.name} queued — ${buildLabel} build time.`)
   }
 
   function handleBuyBuilder() {
