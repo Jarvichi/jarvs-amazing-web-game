@@ -60,6 +60,7 @@ export interface TDEnemyTemplate {
   reward: number      // gold awarded on kill (city mode) or score points
   tags: UnitTag[]
   flying?: boolean
+  immunities?: string[]  // effect types this enemy ignores (burn/freeze/poison/shock/gascloud)
 }
 
 const ENEMY_TEMPLATES: Record<string, TDEnemyTemplate> = {
@@ -93,6 +94,38 @@ const ENEMY_TEMPLATES: Record<string, TDEnemyTemplate> = {
     id: 'siegeEngine', label: 'Siege Engine', spriteName: 'Ballista',
     hp: 400, speed: 0.25, attack: 3, reward: 40,
     tags: ['siege', 'slow', 'large', 'armored'],
+  },
+  emberCrawler: {
+    id: 'emberCrawler', label: 'Ember Crawler', spriteName: 'Ember Crawler',
+    hp: 90, speed: 1.0, attack: 1, reward: 18,
+    tags: ['fast', 'fire'],
+    immunities: ['burn'],
+  },
+  frostDrake: {
+    id: 'frostDrake', label: 'Frost Drake', spriteName: 'Frost Drake',
+    hp: 130, speed: 0.9, attack: 1, reward: 22,
+    tags: ['flying', 'fast', 'frost'],
+    flying: true,
+    immunities: ['freeze'],
+  },
+  plagueRat: {
+    id: 'plagueRat', label: 'Plague Rat', spriteName: 'Plague Rat',
+    hp: 45, speed: 1.6, attack: 1, reward: 10,
+    tags: ['fast', 'magic'],
+    immunities: ['poison', 'gascloud'],
+  },
+  lavaTroll: {
+    id: 'lavaTroll', label: 'Lava Troll', spriteName: 'Lava Troll',
+    hp: 550, speed: 0.28, attack: 3, reward: 48,
+    tags: ['slow', 'large', 'armored', 'fire'],
+    immunities: ['burn', 'shock'],
+  },
+  iceWraith: {
+    id: 'iceWraith', label: 'Ice Wraith', spriteName: 'Ice Wraith',
+    hp: 160, speed: 0.65, attack: 2, reward: 30,
+    tags: ['flying', 'magic', 'undead', 'frost'],
+    flying: true,
+    immunities: ['freeze'],
   },
 }
 
@@ -181,6 +214,51 @@ export const TD_WAVES: WaveDefinition[] = [
       { enemyId: 'brute',       count: 4, intervalMs: 1500, hpMult: 2   },
       { enemyId: 'necromancer', count: 4, intervalMs: 1000, hpMult: 2   },
       { enemyId: 'flyer',       count: 6, intervalMs: 500,  hpMult: 2   },
+    ],
+  },
+  {
+    wave: 11, label: 'Wave 11 — Embers Rise',
+    spawns: [
+      { enemyId: 'emberCrawler', count: 6, intervalMs: 700,  hpMult: 1 },
+      { enemyId: 'footSoldier',  count: 4, intervalMs: 1000, hpMult: 2.2 },
+    ],
+  },
+  {
+    wave: 12, label: 'Wave 12 — Frozen Vanguard',
+    spawns: [
+      { enemyId: 'frostDrake',  count: 5, intervalMs: 800,  hpMult: 1 },
+      { enemyId: 'scout',       count: 5, intervalMs: 600,  hpMult: 2.2 },
+    ],
+  },
+  {
+    wave: 13, label: 'Wave 13 — Plague Tide',
+    spawns: [
+      { enemyId: 'plagueRat',   count: 14, intervalMs: 400, hpMult: 1 },
+      { enemyId: 'necromancer', count: 3,  intervalMs: 1200, hpMult: 2.4 },
+    ],
+  },
+  {
+    wave: 14, label: 'Wave 14 — Volcanic March',
+    spawns: [
+      { enemyId: 'lavaTroll',    count: 2, intervalMs: 3500, hpMult: 1 },
+      { enemyId: 'emberCrawler', count: 8, intervalMs: 600,  hpMult: 1.2 },
+    ],
+  },
+  {
+    wave: 15, label: 'Wave 15 — Spectral Blizzard',
+    spawns: [
+      { enemyId: 'iceWraith',  count: 5, intervalMs: 900,  hpMult: 1 },
+      { enemyId: 'frostDrake', count: 4, intervalMs: 700,  hpMult: 1.2 },
+      { enemyId: 'brute',      count: 2, intervalMs: 2000, hpMult: 2.4 },
+    ],
+  },
+  {
+    wave: 16, label: 'Wave 16 — Elemental Tide',
+    spawns: [
+      { enemyId: 'emberCrawler', count: 4, intervalMs: 700,  hpMult: 1.3 },
+      { enemyId: 'frostDrake',   count: 4, intervalMs: 700,  hpMult: 1.3 },
+      { enemyId: 'plagueRat',    count: 8, intervalMs: 400,  hpMult: 1.3 },
+      { enemyId: 'lavaTroll',    count: 2, intervalMs: 3000, hpMult: 1.3 },
     ],
   },
 ]
@@ -423,13 +501,12 @@ function generateWave(waveIndex: number): WaveDefinition {
     }
   }
 
-  // Base: always include wave 10
-  add(9)
-  // Wave 11 adds W1, wave 12 adds W2, … cycling through W1–W10
-  for (let i = 10; i <= waveIndex; i++) add((i - 10) % len)
+  // Base: always include the last defined wave, then cycle through all waves
+  add(len - 1)
+  for (let i = len; i <= waveIndex; i++) add((i - len) % len)
 
-  const cycle    = Math.floor((waveIndex - 10) / len) + 2
-  const addedIdx = (waveIndex - 10) % len
+  const cycle    = Math.floor((waveIndex - len) / len) + 2
+  const addedIdx = (waveIndex - len) % len
   const baseLabel = TD_WAVES[addedIdx].label.replace(/^Wave \d+ — /, '')
   return {
     wave: n,
@@ -919,7 +996,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
           const eff = unit.template.attackEffect
           if (eff && Math.random() < eff.chance) {
             if (eff.type === 'burn' || eff.type === 'freeze' || eff.type === 'poison' || eff.type === 'shock') {
-              if (newHp > 0) {
+              if (newHp > 0 && !target.template.immunities?.includes(eff.type)) {
                 s.enemies = s.enemies.map(e => {
                   if (e.id !== target.id) return e
                   if (eff.type === 'burn')   return { ...e, burnTimer:   eff.durationMs, burnDps:   eff.dps ?? 8 }
@@ -1050,7 +1127,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     s.enemies = s.enemies.map(enemy => {
       let e = { ...enemy }
       for (const hazard of s.hazards) {
-        if (dist(e.x, e.y, hazard.x, hazard.y) <= hazard.radius) {
+        if (dist(e.x, e.y, hazard.x, hazard.y) <= hazard.radius && !e.template.immunities?.includes('gascloud')) {
           e.hp = Math.max(0, Math.round(e.hp - hazard.dps * dtSec))
           if (e.hp <= 0 && !hazardDeadIds.has(e.id)) {
             hazardDeadIds.add(e.id)
