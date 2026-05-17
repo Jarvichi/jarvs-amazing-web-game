@@ -561,6 +561,10 @@
       "opponentBaseHp": 275,
       "bossAI": "paleengine",
       "environment": "frost",
+      "bossIntro": [
+        {"title": "THE PALE EXPANSE", "image": "cutscenes/act9-boss-1.svg", "text": "The Pale Expanse is not empty — it is occupied, precisely and without exception, by the Engine's cold-logic grid. Every surface is a sensor array. Every corridor is a weapon channel. It has always held the Expanse. It will continue to do so."},
+        {"title": "THE PALE ENGINE", "image": "cutscenes/act9-boss-2.svg", "text": "The Pale Engine has no face. It has sensor arrays. Its pale machine eyes log your intrusion with mechanical detachment — threat assessment non-zero, protocol engaged, outcome predetermined. It has held this fortress since before your records began."}
+      ],
       "bossDialogue": [
         "Intrusion logged. Threat assessment: non-zero. Protocol: engage.",
         "You are not cold enough to belong here. That is a correctable condition.",

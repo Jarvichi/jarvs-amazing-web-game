@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#04080c"/>
+
+  <!-- Cold machine atmosphere -->
+  <radialGradient id="pe-atm" cx="50%" cy="50%" r="60%">
+    <stop offset="0%" stop-color="#0c1828" stop-opacity="0.75"/>
+    <stop offset="65%" stop-color="#080e18" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#04080c" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#pe-atm)"/>
+
+  <!-- Pale machine eye glow -->
+  <radialGradient id="pe-eyes" cx="50%" cy="40%" r="28%">
+    <stop offset="0%" stop-color="#80a8c0" stop-opacity="0.55"/>
+    <stop offset="45%" stop-color="#304050" stop-opacity="0.22"/>
+    <stop offset="100%" stop-color="#304050" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="95" rx="75" ry="48" fill="url(#pe-eyes)"/>
+
+  <!-- Data grid lines — background geometry -->
+  <g stroke="#0e1828" stroke-width="0.5" fill="none" opacity="0.4">
+    <line x1="0"   y1="60"  x2="400" y2="60"/>
+    <line x1="0"   y1="90"  x2="400" y2="90"/>
+    <line x1="0"   y1="120" x2="400" y2="120"/>
+    <line x1="0"   y1="150" x2="400" y2="150"/>
+    <line x1="80"  y1="0"   x2="80"  y2="240"/>
+    <line x1="160" y1="0"   x2="160" y2="240"/>
+    <line x1="240" y1="0"   x2="240" y2="240"/>
+    <line x1="320" y1="0"   x2="320" y2="240"/>
+  </g>
+
+  <!-- Floating data nodes — sensor fragments -->
+  <g fill="#182838" stroke="#283848" stroke-width="0.5" opacity="0.6">
+    <rect x="118" y="62" width="14" height="8" rx="1"/>
+    <rect x="268" y="58" width="14" height="8" rx="1"/>
+    <rect x="108" y="112" width="14" height="8" rx="1"/>
+    <rect x="278" y="108" width="14" height="8" rx="1"/>
+    <rect x="122" y="155" width="14" height="8" rx="1"/>
+    <rect x="264" y="152" width="14" height="8" rx="1"/>
+  </g>
+  <g fill="#80a8c0" opacity="0.3">
+    <circle cx="125" cy="66" r="2"/>
+    <circle cx="275" cy="62" r="2"/>
+    <circle cx="115" cy="116" r="2"/>
+    <circle cx="285" cy="112" r="2"/>
+  </g>
+
+  <!-- THE PALE ENGINE — vast fortress intelligence given form -->
+  <!-- Floor projection shadow -->
+  <ellipse cx="200" cy="228" rx="80" ry="10" fill="#02040a" opacity="0.7"/>
+
+  <!-- Lower chassis — industrial, geometric -->
+  <polygon points="148,230 252,230 265,200 265,185 200,178 135,185 135,200" fill="#0a1018" stroke="#101e2c" stroke-width="1.5"/>
+  <!-- Chassis panel seams -->
+  <g stroke="#0e1c2c" stroke-width="0.8" fill="none" opacity="0.5">
+    <line x1="135" y1="195" x2="265" y2="195"/>
+    <line x1="135" y1="208" x2="265" y2="208"/>
+    <line x1="165" y1="185" x2="165" y2="230"/>
+    <line x1="200" y1="178" x2="200" y2="230"/>
+    <line x1="235" y1="185" x2="235" y2="230"/>
+  </g>
+  <!-- Thruster/drive ports -->
+  <g fill="#060e18" stroke="#0e1a28" stroke-width="0.8">
+    <rect x="152" y="218" width="12" height="10" rx="1"/>
+    <rect x="170" y="218" width="12" height="10" rx="1"/>
+    <rect x="194" y="218" width="12" height="10" rx="1"/>
+    <rect x="218" y="218" width="12" height="10" rx="1"/>
+    <rect x="236" y="218" width="12" height="10" rx="1"/>
+  </g>
+  <g fill="#304050" opacity="0.25">
+    <circle cx="158" cy="223" r="3"/>
+    <circle cx="176" cy="223" r="3"/>
+    <circle cx="200" cy="223" r="3"/>
+    <circle cx="224" cy="223" r="3"/>
+    <circle cx="242" cy="223" r="3"/>
+  </g>
+
+  <!-- Mid body — weapon and sensor housing -->
+  <rect x="140" y="135" width="120" height="48" rx="2" fill="#09101c" stroke="#101e2c" stroke-width="1.5"/>
+  <!-- Body panel lines -->
+  <g stroke="#0e1c2c" stroke-width="0.7" fill="none" opacity="0.5">
+    <line x1="140" y1="151" x2="260" y2="151"/>
+    <line x1="140" y1="166" x2="260" y2="166"/>
+    <line x1="170" y1="135" x2="170" y2="183"/>
+    <line x1="200" y1="135" x2="200" y2="183"/>
+    <line x1="230" y1="135" x2="230" y2="183"/>
+  </g>
+  <!-- Weapon port emitters — side-mounted -->
+  <g fill="#060e18" stroke="#0e1a28" stroke-width="0.8">
+    <rect x="140" y="142" width="10" height="8" rx="1"/>
+    <rect x="250" y="142" width="10" height="8" rx="1"/>
+    <rect x="140" y="158" width="10" height="8" rx="1"/>
+    <rect x="250" y="158" width="10" height="8" rx="1"/>
+  </g>
+  <g fill="#304050" opacity="0.4">
+    <circle cx="145" cy="146" r="2"/>
+    <circle cx="255" cy="146" r="2"/>
+    <circle cx="145" cy="162" r="2"/>
+    <circle cx="255" cy="162" r="2"/>
+  </g>
+
+  <!-- Arm struts — extending laterally, purely mechanical -->
+  <!-- Left arm strut -->
+  <rect x="88"  y="142" width="55" height="12" rx="1" fill="#08101a" stroke="#101e2c" stroke-width="1"/>
+  <rect x="75"  y="140" width="16" height="16" rx="1" fill="#09121e" stroke="#10202e" stroke-width="0.8"/>
+  <!-- Left claw / emitter array -->
+  <g fill="#060e18" stroke="#0e1a28" stroke-width="0.8">
+    <rect x="58"  y="138" width="18" height="5" rx="1"/>
+    <rect x="58"  y="146" width="18" height="5" rx="1"/>
+    <rect x="58"  y="154" width="18" height="5" rx="1"/>
+  </g>
+  <g fill="#304050" opacity="0.35">
+    <circle cx="62" cy="140" r="1.5"/>
+    <circle cx="62" cy="148" r="1.5"/>
+    <circle cx="62" cy="156" r="1.5"/>
+  </g>
+
+  <!-- Right arm strut -->
+  <rect x="257" y="142" width="55" height="12" rx="1" fill="#08101a" stroke="#101e2c" stroke-width="1"/>
+  <rect x="309" y="140" width="16" height="16" rx="1" fill="#09121e" stroke="#10202e" stroke-width="0.8"/>
+  <g fill="#060e18" stroke="#0e1a28" stroke-width="0.8">
+    <rect x="324" y="138" width="18" height="5" rx="1"/>
+    <rect x="324" y="146" width="18" height="5" rx="1"/>
+    <rect x="324" y="154" width="18" height="5" rx="1"/>
+  </g>
+  <g fill="#304050" opacity="0.35">
+    <circle cx="338" cy="140" r="1.5"/>
+    <circle cx="338" cy="148" r="1.5"/>
+    <circle cx="338" cy="156" r="1.5"/>
+  </g>
+
+  <!-- Head / primary sensor module -->
+  <rect x="160" y="90" width="80" height="50" rx="3" fill="#09121e" stroke="#101e2c" stroke-width="1.5"/>
+  <!-- Head panel grid -->
+  <g stroke="#0e1c2c" stroke-width="0.5" fill="none" opacity="0.5">
+    <line x1="160" y1="105" x2="240" y2="105"/>
+    <line x1="160" y1="120" x2="240" y2="120"/>
+    <line x1="185" y1="90"  x2="185" y2="140"/>
+    <line x1="215" y1="90"  x2="215" y2="140"/>
+  </g>
+  <!-- Top sensor ridge -->
+  <rect x="168" y="82" width="64" height="12" rx="1" fill="#0a1220" stroke="#101e2c" stroke-width="1"/>
+  <!-- Sensor fin -->
+  <polygon points="193,68 207,68 205,82 195,82" fill="#0a1220" stroke="#101e2c" stroke-width="0.8"/>
+
+  <!-- PRIMARY EYE SENSORS — the Engine's gaze -->
+  <!-- Left eye housing -->
+  <rect x="165" y="96" width="30" height="20" rx="1" fill="#060e18" stroke="#101a28" stroke-width="0.8"/>
+  <!-- Right eye housing -->
+  <rect x="205" y="96" width="30" height="20" rx="1" fill="#060e18" stroke="#101a28" stroke-width="0.8"/>
+  <!-- Eye inner lenses -->
+  <radialGradient id="eye-pel" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#a0c8e0"/>
+    <stop offset="50%" stop-color="#507090" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#507090" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="eye-per" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#a0c8e0"/>
+    <stop offset="50%" stop-color="#507090" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#507090" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="180" cy="106" rx="10" ry="7" fill="url(#eye-pel)" opacity="0.85"/>
+  <ellipse cx="220" cy="106" rx="10" ry="7" fill="url(#eye-per)" opacity="0.85"/>
+  <ellipse cx="180" cy="105" rx="5" ry="3.5" fill="#c0e4f8" opacity="0.9"/>
+  <ellipse cx="220" cy="105" rx="5" ry="3.5" fill="#c0e4f8" opacity="0.9"/>
+  <circle cx="179" cy="104" r="2" fill="#e8f8ff" opacity="0.95"/>
+  <circle cx="219" cy="104" r="2" fill="#e8f8ff" opacity="0.95"/>
+  <!-- Targeting scan line -->
+  <line x1="160" y1="106" x2="240" y2="106" stroke="#80a8c0" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-pe2" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.72"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-pe2)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#182030" text-anchor="middle" letter-spacing="3">THE PALE ENGINE</text>
+</svg>
