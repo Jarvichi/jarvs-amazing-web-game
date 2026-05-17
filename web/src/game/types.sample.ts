@@ -265,4 +265,5 @@ export const exampleTDHazard: TDHazard = {
   radius: 20,
   dps: 20,
   expiresAt: 2000,
+  sourceTowerId: 0,
 };
