@@ -4,6 +4,9 @@ import { MasteryBar } from './MasteryBar';
 
 const meta = {
   component: MasteryBar,
+  title: 'UI/MasteryBar',
+  parameters: { layout: 'centered' },  
+
 } satisfies Meta<typeof MasteryBar>;
 
 export default meta;

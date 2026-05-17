@@ -4,6 +4,8 @@ import { ProgressBar } from './ProgressBar';
 
 const meta = {
   component: ProgressBar,
+  title: 'UI/ProgressBar',
+  parameters: { layout: 'centered' },  
 } satisfies Meta<typeof ProgressBar>;
 
 export default meta;

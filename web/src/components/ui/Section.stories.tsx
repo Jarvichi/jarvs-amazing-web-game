@@ -4,6 +4,8 @@ import { Section } from './Section';
 
 const meta = {
   component: Section,
+  title: 'UI/Section',
+  parameters: { layout: 'centered' },
 } satisfies Meta<typeof Section>;
 
 export default meta;

@@ -6,6 +6,7 @@ import { ModalBackdrop } from './ModalBackdrop';
 const meta = {
   component: ModalBackdrop,
   parameters: { layout: 'fullscreen' },
+  title: 'UI/ModalBackdrop',
 } satisfies Meta<typeof ModalBackdrop>;
 
 export default meta;

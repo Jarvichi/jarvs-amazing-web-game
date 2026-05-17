@@ -4,6 +4,8 @@ import { StatRow } from './StatRow';
 
 const meta = {
   component: StatRow,
+  title: 'UI/StatRow',
+  parameters: { layout: 'centered' },  
 } satisfies Meta<typeof StatRow>;
 
 export default meta;
