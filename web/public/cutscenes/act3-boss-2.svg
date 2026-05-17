@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#070908"/>
+
+  <!-- Cold ashen atmosphere -->
+  <radialGradient id="ash-atm" cx="50%" cy="50%" r="58%">
+    <stop offset="0%" stop-color="#10120e" stop-opacity="0.7"/>
+    <stop offset="70%" stop-color="#080a08" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#060808" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#ash-atm)"/>
+
+  <!-- Cold eye glow — pale blue-grey -->
+  <radialGradient id="ashw-eyes" cx="50%" cy="41%" r="22%">
+    <stop offset="0%" stop-color="#b0c0d0" stop-opacity="0.45"/>
+    <stop offset="50%" stop-color="#607080" stop-opacity="0.18"/>
+    <stop offset="100%" stop-color="#607080" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="100" rx="65" ry="42" fill="url(#ashw-eyes)"/>
+
+  <!-- Smouldering ground glow — dull orange below -->
+  <radialGradient id="ash-ground" cx="50%" cy="90%" r="45%">
+    <stop offset="0%" stop-color="#402010" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#402010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#ash-ground)"/>
+
+  <!-- Ash particles drifting around the figure -->
+  <g fill="#282820" opacity="0.25">
+    <circle cx="130" cy="85"  r="1.2"/>
+    <circle cx="152" cy="55"  r="0.8"/>
+    <circle cx="250" cy="72"  r="1"/>
+    <circle cx="270" cy="105" r="0.8"/>
+    <circle cx="140" cy="135" r="1"/>
+    <circle cx="260" cy="140" r="1.2"/>
+    <circle cx="175" cy="168" r="0.8"/>
+    <circle cx="228" cy="160" r="0.9"/>
+    <circle cx="118" cy="160" r="0.7"/>
+    <circle cx="284" cy="155" r="0.7"/>
+  </g>
+
+  <!-- THE ASHWALKER — undead revenant risen from the ash -->
+  <!-- Shadow — barely there, like the ground doesn't remember -->
+  <ellipse cx="200" cy="228" rx="40" ry="6" fill="#040604" opacity="0.5"/>
+
+  <!-- Tattered lower robes — merge with ash floor -->
+  <path d="M178,190 Q180,205 172,225 Q185,228 200,225 Q215,228 228,225 Q220,205 222,190 Z" fill="#0c0e0a" stroke="#141612" stroke-width="0.8" opacity="0.8"/>
+  <!-- Ash drift filling the hem -->
+  <g fill="#141612" opacity="0.4">
+    <ellipse cx="185" cy="218" rx="10" ry="4"/>
+    <ellipse cx="212" cy="220" rx="9"  ry="3"/>
+  </g>
+
+  <!-- Legs — barely visible through robes, bone-pale -->
+  <line x1="193" y1="188" x2="190" y2="210" stroke="#0e100e" stroke-width="4" stroke-linecap="round"/>
+  <line x1="207" y1="188" x2="210" y2="210" stroke="#0e100e" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Long ashen robe — tattered, trailing -->
+  <polygon points="172,140 228,140 232,190 168,190" fill="#0d0f0c" stroke="#151712" stroke-width="1"/>
+  <!-- Robe tears and shred lines -->
+  <g stroke="#0a0c0a" stroke-width="0.8" fill="none" opacity="0.6">
+    <path d="M185,155 L183,175"/>
+    <path d="M200,153 L198,178"/>
+    <path d="M215,156 L217,178"/>
+  </g>
+
+  <!-- Bony arms — reaching / hanging at sides -->
+  <!-- Left arm -->
+  <line x1="172" y1="148" x2="145" y2="175" stroke="#0e100c" stroke-width="5" stroke-linecap="round"/>
+  <line x1="145" y1="175" x2="138" y2="195" stroke="#0e100c" stroke-width="3" stroke-linecap="round"/>
+  <!-- Bone fingers left -->
+  <g stroke="#141612" stroke-width="1.2" stroke-linecap="round">
+    <line x1="138" y1="195" x2="130" y2="202"/>
+    <line x1="138" y1="195" x2="134" y2="204"/>
+    <line x1="138" y1="195" x2="140" y2="205"/>
+    <line x1="138" y1="195" x2="144" y2="203"/>
+  </g>
+
+  <!-- Right arm — slightly raised -->
+  <line x1="228" y1="148" x2="255" y2="168" stroke="#0e100c" stroke-width="5" stroke-linecap="round"/>
+  <line x1="255" y1="168" x2="264" y2="186" stroke="#0e100c" stroke-width="3" stroke-linecap="round"/>
+  <!-- Bone fingers right -->
+  <g stroke="#141612" stroke-width="1.2" stroke-linecap="round">
+    <line x1="264" y1="186" x2="258" y2="195"/>
+    <line x1="264" y1="186" x2="262" y2="197"/>
+    <line x1="264" y1="186" x2="268" y2="196"/>
+    <line x1="264" y1="186" x2="272" y2="192"/>
+  </g>
+
+  <!-- Chest / torso — robed, skeletal beneath -->
+  <rect x="180" y="118" width="40" height="28" rx="2" fill="#0d0f0c" stroke="#151712" stroke-width="0.8"/>
+  <!-- Chest cavity crack — glimpse of void within -->
+  <path d="M196,122 L200,130 L204,122" stroke="#0a0c0a" stroke-width="1.5" fill="none"/>
+
+  <!-- Neck — skeletal column, barely covered -->
+  <rect x="194" y="108" width="12" height="14" rx="1" fill="#0c0e0c" stroke="#14160e" stroke-width="0.8"/>
+
+  <!-- SKULL HEAD -->
+  <!-- Back of skull -->
+  <ellipse cx="200" cy="95" rx="24" ry="20" fill="#0c0e0c" stroke="#141612" stroke-width="1.2"/>
+  <!-- Skull cheekbones / jaw -->
+  <path d="M178,98 Q176,108 180,114 Q190,120 200,120 Q210,120 220,114 Q224,108 222,98" fill="#0c0e0c" stroke="#141612" stroke-width="0.8"/>
+  <!-- Jaw line -->
+  <path d="M182,112 Q191,118 200,118 Q209,118 218,112" stroke="#14160e" stroke-width="1" fill="none" opacity="0.7"/>
+  <!-- Brow ridge — sunken, heavy -->
+  <path d="M180,92 Q200,86 220,92" stroke="#181a16" stroke-width="2" fill="none" opacity="0.7"/>
+  <!-- Nasal cavity -->
+  <path d="M198,102 L200,107 L202,102" stroke="#0a0c0a" stroke-width="1" fill="none" opacity="0.5"/>
+
+  <!-- Eye sockets — hollow dark -->
+  <ellipse cx="188" cy="96" rx="9" ry="7" fill="#060808"/>
+  <ellipse cx="212" cy="96" rx="9" ry="7" fill="#060808"/>
+  <!-- EYE GLOW — cold pale blue-grey, the memory of living light -->
+  <radialGradient id="eye-al" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#c8d8e8"/>
+    <stop offset="50%" stop-color="#8098b0" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#8098b0" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="eye-ar" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#c8d8e8"/>
+    <stop offset="50%" stop-color="#8098b0" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#8098b0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="188" cy="96" rx="9" ry="7" fill="url(#eye-al)" opacity="0.75"/>
+  <ellipse cx="212" cy="96" rx="9" ry="7" fill="url(#eye-ar)" opacity="0.75"/>
+  <!-- Cold iris gleam -->
+  <ellipse cx="188" cy="95" rx="4" ry="3" fill="#d0e0f0" opacity="0.85"/>
+  <ellipse cx="212" cy="95" rx="4" ry="3" fill="#d0e0f0" opacity="0.85"/>
+  <circle cx="187" cy="94" r="1.5" fill="#f0f8ff" opacity="0.9"/>
+  <circle cx="211" cy="94" r="1.5" fill="#f0f8ff" opacity="0.9"/>
+
+  <!-- Ash trails rising from the figure -->
+  <g stroke="#1e2018" stroke-width="0.8" fill="none" opacity="0.3">
+    <path d="M185,75 Q183,60 186,45"/>
+    <path d="M215,72 Q218,56 214,42"/>
+    <path d="M200,70 Q198,52 202,38"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-a2" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.7"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-a2)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#222018" text-anchor="middle" letter-spacing="3">THE ASHWALKER</text>
+</svg>
