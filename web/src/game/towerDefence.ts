@@ -286,7 +286,7 @@ export interface MilestoneUpgrade {
 export const ALL_MILESTONE_UPGRADES: MilestoneUpgrade[] = [
   { id: 'attack_speed', label: '⚡ Battle Rhythm',   description: 'All units attack 20% faster' },
   { id: 'range',        label: '🎯 Eagle Eye',        description: 'All units gain +1 range' },
-  { id: 'damage',       label: '💥 Sharpened Blades', description: 'Units deal 25% more damage' },
+  { id: 'damage',       label: '💥 Sharpened Blades', description: 'Units deal 15% more damage' },
   { id: 'mana',         label: '💧 Mana Spring',      description: 'Gain 100 bonus mana' },
   { id: 'life',         label: '❤️ Fortified Walls',  description: 'Gain 2 extra lives' },
   { id: 'respawn',      label: '🔄 Quick Recovery',   description: 'Units respawn twice as fast' },
@@ -506,6 +506,7 @@ function refreshTowerUnits(units: TDUnit[], tower: TDTower): TDUnit[] {
 
 function buildSpawnQueue(waveDef: WaveDefinition, startTimeMs: number, waveIndex: number): SpawnEntry[] {
   const speedMult = waveIndex >= 10 ? Math.pow(1.05, waveIndex - 10) : 1
+  const hpScale   = waveIndex >= 10 ? Math.pow(1.07, waveIndex - 10) : 1
   const queue: SpawnEntry[] = []
   let t = startTimeMs
   for (const group of waveDef.spawns) {
@@ -518,7 +519,7 @@ function buildSpawnQueue(waveDef: WaveDefinition, startTimeMs: number, waveIndex
     const splitsOnDeath = waveIndex >= 50 && isLarge
     const slowsUnits    = waveIndex >= 70 && isMagic
     for (let i = 0; i < group.count; i++) {
-      queue.push({ template: tpl, hpMult: group.hpMult, speedMult, shielded, splitsOnDeath, slowsUnits, spawnAt: t })
+      queue.push({ template: tpl, hpMult: group.hpMult * hpScale, speedMult, shielded, splitsOnDeath, slowsUnits, spawnAt: t })
       t += group.intervalMs
     }
   }
@@ -703,7 +704,7 @@ export function chooseMilestoneUpgrade(state: TDGameState, id: string): TDGameSt
   switch (id) {
     case 'attack_speed': p.attackSpeedMult *= 1.2; break
     case 'range':        p.rangeBonus += 1; break
-    case 'damage':       p.damageMult *= 1.25; break
+    case 'damage':       p.damageMult *= 1.15; break
     case 'mana':         extra = { mana: state.mana + 100 }; break
     case 'life':         extra = { lives: state.lives + 2 }; break
     case 'respawn':      p.respawnMult *= 2; break
