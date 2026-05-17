@@ -482,6 +482,10 @@
         "Storm Beacon"
       ],
       "bossAI": "harbormaster",
+      "bossIntro": [
+        {"title": "THE SHATTERED COAST", "image": "cutscenes/act12-boss-1.svg", "text": "The Shattered Coast is locked behind iron harbour gates and a chain boom that has turned back every ship since the Fracture. Wrecks line the approach. The Harbormaster has never issued a permit to pass."},
+        {"title": "THE HARBORMASTER", "image": "cutscenes/act12-boss-2.svg", "text": "The Harbormaster commands the Shattered Coast from an iron admiral's authority — logbook in one hand, the sea's word in the other. His cold blue eyes have watched every wreck earn its fate. He will not make an exception for a card player."}
+      ],
       "bossDialogue": [
         "You have no permit to pass.",
         "Every wreck on this coast earned its fate.",
