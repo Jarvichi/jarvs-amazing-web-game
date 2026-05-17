@@ -97,7 +97,7 @@ export interface UnitTemplate {
 
 export type BuffTag = 'atk' | 'spd' | 'hp' | 'range'
 
-export type UnitTag = 'flying' | 'ranged' | 'melee' | 'fast' | 'slow' | 'large' | 'magic' | 'undead' | 'beast' | 'armored' | 'siege' | 'fire' | 'swim' | 'ember' | 'frost' | 'glacier' | 'lightning' | 'poison' | 'aoe' | 'gascloud'
+export type UnitTag = 'flying' | 'ranged' | 'melee' | 'fast' | 'slow' | 'large' | 'magic' | 'undead' | 'beast' | 'armored' | 'siege' | 'fire' | 'swim' | 'ember' | 'frost' | 'glacier' | 'lightning' | 'poison' | 'aoe' | 'gascloud' | 'boss'
 
 /** Visual style of a projectile — drives rendering in both the battle and TD renderers. */
 export type ProjectileType = 'arrow' | 'fireball' | 'icebolt' | 'poisonblob' | 'magic' | 'lightning' | 'aoe'

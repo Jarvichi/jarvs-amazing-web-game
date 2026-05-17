@@ -60,6 +60,7 @@ export interface TDEnemyTemplate {
   reward: number      // gold awarded on kill (city mode) or score points
   tags: UnitTag[]
   flying?: boolean
+  immunities?: string[]  // effect types this enemy ignores (burn/freeze/poison/shock/gascloud)
 }
 
 const ENEMY_TEMPLATES: Record<string, TDEnemyTemplate> = {
@@ -94,7 +95,65 @@ const ENEMY_TEMPLATES: Record<string, TDEnemyTemplate> = {
     hp: 400, speed: 0.25, attack: 3, reward: 40,
     tags: ['siege', 'slow', 'large', 'armored'],
   },
+  emberCrawler: {
+    id: 'emberCrawler', label: 'Ember Crawler', spriteName: 'Ember Crawler',
+    hp: 90, speed: 1.0, attack: 1, reward: 18,
+    tags: ['fast', 'fire'],
+    immunities: ['burn'],
+  },
+  frostDrake: {
+    id: 'frostDrake', label: 'Frost Drake', spriteName: 'Frost Drake',
+    hp: 130, speed: 0.9, attack: 1, reward: 22,
+    tags: ['flying', 'fast', 'frost'],
+    flying: true,
+    immunities: ['freeze'],
+  },
+  plagueRat: {
+    id: 'plagueRat', label: 'Plague Rat', spriteName: 'Plague Rat',
+    hp: 45, speed: 1.6, attack: 1, reward: 10,
+    tags: ['fast', 'magic'],
+    immunities: ['poison', 'gascloud'],
+  },
+  lavaTroll: {
+    id: 'lavaTroll', label: 'Lava Troll', spriteName: 'Lava Troll',
+    hp: 550, speed: 0.28, attack: 3, reward: 48,
+    tags: ['slow', 'large', 'armored', 'fire'],
+    immunities: ['burn', 'shock'],
+  },
+  iceWraith: {
+    id: 'iceWraith', label: 'Ice Wraith', spriteName: 'Ice Wraith',
+    hp: 160, speed: 0.65, attack: 2, reward: 30,
+    tags: ['flying', 'magic', 'undead', 'frost'],
+    flying: true,
+    immunities: ['freeze'],
+  },
+  // ── Bosses (spawned every 10 waves, HP scales with appearance count) ─────────
+  bossBehemoth: {
+    id: 'bossBehemoth', label: 'Behemoth', spriteName: 'Behemoth',
+    hp: 1200, speed: 0.3, attack: 5, reward: 150,
+    tags: ['boss', 'slow', 'large', 'armored'],
+  },
+  bossCinderwarlord: {
+    id: 'bossCinderwarlord', label: 'Cinderwarlord', spriteName: 'Cinderwarlord',
+    hp: 1000, speed: 0.45, attack: 4, reward: 175,
+    tags: ['boss', 'fire', 'large'],
+    immunities: ['burn'],
+  },
+  bossGlacierTitan: {
+    id: 'bossGlacierTitan', label: 'Glacier Titan', spriteName: 'Glacier Titan',
+    hp: 1500, speed: 0.2, attack: 6, reward: 200,
+    tags: ['boss', 'slow', 'large', 'armored', 'frost'],
+    immunities: ['freeze'],
+  },
+  bossBoneColossus: {
+    id: 'bossBoneColossus', label: 'Bone Colossus', spriteName: 'Bone Colossus',
+    hp: 1300, speed: 0.35, attack: 5, reward: 180,
+    tags: ['boss', 'large', 'undead', 'magic'],
+    immunities: ['poison', 'gascloud'],
+  },
 }
+
+const BOSS_ROTATION = ['bossBehemoth', 'bossCinderwarlord', 'bossGlacierTitan', 'bossBoneColossus']
 
 // ── Wave definitions ──────────────────────────────────────────────────────────
 
@@ -181,6 +240,51 @@ export const TD_WAVES: WaveDefinition[] = [
       { enemyId: 'brute',       count: 4, intervalMs: 1500, hpMult: 2   },
       { enemyId: 'necromancer', count: 4, intervalMs: 1000, hpMult: 2   },
       { enemyId: 'flyer',       count: 6, intervalMs: 500,  hpMult: 2   },
+    ],
+  },
+  {
+    wave: 11, label: 'Wave 11 — Embers Rise',
+    spawns: [
+      { enemyId: 'emberCrawler', count: 6, intervalMs: 700,  hpMult: 1 },
+      { enemyId: 'footSoldier',  count: 4, intervalMs: 1000, hpMult: 2.2 },
+    ],
+  },
+  {
+    wave: 12, label: 'Wave 12 — Frozen Vanguard',
+    spawns: [
+      { enemyId: 'frostDrake',  count: 5, intervalMs: 800,  hpMult: 1 },
+      { enemyId: 'scout',       count: 5, intervalMs: 600,  hpMult: 2.2 },
+    ],
+  },
+  {
+    wave: 13, label: 'Wave 13 — Plague Tide',
+    spawns: [
+      { enemyId: 'plagueRat',   count: 14, intervalMs: 400, hpMult: 1 },
+      { enemyId: 'necromancer', count: 3,  intervalMs: 1200, hpMult: 2.4 },
+    ],
+  },
+  {
+    wave: 14, label: 'Wave 14 — Volcanic March',
+    spawns: [
+      { enemyId: 'lavaTroll',    count: 2, intervalMs: 3500, hpMult: 1 },
+      { enemyId: 'emberCrawler', count: 8, intervalMs: 600,  hpMult: 1.2 },
+    ],
+  },
+  {
+    wave: 15, label: 'Wave 15 — Spectral Blizzard',
+    spawns: [
+      { enemyId: 'iceWraith',  count: 5, intervalMs: 900,  hpMult: 1 },
+      { enemyId: 'frostDrake', count: 4, intervalMs: 700,  hpMult: 1.2 },
+      { enemyId: 'brute',      count: 2, intervalMs: 2000, hpMult: 2.4 },
+    ],
+  },
+  {
+    wave: 16, label: 'Wave 16 — Elemental Tide',
+    spawns: [
+      { enemyId: 'emberCrawler', count: 4, intervalMs: 700,  hpMult: 1.3 },
+      { enemyId: 'frostDrake',   count: 4, intervalMs: 700,  hpMult: 1.3 },
+      { enemyId: 'plagueRat',    count: 8, intervalMs: 400,  hpMult: 1.3 },
+      { enemyId: 'lavaTroll',    count: 2, intervalMs: 3000, hpMult: 1.3 },
     ],
   },
 ]
@@ -286,7 +390,7 @@ export interface MilestoneUpgrade {
 export const ALL_MILESTONE_UPGRADES: MilestoneUpgrade[] = [
   { id: 'attack_speed', label: '⚡ Battle Rhythm',   description: 'All units attack 20% faster' },
   { id: 'range',        label: '🎯 Eagle Eye',        description: 'All units gain +1 range' },
-  { id: 'damage',       label: '💥 Sharpened Blades', description: 'Units deal 25% more damage' },
+  { id: 'damage',       label: '💥 Sharpened Blades', description: 'Units deal 15% more damage' },
   { id: 'mana',         label: '💧 Mana Spring',      description: 'Gain 100 bonus mana' },
   { id: 'life',         label: '❤️ Fortified Walls',  description: 'Gain 2 extra lives' },
   { id: 'respawn',      label: '🔄 Quick Recovery',   description: 'Units respawn twice as fast' },
@@ -404,38 +508,48 @@ function generateWave(waveIndex: number): WaveDefinition {
   const n   = waveIndex + 1
   const len = TD_WAVES.length  // 10
 
+  let waveDef: WaveDefinition
   if (waveIndex < len) {
     const base = TD_WAVES[waveIndex]
-    return {
+    waveDef = {
       wave: n,
       label: `Wave ${n} — ${base.label.replace(/^Wave \d+ — /, '')}`,
       spawns: base.spawns.map(s => ({ ...s })),
     }
-  }
+  } else {
+    // Merge spawn lists, keyed by enemyId+hpMult+intervalMs to preserve HP variety.
+    const merged = new Map<string, WaveSpawn>()
+    const add = (baseIdx: number) => {
+      for (const s of TD_WAVES[baseIdx].spawns) {
+        const key = `${s.enemyId}|${s.hpMult}|${s.intervalMs}`
+        const ex  = merged.get(key)
+        merged.set(key, ex ? { ...ex, count: ex.count + s.count } : { ...s })
+      }
+    }
 
-  // Merge spawn lists, keyed by enemyId+hpMult+intervalMs to preserve HP variety.
-  const merged = new Map<string, WaveSpawn>()
-  const add = (baseIdx: number) => {
-    for (const s of TD_WAVES[baseIdx].spawns) {
-      const key = `${s.enemyId}|${s.hpMult}|${s.intervalMs}`
-      const ex  = merged.get(key)
-      merged.set(key, ex ? { ...ex, count: ex.count + s.count } : { ...s })
+    // Base: always include the last defined wave, then cycle through all waves
+    add(len - 1)
+    for (let i = len; i <= waveIndex; i++) add((i - len) % len)
+
+    const cycle    = Math.floor((waveIndex - len) / len) + 2
+    const addedIdx = (waveIndex - len) % len
+    const baseLabel = TD_WAVES[addedIdx].label.replace(/^Wave \d+ — /, '')
+    waveDef = {
+      wave: n,
+      label: `Wave ${n} — ${baseLabel} [Cycle ${cycle}]`,
+      spawns: [...merged.values()],
     }
   }
 
-  // Base: always include wave 10
-  add(9)
-  // Wave 11 adds W1, wave 12 adds W2, … cycling through W1–W10
-  for (let i = 10; i <= waveIndex; i++) add((i - 10) % len)
-
-  const cycle    = Math.floor((waveIndex - 10) / len) + 2
-  const addedIdx = (waveIndex - 10) % len
-  const baseLabel = TD_WAVES[addedIdx].label.replace(/^Wave \d+ — /, '')
-  return {
-    wave: n,
-    label: `Wave ${n} — ${baseLabel} [Cycle ${cycle}]`,
-    spawns: [...merged.values()],
+  // Inject a boss every 10 waves — arrives after regular enemies, HP scales per appearance
+  if (n % 10 === 0) {
+    const bossId    = BOSS_ROTATION[Math.floor(n / 10 - 1) % BOSS_ROTATION.length]
+    const bossScale = Math.ceil(n / 10)
+    waveDef.spawns  = [...waveDef.spawns, { enemyId: bossId, count: 1, intervalMs: 0, hpMult: bossScale }]
+    waveDef.label   = waveDef.label + ' ☠'
   }
+
+  return waveDef
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -506,6 +620,7 @@ function refreshTowerUnits(units: TDUnit[], tower: TDTower): TDUnit[] {
 
 function buildSpawnQueue(waveDef: WaveDefinition, startTimeMs: number, waveIndex: number): SpawnEntry[] {
   const speedMult = waveIndex >= 10 ? Math.pow(1.05, waveIndex - 10) : 1
+  const hpScale   = waveIndex >= 10 ? Math.pow(1.07, waveIndex - 10) : 1
   const queue: SpawnEntry[] = []
   let t = startTimeMs
   for (const group of waveDef.spawns) {
@@ -518,7 +633,8 @@ function buildSpawnQueue(waveDef: WaveDefinition, startTimeMs: number, waveIndex
     const splitsOnDeath = waveIndex >= 50 && isLarge
     const slowsUnits    = waveIndex >= 70 && isMagic
     for (let i = 0; i < group.count; i++) {
-      queue.push({ template: tpl, hpMult: group.hpMult, speedMult, shielded, splitsOnDeath, slowsUnits, spawnAt: t })
+      const isBoss = tpl.tags.includes('boss')
+      queue.push({ template: tpl, hpMult: group.hpMult * (isBoss ? 1 : hpScale), speedMult: isBoss ? 1 : speedMult, shielded, splitsOnDeath, slowsUnits, spawnAt: t })
       t += group.intervalMs
     }
   }
@@ -703,7 +819,7 @@ export function chooseMilestoneUpgrade(state: TDGameState, id: string): TDGameSt
   switch (id) {
     case 'attack_speed': p.attackSpeedMult *= 1.2; break
     case 'range':        p.rangeBonus += 1; break
-    case 'damage':       p.damageMult *= 1.25; break
+    case 'damage':       p.damageMult *= 1.15; break
     case 'mana':         extra = { mana: state.mana + 100 }; break
     case 'life':         extra = { lives: state.lives + 2 }; break
     case 'respawn':      p.respawnMult *= 2; break
@@ -918,7 +1034,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
           const eff = unit.template.attackEffect
           if (eff && Math.random() < eff.chance) {
             if (eff.type === 'burn' || eff.type === 'freeze' || eff.type === 'poison' || eff.type === 'shock') {
-              if (newHp > 0) {
+              if (newHp > 0 && !target.template.immunities?.includes(eff.type)) {
                 s.enemies = s.enemies.map(e => {
                   if (e.id !== target.id) return e
                   if (eff.type === 'burn')   return { ...e, burnTimer:   eff.durationMs, burnDps:   eff.dps ?? 8 }
@@ -1049,7 +1165,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     s.enemies = s.enemies.map(enemy => {
       let e = { ...enemy }
       for (const hazard of s.hazards) {
-        if (dist(e.x, e.y, hazard.x, hazard.y) <= hazard.radius) {
+        if (dist(e.x, e.y, hazard.x, hazard.y) <= hazard.radius && !e.template.immunities?.includes('gascloud')) {
           e.hp = Math.max(0, Math.round(e.hp - hazard.dps * dtSec))
           if (e.hp <= 0 && !hazardDeadIds.has(e.id)) {
             hazardDeadIds.add(e.id)
