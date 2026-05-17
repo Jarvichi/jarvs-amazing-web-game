@@ -373,7 +373,7 @@ export function sellRefund(tower: TDTower): number {
 
 /** Kills required to unlock the next upgrade tier. */
 export function xpToUpgrade(tower: TDTower): number {
-  return Math.round(5 * Math.pow(1.5, tower.upgrades))
+  return Math.round(3 * Math.pow(1.5, tower.upgrades))
 }
 
 /** Number of units a building spawns at its current upgrade level. */
@@ -762,9 +762,13 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     }]
   }
 
-  // Start auto-next-wave countdown when last enemy of this wave spawns
+  // Start auto-next-wave countdown when last enemy of this wave spawns.
+  // Skip the timer on milestone waves — the player must clear all enemies first.
   if (s.phase === 'wave' && state.spawnQueue.length > 0 && s.spawnQueue.length === 0 && s.nextWaveAt === Infinity) {
-    s.nextWaveAt = s.gameTimeMs + 5000
+    const nextCompleted = s.wavesCompleted + 1
+    if (nextCompleted % TD_MILESTONE_EVERY !== 0) {
+      s.nextWaveAt = s.gameTimeMs + 5000
+    }
   }
 
   // ── Elemental DoT on enemies ─────────────────────────────────────────────
