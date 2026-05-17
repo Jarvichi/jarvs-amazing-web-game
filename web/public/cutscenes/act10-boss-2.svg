@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#100c06"/>
+
+  <!-- Desert merchant hall atmosphere -->
+  <radialGradient id="db-atm" cx="50%" cy="55%" r="60%">
+    <stop offset="0%" stop-color="#201408" stop-opacity="0.75"/>
+    <stop offset="65%" stop-color="#140e06" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#100c06" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#db-atm)"/>
+
+  <!-- Gold eye glow -->
+  <radialGradient id="db-eyes" cx="50%" cy="40%" r="22%">
+    <stop offset="0%" stop-color="#d09020" stop-opacity="0.55"/>
+    <stop offset="45%" stop-color="#906010" stop-opacity="0.22"/>
+    <stop offset="100%" stop-color="#906010" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="97" rx="65" ry="42" fill="url(#db-eyes)"/>
+
+  <!-- Lantern light — warm amber from above -->
+  <radialGradient id="db-lantern" cx="50%" cy="20%" r="40%">
+    <stop offset="0%" stop-color="#c08030" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#c08030" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#db-lantern)"/>
+
+  <!-- Background market hall — ornate pillars -->
+  <g fill="#140e08" stroke="#201408" stroke-width="1" opacity="0.7">
+    <rect x="0"   y="0" width="80"  height="240"/>
+    <rect x="320" y="0" width="80"  height="240"/>
+  </g>
+  <!-- Pillar decorative bands -->
+  <g stroke="#281808" stroke-width="0.8" fill="none" opacity="0.4">
+    <line x1="0"   y1="60"  x2="80"  y2="60"/>
+    <line x1="0"   y1="120" x2="80"  y2="120"/>
+    <line x1="0"   y1="180" x2="80"  y2="180"/>
+    <line x1="320" y1="60"  x2="400" y2="60"/>
+    <line x1="320" y1="120" x2="400" y2="120"/>
+    <line x1="320" y1="180" x2="400" y2="180"/>
+  </g>
+  <!-- Hanging lanterns -->
+  <g fill="#c08030" opacity="0.3">
+    <circle cx="40"  cy="18" r="5"/>
+    <circle cx="360" cy="18" r="5"/>
+    <circle cx="200" cy="15" r="6"/>
+  </g>
+  <!-- Lantern chains -->
+  <g stroke="#201408" stroke-width="1" opacity="0.5">
+    <line x1="40"  y1="0"  x2="40"  y2="18"/>
+    <line x1="360" y1="0"  x2="360" y2="18"/>
+    <line x1="200" y1="0"  x2="200" y2="15"/>
+  </g>
+
+  <!-- Goods stacked in background — crates, urns, draped silks -->
+  <g fill="#120e06" stroke="#1e1408" stroke-width="0.5" opacity="0.6">
+    <rect x="88"  y="180" width="30" height="20" rx="1"/>
+    <rect x="92"  y="168" width="22" height="14" rx="1"/>
+    <rect x="282" y="182" width="30" height="18" rx="1"/>
+    <rect x="286" y="170" width="22" height="14" rx="1"/>
+  </g>
+  <!-- Silk drape left -->
+  <path d="M82,60 Q88,90 85,120 Q83,150 88,180" stroke="#281808" stroke-width="4" fill="none" opacity="0.4"/>
+  <!-- Silk drape right -->
+  <path d="M318,60 Q312,90 315,120 Q317,150 312,180" stroke="#281808" stroke-width="4" fill="none" opacity="0.4"/>
+
+  <!-- THE DUNE BARON — merchant lord, draped in wealth -->
+  <!-- Floor shadow -->
+  <ellipse cx="200" cy="228" rx="52" ry="8" fill="#060402" opacity="0.6"/>
+
+  <!-- Robe / kaftan — layers of rich fabric -->
+  <!-- Outer kaftan robe -->
+  <polygon points="166,145 234,145 240,230 160,230" fill="#181008" stroke="#281808" stroke-width="1.2"/>
+  <!-- Inner robe — lighter sand colour -->
+  <polygon points="178,148 222,148 228,228 172,228" fill="#1c1208" stroke="#241808" stroke-width="0.8"/>
+  <!-- Robe hem — gold embroidery -->
+  <g stroke="#806020" stroke-width="1" fill="none" opacity="0.4">
+    <path d="M164,210 L171,204 L178,210 L185,204 L192,210 L199,204 L206,210 L213,204 L220,210 L227,204 L234,210 L240,210"/>
+    <path d="M164,220 L171,214 L178,220 L185,214 L192,220 L199,214 L206,220 L213,214 L220,220 L227,214 L234,220"/>
+  </g>
+  <!-- Sash / belt — broad, merchant gold -->
+  <rect x="174" y="172" width="52" height="10" rx="1" fill="#1e1408" stroke="#806020" stroke-width="1"/>
+  <!-- Belt clasp — large, ostentatious -->
+  <rect x="195" y="170" width="10" height="14" rx="1" fill="#c08020" opacity="0.6"/>
+  <circle cx="200" cy="177" r="4" fill="#e0a030" opacity="0.55"/>
+
+  <!-- Arms — draped in broad sleeves -->
+  <!-- Left arm — gesturing open -->
+  <line x1="170" y1="155" x2="142" y2="182" stroke="#181008" stroke-width="10" stroke-linecap="round"/>
+  <!-- Left hand with gold rings -->
+  <ellipse cx="138" cy="186" rx="8" ry="6" fill="#1a1008" stroke="#241808" stroke-width="0.8"/>
+  <g fill="#c08020" opacity="0.5">
+    <circle cx="134" cy="184" r="1.5"/>
+    <circle cx="140" cy="183" r="1.5"/>
+    <circle cx="143" cy="187" r="1.5"/>
+  </g>
+
+  <!-- Right arm — holds scales / ledger -->
+  <line x1="230" y1="155" x2="258" y2="178" stroke="#181008" stroke-width="10" stroke-linecap="round"/>
+  <!-- Right hand -->
+  <ellipse cx="262" cy="182" rx="8" ry="6" fill="#1a1008" stroke="#241808" stroke-width="0.8"/>
+  <!-- Merchant scales in right hand -->
+  <line x1="262" y1="178" x2="262" y2="164" stroke="#281808" stroke-width="1.5"/>
+  <line x1="254" y1="164" x2="270" y2="164" stroke="#c08020" stroke-width="1.5" opacity="0.7"/>
+  <!-- Scale pans -->
+  <path d="M254,164 Q252,170 256,172 Q258,173 260,172 Q264,170 262,164" stroke="#906010" stroke-width="1" fill="none" opacity="0.6"/>
+  <path d="M270,164 Q272,170 268,172 Q266,173 264,172 Q260,170 262,164" stroke="#906010" stroke-width="1" fill="none" opacity="0.6"/>
+
+  <!-- Neck collar — high, layered -->
+  <rect x="186" y="128" width="28" height="20" rx="2" fill="#181008" stroke="#281808" stroke-width="1"/>
+  <!-- Collar gold trim -->
+  <path d="M188,130 Q200,126 212,130" stroke="#806020" stroke-width="1.2" fill="none" opacity="0.6"/>
+
+  <!-- HEAD — broad, confident, merchant lord -->
+  <!-- Neck -->
+  <rect x="192" y="118" width="16" height="14" rx="1" fill="#181008" stroke="#221408" stroke-width="0.8"/>
+  <!-- Head — round, well-fed, assured -->
+  <ellipse cx="200" cy="104" rx="24" ry="22" fill="#181008" stroke="#241808" stroke-width="1.2"/>
+  <!-- Beard — full, merchant lord beard -->
+  <path d="M180,112 Q185,124 192,128 Q200,132 208,128 Q215,124 220,112" fill="#141008" stroke="#1e1408" stroke-width="0.8"/>
+  <path d="M184,114 Q190,126 200,130 Q210,126 216,114" stroke="#201408" stroke-width="1" fill="none" opacity="0.5"/>
+  <!-- Moustache -->
+  <path d="M188,108 Q194,111 200,110 Q206,111 212,108" stroke="#201408" stroke-width="2" fill="none" opacity="0.7"/>
+  <!-- Brow — prominent, calculating -->
+  <path d="M180,100 Q200,94 220,100" stroke="#201408" stroke-width="2" fill="none" opacity="0.6"/>
+
+  <!-- Eyes — gold, calculating, merchant's eyes -->
+  <ellipse cx="189" cy="103" rx="9" ry="7" fill="#0e0c06"/>
+  <ellipse cx="211" cy="103" rx="9" ry="7" fill="#0e0c06"/>
+  <!-- Eye glow — merchant gold -->
+  <radialGradient id="eye-dbl" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#e0a020"/>
+    <stop offset="55%" stop-color="#906010" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#906010" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="eye-dbr" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#e0a020"/>
+    <stop offset="55%" stop-color="#906010" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#906010" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="189" cy="103" rx="9" ry="7" fill="url(#eye-dbl)" opacity="0.85"/>
+  <ellipse cx="211" cy="103" rx="9" ry="7" fill="url(#eye-dbr)" opacity="0.85"/>
+  <ellipse cx="189" cy="102" rx="4" ry="3" fill="#f0c040" opacity="0.9"/>
+  <ellipse cx="211" cy="102" rx="4" ry="3" fill="#f0c040" opacity="0.9"/>
+  <circle cx="188" cy="101" r="1.5" fill="#ffe080" opacity="0.95"/>
+  <circle cx="210" cy="101" r="1.5" fill="#ffe080" opacity="0.95"/>
+
+  <!-- Turban / merchant headwear -->
+  <ellipse cx="200" cy="86" rx="26" ry="10" fill="#181008" stroke="#241808" stroke-width="1"/>
+  <ellipse cx="200" cy="84" rx="22" ry="8"  fill="#1c1208" stroke="#282010" stroke-width="0.8"/>
+  <!-- Turban jewel centre -->
+  <circle cx="200" cy="80" r="4" fill="#c08020" opacity="0.5"/>
+  <circle cx="200" cy="80" r="2" fill="#e0b030" opacity="0.6"/>
+  <!-- Turban folds -->
+  <g stroke="#221808" stroke-width="0.6" fill="none" opacity="0.4">
+    <path d="M180,86 Q190,82 200,84 Q210,82 220,86"/>
+    <path d="M184,90 Q192,86 200,88 Q208,86 216,90"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-db2" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.72"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-db2)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#281808" text-anchor="middle" letter-spacing="3">THE DUNE BARON</text>
+</svg>

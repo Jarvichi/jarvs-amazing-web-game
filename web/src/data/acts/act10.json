@@ -723,6 +723,10 @@
       "opponentBaseHp": 285,
       "bossAI": "dunebaron",
       "environment": "sand",
+      "bossIntro": [
+        {"title": "THE SAND MARKET", "image": "cutscenes/act10-boss-1.svg", "text": "The Sand Market rises from the desert night — a merchant citadel of domed towers and lantern-lit gate arches, where everything that crosses the Fracture has a price and the Dune Baron sets it."},
+        {"title": "THE DUNE BARON", "image": "cutscenes/act10-boss-2.svg", "text": "The Dune Baron treats this as a transaction. His gold eyes weigh you the way a merchant weighs a questionable coin — measuring worth, calculating risk, deciding the terms. He doesn't lose deals. He renegotiates them."}
+      ],
       "bossDialogue": [
         "Everything has a price. Your passage through my market has one too. This is the negotiation.",
         "I've hired the best. You're fighting the best. Consider it a compliment.",
