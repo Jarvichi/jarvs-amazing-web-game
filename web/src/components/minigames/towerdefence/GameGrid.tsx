@@ -1,5 +1,4 @@
-import { CELL_PX } from "../../../game/cityBuilder";
-import { buildingUnitCount, TD_COLS, TD_MAX_UPGRADES, TD_PATH, TD_ROWS, TDGameState, TDTower, TDUnit, xpToUpgrade } from "../../../game/towerDefence";
+import { buildingUnitCount, TD_CELL_PX as CELL_PX, TD_COLS, TD_MAX_UPGRADES, TD_PATH, TD_ROWS, TDGameState, TDTower, TDUnit, xpToUpgrade } from "../../../game/towerDefence";
 import { SpriteImg } from "../../ui/SpriteImg";
 import { AttackEffect } from "./AttackEffect";
 import { EnemyToken } from "./EnemyToken";

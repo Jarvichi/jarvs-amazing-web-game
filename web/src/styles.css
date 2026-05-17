@@ -11697,8 +11697,11 @@ html.light-mode .action-btn {
 }
 
 .td-cell {
+  position: absolute;
   box-sizing: border-box;
   border: 1px solid #1a1a1a;
+  cursor: pointer;
+  display: flex;
   transition: background 0.1s;
 }
 .td-cell--grass       { background: #1a2d1a; }
@@ -11715,6 +11718,8 @@ html.light-mode .action-btn {
 
 /* Tower inside cell */
 .td-tower-inner {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   pointer-events: none;
 }
