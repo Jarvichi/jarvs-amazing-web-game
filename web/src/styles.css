@@ -9854,6 +9854,10 @@ html.light-mode .action-btn {
 
 .city-bld-section-title { font-size: 10px; color: #609060; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start; }
 .city-bld-vacant        { font-size: 10px; color: #606060; font-style: italic; }
+.city-bld-vacant-section { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.city-bld-vacant-reasons { display: flex; flex-direction: column; gap: 3px; }
+.city-bld-req--met      { color: #609060 !important; }
+.city-bld-vacant-warn   { font-size: 9px; color: #887040; font-style: italic; }
 .city-bld-resident {
   display: flex;
   align-items: flex-start;

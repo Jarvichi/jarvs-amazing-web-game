@@ -58,6 +58,7 @@ export const SpawnerResidents: Story = {
       walkers={walkers}
       onClose={fn()}
       onLevelUp={fn()}
+      onMoveIn={fn()}
     />
   ),
 }
@@ -73,6 +74,7 @@ export const ProducerBuilding: Story = {
       walkers={[]}
       onClose={fn()}
       onLevelUp={fn()}
+      onMoveIn={fn()}
     />
   ),
 }
@@ -88,6 +90,7 @@ export const UnhappyUnit: Story = {
       walkers={[]}
       onClose={fn()}
       onLevelUp={fn()}
+      onMoveIn={fn()}
     />
   ),
 }

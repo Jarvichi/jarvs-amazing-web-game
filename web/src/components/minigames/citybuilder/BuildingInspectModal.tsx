@@ -19,12 +19,13 @@ export interface Props {
   setBuildingTab: (tab: 'residents' | 'upgrade') => void
   onClose:        () => void
   onLevelUp:      (cardName: string) => void
+  onMoveIn:       () => void
 }
 
 export function BuildingInspectModal({
   cellIndex, cell, city, collection, walkers,
   buildingTab, setBuildingTab,
-  onClose, onLevelUp,
+  onClose, onLevelUp, onMoveIn,
 }: Props) {
   const happiness      = cell.spawnedUnitName ? (city.happiness[cellIndex] ?? 100) : 100
   const unitCount      = cell.spawnedUnitName ? spawnerUnitCount(city, cell.cardName) : 0
@@ -62,9 +63,31 @@ export function BuildingInspectModal({
           cell.spawnedUnitName ? (
             <>
               <div className="city-bld-section-title">Residents ({happiness === 0 ? 0 : unitCount})</div>
-              {happiness === 0 ? (
-                <div className="city-bld-vacant">Building is vacant — unit left the city</div>
-              ) : (
+              {happiness === 0 ? (() => {
+                const reqs   = getUnitRequirements(cell, city, cellIndex)
+                const unmet  = reqs.filter(r => !r.met)
+                const allMet = unmet.length === 0
+                return (
+                  <div className="city-bld-vacant-section">
+                    <div className="city-bld-vacant">🚪 Vacant — residents left the city</div>
+                    <div className="city-bld-vacant-reasons">
+                      {unmet.length > 0
+                        ? unmet.map((r, i) => <div key={i} className="city-bld-resident-req">✗ {r.text}</div>)
+                        : <div className="city-bld-resident-req city-bld-req--met">✓ All conditions now met</div>
+                      }
+                    </div>
+                    <button
+                      className={`action-btn${allMet ? '' : ' action-btn--muted'}`}
+                      onClick={() => { onMoveIn(); onClose() }}
+                    >
+                      {allMet ? '🏠 INVITE BACK' : '🏠 INVITE BACK ANYWAY'}
+                    </button>
+                    {!allMet && (
+                      <div className="city-bld-vacant-warn">They may leave again if conditions aren't improved.</div>
+                    )}
+                  </div>
+                )
+              })() : (
                 Array.from({ length: unitCount }, (_, u) => {
                   const reqs    = getUnitRequirements(cell, city, cellIndex)
                   const unmet   = reqs.filter(r => !r.met)
