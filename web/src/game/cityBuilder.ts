@@ -29,8 +29,8 @@ export const INCOME_WALL: Record<CardRarity, number> = { common: 0, uncommon: 1,
 
 /** Happiness regeneration per minute toward the target value. */
 const HAPPINESS_REGEN = 15
-/** Happiness drain per minute away from target when conditions not met (~50 min to fully despawn). */
-const HAPPINESS_DRAIN = 2
+/** Happiness drain per minute away from target when conditions not met (~24 hrs to fully despawn). */
+const HAPPINESS_DRAIN = 0.07
 
 /** Level-up costs: index = target level (1-based). Beyond the table, the last entry repeats. */
 export const LEVEL_UP_COSTS = [50000, 100000, 250000, 500000, 1000000]
@@ -710,6 +710,14 @@ export function placeCard(state: CityState, index: number, cell: CityCell): City
   }
 
   return { ...state, grid, happiness, resources }
+}
+
+/** Invite a vacant unit back into their building, restoring partial happiness. */
+export function reoccupyBuilding(state: CityState, index: number): CityState {
+  const cell = state.grid[index]
+  if (!cell?.spawnedUnitName) return state
+  if ((state.happiness[index] ?? 100) > 0) return state
+  return { ...state, happiness: { ...state.happiness, [index]: 50 } }
 }
 
 export function removeCard(state: CityState, index: number): CityState {

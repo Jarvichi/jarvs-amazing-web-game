@@ -17,7 +17,7 @@ import {
   DEFAULT_BUILDER_COUNT, MAX_BUILDER_COUNT,
   canAffordFortification, canQueueFortification,
   loadCityState, saveCityState, tickCity,
-  placeCard, removeCard,
+  placeCard, removeCard, reoccupyBuilding,
   addFortification, removeFortification,
   expandCity, canAffordExpansion,
   goldIncomeRate, goldNetRate,
@@ -1247,6 +1247,7 @@ export function CityBuilder({ onBack }: Props) {
               setBuildingTab={setBuildingTab}
               onClose={() => setSelectedBuildingCell(null)}
               onLevelUp={cardName => { handleLevelUp(cardName); setBuildingTab('upgrade') }}
+              onMoveIn={() => { save(reoccupyBuilding(city, selectedBuildingCell!)); showToast('Residents invited back!') }}
             />
           )
         })()}
