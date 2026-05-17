@@ -527,6 +527,10 @@
       "opponentBaseHp": 270,
       "bossAI": "elderwarden",
       "environment": "forest",
+      "bossIntro": [
+        {"title": "THE VERDANT CANOPY", "image": "cutscenes/act11-boss-1.svg", "text": "The Verdant Canopy has stood since before the Fracture named anything — ancient trees and bioluminescent undergrowth forming a living fortress of bark and green light. Nothing disrupts it. Nothing is permitted to try."},
+        {"title": "THE ELDER WARDEN", "image": "cutscenes/act11-boss-2.svg", "text": "The Elder Warden is the Canopy's ancient guardian — bark-skinned, antlered, its ley-green eyes carrying the weight of a thousand turned-back expeditions. It has watched before. It will watch again. You will not be the exception."}
+      ],
       "bossDialogue": [
         "The canopy has stood since before your kind named things. You are a disruption. Disruptions end.",
         "I have watched a thousand expeditions attempt this path. None left unchanged. You will not be the exception.",

@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#030804"/>
+
+  <!-- Ancient verdant atmosphere -->
+  <radialGradient id="ew-atm" cx="50%" cy="50%" r="60%">
+    <stop offset="0%" stop-color="#081408" stop-opacity="0.75"/>
+    <stop offset="65%" stop-color="#050c05" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#030804" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#ew-atm)"/>
+
+  <!-- Ley-green eye glow -->
+  <radialGradient id="ew-eyes" cx="50%" cy="40%" r="24%">
+    <stop offset="0%" stop-color="#40c060" stop-opacity="0.55"/>
+    <stop offset="45%" stop-color="#1a6030" stop-opacity="0.22"/>
+    <stop offset="100%" stop-color="#1a6030" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="96" rx="70" ry="45" fill="url(#ew-eyes)"/>
+
+  <!-- Forest bioluminescence from below -->
+  <radialGradient id="ew-bio" cx="50%" cy="88%" r="45%">
+    <stop offset="0%" stop-color="#185028" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#185028" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#ew-bio)"/>
+
+  <!-- Bioluminescent spores floating around figure -->
+  <g fill="#40c060" opacity="0.2">
+    <circle cx="122" cy="72"  r="1.2"/>
+    <circle cx="148" cy="48"  r="0.8"/>
+    <circle cx="168" cy="88"  r="1"/>
+    <circle cx="235" cy="82"  r="1"/>
+    <circle cx="258" cy="58"  r="0.8"/>
+    <circle cx="278" cy="90"  r="1.2"/>
+    <circle cx="132" cy="145" r="0.9"/>
+    <circle cx="270" cy="140" r="0.9"/>
+    <circle cx="108" cy="172" r="0.7"/>
+    <circle cx="295" cy="168" r="0.7"/>
+    <circle cx="180" cy="168" r="0.8"/>
+    <circle cx="225" cy="160" r="0.8"/>
+  </g>
+
+  <!-- THE ELDER WARDEN — vast ancient forest guardian, humanoid but immense, bark-skinned -->
+  <!-- Floor shadow — vast, old -->
+  <ellipse cx="200" cy="228" rx="75" ry="10" fill="#020502" opacity="0.7"/>
+
+  <!-- Roots / lower legs — emerging from the forest floor like they belong there -->
+  <g fill="#050c04" stroke="#0a1408" stroke-width="0.8">
+    <!-- Left root-leg mass -->
+    <path d="M168,200 Q152,210 145,225 Q155,232 175,230 Q185,228 190,225 L192,200 Z"/>
+    <!-- Right root-leg mass -->
+    <path d="M232,200 Q248,210 255,225 Q245,232 225,230 Q215,228 210,225 L208,200 Z"/>
+  </g>
+  <!-- Root tendrils spreading from feet -->
+  <g stroke="#091208" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M160,225 Q140,228 120,225"/>
+    <path d="M155,230 Q135,235 115,232"/>
+    <path d="M240,225 Q260,228 280,225"/>
+    <path d="M245,230 Q265,235 285,232"/>
+  </g>
+
+  <!-- Lower torso — broad, bark-plated -->
+  <polygon points="158,155 242,155 248,205 152,205" fill="#060e05" stroke="#0c1a08" stroke-width="1.2"/>
+  <!-- Bark plate layers on torso -->
+  <g stroke="#0a1608" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M160,165 Q180,160 200,162 Q220,160 240,165"/>
+    <path d="M158,178 Q178,173 200,175 Q222,173 242,178"/>
+    <path d="M160,192 Q180,187 200,189 Q220,187 240,192"/>
+  </g>
+  <!-- Ley vein channels on torso — flowing up through body -->
+  <g stroke="#30a050" stroke-width="1" fill="none" opacity="0.3">
+    <path d="M200,205 L198,180 L200,155"/>
+    <path d="M184,202 Q182,185 185,165"/>
+    <path d="M216,202 Q218,185 215,165"/>
+  </g>
+
+  <!-- Broad arms — vast, bark-covered, ancient -->
+  <!-- Left arm — raising slowly -->
+  <path d="M158,162 Q118,148 102,168 Q95,182 108,192 Q120,200 140,195 L152,182 Z" fill="#060e05" stroke="#0c1a08" stroke-width="1.2"/>
+  <!-- Bark textures on arm -->
+  <g stroke="#0a1408" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M125,152 Q118,162 120,172"/>
+    <path d="M132,148 Q124,158 126,170"/>
+    <path d="M138,148 Q132,158 134,170"/>
+  </g>
+  <!-- Left hand fingers — gnarled -->
+  <g stroke="#0c1808" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <path d="M100,186 Q94,180 90,172"/>
+    <path d="M106,190 Q98,185 96,177"/>
+    <path d="M112,192 Q106,188 105,180"/>
+    <path d="M118,192 Q115,188 115,180"/>
+  </g>
+
+  <!-- Right arm — held outward, warden's gesture -->
+  <path d="M242,162 Q282,148 298,168 Q305,182 292,192 Q280,200 260,195 L248,182 Z" fill="#060e05" stroke="#0c1a08" stroke-width="1.2"/>
+  <g stroke="#0a1408" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M275,152 Q282,162 280,172"/>
+    <path d="M268,148 Q276,158 274,170"/>
+    <path d="M262,148 Q268,158 266,170"/>
+  </g>
+  <g stroke="#0c1808" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <path d="M300,186 Q306,180 310,172"/>
+    <path d="M294,190 Q302,185 304,177"/>
+    <path d="M288,192 Q294,188 295,180"/>
+    <path d="M282,192 Q285,188 285,180"/>
+  </g>
+
+  <!-- Neck / upper chest -->
+  <rect x="184" y="128" width="32" height="30" rx="3" fill="#060e05" stroke="#0c1a08" stroke-width="1"/>
+  <g stroke="#30a050" stroke-width="0.7" fill="none" opacity="0.25">
+    <path d="M200,158 L200,130"/>
+    <path d="M192,155 L190,132"/>
+    <path d="M208,155 L210,132"/>
+  </g>
+
+  <!-- HEAD — massive, ancient, made of living wood and rock -->
+  <!-- Skull base -->
+  <ellipse cx="200" cy="108" rx="40" ry="32" fill="#060e05" stroke="#0c1a08" stroke-width="1.5"/>
+  <!-- Crown — antler-like branches rising from head -->
+  <g fill="#050c04" stroke="#0a1408" stroke-width="1.2" opacity="0.85">
+    <path d="M183,80 Q178,65 182,52 Q185,42 188,38" stroke-width="1.5" fill="none"/>
+    <path d="M188,80 Q186,68 190,55 Q194,42 192,32" stroke-width="1.5" fill="none"/>
+    <!-- Branch fork left -->
+    <path d="M183,65 Q176,58 170,52" stroke-width="1" fill="none"/>
+    <path d="M185,72 Q180,62 174,55" stroke-width="1" fill="none"/>
+    <!-- Right antler -->
+    <path d="M217,80 Q222,65 218,52 Q215,42 212,38" stroke-width="1.5" fill="none"/>
+    <path d="M212,80 Q214,68 210,55 Q206,42 208,32" stroke-width="1.5" fill="none"/>
+    <path d="M217,65 Q224,58 230,52" stroke-width="1" fill="none"/>
+    <path d="M215,72 Q220,62 226,55" stroke-width="1" fill="none"/>
+  </g>
+  <!-- Crown bioluminescent leaf clusters -->
+  <g fill="#40c060" opacity="0.25">
+    <circle cx="188" cy="38" r="4"/>
+    <circle cx="192" cy="32" r="3"/>
+    <circle cx="170" cy="52" r="3"/>
+    <circle cx="175" cy="57" r="2.5"/>
+    <circle cx="212" cy="38" r="4"/>
+    <circle cx="208" cy="32" r="3"/>
+    <circle cx="230" cy="52" r="3"/>
+    <circle cx="225" cy="57" r="2.5"/>
+  </g>
+  <!-- Mossy brow ridge -->
+  <path d="M164,102 Q182,94 200,92 Q218,94 236,102" stroke="#0e1e0e" stroke-width="3" fill="none"/>
+  <!-- Bark jaw line -->
+  <path d="M165,118 Q178,130 200,133 Q222,130 235,118" fill="#050c04" stroke="#0c1808" stroke-width="1"/>
+
+  <!-- Eye sockets — deep, ancient -->
+  <ellipse cx="184" cy="104" rx="13" ry="10" fill="#020502"/>
+  <ellipse cx="216" cy="104" rx="13" ry="10" fill="#020502"/>
+  <!-- EYE GLOW — ley-green, vast, ancient -->
+  <radialGradient id="eye-ewl" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#60e080"/>
+    <stop offset="50%" stop-color="#20804a" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#20804a" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="eye-ewr" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#60e080"/>
+    <stop offset="50%" stop-color="#20804a" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#20804a" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="184" cy="104" rx="13" ry="10" fill="url(#eye-ewl)" opacity="0.85"/>
+  <ellipse cx="216" cy="104" rx="13" ry="10" fill="url(#eye-ewr)" opacity="0.85"/>
+  <ellipse cx="184" cy="103" rx="6" ry="4.5" fill="#80f0a0" opacity="0.9"/>
+  <ellipse cx="216" cy="103" rx="6" ry="4.5" fill="#80f0a0" opacity="0.9"/>
+  <circle cx="183" cy="102" r="2.5" fill="#c8ffe0" opacity="0.95"/>
+  <circle cx="215" cy="102" r="2.5" fill="#c8ffe0" opacity="0.95"/>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-ew2" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.72"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-ew2)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#102010" text-anchor="middle" letter-spacing="3">THE ELDER WARDEN</text>
+</svg>
