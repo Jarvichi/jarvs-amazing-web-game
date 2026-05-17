@@ -9806,29 +9806,8 @@ html.light-mode .action-btn {
   cursor: pointer;
   flex-shrink: 0;
 }
-.city-perimeter:hover { border-top-color: #308030; }.city-perimeter-fort {
-  position: relative;
-  width: 24px;
-  flex-shrink: 0;
-}
-.city-perimeter-fort-bg {
-  position: absolute;
-  inset: 0;
-  border-radius: 2px;
-}
-.city-perimeter-sprite {
-  width: 24px;
-  height: 24px;
-  image-rendering: pixelated;
-  display: block;
-  position: relative;
-}
-.city-perimeter-hp {
-  height: 3px;
-  border-radius: 0 0 2px 2px;
-  margin-top: 1px;
-  transition: width 0.5s, background 0.5s;
-}
+.city-perimeter:hover { border-top-color: #308030; }
+.city-perimeter .fort-ring-cell { width: 44px; }
 
 /* ── City Builder — building resident panel ─────────────────────────────── */
 .city-search {

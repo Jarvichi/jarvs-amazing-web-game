@@ -25,7 +25,7 @@ export function CityPerimeter({ fortifications, builderQueue, onClick }: Props) 
       onKeyDown={e => { if (e.key === 'Enter') onClick() }}
       title="City fortifications — tap to manage"
     >
-      <div className="city-perimeter-forts u-flex u-wrap u-gap-1">
+      <div className="city-perimeter-forts u-flex u-wrap u-just-c u-gap-1">
         {slots.map((slot, idx) => (
           <FortCell key={idx} slot={slot} area="auto" onClick={onClick} />
         ))}
