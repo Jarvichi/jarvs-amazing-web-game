@@ -482,6 +482,10 @@
         "Vault Repair Bay"
       ],
       "bossAI": "grandautomaton",
+      "bossIntro": [
+        {"title": "THE CLOCKWORK VAULTS", "image": "cutscenes/act13-boss-1.svg", "text": "The Clockwork Vaults have run uninterrupted since before the Fracture — vast gear columns, ley-coiled shafts, and a master intelligence that has never once permitted a threat to reach the vault's heart. It is already aware you are here."},
+        {"title": "THE GRAND AUTOMATON", "image": "cutscenes/act13-boss-2.svg", "text": "The Grand Automaton's amber sensor array locks onto you with machine precision. It has processed your presence and determined the outcome. Vault integrity is paramount. Resistance is suboptimal. Termination protocol initiated."}
+      ],
       "bossDialogue": [
         "THREAT DETECTED. INITIATING TERMINATION PROTOCOL.",
         "RESISTANCE IS SUBOPTIMAL.",

@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#060402"/>
+
+  <!-- Clockwork vault atmosphere -->
+  <radialGradient id="ga-atm" cx="50%" cy="52%" r="60%">
+    <stop offset="0%" stop-color="#150c04" stop-opacity="0.8"/>
+    <stop offset="65%" stop-color="#0c0804" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#060402" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#ga-atm)"/>
+
+  <!-- Amber sensor eye glow -->
+  <radialGradient id="ga-eyes" cx="50%" cy="40%" r="26%">
+    <stop offset="0%" stop-color="#c06010" stop-opacity="0.55"/>
+    <stop offset="45%" stop-color="#804010" stop-opacity="0.22"/>
+    <stop offset="100%" stop-color="#804010" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="95" rx="70" ry="45" fill="url(#ga-eyes)"/>
+
+  <!-- Brass machinery glow from below -->
+  <radialGradient id="ga-brass" cx="50%" cy="90%" r="50%">
+    <stop offset="0%" stop-color="#804010" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="#804010" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#ga-brass)"/>
+
+  <!-- Floating gear fragments — vault ambiance -->
+  <g fill="#c06010" opacity="0.2">
+    <circle cx="110" cy="72"  r="1.2"/>
+    <circle cx="145" cy="52"  r="0.8"/>
+    <circle cx="168" cy="88"  r="1"/>
+    <circle cx="238" cy="82"  r="1"/>
+    <circle cx="262" cy="58"  r="0.8"/>
+    <circle cx="288" cy="90"  r="1.2"/>
+    <circle cx="120" cy="148" r="0.9"/>
+    <circle cx="275" cy="142" r="0.9"/>
+    <circle cx="105" cy="175" r="0.7"/>
+    <circle cx="295" cy="168" r="0.7"/>
+  </g>
+
+  <!-- THE GRAND AUTOMATON — master vault intelligence made physical -->
+  <!-- Floor shadow -->
+  <ellipse cx="200" cy="228" rx="70" ry="10" fill="#030201" opacity="0.7"/>
+
+  <!-- Lower chassis / legs — vast articulated struts -->
+  <!-- Left leg strut -->
+  <rect x="172" y="188" width="20" height="40" rx="2" fill="#0e0a04" stroke="#1a1008" stroke-width="1.2"/>
+  <!-- Left foot plate -->
+  <rect x="165" y="222" width="30" height="8" rx="1" fill="#0c0804" stroke="#181008" stroke-width="0.8"/>
+  <!-- Right leg strut -->
+  <rect x="208" y="188" width="20" height="40" rx="2" fill="#0e0a04" stroke="#1a1008" stroke-width="1.2"/>
+  <!-- Right foot plate -->
+  <rect x="205" y="222" width="30" height="8" rx="1" fill="#0c0804" stroke="#181008" stroke-width="0.8"/>
+  <!-- Leg panel seams -->
+  <g stroke="#161008" stroke-width="0.7" fill="none" opacity="0.5">
+    <line x1="172" y1="202" x2="192" y2="202"/>
+    <line x1="172" y1="214" x2="192" y2="214"/>
+    <line x1="208" y1="202" x2="228" y2="202"/>
+    <line x1="208" y1="214" x2="228" y2="214"/>
+  </g>
+
+  <!-- Torso — cylindrical, multi-section, massive brass construct -->
+  <!-- Main torso cylinder -->
+  <rect x="155" y="128" width="90" height="65" rx="4" fill="#0f0c06" stroke="#1e1608" stroke-width="1.5"/>
+  <!-- Torso horizontal plate bands -->
+  <g stroke="#161008" stroke-width="1" fill="none" opacity="0.5">
+    <line x1="155" y1="143" x2="245" y2="143"/>
+    <line x1="155" y1="158" x2="245" y2="158"/>
+    <line x1="155" y1="173" x2="245" y2="173"/>
+  </g>
+  <!-- Torso vertical column lines -->
+  <g stroke="#161008" stroke-width="0.8" fill="none" opacity="0.4">
+    <line x1="180" y1="128" x2="180" y2="193"/>
+    <line x1="200" y1="128" x2="200" y2="193"/>
+    <line x1="220" y1="128" x2="220" y2="193"/>
+  </g>
+  <!-- Torso ley power cells -->
+  <g fill="#c06010" opacity="0.3">
+    <rect x="160" y="133" width="12" height="8" rx="1"/>
+    <rect x="178" y="133" width="12" height="8" rx="1"/>
+    <rect x="210" y="133" width="12" height="8" rx="1"/>
+    <rect x="228" y="133" width="12" height="8" rx="1"/>
+  </g>
+  <!-- Central chest unit — gear heart -->
+  <circle cx="200" cy="160" r="16" fill="#0c0a04" stroke="#c06010" stroke-width="1" opacity="0.6"/>
+  <circle cx="200" cy="160" r="10" fill="#100c06" opacity="0.8"/>
+  <circle cx="200" cy="160" r="5"  fill="#c06010" opacity="0.45"/>
+  <!-- Gear tooth marks on chest unit -->
+  <g fill="#180e04" opacity="0.5">
+    <circle cx="200" cy="143" r="2.5"/>
+    <circle cx="215" cy="148" r="2.5"/>
+    <circle cx="216" cy="160" r="2.5"/>
+    <circle cx="215" cy="172" r="2.5"/>
+    <circle cx="200" cy="176" r="2.5"/>
+    <circle cx="185" cy="172" r="2.5"/>
+    <circle cx="184" cy="160" r="2.5"/>
+    <circle cx="185" cy="148" r="2.5"/>
+  </g>
+
+  <!-- ARM UNITS — wide, articulated, weapon-capable -->
+  <!-- Left arm main segment -->
+  <rect x="100" y="135" width="58" height="22" rx="2" fill="#0e0c06" stroke="#1a1408" stroke-width="1"/>
+  <!-- Left forearm -->
+  <rect x="72"  y="140" width="32" height="16" rx="2" fill="#0c0a04" stroke="#181208" stroke-width="0.8"/>
+  <!-- Left claw array -->
+  <g fill="#0a0804" stroke="#161008" stroke-width="0.8">
+    <rect x="55"  y="138" width="18" height="5" rx="1"/>
+    <rect x="55"  y="146" width="18" height="5" rx="1"/>
+    <rect x="55"  y="154" width="18" height="5" rx="1"/>
+  </g>
+  <g fill="#c06010" opacity="0.25">
+    <circle cx="60" cy="140" r="2"/>
+    <circle cx="60" cy="148" r="2"/>
+    <circle cx="60" cy="156" r="2"/>
+  </g>
+  <!-- Arm panel seams -->
+  <g stroke="#141008" stroke-width="0.6" fill="none" opacity="0.4">
+    <line x1="100" y1="143" x2="158" y2="143"/>
+    <line x1="100" y1="150" x2="158" y2="150"/>
+  </g>
+
+  <!-- Right arm main segment -->
+  <rect x="242" y="135" width="58" height="22" rx="2" fill="#0e0c06" stroke="#1a1408" stroke-width="1"/>
+  <!-- Right forearm -->
+  <rect x="296" y="140" width="32" height="16" rx="2" fill="#0c0a04" stroke="#181208" stroke-width="0.8"/>
+  <!-- Right claw array -->
+  <g fill="#0a0804" stroke="#161008" stroke-width="0.8">
+    <rect x="327" y="138" width="18" height="5" rx="1"/>
+    <rect x="327" y="146" width="18" height="5" rx="1"/>
+    <rect x="327" y="154" width="18" height="5" rx="1"/>
+  </g>
+  <g fill="#c06010" opacity="0.25">
+    <circle cx="340" cy="140" r="2"/>
+    <circle cx="340" cy="148" r="2"/>
+    <circle cx="340" cy="156" r="2"/>
+  </g>
+  <g stroke="#141008" stroke-width="0.6" fill="none" opacity="0.4">
+    <line x1="242" y1="143" x2="300" y2="143"/>
+    <line x1="242" y1="150" x2="300" y2="150"/>
+  </g>
+
+  <!-- NECK / HEAD MOUNT — cylindrical, massive -->
+  <rect x="182" y="106" width="36" height="26" rx="2" fill="#0f0c06" stroke="#1e1608" stroke-width="1.2"/>
+  <g stroke="#141008" stroke-width="0.6" fill="none" opacity="0.4">
+    <line x1="182" y1="116" x2="218" y2="116"/>
+    <line x1="182" y1="124" x2="218" y2="124"/>
+  </g>
+
+  <!-- HEAD — massive sensor dome, the Grand Automaton's face -->
+  <rect x="155" y="70" width="90" height="40" rx="4" fill="#0f0c06" stroke="#1e1608" stroke-width="1.5"/>
+  <!-- Head plate seams -->
+  <g stroke="#161008" stroke-width="0.7" fill="none" opacity="0.4">
+    <line x1="155" y1="83" x2="245" y2="83"/>
+    <line x1="180" y1="70" x2="180" y2="110"/>
+    <line x1="220" y1="70" x2="220" y2="110"/>
+  </g>
+  <!-- Dome fin / crest on top -->
+  <rect x="183" y="56" width="34" height="16" rx="2" fill="#0e0c04" stroke="#1c1408" stroke-width="1"/>
+  <g stroke="#c06010" stroke-width="0.5" fill="none" opacity="0.3">
+    <line x1="195" y1="56" x2="195" y2="70"/>
+    <line x1="205" y1="56" x2="205" y2="70"/>
+  </g>
+
+  <!-- PRIMARY EYE SENSORS — the Grand Automaton's sight -->
+  <!-- Main eye housing -->
+  <rect x="162" y="76" width="76" height="22" rx="2" fill="#08060a" stroke="#141008" stroke-width="1"/>
+  <!-- Eye sensor array — 4 lenses -->
+  <g fill="#1c1006" stroke="#281a08" stroke-width="0.8">
+    <rect x="166" y="79" width="14" height="16" rx="1"/>
+    <rect x="185" y="79" width="14" height="16" rx="1"/>
+    <rect x="201" y="79" width="14" height="16" rx="1"/>
+    <rect x="220" y="79" width="14" height="16" rx="1"/>
+  </g>
+  <!-- Eye lens glow — amber, machine intelligence -->
+  <radialGradient id="eye-gal" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#e08020"/>
+    <stop offset="50%" stop-color="#904010" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#904010" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="173" cy="87" rx="5" ry="6" fill="url(#eye-gal)" opacity="0.85"/>
+  <ellipse cx="192" cy="87" rx="5" ry="6" fill="url(#eye-gal)" opacity="0.85"/>
+  <ellipse cx="208" cy="87" rx="5" ry="6" fill="url(#eye-gal)" opacity="0.85"/>
+  <ellipse cx="227" cy="87" rx="5" ry="6" fill="url(#eye-gal)" opacity="0.85"/>
+  <!-- Primary sensor — central brighter -->
+  <circle cx="200" cy="87" r="8" fill="#0c0808" stroke="#c06010" stroke-width="0.8" opacity="0.9"/>
+  <circle cx="200" cy="87" r="5" fill="#e08020" opacity="0.85"/>
+  <circle cx="199" cy="86" r="2.5" fill="#ffe0a0" opacity="0.95"/>
+  <!-- Targeting scan line -->
+  <line x1="162" y1="87" x2="238" y2="87" stroke="#c06010" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-ga2" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.72"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-ga2)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#3a1808" text-anchor="middle" letter-spacing="3">THE GRAND AUTOMATON</text>
+</svg>
