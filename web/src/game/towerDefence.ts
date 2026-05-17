@@ -372,7 +372,7 @@ export function sellRefund(tower: TDTower): number {
 
 /** Kills required to unlock the next upgrade tier. */
 export function xpToUpgrade(tower: TDTower): number {
-  return (tower.upgrades + 1) * 5
+  return Math.round(5 * Math.pow(1.5, tower.upgrades))
 }
 
 /** Number of units a building spawns at its current upgrade level. */
@@ -487,17 +487,17 @@ function spawnUnitFromBuilding(tower: TDTower): TDUnit {
     stationed: false,
     attackCooldownRemaining: 0,
     rangeInCells: Math.max(1.5, Math.round(tower.template.attackRange / TD_CELL_PX)),
-    speedMult:   1 + tower.upgradeSpeed  * 0.25,
+    speedMult:   1 + tower.upgradeSpeed  * 0.15,
     rangeBonus:  tower.upgradeRange,
-    damageMult:  1 + tower.upgradeDamage * 0.30,
+    damageMult:  1 + tower.upgradeDamage * 0.20,
   }
 }
 
 /** Refresh per-unit multipliers on all units belonging to a tower (call after upgrade). */
 function refreshTowerUnits(units: TDUnit[], tower: TDTower): TDUnit[] {
-  const sm = 1 + tower.upgradeSpeed  * 0.25
+  const sm = 1 + tower.upgradeSpeed  * 0.15
   const rb = tower.upgradeRange
-  const dm = 1 + tower.upgradeDamage * 0.30
+  const dm = 1 + tower.upgradeDamage * 0.20
   return units.map(u =>
     u.towerId === tower.id ? { ...u, speedMult: sm, rangeBonus: rb, damageMult: dm } : u
   )

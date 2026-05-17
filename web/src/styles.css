@@ -11625,6 +11625,21 @@ html.light-mode .action-btn {
 .td-header-milestone { font-size: 11px; color: var(--color-gold); font-weight: bold; animation: city-pulse 1.5s ease-in-out infinite; }
 .td-header-btn       { padding: 4px 10px !important; font-size: 11px !important; }
 
+.td-speed-btns { display: flex; gap: 2px; margin-left: auto; }
+.td-speed-btn {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 7px;
+  border: 1px solid #444;
+  border-radius: 3px;
+  background: #111;
+  color: #888;
+  cursor: pointer;
+}
+.td-speed-btn:hover { border-color: #888; color: #ccc; }
+.td-speed-btn--active { border-color: var(--color-green-bright); color: var(--color-green-bright); background: #162616; }
+
 /* Wave progress bar */
 .td-wave-progress-wrap {
   position: relative;
