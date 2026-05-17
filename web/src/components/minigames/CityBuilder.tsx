@@ -45,6 +45,7 @@ import { CityGrid } from './citybuilder/CityGrid'
 import { CityPerimeter } from './citybuilder/CityPerimeter'
 import { AttackStrip } from './citybuilder/AttackStrip'
 import { ResourceStrip } from './citybuilder/ResourceStrip'
+import { OverlayScreen } from '../ui/OverlayScreen'
 
 
 // ── Resident thought lines ────────────────────────────────────────────────────
@@ -90,7 +91,7 @@ function buildResidentThoughts(
 ): ResidentThought[] {
   const thoughts: ResidentThought[] = []
   const pop = Math.max(population, 1)
-  const foodScore    = Math.min(100, (city.resources.wheat / pop) * 5)
+  const foodScore = Math.min(100, (city.resources.wheat / pop) * 5)
   const defenseScore = Math.min(100, (cityDefense(city) / pop) * 8)
   const gridRows = city.rows ?? CITY_ROWS
 
@@ -147,8 +148,8 @@ function buildResidentThoughts(
 
 // ── Builder walker (construction) ─────────────────────────────────────────────
 
-const BUILDER_SPEED    = 1.1  // slightly faster than residents
-const RING_UNIT_SIZE   = 14   // smaller sprite on the ring view
+const BUILDER_SPEED = 1.1  // slightly faster than residents
+const RING_UNIT_SIZE = 14   // smaller sprite on the ring view
 const RING_ARRIVE_DIST = 12
 
 // Slot → [row, col] in the 4-column ring grid:
@@ -157,25 +158,25 @@ const RING_ARRIVE_DIST = 12
 //   row 2: col 0 (slot 6) and col 3 (slot 7)
 //   row 3: cols 0-3  (slots 8-11, bottom)
 const SLOT_GRID_POS: [number, number][] = [
-  [0,0],[0,1],[0,2],[0,3],
-  [1,0],[1,3],
-  [2,0],[2,3],
-  [3,0],[3,1],[3,2],[3,3],
+  [0, 0], [0, 1], [0, 2], [0, 3],
+  [1, 0], [1, 3],
+  [2, 0], [2, 3],
+  [3, 0], [3, 1], [3, 2], [3, 3],
 ]
 
 export interface BuilderWalker {
-  queueIndex:  number
-  cardName:    string
+  queueIndex: number
+  cardName: string
   // City-world position
   x: number; y: number; vx: number; vy: number
-  phase:       'fetching' | 'delivering'
-  targetX:     number;  targetY:     number
-  label:       string
+  phase: 'fetching' | 'delivering'
+  targetX: number; targetY: number
+  label: string
   // Ring-view position (independent animation, own phase)
-  ringX:       number;  ringY:       number
-  ringVx:      number;  ringVy:      number
-  ringPhase:   'fetching' | 'delivering'
-  ringTargetX: number;  ringTargetY: number
+  ringX: number; ringY: number
+  ringVx: number; ringVy: number
+  ringPhase: 'fetching' | 'delivering'
+  ringTargetX: number; ringTargetY: number
 }
 
 function pickRingTarget(
@@ -224,8 +225,8 @@ function makeBuilderWalker(queueIndex: number, cardName: string, overlayW: numbe
     targetX: Math.random() * overlayW,
     targetY: Math.random() * overlayH * 0.7,
     label: '🪵 Fetching materials',
-    ringX:     ringW * (0.3 + Math.random() * 0.4),
-    ringY:     ringH * (0.3 + Math.random() * 0.4),
+    ringX: ringW * (0.3 + Math.random() * 0.4),
+    ringY: ringH * (0.3 + Math.random() * 0.4),
     ringVx: 0, ringVy: 0,
     ringPhase: 'fetching',
     ringTargetX: ringW * 0.5,
@@ -276,17 +277,17 @@ function pickBuilderTarget(
 
 // ── Walking unit state ────────────────────────────────────────────────────────
 
-const UNIT_SIZE       = 20
-const SPEED           = 0.8
-const ARRIVE_DIST     = 14   // pixels — close enough to count as "arrived"
+const UNIT_SIZE = 20
+const SPEED = 0.8
+const ARRIVE_DIST = 14   // pixels — close enough to count as "arrived"
 const IDLE_TASK_TICKS = 80   // ~8 s of random wandering before picking a new task
-const REST_TICKS_MIN  = 4 * IDLE_TASK_TICKS   // ~32 s — at least 4 task cycles at home
-const REST_TICKS_MAX  = 7 * IDLE_TASK_TICKS   // ~56 s
-const BUBBLE_TICKS    = 30   // 3 s — how long a task bubble stays visible
-const CHAT_TICKS      = 80   // 8 s — how long two walkers chat when they meet
-const CHAT_DIST       = ARRIVE_DIST * 2.5  // proximity to trigger chat
-const CHAT_EMOJIS     = ['😅', '😬', '😢', '🤔', '🥳', '🥱', '😎', '🤣', '😍', '🥰', '🤩', '😤', '🤬', '🤯', '🥵']
-const ATTACK_WARN_MS  = 30 * 60 * 1000  // show panic tasks when attack < 30 min away
+const REST_TICKS_MIN = 4 * IDLE_TASK_TICKS   // ~32 s — at least 4 task cycles at home
+const REST_TICKS_MAX = 7 * IDLE_TASK_TICKS   // ~56 s
+const BUBBLE_TICKS = 30   // 3 s — how long a task bubble stays visible
+const CHAT_TICKS = 80   // 8 s — how long two walkers chat when they meet
+const CHAT_DIST = ARRIVE_DIST * 2.5  // proximity to trigger chat
+const CHAT_EMOJIS = ['😅', '😬', '😢', '🤔', '🥳', '🥱', '😎', '🤣', '😍', '🥰', '🤩', '😤', '🤬', '🤯', '🥵']
+const ATTACK_WARN_MS = 30 * 60 * 1000  // show panic tasks when attack < 30 min away
 const PATROL_DEFENSE_PER_WALKER = 1     // residents give minimal defence — build fortifications
 const TASK_RESOURCE_GOLD: Partial<Record<ResourceType, number>> = {
   wheat: 2, wood: 2, ore: 3, bread: 4, planks: 4, metal: 5,
@@ -305,10 +306,10 @@ function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affi
     vx: Math.cos(angle) * SPEED,
     vy: Math.sin(angle) * SPEED,
     turnTimer: 20 + Math.floor(Math.random() * 30),
-    task:        { type: 'idle', label: '🚶 Taking a stroll' },
-    taskTimer:   Math.floor(Math.random() * IDLE_TASK_TICKS),
+    task: { type: 'idle', label: '🚶 Taking a stroll' },
+    taskTimer: Math.floor(Math.random() * IDLE_TASK_TICKS),
     bubbleTimer: 0,
-    hidden:      false,
+    hidden: false,
     hiddenTimer: 0,
   }
 }
@@ -351,10 +352,10 @@ function pickTask(
       targetY: (perim.row + 0.5) * (overlayH / cityRows),
     }
     const panicTasks: WalkerTask[] = [
-      { type: 'resting',    label: '🏠 Taking shelter!',      targetX: home.x, targetY: home.y },
-      { type: 'resting',    label: '🏠 Hiding at home!',       targetX: home.x, targetY: home.y },
-      { type: 'patrolling', label: '⚔ Preparing to defend!',  ...defendTarget },
-      { type: 'patrolling', label: '🛡 Defending the walls!',  ...defendTarget },
+      { type: 'resting', label: '🏠 Taking shelter!', targetX: home.x, targetY: home.y },
+      { type: 'resting', label: '🏠 Hiding at home!', targetX: home.x, targetY: home.y },
+      { type: 'patrolling', label: '⚔ Preparing to defend!', ...defendTarget },
+      { type: 'patrolling', label: '🛡 Defending the walls!', ...defendTarget },
     ]
     return panicTasks[Math.floor(Math.random() * panicTasks.length)]
   }
@@ -389,11 +390,11 @@ function pickTask(
 
   // Gathering — walk to a resource-producing building
   const resourceJobs: { key: ResourceType; label: string }[] = [
-    { key: 'wood',   label: '🪵 Chopping wood' },
-    { key: 'ore',    label: '⛏ Mining ore' },
+    { key: 'wood', label: '🪵 Chopping wood' },
+    { key: 'ore', label: '⛏ Mining ore' },
     { key: 'planks', label: '🪵 Fetching planks' },
-    { key: 'metal',  label: '⚙ Getting metal' },
-    { key: 'bread',  label: '🍞 Buying bread' },
+    { key: 'metal', label: '⚙ Getting metal' },
+    { key: 'bread', label: '🍞 Buying bread' },
   ]
   for (const { key, label } of resourceJobs) {
     const producers = city.grid
@@ -439,7 +440,7 @@ export function formatCountdown(ms: number): string {
   if (ms <= 0) return 'IMMINENT'
   const totalMin = Math.floor(ms / 60_000)
   const hours = Math.floor(totalMin / 60)
-  const mins  = totalMin % 60
+  const mins = totalMin % 60
   if (hours > 0) return `${hours}h ${mins}m`
   return `${mins}m`
 }
@@ -488,17 +489,17 @@ interface Props {
 type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence'
 
 export function CityBuilder({ onBack }: Props) {
-  const [city, setCity]       = useState<CityState>(() => tickCity(loadCityState()))
-  const [screen, setScreen]   = useState<SubScreen>('city')
+  const [city, setCity] = useState<CityState>(() => tickCity(loadCityState()))
+  const [screen, setScreen] = useState<SubScreen>('city')
   const [pickerIndex, setPickerIndex] = useState<number>(0)
-  const [levelCard, setLevelCard]     = useState<string | null>(null)
-  const [toast, setToast]     = useState<string | null>(null)
+  const [levelCard, setLevelCard] = useState<string | null>(null)
+  const [toast, setToast] = useState<string | null>(null)
   const [walkers, setWalkers] = useState<Walker[]>([])
   const [builderWalkers, setBuilderWalkers] = useState<BuilderWalker[]>([])
   const [selectedWalkerCell, setSelectedWalkerCell] = useState<number | null>(null)
   const [selectedBuildingCell, setSelectedBuildingCell] = useState<number | null>(null)
   const [buildingTab, setBuildingTab] = useState<'residents' | 'upgrade'>('residents')
-  const [pickerSearch, setPickerSearch]   = useState('')
+  const [pickerSearch, setPickerSearch] = useState('')
   const [upgradeSearch, setUpgradeSearch] = useState('')
   const [bulldozerMode, setBulldozerMode] = useState(false)
   const bulldozerRef = useRef(false)
@@ -514,14 +515,14 @@ export function CityBuilder({ onBack }: Props) {
   )
   const [currentTime, setCurrentTime] = useState(Date.now())
   const [fortSlotSel, setFortSlotSel] = useState<number | null>(null)
-  const [fortFilter, setFortFilter]   = useState<string>('all')
-  const [fortSort, setFortSort]       = useState<'defense' | 'name' | 'rarity'>('defense')
+  const [fortFilter, setFortFilter] = useState<string>('all')
+  const [fortSort, setFortSort] = useState<'defense' | 'name' | 'rarity'>('defense')
   const worldRef = useRef<HTMLDivElement>(null)
   const worldDimsRef = useRef({ w: CITY_COLS * CELL_PX, h: CITY_ROWS * CELL_PX })
   const fortRingRef = useRef<HTMLDivElement>(null)
   const fortRingDimsRef = useRef({ w: CITY_COLS * CELL_PX, h: CITY_ROWS * CELL_PX })
-  const cityRef           = useRef(city)
-  const walkersRef        = useRef(walkers)
+  const cityRef = useRef(city)
+  const walkersRef = useRef(walkers)
   const builderWalkersRef = useRef(builderWalkers)
 
   function showToast(msg: string) {
@@ -535,8 +536,8 @@ export function CityBuilder({ onBack }: Props) {
   }
 
   // Keep refs in sync so the animation loop and intervals always see the latest state
-  useEffect(() => { cityRef.current           = city          }, [city])
-  useEffect(() => { walkersRef.current        = walkers       }, [walkers])
+  useEffect(() => { cityRef.current = city }, [city])
+  useEffect(() => { walkersRef.current = walkers }, [walkers])
   useEffect(() => { builderWalkersRef.current = builderWalkers }, [builderWalkers])
 
   // Show attack report when a new attack is detected
@@ -574,7 +575,7 @@ export function CityBuilder({ onBack }: Props) {
     const ro = new ResizeObserver(update)
     ro.observe(el)
     return () => ro.disconnect()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screen])
 
   // Track fort ring dimensions
@@ -590,7 +591,7 @@ export function CityBuilder({ onBack }: Props) {
     const ro = new ResizeObserver(update)
     ro.observe(el)
     return () => ro.disconnect()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screen])
 
   // ── Sync walkers when grid changes ───────────────────────────────────────────
@@ -613,7 +614,7 @@ export function CityBuilder({ onBack }: Props) {
       }
       return next
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city.grid])
 
   // ── Sync builder walkers when queue changes ───────────────────────────────────
@@ -628,7 +629,7 @@ export function CityBuilder({ onBack }: Props) {
         return existing ?? makeBuilderWalker(i, entry.cardName, overlayW, overlayH)
       })
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city.builderQueue])
 
   // ── Animation loop ────────────────────────────────────────────────────────────
@@ -753,9 +754,9 @@ export function CityBuilder({ onBack }: Props) {
           // ── Apply movement ─────────────────────────────────────────────────
           x += vx
           y += vy
-          if (x < 0)                    { x = 0;                    vx = Math.abs(vx) }
+          if (x < 0) { x = 0; vx = Math.abs(vx) }
           if (x > overlayW - UNIT_SIZE) { x = overlayW - UNIT_SIZE; vx = -Math.abs(vx) }
-          if (y < 0)                    { y = 0;                    vy = Math.abs(vy) }
+          if (y < 0) { y = 0; vy = Math.abs(vy) }
           if (y > overlayH - UNIT_SIZE) { y = overlayH - UNIT_SIZE; vy = -Math.abs(vy) }
 
           // Random direction changes for idle wandering only
@@ -776,7 +777,7 @@ export function CityBuilder({ onBack }: Props) {
       // Animate builder walkers
       setBuilderWalkers(prev => prev.map(b => {
         let { x, y, vx, vy, phase, targetX, targetY, label,
-              ringX, ringY, ringVx, ringVy, ringPhase, ringTargetX, ringTargetY } = b
+          ringX, ringY, ringVx, ringVy, ringPhase, ringTargetX, ringTargetY } = b
         const { w: rw, h: rh } = fortRingDimsRef.current
 
         // ── City-world movement ─────────────────────────────────────────────
@@ -804,8 +805,10 @@ export function CityBuilder({ onBack }: Props) {
         ringX = Math.max(0, Math.min((rw || CITY_COLS * CELL_PX) - RING_UNIT_SIZE, ringX))
         ringY = Math.max(0, Math.min((rh || CITY_ROWS * CELL_PX) - RING_UNIT_SIZE, ringY))
 
-        return { ...b, x, y, vx, vy, phase, targetX, targetY, label,
-                 ringX, ringY, ringVx, ringVy, ringPhase, ringTargetX, ringTargetY }
+        return {
+          ...b, x, y, vx, vy, phase, targetX, targetY, label,
+          ringX, ringY, ringVx, ringVy, ringPhase, ringTargetX, ringTargetY
+        }
       }))
     }, 100)
     return () => clearInterval(id)
@@ -831,8 +834,8 @@ export function CityBuilder({ onBack }: Props) {
 
   useEffect(() => {
     setResidentThoughts(buildResidentThoughts(city, cityPopulation(city), walkersRef.current))
-  // walkersRef.current used intentionally — avoids rebuilding every animation tick
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // walkersRef.current used intentionally — avoids rebuilding every animation tick
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city])
 
   useEffect(() => {
@@ -873,8 +876,8 @@ export function CityBuilder({ onBack }: Props) {
           }
           return {
             ...prev,
-            gold:        Math.max(0, prev.gold + goldDelta),
-            resources:   newResources,
+            gold: Math.max(0, prev.gold + goldDelta),
+            resources: newResources,
             patrolBonus: patrolCount * PATROL_DEFENSE_PER_WALKER,
           }
         })
@@ -911,7 +914,7 @@ export function CityBuilder({ onBack }: Props) {
 
   const handlePickCard = useCallback((card: Card) => {
     const spawnEffect = card.unit?.structureEffect
-    const isSpawner   = spawnEffect?.type === 'spawn'
+    const isSpawner = spawnEffect?.type === 'spawn'
     const spawnedUnitName = isSpawner
       ? (spawnEffect as { type: 'spawn'; unitTemplate: { name: string }; intervalMs: number }).unitTemplate.name
       : undefined
@@ -927,13 +930,13 @@ export function CityBuilder({ onBack }: Props) {
 
     const cell: CityCell = {
       cardName: card.name,
-      rarity:   card.rarity,
+      rarity: card.rarity,
       spawnedUnitName,
       affinityWith,
     }
     save(placeCard(city, pickerIndex, cell))
     setScreen('city')
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickerIndex, city])
 
   // ── Level up ──────────────────────────────────────────────────────────────────
@@ -1013,7 +1016,7 @@ export function CityBuilder({ onBack }: Props) {
 
   // ── Derived data ──────────────────────────────────────────────────────────────
 
-  const catalog    = getCardCatalog()
+  const catalog = getCardCatalog()
   const collection = loadCollection()
 
   const ownedStructures = catalog.filter(c =>
@@ -1056,14 +1059,14 @@ export function CityBuilder({ onBack }: Props) {
   )
 
   const incomeRate = Math.round(goldIncomeRate(city))
-  const netRate    = Math.round(goldNetRate(city))
-  const defense    = cityDefense(city)
+  const netRate = Math.round(goldNetRate(city))
+  const defense = cityDefense(city)
   const population = cityPopulation(city)
 
   const prodRates = resourceProductionRate(city)
   const consRates = resourceConsumptionRate(city)
 
-  const cityRows  = city.rows ?? CITY_ROWS
+  const cityRows = city.rows ?? CITY_ROWS
   const cityCells = CITY_COLS * cityRows
   const expansionCost = EXPANSION_COSTS[cityRows]
   const affordable = canAffordExpansion(city)
@@ -1077,10 +1080,10 @@ export function CityBuilder({ onBack }: Props) {
   const attackPowerMid = 20 + occupiedCount * 3 + 12  // midpoint of rand(25)
   const attackRatio = defense / Math.max(attackPowerMid, 1)
   const attackStrengthLabel =
-    attackRatio >= 1.5 ? { text: 'Weak',       cls: 'strength--weak'   } :
-    attackRatio >= 1.0 ? { text: 'Moderate',   cls: 'strength--mod'    } :
-    attackRatio >= 0.6 ? { text: 'Strong',     cls: 'strength--strong' } :
-                         { text: 'Overwhelming', cls: 'strength--overwhelm' }
+    attackRatio >= 1.5 ? { text: 'Weak', cls: 'strength--weak' } :
+      attackRatio >= 1.0 ? { text: 'Moderate', cls: 'strength--mod' } :
+        attackRatio >= 0.6 ? { text: 'Strong', cls: 'strength--strong' } :
+          { text: 'Overwhelming', cls: 'strength--overwhelm' }
 
   // ── Fortify sub-screen ────────────────────────────────────────────────────────
 
@@ -1192,124 +1195,122 @@ export function CityBuilder({ onBack }: Props) {
   // ── Main city view ────────────────────────────────────────────────────────────
 
   return (
-    <div className="city-screen u-relative u-col u-gap-2">
-      {toast && <div className="city-toast" role="alert">{toast}</div>}
+    <OverlayScreen title={bulldozerMode ? '⏸ PAUSED' : '🏙 CITY'} onBack={onBack}
 
-      {attackReport && (
-        <AttackReportModal
-          attackReport={attackReport}
-          hasDamagedForts={city.fortifications.some(f => f.hp < f.maxHp)}
-          onClose={() => setAttackReport(null)}
+      right={<> <div className="city-gold-display">⚙ {city.gold.toLocaleString()} (+{incomeRate}/min)</div>
+        <button className="action-btn" onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers">
+          ⚔ DEFEND
+        </button></>}
+    >
+
+      <div className="city-screen u-relative u-col u-gap-2">
+        {toast && <div className="city-toast" role="alert">{toast}</div>}
+
+        {attackReport && (
+          <AttackReportModal
+            attackReport={attackReport}
+            hasDamagedForts={city.fortifications.some(f => f.hp < f.maxHp)}
+            onClose={() => setAttackReport(null)}
+          />
+        )}
+
+        {selectedWalkerCell !== null && (() => {
+          const cell = city.grid[selectedWalkerCell]
+          if (!cell?.spawnedUnitName) return null
+          return (
+            <ResidentInfoModal
+              cellIndex={selectedWalkerCell}
+              cell={cell}
+              city={city}
+              walkers={walkers}
+              onClose={() => setSelectedWalkerCell(null)}
+            />
+          )
+        })()}
+
+        {selectedBuildingCell !== null && (() => {
+          const cell = city.grid[selectedBuildingCell]
+          if (!cell) return null
+          return (
+            <BuildingInspectModal
+              cellIndex={selectedBuildingCell}
+              cell={cell}
+              city={city}
+              collection={collection}
+              walkers={walkers}
+              buildingTab={buildingTab}
+              setBuildingTab={setBuildingTab}
+              onClose={() => setSelectedBuildingCell(null)}
+              onLevelUp={cardName => { handleLevelUp(cardName); setBuildingTab('upgrade') }}
+            />
+          )
+        })()}
+
+
+        <AttackStrip
+          msToAttack={msToAttack}
+          attackCountdown={attackCountdown}
+          attackUrgency={attackUrgency}
+          attackStrengthLabel={attackStrengthLabel}
         />
-      )}
 
-      {selectedWalkerCell !== null && (() => {
-        const cell = city.grid[selectedWalkerCell]
-        if (!cell?.spawnedUnitName) return null
-        return (
-          <ResidentInfoModal
-            cellIndex={selectedWalkerCell}
-            cell={cell}
-            city={city}
-            walkers={walkers}
-            onClose={() => setSelectedWalkerCell(null)}
-          />
-        )
-      })()}
+        <ResourceStrip
+          defense={defense}
+          population={population}
+          resources={city.resources}
+          prodRates={prodRates}
+          consRates={consRates}
+        />
 
-      {selectedBuildingCell !== null && (() => {
-        const cell = city.grid[selectedBuildingCell]
-        if (!cell) return null
-        return (
-          <BuildingInspectModal
-            cellIndex={selectedBuildingCell}
-            cell={cell}
-            city={city}
-            collection={collection}
-            walkers={walkers}
-            buildingTab={buildingTab}
-            setBuildingTab={setBuildingTab}
-            onClose={() => setSelectedBuildingCell(null)}
-            onLevelUp={cardName => { handleLevelUp(cardName); setBuildingTab('upgrade') }}
-          />
-        )
-      })()}
+        <CityGrid
+          city={city}
+          walkers={walkers}
+          builderWalkers={builderWalkers}
+          bulldozerMode={bulldozerMode}
+          worldRef={worldRef}
+          onCellTap={handleCellTap}
+          onWalkerClick={setSelectedWalkerCell}
+        />
 
-      {/* Header: back | title | gold | action buttons */}
-      <div className="overlay-header u-flex u-items-c u-gap-6">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <span className="overlay-title">{bulldozerMode ? '⏸ PAUSED' : '🏙 CITY'}</span>
-        <div className="city-header-right u-flex u-items-c u-gap-2">
-          <div className="city-gold-display">⚙ {city.gold.toLocaleString()} (+{incomeRate}/min)</div>
-          <button className="action-btn" onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers">
-            ⚔ DEFEND
-          </button>
+        <CityPerimeter
+          fortifications={city.fortifications}
+          builderQueue={city.builderQueue}
+          onClick={() => setScreen('fortify')}
+        />
+
+        <div className="city-header u-flex u-items-c u-just-c u-gap-3">
+          <button
+            className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
+            onClick={toggleBulldozer}
+            title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}
+          >{bulldozerMode ? '🧱 DEMOLISH' : '👷 BUILD'}</button>
+          <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTIFICATIONS</button>
+          <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
+          {cityRows < MAX_CITY_ROWS && expansionCost && (
+            <button
+              className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
+              onClick={handleExpand}
+              title={affordable ? `Expand city to ${cityRows + 1} rows` : 'Not enough resources to expand'}
+            >🏢 EXPAND CITY</button>
+          )}
+        </div>
+
+        {/* Scrollable bottom: resident thoughts */}
+        <div className="city-bottom-scroll">
+          {residentThoughts.length > 0 && (
+            <div className="city-thoughts">
+              <div className="city-thoughts-title">RESIDENT THOUGHTS</div>
+              {residentThoughts.map((t, idx) => (
+                <div key={idx} className={`city-thought-row u-flex u-items-c u-gap-3${t.happy ? ' city-thought-row--happy' : ' city-thought-row--unhappy'}`}>
+                  <AnimatedSpriteImg name={t.unitName} frameCount={3} fps={6} className="city-thought-sprite" />
+                  <span className="city-thought-name">{t.name}:</span>
+                  <span className="city-thought-text">"{t.thought}"</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-
-      <AttackStrip
-        msToAttack={msToAttack}
-        attackCountdown={attackCountdown}
-        attackUrgency={attackUrgency}
-        attackStrengthLabel={attackStrengthLabel}
-      />
-
-      <ResourceStrip
-        defense={defense}
-        population={population}
-        resources={city.resources}
-        prodRates={prodRates}
-        consRates={consRates}
-      />
-
-      <CityGrid
-        city={city}
-        walkers={walkers}
-        builderWalkers={builderWalkers}
-        bulldozerMode={bulldozerMode}
-        worldRef={worldRef}
-        onCellTap={handleCellTap}
-        onWalkerClick={setSelectedWalkerCell}
-      />
-
-      <CityPerimeter
-        fortifications={city.fortifications}
-        builderQueue={city.builderQueue}
-        onClick={() => setScreen('fortify')}
-      />
-
-      <div className="city-header u-flex u-items-c u-just-c u-gap-3">
-        <button
-          className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
-          onClick={toggleBulldozer}
-          title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}
-        >{bulldozerMode ? '🧱 DEMOLISH' : '👷 BUILD'}</button>
-        <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTIFICATIONS</button>
-        <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
-        {cityRows < MAX_CITY_ROWS && expansionCost && (
-          <button
-            className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
-            onClick={handleExpand}
-            title={affordable ? `Expand city to ${cityRows + 1} rows` : 'Not enough resources to expand'}
-          >🏢 EXPAND CITY</button>
-        )}
-      </div>
-
-      {/* Scrollable bottom: resident thoughts */}
-      <div className="city-bottom-scroll">
-        {residentThoughts.length > 0 && (
-          <div className="city-thoughts">
-            <div className="city-thoughts-title">RESIDENT THOUGHTS</div>
-            {residentThoughts.map((t, idx) => (
-              <div key={idx} className={`city-thought-row u-flex u-items-c u-gap-3${t.happy ? ' city-thought-row--happy' : ' city-thought-row--unhappy'}`}>
-                <AnimatedSpriteImg name={t.unitName} frameCount={3} fps={6} className="city-thought-sprite" />
-                <span className="city-thought-name">{t.name}:</span>
-                <span className="city-thought-text">"{t.thought}"</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+    </OverlayScreen>
   )
 }
