@@ -336,9 +336,9 @@ export const TD_TOTAL_WAVES = 100
 export const TD_MILESTONE_EVERY = 10
 export const TD_CELL_PX = 48
 export const TD_STARTING_MANA = 120
-export const TD_MAX_UNIT_UPGRADES = 9        // units type: allows up to 10 spawned units total
+export const TD_MAX_UNIT_UPGRADES = 3        // units type: allows up to 4 spawned units total
 export const TD_MAX_UPGRADE_PER_TYPE = 2     // max levels for speed / range / damage
-export const TD_MAX_UPGRADES = TD_MAX_UNIT_UPGRADES + TD_MAX_UPGRADE_PER_TYPE * 3  // = 15
+export const TD_MAX_UPGRADES = TD_MAX_UNIT_UPGRADES + TD_MAX_UPGRADE_PER_TYPE * 3  // = 9
 export type TDUpgradeType = 'units' | 'speed' | 'range' | 'damage'
 const BETWEEN_WAVE_MS = 5000
 const STRENGTH_MULT = 1.5
@@ -488,17 +488,17 @@ function spawnUnitFromBuilding(tower: TDTower): TDUnit {
     stationed: false,
     attackCooldownRemaining: 0,
     rangeInCells: Math.max(1.5, Math.round(tower.template.attackRange / TD_CELL_PX)),
-    speedMult:   1 + tower.upgradeSpeed  * 0.15,
+    speedMult:   1 + tower.upgradeSpeed  * 0.10,
     rangeBonus:  tower.upgradeRange,
-    damageMult:  1 + tower.upgradeDamage * 0.20,
+    damageMult:  1 + tower.upgradeDamage * 0.10,
   }
 }
 
 /** Refresh per-unit multipliers on all units belonging to a tower (call after upgrade). */
 function refreshTowerUnits(units: TDUnit[], tower: TDTower): TDUnit[] {
-  const sm = 1 + tower.upgradeSpeed  * 0.15
+  const sm = 1 + tower.upgradeSpeed  * 0.10
   const rb = tower.upgradeRange
-  const dm = 1 + tower.upgradeDamage * 0.20
+  const dm = 1 + tower.upgradeDamage * 0.10
   return units.map(u =>
     u.towerId === tower.id ? { ...u, speedMult: sm, rangeBonus: rb, damageMult: dm } : u
   )
@@ -936,8 +936,14 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
               // AOE ring visual
               newAttackEvents.push({ id: nextId(), fromX: target.x, fromY: target.y, toX: target.x, toY: target.y, expiresAt: s.gameTimeMs + 500, aoeRadius: eff.aoeRadius })
             } else if (eff.type === 'gascloud' && eff.aoeRadius) {
-              // Drop lingering gas cloud at target position
-              s.hazards = [...s.hazards, { id: nextId(), x: target.x, y: target.y, radius: eff.aoeRadius, dps: eff.dps ?? 6, expiresAt: s.gameTimeMs + eff.durationMs, sourceTowerId: unit.towerId }]
+              // Cap to 2 active clouds per tower — drop the oldest to prevent infinite stacking
+              const MAX_CLOUDS_PER_TOWER = 2
+              const towerClouds = s.hazards.filter(h => h.sourceTowerId === unit.towerId)
+              if (towerClouds.length >= MAX_CLOUDS_PER_TOWER) {
+                const oldestId = towerClouds.sort((a, b) => a.expiresAt - b.expiresAt)[0].id
+                s.hazards = s.hazards.filter(h => h.id !== oldestId)
+              }
+              s.hazards = [...s.hazards, { id: nextId(), x: target.x, y: target.y, radius: eff.aoeRadius, dps: eff.dps ?? 3, expiresAt: s.gameTimeMs + eff.durationMs, sourceTowerId: unit.towerId }]
             }
           }
           if (newHp <= 0) {
