@@ -1,7 +1,7 @@
 import { UnitTemplate } from '../../../game/types'
 import { SpriteImg } from '../../ui/SpriteImg'
 
-const EFFECT_META: Record<string, { icon: string; label: string; cls: string }> = {
+export const EFFECT_META: Record<string, { icon: string; label: string; cls: string }> = {
   burn:     { icon: '🔥', label: 'Burn',     cls: 'effect--burn'     },
   freeze:   { icon: '❄',  label: 'Freeze',   cls: 'effect--freeze'   },
   poison:   { icon: '☠',  label: 'Poison',   cls: 'effect--poison'   },
