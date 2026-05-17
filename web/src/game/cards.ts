@@ -68,7 +68,7 @@ function deriveAttackEffect(tags: string[] | undefined, attack: number): AttackE
   if (tags.includes('frost') || tags.includes('glacier'))
     return { type: 'freeze',   chance: 0.75, durationMs: 2500, slowFactor: 0.35 }
   if (tags.includes('gascloud'))
-    return { type: 'gascloud', chance: 1.00, durationMs: 8000, aoeRadius: 72, dps: 6 }
+    return { type: 'gascloud', chance: 1.00, durationMs: 8000, aoeRadius: 72, dps: 3 }
   if (tags.includes('aoe'))
     return { type: 'aoe',      chance: 1.00, durationMs: 500,  aoeRadius: 72 }
   if (tags.includes('lightning'))
