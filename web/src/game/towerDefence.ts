@@ -127,7 +127,33 @@ const ENEMY_TEMPLATES: Record<string, TDEnemyTemplate> = {
     flying: true,
     immunities: ['freeze'],
   },
+  // ── Bosses (spawned every 10 waves, HP scales with appearance count) ─────────
+  bossBehemoth: {
+    id: 'bossBehemoth', label: 'Behemoth', spriteName: 'Behemoth',
+    hp: 1200, speed: 0.3, attack: 5, reward: 150,
+    tags: ['boss', 'slow', 'large', 'armored'],
+  },
+  bossCinderwarlord: {
+    id: 'bossCinderwarlord', label: 'Cinderwarlord', spriteName: 'Cinderwarlord',
+    hp: 1000, speed: 0.45, attack: 4, reward: 175,
+    tags: ['boss', 'fire', 'large'],
+    immunities: ['burn'],
+  },
+  bossGlacierTitan: {
+    id: 'bossGlacierTitan', label: 'Glacier Titan', spriteName: 'Glacier Titan',
+    hp: 1500, speed: 0.2, attack: 6, reward: 200,
+    tags: ['boss', 'slow', 'large', 'armored', 'frost'],
+    immunities: ['freeze'],
+  },
+  bossBoneColossus: {
+    id: 'bossBoneColossus', label: 'Bone Colossus', spriteName: 'Bone Colossus',
+    hp: 1300, speed: 0.35, attack: 5, reward: 180,
+    tags: ['boss', 'large', 'undead', 'magic'],
+    immunities: ['poison', 'gascloud'],
+  },
 }
+
+const BOSS_ROTATION = ['bossBehemoth', 'bossCinderwarlord', 'bossGlacierTitan', 'bossBoneColossus']
 
 // ── Wave definitions ──────────────────────────────────────────────────────────
 
@@ -482,37 +508,48 @@ function generateWave(waveIndex: number): WaveDefinition {
   const n   = waveIndex + 1
   const len = TD_WAVES.length  // 10
 
+  let waveDef: WaveDefinition
   if (waveIndex < len) {
     const base = TD_WAVES[waveIndex]
-    return {
+    waveDef = {
       wave: n,
       label: `Wave ${n} — ${base.label.replace(/^Wave \d+ — /, '')}`,
       spawns: base.spawns.map(s => ({ ...s })),
     }
-  }
+  } else {
+    // Merge spawn lists, keyed by enemyId+hpMult+intervalMs to preserve HP variety.
+    const merged = new Map<string, WaveSpawn>()
+    const add = (baseIdx: number) => {
+      for (const s of TD_WAVES[baseIdx].spawns) {
+        const key = `${s.enemyId}|${s.hpMult}|${s.intervalMs}`
+        const ex  = merged.get(key)
+        merged.set(key, ex ? { ...ex, count: ex.count + s.count } : { ...s })
+      }
+    }
 
-  // Merge spawn lists, keyed by enemyId+hpMult+intervalMs to preserve HP variety.
-  const merged = new Map<string, WaveSpawn>()
-  const add = (baseIdx: number) => {
-    for (const s of TD_WAVES[baseIdx].spawns) {
-      const key = `${s.enemyId}|${s.hpMult}|${s.intervalMs}`
-      const ex  = merged.get(key)
-      merged.set(key, ex ? { ...ex, count: ex.count + s.count } : { ...s })
+    // Base: always include the last defined wave, then cycle through all waves
+    add(len - 1)
+    for (let i = len; i <= waveIndex; i++) add((i - len) % len)
+
+    const cycle    = Math.floor((waveIndex - len) / len) + 2
+    const addedIdx = (waveIndex - len) % len
+    const baseLabel = TD_WAVES[addedIdx].label.replace(/^Wave \d+ — /, '')
+    waveDef = {
+      wave: n,
+      label: `Wave ${n} — ${baseLabel} [Cycle ${cycle}]`,
+      spawns: [...merged.values()],
     }
   }
 
-  // Base: always include the last defined wave, then cycle through all waves
-  add(len - 1)
-  for (let i = len; i <= waveIndex; i++) add((i - len) % len)
-
-  const cycle    = Math.floor((waveIndex - len) / len) + 2
-  const addedIdx = (waveIndex - len) % len
-  const baseLabel = TD_WAVES[addedIdx].label.replace(/^Wave \d+ — /, '')
-  return {
-    wave: n,
-    label: `Wave ${n} — ${baseLabel} [Cycle ${cycle}]`,
-    spawns: [...merged.values()],
+  // Inject a boss every 10 waves — arrives after regular enemies, HP scales per appearance
+  if (n % 10 === 0) {
+    const bossId    = BOSS_ROTATION[Math.floor(n / 10 - 1) % BOSS_ROTATION.length]
+    const bossScale = Math.ceil(n / 10)
+    waveDef.spawns  = [...waveDef.spawns, { enemyId: bossId, count: 1, intervalMs: 0, hpMult: bossScale }]
+    waveDef.label   = waveDef.label + ' ☠'
   }
+
+  return waveDef
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -596,7 +633,8 @@ function buildSpawnQueue(waveDef: WaveDefinition, startTimeMs: number, waveIndex
     const splitsOnDeath = waveIndex >= 50 && isLarge
     const slowsUnits    = waveIndex >= 70 && isMagic
     for (let i = 0; i < group.count; i++) {
-      queue.push({ template: tpl, hpMult: group.hpMult * hpScale, speedMult, shielded, splitsOnDeath, slowsUnits, spawnAt: t })
+      const isBoss = tpl.tags.includes('boss')
+      queue.push({ template: tpl, hpMult: group.hpMult * (isBoss ? 1 : hpScale), speedMult: isBoss ? 1 : speedMult, shielded, splitsOnDeath, slowsUnits, spawnAt: t })
       t += group.intervalMs
     }
   }
