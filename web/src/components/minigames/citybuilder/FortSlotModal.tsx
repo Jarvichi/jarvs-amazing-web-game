@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   CityState,
-  FORT_DEFENSE, FORT_MAX_HP, FORT_MAX_ATTACKS, FORT_PLACE_COST,
+  FORT_DEFENSE, FORT_MAX_HP, FORT_MAX_ATTACKS, FORT_PLACE_COST, FORT_BUILD_MINUTES,
   canAffordFortification, canQueueFortification,
   RESOURCE_ICONS, ResourceType,
 } from '../../../game/cityBuilder'
@@ -94,7 +94,13 @@ export function FortSlotModal({
                       <div className="city-picker-name">{card.name}</div>
                       <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
                       <div className="city-picker-income">🛡{FORT_DEFENSE[card.rarity]} · {FORT_MAX_HP[card.rarity]}HP · {FORT_MAX_ATTACKS[card.rarity]} raids</div>
-                      <div className="city-picker-income" style={{ color: '#888' }}>🔨 {FORT_MAX_HP[card.rarity]} min</div>
+                      <div className="city-picker-income" style={{ color: '#888' }}>🔨 {
+                        FORT_BUILD_MINUTES[card.rarity] >= 1440
+                          ? `${Math.round(FORT_BUILD_MINUTES[card.rarity] / 1440)} days`
+                          : FORT_BUILD_MINUTES[card.rarity] >= 60
+                          ? `${Math.round(FORT_BUILD_MINUTES[card.rarity] / 60)} hrs`
+                          : `${FORT_BUILD_MINUTES[card.rarity]} min`
+                      }</div>
                       <div className="city-picker-cost">
                         ⚙{cost.gold.toLocaleString()}
                         {(Object.keys(cost) as (keyof typeof cost)[])
