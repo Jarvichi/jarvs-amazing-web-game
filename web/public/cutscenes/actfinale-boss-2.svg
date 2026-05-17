@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" style="filter: brightness(1.4)">
+  <rect width="400" height="240" fill="#040208"/>
+
+  <!-- Void entity atmosphere — absolute darkness with fracture light -->
+  <radialGradient id="frac-atm" cx="50%" cy="50%" r="60%">
+    <stop offset="0%" stop-color="#0e0420" stop-opacity="0.8"/>
+    <stop offset="65%" stop-color="#07021a" stop-opacity="0.45"/>
+    <stop offset="100%" stop-color="#040208" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#frac-atm)"/>
+
+  <!-- Fracture eye glow — violet-white -->
+  <radialGradient id="frac-eyes" cx="50%" cy="42%" r="28%">
+    <stop offset="0%" stop-color="#d060ff" stop-opacity="0.6"/>
+    <stop offset="45%" stop-color="#8010c0" stop-opacity="0.24"/>
+    <stop offset="100%" stop-color="#8010c0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="100" rx="80" ry="52" fill="url(#frac-eyes)"/>
+
+  <!-- Outer fracture aura -->
+  <radialGradient id="frac-aura" cx="50%" cy="48%" r="55%">
+    <stop offset="0%" stop-color="#8020c0" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#5008a0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="200" cy="115" rx="130" ry="110" fill="url(#frac-aura)"/>
+
+  <!-- Background rift lines radiating from the entity -->
+  <g stroke="#a030e0" stroke-width="1.5" fill="none" opacity="0.7">
+    <path d="M200,25 L197,52 L214,68 L192,88"/>
+    <path d="M200,25 L203,52 L186,68 L208,88"/>
+    <path d="M280,55 L252,72 L238,90 L218,104"/>
+    <path d="M120,55 L148,72 L162,90 L182,104"/>
+    <path d="M300,108 L272,108 L252,114 L232,108"/>
+    <path d="M100,108 L128,108 L148,114 L168,108"/>
+  </g>
+  <g stroke="#c860f8" stroke-width="0.6" fill="none" opacity="0.3">
+    <path d="M200,15 L196,46 L216,64 L190,84"/>
+    <path d="M292,48 L262,68 L245,88 L220,102"/>
+    <path d="M108,48 L138,68 L155,88 L180,102"/>
+  </g>
+
+  <!-- Floating void shards around the entity -->
+  <g fill="#401068" stroke="#6810a0" stroke-width="0.5" opacity="0.65">
+    <polygon points="130,58 140,53 144,63 135,67"/>
+    <polygon points="258,55 268,50 272,60 263,64"/>
+    <polygon points="118,128 128,123 132,133 123,137"/>
+    <polygon points="268,126 278,121 282,131 273,135"/>
+    <polygon points="150,175 159,170 162,180 154,183"/>
+    <polygon points="245,172 255,167 258,177 249,180"/>
+    <polygon points="92,92"  />
+    <polygon points="92,92 100,87 103,97 95,100"/>
+    <polygon points="298,90 308,85 310,95 302,98"/>
+  </g>
+
+  <!-- THE FRACTURE — pure void entity, not humanoid -->
+  <!-- Floor shadow — barely present -->
+  <ellipse cx="200" cy="228" rx="65" ry="9" fill="#020104" opacity="0.6"/>
+
+  <!-- Body — absolute void given mass, but not form -->
+  <!-- Central void mass -->
+  <circle cx="200" cy="110" rx="65" ry="65" r="65" fill="#060118" stroke="#7010b0" stroke-width="1.5" opacity="0.9"/>
+  <circle cx="200" cy="110" r="50" fill="#040010" stroke="#5008a0" stroke-width="0.8" opacity="0.85"/>
+  <circle cx="200" cy="110" r="32" fill="#030008" opacity="0.9"/>
+
+  <!-- Internal fracture geometry — reality lattice -->
+  <g fill="none" stroke="#6010a0" stroke-width="0.8" opacity="0.5">
+    <polygon points="200,72 230,96 224,132 200,148 176,132 170,96"/>
+    <polygon points="200,80 224,100 218,130 200,140 182,130 176,100"/>
+  </g>
+  <g stroke="#8020c0" stroke-width="0.6" fill="none" opacity="0.3">
+    <line x1="200" y1="72"  x2="200" y2="110"/>
+    <line x1="230" y1="96"  x2="200" y2="110"/>
+    <line x1="224" y1="132" x2="200" y2="110"/>
+    <line x1="176" y1="132" x2="200" y2="110"/>
+    <line x1="170" y1="96"  x2="200" y2="110"/>
+  </g>
+
+  <!-- THE FRACTURE'S EYES — two voids within the void, fracture-light pupils -->
+  <ellipse cx="184" cy="102" rx="12" ry="9" fill="#08021a" stroke="#9020d0" stroke-width="1"/>
+  <ellipse cx="216" cy="102" rx="12" ry="9" fill="#08021a" stroke="#9020d0" stroke-width="1"/>
+  <!-- Iris — fracture-violet -->
+  <ellipse cx="184" cy="102" rx="6" ry="4.5" fill="#5010a0" opacity="0.75"/>
+  <ellipse cx="216" cy="102" rx="6" ry="4.5" fill="#5010a0" opacity="0.75"/>
+  <!-- Pupil — fracture light, white-violet -->
+  <radialGradient id="eye-fl" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#f080ff"/>
+    <stop offset="50%" stop-color="#c040f0" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#c040f0" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="eye-fr" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#f080ff"/>
+    <stop offset="50%" stop-color="#c040f0" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#c040f0" stop-opacity="0"/>
+  </radialGradient>
+  <ellipse cx="184" cy="101" rx="12" ry="9" fill="url(#eye-fl)" opacity="0.85"/>
+  <ellipse cx="216" cy="101" rx="12" ry="9" fill="url(#eye-fr)" opacity="0.85"/>
+  <ellipse cx="184" cy="100" rx="5" ry="3.5" fill="#e898ff" opacity="0.92"/>
+  <ellipse cx="216" cy="100" rx="5" ry="3.5" fill="#e898ff" opacity="0.92"/>
+  <circle cx="183" cy="99" r="2.5" fill="#ffffff" opacity="0.95"/>
+  <circle cx="215" cy="99" r="2.5" fill="#ffffff" opacity="0.95"/>
+  <!-- Secondary gleam -->
+  <circle cx="186" cy="103" r="1"   fill="#f0c0ff" opacity="0.55"/>
+  <circle cx="218" cy="103" r="1"   fill="#f0c0ff" opacity="0.55"/>
+
+  <!-- Fracture mouth — a wound, not a face feature -->
+  <path d="M180,122 Q192,132 200,130 Q208,132 220,122" stroke="#9020d0" stroke-width="1.5" fill="none" opacity="0.65"/>
+  <path d="M183,124 Q192,128 200,127 Q208,128 217,124" stroke="#c060f0" stroke-width="0.6" fill="none" opacity="0.3"/>
+
+  <!-- Outer crackling boundary arms — not body but presence -->
+  <g stroke="#a030e0" stroke-width="1.2" fill="none" opacity="0.6">
+    <!-- Left extension -->
+    <path d="M148,110 Q115,110 95,100 Q78,90 72,105"/>
+    <path d="M148,125 Q118,130 100,125"/>
+    <!-- Right extension -->
+    <path d="M252,110 Q285,110 305,100 Q322,90 328,105"/>
+    <path d="M252,125 Q282,130 300,125"/>
+  </g>
+  <!-- Extension tips — crackling void energy -->
+  <g fill="#601090" opacity="0.5">
+    <circle cx="72"  cy="105" r="5"/>
+    <circle cx="328" cy="105" r="5"/>
+  </g>
+  <g fill="#d060ff" opacity="0.4">
+    <circle cx="72"  cy="105" r="2.5"/>
+    <circle cx="328" cy="105" r="2.5"/>
+  </g>
+
+  <!-- Cracked void floor -->
+  <rect x="0" y="205" width="400" height="35" fill="#050410"/>
+  <g stroke="#2a1050" stroke-width="0.6" fill="none" opacity="0.35">
+    <line x1="0"   y1="205" x2="400" y2="205"/>
+    <path d="M155,205 Q168,220 165,240"/>
+    <path d="M245,205 Q232,220 235,240"/>
+    <path d="M80,205  Q75,222  72,240"/>
+    <path d="M320,205 Q325,222 328,240"/>
+  </g>
+
+  <!-- Vignette -->
+  <radialGradient id="vign-f2" cx="50%" cy="50%" r="65%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.72"/>
+  </radialGradient>
+  <rect width="400" height="240" fill="url(#vign-f2)"/>
+
+  <!-- Label -->
+  <text x="200" y="232" font-family="monospace" font-size="9" fill="#4a1878" text-anchor="middle" letter-spacing="3">THE FRACTURE</text>
+</svg>
