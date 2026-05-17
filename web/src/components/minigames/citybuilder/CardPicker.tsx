@@ -5,8 +5,9 @@ import {
   canAffordPlacement, getBuildingProduces, masteryOutputMultiplier, getCardMasteryLevel,
 } from '../../../game/cityBuilder'
 import { CollectionEntry, getMasteryXp, masteryLevel } from '../../../game/collection'
-import { Card } from '../../../game/types'
+import { Card, UnitTemplate } from '../../../game/types'
 import { SpriteImg } from '../../ui/SpriteImg'
+import { EFFECT_META } from '../towerdefence/UnitChip'
 
 export interface Props {
   availableForPlace: Card[]
@@ -82,6 +83,10 @@ export function CardPicker({
                   const spawnName   = isSpawner
                     ? (spawnEffect as { type: 'spawn'; unitTemplate: { name: string }; intervalMs: number }).unitTemplate.name
                     : null
+                  const spawnEffect2 = isSpawner
+                    ? (spawnEffect as { type: 'spawn'; unitTemplate: UnitTemplate }).unitTemplate.attackEffect
+                    : undefined
+                  const spawnEffectMeta = spawnEffect2 ? EFFECT_META[spawnEffect2.type] : null
                   const affordable  = !isSpawner || canAffordPlacement(city, card.rarity)
                   const cost        = isSpawner ? SPAWNER_PLACE_COST[card.rarity] : null
                   const produces    = !isSpawner ? getBuildingProduces(card.name) : null
@@ -107,6 +112,11 @@ export function CardPicker({
                         <div className="city-picker-spawns">
                           <SpriteImg name={spawnName} className="city-picker-spawn-icon" />
                           <span>{spawnName}</span>
+                          {spawnEffectMeta && (
+                            <span className={`td-unit-chip-effect ${spawnEffectMeta.cls}`} title={spawnEffectMeta.label}>
+                              {spawnEffectMeta.icon}
+                            </span>
+                          )}
                         </div>
                       )}
                       {cost && (

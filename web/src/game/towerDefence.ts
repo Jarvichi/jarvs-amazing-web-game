@@ -266,6 +266,7 @@ export interface TDHazard {
   radius: number
   dps: number
   expiresAt: number  // gameTimeMs when it expires
+  sourceTowerId: number
 }
 
 // Global passive bonuses accumulated through milestone upgrades
@@ -552,7 +553,7 @@ export function createTDGame(
     enemies: [],
     spawnQueue: [],
     waveSpawnTotal: 0,
-    nextWaveAt: 0,
+    nextWaveAt: Infinity,
     log: ['Place your buildings, then press START WAVE.'],
     attackEvents: [],
     hazards: [],
@@ -722,6 +723,7 @@ export function startWave(state: TDGameState): TDGameState {
     phase: 'wave',
     spawnQueue: queue,
     waveSpawnTotal: queue.length,
+    nextWaveAt: Infinity,
     log: [...state.log.slice(-9), waveDef.label + '!'],
   }
 }
@@ -760,6 +762,11 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     }]
   }
 
+  // Start auto-next-wave countdown when last enemy of this wave spawns
+  if (s.phase === 'wave' && state.spawnQueue.length > 0 && s.spawnQueue.length === 0 && s.nextWaveAt === Infinity) {
+    s.nextWaveAt = s.gameTimeMs + 5000
+  }
+
   // ── Elemental DoT on enemies ─────────────────────────────────────────────
   s.enemies = s.enemies.map(enemy => {
     let e = { ...enemy }
@@ -782,13 +789,10 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   }
   s.enemies = s.enemies.filter(e => e.hp > 0)
 
-  // ── Move enemies — max 3 per cell (leaders advance first) ──────────────
+  // ── Move enemies ──────────────────────────────────────────────────────────
   let livesLost = 0
-  const claimedEnemyCells = new Map<string, number>()  // "col,row" -> occupant count
   const survivingEnemies: TDEnemy[] = []
-  // Process most-advanced enemies first so they claim cells before followers
-  const enemiesByProgress = [...s.enemies].sort((a, b) => b.pathProgress - a.pathProgress)
-  for (const enemy of enemiesByProgress) {
+  for (const enemy of s.enemies) {
     const freezeFactor = (enemy.freezeTimer != null && enemy.freezeTimer > 0 && enemy.freezeSlow != null)
       ? enemy.freezeSlow : 1
     const np = enemy.pathProgress + enemy.template.speed * enemy.speedMult * dtSec * freezeFactor
@@ -797,17 +801,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
       continue
     }
     const xy = pathIndexToXY(np)
-    const destKey = `${Math.floor(xy.x / TD_CELL_PX)},${Math.floor(xy.y / TD_CELL_PX)}`
-    const destCount = claimedEnemyCells.get(destKey) ?? 0
-    if (destCount >= 3) {
-      // Cell ahead full — hold position, claim current cell
-      const curKey = `${Math.floor(enemy.x / TD_CELL_PX)},${Math.floor(enemy.y / TD_CELL_PX)}`
-      claimedEnemyCells.set(curKey, (claimedEnemyCells.get(curKey) ?? 0) + 1)
-      survivingEnemies.push(enemy)
-    } else {
-      claimedEnemyCells.set(destKey, destCount + 1)
-      survivingEnemies.push({ ...enemy, pathProgress: np, x: xy.x, y: xy.y })
-    }
+    survivingEnemies.push({ ...enemy, pathProgress: np, x: xy.x, y: xy.y })
   }
   s.enemies = survivingEnemies
   if (livesLost > 0) {
@@ -943,7 +937,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
               newAttackEvents.push({ id: nextId(), fromX: target.x, fromY: target.y, toX: target.x, toY: target.y, expiresAt: s.gameTimeMs + 500, aoeRadius: eff.aoeRadius })
             } else if (eff.type === 'gascloud' && eff.aoeRadius) {
               // Drop lingering gas cloud at target position
-              s.hazards = [...s.hazards, { id: nextId(), x: target.x, y: target.y, radius: eff.aoeRadius, dps: eff.dps ?? 6, expiresAt: s.gameTimeMs + eff.durationMs }]
+              s.hazards = [...s.hazards, { id: nextId(), x: target.x, y: target.y, radius: eff.aoeRadius, dps: eff.dps ?? 6, expiresAt: s.gameTimeMs + eff.durationMs, sourceTowerId: unit.towerId }]
             }
           }
           if (newHp <= 0) {
@@ -970,13 +964,6 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     return { ...unit, attackCooldownRemaining: cd }
   })
   s.attackEvents = newAttackEvents
-
-  // Award kill XP to the towers whose units made the kills
-  if (Object.keys(towerXpGains).length > 0) {
-    s.towers = s.towers.map(t =>
-      towerXpGains[t.id] ? { ...t, xp: t.xp + towerXpGains[t.id] } : t
-    )
-  }
 
   // Split-on-death: collect offspring before removing dead enemies
   const splitOffspring: TDEnemy[] = []
@@ -1058,6 +1045,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
             hazardDeadIds.add(e.id)
             s.score += e.template.reward
             s.mana += e.template.reward
+            towerXpGains[hazard.sourceTowerId] = (towerXpGains[hazard.sourceTowerId] ?? 0) + 1
           }
         }
       }
@@ -1066,14 +1054,23 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     s.enemies = s.enemies.filter(e => !hazardDeadIds.has(e.id))
   }
 
+  // Award kill XP to towers (from direct attacks and gas cloud kills)
+  if (Object.keys(towerXpGains).length > 0) {
+    s.towers = s.towers.map(t =>
+      towerXpGains[t.id] ? { ...t, xp: t.xp + towerXpGains[t.id] } : t
+    )
+  }
+
   // ── Check defeat ──────────────────────────────────────────────────────────
   if (s.lives <= 0) {
     s.log = [...s.log.slice(-9), 'Your base has fallen!']
     return { ...s, phase: 'defeat' }
   }
 
-  // ── Check wave complete ───────────────────────────────────────────────────
-  if (s.phase === 'wave' && s.spawnQueue.length === 0 && s.enemies.length === 0) {
+  // ── Check wave complete: all clear, or 5 s after last spawn ─────────────
+  const allSpawned = s.spawnQueue.length === 0
+  const autoStart  = allSpawned && s.gameTimeMs >= s.nextWaveAt
+  if (s.phase === 'wave' && allSpawned && (s.enemies.length === 0 || autoStart)) {
     s.wavesCompleted += 1
     if (s.wavesCompleted >= TD_TOTAL_WAVES) {
       s.log = [...s.log.slice(-9), 'All 100 waves defeated! Legendary victory!']
@@ -1082,12 +1079,12 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     s.currentWaveIndex += 1
     if (s.wavesCompleted % TD_MILESTONE_EVERY === 0) {
       s.log = [...s.log.slice(-9), `🎉 ${s.wavesCompleted} waves cleared! Choose a reward, then reorganise!`]
-      return { ...s, phase: 'milestone', milestoneChoices: sampleMilestoneChoices() }
+      return { ...s, phase: 'milestone', milestoneChoices: sampleMilestoneChoices(), nextWaveAt: Infinity }
     }
-    s.nextWaveAt = s.gameTimeMs + BETWEEN_WAVE_MS
     const nextWave = generateWave(s.currentWaveIndex)
-    s.log = [...s.log.slice(-9), `Wave ${s.wavesCompleted} cleared! Next in 5 s — ${nextWave.label}`]
-    return { ...s, phase: 'between' }
+    const queue = buildSpawnQueue(nextWave, s.gameTimeMs, s.currentWaveIndex)
+    s.log = [...s.log.slice(-9), nextWave.label + '!']
+    return { ...s, phase: 'wave', spawnQueue: queue, waveSpawnTotal: queue.length, nextWaveAt: Infinity }
   }
 
   if (s.phase === 'between' && s.gameTimeMs >= s.nextWaveAt) return startWave(s)

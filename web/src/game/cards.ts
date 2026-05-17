@@ -121,7 +121,9 @@ function resolveUnit(raw: RawUnitDef): UnitTemplate {
     console.error('[cards]', msg)
     _pendingValidationErrors.push({ msg, ctx: { unitName: raw.name, unitTemplateRef: unitTemplateRef ?? null } })
   }
-  const unitTemplate = (resolved ?? {}) as UnitTemplate
+  const unitRaw = (resolved ?? {}) as RawUnitDef
+  const unitEffect = resolved ? deriveAttackEffect(resolved.tags, resolved.attack) : undefined
+  const unitTemplate: UnitTemplate = { ...(unitRaw as unknown as UnitTemplate), ...(unitEffect ? { attackEffect: unitEffect } : {}) }
   return {
     ...(raw as unknown as UnitTemplate),
     ...(attackEffect ? { attackEffect } : {}),
