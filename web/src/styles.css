@@ -9157,6 +9157,40 @@ html.light-mode .action-btn {
 .city-thought-row--unhappy .city-thought-name { color: #c07050; }
 .city-thought-row--unhappy .city-thought-text { color: #b08060; }
 
+/* ── Milestone Banner ────────────────────────────────────────────────────── */
+.city-milestone-banner {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0a1f0a;
+  border: 2px solid #60c860;
+  padding: 10px 18px;
+  font-family: monospace;
+  pointer-events: none;
+  transition: opacity 0.8s;
+  opacity: 1;
+  box-shadow: 0 0 20px #40a84088;
+  min-width: 220px;
+}
+.city-milestone-banner--fading { opacity: 0; }
+.city-milestone-icon { font-size: 24px; flex-shrink: 0; }
+.city-milestone-title {
+  color: #60c860;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+.city-milestone-reward {
+  color: #a0d8a0;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
 /* ── Adjacency Synergies ─────────────────────────────────────────────────── */
 .city-synergy-bonus {
   color: #60c860;

@@ -318,6 +318,10 @@ export interface CityState {
   patrolBonus?:   number
   /** Chronological log of notable city events, newest first (max 50). */
   chronicle:      string[]
+  /** IDs of milestones already awarded (prevents duplicate rewards). */
+  completedMilestones: string[]
+  /** Total number of attacks processed (used for milestone checks). */
+  attacksProcessed: number
 }
 
 // ── Storage ───────────────────────────────────────────────────────────────────
@@ -341,8 +345,10 @@ function defaultState(): CityState {
     fortifications: [],
     builderQueue:   [],
     builderCount:   DEFAULT_BUILDER_COUNT,
-    lastAttack:     null,
-    chronicle:      [],
+    lastAttack:          null,
+    chronicle:           [],
+    completedMilestones: [],
+    attacksProcessed:    0,
   }
 }
 
@@ -381,7 +387,9 @@ export function loadCityState(): CityState {
       builderQueue:   parsed.builderQueue ?? [],
       builderCount:   parsed.builderCount ?? DEFAULT_BUILDER_COUNT,
       lastAttack:     parsed.lastAttack ?? null,
-      chronicle:      parsed.chronicle ?? [],
+      chronicle:           parsed.chronicle ?? [],
+      completedMilestones: parsed.completedMilestones ?? [],
+      attacksProcessed:    parsed.attacksProcessed ?? 0,
     }
   } catch (err) {
     logError('loadCityState failed', err as Record<string, unknown>)
@@ -410,6 +418,102 @@ export function addChronicleEvent(state: CityState, msg: string): CityState {
   const entry = `[${fmtTime(Date.now())}] ${msg}`
   const chronicle = [entry, ...(state.chronicle ?? [])].slice(0, CHRONICLE_MAX)
   return { ...state, chronicle }
+}
+
+// ── Milestones ────────────────────────────────────────────────────────────────
+
+export interface MilestoneDef {
+  id:              string
+  label:           string
+  icon:            string
+  description:     string
+  condition:       (state: CityState) => boolean
+  goldReward:      number
+  resourceReward?: Partial<ResourceStock>
+}
+
+export const MILESTONES: MilestoneDef[] = [
+  {
+    id: 'first_building', label: 'First Steps', icon: '🏛',
+    description: 'Place your first building',
+    condition: s => s.grid.some(c => c != null),
+    goldReward: 500,
+  },
+  {
+    id: 'population_10', label: 'Growing City', icon: '👥',
+    description: 'Reach a population of 10',
+    condition: s => cityPopulation(s) >= 10,
+    goldReward: 5000,
+  },
+  {
+    id: 'first_fort', label: 'Fortified', icon: '🧱',
+    description: 'Complete your first fortification',
+    condition: s => s.fortifications.length > 0,
+    goldReward: 2000,
+    resourceReward: { wood: 50 },
+  },
+  {
+    id: 'gold_100k', label: 'Prosperous', icon: '🪙',
+    description: 'Accumulate 100,000 gold',
+    condition: s => s.gold >= 100000,
+    goldReward: 10000,
+  },
+  {
+    id: 'five_attacks', label: 'Battle-Hardened', icon: '⚔',
+    description: 'Survive 5 attacks',
+    condition: s => (s.attacksProcessed ?? 0) >= 5,
+    goldReward: 25000,
+  },
+  {
+    id: 'all_resources', label: 'Self-Sufficient', icon: '🌾',
+    description: 'Produce all 6 resource types',
+    condition: s => {
+      const types: ResourceType[] = ['wheat', 'wood', 'ore', 'bread', 'planks', 'metal']
+      return types.every(r => s.grid.some(c => c && !c.spawnedUnitName && (getBuildingProduces(c.cardName)[r] ?? 0) > 0))
+    },
+    goldReward: 5000,
+  },
+  {
+    id: 'max_expansion', label: 'Metropolis', icon: '🏙',
+    description: `Expand the city to ${MAX_CITY_ROWS} rows`,
+    condition: s => (s.rows ?? CITY_ROWS) >= MAX_CITY_ROWS,
+    goldReward: 50000,
+  },
+]
+
+/**
+ * Checks all milestones and awards any newly completed ones.
+ * Returns the updated state and the list of newly completed milestone IDs.
+ */
+export function checkMilestones(state: CityState): { state: CityState; newlyCompleted: MilestoneDef[] } {
+  const completed = new Set(state.completedMilestones ?? [])
+  const newlyCompleted: MilestoneDef[] = []
+  let next = state
+
+  for (const m of MILESTONES) {
+    if (completed.has(m.id)) continue
+    if (!m.condition(next)) continue
+
+    // Award reward
+    let gold = next.gold + m.goldReward
+    let resources = { ...next.resources }
+    if (m.resourceReward) {
+      for (const [res, amt] of Object.entries(m.resourceReward) as [ResourceType, number][]) {
+        resources[res] = (resources[res] ?? 0) + amt
+      }
+    }
+    const chronicle = addChronicleEvent(next, `${m.icon} Milestone: ${m.label} — +${m.goldReward.toLocaleString()} gold!`).chronicle
+    next = {
+      ...next,
+      gold,
+      resources,
+      chronicle,
+      completedMilestones: [...(next.completedMilestones ?? []), m.id],
+    }
+    newlyCompleted.push(m)
+  }
+
+  return { state: next, newlyCompleted }
 }
 
 // ── Mastery helpers ───────────────────────────────────────────────────────────
@@ -604,12 +708,13 @@ function processAttack(state: CityState): CityState {
 
   return {
     ...stateWithChronicle,
-    gold:           Math.max(0, newGold),
-    resources:      newResources,
-    grid:           newGrid,
-    fortifications: survivingForts,
-    nextAttackAt:   state.nextAttackAt + nextInterval,
-    lastAttack:     event,
+    gold:             Math.max(0, newGold),
+    resources:        newResources,
+    grid:             newGrid,
+    fortifications:   survivingForts,
+    nextAttackAt:     state.nextAttackAt + nextInterval,
+    lastAttack:       event,
+    attacksProcessed: (state.attacksProcessed ?? 0) + 1,
   }
 }
 
@@ -790,7 +895,8 @@ export function tickCity(state: CityState): CityState {
     }
   }
 
-  return result
+  const { state: resultWithMilestones } = checkMilestones(result)
+  return resultWithMilestones
 }
 
 // ── Grid helpers ──────────────────────────────────────────────────────────────
@@ -811,7 +917,7 @@ export function placeCard(state: CityState, index: number, cell: CityCell): City
   }
 
   const placed = addChronicleEvent({ ...state, grid, happiness, resources }, `🏛 ${cell.cardName} placed`)
-  return placed
+  return checkMilestones(placed).state
 }
 
 /** Invite a vacant unit back into their building, restoring partial happiness. */
