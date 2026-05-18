@@ -29,6 +29,9 @@ import {
   spawnerUnitCount,
   getNeighbourIndices,
   nextBuilderCost, buyBuilder,
+  checkMilestones, MilestoneDef,
+  currentSeason,
+  dispatchCaravan,
 } from '../../game/cityBuilder'
 import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { Card, UnitTemplate } from '../../game/types'
@@ -45,6 +48,9 @@ import { CityGrid } from './citybuilder/CityGrid'
 import { CityPerimeter } from './citybuilder/CityPerimeter'
 import { AttackStrip } from './citybuilder/AttackStrip'
 import { ResourceStrip } from './citybuilder/ResourceStrip'
+import { ChroniclePanel } from './citybuilder/ChroniclePanel'
+import { MilestoneBanner } from './citybuilder/MilestoneBanner'
+import { TradeRouteModal } from './citybuilder/TradeRouteModal'
 import { OverlayScreen } from '../ui/OverlayScreen'
 
 
@@ -486,11 +492,13 @@ interface Props {
   onBack: () => void
 }
 
-type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence'
+type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence' | 'chronicle'
 
 export function CityBuilder({ onBack }: Props) {
   const [city, setCity] = useState<CityState>(() => tickCity(loadCityState()))
   const [screen, setScreen] = useState<SubScreen>('city')
+  const [pendingMilestone, setPendingMilestone] = useState<MilestoneDef | null>(null)
+  const [showTrade, setShowTrade] = useState(false)
   const [pickerIndex, setPickerIndex] = useState<number>(0)
   const [levelCard, setLevelCard] = useState<string | null>(null)
   const [toast, setToast] = useState<string | null>(null)
@@ -531,8 +539,12 @@ export function CityBuilder({ onBack }: Props) {
   }
 
   function save(next: CityState) {
-    setCity(next)
-    saveCityState(next)
+    const { state: checked, newlyCompleted } = checkMilestones(next)
+    setCity(checked)
+    saveCityState(checked)
+    if (newlyCompleted.length > 0 && !pendingMilestone) {
+      setPendingMilestone(newlyCompleted[0])
+    }
   }
 
   // Keep refs in sync so the animation loop and intervals always see the latest state
@@ -1197,6 +1209,17 @@ export function CityBuilder({ onBack }: Props) {
     )
   }
 
+  // ── Chronicle sub-screen ─────────────────────────────────────────────────────
+
+  if (screen === 'chronicle') {
+    return (
+      <ChroniclePanel
+        chronicle={city.chronicle ?? []}
+        onBack={() => setScreen('city')}
+      />
+    )
+  }
+
   // ── Main city view ────────────────────────────────────────────────────────────
 
   return (
@@ -1210,6 +1233,26 @@ export function CityBuilder({ onBack }: Props) {
 
       <div className="city-screen u-relative u-col u-gap-2">
         {toast && <div className="city-toast" role="alert">{toast}</div>}
+
+        {pendingMilestone && (
+          <MilestoneBanner
+            milestone={pendingMilestone}
+            onDone={() => setPendingMilestone(null)}
+          />
+        )}
+
+        {showTrade && (
+          <TradeRouteModal
+            city={city}
+            currentTime={currentTime}
+            onDispatch={() => {
+              const next = dispatchCaravan(city)
+              if (next) save(next)
+              else showToast('Cannot dispatch caravan right now.')
+            }}
+            onClose={() => setShowTrade(false)}
+          />
+        )}
 
         {attackReport && (
           <AttackReportModal
@@ -1266,6 +1309,7 @@ export function CityBuilder({ onBack }: Props) {
           resources={city.resources}
           prodRates={prodRates}
           consRates={consRates}
+          season={currentSeason()}
         />
 
         <CityGrid
@@ -1292,6 +1336,12 @@ export function CityBuilder({ onBack }: Props) {
           >{bulldozerMode ? '🧱 DEMOLISH' : '👷 BUILD'}</button>
           <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTIFICATIONS</button>
           <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
+          <button className="filter-btn" onClick={() => setScreen('chronicle')} title="View city history">📜 HISTORY</button>
+          <button
+            className={`filter-btn${city.tradeOffer && !city.activeCaravan ? ' city-trade-btn--ready' : ''}`}
+            onClick={() => setShowTrade(true)}
+            title="Trade resources via caravan"
+          >🐪 TRADE{city.activeCaravan ? ' (away)' : city.tradeOffer ? ' !' : ''}</button>
           {cityRows < MAX_CITY_ROWS && expansionCost && (
             <button
               className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}

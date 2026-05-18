@@ -145,6 +145,42 @@ export const EXPANSION_COSTS: Record<number, { gold: number; resources: Partial<
 /** Hard cap on total fortifications (prevents unlimited stacking). */
 export const MAX_TOTAL_FORTS = 12
 
+// ── Seasonal cycles ───────────────────────────────────────────────────────────
+
+export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
+
+export interface SeasonInfo {
+  name:   string
+  icon:   string
+  /** Additive wheat production modifier (e.g. 0.1 = +10%). */
+  wheat:  number
+  /** Additive wood production modifier. */
+  wood:   number
+  /** Additive ore production modifier. */
+  ore:    number
+  /** Additive happiness regen modifier. */
+  regen:  number
+  /** Additive wheat consumption modifier for spawners (positive = more hungry). */
+  hunger: number
+  flavour: string
+}
+
+export const SEASON_INFO: Record<Season, SeasonInfo> = {
+  spring: { name: 'Spring', icon: '🌸', wheat: 0.10, wood: 0,    ore: 0,    regen:  0.15, hunger:  0,    flavour: 'Mild weather, good harvests' },
+  summer: { name: 'Summer', icon: '☀️', wheat: 0.30, wood: 0,    ore: 0,    regen:  0,    hunger:  0.10, flavour: 'Bountiful wheat, hungry residents' },
+  autumn: { name: 'Autumn', icon: '🍂', wheat: 0,    wood: 0.25, ore: 0.25, regen:  0,    hunger:  0,    flavour: 'Rich timber and ore yields' },
+  winter: { name: 'Winter', icon: '❄️', wheat:-0.20, wood: 0,    ore: 0,    regen: -0.10, hunger:  0.15, flavour: 'Cold reduces food supply' },
+}
+
+/** Returns the current season based on the real-world month. */
+export function currentSeason(now = Date.now()): Season {
+  const month = new Date(now).getMonth()  // 0 = Jan
+  if (month >= 2 && month <= 4) return 'spring'
+  if (month >= 5 && month <= 7) return 'summer'
+  if (month >= 8 && month <= 10) return 'autumn'
+  return 'winter'
+}
+
 // ── Resource building config ──────────────────────────────────────────────────
 
 /**
@@ -191,6 +227,68 @@ export function getBuildingProduces(name: string): Partial<ResourceStock> {
   return {}
 }
 
+// ── Adjacency synergy rules ───────────────────────────────────────────────────
+
+interface SynergyRule {
+  /** Resource this building must produce to be eligible. */
+  needs: ResourceType
+  /** Resource a neighbour must produce to activate the synergy. */
+  feeds: ResourceType
+  /** Additive production multiplier bonus (e.g. 0.5 = +50%). */
+  bonus: number
+  label: string
+}
+
+const SYNERGY_RULES: SynergyRule[] = [
+  { needs: 'bread',  feeds: 'wheat', bonus: 0.5, label: '🌾 Farm nearby: +50% bread'   },
+  { needs: 'metal',  feeds: 'wood',  bonus: 0.5, label: '🪵 Lumber nearby: +50% metal'  },
+  { needs: 'planks', feeds: 'ore',   bonus: 0.5, label: '⛏ Mine nearby: +50% planks'   },
+]
+
+/** Additive gold income bonus for a spawn building adjacent to a food producer. */
+const SPAWN_FOOD_ADJACENCY_BONUS = 0.2  // +20% gold income
+
+/**
+ * Returns active synergy bonuses for a resource-producing building.
+ * Each entry is an additive multiplier on that resource's output.
+ */
+export function getCellSynergyBonuses(
+  state: CityState,
+  cellIndex: number,
+): Array<{ resource: ResourceType; multiplier: number; label: string }> {
+  const cell = state.grid[cellIndex]
+  if (!cell) return []
+  const gridRows = state.rows ?? CITY_ROWS
+  const neighbours = getNeighbourIndices(cellIndex, gridRows)
+    .map(ni => state.grid[ni])
+    .filter((nb): nb is CityCell => nb != null)
+  const produces = getBuildingProduces(cell.cardName)
+  const bonuses: Array<{ resource: ResourceType; multiplier: number; label: string }> = []
+  for (const rule of SYNERGY_RULES) {
+    if ((produces[rule.needs] ?? 0) > 0) {
+      if (neighbours.some(nb => (getBuildingProduces(nb.cardName)[rule.feeds] ?? 0) > 0)) {
+        bonuses.push({ resource: rule.needs, multiplier: rule.bonus, label: rule.label })
+      }
+    }
+  }
+  return bonuses
+}
+
+/**
+ * Additive gold income bonus for a spawn building that has a food producer
+ * as an orthogonal neighbour.
+ */
+export function getCellIncomeBonus(state: CityState, cellIndex: number): number {
+  const cell = state.grid[cellIndex]
+  if (!cell?.spawnedUnitName) return 0
+  const gridRows = state.rows ?? CITY_ROWS
+  const hasFoodNeighbour = getNeighbourIndices(cellIndex, gridRows).some(ni => {
+    const nb = state.grid[ni]
+    return nb && (getBuildingProduces(nb.cardName).wheat ?? 0) > 0
+  })
+  return hasFoodNeighbour ? SPAWN_FOOD_ADJACENCY_BONUS : 0
+}
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export type ResourceType = 'wheat' | 'wood' | 'ore' | 'bread' | 'planks' | 'metal'
@@ -232,6 +330,23 @@ export interface AttackEvent {
   count?:              number   // set when summarising multiple missed attacks
 }
 
+export type TradeDirection = 'sell' | 'buy'
+
+export interface TradeOffer {
+  resource:   ResourceType
+  direction:  TradeDirection
+  /** Amount of resource traded. */
+  amount:     number
+  /** Gold received (sell) or paid (buy). */
+  gold:       number
+  expiresAt:  number
+}
+
+export interface ActiveCaravan {
+  offer:       TradeOffer
+  returnsAt:   number
+}
+
 export interface CityState {
   grid:           (CityCell | undefined)[]
   gold:           number
@@ -254,6 +369,16 @@ export interface CityState {
   lastAttack:     AttackEvent | null
   /** Temporary defense bonus from actively patrolling residents. */
   patrolBonus?:   number
+  /** Chronological log of notable city events, newest first (max 50). */
+  chronicle:      string[]
+  /** IDs of milestones already awarded (prevents duplicate rewards). */
+  completedMilestones: string[]
+  /** Total number of attacks processed (used for milestone checks). */
+  attacksProcessed: number
+  /** Current trade offer available to dispatch (null = generating). */
+  tradeOffer:    TradeOffer | null
+  /** Caravan currently away on a trade mission. */
+  activeCaravan: ActiveCaravan | null
 }
 
 // ── Storage ───────────────────────────────────────────────────────────────────
@@ -277,7 +402,12 @@ function defaultState(): CityState {
     fortifications: [],
     builderQueue:   [],
     builderCount:   DEFAULT_BUILDER_COUNT,
-    lastAttack:     null,
+    lastAttack:          null,
+    chronicle:           [],
+    completedMilestones: [],
+    attacksProcessed:    0,
+    tradeOffer:          null,
+    activeCaravan:       null,
   }
 }
 
@@ -316,6 +446,11 @@ export function loadCityState(): CityState {
       builderQueue:   parsed.builderQueue ?? [],
       builderCount:   parsed.builderCount ?? DEFAULT_BUILDER_COUNT,
       lastAttack:     parsed.lastAttack ?? null,
+      chronicle:           parsed.chronicle ?? [],
+      completedMilestones: parsed.completedMilestones ?? [],
+      attacksProcessed:    parsed.attacksProcessed ?? 0,
+      tradeOffer:          parsed.tradeOffer ?? null,
+      activeCaravan:       parsed.activeCaravan ?? null,
     }
   } catch (err) {
     logError('loadCityState failed', err as Record<string, unknown>)
@@ -329,6 +464,117 @@ export function saveCityState(state: CityState): void {
   } catch (err) {
     logError('saveCityState failed', err as Record<string, unknown>)
   }
+}
+
+// ── Chronicle helpers ─────────────────────────────────────────────────────────
+
+const CHRONICLE_MAX = 50
+
+function fmtTime(ts: number): string {
+  const d = new Date(ts)
+  return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+}
+
+export function addChronicleEvent(state: CityState, msg: string): CityState {
+  const entry = `[${fmtTime(Date.now())}] ${msg}`
+  const chronicle = [entry, ...(state.chronicle ?? [])].slice(0, CHRONICLE_MAX)
+  return { ...state, chronicle }
+}
+
+// ── Milestones ────────────────────────────────────────────────────────────────
+
+export interface MilestoneDef {
+  id:              string
+  label:           string
+  icon:            string
+  description:     string
+  condition:       (state: CityState) => boolean
+  goldReward:      number
+  resourceReward?: Partial<ResourceStock>
+}
+
+export const MILESTONES: MilestoneDef[] = [
+  {
+    id: 'first_building', label: 'First Steps', icon: '🏛',
+    description: 'Place your first building',
+    condition: s => s.grid.some(c => c != null),
+    goldReward: 500,
+  },
+  {
+    id: 'population_10', label: 'Growing City', icon: '👥',
+    description: 'Reach a population of 10',
+    condition: s => cityPopulation(s) >= 10,
+    goldReward: 5000,
+  },
+  {
+    id: 'first_fort', label: 'Fortified', icon: '🧱',
+    description: 'Complete your first fortification',
+    condition: s => s.fortifications.length > 0,
+    goldReward: 2000,
+    resourceReward: { wood: 50 },
+  },
+  {
+    id: 'gold_100k', label: 'Prosperous', icon: '🪙',
+    description: 'Accumulate 100,000 gold',
+    condition: s => s.gold >= 100000,
+    goldReward: 10000,
+  },
+  {
+    id: 'five_attacks', label: 'Battle-Hardened', icon: '⚔',
+    description: 'Survive 5 attacks',
+    condition: s => (s.attacksProcessed ?? 0) >= 5,
+    goldReward: 25000,
+  },
+  {
+    id: 'all_resources', label: 'Self-Sufficient', icon: '🌾',
+    description: 'Produce all 6 resource types',
+    condition: s => {
+      const types: ResourceType[] = ['wheat', 'wood', 'ore', 'bread', 'planks', 'metal']
+      return types.every(r => s.grid.some(c => c && !c.spawnedUnitName && (getBuildingProduces(c.cardName)[r] ?? 0) > 0))
+    },
+    goldReward: 5000,
+  },
+  {
+    id: 'max_expansion', label: 'Metropolis', icon: '🏙',
+    description: `Expand the city to ${MAX_CITY_ROWS} rows`,
+    condition: s => (s.rows ?? CITY_ROWS) >= MAX_CITY_ROWS,
+    goldReward: 50000,
+  },
+]
+
+/**
+ * Checks all milestones and awards any newly completed ones.
+ * Returns the updated state and the list of newly completed milestone IDs.
+ */
+export function checkMilestones(state: CityState): { state: CityState; newlyCompleted: MilestoneDef[] } {
+  const completed = new Set(state.completedMilestones ?? [])
+  const newlyCompleted: MilestoneDef[] = []
+  let next = state
+
+  for (const m of MILESTONES) {
+    if (completed.has(m.id)) continue
+    if (!m.condition(next)) continue
+
+    // Award reward
+    let gold = next.gold + m.goldReward
+    let resources = { ...next.resources }
+    if (m.resourceReward) {
+      for (const [res, amt] of Object.entries(m.resourceReward) as [ResourceType, number][]) {
+        resources[res] = (resources[res] ?? 0) + amt
+      }
+    }
+    const chronicle = addChronicleEvent(next, `${m.icon} Milestone: ${m.label} — +${m.goldReward.toLocaleString()} gold!`).chronicle
+    next = {
+      ...next,
+      gold,
+      resources,
+      chronicle,
+      completedMilestones: [...(next.completedMilestones ?? []), m.id],
+    }
+    newlyCompleted.push(m)
+  }
+
+  return { state: next, newlyCompleted }
 }
 
 // ── Mastery helpers ───────────────────────────────────────────────────────────
@@ -514,14 +760,22 @@ function processAttack(state: CityState): CityState {
     destroyedBuildings,
   }
 
+  const attackMsg =
+    outcome === 'repelled' ? `⚔ Attack repelled — +${goldEarned.toLocaleString()} gold earned` :
+    outcome === 'partial'  ? `⚠ City raided — ${stolenGold.toLocaleString()} gold stolen` :
+    `💀 City defeated — ${stolenGold.toLocaleString()} gold stolen${destroyedBuildings.length > 0 ? `, lost: ${destroyedBuildings.join(', ')}` : ''}`
+
+  const stateWithChronicle = addChronicleEvent(state, attackMsg)
+
   return {
-    ...state,
-    gold:           Math.max(0, newGold),
-    resources:      newResources,
-    grid:           newGrid,
-    fortifications: survivingForts,
-    nextAttackAt:   state.nextAttackAt + nextInterval,
-    lastAttack:     event,
+    ...stateWithChronicle,
+    gold:             Math.max(0, newGold),
+    resources:        newResources,
+    grid:             newGrid,
+    fortifications:   survivingForts,
+    nextAttackAt:     state.nextAttackAt + nextInterval,
+    lastAttack:       event,
+    attacksProcessed: (state.attacksProcessed ?? 0) + 1,
   }
 }
 
@@ -531,6 +785,9 @@ export function tickCity(state: CityState): CityState {
   const now     = Date.now()
   const elapsed = now - state.lastTick
   const minutes = Math.min(elapsed / 60_000, MAX_OFFLINE_MINUTES)
+
+  const season = currentSeason(now)
+  const si = SEASON_INFO[season]
 
   const newResources = { ...state.resources }
   let goldEarned = 0
@@ -546,22 +803,35 @@ export function tickCity(state: CityState): CityState {
     const happy = (newHappy[i] ?? 100) > 0
     const unitCount = cell.spawnedUnitName ? spawnerUnitCount(state, cell.cardName) : 1
 
-    // Gold income
-    goldEarned += cellIncomeRate(cell, happy, unitCount) * minutes
+    // Gold income (with adjacency bonus for spawn buildings near food)
+    const incomeBonus = cell.spawnedUnitName ? getCellIncomeBonus(state, i) : 0
+    goldEarned += cellIncomeRate(cell, happy, unitCount) * (1 + incomeBonus) * minutes
 
     // Resource production (utility/non-spawner buildings that produce resources)
     if (!cell.spawnedUnitName) {
       const masteryMult = masteryOutputMultiplier(getCardMasteryLevel(cell.cardName) ?? 0)
       const produces = getBuildingProduces(cell.cardName)
+      const synergies = getCellSynergyBonuses(state, i)
+      const synergyMap: Partial<Record<ResourceType, number>> = {}
+      for (const s of synergies) synergyMap[s.resource] = (synergyMap[s.resource] ?? 0) + s.multiplier
       for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
-        if (rate > 0) newResources[res] = (newResources[res] ?? 0) + rate * masteryMult * minutes
+        if (rate > 0) {
+          const synergyMult = 1 + (synergyMap[res as ResourceType] ?? 0)
+          // Season modifier: wheat/wood/ore get seasonal multipliers
+          const seasonMult = res === 'wheat' ? 1 + si.wheat
+                           : res === 'wood'  ? 1 + si.wood
+                           : res === 'ore'   ? 1 + si.ore
+                           : 1
+          newResources[res] = (newResources[res] ?? 0) + rate * masteryMult * synergyMult * Math.max(0, seasonMult) * minutes
+        }
       }
     }
 
-    // Spawners consume food (wheat)
+    // Spawners consume food (wheat) — more in summer/winter
     if (cell.spawnedUnitName && happy) {
       const unitCount = spawnerUnitCount(state, cell.cardName)
-      const consume = FOOD_CONSUME_RATE[cell.rarity] * unitCount * minutes
+      const hungerMult = 1 + si.hunger
+      const consume = FOOD_CONSUME_RATE[cell.rarity] * unitCount * hungerMult * minutes
       newResources.wheat = Math.max(0, (newResources.wheat ?? 0) - consume)
     }
   }
@@ -584,8 +854,9 @@ export function tickCity(state: CityState): CityState {
     const cellTarget  = affinityMet ? baseTarget : 0
 
     const current = newHappy[i] ?? 100
+    const seasonRegen = HAPPINESS_REGEN * (1 + si.regen)
     if (current < cellTarget) {
-      newHappy[i] = Math.min(cellTarget, current + HAPPINESS_REGEN * minutes)
+      newHappy[i] = Math.min(cellTarget, current + seasonRegen * minutes)
     } else if (current > cellTarget) {
       newHappy[i] = Math.max(0, current - HAPPINESS_DRAIN * minutes)
     }
@@ -608,6 +879,7 @@ export function tickCity(state: CityState): CityState {
   const now2 = now
   const remainingQueue = state.builderQueue.filter(e => e.completesAt > now2)
   const completedBuilds = state.builderQueue.filter(e => e.completesAt <= now2)
+  const completedFortNames: string[] = []
   for (const entry of completedBuilds) {
     if (newForts.length < MAX_TOTAL_FORTS) {
       newForts.push({
@@ -617,6 +889,7 @@ export function tickCity(state: CityState): CityState {
         maxHp:        FORT_MAX_HP[entry.rarity],
         attacksTaken: 0,
       })
+      completedFortNames.push(entry.cardName)
     }
   }
 
@@ -634,6 +907,13 @@ export function tickCity(state: CityState): CityState {
     fortifications: newForts,
     builderQueue:   remainingQueue,
   }
+
+  for (const name of completedFortNames) {
+    result = addChronicleEvent(result, `🏗 ${name} construction complete`)
+  }
+
+  // Process trade routes (caravan returns, new offer generation)
+  result = processTrade(result, now)
 
   // Process any pending attacks — batch if more than one was missed while offline
   if (now >= result.nextAttackAt) {
@@ -689,7 +969,8 @@ export function tickCity(state: CityState): CityState {
     }
   }
 
-  return result
+  const { state: resultWithMilestones } = checkMilestones(result)
+  return resultWithMilestones
 }
 
 // ── Grid helpers ──────────────────────────────────────────────────────────────
@@ -709,7 +990,8 @@ export function placeCard(state: CityState, index: number, cell: CityCell): City
     }
   }
 
-  return { ...state, grid, happiness, resources }
+  const placed = addChronicleEvent({ ...state, grid, happiness, resources }, `🏛 ${cell.cardName} placed`)
+  return checkMilestones(placed).state
 }
 
 /** Invite a vacant unit back into their building, restoring partial happiness. */
@@ -717,15 +999,18 @@ export function reoccupyBuilding(state: CityState, index: number): CityState {
   const cell = state.grid[index]
   if (!cell?.spawnedUnitName) return state
   if ((state.happiness[index] ?? 100) > 0) return state
-  return { ...state, happiness: { ...state.happiness, [index]: 50 } }
+  const next = { ...state, happiness: { ...state.happiness, [index]: 50 } }
+  return addChronicleEvent(next, `🏠 ${cell.spawnedUnitName} moved back into ${cell.cardName}`)
 }
 
 export function removeCard(state: CityState, index: number): CityState {
+  const cell = state.grid[index]
   const grid = [...state.grid]
   grid[index] = undefined
   const happiness = { ...state.happiness }
   delete happiness[index]
-  return { ...state, grid, happiness }
+  const next = { ...state, grid, happiness }
+  return cell ? addChronicleEvent(next, `🔨 ${cell.cardName} demolished`) : next
 }
 
 // ── Fortification helpers ─────────────────────────────────────────────────────
@@ -756,12 +1041,13 @@ export function addFortification(state: CityState, cardName: string, rarity: Car
   const buildMinutes = FORT_BUILD_MINUTES[rarity]
   const completesAt = Date.now() + buildMinutes * 60_000
   const entry: BuildQueueEntry = { cardName, rarity, completesAt }
-  return {
+  const next = {
     ...state,
     gold:         state.gold - cost.gold,
     resources:    newResources,
     builderQueue: [...state.builderQueue, entry],
   }
+  return addChronicleEvent(next, `🧱 ${cardName} fortification queued`)
 }
 
 /** Cost to hire the next extra builder (beyond DEFAULT_BUILDER_COUNT). */
@@ -816,13 +1102,14 @@ export function expandCity(state: CityState): CityState | null {
     newResources[res] = Math.max(0, (state.resources[res] ?? 0) - amt)
   }
 
-  return {
+  const next = {
     ...state,
     rows:      newRows,
     grid:      newGrid,
     gold:      state.gold - cost.gold,
     resources: newResources,
   }
+  return addChronicleEvent(next, `🏙 City expanded to ${newRows} rows`)
 }
 
 // ── Affordability ─────────────────────────────────────────────────────────────
@@ -853,6 +1140,98 @@ export function goldNetRate(state: CityState): number {
   return goldIncomeRate(state)
 }
 
+// ── Trade routes ──────────────────────────────────────────────────────────────
+
+/** New offer every 4 hours; caravan returns after 2 hours. */
+const TRADE_OFFER_INTERVAL_MS = 4 * 3600 * 1000
+const CARAVAN_RETURN_MS       = 2 * 3600 * 1000
+
+function generateTradeOffer(now: number): TradeOffer {
+  const resources: ResourceType[] = ['wheat', 'wood', 'ore', 'bread', 'planks', 'metal']
+  const resource  = resources[Math.floor(Math.random() * resources.length)]
+  const direction: TradeDirection = Math.random() < 0.6 ? 'sell' : 'buy'
+  // Base amounts and gold values per resource
+  const BASE: Record<ResourceType, { amount: number; goldPerUnit: number }> = {
+    wheat:  { amount: 100, goldPerUnit: 20  },
+    wood:   { amount: 80,  goldPerUnit: 25  },
+    ore:    { amount: 60,  goldPerUnit: 35  },
+    bread:  { amount: 50,  goldPerUnit: 50  },
+    planks: { amount: 40,  goldPerUnit: 60  },
+    metal:  { amount: 30,  goldPerUnit: 80  },
+  }
+  const { amount, goldPerUnit } = BASE[resource]
+  const jitter = 0.8 + Math.random() * 0.4  // ±20% variance
+  const finalAmount = Math.round(amount * jitter)
+  const finalGold   = Math.round(finalAmount * goldPerUnit * (direction === 'sell' ? 1 : 0.7))
+  return {
+    resource,
+    direction,
+    amount:    finalAmount,
+    gold:      finalGold,
+    expiresAt: now + TRADE_OFFER_INTERVAL_MS,
+  }
+}
+
+export function dispatchCaravan(state: CityState): CityState | null {
+  const offer = state.tradeOffer
+  if (!offer || state.activeCaravan) return null
+  if (Date.now() > offer.expiresAt) return null
+
+  let newGold      = state.gold
+  const newRes     = { ...state.resources }
+
+  if (offer.direction === 'sell') {
+    if (newRes[offer.resource] < offer.amount) return null
+    newRes[offer.resource] = Math.max(0, newRes[offer.resource] - offer.amount)
+  } else {
+    if (newGold < offer.gold) return null
+    newGold -= offer.gold
+  }
+
+  const caravan: ActiveCaravan = { offer, returnsAt: Date.now() + CARAVAN_RETURN_MS }
+  const next: CityState = {
+    ...state,
+    gold:          newGold,
+    resources:     newRes,
+    tradeOffer:    null,
+    activeCaravan: caravan,
+  }
+  return addChronicleEvent(next, `🐪 Caravan dispatched — trading ${offer.amount} ${offer.resource}`)
+}
+
+/** Processes caravan return and new offer generation inside tickCity. */
+function processTrade(state: CityState, now: number): CityState {
+  let next = state
+
+  // Resolve returning caravan
+  if (next.activeCaravan && now >= next.activeCaravan.returnsAt) {
+    const { offer } = next.activeCaravan
+    const newRes = { ...next.resources }
+    let newGold  = next.gold
+    if (offer.direction === 'sell') {
+      newGold += offer.gold
+    } else {
+      newRes[offer.resource] = (newRes[offer.resource] ?? 0) + offer.amount
+    }
+    const msg = offer.direction === 'sell'
+      ? `🐪 Caravan returned — +${offer.gold.toLocaleString()} gold from selling ${offer.amount} ${offer.resource}`
+      : `🐪 Caravan returned — +${offer.amount} ${offer.resource} delivered`
+    next = addChronicleEvent({ ...next, gold: newGold, resources: newRes, activeCaravan: null }, msg)
+  }
+
+  // Generate new offer if none present and not waiting on a caravan
+  if (!next.tradeOffer && !next.activeCaravan) {
+    next = { ...next, tradeOffer: generateTradeOffer(now) }
+  }
+
+  // Expire stale offer
+  if (next.tradeOffer && now > next.tradeOffer.expiresAt) {
+    next = { ...next, tradeOffer: generateTradeOffer(now) }
+  }
+
+  return next
+}
+
 // ── Card levelling ────────────────────────────────────────────────────────────
 
 export function getCardLevel(state: CityState, cardName: string): number {
@@ -877,12 +1256,22 @@ export function levelUpCard(state: CityState, cardName: string, masteryLvl: numb
 
 export function resourceProductionRate(state: CityState): Partial<ResourceStock> {
   const rates: Partial<ResourceStock> = {}
-  for (const cell of state.grid) {
+  const si = SEASON_INFO[currentSeason()]
+  for (let i = 0; i < state.grid.length; i++) {
+    const cell = state.grid[i]
     if (!cell || cell.spawnedUnitName) continue
     const masteryMult = masteryOutputMultiplier(getCardMasteryLevel(cell.cardName) ?? 0)
     const produces = getBuildingProduces(cell.cardName)
+    const synergies = getCellSynergyBonuses(state, i)
+    const synergyMap: Partial<Record<ResourceType, number>> = {}
+    for (const s of synergies) synergyMap[s.resource] = (synergyMap[s.resource] ?? 0) + s.multiplier
     for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
-      rates[res] = (rates[res] ?? 0) + rate * masteryMult
+      const synergyMult = 1 + (synergyMap[res as ResourceType] ?? 0)
+      const seasonMult = res === 'wheat' ? 1 + si.wheat
+                       : res === 'wood'  ? 1 + si.wood
+                       : res === 'ore'   ? 1 + si.ore
+                       : 1
+      rates[res] = (rates[res] ?? 0) + rate * masteryMult * synergyMult * Math.max(0, seasonMult)
     }
   }
   return rates

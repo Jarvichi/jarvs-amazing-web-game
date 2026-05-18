@@ -1,5 +1,5 @@
 import React from 'react'
-import { RESOURCE_ICONS, ResourceType, ResourceStock } from '../../../game/cityBuilder'
+import { RESOURCE_ICONS, ResourceType, ResourceStock, Season, SEASON_INFO } from '../../../game/cityBuilder'
 
 const RESOURCE_TYPES: ResourceType[] = ['wheat', 'wood', 'ore', 'bread', 'planks', 'metal']
 
@@ -9,13 +9,16 @@ export interface Props {
   resources:  ResourceStock
   prodRates:  Partial<Record<ResourceType, number>>
   consRates:  Partial<Record<ResourceType, number>>
+  season:     Season
 }
 
-export function ResourceStrip({ defense, population, resources, prodRates, consRates }: Props) {
+export function ResourceStrip({ defense, population, resources, prodRates, consRates, season }: Props) {
+  const si = SEASON_INFO[season] ?? SEASON_INFO['spring']
   return (
     <div className="city-res-strip">
       <span className="city-info-chip" title={`Defense: ${defense}`}>🛡 {defense}</span>
       <span className="city-info-chip" title={`Population: ${population}`}>👥 {population}</span>
+      <span className="city-info-chip city-season-chip" title={si.flavour}>{si.icon} {si.name}</span>
       {RESOURCE_TYPES.map(res => {
         const stock = Math.floor(resources[res])
         const prod  = prodRates[res] ?? 0
