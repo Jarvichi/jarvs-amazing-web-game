@@ -962,6 +962,8 @@ export function CityBuilder({ onBack }: Props) {
           const next = waypoints.length > 0 ? waypoints[0] : { x: destX, y: destY }
           const nd = Math.sqrt((next.x - x) ** 2 + (next.y - y) ** 2)
           if (nd > 0) { vx = (next.x - x) / nd * SPEED; vy = (next.y - y) / nd * SPEED }
+        } else if (dist < ARRIVE_DIST) {
+          vx = 0; vy = 0
         } else if (dist > 0) {
           vx = dx / dist * SPEED; vy = dy / dist * SPEED
         }
