@@ -1,27 +1,28 @@
 import React from 'react'
 import {
-  CityState, CITY_COLS, CITY_ROWS, CELL_PX,
+  CityState, CITY_COLS, CITY_ROWS,
   spawnerUnitCount, getNeighbourIndices,
   getRowDistrict, DISTRICT_INFO,
   roadTier,
   RESOURCE_ICONS, ResourceType,
 } from '../../../game/cityBuilder'
 import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
-import { BuilderWalker } from '../CityBuilder'
+import { BuilderWalker, VisualCarrier } from '../CityBuilder'
 import { Walker } from './walkerTypes'
 
 export interface Props {
-  city:          CityState
-  walkers:       Walker[]
+  city:           CityState
+  walkers:        Walker[]
   builderWalkers: BuilderWalker[]
-  bulldozerMode: boolean
-  worldRef:      React.RefObject<HTMLDivElement>
-  onCellTap:     (index: number) => void
-  onWalkerClick: (cellIndex: number, unitIndex: number) => void
+  visualCarriers: VisualCarrier[]
+  bulldozerMode:  boolean
+  worldRef:       React.RefObject<HTMLDivElement>
+  onCellTap:      (index: number) => void
+  onWalkerClick:  (cellIndex: number, unitIndex: number) => void
 }
 
 export function CityGrid({
-  city, walkers, builderWalkers, bulldozerMode, worldRef, onCellTap, onWalkerClick,
+  city, walkers, builderWalkers, visualCarriers, bulldozerMode, worldRef, onCellTap, onWalkerClick,
 }: Props) {
   const cityRows  = city.rows ?? CITY_ROWS
   const cityCells = CITY_COLS * cityRows
@@ -61,8 +62,8 @@ export function CityGrid({
           const ROAD2 = 'rgba(160,150,110,0.85)'
           const shadows: string[] = []
           if (district !== 'none' && isRowStart) shadows.push(`inset 4px 0 0 ${distColor}`)
-          if (tierR > 0) shadows.push(`inset -3px 0 0 ${tierR === 2 ? ROAD2 : ROAD1}`)
-          if (tierB > 0) shadows.push(`inset 0 -3px 0 ${tierB === 2 ? ROAD2 : ROAD1}`)
+          if (tierR > 0) shadows.push(`3px 0 0 0 ${tierR === 2 ? ROAD2 : ROAD1}`)
+          if (tierB > 0) shadows.push(`0 3px 0 0 ${tierB === 2 ? ROAD2 : ROAD1}`)
           return (
             <button
               key={i}
@@ -160,44 +161,12 @@ export function CityGrid({
         ))}
       </div>
 
-      {/* Carrier overlay — follow Manhattan road edges */}
+      {/* Carrier overlay — animated at walker speed via visualCarriers */}
       <div className="city-unit-overlay city-carrier-overlay">
-        {(city.carriers ?? []).map(carrier => {
-          const rows   = city.rows ?? CITY_ROWS
-          const baseW  = CITY_COLS * CELL_PX
-          const baseH  = rows      * CELL_PX
-          const scaleX = worldRef.current ? worldRef.current.clientWidth  / baseW : 1
-          const scaleY = worldRef.current ? worldRef.current.clientHeight / baseH : 1
-          const cellW  = baseW / CITY_COLS
-          const cellH  = baseH / rows
-
-          // Build waypoints: Z-shape via column and row border gaps
-          const r1 = Math.floor(carrier.fromCell / CITY_COLS), c1 = carrier.fromCell % CITY_COLS
-          const r2 = Math.floor(carrier.toCell   / CITY_COLS), c2 = carrier.toCell   % CITY_COLS
-          const pts: { x: number; y: number }[] = [{ x: (c1 + 0.5) * cellW, y: (r1 + 0.5) * cellH }]
-          if (r1 !== r2) {
-            const borderY  = r1 < r2 ? (r1 + 1) * cellH : r1 * cellH
-            const bxExit   = c1 < c2 ? (c1 + 1) * cellW : c1 < CITY_COLS - 1 ? (c1 + 1) * cellW : c1 * cellW
-            const bxEnter  = c1 < c2 ? c2 * cellW        : c1 > 0             ? c2 * cellW        : (c2 + 1) * cellW
-            pts.push({ x: bxExit,  y: (r1 + 0.5) * cellH })
-            pts.push({ x: bxExit,  y: borderY })
-            pts.push({ x: bxEnter, y: borderY })
-            pts.push({ x: bxEnter, y: (r2 + 0.5) * cellH })
-          }
-          pts.push({ x: (c2 + 0.5) * cellW, y: (r2 + 0.5) * cellH })
-
-          // Lerp through waypoints by progress
-          const segs  = Math.max(1, pts.length - 1)
-          const segF  = carrier.progress * segs
-          const segI  = Math.min(segs - 1, Math.floor(segF))
-          const segT  = segF - segI
-          const a = pts[segI], b = pts[segI + 1] ?? pts[segI]
-          const px = (a.x + (b.x - a.x) * segT) * scaleX
-          const py = (a.y + (b.y - a.y) * segT) * scaleY
-
-          const res = Object.keys(carrier.carrying)[0] as ResourceType
+        {visualCarriers.map(vc => {
+          const res = Object.keys(vc.carrying)[0] as ResourceType
           return (
-            <div key={carrier.id} className="city-walker city-carrier-goblin" style={{ left: px, top: py }}>
+            <div key={vc.id} className="city-walker city-carrier-goblin" style={{ left: Math.round(vc.x), top: Math.round(vc.y) }}>
               <div className="city-carrier-load">{RESOURCE_ICONS[res]}</div>
               <AnimatedSpriteImg name="Goblin" frameCount={3} fps={8} className="city-walker-sprite" />
             </div>

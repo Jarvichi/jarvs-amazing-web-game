@@ -9076,6 +9076,7 @@ html.light-mode .action-btn {
   position: absolute;
   width: 20px;
   height: 20px;
+  transform: translate(-50%, -50%);
   pointer-events: auto;
   cursor: pointer;
 }
@@ -9107,7 +9108,6 @@ html.light-mode .action-btn {
 .city-carrier-goblin {
   pointer-events: none;
   z-index: 8;
-  transition: left 10s linear, top 10s linear;
 }
 
 .city-carrier-load {
