@@ -534,7 +534,7 @@ export function CityBuilder({ onBack }: Props) {
   const [toast, setToast] = useState<string | null>(null)
   const [walkers, setWalkers] = useState<Walker[]>([])
   const [builderWalkers, setBuilderWalkers] = useState<BuilderWalker[]>([])
-  const [selectedWalkerCell, setSelectedWalkerCell] = useState<number | null>(null)
+  const [selectedWalker, setSelectedWalker] = useState<{ cellIndex: number; unitIndex: number } | null>(null)
   const [selectedBuildingCell, setSelectedBuildingCell] = useState<number | null>(null)
   const [buildingTab, setBuildingTab] = useState<'residents' | 'upgrade'>('residents')
   const [pickerSearch, setPickerSearch] = useState('')
@@ -949,7 +949,7 @@ export function CityBuilder({ onBack }: Props) {
   function toggleBulldozer() {
     setBulldozerMode(prev => !prev)
     setSelectedBuildingCell(null)
-    setSelectedWalkerCell(null)
+    setSelectedWalker(null)
   }
 
   // ── Place a card ──────────────────────────────────────────────────────────────
@@ -1329,16 +1329,17 @@ export function CityBuilder({ onBack }: Props) {
           />
         )}
 
-        {selectedWalkerCell !== null && (() => {
-          const cell = city.grid[selectedWalkerCell]
+        {selectedWalker !== null && (() => {
+          const cell = city.grid[selectedWalker.cellIndex]
           if (!cell?.spawnedUnitName) return null
           return (
             <ResidentInfoModal
-              cellIndex={selectedWalkerCell}
+              cellIndex={selectedWalker.cellIndex}
+              unitIndex={selectedWalker.unitIndex}
               cell={cell}
               city={city}
               walkers={walkers}
-              onClose={() => setSelectedWalkerCell(null)}
+              onClose={() => setSelectedWalker(null)}
             />
           )
         })()}
@@ -1387,7 +1388,7 @@ export function CityBuilder({ onBack }: Props) {
           bulldozerMode={bulldozerMode}
           worldRef={worldRef}
           onCellTap={handleCellTap}
-          onWalkerClick={setSelectedWalkerCell}
+          onWalkerClick={(cellIndex, unitIndex) => setSelectedWalker({ cellIndex, unitIndex })}
         />
 
         <CityPerimeter

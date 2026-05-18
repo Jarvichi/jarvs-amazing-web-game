@@ -15,7 +15,7 @@ export interface Props {
   bulldozerMode: boolean
   worldRef:      React.RefObject<HTMLDivElement>
   onCellTap:     (index: number) => void
-  onWalkerClick: (cellIndex: number) => void
+  onWalkerClick: (cellIndex: number, unitIndex: number) => void
 }
 
 export function CityGrid({
@@ -111,8 +111,8 @@ export function CityGrid({
               tabIndex={0}
               className={`city-walker${rage >= 60 ? ' city-walker--unhappy' : ''}`}
               style={{ left: Math.round(w.x), top: Math.round(w.y) }}
-              onClick={e => { e.stopPropagation(); onWalkerClick(w.cellIndex) }}
-              onKeyDown={e => { if (e.key === 'Enter') { e.stopPropagation(); onWalkerClick(w.cellIndex) } }}
+              onClick={e => { e.stopPropagation(); onWalkerClick(w.cellIndex, w.unitIndex) }}
+              onKeyDown={e => { if (e.key === 'Enter') { e.stopPropagation(); onWalkerClick(w.cellIndex, w.unitIndex) } }}
             >
               {w.task.type === 'chatting' && (
                 <div className="city-chat-bubble">{w.task.label}</div>
