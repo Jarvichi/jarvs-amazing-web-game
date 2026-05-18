@@ -171,21 +171,16 @@ export function CityGrid({
           const cellW  = baseW / CITY_COLS
           const cellH  = baseH / rows
 
-          // Build waypoints: fromCenter → edge midpoints → toCenter
+          // Build waypoints: route along row border (gap) to avoid cutting through cells
           const r1 = Math.floor(carrier.fromCell / CITY_COLS), c1 = carrier.fromCell % CITY_COLS
           const r2 = Math.floor(carrier.toCell   / CITY_COLS), c2 = carrier.toCell   % CITY_COLS
           const pts: { x: number; y: number }[] = [{ x: (c1 + 0.5) * cellW, y: (r1 + 0.5) * cellH }]
-          let r = r1, c = c1
-          while (c !== c2) {
-            const dc = c2 > c ? 1 : -1
-            pts.push({ x: (c + (dc > 0 ? 1 : 0)) * cellW, y: (r + 0.5) * cellH })
-            c += dc; pts.push({ x: (c + 0.5) * cellW, y: (r + 0.5) * cellH })
+          if (c1 !== c2 && r1 !== r2) {
+            const borderY = r1 < r2 ? (r1 + 1) * cellH : r1 * cellH
+            pts.push({ x: (c1 + 0.5) * cellW, y: borderY })
+            pts.push({ x: (c2 + 0.5) * cellW, y: borderY })
           }
-          while (r !== r2) {
-            const dr = r2 > r ? 1 : -1
-            pts.push({ x: (c + 0.5) * cellW, y: (r + (dr > 0 ? 1 : 0)) * cellH })
-            r += dr; pts.push({ x: (c + 0.5) * cellW, y: (r + 0.5) * cellH })
-          }
+          pts.push({ x: (c2 + 0.5) * cellW, y: (r2 + 0.5) * cellH })
 
           // Lerp through waypoints by progress
           const segs  = Math.max(1, pts.length - 1)
@@ -198,8 +193,9 @@ export function CityGrid({
 
           const res = Object.keys(carrier.carrying)[0] as ResourceType
           return (
-            <div key={carrier.id} className="city-carrier" style={{ left: Math.round(px), top: Math.round(py) }}>
-              <span className="city-carrier-icon">{RESOURCE_ICONS[res]}</span>
+            <div key={carrier.id} className="city-walker city-carrier-goblin" style={{ left: Math.round(px), top: Math.round(py) }}>
+              <div className="city-carrier-load">{RESOURCE_ICONS[res]}</div>
+              <AnimatedSpriteImg name="Goblin" frameCount={3} fps={8} className="city-walker-sprite" />
             </div>
           )
         })}
