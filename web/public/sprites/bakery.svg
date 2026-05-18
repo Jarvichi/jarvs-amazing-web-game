@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <!-- Building body -->
+  <rect x="3" y="10" width="26" height="19" fill="#8B5E3C"/>
+  <!-- Brick rows -->
+  <rect x="3" y="10" width="6" height="3" fill="#7A5230"/><rect x="11" y="10" width="6" height="3" fill="#7A5230"/><rect x="19" y="10" width="6" height="3" fill="#7A5230"/>
+  <rect x="7"  y="14" width="6" height="3" fill="#7A5230"/><rect x="15" y="14" width="6" height="3" fill="#7A5230"/><rect x="23" y="14" width="6" height="3" fill="#7A5230"/>
+  <rect x="3" y="18" width="6" height="3" fill="#7A5230"/><rect x="11" y="18" width="6" height="3" fill="#7A5230"/><rect x="19" y="18" width="6" height="3" fill="#7A5230"/>
+  <!-- Chimney -->
+  <rect x="22" y="3" width="5" height="9" fill="#7A5230"/>
+  <rect x="21" y="2" width="7" height="2" fill="#5C3E22"/>
+  <!-- Smoke puffs -->
+  <circle cx="24" cy="1" r="1" fill="#CCCCCC" opacity="0.7"/>
+  <circle cx="26" cy="2" r="1" fill="#DDDDDD" opacity="0.5"/>
+  <!-- Oven door arch -->
+  <rect x="7" y="20" width="8" height="9" fill="#3D2010"/>
+  <rect x="8" y="19" width="6" height="2" fill="#3D2010"/>
+  <rect x="9" y="18" width="4" height="2" fill="#3D2010"/>
+  <!-- Oven glow -->
+  <rect x="8" y="22" width="6" height="5" fill="#C04010" opacity="0.6"/>
+  <rect x="9" y="24" width="4" height="3" fill="#FF8020" opacity="0.5"/>
+  <!-- Bread loaves on counter -->
+  <rect x="17" y="21" width="9" height="4" fill="#D4954A"/>
+  <rect x="18" y="20" width="3" height="2" fill="#C07830"/>
+  <rect x="22" y="20" width="3" height="2" fill="#C07830"/>
+  <!-- Score lines on loaves -->
+  <rect x="19" y="21" width="1" height="3" fill="#A06020"/>
+  <rect x="23" y="21" width="1" height="3" fill="#A06020"/>
+  <!-- Sign above door -->
+  <rect x="3" y="8" width="16" height="3" fill="#D4954A"/>
+  <rect x="4" y="9" width="2" height="1" fill="#5C3E22"/>
+  <rect x="7" y="9" width="2" height="1" fill="#5C3E22"/>
+  <rect x="10" y="9" width="2" height="1" fill="#5C3E22"/>
+  <rect x="13" y="9" width="2" height="1" fill="#5C3E22"/>
+  <!-- Ground line -->
+  <rect x="3" y="29" width="26" height="1" fill="#5C3E22"/>
+</svg>
