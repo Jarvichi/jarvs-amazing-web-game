@@ -75,8 +75,22 @@ export function CityGrid({
           const wearB = isLastRow ? 0 : ((city.roadWear?.v ?? [])[i] ?? 0)
           const shadows: string[] = []
           if (district !== 'none' && isRowStart) shadows.push(`inset 4px 0 0 ${distColor}`)
-          if (wearR > 0) shadows.push(`3px 0 0 0 ${roadWearColor(wearR)}`)
-          if (wearB > 0) shadows.push(`0 3px 0 0 ${roadWearColor(wearB)}`)
+          if (wearR > 0) {
+            const c = roadWearColor(wearR)
+            shadows.push(`3px 0 0 0 ${c}`)
+            if (wearR > 60) {
+              const w = (((wearR - 60) / 40) * 3).toFixed(1)
+              shadows.push(`inset -${w}px 0 0 0 ${c}`)
+            }
+          }
+          if (wearB > 0) {
+            const c = roadWearColor(wearB)
+            shadows.push(`0 3px 0 0 ${c}`)
+            if (wearB > 60) {
+              const w = (((wearB - 60) / 40) * 3).toFixed(1)
+              shadows.push(`inset 0 -${w}px 0 0 ${c}`)
+            }
+          }
           return (
             <button
               key={i}
