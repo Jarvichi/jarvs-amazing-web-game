@@ -101,7 +101,16 @@ export function CityGrid({
             >
               {cell ? (
                 <>
-                  <SpriteImg name={cell.cardName} className="city-cell-sprite" />
+                  <SpriteImg
+                    name={
+                      cell.cardName === 'Windmill'
+                        ? (cell.stock?.wheat ?? 0) >= 3 ? 'Windmill'
+                          : (cell.stock?.wheat ?? 0) > 0 ? 'Windmill Slow'
+                          : 'Windmill Stopped'
+                        : cell.cardName
+                    }
+                    className="city-cell-sprite"
+                  />
                   {cell.spawnedUnitName && rage > 0 && (
                     <div
                       className="city-cell-happiness"
