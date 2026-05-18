@@ -318,12 +318,17 @@ function computeWaypoints(
   const fr = Math.max(0, Math.min(cityRows - 1, Math.floor(fromY / cellH)))
   const tc = Math.max(0, Math.min(CITY_COLS - 1, Math.floor(toX / cellW)))
   const tr = Math.max(0, Math.min(cityRows - 1, Math.floor(toY / cellH)))
-  if (fc === tc || fr === tr) return []
-  // Route along the border (gap) between rows, not through cell centres
-  const borderY = fr < tr ? (fr + 1) * cellH : fr * cellH
+  if (fr === tr) return []  // same row: direct horizontal movement is fine
+  const borderY  = fr < tr ? (fr + 1) * cellH : fr * cellH
+  // Column border to use: the gap on the side of source/dest facing each other
+  // (or right gap for same-column). Vertical legs run along these gaps, not column centres.
+  const bxExit  = fc < tc ? (fc + 1) * cellW : fc < CITY_COLS - 1 ? (fc + 1) * cellW : fc * cellW
+  const bxEnter = fc < tc ? tc * cellW        : fc > 0             ? tc * cellW        : (tc + 1) * cellW
   return [
-    { x: (fc + 0.5) * cellW, y: borderY },  // exit source cell to row border
-    { x: (tc + 0.5) * cellW, y: borderY },  // travel along the road gap
+    { x: bxExit,  y: (fr + 0.5) * cellH },  // exit source col to column-border gap
+    { x: bxExit,  y: borderY },              // travel down/up to row-border gap
+    { x: bxEnter, y: borderY },              // travel along row gap to dest column gap
+    { x: bxEnter, y: (tr + 0.5) * cellH },  // travel along dest column gap
   ]
 }
 
