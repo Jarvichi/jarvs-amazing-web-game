@@ -975,6 +975,7 @@ export function CityBuilder({ onBack }: Props) {
       rarity: card.rarity,
       spawnedUnitName,
       affinityWith,
+      stock: {},
     }
     save(placeCard(city, pickerIndex, cell))
     setScreen('city')

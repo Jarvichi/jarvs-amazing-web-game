@@ -1,8 +1,10 @@
 import React from 'react'
 import {
-  CityState, CITY_COLS, CITY_ROWS,
+  CityState, CITY_COLS, CITY_ROWS, CELL_PX,
   spawnerUnitCount, getNeighbourIndices,
   getRowDistrict, DISTRICT_INFO,
+  roadTier, cellCenter,
+  RESOURCE_ICONS, ResourceType,
 } from '../../../game/cityBuilder'
 import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
 import { BuilderWalker } from '../CityBuilder'
@@ -51,10 +53,11 @@ export function CityGrid({
           const district    = getRowDistrict(city, row)
           const distColor   = DISTRICT_INFO[district]?.color ?? 'transparent'
           const isRowStart  = col === 0
+          const tier = roadTier((city.roadWear ?? [])[i] ?? 0)
           return (
             <button
               key={i}
-              className={`city-cell u-col u-items-c u-just-c u-pointer u-relative${cell ? ' city-cell--occupied' : ''}${cell && bulldozerMode ? ' city-cell--bulldoze' : ''}`}
+              className={`city-cell u-col u-items-c u-just-c u-pointer u-relative${cell ? ' city-cell--occupied' : ''}${cell && bulldozerMode ? ' city-cell--bulldoze' : ''}${tier > 0 ? ` city-cell--road-${tier}` : ''}`}
               style={district !== 'none' && isRowStart ? { boxShadow: `inset 4px 0 0 ${distColor}` } : undefined}
               onClick={() => onCellTap(i)}
               title={cell ? (bulldozerMode ? `${cell.cardName} — tap to demolish` : `${cell.cardName} — tap to inspect`) : 'Empty — tap to place'}
@@ -146,6 +149,28 @@ export function CityGrid({
             <AnimatedSpriteImg name="Builder" frameCount={3} fps={8} className="city-walker-sprite" />
           </div>
         ))}
+      </div>
+
+      {/* Carrier overlay */}
+      <div className="city-unit-overlay city-carrier-overlay">
+        {(city.carriers ?? []).map(carrier => {
+          const rows = city.rows ?? CITY_ROWS
+          const f    = cellCenter(carrier.fromCell, rows)
+          const t    = cellCenter(carrier.toCell,   rows)
+          // Scale positions to actual overlay dimensions
+          const overlayW = CITY_COLS * CELL_PX
+          const overlayH = rows * CELL_PX
+          const scaleX = worldRef.current ? worldRef.current.clientWidth  / overlayW : 1
+          const scaleY = worldRef.current ? worldRef.current.clientHeight / overlayH : 1
+          const x = (f.x + (t.x - f.x) * carrier.progress) * scaleX
+          const y = (f.y + (t.y - f.y) * carrier.progress) * scaleY
+          const res = Object.keys(carrier.carrying)[0] as ResourceType
+          return (
+            <div key={carrier.id} className="city-carrier" style={{ left: Math.round(x), top: Math.round(y) }}>
+              <span className="city-carrier-icon">{RESOURCE_ICONS[res]}</span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )

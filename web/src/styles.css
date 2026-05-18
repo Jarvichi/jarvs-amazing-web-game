@@ -9005,6 +9005,12 @@ html.light-mode .action-btn {
 .city-cell--occupied         { background: #244d1e; }
 .city-cell--occupied:hover   { background: #4a1010; }
 
+/* Road wear tiers — subtle background overlay on cells */
+.city-cell--road-1 { background-image: repeating-linear-gradient(45deg, rgba(120,80,20,0.10) 0 2px, transparent 2px 6px); }
+.city-cell--road-2 { background-image: repeating-linear-gradient(45deg, rgba(100,90,70,0.18) 0 2px, transparent 2px 5px); }
+.city-cell--occupied.city-cell--road-1,
+.city-cell--occupied.city-cell--road-2 { background-image: none; }
+
 .city-cell-sprite  { width: 65%; height: 65%; max-width: 36px; max-height: 36px; image-rendering: pixelated; }
 
 .city-cell-level {
@@ -9099,6 +9105,28 @@ html.light-mode .action-btn {
   font-weight: bold;
   line-height: 1;
 }
+
+.city-carrier-overlay { position: absolute; inset: 0; pointer-events: none; }
+
+.city-carrier {
+  position:   absolute;
+  width:      14px;
+  height:     14px;
+  transform:  translate(-50%, -50%);
+  background: rgba(20, 30, 20, 0.75);
+  border:     1px solid #33ff33;
+  border-radius: 50%;
+  display:    flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 8;
+}
+
+.city-carrier-icon {
+  font-size: 8px;
+  line-height: 1;
+}
+
 
 /* Builder walkers (construction) */
 .city-builder-walker {
