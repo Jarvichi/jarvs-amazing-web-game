@@ -45,6 +45,31 @@ const SPAWN_DEFENSE: Record<CardRarity, number> = { common: 1, uncommon: 2, rare
 /** Wheat consumed per minute by a spawn building (units need feeding). */
 const FOOD_CONSUME_RATE: Record<CardRarity, number> = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6, shiny: 5, holofoil: 5, glass: 5 }
 
+/** Bread consumed per minute per spawner unit — quality food above the wheat baseline. */
+const BREAD_CONSUME_RATE = 0.5
+/** Wood consumed per minute per spawner unit — maintenance / heating. */
+const WOOD_CONSUME_RATE  = 0.3
+/** Wood consumption multiplier in winter (heating demand). */
+const WINTER_WOOD_MULT   = 1.8
+/** Happiness target bonus (points) when bread coverage ≥ 80%. */
+const BREAD_HAPPY_BONUS  = 20
+/** Happiness target penalty (points) when wood supply covers < 50% of demand. */
+const WOOD_SHORTAGE_PENALTY = 15
+
+/**
+ * Buildings that convert an input resource into their output resource.
+ * The value is the amount of input consumed per unit of output produced.
+ * e.g. Windmill produces 1 bread/min and consumes 2 wheat/min.
+ */
+const BUILDING_CONVERSION_COST: Record<string, Partial<ResourceStock>> = {
+  'Windmill': { wheat: 2 },
+}
+
+/** Returns the per-unit input cost for a conversion building (empty if none). */
+export function getBuildingConsumes(name: string): Partial<ResourceStock> {
+  return BUILDING_CONVERSION_COST[name] ?? {}
+}
+
 /** Resource cost to place a spawner of a given rarity. */
 export const SPAWNER_PLACE_COST: Record<CardRarity, Partial<ResourceStock>> = {
   common:    { wheat: 20 },
@@ -1118,6 +1143,9 @@ export function tickCity(state: CityState): CityState {
   const defense   = cityDefense(state)
   const population = Math.max(cityPopulation(state), 1)
 
+  // Deferred bread from conversion buildings (applied after loop with wheat-efficiency check)
+  let windmillBreadPending = 0
+
   for (let i = 0; i < state.grid.length; i++) {
     const cell = state.grid[i]
     if (!cell) continue
@@ -1151,7 +1179,13 @@ export function tickCity(state: CityState): CityState {
                            : res === 'wood'  ? 1 + si.wood
                            : res === 'ore'   ? 1 + si.ore
                            : 1
-          newResources[res] = (newResources[res] ?? 0) + rate * masteryMult * synergyMult * Math.max(0, seasonMult) * distProdMult * minutes
+          const amount = rate * masteryMult * synergyMult * Math.max(0, seasonMult) * distProdMult * minutes
+          // Conversion buildings: defer bread production — it depends on wheat availability
+          if (BUILDING_CONVERSION_COST[cell.cardName] && res === 'bread') {
+            windmillBreadPending += amount
+          } else {
+            newResources[res] = (newResources[res] ?? 0) + amount
+          }
         }
       }
     }
@@ -1165,10 +1199,41 @@ export function tickCity(state: CityState): CityState {
     }
   }
 
-  // Base happiness target from food and defence
+  // ── Windmill wheat → bread conversion ────────────────────────────────────────
+  if (windmillBreadPending > 0) {
+    const wheatNeeded = windmillBreadPending * 2   // 2 wheat consumed per 1 bread produced
+    const eff = newResources.wheat > 0
+      ? Math.min(1, newResources.wheat / wheatNeeded)
+      : 0
+    newResources.bread  = (newResources.bread ?? 0) + windmillBreadPending * eff
+    newResources.wheat  = Math.max(0, (newResources.wheat ?? 0) - wheatNeeded * eff)
+  }
+
+  // ── Resident resource consumption (bread & wood) ──────────────────────────
+  let totalBreadDemand = 0
+  let totalWoodDemand  = 0
+  for (let i = 0; i < state.grid.length; i++) {
+    const cell = state.grid[i]
+    if (!cell?.spawnedUnitName || (newHappy[i] ?? 100) <= 0) continue
+    const uCount   = spawnerUnitCount(state, cell.cardName)
+    totalBreadDemand += BREAD_CONSUME_RATE * uCount * minutes
+    const woodMult   = season === 'winter' ? WINTER_WOOD_MULT : 1
+    totalWoodDemand  += WOOD_CONSUME_RATE * uCount * woodMult * minutes
+  }
+
+  const breadConsumed  = Math.min(newResources.bread ?? 0, totalBreadDemand)
+  const woodConsumed   = Math.min(newResources.wood  ?? 0, totalWoodDemand)
+  const breadCoverage  = totalBreadDemand > 0 ? breadConsumed / totalBreadDemand : 1
+  const woodShort      = totalWoodDemand  > 0 && woodConsumed < totalWoodDemand * 0.5
+  newResources.bread   = Math.max(0, (newResources.bread ?? 0) - breadConsumed)
+  newResources.wood    = Math.max(0, (newResources.wood  ?? 0) - woodConsumed)
+
+  // ── Base happiness target from food, defence, bread quality, wood supply ──
   const foodScore    = Math.min(100, (newResources.wheat / population) * 5)
   const defenseScore = Math.min(100, (defense / population) * 8)
-  const baseTarget   = Math.round(foodScore * 0.6 + defenseScore * 0.4)
+  const breadScore   = Math.round(breadCoverage * BREAD_HAPPY_BONUS)
+  const woodScore    = woodShort ? -WOOD_SHORTAGE_PENALTY : 0
+  const baseTarget   = Math.min(100, Math.max(0, Math.round(foodScore * 0.6 + defenseScore * 0.4) + breadScore + woodScore))
 
   const gridRows = state.rows ?? CITY_ROWS
   for (let i = 0; i < state.grid.length; i++) {
@@ -1489,7 +1554,7 @@ export interface CoreBuilding {
 }
 
 export const CORE_BUILDINGS: CoreBuilding[] = [
-  { name: 'Windmill',   goldCost:  500, rarity: 'common', hint: 'Grinds wheat into bread. +50% output next to a Farm.' },
+  { name: 'Windmill',   goldCost:  500, rarity: 'common', hint: 'Needs wheat to run. +50% output next to a Farm.' },
   { name: 'Granary',    goldCost:  600, rarity: 'common', hint: 'Extends all resource storage caps by 200.' },
   { name: 'Watchtower', goldCost:  800, rarity: 'common', hint: 'Garrisoned lookout. Contributes to city defense.' },
   { name: 'Quarry',     goldCost:  700, rarity: 'common', hint: 'Mines raw ore and cuts stone into planks.' },
@@ -1661,14 +1726,33 @@ export function resourceProductionRate(state: CityState): Partial<ResourceStock>
 }
 
 export function resourceConsumptionRate(state: CityState): Partial<ResourceStock> {
+  const season = currentSeason()
+  const si     = SEASON_INFO[season]
   const rates: Partial<ResourceStock> = {}
+
   for (let i = 0; i < state.grid.length; i++) {
     const cell = state.grid[i]
-    if (!cell?.spawnedUnitName) continue
+    if (!cell) continue
     const happy = (state.happiness[i] ?? 100) > 0
-    if (!happy) continue
-    const unitCount = spawnerUnitCount(state, cell.cardName)
-    rates.wheat = (rates.wheat ?? 0) + FOOD_CONSUME_RATE[cell.rarity] * unitCount
+
+    if (cell.spawnedUnitName && happy) {
+      const unitCount  = spawnerUnitCount(state, cell.cardName)
+      const hungerMult = 1 + si.hunger
+      // Wheat (base food)
+      rates.wheat = (rates.wheat ?? 0) + FOOD_CONSUME_RATE[cell.rarity] * unitCount * hungerMult
+      // Bread (quality food)
+      rates.bread = (rates.bread ?? 0) + BREAD_CONSUME_RATE * unitCount
+      // Wood (heating/maintenance — higher in winter)
+      const woodMult = season === 'winter' ? WINTER_WOOD_MULT : 1
+      rates.wood  = (rates.wood  ?? 0) + WOOD_CONSUME_RATE * unitCount * woodMult
+    }
+
+    // Windmill wheat input (2 wheat consumed per 1 bread produced)
+    if (!cell.spawnedUnitName && BUILDING_CONVERSION_COST[cell.cardName]) {
+      const breadRate = getBuildingProduces(cell.cardName).bread ?? 0
+      rates.wheat = (rates.wheat ?? 0) + breadRate * 2
+    }
   }
+
   return rates
 }

@@ -2,7 +2,8 @@ import React from 'react'
 import {
   CityState, SPAWNER_PLACE_COST, RESOURCE_ICONS, ResourceType,
   INCOME_SPAWN, INCOME_UTILITY, INCOME_WALL,
-  canAffordPlacement, getBuildingProduces, masteryOutputMultiplier, getCardMasteryLevel,
+  canAffordPlacement, getBuildingProduces, getBuildingConsumes,
+  masteryOutputMultiplier, getCardMasteryLevel,
   CoreBuilding, CORE_BUILDINGS, canAffordCoreBuild,
 } from '../../../game/cityBuilder'
 import { CollectionEntry, getMasteryXp, masteryLevel } from '../../../game/collection'
@@ -93,9 +94,11 @@ export function CardPicker({
                 </div>
                 <div className="city-picker-grid">
                   {filteredCore.map(building => {
-                    const affordable    = canAffordCoreBuild(city, building)
-                    const produces      = getBuildingProduces(building.name)
+                    const affordable      = canAffordCoreBuild(city, building)
+                    const produces        = getBuildingProduces(building.name)
+                    const consumes        = getBuildingConsumes(building.name)
                     const producesEntries = Object.entries(produces).filter(([, v]) => (v ?? 0) > 0)
+                    const consumesEntries = Object.entries(consumes).filter(([, v]) => (v ?? 0) > 0)
                     return (
                       <button
                         key={building.name}
@@ -117,6 +120,13 @@ export function CardPicker({
                           <div className="city-picker-produces">
                             {producesEntries.map(([r, amt]) =>
                               `+${amt} ${RESOURCE_ICONS[r as ResourceType]}/min`
+                            ).join(' ')}
+                          </div>
+                        )}
+                        {consumesEntries.length > 0 && (
+                          <div className="city-picker-cost">
+                            {consumesEntries.map(([r, amt]) =>
+                              `−${amt} ${RESOURCE_ICONS[r as ResourceType]}/min`
                             ).join(' ')}
                           </div>
                         )}
