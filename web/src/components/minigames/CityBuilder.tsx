@@ -1334,7 +1334,7 @@ export function CityBuilder({ onBack }: Props) {
             onClick={toggleBulldozer}
             title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}
           >{bulldozerMode ? '🧱 DEMOLISH' : '👷 BUILD'}</button>
-          <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTIFICATIONS</button>
+          <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTS</button>
           <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
           <button className="filter-btn" onClick={() => setScreen('chronicle')} title="View city history">📜 HISTORY</button>
           <button
@@ -1347,7 +1347,7 @@ export function CityBuilder({ onBack }: Props) {
               className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
               onClick={handleExpand}
               title={affordable ? `Expand city to ${cityRows + 1} rows` : 'Not enough resources to expand'}
-            >🏢 EXPAND CITY</button>
+            >🏢 EXPAND</button>
           )}
         </div>
 
