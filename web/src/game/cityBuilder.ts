@@ -254,6 +254,8 @@ export interface CityState {
   lastAttack:     AttackEvent | null
   /** Temporary defense bonus from actively patrolling residents. */
   patrolBonus?:   number
+  /** Chronological log of notable city events, newest first (max 50). */
+  chronicle:      string[]
 }
 
 // ── Storage ───────────────────────────────────────────────────────────────────
@@ -278,6 +280,7 @@ function defaultState(): CityState {
     builderQueue:   [],
     builderCount:   DEFAULT_BUILDER_COUNT,
     lastAttack:     null,
+    chronicle:      [],
   }
 }
 
@@ -316,6 +319,7 @@ export function loadCityState(): CityState {
       builderQueue:   parsed.builderQueue ?? [],
       builderCount:   parsed.builderCount ?? DEFAULT_BUILDER_COUNT,
       lastAttack:     parsed.lastAttack ?? null,
+      chronicle:      parsed.chronicle ?? [],
     }
   } catch (err) {
     logError('loadCityState failed', err as Record<string, unknown>)
@@ -329,6 +333,21 @@ export function saveCityState(state: CityState): void {
   } catch (err) {
     logError('saveCityState failed', err as Record<string, unknown>)
   }
+}
+
+// ── Chronicle helpers ─────────────────────────────────────────────────────────
+
+const CHRONICLE_MAX = 50
+
+function fmtTime(ts: number): string {
+  const d = new Date(ts)
+  return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+}
+
+export function addChronicleEvent(state: CityState, msg: string): CityState {
+  const entry = `[${fmtTime(Date.now())}] ${msg}`
+  const chronicle = [entry, ...(state.chronicle ?? [])].slice(0, CHRONICLE_MAX)
+  return { ...state, chronicle }
 }
 
 // ── Mastery helpers ───────────────────────────────────────────────────────────
@@ -514,8 +533,15 @@ function processAttack(state: CityState): CityState {
     destroyedBuildings,
   }
 
+  const attackMsg =
+    outcome === 'repelled' ? `⚔ Attack repelled — +${goldEarned.toLocaleString()} gold earned` :
+    outcome === 'partial'  ? `⚠ City raided — ${stolenGold.toLocaleString()} gold stolen` :
+    `💀 City defeated — ${stolenGold.toLocaleString()} gold stolen${destroyedBuildings.length > 0 ? `, lost: ${destroyedBuildings.join(', ')}` : ''}`
+
+  const stateWithChronicle = addChronicleEvent(state, attackMsg)
+
   return {
-    ...state,
+    ...stateWithChronicle,
     gold:           Math.max(0, newGold),
     resources:      newResources,
     grid:           newGrid,
@@ -608,6 +634,7 @@ export function tickCity(state: CityState): CityState {
   const now2 = now
   const remainingQueue = state.builderQueue.filter(e => e.completesAt > now2)
   const completedBuilds = state.builderQueue.filter(e => e.completesAt <= now2)
+  const completedFortNames: string[] = []
   for (const entry of completedBuilds) {
     if (newForts.length < MAX_TOTAL_FORTS) {
       newForts.push({
@@ -617,6 +644,7 @@ export function tickCity(state: CityState): CityState {
         maxHp:        FORT_MAX_HP[entry.rarity],
         attacksTaken: 0,
       })
+      completedFortNames.push(entry.cardName)
     }
   }
 
@@ -633,6 +661,10 @@ export function tickCity(state: CityState): CityState {
     happiness:      newHappy,
     fortifications: newForts,
     builderQueue:   remainingQueue,
+  }
+
+  for (const name of completedFortNames) {
+    result = addChronicleEvent(result, `🏗 ${name} construction complete`)
   }
 
   // Process any pending attacks — batch if more than one was missed while offline
@@ -709,7 +741,8 @@ export function placeCard(state: CityState, index: number, cell: CityCell): City
     }
   }
 
-  return { ...state, grid, happiness, resources }
+  const placed = addChronicleEvent({ ...state, grid, happiness, resources }, `🏛 ${cell.cardName} placed`)
+  return placed
 }
 
 /** Invite a vacant unit back into their building, restoring partial happiness. */
@@ -717,15 +750,18 @@ export function reoccupyBuilding(state: CityState, index: number): CityState {
   const cell = state.grid[index]
   if (!cell?.spawnedUnitName) return state
   if ((state.happiness[index] ?? 100) > 0) return state
-  return { ...state, happiness: { ...state.happiness, [index]: 50 } }
+  const next = { ...state, happiness: { ...state.happiness, [index]: 50 } }
+  return addChronicleEvent(next, `🏠 ${cell.spawnedUnitName} moved back into ${cell.cardName}`)
 }
 
 export function removeCard(state: CityState, index: number): CityState {
+  const cell = state.grid[index]
   const grid = [...state.grid]
   grid[index] = undefined
   const happiness = { ...state.happiness }
   delete happiness[index]
-  return { ...state, grid, happiness }
+  const next = { ...state, grid, happiness }
+  return cell ? addChronicleEvent(next, `🔨 ${cell.cardName} demolished`) : next
 }
 
 // ── Fortification helpers ─────────────────────────────────────────────────────
@@ -756,12 +792,13 @@ export function addFortification(state: CityState, cardName: string, rarity: Car
   const buildMinutes = FORT_BUILD_MINUTES[rarity]
   const completesAt = Date.now() + buildMinutes * 60_000
   const entry: BuildQueueEntry = { cardName, rarity, completesAt }
-  return {
+  const next = {
     ...state,
     gold:         state.gold - cost.gold,
     resources:    newResources,
     builderQueue: [...state.builderQueue, entry],
   }
+  return addChronicleEvent(next, `🧱 ${cardName} fortification queued`)
 }
 
 /** Cost to hire the next extra builder (beyond DEFAULT_BUILDER_COUNT). */
@@ -816,13 +853,14 @@ export function expandCity(state: CityState): CityState | null {
     newResources[res] = Math.max(0, (state.resources[res] ?? 0) - amt)
   }
 
-  return {
+  const next = {
     ...state,
     rows:      newRows,
     grid:      newGrid,
     gold:      state.gold - cost.gold,
     resources: newResources,
   }
+  return addChronicleEvent(next, `🏙 City expanded to ${newRows} rows`)
 }
 
 // ── Affordability ─────────────────────────────────────────────────────────────

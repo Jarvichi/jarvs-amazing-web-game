@@ -45,6 +45,7 @@ import { CityGrid } from './citybuilder/CityGrid'
 import { CityPerimeter } from './citybuilder/CityPerimeter'
 import { AttackStrip } from './citybuilder/AttackStrip'
 import { ResourceStrip } from './citybuilder/ResourceStrip'
+import { ChroniclePanel } from './citybuilder/ChroniclePanel'
 import { OverlayScreen } from '../ui/OverlayScreen'
 
 
@@ -486,7 +487,7 @@ interface Props {
   onBack: () => void
 }
 
-type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence'
+type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence' | 'chronicle'
 
 export function CityBuilder({ onBack }: Props) {
   const [city, setCity] = useState<CityState>(() => tickCity(loadCityState()))
@@ -1197,6 +1198,17 @@ export function CityBuilder({ onBack }: Props) {
     )
   }
 
+  // ── Chronicle sub-screen ─────────────────────────────────────────────────────
+
+  if (screen === 'chronicle') {
+    return (
+      <ChroniclePanel
+        chronicle={city.chronicle ?? []}
+        onBack={() => setScreen('city')}
+      />
+    )
+  }
+
   // ── Main city view ────────────────────────────────────────────────────────────
 
   return (
@@ -1292,6 +1304,7 @@ export function CityBuilder({ onBack }: Props) {
           >{bulldozerMode ? '🧱 DEMOLISH' : '👷 BUILD'}</button>
           <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTIFICATIONS</button>
           <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
+          <button className="filter-btn" onClick={() => setScreen('chronicle')} title="View city history">📜 HISTORY</button>
           {cityRows < MAX_CITY_ROWS && expansionCost && (
             <button
               className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}

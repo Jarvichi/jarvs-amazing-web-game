@@ -9157,6 +9157,32 @@ html.light-mode .action-btn {
 .city-thought-row--unhappy .city-thought-name { color: #c07050; }
 .city-thought-row--unhappy .city-thought-text { color: #b08060; }
 
+/* ── City Chronicle ──────────────────────────────────────────────────────── */
+.city-chronicle-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: monospace;
+  font-size: 11px;
+}
+.city-chronicle-entry {
+  padding: 4px 6px;
+  border-left: 2px solid #2a5a2a;
+  background: #040a04;
+  color: #90b890;
+  line-height: 1.4;
+}
+.city-chronicle-entry:hover { background: #081408; }
+.city-chronicle-empty {
+  color: #508050;
+  font-style: italic;
+  padding: 16px;
+  text-align: center;
+}
+
 /* ── Misc city UI ─────────────────────────────────────────────────────────── */
 
 .city-section-title {
