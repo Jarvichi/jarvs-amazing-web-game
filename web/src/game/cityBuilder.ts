@@ -51,10 +51,12 @@ const BREAD_CONSUME_RATE = 0.5
 const WOOD_CONSUME_RATE  = 0.3
 /** Wood consumption multiplier in winter (heating demand). */
 const WINTER_WOOD_MULT   = 1.8
-/** Happiness target bonus (points) when bread coverage ≥ 80%. */
-const BREAD_HAPPY_BONUS  = 20
+/** Happiness target bonus (points) when bread coverage is full. */
+const BREAD_HAPPY_BONUS    = 20
+/** Happiness target penalty (points) when bread coverage is zero. */
+const BREAD_SHORTAGE_PENALTY = 15
 /** Happiness target penalty (points) when wood supply covers < 50% of demand. */
-const WOOD_SHORTAGE_PENALTY = 15
+const WOOD_SHORTAGE_PENALTY  = 15
 
 /**
  * Buildings that convert an input resource into their output resource.
@@ -1234,7 +1236,10 @@ export function tickCity(state: CityState): CityState {
   // ── Base happiness target from food, defence, bread quality, wood supply ──
   const foodScore    = Math.min(100, (newResources.wheat / population) * 5)
   const defenseScore = Math.min(100, (defense / population) * 8)
-  const breadScore   = Math.round(breadCoverage * BREAD_HAPPY_BONUS)
+  // Linear scale: -BREAD_SHORTAGE_PENALTY at 0% coverage → +BREAD_HAPPY_BONUS at 100%
+  const breadScore   = breadCoverage >= 1
+    ? BREAD_HAPPY_BONUS
+    : Math.round(breadCoverage * (BREAD_HAPPY_BONUS + BREAD_SHORTAGE_PENALTY) - BREAD_SHORTAGE_PENALTY)
   const woodScore    = woodShort ? -WOOD_SHORTAGE_PENALTY : 0
   const baseTarget   = Math.min(100, Math.max(0, Math.round(foodScore * 0.6 + defenseScore * 0.4) + breadScore + woodScore))
 

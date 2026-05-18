@@ -9597,6 +9597,16 @@ html.light-mode .action-btn {
 }
 .city-cell-plague { font-size: 11px; top: 3px; }
 
+.city-cell-bread-warn {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  font-size: 11px;
+  pointer-events: none;
+  animation: city-pulse 2s ease-in-out infinite;
+  filter: grayscale(0.3);
+}
+
 .city-disaster-btn {
   border-color: #884400 !important;
   color: #ff8800 !important;
