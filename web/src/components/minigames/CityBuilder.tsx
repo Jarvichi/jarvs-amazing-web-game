@@ -175,6 +175,13 @@ const SLOT_GRID_POS: [number, number][] = [
   [3, 0], [3, 1], [3, 2], [3, 3],
 ]
 
+export interface VisualCarrier {
+  id:       string
+  carrying: Partial<Record<ResourceType, number>>
+  x: number; y: number; vx: number; vy: number
+  waypoints: { x: number; y: number }[]
+}
+
 export interface BuilderWalker {
   queueIndex: number
   cardName: string
@@ -562,6 +569,8 @@ export function CityBuilder({ onBack }: Props) {
   const [toast, setToast] = useState<string | null>(null)
   const [walkers, setWalkers] = useState<Walker[]>([])
   const [builderWalkers, setBuilderWalkers] = useState<BuilderWalker[]>([])
+  const [visualCarriers, setVisualCarriers] = useState<VisualCarrier[]>([])
+  const visualCarriersRef = useRef<VisualCarrier[]>([])
   const [selectedWalker, setSelectedWalker] = useState<{ cellIndex: number; unitIndex: number } | null>(null)
   const [selectedBuildingCell, setSelectedBuildingCell] = useState<number | null>(null)
   const [buildingTab, setBuildingTab] = useState<'residents' | 'upgrade'>('residents')
@@ -907,6 +916,61 @@ export function CityBuilder({ onBack }: Props) {
           ringX, ringY, ringVx, ringVy, ringPhase, ringTargetX, ringTargetY
         }
       }))
+
+      // ── Animate resource carriers ─────────────────────────────────────────────
+      const gameCarriers = cityRef.current?.carriers ?? []
+      const gameCarrierIds = new Set(gameCarriers.map(c => c.id))
+      const cityRows = cityRef.current?.rows ?? CITY_ROWS
+
+      // Sync: keep only carriers still in game state
+      let nextVis = visualCarriersRef.current.filter(vc => gameCarrierIds.has(vc.id))
+
+      // Spawn new carriers that haven't been given a visual yet
+      const visIds = new Set(nextVis.map(vc => vc.id))
+      for (const gc of gameCarriers) {
+        if (visIds.has(gc.id)) continue
+        const c1 = gc.fromCell % CITY_COLS, r1 = Math.floor(gc.fromCell / CITY_COLS)
+        const sx = (c1 + 0.5) * overlayW / CITY_COLS
+        const sy = (r1 + 0.5) * overlayH / cityRows
+        const c2 = gc.toCell % CITY_COLS, r2 = Math.floor(gc.toCell / CITY_COLS)
+        const tx = (c2 + 0.5) * overlayW / CITY_COLS
+        const ty = (r2 + 0.5) * overlayH / cityRows
+        const wps = computeWaypoints(sx, sy, tx, ty, overlayW, overlayH, cityRows)
+        const first = wps.length > 0 ? wps[0] : { x: tx, y: ty }
+        const dd = Math.sqrt((first.x - sx) ** 2 + (first.y - sy) ** 2)
+        nextVis.push({
+          id: gc.id, carrying: gc.carrying,
+          x: sx, y: sy,
+          vx: dd > 0 ? (first.x - sx) / dd * SPEED : 0,
+          vy: dd > 0 ? (first.y - sy) / dd * SPEED : 0,
+          waypoints: wps,
+        })
+      }
+
+      // Move each carrier toward its next waypoint
+      nextVis = nextVis.map(vc => {
+        const gc = gameCarriers.find(c => c.id === vc.id)
+        const destX = gc ? ((gc.toCell % CITY_COLS) + 0.5) * overlayW / CITY_COLS : vc.x
+        const destY = gc ? (Math.floor(gc.toCell / CITY_COLS) + 0.5) * overlayH / cityRows : vc.y
+        const target = vc.waypoints.length > 0 ? vc.waypoints[0] : { x: destX, y: destY }
+        let { x, y, vx, vy } = vc
+        let waypoints = vc.waypoints
+        const dx = target.x - x, dy = target.y - y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < ARRIVE_DIST && waypoints.length > 0) {
+          waypoints = waypoints.slice(1)
+          const next = waypoints.length > 0 ? waypoints[0] : { x: destX, y: destY }
+          const nd = Math.sqrt((next.x - x) ** 2 + (next.y - y) ** 2)
+          if (nd > 0) { vx = (next.x - x) / nd * SPEED; vy = (next.y - y) / nd * SPEED }
+        } else if (dist > 0) {
+          vx = dx / dist * SPEED; vy = dy / dist * SPEED
+        }
+        x += vx; y += vy
+        return { ...vc, x, y, vx, vy, waypoints }
+      })
+
+      visualCarriersRef.current = nextVis
+      setVisualCarriers([...nextVis])
     }, 100)
     return () => clearInterval(id)
   }, [])
@@ -1441,6 +1505,7 @@ export function CityBuilder({ onBack }: Props) {
           city={city}
           walkers={walkers}
           builderWalkers={builderWalkers}
+          visualCarriers={visualCarriers}
           bulldozerMode={bulldozerMode}
           worldRef={worldRef}
           onCellTap={handleCellTap}
