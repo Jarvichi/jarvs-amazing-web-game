@@ -9157,6 +9157,20 @@ html.light-mode .action-btn {
 .city-thought-row--unhappy .city-thought-name { color: #c07050; }
 .city-thought-row--unhappy .city-thought-text { color: #b08060; }
 
+/* ── Trade Routes ────────────────────────────────────────────────────────── */
+.city-trade-btn--ready { color: #ffdd44; border-color: #887700; }
+.city-trade-desc { font-size: 11px; color: #708870; margin-bottom: 8px; }
+.city-trade-offer { border: 1px solid #2a5a2a; padding: 10px; background: #040a04; }
+.city-trade-offer-title { color: #60c860; font-size: 11px; letter-spacing: 1px; margin-bottom: 6px; }
+.city-trade-expires { color: #507050; margin-left: 8px; font-size: 10px; }
+.city-trade-offer-body { color: #a0c0a0; font-size: 12px; margin-bottom: 8px; }
+.city-trade-warn { color: #c07050; font-size: 11px; margin-bottom: 6px; }
+.city-trade-caravan { border: 1px solid #556622; padding: 10px; background: #040a04; }
+.city-trade-caravan-title { color: #aacc44; font-size: 11px; letter-spacing: 1px; margin-bottom: 6px; }
+.city-trade-caravan-body { color: #a0c0a0; font-size: 12px; margin-bottom: 4px; }
+.city-trade-returns { color: #708870; font-size: 10px; }
+.city-trade-waiting { color: #508050; font-style: italic; padding: 12px 0; text-align: center; font-size: 12px; }
+
 /* ── Seasonal Cycles ─────────────────────────────────────────────────────── */
 .city-season-chip {
   color: #90d090;

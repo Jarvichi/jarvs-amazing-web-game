@@ -31,6 +31,7 @@ import {
   nextBuilderCost, buyBuilder,
   checkMilestones, MilestoneDef,
   currentSeason,
+  dispatchCaravan,
 } from '../../game/cityBuilder'
 import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { Card, UnitTemplate } from '../../game/types'
@@ -49,6 +50,7 @@ import { AttackStrip } from './citybuilder/AttackStrip'
 import { ResourceStrip } from './citybuilder/ResourceStrip'
 import { ChroniclePanel } from './citybuilder/ChroniclePanel'
 import { MilestoneBanner } from './citybuilder/MilestoneBanner'
+import { TradeRouteModal } from './citybuilder/TradeRouteModal'
 import { OverlayScreen } from '../ui/OverlayScreen'
 
 
@@ -496,6 +498,7 @@ export function CityBuilder({ onBack }: Props) {
   const [city, setCity] = useState<CityState>(() => tickCity(loadCityState()))
   const [screen, setScreen] = useState<SubScreen>('city')
   const [pendingMilestone, setPendingMilestone] = useState<MilestoneDef | null>(null)
+  const [showTrade, setShowTrade] = useState(false)
   const [pickerIndex, setPickerIndex] = useState<number>(0)
   const [levelCard, setLevelCard] = useState<string | null>(null)
   const [toast, setToast] = useState<string | null>(null)
@@ -1238,6 +1241,19 @@ export function CityBuilder({ onBack }: Props) {
           />
         )}
 
+        {showTrade && (
+          <TradeRouteModal
+            city={city}
+            currentTime={currentTime}
+            onDispatch={() => {
+              const next = dispatchCaravan(city)
+              if (next) save(next)
+              else showToast('Cannot dispatch caravan right now.')
+            }}
+            onClose={() => setShowTrade(false)}
+          />
+        )}
+
         {attackReport && (
           <AttackReportModal
             attackReport={attackReport}
@@ -1321,6 +1337,11 @@ export function CityBuilder({ onBack }: Props) {
           <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTIFICATIONS</button>
           <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
           <button className="filter-btn" onClick={() => setScreen('chronicle')} title="View city history">📜 HISTORY</button>
+          <button
+            className={`filter-btn${city.tradeOffer && !city.activeCaravan ? ' city-trade-btn--ready' : ''}`}
+            onClick={() => setShowTrade(true)}
+            title="Trade resources via caravan"
+          >🐪 TRADE{city.activeCaravan ? ' (away)' : city.tradeOffer ? ' !' : ''}</button>
           {cityRows < MAX_CITY_ROWS && expansionCost && (
             <button
               className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}

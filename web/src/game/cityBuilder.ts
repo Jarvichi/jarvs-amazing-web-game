@@ -330,6 +330,23 @@ export interface AttackEvent {
   count?:              number   // set when summarising multiple missed attacks
 }
 
+export type TradeDirection = 'sell' | 'buy'
+
+export interface TradeOffer {
+  resource:   ResourceType
+  direction:  TradeDirection
+  /** Amount of resource traded. */
+  amount:     number
+  /** Gold received (sell) or paid (buy). */
+  gold:       number
+  expiresAt:  number
+}
+
+export interface ActiveCaravan {
+  offer:       TradeOffer
+  returnsAt:   number
+}
+
 export interface CityState {
   grid:           (CityCell | undefined)[]
   gold:           number
@@ -358,6 +375,10 @@ export interface CityState {
   completedMilestones: string[]
   /** Total number of attacks processed (used for milestone checks). */
   attacksProcessed: number
+  /** Current trade offer available to dispatch (null = generating). */
+  tradeOffer:    TradeOffer | null
+  /** Caravan currently away on a trade mission. */
+  activeCaravan: ActiveCaravan | null
 }
 
 // ── Storage ───────────────────────────────────────────────────────────────────
@@ -385,6 +406,8 @@ function defaultState(): CityState {
     chronicle:           [],
     completedMilestones: [],
     attacksProcessed:    0,
+    tradeOffer:          null,
+    activeCaravan:       null,
   }
 }
 
@@ -426,6 +449,8 @@ export function loadCityState(): CityState {
       chronicle:           parsed.chronicle ?? [],
       completedMilestones: parsed.completedMilestones ?? [],
       attacksProcessed:    parsed.attacksProcessed ?? 0,
+      tradeOffer:          parsed.tradeOffer ?? null,
+      activeCaravan:       parsed.activeCaravan ?? null,
     }
   } catch (err) {
     logError('loadCityState failed', err as Record<string, unknown>)
@@ -887,6 +912,9 @@ export function tickCity(state: CityState): CityState {
     result = addChronicleEvent(result, `🏗 ${name} construction complete`)
   }
 
+  // Process trade routes (caravan returns, new offer generation)
+  result = processTrade(result, now)
+
   // Process any pending attacks — batch if more than one was missed while offline
   if (now >= result.nextAttackAt) {
     // Count how many attacks are overdue
@@ -1110,6 +1138,98 @@ export function goldIncomeRate(state: CityState): number {
 
 export function goldNetRate(state: CityState): number {
   return goldIncomeRate(state)
+}
+
+// ── Trade routes ──────────────────────────────────────────────────────────────
+
+/** New offer every 4 hours; caravan returns after 2 hours. */
+const TRADE_OFFER_INTERVAL_MS = 4 * 3600 * 1000
+const CARAVAN_RETURN_MS       = 2 * 3600 * 1000
+
+function generateTradeOffer(now: number): TradeOffer {
+  const resources: ResourceType[] = ['wheat', 'wood', 'ore', 'bread', 'planks', 'metal']
+  const resource  = resources[Math.floor(Math.random() * resources.length)]
+  const direction: TradeDirection = Math.random() < 0.6 ? 'sell' : 'buy'
+  // Base amounts and gold values per resource
+  const BASE: Record<ResourceType, { amount: number; goldPerUnit: number }> = {
+    wheat:  { amount: 100, goldPerUnit: 20  },
+    wood:   { amount: 80,  goldPerUnit: 25  },
+    ore:    { amount: 60,  goldPerUnit: 35  },
+    bread:  { amount: 50,  goldPerUnit: 50  },
+    planks: { amount: 40,  goldPerUnit: 60  },
+    metal:  { amount: 30,  goldPerUnit: 80  },
+  }
+  const { amount, goldPerUnit } = BASE[resource]
+  const jitter = 0.8 + Math.random() * 0.4  // ±20% variance
+  const finalAmount = Math.round(amount * jitter)
+  const finalGold   = Math.round(finalAmount * goldPerUnit * (direction === 'sell' ? 1 : 0.7))
+  return {
+    resource,
+    direction,
+    amount:    finalAmount,
+    gold:      finalGold,
+    expiresAt: now + TRADE_OFFER_INTERVAL_MS,
+  }
+}
+
+export function dispatchCaravan(state: CityState): CityState | null {
+  const offer = state.tradeOffer
+  if (!offer || state.activeCaravan) return null
+  if (Date.now() > offer.expiresAt) return null
+
+  let newGold      = state.gold
+  const newRes     = { ...state.resources }
+
+  if (offer.direction === 'sell') {
+    if (newRes[offer.resource] < offer.amount) return null
+    newRes[offer.resource] = Math.max(0, newRes[offer.resource] - offer.amount)
+  } else {
+    if (newGold < offer.gold) return null
+    newGold -= offer.gold
+  }
+
+  const caravan: ActiveCaravan = { offer, returnsAt: Date.now() + CARAVAN_RETURN_MS }
+  const next: CityState = {
+    ...state,
+    gold:          newGold,
+    resources:     newRes,
+    tradeOffer:    null,
+    activeCaravan: caravan,
+  }
+  return addChronicleEvent(next, `🐪 Caravan dispatched — trading ${offer.amount} ${offer.resource}`)
+}
+
+/** Processes caravan return and new offer generation inside tickCity. */
+function processTrade(state: CityState, now: number): CityState {
+  let next = state
+
+  // Resolve returning caravan
+  if (next.activeCaravan && now >= next.activeCaravan.returnsAt) {
+    const { offer } = next.activeCaravan
+    const newRes = { ...next.resources }
+    let newGold  = next.gold
+    if (offer.direction === 'sell') {
+      newGold += offer.gold
+    } else {
+      newRes[offer.resource] = (newRes[offer.resource] ?? 0) + offer.amount
+    }
+    const msg = offer.direction === 'sell'
+      ? `🐪 Caravan returned — +${offer.gold.toLocaleString()} gold from selling ${offer.amount} ${offer.resource}`
+      : `🐪 Caravan returned — +${offer.amount} ${offer.resource} delivered`
+    next = addChronicleEvent({ ...next, gold: newGold, resources: newRes, activeCaravan: null }, msg)
+  }
+
+  // Generate new offer if none present and not waiting on a caravan
+  if (!next.tradeOffer && !next.activeCaravan) {
+    next = { ...next, tradeOffer: generateTradeOffer(now) }
+  }
+
+  // Expire stale offer
+  if (next.tradeOffer && now > next.tradeOffer.expiresAt) {
+    next = { ...next, tradeOffer: generateTradeOffer(now) }
+  }
+
+  return next
 }
 
 // ── Card levelling ────────────────────────────────────────────────────────────
