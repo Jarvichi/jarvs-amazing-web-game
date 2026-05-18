@@ -30,6 +30,7 @@ import {
   getNeighbourIndices,
   nextBuilderCost, buyBuilder,
   checkMilestones, MilestoneDef,
+  currentSeason,
 } from '../../game/cityBuilder'
 import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { Card, UnitTemplate } from '../../game/types'
@@ -1292,6 +1293,7 @@ export function CityBuilder({ onBack }: Props) {
           resources={city.resources}
           prodRates={prodRates}
           consRates={consRates}
+          season={currentSeason()}
         />
 
         <CityGrid

@@ -145,6 +145,42 @@ export const EXPANSION_COSTS: Record<number, { gold: number; resources: Partial<
 /** Hard cap on total fortifications (prevents unlimited stacking). */
 export const MAX_TOTAL_FORTS = 12
 
+// ── Seasonal cycles ───────────────────────────────────────────────────────────
+
+export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
+
+export interface SeasonInfo {
+  name:   string
+  icon:   string
+  /** Additive wheat production modifier (e.g. 0.1 = +10%). */
+  wheat:  number
+  /** Additive wood production modifier. */
+  wood:   number
+  /** Additive ore production modifier. */
+  ore:    number
+  /** Additive happiness regen modifier. */
+  regen:  number
+  /** Additive wheat consumption modifier for spawners (positive = more hungry). */
+  hunger: number
+  flavour: string
+}
+
+export const SEASON_INFO: Record<Season, SeasonInfo> = {
+  spring: { name: 'Spring', icon: '🌸', wheat: 0.10, wood: 0,    ore: 0,    regen:  0.15, hunger:  0,    flavour: 'Mild weather, good harvests' },
+  summer: { name: 'Summer', icon: '☀️', wheat: 0.30, wood: 0,    ore: 0,    regen:  0,    hunger:  0.10, flavour: 'Bountiful wheat, hungry residents' },
+  autumn: { name: 'Autumn', icon: '🍂', wheat: 0,    wood: 0.25, ore: 0.25, regen:  0,    hunger:  0,    flavour: 'Rich timber and ore yields' },
+  winter: { name: 'Winter', icon: '❄️', wheat:-0.20, wood: 0,    ore: 0,    regen: -0.10, hunger:  0.15, flavour: 'Cold reduces food supply' },
+}
+
+/** Returns the current season based on the real-world month. */
+export function currentSeason(now = Date.now()): Season {
+  const month = new Date(now).getMonth()  // 0 = Jan
+  if (month >= 2 && month <= 4) return 'spring'
+  if (month >= 5 && month <= 7) return 'summer'
+  if (month >= 8 && month <= 10) return 'autumn'
+  return 'winter'
+}
+
 // ── Resource building config ──────────────────────────────────────────────────
 
 /**
@@ -725,6 +761,9 @@ export function tickCity(state: CityState): CityState {
   const elapsed = now - state.lastTick
   const minutes = Math.min(elapsed / 60_000, MAX_OFFLINE_MINUTES)
 
+  const season = currentSeason(now)
+  const si = SEASON_INFO[season]
+
   const newResources = { ...state.resources }
   let goldEarned = 0
   const newHappy = { ...state.happiness }
@@ -753,15 +792,21 @@ export function tickCity(state: CityState): CityState {
       for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
         if (rate > 0) {
           const synergyMult = 1 + (synergyMap[res as ResourceType] ?? 0)
-          newResources[res] = (newResources[res] ?? 0) + rate * masteryMult * synergyMult * minutes
+          // Season modifier: wheat/wood/ore get seasonal multipliers
+          const seasonMult = res === 'wheat' ? 1 + si.wheat
+                           : res === 'wood'  ? 1 + si.wood
+                           : res === 'ore'   ? 1 + si.ore
+                           : 1
+          newResources[res] = (newResources[res] ?? 0) + rate * masteryMult * synergyMult * Math.max(0, seasonMult) * minutes
         }
       }
     }
 
-    // Spawners consume food (wheat)
+    // Spawners consume food (wheat) — more in summer/winter
     if (cell.spawnedUnitName && happy) {
       const unitCount = spawnerUnitCount(state, cell.cardName)
-      const consume = FOOD_CONSUME_RATE[cell.rarity] * unitCount * minutes
+      const hungerMult = 1 + si.hunger
+      const consume = FOOD_CONSUME_RATE[cell.rarity] * unitCount * hungerMult * minutes
       newResources.wheat = Math.max(0, (newResources.wheat ?? 0) - consume)
     }
   }
@@ -784,8 +829,9 @@ export function tickCity(state: CityState): CityState {
     const cellTarget  = affinityMet ? baseTarget : 0
 
     const current = newHappy[i] ?? 100
+    const seasonRegen = HAPPINESS_REGEN * (1 + si.regen)
     if (current < cellTarget) {
-      newHappy[i] = Math.min(cellTarget, current + HAPPINESS_REGEN * minutes)
+      newHappy[i] = Math.min(cellTarget, current + seasonRegen * minutes)
     } else if (current > cellTarget) {
       newHappy[i] = Math.max(0, current - HAPPINESS_DRAIN * minutes)
     }
@@ -1090,6 +1136,7 @@ export function levelUpCard(state: CityState, cardName: string, masteryLvl: numb
 
 export function resourceProductionRate(state: CityState): Partial<ResourceStock> {
   const rates: Partial<ResourceStock> = {}
+  const si = SEASON_INFO[currentSeason()]
   for (let i = 0; i < state.grid.length; i++) {
     const cell = state.grid[i]
     if (!cell || cell.spawnedUnitName) continue
@@ -1100,7 +1147,11 @@ export function resourceProductionRate(state: CityState): Partial<ResourceStock>
     for (const s of synergies) synergyMap[s.resource] = (synergyMap[s.resource] ?? 0) + s.multiplier
     for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
       const synergyMult = 1 + (synergyMap[res as ResourceType] ?? 0)
-      rates[res] = (rates[res] ?? 0) + rate * masteryMult * synergyMult
+      const seasonMult = res === 'wheat' ? 1 + si.wheat
+                       : res === 'wood'  ? 1 + si.wood
+                       : res === 'ore'   ? 1 + si.ore
+                       : 1
+      rates[res] = (rates[res] ?? 0) + rate * masteryMult * synergyMult * Math.max(0, seasonMult)
     }
   }
   return rates

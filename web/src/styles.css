@@ -9157,6 +9157,12 @@ html.light-mode .action-btn {
 .city-thought-row--unhappy .city-thought-name { color: #c07050; }
 .city-thought-row--unhappy .city-thought-text { color: #b08060; }
 
+/* ── Seasonal Cycles ─────────────────────────────────────────────────────── */
+.city-season-chip {
+  color: #90d090;
+  border-color: #2a5a2a;
+}
+
 /* ── Milestone Banner ────────────────────────────────────────────────────── */
 .city-milestone-banner {
   position: absolute;
