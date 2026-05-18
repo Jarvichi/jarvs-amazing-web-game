@@ -12,19 +12,27 @@
   <polygon points="16,5 10,14 22,14" fill="#6a3a18"/>
   <line x1="10" y1="14" x2="22" y2="14" stroke="#4a2a08" stroke-width="1"/>
 
-  <!-- Sails (drawn before hub so hub sits on top) -->
-  <!-- upper-right -->
-  <line x1="16" y1="14" x2="27" y2="5"  stroke="#d4b445" stroke-width="3" stroke-linecap="round"/>
-  <!-- lower-right -->
-  <line x1="16" y1="14" x2="27" y2="23" stroke="#c4a435" stroke-width="3" stroke-linecap="round"/>
-  <!-- lower-left -->
-  <line x1="16" y1="14" x2="5"  y2="23" stroke="#d4b445" stroke-width="3" stroke-linecap="round"/>
-  <!-- upper-left -->
-  <line x1="16" y1="14" x2="5"  y2="5"  stroke="#c4a435" stroke-width="3" stroke-linecap="round"/>
-
-  <!-- Hub -->
-  <circle cx="16" cy="14" r="2.5" fill="#5a3820"/>
-  <circle cx="16" cy="14" r="1"   fill="#d4b020"/>
+  <!-- Rotating sails + hub — pivot at hub centre (16, 14) -->
+  <g>
+    <!-- upper-right -->
+    <line x1="16" y1="14" x2="27" y2="5"  stroke="#d4b445" stroke-width="3" stroke-linecap="round"/>
+    <!-- lower-right -->
+    <line x1="16" y1="14" x2="27" y2="23" stroke="#c4a435" stroke-width="3" stroke-linecap="round"/>
+    <!-- lower-left -->
+    <line x1="16" y1="14" x2="5"  y2="23" stroke="#d4b445" stroke-width="3" stroke-linecap="round"/>
+    <!-- upper-left -->
+    <line x1="16" y1="14" x2="5"  y2="5"  stroke="#c4a435" stroke-width="3" stroke-linecap="round"/>
+    <!-- Hub -->
+    <circle cx="16" cy="14" r="2.5" fill="#5a3820"/>
+    <circle cx="16" cy="14" r="1"   fill="#d4b020"/>
+    <animateTransform
+      attributeName="transform"
+      type="rotate"
+      from="0 16 14"
+      to="360 16 14"
+      dur="6s"
+      repeatCount="indefinite"/>
+  </g>
 
   <!-- Door (arched) -->
   <rect x="14" y="21" width="4" height="7" rx="2" fill="#2a1808"/>
