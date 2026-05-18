@@ -145,6 +145,116 @@ export const EXPANSION_COSTS: Record<number, { gold: number; resources: Partial<
 /** Hard cap on total fortifications (prevents unlimited stacking). */
 export const MAX_TOTAL_FORTS = 12
 
+// ── Disaster events ──────────────────────────────────────────────────────────
+
+export type DisasterType = 'fire' | 'plague'
+
+export interface Disaster {
+  type:          DisasterType
+  affectedCells: number[]   // grid cell indices currently on fire (fire only)
+  startedAt:     number     // Unix ms — when the disaster began
+  severity:      number     // 0–100; fire = cells spread so far; plague = intensity
+}
+
+const FIRE_SPREAD_INTERVAL_MIN = 45   // fire spreads every 45 game-minutes
+const FIRE_MAX_CELLS           = 3    // hard cap on fire spread
+const FIRE_DURATION_MIN        = 180  // fire burns out on its own after 3 hrs
+const FIRE_EXTINGUISH_WOOD     = 40   // wood cost per burning cell to extinguish
+const PLAGUE_MAX_SEVERITY      = 100
+const PLAGUE_GROW_RATE         = 0.4  // severity gained per game-minute (reaches 100 in ~250 min)
+const PLAGUE_DRAIN_PER_MIN     = 0.08 // happiness drained per resident per game-minute at severity 100
+const PLAGUE_CURE_BREAD_BASE   = 20   // bread to cure, scaled by severity
+const PLAGUE_CURE_DURATION_MIN = 300  // plague fades naturally after 5 hrs
+const DISASTER_CHANCE_PER_HOUR = 0.04 // ~4% per real hour ≈ once per ~25 hrs on average
+
+export function extinguishFire(state: CityState): CityState {
+  if (state.activeDisaster?.type !== 'fire') return state
+  const cells = state.activeDisaster.affectedCells.length
+  const cost  = cells * FIRE_EXTINGUISH_WOOD
+  if (state.resources.wood < cost) return state  // can't afford
+  let next = addChronicleEvent(state, `🚒 Fire extinguished — spent ${cost} wood`)
+  next = {
+    ...next,
+    resources:      { ...next.resources, wood: next.resources.wood - cost },
+    activeDisaster: null,
+    nextDisasterAt: Date.now() + (12 + Math.random() * 24) * 3_600_000,
+  }
+  return next
+}
+
+export function curePlague(state: CityState): CityState {
+  if (state.activeDisaster?.type !== 'plague') return state
+  const cost = Math.max(10, Math.ceil(state.activeDisaster.severity / PLAGUE_MAX_SEVERITY * PLAGUE_CURE_BREAD_BASE * 3))
+  if (state.resources.bread < cost) return state
+  let next = addChronicleEvent(state, `💊 Plague cured — spent ${cost} bread`)
+  next = {
+    ...next,
+    resources:      { ...next.resources, bread: next.resources.bread - cost },
+    activeDisaster: null,
+    nextDisasterAt: Date.now() + (12 + Math.random() * 24) * 3_600_000,
+  }
+  return next
+}
+
+// ── City districts ────────────────────────────────────────────────────────────
+
+export type DistrictType = 'none' | 'agricultural' | 'military' | 'commercial' | 'industrial'
+
+export interface DistrictDef {
+  icon:    string
+  label:   string
+  color:   string   // CSS background tint for the row
+  goldMult?:       number  // additive multiplier on gold income
+  prodMult?:       number  // additive multiplier on resource production
+  defBonus?:       number  // additive multiplier on defense contribution
+}
+
+export const DISTRICT_INFO: Record<DistrictType, DistrictDef> = {
+  none:         { icon: '—',  label: 'Unzoned',      color: 'transparent' },
+  agricultural: { icon: '🌾', label: 'Agricultural', color: 'rgba(180,150,0,0.08)',   prodMult: 0.15 },
+  military:     { icon: '🛡', label: 'Military',     color: 'rgba(40,100,180,0.08)',  defBonus: 0.10 },
+  commercial:   { icon: '💰', label: 'Commercial',   color: 'rgba(200,160,0,0.08)',   goldMult: 0.15 },
+  industrial:   { icon: '⚙',  label: 'Industrial',   color: 'rgba(100,100,120,0.08)', prodMult: 0.10 },
+}
+
+const DISTRICT_CYCLE: DistrictType[] = ['none', 'agricultural', 'military', 'commercial', 'industrial']
+
+export function cycleDistrict(current: DistrictType): DistrictType {
+  const idx = DISTRICT_CYCLE.indexOf(current)
+  return DISTRICT_CYCLE[(idx + 1) % DISTRICT_CYCLE.length]
+}
+
+export function getRowDistrict(state: CityState, row: number): DistrictType {
+  return (state.zones?.[row] as DistrictType | undefined) ?? 'none'
+}
+
+export function setRowDistrict(state: CityState, row: number, zone: DistrictType): CityState {
+  const zones = [...(state.zones ?? [])]
+  while (zones.length <= row) zones.push('none')
+  zones[row] = zone
+  return { ...state, zones }
+}
+
+// ── Storage caps ─────────────────────────────────────────────────────────────
+
+export const STORAGE_BASE_CAPS: ResourceStock = {
+  wheat: 500, wood: 300, ore: 200, bread: 300, planks: 200, metal: 150,
+}
+const STORAGE_PER_WAREHOUSE = 200  // added to all caps per warehouse building placed
+const WAREHOUSE_PATTERN = /warehouse|barn|granary|silo|storehouse|vault/i
+
+export function calculateStorageCaps(state: CityState): ResourceStock {
+  let bonus = 0
+  for (const cell of state.grid) {
+    if (cell && !cell.spawnedUnitName && WAREHOUSE_PATTERN.test(cell.cardName)) {
+      bonus += STORAGE_PER_WAREHOUSE
+    }
+  }
+  const caps = { ...STORAGE_BASE_CAPS }
+  for (const k of Object.keys(caps) as ResourceType[]) caps[k] += bonus
+  return caps
+}
+
 // ── Stats history ─────────────────────────────────────────────────────────────
 
 const HISTORY_MAX         = 144          // 24 h at 10-min resolution
@@ -400,6 +510,12 @@ export interface CityState {
   activeCaravan: ActiveCaravan | null
   /** Periodic economy snapshots for the Stats dashboard (newest last, max 144). */
   history:       HistorySample[]
+  /** District zone per row (indexed by row number). */
+  zones:         DistrictType[]
+  /** Active disaster (fire or plague), if any. */
+  activeDisaster: Disaster | null
+  /** Timestamp when the next disaster may be triggered. */
+  nextDisasterAt: number
 }
 
 // ── Storage ───────────────────────────────────────────────────────────────────
@@ -430,6 +546,9 @@ function defaultState(): CityState {
     tradeOffer:          null,
     activeCaravan:       null,
     history:             [],
+    zones:               [],
+    activeDisaster:      null,
+    nextDisasterAt:      Date.now() + (18 + Math.random() * 12) * 3_600_000,
   }
 }
 
@@ -474,6 +593,9 @@ export function loadCityState(): CityState {
       tradeOffer:          parsed.tradeOffer ?? null,
       activeCaravan:       parsed.activeCaravan ?? null,
       history:             parsed.history ?? [],
+      zones:               (parsed.zones ?? []) as DistrictType[],
+      activeDisaster:      parsed.activeDisaster ?? null,
+      nextDisasterAt:      parsed.nextDisasterAt ?? Date.now() + (18 + Math.random() * 12) * 3_600_000,
     }
   } catch (err) {
     logError('loadCityState failed', err as Record<string, unknown>)
@@ -666,15 +788,23 @@ function wallDefense(cell: CityCell, cityHasSpawners: boolean): number {
 export function cityDefense(state: CityState): number {
   const hasSpawners = state.grid.some(c => c?.spawnedUnitName)
   let total = 0
-  for (const cell of state.grid) {
+  let militaryBonus = 0
+  for (let i = 0; i < state.grid.length; i++) {
+    const cell = state.grid[i]
     if (!cell) continue
+    const row = Math.floor(i / CITY_COLS)
+    const isMilitary = getRowDistrict(state, row) === 'military'
     if (cell.spawnedUnitName) {
-      total += SPAWN_DEFENSE[cell.rarity]
+      const contrib = SPAWN_DEFENSE[cell.rarity]
+      total += contrib
+      if (isMilitary) militaryBonus += contrib * (DISTRICT_INFO.military.defBonus ?? 0)
     } else {
       const produces = getBuildingProduces(cell.cardName)
       const isResourceProducer = Object.values(produces).some(v => (v ?? 0) > 0)
       if (!isResourceProducer) {
-        total += wallDefense(cell, hasSpawners)
+        const contrib = wallDefense(cell, hasSpawners)
+        total += contrib
+        if (isMilitary) militaryBonus += contrib * (DISTRICT_INFO.military.defBonus ?? 0)
       }
     }
   }
@@ -685,7 +815,7 @@ export function cityDefense(state: CityState): number {
     total += Math.round(FORT_DEFENSE[fort.rarity] * hpFraction)
   }
 
-  return total + (state.patrolBonus ?? 0)
+  return total + Math.round(militaryBonus) + (state.patrolBonus ?? 0)
 }
 
 export function cityPopulation(state: CityState): number {
@@ -804,6 +934,97 @@ function processAttack(state: CityState): CityState {
 
 // ── Offline tick ──────────────────────────────────────────────────────────────
 
+function processDisaster(
+  state: CityState,
+  now: number,
+  minutes: number,
+  happinessSnapshot: Record<number, number>,
+): CityState {
+  let s = state
+
+  if (!s.activeDisaster) {
+    // Maybe trigger a new disaster (never during an active attack countdown < 2h)
+    const msToAttack = s.nextAttackAt - now
+    const safeFromAttack = msToAttack > 2 * 3_600_000 || msToAttack < 0
+    if (safeFromAttack && now >= s.nextDisasterAt) {
+      const occupiedCells = s.grid.map((c, i) => c ? i : -1).filter(i => i >= 0)
+      if (occupiedCells.length > 0) {
+        const type: DisasterType = Math.random() < 0.5 ? 'fire' : 'plague'
+        const disaster: Disaster = {
+          type,
+          affectedCells: type === 'fire' ? [occupiedCells[Math.floor(Math.random() * occupiedCells.length)]] : [],
+          startedAt:     now,
+          severity:      0,
+        }
+        s = addChronicleEvent(s, type === 'fire'
+          ? `🔥 Fire has broken out in the city!`
+          : `☠ Plague is spreading through the city!`)
+        s = { ...s, activeDisaster: disaster }
+      }
+    }
+    return s
+  }
+
+  const { type, affectedCells, startedAt, severity } = s.activeDisaster
+  const elapsedMin = (now - startedAt) / 60_000
+
+  if (type === 'fire') {
+    // Auto-extinguish after duration limit
+    if (elapsedMin >= FIRE_DURATION_MIN) {
+      s = addChronicleEvent(s, '🔥 The fire burned out on its own.')
+      return { ...s, activeDisaster: null, nextDisasterAt: now + (12 + Math.random() * 24) * 3_600_000 }
+    }
+
+    // Spread fire to an adjacent occupied cell every FIRE_SPREAD_INTERVAL_MIN game-minutes
+    let newAffected = [...affectedCells]
+    const spreadCount = Math.floor(elapsedMin / FIRE_SPREAD_INTERVAL_MIN)
+    while (newAffected.length < Math.min(spreadCount + 1, FIRE_MAX_CELLS)) {
+      // Pick an unaffected neighbour of any burning cell
+      const candidates: number[] = []
+      for (const ci of newAffected) {
+        for (const ni of getNeighbourIndices(ci, s.rows ?? CITY_ROWS)) {
+          if (s.grid[ni] && !newAffected.includes(ni)) candidates.push(ni)
+        }
+      }
+      if (candidates.length === 0) break
+      const next = candidates[Math.floor(Math.random() * candidates.length)]
+      newAffected.push(next)
+      s = addChronicleEvent(s, `🔥 Fire spread to ${s.grid[next]?.cardName ?? 'a building'}`)
+    }
+
+    // Drain happiness for affected buildings (fire terrifies residents)
+    const newHappy = { ...s.happiness }
+    for (const ci of newAffected) {
+      const current = newHappy[ci] ?? 100
+      newHappy[ci] = Math.max(0, current - 3 * minutes)
+    }
+
+    s = { ...s, happiness: newHappy, activeDisaster: { type: 'fire', startedAt, affectedCells: newAffected, severity: newAffected.length } }
+
+  } else {
+    // Plague
+    if (elapsedMin >= PLAGUE_CURE_DURATION_MIN) {
+      s = addChronicleEvent(s, '☠ The plague finally subsided on its own.')
+      return { ...s, activeDisaster: null, nextDisasterAt: now + (12 + Math.random() * 24) * 3_600_000 }
+    }
+
+    const newSeverity = Math.min(PLAGUE_MAX_SEVERITY, severity + PLAGUE_GROW_RATE * minutes)
+
+    // Drain happiness across all spawn buildings proportional to severity
+    const newHappy = { ...s.happiness }
+    for (let i = 0; i < s.grid.length; i++) {
+      if (s.grid[i]?.spawnedUnitName) {
+        const drain = PLAGUE_DRAIN_PER_MIN * (newSeverity / PLAGUE_MAX_SEVERITY) * minutes
+        newHappy[i] = Math.max(0, (newHappy[i] ?? 100) - drain)
+      }
+    }
+
+    s = { ...s, happiness: newHappy, activeDisaster: { type: 'plague', affectedCells: [], startedAt, severity: newSeverity } }
+  }
+
+  return s
+}
+
 export function tickCity(state: CityState): CityState {
   const now     = Date.now()
   const elapsed = now - state.lastTick
@@ -826,9 +1047,15 @@ export function tickCity(state: CityState): CityState {
     const happy = (newHappy[i] ?? 100) > 0
     const unitCount = cell.spawnedUnitName ? spawnerUnitCount(state, cell.cardName) : 1
 
-    // Gold income (with adjacency bonus for spawn buildings near food)
-    const incomeBonus = cell.spawnedUnitName ? getCellIncomeBonus(state, i) : 0
-    goldEarned += cellIncomeRate(cell, happy, unitCount) * (1 + incomeBonus) * minutes
+    // District zone bonus for this cell's row
+    const cellRow     = Math.floor(i / CITY_COLS)
+    const cellDistrict = getRowDistrict(state, cellRow)
+    const distInfo    = DISTRICT_INFO[cellDistrict]
+
+    // Gold income (with adjacency bonus for spawn buildings near food, and commercial district)
+    const incomeBonus   = cell.spawnedUnitName ? getCellIncomeBonus(state, i) : 0
+    const distGoldMult  = 1 + (distInfo.goldMult ?? 0)
+    goldEarned += cellIncomeRate(cell, happy, unitCount) * (1 + incomeBonus) * distGoldMult * minutes
 
     // Resource production (utility/non-spawner buildings that produce resources)
     if (!cell.spawnedUnitName) {
@@ -837,6 +1064,7 @@ export function tickCity(state: CityState): CityState {
       const synergies = getCellSynergyBonuses(state, i)
       const synergyMap: Partial<Record<ResourceType, number>> = {}
       for (const s of synergies) synergyMap[s.resource] = (synergyMap[s.resource] ?? 0) + s.multiplier
+      const distProdMult = 1 + (distInfo.prodMult ?? 0)
       for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
         if (rate > 0) {
           const synergyMult = 1 + (synergyMap[res as ResourceType] ?? 0)
@@ -845,7 +1073,7 @@ export function tickCity(state: CityState): CityState {
                            : res === 'wood'  ? 1 + si.wood
                            : res === 'ore'   ? 1 + si.ore
                            : 1
-          newResources[res] = (newResources[res] ?? 0) + rate * masteryMult * synergyMult * Math.max(0, seasonMult) * minutes
+          newResources[res] = (newResources[res] ?? 0) + rate * masteryMult * synergyMult * Math.max(0, seasonMult) * distProdMult * minutes
         }
       }
     }
@@ -916,9 +1144,10 @@ export function tickCity(state: CityState): CityState {
     }
   }
 
-  // Clamp resources
+  // Clamp resources to [0, storageCap]
+  const storageCaps = calculateStorageCaps(state)
   for (const key of Object.keys(newResources) as ResourceType[]) {
-    newResources[key] = Math.max(0, newResources[key])
+    newResources[key] = Math.max(0, Math.min(newResources[key], storageCaps[key]))
   }
 
   let result: CityState = {
@@ -991,6 +1220,9 @@ export function tickCity(state: CityState): CityState {
       }
     }
   }
+
+  // ── Disaster processing ────────────────────────────────────────────────────
+  result = processDisaster(result, now, minutes, newHappy)
 
   const { state: resultWithMilestones } = checkMilestones(result)
 
