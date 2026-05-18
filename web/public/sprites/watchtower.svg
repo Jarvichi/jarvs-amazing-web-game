@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <rect x="0" y="26" width="32" height="6" fill="#3a4a1a"/>
+
+  <!-- Tower base (slight taper) -->
+  <polygon points="9,28 10,8 22,8 23,28" fill="#6a6a7a"/>
+
+  <!-- Stone block texture -->
+  <line x1="9.2"  y1="14" x2="22.8" y2="14" stroke="#5a5a6a" stroke-width="0.8"/>
+  <line x1="9.5"  y1="20" x2="22.5" y2="20" stroke="#5a5a6a" stroke-width="0.8"/>
+  <!-- Brick offsets -->
+  <line x1="16" y1="8"  x2="16" y2="14" stroke="#5a5a6a" stroke-width="0.8"/>
+  <line x1="13" y1="14" x2="13" y2="20" stroke="#5a5a6a" stroke-width="0.8"/>
+  <line x1="19" y1="14" x2="19" y2="20" stroke="#5a5a6a" stroke-width="0.8"/>
+  <line x1="16" y1="20" x2="16" y2="26" stroke="#5a5a6a" stroke-width="0.8"/>
+
+  <!-- Battlements (merlons) -->
+  <rect x="10" y="4" width="3" height="5" fill="#6a6a7a"/>
+  <rect x="15" y="4" width="3" height="5" fill="#6a6a7a"/>
+  <rect x="20" y="4" width="3" height="5" fill="#6a6a7a"/>
+  <!-- Crenel gaps (dark) -->
+  <rect x="13" y="7" width="2" height="2" fill="#2a2a38"/>
+  <rect x="18" y="7" width="2" height="2" fill="#2a2a38"/>
+
+  <!-- Cross arrow slit (upper) -->
+  <rect x="14" y="10" width="4" height="1.5" fill="#2a2a38"/>
+  <rect x="15" y="9"  width="2" height="5"   fill="#2a2a38"/>
+
+  <!-- Cross arrow slit (lower) -->
+  <rect x="14" y="17" width="4" height="1.5" fill="#2a2a38"/>
+  <rect x="15" y="16" width="2" height="5"   fill="#2a2a38"/>
+
+  <!-- Arched door at base -->
+  <path d="M13,28 L13,22 Q16,19 19,22 L19,28 Z" fill="#2a1a0a"/>
+
+  <!-- Flag pole and banner -->
+  <line x1="21" y1="4" x2="21" y2="0" stroke="#8a6a3a" stroke-width="1"/>
+  <polygon points="21,0 28,1.5 21,3.5" fill="#cc3322"/>
+
+  <!-- Torch -->
+  <rect x="7" y="18" width="2" height="4" fill="#7a5a2a"/>
+  <ellipse cx="8" cy="17.5" rx="1.5" ry="2"   fill="#ffaa20" opacity="0.9"/>
+  <ellipse cx="8" cy="16.8" rx="0.8" ry="1.2" fill="#ff6600" opacity="0.8"/>
+</svg>

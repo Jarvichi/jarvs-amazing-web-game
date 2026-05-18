@@ -349,6 +349,12 @@ export function currentSeason(now = Date.now()): Season {
  * Buildings not listed here fall back to keyword matching in getBuildingResourceConfig.
  */
 const BUILDING_RESOURCE_CONFIG: Record<string, Partial<ResourceStock>> = {
+  // ── Core buildings (always available, built with gold) ──
+  'Windmill':    { bread: 1 },
+  'Quarry':      { ore: 2, planks: 1 },
+  'Granary':     {},           // storage handled by WAREHOUSE_PATTERN; no per-tick produce
+  'Watchtower':  {},           // defense handled as wall-type (non-spawner, non-producer)
+  // ── Card buildings ──
   'Farm':            { wheat: 3 },
   'Canopy Farm':     { wheat: 4 },
   'Bloom Garden':    { wheat: 2 },
@@ -1470,6 +1476,33 @@ export function canAffordPlacement(state: CityState, rarity: CardRarity): boolea
     if ((state.resources[res] ?? 0) < amount) return false
   }
   return true
+}
+
+// ── Core buildings ────────────────────────────────────────────────────────────
+
+/** A building that is always available to place (no card required), purchased with gold. */
+export interface CoreBuilding {
+  name:     string
+  goldCost: number
+  hint:     string
+  rarity:   CardRarity
+}
+
+export const CORE_BUILDINGS: CoreBuilding[] = [
+  { name: 'Windmill',   goldCost:  500, rarity: 'common', hint: 'Grinds wheat into bread. +50% output next to a Farm.' },
+  { name: 'Granary',    goldCost:  600, rarity: 'common', hint: 'Extends all resource storage caps by 200.' },
+  { name: 'Watchtower', goldCost:  800, rarity: 'common', hint: 'Garrisoned lookout. Contributes to city defense.' },
+  { name: 'Quarry',     goldCost:  700, rarity: 'common', hint: 'Mines raw ore and cuts stone into planks.' },
+]
+
+export function canAffordCoreBuild(state: CityState, building: CoreBuilding): boolean {
+  return state.gold >= building.goldCost
+}
+
+export function placeCoreBuild(state: CityState, index: number, building: CoreBuilding): CityState {
+  if (!canAffordCoreBuild(state, building)) return state
+  const cell: CityCell = { cardName: building.name, rarity: building.rarity }
+  return placeCard({ ...state, gold: state.gold - building.goldCost }, index, cell)
 }
 
 // ── Rate helpers ──────────────────────────────────────────────────────────────

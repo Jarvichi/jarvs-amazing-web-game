@@ -11430,6 +11430,29 @@
       "lore": "Axes for trees, edges for everything else."
     },
     {
+      "name": "Windmill",
+      "rarity": "uncommon",
+      "cost": 3,
+      "cardType": "structure",
+      "unit": {
+        "name": "Windmill",
+        "attack": 0,
+        "maxHp": 20,
+        "isWall": false,
+        "bypassWall": false,
+        "moveSpeed": 0,
+        "attackRange": 0,
+        "attackCooldownMs": 0,
+        "structureEffect": {
+          "type": "mana",
+          "amount": 1
+        }
+      },
+      "description": "Converts wheat into bread each city tick. In battle: +1 max mana.",
+      "deckCount": 2,
+      "lore": "The blades never stop. Neither does the hunger."
+    },
+    {
       "name": "Farm",
       "rarity": "uncommon",
       "cost": 3,
