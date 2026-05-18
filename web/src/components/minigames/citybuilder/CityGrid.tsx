@@ -166,7 +166,7 @@ export function CityGrid({
         {visualCarriers.map(vc => {
           const res = Object.keys(vc.carrying)[0] as ResourceType
           return (
-            <div key={vc.id} className="city-walker city-carrier-goblin" style={{ left: Math.round(vc.x), top: Math.round(vc.y) }}>
+            <div key={vc.id} className="city-walker city-carrier-goblin" style={{ left: Math.round(vc.x), top: Math.round(vc.y), transform: `translate(-50%,-50%) scale(${vc.scale})` }}>
               <div className="city-carrier-load">{RESOURCE_ICONS[res]}</div>
               <AnimatedSpriteImg name="Goblin" frameCount={3} fps={8} className="city-walker-sprite" />
             </div>
