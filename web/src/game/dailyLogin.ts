@@ -8,6 +8,7 @@ import { CardRarity } from './types'
 import { addCollectible, removeCollectible, getCollectibles, ItemDisplayFields } from './itemStore'
 
 const DAILY_KEY = 'jarv_daily_login'
+const SEEN_COLLECTIBLES_KEY = 'jarv_seen_collectibles'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -137,12 +138,52 @@ function resolveBrokenRelic(id: string): { name: string; icon: string; desc: str
 // Collectible item CRUD delegates to itemStore.ts (see the COLLECTIBLE ITEMS
 // section there). Achievement side-effects and display resolution stay here.
 
+// ── Seen-collectibles tracking ─────────────────────────────────────────────────
+//
+// SEEN_COLLECTIBLES_KEY persists the set of item IDs ever collected, surviving
+// sales. This prevents sold-then-reacquired items from re-incrementing the
+// misc:unique_items achievement counter.
+//
+// On first load (key absent) the set is seeded from the current inventory and a
+// one-time retcon runs: if misc:items_full_set was incorrectly unlocked due to
+// the old current-inventory check, it is cleared and the reward item removed.
+
+function getSeenCollectibles(): Set<string> {
+  try {
+    const raw = localStorage.getItem(SEEN_COLLECTIBLES_KEY)
+    if (raw) return new Set(JSON.parse(raw) as string[])
+  } catch { /* ignore */ }
+  return initSeenCollectibles()
+}
+
+function initSeenCollectibles(): Set<string> {
+  const initial = new Set(getCollectibles().map(e => e.id))
+  try {
+    localStorage.setItem(SEEN_COLLECTIBLES_KEY, JSON.stringify([...initial]))
+  } catch { /* ignore */ }
+  import('./achievements').then(({ retconFullSetAchievement }) => {
+    if (retconFullSetAchievement(initial.size)) {
+      removeCollectible('category_error')
+    }
+  })
+  return initial
+}
+
+function markCollectibleSeen(id: string): void {
+  const seen = getSeenCollectibles()
+  seen.add(id)
+  try {
+    localStorage.setItem(SEEN_COLLECTIBLES_KEY, JSON.stringify([...seen]))
+  } catch { /* ignore */ }
+}
+
 export function addToInventory(item: Omit<UselessItem, 'acquiredDate'>): void {
   try {
-    const isNew = !getCollectibles().some(e => e.id === item.id)
+    const isNew = !getSeenCollectibles().has(item.id)
     const display: ItemDisplayFields = { name: item.name, icon: item.icon, desc: item.desc, lore: item.lore }
     addCollectible(item.id, display)
     if (isNew) {
+      markCollectibleSeen(item.id)
       import('./achievements').then(({ incrementAchievementProgress }) => {
         incrementAchievementProgress('misc:unique_items')
       })
