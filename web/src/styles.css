@@ -9157,6 +9157,21 @@ html.light-mode .action-btn {
 .city-thought-row--unhappy .city-thought-name { color: #c07050; }
 .city-thought-row--unhappy .city-thought-text { color: #b08060; }
 
+/* ── Adjacency Synergies ─────────────────────────────────────────────────── */
+.city-synergy-bonus {
+  color: #60c860;
+  font-size: 10px;
+  margin-left: 4px;
+}
+.city-synergy-label {
+  font-size: 10px;
+  color: #60c860;
+  padding: 2px 0;
+  border-left: 2px solid #2a5a2a;
+  padding-left: 6px;
+  margin-top: 2px;
+}
+
 /* ── City Chronicle ──────────────────────────────────────────────────────── */
 .city-chronicle-list {
   flex: 1;

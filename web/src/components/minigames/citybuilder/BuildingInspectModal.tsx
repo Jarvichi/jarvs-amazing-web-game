@@ -3,6 +3,7 @@ import {
   CityState, CityCell, RESOURCE_ICONS, ResourceType,
   getBuildingProduces, masteryOutputMultiplier, getCardMasteryLevel,
   levelUpCost, LEVEL_UP_COSTS, spawnerUnitCount,
+  getCellSynergyBonuses, getCellIncomeBonus,
 } from '../../../game/cityBuilder'
 import { CollectionEntry, getMasteryXp, masteryProgress } from '../../../game/collection'
 import { MasteryBar } from '../../ui/MasteryBar'
@@ -33,6 +34,9 @@ export function BuildingInspectModal({
   const produces       = getBuildingProduces(cell.cardName)
   const masteryMult    = masteryOutputMultiplier(getCardMasteryLevel(cell.cardName) ?? 0)
   const produceEntries = Object.entries(produces).filter(([, v]) => (v ?? 0) > 0)
+  const synergies      = getCellSynergyBonuses(city, cellIndex)
+  const synergyMap     = Object.fromEntries(synergies.map(s => [s.resource, s.multiplier]))
+  const incomeBonus    = getCellIncomeBonus(city, cellIndex)
   const xp             = getMasteryXp(collection, cell.cardName)
   const { level: mLvl } = masteryProgress(xp)
   const upgradeCost    = levelUpCost(mLvl)
@@ -112,11 +116,25 @@ export function BuildingInspectModal({
           ) : produceEntries.length > 0 ? (
             <>
               <div className="city-bld-section-title">Produces</div>
-              {produceEntries.map(([res, amt]) => (
-                <div key={res} className="city-bld-produces-row">
-                  +{Math.round((amt as number) * masteryMult)} {RESOURCE_ICONS[res as ResourceType]}/min
-                </div>
+              {produceEntries.map(([res, amt]) => {
+                const sm = synergyMap[res as ResourceType] ?? 0
+                const total = Math.round((amt as number) * masteryMult * (1 + sm))
+                return (
+                  <div key={res} className="city-bld-produces-row">
+                    +{total} {RESOURCE_ICONS[res as ResourceType]}/min
+                    {sm > 0 && <span className="city-synergy-bonus"> ✦ synergy</span>}
+                  </div>
+                )
+              })}
+              {synergies.map((s, i) => (
+                <div key={i} className="city-synergy-label">{s.label}</div>
               ))}
+            </>
+          ) : cell.spawnedUnitName ? (
+            <>
+              {incomeBonus > 0 && (
+                <div className="city-synergy-label">🌾 Food producer nearby: +{Math.round(incomeBonus * 100)}% gold income</div>
+              )}
             </>
           ) : (
             <div className="city-bld-section-title">Defensive structure</div>

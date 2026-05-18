@@ -191,6 +191,68 @@ export function getBuildingProduces(name: string): Partial<ResourceStock> {
   return {}
 }
 
+// ── Adjacency synergy rules ───────────────────────────────────────────────────
+
+interface SynergyRule {
+  /** Resource this building must produce to be eligible. */
+  needs: ResourceType
+  /** Resource a neighbour must produce to activate the synergy. */
+  feeds: ResourceType
+  /** Additive production multiplier bonus (e.g. 0.5 = +50%). */
+  bonus: number
+  label: string
+}
+
+const SYNERGY_RULES: SynergyRule[] = [
+  { needs: 'bread',  feeds: 'wheat', bonus: 0.5, label: '🌾 Farm nearby: +50% bread'   },
+  { needs: 'metal',  feeds: 'wood',  bonus: 0.5, label: '🪵 Lumber nearby: +50% metal'  },
+  { needs: 'planks', feeds: 'ore',   bonus: 0.5, label: '⛏ Mine nearby: +50% planks'   },
+]
+
+/** Additive gold income bonus for a spawn building adjacent to a food producer. */
+const SPAWN_FOOD_ADJACENCY_BONUS = 0.2  // +20% gold income
+
+/**
+ * Returns active synergy bonuses for a resource-producing building.
+ * Each entry is an additive multiplier on that resource's output.
+ */
+export function getCellSynergyBonuses(
+  state: CityState,
+  cellIndex: number,
+): Array<{ resource: ResourceType; multiplier: number; label: string }> {
+  const cell = state.grid[cellIndex]
+  if (!cell) return []
+  const gridRows = state.rows ?? CITY_ROWS
+  const neighbours = getNeighbourIndices(cellIndex, gridRows)
+    .map(ni => state.grid[ni])
+    .filter((nb): nb is CityCell => nb != null)
+  const produces = getBuildingProduces(cell.cardName)
+  const bonuses: Array<{ resource: ResourceType; multiplier: number; label: string }> = []
+  for (const rule of SYNERGY_RULES) {
+    if ((produces[rule.needs] ?? 0) > 0) {
+      if (neighbours.some(nb => (getBuildingProduces(nb.cardName)[rule.feeds] ?? 0) > 0)) {
+        bonuses.push({ resource: rule.needs, multiplier: rule.bonus, label: rule.label })
+      }
+    }
+  }
+  return bonuses
+}
+
+/**
+ * Additive gold income bonus for a spawn building that has a food producer
+ * as an orthogonal neighbour.
+ */
+export function getCellIncomeBonus(state: CityState, cellIndex: number): number {
+  const cell = state.grid[cellIndex]
+  if (!cell?.spawnedUnitName) return 0
+  const gridRows = state.rows ?? CITY_ROWS
+  const hasFoodNeighbour = getNeighbourIndices(cellIndex, gridRows).some(ni => {
+    const nb = state.grid[ni]
+    return nb && (getBuildingProduces(nb.cardName).wheat ?? 0) > 0
+  })
+  return hasFoodNeighbour ? SPAWN_FOOD_ADJACENCY_BONUS : 0
+}
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export type ResourceType = 'wheat' | 'wood' | 'ore' | 'bread' | 'planks' | 'metal'
@@ -572,15 +634,22 @@ export function tickCity(state: CityState): CityState {
     const happy = (newHappy[i] ?? 100) > 0
     const unitCount = cell.spawnedUnitName ? spawnerUnitCount(state, cell.cardName) : 1
 
-    // Gold income
-    goldEarned += cellIncomeRate(cell, happy, unitCount) * minutes
+    // Gold income (with adjacency bonus for spawn buildings near food)
+    const incomeBonus = cell.spawnedUnitName ? getCellIncomeBonus(state, i) : 0
+    goldEarned += cellIncomeRate(cell, happy, unitCount) * (1 + incomeBonus) * minutes
 
     // Resource production (utility/non-spawner buildings that produce resources)
     if (!cell.spawnedUnitName) {
       const masteryMult = masteryOutputMultiplier(getCardMasteryLevel(cell.cardName) ?? 0)
       const produces = getBuildingProduces(cell.cardName)
+      const synergies = getCellSynergyBonuses(state, i)
+      const synergyMap: Partial<Record<ResourceType, number>> = {}
+      for (const s of synergies) synergyMap[s.resource] = (synergyMap[s.resource] ?? 0) + s.multiplier
       for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
-        if (rate > 0) newResources[res] = (newResources[res] ?? 0) + rate * masteryMult * minutes
+        if (rate > 0) {
+          const synergyMult = 1 + (synergyMap[res as ResourceType] ?? 0)
+          newResources[res] = (newResources[res] ?? 0) + rate * masteryMult * synergyMult * minutes
+        }
       }
     }
 
@@ -915,12 +984,17 @@ export function levelUpCard(state: CityState, cardName: string, masteryLvl: numb
 
 export function resourceProductionRate(state: CityState): Partial<ResourceStock> {
   const rates: Partial<ResourceStock> = {}
-  for (const cell of state.grid) {
+  for (let i = 0; i < state.grid.length; i++) {
+    const cell = state.grid[i]
     if (!cell || cell.spawnedUnitName) continue
     const masteryMult = masteryOutputMultiplier(getCardMasteryLevel(cell.cardName) ?? 0)
     const produces = getBuildingProduces(cell.cardName)
+    const synergies = getCellSynergyBonuses(state, i)
+    const synergyMap: Partial<Record<ResourceType, number>> = {}
+    for (const s of synergies) synergyMap[s.resource] = (synergyMap[s.resource] ?? 0) + s.multiplier
     for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
-      rates[res] = (rates[res] ?? 0) + rate * masteryMult
+      const synergyMult = 1 + (synergyMap[res as ResourceType] ?? 0)
+      rates[res] = (rates[res] ?? 0) + rate * masteryMult * synergyMult
     }
   }
   return rates
