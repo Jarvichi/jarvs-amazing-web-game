@@ -6,7 +6,7 @@ import {
 } from '../../../game/cityBuilder'
 import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
 import { BuilderWalker } from '../CityBuilder'
-import { Walker, residentName, PERSONALITY_INFO } from './walkerTypes'
+import { Walker } from './walkerTypes'
 
 export interface Props {
   city:          CityState
@@ -46,14 +46,16 @@ export function CityGrid({
           const happiness = cell?.spawnedUnitName ? (city.happiness[i] ?? 100) : 100
           const rage      = 100 - happiness
           const despawned = cell?.spawnedUnitName && happiness === 0
-          const row       = Math.floor(i / CITY_COLS)
-          const district  = getRowDistrict(city, row)
-          const distColor = DISTRICT_INFO[district]?.color ?? 'transparent'
+          const row         = Math.floor(i / CITY_COLS)
+          const col         = i % CITY_COLS
+          const district    = getRowDistrict(city, row)
+          const distColor   = DISTRICT_INFO[district]?.color ?? 'transparent'
+          const isRowStart  = col === 0
           return (
             <button
               key={i}
               className={`city-cell u-col u-items-c u-just-c u-pointer u-relative${cell ? ' city-cell--occupied' : ''}${cell && bulldozerMode ? ' city-cell--bulldoze' : ''}`}
-              style={district !== 'none' ? { background: distColor } : undefined}
+              style={district !== 'none' && isRowStart ? { boxShadow: `inset 4px 0 0 ${distColor}` } : undefined}
               onClick={() => onCellTap(i)}
               title={cell ? (bulldozerMode ? `${cell.cardName} — tap to demolish` : `${cell.cardName} — tap to inspect`) : 'Empty — tap to place'}
             >
@@ -125,12 +127,6 @@ export function CityGrid({
               )}
               <AnimatedSpriteImg name={w.unitName} frameCount={3} fps={6} className="city-walker-sprite" />
               {rage >= 40 && <span className="city-walker-need">!</span>}
-              {w.trait && (
-                <span
-                  className="city-walker-trait"
-                  title={`${PERSONALITY_INFO[w.trait].label}: ${PERSONALITY_INFO[w.trait].desc}`}
-                >{PERSONALITY_INFO[w.trait].icon}</span>
-              )}
             </div>
           )
         })}
