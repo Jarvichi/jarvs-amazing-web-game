@@ -171,21 +171,12 @@ export function CityGrid({
           const cellW  = baseW / CITY_COLS
           const cellH  = baseH / rows
 
-          // Build waypoints: fromCenter → edge midpoints → toCenter
+          // Build waypoints: simple L-shape (horizontal then vertical)
           const r1 = Math.floor(carrier.fromCell / CITY_COLS), c1 = carrier.fromCell % CITY_COLS
           const r2 = Math.floor(carrier.toCell   / CITY_COLS), c2 = carrier.toCell   % CITY_COLS
           const pts: { x: number; y: number }[] = [{ x: (c1 + 0.5) * cellW, y: (r1 + 0.5) * cellH }]
-          let r = r1, c = c1
-          while (c !== c2) {
-            const dc = c2 > c ? 1 : -1
-            pts.push({ x: (c + (dc > 0 ? 1 : 0)) * cellW, y: (r + 0.5) * cellH })
-            c += dc; pts.push({ x: (c + 0.5) * cellW, y: (r + 0.5) * cellH })
-          }
-          while (r !== r2) {
-            const dr = r2 > r ? 1 : -1
-            pts.push({ x: (c + 0.5) * cellW, y: (r + (dr > 0 ? 1 : 0)) * cellH })
-            r += dr; pts.push({ x: (c + 0.5) * cellW, y: (r + 0.5) * cellH })
-          }
+          if (c1 !== c2 && r1 !== r2) pts.push({ x: (c2 + 0.5) * cellW, y: (r1 + 0.5) * cellH })
+          pts.push({ x: (c2 + 0.5) * cellW, y: (r2 + 0.5) * cellH })
 
           // Lerp through waypoints by progress
           const segs  = Math.max(1, pts.length - 1)

@@ -8982,7 +8982,7 @@ html.light-mode .action-btn {
   flex: 0 0 50vh;
   height: 50vh;
   overflow: hidden;
-  background: #6b4c2a; /* dirt/path colour shows through grid gaps */
+  background: #2d5a27;
 }
 
 .city-grid {
