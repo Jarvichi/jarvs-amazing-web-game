@@ -180,6 +180,7 @@ export interface VisualCarrier {
   carrying: Partial<Record<ResourceType, number>>
   x: number; y: number; vx: number; vy: number
   waypoints: { x: number; y: number }[]
+  scale: number
 }
 
 export interface BuilderWalker {
@@ -922,8 +923,8 @@ export function CityBuilder({ onBack }: Props) {
       const gameCarrierIds = new Set(gameCarriers.map(c => c.id))
       const cityRows = cityRef.current?.rows ?? CITY_ROWS
 
-      // Sync: keep only carriers still in game state
-      let nextVis = visualCarriersRef.current.filter(vc => gameCarrierIds.has(vc.id))
+      // Sync: keep carriers still in game state OR still playing their shrink-out animation
+      let nextVis = visualCarriersRef.current.filter(vc => gameCarrierIds.has(vc.id) || vc.scale > 0)
 
       // Spawn new carriers that haven't been given a visual yet
       const visIds = new Set(nextVis.map(vc => vc.id))
@@ -944,6 +945,7 @@ export function CityBuilder({ onBack }: Props) {
           vx: dd > 0 ? (first.x - sx) / dd * SPEED : 0,
           vy: dd > 0 ? (first.y - sy) / dd * SPEED : 0,
           waypoints: wps,
+          scale: 0,
         })
       }
 
@@ -955,6 +957,14 @@ export function CityBuilder({ onBack }: Props) {
         const target = vc.waypoints.length > 0 ? vc.waypoints[0] : { x: destX, y: destY }
         let { x, y, vx, vy } = vc
         let waypoints = vc.waypoints
+        let scale = vc.scale
+        // Scale up from building on spawn before moving
+        if (scale < 1 && !waypoints.length && Math.sqrt((target.x - x) ** 2 + (target.y - y) ** 2) < ARRIVE_DIST) {
+          // Already arrived (same-cell carrier) — skip to shrink phase
+        } else if (scale < 1) {
+          scale = Math.min(1, scale + 0.1)
+          return { ...vc, waypoints, scale }
+        }
         const dx = target.x - x, dy = target.y - y
         const dist = Math.sqrt(dx * dx + dy * dy)
         if (dist < ARRIVE_DIST && waypoints.length > 0) {
@@ -963,12 +973,14 @@ export function CityBuilder({ onBack }: Props) {
           const nd = Math.sqrt((next.x - x) ** 2 + (next.y - y) ** 2)
           if (nd > 0) { vx = (next.x - x) / nd * SPEED; vy = (next.y - y) / nd * SPEED }
         } else if (dist < ARRIVE_DIST) {
+          // Arrived — shrink into the building
           vx = 0; vy = 0
+          scale = Math.max(0, scale - 0.1)
         } else if (dist > 0) {
           vx = dx / dist * SPEED; vy = dy / dist * SPEED
         }
         x += vx; y += vy
-        return { ...vc, x, y, vx, vy, waypoints }
+        return { ...vc, x, y, vx, vy, waypoints, scale }
       })
 
       visualCarriersRef.current = nextVis
