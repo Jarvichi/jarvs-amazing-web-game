@@ -32,12 +32,13 @@ import {
   checkMilestones, MilestoneDef,
   currentSeason,
   dispatchCaravan,
+  extinguishFire, curePlague,
 } from '../../game/cityBuilder'
 import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { Card, UnitTemplate } from '../../game/types'
 import { TowerDefence, TowerPool } from './TowerDefence'
 import { Fortifications } from './citybuilder/Fortifications'
-import { Walker, WalkerTask, TaskType, ResidentThought, residentName, rageDescription, getUnitRequirements } from './citybuilder/walkerTypes'
+import { Walker, WalkerTask, TaskType, ResidentThought, PersonalityTrait, residentName, rageDescription, getUnitRequirements } from './citybuilder/walkerTypes'
 import { CardPicker } from './citybuilder/CardPicker'
 import { BuildingUpgradeList } from './citybuilder/BuildingUpgradeList'
 import { LevelUpDetail } from './citybuilder/LevelUpDetail'
@@ -52,6 +53,8 @@ import { ChroniclePanel } from './citybuilder/ChroniclePanel'
 import { MilestoneBanner } from './citybuilder/MilestoneBanner'
 import { TradeRouteModal } from './citybuilder/TradeRouteModal'
 import { StatsScreen } from './citybuilder/StatsScreen'
+import { ZoneEditor } from './citybuilder/ZoneEditor'
+import { DisasterModal } from './citybuilder/DisasterModal'
 import { OverlayScreen } from '../ui/OverlayScreen'
 
 
@@ -303,6 +306,9 @@ const TASK_RESOURCE_GOLD: Partial<Record<ResourceType, number>> = {
 
 function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affinityWith?: string, w = CITY_COLS * CELL_PX, h = CITY_ROWS * CELL_PX): Walker {
   const angle = Math.random() * Math.PI * 2
+  // Deterministic trait so the same resident always has the same personality
+  const traitSeed = (cellIndex * 13 + unitIndex * 7 + unitName.charCodeAt(0)) % 5
+  const TRAITS: PersonalityTrait[] = ['brave', 'glutton', 'industrious', 'sociable', 'reclusive']
   return {
     cellIndex,
     unitIndex,
@@ -318,6 +324,7 @@ function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affi
     bubbleTimer: 0,
     hidden: false,
     hiddenTimer: 0,
+    trait: TRAITS[traitSeed],
   }
 }
 
@@ -438,7 +445,27 @@ function pickTask(
     targetY: Math.random() * Math.max(1, overlayH - UNIT_SIZE),
   })
 
-  return available[Math.floor(Math.random() * available.length)]
+  // Weight tasks by personality trait
+  function traitWeight(task: WalkerTask, trait: PersonalityTrait | undefined): number {
+    if (!trait) return 1
+    switch (trait) {
+      case 'brave':       return task.type === 'patrolling' ? 4 : task.type === 'resting' ? 0.3 : 1
+      case 'glutton':     return task.type === 'eating'     ? 5 : 1
+      case 'industrious': return task.type === 'gathering'  ? 5 : task.type === 'idle' ? 0.3 : 1
+      case 'sociable':    return (task.type === 'visiting' || task.type === 'chatting') ? 4 : 1
+      case 'reclusive':   return task.type === 'resting'  ? 4 : task.type === 'idle' ? 2
+                               : task.type === 'visiting' ? 0.2 : 1
+      default: return 1
+    }
+  }
+  const weights = available.map(t => traitWeight(t, w.trait))
+  const total   = weights.reduce((a, b) => a + b, 0)
+  let r = Math.random() * total
+  for (let i = 0; i < available.length; i++) {
+    r -= weights[i]
+    if (r <= 0) return available[i]
+  }
+  return available[available.length - 1]
 }
 
 // ── Attack countdown helpers ──────────────────────────────────────────────────
@@ -493,13 +520,14 @@ interface Props {
   onBack: () => void
 }
 
-type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence' | 'chronicle' | 'stats'
+type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence' | 'chronicle' | 'stats' | 'zones'
 
 export function CityBuilder({ onBack }: Props) {
   const [city, setCity] = useState<CityState>(() => tickCity(loadCityState()))
   const [screen, setScreen] = useState<SubScreen>('city')
   const [pendingMilestone, setPendingMilestone] = useState<MilestoneDef | null>(null)
   const [showTrade, setShowTrade] = useState(false)
+  const [showDisaster, setShowDisaster] = useState(false)
   const [pickerIndex, setPickerIndex] = useState<number>(0)
   const [levelCard, setLevelCard] = useState<string | null>(null)
   const [toast, setToast] = useState<string | null>(null)
@@ -1230,6 +1258,16 @@ export function CityBuilder({ onBack }: Props) {
     )
   }
 
+  if (screen === 'zones') {
+    return (
+      <ZoneEditor
+        city={city}
+        onSave={next => save(next)}
+        onBack={() => setScreen('city')}
+      />
+    )
+  }
+
   // ── Main city view ────────────────────────────────────────────────────────────
 
   return (
@@ -1261,6 +1299,16 @@ export function CityBuilder({ onBack }: Props) {
               else showToast('Cannot dispatch caravan right now.')
             }}
             onClose={() => setShowTrade(false)}
+          />
+        )}
+
+        {showDisaster && city.activeDisaster && (
+          <DisasterModal
+            city={city}
+            disaster={city.activeDisaster}
+            onExtinguish={() => { save(extinguishFire(city)); setShowDisaster(false) }}
+            onCure={() => { save(curePlague(city)); setShowDisaster(false) }}
+            onClose={() => setShowDisaster(false)}
           />
         )}
 
@@ -1320,6 +1368,7 @@ export function CityBuilder({ onBack }: Props) {
           prodRates={prodRates}
           consRates={consRates}
           season={currentSeason()}
+          city={city}
         />
 
         <CityGrid
@@ -1348,6 +1397,16 @@ export function CityBuilder({ onBack }: Props) {
           <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
           <button className="filter-btn" onClick={() => setScreen('chronicle')} title="View city history">📜 HISTORY</button>
           <button className="filter-btn" onClick={() => setScreen('stats')} title="View economy charts">📊 STATS</button>
+          <button className="filter-btn" onClick={() => setScreen('zones')} title="Set district zones per row">🗺 ZONES</button>
+          {city.activeDisaster && (
+            <button
+              className="filter-btn city-disaster-btn"
+              onClick={() => setShowDisaster(true)}
+              title={city.activeDisaster.type === 'fire' ? 'Fire is raging!' : 'Plague is spreading!'}
+            >
+              {city.activeDisaster.type === 'fire' ? '🔥' : '☠'} DISASTER!
+            </button>
+          )}
           <button
             className={`filter-btn${city.tradeOffer && !city.activeCaravan ? ' city-trade-btn--ready' : ''}`}
             onClick={() => setShowTrade(true)}

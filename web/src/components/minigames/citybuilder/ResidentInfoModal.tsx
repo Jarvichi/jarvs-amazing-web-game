@@ -1,7 +1,7 @@
 import React from 'react'
 import { CityState, CityCell } from '../../../game/cityBuilder'
 import { AnimatedSpriteImg } from '../../ui/SpriteImg'
-import { Walker, rageDescription, residentName, getUnitRequirements } from './walkerTypes'
+import { Walker, rageDescription, residentName, getUnitRequirements, PERSONALITY_INFO } from './walkerTypes'
 
 export interface Props {
   cellIndex: number
@@ -32,6 +32,11 @@ export function ResidentInfoModal({ cellIndex, cell, city, walkers, onClose }: P
                 <span className="city-req-icon">📍</span>
                 {residentName(w.unitName, w.cellIndex, w.unitIndex).split(' ')[0]}:{' '}
                 {w.hidden ? '🏠 Resting at home' : w.task.label}
+                {w.trait && (
+                  <span className="city-req-trait" title={PERSONALITY_INFO[w.trait].desc}>
+                    {' '}{PERSONALITY_INFO[w.trait].icon} {PERSONALITY_INFO[w.trait].label}
+                  </span>
+                )}
               </div>
             ))}
           </div>
