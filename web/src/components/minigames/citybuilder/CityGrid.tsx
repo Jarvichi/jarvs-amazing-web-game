@@ -171,14 +171,18 @@ export function CityGrid({
           const cellW  = baseW / CITY_COLS
           const cellH  = baseH / rows
 
-          // Build waypoints: route along row border (gap) to avoid cutting through cells
+          // Build waypoints: Z-shape via column and row border gaps
           const r1 = Math.floor(carrier.fromCell / CITY_COLS), c1 = carrier.fromCell % CITY_COLS
           const r2 = Math.floor(carrier.toCell   / CITY_COLS), c2 = carrier.toCell   % CITY_COLS
           const pts: { x: number; y: number }[] = [{ x: (c1 + 0.5) * cellW, y: (r1 + 0.5) * cellH }]
-          if (c1 !== c2 && r1 !== r2) {
-            const borderY = r1 < r2 ? (r1 + 1) * cellH : r1 * cellH
-            pts.push({ x: (c1 + 0.5) * cellW, y: borderY })
-            pts.push({ x: (c2 + 0.5) * cellW, y: borderY })
+          if (r1 !== r2) {
+            const borderY  = r1 < r2 ? (r1 + 1) * cellH : r1 * cellH
+            const bxExit   = c1 < c2 ? (c1 + 1) * cellW : c1 < CITY_COLS - 1 ? (c1 + 1) * cellW : c1 * cellW
+            const bxEnter  = c1 < c2 ? c2 * cellW        : c1 > 0             ? c2 * cellW        : (c2 + 1) * cellW
+            pts.push({ x: bxExit,  y: (r1 + 0.5) * cellH })
+            pts.push({ x: bxExit,  y: borderY })
+            pts.push({ x: bxEnter, y: borderY })
+            pts.push({ x: bxEnter, y: (r2 + 0.5) * cellH })
           }
           pts.push({ x: (c2 + 0.5) * cellW, y: (r2 + 0.5) * cellH })
 
@@ -193,7 +197,7 @@ export function CityGrid({
 
           const res = Object.keys(carrier.carrying)[0] as ResourceType
           return (
-            <div key={carrier.id} className="city-walker city-carrier-goblin" style={{ left: Math.round(px), top: Math.round(py) }}>
+            <div key={carrier.id} className="city-walker city-carrier-goblin" style={{ left: px, top: py }}>
               <div className="city-carrier-load">{RESOURCE_ICONS[res]}</div>
               <AnimatedSpriteImg name="Goblin" frameCount={3} fps={8} className="city-walker-sprite" />
             </div>
