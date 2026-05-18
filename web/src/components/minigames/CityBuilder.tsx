@@ -17,7 +17,8 @@ import {
   DEFAULT_BUILDER_COUNT, MAX_BUILDER_COUNT,
   canAffordFortification, canQueueFortification,
   loadCityState, saveCityState, tickCity,
-  placeCard, removeCard, reoccupyBuilding,
+  placeCard, placeCoreBuild, removeCard, reoccupyBuilding,
+  CoreBuilding, canAffordCoreBuild,
   addFortification, removeFortification,
   expandCity, canAffordExpansion,
   goldIncomeRate, goldNetRate,
@@ -980,6 +981,13 @@ export function CityBuilder({ onBack }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickerIndex, city])
 
+  const handlePickCoreBuild = useCallback((building: CoreBuilding) => {
+    if (!canAffordCoreBuild(city, building)) { showToast('Not enough gold!'); return }
+    save(placeCoreBuild(city, pickerIndex, building))
+    setScreen('city')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pickerIndex, city])
+
   // ── Level up ──────────────────────────────────────────────────────────────────
 
   function handleLevelUp(cardName: string) {
@@ -1204,6 +1212,7 @@ export function CityBuilder({ onBack }: Props) {
         setPickerSearch={setPickerSearch}
         onBack={() => setScreen('city')}
         onPickCard={handlePickCard}
+        onPickCoreBuild={handlePickCoreBuild}
       />
     )
   }

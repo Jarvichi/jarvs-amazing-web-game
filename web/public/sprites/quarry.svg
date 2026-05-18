@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sky -->
+  <rect width="32" height="32" fill="#1e2430"/>
+
+  <!-- Back rock face -->
+  <polygon points="0,6 8,4 16,2 24,5 32,8 32,28 0,28" fill="#545462"/>
+
+  <!-- Mid rock layer -->
+  <polygon points="0,12 32,16 32,28 0,28" fill="#646472"/>
+
+  <!-- Rock face details / cracks -->
+  <line x1="5"  y1="6"  x2="3"  y2="22" stroke="#444450" stroke-width="1"   opacity="0.8"/>
+  <line x1="19" y1="4"  x2="22" y2="18" stroke="#444450" stroke-width="0.8" opacity="0.6"/>
+
+  <!-- Ore vein (orange streak) -->
+  <line x1="7"  y1="8"  x2="6"  y2="20" stroke="#c87820" stroke-width="1.5" stroke-linecap="round"/>
+  <ellipse cx="25" cy="14" rx="2.5" ry="1.2" fill="#c87820" opacity="0.75" transform="rotate(-20,25,14)"/>
+
+  <!-- Cut stone blocks at base -->
+  <rect x="1"  y="22" width="8"  height="5" fill="#868690" stroke="#666670" stroke-width="0.7" rx="0.3"/>
+  <rect x="10" y="24" width="7"  height="4" fill="#868690" stroke="#666670" stroke-width="0.7" rx="0.3"/>
+  <rect x="18" y="21" width="13" height="6" fill="#868690" stroke="#666670" stroke-width="0.7" rx="0.3"/>
+
+  <!-- Pickaxe embedded in rock -->
+  <line x1="12" y1="14" x2="20" y2="7" stroke="#8a6a3a" stroke-width="1.5" stroke-linecap="round"/>
+  <polygon points="20,7 24,5 23,9 19,10" fill="#9a9a9a" stroke="#6a6a6a" stroke-width="0.5"/>
+
+  <!-- Ground dirt strip -->
+  <rect x="0" y="27" width="32" height="5" fill="#3a3a22"/>
+</svg>

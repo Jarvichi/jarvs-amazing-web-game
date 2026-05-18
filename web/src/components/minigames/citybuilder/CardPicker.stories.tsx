@@ -39,6 +39,7 @@ export const WithCards: Story = {
       collection={[]}
       onBack={fn()}
       onPickCard={fn()}
+      onPickCoreBuild={fn()}
     />
   ),
 }
@@ -52,6 +53,7 @@ export const NoCards: Story = {
       collection={[]}
       onBack={fn()}
       onPickCard={fn()}
+      onPickCoreBuild={fn()}
     />
   ),
 }
