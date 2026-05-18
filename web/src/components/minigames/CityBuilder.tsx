@@ -945,7 +945,7 @@ export function CityBuilder({ onBack }: Props) {
           vx: dd > 0 ? (first.x - sx) / dd * SPEED : 0,
           vy: dd > 0 ? (first.y - sy) / dd * SPEED : 0,
           waypoints: wps,
-          scale: 1,
+          scale: 0,
         })
       }
 
@@ -958,6 +958,13 @@ export function CityBuilder({ onBack }: Props) {
         let { x, y, vx, vy } = vc
         let waypoints = vc.waypoints
         let scale = vc.scale
+        // Scale up from building on spawn before moving
+        if (scale < 1 && !waypoints.length && Math.sqrt((target.x - x) ** 2 + (target.y - y) ** 2) < ARRIVE_DIST) {
+          // Already arrived (same-cell carrier) — skip to shrink phase
+        } else if (scale < 1) {
+          scale = Math.min(1, scale + 0.1)
+          return { ...vc, waypoints, scale }
+        }
         const dx = target.x - x, dy = target.y - y
         const dist = Math.sqrt(dx * dx + dy * dy)
         if (dist < ARRIVE_DIST && waypoints.length > 0) {
