@@ -62,8 +62,8 @@ export function CityGrid({
           const ROAD2 = 'rgba(160,150,110,0.85)'
           const shadows: string[] = []
           if (district !== 'none' && isRowStart) shadows.push(`inset 4px 0 0 ${distColor}`)
-          if (tierR > 0) shadows.push(`inset -3px 0 0 ${tierR === 2 ? ROAD2 : ROAD1}`)
-          if (tierB > 0) shadows.push(`inset 0 -3px 0 ${tierB === 2 ? ROAD2 : ROAD1}`)
+          if (tierR > 0) shadows.push(`3px 0 0 0 ${tierR === 2 ? ROAD2 : ROAD1}`)
+          if (tierB > 0) shadows.push(`0 3px 0 0 ${tierB === 2 ? ROAD2 : ROAD1}`)
           return (
             <button
               key={i}
