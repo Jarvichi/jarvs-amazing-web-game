@@ -193,7 +193,7 @@ export function CityGrid({
 
           const res = Object.keys(carrier.carrying)[0] as ResourceType
           return (
-            <div key={carrier.id} className="city-walker city-carrier-goblin" style={{ left: Math.round(px), top: Math.round(py) }}>
+            <div key={carrier.id} className="city-walker city-carrier-goblin" style={{ left: px, top: py }}>
               <div className="city-carrier-load">{RESOURCE_ICONS[res]}</div>
               <AnimatedSpriteImg name="Goblin" frameCount={3} fps={8} className="city-walker-sprite" />
             </div>

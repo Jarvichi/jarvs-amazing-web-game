@@ -9107,6 +9107,7 @@ html.light-mode .action-btn {
 .city-carrier-goblin {
   pointer-events: none;
   z-index: 8;
+  transition: left 10s linear, top 10s linear;
 }
 
 .city-carrier-load {
