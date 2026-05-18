@@ -51,6 +51,7 @@ import { ResourceStrip } from './citybuilder/ResourceStrip'
 import { ChroniclePanel } from './citybuilder/ChroniclePanel'
 import { MilestoneBanner } from './citybuilder/MilestoneBanner'
 import { TradeRouteModal } from './citybuilder/TradeRouteModal'
+import { StatsScreen } from './citybuilder/StatsScreen'
 import { OverlayScreen } from '../ui/OverlayScreen'
 
 
@@ -492,7 +493,7 @@ interface Props {
   onBack: () => void
 }
 
-type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence' | 'chronicle'
+type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence' | 'chronicle' | 'stats'
 
 export function CityBuilder({ onBack }: Props) {
   const [city, setCity] = useState<CityState>(() => tickCity(loadCityState()))
@@ -1220,6 +1221,15 @@ export function CityBuilder({ onBack }: Props) {
     )
   }
 
+  if (screen === 'stats') {
+    return (
+      <StatsScreen
+        city={city}
+        onBack={() => setScreen('city')}
+      />
+    )
+  }
+
   // ── Main city view ────────────────────────────────────────────────────────────
 
   return (
@@ -1337,6 +1347,7 @@ export function CityBuilder({ onBack }: Props) {
           <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTS</button>
           <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
           <button className="filter-btn" onClick={() => setScreen('chronicle')} title="View city history">📜 HISTORY</button>
+          <button className="filter-btn" onClick={() => setScreen('stats')} title="View economy charts">📊 STATS</button>
           <button
             className={`filter-btn${city.tradeOffer && !city.activeCaravan ? ' city-trade-btn--ready' : ''}`}
             onClick={() => setShowTrade(true)}

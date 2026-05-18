@@ -9254,6 +9254,213 @@ html.light-mode .action-btn {
   text-align: center;
 }
 
+/* ── City Stats Dashboard ─────────────────────────────────────────────────── */
+
+.city-stats-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 4px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.city-stats-scroll::-webkit-scrollbar { width: 4px; }
+.city-stats-scroll::-webkit-scrollbar-thumb { background: #1a3a1a; border-radius: 2px; }
+
+.city-stats-window-label {
+  font-size: 10px;
+  color: #406040;
+  font-family: monospace;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* Summary stat cards */
+.city-stats-summary {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 4px 0 6px;
+}
+.city-stat-card {
+  flex: 1;
+  min-width: 70px;
+  background: #020702;
+  border: 1px solid #1a3a1a;
+  border-radius: 2px;
+  padding: 6px 8px;
+}
+.city-stat-card-label {
+  font-size: 9px;
+  color: #50704e;
+  letter-spacing: 1px;
+  font-family: monospace;
+}
+.city-stat-card-value {
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--game-text-color);
+  font-family: monospace;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.city-stat-card-delta {
+  font-size: 10px;
+  font-family: monospace;
+}
+.city-stat-card-delta--pos  { color: #50d060; }
+.city-stat-card-delta--neg  { color: #e04040; }
+.city-stat-card-delta--zero { color: #304830; }
+
+/* Sections */
+.city-stats-section {
+  padding: 6px 0 2px;
+}
+.city-stats-section-header {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #406040;
+  border-bottom: 1px solid #152415;
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+  font-family: monospace;
+}
+
+/* Chart wrappers */
+.city-stats-chart-wrap {
+  background: #020602;
+  border: 1px solid #152015;
+  border-radius: 2px;
+  padding: 4px 6px 2px;
+  position: relative;
+  overflow: hidden;
+}
+.city-stats-chart-wrap--sm {
+  padding: 2px 4px 1px;
+}
+.city-stats-chart-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #355535;
+  font-family: monospace;
+  margin-top: 3px;
+}
+.city-stats-chart-range {
+  color: #406040;
+}
+.city-stats-attack-legend {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  color: #804040;
+  font-family: monospace;
+  margin-top: 4px;
+}
+
+/* Resource grid */
+.city-stats-res-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.city-stats-res-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.city-stats-res-label {
+  font-size: 9px;
+  color: #508050;
+  letter-spacing: 1px;
+  font-family: monospace;
+}
+.city-stats-res-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1px 4px 0;
+}
+.city-stats-res-cur {
+  font-size: 11px;
+  color: var(--game-text-color);
+  font-family: monospace;
+}
+.city-stats-res-delta {
+  font-size: 9px;
+  font-family: monospace;
+}
+
+/* Population & Defense duo */
+.city-stats-duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* Sparkline */
+.city-sparkline {
+  display: block;
+  width: 100%;
+}
+.city-sparkline--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.city-sparkline-nodata {
+  font-size: 9px;
+  color: #304830;
+  font-family: monospace;
+  font-style: italic;
+}
+.city-sparkline-attack-row {
+  position: relative;
+  width: 100%;
+}
+.city-sparkline-attack-mark {
+  position: absolute;
+  top: 0;
+  display: block;
+  width: 0;
+  height: 0;
+  border-left:   4px solid transparent;
+  border-right:  4px solid transparent;
+  border-bottom: 7px solid #c03030;
+  transform: translateX(-4px);
+}
+.city-sparkline-attack-mark--inline {
+  position: static;
+  display: inline-block;
+  transform: none;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
+/* Empty state */
+.city-stats-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 16px;
+  color: #406040;
+  font-family: monospace;
+  text-align: center;
+}
+.city-stats-empty-icon {
+  font-size: 32px;
+  opacity: 0.4;
+}
+.city-stats-empty-hint {
+  font-size: 11px;
+  color: #305030;
+  line-height: 1.6;
+}
+
 /* ── Misc city UI ─────────────────────────────────────────────────────────── */
 
 .city-section-title {

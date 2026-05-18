@@ -145,6 +145,25 @@ export const EXPANSION_COSTS: Record<number, { gold: number; resources: Partial<
 /** Hard cap on total fortifications (prevents unlimited stacking). */
 export const MAX_TOTAL_FORTS = 12
 
+// ── Stats history ─────────────────────────────────────────────────────────────
+
+const HISTORY_MAX         = 144          // 24 h at 10-min resolution
+const HISTORY_INTERVAL_MS = 10 * 60_000  // sample at most once per 10 minutes
+
+export interface HistorySample {
+  t:        number   // Unix ms timestamp
+  gold:     number
+  pop:      number
+  def:      number
+  wheat:    number
+  wood:     number
+  ore:      number
+  bread:    number
+  planks:   number
+  metal:    number
+  attacked?: boolean
+}
+
 // ── Seasonal cycles ───────────────────────────────────────────────────────────
 
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
@@ -379,6 +398,8 @@ export interface CityState {
   tradeOffer:    TradeOffer | null
   /** Caravan currently away on a trade mission. */
   activeCaravan: ActiveCaravan | null
+  /** Periodic economy snapshots for the Stats dashboard (newest last, max 144). */
+  history:       HistorySample[]
 }
 
 // ── Storage ───────────────────────────────────────────────────────────────────
@@ -408,6 +429,7 @@ function defaultState(): CityState {
     attacksProcessed:    0,
     tradeOffer:          null,
     activeCaravan:       null,
+    history:             [],
   }
 }
 
@@ -451,6 +473,7 @@ export function loadCityState(): CityState {
       attacksProcessed:    parsed.attacksProcessed ?? 0,
       tradeOffer:          parsed.tradeOffer ?? null,
       activeCaravan:       parsed.activeCaravan ?? null,
+      history:             parsed.history ?? [],
     }
   } catch (err) {
     logError('loadCityState failed', err as Record<string, unknown>)
@@ -970,6 +993,29 @@ export function tickCity(state: CityState): CityState {
   }
 
   const { state: resultWithMilestones } = checkMilestones(result)
+
+  // Append a history sample at most once per HISTORY_INTERVAL_MS
+  const hist = resultWithMilestones.history ?? []
+  const lastSampleAt = hist.length > 0 ? hist[hist.length - 1].t : 0
+  if (now - lastSampleAt >= HISTORY_INTERVAL_MS) {
+    const attacked = resultWithMilestones.lastAttack != null &&
+      resultWithMilestones.lastAttack.at > (state.lastTick ?? 0)
+    const sample: HistorySample = {
+      t:       now,
+      gold:    resultWithMilestones.gold,
+      pop:     cityPopulation(resultWithMilestones),
+      def:     cityDefense(resultWithMilestones),
+      wheat:   Math.floor(resultWithMilestones.resources.wheat),
+      wood:    Math.floor(resultWithMilestones.resources.wood),
+      ore:     Math.floor(resultWithMilestones.resources.ore),
+      bread:   Math.floor(resultWithMilestones.resources.bread),
+      planks:  Math.floor(resultWithMilestones.resources.planks),
+      metal:   Math.floor(resultWithMilestones.resources.metal),
+      attacked,
+    }
+    const history = [...hist, sample].slice(-HISTORY_MAX)
+    return { ...resultWithMilestones, history }
+  }
   return resultWithMilestones
 }
 
