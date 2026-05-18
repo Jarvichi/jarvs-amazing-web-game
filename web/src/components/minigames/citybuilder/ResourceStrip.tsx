@@ -13,7 +13,7 @@ export interface Props {
 }
 
 export function ResourceStrip({ defense, population, resources, prodRates, consRates, season }: Props) {
-  const si = SEASON_INFO[season]
+  const si = SEASON_INFO[season] ?? SEASON_INFO['spring']
   return (
     <div className="city-res-strip">
       <span className="city-info-chip" title={`Defense: ${defense}`}>🛡 {defense}</span>

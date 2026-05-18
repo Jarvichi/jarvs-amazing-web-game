@@ -18,6 +18,7 @@ export const Empty: Story = {
     resources: emptyResources,
     prodRates: {},
     consRates: {},
+    season: 'spring',
   },
 }
 
@@ -28,6 +29,7 @@ export const WithResources: Story = {
     resources: { wheat: 120, wood: 35, ore: 12, bread: 8, planks: 5, metal: 2 },
     prodRates: { wheat: 10, wood: 4, ore: 2 },
     consRates: { wheat: 6, bread: 1 },
+    season: 'summer',
   },
 }
 
@@ -38,5 +40,6 @@ export const CriticalResources: Story = {
     resources: { wheat: 3, wood: 0, ore: 0, bread: 0, planks: 0, metal: 0 },
     prodRates: { wheat: 2 },
     consRates: { wheat: 8 },
+    season: 'winter',
   },
 }
