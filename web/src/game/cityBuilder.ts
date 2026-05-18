@@ -1295,6 +1295,16 @@ export function tickCity(state: CityState): CityState {
     : { h: [], v: [] }
   const newRoadWear: RoadWearMap = { h: [...(rwBase.h ?? [])], v: [...(rwBase.v ?? [])] }
 
+  // Decay road wear over time so unused roads revert to green
+  const ROAD_DECAY_PER_MIN = 0.3
+  const decay = ROAD_DECAY_PER_MIN * minutes
+  for (let idx = 0; idx < newRoadWear.h.length; idx++) {
+    if (newRoadWear.h[idx] > 0) newRoadWear.h[idx] = Math.max(0, newRoadWear.h[idx] - decay)
+  }
+  for (let idx = 0; idx < newRoadWear.v.length; idx++) {
+    if (newRoadWear.v[idx] > 0) newRoadWear.v[idx] = Math.max(0, newRoadWear.v[idx] - decay)
+  }
+
   // ── Migration: first tick on old save — seed cell stocks from state.resources ─
   const hasAnyStock = newGrid.some(c => c && Object.values(c.stock).some(v => (v ?? 0) > 0))
   if (!hasAnyStock && Object.values(state.resources).some(v => v > 0)) {

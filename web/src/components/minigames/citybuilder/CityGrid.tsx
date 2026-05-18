@@ -3,9 +3,24 @@ import {
   CityState, CITY_COLS, CITY_ROWS,
   spawnerUnitCount, getNeighbourIndices,
   getRowDistrict, DISTRICT_INFO,
-  roadTier,
   RESOURCE_ICONS, ResourceType,
 } from '../../../game/cityBuilder'
+
+// Lerp wear 0-100 → rgba string: transparent → brown → grey
+function roadWearColor(wear: number): string {
+  if (wear <= 0) return 'transparent'
+  const BROWN: [number,number,number] = [120, 80, 20]
+  const GREY:  [number,number,number] = [160,150,110]
+  if (wear < 25) {
+    const t = wear / 25
+    return `rgba(${BROWN[0]},${BROWN[1]},${BROWN[2]},${(t * 0.85).toFixed(2)})`
+  }
+  const t = Math.min(1, (wear - 25) / 75)
+  const r = Math.round(BROWN[0] + (GREY[0] - BROWN[0]) * t)
+  const g = Math.round(BROWN[1] + (GREY[1] - BROWN[1]) * t)
+  const b = Math.round(BROWN[2] + (GREY[2] - BROWN[2]) * t)
+  return `rgba(${r},${g},${b},0.85)`
+}
 import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
 import { BuilderWalker, VisualCarrier } from '../CityBuilder'
 import { Walker } from './walkerTypes'
@@ -56,14 +71,26 @@ export function CityGrid({
           const isRowStart  = col === 0
           const isLastCol   = col === CITY_COLS - 1
           const isLastRow   = row === cityRows - 1
-          const tierR = isLastCol ? 0 : roadTier((city.roadWear?.h ?? [])[i] ?? 0)
-          const tierB = isLastRow ? 0 : roadTier((city.roadWear?.v ?? [])[i] ?? 0)
-          const ROAD1 = 'rgba(120,80,20,0.75)'
-          const ROAD2 = 'rgba(160,150,110,0.85)'
+          const wearR = isLastCol ? 0 : ((city.roadWear?.h ?? [])[i] ?? 0)
+          const wearB = isLastRow ? 0 : ((city.roadWear?.v ?? [])[i] ?? 0)
           const shadows: string[] = []
           if (district !== 'none' && isRowStart) shadows.push(`inset 4px 0 0 ${distColor}`)
-          if (tierR > 0) shadows.push(`3px 0 0 0 ${tierR === 2 ? ROAD2 : ROAD1}`)
-          if (tierB > 0) shadows.push(`0 3px 0 0 ${tierB === 2 ? ROAD2 : ROAD1}`)
+          if (wearR > 0) {
+            const c = roadWearColor(wearR)
+            shadows.push(`3px 0 0 0 ${c}`)
+            if (wearR > 60) {
+              const w = (((wearR - 60) / 40) * 3).toFixed(1)
+              shadows.push(`inset -${w}px 0 0 0 ${c}`)
+            }
+          }
+          if (wearB > 0) {
+            const c = roadWearColor(wearB)
+            shadows.push(`0 3px 0 0 ${c}`)
+            if (wearB > 60) {
+              const w = (((wearB - 60) / 40) * 3).toFixed(1)
+              shadows.push(`inset 0 -${w}px 0 0 ${c}`)
+            }
+          }
           return (
             <button
               key={i}
