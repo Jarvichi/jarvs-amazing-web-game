@@ -152,6 +152,22 @@ export function claimAllAchievementRewards(): { def: AchievementDef; reward: Ach
   return results
 }
 
+/**
+ * One-time retcon: if the Full Set achievement was incorrectly unlocked
+ * (via sold-and-reacquired items inflating the progress counter), reset it
+ * so the player can earn it legitimately. Returns true if a retcon occurred.
+ */
+export function retconFullSetAchievement(actualUniqueCount: number): boolean {
+  if (actualUniqueCount >= 423) return false
+  const save = loadAchievementSave()
+  if (!save.unlocked['misc:items_full_set']) return false
+  save.unlocked['misc:items_full_set'] = false
+  save.claimed['misc:items_full_set'] = false
+  save.progress['misc:unique_items'] = actualUniqueCount
+  saveAchievementSave(save)
+  return true
+}
+
 // ─── Helper: build kill achievement pair ─────────────────
 
 function killPair(
