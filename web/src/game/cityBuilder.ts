@@ -302,6 +302,137 @@ export const STORAGE_BASE_CAPS: ResourceStock = {
 const STORAGE_PER_WAREHOUSE = 200  // added to all caps per warehouse building placed
 const WAREHOUSE_PATTERN = /warehouse|barn|granary|silo|storehouse|vault/i
 
+// ── Carrier / road transport constants ───────────────────────────────────────
+
+const CARRIER_LOAD          = 5     // units loaded per carrier trip
+const CARRIER_BASE_SPEED    = 1.0   // cells per minute on grass
+const ROAD_WEAR_PER_CARRIER = 0.4   // wear added per carrier per minute
+export const ROAD_TIER_THRESHOLDS = [25, 60] as const  // tier 1 at 25, tier 2 at 60
+const ROAD_SPEED_MULT = [1.0, 1.4, 2.0]  // multiplier per road tier
+
+/** Per-edge road wear. h[i] = right edge of cell i; v[i] = bottom edge of cell i. */
+export interface RoadWearMap { h: number[]; v: number[] }
+
+export interface CarrierState {
+  id:       string
+  fromCell: number   // source cell index
+  toCell:   number   // destination cell index
+  carrying: Partial<ResourceStock>
+  progress: number   // 0..1 journey progress
+}
+
+// Manhattan distance between two cell indices
+function cellManhattan(a: number, b: number, cols: number): number {
+  return Math.abs(a % cols - b % cols) + Math.abs(Math.floor(a / cols) - Math.floor(b / cols))
+}
+
+// Road tier 0/1/2 from wear score
+export function roadTier(wear: number): 0 | 1 | 2 {
+  return wear >= ROAD_TIER_THRESHOLDS[1] ? 2 : wear >= ROAD_TIER_THRESHOLDS[0] ? 1 : 0
+}
+
+// Centre pixel of a cell in the overlay (for carrier rendering)
+export function cellCenter(idx: number, rows: number): { x: number; y: number } {
+  const gridRows = rows
+  const col = idx % CITY_COLS
+  const row = Math.floor(idx / CITY_COLS)
+  return {
+    x: (col + 0.5) * CELL_PX,
+    y: (row + 0.5) * CELL_PX * (gridRows / CITY_ROWS),
+  }
+}
+
+// Get edge wear between two adjacent cells (lo = smaller index, hi = larger)
+function edgeWear(rw: RoadWearMap, lo: number, hi: number, cols: number): number {
+  return hi === lo + 1 ? (rw.h[lo] ?? 0) : (rw.v[lo] ?? 0)
+}
+
+// Average road speed multiplier along the Manhattan path from→to
+function pathSpeedMult(from: number, to: number, roadWear: RoadWearMap, cols: number): number {
+  let c = from % cols, r = Math.floor(from / cols)
+  const tc = to % cols, tr = Math.floor(to / cols)
+  let steps = 0, total = 0
+  while (c !== tc || r !== tr) {
+    const pc = c, pr = r
+    if (c !== tc) c += c < tc ? 1 : -1; else r += r < tr ? 1 : -1
+    const lo = Math.min(pr * cols + pc, r * cols + c)
+    const hi = Math.max(pr * cols + pc, r * cols + c)
+    total += ROAD_SPEED_MULT[roadTier(edgeWear(roadWear, lo, hi, cols))]
+    steps++
+  }
+  return steps > 0 ? total / steps : ROAD_SPEED_MULT[0]
+}
+
+// Add wear to every edge on the Manhattan path from→to
+function wearPath(from: number, to: number, roadWear: RoadWearMap, cols: number, amount: number): void {
+  let c = from % cols, r = Math.floor(from / cols)
+  const tc = to % cols, tr = Math.floor(to / cols)
+  while (c !== tc || r !== tr) {
+    const pc = c, pr = r
+    if (c !== tc) c += c < tc ? 1 : -1; else r += r < tr ? 1 : -1
+    const lo = Math.min(pr * cols + pc, r * cols + c)
+    const hi = Math.max(pr * cols + pc, r * cols + c)
+    if (hi === lo + 1) roadWear.h[lo] = Math.min(100, (roadWear.h[lo] ?? 0) + amount)
+    else               roadWear.v[lo] = Math.min(100, (roadWear.v[lo] ?? 0) + amount)
+  }
+}
+
+// Find nearest building that wants this resource
+function findNearestConsumer(
+  res: ResourceType, fromCell: number,
+  grid: (CityCell | undefined)[], cols: number,
+): number | null {
+  let best: number | null = null, bestDist = Infinity
+  for (let i = 0; i < grid.length; i++) {
+    if (i === fromCell) continue
+    const cell = grid[i]
+    if (!cell || cell.spawnedUnitName) continue
+    const wants = res === 'wheat'
+      ? Boolean(BUILDING_CONVERSION_COST[cell.cardName]?.wheat)
+      : WAREHOUSE_PATTERN.test(cell.cardName)
+    if (!wants) continue
+    const d = cellManhattan(fromCell, i, cols)
+    if (d < bestDist) { bestDist = d; best = i }
+  }
+  return best
+}
+
+// Proportionally deduct `amount` of `res` from all cell stocks
+function deductResource(
+  res: ResourceType, amount: number,
+  grid: (CityCell | undefined)[], totalStock: ResourceStock,
+): void {
+  const total = totalStock[res] ?? 0
+  if (total <= 0 || amount <= 0) return
+  const consumed = Math.min(total, amount)
+  const fraction = consumed / total
+  for (const cell of grid) {
+    if (!cell) continue
+    const s = cell.stock[res] ?? 0
+    if (s > 0) cell.stock[res] = Math.max(0, s * (1 - fraction))
+  }
+  totalStock[res] = Math.max(0, total - consumed)
+}
+
+// Compute ResourceStock as the sum of all cell stocks + in-transit carriers
+function aggregateResources(
+  grid: (CityCell | undefined)[], carriers: CarrierState[],
+): ResourceStock {
+  const r: ResourceStock = { wheat: 0, wood: 0, ore: 0, bread: 0, planks: 0, metal: 0 }
+  for (const cell of grid) {
+    if (!cell) continue
+    for (const [k, v] of Object.entries(cell.stock) as [ResourceType, number][]) {
+      if (v > 0) r[k] = (r[k] ?? 0) + v
+    }
+  }
+  for (const c of carriers) {
+    for (const [k, v] of Object.entries(c.carrying) as [ResourceType, number][]) {
+      if (v > 0) r[k] = (r[k] ?? 0) + v
+    }
+  }
+  return r
+}
+
 export function calculateStorageCaps(state: CityState): ResourceStock {
   let bonus = 0
   for (const cell of state.grid) {
@@ -498,6 +629,7 @@ export interface CityCell {
   spawnedUnitName?:  string
   /** Unit name this walker wants as an affinity friend (stored at placement). */
   affinityWith?:     string
+  stock:             Partial<ResourceStock>  // local building storage
 }
 
 export interface Fortification {
@@ -582,6 +714,10 @@ export interface CityState {
   activeDisaster: Disaster | null
   /** Timestamp when the next disaster may be triggered. */
   nextDisasterAt: number
+  /** Per-edge road wear. h[i] = right edge of cell i; v[i] = bottom edge of cell i. */
+  roadWear: RoadWearMap
+  /** Workers currently transporting resources between buildings. */
+  carriers: CarrierState[]
 }
 
 // ── Storage ───────────────────────────────────────────────────────────────────
@@ -615,6 +751,8 @@ function defaultState(): CityState {
     zones:               [],
     activeDisaster:      null,
     nextDisasterAt:      Date.now() + (18 + Math.random() * 12) * 3_600_000,
+    roadWear:            { h: [], v: [] },
+    carriers:            [],
   }
 }
 
@@ -627,9 +765,10 @@ export function loadCityState(): CityState {
     const rows = parsed.rows ?? CITY_ROWS
     const cells = CITY_COLS * rows
     const savedGrid = parsed.grid ?? Array(cells).fill(undefined)
-    const grid = savedGrid.length < cells
+    const grid = (savedGrid.length < cells
       ? [...savedGrid, ...Array(cells - savedGrid.length).fill(undefined)]
       : savedGrid
+    ).map((c: CityCell | undefined) => c ? { ...c, stock: c.stock ?? {} } : c)
     return {
       grid,
       gold:           parsed.gold       ?? 0,
@@ -662,6 +801,8 @@ export function loadCityState(): CityState {
       zones:               (parsed.zones ?? []) as DistrictType[],
       activeDisaster:      parsed.activeDisaster ?? null,
       nextDisasterAt:      parsed.nextDisasterAt ?? Date.now() + (18 + Math.random() * 12) * 3_600_000,
+      roadWear:            (Array.isArray(parsed.roadWear) ? { h: [], v: [] } : (parsed.roadWear ?? { h: [], v: [] })) as RoadWearMap,
+      carriers:            (parsed.carriers ?? []) as CarrierState[],
     }
   } catch (err) {
     logError('loadCityState failed', err as Record<string, unknown>)
@@ -1139,99 +1280,167 @@ export function tickCity(state: CityState): CityState {
   const season = currentSeason(now)
   const si = SEASON_INFO[season]
 
-  const newResources = { ...state.resources }
   let goldEarned = 0
   const newHappy = { ...state.happiness }
 
   const defense   = cityDefense(state)
   const population = Math.max(cityPopulation(state), 1)
 
-  // Deferred bread from conversion buildings (applied after loop with wheat-efficiency check)
-  let breadConversionPending = 0
-  let wheatConversionCost    = 0
+  // ── Build mutable grid (copy cell stocks) ───────────────────────────────────
+  const gridRows = state.rows ?? CITY_ROWS
+  const newGrid = state.grid.map(c => c ? { ...c, stock: { ...(c.stock ?? {}) } } : c)
+  const rawRW = state.roadWear as unknown
+  const rwBase: RoadWearMap = (rawRW && typeof rawRW === 'object' && !Array.isArray(rawRW))
+    ? rawRW as RoadWearMap
+    : { h: [], v: [] }
+  const newRoadWear: RoadWearMap = { h: [...(rwBase.h ?? [])], v: [...(rwBase.v ?? [])] }
 
-  for (let i = 0; i < state.grid.length; i++) {
-    const cell = state.grid[i]
+  // ── Migration: first tick on old save — seed cell stocks from state.resources ─
+  const hasAnyStock = newGrid.some(c => c && Object.values(c.stock).some(v => (v ?? 0) > 0))
+  if (!hasAnyStock && Object.values(state.resources).some(v => v > 0)) {
+    const RES_PRODUCERS: Partial<Record<ResourceType, RegExp>> = {
+      wheat: /farm|garden|orchard|oasis|spring/i,
+      wood:  /lumber|sawmill|timber/i,
+      ore:   /quarry|mine|iron/i,
+    }
+    for (const [res, amount] of Object.entries(state.resources) as [ResourceType, number][]) {
+      if (amount <= 0) continue
+      const pattern = RES_PRODUCERS[res]
+      const targets = newGrid.filter((c): c is CityCell => Boolean(c && !c.spawnedUnitName && (pattern ? pattern.test(c.cardName) : WAREHOUSE_PATTERN.test(c.cardName))))
+      if (targets.length === 0) {
+        // Fall back to any non-spawner building
+        const any = newGrid.find(c => c && !c.spawnedUnitName)
+        if (any) any.stock[res] = (any.stock[res] ?? 0) + amount
+      } else {
+        const each = amount / targets.length
+        for (const t of targets) t.stock[res] = (t.stock[res] ?? 0) + each
+      }
+    }
+  }
+
+  // ── Move carriers — advance progress, handle deliveries ─────────────────────
+  const arrivedIds = new Set<string>()
+  const newCarriers = (state.carriers ?? []).map(c => ({ ...c }))
+  for (const carrier of newCarriers) {
+    const dist = Math.max(1, cellManhattan(carrier.fromCell, carrier.toCell, CITY_COLS))
+    const speed = (CARRIER_BASE_SPEED / dist) * pathSpeedMult(carrier.fromCell, carrier.toCell, newRoadWear, CITY_COLS)
+    wearPath(carrier.fromCell, carrier.toCell, newRoadWear, CITY_COLS, ROAD_WEAR_PER_CARRIER * minutes)
+    carrier.progress = Math.min(1, carrier.progress + speed * minutes)
+    if (carrier.progress >= 1) {
+      const dest = newGrid[carrier.toCell]
+      if (dest) {
+        for (const [res, amt] of Object.entries(carrier.carrying) as [ResourceType, number][]) {
+          dest.stock[res] = (dest.stock[res] ?? 0) + amt
+        }
+      }
+      arrivedIds.add(carrier.id)
+    }
+  }
+  const activeCarriers = newCarriers.filter(c => !arrivedIds.has(c.id))
+
+  // ── Production loop — writes to local cell stock ─────────────────────────────
+  for (let i = 0; i < newGrid.length; i++) {
+    const cell = newGrid[i]
     if (!cell) continue
 
     const happy = (newHappy[i] ?? 100) > 0
     const unitCount = cell.spawnedUnitName ? spawnerUnitCount(state, cell.cardName) : 1
 
-    // District zone bonus for this cell's row
-    const cellRow     = Math.floor(i / CITY_COLS)
+    const cellRow      = Math.floor(i / CITY_COLS)
     const cellDistrict = getRowDistrict(state, cellRow)
-    const distInfo    = DISTRICT_INFO[cellDistrict]
+    const distInfo     = DISTRICT_INFO[cellDistrict]
 
-    // Gold income (with adjacency bonus for spawn buildings near food, and commercial district)
-    const incomeBonus   = cell.spawnedUnitName ? getCellIncomeBonus(state, i) : 0
-    const distGoldMult  = 1 + (distInfo.goldMult ?? 0)
+    // Gold income
+    const incomeBonus  = cell.spawnedUnitName ? getCellIncomeBonus(state, i) : 0
+    const distGoldMult = 1 + (distInfo.goldMult ?? 0)
     goldEarned += cellIncomeRate(cell, happy, unitCount) * (1 + incomeBonus) * distGoldMult * minutes
 
-    // Resource production (utility/non-spawner buildings that produce resources)
+    // Resource production — write to local stock
     if (!cell.spawnedUnitName) {
-      const masteryMult = masteryOutputMultiplier(getCardMasteryLevel(cell.cardName) ?? 0)
-      const produces = getBuildingProduces(cell.cardName)
-      const synergies = getCellSynergyBonuses(state, i)
+      const masteryMult  = masteryOutputMultiplier(getCardMasteryLevel(cell.cardName) ?? 0)
+      const produces     = getBuildingProduces(cell.cardName)
+      const synergies    = getCellSynergyBonuses(state, i)
       const synergyMap: Partial<Record<ResourceType, number>> = {}
       for (const s of synergies) synergyMap[s.resource] = (synergyMap[s.resource] ?? 0) + s.multiplier
       const distProdMult = 1 + (distInfo.prodMult ?? 0)
+
       for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
-        if (rate > 0) {
-          const synergyMult = 1 + (synergyMap[res as ResourceType] ?? 0)
-          // Season modifier: wheat/wood/ore get seasonal multipliers
-          const seasonMult = res === 'wheat' ? 1 + si.wheat
-                           : res === 'wood'  ? 1 + si.wood
-                           : res === 'ore'   ? 1 + si.ore
-                           : 1
-          const amount = rate * masteryMult * synergyMult * Math.max(0, seasonMult) * distProdMult * minutes
-          // Conversion buildings: defer bread production — it depends on wheat availability
-          if (BUILDING_CONVERSION_COST[cell.cardName] && res === 'bread') {
-            breadConversionPending += amount
-            const wheatRate = BUILDING_CONVERSION_COST[cell.cardName].wheat ?? 0
-            wheatConversionCost += wheatRate * masteryMult * synergyMult * Math.max(0, seasonMult) * distProdMult * minutes
-          } else {
-            newResources[res] = (newResources[res] ?? 0) + amount
-          }
+        if (rate <= 0) continue
+        const synergyMult = 1 + (synergyMap[res as ResourceType] ?? 0)
+        const seasonMult  = res === 'wheat' ? 1 + si.wheat
+                          : res === 'wood'  ? 1 + si.wood
+                          : res === 'ore'   ? 1 + si.ore : 1
+        const amount = rate * masteryMult * synergyMult * Math.max(0, seasonMult) * distProdMult * minutes
+
+        if (BUILDING_CONVERSION_COST[cell.cardName] && res === 'bread') {
+          // Conversion building (mill/bakery that needs wheat): use LOCAL wheat stock
+          const wheatRate   = BUILDING_CONVERSION_COST[cell.cardName].wheat ?? 0
+          const wheatNeeded = wheatRate * masteryMult * synergyMult * Math.max(0, seasonMult) * distProdMult * minutes
+          const localWheat  = cell.stock.wheat ?? 0
+          const eff = wheatNeeded > 0 ? Math.min(1, localWheat / wheatNeeded) : 1
+          cell.stock.bread  = (cell.stock.bread  ?? 0) + amount * eff
+          cell.stock.wheat  = Math.max(0, localWheat - wheatNeeded * eff)
+        } else {
+          cell.stock[res as ResourceType] = (cell.stock[res as ResourceType] ?? 0) + amount
         }
       }
     }
+  }
 
-    // Spawners consume food (wheat) — more in summer/winter
-    if (cell.spawnedUnitName && happy) {
-      const unitCount = spawnerUnitCount(state, cell.cardName)
-      const hungerMult = 1 + si.hunger
-      const consume = FOOD_CONSUME_RATE[cell.rarity] * unitCount * hungerMult * minutes
-      newResources.wheat = Math.max(0, (newResources.wheat ?? 0) - consume)
+  // ── Spawn new carriers from production buildings ─────────────────────────────
+  // Track which (fromCell, res) combos already have a carrier in flight to avoid flooding
+  const inFlight = new Set(activeCarriers.map(c => `${c.fromCell}-${Object.keys(c.carrying)[0]}`))
+  for (let i = 0; i < newGrid.length; i++) {
+    const cell = newGrid[i]
+    if (!cell || cell.spawnedUnitName) continue
+    for (const [res, amount] of Object.entries(cell.stock) as [ResourceType, number][]) {
+      if (amount < CARRIER_LOAD) continue
+      if (inFlight.has(`${i}-${res}`)) continue
+      const target = findNearestConsumer(res as ResourceType, i, newGrid as (CityCell|undefined)[], CITY_COLS)
+      if (target === null) continue
+      const load = Math.min(amount, CARRIER_LOAD)
+      activeCarriers.push({
+        id:       `${Date.now()}-${i}-${res}`,
+        fromCell: i,
+        toCell:   target,
+        carrying: { [res]: load },
+        progress: 0,
+      })
+      cell.stock[res as ResourceType] = Math.max(0, amount - load)
+      inFlight.add(`${i}-${res}`)
     }
   }
 
-  // ── Wheat → bread conversion (Windmill and any future conversion buildings) ──
-  if (breadConversionPending > 0) {
-    const eff = wheatConversionCost > 0
-      ? Math.min(1, (newResources.wheat ?? 0) / wheatConversionCost)
-      : 1
-    newResources.bread = (newResources.bread ?? 0) + breadConversionPending * eff
-    newResources.wheat = Math.max(0, (newResources.wheat ?? 0) - wheatConversionCost * eff)
+  // ── Aggregate global resource view from cell stocks ──────────────────────────
+  const newResources = aggregateResources(newGrid as (CityCell|undefined)[], activeCarriers)
+
+  // ── Spawners consume food (wheat) from global aggregate ─────────────────────
+  for (let i = 0; i < newGrid.length; i++) {
+    const cell = newGrid[i]
+    if (!cell?.spawnedUnitName || (newHappy[i] ?? 100) <= 0) continue
+    const uCount     = spawnerUnitCount(state, cell.cardName)
+    const hungerMult = 1 + si.hunger
+    const consume    = FOOD_CONSUME_RATE[cell.rarity] * uCount * hungerMult * minutes
+    deductResource('wheat', consume, newGrid as (CityCell|undefined)[], newResources)
   }
 
-  // ── Resident resource consumption (bread & wood) ──────────────────────────
+  // ── Resident bread & wood consumption ────────────────────────────────────────
   let totalBreadDemand = 0
   let totalWoodDemand  = 0
-  for (let i = 0; i < state.grid.length; i++) {
-    const cell = state.grid[i]
+  for (let i = 0; i < newGrid.length; i++) {
+    const cell = newGrid[i]
     if (!cell?.spawnedUnitName || (newHappy[i] ?? 100) <= 0) continue
     const uCount   = spawnerUnitCount(state, cell.cardName)
     totalBreadDemand += BREAD_CONSUME_RATE * uCount * minutes
     const woodMult   = season === 'winter' ? WINTER_WOOD_MULT : 1
-    totalWoodDemand  += WOOD_CONSUME_RATE * uCount * woodMult * minutes
+    totalWoodDemand  += WOOD_CONSUME_RATE  * uCount * woodMult * minutes
   }
-
-  const breadConsumed  = Math.min(newResources.bread ?? 0, totalBreadDemand)
-  const woodConsumed   = Math.min(newResources.wood  ?? 0, totalWoodDemand)
-  const breadCoverage  = totalBreadDemand > 0 ? breadConsumed / totalBreadDemand : 1
-  const woodShort      = totalWoodDemand  > 0 && woodConsumed < totalWoodDemand * 0.5
-  newResources.bread   = Math.max(0, (newResources.bread ?? 0) - breadConsumed)
-  newResources.wood    = Math.max(0, (newResources.wood  ?? 0) - woodConsumed)
+  const breadConsumed = Math.min(newResources.bread ?? 0, totalBreadDemand)
+  const woodConsumed  = Math.min(newResources.wood  ?? 0, totalWoodDemand)
+  const breadCoverage = totalBreadDemand > 0 ? breadConsumed / totalBreadDemand : 1
+  const woodShort     = totalWoodDemand  > 0 && woodConsumed < totalWoodDemand * 0.5
+  deductResource('bread', breadConsumed, newGrid as (CityCell|undefined)[], newResources)
+  deductResource('wood',  woodConsumed,  newGrid as (CityCell|undefined)[], newResources)
 
   // ── Base happiness target from food, defence, bread quality, wood supply ──
   const foodScore    = Math.min(100, (newResources.wheat / population) * 5)
@@ -1243,14 +1452,13 @@ export function tickCity(state: CityState): CityState {
   const woodScore    = woodShort ? -WOOD_SHORTAGE_PENALTY : 0
   const baseTarget   = Math.min(100, Math.max(0, Math.round(foodScore * 0.6 + defenseScore * 0.4) + breadScore + woodScore))
 
-  const gridRows = state.rows ?? CITY_ROWS
-  for (let i = 0; i < state.grid.length; i++) {
-    const cell = state.grid[i]
+  for (let i = 0; i < newGrid.length; i++) {
+    const cell = newGrid[i]
     if (!cell?.spawnedUnitName) continue
 
     const wantedNeighbour = cell.affinityWith ?? cell.spawnedUnitName
     const affinityMet = getNeighbourIndices(i, gridRows).some(ni => {
-      const nc = state.grid[ni]
+      const nc = newGrid[ni]
       return nc?.spawnedUnitName === wantedNeighbour && (state.happiness[ni] ?? 100) > 0
     })
     const cellTarget  = affinityMet ? baseTarget : 0
@@ -1272,7 +1480,7 @@ export function tickCity(state: CityState): CityState {
       const woodCost = toRepair * FORT_REPAIR_WOOD_PER_HP
       if (newResources.wood >= woodCost) {
         fort.hp = Math.min(fort.maxHp, fort.hp + toRepair)
-        newResources.wood = Math.max(0, newResources.wood - woodCost)
+        deductResource('wood', woodCost, newGrid as (CityCell|undefined)[], newResources)
       }
     }
   }
@@ -1301,14 +1509,25 @@ export function tickCity(state: CityState): CityState {
     newResources[key] = Math.max(0, Math.min(newResources[key], storageCaps[key]))
   }
 
+  // Also cap each cell's individual stock
+  for (const cell of newGrid) {
+    if (!cell) continue
+    for (const key of Object.keys(cell.stock) as ResourceType[]) {
+      cell.stock[key] = Math.max(0, Math.min(cell.stock[key] ?? 0, storageCaps[key]))
+    }
+  }
+
   let result: CityState = {
     ...state,
+    grid:           newGrid as CityState['grid'],
     gold:           Math.max(0, state.gold + Math.floor(goldEarned)),
     resources:      newResources,
     lastTick:       now,
     happiness:      newHappy,
     fortifications: newForts,
     builderQueue:   remainingQueue,
+    roadWear:       newRoadWear,
+    carriers:       activeCarriers,
   }
 
   for (const name of completedFortNames) {
@@ -1406,7 +1625,7 @@ export function tickCity(state: CityState): CityState {
 
 export function placeCard(state: CityState, index: number, cell: CityCell): CityState {
   const grid = [...state.grid]
-  grid[index] = cell
+  grid[index] = { ...cell, stock: cell.stock ?? {} }
   const happiness = { ...state.happiness }
   if (cell.spawnedUnitName) happiness[index] = 100
 
@@ -1575,7 +1794,7 @@ export function canAffordCoreBuild(state: CityState, building: CoreBuilding): bo
 
 export function placeCoreBuild(state: CityState, index: number, building: CoreBuilding): CityState {
   if (!canAffordCoreBuild(state, building)) return state
-  const cell: CityCell = { cardName: building.name, rarity: building.rarity }
+  const cell: CityCell = { cardName: building.name, rarity: building.rarity, stock: {} }
   return placeCard({ ...state, gold: state.gold - building.goldCost }, index, cell)
 }
 

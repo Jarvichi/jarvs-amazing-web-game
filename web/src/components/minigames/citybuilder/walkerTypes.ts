@@ -48,6 +48,7 @@ export interface Walker {
   hidden:       boolean
   hiddenTimer:  number
   trait:        PersonalityTrait
+  waypoints:    { x: number; y: number }[]
 }
 
 export interface ResidentThought {

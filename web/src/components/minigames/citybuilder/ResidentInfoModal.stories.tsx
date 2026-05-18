@@ -32,6 +32,7 @@ const walker = {
   turnTimer: 10,
   task: { type: 'patrolling' as const, label: '🛡 Patrolling the walls' },
   taskTimer: 20, bubbleTimer: 5, hidden: false, hiddenTimer: 0, trait: 'industrious' as const,
+  waypoints: [],
 }
 
 export const HappyResident: Story = {

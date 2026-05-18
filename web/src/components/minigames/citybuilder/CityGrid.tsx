@@ -1,8 +1,10 @@
 import React from 'react'
 import {
-  CityState, CITY_COLS, CITY_ROWS,
+  CityState, CITY_COLS, CITY_ROWS, CELL_PX,
   spawnerUnitCount, getNeighbourIndices,
   getRowDistrict, DISTRICT_INFO,
+  roadTier,
+  RESOURCE_ICONS, ResourceType,
 } from '../../../game/cityBuilder'
 import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
 import { BuilderWalker } from '../CityBuilder'
@@ -51,11 +53,21 @@ export function CityGrid({
           const district    = getRowDistrict(city, row)
           const distColor   = DISTRICT_INFO[district]?.color ?? 'transparent'
           const isRowStart  = col === 0
+          const isLastCol   = col === CITY_COLS - 1
+          const isLastRow   = row === cityRows - 1
+          const tierR = isLastCol ? 0 : roadTier((city.roadWear?.h ?? [])[i] ?? 0)
+          const tierB = isLastRow ? 0 : roadTier((city.roadWear?.v ?? [])[i] ?? 0)
+          const ROAD1 = 'rgba(120,80,20,0.75)'
+          const ROAD2 = 'rgba(160,150,110,0.85)'
+          const shadows: string[] = []
+          if (district !== 'none' && isRowStart) shadows.push(`inset 4px 0 0 ${distColor}`)
+          if (tierR > 0) shadows.push(`inset -3px 0 0 ${tierR === 2 ? ROAD2 : ROAD1}`)
+          if (tierB > 0) shadows.push(`inset 0 -3px 0 ${tierB === 2 ? ROAD2 : ROAD1}`)
           return (
             <button
               key={i}
               className={`city-cell u-col u-items-c u-just-c u-pointer u-relative${cell ? ' city-cell--occupied' : ''}${cell && bulldozerMode ? ' city-cell--bulldoze' : ''}`}
-              style={district !== 'none' && isRowStart ? { boxShadow: `inset 4px 0 0 ${distColor}` } : undefined}
+              style={shadows.length > 0 ? { boxShadow: shadows.join(', ') } : undefined}
               onClick={() => onCellTap(i)}
               title={cell ? (bulldozerMode ? `${cell.cardName} — tap to demolish` : `${cell.cardName} — tap to inspect`) : 'Empty — tap to place'}
             >
@@ -146,6 +158,51 @@ export function CityGrid({
             <AnimatedSpriteImg name="Builder" frameCount={3} fps={8} className="city-walker-sprite" />
           </div>
         ))}
+      </div>
+
+      {/* Carrier overlay — follow Manhattan road edges */}
+      <div className="city-unit-overlay city-carrier-overlay">
+        {(city.carriers ?? []).map(carrier => {
+          const rows   = city.rows ?? CITY_ROWS
+          const baseW  = CITY_COLS * CELL_PX
+          const baseH  = rows      * CELL_PX
+          const scaleX = worldRef.current ? worldRef.current.clientWidth  / baseW : 1
+          const scaleY = worldRef.current ? worldRef.current.clientHeight / baseH : 1
+          const cellW  = baseW / CITY_COLS
+          const cellH  = baseH / rows
+
+          // Build waypoints: fromCenter → edge midpoints → toCenter
+          const r1 = Math.floor(carrier.fromCell / CITY_COLS), c1 = carrier.fromCell % CITY_COLS
+          const r2 = Math.floor(carrier.toCell   / CITY_COLS), c2 = carrier.toCell   % CITY_COLS
+          const pts: { x: number; y: number }[] = [{ x: (c1 + 0.5) * cellW, y: (r1 + 0.5) * cellH }]
+          let r = r1, c = c1
+          while (c !== c2) {
+            const dc = c2 > c ? 1 : -1
+            pts.push({ x: (c + (dc > 0 ? 1 : 0)) * cellW, y: (r + 0.5) * cellH })
+            c += dc; pts.push({ x: (c + 0.5) * cellW, y: (r + 0.5) * cellH })
+          }
+          while (r !== r2) {
+            const dr = r2 > r ? 1 : -1
+            pts.push({ x: (c + 0.5) * cellW, y: (r + (dr > 0 ? 1 : 0)) * cellH })
+            r += dr; pts.push({ x: (c + 0.5) * cellW, y: (r + 0.5) * cellH })
+          }
+
+          // Lerp through waypoints by progress
+          const segs  = Math.max(1, pts.length - 1)
+          const segF  = carrier.progress * segs
+          const segI  = Math.min(segs - 1, Math.floor(segF))
+          const segT  = segF - segI
+          const a = pts[segI], b = pts[segI + 1] ?? pts[segI]
+          const px = (a.x + (b.x - a.x) * segT) * scaleX
+          const py = (a.y + (b.y - a.y) * segT) * scaleY
+
+          const res = Object.keys(carrier.carrying)[0] as ResourceType
+          return (
+            <div key={carrier.id} className="city-carrier" style={{ left: Math.round(px), top: Math.round(py) }}>
+              <span className="city-carrier-icon">{RESOURCE_ICONS[res]}</span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
