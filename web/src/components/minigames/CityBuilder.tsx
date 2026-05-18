@@ -319,7 +319,12 @@ function computeWaypoints(
   const tc = Math.max(0, Math.min(CITY_COLS - 1, Math.floor(toX / cellW)))
   const tr = Math.max(0, Math.min(cityRows - 1, Math.floor(toY / cellH)))
   if (fc === tc || fr === tr) return []
-  return [{ x: (tc + 0.5) * cellW, y: (fr + 0.5) * cellH }]
+  // Route along the border (gap) between rows, not through cell centres
+  const borderY = fr < tr ? (fr + 1) * cellH : fr * cellH
+  return [
+    { x: (fc + 0.5) * cellW, y: borderY },  // exit source cell to row border
+    { x: (tc + 0.5) * cellW, y: borderY },  // travel along the road gap
+  ]
 }
 
 function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affinityWith?: string, w = CITY_COLS * CELL_PX, h = CITY_ROWS * CELL_PX): Walker {

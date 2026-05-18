@@ -171,11 +171,15 @@ export function CityGrid({
           const cellW  = baseW / CITY_COLS
           const cellH  = baseH / rows
 
-          // Build waypoints: simple L-shape (horizontal then vertical)
+          // Build waypoints: route along row border (gap) to avoid cutting through cells
           const r1 = Math.floor(carrier.fromCell / CITY_COLS), c1 = carrier.fromCell % CITY_COLS
           const r2 = Math.floor(carrier.toCell   / CITY_COLS), c2 = carrier.toCell   % CITY_COLS
           const pts: { x: number; y: number }[] = [{ x: (c1 + 0.5) * cellW, y: (r1 + 0.5) * cellH }]
-          if (c1 !== c2 && r1 !== r2) pts.push({ x: (c2 + 0.5) * cellW, y: (r1 + 0.5) * cellH })
+          if (c1 !== c2 && r1 !== r2) {
+            const borderY = r1 < r2 ? (r1 + 1) * cellH : r1 * cellH
+            pts.push({ x: (c1 + 0.5) * cellW, y: borderY })
+            pts.push({ x: (c2 + 0.5) * cellW, y: borderY })
+          }
           pts.push({ x: (c2 + 0.5) * cellW, y: (r2 + 0.5) * cellH })
 
           // Lerp through waypoints by progress
