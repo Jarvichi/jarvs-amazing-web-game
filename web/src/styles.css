@@ -8841,6 +8841,8 @@ html.light-mode .action-btn {
 
 .city-header {
   flex-shrink: 0;
+  flex-wrap: wrap;
+  row-gap: 4px;
 }
 .city-header-right {
   margin-left: auto;

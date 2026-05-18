@@ -21,8 +21,8 @@ export function ResourceStrip({ defense, population, resources, prodRates, consR
       <span className="city-info-chip city-season-chip" title={si.flavour}>{si.icon} {si.name}</span>
       {RESOURCE_TYPES.map(res => {
         const stock = Math.floor(resources[res])
-        const prod  = prodRates[res] ?? 0
-        const cons  = consRates[res] ?? 0
+        const prod  = Math.round(prodRates[res] ?? 0)
+        const cons  = Math.round(consRates[res] ?? 0)
         const net   = prod - cons
         if (stock === 0 && prod === 0) return null
         return (
