@@ -1,9 +1,12 @@
 import React from 'react'
-import { CityState, Disaster } from '../../../game/cityBuilder'
+import {
+  CityState, Disaster,
+  fireExtinguishCost, plagueCureCost, getCellTrait, getRowDistrict, CITY_COLS,
+} from '../../../game/cityBuilder'
 
 interface Props {
-  city:       CityState
-  disaster:   Disaster
+  city:         CityState
+  disaster:     Disaster
   onExtinguish: () => void
   onCure:       () => void
   onClose:      () => void
@@ -19,12 +22,37 @@ export function DisasterModal({ city, disaster, onExtinguish, onCure, onClose }:
   const { type, affectedCells, startedAt, severity } = disaster
   const elapsed = Date.now() - startedAt
 
-  const isFire   = type === 'fire'
-  const woodCost = affectedCells.length * 40
-  const breadCost = Math.max(10, Math.ceil(severity / 100 * 60))
+  const isFire    = type === 'fire'
+  const woodCost  = fireExtinguishCost(city)
+  const breadCost = plagueCureCost(city)
 
   const canExtinguish = city.resources.wood  >= woodCost
   const canCure       = city.resources.bread >= breadCost
+
+  // ── Fire context ─────────────────────────────────────────────────────────────
+  const braveInFire    = affectedCells.filter(ci => {
+    const cell = city.grid[ci]
+    return cell?.spawnedUnitName && getCellTrait(cell, ci) === 'brave'
+  }).length
+  const braveDiscount    = affectedCells.length * 40 - woodCost
+  const isIndustrialFire = affectedCells.some(
+    ci => getRowDistrict(city, Math.floor(ci / CITY_COLS)) === 'industrial',
+  )
+
+  // ── Plague context ────────────────────────────────────────────────────────────
+  let militarySpawners = 0, totalSpawners = 0
+  let gluttonCount = 0, sociableCount = 0
+  for (let i = 0; i < city.grid.length; i++) {
+    const cell = city.grid[i]
+    if (cell?.spawnedUnitName) {
+      totalSpawners++
+      const trait = getCellTrait(cell, i)
+      if (getRowDistrict(city, Math.floor(i / CITY_COLS)) === 'military') militarySpawners++
+      if (trait === 'glutton')  gluttonCount++
+      if (trait === 'sociable') sociableCount++
+    }
+  }
+  const milPct = totalSpawners > 0 ? Math.round(militarySpawners / totalSpawners * 50) : 0
 
   return (
     <div className="city-disaster-overlay" onClick={onClose}>
@@ -52,6 +80,17 @@ export function DisasterModal({ city, disaster, onExtinguish, onCure, onClose }:
                   ))}
                 </div>
               )}
+              {isIndustrialFire && (
+                <div className="city-disaster-context city-disaster-context--warning">
+                  ⚠ Industrial zone — fire is spreading faster than normal!
+                </div>
+              )}
+              {braveInFire > 0 && (
+                <div className="city-disaster-context city-disaster-context--good">
+                  ⚔ {braveInFire} brave resident{braveInFire > 1 ? 's are' : ' is'} fighting the flames
+                  {braveDiscount > 0 && <span> (−{braveDiscount} wood)</span>}
+                </div>
+              )}
               <div className={`city-disaster-cost${canExtinguish ? '' : ' city-disaster-cost--unaffordable'}`}>
                 🪵 Extinguish cost: <strong>{woodCost} wood</strong>
                 {!canExtinguish && <span className="city-disaster-short"> (need {woodCost - Math.floor(city.resources.wood)} more)</span>}
@@ -69,6 +108,21 @@ export function DisasterModal({ city, disaster, onExtinguish, onCure, onClose }:
                   style={{ width: `${severity}%` }}
                 />
               </div>
+              {milPct > 0 && (
+                <div className="city-disaster-context city-disaster-context--good">
+                  🛡 Military districts slowing spread by {milPct}%
+                </div>
+              )}
+              {gluttonCount > 0 && (
+                <div className="city-disaster-context city-disaster-context--warning">
+                  🍖 {gluttonCount} glutton resident{gluttonCount > 1 ? 's are' : ' is'} eating extra bread in a panic
+                </div>
+              )}
+              {sociableCount > 0 && (
+                <div className="city-disaster-context city-disaster-context--warning">
+                  💬 {sociableCount} sociable resident{sociableCount > 1 ? 's are' : ' is'} spreading fear to neighbours
+                </div>
+              )}
               <div className={`city-disaster-cost${canCure ? '' : ' city-disaster-cost--unaffordable'}`}>
                 🍞 Cure cost: <strong>{breadCost} bread</strong>
                 {!canCure && <span className="city-disaster-short"> (need {breadCost - Math.floor(city.resources.bread)} more)</span>}

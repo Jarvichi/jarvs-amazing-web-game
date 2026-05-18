@@ -167,12 +167,44 @@ const PLAGUE_CURE_BREAD_BASE   = 20   // bread to cure, scaled by severity
 const PLAGUE_CURE_DURATION_MIN = 300  // plague fades naturally after 5 hrs
 const DISASTER_CHANCE_PER_HOUR = 0.04 // ~4% per real hour ≈ once per ~25 hrs on average
 
+// Deterministic trait per spawner cell — mirrors makeWalker in CityBuilder.tsx (unitIndex = 0).
+const TRAIT_ORDER = ['brave', 'glutton', 'industrious', 'sociable', 'reclusive'] as const
+
+export function getCellTrait(
+  cell: CityCell, cellIndex: number,
+): 'brave' | 'glutton' | 'industrious' | 'sociable' | 'reclusive' {
+  const code = cell.spawnedUnitName?.charCodeAt(0) ?? 0
+  return TRAIT_ORDER[(cellIndex * 13 + code) % 5]
+}
+
+/** Wood cost to extinguish current fire; brave residents in burning buildings discount by 15 each. */
+export function fireExtinguishCost(state: CityState): number {
+  if (state.activeDisaster?.type !== 'fire') return 0
+  const cells      = state.activeDisaster.affectedCells
+  const baseCost   = cells.length * FIRE_EXTINGUISH_WOOD
+  const braveDiscount = cells.filter(ci => {
+    const cell = state.grid[ci]
+    return cell?.spawnedUnitName && getCellTrait(cell, ci) === 'brave'
+  }).length * 15
+  return Math.max(0, baseCost - braveDiscount)
+}
+
+/** Bread cost to cure current plague (scales with severity). */
+export function plagueCureCost(state: CityState): number {
+  if (state.activeDisaster?.type !== 'plague') return 0
+  return Math.max(10, Math.ceil(state.activeDisaster.severity / PLAGUE_MAX_SEVERITY * PLAGUE_CURE_BREAD_BASE * 3))
+}
+
 export function extinguishFire(state: CityState): CityState {
   if (state.activeDisaster?.type !== 'fire') return state
-  const cells = state.activeDisaster.affectedCells.length
-  const cost  = cells * FIRE_EXTINGUISH_WOOD
-  if (state.resources.wood < cost) return state  // can't afford
-  let next = addChronicleEvent(state, `🚒 Fire extinguished — spent ${cost} wood`)
+  const cost = fireExtinguishCost(state)
+  if (state.resources.wood < cost) return state
+  const braveCount = state.activeDisaster.affectedCells.filter(ci => {
+    const cell = state.grid[ci]
+    return cell?.spawnedUnitName && getCellTrait(cell, ci) === 'brave'
+  }).length
+  const heroNote = braveCount > 0 ? ` (${braveCount} brave resident${braveCount > 1 ? 's' : ''} helped!)` : ''
+  let next = addChronicleEvent(state, `🚒 Fire extinguished — spent ${cost} wood${heroNote}`)
   next = {
     ...next,
     resources:      { ...next.resources, wood: next.resources.wood - cost },
@@ -184,7 +216,7 @@ export function extinguishFire(state: CityState): CityState {
 
 export function curePlague(state: CityState): CityState {
   if (state.activeDisaster?.type !== 'plague') return state
-  const cost = Math.max(10, Math.ceil(state.activeDisaster.severity / PLAGUE_MAX_SEVERITY * PLAGUE_CURE_BREAD_BASE * 3))
+  const cost = plagueCureCost(state)
   if (state.resources.bread < cost) return state
   let next = addChronicleEvent(state, `💊 Plague cured — spent ${cost} bread`)
   next = {
@@ -975,9 +1007,11 @@ function processDisaster(
       return { ...s, activeDisaster: null, nextDisasterAt: now + (12 + Math.random() * 24) * 3_600_000 }
     }
 
-    // Spread fire to an adjacent occupied cell every FIRE_SPREAD_INTERVAL_MIN game-minutes
+    // Industrial zones have abundant dry materials — fire spreads 40% faster there
     let newAffected = [...affectedCells]
-    const spreadCount = Math.floor(elapsedMin / FIRE_SPREAD_INTERVAL_MIN)
+    const hasIndustrialCell = newAffected.some(ci => getRowDistrict(s, Math.floor(ci / CITY_COLS)) === 'industrial')
+    const spreadInterval    = hasIndustrialCell ? FIRE_SPREAD_INTERVAL_MIN * 0.6 : FIRE_SPREAD_INTERVAL_MIN
+    const spreadCount       = Math.floor(elapsedMin / spreadInterval)
     while (newAffected.length < Math.min(spreadCount + 1, FIRE_MAX_CELLS)) {
       // Pick an unaffected neighbour of any burning cell
       const candidates: number[] = []
@@ -1008,7 +1042,17 @@ function processDisaster(
       return { ...s, activeDisaster: null, nextDisasterAt: now + (12 + Math.random() * 24) * 3_600_000 }
     }
 
-    const newSeverity = Math.min(PLAGUE_MAX_SEVERITY, severity + PLAGUE_GROW_RATE * minutes)
+    // Military zones enforce quarantine discipline — slows plague growth by up to 50%
+    let militarySpawners = 0, totalSpawners = 0
+    for (let i = 0; i < s.grid.length; i++) {
+      if (s.grid[i]?.spawnedUnitName) {
+        totalSpawners++
+        if (getRowDistrict(s, Math.floor(i / CITY_COLS)) === 'military') militarySpawners++
+      }
+    }
+    const milFraction = totalSpawners > 0 ? militarySpawners / totalSpawners : 0
+    const growRate    = PLAGUE_GROW_RATE * (1 - milFraction * 0.5)
+    const newSeverity = Math.min(PLAGUE_MAX_SEVERITY, severity + growRate * minutes)
 
     // Drain happiness across all spawn buildings proportional to severity
     const newHappy = { ...s.happiness }
@@ -1019,7 +1063,35 @@ function processDisaster(
       }
     }
 
-    s = { ...s, happiness: newHappy, activeDisaster: { type: 'plague', affectedCells: [], startedAt, severity: newSeverity } }
+    // Sociable residents spread plague panic to adjacent spawn buildings
+    for (let i = 0; i < s.grid.length; i++) {
+      const cell = s.grid[i]
+      if (cell?.spawnedUnitName && getCellTrait(cell, i) === 'sociable') {
+        for (const ni of getNeighbourIndices(i, s.rows ?? CITY_ROWS)) {
+          if (s.grid[ni]?.spawnedUnitName) {
+            const extra = 0.03 * (newSeverity / PLAGUE_MAX_SEVERITY) * minutes
+            newHappy[ni] = Math.max(0, (newHappy[ni] ?? 100) - extra)
+          }
+        }
+      }
+    }
+
+    // Glutton residents panic-eat extra bread when plague is active
+    let gluttonDrain = 0
+    for (let i = 0; i < s.grid.length; i++) {
+      const cell = s.grid[i]
+      if (cell?.spawnedUnitName && getCellTrait(cell, i) === 'glutton') {
+        gluttonDrain += 0.05 * (newSeverity / PLAGUE_MAX_SEVERITY) * minutes
+      }
+    }
+    const breadLost = Math.round(gluttonDrain)
+
+    s = {
+      ...s,
+      resources:      { ...s.resources, bread: Math.max(0, s.resources.bread - breadLost) },
+      happiness:      newHappy,
+      activeDisaster: { type: 'plague', affectedCells: [], startedAt, severity: newSeverity },
+    }
   }
 
   return s
