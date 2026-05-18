@@ -268,10 +268,10 @@ export interface DistrictDef {
 
 export const DISTRICT_INFO: Record<DistrictType, DistrictDef> = {
   none:         { icon: '—',  label: 'Unzoned',      color: 'transparent' },
-  agricultural: { icon: '🌾', label: 'Agricultural', color: 'rgba(180,150,0,0.08)',   prodMult: 0.15 },
-  military:     { icon: '🛡', label: 'Military',     color: 'rgba(40,100,180,0.08)',  defBonus: 0.10 },
-  commercial:   { icon: '💰', label: 'Commercial',   color: 'rgba(200,160,0,0.08)',   goldMult: 0.15 },
-  industrial:   { icon: '⚙',  label: 'Industrial',   color: 'rgba(100,100,120,0.08)', prodMult: 0.10 },
+  agricultural: { icon: '🌾', label: 'Agricultural', color: 'rgba(180,150,0,0.55)',  prodMult: 0.15 },
+  military:     { icon: '🛡', label: 'Military',     color: 'rgba(40,120,200,0.55)', defBonus: 0.10 },
+  commercial:   { icon: '💰', label: 'Commercial',   color: 'rgba(200,160,0,0.55)',  goldMult: 0.15 },
+  industrial:   { icon: '⚙',  label: 'Industrial',   color: 'rgba(120,120,140,0.55)', prodMult: 0.10 },
 }
 
 const DISTRICT_CYCLE: DistrictType[] = ['none', 'agricultural', 'military', 'commercial', 'industrial']
