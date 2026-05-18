@@ -39,6 +39,7 @@ export const HappyResident: Story = {
   render: () => (
     <ResidentInfoModal
       cellIndex={2}
+      unitIndex={0}
       cell={happyCell}
       city={{ ...baseCity, happiness: { 2: 100 } }}
       walkers={[walker]}
@@ -52,6 +53,7 @@ export const UnhappyResident: Story = {
   render: () => (
     <ResidentInfoModal
       cellIndex={2}
+      unitIndex={0}
       cell={{ ...happyCell, affinityWith: 'Knight' }}
       city={{ ...baseCity, happiness: { 2: 25 }, resources: { ...baseCity.resources, wheat: 1 } }}
       walkers={[{ ...walker, task: { type: 'resting' as const, label: '🏠 Taking shelter!' } }]}
@@ -65,6 +67,7 @@ export const ResidentGone: Story = {
   render: () => (
     <ResidentInfoModal
       cellIndex={2}
+      unitIndex={0}
       cell={happyCell}
       city={{ ...baseCity, happiness: { 2: 0 } }}
       walkers={[]}

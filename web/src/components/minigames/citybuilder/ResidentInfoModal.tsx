@@ -5,17 +5,18 @@ import { Walker, rageDescription, residentName, getUnitRequirements, PERSONALITY
 
 export interface Props {
   cellIndex: number
+  unitIndex: number
   cell:      CityCell
   city:      CityState
   walkers:   Walker[]
   onClose:   () => void
 }
 
-export function ResidentInfoModal({ cellIndex, cell, city, walkers, onClose }: Props) {
-  const happiness  = city.happiness[cellIndex] ?? 100
-  const reqs       = getUnitRequirements(cell, city, cellIndex)
-  const moodKey    = happiness === 0 ? 'gone' : happiness < 30 ? 'furious' : happiness < 60 ? 'unsettled' : 'content'
-  const cellWalkers = walkers.filter(w => w.cellIndex === cellIndex)
+export function ResidentInfoModal({ cellIndex, unitIndex, cell, city, walkers, onClose }: Props) {
+  const happiness = city.happiness[cellIndex] ?? 100
+  const reqs      = getUnitRequirements(cell, city, cellIndex)
+  const moodKey   = happiness === 0 ? 'gone' : happiness < 30 ? 'furious' : happiness < 60 ? 'unsettled' : 'content'
+  const w         = walkers.find(w => w.cellIndex === cellIndex && w.unitIndex === unitIndex)
 
   return (
     <div className="city-req-overlay" onClick={onClose}>
@@ -25,20 +26,18 @@ export function ResidentInfoModal({ cellIndex, cell, city, walkers, onClose }: P
           <div className="city-req-name">{cell.spawnedUnitName}</div>
         </div>
         <div className={`city-req-mood city-req-mood--${moodKey}`}>{rageDescription(happiness)}</div>
-        {cellWalkers.length > 0 && (
+        {w && (
           <div className="city-req-list">
-            {cellWalkers.map(w => (
-              <div key={`${w.cellIndex}-${w.unitIndex}`} className="city-req-item city-req-item--met">
-                <span className="city-req-icon">📍</span>
-                {residentName(w.unitName, w.cellIndex, w.unitIndex).split(' ')[0]}:{' '}
-                {w.hidden ? '🏠 Resting at home' : w.task.label}
-                {w.trait && (
-                  <span className="city-req-trait" title={PERSONALITY_INFO[w.trait].desc}>
-                    {' '}{PERSONALITY_INFO[w.trait].icon} {PERSONALITY_INFO[w.trait].label}
-                  </span>
-                )}
-              </div>
-            ))}
+            <div className="city-req-item city-req-item--met">
+              <span className="city-req-icon">📍</span>
+              {residentName(w.unitName, w.cellIndex, w.unitIndex)}:{' '}
+              {w.hidden ? '🏠 Resting at home' : w.task.label}
+              {w.trait && (
+                <span className="city-req-trait" title={PERSONALITY_INFO[w.trait].desc}>
+                  {' '}{PERSONALITY_INFO[w.trait].icon} {PERSONALITY_INFO[w.trait].label}
+                </span>
+              )}
+            </div>
           </div>
         )}
         <div className="city-req-list">
