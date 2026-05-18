@@ -51,15 +51,17 @@ const BREAD_CONSUME_RATE = 0.5
 const WOOD_CONSUME_RATE  = 0.3
 /** Wood consumption multiplier in winter (heating demand). */
 const WINTER_WOOD_MULT   = 1.8
-/** Happiness target bonus (points) when bread coverage ≥ 80%. */
-const BREAD_HAPPY_BONUS  = 20
+/** Happiness target bonus (points) when bread coverage is full. */
+const BREAD_HAPPY_BONUS    = 20
+/** Happiness target penalty (points) when bread coverage is zero. */
+const BREAD_SHORTAGE_PENALTY = 15
 /** Happiness target penalty (points) when wood supply covers < 50% of demand. */
-const WOOD_SHORTAGE_PENALTY = 15
+const WOOD_SHORTAGE_PENALTY  = 15
 
 /**
  * Buildings that convert an input resource into their output resource.
- * The value is the amount of input consumed per unit of output produced.
- * e.g. Windmill produces 1 bread/min and consumes 2 wheat/min.
+ * Values are per-minute consumption rates, matching BUILDING_RESOURCE_CONFIG.
+ * e.g. Windmill produces 2 bread/min and consumes 2 wheat/min.
  */
 const BUILDING_CONVERSION_COST: Record<string, Partial<ResourceStock>> = {
   'Windmill': { wheat: 2 },
@@ -375,7 +377,8 @@ export function currentSeason(now = Date.now()): Season {
  */
 const BUILDING_RESOURCE_CONFIG: Record<string, Partial<ResourceStock>> = {
   // ── Core buildings (always available, built with gold) ──
-  'Windmill':    { bread: 1 },
+  'Windmill':    { bread: 2 },
+  'Bakery':      { bread: 1.5 },
   'Quarry':      { ore: 2, planks: 1 },
   'Granary':     {},           // storage handled by WAREHOUSE_PATTERN; no per-tick produce
   'Watchtower':  {},           // defense handled as wall-type (non-spawner, non-producer)
@@ -1144,7 +1147,8 @@ export function tickCity(state: CityState): CityState {
   const population = Math.max(cityPopulation(state), 1)
 
   // Deferred bread from conversion buildings (applied after loop with wheat-efficiency check)
-  let windmillBreadPending = 0
+  let breadConversionPending = 0
+  let wheatConversionCost    = 0
 
   for (let i = 0; i < state.grid.length; i++) {
     const cell = state.grid[i]
@@ -1182,7 +1186,9 @@ export function tickCity(state: CityState): CityState {
           const amount = rate * masteryMult * synergyMult * Math.max(0, seasonMult) * distProdMult * minutes
           // Conversion buildings: defer bread production — it depends on wheat availability
           if (BUILDING_CONVERSION_COST[cell.cardName] && res === 'bread') {
-            windmillBreadPending += amount
+            breadConversionPending += amount
+            const wheatRate = BUILDING_CONVERSION_COST[cell.cardName].wheat ?? 0
+            wheatConversionCost += wheatRate * masteryMult * synergyMult * Math.max(0, seasonMult) * distProdMult * minutes
           } else {
             newResources[res] = (newResources[res] ?? 0) + amount
           }
@@ -1199,14 +1205,13 @@ export function tickCity(state: CityState): CityState {
     }
   }
 
-  // ── Windmill wheat → bread conversion ────────────────────────────────────────
-  if (windmillBreadPending > 0) {
-    const wheatNeeded = windmillBreadPending * 2   // 2 wheat consumed per 1 bread produced
-    const eff = newResources.wheat > 0
-      ? Math.min(1, newResources.wheat / wheatNeeded)
-      : 0
-    newResources.bread  = (newResources.bread ?? 0) + windmillBreadPending * eff
-    newResources.wheat  = Math.max(0, (newResources.wheat ?? 0) - wheatNeeded * eff)
+  // ── Wheat → bread conversion (Windmill and any future conversion buildings) ──
+  if (breadConversionPending > 0) {
+    const eff = wheatConversionCost > 0
+      ? Math.min(1, (newResources.wheat ?? 0) / wheatConversionCost)
+      : 1
+    newResources.bread = (newResources.bread ?? 0) + breadConversionPending * eff
+    newResources.wheat = Math.max(0, (newResources.wheat ?? 0) - wheatConversionCost * eff)
   }
 
   // ── Resident resource consumption (bread & wood) ──────────────────────────
@@ -1231,7 +1236,10 @@ export function tickCity(state: CityState): CityState {
   // ── Base happiness target from food, defence, bread quality, wood supply ──
   const foodScore    = Math.min(100, (newResources.wheat / population) * 5)
   const defenseScore = Math.min(100, (defense / population) * 8)
-  const breadScore   = Math.round(breadCoverage * BREAD_HAPPY_BONUS)
+  // Linear scale: -BREAD_SHORTAGE_PENALTY at 0% coverage → +BREAD_HAPPY_BONUS at 100%
+  const breadScore   = breadCoverage >= 1
+    ? BREAD_HAPPY_BONUS
+    : Math.round(breadCoverage * (BREAD_HAPPY_BONUS + BREAD_SHORTAGE_PENALTY) - BREAD_SHORTAGE_PENALTY)
   const woodScore    = woodShort ? -WOOD_SHORTAGE_PENALTY : 0
   const baseTarget   = Math.min(100, Math.max(0, Math.round(foodScore * 0.6 + defenseScore * 0.4) + breadScore + woodScore))
 
@@ -1554,10 +1562,11 @@ export interface CoreBuilding {
 }
 
 export const CORE_BUILDINGS: CoreBuilding[] = [
-  { name: 'Windmill',   goldCost:  500, rarity: 'common', hint: 'Needs wheat to run. +50% output next to a Farm.' },
-  { name: 'Granary',    goldCost:  600, rarity: 'common', hint: 'Extends all resource storage caps by 200.' },
-  { name: 'Watchtower', goldCost:  800, rarity: 'common', hint: 'Garrisoned lookout. Contributes to city defense.' },
-  { name: 'Quarry',     goldCost:  700, rarity: 'common', hint: 'Mines raw ore and cuts stone into planks.' },
+  { name: 'Windmill',   goldCost:  500, rarity: 'common',   hint: 'Grinds wheat into bread (2/min). Needs 2 wheat/min — output ×1.5 next to a Farm.' },
+  { name: 'Bakery',     goldCost:  750, rarity: 'uncommon', hint: 'Bakes bread directly (1.5/min). No wheat cost — pure gold investment.' },
+  { name: 'Granary',    goldCost:  600, rarity: 'common',   hint: 'Extends all resource storage caps by 200.' },
+  { name: 'Watchtower', goldCost:  800, rarity: 'common',   hint: 'Garrisoned lookout. Contributes to city defense.' },
+  { name: 'Quarry',     goldCost:  700, rarity: 'common',   hint: 'Mines raw ore and cuts stone into planks.' },
 ]
 
 export function canAffordCoreBuild(state: CityState, building: CoreBuilding): boolean {
@@ -1747,10 +1756,10 @@ export function resourceConsumptionRate(state: CityState): Partial<ResourceStock
       rates.wood  = (rates.wood  ?? 0) + WOOD_CONSUME_RATE * unitCount * woodMult
     }
 
-    // Windmill wheat input (2 wheat consumed per 1 bread produced)
+    // Conversion building wheat input (per-minute rate from BUILDING_CONVERSION_COST)
     if (!cell.spawnedUnitName && BUILDING_CONVERSION_COST[cell.cardName]) {
-      const breadRate = getBuildingProduces(cell.cardName).bread ?? 0
-      rates.wheat = (rates.wheat ?? 0) + breadRate * 2
+      const wheatRate = BUILDING_CONVERSION_COST[cell.cardName].wheat ?? 0
+      rates.wheat = (rates.wheat ?? 0) + wheatRate
     }
   }
 

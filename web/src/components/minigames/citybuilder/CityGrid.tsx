@@ -79,6 +79,9 @@ export function CityGrid({
                   {city.activeDisaster?.type === 'plague' && city.grid[i]?.spawnedUnitName && (
                     <span className="city-cell-plague">☠</span>
                   )}
+                  {!city.activeDisaster && (city.resources.bread ?? 0) < 1 && cell.spawnedUnitName && (
+                    <span className="city-cell-bread-warn" title="No bread — residents are hungry">🍞</span>
+                  )}
                 </>
               ) : (
                 <span className="city-cell-empty u-col u-items-c u-just-end">
