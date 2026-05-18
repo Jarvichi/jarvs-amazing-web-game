@@ -5,6 +5,24 @@ import {
 
 export type TaskType = 'idle' | 'resting' | 'eating' | 'patrolling' | 'gathering' | 'visiting' | 'playing' | 'chatting'
 
+export type PersonalityTrait = 'brave' | 'glutton' | 'industrious' | 'sociable' | 'reclusive'
+
+export interface PersonalityInfo {
+  icon:  string
+  label: string
+  desc:  string
+}
+
+export const PERSONALITY_INFO: Record<PersonalityTrait, PersonalityInfo> = {
+  brave:       { icon: '⚔',  label: 'Brave',        desc: 'Patrols the walls often, never backs down from a threat' },
+  glutton:     { icon: '🍖', label: 'Glutton',       desc: 'Visits farms frequently, always hungry' },
+  industrious: { icon: '⚙',  label: 'Industrious',   desc: 'Dedicated worker — constantly gathering resources' },
+  sociable:    { icon: '💬', label: 'Sociable',       desc: 'Loves to chat and visit neighbours' },
+  reclusive:   { icon: '🏠', label: 'Reclusive',      desc: 'Prefers home, keeps to themselves' },
+}
+
+const ALL_TRAITS: PersonalityTrait[] = ['brave', 'glutton', 'industrious', 'sociable', 'reclusive']
+
 export interface WalkerTask {
   type:             TaskType
   label:            string
@@ -29,6 +47,7 @@ export interface Walker {
   bubbleTimer:  number
   hidden:       boolean
   hiddenTimer:  number
+  trait:        PersonalityTrait
 }
 
 export interface ResidentThought {

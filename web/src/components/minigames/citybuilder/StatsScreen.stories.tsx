@@ -30,6 +30,9 @@ function makeCity(history: HistorySample[]): CityState {
     tradeOffer:          null,
     activeCaravan:       null,
     history,
+    zones:               [],
+    activeDisaster:      null,
+    nextDisasterAt:      Date.now() + 86_400_000,
   }
 }
 

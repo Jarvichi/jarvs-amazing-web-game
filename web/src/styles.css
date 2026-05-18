@@ -8957,6 +8957,8 @@ html.light-mode .action-btn {
   color: #80a080;
   white-space: nowrap;
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
 }
 
 /* ── Scrollable bottom ───────────────────────────────────────────────────── */
@@ -9459,6 +9461,268 @@ html.light-mode .action-btn {
   font-size: 11px;
   color: #305030;
   line-height: 1.6;
+}
+
+/* ── Storage cap fill bar ─────────────────────────────────────────────────── */
+
+.city-res-chip-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: #33ff33;
+  opacity: 0.35;
+  transition: width 0.4s;
+  pointer-events: none;
+}
+.city-res-chip--capped .city-res-chip-fill {
+  background: #ff8800;
+  opacity: 0.6;
+}
+.city-res-chip--capped {
+  border-color: #664400;
+}
+.city-res-chip-content {
+  position: relative;
+}
+
+/* ── Resident personality badge ────────────────────────────────────────────── */
+
+.city-walker-trait {
+  position: absolute;
+  top: -10px;
+  right: -4px;
+  font-size: 9px;
+  line-height: 1;
+  pointer-events: none;
+  filter: drop-shadow(0 0 2px #000);
+}
+.city-req-trait {
+  font-size: 10px;
+  color: #80c080;
+  margin-left: 4px;
+  font-style: italic;
+}
+
+/* ── Zone Editor ──────────────────────────────────────────────────────────── */
+
+.city-zones-hint {
+  font-size: 11px;
+  color: #508050;
+  font-family: monospace;
+  padding: 4px 2px;
+  line-height: 1.5;
+}
+.city-zones-table {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 12px;
+}
+.city-zones-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #020702;
+  border: 1px solid #1a3a1a;
+  border-radius: 2px;
+  padding: 8px;
+}
+.city-zones-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-family: monospace;
+}
+.city-zones-legend-icon { font-size: 13px; width: 18px; text-align: center; }
+.city-zones-legend-label { color: var(--game-text-color); min-width: 90px; }
+.city-zones-legend-bonus { color: #60a060; font-size: 10px; }
+
+.city-zones-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.city-zones-row-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #020702;
+  border: 1px solid #1a3a1a;
+  border-left: 4px solid #1a3a1a;
+  border-radius: 2px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s, background 0.2s;
+}
+.city-zones-row-btn:hover { background: #040a04; }
+.city-zones-row-label {
+  font-size: 10px;
+  color: #406040;
+  font-family: monospace;
+  min-width: 40px;
+}
+.city-zones-row-zone {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.city-zones-row-icon { font-size: 14px; }
+.city-zones-row-name {
+  font-size: 12px;
+  color: var(--game-text-color);
+  font-family: monospace;
+}
+.city-zones-row-hint {
+  font-size: 9px;
+  color: #304830;
+  font-family: monospace;
+}
+
+/* ── Disaster events ──────────────────────────────────────────────────────── */
+
+.city-cell-fire,
+.city-cell-plague {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 14px;
+  pointer-events: none;
+  animation: city-pulse 1s ease-in-out infinite;
+}
+.city-cell-plague { font-size: 11px; top: 3px; }
+
+.city-disaster-btn {
+  border-color: #884400 !important;
+  color: #ff8800 !important;
+  animation: city-pulse 1.2s ease-in-out infinite;
+}
+
+.city-disaster-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+.city-disaster-modal {
+  background: #050a05;
+  border: 1px solid #332200;
+  border-radius: 4px;
+  max-width: 320px;
+  width: 90%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.city-disaster-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+}
+.city-disaster-header--fire   { background: #2a0a00; border-bottom: 1px solid #661a00; }
+.city-disaster-header--plague { background: #0a0a18; border-bottom: 1px solid #1a1a44; }
+.city-disaster-icon { font-size: 22px; }
+.city-disaster-title {
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: #ff6622;
+}
+.city-disaster-header--plague .city-disaster-title { color: #8888dd; }
+.city-disaster-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.city-disaster-desc {
+  font-size: 12px;
+  color: #a09070;
+  line-height: 1.5;
+  margin: 0;
+  font-family: monospace;
+}
+.city-disaster-desc strong { color: #d0a060; }
+.city-disaster-affected {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  font-size: 10px;
+  font-family: monospace;
+}
+.city-disaster-affected-label { color: #804030; }
+.city-disaster-affected-cell {
+  background: #2a0800;
+  border: 1px solid #662200;
+  border-radius: 2px;
+  padding: 1px 5px;
+  color: #d08060;
+}
+.city-disaster-severity-bar {
+  height: 6px;
+  background: #181818;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.city-disaster-severity-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4040aa, #8844bb);
+  transition: width 0.3s;
+}
+.city-disaster-cost {
+  font-size: 12px;
+  color: #80a080;
+  font-family: monospace;
+}
+.city-disaster-cost strong { color: var(--game-text-color); }
+.city-disaster-cost--unaffordable { color: #804040; }
+.city-disaster-cost--unaffordable strong { color: #c06060; }
+.city-disaster-short { color: #804040; font-size: 10px; }
+.city-disaster-context {
+  font-size: 0.78rem;
+  margin: 4px 0;
+  padding: 3px 7px;
+  border-radius: 3px;
+  font-family: monospace;
+}
+.city-disaster-context--good {
+  color: #50c878;
+  background: rgba(80, 200, 120, 0.07);
+  border-left: 2px solid #50c878;
+}
+.city-disaster-context--warning {
+  color: #e8a020;
+  background: rgba(232, 160, 32, 0.07);
+  border-left: 2px solid #e8a020;
+}
+.city-disaster-note {
+  font-size: 10px;
+  color: #405040;
+  font-family: monospace;
+  line-height: 1.4;
+  font-style: italic;
+}
+.city-disaster-actions {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid #1a1a1a;
+  flex-wrap: wrap;
+}
+.city-disaster-cure-btn { flex: 1; }
+.city-disaster-cure-btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 /* ── Misc city UI ─────────────────────────────────────────────────────────── */
