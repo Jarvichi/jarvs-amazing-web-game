@@ -9005,11 +9005,7 @@ html.light-mode .action-btn {
 .city-cell--occupied         { background: #244d1e; }
 .city-cell--occupied:hover   { background: #4a1010; }
 
-/* Road wear tiers — subtle background overlay on cells */
-.city-cell--road-1 { background-image: repeating-linear-gradient(45deg, rgba(120,80,20,0.10) 0 2px, transparent 2px 6px); }
-.city-cell--road-2 { background-image: repeating-linear-gradient(45deg, rgba(100,90,70,0.18) 0 2px, transparent 2px 5px); }
-.city-cell--occupied.city-cell--road-1,
-.city-cell--occupied.city-cell--road-2 { background-image: none; }
+/* Road tier edges are rendered as inset box-shadows in CityGrid.tsx — tier 1 = dirt brown, tier 2 = stone grey */
 
 .city-cell-sprite  { width: 65%; height: 65%; max-width: 36px; max-height: 36px; image-rendering: pixelated; }
 

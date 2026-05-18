@@ -21,7 +21,7 @@ function stubCity(resources = emptyResources): CityState {
     lastAttack: null, chronicle: [], completedMilestones: [],
     attacksProcessed: 0, tradeOffer: null, activeCaravan: null, history: [],
     zones: [], activeDisaster: null, nextDisasterAt: Date.now() + 86_400_000,
-    roadWear: [], carriers: [],
+    roadWear: { h: [], v: [] }, carriers: [],
   }
 }
 

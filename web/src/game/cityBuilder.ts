@@ -310,6 +310,9 @@ const ROAD_WEAR_PER_CARRIER = 0.4   // wear added per carrier per minute
 export const ROAD_TIER_THRESHOLDS = [25, 60] as const  // tier 1 at 25, tier 2 at 60
 const ROAD_SPEED_MULT = [1.0, 1.4, 2.0]  // multiplier per road tier
 
+/** Per-edge road wear. h[i] = right edge of cell i; v[i] = bottom edge of cell i. */
+export interface RoadWearMap { h: number[]; v: number[] }
+
 export interface CarrierState {
   id:       string
   fromCell: number   // source cell index
@@ -339,27 +342,38 @@ export function cellCenter(idx: number, rows: number): { x: number; y: number } 
   }
 }
 
+// Get edge wear between two adjacent cells (lo = smaller index, hi = larger)
+function edgeWear(rw: RoadWearMap, lo: number, hi: number, cols: number): number {
+  return hi === lo + 1 ? (rw.h[lo] ?? 0) : (rw.v[lo] ?? 0)
+}
+
 // Average road speed multiplier along the Manhattan path from→to
-function pathSpeedMult(from: number, to: number, roadWear: number[], cols: number): number {
+function pathSpeedMult(from: number, to: number, roadWear: RoadWearMap, cols: number): number {
   let c = from % cols, r = Math.floor(from / cols)
   const tc = to % cols, tr = Math.floor(to / cols)
   let steps = 0, total = 0
   while (c !== tc || r !== tr) {
+    const pc = c, pr = r
     if (c !== tc) c += c < tc ? 1 : -1; else r += r < tr ? 1 : -1
-    total += ROAD_SPEED_MULT[roadTier(roadWear[r * cols + c] ?? 0)]
+    const lo = Math.min(pr * cols + pc, r * cols + c)
+    const hi = Math.max(pr * cols + pc, r * cols + c)
+    total += ROAD_SPEED_MULT[roadTier(edgeWear(roadWear, lo, hi, cols))]
     steps++
   }
   return steps > 0 ? total / steps : ROAD_SPEED_MULT[0]
 }
 
-// Add wear to every cell on the Manhattan path from→to
-function wearPath(from: number, to: number, roadWear: number[], cols: number, amount: number): void {
+// Add wear to every edge on the Manhattan path from→to
+function wearPath(from: number, to: number, roadWear: RoadWearMap, cols: number, amount: number): void {
   let c = from % cols, r = Math.floor(from / cols)
   const tc = to % cols, tr = Math.floor(to / cols)
   while (c !== tc || r !== tr) {
+    const pc = c, pr = r
     if (c !== tc) c += c < tc ? 1 : -1; else r += r < tr ? 1 : -1
-    const idx = r * cols + c
-    roadWear[idx] = Math.min(100, (roadWear[idx] ?? 0) + amount)
+    const lo = Math.min(pr * cols + pc, r * cols + c)
+    const hi = Math.max(pr * cols + pc, r * cols + c)
+    if (hi === lo + 1) roadWear.h[lo] = Math.min(100, (roadWear.h[lo] ?? 0) + amount)
+    else               roadWear.v[lo] = Math.min(100, (roadWear.v[lo] ?? 0) + amount)
   }
 }
 
@@ -700,8 +714,8 @@ export interface CityState {
   activeDisaster: Disaster | null
   /** Timestamp when the next disaster may be triggered. */
   nextDisasterAt: number
-  /** Per-cell wear score 0–100, drives road visual tier. */
-  roadWear: number[]
+  /** Per-edge road wear. h[i] = right edge of cell i; v[i] = bottom edge of cell i. */
+  roadWear: RoadWearMap
   /** Workers currently transporting resources between buildings. */
   carriers: CarrierState[]
 }
@@ -737,7 +751,7 @@ function defaultState(): CityState {
     zones:               [],
     activeDisaster:      null,
     nextDisasterAt:      Date.now() + (18 + Math.random() * 12) * 3_600_000,
-    roadWear:            [],
+    roadWear:            { h: [], v: [] },
     carriers:            [],
   }
 }
@@ -787,7 +801,7 @@ export function loadCityState(): CityState {
       zones:               (parsed.zones ?? []) as DistrictType[],
       activeDisaster:      parsed.activeDisaster ?? null,
       nextDisasterAt:      parsed.nextDisasterAt ?? Date.now() + (18 + Math.random() * 12) * 3_600_000,
-      roadWear:            (parsed.roadWear ?? []) as number[],
+      roadWear:            (Array.isArray(parsed.roadWear) ? { h: [], v: [] } : (parsed.roadWear ?? { h: [], v: [] })) as RoadWearMap,
       carriers:            (parsed.carriers ?? []) as CarrierState[],
     }
   } catch (err) {
@@ -1275,7 +1289,11 @@ export function tickCity(state: CityState): CityState {
   // ── Build mutable grid (copy cell stocks) ───────────────────────────────────
   const gridRows = state.rows ?? CITY_ROWS
   const newGrid = state.grid.map(c => c ? { ...c, stock: { ...(c.stock ?? {}) } } : c)
-  const newRoadWear = (state.roadWear?.length ? [...state.roadWear] : new Array(newGrid.length).fill(0)) as number[]
+  const rawRW = state.roadWear as unknown
+  const rwBase: RoadWearMap = (rawRW && typeof rawRW === 'object' && !Array.isArray(rawRW))
+    ? rawRW as RoadWearMap
+    : { h: [], v: [] }
+  const newRoadWear: RoadWearMap = { h: [...(rwBase.h ?? [])], v: [...(rwBase.v ?? [])] }
 
   // ── Migration: first tick on old save — seed cell stocks from state.resources ─
   const hasAnyStock = newGrid.some(c => c && Object.values(c.stock).some(v => (v ?? 0) > 0))

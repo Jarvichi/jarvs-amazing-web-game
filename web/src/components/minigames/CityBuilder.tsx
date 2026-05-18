@@ -305,6 +305,34 @@ const TASK_RESOURCE_GOLD: Partial<Record<ResourceType, number>> = {
 }
 
 
+// Compute edge-following waypoints from (fromX,fromY) to (toX,toY) through cell-border midpoints
+function computeWaypoints(
+  fromX: number, fromY: number,
+  toX: number, toY: number,
+  overlayW: number, overlayH: number,
+  cityRows: number,
+): { x: number; y: number }[] {
+  const cellW = overlayW / CITY_COLS
+  const cellH = overlayH / cityRows
+  const fc = Math.max(0, Math.min(CITY_COLS - 1, Math.floor(fromX / cellW)))
+  const fr = Math.max(0, Math.min(cityRows - 1, Math.floor(fromY / cellH)))
+  const tc = Math.max(0, Math.min(CITY_COLS - 1, Math.floor(toX / cellW)))
+  const tr = Math.max(0, Math.min(cityRows - 1, Math.floor(toY / cellH)))
+  const pts: { x: number; y: number }[] = []
+  let r = fr, c = fc
+  while (c !== tc) {
+    const dc = tc > c ? 1 : -1
+    pts.push({ x: (c + (dc > 0 ? 1 : 0)) * cellW, y: (r + 0.5) * cellH })
+    c += dc
+  }
+  while (r !== tr) {
+    const dr = tr > r ? 1 : -1
+    pts.push({ x: (c + 0.5) * cellW, y: (r + (dr > 0 ? 1 : 0)) * cellH })
+    r += dr
+  }
+  return pts
+}
+
 function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affinityWith?: string, w = CITY_COLS * CELL_PX, h = CITY_ROWS * CELL_PX): Walker {
   const angle = Math.random() * Math.PI * 2
   // Deterministic trait so the same resident always has the same personality
@@ -326,6 +354,7 @@ function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affi
     hidden: false,
     hiddenTimer: 0,
     trait: TRAITS[traitSeed],
+    waypoints: [],
   }
 }
 
@@ -702,6 +731,12 @@ export function CityBuilder({ onBack }: Props) {
         }
 
         // ── Pass 2: update each walker ────────────────────────────────────────
+        const cityRows = cityRef.current?.rows ?? CITY_ROWS
+        function wayptsFor(task: WalkerTask, fx: number, fy: number) {
+          if (task.type === 'idle' || task.type === 'visiting' || task.type === 'chatting' || task.targetX === undefined) return []
+          return computeWaypoints(fx, fy, task.targetX, task.targetY!, overlayW, overlayH, cityRows)
+        }
+
         return prev.map(w => {
           const wKey = `${w.cellIndex}-${w.unitIndex}`
 
@@ -714,7 +749,7 @@ export function CityBuilder({ onBack }: Props) {
               return {
                 ...w, hidden: false, hiddenTimer: 0,
                 task, taskTimer: task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0,
-                bubbleTimer,
+                bubbleTimer, waypoints: wayptsFor(task, w.x, w.y),
               }
             }
             return { ...w, hiddenTimer }
@@ -727,10 +762,12 @@ export function CityBuilder({ onBack }: Props) {
               task: { type: 'chatting', label: chatPairs.get(wKey)! },
               taskTimer: CHAT_TICKS,
               bubbleTimer: CHAT_TICKS,
+              waypoints: [],
             }
           }
 
           let { x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer } = w
+          let waypoints = w.waypoints ?? []
           bubbleTimer = Math.max(0, bubbleTimer - 1)
 
           // ── Chatting: count down, then resume ──────────────────────────────
@@ -740,11 +777,12 @@ export function CityBuilder({ onBack }: Props) {
               task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
               taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
               bubbleTimer = BUBBLE_TICKS
+              waypoints = wayptsFor(task, x, y)
               const angle = Math.random() * Math.PI * 2
               vx = Math.cos(angle) * SPEED
               vy = Math.sin(angle) * SPEED
             }
-            return { ...w, vx, vy, task, taskTimer, bubbleTimer }
+            return { ...w, vx, vy, task, taskTimer, bubbleTimer, waypoints }
           }
 
           // ── Update visiting target to follow the other walker ──────────────
@@ -757,6 +795,7 @@ export function CityBuilder({ onBack }: Props) {
               task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
               taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
               if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
+              waypoints = wayptsFor(task, x, y)
             }
           }
 
@@ -767,26 +806,43 @@ export function CityBuilder({ onBack }: Props) {
               task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
               taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
               if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
+              waypoints = wayptsFor(task, x, y)
             }
           }
 
-          // ── Directed movement ──────────────────────────────────────────────
-          if (task.type !== 'idle' && task.targetX !== undefined && task.targetY !== undefined) {
-            const dx = task.targetX - x
-            const dy = task.targetY - y
+          // ── Directed movement (waypoint-following) ─────────────────────────
+          if (task.type !== 'idle' && task.type !== 'chatting' && task.targetX !== undefined && task.targetY !== undefined) {
+            // Visiting walkers move directly toward their (moving) target
+            const useWaypoints = task.type !== 'visiting'
+            const currentTarget = (useWaypoints && waypoints.length > 0)
+              ? waypoints[0]
+              : { x: task.targetX, y: task.targetY }
+
+            const dx = currentTarget.x - x
+            const dy = currentTarget.y - y
             const dist = Math.sqrt(dx * dx + dy * dy)
 
             if (dist < ARRIVE_DIST) {
-              if (task.type === 'resting') {
+              if (useWaypoints && waypoints.length > 0) {
+                // Pop waypoint, aim at next
+                waypoints = waypoints.slice(1)
+                const next = waypoints.length > 0 ? waypoints[0] : { x: task.targetX, y: task.targetY }
+                const ndx = next.x - x, ndy = next.y - y
+                const nd  = Math.sqrt(ndx * ndx + ndy * ndy)
+                if (nd > 1) { vx = (ndx / nd) * SPEED; vy = (ndy / nd) * SPEED }
+              } else if (task.type === 'resting') {
                 return {
                   ...w, x, y, vx: 0, vy: 0, task, bubbleTimer,
-                  hidden: true,
+                  hidden: true, waypoints: [],
                   hiddenTimer: REST_TICKS_MIN + Math.floor(Math.random() * (REST_TICKS_MAX - REST_TICKS_MIN)),
                 }
+              } else {
+                vx = 0; vy = 0
+                task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
+                taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
+                if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
+                waypoints = wayptsFor(task, x, y)
               }
-              task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
-              taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
-              if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
             } else {
               vx = (dx / dist) * SPEED
               vy = (dy / dist) * SPEED
@@ -812,7 +868,7 @@ export function CityBuilder({ onBack }: Props) {
             }
           }
 
-          return { ...w, x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer }
+          return { ...w, x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer, waypoints }
         })
       })
 

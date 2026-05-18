@@ -33,7 +33,7 @@ function makeCity(history: HistorySample[]): CityState {
     zones:               [],
     activeDisaster:      null,
     nextDisasterAt:      Date.now() + 86_400_000,
-    roadWear:            [],
+    roadWear:            { h: [], v: [] },
     carriers:            [],
   }
 }
