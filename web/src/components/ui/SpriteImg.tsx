@@ -107,6 +107,7 @@ export function SpriteImg({ name, fallbackName, className }: Props) {
   const [failed,  setFailed]  = useState(false)
   const [eightbit, setEightbit] = useState(is8bitMode)
   const [monochrome, setMonochrome] = useState(isMonochromeMode)
+  const prevNameRef = useRef(name)
 
   useEffect(() => {
     const handler = () => setEightbit(is8bitMode())
@@ -119,6 +120,27 @@ export function SpriteImg({ name, fallbackName, className }: Props) {
     window.addEventListener('monochrome-change', handler)
     return () => window.removeEventListener('monochrome-change', handler)
   }, [])
+
+  // When name changes, preload the new image before swapping src so the old
+  // sprite stays visible (no flash) until the new one is ready.
+  useEffect(() => {
+    if (name === prevNameRef.current) return
+    prevNameRef.current = name
+    const newSlug   = spriteSlug(name)
+    const newPng    = `${BASE}sprites/${newSlug}.png`
+    const newSvg    = `${BASE}sprites/${newSlug}.svg`
+    const newFb     = fallbackName ? `${BASE}sprites/${spriteSlug(fallbackName)}.svg` : genericSrc
+    let cancelled   = false
+    const tryLoad = (srcs: string[], idx = 0) => {
+      if (cancelled || idx >= srcs.length) return
+      const img = new window.Image()
+      img.onload  = () => { if (!cancelled) { setFailed(false); setSrc(srcs[idx]) } }
+      img.onerror = () => tryLoad(srcs, idx + 1)
+      img.src = srcs[idx]
+    }
+    tryLoad([newPng, newSvg, newFb, genericSrc])
+    return () => { cancelled = true }
+  }, [name, fallbackName, genericSrc])
 
   if (failed) return null
 

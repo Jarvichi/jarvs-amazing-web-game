@@ -107,7 +107,7 @@ export function CityGrid({
                         : (cell.stock?.wheat ?? 0) > 0 ? 'Windmill Slow'
                         : 'Windmill Stopped'
                       : cell.cardName
-                    return <SpriteImg key={spriteName} name={spriteName} className="city-cell-sprite" />
+                    return <SpriteImg name={spriteName} className="city-cell-sprite" />
                   })()}
                   {cell.spawnedUnitName && rage > 0 && (
                     <div
