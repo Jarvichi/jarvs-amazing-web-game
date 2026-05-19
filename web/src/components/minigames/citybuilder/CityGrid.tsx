@@ -5,25 +5,65 @@ import {
   getRowDistrict, DISTRICT_INFO,
   RESOURCE_ICONS, ResourceType,
 } from '../../../game/cityBuilder'
-
-// Lerp wear 0-100 → rgba string: transparent → brown → grey
-function roadWearColor(wear: number): string {
-  if (wear <= 0) return 'transparent'
-  const BROWN: [number,number,number] = [120, 80, 20]
-  const GREY:  [number,number,number] = [160,150,110]
-  if (wear < 25) {
-    const t = wear / 25
-    return `rgba(${BROWN[0]},${BROWN[1]},${BROWN[2]},${(t * 0.85).toFixed(2)})`
-  }
-  const t = Math.min(1, (wear - 25) / 75)
-  const r = Math.round(BROWN[0] + (GREY[0] - BROWN[0]) * t)
-  const g = Math.round(BROWN[1] + (GREY[1] - BROWN[1]) * t)
-  const b = Math.round(BROWN[2] + (GREY[2] - BROWN[2]) * t)
-  return `rgba(${r},${g},${b},0.85)`
-}
 import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
 import { BuilderWalker, VisualCarrier } from '../CityBuilder'
 import { Walker } from './walkerTypes'
+
+// ── Road path SVG ─────────────────────────────────────────────────────────────
+
+const BASE_STRIP = 7   // min strip half-width in viewBox units (out of 50)
+const MAX_STRIP  = 14  // max strip half-width at full wear
+
+function pathFill(wear: number): string {
+  const t = Math.min(1, wear / 100)
+  const r = Math.round(140 + (170 - 140) * t)
+  const g = Math.round(100 + (155 - 100) * t)
+  const b = Math.round(40  + (110 - 40)  * t)
+  const a = (0.2 + t * 0.45).toFixed(2)
+  return `rgba(${r},${g},${b},${a})`
+}
+
+function stripHalf(wear: number): number {
+  return BASE_STRIP + (wear / 100) * (MAX_STRIP - BASE_STRIP)
+}
+
+interface RoadPathProps {
+  left: number; right: number; top: number; bottom: number
+}
+
+function RoadPath({ left, right, top, bottom }: RoadPathProps) {
+  const hasH = left > 0 || right > 0
+  const hasV = top > 0 || bottom > 0
+  if (!hasH && !hasV) return null
+
+  const wearH = Math.max(left, right)
+  const wearV = Math.max(top, bottom)
+  const C = 50
+
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      aria-hidden
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+    >
+      {hasH && (() => {
+        const sh = stripHalf(wearH)
+        const x1 = left  > 0 ? 0 : C
+        const x2 = right > 0 ? 100 : C
+        return <rect x={x1} y={C - sh} width={x2 - x1} height={sh * 2} fill={pathFill(wearH)} rx={sh} />
+      })()}
+      {hasV && (() => {
+        const sh = stripHalf(wearV)
+        const y1 = top    > 0 ? 0 : C
+        const y2 = bottom > 0 ? 100 : C
+        return <rect x={C - sh} y={y1} width={sh * 2} height={y2 - y1} fill={pathFill(wearV)} rx={sh} />
+      })()}
+    </svg>
+  )
+}
+
+// ── Props ─────────────────────────────────────────────────────────────────────
 
 export interface Props {
   city:           CityState
@@ -64,45 +104,37 @@ export function CityGrid({
           const happiness = cell?.spawnedUnitName ? (city.happiness[i] ?? 100) : 100
           const rage      = 100 - happiness
           const despawned = cell?.spawnedUnitName && happiness === 0
-          const row         = Math.floor(i / CITY_COLS)
-          const col         = i % CITY_COLS
-          const district    = getRowDistrict(city, row)
-          const distColor   = DISTRICT_INFO[district]?.color ?? 'transparent'
-          const isRowStart  = col === 0
-          const isFirstRow = row === 0
-          const isFirstCol   = col === 0
-          const isLastCol   = col === CITY_COLS - 1
-          const isLastRow   = row === cityRows - 1
-          // Read wear from the cell to the left (h[i-1]) and above (v[i-CITY_COLS])
-          // so the mark appears on the incoming edge of each cell.
-          const wearL = isFirstCol ? 0 : ((city.roadWear?.h ?? [])[i - 1] ?? 0)
-          const wearT = isFirstRow ? 0 : ((city.roadWear?.v ?? [])[i - CITY_COLS] ?? 0)
-          const shadows: string[] = []
-          if (district !== 'none' && isRowStart) shadows.push(`inset 4px 0 0 ${distColor}`)
-          if (wearL > 0) {
-            const c = roadWearColor(wearL)
-            shadows.push(`-3px 0 0 0 ${c}`)
-            if (wearL > 60) {
-              const w = (((wearL - 60) / 40) * 3).toFixed(1)
-              shadows.push(`inset ${w}px 0 0 0 ${c}`)
-            }
-          }
-          if (wearT > 0) {
-            const c = roadWearColor(wearT)
-            shadows.push(`0 -3px 0 0 ${c}`)
-            if (wearT > 60) {
-              const w = (((wearT - 60) / 40) * 3).toFixed(1)
-              shadows.push(`inset 0 ${w}px 0 0 ${c}`)
-            }
-          }
+          const row        = Math.floor(i / CITY_COLS)
+          const col        = i % CITY_COLS
+          const district   = getRowDistrict(city, row)
+          const distColor  = DISTRICT_INFO[district]?.color ?? 'transparent'
+          const isRowStart = col === 0
+          const isLastCol  = col === CITY_COLS - 1
+          const isLastRow  = row === cityRows - 1
+
+          // Four-edge wear: h = horizontal travel, v = vertical travel
+          const h = city.roadWear?.h ?? []
+          const v = city.roadWear?.v ?? []
+          const wearLeft   = col === 0        ? 0 : (h[i - 1]          ?? 0)
+          const wearRight  = isLastCol        ? 0 : (h[i]               ?? 0)
+          const wearTop    = row === 0        ? 0 : (v[i - CITY_COLS]   ?? 0)
+          const wearBottom = isLastRow        ? 0 : (v[i]               ?? 0)
+
+          const distShadow = district !== 'none' && isRowStart
+            ? `inset 4px 0 0 ${distColor}`
+            : undefined
+
           return (
             <button
               key={i}
               className={`city-cell u-col u-items-c u-just-c u-pointer u-relative${cell ? ' city-cell--occupied' : ''}${cell && bulldozerMode ? ' city-cell--bulldoze' : ''}`}
-              style={shadows.length > 0 ? { boxShadow: shadows.join(', ') } : undefined}
+              style={distShadow ? { boxShadow: distShadow } : undefined}
               onClick={() => onCellTap(i)}
               title={cell ? (bulldozerMode ? `${cell.cardName} — tap to demolish` : `${cell.cardName} — tap to inspect`) : 'Empty — tap to place'}
             >
+              {/* Road wear path — rendered first so it sits under building sprites */}
+              <RoadPath left={wearLeft} right={wearRight} top={wearTop} bottom={wearBottom} />
+
               {cell ? (
                 <>
                   {(() => {
