@@ -69,10 +69,12 @@ export function CityGrid({
           const district    = getRowDistrict(city, row)
           const distColor   = DISTRICT_INFO[district]?.color ?? 'transparent'
           const isRowStart  = col === 0
+          const isFirstRow = row === 0
+          const isFirstCol   = col === 0
           const isLastCol   = col === CITY_COLS - 1
           const isLastRow   = row === cityRows - 1
-          const wearR = isLastCol ? 0 : ((city.roadWear?.h ?? [])[i] ?? 0)
-          const wearB = isLastRow ? 0 : ((city.roadWear?.v ?? [])[i] ?? 0)
+          const wearR = isLastCol || isFirstCol ? 0 : ((city.roadWear?.h ?? [])[i] ?? 0)
+          const wearB = isLastRow || isFirstRow ? 0 : ((city.roadWear?.v ?? [])[i] ?? 0)
           const shadows: string[] = []
           if (district !== 'none' && isRowStart) shadows.push(`inset 4px 0 0 ${distColor}`)
           if (wearR > 0) {
@@ -143,7 +145,7 @@ export function CityGrid({
                   )}
                 </>
               ) : (
-                <span className="city-cell-empty u-col u-items-c u-just-end">
+                <span className="city-cell-empty u-col u-center">
                   <span className="city-cell-forsale-sign">FOR<br/>SALE</span>
                   <span className="city-cell-forsale-post" />
                 </span>

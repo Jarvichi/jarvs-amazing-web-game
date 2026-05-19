@@ -8983,26 +8983,28 @@ html.light-mode .action-btn {
   height: 50vh;
   overflow: hidden;
   background: #2d5a27;
+    border-radius: 5px;
 }
 
 .city-grid {
   display: grid;
-  gap: 4px;
+  border: 4px solid #2d5a27;
+  gap: 6px;
   width: 100%;
   height: 100%;
 }
 
 .city-cell {
   background: #2d5a27;
-  border: none;
-  border-radius: 2px;
+  border: 2px solid rgba(0, 40, 0, .15);
+  border-radius: 5px;
   padding: 1px;
   transition: background 0.15s;
   overflow: hidden;
 }
 
 .city-cell:hover             { background: #3a7a30; }
-.city-cell--occupied         { background: #244d1e; }
+.city-cell--occupied         { background: #2d5a27; }
 .city-cell--occupied:hover   { background: #4a1010; }
 
 /* Road tier edges are rendered as inset box-shadows in CityGrid.tsx — tier 1 = dirt brown, tier 2 = stone grey */
@@ -9020,7 +9022,6 @@ html.light-mode .action-btn {
 
 .city-cell-empty {
   height: 100%;
-  padding-bottom: 4px;
 }
 .city-cell-forsale-sign {
   display: inline-block;
@@ -9245,10 +9246,11 @@ html.light-mode .action-btn {
 .city-synergy-label {
   font-size: 10px;
   color: #60c860;
-  padding: 2px 0;
-  border-left: 2px solid #2a5a2a;
-  padding-left: 6px;
-  margin-top: 2px;
+  padding: 0px;
+  margin: 0px;
+  border: 8px solid transparent;
+  background: rgba(96,200,96,0.1);
+  border-radius: 3px;
 }
 
 /* ── City Chronicle ──────────────────────────────────────────────────────── */
@@ -9531,7 +9533,7 @@ html.light-mode .action-btn {
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 2px;
+  height: 100%;
   background: #33ff33;
   opacity: 0.35;
   transition: width 0.4s;
