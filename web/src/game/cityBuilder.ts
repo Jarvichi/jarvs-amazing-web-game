@@ -1290,9 +1290,26 @@ function processDisaster(
   return s
 }
 
-export function tickCity(state: CityState): CityState {
-  const now     = Date.now()
+// 5-minute sub-step size for offline catch-up — keeps the carrier pipeline cycling
+// so conversion buildings (windmills, bakeries) receive inputs between each step.
+const OFFLINE_STEP_MS = 5 * 60_000
+
+export function tickCity(state: CityState, nowMs?: number): CityState {
+  const now     = nowMs ?? Date.now()
   const elapsed = now - state.lastTick
+
+  // For long offline periods, sub-step so carriers complete trips between steps.
+  // Without this, a windmill sitting empty for 30 minutes produces zero bread.
+  if (elapsed > OFFLINE_STEP_MS * 1.5) {
+    const steps   = Math.min(Math.ceil(elapsed / OFFLINE_STEP_MS), MAX_OFFLINE_MINUTES / 5)
+    const stepMs  = elapsed / steps
+    let current   = state
+    for (let i = 0; i < steps; i++) {
+      current = tickCity(current, state.lastTick + stepMs * (i + 1))
+    }
+    return current
+  }
+
   const minutes = Math.min(elapsed / 60_000, MAX_OFFLINE_MINUTES)
 
   const season = currentSeason(now)
