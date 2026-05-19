@@ -10,13 +10,15 @@ import { BuilderWalker, VisualCarrier } from '../CityBuilder'
 import { Walker } from './walkerTypes'
 
 // ── Road path SVG ─────────────────────────────────────────────────────────────
-// Roads are drawn at cell EDGES, not through the centre.
-// Horizontal (left-right) travel → strip along the BOTTOM edge.
-// Vertical  (top-bottom)  travel → strip along the RIGHT  edge.
-// Adjacent cells' strips meet at shared boundaries, forming continuous lanes.
+// Strips are centred on the cell boundary (bottom / right) so they straddle
+// the CSS grid gap, appearing IN the gap rather than deep inside the cell.
+// ROAD_EXT extends each strip beyond the cell boundary to bridge the gap.
+//   Horizontal (h wear) → full-width strip centred on the bottom boundary (y=100)
+//   Vertical   (v wear) → full-height strip centred on the right  boundary (x=100)
+// overflow="visible" on the SVG lets the ±ROAD_EXT portions render in the gap.
 
-const ROAD_START = 80  // strip starts at 80% from the top/left edge
-const ROAD_W     = 20  // strip width = 20% of cell (100 - ROAD_START)
+const ROAD_W   = 20  // strip width as % of cell
+const ROAD_EXT = 12  // extra SVG units beyond boundary to cover the CSS grid gap
 
 function pathFill(wear: number, highlight = false): string {
   const t = Math.min(1, wear / 100)
@@ -42,19 +44,23 @@ function RoadPath({ left, right, top, bottom }: RoadPathProps) {
   const wearV = Math.max(top, bottom)
 
   const wearX = Math.max(wearH, wearV)
+  const HALF  = ROAD_W / 2
+  const hy    = 100 - HALF  // strip top, centred on bottom boundary y=100
+  const vx    = 100 - HALF  // strip left, centred on right boundary x=100
   return (
     <svg
       viewBox="0 0 100 100"
       preserveAspectRatio="none"
       aria-hidden
-      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+      overflow="visible"
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', overflow: 'visible' }}
     >
-      {/* Horizontal travel → lane along the BOTTOM of this cell */}
-      {hasH && <rect x={0} y={ROAD_START} width={100} height={ROAD_W} fill={pathFill(wearH)} />}
-      {/* Vertical travel → lane along the RIGHT of this cell */}
-      {hasV && <rect x={ROAD_START} y={0} width={ROAD_W} height={100} fill={pathFill(wearV)} />}
-      {/* Intersection square — brighter node where the two lanes cross */}
-      {hasH && hasV && <rect x={ROAD_START} y={ROAD_START} width={ROAD_W} height={ROAD_W} fill={pathFill(wearX, true)} />}
+      {/* Horizontal lane — full-width, centred on bottom boundary, extended to bridge column gap */}
+      {hasH && <rect x={-ROAD_EXT} y={hy} width={100 + ROAD_EXT * 2} height={ROAD_W} fill={pathFill(wearH)} />}
+      {/* Vertical lane — full-height, centred on right boundary, extended to bridge row gap */}
+      {hasV && <rect x={vx} y={-ROAD_EXT} width={ROAD_W} height={100 + ROAD_EXT * 2} fill={pathFill(wearV)} />}
+      {/* Intersection — brighter node at the corner where both lanes cross */}
+      {hasH && hasV && <rect x={vx} y={hy} width={ROAD_W} height={ROAD_W} fill={pathFill(wearX, true)} />}
     </svg>
   )
 }
