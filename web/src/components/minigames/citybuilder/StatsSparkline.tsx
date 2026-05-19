@@ -1,14 +1,16 @@
 import React from 'react'
 
 interface Props {
-  data:     number[]
-  attacks?: boolean[]  // parallel array, true = attack occurred at that sample
-  color:    string
-  height?:  number     // chart height in px, default 54
-  dimColor?: string    // fill/glow color override (defaults to color)
+  data:       number[]
+  attacks?:   boolean[]  // parallel array, true = attack occurred at that sample
+  color:      string
+  height?:    number     // chart height in px, default 54
+  dimColor?:  string     // fill/glow color override (defaults to color)
+  showMax?:   boolean
+  formatMax?: (n: number) => string
 }
 
-export function StatsSparkline({ data, attacks, color, height = 54, dimColor }: Props) {
+export function StatsSparkline({ data, attacks, color, height = 54, dimColor, showMax, formatMax }: Props) {
   const n = data.length
   const fill = dimColor ?? color
 
@@ -42,6 +44,7 @@ export function StatsSparkline({ data, attacks, color, height = 54, dimColor }: 
   const gridYs = [0.25, 0.5, 0.75].map(f => (PAD + (H - PAD * 2) * (1 - f)).toFixed(2))
 
   const hasAttacks = attacks?.some(Boolean)
+  const maxLabel   = showMax ? (formatMax ? formatMax(max) : String(Math.floor(max))) : null
 
   return (
     <div className="city-sparkline" style={{ position: 'relative' }}>
@@ -68,6 +71,17 @@ export function StatsSparkline({ data, attacks, color, height = 54, dimColor }: 
         </defs>
         <path d={areaPath} fill={`url(#sg-${color.replace('#', '')})`} stroke="none" />
 
+        {/* Max line */}
+        {showMax && (
+          <line
+            x1="0" y1={PAD} x2={W} y2={PAD}
+            stroke="rgba(255,255,255,0.22)"
+            strokeWidth="0.8"
+            strokeDasharray="3,2"
+            vectorEffect="non-scaling-stroke"
+          />
+        )}
+
         {/* Line */}
         <path
           d={linePath}
@@ -79,6 +93,11 @@ export function StatsSparkline({ data, attacks, color, height = 54, dimColor }: 
           strokeLinejoin="round"
         />
       </svg>
+
+      {/* Max label */}
+      {maxLabel && (
+        <span className="city-sparkline-max-label">{maxLabel}</span>
+      )}
 
       {/* Attack markers — HTML positioned so they don't distort */}
       {hasAttacks && (

@@ -9460,6 +9460,17 @@ html.light-mode .action-btn {
   vertical-align: middle;
   margin-right: 2px;
 }
+.city-sparkline-max-label {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  font-size: 8px;
+  font-family: monospace;
+  color: rgba(255,255,255,0.38);
+  pointer-events: none;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
 
 /* Empty state */
 .city-stats-empty {
