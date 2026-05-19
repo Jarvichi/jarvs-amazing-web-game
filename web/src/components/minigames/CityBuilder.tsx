@@ -35,6 +35,8 @@ import {
   currentSeason,
   dispatchCaravan,
   extinguishFire, curePlague,
+  findFastestPath, ROAD_SPEED_MULT, RoadWearMap,
+  roadTier,
 } from '../../game/cityBuilder'
 import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { Card, UnitTemplate } from '../../game/types'
@@ -346,6 +348,46 @@ function computeWaypoints(
     { x: bxEnter, y: borderY },              // travel along row gap to dest column gap
     { x: bxEnter, y: (tr + 0.5) * cellH },  // travel along dest column gap
   ]
+}
+
+/** Like computeWaypoints but uses Dijkstra's to route walkers along the fastest roads. */
+function computeRoadWaypoints(
+  fromX: number, fromY: number,
+  toX: number, toY: number,
+  overlayW: number, overlayH: number,
+  cityRows: number,
+  roadWear: RoadWearMap,
+): { x: number; y: number; speed?: number }[] {
+  const cellW = overlayW / CITY_COLS
+  const cellH = overlayH / cityRows
+  const fc = Math.max(0, Math.min(CITY_COLS - 1, Math.floor(fromX / cellW)))
+  const fr = Math.max(0, Math.min(cityRows - 1, Math.floor(fromY / cellH)))
+  const tc = Math.max(0, Math.min(CITY_COLS - 1, Math.floor(toX / cellW)))
+  const tr = Math.max(0, Math.min(cityRows - 1, Math.floor(toY / cellH)))
+  const fromCell = fr * CITY_COLS + fc
+  const toCell   = tr * CITY_COLS + tc
+  if (fromCell === toCell) return []
+
+  const cellPath = findFastestPath(fromCell, toCell, roadWear, CITY_COLS, cityRows)
+  if (cellPath.length <= 1) return []
+
+  const result: { x: number; y: number; speed?: number }[] = []
+  for (let i = 1; i < cellPath.length; i++) {
+    const a  = cellPath[i - 1]
+    const b  = cellPath[i]
+    const lo = Math.min(a, b)
+    const hi = Math.max(a, b)
+    const wear  = hi === lo + 1 ? (roadWear.h[lo] ?? 0) : (roadWear.v[lo] ?? 0)
+    const speed = ROAD_SPEED_MULT[roadTier(wear)]
+    const bRow = Math.floor(b / CITY_COLS), bCol = b % CITY_COLS
+    result.push({ x: (bCol + 0.5) * cellW, y: (bRow + 0.5) * cellH, speed })
+  }
+  // Snap final waypoint to actual target coords
+  if (result.length > 0) {
+    result[result.length - 1].x = toX
+    result[result.length - 1].y = toY
+  }
+  return result
 }
 
 function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affinityWith?: string, w = CITY_COLS * CELL_PX, h = CITY_ROWS * CELL_PX): Walker {
@@ -763,6 +805,10 @@ export function CityBuilder({ onBack }: Props) {
         const cityRows = cityRef.current?.rows ?? CITY_ROWS
         function wayptsFor(task: WalkerTask, fx: number, fy: number) {
           if (task.type === 'idle' || task.type === 'visiting' || task.type === 'chatting' || task.targetX === undefined) return []
+          const rw = cityRef.current?.roadWear as RoadWearMap | undefined
+          if (rw && (rw.h.length > 0 || rw.v.length > 0)) {
+            return computeRoadWaypoints(fx, fy, task.targetX, task.targetY!, overlayW, overlayH, cityRows, rw)
+          }
           return computeWaypoints(fx, fy, task.targetX, task.targetY!, overlayW, overlayH, cityRows)
         }
 
@@ -858,7 +904,8 @@ export function CityBuilder({ onBack }: Props) {
                 const next = waypoints.length > 0 ? waypoints[0] : { x: task.targetX, y: task.targetY }
                 const ndx = next.x - x, ndy = next.y - y
                 const nd  = Math.sqrt(ndx * ndx + ndy * ndy)
-                if (nd > 1) { vx = (ndx / nd) * SPEED; vy = (ndy / nd) * SPEED }
+                const nextSpd = (waypoints.length > 0 ? (waypoints[0].speed ?? 1) : 1)
+                if (nd > 1) { vx = (ndx / nd) * SPEED * nextSpd; vy = (ndy / nd) * SPEED * nextSpd }
               } else if (task.type === 'resting') {
                 return {
                   ...w, x, y, vx: 0, vy: 0, task, bubbleTimer,
@@ -873,8 +920,9 @@ export function CityBuilder({ onBack }: Props) {
                 waypoints = wayptsFor(task, x, y)
               }
             } else {
-              vx = (dx / dist) * SPEED
-              vy = (dy / dist) * SPEED
+              const curSpd = (currentTarget as { speed?: number }).speed ?? 1
+              vx = (dx / dist) * SPEED * curSpd
+              vy = (dy / dist) * SPEED * curSpd
             }
           }
 

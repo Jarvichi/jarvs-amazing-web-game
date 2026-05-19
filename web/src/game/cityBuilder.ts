@@ -309,7 +309,7 @@ const CARRIER_BASE_SPEED    = 2.5   // cells per minute on grass (faster = short
 const ROAD_WEAR_PER_CARRIER = 0.4   // wear added per carrier per minute
 export const PER_CELL_STOCK_CAP = 50    // max units any single cell can stockpile of one resource
 export const ROAD_TIER_THRESHOLDS = [25, 60] as const  // tier 1 at 25, tier 2 at 60
-const ROAD_SPEED_MULT = [1.0, 1.4, 2.0]  // multiplier per road tier
+export const ROAD_SPEED_MULT = [1.0, 1.4, 2.0]  // multiplier per road tier
 
 /** Per-edge road wear. h[i] = right edge of cell i; v[i] = bottom edge of cell i. */
 export interface RoadWearMap { h: number[]; v: number[] }
@@ -330,6 +330,51 @@ function cellManhattan(a: number, b: number, cols: number): number {
 // Road tier 0/1/2 from wear score
 export function roadTier(wear: number): 0 | 1 | 2 {
   return wear >= ROAD_TIER_THRESHOLDS[1] ? 2 : wear >= ROAD_TIER_THRESHOLDS[0] ? 1 : 0
+}
+
+/** Dijkstra's shortest-time path through the road wear graph.
+ *  Cost of each edge = 1 / ROAD_SPEED_MULT[roadTier(wear)], so better roads are cheaper. */
+export function findFastestPath(
+  from: number, to: number,
+  roadWear: RoadWearMap,
+  cols: number, rows: number,
+): number[] {
+  if (from === to) return [from]
+  const n = cols * rows
+  const dist    = new Float32Array(n).fill(Infinity)
+  const prev    = new Int16Array(n).fill(-1)
+  const visited = new Uint8Array(n)
+  dist[from] = 0
+  const queue = new Set<number>([from])
+
+  while (queue.size > 0) {
+    let u = -1, minD = Infinity
+    for (const c of queue) { if (dist[c] < minD) { minD = dist[c]; u = c } }
+    queue.delete(u)
+    if (u === to) break
+    if (visited[u]) continue
+    visited[u] = 1
+
+    const row = Math.floor(u / cols)
+    const col = u % cols
+    const tryN = (v: number, lo: number, hi: number) => {
+      if (visited[v]) return
+      const wear  = hi === lo + 1 ? (roadWear.h[lo] ?? 0) : (roadWear.v[lo] ?? 0)
+      const cost  = 1 / ROAD_SPEED_MULT[roadTier(wear)]
+      const alt   = dist[u] + cost
+      if (alt < dist[v]) { dist[v] = alt; prev[v] = u; queue.add(v) }
+    }
+    if (col < cols - 1) tryN(u + 1,    u,        u + 1)
+    if (col > 0)        tryN(u - 1,    u - 1,    u)
+    if (row < rows - 1) tryN(u + cols, u,        u + cols)
+    if (row > 0)        tryN(u - cols, u - cols, u)
+  }
+
+  if (dist[to] === Infinity) return [from, to]
+  const path: number[] = []
+  let cur = to
+  while (cur !== -1) { path.unshift(cur); cur = prev[cur] }
+  return path
 }
 
 // Centre pixel of a cell in the overlay (for carrier rendering)
