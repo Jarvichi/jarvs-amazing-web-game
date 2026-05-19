@@ -1,6 +1,6 @@
 import {
   CityCell, CityState, CITY_ROWS, CITY_COLS,
-  cityDefense, getNeighbourIndices, spawnerUnitCount,
+  cityDefense, getNeighbourIndices, spawnerUnitCount, getCityFoodScore,
 } from '../../../game/cityBuilder'
 
 export type TaskType = 'idle' | 'resting' | 'eating' | 'patrolling' | 'gathering' | 'visiting' | 'playing' | 'chatting'
@@ -111,12 +111,10 @@ export function getUnitRequirements(
     })
   }
 
-  const pop = Math.max(spawnerUnitCount(cityState, cell.cardName), 1)
-  const wheatScore = Math.min(100, (cityState.resources.wheat / pop) * 5)
-  const breadScore = Math.min(100, (cityState.resources.bread / pop) * 10)
-  const foodScore  = Math.min(100, wheatScore + breadScore)
+  const foodScore = getCityFoodScore(cityState)
   reqs.push({ text: 'Needs adequate food supply', met: foodScore >= 50 })
 
+  const pop = Math.max(spawnerUnitCount(cityState, cell.cardName), 1)
   const defense = cityDefense(cityState)
   const defenseScore = Math.min(100, (defense / pop) * 8)
   if (defense > 0 || defenseScore < 30) {

@@ -1052,6 +1052,24 @@ export function cityPopulation(state: CityState): number {
   return count
 }
 
+/**
+ * Returns a 0-100 food score for the current city state, using the same
+ * bread-coverage floor logic as the happiness tick. Exported so that
+ * requirement-check helpers outside cityBuilder can stay in sync.
+ */
+export function getCityFoodScore(state: CityState): number {
+  const population = Math.max(cityPopulation(state), 1)
+  const rawWheatScore = Math.min(100, (state.resources.wheat / population) * 5)
+  // 1-minute bread demand — if stockpile covers it, floor food score at 70.
+  const breadDemand1min = population * BREAD_CONSUME_RATE
+  const breadCoverage   = breadDemand1min > 0
+    ? Math.min(1, (state.resources.bread ?? 0) / breadDemand1min)
+    : 1
+  return breadCoverage >= 1
+    ? Math.max(rawWheatScore, 70)
+    : Math.min(100, rawWheatScore + breadCoverage * 30)
+}
+
 // ── Attack resolution ─────────────────────────────────────────────────────────
 
 function processAttack(state: CityState): CityState {
@@ -1549,7 +1567,10 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
       const nc = newGrid[ni]
       return nc?.spawnedUnitName === wantedNeighbour && (state.happiness[ni] ?? 100) > 0
     })
-    const cellTarget  = affinityMet ? baseTarget : 0
+    // Affinity: same-type neighbour gives full target; absence caps happiness at
+    // baseTarget - 30 so residents stay but remain somewhat unsettled rather
+    // than always leaving, which confused players who had plenty of food.
+    const cellTarget  = affinityMet ? baseTarget : Math.max(0, baseTarget - 30)
 
     const current = newHappy[i] ?? 100
     const seasonRegen = HAPPINESS_REGEN * (1 + si.regen)
