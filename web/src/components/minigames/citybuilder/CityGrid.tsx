@@ -44,9 +44,8 @@ function RoadPath({ left, right, top, bottom }: RoadPathProps) {
   const wearV = Math.max(top, bottom)
 
   const wearX = Math.max(wearH, wearV)
-  const HALF  = ROAD_W / 2
-  const hy    = 100 - HALF  // strip top, centred on bottom boundary y=100
-  const vx    = 100 - HALF  // strip left, centred on right boundary x=100
+  const hy    = 100  // horizontal strip starts at bottom boundary (y=100), fully in gap
+  const vx    = 100  // vertical strip starts at right boundary (x=100), fully in gap
   return (
     <svg
       viewBox="0 0 100 100"
