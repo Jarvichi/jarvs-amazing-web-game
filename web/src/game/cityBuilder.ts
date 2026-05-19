@@ -529,7 +529,7 @@ const BUILDING_RESOURCE_CONFIG: Record<string, Partial<ResourceStock>> = {
   'Windmill':    { bread: 2 },
   'Bakery':      { bread: 1.5 },
   'Quarry':      { ore: 2, planks: 1 },
-  'Granary':     {},           // storage handled by WAREHOUSE_PATTERN; no per-tick produce
+  'Warehouse':   {},           // storage handled by WAREHOUSE_PATTERN; no per-tick produce
   'Watchtower':  {},           // defense handled as wall-type (non-spawner, non-producer)
   // ── Card buildings ──
   'Farm':            { wheat: 3 },
@@ -1854,7 +1854,7 @@ export interface CoreBuilding {
 export const CORE_BUILDINGS: CoreBuilding[] = [
   { name: 'Windmill',   goldCost:  500, rarity: 'common',   hint: 'Grinds wheat into bread (2/min). Needs 2 wheat/min — output ×1.5 next to a Farm.' },
   { name: 'Bakery',     goldCost:  750, rarity: 'uncommon', hint: 'Bakes bread directly (1.5/min). No wheat cost — pure gold investment.' },
-  { name: 'Granary',    goldCost:  600, rarity: 'common',   hint: 'Extends all resource storage caps by 200.' },
+  { name: 'Warehouse',  goldCost:  600, rarity: 'common',   hint: 'Extends all resource storage caps by 200.' },
   { name: 'Watchtower', goldCost:  800, rarity: 'common',   hint: 'Garrisoned lookout. Contributes to city defense.' },
   { name: 'Quarry',     goldCost:  700, rarity: 'common',   hint: 'Mines raw ore and cuts stone into planks.' },
 ]

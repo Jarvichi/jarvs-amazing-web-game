@@ -425,14 +425,26 @@ function pickTask(
   // Resting — return to home building
   available.push({ type: 'resting', label: '💤 Heading home', targetX: home.x, targetY: home.y })
 
-  // Eating — walk to a wheat-producing building
-  const farms = city.grid
+  // Eating — walk to best available food source: warehouse with stock → bread producer → wheat producer
+  const warehousesWithFood = city.grid
+    .map((cell, i) => ({ cell, i }))
+    .filter(({ cell }) => cell && !cell.spawnedUnitName &&
+      /warehouse|barn|granary|silo|storehouse|vault/i.test(cell.cardName) &&
+      ((cell.stock?.bread ?? 0) > 1 || (cell.stock?.wheat ?? 0) > 1))
+  const breadProducers = city.grid
+    .map((cell, i) => ({ cell, i }))
+    .filter(({ cell }) => cell && !cell.spawnedUnitName && (getBuildingProduces(cell.cardName).bread ?? 0) > 0)
+  const wheatProducers = city.grid
     .map((cell, i) => ({ cell, i }))
     .filter(({ cell }) => cell && !cell.spawnedUnitName && (getBuildingProduces(cell.cardName).wheat ?? 0) > 0)
-  if (farms.length > 0) {
-    const { i } = farms[Math.floor(Math.random() * farms.length)]
+  const foodSources = warehousesWithFood.length > 0 ? warehousesWithFood
+    : breadProducers.length > 0 ? breadProducers
+    : wheatProducers
+  if (foodSources.length > 0) {
+    const { i } = foodSources[Math.floor(Math.random() * foodSources.length)]
     const pos = cellPos(i)
-    available.push({ type: 'eating', label: '🌾 Getting food', targetX: pos.x, targetY: pos.y, resource: 'wheat' })
+    const foodResource = warehousesWithFood.length > 0 || breadProducers.length > 0 ? 'bread' : 'wheat'
+    available.push({ type: 'eating', label: '🌾 Getting food', targetX: pos.x, targetY: pos.y, resource: foodResource })
   }
 
   // Patrolling — walk to a random perimeter cell
