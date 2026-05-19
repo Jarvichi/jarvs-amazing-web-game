@@ -73,24 +73,26 @@ export function CityGrid({
           const isFirstCol   = col === 0
           const isLastCol   = col === CITY_COLS - 1
           const isLastRow   = row === cityRows - 1
-          const wearR = isLastCol || isFirstCol ? 0 : ((city.roadWear?.h ?? [])[i] ?? 0)
-          const wearB = isLastRow || isFirstRow ? 0 : ((city.roadWear?.v ?? [])[i] ?? 0)
+          // Read wear from the cell to the left (h[i-1]) and above (v[i-CITY_COLS])
+          // so the mark appears on the incoming edge of each cell.
+          const wearL = isFirstCol ? 0 : ((city.roadWear?.h ?? [])[i - 1] ?? 0)
+          const wearT = isFirstRow ? 0 : ((city.roadWear?.v ?? [])[i - CITY_COLS] ?? 0)
           const shadows: string[] = []
           if (district !== 'none' && isRowStart) shadows.push(`inset 4px 0 0 ${distColor}`)
-          if (wearR > 0) {
-            const c = roadWearColor(wearR)
-            shadows.push(`3px 0 0 0 ${c}`)
-            if (wearR > 60) {
-              const w = (((wearR - 60) / 40) * 3).toFixed(1)
-              shadows.push(`inset -${w}px 0 0 0 ${c}`)
+          if (wearL > 0) {
+            const c = roadWearColor(wearL)
+            shadows.push(`-3px 0 0 0 ${c}`)
+            if (wearL > 60) {
+              const w = (((wearL - 60) / 40) * 3).toFixed(1)
+              shadows.push(`inset ${w}px 0 0 0 ${c}`)
             }
           }
-          if (wearB > 0) {
-            const c = roadWearColor(wearB)
-            shadows.push(`0 3px 0 0 ${c}`)
-            if (wearB > 60) {
-              const w = (((wearB - 60) / 40) * 3).toFixed(1)
-              shadows.push(`inset 0 -${w}px 0 0 ${c}`)
+          if (wearT > 0) {
+            const c = roadWearColor(wearT)
+            shadows.push(`0 -3px 0 0 ${c}`)
+            if (wearT > 60) {
+              const w = (((wearT - 60) / 40) * 3).toFixed(1)
+              shadows.push(`inset 0 ${w}px 0 0 ${c}`)
             }
           }
           return (
