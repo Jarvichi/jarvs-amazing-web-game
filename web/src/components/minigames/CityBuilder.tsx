@@ -181,6 +181,11 @@ export interface VisualCarrier {
   x: number; y: number; vx: number; vy: number
   waypoints: { x: number; y: number }[]
   scale: number
+  phase: 'outbound' | 'returning'
+  /** pixel coords of the pickup point (fromCell centre) */
+  pickX: number; pickY: number
+  /** pixel coords of the drop-off point (toCell centre) */
+  dropX: number; dropY: number
 }
 
 export interface BuilderWalker {
@@ -923,44 +928,47 @@ export function CityBuilder({ onBack }: Props) {
       const gameCarrierIds = new Set(gameCarriers.map(c => c.id))
       const cityRows = cityRef.current?.rows ?? CITY_ROWS
 
-      // Sync: keep carriers still in game state OR still playing their shrink-out animation
+      // Sync: keep carriers still in game state OR still finishing their shrink-out animation
       let nextVis = visualCarriersRef.current.filter(vc => gameCarrierIds.has(vc.id) || vc.scale > 0)
 
-      // Spawn new carriers that haven't been given a visual yet
+      // Spawn new carriers — goblin starts at toCell (consumer) and walks outbound to fromCell (producer)
       const visIds = new Set(nextVis.map(vc => vc.id))
       for (const gc of gameCarriers) {
         if (visIds.has(gc.id)) continue
         const c1 = gc.fromCell % CITY_COLS, r1 = Math.floor(gc.fromCell / CITY_COLS)
-        const sx = (c1 + 0.5) * overlayW / CITY_COLS
-        const sy = (r1 + 0.5) * overlayH / cityRows
+        const pickX = (c1 + 0.5) * overlayW / CITY_COLS
+        const pickY = (r1 + 0.5) * overlayH / cityRows
         const c2 = gc.toCell % CITY_COLS, r2 = Math.floor(gc.toCell / CITY_COLS)
-        const tx = (c2 + 0.5) * overlayW / CITY_COLS
-        const ty = (r2 + 0.5) * overlayH / cityRows
-        const wps = computeWaypoints(sx, sy, tx, ty, overlayW, overlayH, cityRows)
-        const first = wps.length > 0 ? wps[0] : { x: tx, y: ty }
-        const dd = Math.sqrt((first.x - sx) ** 2 + (first.y - sy) ** 2)
+        const dropX = (c2 + 0.5) * overlayW / CITY_COLS
+        const dropY = (r2 + 0.5) * overlayH / cityRows
+        // Outbound: start at drop-off (consumer), walk to pick-up (producer)
+        const wps = computeWaypoints(dropX, dropY, pickX, pickY, overlayW, overlayH, cityRows)
+        const first = wps.length > 0 ? wps[0] : { x: pickX, y: pickY }
+        const dd = Math.sqrt((first.x - dropX) ** 2 + (first.y - dropY) ** 2)
         nextVis.push({
           id: gc.id, carrying: gc.carrying,
-          x: sx, y: sy,
-          vx: dd > 0 ? (first.x - sx) / dd * SPEED : 0,
-          vy: dd > 0 ? (first.y - sy) / dd * SPEED : 0,
+          x: dropX, y: dropY,
+          vx: dd > 0 ? (first.x - dropX) / dd * SPEED : 0,
+          vy: dd > 0 ? (first.y - dropY) / dd * SPEED : 0,
           waypoints: wps,
           scale: 0,
+          phase: 'outbound',
+          pickX, pickY, dropX, dropY,
         })
       }
 
-      // Move each carrier toward its next waypoint
+      // Move each carrier toward its current phase target
       nextVis = nextVis.map(vc => {
-        const gc = gameCarriers.find(c => c.id === vc.id)
-        const destX = gc ? ((gc.toCell % CITY_COLS) + 0.5) * overlayW / CITY_COLS : vc.x
-        const destY = gc ? (Math.floor(gc.toCell / CITY_COLS) + 0.5) * overlayH / cityRows : vc.y
-        const target = vc.waypoints.length > 0 ? vc.waypoints[0] : { x: destX, y: destY }
+        const phaseDestX = vc.phase === 'outbound' ? vc.pickX : vc.dropX
+        const phaseDestY = vc.phase === 'outbound' ? vc.pickY : vc.dropY
+        const target = vc.waypoints.length > 0 ? vc.waypoints[0] : { x: phaseDestX, y: phaseDestY }
         let { x, y, vx, vy } = vc
         let waypoints = vc.waypoints
         let scale = vc.scale
-        // Scale up from building on spawn before moving
-        if (scale < 1 && !waypoints.length && Math.sqrt((target.x - x) ** 2 + (target.y - y) ** 2) < ARRIVE_DIST) {
-          // Already arrived (same-cell carrier) — skip to shrink phase
+        let phase = vc.phase
+        // Scale up from spawn building before moving
+        if (scale < 1 && waypoints.length === 0 && Math.sqrt((target.x - x) ** 2 + (target.y - y) ** 2) < ARRIVE_DIST) {
+          // already at destination — skip to shrink
         } else if (scale < 1) {
           scale = Math.min(1, scale + 0.1)
           return { ...vc, waypoints, scale }
@@ -969,18 +977,26 @@ export function CityBuilder({ onBack }: Props) {
         const dist = Math.sqrt(dx * dx + dy * dy)
         if (dist < ARRIVE_DIST && waypoints.length > 0) {
           waypoints = waypoints.slice(1)
-          const next = waypoints.length > 0 ? waypoints[0] : { x: destX, y: destY }
+          const next = waypoints.length > 0 ? waypoints[0] : { x: phaseDestX, y: phaseDestY }
           const nd = Math.sqrt((next.x - x) ** 2 + (next.y - y) ** 2)
           if (nd > 0) { vx = (next.x - x) / nd * SPEED; vy = (next.y - y) / nd * SPEED }
-        } else if (dist < ARRIVE_DIST) {
-          // Arrived — shrink into the building
+        } else if (dist < ARRIVE_DIST && phase === 'outbound') {
+          // Arrived at producer — switch to returning, compute return waypoints
+          const wps = computeWaypoints(x, y, vc.dropX, vc.dropY, overlayW, overlayH, cityRows)
+          const first = wps.length > 0 ? wps[0] : { x: vc.dropX, y: vc.dropY }
+          const nd = Math.sqrt((first.x - x) ** 2 + (first.y - y) ** 2)
+          phase = 'returning'
+          waypoints = wps
+          if (nd > 0) { vx = (first.x - x) / nd * SPEED; vy = (first.y - y) / nd * SPEED }
+        } else if (dist < ARRIVE_DIST && phase === 'returning') {
+          // Arrived at consumer — shrink into building
           vx = 0; vy = 0
           scale = Math.max(0, scale - 0.1)
         } else if (dist > 0) {
           vx = dx / dist * SPEED; vy = dy / dist * SPEED
         }
         x += vx; y += vy
-        return { ...vc, x, y, vx, vy, waypoints, scale }
+        return { ...vc, x, y, vx, vy, waypoints, scale, phase }
       })
 
       visualCarriersRef.current = nextVis

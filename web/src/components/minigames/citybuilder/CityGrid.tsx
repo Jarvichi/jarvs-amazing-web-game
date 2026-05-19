@@ -101,16 +101,14 @@ export function CityGrid({
             >
               {cell ? (
                 <>
-                  <SpriteImg
-                    name={
-                      cell.cardName === 'Windmill'
-                        ? (cell.stock?.wheat ?? 0) >= 3 ? 'Windmill'
-                          : (cell.stock?.wheat ?? 0) > 0 ? 'Windmill Slow'
-                          : 'Windmill Stopped'
-                        : cell.cardName
-                    }
-                    className="city-cell-sprite"
-                  />
+                  {(() => {
+                    const spriteName = cell.cardName === 'Windmill'
+                      ? (cell.stock?.wheat ?? 0) >= 3 ? 'Windmill'
+                        : (cell.stock?.wheat ?? 0) > 0 ? 'Windmill Slow'
+                        : 'Windmill Stopped'
+                      : cell.cardName
+                    return <SpriteImg key={spriteName} name={spriteName} className="city-cell-sprite" />
+                  })()}
                   {cell.spawnedUnitName && rage > 0 && (
                     <div
                       className="city-cell-happiness"
@@ -130,6 +128,18 @@ export function CityGrid({
                   )}
                   {!city.activeDisaster && (city.resources.bread ?? 0) < 1 && cell.spawnedUnitName && (
                     <span className="city-cell-bread-warn" title="No bread — residents are hungry">🍞</span>
+                  )}
+                  {Object.entries(cell.stock ?? {}).some(([, v]) => (v ?? 0) >= 1) && (
+                    <div className="city-cell-stock">
+                      {(Object.entries(cell.stock ?? {}) as [ResourceType, number][])
+                        .filter(([, v]) => (v ?? 0) >= 1)
+                        .slice(0, 2)
+                        .map(([res, v]) => (
+                          <span key={res} className="city-cell-stock-item">
+                            {RESOURCE_ICONS[res]}{Math.floor(v)}
+                          </span>
+                        ))}
+                    </div>
                   )}
                 </>
               ) : (
@@ -203,7 +213,7 @@ export function CityGrid({
           const res = Object.keys(vc.carrying)[0] as ResourceType
           return (
             <div key={vc.id} className="city-walker city-carrier-goblin" style={{ left: Math.round(vc.x), top: Math.round(vc.y), transform: `translate(-50%,-50%) scale(${vc.scale})` }}>
-              <div className="city-carrier-load">{RESOURCE_ICONS[res]}</div>
+              {vc.phase === 'returning' && <div className="city-carrier-load">{RESOURCE_ICONS[res]}</div>}
               <AnimatedSpriteImg name="Goblin" frameCount={3} fps={8} className="city-walker-sprite" />
             </div>
           )

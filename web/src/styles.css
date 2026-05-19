@@ -9627,6 +9627,25 @@ html.light-mode .action-btn {
   animation: city-pulse 2s ease-in-out infinite;
   filter: grayscale(0.3);
 }
+.city-cell-stock {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  pointer-events: none;
+}
+.city-cell-stock-item {
+  font-size: 7px;
+  line-height: 1.1;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  padding: 0 2px;
+  border-radius: 2px;
+  letter-spacing: -0.2px;
+}
 
 .city-disaster-btn {
   border-color: #884400 !important;
