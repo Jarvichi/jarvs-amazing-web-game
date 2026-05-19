@@ -4,6 +4,7 @@ import {
   getBuildingProduces, getBuildingConsumes, masteryOutputMultiplier, getCardMasteryLevel,
   levelUpCost, LEVEL_UP_COSTS, spawnerUnitCount,
   getCellSynergyBonuses, getCellIncomeBonus,
+  cellStockCap,
 } from '../../../game/cityBuilder'
 import { CollectionEntry, getMasteryXp, masteryProgress } from '../../../game/collection'
 import { MasteryBar } from '../../ui/MasteryBar'
@@ -120,10 +121,16 @@ export function BuildingInspectModal({
             <>
               {stockEntries.length > 0 && (
                 <>
+              {/warehouse|barn|granary|silo|storehouse|vault/i.test(cell.cardName) && (
+                <div className="city-synergy-label">📦 Storage hub — raises all resource caps by {cellStockCap(cell)}</div>
+              )}          
+              {synergies.map((s, i) => (
+                <div key={i} className="city-synergy-label">{s.label}</div>
+              ))}              
                   <div className="city-bld-section-title">Stockpile</div>
                   {stockEntries.map(([res, v]) => (
-                    <div key={res} className="city-bld-produces-row">
-                      {RESOURCE_ICONS[res]} {Math.floor(v)} {res}
+                    <div key={res} className="city-bld-produces-row u-row ">
+                      <div className="u-mg-r-md"> {RESOURCE_ICONS[res]} </div><div>{Math.floor(v)} / {cellStockCap(cell)} {res}</div>
                     </div>
                   ))}
                 </>
@@ -156,12 +163,7 @@ export function BuildingInspectModal({
                   ))}
                 </>
               )}
-              {/warehouse|barn|granary|silo|storehouse|vault/i.test(cell.cardName) && (
-                <div className="city-synergy-label">📦 Storage hub — raises all resource caps by +200</div>
-              )}
-              {synergies.map((s, i) => (
-                <div key={i} className="city-synergy-label">{s.label}</div>
-              ))}
+
             </>
           ) : cell.spawnedUnitName ? (
             <>
