@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   CityState, CityCell, RESOURCE_ICONS, ResourceType,
-  getBuildingProduces, masteryOutputMultiplier, getCardMasteryLevel,
+  getBuildingProduces, getBuildingConsumes, masteryOutputMultiplier, getCardMasteryLevel,
   levelUpCost, LEVEL_UP_COSTS, spawnerUnitCount,
   getCellSynergyBonuses, getCellIncomeBonus,
 } from '../../../game/cityBuilder'
@@ -32,8 +32,11 @@ export function BuildingInspectModal({
   const unitCount      = cell.spawnedUnitName ? spawnerUnitCount(city, cell.cardName) : 0
   const moodKey        = happiness === 0 ? 'gone' : happiness < 30 ? 'furious' : happiness < 60 ? 'unsettled' : 'content'
   const produces       = getBuildingProduces(cell.cardName)
+  const consumes       = getBuildingConsumes(cell.cardName)
   const masteryMult    = masteryOutputMultiplier(getCardMasteryLevel(cell.cardName) ?? 0)
   const produceEntries = Object.entries(produces).filter(([, v]) => (v ?? 0) > 0)
+  const consumeEntries = Object.entries(consumes).filter(([, v]) => (v ?? 0) > 0)
+  const stockEntries   = Object.entries(cell.stock ?? {}).filter(([, v]) => (v ?? 0) >= 0.01) as [ResourceType, number][]
   const synergies      = getCellSynergyBonuses(city, cellIndex)
   const synergyMap     = Object.fromEntries(synergies.map(s => [s.resource, s.multiplier]))
   const incomeBonus    = getCellIncomeBonus(city, cellIndex)
@@ -113,19 +116,43 @@ export function BuildingInspectModal({
                 })
               )}
             </>
-          ) : produceEntries.length > 0 ? (
+          ) : produceEntries.length > 0 || consumeEntries.length > 0 ? (
             <>
-              <div className="city-bld-section-title">Produces</div>
-              {produceEntries.map(([res, amt]) => {
-                const sm = synergyMap[res as ResourceType] ?? 0
-                const total = Math.round((amt as number) * masteryMult * (1 + sm))
-                return (
-                  <div key={res} className="city-bld-produces-row">
-                    +{total} {RESOURCE_ICONS[res as ResourceType]}/min
-                    {sm > 0 && <span className="city-synergy-bonus"> ✦ synergy</span>}
-                  </div>
-                )
-              })}
+              {stockEntries.length > 0 && (
+                <>
+                  <div className="city-bld-section-title">Stockpile</div>
+                  {stockEntries.map(([res, v]) => (
+                    <div key={res} className="city-bld-produces-row">
+                      {RESOURCE_ICONS[res]} {Math.floor(v)} {res}
+                    </div>
+                  ))}
+                </>
+              )}
+              {produceEntries.length > 0 && (
+                <>
+                  <div className="city-bld-section-title">Production rate</div>
+                  {produceEntries.map(([res, amt]) => {
+                    const sm = synergyMap[res as ResourceType] ?? 0
+                    const total = Math.round((amt as number) * masteryMult * (1 + sm))
+                    return (
+                      <div key={res} className="city-bld-produces-row">
+                        +{total} {RESOURCE_ICONS[res as ResourceType]}/min
+                        {sm > 0 && <span className="city-synergy-bonus"> ✦ synergy</span>}
+                      </div>
+                    )
+                  })}
+                </>
+              )}
+              {consumeEntries.length > 0 && (
+                <>
+                  <div className="city-bld-section-title">Consumes</div>
+                  {consumeEntries.map(([res, amt]) => (
+                    <div key={res} className="city-bld-produces-row">
+                      −{amt} {RESOURCE_ICONS[res as ResourceType]}/min
+                    </div>
+                  ))}
+                </>
+              )}
               {synergies.map((s, i) => (
                 <div key={i} className="city-synergy-label">{s.label}</div>
               ))}

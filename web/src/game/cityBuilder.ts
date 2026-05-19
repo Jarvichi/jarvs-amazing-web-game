@@ -307,6 +307,7 @@ const WAREHOUSE_PATTERN = /warehouse|barn|granary|silo|storehouse|vault/i
 const CARRIER_LOAD          = 5     // units loaded per carrier trip
 const CARRIER_BASE_SPEED    = 1.0   // cells per minute on grass
 const ROAD_WEAR_PER_CARRIER = 0.4   // wear added per carrier per minute
+const PER_CELL_STOCK_CAP    = 50    // max units any single cell can stockpile of one resource
 export const ROAD_TIER_THRESHOLDS = [25, 60] as const  // tier 1 at 25, tier 2 at 60
 const ROAD_SPEED_MULT = [1.0, 1.4, 2.0]  // multiplier per road tier
 
@@ -1431,9 +1432,9 @@ export function tickCity(state: CityState): CityState {
       if (inFlightTo.has(`${i}-${res}`)) continue            // already fetching
       const source = findNearestProducer(res, i, newGrid as (CityCell|undefined)[], CITY_COLS)
       if (source === null) continue
-      if (inFlightFrom.has(`${source}-${res}`)) continue     // source already spoken for
       const sourceCell = newGrid[source]!
       const load = Math.min(sourceCell.stock[res] ?? 0, CARRIER_LOAD)
+      if (load <= 0) continue                                // producer empty after prior deductions
       activeCarriers.push({ id: `${Date.now()}-${source}-${res}`, fromCell: source, toCell: i, carrying: { [res]: load }, progress: 0 })
       sourceCell.stock[res] = Math.max(0, (sourceCell.stock[res] ?? 0) - load)
       inFlightTo.add(`${i}-${res}`)
@@ -1574,11 +1575,11 @@ export function tickCity(state: CityState): CityState {
     newResources[key] = Math.max(0, Math.min(newResources[key], storageCaps[key]))
   }
 
-  // Also cap each cell's individual stock
+  // Also cap each cell's individual stock (small per-cell cap regardless of global storage)
   for (const cell of newGrid) {
     if (!cell) continue
     for (const key of Object.keys(cell.stock) as ResourceType[]) {
-      cell.stock[key] = Math.max(0, Math.min(cell.stock[key] ?? 0, storageCaps[key]))
+      cell.stock[key] = Math.max(0, Math.min(cell.stock[key] ?? 0, PER_CELL_STOCK_CAP))
     }
   }
 
