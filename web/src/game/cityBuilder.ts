@@ -307,7 +307,7 @@ export const WAREHOUSE_PATTERN = /warehouse|barn|granary|silo|storehouse|vault/i
 const CARRIER_LOAD          = 5     // units loaded per carrier trip
 const CARRIER_BASE_SPEED    = 2.5   // cells per minute on grass (faster = shorter game delivery time = goblins dispatched more frequently)
 const ROAD_WEAR_PER_CARRIER = 0.4   // wear added per carrier per minute
-const PER_CELL_STOCK_CAP    = 50    // max units any single cell can stockpile of one resource
+export const PER_CELL_STOCK_CAP = 50    // max units any single cell can stockpile of one resource
 export const ROAD_TIER_THRESHOLDS = [25, 60] as const  // tier 1 at 25, tier 2 at 60
 const ROAD_SPEED_MULT = [1.0, 1.4, 2.0]  // multiplier per road tier
 
@@ -466,7 +466,7 @@ export function calculateStorageCaps(state: CityState): ResourceStock {
 
 // ── Stats history ─────────────────────────────────────────────────────────────
 
-const HISTORY_MAX         = 144          // 24 h at 10-min resolution
+const HISTORY_MAX         = 1008         // 7 days at 10-min resolution
 const HISTORY_INTERVAL_MS = 10 * 60_000  // sample at most once per 10 minutes
 
 export interface HistorySample {

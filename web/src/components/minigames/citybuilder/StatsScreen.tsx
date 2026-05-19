@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   CityState, HistorySample,
   RESOURCE_ICONS, ResourceType,
+  PER_CELL_STOCK_CAP, WAREHOUSE_PATTERN,
+  getBuildingProduces,
 } from '../../../game/cityBuilder'
 import { StatsSparkline } from './StatsSparkline'
 
@@ -45,6 +47,28 @@ const COLORS: Record<string, string> = {
 
 const RES_ORDER: ResourceType[] = ['wheat', 'wood', 'ore', 'bread', 'planks', 'metal']
 
+// ── Time range options ────────────────────────────────────────────────────────
+
+const TIME_RANGES = [
+  { label: '1H',  ms: 60 * 60_000 },
+  { label: '6H',  ms: 6  * 60 * 60_000 },
+  { label: '24H', ms: 24 * 60 * 60_000 },
+  { label: '7D',  ms: 7  * 24 * 60 * 60_000 },
+] as const
+
+// ── Capacity helpers ──────────────────────────────────────────────────────────
+
+/** Returns the total storage ceiling for a given resource across the current city. */
+function resourceCapacity(city: CityState, res: ResourceType): number {
+  const count = city.grid.filter(cell =>
+    cell && (
+      (getBuildingProduces(cell.cardName)[res] ?? 0) > 0 ||
+      WAREHOUSE_PATTERN.test(cell.cardName)
+    )
+  ).length
+  return count * PER_CELL_STOCK_CAP
+}
+
 // ── Sub-components ─────────────────────────────────────────────────────────────
 
 interface StatCardProps {
@@ -72,7 +96,7 @@ function StatCard({ icon, label, value, delta, isGold }: StatCardProps) {
 }
 
 interface ChartSectionProps {
-  title:   string
+  title:    string
   children: React.ReactNode
 }
 function ChartSection({ title, children }: ChartSectionProps) {
@@ -92,18 +116,22 @@ interface Props {
 }
 
 export function StatsScreen({ city, onBack }: Props) {
-  const history: HistorySample[] = city.history ?? []
-  const n = history.length
+  const [rangeMs, setRangeMs] = useState(24 * 60 * 60_000)
 
+  const allHistory: HistorySample[] = city.history ?? []
+  const now = allHistory.length > 0 ? allHistory[allHistory.length - 1].t : Date.now()
+  const history = allHistory.filter(s => s.t >= now - rangeMs)
+
+  const n      = history.length
   const latest = history[n - 1]
   const oldest = history[0]
 
   const extract = (key: keyof HistorySample) =>
     history.map(s => s[key] as number)
 
-  const goldData  = extract('gold')
-  const popData   = extract('pop')
-  const defData   = extract('def')
+  const goldData   = extract('gold')
+  const popData    = extract('pop')
+  const defData    = extract('def')
   const attackMask = history.map(s => s.attacked ?? false)
 
   const resData: Record<ResourceType, number[]> = {
@@ -120,20 +148,20 @@ export function StatsScreen({ city, onBack }: Props) {
     ? `Last ${fmtDuration(latest.t - oldest.t)}`
     : n === 1 ? 'First sample' : 'No data yet'
 
-  // Deltas (change over entire history window)
-  const goldDelta = n >= 2 ? latest.gold  - oldest.gold  : 0
-  const popDelta  = n >= 2 ? latest.pop   - oldest.pop   : 0
-  const defDelta  = n >= 2 ? latest.def   - oldest.def   : 0
+  // Deltas (change over filtered window)
+  const goldDelta = n >= 2 ? latest.gold - oldest.gold : 0
+  const popDelta  = n >= 2 ? latest.pop  - oldest.pop  : 0
+  const defDelta  = n >= 2 ? latest.def  - oldest.def  : 0
 
   // Time axis labels for the gold chart
   function timeLabel(i: number): string {
     if (n < 2) return ''
-    const ageMs  = latest.t - history[i].t
+    const ageMs = latest.t - history[i].t
     if (ageMs < 60_000) return 'now'
     return `${fmtDuration(ageMs)} ago`
   }
 
-  if (n === 0) {
+  if (allHistory.length === 0) {
     return (
       <div className="city-screen u-col u-gap-2">
         <div className="city-header u-flex u-items-c u-gap-3">
@@ -159,6 +187,19 @@ export function StatsScreen({ city, onBack }: Props) {
         <button className="action-btn" onClick={onBack}>← BACK</button>
         <div className="city-title">📊 CITY STATS</div>
         <span className="city-stats-window-label">{windowLabel}</span>
+
+        {/* Time range selector */}
+        <div className="city-stats-range-btns">
+          {TIME_RANGES.map(tr => (
+            <button
+              key={tr.label}
+              className={`city-stats-range-btn${rangeMs === tr.ms ? ' city-stats-range-btn--active' : ''}`}
+              onClick={() => setRangeMs(tr.ms)}
+            >
+              {tr.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Scrollable content */}
@@ -168,18 +209,18 @@ export function StatsScreen({ city, onBack }: Props) {
         <div className="city-stats-summary">
           <StatCard
             icon="💰" label="GOLD"
-            value={fmtGold(latest.gold)}
+            value={fmtGold(latest?.gold ?? 0)}
             delta={goldDelta}
             isGold
           />
           <StatCard
             icon="👥" label="POP"
-            value={String(latest.pop)}
+            value={String(latest?.pop ?? 0)}
             delta={popDelta}
           />
           <StatCard
             icon="🛡" label="DEFENSE"
-            value={String(latest.def)}
+            value={String(latest?.def ?? 0)}
             delta={defDelta}
           />
           <StatCard
@@ -188,94 +229,101 @@ export function StatsScreen({ city, onBack }: Props) {
           />
         </div>
 
-        {/* Gold chart */}
-        <ChartSection title="GOLD OVER TIME">
-          <div className="city-stats-chart-wrap">
-            <StatsSparkline
-              data={goldData}
-              attacks={attackMask}
-              color={COLORS.gold}
-              height={80}
-              showMax
-              formatMax={fmtGold}
-            />
-            <div className="city-stats-chart-labels">
-              <span>{timeLabel(0)}</span>
-              <span className="city-stats-chart-range">
-                {fmtGold(Math.min(...goldData))} – {fmtGold(Math.max(...goldData))}
-              </span>
-              <span>now</span>
-            </div>
+        {n < 2 ? (
+          <div className="city-stats-empty city-stats-empty--inline">
+            <span>No data in this time window — try a wider range.</span>
           </div>
-          {attackMask.some(Boolean) && (
-            <div className="city-stats-attack-legend">
-              <span className="city-sparkline-attack-mark city-sparkline-attack-mark--inline" />
-              {' '}attack event
-            </div>
-          )}
-        </ChartSection>
+        ) : (
+          <>
+            {/* Gold chart */}
+            <ChartSection title="GOLD OVER TIME">
+              <div className="city-stats-chart-wrap">
+                <StatsSparkline
+                  data={goldData}
+                  attacks={attackMask}
+                  color={COLORS.gold}
+                  height={80}
+                />
+                <div className="city-stats-chart-labels">
+                  <span>{timeLabel(0)}</span>
+                  <span className="city-stats-chart-range">
+                    {fmtGold(Math.min(...goldData))} – {fmtGold(Math.max(...goldData))}
+                  </span>
+                  <span>now</span>
+                </div>
+              </div>
+              {attackMask.some(Boolean) && (
+                <div className="city-stats-attack-legend">
+                  <span className="city-sparkline-attack-mark city-sparkline-attack-mark--inline" />
+                  {' '}attack event
+                </div>
+              )}
+            </ChartSection>
 
-        {/* Resources */}
-        <ChartSection title="RESOURCES">
-          <div className="city-stats-res-grid">
-            {RES_ORDER.map(res => {
-              const d = resData[res]
-              const cur = d[d.length - 1] ?? 0
-              const delta = d.length >= 2 ? cur - d[0] : 0
-              const allZero = d.every(v => v === 0)
-              if (allZero) return null
-              return (
-                <div key={res} className="city-stats-res-cell">
-                  <div className="city-stats-res-label">
-                    {RESOURCE_ICONS[res]} {res.toUpperCase()}
+            {/* Resources */}
+            <ChartSection title="RESOURCES">
+              <div className="city-stats-res-grid">
+                {RES_ORDER.map(res => {
+                  const d = resData[res]
+                  const cur = d[d.length - 1] ?? 0
+                  const delta = d.length >= 2 ? cur - d[0] : 0
+                  const allZero = d.every(v => v === 0)
+                  if (allZero) return null
+                  const cap = resourceCapacity(city, res)
+                  return (
+                    <div key={res} className="city-stats-res-cell">
+                      <div className="city-stats-res-label">
+                        {RESOURCE_ICONS[res]} {res.toUpperCase()}
+                      </div>
+                      <div className="city-stats-chart-wrap city-stats-chart-wrap--sm">
+                        <StatsSparkline
+                          data={d}
+                          color={COLORS[res]}
+                          height={40}
+                          capacity={cap > 0 ? cap : undefined}
+                        />
+                      </div>
+                      <div className="city-stats-res-footer">
+                        <span className="city-stats-res-cur">{Math.floor(cur)}</span>
+                        <span className={`city-stats-res-delta ${delta > 0 ? 'city-stat-card-delta--pos' : delta < 0 ? 'city-stat-card-delta--neg' : 'city-stat-card-delta--zero'}`}>
+                          {fmtDelta(delta)}
+                        </span>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </ChartSection>
+
+            {/* Population & Defense */}
+            <ChartSection title="POPULATION &amp; DEFENSE">
+              <div className="city-stats-duo">
+                <div>
+                  <div className="city-stats-res-label">👥 POPULATION</div>
+                  <div className="city-stats-chart-wrap">
+                    <StatsSparkline data={popData} color={COLORS.pop} height={50} />
                   </div>
-                  <div className="city-stats-chart-wrap city-stats-chart-wrap--sm">
-                    <StatsSparkline
-                      data={d}
-                      color={COLORS[res]}
-                      height={40}
-                      showMax
-                    />
-                  </div>
-                  <div className="city-stats-res-footer">
-                    <span className="city-stats-res-cur">{Math.floor(cur)}</span>
-                    <span className={`city-stats-res-delta ${delta > 0 ? 'city-stat-card-delta--pos' : delta < 0 ? 'city-stat-card-delta--neg' : 'city-stat-card-delta--zero'}`}>
-                      {fmtDelta(delta)}
-                    </span>
+                  <div className="city-stats-chart-labels">
+                    <span>{Math.min(...popData)}</span>
+                    <span></span>
+                    <span>{Math.max(...popData)}</span>
                   </div>
                 </div>
-              )
-            })}
-          </div>
-        </ChartSection>
-
-        {/* Population & Defense */}
-        <ChartSection title="POPULATION &amp; DEFENSE">
-          <div className="city-stats-duo">
-            <div>
-              <div className="city-stats-res-label">👥 POPULATION</div>
-              <div className="city-stats-chart-wrap">
-                <StatsSparkline data={popData} color={COLORS.pop} height={50} showMax />
+                <div>
+                  <div className="city-stats-res-label">🛡 DEFENSE</div>
+                  <div className="city-stats-chart-wrap">
+                    <StatsSparkline data={defData} color={COLORS.def} height={50} />
+                  </div>
+                  <div className="city-stats-chart-labels">
+                    <span>{Math.min(...defData)}</span>
+                    <span></span>
+                    <span>{Math.max(...defData)}</span>
+                  </div>
+                </div>
               </div>
-              <div className="city-stats-chart-labels">
-                <span>{Math.min(...popData)}</span>
-                <span></span>
-                <span>{Math.max(...popData)}</span>
-              </div>
-            </div>
-            <div>
-              <div className="city-stats-res-label">🛡 DEFENSE</div>
-              <div className="city-stats-chart-wrap">
-                <StatsSparkline data={defData} color={COLORS.def} height={50} showMax />
-              </div>
-              <div className="city-stats-chart-labels">
-                <span>{Math.min(...defData)}</span>
-                <span></span>
-                <span>{Math.max(...defData)}</span>
-              </div>
-            </div>
-          </div>
-        </ChartSection>
+            </ChartSection>
+          </>
+        )}
 
       </div>
     </div>
