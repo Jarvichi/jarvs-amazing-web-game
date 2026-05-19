@@ -1517,6 +1517,7 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
     const cell = newGrid[i]
     if (!cell || cell.spawnedUnitName) continue
     if (BUILDING_CONVERSION_COST[cell.cardName]) continue    // handled above
+    if (WAREHOUSE_PATTERN.test(cell.cardName)) continue      // warehouses only receive, never push
     for (const [res, amount] of Object.entries(cell.stock) as [ResourceType, number][]) {
       if (amount < CARRIER_LOAD) continue
       if (inFlightFrom.has(`${i}-${res}`)) continue
