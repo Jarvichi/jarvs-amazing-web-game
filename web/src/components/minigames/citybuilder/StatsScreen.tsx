@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import {
   CityState, HistorySample,
   RESOURCE_ICONS, ResourceType,
-  PER_CELL_STOCK_CAP, WAREHOUSE_PATTERN,
-  getBuildingProduces,
+  WAREHOUSE_PATTERN,
+  getBuildingProduces, cellStockCap,
 } from '../../../game/cityBuilder'
 import { StatsSparkline } from './StatsSparkline'
 
@@ -60,13 +60,13 @@ const TIME_RANGES = [
 
 /** Returns the total storage ceiling for a given resource across the current city. */
 function resourceCapacity(city: CityState, res: ResourceType): number {
-  const count = city.grid.filter(cell =>
-    cell && (
-      (getBuildingProduces(cell.cardName)[res] ?? 0) > 0 ||
-      WAREHOUSE_PATTERN.test(cell.cardName)
-    )
-  ).length
-  return count * PER_CELL_STOCK_CAP
+  return city.grid.reduce((sum, cell) => {
+    if (!cell) return sum
+    if ((getBuildingProduces(cell.cardName)[res] ?? 0) > 0 || WAREHOUSE_PATTERN.test(cell.cardName)) {
+      return sum + cellStockCap(cell)
+    }
+    return sum
+  }, 0)
 }
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
