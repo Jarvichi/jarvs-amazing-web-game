@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Ground -->
+  <rect x="0" y="26" width="32" height="6" fill="#3a4a1a"/>
+
+  <!-- Building body -->
+  <rect x="4" y="16" width="24" height="12" fill="#8a6a3a"/>
+  <!-- Vertical board planks -->
+  <line x1="10" y1="16" x2="10" y2="28" stroke="#6a4a1a" stroke-width="0.8"/>
+  <line x1="16" y1="16" x2="16" y2="28" stroke="#6a4a1a" stroke-width="0.8"/>
+  <line x1="22" y1="16" x2="22" y2="28" stroke="#6a4a1a" stroke-width="0.8"/>
+
+  <!-- Domed roof -->
+  <path d="M3,16 Q16,5 29,16 Z" fill="#6a3a18"/>
+  <!-- Roof highlight -->
+  <path d="M7,15 Q16,8 25,15" fill="none" stroke="#8a5030" stroke-width="1" opacity="0.6"/>
+
+  <!-- Double barn doors -->
+  <rect x="12" y="20" width="4"  height="8" fill="#3a2010" rx="0.5"/>
+  <rect x="16" y="20" width="4"  height="8" fill="#2a1808" rx="0.5"/>
+  <line x1="12" y1="24" x2="16" y2="24" stroke="#1a0a00" stroke-width="0.5"/>
+  <line x1="16" y1="24" x2="20" y2="24" stroke="#1a0a00" stroke-width="0.5"/>
+
+  <!-- Side windows -->
+  <rect x="5"  y="18" width="4" height="3" fill="#88aacc" rx="0.3"/>
+  <rect x="23" y="18" width="4" height="3" fill="#88aacc" rx="0.3"/>
+
+  <!-- Grain sacks on ground -->
+  <ellipse cx="7"  cy="27.5" rx="3"   ry="1.5" fill="#9a8a5a"/>
+  <ellipse cx="25" cy="27.5" rx="3"   ry="1.5" fill="#9a8a5a"/>
+
+  <!-- Wheat sprig on peak -->
+  <line x1="16" y1="5" x2="16" y2="9" stroke="#c8a020" stroke-width="1"/>
+  <ellipse cx="16" cy="4.5" rx="2" ry="1.2" fill="#d4b020" transform="rotate(-15,16,4.5)"/>
+</svg>
