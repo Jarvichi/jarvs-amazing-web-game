@@ -305,7 +305,7 @@ const WAREHOUSE_PATTERN = /warehouse|barn|granary|silo|storehouse|vault/i
 // ── Carrier / road transport constants ───────────────────────────────────────
 
 const CARRIER_LOAD          = 5     // units loaded per carrier trip
-const CARRIER_BASE_SPEED    = 1.0   // cells per minute on grass
+const CARRIER_BASE_SPEED    = 2.5   // cells per minute on grass (faster = shorter game delivery time = goblins dispatched more frequently)
 const ROAD_WEAR_PER_CARRIER = 0.4   // wear added per carrier per minute
 const PER_CELL_STOCK_CAP    = 50    // max units any single cell can stockpile of one resource
 export const ROAD_TIER_THRESHOLDS = [25, 60] as const  // tier 1 at 25, tier 2 at 60
@@ -1420,6 +1420,8 @@ export function tickCity(state: CityState): CityState {
   const inFlightTo  = new Set(activeCarriers.map(c => `${c.toCell}-${Object.keys(c.carrying)[0]}`))
   // inFlightFrom: one outbound carrier per (fromCell, resource) to avoid double-spending
   const inFlightFrom = new Set(activeCarriers.map(c => `${c.fromCell}-${Object.keys(c.carrying)[0]}`))
+  // Counter to ensure unique IDs even when multiple carriers share the same source+resource in one tick
+  let carrierSeq = 0
 
   // Pull-based: conversion buildings request their input resource from nearest producer
   for (let i = 0; i < newGrid.length; i++) {
@@ -1435,7 +1437,7 @@ export function tickCity(state: CityState): CityState {
       const sourceCell = newGrid[source]!
       const load = Math.min(sourceCell.stock[res] ?? 0, CARRIER_LOAD)
       if (load <= 0) continue                                // producer empty after prior deductions
-      activeCarriers.push({ id: `${Date.now()}-${source}-${res}`, fromCell: source, toCell: i, carrying: { [res]: load }, progress: 0 })
+      activeCarriers.push({ id: `${Date.now()}-${carrierSeq++}-${source}-${i}-${res}`, fromCell: source, toCell: i, carrying: { [res]: load }, progress: 0 })
       sourceCell.stock[res] = Math.max(0, (sourceCell.stock[res] ?? 0) - load)
       inFlightTo.add(`${i}-${res}`)
       inFlightFrom.add(`${source}-${res}`)
@@ -1454,7 +1456,7 @@ export function tickCity(state: CityState): CityState {
       const target = findNearestConsumer(res, i, newGrid as (CityCell|undefined)[], CITY_COLS)
       if (target === null) continue
       const load = Math.min(amount, CARRIER_LOAD)
-      activeCarriers.push({ id: `${Date.now()}-${i}-${res}`, fromCell: i, toCell: target, carrying: { [res]: load }, progress: 0 })
+      activeCarriers.push({ id: `${Date.now()}-${carrierSeq++}-${i}-${target}-${res}`, fromCell: i, toCell: target, carrying: { [res]: load }, progress: 0 })
       cell.stock[res] = Math.max(0, amount - load)
       inFlightFrom.add(`${i}-${res}`)
     }
@@ -1471,7 +1473,7 @@ export function tickCity(state: CityState): CityState {
       const target = findNearestConsumer(res, i, newGrid as (CityCell|undefined)[], CITY_COLS)
       if (target === null) continue
       const load = Math.min(amount, CARRIER_LOAD)
-      activeCarriers.push({ id: `${Date.now()}-${i}-${res}`, fromCell: i, toCell: target, carrying: { [res]: load }, progress: 0 })
+      activeCarriers.push({ id: `${Date.now()}-${carrierSeq++}-${i}-${target}-${res}`, fromCell: i, toCell: target, carrying: { [res]: load }, progress: 0 })
       cell.stock[res] = Math.max(0, amount - load)
       inFlightFrom.add(`${i}-${res}`)
     }

@@ -112,7 +112,9 @@ export function getUnitRequirements(
   }
 
   const pop = Math.max(spawnerUnitCount(cityState, cell.cardName), 1)
-  const foodScore = Math.min(100, (cityState.resources.wheat / pop) * 5)
+  const wheatScore = Math.min(100, (cityState.resources.wheat / pop) * 5)
+  const breadScore = Math.min(100, (cityState.resources.bread / pop) * 10)
+  const foodScore  = Math.min(100, wheatScore + breadScore)
   reqs.push({ text: 'Needs adequate food supply', met: foodScore >= 50 })
 
   const defense = cityDefense(cityState)
