@@ -86,14 +86,11 @@ export const BulldozerMode: Story = {
 
 // ── Road wear debug stories ────────────────────────────────────────────────────
 // CITY_COLS=6, CITY_ROWS=4 → 24 cells, indices 0-23.
-// h[i] = horizontal road to the RIGHT of cell i (5 gaps per row).
-// v[i] = vertical road BELOW cell i (6 gaps per column, up to row 3).
+// h[i] = wear from left→right travel between cell i and i+1 (5 gaps per row).
+// v[i] = wear from top→bottom travel between cell i and i+COLS (per column).
 //
-// HorizontalRoadWear: walkers travelling left→right across row 0.
-//   h[0..4] = 100 → wear should appear on the LEFT edge of cells 1-5 in row 0.
-//
-// VerticalRoadWear: walkers travelling top→bottom down column 0.
-//   v[0,6,12] = 100 → wear should appear on the TOP edge of cells 6,12,18 in col 0.
+// HorizontalRoadWear: h[0..4] = 100 → horizontal stripe on TOP of cells 1-5 in row 0.
+// VerticalRoadWear:   v[0,6,12] = 100 → vertical stripe on LEFT of cells 6,12,18 in col 0.
 
 const COLS = 6
 

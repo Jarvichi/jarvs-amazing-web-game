@@ -73,26 +73,26 @@ export function CityGrid({
           const isFirstCol   = col === 0
           const isLastCol   = col === CITY_COLS - 1
           const isLastRow   = row === cityRows - 1
-          // Read wear from the cell to the left (h[i-1]) and above (v[i-CITY_COLS])
-          // so the mark appears on the incoming edge of each cell.
-          const wearL = isFirstCol ? 0 : ((city.roadWear?.h ?? [])[i - 1] ?? 0)
-          const wearT = isFirstRow ? 0 : ((city.roadWear?.v ?? [])[i - CITY_COLS] ?? 0)
+          // h = wear from left-right travel → horizontal stripe on TOP edge
+          // v = wear from up-down travel   → vertical stripe on LEFT edge
+          const wearH = isFirstCol ? 0 : ((city.roadWear?.h ?? [])[i - 1] ?? 0)
+          const wearV = isFirstRow ? 0 : ((city.roadWear?.v ?? [])[i - CITY_COLS] ?? 0)
           const shadows: string[] = []
           if (district !== 'none' && isRowStart) shadows.push(`inset 4px 0 0 ${distColor}`)
-          if (wearL > 0) {
-            const c = roadWearColor(wearL)
-            shadows.push(`-3px 0 0 0 ${c}`)
-            if (wearL > 60) {
-              const w = (((wearL - 60) / 40) * 3).toFixed(1)
-              shadows.push(`inset ${w}px 0 0 0 ${c}`)
+          if (wearH > 0) {
+            const c = roadWearColor(wearH)
+            shadows.push(`0 -3px 0 0 ${c}`)
+            if (wearH > 60) {
+              const w = (((wearH - 60) / 40) * 3).toFixed(1)
+              shadows.push(`inset 0 ${w}px 0 0 ${c}`)
             }
           }
-          if (wearT > 0) {
-            const c = roadWearColor(wearT)
-            shadows.push(`0 -3px 0 0 ${c}`)
-            if (wearT > 60) {
-              const w = (((wearT - 60) / 40) * 3).toFixed(1)
-              shadows.push(`inset 0 ${w}px 0 0 ${c}`)
+          if (wearV > 0) {
+            const c = roadWearColor(wearV)
+            shadows.push(`-3px 0 0 0 ${c}`)
+            if (wearV > 60) {
+              const w = (((wearV - 60) / 40) * 3).toFixed(1)
+              shadows.push(`inset ${w}px 0 0 0 ${c}`)
             }
           }
           return (
