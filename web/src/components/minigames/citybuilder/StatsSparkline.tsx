@@ -1,17 +1,18 @@
 import React from 'react'
 
 interface Props {
-  data:       number[]
-  attacks?:   boolean[]  // parallel array, true = attack occurred at that sample
-  color:      string
-  height?:    number     // chart height in px, default 54
-  dimColor?:  string     // fill/glow color override (defaults to color)
-  showMax?:   boolean
-  formatMax?: (n: number) => string
+  data:            number[]
+  attacks?:        boolean[]  // parallel array, true = attack occurred at that sample
+  color:           string
+  height?:         number     // chart height in px, default 54
+  dimColor?:       string     // fill/glow color override (defaults to color)
+  /** Storage ceiling for this series. Scales Y to [0, capacity] and draws a cap line. */
+  capacity?:       number
+  formatCapacity?: (n: number) => string
 }
 
-export function StatsSparkline({ data, attacks, color, height = 54, dimColor, showMax, formatMax }: Props) {
-  const n = data.length
+export function StatsSparkline({ data, attacks, color, height = 54, dimColor, capacity, formatCapacity }: Props) {
+  const n    = data.length
   const fill = dimColor ?? color
 
   if (n < 2) {
@@ -28,12 +29,17 @@ export function StatsSparkline({ data, attacks, color, height = 54, dimColor, sh
   const H   = height
   const PAD = 3   // top/bottom padding in viewBox units
 
-  const min   = Math.min(...data)
-  const max   = Math.max(...data)
-  const range = Math.max(max - min, 1)
+  const dataMin = Math.min(...data)
+  const dataMax = Math.max(...data)
+
+  // When a capacity is provided scale Y from 0 → max(dataMax, capacity)
+  // so the cap line is meaningful and data is shown relative to the ceiling.
+  const yMin = capacity !== undefined ? 0 : dataMin
+  const yMax = capacity !== undefined ? Math.max(dataMax, capacity) : dataMax
+  const range = Math.max(yMax - yMin, 1)
 
   const toX = (i: number) => (i / (n - 1)) * W
-  const toY = (v: number) => PAD + (H - PAD * 2) * (1 - (v - min) / range)
+  const toY = (v: number) => PAD + (H - PAD * 2) * (1 - (v - yMin) / range)
 
   const pts      = data.map((v, i) => `${toX(i).toFixed(2)},${toY(v).toFixed(2)}`)
   const linePath = `M ${pts.join(' L ')}`
@@ -44,7 +50,11 @@ export function StatsSparkline({ data, attacks, color, height = 54, dimColor, sh
   const gridYs = [0.25, 0.5, 0.75].map(f => (PAD + (H - PAD * 2) * (1 - f)).toFixed(2))
 
   const hasAttacks = attacks?.some(Boolean)
-  const maxLabel   = showMax ? (formatMax ? formatMax(max) : String(Math.floor(max))) : null
+
+  const capY     = capacity !== undefined ? toY(capacity) : null
+  const capLabel = capacity !== undefined
+    ? (formatCapacity ? formatCapacity(capacity) : String(Math.floor(capacity)))
+    : null
 
   return (
     <div className="city-sparkline" style={{ position: 'relative' }}>
@@ -71,11 +81,11 @@ export function StatsSparkline({ data, attacks, color, height = 54, dimColor, sh
         </defs>
         <path d={areaPath} fill={`url(#sg-${color.replace('#', '')})`} stroke="none" />
 
-        {/* Max line */}
-        {showMax && (
+        {/* Capacity line */}
+        {capY !== null && (
           <line
-            x1="0" y1={PAD} x2={W} y2={PAD}
-            stroke="rgba(255,255,255,0.22)"
+            x1="0" y1={capY.toFixed(2)} x2={W} y2={capY.toFixed(2)}
+            stroke="rgba(255,255,255,0.28)"
             strokeWidth="0.8"
             strokeDasharray="3,2"
             vectorEffect="non-scaling-stroke"
@@ -94,9 +104,11 @@ export function StatsSparkline({ data, attacks, color, height = 54, dimColor, sh
         />
       </svg>
 
-      {/* Max label */}
-      {maxLabel && (
-        <span className="city-sparkline-max-label">{maxLabel}</span>
+      {/* Capacity label */}
+      {capLabel && (
+        <span className="city-sparkline-cap-label" title={`Storage cap: ${capLabel}`}>
+          cap {capLabel}
+        </span>
       )}
 
       {/* Attack markers — HTML positioned so they don't distort */}

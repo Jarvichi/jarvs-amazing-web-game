@@ -9294,8 +9294,33 @@ html.light-mode .action-btn {
   font-size: 10px;
   color: #406040;
   font-family: monospace;
-  margin-left: auto;
   white-space: nowrap;
+}
+.city-stats-range-btns {
+  display: flex;
+  gap: 3px;
+  margin-left: auto;
+}
+.city-stats-range-btn {
+  font-size: 9px;
+  font-family: monospace;
+  padding: 2px 6px;
+  border: 1px solid #2a4a2a;
+  border-radius: 3px;
+  background: transparent;
+  color: #406040;
+  cursor: pointer;
+  line-height: 1.4;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+}
+.city-stats-range-btn:hover {
+  border-color: #4a7a4a;
+  color: #80b080;
+}
+.city-stats-range-btn--active {
+  background: #1a3a1a;
+  border-color: #50c050;
+  color: #90e090;
 }
 
 /* Summary stat cards */
@@ -9460,7 +9485,7 @@ html.light-mode .action-btn {
   vertical-align: middle;
   margin-right: 2px;
 }
-.city-sparkline-max-label {
+.city-sparkline-cap-label {
   position: absolute;
   top: 2px;
   right: 3px;
@@ -9484,6 +9509,11 @@ html.light-mode .action-btn {
   color: #406040;
   font-family: monospace;
   text-align: center;
+}
+.city-stats-empty--inline {
+  flex: none;
+  padding: 16px;
+  font-size: 11px;
 }
 .city-stats-empty-icon {
   font-size: 32px;
