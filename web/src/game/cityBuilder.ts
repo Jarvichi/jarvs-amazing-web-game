@@ -1511,10 +1511,13 @@ export function tickCity(state: CityState): CityState {
   deductResource('wood',  woodConsumed,  newGrid as (CityCell|undefined)[], newResources)
 
   // ── Base happiness target from food, defence, bread quality, wood supply ──
-  const foodScore    = Math.min(100, (newResources.wheat / population) * 5)
-  const defenseScore = Math.min(100, (defense / population) * 8)
+  const rawFoodScore  = Math.min(100, (newResources.wheat / population) * 5)
+  // Bread is a superior food: full bread coverage raises food floor to 70 so windmill
+  // cities aren't penalised for converting all wheat into bread.
+  const foodScore     = breadCoverage >= 1 ? Math.max(rawFoodScore, 70) : rawFoodScore
+  const defenseScore  = Math.min(100, (defense / population) * 8)
   // Linear scale: -BREAD_SHORTAGE_PENALTY at 0% coverage → +BREAD_HAPPY_BONUS at 100%
-  const breadScore   = breadCoverage >= 1
+  const breadScore    = breadCoverage >= 1
     ? BREAD_HAPPY_BONUS
     : Math.round(breadCoverage * (BREAD_HAPPY_BONUS + BREAD_SHORTAGE_PENALTY) - BREAD_SHORTAGE_PENALTY)
   const woodScore    = woodShort ? -WOOD_SHORTAGE_PENALTY : 0

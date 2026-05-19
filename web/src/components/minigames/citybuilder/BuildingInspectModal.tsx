@@ -116,7 +116,7 @@ export function BuildingInspectModal({
                 })
               )}
             </>
-          ) : produceEntries.length > 0 || consumeEntries.length > 0 ? (
+          ) : produceEntries.length > 0 || consumeEntries.length > 0 || stockEntries.length > 0 || /warehouse|barn|granary|silo|storehouse|vault/i.test(cell.cardName) ? (
             <>
               {stockEntries.length > 0 && (
                 <>
@@ -127,6 +127,9 @@ export function BuildingInspectModal({
                     </div>
                   ))}
                 </>
+              )}
+              {stockEntries.length === 0 && /warehouse|barn|granary|silo|storehouse|vault/i.test(cell.cardName) && (
+                <div className="city-bld-section-title">No stock yet</div>
               )}
               {produceEntries.length > 0 && (
                 <>
@@ -152,6 +155,9 @@ export function BuildingInspectModal({
                     </div>
                   ))}
                 </>
+              )}
+              {/warehouse|barn|granary|silo|storehouse|vault/i.test(cell.cardName) && (
+                <div className="city-synergy-label">📦 Storage hub — raises all resource caps by +200</div>
               )}
               {synergies.map((s, i) => (
                 <div key={i} className="city-synergy-label">{s.label}</div>
