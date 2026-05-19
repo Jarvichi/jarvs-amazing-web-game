@@ -392,7 +392,7 @@ function findNearestConsumer(
       ? Boolean(BUILDING_CONVERSION_COST[cell.cardName]?.wheat)
       : WAREHOUSE_PATTERN.test(cell.cardName)
     if (!wants) continue
-    if ((cell.stock[res] ?? 0) >= PER_CELL_STOCK_CAP) continue  // destination already full
+    if ((cell.stock[res] ?? 0) >= cellStockCap(cell)) continue  // destination already full
     const d = cellManhattan(fromCell, i, cols)
     if (d < bestDist) { bestDist = d; best = i }
   }
@@ -955,6 +955,14 @@ export function masteryOutputMultiplier(level: number): number {
   return Math.pow(2, level)
 }
 
+/** Per-cell stock ceiling. Warehouses scale with mastery level; other buildings use the base cap. */
+export function cellStockCap(cell: CityCell): number {
+  if (WAREHOUSE_PATTERN.test(cell.cardName)) {
+    return PER_CELL_STOCK_CAP * masteryOutputMultiplier(getCardMasteryLevel(cell.cardName))
+  }
+  return PER_CELL_STOCK_CAP
+}
+
 /** How many units a spawner should field: mastery 0 → 1, mastery N → N+1. */
 export function spawnerUnitCount(state: CityState, cardName: string): number {
   return (getCardMasteryLevel(cardName) ?? 0) + 1
@@ -1472,7 +1480,7 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
     const inputNeeds = BUILDING_CONVERSION_COST[cell.cardName]
     if (!inputNeeds) continue
     for (const [res] of Object.entries(inputNeeds) as [ResourceType, number][]) {
-      if ((cell.stock[res] ?? 0) >= PER_CELL_STOCK_CAP - CARRIER_LOAD) continue   // near capacity, don't overfill
+      if ((cell.stock[res] ?? 0) >= cellStockCap(cell) - CARRIER_LOAD) continue   // near capacity, don't overfill
       if (inFlightTo.has(`${i}-${res}`)) continue            // already fetching
       const source = findNearestProducer(res, i, newGrid as (CityCell|undefined)[], CITY_COLS)
       if (source === null) continue
@@ -1629,7 +1637,7 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
   for (const cell of newGrid) {
     if (!cell) continue
     for (const key of Object.keys(cell.stock) as ResourceType[]) {
-      cell.stock[key] = Math.max(0, Math.min(cell.stock[key] ?? 0, PER_CELL_STOCK_CAP))
+      cell.stock[key] = Math.max(0, Math.min(cell.stock[key] ?? 0, cellStockCap(cell)))
     }
   }
 
