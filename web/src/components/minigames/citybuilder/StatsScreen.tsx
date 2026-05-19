@@ -196,6 +196,8 @@ export function StatsScreen({ city, onBack }: Props) {
               attacks={attackMask}
               color={COLORS.gold}
               height={80}
+              showMax
+              formatMax={fmtGold}
             />
             <div className="city-stats-chart-labels">
               <span>{timeLabel(0)}</span>
@@ -232,6 +234,7 @@ export function StatsScreen({ city, onBack }: Props) {
                       data={d}
                       color={COLORS[res]}
                       height={40}
+                      showMax
                     />
                   </div>
                   <div className="city-stats-res-footer">
@@ -252,7 +255,7 @@ export function StatsScreen({ city, onBack }: Props) {
             <div>
               <div className="city-stats-res-label">👥 POPULATION</div>
               <div className="city-stats-chart-wrap">
-                <StatsSparkline data={popData} color={COLORS.pop} height={50} />
+                <StatsSparkline data={popData} color={COLORS.pop} height={50} showMax />
               </div>
               <div className="city-stats-chart-labels">
                 <span>{Math.min(...popData)}</span>
@@ -263,7 +266,7 @@ export function StatsScreen({ city, onBack }: Props) {
             <div>
               <div className="city-stats-res-label">🛡 DEFENSE</div>
               <div className="city-stats-chart-wrap">
-                <StatsSparkline data={defData} color={COLORS.def} height={50} />
+                <StatsSparkline data={defData} color={COLORS.def} height={50} showMax />
               </div>
               <div className="city-stats-chart-labels">
                 <span>{Math.min(...defData)}</span>
