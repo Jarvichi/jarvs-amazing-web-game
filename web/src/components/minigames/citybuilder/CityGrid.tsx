@@ -15,15 +15,17 @@ import { Walker } from './walkerTypes'
 // Vertical  (top-bottom)  travel → strip along the RIGHT  edge.
 // Adjacent cells' strips meet at shared boundaries, forming continuous lanes.
 
-const ROAD_START = 74  // strip starts at 74% from the top/left edge
-const ROAD_W     = 26  // strip width = 26% of cell (100 - ROAD_START)
+const ROAD_START = 80  // strip starts at 80% from the top/left edge
+const ROAD_W     = 20  // strip width = 20% of cell (100 - ROAD_START)
 
-function pathFill(wear: number): string {
+function pathFill(wear: number, highlight = false): string {
   const t = Math.min(1, wear / 100)
   const r = Math.round(140 + (170 - 140) * t)
   const g = Math.round(100 + (155 - 100) * t)
   const b = Math.round(40  + (110 - 40)  * t)
-  const a = (0.25 + t * 0.45).toFixed(2)
+  const a = highlight
+    ? (0.55 + t * 0.35).toFixed(2)
+    : (0.25 + t * 0.45).toFixed(2)
   return `rgba(${r},${g},${b},${a})`
 }
 
@@ -39,6 +41,7 @@ function RoadPath({ left, right, top, bottom }: RoadPathProps) {
   const wearH = Math.max(left, right)
   const wearV = Math.max(top, bottom)
 
+  const wearX = Math.max(wearH, wearV)
   return (
     <svg
       viewBox="0 0 100 100"
@@ -50,6 +53,8 @@ function RoadPath({ left, right, top, bottom }: RoadPathProps) {
       {hasH && <rect x={0} y={ROAD_START} width={100} height={ROAD_W} fill={pathFill(wearH)} />}
       {/* Vertical travel → lane along the RIGHT of this cell */}
       {hasV && <rect x={ROAD_START} y={0} width={ROAD_W} height={100} fill={pathFill(wearV)} />}
+      {/* Intersection square — brighter node where the two lanes cross */}
+      {hasH && hasV && <rect x={ROAD_START} y={ROAD_START} width={ROAD_W} height={ROAD_W} fill={pathFill(wearX, true)} />}
     </svg>
   )
 }
