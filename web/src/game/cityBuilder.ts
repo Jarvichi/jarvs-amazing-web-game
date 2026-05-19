@@ -397,6 +397,23 @@ function findNearestConsumer(
   return best
 }
 
+// Find nearest non-spawner building that has available stock of a resource
+function findNearestProducer(
+  res: ResourceType, fromCell: number,
+  grid: (CityCell | undefined)[], cols: number,
+): number | null {
+  let best: number | null = null, bestDist = Infinity
+  for (let i = 0; i < grid.length; i++) {
+    if (i === fromCell) continue
+    const cell = grid[i]
+    if (!cell) continue
+    if ((cell.stock[res] ?? 0) < CARRIER_LOAD) continue
+    const d = cellManhattan(fromCell, i, cols)
+    if (d < bestDist) { bestDist = d; best = i }
+  }
+  return best
+}
+
 // Proportionally deduct `amount` of `res` from all cell stocks
 function deductResource(
   res: ResourceType, amount: number,
@@ -1397,27 +1414,65 @@ export function tickCity(state: CityState): CityState {
     }
   }
 
-  // ── Spawn new carriers from production buildings ─────────────────────────────
-  // Track which (fromCell, res) combos already have a carrier in flight to avoid flooding
-  const inFlight = new Set(activeCarriers.map(c => `${c.fromCell}-${Object.keys(c.carrying)[0]}`))
+  // ── Spawn carriers — pull-based for inputs, push-based for outputs ──────────
+  // inFlightTo: one inbound carrier per (toCell, resource) to avoid flooding
+  const inFlightTo  = new Set(activeCarriers.map(c => `${c.toCell}-${Object.keys(c.carrying)[0]}`))
+  // inFlightFrom: one outbound carrier per (fromCell, resource) to avoid double-spending
+  const inFlightFrom = new Set(activeCarriers.map(c => `${c.fromCell}-${Object.keys(c.carrying)[0]}`))
+
+  // Pull-based: conversion buildings request their input resource from nearest producer
   for (let i = 0; i < newGrid.length; i++) {
     const cell = newGrid[i]
     if (!cell || cell.spawnedUnitName) continue
+    const inputNeeds = BUILDING_CONVERSION_COST[cell.cardName]
+    if (!inputNeeds) continue
+    for (const [res] of Object.entries(inputNeeds) as [ResourceType, number][]) {
+      if ((cell.stock[res] ?? 0) >= CARRIER_LOAD) continue   // already stocked
+      if (inFlightTo.has(`${i}-${res}`)) continue            // already fetching
+      const source = findNearestProducer(res, i, newGrid as (CityCell|undefined)[], CITY_COLS)
+      if (source === null) continue
+      if (inFlightFrom.has(`${source}-${res}`)) continue     // source already spoken for
+      const sourceCell = newGrid[source]!
+      const load = Math.min(sourceCell.stock[res] ?? 0, CARRIER_LOAD)
+      activeCarriers.push({ id: `${Date.now()}-${source}-${res}`, fromCell: source, toCell: i, carrying: { [res]: load }, progress: 0 })
+      sourceCell.stock[res] = Math.max(0, (sourceCell.stock[res] ?? 0) - load)
+      inFlightTo.add(`${i}-${res}`)
+      inFlightFrom.add(`${source}-${res}`)
+    }
+  }
+
+  // Push-based: conversion buildings push their output to nearest warehouse/storage
+  for (let i = 0; i < newGrid.length; i++) {
+    const cell = newGrid[i]
+    if (!cell || cell.spawnedUnitName) continue
+    if (!BUILDING_CONVERSION_COST[cell.cardName]) continue   // only conversion output buildings
     for (const [res, amount] of Object.entries(cell.stock) as [ResourceType, number][]) {
+      if (res === Object.keys(BUILDING_CONVERSION_COST[cell.cardName])[0]) continue  // skip input res
       if (amount < CARRIER_LOAD) continue
-      if (inFlight.has(`${i}-${res}`)) continue
-      const target = findNearestConsumer(res as ResourceType, i, newGrid as (CityCell|undefined)[], CITY_COLS)
+      if (inFlightFrom.has(`${i}-${res}`)) continue
+      const target = findNearestConsumer(res, i, newGrid as (CityCell|undefined)[], CITY_COLS)
       if (target === null) continue
       const load = Math.min(amount, CARRIER_LOAD)
-      activeCarriers.push({
-        id:       `${Date.now()}-${i}-${res}`,
-        fromCell: i,
-        toCell:   target,
-        carrying: { [res]: load },
-        progress: 0,
-      })
-      cell.stock[res as ResourceType] = Math.max(0, amount - load)
-      inFlight.add(`${i}-${res}`)
+      activeCarriers.push({ id: `${Date.now()}-${i}-${res}`, fromCell: i, toCell: target, carrying: { [res]: load }, progress: 0 })
+      cell.stock[res] = Math.max(0, amount - load)
+      inFlightFrom.add(`${i}-${res}`)
+    }
+  }
+
+  // Push-based: non-conversion producers push surplus to nearest consumer
+  for (let i = 0; i < newGrid.length; i++) {
+    const cell = newGrid[i]
+    if (!cell || cell.spawnedUnitName) continue
+    if (BUILDING_CONVERSION_COST[cell.cardName]) continue    // handled above
+    for (const [res, amount] of Object.entries(cell.stock) as [ResourceType, number][]) {
+      if (amount < CARRIER_LOAD) continue
+      if (inFlightFrom.has(`${i}-${res}`)) continue
+      const target = findNearestConsumer(res, i, newGrid as (CityCell|undefined)[], CITY_COLS)
+      if (target === null) continue
+      const load = Math.min(amount, CARRIER_LOAD)
+      activeCarriers.push({ id: `${Date.now()}-${i}-${res}`, fromCell: i, toCell: target, carrying: { [res]: load }, progress: 0 })
+      cell.stock[res] = Math.max(0, amount - load)
+      inFlightFrom.add(`${i}-${res}`)
     }
   }
 
