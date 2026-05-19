@@ -10,21 +10,21 @@ import { BuilderWalker, VisualCarrier } from '../CityBuilder'
 import { Walker } from './walkerTypes'
 
 // ── Road path SVG ─────────────────────────────────────────────────────────────
+// Roads are drawn at cell EDGES, not through the centre.
+// Horizontal (left-right) travel → strip along the BOTTOM edge.
+// Vertical  (top-bottom)  travel → strip along the RIGHT  edge.
+// Adjacent cells' strips meet at shared boundaries, forming continuous lanes.
 
-const BASE_STRIP = 7   // min strip half-width in viewBox units (out of 50)
-const MAX_STRIP  = 14  // max strip half-width at full wear
+const ROAD_START = 74  // strip starts at 74% from the top/left edge
+const ROAD_W     = 26  // strip width = 26% of cell (100 - ROAD_START)
 
 function pathFill(wear: number): string {
   const t = Math.min(1, wear / 100)
   const r = Math.round(140 + (170 - 140) * t)
   const g = Math.round(100 + (155 - 100) * t)
   const b = Math.round(40  + (110 - 40)  * t)
-  const a = (0.2 + t * 0.45).toFixed(2)
+  const a = (0.25 + t * 0.45).toFixed(2)
   return `rgba(${r},${g},${b},${a})`
-}
-
-function stripHalf(wear: number): number {
-  return BASE_STRIP + (wear / 100) * (MAX_STRIP - BASE_STRIP)
 }
 
 interface RoadPathProps {
@@ -38,7 +38,6 @@ function RoadPath({ left, right, top, bottom }: RoadPathProps) {
 
   const wearH = Math.max(left, right)
   const wearV = Math.max(top, bottom)
-  const C = 50
 
   return (
     <svg
@@ -47,18 +46,10 @@ function RoadPath({ left, right, top, bottom }: RoadPathProps) {
       aria-hidden
       style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
     >
-      {hasH && (() => {
-        const sh = stripHalf(wearH)
-        const x1 = left  > 0 ? 0 : C
-        const x2 = right > 0 ? 100 : C
-        return <rect x={x1} y={C - sh} width={x2 - x1} height={sh * 2} fill={pathFill(wearH)} rx={sh} />
-      })()}
-      {hasV && (() => {
-        const sh = stripHalf(wearV)
-        const y1 = top    > 0 ? 0 : C
-        const y2 = bottom > 0 ? 100 : C
-        return <rect x={C - sh} y={y1} width={sh * 2} height={y2 - y1} fill={pathFill(wearV)} rx={sh} />
-      })()}
+      {/* Horizontal travel → lane along the BOTTOM of this cell */}
+      {hasH && <rect x={0} y={ROAD_START} width={100} height={ROAD_W} fill={pathFill(wearH)} />}
+      {/* Vertical travel → lane along the RIGHT of this cell */}
+      {hasV && <rect x={ROAD_START} y={0} width={ROAD_W} height={100} fill={pathFill(wearV)} />}
     </svg>
   )
 }
