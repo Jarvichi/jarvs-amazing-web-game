@@ -31,6 +31,7 @@ import {
   getNeighbourIndices,
   nextBuilderCost, buyBuilder,
   checkMilestones, MilestoneDef,
+  WAREHOUSE_PATTERN,
   currentSeason,
   dispatchCaravan,
   extinguishFire, curePlague,
@@ -265,23 +266,25 @@ function pickBuilderTarget(
   overlayH: number,
 ): { targetX: number; targetY: number; nextPhase: BuilderWalker['phase']; label: string } {
   if (phase === 'fetching') {
-    // Delivered — now go fetch more materials from a resource building or random cell
-    const resourceCells = city.grid
-      .map((cell, i) => ({ cell, i }))
-      .filter(({ cell }) => cell && !cell.spawnedUnitName && Object.values(getBuildingProduces(cell.cardName)).some(v => (v ?? 0) > 0))
     const cityRows = city.rows ?? CITY_ROWS
-    if (resourceCells.length > 0) {
-      const { i } = resourceCells[Math.floor(Math.random() * resourceCells.length)]
+    const allCells = city.grid.map((cell, i) => ({ cell, i })).filter(({ cell }) => cell && !cell.spawnedUnitName)
+    // Prefer warehouses with materials stocked, then fall back to any producer
+    const warehouses = allCells.filter(({ cell }) => WAREHOUSE_PATTERN.test(cell!.cardName) &&
+      Object.values(cell!.stock ?? {}).some(v => (v ?? 0) >= 1))
+    const producers  = allCells.filter(({ cell }) => Object.values(getBuildingProduces(cell!.cardName)).some(v => (v ?? 0) > 0))
+    const candidates = warehouses.length > 0 ? warehouses : producers
+    if (candidates.length > 0) {
+      const { i } = candidates[Math.floor(Math.random() * candidates.length)]
       const col = i % CITY_COLS
       const row = Math.floor(i / CITY_COLS)
       return {
         targetX: (col + 0.3 + Math.random() * 0.4) * (overlayW / CITY_COLS),
         targetY: (row + 0.3 + Math.random() * 0.4) * (overlayH / cityRows),
         nextPhase: 'delivering',
-        label: '🪵 Fetching materials',
+        label: warehouses.length > 0 ? '📦 Collecting from warehouse' : '🪵 Fetching materials',
       }
     }
-    // No resource buildings — wander around center of city
+    // No suitable buildings — wander
     return {
       targetX: overlayW * (0.2 + Math.random() * 0.6),
       targetY: overlayH * (0.2 + Math.random() * 0.6),
