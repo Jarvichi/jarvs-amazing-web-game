@@ -94,6 +94,35 @@ export function CityGrid({
 
   return (
     <div className="city-world" ref={worldRef}>
+
+      {/* ── Road wear overlay ─────────────────────────────────────────────────
+          Rendered BEHIND the main grid. Cell buttons paint on top, hiding the
+          in-cell portion of each strip. Only the portion that overflows into
+          the CSS grid gap is visible — exactly what the user sees as "road". */}
+      <div
+        className="city-road-layer"
+        style={{
+          gridTemplateColumns: `repeat(${CITY_COLS}, 1fr)`,
+          gridTemplateRows:    `repeat(${cityRows}, 1fr)`,
+        }}
+      >
+        {Array.from({ length: cityCells }, (_, i) => {
+          const row = Math.floor(i / CITY_COLS)
+          const col = i % CITY_COLS
+          const h = city.roadWear?.h ?? []
+          const v = city.roadWear?.v ?? []
+          const wearLeft   = col === 0             ? 0 : (h[i - 1]        ?? 0)
+          const wearRight  = col === CITY_COLS - 1 ? 0 : (h[i]             ?? 0)
+          const wearTop    = row === 0             ? 0 : (v[i - CITY_COLS] ?? 0)
+          const wearBottom = row === cityRows - 1  ? 0 : (v[i]             ?? 0)
+          return (
+            <div key={i} className="city-road-cell">
+              <RoadPath left={wearLeft} right={wearRight} top={wearTop} bottom={wearBottom} />
+            </div>
+          )
+        })}
+      </div>
+
       <div
         className="city-grid"
         style={{
@@ -114,14 +143,6 @@ export function CityGrid({
           const isLastCol  = col === CITY_COLS - 1
           const isLastRow  = row === cityRows - 1
 
-          // Four-edge wear: h = horizontal travel, v = vertical travel
-          const h = city.roadWear?.h ?? []
-          const v = city.roadWear?.v ?? []
-          const wearLeft   = col === 0        ? 0 : (h[i - 1]          ?? 0)
-          const wearRight  = isLastCol        ? 0 : (h[i]               ?? 0)
-          const wearTop    = row === 0        ? 0 : (v[i - CITY_COLS]   ?? 0)
-          const wearBottom = isLastRow        ? 0 : (v[i]               ?? 0)
-
           const distShadow = district !== 'none' && isRowStart
             ? `inset 4px 0 0 ${distColor}`
             : undefined
@@ -134,9 +155,6 @@ export function CityGrid({
               onClick={() => onCellTap(i)}
               title={cell ? (bulldozerMode ? `${cell.cardName} — tap to demolish` : `${cell.cardName} — tap to inspect`) : 'Empty — tap to place'}
             >
-              {/* Road wear path — rendered first so it sits under building sprites */}
-              <RoadPath left={wearLeft} right={wearRight} top={wearTop} bottom={wearBottom} />
-
               {cell ? (
                 <>
                   {(() => {
