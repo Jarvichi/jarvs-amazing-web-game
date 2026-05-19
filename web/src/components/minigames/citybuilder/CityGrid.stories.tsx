@@ -83,3 +83,69 @@ export const BulldozerMode: Story = {
     />
   ),
 }
+
+// ── Road wear debug stories ────────────────────────────────────────────────────
+// CITY_COLS=6, CITY_ROWS=4 → 24 cells, indices 0-23.
+// h[i] = horizontal road to the RIGHT of cell i (5 gaps per row).
+// v[i] = vertical road BELOW cell i (6 gaps per column, up to row 3).
+//
+// HorizontalRoadWear: walkers travelling left→right across row 0.
+//   h[0..4] = 100 → wear should appear on the LEFT edge of cells 1-5 in row 0.
+//
+// VerticalRoadWear: walkers travelling top→bottom down column 0.
+//   v[0,6,12] = 100 → wear should appear on the TOP edge of cells 6,12,18 in col 0.
+
+const COLS = 6
+
+const makeGrid = (occupied: number[]) =>
+  Array.from({ length: 24 }, (_, i) =>
+    occupied.includes(i) ? { cardName: 'Farm', rarity: 'common', stock: {} } : undefined
+  )
+
+const horizontalWearCity: any = {
+  ...emptyCity,
+  grid: makeGrid([0, 1, 2, 3, 4, 5]),   // row 0 all occupied
+  roadWear: {
+    h: Array.from({ length: 24 }, (_, i) => (i < COLS - 1 ? 100 : 0)),  // h[0..4] = 100
+    v: new Array(24).fill(0),
+  },
+}
+
+const verticalWearCity: any = {
+  ...emptyCity,
+  grid: makeGrid([0, COLS, COLS * 2, COLS * 3]),  // column 0 all occupied
+  roadWear: {
+    h: new Array(24).fill(0),
+    v: Array.from({ length: 24 }, (_, i) => (i % COLS === 0 && i < COLS * 3 ? 100 : 0)),  // v[0,6,12] = 100
+  },
+}
+
+export const HorizontalRoadWear: Story = {
+  args: {} as any,
+  render: () => (
+    <WithRef
+      city={horizontalWearCity}
+      walkers={[]}
+      builderWalkers={[]}
+      visualCarriers={[]}
+      bulldozerMode={false}
+      onCellTap={fn()}
+      onWalkerClick={fn()}
+    />
+  ),
+}
+
+export const VerticalRoadWear: Story = {
+  args: {} as any,
+  render: () => (
+    <WithRef
+      city={verticalWearCity}
+      walkers={[]}
+      builderWalkers={[]}
+      visualCarriers={[]}
+      bulldozerMode={false}
+      onCellTap={fn()}
+      onWalkerClick={fn()}
+    />
+  ),
+}
