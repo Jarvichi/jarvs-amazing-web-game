@@ -300,7 +300,7 @@ export const STORAGE_BASE_CAPS: ResourceStock = {
   wheat: 500, wood: 300, ore: 200, bread: 300, planks: 200, metal: 150,
 }
 const STORAGE_PER_WAREHOUSE = 200  // added to all caps per warehouse building placed
-const WAREHOUSE_PATTERN = /warehouse|barn|granary|silo|storehouse|vault/i
+export const WAREHOUSE_PATTERN = /warehouse|barn|granary|silo|storehouse|vault/i
 
 // ── Carrier / road transport constants ───────────────────────────────────────
 
@@ -392,6 +392,7 @@ function findNearestConsumer(
       ? Boolean(BUILDING_CONVERSION_COST[cell.cardName]?.wheat)
       : WAREHOUSE_PATTERN.test(cell.cardName)
     if (!wants) continue
+    if ((cell.stock[res] ?? 0) >= PER_CELL_STOCK_CAP) continue  // destination already full
     const d = cellManhattan(fromCell, i, cols)
     if (d < bestDist) { bestDist = d; best = i }
   }
@@ -1436,15 +1437,21 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
         const amount = rate * masteryMult * synergyMult * Math.max(0, seasonMult) * distProdMult * minutes
 
         if (BUILDING_CONVERSION_COST[cell.cardName] && res === 'bread') {
+          // Stop converting if output bin is full — avoids wasting wheat
+          if ((cell.stock.bread ?? 0) >= PER_CELL_STOCK_CAP) continue
           // Conversion building (mill/bakery that needs wheat): use LOCAL wheat stock
           const wheatRate   = BUILDING_CONVERSION_COST[cell.cardName].wheat ?? 0
           const wheatNeeded = wheatRate * masteryMult * synergyMult * Math.max(0, seasonMult) * distProdMult * minutes
           const localWheat  = cell.stock.wheat ?? 0
           const eff = wheatNeeded > 0 ? Math.min(1, localWheat / wheatNeeded) : 1
-          cell.stock.bread  = (cell.stock.bread  ?? 0) + amount * eff
+          cell.stock.bread  = Math.min(PER_CELL_STOCK_CAP, (cell.stock.bread ?? 0) + amount * eff)
           cell.stock.wheat  = Math.max(0, localWheat - wheatNeeded * eff)
         } else {
-          cell.stock[res as ResourceType] = (cell.stock[res as ResourceType] ?? 0) + amount
+          if ((cell.stock[res as ResourceType] ?? 0) >= PER_CELL_STOCK_CAP) continue
+          cell.stock[res as ResourceType] = Math.min(
+            PER_CELL_STOCK_CAP,
+            (cell.stock[res as ResourceType] ?? 0) + amount,
+          )
         }
       }
     }
@@ -1465,7 +1472,7 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
     const inputNeeds = BUILDING_CONVERSION_COST[cell.cardName]
     if (!inputNeeds) continue
     for (const [res] of Object.entries(inputNeeds) as [ResourceType, number][]) {
-      if ((cell.stock[res] ?? 0) >= CARRIER_LOAD) continue   // already stocked
+      if ((cell.stock[res] ?? 0) >= PER_CELL_STOCK_CAP - CARRIER_LOAD) continue   // near capacity, don't overfill
       if (inFlightTo.has(`${i}-${res}`)) continue            // already fetching
       const source = findNearestProducer(res, i, newGrid as (CityCell|undefined)[], CITY_COLS)
       if (source === null) continue
@@ -1791,15 +1798,22 @@ export function addFortification(state: CityState, cardName: string, rarity: Car
   if (!canQueueFortification(state)) return null
   if (!canAffordFortification(state, rarity)) return null
   const cost = FORT_PLACE_COST[rarity]
-  const newResources = { ...state.resources }
-  for (const res of Object.keys(newResources) as ResourceType[]) {
-    newResources[res] = Math.max(0, newResources[res] - ((cost[res] as number) ?? 0))
+
+  // Deep-copy cell stocks and deduct resource costs from them directly, so the
+  // deduction survives the next tick's aggregateResources recomputation.
+  const newGrid = state.grid.map(c => c ? { ...c, stock: { ...c.stock } } : c) as CityState['grid']
+  const newResources = aggregateResources(newGrid as (CityCell | undefined)[], state.carriers ?? [])
+  for (const [res, amount] of Object.entries(cost) as [string, number][]) {
+    if (res === 'gold' || !(amount > 0)) continue
+    deductResource(res as ResourceType, amount, newGrid as (CityCell | undefined)[], newResources)
   }
+
   const buildMinutes = FORT_BUILD_MINUTES[rarity]
   const completesAt = Date.now() + buildMinutes * 60_000
   const entry: BuildQueueEntry = { cardName, rarity, completesAt }
   const next = {
     ...state,
+    grid:         newGrid,
     gold:         state.gold - cost.gold,
     resources:    newResources,
     builderQueue: [...state.builderQueue, entry],
