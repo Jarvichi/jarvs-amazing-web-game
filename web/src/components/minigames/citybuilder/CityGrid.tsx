@@ -8,6 +8,7 @@ import {
 import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
 import { BuilderWalker, VisualCarrier } from '../CityBuilder'
 import { Walker } from './walkerTypes'
+import { CityZoomControls, ZOOM_STEPS } from './CityZoomControls'
 
 // ── Road path SVG ─────────────────────────────────────────────────────────────
 // Strips are centred on the cell boundary (bottom / right) so they straddle
@@ -125,8 +126,6 @@ export function CityGrid({
     applyTransform(t.s, t.x, t.y)
     if (updateDisplay) setDisplayScale(t.s)
   }
-
-  const ZOOM_STEPS = [1, 1.5, 2, 3, 4]
 
   function zoomTo(targetScale: number) {
     const el = worldRef.current
@@ -331,22 +330,12 @@ export function CityGrid({
       onMouseLeave={onMouseUp}
     >
       {/* Zoom controls — outside the zoom wrapper so they don't scale */}
-      <div className="city-zoom-controls" onPointerDown={e => e.stopPropagation()}>
-        <button className="city-zoom-btn" onClick={() => stepZoom(-1)} title="Zoom out" disabled={displayScale <= 1}>−</button>
-        <div className="city-zoom-bar">
-          {ZOOM_STEPS.map((z, i) => (
-            <button
-              key={z}
-              className={`city-zoom-tick${displayScale >= z - 0.01 ? ' city-zoom-tick--active' : ''}`}
-              onClick={() => zoomTo(z)}
-              title={`${z}×`}
-            >
-              {i === ZOOM_STEPS.length - 1 ? '|' : '·'}
-            </button>
-          ))}
-        </div>
-        <button className="city-zoom-btn" onClick={() => stepZoom(1)} title="Zoom in" disabled={displayScale >= 4}>+</button>
-      </div>
+      <CityZoomControls
+        scale={displayScale}
+        onZoomIn={() => stepZoom(1)}
+        onZoomOut={() => stepZoom(-1)}
+        onZoomTo={zoomTo}
+      />
 
       <div className="city-zoom-wrapper" ref={wrapperRef}>
         {/* ── Road wear overlay ───────────────────────────────────────────────
