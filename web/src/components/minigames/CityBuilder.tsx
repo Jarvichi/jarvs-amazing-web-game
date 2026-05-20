@@ -223,15 +223,16 @@ function pickRingTarget(
   } else {
     // Fetch from inside the city thumbnail (cols 1-2, rows 1-2 of the 4x4 ring)
     const cityRows = city.rows ?? CITY_ROWS
+    const cityCols = city.cols ?? CITY_COLS
     const resourceCells = city.grid
       .map((cell, i) => ({ cell, i }))
       .filter(({ cell }) => cell && !cell.spawnedUnitName && Object.values(getBuildingProduces(cell.cardName)).some(v => (v ?? 0) > 0))
     if (resourceCells.length > 0) {
       const { i } = resourceCells[Math.floor(Math.random() * resourceCells.length)]
-      const gCol = i % CITY_COLS
-      const gRow = Math.floor(i / CITY_COLS)
+      const gCol = i % cityCols
+      const gRow = Math.floor(i / cityCols)
       return {
-        targetX: ringW * (0.25 + (gCol + 0.3 + Math.random() * 0.4) / CITY_COLS * 0.5),
+        targetX: ringW * (0.25 + (gCol + 0.3 + Math.random() * 0.4) / cityCols * 0.5),
         targetY: ringH * (0.25 + (gRow + 0.3 + Math.random() * 0.4) / cityRows * 0.5),
       }
     }
@@ -269,6 +270,7 @@ function pickBuilderTarget(
 ): { targetX: number; targetY: number; nextPhase: BuilderWalker['phase']; label: string } {
   if (phase === 'fetching') {
     const cityRows = city.rows ?? CITY_ROWS
+    const cityCols = city.cols ?? CITY_COLS
     const allCells = city.grid.map((cell, i) => ({ cell, i })).filter(({ cell }) => cell && !cell.spawnedUnitName)
     // Prefer warehouses with materials stocked, then fall back to any producer
     const warehouses = allCells.filter(({ cell }) => WAREHOUSE_PATTERN.test(cell!.cardName) &&
@@ -277,10 +279,10 @@ function pickBuilderTarget(
     const candidates = warehouses.length > 0 ? warehouses : producers
     if (candidates.length > 0) {
       const { i } = candidates[Math.floor(Math.random() * candidates.length)]
-      const col = i % CITY_COLS
-      const row = Math.floor(i / CITY_COLS)
+      const col = i % cityCols
+      const row = Math.floor(i / cityCols)
       return {
-        targetX: (col + 0.3 + Math.random() * 0.4) * (overlayW / CITY_COLS),
+        targetX: (col + 0.3 + Math.random() * 0.4) * (overlayW / cityCols),
         targetY: (row + 0.3 + Math.random() * 0.4) * (overlayH / cityRows),
         nextPhase: 'delivering',
         label: warehouses.length > 0 ? '📦 Collecting from warehouse' : '🪵 Fetching materials',
@@ -329,19 +331,20 @@ function computeWaypoints(
   toX: number, toY: number,
   overlayW: number, overlayH: number,
   cityRows: number,
+  cityCols: number,
 ): { x: number; y: number }[] {
-  const cellW = overlayW / CITY_COLS
+  const cellW = overlayW / cityCols
   const cellH = overlayH / cityRows
-  const fc = Math.max(0, Math.min(CITY_COLS - 1, Math.floor(fromX / cellW)))
+  const fc = Math.max(0, Math.min(cityCols - 1, Math.floor(fromX / cellW)))
   const fr = Math.max(0, Math.min(cityRows - 1, Math.floor(fromY / cellH)))
-  const tc = Math.max(0, Math.min(CITY_COLS - 1, Math.floor(toX / cellW)))
+  const tc = Math.max(0, Math.min(cityCols - 1, Math.floor(toX / cellW)))
   const tr = Math.max(0, Math.min(cityRows - 1, Math.floor(toY / cellH)))
   if (fr === tr) return []  // same row: direct horizontal movement is fine
   const borderY  = fr < tr ? (fr + 1) * cellH : fr * cellH
   // Column border to use: the gap on the side of source/dest facing each other
   // (or right gap for same-column). Vertical legs run along these gaps, not column centres.
-  const bxExit  = fc < tc ? (fc + 1) * cellW : fc < CITY_COLS - 1 ? (fc + 1) * cellW : fc * cellW
-  const bxEnter = fc < tc ? tc * cellW        : fc > 0             ? tc * cellW        : (tc + 1) * cellW
+  const bxExit  = fc < tc ? (fc + 1) * cellW : fc < cityCols - 1 ? (fc + 1) * cellW : fc * cellW
+  const bxEnter = fc < tc ? tc * cellW        : fc > 0            ? tc * cellW        : (tc + 1) * cellW
   return [
     { x: bxExit,  y: (fr + 0.5) * cellH },  // exit source col to column-border gap
     { x: bxExit,  y: borderY },              // travel down/up to row-border gap
@@ -357,18 +360,19 @@ function computeRoadWaypoints(
   overlayW: number, overlayH: number,
   cityRows: number,
   roadWear: RoadWearMap,
+  cityCols: number,
 ): { x: number; y: number; speed?: number }[] {
-  const cellW = overlayW / CITY_COLS
+  const cellW = overlayW / cityCols
   const cellH = overlayH / cityRows
-  const fc = Math.max(0, Math.min(CITY_COLS - 1, Math.floor(fromX / cellW)))
+  const fc = Math.max(0, Math.min(cityCols - 1, Math.floor(fromX / cellW)))
   const fr = Math.max(0, Math.min(cityRows - 1, Math.floor(fromY / cellH)))
-  const tc = Math.max(0, Math.min(CITY_COLS - 1, Math.floor(toX / cellW)))
+  const tc = Math.max(0, Math.min(cityCols - 1, Math.floor(toX / cellW)))
   const tr = Math.max(0, Math.min(cityRows - 1, Math.floor(toY / cellH)))
-  const fromCell = fr * CITY_COLS + fc
-  const toCell   = tr * CITY_COLS + tc
+  const fromCell = fr * cityCols + fc
+  const toCell   = tr * cityCols + tc
   if (fromCell === toCell) return []
 
-  const cellPath = findFastestPath(fromCell, toCell, roadWear, CITY_COLS, cityRows)
+  const cellPath = findFastestPath(fromCell, toCell, roadWear, cityCols, cityRows)
   if (cellPath.length <= 1) return []
 
   const result: { x: number; y: number; speed?: number }[] = []
@@ -379,7 +383,7 @@ function computeRoadWaypoints(
     const hi = Math.max(a, b)
     const wear  = hi === lo + 1 ? (roadWear.h[lo] ?? 0) : (roadWear.v[lo] ?? 0)
     const speed = ROAD_SPEED_MULT[roadTier(wear)]
-    const bRow = Math.floor(b / CITY_COLS), bCol = b % CITY_COLS
+    const bRow = Math.floor(b / cityCols), bCol = b % cityCols
     result.push({ x: (bCol + 0.5) * cellW, y: (bRow + 0.5) * cellH, speed })
   }
   // Snap final waypoint to actual target coords
@@ -425,11 +429,12 @@ function pickTask(
   overlayH: number,
 ): WalkerTask {
   const cityRows = city.rows ?? CITY_ROWS
+  const cityCols = city.cols ?? CITY_COLS
 
   function cellPos(idx: number) {
     return {
-      x: ((idx % CITY_COLS) + 0.5) * (overlayW / CITY_COLS),
-      y: (Math.floor(idx / CITY_COLS) + 0.5) * (overlayH / cityRows),
+      x: ((idx % cityCols) + 0.5) * (overlayW / cityCols),
+      y: (Math.floor(idx / cityCols) + 0.5) * (overlayH / cityRows),
     }
   }
 
@@ -437,11 +442,11 @@ function pickTask(
 
   // Perimeter cells (shared by patrol and panic tasks)
   const perimCells: { col: number; row: number }[] = []
-  for (let col = 0; col < CITY_COLS; col++) {
+  for (let col = 0; col < cityCols; col++) {
     perimCells.push({ col, row: 0 }, { col, row: cityRows - 1 })
   }
   for (let row = 1; row < cityRows - 1; row++) {
-    perimCells.push({ col: 0, row }, { col: CITY_COLS - 1, row })
+    perimCells.push({ col: 0, row }, { col: cityCols - 1, row })
   }
 
   // ── Attack imminent: residents panic ─────────────────────────────────────────
@@ -449,7 +454,7 @@ function pickTask(
   if (msToAttack > 0 && msToAttack <= ATTACK_WARN_MS) {
     const perim = perimCells[Math.floor(Math.random() * perimCells.length)]
     const defendTarget = {
-      targetX: (perim.col + 0.5) * (overlayW / CITY_COLS),
+      targetX: (perim.col + 0.5) * (overlayW / cityCols),
       targetY: (perim.row + 0.5) * (overlayH / cityRows),
     }
     const panicTasks: WalkerTask[] = [
@@ -497,7 +502,7 @@ function pickTask(
   available.push({
     type: 'patrolling',
     label: '🛡 Patrolling the walls',
-    targetX: (perim.col + 0.5) * (overlayW / CITY_COLS),
+    targetX: (perim.col + 0.5) * (overlayW / cityCols),
     targetY: (perim.row + 0.5) * (overlayH / cityRows),
   })
 
@@ -803,13 +808,14 @@ export function CityBuilder({ onBack }: Props) {
 
         // ── Pass 2: update each walker ────────────────────────────────────────
         const cityRows = cityRef.current?.rows ?? CITY_ROWS
+        const cityCols = cityRef.current?.cols ?? CITY_COLS
         function wayptsFor(task: WalkerTask, fx: number, fy: number) {
           if (task.type === 'idle' || task.type === 'visiting' || task.type === 'chatting' || task.targetX === undefined) return []
           const rw = cityRef.current?.roadWear as RoadWearMap | undefined
           if (rw && (rw.h.length > 0 || rw.v.length > 0)) {
-            return computeRoadWaypoints(fx, fy, task.targetX, task.targetY!, overlayW, overlayH, cityRows, rw)
+            return computeRoadWaypoints(fx, fy, task.targetX, task.targetY!, overlayW, overlayH, cityRows, rw, cityCols)
           }
-          return computeWaypoints(fx, fy, task.targetX, task.targetY!, overlayW, overlayH, cityRows)
+          return computeWaypoints(fx, fy, task.targetX, task.targetY!, overlayW, overlayH, cityRows, cityCols)
         }
 
         return prev.map(w => {
@@ -990,6 +996,7 @@ export function CityBuilder({ onBack }: Props) {
       const gameCarriers = cityRef.current?.carriers ?? []
       const gameCarrierIds = new Set(gameCarriers.map(c => c.id))
       const cityRows = cityRef.current?.rows ?? CITY_ROWS
+      const cityCols = cityRef.current?.cols ?? CITY_COLS
 
       // Sync: keep carriers still in game state OR still finishing their shrink-out animation
       let nextVis = visualCarriersRef.current.filter(vc => gameCarrierIds.has(vc.id) || vc.scale > 0)
@@ -998,14 +1005,14 @@ export function CityBuilder({ onBack }: Props) {
       const visIds = new Set(nextVis.map(vc => vc.id))
       for (const gc of gameCarriers) {
         if (visIds.has(gc.id)) continue
-        const c1 = gc.fromCell % CITY_COLS, r1 = Math.floor(gc.fromCell / CITY_COLS)
-        const pickX = (c1 + 0.5) * overlayW / CITY_COLS
+        const c1 = gc.fromCell % cityCols, r1 = Math.floor(gc.fromCell / cityCols)
+        const pickX = (c1 + 0.5) * overlayW / cityCols
         const pickY = (r1 + 0.5) * overlayH / cityRows
-        const c2 = gc.toCell % CITY_COLS, r2 = Math.floor(gc.toCell / CITY_COLS)
-        const dropX = (c2 + 0.5) * overlayW / CITY_COLS
+        const c2 = gc.toCell % cityCols, r2 = Math.floor(gc.toCell / cityCols)
+        const dropX = (c2 + 0.5) * overlayW / cityCols
         const dropY = (r2 + 0.5) * overlayH / cityRows
         // Outbound: start at drop-off (consumer), walk to pick-up (producer)
-        const wps = computeWaypoints(dropX, dropY, pickX, pickY, overlayW, overlayH, cityRows)
+        const wps = computeWaypoints(dropX, dropY, pickX, pickY, overlayW, overlayH, cityRows, cityCols)
         const first = wps.length > 0 ? wps[0] : { x: pickX, y: pickY }
         const dd = Math.sqrt((first.x - dropX) ** 2 + (first.y - dropY) ** 2)
         nextVis.push({
@@ -1045,7 +1052,7 @@ export function CityBuilder({ onBack }: Props) {
           if (nd > 0) { vx = (next.x - x) / nd * SPEED; vy = (next.y - y) / nd * SPEED }
         } else if (dist < ARRIVE_DIST && phase === 'outbound') {
           // Arrived at producer — switch to returning, compute return waypoints
-          const wps = computeWaypoints(x, y, vc.dropX, vc.dropY, overlayW, overlayH, cityRows)
+          const wps = computeWaypoints(x, y, vc.dropX, vc.dropY, overlayW, overlayH, cityRows, cityCols)
           const first = wps.length > 0 ? wps[0] : { x: vc.dropX, y: vc.dropY }
           const nd = Math.sqrt((first.x - x) ** 2 + (first.y - y) ** 2)
           phase = 'returning'
@@ -1334,7 +1341,8 @@ export function CityBuilder({ onBack }: Props) {
   const consRates = resourceConsumptionRate(city)
 
   const cityRows = city.rows ?? CITY_ROWS
-  const cityCells = CITY_COLS * cityRows
+  const cityCols = city.cols ?? CITY_COLS
+  const cityCells = cityCols * cityRows
   const expansionCost = EXPANSION_COSTS[cityRows]
   const affordable = canAffordExpansion(city)
 
@@ -1640,7 +1648,7 @@ export function CityBuilder({ onBack }: Props) {
             <button
               className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
               onClick={handleExpand}
-              title={affordable ? `Expand city to ${cityRows + 1} rows` : 'Not enough resources to expand'}
+              title={affordable ? `Expand city to ${cityRows + 1}×${cityCols + 1}` : 'Not enough resources to expand'}
             >🏢 EXPAND</button>
           )}
         </div>

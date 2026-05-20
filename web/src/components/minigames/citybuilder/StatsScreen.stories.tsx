@@ -19,6 +19,7 @@ function makeCity(history: HistorySample[]): CityState {
     lastTick:            Date.now(),
     happiness:           {},
     rows:                4,
+    cols:                4,
     nextAttackAt:        Date.now() + 3_600_000,
     fortifications:      [],
     builderQueue:        [],

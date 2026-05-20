@@ -378,13 +378,13 @@ export function findFastestPath(
 }
 
 // Centre pixel of a cell in the overlay (for carrier rendering)
-export function cellCenter(idx: number, rows: number): { x: number; y: number } {
-  const gridRows = rows
-  const col = idx % CITY_COLS
-  const row = Math.floor(idx / CITY_COLS)
+export function cellCenter(idx: number, rows: number, cols?: number): { x: number; y: number } {
+  const gridCols = cols ?? CITY_COLS
+  const col = idx % gridCols
+  const row = Math.floor(idx / gridCols)
   return {
     x: (col + 0.5) * CELL_PX,
-    y: (row + 0.5) * CELL_PX * (gridRows / CITY_ROWS),
+    y: (row + 0.5) * CELL_PX * (rows / CITY_ROWS),
   }
 }
 
@@ -649,7 +649,8 @@ export function getCellSynergyBonuses(
   const cell = state.grid[cellIndex]
   if (!cell) return []
   const gridRows = state.rows ?? CITY_ROWS
-  const neighbours = getNeighbourIndices(cellIndex, gridRows)
+  const gridCols = state.cols ?? CITY_COLS
+  const neighbours = getNeighbourIndices(cellIndex, gridRows, gridCols)
     .map(ni => state.grid[ni])
     .filter((nb): nb is CityCell => nb != null)
   const produces = getBuildingProduces(cell.cardName)
@@ -672,7 +673,8 @@ export function getCellIncomeBonus(state: CityState, cellIndex: number): number 
   const cell = state.grid[cellIndex]
   if (!cell?.spawnedUnitName) return 0
   const gridRows = state.rows ?? CITY_ROWS
-  const hasFoodNeighbour = getNeighbourIndices(cellIndex, gridRows).some(ni => {
+  const gridCols = state.cols ?? CITY_COLS
+  const hasFoodNeighbour = getNeighbourIndices(cellIndex, gridRows, gridCols).some(ni => {
     const nb = state.grid[ni]
     return nb && (getBuildingProduces(nb.cardName).wheat ?? 0) > 0
   })
@@ -748,6 +750,8 @@ export interface CityState {
   happiness:      Record<number, number>
   /** Dynamic grid height; starts at CITY_ROWS (4). */
   rows:           number
+  /** Dynamic grid width; starts at CITY_ROWS (matching rows for a square grid). */
+  cols:           number
   /** Timestamp when the next attack will occur. */
   nextAttackAt:   number
   /** Wall/moat fortifications outside the building grid. */
@@ -801,6 +805,7 @@ function defaultState(): CityState {
     // cardLevels:     {},
     happiness:      {},
     rows:           CITY_ROWS,
+    cols:           CITY_ROWS,
     nextAttackAt:   Date.now() + BASE_ATTACK_INTERVAL_MS + Math.random() * ATTACK_INTERVAL_JITTER_MS,
     fortifications: [],
     builderQueue:   [],
@@ -827,7 +832,8 @@ export function loadCityState(): CityState {
     const parsed = JSON.parse(raw) as Partial<CityState>
     const savedResources = (parsed.resources ?? {}) as Partial<ResourceStock>
     const rows = parsed.rows ?? CITY_ROWS
-    const cells = CITY_COLS * rows
+    const cols = parsed.cols ?? CITY_COLS
+    const cells = cols * rows
     const savedGrid = parsed.grid ?? Array(cells).fill(undefined)
     const grid = (savedGrid.length < cells
       ? [...savedGrid, ...Array(cells - savedGrid.length).fill(undefined)]
@@ -848,6 +854,7 @@ export function loadCityState(): CityState {
       // cardLevels:     parsed.cardLevels ?? {},
       happiness:      parsed.happiness  ?? {},
       rows,
+      cols,
       nextAttackAt:   parsed.nextAttackAt ?? Date.now() + BASE_ATTACK_INTERVAL_MS,
       fortifications: (parsed.fortifications ?? []).map(f => ({
         ...f,
@@ -952,8 +959,8 @@ export const MILESTONES: MilestoneDef[] = [
   },
   {
     id: 'max_expansion', label: 'Metropolis', icon: '🏙',
-    description: `Expand the city to ${MAX_CITY_ROWS} rows`,
-    condition: s => (s.rows ?? CITY_ROWS) >= MAX_CITY_ROWS,
+    description: `Expand the city to a ${MAX_CITY_ROWS}×${MAX_CITY_ROWS} grid`,
+    condition: s => (s.rows ?? CITY_ROWS) >= MAX_CITY_ROWS && (s.cols ?? CITY_COLS) >= MAX_CITY_ROWS,
     goldReward: 50000,
   },
 ]
@@ -1035,16 +1042,16 @@ export function isDefenceCard(cardName: string, isSpawner: boolean): boolean {
 }
 
 /** Returns grid indices of the 4 orthogonally adjacent cells (no diagonals, no wrap). */
-export function getNeighbourIndices(index: number, rows?: number): number[] {
+export function getNeighbourIndices(index: number, rows?: number, cols?: number): number[] {
   const gridRows = rows ?? CITY_ROWS
-  const cols = CITY_COLS
-  const row = Math.floor(index / cols)
-  const col = index % cols
+  const gridCols = cols ?? CITY_COLS
+  const row = Math.floor(index / gridCols)
+  const col = index % gridCols
   const result: number[] = []
-  if (col > 0)          result.push(index - 1)
-  if (col < cols - 1)   result.push(index + 1)
-  if (row > 0)          result.push(index - cols)
-  if (row < gridRows-1) result.push(index + cols)
+  if (col > 0)             result.push(index - 1)
+  if (col < gridCols - 1)  result.push(index + 1)
+  if (row > 0)             result.push(index - gridCols)
+  if (row < gridRows - 1)  result.push(index + gridCols)
   return result
 }
 
@@ -1066,12 +1073,13 @@ function wallDefense(cell: CityCell, cityHasSpawners: boolean): number {
 
 export function cityDefense(state: CityState): number {
   const hasSpawners = state.grid.some(c => c?.spawnedUnitName)
+  const defCols = state.cols ?? CITY_COLS
   let total = 0
   let militaryBonus = 0
   for (let i = 0; i < state.grid.length; i++) {
     const cell = state.grid[i]
     if (!cell) continue
-    const row = Math.floor(i / CITY_COLS)
+    const row = Math.floor(i / defCols)
     const isMilitary = getRowDistrict(state, row) === 'military'
     if (cell.spawnedUnitName) {
       const contrib = SPAWN_DEFENSE[cell.rarity]
@@ -1273,15 +1281,16 @@ function processDisaster(
     }
 
     // Industrial zones have abundant dry materials — fire spreads 40% faster there
+    const disCols = s.cols ?? CITY_COLS
     let newAffected = [...affectedCells]
-    const hasIndustrialCell = newAffected.some(ci => getRowDistrict(s, Math.floor(ci / CITY_COLS)) === 'industrial')
+    const hasIndustrialCell = newAffected.some(ci => getRowDistrict(s, Math.floor(ci / disCols)) === 'industrial')
     const spreadInterval    = hasIndustrialCell ? FIRE_SPREAD_INTERVAL_MIN * 0.6 : FIRE_SPREAD_INTERVAL_MIN
     const spreadCount       = Math.floor(elapsedMin / spreadInterval)
     while (newAffected.length < Math.min(spreadCount + 1, FIRE_MAX_CELLS)) {
       // Pick an unaffected neighbour of any burning cell
       const candidates: number[] = []
       for (const ci of newAffected) {
-        for (const ni of getNeighbourIndices(ci, s.rows ?? CITY_ROWS)) {
+        for (const ni of getNeighbourIndices(ci, s.rows ?? CITY_ROWS, s.cols ?? CITY_COLS)) {
           if (s.grid[ni] && !newAffected.includes(ni)) candidates.push(ni)
         }
       }
@@ -1312,7 +1321,7 @@ function processDisaster(
     for (let i = 0; i < s.grid.length; i++) {
       if (s.grid[i]?.spawnedUnitName) {
         totalSpawners++
-        if (getRowDistrict(s, Math.floor(i / CITY_COLS)) === 'military') militarySpawners++
+        if (getRowDistrict(s, Math.floor(i / (s.cols ?? CITY_COLS))) === 'military') militarySpawners++
       }
     }
     const milFraction = totalSpawners > 0 ? militarySpawners / totalSpawners : 0
@@ -1395,6 +1404,7 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
 
   // ── Build mutable grid (copy cell stocks) ───────────────────────────────────
   const gridRows = state.rows ?? CITY_ROWS
+  const gridCols = state.cols ?? CITY_COLS
   const newGrid = state.grid.map(c => c ? { ...c, stock: { ...(c.stock ?? {}) } } : c)
   const rawRW = state.roadWear as unknown
   const rwBase: RoadWearMap = (rawRW && typeof rawRW === 'object' && !Array.isArray(rawRW))
@@ -1439,9 +1449,9 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
   const arrivedIds = new Set<string>()
   const newCarriers = (state.carriers ?? []).map(c => ({ ...c }))
   for (const carrier of newCarriers) {
-    const dist = Math.max(1, cellManhattan(carrier.fromCell, carrier.toCell, CITY_COLS))
-    const speed = (CARRIER_BASE_SPEED / dist) * pathSpeedMult(carrier.fromCell, carrier.toCell, newRoadWear, CITY_COLS)
-    wearPath(carrier.fromCell, carrier.toCell, newRoadWear, CITY_COLS, ROAD_WEAR_PER_CARRIER * minutes)
+    const dist = Math.max(1, cellManhattan(carrier.fromCell, carrier.toCell, gridCols))
+    const speed = (CARRIER_BASE_SPEED / dist) * pathSpeedMult(carrier.fromCell, carrier.toCell, newRoadWear, gridCols)
+    wearPath(carrier.fromCell, carrier.toCell, newRoadWear, gridCols, ROAD_WEAR_PER_CARRIER * minutes)
     carrier.progress = Math.min(1, carrier.progress + speed * minutes)
     if (carrier.progress >= 1) {
       const dest = newGrid[carrier.toCell]
@@ -1463,7 +1473,7 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
     const happy = (newHappy[i] ?? 100) > 0
     const unitCount = cell.spawnedUnitName ? spawnerUnitCount(state, cell.cardName) : 1
 
-    const cellRow      = Math.floor(i / CITY_COLS)
+    const cellRow      = Math.floor(i / gridCols)
     const cellDistrict = getRowDistrict(state, cellRow)
     const distInfo     = DISTRICT_INFO[cellDistrict]
 
@@ -1527,7 +1537,7 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
     for (const [res] of Object.entries(inputNeeds) as [ResourceType, number][]) {
       if ((cell.stock[res] ?? 0) >= cellStockCap(cell) - CARRIER_LOAD) continue   // near capacity, don't overfill
       if (inFlightTo.has(`${i}-${res}`)) continue            // already fetching
-      const source = findNearestProducer(res, i, newGrid as (CityCell|undefined)[], CITY_COLS)
+      const source = findNearestProducer(res, i, newGrid as (CityCell|undefined)[], gridCols)
       if (source === null) continue
       const sourceCell = newGrid[source]!
       const load = Math.min(sourceCell.stock[res] ?? 0, CARRIER_LOAD)
@@ -1548,7 +1558,7 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
       if (res === Object.keys(BUILDING_CONVERSION_COST[cell.cardName])[0]) continue  // skip input res
       if (amount < CARRIER_LOAD) continue
       if (inFlightFrom.has(`${i}-${res}`)) continue
-      const target = findNearestConsumer(res, i, newGrid as (CityCell|undefined)[], CITY_COLS)
+      const target = findNearestConsumer(res, i, newGrid as (CityCell|undefined)[], gridCols)
       if (target === null) continue
       const load = Math.min(amount, CARRIER_LOAD)
       activeCarriers.push({ id: `${Date.now()}-${carrierSeq++}-${i}-${target}-${res}`, fromCell: i, toCell: target, carrying: { [res]: load }, progress: 0 })
@@ -1566,7 +1576,7 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
     for (const [res, amount] of Object.entries(cell.stock) as [ResourceType, number][]) {
       if (amount < CARRIER_LOAD) continue
       if (inFlightFrom.has(`${i}-${res}`)) continue
-      const target = findNearestConsumer(res, i, newGrid as (CityCell|undefined)[], CITY_COLS)
+      const target = findNearestConsumer(res, i, newGrid as (CityCell|undefined)[], gridCols)
       if (target === null) continue
       const load = Math.min(amount, CARRIER_LOAD)
       activeCarriers.push({ id: `${Date.now()}-${carrierSeq++}-${i}-${target}-${res}`, fromCell: i, toCell: target, carrying: { [res]: load }, progress: 0 })
@@ -1914,27 +1924,63 @@ export function canAffordExpansion(state: CityState): boolean {
 
 export function expandCity(state: CityState): CityState | null {
   const rows = state.rows ?? CITY_ROWS
+  const cols = state.cols ?? CITY_COLS
   if (rows >= MAX_CITY_ROWS) return null
   const cost = EXPANSION_COSTS[rows]
   if (!cost) return null
   if (!canAffordExpansion(state)) return null
 
   const newRows = rows + 1
-  const newCells = CITY_COLS * newRows
-  const newGrid = [...state.grid, ...Array(newCells - state.grid.length).fill(undefined)]
-  const newResources = { ...state.resources, gold: state.gold }
+  const newCols = cols < MAX_CITY_ROWS ? cols + 1 : cols
+
+  // Remap existing cells into the wider grid (insert empty column on right of each row)
+  const newGrid: (CityCell | undefined)[] = Array(newRows * newCols).fill(undefined)
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      newGrid[row * newCols + col] = state.grid[row * cols + col]
+    }
+  }
+
+  // Remap happiness keys to new cell indices
+  const newHappiness: Record<number, number> = {}
+  for (const [idxStr, h] of Object.entries(state.happiness)) {
+    const i = parseInt(idxStr)
+    const row = Math.floor(i / cols)
+    const col = i % cols
+    newHappiness[row * newCols + col] = h
+  }
+
+  // Remap road wear arrays to new cell indices
+  const oldH = state.roadWear.h
+  const oldV = state.roadWear.v
+  const newH = Array(newRows * newCols).fill(0)
+  const newV = Array(newRows * newCols).fill(0)
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const oldIdx = row * cols + col
+      const newIdx = row * newCols + col
+      newH[newIdx] = oldH[oldIdx] ?? 0
+      newV[newIdx] = oldV[oldIdx] ?? 0
+    }
+  }
+
+  const newResources = { ...state.resources }
   for (const [res, amt] of Object.entries(cost.resources) as [ResourceType, number][]) {
     newResources[res] = Math.max(0, (state.resources[res] ?? 0) - amt)
   }
 
-  const next = {
+  const next: CityState = {
     ...state,
     rows:      newRows,
+    cols:      newCols,
     grid:      newGrid,
     gold:      state.gold - cost.gold,
     resources: newResources,
+    happiness: newHappiness,
+    roadWear:  { h: newH, v: newV },
+    carriers:  [],
   }
-  return addChronicleEvent(next, `🏙 City expanded to ${newRows} rows`)
+  return addChronicleEvent(next, `🏙 City expanded to ${newRows}×${newCols}`)
 }
 
 // ── Affordability ─────────────────────────────────────────────────────────────

@@ -21,6 +21,7 @@ function fmtElapsed(ms: number): string {
 export function DisasterModal({ city, disaster, onExtinguish, onCure, onClose }: Props) {
   const { type, affectedCells, startedAt, severity } = disaster
   const elapsed = Date.now() - startedAt
+  const cityCols = city.cols ?? CITY_COLS
 
   const isFire    = type === 'fire'
   const woodCost  = fireExtinguishCost(city)
@@ -36,7 +37,7 @@ export function DisasterModal({ city, disaster, onExtinguish, onCure, onClose }:
   }).length
   const braveDiscount    = affectedCells.length * 40 - woodCost
   const isIndustrialFire = affectedCells.some(
-    ci => getRowDistrict(city, Math.floor(ci / CITY_COLS)) === 'industrial',
+    ci => getRowDistrict(city, Math.floor(ci / cityCols)) === 'industrial',
   )
 
   // ── Plague context ────────────────────────────────────────────────────────────
@@ -47,7 +48,7 @@ export function DisasterModal({ city, disaster, onExtinguish, onCure, onClose }:
     if (cell?.spawnedUnitName) {
       totalSpawners++
       const trait = getCellTrait(cell, i)
-      if (getRowDistrict(city, Math.floor(i / CITY_COLS)) === 'military') militarySpawners++
+      if (getRowDistrict(city, Math.floor(i / cityCols)) === 'military') militarySpawners++
       if (trait === 'glutton')  gluttonCount++
       if (trait === 'sociable') sociableCount++
     }

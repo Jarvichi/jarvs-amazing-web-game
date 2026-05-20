@@ -15,7 +15,7 @@ const emptyResources = { wheat: 0, wood: 0, ore: 0, bread: 0, planks: 0, metal: 
 function stubCity(resources = emptyResources): CityState {
   return {
     grid: [], gold: 0, resources, lastTick: Date.now(),
-    happiness: {}, rows: 4,
+    happiness: {}, rows: 4, cols: 4,
     nextAttackAt: Date.now() + 3_600_000,
     fortifications: [], builderQueue: [], builderCount: 2,
     lastAttack: null, chronicle: [], completedMilestones: [],
