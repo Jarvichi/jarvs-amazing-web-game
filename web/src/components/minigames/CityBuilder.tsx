@@ -356,7 +356,13 @@ function computeWaypoints(
   ]
 }
 
-/** Like computeWaypoints but uses Dijkstra's to route walkers along the fastest roads. */
+/**
+ * Routes walkers along the grid via Dijkstra.  Every segment is axis-aligned:
+ * moving right/left keeps Y constant until the walker reaches the vertical road
+ * gap (x = c×cellW); moving up/down keeps X constant until the horizontal road
+ * gap (y = r×cellH).  Turns happen exactly at road junctions.  A final off-road
+ * waypoint at (toX, toY) lets the walker enter the destination building.
+ */
 function computeRoadWaypoints(
   fromX: number, fromY: number,
   toX: number, toY: number,
@@ -379,6 +385,9 @@ function computeRoadWaypoints(
   if (cellPath.length <= 1) return []
 
   const result: { x: number; y: number; speed?: number }[] = []
+  // wx/wy track the last waypoint so each new one can keep the perpendicular axis fixed
+  let wx = fromX, wy = fromY
+
   for (let i = 1; i < cellPath.length; i++) {
     const a  = cellPath[i - 1]
     const b  = cellPath[i]
@@ -386,21 +395,27 @@ function computeRoadWaypoints(
     const hi = Math.max(a, b)
     const wear  = hi === lo + 1 ? (roadWear.h[lo] ?? 0) : (roadWear.v[lo] ?? 0)
     const speed = ROAD_SPEED_MULT[roadTier(wear)]
-    const aRow = Math.floor(a / cityCols), aCol = a % cityCols
-    // Waypoint is the midpoint of the shared border between cells a and b,
-    // so walkers travel through the gap (where roads are drawn) rather than cell centres.
+    const aRow  = Math.floor(a / cityCols)
+    const aCol  = a % cityCols
+
     let bx: number, by: number
-    if (b === a + 1)         { bx = (aCol + 1) * cellW; by = (aRow + 0.5) * cellH }
-    else if (b === a - 1)    { bx =  aCol       * cellW; by = (aRow + 0.5) * cellH }
-    else if (b === a + cityCols) { bx = (aCol + 0.5) * cellW; by = (aRow + 1) * cellH }
-    else                     { bx = (aCol + 0.5) * cellW; by =  aRow       * cellH }
+    if (b === a + 1) {               // right → walk to vertical road, keep y
+      bx = (aCol + 1) * cellW; by = wy
+    } else if (b === a - 1) {        // left → walk to vertical road, keep y
+      bx = aCol * cellW;        by = wy
+    } else if (b === a + cityCols) { // down → walk to horizontal road, keep x
+      bx = wx; by = (aRow + 1) * cellH
+    } else {                         // up → walk to horizontal road, keep x
+      bx = wx; by = aRow * cellH
+    }
+
     result.push({ x: bx, y: by, speed })
+    wx = bx; wy = by
   }
-  // Snap final waypoint to actual target coords
-  if (result.length > 0) {
-    result[result.length - 1].x = toX
-    result[result.length - 1].y = toY
-  }
+
+  // Off-road final step: enter the destination building
+  result.push({ x: toX, y: toY })
+
   return result
 }
 
@@ -922,7 +937,8 @@ export function CityBuilder({ onBack }: Props) {
                   const pick = ns[Math.floor(Math.random() * ns.length)] ?? cc
                   const tx = (pick % cityCols + 0.5) * cellW
                   const ty = (Math.floor(pick / cityCols) + 0.5) * cellH
-                  const wps = computeWaypoints(x, y, tx, ty, overlayW, overlayH, cityRows, cityCols)
+                  const rw = (cityRef.current?.roadWear as RoadWearMap | undefined) ?? { h: [], v: [] }
+                  const wps = computeRoadWaypoints(x, y, tx, ty, overlayW, overlayH, cityRows, rw, cityCols)
                   waypoints = wps.length > 0 ? wps : [{ x: tx, y: ty }]
                   turnTimer = IDLE_WANDER_TICKS_MIN + Math.floor(Math.random() * IDLE_WANDER_TICKS_RANGE)
                 }
@@ -1040,7 +1056,8 @@ export function CityBuilder({ onBack }: Props) {
         const dropX = (c2 + 0.5) * overlayW / cityCols
         const dropY = (r2 + 0.5) * overlayH / cityRows
         // Outbound: start at drop-off (consumer), walk to pick-up (producer)
-        const wps = computeWaypoints(dropX, dropY, pickX, pickY, overlayW, overlayH, cityRows, cityCols)
+        const rw = (cityRef.current?.roadWear as RoadWearMap | undefined) ?? { h: [], v: [] }
+        const wps = computeRoadWaypoints(dropX, dropY, pickX, pickY, overlayW, overlayH, cityRows, rw, cityCols)
         const first = wps.length > 0 ? wps[0] : { x: pickX, y: pickY }
         const dd = Math.sqrt((first.x - dropX) ** 2 + (first.y - dropY) ** 2)
         nextVis.push({
@@ -1080,7 +1097,8 @@ export function CityBuilder({ onBack }: Props) {
           if (nd > 0) { vx = (next.x - x) / nd * SPEED; vy = (next.y - y) / nd * SPEED }
         } else if (dist < ARRIVE_DIST && phase === 'outbound') {
           // Arrived at producer — switch to returning, compute return waypoints
-          const wps = computeWaypoints(x, y, vc.dropX, vc.dropY, overlayW, overlayH, cityRows, cityCols)
+          const rw2 = (cityRef.current?.roadWear as RoadWearMap | undefined) ?? { h: [], v: [] }
+          const wps = computeRoadWaypoints(x, y, vc.dropX, vc.dropY, overlayW, overlayH, cityRows, rw2, cityCols)
           const first = wps.length > 0 ? wps[0] : { x: vc.dropX, y: vc.dropY }
           const nd = Math.sqrt((first.x - x) ** 2 + (first.y - y) ** 2)
           phase = 'returning'
