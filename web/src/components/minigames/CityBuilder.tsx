@@ -22,7 +22,7 @@ import {
   addFortification, removeFortification,
   expandCity, canAffordExpansion,
   goldIncomeRate, goldNetRate,
-  cityDefense, cityPopulation,
+  cityDefense, cityPopulation, getCityFoodScore,
   canAffordPlacement,
   resourceProductionRate, resourceConsumptionRate,
   levelUpCost, levelUpCard,
@@ -105,9 +105,10 @@ function buildResidentThoughts(
 ): ResidentThought[] {
   const thoughts: ResidentThought[] = []
   const pop = Math.max(population, 1)
-  const foodScore = Math.min(100, (city.resources.wheat / pop) * 5)
+  const foodScore = getCityFoodScore(city)
   const defenseScore = Math.min(100, (cityDefense(city) / pop) * 8)
   const gridRows = city.rows ?? CITY_ROWS
+  const gridCols = city.cols ?? CITY_COLS
 
   for (let i = 0; i < city.grid.length; i++) {
     const cell = city.grid[i]
@@ -123,7 +124,7 @@ function buildResidentThoughts(
       let happy = true
 
       const wantedNeighbour = cell.affinityWith ?? cell.spawnedUnitName
-      const neighbourMet = getNeighbourIndices(i, gridRows).some(ni => {
+      const neighbourMet = getNeighbourIndices(i, gridRows, gridCols).some(ni => {
         const nc = city.grid[ni]
         return nc?.spawnedUnitName === wantedNeighbour && (city.happiness[ni] ?? 100) > 0
       })
