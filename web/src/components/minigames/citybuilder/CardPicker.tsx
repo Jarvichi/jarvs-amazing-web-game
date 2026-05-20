@@ -176,13 +176,15 @@ export function CardPicker({
                         {mLvl > 0 && <div className="city-picker-mastery">★{mLvl}</div>}
                         {spawnName && (
                           <div className="city-picker-spawns">
-                            <SpriteImg name={spawnName} className="city-picker-spawn-icon" />
+                            <div className="city-picker-spawn-sprite">
+                              <SpriteImg name={spawnName} className="city-picker-spawn-icon" />
+                              {spawnEffectMeta && (
+                                <span className={`td-unit-chip-effect ${spawnEffectMeta.cls}`} title={spawnEffectMeta.label}>
+                                  {spawnEffectMeta.icon}
+                                </span>
+                              )}
+                            </div>
                             <span>{spawnName}</span>
-                            {spawnEffectMeta && (
-                              <span className={`td-unit-chip-effect ${spawnEffectMeta.cls}`} title={spawnEffectMeta.label}>
-                                {spawnEffectMeta.icon}
-                              </span>
-                            )}
                           </div>
                         )}
                         {cost && (
