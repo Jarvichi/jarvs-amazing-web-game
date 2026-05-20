@@ -16,7 +16,7 @@ export interface Props {
 export function LevelUpDetail({ levelCard, card, city, onBack, onLevelUp }: Props) {
   const xp               = getMasteryXp(loadCollection(), levelCard)
   const { level: mLvl }  = masteryProgress(xp)
-  const cost             = levelUpCost(mLvl)
+  const cost             = levelUpCost(mLvl, levelCard)
 
   return (
     <div className="city-screen u-relative u-col u-gap-2">

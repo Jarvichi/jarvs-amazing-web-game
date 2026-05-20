@@ -76,7 +76,7 @@ export function BuildingUpgradeList({
                 {group.cards.map(card => {
                   const xp        = getMasteryXp(collection, card.name)
                   const mLvl      = masteryLevel(xp)
-                  const cost      = levelUpCost(mLvl)
+                  const cost      = levelUpCost(mLvl, card.name)
                   const canAfford = city.gold >= cost
                   return (
                     <button

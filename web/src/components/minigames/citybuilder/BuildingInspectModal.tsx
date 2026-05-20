@@ -2,9 +2,9 @@ import React from 'react'
 import {
   CityState, CityCell, RESOURCE_ICONS, ResourceType,
   getBuildingProduces, getBuildingConsumes, masteryOutputMultiplier, getCardMasteryLevel,
-  levelUpCost, LEVEL_UP_COSTS, spawnerUnitCount,
+  levelUpCost, LEVEL_UP_COSTS, WATCHTOWER_LEVEL_UP_COSTS, spawnerUnitCount,
   getCellSynergyBonuses, getCellIncomeBonus,
-  cellStockCap,
+  cellStockCap, getCellDefenseContrib, INCOME_WALL, CORE_BUILDINGS,
 } from '../../../game/cityBuilder'
 import { CollectionEntry, getMasteryXp, masteryProgress } from '../../../game/collection'
 import { MasteryBar } from '../../ui/MasteryBar'
@@ -43,8 +43,11 @@ export function BuildingInspectModal({
   const incomeBonus    = getCellIncomeBonus(city, cellIndex)
   const xp             = getMasteryXp(collection, cell.cardName)
   const { level: mLvl } = masteryProgress(xp)
-  const upgradeCost    = levelUpCost(mLvl)
+  const upgradeCost    = levelUpCost(mLvl, cell.cardName)
   const canAfford      = city.gold >= upgradeCost
+  const levelUpCosts   = cell.cardName === 'Watchtower' ? WATCHTOWER_LEVEL_UP_COSTS : LEVEL_UP_COSTS
+  const defenseContrib = getCellDefenseContrib(cell, city)
+  const coreHint       = CORE_BUILDINGS.find(b => b.name === cell.cardName)?.hint
 
   return (
     <div className="city-req-overlay" onClick={onClose}>
@@ -172,7 +175,26 @@ export function BuildingInspectModal({
               )}
             </>
           ) : (
-            <div className="city-bld-section-title">Defensive structure</div>
+            <>
+              {coreHint && <div className="city-bld-hint">{coreHint}</div>}
+              {defenseContrib > 0 && (
+                <>
+                  <div className="city-bld-section-title">Defense contribution</div>
+                  <div className="city-bld-produces-row">⚔ +{defenseContrib} defense</div>
+                  {mLvl < levelUpCosts.length && (
+                    <div className="city-bld-produces-row city-synergy-label">
+                      Upgrade to ★{mLvl + 1} → ⚔ +{Math.round(defenseContrib * 2)} defense
+                    </div>
+                  )}
+                </>
+              )}
+              {INCOME_WALL[cell.rarity] > 0 && (
+                <>
+                  <div className="city-bld-section-title">Income</div>
+                  <div className="city-bld-produces-row">+{INCOME_WALL[cell.rarity]} 💰/min</div>
+                </>
+              )}
+            </>
           )
         )}
 
@@ -184,7 +206,7 @@ export function BuildingInspectModal({
               Next upgrade: <span className="city-gold">⚙ {upgradeCost.toLocaleString()}</span> → ★{mLvl + 1}
             </div>
             <div className="city-level-costs-table u-col u-gap-2">
-              {LEVEL_UP_COSTS.map((c, i) => (
+              {levelUpCosts.map((c, i) => (
                 <div key={i} className={`city-cost-row${i < mLvl ? ' city-cost-row--done' : ''}`}>
                   <span>★{i} → ★{i + 1}</span>
                   <span>⚙ {c.toLocaleString()}</span>
