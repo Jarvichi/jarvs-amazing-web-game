@@ -47,6 +47,7 @@ export function Fortifications({
     (s, f) => s + Math.round(FORT_DEFENSE[f.rarity] * (f.hp / f.maxHp)), 0
   )
   const cityRows = city.rows ?? CITY_ROWS
+  const cityCols = city.cols ?? CITY_COLS
 
   const fortSlots: FortSlot[] = Array.from({ length: MAX_TOTAL_FORTS }, (_, i) => {
     if (i < city.fortifications.length)
@@ -91,7 +92,7 @@ export function Fortifications({
                 onClick={() => setFortSlotSel(idx)}
               />
             ))}
-            <CityThumbnail grid={city.grid.map(c => c ?? null)} cols={CITY_COLS} rows={cityRows} />
+            <CityThumbnail grid={city.grid.map(c => c ?? null)} cols={cityCols} rows={cityRows} />
           </div>
 
           {/* Builder walkers overlay */}

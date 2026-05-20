@@ -48,7 +48,7 @@ export interface Walker {
   hidden:       boolean
   hiddenTimer:  number
   trait:        PersonalityTrait
-  waypoints:    { x: number; y: number }[]
+  waypoints:    { x: number; y: number; speed?: number }[]
 }
 
 export interface ResidentThought {
@@ -96,10 +96,11 @@ export function getUnitRequirements(
 ): { text: string; met: boolean }[] {
   const reqs: { text: string; met: boolean }[] = []
   const gridRows = cityState.rows ?? CITY_ROWS
+  const gridCols = cityState.cols ?? CITY_COLS
 
   const wantedNeighbour = cell.affinityWith ?? cell.spawnedUnitName
   if (wantedNeighbour) {
-    const neighbourMet = getNeighbourIndices(cellIndex, gridRows).some(ni => {
+    const neighbourMet = getNeighbourIndices(cellIndex, gridRows, gridCols).some(ni => {
       const nc = cityState.grid[ni]
       return nc?.spawnedUnitName === wantedNeighbour && (cityState.happiness[ni] ?? 100) > 0
     })

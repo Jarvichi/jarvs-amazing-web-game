@@ -84,7 +84,8 @@ export function CityGrid({
   city, walkers, builderWalkers, visualCarriers, bulldozerMode, worldRef, onCellTap, onWalkerClick,
 }: Props) {
   const cityRows  = city.rows ?? CITY_ROWS
-  const cityCells = CITY_COLS * cityRows
+  const cityCols  = city.cols ?? CITY_COLS
+  const cityCells = cityCols * cityRows
 
   const visibleBubbleSet = new Set(
     walkers
@@ -104,19 +105,19 @@ export function CityGrid({
       <div
         className="city-road-layer"
         style={{
-          gridTemplateColumns: `repeat(${CITY_COLS}, 1fr)`,
+          gridTemplateColumns: `repeat(${cityCols}, 1fr)`,
           gridTemplateRows:    `repeat(${cityRows}, 1fr)`,
         }}
       >
         {Array.from({ length: cityCells }, (_, i) => {
-          const row = Math.floor(i / CITY_COLS)
-          const col = i % CITY_COLS
+          const row = Math.floor(i / cityCols)
+          const col = i % cityCols
           const h = city.roadWear?.h ?? []
           const v = city.roadWear?.v ?? []
-          const wearLeft   = col === 0             ? 0 : (h[i - 1]        ?? 0)
-          const wearRight  = col === CITY_COLS - 1 ? 0 : (h[i]             ?? 0)
-          const wearTop    = row === 0             ? 0 : (v[i - CITY_COLS] ?? 0)
-          const wearBottom = row === cityRows - 1  ? 0 : (v[i]             ?? 0)
+          const wearLeft   = col === 0            ? 0 : (h[i - 1]       ?? 0)
+          const wearRight  = col === cityCols - 1 ? 0 : (h[i]            ?? 0)
+          const wearTop    = row === 0            ? 0 : (v[i - cityCols] ?? 0)
+          const wearBottom = row === cityRows - 1 ? 0 : (v[i]            ?? 0)
           return (
             <div key={i} className="city-road-cell">
               <RoadPath left={wearLeft} right={wearRight} top={wearTop} bottom={wearBottom} />
@@ -128,7 +129,7 @@ export function CityGrid({
       <div
         className="city-grid"
         style={{
-          gridTemplateColumns: `repeat(${CITY_COLS}, 1fr)`,
+          gridTemplateColumns: `repeat(${cityCols}, 1fr)`,
           gridTemplateRows:    `repeat(${cityRows}, 1fr)`,
         }}
       >
@@ -137,8 +138,8 @@ export function CityGrid({
           const happiness = cell?.spawnedUnitName ? (city.happiness[i] ?? 100) : 100
           const rage      = 100 - happiness
           const despawned = cell?.spawnedUnitName && happiness === 0
-          const row        = Math.floor(i / CITY_COLS)
-          const col        = i % CITY_COLS
+          const row        = Math.floor(i / cityCols)
+          const col        = i % cityCols
           const district   = getRowDistrict(city, row)
           const distColor  = DISTRICT_INFO[district]?.color ?? 'transparent'
           const isRowStart = col === 0
@@ -219,7 +220,7 @@ export function CityGrid({
           const rage            = 100 - happiness
           const wantedNeighbour = w.affinityWith ?? w.unitName
           const gridRows        = city.rows ?? CITY_ROWS
-          const wantsFriend     = !getNeighbourIndices(w.cellIndex, gridRows).some(ni => {
+          const wantsFriend     = !getNeighbourIndices(w.cellIndex, gridRows, city.cols ?? CITY_COLS).some(ni => {
             const nc = city.grid[ni]
             return nc?.spawnedUnitName === wantedNeighbour && (city.happiness[ni] ?? 100) > 0
           })
