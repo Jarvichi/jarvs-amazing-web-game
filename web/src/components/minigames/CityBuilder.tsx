@@ -312,6 +312,8 @@ const UNIT_SIZE = 20
 const SPEED = 0.8
 const ARRIVE_DIST = 14   // pixels — close enough to count as "arrived"
 const IDLE_TASK_TICKS = 80   // ~8 s of random wandering before picking a new task
+const IDLE_WANDER_TICKS_MIN = 20  // ticks between wander cell picks
+const IDLE_WANDER_TICKS_RANGE = 30
 const REST_TICKS_MIN = 4 * IDLE_TASK_TICKS   // ~32 s — at least 4 task cycles at home
 const REST_TICKS_MAX = 7 * IDLE_TASK_TICKS   // ~56 s
 const BUBBLE_TICKS = 30   // 3 s — how long a task bubble stays visible
@@ -896,6 +898,38 @@ export function CityBuilder({ onBack }: Props) {
               if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
               waypoints = wayptsFor(task, x, y)
             }
+            // Grid-following wander: navigate to a random adjacent cell via gap waypoints
+            if (task.type === 'idle') {
+              if (waypoints.length > 0) {
+                // Follow current wander path
+                const next = waypoints[0]
+                const dx = next.x - x, dy = next.y - y
+                const dist = Math.sqrt(dx * dx + dy * dy)
+                if (dist < ARRIVE_DIST) {
+                  waypoints = waypoints.slice(1)
+                  turnTimer = 0  // immediately pick next cell
+                } else {
+                  vx = (dx / dist) * SPEED
+                  vy = (dy / dist) * SPEED
+                }
+              }
+              if (waypoints.length === 0) {
+                turnTimer--
+                if (turnTimer <= 0) {
+                  const cellW = overlayW / cityCols
+                  const cellH = overlayH / cityRows
+                  const cc = Math.max(0, Math.min(cityRows - 1, Math.floor(y / cellH))) * cityCols +
+                             Math.max(0, Math.min(cityCols - 1, Math.floor(x / cellW)))
+                  const ns = getNeighbourIndices(cc, cityRows, cityCols)
+                  const pick = ns[Math.floor(Math.random() * ns.length)] ?? cc
+                  const tx = (pick % cityCols + 0.5) * cellW
+                  const ty = (Math.floor(pick / cityCols) + 0.5) * cellH
+                  const wps = computeWaypoints(x, y, tx, ty, overlayW, overlayH, cityRows, cityCols)
+                  waypoints = wps.length > 0 ? wps : [{ x: tx, y: ty }]
+                  turnTimer = IDLE_WANDER_TICKS_MIN + Math.floor(Math.random() * IDLE_WANDER_TICKS_RANGE)
+                }
+              }
+            }
           }
 
           // ── Directed movement (waypoint-following) ─────────────────────────
@@ -946,17 +980,6 @@ export function CityBuilder({ onBack }: Props) {
           if (x > overlayW - UNIT_SIZE) { x = overlayW - UNIT_SIZE; vx = -Math.abs(vx) }
           if (y < 0) { y = 0; vy = Math.abs(vy) }
           if (y > overlayH - UNIT_SIZE) { y = overlayH - UNIT_SIZE; vy = -Math.abs(vy) }
-
-          // Random direction changes for idle wandering only
-          if (task.type === 'idle') {
-            turnTimer--
-            if (turnTimer <= 0) {
-              const angle = Math.random() * Math.PI * 2
-              vx = Math.cos(angle) * SPEED
-              vy = Math.sin(angle) * SPEED
-              turnTimer = 20 + Math.floor(Math.random() * 30)
-            }
-          }
 
           return { ...w, x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer, waypoints }
         })
