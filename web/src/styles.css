@@ -8836,6 +8836,7 @@ html.light-mode .action-btn {
   padding: 8px 8px 0;
   height: 100%;
   overflow: hidden;
+  overflow-y: auto;
   box-sizing: border-box;
 }
 
@@ -8979,11 +8980,57 @@ html.light-mode .action-btn {
 .city-world {
   position: relative;
   width: 100%;
-  flex: 0 0 50vh;
-  height: 50vh;
+  flex: 0 0 clamp(180px, 50vh, 55vw);
+  height: clamp(180px, 50vh, 55vw);
   overflow: hidden;
   background: #2d5a27;
-    border-radius: 5px;
+  border-radius: 5px;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.city-world--paint { cursor: crosshair; }
+
+.city-zoom-wrapper {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* ── Brush / paint mode bar ──────────────────────────────────────────────── */
+.city-brush-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0c2a0c;
+  border: 1px solid #3a8a3a;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  color: #90d090;
+  flex-shrink: 0;
+}
+.city-brush-label { flex: 1; }
+.city-brush-cancel {
+  background: none;
+  border: none;
+  color: #a06060;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+}
+.city-brush-cancel:hover { color: #e08080; }
+
+/* Paint-mode empty cell — show a soft dot instead of FOR SALE sign */
+.city-cell--paintable { border-color: #4a7a4a !important; }
+.city-cell-paint-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #4a8a4a;
+  opacity: 0.6;
 }
 
 .city-grid {

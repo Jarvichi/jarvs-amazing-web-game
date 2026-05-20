@@ -643,6 +643,7 @@ export function CityBuilder({ onBack }: Props) {
   const [walkers, setWalkers] = useState<Walker[]>([])
   const [builderWalkers, setBuilderWalkers] = useState<BuilderWalker[]>([])
   const [visualCarriers, setVisualCarriers] = useState<VisualCarrier[]>([])
+  const [activeBrush, setActiveBrush] = useState<{ name: string; card?: Card; coreBuild?: CoreBuilding } | null>(null)
   const visualCarriersRef = useRef<VisualCarrier[]>([])
   const [selectedWalker, setSelectedWalker] = useState<{ cellIndex: number; unitIndex: number } | null>(null)
   const [selectedBuildingCell, setSelectedBuildingCell] = useState<number | null>(null)
@@ -1199,7 +1200,32 @@ export function CityBuilder({ onBack }: Props) {
 
   // ── Cell interaction ──────────────────────────────────────────────────────────
 
+  function applyBrush(index: number) {
+    if (!activeBrush || city.grid[index]) return
+    if (activeBrush.card) {
+      const card = activeBrush.card
+      const spawnEffect = card.unit?.structureEffect
+      const isSpawner = spawnEffect?.type === 'spawn'
+      if (isSpawner && !canAffordPlacement(city, card.rarity)) return
+      const spawnedUnitName = isSpawner
+        ? (spawnEffect as { type: 'spawn'; unitTemplate: { name: string }; intervalMs: number }).unitTemplate.name
+        : undefined
+      const affinityWith = isSpawner
+        ? (spawnEffect as { type: 'spawn'; unitTemplate: { affinity?: { withName: string } }; intervalMs: number }).unitTemplate.affinity?.withName
+        : card.unit?.affinity?.withName
+      save(placeCard(city, index, { cardName: card.name, rarity: card.rarity, spawnedUnitName, affinityWith, stock: {} }))
+    } else if (activeBrush.coreBuild) {
+      const building = activeBrush.coreBuild
+      if (!canAffordCoreBuild(city, building)) return
+      save(placeCoreBuild(city, index, building))
+    }
+  }
+
   function handleCellTap(index: number) {
+    if (activeBrush && !city.grid[index]) {
+      applyBrush(index)
+      return
+    }
     if (city.grid[index]) {
       if (bulldozerMode) {
         const cell = city.grid[index]!
@@ -1215,10 +1241,33 @@ export function CityBuilder({ onBack }: Props) {
     }
   }
 
+  const handlePaint = useCallback((index: number) => {
+    if (!activeBrush || city.grid[index]) return
+    if (activeBrush.card) {
+      const card = activeBrush.card
+      const spawnEffect = card.unit?.structureEffect
+      const isSpawner = spawnEffect?.type === 'spawn'
+      if (isSpawner && !canAffordPlacement(cityRef.current, card.rarity)) return
+      const spawnedUnitName = isSpawner
+        ? (spawnEffect as { type: 'spawn'; unitTemplate: { name: string }; intervalMs: number }).unitTemplate.name
+        : undefined
+      const affinityWith = isSpawner
+        ? (spawnEffect as { type: 'spawn'; unitTemplate: { affinity?: { withName: string } }; intervalMs: number }).unitTemplate.affinity?.withName
+        : card.unit?.affinity?.withName
+      save(placeCard(cityRef.current, index, { cardName: card.name, rarity: card.rarity, spawnedUnitName, affinityWith, stock: {} }))
+    } else if (activeBrush.coreBuild) {
+      const building = activeBrush.coreBuild
+      if (!canAffordCoreBuild(cityRef.current, building)) return
+      save(placeCoreBuild(cityRef.current, index, building))
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeBrush])
+
   function toggleBulldozer() {
     setBulldozerMode(prev => !prev)
     setSelectedBuildingCell(null)
     setSelectedWalker(null)
+    setActiveBrush(null)
   }
 
   // ── Place a card ──────────────────────────────────────────────────────────────
@@ -1247,6 +1296,7 @@ export function CityBuilder({ onBack }: Props) {
       stock: {},
     }
     save(placeCard(city, pickerIndex, cell))
+    setActiveBrush({ name: card.name, card })
     setScreen('city')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickerIndex, city])
@@ -1254,6 +1304,7 @@ export function CityBuilder({ onBack }: Props) {
   const handlePickCoreBuild = useCallback((building: CoreBuilding) => {
     if (!canAffordCoreBuild(city, building)) { showToast('Not enough gold!'); return }
     save(placeCoreBuild(city, pickerIndex, building))
+    setActiveBrush({ name: building.name, coreBuild: building })
     setScreen('city')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickerIndex, city])
@@ -1652,6 +1703,13 @@ export function CityBuilder({ onBack }: Props) {
           city={city}
         />
 
+        {activeBrush && (
+          <div className="city-brush-bar">
+            <span className="city-brush-label">Placing: {activeBrush.name}</span>
+            <button className="city-brush-cancel" onClick={() => setActiveBrush(null)} title="Stop placing">✕</button>
+          </div>
+        )}
+
         <CityGrid
           city={city}
           walkers={walkers}
@@ -1659,7 +1717,9 @@ export function CityBuilder({ onBack }: Props) {
           visualCarriers={visualCarriers}
           bulldozerMode={bulldozerMode}
           worldRef={worldRef}
+          paintBrush={!!activeBrush}
           onCellTap={handleCellTap}
+          onPaint={handlePaint}
           onWalkerClick={(cellIndex, unitIndex) => setSelectedWalker({ cellIndex, unitIndex })}
         />
 

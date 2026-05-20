@@ -48,7 +48,7 @@ export const EmptyCity: Story = {
       builderWalkers={[]}
       visualCarriers={[]}
       bulldozerMode={false}
-      onCellTap={fn()}
+      paintBrush={false} onCellTap={fn()} onPaint={fn()}
       onWalkerClick={fn()}
     />
   ),
@@ -63,7 +63,7 @@ export const PopulatedCity: Story = {
       builderWalkers={[]}
       visualCarriers={[]}
       bulldozerMode={false}
-      onCellTap={fn()}
+      paintBrush={false} onCellTap={fn()} onPaint={fn()}
       onWalkerClick={fn()}
     />
   ),
@@ -78,7 +78,7 @@ export const BulldozerMode: Story = {
       builderWalkers={[]}
       visualCarriers={[]}
       bulldozerMode={true}
-      onCellTap={fn()}
+      paintBrush={false} onCellTap={fn()} onPaint={fn()}
       onWalkerClick={fn()}
     />
   ),
@@ -126,7 +126,7 @@ export const HorizontalRoadWear: Story = {
       builderWalkers={[]}
       visualCarriers={[]}
       bulldozerMode={false}
-      onCellTap={fn()}
+      paintBrush={false} onCellTap={fn()} onPaint={fn()}
       onWalkerClick={fn()}
     />
   ),
@@ -141,7 +141,7 @@ export const VerticalRoadWear: Story = {
       builderWalkers={[]}
       visualCarriers={[]}
       bulldozerMode={false}
-      onCellTap={fn()}
+      paintBrush={false} onCellTap={fn()} onPaint={fn()}
       onWalkerClick={fn()}
     />
   ),
