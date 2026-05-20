@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from 'react'
+import React, { useRef, useEffect, useCallback, useState } from 'react'
 import {
   CityState, CITY_COLS, CITY_ROWS,
   spawnerUnitCount, getNeighbourIndices,
@@ -8,6 +8,7 @@ import {
 import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
 import { BuilderWalker, VisualCarrier } from '../CityBuilder'
 import { Walker } from './walkerTypes'
+import { CityZoomControls, ZOOM_STEPS } from './CityZoomControls'
 
 // ── Road path SVG ─────────────────────────────────────────────────────────────
 // Strips are centred on the cell boundary (bottom / right) so they straddle
@@ -86,10 +87,11 @@ export function CityGrid({
   const cityCols  = city.cols ?? CITY_COLS
   const cityCells = cityCols * cityRows
 
-  // ── Zoom / pan state (refs to avoid re-renders during gestures) ──────────────
+  // ── Zoom / pan state ─────────────────────────────────────────────────────────
   const wrapperRef  = useRef<HTMLDivElement>(null)
   // t = { s: scale, x: panX in screen px, y: panY in screen px }
   const tRef        = useRef({ s: 1, x: 0, y: 0 })
+  const [displayScale, setDisplayScale] = useState(1)
 
   // Paint gesture state
   const isPaintingRef   = useRef(false)
@@ -118,10 +120,30 @@ export function CityGrid({
     return { s, x, y }
   }
 
-  function setTransform(s: number, x: number, y: number) {
+  function setTransform(s: number, x: number, y: number, updateDisplay = false) {
     const t = clamp(s, x, y)
     tRef.current = t
     applyTransform(t.s, t.x, t.y)
+    if (updateDisplay) setDisplayScale(t.s)
+  }
+
+  function zoomTo(targetScale: number) {
+    const el = worldRef.current
+    const cw = el?.clientWidth  ?? 300
+    const ch = el?.clientHeight ?? 300
+    const { s, x, y } = tRef.current
+    const cx = cw / 2
+    const cy = ch / 2
+    const factor = targetScale / s
+    setTransform(targetScale, cx - (cx - x) * factor, cy - (cy - y) * factor, true)
+  }
+
+  function stepZoom(dir: 1 | -1) {
+    const cur = tRef.current.s
+    const next = dir > 0
+      ? ZOOM_STEPS.find(z => z > cur + 0.01) ?? ZOOM_STEPS[ZOOM_STEPS.length - 1]
+      : [...ZOOM_STEPS].reverse().find(z => z < cur - 0.01) ?? ZOOM_STEPS[0]
+    zoomTo(next)
   }
 
   // Map a client-space point to a cell index, accounting for current zoom/pan
@@ -151,7 +173,7 @@ export function CityGrid({
       const delta = e.deltaY > 0 ? 0.85 : 1 / 0.85
       const sNew = Math.max(1, Math.min(4, s * delta))
       const factor = sNew / s
-      setTransform(sNew, cx - (cx - x) * factor, cy - (cy - y) * factor)
+      setTransform(sNew, cx - (cx - x) * factor, cy - (cy - y) * factor, true)
     }
     el.addEventListener('wheel', onWheel, { passive: false })
     return () => el.removeEventListener('wheel', onWheel)
@@ -233,8 +255,10 @@ export function CityGrid({
       if (e.touches.length === 0) {
         isPaintingRef.current = false
         isPanningRef.current  = false
+        if (isPinchingRef.current) setDisplayScale(tRef.current.s)
         isPinchingRef.current = false
       } else if (e.touches.length === 1) {
+        if (isPinchingRef.current) setDisplayScale(tRef.current.s)
         isPinchingRef.current = false
       }
     }
@@ -305,6 +329,14 @@ export function CityGrid({
       onMouseUp={onMouseUp}
       onMouseLeave={onMouseUp}
     >
+      {/* Zoom controls — outside the zoom wrapper so they don't scale */}
+      <CityZoomControls
+        scale={displayScale}
+        onZoomIn={() => stepZoom(1)}
+        onZoomOut={() => stepZoom(-1)}
+        onZoomTo={zoomTo}
+      />
+
       <div className="city-zoom-wrapper" ref={wrapperRef}>
         {/* ── Road wear overlay ───────────────────────────────────────────────
             Rendered BEHIND the main grid. */}
