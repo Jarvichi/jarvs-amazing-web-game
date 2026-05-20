@@ -199,6 +199,7 @@ export interface BuilderWalker {
   x: number; y: number; vx: number; vy: number
   phase: 'fetching' | 'delivering'
   targetX: number; targetY: number
+  waypoints: { x: number; y: number }[]
   label: string
   // Ring-view position (independent animation, own phase)
   ringX: number; ringY: number
@@ -253,6 +254,7 @@ function makeBuilderWalker(queueIndex: number, cardName: string, overlayW: numbe
     phase: 'fetching',
     targetX: Math.random() * overlayW,
     targetY: Math.random() * overlayH * 0.7,
+    waypoints: [],
     label: '🪵 Fetching materials',
     ringX: ringW * (0.3 + Math.random() * 0.4),
     ringY: ringH * (0.3 + Math.random() * 0.4),
@@ -360,12 +362,12 @@ function computeRoadWaypoints(
   const tr = Math.max(0, Math.min(cityRows - 1, Math.floor(toY / cellH)))
   if (fc === tc && fr === tr) return []
 
-  // Exit point = centre of road gap immediately below source cell
+  // Exit point = centre of road gap immediately below source cell (clamped to overlay)
   const srcExX = (fc + 0.5) * cellW
-  const srcExY = (fr + 1) * cellH
-  // Entry point = centre of road gap immediately below destination cell
+  const srcExY = Math.min((fr + 1) * cellH, overlayH - UNIT_SIZE)
+  // Entry point = centre of road gap immediately below destination cell (clamped)
   const dstEnX = (tc + 0.5) * cellW
-  const dstEnY = (tr + 1) * cellH
+  const dstEnY = Math.min((tr + 1) * cellH, overlayH - UNIT_SIZE)
 
   const pts: { x: number; y: number }[] = []
 
@@ -522,18 +524,24 @@ function pickTask(
     }
   }
 
-  // Visiting — walk to another resident (and follow them)
+  // Visiting — both walkers meet at the exit point below the target's cell
   const others = allWalkers.filter(
     other => !(other.cellIndex === w.cellIndex && other.unitIndex === w.unitIndex) && !other.hidden,
   )
   if (others.length > 0) {
     const target = others[Math.floor(Math.random() * others.length)]
     const name = residentName(target.unitName, target.cellIndex, target.unitIndex)
+    const cellW = overlayW / cityCols, cellH = overlayH / cityRows
+    const tCol = Math.max(0, Math.min(cityCols - 1, Math.floor(target.x / cellW)))
+    const tRow = Math.max(0, Math.min(cityRows - 1, Math.floor(target.y / cellH)))
+    // Meeting point = exit of target's cell (clamped to overlay)
+    const meetX = (tCol + 0.5) * cellW
+    const meetY = Math.min((tRow + 1) * cellH, overlayH - UNIT_SIZE)
     available.push({
       type: 'visiting',
       label: `👋 Visiting ${name.split(' ')[0]}`,
-      targetX: target.x,
-      targetY: target.y,
+      targetX: meetX,
+      targetY: meetY,
       targetWalkerKey: `${target.cellIndex}-${target.unitIndex}`,
     })
   }
@@ -785,6 +793,14 @@ export function CityBuilder({ onBack }: Props) {
       const overlayH = _h || CITY_ROWS * CELL_PX
 
       setWalkers(prev => {
+        // ── Pass 0: find walkers that are the target of a visiting task ──────
+        const visitTargetKeys = new Set<string>()
+        for (const w of prev) {
+          if (w.task.type === 'visiting' && w.task.targetWalkerKey) {
+            visitTargetKeys.add(w.task.targetWalkerKey)
+          }
+        }
+
         // ── Pass 1: find visiting walkers close enough to trigger chat ────────
         const chatPairs = new Map<string, string>()  // walkerKey → emoji
         for (const w of prev) {
@@ -807,7 +823,7 @@ export function CityBuilder({ onBack }: Props) {
         const cityRows = cityRef.current?.rows ?? CITY_ROWS
         const cityCols = cityRef.current?.cols ?? CITY_COLS
         function wayptsFor(task: WalkerTask, fx: number, fy: number) {
-          if (task.type === 'idle' || task.type === 'visiting' || task.type === 'chatting' || task.targetX === undefined) return []
+          if (task.type === 'idle' || task.type === 'chatting' || task.targetX === undefined) return []
           const rw = (cityRef.current?.roadWear as RoadWearMap | undefined) ?? { h: [], v: [] }
           return computeRoadWaypoints(fx, fy, task.targetX, task.targetY!, overlayW, overlayH, cityRows, rw, cityCols)
         }
@@ -860,18 +876,26 @@ export function CityBuilder({ onBack }: Props) {
             return { ...w, vx, vy, task, taskTimer, bubbleTimer, waypoints }
           }
 
-          // ── Update visiting target to follow the other walker ──────────────
+          // ── Visiting: abandon if target has hidden ─────────────────────────
           if (task.type === 'visiting' && task.targetWalkerKey) {
             const [ci, ui] = task.targetWalkerKey.split('-').map(Number)
-            const target = prev.find(o => o.cellIndex === ci && o.unitIndex === ui && !o.hidden)
-            if (target) {
-              task = { ...task, targetX: target.x, targetY: target.y }
-            } else {
+            const targetGone = !prev.find(o => o.cellIndex === ci && o.unitIndex === ui && !o.hidden)
+            if (targetGone) {
               task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
               taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
               if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
               waypoints = wayptsFor(task, x, y)
             }
+          }
+
+          // ── If being visited while idle, walk to own exit point to meet ──────
+          if (task.type === 'idle' && visitTargetKeys.has(wKey) && waypoints.length === 0) {
+            const cellW = overlayW / cityCols, cellH = overlayH / cityRows
+            const col = Math.max(0, Math.min(cityCols - 1, Math.floor(x / cellW)))
+            const row = Math.max(0, Math.min(cityRows - 1, Math.floor(y / cellH)))
+            const exitX = (col + 0.5) * cellW
+            const exitY = Math.min((row + 1) * cellH, overlayH - UNIT_SIZE)
+            waypoints = [{ x: exitX, y: exitY }]
           }
 
           // ── Idle: count down and pick a new task when timer expires ────────
@@ -921,8 +945,7 @@ export function CityBuilder({ onBack }: Props) {
 
           // ── Directed movement (waypoint-following) ─────────────────────────
           if (task.type !== 'idle' && task.type !== 'chatting' && task.targetX !== undefined && task.targetY !== undefined) {
-            // Visiting walkers move directly toward their (moving) target
-            const useWaypoints = task.type !== 'visiting'
+            const useWaypoints = true
             const currentTarget = (useWaypoints && waypoints.length > 0)
               ? waypoints[0]
               : { x: task.targetX, y: task.targetY }
@@ -976,14 +999,22 @@ export function CityBuilder({ onBack }: Props) {
       setBuilderWalkers(prev => prev.map(b => {
         let { x, y, vx, vy, phase, targetX, targetY, label,
           ringX, ringY, ringVx, ringVy, ringPhase, ringTargetX, ringTargetY } = b
+        let waypoints = b.waypoints ?? []
         const { w: rw, h: rh } = fortRingDimsRef.current
+        const bRw = (cityRef.current?.roadWear as RoadWearMap | undefined) ?? { h: [], v: [] }
 
-        // ── City-world movement ─────────────────────────────────────────────
-        const dx = targetX - x, dy = targetY - y
+        // ── City-world movement (road-following waypoints) ─────────────────
+        const currentWP = waypoints.length > 0 ? waypoints[0] : { x: targetX, y: targetY }
+        const dx = currentWP.x - x, dy = currentWP.y - y
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < 18) {
-          const next = pickBuilderTarget(phase, cityRef.current, overlayW, overlayH)
-          phase = next.nextPhase; targetX = next.targetX; targetY = next.targetY; label = next.label
+        if (dist < ARRIVE_DIST) {
+          if (waypoints.length > 0) {
+            waypoints = waypoints.slice(1)
+          } else {
+            const next = pickBuilderTarget(phase, cityRef.current, overlayW, overlayH)
+            phase = next.nextPhase; targetX = next.targetX; targetY = next.targetY; label = next.label
+            waypoints = computeRoadWaypoints(x, y, targetX, targetY, overlayW, overlayH, cityRows, bRw, cityCols)
+          }
         }
         if (dist > 1) { vx = (dx / dist) * BUILDER_SPEED; vy = (dy / dist) * BUILDER_SPEED }
         x += vx; y += vy
@@ -1004,7 +1035,7 @@ export function CityBuilder({ onBack }: Props) {
         ringY = Math.max(0, Math.min((rh || CITY_ROWS * CELL_PX) - RING_UNIT_SIZE, ringY))
 
         return {
-          ...b, x, y, vx, vy, phase, targetX, targetY, label,
+          ...b, x, y, vx, vy, phase, targetX, targetY, waypoints, label,
           ringX, ringY, ringVx, ringVy, ringPhase, ringTargetX, ringTargetY
         }
       }))
