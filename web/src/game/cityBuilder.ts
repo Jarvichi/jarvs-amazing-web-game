@@ -1375,7 +1375,7 @@ function processDisaster(
 // so conversion buildings (windmills, bakeries) receive inputs between each step.
 const OFFLINE_STEP_MS = 5 * 60_000
 
-export function tickCity(state: CityState, nowMs?: number): CityState {
+export function tickCity(state: CityState, nowMs?: number, offline = false): CityState {
   const now     = nowMs ?? Date.now()
   const elapsed = now - state.lastTick
 
@@ -1386,7 +1386,7 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
     const stepMs  = elapsed / steps
     let current   = state
     for (let i = 0; i < steps; i++) {
-      current = tickCity(current, state.lastTick + stepMs * (i + 1))
+      current = tickCity(current, state.lastTick + stepMs * (i + 1), true)
     }
     return current
   }
@@ -1589,32 +1589,39 @@ export function tickCity(state: CityState, nowMs?: number): CityState {
   const newResources = aggregateResources(newGrid as (CityCell|undefined)[], activeCarriers)
 
   // ── Spawners consume food (wheat) from global aggregate ─────────────────────
-  for (let i = 0; i < newGrid.length; i++) {
-    const cell = newGrid[i]
-    if (!cell?.spawnedUnitName || (newHappy[i] ?? 100) <= 0) continue
-    const uCount     = spawnerUnitCount(state, cell.cardName)
-    const hungerMult = 1 + si.hunger
-    const consume    = FOOD_CONSUME_RATE[cell.rarity] * uCount * hungerMult * minutes
-    deductResource('wheat', consume, newGrid as (CityCell|undefined)[], newResources)
+  // Skipped during offline catch-up so returning players aren't punished for being away.
+  if (!offline) {
+    for (let i = 0; i < newGrid.length; i++) {
+      const cell = newGrid[i]
+      if (!cell?.spawnedUnitName || (newHappy[i] ?? 100) <= 0) continue
+      const uCount     = spawnerUnitCount(state, cell.cardName)
+      const hungerMult = 1 + si.hunger
+      const consume    = FOOD_CONSUME_RATE[cell.rarity] * uCount * hungerMult * minutes
+      deductResource('wheat', consume, newGrid as (CityCell|undefined)[], newResources)
+    }
   }
 
   // ── Resident bread & wood consumption ────────────────────────────────────────
-  let totalBreadDemand = 0
-  let totalWoodDemand  = 0
-  for (let i = 0; i < newGrid.length; i++) {
-    const cell = newGrid[i]
-    if (!cell?.spawnedUnitName || (newHappy[i] ?? 100) <= 0) continue
-    const uCount   = spawnerUnitCount(state, cell.cardName)
-    totalBreadDemand += BREAD_CONSUME_RATE * uCount * minutes
-    const woodMult   = season === 'winter' ? WINTER_WOOD_MULT : 1
-    totalWoodDemand  += WOOD_CONSUME_RATE  * uCount * woodMult * minutes
+  let breadCoverage = 1
+  let woodShort     = false
+  if (!offline) {
+    let totalBreadDemand = 0
+    let totalWoodDemand  = 0
+    for (let i = 0; i < newGrid.length; i++) {
+      const cell = newGrid[i]
+      if (!cell?.spawnedUnitName || (newHappy[i] ?? 100) <= 0) continue
+      const uCount   = spawnerUnitCount(state, cell.cardName)
+      totalBreadDemand += BREAD_CONSUME_RATE * uCount * minutes
+      const woodMult   = season === 'winter' ? WINTER_WOOD_MULT : 1
+      totalWoodDemand  += WOOD_CONSUME_RATE  * uCount * woodMult * minutes
+    }
+    const breadConsumed = Math.min(newResources.bread ?? 0, totalBreadDemand)
+    const woodConsumed  = Math.min(newResources.wood  ?? 0, totalWoodDemand)
+    breadCoverage = totalBreadDemand > 0 ? breadConsumed / totalBreadDemand : 1
+    woodShort     = totalWoodDemand  > 0 && woodConsumed < totalWoodDemand * 0.5
+    deductResource('bread', breadConsumed, newGrid as (CityCell|undefined)[], newResources)
+    deductResource('wood',  woodConsumed,  newGrid as (CityCell|undefined)[], newResources)
   }
-  const breadConsumed = Math.min(newResources.bread ?? 0, totalBreadDemand)
-  const woodConsumed  = Math.min(newResources.wood  ?? 0, totalWoodDemand)
-  const breadCoverage = totalBreadDemand > 0 ? breadConsumed / totalBreadDemand : 1
-  const woodShort     = totalWoodDemand  > 0 && woodConsumed < totalWoodDemand * 0.5
-  deductResource('bread', breadConsumed, newGrid as (CityCell|undefined)[], newResources)
-  deductResource('wood',  woodConsumed,  newGrid as (CityCell|undefined)[], newResources)
 
   // ── Base happiness target from food, defence, bread quality, wood supply ──
   const rawFoodScore  = Math.min(100, (newResources.wheat / population) * 5)
