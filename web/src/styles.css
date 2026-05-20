@@ -9986,6 +9986,7 @@ html.light-mode .action-btn {
   color: #4a8a4a;
 }
 
+.city-picker-spawn-sprite { position: relative; display: inline-flex; }
 .city-picker-spawn-icon { width: 14px; height: 14px; image-rendering: pixelated; }
 
 /* ── Level Up Panel ───────────────────────────────────────────────────────── */
