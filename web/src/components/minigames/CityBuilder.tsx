@@ -935,8 +935,14 @@ export function CityBuilder({ onBack }: Props) {
                              Math.max(0, Math.min(cityCols - 1, Math.floor(x / cellW)))
                   const ns = getNeighbourIndices(cc, cityRows, cityCols)
                   const pick = ns[Math.floor(Math.random() * ns.length)] ?? cc
-                  const tx = (pick % cityCols + 0.5) * cellW
-                  const ty = (Math.floor(pick / cityCols) + 0.5) * cellH
+                  const ccCol = cc % cityCols, ccRow = Math.floor(cc / cityCols)
+                  // Target the road gap (border midpoint between current cell and neighbour)
+                  // so idle walkers stay on roads rather than parking in cell centres.
+                  let tx: number, ty: number
+                  if      (pick === cc + 1)           { tx = (ccCol + 1) * cellW; ty = (ccRow + 0.5) * cellH }
+                  else if (pick === cc - 1)            { tx =  ccCol      * cellW; ty = (ccRow + 0.5) * cellH }
+                  else if (pick === cc + cityCols)     { tx = (ccCol + 0.5) * cellW; ty = (ccRow + 1) * cellH }
+                  else                                 { tx = (ccCol + 0.5) * cellW; ty =  ccRow      * cellH }
                   const rw = (cityRef.current?.roadWear as RoadWearMap | undefined) ?? { h: [], v: [] }
                   const wps = computeRoadWaypoints(x, y, tx, ty, overlayW, overlayH, cityRows, rw, cityCols)
                   waypoints = wps.length > 0 ? wps : [{ x: tx, y: ty }]
