@@ -422,7 +422,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
         const upgradeOptions: Array<{
           type: TDUpgradeType; icon: string; label: string; current: number; max: number; statLabel: string
         }> = [
-            { type: 'units', icon: '👤', label: '+Unit', current: t.upgradeUnits, max: TD_MAX_UNIT_UPGRADES, statLabel: `${unitCount} units` },
+            { type: 'units', icon: '👤', label: '+Unit', current: t.upgradeUnits, max: TD_MAX_UNIT_UPGRADES, statLabel: `${activeUnits.length}/${unitCount}` },
             { type: 'speed', icon: '⚡', label: 'Speed', current: t.upgradeSpeed, max: TD_MAX_UPGRADE_PER_TYPE, statLabel: `${cooldownSec.toFixed(1)}s cd` },
             { type: 'range', icon: '🎯', label: 'Range', current: t.upgradeRange, max: TD_MAX_UPGRADE_PER_TYPE, statLabel: `${rangeInCells.toFixed(1)} cells` },
             { type: 'damage', icon: '⚔', label: 'Damage', current: t.upgradeDamage, max: TD_MAX_UPGRADE_PER_TYPE, statLabel: `${dps.toFixed(1)} dps` },
