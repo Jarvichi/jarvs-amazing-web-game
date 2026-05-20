@@ -34,11 +34,15 @@ const HAPPINESS_DRAIN = 0.07
 
 /** Level-up costs: index = target level (1-based). Beyond the table, the last entry repeats. */
 export const LEVEL_UP_COSTS = [50000, 100000, 250000, 500000, 1000000]
+/** Cheaper upgrade costs for Watchtower — early-game defensive building meant to be temporary. */
+export const WATCHTOWER_LEVEL_UP_COSTS = [500, 2500, 8000, 25000, 100000]
 
 // ── Resource constants ────────────────────────────────────────────────────────
 
 /** Defence value contributed by walls (per rarity). */
 const WALL_DEFENSE: Record<CardRarity, number> = { common: 5, uncommon: 10, rare: 20, epic: 30, legendary: 40, mythic: 60, shiny: 40, holofoil: 40, glass: 40 }
+/** Base defense for a Watchtower — higher than a generic common wall since it is purpose-built for defence. */
+const WATCHTOWER_BASE_DEFENSE = 15
 /** Defence value contributed by spawn buildings (per rarity) — intentionally small; fortifications carry the load. */
 const SPAWN_DEFENSE: Record<CardRarity, number> = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6, shiny: 5, holofoil: 5, glass: 5 }
 
@@ -1063,10 +1067,21 @@ function cellIncomeRate(cell: CityCell, happy: boolean, unitCount: number): numb
   return INCOME_UTILITY[cell.rarity]
 }
 
-/** Defence value a wall contributes (full if city has any spawners, half otherwise). */
+/** Defence value a wall contributes. Mastery scales the contribution; Watchtower has a higher base. */
 function wallDefense(cell: CityCell, cityHasSpawners: boolean): number {
-  const base = WALL_DEFENSE[cell.rarity]
-  return cityHasSpawners ? Math.round(base * 1.5) : base
+  const base    = cell.cardName === 'Watchtower' ? WATCHTOWER_BASE_DEFENSE : WALL_DEFENSE[cell.rarity]
+  const mastery = masteryOutputMultiplier(getCardMasteryLevel(cell.cardName))
+  const scaled  = Math.round(base * mastery)
+  return cityHasSpawners ? Math.round(scaled * 1.5) : scaled
+}
+
+/** Defense contributed by a single grid cell at its current mastery level. */
+export function getCellDefenseContrib(cell: CityCell, state: CityState): number {
+  if (cell.spawnedUnitName) return SPAWN_DEFENSE[cell.rarity]
+  const produces = getBuildingProduces(cell.cardName)
+  if (Object.values(produces).some(v => (v ?? 0) > 0)) return 0
+  const hasSpawners = state.grid.some(c => c?.spawnedUnitName)
+  return wallDefense(cell, hasSpawners)
 }
 
 // ── City aggregate stats ──────────────────────────────────────────────────────
@@ -2014,7 +2029,7 @@ export const CORE_BUILDINGS: CoreBuilding[] = [
   { name: 'Windmill',   goldCost:  500, rarity: 'common',   hint: 'Grinds wheat into bread (2/min). Needs 2 wheat/min — output ×1.5 next to a Farm.' },
   { name: 'Bakery',     goldCost:  750, rarity: 'uncommon', hint: 'Bakes bread directly (1.5/min). No wheat cost — pure gold investment.' },
   { name: 'Warehouse',  goldCost:  600, rarity: 'common',   hint: 'Extends all resource storage caps by 200.' },
-  { name: 'Watchtower', goldCost:  800, rarity: 'common',   hint: 'Garrisoned lookout. Contributes to city defense.' },
+  { name: 'Watchtower', goldCost:  800, rarity: 'common',   hint: 'Garrisoned lookout. Strong early defense (+15, scales with upgrades). Cheap to upgrade — but replace it once your city grows.' },
   { name: 'Quarry',     goldCost:  700, rarity: 'common',   hint: 'Mines raw ore and cuts stone into planks.' },
 ]
 
@@ -2144,13 +2159,14 @@ export function getCardLevel(state: CityState, cardName: string): number {
   return getCardMasteryLevel(cardName) ?? 0
 }
 
-export function levelUpCost(currentLevel: number): number {
-  return LEVEL_UP_COSTS[Math.min(currentLevel, LEVEL_UP_COSTS.length - 1)]
+export function levelUpCost(currentLevel: number, cardName?: string): number {
+  const costs = cardName === 'Watchtower' ? WATCHTOWER_LEVEL_UP_COSTS : LEVEL_UP_COSTS
+  return costs[Math.min(currentLevel, costs.length - 1)]
 }
 
 export function levelUpCard(state: CityState, cardName: string, masteryLvl: number): CityState | null {
   const current = getCardLevel(state, cardName)
-  const cost    = levelUpCost(masteryLvl)
+  const cost    = levelUpCost(masteryLvl, cardName)
   if (state.gold < cost) return null
   return {
     ...state,

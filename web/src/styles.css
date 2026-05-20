@@ -10565,6 +10565,7 @@ html.light-mode .action-btn {
 }
 
 .city-bld-section-title { font-size: 10px; color: #609060; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start; }
+.city-bld-hint { font-size: 10px; color: #80a080; font-style: italic; line-height: 1.4; }
 .city-bld-vacant        { font-size: 10px; color: #606060; font-style: italic; }
 .city-bld-vacant-section { display: flex; flex-direction: column; gap: 6px; width: 100%; }
 .city-bld-vacant-reasons { display: flex; flex-direction: column; gap: 3px; }
