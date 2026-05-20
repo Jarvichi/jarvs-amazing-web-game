@@ -821,11 +821,8 @@ export function CityBuilder({ onBack }: Props) {
         const cityCols = cityRef.current?.cols ?? CITY_COLS
         function wayptsFor(task: WalkerTask, fx: number, fy: number) {
           if (task.type === 'idle' || task.type === 'visiting' || task.type === 'chatting' || task.targetX === undefined) return []
-          const rw = cityRef.current?.roadWear as RoadWearMap | undefined
-          if (rw && (rw.h.length > 0 || rw.v.length > 0)) {
-            return computeRoadWaypoints(fx, fy, task.targetX, task.targetY!, overlayW, overlayH, cityRows, rw, cityCols)
-          }
-          return computeWaypoints(fx, fy, task.targetX, task.targetY!, overlayW, overlayH, cityRows, cityCols)
+          const rw = (cityRef.current?.roadWear as RoadWearMap | undefined) ?? { h: [], v: [] }
+          return computeRoadWaypoints(fx, fy, task.targetX, task.targetY!, overlayW, overlayH, cityRows, rw, cityCols)
         }
 
         return prev.map(w => {
