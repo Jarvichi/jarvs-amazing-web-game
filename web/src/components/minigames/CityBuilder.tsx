@@ -329,11 +329,20 @@ const TASK_RESOURCE_GOLD: Partial<Record<ResourceType, number>> = {
 
 
 // Compute edge-following waypoints from (fromX,fromY) to (toX,toY) through cell-border midpoints
-function computeWaypoints(
+/**
+ * Routes any walker via road grid intersections (x = c×cellW, y = r×cellH).
+ * Builds an L-shaped path: exit the source cell to the nearest road intersection,
+ * travel along roads (horizontal then vertical) to the intersection adjacent to
+ * the destination, then enter the destination building.  All road segments are
+ * perfectly axis-aligned; only the first and last segments (leaving / entering a
+ * building) may pass through a cell interior.
+ */
+function computeRoadWaypoints(
   fromX: number, fromY: number,
   toX: number, toY: number,
   overlayW: number, overlayH: number,
   cityRows: number,
+  _roadWear: RoadWearMap,
   cityCols: number,
 ): { x: number; y: number }[] {
   const cellW = overlayW / cityCols
@@ -342,81 +351,29 @@ function computeWaypoints(
   const fr = Math.max(0, Math.min(cityRows - 1, Math.floor(fromY / cellH)))
   const tc = Math.max(0, Math.min(cityCols - 1, Math.floor(toX / cellW)))
   const tr = Math.max(0, Math.min(cityRows - 1, Math.floor(toY / cellH)))
-  if (fr === tr) return []  // same row: direct horizontal movement is fine
-  const borderY  = fr < tr ? (fr + 1) * cellH : fr * cellH
-  // Column border to use: the gap on the side of source/dest facing each other
-  // (or right gap for same-column). Vertical legs run along these gaps, not column centres.
-  const bxExit  = fc < tc ? (fc + 1) * cellW : fc < cityCols - 1 ? (fc + 1) * cellW : fc * cellW
-  const bxEnter = fc < tc ? tc * cellW        : fc > 0            ? tc * cellW        : (tc + 1) * cellW
-  return [
-    { x: bxExit,  y: (fr + 0.5) * cellH },  // exit source col to column-border gap
-    { x: bxExit,  y: borderY },              // travel down/up to row-border gap
-    { x: bxEnter, y: borderY },              // travel along row gap to dest column gap
-    { x: bxEnter, y: (tr + 0.5) * cellH },  // travel along dest column gap
-  ]
-}
+  if (fc === tc && fr === tr) return []
 
-/**
- * Routes walkers along the grid via Dijkstra.  Every segment is axis-aligned:
- * moving right/left keeps Y constant until the walker reaches the vertical road
- * gap (x = c×cellW); moving up/down keeps X constant until the horizontal road
- * gap (y = r×cellH).  Turns happen exactly at road junctions.  A final off-road
- * waypoint at (toX, toY) lets the walker enter the destination building.
- */
-function computeRoadWaypoints(
-  fromX: number, fromY: number,
-  toX: number, toY: number,
-  overlayW: number, overlayH: number,
-  cityRows: number,
-  roadWear: RoadWearMap,
-  cityCols: number,
-): { x: number; y: number; speed?: number }[] {
-  const cellW = overlayW / cityCols
-  const cellH = overlayH / cityRows
-  const fc = Math.max(0, Math.min(cityCols - 1, Math.floor(fromX / cellW)))
-  const fr = Math.max(0, Math.min(cityRows - 1, Math.floor(fromY / cellH)))
-  const tc = Math.max(0, Math.min(cityCols - 1, Math.floor(toX / cellW)))
-  const tr = Math.max(0, Math.min(cityRows - 1, Math.floor(toY / cellH)))
-  const fromCell = fr * cityCols + fc
-  const toCell   = tr * cityCols + tc
-  if (fromCell === toCell) return []
+  // Same row: walk horizontally then enter building
+  if (fr === tr) return [{ x: toX, y: fromY }, { x: toX, y: toY }]
 
-  const cellPath = findFastestPath(fromCell, toCell, roadWear, cityCols, cityRows)
-  if (cellPath.length <= 1) return []
+  // Same column: walk vertically then enter building
+  if (fc === tc) return [{ x: fromX, y: toY }, { x: toX, y: toY }]
 
-  const result: { x: number; y: number; speed?: number }[] = []
-  // wx/wy track the last waypoint so each new one can keep the perpendicular axis fixed
-  let wx = fromX, wy = fromY
+  // Different row AND column: L-shape via road intersections.
+  // cornerX/Y = first road intersection on the way out of the source cell.
+  // entryX/Y  = last road intersection before the destination cell.
+  const cornerX = tc > fc ? (fc + 1) * cellW : fc * cellW
+  const cornerY = tr > fr ? (fr + 1) * cellH : fr * cellH
+  const entryX  = tc > fc ?  tc      * cellW : (tc + 1) * cellW
+  const entryY  = tr > fr ?  tr      * cellH : (tr + 1) * cellH
 
-  for (let i = 1; i < cellPath.length; i++) {
-    const a  = cellPath[i - 1]
-    const b  = cellPath[i]
-    const lo = Math.min(a, b)
-    const hi = Math.max(a, b)
-    const wear  = hi === lo + 1 ? (roadWear.h[lo] ?? 0) : (roadWear.v[lo] ?? 0)
-    const speed = ROAD_SPEED_MULT[roadTier(wear)]
-    const aRow  = Math.floor(a / cityCols)
-    const aCol  = a % cityCols
-
-    let bx: number, by: number
-    if (b === a + 1) {               // right → walk to vertical road, keep y
-      bx = (aCol + 1) * cellW; by = wy
-    } else if (b === a - 1) {        // left → walk to vertical road, keep y
-      bx = aCol * cellW;        by = wy
-    } else if (b === a + cityCols) { // down → walk to horizontal road, keep x
-      bx = wx; by = (aRow + 1) * cellH
-    } else {                         // up → walk to horizontal road, keep x
-      bx = wx; by = aRow * cellH
-    }
-
-    result.push({ x: bx, y: by, speed })
-    wx = bx; wy = by
-  }
-
-  // Off-road final step: enter the destination building
-  result.push({ x: toX, y: toY })
-
-  return result
+  const pts: { x: number; y: number }[] = []
+  pts.push({ x: cornerX, y: fromY  })  // exit building → first vertical road (horizontal move)
+  pts.push({ x: cornerX, y: cornerY }) // travel down/up to first intersection
+  if (Math.abs(cornerX - entryX) > 1) pts.push({ x: entryX, y: cornerY }) // along horizontal road
+  if (Math.abs(cornerY - entryY) > 1) pts.push({ x: entryX, y: entryY  }) // along vertical road
+  pts.push({ x: toX, y: toY })         // enter destination building
+  return pts
 }
 
 function makeWalker(cellIndex: number, unitIndex: number, unitName: string, affinityWith?: string, w = CITY_COLS * CELL_PX, h = CITY_ROWS * CELL_PX): Walker {
