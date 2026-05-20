@@ -204,10 +204,9 @@ export function CityGrid({
           if (idx >= 0) { lastPaintedRef.current = idx; onPaint(idx) }
           e.preventDefault()
         } else if (s > 1) {
-          // Pan start
-          isPanningRef.current = true
+          // Record pan origin but don't preventDefault — a tap must still fire click
+          // (isPanningRef is set on first touchmove, not here)
           panStartRef.current = { px: e.touches[0].clientX, py: e.touches[0].clientY, tx: tRef.current.x, ty: tRef.current.y }
-          e.preventDefault()
         }
       } else if (e.touches.length === 2) {
         // Pinch start
@@ -231,7 +230,9 @@ export function CityGrid({
             lastPaintedRef.current = idx
             onPaint(idx)
           }
-        } else if (isPanningRef.current) {
+        } else if (tRef.current.s > 1 && !isPinchingRef.current) {
+          // Engage pan on first actual move (not on touchstart, so taps fire click)
+          isPanningRef.current = true
           const { px, py, tx, ty } = panStartRef.current
           setTransform(tRef.current.s, tx + e.touches[0].clientX - px, ty + e.touches[0].clientY - py)
         }
