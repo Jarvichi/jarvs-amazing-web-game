@@ -8980,8 +8980,9 @@ html.light-mode .action-btn {
 .city-world {
   position: relative;
   width: 100%;
-  flex: 0 0 clamp(180px, 50vh, 55vw);
-  height: clamp(180px, 50vh, 55vw);
+  flex: 0 0 50vh;
+  height: 50vh;
+  min-height: 180px;
   overflow: hidden;
   background: #2d5a27;
   border-radius: 5px;
