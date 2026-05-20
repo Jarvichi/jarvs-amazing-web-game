@@ -12326,6 +12326,30 @@ html.light-mode .action-btn {
   position: relative;
 }
 
+@keyframes td-life-lost-flash {
+  0%   { box-shadow: inset 0 0 0 0 rgba(255,40,40,0); }
+  25%  { box-shadow: inset 0 0 60px 20px rgba(255,40,40,0.55); }
+  100% { box-shadow: inset 0 0 0 0 rgba(255,40,40,0); }
+}
+.td-root--life-lost { animation: td-life-lost-flash 0.7s ease-out forwards; }
+
+/* ── Wave preview ── */
+.td-wave-preview {
+  padding: 4px 10px;
+  background: #0d1a0d;
+  border-bottom: 1px solid #2a3a2a;
+  font-size: 10px;
+  color: #aaa;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.td-wave-preview-label { color: #666; }
+.td-wave-preview-group { color: #ccc; }
+.td-wave-preview-group--boss { color: var(--color-gold); font-weight: bold; }
+
 /* ── Header ── */
 .td-header {
   padding: 6px 10px;
@@ -12594,6 +12618,7 @@ html.light-mode .action-btn {
 .td-milestone-choice-card:hover { border-color: var(--color-gold); background: #1a1600; }
 .td-milestone-choice-label { font-size: 11px; font-weight: bold; color: var(--color-gold); }
 .td-milestone-choice-desc  { font-size: 9px; color: #bbb; text-align: center; }
+.td-milestone-choice-delta { font-size: 9px; color: var(--color-green-bright); text-align: center; margin-top: 2px; font-weight: bold; }
 
 /* ── Selected tower action panel ── */
 .td-selected-panel {
@@ -12683,6 +12708,7 @@ html.light-mode .action-btn {
 .td-upgrade-option-label { flex: 1; font-weight: bold; }
 .td-upgrade-option-dots  { font-size: 10px; color: var(--color-green-bright); letter-spacing: 1px; flex-shrink: 0; }
 .td-upgrade-option--maxed .td-upgrade-option-dots { color: var(--color-gold); }
+.td-upgrade-option-stat { font-size: 9px; color: #64b5f6; flex-shrink: 0; margin-left: auto; }
 
 /* 2×2 upgrade option grid */
 .td-upgrade-options {
@@ -12713,6 +12739,24 @@ html.light-mode .action-btn {
 .td-upgrade-option-label { flex: 1; font-weight: bold; }
 .td-upgrade-option-dots  { font-size: 10px; color: #4caf50; letter-spacing: 1px; flex-shrink: 0; }
 .td-upgrade-option--maxed .td-upgrade-option-dots { color: #ffd700; }
+.td-upgrade-option-stat { font-size: 9px; color: #64b5f6; flex-shrink: 0; margin-left: auto; }
+
+/* ── Targeting mode row ── */
+.td-targeting-modes { display: flex; gap: 4px; }
+.td-targeting-btn {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #aaa;
+  font-size: 9px;
+  font-family: 'Courier New', monospace;
+  cursor: pointer;
+  padding: 3px 4px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.td-targeting-btn:hover { border-color: #888; color: #ccc; }
+.td-targeting-btn--active { border-color: var(--color-green-bright); color: var(--color-green-bright); background: #162616; }
 
 /* ── Bottom panel ── */
 .td-panel {

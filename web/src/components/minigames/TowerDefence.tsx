@@ -6,8 +6,9 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
+  ENEMY_TEMPLATES,
   MilestoneUpgrade,
-  TDGameState, TDTower,
+  TDGameState, TDTargetingMode, TDTower,
   TDUpgradeType,
   TD_CELL_PX,
   TD_COLS,
@@ -22,9 +23,11 @@ import {
   calcTicketReward,
   chooseMilestoneUpgrade,
   createTDGame,
+  generateWave,
   moveTower,
   placeTower, removeTower,
   sellRefund,
+  setTowerTargetingMode,
   startWave, tickTD,
   towerCost, upgradeCost,
   upgradeTowerWith,
@@ -88,6 +91,9 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
   const gameSpeedRef = useRef(1)
   gameSpeedRef.current = gameSpeed
 
+  const [autoStart, setAutoStart] = useState(false)
+  const [lifeJustLost, setLifeJustLost] = useState(false)
+
   const gameRef = useRef(game)
   gameRef.current = game
 
@@ -96,12 +102,24 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
   const lastTimeRef = useRef<number | null>(null)
   const accRef = useRef(0)
 
-  // Drop to 1× whenever a life is lost
+  // Drop to 1× and flash whenever a life is lost
   const prevLivesRef = useRef(game.lives)
   useEffect(() => {
-    if (game.lives < prevLivesRef.current) setGameSpeed(1)
+    if (game.lives < prevLivesRef.current) {
+      setGameSpeed(1)
+      setLifeJustLost(true)
+      const t = setTimeout(() => setLifeJustLost(false), 700)
+      return () => clearTimeout(t)
+    }
     prevLivesRef.current = game.lives
   }, [game.lives])
+
+  // Auto-start next wave when the toggle is on
+  useEffect(() => {
+    if (autoStart && game.phase === 'between' && !game.milestoneChoices) {
+      setGame(prev => startWave(prev))
+    }
+  }, [autoStart, game.phase, game.milestoneChoices])
 
   // ── Game loop ───────────────────────────────────────────────────────────────
 
@@ -193,6 +211,10 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
     setGame(prev => upgradeTowerWith(prev, tower.id, type) ?? prev)
   }
 
+  function handleSetTargetingMode(towerId: number, mode: TDTargetingMode) {
+    setGame(prev => setTowerTargetingMode(prev, towerId, mode))
+  }
+
   function handleStartWave() { setGame(prev => startWave(prev)) }
   function handleChooseMilestone(id: string) { setGame(prev => chooseMilestoneUpgrade(prev, id)) }
 
@@ -202,6 +224,16 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
   }
 
   // ── Derived ─────────────────────────────────────────────────────────────────
+
+  // Wave preview: summarise the upcoming wave enemy composition
+  const nextWavePreview = useMemo(() => {
+    if (game.phase !== 'prep' && game.phase !== 'between' && game.phase !== 'milestone') return null
+    const waveDef = generateWave(game.currentWaveIndex)
+    return waveDef.spawns.map(s => {
+      const tpl = ENEMY_TEMPLATES[s.enemyId]
+      return { label: tpl?.label ?? s.enemyId, count: s.count, flying: tpl?.flying ?? false, boss: tpl?.tags.includes('boss') ?? false }
+    })
+  }, [game.phase, game.currentWaveIndex])
 
   const isPlacingPhase = game.phase === 'prep' || game.phase === 'between' || game.phase === 'milestone'
   const canPlaceTowers = isPlacingPhase || game.phase === 'wave'
@@ -254,7 +286,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
   const lastLog = game.log[game.log.length - 1] ?? ''
 
   return (
-    <div className="td-root">
+    <div className={`td-root${lifeJustLost ? ' td-root--life-lost' : ''}`}>
 
       {/* ── Header ── */}
       <div className="td-header u-flex u-items-c u-gap-4 u-wrap">
@@ -299,6 +331,11 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
               onClick={() => setGameSpeed(s)}
             >{s}×</button>
           ))}
+          <button
+            className={`td-speed-btn${autoStart ? ' td-speed-btn--active' : ''}`}
+            onClick={() => setAutoStart(v => !v)}
+            title="Auto-start next wave"
+          >⚡Auto</button>
         </div>
 
         <button className="action-btn action-btn--danger td-header-btn" onClick={() => onDone(reward)}>
@@ -306,17 +343,42 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
         </button>
       </div>
 
+      {/* ── Wave preview ── */}
+      {nextWavePreview && (
+        <div className="td-wave-preview">
+          <span className="td-wave-preview-label">Next: </span>
+          {nextWavePreview.map((g, i) => (
+            <span key={i} className={`td-wave-preview-group${g.boss ? ' td-wave-preview-group--boss' : ''}`}>
+              {g.flying ? '🦅' : g.boss ? '☠' : '👹'} {g.count}× {g.label}
+            </span>
+          ))}
+        </div>
+      )}
+
       {/* ── Milestone reward choices ── */}
       {game.milestoneChoices && (
         <div className="td-milestone-choices">
           <div className="td-milestone-choices-title">Choose your reward</div>
           <div className="td-milestone-choices-cards u-flex u-gap-4">
-            {game.milestoneChoices.map((choice: MilestoneUpgrade) => (
-              <button key={choice.id} className="td-milestone-choice-card" onClick={() => handleChooseMilestone(choice.id)}>
-                <div className="td-milestone-choice-label">{choice.label}</div>
-                <div className="td-milestone-choice-desc">{choice.description}</div>
-              </button>
-            ))}
+            {game.milestoneChoices.map((choice: MilestoneUpgrade) => {
+              const p = game.passives
+              let delta = ''
+              switch (choice.id) {
+                case 'attack_speed': delta = `${p.attackSpeedMult.toFixed(2)}× → ${(p.attackSpeedMult * 1.2).toFixed(2)}×`; break
+                case 'range':        delta = `+${p.rangeBonus} → +${p.rangeBonus + 1} cells`; break
+                case 'damage':       delta = `${p.damageMult.toFixed(2)}× → ${(p.damageMult * 1.15).toFixed(2)}×`; break
+                case 'mana':         delta = `${game.mana} → ${game.mana + 100} 💧`; break
+                case 'life':         delta = `${game.lives} → ${game.lives + 2} ❤️`; break
+                case 'respawn':      delta = `${p.respawnMult.toFixed(1)}× → ${(p.respawnMult * 2).toFixed(1)}× faster`; break
+              }
+              return (
+                <button key={choice.id} className="td-milestone-choice-card" onClick={() => handleChooseMilestone(choice.id)}>
+                  <div className="td-milestone-choice-label">{choice.label}</div>
+                  <div className="td-milestone-choice-desc">{choice.description}</div>
+                  {delta && <div className="td-milestone-choice-delta">{delta}</div>}
+                </button>
+              )
+            })}
           </div>
         </div>
       )}
@@ -350,14 +412,28 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
         const activeUnits = game.units.filter(u => u.towerId === t.id)
         const totalMaxed = t.upgrades >= TD_MAX_UPGRADES
 
+        // Actual computed stats
+        const speedMult = 1 + t.upgradeSpeed * 0.10
+        const cooldownSec = (t.template.attackCooldownMs / 1000) / (speedMult * game.passives.attackSpeedMult)
+        const dmgMult = (1 + t.upgradeDamage * 0.10) * game.passives.damageMult
+        const dps = t.template.attack * dmgMult / cooldownSec
+        const rangeInCells = Math.max(1.5, Math.round(t.template.attackRange / CELL_PX)) + t.upgradeRange + game.passives.rangeBonus
+
         const upgradeOptions: Array<{
-          type: TDUpgradeType; icon: string; label: string; current: number; max: number
+          type: TDUpgradeType; icon: string; label: string; current: number; max: number; statLabel: string
         }> = [
-            { type: 'units', icon: '👤', label: '+Unit', current: t.upgradeUnits, max: TD_MAX_UNIT_UPGRADES },
-            { type: 'speed', icon: '⚡', label: 'Speed', current: t.upgradeSpeed, max: TD_MAX_UPGRADE_PER_TYPE },
-            { type: 'range', icon: '🎯', label: 'Range', current: t.upgradeRange, max: TD_MAX_UPGRADE_PER_TYPE },
-            { type: 'damage', icon: '⚔', label: 'Damage', current: t.upgradeDamage, max: TD_MAX_UPGRADE_PER_TYPE },
+            { type: 'units', icon: '👤', label: '+Unit', current: t.upgradeUnits, max: TD_MAX_UNIT_UPGRADES, statLabel: `${unitCount} units` },
+            { type: 'speed', icon: '⚡', label: 'Speed', current: t.upgradeSpeed, max: TD_MAX_UPGRADE_PER_TYPE, statLabel: `${cooldownSec.toFixed(1)}s cd` },
+            { type: 'range', icon: '🎯', label: 'Range', current: t.upgradeRange, max: TD_MAX_UPGRADE_PER_TYPE, statLabel: `${rangeInCells.toFixed(1)} cells` },
+            { type: 'damage', icon: '⚔', label: 'Damage', current: t.upgradeDamage, max: TD_MAX_UPGRADE_PER_TYPE, statLabel: `${dps.toFixed(1)} dps` },
           ]
+
+        const targetingModes: Array<{ mode: TDTargetingMode; icon: string; label: string }> = [
+          { mode: 'first',    icon: '▶', label: 'First' },
+          { mode: 'weakest',  icon: '💔', label: 'Weak' },
+          { mode: 'strongest',icon: '💪', label: 'Strong' },
+          { mode: 'flying',   icon: '🦅', label: 'Flying' },
+        ]
 
         return (
           <div className="td-selected-panel">
@@ -365,7 +441,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
               <div className="td-selected-panel-info">
                 <strong>{t.buildingName}</strong>
                 {t.upgrades > 0 && <span className="td-tower-tier-label u-text-gold"> ★{t.upgrades}</span>}
-                <span className="td-selected-panel-stats"> · {activeUnits.length}/{unitCount} units</span>
+                <span className="td-selected-panel-stats"> · {activeUnits.length}/{unitCount} units · {dps.toFixed(1)} dps · {rangeInCells.toFixed(1)}r</span>
               </div>
               <div className="td-selected-panel-row-actions">
                 <button className="td-selected-action-btn td-selected-action-btn--sell"
@@ -377,6 +453,17 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                   ✕
                 </button>
               </div>
+            </div>
+
+            {/* Targeting mode row */}
+            <div className="td-targeting-modes">
+              {targetingModes.map(({ mode, icon, label }) => (
+                <button
+                  key={mode}
+                  className={`td-targeting-btn${t.targetingMode === mode ? ' td-targeting-btn--active' : ''}`}
+                  onClick={() => handleSetTargetingMode(t.id, mode)}
+                >{icon} {label}</button>
+              ))}
             </div>
 
             {!totalMaxed && (
@@ -397,7 +484,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
               <div className="td-selected-panel-maxed">★ FULLY UPGRADED ({unitCount} units)</div>
             ) : (
               <div className="td-upgrade-options">
-                {upgradeOptions.map(({ type, icon, label, current, max }) => {
+                {upgradeOptions.map(({ type, icon, label, current, max, statLabel }) => {
                   const maxed = current >= max
                   const enabled = hasXp && canAfford && !maxed
                   const dotsMax = Math.min(max, 10)
@@ -413,6 +500,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
                         {current}/{max}
                         {max <= 5 ? ' ' + '●'.repeat(current) + '○'.repeat(dotsMax - current) : ''}
                       </span>
+                      <span className="td-upgrade-option-stat">{statLabel}</span>
                     </button>
                   )
                 })}

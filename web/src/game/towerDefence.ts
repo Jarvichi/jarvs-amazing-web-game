@@ -294,6 +294,8 @@ export const TD_WAVES: WaveDefinition[] = [
 let _nextId = 1
 function nextId() { return _nextId++ }
 
+export type TDTargetingMode = 'first' | 'weakest' | 'strongest' | 'flying'
+
 // Building placed by the player on a non-path cell.
 export interface TDTower {
   id: number
@@ -308,6 +310,7 @@ export interface TDTower {
   upgradeDamage: number       // 0–TD_MAX_UPGRADE_PER_TYPE: damage bonus
   respawnTimers: number[]     // countdown (ms) for each dead unit awaiting respawn
   xp: number                  // kills earned by this tower's units; upgrade unlocks at threshold
+  targetingMode: TDTargetingMode
 }
 
 // A unit spawned by a building — roams within 1 cell of the building, chases nearby enemies.
@@ -504,7 +507,7 @@ export function hpBarColor(frac: number): string {
  *   wave 20 = wave 19 + wave 10  (= all base waves combined)
  *   wave 100 ≈ wave 10 × 10
  */
-function generateWave(waveIndex: number): WaveDefinition {
+export function generateWave(waveIndex: number): WaveDefinition {
   const n   = waveIndex + 1
   const len = TD_WAVES.length  // 10
 
@@ -710,6 +713,7 @@ export function placeTower(
     upgradeDamage: 0,
     respawnTimers: [],
     xp: 0,
+    targetingMode: 'first',
   }
   const unit = spawnUnitFromBuilding(tower)
   return {
@@ -826,6 +830,11 @@ export function chooseMilestoneUpgrade(state: TDGameState, id: string): TDGameSt
   }
   return { ...state, ...extra, passives: p, milestoneChoices: null,
     log: [...state.log.slice(-9), `Upgrade chosen: ${ALL_MILESTONE_UPGRADES.find(u => u.id === id)?.label ?? id}`] }
+}
+
+/** Change a tower's targeting priority mode. */
+export function setTowerTargetingMode(state: TDGameState, towerId: number, mode: TDTargetingMode): TDGameState {
+  return { ...state, towers: state.towers.map(t => t.id === towerId ? { ...t, targetingMode: mode } : t) }
 }
 
 /** Begin the next wave from prep, between, or milestone phase. */
@@ -1015,12 +1024,21 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   const newAttackEvents: TDAttackEvent[] = s.attackEvents.filter(e => e.expiresAt > s.gameTimeMs)
   const towerXpGains: Record<number, number> = {}
 
+  // Pre-build a map of tower targeting modes for O(1) lookup per unit
+  const towerTargetingModes = new Map<number, TDTargetingMode>(s.towers.map(t => [t.id, t.targetingMode]))
+
   s.units = s.units.map(unit => {
     let cd = Math.max(0, unit.attackCooldownRemaining - dtMs)
     if (cd <= 0 && s.enemies.length > 0) {
-      const targets = s.enemies
-        .filter(e => !deadEnemyIds.has(e.id) && !shieldedEnemyIds.has(e.id) && unitCanHit(unit, e, rangeBonus + unit.rangeBonus))
-        .sort((a, b) => b.pathProgress - a.pathProgress)
+      const mode = towerTargetingModes.get(unit.towerId) ?? 'first'
+      const reachable = s.enemies.filter(e => !deadEnemyIds.has(e.id) && !shieldedEnemyIds.has(e.id) && unitCanHit(unit, e, rangeBonus + unit.rangeBonus))
+      const flyingOnly = reachable.filter(e => e.template.flying)
+      const pool = mode === 'flying' && flyingOnly.length > 0 ? flyingOnly : reachable
+      const targets = pool.sort((a, b) => {
+        if (mode === 'weakest')   return a.hp - b.hp
+        if (mode === 'strongest') return b.hp - a.hp
+        return b.pathProgress - a.pathProgress  // 'first' and 'flying' fallback
+      })
       if (targets.length > 0) {
         const target = targets[0]
         if (target.shielded) {
