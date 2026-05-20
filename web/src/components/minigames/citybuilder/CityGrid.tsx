@@ -192,6 +192,7 @@ export function CityGrid({
     }
 
     const onTouchStart = (e: TouchEvent) => {
+      if ((e.target as Element).closest('.city-zoom-controls')) return
       if (e.touches.length === 1) {
         // Single touch: start paint or pan
         const { s } = tRef.current
@@ -276,6 +277,7 @@ export function CityGrid({
 
   // ── Mouse pan (desktop, when zoomed) ────────────────────────────────────────
   const onMouseDown = useCallback((e: React.MouseEvent) => {
+    if ((e.target as Element).closest('.city-zoom-controls')) return
     if (paintBrush || tRef.current.s <= 1) return
     if (e.button !== 0) return
     isPanningRef.current = true
