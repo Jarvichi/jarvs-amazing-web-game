@@ -383,8 +383,15 @@ function computeRoadWaypoints(
     const hi = Math.max(a, b)
     const wear  = hi === lo + 1 ? (roadWear.h[lo] ?? 0) : (roadWear.v[lo] ?? 0)
     const speed = ROAD_SPEED_MULT[roadTier(wear)]
-    const bRow = Math.floor(b / cityCols), bCol = b % cityCols
-    result.push({ x: (bCol + 0.5) * cellW, y: (bRow + 0.5) * cellH, speed })
+    const aRow = Math.floor(a / cityCols), aCol = a % cityCols
+    // Waypoint is the midpoint of the shared border between cells a and b,
+    // so walkers travel through the gap (where roads are drawn) rather than cell centres.
+    let bx: number, by: number
+    if (b === a + 1)         { bx = (aCol + 1) * cellW; by = (aRow + 0.5) * cellH }
+    else if (b === a - 1)    { bx =  aCol       * cellW; by = (aRow + 0.5) * cellH }
+    else if (b === a + cityCols) { bx = (aCol + 0.5) * cellW; by = (aRow + 1) * cellH }
+    else                     { bx = (aCol + 0.5) * cellW; by =  aRow       * cellH }
+    result.push({ x: bx, y: by, speed })
   }
   // Snap final waypoint to actual target coords
   if (result.length > 0) {
