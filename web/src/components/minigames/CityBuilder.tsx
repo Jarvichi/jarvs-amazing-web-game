@@ -330,12 +330,19 @@ const TASK_RESOURCE_GOLD: Partial<Record<ResourceType, number>> = {
 
 // Compute edge-following waypoints from (fromX,fromY) to (toX,toY) through cell-border midpoints
 /**
- * Routes any walker via road grid intersections (x = c×cellW, y = r×cellH).
- * Builds an L-shaped path: exit the source cell to the nearest road intersection,
- * travel along roads (horizontal then vertical) to the intersection adjacent to
- * the destination, then enter the destination building.  All road segments are
- * perfectly axis-aligned; only the first and last segments (leaving / entering a
- * building) may pass through a cell interior.
+ * Routes any walker via the road grid.
+ *
+ * Every cell has one exit/entry point: the centre of the path immediately
+ * below it — (col+0.5)×cellW, (row+1)×cellH.
+ *
+ * A journey from A to B always follows this shape:
+ *   1. Walk straight down from the source cell centre to its exit point.
+ *   2. Walk along the horizontal road to the nearest vertical road junction.
+ *   3. Walk along the vertical road to the destination row's horizontal road.
+ *   4. Walk along that horizontal road to the destination entry point.
+ *   5. Walk straight up into the destination cell centre.
+ *
+ * Only steps 1 and 5 leave the road network (inside the building cell).
  */
 function computeRoadWaypoints(
   fromX: number, fromY: number,
@@ -353,26 +360,34 @@ function computeRoadWaypoints(
   const tr = Math.max(0, Math.min(cityRows - 1, Math.floor(toY / cellH)))
   if (fc === tc && fr === tr) return []
 
-  // Same row: walk horizontally then enter building
-  if (fr === tr) return [{ x: toX, y: fromY }, { x: toX, y: toY }]
-
-  // Same column: walk vertically then enter building
-  if (fc === tc) return [{ x: fromX, y: toY }, { x: toX, y: toY }]
-
-  // Different row AND column: L-shape via road intersections.
-  // cornerX/Y = first road intersection on the way out of the source cell.
-  // entryX/Y  = last road intersection before the destination cell.
-  const cornerX = tc > fc ? (fc + 1) * cellW : fc * cellW
-  const cornerY = tr > fr ? (fr + 1) * cellH : fr * cellH
-  const entryX  = tc > fc ?  tc      * cellW : (tc + 1) * cellW
-  const entryY  = tr > fr ?  tr      * cellH : (tr + 1) * cellH
+  // Exit point = centre of road gap immediately below source cell
+  const srcExX = (fc + 0.5) * cellW
+  const srcExY = (fr + 1) * cellH
+  // Entry point = centre of road gap immediately below destination cell
+  const dstEnX = (tc + 0.5) * cellW
+  const dstEnY = (tr + 1) * cellH
 
   const pts: { x: number; y: number }[] = []
-  pts.push({ x: cornerX, y: fromY  })  // exit building → first vertical road (horizontal move)
-  pts.push({ x: cornerX, y: cornerY }) // travel down/up to first intersection
-  if (Math.abs(cornerX - entryX) > 1) pts.push({ x: entryX, y: cornerY }) // along horizontal road
-  if (Math.abs(cornerY - entryY) > 1) pts.push({ x: entryX, y: entryY  }) // along vertical road
-  pts.push({ x: toX, y: toY })         // enter destination building
+
+  // Step 1: exit source building downward to exit point
+  pts.push({ x: srcExX, y: srcExY })
+
+  if (fr === tr) {
+    // Same row: already on the same horizontal road — walk straight across
+    if (Math.abs(srcExX - dstEnX) > 0.5) pts.push({ x: dstEnX, y: srcExY })
+  } else {
+    // Different rows: route via a vertical road junction.
+    // Choose the vertical road on the side facing the destination column.
+    const vx = tc >= fc
+      ? Math.min((fc + 1) * cellW, (cityCols - 1) * cellW)  // right border of source col
+      : Math.max(fc * cellW, cellW)                           // left border of source col
+    if (Math.abs(srcExX - vx) > 0.5)   pts.push({ x: vx, y: srcExY  }) // along src horizontal road
+    if (Math.abs(srcExY - dstEnY) > 0.5) pts.push({ x: vx, y: dstEnY }) // down/up vertical road
+    if (Math.abs(vx - dstEnX) > 0.5)   pts.push({ x: dstEnX, y: dstEnY }) // along dst horizontal road
+  }
+
+  // Step 5: enter destination building upward from entry point
+  pts.push({ x: toX, y: toY })
   return pts
 }
 
@@ -892,14 +907,9 @@ export function CityBuilder({ onBack }: Props) {
                              Math.max(0, Math.min(cityCols - 1, Math.floor(x / cellW)))
                   const ns = getNeighbourIndices(cc, cityRows, cityCols)
                   const pick = ns[Math.floor(Math.random() * ns.length)] ?? cc
-                  const ccCol = cc % cityCols, ccRow = Math.floor(cc / cityCols)
-                  // Target the road gap (border midpoint between current cell and neighbour)
-                  // so idle walkers stay on roads rather than parking in cell centres.
-                  let tx: number, ty: number
-                  if      (pick === cc + 1)           { tx = (ccCol + 1) * cellW; ty = (ccRow + 0.5) * cellH }
-                  else if (pick === cc - 1)            { tx =  ccCol      * cellW; ty = (ccRow + 0.5) * cellH }
-                  else if (pick === cc + cityCols)     { tx = (ccCol + 0.5) * cellW; ty = (ccRow + 1) * cellH }
-                  else                                 { tx = (ccCol + 0.5) * cellW; ty =  ccRow      * cellH }
+                  // Target neighbour cell centre — routing handles exit/entry via road gaps
+                  const tx = (pick % cityCols + 0.5) * cellW
+                  const ty = (Math.floor(pick / cityCols) + 0.5) * cellH
                   const rw = (cityRef.current?.roadWear as RoadWearMap | undefined) ?? { h: [], v: [] }
                   const wps = computeRoadWaypoints(x, y, tx, ty, overlayW, overlayH, cityRows, rw, cityCols)
                   waypoints = wps.length > 0 ? wps : [{ x: tx, y: ty }]
