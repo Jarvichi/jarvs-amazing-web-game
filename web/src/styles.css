@@ -13079,27 +13079,6 @@ html.light-mode .action-btn {
 .farm-raid-destroyed-item { font-size: 12px; color: #e08080; }
 .farm-raid-success { font-size: 12px; color: #80d080; }
 
-/* Building picker */
-.farm-picker { padding: 4px; }
-.farm-picker-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 6px; padding: 4px;
-}
-.farm-picker-card {
-  background: #1a2e10; border: 1px solid #3a5a2a; border-radius: 4px;
-  padding: 8px; cursor: pointer;
-  display: flex; flex-direction: column; gap: 4px;
-  transition: border-color 0.15s;
-}
-.farm-picker-card:hover { border-color: #70c050; }
-.farm-picker-card-name   { font-size: 12px; color: #a0d080; font-weight: bold; }
-.farm-picker-card-rarity { font-size: 10px; color: #608060; text-transform: capitalize; }
-.farm-picker-card-produces { display: flex; flex-wrap: wrap; gap: 4px; }
-.farm-picker-prod-chip {
-  font-size: 10px; color: #80c060;
-  background: rgba(80,120,40,0.2); border-radius: 2px; padding: 1px 4px;
-}
 
 /* ── City level badge ──────────────────────────────────────────────────────── */
 .city-level-badge {
