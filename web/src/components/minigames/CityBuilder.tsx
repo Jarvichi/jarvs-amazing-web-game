@@ -60,6 +60,8 @@ import { StatsScreen } from './citybuilder/StatsScreen'
 import { ZoneEditor } from './citybuilder/ZoneEditor'
 import { DisasterModal } from './citybuilder/DisasterModal'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { FarmingSim } from './FarmingSim'
+import { isFarmUnlocked } from '../../game/farmingSim'
 
 
 // ── Resident thought lines ────────────────────────────────────────────────────
@@ -629,7 +631,7 @@ interface Props {
   onBack: () => void
 }
 
-type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence' | 'chronicle' | 'stats' | 'zones'
+type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence' | 'chronicle' | 'stats' | 'zones' | 'farming'
 
 export function CityBuilder({ onBack }: Props) {
   const [city, setCity] = useState<CityState>(() => tickCity(loadCityState()))
@@ -1461,6 +1463,18 @@ export function CityBuilder({ onBack }: Props) {
         attackRatio >= 0.6 ? { text: 'Strong', cls: 'strength--strong' } :
           { text: 'Overwhelming', cls: 'strength--overwhelm' }
 
+  // ── Farming sub-screen ───────────────────────────────────────────────────────
+
+  if (screen === 'farming') {
+    return (
+      <FarmingSim
+        city={city}
+        onSaveCity={next => { setCity(next); saveCityState(next) }}
+        onBack={() => setScreen('city')}
+      />
+    )
+  }
+
   // ── Fortify sub-screen ────────────────────────────────────────────────────────
 
   if (screen === 'fortify') {
@@ -1736,6 +1750,21 @@ export function CityBuilder({ onBack }: Props) {
             title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}
           >{bulldozerMode ? '🧱 DEMOLISH' : '👷 BUILD'}</button>
           <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTS</button>
+          {isFarmUnlocked(population) ? (
+            <button
+              className="filter-btn action-btn--gold"
+              style={{ fontSize: 11 }}
+              onClick={() => setScreen('farming')}
+              title="Manage arable land outside the city"
+            >🌾 FARM</button>
+          ) : (
+            <button
+              className="filter-btn"
+              style={{ opacity: 0.5 }}
+              title={`Farm unlocks at population 10 (currently ${population})`}
+              disabled
+            >🌾 FARM 🔒</button>
+          )}
           <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
           <button className="filter-btn" onClick={() => setScreen('chronicle')} title="View city history">📜 HISTORY</button>
           <button className="filter-btn" onClick={() => setScreen('stats')} title="View economy charts">📊 STATS</button>

@@ -17,7 +17,7 @@ function isMonochromeMode(): boolean {
 }
 
 /** Draws src onto a tiny canvas and subscribes to 8-bit mode changes. */
-function EightbitCanvas({ src, alt, className, onError }: { src: string; alt: string; className?: string; onError?: () => void }) {
+function EightbitCanvas({ src, alt, className, style, onError }: { src: string; alt: string; className?: string; style?: React.CSSProperties; onError?: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -44,13 +44,14 @@ function EightbitCanvas({ src, alt, className, onError }: { src: string; alt: st
       width={EIGHTBIT_PX}
       height={EIGHTBIT_PX}
       className={className}
+      style={style}
       aria-label={alt}
     />
   )
 }
 
 /** Draws src onto a black and white canvas. */
-function MonochromeCanvas({ src, alt, className, onError }: { src: string; alt: string; className?: string; onError?: () => void }) {
+function MonochromeCanvas({ src, alt, className, style, onError }: { src: string; alt: string; className?: string; style?: React.CSSProperties; onError?: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -77,7 +78,7 @@ function MonochromeCanvas({ src, alt, className, onError }: { src: string; alt: 
     return () => { cancelled = true }
   }, [src, onError])
 
-  return <canvas ref={canvasRef} className={className} aria-label={alt} />
+  return <canvas ref={canvasRef} className={className} style={style} aria-label={alt} />
 }
 
 
@@ -87,6 +88,7 @@ interface Props {
   /** Optional secondary name to try if the primary name has no sprite file. */
   fallbackName?: string
   className?: string
+  style?: React.CSSProperties
 }
 
 /**
@@ -95,7 +97,7 @@ interface Props {
  * `sprites/fallback.svg`. Renders nothing only if all fail.
  * In 8-bit mode renders via a low-res canvas for a pixelated look.
  */
-export function SpriteImg({ name, fallbackName, className }: Props) {
+export function SpriteImg({ name, fallbackName, className, style }: Props) {
   const slug            = spriteSlug(name)
   const pngSrc          = `${BASE}sprites/${slug}.png`
   const svgSrc          = `${BASE}sprites/${slug}.svg`
@@ -145,10 +147,10 @@ export function SpriteImg({ name, fallbackName, className }: Props) {
   if (failed) return null
 
   if (eightbit && loaded) {
-    return <EightbitCanvas src={src} alt={name} className={className} />
+    return <EightbitCanvas src={src} alt={name} className={className} style={style} />
   }
   if (monochrome && loaded) {
-    return <MonochromeCanvas src={src} alt={name} className={className} />
+    return <MonochromeCanvas src={src} alt={name} className={className} style={style} />
   }
 
   return (
@@ -156,7 +158,7 @@ export function SpriteImg({ name, fallbackName, className }: Props) {
       src={src}
       alt={name}
       className={className}
-      style={{ display: loaded ? undefined : 'none' }}
+      style={{ display: loaded ? undefined : 'none', ...style }}
       onLoad={() => setLoaded(true)}
       onError={() => {
         if (src === pngSrc) setSrc(svgSrc)
@@ -176,6 +178,7 @@ interface AnimatedProps {
   /** Frames per second for the walking animation. */
   fps: number
   className?: string
+  style?: React.CSSProperties
 }
 
 /**
@@ -183,7 +186,7 @@ interface AnimatedProps {
  * Falls back to `SpriteImg` (static sprite) if frame files are missing.
  * In 8-bit mode renders each frame via a low-res canvas.
  */
-export function AnimatedSpriteImg({ name, frameCount, fps, className }: AnimatedProps) {
+export function AnimatedSpriteImg({ name, frameCount, fps, className, style }: AnimatedProps) {
   const slug = spriteSlug(name)
   const [frame,       setFrame]       = useState(1)
   const [useFallback, setUseFallback] = useState(false)
@@ -213,7 +216,7 @@ export function AnimatedSpriteImg({ name, frameCount, fps, className }: Animated
   }, [frameCount, fps, useFallback])
 
   if (useFallback) {
-    return <SpriteImg name={name} className={className} />
+    return <SpriteImg name={name} className={className} style={style} />
   }
 
   const src = `${BASE}sprites/${slug}-${frame}.svg`
@@ -224,10 +227,10 @@ export function AnimatedSpriteImg({ name, frameCount, fps, className }: Animated
   }
 
   if (eightbit) {
-    return <EightbitCanvas src={src} alt={name} className={className} onError={handleFrameError} />
+    return <EightbitCanvas src={src} alt={name} className={className} style={style} onError={handleFrameError} />
   }
   if (monochrome) {
-    return <MonochromeCanvas src={src} alt={name} className={className} onError={handleFrameError} />
+    return <MonochromeCanvas src={src} alt={name} className={className} style={style} onError={handleFrameError} />
   }
 
 
@@ -236,6 +239,7 @@ export function AnimatedSpriteImg({ name, frameCount, fps, className }: Animated
       src={src}
       alt={name}
       className={className}
+      style={style}
       onError={() => {
         if (intervalRef.current) clearInterval(intervalRef.current)
         setUseFallback(true)
