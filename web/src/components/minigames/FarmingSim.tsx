@@ -2,7 +2,7 @@
 // Arable land outside the city walls. Mirrors the CityBuilder walker system
 // but all walkers are farmers sourced from city population.
 
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   FarmState, FarmRaidEvent,
   loadFarmState, saveFarmState, tickFarm,
@@ -12,24 +12,26 @@ import {
   getFarmProductionRate, farmDefense,
   canPlaceOnFarm, addFarmChronicle,
   canAffordFarmExpansion, expandFarm,
+  buildFarmCity,
   FARM_COLS, FARM_ROWS, MAX_FARM_SIZE, FARM_EXPANSION_COSTS,
 } from '../../game/farmingSim'
 import {
   CityState, ResourceType, CELL_PX,
-  cityPopulation, getBuildingProduces,
-  getNeighbourIndices,
+  cityPopulation, getBuildingProduces, getBuildingConsumes,
+  levelUpCost,
 } from '../../game/cityBuilder'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { getCardCatalog } from '../../game/cards'
-import { loadCollection, getOwnedCount } from '../../game/collection'
-import { logError } from '../../logger'
+import { loadCollection, getOwnedCount, saveCollection, getMasteryXp, masteryLevel, masteryXpForLevel } from '../../game/collection'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Walker, WalkerTask, TaskType, PersonalityTrait } from './citybuilder/walkerTypes'
+import { VisualCarrier } from './CityBuilder'
 import { FarmGrid } from './farming/FarmGrid'
 import { FarmWorkerStrip } from './farming/FarmWorkerStrip'
 import { FarmRaidModal } from './farming/FarmRaidModal'
 import { FarmResourceBar } from './farming/FarmResourceBar'
 import { FarmBuildingPicker } from './farming/FarmBuildingPicker'
+import { BuildingInspectModal } from './citybuilder/BuildingInspectModal'
 import { ChroniclePanel } from './citybuilder/ChroniclePanel'
 import { Card } from '../../game/types'
 
@@ -132,10 +134,16 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
   const [currentTime, setCurrentTime] = useState(Date.now())
   const [showExpandModal, setShowExpandModal] = useState(false)
 
+  const [selectedCell, setSelectedCell]   = useState<number | null>(null)
+  const [buildingTab, setBuildingTab]     = useState<'residents' | 'upgrade'>('residents')
+  const [visualCarriers, setVisualCarriers] = useState<VisualCarrier[]>([])
+
   const farmRef    = useRef(farm)
   const walkersRef = useRef(walkers)
   const worldRef   = useRef<HTMLDivElement>(null)
   const worldDims  = useRef({ w: FARM_COLS * CELL_PX, h: FARM_ROWS * CELL_PX })
+  const visualCarriersRef   = useRef<VisualCarrier[]>([])
+  const carrierSeedTickRef  = useRef(0)
   const raidShownRef = useRef<number | null>(
     (() => {
       try { const v = localStorage.getItem('farm-raid-shown-at'); return v ? Number(v) : null } catch { return null }
@@ -287,6 +295,96 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
 
         return { ...w, x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer, waypoints }
       }))
+
+      // ── Farm carrier animation ─────────────────────────────────────────────────
+      const farmCurr  = farmRef.current
+      const farmRows2 = farmCurr.rows ?? FARM_ROWS
+      const farmCols2 = farmCurr.cols ?? FARM_COLS
+
+      // Every ~5s: clean up stale carriers and seed new producer→consumer ones
+      carrierSeedTickRef.current = (carrierSeedTickRef.current + 1) % 50
+      if (carrierSeedTickRef.current === 0) {
+        // Build set of valid carrier ids from current farm layout
+        const validIds = new Set<string>()
+        for (let i = 0; i < farmCurr.plots.length; i++) {
+          const plot = farmCurr.plots[i]
+          if (!plot) continue
+          const produces = getBuildingProduces(plot.cardName)
+          for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
+            if (!(rate > 0)) continue
+            for (let j = 0; j < farmCurr.plots.length; j++) {
+              if (i === j) continue
+              const other = farmCurr.plots[j]
+              if (!other) continue
+              if (!((getBuildingConsumes(other.cardName)[res as ResourceType] ?? 0) > 0)) continue
+              validIds.add(`fc-${i}-${j}-${res}`)
+              break
+            }
+          }
+        }
+        // Remove stale carriers and seed missing ones
+        const kept = visualCarriersRef.current.filter(vc => !vc.id.startsWith('fc-') || validIds.has(vc.id))
+        const existingIds = new Set(kept.map(vc => vc.id))
+        const toAdd: VisualCarrier[] = []
+        for (const id of validIds) {
+          if (existingIds.has(id)) continue
+          const parts = id.split('-')
+          const fromIdx = parseInt(parts[1]), toIdx = parseInt(parts[2])
+          const res = parts[3] as ResourceType
+          const c1 = fromIdx % farmCols2, r1 = Math.floor(fromIdx / farmCols2)
+          const c2 = toIdx % farmCols2, r2 = Math.floor(toIdx / farmCols2)
+          const pickX = (c1 + 0.5) * overlayW / farmCols2
+          const pickY = (r1 + 0.5) * overlayH / farmRows2
+          const dropX = (c2 + 0.5) * overlayW / farmCols2
+          const dropY = (r2 + 0.5) * overlayH / farmRows2
+          const dx = pickX - dropX, dy = pickY - dropY
+          const d = Math.sqrt(dx * dx + dy * dy) || 1
+          toAdd.push({
+            id, carrying: { [res]: 1 },
+            x: dropX, y: dropY,
+            vx: dx / d * SPEED, vy: dy / d * SPEED,
+            waypoints: [], scale: 0, phase: 'outbound',
+            pickX, pickY, dropX, dropY,
+          })
+        }
+        visualCarriersRef.current = [...kept, ...toAdd]
+      }
+
+      // Move carriers
+      const movedCarriers = visualCarriersRef.current.map(vc => {
+        let { x, y, vx, vy, scale, phase } = vc
+        if (scale < 1) {
+          scale = Math.min(1, scale + 0.1)
+          x += vx; y += vy
+          return { ...vc, x, y, scale }
+        }
+        const destX = phase === 'outbound' ? vc.pickX : vc.dropX
+        const destY = phase === 'outbound' ? vc.pickY : vc.dropY
+        const dx = destX - x, dy = destY - y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < ARRIVE_DIST) {
+          if (phase === 'outbound') {
+            phase = 'returning'
+            const rdx = vc.dropX - x, rdy = vc.dropY - y
+            const rd = Math.sqrt(rdx * rdx + rdy * rdy) || 1
+            vx = rdx / rd * SPEED; vy = rdy / rd * SPEED
+          } else {
+            scale = Math.max(0, scale - 0.1)
+            vx = 0; vy = 0
+            if (scale <= 0) {
+              const rdx = vc.pickX - vc.dropX, rdy = vc.pickY - vc.dropY
+              const rd = Math.sqrt(rdx * rdx + rdy * rdy) || 1
+              return { ...vc, x: vc.dropX, y: vc.dropY, vx: rdx / rd * SPEED, vy: rdy / rd * SPEED, scale: 0, phase: 'outbound' as const }
+            }
+          }
+        } else if (dist > 0) {
+          vx = dx / dist * SPEED; vy = dy / dist * SPEED
+        }
+        x += vx; y += vy
+        return { ...vc, x, y, vx, vy, scale, phase }
+      })
+      visualCarriersRef.current = movedCarriers
+      setVisualCarriers([...movedCarriers])
     }, 100)
     return () => clearInterval(id)
   }, [])
@@ -391,6 +489,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
         <FarmGrid
           farm={farm}
           walkers={walkers}
+          visualCarriers={visualCarriers}
           bulldozer={bulldozer}
           worldRef={worldRef}
           onCellTap={index => {
@@ -408,7 +507,8 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
                 saveFarm(next)
                 showToast('Building returned to city.')
               } else {
-                showToast(`${farm.plots[index]?.cardName} — tap DEMOLISH to remove`)
+                setSelectedCell(index)
+                setBuildingTab('residents')
               }
             } else {
               setPickerIndex(index)
@@ -417,6 +517,44 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
           }}
           onWalkerClick={(ci) => showToast(`Farmer ${ci + 1} is ${walkers[ci]?.task.label ?? 'busy'}`)}
         />
+
+        {selectedCell !== null && (() => {
+          const plot = farm.plots[selectedCell]
+          if (!plot) return null
+          const farmCity = buildFarmCity(farm)
+          const cell = farmCity.grid[selectedCell]
+          if (!cell) return null
+          return (
+            <BuildingInspectModal
+              cellIndex={selectedCell}
+              cell={cell}
+              city={{ ...farmCity, gold: city.gold }}
+              collection={collection}
+              walkers={walkers}
+              buildingTab={buildingTab}
+              setBuildingTab={setBuildingTab}
+              onClose={() => setSelectedCell(null)}
+              onLevelUp={cardName => {
+                const col = loadCollection()
+                const currentXp = getMasteryXp(col, cardName)
+                const currentLvl = masteryLevel(currentXp)
+                const cost = levelUpCost(currentLvl, cardName)
+                if (city.gold < cost) { showToast('Not enough gold!'); return }
+                onSaveCity({ ...city, gold: city.gold - cost })
+                const xpToGrant = masteryXpForLevel(currentLvl + 1) - currentXp
+                const updated = col.map(e =>
+                  e.cardName === cardName ? { ...e, masteryXp: (e.masteryXp ?? 0) + xpToGrant } : e
+                )
+                if (!updated.find(e => e.cardName === cardName))
+                  updated.push({ cardName, count: 0, masteryXp: xpToGrant })
+                saveCollection(updated)
+                showToast(`${cardName} levelled up! Mastery ★${currentLvl + 1}`)
+                setBuildingTab('upgrade')
+              }}
+              onMoveIn={() => {}}
+            />
+          )
+        })()}
 
         <div className="city-header u-flex u-items-c u-just-c u-gap-3">
           <button
