@@ -8,14 +8,23 @@ const meta: Meta<typeof FarmWorkerStrip> = {
 export default meta
 type Story = StoryObj<typeof FarmWorkerStrip>
 
-export const ThreeOfEight: Story = {
-  args: { assignedWorkers: 3, cityPopulation: 8, onAssign: () => {}, onUnassign: () => {} },
+export const TwoOfTwo: Story = {
+  args: {
+    assignedWorkers: 2, maxWorkers: 2, nextFarmerCost: 1_000_000, cityGold: 500_000,
+    onAssign: () => {}, onUnassign: () => {}, onHireFarmer: () => {},
+  },
 }
 
-export const None: Story = {
-  args: { assignedWorkers: 0, cityPopulation: 12, onAssign: () => {}, onUnassign: () => {} },
+export const CanAffordHire: Story = {
+  args: {
+    assignedWorkers: 1, maxWorkers: 2, nextFarmerCost: 1_000_000, cityGold: 2_000_000,
+    onAssign: () => {}, onUnassign: () => {}, onHireFarmer: () => {},
+  },
 }
 
-export const Full: Story = {
-  args: { assignedWorkers: 10, cityPopulation: 10, onAssign: () => {}, onUnassign: () => {} },
+export const MaxReached: Story = {
+  args: {
+    assignedWorkers: 10, maxWorkers: 10, nextFarmerCost: null, cityGold: 50_000_000,
+    onAssign: () => {}, onUnassign: () => {}, onHireFarmer: () => {},
+  },
 }

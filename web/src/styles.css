@@ -12978,6 +12978,24 @@ html.light-mode .action-btn {
 .farm-worker-count { font-weight: bold; font-size: 13px; min-width: 40px; text-align: center; }
 .farm-worker-sep { color: #507040; margin: 0 1px; }
 .farm-worker-hint { font-size: 10px; color: #608050; }
+.farm-worker-hire-btn {
+  margin-left: auto;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  background: #1a2e10;
+  color: #607050;
+  border: 1px solid #304820;
+  border-radius: 3px;
+  padding: 2px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.farm-worker-hire-btn:disabled { opacity: 0.4; cursor: default; }
+.farm-worker-hire-btn--ready {
+  color: #c0e890;
+  border-color: #507040;
+}
+.farm-worker-hire-btn--ready:hover { background: #2a4a18; }
 
 /* Resource bar */
 .farm-res-bar {
