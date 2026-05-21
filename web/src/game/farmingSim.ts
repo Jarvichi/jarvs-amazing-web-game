@@ -34,6 +34,7 @@ export const FARM_EXPANSION_COSTS: Record<number, { gold: number; resources: Par
   7: { gold: 5_000_000, resources: { wood: 5000, ore: 2000, planks: 1000 } },
 }
 
+
 /** Production multiplier applied to farm buildings vs their city equivalent. */
 const FARM_PRODUCTION_BONUS = 1.5
 
