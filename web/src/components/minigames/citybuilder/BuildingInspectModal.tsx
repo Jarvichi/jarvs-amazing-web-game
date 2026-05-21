@@ -12,22 +12,28 @@ import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
 import { Walker, rageDescription, residentName, getUnitRequirements } from './walkerTypes'
 
 export interface Props {
-  cellIndex:      number
-  cell:           CityCell
-  city:           CityState
-  collection:     CollectionEntry[]
-  walkers:        Walker[]
-  buildingTab:    'residents' | 'upgrade'
-  setBuildingTab: (tab: 'residents' | 'upgrade') => void
-  onClose:        () => void
-  onLevelUp:      (cardName: string) => void
-  onMoveIn:       () => void
+  cellIndex:          number
+  cell:               CityCell
+  city:               CityState
+  collection:         CollectionEntry[]
+  walkers:            Walker[]
+  buildingTab:        'residents' | 'upgrade'
+  setBuildingTab:     (tab: 'residents' | 'upgrade') => void
+  onClose:            () => void
+  onLevelUp:          (cardName: string) => void
+  onMoveIn:           () => void
+  /** Optional multiplier applied to displayed production rates (e.g. 1.5 for farm bonus). */
+  productionMultiplier?: number
+  /** Optional label shown beside the production rate (e.g. "+50% farm bonus"). */
+  productionNote?:    string
 }
 
 export function BuildingInspectModal({
   cellIndex, cell, city, collection, walkers,
   buildingTab, setBuildingTab,
   onClose, onLevelUp, onMoveIn,
+  productionMultiplier = 1,
+  productionNote,
 }: Props) {
   const happiness      = cell.spawnedUnitName ? (city.happiness[cellIndex] ?? 100) : 100
   const unitCount      = cell.spawnedUnitName ? spawnerUnitCount(city, cell.cardName) : 0
@@ -146,7 +152,7 @@ export function BuildingInspectModal({
                   <div className="city-bld-section-title">Production rate</div>
                   {produceEntries.map(([res, amt]) => {
                     const sm = synergyMap[res as ResourceType] ?? 0
-                    const total = Math.round((amt as number) * masteryMult * (1 + sm))
+                    const total = Math.round((amt as number) * masteryMult * (1 + sm) * productionMultiplier)
                     return (
                       <div key={res} className="city-bld-produces-row">
                         +{total} {RESOURCE_ICONS[res as ResourceType]}/min
@@ -154,6 +160,7 @@ export function BuildingInspectModal({
                       </div>
                     )
                   })}
+                  {productionNote && <div className="city-synergy-label">{productionNote}</div>}
                 </>
               )}
               {consumeEntries.length > 0 && (

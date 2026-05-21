@@ -9,6 +9,7 @@ import {
   getBuildingProduces, currentSeason, SEASON_INFO,
   CELL_PX,
   DEFAULT_BUILDER_COUNT, MAX_BUILDER_COUNT, BUILDER_HIRE_COSTS,
+  CityState, CityCell, CarrierState, RoadWearMap,
 } from './cityBuilder'
 import type { CardRarity } from './types'
 
@@ -90,6 +91,8 @@ export interface FarmState {
   lastRaid:   FarmRaidEvent | null
   chronicle:  string[]
   resources:  ResourceStock
+  carriers:   CarrierState[]
+  roadWear:   RoadWearMap
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -109,6 +112,45 @@ export function addFarmChronicle(state: FarmState, msg: string): FarmState {
   return { ...state, chronicle }
 }
 
+// ── Farm → CityState adapter ──────────────────────────────────────────────────
+
+/** Convert FarmState to a CityState for use with CityGrid and carrier animation. */
+export function buildFarmCity(farm: FarmState): CityState {
+  const rows = farm.rows ?? FARM_ROWS
+  const cols = farm.cols ?? FARM_COLS
+  const cells = rows * cols
+  const roadWear: RoadWearMap = farm.roadWear ?? {
+    h: Array.from({ length: cells }, (_, i) => (i % cols < cols - 1 ? 40 : 0)),
+    v: Array.from({ length: cells }, (_, i) => (Math.floor(i / cols) < rows - 1 ? 40 : 0)),
+  }
+  return {
+    grid: farm.plots.map(p =>
+      p ? ({ cardName: p.cardName, rarity: p.rarity, stock: p.stock ?? {} } as CityCell) : undefined
+    ),
+    rows, cols,
+    gold: 0,
+    resources: { ...farm.resources, bread: 1 },
+    lastTick: farm.lastTick,
+    happiness: {},
+    nextAttackAt: 0,
+    fortifications: [],
+    builderQueue: [],
+    builderCount: 0,
+    lastAttack: null,
+    chronicle: [],
+    completedMilestones: [],
+    attacksProcessed: 0,
+    tradeOffer: null,
+    activeCaravan: null,
+    history: [],
+    zones: [],
+    activeDisaster: null,
+    nextDisasterAt: 0,
+    roadWear,
+    carriers: farm.carriers ?? [],
+  }
+}
+
 // ── Default / load / save ─────────────────────────────────────────────────────
 
 function defaultFarmState(): FarmState {
@@ -123,6 +165,8 @@ function defaultFarmState(): FarmState {
     lastRaid:   null,
     chronicle:  [],
     resources:  emptyResources(),
+    carriers:   [],
+    roadWear:   { h: Array(FARM_CELLS).fill(0), v: Array(FARM_CELLS).fill(0) },
   }
 }
 
@@ -154,6 +198,7 @@ export function loadFarmState(): FarmState {
       ).map((p: FarmPlot | undefined) => p ? { ...p, stock: p.stock ?? {} } : p)
     }
     const savedRes = (parsed.resources ?? {}) as Partial<ResourceStock>
+    const cells = rows * cols
     return {
       plots,
       rows,
@@ -172,6 +217,8 @@ export function loadFarmState(): FarmState {
         planks: savedRes.planks ?? 0,
         metal:  savedRes.metal  ?? 0,
       },
+      carriers: [],
+      roadWear: (parsed as Partial<FarmState>).roadWear ?? { h: Array(cells).fill(0), v: Array(cells).fill(0) },
     }
   } catch (err) {
     logError('loadFarmState failed', err as Record<string, unknown>)
@@ -291,7 +338,7 @@ export function expandFarm(state: FarmState): FarmState {
       plots[newIdx] = state.plots[oldIdx]
     }
   }
-  let next = { ...state, rows: newRows, cols: newCols, plots }
+  let next: FarmState = { ...state, rows: newRows, cols: newCols, plots, carriers: [], roadWear: { h: Array(newCells).fill(0), v: Array(newCells).fill(0) } }
   next = addFarmChronicle(next, `🏗 Farm expanded to ${newRows}×${newCols}`)
   return next
 }

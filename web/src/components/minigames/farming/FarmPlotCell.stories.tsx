@@ -11,6 +11,8 @@ const baseFarm: FarmState = {
   lastRaid: null,
   chronicle: [],
   resources: { wheat: 0, wood: 0, ore: 0, bread: 0, planks: 0, metal: 0 },
+  carriers: [],
+  roadWear: { h: Array(24).fill(0), v: Array(24).fill(0) },
 }
 
 const meta: Meta<typeof FarmPlotCell> = {

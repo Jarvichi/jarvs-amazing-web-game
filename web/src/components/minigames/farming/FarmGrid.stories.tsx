@@ -29,6 +29,8 @@ const farm: FarmState = {
   lastRaid: null,
   chronicle: [],
   resources: { wheat: 5, wood: 2, ore: 0, bread: 0, planks: 0, metal: 0 },
+  carriers: [],
+  roadWear: { h: Array(24).fill(0), v: Array(24).fill(0) },
 }
 
 const sampleWalkers: Walker[] = [
@@ -55,6 +57,7 @@ function Wrapper() {
       <FarmGrid
         farm={farm}
         walkers={sampleWalkers}
+        visualCarriers={[]}
         bulldozer={false}
         worldRef={worldRef}
         onCellTap={(i) => console.log('cell', i)}
@@ -82,6 +85,7 @@ export const BulldozerMode: Story = {
         <FarmGrid
           farm={farm}
           walkers={[]}
+          visualCarriers={[]}
           bulldozer={true}
           worldRef={worldRef}
           onCellTap={(i) => console.log('bulldoze', i)}
