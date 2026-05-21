@@ -349,7 +349,7 @@ const TASK_RESOURCE_GOLD: Partial<Record<ResourceType, number>> = {
  *
  * Only steps 1 and 5 leave the road network (inside the building cell).
  */
-function computeRoadWaypoints(
+export function computeRoadWaypoints(
   fromX: number, fromY: number,
   toX: number, toY: number,
   overlayW: number, overlayH: number,
