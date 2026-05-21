@@ -12,7 +12,7 @@ import {
   getFarmProductionRate, farmDefense,
   canPlaceOnFarm, addFarmChronicle,
   canAffordFarmExpansion, expandFarm,
-  buildFarmCity,
+  buildFarmCity, getFarmNeighbourIndices,
   FARM_COLS, FARM_ROWS, MAX_FARM_SIZE, FARM_EXPANSION_COSTS,
 } from '../../game/farmingSim'
 import {
@@ -25,7 +25,7 @@ import { getCardCatalog } from '../../game/cards'
 import { loadCollection, getOwnedCount, saveCollection, getMasteryXp, masteryLevel, masteryXpForLevel } from '../../game/collection'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Walker, WalkerTask, TaskType, PersonalityTrait } from './citybuilder/walkerTypes'
-import { VisualCarrier } from './CityBuilder'
+import { VisualCarrier, computeRoadWaypoints } from './CityBuilder'
 import { FarmGrid } from './farming/FarmGrid'
 import { FarmWorkerStrip } from './farming/FarmWorkerStrip'
 import { FarmRaidModal } from './farming/FarmRaidModal'
@@ -231,6 +231,15 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
       const overlayW = _w || FARM_COLS * CELL_PX
       const overlayH = _h || FARM_ROWS * CELL_PX
 
+      const farmRows = farmRef.current.rows ?? FARM_ROWS
+      const farmCols = farmRef.current.cols ?? FARM_COLS
+
+      // Helper: compute road waypoints scaled to farm grid
+      function farmWaypoints(fx: number, fy: number, tx: number, ty: number) {
+        const wps = computeRoadWaypoints(fx, fy, tx, ty, overlayW, overlayH, farmRows, { h: [], v: [] }, farmCols)
+        return wps.length > 0 ? wps : [{ x: tx, y: ty }]
+      }
+
       setWalkers(prev => prev.map(w => {
         let { x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer, waypoints } = w
         waypoints = waypoints ?? []
@@ -241,9 +250,12 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
           const t = w.hiddenTimer - 1
           if (t <= 0) {
             const newTask = pickFarmerTask(w, farmRef.current, overlayW, overlayH)
+            const wps = newTask.targetX !== undefined
+              ? farmWaypoints(x, y, newTask.targetX!, newTask.targetY!)
+              : []
             return { ...w, hidden: false, hiddenTimer: 0, task: newTask,
               taskTimer: newTask.type === 'idle' ? IDLE_TICKS + Math.floor(Math.random() * IDLE_TICKS) : 0,
-              bubbleTimer: newTask.type !== 'idle' ? BUBBLE_TICKS : 0, waypoints: [] }
+              bubbleTimer: newTask.type !== 'idle' ? BUBBLE_TICKS : 0, waypoints: wps }
           }
           return { ...w, hiddenTimer: t }
         }
@@ -254,36 +266,73 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
           if (taskTimer <= 0) {
             task = pickFarmerTask(w, farmRef.current, overlayW, overlayH)
             taskTimer = task.type === 'idle' ? IDLE_TICKS + Math.floor(Math.random() * IDLE_TICKS) : 0
-            if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
+            if (task.type !== 'idle') {
+              bubbleTimer = BUBBLE_TICKS
+              waypoints = task.targetX !== undefined
+                ? farmWaypoints(x, y, task.targetX!, task.targetY!)
+                : []
+            }
           }
-          // Random wander
-          turnTimer--
-          if (turnTimer <= 0) {
-            const angle = Math.random() * Math.PI * 2
-            vx = Math.cos(angle) * SPEED
-            vy = Math.sin(angle) * SPEED
-            turnTimer = 20 + Math.floor(Math.random() * 30)
+          // Grid-following idle wander via road paths
+          if (task.type === 'idle') {
+            if (waypoints.length > 0) {
+              const nx = waypoints[0].x, ny = waypoints[0].y
+              const dx = nx - x, dy = ny - y
+              const dist = Math.sqrt(dx * dx + dy * dy)
+              if (dist < ARRIVE_DIST) { waypoints = waypoints.slice(1); turnTimer = 0 }
+              else { vx = dx / dist * SPEED; vy = dy / dist * SPEED }
+            }
+            if (waypoints.length === 0) {
+              turnTimer--
+              if (turnTimer <= 0) {
+                const cc = Math.max(0, Math.min(farmRows - 1, Math.floor(y / (overlayH / farmRows)))) * farmCols
+                         + Math.max(0, Math.min(farmCols - 1, Math.floor(x / (overlayW / farmCols))))
+                const ns = getFarmNeighbourIndices(cc, farmRows, farmCols)
+                const pick = ns[Math.floor(Math.random() * ns.length)] ?? cc
+                const tx = (pick % farmCols + 0.5) * overlayW / farmCols
+                const ty = (Math.floor(pick / farmCols) + 0.5) * overlayH / farmRows
+                waypoints = farmWaypoints(x, y, tx, ty)
+                turnTimer = 20 + Math.floor(Math.random() * 30)
+              }
+            }
           }
         }
 
-        // Directed movement
-        if (task.type !== 'idle' && task.targetX !== undefined && task.targetY !== undefined) {
-          const dx = task.targetX - x
-          const dy = task.targetY - y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-
-          if (dist < ARRIVE_DIST) {
-            if (task.type === 'resting') {
-              return { ...w, x, y, vx: 0, vy: 0, task, bubbleTimer,
-                hidden: true, hiddenTimer: REST_MIN + Math.floor(Math.random() * (REST_MAX - REST_MIN)), waypoints: [] }
+        // Directed movement via waypoints
+        if (task.type !== 'idle') {
+          const dest = waypoints.length > 0 ? waypoints[0]
+            : task.targetX !== undefined ? { x: task.targetX!, y: task.targetY! } : null
+          if (dest) {
+            const dx = dest.x - x, dy = dest.y - y
+            const dist = Math.sqrt(dx * dx + dy * dy)
+            if (dist < ARRIVE_DIST) {
+              if (waypoints.length > 0) {
+                waypoints = waypoints.slice(1)
+                if (waypoints.length > 0) {
+                  const next = waypoints[0]
+                  const nd = Math.sqrt((next.x - x) ** 2 + (next.y - y) ** 2) || 1
+                  vx = (next.x - x) / nd * SPEED; vy = (next.y - y) / nd * SPEED
+                }
+              }
+              // Arrived at final destination (no waypoints left)
+              if (waypoints.length === 0) {
+                if (task.type === 'resting') {
+                  return { ...w, x, y, vx: 0, vy: 0, task, bubbleTimer,
+                    hidden: true, hiddenTimer: REST_MIN + Math.floor(Math.random() * (REST_MAX - REST_MIN)), waypoints: [] }
+                }
+                vx = 0; vy = 0
+                task = pickFarmerTask(w, farmRef.current, overlayW, overlayH)
+                taskTimer = task.type === 'idle' ? IDLE_TICKS + Math.floor(Math.random() * IDLE_TICKS) : 0
+                if (task.type !== 'idle') {
+                  bubbleTimer = BUBBLE_TICKS
+                  waypoints = task.targetX !== undefined
+                    ? farmWaypoints(x, y, task.targetX!, task.targetY!)
+                    : []
+                }
+              }
+            } else {
+              vx = dx / dist * SPEED; vy = dy / dist * SPEED
             }
-            vx = 0; vy = 0
-            task = pickFarmerTask(w, farmRef.current, overlayW, overlayH)
-            taskTimer = task.type === 'idle' ? IDLE_TICKS + Math.floor(Math.random() * IDLE_TICKS) : 0
-            if (task.type !== 'idle') bubbleTimer = BUBBLE_TICKS
-          } else {
-            vx = (dx / dist) * SPEED
-            vy = (dy / dist) * SPEED
           }
         }
 
