@@ -3,7 +3,7 @@ import {
   cityDefense, getNeighbourIndices, spawnerUnitCount, getCityFoodScore,
 } from '../../../game/cityBuilder'
 
-export type TaskType = 'idle' | 'resting' | 'eating' | 'patrolling' | 'gathering' | 'visiting' | 'playing' | 'chatting'
+export type TaskType = 'idle' | 'resting' | 'eating' | 'patrolling' | 'gathering' | 'visiting' | 'playing' | 'chatting' | 'farming'
 
 export type PersonalityTrait = 'brave' | 'glutton' | 'industrious' | 'sociable' | 'reclusive'
 

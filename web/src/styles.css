@@ -12951,3 +12951,121 @@ html.light-mode .action-btn {
 .td-end-title--lose { color: #f44336; text-shadow: 0 0 20px rgba(244,67,54,0.6); }
 .td-end-stat   { font-size: 15px; color: #aaa; }
 .td-end-reward { font-size: 17px; color: var(--color-gold); font-weight: bold; }
+
+/* ── Farming Simulation ──────────────────────────────────────────────────────── */
+
+.farm-screen { padding: 4px 6px; }
+
+/* Worker strip */
+.farm-worker-strip {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px;
+  background: rgba(80, 120, 40, 0.18);
+  border: 1px solid #3a6a2a;
+  border-radius: 4px;
+  font-size: 12px; color: #a0d080;
+  flex-wrap: wrap;
+}
+.farm-worker-label { font-weight: bold; letter-spacing: 1px; }
+.farm-worker-btn {
+  background: #2a4a1a; border: 1px solid #4a7a2a; color: #80c060;
+  width: 22px; height: 22px; font-size: 14px; line-height: 1;
+  cursor: pointer; border-radius: 3px; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.farm-worker-btn:disabled { opacity: 0.4; cursor: default; }
+.farm-worker-btn:not(:disabled):hover { background: #3a6a2a; }
+.farm-worker-count { font-weight: bold; font-size: 13px; min-width: 40px; text-align: center; }
+.farm-worker-sep { color: #507040; margin: 0 1px; }
+.farm-worker-hint { font-size: 10px; color: #608050; }
+
+/* Resource bar */
+.farm-res-bar {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 8px;
+  overflow-x: auto; flex-wrap: wrap;
+  font-size: 11px;
+}
+.farm-res-bar::-webkit-scrollbar { display: none; }
+.farm-res-stat { color: #80a060; font-size: 11px; white-space: nowrap; }
+.farm-raid-pill {
+  white-space: nowrap; font-size: 11px;
+  padding: 2px 6px; border-radius: 3px;
+  border: 1px solid currentColor;
+}
+.farm-raid-pill--calm     { color: #508050; }
+.farm-raid-pill--soon     { color: #c08020; }
+.farm-raid-pill--imminent { color: #d06030; animation: city-pulse 1.2s ease-in-out infinite; }
+
+/* Farm grid */
+.farm-world { background: #1a2e10; border-radius: 4px; overflow: hidden; }
+.farm-grid  { padding: 4px; background: #1a2e10; }
+
+/* Farm plot cells */
+.farm-cell {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border: 1px solid #2a4a1a; border-radius: 3px;
+  background: #1e3414; cursor: pointer;
+  position: relative; overflow: hidden;
+  font-size: 10px;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+.farm-cell:hover { border-color: #60a040; }
+.farm-cell--empty { border-style: dashed; border-color: #2a4a1a; color: #3a6a2a; }
+.farm-cell--empty:hover { border-color: #60a040; color: #60a040; }
+.farm-cell--highlighted { border-color: #80c060 !important; box-shadow: 0 0 6px rgba(80,160,40,0.5); }
+.farm-cell--bulldozer { border-color: #804020 !important; cursor: crosshair; }
+.farm-cell--bulldozer:hover { background: rgba(120, 40, 20, 0.2); }
+.farm-cell--occupied { background: #1e3414; }
+.farm-cell-plus { font-size: 18px; color: inherit; }
+.farm-cell-sprite { width: 32px; height: 32px; image-rendering: pixelated; }
+.farm-cell-name { font-size: 9px; color: #80b060; text-align: center; padding: 0 2px; line-height: 1.2; }
+.farm-cell-rate { font-size: 10px; color: #a0c060; }
+.farm-cell-demolish {
+  position: absolute; top: 2px; right: 4px;
+  font-size: 12px; color: #c06040;
+}
+
+/* Raid modal */
+.farm-raid-modal {
+  background: #1a2a1a; border: 2px solid #3a6a2a;
+  border-radius: 6px; padding: 20px 24px;
+  max-width: 340px; width: 100%; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.farm-raid--repelled { border-color: #4a8a4a; }
+.farm-raid--partial  { border-color: #9a7a20; }
+.farm-raid--defeated { border-color: #8a3030; }
+.farm-raid-icon { font-size: 36px; }
+.farm-raid-outcome { font-size: 18px; font-weight: bold; letter-spacing: 2px; color: #c0f0c0; }
+.farm-raid--partial .farm-raid-outcome  { color: #e0c060; }
+.farm-raid--defeated .farm-raid-outcome { color: #e06060; }
+.farm-raid-row { display: flex; justify-content: space-between; width: 100%; font-size: 12px; color: #80a080; }
+.farm-raid-stolen, .farm-raid-destroyed { text-align: left; width: 100%; }
+.farm-raid-stolen-title, .farm-raid-destroyed-title { font-size: 11px; color: #608060; margin-bottom: 4px; }
+.farm-raid-destroyed-item { font-size: 12px; color: #e08080; }
+.farm-raid-success { font-size: 12px; color: #80d080; }
+
+/* Building picker */
+.farm-picker { padding: 4px; }
+.farm-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 6px; padding: 4px;
+}
+.farm-picker-card {
+  background: #1a2e10; border: 1px solid #3a5a2a; border-radius: 4px;
+  padding: 8px; cursor: pointer;
+  display: flex; flex-direction: column; gap: 4px;
+  transition: border-color 0.15s;
+}
+.farm-picker-card:hover { border-color: #70c050; }
+.farm-picker-card-name   { font-size: 12px; color: #a0d080; font-weight: bold; }
+.farm-picker-card-rarity { font-size: 10px; color: #608060; text-transform: capitalize; }
+.farm-picker-card-produces { display: flex; flex-wrap: wrap; gap: 4px; }
+.farm-picker-prod-chip {
+  font-size: 10px; color: #80c060;
+  background: rgba(80,120,40,0.2); border-radius: 2px; padding: 1px 4px;
+}

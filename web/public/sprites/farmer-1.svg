@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Walk frame 1: stride A — left leg forward -->
+  <!-- Body -->
+  <rect x="11" y="12" width="10" height="11" rx="2" fill="#8B6914"/>
+  <!-- Head -->
+  <circle cx="16" cy="9" r="4" fill="#F5CBA7"/>
+  <!-- Hat -->
+  <ellipse cx="16" cy="5.5" rx="7" ry="2" fill="#DAA520"/>
+  <rect x="13" y="3.5" width="6" height="4" rx="1" fill="#DAA520"/>
+  <!-- Arms (swinging) -->
+  <rect x="6" y="14" width="5" height="2" rx="1" fill="#8B6914"/>
+  <rect x="21" y="12" width="5" height="2" rx="1" fill="#8B6914"/>
+  <!-- Hoe -->
+  <rect x="25" y="10" width="2" height="10" rx="1" fill="#A0522D"/>
+  <rect x="22" y="9" width="5" height="2" rx="1" fill="#7F8C8D"/>
+  <!-- Legs: left forward -->
+  <rect x="12" y="23" width="3" height="5" rx="1" fill="#5D4037" transform="rotate(-12 13.5 23)"/>
+  <rect x="17" y="23" width="3" height="5" rx="1" fill="#5D4037" transform="rotate(12 18.5 23)"/>
+  <!-- Boots -->
+  <rect x="10" y="27" width="4" height="2" rx="1" fill="#3E2723"/>
+  <rect x="18" y="27" width="4" height="2" rx="1" fill="#3E2723"/>
+</svg>
