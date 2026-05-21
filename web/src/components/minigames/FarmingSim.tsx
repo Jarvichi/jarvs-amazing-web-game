@@ -8,6 +8,7 @@ import {
   loadFarmState, saveFarmState, tickFarm,
   placeFarmBuilding, removeFarmBuilding,
   assignWorker, unassignWorker,
+  hireFarmer, nextFarmerCost,
   getFarmProductionRate, farmDefense,
   canPlaceOnFarm, addFarmChronicle,
   FARM_COLS, FARM_ROWS,
@@ -355,14 +356,24 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
 
         <FarmWorkerStrip
           assignedWorkers={farm.workers}
-          cityPopulation={pop}
+          maxWorkers={farm.maxWorkers}
+          nextFarmerCost={nextFarmerCost(farm)}
+          cityGold={city.gold}
           onAssign={() => {
-            if (farm.workers >= pop) { showToast('No spare city residents to assign!'); return }
+            if (farm.workers >= farm.maxWorkers) { showToast('All farmer slots filled — hire more!'); return }
             saveFarm(assignWorker(farm))
           }}
           onUnassign={() => {
             if (farm.workers === 0) return
             saveFarm(unassignWorker(farm))
+          }}
+          onHireFarmer={() => {
+            const cost = nextFarmerCost(farm)
+            if (cost === null) { showToast('Maximum farmers reached!'); return }
+            if (city.gold < cost) { showToast(`Need ⚙ ${cost.toLocaleString()} gold to hire a farmer.`); return }
+            saveFarm(hireFarmer(farm))
+            onSaveCity({ ...city, gold: city.gold - cost })
+            showToast('New farmer slot hired!')
           }}
         />
 

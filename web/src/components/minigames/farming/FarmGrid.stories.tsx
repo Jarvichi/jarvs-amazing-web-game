@@ -23,7 +23,7 @@ const farm: FarmState = {
     undefined, undefined, undefined, undefined,
   ],
   rows: 4, cols: 6,
-  workers: 2,
+  workers: 2, maxWorkers: 2,
   lastTick: Date.now(),
   nextRaidAt: Date.now() + 3_600_000,
   lastRaid: null,
