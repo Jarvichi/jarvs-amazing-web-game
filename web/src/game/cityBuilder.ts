@@ -835,14 +835,29 @@ export function loadCityState(): CityState {
     if (!raw) return defaultState()
     const parsed = JSON.parse(raw) as Partial<CityState>
     const savedResources = (parsed.resources ?? {}) as Partial<ResourceStock>
-    const rows = parsed.rows ?? CITY_ROWS
-    const cols = parsed.cols ?? CITY_COLS
-    const cells = cols * rows
-    const savedGrid = parsed.grid ?? Array(cells).fill(undefined)
-    const grid = (savedGrid.length < cells
-      ? [...savedGrid, ...Array(cells - savedGrid.length).fill(undefined)]
-      : savedGrid
-    ).map((c: CityCell | undefined) => c ? { ...c, stock: c.stock ?? {} } : c)
+    const savedRows = parsed.rows ?? CITY_ROWS
+    const savedCols = parsed.cols ?? CITY_COLS
+    // Migrate old saves where only rows grew (cols stayed at 6): normalize to square
+    const rows = savedRows
+    const cols = savedRows > savedCols ? savedRows : savedCols
+    const savedGrid = (parsed.grid ?? []) as (CityCell | undefined)[]
+    let grid: (CityCell | undefined)[]
+    if (savedCols !== cols) {
+      // Expand the grid columns to match the new (larger) cols count
+      grid = Array(rows * cols).fill(undefined)
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < savedCols; c++) {
+          const cell = savedGrid[r * savedCols + c]
+          grid[r * cols + c] = cell ? { ...cell, stock: cell.stock ?? {} } : undefined
+        }
+      }
+    } else {
+      const cells = cols * rows
+      grid = (savedGrid.length < cells
+        ? [...savedGrid, ...Array(cells - savedGrid.length).fill(undefined)]
+        : savedGrid
+      ).map((c: CityCell | undefined) => c ? { ...c, stock: c.stock ?? {} } : c)
+    }
     return {
       grid,
       gold:           parsed.gold       ?? 0,

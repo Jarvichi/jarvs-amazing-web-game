@@ -667,8 +667,6 @@ export function CityBuilder({ onBack }: Props) {
   )
   const [currentTime, setCurrentTime] = useState(Date.now())
   const [fortSlotSel, setFortSlotSel] = useState<number | null>(null)
-  const [fortFilter, setFortFilter] = useState<string>('all')
-  const [fortSort, setFortSort] = useState<'defense' | 'name' | 'rarity'>('defense')
   const [showFarmLockModal, setShowFarmLockModal] = useState(false)
   const [showExpandModal, setShowExpandModal] = useState(false)
   const worldRef = useRef<HTMLDivElement>(null)
@@ -1499,10 +1497,6 @@ export function CityBuilder({ onBack }: Props) {
         fortRingRef={fortRingRef}
         fortSlotSel={fortSlotSel}
         setFortSlotSel={setFortSlotSel}
-        fortFilter={fortFilter}
-        setFortFilter={setFortFilter}
-        fortSort={fortSort}
-        setFortSort={setFortSort}
         availableDefenceCards={availableDefenceCards}
         onBack={() => { setFortSlotSel(null); setScreen('city') }}
         onAddFort={handleAddFort}

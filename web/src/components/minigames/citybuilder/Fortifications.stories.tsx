@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react' // useState kept for fortSlotSel
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Fortifications, Props } from './Fortifications'
@@ -27,21 +27,15 @@ const baseCity: any = {
   happiness: {},
 }
 
-function Wrapper(props: Omit<Props, 'fortRingRef' | 'fortSlotSel' | 'setFortSlotSel' | 'fortFilter' | 'setFortFilter' | 'fortSort' | 'setFortSort'>) {
+function Wrapper(props: Omit<Props, 'fortRingRef' | 'fortSlotSel' | 'setFortSlotSel'>) {
   const fortRingRef = useRef<HTMLDivElement>(null)
   const [fortSlotSel, setFortSlotSel] = useState<number | null>(null)
-  const [fortFilter, setFortFilter] = useState('all')
-  const [fortSort, setFortSort] = useState<'defense' | 'name' | 'rarity'>('defense')
   return (
     <Fortifications
       {...props}
       fortRingRef={fortRingRef}
       fortSlotSel={fortSlotSel}
       setFortSlotSel={setFortSlotSel}
-      fortFilter={fortFilter}
-      setFortFilter={setFortFilter}
-      fortSort={fortSort}
-      setFortSort={setFortSort}
     />
   )
 }

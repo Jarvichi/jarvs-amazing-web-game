@@ -131,14 +131,28 @@ export function loadFarmState(): FarmState {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return defaultFarmState()
     const parsed = JSON.parse(raw) as Partial<FarmState>
-    const rows = parsed.rows ?? FARM_ROWS
-    const cols = parsed.cols ?? FARM_COLS
-    const cells = rows * cols
-    const savedPlots = parsed.plots ?? Array(cells).fill(undefined)
-    const plots = (savedPlots.length < cells
-      ? [...savedPlots, ...Array(cells - savedPlots.length).fill(undefined)]
-      : savedPlots
-    ).map((p: FarmPlot | undefined) => p ? { ...p, stock: p.stock ?? {} } : p)
+    const savedRows = parsed.rows ?? FARM_ROWS
+    const savedCols = parsed.cols ?? FARM_COLS
+    // Migrate old 6×4 default to square: trim extra cols down to rows×rows
+    const rows = savedRows
+    const cols = savedCols > savedRows ? savedRows : savedCols
+    const savedPlots = (parsed.plots ?? []) as (FarmPlot | undefined)[]
+    let plots: (FarmPlot | undefined)[]
+    if (savedCols !== cols) {
+      plots = Array(rows * cols).fill(undefined)
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const p = savedPlots[r * savedCols + c]
+          plots[r * cols + c] = p ? { ...p, stock: p.stock ?? {} } : undefined
+        }
+      }
+    } else {
+      const cells = rows * cols
+      plots = (savedPlots.length < cells
+        ? [...savedPlots, ...Array(cells - savedPlots.length).fill(undefined)]
+        : savedPlots
+      ).map((p: FarmPlot | undefined) => p ? { ...p, stock: p.stock ?? {} } : p)
+    }
     const savedRes = (parsed.resources ?? {}) as Partial<ResourceStock>
     return {
       plots,
