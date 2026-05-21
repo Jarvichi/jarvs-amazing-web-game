@@ -198,9 +198,9 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
     return () => ro.disconnect()
   }, [screen])
 
-  // Clock for raid countdown
+  // Clock for raid countdown — 1 s for accurate countdown display
   useEffect(() => {
-    const id = setInterval(() => setCurrentTime(Date.now()), 60_000)
+    const id = setInterval(() => setCurrentTime(Date.now()), 1_000)
     return () => clearInterval(id)
   }, [])
 
@@ -533,6 +533,8 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
               walkers={walkers}
               buildingTab={buildingTab}
               setBuildingTab={setBuildingTab}
+              productionMultiplier={1.5}
+              productionNote="🌾 +50% farm bonus included"
               onClose={() => setSelectedCell(null)}
               onLevelUp={cardName => {
                 const col = loadCollection()
