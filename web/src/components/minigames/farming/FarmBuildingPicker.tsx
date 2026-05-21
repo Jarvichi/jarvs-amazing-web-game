@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Card } from '../../../game/types'
 import { getBuildingProduces, RESOURCE_ICONS, ResourceType } from '../../../game/cityBuilder'
+import { SpriteImg } from '../../ui/SpriteImg'
 
 export interface Props {
   availableCards: Card[]
@@ -11,61 +12,63 @@ export interface Props {
 export function FarmBuildingPicker({ availableCards, onPick, onBack }: Props) {
   const [search, setSearch] = useState('')
 
-  const filtered = availableCards.filter(c =>
-    c.name.toLowerCase().includes(search.toLowerCase())
-  )
+  const q = search.toLowerCase()
+  const filtered = q
+    ? availableCards.filter(c => c.name.toLowerCase().includes(q))
+    : availableCards
 
   return (
-    <div className="farm-picker u-col u-gap-3">
+    <div className="city-screen u-relative u-col u-gap-2">
       <div className="overlay-header u-flex u-items-c u-gap-6">
         <button className="action-btn" onClick={onBack}>← BACK</button>
-        <span className="overlay-title">🌾 FARM BUILDINGS</span>
+        <div className="overlay-title">🌾 FARM BUILDINGS</div>
       </div>
+      <div className="city-subscreen-scroll">
+        <input
+          className="city-search"
+          type="search"
+          placeholder="Search buildings…"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
 
-      <div style={{ fontSize: 11, color: '#669966', padding: '0 4px' }}>
-        Only production buildings may be placed on the farm. Farms earn +50% resources but face
-        raids every 3–4 hours.
-      </div>
-
-      <input
-        className="city-picker-search"
-        placeholder="Search buildings…"
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-      />
-
-      {filtered.length === 0 && (
-        <div style={{ color: '#668866', padding: 16, textAlign: 'center' }}>
-          {availableCards.length === 0
-            ? 'No production buildings available to place on the farm.'
-            : 'No buildings match your search.'}
-        </div>
-      )}
-
-      <div className="farm-picker-grid">
-        {filtered.map(card => {
-          const produces = getBuildingProduces(card.name)
-          const prodEntries = Object.entries(produces).filter(([, v]) => (v as number) > 0) as [ResourceType, number][]
-
-          return (
-            <div
-              key={card.name}
-              className="farm-picker-card"
-              onClick={() => onPick(card)}
-              title={`Place ${card.name} on the farm`}
-            >
-              <div className="farm-picker-card-name">{card.name}</div>
-              <div className="farm-picker-card-rarity">{card.rarity}</div>
-              <div className="farm-picker-card-produces">
-                {prodEntries.map(([res, rate]) => (
-                  <span key={res} className="farm-picker-prod-chip">
-                    {RESOURCE_ICONS[res]} +{(rate * 1.5).toFixed(1)}/min
-                  </span>
-                ))}
-              </div>
+        {availableCards.length === 0 ? (
+          <div className="city-picker-empty">No production buildings available to place on the farm.</div>
+        ) : filtered.length === 0 ? (
+          <div className="city-picker-empty">No buildings match "{search}"</div>
+        ) : (
+          <div className="city-picker-section">
+            <div className="city-picker-section-label">
+              PRODUCERS
+              <span className="city-picker-section-sub"> · +50% output on the farm · raids every 3–4 hrs</span>
             </div>
-          )
-        })}
+            <div className="city-picker-grid">
+              {filtered.map(card => {
+                const produces = getBuildingProduces(card.name)
+                const prodEntries = (Object.entries(produces).filter(([, v]) => (v as number) > 0)) as [ResourceType, number][]
+                return (
+                  <button
+                    key={card.name}
+                    className="city-picker-card u-col u-items-c u-gap-2 u-pointer"
+                    onClick={() => onPick(card)}
+                    title={`Place ${card.name} on the farm`}
+                  >
+                    <SpriteImg name={card.name} className="city-picker-sprite" />
+                    <div className="city-picker-name">{card.name}</div>
+                    <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
+                    {prodEntries.length > 0 && (
+                      <div className="city-picker-produces">
+                        {prodEntries.map(([res, rate]) =>
+                          `+${(rate * 1.5).toFixed(1)} ${RESOURCE_ICONS[res]}/min`
+                        ).join(' ')}
+                      </div>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

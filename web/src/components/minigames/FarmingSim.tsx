@@ -8,15 +8,18 @@ import {
   loadFarmState, saveFarmState, tickFarm,
   placeFarmBuilding, removeFarmBuilding,
   assignWorker, unassignWorker,
+  hireFarmer, nextFarmerCost,
   getFarmProductionRate, farmDefense,
   canPlaceOnFarm, addFarmChronicle,
-  FARM_COLS, FARM_ROWS,
+  canAffordFarmExpansion, expandFarm,
+  FARM_COLS, FARM_ROWS, MAX_FARM_SIZE, FARM_EXPANSION_COSTS,
 } from '../../game/farmingSim'
 import {
   CityState, ResourceType, CELL_PX,
   cityPopulation, getBuildingProduces,
   getNeighbourIndices,
 } from '../../game/cityBuilder'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { getCardCatalog } from '../../game/cards'
 import { loadCollection, getOwnedCount } from '../../game/collection'
 import { logError } from '../../logger'
@@ -127,6 +130,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
   const [toast, setToast]           = useState<string | null>(null)
   const [raidReport, setRaidReport] = useState<FarmRaidEvent | null>(null)
   const [currentTime, setCurrentTime] = useState(Date.now())
+  const [showExpandModal, setShowExpandModal] = useState(false)
 
   const farmRef    = useRef(farm)
   const walkersRef = useRef(walkers)
@@ -355,14 +359,24 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
 
         <FarmWorkerStrip
           assignedWorkers={farm.workers}
-          cityPopulation={pop}
+          maxWorkers={farm.maxWorkers}
+          nextFarmerCost={nextFarmerCost(farm)}
+          cityGold={city.gold}
           onAssign={() => {
-            if (farm.workers >= pop) { showToast('No spare city residents to assign!'); return }
+            if (farm.workers >= farm.maxWorkers) { showToast('All farmer slots filled — hire more!'); return }
             saveFarm(assignWorker(farm))
           }}
           onUnassign={() => {
             if (farm.workers === 0) return
             saveFarm(unassignWorker(farm))
+          }}
+          onHireFarmer={() => {
+            const cost = nextFarmerCost(farm)
+            if (cost === null) { showToast('Maximum farmers reached!'); return }
+            if (city.gold < cost) { showToast(`Need ⚙ ${cost.toLocaleString()} gold to hire a farmer.`); return }
+            saveFarm(hireFarmer(farm))
+            onSaveCity({ ...city, gold: city.gold - cost })
+            showToast('New farmer slot hired!')
           }}
         />
 
@@ -414,7 +428,70 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
           <button className="filter-btn" onClick={() => setScreen('chronicle')}>
             📜 HISTORY
           </button>
+          <button
+            className={`filter-btn city-expand-btn${canAffordFarmExpansion(farm, city.gold, city.resources) ? ' city-expand-btn--ready' : ''}`}
+            onClick={() => setShowExpandModal(true)}
+            title="View farm expansion levels"
+          >
+            🌱 EXPAND
+          </button>
         </div>
+
+        {showExpandModal && (
+          <ModalBackdrop onClose={() => setShowExpandModal(false)}>
+            <div className="city-info-modal">
+              <div className="city-info-modal-title">🌱 FARM EXPANSION</div>
+              <div className="city-info-modal-body">
+                {([4, 5, 6, 7, 8] as const).map(size => {
+                  const lvl = size - FARM_ROWS + 1
+                  const cost = FARM_EXPANSION_COSTS[size as 4|5|6|7]
+                  const isCurrent = (farm.rows ?? FARM_ROWS) === size
+                  const isCompleted = (farm.rows ?? FARM_ROWS) > size
+                  return (
+                    <div key={size} className={`city-expand-row${isCurrent ? ' city-expand-row--current' : ''}${isCompleted ? ' city-expand-row--done' : ''}`}>
+                      <span className="city-expand-lvl">LVL {lvl} — {size}×{size}</span>
+                      {isCompleted && <span className="city-expand-status">✓ Unlocked</span>}
+                      {isCurrent && size < MAX_FARM_SIZE && cost && (
+                        <span className="city-expand-cost">
+                          ⚙ {cost.gold.toLocaleString()}
+                          {Object.entries(cost.resources).map(([r, v]) => ` · ${v?.toLocaleString()} ${r}`).join('')}
+                        </span>
+                      )}
+                      {isCurrent && size >= MAX_FARM_SIZE && <span className="city-expand-status">MAX SIZE</span>}
+                    </div>
+                  )
+                })}
+              </div>
+              <div className="u-flex u-gap-3 u-just-c">
+                {(farm.rows ?? FARM_ROWS) < MAX_FARM_SIZE && (() => {
+                  const affordable = canAffordFarmExpansion(farm, city.gold, city.resources)
+                  const cost = FARM_EXPANSION_COSTS[farm.rows ?? FARM_ROWS]
+                  return (
+                    <button
+                      className={`action-btn${affordable ? ' action-btn--gold' : ''}`}
+                      disabled={!affordable}
+                      onClick={() => {
+                        if (!affordable || !cost) return
+                        const newCityRes = { ...city.resources }
+                        for (const [res, amt] of Object.entries(cost.resources) as [ResourceType, number][]) {
+                          newCityRes[res] = Math.max(0, (newCityRes[res] ?? 0) - amt)
+                        }
+                        onSaveCity({ ...city, gold: city.gold - cost.gold, resources: newCityRes })
+                        const next = expandFarm(farm)
+                        saveFarm(next)
+                        setShowExpandModal(false)
+                        showToast(`Farm expanded to ${next.rows}×${next.cols}!`)
+                      }}
+                    >
+                      {affordable ? '🌱 EXPAND NOW' : '🔒 NEED RESOURCES'}
+                    </button>
+                  )
+                })()}
+                <button className="action-btn" onClick={() => setShowExpandModal(false)}>CLOSE</button>
+              </div>
+            </div>
+          </ModalBackdrop>
+        )}
 
         <div style={{ fontSize: 11, color: '#557755', padding: '4px 8px', textAlign: 'center' }}>
           Farms earn +50% resources but are raided every 3–4 hours with minimal defence.

@@ -62,7 +62,7 @@ import { DisasterModal } from './citybuilder/DisasterModal'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { FarmingSim } from './FarmingSim'
-import { isFarmUnlocked } from '../../game/farmingSim'
+import { isFarmUnlocked, loadFarmState, getFarmProductionRate } from '../../game/farmingSim'
 
 
 // ── Resident thought lines ────────────────────────────────────────────────────
@@ -1443,8 +1443,17 @@ export function CityBuilder({ onBack }: Props) {
   const defense = cityDefense(city)
   const population = cityPopulation(city)
 
-  const prodRates = resourceProductionRate(city)
+  const cityProdRates = resourceProductionRate(city)
   const consRates = resourceConsumptionRate(city)
+
+  // Merge farm production rates into the city display so the resource strip
+  // shows the combined output even when buildings are on the farm.
+  const prodRates = { ...cityProdRates }
+  if (isFarmUnlocked(population)) {
+    for (const [res, rate] of Object.entries(getFarmProductionRate(loadFarmState())) as [ResourceType, number][]) {
+      prodRates[res as ResourceType] = (prodRates[res as ResourceType] ?? 0) + rate
+    }
+  }
 
   const cityRows = city.rows ?? CITY_ROWS
   const cityCols = city.cols ?? CITY_COLS

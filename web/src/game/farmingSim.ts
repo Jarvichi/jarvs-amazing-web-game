@@ -8,14 +8,31 @@ import {
   ResourceType, ResourceStock,
   getBuildingProduces, currentSeason, SEASON_INFO,
   CELL_PX,
+  DEFAULT_BUILDER_COUNT, MAX_BUILDER_COUNT, BUILDER_HIRE_COSTS,
 } from './cityBuilder'
 import type { CardRarity } from './types'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-export const FARM_COLS = 6
+export const FARM_COLS = 4
 export const FARM_ROWS = 4
 export const FARM_CELLS = FARM_COLS * FARM_ROWS
+
+/** Maximum farm grid size (same as city). */
+export const MAX_FARM_SIZE = 8
+
+/** Free farmer slots on a new farm (mirrors DEFAULT_BUILDER_COUNT). */
+export const DEFAULT_FARMER_COUNT = DEFAULT_BUILDER_COUNT
+/** Maximum farmer slots purchasable (mirrors MAX_BUILDER_COUNT). */
+export const MAX_FARMER_COUNT = MAX_BUILDER_COUNT
+
+/** Expansion costs keyed by current row count (same as city, ~10× cheaper). */
+export const FARM_EXPANSION_COSTS: Record<number, { gold: number; resources: Partial<ResourceStock> }> = {
+  4: { gold: 100_000,   resources: { wood: 500,  ore: 200, planks: 100  } },
+  5: { gold: 500_000,   resources: { wood: 1500, ore: 600, planks: 300  } },
+  6: { gold: 2_000_000, resources: { wood: 3000, ore: 1200, planks: 600 } },
+  7: { gold: 5_000_000, resources: { wood: 5000, ore: 2000, planks: 1000 } },
+}
 
 /** Production multiplier applied to farm buildings vs their city equivalent. */
 const FARM_PRODUCTION_BONUS = 1.5
@@ -66,6 +83,8 @@ export interface FarmState {
   rows:       number
   cols:       number
   workers:    number
+  /** Purchased farmer slots (default 2 free, up to MAX_FARMER_COUNT). */
+  maxWorkers: number
   lastTick:   number
   nextRaidAt: number
   lastRaid:   FarmRaidEvent | null
@@ -98,6 +117,7 @@ function defaultFarmState(): FarmState {
     rows:       FARM_ROWS,
     cols:       FARM_COLS,
     workers:    0,
+    maxWorkers: DEFAULT_FARMER_COUNT,
     lastTick:   Date.now(),
     nextRaidAt: Date.now() + BASE_RAID_INTERVAL_MS + Math.random() * RAID_INTERVAL_JITTER_MS,
     lastRaid:   null,
@@ -125,6 +145,7 @@ export function loadFarmState(): FarmState {
       rows,
       cols,
       workers:    parsed.workers    ?? 0,
+      maxWorkers: parsed.maxWorkers ?? DEFAULT_FARMER_COUNT,
       lastTick:   parsed.lastTick   ?? Date.now(),
       nextRaidAt: parsed.nextRaidAt ?? Date.now() + BASE_RAID_INTERVAL_MS,
       lastRaid:   parsed.lastRaid   ?? null,
@@ -222,14 +243,69 @@ export function removeFarmBuilding(state: FarmState, index: number): { state: Fa
   return { state: next, returnedResources }
 }
 
+// ── Farm expansion ────────────────────────────────────────────────────────────
+
+export function canAffordFarmExpansion(
+  state: FarmState,
+  gold: number,
+  resources: ResourceStock,
+): boolean {
+  const rows = state.rows ?? FARM_ROWS
+  if (rows >= MAX_FARM_SIZE) return false
+  const cost = FARM_EXPANSION_COSTS[rows]
+  if (!cost) return false
+  if (gold < cost.gold) return false
+  for (const [res, amt] of Object.entries(cost.resources) as [ResourceType, number][]) {
+    if ((resources[res] ?? 0) < amt) return false
+  }
+  return true
+}
+
+export function expandFarm(state: FarmState): FarmState {
+  const rows = state.rows ?? FARM_ROWS
+  const cols = state.cols ?? FARM_COLS
+  if (rows >= MAX_FARM_SIZE) return state
+  const newRows = rows + 1
+  const newCols = cols < MAX_FARM_SIZE ? cols + 1 : cols
+  const newCells = newRows * newCols
+  const plots: (FarmPlot | undefined)[] = Array(newCells).fill(undefined)
+  // Copy existing plots into the new (larger) grid
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const oldIdx = r * cols + c
+      const newIdx = r * newCols + c
+      plots[newIdx] = state.plots[oldIdx]
+    }
+  }
+  let next = { ...state, rows: newRows, cols: newCols, plots }
+  next = addFarmChronicle(next, `🏗 Farm expanded to ${newRows}×${newCols}`)
+  return next
+}
+
 // ── Worker assignment ─────────────────────────────────────────────────────────
 
-/** Assign one city resident as a farm worker. Returns updated state. */
+/** Gold cost to hire the next farmer slot beyond the free DEFAULT_FARMER_COUNT. */
+export function nextFarmerCost(state: FarmState): number | null {
+  const current = state.maxWorkers ?? DEFAULT_FARMER_COUNT
+  if (current >= MAX_FARMER_COUNT) return null
+  const extras = current - DEFAULT_FARMER_COUNT
+  if (extras < 0 || extras >= BUILDER_HIRE_COSTS.length) return null
+  return BUILDER_HIRE_COSTS[extras]
+}
+
+/** Unlock one additional farmer slot (gold deducted by caller from CityState). */
+export function hireFarmer(state: FarmState): FarmState {
+  return { ...state, maxWorkers: (state.maxWorkers ?? DEFAULT_FARMER_COUNT) + 1 }
+}
+
+/** Assign one city resident as a farm worker (capped at maxWorkers). */
 export function assignWorker(state: FarmState): FarmState {
+  const max = state.maxWorkers ?? DEFAULT_FARMER_COUNT
+  if (state.workers >= max) return state
   return { ...state, workers: state.workers + 1 }
 }
 
-/** Unassign one farm worker (min 0). Returns updated state. */
+/** Unassign one farm worker (min 0). */
 export function unassignWorker(state: FarmState): FarmState {
   return { ...state, workers: Math.max(0, state.workers - 1) }
 }

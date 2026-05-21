@@ -79,37 +79,39 @@ export function FortSlotModal({
                   ))}
                 </div>
               </div>
-              <div className="city-picker-grid" style={{ maxHeight: '45vh', overflowY: 'auto' }}>
-                {sorted.length === 0 ? (
-                  <div className="city-picker-empty">No cards match this filter.</div>
-                ) : sorted.map(card => {
-                  const cost       = FORT_PLACE_COST[card.rarity]
-                  const affordable = canAffordFortification(city, card.rarity)
-                  return (
-                    <button key={card.name}
-                      className={`city-picker-card u-col u-items-c u-gap-2 u-pointer${!affordable ? ' city-picker-card--unaffordable' : ''}`}
-                      disabled={!affordable}
-                      onClick={() => { onAddFort(card); onClose() }}>
-                      <SpriteImg name={card.name} className="city-picker-sprite" />
-                      <div className="city-picker-name">{card.name}</div>
-                      <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
-                      <div className="city-picker-income">🛡{FORT_DEFENSE[card.rarity]} · {FORT_MAX_HP[card.rarity]}HP · {FORT_MAX_ATTACKS[card.rarity]} raids</div>
-                      <div className="city-picker-income" style={{ color: '#888' }}>🔨 {
-                        FORT_BUILD_MINUTES[card.rarity] >= 1440
-                          ? `${Math.round(FORT_BUILD_MINUTES[card.rarity] / 1440)} days`
-                          : FORT_BUILD_MINUTES[card.rarity] >= 60
-                          ? `${Math.round(FORT_BUILD_MINUTES[card.rarity] / 60)} hrs`
-                          : `${FORT_BUILD_MINUTES[card.rarity]} min`
-                      }</div>
-                      <div className="city-picker-cost">
-                        ⚙{cost.gold.toLocaleString()}
-                        {(Object.keys(cost) as (keyof typeof cost)[])
-                          .filter(k => k !== 'gold' && (cost[k] ?? 0) > 0)
-                          .map(k => ` ${RESOURCE_ICONS[k as ResourceType]}${cost[k]}`).join('')}
-                      </div>
-                    </button>
-                  )
-                })}
+              <div className="city-picker-section">
+                <div className="city-picker-grid">
+                  {sorted.length === 0 ? (
+                    <div className="city-picker-empty">No cards match this filter.</div>
+                  ) : sorted.map(card => {
+                    const cost       = FORT_PLACE_COST[card.rarity]
+                    const affordable = canAffordFortification(city, card.rarity)
+                    return (
+                      <button key={card.name}
+                        className={`city-picker-card u-col u-items-c u-gap-2 u-pointer${!affordable ? ' city-picker-card--unaffordable' : ''}`}
+                        disabled={!affordable}
+                        onClick={() => { onAddFort(card); onClose() }}>
+                        <SpriteImg name={card.name} className="city-picker-sprite" />
+                        <div className="city-picker-name">{card.name}</div>
+                        <div className={`city-picker-rarity city-picker-rarity--${card.rarity}`}>{card.rarity}</div>
+                        <div className="city-picker-income">🛡{FORT_DEFENSE[card.rarity]} · {FORT_MAX_HP[card.rarity]}HP · {FORT_MAX_ATTACKS[card.rarity]} raids</div>
+                        <div className="city-picker-income" style={{ color: '#888' }}>🔨 {
+                          FORT_BUILD_MINUTES[card.rarity] >= 1440
+                            ? `${Math.round(FORT_BUILD_MINUTES[card.rarity] / 1440)} days`
+                            : FORT_BUILD_MINUTES[card.rarity] >= 60
+                            ? `${Math.round(FORT_BUILD_MINUTES[card.rarity] / 60)} hrs`
+                            : `${FORT_BUILD_MINUTES[card.rarity]} min`
+                        }</div>
+                        <div className="city-picker-cost">
+                          ⚙{cost.gold.toLocaleString()}
+                          {(Object.keys(cost) as (keyof typeof cost)[])
+                            .filter(k => k !== 'gold' && (cost[k] ?? 0) > 0)
+                            .map(k => ` ${RESOURCE_ICONS[k as ResourceType]}${cost[k]}`).join('')}
+                        </div>
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
             </>
           )}

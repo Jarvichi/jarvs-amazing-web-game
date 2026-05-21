@@ -8992,7 +8992,8 @@ html.light-mode .action-btn {
 }
 .city-world--paint { cursor: crosshair; }
 
-.city-zoom-wrapper {
+.city-zoom-wrapper,
+.farm-zoom-wrapper {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
@@ -12978,6 +12979,24 @@ html.light-mode .action-btn {
 .farm-worker-count { font-weight: bold; font-size: 13px; min-width: 40px; text-align: center; }
 .farm-worker-sep { color: #507040; margin: 0 1px; }
 .farm-worker-hint { font-size: 10px; color: #608050; }
+.farm-worker-hire-btn {
+  margin-left: auto;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  background: #1a2e10;
+  color: #607050;
+  border: 1px solid #304820;
+  border-radius: 3px;
+  padding: 2px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.farm-worker-hire-btn:disabled { opacity: 0.4; cursor: default; }
+.farm-worker-hire-btn--ready {
+  color: #c0e890;
+  border-color: #507040;
+}
+.farm-worker-hire-btn--ready:hover { background: #2a4a18; }
 
 /* Resource bar */
 .farm-res-bar {
@@ -12998,8 +13017,20 @@ html.light-mode .action-btn {
 .farm-raid-pill--imminent { color: #d06030; animation: city-pulse 1.2s ease-in-out infinite; }
 
 /* Farm grid */
-.farm-world { background: #1a2e10; border-radius: 4px; overflow: hidden; }
-.farm-grid  { padding: 4px; background: #1a2e10; }
+.farm-world {
+  position: relative;
+  width: 100%;
+  flex: 0 0 50vh;
+  height: 50vh;
+  min-height: 180px;
+  overflow: hidden;
+  background: #1a2e10;
+  border-radius: 4px;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.farm-grid  { padding: 4px; background: #1a2e10; width: 100%; height: 100%; box-sizing: border-box; }
 
 /* Farm plot cells */
 .farm-cell {
@@ -13048,27 +13079,6 @@ html.light-mode .action-btn {
 .farm-raid-destroyed-item { font-size: 12px; color: #e08080; }
 .farm-raid-success { font-size: 12px; color: #80d080; }
 
-/* Building picker */
-.farm-picker { padding: 4px; }
-.farm-picker-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 6px; padding: 4px;
-}
-.farm-picker-card {
-  background: #1a2e10; border: 1px solid #3a5a2a; border-radius: 4px;
-  padding: 8px; cursor: pointer;
-  display: flex; flex-direction: column; gap: 4px;
-  transition: border-color 0.15s;
-}
-.farm-picker-card:hover { border-color: #70c050; }
-.farm-picker-card-name   { font-size: 12px; color: #a0d080; font-weight: bold; }
-.farm-picker-card-rarity { font-size: 10px; color: #608060; text-transform: capitalize; }
-.farm-picker-card-produces { display: flex; flex-wrap: wrap; gap: 4px; }
-.farm-picker-prod-chip {
-  font-size: 10px; color: #80c060;
-  background: rgba(80,120,40,0.2); border-radius: 2px; padding: 1px 4px;
-}
 
 /* ── City level badge ──────────────────────────────────────────────────────── */
 .city-level-badge {
