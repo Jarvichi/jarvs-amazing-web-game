@@ -353,7 +353,8 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
       // Move carriers
       const movedCarriers = visualCarriersRef.current.map(vc => {
         let { x, y, vx, vy, scale, phase } = vc
-        if (scale < 1) {
+        // Grow only on outbound spawn — returning shrink must not trigger this
+        if (scale < 1 && phase === 'outbound') {
           scale = Math.min(1, scale + 0.1)
           x += vx; y += vy
           return { ...vc, x, y, scale }
