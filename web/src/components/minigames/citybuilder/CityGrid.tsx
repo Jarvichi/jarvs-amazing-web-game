@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react'
+import React, { useRef, useCallback } from 'react'
 import {
   CityState, CITY_COLS, CITY_ROWS,
   spawnerUnitCount, getNeighbourIndices,
@@ -8,7 +8,8 @@ import {
 import { SpriteImg, AnimatedSpriteImg } from '../../ui/SpriteImg'
 import { BuilderWalker, VisualCarrier } from '../CityBuilder'
 import { Walker } from './walkerTypes'
-import { CityZoomControls, ZOOM_STEPS } from './CityZoomControls'
+import { CityZoomControls } from './CityZoomControls'
+import { useZoomPan } from './useZoomPan'
 
 // ── Road path SVG ─────────────────────────────────────────────────────────────
 // Strips are centred on the cell boundary (bottom / right) so they straddle
@@ -87,233 +88,19 @@ export function CityGrid({
   const cityCols  = city.cols ?? CITY_COLS
   const cityCells = cityCols * cityRows
 
-  // ── Zoom / pan state ─────────────────────────────────────────────────────────
-  const wrapperRef  = useRef<HTMLDivElement>(null)
-  // t = { s: scale, x: panX in screen px, y: panY in screen px }
-  const tRef        = useRef({ s: 1, x: 0, y: 0 })
-  const [displayScale, setDisplayScale] = useState(1)
+  // ── Zoom / pan (shared hook) ─────────────────────────────────────────────────
+  const { wrapperRef, displayScale, stepZoom, zoomTo, getCellFromPoint: getCellFromPointRaw } =
+    useZoomPan(worldRef, paintBrush, onPaint)
 
-  // Paint gesture state
-  const isPaintingRef   = useRef(false)
-  const lastPaintedRef  = useRef(-1)
+  const getCellFromPoint = useCallback(
+    (cx: number, cy: number) => getCellFromPointRaw(cx, cy, cityCols, cityRows),
+    [getCellFromPointRaw, cityCols, cityRows],
+  )
 
-  // Pan gesture state
-  const isPanningRef    = useRef(false)
-  const panStartRef     = useRef({ px: 0, py: 0, tx: 0, ty: 0 })
-
-  // Pinch gesture state
-  const pinchStartRef   = useRef({ dist: 0, s: 1, cx: 0, cy: 0, tx: 0, ty: 0 })
-  const isPinchingRef   = useRef(false)
-
-  function applyTransform(s = tRef.current.s, x = tRef.current.x, y = tRef.current.y) {
-    if (!wrapperRef.current) return
-    wrapperRef.current.style.transform = `matrix(${s},0,0,${s},${x},${y})`
-  }
-
-  function clamp(s: number, x: number, y: number) {
-    const el = worldRef.current
-    const cw = el?.clientWidth  ?? 300
-    const ch = el?.clientHeight ?? 300
-    s = Math.max(1, Math.min(4, s))
-    x = s <= 1 ? 0 : Math.max(-(s - 1) * cw, Math.min(0, x))
-    y = s <= 1 ? 0 : Math.max(-(s - 1) * ch, Math.min(0, y))
-    return { s, x, y }
-  }
-
-  function setTransform(s: number, x: number, y: number, updateDisplay = false) {
-    const t = clamp(s, x, y)
-    tRef.current = t
-    applyTransform(t.s, t.x, t.y)
-    if (updateDisplay) setDisplayScale(t.s)
-  }
-
-  function zoomTo(targetScale: number) {
-    const el = worldRef.current
-    const cw = el?.clientWidth  ?? 300
-    const ch = el?.clientHeight ?? 300
-    const { s, x, y } = tRef.current
-    const cx = cw / 2
-    const cy = ch / 2
-    const factor = targetScale / s
-    setTransform(targetScale, cx - (cx - x) * factor, cy - (cy - y) * factor, true)
-  }
-
-  function stepZoom(dir: 1 | -1) {
-    const cur = tRef.current.s
-    const next = dir > 0
-      ? ZOOM_STEPS.find(z => z > cur + 0.01) ?? ZOOM_STEPS[ZOOM_STEPS.length - 1]
-      : [...ZOOM_STEPS].reverse().find(z => z < cur - 0.01) ?? ZOOM_STEPS[0]
-    zoomTo(next)
-  }
-
-  // Map a client-space point to a cell index, accounting for current zoom/pan
-  const getCellFromPoint = useCallback((cx: number, cy: number): number => {
-    const el = worldRef.current
-    if (!el) return -1
-    const rect = el.getBoundingClientRect()
-    const { s, x, y } = tRef.current
-    const lx = (cx - rect.left - x) / s
-    const ly = (cy - rect.top  - y) / s
-    const col = Math.floor((lx / rect.width)  * cityCols)
-    const row = Math.floor((ly / rect.height) * cityRows)
-    if (col < 0 || col >= cityCols || row < 0 || row >= cityRows) return -1
-    return row * cityCols + col
-  }, [cityCols, cityRows, worldRef])
-
-  // ── Wheel zoom ───────────────────────────────────────────────────────────────
-  useEffect(() => {
-    const el = worldRef.current
-    if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault()
-      const { s, x, y } = tRef.current
-      const rect = el.getBoundingClientRect()
-      const cx = e.clientX - rect.left
-      const cy = e.clientY - rect.top
-      const delta = e.deltaY > 0 ? 0.85 : 1 / 0.85
-      const sNew = Math.max(1, Math.min(4, s * delta))
-      const factor = sNew / s
-      setTransform(sNew, cx - (cx - x) * factor, cy - (cy - y) * factor, true)
-    }
-    el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [worldRef])
-
-  // ── Touch: pinch zoom + pan + paint ─────────────────────────────────────────
-  useEffect(() => {
-    const el = worldRef.current
-    if (!el) return
-
-    function touchDist(t: TouchList) {
-      const dx = t[1].clientX - t[0].clientX
-      const dy = t[1].clientY - t[0].clientY
-      return Math.sqrt(dx * dx + dy * dy)
-    }
-
-    const onTouchStart = (e: TouchEvent) => {
-      if ((e.target as Element).closest('.city-zoom-controls')) return
-      if (e.touches.length === 1) {
-        // Single touch: start paint or pan
-        const { s } = tRef.current
-        if (paintBrush) {
-          // Paint start
-          isPaintingRef.current = true
-          lastPaintedRef.current = -1
-          const idx = getCellFromPoint(e.touches[0].clientX, e.touches[0].clientY)
-          if (idx >= 0) { lastPaintedRef.current = idx; onPaint(idx) }
-          e.preventDefault()
-        } else if (s > 1) {
-          // Record pan origin but don't preventDefault — a tap must still fire click
-          // (isPanningRef is set on first touchmove, not here)
-          panStartRef.current = { px: e.touches[0].clientX, py: e.touches[0].clientY, tx: tRef.current.x, ty: tRef.current.y }
-        }
-      } else if (e.touches.length === 2) {
-        // Pinch start
-        isPaintingRef.current = false
-        isPanningRef.current  = false
-        isPinchingRef.current = true
-        const dist = touchDist(e.touches)
-        const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2
-        const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2
-        pinchStartRef.current = { dist, s: tRef.current.s, cx, cy, tx: tRef.current.x, ty: tRef.current.y }
-        e.preventDefault()
-      }
-    }
-
-    const onTouchMove = (e: TouchEvent) => {
-      e.preventDefault()
-      if (e.touches.length === 1) {
-        if (isPaintingRef.current && paintBrush) {
-          const idx = getCellFromPoint(e.touches[0].clientX, e.touches[0].clientY)
-          if (idx >= 0 && idx !== lastPaintedRef.current) {
-            lastPaintedRef.current = idx
-            onPaint(idx)
-          }
-        } else if (tRef.current.s > 1 && !isPinchingRef.current) {
-          // Engage pan on first actual move (not on touchstart, so taps fire click)
-          isPanningRef.current = true
-          const { px, py, tx, ty } = panStartRef.current
-          setTransform(tRef.current.s, tx + e.touches[0].clientX - px, ty + e.touches[0].clientY - py)
-        }
-      } else if (e.touches.length === 2 && isPinchingRef.current) {
-        const dist = touchDist(e.touches)
-        const { dist: d0, s: s0, cx: cx0, cy: cy0, tx: tx0, ty: ty0 } = pinchStartRef.current
-        const sNew = s0 * (dist / d0)
-        // Pan delta from two-finger centroid
-        const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2
-        const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2
-        const rect = el.getBoundingClientRect()
-        const pivot_x = cx0 - rect.left
-        const pivot_y = cy0 - rect.top
-        const factor = sNew / s0
-        const xNew = pivot_x - (pivot_x - tx0) * factor + (cx - cx0)
-        const yNew = pivot_y - (pivot_y - ty0) * factor + (cy - cy0)
-        setTransform(sNew, xNew, yNew)
-      }
-    }
-
-    const onTouchEnd = (e: TouchEvent) => {
-      if (e.touches.length === 0) {
-        isPaintingRef.current = false
-        isPanningRef.current  = false
-        if (isPinchingRef.current) setDisplayScale(tRef.current.s)
-        isPinchingRef.current = false
-      } else if (e.touches.length === 1) {
-        if (isPinchingRef.current) setDisplayScale(tRef.current.s)
-        isPinchingRef.current = false
-      }
-    }
-
-    el.addEventListener('touchstart', onTouchStart, { passive: false })
-    el.addEventListener('touchmove',  onTouchMove,  { passive: false })
-    el.addEventListener('touchend',   onTouchEnd,   { passive: false })
-    return () => {
-      el.removeEventListener('touchstart', onTouchStart)
-      el.removeEventListener('touchmove',  onTouchMove)
-      el.removeEventListener('touchend',   onTouchEnd)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [worldRef, paintBrush, getCellFromPoint, onPaint])
-
-  // ── Mouse pan (desktop, when zoomed) ────────────────────────────────────────
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
-    if ((e.target as Element).closest('.city-zoom-controls')) return
-    if (paintBrush || tRef.current.s <= 1) return
-    if (e.button !== 0) return
-    isPanningRef.current = true
-    panStartRef.current  = { px: e.clientX, py: e.clientY, tx: tRef.current.x, ty: tRef.current.y }
-  }, [paintBrush])
-
-  const onMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isPanningRef.current) return
-    const { px, py, tx, ty } = panStartRef.current
-    setTransform(tRef.current.s, tx + e.clientX - px, ty + e.clientY - py)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const onMouseUp = useCallback(() => {
-    isPanningRef.current = false
-  }, [])
-
-  // ── Cell paint helpers ───────────────────────────────────────────────────────
+  // ── Cell paint helpers (pointer-down on individual cells) ────────────────────
   const startPaint = useCallback((index: number) => {
-    isPaintingRef.current  = true
-    lastPaintedRef.current = index
     onPaint(index)
   }, [onPaint])
-
-  const continuePaint = useCallback((index: number) => {
-    if (!isPaintingRef.current || index < 0 || index === lastPaintedRef.current) return
-    lastPaintedRef.current = index
-    onPaint(index)
-  }, [onPaint])
-
-  // Mouse-based paint drag (desktop)
-  const onMouseMovePaint = useCallback((e: React.MouseEvent) => {
-    if (!isPaintingRef.current || !paintBrush) return
-    continuePaint(getCellFromPoint(e.clientX, e.clientY))
-  }, [paintBrush, continuePaint, getCellFromPoint])
 
   const visibleBubbleSet = new Set(
     walkers
@@ -327,10 +114,6 @@ export function CityGrid({
     <div
       className={`city-world${paintBrush ? ' city-world--paint' : ''}`}
       ref={worldRef}
-      onMouseDown={onMouseDown}
-      onMouseMove={e => { onMouseMove(e); onMouseMovePaint(e) }}
-      onMouseUp={onMouseUp}
-      onMouseLeave={onMouseUp}
     >
       {/* Zoom controls — outside the zoom wrapper so they don't scale */}
       <CityZoomControls
