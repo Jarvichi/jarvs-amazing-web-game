@@ -60,6 +60,7 @@ import { StatsScreen } from './citybuilder/StatsScreen'
 import { ZoneEditor } from './citybuilder/ZoneEditor'
 import { DisasterModal } from './citybuilder/DisasterModal'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { FarmingSim } from './FarmingSim'
 import { isFarmUnlocked } from '../../game/farmingSim'
 
@@ -668,6 +669,8 @@ export function CityBuilder({ onBack }: Props) {
   const [fortSlotSel, setFortSlotSel] = useState<number | null>(null)
   const [fortFilter, setFortFilter] = useState<string>('all')
   const [fortSort, setFortSort] = useState<'defense' | 'name' | 'rarity'>('defense')
+  const [showFarmLockModal, setShowFarmLockModal] = useState(false)
+  const [showExpandModal, setShowExpandModal] = useState(false)
   const worldRef = useRef<HTMLDivElement>(null)
   const worldDimsRef = useRef({ w: CITY_COLS * CELL_PX, h: CITY_ROWS * CELL_PX })
   const fortRingRef = useRef<HTMLDivElement>(null)
@@ -1448,6 +1451,7 @@ export function CityBuilder({ onBack }: Props) {
   const cityCells = cityCols * cityRows
   const expansionCost = EXPANSION_COSTS[cityRows]
   const affordable = canAffordExpansion(city)
+  const cityLevel = cityRows - CITY_ROWS + 1
 
   const msToAttack = Math.max(0, city.nextAttackAt - currentTime)
   const attackCountdown = formatCountdown(msToAttack)
@@ -1618,7 +1622,9 @@ export function CityBuilder({ onBack }: Props) {
   return (
     <OverlayScreen title={bulldozerMode ? '⏸ PAUSED' : '🏙 CITY'} onBack={onBack}
 
-      right={<> <div className="city-gold-display">⚙ {city.gold.toLocaleString()} (+{incomeRate}/min)</div>
+      right={<>
+        <div className="city-level-badge" title={`City level ${cityLevel} — ${cityRows}×${cityCols} grid`}>LVL {cityLevel}</div>
+        <div className="city-gold-display">⚙ {city.gold.toLocaleString()} (+{incomeRate}/min)</div>
         <button className="action-btn" onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers">
           ⚔ DEFEND
         </button></>}
@@ -1663,6 +1669,68 @@ export function CityBuilder({ onBack }: Props) {
             hasDamagedForts={city.fortifications.some(f => f.hp < f.maxHp)}
             onClose={() => setAttackReport(null)}
           />
+        )}
+
+        {showFarmLockModal && (
+          <ModalBackdrop onClose={() => setShowFarmLockModal(false)}>
+            <div className="city-info-modal">
+              <div className="city-info-modal-title">🌾 FARM — LOCKED</div>
+              <div className="city-info-modal-body">
+                <p>Move production buildings to fertile land outside the city walls for a <strong>+50% resource bonus</strong>.</p>
+                <p style={{ color: '#cc9944' }}>⚠ Farms are raided every 3–4 hours with minimal defence.</p>
+                <div className="city-info-modal-req">
+                  <span className={population >= 10 ? 'req--met' : 'req--unmet'}>
+                    {population >= 10 ? '✓' : '✗'} Population ≥ 10 (currently {population})
+                  </span>
+                </div>
+                <p style={{ fontSize: 11, color: '#668866' }}>Grow your city by placing more spawning buildings to unlock the farm.</p>
+              </div>
+              <button className="action-btn" onClick={() => setShowFarmLockModal(false)}>CLOSE</button>
+            </div>
+          </ModalBackdrop>
+        )}
+
+        {showExpandModal && (
+          <ModalBackdrop onClose={() => setShowExpandModal(false)}>
+            <div className="city-info-modal">
+              <div className="city-info-modal-title">🏢 CITY EXPANSION</div>
+              <div className="city-info-modal-body">
+                {([4, 5, 6, 7, 8] as const).map(rows => {
+                  const lvl = rows - CITY_ROWS + 1
+                  const cost = EXPANSION_COSTS[rows as 4|5|6|7]
+                  const isCurrent = cityRows === rows
+                  const isCompleted = cityRows > rows
+                  const isNext = cityRows === rows
+                  return (
+                    <div key={rows} className={`city-expand-row${isCurrent ? ' city-expand-row--current' : ''}${isCompleted ? ' city-expand-row--done' : ''}`}>
+                      <span className="city-expand-lvl">LVL {lvl} — {rows}×{rows}</span>
+                      {isCompleted && <span className="city-expand-status">✓ Unlocked</span>}
+                      {isCurrent && rows < MAX_CITY_ROWS && cost && (
+                        <span className="city-expand-cost">
+                          ⚙ {cost.gold.toLocaleString()}
+                          {Object.entries(cost.resources).map(([r, v]) => ` · ${v?.toLocaleString()} ${r}`).join('')}
+                        </span>
+                      )}
+                      {isCurrent && rows >= MAX_CITY_ROWS && <span className="city-expand-status">MAX SIZE</span>}
+                    </div>
+                  )
+                })}
+              </div>
+              <div className="u-flex u-gap-3 u-just-c">
+                {cityRows < MAX_CITY_ROWS && expansionCost && (
+                  <button
+                    className={`action-btn${affordable ? ' action-btn--gold' : ''}`}
+                    onClick={() => { handleExpand(); setShowExpandModal(false) }}
+                    disabled={!affordable}
+                    title={affordable ? 'Expand the city now' : 'Not enough resources'}
+                  >
+                    {affordable ? '🏢 EXPAND NOW' : '🔒 NEED RESOURCES'}
+                  </button>
+                )}
+                <button className="action-btn" onClick={() => setShowExpandModal(false)}>CLOSE</button>
+              </div>
+            </div>
+          </ModalBackdrop>
         )}
 
         {selectedWalker !== null && (() => {
@@ -1760,9 +1828,9 @@ export function CityBuilder({ onBack }: Props) {
           ) : (
             <button
               className="filter-btn"
-              style={{ opacity: 0.5 }}
+              style={{ opacity: 0.7 }}
               title={`Farm unlocks at population 10 (currently ${population})`}
-              disabled
+              onClick={() => setShowFarmLockModal(true)}
             >🌾 FARM 🔒</button>
           )}
           <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
@@ -1783,11 +1851,11 @@ export function CityBuilder({ onBack }: Props) {
             onClick={() => setShowTrade(true)}
             title="Trade resources via caravan"
           >🐪 TRADE{city.activeCaravan ? ' (away)' : city.tradeOffer ? ' !' : ''}</button>
-          {cityRows < MAX_CITY_ROWS && expansionCost && (
+          {cityRows <= MAX_CITY_ROWS && (
             <button
               className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
-              onClick={handleExpand}
-              title={affordable ? `Expand city to ${cityRows + 1}×${cityCols + 1}` : 'Not enough resources to expand'}
+              onClick={() => setShowExpandModal(true)}
+              title="View city expansion levels and costs"
             >🏢 EXPAND</button>
           )}
         </div>
