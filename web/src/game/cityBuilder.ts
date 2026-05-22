@@ -597,6 +597,11 @@ export function currentSeason(now = Date.now()): Season {
  * Buildings not listed here fall back to keyword matching in getBuildingResourceConfig.
  */
 const BUILDING_RESOURCE_CONFIG: Record<string, Partial<ResourceStock>> = {
+  // ── Core farm buildings (farm-exclusive, always available) ──
+  'Wheat Field': { wheat: 3 },
+  'Orchard':     { wheat: 2, bread: 1 },
+  'Plantation':  { wheat: 5 },
+  'Forest':      { wood: 4 },
   // ── Core buildings (always available, built with gold) ──
   'Windmill':    { bread: 2 },
   'Bakery':      { bread: 1.5 },

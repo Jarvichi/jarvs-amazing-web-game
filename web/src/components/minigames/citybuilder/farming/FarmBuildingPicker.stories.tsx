@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { FarmBuildingPicker } from './FarmBuildingPicker'
 import type { Card } from '../../../../game/types'
+import { CORE_FARM_BUILDINGS } from '../../../../game/farmingSim'
 
 const sampleCards: Card[] = [
   { id: 'farm-1', name: 'Farm', rarity: 'common', cost: 2, cardType: 'structure', description: 'Produces wheat' },
@@ -20,16 +21,33 @@ type Story = StoryObj<typeof FarmBuildingPicker>
 
 export const Default: Story = {
   args: {
-    availableCards: sampleCards,
-    onPick: (c) => console.log('picked', c.name),
-    onBack: () => {},
+    availableCards:    sampleCards,
+    coreFarmBuildings: CORE_FARM_BUILDINGS,
+    gold:              1000,
+    onPick:            (c) => console.log('picked', c.name),
+    onPickCore:        (b) => console.log('picked core', b.name),
+    onBack:            () => {},
+  },
+}
+
+export const Broke: Story = {
+  args: {
+    availableCards:    sampleCards,
+    coreFarmBuildings: CORE_FARM_BUILDINGS,
+    gold:              0,
+    onPick:            () => {},
+    onPickCore:        () => {},
+    onBack:            () => {},
   },
 }
 
 export const Empty: Story = {
   args: {
-    availableCards: [],
-    onPick: () => {},
-    onBack: () => {},
+    availableCards:    [],
+    coreFarmBuildings: [],
+    gold:              500,
+    onPick:            () => {},
+    onPickCore:        () => {},
+    onBack:            () => {},
   },
 }

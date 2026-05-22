@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- soil rows -->
+  <rect x="2" y="22" width="28" height="4" rx="1" fill="#8B6340"/>
+  <!-- stalks -->
+  <line x1="7"  y1="21" x2="7"  y2="12" stroke="#8BC34A" stroke-width="1.5"/>
+  <line x1="12" y1="21" x2="12" y2="10" stroke="#8BC34A" stroke-width="1.5"/>
+  <line x1="17" y1="21" x2="17" y2="12" stroke="#8BC34A" stroke-width="1.5"/>
+  <line x1="22" y1="21" x2="22" y2="10" stroke="#8BC34A" stroke-width="1.5"/>
+  <line x1="27" y1="21" x2="27" y2="12" stroke="#8BC34A" stroke-width="1.5"/>
+  <!-- wheat heads -->
+  <ellipse cx="7"  cy="10" rx="2" ry="3" fill="#F5C842"/>
+  <ellipse cx="12" cy="8"  rx="2" ry="3" fill="#F5C842"/>
+  <ellipse cx="17" cy="10" rx="2" ry="3" fill="#F5C842"/>
+  <ellipse cx="22" cy="8"  rx="2" ry="3" fill="#F5C842"/>
+  <ellipse cx="27" cy="10" rx="2" ry="3" fill="#F5C842"/>
+  <!-- awns -->
+  <line x1="7"  y1="7"  x2="6"  y2="5"  stroke="#D4A820" stroke-width="1"/>
+  <line x1="12" y1="5"  x2="11" y2="3"  stroke="#D4A820" stroke-width="1"/>
+  <line x1="17" y1="7"  x2="16" y2="5"  stroke="#D4A820" stroke-width="1"/>
+  <line x1="22" y1="5"  x2="21" y2="3"  stroke="#D4A820" stroke-width="1"/>
+  <line x1="27" y1="7"  x2="26" y2="5"  stroke="#D4A820" stroke-width="1"/>
+</svg>

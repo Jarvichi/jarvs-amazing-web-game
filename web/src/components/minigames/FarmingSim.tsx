@@ -15,6 +15,7 @@ import {
   canAffordFarmExpansion, expandFarm,
   buildFarmCity, getFarmNeighbourIndices,
   FARM_COLS, FARM_ROWS, MAX_FARM_SIZE, FARM_EXPANSION_COSTS,
+  FARM_PLACE_COST, CoreFarmBuilding, CORE_FARM_BUILDINGS,
 } from '../../game/farmingSim'
 import {
   CityState, ResourceType, CELL_PX,
@@ -516,6 +517,8 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
     return (
       <FarmBuildingPicker
         availableCards={availableForFarm}
+        coreFarmBuildings={CORE_FARM_BUILDINGS}
+        gold={city.gold}
         onPick={(card: Card) => {
           const isSpawner = card.unit?.structureEffect?.type === 'spawn'
           if (!canPlaceOnFarm(card.name, isSpawner ?? false)) {
@@ -523,7 +526,22 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
             setScreen('farm')
             return
           }
+          const cost = FARM_PLACE_COST[card.rarity] ?? 200
+          if (cityRef.current.gold < cost) {
+            showToast(`Need ${GOLD_SYMBOL} ${cost.toLocaleString()} to establish this building on the farm.`)
+            return
+          }
+          onSaveCity({ ...cityRef.current, gold: cityRef.current.gold - cost })
           saveFarm(placeFarmBuilding(farm, pickerIndex, { cardName: card.name, rarity: card.rarity, stock: {} }))
+          setScreen('farm')
+        }}
+        onPickCore={(building: CoreFarmBuilding) => {
+          if (cityRef.current.gold < building.goldCost) {
+            showToast(`Need ${GOLD_SYMBOL} ${building.goldCost.toLocaleString()} to build ${building.name}.`)
+            return
+          }
+          onSaveCity({ ...cityRef.current, gold: cityRef.current.gold - building.goldCost })
+          saveFarm(placeFarmBuilding(farm, pickerIndex, { cardName: building.name, rarity: building.rarity, stock: {} }))
           setScreen('farm')
         }}
         onBack={() => setScreen('farm')}
