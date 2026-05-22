@@ -3,6 +3,7 @@
 // but all walkers are farmers sourced from city population.
 
 import React, { useState, useEffect, useRef } from 'react'
+import { tickAll } from '../../game/tick'
 import {
   FarmState, FarmRaidEvent,
   loadFarmState, saveFarmState, tickFarm,
@@ -22,6 +23,7 @@ import {
   resourceConsumptionRate,
   GOLD_SYMBOL,
   currentSeason,
+  distributeIncomingResources,
 } from '../../game/cityBuilder'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { getCardCatalog } from '../../game/cards'
@@ -186,11 +188,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
     const rfc = initCatchUpRef.current
     if (!rfc || !Object.values(rfc).some(v => (v ?? 0) > 0)) return
     initCatchUpRef.current = {}
-    const newCityRes = { ...city.resources }
-    for (const [res, amt] of Object.entries(rfc) as [ResourceType, number][]) {
-      newCityRes[res] = Math.round((newCityRes[res] ?? 0) + amt)
-    }
-    onSaveCity({ ...city, resources: newCityRes })
+    onSaveCity(distributeIncomingResources(city, rfc))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -235,21 +233,13 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
     return () => clearInterval(id)
   }, [])
 
-  // Farm tick every 10 s
+  // Farm + city unified tick every 10 s
   useEffect(() => {
     const id = setInterval(() => {
-      const { nextState, resourcesForCity } = tickFarm(farmRef.current)
-      saveFarmState(nextState)
-      setFarm(nextState)
-
-      const hasResources = Object.values(resourcesForCity).some(v => (v ?? 0) > 0)
-      if (hasResources) {
-        const newCityRes = { ...cityRef.current.resources }
-        for (const [res, amt] of Object.entries(resourcesForCity) as [ResourceType, number][]) {
-          newCityRes[res] = Math.round((newCityRes[res] ?? 0) + amt)
-        }
-        onSaveCity({ ...cityRef.current, resources: newCityRes })
-      }
+      const { nextCity, nextFarm } = tickAll(cityRef.current, farmRef.current)
+      saveFarmState(nextFarm)
+      setFarm(nextFarm)
+      onSaveCity(nextCity)
     }, 10_000)
     return () => clearInterval(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps

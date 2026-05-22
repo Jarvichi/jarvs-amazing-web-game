@@ -503,6 +503,26 @@ function aggregateResources(
   return r
 }
 
+/** Deposits incoming resources (e.g. from farm shipments) into city cell stocks
+ *  so they survive the next aggregateResources() recomputation inside tickCity.
+ *  Prefers warehouse cells; falls back to any non-spawner cell. */
+export function distributeIncomingResources(
+  city: CityState,
+  incoming: Partial<ResourceStock>,
+): CityState {
+  if (!Object.values(incoming).some(v => (v ?? 0) > 0)) return city
+  const newGrid = city.grid.map(c => c ? { ...c, stock: { ...c.stock } } : c) as CityState['grid']
+  for (const [res, amt] of Object.entries(incoming) as [ResourceType, number][]) {
+    if (!(amt > 0)) continue
+    const warehouses = newGrid.filter((c): c is CityCell => Boolean(c && !c.spawnedUnitName && WAREHOUSE_PATTERN.test(c.cardName)))
+    const cells = warehouses.length > 0 ? warehouses : (newGrid.filter((c): c is CityCell => Boolean(c && !c.spawnedUnitName)))
+    if (cells.length === 0) continue
+    const each = amt / cells.length
+    for (const c of cells) c.stock[res as ResourceType] = (c.stock[res as ResourceType] ?? 0) + each
+  }
+  return { ...city, grid: newGrid }
+}
+
 export function calculateStorageCaps(state: CityState): ResourceStock {
   let bonus = 0
   for (const cell of state.grid) {
