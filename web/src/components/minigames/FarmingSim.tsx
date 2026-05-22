@@ -147,6 +147,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
   const [visualCarriers, setVisualCarriers] = useState<VisualCarrier[]>([])
 
   const farmRef    = useRef(farm)
+  const cityRef    = useRef(city)
   const walkersRef = useRef(walkers)
   const worldRef   = useRef<HTMLDivElement>(null)
   const worldDims  = useRef({ w: FARM_COLS * CELL_PX, h: FARM_ROWS * CELL_PX })
@@ -169,6 +170,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
   }
 
   useEffect(() => { farmRef.current = farm }, [farm])
+  useEffect(() => { cityRef.current = city }, [city])
   useEffect(() => { walkersRef.current = walkers }, [walkers])
 
   // Ship any resources produced during the offline catch-up tick to the city
@@ -234,11 +236,11 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
 
       const hasResources = Object.values(resourcesForCity).some(v => (v ?? 0) > 0)
       if (hasResources) {
-        const newCityRes = { ...city.resources }
+        const newCityRes = { ...cityRef.current.resources }
         for (const [res, amt] of Object.entries(resourcesForCity) as [ResourceType, number][]) {
           newCityRes[res] = Math.round((newCityRes[res] ?? 0) + amt)
         }
-        onSaveCity({ ...city, resources: newCityRes })
+        onSaveCity({ ...cityRef.current, resources: newCityRes })
       }
     }, 10_000)
     return () => clearInterval(id)

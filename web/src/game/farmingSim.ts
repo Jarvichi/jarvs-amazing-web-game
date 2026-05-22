@@ -143,8 +143,8 @@ export function buildFarmCity(farm: FarmState): CityState {
     const stock: Partial<Record<ResourceType, number>> = {}
     for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
       if ((rate ?? 0) > 0) {
-        const farmAmt = farm.resources[res] ?? 0
-        if (farmAmt >= 0.01) stock[res] = farmAmt
+        // Always show icon for producing buildings — buffer frequently resets to 0 after shipping
+        stock[res] = Math.max(farm.resources[res] ?? 0, 0.1)
       }
     }
     for (const [res, rate] of Object.entries(consumes) as [ResourceType, number][]) {
