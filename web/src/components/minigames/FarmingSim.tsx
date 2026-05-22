@@ -20,7 +20,7 @@ import {
   CityState, ResourceType, CELL_PX,
   cityPopulation, getBuildingProduces, getBuildingConsumes,
   levelUpCost,
-  resourceConsumptionRate,
+  resourceConsumptionRate, resourceProductionRate,
   GOLD_SYMBOL,
   currentSeason,
   distributeIncomingResources,
@@ -501,7 +501,11 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
     return (getOwnedCount(collection, c.name) - (placedOnFarm[c.name] ?? 0)) > 0
   })
 
-  const prodRates   = getFarmProductionRate(farm)
+  const cityProdRates = resourceProductionRate(city)
+  const prodRates: Partial<Record<ResourceType, number>> = { ...cityProdRates }
+  for (const [res, rate] of Object.entries(getFarmProductionRate(farm)) as [ResourceType, number][]) {
+    prodRates[res as ResourceType] = (prodRates[res as ResourceType] ?? 0) + rate
+  }
   const consRates = resourceConsumptionRate(city)
   const defense     = farmDefense(farm)
   const nextRaidMs  = Math.max(0, farm.nextRaidAt - currentTime)
