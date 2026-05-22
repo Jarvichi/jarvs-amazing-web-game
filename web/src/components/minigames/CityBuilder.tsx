@@ -62,7 +62,7 @@ import { DisasterModal } from './citybuilder/DisasterModal'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { FarmingSim } from './FarmingSim'
-import { isFarmUnlocked, loadFarmState, getFarmProductionRate } from '../../game/farmingSim'
+import { isFarmUnlocked, loadFarmState, saveFarmState, tickFarm, getFarmProductionRate } from '../../game/farmingSim'
 
 
 // ── Resident thought lines ────────────────────────────────────────────────────
@@ -676,6 +676,7 @@ export function CityBuilder({ onBack }: Props) {
   const cityRef = useRef(city)
   const walkersRef = useRef(walkers)
   const builderWalkersRef = useRef(builderWalkers)
+  const screenRef = useRef(screen)
 
   function showToast(msg: string) {
     setToast(msg)
@@ -695,6 +696,7 @@ export function CityBuilder({ onBack }: Props) {
   useEffect(() => { cityRef.current = city }, [city])
   useEffect(() => { walkersRef.current = walkers }, [walkers])
   useEffect(() => { builderWalkersRef.current = builderWalkers }, [builderWalkers])
+  useEffect(() => { screenRef.current = screen }, [screen])
 
   // Show attack report when a new attack is detected
   useEffect(() => {
@@ -1137,7 +1139,24 @@ export function CityBuilder({ onBack }: Props) {
     const id = setInterval(() => {
       if (bulldozerRef.current) return
       setCity(prev => {
-        const next = tickCity(prev)
+        let next = tickCity(prev)
+
+        // Tick the farm and apply its output to city resources when farm screen
+        // is not open (FarmingSim handles its own tick when the farm is visible).
+        if (screenRef.current !== 'farming' && isFarmUnlocked(cityPopulation(next))) {
+          const farmState = loadFarmState()
+          const { nextState: nextFarm, resourcesForCity } = tickFarm(farmState)
+          saveFarmState(nextFarm)
+          const hasResources = Object.values(resourcesForCity).some(v => (v ?? 0) > 0)
+          if (hasResources) {
+            const newRes = { ...next.resources }
+            for (const [res, amt] of Object.entries(resourcesForCity) as [ResourceType, number][]) {
+              newRes[res] = Math.round((newRes[res] ?? 0) + amt)
+            }
+            next = { ...next, resources: newRes }
+          }
+        }
+
         saveCityState(next)
         return next
       })
