@@ -64,7 +64,8 @@ import { OverlayScreen } from '../ui/OverlayScreen'
 import { Toolbar, ToolbarButton, ToolbarDropdown } from '../ui/Toolbar'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { FarmingSim } from './FarmingSim'
-import { isFarmUnlocked, loadFarmState, saveFarmState, tickFarm, getFarmProductionRate } from '../../game/farmingSim'
+import { isFarmUnlocked, loadFarmState, saveFarmState, getFarmProductionRate } from '../../game/farmingSim'
+import { tickAll } from '../../game/tick'
 
 
 // ── Resident thought lines ────────────────────────────────────────────────────
@@ -1141,22 +1142,16 @@ export function CityBuilder({ onBack }: Props) {
     const id = setInterval(() => {
       if (bulldozerRef.current) return
       setCity(prev => {
-        let next = tickCity(prev)
-
-        // Tick the farm and apply its output to city resources when farm screen
-        // is not open (FarmingSim handles its own tick when the farm is visible).
-        if (screenRef.current !== 'farming' && isFarmUnlocked(cityPopulation(next))) {
-          const farmState = loadFarmState()
-          const { nextState: nextFarm, resourcesForCity } = tickFarm(farmState)
+        // When farm is visible, FarmingSim owns the unified tick (tickAll).
+        // When farm is not visible, run tickAll here so farm resources are
+        // distributed into city cell stocks before aggregation (not lost).
+        let next: CityState
+        if (screenRef.current !== 'farming' && isFarmUnlocked(cityPopulation(prev))) {
+          const { nextCity, nextFarm } = tickAll(prev, loadFarmState())
           saveFarmState(nextFarm)
-          const hasResources = Object.values(resourcesForCity).some(v => (v ?? 0) > 0)
-          if (hasResources) {
-            const newRes = { ...next.resources }
-            for (const [res, amt] of Object.entries(resourcesForCity) as [ResourceType, number][]) {
-              newRes[res] = Math.round((newRes[res] ?? 0) + amt)
-            }
-            next = { ...next, resources: newRes }
-          }
+          next = nextCity
+        } else {
+          next = tickCity(prev)
         }
 
         saveCityState(next)
