@@ -124,7 +124,15 @@ type SubScreen = 'farm' | 'picker' | 'chronicle'
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export function FarmingSim({ city, onSaveCity, onBack }: Props) {
-  const [farm, setFarm]             = useState<FarmState>(() => tickFarm(loadFarmState()).nextState)
+  // Catch-up tick on mount: advance farm state for offline time, capture resources
+  // to ship to city (applied in the mount useEffect below).
+  const initCatchUpRef = useRef<Partial<Record<ResourceType, number>>>({})
+  const [farm, setFarm]             = useState<FarmState>(() => {
+    const { nextState, resourcesForCity } = tickFarm(loadFarmState())
+    saveFarmState(nextState)
+    initCatchUpRef.current = resourcesForCity
+    return nextState
+  })
   const [screen, setScreen]         = useState<SubScreen>('farm')
   const [walkers, setWalkers]       = useState<Walker[]>([])
   const [pickerIndex, setPickerIndex] = useState<number>(0)
@@ -162,6 +170,19 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
 
   useEffect(() => { farmRef.current = farm }, [farm])
   useEffect(() => { walkersRef.current = walkers }, [walkers])
+
+  // Ship any resources produced during the offline catch-up tick to the city
+  useEffect(() => {
+    const rfc = initCatchUpRef.current
+    if (!rfc || !Object.values(rfc).some(v => (v ?? 0) > 0)) return
+    initCatchUpRef.current = {}
+    const newCityRes = { ...city.resources }
+    for (const [res, amt] of Object.entries(rfc) as [ResourceType, number][]) {
+      newCityRes[res] = Math.round((newCityRes[res] ?? 0) + amt)
+    }
+    onSaveCity({ ...city, resources: newCityRes })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Show raid modal when a new raid is detected
   useEffect(() => {

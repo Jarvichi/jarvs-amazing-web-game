@@ -119,15 +119,39 @@ export function buildFarmCity(farm: FarmState): CityState {
   const rows = farm.rows ?? FARM_ROWS
   const cols = farm.cols ?? FARM_COLS
   const cells = rows * cols
-  const roadWear: RoadWearMap = farm.roadWear ?? {
+
+  // Farm always shows roads between all cells at tier-1 (wear=40),
+  // regardless of the stored roadWear which starts at zero.
+  const roadWear: RoadWearMap = {
     h: Array.from({ length: cells }, (_, i) => (i % cols < cols - 1 ? 40 : 0)),
     v: Array.from({ length: cells }, (_, i) => (Math.floor(i / cols) < rows - 1 ? 40 : 0)),
   }
+
+  // Count how many plots produce each resource so we can split the farm pool.
+  const producerCount: Partial<Record<ResourceType, number>> = {}
+  for (const p of farm.plots) {
+    if (!p) continue
+    for (const [res, rate] of Object.entries(getBuildingProduces(p.cardName)) as [ResourceType, number][]) {
+      if ((rate ?? 0) > 0) producerCount[res] = (producerCount[res] ?? 0) + 1
+    }
+  }
+
+  // Each producing plot shows its proportional share of the farm resource pool.
+  const grid = farm.plots.map(p => {
+    if (!p) return undefined
+    const produces = getBuildingProduces(p.cardName)
+    const stock: Partial<Record<ResourceType, number>> = {}
+    for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
+      if ((rate ?? 0) > 0) {
+        const share = (farm.resources[res] ?? 0) / (producerCount[res] ?? 1)
+        if (share >= 0.01) stock[res] = share
+      }
+    }
+    return { cardName: p.cardName, rarity: p.rarity, stock } as CityCell
+  })
+
   return {
-    grid: farm.plots.map(p =>
-      p ? ({ cardName: p.cardName, rarity: p.rarity, stock: p.stock ?? {} } as CityCell) : undefined
-    ),
-    rows, cols,
+    grid, rows, cols,
     gold: 0,
     resources: { ...farm.resources, bread: 1 },
     lastTick: farm.lastTick,
