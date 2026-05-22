@@ -1,5 +1,5 @@
 import React from 'react'
-import { CityState, levelUpCost, LEVEL_UP_COSTS } from '../../../game/cityBuilder'
+import { CityState, levelUpCost, LEVEL_UP_COSTS, GOLD_SYMBOL } from '../../../game/cityBuilder'
 import { getMasteryXp, masteryProgress, loadCollection } from '../../../game/collection'
 import { Card } from '../../../game/types'
 import { MasteryBar } from '../../ui/MasteryBar'
@@ -32,19 +32,19 @@ export function LevelUpDetail({ levelCard, card, city, onBack, onLevelUp }: Prop
           <MasteryBar xp={xp} />
         </div>
         <div className="city-level-cost">
-          Next upgrade costs <span className="city-gold">⚙ {cost.toLocaleString()}</span>
+          Next upgrade costs <span className="city-gold">{GOLD_SYMBOL} {cost.toLocaleString()}</span>
           {' '}and grants mastery ★{mLvl + 1}
         </div>
         <div className="city-level-costs-table u-col u-gap-2">
           {LEVEL_UP_COSTS.map((c, i) => (
             <div key={i} className={`city-cost-row${i < mLvl ? ' city-cost-row--done' : ''}`}>
               <span>★{i} → ★{i + 1}</span>
-              <span>⚙ {c.toLocaleString()}</span>
+              <span>{GOLD_SYMBOL} {c.toLocaleString()}</span>
             </div>
           ))}
           <div className={`city-cost-row${mLvl >= LEVEL_UP_COSTS.length ? ' city-cost-row--done' : ''}`}>
             <span>★{LEVEL_UP_COSTS.length}+</span>
-            <span>⚙ {LEVEL_UP_COSTS[LEVEL_UP_COSTS.length - 1].toLocaleString()}</span>
+            <span>{GOLD_SYMBOL} {LEVEL_UP_COSTS[LEVEL_UP_COSTS.length - 1].toLocaleString()}</span>
           </div>
         </div>
         <button
@@ -52,7 +52,7 @@ export function LevelUpDetail({ levelCard, card, city, onBack, onLevelUp }: Prop
           onClick={() => onLevelUp(levelCard)}
           disabled={city.gold < cost}
         >
-          {city.gold >= cost ? `LEVEL UP (⚙ ${cost.toLocaleString()})` : `NEED ⚙ ${cost.toLocaleString()}`}
+          {city.gold >= cost ? `LEVEL UP (${GOLD_SYMBOL} ${cost.toLocaleString()})` : `NEED ${GOLD_SYMBOL} ${cost.toLocaleString()}`}
         </button>
       </div>
     </div>

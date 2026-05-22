@@ -1,5 +1,5 @@
 import React from 'react'
-import { CityState, getBuildingProduces, levelUpCost } from '../../../game/cityBuilder'
+import { CityState, getBuildingProduces, GOLD_SYMBOL, levelUpCost } from '../../../game/cityBuilder'
 import { CollectionEntry, getMasteryXp, masteryLevel } from '../../../game/collection'
 import { Card } from '../../../game/types'
 import { SpriteImg } from '../../ui/SpriteImg'
@@ -55,7 +55,7 @@ export function BuildingUpgradeList({
       </div>
       <div className="city-subscreen-scroll">
         <div className="city-gold-display" style={{ textAlign: 'center', padding: '4px' }}>
-          ⚙ {city.gold.toLocaleString()} gold
+          {GOLD_SYMBOL} {city.gold.toLocaleString()} gold
         </div>
         <input
           className="city-search"
@@ -88,7 +88,7 @@ export function BuildingUpgradeList({
                       <div className="city-level-card-name">{card.name}</div>
                       <div className="city-level-card-stars">★{mLvl} mastery</div>
                       <div className={`city-level-card-cost${canAfford ? ' city-level-card-cost--ready' : ''}`}>
-                        ⚙ {cost.toLocaleString()}
+                        {GOLD_SYMBOL} {cost.toLocaleString()}
                       </div>
                     </button>
                   )

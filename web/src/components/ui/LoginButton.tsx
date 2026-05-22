@@ -1,4 +1,5 @@
 import { User } from "firebase/auth";
+import { Button } from "./Button";
 
 export interface Props {
     onSignIn: () => void;
@@ -13,10 +14,14 @@ export function LoginButton({ onSignIn, onSignOut, user, playerName }: Props) {
             {user && !user.isAnonymous ? (
                 <div className="title-auth-bar">
                     <span className="title-auth-label">👤 {playerName ?? user.displayName ?? "user.email"}</span>
-                    <button className="title-auth-btn" onClick={onSignOut}>SIGN OUT</button>
+                    <Button className="title-auth-btn" onClick={onSignOut}>
+                      🔓 SIGN OUT
+                    </Button>
                 </div>
             ) : (
-                <button className="title-auth-btn" onClick={onSignIn}>SIGN IN</button>
+                <Button className="title-auth-btn" onClick={onSignIn}>
+                    🔒 SIGN IN
+                </Button>
             )}
 
         </>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { AttackEvent } from '../../../game/cityBuilder'
+import { AttackEvent, GOLD_SYMBOL } from '../../../game/cityBuilder'
 
 export interface Props {
   attackReport:    AttackEvent
@@ -32,10 +32,10 @@ export function AttackReportModal({ attackReport, hasDamagedForts, onClose }: Pr
             <div className="city-attack-good">Your defences held! Minor wall damage only.</div>
           )}
           {attackReport.goldEarned > 0 && (
-            <div className="city-attack-good">🪙 +{attackReport.goldEarned.toLocaleString()} gold — enemy loot seized!</div>
+            <div className="city-attack-good">{GOLD_SYMBOL} +{attackReport.goldEarned.toLocaleString()} gold — enemy loot seized!</div>
           )}
           {attackReport.stolenGold > 0 && (
-            <div className="city-attack-bad">⚙ {attackReport.stolenGold.toLocaleString()} gold stolen</div>
+            <div className="city-attack-bad">{GOLD_SYMBOL} {attackReport.stolenGold.toLocaleString()} gold stolen</div>
           )}
           {attackReport.destroyedBuildings.length > 0 && (
             <div className="city-attack-bad">

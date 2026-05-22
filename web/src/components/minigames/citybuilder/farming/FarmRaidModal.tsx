@@ -1,7 +1,7 @@
 import React from 'react'
-import { FarmRaidEvent } from '../../../game/farmingSim'
-import { RESOURCE_ICONS, ResourceType } from '../../../game/cityBuilder'
-import { ModalBackdrop } from '../../ui/ModalBackdrop'
+import { FarmRaidEvent } from '../../../../game/farmingSim'
+import { RESOURCE_ICONS, ResourceType } from '../../../../game/cityBuilder'
+import { ModalBackdrop } from '../../../ui/ModalBackdrop'
 
 export interface Props {
   raid:    FarmRaidEvent

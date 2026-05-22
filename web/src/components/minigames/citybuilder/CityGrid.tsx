@@ -68,6 +68,7 @@ function RoadPath({ left, right, top, bottom }: RoadPathProps) {
 // ── Props ─────────────────────────────────────────────────────────────────────
 
 export interface Props {
+  toolbar?:       React.ReactNode
   city:           CityState
   walkers:        Walker[]
   builderWalkers: BuilderWalker[]
@@ -81,6 +82,7 @@ export interface Props {
 }
 
 export function CityGrid({
+  toolbar,
   city, walkers, builderWalkers, visualCarriers, bulldozerMode, worldRef,
   paintBrush, onCellTap, onPaint, onWalkerClick,
 }: Props) {
@@ -111,10 +113,12 @@ export function CityGrid({
   )
 
   return (
-    <div
-      className={`city-world${paintBrush ? ' city-world--paint' : ''}`}
-      ref={worldRef}
-    >
+    <>
+      {toolbar}
+      <div
+        className={`city-world${paintBrush ? ' city-world--paint' : ''}`}
+        ref={worldRef}
+      >
       {/* Zoom controls — outside the zoom wrapper so they don't scale */}
       <CityZoomControls
         scale={displayScale}
@@ -308,5 +312,6 @@ export function CityGrid({
         </div>
       </div>{/* end zoom wrapper */}
     </div>
+    </>
   )
 }

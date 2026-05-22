@@ -12,26 +12,23 @@ type Story = StoryObj<typeof meta>
 export const Imminent: Story = {
   args: {
     msToAttack: 0,
-    attackCountdown: 'IMMINENT',
-    attackUrgency: 'imminent',
-    attackStrengthLabel: { text: 'Overwhelming', cls: 'strength--overwhelm' },
+    occupiedCount: 8,
+    defense: 5,
   },
 }
 
 export const Soon: Story = {
   args: {
     msToAttack: 2 * 60 * 60 * 1000,
-    attackCountdown: '2h 0m',
-    attackUrgency: 'soon',
-    attackStrengthLabel: { text: 'Strong', cls: 'strength--strong' },
+    occupiedCount: 6,
+    defense: 15,
   },
 }
 
 export const Calm: Story = {
   args: {
     msToAttack: 6 * 60 * 60 * 1000,
-    attackCountdown: '6h 0m',
-    attackUrgency: 'calm',
-    attackStrengthLabel: { text: 'Weak', cls: 'strength--weak' },
+    occupiedCount: 4,
+    defense: 30,
   },
 }

@@ -15,6 +15,7 @@ import { getDailyChallengeState } from '../../game/dailyChallenge'
 import { generatePack, addCardsToCollection } from '../../game/collection'
 import { WinStreak } from './WinStreak'
 import { LoginButton } from '../ui/LoginButton'
+import { Button } from '../ui/Button'
 
 const CAMPAIGN_UNLOCK_CARDS = 30
 const EIGHTBIT_CLICKS = 8
@@ -279,12 +280,11 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         </div>
         <div className="title-auth-bar u-flex u-items-c u-gap-5">
           <LoginButton onSignIn={onSignIn} onSignOut={onSignOut} user={user} playerName={playerName} />
-          <button
-            className="filter-btn"
+          <Button
+            className="title-auth-btn"
             onClick={onFeedback}
             title="Send feedback or report a bug"
-            style={{ marginLeft: '6px', fontSize: '13px', padding: '2px 7px' }}
-          >Feedback</button>
+          >🗣️ Feedback</Button>
         </div>
       </div>
     </div>

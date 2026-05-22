@@ -5,6 +5,7 @@ import {
   canAffordFortification, canQueueFortification,
   nextBuilderCost, CITY_COLS, CITY_ROWS,
   RESOURCE_ICONS, ResourceType,
+  GOLD_SYMBOL,
 } from '../../../game/cityBuilder'
 import { Card } from '../../../game/types'
 import { AnimatedSpriteImg, SpriteImg } from '../../ui/SpriteImg'
@@ -136,7 +137,7 @@ export function Fortifications({
                               : `${FORT_BUILD_MINUTES[card.rarity]} min`
                           }</div>
                           <div className="city-picker-cost">
-                            ⚙{cost.gold.toLocaleString()}
+                            {GOLD_SYMBOL} {cost.gold.toLocaleString()}
                             {(Object.keys(cost) as (keyof typeof cost)[])
                               .filter(k => k !== 'gold' && (cost[k] ?? 0) > 0)
                               .map(k => ` ${RESOURCE_ICONS[k as ResourceType]}${cost[k]}`).join('')}
@@ -173,7 +174,7 @@ export function Fortifications({
               style={{ fontSize: 9, padding: '2px 6px' }}
               onClick={onBuyBuilder}
               disabled={city.gold < builderCost}
-            >+ Builder ⚙{builderCost.toLocaleString()}</button>
+            >+ Builder {GOLD_SYMBOL}{builderCost.toLocaleString()}</button>
           )}
         </div>
 

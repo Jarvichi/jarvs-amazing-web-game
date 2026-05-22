@@ -1,5 +1,5 @@
 import React from 'react'
-import { ResourceType, ResourceStock, Season, SEASON_INFO, calculateStorageCaps, CityState } from '../../../game/cityBuilder'
+import { ResourceType, ResourceStock, Season, SEASON_INFO, calculateStorageCaps, CityState, CITY_ROWS, goldIncomeRate, GOLD_SYMBOL } from '../../../game/cityBuilder'
 import { ResourceChip } from './ResourceChip'
 
 const RESOURCE_TYPES: ResourceType[] = ['wheat', 'wood', 'ore', 'bread', 'planks', 'metal']
@@ -17,14 +17,16 @@ export interface Props {
 export function ResourceStrip({ defense, population, resources, prodRates, consRates, season, city }: Props) {
   const si   = SEASON_INFO[season] ?? SEASON_INFO['spring']
   const caps = calculateStorageCaps(city)
+    const incomeRate = Math.round(goldIncomeRate(city))
   return (
     <div>
     <div className="city-res-strip">
       <span className="city-info-chip" title={`Defense: ${defense}`}>🛡 {defense}</span>
       <span className="city-info-chip" title={`Population: ${population}`}>👥 {population}</span>
       <span className="city-info-chip city-season-chip" title={si.flavour}>{si.icon} {si.name}</span>
-</div>    <div className="city-res-strip">
-
+      <div className="city-gold-display">{GOLD_SYMBOL} {city.gold.toLocaleString()} (+{incomeRate}/min)</div>
+    </div>
+    <div className="city-res-strip">
       {RESOURCE_TYPES.map(res => (
         <ResourceChip
           key={res}

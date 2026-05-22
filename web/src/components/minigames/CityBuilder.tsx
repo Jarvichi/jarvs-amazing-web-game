@@ -37,6 +37,7 @@ import {
   extinguishFire, curePlague,
   findFastestPath, ROAD_SPEED_MULT, RoadWearMap,
   roadTier,
+  GOLD_SYMBOL,
 } from '../../game/cityBuilder'
 import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { Card, UnitTemplate } from '../../game/types'
@@ -60,6 +61,7 @@ import { StatsScreen } from './citybuilder/StatsScreen'
 import { ZoneEditor } from './citybuilder/ZoneEditor'
 import { DisasterModal } from './citybuilder/DisasterModal'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { Toolbar, ToolbarButton, ToolbarDropdown } from '../ui/Toolbar'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { FarmingSim } from './FarmingSim'
 import { isFarmUnlocked, loadFarmState, saveFarmState, tickFarm, getFarmProductionRate } from '../../game/farmingSim'
@@ -1383,7 +1385,7 @@ export function CityBuilder({ onBack }: Props) {
   function handleBuyBuilder() {
     const cost = nextBuilderCost(city)
     if (cost === null) { showToast('Maximum builders reached!'); return }
-    if (city.gold < cost) { showToast(`Need ⚙ ${cost.toLocaleString()} gold to hire a builder.`); return }
+    if (city.gold < cost) { showToast(`Need ${GOLD_SYMBOL} ${cost.toLocaleString()} gold to hire a builder.`); return }
     const next = buyBuilder(city)
     if (!next) return
     save(next)
@@ -1402,7 +1404,7 @@ export function CityBuilder({ onBack }: Props) {
     if (!canAffordExpansion(city)) {
       const rows = city.rows ?? CITY_ROWS
       const cost = EXPANSION_COSTS[rows]
-      if (cost) showToast(`Need ⚙${cost.gold.toLocaleString()} gold + resources to expand`)
+      if (cost) showToast(`Need ${GOLD_SYMBOL} ${cost.gold.toLocaleString()} gold + resources to expand`)
       return
     }
     const next = expandCity(city)
@@ -1639,17 +1641,59 @@ export function CityBuilder({ onBack }: Props) {
     )
   }
 
+  const cityToolbar = (
+    <Toolbar>
+      <ToolbarButton active={bulldozerMode} onClick={toggleBulldozer}
+        title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}>
+        {bulldozerMode ? '🧱 DEMOLISH' : '👷 BUILD'}
+      </ToolbarButton>
+      <ToolbarButton onClick={() => setScreen('fortify')} title="Manage city walls">🛡 FORTS</ToolbarButton>
+      {isFarmUnlocked(population) ? (
+        <ToolbarButton className="action-btn--gold" style={{ fontSize: 11 }} onClick={() => setScreen('farming')}
+          title="Manage arable land outside the city">🌾 FARM</ToolbarButton>
+      ) : (
+        <ToolbarButton style={{ opacity: 0.7 }}
+          title={`Farm unlocks at population 10 (currently ${population})`}
+          onClick={() => setShowFarmLockModal(true)}>🌾 FARM 🔒</ToolbarButton>
+      )}
+      <ToolbarButton onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers">⚔ DEFEND</ToolbarButton>
+      {city.activeDisaster && (
+        <ToolbarButton className="city-disaster-btn" onClick={() => setShowDisaster(true)}
+          title={city.activeDisaster.type === 'fire' ? 'Fire is raging!' : 'Plague is spreading!'}>
+          {city.activeDisaster.type === 'fire' ? '🔥' : '☠'} DISASTER!
+        </ToolbarButton>
+      )}      
+      <ToolbarDropdown>
+      <ToolbarButton onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</ToolbarButton>
+      <ToolbarButton onClick={() => setScreen('chronicle')} title="View city history">📜 HISTORY</ToolbarButton>
+      <ToolbarButton onClick={() => setScreen('stats')} title="View economy charts">📊 STATS</ToolbarButton>
+      <ToolbarButton onClick={() => setScreen('zones')} title="Set district zones per row">🗺 ZONES</ToolbarButton>
+
+      <ToolbarButton
+        className={city.tradeOffer && !city.activeCaravan ? 'city-trade-btn--ready' : undefined}
+        onClick={() => setShowTrade(true)} title="Trade resources via caravan">
+        🐪 TRADE{city.activeCaravan ? ' (away)' : city.tradeOffer ? ' !' : ''}
+      </ToolbarButton>
+      {cityRows <= MAX_CITY_ROWS && (
+        <ToolbarButton
+          className={`city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
+          onClick={() => setShowExpandModal(true)} title="View city expansion levels and costs">
+          🏢 EXPAND
+        </ToolbarButton>
+      )}
+      </ToolbarDropdown>
+    </Toolbar>
+  )
+
+
   // ── Main city view ────────────────────────────────────────────────────────────
 
   return (
     <OverlayScreen title={bulldozerMode ? '⏸ PAUSED' : '🏙 CITY'} onBack={onBack}
 
       right={<>
-        <div className="city-level-badge" title={`City level ${cityLevel} — ${cityRows}×${cityCols} grid`}>LVL {cityLevel}</div>
-        <div className="city-gold-display">⚙ {city.gold.toLocaleString()} (+{incomeRate}/min)</div>
-        <button className="action-btn" onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers">
-          ⚔ DEFEND
-        </button></>}
+              <div className="city-level-badge" title={`City level ${cityLevel} — ${city.rows}×${city.cols} grid`}>LVL {cityLevel}</div>
+</>}
     >
 
       <div className="city-screen u-relative u-col u-gap-2">
@@ -1729,7 +1773,7 @@ export function CityBuilder({ onBack }: Props) {
                       {isCompleted && <span className="city-expand-status">✓ Unlocked</span>}
                       {isCurrent && rows < MAX_CITY_ROWS && cost && (
                         <span className="city-expand-cost">
-                          ⚙ {cost.gold.toLocaleString()}
+                          {GOLD_SYMBOL} {cost.gold.toLocaleString()}
                           {Object.entries(cost.resources).map(([r, v]) => ` · ${v?.toLocaleString()} ${r}`).join('')}
                         </span>
                       )}
@@ -1792,9 +1836,8 @@ export function CityBuilder({ onBack }: Props) {
 
         <AttackStrip
           msToAttack={msToAttack}
-          attackCountdown={attackCountdown}
-          attackUrgency={attackUrgency}
-          attackStrengthLabel={attackStrengthLabel}
+          occupiedCount={occupiedCount}
+          defense={defense}
         />
 
         <ResourceStrip
@@ -1814,7 +1857,10 @@ export function CityBuilder({ onBack }: Props) {
           </div>
         )}
 
+
+
         <CityGrid
+          toolbar={cityToolbar}
           city={city}
           walkers={walkers}
           builderWalkers={builderWalkers}
@@ -1832,55 +1878,6 @@ export function CityBuilder({ onBack }: Props) {
           builderQueue={city.builderQueue}
           onClick={() => setScreen('fortify')}
         />
-
-        <div className="city-header u-flex u-items-c u-just-c u-gap-3">
-          <button
-            className={`filter-btn${bulldozerMode ? ' city-bulldozer-btn--active' : ''}`}
-            onClick={toggleBulldozer}
-            title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}
-          >{bulldozerMode ? '🧱 DEMOLISH' : '👷 BUILD'}</button>
-          <button className="filter-btn" onClick={() => setScreen('fortify')} title="Manage city walls and moats">🛡 FORTS</button>
-          {isFarmUnlocked(population) ? (
-            <button
-              className="filter-btn action-btn--gold"
-              style={{ fontSize: 11 }}
-              onClick={() => setScreen('farming')}
-              title="Manage arable land outside the city"
-            >🌾 FARM</button>
-          ) : (
-            <button
-              className="filter-btn"
-              style={{ opacity: 0.7 }}
-              title={`Farm unlocks at population 10 (currently ${population})`}
-              onClick={() => setShowFarmLockModal(true)}
-            >🌾 FARM 🔒</button>
-          )}
-          <button className="filter-btn" onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</button>
-          <button className="filter-btn" onClick={() => setScreen('chronicle')} title="View city history">📜 HISTORY</button>
-          <button className="filter-btn" onClick={() => setScreen('stats')} title="View economy charts">📊 STATS</button>
-          <button className="filter-btn" onClick={() => setScreen('zones')} title="Set district zones per row">🗺 ZONES</button>
-          {city.activeDisaster && (
-            <button
-              className="filter-btn city-disaster-btn"
-              onClick={() => setShowDisaster(true)}
-              title={city.activeDisaster.type === 'fire' ? 'Fire is raging!' : 'Plague is spreading!'}
-            >
-              {city.activeDisaster.type === 'fire' ? '🔥' : '☠'} DISASTER!
-            </button>
-          )}
-          <button
-            className={`filter-btn${city.tradeOffer && !city.activeCaravan ? ' city-trade-btn--ready' : ''}`}
-            onClick={() => setShowTrade(true)}
-            title="Trade resources via caravan"
-          >🐪 TRADE{city.activeCaravan ? ' (away)' : city.tradeOffer ? ' !' : ''}</button>
-          {cityRows <= MAX_CITY_ROWS && (
-            <button
-              className={`filter-btn city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
-              onClick={() => setShowExpandModal(true)}
-              title="View city expansion levels and costs"
-            >🏢 EXPAND</button>
-          )}
-        </div>
 
         {/* Scrollable bottom: resident thoughts */}
         <div className="city-bottom-scroll">
