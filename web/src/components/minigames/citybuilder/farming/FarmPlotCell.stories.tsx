@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { FarmPlotCell } from './FarmPlotCell'
-import { FarmState } from '../../../game/farmingSim'
+import { FarmState } from '../../../../game/farmingSim'
 
 const baseFarm: FarmState = {
   plots: Array(24).fill(undefined),

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Card } from '../../../game/types'
-import { getBuildingProduces, RESOURCE_ICONS, ResourceType } from '../../../game/cityBuilder'
-import { SpriteImg } from '../../ui/SpriteImg'
+import { Card } from '../../../../game/types'
+import { getBuildingProduces, RESOURCE_ICONS, ResourceType } from '../../../../game/cityBuilder'
+import { SpriteImg } from '../../../ui/SpriteImg'
 
 export interface Props {
   availableCards: Card[]

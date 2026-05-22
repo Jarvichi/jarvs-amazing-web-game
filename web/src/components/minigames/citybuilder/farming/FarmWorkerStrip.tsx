@@ -1,4 +1,5 @@
 import React from 'react'
+import { GOLD_SYMBOL } from '../../../../game/cityBuilder'
 
 export interface Props {
   assignedWorkers: number
@@ -51,10 +52,10 @@ export function FarmWorkerStrip({
           onClick={onHireFarmer}
           disabled={!canHire}
           title={canHire
-            ? `Hire a new farmer slot for ⚙ ${nextFarmerCost.toLocaleString()} gold`
-            : `Need ⚙ ${nextFarmerCost.toLocaleString()} gold to hire`}
+            ? `Hire a new farmer slot for ${GOLD_SYMBOL} ${nextFarmerCost.toLocaleString()} gold`
+            : `Need ${GOLD_SYMBOL} ${nextFarmerCost.toLocaleString()} gold to hire`}
         >
-          + HIRE  ⚙ {nextFarmerCost.toLocaleString()}
+          + HIRE  {GOLD_SYMBOL} {nextFarmerCost.toLocaleString()}
         </button>
       )}
     </div>

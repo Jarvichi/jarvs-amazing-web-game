@@ -8840,6 +8840,33 @@ html.light-mode .action-btn {
   box-sizing: border-box;
 }
 
+.toolbar {
+  background: rgba(4, 10, 4, 0.88);
+  border: 1px solid #2a4a2a;
+  border-radius: 4px;
+  padding: 0;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  row-gap: 0;
+}
+.toolbar-dropdown {
+  position: relative;
+}
+.toolbar-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 20;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  min-width: max-content;
+}
+
 .city-header {
   flex-shrink: 0;
   flex-wrap: wrap;

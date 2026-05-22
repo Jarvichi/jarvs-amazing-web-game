@@ -14,6 +14,8 @@ export const CITY_ROWS  = 4
 export const CITY_CELLS = CITY_COLS * CITY_ROWS
 export const MAX_CITY_ROWS = 8
 
+export const GOLD_SYMBOL = '🪙'
+
 /** Each grid cell is this many pixels wide/tall in the overlay. */
 export const CELL_PX = 72
 

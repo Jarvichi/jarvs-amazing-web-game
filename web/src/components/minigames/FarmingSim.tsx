@@ -19,6 +19,9 @@ import {
   CityState, ResourceType, CELL_PX,
   cityPopulation, getBuildingProduces, getBuildingConsumes,
   levelUpCost,
+  resourceConsumptionRate,
+  GOLD_SYMBOL,
+  currentSeason,
 } from '../../game/cityBuilder'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { getCardCatalog } from '../../game/cards'
@@ -26,14 +29,16 @@ import { loadCollection, getOwnedCount, saveCollection, getMasteryXp, masteryLev
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Walker, WalkerTask, TaskType, PersonalityTrait } from './citybuilder/walkerTypes'
 import { VisualCarrier, computeRoadWaypoints } from './CityBuilder'
-import { FarmGrid } from './farming/FarmGrid'
-import { FarmWorkerStrip } from './farming/FarmWorkerStrip'
-import { FarmRaidModal } from './farming/FarmRaidModal'
-import { FarmResourceBar } from './farming/FarmResourceBar'
-import { FarmBuildingPicker } from './farming/FarmBuildingPicker'
+import { FarmGrid } from './citybuilder/farming/FarmGrid'
+import { FarmWorkerStrip } from './citybuilder/farming/FarmWorkerStrip'
+import { FarmRaidModal } from './citybuilder/farming/FarmRaidModal'
+import { FarmBuildingPicker } from './citybuilder/farming/FarmBuildingPicker'
 import { BuildingInspectModal } from './citybuilder/BuildingInspectModal'
 import { ChroniclePanel } from './citybuilder/ChroniclePanel'
 import { Card } from '../../game/types'
+import { AttackStrip } from './citybuilder/AttackStrip'
+import { ResourceStrip } from './citybuilder/ResourceStrip'
+import { Toolbar, ToolbarButton } from '../ui/Toolbar'
 
 // ── Walker constants ──────────────────────────────────────────────────────────
 
@@ -158,6 +163,9 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
       try { const v = localStorage.getItem('farm-raid-shown-at'); return v ? Number(v) : null } catch { return null }
     })()
   )
+
+  const farmRows2 = farm.rows ?? FARM_ROWS
+  const farmCols2 = farm.cols ?? FARM_COLS
 
   function showToast(msg: string) {
     setToast(msg)
@@ -369,24 +377,24 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
       }))
 
       // ── Farm carrier animation ─────────────────────────────────────────────────
-      const farmCurr  = farmRef.current
-      const farmRows2 = farmCurr.rows ?? FARM_ROWS
-      const farmCols2 = farmCurr.cols ?? FARM_COLS
+
+      
 
       // Every ~5s: clean up stale carriers and seed new producer→consumer ones
       carrierSeedTickRef.current = (carrierSeedTickRef.current + 1) % 50
       if (carrierSeedTickRef.current === 0) {
         // Build set of valid carrier ids from current farm layout
         const validIds = new Set<string>()
-        for (let i = 0; i < farmCurr.plots.length; i++) {
-          const plot = farmCurr.plots[i]
+        const farmSnap = farmRef.current
+        for (let i = 0; i < farmSnap.plots.length; i++) {
+          const plot = farmSnap.plots[i]
           if (!plot) continue
           const produces = getBuildingProduces(plot.cardName)
           for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
             if (!(rate > 0)) continue
-            for (let j = 0; j < farmCurr.plots.length; j++) {
+            for (let j = 0; j < farmSnap.plots.length; j++) {
               if (i === j) continue
-              const other = farmCurr.plots[j]
+              const other = farmSnap.plots[j]
               if (!other) continue
               if (!((getBuildingConsumes(other.cardName)[res as ResourceType] ?? 0) > 0)) continue
               validIds.add(`fc-${i}-${j}-${res}`)
@@ -504,6 +512,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
   })
 
   const prodRates   = getFarmProductionRate(farm)
+  const consRates = resourceConsumptionRate(city)
   const defense     = farmDefense(farm)
   const nextRaidMs  = Math.max(0, farm.nextRaidAt - currentTime)
 
@@ -537,10 +546,30 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
     )
   }
 
+  const farmLevel = farmRows2 - FARM_ROWS + 1
+
+  const farmToolbar = (
+    <Toolbar>
+      <ToolbarButton active={bulldozer} onClick={() => setBulldozer(prev => !prev)}>
+        {bulldozer ? '🏗 DEMOLISH' : '👷 BUILD'}
+      </ToolbarButton>
+      <ToolbarButton onClick={() => setScreen('chronicle')}>📜 HISTORY</ToolbarButton>
+      <ToolbarButton
+        className={canAffordFarmExpansion(farm, city.gold, city.resources) ? 'city-expand-btn--ready' : undefined}
+        onClick={() => setShowExpandModal(true)} title="View farm expansion levels">
+        🌱 EXPAND
+      </ToolbarButton>
+    </Toolbar>
+  )
+
   // ── Main farm view ────────────────────────────────────────────────────────────
 
   return (
-    <OverlayScreen title={`🌾 FARM${bulldozer ? ' — DEMOLISH' : ''}`} onBack={onBack}>
+    <OverlayScreen
+      title={`🌾 FARM${bulldozer ? ' — DEMOLISH' : ''}`}
+      onBack={onBack}
+      right={<div className="city-level-badge" title={`Farm level ${farmLevel} — ${farmRows2}×${farmCols2} grid`}>LVL {farmLevel}</div>}
+    >
       <div className="farm-screen u-col u-gap-2">
         {toast && <div className="city-toast" role="alert">{toast}</div>}
 
@@ -551,38 +580,25 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
           />
         )}
 
-        <FarmWorkerStrip
-          assignedWorkers={farm.workers}
-          maxWorkers={farm.maxWorkers}
-          nextFarmerCost={nextFarmerCost(farm)}
-          cityGold={city.gold}
-          onAssign={() => {
-            if (farm.workers >= farm.maxWorkers) { showToast('All farmer slots filled — hire more!'); return }
-            saveFarm(assignWorker(farm))
-          }}
-          onUnassign={() => {
-            if (farm.workers === 0) return
-            saveFarm(unassignWorker(farm))
-          }}
-          onHireFarmer={() => {
-            const cost = nextFarmerCost(farm)
-            if (cost === null) { showToast('Maximum farmers reached!'); return }
-            if (city.gold < cost) { showToast(`Need ⚙ ${cost.toLocaleString()} gold to hire a farmer.`); return }
-            saveFarm(hireFarmer(farm))
-            onSaveCity({ ...city, gold: city.gold - cost })
-            showToast('New farmer slot hired!')
-          }}
+        <AttackStrip
+          msToAttack={nextRaidMs}
+          occupiedCount={farm.workers}
+          defense={defense}
         />
 
-        <FarmResourceBar
+
+        <ResourceStrip
+          defense={defense}
+          population={farm.workers}
           resources={city.resources}
           prodRates={prodRates}
-          workers={farm.workers}
-          farmDefense={defense}
-          nextRaidMs={nextRaidMs}
+          consRates={consRates}
+          season={currentSeason()}
+          city={city}
         />
 
         <FarmGrid
+          toolbar={farmToolbar}
           farm={farm}
           walkers={walkers}
           visualCarriers={visualCarriers}
@@ -654,24 +670,29 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
           )
         })()}
 
-        <div className="city-header u-flex u-items-c u-just-c u-gap-3">
-          <button
-            className={`filter-btn${bulldozer ? ' city-bulldozer-btn--active' : ''}`}
-            onClick={() => setBulldozer(prev => !prev)}
-          >
-            {bulldozer ? '🏗 DEMOLISH' : '👷 BUILD'}
-          </button>
-          <button className="filter-btn" onClick={() => setScreen('chronicle')}>
-            📜 HISTORY
-          </button>
-          <button
-            className={`filter-btn city-expand-btn${canAffordFarmExpansion(farm, city.gold, city.resources) ? ' city-expand-btn--ready' : ''}`}
-            onClick={() => setShowExpandModal(true)}
-            title="View farm expansion levels"
-          >
-            🌱 EXPAND
-          </button>
-        </div>
+
+        <FarmWorkerStrip
+          assignedWorkers={farm.workers}
+          maxWorkers={farm.maxWorkers}
+          nextFarmerCost={nextFarmerCost(farm)}
+          cityGold={city.gold}
+          onAssign={() => {
+            if (farm.workers >= farm.maxWorkers) { showToast('All farmer slots filled — hire more!'); return }
+            saveFarm(assignWorker(farm))
+          }}
+          onUnassign={() => {
+            if (farm.workers === 0) return
+            saveFarm(unassignWorker(farm))
+          }}
+          onHireFarmer={() => {
+            const cost = nextFarmerCost(farm)
+            if (cost === null) { showToast('Maximum farmers reached!'); return }
+            if (city.gold < cost) { showToast(`Need ${GOLD_SYMBOL} ${cost.toLocaleString()} gold to hire a farmer.`); return }
+            saveFarm(hireFarmer(farm))
+            onSaveCity({ ...city, gold: city.gold - cost })
+            showToast('New farmer slot hired!')
+          }}
+        />
 
         {showExpandModal && (
           <ModalBackdrop onClose={() => setShowExpandModal(false)}>
@@ -689,7 +710,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
                       {isCompleted && <span className="city-expand-status">✓ Unlocked</span>}
                       {isCurrent && size < MAX_FARM_SIZE && cost && (
                         <span className="city-expand-cost">
-                          ⚙ {cost.gold.toLocaleString()}
+                          {GOLD_SYMBOL} {cost.gold.toLocaleString()}
                           {Object.entries(cost.resources).map(([r, v]) => ` · ${v?.toLocaleString()} ${r}`).join('')}
                         </span>
                       )}

@@ -1,7 +1,7 @@
 import React from 'react'
-import { FarmPlot, getFarmProductionRate, FarmState } from '../../../game/farmingSim'
-import { getBuildingProduces, RESOURCE_ICONS, ResourceType } from '../../../game/cityBuilder'
-import { SpriteImg } from '../../ui/SpriteImg'
+import { FarmPlot, getFarmProductionRate, FarmState } from '../../../../game/farmingSim'
+import { getBuildingProduces, RESOURCE_ICONS, ResourceType } from '../../../../game/cityBuilder'
+import { SpriteImg } from '../../../ui/SpriteImg'
 
 export interface Props {
   plot:        FarmPlot | undefined

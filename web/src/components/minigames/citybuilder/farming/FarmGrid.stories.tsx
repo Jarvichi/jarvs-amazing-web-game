@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { FarmGrid } from './FarmGrid'
-import { FarmState } from '../../../game/farmingSim'
-import { Walker } from '../citybuilder/walkerTypes'
+import { FarmState } from '../../../../game/farmingSim'
+import { Walker } from '../walkerTypes'
 
 const farm: FarmState = {
   plots: [

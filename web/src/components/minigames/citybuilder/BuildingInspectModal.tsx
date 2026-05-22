@@ -5,6 +5,7 @@ import {
   levelUpCost, LEVEL_UP_COSTS, WATCHTOWER_LEVEL_UP_COSTS, spawnerUnitCount,
   getCellSynergyBonuses, getCellIncomeBonus,
   cellStockCap, getCellDefenseContrib, INCOME_WALL, CORE_BUILDINGS,
+  GOLD_SYMBOL,
 } from '../../../game/cityBuilder'
 import { CollectionEntry, getMasteryXp, masteryProgress } from '../../../game/collection'
 import { MasteryBar } from '../../ui/MasteryBar'
@@ -207,16 +208,16 @@ export function BuildingInspectModal({
 
         {buildingTab === 'upgrade' && (
           <div className="city-bld-upgrade u-col u-gap-4">
-            <div className="city-gold-display" style={{ alignSelf: 'center' }}>⚙ {city.gold.toLocaleString()} gold</div>
+            <div className="city-gold-display" style={{ alignSelf: 'center' }}>{GOLD_SYMBOL} {city.gold.toLocaleString()} gold</div>
             <MasteryBar xp={xp} />
             <div className="city-level-cost">
-              Next upgrade: <span className="city-gold">⚙ {upgradeCost.toLocaleString()}</span> → ★{mLvl + 1}
+              Next upgrade: <span className="city-gold">{GOLD_SYMBOL} {upgradeCost.toLocaleString()}</span> → ★{mLvl + 1}
             </div>
             <div className="city-level-costs-table u-col u-gap-2">
               {levelUpCosts.map((c, i) => (
                 <div key={i} className={`city-cost-row${i < mLvl ? ' city-cost-row--done' : ''}`}>
                   <span>★{i} → ★{i + 1}</span>
-                  <span>⚙ {c.toLocaleString()}</span>
+                  <span>{GOLD_SYMBOL} {c.toLocaleString()}</span>
                 </div>
               ))}
             </div>
@@ -225,7 +226,7 @@ export function BuildingInspectModal({
               onClick={() => { onLevelUp(cell.cardName); setBuildingTab('upgrade') }}
               disabled={!canAfford}
             >
-              {canAfford ? `LEVEL UP (⚙ ${upgradeCost.toLocaleString()})` : `NEED ⚙ ${upgradeCost.toLocaleString()}`}
+              {canAfford ? `LEVEL UP (${GOLD_SYMBOL} ${upgradeCost.toLocaleString()})` : `NEED ${GOLD_SYMBOL} ${upgradeCost.toLocaleString()}`}
             </button>
           </div>
         )}

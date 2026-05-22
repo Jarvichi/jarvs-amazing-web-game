@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { FarmBuildingPicker } from './FarmBuildingPicker'
-import type { Card } from '../../../game/types'
+import type { Card } from '../../../../game/types'
 
 const sampleCards: Card[] = [
   { id: 'farm-1', name: 'Farm', rarity: 'common', cost: 2, cardType: 'structure', description: 'Produces wheat' },

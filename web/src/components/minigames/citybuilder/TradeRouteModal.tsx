@@ -1,5 +1,5 @@
 import React from 'react'
-import { CityState, TradeOffer, ActiveCaravan, RESOURCE_ICONS } from '../../../game/cityBuilder'
+import { CityState, TradeOffer, ActiveCaravan, RESOURCE_ICONS, GOLD_SYMBOL } from '../../../game/cityBuilder'
 
 function fmtMs(ms: number): string {
   const totalMin = Math.floor(ms / 60_000)
@@ -39,18 +39,18 @@ function OfferCard({ offer, city, currentTime, onDispatch, onClose }: {
         {isSell ? (
           <>
             Send <strong>{offer.amount} {RESOURCE_ICONS[offer.resource]} {offer.resource}</strong>
-            {' '}→ receive <strong>⚙ {offer.gold.toLocaleString()} gold</strong>
+            {' '}→ receive <strong>{GOLD_SYMBOL} {offer.gold.toLocaleString()} gold</strong>
           </>
         ) : (
           <>
-            Pay <strong>⚙ {offer.gold.toLocaleString()} gold</strong>
+            Pay <strong>{GOLD_SYMBOL} {offer.gold.toLocaleString()} gold</strong>
             {' '}→ receive <strong>{offer.amount} {RESOURCE_ICONS[offer.resource]} {offer.resource}</strong>
           </>
         )}
       </div>
       {!canAfford && (
         <div className="city-trade-warn">
-          {isSell ? `Need ${offer.amount} ${offer.resource} (have ${Math.floor(city.resources[offer.resource])})` : `Need ⚙ ${offer.gold.toLocaleString()} gold`}
+          {isSell ? `Need ${offer.amount} ${offer.resource} (have ${Math.floor(city.resources[offer.resource])})` : `Need ${GOLD_SYMBOL} ${offer.gold.toLocaleString()} gold`}
         </div>
       )}
       <button
@@ -72,7 +72,7 @@ function CaravanStatus({ caravan, currentTime }: { caravan: ActiveCaravan; curre
       <div className="city-trade-caravan-title">🐪 CARAVAN AWAY</div>
       <div className="city-trade-caravan-body">
         {isSell
-          ? `Delivering ${caravan.offer.amount} ${caravan.offer.resource} — returning with ⚙ ${caravan.offer.gold.toLocaleString()} gold`
+          ? `Delivering ${caravan.offer.amount} ${caravan.offer.resource} — returning with ${GOLD_SYMBOL} ${caravan.offer.gold.toLocaleString()} gold`
           : `Fetching ${caravan.offer.amount} ${caravan.offer.resource} — returning in ${fmtMs(returnsIn)}`
         }
       </div>
