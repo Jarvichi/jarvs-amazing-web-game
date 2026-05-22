@@ -6,7 +6,7 @@
 import { logError } from '../logger'
 import {
   ResourceType, ResourceStock,
-  getBuildingProduces, currentSeason, SEASON_INFO,
+  getBuildingProduces, getBuildingConsumes, currentSeason, SEASON_INFO,
   CELL_PX,
   DEFAULT_BUILDER_COUNT, MAX_BUILDER_COUNT, BUILDER_HIRE_COSTS,
   CityState, CityCell, CarrierState, RoadWearMap,
@@ -61,6 +61,11 @@ const SHIP_THRESHOLD = 5
 const CHRONICLE_MAX = 30
 
 const STORAGE_KEY = 'jarv_farming_sim'
+
+// ── Road wear constants (mirror city values) ─────────────────────────────────
+const ROAD_DECAY_PER_MIN    = 0.3   // wear lost per minute on unused edges (same as city)
+const ROAD_WEAR_PER_CARRIER = 0.4   // wear per carrier route per minute (same as city)
+const ROAD_WEAR_WALKER_BG   = 3.0   // background wear per adjacent occupied-pair per minute
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -120,11 +125,11 @@ export function buildFarmCity(farm: FarmState): CityState {
   const cols = farm.cols ?? FARM_COLS
   const cells = rows * cols
 
-  // Farm always shows roads between all cells at tier-1 (wear=40),
-  // regardless of the stored roadWear which starts at zero.
-  const roadWear: RoadWearMap = {
-    h: Array.from({ length: cells }, (_, i) => (i % cols < cols - 1 ? 40 : 0)),
-    v: Array.from({ length: cells }, (_, i) => (Math.floor(i / cols) < rows - 1 ? 40 : 0)),
+  // Use the farm's live road wear so roads build up and decay organically,
+  // matching the city view's behaviour (wear driven by carrier routes + decay).
+  const roadWear: RoadWearMap = farm.roadWear ?? {
+    h: Array(cells).fill(0),
+    v: Array(cells).fill(0),
   }
 
   // Count how many plots produce each resource so we can split the farm pool.
@@ -467,6 +472,22 @@ function processFarmRaid(state: FarmState): FarmState {
   return next
 }
 
+// ── Road wear helpers ─────────────────────────────────────────────────────────
+
+/** Add wear to every edge on the Manhattan path from→to (mirrors city wearPath). */
+function farmWearPath(from: number, to: number, roadWear: RoadWearMap, cols: number, amount: number): void {
+  let c = from % cols, r = Math.floor(from / cols)
+  const tc = to % cols, tr = Math.floor(to / cols)
+  while (c !== tc || r !== tr) {
+    const pc = c, pr = r
+    if (c !== tc) c += c < tc ? 1 : -1; else r += r < tr ? 1 : -1
+    const lo = Math.min(pr * cols + pc, r * cols + c)
+    const hi = Math.max(pr * cols + pc, r * cols + c)
+    if (hi === lo + 1) roadWear.h[lo] = Math.min(100, (roadWear.h[lo] ?? 0) + amount)
+    else               roadWear.v[lo] = Math.min(100, (roadWear.v[lo] ?? 0) + amount)
+  }
+}
+
 // ── Tick ──────────────────────────────────────────────────────────────────────
 
 /**
@@ -515,7 +536,57 @@ export function tickFarm(
     next = processFarmRaid(next)
   }
 
-  // ── 3. Ship resources to the city (above threshold) ──────────────────────────
+  // ── 3. Road wear — mirrors city carrier + decay logic ───────────────────────
+  {
+    const cols = next.cols ?? FARM_COLS
+    const rows = next.rows ?? FARM_ROWS
+    const rw: RoadWearMap = {
+      h: [...(next.roadWear?.h ?? [])],
+      v: [...(next.roadWear?.v ?? [])],
+    }
+
+    // a) Background wear: adjacent occupied-plot pairs (farmers moving between plots)
+    for (let i = 0; i < next.plots.length; i++) {
+      if (!next.plots[i]) continue
+      const col = i % cols, row = Math.floor(i / cols)
+      if (col < cols - 1 && next.plots[i + 1]) {
+        rw.h[i] = Math.min(100, (rw.h[i] ?? 0) + ROAD_WEAR_WALKER_BG * minutes)
+      }
+      if (row < rows - 1 && next.plots[i + cols]) {
+        rw.v[i] = Math.min(100, (rw.v[i] ?? 0) + ROAD_WEAR_WALKER_BG * minutes)
+      }
+    }
+
+    // b) Carrier-route wear: producer→nearest-consumer (same pairs the visual goblins use)
+    for (let i = 0; i < next.plots.length; i++) {
+      const plot = next.plots[i]
+      if (!plot) continue
+      const produces = getBuildingProduces(plot.cardName)
+      for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
+        if (!(rate > 0)) continue
+        for (let j = 0; j < next.plots.length; j++) {
+          if (i === j) continue
+          const other = next.plots[j]
+          if (!other) continue
+          if (!((getBuildingConsumes(other.cardName)[res] ?? 0) > 0)) continue
+          farmWearPath(i, j, rw, cols, ROAD_WEAR_PER_CARRIER * minutes)
+          break
+        }
+      }
+    }
+
+    // c) Decay all edges (unused roads revert to grass)
+    for (let idx = 0; idx < rw.h.length; idx++) {
+      if (rw.h[idx] > 0) rw.h[idx] = Math.max(0, rw.h[idx] - ROAD_DECAY_PER_MIN * minutes)
+    }
+    for (let idx = 0; idx < rw.v.length; idx++) {
+      if (rw.v[idx] > 0) rw.v[idx] = Math.max(0, rw.v[idx] - ROAD_DECAY_PER_MIN * minutes)
+    }
+
+    next = { ...next, roadWear: rw }
+  }
+
+  // ── 4. Ship resources to the city (above threshold) ──────────────────────────
   const resourcesForCity: Partial<ResourceStock> = {}
   const shipped = { ...next.resources }
   let anyShipped = false
