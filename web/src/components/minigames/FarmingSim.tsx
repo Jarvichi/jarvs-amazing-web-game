@@ -573,7 +573,7 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
         />
 
         <FarmResourceBar
-          resources={farm.resources}
+          resources={city.resources}
           prodRates={prodRates}
           workers={farm.workers}
           farmDefense={defense}

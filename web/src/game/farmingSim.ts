@@ -132,24 +132,25 @@ export function buildFarmCity(farm: FarmState): CityState {
     v: Array(cells).fill(0),
   }
 
-  // Count how many plots produce each resource so we can split the farm pool.
-  const producerCount: Partial<Record<ResourceType, number>> = {}
-  for (const p of farm.plots) {
-    if (!p) continue
-    for (const [res, rate] of Object.entries(getBuildingProduces(p.cardName)) as [ResourceType, number][]) {
-      if ((rate ?? 0) > 0) producerCount[res] = (producerCount[res] ?? 0) + 1
-    }
-  }
-
-  // Each producing plot shows its proportional share of the farm resource pool.
+  // Each plot shows the full farm resource pool for its produced resources
+  // (not divided by producer count — the farm is a collective operation).
+  // Consumed resources are also shown so Windmill animation, inspect modal, etc.
+  // reflect actual availability (e.g. stock.wheat drives Windmill speed).
   const grid = farm.plots.map(p => {
     if (!p) return undefined
     const produces = getBuildingProduces(p.cardName)
+    const consumes = getBuildingConsumes(p.cardName)
     const stock: Partial<Record<ResourceType, number>> = {}
     for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
       if ((rate ?? 0) > 0) {
-        const share = (farm.resources[res] ?? 0) / (producerCount[res] ?? 1)
-        if (share >= 0.01) stock[res] = share
+        const farmAmt = farm.resources[res] ?? 0
+        if (farmAmt >= 0.01) stock[res] = farmAmt
+      }
+    }
+    for (const [res, rate] of Object.entries(consumes) as [ResourceType, number][]) {
+      if ((rate ?? 0) > 0 && !(res in stock)) {
+        const farmAmt = farm.resources[res] ?? 0
+        if (farmAmt >= 0.01) stock[res] = farmAmt
       }
     }
     return { cardName: p.cardName, rarity: p.rarity, stock } as CityCell
