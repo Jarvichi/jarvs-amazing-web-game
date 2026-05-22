@@ -41,12 +41,8 @@ export async function fetchGrandJackpot(): Promise<number> {
 
 /** Atomically increments the shared jackpot by a specified amount per spin (fire-and-forget). */
 export function incrementGrandJackpot(amount: number = 1): void {
-  runTransaction(db, async tx => {
-    const snap = await tx.get(JACKPOT_DOC)
-    const current = snap.exists() ? (snap.data().value as number) : GRAND_BASE
-    const newValue = current + amount
-    tx.set(JACKPOT_DOC, { value: newValue, updatedAt: Timestamp.now() }, { merge: true })
-  }).catch(e => logError('fm_grand increment', { error: String(e) }))
+  setDoc(JACKPOT_DOC, { value: increment(amount), updatedAt: Timestamp.now() }, { merge: true })
+    .catch(e => logError('fm_grand increment', { error: String(e) }))
 }
 
 /**
