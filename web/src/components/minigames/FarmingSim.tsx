@@ -407,52 +407,75 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
           const pickY = (r1 + 0.5) * overlayH / farmRows2
           const dropX = (c2 + 0.5) * overlayW / farmCols2
           const dropY = (r2 + 0.5) * overlayH / farmRows2
-          const dx = pickX - dropX, dy = pickY - dropY
-          const d = Math.sqrt(dx * dx + dy * dy) || 1
+          const wps = farmWaypoints(dropX, dropY, pickX, pickY)
+          const first = wps.length > 0 ? wps[0] : { x: pickX, y: pickY }
+          const dd = Math.sqrt((first.x - dropX) ** 2 + (first.y - dropY) ** 2)
           toAdd.push({
             id, carrying: { [res]: 1 },
             x: dropX, y: dropY,
-            vx: dx / d * SPEED, vy: dy / d * SPEED,
-            waypoints: [], scale: 0, phase: 'outbound',
+            vx: dd > 0 ? (first.x - dropX) / dd * SPEED : 0,
+            vy: dd > 0 ? (first.y - dropY) / dd * SPEED : 0,
+            waypoints: wps, scale: 0, phase: 'outbound',
             pickX, pickY, dropX, dropY,
           })
         }
         visualCarriersRef.current = [...kept, ...toAdd]
       }
 
-      // Move carriers
+      // Move carriers — mirrors city carrier animation (waypoint-following, not straight-line)
       const movedCarriers = visualCarriersRef.current.map(vc => {
-        let { x, y, vx, vy, scale, phase } = vc
-        // Grow only on outbound spawn — returning shrink must not trigger this
-        if (scale < 1 && phase === 'outbound') {
+        const phaseDestX = vc.phase === 'outbound' ? vc.pickX : vc.dropX
+        const phaseDestY = vc.phase === 'outbound' ? vc.pickY : vc.dropY
+        const target = vc.waypoints.length > 0 ? vc.waypoints[0] : { x: phaseDestX, y: phaseDestY }
+        let { x, y, vx, vy } = vc
+        let waypoints = vc.waypoints
+        let scale = vc.scale
+        let phase = vc.phase
+
+        // Scale up before moving (same as city — stay in place while growing)
+        if (scale < 1 && !(waypoints.length === 0 && Math.sqrt((target.x - x) ** 2 + (target.y - y) ** 2) < ARRIVE_DIST)) {
           scale = Math.min(1, scale + 0.1)
-          x += vx; y += vy
-          return { ...vc, x, y, scale }
+          return { ...vc, waypoints, scale }
         }
-        const destX = phase === 'outbound' ? vc.pickX : vc.dropX
-        const destY = phase === 'outbound' ? vc.pickY : vc.dropY
-        const dx = destX - x, dy = destY - y
+
+        const dx = target.x - x, dy = target.y - y
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < ARRIVE_DIST) {
-          if (phase === 'outbound') {
-            phase = 'returning'
-            const rdx = vc.dropX - x, rdy = vc.dropY - y
-            const rd = Math.sqrt(rdx * rdx + rdy * rdy) || 1
-            vx = rdx / rd * SPEED; vy = rdy / rd * SPEED
-          } else {
-            scale = Math.max(0, scale - 0.1)
-            vx = 0; vy = 0
-            if (scale <= 0) {
-              const rdx = vc.pickX - vc.dropX, rdy = vc.pickY - vc.dropY
-              const rd = Math.sqrt(rdx * rdx + rdy * rdy) || 1
-              return { ...vc, x: vc.dropX, y: vc.dropY, vx: rdx / rd * SPEED, vy: rdy / rd * SPEED, scale: 0, phase: 'outbound' as const }
+
+        if (dist < ARRIVE_DIST && waypoints.length > 0) {
+          waypoints = waypoints.slice(1)
+          const next = waypoints.length > 0 ? waypoints[0] : { x: phaseDestX, y: phaseDestY }
+          const nd = Math.sqrt((next.x - x) ** 2 + (next.y - y) ** 2)
+          if (nd > 0) { vx = (next.x - x) / nd * SPEED; vy = (next.y - y) / nd * SPEED }
+        } else if (dist < ARRIVE_DIST && phase === 'outbound') {
+          // Arrived at producer — compute return waypoints and switch phase
+          const wps = farmWaypoints(x, y, vc.dropX, vc.dropY)
+          const first = wps.length > 0 ? wps[0] : { x: vc.dropX, y: vc.dropY }
+          const nd = Math.sqrt((first.x - x) ** 2 + (first.y - y) ** 2)
+          phase = 'returning'
+          waypoints = wps
+          if (nd > 0) { vx = (first.x - x) / nd * SPEED; vy = (first.y - y) / nd * SPEED }
+        } else if (dist < ARRIVE_DIST && phase === 'returning') {
+          // Arrived at consumer — shrink into building, then restart loop
+          vx = 0; vy = 0
+          scale = Math.max(0, scale - 0.1)
+          if (scale <= 0) {
+            const wps = farmWaypoints(vc.dropX, vc.dropY, vc.pickX, vc.pickY)
+            const first = wps.length > 0 ? wps[0] : { x: vc.pickX, y: vc.pickY }
+            const dd = Math.sqrt((first.x - vc.dropX) ** 2 + (first.y - vc.dropY) ** 2)
+            return {
+              ...vc,
+              x: vc.dropX, y: vc.dropY,
+              vx: dd > 0 ? (first.x - vc.dropX) / dd * SPEED : 0,
+              vy: dd > 0 ? (first.y - vc.dropY) / dd * SPEED : 0,
+              waypoints: wps, scale: 0, phase: 'outbound' as const,
             }
           }
         } else if (dist > 0) {
           vx = dx / dist * SPEED; vy = dy / dist * SPEED
         }
+
         x += vx; y += vy
-        return { ...vc, x, y, vx, vy, scale, phase }
+        return { ...vc, x, y, vx, vy, waypoints, scale, phase }
       })
       visualCarriersRef.current = movedCarriers
       setVisualCarriers([...movedCarriers])
