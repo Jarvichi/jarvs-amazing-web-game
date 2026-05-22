@@ -1053,12 +1053,9 @@ export function masteryOutputMultiplier(level: number): number {
   return Math.pow(2, level)
 }
 
-/** Per-cell stock ceiling. Warehouses scale with mastery level; other buildings use the base cap. */
+/** Per-cell stock ceiling. Scales with mastery level for all buildings: 50 × 2^level. */
 export function cellStockCap(cell: CityCell): number {
-  if (WAREHOUSE_PATTERN.test(cell.cardName)) {
-    return PER_CELL_STOCK_CAP * masteryOutputMultiplier(getCardMasteryLevel(cell.cardName))
-  }
-  return PER_CELL_STOCK_CAP
+  return PER_CELL_STOCK_CAP * masteryOutputMultiplier(getCardMasteryLevel(cell.cardName))
 }
 
 /** How many units a spawner should field: mastery 0 → 1, mastery N → N+1. */
@@ -1558,18 +1555,18 @@ export function tickCity(state: CityState, nowMs?: number, offline = false): Cit
 
         if (BUILDING_CONVERSION_COST[cell.cardName] && res === 'bread') {
           // Stop converting if output bin is full — avoids wasting wheat
-          if ((cell.stock.bread ?? 0) >= PER_CELL_STOCK_CAP) continue
+          if ((cell.stock.bread ?? 0) >= cellStockCap(cell)) continue
           // Conversion building (mill/bakery that needs wheat): use LOCAL wheat stock
           const wheatRate   = BUILDING_CONVERSION_COST[cell.cardName].wheat ?? 0
           const wheatNeeded = wheatRate * masteryMult * synergyMult * Math.max(0, seasonMult) * distProdMult * minutes
           const localWheat  = cell.stock.wheat ?? 0
           const eff = wheatNeeded > 0 ? Math.min(1, localWheat / wheatNeeded) : 1
-          cell.stock.bread  = Math.min(PER_CELL_STOCK_CAP, (cell.stock.bread ?? 0) + amount * eff)
+          cell.stock.bread  = Math.min(cellStockCap(cell), (cell.stock.bread ?? 0) + amount * eff)
           cell.stock.wheat  = Math.max(0, localWheat - wheatNeeded * eff)
         } else {
-          if ((cell.stock[res as ResourceType] ?? 0) >= PER_CELL_STOCK_CAP) continue
+          if ((cell.stock[res as ResourceType] ?? 0) >= cellStockCap(cell)) continue
           cell.stock[res as ResourceType] = Math.min(
-            PER_CELL_STOCK_CAP,
+            cellStockCap(cell),
             (cell.stock[res as ResourceType] ?? 0) + amount,
           )
         }
