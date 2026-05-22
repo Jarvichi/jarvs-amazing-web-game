@@ -62,6 +62,35 @@ const CHRONICLE_MAX = 30
 
 const STORAGE_KEY = 'jarv_farming_sim'
 
+/** Gold cost to place an owned collection building on the farm (scales by rarity). */
+export const FARM_PLACE_COST: Record<CardRarity, number> = {
+  common:    200,
+  uncommon:  500,
+  rare:     1000,
+  epic:     2000,
+  legendary:5000,
+  mythic:  10000,
+  shiny:    1000,
+  holofoil: 1500,
+  glass:    2000,
+}
+
+/** A farm-exclusive building that is always available to place (no card required). */
+export interface CoreFarmBuilding {
+  name:     string
+  goldCost: number
+  rarity:   CardRarity
+  hint:     string
+}
+
+/** Farm-only buildings available to all players regardless of card collection. */
+export const CORE_FARM_BUILDINGS: CoreFarmBuilding[] = [
+  { name: 'Wheat Field', goldCost:  250, rarity: 'common',   hint: 'Planted crop rows producing 3 wheat/min. The backbone of any farm.' },
+  { name: 'Orchard',     goldCost:  600, rarity: 'uncommon', hint: 'Fruit trees yielding 2 wheat/min and 1 bread/min.' },
+  { name: 'Plantation',  goldCost: 1500, rarity: 'rare',     hint: 'Industrial-scale crops producing 5 wheat/min.' },
+  { name: 'Forest',      goldCost:  350, rarity: 'common',   hint: 'Managed woodland producing 4 wood/min.' },
+]
+
 // ── Road wear constants (mirror city values) ─────────────────────────────────
 const ROAD_DECAY_PER_MIN    = 0.3   // wear lost per minute on unused edges (same as city)
 const ROAD_WEAR_PER_CARRIER = 0.4   // wear per carrier route per minute (same as city)

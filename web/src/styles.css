@@ -10314,6 +10314,15 @@ html.light-mode .action-btn {
   letter-spacing: 0.5px;
 }
 
+.city-picker-cost--cant {
+  color: #c04040;
+}
+
+.city-picker-card--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .city-picker-produces {
   font-size: 9px;
   color: #4a9a4a;
