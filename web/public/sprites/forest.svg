@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- back tree trunk -->
+  <rect x="14" y="22" width="4" height="7" rx="1" fill="#5D4037"/>
+  <!-- left tree trunk -->
+  <rect x="4"  y="23" width="3" height="6" rx="1" fill="#6D4C41"/>
+  <!-- right tree trunk -->
+  <rect x="25" y="23" width="3" height="6" rx="1" fill="#6D4C41"/>
+  <!-- back (centre) tall tree -->
+  <polygon points="16,2 23,14 9,14" fill="#2E7D32"/>
+  <polygon points="16,6 22,17 10,17" fill="#388E3C"/>
+  <!-- left tree -->
+  <polygon points="5.5,8 11,18 0,18"  fill="#1B5E20"/>
+  <polygon points="5.5,12 10,20 1,20" fill="#2E7D32"/>
+  <!-- right tree -->
+  <polygon points="26.5,8 32,18 21,18"  fill="#1B5E20"/>
+  <polygon points="26.5,12 31,20 22,20" fill="#2E7D32"/>
+  <!-- ground -->
+  <rect x="2" y="28" width="28" height="3" rx="1" fill="#4E342E"/>
+</svg>
