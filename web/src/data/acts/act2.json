@@ -360,7 +360,8 @@
       "rowCols": 1,
       "childIds": [
         "node-1776114717762",
-        "node-1776114718648"
+        "node-1776114718648",
+        "mem-act2-1"
       ],
       "handicap": 7,
       "opponentBaseHp": 100,
@@ -388,7 +389,7 @@
       "description": "An abandoned forward camp — rations still warm. Rest and recover.",
       "row": 3,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "siege-captain"
       ],
@@ -398,8 +399,8 @@
     "supply-cache": {
       "id": "supply-cache",
       "type": "event",
-      "label": "Supply Cache",
-      "description": "A Citadel supply depot, hastily abandoned. The lock is already broken.",
+      "label": "Abandoned Supply Cache",
+      "description": "A military dispatch case, rusted shut — the garrison left it when they pulled back.",
       "row": 2,
       "col": 0,
       "rowCols": 4,
@@ -408,129 +409,18 @@
       ],
       "environment": "citadel",
       "eventConfig": {
-        "title": "Supply Cache",
-        "description": "A Citadel supply depot, hastily abandoned. Crates lie open and torn sacks spill their contents.",
+        "title": "Garrison Supply Cache",
+        "description": "A sealed iron crate stamped with the Citadel's quartermaster mark. Left in the retreat. Whatever is inside has been waiting for someone with the nerve to open it.",
         "pools": [
           [
-            {
-              "label": "Search the crates",
-              "consequence": "+15 crystals from scavenged supplies",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 15
-              }
-            },
-            {
-              "label": "Search the crates",
-              "consequence": "A trap springs — lose 8 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 8
-              }
-            },
-            {
-              "label": "Search the crates",
-              "consequence": "A common card wedged under packing material",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "common"
-              }
-            },
-            {
-              "label": "Search the crates",
-              "consequence": "The crates are empty. Someone got here first.",
-              "effect": {
-                "type": "nothing"
-              }
-            },
-            {
-              "label": "Search the crates",
-              "consequence": "Restored 10 HP from emergency rations",
-              "effect": {
-                "type": "healHp",
-                "amount": 10
-              }
-            },
-            {
-              "label": "Search the crates",
-              "consequence": "Something rolls out of the straw packing — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            }
+            {"label": "Force it open", "consequence": "Iron rations and coin — +20 crystals", "effect": {"type": "gainCrystals", "amount": 20}},
+            {"label": "Force it open", "consequence": "Field medicine inside — restored 15 HP", "effect": {"type": "healHp", "amount": 15}},
+            {"label": "Force it open", "consequence": "A booby trap springs — lose 12 HP", "effect": {"type": "damageHp", "amount": 12}}
           ],
           [
-            {
-              "label": "Pocket something useful",
-              "consequence": "You find an uncommon card folded in a dispatch pouch",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "uncommon"
-              }
-            },
-            {
-              "label": "Pocket something useful",
-              "consequence": "+20 crystals of scavenged pay-roll coin",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 20
-              }
-            },
-            {
-              "label": "Pocket something useful",
-              "consequence": "The case is booby-trapped — lose 12 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 12
-              }
-            },
-            {
-              "label": "Pocket something useful",
-              "consequence": "A rare card sealed in wax inside an officer's pack",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
-              }
-            },
-            {
-              "label": "Pocket something useful",
-              "consequence": "Something personal and inexplicable — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            }
-          ],
-          [
-            {
-              "label": "Leave quickly",
-              "consequence": "You're gone before the patrol returns. Nothing gained.",
-              "effect": {
-                "type": "nothing"
-              }
-            },
-            {
-              "label": "Leave quickly",
-              "consequence": "You trip an alarm on the way out — lose 6 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 6
-              }
-            },
-            {
-              "label": "Leave quickly",
-              "consequence": "You spot a coin pouch by the door — +10 crystals",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 10
-              }
-            },
-            {
-              "label": "Leave quickly",
-              "consequence": "You grab something off a shelf reflexively — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            }
+            {"label": "Check the dispatch papers", "consequence": "Tactical documents — an uncommon card falls from the bundle", "effect": {"type": "gainCard", "rarity": "uncommon"}},
+            {"label": "Check the dispatch papers", "consequence": "Something useful wrapped in the orders — added to inventory", "effect": {"type": "gainItem"}},
+            {"label": "Check the dispatch papers", "consequence": "Orders only. Nothing useful.", "effect": {"type": "nothing"}}
           ]
         ]
       }
@@ -599,7 +489,7 @@
       "description": "Elite heavy infantry protecting the mid-canyon checkpoint.",
       "row": 3,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "last-stand"
       ],
@@ -630,7 +520,8 @@
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "soldiers-camp"
+        "soldiers-camp",
+        "mem-act2-2"
       ],
       "environment": "citadel"
     },
@@ -716,8 +607,8 @@
     "war-council": {
       "id": "war-council",
       "type": "event",
-      "label": "War Council",
-      "description": "A sealed briefing room — the Citadel's last tactical maps still spread across the table, the officers' chairs still warm.",
+      "label": "The War Council Chamber",
+      "description": "The old command table still has markers on it, frozen at the moment the Fracture sealed the roads.",
       "row": 5,
       "col": 1,
       "rowCols": 2,
@@ -727,122 +618,17 @@
       "environment": "citadel",
       "eventConfig": {
         "title": "The War Council Chamber",
-        "description": "The Citadel's last tactical briefing still covers the table — casualty projections, siege lines, contingency codes. No signature. No date. The officers left in a hurry and didn't come back.",
+        "description": "Kragg's inner sanctum. The campaign map is still pinned to the table, markers showing positions from three years ago. Someone was making decisions here when the Fracture hit. The markers are still where they left them.",
         "pools": [
           [
-            {
-              "label": "Study the tactical maps",
-              "consequence": "You spot an exploitable route ahead. +16 crystals.",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 16
-              }
-            },
-            {
-              "label": "Study the tactical maps",
-              "consequence": "The maps reveal a supply drop location. +20 crystals.",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 20
-              }
-            },
-            {
-              "label": "Study the tactical maps",
-              "consequence": "The strategies are outdated — they describe your own deck. Nothing useful.",
-              "effect": {
-                "type": "nothing"
-              }
-            },
-            {
-              "label": "Study the tactical maps",
-              "consequence": "The data is encoded. Hours wasted — lose 6 HP from exhaustion.",
-              "effect": {
-                "type": "damageHp",
-                "amount": 6
-              }
-            }
+            {"label": "Study the campaign map", "consequence": "You find a tactical advantage — +18 crystals recovered from a hidden drawer", "effect": {"type": "gainCrystals", "amount": 18}},
+            {"label": "Study the campaign map", "consequence": "A rare strategy document — add a rare card", "effect": {"type": "gainCard", "rarity": "rare"}},
+            {"label": "Study the campaign map", "consequence": "Nothing useful. Outdated positions.", "effect": {"type": "nothing"}}
           ],
           [
-            {
-              "label": "Search the officers' packs",
-              "consequence": "Emergency rations. Restored 12 HP.",
-              "effect": {
-                "type": "healHp",
-                "amount": 12
-              }
-            },
-            {
-              "label": "Search the officers' packs",
-              "consequence": "A folded rare card tucked inside a dispatch pouch.",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
-              }
-            },
-            {
-              "label": "Search the officers' packs",
-              "consequence": "A booby-trap springs — lose 10 HP.",
-              "effect": {
-                "type": "damageHp",
-                "amount": 10
-              }
-            },
-            {
-              "label": "Search the officers' packs",
-              "consequence": "An uncommon card hidden under a false bottom.",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "uncommon"
-              }
-            },
-            {
-              "label": "Search the officers' packs",
-              "consequence": "+1 life — someone left a spare compass. You needed that.",
-              "effect": {
-                "type": "gainLife",
-                "amount": 1
-              }
-            },
-            {
-              "label": "Search the officers' packs",
-              "consequence": "Something personal left behind — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            }
-          ],
-          [
-            {
-              "label": "Take the classified orders",
-              "consequence": "The enemy codes are yours. +24 crystals on the black market.",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 24
-              }
-            },
-            {
-              "label": "Take the classified orders",
-              "consequence": "The orders detail a hidden armoury. You find a rare card.",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
-              }
-            },
-            {
-              "label": "Take the classified orders",
-              "consequence": "The seal breaks and releases a gas. Lose 14 HP.",
-              "effect": {
-                "type": "damageHp",
-                "amount": 14
-              }
-            },
-            {
-              "label": "Take the classified orders",
-              "consequence": "They're blank. Psychological warfare, apparently.",
-              "effect": {
-                "type": "nothing"
-              }
-            }
+            {"label": "Search the room", "consequence": "A field medic's kit in the footlocker — restored 14 HP", "effect": {"type": "healHp", "amount": 14}},
+            {"label": "Search the room", "consequence": "Something of value left in the rush — added to inventory", "effect": {"type": "gainItem"}},
+            {"label": "Search the room", "consequence": "The room has already been searched — lose 8 HP from a leftover trap", "effect": {"type": "damageHp", "amount": 8}}
           ]
         ]
       }
@@ -926,7 +712,7 @@
       "description": "The Executioner, known for the sharpness of their axe, stands and watches… his kin stand alongside. Today there will be blood. Maybe yours.",
       "row": 1,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "supply-cache",
         "outer-wall"
@@ -952,7 +738,7 @@
       "description": "The reek of death fills the air. The battle hasn’t started yet.",
       "row": 1,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "siege-trenches",
         "quartermaster"
@@ -966,6 +752,34 @@
         "Plague Spread",
         "Plague Burrow"
       ]
+    },
+    "mem-act2-1": {
+      "id": "mem-act2-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A signal officer’s last dispatch, never sent — pressed into the canyon wall the day the Fracture sealed the roads.",
+      "row": 1,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "supply-cache"
+      ],
+      "fragmentId": "act2-frag-1",
+      "environment": "citadel"
+    },
+    "mem-act2-2": {
+      "id": "mem-act2-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A command tent left exactly as it was — markers still on the map, orders mid-read. The Fracture froze everything in place.",
+      "row": 3,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "siege-captain"
+      ],
+      "fragmentId": "act2-frag-2",
+      "environment": "citadel"
     }
   },
   "mapMusicId": "map",

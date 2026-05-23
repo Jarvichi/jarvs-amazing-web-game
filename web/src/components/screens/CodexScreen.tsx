@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import {
-  getCodexCards, getCodexRelics, getCodexWorld,
-  CodexCardEntry, CodexRelicEntry, CodexWorldEntry,
+  getCodexCards, getCodexRelics, getCodexWorld, getCodexFragments,
+  CodexCardEntry, CodexRelicEntry, CodexWorldEntry, CodexFragmentEntry,
 } from '../../game/codex'
 
-type CodexTab = 'cards' | 'relics' | 'world'
+type CodexTab = 'cards' | 'relics' | 'world' | 'fragments'
 type CardTypeFilter = 'all' | 'unit' | 'structure' | 'upgrade'
 
 const RARITY_ORDER: Record<string, number> = {
@@ -23,6 +23,28 @@ const RARITY_COLORS: Record<string, string> = {
   shiny:     '#ffe066',
   holofoil:  '#40e0d0',
   glass:     '#a0d8ef',
+}
+
+function FragmentLorePanel({ entry }: { entry: CodexFragmentEntry }) {
+  if (!entry.discovered) {
+    return (
+      <div className="codex-entry codex-entry--locked">
+        <div className="codex-entry-name">◆ ??? — {entry.actId.toUpperCase()}</div>
+        <div className="codex-entry-locked-hint">Find this memory fragment on the campaign map to unlock its entry.</div>
+      </div>
+    )
+  }
+  return (
+    <div className="codex-entry">
+      <div className="codex-entry-header">
+        <span className="codex-entry-name" style={{ color: '#aaddff' }}>◆ {entry.title}</span>
+        <span className="codex-entry-tag">{entry.actId.toUpperCase()}</span>
+      </div>
+      {entry.body.split('\n\n').map((para, i) => (
+        <div key={i} className="codex-entry-desc">{para}</div>
+      ))}
+    </div>
+  )
 }
 
 interface Props {
@@ -108,9 +130,10 @@ export function CodexScreen({ onDone }: Props) {
   const [search, setSearch] = useState('')
   const [showLocked, setShowLocked] = useState(true)
 
-  const cards  = useMemo(() => getCodexCards(),  [])
-  const relics = useMemo(() => getCodexRelics(), [])
-  const world  = useMemo(() => getCodexWorld(),  [])
+  const cards     = useMemo(() => getCodexCards(),     [])
+  const relics    = useMemo(() => getCodexRelics(),    [])
+  const world     = useMemo(() => getCodexWorld(),     [])
+  const fragments = useMemo(() => getCodexFragments(), [])
 
   const filteredCards = useMemo<CodexCardEntry[]>(() => {
     let list = cards
@@ -125,30 +148,34 @@ export function CodexScreen({ onDone }: Props) {
     })
   }, [cards, typeFilter, showLocked, search])
 
-  const unlockedCardCount  = cards.filter(c => c.unlocked).length
-  const unlockedRelicCount = relics.filter(r => r.unlocked).length
-  const unlockedWorldCount = world.filter(w => w.unlocked).length
+  const unlockedCardCount     = cards.filter(c => c.unlocked).length
+  const unlockedRelicCount    = relics.filter(r => r.unlocked).length
+  const unlockedWorldCount    = world.filter(w => w.unlocked).length
+  const discoveredFragCount   = fragments.filter(f => f.discovered).length
 
   const subtitle = tab === 'cards'
     ? `${unlockedCardCount} / ${cards.length} discovered`
     : tab === 'relics'
     ? `${unlockedRelicCount} / ${relics.length} earned`
-    : `${unlockedWorldCount} / ${world.length} shards explored`
+    : tab === 'world'
+    ? `${unlockedWorldCount} / ${world.length} shards explored`
+    : `${discoveredFragCount} / ${fragments.length} fragments recovered`
 
   return (
     <OverlayScreen title="CODEX" subtitle={subtitle} onBack={onDone}>
       <div className="codex-screen">
         {/* Tab bar */}
         <div className="codex-tabs">
-          {(['cards', 'relics', 'world'] as CodexTab[]).map(t => (
+          {(['cards', 'relics', 'world', 'fragments'] as CodexTab[]).map(t => (
             <button
               key={t}
               className={`filter-btn${tab === t ? ' filter-btn--active' : ''}`}
               onClick={() => setTab(t)}
             >
-              {t === 'cards' ? `CARDS (${unlockedCardCount})` :
-               t === 'relics' ? `RELICS (${unlockedRelicCount})` :
-               `WORLD (${unlockedWorldCount})`}
+              {t === 'cards'     ? `CARDS (${unlockedCardCount})` :
+               t === 'relics'    ? `RELICS (${unlockedRelicCount})` :
+               t === 'world'     ? `WORLD (${unlockedWorldCount})` :
+               `FRAGMENTS (${discoveredFragCount})`}
             </button>
           ))}
         </div>
@@ -195,6 +222,10 @@ export function CodexScreen({ onDone }: Props) {
 
           {tab === 'world' && world.map(entry => (
             <WorldLorePanel key={entry.actId} entry={entry} />
+          ))}
+
+          {tab === 'fragments' && fragments.map(entry => (
+            <FragmentLorePanel key={entry.id} entry={entry} />
           ))}
 
           {tab === 'cards' && filteredCards.length === 0 && (

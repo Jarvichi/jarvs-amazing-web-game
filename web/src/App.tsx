@@ -41,6 +41,9 @@ import { CampScreen, CampChoice } from './components/campaign/CampScreen'
 import { EventScreen }          from './components/campaign/EventScreen'
 import { MerchantScreen, MerchantItem, cardMerchantItem } from './components/campaign/MerchantScreen'
 import { MysteryScreen } from './components/campaign/MysteryScreen'
+import { MemoryFragmentScreen } from './components/campaign/MemoryFragmentScreen'
+import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered } from './game/codex'
+import memoryFragmentsData from './data/memoryFragments.json'
 import { ItemFoundScreen }    from './components/modals/ItemFoundScreen'
 import { CharacterScreen }    from './components/screens/CharacterScreen'
 import { CutsceneScreen }       from './components/campaign/CutsceneScreen'
@@ -200,6 +203,7 @@ type Screen =
   | 'statupgrade'
   | 'camp'
   | 'codex'
+  | 'memory'
 
 
 const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
@@ -364,6 +368,7 @@ export default function App() {
   const [merchantItems, setMerchantItems] = useState<MerchantItem[]>([])
   const merchantBoughtRef = useRef(0)
   const [mysteryReward, setMysteryReward] = useState<RewardDef | null>(null)
+  const [activeMemoryFragment, setActiveMemoryFragment] = useState<{ fragment: MemoryFragment; alreadyFound: boolean; shardBonus: boolean } | null>(null)
   const [campNode, setCampNode] = useState<QuestNode | null>(null)
   const [campResult, setCampResult] = useState<string | null>(null)
   // Replay briefing state — stored so onBegin can proceed with the correct context
@@ -975,6 +980,17 @@ export default function App() {
       return
     }
 
+    if (node.type === 'memory' && node.fragmentId) {
+      const allFragments = memoryFragmentsData as MemoryFragment[]
+      const frag = allFragments.find(f => f.id === node.fragmentId)
+      if (frag) {
+        const alreadyFound = isFragmentDiscovered(frag.id)
+        setActiveMemoryFragment({ fragment: frag, alreadyFound, shardBonus: false })
+        setScreen('memory')
+        return
+      }
+    }
+
     // 10% chance: normal battle node becomes a mystery encounter
     if (node.type === 'battle' && Math.random() < 0.10) {
       setMysteryReward(computeReward(loadInventory()))
@@ -1224,6 +1240,39 @@ export default function App() {
     if (mysteryUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...mysteryUnlocked])
     setScreen('nodemap')
   }, [run, mysteryReward])
+
+  const handleMemoryCollect = useCallback(() => {
+    const currentRun = run
+    if (!currentRun || !activeMemoryFragment) { setScreen('nodemap'); return }
+    const { fragment, alreadyFound } = activeMemoryFragment
+    let shardBonus = false
+    let updatedConsumables = currentRun.consumables
+    if (!alreadyFound) {
+      shardBonus = markFragmentDiscovered(fragment.id)
+      if (shardBonus) {
+        const existing = updatedConsumables.find(c => c.id === 'health_potion')
+        updatedConsumables = existing
+          ? updatedConsumables.map(c => c.id === 'health_potion' ? { ...c, count: c.count + 1 } : c)
+          : [...updatedConsumables, { id: 'health_potion', count: 1 }]
+      }
+    }
+    const nodeId = currentRun.pendingNodeId!
+    const updatedRun: RunState = {
+      ...currentRun,
+      completedNodeIds: [...currentRun.completedNodeIds, nodeId],
+      pendingNodeId: null,
+      consumables: updatedConsumables,
+    }
+    recordNodeComplete(updatedRun.actId, nodeId)
+    saveRun(updatedRun)
+    setRun(updatedRun)
+    if (shardBonus) {
+      setActiveMemoryFragment({ ...activeMemoryFragment, alreadyFound: false, shardBonus: true })
+      return
+    }
+    setActiveMemoryFragment(null)
+    setScreen('nodemap')
+  }, [run, activeMemoryFragment])
 
   const handleUseConsumable = useCallback((id: string) => {
     setRun(prev => {
@@ -2389,6 +2438,17 @@ export default function App() {
         <MysteryScreen
           reward={mysteryReward}
           onCollect={handleMysteryCollect}
+        />
+      )}
+
+      {(screen === 'memory' || activeMemoryFragment?.shardBonus) && activeMemoryFragment && (
+        <MemoryFragmentScreen
+          fragment={activeMemoryFragment.fragment}
+          alreadyFound={activeMemoryFragment.alreadyFound}
+          shardBonus={activeMemoryFragment.shardBonus}
+          onCollect={activeMemoryFragment.shardBonus
+            ? () => { setActiveMemoryFragment(null); setScreen('nodemap') }
+            : handleMemoryCollect}
         />
       )}
 

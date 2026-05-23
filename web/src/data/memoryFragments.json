@@ -1,0 +1,72 @@
+[
+  {
+    "id": "act1-frag-1",
+    "actId": "act1",
+    "nodeId": "memory-act1-1",
+    "title": "Fragment: The Fracture at Noon",
+    "body": "It happened during the mid-harvest. I remember because I was counting crates.\n\nOne moment the sky was blue. Then it split — not like a storm, but like a seam giving way on something enormous. A sound that wasn't quite sound. Every bird in the Verdant Shard lifted at once and didn't come back.\n\nThe paths sealed themselves before I could reach the gate. I found this note pressed into the bark of the oldest oak three days later, in handwriting that wasn't mine."
+  },
+  {
+    "id": "act1-frag-2",
+    "actId": "act1",
+    "nodeId": "memory-act1-2",
+    "title": "Fragment: The Thornlord's Oath",
+    "body": "He spoke only once about it, in the early days after the sealing.\n\n'I felt the Fracture the way a tree feels a root pulled free — not pain, but wrongness. A foundational thing, absent.' He pressed his bark-hands together. 'The Dominion built its roads through here for four hundred years and I permitted it. Now there are no roads and no Dominion and I am the only continuity this shard has left.'\n\nHe sealed the paths that same evening. Nobody argued. There was nobody left to argue."
+  },
+  {
+    "id": "act2-frag-1",
+    "actId": "act2",
+    "nodeId": "memory-act2-1",
+    "title": "Fragment: The General's Last Order",
+    "body": "CITADEL COMMAND LOG — DAY OF FRACTURE\n\nAll available troops to the inner walls. Communications to the capital: unresponsive. East road: sealed. Supply line from the valley: gone.\n\nThe General's final recorded order was: 'Hold the Citadel. Hold it until someone comes to relieve you or until you understand that no one is coming. Either outcome will teach you something.'\n\nThe relief never came. The troops held. This fragment was found between the stones of the main gate, folded small."
+  },
+  {
+    "id": "act2-frag-2",
+    "actId": "act2",
+    "nodeId": "memory-act2-2",
+    "title": "Fragment: The Commander's Dilemma",
+    "body": "Three hundred soldiers. Enough rations for six weeks, if we're careful. The gates are sealed and I don't know if we sealed them or the Fracture did.\n\nCivilians in the lower courtyard asked me what happens next. I told them we wait for orders. This was a lie — there are no orders, there is no chain of command, and the General hasn't spoken since the sealing.\n\nI closed the gate anyway. It seemed like the thing to do. Now I'm not sure if I was protecting them from outside, or protecting the Citadel from what we might become."
+  },
+  {
+    "id": "act3-frag-1",
+    "actId": "act3",
+    "nodeId": "memory-act3-1",
+    "title": "Fragment: The Scholar's Warning",
+    "body": "FIELD NOTES — ASHEN WASTES RESEARCH STATION — 14 DAYS BEFORE FRACTURE\n\nThe ley lines are not degrading. They are redirecting. This is categorically different from natural fluctuation and I cannot get the Academy to return my correspondence.\n\nSomething is drawing on the deep lines. Not slowly — aggressively. The stone here has begun to warm at the junctions. The ash deposits predate anything in our geological record, which means they predate the Dominion, which means the Wastes were on fire before we arrived and we built here anyway.\n\nI am beginning to think the Fracture is not an event. It is a disclosure."
+  },
+  {
+    "id": "act3-frag-2",
+    "actId": "act3",
+    "nodeId": "memory-act3-2",
+    "title": "Fragment: After the Flame",
+    "body": "When the sky cracked, the ash rose first. Not settled — rose. Against gravity, against wind, against sense.\n\nBy the time it came back down the paths were gone and the old things in the deep rock had woken. They aren't hostile, exactly. They're confused, the way you're confused when someone breaks into your house and then asks for directions.\n\nWe called ourselves the Ash Covenant, those of us who stayed. Not because we chose the ash. Because the ash was the only thing still there."
+  },
+  {
+    "id": "act4-frag-1",
+    "actId": "act4",
+    "nodeId": "memory-act4-1",
+    "title": "Fragment: Resonance Report 7",
+    "body": "CRYSTAL SPIRE RESEARCH DIVISION — INTERNAL DOCUMENT\n\nThe central array is responding to something it shouldn't be able to detect. Signal profile matches theoretical fracture-resonance — a frequency we modelled but never expected to observe because the conditions required to produce it are, under normal physics, impossible.\n\nWe are currently operating under conditions that are, under normal physics, impossible.\n\nRecommendation: reduce the amplification coefficient before the array begins reflecting rather than absorbing. Filed 11 days before the Fracture. No action was taken."
+  },
+  {
+    "id": "act4-frag-2",
+    "actId": "act4",
+    "nodeId": "memory-act4-2",
+    "title": "Fragment: The Arcanist's Theory",
+    "body": "My colleagues call it catastrophism. I call it the only model that fits the evidence.\n\nThe Fracture was not an accident. It was a result. Something — or someone — pushed energy through the deep ley network at a scale that the infrastructure couldn't carry, and the Dominion shattered along every fault line that had been quietly accumulating for centuries.\n\nThe question is not what caused the Fracture. The question is what wanted the Dominion gone badly enough to find a way. This note was sealed in crystal and hidden in the archive. I don't know by whom."
+  },
+  {
+    "id": "act5-frag-1",
+    "actId": "act5",
+    "nodeId": "memory-act5-1",
+    "title": "Fragment: The Reef Song",
+    "body": "Before the sinking we had seven cities. You could walk between them on the ridge paths at low tide, and the oldest ones say their grandparents did this barefoot without thinking.\n\nThe reef was a map. Every coral structure marked something — a boundary, a name, a history. We read the water the way inland people read roads.\n\nWe still read it. We just read it from further down now."
+  },
+  {
+    "id": "act5-frag-2",
+    "actId": "act5",
+    "nodeId": "memory-act5-2",
+    "title": "Fragment: The Great Sinking",
+    "body": "The sea didn't rise. The land fell.\n\nWe had two hours of warning — the fish went still, the current reversed, and then the whole shelf dropped three fathoms in a single breath. Most of us were already moving before we understood why.\n\nThe cities didn't collapse. They descended, intact, into the shallows. You can see them at low tide if the water is clear enough — spires and market squares and homes, perfectly preserved, perfectly unreachable. A shrine found this note sealed in a jar, lodged against the old harbour steps."
+  }
+]

@@ -29,6 +29,7 @@ const NODE_ICON: Record<string, string> = {
   rest:     '⛺',
   event:    '?',
   merchant: '⚖',
+  memory:   '◆',
 }
 
 const COL_WIDTH      = 112 // fixed pixel width per map column slot
@@ -68,12 +69,14 @@ const NODE_LABEL: Record<string, string> = {
   rest:     'REST',
   event:    'EVENT',
   merchant: 'SHOP',
+  memory:   'MEMORY',
 }
 
 function nodeSprite(node: QuestNode): string | null {
   if (node.type === 'rest')     return '/sprites/campfire.svg'
   if (node.type === 'merchant') return '/sprites/merchant.svg'
   if (node.type === 'event')    return '/sprites/event.svg'
+  if (node.type === 'memory')   return '/sprites/event.svg'
   if (node.type === 'boss' && node.bossAI)
     return `/sprites/boss-${node.bossAI}.svg`
   if ((node.type === 'battle' || node.type === 'elite') && node.enemyDeck?.length)

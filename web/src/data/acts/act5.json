@@ -45,7 +45,7 @@
       "Now, technically, waterlogged in both the literal and professional sense.",
       "Now, somewhere between drowned and determined.",
       "Now, effectively, the sort of person who fights sea creatures for a living.",
-      "Now — by any measure — overdue for dry land."
+      "Now \u2014 by any measure \u2014 overdue for dry land."
     ],
     "jarvIntros": [
       "You have a deck of cards, an understanding of tidal patterns, and a strong conviction that the ocean does not care about you.",
@@ -55,25 +55,25 @@
       "You have a deck of cards. The sea has had your number since the first time. That hasn't stopped you yet."
     ],
     "reefDesc": [
-      "The shard hangs half-submerged — a lattice of coral, sunken ships, and old magic squeezed between two impossible tides.",
-      "The Sunken Reef smells like the bottom of the world — salt and brine and something older than weather.",
+      "The shard hangs half-submerged \u2014 a lattice of coral, sunken ships, and old magic squeezed between two impossible tides.",
+      "The Sunken Reef smells like the bottom of the world \u2014 salt and brine and something older than weather.",
       "The Sunken Reef waits at the edge of your bearing, half-drowned and utterly indifferent to your arrival.",
       "The ley lines thread through the reef like roots through rock. The water knows exactly what it's doing."
     ],
     "sovereignDesc": [
-      "The Reef's guardian calls itself the Tidal Sovereign — a being of compressed sea-memory and slow, grinding patience.\n\nIt does not rush. It does not need to. The tide has never once been in a hurry.",
+      "The Reef's guardian calls itself the Tidal Sovereign \u2014 a being of compressed sea-memory and slow, grinding patience.\n\nIt does not rush. It does not need to. The tide has never once been in a hurry.",
       "The Tidal Sovereign holds the Reef's pathways closed. It has been doing this since before your concept of 'waiting' existed.\n\nIt is not worried about you. That, ironically, is the problem.",
       "The Tidal Sovereign seals every passage through the Reef. Traders who've survived call it patient, deliberate, and entirely without urgency.\n\nYou've found urgency works well enough as a substitute.",
       "The Tidal Sovereign waits at the Reef's heart. It has not moved in a very long time. You suspect, this time, that it has been expecting exactly this."
     ],
     "priorRunSummaries": [
-      "The water felt familiar — the particular weight of it, the way it carried sound. Like walking back into a room you'd left a light on in.",
-      "The coral formations were wrong. Not wrong wrong — wrong the way a remembered face is wrong when you see it again after a long time.",
+      "The water felt familiar \u2014 the particular weight of it, the way it carried sound. Like walking back into a room you'd left a light on in.",
+      "The coral formations were wrong. Not wrong wrong \u2014 wrong the way a remembered face is wrong when you see it again after a long time.",
       "Something about the current. The angle of it. The way it pushed you slightly left at every junction. You pushed back. That felt familiar too.",
       "The reef was quieter on approach than it should have been. As though it knew you were coming, and had decided not to make a fuss about it."
     ],
     "priorRunOpenings": [
-      "You had been here. Not in the way that means you remembered it clearly — in the way that means your hands knew what to do before you told them.",
+      "You had been here. Not in the way that means you remembered it clearly \u2014 in the way that means your hands knew what to do before you told them.",
       "The first patrol of Sea Wraiths didn't seem surprised to see you. Not exactly. More like: resigned.",
       "The Tidal Sovereign's opening gambit was different this time. Slower. As though it had considered changing tactics and then thought better of it.",
       "The tide was going out when you arrived. Last time it was coming in. You noted this. You weren't sure what it meant, but you noted it."
@@ -91,11 +91,11 @@
       "After twenty-five runs, the Tidal Sovereign no longer opens with the speech about tide and inevitability. It just looks at you. Somehow that is worse."
     ],
     "milestoneOpenings50": [
-      "The fiftieth time through the Sunken Reef. The water is the wrong temperature — not cold, not warm. Exactly the same temperature as you. As though the sea has decided that fighting you on this particular front is no longer productive.",
+      "The fiftieth time through the Sunken Reef. The water is the wrong temperature \u2014 not cold, not warm. Exactly the same temperature as you. As though the sea has decided that fighting you on this particular front is no longer productive.",
       "Fifty campaigns. You walk in at low tide. The tide seems to have checked your schedule and adjusted accordingly."
     ],
     "milestoneOpenings100": [
-      "The Tidal Sovereign looks at you. Not at Jarv. At you — the person moving the pieces.\n\n'A hundred tides,' it says. Its voice sounds like a wave breaking on stone. 'A hundred returns. I have outlasted coral formations. I have outlasted ships. I have outlasted things that thought themselves permanent.'\n\nA pause. The water around it stills completely.\n\n'And yet here you are. Again. I believe I have been underestimating the situation.'\n\nIt sounds, if such a thing is possible, almost respectful."
+      "The Tidal Sovereign looks at you. Not at Jarv. At you \u2014 the person moving the pieces.\n\n'A hundred tides,' it says. Its voice sounds like a wave breaking on stone. 'A hundred returns. I have outlasted coral formations. I have outlasted ships. I have outlasted things that thought themselves permanent.'\n\nA pause. The water around it stills completely.\n\n'And yet here you are. Again. I believe I have been underestimating the situation.'\n\nIt sounds, if such a thing is possible, almost respectful."
     ]
   },
   "midRunTemplates": [
@@ -109,7 +109,10 @@
   ],
   "introRules": [
     {
-      "condition": { "op": "gte", "value": 100 },
+      "condition": {
+        "op": "gte",
+        "value": 100
+      },
       "panels": [
         {
           "title": "THE SOVEREIGN KNOWS",
@@ -122,7 +125,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 51, "max": 99 },
+      "condition": {
+        "op": "range",
+        "min": 51,
+        "max": 99
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -143,7 +150,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 50 },
+      "condition": {
+        "op": "eq",
+        "value": 50
+      },
       "panels": [
         {
           "title": "FIFTY CAMPAIGNS",
@@ -164,7 +174,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 26, "max": 49 },
+      "condition": {
+        "op": "range",
+        "min": 26,
+        "max": 49
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -181,7 +195,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 25 },
+      "condition": {
+        "op": "eq",
+        "value": 25
+      },
       "panels": [
         {
           "title": "TWENTY-FIVE",
@@ -198,7 +215,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 11, "max": 24 },
+      "condition": {
+        "op": "range",
+        "min": 11,
+        "max": 24
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -219,7 +240,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 10 },
+      "condition": {
+        "op": "eq",
+        "value": 10
+      },
       "panels": [
         {
           "title": "THE TENTH TIME",
@@ -240,7 +264,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 5, "max": 9 },
+      "condition": {
+        "op": "range",
+        "min": 5,
+        "max": 9
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -257,11 +285,15 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 2, "max": 4 },
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 4
+      },
       "panels": [
         {
           "title": "THE SUNKEN REEF",
-          "text": "The shard hangs half-submerged — a lattice of coral, sunken ships, and old magic.\n\n{pool:priorRunSummaries:0}"
+          "text": "The shard hangs half-submerged \u2014 a lattice of coral, sunken ships, and old magic.\n\n{pool:priorRunSummaries:0}"
         },
         {
           "title": "THE WANDERER",
@@ -273,7 +305,7 @@
         },
         {
           "title": "A FEELING",
-          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+          "text": "And yet \u2014 {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
         }
       ]
     }
@@ -281,24 +313,24 @@
   "intro": [
     {
       "title": "THE SUNKEN REEF",
-      "text": "The shard hangs half-submerged — a lattice of coral, sunken ships, and old magic squeezed between two impossible tides.\n\nSomething large lives at its centre. Something old. The traders who escaped this shard don't talk about what they saw, but they all flinch at the same sounds: deep water, and bells.",
+      "text": "The shard hangs half-submerged \u2014 a lattice of coral, sunken ships, and old magic squeezed between two impossible tides.\n\nSomething large lives at its centre. Something old. The traders who escaped this shard don't talk about what they saw, but they all flinch at the same sounds: deep water, and bells.",
       "image": "cutscenes/act5-intro-1.svg"
     },
     {
       "title": "THE TIDAL SOVEREIGN",
-      "text": "The Reef's guardian calls itself the Tidal Sovereign — a being of compressed sea-memory and slow, grinding patience.\n\nIt does not distinguish between invaders and travellers. The ocean, it once said, does not distinguish between ships it sinks and ships it simply forgets about.\n\nYou have decided not to be forgotten.",
+      "text": "The Reef's guardian calls itself the Tidal Sovereign \u2014 a being of compressed sea-memory and slow, grinding patience.\n\nIt does not distinguish between invaders and travellers. The ocean, it once said, does not distinguish between ships it sinks and ships it simply forgets about.\n\nYou have decided not to be forgotten.",
       "image": "cutscenes/act5-intro-2.svg"
     },
     {
       "title": "THE PASSAGE",
-      "text": "The ley lines that thread through the Sunken Reef are old — older than the Fracture, older than the Dominion. They connect, somewhere in the deep, to the Fractured Core.\n\nIf you can break through the Sovereign's grip on the pathways, you might finally understand what the Fracture Event actually was.\n\nIf. The word is doing significant structural work in that sentence.",
+      "text": "The ley lines that thread through the Sunken Reef are old \u2014 older than the Fracture, older than the Dominion. They connect, somewhere in the deep, to the Fractured Core.\n\nIf you can break through the Sovereign's grip on the pathways, you might finally understand what the Fracture Event actually was.\n\nIf. The word is doing significant structural work in that sentence.",
       "image": "cutscenes/act5-intro-3.svg"
     }
   ],
   "outro": [
     {
       "title": "THE SOVEREIGN FALLS",
-      "text": "The Tidal Sovereign does not collapse. It recedes — like a wave pulling back from shore, leaving behind silence and the smell of deep ocean.\n\nThe coral pathways glow. Sealed ley lines crack open. The Reef's memory of the Fracture is vivid and specific and terrifying, and you carry it with you as you leave.",
+      "text": "The Tidal Sovereign does not collapse. It recedes \u2014 like a wave pulling back from shore, leaving behind silence and the smell of deep ocean.\n\nThe coral pathways glow. Sealed ley lines crack open. The Reef's memory of the Fracture is vivid and specific and terrifying, and you carry it with you as you leave.",
       "image": "cutscenes/act5-outro-1.svg"
     },
     {
@@ -308,7 +340,7 @@
     },
     {
       "title": "ONWARD",
-      "text": "The Coral Mantle settles around you — a gift from the Reef, or a remnant of the Sovereign's dissolved form. Either way it fits.\n\nAhead: the Sky Dominion, where the aerial shards drift above clouds no map has ever charted. The ley lines point upward.\n\nYou have always been bad at taking hints.",
+      "text": "The Coral Mantle settles around you \u2014 a gift from the Reef, or a remnant of the Sovereign's dissolved form. Either way it fits.\n\nAhead: the Sky Dominion, where the aerial shards drift above clouds no map has ever charted. The ley lines point upward.\n\nYou have always been bad at taking hints.",
       "image": "cutscenes/act5-outro-3.svg"
     }
   ],
@@ -350,7 +382,7 @@
       "id": "tidal-shrine",
       "type": "event",
       "label": "Tidal Shrine",
-      "description": "An ancient stone altar sits at low tide, its carvings still sharp despite everything.",
+      "description": "A coral-encrusted altar partially submerged by the tides. The carvings still glow faintly.",
       "row": 1,
       "col": 0,
       "rowCols": 2,
@@ -361,98 +393,127 @@
       "environment": "reef",
       "eventConfig": {
         "title": "The Tidal Shrine",
-        "description": "A stone altar stands at the reef's edge, carved with wave patterns and seal-glyphs. A small depression at its centre fills and empties with every tide.",
+        "description": "An ancient reef altar, half-buried by the sinking. Bioluminescent coral has grown over the old inscriptions. The sea recedes just enough to let you approach.",
         "pools": [
           [
             {
-              "label": "Leave an offering",
-              "consequence": "The tide takes it — and returns 12 HP",
+              "label": "Offer to the tide",
+              "consequence": "The reef accepts \u2014 restored 12 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 12
               }
             },
             {
-              "label": "Leave an offering",
-              "consequence": "The shrine accepts the gift — +15 crystals",
+              "label": "Offer to the tide",
+              "consequence": "Current pulls crystals to shore \u2014 +15 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 15
               }
             },
             {
-              "label": "Leave an offering",
-              "consequence": "Nothing stirs. The tide goes out.",
+              "label": "Offer to the tide",
+              "consequence": "The tide takes something back \u2014 lose 8 HP",
+              "effect": {
+                "type": "damageHp",
+                "amount": 8
+              }
+            },
+            {
+              "label": "Offer to the tide",
+              "consequence": "Nothing stirs. Salt and silence.",
               "effect": {
                 "type": "nothing"
               }
             },
             {
-              "label": "Leave an offering",
-              "consequence": "Something beneath pulls harder than expected — lose 5 HP",
+              "label": "Offer to the tide",
+              "consequence": "A shell with something inside \u2014 added to inventory",
               "effect": {
-                "type": "damageHp",
-                "amount": 5
+                "type": "gainItem"
               }
             }
           ],
           [
             {
-              "label": "Read the carvings",
-              "consequence": "The glyphs resolve into a card — uncommon",
+              "label": "Touch the coral glow",
+              "consequence": "Warmth flows through you \u2014 restored 15 HP",
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
+            },
+            {
+              "label": "Touch the coral glow",
+              "consequence": "A card materialises from the light \u2014 uncommon",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
               }
             },
             {
-              "label": "Read the carvings",
-              "consequence": "The pattern heals old wounds — restored 8 HP",
-              "effect": {
-                "type": "healHp",
-                "amount": 8
-              }
-            },
-            {
-              "label": "Read the carvings",
-              "consequence": "The knowledge is expensive — lose 10 HP",
+              "label": "Touch the coral glow",
+              "consequence": "A sting \u2014 lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
               }
             },
             {
-              "label": "Read the carvings",
-              "consequence": "Salt and old magic — +20 crystals",
+              "label": "Touch the coral glow",
+              "consequence": "+20 crystals from the reef cache",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 20
+              }
+            },
+            {
+              "label": "Touch the coral glow",
+              "consequence": "A curious reef object \u2014 added to inventory",
+              "effect": {
+                "type": "gainItem"
               }
             }
           ],
           [
             {
-              "label": "Smash it for components",
-              "consequence": "The components are worth something — +18 crystals",
+              "label": "Dive for the inscription",
+              "consequence": "You find a rare card in the deep",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
+            },
+            {
+              "label": "Dive for the inscription",
+              "consequence": "+18 crystals from a sunken cache",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 18
               }
             },
             {
-              "label": "Smash it for components",
-              "consequence": "A common card falls from the rubble",
+              "label": "Dive for the inscription",
+              "consequence": "Something unseen bites \u2014 lose 12 HP",
               "effect": {
-                "type": "gainCard",
-                "rarity": "common"
+                "type": "damageHp",
+                "amount": 12
               }
             },
             {
-              "label": "Smash it for components",
-              "consequence": "The shrine curses you for the disrespect — lose 15 HP",
+              "label": "Dive for the inscription",
+              "consequence": "Restored 10 HP from the cool water",
               "effect": {
-                "type": "damageHp",
-                "amount": 15
+                "type": "healHp",
+                "amount": 10
+              }
+            },
+            {
+              "label": "Dive for the inscription",
+              "consequence": "An old reef relic \u2014 added to inventory",
+              "effect": {
+                "type": "gainItem"
               }
             }
           ]
@@ -468,7 +529,8 @@
       "col": 0,
       "rowCols": 4,
       "childIds": [
-        "reef-patrol-elite"
+        "reef-patrol-elite",
+        "mem-act5-1"
       ],
       "environment": "reef",
       "restHeal": 10
@@ -554,7 +616,7 @@
       "id": "deep-current",
       "type": "event",
       "label": "Deep Current",
-      "description": "A ley-line current surfaces here — warm, electric, and full of lost things.",
+      "description": "A ley-line current surfaces here \u2014 warm, electric, and full of lost things.",
       "row": 1,
       "col": 1,
       "rowCols": 2,
@@ -565,7 +627,7 @@
       "environment": "reef",
       "eventConfig": {
         "title": "The Deep Current",
-        "description": "A ley-line current surfaces from a crack in the reef floor. It carries the smell of the Fractured Core — sharp, electric, and ancient. Fragments of Dominion magic swirl in its flow.",
+        "description": "A ley-line current surfaces from a crack in the reef floor. It carries the smell of the Fractured Core \u2014 sharp, electric, and ancient. Fragments of Dominion magic swirl in its flow.",
         "pools": [
           [
             {
@@ -578,7 +640,7 @@
             },
             {
               "label": "Reach in",
-              "consequence": "The current pulls you briefly under — lose 12 HP",
+              "consequence": "The current pulls you briefly under \u2014 lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -586,7 +648,7 @@
             },
             {
               "label": "Reach in",
-              "consequence": "Something warm and healing — restored 15 HP",
+              "consequence": "Something warm and healing \u2014 restored 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -604,7 +666,7 @@
           [
             {
               "label": "Follow it downstream",
-              "consequence": "You find a Dominion salvage cache — +30 crystals",
+              "consequence": "You find a Dominion salvage cache \u2014 +30 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 30
@@ -612,7 +674,7 @@
             },
             {
               "label": "Follow it downstream",
-              "consequence": "The current ends at a dead drop — uncommon card",
+              "consequence": "The current ends at a dead drop \u2014 uncommon card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -636,7 +698,7 @@
       "description": "The Tidal Sovereign's personal patrol. They've been waiting for someone like you.",
       "row": 4,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "abyssal-ambush"
       ],
@@ -671,7 +733,8 @@
       "col": 1,
       "rowCols": 2,
       "childIds": [
-        "node-1776756544618"
+        "node-1776756544618",
+        "mem-act5-2"
       ],
       "handicap": 13,
       "opponentIntervalMs": 4400,
@@ -697,8 +760,8 @@
     "drowned-shrine": {
       "id": "drowned-shrine",
       "type": "event",
-      "label": "Drowned Archive",
-      "description": "A Dominion library, somehow preserved. Its books are unreadable but its cards are intact.",
+      "label": "Drowned Shrine",
+      "description": "A shrine that sank with the cities and was carried back up by the current.",
       "row": 3,
       "col": 2,
       "rowCols": 4,
@@ -707,50 +770,129 @@
       ],
       "environment": "reef",
       "eventConfig": {
-        "title": "The Drowned Archive",
-        "description": "A Dominion archive sits perfectly preserved inside a sealed air pocket — marble shelves, brass fixtures, and a thousand books that have become coral. The card drawers, however, are watertight.",
+        "title": "The Drowned Shrine",
+        "description": "This altar was built to last. The rest of the city did not. Salt-bleached carvings still hold shape after decades underwater. Something about it feels expectant.",
         "pools": [
           [
             {
-              "label": "Search the drawers",
-              "consequence": "A rare card, preserved in wax — yours",
+              "label": "Leave an offering",
+              "consequence": "The shrine stirs the current \u2014 restored 12 HP",
+              "effect": {
+                "type": "healHp",
+                "amount": 12
+              }
+            },
+            {
+              "label": "Leave an offering",
+              "consequence": "Crystals surface from below \u2014 +15 crystals",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 15
+              }
+            },
+            {
+              "label": "Leave an offering",
+              "consequence": "The water chills sharply \u2014 lose 8 HP",
+              "effect": {
+                "type": "damageHp",
+                "amount": 8
+              }
+            },
+            {
+              "label": "Leave an offering",
+              "consequence": "A waterlogged common card rises",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "common"
+              }
+            },
+            {
+              "label": "Leave an offering",
+              "consequence": "A sealed jar bobs up \u2014 added to inventory",
+              "effect": {
+                "type": "gainItem"
+              }
+            }
+          ],
+          [
+            {
+              "label": "Read the inscriptions",
+              "consequence": "Healing knowledge \u2014 restored 10 HP",
+              "effect": {
+                "type": "healHp",
+                "amount": 10
+              }
+            },
+            {
+              "label": "Read the inscriptions",
+              "consequence": "An uncommon card forms from the reading",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
+            },
+            {
+              "label": "Read the inscriptions",
+              "consequence": "Something bad is written here \u2014 lose 6 HP",
+              "effect": {
+                "type": "damageHp",
+                "amount": 6
+              }
+            },
+            {
+              "label": "Read the inscriptions",
+              "consequence": "+18 crystals from a reef tribute box",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 18
+              }
+            },
+            {
+              "label": "Read the inscriptions",
+              "consequence": "A marker stone \u2014 added to inventory",
+              "effect": {
+                "type": "gainItem"
+              }
+            }
+          ],
+          [
+            {
+              "label": "Submerge yourself in prayer",
+              "consequence": "+1 life granted by the deep",
+              "effect": {
+                "type": "gainLife",
+                "amount": 1
+              }
+            },
+            {
+              "label": "Submerge yourself in prayer",
+              "consequence": "Rare card surfaces \u2014 rare",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
               }
             },
             {
-              "label": "Search the drawers",
-              "consequence": "Only common finds, but several — +20 crystals",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 20
-              }
-            },
-            {
-              "label": "Search the drawers",
-              "consequence": "A pressure seal breaks — lose 8 HP",
+              "label": "Submerge yourself in prayer",
+              "consequence": "You stay too long \u2014 lose 15 HP",
               "effect": {
                 "type": "damageHp",
-                "amount": 8
-              }
-            }
-          ],
-          [
-            {
-              "label": "Rest among the stacks",
-              "consequence": "Dry floor, still air — restored 15 HP",
-              "effect": {
-                "type": "healHp",
                 "amount": 15
               }
             },
             {
-              "label": "Rest among the stacks",
-              "consequence": "A forgotten card falls from a shelf — uncommon",
+              "label": "Submerge yourself in prayer",
+              "consequence": "+25 crystals drifting up",
               "effect": {
-                "type": "gainCard",
-                "rarity": "uncommon"
+                "type": "gainCrystals",
+                "amount": 25
+              }
+            },
+            {
+              "label": "Submerge yourself in prayer",
+              "consequence": "Something presses into your hand \u2014 added to inventory",
+              "effect": {
+                "type": "gainItem"
               }
             }
           ]
@@ -778,7 +920,7 @@
       "description": "A half-awake leviathan guards the approach to the Sovereign's sanctum.",
       "row": 4,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "kelp-crossing"
       ],
@@ -849,7 +991,7 @@
       "id": "node-1776756542614",
       "type": "battle",
       "label": "The Kelp Forest",
-      "description": "So dense is the kelp, that you can’t see where you’ve been, or where to go…",
+      "description": "So dense is the kelp, that you can\u2019t see where you\u2019ve been, or where to go\u2026",
       "row": 2,
       "col": 1,
       "rowCols": 4,
@@ -948,10 +1090,10 @@
       "id": "node-1776756544618",
       "type": "battle",
       "label": "The Wash",
-      "description": "Water pulls your feet from under you, you struggle to steady yourself, and then you see something wrap around your leg…",
+      "description": "Water pulls your feet from under you, you struggle to steady yourself, and then you see something wrap around your leg\u2026",
       "row": 6,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 2,
       "childIds": [
         "tidal-sovereign"
       ],
@@ -962,6 +1104,34 @@
         "Tide Stable",
         "Tide Shrine"
       ]
+    },
+    "mem-act5-1": {
+      "id": "mem-act5-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A ship's logbook pressed against coral \u2014 the last entry describes the reef before it sank, still legible in waterproof ink.",
+      "row": 4,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "abyssal-ambush"
+      ],
+      "fragmentId": "act5-frag-1",
+      "environment": "reef"
+    },
+    "mem-act5-2": {
+      "id": "mem-act5-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A bell from a drowned tower, still tolling in the current \u2014 each ring carries the voice of someone who tried to warn the others.",
+      "row": 6,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "tidal-sovereign"
+      ],
+      "fragmentId": "act5-frag-2",
+      "environment": "reef"
     }
   }
 }
