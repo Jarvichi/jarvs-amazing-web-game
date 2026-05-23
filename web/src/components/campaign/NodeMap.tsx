@@ -748,13 +748,16 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
   const hiddenNodeIds      = useMemo(() => {
     const ids = new Set<string>()
     for (const node of Object.values(act.nodes)) {
-      if (
-        node.type === 'memory' &&
-        node.fragmentId &&
-        discoveredFragIds.has(node.fragmentId) &&
-        !run.completedNodeIds.includes(node.id)
-      ) {
+      if (node.type !== 'memory' || !node.fragmentId) continue
+      const alreadyFound = discoveredFragIds.has(node.fragmentId)
+      const visitedThisRun = run.completedNodeIds.includes(node.id)
+      if (alreadyFound && !visitedThisRun) {
+        // Collected in a previous run — always hide
         ids.add(node.id)
+      } else if (!alreadyFound && !visitedThisRun) {
+        // Not yet collected — 20% chance to appear this run
+        const roll = hashStr(node.id + String(run.runSeed)) % 100
+        if (roll >= 20) ids.add(node.id)
       }
     }
     return ids
