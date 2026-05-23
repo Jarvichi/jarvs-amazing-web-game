@@ -360,7 +360,8 @@
       "rowCols": 1,
       "childIds": [
         "shrine",
-        "camp"
+        "camp",
+        "mem-verdant-echo"
       ],
       "handicap": 7,
       "opponentIntervalMs": 7000,
@@ -387,7 +388,7 @@
       "description": "The camp was already occupied. Its new residents are not welcoming.",
       "row": 1,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "node-1776083922801",
         "market"
@@ -414,7 +415,7 @@
       "description": "Goblins have claimed the shrine as their own. They're not interested in sharing.",
       "row": 1,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "forest-path",
         "node-the-lonely-field"
@@ -438,31 +439,85 @@
     },
     "forest-path": {
       "id": "forest-path",
-      "type": "memory",
-      "label": "Memory Fragment",
-      "description": "Something lingers here — a memory pressed into the earth by the Fracture.",
+      "type": "event",
+      "label": "Ancient Shrine",
+      "description": "A moss-covered shrine pulses with faint forest magic.",
       "row": 2,
       "col": 0,
       "rowCols": 4,
       "childIds": [
         "captain"
       ],
-      "fragmentId": "act1-frag-1",
-      "environment": "forest"
+      "environment": "forest",
+      "eventConfig": {
+        "title": "A Forgotten Shrine",
+        "description": "Buried deep in moss and roots, an ancient shrine pulses with faint magic. Carved glyphs glow a dim green. Something still listens here.",
+        "pools": [
+          [
+            {"label": "Leave an offering", "consequence": "The shrine accepts your gift — restored 12 HP", "effect": {"type": "healHp", "amount": 12}},
+            {"label": "Leave an offering", "consequence": "The glow brightens — +15 crystals", "effect": {"type": "gainCrystals", "amount": 15}},
+            {"label": "Leave an offering", "consequence": "The shrine is silent. Nothing happens.", "effect": {"type": "nothing"}},
+            {"label": "Leave an offering", "consequence": "Something drains your offering — lose 5 HP", "effect": {"type": "damageHp", "amount": 5}},
+            {"label": "Leave an offering", "consequence": "Something small materialises at the altar's base — added to inventory", "effect": {"type": "gainItem"}},
+            {"label": "Leave an offering", "consequence": "The shrine blesses you with renewed fortune — +1 life", "effect": {"type": "gainLife", "amount": 1}}
+          ],
+          [
+            {"label": "Pray for strength", "consequence": "A card materialises from the glow — uncommon", "effect": {"type": "gainCard", "rarity": "uncommon"}},
+            {"label": "Pray for strength", "consequence": "The magic guides your wounds — restored 8 HP", "effect": {"type": "healHp", "amount": 8}},
+            {"label": "Pray for strength", "consequence": "The shrine tests you — lose 10 HP", "effect": {"type": "damageHp", "amount": 10}},
+            {"label": "Pray for strength", "consequence": "You feel oddly lucky — +20 crystals", "effect": {"type": "gainCrystals", "amount": 20}},
+            {"label": "Pray for strength", "consequence": "Something small and inexplicable materialises in your palm — added to inventory", "effect": {"type": "gainItem"}},
+            {"label": "Pray for strength", "consequence": "A strange object appears in your hand from nowhere — added to inventory", "effect": {"type": "gainItem"}}
+          ],
+          [
+            {"label": "Pocket the ritual stones", "consequence": "You grab them and run — +18 crystals, lose 8 HP", "effect": {"type": "compound", "effects": [{"type": "gainCrystals", "amount": 18}, {"type": "damageHp", "amount": 8}]}},
+            {"label": "Pocket the ritual stones", "consequence": "A common card falls from the stones", "effect": {"type": "gainCard", "rarity": "common"}},
+            {"label": "Pocket the ritual stones", "consequence": "The stones crumble to dust. Nothing.", "effect": {"type": "nothing"}},
+            {"label": "Pocket the ritual stones", "consequence": "The shrine curses you — lose 15 HP", "effect": {"type": "damageHp", "amount": 15}},
+            {"label": "Pocket the ritual stones", "consequence": "One of the stones turns out to be something stranger — added to inventory", "effect": {"type": "gainItem"}}
+          ]
+        ]
+      }
     },
     "ambush": {
       "id": "ambush",
-      "type": "memory",
-      "label": "Memory Fragment",
-      "description": "The bark of the ancient trees bears faint glyphs — words from before the sealing.",
+      "type": "event",
+      "label": "The Watching Wood",
+      "description": "Something has been following you since the first road. It steps out of the treeline.",
       "row": 4,
       "col": 1,
       "rowCols": 4,
       "childIds": [
         "deep-crossing"
       ],
-      "fragmentId": "act1-frag-2",
-      "environment": "forest"
+      "environment": "forest",
+      "eventConfig": {
+        "title": "The Watching Wood",
+        "description": "A great creature steps from the treeline. Not hostile — not yet. It tilts its head and watches you with ancient, patient eyes.",
+        "pools": [
+          [
+            {"label": "Stand your ground", "consequence": "It respects the stillness — +15 crystals from its abandoned cache", "effect": {"type": "gainCrystals", "amount": 15}},
+            {"label": "Stand your ground", "consequence": "It steps forward and presses something into your hand — added to inventory", "effect": {"type": "gainItem"}},
+            {"label": "Stand your ground", "consequence": "It growls and charges — lose 12 HP", "effect": {"type": "damageHp", "amount": 12}},
+            {"label": "Stand your ground", "consequence": "It holds your gaze for a long moment, then turns and vanishes.", "effect": {"type": "nothing"}},
+            {"label": "Stand your ground", "consequence": "Something in its posture says: not today — restored 10 HP", "effect": {"type": "healHp", "amount": 10}}
+          ],
+          [
+            {"label": "Offer it food", "consequence": "It takes your offering gently — restored 12 HP", "effect": {"type": "healHp", "amount": 12}},
+            {"label": "Offer it food", "consequence": "It sniffs and drops an uncommon card at your feet", "effect": {"type": "gainCard", "rarity": "uncommon"}},
+            {"label": "Offer it food", "consequence": "It takes the food and leaves. Nothing else.", "effect": {"type": "nothing"}},
+            {"label": "Offer it food", "consequence": "It lashes out — lose 8 HP", "effect": {"type": "damageHp", "amount": 8}},
+            {"label": "Offer it food", "consequence": "It drops something from its mouth — a common card", "effect": {"type": "gainCard", "rarity": "common"}}
+          ],
+          [
+            {"label": "Back away slowly", "consequence": "It lets you go — nothing happens", "effect": {"type": "nothing"}},
+            {"label": "Back away slowly", "consequence": "It follows you to the edge of its territory and leaves a crystal cache — +12 crystals", "effect": {"type": "gainCrystals", "amount": 12}},
+            {"label": "Back away slowly", "consequence": "It pounces — lose 15 HP", "effect": {"type": "damageHp", "amount": 15}},
+            {"label": "Back away slowly", "consequence": "You find something in the grass as you retreat — added to inventory", "effect": {"type": "gainItem"}},
+            {"label": "Back away slowly", "consequence": "It watches you leave and seems almost disappointed — restored 6 HP", "effect": {"type": "healHp", "amount": 6}}
+          ]
+        ]
+      }
     },
     "ruins": {
       "id": "ruins",
@@ -674,10 +729,11 @@
       "description": "A hardened veteran with well-drilled siege troops — and something the forest has been teaching him about patience.",
       "row": 3,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "war-camp",
-        "ambush"
+        "ambush",
+        "mem-act1-1"
       ],
       "handicap": 1,
       "environment": "ruins",
@@ -712,7 +768,7 @@
       "description": "The deep woods belong to something older than the Fracture. It has been watching. Now it is done watching.",
       "row": 3,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "troll-bridge",
         "ruins"
@@ -750,7 +806,8 @@
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "deep-crossing"
+        "deep-crossing",
+        "mem-root-memory"
       ],
       "handicap": 0,
       "opponentBaseHp": 95,
@@ -829,7 +886,7 @@
       "description": "A collapsed stone bridge over a dark ravine. Something is defending it.",
       "row": 5,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 2,
       "childIds": [
         "thornlord"
       ],
@@ -892,6 +949,34 @@
       ],
       "restHeal": 15,
       "environment": "farmland"
+    },
+    "mem-verdant-echo": {
+      "id": "mem-verdant-echo",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A flicker of something pressed into the treeline — a voice that stopped mid-sentence when the Fracture sealed the shard.",
+      "row": 1,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "captain"
+      ],
+      "fragmentId": "act1-frag-3",
+      "environment": "forest"
+    },
+    "mem-root-memory": {
+      "id": "mem-root-memory",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "Deep roots hold something older than the Thornlord — a fragment of the shard before it was sealed.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "thornlord"
+      ],
+      "fragmentId": "act1-frag-4",
+      "environment": "forest"
     }
   },
   "mapMusicId": "map",
