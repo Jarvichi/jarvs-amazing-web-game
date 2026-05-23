@@ -1651,7 +1651,7 @@ export function CityBuilder({ onBack }: Props) {
       <ToolbarButton onClick={() => setScreen('fortify')} title="Manage city walls" label="FORTS" icon="🛡" />
       <ToolbarButton
         title={isFarmUnlocked(population) ? "Manage arable land outside the city" : `Farm unlocks at population 10 (currently ${population})`}
-        onClick={() => setShowFarmLockModal(true)}
+        onClick={() => isFarmUnlocked(population) ? setScreen('farming') : setShowFarmLockModal(true)}
         label="FARM"
         locked={!isFarmUnlocked(population)}
         icon="🌾"
