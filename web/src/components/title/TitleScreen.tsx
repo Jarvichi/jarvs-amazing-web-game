@@ -50,13 +50,14 @@ export interface Props {
   onMiniGames: () => void
   onCityBuilder: () => void
   onPlayerStats: () => void
+  onCodex: () => void
   user: User | null
   onSignOut: () => void
   onSignIn: () => void
   onFeedback: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onPlayerStats, user, onSignOut, onSignIn, onFeedback }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onPlayerStats, onCodex, user, onSignOut, onSignIn, onFeedback }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -258,6 +259,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           <TitleButton onClick={onInventory}>🎒 INVENTORY</TitleButton>
           <TitleButton onClick={onAchievements} badge={achievementAlert}>🏆 ACHIEVEMENTS</TitleButton>
           <TitleButton onClick={onPlayerStats}>📊 PLAYER STATS</TitleButton>
+          <TitleButton onClick={onCodex}>📖 CODEX</TitleButton>
           <TitleButton onClick={onCharacter}>👤 CHARACTER</TitleButton>
           <TitleButton onClick={onNews} badge={hasUnreadNews}>📰 WHAT'S NEW</TitleButton>
           <TitleButton onClick={onSettings} extraClass="title-settings-btn">⚙ SETTINGS</TitleButton>

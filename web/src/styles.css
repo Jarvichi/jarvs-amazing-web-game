@@ -7092,6 +7092,139 @@ html.eightbit-mode .lane-layer {
 
 /* ─── Character Screen ───────────────────────────────── */
 
+/* ── Codex Screen ──────────────────────────────────────────── */
+.codex-screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+
+.codex-tabs {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.codex-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.codex-search {
+  background: var(--game-bg, #0a0a0a);
+  border: 1px solid var(--game-border, #2a5a2a);
+  color: var(--color-text, #aaffaa);
+  font-family: inherit;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  width: 100%;
+  max-width: 320px;
+}
+.codex-search:focus { outline: 1px solid #aaffaa; }
+
+.codex-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.codex-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.codex-entry {
+  border: 1px solid var(--game-border, #2a5a2a);
+  padding: 0.6rem 0.8rem;
+  background: rgba(0, 20, 0, 0.4);
+}
+
+.codex-entry--locked {
+  opacity: 0.45;
+  border-style: dashed;
+}
+
+.codex-entry-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.codex-entry-name {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #aaffaa;
+}
+
+.codex-entry-tag {
+  font-size: 0.65rem;
+  color: #668866;
+  border: 1px solid #335533;
+  padding: 1px 5px;
+}
+
+.codex-entry-desc {
+  font-size: 0.75rem;
+  color: #88aa88;
+  margin-bottom: 6px;
+}
+
+.codex-entry-lore {
+  font-size: 0.78rem;
+  color: #99cc99;
+  font-style: italic;
+  border-left: 2px solid #2a5a2a;
+  padding-left: 8px;
+  margin-top: 4px;
+}
+
+.codex-entry-locked-hint {
+  font-size: 0.72rem;
+  color: #556655;
+  margin-top: 2px;
+}
+
+.codex-entry-boss {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid #1a3a1a;
+}
+
+.codex-entry-boss-label {
+  font-size: 0.65rem;
+  color: #ff8844;
+  border: 1px solid #774422;
+  padding: 1px 5px;
+}
+
+.codex-entry-boss-name {
+  font-size: 0.85rem;
+  color: #ffaa66;
+}
+
+.codex-empty {
+  color: #556655;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* ── Character Screen ─────────────────────────────────── */
 .character-screen-scroll {
   flex: 1;
   overflow-y: auto;
