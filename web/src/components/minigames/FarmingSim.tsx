@@ -720,12 +720,24 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
                     <div key={size} className={`city-expand-row${isCurrent ? ' city-expand-row--current' : ''}${isCompleted ? ' city-expand-row--done' : ''}`}>
                       <span className="city-expand-lvl">LVL {lvl} — {size}×{size}</span>
                       {isCompleted && <span className="city-expand-status">✓ Unlocked</span>}
-                      {isCurrent && size < MAX_FARM_SIZE && cost && (
-                        <span className="city-expand-cost">
-                          {GOLD_SYMBOL} {cost.gold.toLocaleString()}
-                          {Object.entries(cost.resources).map(([r, v]) => ` · ${v?.toLocaleString()} ${r}`).join('')}
-                        </span>
-                      )}
+                      {isCurrent && size < MAX_FARM_SIZE && cost && (() => {
+                        const goldShort = Math.max(0, cost.gold - Math.floor(city.gold))
+                        return (
+                          <span className="city-expand-cost">
+                            {GOLD_SYMBOL} {cost.gold.toLocaleString()}
+                            {goldShort > 0 && <span className="city-disaster-short"> (need {goldShort.toLocaleString()} more)</span>}
+                            {(Object.entries(cost.resources) as [ResourceType, number][]).map(([r, v]) => {
+                              const short = Math.max(0, v - Math.floor(city.resources[r] ?? 0))
+                              return (
+                                <span key={r}>
+                                  {` · ${v?.toLocaleString()} ${r}`}
+                                  {short > 0 && <span className="city-disaster-short"> (need {short.toLocaleString()} more)</span>}
+                                </span>
+                              )
+                            })}
+                          </span>
+                        )
+                      })()}
                       {isCurrent && size >= MAX_FARM_SIZE && <span className="city-expand-status">MAX SIZE</span>}
                     </div>
                   )

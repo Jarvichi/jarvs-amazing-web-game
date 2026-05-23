@@ -524,14 +524,22 @@ export function distributeIncomingResources(
 }
 
 export function calculateStorageCaps(state: CityState): ResourceStock {
-  let bonus = 0
+  const caps: ResourceStock = { wheat: 0, wood: 0, ore: 0, bread: 0, planks: 0, metal: 0 }
   for (const cell of state.grid) {
-    if (cell && !cell.spawnedUnitName && WAREHOUSE_PATTERN.test(cell.cardName)) {
-      bonus += STORAGE_PER_WAREHOUSE
+    if (!cell || cell.spawnedUnitName) continue
+    const cellCap = cellStockCap(cell)
+    if (WAREHOUSE_PATTERN.test(cell.cardName)) {
+      for (const k of Object.keys(caps) as ResourceType[]) caps[k] += cellCap
+    } else {
+      const produces = getBuildingProduces(cell.cardName)
+      for (const [res, rate] of Object.entries(produces)) {
+        if ((rate as number) > 0) caps[res as ResourceType] = (caps[res as ResourceType] ?? 0) + cellCap
+      }
     }
   }
-  const caps = { ...STORAGE_BASE_CAPS }
-  for (const k of Object.keys(caps) as ResourceType[]) caps[k] += bonus
+  for (const k of Object.keys(STORAGE_BASE_CAPS) as ResourceType[]) {
+    caps[k] = Math.max(STORAGE_BASE_CAPS[k] as number, caps[k] ?? 0)
+  }
   return caps
 }
 

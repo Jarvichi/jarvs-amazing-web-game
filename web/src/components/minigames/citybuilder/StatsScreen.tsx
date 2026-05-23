@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import {
   CityState, HistorySample,
   RESOURCE_ICONS, ResourceType,
-  WAREHOUSE_PATTERN,
-  getBuildingProduces, cellStockCap,
+  calculateStorageCaps,
 } from '../../../game/cityBuilder'
 import { StatsSparkline } from './StatsSparkline'
 
@@ -55,19 +54,6 @@ const TIME_RANGES = [
   { label: '24H', ms: 24 * 60 * 60_000 },
   { label: '7D',  ms: 7  * 24 * 60 * 60_000 },
 ] as const
-
-// ── Capacity helpers ──────────────────────────────────────────────────────────
-
-/** Returns the total storage ceiling for a given resource across the current city. */
-function resourceCapacity(city: CityState, res: ResourceType): number {
-  return city.grid.reduce((sum, cell) => {
-    if (!cell) return sum
-    if ((getBuildingProduces(cell.cardName)[res] ?? 0) > 0 || WAREHOUSE_PATTERN.test(cell.cardName)) {
-      return sum + cellStockCap(cell)
-    }
-    return sum
-  }, 0)
-}
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
 
@@ -269,7 +255,7 @@ export function StatsScreen({ city, onBack }: Props) {
                   const delta = d.length >= 2 ? cur - d[0] : 0
                   const allZero = d.every(v => v === 0)
                   if (allZero) return null
-                  const cap = resourceCapacity(city, res)
+                  const cap = calculateStorageCaps(city)[res]
                   return (
                     <div key={res} className="city-stats-res-cell">
                       <div className="city-stats-res-label">
