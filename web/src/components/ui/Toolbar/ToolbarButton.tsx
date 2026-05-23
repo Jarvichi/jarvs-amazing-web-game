@@ -10,17 +10,22 @@ export interface ToolbarButtonProps {
   icon?: ReactNode
   locked?: boolean
 
+  size?: 'auto' | 'narrow' | 'wide' | 'fit'
+
   title?: string
   className?: string
   style?: React.CSSProperties
 }
 
-export function ToolbarButton({ onClick, active, disabled, label, icon, locked, title, className, style }: ToolbarButtonProps) {
+export function ToolbarButton({ onClick, active, disabled, label, icon, locked, size, title, className, style }: ToolbarButtonProps) {
   const cls = [
     'filter-btn',
     active && 'filter-btn--active',
     disabled && 'filter-btn--disabled',
     locked && 'filter-btn--locked',
+    size === 'narrow' && 'filter-btn--narrow',
+    size === 'wide'   && 'filter-btn--wide',
+    size === 'fit'    && 'filter-btn--fit',
     className,
   ].filter(Boolean).join(' ');
 

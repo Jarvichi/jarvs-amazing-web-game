@@ -1641,8 +1641,9 @@ export function CityBuilder({ onBack }: Props) {
 
   const overflowToolbarButtons = (
     <>
-      <ToolbarButton onClick={() => setScreen('stats')} title="View economy charts" label="STATS" icon="📊" />
+      <ToolbarButton size="wide" onClick={() => setScreen('stats')} title="View economy charts" label="STATS" icon="📊" />
       <ToolbarButton
+        size="wide"
         className={city.tradeOffer && !city.activeCaravan ? 'city-trade-btn--ready' : undefined}
         onClick={() => setShowTrade(true)}
         title="Trade resources via caravan"
@@ -1655,23 +1656,26 @@ export function CityBuilder({ onBack }: Props) {
   const cityToolbar = (
     <Toolbar>
       <ToolbarButton
+        size="wide"
         active={bulldozerMode}
         onClick={toggleBulldozer}
         title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}
         label={bulldozerMode ? 'DEMOLISH' : 'BUILD'}
         icon={bulldozerMode ? '🧱' : '👷'}
       />
-      <ToolbarButton onClick={() => setScreen('fortify')} title="Manage city walls" label="FORTS" icon="🛡" />
+      <ToolbarButton size="wide" onClick={() => setScreen('fortify')} title="Manage city walls" label="FORTS" icon="🛡" />
       <ToolbarButton
+        size="wide"
         title={isFarmUnlocked(population) ? "Manage arable land outside the city" : `Farm unlocks at population 10 (currently ${population})`}
         onClick={() => isFarmUnlocked(population) ? setScreen('farming') : setShowFarmLockModal(true)}
         label="FARM"
         locked={!isFarmUnlocked(population)}
         icon="🌾"
       />
-      <ToolbarButton onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers" label="DEFEND" icon="⚔" />
+      <ToolbarButton size="wide" onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers" label="DEFEND" icon="⚔" />
       {city.activeDisaster && (
         <ToolbarButton
+          size="wide"
           className="city-disaster-btn"
           onClick={() => setShowDisaster(true)}
           title={city.activeDisaster.type === 'fire' ? 'Fire is raging!' : 'Plague is spreading!'}

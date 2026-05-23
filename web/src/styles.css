@@ -2149,6 +2149,10 @@ body {
   padding: 2px 6px;
 }
 
+.filter-btn--narrow { min-width: 40px; }
+.filter-btn--wide   { min-width: 64px; }
+.filter-btn--fit    { flex: 1; }
+
 .filter-btn--gold.filter-btn--active {
   border-color: var(--color-gold);
   color: var(--color-gold);
@@ -8897,7 +8901,7 @@ html.light-mode .action-btn {
 }
 .toolbar-overflow-inline  { display: contents; }
 .toolbar-overflow-dropdown { display: none; }
-@container toolbar (max-width: 500px) {
+@container toolbar (max-width: 460px) {
   .toolbar-overflow-inline  { display: none; }
   .toolbar-overflow-dropdown { display: contents; }
 }
