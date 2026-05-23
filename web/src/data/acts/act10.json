@@ -45,7 +45,7 @@
       "Now, technically, a recurring customer the Dune Baron has stopped finding surprising.",
       "Now, effectively, the sort of person who fights through desert markets for a living.",
       "Now, in the commercial sense, back for another transaction the Baron didn't invoice for.",
-      "Now — by every merchant's assessment — bad for business in ways that keep being underestimated.",
+      "Now \u2014 by every merchant's assessment \u2014 bad for business in ways that keep being underestimated.",
       "Now, technically, a repeat visitor the Baron has started factoring into his quarterly projections."
     ],
     "jarvIntros": [
@@ -56,7 +56,7 @@
       "You have a deck of cards. The Baron has you in his books now. He has had you in his books for some time. This doesn't seem to be helping him."
     ],
     "marketDesc": [
-      "The ley lines run straight through the desert, which the Sand Market has spent decades making commercially relevant. The market sits at the convergence — spice stalls, weapon traders, and things that aren't technically legal but are priced very professionally.",
+      "The ley lines run straight through the desert, which the Sand Market has spent decades making commercially relevant. The market sits at the convergence \u2014 spice stalls, weapon traders, and things that aren't technically legal but are priced very professionally.",
       "The Sand Market smells like spice and hot metal and the particular anxiety of an economy that is built on top of a ley convergence and hoping nobody destabilises it.",
       "The Sand Market waits at the desert's heart, its spire visible from two days out. The Baron's banners hang in the windless heat. They have been there since before you arrived. They will be there after.",
       "The ley lines converge beneath the market's central spire. The Dune Baron uses the energy surplus to power his lights, his weapons, and his extremely comprehensive record-keeping."
@@ -68,15 +68,15 @@
       "The Dune Baron has been briefed on your approach. His response, according to his aide, was to update the insurance on the central spire and order more of whatever he lost last time."
     ],
     "priorRunSummaries": [
-      "The heat felt familiar — the particular weight of it, the way it turned sound sluggish and light sharp. Like a market you'd been overcharged in before.",
-      "The first approach through the dune corridor was wrong. Not directionally wrong — patterned wrong, the way a route feels wrong when someone has added defensive positions since you were last here.",
+      "The heat felt familiar \u2014 the particular weight of it, the way it turned sound sluggish and light sharp. Like a market you'd been overcharged in before.",
+      "The first approach through the dune corridor was wrong. Not directionally wrong \u2014 patterned wrong, the way a route feels wrong when someone has added defensive positions since you were last here.",
       "Something about the patrol spacing at the market perimeter. The exact interval of it. You adjusted your approach without thinking, which meant you'd made that adjustment before.",
       "The market was quieter on approach than it should have been. As though someone had sent a message ahead that a particular customer was returning."
     ],
     "priorRunOpenings": [
       "You had been here. Your feet found the route through the first dune corridor before the heat haze cleared enough to confirm it.",
       "The Sand Raider unit at the outer perimeter didn't charge. They looked at each other. Then sent a runner to the Baron. Then charged.",
-      "The Dune Baron's opening deployment was different this time — heavier on the left flank, lighter on the spire approach. He'd been studying your patterns.",
+      "The Dune Baron's opening deployment was different this time \u2014 heavier on the left flank, lighter on the spire approach. He'd been studying your patterns.",
       "The market bells rang when you arrived. Not the welcoming ones. The other ones."
     ],
     "milestoneOpenings5": [
@@ -105,12 +105,15 @@
     "{n} campaigns in. The Sand Raiders at the outer perimeter have started placing bets. The smart money has been consistently on you for some time.",
     "{n} times you've walked through the Baron's market. The heat is the same. Your tolerance for the Baron's particular brand of economic warfare has become something he finds professionally frustrating.",
     "Run {n}. You arrive at the outer dunes and find the patrol already in position. The Baron has been running projections.",
-    "The {ordinalLower} attempt. The market smells the same — spice and hot metal and something expensive. Your reaction to it has become something close to routine.",
+    "The {ordinalLower} attempt. The market smells the same \u2014 spice and hot metal and something expensive. Your reaction to it has become something close to routine.",
     "{n} campaigns. The Dune Baron's ledger entry for 'the Jarv problem' is now the longest single entry in his accounting history."
   ],
   "introRules": [
     {
-      "condition": { "op": "gte", "value": 100 },
+      "condition": {
+        "op": "gte",
+        "value": 100
+      },
       "panels": [
         {
           "title": "THE BARON SETTLES ACCOUNTS",
@@ -123,7 +126,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 51, "max": 99 },
+      "condition": {
+        "op": "range",
+        "min": 51,
+        "max": 99
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -144,7 +151,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 50 },
+      "condition": {
+        "op": "eq",
+        "value": 50
+      },
       "panels": [
         {
           "title": "FIFTY CAMPAIGNS",
@@ -165,7 +175,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 26, "max": 49 },
+      "condition": {
+        "op": "range",
+        "min": 26,
+        "max": 49
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -182,7 +196,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 25 },
+      "condition": {
+        "op": "eq",
+        "value": 25
+      },
       "panels": [
         {
           "title": "TWENTY-FIVE",
@@ -199,7 +216,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 11, "max": 24 },
+      "condition": {
+        "op": "range",
+        "min": 11,
+        "max": 24
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -220,7 +241,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 10 },
+      "condition": {
+        "op": "eq",
+        "value": 10
+      },
       "panels": [
         {
           "title": "THE TENTH TIME",
@@ -241,7 +265,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 5, "max": 9 },
+      "condition": {
+        "op": "range",
+        "min": 5,
+        "max": 9
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -258,11 +286,15 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 2, "max": 4 },
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 4
+      },
       "panels": [
         {
           "title": "THE SAND MARKET",
-          "text": "The ley lines run through the desert — again.\n\n{pool:priorRunSummaries:0}"
+          "text": "The ley lines run through the desert \u2014 again.\n\n{pool:priorRunSummaries:0}"
         },
         {
           "title": "THE WANDERER",
@@ -274,7 +306,7 @@
         },
         {
           "title": "A FEELING",
-          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+          "text": "And yet \u2014 {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
         }
       ]
     }
@@ -282,7 +314,7 @@
   "intro": [
     {
       "title": "THE SAND MARKET",
-      "text": "The ley lines run straight through the desert, which the Sand Market has spent decades making commercially relevant. The market grew up around the ley convergence — vendors first, then traders, then mercenaries, then the Dune Baron, who saw the strategic value and started charging for it.\n\nEverything here has a price. Including passage through it.",
+      "text": "The ley lines run straight through the desert, which the Sand Market has spent decades making commercially relevant. The market grew up around the ley convergence \u2014 vendors first, then traders, then mercenaries, then the Dune Baron, who saw the strategic value and started charging for it.\n\nEverything here has a price. Including passage through it.",
       "image": "cutscenes/act10-intro-1.svg"
     },
     {
@@ -292,14 +324,14 @@
     },
     {
       "title": "THE MARKET ROUTE",
-      "text": "The ley lines converge beneath the market's central spire — the Dune Baron uses the energy surplus to power the lights, the forges, and the contract-binding seals that make his mercenary arrangements legally enforceable.\n\nYou need the convergence point. He isn't selling it.\n\nYou're going to take it. He'll probably factor this into his pricing for the next traveller.",
+      "text": "The ley lines converge beneath the market's central spire \u2014 the Dune Baron uses the energy surplus to power the lights, the forges, and the contract-binding seals that make his mercenary arrangements legally enforceable.\n\nYou need the convergence point. He isn't selling it.\n\nYou're going to take it. He'll probably factor this into his pricing for the next traveller.",
       "image": "cutscenes/act10-intro-3.svg"
     }
   ],
   "outro": [
     {
       "title": "THE DUNE BARON SETTLES",
-      "text": "The Dune Baron doesn't lose gracefully. He loses expensively — which means he calculates the cost of the outcome, determines it was within acceptable parameters, and files the result under 'resolved.'\n\nThe ley lines pulse through the market floor. The convergence point opens.\n\nHe's already thinking about what to charge the next person who shows up.",
+      "text": "The Dune Baron doesn't lose gracefully. He loses expensively \u2014 which means he calculates the cost of the outcome, determines it was within acceptable parameters, and files the result under 'resolved.'\n\nThe ley lines pulse through the market floor. The convergence point opens.\n\nHe's already thinking about what to charge the next person who shows up.",
       "image": "cutscenes/act10-outro-1.svg"
     },
     {
@@ -309,7 +341,7 @@
     },
     {
       "title": "THE GOLDEN COMPASS",
-      "text": "The Golden Compass sits warm in your palm — the Baron's personal navigation tool, used to track ley line convergences across the desert. It still points to them.\n\nIt also, apparently, makes you faster off the mark. The Baron claims he hadn't noticed that. You don't believe him.\n\nThe ley lines point on. The market recedes. The desert is, for once, quiet.",
+      "text": "The Golden Compass sits warm in your palm \u2014 the Baron's personal navigation tool, used to track ley line convergences across the desert. It still points to them.\n\nIt also, apparently, makes you faster off the mark. The Baron claims he hadn't noticed that. You don't believe him.\n\nThe ley lines point on. The market recedes. The desert is, for once, quiet.",
       "image": "cutscenes/act10-outro-3.svg"
     }
   ],
@@ -355,7 +387,7 @@
       "description": "A spring shrine at a desert oasis. The water is real. The hospitality is negotiable.",
       "row": 2,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 4,
       "childIds": [
         "caravan-elite"
       ],
@@ -367,7 +399,7 @@
           [
             {
               "label": "Drink from the spring",
-              "consequence": "The water restores — healed 14 HP",
+              "consequence": "The water restores \u2014 healed 14 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 14
@@ -375,7 +407,7 @@
             },
             {
               "label": "Drink from the spring",
-              "consequence": "Something in it stings — lose 6 HP",
+              "consequence": "Something in it stings \u2014 lose 6 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 6
@@ -401,7 +433,7 @@
           [
             {
               "label": "Search the offering-stones",
-              "consequence": "Something useful left behind — uncommon card",
+              "consequence": "Something useful left behind \u2014 uncommon card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -409,7 +441,7 @@
             },
             {
               "label": "Search the offering-stones",
-              "consequence": "Coins left as offerings — +22 crystals",
+              "consequence": "Coins left as offerings \u2014 +22 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 22
@@ -426,7 +458,7 @@
           [
             {
               "label": "Fill your reserves",
-              "consequence": "The water heals on the road — healed 8 HP",
+              "consequence": "The water heals on the road \u2014 healed 8 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 8
@@ -473,7 +505,7 @@
       "description": "A sheltered hollow in the dune line. Out of the wind and out of sight.",
       "row": 2,
       "col": 2,
-      "rowCols": 3,
+      "rowCols": 4,
       "childIds": [
         "desert-spire"
       ],
@@ -487,7 +519,7 @@
       "description": "The market's fringe traders. Lower prices than inside. Fewer questions.",
       "row": 2,
       "col": 1,
-      "rowCols": 3,
+      "rowCols": 4,
       "childIds": [
         "caravan-elite",
         "desert-spire"
@@ -715,12 +747,12 @@
       "environment": "sand",
       "eventConfig": {
         "title": "The Mirage Cache",
-        "description": "A concealed depot in the dune face — the Baron's forces maintain several, and not all of them are decoys. This one is real. The lock is good but not insurmountable.",
+        "description": "A concealed depot in the dune face \u2014 the Baron's forces maintain several, and not all of them are decoys. This one is real. The lock is good but not insurmountable.",
         "pools": [
           [
             {
               "label": "Open the cache",
-              "consequence": "Weapons inside — rare card",
+              "consequence": "Weapons inside \u2014 rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -728,7 +760,7 @@
             },
             {
               "label": "Open the cache",
-              "consequence": "Supplies — healed 15 HP",
+              "consequence": "Supplies \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -736,7 +768,7 @@
             },
             {
               "label": "Open the cache",
-              "consequence": "It was a decoy — lose 12 HP",
+              "consequence": "It was a decoy \u2014 lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -762,7 +794,7 @@
             },
             {
               "label": "Sell the contents",
-              "consequence": "One item worth keeping — uncommon card",
+              "consequence": "One item worth keeping \u2014 uncommon card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -853,19 +885,19 @@
       "description": "The Baron's records room. Every transaction since the market opened.",
       "row": 13,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "baron-vanguard"
       ],
       "environment": "sand",
       "eventConfig": {
         "title": "The Baron's Ledger",
-        "description": "The Dune Baron's transaction records — every contract, every sale, every mercenary hired and dismissed since the market was established. His notes on the Fracture are in here. He logged it as a business disruption.",
+        "description": "The Dune Baron's transaction records \u2014 every contract, every sale, every mercenary hired and dismissed since the market was established. His notes on the Fracture are in here. He logged it as a business disruption.",
         "pools": [
           [
             {
               "label": "Study the contracts",
-              "consequence": "Exploitable intel — rare card",
+              "consequence": "Exploitable intel \u2014 rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -873,7 +905,7 @@
             },
             {
               "label": "Study the contracts",
-              "consequence": "Supply chain map — +28 crystals",
+              "consequence": "Supply chain map \u2014 +28 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 28
@@ -883,7 +915,7 @@
           [
             {
               "label": "Rest in the records room",
-              "consequence": "Quiet and warm — healed 15 HP",
+              "consequence": "Quiet and warm \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -908,7 +940,7 @@
       "description": "The Baron's personal guest quarters. Better than anything outside the market walls.",
       "row": 13,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "baron-vanguard"
       ],
@@ -1029,7 +1061,8 @@
       "col": 2,
       "rowCols": 3,
       "childIds": [
-        "dune-hollow"
+        "dune-hollow",
+        "mem-act10-1"
       ],
       "handicap": 20,
       "opponentIntervalMs": 4500,
@@ -1062,7 +1095,8 @@
       "rowCols": 1,
       "childIds": [
         "trade-archive",
-        "market-rest"
+        "market-rest",
+        "mem-act10-2"
       ],
       "handicap": 28,
       "opponentIntervalMs": 3800,
@@ -1409,6 +1443,34 @@
         "Mercenary Pact",
         "Sandstorm"
       ]
+    },
+    "mem-act10-1": {
+      "id": "mem-act10-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "The last trade ledger \u2014 fourteen caravans dispatched the morning of the Fracture, none arrived.",
+      "row": 2,
+      "col": 3,
+      "rowCols": 4,
+      "childIds": [
+        "desert-spire"
+      ],
+      "fragmentId": "act10-frag-1",
+      "environment": "sand"
+    },
+    "mem-act10-2": {
+      "id": "mem-act10-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "The Dune Baron's memo on pivoting from trade routes to information brokerage.",
+      "row": 13,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "baron-vanguard"
+      ],
+      "fragmentId": "act10-frag-2",
+      "environment": "sand"
     }
   }
 }

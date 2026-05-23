@@ -45,7 +45,7 @@
       "Now, effectively, the ground-based problem the Sky Dominion forgot to account for.",
       "Now, professionally speaking, operating outside intended parameters.",
       "Now, in the tactical sense, at an elevation disadvantage everyone keeps mentioning.",
-      "Now — by most measures — the only person in this shard who arrived by climbing."
+      "Now \u2014 by most measures \u2014 the only person in this shard who arrived by climbing."
     ],
     "jarvIntros": [
       "You have a deck of cards, no wings, and a history of winning fights where the terrain was supposed to be the deciding factor.",
@@ -55,20 +55,20 @@
       "You have a deck of cards. You have always had a deck of cards. The Cloudmarshal is learning what that means."
     ],
     "dominionDesc": [
-      "The Sky Dominion exists on drifting islands — chunks of terrain that broke loose during the Fracture and simply refused to come back down.",
+      "The Sky Dominion exists on drifting islands \u2014 chunks of terrain that broke loose during the Fracture and simply refused to come back down.",
       "The Sky Dominion smells like ozone and old stone and the particular anxiety of a military operation that has run unchallenged for too long.",
       "The Sky Dominion drifts above the cloud line, its rope-bridges and siege platforms and anti-air weaponry pointed at everything that moves.",
       "The ley lines rise through the clouds here. The Sky Dominion has built its entire doctrine around the assumption that anything worth fighting is beneath them."
     ],
     "marshalDesc": [
-      "Command belongs to the Cloudmarshal — a general who has never lost a battle because, practically speaking, her armies have always had the high ground.\n\nShe does not consider a tactician without wings a credible threat. You are going to prove her wrong.",
+      "Command belongs to the Cloudmarshal \u2014 a general who has never lost a battle because, practically speaking, her armies have always had the high ground.\n\nShe does not consider a tactician without wings a credible threat. You are going to prove her wrong.",
       "The Cloudmarshal holds every aerial pathway closed. She is methodical, experienced, and completely certain that altitude is destiny.\n\nYou've found certainty like that makes people predictable.",
       "The Cloudmarshal commands the Sky Dominion with the calm precision of someone who has never once had to reconsider a strategy.\n\nYou are about to give her that opportunity.",
       "The Cloudmarshal waits at the upper platforms. She has been told you're coming. She has been told this, apparently, several times now, and her briefings have become increasingly specific."
     ],
     "priorRunSummaries": [
-      "The clouds felt familiar — the particular weight of the air up here, the way sound carried differently above the treeline. Like a place you'd been to in a dream that was trying very hard to be remembered.",
-      "The first island was wrong. Not visually wrong — wrong the way a route feels wrong when you've taken it before and know it doesn't end well.",
+      "The clouds felt familiar \u2014 the particular weight of the air up here, the way sound carried differently above the treeline. Like a place you'd been to in a dream that was trying very hard to be remembered.",
+      "The first island was wrong. Not visually wrong \u2014 wrong the way a route feels wrong when you've taken it before and know it doesn't end well.",
       "Something about the patrol formation on the bridge platform. The exact spacing of it. You adjusted your approach accordingly, which meant you'd adjusted it before.",
       "The rope-bridge to the upper tier was already swaying when you arrived. As though someone had crossed it recently. As though you had crossed it recently."
     ],
@@ -109,7 +109,10 @@
   ],
   "introRules": [
     {
-      "condition": { "op": "gte", "value": 100 },
+      "condition": {
+        "op": "gte",
+        "value": 100
+      },
       "panels": [
         {
           "title": "THE MARSHAL KNOWS",
@@ -122,7 +125,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 51, "max": 99 },
+      "condition": {
+        "op": "range",
+        "min": 51,
+        "max": 99
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -143,7 +150,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 50 },
+      "condition": {
+        "op": "eq",
+        "value": 50
+      },
       "panels": [
         {
           "title": "FIFTY CAMPAIGNS",
@@ -164,7 +174,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 26, "max": 49 },
+      "condition": {
+        "op": "range",
+        "min": 26,
+        "max": 49
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -181,7 +195,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 25 },
+      "condition": {
+        "op": "eq",
+        "value": 25
+      },
       "panels": [
         {
           "title": "TWENTY-FIVE",
@@ -198,7 +215,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 11, "max": 24 },
+      "condition": {
+        "op": "range",
+        "min": 11,
+        "max": 24
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -219,7 +240,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 10 },
+      "condition": {
+        "op": "eq",
+        "value": 10
+      },
       "panels": [
         {
           "title": "THE TENTH TIME",
@@ -240,7 +264,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 5, "max": 9 },
+      "condition": {
+        "op": "range",
+        "min": 5,
+        "max": 9
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -257,11 +285,15 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 2, "max": 4 },
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 4
+      },
       "panels": [
         {
           "title": "THE SKY DOMINION",
-          "text": "You've climbed out of the sea and into the air — again.\n\n{pool:priorRunSummaries:0}"
+          "text": "You've climbed out of the sea and into the air \u2014 again.\n\n{pool:priorRunSummaries:0}"
         },
         {
           "title": "THE WANDERER",
@@ -273,7 +305,7 @@
         },
         {
           "title": "A FEELING",
-          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+          "text": "And yet \u2014 {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
         }
       ]
     }
@@ -281,17 +313,17 @@
   "intro": [
     {
       "title": "THE SKY DOMINION",
-      "text": "You've climbed out of the sea and into the air.\n\nThe Sky Dominion exists on drifting islands — chunks of terrain that broke loose during the Fracture and simply refused to come back down. They've been up here so long they've built cities on them. Militarised them. Connected them with rope-bridges and siege platforms and weapons specifically designed to hit things that are also in the air.\n\nThey do not like visitors.",
+      "text": "You've climbed out of the sea and into the air.\n\nThe Sky Dominion exists on drifting islands \u2014 chunks of terrain that broke loose during the Fracture and simply refused to come back down. They've been up here so long they've built cities on them. Militarised them. Connected them with rope-bridges and siege platforms and weapons specifically designed to hit things that are also in the air.\n\nThey do not like visitors.",
       "image": "cutscenes/act6-intro-1.svg"
     },
     {
       "title": "THE CLOUDMARSHAL",
-      "text": "Command of the Sky Dominion belongs to the Cloudmarshal — a general who has never lost a battle because, practically speaking, her armies have always had the high ground.\n\nShe does not consider a tactician without wings a credible threat. She's said this, publicly, several times.\n\nYou are going to prove her wrong. You always find this kind of statement motivating.",
+      "text": "Command of the Sky Dominion belongs to the Cloudmarshal \u2014 a general who has never lost a battle because, practically speaking, her armies have always had the high ground.\n\nShe does not consider a tactician without wings a credible threat. She's said this, publicly, several times.\n\nYou are going to prove her wrong. You always find this kind of statement motivating.",
       "image": "cutscenes/act6-intro-2.svg"
     },
     {
       "title": "THE LEY BRIDGE",
-      "text": "The ley lines rise here — thick, crackling columns of energy that punch up through the clouds and connect to something far above. If the Fractured Core exists anywhere, the ley lines suggest it's in a direction the Cloudmarshal considers her personal airspace.\n\nYou will need to break through her defences to reach it.\n\nAt least the view will be good.",
+      "text": "The ley lines rise here \u2014 thick, crackling columns of energy that punch up through the clouds and connect to something far above. If the Fractured Core exists anywhere, the ley lines suggest it's in a direction the Cloudmarshal considers her personal airspace.\n\nYou will need to break through her defences to reach it.\n\nAt least the view will be good.",
       "image": "cutscenes/act6-intro-3.svg"
     }
   ],
@@ -308,7 +340,7 @@
     },
     {
       "title": "HIGHER STILL",
-      "text": "The Stormcaller's Badge sits in your hand — a Sky Dominion medal, given to the first enemy officer who ever reached the upper platforms.\n\nYou aren't an officer. Close enough.\n\nThe ley lines point upward. They always do. You've stopped being surprised by that.",
+      "text": "The Stormcaller's Badge sits in your hand \u2014 a Sky Dominion medal, given to the first enemy officer who ever reached the upper platforms.\n\nYou aren't an officer. Close enough.\n\nThe ley lines point upward. They always do. You've stopped being surprised by that.",
       "image": "cutscenes/act6-outro-3.svg"
     }
   ],
@@ -323,7 +355,8 @@
       "rowCols": 1,
       "childIds": [
         "wind-shrine",
-        "archive-isle"
+        "archive-isle",
+        "mem-act6-1"
       ],
       "handicap": 10,
       "opponentIntervalMs": 5000,
@@ -353,7 +386,7 @@
       "description": "A weathervane shrine rattles in the high-altitude gale. Something still listens to it.",
       "row": 1,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "gale-crossing"
       ],
@@ -388,7 +421,7 @@
             },
             {
               "label": "Offer something to the wind",
-              "consequence": "A downdraft hits you — lose 5 HP",
+              "consequence": "A downdraft hits you \u2014 lose 5 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 5
@@ -398,7 +431,7 @@
           [
             {
               "label": "Read the wind patterns",
-              "consequence": "The patterns describe a rare card's construction — yours",
+              "consequence": "The patterns describe a rare card's construction \u2014 yours",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -406,7 +439,7 @@
             },
             {
               "label": "Read the wind patterns",
-              "consequence": "The patterns heal — restored 8 HP",
+              "consequence": "The patterns heal \u2014 restored 8 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 8
@@ -424,7 +457,7 @@
           [
             {
               "label": "Pocket the shrine parts",
-              "consequence": "Sold in the next port — +18 crystals",
+              "consequence": "Sold in the next port \u2014 +18 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 18
@@ -440,7 +473,7 @@
             },
             {
               "label": "Pocket the shrine parts",
-              "consequence": "Something electrical discharges — lose 12 HP",
+              "consequence": "Something electrical discharges \u2014 lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -556,7 +589,7 @@
       "environment": "sky",
       "eventConfig": {
         "title": "The Thermal Column",
-        "description": "A powerful updraft punches through a gap in the island's floor. It carries the smell of the shards below — and loose objects that fell off other islands during the Fracture.",
+        "description": "A powerful updraft punches through a gap in the island's floor. It carries the smell of the shards below \u2014 and loose objects that fell off other islands during the Fracture.",
         "pools": [
           [
             {
@@ -569,7 +602,7 @@
             },
             {
               "label": "Reach in",
-              "consequence": "The updraft carries something warm — healed 15 HP",
+              "consequence": "The updraft carries something warm \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -577,7 +610,7 @@
             },
             {
               "label": "Reach in",
-              "consequence": "Something comes up fast and hits you — lose 10 HP",
+              "consequence": "Something comes up fast and hits you \u2014 lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -595,7 +628,7 @@
           [
             {
               "label": "Follow the column up",
-              "consequence": "You find a supply cache on the way — +30 crystals",
+              "consequence": "You find a supply cache on the way \u2014 +30 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 30
@@ -658,10 +691,10 @@
       "id": "upper-platform",
       "type": "battle",
       "label": "Upper Platform",
-      "description": "The highest inhabited island. From here you can see the ley bridge — and everything defending it.",
+      "description": "The highest inhabited island. From here you can see the ley bridge \u2014 and everything defending it.",
       "row": 5,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 2,
       "childIds": [
         "cloudmarshal"
       ],
@@ -693,19 +726,19 @@
       "description": "A command post, abandoned in the retreat. The tactical logs are still open.",
       "row": 1,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "sky-elite"
       ],
       "environment": "sky",
       "eventConfig": {
         "title": "The Command Post",
-        "description": "An abandoned Dominion command post, still warm from use. Maps, tactical notes, and a half-eaten ration. The logs describe the Fracture from above — and something the Cloudmarshal calls 'the signal.'",
+        "description": "An abandoned Dominion command post, still warm from use. Maps, tactical notes, and a half-eaten ration. The logs describe the Fracture from above \u2014 and something the Cloudmarshal calls 'the signal.'",
         "pools": [
           [
             {
               "label": "Read the tactical logs",
-              "consequence": "The strategy is useful — rare card",
+              "consequence": "The strategy is useful \u2014 rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -713,7 +746,7 @@
             },
             {
               "label": "Read the tactical logs",
-              "consequence": "You find supply caches marked on the map — +25 crystals",
+              "consequence": "You find supply caches marked on the map \u2014 +25 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 25
@@ -723,7 +756,7 @@
           [
             {
               "label": "Rest in the shelter",
-              "consequence": "First proper shelter in hours — healed 15 HP",
+              "consequence": "First proper shelter in hours \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -764,7 +797,8 @@
       "col": 0,
       "rowCols": 2,
       "childIds": [
-        "upper-platform"
+        "upper-platform",
+        "mem-act6-2"
       ],
       "handicap": 20,
       "opponentIntervalMs": 3800,
@@ -804,12 +838,12 @@
       "environment": "sky",
       "bossIntro": [
         {
-          "title": "ACT VI — BOSS",
-          "text": "The Sky Dominion rises above the cloud line — towers of pale stone that catch no light because they have never needed to. You are looking up at a place that has never been approached from below.\n\nUntil now.",
+          "title": "ACT VI \u2014 BOSS",
+          "text": "The Sky Dominion rises above the cloud line \u2014 towers of pale stone that catch no light because they have never needed to. You are looking up at a place that has never been approached from below.\n\nUntil now.",
           "image": "cutscenes/act6-boss-1.svg"
         },
         {
-          "title": "ACT VI — BOSS",
+          "title": "ACT VI \u2014 BOSS",
           "text": "She is already watching when you reach the parapet. She does not draw a weapon. She is holding a logbook.\n\nThe Cloudmarshal of the Sky Dominion has commanded every engagement from this height for forty years. She has notes on everything.\n\nShe does not have notes on this.",
           "image": "cutscenes/act6-boss-2.svg"
         }
@@ -840,6 +874,34 @@
         "Feather Step"
       ],
       "bossCard": "Sky Leviathan"
+    },
+    "mem-act6-1": {
+      "id": "mem-act6-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A cartographer's final log, stashed in the archive vault before the sky routes closed.",
+      "row": 1,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "gale-crossing"
+      ],
+      "fragmentId": "act6-frag-1",
+      "environment": "sky"
+    },
+    "mem-act6-2": {
+      "id": "mem-act6-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "The Cloudmarshal's proclamation of independence \u2014 shaky ink, sealed twice.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "cloudmarshal"
+      ],
+      "fragmentId": "act6-frag-2",
+      "environment": "sky"
     }
   }
 }

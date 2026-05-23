@@ -45,7 +45,7 @@
       "Now, technically, hypothermic by proximity.",
       "Now, effectively, the sort of person who fights ancient machinery in sub-zero conditions as a career.",
       "Now, professionally speaking, well outside the recommended operating temperature for a human being.",
-      "Now — by every sensible measure — in a place that does not want to be visited.",
+      "Now \u2014 by every sensible measure \u2014 in a place that does not want to be visited.",
       "Now, technically, on a landscape that is actively trying to preserve you in the wrong way."
     ],
     "jarvIntros": [
@@ -57,31 +57,31 @@
     ],
     "expanseDesc": [
       "The ley lines run straight through the ice, bright orange against the white, like cracks in something that is trying to hold itself together.",
-      "The Frozen Expanse smells like cold metal and compressed time — the smell of a place that has been holding still for longer than anything should.",
+      "The Frozen Expanse smells like cold metal and compressed time \u2014 the smell of a place that has been holding still for longer than anything should.",
       "The Frozen Expanse stretches to every horizon, perfectly white and perfectly indifferent. The ley lines are the only thing here that moves.",
       "The ley lines run through the glacier here. The ice formed around them. The Expanse has been here long enough to have opinions about what passes through it."
     ],
     "engineDesc": [
-      "Nobody built the Pale Engine — or if they did, they did it so long ago that the Engine has stopped caring about the distinction.\n\nIt optimises. It calculates. It applies minimum necessary force. It has been doing this since before the Fracture, and the Fracture only gave it more variables to account for.",
+      "Nobody built the Pale Engine \u2014 or if they did, they did it so long ago that the Engine has stopped caring about the distinction.\n\nIt optimises. It calculates. It applies minimum necessary force. It has been doing this since before the Fracture, and the Fracture only gave it more variables to account for.",
       "The Pale Engine holds every route through the Expanse with the calm efficiency of something that does not get tired, does not get angry, and does not stop.\n\nYou are a variable it has not yet fully resolved.",
       "The Pale Engine processes the Expanse with mechanical certainty. It does not distinguish between friend and obstacle. You are, to it, an ongoing optimisation problem.\n\nYou've found that problems like that tend to underestimate you.",
       "The Pale Engine has updated its models since your last visit. You know this because its patrol routes are different. It has been thorough. You will need to be more thorough."
     ],
     "priorRunSummaries": [
-      "The cold felt familiar — not the temperature itself but the quality of it, the way it pressed in from every direction at once. Like a place that had been waiting to be cold at you again.",
-      "The first glacier crossing was wrong. Not icy wrong — patterned wrong, the way a route feels wrong when someone has moved the signposts since you were last here.",
+      "The cold felt familiar \u2014 not the temperature itself but the quality of it, the way it pressed in from every direction at once. Like a place that had been waiting to be cold at you again.",
+      "The first glacier crossing was wrong. Not icy wrong \u2014 patterned wrong, the way a route feels wrong when someone has moved the signposts since you were last here.",
       "Something about the Engine's patrol cycle at the outer gate. The exact timing of it. You adjusted without thinking, which meant you'd made that adjustment before.",
       "The Expanse was quieter than it should have been. The wind had stopped. As though the entire landscape was holding its breath at your return."
     ],
     "priorRunOpenings": [
       "You had been here. Your feet found the safe ice before your eyes confirmed it.",
       "The Frost Sentinel unit at the glacier gate ran its scan cycle slightly longer than the standard interval. It had a new variable to account for: you.",
-      "The Pale Engine's first move was different this time — a half-cycle adjustment in the outer patrol. It had been running simulations.",
+      "The Pale Engine's first move was different this time \u2014 a half-cycle adjustment in the outer patrol. It had been running simulations.",
       "The glacier groaned when you stepped onto it. Just once. Just enough."
     ],
     "milestoneOpenings5": [
       "The fifth time through the Frozen Expanse, the Engine has pre-deployed its reserves before you reach the outer gate. It has been running probability calculations.",
-      "Fifth run. The patrol cycle at the glacier crossing has been tightened by 12%. Someone — something — filed a systems update specifically in response to your previous four visits."
+      "Fifth run. The patrol cycle at the glacier crossing has been tightened by 12%. Someone \u2014 something \u2014 filed a systems update specifically in response to your previous four visits."
     ],
     "milestoneOpenings10": [
       "Ten campaigns. The Pale Engine has dedicated a processing thread specifically to modelling your behaviour. You are officially a standing variable in its optimisation functions.",
@@ -96,7 +96,7 @@
       "Fifty campaigns. The Frost Sentinels at the outer gate step aside. Not in welcome. The Engine has calculated that this costs fewer resources than the alternative."
     ],
     "milestoneOpenings100": [
-      "The Pale Engine stops.\n\nNot powered down. Not damaged. It stops — a full cessation of all non-essential processes — and turns its primary sensors toward you.\n\nYou have learned, over a hundred crossings, that the Engine does not do anything without a reason.\n\n'Variable,' it says. Its voice sounds like ice cracking in a very controlled way. 'One hundred iterations. My models predicted a ninety-three percent attrition rate by iteration forty.' A pause. The processing lights dim as it runs a calculation. 'I have updated my models.'\n\nThe glacier gate opens.\n\n'Proceed,' it says. 'I have allocated a route. It is faster than your usual one. Consider it a data point.'"
+      "The Pale Engine stops.\n\nNot powered down. Not damaged. It stops \u2014 a full cessation of all non-essential processes \u2014 and turns its primary sensors toward you.\n\nYou have learned, over a hundred crossings, that the Engine does not do anything without a reason.\n\n'Variable,' it says. Its voice sounds like ice cracking in a very controlled way. 'One hundred iterations. My models predicted a ninety-three percent attrition rate by iteration forty.' A pause. The processing lights dim as it runs a calculation. 'I have updated my models.'\n\nThe glacier gate opens.\n\n'Proceed,' it says. 'I have allocated a route. It is faster than your usual one. Consider it a data point.'"
     ]
   },
   "midRunTemplates": [
@@ -110,7 +110,10 @@
   ],
   "introRules": [
     {
-      "condition": { "op": "gte", "value": 100 },
+      "condition": {
+        "op": "gte",
+        "value": 100
+      },
       "panels": [
         {
           "title": "THE ENGINE RECALCULATES",
@@ -123,7 +126,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 51, "max": 99 },
+      "condition": {
+        "op": "range",
+        "min": 51,
+        "max": 99
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -144,7 +151,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 50 },
+      "condition": {
+        "op": "eq",
+        "value": 50
+      },
       "panels": [
         {
           "title": "FIFTY CAMPAIGNS",
@@ -165,7 +175,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 26, "max": 49 },
+      "condition": {
+        "op": "range",
+        "min": 26,
+        "max": 49
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -182,7 +196,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 25 },
+      "condition": {
+        "op": "eq",
+        "value": 25
+      },
       "panels": [
         {
           "title": "TWENTY-FIVE",
@@ -199,7 +216,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 11, "max": 24 },
+      "condition": {
+        "op": "range",
+        "min": 11,
+        "max": 24
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -220,7 +241,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 10 },
+      "condition": {
+        "op": "eq",
+        "value": 10
+      },
       "panels": [
         {
           "title": "THE TENTH TIME",
@@ -241,7 +265,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 5, "max": 9 },
+      "condition": {
+        "op": "range",
+        "min": 5,
+        "max": 9
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -258,11 +286,15 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 2, "max": 4 },
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 4
+      },
       "panels": [
         {
           "title": "THE FROZEN EXPANSE",
-          "text": "The ley lines run straight through the ice — again.\n\n{pool:priorRunSummaries:0}"
+          "text": "The ley lines run straight through the ice \u2014 again.\n\n{pool:priorRunSummaries:0}"
         },
         {
           "title": "THE WANDERER",
@@ -274,7 +306,7 @@
         },
         {
           "title": "A FEELING",
-          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+          "text": "And yet \u2014 {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
         }
       ]
     }
@@ -287,19 +319,19 @@
     },
     {
       "title": "THE PALE ENGINE",
-      "text": "Nobody built the Pale Engine — or if they did, they did it so long ago that the Engine has stopped caring about the distinction. It runs on cold and purpose. Its purpose is to hold the Expanse against everything that isn't ice.\n\nIt doesn't sleep. It doesn't negotiate. It processes.\n\nYou represent an input it hasn't encountered before. It is in the process of developing a protocol.",
+      "text": "Nobody built the Pale Engine \u2014 or if they did, they did it so long ago that the Engine has stopped caring about the distinction. It runs on cold and purpose. Its purpose is to hold the Expanse against everything that isn't ice.\n\nIt doesn't sleep. It doesn't negotiate. It processes.\n\nYou represent an input it hasn't encountered before. It is in the process of developing a protocol.",
       "image": "cutscenes/act9-intro-2.svg"
     },
     {
       "title": "INTO THE WHITE",
-      "text": "The cold here isn't just weather. It's structural. It holds the landscape together in a way that makes you understand why the Pale Engine defends it — remove the cold and the whole Expanse would need to rethink what it is.\n\nYou aren't here to take the cold. You're here to pass through it.\n\nThe Pale Engine will need to understand that distinction. You will need to explain it forcefully.",
+      "text": "The cold here isn't just weather. It's structural. It holds the landscape together in a way that makes you understand why the Pale Engine defends it \u2014 remove the cold and the whole Expanse would need to rethink what it is.\n\nYou aren't here to take the cold. You're here to pass through it.\n\nThe Pale Engine will need to understand that distinction. You will need to explain it forcefully.",
       "image": "cutscenes/act9-intro-3.svg"
     }
   ],
   "outro": [
     {
       "title": "THE PALE ENGINE HALTS",
-      "text": "The Pale Engine doesn't fall. It stops — a precise, deliberate cessation, like a machine completing a cycle rather than failing. The cold continues around it. The Expanse doesn't care who won.\n\nThe ley lines pulse through the ice and keep going. They were never going to stop for this.",
+      "text": "The Pale Engine doesn't fall. It stops \u2014 a precise, deliberate cessation, like a machine completing a cycle rather than failing. The cold continues around it. The Expanse doesn't care who won.\n\nThe ley lines pulse through the ice and keep going. They were never going to stop for this.",
       "image": "cutscenes/act9-outro-1.svg"
     },
     {
@@ -309,7 +341,7 @@
     },
     {
       "title": "THE FROST MANTLE",
-      "text": "The Frost Mantle is a layer of something that was once the Engine's outer casing — dense, cold, and almost ornamental in the way it's settled into a shape that fits across your shoulders.\n\nThe cold doesn't bother you as much as it did. That's the point.\n\nThe ley lines run on. The Expanse recedes behind you.",
+      "text": "The Frost Mantle is a layer of something that was once the Engine's outer casing \u2014 dense, cold, and almost ornamental in the way it's settled into a shape that fits across your shoulders.\n\nThe cold doesn't bother you as much as it did. That's the point.\n\nThe ley lines run on. The Expanse recedes behind you.",
       "image": "cutscenes/act9-outro-3.svg"
     }
   ],
@@ -353,19 +385,19 @@
       "description": "A column of ice with something preserved at the centre. The cold here is specific.",
       "row": 6,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "node-1776873661402"
       ],
       "environment": "frost",
       "eventConfig": {
         "title": "The Frost Shrine",
-        "description": "A pillar of ancient ice, perfectly clear. Something is frozen at the centre — hard to identify, but clearly significant. The cold radiates outward in a way that feels intentional.",
+        "description": "A pillar of ancient ice, perfectly clear. Something is frozen at the centre \u2014 hard to identify, but clearly significant. The cold radiates outward in a way that feels intentional.",
         "pools": [
           [
             {
               "label": "Touch the ice",
-              "consequence": "The cold passes through you — healed 12 HP",
+              "consequence": "The cold passes through you \u2014 healed 12 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 12
@@ -373,7 +405,7 @@
             },
             {
               "label": "Touch the ice",
-              "consequence": "The cold bites — lose 6 HP",
+              "consequence": "The cold bites \u2014 lose 6 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 6
@@ -399,7 +431,7 @@
           [
             {
               "label": "Study the preserved form",
-              "consequence": "Useful information — uncommon card",
+              "consequence": "Useful information \u2014 uncommon card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -407,7 +439,7 @@
             },
             {
               "label": "Study the preserved form",
-              "consequence": "The study restores focus — healed 10 HP",
+              "consequence": "The study restores focus \u2014 healed 10 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 10
@@ -425,7 +457,7 @@
           [
             {
               "label": "Chip away the ice",
-              "consequence": "Valuable residue — +18 crystals",
+              "consequence": "Valuable residue \u2014 +18 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 18
@@ -441,7 +473,7 @@
             },
             {
               "label": "Chip away the ice",
-              "consequence": "The ice discharges — lose 10 HP",
+              "consequence": "The ice discharges \u2014 lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -487,7 +519,8 @@
       "col": 0,
       "rowCols": 1,
       "childIds": [
-        "engine-log"
+        "engine-log",
+        "mem-act9-2"
       ],
       "handicap": 18,
       "opponentIntervalMs": 4600,
@@ -549,14 +582,14 @@
       "description": "A fissure where compressed air vents through the ice. Things get caught in it.",
       "row": 6,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "node-1776873661402"
       ],
       "environment": "frost",
       "eventConfig": {
         "title": "The Glacier Vent",
-        "description": "A wide crack in the ice shelf, venting cold air at high pressure. Debris from collapsed structures circulates in the column — and occasionally something more useful.",
+        "description": "A wide crack in the ice shelf, venting cold air at high pressure. Debris from collapsed structures circulates in the column \u2014 and occasionally something more useful.",
         "pools": [
           [
             {
@@ -569,7 +602,7 @@
             },
             {
               "label": "Reach into the vent",
-              "consequence": "The cold air clears wounds — healed 15 HP",
+              "consequence": "The cold air clears wounds \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -577,7 +610,7 @@
             },
             {
               "label": "Reach into the vent",
-              "consequence": "The pressure hits hard — lose 12 HP",
+              "consequence": "The pressure hits hard \u2014 lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -595,7 +628,7 @@
           [
             {
               "label": "Follow the vent upward",
-              "consequence": "Supply cache at the top — +30 crystals",
+              "consequence": "Supply cache at the top \u2014 +30 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 30
@@ -692,19 +725,19 @@
       "description": "A cold-storage data post. The Pale Engine records everything.",
       "row": 9,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 2,
       "childIds": [
         "pale-elite"
       ],
       "environment": "frost",
       "eventConfig": {
         "title": "The Engine Archive",
-        "description": "An access node to the Pale Engine's memory lattice — a crystalline storage of everything it has processed since the Fracture. Its record of the event is purely numerical. That's oddly clarifying.",
+        "description": "An access node to the Pale Engine's memory lattice \u2014 a crystalline storage of everything it has processed since the Fracture. Its record of the event is purely numerical. That's oddly clarifying.",
         "pools": [
           [
             {
               "label": "Access the archive",
-              "consequence": "Useful data — rare card",
+              "consequence": "Useful data \u2014 rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -712,7 +745,7 @@
             },
             {
               "label": "Access the archive",
-              "consequence": "Supply routes documented — +25 crystals",
+              "consequence": "Supply routes documented \u2014 +25 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 25
@@ -722,7 +755,7 @@
           [
             {
               "label": "Rest at the node",
-              "consequence": "The warmth of computation — healed 15 HP",
+              "consequence": "The warmth of computation \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -895,7 +928,7 @@
       "id": "node-1776873630290",
       "type": "battle",
       "label": "Collapsed Ice Run",
-      "description": "A partially broken route where the glacier has given way to hidden depths. And then you see them — bears made of ice, stalking the hollowed-out channel.",
+      "description": "A partially broken route where the glacier has given way to hidden depths. And then you see them \u2014 bears made of ice, stalking the hollowed-out channel.",
       "row": 3,
       "col": 0,
       "rowCols": 2,
@@ -967,7 +1000,8 @@
       "rowCols": 1,
       "childIds": [
         "frost-shrine",
-        "glacier-vent"
+        "glacier-vent",
+        "mem-act9-1"
       ],
       "handicap": 24,
       "opponentIntervalMs": 4000,
@@ -1022,6 +1056,34 @@
         "Glacier Hide",
         "Blizzard Blast"
       ]
+    },
+    "mem-act9-1": {
+      "id": "mem-act9-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "The Pale Engine's anomaly log \u2014 847 times baseline, no matching entry in 340 years of records.",
+      "row": 6,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "node-1776873661402"
+      ],
+      "fragmentId": "act9-frag-1",
+      "environment": "frost"
+    },
+    "mem-act9-2": {
+      "id": "mem-act9-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "The Pale Engine's log from Fracture day \u2014 protocols failing, one decision remaining.",
+      "row": 9,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "pale-elite"
+      ],
+      "fragmentId": "act9-frag-2",
+      "environment": "frost"
     }
   }
 }
