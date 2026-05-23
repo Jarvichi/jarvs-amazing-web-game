@@ -41,7 +41,8 @@ import { ChroniclePanel } from './citybuilder/ChroniclePanel'
 import { Card } from '../../game/types'
 import { AttackStrip } from './citybuilder/AttackStrip'
 import { ResourceStrip } from './citybuilder/ResourceStrip'
-import { Toolbar, ToolbarButton } from '../ui/Toolbar'
+import { Toolbar } from '../ui/Toolbar/Toolbar'
+import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 
 // ── Walker constants ──────────────────────────────────────────────────────────
 
@@ -562,15 +563,20 @@ export function FarmingSim({ city, onSaveCity, onBack }: Props) {
 
   const farmToolbar = (
     <Toolbar>
-      <ToolbarButton active={bulldozer} onClick={() => setBulldozer(prev => !prev)}>
-        {bulldozer ? '🏗 DEMOLISH' : '👷 BUILD'}
-      </ToolbarButton>
-      <ToolbarButton onClick={() => setScreen('chronicle')}>📜 HISTORY</ToolbarButton>
+      <ToolbarButton
+        active={bulldozer}
+        onClick={() => setBulldozer(prev => !prev)}
+        label={bulldozer ? 'DEMOLISH' : 'BUILD'}
+        icon={bulldozer ? '🏗' : '👷'}
+      />
+      <ToolbarButton onClick={() => setScreen('chronicle')} label="HISTORY" icon="📜" />
       <ToolbarButton
         className={canAffordFarmExpansion(farm, city.gold, city.resources) ? 'city-expand-btn--ready' : undefined}
-        onClick={() => setShowExpandModal(true)} title="View farm expansion levels">
-        🌱 EXPAND
-      </ToolbarButton>
+        onClick={() => setShowExpandModal(true)}
+        title="View farm expansion levels"
+        label="EXPAND"
+        icon="🌱"
+      />
     </Toolbar>
   )
 
