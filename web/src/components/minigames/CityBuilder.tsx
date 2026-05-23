@@ -1667,18 +1667,21 @@ export function CityBuilder({ onBack }: Props) {
         />
       )}
       <ToolbarSpacer />
-      <ToolbarDropdown>
+      <ToolbarDropdown
+        overflowItems={<>
+          <ToolbarButton onClick={() => setScreen('stats')} title="View economy charts" label="STATS" icon="📊" />
+          <ToolbarButton
+            className={city.tradeOffer && !city.activeCaravan ? 'city-trade-btn--ready' : undefined}
+            onClick={() => setShowTrade(true)}
+            title="Trade resources via caravan"
+            label={`TRADE${city.activeCaravan ? ' (away)' : city.tradeOffer ? ' !' : ''}`}
+            icon="🐪"
+          />
+        </>}
+      >
         <ToolbarButton onClick={() => setScreen('upgrade')} title="Upgrade buildings" label="UPGRADES" icon="★" />
         <ToolbarButton onClick={() => setScreen('chronicle')} title="View city history" label="HISTORY" icon="📜" />
-        <ToolbarButton onClick={() => setScreen('stats')} title="View economy charts" label="STATS" icon="📊" />
         <ToolbarButton onClick={() => setScreen('zones')} title="Set district zones per row" label="ZONES" icon="🗺" />
-        <ToolbarButton
-          className={city.tradeOffer && !city.activeCaravan ? 'city-trade-btn--ready' : undefined}
-          onClick={() => setShowTrade(true)}
-          title="Trade resources via caravan"
-          label={`TRADE${city.activeCaravan ? ' (away)' : city.tradeOffer ? ' !' : ''}`}
-          icon="🐪"
-        />
         {cityRows <= MAX_CITY_ROWS && (
           <ToolbarButton
             className={`city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
