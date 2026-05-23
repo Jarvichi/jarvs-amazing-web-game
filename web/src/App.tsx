@@ -111,6 +111,7 @@ import { CampaignVictoryScreen } from './components/battle/CampaignVictoryScreen
 import { CampaignFailedScreen }  from './components/battle/CampaignFailedScreen'
 import { StatUpgradeScreen }     from './components/campaign/StatUpgradeScreen'
 import { PlayerStatsScreen }     from './components/screens/PlayerStatsScreen'
+import { CodexScreen }          from './components/screens/CodexScreen'
 import { DailyChallengeScreen } from './components/screens/DailyChallengeScreen'
 import { ConfirmModal }          from './components/modals/ConfirmModal'
 import { EndlessLeaderboardScreen } from './components/screens/EndlessLeaderboardScreen'
@@ -198,6 +199,7 @@ type Screen =
   | 'quickbattle'
   | 'statupgrade'
   | 'camp'
+  | 'codex'
 
 
 const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
@@ -2251,6 +2253,7 @@ export default function App() {
             onMiniGames={() => setScreen('minigames')}
             onCityBuilder={() => { setMiniGamesEntry('citybuilder'); setScreen('minigames') }}
             onPlayerStats={() => setScreen('playerstats')}
+            onCodex={() => setScreen('codex')}
             user={user}
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
             onSignIn={() => setShowTitleLoginModal(true)}
@@ -2548,6 +2551,10 @@ export default function App() {
 
       {screen === 'heroCards' && (
         <HeroCardsScreen onBack={() => setScreen('title')} />
+      )}
+
+      {screen === 'codex' && (
+        <CodexScreen onDone={() => setScreen('title')} />
       )}
 
       {screen === 'campaignvictory' && (
