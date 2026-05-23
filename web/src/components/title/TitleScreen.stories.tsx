@@ -31,6 +31,7 @@ const callbacks = {
   onNews: fn(),
   onMiniGames: fn(),
   onPlayerStats: fn(),
+  onCodex: fn(),
   onSignOut: fn(),
   onSignIn: fn(),
   onFeedback: fn(),
