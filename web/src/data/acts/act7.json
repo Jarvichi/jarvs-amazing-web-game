@@ -45,7 +45,7 @@
       "Now, technically, on fire in the metaphorical sense. Possibly also the literal one.",
       "Now, effectively, the sort of person who climbs active volcanoes as a professional choice.",
       "Now, in the thermal sense, significantly overdressed for the ambient temperature.",
-      "Now — by any rational measure — somewhere that a reasonable person would not be.",
+      "Now \u2014 by any rational measure \u2014 somewhere that a reasonable person would not be.",
       "Now, technically, at an elevation where the ground is a suggestion rather than a guarantee."
     ],
     "jarvIntros": [
@@ -56,27 +56,27 @@
       "You have a deck of cards. The mountain has been here for ten thousand years. You have been here enough times that it has started to feel personal."
     ],
     "peaksDesc": [
-      "The Emberfall Peaks rise through sulphur clouds — a range of active volcanoes threaded with ley lines that glow orange through the rock.",
-      "The Peaks smell like the end of something — sulphur and scorched stone and the particular heat of a place that has been on fire for longer than anyone has been alive.",
+      "The Emberfall Peaks rise through sulphur clouds \u2014 a range of active volcanoes threaded with ley lines that glow orange through the rock.",
+      "The Peaks smell like the end of something \u2014 sulphur and scorched stone and the particular heat of a place that has been on fire for longer than anyone has been alive.",
       "The Emberfall Peaks wait at your bearing's edge, exhaling steam and ash. They have been waiting exactly this long for exactly this reason.",
       "The ley lines glow through the volcanic rock like veins. The Peaks have been channelling this energy since before the Dominion had a name for what they were doing."
     ],
     "warlordDesc": [
-      "The Peaks are held by the Cinderwarlord — a commander who built an army out of whatever the volcanoes threw up: crawlers, fire spirits, things that are basically lava with ambitions.\n\nHe does not negotiate. The mountain does not negotiate. He considers this a professional alignment.",
+      "The Peaks are held by the Cinderwarlord \u2014 a commander who built an army out of whatever the volcanoes threw up: crawlers, fire spirits, things that are basically lava with ambitions.\n\nHe does not negotiate. The mountain does not negotiate. He considers this a professional alignment.",
       "The Cinderwarlord commands every approach through the Peaks. He was forged here, in the practical sense, by decades of fighting in conditions that kill most soldiers before they can become problems.\n\nYou are about to become a problem.",
       "The Cinderwarlord holds the caldera pass with the patience of a man who knows the terrain will do most of the work for him.\n\nYou've found that patience like that makes generals predictable.",
       "The Cinderwarlord waits at the caldera. He has been told you're coming. His response, according to scouts, was: 'Again?'"
     ],
     "priorRunSummaries": [
-      "The heat felt familiar — the particular way it pressed against everything, the way it made distance hard to judge. Like a memory that had been stored somewhere warm.",
-      "The first lava field was wrong. Not impassable wrong — arranged wrong, the way things are arranged when someone has recently moved them and not yet put them back.",
+      "The heat felt familiar \u2014 the particular way it pressed against everything, the way it made distance hard to judge. Like a memory that had been stored somewhere warm.",
+      "The first lava field was wrong. Not impassable wrong \u2014 arranged wrong, the way things are arranged when someone has recently moved them and not yet put them back.",
       "Something about the patrol spacing on the obsidian ridge. The exact interval of it. You adjusted your approach without thinking, which meant you'd thought about it before.",
       "The Peaks were louder on approach than they should have been. As though the mountain had something to say about your return."
     ],
     "priorRunOpenings": [
       "You had been here. Your hands knew the footing on the first lava crossing before your eyes confirmed it was safe.",
       "The Ember Crawler unit at the base camp didn't charge immediately. They looked at each other first. Then charged.",
-      "The Cinderwarlord's opening formation was different this time — denser on the left flank. He'd adjusted for you. You adjusted for his adjustment.",
+      "The Cinderwarlord's opening formation was different this time \u2014 denser on the left flank. He'd adjusted for you. You adjusted for his adjustment.",
       "The caldera was venting more aggressively when you arrived. You chose to interpret this as the mountain expressing an opinion."
     ],
     "milestoneOpenings5": [
@@ -92,11 +92,11 @@
       "After twenty-five runs, the Cinderwarlord meets you at the base of the caldera pass instead of the summit. He's stopped holding the high ground. Something in him has recalibrated."
     ],
     "milestoneOpenings50": [
-      "The fiftieth time through the Emberfall Peaks. The lava flows are the wrong temperature — cooler near the paths you use, as though the mountain has been making accommodations it hasn't mentioned.",
+      "The fiftieth time through the Emberfall Peaks. The lava flows are the wrong temperature \u2014 cooler near the paths you use, as though the mountain has been making accommodations it hasn't mentioned.",
       "Fifty campaigns. The base camp sentinels step aside when your silhouette crests the ridge. Not in welcome. In the way of people who have learned that certain things are inevitable and have made their peace with it."
     ],
     "milestoneOpenings100": [
-      "The Cinderwarlord is standing at the base of the caldera pass. Not in formation. Not surrounded by soldiers. Just standing.\n\n'A hundred campaigns,' he says. The volcanic glow makes his expression hard to read. It doesn't matter. His voice says everything. 'I built my army out of this mountain. I have fought in conditions that have killed things that were supposed to be immortal.'\n\nA rumble. A slow exhalation of steam from the caldera above.\n\n'And you keep coming back.' He looks at you — not at Jarv, at you. 'I have stopped calling this a problem. I am calling it a fact.'\n\nHe steps aside.\n\n'The path is yours. It has been yours for some time.'"
+      "The Cinderwarlord is standing at the base of the caldera pass. Not in formation. Not surrounded by soldiers. Just standing.\n\n'A hundred campaigns,' he says. The volcanic glow makes his expression hard to read. It doesn't matter. His voice says everything. 'I built my army out of this mountain. I have fought in conditions that have killed things that were supposed to be immortal.'\n\nA rumble. A slow exhalation of steam from the caldera above.\n\n'And you keep coming back.' He looks at you \u2014 not at Jarv, at you. 'I have stopped calling this a problem. I am calling it a fact.'\n\nHe steps aside.\n\n'The path is yours. It has been yours for some time.'"
     ]
   },
   "midRunTemplates": [
@@ -294,7 +294,7 @@
       "panels": [
         {
           "title": "THE EMBERFALL PEAKS",
-          "text": "The ley lines cut through the mountains here — again.\n\n{pool:priorRunSummaries:0}"
+          "text": "The ley lines cut through the mountains here \u2014 again.\n\n{pool:priorRunSummaries:0}"
         },
         {
           "title": "THE WANDERER",
@@ -306,7 +306,7 @@
         },
         {
           "title": "A FEELING",
-          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+          "text": "And yet \u2014 {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
         }
       ]
     }
@@ -314,17 +314,17 @@
   "intro": [
     {
       "title": "THE EMBERFALL PEAKS",
-      "text": "The ley lines cut through the mountains here — through layers of volcanic rock still warm from the last eruption. This is the Emberfall Peaks: a chain of active volcanoes that the Fracture cracked open and left to simmer.\n\nThings live here. Heat-adapted things. Things that were dangerous before the Fracture made them angrier.\n\nThe ley path goes through the caldera. There's no route around.",
+      "text": "The ley lines cut through the mountains here \u2014 through layers of volcanic rock still warm from the last eruption. This is the Emberfall Peaks: a chain of active volcanoes that the Fracture cracked open and left to simmer.\n\nThings live here. Heat-adapted things. Things that were dangerous before the Fracture made them angrier.\n\nThe ley path goes through the caldera. There's no route around.",
       "image": "cutscenes/act7-intro-1.svg"
     },
     {
       "title": "THE CINDERWARLORD",
-      "text": "The Peaks are held by the Cinderwarlord — a commander who built an army out of whatever the volcanoes threw up: crawlers, hounds, archers who fire molten shot, constructs assembled from cooled lava-flow.\n\nHe has not lost the mountains once. The mountains are on his side. Literally. He has an understanding with them.\n\nYou are going to walk through his territory regardless.",
+      "text": "The Peaks are held by the Cinderwarlord \u2014 a commander who built an army out of whatever the volcanoes threw up: crawlers, hounds, archers who fire molten shot, constructs assembled from cooled lava-flow.\n\nHe has not lost the mountains once. The mountains are on his side. Literally. He has an understanding with them.\n\nYou are going to walk through his territory regardless.",
       "image": "cutscenes/act7-intro-2.svg"
     },
     {
       "title": "HEAT AND PRESSURE",
-      "text": "The deeper you go, the hotter it gets. The ley lines are visible here — they glow faintly orange, like metal near a forge, and they point straight toward the caldera at the heart of the range.\n\nWhatever is at the Fracture Core, the ley lines think this is the way.\n\nYou have learned to trust the ley lines. You have also learned to bring extra water.",
+      "text": "The deeper you go, the hotter it gets. The ley lines are visible here \u2014 they glow faintly orange, like metal near a forge, and they point straight toward the caldera at the heart of the range.\n\nWhatever is at the Fracture Core, the ley lines think this is the way.\n\nYou have learned to trust the ley lines. You have also learned to bring extra water.",
       "image": "cutscenes/act7-intro-3.svg"
     }
   ],
@@ -341,7 +341,7 @@
     },
     {
       "title": "DEEPER IN",
-      "text": "The Magma Core sits in your hand — a solid chunk of volcanic glass with something still burning at the centre. The Cinderwarlord's mark of command.\n\nThe ley lines glow brighter past the caldera. Whatever the Fracture Core is, it's warmer on this side.\n\nYou move forward. The mountains stop objecting.",
+      "text": "The Magma Core sits in your hand \u2014 a solid chunk of volcanic glass with something still burning at the centre. The Cinderwarlord's mark of command.\n\nThe ley lines glow brighter past the caldera. Whatever the Fracture Core is, it's warmer on this side.\n\nYou move forward. The mountains stop objecting.",
       "image": "cutscenes/act7-outro-3.svg"
     }
   ],
@@ -394,12 +394,12 @@
       "environment": "volcano",
       "eventConfig": {
         "title": "The Ash Shrine",
-        "description": "A ring of fused volcanic rock, still warm. Ash coils upward in slow spirals — too slow for the wind to explain. Whatever was worshipped here, something is still paying attention.",
+        "description": "A ring of fused volcanic rock, still warm. Ash coils upward in slow spirals \u2014 too slow for the wind to explain. Whatever was worshipped here, something is still paying attention.",
         "pools": [
           [
             {
               "label": "Leave an offering",
-              "consequence": "The ash spirals outward — healed 12 HP",
+              "consequence": "The ash spirals outward \u2014 healed 12 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 12
@@ -407,7 +407,7 @@
             },
             {
               "label": "Leave an offering",
-              "consequence": "Hot ash stings your hands — lose 6 HP",
+              "consequence": "Hot ash stings your hands \u2014 lose 6 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 6
@@ -433,7 +433,7 @@
           [
             {
               "label": "Read the ash patterns",
-              "consequence": "The patterns describe something useful — uncommon card",
+              "consequence": "The patterns describe something useful \u2014 uncommon card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -441,7 +441,7 @@
             },
             {
               "label": "Read the ash patterns",
-              "consequence": "The patterns heal — restored 8 HP",
+              "consequence": "The patterns heal \u2014 restored 8 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 8
@@ -459,7 +459,7 @@
           [
             {
               "label": "Pocket the shrine stones",
-              "consequence": "Still warm — good for +18 crystals in the next market",
+              "consequence": "Still warm \u2014 good for +18 crystals in the next market",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 18
@@ -475,7 +475,7 @@
             },
             {
               "label": "Pocket the shrine stones",
-              "consequence": "One stone discharges — lose 10 HP",
+              "consequence": "One stone discharges \u2014 lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -551,9 +551,10 @@
       "description": "Artillery emplacements built into the crater wall. Magma vents power the launchers.",
       "row": 4,
       "col": 0,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
-        "crater-rest"
+        "crater-rest",
+        "mem-act7-2"
       ],
       "handicap": 16,
       "opponentIntervalMs": 4400,
@@ -603,7 +604,7 @@
             },
             {
               "label": "Reach into the column",
-              "consequence": "The heat is a balm — healed 15 HP",
+              "consequence": "The heat is a balm \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -611,7 +612,7 @@
             },
             {
               "label": "Reach into the column",
-              "consequence": "Something comes out hot — lose 12 HP",
+              "consequence": "Something comes out hot \u2014 lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -629,7 +630,7 @@
           [
             {
               "label": "Follow the vent up the slope",
-              "consequence": "Supply cache wedged in the cooled rim — +30 crystals",
+              "consequence": "Supply cache wedged in the cooled rim \u2014 +30 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 30
@@ -663,7 +664,8 @@
       "col": 1,
       "rowCols": 3,
       "childIds": [
-        "crater-rest"
+        "crater-rest",
+        "mem-act7-1"
       ],
       "handicap": 20,
       "opponentIntervalMs": 4000,
@@ -733,12 +735,12 @@
       "environment": "volcano",
       "eventConfig": {
         "title": "The Forge Post",
-        "description": "A Cinderwarlord field post, evacuated in the fighting. Forge tools, tactical slates, and a map of the caldera. The slate shows the Cinderwarlord's actual position — and something he marked 'signal origin' in the deep caldera.",
+        "description": "A Cinderwarlord field post, evacuated in the fighting. Forge tools, tactical slates, and a map of the caldera. The slate shows the Cinderwarlord's actual position \u2014 and something he marked 'signal origin' in the deep caldera.",
         "pools": [
           [
             {
               "label": "Study the tactical slates",
-              "consequence": "Useful knowledge — rare card",
+              "consequence": "Useful knowledge \u2014 rare card",
               "effect": {
                 "type": "gainCard",
                 "rarity": "rare"
@@ -746,7 +748,7 @@
             },
             {
               "label": "Study the tactical slates",
-              "consequence": "The supply caches are marked — +25 crystals",
+              "consequence": "The supply caches are marked \u2014 +25 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 25
@@ -756,7 +758,7 @@
           [
             {
               "label": "Use the forge rest area",
-              "consequence": "Proper heat for once — healed 15 HP",
+              "consequence": "Proper heat for once \u2014 healed 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -781,7 +783,7 @@
       "description": "A shallow alcove cut into the crater wall. Surprisingly calm.",
       "row": 5,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 2,
       "childIds": [
         "caldera-gate"
       ],
@@ -795,7 +797,7 @@
       "description": "The Cinderwarlord's personal guard. They've been briefed on you specifically.",
       "row": 4,
       "col": 1,
-      "rowCols": 2,
+      "rowCols": 3,
       "childIds": [
         "crater-rest"
       ],
@@ -952,6 +954,34 @@
         "Burning Rush",
         "Smelted Blade"
       ]
+    },
+    "mem-act7-1": {
+      "id": "mem-act7-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "The Forge Master's log \u2014 the volcanoes were listening before anyone understood what they heard.",
+      "row": 4,
+      "col": 2,
+      "rowCols": 3,
+      "childIds": [
+        "crater-rest"
+      ],
+      "fragmentId": "act7-frag-1",
+      "environment": "volcano"
+    },
+    "mem-act7-2": {
+      "id": "mem-act7-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A note sealed in cooling lava \u2014 the first eruption after the Fracture was not natural.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "caldera-gate"
+      ],
+      "fragmentId": "act7-frag-2",
+      "environment": "volcano"
     }
   }
 }

@@ -45,7 +45,7 @@
       "Now, technically, a nautical problem the Harbormaster has stopped being surprised by.",
       "Now, effectively, the sort of person who fights through fractured port cities without a permit.",
       "Now, in the maritime sense, an unlicensed vessel the Harbormaster cannot seem to impound.",
-      "Now — by every coastal regulation — in violation of several statutes the Harbormaster has stopped bothering to cite.",
+      "Now \u2014 by every coastal regulation \u2014 in violation of several statutes the Harbormaster has stopped bothering to cite.",
       "Now, technically, a repeat offender the Harbormaster has started filing standing orders against."
     ],
     "jarvIntros": [
@@ -56,27 +56,27 @@
       "You have a deck of cards. The Harbormaster has a file on you now. It is the thickest file in the port authority's history and it hasn't helped him once."
     ],
     "coastDesc": [
-      "The Shattered Coast was once a thriving port city — before the Fracture split it across seven separate shards. Now the docks connect pieces that don't belong together, and the iron tide brings things from one piece that don't belong in the others.",
+      "The Shattered Coast was once a thriving port city \u2014 before the Fracture split it across seven separate shards. Now the docks connect pieces that don't belong together, and the iron tide brings things from one piece that don't belong in the others.",
       "The Shattered Coast smells like salt water and impounded cargo and the particular frustration of a bureaucracy trying to regulate something that fundamentally does not want to be regulated.",
-      "The Shattered Coast waits at the edge of your bearing — fractured, grey, and defended by someone who has made chaos into a system.",
+      "The Shattered Coast waits at the edge of your bearing \u2014 fractured, grey, and defended by someone who has made chaos into a system.",
       "The ley lines run through the old harbour bed here. The Harbormaster uses the energy surplus to run his iron fleet and his extremely comprehensive permit system."
     ],
     "harbormasterDesc": [
-      "The Harbormaster was a port inspector once, before the Fracture. Now he controls the coast's only viable passage — with an iron fleet, a permit system, and the particular authority of someone who has turned disorder into a personal monopoly.\n\nYou don't have his permit. You're not going to get one.",
+      "The Harbormaster was a port inspector once, before the Fracture. Now he controls the coast's only viable passage \u2014 with an iron fleet, a permit system, and the particular authority of someone who has turned disorder into a personal monopoly.\n\nYou don't have his permit. You're not going to get one.",
       "The Harbormaster holds every coastal route with the methodical determination of someone who has converted bureaucratic principle into military doctrine.\n\nYou are a permit violation he can't seem to close.",
       "The Harbormaster defends the Shattered Coast with the calm stubbornness of a man who has decided that rules are what he says they are.\n\nYou've found that stubbornness like that makes people predictable.",
       "The Harbormaster has been briefed on your approach. His response was to update the standing violation on your file and order additional iron for the harbour defences. He has also, apparently, updated the permit requirements specifically to exclude you."
     ],
     "priorRunSummaries": [
-      "The salt air felt familiar — the particular way it carried the sound of iron hulls and tide bells. Like a port you'd been refused entry to before.",
-      "The first shoreline approach was wrong. Not navigationally wrong — defensively wrong, the way a route feels wrong when the checkpoints have been moved since your last visit.",
+      "The salt air felt familiar \u2014 the particular way it carried the sound of iron hulls and tide bells. Like a port you'd been refused entry to before.",
+      "The first shoreline approach was wrong. Not navigationally wrong \u2014 defensively wrong, the way a route feels wrong when the checkpoints have been moved since your last visit.",
       "Something about the patrol pattern at the harbour mouth. The exact interval of it. You adjusted your approach without thinking, which meant you'd made that adjustment before.",
       "The iron tide sounded different on approach. Lower. More deliberate. As though someone had changed the bell pattern after reviewing the footage of your last visit."
     ],
     "priorRunOpenings": [
       "You had been here. Your feet found the gap in the harbour defences before the tide charts confirmed it was still there.",
       "The Iron Guard unit at the shore landing didn't engage immediately. One of them checked a document. Then engaged.",
-      "The Harbormaster's opening blockade was different this time — heavier on the right flank. He'd been reviewing his formation after your last visit.",
+      "The Harbormaster's opening blockade was different this time \u2014 heavier on the right flank. He'd been reviewing his formation after your last visit.",
       "The harbour bells rang when you landed. A specific pattern. You've learned, by now, that this is the code for 'that one again'."
     ],
     "milestoneOpenings5": [
@@ -96,7 +96,7 @@
       "Fifty campaigns. The Iron Guard at the shore landing steps aside when your silhouette appears on the approach. The Harbormaster has calculated something and decided the opening engagement is no longer cost-effective."
     ],
     "milestoneOpenings100": [
-      "The Harbormaster is at the shore landing. Not in uniform. In his old inspector's coat — the one he wore before all of this.\n\n'A hundred crossings,' he says. 'I have the file here.' He holds it up. It is very thick. 'A hundred violations. A hundred failed containments. A hundred updated protocols.'\n\nHe sets it down on the dock.\n\n'I was a port inspector,' he says. 'Before the Fracture. I inspected things. I approved things. I denied things.' He looks at you — not at Jarv, at you. 'I have never, in forty years of this work, encountered something I could not eventually process correctly.'\n\nA pause. The tide moves.\n\n'I am going to process this correctly.' He steps aside. 'The coast is clear. The permit is granted retroactively for all previous crossings. Do not tell anyone I said that.'"
+      "The Harbormaster is at the shore landing. Not in uniform. In his old inspector's coat \u2014 the one he wore before all of this.\n\n'A hundred crossings,' he says. 'I have the file here.' He holds it up. It is very thick. 'A hundred violations. A hundred failed containments. A hundred updated protocols.'\n\nHe sets it down on the dock.\n\n'I was a port inspector,' he says. 'Before the Fracture. I inspected things. I approved things. I denied things.' He looks at you \u2014 not at Jarv, at you. 'I have never, in forty years of this work, encountered something I could not eventually process correctly.'\n\nA pause. The tide moves.\n\n'I am going to process this correctly.' He steps aside. 'The coast is clear. The permit is granted retroactively for all previous crossings. Do not tell anyone I said that.'"
     ]
   },
   "midRunTemplates": [
@@ -105,12 +105,15 @@
     "{n} campaigns in. The Iron Guard at the shore landing has started forming up before you're visible from the post. They've learned your approach timing.",
     "{n} times you've landed on this coast. The salt air is the same. Your outstanding permit violations have become something the Harbormaster finds professionally destabilising.",
     "Run {n}. You arrive at the shore and find the first patrol already in position. The Harbormaster has been running projections.",
-    "The {ordinalLower} attempt. The coast smells the same — salt and iron and the particular frustration of a system that keeps failing to process one specific person.",
+    "The {ordinalLower} attempt. The coast smells the same \u2014 salt and iron and the particular frustration of a system that keeps failing to process one specific person.",
     "{n} campaigns. The Harbormaster's file on you is the longest active case in the port authority's history. It has achieved a kind of institutional legend."
   ],
   "introRules": [
     {
-      "condition": { "op": "gte", "value": 100 },
+      "condition": {
+        "op": "gte",
+        "value": 100
+      },
       "panels": [
         {
           "title": "THE HARBORMASTER DECIDES",
@@ -123,7 +126,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 51, "max": 99 },
+      "condition": {
+        "op": "range",
+        "min": 51,
+        "max": 99
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -144,7 +151,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 50 },
+      "condition": {
+        "op": "eq",
+        "value": 50
+      },
       "panels": [
         {
           "title": "FIFTY CAMPAIGNS",
@@ -165,7 +175,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 26, "max": 49 },
+      "condition": {
+        "op": "range",
+        "min": 26,
+        "max": 49
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -182,7 +196,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 25 },
+      "condition": {
+        "op": "eq",
+        "value": 25
+      },
       "panels": [
         {
           "title": "TWENTY-FIVE",
@@ -199,7 +216,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 11, "max": 24 },
+      "condition": {
+        "op": "range",
+        "min": 11,
+        "max": 24
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -220,7 +241,10 @@
       ]
     },
     {
-      "condition": { "op": "eq", "value": 10 },
+      "condition": {
+        "op": "eq",
+        "value": 10
+      },
       "panels": [
         {
           "title": "THE TENTH TIME",
@@ -241,7 +265,11 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 5, "max": 9 },
+      "condition": {
+        "op": "range",
+        "min": 5,
+        "max": 9
+      },
       "panels": [
         {
           "title": "THE {ORDINAL} TIME",
@@ -258,11 +286,15 @@
       ]
     },
     {
-      "condition": { "op": "range", "min": 2, "max": 4 },
+      "condition": {
+        "op": "range",
+        "min": 2,
+        "max": 4
+      },
       "panels": [
         {
           "title": "THE SHATTERED COAST",
-          "text": "The coast, again — fractured, grey, and still not issuing permits.\n\n{pool:priorRunSummaries:0}"
+          "text": "The coast, again \u2014 fractured, grey, and still not issuing permits.\n\n{pool:priorRunSummaries:0}"
         },
         {
           "title": "THE WANDERER",
@@ -274,7 +306,7 @@
         },
         {
           "title": "A FEELING",
-          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+          "text": "And yet \u2014 {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
         }
       ]
     }
@@ -282,17 +314,17 @@
   "intro": [
     {
       "title": "THE SHATTERED COAST",
-      "text": "The Shattered Coast was once a thriving port city — before the Fracture split it across seven separate shards.\n\nNow the channels between shards are controlled by a single authority: the Harbormaster. Nothing moves without his iron seal. No cargo. No people. No information.",
+      "text": "The Shattered Coast was once a thriving port city \u2014 before the Fracture split it across seven separate shards.\n\nNow the channels between shards are controlled by a single authority: the Harbormaster. Nothing moves without his iron seal. No cargo. No people. No information.",
       "image": "cutscenes/act12-intro-1.svg"
     },
     {
       "title": "THE HARBORMASTER",
-      "text": "He was a port inspector once, before the Fracture. Now he is something else — a man who discovered that chaos could be administered, and administration could be power.\n\nHis fleet patrols the shattered channels. His flags are the only law. The wreck divers answer to him. The storm hawks circle his flagship.",
+      "text": "He was a port inspector once, before the Fracture. Now he is something else \u2014 a man who discovered that chaos could be administered, and administration could be power.\n\nHis fleet patrols the shattered channels. His flags are the only law. The wreck divers answer to him. The storm hawks circle his flagship.",
       "image": "cutscenes/act12-intro-2.svg"
     },
     {
       "title": "NO PERMIT",
-      "text": "You don't have his permit. You don't intend to get one.\n\nThe coast is the only route forward, and the Harbormaster blocks it. Fight through his patrols, his reef wardens, his iron anchorage — and put an end to the toll.",
+      "text": "You don't have his permit. You don't intend to get one.\n\nThe coast is the only route forward, and the Harbormaster blocks it. Fight through his patrols, his reef wardens, his iron anchorage \u2014 and put an end to the toll.",
       "image": "cutscenes/act12-intro-3.svg"
     }
   ],
@@ -304,7 +336,7 @@
     },
     {
       "title": "SALVAGE HOOK",
-      "text": "Among the wreckage, half-buried in sand, you find a salvage hook — the symbol of passage along this coast. It's old. Pre-Fracture. It means something.\n\nYou pocket it. The channels open around you.",
+      "text": "Among the wreckage, half-buried in sand, you find a salvage hook \u2014 the symbol of passage along this coast. It's old. Pre-Fracture. It means something.\n\nYou pocket it. The channels open around you.",
       "image": "cutscenes/act12-outro-2.svg"
     },
     {
@@ -486,7 +518,8 @@
       "col": 1,
       "rowCols": 4,
       "childIds": [
-        "diver-cove"
+        "diver-cove",
+        "mem-act12-1"
       ],
       "eventConfig": {
         "title": "The Storm Crossing",
@@ -576,7 +609,7 @@
       "description": "The storm wall cuts off the inner coast.",
       "row": 5,
       "col": 0,
-      "rowCols": 1,
+      "rowCols": 2,
       "childIds": [
         "the-harbormaster-node"
       ],
@@ -677,12 +710,13 @@
       "id": "iron-anchorage",
       "type": "elite",
       "label": "Iron Anchorage",
-      "description": "The Harbormaster's advance guard — iron-hulled and merciless.",
+      "description": "The Harbormaster's advance guard \u2014 iron-hulled and merciless.",
       "row": 4,
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "stormwall"
+        "stormwall",
+        "mem-act12-2"
       ],
       "handicap": 30,
       "opponentIntervalMs": 2800,
@@ -728,6 +762,34 @@
       ],
       "bossCard": "Coast Leviathan",
       "bossName": "The Grand Serpent "
+    },
+    "mem-act12-1": {
+      "id": "mem-act12-1",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "The Harbormaster's final log \u2014 the lighthouse is still flashing under forty metres of water.",
+      "row": 3,
+      "col": 1,
+      "rowCols": 4,
+      "childIds": [
+        "reef-outpost"
+      ],
+      "fragmentId": "act12-frag-1",
+      "environment": "coast"
+    },
+    "mem-act12-2": {
+      "id": "mem-act12-2",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "Salvage Report Zero \u2014 everything that used to be up here is preserved perfectly below.",
+      "row": 5,
+      "col": 1,
+      "rowCols": 2,
+      "childIds": [
+        "the-harbormaster-node"
+      ],
+      "fragmentId": "act12-frag-2",
+      "environment": "coast"
     }
   }
 }
