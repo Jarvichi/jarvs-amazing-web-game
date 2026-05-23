@@ -348,9 +348,9 @@
     },
     "tidal-shrine": {
       "id": "tidal-shrine",
-      "type": "event",
-      "label": "Tidal Shrine",
-      "description": "An ancient stone altar sits at low tide, its carvings still sharp despite everything.",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A carved reef-stone marker, still standing despite the sinking — the inscription faces upward.",
       "row": 1,
       "col": 0,
       "rowCols": 2,
@@ -358,106 +358,8 @@
         "sunken-passage",
         "node-1776756542614"
       ],
-      "environment": "reef",
-      "eventConfig": {
-        "title": "The Tidal Shrine",
-        "description": "A stone altar stands at the reef's edge, carved with wave patterns and seal-glyphs. A small depression at its centre fills and empties with every tide.",
-        "pools": [
-          [
-            {
-              "label": "Leave an offering",
-              "consequence": "The tide takes it — and returns 12 HP",
-              "effect": {
-                "type": "healHp",
-                "amount": 12
-              }
-            },
-            {
-              "label": "Leave an offering",
-              "consequence": "The shrine accepts the gift — +15 crystals",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 15
-              }
-            },
-            {
-              "label": "Leave an offering",
-              "consequence": "Nothing stirs. The tide goes out.",
-              "effect": {
-                "type": "nothing"
-              }
-            },
-            {
-              "label": "Leave an offering",
-              "consequence": "Something beneath pulls harder than expected — lose 5 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 5
-              }
-            }
-          ],
-          [
-            {
-              "label": "Read the carvings",
-              "consequence": "The glyphs resolve into a card — uncommon",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "uncommon"
-              }
-            },
-            {
-              "label": "Read the carvings",
-              "consequence": "The pattern heals old wounds — restored 8 HP",
-              "effect": {
-                "type": "healHp",
-                "amount": 8
-              }
-            },
-            {
-              "label": "Read the carvings",
-              "consequence": "The knowledge is expensive — lose 10 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 10
-              }
-            },
-            {
-              "label": "Read the carvings",
-              "consequence": "Salt and old magic — +20 crystals",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 20
-              }
-            }
-          ],
-          [
-            {
-              "label": "Smash it for components",
-              "consequence": "The components are worth something — +18 crystals",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 18
-              }
-            },
-            {
-              "label": "Smash it for components",
-              "consequence": "A common card falls from the rubble",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "common"
-              }
-            },
-            {
-              "label": "Smash it for components",
-              "consequence": "The shrine curses you for the disrespect — lose 15 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 15
-              }
-            }
-          ]
-        ]
-      }
+      "fragmentId": "act5-frag-1",
+      "environment": "reef"
     },
     "wreck-camp": {
       "id": "wreck-camp",
@@ -696,66 +598,17 @@
     },
     "drowned-shrine": {
       "id": "drowned-shrine",
-      "type": "event",
-      "label": "Drowned Archive",
-      "description": "A Dominion library, somehow preserved. Its books are unreadable but its cards are intact.",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A message jar wedged against the old harbour steps, sealed and waiting.",
       "row": 3,
       "col": 2,
       "rowCols": 4,
       "childIds": [
         "reef-patrol-elite"
       ],
-      "environment": "reef",
-      "eventConfig": {
-        "title": "The Drowned Archive",
-        "description": "A Dominion archive sits perfectly preserved inside a sealed air pocket — marble shelves, brass fixtures, and a thousand books that have become coral. The card drawers, however, are watertight.",
-        "pools": [
-          [
-            {
-              "label": "Search the drawers",
-              "consequence": "A rare card, preserved in wax — yours",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
-              }
-            },
-            {
-              "label": "Search the drawers",
-              "consequence": "Only common finds, but several — +20 crystals",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 20
-              }
-            },
-            {
-              "label": "Search the drawers",
-              "consequence": "A pressure seal breaks — lose 8 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 8
-              }
-            }
-          ],
-          [
-            {
-              "label": "Rest among the stacks",
-              "consequence": "Dry floor, still air — restored 15 HP",
-              "effect": {
-                "type": "healHp",
-                "amount": 15
-              }
-            },
-            {
-              "label": "Rest among the stacks",
-              "consequence": "A forgotten card falls from a shelf — uncommon",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "uncommon"
-              }
-            }
-          ]
-        ]
-      }
+      "fragmentId": "act5-frag-2",
+      "environment": "reef"
     },
     "depth-rest": {
       "id": "depth-rest",

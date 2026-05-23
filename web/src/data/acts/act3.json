@@ -388,138 +388,17 @@
     },
     "soul-shrine": {
       "id": "soul-shrine",
-      "type": "event",
-      "label": "Soul Shrine",
-      "description": "A shrine built from miners' tools, wrapped in old smoke. Something in it still listens.",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "Ash-covered field notes, still readable — someone was studying the wastes before they became this.",
       "row": 2,
       "col": 0,
       "rowCols": 3,
       "childIds": [
         "revenant-witch"
       ],
-      "environment": "ruins",
-      "eventConfig": {
-        "title": "The Soul Shrine",
-        "description": "A shrine built from miners' tools — pickaxes crossed at the base, lanterns fused into its flanks with old soot. The flame inside is black. Whatever souls it was built to honour, they haven't left.",
-        "pools": [
-          [
-            {
-              "label": "Leave an offering",
-              "consequence": "The black flame brightens briefly. Restored 14 HP.",
-              "effect": {
-                "type": "healHp",
-                "amount": 14
-              }
-            },
-            {
-              "label": "Leave an offering",
-              "consequence": "Ash coins fall at your feet. +16 crystals.",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 16
-              }
-            },
-            {
-              "label": "Leave an offering",
-              "consequence": "The flame flickers out and relights. Nothing changes.",
-              "effect": {
-                "type": "nothing"
-              }
-            },
-            {
-              "label": "Leave an offering",
-              "consequence": "The shrine takes more than offered — lose 10 HP.",
-              "effect": {
-                "type": "damageHp",
-                "amount": 10
-              }
-            },
-            {
-              "label": "Leave an offering",
-              "consequence": "A miner's spirit grants you another chance — +1 life.",
-              "effect": {
-                "type": "gainLife",
-                "amount": 1
-              }
-            }
-          ],
-          [
-            {
-              "label": "Speak a name into the smoke",
-              "consequence": "Someone answers. A common card drifts from the flame.",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "common"
-              }
-            },
-            {
-              "label": "Speak a name into the smoke",
-              "consequence": "The smoke carries a warning back. Restored 8 HP.",
-              "effect": {
-                "type": "healHp",
-                "amount": 8
-              }
-            },
-            {
-              "label": "Speak a name into the smoke",
-              "consequence": "The name echoes endlessly. Lose 10 HP from the noise.",
-              "effect": {
-                "type": "damageHp",
-                "amount": 10
-              }
-            },
-            {
-              "label": "Speak a name into the smoke",
-              "consequence": "Ash falls around you like rain. +20 crystals.",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 20
-              }
-            }
-          ],
-          [
-            {
-              "label": "Reach into the black flame",
-              "consequence": "Cold, not hot. You pull out an uncommon card.",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "uncommon"
-              }
-            },
-            {
-              "label": "Reach into the black flame",
-              "consequence": "It burns after all — lose 16 HP.",
-              "effect": {
-                "type": "damageHp",
-                "amount": 16
-              }
-            },
-            {
-              "label": "Reach into the black flame",
-              "consequence": "You find a rare card waiting inside.",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
-              }
-            },
-            {
-              "label": "Reach into the black flame",
-              "consequence": "+24 crystals fall from your hand when you pull it free.",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 24
-              }
-            },
-            {
-              "label": "Reach into the black flame",
-              "consequence": "Something small and cold falls into your palm — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            }
-          ]
-        ]
-      }
+      "fragmentId": "act3-frag-1",
+      "environment": "ashen"
     },
     "bone-fire": {
       "id": "bone-fire",
@@ -692,137 +571,17 @@
     },
     "cursed-altar": {
       "id": "cursed-altar",
-      "type": "event",
-      "label": "Cursed Altar",
-      "description": "A makeshift altar built from the bones of something large — whatever the Wastes worshipped before the Fracture gave it something better to do.",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A broken altar stone, its inscription still faintly legible through the char.",
       "row": 4,
       "col": 2,
       "rowCols": 3,
       "childIds": [
         "death-knight"
       ],
-      "environment": "ashen",
-      "eventConfig": {
-        "title": "The Cursed Altar",
-        "description": "A makeshift altar built from the bones of something large — whatever the Wastes worshipped before the Fracture gave it something better to do. Dark ichor seeps between the joints. The altar hums.",
-        "pools": [
-          [
-            {
-              "label": "Make a blood offering",
-              "consequence": "The altar accepts the price. Restored 12 HP, lose 6 HP.",
-              "effect": {
-                "type": "damageHp",
-                "amount": 6
-              }
-            },
-            {
-              "label": "Make a blood offering",
-              "consequence": "Dark energy surges through you — +1 life, lose 8 HP.",
-              "effect": {
-                "type": "damageHp",
-                "amount": 8
-              }
-            },
-            {
-              "label": "Make a blood offering",
-              "consequence": "The altar is satisfied. Restored 18 HP.",
-              "effect": {
-                "type": "healHp",
-                "amount": 18
-              }
-            },
-            {
-              "label": "Make a blood offering",
-              "consequence": "The altar drinks deeply. Lose 20 HP. Worth it? Unclear.",
-              "effect": {
-                "type": "damageHp",
-                "amount": 20
-              }
-            }
-          ],
-          [
-            {
-              "label": "Pray to the bones",
-              "consequence": "A rare card materialises from the dark.",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
-              }
-            },
-            {
-              "label": "Pray to the bones",
-              "consequence": "The bones rattle an answer. +22 crystals.",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 22
-              }
-            },
-            {
-              "label": "Pray to the bones",
-              "consequence": "The bones are silent. The hum intensifies. Nothing.",
-              "effect": {
-                "type": "nothing"
-              }
-            },
-            {
-              "label": "Pray to the bones",
-              "consequence": "An uncommon card rises from between the ribs.",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "uncommon"
-              }
-            },
-            {
-              "label": "Pray to the bones",
-              "consequence": "The altar grants you one more chance — +1 life.",
-              "effect": {
-                "type": "gainLife",
-                "amount": 1
-              }
-            },
-            {
-              "label": "Pray to the bones",
-              "consequence": "A bone fragment shifts loose and lands in your hand — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            }
-          ],
-          [
-            {
-              "label": "Desecrate the altar",
-              "consequence": "The altar shatters — +28 crystals from the gem fragments.",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 28
-              }
-            },
-            {
-              "label": "Desecrate the altar",
-              "consequence": "A legendary card erupts from the rubble.",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "legendary"
-              }
-            },
-            {
-              "label": "Desecrate the altar",
-              "consequence": "The altar retaliates — lose 22 HP.",
-              "effect": {
-                "type": "damageHp",
-                "amount": 22
-              }
-            },
-            {
-              "label": "Desecrate the altar",
-              "consequence": "It was already ruined. Nothing happens. You feel watched.",
-              "effect": {
-                "type": "nothing"
-              }
-            }
-          ]
-        ]
-      }
+      "fragmentId": "act3-frag-2",
+      "environment": "ashen"
     },
     "death-knight": {
       "id": "death-knight",

@@ -441,142 +441,17 @@
     },
     "arcane-court": {
       "id": "arcane-court",
-      "type": "event",
-      "label": "The Arcane Court",
-      "description": "Hooded figures stand in a crystalline circle, studying something that floats at the centre.",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A researcher’s notebook, sealed in crystal and left on a window ledge overlooking the void.",
       "row": 2,
       "col": 3,
       "rowCols": 4,
       "childIds": [
         "arcanist-champion"
       ],
-      "environment": "citadel",
-      "eventConfig": {
-        "title": "The Arcane Court",
-        "description": "Crystalline towers rise around you. Hooded figures stand in a circle, studying a glowing object that floats at the centre. They don’t seem hostile. Not yet.",
-        "pools": [
-          [
-            {
-              "label": "Step into the circle",
-              "consequence": "The magic steadies you — restored 10 HP",
-              "effect": {
-                "type": "healHp",
-                "amount": 10
-              }
-            },
-            {
-              "label": "Step into the circle",
-              "consequence": "The ritual grants you a boon — +18 crystals",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 18
-              }
-            },
-            {
-              "label": "Step into the circle",
-              "consequence": "The energy rejects you — lose 8 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 8
-              }
-            },
-            {
-              "label": "Step into the circle",
-              "consequence": "An uncommon card materialises from the glow",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "uncommon"
-              }
-            },
-            {
-              "label": "Step into the circle",
-              "consequence": "Something small falls from the air — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            }
-          ],
-          [
-            {
-              "label": "Observe from the doorway",
-              "consequence": "You note weaknesses — +15 crystals",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 15
-              }
-            },
-            {
-              "label": "Observe from the doorway",
-              "consequence": "They don’t notice you. Nothing happens.",
-              "effect": {
-                "type": "nothing"
-              }
-            },
-            {
-              "label": "Observe from the doorway",
-              "consequence": "One of them nods. You find something on the floor — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            },
-            {
-              "label": "Observe from the doorway",
-              "consequence": "A fragment drifts toward you — restored 6 HP",
-              "effect": {
-                "type": "healHp",
-                "amount": 6
-              }
-            },
-            {
-              "label": "Observe from the doorway",
-              "consequence": "A curious object rolls under your foot — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            }
-          ],
-          [
-            {
-              "label": "Disrupt the ritual",
-              "consequence": "The backlash tears a rare card free",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
-              }
-            },
-            {
-              "label": "Disrupt the ritual",
-              "consequence": "The explosion throws you back — lose 15 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 15
-              }
-            },
-            {
-              "label": "Disrupt the ritual",
-              "consequence": "The figures scatter. +20 crystals from the remains.",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 20
-              }
-            },
-            {
-              "label": "Disrupt the ritual",
-              "consequence": "Nothing in the wreckage. Nothing.",
-              "effect": {
-                "type": "nothing"
-              }
-            },
-            {
-              "label": "Disrupt the ritual",
-              "consequence": "Something breaks loose in the chaos — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            }
-          ]
-        ]
-      }
+      "fragmentId": "act4-frag-1",
+      "environment": "spire"
     },
     "echo-halls": {
       "id": "echo-halls",
@@ -790,144 +665,17 @@
     },
     "arcane-archive": {
       "id": "arcane-archive",
-      "type": "event",
-      "label": "The Arcane Archive",
-      "description": "Floor-to-ceiling shelves of crystallised knowledge. Some of the crystals pulse back when you enter.",
+      "type": "memory",
+      "label": "Memory Fragment",
+      "description": "A sealed crystal vial containing compressed parchment — the arcanists' final correspondence.",
       "row": 4,
       "col": 0,
       "rowCols": 4,
       "childIds": [
         "spire-gate"
       ],
-      "environment": "citadel",
-      "eventConfig": {
-        "title": "The Arcane Archive",
-        "description": "Floor-to-ceiling shelves of crystallised knowledge. Some of the crystals pulse with stored magic. A few of them pulse back when you enter.",
-        "pools": [
-          [
-            {
-              "label": "Study the crystals",
-              "consequence": "Absorbed energy restores you — restored 8 HP",
-              "effect": {
-                "type": "healHp",
-                "amount": 8
-              }
-            },
-            {
-              "label": "Study the crystals",
-              "consequence": "You extract a pattern — gain a common card",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "common"
-              }
-            },
-            {
-              "label": "Study the crystals",
-              "consequence": "The knowledge costs you — lose 6 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 6
-              }
-            },
-            {
-              "label": "Study the crystals",
-              "consequence": "You find a practical application — +12 crystals",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 12
-              }
-            },
-            {
-              "label": "Study the crystals",
-              "consequence": "A small crystal detaches from the shelf — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            }
-          ],
-          [
-            {
-              "label": "Take a crystal shard",
-              "consequence": "The shard resonates with an uncommon card",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "uncommon"
-              }
-            },
-            {
-              "label": "Take a crystal shard",
-              "consequence": "It dissolves into +20 crystals worth of stored magic",
-              "effect": {
-                "type": "gainCrystals",
-                "amount": 20
-              }
-            },
-            {
-              "label": "Take a crystal shard",
-              "consequence": "It releases a feedback pulse — lose 10 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 10
-              }
-            },
-            {
-              "label": "Take a crystal shard",
-              "consequence": "Something shifts inside it. You keep it — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            },
-            {
-              "label": "Take a crystal shard",
-              "consequence": "It crumbles to dust. Nothing.",
-              "effect": {
-                "type": "nothing"
-              }
-            }
-          ],
-          [
-            {
-              "label": "Leave an offering of mana",
-              "consequence": "The archive accepts. A rare card materialises.",
-              "effect": {
-                "type": "gainCard",
-                "rarity": "rare"
-              }
-            },
-            {
-              "label": "Leave an offering of mana",
-              "consequence": "Something flows back in return — restored 15 HP",
-              "effect": {
-                "type": "healHp",
-                "amount": 15
-              }
-            },
-            {
-              "label": "Leave an offering of mana",
-              "consequence": "The archive takes more than you offered — lose 5 HP",
-              "effect": {
-                "type": "damageHp",
-                "amount": 5
-              }
-            },
-            {
-              "label": "Leave an offering of mana",
-              "consequence": "Something small materialises at your feet — added to inventory",
-              "effect": {
-                "type": "gainItem"
-              }
-            },
-            {
-              "label": "Leave an offering of mana",
-              "consequence": "The archive blesses you with renewed vigour — +1 life",
-              "effect": {
-                "type": "gainLife",
-                "amount": 1
-              }
-            }
-          ]
-        ]
-      }
+      "fragmentId": "act4-frag-2",
+      "environment": "spire"
     },
     "spire-gate": {
       "id": "spire-gate",

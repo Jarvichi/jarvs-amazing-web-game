@@ -3,6 +3,7 @@ import { loadCollection } from './collection'
 import { getRelics } from './itemStore'
 import { loadActCount } from './questline'
 import relicsData from '../data/relics.json'
+import memoryFragmentsData from '../data/memoryFragments.json'
 
 import act1Data from '../data/acts/act1.json'
 import act2Data from '../data/acts/act2.json'
@@ -25,6 +26,53 @@ const ALL_ACTS: any[] = [
   act6Data, act7Data, act8Data, act9Data, act10Data,
   act11Data, act12Data, act13Data, actFinaleData,
 ]
+
+const FRAGMENT_KEY = 'jarv_memory_fragments'
+
+export interface MemoryFragment {
+  id: string
+  actId: string
+  nodeId: string
+  title: string
+  body: string
+}
+
+export interface CodexFragmentEntry extends MemoryFragment {
+  discovered: boolean
+}
+
+export function getDiscoveredFragmentIds(): Set<string> {
+  try {
+    const raw = localStorage.getItem(FRAGMENT_KEY)
+    if (!raw) return new Set()
+    return new Set(JSON.parse(raw) as string[])
+  } catch { return new Set() }
+}
+
+export function isFragmentDiscovered(id: string): boolean {
+  return getDiscoveredFragmentIds().has(id)
+}
+
+/** Returns true if this discovery completed all fragments for the act (bonus trigger). */
+export function markFragmentDiscovered(id: string): boolean {
+  const discovered = getDiscoveredFragmentIds()
+  if (discovered.has(id)) return false
+  discovered.add(id)
+  try { localStorage.setItem(FRAGMENT_KEY, JSON.stringify([...discovered])) } catch { /* ignore */ }
+  const frags = memoryFragmentsData as MemoryFragment[]
+  const frag = frags.find(f => f.id === id)
+  if (!frag) return false
+  const actFragIds = frags.filter(f => f.actId === frag.actId).map(f => f.id)
+  return actFragIds.every(fid => discovered.has(fid))
+}
+
+export function getCodexFragments(): CodexFragmentEntry[] {
+  const discovered = getDiscoveredFragmentIds()
+  return (memoryFragmentsData as MemoryFragment[]).map(f => ({
+    ...f,
+    discovered: discovered.has(f.id),
+  }))
+}
 
 export interface CodexCardEntry {
   name: string

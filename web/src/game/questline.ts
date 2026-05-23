@@ -127,7 +127,7 @@ export interface ReplayModifier {
 
 // ─── Node & Act types ─────────────────────────────────────
 
-export type NodeType = 'battle' | 'elite' | 'boss' | 'rest' | 'event' | 'merchant'
+export type NodeType = 'battle' | 'elite' | 'boss' | 'rest' | 'event' | 'merchant' | 'memory'
 
 export interface QuestNode {
   id: string
@@ -145,6 +145,7 @@ export interface QuestNode {
   bossName?: string      // display name for the boss (overrides bossCard name in UI)
   bossHpMultiplier?: number  // multiplier applied to boss card unit's HP (default 10)
   eventConfig?: NodeEventConfig
+  fragmentId?: string
   bossDialogue?: string[]  // lines the boss speaks before the fight
   bossIntro?: CutscenePanel[]  // cutscene panels shown before boss dialogue
   /** Preset enemy deck — card names in order. Makes each node deterministic and learnable. */
