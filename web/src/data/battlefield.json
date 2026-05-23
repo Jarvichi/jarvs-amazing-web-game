@@ -1,52 +1,191 @@
 {
   "environments": {
-    "farmland":    ["floor-grass", "field-left", "field-right", "path-grass-center"],
-    "forest":      ["floor-grass", "field-left", "dirt-right", "path-dirt-center"],
-    "dark-forest": ["floor-mud", "ash-left", "ash-right", "dirt-right", "path-dirt-center"],
-    "ruins":       ["floor-rubble", "rubble-left", "rubble-right", "path-ruins-center"],
-    "camp":        ["floor-mud", "mud-edge-left", "mud-edge-right", "path-camp-center"],
-    "citadel":     ["floor-stone", "cobble-left", "cobble-right", "path-flagstone-center"],
-    "ashen":       ["floor-scorched", "ash-left", "ash-right", "path-char-center"],
-    "arcane":      ["floor-crystal", "crystal-left", "crystal-right", "path-arcane-center"],
-    "reef":        ["floor-sand", "reef-left", "reef-right", "path-coral-center"],
-    "sky":         ["floor-cloud", "cloud-left", "cloud-right", "path-sky-center"],
-    "volcano":     ["floor-lava", "lava-left", "lava-right", "path-ember-center"],
-    "fungal":      ["floor-fungal", "fungal-left", "fungal-right", "path-spore-center"],
-    "frost":       ["floor-frost", "frost-left", "frost-right", "path-ice-center"],
-    "sand":        ["floor-desert", "dune-left", "dune-right", "path-dust-center"],
-    "coast":       ["floor-coast", "coast-left", "coast-right", "path-shore-center"],
-    "vault":       ["floor-vault", "vault-left", "vault-right", "path-vault-center"]
+    "farmland": [
+      "floor-grass",
+      "field-left",
+      "field-right",
+      "path-grass-center"
+    ],
+    "forest": [
+      "floor-grass",
+      "field-left",
+      "dirt-right",
+      "path-dirt-center"
+    ],
+    "dark-forest": [
+      "floor-mud",
+      "ash-left",
+      "ash-right",
+      "dirt-right",
+      "path-dirt-center"
+    ],
+    "ruins": [
+      "floor-rubble",
+      "rubble-left",
+      "rubble-right",
+      "path-ruins-center"
+    ],
+    "camp": [
+      "floor-mud",
+      "mud-edge-left",
+      "mud-edge-right",
+      "path-camp-center"
+    ],
+    "citadel": [
+      "floor-stone",
+      "cobble-left",
+      "cobble-right",
+      "path-flagstone-center"
+    ],
+    "ashen": [
+      "floor-scorched",
+      "ash-left",
+      "ash-right",
+      "path-char-center"
+    ],
+    "arcane": [
+      "floor-crystal",
+      "crystal-left",
+      "crystal-right",
+      "path-arcane-center"
+    ],
+    "reef": [
+      "floor-sand",
+      "reef-left",
+      "reef-right",
+      "path-coral-center"
+    ],
+    "sky": [
+      "floor-cloud",
+      "cloud-left",
+      "cloud-right",
+      "path-sky-center"
+    ],
+    "volcano": [
+      "floor-lava",
+      "lava-left",
+      "lava-right",
+      "path-ember-center"
+    ],
+    "fungal": [
+      "floor-fungal",
+      "fungal-left",
+      "fungal-right",
+      "path-spore-center"
+    ],
+    "frost": [
+      "floor-frost",
+      "frost-left",
+      "frost-right",
+      "path-ice-center"
+    ],
+    "sand": [
+      "floor-desert",
+      "dune-left",
+      "dune-right",
+      "path-dust-center"
+    ],
+    "coast": [
+      "floor-coast",
+      "coast-left",
+      "coast-right",
+      "path-shore-center"
+    ],
+    "vault": [
+      "floor-vault",
+      "vault-left",
+      "vault-right",
+      "path-vault-center"
+    ]
   },
   "seasonLayers": {
-    "spring": ["season-spring-flowers"],
-    "summer": ["season-summer-lush"],
-    "autumn": ["season-autumn-leaves"],
-    "winter": ["season-winter-snow"]
+    "spring": [
+      "season-spring-flowers"
+    ],
+    "summer": [
+      "season-summer-lush"
+    ],
+    "autumn": [
+      "season-autumn-leaves"
+    ],
+    "winter": [
+      "season-winter-snow"
+    ]
   },
   "seasonTerrain": {
     "spring": {
-      "tree":  ["terrain-pine-tree.svg", "terrain-fruit-tree-spring.svg", "terrain-tree-spring.svg"]
+      "tree": [
+        "terrain-pine-tree.svg",
+        "terrain-fruit-tree-spring.svg",
+        "terrain-tree-spring.svg"
+      ]
     },
     "autumn": {
-      "tree":  ["terrain-pine-tree.svg", "terrain-fruit-tree-autumn.svg", "terrain-tree-autumn.svg"]
+      "tree": [
+        "terrain-pine-tree.svg",
+        "terrain-fruit-tree-autumn.svg",
+        "terrain-tree-autumn.svg"
+      ]
     },
     "winter": {
-      "tree":  ["terrain-pine-tree.svg", "terrain-fruit-tree-bare.svg", "terrain-tree-bare.svg"],
-      "water": ["terrain-water-frozen.svg"]
+      "tree": [
+        "terrain-pine-tree.svg",
+        "terrain-fruit-tree-bare.svg",
+        "terrain-tree-bare.svg"
+      ],
+      "water": [
+        "terrain-water-frozen.svg"
+      ]
     }
   },
   "terrain": {
-    "rock":  [{ "file": "terrain-rock.svg",        "wr": 1,    "hr": 1.25 }],
-    "tree":  [
-      { "file": "terrain-pine-tree.svg",  "wr": 0.65, "hr": 1 },
-      { "file": "terrain-fruit-tree.svg", "wr": 1,    "hr": 1 },
-      { "file": "terrain-tree.svg",       "wr": 1,    "hr": 1 }
+    "rock": [
+      {
+        "file": "terrain-rock.svg",
+        "wr": 1,
+        "hr": 1.25
+      }
     ],
-    "water": [{ "file": "terrain-water.svg",        "wr": 1.7,  "hr": 1 }],
-    "ruin":  [
-      { "file": "terrain-ruin.svg",        "wr": 1,    "hr": 1 },
-      { "file": "terrain-farmhouse.svg",   "wr": 1,    "hr": 1 },
-      { "file": "terrain-watchtower.svg",  "wr": 0.55, "hr": 1 }
+    "tree": [
+      {
+        "file": "terrain-pine-tree.svg",
+        "wr": 0.65,
+        "hr": 1
+      },
+      {
+        "file": "terrain-fruit-tree.svg",
+        "wr": 1,
+        "hr": 1
+      },
+      {
+        "file": "terrain-tree.svg",
+        "wr": 1,
+        "hr": 1
+      }
+    ],
+    "water": [
+      {
+        "file": "terrain-water.svg",
+        "wr": 1.7,
+        "hr": 1
+      }
+    ],
+    "ruin": [
+      {
+        "file": "terrain-ruin.svg",
+        "wr": 1,
+        "hr": 1
+      },
+      {
+        "file": "terrain-farmhouse.svg",
+        "wr": 1,
+        "hr": 1
+      },
+      {
+        "file": "terrain-watchtower.svg",
+        "wr": 0.55,
+        "hr": 1
+      }
     ]
   }
 }

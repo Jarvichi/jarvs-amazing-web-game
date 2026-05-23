@@ -2,11 +2,11 @@
   {
     "id": "thornlord",
     "intervalMs": 6000,
-    "idleMessage": "The Thornlord is still\u2026",
+    "idleMessage": "The Thornlord is still…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE THORNLORD awakens! Ancient guardian of the Verdant Shard.",
-      "Walls of bark and root rise from the earth \u2014 prepare for a siege!"
+      "Walls of bark and root rise from the earth — prepare for a siege!"
     ],
     "trait": {
       "name": "Burrow",
@@ -21,8 +21,8 @@
         "landingRadiusTiles": 2,
         "repositionTarget": "random"
       },
-      "announceText": "The Thornlord BURROWS! Watch the earth \u2014 it will rise again!",
-      "surfaceText": "The earth SPLITS \u2014 the Thornlord erupts!"
+      "announceText": "The Thornlord BURROWS! Watch the earth — it will rise again!",
+      "surfaceText": "The earth SPLITS — the Thornlord erupts!"
     },
     "phases": [
       {
@@ -55,7 +55,7 @@
   {
     "id": "kragg",
     "intervalMs": 5000,
-    "idleMessage": "Kragg waits behind the wall\u2026",
+    "idleMessage": "Kragg waits behind the wall…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "WARLORD KRAGG takes the field! Iron discipline, iron walls, iron will.",
@@ -75,8 +75,8 @@
         "stunDurationMs": 1500,
         "landingTarget": "player_side_random"
       },
-      "announceText": "KRAGG LEAPS \u2014 brace for impact!",
-      "landText": "BOOM \u2014 the ground shakes! Units near the crater are stunned!"
+      "announceText": "KRAGG LEAPS — brace for impact!",
+      "landText": "BOOM — the ground shakes! Units near the crater are stunned!"
     },
     "phases": [
       {
@@ -110,11 +110,11 @@
   {
     "id": "ashwalker",
     "intervalMs": 4500,
-    "idleMessage": "The ash stirs\u2026",
+    "idleMessage": "The ash stirs…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE ASHWALKER stirs. The ash rises. The dead remember.",
-      "An undying horde answers the call \u2014 destroy them before they overwhelm you!"
+      "An undying horde answers the call — destroy them before they overwhelm you!"
     ],
     "trait": {
       "name": "Ashen Split",
@@ -133,8 +133,8 @@
         ],
         "allMustDie": true
       },
-      "announceText": "The Ashwalker SPLITS \u2014 three shadows rise from the ash! Destroy them all!",
-      "splitLog": "The ash swirls\u2026 three shapes emerge across the field. Destroy them ALL!"
+      "announceText": "The Ashwalker SPLITS — three shadows rise from the ash! Destroy them all!",
+      "splitLog": "The ash swirls… three shapes emerge across the field. Destroy them ALL!"
     },
     "phases": [
       {
@@ -184,11 +184,11 @@
   {
     "id": "archivist",
     "intervalMs": 5000,
-    "idleMessage": "The Archivist catalogues\u2026",
+    "idleMessage": "The Archivist catalogues…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
-      "THE ARCHIVIST opens the archive. Every spell in the Dominion catalogue \u2014 ready.",
-      "Arcane constructs flood the field. At turn eight, his mana becomes limitless \u2014 act fast!"
+      "THE ARCHIVIST opens the archive. Every spell in the Dominion catalogue — ready.",
+      "Arcane constructs flood the field. At turn eight, his mana becomes limitless — act fast!"
     ],
     "trait": {
       "name": "Arcane Ascension",
@@ -204,8 +204,8 @@
         "stunDurationMs": 3000,
         "repositionTarget": "battlefield_centre"
       },
-      "announceText": "The Archivist ASCENDS \u2014 arcane light blinds the field!",
-      "landText": "ARCANE SHOCKWAVE \u2014 all units are silenced!"
+      "announceText": "The Archivist ASCENDS — arcane light blinds the field!",
+      "landText": "ARCANE SHOCKWAVE — all units are silenced!"
     },
     "phases": [
       {
@@ -214,7 +214,7 @@
         },
         "manaOverride": 99,
         "maxPlaysOverride": 6,
-        "announceOnce": "THE ARCHIVE OPENS \u2014 The Archivist's mana becomes limitless!",
+        "announceOnce": "THE ARCHIVE OPENS — The Archivist's mana becomes limitless!",
         "priorities": [
           {
             "cardType": "structure",
@@ -264,11 +264,11 @@
   {
     "id": "tidalsovereign",
     "intervalMs": 4800,
-    "idleMessage": "The tide shifts\u2026",
+    "idleMessage": "The tide shifts…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE TIDAL SOVEREIGN surfaces. The reef shudders. The deep comes with it.",
-      "Wave after wave crashes ashore \u2014 hold your ground or be dragged under!"
+      "Wave after wave crashes ashore — hold your ground or be dragged under!"
     ],
     "trait": {
       "name": "Riptide Surge",
@@ -283,8 +283,8 @@
         "wavePushTiles": 3,
         "repositionTarget": "opposite_flank"
       },
-      "announceText": "The Tidal Sovereign DIVES \u2014 a massive wave is incoming!",
-      "surfaceText": "RIPTIDE! The wave crashes \u2014 all units are pushed back!"
+      "announceText": "The Tidal Sovereign DIVES — a massive wave is incoming!",
+      "surfaceText": "RIPTIDE! The wave crashes — all units are pushed back!"
     },
     "phases": [
       {
@@ -350,11 +350,11 @@
   {
     "id": "paleengine",
     "intervalMs": 5200,
-    "idleMessage": "The Engine processes\u2026",
+    "idleMessage": "The Engine processes…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE PALE ENGINE engages. Cold logic. No retreat. No mercy.",
-      "Walls first, then siege fire \u2014 don't let the turrets establish themselves."
+      "Walls first, then siege fire — don't let the turrets establish themselves."
     ],
     "trait": {
       "name": "Overload Cascade",
@@ -370,8 +370,8 @@
         "slowFactor": 0.5,
         "chargeUpMs": 1500
       },
-      "announceText": "OVERLOAD IMMINENT \u2014 the Engine's core destabilises!",
-      "fireText": "EMP CASCADE \u2014 a column of the field is devastated!"
+      "announceText": "OVERLOAD IMMINENT — the Engine's core destabilises!",
+      "fireText": "EMP CASCADE — a column of the field is devastated!"
     },
     "phases": [
       {
@@ -406,11 +406,11 @@
   {
     "id": "dunebaron",
     "intervalMs": 4600,
-    "idleMessage": "The Baron reassesses\u2026",
+    "idleMessage": "The Baron reassesses…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE DUNE BARON fields his forces. This is business. He takes it seriously.",
-      "Expensive units first, then structures to hold ground \u2014 the Baron invests to win."
+      "Expensive units first, then structures to hold ground — the Baron invests to win."
     ],
     "trait": {
       "name": "Sand Dive",
@@ -429,8 +429,8 @@
         "stunDurationMs": 2000,
         "repositionTarget": "nearest_player_highest_hp"
       },
-      "announceText": "The Baron VANISHES into the sand \u2014 where will he surface?",
-      "surfaceText": "He ERUPTS from the dunes \u2014 your strongest unit is the target!"
+      "announceText": "The Baron VANISHES into the sand — where will he surface?",
+      "surfaceText": "He ERUPTS from the dunes — your strongest unit is the target!"
     },
     "phases": [
       {
@@ -491,11 +491,11 @@
   {
     "id": "rootqueen",
     "intervalMs": 4800,
-    "idleMessage": "The mycelium pulses\u2026",
+    "idleMessage": "The mycelium pulses…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE ROOT QUEEN stirs. The network connects. Everything down here is already hers.",
-      "Waves of crawlers first \u2014 then the deep growth. Don't let the spawners take root."
+      "Waves of crawlers first — then the deep growth. Don't let the spawners take root."
     ],
     "trait": {
       "name": "Mycelium Fracture",
@@ -518,7 +518,7 @@
         "nodeSpawnIntervalMs": 8000,
         "nodeSpawnUnitType": "crawler"
       },
-      "announceText": "The Root Queen FRACTURES \u2014 Spore Nodes erupt at the four corners!",
+      "announceText": "The Root Queen FRACTURES — Spore Nodes erupt at the four corners!",
       "splitLog": "Four Spore Nodes emerge at the corners of the field. Destroy them ALL to win!"
     },
     "phases": [
@@ -577,11 +577,11 @@
   {
     "id": "cinderwarlord",
     "intervalMs": 5000,
-    "idleMessage": "The volcano rumbles\u2026",
+    "idleMessage": "The volcano rumbles…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE CINDERWARLORD commands the caldera! He and the volcanoes have an understanding.",
-      "Early waves are fast and cheap \u2014 brace for the heavy assault once the forge fires up!"
+      "Early waves are fast and cheap — brace for the heavy assault once the forge fires up!"
     ],
     "trait": {
       "name": "Caldera Leap",
@@ -598,8 +598,8 @@
         "burnDurationMs": 5000,
         "landingTarget": "player_side_random"
       },
-      "announceText": "The Cinderwarlord DIVES into the volcano \u2014 incoming eruption!",
-      "landText": "METEOR IMPACT \u2014 the ground ignites! Stay out of the burn zone!"
+      "announceText": "The Cinderwarlord DIVES into the volcano — incoming eruption!",
+      "landText": "METEOR IMPACT — the ground ignites! Stay out of the burn zone!"
     },
     "phases": [
       {
@@ -653,11 +653,11 @@
   {
     "id": "cloudmarshal",
     "intervalMs": 4600,
-    "idleMessage": "The Cloudmarshal repositions\u2026",
+    "idleMessage": "The Cloudmarshal repositions…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE CLOUDMARSHAL takes position. The sky belongs to the Dominion.",
-      "Aerial squadrons in formation \u2014 watch above as well as ahead!"
+      "Aerial squadrons in formation — watch above as well as ahead!"
     ],
     "trait": {
       "name": "Storm Dive",
@@ -674,8 +674,8 @@
         "stormDurationMs": 6000,
         "repositionTarget": "player_densest_cluster"
       },
-      "announceText": "The Cloudmarshal ASCENDS \u2014 he's calling in the storm strike!",
-      "landText": "STORM DIVE \u2014 the impact zone crackles with lightning!"
+      "announceText": "The Cloudmarshal ASCENDS — he's calling in the storm strike!",
+      "landText": "STORM DIVE — the impact zone crackles with lightning!"
     },
     "phases": [
       {
@@ -708,7 +708,7 @@
   {
     "id": "elderwarden",
     "intervalMs": 4800,
-    "idleMessage": "The Verdant Canopy stirs\u2026",
+    "idleMessage": "The Verdant Canopy stirs…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE ELDER WARDEN descends from the canopy. Ancient. Patient. Immovable.",
@@ -725,8 +725,8 @@
         "pulseDamage": 6,
         "stunDurationMs": 3000
       },
-      "announceText": "THE ELDER WARDEN PLUNGES ITS ROOTS \u2014 the ground trembles!",
-      "fireText": "The roots tear through the column \u2014 units are rooted!"
+      "announceText": "THE ELDER WARDEN PLUNGES ITS ROOTS — the ground trembles!",
+      "fireText": "The roots tear through the column — units are rooted!"
     },
     "phases": [
       {
@@ -788,7 +788,7 @@
         "condition": null,
         "manaOverride": 8,
         "maxPlaysOverride": 4,
-        "announceOnce": "THE CANOPY AWAKENS \u2014 the Elder Warden calls everything to battle!",
+        "announceOnce": "THE CANOPY AWAKENS — the Elder Warden calls everything to battle!",
         "priorities": [
           {
             "cardType": "unit",
@@ -814,7 +814,7 @@
   {
     "id": "harbormaster",
     "intervalMs": 4800,
-    "idleMessage": "The iron tide rolls in\u2026",
+    "idleMessage": "The iron tide rolls in…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE HARBORMASTER raises his iron signal flag.",
@@ -903,7 +903,7 @@
   {
     "id": "grandautomaton",
     "intervalMs": 5000,
-    "idleMessage": "Systems optimising\u2026",
+    "idleMessage": "Systems optimising…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE GRAND AUTOMATON engages its threat protocols.",
@@ -993,7 +993,7 @@
   {
     "id": "thefracture",
     "intervalMs": 5000,
-    "idleMessage": "Reality fractures\u2026",
+    "idleMessage": "Reality fractures…",
     "maxPlaysPerTurn": 3,
     "openingLog": [
       "THE FRACTURE awakens. The wound at the world's heart tears open.",
@@ -1003,7 +1003,10 @@
       "name": "Void Tear",
       "implemented": true,
       "trigger": "hp_pct_multi",
-      "triggerHpPcts": [65, 35],
+      "triggerHpPcts": [
+        65,
+        35
+      ],
       "type": "fly",
       "description": "At 65% and again at 35% HP, the Fracture tears open a void rift and vanishes for 4 seconds. It then crashes back down onto the player's densest cluster, dealing 8 AOE damage in a 3-tile radius and silencing all hit units for 2 seconds.",
       "mechanics": {
@@ -1013,8 +1016,8 @@
         "stunDurationMs": 2000,
         "repositionTarget": "player_densest_cluster"
       },
-      "announceText": "THE FRACTURE TEARS OPEN \u2014 reality dissolves around you!",
-      "landText": "Reality SNAPS back \u2014 the void shockwave tears through your ranks!"
+      "announceText": "THE FRACTURE TEARS OPEN — reality dissolves around you!",
+      "landText": "Reality SNAPS back — the void shockwave tears through your ranks!"
     },
     "phases": [
       {
@@ -1107,18 +1110,39 @@
           "gameTimeLt": 30000
         },
         "priorities": [
-          { "cardType": "structure", "isWall": true },
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_asc" },
-          { "cardType": "upgrade" }
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "upgrade"
+          }
         ]
       },
       {
         "condition": null,
         "priorities": [
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "upgrade" },
-          { "cardType": "structure", "structureEffect": "spawn" }
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          }
         ]
       }
     ]
@@ -1153,10 +1177,22 @@
       {
         "condition": null,
         "priorities": [
-          { "cardType": "structure", "isWall": true },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "upgrade" },
-          { "cardType": "structure", "structureEffect": "spawn" }
+          {
+            "cardType": "structure",
+            "isWall": true
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          }
         ]
       }
     ]
@@ -1189,9 +1225,18 @@
       {
         "condition": null,
         "priorities": [
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_asc" },
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "upgrade" }
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
         ]
       }
     ]
@@ -1226,9 +1271,19 @@
       {
         "condition": null,
         "priorities": [
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "upgrade", "sortBy": "cost_desc" }
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade",
+            "sortBy": "cost_desc"
+          }
         ]
       }
     ]
@@ -1261,10 +1316,23 @@
       {
         "condition": null,
         "priorities": [
-          { "cardType": "unit", "flying": true, "sortBy": "cost_desc" },
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "upgrade" }
+          {
+            "cardType": "unit",
+            "flying": true,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade"
+          }
         ]
       }
     ]
@@ -1296,10 +1364,23 @@
       {
         "condition": null,
         "priorities": [
-          { "cardType": "unit", "flying": true, "sortBy": "cost_desc" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "upgrade" },
-          { "cardType": "structure", "structureEffect": "spawn" }
+          {
+            "cardType": "unit",
+            "flying": true,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          }
         ]
       }
     ]
@@ -1331,10 +1412,24 @@
       {
         "condition": null,
         "priorities": [
-          { "cardType": "unit", "isWall": false, "costLt": 3, "sortBy": "cost_asc" },
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "upgrade" }
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costLt": 3,
+            "sortBy": "cost_asc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade"
+          }
         ]
       }
     ]
@@ -1368,10 +1463,23 @@
       {
         "condition": null,
         "priorities": [
-          { "cardType": "unit", "isWall": false, "costGte": 3, "sortBy": "cost_desc" },
-          { "cardType": "upgrade" },
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "unit", "isWall": false }
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "costGte": 3,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "upgrade"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "unit",
+            "isWall": false
+          }
         ]
       }
     ]
@@ -1406,9 +1514,18 @@
       {
         "condition": null,
         "priorities": [
-          { "cardType": "unit", "isWall": false, "sortBy": "cost_desc" },
-          { "cardType": "structure", "structureEffect": "spawn" },
-          { "cardType": "upgrade" }
+          {
+            "cardType": "unit",
+            "isWall": false,
+            "sortBy": "cost_desc"
+          },
+          {
+            "cardType": "structure",
+            "structureEffect": "spawn"
+          },
+          {
+            "cardType": "upgrade"
+          }
         ]
       }
     ]

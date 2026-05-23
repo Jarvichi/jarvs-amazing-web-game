@@ -1,425 +1,3386 @@
 [
-  {"id":"slippers","name":"Virtual Slippers","icon":"🥿","desc":"Cozy, but digital. Left one only.","lore":"Manifested from pure nostalgia.","weight":10},
-  {"id":"lint","name":"Pocket Lint","icon":"🧶","desc":"Found in your other pants.","lore":"It has always been there.","weight":10},
-  {"id":"receipt","name":"Old Receipt","icon":"🧾","desc":"Milk: £0.99. From 2019.","lore":"The milk is long gone.","weight":10},
-  {"id":"key","name":"Mystery Key","icon":"🗝","desc":"You no longer remember which lock.","lore":"The lock misses it.","weight":10},
-  {"id":"map","name":"Incorrect Map","icon":"🗺","desc":"All roads lead to a swamp.","lore":"Cartography at its worst.","weight":10},
-  {"id":"manual","name":"Instruction Manual","icon":"📖","desc":"For an appliance you don't own.","lore":"Very thorough. Completely useless.","weight":10},
-  {"id":"rock","name":"Favourite Rock","icon":"🪨","desc":"Smooth, satisfying, useless.","lore":"You chose this one specifically.","weight":10},
-  {"id":"leaf","name":"Pretty Leaf","icon":"🍂","desc":"From that really nice walk.","lore":"The walk was three years ago.","weight":10},
-  {"id":"button","name":"Spare Button","icon":"🔵","desc":"Never matched anything. Not even close.","lore":"Eternal optimism in button form.","weight":10},
-  {"id":"wrapper","name":"Candy Wrapper","icon":"🍬","desc":"The candy is long gone.","lore":"Only the memory remains.","weight":10},
-  {"id":"sticker","name":"Gold Star Sticker","icon":"⭐","desc":"For... existing? Sure, why not.","lore":"You've earned it. Probably.","weight":10},
-  {"id":"battery","name":"Dead Battery","icon":"🔋","desc":"Definitely recycling it tomorrow.","lore":"Tomorrow never came.","weight":10},
-  {"id":"coin","name":"Foreign Coin","icon":"🪙","desc":"From a country that no longer exists.","lore":"Worth exactly nothing, twice.","weight":10},
-  {"id":"magnet","name":"Fridge Magnet","icon":"🧲","desc":"\"Visit [REDACTED]!\" says the magnet.","lore":"The destination is a mystery.","weight":10},
-  {"id":"crayon","name":"Broken Crayon","icon":"🖍","desc":"The best colour. Naturally.","lore":"It broke at a critical moment.","weight":10},
-  {"id":"warranty","name":"Expired Warranty","icon":"📄","desc":"Expired 6 years ago.","lore":"It was never going to help you.","weight":10},
-  {"id":"charm","name":"Lucky Charm","icon":"🍀","desc":"It hasn't worked yet.","lore":"Hope springs eternal.","weight":10},
-  {"id":"dial","name":"Random Dial","icon":"📻","desc":"No one knows what it controls.","lore":"Turning it does nothing. Probably.","weight":10},
-  {"id":"marble","name":"Glass Marble","icon":"🔮","desc":"Sees the future. Won't say what it sees.","lore":"Cryptic and unhelpful.","weight":10},
-  {"id":"tape","name":"Cassette Tape","icon":"📼","desc":"No tape player. No problem.","lore":"The music lives on in theory.","weight":10},
-  {"id":"rubber_band","name":"Perished Rubber Band","icon":"🔗","desc":"Snaps if you even look at it.","lore":"Its elasticity was consumed long ago.","weight":10},
-  {"id":"safety_pin","name":"Safety Pin","icon":"📌","desc":"Keeps nothing safe.","lore":"The latch is broken anyway.","weight":10},
-  {"id":"thumbtack","name":"Thumbtack","icon":"📍","desc":"With nothing to pin.","lore":"Ready for a purpose it will never have.","weight":10},
-  {"id":"paperclip","name":"Bent Paperclip","icon":"🖇","desc":"Bent into a vague shape.","lore":"Stress relief. Minimal.","weight":10},
-  {"id":"pencil_stub","name":"Pencil Stub","icon":"✏️","desc":"Too short to hold, too long to discard.","lore":"A liminal object.","weight":10},
-  {"id":"dried_flower","name":"Dried Flower","icon":"💐","desc":"Beautiful once. Now crunchy.","lore":"It pressed itself flat to survive.","weight":10},
-  {"id":"blurry_photo","name":"Blurry Photo","icon":"📷","desc":"Of what? Unknown.","lore":"The photographer was not ready.","weight":10},
-  {"id":"ticket_stub","name":"Ticket Stub","icon":"🎟","desc":"Row G, Seat 14. Concert unknown.","lore":"The music was probably good.","weight":10},
-  {"id":"takeaway_menu","name":"Old Takeaway Menu","icon":"📋","desc":"The restaurant is gone. The menu survives.","lore":"Prices are hilariously wrong.","weight":10},
-  {"id":"hair_tie","name":"Stretched Hair Tie","icon":"🔵","desc":"Has forgotten how to be tight.","lore":"Hair remains unbound.","weight":10},
-  {"id":"candle_stub","name":"Candle Stub","icon":"🕯","desc":"Too short to light, too big to ignore.","lore":"It served with honour.","weight":10},
-  {"id":"broken_watch","name":"Broken Watch","icon":"⌚","desc":"Right twice a day.","lore":"Technically still functional by that logic.","weight":10},
-  {"id":"dead_pen","name":"Dead Pen","icon":"🖊","desc":"Ran out at the worst possible moment.","lore":"It is a monument to poor timing.","weight":10},
-  {"id":"envelope","name":"Unsent Envelope","icon":"✉️","desc":"Addressed, stamped, never sent.","lore":"The contents are a mystery.","weight":10},
-  {"id":"twist_tie","name":"Twist Tie","icon":"🌀","desc":"Freed from its bread bag. Now lost.","lore":"It wanders, purposeless.","weight":10},
-  {"id":"mystery_screw","name":"Mystery Screw","icon":"🔩","desc":"Left over from the last assembly. Ominous.","lore":"Something is held together without it.","weight":10},
-  {"id":"lost_earring","name":"Lost Earring","icon":"💎","desc":"Half a pair. Irreplaceable.","lore":"Its twin vanished years ago.","weight":10},
-  {"id":"plastic_bag","name":"Bag for Life","icon":"🛍","desc":"Used once. Never again.","lore":"Fifteen more accumulate yearly.","weight":10},
-  {"id":"empty_keyring","name":"Empty Keyring","icon":"🔑","desc":"All keys departed. Ring remains.","lore":"Full of potential. Empty of keys.","weight":10},
-  {"id":"clothespeg","name":"Single Clothespeg","icon":"🧷","desc":"Its partner was lost to the washing machine.","lore":"It grips nothing.","weight":10},
-  {"id":"yogurt_lid","name":"Yogurt Lid","icon":"🥛","desc":"Saved. For what? Unclear.","lore":"Licked clean before saving.","weight":10},
-  {"id":"wrong_charger","name":"Wrong Charger","icon":"🔌","desc":"Fits no device you own.","lore":"It came from somewhere. It fits nothing.","weight":10},
-  {"id":"used_teabag","name":"Used Tea Bag","icon":"🍵","desc":"Slightly damp. Still in a pocket.","lore":"One more brew had seemed possible.","weight":10},
-  {"id":"blunt_knife","name":"Blunt Pocket Knife","icon":"🔪","desc":"Couldn't cut butter.","lore":"Technically still a knife.","weight":10},
-  {"id":"matchbox_empty","name":"Empty Matchbox","icon":"🔥","desc":"All matches gone. Striker worn to nothing.","lore":"No light shall be struck.","weight":10},
-  {"id":"bottle_cap","name":"Bottle Cap","icon":"🍺","desc":"The prize of a long-gone bottle.","lore":"Collected. Not on purpose.","weight":9},
-  {"id":"odd_sock","name":"Odd Sock","icon":"🧦","desc":"Where did the other one go?","lore":"The dryer knows.","weight":9},
-  {"id":"sticky_note","name":"Blank Sticky Note","icon":"📝","desc":"The important thought was never written down.","lore":"The adhesive is mostly gone too.","weight":9},
-  {"id":"lost_die","name":"Lost Die","icon":"🎲","desc":"From a set of six. Now one.","lore":"The game was never finished.","weight":9},
-  {"id":"worn_toothbrush","name":"Worn Toothbrush","icon":"🪥","desc":"The bristles splay in all directions.","lore":"Dentists cry at this.","weight":9},
-  {"id":"rubber_duck","name":"Rubber Duck","icon":"🦆","desc":"Squeaks only when judging you.","lore":"It has seen things.","weight":9},
-  {"id":"broken_glasses","name":"Broken Glasses","icon":"👓","desc":"One arm missing. Still in the drawer.","lore":"They might be repaired someday.","weight":9},
-  {"id":"jar_lid","name":"Orphaned Jar Lid","icon":"🫙","desc":"No jar to be found. Just the lid.","lore":"The jar departed long ago.","weight":9},
-  {"id":"fortune_slip","name":"Fortune Cookie Slip","icon":"🥠","desc":"\"Good things come to those who wait.\"","lore":"Still waiting.","weight":9},
-  {"id":"pen_lid","name":"Pen Lid","icon":"🖊","desc":"The pen is long gone. The lid persists.","lore":"It outlasted everything.","weight":9},
-  {"id":"old_phone_case","name":"Old Phone Case","icon":"📱","desc":"Wrong model. Wrong era. Wrong.","lore":"Kept in case the phone returns.","weight":9},
-  {"id":"dead_succulent","name":"Dead Succulent","icon":"🪴","desc":"Even cacti need water sometimes.","lore":"The pot is a monument to optimism.","weight":9},
-  {"id":"tangled_earphones","name":"Tangled Earphones","icon":"🎧","desc":"Become more tangled when left alone.","lore":"Physics is to blame.","weight":9},
-  {"id":"expired_library_card","name":"Expired Library Card","icon":"🎫","desc":"The library remembers.","lore":"You owe 40p in fines.","weight":9},
-  {"id":"novelty_pen","name":"Hotel Pen","icon":"🖊","desc":"Pilfered from an unmemorable hotel.","lore":"Still writes. Barely.","weight":9},
-  {"id":"nail_clipper","name":"Nail Clipper","icon":"💅","desc":"Only cuts at an angle.","lore":"Precision is a myth.","weight":9},
-  {"id":"calendar_old","name":"2017 Calendar","icon":"📅","desc":"The pictures are nice, at least.","lore":"Technically accurate every 6 years.","weight":9},
-  {"id":"broken_umbrella","name":"Broken Umbrella","icon":"☂️","desc":"Inverts in the slightest breeze.","lore":"Provides no shelter. Only shame.","weight":9},
-  {"id":"straw_wrapper","name":"Straw Wrapper","icon":"🥤","desc":"The straw already went into the cup.","lore":"Immediate redundancy.","weight":8},
-  {"id":"ketchup_sachet","name":"Ketchup Sachet","icon":"🍅","desc":"Pocketed from the chippy. Still there.","lore":"Emergency ketchup.","weight":8},
-  {"id":"soy_sauce_fish","name":"Soy Sauce Fish Bottle","icon":"🐟","desc":"Empty. Kept for the aesthetic.","lore":"The fish remains.","weight":8},
-  {"id":"bread_clip","name":"Bread Bag Clip","icon":"🟦","desc":"Colour coded. Meaning lost.","lore":"The colour meant Tuesday, once.","weight":8},
-  {"id":"ice_cream_stick","name":"Ice Cream Stick","icon":"🍦","desc":"Clean. Flat. Purposeless.","lore":"Possible craft material. Probably not.","weight":8},
-  {"id":"lolly_stick","name":"Lolly Stick","icon":"🍡","desc":"Checked for a prize. No prize.","lore":"One in a million. Not this one.","weight":8},
-  {"id":"pistachio_shell","name":"Empty Pistachio Shell","icon":"🌰","desc":"The pistachio is gone. The shell remains.","lore":"A tiny empty bowl.","weight":8},
-  {"id":"popcorn_kernel","name":"Unpopped Kernel","icon":"🍿","desc":"Stubborn. Unchewable.","lore":"It resisted heat. Respect it.","weight":8},
-  {"id":"salt_packet","name":"Stolen Salt Packet","icon":"🧂","desc":"From a cafe. Emergency salt.","lore":"Has never been an emergency.","weight":8},
-  {"id":"teaspoon","name":"Lonely Teaspoon","icon":"🥄","desc":"Separated from its set.","lore":"It wanders the cutlery drawer alone.","weight":8},
-  {"id":"wine_cork","name":"Wine Cork","icon":"🍾","desc":"Saved for a project. Project never started.","lore":"One of seventeen corks in a bag.","weight":8},
-  {"id":"dried_pasta_single","name":"Single Piece of Pasta","icon":"🍝","desc":"Raw. Inexplicably in a pocket.","lore":"No explanation is forthcoming.","weight":8},
-  {"id":"coffee_pod","name":"Spent Coffee Pod","icon":"☕","desc":"Empty but smells nice.","lore":"A small monument to caffeination.","weight":8},
-  {"id":"sugar_cube","name":"Forgotten Sugar Cube","icon":"🟫","desc":"Found at the back of a drawer.","lore":"Awaiting a cup that never came.","weight":8},
-  {"id":"eraser_worn","name":"Worn Eraser","icon":"✏️","desc":"More smudge than erase at this point.","lore":"It tried so hard.","weight":8},
-  {"id":"ruler_broken","name":"Broken Ruler","icon":"📏","desc":"Accurate to 17cm and no further.","lore":"Half a ruler. Half the answers.","weight":8},
-  {"id":"stapler_empty","name":"Empty Stapler","icon":"📎","desc":"Staples nothing. Still clicks.","lore":"The motion persists without purpose.","weight":8},
-  {"id":"staples_loose","name":"Loose Staples","icon":"📎","desc":"No stapler to claim them.","lore":"A handful of tiny metal intentions.","weight":8},
-  {"id":"index_card","name":"Blank Index Card","icon":"🗂","desc":"The study session never happened.","lore":"Still pristine. Still useless.","weight":8},
-  {"id":"dried_highlighter","name":"Dried Highlighter","icon":"🟡","desc":"Highlights nothing. Slightly sticky.","lore":"A very specific shade of yellow regret.","weight":8},
-  {"id":"business_card","name":"Someone's Business Card","icon":"💼","desc":"You don't know this person anymore.","lore":"Their number probably changed.","weight":8},
-  {"id":"empty_folder","name":"Empty Manila Folder","icon":"📁","desc":"Files: none. Potential: some.","lore":"A folder full of possibilities.","weight":8},
-  {"id":"dried_whiteboard_marker","name":"Dried Whiteboard Marker","icon":"📝","desc":"Squeaks. Marks nothing.","lore":"A ghost of productivity past.","weight":8},
-  {"id":"lanyard","name":"Conference Lanyard","icon":"🏷","desc":"No badge. Just lanyard.","lore":"The conference was forgettable.","weight":8},
-  {"id":"old_nameplate","name":"Old Nameplate","icon":"📛","desc":"Reads: HI MY NAME IS ___","lore":"The name was never filled in.","weight":7},
-  {"id":"ink_cartridge","name":"Empty Ink Cartridge","icon":"🖊","desc":"Ink: zero. Cost to replace: somehow £40.","lore":"The printer smiled as it died.","weight":7},
-  {"id":"rubber_stamp","name":"Illegible Rubber Stamp","icon":"📮","desc":"Stamps an unreadable smear.","lore":"CERTIFIED something.","weight":7},
-  {"id":"floppy_disk","name":"3.5\" Floppy Disk","icon":"💾","desc":"Unknown contents. Unknown computer needed.","lore":"Contains something important. Definitely.","weight":7},
-  {"id":"blank_cd","name":"Blank CD-R","icon":"💿","desc":"Burned with something in 2004. Unknown what.","lore":"The data expired with the drive.","weight":7},
-  {"id":"usb_stick","name":"Unknown USB Stick","icon":"💾","desc":"Contents: a mystery. Label: faded.","lore":"It autoplays something, presumably.","weight":7},
-  {"id":"mystery_cable","name":"Mystery Cable","icon":"🔌","desc":"Both ends are different.","lore":"Connects something to something.","weight":7},
-  {"id":"old_remote","name":"TV Remote (Dead)","icon":"📺","desc":"No batteries. Unknown TV.","lore":"Pointed at televisions that no longer exist.","weight":7},
-  {"id":"dead_earbuds","name":"Dead Earbuds","icon":"🎧","desc":"One ear works. One ear is optimistic.","lore":"Mono audio by default.","weight":7},
-  {"id":"mouse_ball","name":"Trackball Mouse Ball","icon":"🖱","desc":"From a mouse made before you were born.","lore":"Smooth. Purposeless. Collectible.","weight":7},
-  {"id":"old_brick_phone","name":"Brick Phone","icon":"📱","desc":"Indestructible. Incompatible.","lore":"Still has 3% battery somehow.","weight":7},
-  {"id":"old_sim_card","name":"Old SIM Card","icon":"📱","desc":"Phone number: forgotten. Data: expired.","lore":"The contacts are gone but not forgotten.","weight":7},
-  {"id":"film_negative","name":"Film Negative Strip","icon":"🎞","desc":"Undeveloped or already developed. Impossible to say.","lore":"Contains a moment. Probably.","weight":7},
-  {"id":"old_camera_roll","name":"Undeveloped Camera Roll","icon":"📷","desc":"Never opened. Never developed.","lore":"Contains the secret contents of a past holiday.","weight":7},
-  {"id":"vga_adapter","name":"VGA Adapter","icon":"📺","desc":"No laptop has this port.","lore":"Obsolete and proud.","weight":7},
-  {"id":"scart_cable","name":"SCART Cable","icon":"📺","desc":"Somehow still heavier than a TV.","lore":"Once essential. Now archaeology.","weight":7},
-  {"id":"dead_powerbank","name":"Dead Power Bank","icon":"🔋","desc":"Charged phones exactly once.","lore":"The phones it saved are also dead now.","weight":7},
-  {"id":"calculator_solar","name":"Solar Calculator","icon":"🔢","desc":"Works in sunlight. You are inside.","lore":"Waits for a sunny equation.","weight":7},
-  {"id":"pager","name":"Pager","icon":"📟","desc":"Beeps for no one.","lore":"The network is gone. The beeping remains.","weight":7},
-  {"id":"game_cartridge","name":"Unknown Game Cartridge","icon":"🎮","desc":"No console. No label. Infinite mystery.","lore":"Contains a childhood someone once had.","weight":7},
-  {"id":"broken_joystick","name":"Broken Joystick","icon":"🕹","desc":"Left only. Right does not respond.","lore":"A one-directional adventure.","weight":7},
-  {"id":"odd_glove","name":"Odd Glove","icon":"🧤","desc":"Left hand. Always left hand.","lore":"The right glove is out there somewhere.","weight":7},
-  {"id":"broken_zip","name":"Broken Zip Slider","icon":"🤐","desc":"Slides. Zips nothing.","lore":"Fashion defeats function.","weight":7},
-  {"id":"scratched_sunglasses","name":"Scratched Sunglasses","icon":"🕶","desc":"Blocks 40% of UV and 100% of clarity.","lore":"Vision, but make it blurry.","weight":7},
-  {"id":"single_cufflink","name":"Single Cufflink","icon":"🔘","desc":"The jacket requires two.","lore":"One sleeve remains undone.","weight":7},
-  {"id":"crumpled_pocket_square","name":"Crumpled Pocket Square","icon":"🟦","desc":"It tried its best.","lore":"Pressed once. Never again.","weight":7},
-  {"id":"unfashionable_tie","name":"Out-of-Fashion Tie","icon":"👔","desc":"The pattern was cutting edge. Once.","lore":"Fashion is a circle. This tie is waiting.","weight":7},
-  {"id":"novelty_socks","name":"Novelty Christmas Socks","icon":"🧦","desc":"Worn in December. Kept forever.","lore":"The snowmen are faded but spirited.","weight":7},
-  {"id":"swim_cap","name":"Swim Cap","icon":"🏊","desc":"Smells of chlorine. Has for years.","lore":"The pool is a memory.","weight":7},
-  {"id":"broken_flip_flop","name":"Broken Flip Flop","icon":"🩴","desc":"The thong has separated from the sole.","lore":"Shuffled its last shuffle.","weight":7},
-  {"id":"sewing_needle","name":"Blunt Sewing Needle","icon":"🪡","desc":"Pushes but does not pierce.","lore":"Time dulls everything.","weight":7},
-  {"id":"wristband","name":"Event Wristband","icon":"🎟","desc":"From an event years ago. Refuses to come off.","lore":"The event: forgotten. The wristband: permanent.","weight":7},
-  {"id":"lapel_pin","name":"Novelty Lapel Pin","icon":"📌","desc":"Shaped like something you can't identify.","lore":"It was funny at the time.","weight":7},
-  {"id":"bracelet_broken","name":"Broken Friendship Bracelet","icon":"🔗","desc":"The friendship may also be broken. Unknown.","lore":"Knotted with hope.","weight":7},
-  {"id":"toe_ring","name":"Toe Ring","icon":"💍","desc":"Which toe? None of your toes.","lore":"Origin: unknown. Destination: same drawer.","weight":6},
-  {"id":"body_glitter_empty","name":"Empty Body Glitter Pot","icon":"✨","desc":"Glitter has escaped into everything.","lore":"The glitter outlives us all.","weight":6},
-  {"id":"old_belt","name":"Worn Belt","icon":"👜","desc":"Extra hole punched in the wrong place.","lore":"It held trousers up gamely.","weight":6},
-  {"id":"race_bib","name":"Race Bib Number","icon":"🏃","desc":"Number 847. Race: completed or abandoned.","lore":"The time chip is missing.","weight":6},
-  {"id":"worn_ballet_slipper","name":"Worn Ballet Slipper","icon":"🩰","desc":"The sole is through. The spirit remains.","lore":"Danced its last dance.","weight":6},
-  {"id":"book_no_cover","name":"Coverless Book","icon":"📚","desc":"Title unknown. Contents: a mystery.","lore":"Someone ripped the cover off deliberately.","weight":7},
-  {"id":"magazine_old","name":"Old Magazine","icon":"📰","desc":"Celebrity news from a previous decade.","lore":"The celebrities have moved on.","weight":7},
-  {"id":"half_crossword","name":"Half-Done Crossword","icon":"📰","desc":"Abandoned at 11-across.","lore":"The solver gave up. 11-across remains.","weight":7},
-  {"id":"cinema_ticket","name":"Old Cinema Ticket","icon":"🎬","desc":"Screen 4. Midnight showing.","lore":"The film has since won awards.","weight":7},
-  {"id":"dvd_no_case","name":"DVD Without Case","icon":"💿","desc":"Scratched. Unplayable. Kept anyway.","lore":"Sentimental value only.","weight":7},
-  {"id":"vinyl_single","name":"Vinyl Single","icon":"🎵","desc":"Wrong label. Unknown B-side.","lore":"Something good might be on side B.","weight":6},
-  {"id":"tourist_map","name":"Folded Tourist Map","icon":"🗺","desc":"Can never be refolded correctly.","lore":"The city has changed since printing.","weight":7},
-  {"id":"museum_leaflet","name":"Museum Leaflet","icon":"🏛","desc":"The museum closed two years ago.","lore":"The exhibits live on in pamphlet form.","weight":7},
-  {"id":"opera_programme","name":"Opera Programme","icon":"🎭","desc":"In an unknown language.","lore":"The soprano was apparently excellent.","weight":6},
-  {"id":"concert_poster","name":"Rolled-Up Concert Poster","icon":"🎸","desc":"Never unrolled. Never displayed.","lore":"Preserved in tube form forever.","weight":6},
-  {"id":"setlist","name":"Torn Setlist","icon":"🎵","desc":"Half the songs are missing.","lore":"The second half remains a mystery.","weight":6},
-  {"id":"sheet_music","name":"Sheet Music","icon":"🎼","desc":"For an instrument you don't play.","lore":"The notes are beautiful. Unplayable.","weight":6},
-  {"id":"guitar_tab","name":"Handwritten Guitar Tab","icon":"🎸","desc":"Notation unclear. Key: unknown.","lore":"Someone knew this song once.","weight":6},
-  {"id":"tv_guide_old","name":"TV Guide (Christmas 1990)","icon":"📺","desc":"Every programme circled.","lore":"A window into another era of television.","weight":6},
-  {"id":"library_slip","name":"Library Return Slip","icon":"📚","desc":"The book was returned. Eventually.","lore":"The fine was not.","weight":6},
-  {"id":"pressed_flower","name":"Pressed Flower","icon":"🌸","desc":"From an unknown book. From an unknown walk.","lore":"Perfectly preserved. Completely forgotten.","weight":6},
-  {"id":"trading_card","name":"Random Trading Card","icon":"🃏","desc":"Common rarity. Still here.","lore":"Collected in hope. Retained in inertia.","weight":6},
-  {"id":"sticker_album","name":"Incomplete Sticker Album","icon":"📓","desc":"Page 12 was never completed.","lore":"Never completed. Never will be.","weight":6},
-  {"id":"phone_book","name":"Regional Phone Book","icon":"📞","desc":"Nobody listed has this number anymore.","lore":"An archive of a lost age.","weight":5},
-  {"id":"mystery_hex_key","name":"Mystery Hex Key","icon":"🔧","desc":"No furniture matches this size.","lore":"It came with something. That something is gone.","weight":7},
-  {"id":"stripped_screw","name":"Stripped Screw","icon":"🔩","desc":"No screwdriver can help it now.","lore":"It resisted to the last.","weight":7},
-  {"id":"broken_tape_measure","name":"Broken Tape Measure","icon":"📏","desc":"The tape no longer retracts.","lore":"Measures everything. Retracts nothing.","weight":7},
-  {"id":"used_sandpaper","name":"Used Sandpaper","icon":"🟫","desc":"Smooth on both sides now.","lore":"It gave its roughness for something.","weight":7},
-  {"id":"hardened_paintbrush","name":"Hardened Paintbrush","icon":"🖌","desc":"Solid. Sculptural. Useless.","lore":"A monument to uncleaned tools.","weight":7},
-  {"id":"masking_tape_core","name":"Masking Tape Core","icon":"🟫","desc":"The tape is gone. The cardboard persists.","lore":"Contains a perfect circle of nothing.","weight":7},
-  {"id":"cable_tie","name":"Single Cable Tie","icon":"🔗","desc":"For one cable. No cable specified.","lore":"Ready for duty.","weight":7},
-  {"id":"rawl_plug","name":"Single Rawlplug","icon":"🔩","desc":"The wall remains undrilled.","lore":"It dreams of masonry.","weight":7},
-  {"id":"picture_hook","name":"Bent Picture Hook","icon":"📌","desc":"Holds nothing. Slightly melancholy.","lore":"Once, a picture.","weight":7},
-  {"id":"mystery_nut","name":"Loose Nut","icon":"🔩","desc":"No matching bolt.","lore":"Half a fastening system.","weight":7},
-  {"id":"blown_fuse","name":"Blown Fuse","icon":"⚡","desc":"Did its job exactly once.","lore":"A small hero. A small martyr.","weight":7},
-  {"id":"jigsaw_piece","name":"Lone Jigsaw Piece","icon":"🧩","desc":"From a 1000-piece puzzle. 999 others: gone.","lore":"This piece is the last survivor.","weight":7},
-  {"id":"monopoly_hotel","name":"Monopoly Hotel","icon":"🏨","desc":"Mayfair awaits. Mayfair is not here.","lore":"Hotels in the wrong economy.","weight":7},
-  {"id":"extra_chess_pawn","name":"Extra Chess Pawn","icon":"♟","desc":"A spare. No set claims it.","lore":"It would die first anyway.","weight":7},
-  {"id":"playing_card_joker","name":"Joker Card","icon":"🃏","desc":"Wild. Unwanted. Always in the deck.","lore":"Left out of every game.","weight":7},
-  {"id":"lego_brick","name":"Lone LEGO Brick","icon":"🧱","desc":"Compatible with a billion others. Alone.","lore":"Underfoot. Indestructible.","weight":7},
-  {"id":"lego_head","name":"LEGO Minifigure Head","icon":"🧱","desc":"Yellow. Grinning. Detached from body.","lore":"The smile is permanent.","weight":7},
-  {"id":"action_figure_arm","name":"Action Figure Arm","icon":"🦾","desc":"Articulated. Separated. Stored.","lore":"The body waged war without it.","weight":6},
-  {"id":"toy_car_wheel","name":"Toy Car Wheel","icon":"🚗","desc":"Three-wheeled car somewhere. This is the fourth.","lore":"The car retired. The wheel endures.","weight":6},
-  {"id":"kite_string","name":"Ball of Kite String","icon":"🪁","desc":"No kite. Just string.","lore":"The kite escaped long ago.","weight":6},
-  {"id":"frisbee_cracked","name":"Cracked Frisbee","icon":"🥏","desc":"Still aerodynamic. Slightly.","lore":"Flies erratically. Lands in a hedge.","weight":6},
-  {"id":"flat_tennis_ball","name":"Flat Tennis Ball","icon":"🎾","desc":"All the bounce is gone.","lore":"A life of thwacking, over.","weight":6},
-  {"id":"pool_cue_chalk","name":"Snooker Chalk Cube","icon":"🟦","desc":"Already down to a stub.","lore":"Blue fingers guaranteed.","weight":6},
-  {"id":"dart_flight","name":"Dart Flight","icon":"🎯","desc":"The dart is elsewhere.","lore":"Without direction, it goes nowhere.","weight":6},
-  {"id":"golf_tee","name":"Golf Tee","icon":"🏌","desc":"Pocket full. Golf: never played.","lore":"Collected without intention.","weight":6},
-  {"id":"arcade_token","name":"Old Arcade Token","icon":"🎮","desc":"The arcade is a car park now.","lore":"Credits: remaining. Arcade: gone.","weight":6},
-  {"id":"tamagotchi_dead","name":"Dead Tamagotchi","icon":"🐣","desc":"It needed you. You were not there.","lore":"RIP. The pet died so you could live.","weight":5},
-  {"id":"deflated_stress_ball","name":"Deflated Stress Ball","icon":"🟡","desc":"Relieved no stress. Just deflated.","lore":"Not up to the job.","weight":6},
-  {"id":"magic_8_ball_cracked","name":"Cracked Magic 8-Ball","icon":"🎱","desc":"Outlook: leaking.","lore":"\"Reply hazy\" is now literal.","weight":5},
-  {"id":"water_balloon","name":"Unused Water Balloon","icon":"💧","desc":"Ready for summer. Summer passed.","lore":"Infinite latent splashing potential.","weight":6},
-  {"id":"sand_flag","name":"Tiny Sandcastle Flag","icon":"🏖","desc":"The castle is long gone.","lore":"The flag outlasted everything.","weight":6},
-  {"id":"acorn","name":"Acorn","icon":"🌰","desc":"Could become a tree. Won't.","lore":"Potential: immense. Future: a drawer.","weight":7},
-  {"id":"pine_cone","name":"Pine Cone","icon":"🌲","desc":"A natural weather station nobody checks.","lore":"Scales open. Nobody notices.","weight":7},
-  {"id":"feather","name":"Found Feather","icon":"🪶","desc":"From an unidentified bird.","lore":"It floated down and was immediately pocketed.","weight":7},
-  {"id":"sea_glass","name":"Blue Sea Glass","icon":"💎","desc":"Once a bottle. Now a treasure.","lore":"Smoothed by the sea into something worth keeping.","weight":6},
-  {"id":"smooth_pebble","name":"Smooth White Pebble","icon":"🪨","desc":"Satisfying to hold. Nothing else.","lore":"Selected from thousands.","weight":7},
-  {"id":"fossil","name":"Small Fossil","icon":"🦕","desc":"Something died here, a long time ago.","lore":"Millions of years. A pocket.","weight":5},
-  {"id":"shell","name":"Tiny Nautilus Shell","icon":"🐚","desc":"Perfect spiral. Former occupant: departed.","lore":"Architecture older than civilisation.","weight":6},
-  {"id":"driftwood","name":"Piece of Driftwood","icon":"🌊","desc":"Carried by the sea to this pocket.","lore":"It has travelled far.","weight":6},
-  {"id":"quartz_crystal","name":"Quartz Crystal","icon":"💎","desc":"Vibrates at a frequency. You can't hear it.","lore":"Allegedly meaningful.","weight":5},
-  {"id":"pyrite","name":"Fool's Gold","icon":"🟡","desc":"Shiny. Worthless. Beautiful.","lore":"It fooled someone once.","weight":5},
-  {"id":"obsidian_shard","name":"Obsidian Shard","icon":"🖤","desc":"Sharp. Volcanic. Pocket-unfriendly.","lore":"Born in fire. Found on eBay.","weight":4},
-  {"id":"dried_mushroom","name":"Dried Mushroom","icon":"🍄","desc":"Edible once. Edible no longer.","lore":"A curiosity. Do not eat.","weight":5},
-  {"id":"shark_tooth","name":"Fossilised Shark Tooth","icon":"🦈","desc":"Millions of years old.","lore":"The shark had many more.","weight":4},
-  {"id":"starfish_dry","name":"Dried Starfish","icon":"⭐","desc":"Five-pointed. Formerly alive.","lore":"Once regenerated limbs. Now just desiccated.","weight":4},
-  {"id":"coral_fragment","name":"Coral Fragment","icon":"🪸","desc":"Pale. Delicate. Removed from the sea.","lore":"It was alive. Then it wasn't.","weight":4},
-  {"id":"dried_rose_petal","name":"Dried Rose Petal","icon":"🌹","desc":"From a rose that is otherwise gone.","lore":"Kept in a book. Still faintly pink.","weight":5},
-  {"id":"lavender_bundle","name":"Lavender Bundle","icon":"💜","desc":"Mostly dust. Still faintly fragrant.","lore":"Lavender outlasts everything.","weight":5},
-  {"id":"cinnamon_shard","name":"Cinnamon Stick Fragment","icon":"🟫","desc":"Already been scraped into hot milk once.","lore":"Gives flavour still. Allegedly.","weight":5},
-  {"id":"star_anise","name":"Star Anise","icon":"🌟","desc":"Decorative. Flavourful. Neither here.","lore":"Found at the back of the spice rack.","weight":5},
-  {"id":"plaster_wrapper","name":"Empty Plaster Wrapper","icon":"🩹","desc":"The plaster performed admirably.","lore":"Kept in the hope of more plasters nearby.","weight":7},
-  {"id":"cotton_bud","name":"Cotton Bud","icon":"🟡","desc":"Unused. Somehow only one.","lore":"Ready for an ear it will never meet.","weight":7},
-  {"id":"expired_sunscreen","name":"Expired Sunscreen","icon":"🌞","desc":"SPF: irrelevant.","lore":"The sun waits for no expiry date.","weight":6},
-  {"id":"eye_patch","name":"Novelty Eye Patch","icon":"👁","desc":"One eye: covered. Depth perception: gone.","lore":"Piracy is a lifestyle, not a choice.","weight":5},
-  {"id":"foam_ear_plug","name":"Foam Ear Plug","icon":"🔵","desc":"One. Not very useful alone.","lore":"The other was lost mid-concert.","weight":6},
-  {"id":"antacid_tablet","name":"Chalky Antacid Tablet","icon":"🟡","desc":"Chalk flavour. Minimal relief.","lore":"Taken in hope. Dissolved in futility.","weight":6},
-  {"id":"triangular_bandage","name":"Triangular Bandage","icon":"🔺","desc":"Folded badly. Ready for emergencies.","lore":"The origami is non-standard.","weight":5},
-  {"id":"dosing_spoon","name":"Medicine Dosing Spoon","icon":"🥄","desc":"5ml. Of nothing, currently.","lore":"Kept from a forgotten illness.","weight":6},
-  {"id":"airline_luggage_tag","name":"Airline Luggage Tag","icon":"✈️","desc":"The bag arrived. Eventually.","lore":"A record of a journey survived.","weight":6},
-  {"id":"old_boarding_pass","name":"Old Boarding Pass","icon":"🛫","desc":"Seat 22B. Middle seat. Always.","lore":"The flight landed. That's what matters.","weight":7},
-  {"id":"expired_bus_pass","name":"Expired Bus Pass","icon":"🚌","desc":"Valid until: a date that has passed.","lore":"The bus still runs. This pass does not.","weight":7},
-  {"id":"metro_token","name":"Metro Token","icon":"🚇","desc":"From a city with a different currency now.","lore":"A small disk from another world.","weight":5},
-  {"id":"forgotten_luggage_lock","name":"Luggage Lock","icon":"🔐","desc":"Code: 0000. Definitely not.","lore":"Secure until the code was forgotten.","weight":6},
-  {"id":"deflated_neck_pillow","name":"Deflated Neck Pillow","icon":"😴","desc":"Offers the suggestion of neck support.","lore":"Inflated on boarding. Deflated by turbulence.","weight":6},
-  {"id":"hotel_key_card","name":"Hotel Key Card","icon":"🏨","desc":"Hotel: unremembered. Door: not yours.","lore":"Opens a room in the past.","weight":6},
-  {"id":"hotel_shampoo","name":"Hotel Shampoo Sachet","icon":"🧴","desc":"Half a wash worth of shampoo.","lore":"Liberated from room 304.","weight":6},
-  {"id":"hotel_shower_cap","name":"Hotel Shower Cap","icon":"🚿","desc":"Worn once. Kept forever. Why?","lore":"A cap for a shower you no longer have.","weight":6},
-  {"id":"hotel_sewing_kit","name":"Hotel Sewing Kit","icon":"🧵","desc":"Three threads. One needle. Infinite hope.","lore":"Has never been used in the field.","weight":6},
-  {"id":"wrong_travel_adapter","name":"Wrong Country Adapter","icon":"🔌","desc":"Works in a country you've never visited.","lore":"Ready for a trip you haven't planned.","weight":6},
-  {"id":"foreign_coins","name":"Unspent Foreign Coins","icon":"🪙","desc":"Not enough for anything. Everywhere.","lore":"The machines rejected them.","weight":7},
-  {"id":"phrasebook","name":"Phrasebook","icon":"📖","desc":"For a language you don't speak.","lore":"Contains exactly one phrase you remember: 'where is the bank?'","weight":5},
-  {"id":"tourist_whistle","name":"Pealess Whistle","icon":"🔔","desc":"Loud. Useless. Surprisingly loud.","lore":"The pea is gone. The volume is not.","weight":5},
-  {"id":"emergency_poncho","name":"Emergency Poncho","icon":"🌧","desc":"Crinkly. Sees-through. Technically waterproof.","lore":"Folded into a packet. Ready for a disaster.","weight":5},
-  {"id":"rubber_chicken","name":"Rubber Chicken","icon":"🐔","desc":"Squeaks. Stares. Judges.","lore":"Origin unknown. Purpose: unclear. Presence: unavoidable.","weight":3},
-  {"id":"pet_rock_cert","name":"Pet Rock Certificate","icon":"🪨","desc":"This certifies ownership of a rock.","lore":"The rock has outlived the certificate.","weight":3},
-  {"id":"fortune_fish","name":"Fortune Teller Fish","icon":"🐟","desc":"Always curls the same way. Destiny: unclear.","lore":"Red cellophane with ambitions.","weight":3},
-  {"id":"wind_up_teeth","name":"Wind-Up Chattering Teeth","icon":"🦷","desc":"Chatters and hops. No reason given.","lore":"A terrifying party gift.","weight":3},
-  {"id":"fake_dog_poo","name":"Fake Dog Poo","icon":"💩","desc":"Convinced exactly one person. Once.","lore":"The joke landed. It has not left.","weight":3},
-  {"id":"mood_ring","name":"Mood Ring","icon":"💍","desc":"Turns blue. Always blue. Mood: unknown.","lore":"Calibrated for a different set of emotions.","weight":3},
-  {"id":"disappearing_ink","name":"Disappearing Ink Pen","icon":"🖊","desc":"The ink has disappeared. The pen has not.","lore":"It disappears asymmetrically.","weight":3},
-  {"id":"snake_in_can","name":"Empty Snake-in-a-Can","icon":"🐍","desc":"The snake has sprung. The can remains.","lore":"The surprise is gone. The trauma lingers.","weight":3},
-  {"id":"collectable_spoon","name":"Souvenir Spoon","icon":"🥄","desc":"Stamped with a skyline. Useless for soup.","lore":"One of many. Not enough.","weight":4},
-  {"id":"lenticular_card","name":"Lenticular Postcard","icon":"🃏","desc":"Tilts between two mediocre images.","lore":"The technology is impressive. The images are not.","weight":3},
-  {"id":"holographic_sticker","name":"Holographic Sticker","icon":"🌈","desc":"Reflects all light. Communicates nothing.","lore":"Beautiful and meaningless.","weight":4},
-  {"id":"novelty_ice_cube","name":"Novelty Ice Cube","icon":"🧊","desc":"Contains a fake fly. Fools nobody.","lore":"Gross in concept. Eternal in execution.","weight":3},
-  {"id":"magic_trick_ring","name":"Magic Trick Ring","icon":"💍","desc":"The secret mechanism has been discovered.","lore":"The trick is over. The ring is not.","weight":3},
-  {"id":"fake_arrow","name":"Fake Arrow Through Head","icon":"🎭","desc":"Wearable. Unconvincing.","lore":"It was funny at age 7.","weight":3},
-  {"id":"trick_spoon","name":"Trick Bending Spoon","icon":"🥄","desc":"Bends with a firm grip. Impresses nobody.","lore":"Uri Geller did it with his mind. You need both hands.","weight":3},
-  {"id":"tarot_card","name":"Single Tarot Card","icon":"🃏","desc":"The Fool. Naturally.","lore":"The deck is elsewhere. This one stayed.","weight":3},
-  {"id":"mini_crystal_ball","name":"Mini Crystal Ball","icon":"🔮","desc":"Reveals: a blurry version of the room.","lore":"The future is unclear. The glass is cheap.","weight":3},
-  {"id":"rune_stone","name":"Rune Stone","icon":"🪨","desc":"Elder Futhark. Probably.","lore":"Purchased at a gift shop. Still ancient.","weight":3},
-  {"id":"worry_beads","name":"Worry Beads","icon":"📿","desc":"Worry: ongoing. Beads: helpful.","lore":"Clicked through ten thousand concerns.","weight":4},
-  {"id":"evil_eye_charm","name":"Evil Eye Charm","icon":"👁","desc":"Wards off evil. Collects dust.","lore":"Protection from malevolent forces and loose pockets.","weight":4},
-  {"id":"mini_horseshoe","name":"Mini Horseshoe","icon":"🐴","desc":"Hung upside down. Luck: draining.","lore":"Orientation matters. This is wrong.","weight":4},
-  {"id":"maneki_neko_arm","name":"Maneki-Neko Arm","icon":"🐱","desc":"The cat is elsewhere. The arm beckons.","lore":"Prosperity waves without conviction.","weight":3},
-  {"id":"daruma_doll","name":"One-Eyed Daruma","icon":"🔴","desc":"One eye painted. Wish: unresolved.","lore":"The second eye awaits a goal achieved.","weight":3},
-  {"id":"verdant_crown","name":"Verdant Crown","icon":"🌿","desc":"Worn by those who slew the Thornlord too many times.","lore":"The thorns have given up resisting.","weight":1},
-  {"id":"iron_standard_badge","name":"Iron Standard Badge","icon":"⚔️","desc":"Warlord Kragg is just not a problem for you.","lore":"Proof of an absurd number of victories.","weight":1},
-  {"id":"ashen_shroud","name":"Ashen Shroud","icon":"💀","desc":"The Ashen Wastes hold no fear for you.","lore":"A hundred walks through ash. Still standing.","weight":1},
-  {"id":"prism_lens_badge","name":"Prism Lens Badge","icon":"🔮","desc":"The Crystal Spire has been catalogued and defeated.","lore":"Light bends for those who persist.","weight":1},
-  {"id":"white_flag","name":"White Flag","icon":"🏳️","desc":"Earned after 1,000 campaign failures.","lore":"Worn with perverse pride.","weight":1},
-  {"id":"golden_rubber_chicken","name":"Golden Rubber Chicken","icon":"🏆","desc":"You failed The Gambler so many times it became art.","lore":"A trophy for persistence in failure.","weight":1},
-  {"id":"crumb_of_greatness","name":"Crumb of Greatness","icon":"🍞","desc":"Broken off from something legendary.","lore":"The greatness is not in this crumb.","weight":1},
-  {"id":"bottled_whisper","name":"Bottled Whisper","icon":"🍾","desc":"Contains a secret. Tells no one.","lore":"Shake it. Nothing happens.","weight":1},
-  {"id":"last_pixel","name":"The Last Pixel","icon":"🖥","desc":"Dimensions: 1×1. Importance: debatable.","lore":"The screen is one pixel short without it.","weight":1},
-  {"id":"deleted_memory","name":"Deleted Memory","icon":"🧠","desc":"Something happened. You no longer know what.","lore":"The data is gone. The gap remains.","weight":1},
-  {"id":"answer_to_everything","name":"The Answer (Laminated)","icon":"🔢","desc":"42. Laminated for durability.","lore":"The question is still unknown.","weight":1},
-  {"id":"philosophers_stone_chip","name":"Philosopher's Stone Chip","icon":"💎","desc":"Transmutes nothing. Very heavy.","lore":"Could theoretically turn lead to gold. Could.","weight":1},
-  {"id":"newton_apple_pip","name":"Newton's Apple Pip","icon":"🍎","desc":"From the apple. The actual apple.","lore":"Gravity was discovered because of this pip's predecessor.","weight":1},
-  {"id":"excalibur_rust","name":"Rust from Excalibur","icon":"⚔️","desc":"The sword is legendary. The rust is less so.","lore":"Only the worthy may hold the rust.","weight":1},
-  {"id":"meaning_of_life_note","name":"Meaning of Life (Post-It)","icon":"📝","desc":"Written down. Immediately lost.","lore":"The post-it has unstuck from the wall.","weight":1},
-  {"id":"unused_potential","name":"Unused Potential","icon":"✨","desc":"Bottled. Preserved. Wasted.","lore":"There was so much of it.","weight":1},
-  {"id":"last_blockbuster_card","name":"Blockbuster Video Card","icon":"📼","desc":"Be kind, rewind.","lore":"The last one in existence. Probably.","weight":1},
-  {"id":"imposter_syndrome_badge","name":"Imposter Syndrome Badge","icon":"🏅","desc":"You don't deserve this. (You do.)","lore":"Awarded to everyone who felt they didn't belong.","weight":1},
-  {"id":"participation_trophy","name":"Participation Trophy","icon":"🏆","desc":"For showing up. Mostly.","lore":"Turns out showing up was the hardest part.","weight":1},
-  {"id":"sunk_cost_coin","name":"Sunk Cost Coin","icon":"🪙","desc":"Too invested to stop collecting junk.","lore":"The reasoning is circular.","weight":1},
-  {"id":"static_electricity","name":"Static Electricity (Jar)","icon":"⚡","desc":"Do not open. Just trust us.","lore":"Harvested from a wool jumper in 1987.","weight":1},
-  {"id":"frozen_moment","name":"Frozen Moment in Time","icon":"❄️","desc":"That one perfect afternoon. Bottled.","lore":"It will never be that nice again.","weight":1},
-  {"id":"bootstrap_paradox","name":"Bootstrap Paradox","icon":"♾️","desc":"It was always here. You always had it.","lore":"No one made it. It makes itself.","weight":1},
-  {"id":"void_lint","name":"Void Lint","icon":"🌌","desc":"From the pockets of the abyss.","lore":"It stares back. It's lint.","weight":1},
-  {"id":"category_error","name":"Category Error","icon":"❓","desc":"This item is not an item.","lore":"Yet here it is.","weight":1},
-  {"id":"item_1000","name":"Item Number 1000","icon":"🏆","desc":"A milestone of junk.","lore":"One thousand things that mean nothing. Together, everything.","weight":1},
-  {"id":"paper_straw_wrapper","name":"Paper Straw Wrapper","icon":"🥤","desc":"The eco-friendly wrapper for an eco-friendly straw.","lore":"Virtue is now disposable too.","weight":8},
-  {"id":"airline_sick_bag","name":"Airline Sick Bag (Unused)","icon":"🤢","desc":"Never needed. Always kept.","lore":"Optimism in paper form.","weight":5},
-  {"id":"fortune_cookie_fortune","name":"Fortune Cookie Fortune","icon":"🥠","desc":"\"A surprise awaits you.\" It did not.","lore":"The cookie lied.","weight":8},
-  {"id":"conference_tote","name":"Conference Tote Bag","icon":"🎒","desc":"Stuffed with other bags.","lore":"The conference was unmemorable. The bag is not.","weight":6},
-  {"id":"parking_ticket","name":"Paid Parking Fine","icon":"🅿️","desc":"Paid, grudgingly, on time.","lore":"A receipt for a very expensive mistake.","weight":5},
-  {"id":"loyalty_card_half","name":"Half-Stamped Loyalty Card","icon":"🟤","desc":"5 of 10 stamps. The coffee shop closed.","lore":"Halfway to a free coffee. Fully to disappointment.","weight":6},
-  {"id":"gift_tag","name":"Detached Gift Tag","icon":"🎁","desc":"To: ___. From: ___. Yours now.","lore":"The gift has been given. The tag wanders.","weight":8},
-  {"id":"ribbon_bow","name":"Deflated Ribbon Bow","icon":"🎀","desc":"Once pristine. Now crumpled.","lore":"It peaked on Christmas morning.","weight":8},
-  {"id":"fully_popped_bubble_wrap","name":"Popped Bubble Wrap","icon":"📦","desc":"All pockets: popped. Joy: spent.","lore":"An entire afternoon of satisfaction. Gone.","weight":7},
-  {"id":"single_packing_peanut","name":"Single Packing Peanut","icon":"📦","desc":"Protecting nothing. Just existing.","lore":"It cushioned something once.","weight":7},
-  {"id":"novelty_eraser","name":"Novelty Eraser","icon":"🍔","desc":"Shaped like a hamburger. Erases like chalk.","lore":"Novelty: yes. Functional: no.","weight":5},
-  {"id":"kinder_capsule","name":"Kinder Egg Capsule","icon":"🥚","desc":"The toy has long since been lost.","lore":"The chocolate was the point anyway.","weight":6},
-  {"id":"cracker_hat","name":"Christmas Cracker Paper Hat","icon":"🎩","desc":"Fits no human head correctly.","lore":"Worn briefly. Photographed for posterity.","weight":7},
-  {"id":"cracker_joke","name":"Christmas Cracker Joke","icon":"🎄","desc":"Q: Why did the... A: It doesn't matter.","lore":"It was never funny. That was the point.","weight":7},
-  {"id":"used_glow_stick","name":"Used Glow Stick","icon":"💚","desc":"Glows no longer. Smells faintly chemical.","lore":"It gave its all for three hours.","weight":7},
-  {"id":"single_confetti","name":"Single Piece of Confetti","icon":"🎊","desc":"From a celebration long past.","lore":"Found in a pocket a year later.","weight":8},
-  {"id":"unblown_balloon","name":"Unblown Balloon","icon":"🎈","desc":"Deflated. Full of possibility.","lore":"It could be anything.","weight":7},
-  {"id":"christmas_tree_needle","name":"Christmas Tree Needle","icon":"🌲","desc":"Found in carpet. In July.","lore":"They outlast the tree by months.","weight":8},
-  {"id":"advent_door","name":"Advent Calendar Door","icon":"📅","desc":"Torn off. Chocolate consumed.","lore":"December 7th. The chocolate was mediocre.","weight":8},
-  {"id":"easter_foil","name":"Easter Egg Foil","icon":"🐣","desc":"The egg is gone. The foil endures.","lore":"Crinkled into a ball. Kept.","weight":8},
-  {"id":"valentines_envelope","name":"Valentine's Envelope","icon":"❤️","desc":"Unsealed. Unsent. Unsaid.","lore":"The card inside remains unwritten.","weight":7},
-  {"id":"greeting_card","name":"Used Greeting Card","icon":"✉️","desc":"The sentiment has passed. The card has not.","lore":"\"Happy Birthday!\" — signed by people you've lost touch with.","weight":8},
-  {"id":"broken_snow_globe","name":"Broken Snow Globe","icon":"🌨","desc":"The snow fell. It did not rise again.","lore":"The water slowly evaporated.","weight":4},
-  {"id":"spy_glass_broken","name":"Broken Magnifying Glass","icon":"🔍","desc":"Handle detached. Lens remains. Barely useful.","lore":"Magnifies the regret of dropping it.","weight":5},
-  {"id":"sundial_gnomon","name":"Sundial Gnomon","icon":"☀️","desc":"Casts no shadow indoors.","lore":"Time remains unmeasured.","weight":4},
-  {"id":"abacus_bead","name":"Stray Abacus Bead","icon":"🔴","desc":"The calculation will be off by one.","lore":"The abacus awaits its bead.","weight":5},
-  {"id":"tuning_fork","name":"Small Tuning Fork","icon":"🔔","desc":"A perfect A. No instrument to tune.","lore":"Strikes true. Answers no one.","weight":5},
-  {"id":"pitch_pipe","name":"Pitch Pipe","icon":"🎵","desc":"Slightly flat. Has been since 1998.","lore":"The choir made do.","weight":4},
-  {"id":"metronome_pendulum","name":"Metronome Pendulum","icon":"⏱","desc":"Tick without tock.","lore":"The body is gone. The tempo lives on in theory.","weight":4},
-  {"id":"theremin_aerial","name":"Theremin Aerial","icon":"🎵","desc":"Detached from the theremin. No longer eerie.","lore":"Once it howled without being touched.","weight":2},
-  {"id":"orrery_arm","name":"Orrery Planet Arm","icon":"🌐","desc":"Mercury's arm, separated from the solar system.","lore":"The model of the universe is incomplete.","weight":2},
-  {"id":"leyden_jar","name":"Half a Leyden Jar","icon":"⚡","desc":"Stored charge once. Stores nothing now.","lore":"A relic of electricity's infancy.","weight":2},
-  {"id":"litmus_paper","name":"Used Litmus Paper","icon":"🟥","desc":"Definitely acidic. Or alkaline.","lore":"The colour is ambiguous.","weight":5},
-  {"id":"geiger_tube","name":"Geiger Tube (Expired)","icon":"⚡","desc":"Clicks for nothing now.","lore":"Once detected radiation. Now detects silence.","weight":3},
-  {"id":"spectroscope_prism","name":"Spectroscope Prism","icon":"🌈","desc":"Splits light beautifully. Measures nothing.","lore":"A rainbow in glass.","weight":3},
-  {"id":"phlogiston_sample","name":"Phlogiston Sample","icon":"🔥","desc":"The element of combustion. Completely fictional.","lore":"Science has since moved on.","weight":1},
-  {"id":"luminiferous_ether","name":"Luminiferous Ether (Jar)","icon":"🌌","desc":"The medium for light waves. Doesn't exist.","lore":"Michelson-Morley disproved it. The jar remains.","weight":1},
-  {"id":"vital_force_crystal","name":"Vital Force Crystal","icon":"✨","desc":"Contains the life force. Allegedly.","lore":"Vitalism was briefly convincing.","weight":1},
-  {"id":"alkahest","name":"Universal Solvent","icon":"⚗️","desc":"Dissolves everything. Contained somehow.","lore":"The container holding it should not exist.","weight":1},
-  {"id":"philosophers_mercury","name":"Alchemical Mercury","icon":"⚗️","desc":"One of four classical elements.","lore":"Do not drink.","weight":1},
-  {"id":"quintessence","name":"Quintessence","icon":"⚗️","desc":"The fifth element. Empty vial.","lore":"It was the Earth, Air, Fire, and Water all along.","weight":1},
-  {"id":"tyrian_purple","name":"Tyrian Purple Drop","icon":"💜","desc":"One drop. 10,000 murex snails per gram.","lore":"An emperor's colour, democratised into junk.","weight":1},
-  {"id":"egyptian_blue","name":"Egyptian Blue Fragment","icon":"💙","desc":"The oldest synthetic pigment.","lore":"Made for pharaohs. Found in a pocket.","weight":1},
-  {"id":"gold_leaf","name":"Gold Leaf Fragment","icon":"🥇","desc":"Genuine gold. Worth approximately nothing at this size.","lore":"Beaten thin enough to be useless.","weight":1},
-  {"id":"painite","name":"Painite Fragment","icon":"💎","desc":"One of the rarest minerals on Earth.","lore":"In a game. In a pocket. Somehow.","weight":1},
-  {"id":"alexandrite","name":"Alexandrite Shard","icon":"💎","desc":"Green in daylight. Red at night.","lore":"Changes colour like regret.","weight":1},
-  {"id":"mystery_bag","name":"Mystery Bag","icon":"🎒","desc":"Contents unknown. Weight: suspicious.","lore":"You are afraid to open it.","weight":5},
-  {"id":"first_light","name":"The First Light (Jar)","icon":"☀️","desc":"Light from the beginning of everything.","lore":"Still warm after 13.8 billion years.","weight":1},
-  {"id":"infinite_regress","name":"Infinite Regress","icon":"🪞","desc":"A mirror facing a mirror.","lore":"Reflects itself. Endlessly.","weight":1},
-  {"id":"sound_of_silence","name":"Sound of Silence","icon":"📼","desc":"Preserved on a wax cylinder.","lore":"Simon and Garfunkel did not invent this.","weight":1},
-  {"id":"last_laugh","name":"The Last Laugh","icon":"😂","desc":"Bottled. Will not be unsealed.","lore":"He who laughs last laughs alone in a bottle.","weight":1},
-  {"id":"false_memory","name":"False Memory (USB Drive)","icon":"💾","desc":"Contains things that didn't happen.","lore":"Formatted. Reformatted. Still there.","weight":1},
-  {"id":"existential_dread_crystal","name":"Existential Dread Crystal","icon":"💎","desc":"Humming quietly.","lore":"Gazing into it helps. Briefly.","weight":1},
-  {"id":"placebo_pill","name":"Placebo Pill","icon":"💊","desc":"100% effective if you believe.","lore":"The belief is doing the heavy lifting.","weight":2},
-  {"id":"mismatched_sock_note","name":"Missing Sock Explanation","icon":"🧦","desc":"It explains everything. The note is indecipherable.","lore":"The dryer left this behind.","weight":1},
-  {"id":"worlds_okayest","name":"World's Okayest Mug","icon":"☕","desc":"A certificate of mediocrity.","lore":"Not the best. Not the worst. Comfortably average.","weight":3},
-  {"id":"terms_and_conditions","name":"T&C Summary","icon":"📄","desc":"One page. References full T&Cs.","lore":"Nobody reads either version.","weight":5},
-  {"id":"warranty_void","name":"Warranty Void Sticker","icon":"⛔","desc":"The warranty was voided. No regrets.","lore":"Freedom from warranty is its own reward.","weight":4},
-  {"id":"complimentary_peanuts","name":"Complimentary Peanuts","icon":"🥜","desc":"Complementary. Consumed. Gone.","lore":"The saltiness endures as a memory.","weight":5},
-  {"id":"digital_ghost","name":"Digital Ghost (USB)","icon":"💾","desc":"Haunted. Format does not resolve this.","lore":"Something persists on this drive.","weight":1},
-  {"id":"dunning_kruger_trophy","name":"Dunning-Kruger Trophy","icon":"🏆","desc":"Awarded for supreme confidence in minimal knowledge.","lore":"The winner was very confident in receiving it.","weight":1},
-  {"id":"lighthouse_beam","name":"Lighthouse Beam (Bottled)","icon":"🌊","desc":"Bottled during a storm.","lore":"Still searching for ships.","weight":1},
-  {"id":"fomo_ticket","name":"FoMO Ticket","icon":"🎟","desc":"For an event that was probably fine.","lore":"Missed. Catastrophised. Forgotten.","weight":1},
-  {"id":"yolo_cert","name":"YOLO Certificate","icon":"📜","desc":"Certifies that you only lived once.","lore":"The sentiment has aged poorly.","weight":1},
-  {"id":"second_place_first","name":"1st Place Ribbon (Reads 2nd)","icon":"🎗","desc":"A clerical error in your favour.","lore":"You chose to keep it anyway.","weight":1},
-  {"id":"moon_dust","name":"Moon Dust","icon":"🌕","desc":"Probably talcum powder.","lore":"Purchased from a market stall. Confident provenance.","weight":1},
-  {"id":"bermuda_triangle_map","name":"Bermuda Triangle Map","icon":"🗺","desc":"Incomplete. Several ships may explain why.","lore":"The cartographer did not return.","weight":1},
-  {"id":"area51_badge","name":"Area 51 Visitor Badge","icon":"🛸","desc":"Visitor: YOU. Cleared for: nothing.","lore":"The classified stuff was elsewhere.","weight":1},
-  {"id":"yeti_clipping","name":"Yeti Nail Clipping","icon":"🏔","desc":"Large. Possibly human.","lore":"Cryptozoology requires a high tolerance for ambiguity.","weight":1},
-  {"id":"time_machine_manual","name":"Time Machine Manual","icon":"⏱","desc":"Wrong century. Unhelpful diagrams.","lore":"The flux capacitor section is redacted.","weight":1},
-  {"id":"red_pill","name":"Red Matrix Pill","icon":"🔴","desc":"Reveals the truth. You're not ready.","lore":"Some things cannot be unseen.","weight":1},
-  {"id":"higgs_receipt","name":"Higgs Boson Receipt","icon":"🧾","desc":"Purchased at the Large Hadron Collider gift shop.","lore":"Not the actual Higgs Boson. Probably.","weight":1},
-  {"id":"schrodingers_receipt","name":"Schrödinger's Receipt","icon":"📄","desc":"May or may not exist until observed.","lore":"The purchase is in superposition.","weight":1},
-  {"id":"square_root_note","name":"√(-1) Written on Paper","icon":"❓","desc":"Imaginary. Very real paper.","lore":"i exists. The paper confirms it.","weight":1},
-  {"id":"concept_monday","name":"Concept of Monday","icon":"📅","desc":"Captured. Contained. Still awful.","lore":"The worst concept. Now portable.","weight":1},
-  {"id":"last_tear","name":"Last Tear Ever Shed","icon":"💧","desc":"This is it. No more crying after this.","lore":"A collector's item nobody wanted.","weight":1},
-  {"id":"colour_of_wind","name":"Colour of the Wind (Jar)","icon":"🌬","desc":"Faintly blue. Or was it green?","lore":"Pocahontas knew. Nobody else does.","weight":1},
-  {"id":"weight_of_dream","name":"Weight of a Dream","icon":"💛","desc":"Heavier than expected.","lore":"Carried everywhere. Costs nothing to keep.","weight":1},
-  {"id":"end_of_rainbow","name":"End-of-Rainbow Coordinates","icon":"🌈","desc":"Longitude: unreachable. Latitude: mythical.","lore":"The gold was not there. The coordinates are.","weight":1},
-  {"id":"extra_dimension","name":"Extra Dimension","icon":"📐","desc":"Folded very small.","lore":"Theoretically accessible. Practically a headache.","weight":1},
-  {"id":"deleted_scene","name":"Deleted Scene from Reality","icon":"🎬","desc":"Cut for pacing reasons.","lore":"The director's commentary explains nothing.","weight":1},
-  {"id":"first_emoji","name":"The First Emoji","icon":"📵","desc":"Drawn in 1999 on a tiny screen.","lore":"🙂 — It started here.","weight":1},
-  {"id":"da_vinci_napkin","name":"Da Vinci's Napkin Doodle","icon":"🖼","desc":"A sketch on a napkin.","lore":"He was thinking about wings again.","weight":1},
-  {"id":"lost_city_deed","name":"Deed to Atlantis","icon":"📜","desc":"Legally binding. Geographically impossible.","lore":"The mortgage was also impossible.","weight":1},
-  {"id":"pandoras_lid","name":"Lid of Pandora's Box","icon":"📦","desc":"The box is empty. Hope escaped.","lore":"Everything else got out first.","weight":1},
-  {"id":"trojan_splinter","name":"Splinter of the Trojan Horse","icon":"🐴","desc":"Oak. Very old oak.","lore":"Greeks inside not included.","weight":1},
-  {"id":"mothman_feather","name":"Mothman Feather","icon":"🦅","desc":"Large. Unsettling. Possibly from a heron.","lore":"The bridge was fine. This time.","weight":1},
-  {"id":"loch_ness_scale","name":"Loch Ness Monster Scale","icon":"🦕","desc":"Green. Slightly wet. Probably a leaf.","lore":"Every expedition returns with one.","weight":1},
-  {"id":"broken_record","name":"Broken World Record Fragment","icon":"🏆","desc":"The record no longer holds.","lore":"It was briefly the fastest/tallest/loudest.","weight":1},
-  {"id":"dunno_what_this_is","name":"Unidentifiable Object","icon":"🔮","desc":"Shape: ambiguous. Material: unclear. Smell: faint.","lore":"Passed down through generations. Nobody asks.","weight":2},
-  {"id":"cursed_coin","name":"Cursed Coin","icon":"🪙","desc":"Do not spend. Do not keep. Dilemma.","lore":"Every owner regrets it equally.","weight":2},
-  {"id":"lucky_number","name":"Lucky Number Slip","icon":"🎰","desc":"Your lucky numbers: 4, 8, 15, 16, 23, 42.","lore":"Never used. Laminated anyway.","weight":3},
-  {"id":"unpoppable_bubble","name":"Unpoppable Bubble","icon":"🫧","desc":"Has refused to pop since 2003.","lore":"Science cannot explain this.","weight":1},
-  {"id":"mystery_bone","name":"Mystery Bone","icon":"🦴","desc":"Small. Animal. Origin: unknown.","lore":"Found on a walk. Kept out of respect.","weight":3},
-  {"id":"single_googly_eye","name":"Single Googly Eye","icon":"👁","desc":"Adheres to any surface.","lore":"Everything it touches becomes alive.","weight":6},
-  {"id":"permanent_marker_lid","name":"Permanent Marker Lid","icon":"🖊","desc":"The marker is gone. The cap endures.","lore":"Permanent is a strong word.","weight":7},
-  {"id":"tape_measure_hook","name":"Tape Measure Hook","icon":"📏","desc":"The hook, without the tape.","lore":"Grips air. Measures nothing.","weight":5},
-  {"id":"broken_compass2","name":"Broken Compass","icon":"🧭","desc":"North: spinning. Location: unknown.","lore":"Reliable until it wasn't.","weight":5},
-  {"id":"pocket_dictionary","name":"Pocket Dictionary","icon":"📚","desc":"G through M only.","lore":"Half an alphabet of definitions.","weight":5},
-  {"id":"old_receipt2","name":"Very Old Receipt","icon":"🧾","desc":"Thermal paper. Ink: gone. Memory: vague.","lore":"Something was purchased. That's all that remains.","weight":8},
-  {"id":"parking_disc","name":"Parking Disc","icon":"🕐","desc":"Stuck at 2:15pm. Has been for years.","lore":"Time stopped in a car park.","weight":5},
-  {"id":"novelty_magnet","name":"Novelty Fridge Magnet","icon":"🧲","desc":"Shaped like a flag. Holds nothing to the fridge.","lore":"The magnet is decorative only.","weight":7},
-  {"id":"broken_lock","name":"Padlock (No Key)","icon":"🔒","desc":"Locked. The key is gone. So is the reason.","lore":"Whatever it protected is long since unimportant.","weight":5},
-  {"id":"single_shoelace","name":"Single Shoelace","icon":"👟","desc":"One shoe is now correctly tied.","lore":"The other shoe has given up.","weight":7},
-  {"id":"museum_audio_guide","name":"Museum Audio Guide Earpiece","icon":"🎧","desc":"The audio is gone. The plastic remains.","lore":"Once played commentary about Roman pottery.","weight":4},
-  {"id":"broken_fan","name":"Desk Fan (One Blade)","icon":"🌀","desc":"Creates air movement in one direction only.","lore":"Vibrates more than it cools.","weight":4},
-  {"id":"used_heat_patch","name":"Used Heat Patch","icon":"🔴","desc":"The heat was temporary. The patch is not.","lore":"Adhered to a sock for three hours of warmth.","weight":5},
-  {"id":"gel_ice_pack","name":"Deflated Gel Ice Pack","icon":"🧊","desc":"Cold once. Tepid now. Flat always.","lore":"For injuries that have since healed.","weight":5},
-  {"id":"emergency_blanket","name":"Emergency Foil Blanket","icon":"🔴","desc":"Crinkles loudly. Keeps nothing warm.","lore":"Ready for emergencies that never came.","weight":5},
-  {"id":"toothpick","name":"Single Toothpick","icon":"🦷","desc":"Wooden. Pointed. Ready for something.","lore":"Carried since a dinner three years ago.","weight":7},
-  {"id":"dried_correction_fluid","name":"Dried Correction Fluid","icon":"⬜","desc":"The mistake was made. The correction failed.","lore":"A white smear across history.","weight":7},
-  {"id":"hole_punch_circles","name":"Hole Punch Confetti","icon":"🟣","desc":"Little purple circles. Everywhere.","lore":"From a document that no longer exists.","weight":7},
-  {"id":"fountain_pen_nib","name":"Broken Fountain Pen Nib","icon":"✒️","desc":"Split. Writes only blots.","lore":"A nib ruined by pressing too hard.","weight":5},
-  {"id":"wire_binding","name":"Wire Binding Strip","icon":"📎","desc":"From a notebook that fell apart.","lore":"The pages scattered. The wire remained.","weight":5},
-  {"id":"wax_seal","name":"Wax Seal (Broken)","icon":"🔴","desc":"The seal is broken. The correspondence opened.","lore":"Whatever it sealed is now unseal-able.","weight":4},
-  {"id":"carbon_paper","name":"Carbon Paper","icon":"📄","desc":"For duplicating. On a typewriter. In 1970.","lore":"The original is gone. The copy remains.","weight":4},
-  {"id":"treasury_tag","name":"Treasury Tag","icon":"📎","desc":"Fastens nothing in perpetuity.","lore":"Government issue. Indestructible.","weight":6},
-  {"id":"door_wedge","name":"Doorstop Wedge","icon":"🔺","desc":"Holds doors open. Currently homeless.","lore":"The door it once held has been removed.","weight":5},
-  {"id":"cable_tidy","name":"Empty Cable Tidy","icon":"🔵","desc":"For tidying cables. Cables: elsewhere.","lore":"The tidiness was aspirational.","weight":5},
-  {"id":"plant_label","name":"Plant Label (No Plant)","icon":"🌱","desc":"Reads: BASIL. Basil is gone.","lore":"The herb dried up. The label survived.","weight":6},
-  {"id":"watering_can_nozzle","name":"Watering Can Nozzle","icon":"💧","desc":"The can is elsewhere.","lore":"Delivers water to no one.","weight":4},
-  {"id":"seed_packet_empty","name":"Empty Seed Packet","icon":"🌻","desc":"The seeds were planted. None grew.","lore":"Optimistically kept for reference.","weight":5},
-  {"id":"gardening_kneeler","name":"Deflated Garden Kneeler","icon":"🌱","desc":"Kneels nothing. Just deflated.","lore":"The garden was too demanding.","weight":4},
-  {"id":"plant_pot_shard","name":"Clay Pot Shard","icon":"🪴","desc":"From a pot that met the garden path.","lore":"It fell. It broke. It is kept.","weight":5},
-  {"id":"bamboo_stake","name":"Single Bamboo Stake","icon":"🎋","desc":"Supports nothing. Stands alone.","lore":"The plant it supported wilted first.","weight":5},
-  {"id":"zip_tie","name":"Zip Tie","icon":"🔗","desc":"One use. This is not it.","lore":"Irreversible once used. Kept before use.","weight":7},
-  {"id":"velcro_scrap","name":"Velcro Scrap","icon":"🔗","desc":"Hooks. Nothing to loop with.","lore":"Half a fastening system, again.","weight":6},
-  {"id":"blue_tack","name":"Dried Blue Tack","icon":"🔵","desc":"Tacks nothing. Stiffens with age.","lore":"Once held a poster. The poster is gone.","weight":7},
-  {"id":"elastic_band_ball","name":"Rubber Band Ball","icon":"🟡","desc":"Made over years. Serves no purpose.","lore":"A monument to not throwing things away.","weight":5},
-  {"id":"old_glasses_case","name":"Empty Glasses Case","icon":"👓","desc":"The glasses found a different home.","lore":"A padded velvet tomb.","weight":5},
-  {"id":"lens_cloth","name":"Lens Cloth","icon":"👓","desc":"Smears almost as much as it cleans.","lore":"Microfibre. Macro-smear.","weight":6},
-  {"id":"contact_lens_case","name":"Empty Contact Lens Case","icon":"👁","desc":"The lenses are gone. The solution is not.","lore":"Slightly wet. Slightly sad.","weight":5},
-  {"id":"hearing_aid_battery","name":"Tiny Hearing Aid Battery","icon":"🔋","desc":"Size 10. Dead.","lore":"Powered ears briefly.","weight":5},
-  {"id":"spectacles_screw","name":"Tiny Spectacles Screw","icon":"🔩","desc":"Falls out of one arm. Loses itself.","lore":"Without it, the glasses are lopsided forever.","weight":5},
-  {"id":"corn_plaster","name":"Corn Plaster","icon":"🩹","desc":"A plaster for a very specific foot problem.","lore":"Medicated. Targeted. Unnecessary right now.","weight":5},
-  {"id":"blister_dressing","name":"Blister Dressing","icon":"🦶","desc":"Hydrocolloid. Protective. Currently alone.","lore":"Ready for the walk that hurts.","weight":5},
-  {"id":"travel_sewing_kit","name":"Miniature Sewing Kit","icon":"🧵","desc":"Contains: three threads, one needle, no thimble.","lore":"Adequate for a button emergency.","weight":6},
-  {"id":"iron_on_patch","name":"Iron-On Patch","icon":"🧵","desc":"Never ironed on. The iron was never got out.","lore":"The hole in the trousers remains.","weight":5},
-  {"id":"spare_wheel_bolt","name":"Spare Wheel Bolt","icon":"🔩","desc":"For a car you no longer own.","lore":"The car is gone. The bolt remains.","weight":4},
-  {"id":"windscreen_scraper","name":"Mini Windscreen Scraper","icon":"❄️","desc":"Works on a windscreen. Not pockets.","lore":"Found in a coat pocket in July.","weight":5},
-  {"id":"parking_sensor","name":"Parking Sensor Cap","icon":"🚗","desc":"The sensor now beeps regardless.","lore":"The cap fell off. The beeping continued.","weight":3},
-  {"id":"car_air_freshener","name":"Car Air Freshener (Pine)","icon":"🌲","desc":"No scent remains. Only plastic.","lore":"Pine forests: not like this.","weight":5},
-  {"id":"oil_dipstick_cap","name":"Oil Dipstick Cap","icon":"🔧","desc":"The oil is being checked. Without this.","lore":"It fell. Nobody noticed immediately.","weight":3},
-  {"id":"tyre_pressure_cap","name":"Valve Cap","icon":"🔵","desc":"From a tyre that may now be flat.","lore":"A tiny cap with outsized responsibilities.","weight":5},
-  {"id":"bubble_level_vial","name":"Spirit Level Bubble Vial","icon":"📏","desc":"Contains: bubble. Function: none alone.","lore":"The level is lost. The bubble persists.","weight":3},
-  {"id":"old_passport_photo","name":"Old Passport Photo","icon":"📷","desc":"You look different. You look unhappy.","lore":"Passport photos are always like this.","weight":5},
-  {"id":"expired_stamp","name":"Expired Postage Stamp","icon":"📬","desc":"Face value: 29p. Current value: less.","lore":"The postal service has moved on.","weight":6},
-  {"id":"return_label","name":"Return Label (Never Used)","icon":"🏷","desc":"The return window has closed.","lore":"The item was fine. Too fine to return.","weight":5},
-  {"id":"loyalty_points_card","name":"Expired Loyalty Card","icon":"💳","desc":"Points: many. Redemption date: passed.","lore":"Loyalty rewarded with expiry.","weight":5},
-  {"id":"cinema_points_card","name":"Cinema Loyalty Card","icon":"🎬","desc":"One stamp short of a free ticket. Always.","lore":"The popcorn was never free.","weight":5},
-  {"id":"supermarket_token","name":"Supermarket Charity Token","icon":"🟢","desc":"For a charity. The charity year is over.","lore":"The cause was good. The timing was not.","weight":5},
-  {"id":"scratch_card_lost","name":"Losing Scratch Card","icon":"🎰","desc":"Not a winner.","lore":"It was never going to be a winner.","weight":6},
-  {"id":"raffle_ticket","name":"Losing Raffle Ticket","icon":"🎟","desc":"Number 347. Not the winning number.","lore":"Someone won. Not you.","weight":6},
-  {"id":"numbered_ticket","name":"Queue Ticket","icon":"🎫","desc":"Number 94. The counter stopped at 93.","lore":"The wait was in vain.","weight":5},
-  {"id":"cloakroom_ticket","name":"Cloakroom Ticket","icon":"🏷","desc":"The coat was reclaimed. The ticket remained.","lore":"Half of a transaction.","weight":5},
-  {"id":"coat_check_half","name":"Broken Coat Check Ticket","icon":"🎟","desc":"Torn badly. The stub is illegible.","lore":"The coat is lost. The stub is found.","weight":4}
+  {
+    "id": "slippers",
+    "name": "Virtual Slippers",
+    "icon": "🥿",
+    "desc": "Cozy, but digital. Left one only.",
+    "lore": "Manifested from pure nostalgia.",
+    "weight": 10
+  },
+  {
+    "id": "lint",
+    "name": "Pocket Lint",
+    "icon": "🧶",
+    "desc": "Found in your other pants.",
+    "lore": "It has always been there.",
+    "weight": 10
+  },
+  {
+    "id": "receipt",
+    "name": "Old Receipt",
+    "icon": "🧾",
+    "desc": "Milk: £0.99. From 2019.",
+    "lore": "The milk is long gone.",
+    "weight": 10
+  },
+  {
+    "id": "key",
+    "name": "Mystery Key",
+    "icon": "🗝",
+    "desc": "You no longer remember which lock.",
+    "lore": "The lock misses it.",
+    "weight": 10
+  },
+  {
+    "id": "map",
+    "name": "Incorrect Map",
+    "icon": "🗺",
+    "desc": "All roads lead to a swamp.",
+    "lore": "Cartography at its worst.",
+    "weight": 10
+  },
+  {
+    "id": "manual",
+    "name": "Instruction Manual",
+    "icon": "📖",
+    "desc": "For an appliance you don't own.",
+    "lore": "Very thorough. Completely useless.",
+    "weight": 10
+  },
+  {
+    "id": "rock",
+    "name": "Favourite Rock",
+    "icon": "🪨",
+    "desc": "Smooth, satisfying, useless.",
+    "lore": "You chose this one specifically.",
+    "weight": 10
+  },
+  {
+    "id": "leaf",
+    "name": "Pretty Leaf",
+    "icon": "🍂",
+    "desc": "From that really nice walk.",
+    "lore": "The walk was three years ago.",
+    "weight": 10
+  },
+  {
+    "id": "button",
+    "name": "Spare Button",
+    "icon": "🔵",
+    "desc": "Never matched anything. Not even close.",
+    "lore": "Eternal optimism in button form.",
+    "weight": 10
+  },
+  {
+    "id": "wrapper",
+    "name": "Candy Wrapper",
+    "icon": "🍬",
+    "desc": "The candy is long gone.",
+    "lore": "Only the memory remains.",
+    "weight": 10
+  },
+  {
+    "id": "sticker",
+    "name": "Gold Star Sticker",
+    "icon": "⭐",
+    "desc": "For... existing? Sure, why not.",
+    "lore": "You've earned it. Probably.",
+    "weight": 10
+  },
+  {
+    "id": "battery",
+    "name": "Dead Battery",
+    "icon": "🔋",
+    "desc": "Definitely recycling it tomorrow.",
+    "lore": "Tomorrow never came.",
+    "weight": 10
+  },
+  {
+    "id": "coin",
+    "name": "Foreign Coin",
+    "icon": "🪙",
+    "desc": "From a country that no longer exists.",
+    "lore": "Worth exactly nothing, twice.",
+    "weight": 10
+  },
+  {
+    "id": "magnet",
+    "name": "Fridge Magnet",
+    "icon": "🧲",
+    "desc": "\"Visit [REDACTED]!\" says the magnet.",
+    "lore": "The destination is a mystery.",
+    "weight": 10
+  },
+  {
+    "id": "crayon",
+    "name": "Broken Crayon",
+    "icon": "🖍",
+    "desc": "The best colour. Naturally.",
+    "lore": "It broke at a critical moment.",
+    "weight": 10
+  },
+  {
+    "id": "warranty",
+    "name": "Expired Warranty",
+    "icon": "📄",
+    "desc": "Expired 6 years ago.",
+    "lore": "It was never going to help you.",
+    "weight": 10
+  },
+  {
+    "id": "charm",
+    "name": "Lucky Charm",
+    "icon": "🍀",
+    "desc": "It hasn't worked yet.",
+    "lore": "Hope springs eternal.",
+    "weight": 10
+  },
+  {
+    "id": "dial",
+    "name": "Random Dial",
+    "icon": "📻",
+    "desc": "No one knows what it controls.",
+    "lore": "Turning it does nothing. Probably.",
+    "weight": 10
+  },
+  {
+    "id": "marble",
+    "name": "Glass Marble",
+    "icon": "🔮",
+    "desc": "Sees the future. Won't say what it sees.",
+    "lore": "Cryptic and unhelpful.",
+    "weight": 10
+  },
+  {
+    "id": "tape",
+    "name": "Cassette Tape",
+    "icon": "📼",
+    "desc": "No tape player. No problem.",
+    "lore": "The music lives on in theory.",
+    "weight": 10
+  },
+  {
+    "id": "rubber_band",
+    "name": "Perished Rubber Band",
+    "icon": "🔗",
+    "desc": "Snaps if you even look at it.",
+    "lore": "Its elasticity was consumed long ago.",
+    "weight": 10
+  },
+  {
+    "id": "safety_pin",
+    "name": "Safety Pin",
+    "icon": "📌",
+    "desc": "Keeps nothing safe.",
+    "lore": "The latch is broken anyway.",
+    "weight": 10
+  },
+  {
+    "id": "thumbtack",
+    "name": "Thumbtack",
+    "icon": "📍",
+    "desc": "With nothing to pin.",
+    "lore": "Ready for a purpose it will never have.",
+    "weight": 10
+  },
+  {
+    "id": "paperclip",
+    "name": "Bent Paperclip",
+    "icon": "🖇",
+    "desc": "Bent into a vague shape.",
+    "lore": "Stress relief. Minimal.",
+    "weight": 10
+  },
+  {
+    "id": "pencil_stub",
+    "name": "Pencil Stub",
+    "icon": "✏️",
+    "desc": "Too short to hold, too long to discard.",
+    "lore": "A liminal object.",
+    "weight": 10
+  },
+  {
+    "id": "dried_flower",
+    "name": "Dried Flower",
+    "icon": "💐",
+    "desc": "Beautiful once. Now crunchy.",
+    "lore": "It pressed itself flat to survive.",
+    "weight": 10
+  },
+  {
+    "id": "blurry_photo",
+    "name": "Blurry Photo",
+    "icon": "📷",
+    "desc": "Of what? Unknown.",
+    "lore": "The photographer was not ready.",
+    "weight": 10
+  },
+  {
+    "id": "ticket_stub",
+    "name": "Ticket Stub",
+    "icon": "🎟",
+    "desc": "Row G, Seat 14. Concert unknown.",
+    "lore": "The music was probably good.",
+    "weight": 10
+  },
+  {
+    "id": "takeaway_menu",
+    "name": "Old Takeaway Menu",
+    "icon": "📋",
+    "desc": "The restaurant is gone. The menu survives.",
+    "lore": "Prices are hilariously wrong.",
+    "weight": 10
+  },
+  {
+    "id": "hair_tie",
+    "name": "Stretched Hair Tie",
+    "icon": "🔵",
+    "desc": "Has forgotten how to be tight.",
+    "lore": "Hair remains unbound.",
+    "weight": 10
+  },
+  {
+    "id": "candle_stub",
+    "name": "Candle Stub",
+    "icon": "🕯",
+    "desc": "Too short to light, too big to ignore.",
+    "lore": "It served with honour.",
+    "weight": 10
+  },
+  {
+    "id": "broken_watch",
+    "name": "Broken Watch",
+    "icon": "⌚",
+    "desc": "Right twice a day.",
+    "lore": "Technically still functional by that logic.",
+    "weight": 10
+  },
+  {
+    "id": "dead_pen",
+    "name": "Dead Pen",
+    "icon": "🖊",
+    "desc": "Ran out at the worst possible moment.",
+    "lore": "It is a monument to poor timing.",
+    "weight": 10
+  },
+  {
+    "id": "envelope",
+    "name": "Unsent Envelope",
+    "icon": "✉️",
+    "desc": "Addressed, stamped, never sent.",
+    "lore": "The contents are a mystery.",
+    "weight": 10
+  },
+  {
+    "id": "twist_tie",
+    "name": "Twist Tie",
+    "icon": "🌀",
+    "desc": "Freed from its bread bag. Now lost.",
+    "lore": "It wanders, purposeless.",
+    "weight": 10
+  },
+  {
+    "id": "mystery_screw",
+    "name": "Mystery Screw",
+    "icon": "🔩",
+    "desc": "Left over from the last assembly. Ominous.",
+    "lore": "Something is held together without it.",
+    "weight": 10
+  },
+  {
+    "id": "lost_earring",
+    "name": "Lost Earring",
+    "icon": "💎",
+    "desc": "Half a pair. Irreplaceable.",
+    "lore": "Its twin vanished years ago.",
+    "weight": 10
+  },
+  {
+    "id": "plastic_bag",
+    "name": "Bag for Life",
+    "icon": "🛍",
+    "desc": "Used once. Never again.",
+    "lore": "Fifteen more accumulate yearly.",
+    "weight": 10
+  },
+  {
+    "id": "empty_keyring",
+    "name": "Empty Keyring",
+    "icon": "🔑",
+    "desc": "All keys departed. Ring remains.",
+    "lore": "Full of potential. Empty of keys.",
+    "weight": 10
+  },
+  {
+    "id": "clothespeg",
+    "name": "Single Clothespeg",
+    "icon": "🧷",
+    "desc": "Its partner was lost to the washing machine.",
+    "lore": "It grips nothing.",
+    "weight": 10
+  },
+  {
+    "id": "yogurt_lid",
+    "name": "Yogurt Lid",
+    "icon": "🥛",
+    "desc": "Saved. For what? Unclear.",
+    "lore": "Licked clean before saving.",
+    "weight": 10
+  },
+  {
+    "id": "wrong_charger",
+    "name": "Wrong Charger",
+    "icon": "🔌",
+    "desc": "Fits no device you own.",
+    "lore": "It came from somewhere. It fits nothing.",
+    "weight": 10
+  },
+  {
+    "id": "used_teabag",
+    "name": "Used Tea Bag",
+    "icon": "🍵",
+    "desc": "Slightly damp. Still in a pocket.",
+    "lore": "One more brew had seemed possible.",
+    "weight": 10
+  },
+  {
+    "id": "blunt_knife",
+    "name": "Blunt Pocket Knife",
+    "icon": "🔪",
+    "desc": "Couldn't cut butter.",
+    "lore": "Technically still a knife.",
+    "weight": 10
+  },
+  {
+    "id": "matchbox_empty",
+    "name": "Empty Matchbox",
+    "icon": "🔥",
+    "desc": "All matches gone. Striker worn to nothing.",
+    "lore": "No light shall be struck.",
+    "weight": 10
+  },
+  {
+    "id": "bottle_cap",
+    "name": "Bottle Cap",
+    "icon": "🍺",
+    "desc": "The prize of a long-gone bottle.",
+    "lore": "Collected. Not on purpose.",
+    "weight": 9
+  },
+  {
+    "id": "odd_sock",
+    "name": "Odd Sock",
+    "icon": "🧦",
+    "desc": "Where did the other one go?",
+    "lore": "The dryer knows.",
+    "weight": 9
+  },
+  {
+    "id": "sticky_note",
+    "name": "Blank Sticky Note",
+    "icon": "📝",
+    "desc": "The important thought was never written down.",
+    "lore": "The adhesive is mostly gone too.",
+    "weight": 9
+  },
+  {
+    "id": "lost_die",
+    "name": "Lost Die",
+    "icon": "🎲",
+    "desc": "From a set of six. Now one.",
+    "lore": "The game was never finished.",
+    "weight": 9
+  },
+  {
+    "id": "worn_toothbrush",
+    "name": "Worn Toothbrush",
+    "icon": "🪥",
+    "desc": "The bristles splay in all directions.",
+    "lore": "Dentists cry at this.",
+    "weight": 9
+  },
+  {
+    "id": "rubber_duck",
+    "name": "Rubber Duck",
+    "icon": "🦆",
+    "desc": "Squeaks only when judging you.",
+    "lore": "It has seen things.",
+    "weight": 9
+  },
+  {
+    "id": "broken_glasses",
+    "name": "Broken Glasses",
+    "icon": "👓",
+    "desc": "One arm missing. Still in the drawer.",
+    "lore": "They might be repaired someday.",
+    "weight": 9
+  },
+  {
+    "id": "jar_lid",
+    "name": "Orphaned Jar Lid",
+    "icon": "🫙",
+    "desc": "No jar to be found. Just the lid.",
+    "lore": "The jar departed long ago.",
+    "weight": 9
+  },
+  {
+    "id": "fortune_slip",
+    "name": "Fortune Cookie Slip",
+    "icon": "🥠",
+    "desc": "\"Good things come to those who wait.\"",
+    "lore": "Still waiting.",
+    "weight": 9
+  },
+  {
+    "id": "pen_lid",
+    "name": "Pen Lid",
+    "icon": "🖊",
+    "desc": "The pen is long gone. The lid persists.",
+    "lore": "It outlasted everything.",
+    "weight": 9
+  },
+  {
+    "id": "old_phone_case",
+    "name": "Old Phone Case",
+    "icon": "📱",
+    "desc": "Wrong model. Wrong era. Wrong.",
+    "lore": "Kept in case the phone returns.",
+    "weight": 9
+  },
+  {
+    "id": "dead_succulent",
+    "name": "Dead Succulent",
+    "icon": "🪴",
+    "desc": "Even cacti need water sometimes.",
+    "lore": "The pot is a monument to optimism.",
+    "weight": 9
+  },
+  {
+    "id": "tangled_earphones",
+    "name": "Tangled Earphones",
+    "icon": "🎧",
+    "desc": "Become more tangled when left alone.",
+    "lore": "Physics is to blame.",
+    "weight": 9
+  },
+  {
+    "id": "expired_library_card",
+    "name": "Expired Library Card",
+    "icon": "🎫",
+    "desc": "The library remembers.",
+    "lore": "You owe 40p in fines.",
+    "weight": 9
+  },
+  {
+    "id": "novelty_pen",
+    "name": "Hotel Pen",
+    "icon": "🖊",
+    "desc": "Pilfered from an unmemorable hotel.",
+    "lore": "Still writes. Barely.",
+    "weight": 9
+  },
+  {
+    "id": "nail_clipper",
+    "name": "Nail Clipper",
+    "icon": "💅",
+    "desc": "Only cuts at an angle.",
+    "lore": "Precision is a myth.",
+    "weight": 9
+  },
+  {
+    "id": "calendar_old",
+    "name": "2017 Calendar",
+    "icon": "📅",
+    "desc": "The pictures are nice, at least.",
+    "lore": "Technically accurate every 6 years.",
+    "weight": 9
+  },
+  {
+    "id": "broken_umbrella",
+    "name": "Broken Umbrella",
+    "icon": "☂️",
+    "desc": "Inverts in the slightest breeze.",
+    "lore": "Provides no shelter. Only shame.",
+    "weight": 9
+  },
+  {
+    "id": "straw_wrapper",
+    "name": "Straw Wrapper",
+    "icon": "🥤",
+    "desc": "The straw already went into the cup.",
+    "lore": "Immediate redundancy.",
+    "weight": 8
+  },
+  {
+    "id": "ketchup_sachet",
+    "name": "Ketchup Sachet",
+    "icon": "🍅",
+    "desc": "Pocketed from the chippy. Still there.",
+    "lore": "Emergency ketchup.",
+    "weight": 8
+  },
+  {
+    "id": "soy_sauce_fish",
+    "name": "Soy Sauce Fish Bottle",
+    "icon": "🐟",
+    "desc": "Empty. Kept for the aesthetic.",
+    "lore": "The fish remains.",
+    "weight": 8
+  },
+  {
+    "id": "bread_clip",
+    "name": "Bread Bag Clip",
+    "icon": "🟦",
+    "desc": "Colour coded. Meaning lost.",
+    "lore": "The colour meant Tuesday, once.",
+    "weight": 8
+  },
+  {
+    "id": "ice_cream_stick",
+    "name": "Ice Cream Stick",
+    "icon": "🍦",
+    "desc": "Clean. Flat. Purposeless.",
+    "lore": "Possible craft material. Probably not.",
+    "weight": 8
+  },
+  {
+    "id": "lolly_stick",
+    "name": "Lolly Stick",
+    "icon": "🍡",
+    "desc": "Checked for a prize. No prize.",
+    "lore": "One in a million. Not this one.",
+    "weight": 8
+  },
+  {
+    "id": "pistachio_shell",
+    "name": "Empty Pistachio Shell",
+    "icon": "🌰",
+    "desc": "The pistachio is gone. The shell remains.",
+    "lore": "A tiny empty bowl.",
+    "weight": 8
+  },
+  {
+    "id": "popcorn_kernel",
+    "name": "Unpopped Kernel",
+    "icon": "🍿",
+    "desc": "Stubborn. Unchewable.",
+    "lore": "It resisted heat. Respect it.",
+    "weight": 8
+  },
+  {
+    "id": "salt_packet",
+    "name": "Stolen Salt Packet",
+    "icon": "🧂",
+    "desc": "From a cafe. Emergency salt.",
+    "lore": "Has never been an emergency.",
+    "weight": 8
+  },
+  {
+    "id": "teaspoon",
+    "name": "Lonely Teaspoon",
+    "icon": "🥄",
+    "desc": "Separated from its set.",
+    "lore": "It wanders the cutlery drawer alone.",
+    "weight": 8
+  },
+  {
+    "id": "wine_cork",
+    "name": "Wine Cork",
+    "icon": "🍾",
+    "desc": "Saved for a project. Project never started.",
+    "lore": "One of seventeen corks in a bag.",
+    "weight": 8
+  },
+  {
+    "id": "dried_pasta_single",
+    "name": "Single Piece of Pasta",
+    "icon": "🍝",
+    "desc": "Raw. Inexplicably in a pocket.",
+    "lore": "No explanation is forthcoming.",
+    "weight": 8
+  },
+  {
+    "id": "coffee_pod",
+    "name": "Spent Coffee Pod",
+    "icon": "☕",
+    "desc": "Empty but smells nice.",
+    "lore": "A small monument to caffeination.",
+    "weight": 8
+  },
+  {
+    "id": "sugar_cube",
+    "name": "Forgotten Sugar Cube",
+    "icon": "🟫",
+    "desc": "Found at the back of a drawer.",
+    "lore": "Awaiting a cup that never came.",
+    "weight": 8
+  },
+  {
+    "id": "eraser_worn",
+    "name": "Worn Eraser",
+    "icon": "✏️",
+    "desc": "More smudge than erase at this point.",
+    "lore": "It tried so hard.",
+    "weight": 8
+  },
+  {
+    "id": "ruler_broken",
+    "name": "Broken Ruler",
+    "icon": "📏",
+    "desc": "Accurate to 17cm and no further.",
+    "lore": "Half a ruler. Half the answers.",
+    "weight": 8
+  },
+  {
+    "id": "stapler_empty",
+    "name": "Empty Stapler",
+    "icon": "📎",
+    "desc": "Staples nothing. Still clicks.",
+    "lore": "The motion persists without purpose.",
+    "weight": 8
+  },
+  {
+    "id": "staples_loose",
+    "name": "Loose Staples",
+    "icon": "📎",
+    "desc": "No stapler to claim them.",
+    "lore": "A handful of tiny metal intentions.",
+    "weight": 8
+  },
+  {
+    "id": "index_card",
+    "name": "Blank Index Card",
+    "icon": "🗂",
+    "desc": "The study session never happened.",
+    "lore": "Still pristine. Still useless.",
+    "weight": 8
+  },
+  {
+    "id": "dried_highlighter",
+    "name": "Dried Highlighter",
+    "icon": "🟡",
+    "desc": "Highlights nothing. Slightly sticky.",
+    "lore": "A very specific shade of yellow regret.",
+    "weight": 8
+  },
+  {
+    "id": "business_card",
+    "name": "Someone's Business Card",
+    "icon": "💼",
+    "desc": "You don't know this person anymore.",
+    "lore": "Their number probably changed.",
+    "weight": 8
+  },
+  {
+    "id": "empty_folder",
+    "name": "Empty Manila Folder",
+    "icon": "📁",
+    "desc": "Files: none. Potential: some.",
+    "lore": "A folder full of possibilities.",
+    "weight": 8
+  },
+  {
+    "id": "dried_whiteboard_marker",
+    "name": "Dried Whiteboard Marker",
+    "icon": "📝",
+    "desc": "Squeaks. Marks nothing.",
+    "lore": "A ghost of productivity past.",
+    "weight": 8
+  },
+  {
+    "id": "lanyard",
+    "name": "Conference Lanyard",
+    "icon": "🏷",
+    "desc": "No badge. Just lanyard.",
+    "lore": "The conference was forgettable.",
+    "weight": 8
+  },
+  {
+    "id": "old_nameplate",
+    "name": "Old Nameplate",
+    "icon": "📛",
+    "desc": "Reads: HI MY NAME IS ___",
+    "lore": "The name was never filled in.",
+    "weight": 7
+  },
+  {
+    "id": "ink_cartridge",
+    "name": "Empty Ink Cartridge",
+    "icon": "🖊",
+    "desc": "Ink: zero. Cost to replace: somehow £40.",
+    "lore": "The printer smiled as it died.",
+    "weight": 7
+  },
+  {
+    "id": "rubber_stamp",
+    "name": "Illegible Rubber Stamp",
+    "icon": "📮",
+    "desc": "Stamps an unreadable smear.",
+    "lore": "CERTIFIED something.",
+    "weight": 7
+  },
+  {
+    "id": "floppy_disk",
+    "name": "3.5\" Floppy Disk",
+    "icon": "💾",
+    "desc": "Unknown contents. Unknown computer needed.",
+    "lore": "Contains something important. Definitely.",
+    "weight": 7
+  },
+  {
+    "id": "blank_cd",
+    "name": "Blank CD-R",
+    "icon": "💿",
+    "desc": "Burned with something in 2004. Unknown what.",
+    "lore": "The data expired with the drive.",
+    "weight": 7
+  },
+  {
+    "id": "usb_stick",
+    "name": "Unknown USB Stick",
+    "icon": "💾",
+    "desc": "Contents: a mystery. Label: faded.",
+    "lore": "It autoplays something, presumably.",
+    "weight": 7
+  },
+  {
+    "id": "mystery_cable",
+    "name": "Mystery Cable",
+    "icon": "🔌",
+    "desc": "Both ends are different.",
+    "lore": "Connects something to something.",
+    "weight": 7
+  },
+  {
+    "id": "old_remote",
+    "name": "TV Remote (Dead)",
+    "icon": "📺",
+    "desc": "No batteries. Unknown TV.",
+    "lore": "Pointed at televisions that no longer exist.",
+    "weight": 7
+  },
+  {
+    "id": "dead_earbuds",
+    "name": "Dead Earbuds",
+    "icon": "🎧",
+    "desc": "One ear works. One ear is optimistic.",
+    "lore": "Mono audio by default.",
+    "weight": 7
+  },
+  {
+    "id": "mouse_ball",
+    "name": "Trackball Mouse Ball",
+    "icon": "🖱",
+    "desc": "From a mouse made before you were born.",
+    "lore": "Smooth. Purposeless. Collectible.",
+    "weight": 7
+  },
+  {
+    "id": "old_brick_phone",
+    "name": "Brick Phone",
+    "icon": "📱",
+    "desc": "Indestructible. Incompatible.",
+    "lore": "Still has 3% battery somehow.",
+    "weight": 7
+  },
+  {
+    "id": "old_sim_card",
+    "name": "Old SIM Card",
+    "icon": "📱",
+    "desc": "Phone number: forgotten. Data: expired.",
+    "lore": "The contacts are gone but not forgotten.",
+    "weight": 7
+  },
+  {
+    "id": "film_negative",
+    "name": "Film Negative Strip",
+    "icon": "🎞",
+    "desc": "Undeveloped or already developed. Impossible to say.",
+    "lore": "Contains a moment. Probably.",
+    "weight": 7
+  },
+  {
+    "id": "old_camera_roll",
+    "name": "Undeveloped Camera Roll",
+    "icon": "📷",
+    "desc": "Never opened. Never developed.",
+    "lore": "Contains the secret contents of a past holiday.",
+    "weight": 7
+  },
+  {
+    "id": "vga_adapter",
+    "name": "VGA Adapter",
+    "icon": "📺",
+    "desc": "No laptop has this port.",
+    "lore": "Obsolete and proud.",
+    "weight": 7
+  },
+  {
+    "id": "scart_cable",
+    "name": "SCART Cable",
+    "icon": "📺",
+    "desc": "Somehow still heavier than a TV.",
+    "lore": "Once essential. Now archaeology.",
+    "weight": 7
+  },
+  {
+    "id": "dead_powerbank",
+    "name": "Dead Power Bank",
+    "icon": "🔋",
+    "desc": "Charged phones exactly once.",
+    "lore": "The phones it saved are also dead now.",
+    "weight": 7
+  },
+  {
+    "id": "calculator_solar",
+    "name": "Solar Calculator",
+    "icon": "🔢",
+    "desc": "Works in sunlight. You are inside.",
+    "lore": "Waits for a sunny equation.",
+    "weight": 7
+  },
+  {
+    "id": "pager",
+    "name": "Pager",
+    "icon": "📟",
+    "desc": "Beeps for no one.",
+    "lore": "The network is gone. The beeping remains.",
+    "weight": 7
+  },
+  {
+    "id": "game_cartridge",
+    "name": "Unknown Game Cartridge",
+    "icon": "🎮",
+    "desc": "No console. No label. Infinite mystery.",
+    "lore": "Contains a childhood someone once had.",
+    "weight": 7
+  },
+  {
+    "id": "broken_joystick",
+    "name": "Broken Joystick",
+    "icon": "🕹",
+    "desc": "Left only. Right does not respond.",
+    "lore": "A one-directional adventure.",
+    "weight": 7
+  },
+  {
+    "id": "odd_glove",
+    "name": "Odd Glove",
+    "icon": "🧤",
+    "desc": "Left hand. Always left hand.",
+    "lore": "The right glove is out there somewhere.",
+    "weight": 7
+  },
+  {
+    "id": "broken_zip",
+    "name": "Broken Zip Slider",
+    "icon": "🤐",
+    "desc": "Slides. Zips nothing.",
+    "lore": "Fashion defeats function.",
+    "weight": 7
+  },
+  {
+    "id": "scratched_sunglasses",
+    "name": "Scratched Sunglasses",
+    "icon": "🕶",
+    "desc": "Blocks 40% of UV and 100% of clarity.",
+    "lore": "Vision, but make it blurry.",
+    "weight": 7
+  },
+  {
+    "id": "single_cufflink",
+    "name": "Single Cufflink",
+    "icon": "🔘",
+    "desc": "The jacket requires two.",
+    "lore": "One sleeve remains undone.",
+    "weight": 7
+  },
+  {
+    "id": "crumpled_pocket_square",
+    "name": "Crumpled Pocket Square",
+    "icon": "🟦",
+    "desc": "It tried its best.",
+    "lore": "Pressed once. Never again.",
+    "weight": 7
+  },
+  {
+    "id": "unfashionable_tie",
+    "name": "Out-of-Fashion Tie",
+    "icon": "👔",
+    "desc": "The pattern was cutting edge. Once.",
+    "lore": "Fashion is a circle. This tie is waiting.",
+    "weight": 7
+  },
+  {
+    "id": "novelty_socks",
+    "name": "Novelty Christmas Socks",
+    "icon": "🧦",
+    "desc": "Worn in December. Kept forever.",
+    "lore": "The snowmen are faded but spirited.",
+    "weight": 7
+  },
+  {
+    "id": "swim_cap",
+    "name": "Swim Cap",
+    "icon": "🏊",
+    "desc": "Smells of chlorine. Has for years.",
+    "lore": "The pool is a memory.",
+    "weight": 7
+  },
+  {
+    "id": "broken_flip_flop",
+    "name": "Broken Flip Flop",
+    "icon": "🩴",
+    "desc": "The thong has separated from the sole.",
+    "lore": "Shuffled its last shuffle.",
+    "weight": 7
+  },
+  {
+    "id": "sewing_needle",
+    "name": "Blunt Sewing Needle",
+    "icon": "🪡",
+    "desc": "Pushes but does not pierce.",
+    "lore": "Time dulls everything.",
+    "weight": 7
+  },
+  {
+    "id": "wristband",
+    "name": "Event Wristband",
+    "icon": "🎟",
+    "desc": "From an event years ago. Refuses to come off.",
+    "lore": "The event: forgotten. The wristband: permanent.",
+    "weight": 7
+  },
+  {
+    "id": "lapel_pin",
+    "name": "Novelty Lapel Pin",
+    "icon": "📌",
+    "desc": "Shaped like something you can't identify.",
+    "lore": "It was funny at the time.",
+    "weight": 7
+  },
+  {
+    "id": "bracelet_broken",
+    "name": "Broken Friendship Bracelet",
+    "icon": "🔗",
+    "desc": "The friendship may also be broken. Unknown.",
+    "lore": "Knotted with hope.",
+    "weight": 7
+  },
+  {
+    "id": "toe_ring",
+    "name": "Toe Ring",
+    "icon": "💍",
+    "desc": "Which toe? None of your toes.",
+    "lore": "Origin: unknown. Destination: same drawer.",
+    "weight": 6
+  },
+  {
+    "id": "body_glitter_empty",
+    "name": "Empty Body Glitter Pot",
+    "icon": "✨",
+    "desc": "Glitter has escaped into everything.",
+    "lore": "The glitter outlives us all.",
+    "weight": 6
+  },
+  {
+    "id": "old_belt",
+    "name": "Worn Belt",
+    "icon": "👜",
+    "desc": "Extra hole punched in the wrong place.",
+    "lore": "It held trousers up gamely.",
+    "weight": 6
+  },
+  {
+    "id": "race_bib",
+    "name": "Race Bib Number",
+    "icon": "🏃",
+    "desc": "Number 847. Race: completed or abandoned.",
+    "lore": "The time chip is missing.",
+    "weight": 6
+  },
+  {
+    "id": "worn_ballet_slipper",
+    "name": "Worn Ballet Slipper",
+    "icon": "🩰",
+    "desc": "The sole is through. The spirit remains.",
+    "lore": "Danced its last dance.",
+    "weight": 6
+  },
+  {
+    "id": "book_no_cover",
+    "name": "Coverless Book",
+    "icon": "📚",
+    "desc": "Title unknown. Contents: a mystery.",
+    "lore": "Someone ripped the cover off deliberately.",
+    "weight": 7
+  },
+  {
+    "id": "magazine_old",
+    "name": "Old Magazine",
+    "icon": "📰",
+    "desc": "Celebrity news from a previous decade.",
+    "lore": "The celebrities have moved on.",
+    "weight": 7
+  },
+  {
+    "id": "half_crossword",
+    "name": "Half-Done Crossword",
+    "icon": "📰",
+    "desc": "Abandoned at 11-across.",
+    "lore": "The solver gave up. 11-across remains.",
+    "weight": 7
+  },
+  {
+    "id": "cinema_ticket",
+    "name": "Old Cinema Ticket",
+    "icon": "🎬",
+    "desc": "Screen 4. Midnight showing.",
+    "lore": "The film has since won awards.",
+    "weight": 7
+  },
+  {
+    "id": "dvd_no_case",
+    "name": "DVD Without Case",
+    "icon": "💿",
+    "desc": "Scratched. Unplayable. Kept anyway.",
+    "lore": "Sentimental value only.",
+    "weight": 7
+  },
+  {
+    "id": "vinyl_single",
+    "name": "Vinyl Single",
+    "icon": "🎵",
+    "desc": "Wrong label. Unknown B-side.",
+    "lore": "Something good might be on side B.",
+    "weight": 6
+  },
+  {
+    "id": "tourist_map",
+    "name": "Folded Tourist Map",
+    "icon": "🗺",
+    "desc": "Can never be refolded correctly.",
+    "lore": "The city has changed since printing.",
+    "weight": 7
+  },
+  {
+    "id": "museum_leaflet",
+    "name": "Museum Leaflet",
+    "icon": "🏛",
+    "desc": "The museum closed two years ago.",
+    "lore": "The exhibits live on in pamphlet form.",
+    "weight": 7
+  },
+  {
+    "id": "opera_programme",
+    "name": "Opera Programme",
+    "icon": "🎭",
+    "desc": "In an unknown language.",
+    "lore": "The soprano was apparently excellent.",
+    "weight": 6
+  },
+  {
+    "id": "concert_poster",
+    "name": "Rolled-Up Concert Poster",
+    "icon": "🎸",
+    "desc": "Never unrolled. Never displayed.",
+    "lore": "Preserved in tube form forever.",
+    "weight": 6
+  },
+  {
+    "id": "setlist",
+    "name": "Torn Setlist",
+    "icon": "🎵",
+    "desc": "Half the songs are missing.",
+    "lore": "The second half remains a mystery.",
+    "weight": 6
+  },
+  {
+    "id": "sheet_music",
+    "name": "Sheet Music",
+    "icon": "🎼",
+    "desc": "For an instrument you don't play.",
+    "lore": "The notes are beautiful. Unplayable.",
+    "weight": 6
+  },
+  {
+    "id": "guitar_tab",
+    "name": "Handwritten Guitar Tab",
+    "icon": "🎸",
+    "desc": "Notation unclear. Key: unknown.",
+    "lore": "Someone knew this song once.",
+    "weight": 6
+  },
+  {
+    "id": "tv_guide_old",
+    "name": "TV Guide (Christmas 1990)",
+    "icon": "📺",
+    "desc": "Every programme circled.",
+    "lore": "A window into another era of television.",
+    "weight": 6
+  },
+  {
+    "id": "library_slip",
+    "name": "Library Return Slip",
+    "icon": "📚",
+    "desc": "The book was returned. Eventually.",
+    "lore": "The fine was not.",
+    "weight": 6
+  },
+  {
+    "id": "pressed_flower",
+    "name": "Pressed Flower",
+    "icon": "🌸",
+    "desc": "From an unknown book. From an unknown walk.",
+    "lore": "Perfectly preserved. Completely forgotten.",
+    "weight": 6
+  },
+  {
+    "id": "trading_card",
+    "name": "Random Trading Card",
+    "icon": "🃏",
+    "desc": "Common rarity. Still here.",
+    "lore": "Collected in hope. Retained in inertia.",
+    "weight": 6
+  },
+  {
+    "id": "sticker_album",
+    "name": "Incomplete Sticker Album",
+    "icon": "📓",
+    "desc": "Page 12 was never completed.",
+    "lore": "Never completed. Never will be.",
+    "weight": 6
+  },
+  {
+    "id": "phone_book",
+    "name": "Regional Phone Book",
+    "icon": "📞",
+    "desc": "Nobody listed has this number anymore.",
+    "lore": "An archive of a lost age.",
+    "weight": 5
+  },
+  {
+    "id": "mystery_hex_key",
+    "name": "Mystery Hex Key",
+    "icon": "🔧",
+    "desc": "No furniture matches this size.",
+    "lore": "It came with something. That something is gone.",
+    "weight": 7
+  },
+  {
+    "id": "stripped_screw",
+    "name": "Stripped Screw",
+    "icon": "🔩",
+    "desc": "No screwdriver can help it now.",
+    "lore": "It resisted to the last.",
+    "weight": 7
+  },
+  {
+    "id": "broken_tape_measure",
+    "name": "Broken Tape Measure",
+    "icon": "📏",
+    "desc": "The tape no longer retracts.",
+    "lore": "Measures everything. Retracts nothing.",
+    "weight": 7
+  },
+  {
+    "id": "used_sandpaper",
+    "name": "Used Sandpaper",
+    "icon": "🟫",
+    "desc": "Smooth on both sides now.",
+    "lore": "It gave its roughness for something.",
+    "weight": 7
+  },
+  {
+    "id": "hardened_paintbrush",
+    "name": "Hardened Paintbrush",
+    "icon": "🖌",
+    "desc": "Solid. Sculptural. Useless.",
+    "lore": "A monument to uncleaned tools.",
+    "weight": 7
+  },
+  {
+    "id": "masking_tape_core",
+    "name": "Masking Tape Core",
+    "icon": "🟫",
+    "desc": "The tape is gone. The cardboard persists.",
+    "lore": "Contains a perfect circle of nothing.",
+    "weight": 7
+  },
+  {
+    "id": "cable_tie",
+    "name": "Single Cable Tie",
+    "icon": "🔗",
+    "desc": "For one cable. No cable specified.",
+    "lore": "Ready for duty.",
+    "weight": 7
+  },
+  {
+    "id": "rawl_plug",
+    "name": "Single Rawlplug",
+    "icon": "🔩",
+    "desc": "The wall remains undrilled.",
+    "lore": "It dreams of masonry.",
+    "weight": 7
+  },
+  {
+    "id": "picture_hook",
+    "name": "Bent Picture Hook",
+    "icon": "📌",
+    "desc": "Holds nothing. Slightly melancholy.",
+    "lore": "Once, a picture.",
+    "weight": 7
+  },
+  {
+    "id": "mystery_nut",
+    "name": "Loose Nut",
+    "icon": "🔩",
+    "desc": "No matching bolt.",
+    "lore": "Half a fastening system.",
+    "weight": 7
+  },
+  {
+    "id": "blown_fuse",
+    "name": "Blown Fuse",
+    "icon": "⚡",
+    "desc": "Did its job exactly once.",
+    "lore": "A small hero. A small martyr.",
+    "weight": 7
+  },
+  {
+    "id": "jigsaw_piece",
+    "name": "Lone Jigsaw Piece",
+    "icon": "🧩",
+    "desc": "From a 1000-piece puzzle. 999 others: gone.",
+    "lore": "This piece is the last survivor.",
+    "weight": 7
+  },
+  {
+    "id": "monopoly_hotel",
+    "name": "Monopoly Hotel",
+    "icon": "🏨",
+    "desc": "Mayfair awaits. Mayfair is not here.",
+    "lore": "Hotels in the wrong economy.",
+    "weight": 7
+  },
+  {
+    "id": "extra_chess_pawn",
+    "name": "Extra Chess Pawn",
+    "icon": "♟",
+    "desc": "A spare. No set claims it.",
+    "lore": "It would die first anyway.",
+    "weight": 7
+  },
+  {
+    "id": "playing_card_joker",
+    "name": "Joker Card",
+    "icon": "🃏",
+    "desc": "Wild. Unwanted. Always in the deck.",
+    "lore": "Left out of every game.",
+    "weight": 7
+  },
+  {
+    "id": "lego_brick",
+    "name": "Lone LEGO Brick",
+    "icon": "🧱",
+    "desc": "Compatible with a billion others. Alone.",
+    "lore": "Underfoot. Indestructible.",
+    "weight": 7
+  },
+  {
+    "id": "lego_head",
+    "name": "LEGO Minifigure Head",
+    "icon": "🧱",
+    "desc": "Yellow. Grinning. Detached from body.",
+    "lore": "The smile is permanent.",
+    "weight": 7
+  },
+  {
+    "id": "action_figure_arm",
+    "name": "Action Figure Arm",
+    "icon": "🦾",
+    "desc": "Articulated. Separated. Stored.",
+    "lore": "The body waged war without it.",
+    "weight": 6
+  },
+  {
+    "id": "toy_car_wheel",
+    "name": "Toy Car Wheel",
+    "icon": "🚗",
+    "desc": "Three-wheeled car somewhere. This is the fourth.",
+    "lore": "The car retired. The wheel endures.",
+    "weight": 6
+  },
+  {
+    "id": "kite_string",
+    "name": "Ball of Kite String",
+    "icon": "🪁",
+    "desc": "No kite. Just string.",
+    "lore": "The kite escaped long ago.",
+    "weight": 6
+  },
+  {
+    "id": "frisbee_cracked",
+    "name": "Cracked Frisbee",
+    "icon": "🥏",
+    "desc": "Still aerodynamic. Slightly.",
+    "lore": "Flies erratically. Lands in a hedge.",
+    "weight": 6
+  },
+  {
+    "id": "flat_tennis_ball",
+    "name": "Flat Tennis Ball",
+    "icon": "🎾",
+    "desc": "All the bounce is gone.",
+    "lore": "A life of thwacking, over.",
+    "weight": 6
+  },
+  {
+    "id": "pool_cue_chalk",
+    "name": "Snooker Chalk Cube",
+    "icon": "🟦",
+    "desc": "Already down to a stub.",
+    "lore": "Blue fingers guaranteed.",
+    "weight": 6
+  },
+  {
+    "id": "dart_flight",
+    "name": "Dart Flight",
+    "icon": "🎯",
+    "desc": "The dart is elsewhere.",
+    "lore": "Without direction, it goes nowhere.",
+    "weight": 6
+  },
+  {
+    "id": "golf_tee",
+    "name": "Golf Tee",
+    "icon": "🏌",
+    "desc": "Pocket full. Golf: never played.",
+    "lore": "Collected without intention.",
+    "weight": 6
+  },
+  {
+    "id": "arcade_token",
+    "name": "Old Arcade Token",
+    "icon": "🎮",
+    "desc": "The arcade is a car park now.",
+    "lore": "Credits: remaining. Arcade: gone.",
+    "weight": 6
+  },
+  {
+    "id": "tamagotchi_dead",
+    "name": "Dead Tamagotchi",
+    "icon": "🐣",
+    "desc": "It needed you. You were not there.",
+    "lore": "RIP. The pet died so you could live.",
+    "weight": 5
+  },
+  {
+    "id": "deflated_stress_ball",
+    "name": "Deflated Stress Ball",
+    "icon": "🟡",
+    "desc": "Relieved no stress. Just deflated.",
+    "lore": "Not up to the job.",
+    "weight": 6
+  },
+  {
+    "id": "magic_8_ball_cracked",
+    "name": "Cracked Magic 8-Ball",
+    "icon": "🎱",
+    "desc": "Outlook: leaking.",
+    "lore": "\"Reply hazy\" is now literal.",
+    "weight": 5
+  },
+  {
+    "id": "water_balloon",
+    "name": "Unused Water Balloon",
+    "icon": "💧",
+    "desc": "Ready for summer. Summer passed.",
+    "lore": "Infinite latent splashing potential.",
+    "weight": 6
+  },
+  {
+    "id": "sand_flag",
+    "name": "Tiny Sandcastle Flag",
+    "icon": "🏖",
+    "desc": "The castle is long gone.",
+    "lore": "The flag outlasted everything.",
+    "weight": 6
+  },
+  {
+    "id": "acorn",
+    "name": "Acorn",
+    "icon": "🌰",
+    "desc": "Could become a tree. Won't.",
+    "lore": "Potential: immense. Future: a drawer.",
+    "weight": 7
+  },
+  {
+    "id": "pine_cone",
+    "name": "Pine Cone",
+    "icon": "🌲",
+    "desc": "A natural weather station nobody checks.",
+    "lore": "Scales open. Nobody notices.",
+    "weight": 7
+  },
+  {
+    "id": "feather",
+    "name": "Found Feather",
+    "icon": "🪶",
+    "desc": "From an unidentified bird.",
+    "lore": "It floated down and was immediately pocketed.",
+    "weight": 7
+  },
+  {
+    "id": "sea_glass",
+    "name": "Blue Sea Glass",
+    "icon": "💎",
+    "desc": "Once a bottle. Now a treasure.",
+    "lore": "Smoothed by the sea into something worth keeping.",
+    "weight": 6
+  },
+  {
+    "id": "smooth_pebble",
+    "name": "Smooth White Pebble",
+    "icon": "🪨",
+    "desc": "Satisfying to hold. Nothing else.",
+    "lore": "Selected from thousands.",
+    "weight": 7
+  },
+  {
+    "id": "fossil",
+    "name": "Small Fossil",
+    "icon": "🦕",
+    "desc": "Something died here, a long time ago.",
+    "lore": "Millions of years. A pocket.",
+    "weight": 5
+  },
+  {
+    "id": "shell",
+    "name": "Tiny Nautilus Shell",
+    "icon": "🐚",
+    "desc": "Perfect spiral. Former occupant: departed.",
+    "lore": "Architecture older than civilisation.",
+    "weight": 6
+  },
+  {
+    "id": "driftwood",
+    "name": "Piece of Driftwood",
+    "icon": "🌊",
+    "desc": "Carried by the sea to this pocket.",
+    "lore": "It has travelled far.",
+    "weight": 6
+  },
+  {
+    "id": "quartz_crystal",
+    "name": "Quartz Crystal",
+    "icon": "💎",
+    "desc": "Vibrates at a frequency. You can't hear it.",
+    "lore": "Allegedly meaningful.",
+    "weight": 5
+  },
+  {
+    "id": "pyrite",
+    "name": "Fool's Gold",
+    "icon": "🟡",
+    "desc": "Shiny. Worthless. Beautiful.",
+    "lore": "It fooled someone once.",
+    "weight": 5
+  },
+  {
+    "id": "obsidian_shard",
+    "name": "Obsidian Shard",
+    "icon": "🖤",
+    "desc": "Sharp. Volcanic. Pocket-unfriendly.",
+    "lore": "Born in fire. Found on eBay.",
+    "weight": 4
+  },
+  {
+    "id": "dried_mushroom",
+    "name": "Dried Mushroom",
+    "icon": "🍄",
+    "desc": "Edible once. Edible no longer.",
+    "lore": "A curiosity. Do not eat.",
+    "weight": 5
+  },
+  {
+    "id": "shark_tooth",
+    "name": "Fossilised Shark Tooth",
+    "icon": "🦈",
+    "desc": "Millions of years old.",
+    "lore": "The shark had many more.",
+    "weight": 4
+  },
+  {
+    "id": "starfish_dry",
+    "name": "Dried Starfish",
+    "icon": "⭐",
+    "desc": "Five-pointed. Formerly alive.",
+    "lore": "Once regenerated limbs. Now just desiccated.",
+    "weight": 4
+  },
+  {
+    "id": "coral_fragment",
+    "name": "Coral Fragment",
+    "icon": "🪸",
+    "desc": "Pale. Delicate. Removed from the sea.",
+    "lore": "It was alive. Then it wasn't.",
+    "weight": 4
+  },
+  {
+    "id": "dried_rose_petal",
+    "name": "Dried Rose Petal",
+    "icon": "🌹",
+    "desc": "From a rose that is otherwise gone.",
+    "lore": "Kept in a book. Still faintly pink.",
+    "weight": 5
+  },
+  {
+    "id": "lavender_bundle",
+    "name": "Lavender Bundle",
+    "icon": "💜",
+    "desc": "Mostly dust. Still faintly fragrant.",
+    "lore": "Lavender outlasts everything.",
+    "weight": 5
+  },
+  {
+    "id": "cinnamon_shard",
+    "name": "Cinnamon Stick Fragment",
+    "icon": "🟫",
+    "desc": "Already been scraped into hot milk once.",
+    "lore": "Gives flavour still. Allegedly.",
+    "weight": 5
+  },
+  {
+    "id": "star_anise",
+    "name": "Star Anise",
+    "icon": "🌟",
+    "desc": "Decorative. Flavourful. Neither here.",
+    "lore": "Found at the back of the spice rack.",
+    "weight": 5
+  },
+  {
+    "id": "plaster_wrapper",
+    "name": "Empty Plaster Wrapper",
+    "icon": "🩹",
+    "desc": "The plaster performed admirably.",
+    "lore": "Kept in the hope of more plasters nearby.",
+    "weight": 7
+  },
+  {
+    "id": "cotton_bud",
+    "name": "Cotton Bud",
+    "icon": "🟡",
+    "desc": "Unused. Somehow only one.",
+    "lore": "Ready for an ear it will never meet.",
+    "weight": 7
+  },
+  {
+    "id": "expired_sunscreen",
+    "name": "Expired Sunscreen",
+    "icon": "🌞",
+    "desc": "SPF: irrelevant.",
+    "lore": "The sun waits for no expiry date.",
+    "weight": 6
+  },
+  {
+    "id": "eye_patch",
+    "name": "Novelty Eye Patch",
+    "icon": "👁",
+    "desc": "One eye: covered. Depth perception: gone.",
+    "lore": "Piracy is a lifestyle, not a choice.",
+    "weight": 5
+  },
+  {
+    "id": "foam_ear_plug",
+    "name": "Foam Ear Plug",
+    "icon": "🔵",
+    "desc": "One. Not very useful alone.",
+    "lore": "The other was lost mid-concert.",
+    "weight": 6
+  },
+  {
+    "id": "antacid_tablet",
+    "name": "Chalky Antacid Tablet",
+    "icon": "🟡",
+    "desc": "Chalk flavour. Minimal relief.",
+    "lore": "Taken in hope. Dissolved in futility.",
+    "weight": 6
+  },
+  {
+    "id": "triangular_bandage",
+    "name": "Triangular Bandage",
+    "icon": "🔺",
+    "desc": "Folded badly. Ready for emergencies.",
+    "lore": "The origami is non-standard.",
+    "weight": 5
+  },
+  {
+    "id": "dosing_spoon",
+    "name": "Medicine Dosing Spoon",
+    "icon": "🥄",
+    "desc": "5ml. Of nothing, currently.",
+    "lore": "Kept from a forgotten illness.",
+    "weight": 6
+  },
+  {
+    "id": "airline_luggage_tag",
+    "name": "Airline Luggage Tag",
+    "icon": "✈️",
+    "desc": "The bag arrived. Eventually.",
+    "lore": "A record of a journey survived.",
+    "weight": 6
+  },
+  {
+    "id": "old_boarding_pass",
+    "name": "Old Boarding Pass",
+    "icon": "🛫",
+    "desc": "Seat 22B. Middle seat. Always.",
+    "lore": "The flight landed. That's what matters.",
+    "weight": 7
+  },
+  {
+    "id": "expired_bus_pass",
+    "name": "Expired Bus Pass",
+    "icon": "🚌",
+    "desc": "Valid until: a date that has passed.",
+    "lore": "The bus still runs. This pass does not.",
+    "weight": 7
+  },
+  {
+    "id": "metro_token",
+    "name": "Metro Token",
+    "icon": "🚇",
+    "desc": "From a city with a different currency now.",
+    "lore": "A small disk from another world.",
+    "weight": 5
+  },
+  {
+    "id": "forgotten_luggage_lock",
+    "name": "Luggage Lock",
+    "icon": "🔐",
+    "desc": "Code: 0000. Definitely not.",
+    "lore": "Secure until the code was forgotten.",
+    "weight": 6
+  },
+  {
+    "id": "deflated_neck_pillow",
+    "name": "Deflated Neck Pillow",
+    "icon": "😴",
+    "desc": "Offers the suggestion of neck support.",
+    "lore": "Inflated on boarding. Deflated by turbulence.",
+    "weight": 6
+  },
+  {
+    "id": "hotel_key_card",
+    "name": "Hotel Key Card",
+    "icon": "🏨",
+    "desc": "Hotel: unremembered. Door: not yours.",
+    "lore": "Opens a room in the past.",
+    "weight": 6
+  },
+  {
+    "id": "hotel_shampoo",
+    "name": "Hotel Shampoo Sachet",
+    "icon": "🧴",
+    "desc": "Half a wash worth of shampoo.",
+    "lore": "Liberated from room 304.",
+    "weight": 6
+  },
+  {
+    "id": "hotel_shower_cap",
+    "name": "Hotel Shower Cap",
+    "icon": "🚿",
+    "desc": "Worn once. Kept forever. Why?",
+    "lore": "A cap for a shower you no longer have.",
+    "weight": 6
+  },
+  {
+    "id": "hotel_sewing_kit",
+    "name": "Hotel Sewing Kit",
+    "icon": "🧵",
+    "desc": "Three threads. One needle. Infinite hope.",
+    "lore": "Has never been used in the field.",
+    "weight": 6
+  },
+  {
+    "id": "wrong_travel_adapter",
+    "name": "Wrong Country Adapter",
+    "icon": "🔌",
+    "desc": "Works in a country you've never visited.",
+    "lore": "Ready for a trip you haven't planned.",
+    "weight": 6
+  },
+  {
+    "id": "foreign_coins",
+    "name": "Unspent Foreign Coins",
+    "icon": "🪙",
+    "desc": "Not enough for anything. Everywhere.",
+    "lore": "The machines rejected them.",
+    "weight": 7
+  },
+  {
+    "id": "phrasebook",
+    "name": "Phrasebook",
+    "icon": "📖",
+    "desc": "For a language you don't speak.",
+    "lore": "Contains exactly one phrase you remember: 'where is the bank?'",
+    "weight": 5
+  },
+  {
+    "id": "tourist_whistle",
+    "name": "Pealess Whistle",
+    "icon": "🔔",
+    "desc": "Loud. Useless. Surprisingly loud.",
+    "lore": "The pea is gone. The volume is not.",
+    "weight": 5
+  },
+  {
+    "id": "emergency_poncho",
+    "name": "Emergency Poncho",
+    "icon": "🌧",
+    "desc": "Crinkly. Sees-through. Technically waterproof.",
+    "lore": "Folded into a packet. Ready for a disaster.",
+    "weight": 5
+  },
+  {
+    "id": "rubber_chicken",
+    "name": "Rubber Chicken",
+    "icon": "🐔",
+    "desc": "Squeaks. Stares. Judges.",
+    "lore": "Origin unknown. Purpose: unclear. Presence: unavoidable.",
+    "weight": 3
+  },
+  {
+    "id": "pet_rock_cert",
+    "name": "Pet Rock Certificate",
+    "icon": "🪨",
+    "desc": "This certifies ownership of a rock.",
+    "lore": "The rock has outlived the certificate.",
+    "weight": 3
+  },
+  {
+    "id": "fortune_fish",
+    "name": "Fortune Teller Fish",
+    "icon": "🐟",
+    "desc": "Always curls the same way. Destiny: unclear.",
+    "lore": "Red cellophane with ambitions.",
+    "weight": 3
+  },
+  {
+    "id": "wind_up_teeth",
+    "name": "Wind-Up Chattering Teeth",
+    "icon": "🦷",
+    "desc": "Chatters and hops. No reason given.",
+    "lore": "A terrifying party gift.",
+    "weight": 3
+  },
+  {
+    "id": "fake_dog_poo",
+    "name": "Fake Dog Poo",
+    "icon": "💩",
+    "desc": "Convinced exactly one person. Once.",
+    "lore": "The joke landed. It has not left.",
+    "weight": 3
+  },
+  {
+    "id": "mood_ring",
+    "name": "Mood Ring",
+    "icon": "💍",
+    "desc": "Turns blue. Always blue. Mood: unknown.",
+    "lore": "Calibrated for a different set of emotions.",
+    "weight": 3
+  },
+  {
+    "id": "disappearing_ink",
+    "name": "Disappearing Ink Pen",
+    "icon": "🖊",
+    "desc": "The ink has disappeared. The pen has not.",
+    "lore": "It disappears asymmetrically.",
+    "weight": 3
+  },
+  {
+    "id": "snake_in_can",
+    "name": "Empty Snake-in-a-Can",
+    "icon": "🐍",
+    "desc": "The snake has sprung. The can remains.",
+    "lore": "The surprise is gone. The trauma lingers.",
+    "weight": 3
+  },
+  {
+    "id": "collectable_spoon",
+    "name": "Souvenir Spoon",
+    "icon": "🥄",
+    "desc": "Stamped with a skyline. Useless for soup.",
+    "lore": "One of many. Not enough.",
+    "weight": 4
+  },
+  {
+    "id": "lenticular_card",
+    "name": "Lenticular Postcard",
+    "icon": "🃏",
+    "desc": "Tilts between two mediocre images.",
+    "lore": "The technology is impressive. The images are not.",
+    "weight": 3
+  },
+  {
+    "id": "holographic_sticker",
+    "name": "Holographic Sticker",
+    "icon": "🌈",
+    "desc": "Reflects all light. Communicates nothing.",
+    "lore": "Beautiful and meaningless.",
+    "weight": 4
+  },
+  {
+    "id": "novelty_ice_cube",
+    "name": "Novelty Ice Cube",
+    "icon": "🧊",
+    "desc": "Contains a fake fly. Fools nobody.",
+    "lore": "Gross in concept. Eternal in execution.",
+    "weight": 3
+  },
+  {
+    "id": "magic_trick_ring",
+    "name": "Magic Trick Ring",
+    "icon": "💍",
+    "desc": "The secret mechanism has been discovered.",
+    "lore": "The trick is over. The ring is not.",
+    "weight": 3
+  },
+  {
+    "id": "fake_arrow",
+    "name": "Fake Arrow Through Head",
+    "icon": "🎭",
+    "desc": "Wearable. Unconvincing.",
+    "lore": "It was funny at age 7.",
+    "weight": 3
+  },
+  {
+    "id": "trick_spoon",
+    "name": "Trick Bending Spoon",
+    "icon": "🥄",
+    "desc": "Bends with a firm grip. Impresses nobody.",
+    "lore": "Uri Geller did it with his mind. You need both hands.",
+    "weight": 3
+  },
+  {
+    "id": "tarot_card",
+    "name": "Single Tarot Card",
+    "icon": "🃏",
+    "desc": "The Fool. Naturally.",
+    "lore": "The deck is elsewhere. This one stayed.",
+    "weight": 3
+  },
+  {
+    "id": "mini_crystal_ball",
+    "name": "Mini Crystal Ball",
+    "icon": "🔮",
+    "desc": "Reveals: a blurry version of the room.",
+    "lore": "The future is unclear. The glass is cheap.",
+    "weight": 3
+  },
+  {
+    "id": "rune_stone",
+    "name": "Rune Stone",
+    "icon": "🪨",
+    "desc": "Elder Futhark. Probably.",
+    "lore": "Purchased at a gift shop. Still ancient.",
+    "weight": 3
+  },
+  {
+    "id": "worry_beads",
+    "name": "Worry Beads",
+    "icon": "📿",
+    "desc": "Worry: ongoing. Beads: helpful.",
+    "lore": "Clicked through ten thousand concerns.",
+    "weight": 4
+  },
+  {
+    "id": "evil_eye_charm",
+    "name": "Evil Eye Charm",
+    "icon": "👁",
+    "desc": "Wards off evil. Collects dust.",
+    "lore": "Protection from malevolent forces and loose pockets.",
+    "weight": 4
+  },
+  {
+    "id": "mini_horseshoe",
+    "name": "Mini Horseshoe",
+    "icon": "🐴",
+    "desc": "Hung upside down. Luck: draining.",
+    "lore": "Orientation matters. This is wrong.",
+    "weight": 4
+  },
+  {
+    "id": "maneki_neko_arm",
+    "name": "Maneki-Neko Arm",
+    "icon": "🐱",
+    "desc": "The cat is elsewhere. The arm beckons.",
+    "lore": "Prosperity waves without conviction.",
+    "weight": 3
+  },
+  {
+    "id": "daruma_doll",
+    "name": "One-Eyed Daruma",
+    "icon": "🔴",
+    "desc": "One eye painted. Wish: unresolved.",
+    "lore": "The second eye awaits a goal achieved.",
+    "weight": 3
+  },
+  {
+    "id": "verdant_crown",
+    "name": "Verdant Crown",
+    "icon": "🌿",
+    "desc": "Worn by those who slew the Thornlord too many times.",
+    "lore": "The thorns have given up resisting.",
+    "weight": 1
+  },
+  {
+    "id": "iron_standard_badge",
+    "name": "Iron Standard Badge",
+    "icon": "⚔️",
+    "desc": "Warlord Kragg is just not a problem for you.",
+    "lore": "Proof of an absurd number of victories.",
+    "weight": 1
+  },
+  {
+    "id": "ashen_shroud",
+    "name": "Ashen Shroud",
+    "icon": "💀",
+    "desc": "The Ashen Wastes hold no fear for you.",
+    "lore": "A hundred walks through ash. Still standing.",
+    "weight": 1
+  },
+  {
+    "id": "prism_lens_badge",
+    "name": "Prism Lens Badge",
+    "icon": "🔮",
+    "desc": "The Crystal Spire has been catalogued and defeated.",
+    "lore": "Light bends for those who persist.",
+    "weight": 1
+  },
+  {
+    "id": "white_flag",
+    "name": "White Flag",
+    "icon": "🏳️",
+    "desc": "Earned after 1,000 campaign failures.",
+    "lore": "Worn with perverse pride.",
+    "weight": 1
+  },
+  {
+    "id": "golden_rubber_chicken",
+    "name": "Golden Rubber Chicken",
+    "icon": "🏆",
+    "desc": "You failed The Gambler so many times it became art.",
+    "lore": "A trophy for persistence in failure.",
+    "weight": 1
+  },
+  {
+    "id": "crumb_of_greatness",
+    "name": "Crumb of Greatness",
+    "icon": "🍞",
+    "desc": "Broken off from something legendary.",
+    "lore": "The greatness is not in this crumb.",
+    "weight": 1
+  },
+  {
+    "id": "bottled_whisper",
+    "name": "Bottled Whisper",
+    "icon": "🍾",
+    "desc": "Contains a secret. Tells no one.",
+    "lore": "Shake it. Nothing happens.",
+    "weight": 1
+  },
+  {
+    "id": "last_pixel",
+    "name": "The Last Pixel",
+    "icon": "🖥",
+    "desc": "Dimensions: 1×1. Importance: debatable.",
+    "lore": "The screen is one pixel short without it.",
+    "weight": 1
+  },
+  {
+    "id": "deleted_memory",
+    "name": "Deleted Memory",
+    "icon": "🧠",
+    "desc": "Something happened. You no longer know what.",
+    "lore": "The data is gone. The gap remains.",
+    "weight": 1
+  },
+  {
+    "id": "answer_to_everything",
+    "name": "The Answer (Laminated)",
+    "icon": "🔢",
+    "desc": "42. Laminated for durability.",
+    "lore": "The question is still unknown.",
+    "weight": 1
+  },
+  {
+    "id": "philosophers_stone_chip",
+    "name": "Philosopher's Stone Chip",
+    "icon": "💎",
+    "desc": "Transmutes nothing. Very heavy.",
+    "lore": "Could theoretically turn lead to gold. Could.",
+    "weight": 1
+  },
+  {
+    "id": "newton_apple_pip",
+    "name": "Newton's Apple Pip",
+    "icon": "🍎",
+    "desc": "From the apple. The actual apple.",
+    "lore": "Gravity was discovered because of this pip's predecessor.",
+    "weight": 1
+  },
+  {
+    "id": "excalibur_rust",
+    "name": "Rust from Excalibur",
+    "icon": "⚔️",
+    "desc": "The sword is legendary. The rust is less so.",
+    "lore": "Only the worthy may hold the rust.",
+    "weight": 1
+  },
+  {
+    "id": "meaning_of_life_note",
+    "name": "Meaning of Life (Post-It)",
+    "icon": "📝",
+    "desc": "Written down. Immediately lost.",
+    "lore": "The post-it has unstuck from the wall.",
+    "weight": 1
+  },
+  {
+    "id": "unused_potential",
+    "name": "Unused Potential",
+    "icon": "✨",
+    "desc": "Bottled. Preserved. Wasted.",
+    "lore": "There was so much of it.",
+    "weight": 1
+  },
+  {
+    "id": "last_blockbuster_card",
+    "name": "Blockbuster Video Card",
+    "icon": "📼",
+    "desc": "Be kind, rewind.",
+    "lore": "The last one in existence. Probably.",
+    "weight": 1
+  },
+  {
+    "id": "imposter_syndrome_badge",
+    "name": "Imposter Syndrome Badge",
+    "icon": "🏅",
+    "desc": "You don't deserve this. (You do.)",
+    "lore": "Awarded to everyone who felt they didn't belong.",
+    "weight": 1
+  },
+  {
+    "id": "participation_trophy",
+    "name": "Participation Trophy",
+    "icon": "🏆",
+    "desc": "For showing up. Mostly.",
+    "lore": "Turns out showing up was the hardest part.",
+    "weight": 1
+  },
+  {
+    "id": "sunk_cost_coin",
+    "name": "Sunk Cost Coin",
+    "icon": "🪙",
+    "desc": "Too invested to stop collecting junk.",
+    "lore": "The reasoning is circular.",
+    "weight": 1
+  },
+  {
+    "id": "static_electricity",
+    "name": "Static Electricity (Jar)",
+    "icon": "⚡",
+    "desc": "Do not open. Just trust us.",
+    "lore": "Harvested from a wool jumper in 1987.",
+    "weight": 1
+  },
+  {
+    "id": "frozen_moment",
+    "name": "Frozen Moment in Time",
+    "icon": "❄️",
+    "desc": "That one perfect afternoon. Bottled.",
+    "lore": "It will never be that nice again.",
+    "weight": 1
+  },
+  {
+    "id": "bootstrap_paradox",
+    "name": "Bootstrap Paradox",
+    "icon": "♾️",
+    "desc": "It was always here. You always had it.",
+    "lore": "No one made it. It makes itself.",
+    "weight": 1
+  },
+  {
+    "id": "void_lint",
+    "name": "Void Lint",
+    "icon": "🌌",
+    "desc": "From the pockets of the abyss.",
+    "lore": "It stares back. It's lint.",
+    "weight": 1
+  },
+  {
+    "id": "category_error",
+    "name": "Category Error",
+    "icon": "❓",
+    "desc": "This item is not an item.",
+    "lore": "Yet here it is.",
+    "weight": 1
+  },
+  {
+    "id": "item_1000",
+    "name": "Item Number 1000",
+    "icon": "🏆",
+    "desc": "A milestone of junk.",
+    "lore": "One thousand things that mean nothing. Together, everything.",
+    "weight": 1
+  },
+  {
+    "id": "paper_straw_wrapper",
+    "name": "Paper Straw Wrapper",
+    "icon": "🥤",
+    "desc": "The eco-friendly wrapper for an eco-friendly straw.",
+    "lore": "Virtue is now disposable too.",
+    "weight": 8
+  },
+  {
+    "id": "airline_sick_bag",
+    "name": "Airline Sick Bag (Unused)",
+    "icon": "🤢",
+    "desc": "Never needed. Always kept.",
+    "lore": "Optimism in paper form.",
+    "weight": 5
+  },
+  {
+    "id": "fortune_cookie_fortune",
+    "name": "Fortune Cookie Fortune",
+    "icon": "🥠",
+    "desc": "\"A surprise awaits you.\" It did not.",
+    "lore": "The cookie lied.",
+    "weight": 8
+  },
+  {
+    "id": "conference_tote",
+    "name": "Conference Tote Bag",
+    "icon": "🎒",
+    "desc": "Stuffed with other bags.",
+    "lore": "The conference was unmemorable. The bag is not.",
+    "weight": 6
+  },
+  {
+    "id": "parking_ticket",
+    "name": "Paid Parking Fine",
+    "icon": "🅿️",
+    "desc": "Paid, grudgingly, on time.",
+    "lore": "A receipt for a very expensive mistake.",
+    "weight": 5
+  },
+  {
+    "id": "loyalty_card_half",
+    "name": "Half-Stamped Loyalty Card",
+    "icon": "🟤",
+    "desc": "5 of 10 stamps. The coffee shop closed.",
+    "lore": "Halfway to a free coffee. Fully to disappointment.",
+    "weight": 6
+  },
+  {
+    "id": "gift_tag",
+    "name": "Detached Gift Tag",
+    "icon": "🎁",
+    "desc": "To: ___. From: ___. Yours now.",
+    "lore": "The gift has been given. The tag wanders.",
+    "weight": 8
+  },
+  {
+    "id": "ribbon_bow",
+    "name": "Deflated Ribbon Bow",
+    "icon": "🎀",
+    "desc": "Once pristine. Now crumpled.",
+    "lore": "It peaked on Christmas morning.",
+    "weight": 8
+  },
+  {
+    "id": "fully_popped_bubble_wrap",
+    "name": "Popped Bubble Wrap",
+    "icon": "📦",
+    "desc": "All pockets: popped. Joy: spent.",
+    "lore": "An entire afternoon of satisfaction. Gone.",
+    "weight": 7
+  },
+  {
+    "id": "single_packing_peanut",
+    "name": "Single Packing Peanut",
+    "icon": "📦",
+    "desc": "Protecting nothing. Just existing.",
+    "lore": "It cushioned something once.",
+    "weight": 7
+  },
+  {
+    "id": "novelty_eraser",
+    "name": "Novelty Eraser",
+    "icon": "🍔",
+    "desc": "Shaped like a hamburger. Erases like chalk.",
+    "lore": "Novelty: yes. Functional: no.",
+    "weight": 5
+  },
+  {
+    "id": "kinder_capsule",
+    "name": "Kinder Egg Capsule",
+    "icon": "🥚",
+    "desc": "The toy has long since been lost.",
+    "lore": "The chocolate was the point anyway.",
+    "weight": 6
+  },
+  {
+    "id": "cracker_hat",
+    "name": "Christmas Cracker Paper Hat",
+    "icon": "🎩",
+    "desc": "Fits no human head correctly.",
+    "lore": "Worn briefly. Photographed for posterity.",
+    "weight": 7
+  },
+  {
+    "id": "cracker_joke",
+    "name": "Christmas Cracker Joke",
+    "icon": "🎄",
+    "desc": "Q: Why did the... A: It doesn't matter.",
+    "lore": "It was never funny. That was the point.",
+    "weight": 7
+  },
+  {
+    "id": "used_glow_stick",
+    "name": "Used Glow Stick",
+    "icon": "💚",
+    "desc": "Glows no longer. Smells faintly chemical.",
+    "lore": "It gave its all for three hours.",
+    "weight": 7
+  },
+  {
+    "id": "single_confetti",
+    "name": "Single Piece of Confetti",
+    "icon": "🎊",
+    "desc": "From a celebration long past.",
+    "lore": "Found in a pocket a year later.",
+    "weight": 8
+  },
+  {
+    "id": "unblown_balloon",
+    "name": "Unblown Balloon",
+    "icon": "🎈",
+    "desc": "Deflated. Full of possibility.",
+    "lore": "It could be anything.",
+    "weight": 7
+  },
+  {
+    "id": "christmas_tree_needle",
+    "name": "Christmas Tree Needle",
+    "icon": "🌲",
+    "desc": "Found in carpet. In July.",
+    "lore": "They outlast the tree by months.",
+    "weight": 8
+  },
+  {
+    "id": "advent_door",
+    "name": "Advent Calendar Door",
+    "icon": "📅",
+    "desc": "Torn off. Chocolate consumed.",
+    "lore": "December 7th. The chocolate was mediocre.",
+    "weight": 8
+  },
+  {
+    "id": "easter_foil",
+    "name": "Easter Egg Foil",
+    "icon": "🐣",
+    "desc": "The egg is gone. The foil endures.",
+    "lore": "Crinkled into a ball. Kept.",
+    "weight": 8
+  },
+  {
+    "id": "valentines_envelope",
+    "name": "Valentine's Envelope",
+    "icon": "❤️",
+    "desc": "Unsealed. Unsent. Unsaid.",
+    "lore": "The card inside remains unwritten.",
+    "weight": 7
+  },
+  {
+    "id": "greeting_card",
+    "name": "Used Greeting Card",
+    "icon": "✉️",
+    "desc": "The sentiment has passed. The card has not.",
+    "lore": "\"Happy Birthday!\" — signed by people you've lost touch with.",
+    "weight": 8
+  },
+  {
+    "id": "broken_snow_globe",
+    "name": "Broken Snow Globe",
+    "icon": "🌨",
+    "desc": "The snow fell. It did not rise again.",
+    "lore": "The water slowly evaporated.",
+    "weight": 4
+  },
+  {
+    "id": "spy_glass_broken",
+    "name": "Broken Magnifying Glass",
+    "icon": "🔍",
+    "desc": "Handle detached. Lens remains. Barely useful.",
+    "lore": "Magnifies the regret of dropping it.",
+    "weight": 5
+  },
+  {
+    "id": "sundial_gnomon",
+    "name": "Sundial Gnomon",
+    "icon": "☀️",
+    "desc": "Casts no shadow indoors.",
+    "lore": "Time remains unmeasured.",
+    "weight": 4
+  },
+  {
+    "id": "abacus_bead",
+    "name": "Stray Abacus Bead",
+    "icon": "🔴",
+    "desc": "The calculation will be off by one.",
+    "lore": "The abacus awaits its bead.",
+    "weight": 5
+  },
+  {
+    "id": "tuning_fork",
+    "name": "Small Tuning Fork",
+    "icon": "🔔",
+    "desc": "A perfect A. No instrument to tune.",
+    "lore": "Strikes true. Answers no one.",
+    "weight": 5
+  },
+  {
+    "id": "pitch_pipe",
+    "name": "Pitch Pipe",
+    "icon": "🎵",
+    "desc": "Slightly flat. Has been since 1998.",
+    "lore": "The choir made do.",
+    "weight": 4
+  },
+  {
+    "id": "metronome_pendulum",
+    "name": "Metronome Pendulum",
+    "icon": "⏱",
+    "desc": "Tick without tock.",
+    "lore": "The body is gone. The tempo lives on in theory.",
+    "weight": 4
+  },
+  {
+    "id": "theremin_aerial",
+    "name": "Theremin Aerial",
+    "icon": "🎵",
+    "desc": "Detached from the theremin. No longer eerie.",
+    "lore": "Once it howled without being touched.",
+    "weight": 2
+  },
+  {
+    "id": "orrery_arm",
+    "name": "Orrery Planet Arm",
+    "icon": "🌐",
+    "desc": "Mercury's arm, separated from the solar system.",
+    "lore": "The model of the universe is incomplete.",
+    "weight": 2
+  },
+  {
+    "id": "leyden_jar",
+    "name": "Half a Leyden Jar",
+    "icon": "⚡",
+    "desc": "Stored charge once. Stores nothing now.",
+    "lore": "A relic of electricity's infancy.",
+    "weight": 2
+  },
+  {
+    "id": "litmus_paper",
+    "name": "Used Litmus Paper",
+    "icon": "🟥",
+    "desc": "Definitely acidic. Or alkaline.",
+    "lore": "The colour is ambiguous.",
+    "weight": 5
+  },
+  {
+    "id": "geiger_tube",
+    "name": "Geiger Tube (Expired)",
+    "icon": "⚡",
+    "desc": "Clicks for nothing now.",
+    "lore": "Once detected radiation. Now detects silence.",
+    "weight": 3
+  },
+  {
+    "id": "spectroscope_prism",
+    "name": "Spectroscope Prism",
+    "icon": "🌈",
+    "desc": "Splits light beautifully. Measures nothing.",
+    "lore": "A rainbow in glass.",
+    "weight": 3
+  },
+  {
+    "id": "phlogiston_sample",
+    "name": "Phlogiston Sample",
+    "icon": "🔥",
+    "desc": "The element of combustion. Completely fictional.",
+    "lore": "Science has since moved on.",
+    "weight": 1
+  },
+  {
+    "id": "luminiferous_ether",
+    "name": "Luminiferous Ether (Jar)",
+    "icon": "🌌",
+    "desc": "The medium for light waves. Doesn't exist.",
+    "lore": "Michelson-Morley disproved it. The jar remains.",
+    "weight": 1
+  },
+  {
+    "id": "vital_force_crystal",
+    "name": "Vital Force Crystal",
+    "icon": "✨",
+    "desc": "Contains the life force. Allegedly.",
+    "lore": "Vitalism was briefly convincing.",
+    "weight": 1
+  },
+  {
+    "id": "alkahest",
+    "name": "Universal Solvent",
+    "icon": "⚗️",
+    "desc": "Dissolves everything. Contained somehow.",
+    "lore": "The container holding it should not exist.",
+    "weight": 1
+  },
+  {
+    "id": "philosophers_mercury",
+    "name": "Alchemical Mercury",
+    "icon": "⚗️",
+    "desc": "One of four classical elements.",
+    "lore": "Do not drink.",
+    "weight": 1
+  },
+  {
+    "id": "quintessence",
+    "name": "Quintessence",
+    "icon": "⚗️",
+    "desc": "The fifth element. Empty vial.",
+    "lore": "It was the Earth, Air, Fire, and Water all along.",
+    "weight": 1
+  },
+  {
+    "id": "tyrian_purple",
+    "name": "Tyrian Purple Drop",
+    "icon": "💜",
+    "desc": "One drop. 10,000 murex snails per gram.",
+    "lore": "An emperor's colour, democratised into junk.",
+    "weight": 1
+  },
+  {
+    "id": "egyptian_blue",
+    "name": "Egyptian Blue Fragment",
+    "icon": "💙",
+    "desc": "The oldest synthetic pigment.",
+    "lore": "Made for pharaohs. Found in a pocket.",
+    "weight": 1
+  },
+  {
+    "id": "gold_leaf",
+    "name": "Gold Leaf Fragment",
+    "icon": "🥇",
+    "desc": "Genuine gold. Worth approximately nothing at this size.",
+    "lore": "Beaten thin enough to be useless.",
+    "weight": 1
+  },
+  {
+    "id": "painite",
+    "name": "Painite Fragment",
+    "icon": "💎",
+    "desc": "One of the rarest minerals on Earth.",
+    "lore": "In a game. In a pocket. Somehow.",
+    "weight": 1
+  },
+  {
+    "id": "alexandrite",
+    "name": "Alexandrite Shard",
+    "icon": "💎",
+    "desc": "Green in daylight. Red at night.",
+    "lore": "Changes colour like regret.",
+    "weight": 1
+  },
+  {
+    "id": "mystery_bag",
+    "name": "Mystery Bag",
+    "icon": "🎒",
+    "desc": "Contents unknown. Weight: suspicious.",
+    "lore": "You are afraid to open it.",
+    "weight": 5
+  },
+  {
+    "id": "first_light",
+    "name": "The First Light (Jar)",
+    "icon": "☀️",
+    "desc": "Light from the beginning of everything.",
+    "lore": "Still warm after 13.8 billion years.",
+    "weight": 1
+  },
+  {
+    "id": "infinite_regress",
+    "name": "Infinite Regress",
+    "icon": "🪞",
+    "desc": "A mirror facing a mirror.",
+    "lore": "Reflects itself. Endlessly.",
+    "weight": 1
+  },
+  {
+    "id": "sound_of_silence",
+    "name": "Sound of Silence",
+    "icon": "📼",
+    "desc": "Preserved on a wax cylinder.",
+    "lore": "Simon and Garfunkel did not invent this.",
+    "weight": 1
+  },
+  {
+    "id": "last_laugh",
+    "name": "The Last Laugh",
+    "icon": "😂",
+    "desc": "Bottled. Will not be unsealed.",
+    "lore": "He who laughs last laughs alone in a bottle.",
+    "weight": 1
+  },
+  {
+    "id": "false_memory",
+    "name": "False Memory (USB Drive)",
+    "icon": "💾",
+    "desc": "Contains things that didn't happen.",
+    "lore": "Formatted. Reformatted. Still there.",
+    "weight": 1
+  },
+  {
+    "id": "existential_dread_crystal",
+    "name": "Existential Dread Crystal",
+    "icon": "💎",
+    "desc": "Humming quietly.",
+    "lore": "Gazing into it helps. Briefly.",
+    "weight": 1
+  },
+  {
+    "id": "placebo_pill",
+    "name": "Placebo Pill",
+    "icon": "💊",
+    "desc": "100% effective if you believe.",
+    "lore": "The belief is doing the heavy lifting.",
+    "weight": 2
+  },
+  {
+    "id": "mismatched_sock_note",
+    "name": "Missing Sock Explanation",
+    "icon": "🧦",
+    "desc": "It explains everything. The note is indecipherable.",
+    "lore": "The dryer left this behind.",
+    "weight": 1
+  },
+  {
+    "id": "worlds_okayest",
+    "name": "World's Okayest Mug",
+    "icon": "☕",
+    "desc": "A certificate of mediocrity.",
+    "lore": "Not the best. Not the worst. Comfortably average.",
+    "weight": 3
+  },
+  {
+    "id": "terms_and_conditions",
+    "name": "T&C Summary",
+    "icon": "📄",
+    "desc": "One page. References full T&Cs.",
+    "lore": "Nobody reads either version.",
+    "weight": 5
+  },
+  {
+    "id": "warranty_void",
+    "name": "Warranty Void Sticker",
+    "icon": "⛔",
+    "desc": "The warranty was voided. No regrets.",
+    "lore": "Freedom from warranty is its own reward.",
+    "weight": 4
+  },
+  {
+    "id": "complimentary_peanuts",
+    "name": "Complimentary Peanuts",
+    "icon": "🥜",
+    "desc": "Complementary. Consumed. Gone.",
+    "lore": "The saltiness endures as a memory.",
+    "weight": 5
+  },
+  {
+    "id": "digital_ghost",
+    "name": "Digital Ghost (USB)",
+    "icon": "💾",
+    "desc": "Haunted. Format does not resolve this.",
+    "lore": "Something persists on this drive.",
+    "weight": 1
+  },
+  {
+    "id": "dunning_kruger_trophy",
+    "name": "Dunning-Kruger Trophy",
+    "icon": "🏆",
+    "desc": "Awarded for supreme confidence in minimal knowledge.",
+    "lore": "The winner was very confident in receiving it.",
+    "weight": 1
+  },
+  {
+    "id": "lighthouse_beam",
+    "name": "Lighthouse Beam (Bottled)",
+    "icon": "🌊",
+    "desc": "Bottled during a storm.",
+    "lore": "Still searching for ships.",
+    "weight": 1
+  },
+  {
+    "id": "fomo_ticket",
+    "name": "FoMO Ticket",
+    "icon": "🎟",
+    "desc": "For an event that was probably fine.",
+    "lore": "Missed. Catastrophised. Forgotten.",
+    "weight": 1
+  },
+  {
+    "id": "yolo_cert",
+    "name": "YOLO Certificate",
+    "icon": "📜",
+    "desc": "Certifies that you only lived once.",
+    "lore": "The sentiment has aged poorly.",
+    "weight": 1
+  },
+  {
+    "id": "second_place_first",
+    "name": "1st Place Ribbon (Reads 2nd)",
+    "icon": "🎗",
+    "desc": "A clerical error in your favour.",
+    "lore": "You chose to keep it anyway.",
+    "weight": 1
+  },
+  {
+    "id": "moon_dust",
+    "name": "Moon Dust",
+    "icon": "🌕",
+    "desc": "Probably talcum powder.",
+    "lore": "Purchased from a market stall. Confident provenance.",
+    "weight": 1
+  },
+  {
+    "id": "bermuda_triangle_map",
+    "name": "Bermuda Triangle Map",
+    "icon": "🗺",
+    "desc": "Incomplete. Several ships may explain why.",
+    "lore": "The cartographer did not return.",
+    "weight": 1
+  },
+  {
+    "id": "area51_badge",
+    "name": "Area 51 Visitor Badge",
+    "icon": "🛸",
+    "desc": "Visitor: YOU. Cleared for: nothing.",
+    "lore": "The classified stuff was elsewhere.",
+    "weight": 1
+  },
+  {
+    "id": "yeti_clipping",
+    "name": "Yeti Nail Clipping",
+    "icon": "🏔",
+    "desc": "Large. Possibly human.",
+    "lore": "Cryptozoology requires a high tolerance for ambiguity.",
+    "weight": 1
+  },
+  {
+    "id": "time_machine_manual",
+    "name": "Time Machine Manual",
+    "icon": "⏱",
+    "desc": "Wrong century. Unhelpful diagrams.",
+    "lore": "The flux capacitor section is redacted.",
+    "weight": 1
+  },
+  {
+    "id": "red_pill",
+    "name": "Red Matrix Pill",
+    "icon": "🔴",
+    "desc": "Reveals the truth. You're not ready.",
+    "lore": "Some things cannot be unseen.",
+    "weight": 1
+  },
+  {
+    "id": "higgs_receipt",
+    "name": "Higgs Boson Receipt",
+    "icon": "🧾",
+    "desc": "Purchased at the Large Hadron Collider gift shop.",
+    "lore": "Not the actual Higgs Boson. Probably.",
+    "weight": 1
+  },
+  {
+    "id": "schrodingers_receipt",
+    "name": "Schrödinger's Receipt",
+    "icon": "📄",
+    "desc": "May or may not exist until observed.",
+    "lore": "The purchase is in superposition.",
+    "weight": 1
+  },
+  {
+    "id": "square_root_note",
+    "name": "√(-1) Written on Paper",
+    "icon": "❓",
+    "desc": "Imaginary. Very real paper.",
+    "lore": "i exists. The paper confirms it.",
+    "weight": 1
+  },
+  {
+    "id": "concept_monday",
+    "name": "Concept of Monday",
+    "icon": "📅",
+    "desc": "Captured. Contained. Still awful.",
+    "lore": "The worst concept. Now portable.",
+    "weight": 1
+  },
+  {
+    "id": "last_tear",
+    "name": "Last Tear Ever Shed",
+    "icon": "💧",
+    "desc": "This is it. No more crying after this.",
+    "lore": "A collector's item nobody wanted.",
+    "weight": 1
+  },
+  {
+    "id": "colour_of_wind",
+    "name": "Colour of the Wind (Jar)",
+    "icon": "🌬",
+    "desc": "Faintly blue. Or was it green?",
+    "lore": "Pocahontas knew. Nobody else does.",
+    "weight": 1
+  },
+  {
+    "id": "weight_of_dream",
+    "name": "Weight of a Dream",
+    "icon": "💛",
+    "desc": "Heavier than expected.",
+    "lore": "Carried everywhere. Costs nothing to keep.",
+    "weight": 1
+  },
+  {
+    "id": "end_of_rainbow",
+    "name": "End-of-Rainbow Coordinates",
+    "icon": "🌈",
+    "desc": "Longitude: unreachable. Latitude: mythical.",
+    "lore": "The gold was not there. The coordinates are.",
+    "weight": 1
+  },
+  {
+    "id": "extra_dimension",
+    "name": "Extra Dimension",
+    "icon": "📐",
+    "desc": "Folded very small.",
+    "lore": "Theoretically accessible. Practically a headache.",
+    "weight": 1
+  },
+  {
+    "id": "deleted_scene",
+    "name": "Deleted Scene from Reality",
+    "icon": "🎬",
+    "desc": "Cut for pacing reasons.",
+    "lore": "The director's commentary explains nothing.",
+    "weight": 1
+  },
+  {
+    "id": "first_emoji",
+    "name": "The First Emoji",
+    "icon": "📵",
+    "desc": "Drawn in 1999 on a tiny screen.",
+    "lore": "🙂 — It started here.",
+    "weight": 1
+  },
+  {
+    "id": "da_vinci_napkin",
+    "name": "Da Vinci's Napkin Doodle",
+    "icon": "🖼",
+    "desc": "A sketch on a napkin.",
+    "lore": "He was thinking about wings again.",
+    "weight": 1
+  },
+  {
+    "id": "lost_city_deed",
+    "name": "Deed to Atlantis",
+    "icon": "📜",
+    "desc": "Legally binding. Geographically impossible.",
+    "lore": "The mortgage was also impossible.",
+    "weight": 1
+  },
+  {
+    "id": "pandoras_lid",
+    "name": "Lid of Pandora's Box",
+    "icon": "📦",
+    "desc": "The box is empty. Hope escaped.",
+    "lore": "Everything else got out first.",
+    "weight": 1
+  },
+  {
+    "id": "trojan_splinter",
+    "name": "Splinter of the Trojan Horse",
+    "icon": "🐴",
+    "desc": "Oak. Very old oak.",
+    "lore": "Greeks inside not included.",
+    "weight": 1
+  },
+  {
+    "id": "mothman_feather",
+    "name": "Mothman Feather",
+    "icon": "🦅",
+    "desc": "Large. Unsettling. Possibly from a heron.",
+    "lore": "The bridge was fine. This time.",
+    "weight": 1
+  },
+  {
+    "id": "loch_ness_scale",
+    "name": "Loch Ness Monster Scale",
+    "icon": "🦕",
+    "desc": "Green. Slightly wet. Probably a leaf.",
+    "lore": "Every expedition returns with one.",
+    "weight": 1
+  },
+  {
+    "id": "broken_record",
+    "name": "Broken World Record Fragment",
+    "icon": "🏆",
+    "desc": "The record no longer holds.",
+    "lore": "It was briefly the fastest/tallest/loudest.",
+    "weight": 1
+  },
+  {
+    "id": "dunno_what_this_is",
+    "name": "Unidentifiable Object",
+    "icon": "🔮",
+    "desc": "Shape: ambiguous. Material: unclear. Smell: faint.",
+    "lore": "Passed down through generations. Nobody asks.",
+    "weight": 2
+  },
+  {
+    "id": "cursed_coin",
+    "name": "Cursed Coin",
+    "icon": "🪙",
+    "desc": "Do not spend. Do not keep. Dilemma.",
+    "lore": "Every owner regrets it equally.",
+    "weight": 2
+  },
+  {
+    "id": "lucky_number",
+    "name": "Lucky Number Slip",
+    "icon": "🎰",
+    "desc": "Your lucky numbers: 4, 8, 15, 16, 23, 42.",
+    "lore": "Never used. Laminated anyway.",
+    "weight": 3
+  },
+  {
+    "id": "unpoppable_bubble",
+    "name": "Unpoppable Bubble",
+    "icon": "🫧",
+    "desc": "Has refused to pop since 2003.",
+    "lore": "Science cannot explain this.",
+    "weight": 1
+  },
+  {
+    "id": "mystery_bone",
+    "name": "Mystery Bone",
+    "icon": "🦴",
+    "desc": "Small. Animal. Origin: unknown.",
+    "lore": "Found on a walk. Kept out of respect.",
+    "weight": 3
+  },
+  {
+    "id": "single_googly_eye",
+    "name": "Single Googly Eye",
+    "icon": "👁",
+    "desc": "Adheres to any surface.",
+    "lore": "Everything it touches becomes alive.",
+    "weight": 6
+  },
+  {
+    "id": "permanent_marker_lid",
+    "name": "Permanent Marker Lid",
+    "icon": "🖊",
+    "desc": "The marker is gone. The cap endures.",
+    "lore": "Permanent is a strong word.",
+    "weight": 7
+  },
+  {
+    "id": "tape_measure_hook",
+    "name": "Tape Measure Hook",
+    "icon": "📏",
+    "desc": "The hook, without the tape.",
+    "lore": "Grips air. Measures nothing.",
+    "weight": 5
+  },
+  {
+    "id": "broken_compass2",
+    "name": "Broken Compass",
+    "icon": "🧭",
+    "desc": "North: spinning. Location: unknown.",
+    "lore": "Reliable until it wasn't.",
+    "weight": 5
+  },
+  {
+    "id": "pocket_dictionary",
+    "name": "Pocket Dictionary",
+    "icon": "📚",
+    "desc": "G through M only.",
+    "lore": "Half an alphabet of definitions.",
+    "weight": 5
+  },
+  {
+    "id": "old_receipt2",
+    "name": "Very Old Receipt",
+    "icon": "🧾",
+    "desc": "Thermal paper. Ink: gone. Memory: vague.",
+    "lore": "Something was purchased. That's all that remains.",
+    "weight": 8
+  },
+  {
+    "id": "parking_disc",
+    "name": "Parking Disc",
+    "icon": "🕐",
+    "desc": "Stuck at 2:15pm. Has been for years.",
+    "lore": "Time stopped in a car park.",
+    "weight": 5
+  },
+  {
+    "id": "novelty_magnet",
+    "name": "Novelty Fridge Magnet",
+    "icon": "🧲",
+    "desc": "Shaped like a flag. Holds nothing to the fridge.",
+    "lore": "The magnet is decorative only.",
+    "weight": 7
+  },
+  {
+    "id": "broken_lock",
+    "name": "Padlock (No Key)",
+    "icon": "🔒",
+    "desc": "Locked. The key is gone. So is the reason.",
+    "lore": "Whatever it protected is long since unimportant.",
+    "weight": 5
+  },
+  {
+    "id": "single_shoelace",
+    "name": "Single Shoelace",
+    "icon": "👟",
+    "desc": "One shoe is now correctly tied.",
+    "lore": "The other shoe has given up.",
+    "weight": 7
+  },
+  {
+    "id": "museum_audio_guide",
+    "name": "Museum Audio Guide Earpiece",
+    "icon": "🎧",
+    "desc": "The audio is gone. The plastic remains.",
+    "lore": "Once played commentary about Roman pottery.",
+    "weight": 4
+  },
+  {
+    "id": "broken_fan",
+    "name": "Desk Fan (One Blade)",
+    "icon": "🌀",
+    "desc": "Creates air movement in one direction only.",
+    "lore": "Vibrates more than it cools.",
+    "weight": 4
+  },
+  {
+    "id": "used_heat_patch",
+    "name": "Used Heat Patch",
+    "icon": "🔴",
+    "desc": "The heat was temporary. The patch is not.",
+    "lore": "Adhered to a sock for three hours of warmth.",
+    "weight": 5
+  },
+  {
+    "id": "gel_ice_pack",
+    "name": "Deflated Gel Ice Pack",
+    "icon": "🧊",
+    "desc": "Cold once. Tepid now. Flat always.",
+    "lore": "For injuries that have since healed.",
+    "weight": 5
+  },
+  {
+    "id": "emergency_blanket",
+    "name": "Emergency Foil Blanket",
+    "icon": "🔴",
+    "desc": "Crinkles loudly. Keeps nothing warm.",
+    "lore": "Ready for emergencies that never came.",
+    "weight": 5
+  },
+  {
+    "id": "toothpick",
+    "name": "Single Toothpick",
+    "icon": "🦷",
+    "desc": "Wooden. Pointed. Ready for something.",
+    "lore": "Carried since a dinner three years ago.",
+    "weight": 7
+  },
+  {
+    "id": "dried_correction_fluid",
+    "name": "Dried Correction Fluid",
+    "icon": "⬜",
+    "desc": "The mistake was made. The correction failed.",
+    "lore": "A white smear across history.",
+    "weight": 7
+  },
+  {
+    "id": "hole_punch_circles",
+    "name": "Hole Punch Confetti",
+    "icon": "🟣",
+    "desc": "Little purple circles. Everywhere.",
+    "lore": "From a document that no longer exists.",
+    "weight": 7
+  },
+  {
+    "id": "fountain_pen_nib",
+    "name": "Broken Fountain Pen Nib",
+    "icon": "✒️",
+    "desc": "Split. Writes only blots.",
+    "lore": "A nib ruined by pressing too hard.",
+    "weight": 5
+  },
+  {
+    "id": "wire_binding",
+    "name": "Wire Binding Strip",
+    "icon": "📎",
+    "desc": "From a notebook that fell apart.",
+    "lore": "The pages scattered. The wire remained.",
+    "weight": 5
+  },
+  {
+    "id": "wax_seal",
+    "name": "Wax Seal (Broken)",
+    "icon": "🔴",
+    "desc": "The seal is broken. The correspondence opened.",
+    "lore": "Whatever it sealed is now unseal-able.",
+    "weight": 4
+  },
+  {
+    "id": "carbon_paper",
+    "name": "Carbon Paper",
+    "icon": "📄",
+    "desc": "For duplicating. On a typewriter. In 1970.",
+    "lore": "The original is gone. The copy remains.",
+    "weight": 4
+  },
+  {
+    "id": "treasury_tag",
+    "name": "Treasury Tag",
+    "icon": "📎",
+    "desc": "Fastens nothing in perpetuity.",
+    "lore": "Government issue. Indestructible.",
+    "weight": 6
+  },
+  {
+    "id": "door_wedge",
+    "name": "Doorstop Wedge",
+    "icon": "🔺",
+    "desc": "Holds doors open. Currently homeless.",
+    "lore": "The door it once held has been removed.",
+    "weight": 5
+  },
+  {
+    "id": "cable_tidy",
+    "name": "Empty Cable Tidy",
+    "icon": "🔵",
+    "desc": "For tidying cables. Cables: elsewhere.",
+    "lore": "The tidiness was aspirational.",
+    "weight": 5
+  },
+  {
+    "id": "plant_label",
+    "name": "Plant Label (No Plant)",
+    "icon": "🌱",
+    "desc": "Reads: BASIL. Basil is gone.",
+    "lore": "The herb dried up. The label survived.",
+    "weight": 6
+  },
+  {
+    "id": "watering_can_nozzle",
+    "name": "Watering Can Nozzle",
+    "icon": "💧",
+    "desc": "The can is elsewhere.",
+    "lore": "Delivers water to no one.",
+    "weight": 4
+  },
+  {
+    "id": "seed_packet_empty",
+    "name": "Empty Seed Packet",
+    "icon": "🌻",
+    "desc": "The seeds were planted. None grew.",
+    "lore": "Optimistically kept for reference.",
+    "weight": 5
+  },
+  {
+    "id": "gardening_kneeler",
+    "name": "Deflated Garden Kneeler",
+    "icon": "🌱",
+    "desc": "Kneels nothing. Just deflated.",
+    "lore": "The garden was too demanding.",
+    "weight": 4
+  },
+  {
+    "id": "plant_pot_shard",
+    "name": "Clay Pot Shard",
+    "icon": "🪴",
+    "desc": "From a pot that met the garden path.",
+    "lore": "It fell. It broke. It is kept.",
+    "weight": 5
+  },
+  {
+    "id": "bamboo_stake",
+    "name": "Single Bamboo Stake",
+    "icon": "🎋",
+    "desc": "Supports nothing. Stands alone.",
+    "lore": "The plant it supported wilted first.",
+    "weight": 5
+  },
+  {
+    "id": "zip_tie",
+    "name": "Zip Tie",
+    "icon": "🔗",
+    "desc": "One use. This is not it.",
+    "lore": "Irreversible once used. Kept before use.",
+    "weight": 7
+  },
+  {
+    "id": "velcro_scrap",
+    "name": "Velcro Scrap",
+    "icon": "🔗",
+    "desc": "Hooks. Nothing to loop with.",
+    "lore": "Half a fastening system, again.",
+    "weight": 6
+  },
+  {
+    "id": "blue_tack",
+    "name": "Dried Blue Tack",
+    "icon": "🔵",
+    "desc": "Tacks nothing. Stiffens with age.",
+    "lore": "Once held a poster. The poster is gone.",
+    "weight": 7
+  },
+  {
+    "id": "elastic_band_ball",
+    "name": "Rubber Band Ball",
+    "icon": "🟡",
+    "desc": "Made over years. Serves no purpose.",
+    "lore": "A monument to not throwing things away.",
+    "weight": 5
+  },
+  {
+    "id": "old_glasses_case",
+    "name": "Empty Glasses Case",
+    "icon": "👓",
+    "desc": "The glasses found a different home.",
+    "lore": "A padded velvet tomb.",
+    "weight": 5
+  },
+  {
+    "id": "lens_cloth",
+    "name": "Lens Cloth",
+    "icon": "👓",
+    "desc": "Smears almost as much as it cleans.",
+    "lore": "Microfibre. Macro-smear.",
+    "weight": 6
+  },
+  {
+    "id": "contact_lens_case",
+    "name": "Empty Contact Lens Case",
+    "icon": "👁",
+    "desc": "The lenses are gone. The solution is not.",
+    "lore": "Slightly wet. Slightly sad.",
+    "weight": 5
+  },
+  {
+    "id": "hearing_aid_battery",
+    "name": "Tiny Hearing Aid Battery",
+    "icon": "🔋",
+    "desc": "Size 10. Dead.",
+    "lore": "Powered ears briefly.",
+    "weight": 5
+  },
+  {
+    "id": "spectacles_screw",
+    "name": "Tiny Spectacles Screw",
+    "icon": "🔩",
+    "desc": "Falls out of one arm. Loses itself.",
+    "lore": "Without it, the glasses are lopsided forever.",
+    "weight": 5
+  },
+  {
+    "id": "corn_plaster",
+    "name": "Corn Plaster",
+    "icon": "🩹",
+    "desc": "A plaster for a very specific foot problem.",
+    "lore": "Medicated. Targeted. Unnecessary right now.",
+    "weight": 5
+  },
+  {
+    "id": "blister_dressing",
+    "name": "Blister Dressing",
+    "icon": "🦶",
+    "desc": "Hydrocolloid. Protective. Currently alone.",
+    "lore": "Ready for the walk that hurts.",
+    "weight": 5
+  },
+  {
+    "id": "travel_sewing_kit",
+    "name": "Miniature Sewing Kit",
+    "icon": "🧵",
+    "desc": "Contains: three threads, one needle, no thimble.",
+    "lore": "Adequate for a button emergency.",
+    "weight": 6
+  },
+  {
+    "id": "iron_on_patch",
+    "name": "Iron-On Patch",
+    "icon": "🧵",
+    "desc": "Never ironed on. The iron was never got out.",
+    "lore": "The hole in the trousers remains.",
+    "weight": 5
+  },
+  {
+    "id": "spare_wheel_bolt",
+    "name": "Spare Wheel Bolt",
+    "icon": "🔩",
+    "desc": "For a car you no longer own.",
+    "lore": "The car is gone. The bolt remains.",
+    "weight": 4
+  },
+  {
+    "id": "windscreen_scraper",
+    "name": "Mini Windscreen Scraper",
+    "icon": "❄️",
+    "desc": "Works on a windscreen. Not pockets.",
+    "lore": "Found in a coat pocket in July.",
+    "weight": 5
+  },
+  {
+    "id": "parking_sensor",
+    "name": "Parking Sensor Cap",
+    "icon": "🚗",
+    "desc": "The sensor now beeps regardless.",
+    "lore": "The cap fell off. The beeping continued.",
+    "weight": 3
+  },
+  {
+    "id": "car_air_freshener",
+    "name": "Car Air Freshener (Pine)",
+    "icon": "🌲",
+    "desc": "No scent remains. Only plastic.",
+    "lore": "Pine forests: not like this.",
+    "weight": 5
+  },
+  {
+    "id": "oil_dipstick_cap",
+    "name": "Oil Dipstick Cap",
+    "icon": "🔧",
+    "desc": "The oil is being checked. Without this.",
+    "lore": "It fell. Nobody noticed immediately.",
+    "weight": 3
+  },
+  {
+    "id": "tyre_pressure_cap",
+    "name": "Valve Cap",
+    "icon": "🔵",
+    "desc": "From a tyre that may now be flat.",
+    "lore": "A tiny cap with outsized responsibilities.",
+    "weight": 5
+  },
+  {
+    "id": "bubble_level_vial",
+    "name": "Spirit Level Bubble Vial",
+    "icon": "📏",
+    "desc": "Contains: bubble. Function: none alone.",
+    "lore": "The level is lost. The bubble persists.",
+    "weight": 3
+  },
+  {
+    "id": "old_passport_photo",
+    "name": "Old Passport Photo",
+    "icon": "📷",
+    "desc": "You look different. You look unhappy.",
+    "lore": "Passport photos are always like this.",
+    "weight": 5
+  },
+  {
+    "id": "expired_stamp",
+    "name": "Expired Postage Stamp",
+    "icon": "📬",
+    "desc": "Face value: 29p. Current value: less.",
+    "lore": "The postal service has moved on.",
+    "weight": 6
+  },
+  {
+    "id": "return_label",
+    "name": "Return Label (Never Used)",
+    "icon": "🏷",
+    "desc": "The return window has closed.",
+    "lore": "The item was fine. Too fine to return.",
+    "weight": 5
+  },
+  {
+    "id": "loyalty_points_card",
+    "name": "Expired Loyalty Card",
+    "icon": "💳",
+    "desc": "Points: many. Redemption date: passed.",
+    "lore": "Loyalty rewarded with expiry.",
+    "weight": 5
+  },
+  {
+    "id": "cinema_points_card",
+    "name": "Cinema Loyalty Card",
+    "icon": "🎬",
+    "desc": "One stamp short of a free ticket. Always.",
+    "lore": "The popcorn was never free.",
+    "weight": 5
+  },
+  {
+    "id": "supermarket_token",
+    "name": "Supermarket Charity Token",
+    "icon": "🟢",
+    "desc": "For a charity. The charity year is over.",
+    "lore": "The cause was good. The timing was not.",
+    "weight": 5
+  },
+  {
+    "id": "scratch_card_lost",
+    "name": "Losing Scratch Card",
+    "icon": "🎰",
+    "desc": "Not a winner.",
+    "lore": "It was never going to be a winner.",
+    "weight": 6
+  },
+  {
+    "id": "raffle_ticket",
+    "name": "Losing Raffle Ticket",
+    "icon": "🎟",
+    "desc": "Number 347. Not the winning number.",
+    "lore": "Someone won. Not you.",
+    "weight": 6
+  },
+  {
+    "id": "numbered_ticket",
+    "name": "Queue Ticket",
+    "icon": "🎫",
+    "desc": "Number 94. The counter stopped at 93.",
+    "lore": "The wait was in vain.",
+    "weight": 5
+  },
+  {
+    "id": "cloakroom_ticket",
+    "name": "Cloakroom Ticket",
+    "icon": "🏷",
+    "desc": "The coat was reclaimed. The ticket remained.",
+    "lore": "Half of a transaction.",
+    "weight": 5
+  },
+  {
+    "id": "coat_check_half",
+    "name": "Broken Coat Check Ticket",
+    "icon": "🎟",
+    "desc": "Torn badly. The stub is illegible.",
+    "lore": "The coat is lost. The stub is found.",
+    "weight": 4
+  }
 ]
