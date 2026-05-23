@@ -360,8 +360,7 @@
       "rowCols": 1,
       "childIds": [
         "shrine",
-        "camp",
-        "mem-verdant-echo"
+        "camp"
       ],
       "handicap": 7,
       "opponentIntervalMs": 7000,
@@ -388,7 +387,7 @@
       "description": "The camp was already occupied. Its new residents are not welcoming.",
       "row": 1,
       "col": 1,
-      "rowCols": 3,
+      "rowCols": 2,
       "childIds": [
         "node-1776083922801",
         "market"
@@ -415,7 +414,7 @@
       "description": "Goblins have claimed the shrine as their own. They're not interested in sharing.",
       "row": 1,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 2,
       "childIds": [
         "forest-path",
         "node-the-lonely-field"
@@ -1029,8 +1028,7 @@
       "col": 3,
       "rowCols": 4,
       "childIds": [
-        "deep-crossing",
-        "mem-root-memory"
+        "deep-crossing"
       ],
       "handicap": 0,
       "opponentBaseHp": 95,
@@ -1109,7 +1107,7 @@
       "description": "A collapsed stone bridge over a dark ravine. Something is defending it.",
       "row": 5,
       "col": 0,
-      "rowCols": 3,
+      "rowCols": 2,
       "childIds": [
         "thornlord"
       ],
@@ -1174,20 +1172,6 @@
       "restHeal": 15,
       "environment": "farmland"
     },
-    "mem-verdant-echo": {
-      "id": "mem-verdant-echo",
-      "type": "memory",
-      "label": "Memory Fragment",
-      "description": "A flicker of something pressed into the treeline — a voice that stopped mid-sentence when the Fracture sealed the shard.",
-      "row": 1,
-      "col": 2,
-      "rowCols": 3,
-      "childIds": [
-        "captain"
-      ],
-      "fragmentId": "act1-frag-3",
-      "environment": "forest"
-    },
     "mem-act1-1": {
       "id": "mem-act1-1",
       "type": "memory",
@@ -1202,28 +1186,14 @@
       "fragmentId": "act1-frag-1",
       "environment": "forest"
     },
-    "mem-root-memory": {
-      "id": "mem-root-memory",
-      "type": "memory",
-      "label": "Memory Fragment",
-      "description": "Deep roots hold something older than the Thornlord \u2014 a fragment of the shard before it was sealed.",
-      "row": 5,
-      "col": 1,
-      "rowCols": 3,
-      "childIds": [
-        "thornlord"
-      ],
-      "fragmentId": "act1-frag-4",
-      "environment": "forest"
-    },
     "mem-act1-2": {
       "id": "mem-act1-2",
       "type": "memory",
       "label": "Memory Fragment",
       "description": "The bridge remembers what crossed it before the Fracture sealed the roads \u2014 a fragment pressed into the stone.",
       "row": 5,
-      "col": 2,
-      "rowCols": 3,
+      "col": 1,
+      "rowCols": 2,
       "childIds": [
         "thornlord"
       ],
