@@ -6,6 +6,13 @@ import { StatRow } from '../ui/StatRow'
 import { AnimatedSpriteImg } from '../ui/SpriteImg'
 import { getCardUnit } from '../../game/cards'
 import { Lives } from '../ui/Lives/Lives'
+import { OverlayScreen } from '../ui/OverlayScreen'
+import { Toolbar } from '../ui/Toolbar/Toolbar'
+import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
+import { NodeMapHpBar } from './NodeMapHpBar'
+import { ToolbarSubComponent } from '../ui/Toolbar/ToolbarSubComponent'
+import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
+import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 
 interface Props {
   act: Act
@@ -117,13 +124,6 @@ function computeReachableIds(act: Act, run: RunState): Set<string> {
     if (!hasParent.has(id) && !skipped.has(id)) visit(id)
   }
   return reachable
-}
-
-function hpColor(hp: number, max: number): string {
-  const pct = hp / max
-  if (pct > 0.6) return '#33ff33'
-  if (pct > 0.3) return '#ffcc00'
-  return '#ff4444'
 }
 
 // Rows sorted top→bottom (row 0 first; boss last)
@@ -736,7 +736,6 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
   const availableIds  = getAvailableNodeIds(act, run)
   const rows          = useMemo(() => buildRows(act), [act])
   const maxRowCols    = useMemo(() => Math.max(...rows.map(r => r[0]?.rowCols ?? r.length)), [rows])
-  const hpPct         = Math.max(0, run.playerHp / run.maxHp)
   const reachableIds  = useMemo(() => computeReachableIds(act, run), [act, run])
 
   const mapHeight = maxRowCols * ROW_HEIGHT
@@ -817,51 +816,37 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
   }
 
   return (
+    <OverlayScreen 
+    onBack={onBack}
+     title={act.title} 
+     subtitle={act.subtitle}
+     >
+
+
     <div className="nodemap u-col u-grow">
-      {/* Header */}
-      <div className="nm-header u-flex u-items-c u-gap-6">
-        <div className="nm-act-label u-col">
-          <span className="nm-act-title">{act.title}</span>
-          <span className="nm-act-sub">{act.subtitle}</span>
-        </div>
-        <div className="nm-hp-area u-flex u-items-c u-gap-3">
-          <span className="nm-hp-label">HP</span>
-          <div className="nm-hp-track">
-            <div
-              className="nm-hp-fill"
-              style={{ width: `${hpPct * 100}%`, background: hpColor(run.playerHp, run.maxHp) }}
-            />
-          </div>
-          <span className="nm-hp-text" style={{ color: hpColor(run.playerHp, run.maxHp) }}>
-            {run.playerHp}/{run.maxHp}
-          </span>
-        </div>
-        <div className="nm-lives-area u-flex u-items-c u-gap-1" title="Lives remaining — lose them all and the campaign ends">
-          <Lives maxLives={run.maxLives ?? 3} currentLives={run.livesRemaining ?? 3} />
-        </div>
-      </div>
 
       {/* Consumables bar */}
-      <div className="nm-consumables-bar u-flex u-items-c u-gap-3 u-wrap">
-        <span className="nm-consumables-label">ITEMS</span>
+      <Toolbar>
+        <ToolbarLabel>Items</ToolbarLabel>
+
+      
         {ALL_CONSUMABLES.map(def => {
           const rc = run.consumables?.find(c => c.id === def.id)
           const count = rc?.count ?? 0
           return (
-            <button
-              key={def.id}
-              className={`nm-consumable-btn${count === 0 ? ' nm-consumable-btn--empty' : ''}`}
-              title={count > 0 ? `${def.name}: ${def.desc}` : `${def.name} (none)`}
-              disabled={count === 0}
-              onClick={() => onUseConsumable(def.id)}
-            >
-              <span className="nm-consumable-icon">{def.icon}</span>
-              <span className="nm-consumable-name u-text-sm">{def.name}</span>
-              <span className="nm-consumable-count">×{count}</span>
-            </button>
+            <>
+            <ToolbarButton key={def.id}
+            label={`${def.name} ×${count}`}
+            icon={def.icon}
+            disabled={count === 0} 
+            onClick={() => onUseConsumable(def.id)}
+            />
+            </>
           )
         })}
-      </div>
+
+      </Toolbar>
+
 
       {/* Map — left-to-right: each act row renders as a vertical column */}
       <div className={`nm-map u-flex u-grow u-items-c${act.environment ? ` nm-map--${act.environment}` : ''}`} ref={mapRef}>
@@ -1002,11 +987,6 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
         </div>
       </div>
 
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-      <button className="action-btn nm-back-btn" onClick={onBack}>
-        ← MAIN MENU
-      </button>
-</div>
 
       {/* Node peek modal */}
       {peekNode && (
@@ -1020,5 +1000,15 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
         />
       )}
     </div>
+      <Toolbar>
+        <ToolbarSpacer />
+      <div className="u-col u-gap-1 u-mg-t-lg u-mg-b-md">
+        <NodeMapHpBar hp={run.playerHp} maxHp={run.maxHp} />
+        <div className="nm-lives-area u-flex u-items-end u-just-end u-gap-1 " title="Lives remaining — lose them all and the campaign ends">
+          <Lives maxLives={run.maxLives ?? 3} currentLives={run.livesRemaining ?? 3} />
+        </div>
+      </div>
+      </Toolbar>
+    </OverlayScreen>
   )
 }

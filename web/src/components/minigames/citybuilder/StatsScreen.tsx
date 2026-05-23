@@ -5,6 +5,11 @@ import {
   calculateStorageCaps,
 } from '../../../game/cityBuilder'
 import { StatsSparkline } from './StatsSparkline'
+import { OverlayScreen } from '../../ui/OverlayScreen'
+import { Toolbar } from '../../ui/Toolbar/Toolbar'
+import { ToolbarButton } from '../../ui/Toolbar/ToolbarButton'
+import { ToolbarLabel } from '../../ui/Toolbar/ToolbarLabel'
+import { ToolbarSpacer } from '../../ui/Toolbar/ToolbarSpacer'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -167,26 +172,24 @@ export function StatsScreen({ city, onBack }: Props) {
   }
 
   return (
+    <OverlayScreen title="📊 CITY STATS" onBack={onBack}>
     <div className="city-screen u-relative u-col u-gap-2">
-      {/* Header */}
-      <div className="city-header u-flex u-items-c u-gap-3">
-        <button className="action-btn" onClick={onBack}>← BACK</button>
-        <div className="city-title">📊 CITY STATS</div>
-        <span className="city-stats-window-label">{windowLabel}</span>
 
-        {/* Time range selector */}
-        <div className="city-stats-range-btns">
+
+<Toolbar>
+  <ToolbarLabel>{windowLabel}</ToolbarLabel>
+   <ToolbarSpacer />
+    {/* Time range selector */}
           {TIME_RANGES.map(tr => (
-            <button
+            <ToolbarButton
               key={tr.label}
-              className={`city-stats-range-btn${rangeMs === tr.ms ? ' city-stats-range-btn--active' : ''}`}
+              label={tr.label}
               onClick={() => setRangeMs(tr.ms)}
-            >
-              {tr.label}
-            </button>
+              active={rangeMs === tr.ms}
+            />
           ))}
-        </div>
-      </div>
+        </Toolbar>
+
 
       {/* Scrollable content */}
       <div className="city-stats-scroll">
@@ -313,5 +316,6 @@ export function StatsScreen({ city, onBack }: Props) {
 
       </div>
     </div>
+    </OverlayScreen>
   )
 }

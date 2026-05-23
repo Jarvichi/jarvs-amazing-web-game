@@ -146,6 +146,34 @@ html.light-mode {
 .u-circle     { border-radius: 50%; }
 .u-border     { border: 1px solid var(--game-border); }
 
+/* Widths */
+.u-w-16  { width: 16px; }
+.u-w-24  { width: 24px; }
+.u-w-32  { width: 32px; }
+.u-w-48  { width: 48px; }
+.u-w-64  { width: 64px; }
+
+/* Heights */
+.u-h-16  { height: 16px; }
+.u-h-24  { height: 24px; }
+.u-h-32  { height: 32px; }
+.u-h-48  { height: 48px; }
+.u-h-64  { height: 64px; }
+
+/* Min widths */
+.u-min-w-16  { min-width: 16px; }
+.u-min-w-24  { min-width: 24px; }
+.u-min-w-32  { min-width: 32px; }
+.u-min-w-48  { min-width: 48px; }
+.u-min-w-64  { min-width: 64px; }
+
+/* Min heights */
+.u-min-h-16  { min-height: 16px; }
+.u-min-h-24  { min-height: 24px; }
+.u-min-h-32  { min-height: 32px; }
+.u-min-h-48  { min-height: 48px; }
+.u-min-h-64  { min-height: 64px; }
+
 body {
   background: var(--game-bg);
   color: var(--game-text-color);
@@ -2082,6 +2110,15 @@ body {
   border-color: var(--game-text-color);
   color: var(--game-text-color);
   background: rgba(51, 255, 51, 0.08);
+}
+
+.filter-btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.filter-btn--locked {
+  opacity: 0.7;
 }
 
 .filter-btn--cooldown {
@@ -8851,11 +8888,12 @@ html.light-mode .action-btn {
 }
 .toolbar-dropdown {
   position: relative;
+  align-self: stretch;
+  display: flex;
 }
 .toolbar-dropdown-panel {
   position: absolute;
   top: calc(100% + 4px);
-  left: 0;
   z-index: 20;
   background: #111;
   border: 1px solid #333;
@@ -8866,6 +8904,56 @@ html.light-mode .action-btn {
   padding: 4px;
   min-width: max-content;
 }
+.toolbar-dropdown-panel--left  { left: 0; }
+.toolbar-dropdown-panel--right { right: 0; }
+
+
+
+/* ── Toolbar Zoom controls ───────────────────────────────────────────────── */
+.toolbar-zoom-controls {
+  bottom: 6px;
+  left: 50%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0,0,0,0.55);
+  border-radius: 20px;
+  padding: 3px 8px;
+  pointer-events: all;
+}
+.toolbar-zoom-btn {
+  background: none;
+  border: none;
+  color: #90d090;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  width: 20px;
+  text-align: center;
+}
+.toolbar-zoom-btn:disabled { color: #3a6a3a; cursor: default; }
+.toolbar-zoom-btn:not(:disabled):hover { color: #c0f0c0; }
+.toolbar-zoom-bar {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.toolbar-zoom-tick {
+  background: none;
+  border: none;
+  color: #4a7a4a;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.1s;
+}
+.toolbar-zoom-tick--active { color: #80d080; }
+.toolbar-zoom-tick:hover { color: #a0f0a0; }
+
 
 .city-header {
   flex-shrink: 0;

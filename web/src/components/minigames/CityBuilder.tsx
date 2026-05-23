@@ -61,11 +61,14 @@ import { StatsScreen } from './citybuilder/StatsScreen'
 import { ZoneEditor } from './citybuilder/ZoneEditor'
 import { DisasterModal } from './citybuilder/DisasterModal'
 import { OverlayScreen } from '../ui/OverlayScreen'
-import { Toolbar, ToolbarButton, ToolbarDropdown } from '../ui/Toolbar'
+import { Toolbar } from '../ui/Toolbar/Toolbar'
+import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
+import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { FarmingSim } from './FarmingSim'
 import { isFarmUnlocked, loadFarmState, saveFarmState, getFarmProductionRate } from '../../game/farmingSim'
 import { tickAll } from '../../game/tick'
+import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 
 
 // ── Resident thought lines ────────────────────────────────────────────────────
@@ -1638,44 +1641,53 @@ export function CityBuilder({ onBack }: Props) {
 
   const cityToolbar = (
     <Toolbar>
-      <ToolbarButton active={bulldozerMode} onClick={toggleBulldozer}
-        title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}>
-        {bulldozerMode ? '🧱 DEMOLISH' : '👷 BUILD'}
-      </ToolbarButton>
-      <ToolbarButton onClick={() => setScreen('fortify')} title="Manage city walls">🛡 FORTS</ToolbarButton>
-      {isFarmUnlocked(population) ? (
-        <ToolbarButton className="action-btn--gold" style={{ fontSize: 11 }} onClick={() => setScreen('farming')}
-          title="Manage arable land outside the city">🌾 FARM</ToolbarButton>
-      ) : (
-        <ToolbarButton style={{ opacity: 0.7 }}
-          title={`Farm unlocks at population 10 (currently ${population})`}
-          onClick={() => setShowFarmLockModal(true)}>🌾 FARM 🔒</ToolbarButton>
-      )}
-      <ToolbarButton onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers">⚔ DEFEND</ToolbarButton>
-      {city.activeDisaster && (
-        <ToolbarButton className="city-disaster-btn" onClick={() => setShowDisaster(true)}
-          title={city.activeDisaster.type === 'fire' ? 'Fire is raging!' : 'Plague is spreading!'}>
-          {city.activeDisaster.type === 'fire' ? '🔥' : '☠'} DISASTER!
-        </ToolbarButton>
-      )}      
-      <ToolbarDropdown>
-      <ToolbarButton onClick={() => setScreen('upgrade')} title="Upgrade buildings">★ UPGRADES</ToolbarButton>
-      <ToolbarButton onClick={() => setScreen('chronicle')} title="View city history">📜 HISTORY</ToolbarButton>
-      <ToolbarButton onClick={() => setScreen('stats')} title="View economy charts">📊 STATS</ToolbarButton>
-      <ToolbarButton onClick={() => setScreen('zones')} title="Set district zones per row">🗺 ZONES</ToolbarButton>
-
       <ToolbarButton
-        className={city.tradeOffer && !city.activeCaravan ? 'city-trade-btn--ready' : undefined}
-        onClick={() => setShowTrade(true)} title="Trade resources via caravan">
-        🐪 TRADE{city.activeCaravan ? ' (away)' : city.tradeOffer ? ' !' : ''}
-      </ToolbarButton>
-      {cityRows <= MAX_CITY_ROWS && (
+        active={bulldozerMode}
+        onClick={toggleBulldozer}
+        title={bulldozerMode ? 'Demolish mode ON' : 'Demolish a building'}
+        label={bulldozerMode ? 'DEMOLISH' : 'BUILD'}
+        icon={bulldozerMode ? '🧱' : '👷'}
+      />
+      <ToolbarButton onClick={() => setScreen('fortify')} title="Manage city walls" label="FORTS" icon="🛡" />
+      <ToolbarButton
+        title={isFarmUnlocked(population) ? "Manage arable land outside the city" : `Farm unlocks at population 10 (currently ${population})`}
+        onClick={() => setShowFarmLockModal(true)}
+        label="FARM"
+        locked={!isFarmUnlocked(population)}
+        icon="🌾"
+      />
+      <ToolbarButton onClick={() => setScreen('towerdefence')} title="Defend the city using your residents as towers" label="DEFEND" icon="⚔" />
+      {city.activeDisaster && (
         <ToolbarButton
-          className={`city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
-          onClick={() => setShowExpandModal(true)} title="View city expansion levels and costs">
-          🏢 EXPAND
-        </ToolbarButton>
+          className="city-disaster-btn"
+          onClick={() => setShowDisaster(true)}
+          title={city.activeDisaster.type === 'fire' ? 'Fire is raging!' : 'Plague is spreading!'}
+          label="DISASTER!"
+          icon={city.activeDisaster.type === 'fire' ? '🔥' : '☠'}
+        />
       )}
+      <ToolbarSpacer />
+      <ToolbarDropdown>
+        <ToolbarButton onClick={() => setScreen('upgrade')} title="Upgrade buildings" label="UPGRADES" icon="★" />
+        <ToolbarButton onClick={() => setScreen('chronicle')} title="View city history" label="HISTORY" icon="📜" />
+        <ToolbarButton onClick={() => setScreen('stats')} title="View economy charts" label="STATS" icon="📊" />
+        <ToolbarButton onClick={() => setScreen('zones')} title="Set district zones per row" label="ZONES" icon="🗺" />
+        <ToolbarButton
+          className={city.tradeOffer && !city.activeCaravan ? 'city-trade-btn--ready' : undefined}
+          onClick={() => setShowTrade(true)}
+          title="Trade resources via caravan"
+          label={`TRADE${city.activeCaravan ? ' (away)' : city.tradeOffer ? ' !' : ''}`}
+          icon="🐪"
+        />
+        {cityRows <= MAX_CITY_ROWS && (
+          <ToolbarButton
+            className={`city-expand-btn${affordable ? ' city-expand-btn--ready' : ''}`}
+            onClick={() => setShowExpandModal(true)}
+            title="View city expansion levels and costs"
+            label="EXPAND"
+            icon="🏢"
+          />
+        )}
       </ToolbarDropdown>
     </Toolbar>
   )
