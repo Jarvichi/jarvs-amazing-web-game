@@ -748,12 +748,17 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
   const hiddenNodeIds      = useMemo(() => {
     const ids = new Set<string>()
     for (const node of Object.values(act.nodes)) {
-      if (node.type === 'memory' && node.fragmentId && discoveredFragIds.has(node.fragmentId)) {
+      if (
+        node.type === 'memory' &&
+        node.fragmentId &&
+        discoveredFragIds.has(node.fragmentId) &&
+        !run.completedNodeIds.includes(node.id)
+      ) {
         ids.add(node.id)
       }
     }
     return ids
-  }, [act, discoveredFragIds])
+  }, [act, discoveredFragIds, run])
 
   const mapHeight = maxRowCols * ROW_HEIGHT
   const mapWidth  = AVATAR_PADDING + rows.length * COL_WIDTH + Math.max(0, rows.length - 1) * 44
