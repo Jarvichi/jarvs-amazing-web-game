@@ -8885,6 +8885,20 @@ html.light-mode .action-btn {
   flex-shrink: 0;
   flex-wrap: wrap;
   row-gap: 0;
+  container-type: inline-size;
+  container-name: toolbar;
+}
+.toolbar > .filter-btn {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.toolbar-overflow-inline  { display: contents; }
+.toolbar-overflow-dropdown { display: none; }
+@container toolbar (max-width: 500px) {
+  .toolbar-overflow-inline  { display: none; }
+  .toolbar-overflow-dropdown { display: contents; }
 }
 .toolbar-dropdown {
   position: relative;

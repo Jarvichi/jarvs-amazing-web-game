@@ -7,10 +7,11 @@ export interface ToolbarDropdownProps {
   label?: ReactNode;
   disabled?: boolean;
   children: ReactNode;
+  overflowItems?: ReactNode;
   align?: 'left' | 'right';
 }
 
-export function ToolbarDropdown({ label, disabled, children, align = 'right' }: ToolbarDropdownProps) {
+export function ToolbarDropdown({ label, disabled, children, overflowItems, align = 'right' }: ToolbarDropdownProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -25,6 +26,9 @@ export function ToolbarDropdown({ label, disabled, children, align = 'right' }: 
 
   return (
     <div className="toolbar-dropdown" ref={ref}>
+      {overflowItems && (
+        <div className="toolbar-overflow-inline">{overflowItems}</div>
+      )}
       <button
         className={`filter-btn${open ? ' filter-btn--active' : ''} u-min-w-32`}
         onClick={() => setOpen(o => !o)}
@@ -34,6 +38,9 @@ export function ToolbarDropdown({ label, disabled, children, align = 'right' }: 
       </button>
       {open && (
         <div className={`toolbar-dropdown-panel toolbar-dropdown-panel--${align}`} onClick={() => setOpen(false)}>
+          {overflowItems && (
+            <div className="toolbar-overflow-dropdown">{overflowItems}</div>
+          )}
           {children}
         </div>
       )}
