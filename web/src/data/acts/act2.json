@@ -413,14 +413,54 @@
         "description": "A sealed iron crate stamped with the Citadel's quartermaster mark. Left in the retreat. Whatever is inside has been waiting for someone with the nerve to open it.",
         "pools": [
           [
-            {"label": "Force it open", "consequence": "Iron rations and coin — +20 crystals", "effect": {"type": "gainCrystals", "amount": 20}},
-            {"label": "Force it open", "consequence": "Field medicine inside — restored 15 HP", "effect": {"type": "healHp", "amount": 15}},
-            {"label": "Force it open", "consequence": "A booby trap springs — lose 12 HP", "effect": {"type": "damageHp", "amount": 12}}
+            {
+              "label": "Force it open",
+              "consequence": "Iron rations and coin — +20 crystals",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 20
+              }
+            },
+            {
+              "label": "Force it open",
+              "consequence": "Field medicine inside — restored 15 HP",
+              "effect": {
+                "type": "healHp",
+                "amount": 15
+              }
+            },
+            {
+              "label": "Force it open",
+              "consequence": "A booby trap springs — lose 12 HP",
+              "effect": {
+                "type": "damageHp",
+                "amount": 12
+              }
+            }
           ],
           [
-            {"label": "Check the dispatch papers", "consequence": "Tactical documents — an uncommon card falls from the bundle", "effect": {"type": "gainCard", "rarity": "uncommon"}},
-            {"label": "Check the dispatch papers", "consequence": "Something useful wrapped in the orders — added to inventory", "effect": {"type": "gainItem"}},
-            {"label": "Check the dispatch papers", "consequence": "Orders only. Nothing useful.", "effect": {"type": "nothing"}}
+            {
+              "label": "Check the dispatch papers",
+              "consequence": "Tactical documents — an uncommon card falls from the bundle",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "uncommon"
+              }
+            },
+            {
+              "label": "Check the dispatch papers",
+              "consequence": "Something useful wrapped in the orders — added to inventory",
+              "effect": {
+                "type": "gainItem"
+              }
+            },
+            {
+              "label": "Check the dispatch papers",
+              "consequence": "Orders only. Nothing useful.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
           ]
         ]
       }
@@ -621,14 +661,54 @@
         "description": "Kragg's inner sanctum. The campaign map is still pinned to the table, markers showing positions from three years ago. Someone was making decisions here when the Fracture hit. The markers are still where they left them.",
         "pools": [
           [
-            {"label": "Study the campaign map", "consequence": "You find a tactical advantage — +18 crystals recovered from a hidden drawer", "effect": {"type": "gainCrystals", "amount": 18}},
-            {"label": "Study the campaign map", "consequence": "A rare strategy document — add a rare card", "effect": {"type": "gainCard", "rarity": "rare"}},
-            {"label": "Study the campaign map", "consequence": "Nothing useful. Outdated positions.", "effect": {"type": "nothing"}}
+            {
+              "label": "Study the campaign map",
+              "consequence": "You find a tactical advantage — +18 crystals recovered from a hidden drawer",
+              "effect": {
+                "type": "gainCrystals",
+                "amount": 18
+              }
+            },
+            {
+              "label": "Study the campaign map",
+              "consequence": "A rare strategy document — add a rare card",
+              "effect": {
+                "type": "gainCard",
+                "rarity": "rare"
+              }
+            },
+            {
+              "label": "Study the campaign map",
+              "consequence": "Nothing useful. Outdated positions.",
+              "effect": {
+                "type": "nothing"
+              }
+            }
           ],
           [
-            {"label": "Search the room", "consequence": "A field medic's kit in the footlocker — restored 14 HP", "effect": {"type": "healHp", "amount": 14}},
-            {"label": "Search the room", "consequence": "Something of value left in the rush — added to inventory", "effect": {"type": "gainItem"}},
-            {"label": "Search the room", "consequence": "The room has already been searched — lose 8 HP from a leftover trap", "effect": {"type": "damageHp", "amount": 8}}
+            {
+              "label": "Search the room",
+              "consequence": "A field medic's kit in the footlocker — restored 14 HP",
+              "effect": {
+                "type": "healHp",
+                "amount": 14
+              }
+            },
+            {
+              "label": "Search the room",
+              "consequence": "Something of value left in the rush — added to inventory",
+              "effect": {
+                "type": "gainItem"
+              }
+            },
+            {
+              "label": "Search the room",
+              "consequence": "The room has already been searched — lose 8 HP from a leftover trap",
+              "effect": {
+                "type": "damageHp",
+                "amount": 8
+              }
+            }
           ]
         ]
       }

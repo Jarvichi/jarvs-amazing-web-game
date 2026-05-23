@@ -4,42 +4,72 @@
     "icon": "🛡️",
     "desc": "Your base gains +10 max HP at the start of every battle.",
     "lore": "Carved from the heartwood of the Verdant Shard's oldest tree. The Thornlord wore it as a badge of office for three hundred years. He seemed surprised when you took it.",
-    "effects": [{ "type": "baseHp", "amount": 10 }]
+    "effects": [
+      {
+        "type": "baseHp",
+        "amount": 10
+      }
+    ]
   },
   {
     "name": "Iron Standard",
     "icon": "⚔️",
     "desc": "All your units start with +1 ATK.",
     "lore": "Warlord Kragg's battle standard. His army would follow it anywhere. Several of them followed it into the ground. You've repurposed it.",
-    "effects": [{ "type": "unitAtk", "amount": 1 }]
+    "effects": [
+      {
+        "type": "unitAtk",
+        "amount": 1
+      }
+    ]
   },
   {
     "name": "Soulstone",
     "icon": "💎",
     "desc": "Once per battle, when one of your units is destroyed, it is immediately revived with half its original HP.",
     "lore": "Found warm in the Ashen Wastes, long after the fires went cold. The Ashwalker refused to say what it once contained. You decided not to press the matter.",
-    "effects": [{ "type": "unitRevive", "hp": "half" }]
+    "effects": [
+      {
+        "type": "unitRevive",
+        "hp": "half"
+      }
+    ]
   },
   {
     "name": "Prism Lens",
     "icon": "🔮",
     "desc": "Your maximum mana is increased by 1.",
     "lore": "Removed from the Crystal Spire's central focusing array. The Archivist catalogued it under 'Misappropriated — see entry: Jarv'. He was not pleased.",
-    "effects": [{ "type": "maxMana", "amount": 1 }]
+    "effects": [
+      {
+        "type": "maxMana",
+        "amount": 1
+      }
+    ]
   },
   {
     "name": "Coral Mantle",
     "icon": "🐚",
     "desc": "At the start of every battle your units gain +3 max HP.",
     "lore": "Woven from living reef-thread by the Tidal Sovereign's deep-court attendants. It still smells of cold water and old stone. Your units seem healthier just being near it.",
-    "effects": [{ "type": "unitHp", "amount": 3 }]
+    "effects": [
+      {
+        "type": "unitHp",
+        "amount": 3
+      }
+    ]
   },
   {
     "name": "Stormcaller's Badge",
     "icon": "⚡",
     "desc": "All your units gain +2 attack at battle start.",
     "lore": "A rank insignia of the Sky Dominion, awarded only to generals who won three engagements against impossible odds. The Cloudmarshal had six. You have one now.",
-    "effects": [{ "type": "unitAtk", "amount": 2 }]
+    "effects": [
+      {
+        "type": "unitAtk",
+        "amount": 2
+      }
+    ]
   },
   {
     "name": "Frost Mantle",
@@ -47,8 +77,14 @@
     "desc": "All your units gain +2 max HP and your base gains +8 max HP at the start of every battle.",
     "lore": "Standard-issue gear for the Pale Engine's vanguard units. The cold does not affect them. It does affect you. Fortunately, the toughening effect more than compensates.",
     "effects": [
-      { "type": "baseHp", "amount": 8 },
-      { "type": "unitHp", "amount": 2 }
+      {
+        "type": "baseHp",
+        "amount": 8
+      },
+      {
+        "type": "unitHp",
+        "amount": 2
+      }
     ]
   },
   {
@@ -56,21 +92,38 @@
     "icon": "🧭",
     "desc": "You start each battle with full mana.",
     "lore": "Points not north, but toward wherever mana flows strongest. In the old Dominion, scholars spent lifetimes following it in circles. In your hands, it just points at you.",
-    "effects": [{ "type": "startMana", "amount": 99 }]
+    "effects": [
+      {
+        "type": "startMana",
+        "amount": 99
+      }
+    ]
   },
   {
     "name": "Spore Bloom",
     "icon": "🍄",
     "desc": "Your units regenerate 1 HP every 3 seconds during battle.",
     "lore": "A living relic from the Fungal Deep. The Root Queen called it 'a gift freely given'. She was smiling when she said it. You chose to accept anyway.",
-    "effects": [{ "type": "tickHeal", "amount": 1, "intervalMs": 3000 }]
+    "effects": [
+      {
+        "type": "tickHeal",
+        "amount": 1,
+        "intervalMs": 3000
+      }
+    ]
   },
   {
     "name": "Magma Core",
     "icon": "🌋",
     "desc": "Your units gain +2 ATK at battle start whenever your base HP is below 50%.",
     "lore": "Extracted from the Emberfall Peaks at considerable personal cost. It stays cold until danger arrives. Then it wakes up. Your units can feel it.",
-    "effects": [{ "type": "unitAtk", "amount": 2, "condition": "baseBelowHalf" }]
+    "effects": [
+      {
+        "type": "unitAtk",
+        "amount": 2,
+        "condition": "baseBelowHalf"
+      }
+    ]
   },
   {
     "name": "Living Bark",
@@ -78,8 +131,14 @@
     "desc": "Your base gains +25 max HP and all your units gain +4 max HP at the start of every battle.",
     "lore": "A cutting from the Verdant Canopy's Elder Warden. Still growing. It has added another ring since you picked it up. It seems to approve of the places you take it.",
     "effects": [
-      { "type": "baseHp", "amount": 25 },
-      { "type": "unitHp", "amount": 4 }
+      {
+        "type": "baseHp",
+        "amount": 25
+      },
+      {
+        "type": "unitHp",
+        "amount": 4
+      }
     ]
   },
   {
@@ -87,7 +146,12 @@
     "icon": "🪝",
     "desc": "Once per battle, one of your destroyed units is revived at full HP.",
     "lore": "A clockwork relic from the Vaults, originally built to retrieve and reassemble damaged automata. The Grand Automaton considered it essential equipment. You agree.",
-    "effects": [{ "type": "unitRevive", "hp": "full" }]
+    "effects": [
+      {
+        "type": "unitRevive",
+        "hp": "full"
+      }
+    ]
   },
   {
     "name": "Gear Heart",
@@ -95,9 +159,18 @@
     "desc": "All your units gain +3 ATK and +3 max HP at battle start, and gain an additional +2 ATK whenever any card is played.",
     "lore": "The Grand Automaton's secondary processing core. It doesn't know it's outside the Vaults. Your units seem to receive its instructions regardless. Don't tell it the truth.",
     "effects": [
-      { "type": "unitAtk", "amount": 3 },
-      { "type": "unitHp", "amount": 3 },
-      { "type": "onPlayAtk", "amount": 2 }
+      {
+        "type": "unitAtk",
+        "amount": 3
+      },
+      {
+        "type": "unitHp",
+        "amount": 3
+      },
+      {
+        "type": "onPlayAtk",
+        "amount": 2
+      }
     ]
   },
   {
@@ -106,10 +179,22 @@
     "desc": "The mark of the Worldmender. Your base gains +30 max HP, all units gain +6 ATK and +8 max HP, and your maximum mana is increased by 2.",
     "lore": "The mark of someone who walked every shard and returned. The Dominion was shattered and you were the one who chose not to let it stay that way. The world is still broken. Less so than before.",
     "effects": [
-      { "type": "baseHp", "amount": 30 },
-      { "type": "unitAtk", "amount": 6 },
-      { "type": "unitHp", "amount": 8 },
-      { "type": "maxMana", "amount": 2 }
+      {
+        "type": "baseHp",
+        "amount": 30
+      },
+      {
+        "type": "unitAtk",
+        "amount": 6
+      },
+      {
+        "type": "unitHp",
+        "amount": 8
+      },
+      {
+        "type": "maxMana",
+        "amount": 2
+      }
     ]
   }
 ]

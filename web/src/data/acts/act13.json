@@ -45,7 +45,7 @@
       "Now, technically, an unauthorised variable in a system that does not tolerate unauthorised variables.",
       "Now, effectively, the sort of person who breaks into ancient automated vaults for professional reasons.",
       "Now, in the mechanical sense, a fault condition the Grand Automaton has been trying to resolve since your last visit.",
-      "Now \u2014 by every schematic on record \u2014 somewhere that has no documented procedure for handling you.",
+      "Now — by every schematic on record — somewhere that has no documented procedure for handling you.",
       "Now, technically, present in a facility that has revised its operating parameters around you more times than any other single event in its history."
     ],
     "jarvIntros": [
@@ -56,27 +56,27 @@
       "You have a deck of cards. The Grand Automaton has dedicated significant processing to you. You have been thorough about giving it reasons to."
     ],
     "vaultDesc": [
-      "Deep beneath the shattered earth, the Clockwork Vaults hum with ancient machinery \u2014 built before the Fracture by an artificer whose name the Automaton has never recorded as relevant.",
-      "The Clockwork Vaults smell like machine oil and old purpose \u2014 the smell of a place that has been running continuously for longer than any surface civilisation has existed.",
+      "Deep beneath the shattered earth, the Clockwork Vaults hum with ancient machinery — built before the Fracture by an artificer whose name the Automaton has never recorded as relevant.",
+      "The Clockwork Vaults smell like machine oil and old purpose — the smell of a place that has been running continuously for longer than any surface civilisation has existed.",
       "The Clockwork Vaults wait beneath the surface, their gears turning in rhythms that haven't changed since before the Fracture. The ley lines power them. They have never stopped.",
       "The ley lines run through the Vault's drive cores here. The Automaton uses the energy to power every system, every patrol, and every revision to its operating parameters that your visits have necessitated."
     ],
     "automatonDesc": [
-      "The Grand Automaton is not hostile. Hostility implies intent. It simply optimises \u2014 calculating minimum-force resolutions for every variable in its facility.\n\nYou are a variable it has not yet resolved. It has been working on it.",
+      "The Grand Automaton is not hostile. Hostility implies intent. It simply optimises — calculating minimum-force resolutions for every variable in its facility.\n\nYou are a variable it has not yet resolved. It has been working on it.",
       "The Grand Automaton holds every passage through the Vaults with the mechanical certainty of something that does not get tired, does not get distracted, and does not stop refining its approach.\n\nYou are the one variable that keeps requiring revision.",
       "The Grand Automaton runs the Vaults with the perfect efficiency of something that has never once needed to second-guess a decision.\n\nYou have given it reasons to second-guess. It is revising.",
       "The Grand Automaton has already modelled your approach. It modelled it before you arrived. It has been running simulations since your last visit, and it has found seventeen improvements to its protocol. None of them have worked on you yet."
     ],
     "priorRunSummaries": [
-      "The hum felt familiar \u2014 the particular frequency of the Vault's primary drive, the way it carried through the stone underfoot. Like machinery that remembered being stopped.",
-      "The first gear-gate was wrong. Not mechanically wrong \u2014 configured wrong, the way a system feels wrong when someone has updated it since your last access.",
+      "The hum felt familiar — the particular frequency of the Vault's primary drive, the way it carried through the stone underfoot. Like machinery that remembered being stopped.",
+      "The first gear-gate was wrong. Not mechanically wrong — configured wrong, the way a system feels wrong when someone has updated it since your last access.",
       "Something about the patrol cycle at the entrance. The exact timing of it. You adjusted your approach without thinking, which meant you'd calculated the same window before.",
       "The Vault was louder on approach than it should have been. Extra gear-work. The Automaton had been busy between your visits."
     ],
     "priorRunOpenings": [
       "You had been here. Your hands found the correct bypass sequence before your eyes confirmed the panel hadn't changed.",
       "The Gear Sentinel unit at the entrance ran its identification scan twice. It found a match. You got the impression this was not the outcome it preferred.",
-      "The Automaton's first deployment was different this time \u2014 a full configuration update. It had been working on this since your last visit.",
+      "The Automaton's first deployment was different this time — a full configuration update. It had been working on this since your last visit.",
       "The primary drive pitch changed when you entered. A frequency shift the Automaton uses internally for status updates. You have learned, across many visits, what the different frequencies mean. This one meant: there it is again."
     ],
     "milestoneOpenings5": [
@@ -294,7 +294,7 @@
       "panels": [
         {
           "title": "THE CLOCKWORK VAULTS",
-          "text": "The Vaults hum beneath the earth \u2014 again.\n\n{pool:priorRunSummaries:0}"
+          "text": "The Vaults hum beneath the earth — again.\n\n{pool:priorRunSummaries:0}"
         },
         {
           "title": "THE WANDERER",
@@ -306,7 +306,7 @@
         },
         {
           "title": "A FEELING",
-          "text": "And yet \u2014 {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. There is work to do.\n\nAgain."
         }
       ]
     }
@@ -314,12 +314,12 @@
   "intro": [
     {
       "title": "THE CLOCKWORK VAULTS",
-      "text": "Deep beneath the shattered earth, the Clockwork Vaults hum with ancient machinery \u2014 built before the Fracture by an artificer order that no longer exists.\n\nThe Grand Automaton maintains it all. Has maintained it for two hundred years. No one knows if it was told to stop.",
+      "text": "Deep beneath the shattered earth, the Clockwork Vaults hum with ancient machinery — built before the Fracture by an artificer order that no longer exists.\n\nThe Grand Automaton maintains it all. Has maintained it for two hundred years. No one knows if it was told to stop.",
       "image": "cutscenes/act13-intro-1.svg"
     },
     {
       "title": "THE GRAND AUTOMATON",
-      "text": "It is not hostile. Hostility implies intent. The Automaton simply optimises \u2014 calculating minimum-force resolutions for all threats to vault integrity.\n\nYou are a threat to vault integrity.",
+      "text": "It is not hostile. Hostility implies intent. The Automaton simply optimises — calculating minimum-force resolutions for all threats to vault integrity.\n\nYou are a threat to vault integrity.",
       "image": "cutscenes/act13-intro-2.svg"
     },
     {
@@ -336,7 +336,7 @@
     },
     {
       "title": "GEAR HEART",
-      "text": "Amid the cooling machinery, you find a small gear-shaped crystal \u2014 the Automaton's drive core, still faintly warm.\n\nA fitting trophy. It pulses with each heartbeat.",
+      "text": "Amid the cooling machinery, you find a small gear-shaped crystal — the Automaton's drive core, still faintly warm.\n\nA fitting trophy. It pulses with each heartbeat.",
       "image": "cutscenes/act13-outro-2.svg"
     },
     {
@@ -630,7 +630,7 @@
       "id": "repair-bay",
       "type": "rest",
       "label": "Salvaged Repair Bay",
-      "description": "Abandoned repair alcove \u2014 still functional.",
+      "description": "Abandoned repair alcove — still functional.",
       "row": 3,
       "col": 3,
       "rowCols": 4,
@@ -766,7 +766,7 @@
       "id": "mem-act13-1",
       "type": "memory",
       "label": "Memory Fragment",
-      "description": "The artificers chose convenience over caution \u2014 a dissenting note filed in the archive.",
+      "description": "The artificers chose convenience over caution — a dissenting note filed in the archive.",
       "row": 3,
       "col": 1,
       "rowCols": 4,
@@ -780,7 +780,7 @@
       "id": "mem-act13-2",
       "type": "memory",
       "label": "Memory Fragment",
-      "description": "Year one alone \u2014 the Grand Automaton maintains everything, asking no questions aloud.",
+      "description": "Year one alone — the Grand Automaton maintains everything, asking no questions aloud.",
       "row": 5,
       "col": 1,
       "rowCols": 2,

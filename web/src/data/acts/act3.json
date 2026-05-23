@@ -49,7 +49,7 @@
   "intro": [
     {
       "title": "THE ASHEN WASTES",
-      "text": "Before the Fracture, the Ashen Wastes were a mining region \u2014 coal seams, slag heaps, villages built around the work. Ordinary.\n\nThe Fracture hit differently here. The shard didn't just shatter. It burned. And whatever dark energy poured into the gap found the dead an accommodating host.\n\nThe Wastes are not quiet. The Wastes have never been quiet since.",
+      "text": "Before the Fracture, the Ashen Wastes were a mining region — coal seams, slag heaps, villages built around the work. Ordinary.\n\nThe Fracture hit differently here. The shard didn't just shatter. It burned. And whatever dark energy poured into the gap found the dead an accommodating host.\n\nThe Wastes are not quiet. The Wastes have never been quiet since.",
       "image": "cutscenes/act3-intro-1.svg"
     },
     {
@@ -59,7 +59,7 @@
     },
     {
       "title": "THE ASHEN WASTES",
-      "text": "The shard is a landscape of grey ash and collapsed mineshafts, lit by fires that burn without fuel and voices that carry without wind.\n\nAt its centre, the Ashwalker \u2014 a figure that predates the Fracture, that may predate the Dominion itself. It does not rule the Wastes. The Wastes simply organise themselves around it.",
+      "text": "The shard is a landscape of grey ash and collapsed mineshafts, lit by fires that burn without fuel and voices that carry without wind.\n\nAt its centre, the Ashwalker — a figure that predates the Fracture, that may predate the Dominion itself. It does not rule the Wastes. The Wastes simply organise themselves around it.",
       "image": "cutscenes/act3-intro-3.svg"
     },
     {
@@ -71,7 +71,7 @@
   "outro": [
     {
       "title": "THE ASHES SETTLE",
-      "text": "The Ashwalker collapses inward \u2014 not destroyed, exactly. Diminished. The fires that burned without fuel go out one by one.\n\nFor the first time in three years, the Ashen Wastes are quiet. Not silent. Quiet. There is a difference.\n\nYou stand in the ash and wait to see if anything gets back up. Nothing does. You consider this a victory.",
+      "text": "The Ashwalker collapses inward — not destroyed, exactly. Diminished. The fires that burned without fuel go out one by one.\n\nFor the first time in three years, the Ashen Wastes are quiet. Not silent. Quiet. There is a difference.\n\nYou stand in the ash and wait to see if anything gets back up. Nothing does. You consider this a victory.",
       "image": "cutscenes/act3-outro-1.svg"
     },
     {
@@ -85,7 +85,7 @@
       "Currently, technically, in a place that shouldn't exist.",
       "Professionally speaking, operating outside recommended parameters.",
       "In the occupational sense, doing something the guild specifically warned against.",
-      "Now \u2014 by any reasonable safety assessment \u2014 somewhere else.",
+      "Now — by any reasonable safety assessment — somewhere else.",
       "Technically alive, which puts you in a minority out here."
     ],
     "jarvIntros": [
@@ -96,25 +96,25 @@
       "You have a deck of cards. Something in the ash is watching you. You choose to treat that as an audience."
     ],
     "wastesDesc": [
-      "The Ashen Wastes spread across the shard like a wound that never healed \u2014 grey plains dotted with collapsed shafts, burning slag heaps, and the occasional structure that shouldn't still be standing. The silence is the worst part. Not quiet. Silent.",
+      "The Ashen Wastes spread across the shard like a wound that never healed — grey plains dotted with collapsed shafts, burning slag heaps, and the occasional structure that shouldn't still be standing. The silence is the worst part. Not quiet. Silent.",
       "The Wastes are navigable if you know the routes and avoid the unstable ground. Your map marks both. Your map was also drawn three years ago, before the dead started moving the landmarks.",
-      "Grey ash in every direction, fires that burn cold, and voices that carry meaning without words. The Wastes are not hostile \u2014 they are simply indifferent to whether you survive them.",
+      "Grey ash in every direction, fires that burn cold, and voices that carry meaning without words. The Wastes are not hostile — they are simply indifferent to whether you survive them.",
       "The shard smells of coal and old smoke and something older beneath both. The Wandering Scholar called it 'entropy made ambient.' You call it 'bad.'"
     ],
     "ashwalkerDesc": [
-      "The Ashwalker has no name in any record that predates the Fracture, which suggests it either wasn't important enough to name or was important enough to not name. Neither is reassuring.\n\nIt doesn't command the dead. It simply exists, and the dead \u2014 finding something more coherent than entropy to organise around \u2014 follow.",
+      "The Ashwalker has no name in any record that predates the Fracture, which suggests it either wasn't important enough to name or was important enough to not name. Neither is reassuring.\n\nIt doesn't command the dead. It simply exists, and the dead — finding something more coherent than entropy to organise around — follow.",
       "No one knows what the Ashwalker was before the Fracture. The current theory, held by exactly one scholar who has since stopped talking about it, is that it wasn't anything before the Fracture. That the Fracture made it.\n\nYou are choosing not to find this interesting.",
-      "The Ashwalker moves through the Wastes like weather \u2014 present everywhere, localised nowhere, and arriving at inconvenient moments. The dead it commands are an afterthought. The Ashwalker itself is the problem.\n\nYou have a plan for the problem. The plan involves cards.",
+      "The Ashwalker moves through the Wastes like weather — present everywhere, localised nowhere, and arriving at inconvenient moments. The dead it commands are an afterthought. The Ashwalker itself is the problem.\n\nYou have a plan for the problem. The plan involves cards.",
       "Old stories about the Ashwalker agree on one detail: it doesn't fight. It consumes. It converts. It uses what's already there.\n\nYou have made a professional decision to not be there when it arrives."
     ],
     "priorRunSummaries": [
       "The first ashfield looked exactly as you'd imagined it. Which was alarming, because you'd never been here before.",
       "You stepped into the Wastes with the specific sensation of having already made a mistake you couldn't identify yet.",
-      "Something about the first encounter \u2014 the way the risen dead were positioned, the angle of the burning slag heaps \u2014 felt rehearsed. Like a re-run.",
+      "Something about the first encounter — the way the risen dead were positioned, the angle of the burning slag heaps — felt rehearsed. Like a re-run.",
       "The Wastes felt familiar the way a recurring nightmare feels familiar: not pleasant, but navigable, and carrying a sense that you know how it ends."
     ],
     "priorRunOpenings": [
-      "You remember \u2014 and this is the strange part \u2014 walking this ash field before. Not recently. Not clearly. But the memory is there.",
+      "You remember — and this is the strange part — walking this ash field before. Not recently. Not clearly. But the memory is there.",
       "The Revenant Witch looked at you before you'd said anything. 'Again?' she said. You didn't ask what she meant.",
       "The Ashwalker, when you reached it, didn't seem surprised. It turned toward you with the deliberate patience of something that has been expecting a specific visitor.",
       "The first risen dead you encountered stopped. Just stopped. Then stepped aside. You kept walking and chose not to investigate why."
@@ -136,7 +136,7 @@
       "Fifty approaches. The Ashwalker sends an escort now. You follow the escort. The escort knows the shortest route."
     ],
     "milestoneOpenings100": [
-      "The Ashwalker is already waiting.\n\nNot in its usual position \u2014 at the centre of the Wastes, surrounded by the dead. Here, at the edge. Where you enter.\n\n'I have been counting,' it says. The voice comes from everywhere and nowhere simultaneously. 'A hundred times you have come. A hundred times the fire goes out.'\n\nThe ash around it moves in a slow circle.\n\n'I am beginning to think you might be a habit.'"
+      "The Ashwalker is already waiting.\n\nNot in its usual position — at the centre of the Wastes, surrounded by the dead. Here, at the edge. Where you enter.\n\n'I have been counting,' it says. The voice comes from everywhere and nowhere simultaneously. 'A hundred times you have come. A hundred times the fire goes out.'\n\nThe ash around it moves in a slow circle.\n\n'I am beginning to think you might be a habit.'"
     ]
   },
   "midRunTemplates": [
@@ -346,7 +346,7 @@
         },
         {
           "title": "A MEMORY",
-          "text": "And yet \u2014 {pool:priorRunOpenings:0}\n\nYou push the feeling aside. The Wastes are waiting.\n\nThey are always waiting."
+          "text": "And yet — {pool:priorRunOpenings:0}\n\nYou push the feeling aside. The Wastes are waiting.\n\nThey are always waiting."
         }
       ]
     }
@@ -359,7 +359,7 @@
       "id": "ashfield-scouts",
       "type": "battle",
       "label": "Ashfield Scouts",
-      "description": "The dead that patrol the Wastes' edge \u2014 faster than they should be, coordinated in ways the dead shouldn't be.",
+      "description": "The dead that patrol the Wastes' edge — faster than they should be, coordinated in ways the dead shouldn't be.",
       "row": 0,
       "col": 0,
       "rowCols": 1,
@@ -406,7 +406,7 @@
           [
             {
               "label": "Leave an offering",
-              "consequence": "The shrine stirs \u2014 restored 10 HP",
+              "consequence": "The shrine stirs — restored 10 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 10
@@ -414,7 +414,7 @@
             },
             {
               "label": "Leave an offering",
-              "consequence": "Ash curls into crystals at your feet \u2014 +15 crystals",
+              "consequence": "Ash curls into crystals at your feet — +15 crystals",
               "effect": {
                 "type": "gainCrystals",
                 "amount": 15
@@ -422,7 +422,7 @@
             },
             {
               "label": "Leave an offering",
-              "consequence": "The shrine takes something in return \u2014 lose 8 HP",
+              "consequence": "The shrine takes something in return — lose 8 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 8
@@ -437,7 +437,7 @@
             },
             {
               "label": "Leave an offering",
-              "consequence": "Something small forms from the ash \u2014 added to inventory",
+              "consequence": "Something small forms from the ash — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -446,7 +446,7 @@
           [
             {
               "label": "Speak to the remnant",
-              "consequence": "It answers \u2014 an uncommon card rises from the embers",
+              "consequence": "It answers — an uncommon card rises from the embers",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -454,7 +454,7 @@
             },
             {
               "label": "Speak to the remnant",
-              "consequence": "The remnant heals your wounds \u2014 restored 12 HP",
+              "consequence": "The remnant heals your wounds — restored 12 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 12
@@ -462,7 +462,7 @@
             },
             {
               "label": "Speak to the remnant",
-              "consequence": "It screams and takes something with it \u2014 lose 12 HP",
+              "consequence": "It screams and takes something with it — lose 12 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 12
@@ -495,7 +495,7 @@
             },
             {
               "label": "Extinguish the flame",
-              "consequence": "The sudden cold heals \u2014 restored 8 HP",
+              "consequence": "The sudden cold heals — restored 8 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 8
@@ -503,7 +503,7 @@
             },
             {
               "label": "Extinguish the flame",
-              "consequence": "Something punishes the act \u2014 lose 10 HP",
+              "consequence": "Something punishes the act — lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -519,7 +519,7 @@
             },
             {
               "label": "Extinguish the flame",
-              "consequence": "A relic shard in the ashes \u2014 added to inventory",
+              "consequence": "A relic shard in the ashes — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -532,7 +532,7 @@
       "id": "bone-fire",
       "type": "rest",
       "label": "Bone Fire",
-      "description": "A fire that burns cold \u2014 but it burns, and in the Wastes that's enough. Rest here.",
+      "description": "A fire that burns cold — but it burns, and in the Wastes that's enough. Rest here.",
       "row": 2,
       "col": 2,
       "rowCols": 3,
@@ -575,7 +575,7 @@
       "id": "ash-grotto",
       "type": "rest",
       "label": "Ash Grotto",
-      "description": "A hollow in the ash-field \u2014 sheltered from the wind, the dead, and whatever else the Wastes have decided to send today. Rest here.",
+      "description": "A hollow in the ash-field — sheltered from the wind, the dead, and whatever else the Wastes have decided to send today. Rest here.",
       "row": 5,
       "col": 0,
       "rowCols": 2,
@@ -590,7 +590,7 @@
       "id": "risen-horde",
       "type": "battle",
       "label": "Risen Horde",
-      "description": "The Wastes' standing army \u2014 numberless, tireless, and pointed in your direction.",
+      "description": "The Wastes' standing army — numberless, tireless, and pointed in your direction.",
       "row": 3,
       "col": 1,
       "rowCols": 2,
@@ -621,7 +621,7 @@
       "id": "shadow-guard",
       "type": "battle",
       "label": "Shadow Guard",
-      "description": "Risen soldiers who remember their discipline \u2014 the most dangerous kind of dead.",
+      "description": "Risen soldiers who remember their discipline — the most dangerous kind of dead.",
       "row": 4,
       "col": 1,
       "rowCols": 3,
@@ -711,12 +711,12 @@
       "environment": "ashen",
       "eventConfig": {
         "title": "The Cursed Altar",
-        "description": "Black stone inscribed with sigils that predate the Ash Covenant. A hollow bowl at the centre still holds something \u2014 dark, viscous, and very still.",
+        "description": "Black stone inscribed with sigils that predate the Ash Covenant. A hollow bowl at the centre still holds something — dark, viscous, and very still.",
         "pools": [
           [
             {
               "label": "Touch the inscription",
-              "consequence": "Power courses through you \u2014 restored 15 HP",
+              "consequence": "Power courses through you — restored 15 HP",
               "effect": {
                 "type": "healHp",
                 "amount": 15
@@ -724,7 +724,7 @@
             },
             {
               "label": "Touch the inscription",
-              "consequence": "The sigil bites \u2014 lose 10 HP",
+              "consequence": "The sigil bites — lose 10 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 10
@@ -732,7 +732,7 @@
             },
             {
               "label": "Touch the inscription",
-              "consequence": "A card materialises \u2014 uncommon",
+              "consequence": "A card materialises — uncommon",
               "effect": {
                 "type": "gainCard",
                 "rarity": "uncommon"
@@ -748,7 +748,7 @@
             },
             {
               "label": "Touch the inscription",
-              "consequence": "Something falls from the altar into your hand \u2014 added to inventory",
+              "consequence": "Something falls from the altar into your hand — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -757,7 +757,7 @@
           [
             {
               "label": "Drink from the bowl",
-              "consequence": "Bitter, burning \u2014 lose 8 HP, then restored 15 HP",
+              "consequence": "Bitter, burning — lose 8 HP, then restored 15 HP",
               "effect": {
                 "type": "compound",
                 "effects": [
@@ -774,7 +774,7 @@
             },
             {
               "label": "Drink from the bowl",
-              "consequence": "Nothing. Your stomach disagrees \u2014 lose 5 HP",
+              "consequence": "Nothing. Your stomach disagrees — lose 5 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 5
@@ -782,7 +782,7 @@
             },
             {
               "label": "Drink from the bowl",
-              "consequence": "Clarity follows \u2014 +1 life",
+              "consequence": "Clarity follows — +1 life",
               "effect": {
                 "type": "gainLife",
                 "amount": 1
@@ -808,7 +808,7 @@
           [
             {
               "label": "Smash the altar",
-              "consequence": "Crystals everywhere \u2014 +20 crystals, lose 8 HP",
+              "consequence": "Crystals everywhere — +20 crystals, lose 8 HP",
               "effect": {
                 "type": "compound",
                 "effects": [
@@ -833,7 +833,7 @@
             },
             {
               "label": "Smash the altar",
-              "consequence": "Something inside retaliates \u2014 lose 15 HP",
+              "consequence": "Something inside retaliates — lose 15 HP",
               "effect": {
                 "type": "damageHp",
                 "amount": 15
@@ -841,7 +841,7 @@
             },
             {
               "label": "Smash the altar",
-              "consequence": "A shard lodges in your palm \u2014 added to inventory",
+              "consequence": "A shard lodges in your palm — added to inventory",
               "effect": {
                 "type": "gainItem"
               }
@@ -861,7 +861,7 @@
       "id": "death-knight",
       "type": "elite",
       "label": "Death Knight",
-      "description": "A Dominion officer who fell in the Fracture and rose again \u2014 armoured, organised, and entirely without mercy.",
+      "description": "A Dominion officer who fell in the Fracture and rose again — armoured, organised, and entirely without mercy.",
       "row": 5,
       "col": 1,
       "rowCols": 2,
@@ -1086,7 +1086,7 @@
       "id": "mem-act3-1",
       "type": "memory",
       "label": "Memory Fragment",
-      "description": "A miner's last shift record, scorched but still legible \u2014 the ash holds the handwriting perfectly.",
+      "description": "A miner's last shift record, scorched but still legible — the ash holds the handwriting perfectly.",
       "row": 1,
       "col": 2,
       "rowCols": 3,
@@ -1100,7 +1100,7 @@
       "id": "mem-act3-2",
       "type": "memory",
       "label": "Memory Fragment",
-      "description": "A dry lakebed etched with directions no longer useful \u2014 someone tried to find the way out when the ash first fell.",
+      "description": "A dry lakebed etched with directions no longer useful — someone tried to find the way out when the ash first fell.",
       "row": 6,
       "col": 2,
       "rowCols": 3,

@@ -1,63 +1,146 @@
 {
   "_comment": "Single source of truth for all economy values. Edit numbers here, not in .ts files.",
-
   "crystalPackCost": 250,
-
   "disenchantValue": {
-    "common":    5,
+    "common": 5,
     "uncommon": 15,
-    "rare":     40,
-    "epic":     65,
+    "rare": 40,
+    "epic": 65,
     "legendary": 100,
-    "mythic":   500,
-    "shiny":    250,
+    "mythic": 500,
+    "shiny": 250,
     "holofoil": 250,
-    "glass":    200
+    "glass": 200
   },
-
   "merchantPrices": {
-    "common":    40,
-    "uncommon":  90,
-    "rare":     200,
-    "epic":     280,
+    "common": 40,
+    "uncommon": 90,
+    "rare": 200,
+    "epic": 280,
     "legendary": 400,
-    "mythic":   2000,
-    "shiny":    1000,
+    "mythic": 2000,
+    "shiny": 1000,
     "holofoil": 1000,
-    "glass":    800
+    "glass": 800
   },
-
   "miniGameCosts": {
-    "marble":         50,
-    "tileflip":       25,
-    "crystalcatch":   25,
-    "spinner":        10,
-    "marblerace":     25,
-    "higherOrLower":  5,
-    "fruitMachine":   50,
-    "videoPoker":     0,
-    "fishing":       15,
-    "towerDefence":  50
+    "marble": 50,
+    "tileflip": 25,
+    "crystalcatch": 25,
+    "spinner": 10,
+    "marblerace": 25,
+    "higherOrLower": 5,
+    "fruitMachine": 50,
+    "videoPoker": 0,
+    "fishing": 15,
+    "towerDefence": 50
   },
-
   "ticketPrizes": [
-    { "id": "card_1",             "cost":   25, "reward": { "type": "card",     "count": 1 } },
-    { "id": "crystal_50",         "cost":   25, "reward": { "type": "crystals", "amount": 50 } },
-    { "id": "card_uncommon",      "cost":   75, "reward": { "type": "card",     "count": 1, "rarity": "uncommon" } },
-    { "id": "crystal_150",        "cost":   70, "reward": { "type": "crystals", "amount": 150 } },
-    { "id": "card_5pack",         "cost":  200, "reward": { "type": "cards",    "count": 5 } },
-    { "id": "card_rare",          "cost":  150, "reward": { "type": "card",     "count": 1, "rarity": "rare" } },
-    { "id": "card_10pack",        "cost":  350, "reward": { "type": "cards",    "count": 10 } },
-    { "id": "rare_trio",          "cost":  400, "reward": { "type": "cards",    "count": 3, "rarity": "rare" } },
-    { "id": "crystal_500_bundle", "cost":  220, "reward": { "type": "crystals", "amount": 500 } },
-    { "id": "legendary",          "cost": 1000, "reward": { "type": "cards",     "count": 3, "rarity": "legendary" } }
+    {
+      "id": "card_1",
+      "cost": 25,
+      "reward": {
+        "type": "card",
+        "count": 1
+      }
+    },
+    {
+      "id": "crystal_50",
+      "cost": 25,
+      "reward": {
+        "type": "crystals",
+        "amount": 50
+      }
+    },
+    {
+      "id": "card_uncommon",
+      "cost": 75,
+      "reward": {
+        "type": "card",
+        "count": 1,
+        "rarity": "uncommon"
+      }
+    },
+    {
+      "id": "crystal_150",
+      "cost": 70,
+      "reward": {
+        "type": "crystals",
+        "amount": 150
+      }
+    },
+    {
+      "id": "card_5pack",
+      "cost": 200,
+      "reward": {
+        "type": "cards",
+        "count": 5
+      }
+    },
+    {
+      "id": "card_rare",
+      "cost": 150,
+      "reward": {
+        "type": "card",
+        "count": 1,
+        "rarity": "rare"
+      }
+    },
+    {
+      "id": "card_10pack",
+      "cost": 350,
+      "reward": {
+        "type": "cards",
+        "count": 10
+      }
+    },
+    {
+      "id": "rare_trio",
+      "cost": 400,
+      "reward": {
+        "type": "cards",
+        "count": 3,
+        "rarity": "rare"
+      }
+    },
+    {
+      "id": "crystal_500_bundle",
+      "cost": 220,
+      "reward": {
+        "type": "crystals",
+        "amount": 500
+      }
+    },
+    {
+      "id": "legendary",
+      "cost": 1000,
+      "reward": {
+        "type": "cards",
+        "count": 3,
+        "rarity": "legendary"
+      }
+    }
   ],
-
   "cardBulkTiers": [
-    { "count":  1, "totalCost": 100 },
-    { "count":  2, "totalCost": 195 },
-    { "count":  3, "totalCost": 275 },
-    { "count":  5, "totalCost": 450 },
-    { "count": 10, "totalCost": 900 }
+    {
+      "count": 1,
+      "totalCost": 100
+    },
+    {
+      "count": 2,
+      "totalCost": 195
+    },
+    {
+      "count": 3,
+      "totalCost": 275
+    },
+    {
+      "count": 5,
+      "totalCost": 450
+    },
+    {
+      "count": 10,
+      "totalCost": 900
+    }
   ]
 }

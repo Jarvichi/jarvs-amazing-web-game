@@ -1,28 +1,232 @@
 [
-  {"id":"crystals_5",    "name":"5 Crystals",          "desc":"A handful of crystals.",                  "lore":"Every fortune starts somewhere.",          "icon":"💎","weight":80,"type":"crystals","amount":5},
-  {"id":"crystals_10",   "name":"10 Crystals",         "desc":"A modest pile of crystals.",              "lore":"Pocket change in the Shattered Dominion.", "icon":"💎","weight":70,"type":"crystals","amount":10},
-  {"id":"crystals_15",   "name":"15 Crystals",         "desc":"A small clutch of crystals.",             "lore":"Worth a bit. Spend wisely.",               "icon":"💎","weight":60,"type":"crystals","amount":15},
-  {"id":"crystals_20",   "name":"20 Crystals",         "desc":"A decent haul of crystals.",              "lore":"The shards reward persistence.",           "icon":"💎","weight":55,"type":"crystals","amount":20},
-  {"id":"crystals_25",   "name":"25 Crystals",         "desc":"A generous gift of crystals.",            "lore":"Fortune favours the returning.",           "icon":"💎","weight":50,"type":"crystals","amount":25},
-  {"id":"crystals_30",   "name":"30 Crystals",         "desc":"A tidy sum of crystals.",                 "lore":"The road ahead is a little shorter.",      "icon":"💎","weight":45,"type":"crystals","amount":30},
-  {"id":"crystals_50",   "name":"50 Crystals",         "desc":"A significant crystal bounty.",           "lore":"Saved from a better day.",                 "icon":"💎","weight":30,"type":"crystals","amount":50},
-  {"id":"crystals_75",   "name":"75 Crystals",         "desc":"A healthy crystal reward.",               "lore":"The Dominion smiles upon you today.",      "icon":"💎","weight":20,"type":"crystals","amount":75},
-  {"id":"crystals_100",  "name":"100 Crystals",        "desc":"A fine cache of crystals.",               "lore":"A hundred reasons to keep going.",         "icon":"💎","weight":12,"type":"crystals","amount":100},
-  {"id":"crystals_150",  "name":"150 Crystals",        "desc":"A rich crystal haul.",                    "lore":"Rarer than it looks.",                     "icon":"💎","weight":8, "type":"crystals","amount":150},
-  {"id":"crystals_200",  "name":"200 Crystals",        "desc":"A small fortune in crystals.",            "lore":"The kind of day worth remembering.",       "icon":"💎","weight":5, "type":"crystals","amount":200},
-  {"id":"crystals_300",  "name":"300 Crystals",        "desc":"A substantial crystal windfall.",         "lore":"Even the shards are impressed.",           "icon":"💎","weight":3, "type":"crystals","amount":300},
-  {"id":"crystals_500",  "name":"500 Crystals",        "desc":"An exceptional crystal reward.",          "lore":"The Fracture itself seems pleased.",        "icon":"💎","weight":2, "type":"crystals","amount":500},
-  {"id":"crystals_1000", "name":"1000 Crystals",       "desc":"A legendary haul. Today is a good day.", "lore":"This does not happen often. At all.",      "icon":"💎","weight":1, "type":"crystals","amount":1000},
-
-  {"id":"card_common",     "name":"Common Card",       "desc":"A random card from the common pool.",     "lore":"The foundation of every great deck.",     "icon":"🃏","weight":25,"type":"card","rarity":"common"},
-  {"id":"card_uncommon",   "name":"Uncommon Card",     "desc":"A random uncommon card.",                 "lore":"A cut above the ordinary.",               "icon":"🃏","weight":15,"type":"card","rarity":"uncommon"},
-  {"id":"card_rare",       "name":"Rare Card",         "desc":"A rare card for your collection.",        "lore":"Not everyone gets one of these.",         "icon":"🃏","weight":5, "type":"card","rarity":"rare"},
-  {"id":"card_legendary",  "name":"Legendary Card",   "desc":"An extraordinarily rare card.",            "lore":"Legends are made, not born.",             "icon":"🃏","weight":1, "type":"card","rarity":"legendary"},
-
-  {"id":"pack_3",  "name":"3-Card Pack",   "desc":"Three random cards for your collection.", "lore":"Good things come in threes.",        "icon":"🎁","weight":12,"type":"pack","count":3},
-  {"id":"pack_5",  "name":"5-Card Pack",   "desc":"Five random cards.",                      "lore":"A full hand of possibilities.",      "icon":"🎁","weight":8, "type":"pack","count":5},
-  {"id":"pack_10", "name":"10-Card Pack",  "desc":"Ten cards. A genuine windfall.",          "lore":"More cards than you bargained for.", "icon":"🎁","weight":2, "type":"pack","count":10},
-
-  {"id":"consumable_health_potion", "name":"Health Potion",  "desc":"Restore 15 HP to your base during a campaign run.", "lore":"Brewed from shardroot and wishwater. Tastes faintly of copper.",                    "icon":"🧪",     "weight":18,"type":"consumable","consumableId":"health_potion"},
-  {"id":"consumable_extra_life",    "name":"Second Wind",    "desc":"Gain +1 life for a campaign run.",                  "lore":"The Dominion believes in second chances. Third chances cost extra.", "icon":"❤️‍🔥","weight":8, "type":"consumable","consumableId":"extra_life"}
+  {
+    "id": "crystals_5",
+    "name": "5 Crystals",
+    "desc": "A handful of crystals.",
+    "lore": "Every fortune starts somewhere.",
+    "icon": "💎",
+    "weight": 80,
+    "type": "crystals",
+    "amount": 5
+  },
+  {
+    "id": "crystals_10",
+    "name": "10 Crystals",
+    "desc": "A modest pile of crystals.",
+    "lore": "Pocket change in the Shattered Dominion.",
+    "icon": "💎",
+    "weight": 70,
+    "type": "crystals",
+    "amount": 10
+  },
+  {
+    "id": "crystals_15",
+    "name": "15 Crystals",
+    "desc": "A small clutch of crystals.",
+    "lore": "Worth a bit. Spend wisely.",
+    "icon": "💎",
+    "weight": 60,
+    "type": "crystals",
+    "amount": 15
+  },
+  {
+    "id": "crystals_20",
+    "name": "20 Crystals",
+    "desc": "A decent haul of crystals.",
+    "lore": "The shards reward persistence.",
+    "icon": "💎",
+    "weight": 55,
+    "type": "crystals",
+    "amount": 20
+  },
+  {
+    "id": "crystals_25",
+    "name": "25 Crystals",
+    "desc": "A generous gift of crystals.",
+    "lore": "Fortune favours the returning.",
+    "icon": "💎",
+    "weight": 50,
+    "type": "crystals",
+    "amount": 25
+  },
+  {
+    "id": "crystals_30",
+    "name": "30 Crystals",
+    "desc": "A tidy sum of crystals.",
+    "lore": "The road ahead is a little shorter.",
+    "icon": "💎",
+    "weight": 45,
+    "type": "crystals",
+    "amount": 30
+  },
+  {
+    "id": "crystals_50",
+    "name": "50 Crystals",
+    "desc": "A significant crystal bounty.",
+    "lore": "Saved from a better day.",
+    "icon": "💎",
+    "weight": 30,
+    "type": "crystals",
+    "amount": 50
+  },
+  {
+    "id": "crystals_75",
+    "name": "75 Crystals",
+    "desc": "A healthy crystal reward.",
+    "lore": "The Dominion smiles upon you today.",
+    "icon": "💎",
+    "weight": 20,
+    "type": "crystals",
+    "amount": 75
+  },
+  {
+    "id": "crystals_100",
+    "name": "100 Crystals",
+    "desc": "A fine cache of crystals.",
+    "lore": "A hundred reasons to keep going.",
+    "icon": "💎",
+    "weight": 12,
+    "type": "crystals",
+    "amount": 100
+  },
+  {
+    "id": "crystals_150",
+    "name": "150 Crystals",
+    "desc": "A rich crystal haul.",
+    "lore": "Rarer than it looks.",
+    "icon": "💎",
+    "weight": 8,
+    "type": "crystals",
+    "amount": 150
+  },
+  {
+    "id": "crystals_200",
+    "name": "200 Crystals",
+    "desc": "A small fortune in crystals.",
+    "lore": "The kind of day worth remembering.",
+    "icon": "💎",
+    "weight": 5,
+    "type": "crystals",
+    "amount": 200
+  },
+  {
+    "id": "crystals_300",
+    "name": "300 Crystals",
+    "desc": "A substantial crystal windfall.",
+    "lore": "Even the shards are impressed.",
+    "icon": "💎",
+    "weight": 3,
+    "type": "crystals",
+    "amount": 300
+  },
+  {
+    "id": "crystals_500",
+    "name": "500 Crystals",
+    "desc": "An exceptional crystal reward.",
+    "lore": "The Fracture itself seems pleased.",
+    "icon": "💎",
+    "weight": 2,
+    "type": "crystals",
+    "amount": 500
+  },
+  {
+    "id": "crystals_1000",
+    "name": "1000 Crystals",
+    "desc": "A legendary haul. Today is a good day.",
+    "lore": "This does not happen often. At all.",
+    "icon": "💎",
+    "weight": 1,
+    "type": "crystals",
+    "amount": 1000
+  },
+  {
+    "id": "card_common",
+    "name": "Common Card",
+    "desc": "A random card from the common pool.",
+    "lore": "The foundation of every great deck.",
+    "icon": "🃏",
+    "weight": 25,
+    "type": "card",
+    "rarity": "common"
+  },
+  {
+    "id": "card_uncommon",
+    "name": "Uncommon Card",
+    "desc": "A random uncommon card.",
+    "lore": "A cut above the ordinary.",
+    "icon": "🃏",
+    "weight": 15,
+    "type": "card",
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_rare",
+    "name": "Rare Card",
+    "desc": "A rare card for your collection.",
+    "lore": "Not everyone gets one of these.",
+    "icon": "🃏",
+    "weight": 5,
+    "type": "card",
+    "rarity": "rare"
+  },
+  {
+    "id": "card_legendary",
+    "name": "Legendary Card",
+    "desc": "An extraordinarily rare card.",
+    "lore": "Legends are made, not born.",
+    "icon": "🃏",
+    "weight": 1,
+    "type": "card",
+    "rarity": "legendary"
+  },
+  {
+    "id": "pack_3",
+    "name": "3-Card Pack",
+    "desc": "Three random cards for your collection.",
+    "lore": "Good things come in threes.",
+    "icon": "🎁",
+    "weight": 12,
+    "type": "pack",
+    "count": 3
+  },
+  {
+    "id": "pack_5",
+    "name": "5-Card Pack",
+    "desc": "Five random cards.",
+    "lore": "A full hand of possibilities.",
+    "icon": "🎁",
+    "weight": 8,
+    "type": "pack",
+    "count": 5
+  },
+  {
+    "id": "pack_10",
+    "name": "10-Card Pack",
+    "desc": "Ten cards. A genuine windfall.",
+    "lore": "More cards than you bargained for.",
+    "icon": "🎁",
+    "weight": 2,
+    "type": "pack",
+    "count": 10
+  },
+  {
+    "id": "consumable_health_potion",
+    "name": "Health Potion",
+    "desc": "Restore 15 HP to your base during a campaign run.",
+    "lore": "Brewed from shardroot and wishwater. Tastes faintly of copper.",
+    "icon": "🧪",
+    "weight": 18,
+    "type": "consumable",
+    "consumableId": "health_potion"
+  },
+  {
+    "id": "consumable_extra_life",
+    "name": "Second Wind",
+    "desc": "Gain +1 life for a campaign run.",
+    "lore": "The Dominion believes in second chances. Third chances cost extra.",
+    "icon": "❤️‍🔥",
+    "weight": 8,
+    "type": "consumable",
+    "consumableId": "extra_life"
+  }
 ]
