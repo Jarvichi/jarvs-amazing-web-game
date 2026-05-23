@@ -7,6 +7,7 @@ import { logError } from '../logger'
 import {
   ResourceType, ResourceStock,
   getBuildingProduces, getBuildingConsumes, currentSeason, SEASON_INFO,
+  masteryOutputMultiplier, getCardMasteryLevel,
   CELL_PX,
   DEFAULT_BUILDER_COUNT, MAX_BUILDER_COUNT, BUILDER_HIRE_COSTS,
   CityState, CityCell, CarrierState, RoadWearMap,
@@ -319,12 +320,13 @@ export function getFarmProductionRate(state: FarmState, nowMs = Date.now()): Par
   for (const plot of state.plots) {
     if (!plot) continue
     const produces = getBuildingProduces(plot.cardName)
+    const masteryMult = masteryOutputMultiplier(getCardMasteryLevel(plot.cardName))
     for (const [res, rate] of Object.entries(produces) as [ResourceType, number][]) {
       const seasonMult = res === 'wheat' ? 1 + si.wheat
                        : res === 'wood'  ? 1 + si.wood
                        : res === 'ore'   ? 1 + si.ore
                        : 1
-      const amount = rate * FARM_PRODUCTION_BONUS * Math.max(0, seasonMult) * workerMult
+      const amount = rate * FARM_PRODUCTION_BONUS * Math.max(0, seasonMult) * workerMult * masteryMult
       rates[res as ResourceType] = (rates[res as ResourceType] ?? 0) + amount
     }
   }

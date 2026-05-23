@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Card } from '../../../../game/types'
-import { getBuildingProduces, RESOURCE_ICONS, ResourceType, GOLD_SYMBOL } from '../../../../game/cityBuilder'
+import { getBuildingProduces, RESOURCE_ICONS, ResourceType, GOLD_SYMBOL, masteryOutputMultiplier, getCardMasteryLevel } from '../../../../game/cityBuilder'
 import { CoreFarmBuilding, FARM_PLACE_COST } from '../../../../game/farmingSim'
 import { SpriteImg } from '../../../ui/SpriteImg'
 
@@ -21,7 +21,7 @@ function ProdLine({ name, gold, canAfford }: { name: string; gold: number; canAf
       {prodEntries.length > 0 && (
         <div className="city-picker-produces">
           {prodEntries.map(([res, rate]) =>
-            `+${(rate * 1.5).toFixed(1)} ${RESOURCE_ICONS[res]}/min`
+            `+${(rate * 1.5 * masteryOutputMultiplier(getCardMasteryLevel(name))).toFixed(1)} ${RESOURCE_ICONS[res]}/min`
           ).join(' ')}
         </div>
       )}
