@@ -7,7 +7,9 @@ import {
   getMasteryXp,
   masteryProgress,
   getCardStats,
+  AUGMENT_UPGRADE_COST,
 } from '../../game/collection'
+import { augmentSlotLabel } from '../../game/augments'
 import { CardTile } from './CardTile'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { MasteryBar } from '../ui/MasteryBar'
@@ -25,6 +27,11 @@ interface Props {
   commanderName?: string | null
   promotionsLeft?: number
   onPromote?: () => void
+  // Augment-instance specific (optional)
+  augmentLevel?: number
+  augmentEquippedTo?: string | null
+  canUpgrade?: boolean
+  onUpgrade?: () => void
 }
 
 const RARITY_COLOUR: Record<string, string> = {
@@ -48,7 +55,7 @@ function affinityEffectText(effectType: string, effectAmount: number): string {
   return `×${effectAmount} ${effectType}`
 }
 
-export function CardDetailModal({ card, collection, deckEntries, onClose, extras = 0, disenchantValue = 0, onDisenchant, onMasterCard, commanderName, promotionsLeft = 0, onPromote }: Props) {
+export function CardDetailModal({ card, collection, deckEntries, onClose, extras = 0, disenchantValue = 0, onDisenchant, onMasterCard, commanderName, promotionsLeft = 0, onPromote, augmentLevel, augmentEquippedTo, canUpgrade, onUpgrade }: Props) {
   const owned  = getOwnedCount(collection, card.name)
   const inDeck = deckEntries?.find(e => e.cardName === card.name)?.count ?? 0
   const xp     = getMasteryXp(collection, card.name)
@@ -145,6 +152,29 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
               </div>
             )}
 
+            {/* Augment stats (augment cards only) */}
+            {card.augmentEffect && (
+              <div className="cdm-augment-block u-col u-gap-2">
+                <div className="cdm-stats-block u-flex u-wrap">
+                  {card.augmentEffect.maxHp       && <StatRow compact label="HP"  value={`+${card.augmentEffect.maxHp}`} />}
+                  {card.augmentEffect.attack      && <StatRow compact label="ATK" value={`+${card.augmentEffect.attack}`} />}
+                  {card.augmentEffect.attackRange && <StatRow compact label="RNG" value={`+${card.augmentEffect.attackRange}`} />}
+                  {card.augmentEffect.moveSpeed   && <StatRow compact label="SPD" value={`+${card.augmentEffect.moveSpeed}`} />}
+                </div>
+                {card.setName && card.augmentSlot && (
+                  <div className="cdm-augment-meta">{card.setName} Set · {augmentSlotLabel(card.augmentSlot)}</div>
+                )}
+                {augmentLevel != null && (
+                  <div className="cdm-augment-meta">Level {augmentLevel}</div>
+                )}
+                {augmentEquippedTo != null && (
+                  <div className="cdm-augment-meta">
+                    {augmentEquippedTo ? `Equipped on: ${augmentEquippedTo}` : 'Unequipped'}
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Traits */}
             {traits.length > 0 && (
               <div className="cdm-traits u-flex u-wrap u-gap-2">
@@ -210,8 +240,8 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
               </div>
             ) : null}
 
-            {/* Mastery */}
-            <div className="cdm-mastery-block">
+            {/* Mastery (not shown for augments) */}
+            {card.cardType !== 'augment' && <div className="cdm-mastery-block">
               <div className="cdm-mastery-header">
                 <span style={{ color: masteryLvl >= 5 ? '#ff9900' : '#ffd700' }}>
                   {masteryLvl >= 5 ? '⚡' : '★'} Mastery {masteryLvl}{masteryLvl >= 5 ? ' — ELITE' : ''}
@@ -261,19 +291,34 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                   </div>
                 )
               })()}
-            </div>
+            </div>}
 
-            {/* Battle stats */}
-            <div className="cdm-battle-stats u-col u-gap-1">
-              <StatRow compact label="Times played" value={statsPlayed.played} />
-              {statsUnit && <StatRow compact label="Units lost" value={statsUnit.died} />}
-            </div>
+            {/* Battle stats (not shown for augments) */}
+            {card.cardType !== 'augment' && (
+              <div className="cdm-battle-stats u-col u-gap-1">
+                <StatRow compact label="Times played" value={statsPlayed.played} />
+                {statsUnit && <StatRow compact label="Units lost" value={statsUnit.died} />}
+              </div>
+            )}
           </div>
         </div>
 
         {/* Lore */}
         {card.lore && (
           <div className="cdm-lore">"{card.lore}"</div>
+        )}
+
+        {/* Augment upgrade action */}
+        {onUpgrade && (
+          <div className="cdm-actions">
+            <button
+              className={`action-btn action-btn--gold${canUpgrade ? '' : ' action-btn--disabled'}`}
+              onClick={onUpgrade}
+              title={`Costs ${AUGMENT_UPGRADE_COST} souls`}
+            >
+              ↑ Upgrade ({AUGMENT_UPGRADE_COST} souls)
+            </button>
+          </div>
         )}
 
         {/* Sell / Upgrade actions (collection only) */}

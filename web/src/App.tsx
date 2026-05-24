@@ -2370,6 +2370,7 @@ export default function App() {
             onCityBuilder={() => { setMiniGamesEntry('citybuilder'); setScreen('minigames') }}
             onPlayerStats={() => setScreen('playerstats')}
             onCodex={() => setScreen('codex')}
+            onAugments={() => setScreen('augments')}
             user={user}
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
             onSignIn={() => setShowTitleLoginModal(true)}
