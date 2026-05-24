@@ -2772,9 +2772,12 @@ body {
   line-height: 1;
 }
 
-.pack-hidden-dots,
-.city-fort-sort,
-.city-level-stars,
+.pack-hidden-dots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+}
 
 .pack-dot {
   width: 7px;
@@ -10384,6 +10387,7 @@ html.light-mode .action-btn {
   padding: 6px 0 4px;
 }
 .city-fort-filter { display: flex; gap: 4px; flex-wrap: wrap; }
+.city-fort-sort   { display: flex; gap: 4px; }
 .city-fort-filter-btn, .city-fort-sort-btn {
   font-family: inherit;
   font-size: 10px;
