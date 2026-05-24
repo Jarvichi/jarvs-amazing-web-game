@@ -4,6 +4,26 @@ import { spawnUnit } from './helpers';
 import { drawCard } from './helpers';
 import {  Card, UnitTemplate } from '../types';
 import { playUpgrade } from '../sound';
+import {
+  ARCH_STRUCTURE_COST_REDUCTION, ARCH_STRUCTURE_HP_MULT,
+  ARCH_SWARM_UNIT_THRESHOLD, ARCH_SWARM_COST_REDUCTION,
+  ARCH_SCHOLAR_UPGRADE_MULT,
+} from './constants';
+
+/** Returns the mana cost the player actually pays for a card, after archetype passives. */
+export function getEffectiveCardCost(card: Card, state: GameState): number {
+  const archetype = state.archetypePassive
+  if (archetype === 'siege_commander' && card.cardType === 'structure') {
+    return Math.max(0, card.cost - ARCH_STRUCTURE_COST_REDUCTION)
+  }
+  if (archetype === 'swarm_tactician' && card.cardType === 'unit') {
+    const mobileCount = state.field.filter(u => u.owner === 'player' && !u.isWall && u.moveSpeed > 0).length
+    if (mobileCount >= ARCH_SWARM_UNIT_THRESHOLD) {
+      return Math.max(0, card.cost - ARCH_SWARM_COST_REDUCTION)
+    }
+  }
+  return card.cost
+}
 
 // ─── Deploy a card onto the field ────────────────────────
 export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent', log: string[]): void {
@@ -89,6 +109,11 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
         if (e.attackBonus) unit.attack = Math.max(0, unit.attack + e.attackBonus)
       }
     }
+    // Siege Commander: new structures get +20% max HP
+    if (owner === 'player' && card.cardType === 'structure' && s.archetypePassive === 'siege_commander') {
+      unit.maxHp = Math.round(unit.maxHp * ARCH_STRUCTURE_HP_MULT)
+      unit.hp    = unit.maxHp
+    }
     if (card.lore) unit.lore = card.lore;
     // Hero units use the card's display name but keep the base unit sprite
     if (card.isHero) {
@@ -137,7 +162,8 @@ export function playCard(state: GameState, cardId: string): GameState {
   if (cardIdx === -1) return state
 
   const card = state.playerHand[cardIdx]
-  if (state.mana < card.cost) return state
+  const effectiveCost = getEffectiveCardCost(card, state)
+  if (state.mana < effectiveCost) return state
 
   // For structures: if there's no upgradeable copy below max level, a new building will be placed.
   // In endless mode, block that new placement once the 3-row limit is reached.
@@ -158,12 +184,45 @@ export function playCard(state: GameState, cardId: string): GameState {
 
   const s = structuredClone(state)
   s.playerHand.splice(cardIdx, 1)
-  s.mana -= card.cost
+  s.mana -= effectiveCost
 
-  deployCard(s, card, 'player', s.log)
+  // Arcane Scholar: double upgrade effect amounts before applying
+  const isScholarUpgrade =
+    s.archetypePassive === 'arcane_scholar' &&
+    card.cardType === 'upgrade' &&
+    card.upgradeEffect != null
+  const cardToPlay: Card = isScholarUpgrade
+    ? { ...card, upgradeEffect: scaleUpgradeEffect(card.upgradeEffect!, ARCH_SCHOLAR_UPGRADE_MULT) }
+    : card
+
+  deployCard(s, cardToPlay, 'player', s.log)
   if (!s.secretRaresObtained) s.secretRaresObtained = []
   drawCard(s.playerDeck, s.playerHand, s.secretRaresObtained)
+  // Arcane Scholar: draw an extra card after each upgrade
+  if (isScholarUpgrade) {
+    drawCard(s.playerDeck, s.playerHand, s.secretRaresObtained)
+  }
   return s
+}
+
+/** Scale all numeric amount fields on an UpgradeEffect by a multiplier. */
+function scaleUpgradeEffect(effect: UpgradeEffect, mult: number): UpgradeEffect {
+  switch (effect.type) {
+    case 'buffAttack':        return { ...effect, amount: Math.round(effect.amount * mult) }
+    case 'healUnits':         return { ...effect, amount: Math.round(effect.amount * mult) }
+    case 'buffSpeed':         return { ...effect, amount: Math.round(effect.amount * mult) }
+    case 'buffMaxHp':         return { ...effect, amount: Math.round(effect.amount * mult) }
+    case 'buffRange':         return { ...effect, amount: Math.round(effect.amount * mult) }
+    case 'buffHp':            return { ...effect, amount: Math.round(effect.amount * mult) }
+    case 'buffHeal':          return { ...effect, amount: Math.round(effect.amount * mult) }
+    case 'buffAttackCooldown': return { ...effect, amount: Math.round(effect.amount * mult) }
+    case 'aoe': return {
+      ...effect,
+      damage: effect.damage != null ? Math.round(effect.damage * mult) : undefined,
+      amount: effect.amount != null ? Math.round(effect.amount * mult) : undefined,
+    }
+    default: return effect
+  }
 }
 /** Play an AoE upgrade card with a player-chosen target point (cx, cy in game units). */
 
@@ -172,15 +231,19 @@ export function playAoeCard(state: GameState, cardId: string, cx: number, cy: nu
   const cardIdx = state.playerHand.findIndex(c => c.id === cardId)
   if (cardIdx === -1) return state
   const card = state.playerHand[cardIdx]
-  if (state.mana < card.cost) return state
+  const effectiveCost = getEffectiveCardCost(card, state)
+  if (state.mana < effectiveCost) return state
   if (card.cardType !== 'upgrade' || !card.upgradeEffect || card.upgradeEffect.type !== 'aoe') return state
   if (card.isHero && state.gameTime < 30000) return state
 
   const s = structuredClone(state)
   s.playerHand.splice(cardIdx, 1)
-  s.mana -= card.cost
+  s.mana -= effectiveCost
 
-  const effect = card.upgradeEffect
+  const rawEffect = card.upgradeEffect
+  const effect = s.archetypePassive === 'arcane_scholar'
+    ? scaleUpgradeEffect(rawEffect, ARCH_SCHOLAR_UPGRADE_MULT) as typeof rawEffect & { type: 'aoe' }
+    : rawEffect
   const dmg = effect.damage ?? effect.amount ?? 0
   const enemies = s.field.filter(u => u.owner !== 'player' && !u.isWall)
   const targets = effect.range != null
@@ -194,6 +257,10 @@ export function playAoeCard(state: GameState, cardId: string, cx: number, cy: nu
 
   if (!s.secretRaresObtained) s.secretRaresObtained = []
   drawCard(s.playerDeck, s.playerHand, s.secretRaresObtained)
+  // Arcane Scholar: draw an extra card after each upgrade
+  if (s.archetypePassive === 'arcane_scholar') {
+    drawCard(s.playerDeck, s.playerHand, s.secretRaresObtained)
+  }
   return s
 }
 // ─── Apply Upgrade ────────────────────────────────────────

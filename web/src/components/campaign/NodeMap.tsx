@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useEffect, useState } from 'react'
 import { emitSound } from '../../game/sound'
 import { getDiscoveredFragmentIds } from '../../game/codex'
-import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES, loadPlayerAvatar } from '../../game/questline'
+import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES, loadPlayerAvatar, ARCHETYPE_DEFS } from '../../game/questline'
 import { spriteSlug } from '../../game/sprites'
 import { StatRow } from '../ui/StatRow'
 import { AnimatedSpriteImg } from '../ui/SpriteImg'
@@ -852,6 +852,10 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
 
       {/* Consumables bar */}
       <Toolbar>
+        {run.archetype && (() => {
+          const def = ARCHETYPE_DEFS.find(d => d.id === run.archetype)
+          return def ? <ToolbarLabel>{def.icon} {def.name}</ToolbarLabel> : null
+        })()}
         <ToolbarLabel>Items</ToolbarLabel>
 
       
