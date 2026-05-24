@@ -1,6 +1,6 @@
 import { AugmentEffect, AugmentInstance, Card, CardRarity } from './types'
 import { getCardCatalog } from './cards'
-import { getAugmentCard, getAugmentSetDef, scaledAugmentEffect, ALL_AUGMENT_SLOTS } from './augments'
+import { getAugmentCard, getAugmentCatalog, getAugmentSetDef, scaledAugmentEffect, ALL_AUGMENT_SLOTS } from './augments'
 import { logError } from '../logger'
 import { validateIntegrity, updateChecksum } from './integrity'
 
@@ -529,12 +529,17 @@ export function saveCollection(c: CollectionEntry[]): void {
 
 export function addCardsToCollection(newCards: CollectionEntry[]): CollectionEntry[] {
   const collection = loadCollection()
+  const augNames = new Set(getAugmentCatalog().map(c => c.name))
   for (const entry of newCards) {
-    const existing = collection.find(e => e.cardName === entry.cardName)
-    if (existing) {
-      existing.count += entry.count
+    if (augNames.has(entry.cardName)) {
+      for (let i = 0; i < entry.count; i++) addAugmentInstance(entry.cardName)
     } else {
-      collection.push({ ...entry })
+      const existing = collection.find(e => e.cardName === entry.cardName)
+      if (existing) {
+        existing.count += entry.count
+      } else {
+        collection.push({ ...entry })
+      }
     }
   }
   saveCollection(collection)
@@ -777,10 +782,18 @@ export function generatePack(): string[] {
     picks.push(pickRandom(uncommons).name)
   }
 
+  // Add one augment card (same rarity weights as the bonus slot)
+  const augCatalog = getAugmentCatalog()
+  const augR = Math.random()
+  const augRarity = augR < 0.10 ? 'rare' : augR < 0.30 ? 'uncommon' : 'common'
+  const augPool = augCatalog.filter(c => c.rarity === augRarity)
+  if (augPool.length > 0) picks.push(pickRandom(augPool).name)
+
   const rarityOrder: Record<string, number> = { common: 0, uncommon: 1, rare: 2, legendary: 3 }
+  const allCards = [...catalog, ...augCatalog]
   picks.sort((a, b) => {
-    const ar = catalog.find(c => c.name === a)?.rarity ?? 'common'
-    const br = catalog.find(c => c.name === b)?.rarity ?? 'common'
+    const ar = allCards.find(c => c.name === a)?.rarity ?? 'common'
+    const br = allCards.find(c => c.name === b)?.rarity ?? 'common'
     return (rarityOrder[ar] ?? 0) - (rarityOrder[br] ?? 0)
   })
 
