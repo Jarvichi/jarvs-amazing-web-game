@@ -1,0 +1,17 @@
+<svg width="40" height="36" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg">
+  <!-- Chain left -->
+  <path d="M 6 4 Q 13 9 20 6" stroke="#aaaaaa" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Chain right -->
+  <path d="M 20 6 Q 27 9 34 4" stroke="#aaaaaa" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Pendant backing -->
+  <circle cx="20" cy="20" r="10" fill="#5522aa"/>
+  <!-- Outer gem ring -->
+  <circle cx="20" cy="20" r="10" fill="none" stroke="#9966dd" stroke-width="2"/>
+  <!-- Gem facets -->
+  <polygon points="20,12 26,20 20,28 14,20" fill="#aa77ff" opacity="0.85"/>
+  <polygon points="20,12 27,16 26,20" fill="#cc99ff" opacity="0.5"/>
+  <polygon points="20,12 13,16 14,20" fill="#cc99ff" opacity="0.3"/>
+  <!-- Center sparkle -->
+  <circle cx="20" cy="20" r="3.5" fill="#ffffff" opacity="0.55"/>
+  <circle cx="18" cy="18" r="1.2" fill="#ffffff" opacity="0.7"/>
+</svg>
