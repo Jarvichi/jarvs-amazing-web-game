@@ -28,6 +28,7 @@ gridScale,
 isOnPath,setHoveredTower, setHoveredCell, handleCellClick,
 selectedTower, hoveredTower,
 }: Props) {
+    const towerByCell = new Map(game.towers.map(t => [`${t.col},${t.row}`, t]))
     return <div className="td-board-wrap" ref={boardWrapRef}>
       <div
         className="td-grid-scaler"
@@ -50,7 +51,7 @@ selectedTower, hoveredTower,
             const onPath = isOnPath(col, row)
             const isStart = col === TD_PATH[0].col && row === TD_PATH[0].row
             const isEnd = col === TD_PATH[TD_PATH.length - 1].col && row === TD_PATH[TD_PATH.length - 1].row
-            const tower = game.towers.find(t => t.col === col && t.row === row)
+            const tower = towerByCell.get(`${col},${row}`)
             const isTowerSelected = tower?.id === selectedTowerId
             // canDrop: valid placement cell, or valid move destination for selected tower
             const canDrop = !onPath && !tower && (

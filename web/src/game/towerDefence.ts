@@ -1029,6 +1029,10 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   // Pre-build a map of tower targeting modes for O(1) lookup per unit
   const towerTargetingModes = new Map<number, TDTargetingMode>(s.towers.map(t => [t.id, t.targetingMode]))
 
+  // Accumulate enemy mutations — applied in one pass after the units loop to avoid
+  // O(units × enemies) array copies (was up to 4 full enemy-array maps per attacking unit).
+  const enemyMutations = new Map<number, Partial<TDEnemy>>()
+
   s.units = s.units.map(unit => {
     let cd = Math.max(0, unit.attackCooldownRemaining - dtMs)
     if (cd <= 0 && s.enemies.length > 0) {
@@ -1046,33 +1050,42 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
         if (target.shielded) {
           // Shield absorbs the hit — break it and skip damage
           shieldedEnemyIds.add(target.id)
-          s.enemies = s.enemies.map(e => e.id === target.id ? { ...e, shielded: false } : e)
+          const cur = enemyMutations.get(target.id) ?? {}
+          enemyMutations.set(target.id, { ...cur, shielded: false })
         } else {
           const dmg = Math.round(unitDamageDealt(unit, target) * damageMult * unit.damageMult)
-          const newHp = target.hp - dmg
+          // Use pending hp so multiple units hitting the same enemy in one tick is correct
+          const effHp = enemyMutations.get(target.id)?.hp ?? target.hp
+          const newHp = effHp - dmg
           // Apply elemental on-hit effect
           const eff = unit.template.attackEffect
           if (eff && Math.random() < eff.chance) {
             if (eff.type === 'burn' || eff.type === 'freeze' || eff.type === 'poison' || eff.type === 'shock') {
               if (newHp > 0 && !target.template.immunities?.includes(eff.type)) {
-                s.enemies = s.enemies.map(e => {
-                  if (e.id !== target.id) return e
-                  if (eff.type === 'burn')   return { ...e, burnTimer:   eff.durationMs, burnDps:   eff.dps ?? 8 }
-                  if (eff.type === 'freeze') return { ...e, freezeTimer: eff.durationMs, freezeSlow: eff.slowFactor ?? 0.35 }
-                  if (eff.type === 'poison') return { ...e, poisonTimer: eff.durationMs, poisonDps: eff.dps ?? 5 }
-                  if (eff.type === 'shock')  return { ...e, freezeTimer: eff.durationMs, freezeSlow: 0 }
-                  return e
-                })
+                const cur = enemyMutations.get(target.id) ?? {}
+                if (eff.type === 'burn')   enemyMutations.set(target.id, { ...cur, burnTimer:   eff.durationMs, burnDps:   eff.dps ?? 8 })
+                if (eff.type === 'freeze') enemyMutations.set(target.id, { ...cur, freezeTimer: eff.durationMs, freezeSlow: eff.slowFactor ?? 0.35 })
+                if (eff.type === 'poison') enemyMutations.set(target.id, { ...cur, poisonTimer: eff.durationMs, poisonDps: eff.dps ?? 5 })
+                if (eff.type === 'shock')  enemyMutations.set(target.id, { ...cur, freezeTimer: eff.durationMs, freezeSlow: 0 })
               }
             } else if (eff.type === 'aoe' && eff.aoeRadius) {
               // AOE burst: deal same damage to all enemies in radius
-              s.enemies = s.enemies.map(e => {
-                if (e.id === target.id || deadEnemyIds.has(e.id) || e.hp <= 0) return e
-                if (dist(e.x, e.y, target.x, target.y) > eff.aoeRadius!) return e
-                const splashHp = e.hp - dmg
-                if (splashHp <= 0) { deadEnemyIds.add(e.id); s.score += e.template.reward; s.mana += e.template.reward; s.enemyKills++; towerXpGains[unit.towerId] = (towerXpGains[unit.towerId] ?? 0) + 1 }
-                return { ...e, hp: Math.max(0, splashHp) }
-              })
+              for (const e of s.enemies) {
+                if (e.id === target.id || deadEnemyIds.has(e.id)) continue
+                if (dist(e.x, e.y, target.x, target.y) > eff.aoeRadius!) continue
+                const splashEffHp = enemyMutations.get(e.id)?.hp ?? e.hp
+                const splashHp = splashEffHp - dmg
+                if (splashHp <= 0) {
+                  deadEnemyIds.add(e.id)
+                  s.score += e.template.reward
+                  s.mana += e.template.reward
+                  s.enemyKills++
+                  towerXpGains[unit.towerId] = (towerXpGains[unit.towerId] ?? 0) + 1
+                } else {
+                  const cur = enemyMutations.get(e.id) ?? {}
+                  enemyMutations.set(e.id, { ...cur, hp: splashHp })
+                }
+              }
               // AOE ring visual
               newAttackEvents.push({ id: nextId(), fromX: target.x, fromY: target.y, toX: target.x, toY: target.y, expiresAt: s.gameTimeMs + 500, aoeRadius: eff.aoeRadius })
             } else if (eff.type === 'gascloud' && eff.aoeRadius) {
@@ -1093,7 +1106,8 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
             s.enemyKills++
             towerXpGains[unit.towerId] = (towerXpGains[unit.towerId] ?? 0) + 1
           } else {
-            s.enemies = s.enemies.map(e => e.id === target.id ? { ...e, hp: newHp } : e)
+            const cur = enemyMutations.get(target.id) ?? {}
+            enemyMutations.set(target.id, { ...cur, hp: newHp })
           }
         }
         newAttackEvents.push({
@@ -1111,6 +1125,14 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
     return { ...unit, attackCooldownRemaining: cd }
   })
   s.attackEvents = newAttackEvents
+
+  // Single-pass application of all accumulated enemy mutations
+  if (enemyMutations.size > 0) {
+    s.enemies = s.enemies.map(e => {
+      const mut = enemyMutations.get(e.id)
+      return mut ? { ...e, ...mut } : e
+    })
+  }
 
   // Split-on-death: collect offspring before removing dead enemies
   const splitOffspring: TDEnemy[] = []

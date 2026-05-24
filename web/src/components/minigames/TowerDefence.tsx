@@ -283,7 +283,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
       }
     }
     return cells
-  }, [selectedTower, hoveredTower, selected, hoveredCell, game.units])
+  }, [selectedTower, hoveredTower, selected, hoveredCell])
 
   // ── End screen ──────────────────────────────────────────────────────────────
 
