@@ -1,6 +1,28 @@
 /// <reference types="vite/client" />
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useSyncExternalStore } from 'react'
 import { spriteSlug } from '../../game/sprites'
+
+// ── Shared animation ticker ────────────────────────────────────────────────────
+// One interval drives all AnimatedSpriteImg instances. React 18 batches all
+// subscriber setState calls that fire synchronously in the same tick, so N
+// components re-render in a single pass rather than N separate passes.
+let _animTick = 0
+const _animSubs = new Set<() => void>()
+let _animTimer: ReturnType<typeof setInterval> | null = null
+
+function _startAnimTicker() {
+  if (_animTimer) return
+  _animTimer = setInterval(() => { _animTick++; _animSubs.forEach(fn => fn()) }, 125) // 8 fps max
+}
+function _stopAnimTicker() {
+  if (_animTimer) { clearInterval(_animTimer); _animTimer = null }
+}
+function subscribeAnimTick(fn: () => void) {
+  _animSubs.add(fn)
+  _startAnimTicker()
+  return () => { _animSubs.delete(fn); if (_animSubs.size === 0) _stopAnimTicker() }
+}
+function getAnimTick() { return _animTick }
 
 const BASE = import.meta.env.BASE_URL
 
@@ -188,11 +210,14 @@ interface AnimatedProps {
  */
 export function AnimatedSpriteImg({ name, frameCount, fps, className, style }: AnimatedProps) {
   const slug = spriteSlug(name)
-  const [frame,       setFrame]       = useState(1)
   const [useFallback, setUseFallback] = useState(false)
   const [eightbit,    setEightbit]    = useState(is8bitMode)
   const [monochrome, setMonochrome]    = useState(isMonochromeMode)
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  // Shared global ticker — all instances update together in one React render pass
+  const tick = useSyncExternalStore(subscribeAnimTick, getAnimTick)
+  // Derive frame from global 8-fps tick; lower-fps sprites skip ticks via integer division
+  const frame = useFallback ? 1 : (Math.floor(tick * fps / 8) % frameCount) + 1
 
   useEffect(() => {
     const handler = () => setEightbit(is8bitMode())
@@ -205,16 +230,6 @@ export function AnimatedSpriteImg({ name, frameCount, fps, className, style }: A
     return () => window.removeEventListener('monochrome-change', handler)
   }, [])
 
-  useEffect(() => {
-    if (useFallback) return
-    intervalRef.current = setInterval(() => {
-      setFrame(f => (f % frameCount) + 1)
-    }, 1000 / fps)
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current)
-    }
-  }, [frameCount, fps, useFallback])
-
   if (useFallback) {
     return <SpriteImg name={name} className={className} style={style} />
   }
@@ -222,7 +237,6 @@ export function AnimatedSpriteImg({ name, frameCount, fps, className, style }: A
   const src = `${BASE}sprites/${slug}-${frame}.svg`
 
   const handleFrameError = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current)
     setUseFallback(true)
   }
 
@@ -241,7 +255,6 @@ export function AnimatedSpriteImg({ name, frameCount, fps, className, style }: A
       className={className}
       style={style}
       onError={() => {
-        if (intervalRef.current) clearInterval(intervalRef.current)
         setUseFallback(true)
       }}
     />
