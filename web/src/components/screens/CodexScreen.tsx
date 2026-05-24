@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import {
-  getCodexCards, getCodexRelics, getCodexWorld, getCodexFragments,
-  CodexCardEntry, CodexRelicEntry, CodexWorldEntry, CodexFragmentEntry,
+  getCodexCards, getCodexRelics, getCodexWorld, getCodexFragments, getCodexConversations,
+  CodexCardEntry, CodexRelicEntry, CodexWorldEntry, CodexFragmentEntry, CodexConversationEntry,
 } from '../../game/codex'
 
-type CodexTab = 'cards' | 'relics' | 'world' | 'fragments'
+type CodexTab = 'cards' | 'relics' | 'world' | 'fragments' | 'conversations'
 type CardTypeFilter = 'all' | 'unit' | 'structure' | 'upgrade'
 
 const RARITY_ORDER: Record<string, number> = {
@@ -23,6 +23,45 @@ const RARITY_COLORS: Record<string, string> = {
   shiny:     '#ffe066',
   holofoil:  '#40e0d0',
   glass:     '#a0d8ef',
+}
+
+function ConversationLorePanel({ entry }: { entry: CodexConversationEntry }) {
+  return (
+    <div className="codex-entry">
+      <div className="codex-entry-header">
+        <span className="codex-entry-name">{entry.icon} {entry.name}</span>
+        <span className="codex-entry-tag">{entry.title.toUpperCase()}</span>
+        <span className="codex-entry-tag">{entry.seenCount} / {entry.stages.length} ENCOUNTERS</span>
+      </div>
+      <div className="codex-conversation-stages">
+        {entry.stages.map((stage) => (
+          stage.seen ? (
+            <div key={stage.index} className="codex-conversation-stage">
+              <div className="codex-conversation-stage-label">ENCOUNTER {stage.index + 1}</div>
+              {stage.greeting.split('\n\n').map((para, i) => (
+                <div key={i} className="codex-entry-desc">{para}</div>
+              ))}
+              {stage.choices && (
+                <div className="codex-conversation-choices">
+                  {stage.choices.map((choice, j) => (
+                    <div key={j} className="codex-conversation-choice">
+                      <div className="codex-conversation-choice-label">› {choice.label}</div>
+                      <div className="codex-conversation-choice-response">{choice.response}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div key={stage.index} className="codex-conversation-stage codex-conversation-stage--locked">
+              <div className="codex-conversation-stage-label">ENCOUNTER {stage.index + 1}</div>
+              <div className="codex-entry-locked-hint">Meet {entry.name} again to unlock this encounter.</div>
+            </div>
+          )
+        ))}
+      </div>
+    </div>
+  )
 }
 
 function FragmentLorePanel({ entry }: { entry: CodexFragmentEntry }) {
@@ -130,10 +169,11 @@ export function CodexScreen({ onDone }: Props) {
   const [search, setSearch] = useState('')
   const [showLocked, setShowLocked] = useState(true)
 
-  const cards     = useMemo(() => getCodexCards(),     [])
-  const relics    = useMemo(() => getCodexRelics(),    [])
-  const world     = useMemo(() => getCodexWorld(),     [])
-  const fragments = useMemo(() => getCodexFragments(), [])
+  const cards         = useMemo(() => getCodexCards(),         [])
+  const relics        = useMemo(() => getCodexRelics(),        [])
+  const world         = useMemo(() => getCodexWorld(),         [])
+  const fragments     = useMemo(() => getCodexFragments(),     [])
+  const conversations = useMemo(() => getCodexConversations(), [])
 
   const filteredCards = useMemo<CodexCardEntry[]>(() => {
     let list = cards
@@ -152,6 +192,7 @@ export function CodexScreen({ onDone }: Props) {
   const unlockedRelicCount    = relics.filter(r => r.unlocked).length
   const unlockedWorldCount    = world.filter(w => w.unlocked).length
   const discoveredFragCount   = fragments.filter(f => f.discovered).length
+  const metNpcCount           = conversations.filter(c => c.seenCount > 0).length
 
   const subtitle = tab === 'cards'
     ? `${unlockedCardCount} / ${cards.length} discovered`
@@ -159,23 +200,26 @@ export function CodexScreen({ onDone }: Props) {
     ? `${unlockedRelicCount} / ${relics.length} earned`
     : tab === 'world'
     ? `${unlockedWorldCount} / ${world.length} shards explored`
-    : `${discoveredFragCount} / ${fragments.length} fragments recovered`
+    : tab === 'fragments'
+    ? `${discoveredFragCount} / ${fragments.length} fragments recovered`
+    : `${metNpcCount} / ${conversations.length} characters met`
 
   return (
     <OverlayScreen title="CODEX" subtitle={subtitle} onBack={onDone}>
       <div className="codex-screen">
         {/* Tab bar */}
         <div className="codex-tabs">
-          {(['cards', 'relics', 'world', 'fragments'] as CodexTab[]).map(t => (
+          {(['cards', 'relics', 'world', 'fragments', 'conversations'] as CodexTab[]).map(t => (
             <button
               key={t}
               className={`filter-btn${tab === t ? ' filter-btn--active' : ''}`}
               onClick={() => setTab(t)}
             >
-              {t === 'cards'     ? `CARDS (${unlockedCardCount})` :
-               t === 'relics'    ? `RELICS (${unlockedRelicCount})` :
-               t === 'world'     ? `WORLD (${unlockedWorldCount})` :
-               `FRAGMENTS (${discoveredFragCount})`}
+              {t === 'cards'          ? `CARDS (${unlockedCardCount})` :
+               t === 'relics'         ? `RELICS (${unlockedRelicCount})` :
+               t === 'world'          ? `WORLD (${unlockedWorldCount})` :
+               t === 'fragments'      ? `FRAGMENTS (${discoveredFragCount})` :
+               `NPCS (${metNpcCount})`}
             </button>
           ))}
         </div>
@@ -226,6 +270,10 @@ export function CodexScreen({ onDone }: Props) {
 
           {tab === 'fragments' && fragments.map(entry => (
             <FragmentLorePanel key={entry.id} entry={entry} />
+          ))}
+
+          {tab === 'conversations' && conversations.map(entry => (
+            <ConversationLorePanel key={entry.id} entry={entry} />
           ))}
 
           {tab === 'cards' && filteredCards.length === 0 && (

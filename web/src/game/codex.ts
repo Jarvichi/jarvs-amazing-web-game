@@ -2,6 +2,7 @@ import { getCardCatalog } from './cards'
 import { loadCollection } from './collection'
 import { getRelics } from './itemStore'
 import { loadActCount } from './questline'
+import { getCharacterDef, getCharacterState, getCharacterIds } from './characters'
 import relicsData from '../data/relics.json'
 import memoryFragmentsData from '../data/memoryFragments.json'
 
@@ -100,6 +101,43 @@ export interface CodexWorldEntry {
   bossDescription: string
   shardLore: string
   unlocked: boolean
+}
+
+export interface CodexConversationStage {
+  index: number
+  greeting: string
+  choices?: Array<{ label: string; response: string }>
+  seen: boolean
+}
+
+export interface CodexConversationEntry {
+  id: string
+  name: string
+  title: string
+  icon: string
+  stages: CodexConversationStage[]
+  seenCount: number
+}
+
+export function getCodexConversations(): CodexConversationEntry[] {
+  return getCharacterIds().map(id => {
+    const def = getCharacterDef(id)!
+    const { count } = getCharacterState(id)
+    const stages: CodexConversationStage[] = def.encounters.map((enc, i) => ({
+      index: i,
+      greeting: enc.greeting,
+      choices: enc.choices?.map(c => ({ label: c.label, response: c.response })),
+      seen: count > i,
+    }))
+    return {
+      id,
+      name: def.name,
+      title: def.title,
+      icon: def.icon,
+      stages,
+      seenCount: Math.min(count, def.encounters.length),
+    }
+  })
 }
 
 export function getCodexCards(): CodexCardEntry[] {
