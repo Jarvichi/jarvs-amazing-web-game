@@ -1,0 +1,16 @@
+<svg width="40" height="36" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left greave -->
+  <rect x="6" y="2" width="11" height="20" rx="3" fill="#cc9922"/>
+  <line x1="6" y1="9"  x2="17" y2="9"  stroke="#aa7711" stroke-width="1.5" opacity="0.7"/>
+  <line x1="6" y1="16" x2="17" y2="16" stroke="#aa7711" stroke-width="1.5" opacity="0.7"/>
+  <!-- Left boot -->
+  <rect x="5" y="22" width="13" height="10" rx="2" fill="#bb8811"/>
+  <rect x="4" y="29" width="16" height="4" rx="2" fill="#aa7700"/>
+  <!-- Right greave -->
+  <rect x="23" y="2" width="11" height="20" rx="3" fill="#cc9922"/>
+  <line x1="23" y1="9"  x2="34" y2="9"  stroke="#aa7711" stroke-width="1.5" opacity="0.7"/>
+  <line x1="23" y1="16" x2="34" y2="16" stroke="#aa7711" stroke-width="1.5" opacity="0.7"/>
+  <!-- Right boot -->
+  <rect x="22" y="22" width="13" height="10" rx="2" fill="#bb8811"/>
+  <rect x="20" y="29" width="16" height="4" rx="2" fill="#aa7700"/>
+</svg>

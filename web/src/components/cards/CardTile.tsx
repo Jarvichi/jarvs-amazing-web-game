@@ -12,6 +12,16 @@ const UPGRADE_SPRITE: Record<string, string> = {
   buffRange:  'upgrade-range',
 }
 
+const AUGMENT_SPRITE: Record<string, string> = {
+  primaryRanged: 'augment-ranged',
+  heavyMelee:    'augment-melee',
+  helmet:        'augment-helmet',
+  chest:         'augment-chest',
+  arms:          'augment-arms',
+  legs:          'augment-legs',
+  amulet:        'augment-amulet',
+}
+
 // ─── Card type category ───────────────────────────────────
 
 type CardCategory = 'unit' | 'hero' | 'spawner' | 'defensive' | 'support' | 'buff'
@@ -196,7 +206,9 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
           ? <SpriteImg name={card.unit.name} className="card-sprite" />
           : card.upgradeEffect
             ? <SpriteImg name={card.name} fallbackName={UPGRADE_SPRITE[card.upgradeEffect.type] ?? 'upgrade'} className="card-sprite" />
-            : null
+            : card.augmentSlot
+              ? <SpriteImg name={card.name} fallbackName={AUGMENT_SPRITE[card.augmentSlot] ?? 'augment-amulet'} className="card-sprite" />
+              : null
         }
       </div>
 

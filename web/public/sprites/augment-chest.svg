@@ -1,0 +1,14 @@
+<svg width="40" height="36" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shoulder pauldrons -->
+  <rect x="4" y="4" width="8" height="7" rx="3" fill="#ddaa33"/>
+  <rect x="28" y="4" width="8" height="7" rx="3" fill="#ddaa33"/>
+  <!-- Main breastplate -->
+  <rect x="9" y="7" width="22" height="25" rx="3" fill="#cc9922"/>
+  <!-- Center ridge -->
+  <line x1="20" y1="8" x2="20" y2="31" stroke="#aa7711" stroke-width="2" opacity="0.7"/>
+  <!-- Horizontal bands -->
+  <line x1="10" y1="15" x2="30" y2="15" stroke="#aa7711" stroke-width="1.5" opacity="0.7"/>
+  <line x1="10" y1="23" x2="30" y2="23" stroke="#aa7711" stroke-width="1.5" opacity="0.7"/>
+  <!-- Highlight -->
+  <path d="M 12 9 Q 16 7 20 9" stroke="#ffcc55" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+</svg>

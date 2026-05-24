@@ -1,0 +1,12 @@
+<svg width="40" height="36" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg">
+  <!-- Blade -->
+  <line x1="11" y1="31" x2="31" y2="5" stroke="#ccddee" stroke-width="4" stroke-linecap="round"/>
+  <!-- Blade edge highlight -->
+  <line x1="13" y1="30" x2="32" y2="7" stroke="#eef4ff" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <!-- Crossguard -->
+  <line x1="13" y1="24" x2="25" y2="30" stroke="#99aa88" stroke-width="3" stroke-linecap="round"/>
+  <!-- Handle -->
+  <line x1="10" y1="31" x2="7" y2="35" stroke="#886644" stroke-width="3" stroke-linecap="round"/>
+  <!-- Pommel -->
+  <circle cx="6" cy="34" r="2.5" fill="#99aa88"/>
+</svg>
