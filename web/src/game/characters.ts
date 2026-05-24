@@ -64,3 +64,7 @@ export function getCharacterStage(id: string): CharacterStage {
   const idx = Math.min(count, def.encounters.length - 1)
   return def.encounters[idx]
 }
+
+export function getCharacterIds(): string[] {
+  return Object.keys(catalog)
+}

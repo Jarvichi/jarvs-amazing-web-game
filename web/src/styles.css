@@ -7351,6 +7351,54 @@ html.eightbit-mode .lane-layer {
   padding: 2rem;
 }
 
+.codex-conversation-stages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.codex-conversation-stage {
+  border-left: 2px solid #2a5a2a;
+  padding-left: 0.6rem;
+}
+
+.codex-conversation-stage--locked {
+  border-left-color: #1a3a1a;
+  opacity: 0.5;
+}
+
+.codex-conversation-stage-label {
+  font-size: 0.62rem;
+  color: #557755;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.codex-conversation-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.3rem;
+}
+
+.codex-conversation-choice {
+  padding-left: 0.5rem;
+  border-left: 1px solid #1a3a1a;
+}
+
+.codex-conversation-choice-label {
+  font-size: 0.72rem;
+  color: #aaddaa;
+  margin-bottom: 0.15rem;
+}
+
+.codex-conversation-choice-response {
+  font-size: 0.7rem;
+  color: #778877;
+  font-style: italic;
+}
+
 /* ── Character Screen ─────────────────────────────────── */
 .character-screen-scroll {
   flex: 1;
