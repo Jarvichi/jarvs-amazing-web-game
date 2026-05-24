@@ -482,7 +482,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "the-outer-ring": {
       "id": "the-outer-ring",
@@ -510,7 +511,8 @@
         "desert-spire"
       ],
       "environment": "sand",
-      "restHeal": 10
+      "restHeal": 10,
+      "characterEncounter": "kael"
     },
     "outer-bazaar": {
       "id": "outer-bazaar",

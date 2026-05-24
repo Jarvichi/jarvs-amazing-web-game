@@ -443,7 +443,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "canopy-hollow": {
       "id": "canopy-hollow",
@@ -457,7 +458,8 @@
       "childIds": [
         "warden-vigil",
         "vine-market"
-      ]
+      ],
+      "characterEncounter": "kael"
     },
     "vine-market": {
       "id": "vine-market",

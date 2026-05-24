@@ -435,7 +435,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "assembly-rest": {
       "id": "assembly-rest",
@@ -449,7 +450,8 @@
         "automaton-watch",
         "cog-market"
       ],
-      "healAmount": 8
+      "healAmount": 8,
+      "characterEncounter": "kael"
     },
     "cog-market": {
       "id": "cog-market",

@@ -483,7 +483,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "lava-camp": {
       "id": "lava-camp",
@@ -497,7 +498,8 @@
         "summit-elite"
       ],
       "environment": "volcano",
-      "restHeal": 10
+      "restHeal": 10,
+      "characterEncounter": "kael"
     },
     "ember-bazaar": {
       "id": "ember-bazaar",

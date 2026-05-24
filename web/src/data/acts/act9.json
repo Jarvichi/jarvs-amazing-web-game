@@ -481,7 +481,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "ice-hollow": {
       "id": "ice-hollow",
@@ -495,7 +496,8 @@
         "node-1776873646236"
       ],
       "environment": "frost",
-      "restHeal": 10
+      "restHeal": 10,
+      "characterEncounter": "kael"
     },
     "cold-trader": {
       "id": "cold-trader",
