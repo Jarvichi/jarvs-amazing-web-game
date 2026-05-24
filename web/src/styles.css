@@ -7458,6 +7458,78 @@ html.eightbit-mode .lane-layer {
   text-align: center;
 }
 
+/* ── Archetype Selection ─────────────────────────────────────────────────── */
+
+.character-archetype-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.character-archetype-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  background: #0a1a0a;
+  border: 1px solid #1e3a1e;
+  color: #aaffaa;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s;
+  position: relative;
+}
+.character-archetype-btn:hover:not(.character-archetype-btn--locked) {
+  border-color: #33ff33;
+  background: #0d1a0d;
+}
+.character-archetype-btn--chosen {
+  border-color: #33ff33;
+  background: #0d2a0d;
+  box-shadow: 0 0 8px rgba(51, 255, 51, 0.25);
+}
+.character-archetype-btn--locked {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.character-archetype-selected-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.65rem;
+  font-size: 0.65rem;
+  color: #33ff33;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+}
+
+.character-archetype-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+  margin-bottom: 0.1rem;
+}
+.character-archetype-name {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #eeffee;
+}
+.character-archetype-btn--chosen .character-archetype-name {
+  color: #33ff33;
+}
+.character-archetype-identity {
+  font-size: 0.7rem;
+  color: #88bb88;
+  font-style: italic;
+}
+.character-archetype-passive {
+  font-size: 0.68rem;
+  color: #aaa;
+  margin-top: 0.15rem;
+}
+
 /* ── Daily Challenge Screen ─────────────────────────────────────────────── */
 
 .dc-screen {
