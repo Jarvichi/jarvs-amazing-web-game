@@ -55,9 +55,10 @@ export interface Props {
   onSignOut: () => void
   onSignIn: () => void
   onFeedback: () => void
+  onAugments?: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onPlayerStats, onCodex, user, onSignOut, onSignIn, onFeedback }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onPlayerStats, onCodex, user, onSignOut, onSignIn, onFeedback, onAugments }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -254,6 +255,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         <div className="title-nav-grid">
           <TitleButton onClick={onDeckBuilder}>DECK BUILDER</TitleButton>
           <TitleButton onClick={onCollection} badge={collectionAlert}>COLLECTION</TitleButton>
+          <TitleButton onClick={onAugments}>⚔ AUGMENTS</TitleButton>
           <TitleButton onClick={onShop} badge={shopAlert}>🛒 SHOP</TitleButton>
           <TitleButton onClick={onHeroCards}>🦸 HEROES</TitleButton>
           <TitleButton onClick={onInventory}>🎒 INVENTORY</TitleButton>
