@@ -524,21 +524,23 @@ export function distributeIncomingResources(
 }
 
 export function calculateStorageCaps(state: CityState): ResourceStock {
-  const caps: ResourceStock = { wheat: 0, wood: 0, ore: 0, bread: 0, planks: 0, metal: 0 }
+  const caps = { ...STORAGE_BASE_CAPS }
   for (const cell of state.grid) {
     if (!cell || cell.spawnedUnitName) continue
     const cellCap = cellStockCap(cell)
     if (WAREHOUSE_PATTERN.test(cell.cardName)) {
-      for (const k of Object.keys(caps) as ResourceType[]) caps[k] += cellCap
+      // Warehouses boost all resource caps; scale with mastery but never below original flat bonus
+      const contrib = Math.max(STORAGE_PER_WAREHOUSE, cellCap)
+      for (const k of Object.keys(caps) as ResourceType[]) caps[k] += contrib
     } else {
+      // Production buildings contribute their per-cell cap to the resources they produce,
+      // preventing high-mastery producers from stalling when the global pool is too small
       const produces = getBuildingProduces(cell.cardName)
       for (const [res, rate] of Object.entries(produces)) {
-        if ((rate as number) > 0) caps[res as ResourceType] = (caps[res as ResourceType] ?? 0) + cellCap
+        if ((rate as number) > 0)
+          caps[res as ResourceType] = (caps[res as ResourceType] ?? 0) + cellCap
       }
     }
-  }
-  for (const k of Object.keys(STORAGE_BASE_CAPS) as ResourceType[]) {
-    caps[k] = Math.max(STORAGE_BASE_CAPS[k] as number, caps[k] ?? 0)
   }
   return caps
 }
