@@ -20,6 +20,7 @@ import { promotionsRemainingToday } from '../../game/commander'
 import { incrementAchievementProgress } from '../../game/achievements'
 import { CardTile } from '../cards/CardTile'
 import { CardDetailModal } from '../cards/CardDetailModal'
+import { CardAugmentScreen } from '../cards/CardAugmentScreen'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { MasteryBar } from '../ui/MasteryBar'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
@@ -31,6 +32,7 @@ interface Props {
   onBack: () => void
   commanderName?: string | null
   onPromoteCommander?: (cardName: string) => void
+  onViewAugments?: () => void
 }
 
 type RarityFilter = 'all' | CardRarity
@@ -67,7 +69,7 @@ const LazyCell = memo(function LazyCell({ children, className }: { children: Rea
   )
 })
 
-export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commanderName, onPromoteCommander }: Props) {
+export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commanderName, onPromoteCommander, onViewAugments }: Props) {
   const catalog = getCardCatalog()
   const allAffinityLabels = Array.from(
     new Set(catalog.flatMap(c => c.unit?.affinity?.label ? [c.unit.affinity.label] : []))
@@ -97,6 +99,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   const [upgradeModal, setUpgradeModal] = useState<Array<{cardName: string, xpGained: number}> | null>(null)
   const [disenchantModal, setDisenchantModal] = useState<Array<{cardName: string, crystals: number}> | null>(null)
   const [detailCard, setDetailCard] = useState<import('../../game/types').Card | null>(null)
+  const [augmentCard, setAugmentCard] = useState<import('../../game/types').Card | null>(null)
   const [levelUpCard, setLevelUpCard] = useState<string | null>(null)
   const [secretToast, setSecretToast] = useState<string | null>(null)
   const legendaryViewCount = useRef(0)
@@ -162,7 +165,7 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   })
 
   const RARITY_ORDER: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4, mythic: 5, shiny: 6, holofoil: 7, glass: 8 }
-  const TYPE_ORDER: Record<CardType, number>     = { unit: 0, structure: 1, upgrade: 2 }
+  const TYPE_ORDER: Record<CardType, number>     = { unit: 0, structure: 1, upgrade: 2, augment: 3 }
 
   // Default sort: spawn buildings appear immediately after the unit they spawn.
   const catalogPos = new Map<string, number>(catalog.map((c, i) => [c.name, i]))
@@ -310,7 +313,16 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   }
 
   return (
-    <OverlayScreen title="COLLECTION" onBack={onBack} right={<span className="crystal-count">💎 {crystals.toLocaleString()}</span>}>
+    <OverlayScreen title="COLLECTION" onBack={onBack} right={
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {onViewAugments && (
+          <button className="action-btn" style={{ fontSize: 12, padding: '3px 10px' }} onClick={onViewAugments}>
+            Augments 👻
+          </button>
+        )}
+        <span className="crystal-count">💎 {crystals.toLocaleString()}</span>
+      </div>
+    }>
 
       {/* Action row */}
       <div className="collection-action-row u-flex u-items-c u-gap-4 u-wrap">
@@ -556,7 +568,11 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                     canAfford={true}
                     upgradeable={extras > 0}
                     onClick={() => {
-                      setDetailCard(card)
+                      if (card.cardType === 'unit' && card.unit && card.unit.moveSpeed > 0) {
+                        setAugmentCard(card)
+                      } else {
+                        setDetailCard(card)
+                      }
                       if (card.rarity === 'legendary') {
                         legendaryViewCount.current += 1
                         if (legendaryViewCount.current === 10) {
@@ -581,6 +597,14 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
           })
         })()}
       </div>
+
+      {augmentCard && (
+        <CardAugmentScreen
+          card={augmentCard}
+          collection={collection}
+          onClose={() => setAugmentCard(null)}
+        />
+      )}
 
       {detailCard && (() => {
         const dOwned   = getOwnedCount(collection, detailCard.name)

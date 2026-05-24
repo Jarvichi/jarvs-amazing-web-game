@@ -34,6 +34,7 @@ import {
   xpToUpgrade
 } from '../../game/towerDefence'
 import { UnitTemplate } from '../../game/types'
+import { incrementAugmentSouls } from '../../game/collection'
 import { Lives } from '../ui/Lives/Lives'
 import { BottomPanel } from './towerdefence/BottomPanel'
 import { TowerDefenceEndScreen } from './towerdefence/EndScreen'
@@ -113,6 +114,15 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
     }
     prevLivesRef.current = game.lives
   }, [game.lives])
+
+  // Award augment souls when the game ends (1 per enemy killed)
+  const soulsAwardedRef = useRef(false)
+  useEffect(() => {
+    if ((game.phase === 'victory' || game.phase === 'defeat') && !soulsAwardedRef.current) {
+      soulsAwardedRef.current = true
+      if (game.enemyKills > 0) incrementAugmentSouls(game.enemyKills)
+    }
+  }, [game.phase, game.enemyKills])
 
   // Auto-start next wave when the toggle is on
   useEffect(() => {

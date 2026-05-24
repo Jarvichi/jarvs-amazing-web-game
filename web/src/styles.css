@@ -13563,3 +13563,157 @@ html.light-mode .action-btn {
 .city-expand-lvl   { color: #c0e8a0; font-weight: bold; min-width: 90px; }
 .city-expand-cost  { color: #a0c080; font-size: 10px; flex: 1; }
 .city-expand-status { color: #80b060; font-size: 10px; flex: 1; }
+
+
+/* ── Card Augment Screen ──────────────────────────────────────────────────────── */
+.cas-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 250;
+  overflow-y: auto;
+  padding: 12px 0;
+}
+.cas-panel {
+  background: var(--game-bg);
+  border: 1px solid var(--game-border);
+  border-radius: 4px;
+  width: min(560px, 98vw);
+  max-height: 95vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.cas-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid #222;
+  position: sticky;
+  top: 0;
+  background: var(--game-bg);
+  z-index: 1;
+}
+.cas-name   { font-size: 1.071rem; font-weight: bold; flex: 1; }
+.cas-rarity { font-size: var(--font-xs); letter-spacing: 1px; }
+.cas-body   { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+.cas-top    { align-items: flex-start; }
+.cas-card-col { flex-shrink: 0; }
+.cas-info-col { min-width: 0; }
+.cas-souls-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(100,50,180,0.15);
+  border-radius: 4px;
+  border: 1px solid rgba(150,80,255,0.3);
+  font-size: 13px;
+}
+.cas-slots-title {
+  font-size: var(--font-xs);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--game-text-color-dim);
+  padding-bottom: 4px;
+  border-bottom: 1px solid #222;
+}
+.cas-slots-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.cas-slot {
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 70px;
+}
+.cas-slot--filled {
+  border-color: rgba(150,80,255,0.5);
+  background: rgba(100,50,180,0.08);
+}
+.cas-slot-label { font-size: var(--font-xxs); text-transform: uppercase; letter-spacing: 1px; color: var(--game-text-color-dim); }
+.cas-slot-name  { font-size: var(--font-sm); font-weight: bold; }
+.cas-slot-level { font-size: var(--font-xxs); color: #aaa; }
+.cas-slot-effect { font-size: var(--font-xs); color: #aaddff; }
+.cas-slot-actions { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.cas-slot-btn { font-size: 11px; padding: 2px 8px; }
+.cas-set-bonus {
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0.5;
+}
+.cas-set-bonus--active { opacity: 1; border-color: #ffcc00; background: rgba(255,200,0,0.06); }
+.cas-set-bonus-name { font-size: var(--font-sm); font-weight: bold; }
+.cas-set-bonus-desc { font-size: var(--font-xs); color: var(--game-text-color-muted); }
+.cas-set-bonus-effect { font-size: var(--font-xs); }
+
+/* ── Augment Picker Modal ─────────────────────────────────────────────────────── */
+.apm-panel {
+  background: var(--game-bg);
+  border: 1px solid var(--game-border);
+  border-radius: 4px;
+  width: min(400px, 96vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.apm-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #222;
+  font-weight: bold;
+}
+.apm-empty { padding: 24px; text-align: center; opacity: 0.6; font-size: var(--font-sm); }
+.apm-list  { display: flex; flex-direction: column; }
+.apm-item  {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #1a1a1a;
+}
+.apm-item--active { background: rgba(100,50,180,0.12); }
+.apm-item-info    { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.apm-item-name    { font-size: var(--font-sm); font-weight: bold; }
+.apm-item-actions { flex-shrink: 0; }
+
+/* ── Augment Collection Screen ───────────────────────────────────────────────── */
+.aug-list { display: flex; flex-direction: column; gap: 6px; }
+.aug-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+}
+.aug-list-item-info { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.aug-list-name      { font-size: var(--font-sm); font-weight: bold; }
+.aug-list-item-actions { flex-shrink: 0; }
+.aug-equipped-link {
+  background: none;
+  border: none;
+  color: #88bbff;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  text-align: left;
+  text-decoration: underline;
+}

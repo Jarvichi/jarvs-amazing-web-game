@@ -104,6 +104,7 @@ import { TrainingScreen }  from './components/screens/TrainingScreen'
 import {
   incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
+import { incrementAugmentSouls } from './game/collection'
 import { AchievementsScreen } from './components/screens/AchievementsScreen'
 import { HeroCardsScreen }   from './components/screens/HeroCardsScreen'
 import FingerSmash from './components/battle/FingerSmash'
@@ -121,6 +122,7 @@ import { DailyChallengeScreen } from './components/screens/DailyChallengeScreen'
 import { ConfirmModal }          from './components/modals/ConfirmModal'
 import { EndlessLeaderboardScreen } from './components/screens/EndlessLeaderboardScreen'
 import { MiniGamesMenu }           from './components/screens/MiniGamesMenu'
+import { AugmentCollectionScreen } from './components/screens/AugmentCollectionScreen'
 import './styles.css'
 import brokenRelicsData from './data/broken-relics.json'
 import rollbar, { updateRollbarPerson } from './rollbar'
@@ -207,6 +209,7 @@ type Screen =
   | 'codex'
   | 'memory'
   | 'characterEncounter'
+  | 'augments'
 
 
 const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
@@ -1933,6 +1936,8 @@ export default function App() {
       // Track total kills
       const totalUnlocked = incrementAchievementProgress('misc:total_kills', newKills.length)
       newToasts.push(...totalUnlocked)
+      // Award augment souls (1 per kill)
+      incrementAugmentSouls(newKills.length)
       if (newToasts.length > 0) {
         setAchievementToasts(prev => [...prev, ...newToasts])
       }
@@ -2637,6 +2642,7 @@ export default function App() {
           onCrystalsChanged={handleCrystalsChanged}
           onBack={() => setScreen('title')}
           commanderName={commander?.cardName ?? null}
+          onViewAugments={() => setScreen('augments')}
           onPromoteCommander={(cardName) => {
             const ok = promoteCommander(cardName)
             if (ok) {
@@ -2645,6 +2651,10 @@ export default function App() {
             }
           }}
         />
+      )}
+
+      {screen === 'augments' && (
+        <AugmentCollectionScreen onBack={() => setScreen('collection')} />
       )}
 
       {screen === 'shop' && (
