@@ -236,7 +236,8 @@ export const exampleTDGameState: TDGameState = {
   phase: "prep",
   mana: 0,
   log: [],
-  hazards: []
+  hazards: [],
+  enemyKills: 0
 }
 
 export const exampleTowerPool: TowerPool[] = [
