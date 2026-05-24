@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { getCardCatalog } from '../../game/cards'
 import { rarityStars } from '../../game/cards'
 import { addCardsToCollection } from '../../game/collection'
+import { getAugmentCatalog } from '../../game/augments'
 import { CardTile } from './CardTile'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { useCardDetail } from './useCardDetail'
@@ -23,7 +24,7 @@ function rarityColor(rarity: string | undefined): string {
 }
 
 export function PackOpening({ packs, onDone }: Props) {
-  const catalog = getCardCatalog()
+  const catalog = [...getCardCatalog(), ...getAugmentCatalog()]
 
   // Which pack we're currently opening
   const [packIdx, setPackIdx] = useState(0)
