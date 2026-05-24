@@ -111,8 +111,7 @@ export function AugmentCollectionScreen({ onBack }: Props) {
 
                 <div className="aug-list-item-actions">
                   <button
-                    className="action-btn action-btn--gold"
-                    disabled={souls < AUGMENT_UPGRADE_COST}
+                    className={`action-btn action-btn--gold${souls < AUGMENT_UPGRADE_COST ? ' action-btn--disabled' : ''}`}
                     onClick={() => handleUpgrade(inst)}
                     title={`Costs ${AUGMENT_UPGRADE_COST} souls`}
                   >
