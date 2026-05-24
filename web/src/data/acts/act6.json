@@ -481,7 +481,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "skyport-camp": {
       "id": "skyport-camp",
@@ -495,7 +496,8 @@
         "storm-battery"
       ],
       "environment": "sky",
-      "restHeal": 10
+      "restHeal": 10,
+      "characterEncounter": "kael"
     },
     "sky-bazaar": {
       "id": "sky-bazaar",

@@ -484,7 +484,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "root-hollow": {
       "id": "root-hollow",
@@ -499,7 +500,8 @@
         "node-1776871965007"
       ],
       "environment": "fungal",
-      "restHeal": 10
+      "restHeal": 10,
+      "characterEncounter": "kael"
     },
     "deep-trader": {
       "id": "deep-trader",

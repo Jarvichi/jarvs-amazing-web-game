@@ -598,7 +598,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "ambush": {
       "id": "ambush",
@@ -1170,7 +1171,8 @@
         "deep-woods"
       ],
       "restHeal": 15,
-      "environment": "farmland"
+      "environment": "farmland",
+      "characterEncounter": "kael"
     },
     "mem-act1-1": {
       "id": "mem-act1-1",

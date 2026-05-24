@@ -518,7 +518,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "wreck-camp": {
       "id": "wreck-camp",
@@ -533,7 +534,8 @@
         "mem-act5-1"
       ],
       "environment": "reef",
-      "restHeal": 10
+      "restHeal": 10,
+      "characterEncounter": "kael"
     },
     "reef-bazaar": {
       "id": "reef-bazaar",

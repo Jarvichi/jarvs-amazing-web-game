@@ -1,0 +1,131 @@
+{
+  "lyra": {
+    "name": "Lyra",
+    "title": "Travelling Merchant",
+    "icon": "⚖",
+    "encounters": [
+      {
+        "greeting": "First time through here? You've got the look of someone who didn't expect to make it this far. I sell cards, consumables, whatever I can carry. Name's Lyra. Don't let the prices put you off — everything here kept me alive long enough to reach you."
+      },
+      {
+        "greeting": "You again. I wasn't sure you'd make it past that last stretch. Most don't. What are you building — I can tell by what people keep buying."
+      },
+      {
+        "greeting": "I heard something interesting from the last traveller through here. They said the ley lines near the core have been... singing. Not a sound exactly. More like a pressure behind the eyes. They didn't last the week. Anyway — what do you need?"
+      },
+      {
+        "greeting": "I'll tell you something I don't usually say. I left my shard three days before the Fracture. I didn't know anything was coming — I just had a contract dispute with a very insistent buyer. Sometimes the most mundane reasons save your life. I've been on the road ever since. It suits me better than home did. Here — I've set aside something I thought you might want."
+      },
+      {
+        "greeting": "At this point I'm starting to route my circuits around where you might be. That's either good business or a problem. Possibly both. Take a look — I've got a few things I pulled specifically because I thought 'yes, that's exactly the kind of stupid plan they'd have.'"
+      }
+    ]
+  },
+  "kael": {
+    "name": "Kael",
+    "title": "Wandering Soldier",
+    "icon": "⚔",
+    "encounters": [
+      {
+        "greeting": "He looks up from the fire when you approach. His armour is campaign-worn, one pauldron cracked down the middle. He doesn't reach for his weapon.\n\n\"Didn't hear you coming. That's — that's good, actually, I've been sitting here for a while.\" He looks back at the fire. \"My unit got separated in the Fracture. I stayed at the last marked waypoint for four days. Nobody came. I don't know if that means something or nothing.\"",
+        "choices": [
+          {
+            "label": "Share what you know about the roads ahead",
+            "response": "He listens carefully, asks two sharp questions, then nods. \"That helps. I can work with that.\" He rummages in his pack and hands you a small purse. \"Supplies I was saving. You need them more than I do right now.\"",
+            "effect": { "type": "gainCrystals", "amount": 15 }
+          },
+          {
+            "label": "Leave him to it",
+            "response": "You nod and move on. He goes back to watching the fire.",
+            "effect": { "type": "nothing" }
+          }
+        ]
+      },
+      {
+        "greeting": "He's on his feet when you find him this time, studying a rough map scratched into bark.\n\n\"I found a trail. Boot print, military issue, heading northeast — I know that tread, that's Sergeant Veska's kit.\" He looks at you. \"I'm going to follow it. Thought I should mention that to someone before I go.\" A pause. \"You haven't seen anyone else out here, have you? Unit markings, a blue chevron on the shoulder?\"",
+        "choices": [
+          {
+            "label": "Help him dress his wounds before he sets out",
+            "response": "He protests once, then lets you. \"Didn't realise how bad it had gotten,\" he admits. The rest does both of you good.",
+            "effect": { "type": "healHp", "amount": 8 }
+          },
+          {
+            "label": "Wish him luck",
+            "response": "\"Right. Thanks.\" He folds the map carefully and tucks it into his coat. \"If you find Veska before I do — just tell her Kael is looking.\"",
+            "effect": { "type": "nothing" }
+          }
+        ]
+      },
+      {
+        "greeting": "He's sitting against a collapsed wall, a small book open in his hands. He looks up when he hears you.\n\n\"The trail ended at a bridge that isn't there anymore. But I found this — Veska's field journal. She made it further than I thought.\" He holds it out. \"The last entry describes a way through the passes. I could use it to keep looking.\" He closes the book slowly. \"Or I could leave it where I found it. For whoever comes after.\"",
+        "choices": [
+          {
+            "label": "Keep looking — the information is yours",
+            "response": "He nods, grips the journal tighter. \"Yeah. Yeah, you're right. I'll find her.\" Something settles in him. He hands you a few coins he'd been holding, a nervous habit. \"For the road.\"",
+            "effect": { "type": "gainCrystals", "amount": 20 }
+          },
+          {
+            "label": "Leave it — let others find their way too",
+            "response": "He thinks about it for a long time. Then he sets the journal on the wall, visible from the path. \"Good call,\" he says quietly. \"She'd have said the same thing.\"",
+            "effect": { "type": "nothing" }
+          }
+        ]
+      },
+      {
+        "greeting": "He's built a small shelter this time. Two walls and a roof, badly constructed but enthusiastic.\n\n\"I'm not going to find her,\" he says, before you can speak. \"I know that now. The passes she described — they're sealed. Whatever Veska did to get through, I can't follow.\" He sits down heavily. \"But I found two other survivors from the eastern units. We're going to try to reach the Verdant Canopy — there's a settlement there.\" He looks at you steadily. \"I wouldn't have got this far without — well. You know.\"",
+        "choices": [
+          {
+            "label": "Tell him Veska would be proud",
+            "response": "He's quiet for a moment. Then he exhales slowly, like something he'd been holding for a very long time finally releasing. \"Maybe she would be. Yeah.\" He presses his hand briefly to your shoulder. \"Travel well.\"",
+            "effect": { "type": "gainLife", "amount": 1 }
+          },
+          {
+            "label": "Nod and let him have the moment",
+            "response": "Some things don't need words. He seems to understand that.",
+            "effect": { "type": "nothing" }
+          }
+        ]
+      },
+      {
+        "greeting": "He catches you on your way through, looking better than the last time — cleaner kit, steadier eyes.\n\n\"We made it to the Canopy. The settlement is small but it's real.\" He grins briefly. \"I'm heading back to help with the northern route. Apparently I'm good at finding paths that aren't there.\" He presses something into your hand — a worn compass, cracked face, needle still true. \"You need this more than I do. I know where I'm going now.\"",
+        "choices": [
+          {
+            "label": "Accept the compass",
+            "response": "The compass is old but the needle holds steady wherever you point it.",
+            "effect": { "type": "gainCrystals", "amount": 25 }
+          },
+          {
+            "label": "Tell him to keep it",
+            "response": "He looks like he's going to argue, then pockets it. \"Fair enough. I'll find you again and give it to you then.\"",
+            "effect": { "type": "nothing" }
+          }
+        ]
+      },
+      {
+        "greeting": "He's passing through, not resting — just long enough to raise a hand in greeting.\n\n\"Still going? Good. So am I.\" He looks like he means it."
+      }
+    ]
+  },
+  "mira": {
+    "name": "Mira",
+    "title": "The Chronicler",
+    "icon": "✦",
+    "encounters": [
+      {
+        "greeting": "A woman in a grey coat steps out of the shadows near the path. She's carrying too many notebooks.\n\n\"You found one.\" She nods at the fragment. \"I'm Mira — I was an archivist for the Dominion before the Fracture scattered everything. I've been collecting evidence ever since. Testimonies, sensor logs, what the trees remember.\" She studies you. \"You're going further in, aren't you? Towards the Core?\" A pause. \"Would you share what you find? I'm trying to understand what happened to all of us.\""
+      },
+      {
+        "greeting": "She has a new notebook since last time, already half-full.\n\n\"I've been mapping the timing,\" she says without preamble. \"The Fracture wasn't simultaneous. The reef shards went first — three minutes before the central collapse. Then the sky routes. Then everything else.\" She turns a page. \"That's not how a natural event works. That's a sequence. Someone — or something — initiated it in a specific order.\" She looks up. \"Whatever you're finding out there, keep finding it.\""
+      },
+      {
+        "greeting": "She looks tired in a way that isn't about sleep.\n\n\"I have a theory and I don't like it.\" She sits down on a nearby rock without asking. \"The deep ley network has a regulating architecture — built long before the Dominion, possibly before recorded history. The Fracture matches the signature of a forced draw on that architecture. Something pulled more energy through it than it was designed to carry.\" She looks at you directly. \"Not an accident. Not a natural event. A miscalculation. Somebody tried to do something with the ley network and it broke.\" She closes the notebook. \"I just need to confirm the source.\""
+      },
+      {
+        "greeting": "She finds you before you find her.\n\n\"I know what it was.\" She's shaking slightly, which she seems annoyed by. \"There was a structure — the Dominion called it the Resonance Engine. Pre-Dominion construction, repurposed. It was designed to stabilise the ley network during high-output periods.\" She steadies herself. \"Someone activated it at full capacity. They were trying to prevent something. The Engine miscalculated and caused the exact catastrophe it was built to prevent.\" A long pause. \"The Engine is still active. Somewhere near the Fractured Core. And it doesn't know it failed.\""
+      },
+      {
+        "greeting": "She looks calmer now. Resolved.\n\n\"I've published the findings. Sent copies to every settlement I can reach.\" She adjusts her notebooks. \"Most people won't believe it. Some will. That's enough.\" She meets your eyes. \"Be careful near the Core. The Engine responds to ley disturbances — and you're heading straight into the largest one remaining. It may notice you.\" A pause. \"I'll be here when you come back. Assuming you do.\""
+      }
+    ]
+  }
+}

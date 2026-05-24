@@ -394,7 +394,8 @@
         "siege-captain"
       ],
       "environment": "camp",
-      "restHeal": 10
+      "restHeal": 10,
+      "characterEncounter": "kael"
     },
     "supply-cache": {
       "id": "supply-cache",
@@ -463,7 +464,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "outer-wall": {
       "id": "outer-wall",

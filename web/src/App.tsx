@@ -43,6 +43,8 @@ import { MerchantScreen, MerchantItem, cardMerchantItem } from './components/cam
 import { MysteryScreen } from './components/campaign/MysteryScreen'
 import { MemoryFragmentScreen } from './components/campaign/MemoryFragmentScreen'
 import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered } from './game/codex'
+import { CharacterEncounterScreen } from './components/campaign/CharacterEncounterScreen'
+import { CharacterChoice, recordCharacterEncounter } from './game/characters'
 import memoryFragmentsData from './data/memoryFragments.json'
 import { ItemFoundScreen }    from './components/modals/ItemFoundScreen'
 import { CharacterScreen }    from './components/screens/CharacterScreen'
@@ -204,6 +206,7 @@ type Screen =
   | 'camp'
   | 'codex'
   | 'memory'
+  | 'characterEncounter'
 
 
 const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
@@ -369,6 +372,7 @@ export default function App() {
   const merchantBoughtRef = useRef(0)
   const [mysteryReward, setMysteryReward] = useState<RewardDef | null>(null)
   const [activeMemoryFragment, setActiveMemoryFragment] = useState<{ fragment: MemoryFragment; alreadyFound: boolean; shardBonus: boolean } | null>(null)
+  const [activeCharacterEncounter, setActiveCharacterEncounter] = useState<{ nodeId: string; characterId: string } | null>(null)
   const [campNode, setCampNode] = useState<QuestNode | null>(null)
   const [campResult, setCampResult] = useState<string | null>(null)
   // Replay briefing state — stored so onBegin can proceed with the correct context
@@ -959,6 +963,12 @@ export default function App() {
     saveRun(updatedRun)
     setRun(updatedRun)
 
+    if (node.characterEncounter) {
+      setActiveCharacterEncounter({ nodeId: node.id, characterId: node.characterEncounter })
+      setScreen('characterEncounter')
+      return
+    }
+
     if (node.type === 'rest') {
       setCampNode(node)
       setScreen('camp')
@@ -1241,6 +1251,51 @@ export default function App() {
     setScreen('nodemap')
   }, [run, mysteryReward])
 
+  const handleCharacterDone = useCallback((choice?: CharacterChoice) => {
+    const currentRun = run
+    if (!currentRun || !activeCharacterEncounter) { setScreen('nodemap'); return }
+    const act = ACTS[currentRun.actId]
+    if (!act) { setScreen('nodemap'); return }
+
+    recordCharacterEncounter(activeCharacterEncounter.characterId, choice?.label)
+
+    // Apply choice effect (crystals, HP, lives)
+    if (choice?.effect) {
+      const eff = choice.effect
+      if (eff.type === 'gainCrystals' && eff.amount) {
+        const next = loadCrystals() + eff.amount
+        saveCrystals(next)
+        setCrystals(next)
+      } else if (eff.type === 'healHp' && eff.amount) {
+        const healed = Math.min(currentRun.maxHp, currentRun.playerHp + eff.amount)
+        const updated = { ...currentRun, playerHp: healed }
+        saveRun(updated)
+        setRun(updated)
+      } else if (eff.type === 'gainLife' && eff.amount) {
+        const newMax   = Math.min(LIVES_MAX, currentRun.maxLives + eff.amount)
+        const newLives = Math.min(newMax, currentRun.livesRemaining + eff.amount)
+        const updated  = { ...currentRun, livesRemaining: newLives, maxLives: newMax }
+        saveRun(updated)
+        setRun(updated)
+      }
+    }
+
+    const node = act.nodes[activeCharacterEncounter.nodeId]
+    setActiveCharacterEncounter(null)
+
+    // Continue to normal node resolution
+    if (node?.type === 'rest') {
+      setCampNode(node)
+      setScreen('camp')
+    } else if (node?.type === 'event' && node.eventConfig) {
+      const eventData = generateEventFromConfig(node.id, node.eventConfig)
+      if (eventData) { setActiveEvent(eventData); setScreen('event') }
+      else setScreen('nodemap')
+    } else {
+      setScreen('nodemap')
+    }
+  }, [run, activeCharacterEncounter])
+
   const handleMemoryCollect = useCallback(() => {
     const currentRun = run
     if (!currentRun || !activeMemoryFragment) { setScreen('nodemap'); return }
@@ -1271,6 +1326,12 @@ export default function App() {
       return
     }
     setActiveMemoryFragment(null)
+    // Mira appears after every first-time fragment discovery
+    if (!alreadyFound) {
+      setActiveCharacterEncounter({ nodeId: activeMemoryFragment.fragment.nodeId, characterId: 'mira' })
+      setScreen('characterEncounter')
+      return
+    }
     setScreen('nodemap')
   }, [run, activeMemoryFragment])
 
@@ -2450,6 +2511,13 @@ export default function App() {
           onCollect={activeMemoryFragment.shardBonus
             ? () => { setActiveMemoryFragment(null); setScreen('nodemap') }
             : handleMemoryCollect}
+        />
+      )}
+
+      {screen === 'characterEncounter' && activeCharacterEncounter && (
+        <CharacterEncounterScreen
+          characterId={activeCharacterEncounter.characterId}
+          onDone={handleCharacterDone}
         />
       )}
 

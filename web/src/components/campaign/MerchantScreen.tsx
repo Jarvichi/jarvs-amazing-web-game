@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { emitSound } from '../../game/sound'
 import { Card } from '../../game/types'
 import { UselessItem } from '../../game/dailyLogin'
 import { MERCHANT_PRICES, ConsumableDef } from '../../game/questline'
 import { CardTile } from '../cards/CardTile'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { getCharacterDef, getCharacterStage, recordCharacterEncounter } from '../../game/characters'
 
 export type MerchantItem =
   | { kind: 'card'; card: Card; price: number }
@@ -33,6 +34,11 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
   const [balance, setBalance]     = useState(crystals)
   const [purchased, setPurchased] = useState<Set<string>>(new Set())
 
+  const lyra      = getCharacterDef('lyra')!
+  const lyraStage = getCharacterStage('lyra')
+
+  useEffect(() => { recordCharacterEncounter('lyra') }, [])
+
   function handleBuy(item: MerchantItem) {
     const key = itemKey(item)
     // Consumables can be bought multiple times
@@ -51,8 +57,13 @@ export function MerchantScreen({ items, crystals, onBuy, onDone }: Props) {
     <OverlayScreen title="MERCHANT" onBack={onDone} right={<span className="crystal-count">💎 {balance.toLocaleString()}</span>}>
       <div className="shop-wrapper">
 
-        <div className="merchant-tagline">
-          "Everything has a price. Today, at least these have <em>reasonable</em> ones."
+        <div className="merchant-character-banner">
+          <span className="char-icon">{lyra.icon}</span>
+          <div className="char-banner-text">
+            <span className="char-name">{lyra.name}</span>
+            <span className="char-title">{lyra.title}</span>
+            <span className="char-banner-greeting">{lyraStage.greeting}</span>
+          </div>
         </div>
 
         {balance === 0 && (

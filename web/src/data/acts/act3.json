@@ -526,7 +526,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "bone-fire": {
       "id": "bone-fire",
@@ -540,7 +541,8 @@
         "revenant-witch"
       ],
       "environment": "ashen",
-      "restHeal": 10
+      "restHeal": 10,
+      "characterEncounter": "kael"
     },
     "plague-front": {
       "id": "plague-front",

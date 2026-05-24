@@ -579,7 +579,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "echo-halls": {
       "id": "echo-halls",
@@ -761,7 +762,8 @@
         "spire-gate"
       ],
       "restHeal": 12,
-      "environment": "citadel"
+      "environment": "citadel",
+      "characterEncounter": "kael"
     },
     "void-bridge": {
       "id": "void-bridge",

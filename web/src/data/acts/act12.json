@@ -435,7 +435,8 @@
             }
           ]
         ]
-      }
+      },
+      "characterEncounter": "mira"
     },
     "wreck-camp": {
       "id": "wreck-camp",
@@ -449,7 +450,8 @@
         "gale-watch",
         "salvage-market"
       ],
-      "healAmount": 8
+      "healAmount": 8,
+      "characterEncounter": "kael"
     },
     "salvage-market": {
       "id": "salvage-market",
