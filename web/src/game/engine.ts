@@ -4,7 +4,7 @@ import { loadPlayerStats } from './playerStats'
 
 import { moveUnits, processAffinities } from './engine/units'
 import { processAttacks, DEATH_LINGER_MS } from './engine/combat'
-import { BASE_MAX_MANA, BLOOD_POOL_FADE_MS, BASE_STOP_MARGIN, MANA_REGEN_MS, OPPONENT_INTERVAL_MS, PLAYER_SPAWN_X, SPAWN_GROW_MS, COMMANDER_HOME_X } from './engine/constants'
+import { BASE_MAX_MANA, BLOOD_POOL_FADE_MS, BASE_STOP_MARGIN, MANA_REGEN_MS, OPPONENT_INTERVAL_MS, PLAYER_SPAWN_X, SPAWN_GROW_MS, COMMANDER_HOME_X, ARCH_SWARM_ATK_PER_UNIT } from './engine/constants'
 import { genericBossAI, getBossAIDef } from './engine/boss'
 import { tickBossTrait } from './engine/bossTraits'
 import { getManaBonus, getManaSpeedMult } from './engine/bonusEffects'
@@ -496,6 +496,9 @@ export function tick(state: GameState, deltaMs: number): GameState {
   // 1b. apply tick effects (periodic relic buffs)
   applyTickEffects(s, deltaMs)
 
+  // 1c. apply archetype passives
+  applyArchetypePassives(s)
+
   // 2. Move all units
   moveUnits(s, deltaMs)
 
@@ -838,6 +841,21 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
         unit.spawnTimer = intervalMs
       }
     }
+  }
+}
+
+function applyArchetypePassives(s: GameState) {
+  if (s.archetypePassive !== 'swarm_tactician') return
+  const mobileCount = s.field.filter(u => u.owner === 'player' && !u.isWall && u.moveSpeed > 0).length
+  const newMult = 1 + mobileCount * ARCH_SWARM_ATK_PER_UNIT
+  const prevMult = s.swarmAtkMult ?? 1
+  if (Math.abs(newMult - prevMult) > 0.001) {
+    for (const u of s.field) {
+      if (u.owner === 'player' && !u.isWall && u.moveSpeed > 0) {
+        u.attack = Math.max(1, Math.round(u.attack / prevMult * newMult))
+      }
+    }
+    s.swarmAtkMult = newMult
   }
 }
 

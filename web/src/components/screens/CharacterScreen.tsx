@@ -5,7 +5,9 @@ import {
   loadPlayerName, savePlayerName,
   loadPlayerAvatar, savePlayerAvatar,
   isAvatarUnlocked,
+  getArchetypeDefs, loadPlayerArchetype, savePlayerArchetype, loadActCount,
 } from '../../game/questline'
+import type { Archetype } from '../../game/types'
 import { auth } from '../../firebase'
 import { claimPlayerName } from '../../game/playerName'
 import { OverlayScreen } from '../ui/OverlayScreen'
@@ -58,6 +60,8 @@ export function CharacterScreen({ onDone }: Props) {
   const [saving,    setSaving]    = useState(false)
   const [nameError, setNameError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<AvatarTab>('base')
+  const [archetype, setArchetype] = useState<Archetype | null>(loadPlayerArchetype())
+  const archetypeDefs = getArchetypeDefs(loadActCount('actfinale'))
 
   async function handleSave() {
 
@@ -77,6 +81,7 @@ export function CharacterScreen({ onDone }: Props) {
     savePlayerName(finalName)
   }
     savePlayerAvatar(avatar)
+    if (archetype) savePlayerArchetype(archetype)
     onDone()
   }
 
@@ -177,6 +182,25 @@ export function CharacterScreen({ onDone }: Props) {
               ))}
             </div>
           )}
+        </div>
+
+        <div style={{ margin: '1.2rem 0 0.5rem', width: '100%' }}>
+          <div style={{ color: '#aaffaa', fontSize: '0.8rem', marginBottom: '0.6rem' }}>ARCHETYPE</div>
+          <div className="character-archetype-grid">
+            {archetypeDefs.map(def => (
+              <button
+                key={def.id}
+                className={`character-archetype-btn${archetype === def.id ? ' character-archetype-btn--chosen' : ''}${def.locked ? ' character-archetype-btn--locked' : ''}`}
+                onClick={def.locked ? undefined : () => setArchetype(def.id)}
+                title={def.locked ? `${def.name} — complete the campaign to unlock` : def.name}
+              >
+                <span className="character-archetype-icon">{def.locked ? '🔒' : def.icon}</span>
+                <span className="character-archetype-name">{def.locked ? '???' : def.name}</span>
+                {!def.locked && <span className="character-archetype-identity">{def.identity}</span>}
+                {!def.locked && <span className="character-archetype-passive">{def.passive}</span>}
+              </button>
+            ))}
+          </div>
         </div>
 
         <Button

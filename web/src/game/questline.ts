@@ -1,4 +1,4 @@
-import { CardRarity } from './types'
+import { CardRarity, Archetype } from './types'
 import { loadPlayerStats } from './playerStats'
 import { logError } from '../logger'
 import { getCardCatalog } from './cards'
@@ -503,6 +503,7 @@ export interface RunState {
   consumables: RunConsumable[] // consumable items held during this run
   activeModifierCount: number  // how many replay modifiers from the act's list are active this run
   runSeed: number              // stable random seed for this run (used for per-run node visibility rolls)
+  archetype?: Archetype        // playstyle chosen on the character screen; set at run creation
 }
 
 const RUN_KEY = 'jarv_run'
@@ -627,6 +628,7 @@ export function newRun(actId: string, activeModifierCount = 0): RunState {
     consumables: drainStashIntoRun([]),
     activeModifierCount,
     runSeed: Math.random() * 0xffffffff | 0,
+    archetype: loadPlayerArchetype() ?? undefined,
   }
 }
 
@@ -969,4 +971,70 @@ export function applyPlayerName(panels: CutscenePanel[]): CutscenePanel[] {
   const name = loadPlayerName()
   if (name === 'Jarv') return panels
   return panels.map(p => ({ ...p, text: p.text.replace(/\bJarv\b/g, name) }))
+}
+
+// ─── Archetypes ───────────────────────────────────────────
+
+export interface ArchetypeDef {
+  id: Archetype
+  name: string
+  icon: string
+  identity: string
+  passive: string
+}
+
+export const ARCHETYPE_DEFS: ArchetypeDef[] = [
+  {
+    id:       'siege_commander',
+    name:     'Siege Commander',
+    icon:     '🏰',
+    identity: 'Structures win wars',
+    passive:  'Structures cost 1 less mana. Structure HP +20%.',
+  },
+  {
+    id:       'swarm_tactician',
+    name:     'Swarm Tactician',
+    icon:     '🐝',
+    identity: 'Quantity is quality',
+    passive:  'Units cost 1 less when 4+ are on the field. +5% ATK per unit alive.',
+  },
+  {
+    id:       'arcane_scholar',
+    name:     'Arcane Scholar',
+    icon:     '📜',
+    identity: 'Upgrades shape reality',
+    passive:  'Upgrade cards have double effect. Draw +1 card after each upgrade played.',
+  },
+]
+
+/** Archetype IDs that are always available (no unlock required). */
+const ALWAYS_UNLOCKED: Archetype[] = ['siege_commander', 'swarm_tactician']
+
+export function getArchetypeDefs(campaignCompletions: number): (ArchetypeDef & { locked: boolean })[] {
+  return ARCHETYPE_DEFS.map(def => ({
+    ...def,
+    locked: !ALWAYS_UNLOCKED.includes(def.id) && campaignCompletions === 0,
+  }))
+}
+
+/** Maps each archetype to the starter pack ID that best fits its playstyle. */
+export const ARCHETYPE_STARTER_PACK: Record<Archetype, string> = {
+  siege_commander: 'fortress',
+  swarm_tactician: 'swarm',
+  arcane_scholar:  'balanced',
+}
+
+const PLAYER_ARCHETYPE_KEY = 'jarv_archetype'
+const VALID_ARCHETYPES: Archetype[] = ['siege_commander', 'swarm_tactician', 'arcane_scholar']
+
+export function loadPlayerArchetype(): Archetype | null {
+  try {
+    const v = localStorage.getItem(PLAYER_ARCHETYPE_KEY)
+    if (v && (VALID_ARCHETYPES as string[]).includes(v)) return v as Archetype
+  } catch { /* ignore */ }
+  return null
+}
+
+export function savePlayerArchetype(a: Archetype): void {
+  try { localStorage.setItem(PLAYER_ARCHETYPE_KEY, a) } catch { /* ignore */ }
 }

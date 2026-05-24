@@ -1,3 +1,7 @@
+// ─── Archetypes ───────────────────────────────────────────
+
+export type Archetype = 'siege_commander' | 'swarm_tactician' | 'arcane_scholar'
+
 // ─── Relic Engine Hook Effects ────────────────────────────
 
 /** Periodic effect applied each engine tick (e.g. heal all player units every N ms). */
@@ -453,6 +457,10 @@ export interface GameState {
   secretRaresObtained?: string[]
   /** Count of glass cards that shattered on play this session. */
   glassShatterCount?: number
+  /** Archetype passive applied for this battle (copied from RunState at battle start). */
+  archetypePassive?: Archetype
+  /** Current ATK multiplier applied to player mobile units by the Swarm Tactician passive. */
+  swarmAtkMult?: number
 }
 
 export interface StanceRules {

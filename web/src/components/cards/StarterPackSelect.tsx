@@ -4,11 +4,12 @@ import { getCardCatalog } from '../../game/cards'
 
 interface Props {
   onPick: (cards: DeckEntry[]) => void
-  fatiguedCards?: string[]   // card names currently resting — shown with a badge
-  bonusCards?: string[]      // card names auto-added to collection as a top-up bonus
+  fatiguedCards?: string[]      // card names currently resting — shown with a badge
+  bonusCards?: string[]         // card names auto-added to collection as a top-up bonus
+  recommendedPackId?: string    // pack ID matching the player's current archetype
 }
 
-export function StarterPackSelect({ onPick, fatiguedCards = [], bonusCards = [] }: Props) {
+export function StarterPackSelect({ onPick, fatiguedCards = [], bonusCards = [], recommendedPackId }: Props) {
   const catalog = getCardCatalog()
 
   return (
@@ -34,8 +35,11 @@ export function StarterPackSelect({ onPick, fatiguedCards = [], bonusCards = [] 
       </div>
 
       <div className="starter-packs u-flex u-gap-6 u-just-c u-wrap">
-        {STARTER_PACK_OPTIONS.map(pack => (
-          <div key={pack.id} className="starter-pack u-col u-gap-4 u-grow u-pointer" onClick={() => onPick(pack.cards)}>
+        {STARTER_PACK_OPTIONS.map(pack => {
+          const isRecommended = recommendedPackId === pack.id
+          return (
+          <div key={pack.id} className={`starter-pack u-col u-gap-4 u-grow u-pointer${isRecommended ? ' starter-pack--recommended' : ''}`} onClick={() => onPick(pack.cards)}>
+            {isRecommended && <div className="starter-pack-recommended">⭐ RECOMMENDED</div>}
             <div className="starter-pack-name">{pack.name}</div>
             <div className="starter-pack-desc">{pack.description}</div>
             <ul className="starter-pack-list">
@@ -53,7 +57,8 @@ export function StarterPackSelect({ onPick, fatiguedCards = [], bonusCards = [] 
             </ul>
             <button className="action-btn starter-pack-btn">CHOOSE</button>
           </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )

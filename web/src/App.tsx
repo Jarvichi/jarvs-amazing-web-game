@@ -4,7 +4,7 @@ import { usePlaytime } from './hooks/usePlaytime'
 import { useStartupData } from './hooks/useStartupData'
 import { useCloudSync } from './hooks/useCloudSync'
 import { useRegisterSW } from 'virtual:pwa-register/react'
-import { GameState, Card, StanceRules } from './game/types'
+import { GameState, Card, StanceRules, Archetype } from './game/types'
 import { newGame, MAX_HANDICAP } from './game/engine'
 import { playCard, playAoeCard } from './game/engine/cards'
 import { makeNodeDeck } from './game/cards'
@@ -35,6 +35,7 @@ import {
   ALL_CONSUMABLES, addToConsumableStash, useConsumable,
   getModifiersByCount, getModifierMax,
   setLastRunFailed, loadLastRunFailed, clearLastRunFailed,
+  ARCHETYPE_STARTER_PACK,
 } from './game/questline'
 import { CardRestSelect }       from './components/cards/CardRestSelect'
 import { CampScreen, CampChoice } from './components/campaign/CampScreen'
@@ -857,6 +858,7 @@ export default function App() {
           const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
           state.playerBase = { hp: activeRun.playerHp, maxHp: activeRun.maxHp }
           if (activeRun.activeRelic) getRelicDef(activeRun.activeRelic)?.applyToGame(state)
+          if (activeRun.archetype) state.archetypePassive = activeRun.archetype
           state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
           startBattle(state)
           rollRareEvent()
@@ -2634,6 +2636,7 @@ export default function App() {
           onPick={handleStarterPackPick}
           fatiguedCards={fatiguedCards}
           bonusCards={bonusPackCards}
+          recommendedPackId={run?.archetype ? ARCHETYPE_STARTER_PACK[run.archetype as Archetype] : undefined}
         />
       )}
 
