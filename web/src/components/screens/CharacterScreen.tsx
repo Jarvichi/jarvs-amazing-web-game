@@ -194,6 +194,9 @@ export function CharacterScreen({ onDone }: Props) {
                 onClick={def.locked ? undefined : () => setArchetype(def.id)}
                 title={def.locked ? `${def.name} — complete the campaign to unlock` : def.name}
               >
+                {archetype === def.id && (
+                  <span className="character-archetype-selected-badge">✓ SELECTED</span>
+                )}
                 <span className="character-archetype-icon">{def.locked ? '🔒' : def.icon}</span>
                 <span className="character-archetype-name">{def.locked ? '???' : def.name}</span>
                 {!def.locked && <span className="character-archetype-identity">{def.identity}</span>}
