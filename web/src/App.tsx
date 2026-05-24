@@ -1520,6 +1520,7 @@ export default function App() {
             crystalBonus: 0,
             consumables: currentRun.consumables,
             activeModifierCount: 0,  // each new act starts fresh; modifiers are act-specific
+            runSeed: Math.random() * 0xffffffff | 0,
           }
           saveRun(nextRun)
           setRun(nextRun)

@@ -501,6 +501,7 @@ export interface RunState {
   crystalBonus: number         // extra crystals awarded after each battle (from replay modifiers)
   consumables: RunConsumable[] // consumable items held during this run
   activeModifierCount: number  // how many replay modifiers from the act's list are active this run
+  runSeed: number              // stable random seed for this run (used for per-run node visibility rolls)
 }
 
 const RUN_KEY = 'jarv_run'
@@ -529,6 +530,7 @@ export function loadRun(): RunState | null {
     parsed.consumables = drainStashIntoRun(parsed.consumables)
     if (stashBeforeDrain.length > 0) saveRun(parsed)
     if (typeof parsed.activeModifierCount !== 'number') parsed.activeModifierCount = 0
+    if (typeof parsed.runSeed !== 'number') parsed.runSeed = Math.random() * 0xffffffff | 0
     if (typeof parsed.maxLives !== 'number' || parsed.maxLives < 1) parsed.maxLives = 3
     if (typeof parsed.livesRemaining !== 'number') parsed.livesRemaining = parsed.maxLives
     parsed.livesRemaining = Math.max(0, Math.min(parsed.maxLives, parsed.livesRemaining))
@@ -623,6 +625,7 @@ export function newRun(actId: string, activeModifierCount = 0): RunState {
     crystalBonus: 0,
     consumables: drainStashIntoRun([]),
     activeModifierCount,
+    runSeed: Math.random() * 0xffffffff | 0,
   }
 }
 

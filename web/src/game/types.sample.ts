@@ -129,6 +129,7 @@ export const exampleRunState: RunState = {
   crystalBonus: 0,
   consumables: [],
   activeModifierCount: 0,
+  runSeed: 12345678,
 };
 
 export const exampleGameState: GameState = {

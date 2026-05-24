@@ -1,5 +1,6 @@
 import React, { useMemo, useRef, useEffect, useState } from 'react'
 import { emitSound } from '../../game/sound'
+import { getDiscoveredFragmentIds } from '../../game/codex'
 import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES, loadPlayerAvatar } from '../../game/questline'
 import { spriteSlug } from '../../game/sprites'
 import { StatRow } from '../ui/StatRow'
@@ -433,12 +434,13 @@ function MapTerrain({ environment, actId, width, height }: TerrainProps) {
 // Each path is coloured by the status of its parent→child pair.
 
 interface ConnProps {
-  prevRow:      QuestNode[]
-  nextRow:      QuestNode[]
-  maxRows:      number
-  statusOf:     (id: string) => NodeStatus
-  reachableIds: Set<string>
-  environment?: string
+  prevRow:       QuestNode[]
+  nextRow:       QuestNode[]
+  maxRows:       number
+  statusOf:      (id: string) => NodeStatus
+  reachableIds:  Set<string>
+  hiddenNodeIds: Set<string>
+  environment?:  string
 }
 
 type LineVariant = 'trail' | 'frontier' | 'future' | 'dead'
@@ -476,7 +478,7 @@ function envColors(env?: string): { trail: string; frontier: string } {
   }
 }
 
-function SVGConnector({ prevRow, nextRow, maxRows, statusOf, reachableIds, environment }: ConnProps) {
+function SVGConnector({ prevRow, nextRow, maxRows, statusOf, reachableIds, hiddenNodeIds, environment }: ConnProps) {
   const prevRowCols = prevRow[0]?.rowCols ?? prevRow.length
   const nextRowCols = nextRow[0]?.rowCols ?? nextRow.length
 
@@ -486,10 +488,12 @@ function SVGConnector({ prevRow, nextRow, maxRows, statusOf, reachableIds, envir
 
   const nextById = new Map(nextRow.map(n => [n.id, n]))
 
-  // Build connections from parent.childIds
+  // Build connections from parent.childIds, skipping collected memory nodes
   const connections: [string, string, number, number][] = []
   for (const parent of prevRow) {
+    if (hiddenNodeIds.has(parent.id)) continue
     for (const childId of parent.childIds) {
+      if (hiddenNodeIds.has(childId)) continue
       const child = nextById.get(childId)
       if (child) {
         connections.push([parent.id, child.id, visualRow(parent, prevRowCols), visualRow(child, nextRowCols)])
@@ -736,10 +740,28 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
 // ── Main component ──────────────────────────────────────────────────────────
 
 export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Props) {
-  const availableIds  = getAvailableNodeIds(act, run)
-  const rows          = useMemo(() => buildRows(act), [act])
-  const maxRowCols    = useMemo(() => Math.max(...rows.map(r => r[0]?.rowCols ?? r.length)), [rows])
-  const reachableIds  = useMemo(() => computeReachableIds(act, run), [act, run])
+  const availableIds       = getAvailableNodeIds(act, run)
+  const rows               = useMemo(() => buildRows(act), [act])
+  const maxRowCols         = useMemo(() => Math.max(...rows.map(r => r[0]?.rowCols ?? r.length)), [rows])
+  const reachableIds       = useMemo(() => computeReachableIds(act, run), [act, run])
+  const discoveredFragIds  = useMemo(() => getDiscoveredFragmentIds(), [])
+  const hiddenNodeIds      = useMemo(() => {
+    const ids = new Set<string>()
+    for (const node of Object.values(act.nodes)) {
+      if (node.type !== 'memory' || !node.fragmentId) continue
+      const alreadyFound = discoveredFragIds.has(node.fragmentId)
+      const visitedThisRun = run.completedNodeIds.includes(node.id)
+      if (alreadyFound && !visitedThisRun) {
+        // Collected in a previous run — always hide
+        ids.add(node.id)
+      } else if (!alreadyFound && !visitedThisRun) {
+        // Not yet collected — 20% chance to appear this run
+        const roll = hashStr(node.id + String(run.runSeed)) % 100
+        if (roll >= 20) ids.add(node.id)
+      }
+    }
+    return ids
+  }, [act, discoveredFragIds, run])
 
   const mapHeight = maxRowCols * ROW_HEIGHT
   const mapWidth  = AVATAR_PADDING + rows.length * COL_WIDTH + Math.max(0, rows.length - 1) * 44
@@ -910,6 +932,10 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                   }}
                 >
                   {rowNodes.map((node) => {
+                    if (hiddenNodeIds.has(node.id)) {
+                      return <div key={node.id} style={{ gridRow: node.col + 1 }} />
+                    }
+
                     const status    = getNodeStatus(node.id, availableIds, run)
                     const clickable = status === 'available'
                     const dim = status === 'completed'
@@ -981,6 +1007,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                     maxRows={maxRowCols}
                     statusOf={statusOf}
                     reachableIds={reachableIds}
+                    hiddenNodeIds={hiddenNodeIds}
                     environment={act.environment}
                   />
                 )}
