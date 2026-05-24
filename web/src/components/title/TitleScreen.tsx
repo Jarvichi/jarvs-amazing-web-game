@@ -255,7 +255,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         <div className="title-nav-grid">
           <TitleButton onClick={onDeckBuilder}>DECK BUILDER</TitleButton>
           <TitleButton onClick={onCollection} badge={collectionAlert}>COLLECTION</TitleButton>
-          <TitleButton onClick={onAugments}>⚔ AUGMENTS</TitleButton>
+          {onAugments && <TitleButton onClick={onAugments}>⚔ AUGMENTS</TitleButton>}
           <TitleButton onClick={onShop} badge={shopAlert}>🛒 SHOP</TitleButton>
           <TitleButton onClick={onHeroCards}>🦸 HEROES</TitleButton>
           <TitleButton onClick={onInventory}>🎒 INVENTORY</TitleButton>
