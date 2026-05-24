@@ -1,0 +1,330 @@
+{
+  "sets": [
+    {
+      "name": "Thunder", "rarity": "common",
+      "setBonusDescription": "Lightning crackling through every strike — +8 attack range, +2 damage",
+      "setBonus": { "attackRange": 8, "attack": 2 }
+    },
+    {
+      "name": "Frost", "rarity": "common",
+      "setBonusDescription": "The cold that never leaves — +15 max HP, +5 move speed",
+      "setBonus": { "maxHp": 15, "moveSpeed": 5 }
+    },
+    {
+      "name": "Ember", "rarity": "common",
+      "setBonusDescription": "Smouldering fury ignites — +5 attack",
+      "setBonus": { "attack": 5 }
+    },
+    {
+      "name": "Iron", "rarity": "common",
+      "setBonusDescription": "Unyielding iron will — +20 max HP",
+      "setBonus": { "maxHp": 20 }
+    },
+    {
+      "name": "Verdant", "rarity": "common",
+      "setBonusDescription": "Nature breathes through the wearer — +12 max HP, +8 move speed",
+      "setBonus": { "maxHp": 12, "moveSpeed": 8 }
+    },
+    {
+      "name": "Shadow", "rarity": "uncommon",
+      "setBonusDescription": "Darkness gifts speed and precision — +15 move speed, +4 attack",
+      "setBonus": { "moveSpeed": 15, "attack": 4 }
+    },
+    {
+      "name": "Storm", "rarity": "uncommon",
+      "setBonusDescription": "The storm answers — +18 attack range, +5 attack",
+      "setBonus": { "attackRange": 18, "attack": 5 }
+    },
+    {
+      "name": "Crimson", "rarity": "uncommon",
+      "setBonusDescription": "Crimson tide rises — +8 attack, +15 max HP",
+      "setBonus": { "attack": 8, "maxHp": 15 }
+    },
+    {
+      "name": "Obsidian", "rarity": "uncommon",
+      "setBonusDescription": "Volcanic glass, unbreakable — +35 max HP",
+      "setBonus": { "maxHp": 35 }
+    },
+    {
+      "name": "Aurora", "rarity": "uncommon",
+      "setBonusDescription": "Aurora's blessing extends far — +25 attack range, +5 attack",
+      "setBonus": { "attackRange": 25, "attack": 5 }
+    },
+    {
+      "name": "Venom", "rarity": "rare",
+      "setBonusDescription": "Poison flows freely — +10 attack, +15 attack range",
+      "setBonus": { "attack": 10, "attackRange": 15 }
+    },
+    {
+      "name": "Tide", "rarity": "rare",
+      "setBonusDescription": "The tide grants swiftness — +20 move speed, +30 max HP",
+      "setBonus": { "moveSpeed": 20, "maxHp": 30 }
+    },
+    {
+      "name": "Ash", "rarity": "rare",
+      "setBonusDescription": "From the ashes, power — +12 attack, +8 attack range",
+      "setBonus": { "attack": 12, "attackRange": 8 }
+    },
+    {
+      "name": "Steel", "rarity": "rare",
+      "setBonusDescription": "Steel forged in fury — +55 max HP",
+      "setBonus": { "maxHp": 55 }
+    },
+    {
+      "name": "Midnight", "rarity": "rare",
+      "setBonusDescription": "Midnight empowers the blade — +15 attack, +20 move speed",
+      "setBonus": { "attack": 15, "moveSpeed": 20 }
+    },
+    {
+      "name": "Dragon", "rarity": "epic",
+      "setBonusDescription": "Draconic power unleashed — +25 attack, +30 attack range",
+      "setBonus": { "attack": 25, "attackRange": 30 }
+    },
+    {
+      "name": "Elder", "rarity": "epic",
+      "setBonusDescription": "Ancient wisdom endures — +80 max HP, +12 attack",
+      "setBonus": { "maxHp": 80, "attack": 12 }
+    },
+    {
+      "name": "Jade", "rarity": "epic",
+      "setBonusDescription": "Jade vitality — +65 max HP, +25 move speed",
+      "setBonus": { "maxHp": 65, "moveSpeed": 25 }
+    },
+    {
+      "name": "Blood", "rarity": "epic",
+      "setBonusDescription": "Blood feeds the hunger — +20 attack, +40 max HP",
+      "setBonus": { "attack": 20, "maxHp": 40 }
+    },
+    {
+      "name": "Crystal", "rarity": "epic",
+      "setBonusDescription": "Crystal clarity extends sight — +45 attack range, +15 attack",
+      "setBonus": { "attackRange": 45, "attack": 15 }
+    },
+    {
+      "name": "Bone", "rarity": "legendary",
+      "setBonusDescription": "The dead do not tire — +100 max HP, +20 attack",
+      "setBonus": { "maxHp": 100, "attack": 20 }
+    },
+    {
+      "name": "Tempest", "rarity": "legendary",
+      "setBonusDescription": "The tempest howls through — +30 attack, +45 attack range",
+      "setBonus": { "attack": 30, "attackRange": 45 }
+    },
+    {
+      "name": "Solar", "rarity": "legendary",
+      "setBonusDescription": "Solar radiance endures — +130 max HP, +25 attack",
+      "setBonus": { "maxHp": 130, "attack": 25 }
+    },
+    {
+      "name": "Void", "rarity": "legendary",
+      "setBonusDescription": "The void reaches all — +25 attack, +65 attack range",
+      "setBonus": { "attack": 25, "attackRange": 65 }
+    },
+    {
+      "name": "Granite", "rarity": "legendary",
+      "setBonusDescription": "Granite endurance — +150 max HP, +25 move speed",
+      "setBonus": { "maxHp": 150, "moveSpeed": 25 }
+    }
+  ],
+  "cards": [
+    { "id": "aug-thunder-helm",      "name": "Thunder Helm",      "rarity": "common",    "setName": "Thunder",  "slot": "helmet",       "effect": { "maxHp": 3 },            "description": "Helmet charged with lightning. +3 HP.", "lore": "Static dances across the visor in a storm." },
+    { "id": "aug-thunder-cuirass",   "name": "Thunder Cuirass",   "rarity": "common",    "setName": "Thunder",  "slot": "chest",        "effect": { "maxHp": 5 },            "description": "Chest piece crackling with power. +5 HP.", "lore": "The metal smells of ozone after a long march." },
+    { "id": "aug-thunder-gauntlets", "name": "Thunder Gauntlets", "rarity": "common",    "setName": "Thunder",  "slot": "arms",         "effect": { "attack": 1 },           "description": "Gauntlets that amplify each blow. +1 attack.", "lore": "Each punch echoes like distant thunder." },
+    { "id": "aug-thunder-cuisses",   "name": "Thunder Cuisses",   "rarity": "common",    "setName": "Thunder",  "slot": "legs",         "effect": { "moveSpeed": 5 },        "description": "Leg armour crackles with kinetic energy. +5 speed.", "lore": "The wearer's steps leave scorched ground." },
+    { "id": "aug-thunder-amulet",    "name": "Thunder Amulet",    "rarity": "common",    "setName": "Thunder",  "slot": "amulet",       "effect": { "maxHp": 2, "attack": 1 }, "description": "Amulet humming with stored lightning. +2 HP, +1 attack.", "lore": "A storm in a pendant." },
+    { "id": "aug-thunder-bow",       "name": "Thunder Bow",       "rarity": "common",    "setName": "Thunder",  "slot": "primaryRanged","effect": { "attackRange": 5 },      "description": "Bow that fires crackling bolts. +5 attack range.", "lore": "The string is woven from lightning rods." },
+    { "id": "aug-thunder-blade",     "name": "Thunder Blade",     "rarity": "common",    "setName": "Thunder",  "slot": "heavyMelee",   "effect": { "attack": 2 },           "description": "Blade wreathed in electrical arcs. +2 attack.", "lore": "Cuts through both armour and air resistance." },
+
+    { "id": "aug-frost-hood",        "name": "Frost Hood",        "rarity": "common",    "setName": "Frost",    "slot": "helmet",       "effect": { "maxHp": 3 },            "description": "Hood lined with frost crystals. +3 HP.", "lore": "Keeps the head clear and cold in the heat of battle." },
+    { "id": "aug-frost-breastplate", "name": "Frost Breastplate", "rarity": "common",    "setName": "Frost",    "slot": "chest",        "effect": { "maxHp": 5 },            "description": "Chest plate radiating cold. +5 HP.", "lore": "Enemies hesitate before striking frozen armour." },
+    { "id": "aug-frost-bracers",     "name": "Frost Bracers",     "rarity": "common",    "setName": "Frost",    "slot": "arms",         "effect": { "attack": 1 },           "description": "Bracers that freeze what they touch. +1 attack.", "lore": "The ice in the veins focuses the strike." },
+    { "id": "aug-frost-leggings",    "name": "Frost Leggings",    "rarity": "common",    "setName": "Frost",    "slot": "legs",         "effect": { "moveSpeed": 5 },        "description": "Leggings that glide like ice. +5 speed.", "lore": "Friction is an afterthought on these boots." },
+    { "id": "aug-frost-pendant",     "name": "Frost Pendant",     "rarity": "common",    "setName": "Frost",    "slot": "amulet",       "effect": { "maxHp": 2, "attack": 1 }, "description": "Pendant encasing a frozen spark. +2 HP, +1 attack.", "lore": "The gem never melts, not even in volcanos." },
+    { "id": "aug-frost-wand",        "name": "Frost Wand",        "rarity": "common",    "setName": "Frost",    "slot": "primaryRanged","effect": { "attackRange": 5 },      "description": "Wand that extends icy bolts further. +5 attack range.", "lore": "Aims best in the cold." },
+    { "id": "aug-frost-axe",         "name": "Frost Axe",         "rarity": "common",    "setName": "Frost",    "slot": "heavyMelee",   "effect": { "attack": 2 },           "description": "Axe that bites like winter cold. +2 attack.", "lore": "The edge never dulls — ice reforms it each morning." },
+
+    { "id": "aug-ember-crown",       "name": "Ember Crown",       "rarity": "common",    "setName": "Ember",    "slot": "helmet",       "effect": { "maxHp": 3 },            "description": "Crown forged in volcanic embers. +3 HP.", "lore": "A ring of perpetual fire circles the brow." },
+    { "id": "aug-ember-coat",        "name": "Ember Coat",        "rarity": "common",    "setName": "Ember",    "slot": "chest",        "effect": { "maxHp": 5 },            "description": "Coat woven from fire-resistant fibres. +5 HP.", "lore": "It smells of campfire and old battles." },
+    { "id": "aug-ember-vambraces",   "name": "Ember Vambraces",   "rarity": "common",    "setName": "Ember",    "slot": "arms",         "effect": { "attack": 1 },           "description": "Vambraces that heat up with every swing. +1 attack.", "lore": "After a long fight they glow cherry red." },
+    { "id": "aug-ember-greaves",     "name": "Ember Greaves",     "rarity": "common",    "setName": "Ember",    "slot": "legs",         "effect": { "moveSpeed": 5 },        "description": "Greaves powered by thermal vents. +5 speed.", "lore": "The exhaust leaves small scorched circles in the earth." },
+    { "id": "aug-ember-locket",      "name": "Ember Locket",      "rarity": "common",    "setName": "Ember",    "slot": "amulet",       "effect": { "maxHp": 2, "attack": 1 }, "description": "Locket containing a piece of the first fire. +2 HP, +1 attack.", "lore": "It opens to reveal only flame." },
+    { "id": "aug-ember-staff",       "name": "Ember Staff",       "rarity": "common",    "setName": "Ember",    "slot": "primaryRanged","effect": { "attackRange": 5 },      "description": "Staff channelling combustive force far. +5 attack range.", "lore": "The tip glows orange even on moonless nights." },
+    { "id": "aug-ember-sword",       "name": "Ember Sword",       "rarity": "common",    "setName": "Ember",    "slot": "heavyMelee",   "effect": { "attack": 2 },           "description": "Sword that smoulders between strikes. +2 attack.", "lore": "Quenching it only makes it angrier." },
+
+    { "id": "aug-iron-helm",         "name": "Iron Helm",         "rarity": "common",    "setName": "Iron",     "slot": "helmet",       "effect": { "maxHp": 3 },            "description": "Plain iron helm, sturdy as a rock. +3 HP.", "lore": "Dented in every war it has survived." },
+    { "id": "aug-iron-plate",        "name": "Iron Plate",        "rarity": "common",    "setName": "Iron",     "slot": "chest",        "effect": { "maxHp": 5 },            "description": "Solid iron plate armour. +5 HP.", "lore": "Heavy, but the enemy always hits it first." },
+    { "id": "aug-iron-bracers",      "name": "Iron Bracers",      "rarity": "common",    "setName": "Iron",     "slot": "arms",         "effect": { "attack": 1 },           "description": "Iron bracers that add weight to each blow. +1 attack.", "lore": "Blacksmiths make these in their sleep." },
+    { "id": "aug-iron-greaves",      "name": "Iron Greaves",      "rarity": "common",    "setName": "Iron",     "slot": "legs",         "effect": { "moveSpeed": 5 },        "description": "Iron greaves surprisingly swift for their weight. +5 speed.", "lore": "Good ankles help." },
+    { "id": "aug-iron-talisman",     "name": "Iron Talisman",     "rarity": "common",    "setName": "Iron",     "slot": "amulet",       "effect": { "maxHp": 2, "attack": 1 }, "description": "Iron talisman shaped like an anvil. +2 HP, +1 attack.", "lore": "The smith who forged it never lost a duel." },
+    { "id": "aug-iron-crossbow",     "name": "Iron Crossbow",     "rarity": "common",    "setName": "Iron",     "slot": "primaryRanged","effect": { "attackRange": 5 },      "description": "Reliable iron crossbow with extended draw. +5 attack range.", "lore": "Cheaper than a wand, deadlier than most." },
+    { "id": "aug-iron-maul",         "name": "Iron Maul",         "rarity": "common",    "setName": "Iron",     "slot": "heavyMelee",   "effect": { "attack": 2 },           "description": "Iron maul that leaves a lasting impression. +2 attack.", "lore": "Not subtle, but effective." },
+
+    { "id": "aug-verdant-hood",      "name": "Verdant Hood",      "rarity": "common",    "setName": "Verdant",  "slot": "helmet",       "effect": { "maxHp": 3 },            "description": "Hood woven from living vines. +3 HP.", "lore": "Flowers bloom on it in spring." },
+    { "id": "aug-verdant-vest",      "name": "Verdant Vest",      "rarity": "common",    "setName": "Verdant",  "slot": "chest",        "effect": { "maxHp": 5 },            "description": "Vest of layered bark and leaf. +5 HP.", "lore": "The forest itself lends its protection." },
+    { "id": "aug-verdant-bracers",   "name": "Verdant Bracers",   "rarity": "common",    "setName": "Verdant",  "slot": "arms",         "effect": { "attack": 1 },           "description": "Bracers of ironwood. +1 attack.", "lore": "The oldest trees give the strongest wood." },
+    { "id": "aug-verdant-boots",     "name": "Verdant Boots",     "rarity": "common",    "setName": "Verdant",  "slot": "legs",         "effect": { "moveSpeed": 5 },        "description": "Boots that grip any terrain. +5 speed.", "lore": "You can hear roots shifting to make way." },
+    { "id": "aug-verdant-seed",      "name": "Verdant Seed",      "rarity": "common",    "setName": "Verdant",  "slot": "amulet",       "effect": { "maxHp": 2, "attack": 1 }, "description": "Seed of an ancient guardian tree. +2 HP, +1 attack.", "lore": "It pulses warmly against the skin." },
+    { "id": "aug-verdant-shortbow",  "name": "Verdant Shortbow",  "rarity": "common",    "setName": "Verdant",  "slot": "primaryRanged","effect": { "attackRange": 5 },      "description": "Shortbow carved from a living branch. +5 attack range.", "lore": "The wood has never been cut — it grew this way." },
+    { "id": "aug-verdant-club",      "name": "Verdant Club",      "rarity": "common",    "setName": "Verdant",  "slot": "heavyMelee",   "effect": { "attack": 2 },           "description": "Club grown dense with nature's resilience. +2 attack.", "lore": "It gets heavier with each fight." },
+
+    { "id": "aug-shadow-hood",       "name": "Shadow Hood",       "rarity": "uncommon",  "setName": "Shadow",   "slot": "helmet",       "effect": { "maxHp": 6 },            "description": "Hood that blurs the wearer's outline. +6 HP.", "lore": "Enemies strike where you were, not where you are." },
+    { "id": "aug-shadow-cloak",      "name": "Shadow Cloak",      "rarity": "uncommon",  "setName": "Shadow",   "slot": "chest",        "effect": { "maxHp": 10 },           "description": "Cloak woven from solidified shadow. +10 HP.", "lore": "In dim light it seems to swallow the wearer whole." },
+    { "id": "aug-shadow-gloves",     "name": "Shadow Gloves",     "rarity": "uncommon",  "setName": "Shadow",   "slot": "arms",         "effect": { "attack": 2 },           "description": "Gloves that darken every strike. +2 attack.", "lore": "Silent strikes land harder." },
+    { "id": "aug-shadow-wraps",      "name": "Shadow Wraps",      "rarity": "uncommon",  "setName": "Shadow",   "slot": "legs",         "effect": { "moveSpeed": 10 },       "description": "Leg wraps that dampen sound and friction. +10 speed.", "lore": "Running through shadow requires no effort at all." },
+    { "id": "aug-shadow-gem",        "name": "Shadow Gem",        "rarity": "uncommon",  "setName": "Shadow",   "slot": "amulet",       "effect": { "maxHp": 4, "attack": 2 }, "description": "Gem that pulses with absorbed darkness. +4 HP, +2 attack.", "lore": "Darker than any stone should be." },
+    { "id": "aug-shadow-sling",      "name": "Shadow Sling",      "rarity": "uncommon",  "setName": "Shadow",   "slot": "primaryRanged","effect": { "attackRange": 10 },     "description": "Sling that launches from the shadows. +10 attack range.", "lore": "The stone disappears before it hits." },
+    { "id": "aug-shadow-dagger",     "name": "Shadow Dagger",     "rarity": "uncommon",  "setName": "Shadow",   "slot": "heavyMelee",   "effect": { "attack": 4 },           "description": "Dagger forged in the penumbra. +4 attack.", "lore": "It cuts shadow and bone equally." },
+
+    { "id": "aug-storm-helm",        "name": "Storm Helm",        "rarity": "uncommon",  "setName": "Storm",    "slot": "helmet",       "effect": { "maxHp": 6 },            "description": "Helm forged in a tempest's eye. +6 HP.", "lore": "The cheeks are pitted by a million tiny hailstones." },
+    { "id": "aug-storm-mail",        "name": "Storm Mail",        "rarity": "uncommon",  "setName": "Storm",    "slot": "chest",        "effect": { "maxHp": 10 },           "description": "Chain mail woven from storm-iron. +10 HP.", "lore": "It hums in anticipation of the next storm." },
+    { "id": "aug-storm-gauntlets",   "name": "Storm Gauntlets",   "rarity": "uncommon",  "setName": "Storm",    "slot": "arms",         "effect": { "attack": 2 },           "description": "Gauntlets that channel storm force. +2 attack.", "lore": "Punching with these feels like punching lightning." },
+    { "id": "aug-storm-greaves",     "name": "Storm Greaves",     "rarity": "uncommon",  "setName": "Storm",    "slot": "legs",         "effect": { "moveSpeed": 10 },       "description": "Greaves propelled by air pressure. +10 speed.", "lore": "The wearer leaves small tornadoes in their wake." },
+    { "id": "aug-storm-amulet",      "name": "Storm Amulet",      "rarity": "uncommon",  "setName": "Storm",    "slot": "amulet",       "effect": { "maxHp": 4, "attack": 2 }, "description": "Amulet containing a bottled hurricane. +4 HP, +2 attack.", "lore": "Listen closely and hear the howling inside." },
+    { "id": "aug-storm-bow",         "name": "Storm Bow",         "rarity": "uncommon",  "setName": "Storm",    "slot": "primaryRanged","effect": { "attackRange": 10 },     "description": "Bow riding gale-force winds. +10 attack range.", "lore": "Arrows from this bow have been found three towns over." },
+    { "id": "aug-storm-hammer",      "name": "Storm Hammer",      "rarity": "uncommon",  "setName": "Storm",    "slot": "heavyMelee",   "effect": { "attack": 4 },           "description": "Hammer that brings thunder with every swing. +4 attack.", "lore": "You can hear the boom before impact." },
+
+    { "id": "aug-crimson-helm",      "name": "Crimson Helm",      "rarity": "uncommon",  "setName": "Crimson",  "slot": "helmet",       "effect": { "maxHp": 6 },            "description": "Helm stained with battlefield victory. +6 HP.", "lore": "The red never washes out." },
+    { "id": "aug-crimson-plate",     "name": "Crimson Plate",     "rarity": "uncommon",  "setName": "Crimson",  "slot": "chest",        "effect": { "maxHp": 10 },           "description": "Deep crimson plate for veterans. +10 HP.", "lore": "Earned not bought. Each dent tells a story." },
+    { "id": "aug-crimson-gauntlets", "name": "Crimson Gauntlets", "rarity": "uncommon",  "setName": "Crimson",  "slot": "arms",         "effect": { "attack": 2 },           "description": "Gauntlets soaked in battle fervour. +2 attack.", "lore": "The knuckles have seen a thousand faces." },
+    { "id": "aug-crimson-cuisses",   "name": "Crimson Cuisses",   "rarity": "uncommon",  "setName": "Crimson",  "slot": "legs",         "effect": { "moveSpeed": 10 },       "description": "Cuisses that drive the wearer forward. +10 speed.", "lore": "Retreat is not in their vocabulary." },
+    { "id": "aug-crimson-token",     "name": "Crimson Token",     "rarity": "uncommon",  "setName": "Crimson",  "slot": "amulet",       "effect": { "maxHp": 4, "attack": 2 }, "description": "Blood-red token of a warrior's pact. +4 HP, +2 attack.", "lore": "An oath sworn in crimson cannot be broken." },
+    { "id": "aug-crimson-crossbow",  "name": "Crimson Crossbow",  "rarity": "uncommon",  "setName": "Crimson",  "slot": "primaryRanged","effect": { "attackRange": 10 },     "description": "Crossbow with a crimson stock. +10 attack range.", "lore": "The red sight never misses the mark." },
+    { "id": "aug-crimson-cleaver",   "name": "Crimson Cleaver",   "rarity": "uncommon",  "setName": "Crimson",  "slot": "heavyMelee",   "effect": { "attack": 4 },           "description": "Cleaver that grows sharper with each use. +4 attack.", "lore": "It has never been sharpened — only used." },
+
+    { "id": "aug-obsidian-helm",     "name": "Obsidian Helm",     "rarity": "uncommon",  "setName": "Obsidian", "slot": "helmet",       "effect": { "maxHp": 6 },            "description": "Helm of volcanic glass. +6 HP.", "lore": "Harder than steel, lighter than iron." },
+    { "id": "aug-obsidian-cuirass",  "name": "Obsidian Cuirass",  "rarity": "uncommon",  "setName": "Obsidian", "slot": "chest",        "effect": { "maxHp": 10 },           "description": "Cuirass of layered obsidian plates. +10 HP.", "lore": "The volcano it came from has been silent since." },
+    { "id": "aug-obsidian-bracers",  "name": "Obsidian Bracers",  "rarity": "uncommon",  "setName": "Obsidian", "slot": "arms",         "effect": { "attack": 2 },           "description": "Bracers that cut on impact. +2 attack.", "lore": "Obsidian edges are sharper than any forged blade." },
+    { "id": "aug-obsidian-greaves",  "name": "Obsidian Greaves",  "rarity": "uncommon",  "setName": "Obsidian", "slot": "legs",         "effect": { "moveSpeed": 10 },       "description": "Greaves smoothed to near frictionlessness. +10 speed.", "lore": "The surface reflects the sky perfectly." },
+    { "id": "aug-obsidian-shard",    "name": "Obsidian Shard",    "rarity": "uncommon",  "setName": "Obsidian", "slot": "amulet",       "effect": { "maxHp": 4, "attack": 2 }, "description": "Shard of a shattered obsidian idol. +4 HP, +2 attack.", "lore": "The idol it belonged to was never identified." },
+    { "id": "aug-obsidian-sling",    "name": "Obsidian Sling",    "rarity": "uncommon",  "setName": "Obsidian", "slot": "primaryRanged","effect": { "attackRange": 10 },     "description": "Sling that hurls razor-edged chips. +10 attack range.", "lore": "The projectiles shatter on impact for bonus damage." },
+    { "id": "aug-obsidian-blade",    "name": "Obsidian Blade",    "rarity": "uncommon",  "setName": "Obsidian", "slot": "heavyMelee",   "effect": { "attack": 4 },           "description": "Blade of pure volcanic glass. +4 attack.", "lore": "The sharpest natural edge ever found." },
+
+    { "id": "aug-aurora-crown",      "name": "Aurora Crown",      "rarity": "uncommon",  "setName": "Aurora",   "slot": "helmet",       "effect": { "maxHp": 6 },            "description": "Crown that shimmers with aurora light. +6 HP.", "lore": "The colours shift with the wearer's mood." },
+    { "id": "aug-aurora-vestment",   "name": "Aurora Vestment",   "rarity": "uncommon",  "setName": "Aurora",   "slot": "chest",        "effect": { "maxHp": 10 },           "description": "Vestment woven from captured northern light. +10 HP.", "lore": "In total darkness it still shimmers faintly." },
+    { "id": "aug-aurora-gloves",     "name": "Aurora Gloves",     "rarity": "uncommon",  "setName": "Aurora",   "slot": "arms",         "effect": { "attack": 2 },           "description": "Gloves that channel magical aurora energy. +2 attack.", "lore": "Spells cast with these glow in three colours." },
+    { "id": "aug-aurora-boots",      "name": "Aurora Boots",      "rarity": "uncommon",  "setName": "Aurora",   "slot": "legs",         "effect": { "moveSpeed": 10 },       "description": "Boots blessed by the northern lights. +10 speed.", "lore": "The wearer leaves fading aurora trails." },
+    { "id": "aug-aurora-jewel",      "name": "Aurora Jewel",      "rarity": "uncommon",  "setName": "Aurora",   "slot": "amulet",       "effect": { "maxHp": 4, "attack": 2 }, "description": "Jewel capturing a frozen aurora. +4 HP, +2 attack.", "lore": "The light inside moves on its own." },
+    { "id": "aug-aurora-wand",       "name": "Aurora Wand",       "rarity": "uncommon",  "setName": "Aurora",   "slot": "primaryRanged","effect": { "attackRange": 10 },     "description": "Wand firing arcing beams of colour. +10 attack range.", "lore": "Even enemies pause to admire the shot." },
+    { "id": "aug-aurora-sword",      "name": "Aurora Sword",      "rarity": "uncommon",  "setName": "Aurora",   "slot": "heavyMelee",   "effect": { "attack": 4 },           "description": "Sword shimmering with prismatic energy. +4 attack.", "lore": "A blade that inspires and intimidates in equal measure." },
+
+    { "id": "aug-venom-mask",        "name": "Venom Mask",        "rarity": "rare",      "setName": "Venom",    "slot": "helmet",       "effect": { "maxHp": 12 },           "description": "Mask soaked in potent venom. +12 HP.", "lore": "The wearer grows immune to most poisons — eventually." },
+    { "id": "aug-venom-mantle",      "name": "Venom Mantle",      "rarity": "rare",      "setName": "Venom",    "slot": "chest",        "effect": { "maxHp": 18 },           "description": "Mantle secreting a toxic aura. +18 HP.", "lore": "Insects avoid a three-metre radius around it." },
+    { "id": "aug-venom-gauntlets",   "name": "Venom Gauntlets",   "rarity": "rare",      "setName": "Venom",    "slot": "arms",         "effect": { "attack": 3 },           "description": "Gauntlets coating strikes in toxin. +3 attack.", "lore": "The outer layer never fully dries." },
+    { "id": "aug-venom-leggings",    "name": "Venom Leggings",    "rarity": "rare",      "setName": "Venom",    "slot": "legs",         "effect": { "moveSpeed": 15 },       "description": "Leggings infused with serpent essence. +15 speed.", "lore": "Strikes with the speed of a viper." },
+    { "id": "aug-venom-fang",        "name": "Venom Fang",        "rarity": "rare",      "setName": "Venom",    "slot": "amulet",       "effect": { "maxHp": 8, "attack": 3 }, "description": "Fang of the great serpent. +8 HP, +3 attack.", "lore": "The serpent it came from isn't looking for it." },
+    { "id": "aug-venom-blowgun",     "name": "Venom Blowgun",     "rarity": "rare",      "setName": "Venom",    "slot": "primaryRanged","effect": { "attackRange": 20 },     "description": "Blowgun firing envenomed darts. +20 attack range.", "lore": "Silent, accurate, and deeply unpleasant." },
+    { "id": "aug-venom-blade",       "name": "Venom Blade",       "rarity": "rare",      "setName": "Venom",    "slot": "heavyMelee",   "effect": { "attack": 7 },           "description": "Blade with a venom-filled fuller. +7 attack.", "lore": "Even a scratch is enough." },
+
+    { "id": "aug-tide-helm",         "name": "Tide Helm",         "rarity": "rare",      "setName": "Tide",     "slot": "helmet",       "effect": { "maxHp": 12 },           "description": "Helm from the deep ocean floor. +12 HP.", "lore": "Salt crystals form on the visor after every fight." },
+    { "id": "aug-tide-scale",        "name": "Tide Scale",        "rarity": "rare",      "setName": "Tide",     "slot": "chest",        "effect": { "maxHp": 18 },           "description": "Scale armour from a tide leviathan. +18 HP.", "lore": "Repairs itself overnight in seawater." },
+    { "id": "aug-tide-bracers",      "name": "Tide Bracers",      "rarity": "rare",      "setName": "Tide",     "slot": "arms",         "effect": { "attack": 3 },           "description": "Bracers with crushing tidal force. +3 attack.", "lore": "Designed to break hull-plating barehanded." },
+    { "id": "aug-tide-fins",         "name": "Tide Fins",         "rarity": "rare",      "setName": "Tide",     "slot": "legs",         "effect": { "moveSpeed": 15 },       "description": "Fins that work on land and sea. +15 speed.", "lore": "Strangely effective on solid ground." },
+    { "id": "aug-tide-pearl",        "name": "Tide Pearl",        "rarity": "rare",      "setName": "Tide",     "slot": "amulet",       "effect": { "maxHp": 8, "attack": 3 }, "description": "Perfect pearl from the world's deepest oyster. +8 HP, +3 attack.", "lore": "The oyster was reportedly the size of a boat." },
+    { "id": "aug-tide-rod",          "name": "Tide Rod",          "rarity": "rare",      "setName": "Tide",     "slot": "primaryRanged","effect": { "attackRange": 20 },     "description": "Rod conducting water pressure waves. +20 attack range.", "lore": "The impact feels like standing in a riptide." },
+    { "id": "aug-tide-trident",      "name": "Tide Trident",      "rarity": "rare",      "setName": "Tide",     "slot": "heavyMelee",   "effect": { "attack": 7 },           "description": "Trident channelling the ocean's wrath. +7 attack.", "lore": "Three prongs, three promises of pain." },
+
+    { "id": "aug-ash-hood",          "name": "Ash Hood",          "rarity": "rare",      "setName": "Ash",      "slot": "helmet",       "effect": { "maxHp": 12 },           "description": "Hood from the aftermath of a great fire. +12 HP.", "lore": "It cannot burn. It already has." },
+    { "id": "aug-ash-cloak",         "name": "Ash Cloak",         "rarity": "rare",      "setName": "Ash",      "slot": "chest",        "effect": { "maxHp": 18 },           "description": "Cloak woven from compressed ash. +18 HP.", "lore": "Impossibly light yet absurdly durable." },
+    { "id": "aug-ash-wraps",         "name": "Ash Wraps",         "rarity": "rare",      "setName": "Ash",      "slot": "arms",         "effect": { "attack": 3 },           "description": "Wraps binding ember-hot knuckles. +3 attack.", "lore": "Each fight leaves fresh scorch marks on the canvas." },
+    { "id": "aug-ash-treads",        "name": "Ash Treads",        "rarity": "rare",      "setName": "Ash",      "slot": "legs",         "effect": { "moveSpeed": 15 },       "description": "Treads leaving ash prints at speed. +15 speed.", "lore": "After the fire, only the fastest survived." },
+    { "id": "aug-ash-cinder",        "name": "Ash Cinder",        "rarity": "rare",      "setName": "Ash",      "slot": "amulet",       "effect": { "maxHp": 8, "attack": 3 }, "description": "Cinder from the last great pyre. +8 HP, +3 attack.", "lore": "It still radiates warmth after centuries." },
+    { "id": "aug-ash-bow",           "name": "Ash Bow",           "rarity": "rare",      "setName": "Ash",      "slot": "primaryRanged","effect": { "attackRange": 20 },     "description": "Bow that fires smouldering arrows. +20 attack range.", "lore": "The trail of smoke makes it easy to dodge — by then it's too late." },
+    { "id": "aug-ash-sword",         "name": "Ash Sword",         "rarity": "rare",      "setName": "Ash",      "slot": "heavyMelee",   "effect": { "attack": 7 },           "description": "Sword reforged from the ashes of another. +7 attack.", "lore": "Destroyed twice. Improved each time." },
+
+    { "id": "aug-steel-helm",        "name": "Steel Helm",        "rarity": "rare",      "setName": "Steel",    "slot": "helmet",       "effect": { "maxHp": 12 },           "description": "Premium steel helm, perfected over centuries. +12 HP.", "lore": "The metallurgist took thirty years to get the alloy right." },
+    { "id": "aug-steel-plate",       "name": "Steel Plate",       "rarity": "rare",      "setName": "Steel",    "slot": "chest",        "effect": { "maxHp": 18 },           "description": "Steel plate of impeccable quality. +18 HP.", "lore": "Arrowheads shatter against it like pottery." },
+    { "id": "aug-steel-gauntlets",   "name": "Steel Gauntlets",   "rarity": "rare",      "setName": "Steel",    "slot": "arms",         "effect": { "attack": 3 },           "description": "Steel gauntlets with reinforced knuckles. +3 attack.", "lore": "The fingerprints of a hundred previous owners remain." },
+    { "id": "aug-steel-greaves",     "name": "Steel Greaves",     "rarity": "rare",      "setName": "Steel",    "slot": "legs",         "effect": { "moveSpeed": 15 },       "description": "Steel greaves with spring-loaded joints. +15 speed.", "lore": "Engineering marvel. The inventor went mad trying to explain it." },
+    { "id": "aug-steel-sigil",       "name": "Steel Sigil",       "rarity": "rare",      "setName": "Steel",    "slot": "amulet",       "effect": { "maxHp": 8, "attack": 3 }, "description": "Sigil stamped from refined steel. +8 HP, +3 attack.", "lore": "The mark of the Iron Guild, earned never given." },
+    { "id": "aug-steel-crossbow",    "name": "Steel Crossbow",    "rarity": "rare",      "setName": "Steel",    "slot": "primaryRanged","effect": { "attackRange": 20 },     "description": "Precision steel crossbow. +20 attack range.", "lore": "Competition winning at three hundred paces." },
+    { "id": "aug-steel-maul",        "name": "Steel Maul",        "rarity": "rare",      "setName": "Steel",    "slot": "heavyMelee",   "effect": { "attack": 7 },           "description": "Steel maul of staggering weight. +7 attack.", "lore": "Most warriors can't lift it. The rest become champions." },
+
+    { "id": "aug-midnight-cowl",     "name": "Midnight Cowl",     "rarity": "rare",      "setName": "Midnight", "slot": "helmet",       "effect": { "maxHp": 12 },           "description": "Cowl as dark as a moonless night. +12 HP.", "lore": "The wearer's eyes are the only visible thing in the dark." },
+    { "id": "aug-midnight-shroud",   "name": "Midnight Shroud",   "rarity": "rare",      "setName": "Midnight", "slot": "chest",        "effect": { "maxHp": 18 },           "description": "Shroud that absorbs moonlight into HP. +18 HP.", "lore": "Thickest at midnight. Lightest at noon." },
+    { "id": "aug-midnight-wraps",    "name": "Midnight Wraps",    "rarity": "rare",      "setName": "Midnight", "slot": "arms",         "effect": { "attack": 3 },           "description": "Wraps saturated with the strength of darkness. +3 attack.", "lore": "Everything is weaker at midnight except these." },
+    { "id": "aug-midnight-boots",    "name": "Midnight Boots",    "rarity": "rare",      "setName": "Midnight", "slot": "legs",         "effect": { "moveSpeed": 15 },       "description": "Boots swift as a shadow at midnight. +15 speed.", "lore": "They don't make a sound, no matter the surface." },
+    { "id": "aug-midnight-stone",    "name": "Midnight Stone",    "rarity": "rare",      "setName": "Midnight", "slot": "amulet",       "effect": { "maxHp": 8, "attack": 3 }, "description": "Stone that glows at the darkest hour. +8 HP, +3 attack.", "lore": "Found at midnight, glowing alone in a frozen field." },
+    { "id": "aug-midnight-bow",      "name": "Midnight Bow",      "rarity": "rare",      "setName": "Midnight", "slot": "primaryRanged","effect": { "attackRange": 20 },     "description": "Bow that fires in perfect silence. +20 attack range.", "lore": "The string makes no sound. Neither does the enemy after." },
+    { "id": "aug-midnight-dagger",   "name": "Midnight Dagger",   "rarity": "rare",      "setName": "Midnight", "slot": "heavyMelee",   "effect": { "attack": 7 },           "description": "Dagger sharp enough to cut the dark. +7 attack.", "lore": "Invisible until it's too late." },
+
+    { "id": "aug-dragon-helm",       "name": "Dragon Helm",       "rarity": "epic",      "setName": "Dragon",   "slot": "helmet",       "effect": { "maxHp": 20 },           "description": "Helm fashioned from a dragon's skull. +20 HP.", "lore": "The dragon lost, but not by much." },
+    { "id": "aug-dragon-scale",      "name": "Dragon Scale",      "rarity": "epic",      "setName": "Dragon",   "slot": "chest",        "effect": { "maxHp": 30 },           "description": "Breastplate from a great wyrm's hide. +30 HP.", "lore": "It still smells faintly of brimstone." },
+    { "id": "aug-dragon-claws",      "name": "Dragon Claws",      "rarity": "epic",      "setName": "Dragon",   "slot": "arms",         "effect": { "attack": 5 },           "description": "Gauntlets with grafted dragon claws. +5 attack.", "lore": "Still sharp a hundred years after harvest." },
+    { "id": "aug-dragon-boots",      "name": "Dragon Boots",      "rarity": "epic",      "setName": "Dragon",   "slot": "legs",         "effect": { "moveSpeed": 20 },       "description": "Boots with dragon-tendon spring. +20 speed.", "lore": "Each step is a near-leap." },
+    { "id": "aug-dragon-heart",      "name": "Dragon Heart",      "rarity": "epic",      "setName": "Dragon",   "slot": "amulet",       "effect": { "maxHp": 15, "attack": 5 }, "description": "Crystallised dragon heart. +15 HP, +5 attack.", "lore": "It pulses with its own rhythm, separate from the wearer's." },
+    { "id": "aug-dragon-fang",       "name": "Dragon Fang",       "rarity": "epic",      "setName": "Dragon",   "slot": "primaryRanged","effect": { "attackRange": 35 },     "description": "Fang used as a projectile launcher. +35 attack range.", "lore": "Dragon breath has range. So does this." },
+    { "id": "aug-dragon-sword",      "name": "Dragon Sword",      "rarity": "epic",      "setName": "Dragon",   "slot": "heavyMelee",   "effect": { "attack": 12 },          "description": "Sword forged in dragonfire. +12 attack.", "lore": "The fire is still in the blade, waiting." },
+
+    { "id": "aug-elder-crown",       "name": "Elder Crown",       "rarity": "epic",      "setName": "Elder",    "slot": "helmet",       "effect": { "maxHp": 20 },           "description": "Crown of the elder council, millennia old. +20 HP.", "lore": "Each ruler adds a gem. It runs out of room every century." },
+    { "id": "aug-elder-vestment",    "name": "Elder Vestment",    "rarity": "epic",      "setName": "Elder",    "slot": "chest",        "effect": { "maxHp": 30 },           "description": "Vestment woven by elder hands. +30 HP.", "lore": "The pattern encodes the history of a civilization." },
+    { "id": "aug-elder-bracers",     "name": "Elder Bracers",     "rarity": "epic",      "setName": "Elder",    "slot": "arms",         "effect": { "attack": 5 },           "description": "Bracers of the elder champions. +5 attack.", "lore": "Worn by warriors who ended wars." },
+    { "id": "aug-elder-sandals",     "name": "Elder Sandals",     "rarity": "epic",      "setName": "Elder",    "slot": "legs",         "effect": { "moveSpeed": 20 },       "description": "Sandals blessing the wearer with elder swiftness. +20 speed.", "lore": "The elder council never hurried. They didn't need to." },
+    { "id": "aug-elder-relic",       "name": "Elder Relic",       "rarity": "epic",      "setName": "Elder",    "slot": "amulet",       "effect": { "maxHp": 15, "attack": 5 }, "description": "Relic of the founding elder. +15 HP, +5 attack.", "lore": "The first elder's name is inscribed inside. It's unpronounceable." },
+    { "id": "aug-elder-staff",       "name": "Elder Staff",       "rarity": "epic",      "setName": "Elder",    "slot": "primaryRanged","effect": { "attackRange": 35 },     "description": "Staff extending the elder's reach through time. +35 attack range.", "lore": "The crystal tip predates the staff itself." },
+    { "id": "aug-elder-blade",       "name": "Elder Blade",       "rarity": "epic",      "setName": "Elder",    "slot": "heavyMelee",   "effect": { "attack": 12 },          "description": "Blade that has outlasted every hand that held it. +12 attack.", "lore": "The blade is older than the kingdom." },
+
+    { "id": "aug-jade-helm",         "name": "Jade Helm",         "rarity": "epic",      "setName": "Jade",     "slot": "helmet",       "effect": { "maxHp": 20 },           "description": "Jade helm carved by temple artisans. +20 HP.", "lore": "The emperor who ordered it never wore it in battle." },
+    { "id": "aug-jade-cuirass",      "name": "Jade Cuirass",      "rarity": "epic",      "setName": "Jade",     "slot": "chest",        "effect": { "maxHp": 30 },           "description": "Jade cuirass polished to perfection. +30 HP.", "lore": "Monks spent forty years on the inlay work." },
+    { "id": "aug-jade-gauntlets",    "name": "Jade Gauntlets",    "rarity": "epic",      "setName": "Jade",     "slot": "arms",         "effect": { "attack": 5 },           "description": "Jade gauntlets channelling earth strength. +5 attack.", "lore": "They ring like a bell when two jade-clad warriors meet." },
+    { "id": "aug-jade-greaves",      "name": "Jade Greaves",      "rarity": "epic",      "setName": "Jade",     "slot": "legs",         "effect": { "moveSpeed": 20 },       "description": "Jade greaves flowing like water. +20 speed.", "lore": "Hard as stone, graceful as water." },
+    { "id": "aug-jade-lotus",        "name": "Jade Lotus",        "rarity": "epic",      "setName": "Jade",     "slot": "amulet",       "effect": { "maxHp": 15, "attack": 5 }, "description": "Jade lotus blossom of ancient provenance. +15 HP, +5 attack.", "lore": "Blooms once per century in the presence of a great warrior." },
+    { "id": "aug-jade-bow",          "name": "Jade Bow",          "rarity": "epic",      "setName": "Jade",     "slot": "primaryRanged","effect": { "attackRange": 35 },     "description": "Jade bow that flexes without cracking. +35 attack range.", "lore": "No one understands how it bends." },
+    { "id": "aug-jade-mace",         "name": "Jade Mace",         "rarity": "epic",      "setName": "Jade",     "slot": "heavyMelee",   "effect": { "attack": 12 },          "description": "Jade mace of the mountain guardian. +12 attack.", "lore": "Its weight shifts depending on the wielder's conviction." },
+
+    { "id": "aug-blood-crown",       "name": "Blood Crown",       "rarity": "epic",      "setName": "Blood",    "slot": "helmet",       "effect": { "maxHp": 20 },           "description": "Crown of the blood sovereign. +20 HP.", "lore": "It was never coronated — it was claimed." },
+    { "id": "aug-blood-plate",       "name": "Blood Plate",       "rarity": "epic",      "setName": "Blood",    "slot": "chest",        "effect": { "maxHp": 30 },           "description": "Plate that feeds on spilled blood. +30 HP.", "lore": "After battle it is heavier than before." },
+    { "id": "aug-blood-gauntlets",   "name": "Blood Gauntlets",   "rarity": "epic",      "setName": "Blood",    "slot": "arms",         "effect": { "attack": 5 },           "description": "Gauntlets soaked in millennia of battle. +5 attack.", "lore": "They have never been cleaned." },
+    { "id": "aug-blood-greaves",     "name": "Blood Greaves",     "rarity": "epic",      "setName": "Blood",    "slot": "legs",         "effect": { "moveSpeed": 20 },       "description": "Greaves that surge in battle heat. +20 speed.", "lore": "Faster when the situation is most desperate." },
+    { "id": "aug-blood-pendant",     "name": "Blood Pendant",     "rarity": "epic",      "setName": "Blood",    "slot": "amulet",       "effect": { "maxHp": 15, "attack": 5 }, "description": "Pendant of the blood covenant. +15 HP, +5 attack.", "lore": "An oath sealed in blood literally." },
+    { "id": "aug-blood-crossbow",    "name": "Blood Crossbow",    "rarity": "epic",      "setName": "Blood",    "slot": "primaryRanged","effect": { "attackRange": 35 },     "description": "Crossbow powered by blood pressure. +35 attack range.", "lore": "Technically a medical device. A lethal one." },
+    { "id": "aug-blood-sword",       "name": "Blood Sword",       "rarity": "epic",      "setName": "Blood",    "slot": "heavyMelee",   "effect": { "attack": 12 },          "description": "Blade that grows sharper with each kill. +12 attack.", "lore": "It has no edge when new. The owner provides one." },
+
+    { "id": "aug-crystal-helm",      "name": "Crystal Helm",      "rarity": "epic",      "setName": "Crystal",  "slot": "helmet",       "effect": { "maxHp": 20 },           "description": "Helm of perfect crystal clarity. +20 HP.", "lore": "You can see through it and into the mind of your foe." },
+    { "id": "aug-crystal-breastplate","name": "Crystal Breastplate","rarity": "epic",    "setName": "Crystal",  "slot": "chest",        "effect": { "maxHp": 30 },           "description": "Breastplate that resonates with magical force. +30 HP.", "lore": "It hums when magic is near." },
+    { "id": "aug-crystal-bracers",   "name": "Crystal Bracers",   "rarity": "epic",      "setName": "Crystal",  "slot": "arms",         "effect": { "attack": 5 },           "description": "Bracers that focus magical energy. +5 attack.", "lore": "The sharp edges are a bonus feature." },
+    { "id": "aug-crystal-boots",     "name": "Crystal Boots",     "rarity": "epic",      "setName": "Crystal",  "slot": "legs",         "effect": { "moveSpeed": 20 },       "description": "Boots that refract light and speed. +20 speed.", "lore": "The wearer leaves a prismatic trail." },
+    { "id": "aug-crystal-shard",     "name": "Crystal Shard",     "rarity": "epic",      "setName": "Crystal",  "slot": "amulet",       "effect": { "maxHp": 15, "attack": 5 }, "description": "Shard of the crystal monolith. +15 HP, +5 attack.", "lore": "The monolith cracked in the last great war. The shards scattered across the world." },
+    { "id": "aug-crystal-wand",      "name": "Crystal Wand",      "rarity": "epic",      "setName": "Crystal",  "slot": "primaryRanged","effect": { "attackRange": 35 },     "description": "Wand amplifying magical range greatly. +35 attack range.", "lore": "Crystal lenses inside multiply the effective distance." },
+    { "id": "aug-crystal-blade",     "name": "Crystal Blade",     "rarity": "epic",      "setName": "Crystal",  "slot": "heavyMelee",   "effect": { "attack": 12 },          "description": "Blade of solid conjured crystal. +12 attack.", "lore": "Grows back if chipped. Takes about a week." },
+
+    { "id": "aug-bone-crown",        "name": "Bone Crown",        "rarity": "legendary", "setName": "Bone",     "slot": "helmet",       "effect": { "maxHp": 35 },           "description": "Crown of the death sovereign. +35 HP.", "lore": "Assembled from warriors who dared to challenge the lich." },
+    { "id": "aug-bone-plate",        "name": "Bone Plate",        "rarity": "legendary", "setName": "Bone",     "slot": "chest",        "effect": { "maxHp": 50 },           "description": "Bone plate — lighter than steel, harder than pride. +50 HP.", "lore": "The bones fused themselves into armour. No one is sure when." },
+    { "id": "aug-bone-gauntlets",    "name": "Bone Gauntlets",    "rarity": "legendary", "setName": "Bone",     "slot": "arms",         "effect": { "attack": 8 },           "description": "Gauntlets of the risen champion. +8 attack.", "lore": "They belonged to someone great. Now they belong to you." },
+    { "id": "aug-bone-greaves",      "name": "Bone Greaves",      "rarity": "legendary", "setName": "Bone",     "slot": "legs",         "effect": { "moveSpeed": 30 },       "description": "Bone greaves of the death runner. +30 speed.", "lore": "Death moves faster than you think." },
+    { "id": "aug-bone-token",        "name": "Bone Token",        "rarity": "legendary", "setName": "Bone",     "slot": "amulet",       "effect": { "maxHp": 25, "attack": 8 }, "description": "Token of the undying pact. +25 HP, +8 attack.", "lore": "The pact predates living memory." },
+    { "id": "aug-bone-bow",          "name": "Bone Bow",          "rarity": "legendary", "setName": "Bone",     "slot": "primaryRanged","effect": { "attackRange": 55 },     "description": "Bone bow that fires at impossible range. +55 attack range.", "lore": "The arrows never stop until they hit something." },
+    { "id": "aug-bone-cleaver",      "name": "Bone Cleaver",      "rarity": "legendary", "setName": "Bone",     "slot": "heavyMelee",   "effect": { "attack": 20 },          "description": "Cleaver that parts armour like paper. +20 attack.", "lore": "Nothing has ever resisted this blade successfully." },
+
+    { "id": "aug-tempest-helm",      "name": "Tempest Helm",      "rarity": "legendary", "setName": "Tempest",  "slot": "helmet",       "effect": { "maxHp": 35 },           "description": "Helm of the storm lord. +35 HP.", "lore": "The visor shows a permanent storm rather than the real sky." },
+    { "id": "aug-tempest-mail",      "name": "Tempest Mail",      "rarity": "legendary", "setName": "Tempest",  "slot": "chest",        "effect": { "maxHp": 50 },           "description": "Mail that deflects tempest forces. +50 HP.", "lore": "Every ring was struck during a hurricane." },
+    { "id": "aug-tempest-gauntlets", "name": "Tempest Gauntlets", "rarity": "legendary", "setName": "Tempest",  "slot": "arms",         "effect": { "attack": 8 },           "description": "Gauntlets charged with tempest force. +8 attack.", "lore": "The wind follows every punch." },
+    { "id": "aug-tempest-greaves",   "name": "Tempest Greaves",   "rarity": "legendary", "setName": "Tempest",  "slot": "legs",         "effect": { "moveSpeed": 30 },       "description": "Greaves riding the tempest wind. +30 speed.", "lore": "The wearer runs faster than the storm itself." },
+    { "id": "aug-tempest-eye",       "name": "Tempest Eye",       "rarity": "legendary", "setName": "Tempest",  "slot": "amulet",       "effect": { "maxHp": 25, "attack": 8 }, "description": "Eye of the storm, captured at its peak. +25 HP, +8 attack.", "lore": "Calm only in the wearer's presence." },
+    { "id": "aug-tempest-bow",       "name": "Tempest Bow",       "rarity": "legendary", "setName": "Tempest",  "slot": "primaryRanged","effect": { "attackRange": 55 },     "description": "Bow that hurls arrows on hurricane winds. +55 attack range.", "lore": "Aim downwind for best results. Or upwind. Results vary." },
+    { "id": "aug-tempest-maul",      "name": "Tempest Maul",      "rarity": "legendary", "setName": "Tempest",  "slot": "heavyMelee",   "effect": { "attack": 20 },          "description": "Maul that makes its own weather on impact. +20 attack.", "lore": "The crater it leaves smokes for a week." },
+
+    { "id": "aug-solar-crown",       "name": "Solar Crown",       "rarity": "legendary", "setName": "Solar",    "slot": "helmet",       "effect": { "maxHp": 35 },           "description": "Crown forged in the sun's corona. +35 HP.", "lore": "Even gods squint to look at it." },
+    { "id": "aug-solar-plate",       "name": "Solar Plate",       "rarity": "legendary", "setName": "Solar",    "slot": "chest",        "effect": { "maxHp": 50 },           "description": "Solar-tempered plate of divine radiance. +50 HP.", "lore": "Blinding to enemies. Warm to the wearer." },
+    { "id": "aug-solar-gauntlets",   "name": "Solar Gauntlets",   "rarity": "legendary", "setName": "Solar",    "slot": "arms",         "effect": { "attack": 8 },           "description": "Gauntlets that strike like sunlight. +8 attack.", "lore": "The impact leaves a sunburst mark." },
+    { "id": "aug-solar-greaves",     "name": "Solar Greaves",     "rarity": "legendary", "setName": "Solar",    "slot": "legs",         "effect": { "moveSpeed": 30 },       "description": "Greaves moving at the speed of light. +30 speed.", "lore": "The wearer's passage is marked by light trails." },
+    { "id": "aug-solar-disc",        "name": "Solar Disc",        "rarity": "legendary", "setName": "Solar",    "slot": "amulet",       "effect": { "maxHp": 25, "attack": 8 }, "description": "Disc containing a fragment of the sun. +25 HP, +8 attack.", "lore": "Do not look directly at the bearer." },
+    { "id": "aug-solar-bow",         "name": "Solar Bow",         "rarity": "legendary", "setName": "Solar",    "slot": "primaryRanged","effect": { "attackRange": 55 },     "description": "Bow firing arrows of pure light. +55 attack range.", "lore": "The arrows are visible from the other side of the world." },
+    { "id": "aug-solar-sword",       "name": "Solar Sword",       "rarity": "legendary", "setName": "Solar",    "slot": "heavyMelee",   "effect": { "attack": 20 },          "description": "Sword that burns with solar fire. +20 attack.", "lore": "It has no handle. Sunbeams hold it in place." },
+
+    { "id": "aug-void-mask",         "name": "Void Mask",         "rarity": "legendary", "setName": "Void",     "slot": "helmet",       "effect": { "maxHp": 35 },           "description": "Mask that absorbs incoming force into the void. +35 HP.", "lore": "Damage becomes nothing. Nothing becomes armour." },
+    { "id": "aug-void-shroud",       "name": "Void Shroud",       "rarity": "legendary", "setName": "Void",     "slot": "chest",        "effect": { "maxHp": 50 },           "description": "Shroud of void matter — absorbs punishment. +50 HP.", "lore": "Scientists argue about whether it actually exists." },
+    { "id": "aug-void-wraps",        "name": "Void Wraps",        "rarity": "legendary", "setName": "Void",     "slot": "arms",         "effect": { "attack": 8 },           "description": "Wraps pulling strength from the void. +8 attack.", "lore": "They punch through dimensions. Literal ones." },
+    { "id": "aug-void-boots",        "name": "Void Boots",        "rarity": "legendary", "setName": "Void",     "slot": "legs",         "effect": { "moveSpeed": 30 },       "description": "Boots stepping through void space. +30 speed.", "lore": "Each step skips a metre of intervening reality." },
+    { "id": "aug-void-gem",          "name": "Void Gem",          "rarity": "legendary", "setName": "Void",     "slot": "amulet",       "effect": { "maxHp": 25, "attack": 8 }, "description": "Gem containing a pinhole to the void. +25 HP, +8 attack.", "lore": "If you look inside it long enough, it looks back." },
+    { "id": "aug-void-sling",        "name": "Void Sling",        "rarity": "legendary", "setName": "Void",     "slot": "primaryRanged","effect": { "attackRange": 55 },     "description": "Sling launching projectiles through void shortcuts. +55 attack range.", "lore": "The stone disappears and reappears at the target." },
+    { "id": "aug-void-blade",        "name": "Void Blade",        "rarity": "legendary", "setName": "Void",     "slot": "heavyMelee",   "effect": { "attack": 20 },          "description": "Blade that exists and doesn't. +20 attack.", "lore": "Armour is irrelevant to something that is simultaneously everywhere and nowhere." },
+
+    { "id": "aug-granite-helm",      "name": "Granite Helm",      "rarity": "legendary", "setName": "Granite",  "slot": "helmet",       "effect": { "maxHp": 35 },           "description": "Helm carved from mountain granite. +35 HP.", "lore": "The mountain it came from collapsed without it." },
+    { "id": "aug-granite-plate",     "name": "Granite Plate",     "rarity": "legendary", "setName": "Granite",  "slot": "chest",        "effect": { "maxHp": 50 },           "description": "Granite plate of the earth's endurance. +50 HP.", "lore": "Geologists weep when they see it used as armour." },
+    { "id": "aug-granite-gauntlets", "name": "Granite Gauntlets", "rarity": "legendary", "setName": "Granite",  "slot": "arms",         "effect": { "attack": 8 },           "description": "Gauntlets of sheer geological force. +8 attack.", "lore": "Impact craters are a common result." },
+    { "id": "aug-granite-boots",     "name": "Granite Boots",     "rarity": "legendary", "setName": "Granite",  "slot": "legs",         "effect": { "moveSpeed": 30 },       "description": "Granite boots with inexplicable spring. +30 speed.", "lore": "The wearer should not be this fast. Yet here we are." },
+    { "id": "aug-granite-talisman",  "name": "Granite Talisman",  "rarity": "legendary", "setName": "Granite",  "slot": "amulet",       "effect": { "maxHp": 25, "attack": 8 }, "description": "Talisman of the mountain spirit. +25 HP, +8 attack.", "lore": "The mountain spirit gave this up reluctantly." },
+    { "id": "aug-granite-crossbow",  "name": "Granite Crossbow",  "rarity": "legendary", "setName": "Granite",  "slot": "primaryRanged","effect": { "attackRange": 55 },     "description": "Crossbow that fires granite bolts at ludicrous range. +55 attack range.", "lore": "Loading it requires a small crane." },
+    { "id": "aug-granite-maul",      "name": "Granite Maul",      "rarity": "legendary", "setName": "Granite",  "slot": "heavyMelee",   "effect": { "attack": 20 },          "description": "Maul as heavy as a mountain. +20 attack.", "lore": "The impact registers on seismographs." }
+  ]
+}

@@ -255,7 +255,7 @@ export function DeckBuilder({ onBack, fatiguedCards = [] }: Props) {
   }, [catalog])
 
   const RARITY_ORDER: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4, mythic: 5, shiny: 6, holofoil: 7, glass: 8 }
-  const TYPE_ORDER: Record<CardType, number>     = { unit: 0, structure: 1, upgrade: 2 }
+  const TYPE_ORDER: Record<CardType, number>     = { unit: 0, structure: 1, upgrade: 2, augment: 3 }
 
   const catalogPos = useMemo(() => new Map<string, number>(catalog.map((c, i) => [c.name, i])), [catalog])
 

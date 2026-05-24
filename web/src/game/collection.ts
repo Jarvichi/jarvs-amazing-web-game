@@ -1,5 +1,6 @@
-import { Card, CardRarity } from './types'
+import { AugmentEffect, AugmentInstance, Card, CardRarity } from './types'
 import { getCardCatalog } from './cards'
+import { getAugmentCard, getAugmentSetDef, scaledAugmentEffect, ALL_AUGMENT_SLOTS } from './augments'
 import { logError } from '../logger'
 import { validateIntegrity, updateChecksum } from './integrity'
 
@@ -80,6 +81,10 @@ const WIN_STREAK_KEY      = 'jarv_win_streak'
 const BEST_STREAK_KEY     = 'jarv_best_streak'
 const TOTAL_WINS_KEY      = 'jarv_total_wins'
 const SAVED_DECKS_KEY     = 'jarv_saved_decks'
+const AUGMENT_INSTANCES_KEY = 'jarv_augment_instances'
+const AUGMENT_SOULS_KEY     = 'jarv_augment_souls'
+
+export const AUGMENT_UPGRADE_COST = 500   // augment souls per upgrade
 
 export const DECK_MIN  = 10
 export const DECK_MAX  = 30
@@ -218,6 +223,135 @@ export function loadCrystals(): number {
 export function saveCrystals(n: number): void {
   try { localStorage.setItem(CRYSTALS_KEY, String(Math.max(0, n))) }
   catch (e) { logError('saveCrystals failed', { error: String(e) }) }
+}
+
+// ─── Augment Souls ────────────────────────────────────────
+
+export function loadAugmentSouls(): number {
+  try {
+    const v = localStorage.getItem(AUGMENT_SOULS_KEY)
+    if (v !== null) return Math.max(0, parseInt(v, 10) || 0)
+  } catch { /* ignore */ }
+  return 0
+}
+
+export function saveAugmentSouls(n: number): void {
+  try { localStorage.setItem(AUGMENT_SOULS_KEY, String(Math.max(0, n))) }
+  catch (e) { logError('saveAugmentSouls failed', { error: String(e) }) }
+}
+
+/** Add `n` augment souls to the persistent total. Call at end of battle/TD session. */
+export function incrementAugmentSouls(n: number): void {
+  if (n <= 0) return
+  saveAugmentSouls(loadAugmentSouls() + n)
+}
+
+// ─── Augment Instances ────────────────────────────────────
+
+export function loadAugmentInstances(): AugmentInstance[] {
+  try {
+    const raw = localStorage.getItem(AUGMENT_INSTANCES_KEY)
+    if (raw) return JSON.parse(raw) as AugmentInstance[]
+  } catch { /* ignore */ }
+  return []
+}
+
+export function saveAugmentInstances(instances: AugmentInstance[]): void {
+  try { localStorage.setItem(AUGMENT_INSTANCES_KEY, JSON.stringify(instances)) }
+  catch (e) { logError('saveAugmentInstances failed', { error: String(e) }) }
+}
+
+let _augInstanceCounter = Date.now()
+
+/** Create and persist a new augment instance for the given augment card name. */
+export function addAugmentInstance(cardId: string): AugmentInstance {
+  const instance: AugmentInstance = {
+    instanceId: `aug-inst-${++_augInstanceCounter}`,
+    cardId,
+    level: 0,
+    equippedToCardName: null,
+  }
+  const instances = loadAugmentInstances()
+  instances.push(instance)
+  saveAugmentInstances(instances)
+  return instance
+}
+
+/** Return all augment instances equipped to the given unit card name, keyed by slot. */
+export function getEquippedAugments(cardName: string): Record<string, AugmentInstance> {
+  const instances = loadAugmentInstances()
+  const result: Record<string, AugmentInstance> = {}
+  for (const inst of instances) {
+    if (inst.equippedToCardName !== cardName) continue
+    const card = getAugmentCard(inst.cardId)
+    if (!card?.augmentSlot) continue
+    result[card.augmentSlot] = inst
+  }
+  return result
+}
+
+/** Equip an augment instance to a unit card name. A slot can only hold one instance at a time. */
+export function equipAugment(instanceId: string, cardName: string): void {
+  const instances = loadAugmentInstances()
+  const target = instances.find(i => i.instanceId === instanceId)
+  if (!target) return
+  const card = getAugmentCard(target.cardId)
+  if (!card?.augmentSlot) return
+
+  // Unequip any existing instance in the same slot on the same card
+  for (const inst of instances) {
+    if (inst.equippedToCardName !== cardName) continue
+    const iCard = getAugmentCard(inst.cardId)
+    if (iCard?.augmentSlot === card.augmentSlot) inst.equippedToCardName = null
+  }
+
+  target.equippedToCardName = cardName
+  saveAugmentInstances(instances)
+}
+
+/** Unequip an augment instance from whichever unit it is on. */
+export function unequipAugment(instanceId: string): void {
+  const instances = loadAugmentInstances()
+  const target = instances.find(i => i.instanceId === instanceId)
+  if (!target) return
+  target.equippedToCardName = null
+  saveAugmentInstances(instances)
+}
+
+/** Upgrade an augment instance by 1 level. Costs AUGMENT_UPGRADE_COST souls.
+ *  Returns null on success, or an error string if insufficient souls. */
+export function upgradeAugment(instanceId: string): string | null {
+  const souls = loadAugmentSouls()
+  if (souls < AUGMENT_UPGRADE_COST) {
+    return `Not enough souls (need ${AUGMENT_UPGRADE_COST}, have ${souls})`
+  }
+  const instances = loadAugmentInstances()
+  const target = instances.find(i => i.instanceId === instanceId)
+  if (!target) return 'Augment not found'
+  target.level += 1
+  saveAugmentInstances(instances)
+  saveAugmentSouls(souls - AUGMENT_UPGRADE_COST)
+  return null
+}
+
+/** Return the set bonus effect if all 7 slots of the same set are equipped to the given unit.
+ *  Returns undefined if the set is incomplete. */
+export function getSetBonus(cardName: string): { setName: string; effect: AugmentEffect; description: string } | undefined {
+  const instances = loadAugmentInstances()
+  const equipped = instances.filter(i => i.equippedToCardName === cardName)
+  if (equipped.length < ALL_AUGMENT_SLOTS.length) return undefined
+
+  // Collect set names for all equipped instances
+  const setNames = equipped.map(i => getAugmentCard(i.cardId)?.setName).filter(Boolean) as string[]
+  if (setNames.length < ALL_AUGMENT_SLOTS.length) return undefined
+
+  // All must belong to the same set
+  const first = setNames[0]
+  if (!setNames.every(s => s === first)) return undefined
+
+  const def = getAugmentSetDef(first)
+  if (!def) return undefined
+  return { setName: first, effect: def.setBonus, description: def.setBonusDescription }
 }
 
 // ─── Mastery math ─────────────────────────────────────────
@@ -556,11 +690,58 @@ export function buildDeckCards(entries: DeckEntry[], collection?: CollectionEntr
     const withLevel: Card = withSpawnMastery.unit
       ? { ...withSpawnMastery, unit: { ...withSpawnMastery.unit, masteryLevel: lvl } }
       : withSpawnMastery
+
+    // Apply augment bonuses (only for unit cards with a unit template)
+    const withAugments = applyAugmentBonuses(withLevel, entry.cardName)
+
     for (let i = 0; i < entry.count; i++) {
-      result.push({ ...withLevel, id: `deck-${entry.cardName}-${++_deckCardId}` })
+      result.push({ ...withAugments, id: `deck-${entry.cardName}-${++_deckCardId}` })
     }
   }
   return result
+}
+
+function applyAugmentBonuses(card: Card, cardName: string): Card {
+  if (!card.unit || card.unit.moveSpeed === 0) return card   // structures don't get augments
+  const equipped = getEquippedAugments(cardName)
+  const slotKeys = Object.keys(equipped)
+  if (slotKeys.length === 0) return card
+
+  const u = { ...card.unit }
+  let totalEffect: AugmentEffect = {}
+
+  for (const instanceId of Object.values(equipped)) {
+    const augCard = getAugmentCard(instanceId.cardId)
+    if (!augCard?.augmentEffect) continue
+    const scaled = scaledAugmentEffect(augCard.augmentEffect, instanceId.level)
+    totalEffect = mergeAugmentEffects(totalEffect, scaled)
+  }
+
+  // Apply set bonus if all 7 slots are filled with the same set
+  const setBonus = getSetBonus(cardName)
+  if (setBonus) {
+    totalEffect = mergeAugmentEffects(totalEffect, setBonus.effect)
+  }
+
+  if (totalEffect.attack      != null) u.attack      = Math.max(0, u.attack      + totalEffect.attack)
+  if (totalEffect.attackRange != null) u.attackRange = Math.max(0, u.attackRange + totalEffect.attackRange)
+  if (totalEffect.maxHp       != null) u.maxHp       = Math.max(1, u.maxHp       + totalEffect.maxHp)
+  if (totalEffect.moveSpeed   != null) u.moveSpeed   = Math.max(1, u.moveSpeed   + totalEffect.moveSpeed)
+
+  return { ...card, unit: u }
+}
+
+function mergeAugmentEffects(a: AugmentEffect, b: AugmentEffect): AugmentEffect {
+  const sum = (x: number | undefined, y: number | undefined): number | undefined => {
+    const total = (x ?? 0) + (y ?? 0)
+    return total !== 0 ? total : undefined
+  }
+  return {
+    attack:      sum(a.attack,      b.attack),
+    attackRange: sum(a.attackRange, b.attackRange),
+    maxHp:       sum(a.maxHp,       b.maxHp),
+    moveSpeed:   sum(a.moveSpeed,   b.moveSpeed),
+  }
 }
 
 // ─── Pack Generation ──────────────────────────────────────

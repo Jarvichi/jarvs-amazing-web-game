@@ -40,7 +40,28 @@ export type UpgradeEffect =
 export type CardRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic' | 'shiny' | 'holofoil' | 'glass'
 /** Rarities that are secret — hidden in collections until obtained. */
 export const SECRET_RARITIES: ReadonlySet<CardRarity> = new Set(['mythic', 'shiny', 'holofoil', 'glass'])
-export type CardType = 'unit' | 'structure' | 'upgrade'
+export type CardType = 'unit' | 'structure' | 'upgrade' | 'augment'
+
+// ─── Augment System ───────────────────────────────────────
+
+/** Which equipment slot an augment card occupies. */
+export type AugmentSlot = 'primaryRanged' | 'heavyMelee' | 'helmet' | 'chest' | 'arms' | 'legs' | 'amulet'
+
+/** Flat stat deltas granted by an equipped augment (scaled by upgrade level). */
+export interface AugmentEffect {
+  attack?: number
+  attackRange?: number
+  maxHp?: number
+  moveSpeed?: number
+}
+
+/** One owned copy of an augment card — each instance is independently levelled and equippable. */
+export interface AugmentInstance {
+  instanceId: string
+  cardId: string            // augment card name (e.g. "Thunder Helm")
+  level: number             // 0 = base; each upgrade adds +1
+  equippedToCardName: string | null   // unit card name this is equipped on, or null
+}
 
 export interface UnitTemplate {
   name: string
@@ -277,6 +298,12 @@ export interface Card {
   variant?: 'shiny' | 'holofoil' | 'glass'
   /** Glass cards: probability (0–1) the card shatters when played (unit instantly dies). */
   glassBreakChance?: number
+  /** Augment cards: which equipment slot this occupies. */
+  augmentSlot?: AugmentSlot
+  /** Augment cards: base stat bonuses (scaled by instance level when equipped). */
+  augmentEffect?: AugmentEffect
+  /** Augment cards: which named set this belongs to. */
+  setName?: string
 }
 
 // ─── Boss Trait State ─────────────────────────────────────

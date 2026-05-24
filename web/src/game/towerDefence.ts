@@ -434,6 +434,7 @@ export interface TDGameState {
   mode: 'collection' | 'city'
   passives: TDPassives
   milestoneChoices: MilestoneUpgrade[] | null
+  enemyKills: number   // total enemies killed this session (for augment souls)
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -682,6 +683,7 @@ export function createTDGame(
     mode,
     passives: { attackSpeedMult: 1, rangeBonus: 0, damageMult: 1, respawnMult: 1 },
     milestoneChoices: null,
+    enemyKills: 0,
   }
 }
 
@@ -1068,7 +1070,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
                 if (e.id === target.id || deadEnemyIds.has(e.id) || e.hp <= 0) return e
                 if (dist(e.x, e.y, target.x, target.y) > eff.aoeRadius!) return e
                 const splashHp = e.hp - dmg
-                if (splashHp <= 0) { deadEnemyIds.add(e.id); s.score += e.template.reward; s.mana += e.template.reward; towerXpGains[unit.towerId] = (towerXpGains[unit.towerId] ?? 0) + 1 }
+                if (splashHp <= 0) { deadEnemyIds.add(e.id); s.score += e.template.reward; s.mana += e.template.reward; s.enemyKills++; towerXpGains[unit.towerId] = (towerXpGains[unit.towerId] ?? 0) + 1 }
                 return { ...e, hp: Math.max(0, splashHp) }
               })
               // AOE ring visual
@@ -1088,6 +1090,7 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
             deadEnemyIds.add(target.id)
             s.score += target.template.reward
             s.mana += target.template.reward
+            s.enemyKills++
             towerXpGains[unit.towerId] = (towerXpGains[unit.towerId] ?? 0) + 1
           } else {
             s.enemies = s.enemies.map(e => e.id === target.id ? { ...e, hp: newHp } : e)
