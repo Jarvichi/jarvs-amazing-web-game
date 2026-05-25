@@ -137,10 +137,11 @@ interface Props {
   onClick?: () => void
   lockedSecs?: number   // hero cards: seconds remaining until playable (0 = unlocked)
   upgradeable?: boolean // collection: show UPGRADE badge
+  displayCost?: number  // override displayed cost (e.g. after archetype discounts)
   showDetails?: boolean  // collection: show details button
 }
 
-export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false , showDetails = false }: Props) {
+export function CardTile({ card, canAfford = true, disabled = false, onClick, lockedSecs = 0, upgradeable = false , showDetails = false, displayCost }: Props) {
   const heroLocked = card.isHero && lockedSecs > 0
   const clickable = canAfford && !disabled && !heroLocked
   const { openDetail, cardDetailNode } = useCardDetail()
@@ -198,7 +199,7 @@ export function CardTile({ card, canAfford = true, disabled = false, onClick, lo
 
 
 
-      <div className="card-cost">{card.cost}</div>
+      <div className="card-cost">{displayCost ?? card.cost}</div>
       {upgradeable && <div className="card-upgrade-badge">UPGRADE</div>}
       <div className="card-title">{card.name}</div>
       <div className="card-art u-flex u-items-c u-just-c">

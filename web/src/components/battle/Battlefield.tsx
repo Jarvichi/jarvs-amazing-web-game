@@ -7,7 +7,7 @@ import { SpriteImg, AnimatedSpriteImg } from '../ui/SpriteImg'
 import { spriteSlug } from '../../game/sprites'
 import { BattleEventOverlay } from './BattleEventOverlay'
 import { isNoDamageMode, isDebugMode } from '../../game/debug'
-import { MAX_UPGRADE_LEVEL } from '../../game/engine/cards'
+import { MAX_UPGRADE_LEVEL, getEffectiveCardCost } from '../../game/engine/cards'
 import { SUDDEN_DEATH_FORCE_MS } from '../../game/engine/suddenDeath'
 import { getRelicDef } from '../../game/relics'
 import { getUnitLore, getCardCatalog } from '../../game/cards'
@@ -1352,7 +1352,8 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
               <div key={card.id} className="hand-card-wrap u-relative u-col" title={isMaxUpgrade ? 'Already at max level' : undefined}>
                 <CardTile
                   card={card}
-                  canAfford={!isMaxUpgrade && state.mana >= card.cost}
+                  canAfford={!isMaxUpgrade && state.mana >= getEffectiveCardCost(card, state)}
+                  displayCost={getEffectiveCardCost(card, state)}
                   onClick={() => {
                     if (truceLocked) return
                     if (onPlayAoeCard && card.cardType === 'upgrade' && card.upgradeEffect?.type === 'aoe') {
