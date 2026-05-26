@@ -683,13 +683,17 @@ export function buildDeckCards(entries: DeckEntry[], collection?: CollectionEntr
       if (!se.unitTemplate) continue
       const spawnXp = getMasteryXp(collection, se.unitTemplate.name)
       const spawnLvl = masteryLevel(spawnXp)
+      let ut = { ...se.unitTemplate }
       if (spawnLvl > 0) {
-        const ut = { ...se.unitTemplate }
         ut.attack  = ut.attack  + spawnLvl
         ut.maxHp   = ut.maxHp   + spawnLvl * 2
         ut.masteryLevel = spawnLvl
-        withSpawnMastery = { ...boosted, unit: { ...boosted.unit, structureEffect: { ...se, unitTemplate: ut } } }
       }
+      // Apply augment bonuses to the spawn template using the spawned unit's name
+      const spawnProxy = { ...boosted, name: se.unitTemplate.name, cardType: 'unit' as const, unit: ut }
+      const augmentedSpawn = applyAugmentBonuses(spawnProxy, se.unitTemplate.name)
+      if (augmentedSpawn.unit) ut = augmentedSpawn.unit
+      withSpawnMastery = { ...boosted, unit: { ...boosted.unit, structureEffect: { ...se, unitTemplate: ut } } }
     }
 
     const withLevel: Card = withSpawnMastery.unit
