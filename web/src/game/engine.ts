@@ -238,10 +238,12 @@ export function newGame(
         `Enemy strategy: ${STRATEGY_LABELS[strategy]}`,
       ]
 
-  const deckMaxMana = isDailyChallenge && playerDeck.length > 0
+  const rawDeckMaxMana = isDailyChallenge && playerDeck.length > 0
     ? playerDeck.reduce((m, c) => Math.max(m, c.cost), 0)
-    : undefined
-  const maxMana = forgiveManaLimit ? 9 : Math.max(BASE_MAX_MANA, deckMaxMana ?? 0, loadPlayerStats().maxMana)
+    : 0
+  // Include playerStats.maxMana so regenerateMana() (which reads s.deckMaxMana) respects stat upgrades
+  const deckMaxMana = Math.max(rawDeckMaxMana, loadPlayerStats().maxMana)
+  const maxMana = forgiveManaLimit ? 9 : Math.max(BASE_MAX_MANA, deckMaxMana)
 
   const baseOpponentHp = hpOverride ?? (boss ? 95 : 82)
   const initialField: import('./types').Unit[] = []
