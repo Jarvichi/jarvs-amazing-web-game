@@ -649,6 +649,9 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
 
   usePixiApp(canvasRef, mapWidth, mapHeight, async (app) => {
     appRef.current = app
+    // PixiJS sets touch-action:none on the canvas; restore pan so the
+    // nm-map container can still scroll when the user swipes.
+    app.canvas.style.touchAction = 'pan-x pan-y'
 
     const groundLayer = new PIXI.Container()
     const worldLayer  = new PIXI.Container()
@@ -844,7 +847,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
           className={`nm-map u-flex u-grow u-items-c${act.environment ? ` nm-map--${act.environment}` : ''}`}
           ref={mapRef}
         >
-          <canvas ref={canvasRef} style={{ display: 'block', flexShrink: 0 }} />
+          <canvas ref={canvasRef} style={{ display: 'block', flexShrink: 0, width: mapWidth, height: mapHeight }} />
         </div>
 
         {peekNode && (
