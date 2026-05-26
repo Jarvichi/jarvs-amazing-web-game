@@ -35,7 +35,7 @@ import {
   ALL_CONSUMABLES, addToConsumableStash, useConsumable,
   getModifiersByCount, getModifierMax,
   setLastRunFailed, loadLastRunFailed, clearLastRunFailed,
-  ARCHETYPE_STARTER_PACK,
+  ARCHETYPE_STARTER_PACK, loadPlayerArchetype,
 } from './game/questline'
 import { CardRestSelect }       from './components/cards/CardRestSelect'
 import { CampScreen, CampChoice } from './components/campaign/CampScreen'
@@ -858,7 +858,8 @@ export default function App() {
           const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
           state.playerBase = { hp: activeRun.playerHp, maxHp: activeRun.maxHp }
           if (activeRun.activeRelic) getRelicDef(activeRun.activeRelic)?.applyToGame(state)
-          if (activeRun.archetype) state.archetypePassive = activeRun.archetype
+          const archetype = activeRun.archetype ?? loadPlayerArchetype() ?? undefined
+          if (archetype) state.archetypePassive = archetype
           state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
           startBattle(state)
           rollRareEvent()
