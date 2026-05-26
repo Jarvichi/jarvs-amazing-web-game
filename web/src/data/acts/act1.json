@@ -1205,5 +1205,325 @@
   },
   "mapMusicId": "map",
   "battleMusicId": "battle",
-  "bossMusicId": "battle"
+  "bossMusicId": "battle",
+  "terrainItems": [
+    {
+      "kind": "mountain",
+      "x": 259,
+      "y": 248,
+      "scale": 2.2
+    },
+    {
+      "kind": "tree",
+      "x": 246,
+      "y": 241,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 331,
+      "y": 255,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 442,
+      "y": 208,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 410,
+      "y": 160,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 449,
+      "y": 121,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 417,
+      "y": 100,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 488,
+      "y": 80,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 508,
+      "y": 133,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 537,
+      "y": 220,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 425,
+      "y": 311,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 479,
+      "y": 321,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 508,
+      "y": 366,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 388,
+      "y": 347,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 572,
+      "y": 290,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 629,
+      "y": 272,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 561,
+      "y": 177,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 634,
+      "y": 166,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 659,
+      "y": 217,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 711,
+      "y": 213,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 743,
+      "y": 120,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 684,
+      "y": 117,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 826,
+      "y": 195,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 1029,
+      "y": 211,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 1058,
+      "y": 144,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 1078,
+      "y": 181,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 1016,
+      "y": 107,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 1058,
+      "y": 270,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 1029,
+      "y": 342,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 1000,
+      "y": 274,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 1065,
+      "y": 339,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 957,
+      "y": 313,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 913,
+      "y": 220,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 841,
+      "y": 336,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 787,
+      "y": 310,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 898,
+      "y": 361,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 924,
+      "y": 374,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 912,
+      "y": 114,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 847,
+      "y": 103,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 831,
+      "y": 158,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 694,
+      "y": 358,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 811,
+      "y": 397,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 666,
+      "y": 290,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 499,
+      "y": 221,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 391,
+      "y": 244,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 289,
+      "y": 248,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 179,
+      "y": 280,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 143,
+      "y": 338,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 188,
+      "y": 169,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 255,
+      "y": 345,
+      "scale": 1
+    },
+    {
+      "kind": "tree",
+      "x": 282,
+      "y": 77,
+      "scale": 1
+    }
+  ],
+  "rivers": [
+    {
+      "x1": 61,
+      "y1": 176,
+      "cx1": 422,
+      "cy1": 216,
+      "cx2": 705,
+      "cy2": 154,
+      "x2": 1033,
+      "y2": 192
+    }
+  ]
 }
