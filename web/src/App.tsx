@@ -263,9 +263,11 @@ export default function App() {
       const node = act?.nodes[savedRun.pendingNodeId]
       if (node && (node.type === 'battle' || node.type === 'boss' || node.type === 'elite')) {
         // If a mid-battle save exists, restore it exactly — no fresh start for cheaters
+        const startupArch = loadPlayerArchetype()
         const savedBattle = loadBattleState()
         if (savedBattle) {
           incrementAchievementProgress('misc:refresh_cheat')
+          if (startupArch) savedBattle.archetypePassive = startupArch
           return { screen: 'playing' as Screen, gameState: savedBattle, run: savedRun, isCampaign: true }
         }
         const collection  = loadCollection()
@@ -278,6 +280,7 @@ export default function App() {
         const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
         state.playerBase = { hp: savedRun.playerHp, maxHp: savedRun.maxHp }
         if (savedRun.activeRelic) getRelicDef(savedRun.activeRelic)?.applyToGame(state)
+        if (startupArch) state.archetypePassive = startupArch
         return { screen: 'playing' as Screen, gameState: state as GameState | null, run: savedRun, isCampaign: true }
       }
     }
@@ -313,6 +316,8 @@ export default function App() {
   // the two state updates are always kept together (React 18 batches them into a
   // single render within the same synchronous handler).
   const startBattle = useCallback((gs: GameState) => {
+    const arch = loadPlayerArchetype()
+    if (arch) gs.archetypePassive = arch
     dispatch({ type: 'START', gameState: gs })
     setScreen('playing')
     playBattleStart()
@@ -858,8 +863,6 @@ export default function App() {
           const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods) })
           state.playerBase = { hp: activeRun.playerHp, maxHp: activeRun.maxHp }
           if (activeRun.activeRelic) getRelicDef(activeRun.activeRelic)?.applyToGame(state)
-          const archetype = activeRun.archetype ?? loadPlayerArchetype() ?? undefined
-          if (archetype) state.archetypePassive = archetype
           state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
           startBattle(state)
           rollRareEvent()
@@ -1066,8 +1069,6 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods733) })
     state.playerBase = { hp: updatedRun.playerHp, maxHp: updatedRun.maxHp }
     if (updatedRun.activeRelic) getRelicDef(updatedRun.activeRelic)?.applyToGame(state)
-    const archetypeA = updatedRun.archetype ?? loadPlayerArchetype() ?? undefined
-    if (archetypeA) state.archetypePassive = archetypeA
     state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
@@ -1098,8 +1099,6 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods761) })
     state.playerBase = { hp: run.playerHp, maxHp: run.maxHp }
     if (run.activeRelic) getRelicDef(run.activeRelic)?.applyToGame(state)
-    const archetypeB = run.archetype ?? loadPlayerArchetype() ?? undefined
-    if (archetypeB) state.archetypePassive = archetypeB
     state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
@@ -1788,8 +1787,6 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), modsRetry) })
     state.playerBase = { hp: withFail.playerHp, maxHp: withFail.maxHp }
     if (withFail.activeRelic) getRelicDef(withFail.activeRelic)?.applyToGame(state)
-    const archetypeC = withFail.archetype ?? loadPlayerArchetype() ?? undefined
-    if (archetypeC) state.archetypePassive = archetypeC
     state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
