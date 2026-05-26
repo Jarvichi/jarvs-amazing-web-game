@@ -26,6 +26,7 @@ export function usePixiApp(
     const app = new PIXI.Application()
     appRef.current = app
 
+    let initialized = false
     app.init({
       canvas,
       width,
@@ -35,13 +36,19 @@ export function usePixiApp(
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
     }).then(() => {
-      if (destroyed) return
+      initialized = true
+      if (destroyed) {
+        app.destroy(false, { children: true, texture: false })
+        return
+      }
       onReady(app)
     })
 
     return () => {
       destroyed = true
-      app.destroy(false, { children: true, texture: false })
+      if (initialized) {
+        app.destroy(false, { children: true, texture: false })
+      }
       appRef.current = null
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
