@@ -36,6 +36,7 @@ const NODE_ICON: Record<string, string> = {
 const COL_WIDTH      = 112 // fixed pixel width per map column slot
 const ROW_HEIGHT     = 112 // fixed pixel height per vertical node slot within a column
 const AVATAR_PADDING = 72  // left space in nm-map-inner for the "node 0" start position
+const CONN_W         = 44  // connector gap width between columns
 const AVATAR_SIZE    = 36  // px avatar width/height
 const WALK_DURATION  = 700 // ms for the walk animation
 
@@ -239,209 +240,272 @@ function getTerrainItems(env: string | undefined, seed: number, w: number, h: nu
   return items
 }
 
-interface TerrainProps { environment?: string; actId: string; width: number; height: number }
+function drawTerrainCanvas(
+  ctx: CanvasRenderingContext2D,
+  environment: string | undefined,
+  actId: string,
+  width: number,
+  height: number,
+): void {
+  const items = getTerrainItems(environment, hashStr(actId), width, height)
 
-function MapTerrain({ environment, actId, width, height }: TerrainProps) {
-  const items = useMemo(
-    () => getTerrainItems(environment, hashStr(actId), width, height),
-    [environment, actId, width, height],
-  )
-
-  const riverColor = (() => {
-    switch (environment) {
-      case 'volcano': return '#cc4400'
-      case 'fungal':  return '#6633aa'
-      case 'frost':   return '#88ddff'
-      default:        return '#2255aa'
-    }
-  })()
+  const riverColor =
+    environment === 'volcano' ? '#cc4400' :
+    environment === 'fungal'  ? '#6633aa' :
+    environment === 'frost'   ? '#88ddff' : '#2255aa'
 
   const riverItems   = items.filter(it => it.kind === 'river')
   const terrainItems = items.filter(it => it.kind !== 'river')
 
-  // Seed river control points off actId hash
   const rseed = hashStr(actId + 'river')
   const rr    = seededRand(rseed)
   const rrf   = (lo: number, hi: number) => lo + rr() * (hi - lo)
 
-  return (
-    <svg
-      viewBox={`0 0 ${width} ${height}`}
-      preserveAspectRatio="xMidYMid meet"
-      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }}
-    >
-      {/* Rivers */}
-      {riverItems.map((_, i) => {
-        const x1 = rrf(0, width * 0.25),  y1 = rrf(0, height)
-        const x2 = rrf(width * 0.75, width), y2 = rrf(0, height)
-        const cx1 = rrf(width * 0.2, width * 0.5), cy1 = rrf(0, height)
-        const cx2 = rrf(width * 0.5, width * 0.8), cy2 = rrf(0, height)
-        return (
-          <g key={`river-${i}`} opacity={0.28}>
-            <path d={`M ${x1},${y1} C ${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`}
-              fill="none" stroke={riverColor} strokeWidth={6} strokeLinecap="round" />
-            <path d={`M ${x1},${y1} C ${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`}
-              fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth={2} strokeLinecap="round" />
-          </g>
-        )
-      })}
+  for (const _ of riverItems) {
+    const x1  = rrf(0, width * 0.25),          y1  = rrf(0, height)
+    const x2  = rrf(width * 0.75, width),       y2  = rrf(0, height)
+    const cx1 = rrf(width * 0.2, width * 0.5), cy1 = rrf(0, height)
+    const cx2 = rrf(width * 0.5, width * 0.8), cy2 = rrf(0, height)
+    ctx.save()
+    ctx.globalAlpha = 0.28
+    ctx.lineCap = 'round'
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2)
+    ctx.strokeStyle = riverColor; ctx.lineWidth = 6; ctx.stroke()
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2)
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 2; ctx.stroke()
+    ctx.restore()
+  }
 
-      {/* Terrain features */}
-      {terrainItems.map((it, i) => {
-        const { x, y, scale, kind } = it
-        const k = `${kind}-${i}`
-        switch (kind) {
-
-          case 'mountain': {
-            const w = scale * 44, h = scale * 32
-            const col = environment === 'frost'   ? '#8ab8cc'
-                      : environment === 'volcano' ? '#6a3020'
-                      : environment === 'sand'    ? '#a08040'
-                      : '#5a6050'
-            return (
-              <g key={k} opacity={0.22}>
-                <polygon points={`${x},${y} ${x+w*0.45},${y-h} ${x+w},${y}`} fill={col} />
-                <polygon points={`${x+w*0.3},${y} ${x+w*0.72},${y-h*0.75} ${x+w*1.1},${y}`} fill={col} />
-                {environment === 'frost' && (
-                  <polygon points={`${x+w*0.2},${y-h*0.55} ${x+w*0.45},${y-h} ${x+w*0.7},${y-h*0.55}`} fill="rgba(255,255,255,0.55)" />
-                )}
-              </g>
-            )
-          }
-
-          case 'tree': {
-            const h = scale * 28, tw = scale * 14
-            const col = environment === 'farmland' ? '#4a7a28'
-                      : environment === 'ruins'    ? '#3a6028'
-                      : '#2a7020'
-            return (
-              <g key={k} opacity={0.24}>
-                <rect x={x - scale*2} y={y - scale*8} width={scale*4} height={scale*9} fill="#6b4226" />
-                <polygon points={`${x},${y-h} ${x-tw},${y-scale*6} ${x+tw},${y-scale*6}`} fill={col} />
-                <polygon points={`${x},${y-h*0.62} ${x-tw*1.1},${y-scale*2} ${x+tw*1.1},${y-scale*2}`} fill={col} />
-              </g>
-            )
-          }
-
-          case 'deadtree': {
-            const h = scale * 28
-            return (
-              <g key={k} opacity={0.2}>
-                <line x1={x} y1={y} x2={x} y2={y - h} stroke="#5a4030" strokeWidth={scale * 3} strokeLinecap="round" />
-                <line x1={x} y1={y - h * 0.6} x2={x - scale*12} y2={y - h * 0.85} stroke="#5a4030" strokeWidth={scale * 2} strokeLinecap="round" />
-                <line x1={x} y1={y - h * 0.5} x2={x + scale*10} y2={y - h * 0.72} stroke="#5a4030" strokeWidth={scale * 1.5} strokeLinecap="round" />
-              </g>
-            )
-          }
-
-          case 'crystal': {
-            const h = scale * 26
-            return (
-              <g key={k} opacity={0.28}>
-                <polygon points={`${x},${y-h} ${x-scale*5},${y} ${x+scale*5},${y}`} fill="#88ddff" />
-                <polygon points={`${x},${y-h*0.7} ${x-scale*7},${y+h*0.3} ${x+scale*7},${y+h*0.3}`} fill="#aaeeff" />
-                <line x1={x} y1={y-h} x2={x} y2={y+h*0.3} stroke="rgba(255,255,255,0.4)" strokeWidth={scale*1.5} />
-              </g>
-            )
-          }
-
-          case 'mushroom': {
-            const h = scale * 22, rw = scale * 12
-            return (
-              <g key={k} opacity={0.24}>
-                <rect x={x - scale*2.5} y={y - h} width={scale*5} height={h} fill="#8a7060" />
-                <ellipse cx={x} cy={y - h} rx={rw} ry={scale * 8} fill="#9a40ee" />
-                <ellipse cx={x - scale*3} cy={y - h - scale*2} rx={scale*4} ry={scale*3} fill="rgba(255,255,255,0.3)" />
-              </g>
-            )
-          }
-
-          case 'lava': {
-            return (
-              <g key={k} opacity={0.22}>
-                <ellipse cx={x} cy={y} rx={scale*20} ry={scale*10} fill="#cc3300" />
-                <ellipse cx={x} cy={y} rx={scale*12} ry={scale*6}  fill="#ff6600" />
-                <ellipse cx={x + scale*4} cy={y - scale*2} rx={scale*5} ry={scale*3} fill="#ffaa00" opacity={0.7} />
-              </g>
-            )
-          }
-
-          case 'wave': {
-            const ww = scale * 50
-            return (
-              <g key={k} opacity={0.22}>
-                <path d={`M ${x},${y} Q ${x+ww*0.25},${y-scale*9} ${x+ww*0.5},${y} Q ${x+ww*0.75},${y+scale*9} ${x+ww},${y}`}
-                  fill="none" stroke="#4499cc" strokeWidth={scale*3} strokeLinecap="round" />
-                <path d={`M ${x+scale*5},${y+scale*7} Q ${x+ww*0.3},${y-scale*5} ${x+ww*0.6},${y+scale*7}`}
-                  fill="none" stroke="#66bbee" strokeWidth={scale*2} strokeLinecap="round" opacity={0.6} />
-              </g>
-            )
-          }
-
-          case 'cloud': {
-            return (
-              <g key={k} opacity={0.15}>
-                <ellipse cx={x}              cy={y}            rx={scale*22} ry={scale*13} fill="white" />
-                <ellipse cx={x + scale*14}   cy={y + scale*4}  rx={scale*18} ry={scale*11} fill="white" />
-                <ellipse cx={x - scale*12}   cy={y + scale*5}  rx={scale*16} ry={scale*10} fill="white" />
-              </g>
-            )
-          }
-
-          case 'tower': {
-            const h = scale * 30, tw = scale * 10
-            return (
-              <g key={k} opacity={0.2}>
-                <rect x={x - tw/2} y={y - h} width={tw} height={h} fill="#6a6a7a" />
-                <rect x={x - tw/2 - scale*2} y={y - h} width={tw + scale*4} height={scale*5} fill="#8a8a9a" />
-                <rect x={x - scale*2} y={y - h - scale*6} width={scale*4} height={scale*6} fill="#6a6a7a" />
-                <rect x={x - tw/2 - scale*2} y={y - h - scale*6} width={tw + scale*4} height={scale*3} fill="#7a7a8a" />
-              </g>
-            )
-          }
-
-          case 'pillar': {
-            const h = scale * (16 + hashStr(`${k}${x}`) % 18), pw = scale * 7
-            return (
-              <g key={k} opacity={0.18}>
-                <rect x={x - pw/2} y={y - h} width={pw} height={h} fill="#888" />
-                <rect x={x - pw/2 - scale*2} y={y - h}          width={pw + scale*4} height={scale*4} fill="#aaa" />
-                <rect x={x - pw/2 - scale*2} y={y - scale*4}    width={pw + scale*4} height={scale*4} fill="#aaa" />
-              </g>
-            )
-          }
-
-          case 'dune': {
-            const dw = scale * 55
-            return (
-              <g key={k} opacity={0.2}>
-                <ellipse cx={x} cy={y} rx={dw * 0.5} ry={scale * 10} fill="#c8a040" />
-                <ellipse cx={x + dw*0.35} cy={y + scale*4} rx={dw * 0.35} ry={scale * 8} fill="#b89030" />
-              </g>
-            )
-          }
-
-          default: return null
+  for (let i = 0; i < terrainItems.length; i++) {
+    const { x, y, scale, kind } = terrainItems[i]
+    const k = `${kind}-${i}`
+    switch (kind) {
+      case 'mountain': {
+        const w = scale * 44, h = scale * 32
+        const col = environment === 'frost'   ? '#8ab8cc'
+                  : environment === 'volcano' ? '#6a3020'
+                  : environment === 'sand'    ? '#a08040' : '#5a6050'
+        ctx.save(); ctx.globalAlpha = 0.22; ctx.fillStyle = col
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x+w*0.45, y-h); ctx.lineTo(x+w, y); ctx.closePath(); ctx.fill()
+        ctx.beginPath(); ctx.moveTo(x+w*0.3, y); ctx.lineTo(x+w*0.72, y-h*0.75); ctx.lineTo(x+w*1.1, y); ctx.closePath(); ctx.fill()
+        if (environment === 'frost') {
+          ctx.fillStyle = 'rgba(255,255,255,0.55)'
+          ctx.beginPath(); ctx.moveTo(x+w*0.2, y-h*0.55); ctx.lineTo(x+w*0.45, y-h); ctx.lineTo(x+w*0.7, y-h*0.55); ctx.closePath(); ctx.fill()
         }
-      })}
-    </svg>
+        ctx.restore(); break
+      }
+      case 'tree': {
+        const h = scale * 28, tw = scale * 14
+        const col = environment === 'farmland' ? '#4a7a28'
+                  : environment === 'ruins'    ? '#3a6028' : '#2a7020'
+        ctx.save(); ctx.globalAlpha = 0.24
+        ctx.fillStyle = '#6b4226'; ctx.fillRect(x - scale*2, y - scale*8, scale*4, scale*9)
+        ctx.fillStyle = col
+        ctx.beginPath(); ctx.moveTo(x, y-h); ctx.lineTo(x-tw, y-scale*6); ctx.lineTo(x+tw, y-scale*6); ctx.closePath(); ctx.fill()
+        ctx.beginPath(); ctx.moveTo(x, y-h*0.62); ctx.lineTo(x-tw*1.1, y-scale*2); ctx.lineTo(x+tw*1.1, y-scale*2); ctx.closePath(); ctx.fill()
+        ctx.restore(); break
+      }
+      case 'deadtree': {
+        const h = scale * 28
+        ctx.save(); ctx.globalAlpha = 0.2; ctx.strokeStyle = '#5a4030'; ctx.lineCap = 'round'
+        ctx.lineWidth = scale*3; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y-h); ctx.stroke()
+        ctx.lineWidth = scale*2; ctx.beginPath(); ctx.moveTo(x, y-h*0.6); ctx.lineTo(x-scale*12, y-h*0.85); ctx.stroke()
+        ctx.lineWidth = scale*1.5; ctx.beginPath(); ctx.moveTo(x, y-h*0.5); ctx.lineTo(x+scale*10, y-h*0.72); ctx.stroke()
+        ctx.restore(); break
+      }
+      case 'crystal': {
+        const h = scale * 26
+        ctx.save(); ctx.globalAlpha = 0.28
+        ctx.fillStyle = '#88ddff'
+        ctx.beginPath(); ctx.moveTo(x, y-h); ctx.lineTo(x-scale*5, y); ctx.lineTo(x+scale*5, y); ctx.closePath(); ctx.fill()
+        ctx.fillStyle = '#aaeeff'
+        ctx.beginPath(); ctx.moveTo(x, y-h*0.7); ctx.lineTo(x-scale*7, y+h*0.3); ctx.lineTo(x+scale*7, y+h*0.3); ctx.closePath(); ctx.fill()
+        ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = scale*1.5
+        ctx.beginPath(); ctx.moveTo(x, y-h); ctx.lineTo(x, y+h*0.3); ctx.stroke()
+        ctx.restore(); break
+      }
+      case 'mushroom': {
+        const h = scale * 22, rw = scale * 12
+        ctx.save(); ctx.globalAlpha = 0.24
+        ctx.fillStyle = '#8a7060'; ctx.fillRect(x - scale*2.5, y-h, scale*5, h)
+        ctx.fillStyle = '#9a40ee'; ctx.beginPath(); ctx.ellipse(x, y-h, rw, scale*8, 0, 0, Math.PI*2); ctx.fill()
+        ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.beginPath(); ctx.ellipse(x-scale*3, y-h-scale*2, scale*4, scale*3, 0, 0, Math.PI*2); ctx.fill()
+        ctx.restore(); break
+      }
+      case 'lava': {
+        ctx.save(); ctx.globalAlpha = 0.22
+        ctx.fillStyle = '#cc3300'; ctx.beginPath(); ctx.ellipse(x, y, scale*20, scale*10, 0, 0, Math.PI*2); ctx.fill()
+        ctx.fillStyle = '#ff6600'; ctx.beginPath(); ctx.ellipse(x, y, scale*12, scale*6, 0, 0, Math.PI*2); ctx.fill()
+        ctx.globalAlpha = 0.22 * 0.7
+        ctx.fillStyle = '#ffaa00'; ctx.beginPath(); ctx.ellipse(x+scale*4, y-scale*2, scale*5, scale*3, 0, 0, Math.PI*2); ctx.fill()
+        ctx.restore(); break
+      }
+      case 'wave': {
+        const ww = scale * 50
+        ctx.save(); ctx.globalAlpha = 0.22; ctx.lineCap = 'round'
+        ctx.strokeStyle = '#4499cc'; ctx.lineWidth = scale*3
+        ctx.beginPath(); ctx.moveTo(x, y)
+        ctx.quadraticCurveTo(x+ww*0.25, y-scale*9, x+ww*0.5, y)
+        ctx.quadraticCurveTo(x+ww*0.75, y+scale*9, x+ww, y); ctx.stroke()
+        ctx.globalAlpha = 0.22 * 0.6
+        ctx.strokeStyle = '#66bbee'; ctx.lineWidth = scale*2
+        ctx.beginPath(); ctx.moveTo(x+scale*5, y+scale*7)
+        ctx.quadraticCurveTo(x+ww*0.3, y-scale*5, x+ww*0.6, y+scale*7); ctx.stroke()
+        ctx.restore(); break
+      }
+      case 'cloud': {
+        ctx.save(); ctx.globalAlpha = 0.15; ctx.fillStyle = 'white'
+        ctx.beginPath(); ctx.ellipse(x, y, scale*22, scale*13, 0, 0, Math.PI*2); ctx.fill()
+        ctx.beginPath(); ctx.ellipse(x+scale*14, y+scale*4, scale*18, scale*11, 0, 0, Math.PI*2); ctx.fill()
+        ctx.beginPath(); ctx.ellipse(x-scale*12, y+scale*5, scale*16, scale*10, 0, 0, Math.PI*2); ctx.fill()
+        ctx.restore(); break
+      }
+      case 'tower': {
+        const h = scale * 30, tw = scale * 10
+        ctx.save(); ctx.globalAlpha = 0.2
+        ctx.fillStyle = '#6a6a7a'; ctx.fillRect(x-tw/2, y-h, tw, h)
+        ctx.fillStyle = '#8a8a9a'; ctx.fillRect(x-tw/2-scale*2, y-h, tw+scale*4, scale*5)
+        ctx.fillStyle = '#6a6a7a'; ctx.fillRect(x-scale*2, y-h-scale*6, scale*4, scale*6)
+        ctx.fillStyle = '#7a7a8a'; ctx.fillRect(x-tw/2-scale*2, y-h-scale*6, tw+scale*4, scale*3)
+        ctx.restore(); break
+      }
+      case 'pillar': {
+        const h = scale * (16 + hashStr(`${k}${x}`) % 18), pw = scale * 7
+        ctx.save(); ctx.globalAlpha = 0.18
+        ctx.fillStyle = '#888'; ctx.fillRect(x-pw/2, y-h, pw, h)
+        ctx.fillStyle = '#aaa'; ctx.fillRect(x-pw/2-scale*2, y-h, pw+scale*4, scale*4)
+        ctx.fillStyle = '#aaa'; ctx.fillRect(x-pw/2-scale*2, y-scale*4, pw+scale*4, scale*4)
+        ctx.restore(); break
+      }
+      case 'dune': {
+        const dw = scale * 55
+        ctx.save(); ctx.globalAlpha = 0.2
+        ctx.fillStyle = '#c8a040'; ctx.beginPath(); ctx.ellipse(x, y, dw*0.5, scale*10, 0, 0, Math.PI*2); ctx.fill()
+        ctx.fillStyle = '#b89030'; ctx.beginPath(); ctx.ellipse(x+dw*0.35, y+scale*4, dw*0.35, scale*8, 0, 0, Math.PI*2); ctx.fill()
+        ctx.restore(); break
+      }
+    }
+  }
+}
+
+function drawConnectorsCanvas(
+  ctx: CanvasRenderingContext2D,
+  rows: QuestNode[][],
+  maxRowCols: number,
+  mapHeight: number,
+  statusOf: (id: string) => NodeStatus,
+  reachableIds: Set<string>,
+  hiddenNodeIds: Set<string>,
+  environment: string | undefined,
+): void {
+  const colors = envColors(environment)
+  const variantPriority: Record<LineVariant, number> = { frontier: 3, trail: 2, future: 1, dead: 0 }
+
+  for (let rowIndex = 0; rowIndex < rows.length - 1; rowIndex++) {
+    const prevRow     = rows[rowIndex]
+    const nextRow     = rows[rowIndex + 1]
+    const prevRowCols = prevRow[0]?.rowCols ?? prevRow.length
+    const nextRowCols = nextRow[0]?.rowCols ?? nextRow.length
+    const visualRow   = (node: QuestNode, rc: number) => (maxRowCols - rc) / 2 + node.col
+
+    const nextById = new Map(nextRow.map(n => [n.id, n]))
+    const best     = new Map<string, { variant: LineVariant; pr: number; cr: number }>()
+
+    for (const parent of prevRow) {
+      if (hiddenNodeIds.has(parent.id)) continue
+      for (const childId of parent.childIds) {
+        if (hiddenNodeIds.has(childId)) continue
+        const child = nextById.get(childId)
+        if (!child) continue
+        const pr  = visualRow(parent, prevRowCols)
+        const cr  = visualRow(child, nextRowCols)
+        const key = `${pr}:${cr}`
+        const v   = lineVariant(parent.id, childId, statusOf, reachableIds)
+        const ex  = best.get(key)
+        if (!ex || variantPriority[v] > variantPriority[ex.variant]) best.set(key, { variant: v, pr, cr })
+      }
+    }
+
+    if (best.size === 0) continue
+
+    const xStart = AVATAR_PADDING + (rowIndex + 1) * COL_WIDTH + rowIndex * CONN_W
+    const xMid   = xStart + CONN_W / 2
+    const xEnd   = xStart + CONN_W
+
+    ctx.lineCap = 'round'
+
+    for (const { variant, pr, cr } of best.values()) {
+      const y1 = (pr + 0.5) / maxRowCols * mapHeight
+      const y2 = (cr + 0.5) / maxRowCols * mapHeight
+
+      const drawPath = () => {
+        ctx.beginPath()
+        ctx.moveTo(xStart, y1)
+        ctx.bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
+      }
+
+      if (variant === 'future') {
+        drawPath(); ctx.strokeStyle = 'rgba(255,255,255,0.13)'; ctx.lineWidth = 2
+        ctx.setLineDash([1.76, 2.64]); ctx.stroke(); ctx.setLineDash([])
+      } else if (variant === 'dead') {
+        drawPath(); ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 1; ctx.stroke()
+      } else {
+        const surfaceColor = variant === 'frontier' ? colors.frontier : colors.trail
+        const edgeColor    = variant === 'frontier' ? 'rgba(0,0,0,0.65)' : 'rgba(0,0,0,0.5)'
+        const outerWidth   = variant === 'frontier' ? 18 : 14
+        const innerWidth   = variant === 'frontier' ? 11 : 8
+        drawPath(); ctx.strokeStyle = edgeColor;    ctx.lineWidth = outerWidth; ctx.stroke()
+        drawPath(); ctx.strokeStyle = surfaceColor; ctx.lineWidth = innerWidth; ctx.stroke()
+      }
+    }
+  }
+}
+
+interface NodeMapCanvasProps {
+  environment?: string
+  actId: string
+  mapWidth: number
+  mapHeight: number
+  maxRowCols: number
+  rows: QuestNode[][]
+  availableIds: string[]
+  run: RunState
+  reachableIds: Set<string>
+  hiddenNodeIds: Set<string>
+}
+
+function NodeMapCanvas({
+  environment, actId, mapWidth, mapHeight, maxRowCols,
+  rows, availableIds, run, reachableIds, hiddenNodeIds,
+}: NodeMapCanvasProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    const dpr = window.devicePixelRatio || 1
+    canvas.width  = mapWidth  * dpr
+    canvas.height = mapHeight * dpr
+    canvas.style.width  = `${mapWidth}px`
+    canvas.style.height = `${mapHeight}px`
+    ctx.scale(dpr, dpr)
+    ctx.clearRect(0, 0, mapWidth, mapHeight)
+    drawTerrainCanvas(ctx, environment, actId, mapWidth, mapHeight)
+    const statusOf = (id: string) => getNodeStatus(id, availableIds, run)
+    drawConnectorsCanvas(ctx, rows, maxRowCols, mapHeight, statusOf, reachableIds, hiddenNodeIds, environment)
+  }, [environment, actId, mapWidth, mapHeight, maxRowCols, rows, availableIds, run, reachableIds, hiddenNodeIds])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0 }}
+    />
   )
 }
 
-// ── SVG connector ────────────────────────────────────────────────────────────
-// Renders cubic-bezier curves between adjacent columns (L→R layout).
-// viewBox is 1×maxRows; row centres at row+0.5, matching the CSS grid.
-// Each path is coloured by the status of its parent→child pair.
-
-interface ConnProps {
-  prevRow:       QuestNode[]
-  nextRow:       QuestNode[]
-  maxRows:       number
-  statusOf:      (id: string) => NodeStatus
-  reachableIds:  Set<string>
-  hiddenNodeIds: Set<string>
-  environment?:  string
-}
+// ── Node connector helpers ───────────────────────────────────────────────────
 
 type LineVariant = 'trail' | 'frontier' | 'future' | 'dead'
 
@@ -476,89 +540,6 @@ function envColors(env?: string): { trail: string; frontier: string } {
     case 'camp':     return { trail: 'rgba(140,120,80,0.55)',  frontier: 'rgba(200,180,100,0.9)' }
     default:         return { trail: 'rgba(120,120,120,0.45)', frontier: 'rgba(51,255,51,0.85)'  }
   }
-}
-
-function SVGConnector({ prevRow, nextRow, maxRows, statusOf, reachableIds, hiddenNodeIds, environment }: ConnProps) {
-  const prevRowCols = prevRow[0]?.rowCols ?? prevRow.length
-  const nextRowCols = nextRow[0]?.rowCols ?? nextRow.length
-
-  // Absolute row position within the maxRows-tall container
-  const visualRow = (node: QuestNode, rowCols: number) =>
-    (maxRows - rowCols) / 2 + node.col
-
-  const nextById = new Map(nextRow.map(n => [n.id, n]))
-
-  // Build connections from parent.childIds, skipping collected memory nodes
-  const connections: [string, string, number, number][] = []
-  for (const parent of prevRow) {
-    if (hiddenNodeIds.has(parent.id)) continue
-    for (const childId of parent.childIds) {
-      if (hiddenNodeIds.has(childId)) continue
-      const child = nextById.get(childId)
-      if (child) {
-        connections.push([parent.id, child.id, visualRow(parent, prevRowCols), visualRow(child, nextRowCols)])
-      }
-    }
-  }
-
-  if (connections.length === 0) return null
-
-  // Row i centre in viewBox units (viewBox is 1 wide, maxRows tall)
-  const cy = (vr: number) => vr + 0.5
-
-  // Deduplicate by visual row pair (keep highest-priority variant)
-  const variantPriority: Record<LineVariant, number> = { frontier: 3, trail: 2, future: 1, dead: 0 }
-  const best = new Map<string, { variant: LineVariant; pr: number; cr: number }>()
-  for (const [pid, cid, pr, cr] of connections) {
-    const key = `${pr}:${cr}`
-    const v = lineVariant(pid, cid, statusOf, reachableIds)
-    const existing = best.get(key)
-    if (!existing || variantPriority[v] > variantPriority[existing.variant]) {
-      best.set(key, { variant: v, pr, cr })
-    }
-  }
-
-  const colors = envColors(environment)
-
-  return (
-    <svg
-      viewBox={`0 0 1 ${maxRows}`}
-      preserveAspectRatio="none"
-      style={{ width: '44px', height: '100%', display: 'block', overflow: 'visible', alignSelf: 'stretch', flexShrink: 0, position: 'relative', zIndex: 1 }}
-    >
-      {Array.from(best.values()).map(({ variant, pr, cr }, i) => {
-        const y1 = cy(pr), y2 = cy(cr)
-        const d = `M 0,${y1} C 0.5,${y1} 0.5,${y2} 1,${y2}`
-
-        if (variant === 'future') {
-          return (
-            <path key={i} d={d} fill="none"
-              stroke="rgba(255,255,255,0.13)" strokeWidth={2}
-              strokeDasharray="0.04 0.06" strokeLinecap="round"
-              vectorEffect="non-scaling-stroke" />
-          )
-        }
-        if (variant === 'dead') {
-          return (
-            <path key={i} d={d} fill="none"
-              stroke="rgba(255,255,255,0.04)" strokeWidth={1}
-              vectorEffect="non-scaling-stroke" />
-          )
-        }
-        // trail / frontier — two-layer road look
-        const surfaceColor = variant === 'frontier' ? colors.frontier : colors.trail
-        const edgeColor    = variant === 'frontier' ? 'rgba(0,0,0,0.65)' : 'rgba(0,0,0,0.5)'
-        const outerWidth   = variant === 'frontier' ? 18 : 14
-        const innerWidth   = variant === 'frontier' ? 11 : 8
-        return (
-          <React.Fragment key={i}>
-            <path d={d} fill="none" stroke={edgeColor}    strokeWidth={outerWidth} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-            <path d={d} fill="none" stroke={surfaceColor} strokeWidth={innerWidth} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-          </React.Fragment>
-        )
-      })}
-    </svg>
-  )
 }
 
 // ── Reward summary ───────────────────────────────────────────────────────────
@@ -740,7 +721,7 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
 // ── Main component ──────────────────────────────────────────────────────────
 
 export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Props) {
-  const availableIds       = getAvailableNodeIds(act, run)
+  const availableIds       = useMemo(() => getAvailableNodeIds(act, run), [act, run])
   const rows               = useMemo(() => buildRows(act), [act])
   const maxRowCols         = useMemo(() => Math.max(...rows.map(r => r[0]?.rowCols ?? r.length)), [rows])
   const reachableIds       = useMemo(() => computeReachableIds(act, run), [act, run])
@@ -902,12 +883,18 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
 
       {/* Map — left-to-right: each act row renders as a vertical column */}
       <div className={`nm-map u-flex u-grow u-items-c${act.environment ? ` nm-map--${act.environment}` : ''}`} ref={mapRef}>
-        <div className="nm-map-inner u-row u-items-c" ref={mapInnerRef} style={{ height: `${mapHeight}px`, paddingLeft: `${AVATAR_PADDING}px`, position: 'relative' }}>
-          <MapTerrain
+        <div className="nm-map-inner u-row u-items-c" ref={mapInnerRef} style={{ height: `${mapHeight}px`, paddingLeft: `${AVATAR_PADDING}px`, position: 'relative', gap: `${CONN_W}px` }}>
+          <NodeMapCanvas
             environment={act.environment}
             actId={act.id}
-            width={mapWidth}
-            height={mapHeight}
+            mapWidth={mapWidth}
+            mapHeight={mapHeight}
+            maxRowCols={maxRowCols}
+            rows={rows}
+            availableIds={availableIds}
+            run={run}
+            reachableIds={reachableIds}
+            hiddenNodeIds={hiddenNodeIds}
           />
           {/* Node-0 campfire marker */}
           <img
@@ -1026,18 +1013,6 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
                   })}
                 </div>
 
-                {/* Connector to the right of this column */}
-                {rowIndex < rows.length - 1 && (
-                  <SVGConnector
-                    prevRow={rowNodes}
-                    nextRow={rows[rowIndex + 1]}
-                    maxRows={maxRowCols}
-                    statusOf={statusOf}
-                    reachableIds={reachableIds}
-                    hiddenNodeIds={hiddenNodeIds}
-                    environment={act.environment}
-                  />
-                )}
               </React.Fragment>
             )
           })}
