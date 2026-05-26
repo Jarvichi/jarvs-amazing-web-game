@@ -874,6 +874,29 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
           )
         })}
 
+        <ToolbarSpacer />
+        <ToolbarButton
+          label="Copy Debug State"
+          icon="🐞"
+          onClick={() => {
+            const nodeStatuses: Record<string, string> = {}
+            for (const node of Object.values(act.nodes)) {
+              nodeStatuses[node.id] = `${node.type} → ${statusOf(node.id)}`
+            }
+            const state = {
+              actId:            run.actId,
+              pendingNodeId:    run.pendingNodeId,
+              completedNodeIds: run.completedNodeIds,
+              skippedNodeIds:   run.skippedNodeIds,
+              availableIds,
+              nodeStatuses,
+            }
+            const text = JSON.stringify(state, null, 2)
+            console.log('[NodeMap debug]', state)
+            navigator.clipboard?.writeText(text).catch(() => undefined)
+            alert('Debug state copied to clipboard (also logged to console).')
+          }}
+        />
       </Toolbar>
 
 
