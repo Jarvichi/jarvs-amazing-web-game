@@ -553,6 +553,26 @@ export function loadRun(): RunState | null {
       parsed.pendingNodeId = null
     }
 
+    // Repair saves corrupted by the convergence-node skip bug (fixed in skipSiblings):
+    // A node Y was incorrectly skipped if any of its completed parents has no other completed child.
+    // Such a node is still reachable and must be un-skipped so the map isn't deadlocked.
+    {
+      const completedSet = new Set(parsed.completedNodeIds)
+      const parentMap = buildParentMap(act)
+      const toUnSkip = parsed.skippedNodeIds.filter(nodeId => {
+        const parents = parentMap[nodeId] ?? []
+        return parents.some(pid => {
+          if (!completedSet.has(pid)) return false
+          return !act.nodes[pid].childIds.some(cid => cid !== nodeId && completedSet.has(cid))
+        })
+      })
+      if (toUnSkip.length > 0) {
+        const unSkipSet = new Set(toUnSkip)
+        parsed.skippedNodeIds = parsed.skippedNodeIds.filter(id => !unSkipSet.has(id))
+        saveRun(parsed)
+      }
+    }
+
     // If act is already complete with no pendingNode, clear run so a fresh one starts —
     // unless pendingActComplete is set (player is on the act-complete screen) or
     // pendingRelicSelect is set (player exited mid relic-select between acts).
