@@ -442,14 +442,15 @@ async function loadNodeIcon(node: QuestNode): Promise<PIXI.Texture | null> {
       return await loadTextureUrl(`${base}sprites/event.svg`)
     if (node.type === 'boss' && node.bossAI)
       return await loadTextureUrl(`${base}sprites/boss-${node.bossAI}.svg`)
-    if ((node.type === 'battle' || node.type === 'elite') && node.enemyDeck?.length)
-      return await loadSpriteTexture(node.enemyDeck[0])
   } catch { /* fall through to text icon */ }
   return null
 }
 
+const WANDER_RANGE = 10
+
 async function buildNodeMarker(
   node: QuestNode, status: NodeStatus, inReachable: boolean,
+  app: PIXI.Application,
 ): Promise<PIXI.Container> {
   const container = new PIXI.Container()
   const bg = new PIXI.Graphics()
@@ -461,17 +462,72 @@ async function buildNodeMarker(
   bg.circle(0, 0, NODE_RADIUS).stroke({ color: accentColor, width: borderWidth, alpha: borderAlpha })
   container.addChild(bg)
 
-  const texture = await loadNodeIcon(node)
-  if (texture) {
-    const sprite = new PIXI.Sprite(texture)
-    sprite.width = sprite.height = NODE_RADIUS * 1.1
-    sprite.anchor.set(0.5)
-    container.addChild(sprite)
-  } else {
-    const t = new PIXI.Text({ text: NODE_ICON[node.type] ?? '?',
-      style: { fontSize: 14, fill: '#ffffff', fontFamily: 'monospace' } })
-    t.anchor.set(0.5)
-    container.addChild(t)
+  // Battle/elite nodes show the first enemy unit as icon.
+  // Mobile units get animated frames + sine-wave wander; buildings are static.
+  const isBattleNode = node.type === 'battle' || node.type === 'elite'
+  const unitName = isBattleNode && node.enemyDeck?.length ? node.enemyDeck[0] : null
+  const isBuilding = unitName ? (getCardUnit(unitName)?.moveSpeed ?? 1) === 0 : false
+  const shouldWander = !!unitName && !isBuilding
+
+  let iconAdded = false
+
+  if (unitName && status !== 'completed') {
+    if (shouldWander) {
+      // Try animated walk frames first, fall back to static
+      let wanderSprite: PIXI.Sprite | PIXI.AnimatedSprite | null = null
+      try {
+        const frames = await loadAnimFrames(unitName, 3)
+        const anim = new PIXI.AnimatedSprite(frames)
+        anim.animationSpeed = 0.08
+        anim.play()
+        wanderSprite = anim
+      } catch {
+        try { wanderSprite = new PIXI.Sprite(await loadSpriteTexture(unitName)) } catch { /* no sprite */ }
+      }
+      if (wanderSprite) {
+        wanderSprite.width = wanderSprite.height = NODE_RADIUS * 1.2
+        wanderSprite.anchor.set(0.5)
+        container.addChild(wanderSprite)
+        iconAdded = true
+        // Unique per-node phase/frequency so sprites don't move in sync
+        const seed = (hashStr(node.id) >>> 0) / 0xffffffff
+        const phase = seed * Math.PI * 2
+        const sx = 0.00065 + seed * 0.00035
+        const sy = 0.00045 + ((seed * 1.618) % 1) * 0.00035
+        let t = seed * 2000
+        const ws = wanderSprite
+        const tick = (ticker: PIXI.Ticker) => {
+          t += ticker.deltaMS
+          ws.x = Math.sin(t * sx + phase) * WANDER_RANGE
+          ws.y = Math.cos(t * sy + phase * 1.414) * WANDER_RANGE
+        }
+        app.ticker.add(tick)
+      }
+    } else {
+      // Building enemy — static sprite, no wander
+      try {
+        const sprite = new PIXI.Sprite(await loadSpriteTexture(unitName))
+        sprite.width = sprite.height = NODE_RADIUS * 1.1
+        sprite.anchor.set(0.5)
+        container.addChild(sprite)
+        iconAdded = true
+      } catch { /* no sprite */ }
+    }
+  }
+
+  if (!iconAdded) {
+    const texture = await loadNodeIcon(node)
+    if (texture) {
+      const sprite = new PIXI.Sprite(texture)
+      sprite.width = sprite.height = NODE_RADIUS * 1.1
+      sprite.anchor.set(0.5)
+      container.addChild(sprite)
+    } else {
+      const t = new PIXI.Text({ text: NODE_ICON[node.type] ?? '?',
+        style: { fontSize: 14, fill: '#ffffff', fontFamily: 'monospace' } })
+      t.anchor.set(0.5)
+      container.addChild(t)
+    }
   }
 
   const badge = new PIXI.Text({ text: NODE_LABEL[node.type] ?? node.type.toUpperCase(),
@@ -696,7 +752,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
         if (deadRef.current) return
         const pos    = nodePosition(ri, node, rowCols, maxRowCols)
         const status = getNodeStatus(node.id, aids, r)
-        const marker = await buildNodeMarker(node, status, rids.has(node.id))
+        const marker = await buildNodeMarker(node, status, rids.has(node.id), app)
         if (deadRef.current) return
         makeClickable(marker, () => {
           if (isWalkingRef.current) return
