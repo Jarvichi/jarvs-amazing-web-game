@@ -1066,6 +1066,8 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods733) })
     state.playerBase = { hp: updatedRun.playerHp, maxHp: updatedRun.maxHp }
     if (updatedRun.activeRelic) getRelicDef(updatedRun.activeRelic)?.applyToGame(state)
+    const archetypeA = updatedRun.archetype ?? loadPlayerArchetype() ?? undefined
+    if (archetypeA) state.archetypePassive = archetypeA
     state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
@@ -1096,6 +1098,8 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), mods761) })
     state.playerBase = { hp: run.playerHp, maxHp: run.maxHp }
     if (run.activeRelic) getRelicDef(run.activeRelic)?.applyToGame(state)
+    const archetypeB = run.archetype ?? loadPlayerArchetype() ?? undefined
+    if (archetypeB) state.archetypePassive = archetypeB
     state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()
@@ -1784,6 +1788,8 @@ export default function App() {
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), modsRetry) })
     state.playerBase = { hp: withFail.playerHp, maxHp: withFail.maxHp }
     if (withFail.activeRelic) getRelicDef(withFail.activeRelic)?.applyToGame(state)
+    const archetypeC = withFail.archetype ?? loadPlayerArchetype() ?? undefined
+    if (archetypeC) state.archetypePassive = archetypeC
     state.stanceRules = STANCE_RULES_BY_NODE_TYPE[node.type]
     startBattle(state)
     rollRareEvent()

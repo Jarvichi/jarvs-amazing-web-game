@@ -191,7 +191,7 @@ export function CharacterScreen({ onDone }: Props) {
               <button
                 key={def.id}
                 className={`character-archetype-btn${archetype === def.id ? ' character-archetype-btn--chosen' : ''}${def.locked ? ' character-archetype-btn--locked' : ''}`}
-                onClick={def.locked ? undefined : () => setArchetype(def.id)}
+                onClick={def.locked ? undefined : () => { setArchetype(def.id); savePlayerArchetype(def.id) }}
                 title={def.locked ? `${def.name} — complete the campaign to unlock` : def.name}
               >
                 {archetype === def.id && (
