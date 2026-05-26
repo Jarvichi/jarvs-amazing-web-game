@@ -230,6 +230,98 @@ git push -u origin <branch>
 
 ---
 
+## PixiJS Framework
+
+The project uses **PixiJS v8** (`pixi.js` in `web/package.json`) for canvas-based rendering in components with spatial grids, moving entities, or sprite animations.
+
+### When to use PixiJS vs DOM
+
+| Use PixiJS | Use React/DOM |
+|---|---|
+| Tile/cell grids | Panels, modals, toolbars |
+| Moving enemies / walkers | Card hands, stat bars |
+| Sprite animations (3-frame) | Text menus, buttons |
+| Attack effects / particles | Form inputs, overlays |
+
+### The `usePixiApp` hook
+
+```typescript
+import { usePixiApp } from '../../hooks/usePixiApp'
+
+const canvasRef = useRef<HTMLCanvasElement>(null)
+
+usePixiApp(canvasRef, width, height, (app) => {
+  // Build scene graph here — runs once after init
+  const g = new PIXI.Graphics()
+  app.stage.addChild(g)
+})
+
+return <canvas ref={canvasRef} width={width} height={height} />
+```
+
+The hook creates a `PIXI.Application`, attaches it to the canvas, calls the callback when ready, and destroys it on unmount.
+
+### Scene graph layer conventions
+
+Add children in z-order (first = bottom):
+1. Background / terrain (`PIXI.Graphics`)
+2. Grid cells / path (`PIXI.Graphics`)
+3. Buildings / towers (`PIXI.Sprite`)
+4. Units / enemies (`PIXI.AnimatedSprite`)
+5. Effects / particles (`PIXI.Graphics`)
+6. HUD / HP bars (`PIXI.Graphics`)
+
+### Loading sprites as textures
+
+```typescript
+import { loadSpriteTexture, loadAnimFrames } from '../../utils/pixiHelpers'
+
+// Static building sprite
+const tex = await loadSpriteTexture('Goblin Tower') // loads /sprites/goblin-tower.svg
+
+// 3-frame walk animation
+const frames = await loadAnimFrames('Goblin', 3) // loads goblin-1/2/3.svg
+const anim = new PIXI.AnimatedSprite(frames)
+anim.animationSpeed = 6 / 60  // 6 fps
+anim.play()
+```
+
+Both helpers use an in-memory texture cache so each SVG URL is only fetched once.
+
+### Event bridge (PixiJS → React)
+
+Use a `useRef` to hold the current callback and read it from PixiJS event handlers:
+
+```typescript
+const callbackRef = useRef(onCellClick)
+callbackRef.current = onCellClick
+
+usePixiApp(canvasRef, W, H, (app) => {
+  hitArea.on('pointerdown', (e) => {
+    const { x, y } = e.getLocalPosition(hitArea)
+    callbackRef.current(Math.floor(x / CELL_PX), Math.floor(y / CELL_PX))
+  })
+})
+```
+
+### Performance rules
+
+- Use `PIXI.Ticker` (or the app's built-in ticker) for per-frame animation — never `setInterval`.
+- Call `graphics.clear()` then redraw every frame for dynamic Graphics; re-use `PIXI.Sprite` positions for static assets.
+- Set `antialias: false` for pixel-art sprites; `true` for smooth vector graphics.
+- The texture cache in `pixiHelpers.ts` prevents duplicate loads across components.
+
+### Migrated components
+
+| Component | File | Status |
+|---|---|---|
+| TowerDefence grid | `towerdefence/GameGrid.tsx` | ✅ PixiJS |
+| NodeMap terrain + connectors | `campaign/NodeMap.tsx` | Pending |
+| Battlefield lane canvas | `battle/Battlefield.tsx` | Pending |
+| CityBuilder road + walkers | `citybuilder/CityGrid.tsx` | Pending |
+
+---
+
 ## Editing Act JSON Files
 
 Act files (`web/src/data/acts/actN.json`) are large. Use the cheapest tool for the scope of the change:

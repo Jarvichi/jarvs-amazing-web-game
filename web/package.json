@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "firebase": "^12.12.0",
+    "pixi.js": "^8.18.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "stdout-update": "^4.0.1"
