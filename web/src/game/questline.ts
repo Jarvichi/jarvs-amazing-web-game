@@ -702,11 +702,13 @@ export function getAvailableNodeIds(act: Act, run: RunState): string[] {
 export function skipSiblings(act: Act, chosenId: string, run: RunState): RunState {
   const parentMap = buildParentMap(act)
   const parents = parentMap[chosenId] ?? []
+  // Never skip a node that is also a child of the chosen node — it's still reachable.
+  const chosenChildren = new Set(act.nodes[chosenId]?.childIds ?? [])
   const siblings: string[] = []
   for (const pid of parents) {
     const parent = act.nodes[pid]
     for (const cid of parent.childIds) {
-      if (cid !== chosenId && !run.completedNodeIds.includes(cid) && !run.skippedNodeIds.includes(cid)) {
+      if (cid !== chosenId && !run.completedNodeIds.includes(cid) && !run.skippedNodeIds.includes(cid) && !chosenChildren.has(cid)) {
         siblings.push(cid)
       }
     }
