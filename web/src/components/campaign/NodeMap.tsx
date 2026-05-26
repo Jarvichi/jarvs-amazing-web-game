@@ -174,12 +174,13 @@ function getTerrainItems(env: string | undefined, seed: number, w: number, h: nu
 function buildTerrainGfx(
   groundLayer: PIXI.Container,
   worldLayer: PIXI.Container,
-  environment: string | undefined,
-  actId: string,
+  act: Act,
   mapWidth: number,
   mapHeight: number,
 ): void {
-  const items = getTerrainItems(environment, hashStr(actId), mapWidth, mapHeight)
+  const { environment, terrainSeed, terrainItems: explicitItems, rivers: explicitRivers } = act
+  const seed = terrainSeed ?? hashStr(act.id)
+  const items = explicitItems ?? getTerrainItems(environment, seed, mapWidth, mapHeight)
 
   const riverColor = environment === 'volcano' ? 0xcc4400
                    : environment === 'fungal'  ? 0x6633aa
@@ -189,16 +190,21 @@ function buildTerrainGfx(
   const riverDark  = (Math.round(rc * 0.55) << 16) | (Math.round(gc * 0.55) << 8) | Math.round(bc * 0.55)
   const riverLight = (Math.min(255, Math.round(rc * 1.45)) << 16) | (Math.min(255, Math.round(gc * 1.45)) << 8) | Math.min(255, Math.round(bc * 1.45))
 
-  const rseed = hashStr(actId + 'river')
-  const rr = seededRand(rseed)
-  const rrf = (lo: number, hi: number) => lo + rr() * (hi - lo)
+  // Explicit rivers override the random scatter; fall back to seeded random
+  const riversToDraw: Array<{ x1: number; y1: number; x2: number; y2: number; cx1: number; cy1: number; cx2: number; cy2: number }> =
+    explicitRivers ?? (() => {
+      const rseed = hashStr(act.id + 'river')
+      const rr = seededRand(rseed)
+      const rrf = (lo: number, hi: number) => lo + rr() * (hi - lo)
+      return items.filter(i => i.kind === 'river').map(() => ({
+        x1: rrf(0, mapWidth * 0.25),   y1: rrf(0, mapHeight),
+        x2: rrf(mapWidth * 0.75, mapWidth), y2: rrf(0, mapHeight),
+        cx1: rrf(mapWidth * 0.2, mapWidth * 0.5), cy1: rrf(0, mapHeight),
+        cx2: rrf(mapWidth * 0.5, mapWidth * 0.8), cy2: rrf(0, mapHeight),
+      }))
+    })()
 
-  for (const it of items.filter(i => i.kind === 'river')) {
-    void it
-    const x1 = rrf(0, mapWidth * 0.25), y1 = rrf(0, mapHeight)
-    const x2 = rrf(mapWidth * 0.75, mapWidth), y2 = rrf(0, mapHeight)
-    const cx1 = rrf(mapWidth * 0.2, mapWidth * 0.5), cy1 = rrf(0, mapHeight)
-    const cx2 = rrf(mapWidth * 0.5, mapWidth * 0.8), cy2 = rrf(0, mapHeight)
+  for (const { x1, y1, x2, y2, cx1, cy1, cx2, cy2 } of riversToDraw) {
     const g = new PIXI.Graphics()
     g.moveTo(x1, y1).bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2)
       .stroke({ color: riverDark, width: 20, alpha: 0.65, cap: 'round' })
@@ -798,7 +804,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
     worldRef.current  = worldLayer
 
     // Terrain
-    buildTerrainGfx(groundLayer, worldLayer, act.environment, act.id, mapWidth, mapHeight)
+    buildTerrainGfx(groundLayer, worldLayer, act, mapWidth, mapHeight)
 
     // Campfire at start position
     try {

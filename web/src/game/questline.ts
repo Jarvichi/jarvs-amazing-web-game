@@ -309,6 +309,30 @@ export interface Act {
    * All modifiers up to the current replay index stack additively.
    */
   replayModifiers?: ReplayModifier[]
+
+  /**
+   * Override the random seed used for terrain scatter on this act's node map.
+   * Useful for tuning layouts without pinning exact positions.
+   * If omitted, the seed is derived from the act id.
+   */
+  terrainSeed?: number
+
+  /**
+   * Explicit terrain item placements. When present, replaces the random scatter
+   * for this act entirely. Each item needs x/y (pixels, relative to map size),
+   * scale (1 = default), and kind (mountain | tree | deadtree | crystal |
+   * mushroom | lava | wave | cloud | tower | pillar | dune).
+   * A kind of "river" here is ignored — use the `rivers` field instead.
+   */
+  terrainItems?: Array<{ kind: string; x: number; y: number; scale: number }>
+
+  /**
+   * Explicit river paths. When present, these bezier curves are drawn instead
+   * of the auto-generated river. Each entry specifies the start point (x1,y1),
+   * end point (x2,y2), and two bezier control points (cx1,cy1) and (cx2,cy2).
+   * All values are pixel coordinates relative to the map canvas size.
+   */
+  rivers?: Array<{ x1: number; y1: number; x2: number; y2: number; cx1: number; cy1: number; cx2: number; cy2: number }>
 }
 
 // ─── Run counter ──────────────────────────────────────────
