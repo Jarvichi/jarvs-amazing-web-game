@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - web/src/**
+      - .github/workflows/test.yml
 
 jobs:
   test:
@@ -23,6 +24,9 @@ jobs:
         run: npm install
         working-directory: web
 
+      - name: Set Playwright browsers path
+        run: echo "PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/ms-playwright" >> $GITHUB_ENV
+
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
@@ -32,14 +36,11 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
         working-directory: web
-        env:
-          PLAYWRIGHT_BROWSERS_PATH: 0
 
       - name: Test
         run: npm test
         working-directory: web
         env:
-          PLAYWRIGHT_BROWSERS_PATH: 0
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
           VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
