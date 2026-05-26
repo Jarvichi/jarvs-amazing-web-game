@@ -185,6 +185,10 @@ function buildTerrainGfx(
                    : environment === 'fungal'  ? 0x6633aa
                    : environment === 'frost'   ? 0x88ddff : 0x2255aa
 
+  const rc = (riverColor >> 16) & 0xff, gc = (riverColor >> 8) & 0xff, bc = riverColor & 0xff
+  const riverDark  = (Math.round(rc * 0.55) << 16) | (Math.round(gc * 0.55) << 8) | Math.round(bc * 0.55)
+  const riverLight = (Math.min(255, Math.round(rc * 1.45)) << 16) | (Math.min(255, Math.round(gc * 1.45)) << 8) | Math.min(255, Math.round(bc * 1.45))
+
   const rseed = hashStr(actId + 'river')
   const rr = seededRand(rseed)
   const rrf = (lo: number, hi: number) => lo + rr() * (hi - lo)
@@ -197,9 +201,13 @@ function buildTerrainGfx(
     const cx2 = rrf(mapWidth * 0.5, mapWidth * 0.8), cy2 = rrf(0, mapHeight)
     const g = new PIXI.Graphics()
     g.moveTo(x1, y1).bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2)
-      .stroke({ color: riverColor, width: 6, alpha: 0.28, cap: 'round' })
+      .stroke({ color: riverDark, width: 20, alpha: 0.65, cap: 'round' })
     g.moveTo(x1, y1).bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2)
-      .stroke({ color: 0xffffff, width: 2, alpha: 0.28 * 0.25, cap: 'round' })
+      .stroke({ color: riverColor, width: 13, alpha: 0.75, cap: 'round' })
+    g.moveTo(x1, y1).bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2)
+      .stroke({ color: riverLight, width: 7, alpha: 0.55, cap: 'round' })
+    g.moveTo(x1, y1).bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2)
+      .stroke({ color: 0xffffff, width: 2, alpha: 0.38, cap: 'round' })
     groundLayer.addChild(g)
   }
 
@@ -214,90 +222,109 @@ function buildTerrainGfx(
       case 'mountain': {
         const w = scale * 44, h = scale * 32
         const col = environment === 'frost' ? 0x8ab8cc : environment === 'volcano' ? 0x6a3020 : environment === 'sand' ? 0xa08040 : 0x5a6050
-        g.poly([0,0, w*0.45,-h, w,0]).fill({ color: col, alpha: 0.22 })
-        g.poly([w*0.3,0, w*0.72,-h*0.75, w*1.1,0]).fill({ color: col, alpha: 0.22 })
+        g.ellipse(w * 0.5, 3, w * 0.5, 5).fill({ color: 0x000000, alpha: 0.30 })
+        g.poly([0,0, w*0.45,-h, w,0]).fill({ color: col, alpha: 0.82 })
+        g.poly([w*0.3,0, w*0.72,-h*0.75, w*1.1,0]).fill({ color: col, alpha: 0.82 })
+        g.poly([w*0.45,-h, w*0.15,-h*0.4, w*0.45,-h*0.05]).fill({ color: 0xffffff, alpha: 0.12 })
         if (environment === 'frost')
-          g.poly([w*0.2,-h*0.55, w*0.45,-h, w*0.7,-h*0.55]).fill({ color: 0xffffff, alpha: 0.55*0.22 })
+          g.poly([w*0.2,-h*0.55, w*0.45,-h, w*0.7,-h*0.55]).fill({ color: 0xffffff, alpha: 0.50 })
         g.zIndex = y
         break
       }
       case 'tree': {
         const h = scale * 28, tw = scale * 14
         const col = environment === 'farmland' ? 0x4a7a28 : environment === 'ruins' ? 0x3a6028 : 0x2a7020
-        g.rect(-scale*2, -scale*8, scale*4, scale*9).fill({ color: 0x6b4226, alpha: 0.24 })
-        g.poly([0,-h, -tw,-scale*6, tw,-scale*6]).fill({ color: col, alpha: 0.24 })
-        g.poly([0,-h*0.62, -tw*1.1,-scale*2, tw*1.1,-scale*2]).fill({ color: col, alpha: 0.24 })
+        g.ellipse(0, 2, tw * 0.8, 4).fill({ color: 0x000000, alpha: 0.28 })
+        g.rect(-scale*2, -scale*8, scale*4, scale*9).fill({ color: 0x6b4226, alpha: 0.85 })
+        g.poly([0,-h, -tw,-scale*6, tw,-scale*6]).fill({ color: col, alpha: 0.82 })
+        g.poly([0,-h*0.62, -tw*1.1,-scale*2, tw*1.1,-scale*2]).fill({ color: col, alpha: 0.82 })
+        g.poly([0,-h, -tw,-scale*6, tw,-scale*6]).stroke({ color: 0x1a4012, width: 1, alpha: 0.50 })
+        g.poly([0,-h*0.62, -tw*1.1,-scale*2, tw*1.1,-scale*2]).stroke({ color: 0x1a4012, width: 1, alpha: 0.50 })
         g.zIndex = y
         break
       }
       case 'deadtree': {
         const h = scale * 28
-        g.moveTo(0,0).lineTo(0,-h).stroke({ color: 0x5a4030, width: scale*3, alpha: 0.2, cap: 'round' })
-        g.moveTo(0,-h*0.6).lineTo(-scale*12,-h*0.85).stroke({ color: 0x5a4030, width: scale*2, alpha: 0.2, cap: 'round' })
-        g.moveTo(0,-h*0.5).lineTo(scale*10,-h*0.72).stroke({ color: 0x5a4030, width: scale*1.5, alpha: 0.2, cap: 'round' })
+        g.ellipse(0, 2, scale * 5, 3).fill({ color: 0x000000, alpha: 0.25 })
+        g.moveTo(0,0).lineTo(0,-h).stroke({ color: 0x5a4030, width: scale*3, alpha: 0.82, cap: 'round' })
+        g.moveTo(0,-h*0.6).lineTo(-scale*12,-h*0.85).stroke({ color: 0x5a4030, width: scale*2, alpha: 0.82, cap: 'round' })
+        g.moveTo(0,-h*0.5).lineTo(scale*10,-h*0.72).stroke({ color: 0x5a4030, width: scale*1.5, alpha: 0.82, cap: 'round' })
         g.zIndex = y
         break
       }
       case 'crystal': {
         const h = scale * 26
-        g.poly([0,-h, -scale*5,0, scale*5,0]).fill({ color: 0x88ddff, alpha: 0.28 })
-        g.poly([0,-h*0.7, -scale*7,h*0.3, scale*7,h*0.3]).fill({ color: 0xaaeeff, alpha: 0.28 })
-        g.moveTo(0,-h).lineTo(0,h*0.3).stroke({ color: 0xffffff, width: scale*1.5, alpha: 0.4*0.28 })
+        g.ellipse(0, 3, scale * 7, 4).fill({ color: 0x000000, alpha: 0.25 })
+        g.poly([0,-h, -scale*5,0, scale*5,0]).fill({ color: 0x88ddff, alpha: 0.85 })
+        g.poly([0,-h*0.7, -scale*7,h*0.3, scale*7,h*0.3]).fill({ color: 0xaaeeff, alpha: 0.85 })
+        g.moveTo(0,-h).lineTo(0,h*0.3).stroke({ color: 0xffffff, width: scale*1.5, alpha: 0.55 })
         g.zIndex = y
         break
       }
       case 'mushroom': {
         const h = scale * 22, rw = scale * 12
-        g.rect(-scale*2.5,-h, scale*5, h).fill({ color: 0x8a7060, alpha: 0.24 })
-        g.ellipse(0,-h, rw, scale*8).fill({ color: 0x9a40ee, alpha: 0.24 })
-        g.ellipse(-scale*3,-h-scale*2, scale*4, scale*3).fill({ color: 0xffffff, alpha: 0.3*0.24 })
+        g.ellipse(0, 3, rw * 0.7, 4).fill({ color: 0x000000, alpha: 0.25 })
+        g.rect(-scale*2.5,-h, scale*5, h).fill({ color: 0x8a7060, alpha: 0.80 })
+        g.ellipse(0,-h, rw, scale*8).fill({ color: 0x9a40ee, alpha: 0.82 })
+        g.ellipse(-scale*3,-h-scale*2, scale*4, scale*3).fill({ color: 0xffffff, alpha: 0.35 })
         g.zIndex = y
         break
       }
       case 'lava': {
-        g.ellipse(0,0, scale*20, scale*10).fill({ color: 0xcc3300, alpha: 0.22 })
-        g.ellipse(0,0, scale*12, scale*6).fill({ color: 0xff6600, alpha: 0.22 })
-        g.ellipse(scale*4,-scale*2, scale*5, scale*3).fill({ color: 0xffaa00, alpha: 0.22*0.7 })
+        g.ellipse(0, 2, scale * 22, 6).fill({ color: 0x000000, alpha: 0.28 })
+        g.ellipse(0,0, scale*20, scale*10).fill({ color: 0xcc3300, alpha: 0.82 })
+        g.ellipse(0,0, scale*12, scale*6).fill({ color: 0xff6600, alpha: 0.82 })
+        g.ellipse(scale*4,-scale*2, scale*5, scale*3).fill({ color: 0xffaa00, alpha: 0.75 })
         g.zIndex = y
         break
       }
       case 'wave': {
         const ww = scale * 50
         g.moveTo(0,0).quadraticCurveTo(ww*0.25,-scale*9, ww*0.5,0).quadraticCurveTo(ww*0.75,scale*9, ww,0)
-          .stroke({ color: 0x4499cc, width: scale*3, alpha: 0.22, cap: 'round' })
+          .stroke({ color: 0x4499cc, width: scale*4, alpha: 0.78, cap: 'round' })
         g.moveTo(scale*5,scale*7).quadraticCurveTo(ww*0.3,-scale*5, ww*0.6,scale*7)
-          .stroke({ color: 0x66bbee, width: scale*2, alpha: 0.22*0.6, cap: 'round' })
+          .stroke({ color: 0x88ccee, width: scale*2.5, alpha: 0.65, cap: 'round' })
+        g.moveTo(scale*2,scale*3).quadraticCurveTo(ww*0.25,-scale*4, ww*0.5,scale*3)
+          .stroke({ color: 0xffffff, width: scale*1.5, alpha: 0.45, cap: 'round' })
         g.zIndex = y
         break
       }
       case 'cloud': {
-        g.ellipse(0,0, scale*22, scale*13).fill({ color: 0xffffff, alpha: 0.15 })
-        g.ellipse(scale*14,scale*4, scale*18, scale*11).fill({ color: 0xffffff, alpha: 0.15 })
-        g.ellipse(-scale*12,scale*5, scale*16, scale*10).fill({ color: 0xffffff, alpha: 0.15 })
+        g.ellipse(0,0, scale*22, scale*13).fill({ color: 0xf0f8ff, alpha: 0.78 })
+        g.ellipse(scale*14,scale*4, scale*18, scale*11).fill({ color: 0xe8f4ff, alpha: 0.78 })
+        g.ellipse(-scale*12,scale*5, scale*16, scale*10).fill({ color: 0xf0f8ff, alpha: 0.78 })
+        g.ellipse(scale*2,-scale*5, scale*14, scale*9).fill({ color: 0xffffff, alpha: 0.85 })
         g.zIndex = y
         break
       }
       case 'tower': {
         const h = scale * 30, tw = scale * 10
-        g.rect(-tw/2,-h, tw, h).fill({ color: 0x6a6a7a, alpha: 0.2 })
-        g.rect(-tw/2-scale*2,-h, tw+scale*4, scale*5).fill({ color: 0x8a8a9a, alpha: 0.2 })
-        g.rect(-scale*2,-h-scale*6, scale*4, scale*6).fill({ color: 0x6a6a7a, alpha: 0.2 })
-        g.rect(-tw/2-scale*2,-h-scale*6, tw+scale*4, scale*3).fill({ color: 0x7a7a8a, alpha: 0.2 })
+        g.ellipse(0, 3, tw * 0.7, 4).fill({ color: 0x000000, alpha: 0.28 })
+        g.rect(-tw/2,-h, tw, h).fill({ color: 0x6a6a7a, alpha: 0.82 })
+        g.rect(-tw/2,-h, tw, h).stroke({ color: 0x3a3a4a, width: 1, alpha: 0.60 })
+        g.rect(-tw/2-scale*2,-h, tw+scale*4, scale*5).fill({ color: 0x8a8a9a, alpha: 0.82 })
+        g.rect(-scale*2,-h-scale*6, scale*4, scale*6).fill({ color: 0x6a6a7a, alpha: 0.82 })
+        g.rect(-tw/2-scale*2,-h-scale*6, tw+scale*4, scale*3).fill({ color: 0x7a7a8a, alpha: 0.82 })
         g.zIndex = y
         break
       }
       case 'pillar': {
         const h = scale * (16 + hashStr(`${k}${x}`) % 18), pw = scale * 7
-        g.rect(-pw/2,-h, pw, h).fill({ color: 0x888888, alpha: 0.18 })
-        g.rect(-pw/2-scale*2,-h, pw+scale*4, scale*4).fill({ color: 0xaaaaaa, alpha: 0.18 })
-        g.rect(-pw/2-scale*2,-scale*4, pw+scale*4, scale*4).fill({ color: 0xaaaaaa, alpha: 0.18 })
+        g.ellipse(0, 3, pw * 0.7, 4).fill({ color: 0x000000, alpha: 0.25 })
+        g.rect(-pw/2,-h, pw, h).fill({ color: 0x888888, alpha: 0.80 })
+        g.rect(-pw/2,-h, pw, h).stroke({ color: 0x444444, width: 1, alpha: 0.55 })
+        g.rect(-pw/2-scale*2,-h, pw+scale*4, scale*4).fill({ color: 0xaaaaaa, alpha: 0.80 })
+        g.rect(-pw/2-scale*2,-scale*4, pw+scale*4, scale*4).fill({ color: 0xaaaaaa, alpha: 0.80 })
         g.zIndex = y
         break
       }
       case 'dune': {
         const dw = scale * 55
-        g.ellipse(0,0, dw*0.5, scale*10).fill({ color: 0xc8a040, alpha: 0.2 })
-        g.ellipse(dw*0.35,scale*4, dw*0.35, scale*8).fill({ color: 0xb89030, alpha: 0.2 })
+        g.ellipse(0, 4, dw * 0.45, 6).fill({ color: 0x000000, alpha: 0.22 })
+        g.ellipse(0,0, dw*0.5, scale*10).fill({ color: 0xc8a040, alpha: 0.80 })
+        g.ellipse(dw*0.35,scale*4, dw*0.35, scale*8).fill({ color: 0xb89030, alpha: 0.80 })
+        g.moveTo(-dw*0.3,-scale*7).quadraticCurveTo(0,-scale*11, dw*0.25,-scale*6)
+          .stroke({ color: 0xffe090, width: scale*2, alpha: 0.50, cap: 'round' })
         g.zIndex = y
         break
       }
@@ -351,8 +378,35 @@ function parseRgba(s: string): { color: number; alpha: number } {
   }
 }
 
+function sampleBezier(
+  x0: number, y0: number, cx1: number, cy1: number,
+  cx2: number, cy2: number, x1: number, y1: number,
+  n = 20,
+): Array<{ x: number; y: number }> {
+  return Array.from({ length: n + 1 }, (_, i) => {
+    const t = i / n, mt = 1 - t
+    return {
+      x: mt**3*x0 + 3*mt**2*t*cx1 + 3*mt*t**2*cx2 + t**3*x1,
+      y: mt**3*y0 + 3*mt**2*t*cy1 + 3*mt*t**2*cy2 + t**3*y1,
+    }
+  })
+}
+
+function bezierBand(pts: Array<{ x: number; y: number }>, halfW: number): number[] {
+  const left: number[] = [], right: number[] = []
+  for (let i = 0; i < pts.length; i++) {
+    const prev = pts[Math.max(0, i - 1)], next = pts[Math.min(pts.length - 1, i + 1)]
+    const tx = next.x - prev.x, ty = next.y - prev.y
+    const len = Math.sqrt(tx * tx + ty * ty) || 1
+    const nx = -ty / len, ny = tx / len
+    left.push(pts[i].x + nx * halfW, pts[i].y + ny * halfW)
+    right.push(pts[i].x - nx * halfW, pts[i].y - ny * halfW)
+  }
+  return [...left, ...right.reverse()]
+}
+
 function drawConnectorsGfx(
-  gfx: PIXI.Graphics,
+  worldLayer: PIXI.Container,
   rows: QuestNode[][],
   maxRowCols: number,
   mapHeight: number,
@@ -360,11 +414,12 @@ function drawConnectorsGfx(
   reachableIds: Set<string>,
   hiddenNodeIds: Set<string>,
   environment: string | undefined,
-): void {
+): PIXI.Graphics[] {
   const cols = envColors(environment)
   const trail    = parseRgba(cols.trail)
   const frontier = parseRgba(cols.frontier)
   const priority: Record<LineVariant, number> = { frontier: 3, trail: 2, future: 1, dead: 0 }
+  const created: PIXI.Graphics[] = []
 
   for (let ri = 0; ri < rows.length - 1; ri++) {
     const prevRow = rows[ri], nextRow = rows[ri + 1]
@@ -395,24 +450,49 @@ function drawConnectorsGfx(
     for (const { variant, pr, cr } of best.values()) {
       const y1 = (pr + 0.5) / maxRowCols * mapHeight
       const y2 = (cr + 0.5) / maxRowCols * mapHeight
+      const gfx = new PIXI.Graphics()
+      gfx.zIndex = (y1 + y2) / 2
 
-      if (variant === 'future') {
-        gfx.moveTo(xStart, y1).bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
-          .stroke({ color: 0xffffff, width: 2, alpha: 0.13, cap: 'round' })
-      } else if (variant === 'dead') {
+      if (variant === 'dead') {
         gfx.moveTo(xStart, y1).bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
           .stroke({ color: 0xffffff, width: 1, alpha: 0.04 })
+      } else if (variant === 'future') {
+        const pts = sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2)
+        for (let i = 0; i < pts.length - 1; i++) {
+          if ((i % 5) < 2) {
+            gfx.moveTo(pts[i].x, pts[i].y).lineTo(pts[i + 1].x, pts[i + 1].y)
+              .stroke({ color: 0xffffff, width: 1.5, alpha: 0.14, cap: 'round' })
+          }
+        }
       } else {
-        const c     = variant === 'frontier' ? frontier : trail
-        const outer = variant === 'frontier' ? 18 : 14
-        const inner = variant === 'frontier' ? 11 : 8
-        gfx.moveTo(xStart, y1).bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
-          .stroke({ color: 0x000000, width: outer, alpha: variant === 'frontier' ? 0.65 : 0.5, cap: 'round' })
-        gfx.moveTo(xStart, y1).bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
-          .stroke({ color: c.color, width: inner, alpha: c.alpha, cap: 'round' })
+        const pts = sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2)
+        const isFront = variant === 'frontier'
+        const halfOuter = isFront ? 9 : 7
+        const halfInner = isFront ? 6 : 4
+        const c = isFront ? frontier : trail
+
+        gfx.poly(bezierBand(pts, halfOuter)).fill({ color: 0x000000, alpha: 0.55 })
+        gfx.poly(bezierBand(pts, halfInner)).fill({ color: c.color, alpha: Math.min(c.alpha, 0.85) })
+
+        if (isFront) {
+          gfx.moveTo(xStart, y1).bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
+            .stroke({ color: c.color, width: 22, alpha: 0.18, cap: 'round' })
+        }
+
+        for (let i = 0; i < pts.length - 1; i++) {
+          if ((i % 5) < 3) {
+            gfx.moveTo(pts[i].x, pts[i].y).lineTo(pts[i + 1].x, pts[i + 1].y)
+              .stroke({ color: 0xffffff, width: 1.5, alpha: 0.18, cap: 'butt' })
+          }
+        }
       }
+
+      worldLayer.addChild(gfx)
+      created.push(gfx)
     }
   }
+
+  return created
 }
 
 // ── Node markers ──────────────────────────────────────────────────────────────
@@ -686,11 +766,11 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
   const [peekNode, setPeekNode] = useState<QuestNode | null>(null)
   const nodeHistory = useMemo(() => loadNodeHistory(), [])
 
-  const canvasRef    = useRef<HTMLCanvasElement>(null)
-  const mapRef       = useRef<HTMLDivElement>(null)
-  const appRef       = useRef<PIXI.Application | null>(null)
-  const connGfxRef   = useRef<PIXI.Graphics | null>(null)
-  const groundRef    = useRef<PIXI.Container | null>(null)
+  const canvasRef        = useRef<HTMLCanvasElement>(null)
+  const mapRef           = useRef<HTMLDivElement>(null)
+  const appRef           = useRef<PIXI.Application | null>(null)
+  const connGfxListRef   = useRef<PIXI.Graphics[]>([])
+  const groundRef        = useRef<PIXI.Container | null>(null)
   const worldRef     = useRef<PIXI.Container | null>(null)
   const markersRef   = useRef<Map<string, PIXI.Container>>(new Map())
   const avatarRef    = useRef<PIXI.AnimatedSprite | null>(null)
@@ -736,11 +816,8 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
     } catch { /* no campfire sprite */ }
 
     // Connectors
-    const connGfx = new PIXI.Graphics()
-    groundLayer.addChild(connGfx)
-    connGfxRef.current = connGfx
     const { availableIds: aids, reachableIds: rids, hiddenNodeIds: hids, run: r } = stateRef.current
-    drawConnectorsGfx(connGfx, rows, maxRowCols, mapHeight,
+    connGfxListRef.current = drawConnectorsGfx(worldLayer, rows, maxRowCols, mapHeight,
       id => getNodeStatus(id, aids, r), rids, hids, act.environment)
 
     // Node markers
@@ -806,10 +883,10 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
 
   // Redraw connectors + update marker styles when run state changes
   useEffect(() => {
-    const connGfx = connGfxRef.current
-    if (!connGfx) return
-    connGfx.clear()
-    drawConnectorsGfx(connGfx, rows, maxRowCols, mapHeight,
+    const wl = worldRef.current
+    if (!wl) return
+    for (const g of connGfxListRef.current) { wl.removeChild(g); g.destroy() }
+    connGfxListRef.current = drawConnectorsGfx(wl, rows, maxRowCols, mapHeight,
       id => getNodeStatus(id, availableIds, run), reachableIds, hiddenNodeIds, act.environment)
     for (const [nodeId, marker] of markersRef.current) {
       const status = getNodeStatus(nodeId, availableIds, run)
