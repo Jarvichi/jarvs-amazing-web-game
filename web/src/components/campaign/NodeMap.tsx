@@ -393,16 +393,17 @@ function sampleBezier(
 }
 
 function bezierBand(pts: Array<{ x: number; y: number }>, halfW: number): number[] {
-  const left: number[] = [], right: number[] = []
+  const left: number[] = [], right: Array<{ x: number; y: number }> = []
   for (let i = 0; i < pts.length; i++) {
     const prev = pts[Math.max(0, i - 1)], next = pts[Math.min(pts.length - 1, i + 1)]
     const tx = next.x - prev.x, ty = next.y - prev.y
     const len = Math.sqrt(tx * tx + ty * ty) || 1
     const nx = -ty / len, ny = tx / len
     left.push(pts[i].x + nx * halfW, pts[i].y + ny * halfW)
-    right.push(pts[i].x - nx * halfW, pts[i].y - ny * halfW)
+    right.push({ x: pts[i].x - nx * halfW, y: pts[i].y - ny * halfW })
   }
-  return [...left, ...right.reverse()]
+  const rightFlat = right.reverse().flatMap(p => [p.x, p.y])
+  return [...left, ...rightFlat]
 }
 
 function drawConnectorsGfx(
