@@ -343,6 +343,8 @@ function drawConnectorsGfx(
     const xStart = AVATAR_PADDING + (ri + 1) * COL_WIDTH + ri * CONN_W
     const xMid   = xStart + CONN_W / 2
     const xEnd   = xStart + CONN_W
+    const parentCenterX = AVATAR_PADDING + ri * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
+    const childCenterX  = AVATAR_PADDING + (ri + 1) * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
 
     for (const { variant, pr, cr } of best.values()) {
       const y1 = (pr + 0.5) / maxRowCols * mapHeight
@@ -351,10 +353,16 @@ function drawConnectorsGfx(
       gfx.zIndex = (y1 + y2) / 2
 
       if (variant === 'dead') {
-        gfx.moveTo(xStart, y1).bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
+        gfx.moveTo(parentCenterX, y1).lineTo(xStart, y1)
+          .bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
+          .lineTo(childCenterX, y2)
           .stroke({ color: 0xffffff, width: 1, alpha: 0.04 })
       } else if (variant === 'future') {
-        const pts = sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2)
+        const pts = [
+          { x: parentCenterX, y: y1 },
+          ...sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2),
+          { x: childCenterX,  y: y2 },
+        ]
         for (let i = 0; i < pts.length - 1; i++) {
           if ((i % 5) < 2) {
             gfx.moveTo(pts[i].x, pts[i].y).lineTo(pts[i + 1].x, pts[i + 1].y)
@@ -362,7 +370,11 @@ function drawConnectorsGfx(
           }
         }
       } else {
-        const pts = sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2)
+        const pts = [
+          { x: parentCenterX, y: y1 },
+          ...sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2),
+          { x: childCenterX,  y: y2 },
+        ]
         const isFront = variant === 'frontier'
         const halfOuter = isFront ? 9 : 7
         const halfInner = isFront ? 6 : 4
@@ -435,7 +447,7 @@ async function buildNodeMarker(
   const accentColor = NODE_ACCENT[node.type] ?? 0x44cc44
   const borderAlpha = status === 'available' ? 1 : 0.35
   const borderWidth = status === 'available' ? 3 : 1.5
-  bg.circle(0, 0, NODE_RADIUS).fill({ color: bgColor, alpha: 0.88 })
+  bg.circle(0, 0, NODE_RADIUS).fill({ color: bgColor, alpha: 1.0 })
   bg.circle(0, 0, NODE_RADIUS).stroke({ color: accentColor, width: borderWidth, alpha: borderAlpha })
   container.addChild(bg)
 
