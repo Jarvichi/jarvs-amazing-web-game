@@ -4,6 +4,7 @@ import { Section } from '../ui/Section'
 import { ACTS, Act, QuestNode, NodeType } from '../../game/questline'
 import { getCardCatalog } from '../../game/cards'
 import battlefieldData from '../../data/battlefield.json'
+import { TerrainEditorPanel, TerrainItemDef, RiverDef } from './TerrainEditorPanel'
 
 interface Props {
   onBack: () => void
@@ -278,6 +279,7 @@ function NodeIdPicker({
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export function CampaignAdminScreen({ onBack }: Props) {
+  const [tab, setTab] = useState<'nodes' | 'terrain'>('nodes')
   const [actId, setActId] = useState('act1')
   const [act, setAct] = useState<Act>(() => JSON.parse(JSON.stringify(ACTS['act1'])))
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null)
@@ -331,6 +333,14 @@ export function CampaignAdminScreen({ onBack }: Props) {
     setAct(JSON.parse(JSON.stringify(ACTS[newId])))
     setSelectedNodeId(null)
     setDeckSearch('')
+  }
+
+  function handleTerrainUpdate(terrainItems: TerrainItemDef[], rivers: RiverDef[]) {
+    setAct(prev => ({
+      ...prev,
+      terrainItems: terrainItems.length > 0 ? terrainItems : undefined,
+      rivers:       rivers.length > 0       ? rivers       : undefined,
+    }))
   }
 
   function updateActField<K extends keyof Act>(field: K, value: Act[K]) {
@@ -492,6 +502,35 @@ export function CampaignAdminScreen({ onBack }: Props) {
             ))}
           </select>
         </div>
+
+        {/* Tab bar */}
+        <div className="u-flex u-gap-3">
+          <button
+            className={`action-btn${tab === 'nodes' ? ' action-btn--gold' : ''}`}
+            onClick={() => setTab('nodes')}
+          >
+            NODES
+          </button>
+          <button
+            className={`action-btn${tab === 'terrain' ? ' action-btn--gold' : ''}`}
+            onClick={() => setTab('terrain')}
+          >
+            TERRAIN
+          </button>
+        </div>
+
+        {/* Terrain editor tab */}
+        {tab === 'terrain' && (
+          <Section bordered title="TERRAIN EDITOR">
+            <div className="settings-sublabel" style={{ marginBottom: 8 }}>
+              Place, move, and resize terrain items on the map. Copy the JSON and paste into the act file under <code>terrainItems</code> / <code>rivers</code>.
+            </div>
+            <TerrainEditorPanel act={act} onUpdate={handleTerrainUpdate} />
+          </Section>
+        )}
+
+        {/* Nodes tab sections */}
+        {tab === 'nodes' && <>
 
         {/* Act info */}
         <Section bordered title="ACT INFO">
@@ -864,6 +903,8 @@ export function CampaignAdminScreen({ onBack }: Props) {
 
           </Section>
         )}
+
+        </> /* end nodes tab */}
 
         {/* Export */}
         <Section bordered title="EXPORT">
