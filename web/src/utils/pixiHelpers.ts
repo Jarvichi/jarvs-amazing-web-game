@@ -57,3 +57,37 @@ export function makeClickable(
   container.cursor    = 'pointer'
   container.on('pointerdown', onClick)
 }
+
+/**
+ * Load a texture directly from an arbitrary URL (with caching).
+ * Use this for sprite URLs that aren't derived from a unit name.
+ */
+export function loadTextureUrl(url: string): Promise<PIXI.Texture> {
+  return _load(url)
+}
+
+/**
+ * Tween a Container's (x, y) position to the target over durationMs milliseconds.
+ * Uses an ease-in-out curve. Returns a Promise that resolves when the tween completes.
+ */
+export function tweenTo(
+  obj: PIXI.Container,
+  targetX: number,
+  targetY: number,
+  durationMs: number,
+  app: PIXI.Application,
+): Promise<void> {
+  return new Promise(resolve => {
+    const startX = obj.x, startY = obj.y
+    let elapsed = 0
+    const tick = (ticker: PIXI.Ticker) => {
+      elapsed += ticker.deltaMS
+      const t = Math.min(elapsed / durationMs, 1)
+      const e = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+      obj.x = startX + (targetX - startX) * e
+      obj.y = startY + (targetY - startY) * e
+      if (t >= 1) { app.ticker.remove(tick); resolve() }
+    }
+    app.ticker.add(tick)
+  })
+}
