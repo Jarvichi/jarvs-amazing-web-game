@@ -15,7 +15,8 @@ import { NodeMapHpBar } from './NodeMapHpBar'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { usePixiApp } from '../../hooks/usePixiApp'
-import { loadSpriteTexture, loadAnimFrames, loadTextureUrl, makeClickable, tweenTo } from '../../utils/pixiHelpers'
+import { loadSpriteTexture, loadAnimFrames, loadTextureUrl, loadTileTexture, makeClickable, tweenTo } from '../../utils/pixiHelpers'
+import { ENV_TILES, TILESET_IMAGE, TILESET_COLUMNS, BASE_GROUND } from '../../data/tiles/tileIndex'
 import { drawTerrainItem } from '../../utils/terrainGfx'
 import { GIFT_OWNER_UID } from '../../game/gifts'
 
@@ -182,7 +183,27 @@ function buildTerrainGfx(
   mapWidth: number,
   mapHeight: number,
 ): void {
+  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const { environment, terrainSeed, terrainItems: explicitItems, rivers: explicitRivers } = act
+
+  // Tiled ground fill — fire-and-forget so the async load doesn't block synchronous setup
+  const groundTileId = ENV_TILES[environment ?? '']?.ground ?? BASE_GROUND.mediumGrass
+  const tileUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
+  loadTileTexture(tileUrl, groundTileId, TILESET_COLUMNS.baseChip).then(groundTex => {
+    if (groundLayer.destroyed) return
+    const tileCols = Math.ceil(mapWidth / 32)
+    const tileRows = Math.ceil(mapHeight / 32)
+    const bg = new PIXI.Container()
+    for (let r = 0; r < tileRows; r++) {
+      for (let c = 0; c < tileCols; c++) {
+        const s = new PIXI.Sprite(groundTex)
+        s.position.set(c * 32, r * 32)
+        bg.addChild(s)
+      }
+    }
+    groundLayer.addChildAt(bg, 0)
+  }).catch(e => console.error('[NodeMap] ground tile load failed', tileUrl, e))
+
   const seed = terrainSeed ?? hashStr(act.id)
   const items = explicitItems ?? getTerrainItems(environment, seed, mapWidth, mapHeight)
 
@@ -707,7 +728,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
   const [peekNode, setPeekNode] = useState<QuestNode | null>(null)
   const nodeHistory = useMemo(() => loadNodeHistory(), [])
 
-  const canvasRef        = useRef<HTMLCanvasElement>(null)
+  const canvasRef        = useRef<HTMLDivElement>(null)
   const mapRef           = useRef<HTMLDivElement>(null)
   const appRef           = useRef<PIXI.Application | null>(null)
   const connGfxListRef   = useRef<PIXI.Graphics[]>([])
@@ -726,6 +747,8 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
   useEffect(() => () => { deadRef.current = true }, [])
 
   usePixiApp(canvasRef, mapWidth, mapHeight, async (app) => {
+    // Reset liveness flag — deadRef may be true from React Strict Mode's first-mount cleanup
+    deadRef.current = false
     appRef.current = app
     // PixiJS sets touch-action:none on the canvas; restore pan so the
     // nm-map container can still scroll when the user swipes.
@@ -925,7 +948,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
           className={`nm-map u-flex u-grow u-items-c${act.environment ? ` nm-map--${act.environment}` : ''}`}
           ref={mapRef}
         >
-          <canvas ref={canvasRef} style={{ display: 'block', flexShrink: 0, width: mapWidth, height: mapHeight }} />
+          <div ref={canvasRef} style={{ display: 'block', flexShrink: 0, width: mapWidth, height: mapHeight }} />
         </div>
 
         {peekNode && (

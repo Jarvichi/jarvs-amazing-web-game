@@ -295,7 +295,7 @@ export function GameGrid({
   const W = TD_COLS * CELL_PX
   const H = TD_ROWS * CELL_PX
 
-  const canvasRef  = useRef<HTMLCanvasElement>(null)
+  const canvasRef  = useRef<HTMLDivElement>(null)
   const sceneRef   = useRef<Scene | null>(null)
 
   // Stable callback ref so the scene-update effect doesn't re-run on each render
@@ -434,10 +434,8 @@ export function GameGrid({
             position: 'relative',
           }}
         >
-          <canvas
+          <div
             ref={canvasRef}
-            width={W}
-            height={H}
             style={{ display: 'block', width: W, height: H }}
             onMouseLeave={handleMouseLeave}
           />

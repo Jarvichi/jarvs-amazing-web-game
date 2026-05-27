@@ -120,7 +120,7 @@ export function TerrainEditorPanel({ act, onUpdate }: Props) {
   }, [items, rivers]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // PixiJS layer refs
-  const canvasRef     = useRef<HTMLCanvasElement>(null)
+  const canvasRef     = useRef<HTMLDivElement>(null)
   const itemsLayerRef = useRef<PIXI.Container | null>(null)
   const riverLayerRef = useRef<PIXI.Container | null>(null)
   const overlayLayerRef = useRef<PIXI.Container | null>(null)
@@ -414,7 +414,7 @@ export function TerrainEditorPanel({ act, onUpdate }: Props) {
 
       {/* Canvas */}
       <div style={{ overflowX: 'auto' }}>
-        <canvas ref={canvasRef} style={{ display: 'block', width: mapWidth, height: mapHeight }} />
+        <div ref={canvasRef} style={{ display: 'block', width: mapWidth, height: mapHeight }} />
       </div>
 
       {/* Actions + JSON */}
