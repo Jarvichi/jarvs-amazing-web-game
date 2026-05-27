@@ -15,7 +15,7 @@ import {
   recordCardPlayed, recordUnitDied, addCardsToCollection,
   getOwnedCount, DECK_MAX, CRYSTAL_PACK_COST, DeckEntry,
   deckTotalCards, STARTER_DECK,
-  loadWinStreak, incrementWinStreak, resetWinStreak, incrementTotalWins,
+  loadWinStreak, loadBestStreak, incrementWinStreak, resetWinStreak, incrementTotalWins,
   generateSeededPack,
 } from './game/collection'
 import { getCardCatalog } from './game/cards'
