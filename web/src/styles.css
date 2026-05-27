@@ -1045,7 +1045,7 @@ body {
 .hero-badge-wrap {
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   width: 86px;
   height: 80px;
   overflow: hidden;
@@ -1120,6 +1120,7 @@ body {
 .card-art {
   height: 42px;
   flex-shrink: 0;
+  position: relative;
 }
 
 .card-art-flame {

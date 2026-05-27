@@ -1,5 +1,6 @@
 import React, { useMemo, useRef, useEffect, useState } from 'react'
 import * as PIXI from 'pixi.js'
+import { User } from 'firebase/auth'
 import { emitSound } from '../../game/sound'
 import { getDiscoveredFragmentIds } from '../../game/codex'
 import { Act, QuestNode, RunState, ReplayModifier, getAvailableNodeIds, loadNodeHistory, getModifiersByCount, ALL_CONSUMABLES, loadPlayerAvatar, ARCHETYPE_DEFS } from '../../game/questline'
@@ -16,6 +17,7 @@ import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadSpriteTexture, loadAnimFrames, loadTextureUrl, makeClickable, tweenTo } from '../../utils/pixiHelpers'
 import { drawTerrainItem } from '../../utils/terrainGfx'
+import { GIFT_OWNER_UID } from '../../game/gifts'
 
 interface Props {
   act: Act
@@ -23,6 +25,7 @@ interface Props {
   onSelectNode: (node: QuestNode) => void
   onUseConsumable: (id: string) => void
   onBack: () => void
+  user?: User | null
 }
 
 const NODE_ICON: Record<string, string> = {
@@ -363,12 +366,8 @@ function drawConnectorsGfx(
           ...sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2),
           { x: childCenterX,  y: y2 },
         ]
-        for (let i = 0; i < pts.length - 1; i++) {
-          if ((i % 5) < 2) {
-            gfx.moveTo(pts[i].x, pts[i].y).lineTo(pts[i + 1].x, pts[i + 1].y)
-              .stroke({ color: 0xffffff, width: 1.5, alpha: 0.14, cap: 'round' })
-          }
-        }
+        gfx.poly(bezierBand(pts, 5)).fill({ color: 0x000000, alpha: 0.25 })
+        gfx.poly(bezierBand(pts, 3)).fill({ color: trail.color, alpha: trail.alpha * 0.35 })
       } else {
         const pts = [
           { x: parentCenterX, y: y1 },
@@ -387,13 +386,6 @@ function drawConnectorsGfx(
           gfx.moveTo(xStart, y1).bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
             .stroke({ color: c.color, width: 22, alpha: 0.18, cap: 'round' })
         }
-
-        for (let i = 0; i < pts.length - 1; i++) {
-          if ((i % 5) < 3) {
-            gfx.moveTo(pts[i].x, pts[i].y).lineTo(pts[i + 1].x, pts[i + 1].y)
-              .stroke({ color: 0xffffff, width: 1.5, alpha: 0.18, cap: 'butt' })
-          }
-        }
       }
 
       worldLayer.addChild(gfx)
@@ -406,20 +398,18 @@ function drawConnectorsGfx(
 
 // ── Node markers ──────────────────────────────────────────────────────────────
 
-const NODE_BG: Record<string, number> = {
-  battle: 0x1a2a3a, elite: 0x2a1a3a, boss: 0x3a0a0a,
-  rest: 0x0a2a1a, event: 0x2a2a0a, merchant: 0x0a2a2a, memory: 0x1a1a3a,
-}
-const NODE_ACCENT: Record<string, number> = {
-  battle: 0x3388bb, elite: 0xaa44cc, boss: 0xff2222,
-  rest: 0x33cc55, event: 0xddcc33, merchant: 0x33cccc, memory: 0x4444cc,
-}
-
 function markerAlpha(status: NodeStatus, inReachable: boolean): number {
   if (status === 'available' || status === 'pending') return 1
   if (!inReachable || status === 'skipped') return 0.25
   if (status === 'completed') return 0.55
   return 0.4
+}
+
+function nodeRoadColor(status: NodeStatus, environment: string | undefined): number {
+  const { trail, frontier } = envColors(environment)
+  if (status === 'completed' || status === 'pending') return parseRgba(trail).color
+  if (status === 'available')                         return parseRgba(frontier).color
+  return 0x2a2a2a
 }
 
 async function loadNodeIcon(node: QuestNode): Promise<PIXI.Texture | null> {
@@ -439,18 +429,19 @@ const WANDER_RANGE = 10
 
 async function buildNodeMarker(
   node: QuestNode, status: NodeStatus, inReachable: boolean,
-  app: PIXI.Application,
+  app: PIXI.Application, environment: string | undefined,
 ): Promise<PIXI.Container> {
   const container = new PIXI.Container()
+
+  // bg: always fully opaque, road-colored, no outline — hides road end beneath node
   const bg = new PIXI.Graphics()
-  const bgColor     = NODE_BG[node.type]     ?? 0x1a1a2a
-  const accentColor = NODE_ACCENT[node.type] ?? 0x44cc44
-  const borderAlpha = status === 'available' ? 1 : 0.35
-  const borderWidth = status === 'available' ? 3 : 1.5
   const ry = NODE_RADIUS / 2
-  bg.ellipse(0, 0, NODE_RADIUS, ry).fill({ color: bgColor, alpha: 1.0 })
-  bg.ellipse(0, 0, NODE_RADIUS, ry).stroke({ color: accentColor, width: borderWidth, alpha: borderAlpha })
+  bg.ellipse(0, 0, NODE_RADIUS, ry).fill({ color: nodeRoadColor(status, environment), alpha: 1.0 })
   container.addChild(bg)
+
+  // iconLayer: icons + labels, dimmed by status independently of the bg
+  const iconLayer = new PIXI.Container()
+  container.addChild(iconLayer)
 
   // Battle/elite nodes show the first enemy unit as icon.
   // Mobile units get animated frames + sine-wave wander; buildings are static.
@@ -477,7 +468,7 @@ async function buildNodeMarker(
       if (wanderSprite) {
         wanderSprite.width = wanderSprite.height = NODE_RADIUS * 1.2
         wanderSprite.anchor.set(0.5)
-        container.addChild(wanderSprite)
+        iconLayer.addChild(wanderSprite)
         iconAdded = true
         // Unique per-node phase/frequency so sprites don't move in sync
         const seed = (hashStr(node.id) >>> 0) / 0xffffffff
@@ -499,7 +490,7 @@ async function buildNodeMarker(
         const sprite = new PIXI.Sprite(await loadSpriteTexture(unitName))
         sprite.width = sprite.height = NODE_RADIUS * 1.1
         sprite.anchor.set(0.5)
-        container.addChild(sprite)
+        iconLayer.addChild(sprite)
         iconAdded = true
       } catch { /* no sprite */ }
     }
@@ -511,12 +502,12 @@ async function buildNodeMarker(
       const sprite = new PIXI.Sprite(texture)
       sprite.width = sprite.height = NODE_RADIUS * 1.1
       sprite.anchor.set(0.5)
-      container.addChild(sprite)
+      iconLayer.addChild(sprite)
     } else {
       const t = new PIXI.Text({ text: NODE_ICON[node.type] ?? '?',
         style: { fontSize: 14, fill: '#ffffff', fontFamily: 'monospace' } })
       t.anchor.set(0.5)
-      container.addChild(t)
+      iconLayer.addChild(t)
     }
   }
 
@@ -524,32 +515,33 @@ async function buildNodeMarker(
     style: { fontSize: 8, fill: '#999999', fontFamily: 'monospace', fontWeight: 'bold' } })
   badge.anchor.set(0.5, 1)
   badge.y = -ry - 3
-  container.addChild(badge)
+  iconLayer.addChild(badge)
 
   const nameLabel = new PIXI.Text({ text: node.label ?? '',
     style: { fontSize: 9, fill: '#dddddd', fontFamily: 'monospace' } })
   nameLabel.anchor.set(0.5, 0)
   nameLabel.y = ry + 4
-  container.addChild(nameLabel)
+  iconLayer.addChild(nameLabel)
 
   if (status === 'completed') {
     const st = new PIXI.Text({ text: '✓', style: { fontSize: 11, fill: '#44cc44' } })
     st.anchor.set(1, 1); st.position.set(NODE_RADIUS - 1, ry - 1)
-    container.addChild(st)
+    iconLayer.addChild(st)
   } else if (status === 'skipped') {
     const st = new PIXI.Text({ text: '╳', style: { fontSize: 11, fill: '#884444' } })
     st.anchor.set(1, 1); st.position.set(NODE_RADIUS - 1, ry - 1)
-    container.addChild(st)
+    iconLayer.addChild(st)
   }
 
-  container.alpha = markerAlpha(status, inReachable)
+  iconLayer.alpha = markerAlpha(status, inReachable)
   return container
 }
 
 function updateMarkerStyle(
   marker: PIXI.Container, status: NodeStatus, inReachable: boolean,
 ): void {
-  marker.alpha = markerAlpha(status, inReachable)
+  // iconLayer is child index 1; bg (index 0) stays fully opaque
+  ;(marker.getChildAt(1) as PIXI.Container).alpha = markerAlpha(status, inReachable)
 }
 
 // ── Reward / difficulty helpers ───────────────────────────────────────────────
@@ -659,7 +651,7 @@ function NodePeekModal({ node, actId, nodeHistory, activeModifiers, onEnter, onC
 
 // ── Main component ─────────────────────────────────────────────────────────────
 
-export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Props) {
+export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user }: Props) {
   const availableIds      = useMemo(() => getAvailableNodeIds(act, run), [act, run])
   const rows              = useMemo(() => buildRows(act), [act])
   const maxRowCols        = useMemo(() => Math.max(...rows.map(r => r[0]?.rowCols ?? r.length)), [rows])
@@ -743,7 +735,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
         if (deadRef.current) return
         const pos    = nodePosition(ri, node, rowCols, maxRowCols)
         const status = getNodeStatus(node.id, aids, r)
-        const marker = await buildNodeMarker(node, status, rids.has(node.id), app)
+        const marker = await buildNodeMarker(node, status, rids.has(node.id), app, act.environment)
         if (deadRef.current) return
         makeClickable(marker, () => {
           if (isWalkingRef.current) return
@@ -871,23 +863,25 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
             )
           })}
           <ToolbarSpacer />
-          <ToolbarButton
-            label="Copy Debug State"
-            icon="🐞"
-            onClick={() => {
-              const nodeStatuses: Record<string, string> = {}
-              for (const node of Object.values(act.nodes))
-                nodeStatuses[node.id] = `${node.type} → ${statusOf(node.id)}`
-              const state = {
-                actId: run.actId, pendingNodeId: run.pendingNodeId,
-                completedNodeIds: run.completedNodeIds, skippedNodeIds: run.skippedNodeIds,
-                availableIds, nodeStatuses,
-              }
-              console.log('[NodeMap debug]', state)
-              navigator.clipboard?.writeText(JSON.stringify(state, null, 2)).catch(() => undefined)
-              alert('Debug state copied to clipboard (also logged to console).')
-            }}
-          />
+          {user?.uid === GIFT_OWNER_UID && (
+            <ToolbarButton
+              label="Copy Debug State"
+              icon="🐞"
+              onClick={() => {
+                const nodeStatuses: Record<string, string> = {}
+                for (const node of Object.values(act.nodes))
+                  nodeStatuses[node.id] = `${node.type} → ${statusOf(node.id)}`
+                const state = {
+                  actId: run.actId, pendingNodeId: run.pendingNodeId,
+                  completedNodeIds: run.completedNodeIds, skippedNodeIds: run.skippedNodeIds,
+                  availableIds, nodeStatuses,
+                }
+                console.log('[NodeMap debug]', state)
+                navigator.clipboard?.writeText(JSON.stringify(state, null, 2)).catch(() => undefined)
+                alert('Debug state copied to clipboard (also logged to console).')
+              }}
+            />
+          )}
         </Toolbar>
 
         <div
