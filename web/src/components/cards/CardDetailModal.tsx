@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Card } from '../../game/types'
+import React, { useMemo, useState } from 'react'
+import { AugmentEffect, AugmentInstance, AugmentSlot, Card } from '../../game/types'
 import {
   CollectionEntry,
   DeckEntry,
@@ -8,12 +8,26 @@ import {
   masteryProgress,
   getCardStats,
   AUGMENT_UPGRADE_COST,
+  loadAugmentSouls,
+  getSetBonus,
+  getEquippedAugments,
+  upgradeAugment,
+  mergeAugmentEffects,
 } from '../../game/collection'
-import { augmentSlotLabel } from '../../game/augments'
+import { ALL_AUGMENT_SLOTS, AugmentSetDef, augmentSlotLabel, getAugmentCard, getAugmentSetDef, scaledAugmentEffect } from '../../game/augments'
 import { CardTile } from './CardTile'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { MasteryBar } from '../ui/MasteryBar'
 import { StatRow } from '../ui/StatRow'
+import { CardDetailHeader } from './CardDetailHeader'
+import { AnimatedSpriteImg } from '../ui/SpriteImg'
+import { Toolbar } from '../ui/Toolbar/Toolbar'
+import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
+import { AugmentPickerModal } from './AugmentPickerModal'
+import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
+import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
+
+
 
 interface Props {
   card: Card
@@ -47,6 +61,29 @@ const RARITY_COLOUR: Record<string, string> = {
 }
 
 
+function AugStatRow({ label, base, delta }: { label: string; base: number; delta?: number }) {
+  const hasDelta = delta != null && delta !== 0
+  return (
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, minWidth: 64 }}>
+      <span style={{ fontSize: 10, opacity: 0.6, textTransform: 'uppercase' }}>{label}</span>
+      <span style={{ fontWeight: 700 }}>{hasDelta ? base + delta! : base}</span>
+      {hasDelta && (
+        <span style={{ fontSize: 10, color: '#aaddff' }}>(+{delta})</span>
+      )}
+    </div>
+  )
+}
+
+function effectSummary(effect: AugmentEffect): string {
+  const parts: string[] = []
+  if (effect.maxHp)       parts.push(`+${effect.maxHp} HP`)
+  if (effect.attack)      parts.push(`+${effect.attack} ATK`)
+  if (effect.attackRange) parts.push(`+${effect.attackRange} RNG`)
+  if (effect.moveSpeed)   parts.push(`+${effect.moveSpeed} SPD`)
+  return parts.join(', ')
+}
+
+
 function affinityEffectText(effectType: string, effectAmount: number): string {
   const pct = Math.round(Math.abs(effectAmount - 1) * 100)
   if (effectType === 'attackSpeed') return `+${pct}% attack speed`
@@ -59,8 +96,17 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
   const owned  = getOwnedCount(collection, card.name)
   const inDeck = deckEntries?.find(e => e.cardName === card.name)?.count ?? 0
   const xp     = getMasteryXp(collection, card.name)
+
+  const forceRefresh = () => setRefresh((r: number) => r + 1)
+    
   const { level: masteryLvl, current: xpCur, needed: xpNeeded } = masteryProgress(xp)
   const rarityCol = RARITY_COLOUR[card.rarity] ?? 'var(--game-text-color-dim)'
+
+  const [activeTab, setActiveTab] = useState(0)
+
+  const [refresh, setRefresh] = useState(0)
+  const [pickerSlot, setPickerSlot] = useState<AugmentSlot | null>(null)
+  const [upgradeError, setUpgradeError] = useState<string | null>(null)  
 
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
   const toggleRow = (key: string) => setExpandedRow(prev => prev === key ? null : key)
@@ -68,6 +114,10 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
   // Stats — card name for "played", unit name for "died"
   const statsPlayed  = getCardStats(card.name)
   const statsUnit    = card.unit ? getCardStats(card.unit.name) : null
+
+  const equippedMap = getEquippedAugments(card.name)
+  const setBonus    = getSetBonus(card.name)
+  const souls       = loadAugmentSouls()
 
   const u = card.unit
 
@@ -93,44 +143,106 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
     }
   }
 
+  // Compute total augment effect for live stat display
+  const totalAugmentEffect = useMemo(() => {
+    let effect: AugmentEffect = {}
+    for (const inst of Object.values(equippedMap)) {
+      const augCard = getAugmentCard(inst.cardId)
+      if (!augCard?.augmentEffect) continue
+      const scaled = scaledAugmentEffect(augCard.augmentEffect, inst.level)
+      effect = mergeAugmentEffects(effect, scaled)
+    }
+    if (setBonus) effect = mergeAugmentEffects(effect, setBonus.effect)
+    return effect
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refresh])
+
+  function handleUpgrade(inst: AugmentInstance) {
+    const err = upgradeAugment(inst.instanceId)
+    if (err) {
+      setUpgradeError(err)
+      setTimeout(() => setUpgradeError(null), 2500)
+    }
+    forceRefresh()
+  }
+
   return (
     <ModalBackdrop onClose={onClose}>
       <div className="cdm-panel">
 
         {/* Header */}
-        <div className="cdm-header">
-          <span className="cdm-name" style={{ color: rarityCol }}>{card.name}</span>
-          <span className="cdm-rarity" style={{ color: rarityCol }}>
-            {'★'.repeat(({ common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6, shiny: 4, holofoil: 4, glass: 4 } as Record<string,number>)[card.rarity] ?? 1)}
-            {' '}{card.rarity.toUpperCase()}
-          </span>
-          <button className="cdm-close" onClick={onClose}>✕</button>
-        </div>
+        <CardDetailHeader card={card} collection={collection} colour={rarityCol} onClose={onClose} />
 
         <div className="cdm-body u-flex u-gap-6">
           {/* Left: card visual */}
           <div className="cdm-card-col u-col u-items-c u-gap-3">
-            <CardTile card={card} canAfford={true} />
+            <AnimatedSpriteImg
+              name={card.name}
+              frameCount={3}
+              fps={2}
+              className="commander-sprite"
+            />
             <div className="cdm-owned">×{owned} owned{inDeck > 0 ? ` · ×${inDeck} in deck` : ''}</div>
           </div>
 
           {/* Right: stats */}
           <div className="cdm-info-col u-grow u-col u-gap-4">
-            <div className="cdm-desc">{card.description}</div>
+              <div className="cdm-desc">{card.description}</div>
+              {card.lore && <div className="cdm-lore" style={{ fontStyle: 'italic', opacity: 0.7, fontSize: 11 }}>{card.lore}</div>}
 
-            {/* Unit stats */}
-            {u && u.moveSpeed > 0 && (
-              <div className="cdm-stats-block u-flex u-wrap">
-                <StatRow compact label="ATK" value={atkBonus > 0 ? <>{u.attack + atkBonus} <span className="cdm-stat-bonus">(+{atkBonus})</span></> : u.attack} />
-                <StatRow compact label="HP"  value={hpBonus  > 0 ? <>{u.maxHp  + hpBonus}  <span className="cdm-stat-bonus">(+{hpBonus})</span></> : u.maxHp} />
-                <StatRow compact label="SPD" value={u.moveSpeed} />
-                {u.attackRange > 0 && <StatRow compact label="RNG" value={u.attackRange} />}
-                {u.attackCooldownMs > 0 && <StatRow compact label="CD" value={`${(u.attackCooldownMs / 1000).toFixed(1)}s`} />}
-              </div>
+              {/* Unit stats */}
+              {u && u.moveSpeed > 0 && (
+                <div className="cdm-stats-block u-flex u-wrap">
+                  <AugStatRow label="ATK" base={u.attack}      delta={totalAugmentEffect.attack} />
+                  <AugStatRow label="HP"  base={u.maxHp}       delta={totalAugmentEffect.maxHp} />
+                  <AugStatRow label="SPD" base={u.moveSpeed}   delta={totalAugmentEffect.moveSpeed} />
+                  {u.attackRange > 0 && <AugStatRow label="RNG" base={u.attackRange} delta={totalAugmentEffect.attackRange} />}
+                  {u.attackCooldownMs > 0 && <AugStatRow label="CD" base={(u.attackCooldownMs / 1000)} delta={0} />}
+                </div>
+              )}
+              {u && u.moveSpeed === 0 && (
+                <div className="cdm-stats-block u-flex u-wrap">
+                  <AugStatRow label="HP" base={u.maxHp} delta={totalAugmentEffect.maxHp} />
+                </div>
+              )}
+          </div>
+        </div>
+        <div className="u-col ">
+              {card.cardType === 'unit' && (
+              <Toolbar>
+                <ToolbarButton label="Details" onClick={() => setActiveTab(0)} />
+                <ToolbarButton label="Augments" onClick={() => setActiveTab(1)} />
+<ToolbarSpacer />
+
+  {/* Promote to Commander (unit cards only) */}
+        {onPromote && u && u.moveSpeed > 0 && (
+          <>
+            {commanderName === card.name ? (
+              <ToolbarLabel>⭐ Current Commander</ToolbarLabel>
+            ) : (
+              <>
+              <ToolbarButton
+                className="extra-btn extra-btn--promote"
+                onClick={onPromote}
+                locked={promotionsLeft === 0}
+                label={promotionsLeft === 0 ? 'Promotion limit reached for today (2/day)' : commanderName ? `Promote to Commander (replaces ${commanderName})` : 'Promote to Commander'}
+              />
+              </>
             )}
+         </>
+        )}
+
+              </Toolbar>
+
+
+              )}
+<div  className="cdm-info-col u-grow u-col u-gap-4 u-mg-t-md">
+            {activeTab === 0 ? (
+
+<>
+              {/* Unit details */}
             {u && u.moveSpeed === 0 && u.maxHp > 0 && (
               <div className="cdm-stats-block u-flex u-wrap">
-                <StatRow compact label="HP" value={hpBonus > 0 ? <>{u.maxHp + hpBonus} <span className="cdm-stat-bonus">(+{hpBonus})</span></> : u.maxHp} />
                 {u.structureEffect?.type === 'spawn' && (() => {
                   const rates: number[] = []
                   let ms = u.structureEffect.intervalMs
@@ -300,8 +412,105 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
                 {statsUnit && <StatRow compact label="Units lost" value={statsUnit.died} />}
               </div>
             )}
-          </div>
+            </>
+          ) : (
+            <>{/* Souls balance */}
+                      <div className="cas-souls-bar">
+                        <span style={{ opacity: 0.7, fontSize: 12 }}>Augment Souls:</span>
+                        <span style={{ color: '#cc88ff', fontWeight: 700 }}>{souls.toLocaleString()} 👻</span>
+                        {upgradeError && <span style={{ color: '#ff6666', fontSize: 11 }}>{upgradeError}</span>}
+                      </div>
+            
+                      {/* Augment slots */}
+                      <div className="cas-slots-title">Equipment Slots</div>
+            
+                      <div className="cas-slots-grid">
+                        {ALL_AUGMENT_SLOTS.map(slot => {
+                          const inst = equippedMap[slot]
+                          const augCard = inst ? getAugmentCard(inst.cardId) : undefined
+                          const scaled = (augCard?.augmentEffect && inst)
+                            ? scaledAugmentEffect(augCard.augmentEffect, inst.level)
+                            : undefined
+            
+                          return (
+                            <div key={slot} className={`cas-slot${inst ? ' cas-slot--filled' : ''}`}>
+                              <div className="cas-slot-label">{augmentSlotLabel(slot)}</div>
+                              {inst && augCard ? (
+                                <>
+                                  <div className="cas-slot-name" style={{ color: RARITY_COLOUR[augCard.rarity] ?? '#fff' }}>
+                                    {augCard.name}
+                                  </div>
+                                  <div className="cas-slot-level">Lv{inst.level}</div>
+                                  {scaled && (
+                                    <div className="cas-slot-effect">{effectSummary(scaled)}</div>
+                                  )}
+                                  <div className="cas-slot-actions">
+                                    <button
+                                      className="action-btn action-btn--gold cas-slot-btn"
+                                      disabled={souls < AUGMENT_UPGRADE_COST}
+                                      onClick={() => handleUpgrade(inst)}
+                                      title={`Upgrade (costs ${AUGMENT_UPGRADE_COST} souls)`}
+                                    >
+                                      ↑ Upgrade
+                                    </button>
+                                    <button
+                                      className="action-btn cas-slot-btn"
+                                      onClick={() => { setPickerSlot(slot); }}
+                                    >
+                                      Swap
+                                    </button>
+                                  </div>
+                                </>
+                              ) : (
+                                <button
+                                  className="action-btn cas-slot-btn"
+                                  onClick={() => setPickerSlot(slot)}
+                                >
+                                  + Equip
+                                </button>
+                              )}
+                            </div>
+                          )
+                        })}
+                      </div>
+            
+                      {/* Set bonus */}
+                      {(() => {
+                        const equipped = Object.values(equippedMap)
+                        if (equipped.length === 0) return null
+                        const firstAug = getAugmentCard(equipped[0]?.cardId ?? '')
+                        const setName  = firstAug?.setName
+                        const setDef: AugmentSetDef | undefined = setName ? getAugmentSetDef(setName) : undefined
+                        if (!setDef) return null
+                        const hasFullSet = !!setBonus
+                        const slotsFilledSameSet = equipped.filter(i => getAugmentCard(i.cardId)?.setName === setName).length
+                        return (
+                          <div className={`cas-set-bonus${hasFullSet ? ' cas-set-bonus--active' : ''}`}>
+                            <span className="cas-set-bonus-name" style={{ color: RARITY_COLOUR[setDef.rarity] ?? '#fff' }}>
+                              {setName} Set Bonus ({slotsFilledSameSet}/7)
+                            </span>
+                            <span className="cas-set-bonus-desc">{setDef.setBonusDescription}</span>
+                            {hasFullSet && (
+                              <span className="cas-set-bonus-effect" style={{ color: '#ffcc00' }}>
+                                {effectSummary(setDef.setBonus)} ACTIVE
+                              </span>
+                            )}
+                          </div>
+                        )
+                      })()}</>
+          )
+        }
+                  </div>
+
         </div>
+
+        {pickerSlot && (
+          <AugmentPickerModal
+            slot={pickerSlot}
+            cardName={card.name}
+            onClose={() => { setPickerSlot(null); forceRefresh() }}
+          />
+        )}
 
         {/* Lore */}
         {card.lore && (
@@ -337,28 +546,7 @@ export function CardDetailModal({ card, collection, deckEntries, onClose, extras
           </div>
         )}
 
-        {/* Promote to Commander (unit cards only) */}
-        {onPromote && u && u.moveSpeed > 0 && (
-          <div className="cdm-actions cdm-actions--commander">
-            {commanderName === card.name ? (
-              <div className="cdm-commander-badge">⭐ Current Commander</div>
-            ) : (
-              <button
-                className="extra-btn extra-btn--promote"
-                onClick={onPromote}
-                disabled={promotionsLeft === 0}
-                title={promotionsLeft === 0 ? 'Promotion limit reached for today (2/day)' : undefined}
-              >
-                {promotionsLeft === 0
-                  ? '🔒 Promotions used today'
-                  : `⭐ Promote to Commander${commanderName ? ` (replaces ${commanderName})` : ''}`}
-              </button>
-            )}
-            {promotionsLeft > 0 && commanderName !== card.name && (
-              <div className="cdm-promo-hint">{promotionsLeft} promotion{promotionsLeft !== 1 ? 's' : ''} remaining today</div>
-            )}
-          </div>
-        )}
+      
       </div>
     </ModalBackdrop>
   )

@@ -67,6 +67,17 @@ export function loadTextureUrl(url: string): Promise<PIXI.Texture> {
 }
 
 /**
+ * Load a single 32×32 tile from a tileset PNG by tile ID.
+ * The sheet is cached so repeated calls for the same URL are free.
+ */
+export async function loadTileTexture(url: string, tileId: number, columns: number): Promise<PIXI.Texture> {
+  const sheet = await _load(url)
+  const s = 32
+  const frame = new PIXI.Rectangle((tileId % columns) * s, Math.floor(tileId / columns) * s, s, s)
+  return new PIXI.Texture({ source: sheet.source, frame })
+}
+
+/**
  * Tween a Container's (x, y) position to the target over durationMs milliseconds.
  * Uses an ease-in-out curve. Returns a Promise that resolves when the tween completes.
  */

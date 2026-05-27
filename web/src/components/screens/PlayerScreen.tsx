@@ -19,10 +19,10 @@ export function PlayerScreen({ crystals, onCrystalsChanged, onBack }: Props) {
   const achievementAlert = hasUnclaimedAchievements()
 
   const tabs: { id: PlayerTab; label: string; badge?: boolean }[] = [
-    { id: 'stats',        label: 'Stats' },
     { id: 'character',    label: 'Character' },
-    { id: 'achievements', label: 'Achievements', badge: achievementAlert },
     { id: 'inventory',    label: 'Inventory' },
+    { id: 'achievements', label: 'Achievements', badge: achievementAlert },
+    { id: 'stats',        label: 'Stats' },
   ]
 
   return (
@@ -41,9 +41,9 @@ export function PlayerScreen({ crystals, onCrystalsChanged, onBack }: Props) {
           ))}
         </div>
         <div className="player-tab-content">
-          {tab === 'stats'        && <PlayerStatsScreen onBack={() => setTab('stats')} embedded />}
           {tab === 'character'    && <CharacterScreen onDone={() => setTab('stats')} embedded />}
           {tab === 'achievements' && <AchievementsScreen onBack={() => setTab('stats')} onCrystalsChanged={onCrystalsChanged} embedded />}
+          {tab === 'stats'        && <PlayerStatsScreen onBack={() => setTab('stats')} embedded />}
           {tab === 'inventory'    && <InventoryScreen onBack={() => setTab('stats')} onCrystalsChanged={onCrystalsChanged} embedded />}
         </div>
       </div>
