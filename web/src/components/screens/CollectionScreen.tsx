@@ -33,6 +33,7 @@ interface Props {
   commanderName?: string | null
   onPromoteCommander?: (cardName: string) => void
   onViewAugments?: () => void
+  embedded?: boolean
 }
 
 type RarityFilter = 'all' | CardRarity
@@ -69,7 +70,7 @@ const LazyCell = memo(function LazyCell({ children, className }: { children: Rea
   )
 })
 
-export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commanderName, onPromoteCommander, onViewAugments }: Props) {
+export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commanderName, onPromoteCommander, onViewAugments, embedded }: Props) {
   const catalog = getCardCatalog()
   const allAffinityLabels = Array.from(
     new Set(catalog.flatMap(c => c.unit?.affinity?.label ? [c.unit.affinity.label] : []))
@@ -312,17 +313,8 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
       : `+${extras} mastery XP for ${cardName}`)
   }
 
-  return (
-    <OverlayScreen title="COLLECTION" onBack={onBack} right={
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        {onViewAugments && (
-          <button className="action-btn" style={{ fontSize: 12, padding: '3px 10px' }} onClick={onViewAugments}>
-            Augments 👻
-          </button>
-        )}
-        <span className="crystal-count">💎 {crystals.toLocaleString()}</span>
-      </div>
-    }>
+  const inner = (
+    <>
 
       {/* Action row */}
       <div className="collection-action-row u-flex u-items-c u-gap-4 u-wrap">
@@ -671,6 +663,22 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
           </div>
         </ModalBackdrop>
       )}
+    </>
+  )
+
+  if (embedded) return inner
+  return (
+    <OverlayScreen title="COLLECTION" onBack={onBack} right={
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {onViewAugments && (
+          <button className="action-btn" style={{ fontSize: 12, padding: '3px 10px' }} onClick={onViewAugments}>
+            Augments 👻
+          </button>
+        )}
+        <span className="crystal-count">💎 {crystals.toLocaleString()}</span>
+      </div>
+    }>
+      {inner}
     </OverlayScreen>
   )
 }

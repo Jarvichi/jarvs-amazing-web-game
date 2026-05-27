@@ -1925,6 +1925,38 @@ body {
 .shop-card-buy-btn--poor { opacity: 0.45; cursor: not-allowed; }
 .shop-consumable-buy-btn { position: relative; }
 .shop-purchased { font-size: var(--font-xxs); color: #33cc66; letter-spacing: 2px; }
+
+/* Augment deal */
+.shop-augment-deal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid #444;
+  border-top-width: 3px;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 320px;
+  box-sizing: border-box;
+}
+.shop-augment-deal--common    { border-top-color: #666; }
+.shop-augment-deal--uncommon  { border-top-color: #44aaff; }
+.shop-augment-deal--rare      { border-top-color: #cc44ff; }
+.shop-augment-deal--epic      { border-top-color: #ff8800; }
+.shop-augment-deal--legendary { border-top-color: #ffaa22; }
+.shop-augment-deal--bought    { opacity: 0.5; }
+.shop-augment-name  { font-size: var(--font-sm); font-weight: bold; text-align: center; }
+.shop-augment-meta  { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center; }
+.shop-augment-slot  { font-size: var(--font-xxs); color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+.shop-augment-desc  { font-size: var(--font-xxs); color: #aaa; text-align: center; }
+
+.rarity-badge { font-size: var(--font-xxs); text-transform: uppercase; letter-spacing: 1px; padding: 1px 5px; border-radius: 3px; }
+.rarity-badge--common    { color: #999; border: 1px solid #666; }
+.rarity-badge--uncommon  { color: #44aaff; border: 1px solid #44aaff; }
+.rarity-badge--rare      { color: #cc44ff; border: 1px solid #cc44ff; }
+.rarity-badge--epic      { color: #ff8800; border: 1px solid #ff8800; }
+.rarity-badge--legendary { color: #ffaa22; border: 1px solid #ffaa22; }
 .shop-discount-badge {
   position: absolute;
   top: -8px; right: -8px;
@@ -9136,6 +9168,23 @@ html.light-mode .action-btn {
   text-align: center;
 }
 
+.news-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 0 4px;
+  border-top: 1px solid #333;
+  margin-top: 8px;
+}
+
+.news-pagination__label {
+  font-size: var(--font-sm);
+  color: #aaa;
+  min-width: 48px;
+  text-align: center;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    MINI GAMES
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -13841,4 +13890,56 @@ html.light-mode .action-btn {
   font-family: inherit;
   text-align: left;
   text-decoration: underline;
+}
+
+/* ── Player / Collection tab screens ── */
+.player-screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.player-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 12px 0;
+  border-bottom: 1px solid var(--game-border);
+  flex-shrink: 0;
+}
+
+.player-tab {
+  background: none;
+  border: 1px solid #444;
+  color: var(--game-text-color-dim);
+  font-family: inherit;
+  font-size: var(--font-sm);
+  padding: 4px 12px;
+  cursor: pointer;
+  position: relative;
+}
+
+.player-tab--active {
+  border-color: #0f0;
+  color: #0f0;
+}
+
+.player-tab-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-red);
+}
+
+.player-tab-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }

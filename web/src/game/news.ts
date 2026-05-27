@@ -15,7 +15,8 @@
 //   tag:      string  (optional, e.g. "NEW FEATURE", "BUG FIX", "UPDATE", "EVENT")
 //   imageUrl: string  (optional, URL of an image to display in the post)
 
-import { collection, getDocs, doc, setDoc, deleteDoc, Timestamp } from 'firebase/firestore'
+import { collection, getDocs, doc, setDoc, deleteDoc, Timestamp, query, orderBy, limit } from 'firebase/firestore'
+import { RARITY_EMOJI, type SecretRarityType } from './secretRareNews'
 import { db } from '../firebase'
 import { logError } from '../logger'
 import newsData from '../data/news.json'
@@ -99,16 +100,35 @@ async function fetchJackpotWinsAsNews(): Promise<NewsItem[]> {
   })
 }
 
+async function fetchSecretRareWinsAsNews(): Promise<NewsItem[]> {
+  const q = query(collection(db, 'secretRareWins'), orderBy('wonAt', 'desc'), limit(20))
+  const snap = await getDocs(q)
+  return snap.docs.map(d => {
+    const data = d.data() as { playerName: string; cardName: string; rarityType: SecretRarityType; wonAt: Timestamp }
+    const date = data.wonAt ? data.wonAt.toDate() : new Date()
+    const dateStr = date.toISOString().split('T')[0]
+    const emoji = RARITY_EMOJI[data.rarityType] ?? '✨'
+    return {
+      id: `secret-rare-${d.id}`,
+      title: `${emoji} ${data.playerName} got a ${data.rarityType} card!`,
+      body: `${data.playerName} discovered ${data.cardName}!`,
+      date: dateStr,
+      tag: 'EVENT',
+    } satisfies NewsItem
+  })
+}
+
 // ── Registry ─────────────────────────────────────────────────────────────────
 
 /**
  * Fetch all news: Firestore first, local news.json as fallback.
- * Also merges jackpot win events from the jackpotWins collection.
+ * Also merges jackpot win events and secret rare card wins.
  * Firestore items take precedence over local ones.
  */
 export async function getAllNews(): Promise<NewsItem[]> {
   let remote: NewsItem[] = []
   let jackpotNews: NewsItem[] = []
+  let secretRareNews: NewsItem[] = []
   try {
     remote = await fetchNewsFromFirestore()
   } catch (e) {
@@ -119,10 +139,15 @@ export async function getAllNews(): Promise<NewsItem[]> {
   } catch (e) {
     logError('fetchJackpotWinsAsNews failed', { error: String(e) })
   }
+  try {
+    secretRareNews = await fetchSecretRareWinsAsNews()
+  } catch (e) {
+    logError('fetchSecretRareWinsAsNews failed', { error: String(e) })
+  }
 
   const remoteIds = new Set(remote.map(n => n.id))
   const local = (newsData as NewsItem[]).filter(n => !remoteIds.has(n.id))
-  const all = [...remote, ...jackpotNews, ...local]
+  const all = [...remote, ...jackpotNews, ...secretRareNews, ...local]
   return all.sort((a, b) => b.date.localeCompare(a.date))
 }
 

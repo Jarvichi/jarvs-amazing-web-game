@@ -10,6 +10,7 @@ import { Section } from '../ui/Section'
 interface Props {
   onBack: () => void
   onCrystalsChanged: (n: number) => void
+  embedded?: boolean
 }
 
 type DetailEntry =
@@ -47,7 +48,7 @@ function buildMergedConsumables() {
     .filter((x): x is { def: ConsumableDef; count: number } => x !== null)
 }
 
-export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
+export function InventoryScreen({ onBack, onCrystalsChanged, embedded }: Props) {
   const [items, setItems] = useState<UselessItem[]>(loadInventory)
   const [ownedConsumables, setOwnedConsumables] = useState<{ def: typeof ALL_CONSUMABLES[0]; count: number }[]>(buildMergedConsumables)
   const [secretMsg, setSecretMsg] = useState<string | null>(null)
@@ -82,8 +83,8 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
     setSecretMsg(null)
   }
 
-  return (
-    <OverlayScreen title="INVENTORY" onBack={onBack} right={<span className="inventory-count">{items.length} items</span>}>
+  const inner = (
+    <>
 
       <div className="inventory-body u-grow u-col u-gap-4">
         <div className="inventory-intro">
@@ -198,6 +199,13 @@ export function InventoryScreen({ onBack, onCrystalsChanged }: Props) {
           </div>
         </div>
       )}
+    </>
+  )
+
+  if (embedded) return inner
+  return (
+    <OverlayScreen title="INVENTORY" onBack={onBack} right={<span className="inventory-count">{items.length} items</span>}>
+      {inner}
     </OverlayScreen>
   )
 }

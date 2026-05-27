@@ -11,6 +11,7 @@ import { addUnlockedAvatar } from '../../game/questline'
 interface Props {
   onBack: () => void
   onCrystalsChanged: (n: number) => void
+  embedded?: boolean
 }
 
 const CATEGORY_LABELS: Record<AchievementCategory, string> = {
@@ -49,7 +50,7 @@ function ProgressBar({ value, target }: { value: number; target: number }) {
   )
 }
 
-export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
+export function AchievementsScreen({ onBack, onCrystalsChanged, embedded }: Props) {
   const [save, setSave] = useState(() => loadAchievementSave())
   const [claimed, setJustClaimed] = useState<string | null>(null)
   const [activeCategory, setActiveCategory] = useState<AchievementCategory>('campaign')
@@ -137,12 +138,9 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
   const total          = ACHIEVEMENT_DEFS.length
   const totalClaimable = ACHIEVEMENT_DEFS.filter(d => save.unlocked[d.id] && !save.claimed[d.id]).length
 
-  return (
-    <OverlayScreen
-      title="🏆 ACHIEVEMENTS"
-      onBack={onBack}
-      right={<div className="ach-summary">{totalUnlocked}/{total} · {totalClaimed} claimed</div>}
-    >
+  const content = (
+    <>
+      <div className="ach-summary-embedded">{totalUnlocked}/{total} · {totalClaimed} claimed</div>
 
       {/* Category tabs */}
       <div className="ach-tabs u-flex u-wrap u-gap-2">
@@ -211,6 +209,17 @@ export function AchievementsScreen({ onBack, onCrystalsChanged }: Props) {
           )
         })}
       </div>
+    </>
+  )
+
+  if (embedded) return content
+  return (
+    <OverlayScreen
+      title="🏆 ACHIEVEMENTS"
+      onBack={onBack}
+      right={<div className="ach-summary">{totalUnlocked}/{total} · {totalClaimed} claimed</div>}
+    >
+      {content}
     </OverlayScreen>
   )
 }

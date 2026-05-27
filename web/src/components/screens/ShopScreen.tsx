@@ -5,6 +5,7 @@ import {
   getDailyShopNPC,
   getDailyShopCards,
   getDailyShopSellSlots,
+  getDailyShopAugment,
   loadDailyShopState,
   saveDailyShopState,
   getSecondsUntilShopReset,
@@ -12,8 +13,11 @@ import {
   logDevSchedule,
   isWeekend,
   ShopCardDeal,
+  ShopAugmentDeal,
   recordNPCVisit,
 } from '../../game/shopSchedule'
+import { getAugmentCard, augmentSlotLabel } from '../../game/augments'
+import { addAugmentInstance } from '../../game/collection'
 import { loadInventory, removeFromInventory } from '../../game/dailyLogin'
 import { ALL_CONSUMABLES, addToConsumableStash } from '../../game/questline'
 import { saveCrystals } from '../../game/collection'
@@ -88,6 +92,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
   const [npc, setNpc] = useState(() => getDailyShopNPC())
   const [dailyCards, setDailyCards] = useState(() => getDailyShopCards())
+  const [dailyAugment, setDailyAugment] = useState<ShopAugmentDeal>(() => getDailyShopAugment())
   const [sellSlots, setSellSlots] = useState(() => getDailyShopSellSlots())
   const [weekend, setWeekend] = useState(() => isWeekend())
 
@@ -120,6 +125,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
       if (secs === 0) {
         setNpc(getDailyShopNPC())
         setDailyCards(getDailyShopCards())
+        setDailyAugment(getDailyShopAugment())
         setSellSlots(getDailyShopSellSlots())
         setWeekend(isWeekend())
         setShopState(loadDailyShopState())
@@ -177,6 +183,18 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
     saveDailyShopState(updated)
   }
 
+  function handleBuyAugment() {
+    const price = dailyAugment.price
+    if (crystals < price || !dailyAugment.augmentName || shopState.boughtAugment) return
+    const next = crystals - price
+    emitSound('shopPurchase')
+    onCrystalsChange(next)
+    addAugmentInstance(dailyAugment.augmentName)
+    const updated = { ...shopState, boughtAugment: true }
+    setShopState(updated)
+    saveDailyShopState(updated)
+  }
+
   function handleSellClick(slotId: string, hasItem: boolean) {
     if (!hasItem) return
     if (shopState.soldItemIds.includes(slotId)) return
@@ -207,10 +225,10 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
       <div className="shop-npc-banner">
         <div className="shop-npc-icon">{roleLabel[npc.role] ?? '🏪'}</div>
         <div className="shop-npc-info">
-          <div className="shop-npc-name">{npc.name} <span className="shop-npc-title">— {npc.title}</span>
-
-          <div className="shop-npc-perk">✦ {npc.perk}</div>
-</div>
+          <div className="shop-npc-name">
+            {npc.name} <span className="shop-npc-title">— {npc.title}</span>
+            <div className="shop-npc-perk">✦ {npc.perk}</div>
+          </div>
           <div className="shop-npc-greeting">"{npc.greeting}"</div>
           <div className="shop-npc-greeting">"{npc.shiftEndLine.replace('{time}', formatShiftTimeNatural(shiftCountdown))}"</div>
         </div>
@@ -255,6 +273,39 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
             })}
           </div>
         </div>
+
+        {/* ── Today's Augment ── */}
+        {dailyAugment.augmentName !== '' && (() => {
+          const aug = getAugmentCard(dailyAugment.augmentName)
+          const bought = shopState.boughtAugment ?? false
+          const canAfford = crystals >= dailyAugment.price && !bought
+          return (
+            <div className="shop-section">
+              <div className="shop-section-header">Today's Augment — 1 per stock cycle</div>
+              <div className={`shop-augment-deal shop-augment-deal--${dailyAugment.rarity}${bought ? ' shop-augment-deal--bought' : ''}`}>
+                <div className="shop-augment-name">{dailyAugment.augmentName}</div>
+                {aug && (
+                  <div className="shop-augment-meta">
+                    <span className={`rarity-badge rarity-badge--${dailyAugment.rarity}`}>{dailyAugment.rarity}</span>
+                    {aug.augmentSlot && <span className="shop-augment-slot">{augmentSlotLabel(aug.augmentSlot)}</span>}
+                  </div>
+                )}
+                {aug?.description && <div className="shop-augment-desc">{aug.description}</div>}
+                {bought ? (
+                  <div className="shop-purchased">PURCHASED ✓</div>
+                ) : (
+                  <button
+                    className={`action-btn action-btn--gold shop-card-buy-btn${!canAfford ? ' shop-card-buy-btn--poor' : ''}`}
+                    onClick={handleBuyAugment}
+                    disabled={!canAfford}
+                  >
+                    {dailyAugment.price} 💎
+                  </button>
+                )}
+              </div>
+            </div>
+          )
+        })()}
 
         {/* ── Consumables ── */}
         <div className="shop-section">

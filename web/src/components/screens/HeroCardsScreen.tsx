@@ -6,13 +6,14 @@ import { OverlayScreen } from '../ui/OverlayScreen'
 
 interface Props {
   onBack: () => void
+  embedded?: boolean
 }
 
-export function HeroCardsScreen({ onBack }: Props) {
+export function HeroCardsScreen({ onBack, embedded }: Props) {
   const { openDetail, cardDetailNode } = useCardDetail()
 
-  return (
-    <OverlayScreen title="🦸 HERO CARDS" onBack={onBack}>
+  const inner = (
+    <>
       <div style={{ padding: '8px 12px', color: 'var(--game-text-color-dim)', fontSize: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         One hero appears in every battle.<br/>
         Hero cards are shuffled into your deck at the start of each battle. You cannot choose which hero appears — fate decides.
@@ -25,11 +26,14 @@ export function HeroCardsScreen({ onBack }: Props) {
               canAfford={true}
               onClick={() => openDetail(card)}
               showDetails={true}
-                          />
+            />
             </div>
         ))}
       </div>
       {cardDetailNode}
-    </OverlayScreen>
+    </>
   )
+
+  if (embedded) return inner
+  return <OverlayScreen title="🦸 HERO CARDS" onBack={onBack}>{inner}</OverlayScreen>
 }
