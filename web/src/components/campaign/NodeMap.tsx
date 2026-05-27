@@ -362,17 +362,21 @@ function drawConnectorsGfx(
           .stroke({ color: 0xffffff, width: 1, alpha: 0.04 })
       } else if (variant === 'future') {
         const pts = [
-          { x: parentCenterX, y: y1 },
+          { x: parentCenterX,                y: y1 },
+          { x: (parentCenterX + xStart) / 2, y: y1 },
           ...sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2),
-          { x: childCenterX,  y: y2 },
+          { x: (xEnd + childCenterX) / 2,    y: y2 },
+          { x: childCenterX,                 y: y2 },
         ]
         gfx.poly(bezierBand(pts, 5)).fill({ color: 0x000000, alpha: 0.25 })
         gfx.poly(bezierBand(pts, 3)).fill({ color: trail.color, alpha: trail.alpha * 0.35 })
       } else {
         const pts = [
-          { x: parentCenterX, y: y1 },
+          { x: parentCenterX,                y: y1 },
+          { x: (parentCenterX + xStart) / 2, y: y1 },
           ...sampleBezier(xStart, y1, xMid, y1, xMid, y2, xEnd, y2),
-          { x: childCenterX,  y: y2 },
+          { x: (xEnd + childCenterX) / 2,    y: y2 },
+          { x: childCenterX,                 y: y2 },
         ]
         const isFront = variant === 'frontier'
         const halfOuter = isFront ? 9 : 7
@@ -405,11 +409,12 @@ function markerAlpha(status: NodeStatus, inReachable: boolean): number {
   return 0.4
 }
 
-function nodeRoadColor(status: NodeStatus, environment: string | undefined): number {
+function nodeRoadFill(status: NodeStatus, environment: string | undefined): { color: number; alpha: number } {
   const { trail, frontier } = envColors(environment)
-  if (status === 'completed' || status === 'pending') return parseRgba(trail).color
-  if (status === 'available')                         return parseRgba(frontier).color
-  return 0x2a2a2a
+  const t = parseRgba(trail), f = parseRgba(frontier)
+  if (status === 'completed' || status === 'pending') return { color: t.color, alpha: Math.min(t.alpha, 0.85) }
+  if (status === 'available')                         return { color: f.color, alpha: Math.min(f.alpha, 0.85) }
+  return { color: 0x2a2a2a, alpha: 0.5 }
 }
 
 async function loadNodeIcon(node: QuestNode): Promise<PIXI.Texture | null> {
@@ -433,10 +438,12 @@ async function buildNodeMarker(
 ): Promise<PIXI.Container> {
   const container = new PIXI.Container()
 
-  // bg: always fully opaque, road-colored, no outline — hides road end beneath node
+  // bg: two-layer ellipse matching road cross-section (dark outer + coloured inner)
   const bg = new PIXI.Graphics()
   const ry = NODE_RADIUS / 2
-  bg.ellipse(0, 0, NODE_RADIUS, ry).fill({ color: nodeRoadColor(status, environment), alpha: 1.0 })
+  const fill = nodeRoadFill(status, environment)
+  bg.ellipse(0, 0, NODE_RADIUS + 2, ry + 2).fill({ color: 0x000000, alpha: 0.55 })
+  bg.ellipse(0, 0, NODE_RADIUS, ry).fill({ color: fill.color, alpha: fill.alpha })
   container.addChild(bg)
 
   // iconLayer: icons + labels, dimmed by status independently of the bg
@@ -445,10 +452,12 @@ async function buildNodeMarker(
 
   // Battle/elite nodes show the first enemy unit as icon.
   // Mobile units get animated frames + sine-wave wander; buildings are static.
+  const isBattleType = node.type === 'battle' || node.type === 'elite' || node.type === 'boss'
   const isBattleNode = node.type === 'battle' || node.type === 'elite'
   const unitName = isBattleNode && node.enemyDeck?.length ? node.enemyDeck[0] : null
   const isBuilding = unitName ? (getCardUnit(unitName)?.moveSpeed ?? 1) === 0 : false
   const shouldWander = !!unitName && !isBuilding
+  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
 
   let iconAdded = false
 
@@ -496,6 +505,36 @@ async function buildNodeMarker(
     }
   }
 
+  if (isBattleType && status === 'completed' && !iconAdded) {
+    try {
+      const tomb = new PIXI.Sprite(await loadTextureUrl(`${base}sprites/tombstone.svg`))
+      tomb.width = tomb.height = NODE_RADIUS * 1.1
+      tomb.anchor.set(0.5)
+      iconLayer.addChild(tomb)
+      iconAdded = true
+    } catch { /* fall through */ }
+  }
+
+  if (node.type === 'rest' && !iconAdded) {
+    try {
+      const frames = await loadAnimFrames('campfire', 3)
+      const anim = new PIXI.AnimatedSprite(frames)
+      anim.animationSpeed = 0.06; anim.play()
+      anim.width = anim.height = NODE_RADIUS * 1.3; anim.anchor.set(0.5)
+      iconLayer.addChild(anim); iconAdded = true
+    } catch { /* fall through */ }
+  }
+
+  if ((node.type === 'event' || node.type === 'memory') && !iconAdded) {
+    try {
+      const frames = await loadAnimFrames('event', 3)
+      const anim = new PIXI.AnimatedSprite(frames)
+      anim.animationSpeed = 0.04; anim.play()
+      anim.width = anim.height = NODE_RADIUS * 1.1; anim.anchor.set(0.5)
+      iconLayer.addChild(anim); iconAdded = true
+    } catch { /* fall through */ }
+  }
+
   if (!iconAdded) {
     const texture = await loadNodeIcon(node)
     if (texture) {
@@ -523,7 +562,7 @@ async function buildNodeMarker(
   nameLabel.y = ry + 4
   iconLayer.addChild(nameLabel)
 
-  if (status === 'completed') {
+  if (status === 'completed' && !isBattleType) {
     const st = new PIXI.Text({ text: '✓', style: { fontSize: 11, fill: '#44cc44' } })
     st.anchor.set(1, 1); st.position.set(NODE_RADIUS - 1, ry - 1)
     iconLayer.addChild(st)
@@ -767,7 +806,6 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
 
     const sp = startPos(mapHeight)
     avatar.position.set(sp.x, sp.y)
-    avatar.zIndex = sp.y
 
     const lastNode = lastCompletedNode(act, stateRef.current.run)
     if (lastNode) {
@@ -776,12 +814,12 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
         const rowNodes = rows[ri]
         const pos = nodePosition(ri, lastNode, rowNodes[0]?.rowCols ?? rowNodes.length, maxRowCols)
         avatar.position.set(pos.x, pos.y)
-        avatar.zIndex = pos.y
       }
     }
 
     avatar.stop()
-    worldLayer.addChild(avatar)
+    avatar.zIndex = 100000
+    nodeLayer.addChild(avatar)
     avatarRef.current = avatar
 
     app.ticker.add(() => { worldLayer.sortChildren(); nodeLayer.sortChildren() })
@@ -823,7 +861,6 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
     avatar.play()
     emitSound('mapFootstep')
     tweenTo(avatar, pos.x, pos.y, WALK_DURATION, app).then(() => {
-      avatar.zIndex = pos.y
       avatar.stop()
       isWalkingRef.current = false
       setPeekNode(node)

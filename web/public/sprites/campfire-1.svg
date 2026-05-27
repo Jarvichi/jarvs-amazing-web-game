@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect x="6" y="23" width="14" height="4" rx="2" transform="rotate(-20,13,25)" fill="#6b3a1f"/>
+  <rect x="12" y="23" width="14" height="4" rx="2" transform="rotate(20,19,25)" fill="#7a4422"/>
+  <ellipse cx="16" cy="26" rx="7" ry="3" fill="#ff6600" opacity="0.35"/>
+  <polygon points="16,10 9,26 23,26" fill="#ff6600" opacity="0.85"/>
+  <polygon points="16,13 11,26 21,26" fill="#ff9900"/>
+  <polygon points="16,16 13,26 19,26" fill="#ffcc00"/>
+  <polygon points="16,11 14.5,18 17.5,18" fill="#fff8c0" opacity="0.8"/>
+  <polygon points="11,19 8,26 14,25" fill="#ff4400" opacity="0.55"/>
+  <polygon points="21,19 18,25 24,26" fill="#ff4400" opacity="0.55"/>
+</svg>
