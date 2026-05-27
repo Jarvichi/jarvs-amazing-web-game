@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- base slab -->
+  <rect x="8" y="26" width="16" height="3" rx="1" fill="#666677"/>
+  <!-- stone body -->
+  <rect x="11" y="10" width="10" height="17" fill="#555566"/>
+  <!-- arched top -->
+  <path d="M11,16 Q11,6 16,6 Q21,6 21,16" fill="#555566"/>
+  <!-- cross -->
+  <line x1="16" y1="13" x2="16" y2="23" stroke="#444455" stroke-width="1.2"/>
+  <line x1="13" y1="17" x2="19" y2="17" stroke="#444455" stroke-width="1.2"/>
+  <!-- stone highlight -->
+  <path d="M12,16 Q12,7 16,7 Q19,7 19.5,11" fill="none" stroke="#8888aa" stroke-width="0.8" opacity="0.5"/>
+</svg>
