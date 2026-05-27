@@ -684,6 +684,14 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               <div className="settings-sublabel">{new Date(__BUILD_DATE__).toLocaleString()}</div>
             </div>
           </div>
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+            <div>
+              <div className="settings-label">Tileset art</div>
+              <div className="settings-sublabel">
+                <a href="https://pipoya.itch.io/" target="_blank" rel="noreferrer">Pipoya</a>
+              </div>
+            </div>
+          </div>
           {(() => {
             const { totalMs, battleMs } = loadPlaytime()
             return (

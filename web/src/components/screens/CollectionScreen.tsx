@@ -560,11 +560,11 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                     canAfford={true}
                     upgradeable={extras > 0}
                     onClick={() => {
-                      if (card.cardType === 'unit' && card.unit && card.unit.moveSpeed > 0) {
-                        setAugmentCard(card)
-                      } else {
+                      // if (card.cardType === 'unit' && card.unit && card.unit.moveSpeed > 0) {
+                      //   setAugmentCard(card)
+                      // } else {
                         setDetailCard(card)
-                      }
+                      // }
                       if (card.rarity === 'legendary') {
                         legendaryViewCount.current += 1
                         if (legendaryViewCount.current === 10) {

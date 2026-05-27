@@ -23,6 +23,7 @@ import { CardDetailModal } from '../cards/CardDetailModal'
 import { CardAugmentScreen } from '../cards/CardAugmentScreen'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { getCardCatalog } from '../../game/cards'
+import { Button } from '../ui/Button'
 
 // ─── Lazy cell ────────────────────────────────────────────
 
@@ -159,12 +160,12 @@ function UnitPickerModal({ stack, onEquip, onClose }: UnitPickerProps) {
                   </span>
                 </div>
                 <div className="apm-item-actions">
-                  <button
+                  <Button
                     className="action-btn action-btn--gold"
                     onClick={() => { onEquip(card.name); onClose() }}
                   >
                     Equip Set
-                  </button>
+                  </Button>
                 </div>
               </div>
             ))}
@@ -193,6 +194,8 @@ function StackTile({ stack, souls, onView, onUpgrade, onEquipToUnit, upgradeErro
   const levels    = stack.instances.map(i => i.level)
   const minLevel  = Math.min(...levels)
   const atMin     = levels.filter(l => l === minLevel).length
+  const areAnyEquipped = stack.instances.some(i => i.equippedToCardName)
+  const equippedCount = stack.instances.filter(i => i.equippedToCardName).length
 
   return (
     <div className="aug-stack-tile">
@@ -217,22 +220,26 @@ function StackTile({ stack, souls, onView, onUpgrade, onEquipToUnit, upgradeErro
       )}
       {upgradeError && <div style={{ color: '#ff6666', fontSize: 11 }}>{upgradeError}</div>}
       <div className="aug-stack-actions">
-        <button className="filter-btn" onClick={onView}>View Stack</button>
-        <button
+        <Button size="sm" onClick={onView}>
+          View Stack
+        </Button>
+        <Button
           className={`action-btn action-btn--gold${canUpgrade ? '' : ' action-btn--disabled'}`}
           onClick={onUpgrade}
           title={`Upgrade stack · ${cost.toLocaleString()} souls`}
           style={{ fontSize: 11, padding: '2px 8px' }}
         >
           ↑ Upgrade · {cost.toLocaleString()}
-        </button>
-        <button
-          className="action-btn"
+        </Button>
+        <Button
+          className={`action-btn ${areAnyEquipped ?  ' action-btn--disabled' : ''}`}
+          size="sm"
           onClick={onEquipToUnit}
-          style={{ fontSize: 11, padding: '2px 8px' }}
+          disabled={areAnyEquipped}
+          title={areAnyEquipped ? 'Unequip all items in stack to enable' : 'Equip stack to unit'}
         >
-          Equip to Unit
-        </button>
+          {areAnyEquipped ? `${equippedCount} already equipped` : 'Equip stack to unit'}
+        </Button>
       </div>
     </div>
   )

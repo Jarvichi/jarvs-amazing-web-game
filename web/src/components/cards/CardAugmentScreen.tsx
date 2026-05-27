@@ -24,6 +24,9 @@ import {
 import { CardTile } from './CardTile'
 import { MasteryBar } from '../ui/MasteryBar'
 import { AugmentPickerModal } from './AugmentPickerModal'
+import { ModalBackdrop } from '../ui/ModalBackdrop'
+import { CardDetailHeader } from './CardDetailHeader'
+import { AnimatedSpriteImg, SpriteImg } from '../ui/SpriteImg'
 
 interface Props {
   card: Card
@@ -66,6 +69,7 @@ function effectSummary(effect: AugmentEffect): string {
   return parts.join(', ')
 }
 
+// TODO: This screen is getting pretty big, consider splitting into multiple sub-screens (e.g. separate set bonus screen, separate augment picker screen instead of modal, etc)
 export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Props) {
   const [refresh, setRefresh] = useState(0)
   const [pickerSlot, setPickerSlot] = useState<AugmentSlot | null>(null)
@@ -75,8 +79,8 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
 
   const owned  = getOwnedCount(collection, card.name)
   const inDeck = deckEntries?.find(e => e.cardName === card.name)?.count ?? 0
-  const xp     = getMasteryXp(collection, card.name)
-  const { level: masteryLvl, current: xpCur, needed: xpNeeded } = masteryProgress(xp)
+  // const xp     = getMasteryXp(collection, card.name)
+  // const { level: masteryLvl, current: xpCur, needed: xpNeeded } = masteryProgress(xp)
   const rarityCol = RARITY_COLOUR[card.rarity] ?? 'var(--game-text-color-dim)'
 
   const equippedMap = getEquippedAugments(card.name)
@@ -109,27 +113,27 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
   }
 
   return (
-    <div className="cas-backdrop" onClick={onClose}>
+// TODO: There is a lot of common structure between this and the CardDetailModal, consider unifying into a single component with some conditional rendering for the augment-specific parts
+
+    <ModalBackdrop onClose={onClose}>
       <div className="cas-panel" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
 
         {/* Header */}
-        <div className="cas-header">
-          <span className="cas-name" style={{ color: rarityCol }}>{card.name}</span>
-          <span className="cas-rarity" style={{ color: rarityCol }}>
-            {'★'.repeat(({ common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6, shiny: 4, holofoil: 4, glass: 4 } as Record<string,number>)[card.rarity] ?? 1)}
-            {' '}{card.rarity.toUpperCase()}
-          </span>
-          <button className="cdm-close" onClick={onClose}>✕</button>
-        </div>
+        <CardDetailHeader card={card} collection={collection} colour={rarityCol} onClose={onClose} />
 
         <div className="cas-body">
 
           {/* Card tile + base stats */}
           <div className="cas-top u-flex u-gap-4">
             <div className="cas-card-col u-col u-items-c u-gap-2">
-              <CardTile card={card} canAfford={true} />
+          <AnimatedSpriteImg
+            name={card.name}
+            frameCount={3}
+            fps={2}
+            className="commander-sprite"
+          />
+
               <div className="cdm-owned">×{owned} owned{inDeck > 0 ? ` · ×${inDeck} in deck` : ''}</div>
-              {xp > 0 && <MasteryBar xp={xp} />}
             </div>
 
             <div className="cas-info-col u-grow u-col u-gap-3">
@@ -149,10 +153,6 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
                 <div className="cdm-stats-block u-flex u-wrap">
                   <AugStatRow label="HP" base={u.maxHp} delta={totalAugmentEffect.maxHp} />
                 </div>
-              )}
-
-              {masteryLvl > 0 && (
-                <div style={{ fontSize: 11, color: '#ffcc55' }}>Mastery ★{masteryLvl} · {xpCur}/{xpNeeded} XP</div>
               )}
             </div>
           </div>
@@ -252,6 +252,6 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
           onClose={() => { setPickerSlot(null); forceRefresh() }}
         />
       )}
-    </div>
+    </ModalBackdrop>
   )
 }
