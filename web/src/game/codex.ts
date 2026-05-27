@@ -1,6 +1,6 @@
 import { getCardCatalog } from './cards'
 import { loadCollection } from './collection'
-import { getRelics } from './itemStore'
+import { getEverAcquiredRelics } from './itemStore'
 import { loadActCount } from './questline'
 import { getCharacterDef, getCharacterState, getCharacterIds } from './characters'
 import relicsData from '../data/relics.json'
@@ -156,13 +156,13 @@ export function getCodexCards(): CodexCardEntry[] {
 }
 
 export function getCodexRelics(): CodexRelicEntry[] {
-  const earned = new Set(getRelics())
+  const everAcquired = new Set(getEverAcquiredRelics())
   return (relicsData as Array<{ name: string; icon: string; desc: string; lore?: string; effects: unknown[] }>).map(r => ({
     name: r.name,
     icon: r.icon,
     desc: r.desc,
     lore: r.lore ?? '',
-    unlocked: earned.has(r.name),
+    unlocked: everAcquired.has(r.name),
   }))
 }
 

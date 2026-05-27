@@ -413,6 +413,7 @@ export default function App() {
 
   // Deck selector modal (shown before quick battle / endless when Deck B has cards)
   const [pendingBattleFn, setPendingBattleFn] = useState<null | (() => void)>(null)
+  const [pendingBattleIsCampaign, setPendingBattleIsCampaign] = useState(false)
   const campaignPlayCountsRef = useRef<Record<string, number>>({})  // per-battle play tracking
   const gameStateRef = useRef<GameState | null>(null)  // always-current snapshot for callbacks
 
@@ -679,6 +680,7 @@ export default function App() {
 
   const handlePlay = useCallback((mode: QuickBattleMode) => {
     if (loadDeckSlot('b').length > 0) {
+      setPendingBattleIsCampaign(false)
       setPendingBattleFn(() => () => launchQuickBattle(mode))
     } else {
       launchQuickBattle(mode)
@@ -701,6 +703,7 @@ export default function App() {
 
   const handleEndless = useCallback(() => {
     if (loadDeckSlot('b').length > 0) {
+      setPendingBattleIsCampaign(false)
       setPendingBattleFn(() => launchEndless)
     } else {
       launchEndless()
@@ -959,6 +962,7 @@ export default function App() {
     } // end doLaunch
 
     if (loadDeckSlot('b').length > 0) {
+      setPendingBattleIsCampaign(true)
       setPendingBattleFn(() => doLaunch)
     } else {
       doLaunch()
@@ -3060,7 +3064,7 @@ export default function App() {
       {/* Deck selector — shown before quick battle / endless when Deck B has content */}
       {pendingBattleFn && (
         <DeckSelectorModal
-          fatiguedCards={fatiguedCards}
+          fatiguedCards={pendingBattleIsCampaign ? fatiguedCards : []}
           onConfirm={() => {
             const fn = pendingBattleFn
             setPendingBattleFn(null)

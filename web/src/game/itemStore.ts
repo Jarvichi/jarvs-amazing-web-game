@@ -345,14 +345,48 @@ export function spendTickets(n: number): boolean {
 // runs and are unique — adding the same relic twice is a no-op.
 // Display data and broken-relic logic live in relics.ts.
 
-/** Return the names of all relics the player has earned. */
+const CODEX_RELICS_KEY = 'jarv_codex_relics'
+
+function getCodexRelicSet(): Set<string> {
+  try {
+    const raw = localStorage.getItem(CODEX_RELICS_KEY)
+    if (!raw) return new Set()
+    return new Set(JSON.parse(raw) as string[])
+  } catch { return new Set() }
+}
+
+/** Return the names of all relics the player currently holds. */
 export function getRelics(): string[] {
   return getItemsOfType('relic').map(e => e.id)
+}
+
+/**
+ * Return the names of all relics the player has ever acquired.
+ * This set only grows — broken/removed relics remain here so the Codex
+ * can show them as unlocked permanently.
+ */
+export function getEverAcquiredRelics(): string[] {
+  const ever = getCodexRelicSet()
+  if (ever.size === 0) {
+    // Migrate: seed from currently-held relics on first call after this change
+    const current = getRelics()
+    if (current.length > 0) {
+      try { localStorage.setItem(CODEX_RELICS_KEY, JSON.stringify(current)) } catch { /* ignore */ }
+      return current
+    }
+  }
+  return [...ever]
 }
 
 /** Add a relic to the player's permanent collection (no-op if already owned). */
 export function addRelic(name: string): void {
   addItem('relic', name)
+  // Persist to codex set (survives relic removal/breaking)
+  const ever = getCodexRelicSet()
+  if (!ever.has(name)) {
+    ever.add(name)
+    try { localStorage.setItem(CODEX_RELICS_KEY, JSON.stringify([...ever])) } catch { /* ignore */ }
+  }
 }
 
 /** Remove a relic from the player's permanent collection (e.g. when it breaks). */
