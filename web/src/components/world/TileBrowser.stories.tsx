@@ -87,25 +87,46 @@ export const T3_Dirt2: Story           = { name: 'Type3 / Dirt2',           args
 export const T3_Dirt3: Story           = { name: 'Type3 / Dirt3',           args: { tileset: t3('[A]Dirt3_pipo.png'),           labels: PATH_LABELS } }
 export const T3_Dirt4: Story           = { name: 'Type3 / Dirt4',           args: { tileset: t3('[A]Dirt4_pipo.png'),           labels: PATH_LABELS } }
 export const T3_Flower: Story          = { name: 'Type3 / Flower',          args: { tileset: t3('[A]Flower_pipo.png'),          labels: PATH_LABELS } }
-export const T3_WallUp1: Story         = { name: 'Type3 / Wall-Up1',        args: { tileset: t3('[A]Wall-Up1_pipo.png') } }
-export const T3_WallUp2: Story         = { name: 'Type3 / Wall-Up2',        args: { tileset: t3('[A]Wall-Up2_pipo.png') } }
-// Water: 2048×192 = 64 cols × 6 rows = 384 tiles (8 frames × 8-col tile layout)
+export const T3_WallUp1: Story         = { name: 'Type3 / Wall-Up1',        args: { tileset: t3('[A]Wall-Up1_pipo.png'),        labels: PATH_LABELS } }
+export const T3_WallUp2: Story         = { name: 'Type3 / Wall-Up2',        args: { tileset: t3('[A]Wall-Up2_pipo.png'),        labels: PATH_LABELS } }
+
+// Animated tiles: same 8×6 variant grid repeated once per frame horizontally.
+// Water: 2048×192 = 64 cols (8 frames × 8 cols each). WaterFall: 1024×192 = 32 cols (4 frames).
+// In each row: col % 8 = within-frame column, Math.floor(col / 8) + 1 = frame number.
+function animatedPathLabels(totalColumns: number): Record<number, string> {
+  const byVariant: Record<number, string> = {
+    ...Object.fromEntries(Object.entries(PATH).map(([n, id]) => [id, n])),
+    47: 'blank',
+  }
+  const labels: Record<number, string> = {}
+  for (let row = 0; row < 6; row++) {
+    for (let col = 0; col < totalColumns; col++) {
+      const variant = row * 8 + (col % 8)
+      const name = byVariant[variant]
+      if (name) labels[row * totalColumns + col] = `f${Math.floor(col / 8) + 1}·${name}`
+    }
+  }
+  return labels
+}
+
 function t3water(file: string): TilesetDef {
   return { name: file.replace('_pipo.png', ''), image: `${T3}${file}`, tilecount: 384, columns: 64 }
 }
-// WaterFall: 1024×192 = 32 cols × 6 rows = 192 tiles (8 frames × 4-col tile layout)
 function t3fall(file: string): TilesetDef {
   return { name: file.replace('_pipo.png', ''), image: `${T3}${file}`, tilecount: 192, columns: 32 }
 }
 
-export const T3_Water1: Story          = { name: 'Type3 / Water1',          args: { tileset: t3water('[A]Water1_pipo.png') } }
-export const T3_Water2: Story          = { name: 'Type3 / Water2',          args: { tileset: t3water('[A]Water2_pipo.png') } }
-export const T3_Water3: Story          = { name: 'Type3 / Water3',          args: { tileset: t3water('[A]Water3_pipo.png') } }
-export const T3_Water3_Cave1: Story    = { name: 'Type3 / Water3-Cave1',    args: { tileset: t3water('[A]Water3_Cave1_pipo.png') } }
-export const T3_Water4: Story          = { name: 'Type3 / Water4',          args: { tileset: t3water('[A]Water4_pipo.png') } }
-export const T3_Water5: Story          = { name: 'Type3 / Water5',          args: { tileset: t3water('[A]Water5_pipo.png') } }
-export const T3_Water6: Story          = { name: 'Type3 / Water6',          args: { tileset: t3water('[A]Water6_pipo.png') } }
-export const T3_Water7: Story          = { name: 'Type3 / Water7',          args: { tileset: t3water('[A]Water7_pipo.png') } }
-export const T3_WaterFall1: Story      = { name: 'Type3 / WaterFall1',      args: { tileset: t3fall('[A]WaterFall1_pipo.png') } }
-export const T3_WaterFall2: Story      = { name: 'Type3 / WaterFall2',      args: { tileset: t3fall('[A]WaterFall2_pipo.png') } }
-export const T3_WaterFall3: Story      = { name: 'Type3 / WaterFall3',      args: { tileset: t3fall('[A]WaterFall3_pipo.png') } }
+const WATER_LABELS    = animatedPathLabels(64)
+const WATERFALL_LABELS = animatedPathLabels(32)
+
+export const T3_Water1: Story          = { name: 'Type3 / Water1',          args: { tileset: t3water('[A]Water1_pipo.png'),          labels: WATER_LABELS } }
+export const T3_Water2: Story          = { name: 'Type3 / Water2',          args: { tileset: t3water('[A]Water2_pipo.png'),          labels: WATER_LABELS } }
+export const T3_Water3: Story          = { name: 'Type3 / Water3',          args: { tileset: t3water('[A]Water3_pipo.png'),          labels: WATER_LABELS } }
+export const T3_Water3_Cave1: Story    = { name: 'Type3 / Water3-Cave1',    args: { tileset: t3water('[A]Water3_Cave1_pipo.png'),    labels: WATER_LABELS } }
+export const T3_Water4: Story          = { name: 'Type3 / Water4',          args: { tileset: t3water('[A]Water4_pipo.png'),          labels: WATER_LABELS } }
+export const T3_Water5: Story          = { name: 'Type3 / Water5',          args: { tileset: t3water('[A]Water5_pipo.png'),          labels: WATER_LABELS } }
+export const T3_Water6: Story          = { name: 'Type3 / Water6',          args: { tileset: t3water('[A]Water6_pipo.png'),          labels: WATER_LABELS } }
+export const T3_Water7: Story          = { name: 'Type3 / Water7',          args: { tileset: t3water('[A]Water7_pipo.png'),          labels: WATER_LABELS } }
+export const T3_WaterFall1: Story      = { name: 'Type3 / WaterFall1',      args: { tileset: t3fall('[A]WaterFall1_pipo.png'),      labels: WATERFALL_LABELS } }
+export const T3_WaterFall2: Story      = { name: 'Type3 / WaterFall2',      args: { tileset: t3fall('[A]WaterFall2_pipo.png'),      labels: WATERFALL_LABELS } }
+export const T3_WaterFall3: Story      = { name: 'Type3 / WaterFall3',      args: { tileset: t3fall('[A]WaterFall3_pipo.png'),      labels: WATERFALL_LABELS } }
