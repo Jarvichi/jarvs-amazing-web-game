@@ -447,8 +447,9 @@ async function buildNodeMarker(
   const accentColor = NODE_ACCENT[node.type] ?? 0x44cc44
   const borderAlpha = status === 'available' ? 1 : 0.35
   const borderWidth = status === 'available' ? 3 : 1.5
-  bg.circle(0, 0, NODE_RADIUS).fill({ color: bgColor, alpha: 1.0 })
-  bg.circle(0, 0, NODE_RADIUS).stroke({ color: accentColor, width: borderWidth, alpha: borderAlpha })
+  const ry = NODE_RADIUS / 2
+  bg.ellipse(0, 0, NODE_RADIUS, ry).fill({ color: bgColor, alpha: 1.0 })
+  bg.ellipse(0, 0, NODE_RADIUS, ry).stroke({ color: accentColor, width: borderWidth, alpha: borderAlpha })
   container.addChild(bg)
 
   // Battle/elite nodes show the first enemy unit as icon.
@@ -522,22 +523,22 @@ async function buildNodeMarker(
   const badge = new PIXI.Text({ text: NODE_LABEL[node.type] ?? node.type.toUpperCase(),
     style: { fontSize: 8, fill: '#999999', fontFamily: 'monospace', fontWeight: 'bold' } })
   badge.anchor.set(0.5, 1)
-  badge.y = -NODE_RADIUS - 3
+  badge.y = -ry - 3
   container.addChild(badge)
 
   const nameLabel = new PIXI.Text({ text: node.label ?? '',
     style: { fontSize: 9, fill: '#dddddd', fontFamily: 'monospace' } })
   nameLabel.anchor.set(0.5, 0)
-  nameLabel.y = NODE_RADIUS + 4
+  nameLabel.y = ry + 4
   container.addChild(nameLabel)
 
   if (status === 'completed') {
     const st = new PIXI.Text({ text: '✓', style: { fontSize: 11, fill: '#44cc44' } })
-    st.anchor.set(1, 1); st.position.set(NODE_RADIUS - 1, NODE_RADIUS - 1)
+    st.anchor.set(1, 1); st.position.set(NODE_RADIUS - 1, ry - 1)
     container.addChild(st)
   } else if (status === 'skipped') {
     const st = new PIXI.Text({ text: '╳', style: { fontSize: 11, fill: '#884444' } })
-    st.anchor.set(1, 1); st.position.set(NODE_RADIUS - 1, NODE_RADIUS - 1)
+    st.anchor.set(1, 1); st.position.set(NODE_RADIUS - 1, ry - 1)
     container.addChild(st)
   }
 
@@ -680,8 +681,9 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
   const appRef           = useRef<PIXI.Application | null>(null)
   const connGfxListRef   = useRef<PIXI.Graphics[]>([])
   const groundRef        = useRef<PIXI.Container | null>(null)
-  const worldRef     = useRef<PIXI.Container | null>(null)
-  const markersRef   = useRef<Map<string, PIXI.Container>>(new Map())
+  const worldRef         = useRef<PIXI.Container | null>(null)
+  const nodeLRef         = useRef<PIXI.Container | null>(null)
+  const markersRef       = useRef<Map<string, PIXI.Container>>(new Map())
   const avatarRef    = useRef<PIXI.AnimatedSprite | null>(null)
   const isWalkingRef = useRef(false)
   const deadRef      = useRef(false)
@@ -700,10 +702,13 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
 
     const groundLayer = new PIXI.Container()
     const worldLayer  = new PIXI.Container()
+    const nodeLayer   = new PIXI.Container()
     worldLayer.sortableChildren = true
-    app.stage.addChild(groundLayer, worldLayer)
+    nodeLayer.sortableChildren  = true
+    app.stage.addChild(groundLayer, worldLayer, nodeLayer)
     groundRef.current = groundLayer
     worldRef.current  = worldLayer
+    nodeLRef.current  = nodeLayer
 
     // Terrain
     buildTerrainGfx(groundLayer, worldLayer, act, mapWidth, mapHeight)
@@ -747,8 +752,8 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
           handleWalk(node, pos)
         })
         marker.position.set(pos.x, pos.y)
-        marker.zIndex = pos.y + NODE_RADIUS
-        worldLayer.addChild(marker)
+        marker.zIndex = pos.y
+        nodeLayer.addChild(marker)
         markersRef.current.set(node.id, marker)
       }
     }
@@ -787,7 +792,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack }: Pro
     worldLayer.addChild(avatar)
     avatarRef.current = avatar
 
-    app.ticker.add(() => { worldLayer.sortChildren() })
+    app.ticker.add(() => { worldLayer.sortChildren(); nodeLayer.sortChildren() })
   })
 
   // Redraw connectors + update marker styles when run state changes
