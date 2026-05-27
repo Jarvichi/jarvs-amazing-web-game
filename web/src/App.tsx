@@ -2447,6 +2447,7 @@ export default function App() {
           onSelectNode={handleSelectNode}
           onUseConsumable={handleUseConsumable}
           onBack={handleMainMenu}
+          user={user}
         />
       )}
 
