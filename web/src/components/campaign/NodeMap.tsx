@@ -554,8 +554,8 @@ function drawConnectorsGfx(
 function markerAlpha(status: NodeStatus, inReachable: boolean): number {
   if (status === 'available' || status === 'pending') return 1
   if (!inReachable || status === 'skipped') return 0.25
-  if (status === 'completed') return 0.55
-  return 0.4
+  if (status === 'completed') return 0.8
+  return 0.8
 }
 
 function nodeRoadFill(status: NodeStatus, environment: string | undefined): { color: number; alpha: number } {
