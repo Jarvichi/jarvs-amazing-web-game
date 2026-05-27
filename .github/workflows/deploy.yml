@@ -68,3 +68,12 @@ jobs:
         env:
           ROLLBAR_ACCESS_TOKEN: ${{ secrets.ROLLBAR_ACCESS_TOKEN }}
           ROLLBAR_USERNAME: ${{ github.actor }}
+
+  deploy-firebase:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy Firestore rules
+        run: npx firebase-tools@latest deploy --only firestore:rules --project ${{ secrets.VITE_FIREBASE_PROJECT_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
