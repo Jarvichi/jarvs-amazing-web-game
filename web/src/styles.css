@@ -13952,6 +13952,57 @@ html.light-mode .action-btn {
   flex-direction: column;
 }
 
+/* ── Streak broken modal ── */
+.streak-broken-modal {
+  background: var(--game-bg-raised);
+  border: 2px solid var(--color-red, #cc3333);
+  border-radius: 6px;
+  padding: 32px 40px;
+  max-width: 320px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.streak-broken-icon {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.streak-broken-heading {
+  font-size: var(--font-lg);
+  font-weight: bold;
+  color: var(--color-red, #cc3333);
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+.streak-broken-count {
+  font-size: 56px;
+  font-weight: bold;
+  color: var(--game-text-color);
+  line-height: 1;
+  margin: 4px 0;
+}
+
+.streak-broken-label {
+  font-size: var(--font-sm);
+  color: var(--game-text-color-dim);
+}
+
+.streak-broken-pb {
+  font-size: var(--font-xs);
+  color: var(--color-gold);
+  margin-top: 4px;
+}
+
+.streak-broken-btn {
+  margin-top: 16px;
+}
+
 /* ── Shop pack confirmation modal ── */
 .shop-confirm-backdrop {
   position: fixed;
