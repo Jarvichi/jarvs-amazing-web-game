@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { Card, AugmentSlot, AugmentEffect, AugmentInstance } from '../../game/types'
 import {
   CollectionEntry,
@@ -10,6 +10,7 @@ import {
   getEquippedAugments,
   getSetBonus,
   upgradeAugment,
+  mergeAugmentEffects,
   AUGMENT_UPGRADE_COST,
 } from '../../game/collection'
 import {
@@ -21,7 +22,6 @@ import {
   getAugmentSetDef,
 } from '../../game/augments'
 import { CardTile } from './CardTile'
-import { StatRow } from '../ui/StatRow'
 import { MasteryBar } from '../ui/MasteryBar'
 import { AugmentPickerModal } from './AugmentPickerModal'
 
@@ -42,6 +42,19 @@ const RARITY_COLOUR: Record<string, string> = {
   shiny:     '#ffe066',
   holofoil:  '#40e0d0',
   glass:     '#a0d8ef',
+}
+
+function AugStatRow({ label, base, delta }: { label: string; base: number; delta?: number }) {
+  const hasDelta = delta != null && delta !== 0
+  return (
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, minWidth: 64 }}>
+      <span style={{ fontSize: 10, opacity: 0.6, textTransform: 'uppercase' }}>{label}</span>
+      <span style={{ fontWeight: 700 }}>{hasDelta ? base + delta! : base}</span>
+      {hasDelta && (
+        <span style={{ fontSize: 10, color: '#aaddff' }}>(+{delta})</span>
+      )}
+    </div>
+  )
 }
 
 function effectSummary(effect: AugmentEffect): string {
@@ -71,6 +84,20 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
   const souls       = loadAugmentSouls()
 
   const u = card.unit
+
+  // Compute total augment effect for live stat display
+  const totalAugmentEffect = useMemo(() => {
+    let effect: AugmentEffect = {}
+    for (const inst of Object.values(equippedMap)) {
+      const augCard = getAugmentCard(inst.cardId)
+      if (!augCard?.augmentEffect) continue
+      const scaled = scaledAugmentEffect(augCard.augmentEffect, inst.level)
+      effect = mergeAugmentEffects(effect, scaled)
+    }
+    if (setBonus) effect = mergeAugmentEffects(effect, setBonus.effect)
+    return effect
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refresh])
 
   function handleUpgrade(inst: AugmentInstance) {
     const err = upgradeAugment(inst.instanceId)
@@ -112,15 +139,15 @@ export function CardAugmentScreen({ card, collection, deckEntries, onClose }: Pr
               {/* Unit stats */}
               {u && u.moveSpeed > 0 && (
                 <div className="cdm-stats-block u-flex u-wrap">
-                  <StatRow compact label="ATK" value={u.attack} />
-                  <StatRow compact label="HP"  value={u.maxHp} />
-                  <StatRow compact label="SPD" value={u.moveSpeed} />
-                  {u.attackRange > 0 && <StatRow compact label="RNG" value={u.attackRange} />}
+                  <AugStatRow label="ATK" base={u.attack}      delta={totalAugmentEffect.attack} />
+                  <AugStatRow label="HP"  base={u.maxHp}       delta={totalAugmentEffect.maxHp} />
+                  <AugStatRow label="SPD" base={u.moveSpeed}   delta={totalAugmentEffect.moveSpeed} />
+                  {u.attackRange > 0 && <AugStatRow label="RNG" base={u.attackRange} delta={totalAugmentEffect.attackRange} />}
                 </div>
               )}
               {u && u.moveSpeed === 0 && (
                 <div className="cdm-stats-block u-flex u-wrap">
-                  <StatRow compact label="HP" value={u.maxHp} />
+                  <AugStatRow label="HP" base={u.maxHp} delta={totalAugmentEffect.maxHp} />
                 </div>
               )}
 

@@ -13876,6 +13876,80 @@ html.light-mode .action-btn {
 .apm-item-actions { flex-shrink: 0; }
 
 /* ── Augment Collection Screen ───────────────────────────────────────────────── */
+
+.aug-stacks-section { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+
+.aug-stack-tile {
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 10px 12px;
+  background: rgba(80,50,120,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aug-stack-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.aug-stack-name   { font-size: var(--font-sm); font-weight: bold; }
+.aug-stack-levels { font-size: var(--font-xxs); color: #aaa; }
+
+.aug-stack-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.aug-stack-slot-chip {
+  font-size: 10px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+.aug-stack-upgrade-note {
+  font-size: 11px;
+  color: var(--game-text-color-dim);
+}
+
+.aug-stack-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.aug-stack-drill-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0 4px;
+  border-bottom: 1px solid #2a2a2a;
+  margin-bottom: 4px;
+}
+
+.aug-stack-drill-title {
+  flex: 1;
+  font-weight: bold;
+  font-size: var(--font-sm);
+}
+
+.aug-stack-drill-upgrade {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  background: rgba(255,200,0,0.05);
+  border: 1px solid rgba(255,200,0,0.15);
+  border-radius: 4px;
+}
+
 .aug-list { display: flex; flex-direction: column; gap: 6px; }
 .aug-list-item {
   display: flex;

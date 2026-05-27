@@ -334,6 +334,50 @@ export function upgradeAugment(instanceId: string): string | null {
   return null
 }
 
+/** Upgrade a group of augment instances as a stack.
+ *  Finds the minimum level across all instances, upgrades only those at that minimum.
+ *  Cost = (count at minimum level) × AUGMENT_UPGRADE_COST souls.
+ *  Returns null on success, or an error string on failure. */
+export function upgradeAugmentStack(instanceIds: string[]): string | null {
+  const souls = loadAugmentSouls()
+  const instances = loadAugmentInstances()
+  const targets = instanceIds.map(id => instances.find(i => i.instanceId === id)).filter(Boolean) as AugmentInstance[]
+  if (targets.length === 0) return 'No instances found'
+
+  const minLevel = Math.min(...targets.map(t => t.level))
+  const toUpgrade = targets.filter(t => t.level === minLevel)
+  const cost = toUpgrade.length * AUGMENT_UPGRADE_COST
+
+  if (souls < cost) return `Not enough souls (need ${cost.toLocaleString()}, have ${souls.toLocaleString()})`
+
+  for (const t of toUpgrade) t.level += 1
+  saveAugmentInstances(instances)
+  saveAugmentSouls(souls - cost)
+  return null
+}
+
+/** Equip all instances in the given list to a unit card, one per slot.
+ *  Any existing augment in the same slot on that card is unequipped first. */
+export function equipAugmentSet(instanceIds: string[], cardName: string): void {
+  const instances = loadAugmentInstances()
+  const targets = instanceIds.map(id => instances.find(i => i.instanceId === id)).filter(Boolean) as AugmentInstance[]
+
+  for (const target of targets) {
+    const card = getAugmentCard(target.cardId)
+    if (!card?.augmentSlot) continue
+
+    for (const inst of instances) {
+      if (inst.equippedToCardName !== cardName) continue
+      const iCard = getAugmentCard(inst.cardId)
+      if (iCard?.augmentSlot === card.augmentSlot) inst.equippedToCardName = null
+    }
+
+    target.equippedToCardName = cardName
+  }
+
+  saveAugmentInstances(instances)
+}
+
 /** Return the set bonus effect if all 7 slots of the same set are equipped to the given unit.
  *  Returns undefined if the set is incomplete. */
 export function getSetBonus(cardName: string): { setName: string; effect: AugmentEffect; description: string } | undefined {
@@ -740,7 +784,7 @@ function applyAugmentBonuses(card: Card, cardName: string): Card {
   return { ...card, unit: u }
 }
 
-function mergeAugmentEffects(a: AugmentEffect, b: AugmentEffect): AugmentEffect {
+export function mergeAugmentEffects(a: AugmentEffect, b: AugmentEffect): AugmentEffect {
   const sum = (x: number | undefined, y: number | undefined): number | undefined => {
     const total = (x ?? 0) + (y ?? 0)
     return total !== 0 ? total : undefined
