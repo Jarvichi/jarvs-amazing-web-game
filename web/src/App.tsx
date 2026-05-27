@@ -790,9 +790,15 @@ export default function App() {
         : handicap
     try { localStorage.setItem(HANDICAP_KEY, String(nextHandicap)) } catch { /* ignore */ }
     setHandicap(nextHandicap)
-    const { playerCards, deckBonus } = loadCurrentDeckInfo()
-    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
-    startBattle(newGame(playerCards, Math.min(MAX_HANDICAP, nextHandicap + deckBonus)))
+    if (gameState.endlessMode) {
+      const { playerCards, deckBonus } = loadCurrentDeckInfo()
+      battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
+      startBattle(newGame({ playerCards, opponentHandicap: Math.min(MAX_HANDICAP, nextHandicap + deckBonus), endlessMode: true }))
+    } else {
+      const { opts, playerCards } = buildQuickBattleOpts(quickBattleModeRef.current, nextHandicap)
+      battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
+      startBattle(newGame(opts))
+    }
     rollRareEvent()
   }, [gameState, handicap])
 
@@ -2165,20 +2171,53 @@ export default function App() {
 
   const handleOpenPack = useCallback(() => {
     packBackScreenRef.current = 'title'
-    var pack = generatePack()
+    let pack: string[]
 
     switch(quickBattleModeRef.current) {
-      case  'easy':
-        // Easy mode: 2 cards per pack, no duplicates
-        pack = [...new Set(pack)].slice(0, 2)
+      case 'easy':
+        pack = [...new Set(generatePack())].slice(0, 2)
         break
       case 'normal':
-        case 'mirror':
-        // Normal mode: 5 cards per pack, no duplicates
+      case 'mirror':
         pack = generatePack()
         break
       case 'unlimited':
-        pack = generateSeededPack(3, "rare")
+        pack = generateSeededPack(3, 'rare')
+        break
+      case 'hero-only':
+        pack = generateSeededPack(5, 'legendary')
+        break
+      case 'chaos':
+        pack = generateSeededPack(2, 'legendary')
+        break
+      case 'only-units': {
+        const pool = getCardCatalog().filter(c => c.cardType.includes('unit'))
+        pack = Array.from({ length: 3 }, () => pool[Math.floor(Math.random() * pool.length)].name)
+        break
+      }
+      case 'only-spells': {
+        const pool = getCardCatalog().filter(c => c.cardType.includes('upgrade'))
+        pack = Array.from({ length: 3 }, () => pool[Math.floor(Math.random() * pool.length)].name)
+        break
+      }
+      case 'only-buildings': {
+        const pool = getCardCatalog().filter(c => c.cardType.includes('structure'))
+        pack = Array.from({ length: 3 }, () => pool[Math.floor(Math.random() * pool.length)].name)
+        break
+      }
+      case 'common-only': {
+        const pool = getCardCatalog().filter(c => c.rarity === 'common')
+        pack = Array.from({ length: 5 }, () => pool[Math.floor(Math.random() * pool.length)].name)
+        break
+      }
+      case 'uncommon-only':
+        pack = generateSeededPack(5, 'uncommon')
+        break
+      case 'rare-only':
+        pack = generateSeededPack(5, 'rare')
+        break
+      case 'legendary-only':
+        pack = generateSeededPack(5, 'legendary')
         break
       default:
         pack = generatePack()
