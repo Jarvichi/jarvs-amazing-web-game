@@ -77,8 +77,15 @@ export const PATH_TILE = {
   dirt1:        '/world/[A]_type3/[A]Dirt1_pipo.png',
   dirt1Dirt4:   '/world/[A]_type3/[A]Dirt1-Dirt4_pipo.png',
   dirt4:        '/world/[A]_type3/[A]Dirt4_pipo.png',
-    wall1:        '/world/[A]_type3/[A]Wall-Up1_pipo.png',
- wall2:        '/world/[A]_type3/[A]Wall-Up2_pipo.png',
+  wall1:        '/world/[A]_type3/[A]Wall-Up1_pipo.png',
+  wall2:        '/world/[A]_type3/[A]Wall-Up2_pipo.png',
+  water1:       '/world/[A]_type3/[A]Water1_pipo.png',
+  water2:       '/world/[A]_type3/[A]Water2_pipo.png',
+  water3:       '/world/[A]_type3/[A]Water3_pipo.png',
+  water4:       '/world/[A]_type3/[A]Water4_pipo.png',
+  water5:       '/world/[A]_type3/[A]Water5_pipo.png',
+  water6:       '/world/[A]_type3/[A]Water6_pipo.png',
+  water7:       '/world/[A]_type3/[A]Water7_pipo.png',
 } as const
 
 // ── Tileset image paths (relative to /public) ─────────────────────────────────
@@ -125,8 +132,8 @@ export const ENV_TILES: Record<string, { ground: number; pathFile: string }> = {
   frost:    { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Grass2 },
   volcano:  { ground: BASE_GROUND.darkDirt,    pathFile: PATH_TILE.dirt4        },
   citadel:  { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.wall2 },
-  coast:    { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },
-  reef:     { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },
+  coast:    { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water2       },
+  reef:     { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water1       },
   sky:      { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Grass2 },
   fungal:   { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.grass1Grass3 },
   vault:    { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.wall1        },
