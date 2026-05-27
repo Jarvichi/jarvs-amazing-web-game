@@ -46,9 +46,10 @@ const RARITY_ORDER: Record<string, number> = {
 
 interface Props {
   onBack: () => void
+  embedded?: boolean
 }
 
-export function AugmentCollectionScreen({ onBack }: Props) {
+export function AugmentCollectionScreen({ onBack, embedded }: Props) {
   const [refresh,    setRefresh]    = useState(0)
   const [sortKey,    setSortKey]    = useState<AugSortKey>('default')
   const [groupKey,   setGroupKey]   = useState<AugGroupKey>('none')
@@ -156,12 +157,8 @@ export function AugmentCollectionScreen({ onBack }: Props) {
 
   const currentSouls = loadAugmentSouls()
 
-  return (
-    <OverlayScreen
-      title="AUGMENTS"
-      onBack={onBack}
-      right={<span style={{ color: '#cc88ff', fontWeight: 700 }}>{souls.toLocaleString()} 👻 souls</span>}
-    >
+  const inner = (
+    <>
       {/* Filter bar */}
       <div className="filter-bar">
         {/* SORT */}
@@ -281,6 +278,17 @@ export function AugmentCollectionScreen({ onBack }: Props) {
           onClose={() => setDetailInst(null)}
         />
       )}
+    </>
+  )
+
+  if (embedded) return inner
+  return (
+    <OverlayScreen
+      title="AUGMENTS"
+      onBack={onBack}
+      right={<span style={{ color: '#cc88ff', fontWeight: 700 }}>{souls.toLocaleString()} 👻 souls</span>}
+    >
+      {inner}
     </OverlayScreen>
   )
 }

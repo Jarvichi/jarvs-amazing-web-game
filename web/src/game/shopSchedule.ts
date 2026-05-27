@@ -6,6 +6,7 @@
 import { getCardCatalog } from './cards'
 import { CardRarity } from './types'
 import { ALL_ITEMS, RewardDef } from './dailyLogin'
+import { getAugmentCatalog } from './augments'
 import shopNpcsJson from '../data/shopNpcs.json'
 
 const SHOP_STATE_KEY  = 'jarv_shop_daily'
@@ -198,6 +199,42 @@ export function getDailyShopCards(at?: Date): ShopCardDeal[] {
   return [pick('common'), pick('uncommon'), topSlot]
 }
 
+// ── Daily augment deal ────────────────────────────────────────────────────────
+
+export const SHOP_AUGMENT_PRICES: Record<CardRarity, number> = {
+  common:    80,
+  uncommon:  200,
+  rare:      500,
+  epic:      800,
+  legendary: 1200,
+  mythic:    0,
+  shiny:     0,
+  holofoil:  0,
+  glass:     0,
+}
+
+export interface ShopAugmentDeal {
+  augmentName: string
+  rarity: CardRarity
+  price: number
+}
+
+/** Returns a single random augment deal for the current stock slot (refreshes every 3 hours). */
+export function getDailyShopAugment(at?: Date): ShopAugmentDeal {
+  const slotKey = getShopSlotKey(at)
+  const rng     = makeSeededRng(dateHash(slotKey) ^ 0xdeadbeef)
+  const catalog = getAugmentCatalog().filter(c =>
+    c.rarity === 'common' || c.rarity === 'uncommon' || c.rarity === 'rare' || c.rarity === 'epic' || c.rarity === 'legendary'
+  )
+  if (catalog.length === 0) return { augmentName: '', rarity: 'common', price: SHOP_AUGMENT_PRICES.common }
+  const aug = catalog[Math.floor(rng() * catalog.length)]
+  return {
+    augmentName: aug.name,
+    rarity: aug.rarity as CardRarity,
+    price: SHOP_AUGMENT_PRICES[aug.rarity as CardRarity] ?? SHOP_AUGMENT_PRICES.common,
+  }
+}
+
 // ── Daily sell slots ───────────────────────────────────────────────────────────
 
 /** Items the shopkeeper is looking to buy this slot. 1 on weekdays, 3 on weekends. */
@@ -226,6 +263,7 @@ export interface DailyShopState {
   date: string
   boughtCardNames: string[]
   soldItemIds: string[]
+  boughtAugment?: boolean
 }
 
 function freshShopState(): DailyShopState {

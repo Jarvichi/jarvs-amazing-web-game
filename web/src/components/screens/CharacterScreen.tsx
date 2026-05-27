@@ -24,6 +24,7 @@ const BASE_AVATAR_LABELS: Record<string, string> = {
 
 interface Props {
   onDone: () => void
+  embedded?: boolean
 }
 
 /** Allow only alphanumeric characters (a-z, A-Z, 0-9). */
@@ -53,7 +54,7 @@ function AvatarButton({ slug, chosen, onClick, lockHint }: { slug: string; chose
 
 type AvatarTab = 'base' | 'streak' | 'boss'
 
-export function CharacterScreen({ onDone }: Props) {
+export function CharacterScreen({ onDone, embedded }: Props) {
   const [name,      setName]      = useState(loadPlayerName())
   const [nameChanged, setNameChanged] = useState(false)
   const [avatar,    setAvatar]    = useState<AvatarSlug>(loadPlayerAvatar())
@@ -98,8 +99,7 @@ export function CharacterScreen({ onDone }: Props) {
     setNameError(null) 
   }
 
-  return (
-    <OverlayScreen title="Character" onBack={onDone}>
+  const inner = (
     <div className="character-screen-scroll">
       <div className="event-screen" >
         <div className="event-title">Who are you?</div>
@@ -215,6 +215,8 @@ export function CharacterScreen({ onDone }: Props) {
         </Button>
       </div>
     </div>
-    </OverlayScreen>
   )
+
+  if (embedded) return inner
+  return <OverlayScreen title="Character" onBack={onDone}>{inner}</OverlayScreen>
 }

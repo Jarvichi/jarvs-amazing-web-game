@@ -35,10 +35,7 @@ export interface Props {
   onShop: () => void
   onDeckBuilder: () => void
   onSettings: () => void
-  onInventory: () => void
-  onAchievements: () => void
-  onHeroCards: () => void
-  onCharacter: () => void
+  onPlayer: () => void
   on8bitUnlocked?: () => void
   onDailyChallenge: () => void
   onEndlessLeaderboard: () => void
@@ -49,16 +46,14 @@ export interface Props {
   hasUnreadNews: boolean
   onMiniGames: () => void
   onCityBuilder: () => void
-  onPlayerStats: () => void
   onCodex: () => void
   user: User | null
   onSignOut: () => void
   onSignIn: () => void
   onFeedback: () => void
-  onAugments?: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onInventory, onAchievements, onHeroCards, onCharacter, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onPlayerStats, onCodex, user, onSignOut, onSignIn, onFeedback, onAugments }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onPlayer, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onCodex, user, onSignOut, onSignIn, onFeedback }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -253,16 +248,11 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
       <div className="title-nav-section">
         <div className="title-nav-label">[ MANAGE ]</div>
         <div className="title-nav-grid">
-          <TitleButton onClick={onDeckBuilder}>DECK BUILDER</TitleButton>
-          <TitleButton onClick={onCollection} badge={collectionAlert}>COLLECTION</TitleButton>
-          {onAugments && <TitleButton onClick={onAugments}>⚔ AUGMENTS</TitleButton>}
+          <TitleButton onClick={onPlayer} badge={achievementAlert}>👤 PLAYER</TitleButton>
+          <TitleButton onClick={onDeckBuilder}>🃏 DECK</TitleButton>
+          <TitleButton onClick={onCollection} badge={collectionAlert}>📦 COLLECTION</TitleButton>
           <TitleButton onClick={onShop} badge={shopAlert}>🛒 SHOP</TitleButton>
-          <TitleButton onClick={onHeroCards}>🦸 HEROES</TitleButton>
-          <TitleButton onClick={onInventory}>🎒 INVENTORY</TitleButton>
-          <TitleButton onClick={onAchievements} badge={achievementAlert}>🏆 ACHIEVEMENTS</TitleButton>
-          <TitleButton onClick={onPlayerStats}>📊 PLAYER STATS</TitleButton>
           <TitleButton onClick={onCodex}>📖 CODEX</TitleButton>
-          <TitleButton onClick={onCharacter}>👤 CHARACTER</TitleButton>
           <TitleButton onClick={onNews} badge={hasUnreadNews}>📰 WHAT'S NEW</TitleButton>
           <TitleButton onClick={onSettings} extraClass="title-settings-btn">⚙ SETTINGS</TitleButton>
           {commanderName && onCommander && (

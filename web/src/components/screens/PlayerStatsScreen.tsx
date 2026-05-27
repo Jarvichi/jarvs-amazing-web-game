@@ -4,9 +4,10 @@ import { loadPlayerStats } from '../../game/playerStats'
 
 interface Props {
   onBack: () => void
+  embedded?: boolean
 }
 
-export function PlayerStatsScreen({ onBack }: Props) {
+export function PlayerStatsScreen({ onBack, embedded }: Props) {
   const s = loadPlayerStats()
 
   const rows: { label: string; icon: string; value: string; note: string }[] = [
@@ -42,8 +43,8 @@ export function PlayerStatsScreen({ onBack }: Props) {
     },
   ]
 
-  return (
-    <OverlayScreen title="PLAYER STATS" onBack={onBack}>
+  const content = (
+    <>
       <div style={{ padding: '8px 12px 4px', color: 'var(--game-text-color-dim)', fontSize: '11px', borderBottom: '1px solid var(--game-border)' }}>
         Permanent upgrades earned by completing campaigns.
       </div>
@@ -68,6 +69,9 @@ export function PlayerStatsScreen({ onBack }: Props) {
           </div>
         ))}
       </div>
-    </OverlayScreen>
+    </>
   )
+
+  if (embedded) return content
+  return <OverlayScreen title="PLAYER STATS" onBack={onBack}>{content}</OverlayScreen>
 }

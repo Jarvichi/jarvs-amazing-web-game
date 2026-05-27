@@ -124,7 +124,10 @@ import { ConfirmModal }          from './components/modals/ConfirmModal'
 import { EndlessLeaderboardScreen } from './components/screens/EndlessLeaderboardScreen'
 import { MiniGamesMenu }           from './components/screens/MiniGamesMenu'
 import { AugmentCollectionScreen } from './components/screens/AugmentCollectionScreen'
+import { PlayerScreen }            from './components/screens/PlayerScreen'
+import { CollectionTabScreen }     from './components/screens/CollectionTabScreen'
 import './styles.css'
+import { publishSecretRareWin, type SecretRarityType } from './game/secretRareNews'
 import brokenRelicsData from './data/broken-relics.json'
 import rollbar, { updateRollbarPerson } from './rollbar'
 import { useAuth } from './hooks/useAuth'
@@ -211,6 +214,8 @@ type Screen =
   | 'memory'
   | 'characterEncounter'
   | 'augments'
+  | 'player'
+  | 'collection-tabs'
 
 
 const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
@@ -2134,21 +2139,27 @@ export default function App() {
         seenTypes = raw ? new Set(JSON.parse(raw) as string[]) : new Set()
       } catch { seenTypes = new Set() }
 
+      const playerName = loadPlayerName() || 'A player'
       for (const cardName of obtained) {
         toasts.push(...incrementAchievementProgress('secret:any'))
+        let rarityType: SecretRarityType = 'mythic'
         if (cardName.startsWith('Shiny ')) {
           toasts.push(...incrementAchievementProgress('secret:shiny'))
           seenTypes.add('shiny')
+          rarityType = 'shiny'
         } else if (cardName.startsWith('Holo ')) {
           toasts.push(...incrementAchievementProgress('secret:holofoil'))
           seenTypes.add('holofoil')
+          rarityType = 'holofoil'
         } else if (cardName.startsWith('Glass ')) {
           toasts.push(...incrementAchievementProgress('secret:glass'))
           seenTypes.add('glass')
+          rarityType = 'glass'
         } else {
           toasts.push(...incrementAchievementProgress('secret:mythic'))
           seenTypes.add('mythic')
         }
+        publishSecretRareWin(playerName, cardName, rarityType)
       }
 
       try { localStorage.setItem(TYPES_KEY, JSON.stringify([...seenTypes])) } catch { /* ignore */ }
@@ -2405,14 +2416,11 @@ export default function App() {
             onPlay={() => setScreen('quickbattle')}
             onEndless={handleEndless}
             onCampaign={handleCampaign}
-            onCollection={() => setScreen('collection')}
+            onCollection={() => setScreen('collection-tabs')}
             onShop={() => setScreen('shop')}
             onDeckBuilder={() => setScreen('deckbuilder')}
             onSettings={() => setScreen('settings')}
-            onInventory={() => setScreen('inventory')}
-            onAchievements={() => setScreen('achievements')}
-            onHeroCards={() => setScreen('heroCards')}
-            onCharacter={() => setScreen('character')}
+            onPlayer={() => setScreen('player')}
             on8bitUnlocked={() => { /* achievement granted in TitleScreen after unlock */ }}
             onDailyChallenge={handleDailyChallenge}
             onEndlessLeaderboard={handleEndlessLeaderboard}
@@ -2423,9 +2431,7 @@ export default function App() {
             hasUnreadNews={newsUnreadCount > 0}
             onMiniGames={() => setScreen('minigames')}
             onCityBuilder={() => { setMiniGamesEntry('citybuilder'); setScreen('minigames') }}
-            onPlayerStats={() => setScreen('playerstats')}
             onCodex={() => setScreen('codex')}
-            onAugments={() => setScreen('augments')}
             user={user}
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
             onSignIn={() => setShowTitleLoginModal(true)}
@@ -2691,6 +2697,30 @@ export default function App() {
           fatiguedCards={fatiguedCards}
           bonusCards={bonusPackCards}
           recommendedPackId={run?.archetype ? ARCHETYPE_STARTER_PACK[run.archetype as Archetype] : undefined}
+        />
+      )}
+
+      {screen === 'player' && (
+        <PlayerScreen
+          crystals={crystals}
+          onCrystalsChanged={handleCrystalsChanged}
+          onBack={() => setScreen('title')}
+        />
+      )}
+
+      {screen === 'collection-tabs' && (
+        <CollectionTabScreen
+          crystals={crystals}
+          onCrystalsChanged={handleCrystalsChanged}
+          onBack={() => setScreen('title')}
+          commanderName={commander?.cardName ?? null}
+          onPromoteCommander={(cardName) => {
+            const ok = promoteCommander(cardName)
+            if (ok) {
+              setCommander(loadCommander())
+              setScreen('commander')
+            }
+          }}
         />
       )}
 
