@@ -88,7 +88,9 @@ const PACK_QUANTITIES = [1, 3, 5, 10]
 
 export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBack }: Props) {
   const [packQty, setPackQty] = useState(1)
+  const maxPackQty = Math.max(0, Math.floor((crystals - 100) / CRYSTAL_PACK_COST))
   const canBuyPack = crystals >= CRYSTAL_PACK_COST * packQty
+  const [pendingPackBuy, setPendingPackBuy] = useState(false)
 
   const [npc, setNpc] = useState(() => getDailyShopNPC())
   const [dailyCards, setDailyCards] = useState(() => getDailyShopCards())
@@ -164,11 +166,16 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
 
   function handleBuyPackClick() {
     if (canBuyPack) {
-      emitSound('shopPurchase')
-      onBuyCrystalPack(packQty)
+      setPendingPackBuy(true)
     } else {
       incrementAchievementProgress('misc:shop_broke_click')
     }
+  }
+
+  function handleConfirmPackBuy() {
+    emitSound('shopPurchase')
+    onBuyCrystalPack(packQty)
+    setPendingPackBuy(false)
   }
 
   function handleBuyCard(deal: ShopCardDeal) {
@@ -345,12 +352,20 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
             {PACK_QUANTITIES.map(q => (
               <button
                 key={q}
-                className={`filter-btn${packQty === q ? ' filter-btn--active' : ''}`}
+                className={`filter-btn${packQty === q && packQty !== maxPackQty ? ' filter-btn--active' : ''}`}
                 onClick={() => setPackQty(q)}
               >
                 ×{q}
               </button>
             ))}
+            <button
+              className={`filter-btn filter-btn--gold${packQty === maxPackQty && maxPackQty > 0 ? ' filter-btn--active' : ''}`}
+              onClick={() => setPackQty(maxPackQty)}
+              disabled={maxPackQty === 0}
+              title={maxPackQty === 0 ? 'Not enough crystals' : `Buy ${maxPackQty} packs`}
+            >
+              MAX{maxPackQty > 0 ? ` ×${maxPackQty}` : ''}
+            </button>
           </div>
           <button
             className="action-btn action-btn--gold"
@@ -361,6 +376,22 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
               ? `Buy ${packQty > 1 ? `${packQty}× ` : ''}— ${CRYSTAL_PACK_COST * packQty} 💎`
               : `Need ${CRYSTAL_PACK_COST * packQty - crystals} more 💎`}
           </button>
+
+          {/* Max buy confirmation modal */}
+          {pendingPackBuy && (
+            <div className="shop-confirm-backdrop" onClick={() => setPendingPackBuy(false)}>
+              <div className="shop-confirm-modal" onClick={e => e.stopPropagation()}>
+                <div className="shop-confirm-title">🎁 Card Packs</div>
+                <div className="shop-confirm-body">
+                  This will buy <strong>{packQty} card pack{packQty !== 1 ? 's' : ''}</strong> for <strong>{CRYSTAL_PACK_COST * packQty} 💎</strong>
+                </div>
+                <div className="shop-confirm-actions">
+                  <button className="action-btn" onClick={() => setPendingPackBuy(false)}>Oh no</button>
+                  <button className="action-btn action-btn--gold" onClick={handleConfirmPackBuy}>Oh yes!</button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* ── Sell slots ── */}
