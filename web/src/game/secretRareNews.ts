@@ -12,7 +12,7 @@ import { collection, addDoc, Timestamp } from 'firebase/firestore'
 import { db } from '../firebase'
 import { logError } from '../logger'
 
-const SECRET_RARE_WINS_COLLECTION = 'secretRareWins'
+const RARE_WINS_COLLECTION = 'secretRareWins'
 
 export type SecretRarityType = 'mythic' | 'shiny' | 'holofoil' | 'glass'
 
@@ -29,7 +29,7 @@ export async function publishSecretRareWin(
   rarityType: SecretRarityType,
 ): Promise<void> {
   try {
-    await addDoc(collection(db, SECRET_RARE_WINS_COLLECTION), {
+    await addDoc(collection(db, RARE_WINS_COLLECTION), {
       playerName,
       cardName,
       rarityType,
