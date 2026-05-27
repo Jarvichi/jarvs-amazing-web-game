@@ -48,18 +48,35 @@ export const PATH = {
   allSides:         46,  // l + r + t + b (with grass corners — use near grass)
 } as const
 
-// ── [A]Grass_pipo — path set base tile IDs ───────────────────────────────────
-// Each entry is the starting tile ID for that path texture within the sheet.
-// All sets use medium-grass as the surrounding terrain.
+// ── [A]Grass_pipo — path set base tile IDs (SampleMap big sheet, used by TileBrowser) ──
 export const GRASS_PATH = {
-  wornDirt:  0,
-  darkDirt:  48,
-  sand:      96,
-  gravel:    144,
-  darkGrass: 192,
-  lightGrass: 240,
-  deadGrass: 288,
-  // sets at 336, 384, 432, 480 — to be identified
+  wornDirt:      0,
+  darkDirt:      48,
+  sand:          96,
+  gravel:        144,
+  darkGrass:     192,
+  lightGrass:    240,
+  deadGrass:     288,
+  edgeGrass:     336,
+  edgeDarkGrass: 384,
+  edgeLightGrass: 432,
+  edgeDeadGrass: 480,
+} as const
+
+// ── [A]_type3 — per-combination path tile files ───────────────────────────────
+// Each file is a complete 8×6 tileset (tiles 0–46 used, tile 47 is blank).
+// Variant index maps directly — no base offset needed.
+export const PATH_TILE = {
+  grass1Dirt1:  '/world/[A]_type3/[A]Grass1-Dirt1_pipo.png',
+  grass1Dirt2:  '/world/[A]_type3/[A]Grass1-Dirt2_pipo.png',
+  grass1Dirt3:  '/world/[A]_type3/[A]Grass1-Dirt3_pipo.png',
+  grass1Dirt4:  '/world/[A]_type3/[A]Grass1-Dirt4_pipo.png',
+  grass1Grass2: '/world/[A]_type3/[A]Grass1-Grass2_pipo.png',
+  grass1Grass3: '/world/[A]_type3/[A]Grass1-Grass3_pipo.png',
+  grass1Grass4: '/world/[A]_type3/[A]Grass1-Grass4_pipo.png',
+  dirt1:        '/world/[A]_type3/[A]Dirt1_pipo.png',
+  dirt1Dirt4:   '/world/[A]_type3/[A]Dirt1-Dirt4_pipo.png',
+  dirt4:        '/world/[A]_type3/[A]Dirt4_pipo.png',
 } as const
 
 // ── Tileset image paths (relative to /public) ─────────────────────────────────
@@ -97,12 +114,19 @@ export function tileFrame(id: number, cols: number): { x: number; y: number; w: 
 }
 
 // ── Per-environment defaults ───────────────────────────────────────────────────
-export const ENV_TILES: Record<string, { ground: number; pathSet: number }> = {
-  forest:   { ground: BASE_GROUND.mediumGrass, pathSet: GRASS_PATH.wornDirt  },
-  farmland: { ground: BASE_GROUND.mediumGrass, pathSet: GRASS_PATH.wornDirt  },
-  ruins:    { ground: BASE_GROUND.darkGrass,   pathSet: GRASS_PATH.darkGrass },
-  ashen:    { ground: BASE_GROUND.dyingGrass,  pathSet: GRASS_PATH.deadGrass },
-  sand:     { ground: BASE_GROUND.sand,        pathSet: GRASS_PATH.sand      },
-  frost:    { ground: BASE_GROUND.lightGrass,  pathSet: GRASS_PATH.lightGrass },
-  volcano:  { ground: BASE_GROUND.darkDirt,    pathSet: GRASS_PATH.darkDirt  },
+export const ENV_TILES: Record<string, { ground: number; pathFile: string }> = {
+  forest:   { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },
+  farmland: { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },
+  ruins:    { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.grass1Grass3 },
+  ashen:    { ground: BASE_GROUND.dyingGrass,  pathFile: PATH_TILE.grass1Grass4 },
+  sand:     { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.grass1Dirt2  },
+  frost:    { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Grass2 },
+  volcano:  { ground: BASE_GROUND.darkDirt,    pathFile: PATH_TILE.dirt4        },
+  citadel:  { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.grass1Grass3 },
+  coast:    { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },
+  reef:     { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },
+  sky:      { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Grass2 },
+  fungal:   { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.grass1Grass3 },
+  vault:    { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.dirt1        },
+  camp:     { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },
 }

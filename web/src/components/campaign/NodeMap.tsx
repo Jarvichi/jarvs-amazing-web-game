@@ -16,7 +16,7 @@ import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadSpriteTexture, loadAnimFrames, loadTextureUrl, loadTileTexture, makeClickable, tweenTo } from '../../utils/pixiHelpers'
-import { ENV_TILES, TILESET_IMAGE, TILESET_COLUMNS, BASE_GROUND, PATH, GRASS_PATH, TILE_SIZE } from '../../data/tiles/tileIndex'
+import { ENV_TILES, TILESET_IMAGE, TILESET_COLUMNS, BASE_GROUND, PATH, PATH_TILE, TILE_SIZE } from '../../data/tiles/tileIndex'
 import { drawTerrainItem } from '../../utils/terrainGfx'
 import { GIFT_OWNER_UID } from '../../game/gifts'
 
@@ -266,9 +266,9 @@ async function buildPathTileGfx(
   mapHeight: number,
 ): Promise<void> {
   const T = TILE_SIZE
-  const pathBase = ENV_TILES[act.environment ?? '']?.pathSet ?? GRASS_PATH.wornDirt
+  const pathFile = ENV_TILES[act.environment ?? '']?.pathFile ?? PATH_TILE.grass1Dirt1
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
-  const tileUrl = `${base}${TILESET_IMAGE.grass.slice(1)}`
+  const tileUrl = `${base}${pathFile.slice(1)}`
 
   // Collect all tile-grid cells that lie on any connector path
   const pathSet = new Set<string>()
@@ -370,7 +370,7 @@ async function buildPathTileGfx(
 
   await Promise.all(
     Array.from(byVariant.entries()).map(async ([v, tiles]) => {
-      const tex = await loadTileTexture(tileUrl, pathBase + v, TILESET_COLUMNS.grass)
+      const tex = await loadTileTexture(tileUrl, v, 8)
       if (groundLayer.destroyed) return
       for (const { tx, ty } of tiles) {
         const s = new PIXI.Sprite(tex)
