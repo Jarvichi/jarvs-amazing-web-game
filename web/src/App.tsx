@@ -121,6 +121,7 @@ import { PlayerStatsScreen }     from './components/screens/PlayerStatsScreen'
 import { CodexScreen }          from './components/screens/CodexScreen'
 import { DailyChallengeScreen } from './components/screens/DailyChallengeScreen'
 import { ConfirmModal }          from './components/modals/ConfirmModal'
+import { StreakBrokenModal }     from './components/modals/StreakBrokenModal'
 import { EndlessLeaderboardScreen } from './components/screens/EndlessLeaderboardScreen'
 import { MiniGamesMenu }           from './components/screens/MiniGamesMenu'
 import { AugmentCollectionScreen } from './components/screens/AugmentCollectionScreen'
@@ -410,6 +411,7 @@ export default function App() {
   const [cardRestPlayCounts, setCardRestPlayCounts] = useState<Record<string, number>>({})
   const [bonusPackCards, setBonusPackCards]     = useState<string[]>([])
   const [campaignRestingAlert, setCampaignRestingAlert] = useState(false)
+  const [streakBrokenData, setStreakBrokenData] = useState<{ streak: number; bestStreak: number } | null>(null)
   // Secret 5 — Time Capsule on 100th battle
   const [timeCapsuleVisible, setTimeCapsuleVisible] = useState(false)
   // Secret 10 — 100 Wins Celebration
@@ -769,6 +771,12 @@ export default function App() {
     rollRareEvent()
   }, [])
 
+  function handleStreakReset() {
+    const current = loadWinStreak()
+    if (current > 0) setStreakBrokenData({ streak: current, bestStreak: loadBestStreak() })
+    resetWinStreak()
+  }
+
   const handlePlayAgain = useCallback(() => {
     if (!gameState || gameState.phase.type !== 'gameOver') return
     // Training mode: send back to training setup screen
@@ -787,7 +795,6 @@ export default function App() {
     prevOpponentUnitsRef.current = new Map()
     prevPlayerUnitsRef.current = new Map()
     const winner = gameState.phase.winner
-    if (winner === 'player') { incrementWinStreak() } else { resetWinStreak() }
     const nextHandicap = winner === 'player'
       ? Math.max(0, handicap - 1)
       : winner === 'opponent'
@@ -1778,7 +1785,7 @@ export default function App() {
       setCrystals(next)
       const failUnlocked = incrementAchievementProgress('misc:campaign_failed')
       if (failUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...failUnlocked])
-      resetWinStreak()
+      handleStreakReset()
       setLastRunFailed()
       clearRun()
       setRun(null)
@@ -1857,7 +1864,7 @@ export default function App() {
         setCrystals(next)
         const failUnlocked = incrementAchievementProgress('misc:campaign_failed')
         if (failUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...failUnlocked])
-        resetWinStreak()
+        handleStreakReset()
         setLastRunFailed()
         clearRun()
         setRun(null)
@@ -2287,7 +2294,7 @@ export default function App() {
         setCrystals(next)
         const failUnlocked = incrementAchievementProgress('misc:campaign_failed')
         if (failUnlocked.length > 0) setAchievementToasts(prev => [...prev, ...failUnlocked])
-        resetWinStreak()
+        handleStreakReset()
         setLastRunFailed()
         clearRun()
         setRun(null)
@@ -3107,6 +3114,14 @@ export default function App() {
           </div>
         )
       })()}
+
+      {streakBrokenData && (
+        <StreakBrokenModal
+          streak={streakBrokenData.streak}
+          bestStreak={streakBrokenData.bestStreak}
+          onClose={() => setStreakBrokenData(null)}
+        />
+      )}
 
       {/* Secret 5 — Time Capsule: 100th battle milestone overlay */}
       {timeCapsuleVisible && (
