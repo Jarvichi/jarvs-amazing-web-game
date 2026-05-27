@@ -2186,6 +2186,14 @@ body {
 .filter-btn--wide   { min-width: 64px; }
 .filter-btn--fit    { flex: 1; }
 
+.filter-btn--gold {
+  border-color: rgba(255, 215, 0, 0.4);
+  color: var(--color-gold);
+}
+.filter-btn--gold:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
 .filter-btn--gold.filter-btn--active {
   border-color: var(--color-gold);
   color: var(--color-gold);
@@ -13942,4 +13950,47 @@ html.light-mode .action-btn {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+}
+
+/* ── Shop pack confirmation modal ── */
+.shop-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+}
+
+.shop-confirm-modal {
+  background: var(--game-bg-raised);
+  border: 1px solid var(--color-gold);
+  border-radius: 6px;
+  padding: 24px 28px;
+  max-width: 340px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.shop-confirm-title {
+  font-size: var(--font-lg);
+  color: var(--color-gold);
+  font-weight: bold;
+}
+
+.shop-confirm-body {
+  font-size: var(--font-sm);
+  color: var(--game-text-color);
+  line-height: 1.5;
+}
+
+.shop-confirm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
 }
