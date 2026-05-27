@@ -80,7 +80,7 @@ export function incrementAchievementProgress(progressKey: string, by = 1): Achie
 /** Set a progress counter to a specific value (for tracking maximums like streaks). Returns newly unlocked defs. */
 export function setAchievementProgress(progressKey: string, value: number): AchievementDef[] {
   const save = loadAchievementSave()
-  save.progress[progressKey] = value
+  save.progress[progressKey] = Math.max(value, save.progress[progressKey] ?? 0)
 
   const newlyUnlocked: AchievementDef[] = []
   for (const def of ACHIEVEMENT_DEFS) {
