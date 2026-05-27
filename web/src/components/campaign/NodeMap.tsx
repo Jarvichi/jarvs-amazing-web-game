@@ -39,10 +39,10 @@ const NODE_LABEL: Record<string, string> = {
   event: 'EVENT', merchant: 'SHOP', memory: 'MEMORY',
 }
 
-const COL_WIDTH      = 112
-const ROW_HEIGHT     = 112
-const AVATAR_PADDING = 72
-const CONN_W         = 44
+const COL_WIDTH      = 128
+const ROW_HEIGHT     = 96
+const AVATAR_PADDING = 80
+const CONN_W         = 32
 const AVATAR_SIZE    = 36
 const WALK_DURATION  = 700
 const NODE_RADIUS    = 22
