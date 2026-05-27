@@ -2267,6 +2267,7 @@ export default function App() {
   }, [])
 
   const handleMainMenu = useCallback(() => {
+    const wasInCampaign = isCampaignRef.current
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
     const currentRun = run
@@ -2287,7 +2288,7 @@ export default function App() {
       saveRun(withFail)
       setRun(withFail)
 
-      if (newLives === 0) {
+      if (newLives === 0 && wasInCampaign) {
         const crystalReward = 50
         const next = loadCrystals() + crystalReward
         saveCrystals(next)
