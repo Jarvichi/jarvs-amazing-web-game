@@ -16,7 +16,7 @@ import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadSpriteTexture, loadAnimFrames, loadTextureUrl, loadTileTexture, makeClickable, tweenTo } from '../../utils/pixiHelpers'
-import { ENV_TILES, TILESET_IMAGE, TILESET_COLUMNS, BASE_GROUND } from '../../data/tiles/tileIndex'
+import { ENV_TILES, TILESET_IMAGE, TILESET_COLUMNS, BASE_GROUND, PATH, GRASS_PATH, TILE_SIZE } from '../../data/tiles/tileIndex'
 import { drawTerrainItem } from '../../utils/terrainGfx'
 import { GIFT_OWNER_UID } from '../../game/gifts'
 
@@ -253,6 +253,134 @@ function buildTerrainGfx(
   }
 }
 
+// ── Path tile renderer ────────────────────────────────────────────────────────
+// Lays PATH tiles from [A]Grass_pipo along each connector route.
+// Routes are L-shaped (horizontal → vertical → horizontal) snapped to the 32px
+// tile grid; neighbors are checked to pick the right PATH variant at each cell.
+
+async function buildPathTileGfx(
+  groundLayer: PIXI.Container,
+  act: Act,
+  rows: QuestNode[][],
+  maxRowCols: number,
+  mapHeight: number,
+): Promise<void> {
+  const T = TILE_SIZE
+  const pathBase = ENV_TILES[act.environment ?? '']?.pathSet ?? GRASS_PATH.wornDirt
+  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
+  const tileUrl = `${base}${TILESET_IMAGE.grass.slice(1)}`
+
+  // Collect all tile-grid cells that lie on any connector path
+  const pathSet = new Set<string>()
+  const key = (tx: number, ty: number) => `${tx},${ty}`
+
+  // Start position → first row nodes
+  if (rows.length > 0) {
+    const firstRow = rows[0]
+    const firstRowCols = firstRow[0]?.rowCols ?? firstRow.length
+    const startX = AVATAR_PADDING / 2
+    const startY = mapHeight / 2
+    const firstColCenterX = AVATAR_PADDING + COL_WIDTH / 2
+    const midX = (startX + firstColCenterX) / 2
+
+    const sTx = Math.floor(startX / T), sTy = Math.floor(startY / T)
+    const midTx = Math.floor(midX / T)
+    const fTx = Math.floor(firstColCenterX / T)
+
+    for (const node of firstRow) {
+      const vr = (maxRowCols - firstRowCols) / 2 + node.col
+      const ny = (vr + 0.5) / maxRowCols * mapHeight
+      const nTy = Math.floor(ny / T)
+
+      for (let tx = Math.min(sTx, midTx); tx <= Math.max(sTx, midTx); tx++)
+        pathSet.add(key(tx, sTy))
+      for (let ty = Math.min(sTy, nTy); ty <= Math.max(sTy, nTy); ty++)
+        pathSet.add(key(midTx, ty))
+      for (let tx = Math.min(midTx, fTx); tx <= Math.max(midTx, fTx); tx++)
+        pathSet.add(key(tx, nTy))
+    }
+  }
+
+  // Row-to-row connector paths
+  for (let ri = 0; ri < rows.length - 1; ri++) {
+    const prevRow = rows[ri], nextRow = rows[ri + 1]
+    const prevRowCols = prevRow[0]?.rowCols ?? prevRow.length
+    const nextRowCols = nextRow[0]?.rowCols ?? nextRow.length
+    const parentCenterX = AVATAR_PADDING + ri * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
+    const childCenterX  = AVATAR_PADDING + (ri + 1) * (COL_WIDTH + CONN_W) + COL_WIDTH / 2
+    const xMid = AVATAR_PADDING + (ri + 1) * COL_WIDTH + ri * CONN_W + CONN_W / 2
+
+    for (const parent of prevRow) {
+      for (const childId of parent.childIds) {
+        const child = nextRow.find(n => n.id === childId)
+        if (!child) continue
+        const pr = (maxRowCols - prevRowCols) / 2 + parent.col
+        const cr = (maxRowCols - nextRowCols) / 2 + child.col
+        const y1 = (pr + 0.5) / maxRowCols * mapHeight
+        const y2 = (cr + 0.5) / maxRowCols * mapHeight
+
+        const pTx = Math.floor(parentCenterX / T), pTy = Math.floor(y1 / T)
+        const midTx = Math.floor(xMid / T)
+        const cTx = Math.floor(childCenterX / T), cTy = Math.floor(y2 / T)
+
+        // Horizontal leg: parent → midpoint column
+        for (let tx = Math.min(pTx, midTx); tx <= Math.max(pTx, midTx); tx++)
+          pathSet.add(key(tx, pTy))
+        // Vertical leg: midpoint column, parent row → child row
+        for (let ty = Math.min(pTy, cTy); ty <= Math.max(pTy, cTy); ty++)
+          pathSet.add(key(midTx, ty))
+        // Horizontal leg: midpoint column → child node
+        for (let tx = Math.min(midTx, cTx); tx <= Math.max(midTx, cTx); tx++)
+          pathSet.add(key(tx, cTy))
+      }
+    }
+  }
+
+  // Pick the correct PATH variant for each cell based on which neighbors are also path
+  const has = (tx: number, ty: number) => pathSet.has(key(tx, ty))
+  const variant = (tx: number, ty: number): number => {
+    const N = has(tx, ty - 1), S = has(tx, ty + 1)
+    const E = has(tx + 1, ty), W = has(tx - 1, ty)
+    if ( N &&  S &&  E &&  W) return PATH.allSides
+    if ( N &&  S &&  E && !W) return PATH.tJuncRight
+    if ( N &&  S && !E &&  W) return PATH.tJuncLeft2
+    if ( N && !S &&  E &&  W) return PATH.tJuncBottom
+    if (!N &&  S &&  E &&  W) return PATH.tJuncTop
+    if ( N &&  S && !E && !W) return PATH.vertical
+    if (!N && !S &&  E &&  W) return PATH.horizontal
+    if ( N && !S &&  E && !W) return PATH.turnTopRight
+    if ( N && !S && !E &&  W) return PATH.turnTopLeft
+    if (!N &&  S &&  E && !W) return PATH.turnBottomRight
+    if (!N &&  S && !E &&  W) return PATH.turnBottomLeft
+    if (!N && !S &&  E && !W) return PATH.rightOnly
+    if (!N && !S && !E &&  W) return PATH.leftOnly
+    if ( N && !S && !E && !W) return PATH.topOnly
+    if (!N &&  S && !E && !W) return PATH.bottomOnly
+    return PATH.isolated
+  }
+
+  // Group cells by variant to batch the texture loads
+  const byVariant = new Map<number, Array<{ tx: number; ty: number }>>()
+  for (const k of pathSet) {
+    const [tx, ty] = k.split(',').map(Number)
+    const v = variant(tx, ty)
+    if (!byVariant.has(v)) byVariant.set(v, [])
+    byVariant.get(v)!.push({ tx, ty })
+  }
+
+  await Promise.all(
+    Array.from(byVariant.entries()).map(async ([v, tiles]) => {
+      const tex = await loadTileTexture(tileUrl, pathBase + v, TILESET_COLUMNS.grass)
+      if (groundLayer.destroyed) return
+      for (const { tx, ty } of tiles) {
+        const s = new PIXI.Sprite(tex)
+        s.position.set(tx * T, ty * T)
+        groundLayer.addChild(s)
+      }
+    })
+  )
+}
+
 // ── Connector helpers ──────────────────────────────────────────────────────────
 
 type LineVariant = 'trail' | 'frontier' | 'future' | 'dead'
@@ -389,8 +517,8 @@ function drawConnectorsGfx(
           { x: (xEnd + childCenterX) / 2,    y: y2 },
           { x: childCenterX,                 y: y2 },
         ]
-        gfx.poly(bezierBand(pts, 5)).fill({ color: 0x000000, alpha: 0.25 })
-        gfx.poly(bezierBand(pts, 3)).fill({ color: trail.color, alpha: trail.alpha * 0.35 })
+        gfx.poly(bezierBand(pts, 5)).fill({ color: 0x000000, alpha: 0.15 })
+        gfx.poly(bezierBand(pts, 3)).fill({ color: trail.color, alpha: trail.alpha * 0.25 })
       } else {
         const pts = [
           { x: parentCenterX,                y: y1 },
@@ -404,8 +532,8 @@ function drawConnectorsGfx(
         const halfInner = isFront ? 6 : 4
         const c = isFront ? frontier : trail
 
-        gfx.poly(bezierBand(pts, halfOuter)).fill({ color: 0x000000, alpha: 0.55 })
-        gfx.poly(bezierBand(pts, halfInner)).fill({ color: c.color, alpha: Math.min(c.alpha, 0.85) })
+        gfx.poly(bezierBand(pts, halfOuter)).fill({ color: 0x000000, alpha: 0.35 })
+        gfx.poly(bezierBand(pts, halfInner)).fill({ color: c.color, alpha: Math.min(c.alpha, 0.50) })
 
         if (isFront) {
           gfx.moveTo(xStart, y1).bezierCurveTo(xMid, y1, xMid, y2, xEnd, y2)
@@ -726,6 +854,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
   const mapWidth  = AVATAR_PADDING + rows.length * COL_WIDTH + Math.max(0, rows.length - 1) * CONN_W
 
   const [peekNode, setPeekNode] = useState<QuestNode | null>(null)
+  const [showPaths, setShowPaths] = useState(true)
   const nodeHistory = useMemo(() => loadNodeHistory(), [])
 
   const canvasRef        = useRef<HTMLDivElement>(null)
@@ -764,8 +893,10 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
     worldRef.current  = worldLayer
     nodeLRef.current  = nodeLayer
 
-    // Terrain
+    // Terrain + path tiles (both fire-and-forget async)
     buildTerrainGfx(groundLayer, worldLayer, act, mapWidth, mapHeight)
+    buildPathTileGfx(groundLayer, act, rows, maxRowCols, mapHeight)
+      .catch(e => console.error('[NodeMap] path tiles failed', e))
 
     // Campfire at start position
     try {
@@ -848,6 +979,11 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
     app.ticker.add(() => { worldLayer.sortChildren(); nodeLayer.sortChildren() })
   })
 
+  // Show/hide bezier path overlays
+  useEffect(() => {
+    for (const g of connGfxListRef.current) g.visible = showPaths
+  }, [showPaths])
+
   // Redraw connectors + update marker styles when run state changes
   useEffect(() => {
     const wl = worldRef.current
@@ -855,6 +991,7 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
     for (const g of connGfxListRef.current) { wl.removeChild(g); g.destroy() }
     connGfxListRef.current = drawConnectorsGfx(wl, rows, maxRowCols, mapHeight,
       id => getNodeStatus(id, availableIds, run), reachableIds, hiddenNodeIds, act.environment)
+    for (const g of connGfxListRef.current) g.visible = showPaths
     for (const [nodeId, marker] of markersRef.current) {
       const status = getNodeStatus(nodeId, availableIds, run)
       updateMarkerStyle(marker, status, reachableIds.has(nodeId))
@@ -923,6 +1060,11 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
             )
           })}
           <ToolbarSpacer />
+          <ToolbarButton
+            label={showPaths ? 'Hide paths' : 'Show paths'}
+            icon={showPaths ? '🛤' : '🗺'}
+            onClick={() => setShowPaths(v => !v)}
+          />
           {user?.uid === GIFT_OWNER_UID && (
             <ToolbarButton
               label="Copy Debug State"
