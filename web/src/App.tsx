@@ -107,7 +107,8 @@ import {
   incrementAchievementProgress, setAchievementProgress, AchievementDef,
 } from './game/achievements'
 import { incrementAugmentSouls } from './game/collection'
-import { AchievementsScreen } from './components/screens/AchievementsScreen'
+import { AchievementsScreen }  from './components/screens/AchievementsScreen'
+import { HallOfAchievements }   from './components/hub/HallOfAchievements'
 import { HeroCardsScreen }   from './components/screens/HeroCardsScreen'
 import FingerSmash from './components/battle/FingerSmash'
 import BossShockwave from './components/battle/BossShockwave'
@@ -190,6 +191,7 @@ type Screen =
   | 'relicselect'
   | 'inventory'
   | 'achievements'
+  | 'hall-of-achievements'
   | 'campaignfailed'
   | 'heroCards'
   | 'battlesummary'
@@ -2823,6 +2825,13 @@ export default function App() {
       {screen === 'achievements' && (
         <AchievementsScreen
           onBack={() => setScreen('title')}
+          onCrystalsChanged={handleCrystalsChanged}
+        />
+      )}
+
+      {screen === 'hall-of-achievements' && (
+        <HallOfAchievements
+          onBack={() => setScreen('hubworld')}
           onCrystalsChanged={handleCrystalsChanged}
         />
       )}
