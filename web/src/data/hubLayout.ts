@@ -69,11 +69,17 @@ export const HUB_STREET_TILES: [number, number][] = [
   // SW alley — Market Lane ↔ Fisherman's Dock
   ...tileRect(14, 26, 16, 45),
   // SW cross-spur — Dock district internal street
-  ...tileRect(0, 35, 16, 37),
+  ...tileRect(0, 35, 16, 36),
   // NW alley — Market Lane internal alley
-  ...tileRect(18, 5, 20, 23),
+  ...tileRect(18, 2, 19, 23),
+  // NW alley — Market Lane outer alley
+  ...tileRect(18, 2, 38, 3),
   // NW cross-spur — Market Lane internal street
-  ...tileRect(0, 12, 20, 14),
+  ...tileRect(0, 12, 20, 13),
+
+  // Building entrances — rendered with wall tiles via renderPathTiles.
+  ...tileRect(6, 11, 7, 11),
+  ...tileRect(7, 22, 10, 22),
 ]
 
 // Building tile positions — rendered with wall tiles via renderPathTiles.
@@ -81,7 +87,7 @@ export const HUB_BUILDING_TILES: [number, number][] = [
   // ── NW quadrant — Market district ───────────────────────────────────────────
   ...tileRect( 1,  1, 16, 10),
   ...tileRect( 1, 15, 16, 21),
-  ...tileRect(21,  1, 31, 19),
+  ...tileRect(21,  5, 31, 19),
   // ── NE quadrant — Scholar's district ────────────────────────────────────────
   ...tileRect(41,  1, 53,  6),
   ...tileRect(58,  1, 72,  6),
