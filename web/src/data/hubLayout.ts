@@ -1,21 +1,13 @@
 // Hub World town map layout — areas, streets, buildings, interaction points.
-// All coordinates use pixel space (1 tile = 32 px) unless noted.
+// All coordinates are in tile units (1 tile = 32 px) unless noted.
 
 export const MAP_W = 2400
 export const MAP_H = 1600
-const T = 32
 
 export interface HubArea {
   id: string
   name: string
-  x: number
-  y: number
-  w: number
-  h: number
-}
-
-export interface HubBuilding {
-  x: number
+  x: number   // pixels
   y: number
   w: number
   h: number
@@ -27,6 +19,8 @@ export interface HubInteractionPoint {
   label: string
 }
 
+const T = 32
+
 // Named zones — hit-tested on pointer move (first match wins).
 export const HUB_AREAS: HubArea[] = [
   { id: 'courtyard', name: 'The Courtyard',          x: 33 * T, y: 21 * T, w: 9 * T,  h: 8 * T  },
@@ -37,8 +31,8 @@ export const HUB_AREAS: HubArea[] = [
   { id: 'scholars',  name: "The Scholar's Hall",      x: 42 * T, y:  0,     w: 33 * T, h: 23 * T },
 ]
 
-// Generate tile positions for a rectangular street block (inclusive).
-function streetRect(tx1: number, ty1: number, tx2: number, ty2: number): [number, number][] {
+// Generate tile positions for a filled rectangular region (inclusive).
+function tileRect(tx1: number, ty1: number, tx2: number, ty2: number): [number, number][] {
   const out: [number, number][] = []
   for (let tx = tx1; tx <= tx2; tx++)
     for (let ty = ty1; ty <= ty2; ty++)
@@ -47,53 +41,52 @@ function streetRect(tx1: number, ty1: number, tx2: number, ty2: number): [number
 }
 
 // All path-tile positions that form the town's streets and alleyways.
-// Duplicates are harmless — callers should deduplicate via Set if needed.
 export const HUB_STREET_TILES: [number, number][] = [
   // Main horizontal thoroughfare
-  ...streetRect(0, 23, 74, 25),
+  ...tileRect(0, 23, 74, 25),
   // Main vertical thoroughfare
-  ...streetRect(36, 0, 38, 49),
+  ...tileRect(36, 0, 38, 49),
   // Central courtyard opening (widens the crossing into a plaza)
-  ...streetRect(33, 21, 41, 28),
+  ...tileRect(33, 21, 41, 28),
   // NE alley — Barracks Gate ↔ Scholar's Hall
-  ...streetRect(55, 5, 57, 23),
+  ...tileRect(55, 5, 57, 23),
   // NE cross-spur — Scholar's Hall internal street
-  ...streetRect(55, 8, 74, 10),
-  // SW alley — Arcade Quarter ↔ Fisherman's Dock
-  ...streetRect(14, 26, 16, 45),
+  ...tileRect(55, 8, 74, 10),
+  // SW alley — Market Lane ↔ Fisherman's Dock
+  ...tileRect(14, 26, 16, 45),
   // SW cross-spur — Dock district internal street
-  ...streetRect(0, 35, 16, 37),
+  ...tileRect(0, 35, 16, 37),
   // NW alley — Market Lane internal alley
-  ...streetRect(18, 5, 20, 23),
+  ...tileRect(18, 5, 20, 23),
   // NW cross-spur — Market Lane internal street
-  ...streetRect(0, 12, 20, 14),
+  ...tileRect(0, 12, 20, 14),
 ]
 
-// Dark filled blocks representing buildings (inaccessible regions).
-// Positions chosen to avoid all street tile columns/rows defined above.
-export const HUB_BUILDINGS: HubBuilding[] = [
+// Building tile positions — rendered with wall tiles via renderPathTiles.
+// Laid out to leave gaps alongside every street defined in HUB_STREET_TILES.
+export const HUB_BUILDING_TILES: [number, number][] = [
   // ── NW quadrant — Market district ───────────────────────────────────────────
-  { x:  1 * T, y:  1 * T, w: 16 * T, h: 10 * T },   // Grand Market Hall
-  { x:  1 * T, y: 15 * T, w: 16 * T, h:  7 * T },   // Market Stalls
-  { x: 21 * T, y:  1 * T, w: 11 * T, h: 19 * T },   // Merchant Quarter
+  ...tileRect( 1,  1, 16, 10),   // Grand Market Hall
+  ...tileRect( 1, 15, 16, 21),   // Market Stalls
+  ...tileRect(21,  1, 31, 19),   // Merchant Quarter
 
   // ── NE quadrant — Scholar's district ────────────────────────────────────────
-  { x: 41 * T, y:  1 * T, w: 13 * T, h:  6 * T },   // Library
-  { x: 58 * T, y:  1 * T, w: 15 * T, h:  6 * T },   // Scholar's Hall
-  { x: 41 * T, y: 11 * T, w: 13 * T, h:  9 * T },   // Archives
-  { x: 58 * T, y: 11 * T, w: 15 * T, h:  9 * T },   // Observatory
+  ...tileRect(41,  1, 53,  6),   // Library
+  ...tileRect(58,  1, 72,  6),   // Scholar's Hall
+  ...tileRect(41, 11, 53, 19),   // Archives
+  ...tileRect(58, 11, 72, 19),   // Observatory
 
   // ── SW quadrant — Dock district ──────────────────────────────────────────────
-  { x:  1 * T, y: 27 * T, w: 12 * T, h:  7 * T },   // Warehouse A
-  { x:  1 * T, y: 38 * T, w: 12 * T, h: 10 * T },   // Fishing Hut
-  { x: 17 * T, y: 27 * T, w: 18 * T, h:  7 * T },   // Dock Hall
-  { x: 17 * T, y: 38 * T, w: 18 * T, h: 10 * T },   // Harbor Market
+  ...tileRect( 1, 27, 12, 33),   // Warehouse A
+  ...tileRect( 1, 38, 12, 47),   // Fishing Hut
+  ...tileRect(17, 27, 32, 33),   // Dock Hall
+  ...tileRect(17, 38, 32, 47),   // Harbor Market
 
   // ── SE quadrant — Arcade district ────────────────────────────────────────────
-  { x: 41 * T, y: 27 * T, w: 13 * T, h:  8 * T },   // Arcade Hall
-  { x: 41 * T, y: 38 * T, w: 13 * T, h: 10 * T },   // Casino
-  { x: 58 * T, y: 27 * T, w: 15 * T, h:  8 * T },   // Showroom
-  { x: 58 * T, y: 38 * T, w: 15 * T, h: 10 * T },   // Gallery
+  ...tileRect(42, 27, 53, 34),   // Arcade Hall
+  ...tileRect(42, 38, 53, 47),   // Casino
+  ...tileRect(58, 27, 72, 34),   // Showroom
+  ...tileRect(58, 38, 72, 47),   // Gallery
 ]
 
 // Interaction-point ellipses at district entrances (visual only for now).
