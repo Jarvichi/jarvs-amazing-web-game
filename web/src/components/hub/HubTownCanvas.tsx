@@ -189,7 +189,7 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
             currentTile: [tx, ty],
             walkQueue:   [],
             isWalking:   false,
-            wanderTimer: 3000 + Math.random() * 7000,  // initial delay 3–10 s
+            wanderTimer: 500 + Math.random() * 1500,   // initial delay 0.5–2 s
           }
           unitNpcs.push(state)
         }).catch(() => {/* silently skip missing sprites */})
