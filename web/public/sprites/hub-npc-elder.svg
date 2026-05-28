@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.2)"/>
+  <!-- robe -->
+  <rect x="10" y="13" width="12" height="15" rx="3" fill="#8b5e3c"/>
+  <!-- arms -->
+  <rect x="8"  y="14" width="3" height="8" rx="1" fill="#8b5e3c"/>
+  <rect x="21" y="14" width="3" height="8" rx="1" fill="#8b5e3c"/>
+  <!-- staff -->
+  <rect x="22" y="8" width="2" height="18" rx="1" fill="#6b4020"/>
+  <circle cx="23" cy="7" r="2" fill="#d4a847"/>
+  <!-- beard -->
+  <rect x="12" y="11" width="8" height="5" rx="2" fill="#c8c0b0"/>
+  <!-- head -->
+  <circle cx="16" cy="9" r="5" fill="#d4b090"/>
+  <!-- white hair -->
+  <rect x="11" y="4" width="10" height="4" rx="2" fill="#e8e0d8"/>
+  <!-- eyes -->
+  <rect x="13" y="8" width="2" height="2" rx="1" fill="#2a1a0a"/>
+  <rect x="17" y="8" width="2" height="2" rx="1" fill="#2a1a0a"/>
+</svg>

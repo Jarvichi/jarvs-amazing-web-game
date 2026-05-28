@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx } from '../../utils/terrainLayer'
 import { renderPathTiles } from '../../utils/tileLookup'
-import { loadTextureUrl } from '../../utils/pixiHelpers'
+import { loadSpriteTexture, loadTextureUrl } from '../../utils/pixiHelpers'
 import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import {
@@ -14,6 +14,7 @@ import {
   HUB_STREET_TILES,
   AVATAR_START,
 } from '../../data/hubLayout'
+import { QUEST_GIVER_NPCS, NPC_SPAWN_TILES } from '../../data/hubNpcs'
 
 const HUB_ENV       = 'camp'
 const T             = 32
@@ -29,9 +30,11 @@ interface Props {
   onNodeInteract: (screen: string) => void
   onAvatarMove:   (px: number, py: number) => void
   returnRef?:     React.MutableRefObject<(() => void) | null>
+  unitCards?:     string[]
+  onNpcTap?:      (dialogue: string) => void
 }
 
-export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, returnRef }: Props) {
+export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, returnRef, unitCards, onNpcTap }: Props) {
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
   onAreaRef.current       = onAreaEnter
@@ -39,6 +42,10 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
   onNodeInteractRef.current = onNodeInteract
   const onAvatarMoveRef   = useRef(onAvatarMove)
   onAvatarMoveRef.current = onAvatarMove
+  const onNpcTapRef       = useRef(onNpcTap)
+  onNpcTapRef.current     = onNpcTap
+  const unitCardsRef      = useRef(unitCards)
+  unitCardsRef.current    = unitCards
 
   usePixiApp(containerRef, MAP_W, MAP_H, (app) => {
     app.canvas.style.touchAction = 'pan-x pan-y'
@@ -48,10 +55,11 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
     const streetLayer   = new PIXI.Container()
     const buildingLayer = new PIXI.Container()
     const nodeLayer     = new PIXI.Container()
+    const npcLayer      = new PIXI.Container()
     const avatarLayer   = new PIXI.Container()
     const worldLayer    = new PIXI.Container()
     worldLayer.sortableChildren = true
-    app.stage.addChild(groundLayer, streetLayer, buildingLayer, nodeLayer, avatarLayer, worldLayer)
+    app.stage.addChild(groundLayer, streetLayer, buildingLayer, nodeLayer, npcLayer, avatarLayer, worldLayer)
 
     // ── Terrain ────────────────────────────────────────────────────────────────
     const baseContainer  = new PIXI.Container()
@@ -108,6 +116,104 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
       avatarLayer.addChild(s)
       avatar = s
     }).catch(e => console.error('[HubTownCanvas] avatar load failed', e))
+
+    // ── Quest-giver NPCs ───────────────────────────────────────────────────────
+    for (const npc of QUEST_GIVER_NPCS) {
+      const cx = npc.tx * T + T / 2
+      const cy = npc.ty * T + T / 2
+
+      const npcContainer = new PIXI.Container()
+      npcContainer.eventMode = 'static'
+      npcContainer.cursor    = 'pointer'
+      npcContainer.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+        e.stopPropagation()
+        onNpcTapRef.current?.(npc.dialogue)
+      })
+      npcLayer.addChild(npcContainer)
+
+      loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
+        if (app.renderer == null) return
+        const s = new PIXI.Sprite(tex)
+        s.width = T; s.height = T
+        s.anchor.set(0.5, 0.5)
+        s.position.set(cx, cy)
+        npcContainer.addChild(s)
+      }).catch(e => console.error(`[HubTownCanvas] NPC sprite failed: ${npc.sprite}`, e))
+
+      // "!" indicator
+      const exclaim = new PIXI.Text({ text: '!', style: { fontSize: 11, fill: '#ffdd44', fontFamily: 'monospace', fontWeight: 'bold' } })
+      exclaim.anchor.set(0.5, 1)
+      exclaim.position.set(cx, cy - T / 2 - 2)
+      npcLayer.addChild(exclaim)
+    }
+
+    // ── Card-unit NPCs ─────────────────────────────────────────────────────────
+    interface UnitNpcState {
+      sprite:      PIXI.Sprite
+      currentTile: [number, number]
+      walkQueue:   [number, number][]
+      isWalking:   boolean
+      wanderTimer: number
+    }
+
+    const unitNpcs: UnitNpcState[] = []
+    const cards = unitCardsRef.current ?? []
+
+    if (cards.length > 0) {
+      const spawnCount = Math.min(NPC_SPAWN_TILES.length, cards.length * 3)  // allow repeats up to 3x
+      const slots = NPC_SPAWN_TILES.slice(0, Math.min(spawnCount, NPC_SPAWN_TILES.length))
+
+      slots.forEach(([tx, ty], i) => {
+        const cardName = cards[i % cards.length]
+        const cx = tx * T + T / 2
+        const cy = ty * T + T / 2
+
+        loadSpriteTexture(cardName).then(tex => {
+          if (app.renderer == null) return
+          const s = new PIXI.Sprite(tex)
+          s.width = T; s.height = T
+          s.anchor.set(0.5, 0.5)
+          s.position.set(cx, cy)
+          s.alpha = 0.85
+          npcLayer.addChild(s)
+
+          const state: UnitNpcState = {
+            sprite:      s,
+            currentTile: [tx, ty],
+            walkQueue:   [],
+            isWalking:   false,
+            wanderTimer: 3000 + Math.random() * 7000,  // initial delay 3–10 s
+          }
+          unitNpcs.push(state)
+        }).catch(() => {/* silently skip missing sprites */})
+      })
+    }
+
+    async function processNpcWalkQueue(npc: UnitNpcState) {
+      if (npc.walkQueue.length === 0) { npc.isWalking = false; return }
+      npc.isWalking = true
+      const [tx, ty] = npc.walkQueue.shift()!
+      const targetX  = tx * T + T / 2
+      const targetY  = ty * T + T / 2
+      const dist     = Math.hypot(targetX - npc.sprite.x, targetY - npc.sprite.y)
+      const duration = (dist / WALK_PX_PER_S) * 1000
+      if (targetX < npc.sprite.x - 1) npc.sprite.scale.x = -Math.abs(npc.sprite.scale.x)
+      else if (targetX > npc.sprite.x + 1) npc.sprite.scale.x = Math.abs(npc.sprite.scale.x)
+      await tweenLinear(npc.sprite, targetX, targetY, duration)
+      npc.currentTile = [tx, ty]
+      processNpcWalkQueue(npc)
+    }
+
+    function wanderNpc(npc: UnitNpcState) {
+      const options = NPC_SPAWN_TILES.filter(
+        ([tx, ty]) => tx !== npc.currentTile[0] || ty !== npc.currentTile[1],
+      ) as [number, number][]
+      if (options.length === 0) return
+      const target = options[Math.floor(Math.random() * options.length)]
+      const path   = findPath(npc.currentTile, target, pathSet)
+      npc.walkQueue = path.slice(1)
+      if (!npc.isWalking) processNpcWalkQueue(npc)
+    }
 
     // ── Walk state ─────────────────────────────────────────────────────────────
     let currentTile: [number, number] = [...AVATAR_START]
@@ -207,9 +313,19 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
     }
 
     // ── Per-frame ──────────────────────────────────────────────────────────────
-    app.ticker.add(() => {
+    app.ticker.add((ticker) => {
       if (avatar) onAvatarMoveRef.current(avatar.x, avatar.y)
       worldLayer.sortChildren()
+
+      for (const npc of unitNpcs) {
+        if (!npc.isWalking) {
+          npc.wanderTimer -= ticker.deltaMS
+          if (npc.wanderTimer <= 0) {
+            npc.wanderTimer = 10000 + Math.random() * 20000
+            wanderNpc(npc)
+          }
+        }
+      }
     })
   })
 
