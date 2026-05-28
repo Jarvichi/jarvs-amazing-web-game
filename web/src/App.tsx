@@ -2481,7 +2481,10 @@ export default function App() {
       )}
 
       {screen === 'hubworld' && (
-        <HubWorld onBack={() => setScreen('settings')} />
+        <HubWorld
+          onBack={() => setScreen('settings')}
+          onNavigate={(s) => setScreen(s as Screen)}
+        />
       )}
 
       {screen === 'giftAdmin' && (

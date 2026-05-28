@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="6" ry="2" fill="rgba(0,0,0,0.25)"/>
+  <!-- boots -->
+  <rect x="11" y="26" width="4" height="2" rx="1" fill="#1a1a1a"/>
+  <rect x="17" y="26" width="4" height="2" rx="1" fill="#1a1a1a"/>
+  <!-- legs -->
+  <rect x="12" y="21" width="3" height="6" rx="1" fill="#2a3a5a"/>
+  <rect x="17" y="21" width="3" height="6" rx="1" fill="#2a3a5a"/>
+  <!-- cape -->
+  <rect x="10" y="13" width="3" height="9" rx="1" fill="#2a5a3a"/>
+  <!-- body -->
+  <rect x="11" y="13" width="10" height="9" rx="2" fill="#4a7c59"/>
+  <!-- right arm -->
+  <rect x="21" y="14" width="3" height="6" rx="1" fill="#c8a878"/>
+  <!-- neck -->
+  <rect x="14" y="10" width="4" height="4" fill="#c8a878"/>
+  <!-- head -->
+  <circle cx="16" cy="8" r="5" fill="#c8a878"/>
+  <!-- hair -->
+  <rect x="11" y="3" width="10" height="4" rx="2" fill="#5a3a1a"/>
+  <!-- eyes -->
+  <rect x="13" y="7" width="2" height="2" rx="1" fill="#2a1a0a"/>
+  <rect x="17" y="7" width="2" height="2" rx="1" fill="#2a1a0a"/>
+</svg>
