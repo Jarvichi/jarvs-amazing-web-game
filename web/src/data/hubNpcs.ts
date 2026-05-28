@@ -75,6 +75,14 @@ export const QUEST_GIVER_NPCS: QuestGiverNpc[] = [
     dialogue: '',
     screen:   'shop-supplies',
   },
+  {
+    id:      'fisherman',
+    name:    'Old Greyfish',
+    sprite:  'hub-npc-fisherman',
+    tx:       3,
+    ty:      35,
+    dialogue: "Been sitting at this pond since before the Fracture. The water's gone quiet lately — something's stirring beneath.",
+  },
 ]
 
 // Preset positions for card-unit NPC spawning — all on street tiles, spread across the map.
