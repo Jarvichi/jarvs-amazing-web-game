@@ -212,10 +212,10 @@ function buildTileLookup(canal: boolean): number[] {
     else if (N && E && W)        t[mask] = canal ? PATH.edgeBottom : PATH.tJuncBottom
     else if (N && S)             t[mask] = PATH.vertical
     else if (E && W)             t[mask] = PATH.horizontal
-    else if (N && E)             t[mask] = canal ? PATH.grassCornerBL : PATH.turnTopRight
-    else if (N && W)             t[mask] = canal ? PATH.grassCornerBR : PATH.turnTopLeft
-    else if (S && E)             t[mask] = canal ? PATH.grassCornerTL : PATH.turnBottomRight
-    else if (S && W)             t[mask] = canal ? PATH.grassCornerTR : PATH.turnBottomLeft
+    else if (N && E)             t[mask] = canal ? (NE ? PATH.turnTopRight    : PATH.grassCornerBL) : PATH.turnTopRight
+    else if (N && W)             t[mask] = canal ? (NW ? PATH.turnTopLeft     : PATH.grassCornerBR) : PATH.turnTopLeft
+    else if (S && E)             t[mask] = canal ? (SE ? PATH.turnBottomRight : PATH.grassCornerTL) : PATH.turnBottomRight
+    else if (S && W)             t[mask] = canal ? (SW ? PATH.turnBottomLeft  : PATH.grassCornerTR) : PATH.turnBottomLeft
     else if (N)                  t[mask] = PATH.topOnly
     else if (E)                  t[mask] = PATH.rightOnly
     else if (S)                  t[mask] = PATH.bottomOnly
