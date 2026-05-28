@@ -573,7 +573,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </div>
         </Section>
 
-        {isDebugMode && onHubWorld && (
+        {user?.uid === GIFT_OWNER_UID && onHubWorld && (
           <Section bordered title="EXPERIMENTS">
             <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
