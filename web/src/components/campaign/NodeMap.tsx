@@ -177,7 +177,8 @@ function getTerrainItems(env: string | undefined, seed: number, w: number, h: nu
 // Rivers go into groundLayer; all other items go into worldLayer for Y-sorting.
 
 function buildTerrainGfx(
-  groundLayer: PIXI.Container,
+  baseContainer: PIXI.Container,
+  riverContainer: PIXI.Container,
   worldLayer: PIXI.Container,
   act: Act,
   mapWidth: number,
@@ -190,7 +191,7 @@ function buildTerrainGfx(
   const groundTileId = ENV_TILES[environment ?? '']?.ground ?? BASE_GROUND.mediumGrass
   const tileUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
   loadTileTexture(tileUrl, groundTileId, TILESET_COLUMNS.baseChip).then(groundTex => {
-    if (groundLayer.destroyed) return
+    if (baseContainer.destroyed) return
     const tileCols = Math.ceil(mapWidth / 32)
     const tileRows = Math.ceil(mapHeight / 32)
     const bg = new PIXI.Container()
@@ -201,7 +202,7 @@ function buildTerrainGfx(
         bg.addChild(s)
       }
     }
-    groundLayer.addChildAt(bg, 0)
+    baseContainer.addChild(bg)
   }).catch(e => console.error('[NodeMap] ground tile load failed', tileUrl, e))
 
   const seed = terrainSeed ?? hashStr(act.id)
@@ -239,7 +240,7 @@ function buildTerrainGfx(
       .stroke({ color: riverLight, width: 7, alpha: 0.55, cap: 'round' })
     g.moveTo(x1, y1).bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2)
       .stroke({ color: 0xffffff, width: 2, alpha: 0.38, cap: 'round' })
-    groundLayer.addChild(g)
+    riverContainer.addChild(g)
   }
 
   const terrainItems = items.filter(i => i.kind !== 'river')
@@ -253,13 +254,68 @@ function buildTerrainGfx(
   }
 }
 
+// ── Background tile layer ─────────────────────────────────────────────────────
+// Tiles the fully-filled variant of the pathFile across the whole map, giving
+// a rich textured fill that shows behind the path-transition edges.
+async function buildBgTileGfx(
+  container: PIXI.Container,
+  act: Act,
+  mapWidth: number,
+  mapHeight: number,
+): Promise<void> {
+  const def = ENV_TILES[act.environment ?? '']
+  if (def?.bgTileId === undefined) return
+  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
+  const tileUrl = `${base}${def.pathFile.slice(1)}`
+  const tex = await loadTileTexture(tileUrl, def.bgTileId, 8)
+  if (container.destroyed) return
+  const cols = Math.ceil(mapWidth / TILE_SIZE)
+  const rows = Math.ceil(mapHeight / TILE_SIZE)
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const s = new PIXI.Sprite(tex)
+      s.position.set(c * TILE_SIZE, r * TILE_SIZE)
+      container.addChild(s)
+    }
+  }
+}
+
+// ── Decor tile layer ──────────────────────────────────────────────────────────
+// Scatters tiles from the environment's decorFile across the map at ~15% density.
+async function buildDecorGfx(
+  container: PIXI.Container,
+  act: Act,
+  mapWidth: number,
+  mapHeight: number,
+): Promise<void> {
+  const def = ENV_TILES[act.environment ?? '']
+  if (!def?.decorFile || !def.decorTileIds?.length) return
+  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
+  const tileUrl = `${base}${def.decorFile.slice(1)}`
+  const tileIds = def.decorTileIds
+  const rand = seededRand(hashStr(act.id + 'decor'))
+  const cols = Math.ceil(mapWidth / TILE_SIZE)
+  const rows = Math.ceil(mapHeight / TILE_SIZE)
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (rand() > 0.15) continue
+      const tileId = tileIds[Math.floor(rand() * tileIds.length)]
+      const tex = await loadTileTexture(tileUrl, tileId, 8)
+      if (container.destroyed) return
+      const s = new PIXI.Sprite(tex)
+      s.position.set(c * TILE_SIZE, r * TILE_SIZE)
+      container.addChild(s)
+    }
+  }
+}
+
 // ── Path tile renderer ────────────────────────────────────────────────────────
 // Lays PATH tiles from [A]Grass_pipo along each connector route.
 // Routes are L-shaped (horizontal → vertical → horizontal) snapped to the 32px
 // tile grid; neighbors are checked to pick the right PATH variant at each cell.
 
 async function buildPathTileGfx(
-  groundLayer: PIXI.Container,
+  container: PIXI.Container,
   act: Act,
   rows: QuestNode[][],
   maxRowCols: number,
@@ -371,11 +427,11 @@ async function buildPathTileGfx(
   await Promise.all(
     Array.from(byVariant.entries()).map(async ([v, tiles]) => {
       const tex = await loadTileTexture(tileUrl, v, 8)
-      if (groundLayer.destroyed) return
+      if (container.destroyed) return
       for (const { tx, ty } of tiles) {
         const s = new PIXI.Sprite(tex)
         s.position.set(tx * T, ty * T)
-        groundLayer.addChild(s)
+        container.addChild(s)
       }
     })
   )
@@ -893,10 +949,21 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
     worldRef.current  = worldLayer
     nodeLRef.current  = nodeLayer
 
-    // Terrain + path tiles (both fire-and-forget async)
-    buildTerrainGfx(groundLayer, worldLayer, act, mapWidth, mapHeight)
-    buildPathTileGfx(groundLayer, act, rows, maxRowCols, mapHeight)
+    // Sub-containers within groundLayer — z-order: base → bg → rivers → path → decor
+    const baseContainer  = new PIXI.Container()
+    const bgContainer    = new PIXI.Container()
+    const riverContainer = new PIXI.Container()
+    const pathContainer  = new PIXI.Container()
+    const decorContainer = new PIXI.Container()
+    groundLayer.addChild(baseContainer, bgContainer, riverContainer, pathContainer, decorContainer)
+
+    buildTerrainGfx(baseContainer, riverContainer, worldLayer, act, mapWidth, mapHeight)
+    buildBgTileGfx(bgContainer, act, mapWidth, mapHeight)
+      .catch(e => console.error('[NodeMap] bg tiles failed', e))
+    buildPathTileGfx(pathContainer, act, rows, maxRowCols, mapHeight)
       .catch(e => console.error('[NodeMap] path tiles failed', e))
+    buildDecorGfx(decorContainer, act, mapWidth, mapHeight)
+      .catch(e => console.error('[NodeMap] decor tiles failed', e))
 
     // Campfire at start position
     try {

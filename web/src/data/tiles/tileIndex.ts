@@ -86,6 +86,8 @@ export const PATH_TILE = {
   water5:       '/world/[A]_type3/[A]Water5_pipo.png',
   water6:       '/world/[A]_type3/[A]Water6_pipo.png',
   water7:       '/world/[A]_type3/[A]Water7_pipo.png',
+  flower1:      '/world/[A]_type3/[A]Flower_pipo.png',
+  longGrass:    '/world/[A]_type3/[A]LongGrass_pipo.png',
 } as const
 
 // ── Tileset image paths (relative to /public) ─────────────────────────────────
@@ -122,18 +124,26 @@ export function tileFrame(id: number, cols: number): { x: number; y: number; w: 
   }
 }
 
-// ── Per-environment defaults ───────────────────────────────────────────────────
-export const ENV_TILES: Record<string, { ground: number; pathFile: string }> = {
-  forest:   { ground: BASE_GROUND.lightGrass, pathFile: PATH_TILE.grass1Dirt1  },
+// ── Per-environment tile config ───────────────────────────────────────────────
+export interface EnvTileDef {
+  ground: number          // BaseChip tile id — solid colour fallback fill
+  pathFile: string        // per-combination 8-col transition sheet
+  bgTileId?: number       // tile in pathFile to repeat as textured background fill
+  decorFile?: string      // decor scatter sheet (same 8-col format)
+  decorTileIds?: number[] // tile ids to randomly scatter as decor
+}
+
+export const ENV_TILES: Record<string, EnvTileDef> = {
+  forest:   { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Dirt1,  decorFile: PATH_TILE.flower1,  decorTileIds: [PATH.allSidesNoGrass] },
   farmland: { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },
   ruins:    { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.grass1Grass3 },
   ashen:    { ground: BASE_GROUND.dyingGrass,  pathFile: PATH_TILE.grass1Grass4 },
   sand:     { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.grass1Dirt2  },
   frost:    { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Grass2 },
   volcano:  { ground: BASE_GROUND.darkDirt,    pathFile: PATH_TILE.dirt4        },
-  citadel:  { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.wall2 },
-  coast:    { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water2       },
-  reef:     { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water1       },
+  citadel:  { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.wall2        },
+  coast:    { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water2,       bgTileId: PATH.allSidesNoGrass },
+  reef:     { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water1,       bgTileId: PATH.allSidesNoGrass },
   sky:      { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Grass2 },
   fungal:   { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.grass1Grass3 },
   vault:    { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.wall1        },
