@@ -43,7 +43,7 @@ import { EventScreen }          from './components/campaign/EventScreen'
 import { MerchantScreen, MerchantItem, cardMerchantItem } from './components/campaign/MerchantScreen'
 import { MysteryScreen } from './components/campaign/MysteryScreen'
 import { MemoryFragmentScreen } from './components/campaign/MemoryFragmentScreen'
-import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered } from './game/codex'
+import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered } from './game/codex'
 import { CharacterEncounterScreen } from './components/campaign/CharacterEncounterScreen'
 import { CharacterChoice, recordCharacterEncounter } from './game/characters'
 import memoryFragmentsData from './data/memoryFragments.json'
@@ -319,6 +319,7 @@ export default function App() {
     if (savedRun && savedAct && isActComplete(savedAct, savedRun)) {
       return { screen: 'actcomplete' as Screen, gameState: null as GameState | null, run: savedRun, isCampaign: false }
     }
+    if (isHubWorldUnlocked()) return { screen: 'hubworld' as Screen, gameState: null as GameState | null, run: savedRun as RunState | null, isCampaign: false }
     return { screen: (loadSkipIntro() ? 'title' : 'intro') as Screen, gameState: null as GameState | null, run: savedRun as RunState | null, isCampaign: false }
   })
 
@@ -1350,6 +1351,7 @@ export default function App() {
     let updatedConsumables = currentRun.consumables
     if (!alreadyFound) {
       shardBonus = markFragmentDiscovered(fragment.id)
+      if (areAllCampaignFragmentsDiscovered()) unlockHubWorld()
       if (shardBonus) {
         const existing = updatedConsumables.find(c => c.id === 'health_potion')
         updatedConsumables = existing
@@ -2484,6 +2486,7 @@ export default function App() {
           onCampaignAdmin={() => setScreen('campaignAdmin')}
           onFeedbackAdmin={() => setScreen('feedbackAdmin')}
           onHubWorld={() => setScreen('hubworld')}
+          onTitleScreen={() => setScreen('title')}
         />
       )}
 

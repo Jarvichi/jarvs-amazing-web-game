@@ -13,6 +13,7 @@ import { isDevMode } from '../../game/debug'
 import { DevMenu } from '../admin/DevMenu'
 import { GIFT_OWNER_UID } from '../../game/gifts'
 import { loadPlaytime, formatPlaytime } from '../../game/playtime'
+import { isHubWorldUnlocked, unlockHubWorld } from '../../game/codex'
 
 interface Props {
   onBack: () => void
@@ -26,6 +27,7 @@ interface Props {
   onCampaignAdmin?: () => void
   onFeedbackAdmin?: () => void
   onHubWorld?: () => void
+  onTitleScreen?: () => void
 }
 
 const TEXT_SIZE_KEY      = 'jarv_text_size'
@@ -158,7 +160,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
-export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin, onHubWorld }: Props) {
+export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin, onHubWorld, onTitleScreen }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [soundVolume,   setSoundVolumeState]   = useState(getSoundVolume)
   const [musicVolume,   setMusicVolumeState]   = useState(getMusicVolume)
@@ -573,14 +575,35 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </div>
         </Section>
 
-        {user?.uid === GIFT_OWNER_UID && onHubWorld && (
-          <Section bordered title="EXPERIMENTS">
+        {isHubWorldUnlocked() && onTitleScreen && (
+          <Section bordered title="NAVIGATION">
             <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
-                <div className="settings-label">Hub World</div>
-                <div className="settings-sublabel">Prototype terrain canvas</div>
+                <div className="settings-label">Classic Title Screen</div>
+                <div className="settings-sublabel">Return to the original title screen</div>
               </div>
-              <button className="action-btn" onClick={onHubWorld}>OPEN</button>
+              <button className="action-btn" onClick={onTitleScreen}>GO</button>
+            </div>
+          </Section>
+        )}
+
+        {user?.uid === GIFT_OWNER_UID && (onHubWorld || onTitleScreen) && (
+          <Section bordered title="EXPERIMENTS">
+            {onHubWorld && (
+              <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+                <div>
+                  <div className="settings-label">Hub World</div>
+                  <div className="settings-sublabel">Prototype terrain canvas</div>
+                </div>
+                <button className="action-btn" onClick={onHubWorld}>OPEN</button>
+              </div>
+            )}
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+              <div>
+                <div className="settings-label">Unlock Hub World</div>
+                <div className="settings-sublabel">Dev cheat — sets the hub world unlock flag</div>
+              </div>
+              <button className="action-btn" onClick={() => { unlockHubWorld(); window.location.reload() }}>UNLOCK</button>
             </div>
           </Section>
         )}
