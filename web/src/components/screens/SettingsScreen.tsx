@@ -25,6 +25,7 @@ interface Props {
   onNewsAdmin?: () => void
   onCampaignAdmin?: () => void
   onFeedbackAdmin?: () => void
+  onHubWorld?: () => void
 }
 
 const TEXT_SIZE_KEY      = 'jarv_text_size'
@@ -157,7 +158,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
-export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin }: Props) {
+export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin, onHubWorld }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [soundVolume,   setSoundVolumeState]   = useState(getSoundVolume)
   const [musicVolume,   setMusicVolumeState]   = useState(getMusicVolume)
@@ -572,8 +573,16 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </div>
         </Section>
 
-        {isDebugMode && (
-    <></>
+        {isDebugMode && onHubWorld && (
+          <Section bordered title="EXPERIMENTS">
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+              <div>
+                <div className="settings-label">Hub World</div>
+                <div className="settings-sublabel">Prototype terrain canvas</div>
+              </div>
+              <button className="action-btn" onClick={onHubWorld}>OPEN</button>
+            </div>
+          </Section>
         )}
 
         {user?.uid === GIFT_OWNER_UID && (onGiftAdmin || onNewsAdmin || onFeedbackAdmin) && (
