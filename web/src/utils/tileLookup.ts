@@ -29,12 +29,12 @@ export function buildTileLookup(canal: boolean): number[] {
         else if (missing === 1 && !NW) t[mask] = PATH.grassCornerTL
         else                      t[mask] = PATH.allSidesNoGrass
       } else {
-        t[mask] = PATH.allSides
+        t[mask] = PATH.allSidesNoGrass
       }
     } else if (N && E && S)      t[mask] = PATH.tJuncRight
-    else if (E && S && W)        t[mask] = canal ? PATH.edgeTop    : PATH.tJuncTop
+    else if (E && S && W)        t[mask] = PATH.edgeTop
     else if (N && S && W)        t[mask] = PATH.tJuncLeft2
-    else if (N && E && W)        t[mask] = canal ? PATH.edgeBottom : PATH.tJuncBottom
+    else if (N && E && W)        t[mask] = PATH.edgeBottom
     else if (N && S)             t[mask] = PATH.vertical
     else if (E && W)             t[mask] = PATH.horizontal
     else if (N && E)             t[mask] = canal ? (NE ? PATH.turnTopRight    : PATH.grassCornerBL) : PATH.turnTopRight
