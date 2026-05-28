@@ -404,6 +404,10 @@ async function buildPathTileGfx(
       const hasV = original.has(key(tx, ty + 1)) || original.has(key(tx, ty - 1))
       if (hasH) for (let d = 1; d <= half; d++) { extra.add(key(tx, ty - d)); extra.add(key(tx, ty + d)) }
       if (hasV) for (let d = 1; d <= half; d++) { extra.add(key(tx - d, ty)); extra.add(key(tx + d, ty)) }
+      if (hasH && hasV) for (let dx = 1; dx <= half; dx++) for (let dy = 1; dy <= half; dy++) {
+        extra.add(key(tx + dx, ty + dy)); extra.add(key(tx + dx, ty - dy))
+        extra.add(key(tx - dx, ty + dy)); extra.add(key(tx - dx, ty - dy))
+      }
     }
     for (const k of extra) pathSet.add(k)
   }
