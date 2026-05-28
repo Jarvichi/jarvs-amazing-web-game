@@ -140,7 +140,7 @@ export interface EnvTileDef {
 }
 
 export const ENV_TILES: Record<string, EnvTileDef> = {
-  forest:   { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Dirt1,  decorFile: PATH_TILE.flower1,  decorTileIds: [PATH.allSidesNoGrass] },
+  forest:   { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Dirt1,  decorFile: PATH_TILE.flower1,  decorTileIds: [PATH.isolated] },
   farmland: { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },
   ruins:    { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.grass1Grass3 },
   ashen:    { ground: BASE_GROUND.dyingGrass,  pathFile: PATH_TILE.grass1Grass4 },
