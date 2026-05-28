@@ -78,7 +78,15 @@ export const QUEST_GIVER_NPCS: QuestGiverNpc[] = [
 ]
 
 // Preset positions for card-unit NPC spawning — all on street tiles, spread across the map.
+// Courtyard tiles (tx≈33-41, ty≈21-28) are always in the initial mobile viewport so NPCs
+// are visible immediately without scrolling.
 export const NPC_SPAWN_TILES: [number, number][] = [
+  // ── Courtyard — always visible on mobile ─────────────────────────────────
+  [35, 23],   // courtyard NW
+  [39, 23],   // courtyard NE
+  [35, 26],   // courtyard SW
+  [39, 26],   // courtyard SE
+  // ── Rest of the map ───────────────────────────────────────────────────────
   [19,  8],   // NW alley upper
   [19, 15],   // NW alley mid
   [10, 24],   // Market Lane west
