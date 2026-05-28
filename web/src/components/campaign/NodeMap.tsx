@@ -15,10 +15,12 @@ import { NodeMapHpBar } from './NodeMapHpBar'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { usePixiApp } from '../../hooks/usePixiApp'
-import { loadSpriteTexture, loadAnimFrames, loadTextureUrl, loadTileTexture, makeClickable, tweenTo } from '../../utils/pixiHelpers'
-import { ENV_TILES, TILESET_IMAGE, TILESET_COLUMNS, BASE_GROUND, PATH, PATH_TILE, TILE_SIZE } from '../../data/tiles/tileIndex'
-import { drawTerrainItem } from '../../utils/terrainGfx'
+import { loadSpriteTexture, loadAnimFrames, loadTextureUrl, makeClickable, tweenTo } from '../../utils/pixiHelpers'
+import { ENV_TILES, TILE_SIZE } from '../../data/tiles/tileIndex'
 import { GIFT_OWNER_UID } from '../../game/gifts'
+import { hashStr, envColors, parseRgba, sampleBezier, bezierBand } from '../../utils/mapUtils'
+import { renderPathTiles } from '../../utils/tileLookup'
+import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx } from '../../utils/terrainLayer'
 
 interface Props {
   act: Act
@@ -124,245 +126,6 @@ function nodePosition(
 
 function startPos(mapHeight: number) { return { x: AVATAR_PADDING / 2, y: mapHeight / 2 } }
 
-// ── Terrain helpers ────────────────────────────────────────────────────────────
-
-function seededRand(seed: number) {
-  let s = seed | 0
-  return (): number => {
-    s = Math.imul(s ^ (s >>> 16), 0x45d9f3b)
-    s = Math.imul(s ^ (s >>> 16), 0x45d9f3b)
-    s ^= (s >>> 16)
-    return (s >>> 0) / 0xffffffff
-  }
-}
-
-function hashStr(str: string): number {
-  let h = 5381
-  for (let i = 0; i < str.length; i++) h = (Math.imul(h, 33) ^ str.charCodeAt(i)) | 0
-  return Math.abs(h)
-}
-
-interface TerrainItem { x: number; y: number; scale: number; kind: string }
-
-function getTerrainItems(env: string | undefined, seed: number, w: number, h: number): TerrainItem[] {
-  const r = seededRand(seed)
-  const rf = (lo: number, hi: number) => lo + r() * (hi - lo)
-  const pad = 30
-  const items: TerrainItem[] = []
-  const scatter = (kind: string, count: number, minS: number, maxS: number) => {
-    for (let i = 0; i < count; i++)
-      items.push({ kind, x: rf(pad, w - pad), y: rf(pad, h - pad), scale: rf(minS, maxS) })
-  }
-  switch (env) {
-    case 'forest':   scatter('tree', 14, 0.8, 1.5); scatter('mountain', 4, 0.5, 0.9); scatter('river', 1, 1, 1); break
-    case 'citadel':  scatter('tower', 10, 0.8, 1.4); scatter('mountain', 5, 0.5, 1.0); break
-    case 'ruins':    scatter('pillar', 9, 0.8, 1.3); scatter('tree', 4, 0.5, 0.9); scatter('river', 1, 1, 1); break
-    case 'ashen':    scatter('mountain', 10, 0.7, 1.4); scatter('deadtree', 6, 0.8, 1.3); break
-    case 'farmland': scatter('tree', 8, 0.7, 1.1); scatter('mountain', 4, 0.4, 0.7); scatter('river', 1, 1, 1); break
-    case 'frost':    scatter('crystal', 12, 0.8, 1.4); scatter('mountain', 6, 0.7, 1.2); scatter('river', 1, 1, 1); break
-    case 'volcano':  scatter('mountain', 10, 0.8, 1.5); scatter('lava', 5, 0.7, 1.2); break
-    case 'sand':     scatter('dune', 10, 0.7, 1.3); scatter('mountain', 4, 0.5, 0.9); break
-    case 'reef':
-    case 'coast':    scatter('wave', 10, 0.8, 1.4); scatter('mountain', 4, 0.5, 0.9); scatter('river', 1, 1, 1); break
-    case 'sky':      scatter('cloud', 12, 0.8, 1.5); scatter('mountain', 4, 0.4, 0.8); break
-    case 'fungal':   scatter('mushroom', 12, 0.8, 1.5); scatter('deadtree', 4, 0.5, 0.9); scatter('river', 1, 1, 1); break
-    case 'vault':
-    case 'camp':     scatter('pillar', 8, 0.7, 1.2); scatter('mountain', 4, 0.5, 0.9); break
-    default:         scatter('mountain', 10, 0.6, 1.2); scatter('tree', 4, 0.6, 1.0)
-  }
-  return items
-}
-
-// ── 8-neighbor tile lookup tables ─────────────────────────────────────────────
-// Normalized 8-bit key: bit0=N, bit1=NE(only if N&&E), bit2=E, bit3=SE(only if S&&E),
-//                       bit4=S, bit5=SW(only if S&&W), bit6=W, bit7=NW(only if N&&W)
-// Diagonals bits are pre-zeroed when adjacent cardinals aren't both set, so any
-// combination that reaches here is already canonical. 256 entries → ~47 tile IDs.
-function buildTileLookup(canal: boolean): number[] {
-  const t = new Array<number>(256)
-  for (let mask = 0; mask < 256; mask++) {
-    const N  = !!(mask &   1)
-    const NE = !!(mask &   2)
-    const E  = !!(mask &   4)
-    const SE = !!(mask &   8)
-    const S  = !!(mask &  16)
-    const SW = !!(mask &  32)
-    const W  = !!(mask &  64)
-    const NW = !!(mask & 128)
-
-    if (N && E && S && W) {
-      // All 4 cardinals — diagonal gaps become inner grass corners (canal only)
-      if (canal) {
-        const missing = (!NE ? 1 : 0) + (!SE ? 1 : 0) + (!SW ? 1 : 0) + (!NW ? 1 : 0)
-        if (missing === 0)        t[mask] = PATH.allSidesNoGrass
-        else if (missing === 1 && !NE) t[mask] = PATH.grassCornerTR
-        else if (missing === 1 && !SE) t[mask] = PATH.grassCornerBR
-        else if (missing === 1 && !SW) t[mask] = PATH.grassCornerBL
-        else if (missing === 1 && !NW) t[mask] = PATH.grassCornerTL
-        // TODO: 2, 3, or 4 diagonals missing — tile IDs needed for each combo
-        // (e.g. NE+NW missing = top strip, NE+SE = right strip, adjacent pairs,
-        //  and the 4-diagonal-missing allSides case). See GitHub issue for tracking.
-        else                      t[mask] = PATH.allSidesNoGrass
-      } else {
-        t[mask] = PATH.allSides
-      }
-    } else if (N && E && S)      t[mask] = PATH.tJuncRight
-    else if (E && S && W)        t[mask] = canal ? PATH.edgeTop    : PATH.tJuncTop
-    else if (N && S && W)        t[mask] = PATH.tJuncLeft2
-    else if (N && E && W)        t[mask] = canal ? PATH.edgeBottom : PATH.tJuncBottom
-    else if (N && S)             t[mask] = PATH.vertical
-    else if (E && W)             t[mask] = PATH.horizontal
-    else if (N && E)             t[mask] = canal ? (NE ? PATH.turnTopRight    : PATH.grassCornerBL) : PATH.turnTopRight
-    else if (N && W)             t[mask] = canal ? (NW ? PATH.turnTopLeft     : PATH.grassCornerBR) : PATH.turnTopLeft
-    else if (S && E)             t[mask] = canal ? (SE ? PATH.turnBottomRight : PATH.grassCornerTL) : PATH.turnBottomRight
-    else if (S && W)             t[mask] = canal ? (SW ? PATH.turnBottomLeft  : PATH.grassCornerTR) : PATH.turnBottomLeft
-    else if (N)                  t[mask] = PATH.topOnly
-    else if (E)                  t[mask] = PATH.rightOnly
-    else if (S)                  t[mask] = PATH.bottomOnly
-    else if (W)                  t[mask] = PATH.leftOnly
-    else                         t[mask] = PATH.isolated
-  }
-  return t
-}
-const PATH_TILE_LOOKUP  = buildTileLookup(false)
-const CANAL_TILE_LOOKUP = buildTileLookup(true)
-
-// ── PixiJS terrain builder ─────────────────────────────────────────────────────
-// Rivers go into groundLayer; all other items go into worldLayer for Y-sorting.
-
-function buildTerrainGfx(
-  baseContainer: PIXI.Container,
-  riverContainer: PIXI.Container,
-  worldLayer: PIXI.Container,
-  act: Act,
-  mapWidth: number,
-  mapHeight: number,
-): void {
-  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
-  const { environment, terrainSeed, terrainItems: explicitItems, rivers: explicitRivers } = act
-
-  // Tiled ground fill — fire-and-forget so the async load doesn't block synchronous setup
-  const groundTileId = ENV_TILES[environment ?? '']?.ground ?? BASE_GROUND.mediumGrass
-  const tileUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
-  loadTileTexture(tileUrl, groundTileId, TILESET_COLUMNS.baseChip).then(groundTex => {
-    if (baseContainer.destroyed) return
-    const tileCols = Math.ceil(mapWidth / 32)
-    const tileRows = Math.ceil(mapHeight / 32)
-    const bg = new PIXI.Container()
-    for (let r = 0; r < tileRows; r++) {
-      for (let c = 0; c < tileCols; c++) {
-        const s = new PIXI.Sprite(groundTex)
-        s.position.set(c * 32, r * 32)
-        bg.addChild(s)
-      }
-    }
-    baseContainer.addChild(bg)
-  }).catch(e => console.error('[NodeMap] ground tile load failed', tileUrl, e))
-
-  const seed = terrainSeed ?? hashStr(act.id)
-  const items = explicitItems ?? getTerrainItems(environment, seed, mapWidth, mapHeight)
-
-  const riverColor = environment === 'volcano' ? 0xcc4400
-                   : environment === 'fungal'  ? 0x6633aa
-                   : environment === 'frost'   ? 0x88ddff : 0x2255aa
-
-  const rc = (riverColor >> 16) & 0xff, gc = (riverColor >> 8) & 0xff, bc = riverColor & 0xff
-  const riverDark  = (Math.round(rc * 0.55) << 16) | (Math.round(gc * 0.55) << 8) | Math.round(bc * 0.55)
-  const riverLight = (Math.min(255, Math.round(rc * 1.45)) << 16) | (Math.min(255, Math.round(gc * 1.45)) << 8) | Math.min(255, Math.round(bc * 1.45))
-
-  // Explicit rivers override the random scatter; fall back to seeded random
-  const riversToDraw: Array<{ x1: number; y1: number; x2: number; y2: number; cx1: number; cy1: number; cx2: number; cy2: number }> =
-    explicitRivers ?? (() => {
-      const rseed = hashStr(act.id + 'river')
-      const rr = seededRand(rseed)
-      const rrf = (lo: number, hi: number) => lo + rr() * (hi - lo)
-      return items.filter(i => i.kind === 'river').map(() => ({
-        x1: rrf(0, mapWidth * 0.25),   y1: rrf(0, mapHeight),
-        x2: rrf(mapWidth * 0.75, mapWidth), y2: rrf(0, mapHeight),
-        cx1: rrf(mapWidth * 0.2, mapWidth * 0.5), cy1: rrf(0, mapHeight),
-        cx2: rrf(mapWidth * 0.5, mapWidth * 0.8), cy2: rrf(0, mapHeight),
-      }))
-    })()
-
-  for (const { x1, y1, x2, y2, cx1, cy1, cx2, cy2 } of riversToDraw) {
-    const g = new PIXI.Graphics()
-    g.moveTo(x1, y1).bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2)
-      .stroke({ color: riverDark, width: 20, alpha: 0.65, cap: 'round' })
-    g.moveTo(x1, y1).bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2)
-      .stroke({ color: riverColor, width: 13, alpha: 0.75, cap: 'round' })
-    g.moveTo(x1, y1).bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2)
-      .stroke({ color: riverLight, width: 7, alpha: 0.55, cap: 'round' })
-    g.moveTo(x1, y1).bezierCurveTo(cx1, cy1, cx2, cy2, x2, y2)
-      .stroke({ color: 0xffffff, width: 2, alpha: 0.38, cap: 'round' })
-    riverContainer.addChild(g)
-  }
-
-  const terrainItems = items.filter(i => i.kind !== 'river')
-  for (let i = 0; i < terrainItems.length; i++) {
-    const { x, y, scale, kind } = terrainItems[i]
-    const g = new PIXI.Graphics()
-    g.position.set(x, y)
-    drawTerrainItem(g, kind, scale, environment, hashStr(`${kind}-${i}${x}`) % 18)
-    g.zIndex = y
-    worldLayer.addChild(g)
-  }
-}
-
-// ── Background tile layer ─────────────────────────────────────────────────────
-// Tiles the fully-filled variant of the pathFile across the whole map, giving
-// a rich textured fill that shows behind the path-transition edges.
-async function buildBgTileGfx(
-  container: PIXI.Container,
-  act: Act,
-  mapWidth: number,
-  mapHeight: number,
-): Promise<void> {
-  const def = ENV_TILES[act.environment ?? '']
-  if (def?.bgTileId === undefined) return
-  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
-  const tileUrl = `${base}${def.pathFile.slice(1)}`
-  const tex = await loadTileTexture(tileUrl, def.bgTileId, 8)
-  if (container.destroyed) return
-  const cols = Math.ceil(mapWidth / TILE_SIZE)
-  const rows = Math.ceil(mapHeight / TILE_SIZE)
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const s = new PIXI.Sprite(tex)
-      s.position.set(c * TILE_SIZE, r * TILE_SIZE)
-      container.addChild(s)
-    }
-  }
-}
-
-// ── Decor tile layer ──────────────────────────────────────────────────────────
-// Scatters tiles from the environment's decorFile across the map at ~15% density.
-async function buildDecorGfx(
-  container: PIXI.Container,
-  act: Act,
-  mapWidth: number,
-  mapHeight: number,
-): Promise<void> {
-  const def = ENV_TILES[act.environment ?? '']
-  if (!def?.decorFile || !def.decorTileIds?.length) return
-  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
-  const tileUrl = `${base}${def.decorFile.slice(1)}`
-  const tileIds = def.decorTileIds
-  const rand = seededRand(hashStr(act.id + 'decor'))
-  const cols = Math.ceil(mapWidth / TILE_SIZE)
-  const rows = Math.ceil(mapHeight / TILE_SIZE)
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      if (rand() > 0.15) continue
-      const tileId = tileIds[Math.floor(rand() * tileIds.length)]
-      const tex = await loadTileTexture(tileUrl, tileId, 8)
-      if (container.destroyed) return
-      const s = new PIXI.Sprite(tex)
-      s.position.set(c * TILE_SIZE, r * TILE_SIZE)
-      container.addChild(s)
-    }
-  }
-}
-
 // ── Path tile renderer ────────────────────────────────────────────────────────
 // Lays PATH tiles from [A]Grass_pipo along each connector route.
 // Routes are L-shaped (horizontal → vertical → horizontal) snapped to the 32px
@@ -376,9 +139,6 @@ async function buildPathTileGfx(
   mapHeight: number,
 ): Promise<void> {
   const T = TILE_SIZE
-  const pathFile = ENV_TILES[act.environment ?? '']?.pathFile ?? PATH_TILE.grass1Dirt1
-  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
-  const tileUrl = `${base}${pathFile.slice(1)}`
 
   // Collect all tile-grid cells that lie on any connector path
   const pathSet = new Set<string>()
@@ -465,44 +225,8 @@ async function buildPathTileGfx(
     }
     for (const k of extra) pathSet.add(k)
   }
-  const lookup = pathWidth > 1 ? CANAL_TILE_LOOKUP : PATH_TILE_LOOKUP
 
-  // Pick tile for each cell using all 8 neighbors (diagonals zeroed when cardinals absent)
-  const has = (tx: number, ty: number) => pathSet.has(key(tx, ty))
-  const tileVariant = (tx: number, ty: number): number => {
-    const N = has(tx, ty - 1), E = has(tx + 1, ty), S = has(tx, ty + 1), W = has(tx - 1, ty)
-    const mask =
-      (N                          ?   1 : 0) |
-      (N && E && has(tx+1, ty-1)  ?   2 : 0) |
-      (E                          ?   4 : 0) |
-      (S && E && has(tx+1, ty+1)  ?   8 : 0) |
-      (S                          ?  16 : 0) |
-      (S && W && has(tx-1, ty+1)  ?  32 : 0) |
-      (W                          ?  64 : 0) |
-      (N && W && has(tx-1, ty-1)  ? 128 : 0)
-    return lookup[mask]
-  }
-
-  // Group cells by tile variant to batch texture loads
-  const byVariant = new Map<number, Array<{ tx: number; ty: number }>>()
-  for (const k of pathSet) {
-    const [tx, ty] = k.split(',').map(Number)
-    const v = tileVariant(tx, ty)
-    if (!byVariant.has(v)) byVariant.set(v, [])
-    byVariant.get(v)!.push({ tx, ty })
-  }
-
-  await Promise.all(
-    Array.from(byVariant.entries()).map(async ([v, tiles]) => {
-      const tex = await loadTileTexture(tileUrl, v, 8)
-      if (container.destroyed) return
-      for (const { tx, ty } of tiles) {
-        const s = new PIXI.Sprite(tex)
-        s.position.set(tx * T, ty * T)
-        container.addChild(s)
-      }
-    })
-  )
+  await renderPathTiles(container, pathSet, act.environment)
 }
 
 // ── Connector helpers ──────────────────────────────────────────────────────────
@@ -519,63 +243,6 @@ function lineVariant(
   if (ps === 'completed' && (cs === 'completed' || cs === 'pending')) return 'trail'
   if (ps === 'completed' && cs === 'available')                       return 'frontier'
   return 'future'
-}
-
-function envColors(env?: string): { trail: string; frontier: string } {
-  switch (env) {
-    case 'forest':   return { trail: 'rgba(80,140,60,0.6)',    frontier: 'rgba(100,220,80,0.9)'   }
-    case 'citadel':
-    case 'ruins':    return { trail: 'rgba(120,120,140,0.55)', frontier: 'rgba(180,180,210,0.9)'  }
-    case 'ashen':    return { trail: 'rgba(160,80,40,0.55)',   frontier: 'rgba(240,120,60,0.9)'   }
-    case 'farmland': return { trail: 'rgba(140,160,60,0.55)',  frontier: 'rgba(200,220,80,0.9)'   }
-    case 'frost':    return { trail: 'rgba(80,160,200,0.55)',  frontier: 'rgba(120,220,255,0.9)'  }
-    case 'volcano':  return { trail: 'rgba(200,80,20,0.6)',    frontier: 'rgba(255,120,30,0.95)'  }
-    case 'sand':     return { trail: 'rgba(200,160,60,0.55)',  frontier: 'rgba(240,200,80,0.9)'   }
-    case 'reef':
-    case 'coast':    return { trail: 'rgba(40,140,180,0.55)',  frontier: 'rgba(60,200,240,0.9)'   }
-    case 'sky':      return { trail: 'rgba(100,140,200,0.55)', frontier: 'rgba(140,190,255,0.9)'  }
-    case 'fungal':   return { trail: 'rgba(120,60,160,0.55)',  frontier: 'rgba(180,80,240,0.9)'   }
-    case 'vault':
-    case 'camp':     return { trail: 'rgba(140,120,80,0.55)',  frontier: 'rgba(200,180,100,0.9)'  }
-    default:         return { trail: 'rgba(120,120,120,0.45)', frontier: 'rgba(51,255,51,0.85)'   }
-  }
-}
-
-function parseRgba(s: string): { color: number; alpha: number } {
-  const m = /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/.exec(s)
-  if (!m) return { color: 0xffffff, alpha: 1 }
-  return {
-    color: (parseInt(m[1]) << 16) | (parseInt(m[2]) << 8) | parseInt(m[3]),
-    alpha: m[4] ? parseFloat(m[4]) : 1,
-  }
-}
-
-function sampleBezier(
-  x0: number, y0: number, cx1: number, cy1: number,
-  cx2: number, cy2: number, x1: number, y1: number,
-  n = 20,
-): Array<{ x: number; y: number }> {
-  return Array.from({ length: n + 1 }, (_, i) => {
-    const t = i / n, mt = 1 - t
-    return {
-      x: mt**3*x0 + 3*mt**2*t*cx1 + 3*mt*t**2*cx2 + t**3*x1,
-      y: mt**3*y0 + 3*mt**2*t*cy1 + 3*mt*t**2*cy2 + t**3*y1,
-    }
-  })
-}
-
-function bezierBand(pts: Array<{ x: number; y: number }>, halfW: number): number[] {
-  const left: number[] = [], right: Array<{ x: number; y: number }> = []
-  for (let i = 0; i < pts.length; i++) {
-    const prev = pts[Math.max(0, i - 1)], next = pts[Math.min(pts.length - 1, i + 1)]
-    const tx = next.x - prev.x, ty = next.y - prev.y
-    const len = Math.sqrt(tx * tx + ty * ty) || 1
-    const nx = -ty / len, ny = tx / len
-    left.push(pts[i].x + nx * halfW, pts[i].y + ny * halfW)
-    right.push({ x: pts[i].x - nx * halfW, y: pts[i].y - ny * halfW })
-  }
-  const rightFlat = right.reverse().flatMap(p => [p.x, p.y])
-  return [...left, ...rightFlat]
 }
 
 function drawConnectorsGfx(
@@ -1025,12 +692,14 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
     const decorContainer = new PIXI.Container()
     groundLayer.addChild(baseContainer, bgContainer, riverContainer, pathContainer, decorContainer)
 
-    buildTerrainGfx(baseContainer, riverContainer, worldLayer, act, mapWidth, mapHeight)
-    buildBgTileGfx(bgContainer, act, mapWidth, mapHeight)
+    buildTerrainGfx(baseContainer, riverContainer, worldLayer,
+      { environment: act.environment, terrainSeed: act.terrainSeed, terrainItems: act.terrainItems, rivers: act.rivers, id: act.id },
+      mapWidth, mapHeight)
+    buildBgTileGfx(bgContainer, { environment: act.environment }, mapWidth, mapHeight)
       .catch(e => console.error('[NodeMap] bg tiles failed', e))
     buildPathTileGfx(pathContainer, act, rows, maxRowCols, mapHeight)
       .catch(e => console.error('[NodeMap] path tiles failed', e))
-    buildDecorGfx(decorContainer, act, mapWidth, mapHeight)
+    buildDecorGfx(decorContainer, { environment: act.environment, id: act.id }, mapWidth, mapHeight)
       .catch(e => console.error('[NodeMap] decor tiles failed', e))
 
     // Campfire at start position
