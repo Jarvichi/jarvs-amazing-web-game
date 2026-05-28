@@ -199,6 +199,9 @@ function buildTileLookup(canal: boolean): number[] {
         else if (missing === 1 && !SE) t[mask] = PATH.grassCornerBR
         else if (missing === 1 && !SW) t[mask] = PATH.grassCornerBL
         else if (missing === 1 && !NW) t[mask] = PATH.grassCornerTL
+        // TODO: 2, 3, or 4 diagonals missing — tile IDs needed for each combo
+        // (e.g. NE+NW missing = top strip, NE+SE = right strip, adjacent pairs,
+        //  and the 4-diagonal-missing allSides case). See GitHub issue for tracking.
         else                      t[mask] = PATH.allSidesNoGrass
       } else {
         t[mask] = PATH.allSides
