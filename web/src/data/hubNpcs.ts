@@ -83,6 +83,15 @@ export const QUEST_GIVER_NPCS: QuestGiverNpc[] = [
     ty:      35,
     dialogue: "Been sitting at this pond since before the Fracture. The water's gone quiet lately — something's stirring beneath.",
   },
+  {
+    id:      'dealer',
+    name:    'Vince the Dealer',
+    sprite:  'hub-npc-dealer',
+    tx:      64,
+    ty:      26,
+    dialogue: 'The wheel never lies. Step right up — fortune favours the bold.',
+    screen:   'casino',
+  },
 ]
 
 // Preset positions for card-unit NPC spawning — all on street tiles, spread across the map.
