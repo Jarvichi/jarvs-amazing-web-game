@@ -127,7 +127,11 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
       npcContainer.cursor    = 'pointer'
       npcContainer.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
         e.stopPropagation()
-        onNpcTapRef.current?.(npc.dialogue)
+        if (npc.screen) {
+          onNodeInteractRef.current(npc.screen)
+        } else {
+          onNpcTapRef.current?.(npc.dialogue)
+        }
       })
       npcLayer.addChild(npcContainer)
 
@@ -140,11 +144,14 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
         npcContainer.addChild(s)
       }).catch(e => console.error(`[HubTownCanvas] NPC sprite failed: ${npc.sprite}`, e))
 
-      // "!" indicator
-      const exclaim = new PIXI.Text({ text: '!', style: { fontSize: 11, fill: '#ffdd44', fontFamily: 'monospace', fontWeight: 'bold' } })
-      exclaim.anchor.set(0.5, 1)
-      exclaim.position.set(cx, cy - T / 2 - 2)
-      npcLayer.addChild(exclaim)
+      // "!" for dialogue NPCs, "▶" arrow for shop NPCs
+      const indicator = new PIXI.Text({
+        text:  npc.screen ? '▶' : '!',
+        style: { fontSize: 10, fill: npc.screen ? '#88ddff' : '#ffdd44', fontFamily: 'monospace', fontWeight: 'bold' },
+      })
+      indicator.anchor.set(0.5, 1)
+      indicator.position.set(cx, cy - T / 2 - 2)
+      npcLayer.addChild(indicator)
     }
 
     // ── Card-unit NPCs ─────────────────────────────────────────────────────────

@@ -7,6 +7,8 @@ export interface QuestGiverNpc {
   tx:       number
   ty:       number
   dialogue: string
+  /** If set, tapping navigates to this screen instead of showing the dialogue panel. */
+  screen?:  string
 }
 
 // Fixed-position quest-giver NPCs (tappable, placeholder dialogue).
@@ -35,13 +37,51 @@ export const QUEST_GIVER_NPCS: QuestGiverNpc[] = [
     ty:        9,
     dialogue: 'I have been cataloguing the Fracture shards. The answers are within your reach — if you dare.',
   },
+
+  // ── Shopkeepers ──────────────────────────────────────────────────────────────
+  {
+    id:      'card-shopkeeper',
+    name:    'Gildwyn',
+    sprite:  'hub-npc-card-shop',
+    tx:       6,
+    ty:       7,
+    dialogue: '',
+    screen:   'shop-cards',
+  },
+  {
+    id:      'augment-shopkeeper',
+    name:    'Mira the Enchantress',
+    sprite:  'hub-npc-augment-shop',
+    tx:      14,
+    ty:       7,
+    dialogue: '',
+    screen:   'shop-augments',
+  },
+  {
+    id:      'supplies-shopkeeper',
+    name:    'Bramble',
+    sprite:  'hub-npc-supplies',
+    tx:       7,
+    ty:      18,
+    dialogue: '',
+    screen:   'shop-supplies',
+  },
+  {
+    id:      'trader',
+    name:    'The Junk Trader',
+    sprite:  'hub-npc-trader',
+    tx:      11,
+    ty:      24,
+    dialogue: '',
+    screen:   'shop-supplies',
+  },
 ]
 
 // Preset positions for card-unit NPC spawning — all on street tiles, spread across the map.
 export const NPC_SPAWN_TILES: [number, number][] = [
   [19,  8],   // NW alley upper
   [19, 15],   // NW alley mid
-  [ 8, 24],   // Market Lane west
+  [10, 24],   // Market Lane west
   [60, 24],   // Arcade east
   [56, 11],   // NE alley mid
   [37,  7],   // North corridor

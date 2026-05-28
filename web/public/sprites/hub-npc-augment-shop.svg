@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.2)"/>
+  <!-- robe -->
+  <rect x="10" y="13" width="12" height="15" rx="3" fill="#1a3a5a"/>
+  <!-- glowing rune on robe -->
+  <circle cx="16" cy="20" r="3" fill="none" stroke="#44ccff" stroke-width="1" opacity="0.9"/>
+  <line x1="16" y1="17" x2="16" y2="23" stroke="#44ccff" stroke-width="0.8" opacity="0.9"/>
+  <line x1="13" y1="20" x2="19" y2="20" stroke="#44ccff" stroke-width="0.8" opacity="0.9"/>
+  <!-- arms -->
+  <rect x="8"  y="14" width="3" height="8" rx="1" fill="#1a3a5a"/>
+  <rect x="21" y="14" width="3" height="8" rx="1" fill="#1a3a5a"/>
+  <!-- orb in left hand -->
+  <circle cx="8" cy="21" r="3" fill="#0a0a2a"/>
+  <circle cx="8" cy="21" r="3" fill="none" stroke="#44ccff" stroke-width="0.8"/>
+  <circle cx="7" cy="20" r="1" fill="#88ddff" opacity="0.7"/>
+  <!-- head -->
+  <circle cx="16" cy="9" r="5" fill="#b8a8d0"/>
+  <!-- silver hair -->
+  <rect x="11" y="4" width="10" height="4" rx="2" fill="#c8c0e0"/>
+  <!-- eyes — glowing blue -->
+  <rect x="13" y="8" width="2" height="2" rx="1" fill="#0044aa"/>
+  <rect x="17" y="8" width="2" height="2" rx="1" fill="#0044aa"/>
+  <!-- eye glow -->
+  <rect x="13" y="8" width="2" height="2" rx="1" fill="#44aaff" opacity="0.5"/>
+  <rect x="17" y="8" width="2" height="2" rx="1" fill="#44aaff" opacity="0.5"/>
+</svg>

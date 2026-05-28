@@ -194,6 +194,9 @@ type Screen =
   | 'heroCards'
   | 'battlesummary'
   | 'shop'
+  | 'shop-cards'
+  | 'shop-augments'
+  | 'shop-supplies'
   | 'campaignvictory'
   | 'itemfound'
   | 'character'
@@ -2769,6 +2772,36 @@ export default function App() {
           onBuyCrystalPack={handleBuyCrystalPack}
           onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
           onBack={() => setScreen('title')}
+        />
+      )}
+
+      {screen === 'shop-cards' && (
+        <ShopScreen
+          category="cards"
+          crystals={crystals}
+          onBuyCrystalPack={handleBuyCrystalPack}
+          onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
+          onBack={() => setScreen('hubworld')}
+        />
+      )}
+
+      {screen === 'shop-augments' && (
+        <ShopScreen
+          category="augments"
+          crystals={crystals}
+          onBuyCrystalPack={handleBuyCrystalPack}
+          onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
+          onBack={() => setScreen('hubworld')}
+        />
+      )}
+
+      {screen === 'shop-supplies' && (
+        <ShopScreen
+          category="supplies"
+          crystals={crystals}
+          onBuyCrystalPack={handleBuyCrystalPack}
+          onCrystalsChange={(n: number) => { saveCrystals(n); setCrystals(n) }}
+          onBack={() => setScreen('hubworld')}
         />
       )}
 
