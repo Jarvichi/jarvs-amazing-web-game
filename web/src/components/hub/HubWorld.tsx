@@ -1,9 +1,12 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { HubTownCanvas } from './HubTownCanvas'
 import { AreaNameBadge } from './AreaNameBadge'
 import { HubReturnButton } from './HubReturnButton'
+import { HubDialogue } from './HubDialogue'
 import { AVATAR_START, MAP_W, MAP_H } from '../../data/hubLayout'
+import { loadDeck } from '../../game/collection'
+import { getCardCatalog } from '../../game/cards'
 
 const T = 32
 const INITIAL_SCROLL = {
@@ -17,9 +20,19 @@ interface Props {
 }
 
 export function HubWorld({ onBack, onNavigate }: Props) {
-  const [currentArea, setCurrentArea] = useState<string | null>(null)
+  const [currentArea,  setCurrentArea]  = useState<string | null>(null)
+  const [dialogueLine, setDialogueLine] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const returnRef = useRef(null) as React.MutableRefObject<(() => void) | null>
+
+  const unitCards = useMemo(() => {
+    const deck    = loadDeck()
+    const catalog = getCardCatalog()
+    const names   = new Set(deck.map(e => e.cardName))
+    return catalog
+      .filter(c => c.cardType === 'unit' && names.has(c.name))
+      .map(c => c.name)
+  }, [])
 
   // Centre viewport on avatar's pixel position.
   const handleAvatarMove = useCallback((px: number, py: number) => {
@@ -60,10 +73,13 @@ export function HubWorld({ onBack, onNavigate }: Props) {
             onNodeInteract={handleNodeInteract}
             onAvatarMove={handleAvatarMove}
             returnRef={returnRef}
+            unitCards={unitCards}
+            onNpcTap={setDialogueLine}
           />
         </div>
         <AreaNameBadge name={currentArea} />
         <HubReturnButton onClick={handleReturn} />
+        <HubDialogue line={dialogueLine} onClose={() => setDialogueLine(null)} />
       </div>
     </OverlayScreen>
   )
