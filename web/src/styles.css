@@ -7310,6 +7310,165 @@ body {
 
 .hoa-modal-close { margin-top: 4px; }
 
+/* ── Home Shelf ─────────────────────────────────────────────────────────── */
+
+.shelf-room {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 12px 12px 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.shelf-empty-msg {
+  font-size: 13px;
+  color: #5a7a5a;
+  font-family: monospace;
+  text-align: center;
+  padding: 24px 0 8px;
+  letter-spacing: 0.04em;
+}
+
+.shelf-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.shelf-items {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+  padding-bottom: 6px;
+}
+
+/* Wooden plank */
+.shelf-plank {
+  height: 10px;
+  background: linear-gradient(to bottom, #7a4a20 0%, #5a3010 60%, #3a1a00 100%);
+  border-top: 2px solid #aa7040;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+  border-radius: 1px;
+}
+
+.shelf-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  min-height: 72px;
+  padding: 6px 4px 4px;
+  background: none;
+  border: 1px solid transparent;
+  cursor: default;
+}
+
+.shelf-slot--filled {
+  cursor: pointer;
+  border-color: transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+.shelf-slot--filled:hover {
+  border-color: #446644;
+  background: rgba(20,36,20,0.5);
+}
+
+.shelf-slot--empty { opacity: 0.3; cursor: default; }
+
+.shelf-slot-icon {
+  font-size: 32px;
+  line-height: 1;
+  display: block;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));
+}
+
+.shelf-slot-name {
+  font-size: 9px;
+  color: #9ab89a;
+  font-family: monospace;
+  text-align: center;
+  line-height: 1.2;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.shelf-slot-dust {
+  display: block;
+  width: 28px;
+  height: 4px;
+  background: rgba(120,90,60,0.2);
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
+/* ── Shelf item detail modal ── */
+
+.shelf-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.shelf-modal {
+  background: rgba(8,14,8,0.97);
+  border: 1px solid #446644;
+  padding: 20px 24px;
+  max-width: 300px;
+  width: calc(100% - 32px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.shelf-modal-icon { font-size: 48px; line-height: 1; }
+
+.shelf-modal-name {
+  font-size: 15px;
+  color: #c8e8c8;
+  font-family: monospace;
+  letter-spacing: 0.06em;
+  font-weight: bold;
+}
+
+.shelf-modal-tag {
+  font-size: 10px;
+  color: #88cc88;
+  border: 1px solid #446644;
+  padding: 1px 8px;
+  letter-spacing: 0.1em;
+  font-family: monospace;
+}
+.shelf-modal-tag--broken { color: #cc8844; border-color: #664422; }
+
+.shelf-modal-desc {
+  font-size: 12px;
+  color: #9ab89a;
+  line-height: 1.5;
+}
+
+.shelf-modal-lore {
+  font-size: 11px;
+  color: #6a8a6a;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.shelf-modal-date {
+  font-size: 10px;
+  color: #4a6a4a;
+  font-family: monospace;
+}
+
 /* ── Battery / reduced-motion optimisations ────────────────────────────── */
 /* Disable infinite decorative animations for users who prefer reduced motion
    or on any device where the browser opts in via the media query. This also

@@ -44,7 +44,7 @@ export const HUB_NODES: HubNode[] = [
   { id: 'codex',        label: 'Codex',         tx: 56, ty: 15, screen: 'codex'          },
   { id: 'commander',    label: 'Commander',     tx: 37, ty: 24, screen: 'commander'      },
   { id: 'achievements', label: 'Achievements',  tx: 56, ty: 19, screen: 'hall-of-achievements' },
-  { id: 'home',         label: 'Home',          tx: 19, ty: 18, screen: 'collection-tabs'},
+  { id: 'home',         label: 'Home',          tx: 19, ty: 18, screen: 'home-shelf'     },
 ]
 
 // Generate tile positions for a filled rectangular region (inclusive).

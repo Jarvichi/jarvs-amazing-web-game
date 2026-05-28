@@ -109,6 +109,7 @@ import {
 import { incrementAugmentSouls } from './game/collection'
 import { AchievementsScreen }  from './components/screens/AchievementsScreen'
 import { HallOfAchievements }   from './components/hub/HallOfAchievements'
+import { HomeShelf }             from './components/hub/HomeShelf'
 import { HeroCardsScreen }   from './components/screens/HeroCardsScreen'
 import FingerSmash from './components/battle/FingerSmash'
 import BossShockwave from './components/battle/BossShockwave'
@@ -223,6 +224,7 @@ type Screen =
   | 'augments'
   | 'player'
   | 'collection-tabs'
+  | 'home-shelf'
   | 'hubworld'
 
 
@@ -2834,6 +2836,10 @@ export default function App() {
           onBack={() => setScreen('hubworld')}
           onCrystalsChanged={handleCrystalsChanged}
         />
+      )}
+
+      {screen === 'home-shelf' && (
+        <HomeShelf onBack={() => setScreen('hubworld')} />
       )}
 
       {screen === 'heroCards' && (
