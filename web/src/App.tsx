@@ -59,6 +59,7 @@ import { CollectionScreen }   from './components/screens/CollectionScreen'
 import { DeckBuilder }        from './components/cards/DeckBuilder'
 import { PackOpening }        from './components/cards/PackOpening'
 import { NodeMap }            from './components/campaign/NodeMap'
+import { HubWorld }           from './components/hub/HubWorld'
 import { PostBattleReward }   from './components/battle/PostBattleReward'
 import { ActComplete }        from './components/battle/ActComplete'
 import { RelicSelectScreen }  from './components/campaign/RelicSelectScreen'
@@ -217,6 +218,7 @@ type Screen =
   | 'augments'
   | 'player'
   | 'collection-tabs'
+  | 'hubworld'
 
 
 const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
@@ -2474,7 +2476,12 @@ export default function App() {
           onNewsAdmin={() => setScreen('newsAdmin')}
           onCampaignAdmin={() => setScreen('campaignAdmin')}
           onFeedbackAdmin={() => setScreen('feedbackAdmin')}
+          onHubWorld={() => setScreen('hubworld')}
         />
+      )}
+
+      {screen === 'hubworld' && (
+        <HubWorld onBack={() => setScreen('settings')} />
       )}
 
       {screen === 'giftAdmin' && (
