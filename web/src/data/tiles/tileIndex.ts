@@ -129,6 +129,7 @@ export interface EnvTileDef {
   ground: number          // BaseChip tile id — solid colour fallback fill
   pathFile: string        // per-combination 8-col transition sheet
   bgTileId?: number       // tile in pathFile to repeat as textured background fill
+  pathWidth?: number      // path tile width (odd; default 1); >1 expands perpendicular to path direction
   decorFile?: string      // decor scatter sheet (same 8-col format)
   decorTileIds?: number[] // tile ids to randomly scatter as decor
 }
@@ -142,8 +143,8 @@ export const ENV_TILES: Record<string, EnvTileDef> = {
   frost:    { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Grass2 },
   volcano:  { ground: BASE_GROUND.darkDirt,    pathFile: PATH_TILE.dirt4        },
   citadel:  { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.wall2        },
-  coast:    { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water2,       bgTileId: PATH.allSidesNoGrass },
-  reef:     { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water1,       bgTileId: PATH.allSidesNoGrass },
+  coast:    { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water2,       pathWidth: 3 },
+  reef:     { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water1,       pathWidth: 3 },
   sky:      { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Grass2 },
   fungal:   { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.grass1Grass3 },
   vault:    { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.wall1        },
