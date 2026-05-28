@@ -447,10 +447,10 @@ async function buildPathTileGfx(
     if (!N &&  S &&  E &&  W) return PATH.edgeTop
     if ( N &&  S && !E && !W) return PATH.vertical
     if (!N && !S &&  E &&  W) return PATH.horizontal
-    if ( N && !S &&  E && !W) return PATH.quadTopRight
-    if ( N && !S && !E &&  W) return PATH.quadTopLeft
-    if (!N &&  S &&  E && !W) return PATH.quadBottomRight
-    if (!N &&  S && !E &&  W) return PATH.quadBottomLeft
+    if ( N && !S &&  E && !W) return PATH.grassCornerBL
+    if ( N && !S && !E &&  W) return PATH.grassCornerBR
+    if (!N &&  S &&  E && !W) return PATH.grassCornerTL
+    if (!N &&  S && !E &&  W) return PATH.grassCornerTR
     if (!N && !S &&  E && !W) return PATH.rightOnly
     if (!N && !S && !E &&  W) return PATH.leftOnly
     if ( N && !S && !E && !W) return PATH.topOnly

@@ -46,6 +46,11 @@ export const PATH = {
   edgeBottom:       22,  // l + t + r  (grass border along bottom edge)
   quadTopLeft:      23,  // l + t  (grass bottom + right)
   allSides:         46,  // l + r + t + b (with grass corners — use near grass)
+  // Tiles 24–45: corner-grass variations (mostly filled, grass only in one corner)
+  grassCornerBR:    28,  // grass bottom-right corner
+  grassCornerBL:    29,  // grass bottom-left corner
+  grassCornerTR:    36,  // grass top-right corner
+  grassCornerTL:    37,  // grass top-left corner
 } as const
 
 // ── [A]Grass_pipo — path set base tile IDs (SampleMap big sheet, used by TileBrowser) ──
