@@ -77,16 +77,27 @@ function formatShiftTimeNatural(seconds: number): string {
   return `${m} minute${m !== 1 ? 's' : ''}`
 }
 
+type ShopCategory = 'cards' | 'augments' | 'supplies'
+
+const CATEGORY_TITLE: Record<ShopCategory, string> = {
+  cards:    'CARD SHOP',
+  augments: 'AUGMENTS',
+  supplies: 'SUPPLIES',
+}
+
 interface Props {
   crystals: number
   onBuyCrystalPack: (qty: number) => void
   onCrystalsChange: (newAmount: number) => void
   onBack: () => void
+  category?: ShopCategory
 }
 
 const PACK_QUANTITIES = [1, 3, 5, 10]
 
-export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBack }: Props) {
+export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBack, category }: Props) {
+  const show = (c: ShopCategory) => !category || category === c
+
   const [packQty, setPackQty] = useState(1)
   const maxPackQty = Math.max(0, Math.floor((crystals - 100) / CRYSTAL_PACK_COST))
   const canBuyPack = crystals >= CRYSTAL_PACK_COST * packQty
@@ -225,7 +236,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
   }
 
   return (
-    <OverlayScreen title="SHOP" onBack={onBack} right={<span className="crystal-count">💎 {crystals.toLocaleString()}</span>}>
+    <OverlayScreen title={category ? CATEGORY_TITLE[category] : 'SHOP'} onBack={onBack} right={<span className="crystal-count">💎 {crystals.toLocaleString()}</span>}>
       <div className="shop-wrapper">
 
       {/* NPC banner */}
@@ -244,7 +255,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
       <div className="shop-content u-col u-items-c u-gap-8">
 
         {/* ── Daily card deals ── */}
-        <div className="shop-section">
+        {show('cards') && <div className="shop-section">
           <div className="shop-section-header">Current Stock
         🕐 refreshes in <span className="shop-countdown-time">{formatCountdown(countdown)}</span>
       
@@ -279,10 +290,10 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
               )
             })}
           </div>
-        </div>
+        </div>}
 
         {/* ── Today's Augment ── */}
-        {dailyAugment.augmentName !== '' && (() => {
+        {show('augments') && dailyAugment.augmentName !== '' && (() => {
           const aug = getAugmentCard(dailyAugment.augmentName)
           const bought = shopState.boughtAugment ?? false
           const canAfford = crystals >= dailyAugment.price && !bought
@@ -315,7 +326,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
         })()}
 
         {/* ── Consumables ── */}
-        <div className="shop-section">
+        {show('supplies') && <div className="shop-section">
           <div className="shop-section-header">Campaign Supplies — always in stock</div>
           <div className="shop-consumables u-flex u-gap-6 u-wrap u-just-c">
             {ALL_CONSUMABLES.map(c => {
@@ -339,10 +350,10 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
               )
             })}
           </div>
-        </div>
+        </div>}
 
         {/* ── Crystal pack ── */}
-        <div className="shop-item">
+        {show('cards') && <div className="shop-item">
           <div className="shop-item-icon">🎁</div>
           <div className="shop-item-name">Card Pack</div>
           <div className="shop-item-desc">
@@ -392,10 +403,10 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
               </div>
             </div>
           )}
-        </div>
+        </div>}
 
         {/* ── Sell slots ── */}
-        <div className="shop-section">
+        {show('supplies') && <div className="shop-section">
           <div className="shop-section-header">
             Buying Today
             {weekend && <span className="shop-weekend-badge">WEEKEND — 3 slots</span>}
@@ -437,7 +448,7 @@ export function ShopScreen({ crystals, onBuyCrystalPack, onCrystalsChange, onBac
               </div>
             )
           })}
-        </div>
+        </div>}
 
       </div>
 

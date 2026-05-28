@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="6" ry="2" fill="rgba(0,0,0,0.2)"/>
+  <!-- large sack on back -->
+  <ellipse cx="23" cy="16" rx="5" ry="6" fill="#8b6a40"/>
+  <ellipse cx="23" cy="11" rx="2.5" ry="2" fill="#6b4a20"/>
+  <!-- legs -->
+  <rect x="12" y="22" width="3" height="6" rx="1" fill="#3a2a10"/>
+  <rect x="17" y="22" width="3" height="6" rx="1" fill="#3a2a10"/>
+  <!-- worn jacket -->
+  <rect x="10" y="13" width="11" height="10" rx="2" fill="#5a4a2a"/>
+  <!-- patch on jacket -->
+  <rect x="11" y="16" width="3" height="2" rx="0.5" fill="#7a6a3a"/>
+  <!-- arms -->
+  <rect x="7"  y="14" width="3" height="8" rx="1" fill="#c8a070"/>
+  <rect x="20" y="14" width="3" height="8" rx="1" fill="#c8a070"/>
+  <!-- hand holding sack strap -->
+  <rect x="19" y="14" width="4" height="2" rx="1" fill="#8b6a40"/>
+  <!-- head -->
+  <circle cx="15" cy="9" r="5" fill="#c89060"/>
+  <!-- scruffy hair -->
+  <rect x="10" y="4" width="10" height="4" rx="2" fill="#3a2a10"/>
+  <rect x="10" y="5" width="3" height="3" rx="1" fill="#4a3a1a"/>
+  <rect x="17" y="5" width="3" height="3" rx="1" fill="#4a3a1a"/>
+  <!-- stubble -->
+  <rect x="12" y="11" width="6" height="3" rx="1" fill="#5a3a1a" opacity="0.4"/>
+  <!-- eyes -->
+  <rect x="12" y="8" width="2" height="2" rx="1" fill="#2a1a0a"/>
+  <rect x="16" y="8" width="2" height="2" rx="1" fill="#2a1a0a"/>
+</svg>
