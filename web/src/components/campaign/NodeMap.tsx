@@ -394,14 +394,14 @@ async function buildPathTileGfx(
 
   // Expand pathSet perpendicular to path direction for wide paths (e.g. canals)
   const pathWidth = ENV_TILES[act.environment ?? '']?.pathWidth ?? 1
+  const originalPath = new Set(pathSet)
   if (pathWidth > 1) {
     const half = Math.floor(pathWidth / 2)
-    const original = new Set(pathSet)
     const extra = new Set<string>()
-    for (const k of original) {
+    for (const k of originalPath) {
       const [tx, ty] = k.split(',').map(Number)
-      const hasH = original.has(key(tx + 1, ty)) || original.has(key(tx - 1, ty))
-      const hasV = original.has(key(tx, ty + 1)) || original.has(key(tx, ty - 1))
+      const hasH = originalPath.has(key(tx + 1, ty)) || originalPath.has(key(tx - 1, ty))
+      const hasV = originalPath.has(key(tx, ty + 1)) || originalPath.has(key(tx, ty - 1))
       if (hasH) for (let d = 1; d <= half; d++) { extra.add(key(tx, ty - d)); extra.add(key(tx, ty + d)) }
       if (hasV) for (let d = 1; d <= half; d++) { extra.add(key(tx - d, ty)); extra.add(key(tx + d, ty)) }
       if (hasH && hasV) for (let dx = 1; dx <= half; dx++) for (let dy = 1; dy <= half; dy++) {
@@ -435,12 +435,34 @@ async function buildPathTileGfx(
     if (!N &&  S && !E && !W) return PATH.bottomOnly
     return PATH.isolated
   }
+  // Edge variant: used for expanded cells — swaps turn/tJunc tiles for the
+  // edge-border and quad-corner tiles that suit canal outer rows.
+  const edgeVariant = (tx: number, ty: number): number => {
+    const N = has(tx, ty - 1), S = has(tx, ty + 1)
+    const E = has(tx + 1, ty), W = has(tx - 1, ty)
+    if ( N &&  S &&  E &&  W) return PATH.allSidesNoGrass
+    if ( N &&  S &&  E && !W) return PATH.tJuncRight
+    if ( N &&  S && !E &&  W) return PATH.tJuncLeft2
+    if ( N && !S &&  E &&  W) return PATH.edgeBottom
+    if (!N &&  S &&  E &&  W) return PATH.edgeTop
+    if ( N &&  S && !E && !W) return PATH.vertical
+    if (!N && !S &&  E &&  W) return PATH.horizontal
+    if ( N && !S &&  E && !W) return PATH.quadTopRight
+    if ( N && !S && !E &&  W) return PATH.quadTopLeft
+    if (!N &&  S &&  E && !W) return PATH.quadBottomRight
+    if (!N &&  S && !E &&  W) return PATH.quadBottomLeft
+    if (!N && !S &&  E && !W) return PATH.rightOnly
+    if (!N && !S && !E &&  W) return PATH.leftOnly
+    if ( N && !S && !E && !W) return PATH.topOnly
+    if (!N &&  S && !E && !W) return PATH.bottomOnly
+    return PATH.isolated
+  }
 
   // Group cells by variant to batch the texture loads
   const byVariant = new Map<number, Array<{ tx: number; ty: number }>>()
   for (const k of pathSet) {
     const [tx, ty] = k.split(',').map(Number)
-    const v = variant(tx, ty)
+    const v = (noGrass && !originalPath.has(k)) ? edgeVariant(tx, ty) : variant(tx, ty)
     if (!byVariant.has(v)) byVariant.set(v, [])
     byVariant.get(v)!.push({ tx, ty })
   }
