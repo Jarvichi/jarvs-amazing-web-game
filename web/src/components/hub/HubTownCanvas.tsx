@@ -3,23 +3,21 @@ import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx } from '../../utils/terrainLayer'
 import { renderPathTiles } from '../../utils/tileLookup'
+import { PATH_TILE } from '../../data/tiles/tileIndex'
 import {
   MAP_W, MAP_H,
   HUB_AREAS,
-  HUB_BUILDINGS,
+  HUB_BUILDING_TILES,
   HUB_INTERACTION_POINTS,
   HUB_STREET_TILES,
 } from '../../data/hubLayout'
 
 const HUB_ENV = 'camp'
 
-// Building fill colour — dark stone, slightly warm
-const BUILDING_COLOR  = 0x1a1810
-const BUILDING_BORDER = 0x4a4030
 // Interaction-point ellipse colours (matches NodeMap node style)
-const MARKER_FILL     = 0x2a3a2a
-const MARKER_STROKE   = 0x88cc88
-const MARKER_GLOW     = 0x44aa44
+const MARKER_FILL   = 0x2a3a2a
+const MARKER_STROKE = 0x88cc88
+const MARKER_GLOW   = 0x44aa44
 
 interface Props {
   onAreaEnter: (areaName: string | null) => void
@@ -59,16 +57,10 @@ export function HubTownCanvas({ onAreaEnter }: Props) {
     renderPathTiles(streetLayer, pathSet, HUB_ENV)
       .catch(e => console.error('[HubTownCanvas] street tiles failed', e))
 
-    // ── Buildings ─────────────────────────────────────────────────────────────
-    const bldGfx = new PIXI.Graphics()
-    for (const b of HUB_BUILDINGS) {
-      bldGfx
-        .rect(b.x, b.y, b.w, b.h)
-        .fill({ color: BUILDING_COLOR })
-        .rect(b.x, b.y, b.w, b.h)
-        .stroke({ color: BUILDING_BORDER, width: 1 })
-    }
-    buildingLayer.addChild(bldGfx)
+    // ── Buildings — rendered with wall tiles (same 8-neighbor bitmask system) ──
+    const buildingSet = new Set(HUB_BUILDING_TILES.map(([tx, ty]) => `${tx},${ty}`))
+    renderPathTiles(buildingLayer, buildingSet, undefined, PATH_TILE.wall2)
+      .catch(e => console.error('[HubTownCanvas] building tiles failed', e))
 
     // ── Interaction-point ellipses (district entrances) ────────────────────────
     const T = 32
