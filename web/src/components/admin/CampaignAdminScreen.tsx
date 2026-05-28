@@ -1,10 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Section } from '../ui/Section'
-import { ACTS, Act, QuestNode, NodeType } from '../../game/questline'
+import { ACTS, Act, QuestNode, NodeType, RunState } from '../../game/questline'
 import { getCardCatalog } from '../../game/cards'
 import battlefieldData from '../../data/battlefield.json'
 import { TerrainEditorPanel, TerrainItemDef, RiverDef } from './TerrainEditorPanel'
+import { NodeMap } from '../campaign/NodeMap'
 
 interface Props {
   onBack: () => void
@@ -287,6 +288,16 @@ export function CampaignAdminScreen({ onBack }: Props) {
   const [deckSearch, setDeckSearch] = useState('')
   const [msg, setMsg] = useState<string | null>(null)
   const [showPreview, setShowPreview] = useState(true)
+  const [showCanvasPreview, setShowCanvasPreview] = useState(false)
+
+  const previewRun = useMemo<RunState>(() => ({
+    actId,
+    completedNodeIds: [], skippedNodeIds: [], pendingNodeId: null,
+    playerHp: 30, maxHp: 30, livesRemaining: 3, maxLives: 3,
+    cardPlayCounts: {}, nodeFailCounts: {}, earnedCards: [],
+    activeRelic: null, crystalBonus: 0, consumables: [],
+    activeModifierCount: 0, runSeed: 1,
+  }), [actId])
 
   const allCards = useMemo(() => getCardCatalog(), [])
   const selectedNode = selectedNodeId ? (act.nodes[selectedNodeId] ?? null) : null
@@ -478,6 +489,18 @@ export function CampaignAdminScreen({ onBack }: Props) {
     </div>
   ) : null
 
+  if (showCanvasPreview) {
+    return (
+      <NodeMap
+        act={act}
+        run={previewRun}
+        onSelectNode={() => {}}
+        onUseConsumable={() => {}}
+        onBack={() => setShowCanvasPreview(false)}
+      />
+    )
+  }
+
   return (
     <OverlayScreen title="CAMPAIGN EDITOR" onBack={onBack} className="settings-screen u-col u-grow">
       <div className="settings-body u-col u-gap-3 u-grow">
@@ -516,6 +539,12 @@ export function CampaignAdminScreen({ onBack }: Props) {
             onClick={() => setTab('terrain')}
           >
             TERRAIN
+          </button>
+          <button
+            className="action-btn"
+            onClick={() => setShowCanvasPreview(true)}
+          >
+            CANVAS
           </button>
         </div>
 
