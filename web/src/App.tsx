@@ -226,6 +226,7 @@ type Screen =
   | 'collection-tabs'
   | 'home-shelf'
   | 'hubworld'
+  | 'hub-fishing'
 
 
 const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
@@ -2934,6 +2935,17 @@ export default function App() {
           characterName={loadPlayerName()}
           onBack={() => { setMiniGamesEntry('menu'); setScreen('title') }}
           initialSubScreen={miniGamesEntry}
+        />
+      )}
+
+      {screen === 'hub-fishing' && (
+        <MiniGamesMenu
+          crystals={crystals}
+          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
+          user={user}
+          characterName={loadPlayerName()}
+          onBack={() => setScreen('hubworld')}
+          initialSubScreen="fishing"
         />
       )}
 

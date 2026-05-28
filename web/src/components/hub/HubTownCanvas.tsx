@@ -73,6 +73,21 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
     buildDecorGfx(groundLayer, { environment: HUB_ENV, id: 'hubworld' }, MAP_W, MAP_H)
       .catch(e => console.error('[HubTownCanvas] decor tiles failed', e))
 
+    // ── Pond (Greyfish Pond — SW district, between building blocks) ───────────
+    {
+      const g = new PIXI.Graphics()
+      const px = 5 * T, py = 34 * T + T / 2
+      // Deep water fill
+      g.ellipse(px, py, 112, 56).fill({ color: 0x1a3a6a, alpha: 0.92 })
+      // Mid-water shimmer
+      g.ellipse(px, py, 96, 44).fill({ color: 0x1e5090, alpha: 0.7 })
+      // Highlight
+      g.ellipse(px - 24, py - 12, 32, 14).fill({ color: 0x5ab4e8, alpha: 0.22 })
+      // Shore fringe
+      g.ellipse(px, py, 112, 56).stroke({ color: 0x2a6aaa, width: 2.5, alpha: 0.8 })
+      groundLayer.addChild(g)
+    }
+
     // ── Streets ────────────────────────────────────────────────────────────────
     const pathSet = new Set(HUB_STREET_TILES.map(([tx, ty]) => `${tx},${ty}`))
     renderPathTiles(streetLayer, pathSet, HUB_ENV)
