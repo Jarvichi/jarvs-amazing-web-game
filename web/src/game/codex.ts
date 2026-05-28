@@ -28,7 +28,8 @@ const ALL_ACTS: any[] = [
   act11Data, act12Data, act13Data, actFinaleData,
 ]
 
-const FRAGMENT_KEY = 'jarv_memory_fragments'
+const FRAGMENT_KEY        = 'jarv_memory_fragments'
+const HUB_WORLD_UNLOCK_KEY = 'jarv_hub_world_unlocked'
 
 export interface MemoryFragment {
   id: string
@@ -52,6 +53,19 @@ export function getDiscoveredFragmentIds(): Set<string> {
 
 export function isFragmentDiscovered(id: string): boolean {
   return getDiscoveredFragmentIds().has(id)
+}
+
+export function isHubWorldUnlocked(): boolean {
+  try { return localStorage.getItem(HUB_WORLD_UNLOCK_KEY) === 'true' } catch { return false }
+}
+
+export function unlockHubWorld(): void {
+  try { localStorage.setItem(HUB_WORLD_UNLOCK_KEY, 'true') } catch { /* ignore */ }
+}
+
+export function areAllCampaignFragmentsDiscovered(): boolean {
+  const discovered = getDiscoveredFragmentIds()
+  return (memoryFragmentsData as MemoryFragment[]).every(f => discovered.has(f.id))
 }
 
 /** Returns true if this discovery completed all fragments for the act (bonus trigger). */
