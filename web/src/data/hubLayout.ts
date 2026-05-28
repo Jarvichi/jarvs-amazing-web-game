@@ -32,6 +32,7 @@ export const HUB_AREAS: HubArea[] = [
   { id: 'arcade',    name: 'The Arcade Quarter',      x: 42 * T, y: 23 * T, w: 33 * T, h: 3 * T  },
   { id: 'scholars',  name: "The Scholar's Hall",      x: 42 * T, y:  0,     w: 33 * T, h: 23 * T },
   { id: 'pond',      name: 'Greyfish Pond',           x:  1 * T, y: 33 * T, w: 9 * T,  h: 5 * T  },
+  { id: 'casino',    name: 'The Lucky Draw',          x: 58 * T, y: 27 * T, w: 15 * T, h: 8 * T  },
 ]
 
 // Tappable location nodes — all placed on street tiles.
@@ -47,6 +48,7 @@ export const HUB_NODES: HubNode[] = [
   { id: 'achievements', label: 'Achievements',  tx: 56, ty: 19, screen: 'hall-of-achievements' },
   { id: 'home',         label: 'Home',          tx: 19, ty: 18, screen: 'home-shelf'     },
   { id: 'fishing',      label: 'Fishing Hole',  tx:  5, ty: 35, screen: 'hub-fishing'    },
+  { id: 'casino',       label: 'Lucky Draw',    tx: 64, ty: 24, screen: 'casino'          },
 ]
 
 // Generate tile positions for a filled rectangular region (inclusive).

@@ -60,6 +60,7 @@ import { DeckBuilder }        from './components/cards/DeckBuilder'
 import { PackOpening }        from './components/cards/PackOpening'
 import { NodeMap }            from './components/campaign/NodeMap'
 import { HubWorld }           from './components/hub/HubWorld'
+import { CasinoScreen }       from './components/hub/CasinoScreen'
 import { PostBattleReward }   from './components/battle/PostBattleReward'
 import { ActComplete }        from './components/battle/ActComplete'
 import { RelicSelectScreen }  from './components/campaign/RelicSelectScreen'
@@ -227,6 +228,7 @@ type Screen =
   | 'home-shelf'
   | 'hubworld'
   | 'hub-fishing'
+  | 'casino'
 
 
 const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
@@ -2495,6 +2497,14 @@ export default function App() {
         <HubWorld
           onBack={() => setScreen('settings')}
           onNavigate={(s) => setScreen(s as Screen)}
+        />
+      )}
+
+      {screen === 'casino' && (
+        <CasinoScreen
+          crystals={crystals}
+          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
+          onBack={() => setScreen('hubworld')}
         />
       )}
 
