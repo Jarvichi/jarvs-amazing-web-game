@@ -1,47 +1,26 @@
-import React, { useRef } from 'react'
-import * as PIXI from 'pixi.js'
-import { usePixiApp } from '../../hooks/usePixiApp'
-import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx } from '../../utils/terrainLayer'
+import React, { useState, useCallback } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
+import { HubTownCanvas } from './HubTownCanvas'
+import { AreaNameBadge } from './AreaNameBadge'
 
 interface Props {
   onBack: () => void
 }
 
-const MAP_WIDTH  = 1200
-const MAP_HEIGHT = 800
-const HUB_ENV   = 'camp'
-
 export function HubWorld({ onBack }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  usePixiApp(containerRef, MAP_WIDTH, MAP_HEIGHT, (app) => {
-    app.canvas.style.touchAction = 'pan-x pan-y'
-
-    const groundLayer = new PIXI.Container()
-    const worldLayer  = new PIXI.Container()
-    worldLayer.sortableChildren = true
-    app.stage.addChild(groundLayer, worldLayer)
-
-    const baseContainer  = new PIXI.Container()
-    const riverContainer = new PIXI.Container()
-    groundLayer.addChild(baseContainer, riverContainer)
-
-    buildTerrainGfx(baseContainer, riverContainer, worldLayer,
-      { environment: HUB_ENV, id: 'hubworld' },
-      MAP_WIDTH, MAP_HEIGHT)
-    buildBgTileGfx(baseContainer, { environment: HUB_ENV }, MAP_WIDTH, MAP_HEIGHT)
-      .catch(e => console.error('[HubWorld] bg tiles failed', e))
-    buildDecorGfx(groundLayer, { environment: HUB_ENV, id: 'hubworld' }, MAP_WIDTH, MAP_HEIGHT)
-      .catch(e => console.error('[HubWorld] decor tiles failed', e))
-
-    app.ticker.add(() => { worldLayer.sortChildren() })
-  })
+  const [currentArea, setCurrentArea] = useState<string | null>(null)
+  const handleAreaEnter = useCallback((name: string | null) => { setCurrentArea(name) }, [])
 
   return (
     <OverlayScreen onBack={onBack} title="HUB WORLD" subtitle="Coming soon">
-      <div className="nm-map u-flex u-grow u-items-c nm-map--camp" style={{ overflowX: 'auto', overflowY: 'auto' }}>
-        <div ref={containerRef} style={{ display: 'block', flexShrink: 0, width: MAP_WIDTH, height: MAP_HEIGHT }} />
+      <div
+        className="nm-map nm-map--camp"
+        style={{ position: 'relative', flex: 1, overflow: 'hidden' }}
+      >
+        <div style={{ overflowX: 'auto', overflowY: 'auto', width: '100%', height: '100%' }}>
+          <HubTownCanvas onAreaEnter={handleAreaEnter} />
+        </div>
+        <AreaNameBadge name={currentArea} />
       </div>
     </OverlayScreen>
   )
