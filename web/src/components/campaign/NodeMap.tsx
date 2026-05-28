@@ -173,6 +173,57 @@ function getTerrainItems(env: string | undefined, seed: number, w: number, h: nu
   return items
 }
 
+// ── 8-neighbor tile lookup tables ─────────────────────────────────────────────
+// Normalized 8-bit key: bit0=N, bit1=NE(only if N&&E), bit2=E, bit3=SE(only if S&&E),
+//                       bit4=S, bit5=SW(only if S&&W), bit6=W, bit7=NW(only if N&&W)
+// Diagonals bits are pre-zeroed when adjacent cardinals aren't both set, so any
+// combination that reaches here is already canonical. 256 entries → ~47 tile IDs.
+function buildTileLookup(canal: boolean): number[] {
+  const t = new Array<number>(256)
+  for (let mask = 0; mask < 256; mask++) {
+    const N  = !!(mask &   1)
+    const NE = !!(mask &   2)
+    const E  = !!(mask &   4)
+    const SE = !!(mask &   8)
+    const S  = !!(mask &  16)
+    const SW = !!(mask &  32)
+    const W  = !!(mask &  64)
+    const NW = !!(mask & 128)
+
+    if (N && E && S && W) {
+      // All 4 cardinals — diagonal gaps become inner grass corners (canal only)
+      if (canal) {
+        const missing = (!NE ? 1 : 0) + (!SE ? 1 : 0) + (!SW ? 1 : 0) + (!NW ? 1 : 0)
+        if (missing === 0)        t[mask] = PATH.allSidesNoGrass
+        else if (missing === 1 && !NE) t[mask] = PATH.grassCornerTR
+        else if (missing === 1 && !SE) t[mask] = PATH.grassCornerBR
+        else if (missing === 1 && !SW) t[mask] = PATH.grassCornerBL
+        else if (missing === 1 && !NW) t[mask] = PATH.grassCornerTL
+        else                      t[mask] = PATH.allSidesNoGrass
+      } else {
+        t[mask] = PATH.allSides
+      }
+    } else if (N && E && S)      t[mask] = PATH.tJuncRight
+    else if (E && S && W)        t[mask] = canal ? PATH.edgeTop    : PATH.tJuncTop
+    else if (N && S && W)        t[mask] = PATH.tJuncLeft2
+    else if (N && E && W)        t[mask] = canal ? PATH.edgeBottom : PATH.tJuncBottom
+    else if (N && S)             t[mask] = PATH.vertical
+    else if (E && W)             t[mask] = PATH.horizontal
+    else if (N && E)             t[mask] = canal ? PATH.grassCornerBL : PATH.turnTopRight
+    else if (N && W)             t[mask] = canal ? PATH.grassCornerBR : PATH.turnTopLeft
+    else if (S && E)             t[mask] = canal ? PATH.grassCornerTL : PATH.turnBottomRight
+    else if (S && W)             t[mask] = canal ? PATH.grassCornerTR : PATH.turnBottomLeft
+    else if (N)                  t[mask] = PATH.topOnly
+    else if (E)                  t[mask] = PATH.rightOnly
+    else if (S)                  t[mask] = PATH.bottomOnly
+    else if (W)                  t[mask] = PATH.leftOnly
+    else                         t[mask] = PATH.isolated
+  }
+  return t
+}
+const PATH_TILE_LOOKUP  = buildTileLookup(false)
+const CANAL_TILE_LOOKUP = buildTileLookup(true)
+
 // ── PixiJS terrain builder ─────────────────────────────────────────────────────
 // Rivers go into groundLayer; all other items go into worldLayer for Y-sorting.
 
@@ -394,14 +445,14 @@ async function buildPathTileGfx(
 
   // Expand pathSet perpendicular to path direction for wide paths (e.g. canals)
   const pathWidth = ENV_TILES[act.environment ?? '']?.pathWidth ?? 1
-  const originalPath = new Set(pathSet)
   if (pathWidth > 1) {
     const half = Math.floor(pathWidth / 2)
+    const original = new Set(pathSet)
     const extra = new Set<string>()
-    for (const k of originalPath) {
+    for (const k of original) {
       const [tx, ty] = k.split(',').map(Number)
-      const hasH = originalPath.has(key(tx + 1, ty)) || originalPath.has(key(tx - 1, ty))
-      const hasV = originalPath.has(key(tx, ty + 1)) || originalPath.has(key(tx, ty - 1))
+      const hasH = original.has(key(tx + 1, ty)) || original.has(key(tx - 1, ty))
+      const hasV = original.has(key(tx, ty + 1)) || original.has(key(tx, ty - 1))
       if (hasH) for (let d = 1; d <= half; d++) { extra.add(key(tx, ty - d)); extra.add(key(tx, ty + d)) }
       if (hasV) for (let d = 1; d <= half; d++) { extra.add(key(tx - d, ty)); extra.add(key(tx + d, ty)) }
       if (hasH && hasV) for (let dx = 1; dx <= half; dx++) for (let dy = 1; dy <= half; dy++) {
@@ -411,58 +462,29 @@ async function buildPathTileGfx(
     }
     for (const k of extra) pathSet.add(k)
   }
-  const noGrass = pathWidth > 1
+  const lookup = pathWidth > 1 ? CANAL_TILE_LOOKUP : PATH_TILE_LOOKUP
 
-  // Pick the correct PATH variant for each cell based on which neighbors are also path
+  // Pick tile for each cell using all 8 neighbors (diagonals zeroed when cardinals absent)
   const has = (tx: number, ty: number) => pathSet.has(key(tx, ty))
-  const variant = (tx: number, ty: number): number => {
-    const N = has(tx, ty - 1), S = has(tx, ty + 1)
-    const E = has(tx + 1, ty), W = has(tx - 1, ty)
-    if ( N &&  S &&  E &&  W) return noGrass ? PATH.allSidesNoGrass : PATH.allSides
-    if ( N &&  S &&  E && !W) return PATH.tJuncRight
-    if ( N &&  S && !E &&  W) return PATH.tJuncLeft2
-    if ( N && !S &&  E &&  W) return PATH.tJuncBottom
-    if (!N &&  S &&  E &&  W) return PATH.tJuncTop
-    if ( N &&  S && !E && !W) return PATH.vertical
-    if (!N && !S &&  E &&  W) return PATH.horizontal
-    if ( N && !S &&  E && !W) return PATH.turnTopRight
-    if ( N && !S && !E &&  W) return PATH.turnTopLeft
-    if (!N &&  S &&  E && !W) return PATH.turnBottomRight
-    if (!N &&  S && !E &&  W) return PATH.turnBottomLeft
-    if (!N && !S &&  E && !W) return PATH.rightOnly
-    if (!N && !S && !E &&  W) return PATH.leftOnly
-    if ( N && !S && !E && !W) return PATH.topOnly
-    if (!N &&  S && !E && !W) return PATH.bottomOnly
-    return PATH.isolated
-  }
-  // Edge variant: used for expanded cells — swaps turn/tJunc tiles for the
-  // edge-border and quad-corner tiles that suit canal outer rows.
-  const edgeVariant = (tx: number, ty: number): number => {
-    const N = has(tx, ty - 1), S = has(tx, ty + 1)
-    const E = has(tx + 1, ty), W = has(tx - 1, ty)
-    if ( N &&  S &&  E &&  W) return PATH.allSidesNoGrass
-    if ( N &&  S &&  E && !W) return PATH.tJuncRight
-    if ( N &&  S && !E &&  W) return PATH.tJuncLeft2
-    if ( N && !S &&  E &&  W) return PATH.edgeBottom
-    if (!N &&  S &&  E &&  W) return PATH.edgeTop
-    if ( N &&  S && !E && !W) return PATH.vertical
-    if (!N && !S &&  E &&  W) return PATH.horizontal
-    if ( N && !S &&  E && !W) return PATH.grassCornerBL
-    if ( N && !S && !E &&  W) return PATH.grassCornerBR
-    if (!N &&  S &&  E && !W) return PATH.grassCornerTL
-    if (!N &&  S && !E &&  W) return PATH.grassCornerTR
-    if (!N && !S &&  E && !W) return PATH.rightOnly
-    if (!N && !S && !E &&  W) return PATH.leftOnly
-    if ( N && !S && !E && !W) return PATH.topOnly
-    if (!N &&  S && !E && !W) return PATH.bottomOnly
-    return PATH.isolated
+  const tileVariant = (tx: number, ty: number): number => {
+    const N = has(tx, ty - 1), E = has(tx + 1, ty), S = has(tx, ty + 1), W = has(tx - 1, ty)
+    const mask =
+      (N                          ?   1 : 0) |
+      (N && E && has(tx+1, ty-1)  ?   2 : 0) |
+      (E                          ?   4 : 0) |
+      (S && E && has(tx+1, ty+1)  ?   8 : 0) |
+      (S                          ?  16 : 0) |
+      (S && W && has(tx-1, ty+1)  ?  32 : 0) |
+      (W                          ?  64 : 0) |
+      (N && W && has(tx-1, ty-1)  ? 128 : 0)
+    return lookup[mask]
   }
 
-  // Group cells by variant to batch the texture loads
+  // Group cells by tile variant to batch texture loads
   const byVariant = new Map<number, Array<{ tx: number; ty: number }>>()
   for (const k of pathSet) {
     const [tx, ty] = k.split(',').map(Number)
-    const v = (noGrass && !originalPath.has(k)) ? edgeVariant(tx, ty) : variant(tx, ty)
+    const v = tileVariant(tx, ty)
     if (!byVariant.has(v)) byVariant.set(v, [])
     byVariant.get(v)!.push({ tx, ty })
   }
