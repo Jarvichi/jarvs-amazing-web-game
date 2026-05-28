@@ -392,12 +392,29 @@ async function buildPathTileGfx(
     }
   }
 
+  // Expand pathSet perpendicular to path direction for wide paths (e.g. canals)
+  const pathWidth = ENV_TILES[act.environment ?? '']?.pathWidth ?? 1
+  if (pathWidth > 1) {
+    const half = Math.floor(pathWidth / 2)
+    const original = new Set(pathSet)
+    const extra = new Set<string>()
+    for (const k of original) {
+      const [tx, ty] = k.split(',').map(Number)
+      const hasH = original.has(key(tx + 1, ty)) || original.has(key(tx - 1, ty))
+      const hasV = original.has(key(tx, ty + 1)) || original.has(key(tx, ty - 1))
+      if (hasH) for (let d = 1; d <= half; d++) { extra.add(key(tx, ty - d)); extra.add(key(tx, ty + d)) }
+      if (hasV) for (let d = 1; d <= half; d++) { extra.add(key(tx - d, ty)); extra.add(key(tx + d, ty)) }
+    }
+    for (const k of extra) pathSet.add(k)
+  }
+  const noGrass = pathWidth > 1
+
   // Pick the correct PATH variant for each cell based on which neighbors are also path
   const has = (tx: number, ty: number) => pathSet.has(key(tx, ty))
   const variant = (tx: number, ty: number): number => {
     const N = has(tx, ty - 1), S = has(tx, ty + 1)
     const E = has(tx + 1, ty), W = has(tx - 1, ty)
-    if ( N &&  S &&  E &&  W) return PATH.allSides
+    if ( N &&  S &&  E &&  W) return noGrass ? PATH.allSidesNoGrass : PATH.allSides
     if ( N &&  S &&  E && !W) return PATH.tJuncRight
     if ( N &&  S && !E &&  W) return PATH.tJuncLeft2
     if ( N && !S &&  E &&  W) return PATH.tJuncBottom
