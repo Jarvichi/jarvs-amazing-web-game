@@ -364,10 +364,8 @@ export function HubTownCanvas({
       })
       npcLayer.addChild(npcContainer)
 
-      const npcSpriteSlug = isCommanderNpc ? avatarSlug : npc.sprite
-      const npcSpriteUrl  = isCommanderNpc
-        ? `${base}sprites/${avatarSlug}.svg`
-        : `${base}sprites/${npc.sprite}.svg`
+      const npcSpriteSlug = isCommanderNpc ? commander !== undefined ? commander.name : avatarSlug : npc.sprite
+      const npcSpriteUrl  = `${base}sprites/${npcSpriteSlug}.svg`
 
       loadTextureUrl(npcSpriteUrl).then(tex => {
         if (app.renderer == null) return
