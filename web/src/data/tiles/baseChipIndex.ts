@@ -329,18 +329,84 @@ export const BASE_CHIP_TILES = {
     // fountain mid left, mid middle, mid right,
     // memorial top left, memorial top right, striped awning support pillar, plain awning support pillar, pot of flowers, 
     // fountain bot left, bot middle, bot right,
-    // memorial bot left, memorial bot right, striped awning support pillar bot, plain awning support pillar bot, empty pot of flowers, 
+    // memorial bot left, memorial bot right, striped awning support pillar bot, plain awning support pillar bot, empty pot of flowers,
 
-    // Furniture sets (beds, tables,chairs)
-    // Note: if you need something insert it here and ill check the actul id
-    // Verify exact ids
+    // Outdoor furniture / decor (verify exact IDs)
+    lampPostTop:    666,
+    lampPostBottom: 666,
+    benchLeft:      666,
+    benchRight:     666,
+    flowerPotLeft:  666,
+    flowerPotRight: 666,
+
+    // Furniture sets (beds, tables, chairs) — verify exact IDs, 666 = placeholder
+    // 4-tile royal bed (confirmed)
     bedTopLeft:939,
     bedTopRight:940,
     bedBottonLeft:941,
     bedBottomRight:942,
 
+    // 2-tile simple bed (horizontal, head on left side)
+    simpleBedHeadLeft:  666,
+    simpleBedFootLeft:  666,
+    // 2-tile simple bed (horizontal, head on right side)
+    simpleBedHeadRight: 666,
+    simpleBedFootRight: 666,
 
-    // Items that are placable on tables,etc
+    // Chairs (4 directions)
+    chairFacingDown:  666,
+    chairFacingUp:    666,
+    chairFacingLeft:  666,
+    chairFacingRight: 666,
+
+    // Tables (2×2 top-view)
+    smallTableTopLeft:     666,
+    smallTableTopRight:    666,
+    smallTableBottomLeft:  666,
+    smallTableBottomRight: 666,
+    roundTable:            666,
+
+    // Bookshelf / shelf (2 tiles tall)
+    bookshelfTop:    666,
+    bookshelfBottom: 666,
+
+    // Counter / bar (single tile, top-view)
+    counterTop: 666,
+
+    // Desk (single tile)
+    deskTop: 666,
+
+    // Fireplace (2 tiles tall)
+    fireplaceTop:    666,
+    fireplaceBottom: 666,
+
+    // Candles / lighting
+    candlestick:  666,
+    wallTorch:    666,
+    floorLantern: 666,
+
+    // Windows (placed in walls)
+    windowSmall: 666,
+    windowLarge: 666,
+
+    // Interior doors (2 tiles tall)
+    doorTop:    666,
+    doorBottom: 666,
+
+    // Stairs
+    stairsUp:   666,
+    stairsDown: 666,
+
+    // Decorative floor / wall items
+    rugTopLeft:     666,
+    rugTopRight:    666,
+    rugBottomLeft:  666,
+    rugBottomRight: 666,
+    painting:       666,
+    mirrorTop:      666,
+    mirrorBottom:   666,
+
+    // Items that are placable on tables, etc
     closedBook: 952,
     openBook: 953,
     blueclosedBook: 954,
