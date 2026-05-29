@@ -103,7 +103,7 @@ export function HubTownCanvas({
     groundLayer.addChild(baseContainer, riverContainer)
 
     buildTerrainGfx(baseContainer, riverContainer, worldLayer,
-      { environment: HUB_ENV, id: 'hubworld' }, MAP_W, MAP_H)
+      { environment: HUB_ENV, id: 'hubworld', terrainItems: [] }, MAP_W, MAP_H)
     buildBgTileGfx(baseContainer, { environment: HUB_ENV }, MAP_W, MAP_H)
       .catch(e => console.error('[HubTownCanvas] bg tiles failed', e))
     buildDecorGfx(groundLayer, { environment: HUB_ENV, id: 'hubworld' }, MAP_W, MAP_H)
@@ -325,14 +325,6 @@ export function HubTownCanvas({
           }).catch(() => {})
         }
       }).catch(e => console.error(`[HubTownCanvas] NPC sprite failed: ${npcSpriteSlug}`, e))
-
-      const indicator = new PIXI.Text({
-        text:  npc.screen ? '▶' : '!',
-        style: { fontSize: 10, fill: npc.screen ? '#88ddff' : '#ffdd44', fontFamily: 'monospace', fontWeight: 'bold' },
-      })
-      indicator.anchor.set(0.5, 1)
-      indicator.position.set(cx, cy - T / 2 - 2)
-      npcLayer.addChild(indicator)
     }
 
     // ── Card-unit NPCs ─────────────────────────────────────────────────────────
@@ -627,13 +619,7 @@ export function HubTownCanvas({
               npcDialogueIndex.set(npc.id, idx + 1)
             }
           })
-          const indicator = new PIXI.Text({
-            text:  npc.screen ? '▶' : '!',
-            style: { fontSize: 10, fill: npc.screen ? '#88ddff' : '#ffdd44', fontFamily: 'monospace', fontWeight: 'bold' },
-          })
-          indicator.anchor.set(0.5, 1)
-          indicator.position.set(npc.tx * T + T / 2, npc.ty * T - 2)
-          interiorLayer.addChild(s, indicator)
+          interiorLayer.addChild(s)
         }).catch(() => {})
       }
 
