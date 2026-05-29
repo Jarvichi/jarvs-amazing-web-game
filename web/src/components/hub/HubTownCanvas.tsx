@@ -14,6 +14,8 @@ import { HUB_DOORS, HUB_INTERIORS } from '../../data/hubInteriors'
 import { EXTERIOR_DECOR } from '../../data/hubConfigLoader'
 import { loadPlayerAvatar } from '../../game/questline'
 import type { HubNpc } from '../../data/hubConfigLoader'
+import { CommanderState } from '../../game/commander'
+
 
 const HUB_ENV       = 'camp'
 const T             = 32
