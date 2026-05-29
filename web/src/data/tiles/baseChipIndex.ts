@@ -497,23 +497,35 @@ export const BASE_CHIP_TILES = {
     woodRoofRow3 : 576,
     woodRoofRow4 : 584,
 
-    // 
     yellowSlateRoofRow1 : 561,
+    yellowSlateRoofRow2 : 569,
+    yellowSlateRoofRow3 : 577,
+    yellowSlateRoofRow4 : 585,
 
-    // 
     blueSlateRoofRow1: 562,
+    blueSlateRoofRow2: 570,
+    blueSlateRoofRow3: 578,
+    blueSlateRoofRow4: 586,
 
-    // 
     redSlateRoofRow1: 563,
+    redSlateRoofRow2: 571,
+    redSlateRoofRow3: 579,
+    redSlateRoofRow4: 587,
 
-    // 
     greySlateRoofRow1 : 564,
+    greySlateRoofRow2 : 572,
+    greySlateRoofRow3 : 580,
+    greySlateRoofRow4 : 588,
 
-    // 
     metalRoofRow1 : 565,
+    metalRoofRow2 : 573,
+    metalRoofRow3 : 581,
+    metalRoofRow4 : 589,
 
-    // 
     strawRoofRow1 : 566,
+    strawRoofRow2 : 574,
+    strawRoofRow3 : 582,
+    strawRoofRow4 : 590,
 
 
 } as const

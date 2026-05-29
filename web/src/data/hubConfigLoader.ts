@@ -1,5 +1,6 @@
 import rawConfig from './hubConfig.json'
 import { BASE_CHIP_TILES } from './tiles/baseChipIndex'
+import type { WallMaterial, RoofMaterial } from './tiles/buildingMaterials'
 
 const T = 32
 
@@ -12,6 +13,13 @@ export interface HubArea {
   y: number
   w: number
   h: number
+}
+
+export interface HubBuilding {
+  rect: [number, number, number, number]
+  id?: string
+  wall?: WallMaterial
+  roof?: RoofMaterial
 }
 
 export interface HubDoor {
@@ -86,6 +94,14 @@ export const HUB_AREAS: HubArea[] = rawConfig.areas.map(a => ({
 
 export const HUB_STREET_TILES   = expandTiles(rawConfig.streets   as TileEntry[])
 export const HUB_BUILDING_TILES = expandTiles(rawConfig.buildings as TileEntry[])
+
+type RawBuilding = { rect: number[]; id?: string; wall?: string; roof?: string }
+export const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).map(b => ({
+  rect: b.rect as [number, number, number, number],
+  id:   b.id,
+  wall: b.wall as WallMaterial | undefined,
+  roof: b.roof as RoofMaterial | undefined,
+}))
 
 export const EXTERIOR_DECOR = rawConfig.exteriorDecor.map(d => ({
   tx:     d.tx,
