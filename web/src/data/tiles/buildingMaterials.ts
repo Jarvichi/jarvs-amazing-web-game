@@ -23,10 +23,12 @@ export type RoofMaterial =
   | 'strawRoof'
 
 interface WallTileSet {
+  leftTop:    number
   pillarTop:    number
   shadowTop:    number
   middleTop:    number
   rightTop:     number
+  leftBottom: number
   pillarBottom: number
   shadowBottom: number
   middleBottom: number
@@ -38,10 +40,12 @@ interface WallTileSet {
 
 export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
   brick: {
+    leftTop:      T.brickLeftTop,
     pillarTop:    T.brickPillarTop,
     shadowTop:    T.brickShadowTop,
     middleTop:    T.brickMiddleTop,
     rightTop:     T.brickRightTop,
+    leftBottom:   T.brickLeftBottom,
     pillarBottom: T.brickPillarBottom,
     shadowBottom: T.brickShadowBottom,
     middleBottom: T.brickMiddleBottom,
@@ -51,10 +55,12 @@ export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
     doorBottom:   T.brickDoorBottom,
   },
   woodWall: {
+    leftTop:      T.woodWallLeftTop,
     pillarTop:    T.woodWallPillarTop,
     shadowTop:    T.woodWallShadowTop,
     middleTop:    T.woodWallMiddleTop,
     rightTop:     T.woodWallRightTop,
+    leftBottom:   T.woodWallLeftBottom,
     pillarBottom: T.woodWallPillarBottom,
     shadowBottom: T.woodWallShadowBottom,
     middleBottom: T.woodWallMiddleBottom,
@@ -64,10 +70,12 @@ export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
     doorBottom:   T.woodWallDoorBottom,
   },
   tudorFrame: {
+    leftTop:      T.tudorFrameLeftTop,
     pillarTop:    T.tudorFramePillarTop,
     shadowTop:    T.tudorFrameShadowTop,
     middleTop:    T.tudorFrameMiddleTop,
     rightTop:     T.tudorFrameRightTop,
+    leftBottom:   T.tudorFrameLeftBottom,
     pillarBottom: T.tudorFramePillarBottom,
     shadowBottom: T.tudorFrameShadowBottom,
     middleBottom: T.tudorFrameMiddleBottom,
@@ -77,10 +85,12 @@ export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
     doorBottom:   T.tudorFrameDoorBottom,
   },
   renderedBrick: {
+    leftTop:      T.renderedBrickLeftTop,
     pillarTop:    T.renderedBrickPillarTop,
     shadowTop:    T.renderedBrickShadowTop,
     middleTop:    T.renderedBrickMiddleTop,
     rightTop:     T.renderedBrickRightTop,
+    leftBottom:   T.renderedBrickLeftBottom,
     pillarBottom: T.renderedBrickPillarBottom,
     shadowBottom: T.renderedBrickShadowBottom,
     middleBottom: T.renderedBrickMiddleBottom,
@@ -90,10 +100,12 @@ export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
     doorBottom:   T.renderedBrickDoorBottom,
   },
   whiteStone: {
+    leftTop:      T.whiteStoneLeftTop,
     pillarTop:    T.whiteStonePillarTop,
     shadowTop:    T.whiteStoneShadowTop,
     middleTop:    T.whiteStoneMiddleTop,
     rightTop:     T.whiteStoneRightTop,
+    leftBottom:   T.whiteStoneLeftBottom,
     pillarBottom: T.whiteStonePillarBottom,
     shadowBottom: T.whiteStoneShadowBottom,
     middleBottom: T.whiteStoneMiddleBottom,
@@ -103,10 +115,12 @@ export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
     doorBottom:   T.whiteStoneDoorBottom,
   },
   darkStone: {
+    leftTop:      T.darkStoneLeftTop,
     pillarTop:    T.darkStonePillarTop,
     shadowTop:    T.darkStoneShadowTop,
     middleTop:    T.darkStoneMiddleTop,
     rightTop:     T.darkStoneRightTop,
+    leftBottom:   T.darkStoneLeftBottom,
     pillarBottom: T.darkStonePillarBottom,
     shadowBottom: T.darkStoneShadowBottom,
     middleBottom: T.darkStoneMiddleBottom,
@@ -116,10 +130,12 @@ export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
     doorBottom:   T.darkStoneDoorBottom,
   },
   castleStone: {
+    leftTop:      T.castleStoneLeftTop,
     pillarTop:    T.castleStonePillarTop,
     shadowTop:    T.castleStoneShadowTop,
     middleTop:    T.castleStoneMiddleTop,
     rightTop:     T.castleStoneRightTop,
+    leftBottom:   T.castleStoneLeftBottom,
     pillarBottom: T.castleStonePillarBottom,
     shadowBottom: T.castleStoneShadowBottom,
     middleBottom: T.castleStoneMiddleBottom,
@@ -129,10 +145,12 @@ export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
     doorBottom:   T.castleStoneDoorBottom,
   },
   ornateStone: {
+    leftTop:      T.ornateStoneLeftTop,
     pillarTop:    T.ornateStonePillarTop,
     shadowTop:    T.ornateStoneShadowTop,
     middleTop:    T.ornateStoneMiddleTop,
     rightTop:     T.ornateStoneRightTop,
+    leftBottom:   T.ornateStoneLeftBottom,
     pillarBottom: T.ornateStonePillarBottom,
     shadowBottom: T.ornateStoneShadowBottom,
     middleBottom: T.ornateStoneMiddleBottom,
@@ -142,10 +160,12 @@ export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
     doorBottom:   T.ornateStoneDoorBottom,
   },
   reinforcedStone: {
+    leftTop:      T.reinforcedStoneLeftTop,
     pillarTop:    T.reinforcedStonePillarTop,
     shadowTop:    T.reinforcedStoneShadowTop,
     middleTop:    T.reinforcedStoneMiddleTop,
     rightTop:     T.reinforcedStoneRightTop,
+    leftBottom:   T.reinforcedStoneLeftBottom,
     pillarBottom: T.reinforcedStonePillarBottom,
     shadowBottom: T.reinforcedStoneShadowBottom,
     middleBottom: T.reinforcedStoneMiddleBottom,
@@ -155,10 +175,12 @@ export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
     doorBottom:   T.reinforcedStoneDoorBottom,
   },
   woodenSlats: {
+    leftTop:      T.woodenSlatsLeftTop,
     pillarTop:    T.woodenSlatsPillarTop,
     shadowTop:    T.woodenSlatsShadowTop,
     middleTop:    T.woodenSlatsMiddleTop,
     rightTop:     T.woodenSlatsRightTop,
+    leftBottom:   T.woodenSlatsLeftBottom,
     pillarBottom: T.woodenSlatsPillarBottom,
     shadowBottom: T.woodenSlatsShadowBottom,
     middleBottom: T.woodenSlatsMiddleBottom,
@@ -190,17 +212,20 @@ export const ROOF_ROWS = 4
 export function getWallTile(
   wall: WallMaterial,
   isBottomRow: boolean,
+  isLeftCol: boolean,
   isPillarCol: boolean,  // col === x1
   isShadowCol: boolean,  // col === x1+1
   isRightCol:  boolean,  // col === x2
 ): number {
   const w = WALL_TILES[wall]
   if (isBottomRow) {
+    if (isLeftCol)  return w.leftBottom
     if (isPillarCol) return w.pillarBottom
     if (isShadowCol) return w.shadowBottom
     if (isRightCol)  return w.rightBottom
     return w.middleBottom
   }
+  if (isLeftCol) return w.leftTop
   if (isPillarCol) return w.pillarTop
   if (isShadowCol) return w.shadowTop
   if (isRightCol)  return w.rightTop

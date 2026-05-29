@@ -174,15 +174,21 @@ export function HubTownCanvas({
         // Wall pass — remaining rows (top tiles repeat for middle rows)
         const firstWallRow = y1 + ROOF_ROWS
         for (let ty = firstWallRow; ty <= y2; ty++) {
-          const isBottomRow = ty === y2
           for (let tx = x1; tx <= x2; tx++) {
-            const tileId = getWallTile(
-              wall, isBottomRow,
-              tx === x1,
-              width >= 3 && tx === x1 + 1,
-              tx === x2,
-            )
-            place(tileId, tx, ty)
+            const isPillarCol = tx === x1 + 2 || tx === x2 - 2
+            const isShadowCol = width >= 5 && (tx === x1 + 3 || tx === x2 -1)
+            const isBottomRow =  ty === y2 
+            const drawRow = true
+            if (drawRow){            
+              const tileId = getWallTile(
+                wall, isBottomRow,
+                tx === x1,
+                isPillarCol,
+                isShadowCol,
+                tx === x2,
+              )
+              place(tileId, tx, ty)
+            }
           }
         }
 
@@ -191,8 +197,8 @@ export function HubTownCanvas({
         for (const door of HUB_DOORS) {
           if (door.ty !== y2 + 1 || door.tx < x1 || door.tx > x2) continue
           place(wallTiles.doorArchTop, door.tx, y2 - 1)
-          place(wallTiles.doorTop,     door.tx, y2)
-          place(wallTiles.doorBottom,  door.tx, y2 + 1)
+          place(wallTiles.doorTop,     door.tx, y2 - 1)
+          place(wallTiles.doorBottom,  door.tx, y2 - 0)
         }
       }
 
