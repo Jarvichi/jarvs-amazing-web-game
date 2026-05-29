@@ -6,60 +6,17 @@ import { renderPathTiles } from '../../utils/tileLookup'
 import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileTexture } from '../../utils/pixiHelpers'
 import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
-import {
-  MAP_W, MAP_H,
-  HUB_AREAS,
-  HUB_BUILDING_TILES,
-  HUB_NODES,
-  HUB_STREET_TILES,
-  AVATAR_START,
-} from '../../data/hubLayout'
-import { QUEST_GIVER_NPCS, NPC_SPAWN_TILES } from '../../data/hubNpcs'
+import { MAP_W, MAP_H, HUB_AREAS, HUB_BUILDING_TILES, HUB_STREET_TILES, AVATAR_START } from '../../data/hubLayout'
+import { NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS } from '../../data/hubNpcs'
 import { HUB_DOORS, HUB_INTERIORS } from '../../data/hubInteriors'
-import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
+import { EXTERIOR_DECOR } from '../../data/hubConfigLoader'
 import { loadPlayerAvatar } from '../../game/questline'
+import type { HubNpc } from '../../data/hubConfigLoader'
 
 const HUB_ENV       = 'camp'
 const T             = 32
-const WALK_PX_PER_S = 160   // pixels per second
+const WALK_PX_PER_S = 160
 const COURTYARD_PX  = { x: AVATAR_START[0] * T + T / 2, y: AVATAR_START[1] * T + T / 2 }
-
-const NODE_GLOW   = 0x44aa44
-const NODE_FILL   = 0x1e2e1e
-const NODE_STROKE = 0x88cc88
-
-// ── Exterior decor placements ──────────────────────────────────────────────────
-const EXTERIOR_DECOR: { tx: number; ty: number; tileId: number }[] = [
-  // Courtyard well
-  { tx: 17, ty: 18, tileId: BASE_CHIP_TILES.stoneWell },
-  // Barrels / crates near market
-  { tx:  3, ty: 13, tileId: BASE_CHIP_TILES.barrel },
-  { tx:  4, ty: 13, tileId: BASE_CHIP_TILES.barrel },
-  { tx: 10, ty: 13, tileId: BASE_CHIP_TILES.crate },
-  // Traders' dock
-  { tx:  9, ty: 27, tileId: BASE_CHIP_TILES.crate },
-  { tx: 10, ty: 27, tileId: BASE_CHIP_TILES.barrel },
-  // Hay near outer wall
-  { tx: 25, ty: 14, tileId: BASE_CHIP_TILES.hayStack },
-  // Message board near scholars hall
-  { tx: 52, ty: 13, tileId: BASE_CHIP_TILES.messageBoardTopLeft },
-  { tx: 53, ty: 13, tileId: BASE_CHIP_TILES.messageBoardTopRight },
-  { tx: 52, ty: 14, tileId: BASE_CHIP_TILES.messageBoardBottomLeft },
-  { tx: 53, ty: 14, tileId: BASE_CHIP_TILES.messageBoardBottomRight },
-  // Shop signs above entrances
-  { tx:  6, ty: 10, tileId: BASE_CHIP_TILES.bookSign },
-  { tx: 14, ty: 10, tileId: BASE_CHIP_TILES.magicSign },
-  { tx:  8, ty: 13, tileId: BASE_CHIP_TILES.bagSign },
-  // Mailbox near home
-  { tx: 20, ty: 19, tileId: BASE_CHIP_TILES.mailBox },
-  // Lily pads in pond
-  { tx:  3, ty: 34, tileId: BASE_CHIP_TILES.smallLilypad },
-  { tx:  5, ty: 36, tileId: BASE_CHIP_TILES.largeLilypad },
-  { tx:  7, ty: 33, tileId: BASE_CHIP_TILES.smallLilypad },
-  // Rocks at pond edge
-  { tx:  1, ty: 35, tileId: BASE_CHIP_TILES.smallRock },
-  { tx:  9, ty: 37, tileId: BASE_CHIP_TILES.smallRock },
-]
 
 // ── Interior BFS pathfinder ────────────────────────────────────────────────────
 function findInteriorPath(
@@ -191,27 +148,6 @@ export function HubTownCanvas({
       }
     }
 
-    // ── Location nodes ─────────────────────────────────────────────────────────
-    for (const node of HUB_NODES) {
-      const cx = node.tx * T + T / 2
-      const cy = node.ty * T + T / 2
-
-      const g = new PIXI.Graphics()
-      g.ellipse(cx, cy, 16, 10).fill({ color: NODE_GLOW, alpha: 0.18 })
-      g.ellipse(cx, cy, 11, 7).fill({ color: NODE_FILL })
-      g.ellipse(cx, cy, 11, 7).stroke({ color: NODE_STROKE, width: 1.5 })
-      g.ellipse(cx - 3, cy - 2, 4, 2.5).fill({ color: NODE_STROKE, alpha: 0.45 })
-      nodeLayer.addChild(g)
-
-      const label = new PIXI.Text({
-        text: node.label,
-        style: { fontSize: 9, fill: '#c8e8c8', fontFamily: 'monospace', align: 'center' },
-      })
-      label.anchor.set(0.5, 1)
-      label.position.set(cx, cy - 13)
-      nodeLayer.addChild(label)
-    }
-
     // ── Avatar ─────────────────────────────────────────────────────────────────
     let avatar: PIXI.Sprite | null = null
     let avatarFrames: PIXI.Texture[] = []
@@ -241,8 +177,11 @@ export function HubTownCanvas({
       avatar = s
     }).catch(e => console.error('[HubTownCanvas] avatar load failed', e))
 
-    // ── Quest-giver NPCs ───────────────────────────────────────────────────────
-    for (const npc of QUEST_GIVER_NPCS) {
+    // ── NPC dialogue index (shared across exterior and interior NPCs) ──────────
+    const npcDialogueIndex = new Map<string, number>()
+
+    // ── Exterior NPCs ─────────────────────────────────────────────────────────
+    for (const npc of EXTERIOR_NPCS) {
       const cx = npc.tx * T + T / 2
       const cy = npc.ty * T + T / 2
 
@@ -253,8 +192,10 @@ export function HubTownCanvas({
         e.stopPropagation()
         if (npc.screen) {
           onNodeInteractRef.current(npc.screen)
-        } else {
-          onNpcTapRef.current?.(npc.dialogue)
+        } else if (npc.dialogue.length > 0) {
+          const idx = npcDialogueIndex.get(npc.id) ?? 0
+          onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length])
+          npcDialogueIndex.set(npc.id, idx + 1)
         }
       })
       npcLayer.addChild(npcContainer)
@@ -292,44 +233,47 @@ export function HubTownCanvas({
     const unitNpcs: UnitNpcState[] = []
     const cards = unitCardsRef.current ?? []
 
-    if (cards.length > 0) {
-      const spawnCount = Math.min(NPC_SPAWN_TILES.length, cards.length * 3)
-      const slots = NPC_SPAWN_TILES.slice(0, Math.min(spawnCount, NPC_SPAWN_TILES.length))
+    const effectiveCards = cards.length > 0
+      ? cards
+      : AMBIENT_NPC_SPRITES.length > 0 ? AMBIENT_NPC_SPRITES : ['hub-avatar']
+    const spawnCount = Math.min(NPC_SPAWN_TILES.length, Math.max(effectiveCards.length * 3, 4))
+    const slots = NPC_SPAWN_TILES.slice(0, spawnCount)
 
-      slots.forEach(([tx, ty], i) => {
-        const cardName = cards[i % cards.length]
-        const cx = tx * T + T / 2
-        const cy = ty * T + T / 2
+    slots.forEach(([tx, ty], i) => {
+      const slug = effectiveCards[i % effectiveCards.length]
+      const cx = tx * T + T / 2
+      const cy = ty * T + T / 2
 
-        loadSpriteTexture(cardName)
-          .catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
-          .then(tex => {
-            if (app.renderer == null) return
-            const s = new PIXI.Sprite(tex)
-            s.width = T; s.height = T
-            s.anchor.set(0.5, 0.5)
-            s.position.set(cx, cy)
-            s.alpha = 0.85
-            npcLayer.addChild(s)
+      const texPromise = cards.length > 0
+        ? loadSpriteTexture(slug).catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
+        : loadTextureUrl(`${base}sprites/${slug}.svg`).catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
 
-            const state: UnitNpcState = {
-              sprite:      s,
-              currentTile: [tx, ty],
-              walkQueue:   [],
-              isWalking:   false,
-              wanderTimer: 500 + Math.random() * 500,
-              animFrames:  [],
-              animTimer:   0,
-              animFrame:   0,
-            }
-            unitNpcs.push(state)
+      texPromise.then(tex => {
+        if (app.renderer == null) return
+        const s = new PIXI.Sprite(tex)
+        s.width = T; s.height = T
+        s.anchor.set(0.5, 0.5)
+        s.position.set(cx, cy)
+        s.alpha = 0.85
+        npcLayer.addChild(s)
 
-            loadAnimFrames(cardName, 3)
-              .then(frames => { state.animFrames = frames })
-              .catch(() => { /* no walk animation */ })
-          })
+        const state: UnitNpcState = {
+          sprite:      s,
+          currentTile: [tx, ty],
+          walkQueue:   [],
+          isWalking:   false,
+          wanderTimer: 500 + Math.random() * 500,
+          animFrames:  [],
+          animTimer:   0,
+          animFrame:   0,
+        }
+        unitNpcs.push(state)
+
+        loadAnimFrames(slug, 3)
+          .then(frames => { state.animFrames = frames })
+          .catch(() => {})
       })
-    }
+    })
 
     async function processNpcWalkQueue(npc: UnitNpcState) {
       if (npc.walkQueue.length === 0) { npc.isWalking = false; return }
@@ -500,7 +444,7 @@ export function HubTownCanvas({
       interiorLayer.addChild(floorContainer, wallContainer)
 
       // Floor: proper interior tile from base chip sheet (wood, stone, parquet, etc.)
-      const floorTileId  = interior.floorTileId ?? BASE_CHIP_TILES.woodFloor
+      const floorTileId  = interior.floorTileId ?? 288
       const baseChipUrl  = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
       loadTileTexture(baseChipUrl, floorTileId, TILESET_COLUMNS.baseChip).then(floorTex => {
         if (!interiorActive || currentInteriorId !== buildingId) return
@@ -542,6 +486,37 @@ export function HubTownCanvas({
             s.position.set(dtx * T, dty * T)
             decorContainer.addChild(s)
           }
+        }).catch(() => {})
+      }
+
+      // Interior NPCs — rendered inside the room, tappable
+      const interiorNpcList: HubNpc[] = INTERIOR_NPCS[buildingId] ?? []
+      for (const npc of interiorNpcList) {
+        loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
+          if (!interiorActive || currentInteriorId !== buildingId) return
+          const s = new PIXI.Sprite(tex)
+          s.width = T; s.height = T
+          s.anchor.set(0.5, 0.5)
+          s.position.set(npc.tx * T + T / 2, npc.ty * T + T / 2)
+          s.eventMode = 'static'
+          s.cursor    = 'pointer'
+          s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+            e.stopPropagation()
+            if (npc.screen) {
+              onNodeInteractRef.current(npc.screen)
+            } else if (npc.dialogue.length > 0) {
+              const idx = npcDialogueIndex.get(npc.id) ?? 0
+              onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length])
+              npcDialogueIndex.set(npc.id, idx + 1)
+            }
+          })
+          const indicator = new PIXI.Text({
+            text:  npc.screen ? '▶' : '!',
+            style: { fontSize: 10, fill: npc.screen ? '#88ddff' : '#ffdd44', fontFamily: 'monospace', fontWeight: 'bold' },
+          })
+          indicator.anchor.set(0.5, 1)
+          indicator.position.set(npc.tx * T + T / 2, npc.ty * T - 2)
+          interiorLayer.addChild(s, indicator)
         }).catch(() => {})
       }
 
@@ -627,6 +602,14 @@ export function HubTownCanvas({
       await tweenLinear(av, targetX, targetY, duration)
       currentTile = [tx, ty]
 
+      // Update area name on each tile step (works on mobile where pointermove doesn't fire)
+      const tilePixX = tx * T + T / 2
+      const tilePixY = ty * T + T / 2
+      const walkedArea = HUB_AREAS.find(
+        a => tilePixX >= a.x && tilePixX < a.x + a.w && tilePixY >= a.y && tilePixY < a.y + a.h
+      )
+      if (walkedArea) onAreaRef.current(walkedArea.name)
+
       // Door detection — entering a building triggers interior view
       const door = HUB_DOORS.find(d => d.tx === currentTile[0] && d.ty === currentTile[1])
       if (door) {
@@ -667,7 +650,21 @@ export function HubTownCanvas({
         const { x, y } = e.getLocalPosition(app.stage)
         const tapTx = Math.floor(x / T)
         const tapTy = Math.floor(y / T)
-        const node   = HUB_NODES.find(n => n.tx === tapTx && n.ty === tapTy)
+
+        // If tap lands on a building tile, route to the nearest door
+        if (buildingSet.has(`${tapTx},${tapTy}`)) {
+          const nearestDoor = HUB_DOORS.reduce(
+            (best, door) => {
+              const d = Math.hypot(door.tx - tapTx, door.ty - tapTy)
+              return d < best.d ? { door, d } : best
+            },
+            { door: HUB_DOORS[0], d: Infinity },
+          ).door
+          startWalk([nearestDoor.tx, nearestDoor.ty])
+          return
+        }
+
+        const node   = EXTERIOR_NPCS.find(n => n.tx === tapTx && n.ty === tapTy && n.screen)
         const target = nearestWalkable(x, y, pathSet, T)
         startWalk(target, node?.screen)
       }
