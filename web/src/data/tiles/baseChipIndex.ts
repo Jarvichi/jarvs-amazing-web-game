@@ -414,11 +414,9 @@ export const BASE_CHIP_TILES = {
     wallTorch:    666,
     floorLantern: 666,
 
-    // Windows (placed in walls)
-    windowTop: 592,
-    windowBottom: 600,
-
-    // window 2 - 593, window 3 - 594, window 4 -595
+    // Windows (placed in walls) — 4 variants
+    windowTop:    592, windowTop2:    593, windowTop3:    594, windowTop4:    595,
+    windowBottom: 600, windowBottom2: 601, windowBottom3: 602, windowBottom4: 603,
 
     // Internal windows - top 596 to 599, bottom 604 to 607
 
