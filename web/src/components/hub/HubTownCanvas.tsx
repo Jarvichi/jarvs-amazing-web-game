@@ -53,6 +53,7 @@ interface Props {
   onAvatarMove:     (px: number, py: number) => void
   returnRef?:       React.MutableRefObject<(() => void) | null>
   unitCards?:       string[]
+        commander?: CommanderState
   onNpcTap?:        (dialogue: string) => void
   interiorEnterRef?: React.MutableRefObject<((buildingId: string) => void) | null>
   interiorExitRef?:  React.MutableRefObject<(() => void) | null>
@@ -61,7 +62,7 @@ interface Props {
 
 export function HubTownCanvas({
   onAreaEnter, onNodeInteract, onAvatarMove,
-  returnRef, unitCards, onNpcTap,
+  returnRef, unitCards, commander, onNpcTap,
   interiorEnterRef, interiorExitRef, onExitInterior,
 }: Props) {
   const containerRef      = useRef<HTMLDivElement>(null)
