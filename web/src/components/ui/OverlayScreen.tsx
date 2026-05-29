@@ -4,7 +4,7 @@ import { PageHeader } from './PageHeader'
 interface Props {
   title: string
   subtitle?: string
-  onBack: () => void
+  onBack?: () => void
   right?: React.ReactNode
   children: React.ReactNode
   className?: string

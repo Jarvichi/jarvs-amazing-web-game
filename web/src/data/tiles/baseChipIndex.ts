@@ -332,56 +332,85 @@ export const BASE_CHIP_TILES = {
     // memorial bot left, memorial bot right, striped awning support pillar bot, plain awning support pillar bot, empty pot of flowers,
 
     // Outdoor furniture / decor (verify exact IDs)
-    lampPostTop:    666,
-    lampPostBottom: 666,
-    benchLeft:      666,
-    benchRight:     666,
-    flowerPotLeft:  666,
-    flowerPotRight: 666,
+    lampPostTop:    907,
+    lampPostBottom: 915,
+    benchLeft:      848,
+    benchMiddle:    849,
+    benchRight:     850,
+    flowerPotLeft:  943,
+    flowerPotRight: 943,
 
     // Furniture sets (beds, tables, chairs) — verify exact IDs, 666 = placeholder
     // 4-tile royal bed (confirmed)
-    bedTopLeft:939,
-    bedTopRight:940,
-    bedBottonLeft:941,
-    bedBottomRight:942,
+    royalBedTopLeft:939,
+    royalBedTopRight:940,
+    royalBedBottonLeft:941,
+    royalBedBottomRight:942,
+    royalBedTopLeftOverlay:939,
+    royalBedTopRightOverlay:940,
+    royalBedBottonLeftOverlay:941,
+    royalBedBottomRightOverlay:942,
 
-    // 2-tile simple bed (horizontal, head on left side)
-    simpleBedHeadLeft:  666,
-    simpleBedFootLeft:  666,
-    // 2-tile simple bed (horizontal, head on right side)
-    simpleBedHeadRight: 666,
-    simpleBedFootRight: 666,
 
-    // Chairs (4 directions)
-    chairFacingDown:  666,
-    chairFacingUp:    666,
-    chairFacingLeft:  666,
-    chairFacingRight: 666,
+    // 2-tile bed (vertical, head on top side) - with overlay so npc can get into bed
+    simpleBedHead:  776, // decor layer
+    simpleBedFoot:  784, // decor layer
+    simpleBedHeadOverlay: 792, // above npc layer
+    simpleBedFootOverlay: 800, // above npc layer
 
-    // Tables (2×2 top-view)
-    smallTableTopLeft:     666,
-    smallTableTopRight:    666,
-    smallTableBottomLeft:  666,
-    smallTableBottomRight: 666,
-    roundTable:            666,
+    normalBedHead:  777, // decor layer
+    normalBedFoot:  785, // decor layer
+    normalBedHeadOverlay: 793, // above npc layer
+    normalBedFootOverlay: 801, // above npc layer
+
+    luxuryBedHead:  778, // decor layer
+    luxuryBedFoot:  786, // decor layer
+    luxuryBedHeadOverlay: 794, // above npc layer
+    luxuryBedFootOverlay: 802, // above npc layer
+
+    // Chairs 
+    stool:  724,
+    stoolDark:    754,
+    stoolWithCover:  755,
+    stoolWithPurpleCushion: 756,
+
+    // Tables (2×2 minimum top-view - can be tiled to make any size)
+    smallTableTopLeft:     717,
+    smallTableTopMiddle: 718,
+    smallTableTopRight:    719,
+    smallTableMiddleLeft:     725,
+    smallTableMiddleMiddle: 726,
+    smallTableMiddleRight:    727,
+    smallTableBottomLeft:  733,
+    smallTableBottomMiddle:  734,
+    smallTableBottomRight: 735,
+
+    roundTable:            716,
+    roundTableWithCloth:            747,
 
     // Bookshelf / shelf (2 tiles tall)
-    bookshelfTop:    666,
-    bookshelfBottom: 666,
+    bookshelfTop:    715,
+    bookshelfBottom: 723,
 
     // Counter / bar (single tile, top-view)
-    counterTop: 666,
+    counterTop: 691,
 
     // Desk (single tile)
-    deskTop: 666,
+    deskTop: 746,
 
-    // Fireplace (2 tiles tall)
-    fireplaceTop:    666,
-    fireplaceBottom: 666,
+    // Fireplace (3 tiles wide, 2 tiles tall)
+    fireplaceTopLeft:    832,
+    fireplaceTopMiddle:    833,
+    fireplaceTopRight:    834,
+    fireplaceBottomLeft: 840,
+    fireplaceBottomMiddle: 841,
+    fireplaceBottomRight: 842,
 
     // Candles / lighting
-    candlestick:  666,
+    candlestickUnlit:  1002,
+
+    candlestickLitTop:  905,
+    candlestickLitBottom:  1003,
     wallTorch:    666,
     floorLantern: 666,
 
@@ -390,21 +419,24 @@ export const BASE_CHIP_TILES = {
     windowLarge: 666,
 
     // Interior doors (2 tiles tall)
-    doorTop:    666,
-    doorBottom: 666,
+    doorTop:    535,
+    doorBottom: 543,
 
     // Stairs
     stairsUp:   666,
     stairsDown: 666,
 
     // Decorative floor / wall items
-    rugTopLeft:     666,
-    rugTopRight:    666,
-    rugBottomLeft:  666,
-    rugBottomRight: 666,
+    rugTopLeft:     837,
+    // mid - 838
+    rugTopRight:    839,
+    // middle row 845,846,847
+    rugBottomLeft:  853,
+    // mid 854
+    rugBottomRight: 855,
     painting:       666,
-    mirrorTop:      666,
-    mirrorBottom:   666,
+    mirrorTop:      629,
+    mirrorBottom:   637,
 
     // Items that are placable on tables, etc
     closedBook: 952,
@@ -415,6 +447,73 @@ export const BASE_CHIP_TILES = {
     blackopenBook: 957,
     greenclosedBook: 958,
     greenopenBook: 959,
+
+
+    // Exterior Walls
+
+    // Wood Wall starts at 352
+
+    // Tudor Frame starts at 368
+
+    // Rendered Brick starts at 384
+
+    // Brick starts at 400
+    brickLeftTop : 400, // Can be repeated for additional rows to add height
+    brickLeftBottom : 408,
+    brickMiddleTop : 401,
+    brickMiddleBottom : 409,
+    brickRightTop : 402,
+    brickRightBottom : 410,
+    brickPillarTop: 403,
+    brickPillarBottom: 411,
+    brickShadowTop: 404, // goes to teh right of the pilar for depth
+    brickShadowBottom: 412, // goes to teh right of the pilar for depth
+    brickDoorArchTop: 406, // Texture behind door decor
+    brickDoorTop: 407,
+    brickDoorBottom: 415,
+
+    // White Stone - 416
+
+    // Dark stone - 432
+
+    // Castle Stone - 448
+
+    // Ornate stone - 464
+
+    // Reinforced Stone - 480
+
+    // Wooden Slats - 496
+
+    // Interior - Stiped Wallpaper - 512
+
+    // Interior - White walls - 528
+
+    // Prison Cell Railings - 544
+
+
+    // Roofs - 4 rows , repeat for width of building
+    woodRoofRow1 : 560,
+    woodRoofRow2 : 568,
+    woodRoofRow3 : 576,
+    woodRoofRow4 : 584,
+
+    // 
+    yellowSlateRoofRow1 : 561,
+
+    // 
+    blueSlateRoofRow1: 562,
+
+    // 
+    redSlateRoofRow1: 563,
+
+    // 
+    greySlateRoofRow1 : 564,
+
+    // 
+    metalRoofRow1 : 565,
+
+    // 
+    strawRoofRow1 : 566,
 
 
 } as const

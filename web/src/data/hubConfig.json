@@ -46,13 +46,21 @@
     { "rect": [1, 38, 12, 47] },
     { "rect": [17, 27, 32, 33] },
     { "rect": [17, 38, 32, 47] },
-    { "rect": [42, 27, 53, 34] },
     { "rect": [42, 38, 53, 47] },
     { "rect": [58, 27, 72, 34] },
-    { "rect": [58, 38, 72, 47] }
+    { "rect": [58, 38, 72, 47] },
+    { "rect": [42, 27, 53, 34] }
   ],
 
   "exteriorDecor": [
+    { "tx": 42, "ty":30, "tileId":"brickLeftTop"},
+    { "tx": 42, "ty":34, "tileId":"brickLeftBottom"},
+    { "tx": 43, "ty":30, "tileId":"brickMiddleTop"},
+    { "tx": 43, "ty":34, "tileId":"brickMiddleBottom"},
+    { "tx": 53, "ty":30, "tileId":"brickRightTop"},
+    { "tx": 53, "ty":34, "tileId":"brickRightBottom"},
+
+
     { "tx": 17, "ty": 18, "tileId": "stoneWell" },
     { "tx":  3, "ty": 13, "tileId": "barrel" },
     { "tx":  4, "ty": 13, "tileId": "barrel" },
