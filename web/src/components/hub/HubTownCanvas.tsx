@@ -3,8 +3,8 @@ import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx } from '../../utils/terrainLayer'
 import { renderPathTiles } from '../../utils/tileLookup'
-import { loadSpriteTexture, loadTextureUrl, loadAnimFrames } from '../../utils/pixiHelpers'
-import { PATH_TILE } from '../../data/tiles/tileIndex'
+import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileTexture } from '../../utils/pixiHelpers'
+import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import {
   MAP_W, MAP_H,
@@ -15,7 +15,7 @@ import {
   AVATAR_START,
 } from '../../data/hubLayout'
 import { QUEST_GIVER_NPCS, NPC_SPAWN_TILES } from '../../data/hubNpcs'
-import { HUB_DOORS } from '../../data/hubInteriors'
+import { HUB_DOORS, HUB_INTERIORS, InteriorDecor } from '../../data/hubInteriors'
 import { loadPlayerAvatar } from '../../game/questline'
 
 const HUB_ENV       = 'camp'
@@ -27,16 +27,94 @@ const NODE_GLOW   = 0x44aa44
 const NODE_FILL   = 0x1e2e1e
 const NODE_STROKE = 0x88cc88
 
-interface Props {
-  onAreaEnter:    (areaName: string | null) => void
-  onNodeInteract: (screen: string) => void
-  onAvatarMove:   (px: number, py: number) => void
-  returnRef?:     React.MutableRefObject<(() => void) | null>
-  unitCards?:     string[]
-  onNpcTap?:      (dialogue: string) => void
+// ── Interior decor drawing ─────────────────────────────────────────────────────
+function drawDecorPiece(g: PIXI.Graphics, decor: InteriorDecor): void {
+  const x = decor.tx * T
+  const y = decor.ty * T
+  const col = decor.color
+  switch (decor.type) {
+    case 'shelf':
+      g.rect(x + 2, y + 4, T - 4, T - 12).fill(col ?? 0x8b5e3c)
+      g.rect(x + 2, y + 4, T - 4, 4).fill(col !== undefined ? Math.min(col + 0x222222, 0xffffff) : 0xaa7744)
+      break
+    case 'table':
+      g.rect(x + 4, y + 8, T - 8, T - 16).fill(col ?? 0x9b6f4a)
+      g.rect(x + 4, y + 8, T - 8, 3).fill(col !== undefined ? Math.min(col + 0x111111, 0xffffff) : 0xbb8855)
+      break
+    case 'counter':
+      g.rect(x + 2, y + 10, T - 4, T - 14).fill(col ?? 0x7a5c38)
+      g.rect(x + 2, y + 10, T - 4, 4).fill(col !== undefined ? Math.min(col + 0x222222, 0xffffff) : 0xaa8855)
+      break
+    case 'barrel':
+      g.ellipse(x + T / 2, y + T / 2, 10, 13).fill(col ?? 0x6b4c2a)
+      g.ellipse(x + T / 2, y + T / 2, 10, 13).stroke({ color: 0x3d2b15, width: 1.5 })
+      g.rect(x + T / 2 - 10, y + T / 2 - 2, 20, 2).fill(0x3d2b15)
+      break
+    case 'chest':
+      g.rect(x + 3, y + 8, T - 6, T - 14).fill(col ?? 0x7a5c38)
+      g.rect(x + 3, y + 8, T - 6, 5).fill(col !== undefined ? Math.min(col + 0x111111, 0xffffff) : 0xaa8040)
+      g.rect(x + T / 2 - 3, y + 10, 6, 6).fill(0xddaa22)
+      break
+    case 'desk':
+      g.rect(x + 2, y + 6, T - 4, T - 10).fill(col ?? 0x6b8b3c)
+      g.rect(x + 2, y + 6, T - 4, 3).fill(col !== undefined ? Math.min(col + 0x111111, 0xffffff) : 0x88aa55)
+      g.rect(x + 4, y + 9, T - 8, T - 16).fill(0x111a0a)
+      break
+    case 'bed':
+      g.rect(x + 2, y + 4, T - 4, T - 8).fill(col ?? 0x335588)
+      g.rect(x + 2, y + 4, T - 4, 8).fill(col !== undefined ? Math.min(col + 0x222222, 0xffffff) : 0x556688)
+      g.rect(x + 4, y + 6, T - 8, 4).fill(0xeeeeff)
+      break
+    case 'fireplace':
+      g.rect(x + 4, y + 4, T - 8, T - 8).fill(0x3a2010)
+      g.rect(x + 6, y + 12, T - 12, T - 18).fill(col ?? 0xcc4400)
+      g.rect(x + 8, y + 14, 4, 6).fill(0xffaa22)
+      g.rect(x + 14, y + 15, 4, 5).fill(0xff8800)
+      break
+  }
 }
 
-export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, returnRef, unitCards, onNpcTap }: Props) {
+// ── Interior BFS pathfinder ────────────────────────────────────────────────────
+function findInteriorPath(
+  from: [number, number],
+  to: [number, number],
+  walkable: Set<string>,
+): [number, number][] {
+  const key = (t: [number, number]) => `${t[0]},${t[1]}`
+  const queue: [number, number][][] = [[from]]
+  const visited = new Set([key(from)])
+  while (queue.length > 0) {
+    const path = queue.shift()!
+    const cur = path[path.length - 1]
+    if (cur[0] === to[0] && cur[1] === to[1]) return path
+    for (const [dx, dy] of [[0, -1], [1, 0], [0, 1], [-1, 0]]) {
+      const next: [number, number] = [cur[0] + dx, cur[1] + dy]
+      if (walkable.has(key(next)) && !visited.has(key(next))) {
+        visited.add(key(next))
+        queue.push([...path, next])
+      }
+    }
+  }
+  return [from]
+}
+
+interface Props {
+  onAreaEnter:      (areaName: string | null) => void
+  onNodeInteract:   (screen: string) => void
+  onAvatarMove:     (px: number, py: number) => void
+  returnRef?:       React.MutableRefObject<(() => void) | null>
+  unitCards?:       string[]
+  onNpcTap?:        (dialogue: string) => void
+  interiorEnterRef?: React.MutableRefObject<((buildingId: string) => void) | null>
+  interiorExitRef?:  React.MutableRefObject<(() => void) | null>
+  onExitInterior?:   () => void
+}
+
+export function HubTownCanvas({
+  onAreaEnter, onNodeInteract, onAvatarMove,
+  returnRef, unitCards, onNpcTap,
+  interiorEnterRef, interiorExitRef, onExitInterior,
+}: Props) {
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
   onAreaRef.current       = onAreaEnter
@@ -48,6 +126,8 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
   onNpcTapRef.current     = onNpcTap
   const unitCardsRef      = useRef(unitCards)
   unitCardsRef.current    = unitCards
+  const onExitInteriorRef = useRef(onExitInterior)
+  onExitInteriorRef.current = onExitInterior
 
   usePixiApp(containerRef, MAP_W, MAP_H, (app) => {
     app.canvas.style.touchAction = 'pan-x pan-y'
@@ -60,8 +140,10 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
     const npcLayer      = new PIXI.Container()
     const avatarLayer   = new PIXI.Container()
     const worldLayer    = new PIXI.Container()
+    const interiorLayer = new PIXI.Container()  // top-most; hidden except when in a building
     worldLayer.sortableChildren = true
-    app.stage.addChild(groundLayer, streetLayer, buildingLayer, nodeLayer, npcLayer, avatarLayer, worldLayer)
+    interiorLayer.visible = false
+    app.stage.addChild(groundLayer, streetLayer, buildingLayer, nodeLayer, npcLayer, avatarLayer, worldLayer, interiorLayer)
 
     // ── Terrain ────────────────────────────────────────────────────────────────
     const baseContainer  = new PIXI.Container()
@@ -79,13 +161,9 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
     {
       const g = new PIXI.Graphics()
       const px = 5 * T, py = 34 * T + T / 2
-      // Deep water fill
       g.ellipse(px, py, 112, 56).fill({ color: 0x1a3a6a, alpha: 0.92 })
-      // Mid-water shimmer
       g.ellipse(px, py, 96, 44).fill({ color: 0x1e5090, alpha: 0.7 })
-      // Highlight
       g.ellipse(px - 24, py - 12, 32, 14).fill({ color: 0x5ab4e8, alpha: 0.22 })
-      // Shore fringe
       g.ellipse(px, py, 112, 56).stroke({ color: 0x2a6aaa, width: 2.5, alpha: 0.8 })
       groundLayer.addChild(g)
     }
@@ -127,6 +205,7 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
     let avatarBaseTexture: PIXI.Texture | null = null
     let avatarAnimTimer = 0
     let avatarAnimFrame = 0
+    let avatarInInterior = false
     const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
     const avatarSlug = loadPlayerAvatar()
     Promise.all([
@@ -139,8 +218,14 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
       const s = new PIXI.Sprite(baseTex)
       s.width = T; s.height = T
       s.anchor.set(0.5, 0.5)
-      s.position.set(COURTYARD_PX.x, COURTYARD_PX.y)
-      avatarLayer.addChild(s)
+      if (interiorActive) {
+        s.position.set(interiorCurrentTile[0] * T + T / 2, interiorCurrentTile[1] * T + T / 2)
+        interiorLayer.addChild(s)
+        avatarInInterior = true
+      } else {
+        s.position.set(COURTYARD_PX.x, COURTYARD_PX.y)
+        avatarLayer.addChild(s)
+      }
       avatar = s
     }).catch(e => console.error('[HubTownCanvas] avatar load failed', e))
 
@@ -171,7 +256,6 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
         npcContainer.addChild(s)
       }).catch(e => console.error(`[HubTownCanvas] NPC sprite failed: ${npc.sprite}`, e))
 
-      // "!" for dialogue NPCs, "▶" arrow for shop NPCs
       const indicator = new PIXI.Text({
         text:  npc.screen ? '▶' : '!',
         style: { fontSize: 10, fill: npc.screen ? '#88ddff' : '#ffdd44', fontFamily: 'monospace', fontWeight: 'bold' },
@@ -197,7 +281,7 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
     const cards = unitCardsRef.current ?? []
 
     if (cards.length > 0) {
-      const spawnCount = Math.min(NPC_SPAWN_TILES.length, cards.length * 3)  // allow repeats up to 3x
+      const spawnCount = Math.min(NPC_SPAWN_TILES.length, cards.length * 3)
       const slots = NPC_SPAWN_TILES.slice(0, Math.min(spawnCount, NPC_SPAWN_TILES.length))
 
       slots.forEach(([tx, ty], i) => {
@@ -221,7 +305,7 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
               currentTile: [tx, ty],
               walkQueue:   [],
               isWalking:   false,
-              wanderTimer: 500 + Math.random() * 500,   // initial delay 0.5–1 s
+              wanderTimer: 500 + Math.random() * 500,
               animFrames:  [],
               animTimer:   0,
               animFrame:   0,
@@ -261,13 +345,24 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
       if (!npc.isWalking) processNpcWalkQueue(npc)
     }
 
-    // ── Walk state ─────────────────────────────────────────────────────────────
+    // ── Exterior walk state ────────────────────────────────────────────────────
     let currentTile: [number, number] = [...AVATAR_START]
     let walkQueue:   [number, number][] = []
     let isWalking    = false
     let pendingScreen: string | null = null
 
-    // Linear tween (constant speed — no ease-in/out — for smooth chained walking).
+    // ── Interior state ─────────────────────────────────────────────────────────
+    let interiorActive      = false
+    let currentInteriorId: string | null = null
+    let interiorCurrentTile: [number, number] = [0, 0]
+    let interiorWalkable    = new Set<string>()
+    let interiorWalkQueue:  [number, number][] = []
+    let interiorIsWalking   = false
+    let interiorExitTile:   [number, number] = [0, 0]
+    let intOffX = 0
+    let intOffY = 0
+
+    // ── Tween (shared by exterior and interior walk) ───────────────────────────
     function tweenLinear(
       obj: PIXI.Container,
       targetX: number,
@@ -289,6 +384,194 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
       })
     }
 
+    // ── Interior exit ──────────────────────────────────────────────────────────
+    const doExitInterior = () => {
+      if (!interiorActive) return
+      interiorActive = false
+      interiorIsWalking = false
+      interiorWalkQueue = []
+
+      // Restore exterior
+      groundLayer.visible   = true
+      streetLayer.visible   = true
+      buildingLayer.visible = true
+      nodeLayer.visible     = true
+      npcLayer.visible      = true
+
+      // Move avatar back to exterior door position
+      if (avatar && avatarInInterior) {
+        interiorLayer.removeChild(avatar)
+        avatarLayer.addChild(avatar)
+        avatarInInterior = false
+        const door = HUB_DOORS.find(d => d.buildingId === currentInteriorId)
+        if (door) {
+          avatar.x = door.tx * T + T / 2
+          avatar.y = door.ty * T + T / 2
+          currentTile = [door.tx, door.ty]
+        }
+        onAvatarMoveRef.current(avatar.x, avatar.y)
+      }
+
+      interiorLayer.visible = false
+      interiorLayer.removeChildren()
+      currentInteriorId = null
+      onExitInteriorRef.current?.()
+    }
+
+    // ── Interior enter ─────────────────────────────────────────────────────────
+    const doEnterInterior = (buildingId: string) => {
+      const interior = HUB_INTERIORS[buildingId]
+      if (!interior) return
+
+      const intW = interior.width * T
+      const intH = interior.height * T
+      intOffX = Math.floor((MAP_W - intW) / 2)
+      intOffY = Math.floor((MAP_H - intH) / 2)
+
+      // Hide exterior layers
+      groundLayer.visible   = false
+      streetLayer.visible   = false
+      buildingLayer.visible = false
+      nodeLayer.visible     = false
+      npcLayer.visible      = false
+
+      // Prepare interior layer
+      interiorLayer.removeChildren()
+      interiorLayer.position.set(intOffX, intOffY)
+      interiorLayer.visible = true
+
+      // Dark background covering the full map (masks transparent canvas outside room)
+      const bg = new PIXI.Graphics()
+      bg.rect(-intOffX, -intOffY, MAP_W, MAP_H).fill({ color: 0x0a0a18, alpha: 1 })
+      interiorLayer.addChild(bg)
+
+      // Set interior state
+      const exitTx: number = Math.floor(interior.width / 2)
+      const entryTile: [number, number] = [exitTx, interior.height - 2]
+      interiorCurrentTile = entryTile
+      currentInteriorId   = buildingId
+      interiorExitTile    = [exitTx, interior.height - 1]
+      interiorActive      = true
+      interiorIsWalking   = false
+      interiorWalkQueue   = []
+
+      // Build walkable set
+      interiorWalkable = new Set<string>()
+      for (let tx = 1; tx < interior.width - 1; tx++)
+        for (let ty = 1; ty < interior.height - 1; ty++)
+          interiorWalkable.add(`${tx},${ty}`)
+      interiorWalkable.add(`${exitTx},${interior.height - 1}`)
+      for (const d of interior.decor) interiorWalkable.delete(`${d.tx},${d.ty}`)
+
+      // Floor tile set (all inner tiles + exit door tile)
+      const floorSet = new Set<string>()
+      for (let tx = 1; tx < interior.width - 1; tx++)
+        for (let ty = 1; ty < interior.height - 1; ty++)
+          floorSet.add(`${tx},${ty}`)
+      floorSet.add(`${exitTx},${interior.height - 1}`)  // exit door opening
+
+      // Wall tile set (border, minus exit door opening)
+      const wallSet = new Set<string>()
+      for (let tx = 0; tx < interior.width; tx++) {
+        wallSet.add(`${tx},0`)
+        wallSet.add(`${tx},${interior.height - 1}`)
+      }
+      for (let ty = 1; ty < interior.height - 1; ty++) {
+        wallSet.add(`0,${ty}`)
+        wallSet.add(`${interior.width - 1},${ty}`)
+      }
+      wallSet.delete(`${exitTx},${interior.height - 1}`)  // open door gap
+
+      // Render tile layers (async — tiles appear as they load)
+      const floorContainer = new PIXI.Container()
+      const wallContainer  = new PIXI.Container()
+      interiorLayer.addChild(floorContainer, wallContainer)
+
+      // Floor: proper interior tile from base chip sheet (wood, stone, parquet, etc.)
+      const floorTileId  = interior.floorTileId ?? 288  // default: woodFloor
+      const baseChipUrl  = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
+      loadTileTexture(baseChipUrl, floorTileId, TILESET_COLUMNS.baseChip).then(floorTex => {
+        if (!interiorActive || currentInteriorId !== buildingId) return
+        for (let tx = 1; tx < interior.width - 1; tx++) {
+          for (let ty = 1; ty < interior.height - 1; ty++) {
+            const s = new PIXI.Sprite(floorTex)
+            s.position.set(tx * T, ty * T)
+            floorContainer.addChild(s)
+          }
+        }
+        // Exit door tile also gets floor
+        const exitFloor = new PIXI.Sprite(floorTex)
+        exitFloor.position.set(exitTx * T, (interior.height - 1) * T)
+        floorContainer.addChild(exitFloor)
+      }).catch(() => {
+        renderPathTiles(floorContainer, floorSet, undefined, PATH_TILE.dirt1).catch(() => {})
+      })
+
+      // Walls: stone/brick border using path tile system
+      renderPathTiles(wallContainer, wallSet, undefined, PATH_TILE.wall2)
+        .catch(() => { /* wall tiles optional */ })
+
+      // Decor graphics
+      const decorGfx = new PIXI.Graphics()
+      for (const d of interior.decor) drawDecorPiece(decorGfx, d)
+      interiorLayer.addChild(decorGfx)
+
+      // Room name label
+      const nameLabel = new PIXI.Text({
+        text: interior.name,
+        style: { fontSize: 10, fill: '#c8e8c8', fontFamily: 'monospace' },
+      })
+      nameLabel.position.set(T + 4, 4)
+      interiorLayer.addChild(nameLabel)
+
+      // Exit marker
+      const exitMarker = new PIXI.Text({
+        text: '▼ EXIT',
+        style: { fontSize: 8, fill: '#88ff88', fontFamily: 'monospace', fontWeight: 'bold' },
+      })
+      exitMarker.anchor.set(0.5, 0)
+      exitMarker.position.set(exitTx * T + T / 2, (interior.height - 1) * T + 2)
+      interiorLayer.addChild(exitMarker)
+
+      // Move avatar into interior (on top of everything else)
+      if (avatar) {
+        if (!avatarInInterior) avatarLayer.removeChild(avatar)
+        avatar.x = entryTile[0] * T + T / 2
+        avatar.y = entryTile[1] * T + T / 2
+        interiorLayer.addChild(avatar)
+        avatarInInterior = true
+      }
+
+      // Scroll viewport to center on interior
+      onAvatarMoveRef.current(intOffX + entryTile[0] * T + T / 2, intOffY + entryTile[1] * T + T / 2)
+    }
+
+    if (interiorEnterRef) interiorEnterRef.current = doEnterInterior
+    if (interiorExitRef)  interiorExitRef.current  = doExitInterior
+
+    // ── Interior walk queue ────────────────────────────────────────────────────
+    async function processInteriorWalkQueue() {
+      if (interiorWalkQueue.length === 0) { interiorIsWalking = false; return }
+      interiorIsWalking = true
+      const [ntx, nty] = interiorWalkQueue.shift()!
+      const px = ntx * T + T / 2
+      const py = nty * T + T / 2
+      const av = avatar
+      if (!av) { interiorCurrentTile = [ntx, nty]; processInteriorWalkQueue(); return }
+      if (px < av.x - 1) av.scale.x = -1
+      else if (px > av.x + 1) av.scale.x = 1
+      const dist = Math.hypot(px - av.x, py - av.y)
+      await tweenLinear(av, px, py, (dist / WALK_PX_PER_S) * 1000)
+      interiorCurrentTile = [ntx, nty]
+      if (ntx === interiorExitTile[0] && nty === interiorExitTile[1]) {
+        interiorIsWalking = false
+        doExitInterior()
+        return
+      }
+      processInteriorWalkQueue()
+    }
+
+    // ── Exterior walk queue ────────────────────────────────────────────────────
     async function processWalkQueue() {
       if (walkQueue.length === 0) {
         isWalking = false
@@ -309,7 +592,6 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
       const dist     = Math.hypot(targetX - av.x, targetY - av.y)
       const duration = (dist / WALK_PX_PER_S) * 1000
 
-      // Flip sprite to face walk direction
       if (targetX < av.x - 1) av.scale.x = -1
       else if (targetX > av.x + 1) av.scale.x = 1
 
@@ -319,8 +601,8 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
       // Door detection — entering a building triggers interior view
       const door = HUB_DOORS.find(d => d.tx === currentTile[0] && d.ty === currentTile[1])
       if (door) {
-        isWalking = false
-        walkQueue = []
+        isWalking     = false
+        walkQueue     = []
         pendingScreen = null
         onNodeInteractRef.current(`interior:${door.buildingId}`)
         return
@@ -331,7 +613,7 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
 
     function startWalk(target: [number, number], nodeScreen?: string) {
       const path = findPath(currentTile, target, pathSet)
-      walkQueue = path.slice(1)    // drop start tile (avatar is already there)
+      walkQueue = path.slice(1)
       pendingScreen = nodeScreen ?? null
       if (!isWalking) processWalkQueue()
     }
@@ -341,16 +623,29 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
     app.stage.hitArea   = new PIXI.Rectangle(0, 0, MAP_W, MAP_H)
 
     app.stage.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-      const { x, y } = e.getLocalPosition(app.stage)
-      const tapTx = Math.floor(x / T)
-      const tapTy = Math.floor(y / T)
-
-      const node = HUB_NODES.find(n => n.tx === tapTx && n.ty === tapTy)
-      const target = nearestWalkable(x, y, pathSet, T)
-      startWalk(target, node?.screen)
+      if (interiorActive) {
+        const interior = HUB_INTERIORS[currentInteriorId!]
+        if (!interior) return
+        const { x, y } = e.getLocalPosition(interiorLayer)
+        const tapTx = Math.max(0, Math.min(interior.width - 1, Math.floor(x / T)))
+        const tapTy = Math.max(0, Math.min(interior.height - 1, Math.floor(y / T)))
+        const target: [number, number] = [tapTx, tapTy]
+        if (!interiorWalkable.has(`${tapTx},${tapTy}`)) return
+        const path = findInteriorPath(interiorCurrentTile, target, interiorWalkable)
+        interiorWalkQueue = path.slice(1)
+        if (!interiorIsWalking) processInteriorWalkQueue()
+      } else {
+        const { x, y } = e.getLocalPosition(app.stage)
+        const tapTx = Math.floor(x / T)
+        const tapTy = Math.floor(y / T)
+        const node   = HUB_NODES.find(n => n.tx === tapTx && n.ty === tapTy)
+        const target = nearestWalkable(x, y, pathSet, T)
+        startWalk(target, node?.screen)
+      }
     })
 
     app.stage.on('pointermove', (e: PIXI.FederatedPointerEvent) => {
+      if (interiorActive) return
       const { x, y } = e.getLocalPosition(app.stage)
       const area = HUB_AREAS.find(
         a => x >= a.x && x < a.x + a.w && y >= a.y && y < a.y + a.h,
@@ -361,6 +656,7 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
 
     // ── Return to courtyard ────────────────────────────────────────────────────
     if (returnRef) returnRef.current = () => {
+      if (interiorActive) doExitInterior()
       walkQueue     = []
       pendingScreen = null
       isWalking     = false
@@ -373,15 +669,20 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
     app.ticker.add((ticker) => {
       // Avatar animation + position report
       if (avatar) {
-        onAvatarMoveRef.current(avatar.x, avatar.y)
-        if (isWalking && avatarFrames.length > 0) {
+        // Report stage-space position (accounts for interior layer offset)
+        const reportX = avatarInInterior ? intOffX + avatar.x : avatar.x
+        const reportY = avatarInInterior ? intOffY + avatar.y : avatar.y
+        onAvatarMoveRef.current(reportX, reportY)
+
+        const walking = isWalking || interiorIsWalking
+        if (walking && avatarFrames.length > 0) {
           avatarAnimTimer -= ticker.deltaMS
           if (avatarAnimTimer <= 0) {
             avatarAnimTimer = 200
             avatarAnimFrame = (avatarAnimFrame + 1) % avatarFrames.length
             avatar.texture = avatarFrames[avatarAnimFrame]
           }
-        } else if (!isWalking && avatarBaseTexture && avatar.texture !== avatarBaseTexture) {
+        } else if (!walking && avatarBaseTexture && avatar.texture !== avatarBaseTexture) {
           avatar.texture = avatarBaseTexture
           avatarAnimTimer = 0
           avatarAnimFrame = 0
@@ -391,7 +692,6 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
       worldLayer.sortChildren()
 
       for (const npc of unitNpcs) {
-        // Walk animation
         if (npc.isWalking && npc.animFrames.length > 0) {
           npc.animTimer -= ticker.deltaMS
           if (npc.animTimer <= 0) {
@@ -404,7 +704,6 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
           npc.animFrame = 0
           npc.animTimer = 0
         }
-        // Wander
         if (!npc.isWalking) {
           npc.wanderTimer -= ticker.deltaMS
           if (npc.wanderTimer <= 0) {

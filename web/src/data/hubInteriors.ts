@@ -19,6 +19,7 @@ export interface HubInterior {
   width: number
   height: number
   decor: InteriorDecor[]
+  floorTileId?: number  // BASE_CHIP_TILES id for interior floor; defaults to woodFloor (288)
 }
 
 // Exterior door tiles — walking onto these triggers an interior transition.
@@ -31,12 +32,24 @@ export const HUB_DOORS: HubDoor[] = [
   { buildingId: 'trader-den',    tx: 11, ty: 26 },
 ]
 
+// BASE_CHIP_TILES floor tile IDs (from baseChipIndex.ts)
+const FLOOR = {
+  wood:       288,
+  stone:      289,
+  cobble:     290,
+  parquet:    304,
+  darkWood:   296,
+  darkStone:  297,
+  checkered:  292,
+} as const
+
 export const HUB_INTERIORS: Record<string, HubInterior> = {
   'card-shop': {
     id: 'card-shop',
     name: "Gildwyn's Card Emporium",
     width: 12,
     height: 9,
+    floorTileId: FLOOR.wood,
     decor: [
       { tx: 2, ty: 2, type: 'shelf' },
       { tx: 3, ty: 2, type: 'shelf' },
@@ -53,6 +66,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = {
     name: "Mira's Enchantment Studio",
     width: 12,
     height: 9,
+    floorTileId: FLOOR.darkStone,
     decor: [
       { tx: 2, ty: 2, type: 'desk', color: 0x6633aa },
       { tx: 5, ty: 3, type: 'table', color: 0x4422cc },
@@ -67,6 +81,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = {
     name: "Bramble's Supplies",
     width: 12,
     height: 9,
+    floorTileId: FLOOR.cobble,
     decor: [
       { tx: 2, ty: 2, type: 'barrel' },
       { tx: 3, ty: 2, type: 'barrel' },
@@ -83,6 +98,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = {
     name: "The Scholar's Hall",
     width: 14,
     height: 10,
+    floorTileId: FLOOR.checkered,
     decor: [
       { tx: 2, ty: 2, type: 'shelf' },
       { tx: 3, ty: 2, type: 'shelf' },
@@ -101,6 +117,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = {
     name: 'Your Quarters',
     width: 12,
     height: 9,
+    floorTileId: FLOOR.parquet,
     decor: [
       { tx: 2, ty: 2, type: 'bed' },
       { tx: 9, ty: 2, type: 'fireplace', color: 0xcc4400 },
@@ -115,6 +132,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = {
     name: "The Junk Trader's Den",
     width: 12,
     height: 9,
+    floorTileId: FLOOR.darkWood,
     decor: [
       { tx: 2, ty: 2, type: 'barrel' },
       { tx: 3, ty: 2, type: 'barrel' },

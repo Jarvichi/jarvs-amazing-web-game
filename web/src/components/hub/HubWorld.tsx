@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { HubTownCanvas } from './HubTownCanvas'
-import { HubInteriorCanvas } from './HubInteriorCanvas'
 import { AreaNameBadge } from './AreaNameBadge'
 import { HubReturnButton } from './HubReturnButton'
 import { HubDialogue } from './HubDialogue'
@@ -21,11 +20,13 @@ interface Props {
 }
 
 export function HubWorld({ onBack, onNavigate }: Props) {
-  const [currentArea,  setCurrentArea]  = useState<string | null>(null)
-  const [dialogueLine, setDialogueLine] = useState<string | null>(null)
-  const [interiorId,   setInteriorId]   = useState<string | null>(null)
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const returnRef = useRef(null) as React.MutableRefObject<(() => void) | null>
+  const [currentArea,    setCurrentArea]    = useState<string | null>(null)
+  const [dialogueLine,   setDialogueLine]   = useState<string | null>(null)
+  const [interiorActive, setInteriorActive] = useState(false)
+  const scrollRef       = useRef<HTMLDivElement>(null)
+  const returnRef       = useRef(null) as React.MutableRefObject<(() => void) | null>
+  const interiorEnterRef = useRef<((buildingId: string) => void) | null>(null)
+  const interiorExitRef  = useRef<(() => void) | null>(null)
 
   const unitCards = useMemo(() => {
     const deck    = loadDeck()
@@ -54,7 +55,9 @@ export function HubWorld({ onBack, onNavigate }: Props) {
 
   const handleNodeInteract = useCallback((screen: string) => {
     if (screen.startsWith('interior:')) {
-      setInteriorId(screen.slice(9))
+      const buildingId = screen.slice(9)
+      setInteriorActive(true)
+      interiorEnterRef.current?.(buildingId)
       return
     }
     onNavigate?.(screen)
@@ -62,6 +65,11 @@ export function HubWorld({ onBack, onNavigate }: Props) {
 
   const handleReturn = useCallback(() => {
     returnRef.current?.()
+  }, [])
+
+  const handleLeaveInterior = useCallback(() => {
+    interiorExitRef.current?.()
+    setInteriorActive(false)
   }, [])
 
   return (
@@ -81,28 +89,22 @@ export function HubWorld({ onBack, onNavigate }: Props) {
             returnRef={returnRef}
             unitCards={unitCards}
             onNpcTap={setDialogueLine}
+            interiorEnterRef={interiorEnterRef}
+            interiorExitRef={interiorExitRef}
+            onExitInterior={() => setInteriorActive(false)}
           />
         </div>
         <AreaNameBadge name={currentArea} />
         <HubReturnButton onClick={handleReturn} />
         <HubDialogue line={dialogueLine} onClose={() => setDialogueLine(null)} />
-        {interiorId && (
-          <div style={{
-            position: 'absolute', inset: 0,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: 'rgba(0,0,0,0.80)', zIndex: 10,
-          }}>
-            <div style={{ position: 'relative' }}>
-              <button
-                className="action-btn"
-                style={{ position: 'absolute', top: -36, right: 0, zIndex: 1 }}
-                onClick={() => setInteriorId(null)}
-              >
-                LEAVE
-              </button>
-              <HubInteriorCanvas buildingId={interiorId} onExit={() => setInteriorId(null)} />
-            </div>
-          </div>
+        {interiorActive && (
+          <button
+            className="action-btn"
+            style={{ position: 'absolute', top: 16, right: 16, zIndex: 10 }}
+            onClick={handleLeaveInterior}
+          >
+            LEAVE
+          </button>
         )}
       </div>
     </OverlayScreen>
