@@ -2507,7 +2507,7 @@ export default function App() {
           onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
           crystals={crystals}
           user={user}
-          commander={commander}
+          commander={commander ?? undefined}
           isSignedIn={user != null && !user.isAnonymous}
           onSignIn={() => setShowTitleLoginModal(true)}
           onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
