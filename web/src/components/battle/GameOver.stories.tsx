@@ -20,6 +20,19 @@ export const Victory: Story = {
     state: exampleGameState,
     winner: 'player',
     handicap: 1,
+    onOpenPack: fn(),
+    onPlayAgain: fn(),
+    onMainMenu: fn(),
+  },
+};
+
+export const VictoryRewardClaimed: Story = {
+  args: {
+    state: exampleGameState,
+    winner: 'player',
+    handicap: 1,
+    onOpenPack: fn(),
+    rewardClaimed: true,
     onPlayAgain: fn(),
     onMainMenu: fn(),
   },

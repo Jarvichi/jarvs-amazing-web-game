@@ -18,6 +18,8 @@ interface Props {
   /** Current opponent deck handicap (cards removed from enemy deck). */
   handicap: number
   onOpenPack?: () => void
+  /** True after the player has opened their reward pack (free play only). */
+  rewardClaimed?: boolean
   onPlayAgain: () => void
   onMainMenu: () => void
   /** If set, show an Abandon Run button (campaign mode only). */
@@ -51,7 +53,7 @@ const DRAW_ART = `  =====
   =====
   DRAW!`
 
-export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onMainMenu, campaignAbandon, quickPlayHint, showStreak, dailyChallengeState }: Props) {
+export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, onPlayAgain, onMainMenu, campaignAbandon, quickPlayHint, showStreak, dailyChallengeState }: Props) {
   const won  = winner === 'player'
   const draw = winner === 'draw'
   const isEndlessDefeat = !!state.endlessMode && !won && !draw
@@ -184,22 +186,32 @@ export function GameOver({ state, winner, handicap, onOpenPack, onPlayAgain, onM
       )}
 
       <div className="gameover-actions u-col u-items-c u-gap-5">
-        {won && onOpenPack && (
-          <button className="action-btn action-btn--large action-btn--gold" onClick={onOpenPack}>
-            ✦ OPEN PACK ✦
-          </button>
+        {won && onOpenPack ? (
+          rewardClaimed ? (
+            <>
+              <button className="action-btn" onClick={onPlayAgain}>[ Play Again ]</button>
+              <button className="action-btn" onClick={onMainMenu}>[ I'm Done ]</button>
+            </>
+          ) : (
+            <button className="action-btn action-btn--large action-btn--gold" onClick={onOpenPack}>
+              ✦ CLAIM REWARD ✦
+            </button>
+          )
+        ) : (
+          <>
+            <button className="action-btn" onClick={onPlayAgain}>
+              {campaignAbandon ? (won ? '[ Claim Reward ]' : '[ Retry Node ]') : '[ Play Again ]'}
+            </button>
+            {campaignAbandon && (
+              <button className="action-btn action-btn--danger gameover-abandon-btn u-text-sm" onClick={() => setConfirmAbandon(true)}>
+                [ Abandon Run ]
+              </button>
+            )}
+            <button className="action-btn" onClick={onMainMenu}>
+              [ Main Menu ]
+            </button>
+          </>
         )}
-        <button className="action-btn" onClick={onPlayAgain}>
-          {campaignAbandon ? (won ? '[ Claim Reward ]' : '[ Retry Node ]') : '[ Play Again ]'}
-        </button>
-        {campaignAbandon && (
-          <button className="action-btn action-btn--danger gameover-abandon-btn u-text-sm" onClick={() => setConfirmAbandon(true)}>
-            [ Abandon Run ]
-          </button>
-        )}
-        <button className="action-btn" onClick={onMainMenu}>
-          [ Main Menu ]
-        </button>
       </div>
       {confirmAbandon && campaignAbandon && (
         <ConfirmModal
