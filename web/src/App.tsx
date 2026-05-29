@@ -2505,6 +2505,7 @@ export default function App() {
           onBack={() => setScreen('settings')}
           onNavigate={(s) => { setReturnScreen('hubworld'); setScreen(s as Screen) }}
           crystals={crystals}
+          isSignedIn={user != null && !user.isAnonymous}
           onLoginToggle={() => setShowTitleLoginModal(true)}
           onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
         />

@@ -7,8 +7,6 @@ import { HubDialogue } from './HubDialogue'
 import { AVATAR_START, MAP_W, MAP_H } from '../../data/hubLayout'
 import { loadDeck } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
-import { useAuth } from '../../hooks/useAuth'
-
 const T = 32
 const INITIAL_SCROLL = {
   x: AVATAR_START[0] * T + T / 2,
@@ -20,12 +18,12 @@ interface Props {
   onBack:          () => void
   onNavigate?:     (screen: string) => void
   crystals?:       number
+  isSignedIn?:     boolean
   onLoginToggle?:  () => void
   onSignOut?:      () => void
 }
 
-export function HubWorld({ onBack, onNavigate, crystals = 0, onLoginToggle, onSignOut }: Props) {
-  const { user } = useAuth()
+export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false, onLoginToggle, onSignOut }: Props) {
   const [splashVisible, setSplashVisible] = useState(true)
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
@@ -90,8 +88,6 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, onLoginToggle, onSi
     interiorExitRef.current?.()
     setInteriorActive(false)
   }, [])
-
-  const isSignedIn = user != null && !user.isAnonymous
 
   return (
     <OverlayScreen onBack={onBack} title="HUB WORLD" subtitle="Coming soon">
