@@ -7,24 +7,30 @@ import { HubDialogue } from './HubDialogue'
 import { AVATAR_START, MAP_W, MAP_H } from '../../data/hubLayout'
 import { loadDeck } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
-
 const T = 32
 const INITIAL_SCROLL = {
   x: AVATAR_START[0] * T + T / 2,
   y: AVATAR_START[1] * T + T / 2,
 }
+const SPLASH_MS = 10_000
 
 interface Props {
-  onBack:       () => void
-  onNavigate?:  (screen: string) => void
+  onBack:          () => void
+  onNavigate?:     (screen: string) => void
+  crystals?:       number
+  isSignedIn?:     boolean
+  onLoginToggle?:  () => void
+  onSignOut?:      () => void
 }
 
-export function HubWorld({ onBack, onNavigate }: Props) {
+export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false, onLoginToggle, onSignOut }: Props) {
+  const [splashVisible, setSplashVisible] = useState(true)
+  const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
   const [dialogueLine,   setDialogueLine]   = useState<string | null>(null)
   const [interiorActive, setInteriorActive] = useState(false)
-  const scrollRef       = useRef<HTMLDivElement>(null)
-  const returnRef       = useRef(null) as React.MutableRefObject<(() => void) | null>
+  const scrollRef        = useRef<HTMLDivElement>(null)
+  const returnRef        = useRef(null) as React.MutableRefObject<(() => void) | null>
   const interiorEnterRef = useRef<((buildingId: string) => void) | null>(null)
   const interiorExitRef  = useRef<(() => void) | null>(null)
 
@@ -37,7 +43,19 @@ export function HubWorld({ onBack, onNavigate }: Props) {
       .map(c => c.name)
   }, [])
 
-  // Centre viewport on avatar's pixel position.
+  const deckCount = useMemo(() => loadDeck().length, [])
+
+  const dismissSplash = useCallback(() => {
+    setSplashFading(true)
+    setTimeout(() => setSplashVisible(false), 500)
+  }, [])
+
+  useEffect(() => {
+    const t = setTimeout(dismissSplash, SPLASH_MS)
+    return () => clearTimeout(t)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const handleAvatarMove = useCallback((px: number, py: number) => {
     const el = scrollRef.current
     if (!el) return
@@ -45,7 +63,6 @@ export function HubWorld({ onBack, onNavigate }: Props) {
     el.scrollTop  = py - el.clientHeight / 2
   }, [])
 
-  // Set initial scroll to courtyard on mount.
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
@@ -105,6 +122,28 @@ export function HubWorld({ onBack, onNavigate }: Props) {
           >
             LEAVE
           </button>
+        )}
+        {splashVisible && (
+          <div
+            className={`hub-splash${splashFading ? ' hub-splash--fading' : ''}`}
+            onClick={dismissSplash}
+          >
+            <h1 className="hub-splash__title">Jarv's Amazing<br />Web Game</h1>
+            <div className="hub-splash__stats">
+              <span>⚡ {crystals}</span>
+              <span>🃏 {deckCount}</span>
+            </div>
+            <div className="hub-splash__actions" onClick={e => e.stopPropagation()}>
+              <button className="action-btn" onClick={onBack}>SETTINGS</button>
+              <button
+                className="action-btn"
+                onClick={() => { dismissSplash(); isSignedIn ? onSignOut?.() : onLoginToggle?.() }}
+              >
+                {isSignedIn ? 'SIGN OUT' : 'SIGN IN'}
+              </button>
+            </div>
+            <p className="hub-splash__hint">tap to continue</p>
+          </div>
         )}
       </div>
     </OverlayScreen>

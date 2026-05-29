@@ -24,13 +24,10 @@ jobs:
         run: npm install
         working-directory: web
 
-      - name: Set Playwright browsers path
-        run: echo "PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/ms-playwright" >> $GITHUB_ENV
-
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
-          path: ~/.cache/ms-playwright
+          path: /opt/pw-browsers
           key: playwright-${{ runner.os }}-${{ hashFiles('web/package-lock.json') }}
 
       - name: Install Playwright browsers
