@@ -12,9 +12,10 @@ interface Props {
   crystals: number
   onCrystalsChanged: (n: number) => void
   onBack: () => void
+  onSignOut?: () => void
 }
 
-export function PlayerScreen({ crystals, onCrystalsChanged, onBack }: Props) {
+export function PlayerScreen({ crystals, onCrystalsChanged, onBack, onSignOut }: Props) {
   const [tab, setTab] = useState<PlayerTab>('stats')
   const achievementAlert = hasUnclaimedAchievements()
 
@@ -46,6 +47,11 @@ export function PlayerScreen({ crystals, onCrystalsChanged, onBack }: Props) {
           {tab === 'stats'        && <PlayerStatsScreen onBack={() => setTab('stats')} embedded />}
           {tab === 'inventory'    && <InventoryScreen onBack={() => setTab('stats')} onCrystalsChanged={onCrystalsChanged} embedded />}
         </div>
+        {onSignOut && (
+          <div className="player-signout-row">
+            <button className="title-auth-btn" onClick={onSignOut}>🔓 SIGN OUT</button>
+          </div>
+        )}
       </div>
     </OverlayScreen>
   )

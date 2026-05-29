@@ -322,7 +322,7 @@ export default function App() {
     if (savedRun && savedAct && isActComplete(savedAct, savedRun)) {
       return { screen: 'actcomplete' as Screen, gameState: null as GameState | null, run: savedRun, isCampaign: false }
     }
-    if (isHubWorldUnlocked() && loadHubDefault() !== 'title') return { screen: 'hubworld' as Screen, gameState: null as GameState | null, run: savedRun as RunState | null, isCampaign: false }
+    if (isHubWorldUnlocked() && loadHubDefault() !== 'title' && loadSkipIntro()) return { screen: 'hubworld' as Screen, gameState: null as GameState | null, run: savedRun as RunState | null, isCampaign: false }
     return { screen: (loadSkipIntro() ? 'title' : 'intro') as Screen, gameState: null as GameState | null, run: savedRun as RunState | null, isCampaign: false }
   })
 
@@ -2504,6 +2504,7 @@ export default function App() {
         <HubWorld
           onBack={() => setScreen('settings')}
           onNavigate={(s) => { setReturnScreen('hubworld'); setScreen(s as Screen) }}
+          onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
           crystals={crystals}
           user={user}
           isSignedIn={user != null && !user.isAnonymous}
@@ -2756,7 +2757,8 @@ export default function App() {
         <PlayerScreen
           crystals={crystals}
           onCrystalsChanged={handleCrystalsChanged}
-          onBack={() => setScreen('title')}
+          onBack={() => setScreen(returnScreen)}
+          onSignOut={user && !user.isAnonymous ? () => { import('firebase/auth').then(({ signOut }) => signOut(auth)) } : undefined}
         />
       )}
 

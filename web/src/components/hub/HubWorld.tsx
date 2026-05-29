@@ -29,15 +29,16 @@ let _hubSplashShown = false
 interface Props {
   onBack:          () => void
   onNavigate?:     (screen: string) => void
+  onPlayerTap?:    () => void
   crystals?:       number
   isSignedIn?:     boolean
-  user: User | null  
+  user: User | null
   onSignIn?:  () => void
   onSignOut?:      () => void
-    onFeedback: () => void
+  onFeedback: () => void
 }
 
-export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false, user, onSignIn: onLoginToggle, onSignOut, onFeedback }: Props) {
+export function HubWorld({ onBack, onNavigate, onPlayerTap, crystals = 0, isSignedIn = false, user, onSignIn: onLoginToggle, onSignOut, onFeedback }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
@@ -142,7 +143,7 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false,
             <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
             <ToolbarSpacer/>
      
-                 <LoginButton onSignIn={() => onLoginToggle} onSignOut={() =>onSignOut} user={user} playerName={playerName} />
+                 <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
           <ToolbarButton
             className="title-auth-btn"
             onClick={onFeedback}
