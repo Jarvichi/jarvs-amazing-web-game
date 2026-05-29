@@ -2,7 +2,7 @@ import React from 'react'
 export interface Props {
     title: React.ReactNode | string
       subtitle?: string
-    onBack: () => void
+    onBack?: () => void
     right?: React.ReactNode
 }
 

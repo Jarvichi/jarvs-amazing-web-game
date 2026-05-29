@@ -332,79 +332,116 @@ export const BASE_CHIP_TILES = {
     // memorial bot left, memorial bot right, striped awning support pillar bot, plain awning support pillar bot, empty pot of flowers,
 
     // Outdoor furniture / decor (verify exact IDs)
-    lampPostTop:    666,
-    lampPostBottom: 666,
-    benchLeft:      666,
-    benchRight:     666,
-    flowerPotLeft:  666,
-    flowerPotRight: 666,
+    lampPostTop:    907,
+    lampPostBottom: 915,
+    benchLeft:      848,
+    benchMiddle:    849,
+    benchRight:     850,
+    flowerPotLeft:  943,
+    flowerPotRight: 943,
 
     // Furniture sets (beds, tables, chairs) — verify exact IDs, 666 = placeholder
     // 4-tile royal bed (confirmed)
-    bedTopLeft:939,
-    bedTopRight:940,
-    bedBottonLeft:941,
-    bedBottomRight:942,
+    royalBedTopLeft:939,
+    royalBedTopRight:940,
+    royalBedBottonLeft:941,
+    royalBedBottomRight:942,
+    royalBedTopLeftOverlay:939,
+    royalBedTopRightOverlay:940,
+    royalBedBottonLeftOverlay:941,
+    royalBedBottomRightOverlay:942,
 
-    // 2-tile simple bed (horizontal, head on left side)
-    simpleBedHeadLeft:  666,
-    simpleBedFootLeft:  666,
-    // 2-tile simple bed (horizontal, head on right side)
-    simpleBedHeadRight: 666,
-    simpleBedFootRight: 666,
 
-    // Chairs (4 directions)
-    chairFacingDown:  666,
-    chairFacingUp:    666,
-    chairFacingLeft:  666,
-    chairFacingRight: 666,
+    // 2-tile bed (vertical, head on top side) - with overlay so npc can get into bed
+    simpleBedHead:  776, // decor layer
+    simpleBedFoot:  784, // decor layer
+    simpleBedHeadOverlay: 792, // above npc layer
+    simpleBedFootOverlay: 800, // above npc layer
 
-    // Tables (2×2 top-view)
-    smallTableTopLeft:     666,
-    smallTableTopRight:    666,
-    smallTableBottomLeft:  666,
-    smallTableBottomRight: 666,
-    roundTable:            666,
+    normalBedHead:  777, // decor layer
+    normalBedFoot:  785, // decor layer
+    normalBedHeadOverlay: 793, // above npc layer
+    normalBedFootOverlay: 801, // above npc layer
+
+    luxuryBedHead:  778, // decor layer
+    luxuryBedFoot:  786, // decor layer
+    luxuryBedHeadOverlay: 794, // above npc layer
+    luxuryBedFootOverlay: 802, // above npc layer
+
+    // Chairs 
+    stool:  724,
+    stoolDark:    754,
+    stoolWithCover:  755,
+    stoolWithPurpleCushion: 756,
+
+    // Tables (2×2 minimum top-view - can be tiled to make any size)
+    smallTableTopLeft:     717,
+    smallTableTopMiddle: 718,
+    smallTableTopRight:    719,
+    smallTableMiddleLeft:     725,
+    smallTableMiddleMiddle: 726,
+    smallTableMiddleRight:    727,
+    smallTableBottomLeft:  733,
+    smallTableBottomMiddle:  734,
+    smallTableBottomRight: 735,
+
+    roundTable:            716,
+    roundTableWithCloth:            747,
 
     // Bookshelf / shelf (2 tiles tall)
-    bookshelfTop:    666,
-    bookshelfBottom: 666,
+    bookshelfTop:    715,
+    bookshelfBottom: 723,
 
     // Counter / bar (single tile, top-view)
-    counterTop: 666,
+    counterTop: 691,
 
     // Desk (single tile)
-    deskTop: 666,
+    deskTop: 746,
 
-    // Fireplace (2 tiles tall)
-    fireplaceTop:    666,
-    fireplaceBottom: 666,
+    // Fireplace (3 tiles wide, 2 tiles tall)
+    fireplaceTopLeft:    832,
+    fireplaceTopMiddle:    833,
+    fireplaceTopRight:    834,
+    fireplaceBottomLeft: 840,
+    fireplaceBottomMiddle: 841,
+    fireplaceBottomRight: 842,
 
     // Candles / lighting
-    candlestick:  666,
+    candlestickUnlit:  1002,
+
+    candlestickLitTop:  905,
+    candlestickLitBottom:  1003,
     wallTorch:    666,
     floorLantern: 666,
 
     // Windows (placed in walls)
-    windowSmall: 666,
-    windowLarge: 666,
+    windowTop: 592,
+    windowBottom: 600,
+
+    // window 2 - 593, window 3 - 594, window 4 -595
+
+    // Internal windows - top 596 to 599, bottom 604 to 607
+
 
     // Interior doors (2 tiles tall)
-    doorTop:    666,
-    doorBottom: 666,
+    doorTop:    535,
+    doorBottom: 543,
 
     // Stairs
     stairsUp:   666,
     stairsDown: 666,
 
     // Decorative floor / wall items
-    rugTopLeft:     666,
-    rugTopRight:    666,
-    rugBottomLeft:  666,
-    rugBottomRight: 666,
+    rugTopLeft:     837,
+    // mid - 838
+    rugTopRight:    839,
+    // middle row 845,846,847
+    rugBottomLeft:  853,
+    // mid 854
+    rugBottomRight: 855,
     painting:       666,
-    mirrorTop:      666,
-    mirrorBottom:   666,
+    mirrorTop:      629,
+    mirrorBottom:   637,
 
     // Items that are placable on tables, etc
     closedBook: 952,
@@ -415,6 +452,139 @@ export const BASE_CHIP_TILES = {
     blackopenBook: 957,
     greenclosedBook: 958,
     greenopenBook: 959,
+
+
+    // Exterior Walls
+
+    // Wood Wall starts at 352
+    woodWallLeftTop:       352, woodWallMiddleTop:    353, woodWallRightTop:    354,
+    woodWallPillarTop:     355, woodWallShadowTop:    356,
+    woodWallDoorArchTop:   358, woodWallDoorTop:      359,
+    woodWallLeftBottom:    360, woodWallMiddleBottom: 361, woodWallRightBottom: 362,
+    woodWallPillarBottom:  363, woodWallShadowBottom: 364,
+    woodWallDoorBottom:    367,
+
+    // Tudor Frame starts at 368
+    tudorFrameLeftTop:       368, tudorFrameMiddleTop:    369, tudorFrameRightTop:    370,
+    tudorFramePillarTop:     371, tudorFrameShadowTop:    372,
+    tudorFrameDoorArchTop:   374, tudorFrameDoorTop:      375,
+    tudorFrameLeftBottom:    376, tudorFrameMiddleBottom: 377, tudorFrameRightBottom: 378,
+    tudorFramePillarBottom:  379, tudorFrameShadowBottom: 380,
+    tudorFrameDoorBottom:    383,
+
+    // Rendered Brick starts at 384
+    renderedBrickLeftTop:       384, renderedBrickMiddleTop:    385, renderedBrickRightTop:    386,
+    renderedBrickPillarTop:     387, renderedBrickShadowTop:    388,
+    renderedBrickDoorArchTop:   390, renderedBrickDoorTop:      391,
+    renderedBrickLeftBottom:    392, renderedBrickMiddleBottom: 393, renderedBrickRightBottom: 394,
+    renderedBrickPillarBottom:  395, renderedBrickShadowBottom: 396,
+    renderedBrickDoorBottom:    399,
+
+    // Brick starts at 400
+    brickLeftTop : 400, // Can be repeated for additional rows to add height
+    brickLeftBottom : 408,
+    brickMiddleTop : 401,
+    brickMiddleBottom : 409,
+    brickRightTop : 402,
+    brickRightBottom : 410,
+    brickPillarTop: 403,
+    brickPillarBottom: 411,
+    brickShadowTop: 404, // goes to teh right of the pilar for depth
+    brickShadowBottom: 412, // goes to teh right of the pilar for depth
+    brickDoorArchTop: 406, // Texture behind door decor
+    brickDoorTop: 407,
+    brickDoorBottom: 415,
+
+    // White Stone - 416
+    whiteStoneLeftTop:       416, whiteStoneMiddleTop:    417, whiteStoneRightTop:    418,
+    whiteStonePillarTop:     419, whiteStoneShadowTop:    420,
+    whiteStoneDoorArchTop:   422, whiteStoneDoorTop:      423,
+    whiteStoneLeftBottom:    424, whiteStoneMiddleBottom: 425, whiteStoneRightBottom: 426,
+    whiteStonePillarBottom:  427, whiteStoneShadowBottom: 428,
+    whiteStoneDoorBottom:    431,
+
+    // Dark Stone - 432
+    darkStoneLeftTop:       432, darkStoneMiddleTop:    433, darkStoneRightTop:    434,
+    darkStonePillarTop:     435, darkStoneShadowTop:    436,
+    darkStoneDoorArchTop:   438, darkStoneDoorTop:      439,
+    darkStoneLeftBottom:    440, darkStoneMiddleBottom: 441, darkStoneRightBottom: 442,
+    darkStonePillarBottom:  443, darkStoneShadowBottom: 444,
+    darkStoneDoorBottom:    447,
+
+    // Castle Stone - 448
+    castleStoneLeftTop:       448, castleStoneMiddleTop:    449, castleStoneRightTop:    450,
+    castleStonePillarTop:     451, castleStoneShadowTop:    452,
+    castleStoneDoorArchTop:   454, castleStoneDoorTop:      455,
+    castleStoneLeftBottom:    456, castleStoneMiddleBottom: 457, castleStoneRightBottom: 458,
+    castleStonePillarBottom:  459, castleStoneShadowBottom: 460,
+    castleStoneDoorBottom:    463,
+
+    // Ornate Stone - 464
+    ornateStoneLeftTop:       464, ornateStoneMiddleTop:    465, ornateStoneRightTop:    466,
+    ornateStonePillarTop:     467, ornateStoneShadowTop:    468,
+    ornateStoneDoorArchTop:   470, ornateStoneDoorTop:      471,
+    ornateStoneLeftBottom:    472, ornateStoneMiddleBottom: 473, ornateStoneRightBottom: 474,
+    ornateStonePillarBottom:  475, ornateStoneShadowBottom: 476,
+    ornateStoneDoorBottom:    479,
+
+    // Reinforced Stone - 480
+    reinforcedStoneLeftTop:       480, reinforcedStoneMiddleTop:    481, reinforcedStoneRightTop:    482,
+    reinforcedStonePillarTop:     483, reinforcedStoneShadowTop:    484,
+    reinforcedStoneDoorArchTop:   486, reinforcedStoneDoorTop:      487,
+    reinforcedStoneLeftBottom:    488, reinforcedStoneMiddleBottom: 489, reinforcedStoneRightBottom: 490,
+    reinforcedStonePillarBottom:  491, reinforcedStoneShadowBottom: 492,
+    reinforcedStoneDoorBottom:    495,
+
+    // Wooden Slats - 496
+    woodenSlatsLeftTop:       496, woodenSlatsMiddleTop:    497, woodenSlatsRightTop:    498,
+    woodenSlatsPillarTop:     499, woodenSlatsShadowTop:    500,
+    woodenSlatsDoorArchTop:   502, woodenSlatsDoorTop:      503,
+    woodenSlatsLeftBottom:    504, woodenSlatsMiddleBottom: 505, woodenSlatsRightBottom: 506,
+    woodenSlatsPillarBottom:  507, woodenSlatsShadowBottom: 508,
+    woodenSlatsDoorBottom:    511,
+
+    // Interior - Stiped Wallpaper - 512
+
+    // Interior - White walls - 528
+
+    // Prison Cell Railings - 544
+
+
+    // Roofs - 4 rows , repeat for width of building
+    woodRoofRow1 : 560,
+    woodRoofRow2 : 568,
+    woodRoofRow3 : 576,
+    woodRoofRow4 : 584,
+
+    yellowSlateRoofRow1 : 561,
+    yellowSlateRoofRow2 : 569,
+    yellowSlateRoofRow3 : 577,
+    yellowSlateRoofRow4 : 585,
+
+    blueSlateRoofRow1: 562,
+    blueSlateRoofRow2: 570,
+    blueSlateRoofRow3: 578,
+    blueSlateRoofRow4: 586,
+
+    redSlateRoofRow1: 563,
+    redSlateRoofRow2: 571,
+    redSlateRoofRow3: 579,
+    redSlateRoofRow4: 587,
+
+    greySlateRoofRow1 : 564,
+    greySlateRoofRow2 : 572,
+    greySlateRoofRow3 : 580,
+    greySlateRoofRow4 : 588,
+
+    metalRoofRow1 : 565,
+    metalRoofRow2 : 573,
+    metalRoofRow3 : 581,
+    metalRoofRow4 : 589,
+
+    strawRoofRow1 : 566,
+    strawRoofRow2 : 574,
+    strawRoofRow3 : 582,
+    strawRoofRow4 : 590,
 
 
 } as const

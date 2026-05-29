@@ -6,7 +6,9 @@ import { renderPathTiles } from '../../utils/tileLookup'
 import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileTexture } from '../../utils/pixiHelpers'
 import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
-import { MAP_W, MAP_H, HUB_AREAS, HUB_BUILDING_TILES, HUB_STREET_TILES, AVATAR_START } from '../../data/hubLayout'
+import { MAP_W, MAP_H, HUB_AREAS, HUB_STREET_TILES, HUB_BUILDINGS, AVATAR_START } from '../../data/hubLayout'
+import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
+import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS } from '../../data/hubNpcs'
 import { HUB_DOORS, HUB_INTERIORS } from '../../data/hubInteriors'
 import { EXTERIOR_DECOR } from '../../data/hubConfigLoader'
@@ -123,10 +125,98 @@ export function HubTownCanvas({
     renderPathTiles(streetLayer, pathSet, HUB_ENV)
       .catch(e => console.error('[HubTownCanvas] street tiles failed', e))
 
+    // Building tile set — derived from HUB_BUILDINGS, used for tap routing
+    const buildingSet = new Set<string>()
+    for (const b of HUB_BUILDINGS)
+      for (let tx = b.rect[0]; tx <= b.rect[2]; tx++)
+        for (let ty = b.rect[1]; ty <= b.rect[3]; ty++)
+          buildingSet.add(`${tx},${ty}`)
+
     // ── Buildings ──────────────────────────────────────────────────────────────
-    const buildingSet = new Set(HUB_BUILDING_TILES.map(([tx, ty]) => `${tx},${ty}`))
-    renderPathTiles(buildingLayer, buildingSet, undefined, PATH_TILE.wall2)
-      .catch(e => console.error('[HubTownCanvas] building tiles failed', e))
+    {
+      const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
+      const cols = TILESET_COLUMNS.baseChip
+
+      // Collect placements: tileId → [(tx, ty), …]
+      // Insertion order determines render order — wall tiles first, door tiles
+      // last so they overdraw the wall tiles at shared positions.
+      const placements = new Map<number, [number, number][]>()
+      const place = (tileId: number, tx: number, ty: number) => {
+        const list = placements.get(tileId) ?? []
+        list.push([tx, ty])
+        placements.set(tileId, list)
+      }
+
+      const fallbackPromises: Promise<void>[] = []
+
+      for (const building of HUB_BUILDINGS) {
+        const [x1, y1, x2, y2] = building.rect
+
+        if (!building.wall || !building.roof) {
+          const buildingTileSet = new Set<string>()
+          for (let tx = x1; tx <= x2; tx++)
+            for (let ty = y1; ty <= y2; ty++)
+              buildingTileSet.add(`${tx},${ty}`)
+          fallbackPromises.push(renderPathTiles(buildingLayer, buildingTileSet, undefined, PATH_TILE.wall2))
+          continue
+        }
+
+        const wall = building.wall as WallMaterial
+        const roof = building.roof as RoofMaterial
+        const roofTileIds = ROOF_TILES[roof]
+        const width = x2 - x1 + 1
+
+        // Roof pass — top 4 rows
+        for (let row = 0; row < ROOF_ROWS; row++)
+          for (let tx = x1; tx <= x2; tx++)
+            place(roofTileIds[row], tx, y1 + row)
+
+        // Wall pass — remaining rows (top tiles repeat for middle rows)
+        const firstWallRow = y1 + ROOF_ROWS
+        for (let ty = firstWallRow; ty <= y2; ty++) {
+          for (let tx = x1; tx <= x2; tx++) {
+            const isPillarCol = tx === x1 + 2 || tx === x2 - 2
+            const isShadowCol = width >= 5 && (tx === x1 + 3 || tx === x2 -1)
+            const isBottomRow =  ty === y2 
+            const drawRow = true
+            if (drawRow){            
+              const tileId = getWallTile(
+                wall, isBottomRow,
+                tx === x1,
+                isPillarCol,
+                isShadowCol,
+                tx === x2,
+              )
+              place(tileId, tx, ty)
+            }
+          }
+        }
+
+        // Door pass — south-facing doors, inserted after wall tiles so they overdraw
+        const wallTiles = WALL_TILES[wall]
+        for (const door of HUB_DOORS) {
+          if (door.ty !== y2 + 1 || door.tx < x1 || door.tx > x2) continue
+          place(wallTiles.doorArchTop, door.tx, y2 - 1)
+          place(wallTiles.doorTop,     door.tx, y2 - 1)
+          place(wallTiles.doorBottom,  door.tx, y2 - 0)
+        }
+      }
+
+      // Render: load each unique tileId once, reuse texture for all positions
+      for (const [tileId, positions] of placements) {
+        loadTileTexture(baseChipUrl, tileId, cols).then(tex => {
+          if (app.renderer == null) return
+          for (const [tx, ty] of positions) {
+            const s = new PIXI.Sprite(tex)
+            s.position.set(tx * T, ty * T)
+            s.width = T; s.height = T
+            buildingLayer.addChild(s)
+          }
+        }).catch(() => {})
+      }
+
+      Promise.all(fallbackPromises).catch(e => console.error('[HubTownCanvas] building tiles failed', e))
+    }
 
     // ── Exterior decor (tile sprites over streets/ground) ─────────────────────
     {

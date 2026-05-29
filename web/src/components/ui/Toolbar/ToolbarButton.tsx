@@ -6,7 +6,7 @@ export interface ToolbarButtonProps {
   active?: boolean
   disabled?: boolean
 
-  label: string
+  label?: string
   icon?: ReactNode
   locked?: boolean
 
@@ -32,7 +32,7 @@ export function ToolbarButton({ onClick, active, disabled, label, icon, locked, 
   return (
     <button className={cls} onClick={onClick} disabled={disabled} title={title} style={style}>
       {locked ? <div className="filter-btn-icon">🔒</div> : icon ? <div className="filter-btn-icon">{icon}</div> : null}
-      <span>{label}</span>
+      {label && <span>{label}</span>}
     </button>
   )
 }

@@ -9,6 +9,13 @@ import { loadDeck, loadCollection, deckTotalCards } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { loadSkipIntro } from '../screens/SettingsScreen'
 import { getSavedHubTile } from './HubTownCanvas'
+import { Toolbar } from '../ui/Toolbar/Toolbar'
+import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
+import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
+import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
+import { User } from 'firebase/auth'
+import { loadPlayerName } from '../../game/questline'
+import { LoginButton } from '../ui/LoginButton'
 const T = 32
 const INITIAL_SCROLL = {
   x: AVATAR_START[0] * T + T / 2,
@@ -24,11 +31,13 @@ interface Props {
   onNavigate?:     (screen: string) => void
   crystals?:       number
   isSignedIn?:     boolean
-  onLoginToggle?:  () => void
+  user: User | null  
+  onSignIn?:  () => void
   onSignOut?:      () => void
+    onFeedback: () => void
 }
 
-export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false, onLoginToggle, onSignOut }: Props) {
+export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false, user, onSignIn: onLoginToggle, onSignOut, onFeedback }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
@@ -38,6 +47,7 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false,
   const returnRef        = useRef(null) as React.MutableRefObject<(() => void) | null>
   const interiorEnterRef = useRef<((buildingId: string) => void) | null>(null)
   const interiorExitRef  = useRef<(() => void) | null>(null)
+    const playerName = loadPlayerName()
 
   const unitCards = useMemo(() => {
     const deck    = loadDeck()
@@ -46,6 +56,22 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false,
     return catalog
       .filter(c => c.cardType === 'unit' && names.has(c.name))
       .map(c => c.name)
+  }, [])
+
+
+  // Secret #9 — Wrong Save File: rare title-screen glitch showing fake stats
+  const [wrongSave, setWrongSave] = useState<{ cards: number; crystals: number; deck: number } | null>(null)
+  useEffect(() => {
+    if (Math.random() > 0.02) return  // 2% chance
+    const fake = {
+      cards:    Math.floor(Math.random() * catalogTotal),
+      crystals: Math.floor(Math.random() * 9999),
+      deck:     Math.floor(Math.random() * 10),
+    }
+    setWrongSave(fake)
+    const id = setTimeout(() => setWrongSave(null), 1800)
+    return () => clearTimeout(id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const { collectionCount, catalogTotal } = useMemo(() => {
@@ -109,7 +135,26 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false,
   }, [])
 
   return (
-    <OverlayScreen onBack={onBack} title="HUB WORLD" subtitle="Coming soon">
+    <OverlayScreen title="JARVS AMAZING WEB GAME">
+              <Toolbar>
+                
+            <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
+            <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
+            <ToolbarSpacer/>
+     
+                 <LoginButton onSignIn={() => onLoginToggle} onSignOut={() =>onSignOut} user={user} playerName={playerName} />
+          <ToolbarButton
+            className="title-auth-btn"
+            onClick={onFeedback}
+            title="Send feedback or report a bug"
+            icon={'🗣️'}
+          />
+          
+                      <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>
+
+          </Toolbar>
+
+
       <div
         className="nm-map nm-map--camp"
         style={{ position: 'relative', flex: 1, overflow: 'hidden' }}
@@ -131,7 +176,8 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false,
           />
         </div>
         <AreaNameBadge name={currentArea} />
-        <HubReturnButton onClick={handleReturn} />
+
+
         <HubDialogue line={dialogueLine} onClose={() => setDialogueLine(null)} />
         {interiorActive && (
           <button
@@ -144,21 +190,12 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false,
         )}
 
         {/* Persistent HUD — always visible */}
-        <div className="hub-hud">
+        {/* <div className="hub-hud">
           <div className="hub-hud__stats">
             <span>💎 {crystals}</span>
             <span>🃏 {collectionCount}/{catalogTotal}</span>
           </div>
-          <div className="hub-hud__actions">
-            <button className="action-btn hub-hud__btn" onClick={onBack}>⚙</button>
-            <button
-              className="action-btn hub-hud__btn"
-              onClick={() => isSignedIn ? onSignOut?.() : onLoginToggle?.()}
-            >
-              {isSignedIn ? 'OUT' : 'IN'}
-            </button>
-          </div>
-        </div>
+        </div> */}
 
         {splashVisible && (
           <div

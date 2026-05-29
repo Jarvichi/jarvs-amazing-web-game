@@ -12,5 +12,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     onBack: fn(),
+    onFeedback: fn(),
+    user: null,
   },
 }
