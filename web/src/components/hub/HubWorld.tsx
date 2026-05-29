@@ -8,6 +8,7 @@ import { AVATAR_START, MAP_W, MAP_H } from '../../data/hubLayout'
 import { loadDeck } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { loadSkipIntro } from '../screens/SettingsScreen'
+import { getSavedHubTile } from './HubTownCanvas'
 const T = 32
 const INITIAL_SCROLL = {
   x: AVATAR_START[0] * T + T / 2,
@@ -72,8 +73,11 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false,
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
-    el.scrollLeft = INITIAL_SCROLL.x - el.clientWidth  / 2
-    el.scrollTop  = INITIAL_SCROLL.y - el.clientHeight / 2
+    const saved = getSavedHubTile()
+    const px = saved ? saved[0] * T + T / 2 : INITIAL_SCROLL.x
+    const py = saved ? saved[1] * T + T / 2 : INITIAL_SCROLL.y
+    el.scrollLeft = px - el.clientWidth  / 2
+    el.scrollTop  = py - el.clientHeight / 2
   }, [])
 
   const handleNodeInteract = useCallback((screen: string) => {
