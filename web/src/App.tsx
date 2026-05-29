@@ -2504,6 +2504,9 @@ export default function App() {
         <HubWorld
           onBack={() => setScreen('settings')}
           onNavigate={(s) => { setReturnScreen('hubworld'); setScreen(s as Screen) }}
+          crystals={crystals}
+          onLoginToggle={() => setShowTitleLoginModal(true)}
+          onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
         />
       )}
 

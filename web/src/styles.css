@@ -14542,3 +14542,68 @@ html.light-mode .action-btn {
   color: #e8e8e8;
   font-family: monospace;
 }
+
+/* ── Hub World Splash Intro ────────────────────────────────────────────── */
+.hub-splash {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  background: rgba(14, 10, 8, 0.94);
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.hub-splash--fading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hub-splash__title {
+  font-size: clamp(2rem, 6vw, 4rem);
+  color: #f0d080;
+  text-align: center;
+  font-family: monospace;
+  font-weight: bold;
+  line-height: 1.2;
+  text-shadow: 0 0 32px rgba(240, 208, 128, 0.45), 0 2px 6px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.hub-splash__stats {
+  display: flex;
+  gap: 28px;
+  font-size: 1.1rem;
+  color: #c8b060;
+  font-family: monospace;
+  letter-spacing: 0.04em;
+}
+
+.hub-splash__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hub-splash__hint {
+  font-size: 0.78rem;
+  color: #5a4a2e;
+  font-family: monospace;
+  letter-spacing: 0.08em;
+  margin: 0;
+  animation: hub-splash-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes hub-splash-pulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
