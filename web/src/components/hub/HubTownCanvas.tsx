@@ -18,6 +18,9 @@ const T             = 32
 const WALK_PX_PER_S = 160
 const COURTYARD_PX  = { x: AVATAR_START[0] * T + T / 2, y: AVATAR_START[1] * T + T / 2 }
 
+let _savedTile: [number, number] | null = null
+export function getSavedHubTile(): [number, number] | null { return _savedTile }
+
 // ── Interior BFS pathfinder ────────────────────────────────────────────────────
 function findInteriorPath(
   from: [number, number],
@@ -171,7 +174,9 @@ export function HubTownCanvas({
         interiorLayer.addChild(s)
         avatarInInterior = true
       } else {
-        s.position.set(COURTYARD_PX.x, COURTYARD_PX.y)
+        const startTile: [number, number] = _savedTile ? [..._savedTile] : [...AVATAR_START]
+        currentTile = startTile
+        s.position.set(startTile[0] * T + T / 2, startTile[1] * T + T / 2)
         avatarLayer.addChild(s)
       }
       avatar = s
@@ -601,6 +606,7 @@ export function HubTownCanvas({
 
       await tweenLinear(av, targetX, targetY, duration)
       currentTile = [tx, ty]
+      _savedTile  = [tx, ty]
 
       // Update area name on each tile step (works on mobile where pointermove doesn't fire)
       const tilePixX = tx * T + T / 2
@@ -687,6 +693,7 @@ export function HubTownCanvas({
       pendingScreen = null
       isWalking     = false
       currentTile   = [...AVATAR_START]
+      _savedTile    = null
       if (avatar) { avatar.x = COURTYARD_PX.x; avatar.y = COURTYARD_PX.y }
       onAvatarMoveRef.current(COURTYARD_PX.x, COURTYARD_PX.y)
     }
