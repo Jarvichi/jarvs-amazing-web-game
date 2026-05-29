@@ -473,19 +473,27 @@
     },
     {
       "id": "campaign-gate",
-      "name": "Campaign Gate",
-      "sprite": "hub-npc-gate",
-      "tx": 37, "ty": 16,
+      "name": "War Herald Davos",
+      "sprite": "hub-npc-herald",
+      "tx": 35, "ty": 22,
       "screen": "title",
-      "dialogue": ["The battle awaits, Commander. Are you ready?"]
+      "dialogue": [
+        "The campaign banners are raised, Commander. Your forces await your orders.",
+        "Every great victory began with a single step forward. Ready when you are.",
+        "I have delivered the call to arms. The rest is in your hands, Commander."
+      ]
     },
     {
       "id": "quickbattle-gate",
-      "name": "Quick Battle",
-      "sprite": "hub-npc-gate",
-      "tx": 37, "ty": 32,
+      "name": "Pit Master Gorr",
+      "sprite": "hub-npc-arena",
+      "tx": 39, "ty": 22,
       "screen": "quickbattle",
-      "dialogue": ["Step forward for a swift engagement, Commander."]
+      "dialogue": [
+        "No time for speeches. Pick your opponent and let the cards decide.",
+        "The quick battle pits are open. Glory is one match away.",
+        "I've seen a thousand commanders step into the pit. How will you fare?"
+      ]
     },
     {
       "id": "minigames-npc",
@@ -578,11 +586,15 @@
     },
     {
       "id": "home-shelf",
-      "name": "Your Quarters",
-      "sprite": "hub-npc-gate",
+      "name": "Steward Maren",
+      "sprite": "hub-npc-elder",
       "tx": 19, "ty": 18,
       "screen": "home-shelf",
-      "dialogue": ["A place to rest and reflect, Commander."]
+      "dialogue": [
+        "Your quarters are just inside, Commander. I keep your things in order.",
+        "The shelf holds everything you've gathered on your journey.",
+        "Rest is just as important as battle. Your quarters await."
+      ]
     },
     {
       "id": "fishing-hole",
