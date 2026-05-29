@@ -33,7 +33,18 @@
     { "tile": [56, 11] },
     { "rect": [11, 25, 11, 26] },
     { "tile": [8,  22] },
-    { "tile": [11, 34] }
+    { "tile": [11, 34] },
+    { "rect": [47, 7, 65, 7] },
+    { "rect": [47, 20, 65, 20] },
+    { "rect": [14, 46, 14, 48] },
+    { "rect": [6, 48, 25, 48] },
+    { "rect": [17, 34, 25, 34] },
+    { "rect": [41, 26, 41, 48] },
+    { "rect": [42, 35, 48, 35] },
+    { "rect": [42, 48, 48, 48] },
+    { "rect": [57, 26, 57, 48] },
+    { "rect": [58, 35, 65, 35] },
+    { "rect": [58, 48, 65, 48] }
   ],
 
   "buildings": [
@@ -78,12 +89,22 @@
   ],
 
   "doors": [
-    { "buildingId": "card-shop",     "tx":  6, "ty": 11 },
-    { "buildingId": "augment-shop",  "tx": 14, "ty": 11 },
-    { "buildingId": "supply-shop",   "tx":  8, "ty": 22 },
-    { "buildingId": "scholars-hall", "tx": 56, "ty": 11 },
-    { "buildingId": "home",          "tx": 21, "ty": 20 },
-    { "buildingId": "trader-den",    "tx": 11, "ty": 34 }
+    { "buildingId": "card-shop",        "tx":  6, "ty": 11 },
+    { "buildingId": "augment-shop",     "tx": 14, "ty": 11 },
+    { "buildingId": "supply-shop",      "tx":  8, "ty": 22 },
+    { "buildingId": "scholars-hall",    "tx": 65, "ty": 20 },
+    { "buildingId": "home",             "tx": 21, "ty": 20 },
+    { "buildingId": "trader-den",       "tx": 11, "ty": 34 },
+    { "buildingId": "scholars-north-w", "tx": 47, "ty":  7 },
+    { "buildingId": "scholars-north-e", "tx": 65, "ty":  7 },
+    { "buildingId": "scholars-hall-w",  "tx": 47, "ty": 20 },
+    { "buildingId": "sw-building-b",    "tx":  6, "ty": 48 },
+    { "buildingId": "traders-building", "tx": 25, "ty": 34 },
+    { "buildingId": "market-building",  "tx": 25, "ty": 48 },
+    { "buildingId": "arcade-building-e","tx": 48, "ty": 35 },
+    { "buildingId": "arcade-building-w","tx": 48, "ty": 48 },
+    { "buildingId": "barracks-north",   "tx": 65, "ty": 35 },
+    { "buildingId": "barracks-south",   "tx": 65, "ty": 48 }
   ],
 
   "interiors": {
@@ -115,8 +136,8 @@
         { "tx": 5, "ty": 3, "tileId": "roundTable" },
         { "tx": 9, "ty": 2, "tileId": "bookshelfTop" },
         { "tx": 9, "ty": 3, "tileId": "bookshelfBottom" },
-        { "tx": 3, "ty": 5, "tileId": "candlestick" },
-        { "tx": 7, "ty": 5, "tileId": "candlestick" },
+        { "tx": 3, "ty": 5, "tileId": "candlestickLitBottom" },
+        { "tx": 7, "ty": 5, "tileId": "candlestickLitBottom" },
         { "tx": 2, "ty": 6, "tileId": "barrel" },
         { "tx": 8, "ty": 6, "tileId": "chest" }
       ]
@@ -158,8 +179,8 @@
         { "tx": 11, "ty": 3, "tileId": "bookshelfBottom" },
         { "tx": 5,  "ty": 5, "tileId": "deskTop" },
         { "tx": 7,  "ty": 5, "tileId": "deskTop" },
-        { "tx": 5,  "ty": 6, "tileId": "chairFacingUp" },
-        { "tx": 7,  "ty": 6, "tileId": "chairFacingUp" },
+        { "tx": 5,  "ty": 6, "tileId": "stool" },
+        { "tx": 7,  "ty": 6, "tileId": "stool" },
         { "tx": 3,  "ty": 7, "tileId": "roundTable" },
         { "tx": 10, "ty": 7, "tileId": "chest" }
       ]
@@ -169,16 +190,16 @@
       "width": 12, "height": 9,
       "floorTileId": "parquetFloor",
       "decor": [
-        { "tx": 2, "ty": 2, "tileId": "bedTopLeft" },
-        { "tx": 3, "ty": 2, "tileId": "bedTopRight" },
-        { "tx": 2, "ty": 3, "tileId": "bedBottonLeft" },
-        { "tx": 3, "ty": 3, "tileId": "bedBottomRight" },
-        { "tx": 9, "ty": 2, "tileId": "fireplaceTop" },
-        { "tx": 9, "ty": 3, "tileId": "fireplaceBottom" },
+        { "tx": 2, "ty": 2, "tileId": "simpleBedHead" },
+        { "tx": 3, "ty": 2, "tileId": "simpleBedHead" },
+        { "tx": 2, "ty": 3, "tileId": "simpleBedFoot" },
+        { "tx": 3, "ty": 3, "tileId": "simpleBedFoot" },
+        { "tx": 9, "ty": 2, "tileId": "fireplaceTopLeft" },
+        { "tx": 9, "ty": 3, "tileId": "fireplaceBottomLeft" },
         { "tx": 5, "ty": 4, "tileId": "roundTable" },
         { "tx": 6, "ty": 4, "tileId": "roundTable" },
-        { "tx": 5, "ty": 5, "tileId": "chairFacingDown" },
-        { "tx": 6, "ty": 5, "tileId": "chairFacingDown" },
+        { "tx": 5, "ty": 5, "tileId": "stool" },
+        { "tx": 6, "ty": 5, "tileId": "stool" },
         { "tx": 2, "ty": 6, "tileId": "chest" },
         { "tx": 9, "ty": 6, "tileId": "bookshelfTop" },
         { "tx": 9, "ty": 7, "tileId": "bookshelfBottom" }
@@ -199,6 +220,206 @@
         { "tx": 6,  "ty": 5, "tileId": "counterTop" },
         { "tx": 2,  "ty": 6, "tileId": "sack" },
         { "tx": 3,  "ty": 6, "tileId": "pileOfSacks" }
+      ]
+    },
+    "scholars-north-w": {
+      "name": "Northern Library Wing",
+      "width": 12, "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": [
+        { "tx": 2, "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 3, "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 4, "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 2, "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 3, "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 4, "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 8, "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 9, "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 8, "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 9, "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 6, "ty": 4, "tileId": "deskTop" },
+        { "tx": 3, "ty": 5, "tileId": "roundTable" },
+        { "tx": 9, "ty": 5, "tileId": "chest" }
+      ]
+    },
+    "scholars-north-e": {
+      "name": "Cartography Room",
+      "width": 12, "height": 8,
+      "floorTileId": "stoneFloor",
+      "decor": [
+        { "tx": 2, "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 2, "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 9, "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 9, "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 5, "ty": 3, "tileId": "roundTable" },
+        { "tx": 8, "ty": 2, "tileId": "deskTop" },
+        { "tx": 6, "ty": 5, "tileId": "deskTop" },
+        { "tx": 3, "ty": 5, "tileId": "chest" },
+        { "tx": 9, "ty": 5, "tileId": "barrel" }
+      ]
+    },
+    "scholars-hall-w": {
+      "name": "The Lecture Hall",
+      "width": 14, "height": 10,
+      "floorTileId": "checkeredFloor",
+      "decor": [
+        { "tx": 2,  "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 3,  "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 2,  "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 3,  "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 10, "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 11, "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 10, "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 11, "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 4,  "ty": 4, "tileId": "deskTop" },
+        { "tx": 6,  "ty": 4, "tileId": "deskTop" },
+        { "tx": 8,  "ty": 4, "tileId": "deskTop" },
+        { "tx": 4,  "ty": 5, "tileId": "stool" },
+        { "tx": 6,  "ty": 5, "tileId": "stool" },
+        { "tx": 8,  "ty": 5, "tileId": "stool" },
+        { "tx": 5,  "ty": 7, "tileId": "roundTable" },
+        { "tx": 9,  "ty": 7, "tileId": "chest" }
+      ]
+    },
+    "sw-building-b": {
+      "name": "The Wanderer's Rest",
+      "width": 12, "height": 9,
+      "floorTileId": "darkWoodFloor",
+      "decor": [
+        { "tx": 2,  "ty": 2, "tileId": "counterTop" },
+        { "tx": 3,  "ty": 2, "tileId": "counterTop" },
+        { "tx": 4,  "ty": 2, "tileId": "counterTop" },
+        { "tx": 9,  "ty": 2, "tileId": "barrel" },
+        { "tx": 10, "ty": 2, "tileId": "barrel" },
+        { "tx": 5,  "ty": 4, "tileId": "roundTable" },
+        { "tx": 7,  "ty": 4, "tileId": "roundTable" },
+        { "tx": 5,  "ty": 5, "tileId": "stool" },
+        { "tx": 7,  "ty": 5, "tileId": "stool" },
+        { "tx": 2,  "ty": 6, "tileId": "pileOfSacks" },
+        { "tx": 10, "ty": 6, "tileId": "barrel" }
+      ]
+    },
+    "traders-building": {
+      "name": "Merchant's Guild Hall",
+      "width": 14, "height": 8,
+      "floorTileId": "quarteredFloor",
+      "decor": [
+        { "tx": 2,  "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 3,  "ty": 2, "tileId": "bookshelfTop" },
+        { "tx": 2,  "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 3,  "ty": 3, "tileId": "bookshelfBottom" },
+        { "tx": 10, "ty": 2, "tileId": "chest" },
+        { "tx": 11, "ty": 2, "tileId": "chest" },
+        { "tx": 6,  "ty": 3, "tileId": "counterTop" },
+        { "tx": 7,  "ty": 3, "tileId": "counterTop" },
+        { "tx": 4,  "ty": 5, "tileId": "barrel" },
+        { "tx": 5,  "ty": 5, "tileId": "barrel" },
+        { "tx": 9,  "ty": 5, "tileId": "crate" },
+        { "tx": 10, "ty": 5, "tileId": "crate" },
+        { "tx": 3,  "ty": 6, "tileId": "roundTable" }
+      ]
+    },
+    "market-building": {
+      "name": "The Market Hall",
+      "width": 14, "height": 10,
+      "floorTileId": "cobblestoneFloor",
+      "decor": [
+        { "tx": 2,  "ty": 2, "tileId": "barrel" },
+        { "tx": 3,  "ty": 2, "tileId": "barrel" },
+        { "tx": 4,  "ty": 2, "tileId": "barrel" },
+        { "tx": 2,  "ty": 3, "tileId": "crate" },
+        { "tx": 10, "ty": 2, "tileId": "barrel" },
+        { "tx": 11, "ty": 2, "tileId": "barrel" },
+        { "tx": 12, "ty": 2, "tileId": "barrel" },
+        { "tx": 5,  "ty": 4, "tileId": "counterTop" },
+        { "tx": 6,  "ty": 4, "tileId": "counterTop" },
+        { "tx": 7,  "ty": 4, "tileId": "counterTop" },
+        { "tx": 8,  "ty": 4, "tileId": "counterTop" },
+        { "tx": 5,  "ty": 5, "tileId": "sack" },
+        { "tx": 8,  "ty": 5, "tileId": "sack" },
+        { "tx": 3,  "ty": 7, "tileId": "roundTable" },
+        { "tx": 10, "ty": 7, "tileId": "roundTable" },
+        { "tx": 3,  "ty": 8, "tileId": "chest" },
+        { "tx": 11, "ty": 7, "tileId": "openCrate" }
+      ]
+    },
+    "arcade-building-e": {
+      "name": "The Trophy Hall",
+      "width": 12, "height": 8,
+      "floorTileId": "checkeredFloor",
+      "decor": [
+        { "tx": 2,  "ty": 2, "tileId": "strongChest" },
+        { "tx": 3,  "ty": 2, "tileId": "goldChest" },
+        { "tx": 9,  "ty": 2, "tileId": "goldChest" },
+        { "tx": 10, "ty": 2, "tileId": "strongChest" },
+        { "tx": 5,  "ty": 4, "tileId": "roundTable" },
+        { "tx": 7,  "ty": 4, "tileId": "roundTable" },
+        { "tx": 5,  "ty": 5, "tileId": "stool" },
+        { "tx": 7,  "ty": 5, "tileId": "stool" },
+        { "tx": 2,  "ty": 5, "tileId": "chest" },
+        { "tx": 10, "ty": 5, "tileId": "chest" }
+      ]
+    },
+    "arcade-building-w": {
+      "name": "The Games Hall",
+      "width": 12, "height": 10,
+      "floorTileId": "redCarpetFloor",
+      "decor": [
+        { "tx": 3,  "ty": 3, "tileId": "roundTableWithCloth" },
+        { "tx": 8,  "ty": 3, "tileId": "roundTableWithCloth" },
+        { "tx": 3,  "ty": 4, "tileId": "stool" },
+        { "tx": 4,  "ty": 3, "tileId": "stool" },
+        { "tx": 8,  "ty": 4, "tileId": "stool" },
+        { "tx": 9,  "ty": 3, "tileId": "stool" },
+        { "tx": 5,  "ty": 6, "tileId": "roundTable" },
+        { "tx": 7,  "ty": 6, "tileId": "roundTable" },
+        { "tx": 2,  "ty": 6, "tileId": "barrel" },
+        { "tx": 10, "ty": 6, "tileId": "barrel" },
+        { "tx": 5,  "ty": 7, "tileId": "stool" },
+        { "tx": 7,  "ty": 7, "tileId": "stool" }
+      ]
+    },
+    "barracks-north": {
+      "name": "North Guard Barracks",
+      "width": 15, "height": 8,
+      "floorTileId": "darkStoneFloor",
+      "decor": [
+        { "tx": 2,  "ty": 2, "tileId": "simpleBedHead" },
+        { "tx": 2,  "ty": 3, "tileId": "simpleBedFoot" },
+        { "tx": 4,  "ty": 2, "tileId": "simpleBedHead" },
+        { "tx": 4,  "ty": 3, "tileId": "simpleBedFoot" },
+        { "tx": 10, "ty": 2, "tileId": "simpleBedHead" },
+        { "tx": 10, "ty": 3, "tileId": "simpleBedFoot" },
+        { "tx": 12, "ty": 2, "tileId": "simpleBedHead" },
+        { "tx": 12, "ty": 3, "tileId": "simpleBedFoot" },
+        { "tx": 7,  "ty": 4, "tileId": "deskTop" },
+        { "tx": 2,  "ty": 5, "tileId": "chest" },
+        { "tx": 12, "ty": 5, "tileId": "chest" },
+        { "tx": 6,  "ty": 5, "tileId": "barrel" },
+        { "tx": 8,  "ty": 5, "tileId": "barrel" }
+      ]
+    },
+    "barracks-south": {
+      "name": "South Training Hall",
+      "width": 15, "height": 10,
+      "floorTileId": "darkStoneFloor",
+      "decor": [
+        { "tx": 2,  "ty": 2, "tileId": "normalBedHead" },
+        { "tx": 2,  "ty": 3, "tileId": "normalBedFoot" },
+        { "tx": 4,  "ty": 2, "tileId": "normalBedHead" },
+        { "tx": 4,  "ty": 3, "tileId": "normalBedFoot" },
+        { "tx": 10, "ty": 2, "tileId": "normalBedHead" },
+        { "tx": 10, "ty": 3, "tileId": "normalBedFoot" },
+        { "tx": 12, "ty": 2, "tileId": "normalBedHead" },
+        { "tx": 12, "ty": 3, "tileId": "normalBedFoot" },
+        { "tx": 5,  "ty": 5, "tileId": "roundTable" },
+        { "tx": 9,  "ty": 5, "tileId": "roundTable" },
+        { "tx": 5,  "ty": 6, "tileId": "stool" },
+        { "tx": 9,  "ty": 6, "tileId": "stool" },
+        { "tx": 7,  "ty": 5, "tileId": "deskTop" },
+        { "tx": 2,  "ty": 7, "tileId": "chest" },
+        { "tx": 12, "ty": 7, "tileId": "chest" },
+        { "tx": 7,  "ty": 7, "tileId": "barrel" }
       ]
     }
   },
@@ -380,6 +601,138 @@
       "tx": 5, "ty": 35,
       "screen": "hub-fishing",
       "dialogue": ["The pond is calm today. Care to fish?"]
+    },
+    {
+      "id": "home-steward",
+      "name": "Steward Aldous",
+      "sprite": "hub-npc-elder",
+      "building": "home",
+      "tx": 4, "ty": 6,
+      "dialogue": [
+        "Welcome home, Commander. Your quarters are ready.",
+        "I have kept everything in order during your absence.",
+        "Rest here. Tomorrow's battles can wait."
+      ]
+    },
+    {
+      "id": "apprentice-lyss",
+      "name": "Apprentice Lyss",
+      "sprite": "hub-npc-scholar",
+      "building": "scholars-north-w",
+      "tx": 5, "ty": 4,
+      "dialogue": [
+        "I am cataloguing every tome in this wing. It may take years.",
+        "The northern library holds records predating the Fracture. Fascinating.",
+        "Please keep your voice down — scholars are studying."
+      ]
+    },
+    {
+      "id": "cartographer-bram",
+      "name": "Cartographer Bram",
+      "sprite": "hub-npc-scholar",
+      "building": "scholars-north-e",
+      "tx": 6, "ty": 4,
+      "dialogue": [
+        "Every shard of the Fracture has been mapped, but the maps keep changing.",
+        "I am charting safe passage routes through the ruins. Come back when it's done.",
+        "A good map can save your life, Commander."
+      ]
+    },
+    {
+      "id": "professor-aldric",
+      "name": "Professor Aldric",
+      "sprite": "hub-npc-scholar",
+      "building": "scholars-hall-w",
+      "tx": 7, "ty": 3,
+      "dialogue": [
+        "Welcome to my lecture hall. The next session begins shortly.",
+        "The study of Fracture shards is a discipline that demands precision.",
+        "Ask your questions, Commander. I have taught armies wiser than you."
+      ]
+    },
+    {
+      "id": "innkeeper-rosie",
+      "name": "Innkeeper Rosie",
+      "sprite": "hub-npc-merchant",
+      "building": "sw-building-b",
+      "tx": 3, "ty": 3,
+      "dialogue": [
+        "Welcome to the Wanderer's Rest! A warm meal and a dry bed awaits.",
+        "You look like you've seen better days, Commander. Rest up.",
+        "Rooms are cheap, ale is cheaper. Stay as long as you need."
+      ]
+    },
+    {
+      "id": "guild-master-ferryn",
+      "name": "Guild Master Ferryn",
+      "sprite": "hub-npc-merchant",
+      "building": "traders-building",
+      "tx": 7, "ty": 4,
+      "dialogue": [
+        "The Merchant's Guild has connections across every shard. We can help.",
+        "Trade is the lifeblood of any civilisation. Even one in pieces.",
+        "You want something? Name your price, Commander."
+      ]
+    },
+    {
+      "id": "market-warden-syla",
+      "name": "Market Warden Syla",
+      "sprite": "hub-npc-merchant",
+      "building": "market-building",
+      "tx": 6, "ty": 6,
+      "dialogue": [
+        "Everything is fairly priced here. No haggling.",
+        "The market never closes, Commander. Always something new.",
+        "I keep this hall running through chaos and war alike. That's my job."
+      ]
+    },
+    {
+      "id": "trophy-keeper-orin",
+      "name": "Trophy Keeper Orin",
+      "sprite": "hub-npc-elder",
+      "building": "arcade-building-e",
+      "tx": 6, "ty": 3,
+      "dialogue": [
+        "Every trophy here represents a hard-won victory.",
+        "Champions come and go, but their deeds are recorded forever.",
+        "Think you're good enough to earn a trophy? Prove it."
+      ]
+    },
+    {
+      "id": "games-host-zev",
+      "name": "Games Host Zev",
+      "sprite": "hub-npc-dealer",
+      "building": "arcade-building-w",
+      "tx": 6, "ty": 4,
+      "dialogue": [
+        "Step right up! The games never stop here.",
+        "Skill, luck, or cunning — what'll it be, Commander?",
+        "Every game is a battle. You look like you enjoy battles."
+      ]
+    },
+    {
+      "id": "guard-captain-thorin",
+      "name": "Guard Captain Thorin",
+      "sprite": "hub-npc-guard",
+      "building": "barracks-north",
+      "tx": 7, "ty": 3,
+      "dialogue": [
+        "The watch never sleeps, Commander. Neither do I.",
+        "My guards are the finest in the hub. Fracture or no Fracture.",
+        "Need security? My men are at your service."
+      ]
+    },
+    {
+      "id": "drill-sergeant-varn",
+      "name": "Drill Sergeant Varn",
+      "sprite": "hub-npc-soldier",
+      "building": "barracks-south",
+      "tx": 7, "ty": 4,
+      "dialogue": [
+        "Drop and give me twenty, Commander! Just kidding. What do you want?",
+        "This hall forges soldiers from raw recruits. No exceptions.",
+        "Training is the difference between victory and defeat. Remember that."
+      ]
     }
   ],
 

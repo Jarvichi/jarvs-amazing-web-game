@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- shadow -->
+  <ellipse cx="16" cy="29" rx="5" ry="2" fill="rgba(0,0,0,0.25)"/>
+  <!-- boots -->
+  <rect x="11" y="25" width="4" height="3" rx="1" fill="#3a2010"/>
+  <rect x="17" y="25" width="4" height="3" rx="1" fill="#3a2010"/>
+  <!-- trousers -->
+  <rect x="12" y="20" width="3" height="6" rx="1" fill="#4a5a3a"/>
+  <rect x="17" y="20" width="3" height="6" rx="1" fill="#4a5a3a"/>
+  <!-- uniform jacket -->
+  <rect x="10" y="12" width="12" height="9" rx="2" fill="#3a5a2a"/>
+  <!-- jacket buttons -->
+  <rect x="15" y="13" width="2" height="7" rx="1" fill="#2a4a1a"/>
+  <!-- belt -->
+  <rect x="9" y="19" width="14" height="2" rx="1" fill="#3a2010"/>
+  <!-- belt buckle -->
+  <rect x="14" y="19" width="4" height="2" rx="0" fill="#c8a020"/>
+  <!-- epaulettes -->
+  <rect x="8" y="12" width="4" height="3" rx="1" fill="#6a4a2a"/>
+  <rect x="20" y="12" width="4" height="3" rx="1" fill="#6a4a2a"/>
+  <!-- arms -->
+  <rect x="8" y="15" width="3" height="7" rx="1" fill="#3a5a2a"/>
+  <rect x="21" y="15" width="3" height="7" rx="1" fill="#3a5a2a"/>
+  <!-- head -->
+  <circle cx="16" cy="8" r="5" fill="#c8a070"/>
+  <!-- military cap -->
+  <rect x="11" y="3" width="10" height="5" rx="2" fill="#3a4a2a"/>
+  <rect x="9" y="6" width="14" height="2" rx="1" fill="#2a3a1a"/>
+  <!-- badge -->
+  <rect x="14" y="4" width="4" height="2" rx="1" fill="#c8a020"/>
+  <!-- eyes -->
+  <rect x="13" y="8" width="2" height="2" rx="1" fill="#1a0a00"/>
+  <rect x="17" y="8" width="2" height="2" rx="1" fill="#1a0a00"/>
+</svg>
