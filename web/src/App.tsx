@@ -372,6 +372,7 @@ export default function App() {
   const [packs, setPacks]         = useState<string[][]>([])
   const [handicap, setHandicap]   = useState<number>(loadHandicap)
   const [crystals, setCrystals]   = useState<number>(loadCrystals)
+  const [quickPlayRewardClaimed, setQuickPlayRewardClaimed] = useState(false)
 
   // Campaign run state
   const [run, setRun]                   = useState<RunState | null>(_startup.run)
@@ -807,6 +808,7 @@ export default function App() {
     }
     isCampaignRef.current       = false
     isDailyChallengeRef.current = false
+    setQuickPlayRewardClaimed(false)
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -2208,7 +2210,8 @@ export default function App() {
   const packBackScreenRef = useRef<Screen>('title')
 
   const handleOpenPack = useCallback(() => {
-    packBackScreenRef.current = 'title'
+    packBackScreenRef.current = 'playing'
+    setQuickPlayRewardClaimed(true)
     let pack: string[]
 
     switch(quickBattleModeRef.current) {
@@ -3076,6 +3079,7 @@ export default function App() {
             winner={gameState.phase.winner}
             handicap={handicap}
             onOpenPack={!isCampaignRef.current && gameState.phase.winner === 'player' ? handleOpenPack : undefined}
+            rewardClaimed={quickPlayRewardClaimed}
             onPlayAgain={isCampaignRef.current
               ? (gameState.phase.winner === 'player' ? handleCampaignWin : handleCampaignRetry)
               : isDailyChallengeRef.current
