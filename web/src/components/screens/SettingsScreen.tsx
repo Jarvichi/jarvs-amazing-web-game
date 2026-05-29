@@ -28,6 +28,7 @@ interface Props {
   onFeedbackAdmin?: () => void
   onHubWorld?: () => void
   onTitleScreen?: () => void
+  onCheckForUpdates?: () => void
 }
 
 const TEXT_SIZE_KEY      = 'jarv_text_size'
@@ -160,7 +161,7 @@ function exportLocalStorage(): void {
   URL.revokeObjectURL(url)
 }
 
-export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin, onHubWorld, onTitleScreen }: Props) {
+export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCrystalsChanged, onDevHandicapChanged, onGiftAdmin, onNewsAdmin, onCampaignAdmin, onFeedbackAdmin, onHubWorld, onTitleScreen, onCheckForUpdates }: Props) {
   const [soundOn,       setSoundOn]       = useState(isSoundEnabled)
   const [soundVolume,   setSoundVolumeState]   = useState(getSoundVolume)
   const [musicVolume,   setMusicVolumeState]   = useState(getMusicVolume)
@@ -174,6 +175,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
   const [battlePopups,  setBattlePopups]  = useState(loadBattlePopups)
   const [hubDefault,    setHubDefault]    = useState(loadHubDefault)
   const [confirmReset,  setConfirmReset]  = useState(false)
+  const [updateStatus,  setUpdateStatus]  = useState<'idle' | 'checking' | 'done'>('idle')
   const [importMsg,     setImportMsg]     = useState<string | null>(null)
   const [rollbarMsg,    setRollbarMsg]    = useState<string | null>(null)
   const importRef = useRef<HTMLInputElement>(null)
@@ -335,6 +337,12 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
     } catch (e) {
       setRollbarMsg(`Failed: ${String(e)}`)
     }
+  }
+
+  function handleCheckForUpdates() {
+    setUpdateStatus('checking')
+    onCheckForUpdates?.()
+    setTimeout(() => setUpdateStatus('done'), 3000)
   }
 
   return (
@@ -576,6 +584,22 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </div>
         </Section>
 
+        <Section bordered title="ALPHA FEATURES">
+          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+            <div>
+              <div className="settings-label">Hub World</div>
+              <div className="settings-sublabel">Explore a town hub with buildings, NPCs and quests</div>
+            </div>
+            {isHubWorldUnlocked() ? (
+              <span className="settings-value" style={{ color: '#44ff88' }}>✓ ENABLED</span>
+            ) : (
+              <button className="action-btn" onClick={() => { unlockHubWorld(); window.location.reload() }}>
+                UNLOCK
+              </button>
+            )}
+          </div>
+        </Section>
+
         {isHubWorldUnlocked() && (
           <Section bordered title="NAVIGATION">
             <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
@@ -757,6 +781,25 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
               </>
             )
           })()}
+          {onCheckForUpdates && (
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+              <div>
+                <div className="settings-label">Check for updates</div>
+                <div className="settings-sublabel">
+                  {updateStatus === 'idle'     && 'Manually fetch the latest version if auto-updates have failed'}
+                  {updateStatus === 'checking' && 'Checking...'}
+                  {updateStatus === 'done'     && 'Done. If a new version was found the game will reload automatically.'}
+                </div>
+              </div>
+              <button
+                className="action-btn"
+                onClick={handleCheckForUpdates}
+                disabled={updateStatus === 'checking'}
+              >
+                {updateStatus === 'checking' ? 'CHECKING...' : 'CHECK FOR UPDATES'}
+              </button>
+            </div>
+          )}
         </Section>
       </div>
       {showLoginModal && (
