@@ -33,7 +33,7 @@ interface Props {
   onPlayerTap?:    () => void
   crystals?:       number
   isSignedIn?:     boolean
-  commander: CommanderState
+  commander?: CommanderState
   user: User | null
   onSignIn?:  () => void
   onSignOut?:      () => void
