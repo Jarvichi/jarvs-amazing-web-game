@@ -1,4 +1,5 @@
 // Hub World building interiors — door positions and interior layouts.
+import { BASE_CHIP_TILES } from './tiles/baseChipIndex'
 
 export interface HubDoor {
   buildingId: string
@@ -19,6 +20,7 @@ export interface HubInterior {
   width: number
   height: number
   decor: InteriorDecor[]
+  floorTileId?: number  // BASE_CHIP_TILES id for interior floor; defaults to woodFloor (288)
 }
 
 // Exterior door tiles — walking onto these triggers an interior transition.
@@ -37,6 +39,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = {
     name: "Gildwyn's Card Emporium",
     width: 12,
     height: 9,
+    floorTileId: BASE_CHIP_TILES.woodFloor,
     decor: [
       { tx: 2, ty: 2, type: 'shelf' },
       { tx: 3, ty: 2, type: 'shelf' },
@@ -53,6 +56,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = {
     name: "Mira's Enchantment Studio",
     width: 12,
     height: 9,
+    floorTileId: BASE_CHIP_TILES.darkStoneFloor,
     decor: [
       { tx: 2, ty: 2, type: 'desk', color: 0x6633aa },
       { tx: 5, ty: 3, type: 'table', color: 0x4422cc },
@@ -67,6 +71,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = {
     name: "Bramble's Supplies",
     width: 12,
     height: 9,
+    floorTileId: BASE_CHIP_TILES.cobblestoneFloor,
     decor: [
       { tx: 2, ty: 2, type: 'barrel' },
       { tx: 3, ty: 2, type: 'barrel' },
@@ -83,6 +88,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = {
     name: "The Scholar's Hall",
     width: 14,
     height: 10,
+    floorTileId: BASE_CHIP_TILES.checkeredFloor,
     decor: [
       { tx: 2, ty: 2, type: 'shelf' },
       { tx: 3, ty: 2, type: 'shelf' },
@@ -101,6 +107,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = {
     name: 'Your Quarters',
     width: 12,
     height: 9,
+    floorTileId: BASE_CHIP_TILES.parquetFloor,
     decor: [
       { tx: 2, ty: 2, type: 'bed' },
       { tx: 9, ty: 2, type: 'fireplace', color: 0xcc4400 },
@@ -115,6 +122,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = {
     name: "The Junk Trader's Den",
     width: 12,
     height: 9,
+    floorTileId: BASE_CHIP_TILES.darkWoodFloor,
     decor: [
       { tx: 2, ty: 2, type: 'barrel' },
       { tx: 3, ty: 2, type: 'barrel' },
