@@ -7,6 +7,7 @@ import { HubDialogue } from './HubDialogue'
 import { AVATAR_START, MAP_W, MAP_H } from '../../data/hubLayout'
 import { loadDeck, loadCollection, deckTotalCards } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
+import { CommanderState } from '../../game/commander'
 import { loadSkipIntro } from '../screens/SettingsScreen'
 import { getSavedHubTile } from './HubTownCanvas'
 import { Toolbar } from '../ui/Toolbar/Toolbar'
@@ -32,13 +33,14 @@ interface Props {
   onPlayerTap?:    () => void
   crystals?:       number
   isSignedIn?:     boolean
+  commander?: CommanderState
   user: User | null
   onSignIn?:  () => void
   onSignOut?:      () => void
   onFeedback: () => void
 }
 
-export function HubWorld({ onBack, onNavigate, onPlayerTap, crystals = 0, isSignedIn = false, user, onSignIn: onLoginToggle, onSignOut, onFeedback }: Props) {
+export function HubWorld({ onBack, onNavigate, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
@@ -170,6 +172,7 @@ export function HubWorld({ onBack, onNavigate, onPlayerTap, crystals = 0, isSign
             onAvatarMove={handleAvatarMove}
             returnRef={returnRef}
             unitCards={unitCards}
+            commander={commander}
             onNpcTap={setDialogueLine}
             interiorEnterRef={interiorEnterRef}
             interiorExitRef={interiorExitRef}

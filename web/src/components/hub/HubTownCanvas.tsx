@@ -53,6 +53,7 @@ interface Props {
   onAvatarMove:     (px: number, py: number) => void
   returnRef?:       React.MutableRefObject<(() => void) | null>
   unitCards?:       string[]
+        commander?: CommanderState
   onNpcTap?:        (dialogue: string) => void
   interiorEnterRef?: React.MutableRefObject<((buildingId: string) => void) | null>
   interiorExitRef?:  React.MutableRefObject<(() => void) | null>
@@ -61,7 +62,7 @@ interface Props {
 
 export function HubTownCanvas({
   onAreaEnter, onNodeInteract, onAvatarMove,
-  returnRef, unitCards, onNpcTap,
+  returnRef, unitCards, commander, onNpcTap,
   interiorEnterRef, interiorExitRef, onExitInterior,
 }: Props) {
   const containerRef      = useRef<HTMLDivElement>(null)
@@ -363,10 +364,8 @@ export function HubTownCanvas({
       })
       npcLayer.addChild(npcContainer)
 
-      const npcSpriteSlug = isCommanderNpc ? avatarSlug : npc.sprite
-      const npcSpriteUrl  = isCommanderNpc
-        ? `${base}sprites/${avatarSlug}.svg`
-        : `${base}sprites/${npc.sprite}.svg`
+      const npcSpriteSlug = isCommanderNpc ? commander !== undefined ? commander.cardName : avatarSlug : npc.sprite
+      const npcSpriteUrl  = `${base}sprites/${npcSpriteSlug}.svg`
 
       loadTextureUrl(npcSpriteUrl).then(tex => {
         if (app.renderer == null) return
