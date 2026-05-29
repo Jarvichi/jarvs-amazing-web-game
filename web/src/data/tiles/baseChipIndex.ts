@@ -236,6 +236,23 @@ export const BASE_CHIP_TILES = {
     blueOrnateFloor: 317,
 
     // Many more tiles up to 656 for various decor, furniture, etc.
+    stoneCityWallTopBotton: 208,
+    stoneCityWallBotton: 209,
+    stoneCityWallRightBottom: 210,
+    stoneCityWallLeftBottom: 211,
+    stoneCityWallLeft: 212,
+    stoneCityWallLeftRightTop: 213,
+    stoneCityWallLeftRightBottom: 214,
+    stoneCityWallLeftRightTopBottom: 215,
+    stoneCityWallLeftRight: 216,
+    stoneCityWallTop: 217,
+    stoneCityWallTopRight: 218,
+    stoneCityWallLeftTop: 219,
+    stoneCityWallRight: 220,
+    stoneCityWallTopRightBottom: 221,
+    stoneCityWallLeftTopBottom: 222,
+    stoneCityWallIsolated: 223,
+
 
     // Shop Signs
     weaponsSign: 656    ,
@@ -314,7 +331,16 @@ export const BASE_CHIP_TILES = {
     // fountain bot left, bot middle, bot right,
     // memorial bot left, memorial bot right, striped awning support pillar bot, plain awning support pillar bot, empty pot of flowers, 
 
+    // Furniture sets (beds, tables,chairs)
+    // Note: if you need something insert it here and ill check the actul id
+    // Verify exact ids
+    bedTopLeft:939,
+    bedTopRight:940,
+    bedBottonLeft:941,
+    bedBottomRight:942,
 
+
+    // Items that are placable on tables,etc
     closedBook: 952,
     openBook: 953,
     blueclosedBook: 954,
