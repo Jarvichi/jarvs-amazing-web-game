@@ -2490,6 +2490,7 @@ export default function App() {
           onFeedbackAdmin={() => setScreen('feedbackAdmin')}
           onHubWorld={() => setScreen('hubworld')}
           onTitleScreen={() => setScreen('title')}
+          onCheckForUpdates={() => swRegRef.current?.update().catch(() => {})}
         />
       )}
 
