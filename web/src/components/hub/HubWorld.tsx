@@ -7,12 +7,16 @@ import { HubDialogue } from './HubDialogue'
 import { AVATAR_START, MAP_W, MAP_H } from '../../data/hubLayout'
 import { loadDeck } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
+import { loadSkipIntro } from '../screens/SettingsScreen'
 const T = 32
 const INITIAL_SCROLL = {
   x: AVATAR_START[0] * T + T / 2,
   y: AVATAR_START[1] * T + T / 2,
 }
 const SPLASH_MS = 10_000
+
+// Module-level flag: once dismissed in this session, never re-show
+let _hubSplashShown = false
 
 interface Props {
   onBack:          () => void
@@ -24,7 +28,7 @@ interface Props {
 }
 
 export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false, onLoginToggle, onSignOut }: Props) {
-  const [splashVisible, setSplashVisible] = useState(true)
+  const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
   const [dialogueLine,   setDialogueLine]   = useState<string | null>(null)
@@ -46,11 +50,13 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false,
   const deckCount = useMemo(() => loadDeck().length, [])
 
   const dismissSplash = useCallback(() => {
+    _hubSplashShown = true
     setSplashFading(true)
     setTimeout(() => setSplashVisible(false), 500)
   }, [])
 
   useEffect(() => {
+    if (!splashVisible) return
     const t = setTimeout(dismissSplash, SPLASH_MS)
     return () => clearTimeout(t)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,25 +129,33 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false,
             LEAVE
           </button>
         )}
+
+        {/* Persistent HUD — always visible */}
+        <div className="hub-hud">
+          <div className="hub-hud__stats">
+            <span>💎 {crystals}</span>
+            <span>🃏 {deckCount}</span>
+          </div>
+          <div className="hub-hud__actions">
+            <button className="action-btn hub-hud__btn" onClick={onBack}>⚙</button>
+            <button
+              className="action-btn hub-hud__btn"
+              onClick={() => isSignedIn ? onSignOut?.() : onLoginToggle?.()}
+            >
+              {isSignedIn ? 'OUT' : 'IN'}
+            </button>
+          </div>
+        </div>
+
         {splashVisible && (
           <div
             className={`hub-splash${splashFading ? ' hub-splash--fading' : ''}`}
             onClick={dismissSplash}
           >
-            <h1 className="hub-splash__title">Jarv's Amazing<br />Web Game</h1>
-            <div className="hub-splash__stats">
-              <span>⚡ {crystals}</span>
-              <span>🃏 {deckCount}</span>
-            </div>
-            <div className="hub-splash__actions" onClick={e => e.stopPropagation()}>
-              <button className="action-btn" onClick={onBack}>SETTINGS</button>
-              <button
-                className="action-btn"
-                onClick={() => { dismissSplash(); isSignedIn ? onSignOut?.() : onLoginToggle?.() }}
-              >
-                {isSignedIn ? 'SIGN OUT' : 'SIGN IN'}
-              </button>
-            </div>
+            <div className="title-logo">JARV'S</div>
+            <div className="title-subtitle">AMAZING WEB GAME</div>
+            <div className="title-logo-ornament">· · · · ·</div>
+            <div className="title-deck-info">{deckCount} cards &nbsp;·&nbsp; 💎 {crystals}</div>
             <p className="hub-splash__hint">tap to continue</p>
           </div>
         )}
