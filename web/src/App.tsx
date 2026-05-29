@@ -327,6 +327,7 @@ export default function App() {
   })
 
   const [screen, setScreen]             = useState<Screen>(_startup.screen)
+  const [returnScreen, setReturnScreen]  = useState<Screen>('title')
   const [miniGamesEntry, setMiniGamesEntry] = useState<'menu' | 'citybuilder'>('menu')
   const [showTitleLoginModal, setShowTitleLoginModal] = useState(false)
   const [feedbackOpen, setFeedbackOpen] = useState(false)
@@ -472,6 +473,11 @@ export default function App() {
   // linger into the next game (e.g. pause → Give Up → start new battle).
   useEffect(() => {
     if (screen !== 'playing') setIsUserPaused(false)
+  }, [screen])
+  // Reset returnScreen when the user lands on title so stale hub-origin doesn't
+  // affect screens reached later via the title screen's own navigation.
+  useEffect(() => {
+    if (screen === 'title') setReturnScreen('title')
   }, [screen])
   const { activeRareEvent, isGamePaused: isRareEventPaused, rollRareEvent, handleRareEventDone } = useRareEvents({
     gameState, screen, setGameState, setCrystals, setAchievementToasts,
@@ -2497,7 +2503,7 @@ export default function App() {
       {screen === 'hubworld' && (
         <HubWorld
           onBack={() => setScreen('settings')}
-          onNavigate={(s) => setScreen(s as Screen)}
+          onNavigate={(s) => { setReturnScreen('hubworld'); setScreen(s as Screen) }}
         />
       )}
 
@@ -2862,7 +2868,7 @@ export default function App() {
       )}
 
       {screen === 'codex' && (
-        <CodexScreen onDone={() => setScreen('title')} />
+        <CodexScreen onDone={() => setScreen(returnScreen)} />
       )}
 
       {screen === 'campaignvictory' && (
@@ -2887,7 +2893,7 @@ export default function App() {
       )}
 
       {screen === 'quickbattle' && (
-        <QuickBattleScreen onStartBattle={handlePlay} onBack={() => setScreen('title')} />
+        <QuickBattleScreen onStartBattle={handlePlay} onBack={() => setScreen(returnScreen)} />
       )}
 
       {screen === 'dailychallenge' && (
@@ -2901,7 +2907,7 @@ export default function App() {
       {screen === 'commander' && commander && (
         <CommanderScreen
           commander={commander}
-          onBack={() => { setCommander(loadCommander()); setScreen('title') }}
+          onBack={() => { setCommander(loadCommander()); setScreen(returnScreen) }}
           onRewardXp={(cardName, amount) => {
             const col = loadCollection()
             const updated = col.map(e =>
@@ -2944,7 +2950,7 @@ export default function App() {
           onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
           user={user}
           characterName={loadPlayerName()}
-          onBack={() => { setMiniGamesEntry('menu'); setScreen('title') }}
+          onBack={() => { setMiniGamesEntry('menu'); setScreen(returnScreen) }}
           initialSubScreen={miniGamesEntry}
         />
       )}
