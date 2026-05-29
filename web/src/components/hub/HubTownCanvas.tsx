@@ -16,6 +16,7 @@ import {
 } from '../../data/hubLayout'
 import { QUEST_GIVER_NPCS, NPC_SPAWN_TILES } from '../../data/hubNpcs'
 import { HUB_DOORS, HUB_INTERIORS, InteriorDecor } from '../../data/hubInteriors'
+import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { loadPlayerAvatar } from '../../game/questline'
 
 const HUB_ENV       = 'camp'
@@ -488,7 +489,7 @@ export function HubTownCanvas({
       interiorLayer.addChild(floorContainer, wallContainer)
 
       // Floor: proper interior tile from base chip sheet (wood, stone, parquet, etc.)
-      const floorTileId  = interior.floorTileId ?? 288  // default: woodFloor
+      const floorTileId  = interior.floorTileId ?? BASE_CHIP_TILES.woodFloor
       const baseChipUrl  = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
       loadTileTexture(baseChipUrl, floorTileId, TILESET_COLUMNS.baseChip).then(floorTex => {
         if (!interiorActive || currentInteriorId !== buildingId) return
