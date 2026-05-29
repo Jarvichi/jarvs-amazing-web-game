@@ -15,7 +15,7 @@ import {
   AVATAR_START,
 } from '../../data/hubLayout'
 import { QUEST_GIVER_NPCS, NPC_SPAWN_TILES } from '../../data/hubNpcs'
-import { HUB_DOORS, HUB_INTERIORS, InteriorDecor } from '../../data/hubInteriors'
+import { HUB_DOORS, HUB_INTERIORS } from '../../data/hubInteriors'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { loadPlayerAvatar } from '../../game/questline'
 
@@ -28,52 +28,38 @@ const NODE_GLOW   = 0x44aa44
 const NODE_FILL   = 0x1e2e1e
 const NODE_STROKE = 0x88cc88
 
-// ── Interior decor drawing ─────────────────────────────────────────────────────
-function drawDecorPiece(g: PIXI.Graphics, decor: InteriorDecor): void {
-  const x = decor.tx * T
-  const y = decor.ty * T
-  const col = decor.color
-  switch (decor.type) {
-    case 'shelf':
-      g.rect(x + 2, y + 4, T - 4, T - 12).fill(col ?? 0x8b5e3c)
-      g.rect(x + 2, y + 4, T - 4, 4).fill(col !== undefined ? Math.min(col + 0x222222, 0xffffff) : 0xaa7744)
-      break
-    case 'table':
-      g.rect(x + 4, y + 8, T - 8, T - 16).fill(col ?? 0x9b6f4a)
-      g.rect(x + 4, y + 8, T - 8, 3).fill(col !== undefined ? Math.min(col + 0x111111, 0xffffff) : 0xbb8855)
-      break
-    case 'counter':
-      g.rect(x + 2, y + 10, T - 4, T - 14).fill(col ?? 0x7a5c38)
-      g.rect(x + 2, y + 10, T - 4, 4).fill(col !== undefined ? Math.min(col + 0x222222, 0xffffff) : 0xaa8855)
-      break
-    case 'barrel':
-      g.ellipse(x + T / 2, y + T / 2, 10, 13).fill(col ?? 0x6b4c2a)
-      g.ellipse(x + T / 2, y + T / 2, 10, 13).stroke({ color: 0x3d2b15, width: 1.5 })
-      g.rect(x + T / 2 - 10, y + T / 2 - 2, 20, 2).fill(0x3d2b15)
-      break
-    case 'chest':
-      g.rect(x + 3, y + 8, T - 6, T - 14).fill(col ?? 0x7a5c38)
-      g.rect(x + 3, y + 8, T - 6, 5).fill(col !== undefined ? Math.min(col + 0x111111, 0xffffff) : 0xaa8040)
-      g.rect(x + T / 2 - 3, y + 10, 6, 6).fill(0xddaa22)
-      break
-    case 'desk':
-      g.rect(x + 2, y + 6, T - 4, T - 10).fill(col ?? 0x6b8b3c)
-      g.rect(x + 2, y + 6, T - 4, 3).fill(col !== undefined ? Math.min(col + 0x111111, 0xffffff) : 0x88aa55)
-      g.rect(x + 4, y + 9, T - 8, T - 16).fill(0x111a0a)
-      break
-    case 'bed':
-      g.rect(x + 2, y + 4, T - 4, T - 8).fill(col ?? 0x335588)
-      g.rect(x + 2, y + 4, T - 4, 8).fill(col !== undefined ? Math.min(col + 0x222222, 0xffffff) : 0x556688)
-      g.rect(x + 4, y + 6, T - 8, 4).fill(0xeeeeff)
-      break
-    case 'fireplace':
-      g.rect(x + 4, y + 4, T - 8, T - 8).fill(0x3a2010)
-      g.rect(x + 6, y + 12, T - 12, T - 18).fill(col ?? 0xcc4400)
-      g.rect(x + 8, y + 14, 4, 6).fill(0xffaa22)
-      g.rect(x + 14, y + 15, 4, 5).fill(0xff8800)
-      break
-  }
-}
+// ── Exterior decor placements ──────────────────────────────────────────────────
+const EXTERIOR_DECOR: { tx: number; ty: number; tileId: number }[] = [
+  // Courtyard well
+  { tx: 17, ty: 18, tileId: BASE_CHIP_TILES.stoneWell },
+  // Barrels / crates near market
+  { tx:  3, ty: 13, tileId: BASE_CHIP_TILES.barrel },
+  { tx:  4, ty: 13, tileId: BASE_CHIP_TILES.barrel },
+  { tx: 10, ty: 13, tileId: BASE_CHIP_TILES.crate },
+  // Traders' dock
+  { tx:  9, ty: 27, tileId: BASE_CHIP_TILES.crate },
+  { tx: 10, ty: 27, tileId: BASE_CHIP_TILES.barrel },
+  // Hay near outer wall
+  { tx: 25, ty: 14, tileId: BASE_CHIP_TILES.hayStack },
+  // Message board near scholars hall
+  { tx: 52, ty: 13, tileId: BASE_CHIP_TILES.messageBoardTopLeft },
+  { tx: 53, ty: 13, tileId: BASE_CHIP_TILES.messageBoardTopRight },
+  { tx: 52, ty: 14, tileId: BASE_CHIP_TILES.messageBoardBottomLeft },
+  { tx: 53, ty: 14, tileId: BASE_CHIP_TILES.messageBoardBottomRight },
+  // Shop signs above entrances
+  { tx:  6, ty: 10, tileId: BASE_CHIP_TILES.bookSign },
+  { tx: 14, ty: 10, tileId: BASE_CHIP_TILES.magicSign },
+  { tx:  8, ty: 13, tileId: BASE_CHIP_TILES.bagSign },
+  // Mailbox near home
+  { tx: 20, ty: 19, tileId: BASE_CHIP_TILES.mailBox },
+  // Lily pads in pond
+  { tx:  3, ty: 34, tileId: BASE_CHIP_TILES.smallLilypad },
+  { tx:  5, ty: 36, tileId: BASE_CHIP_TILES.largeLilypad },
+  { tx:  7, ty: 33, tileId: BASE_CHIP_TILES.smallLilypad },
+  // Rocks at pond edge
+  { tx:  1, ty: 35, tileId: BASE_CHIP_TILES.smallRock },
+  { tx:  9, ty: 37, tileId: BASE_CHIP_TILES.smallRock },
+]
 
 // ── Interior BFS pathfinder ────────────────────────────────────────────────────
 function findInteriorPath(
@@ -134,17 +120,20 @@ export function HubTownCanvas({
     app.canvas.style.touchAction = 'pan-x pan-y'
 
     // ── Layer hierarchy ────────────────────────────────────────────────────────
-    const groundLayer   = new PIXI.Container()
-    const streetLayer   = new PIXI.Container()
-    const buildingLayer = new PIXI.Container()
-    const nodeLayer     = new PIXI.Container()
-    const npcLayer      = new PIXI.Container()
-    const avatarLayer   = new PIXI.Container()
-    const worldLayer    = new PIXI.Container()
-    const interiorLayer = new PIXI.Container()  // top-most; hidden except when in a building
+    const groundLayer        = new PIXI.Container()
+    const streetLayer        = new PIXI.Container()
+    const exteriorDecorLayer = new PIXI.Container()
+    const buildingLayer      = new PIXI.Container()
+    const nodeLayer          = new PIXI.Container()
+    const npcLayer           = new PIXI.Container()
+    const avatarLayer        = new PIXI.Container()
+    const worldLayer         = new PIXI.Container()
+    const interiorLayer      = new PIXI.Container()  // top-most; hidden except when in a building
     worldLayer.sortableChildren = true
     interiorLayer.visible = false
-    app.stage.addChild(groundLayer, streetLayer, buildingLayer, nodeLayer, npcLayer, avatarLayer, worldLayer, interiorLayer)
+    app.stage.addChild(groundLayer, streetLayer, exteriorDecorLayer, buildingLayer, nodeLayer, npcLayer, avatarLayer, worldLayer, interiorLayer)
+
+    const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
 
     // ── Terrain ────────────────────────────────────────────────────────────────
     const baseContainer  = new PIXI.Container()
@@ -179,6 +168,29 @@ export function HubTownCanvas({
     renderPathTiles(buildingLayer, buildingSet, undefined, PATH_TILE.wall2)
       .catch(e => console.error('[HubTownCanvas] building tiles failed', e))
 
+    // ── Exterior decor (tile sprites over streets/ground) ─────────────────────
+    {
+      const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
+      const extByTile = new Map<number, [number, number][]>()
+      for (const d of EXTERIOR_DECOR) {
+        if (d.tileId === 666) continue
+        const list = extByTile.get(d.tileId) ?? []
+        list.push([d.tx, d.ty])
+        extByTile.set(d.tileId, list)
+      }
+      for (const [tileId, positions] of extByTile) {
+        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+          if (app.renderer == null) return
+          for (const [tx, ty] of positions) {
+            const s = new PIXI.Sprite(tex)
+            s.position.set(tx * T, ty * T)
+            s.width = T; s.height = T
+            exteriorDecorLayer.addChild(s)
+          }
+        }).catch(() => {})
+      }
+    }
+
     // ── Location nodes ─────────────────────────────────────────────────────────
     for (const node of HUB_NODES) {
       const cx = node.tx * T + T / 2
@@ -207,7 +219,6 @@ export function HubTownCanvas({
     let avatarAnimTimer = 0
     let avatarAnimFrame = 0
     let avatarInInterior = false
-    const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
     const avatarSlug = loadPlayerAvatar()
     Promise.all([
       loadTextureUrl(`${base}sprites/${avatarSlug}.svg`),
@@ -512,10 +523,27 @@ export function HubTownCanvas({
       renderPathTiles(wallContainer, wallSet, undefined, PATH_TILE.wall2)
         .catch(() => { /* wall tiles optional */ })
 
-      // Decor graphics
-      const decorGfx = new PIXI.Graphics()
-      for (const d of interior.decor) drawDecorPiece(decorGfx, d)
-      interiorLayer.addChild(decorGfx)
+      // Decor — tile sprites from base chip sheet
+      const decorContainer = new PIXI.Container()
+      interiorLayer.addChild(decorContainer)
+      const byTileId = new Map<number, [number, number][]>()
+      for (const d of interior.decor) {
+        if (d.tileId === 666) continue
+        const list = byTileId.get(d.tileId) ?? []
+        list.push([d.tx, d.ty])
+        byTileId.set(d.tileId, list)
+      }
+      for (const [tileId, positions] of byTileId) {
+        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+          if (!interiorActive || currentInteriorId !== buildingId) return
+          for (const [dtx, dty] of positions) {
+            const s = new PIXI.Sprite(tex)
+            s.width = T; s.height = T
+            s.position.set(dtx * T, dty * T)
+            decorContainer.addChild(s)
+          }
+        }).catch(() => {})
+      }
 
       // Room name label
       const nameLabel = new PIXI.Text({
