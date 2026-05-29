@@ -37,21 +37,21 @@
   ],
 
   "buildings": [
-    { "rect": [1,  1, 16, 10], "id": "main-building",      "wall": "brick", "roof": "woodRoof" },
-    { "rect": [1, 15, 16, 21], "id": "south-building",     "wall": "brick", "roof": "redSlateRoof" },
-    { "rect": [21,  5, 31, 19], "id": "home-building",     "wall": "brick", "roof": "yellowSlateRoof" },
-    { "rect": [41,  1, 53,  6], "id": "scholars-north-w",  "wall": "brick", "roof": "blueSlateRoof" },
-    { "rect": [58,  1, 72,  6], "id": "scholars-north-e",  "wall": "brick", "roof": "blueSlateRoof" },
-    { "rect": [41, 11, 53, 19], "id": "scholars-hall-w",   "wall": "brick", "roof": "blueSlateRoof" },
-    { "rect": [58, 11, 72, 19], "id": "scholars-hall-e",   "wall": "brick", "roof": "blueSlateRoof" },
-    { "rect": [1, 27, 12, 33], "id": "sw-building-a",      "wall": "brick", "roof": "greySlateRoof" },
-    { "rect": [1, 38, 12, 47], "id": "sw-building-b",      "wall": "brick", "roof": "strawRoof" },
-    { "rect": [17, 27, 32, 33], "id": "traders-building",  "wall": "brick", "roof": "metalRoof" },
-    { "rect": [17, 38, 32, 47], "id": "market-building",   "wall": "brick", "roof": "greySlateRoof" },
-    { "rect": [42, 38, 53, 47], "id": "arcade-building-w", "wall": "brick", "roof": "strawRoof" },
-    { "rect": [58, 27, 72, 34], "id": "barracks-north",    "wall": "brick", "roof": "greySlateRoof" },
-    { "rect": [58, 38, 72, 47], "id": "barracks-south",    "wall": "brick", "roof": "greySlateRoof" },
-    { "rect": [42, 27, 53, 34], "id": "arcade-building-e", "wall": "brick", "roof": "yellowSlateRoof" }
+    { "rect": [1,  1, 16, 10], "id": "main-building",      "wall": "brick",           "roof": "woodRoof" },
+    { "rect": [1, 15, 16, 21], "id": "south-building",     "wall": "woodenSlats",     "roof": "redSlateRoof" },
+    { "rect": [21,  5, 31, 19], "id": "home-building",     "wall": "woodWall",        "roof": "yellowSlateRoof" },
+    { "rect": [41,  1, 53,  6], "id": "scholars-north-w",  "wall": "castleStone",     "roof": "blueSlateRoof" },
+    { "rect": [58,  1, 72,  6], "id": "scholars-north-e",  "wall": "castleStone",     "roof": "blueSlateRoof" },
+    { "rect": [41, 11, 53, 19], "id": "scholars-hall-w",   "wall": "ornateStone",     "roof": "blueSlateRoof" },
+    { "rect": [58, 11, 72, 19], "id": "scholars-hall-e",   "wall": "ornateStone",     "roof": "blueSlateRoof" },
+    { "rect": [1, 27, 12, 33], "id": "sw-building-a",      "wall": "darkStone",       "roof": "greySlateRoof" },
+    { "rect": [1, 38, 12, 47], "id": "sw-building-b",      "wall": "renderedBrick",   "roof": "strawRoof" },
+    { "rect": [17, 27, 32, 33], "id": "traders-building",  "wall": "tudorFrame",      "roof": "metalRoof" },
+    { "rect": [17, 38, 32, 47], "id": "market-building",   "wall": "renderedBrick",   "roof": "greySlateRoof" },
+    { "rect": [42, 38, 53, 47], "id": "arcade-building-w", "wall": "tudorFrame",      "roof": "strawRoof" },
+    { "rect": [58, 27, 72, 34], "id": "barracks-north",    "wall": "reinforcedStone", "roof": "greySlateRoof" },
+    { "rect": [58, 38, 72, 47], "id": "barracks-south",    "wall": "reinforcedStone", "roof": "greySlateRoof" },
+    { "rect": [42, 27, 53, 34], "id": "arcade-building-e", "wall": "whiteStone",      "roof": "yellowSlateRoof" }
   ],
 
   "exteriorDecor": [

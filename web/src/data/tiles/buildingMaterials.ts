@@ -2,7 +2,17 @@ import { BASE_CHIP_TILES } from './baseChipIndex'
 
 const T = BASE_CHIP_TILES
 
-export type WallMaterial = 'brick'
+export type WallMaterial =
+  | 'brick'
+  | 'woodWall'
+  | 'tudorFrame'
+  | 'renderedBrick'
+  | 'whiteStone'
+  | 'darkStone'
+  | 'castleStone'
+  | 'ornateStone'
+  | 'reinforcedStone'
+  | 'woodenSlats'
 export type RoofMaterial =
   | 'woodRoof'
   | 'yellowSlateRoof'
@@ -39,6 +49,123 @@ export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
     doorArchTop:  T.brickDoorArchTop,
     doorTop:      T.brickDoorTop,
     doorBottom:   T.brickDoorBottom,
+  },
+  woodWall: {
+    pillarTop:    T.woodWallPillarTop,
+    shadowTop:    T.woodWallShadowTop,
+    middleTop:    T.woodWallMiddleTop,
+    rightTop:     T.woodWallRightTop,
+    pillarBottom: T.woodWallPillarBottom,
+    shadowBottom: T.woodWallShadowBottom,
+    middleBottom: T.woodWallMiddleBottom,
+    rightBottom:  T.woodWallRightBottom,
+    doorArchTop:  T.woodWallDoorArchTop,
+    doorTop:      T.woodWallDoorTop,
+    doorBottom:   T.woodWallDoorBottom,
+  },
+  tudorFrame: {
+    pillarTop:    T.tudorFramePillarTop,
+    shadowTop:    T.tudorFrameShadowTop,
+    middleTop:    T.tudorFrameMiddleTop,
+    rightTop:     T.tudorFrameRightTop,
+    pillarBottom: T.tudorFramePillarBottom,
+    shadowBottom: T.tudorFrameShadowBottom,
+    middleBottom: T.tudorFrameMiddleBottom,
+    rightBottom:  T.tudorFrameRightBottom,
+    doorArchTop:  T.tudorFrameDoorArchTop,
+    doorTop:      T.tudorFrameDoorTop,
+    doorBottom:   T.tudorFrameDoorBottom,
+  },
+  renderedBrick: {
+    pillarTop:    T.renderedBrickPillarTop,
+    shadowTop:    T.renderedBrickShadowTop,
+    middleTop:    T.renderedBrickMiddleTop,
+    rightTop:     T.renderedBrickRightTop,
+    pillarBottom: T.renderedBrickPillarBottom,
+    shadowBottom: T.renderedBrickShadowBottom,
+    middleBottom: T.renderedBrickMiddleBottom,
+    rightBottom:  T.renderedBrickRightBottom,
+    doorArchTop:  T.renderedBrickDoorArchTop,
+    doorTop:      T.renderedBrickDoorTop,
+    doorBottom:   T.renderedBrickDoorBottom,
+  },
+  whiteStone: {
+    pillarTop:    T.whiteStonePillarTop,
+    shadowTop:    T.whiteStoneShadowTop,
+    middleTop:    T.whiteStoneMiddleTop,
+    rightTop:     T.whiteStoneRightTop,
+    pillarBottom: T.whiteStonePillarBottom,
+    shadowBottom: T.whiteStoneShadowBottom,
+    middleBottom: T.whiteStoneMiddleBottom,
+    rightBottom:  T.whiteStoneRightBottom,
+    doorArchTop:  T.whiteStoneDoorArchTop,
+    doorTop:      T.whiteStoneDoorTop,
+    doorBottom:   T.whiteStoneDoorBottom,
+  },
+  darkStone: {
+    pillarTop:    T.darkStonePillarTop,
+    shadowTop:    T.darkStoneShadowTop,
+    middleTop:    T.darkStoneMiddleTop,
+    rightTop:     T.darkStoneRightTop,
+    pillarBottom: T.darkStonePillarBottom,
+    shadowBottom: T.darkStoneShadowBottom,
+    middleBottom: T.darkStoneMiddleBottom,
+    rightBottom:  T.darkStoneRightBottom,
+    doorArchTop:  T.darkStoneDoorArchTop,
+    doorTop:      T.darkStoneDoorTop,
+    doorBottom:   T.darkStoneDoorBottom,
+  },
+  castleStone: {
+    pillarTop:    T.castleStonePillarTop,
+    shadowTop:    T.castleStoneShadowTop,
+    middleTop:    T.castleStoneMiddleTop,
+    rightTop:     T.castleStoneRightTop,
+    pillarBottom: T.castleStonePillarBottom,
+    shadowBottom: T.castleStoneShadowBottom,
+    middleBottom: T.castleStoneMiddleBottom,
+    rightBottom:  T.castleStoneRightBottom,
+    doorArchTop:  T.castleStoneDoorArchTop,
+    doorTop:      T.castleStoneDoorTop,
+    doorBottom:   T.castleStoneDoorBottom,
+  },
+  ornateStone: {
+    pillarTop:    T.ornateStonePillarTop,
+    shadowTop:    T.ornateStoneShadowTop,
+    middleTop:    T.ornateStoneMiddleTop,
+    rightTop:     T.ornateStoneRightTop,
+    pillarBottom: T.ornateStonePillarBottom,
+    shadowBottom: T.ornateStoneShadowBottom,
+    middleBottom: T.ornateStoneMiddleBottom,
+    rightBottom:  T.ornateStoneRightBottom,
+    doorArchTop:  T.ornateStoneDoorArchTop,
+    doorTop:      T.ornateStoneDoorTop,
+    doorBottom:   T.ornateStoneDoorBottom,
+  },
+  reinforcedStone: {
+    pillarTop:    T.reinforcedStonePillarTop,
+    shadowTop:    T.reinforcedStoneShadowTop,
+    middleTop:    T.reinforcedStoneMiddleTop,
+    rightTop:     T.reinforcedStoneRightTop,
+    pillarBottom: T.reinforcedStonePillarBottom,
+    shadowBottom: T.reinforcedStoneShadowBottom,
+    middleBottom: T.reinforcedStoneMiddleBottom,
+    rightBottom:  T.reinforcedStoneRightBottom,
+    doorArchTop:  T.reinforcedStoneDoorArchTop,
+    doorTop:      T.reinforcedStoneDoorTop,
+    doorBottom:   T.reinforcedStoneDoorBottom,
+  },
+  woodenSlats: {
+    pillarTop:    T.woodenSlatsPillarTop,
+    shadowTop:    T.woodenSlatsShadowTop,
+    middleTop:    T.woodenSlatsMiddleTop,
+    rightTop:     T.woodenSlatsRightTop,
+    pillarBottom: T.woodenSlatsPillarBottom,
+    shadowBottom: T.woodenSlatsShadowBottom,
+    middleBottom: T.woodenSlatsMiddleBottom,
+    rightBottom:  T.woodenSlatsRightBottom,
+    doorArchTop:  T.woodenSlatsDoorArchTop,
+    doorTop:      T.woodenSlatsDoorTop,
+    doorBottom:   T.woodenSlatsDoorBottom,
   },
 }
 

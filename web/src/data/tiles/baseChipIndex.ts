@@ -415,8 +415,13 @@ export const BASE_CHIP_TILES = {
     floorLantern: 666,
 
     // Windows (placed in walls)
-    windowSmall: 666,
-    windowLarge: 666,
+    windowTop: 592,
+    windowBottom: 600,
+
+    // window 2 - 593, window 3 - 594, window 4 -595
+
+    // Internal windows - top 596 to 599, bottom 604 to 607
+
 
     // Interior doors (2 tiles tall)
     doorTop:    535,
@@ -452,10 +457,28 @@ export const BASE_CHIP_TILES = {
     // Exterior Walls
 
     // Wood Wall starts at 352
+    woodWallLeftTop:       352, woodWallMiddleTop:    353, woodWallRightTop:    354,
+    woodWallPillarTop:     355, woodWallShadowTop:    356,
+    woodWallDoorArchTop:   358, woodWallDoorTop:      359,
+    woodWallLeftBottom:    360, woodWallMiddleBottom: 361, woodWallRightBottom: 362,
+    woodWallPillarBottom:  363, woodWallShadowBottom: 364,
+    woodWallDoorBottom:    367,
 
     // Tudor Frame starts at 368
+    tudorFrameLeftTop:       368, tudorFrameMiddleTop:    369, tudorFrameRightTop:    370,
+    tudorFramePillarTop:     371, tudorFrameShadowTop:    372,
+    tudorFrameDoorArchTop:   374, tudorFrameDoorTop:      375,
+    tudorFrameLeftBottom:    376, tudorFrameMiddleBottom: 377, tudorFrameRightBottom: 378,
+    tudorFramePillarBottom:  379, tudorFrameShadowBottom: 380,
+    tudorFrameDoorBottom:    383,
 
     // Rendered Brick starts at 384
+    renderedBrickLeftTop:       384, renderedBrickMiddleTop:    385, renderedBrickRightTop:    386,
+    renderedBrickPillarTop:     387, renderedBrickShadowTop:    388,
+    renderedBrickDoorArchTop:   390, renderedBrickDoorTop:      391,
+    renderedBrickLeftBottom:    392, renderedBrickMiddleBottom: 393, renderedBrickRightBottom: 394,
+    renderedBrickPillarBottom:  395, renderedBrickShadowBottom: 396,
+    renderedBrickDoorBottom:    399,
 
     // Brick starts at 400
     brickLeftTop : 400, // Can be repeated for additional rows to add height
@@ -473,16 +496,52 @@ export const BASE_CHIP_TILES = {
     brickDoorBottom: 415,
 
     // White Stone - 416
+    whiteStoneLeftTop:       416, whiteStoneMiddleTop:    417, whiteStoneRightTop:    418,
+    whiteStonePillarTop:     419, whiteStoneShadowTop:    420,
+    whiteStoneDoorArchTop:   422, whiteStoneDoorTop:      423,
+    whiteStoneLeftBottom:    424, whiteStoneMiddleBottom: 425, whiteStoneRightBottom: 426,
+    whiteStonePillarBottom:  427, whiteStoneShadowBottom: 428,
+    whiteStoneDoorBottom:    431,
 
-    // Dark stone - 432
+    // Dark Stone - 432
+    darkStoneLeftTop:       432, darkStoneMiddleTop:    433, darkStoneRightTop:    434,
+    darkStonePillarTop:     435, darkStoneShadowTop:    436,
+    darkStoneDoorArchTop:   438, darkStoneDoorTop:      439,
+    darkStoneLeftBottom:    440, darkStoneMiddleBottom: 441, darkStoneRightBottom: 442,
+    darkStonePillarBottom:  443, darkStoneShadowBottom: 444,
+    darkStoneDoorBottom:    447,
 
     // Castle Stone - 448
+    castleStoneLeftTop:       448, castleStoneMiddleTop:    449, castleStoneRightTop:    450,
+    castleStonePillarTop:     451, castleStoneShadowTop:    452,
+    castleStoneDoorArchTop:   454, castleStoneDoorTop:      455,
+    castleStoneLeftBottom:    456, castleStoneMiddleBottom: 457, castleStoneRightBottom: 458,
+    castleStonePillarBottom:  459, castleStoneShadowBottom: 460,
+    castleStoneDoorBottom:    463,
 
-    // Ornate stone - 464
+    // Ornate Stone - 464
+    ornateStoneLeftTop:       464, ornateStoneMiddleTop:    465, ornateStoneRightTop:    466,
+    ornateStonePillarTop:     467, ornateStoneShadowTop:    468,
+    ornateStoneDoorArchTop:   470, ornateStoneDoorTop:      471,
+    ornateStoneLeftBottom:    472, ornateStoneMiddleBottom: 473, ornateStoneRightBottom: 474,
+    ornateStonePillarBottom:  475, ornateStoneShadowBottom: 476,
+    ornateStoneDoorBottom:    479,
 
     // Reinforced Stone - 480
+    reinforcedStoneLeftTop:       480, reinforcedStoneMiddleTop:    481, reinforcedStoneRightTop:    482,
+    reinforcedStonePillarTop:     483, reinforcedStoneShadowTop:    484,
+    reinforcedStoneDoorArchTop:   486, reinforcedStoneDoorTop:      487,
+    reinforcedStoneLeftBottom:    488, reinforcedStoneMiddleBottom: 489, reinforcedStoneRightBottom: 490,
+    reinforcedStonePillarBottom:  491, reinforcedStoneShadowBottom: 492,
+    reinforcedStoneDoorBottom:    495,
 
     // Wooden Slats - 496
+    woodenSlatsLeftTop:       496, woodenSlatsMiddleTop:    497, woodenSlatsRightTop:    498,
+    woodenSlatsPillarTop:     499, woodenSlatsShadowTop:    500,
+    woodenSlatsDoorArchTop:   502, woodenSlatsDoorTop:      503,
+    woodenSlatsLeftBottom:    504, woodenSlatsMiddleBottom: 505, woodenSlatsRightBottom: 506,
+    woodenSlatsPillarBottom:  507, woodenSlatsShadowBottom: 508,
+    woodenSlatsDoorBottom:    511,
 
     // Interior - Stiped Wallpaper - 512
 
