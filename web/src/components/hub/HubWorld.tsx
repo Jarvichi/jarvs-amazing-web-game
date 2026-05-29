@@ -5,7 +5,7 @@ import { AreaNameBadge } from './AreaNameBadge'
 import { HubReturnButton } from './HubReturnButton'
 import { HubDialogue } from './HubDialogue'
 import { AVATAR_START, MAP_W, MAP_H } from '../../data/hubLayout'
-import { loadDeck } from '../../game/collection'
+import { loadDeck, loadCollection, deckTotalCards } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { loadSkipIntro } from '../screens/SettingsScreen'
 import { getSavedHubTile } from './HubTownCanvas'
@@ -48,7 +48,16 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false,
       .map(c => c.name)
   }, [])
 
-  const deckCount = useMemo(() => loadDeck().length, [])
+  const { collectionCount, catalogTotal } = useMemo(() => {
+    const catalog    = getCardCatalog()
+    const collection = loadCollection()
+    return {
+      collectionCount: collection.filter(
+        e => e.count > 0 && catalog.some(c => c.name === e.cardName)
+      ).length,
+      catalogTotal: catalog.length,
+    }
+  }, [])
 
   const dismissSplash = useCallback(() => {
     _hubSplashShown = true
@@ -138,7 +147,7 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false,
         <div className="hub-hud">
           <div className="hub-hud__stats">
             <span>💎 {crystals}</span>
-            <span>🃏 {deckCount}</span>
+            <span>🃏 {collectionCount}/{catalogTotal}</span>
           </div>
           <div className="hub-hud__actions">
             <button className="action-btn hub-hud__btn" onClick={onBack}>⚙</button>
@@ -159,7 +168,7 @@ export function HubWorld({ onBack, onNavigate, crystals = 0, isSignedIn = false,
             <div className="title-logo">JARV'S</div>
             <div className="title-subtitle">AMAZING WEB GAME</div>
             <div className="title-logo-ornament">· · · · ·</div>
-            <div className="title-deck-info">{deckCount} cards &nbsp;·&nbsp; 💎 {crystals}</div>
+            <div className="title-deck-info">{collectionCount}/{catalogTotal} cards &nbsp;·&nbsp; 💎 {crystals}</div>
             <p className="hub-splash__hint">tap to continue</p>
           </div>
         )}
