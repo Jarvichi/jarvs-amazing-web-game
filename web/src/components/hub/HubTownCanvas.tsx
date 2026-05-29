@@ -279,6 +279,7 @@ export function HubTownCanvas({
     for (const npc of EXTERIOR_NPCS) {
       const cx = npc.tx * T + T / 2
       const cy = npc.ty * T + T / 2
+      const isCommanderNpc = npc.id === 'commander-post'
 
       const npcContainer = new PIXI.Container()
       npcContainer.eventMode = 'static'
@@ -295,14 +296,35 @@ export function HubTownCanvas({
       })
       npcLayer.addChild(npcContainer)
 
-      loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
+      const npcSpriteSlug = isCommanderNpc ? avatarSlug : npc.sprite
+      const npcSpriteUrl  = isCommanderNpc
+        ? `${base}sprites/${avatarSlug}.svg`
+        : `${base}sprites/${npc.sprite}.svg`
+
+      loadTextureUrl(npcSpriteUrl).then(tex => {
         if (app.renderer == null) return
         const s = new PIXI.Sprite(tex)
         s.width = T; s.height = T
         s.anchor.set(0.5, 0.5)
         s.position.set(cx, cy)
         npcContainer.addChild(s)
-      }).catch(e => console.error(`[HubTownCanvas] NPC sprite failed: ${npc.sprite}`, e))
+
+        if (isCommanderNpc) {
+          loadAnimFrames(npcSpriteSlug, 3).then(frames => {
+            if (!frames.length || app.renderer == null) return
+            let cmdAnimTimer = 0
+            let cmdAnimFrame = 0
+            app.ticker.add((ticker: PIXI.Ticker) => {
+              cmdAnimTimer -= ticker.deltaMS
+              if (cmdAnimTimer <= 0) {
+                cmdAnimTimer = 250
+                cmdAnimFrame = (cmdAnimFrame + 1) % frames.length
+                s.texture = frames[cmdAnimFrame]
+              }
+            })
+          }).catch(() => {})
+        }
+      }).catch(e => console.error(`[HubTownCanvas] NPC sprite failed: ${npcSpriteSlug}`, e))
 
       const indicator = new PIXI.Text({
         text:  npc.screen ? '▶' : '!',
