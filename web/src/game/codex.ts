@@ -30,6 +30,7 @@ const ALL_ACTS: any[] = [
 
 const FRAGMENT_KEY        = 'jarv_memory_fragments'
 const HUB_WORLD_UNLOCK_KEY = 'jarv_hub_world_unlocked'
+const HUB_DEFAULT_KEY      = 'jarv_hub_default'
 
 export interface MemoryFragment {
   id: string
@@ -61,6 +62,14 @@ export function isHubWorldUnlocked(): boolean {
 
 export function unlockHubWorld(): void {
   try { localStorage.setItem(HUB_WORLD_UNLOCK_KEY, 'true') } catch { /* ignore */ }
+}
+
+export function loadHubDefault(): 'hub' | 'title' {
+  try { const v = localStorage.getItem(HUB_DEFAULT_KEY); return v === 'title' ? 'title' : 'hub' } catch { return 'hub' }
+}
+
+export function saveHubDefault(val: 'hub' | 'title'): void {
+  try { localStorage.setItem(HUB_DEFAULT_KEY, val) } catch { /* ignore */ }
 }
 
 export function areAllCampaignFragmentsDiscovered(): boolean {

@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx } from '../../utils/terrainLayer'
 import { renderPathTiles } from '../../utils/tileLookup'
-import { loadSpriteTexture, loadTextureUrl } from '../../utils/pixiHelpers'
+import { loadSpriteTexture, loadTextureUrl, loadAnimFrames } from '../../utils/pixiHelpers'
 import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import {
@@ -15,6 +15,8 @@ import {
   AVATAR_START,
 } from '../../data/hubLayout'
 import { QUEST_GIVER_NPCS, NPC_SPAWN_TILES } from '../../data/hubNpcs'
+import { HUB_DOORS } from '../../data/hubInteriors'
+import { loadPlayerAvatar } from '../../game/questline'
 
 const HUB_ENV       = 'camp'
 const T             = 32
@@ -121,10 +123,20 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
 
     // ── Avatar ─────────────────────────────────────────────────────────────────
     let avatar: PIXI.Sprite | null = null
+    let avatarFrames: PIXI.Texture[] = []
+    let avatarBaseTexture: PIXI.Texture | null = null
+    let avatarAnimTimer = 0
+    let avatarAnimFrame = 0
     const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
-    loadTextureUrl(`${base}sprites/hub-avatar.svg`).then(tex => {
+    const avatarSlug = loadPlayerAvatar()
+    Promise.all([
+      loadTextureUrl(`${base}sprites/${avatarSlug}.svg`),
+      loadAnimFrames(avatarSlug, 3).catch(() => [] as PIXI.Texture[]),
+    ]).then(([baseTex, frames]) => {
       if (app.renderer == null) return
-      const s = new PIXI.Sprite(tex)
+      avatarBaseTexture = baseTex
+      avatarFrames = frames
+      const s = new PIXI.Sprite(baseTex)
       s.width = T; s.height = T
       s.anchor.set(0.5, 0.5)
       s.position.set(COURTYARD_PX.x, COURTYARD_PX.y)
@@ -176,6 +188,9 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
       walkQueue:   [number, number][]
       isWalking:   boolean
       wanderTimer: number
+      animFrames:  PIXI.Texture[]
+      animTimer:   number
+      animFrame:   number
     }
 
     const unitNpcs: UnitNpcState[] = []
@@ -190,24 +205,33 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
         const cx = tx * T + T / 2
         const cy = ty * T + T / 2
 
-        loadSpriteTexture(cardName).then(tex => {
-          if (app.renderer == null) return
-          const s = new PIXI.Sprite(tex)
-          s.width = T; s.height = T
-          s.anchor.set(0.5, 0.5)
-          s.position.set(cx, cy)
-          s.alpha = 0.85
-          npcLayer.addChild(s)
+        loadSpriteTexture(cardName)
+          .catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
+          .then(tex => {
+            if (app.renderer == null) return
+            const s = new PIXI.Sprite(tex)
+            s.width = T; s.height = T
+            s.anchor.set(0.5, 0.5)
+            s.position.set(cx, cy)
+            s.alpha = 0.85
+            npcLayer.addChild(s)
 
-          const state: UnitNpcState = {
-            sprite:      s,
-            currentTile: [tx, ty],
-            walkQueue:   [],
-            isWalking:   false,
-            wanderTimer: 500 + Math.random() * 1500,   // initial delay 0.5–2 s
-          }
-          unitNpcs.push(state)
-        }).catch(() => {/* silently skip missing sprites */})
+            const state: UnitNpcState = {
+              sprite:      s,
+              currentTile: [tx, ty],
+              walkQueue:   [],
+              isWalking:   false,
+              wanderTimer: 500 + Math.random() * 500,   // initial delay 0.5–1 s
+              animFrames:  [],
+              animTimer:   0,
+              animFrame:   0,
+            }
+            unitNpcs.push(state)
+
+            loadAnimFrames(cardName, 3)
+              .then(frames => { state.animFrames = frames })
+              .catch(() => { /* no walk animation */ })
+          })
       })
     }
 
@@ -291,6 +315,17 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
 
       await tweenLinear(av, targetX, targetY, duration)
       currentTile = [tx, ty]
+
+      // Door detection — entering a building triggers interior view
+      const door = HUB_DOORS.find(d => d.tx === currentTile[0] && d.ty === currentTile[1])
+      if (door) {
+        isWalking = false
+        walkQueue = []
+        pendingScreen = null
+        onNodeInteractRef.current(`interior:${door.buildingId}`)
+        return
+      }
+
       processWalkQueue()
     }
 
@@ -336,14 +371,44 @@ export function HubTownCanvas({ onAreaEnter, onNodeInteract, onAvatarMove, retur
 
     // ── Per-frame ──────────────────────────────────────────────────────────────
     app.ticker.add((ticker) => {
-      if (avatar) onAvatarMoveRef.current(avatar.x, avatar.y)
+      // Avatar animation + position report
+      if (avatar) {
+        onAvatarMoveRef.current(avatar.x, avatar.y)
+        if (isWalking && avatarFrames.length > 0) {
+          avatarAnimTimer -= ticker.deltaMS
+          if (avatarAnimTimer <= 0) {
+            avatarAnimTimer = 200
+            avatarAnimFrame = (avatarAnimFrame + 1) % avatarFrames.length
+            avatar.texture = avatarFrames[avatarAnimFrame]
+          }
+        } else if (!isWalking && avatarBaseTexture && avatar.texture !== avatarBaseTexture) {
+          avatar.texture = avatarBaseTexture
+          avatarAnimTimer = 0
+          avatarAnimFrame = 0
+        }
+      }
+
       worldLayer.sortChildren()
 
       for (const npc of unitNpcs) {
+        // Walk animation
+        if (npc.isWalking && npc.animFrames.length > 0) {
+          npc.animTimer -= ticker.deltaMS
+          if (npc.animTimer <= 0) {
+            npc.animTimer = 200
+            npc.animFrame = (npc.animFrame + 1) % npc.animFrames.length
+            npc.sprite.texture = npc.animFrames[npc.animFrame]
+          }
+        } else if (!npc.isWalking && npc.animFrames.length > 0 && npc.animFrame !== 0) {
+          npc.sprite.texture = npc.animFrames[0]
+          npc.animFrame = 0
+          npc.animTimer = 0
+        }
+        // Wander
         if (!npc.isWalking) {
           npc.wanderTimer -= ticker.deltaMS
           if (npc.wanderTimer <= 0) {
-            npc.wanderTimer = 10000 + Math.random() * 20000
+            npc.wanderTimer = 2000 + Math.random() * 3000
             wanderNpc(npc)
           }
         }
