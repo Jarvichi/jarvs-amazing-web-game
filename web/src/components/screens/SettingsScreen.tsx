@@ -13,7 +13,7 @@ import { isDevMode } from '../../game/debug'
 import { DevMenu } from '../admin/DevMenu'
 import { GIFT_OWNER_UID } from '../../game/gifts'
 import { loadPlaytime, formatPlaytime } from '../../game/playtime'
-import { isHubWorldUnlocked, unlockHubWorld } from '../../game/codex'
+import { isHubWorldUnlocked, unlockHubWorld, loadHubDefault, saveHubDefault } from '../../game/codex'
 
 interface Props {
   onBack: () => void
@@ -172,6 +172,7 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
   const [monochromeOn,   setMonochromeOn]   = useState(loadMonochromeEnabled)
   const [lightModeOn,   setLightModeOn]   = useState(loadLightMode)
   const [battlePopups,  setBattlePopups]  = useState(loadBattlePopups)
+  const [hubDefault,    setHubDefault]    = useState(loadHubDefault)
   const [confirmReset,  setConfirmReset]  = useState(false)
   const [importMsg,     setImportMsg]     = useState<string | null>(null)
   const [rollbarMsg,    setRollbarMsg]    = useState<string | null>(null)
@@ -575,14 +576,27 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </div>
         </Section>
 
-        {isHubWorldUnlocked() && onTitleScreen && (
+        {isHubWorldUnlocked() && (
           <Section bordered title="NAVIGATION">
             <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
               <div>
-                <div className="settings-label">Classic Title Screen</div>
-                <div className="settings-sublabel">Return to the original title screen</div>
+                <div className="settings-label">Default startup screen</div>
+                <div className="settings-sublabel">Which screen opens when the game launches</div>
               </div>
-              <button className="action-btn" onClick={onTitleScreen}>GO</button>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  className={`action-btn${hubDefault === 'hub' ? ' action-btn--gold' : ''}`}
+                  onClick={() => { saveHubDefault('hub'); setHubDefault('hub') }}
+                >
+                  HUB WORLD
+                </button>
+                <button
+                  className={`action-btn${hubDefault === 'title' ? ' action-btn--gold' : ''}`}
+                  onClick={() => { saveHubDefault('title'); setHubDefault('title') }}
+                >
+                  TITLE SCREEN
+                </button>
+              </div>
             </div>
           </Section>
         )}

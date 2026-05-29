@@ -83,9 +83,19 @@ export const HUB_STREET_TILES: [number, number][] = [
   // NW cross-spur — Market Lane internal street
   ...tileRect(0, 12, 20, 13),
 
-  // Building entrances — rendered with wall tiles via renderPathTiles.
+  // Building door tiles — each connects a building facade to the adjacent street.
+  // card-shop door (tx=6, ty=11) + approach from NW cross-spur (ty=12-13)
   ...tileRect(6, 11, 7, 11),
-  ...tileRect(7, 22, 10, 22),
+  // augment-shop door (tx=14, ty=11) + approach connector to NW alley
+  ...tileRect(14, 11, 14, 13),
+  // supply-shop door (tx=8, ty=14) — approach via NW cross-spur already covers ty=12-13
+  ...tileRect(8, 14, 8, 14),
+  // home door (tx=21, ty=20) — NW center building south face, connects to NW alley at tx=18-19
+  ...tileRect(19, 20, 21, 20),
+  // scholars-hall door (tx=56, ty=11) — NE building south face, connects to NE alley at tx=55-57
+  ...tileRect(56, 11, 56, 11),
+  // trader-den door (tx=11, ty=26) — SW dock building north face, connects to main horizontal
+  ...tileRect(11, 25, 11, 26),
 ]
 
 // Building tile positions — rendered with wall tiles via renderPathTiles.
