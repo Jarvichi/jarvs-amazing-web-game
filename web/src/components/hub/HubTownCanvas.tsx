@@ -103,7 +103,7 @@ export function HubTownCanvas({
     groundLayer.addChild(baseContainer, riverContainer)
 
     buildTerrainGfx(baseContainer, riverContainer, worldLayer,
-      { environment: HUB_ENV, id: 'hubworld' }, MAP_W, MAP_H)
+      { environment: HUB_ENV, id: 'hubworld', terrainItems: [] }, MAP_W, MAP_H)
     buildBgTileGfx(baseContainer, { environment: HUB_ENV }, MAP_W, MAP_H)
       .catch(e => console.error('[HubTownCanvas] bg tiles failed', e))
     buildDecorGfx(groundLayer, { environment: HUB_ENV, id: 'hubworld' }, MAP_W, MAP_H)
@@ -218,6 +218,73 @@ export function HubTownCanvas({
       Promise.all(fallbackPromises).catch(e => console.error('[HubTownCanvas] building tiles failed', e))
     }
 
+    // ── Door signs ─────────────────────────────────────────────────────────────
+    {
+      // Map each building to a thematic sign tile from the base chip sheet
+      const DOOR_SIGN_TILE: Record<string, number> = {
+        'card-shop':         667,  // bookSign
+        'augment-shop':      662,  // magicSign
+        'supply-shop':       658,  // bagSign
+        'scholars-hall':     667,  // bookSign
+        'scholars-north-w':  667,  // bookSign
+        'scholars-north-e':  667,  // bookSign
+        'scholars-hall-w':   667,  // bookSign
+        'home':              671,  // blankSign
+        'trader-den':        668,  // goldSign
+        'sw-building-b':     664,  // innSign
+        'traders-building':  668,  // goldSign
+        'market-building':   658,  // bagSign
+        'arcade-building-e': 668,  // goldSign
+        'arcade-building-w': 660,  // drinkSign
+        'barracks-north':    657,  // armourSign
+        'barracks-south':    656,  // weaponsSign
+      }
+
+      const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
+
+      // Group doors by sign tileId so we only load each texture once
+      const byTile = new Map<number, { door: typeof HUB_DOORS[0]; name: string }[]>()
+      for (const door of HUB_DOORS) {
+        const name = HUB_INTERIORS[door.buildingId]?.name
+        if (!name) continue
+        const tileId = DOOR_SIGN_TILE[door.buildingId] ?? 234  // smallSign fallback
+        const list = byTile.get(tileId) ?? []
+        list.push({ door, name })
+        byTile.set(tileId, list)
+      }
+
+      for (const [tileId, entries] of byTile) {
+        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+          if (app.renderer == null) return
+          for (const { door, name } of entries) {
+            // Sign tile sits at the door arch row (door.ty - 2)
+            const signTx = door.tx * T
+            const signTy = (door.ty - 2) * T
+            const sprite = new PIXI.Sprite(tex)
+            sprite.position.set(signTx, signTy)
+            sprite.width = T; sprite.height = T
+            nodeLayer.addChild(sprite)
+
+            // Small name label floats just above the sign tile
+            const label = new PIXI.Text({
+              text: name,
+              style: { fontSize: 8, fill: '#f0e8c8', fontFamily: 'monospace', fontWeight: 'bold' },
+            })
+            label.anchor.set(0.5, 1)
+            label.position.set(door.tx * T + T / 2, signTy - 1)
+
+            const pad = 2
+            const lbg = new PIXI.Graphics()
+            lbg.roundRect(-label.width / 2 - pad, -label.height - pad, label.width + pad * 2, label.height + pad * 2, 2)
+              .fill({ color: 0x1a1a2a, alpha: 0.8 })
+            lbg.position.copyFrom(label.position)
+
+            nodeLayer.addChild(lbg, label)
+          }
+        }).catch(() => {})
+      }
+    }
+
     // ── Exterior decor (tile sprites over streets/ground) ─────────────────────
     {
       const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
@@ -279,6 +346,7 @@ export function HubTownCanvas({
     for (const npc of EXTERIOR_NPCS) {
       const cx = npc.tx * T + T / 2
       const cy = npc.ty * T + T / 2
+      const isCommanderNpc = npc.id === 'commander-post'
 
       const npcContainer = new PIXI.Container()
       npcContainer.eventMode = 'static'
@@ -295,22 +363,35 @@ export function HubTownCanvas({
       })
       npcLayer.addChild(npcContainer)
 
-      loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
+      const npcSpriteSlug = isCommanderNpc ? avatarSlug : npc.sprite
+      const npcSpriteUrl  = isCommanderNpc
+        ? `${base}sprites/${avatarSlug}.svg`
+        : `${base}sprites/${npc.sprite}.svg`
+
+      loadTextureUrl(npcSpriteUrl).then(tex => {
         if (app.renderer == null) return
         const s = new PIXI.Sprite(tex)
         s.width = T; s.height = T
         s.anchor.set(0.5, 0.5)
         s.position.set(cx, cy)
         npcContainer.addChild(s)
-      }).catch(e => console.error(`[HubTownCanvas] NPC sprite failed: ${npc.sprite}`, e))
 
-      const indicator = new PIXI.Text({
-        text:  npc.screen ? '▶' : '!',
-        style: { fontSize: 10, fill: npc.screen ? '#88ddff' : '#ffdd44', fontFamily: 'monospace', fontWeight: 'bold' },
-      })
-      indicator.anchor.set(0.5, 1)
-      indicator.position.set(cx, cy - T / 2 - 2)
-      npcLayer.addChild(indicator)
+        if (isCommanderNpc) {
+          loadAnimFrames(npcSpriteSlug, 3).then(frames => {
+            if (!frames.length || app.renderer == null) return
+            let cmdAnimTimer = 0
+            let cmdAnimFrame = 0
+            app.ticker.add((ticker: PIXI.Ticker) => {
+              cmdAnimTimer -= ticker.deltaMS
+              if (cmdAnimTimer <= 0) {
+                cmdAnimTimer = 250
+                cmdAnimFrame = (cmdAnimFrame + 1) % frames.length
+                s.texture = frames[cmdAnimFrame]
+              }
+            })
+          }).catch(() => {})
+        }
+      }).catch(e => console.error(`[HubTownCanvas] NPC sprite failed: ${npcSpriteSlug}`, e))
     }
 
     // ── Card-unit NPCs ─────────────────────────────────────────────────────────
@@ -605,13 +686,7 @@ export function HubTownCanvas({
               npcDialogueIndex.set(npc.id, idx + 1)
             }
           })
-          const indicator = new PIXI.Text({
-            text:  npc.screen ? '▶' : '!',
-            style: { fontSize: 10, fill: npc.screen ? '#88ddff' : '#ffdd44', fontFamily: 'monospace', fontWeight: 'bold' },
-          })
-          indicator.anchor.set(0.5, 1)
-          indicator.position.set(npc.tx * T + T / 2, npc.ty * T - 2)
-          interiorLayer.addChild(s, indicator)
+          interiorLayer.addChild(s)
         }).catch(() => {})
       }
 
