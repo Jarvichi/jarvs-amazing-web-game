@@ -28,7 +28,7 @@ import { TowerDefence, TowerPool } from '../minigames/TowerDefence'
 import { PageHeader } from '../ui/PageHeader'
 import { OverlayScreen } from '../ui/OverlayScreen'
 
-type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder' | 'fishing' | 'towerDefence'
+export type SubScreen = 'menu' | MiniGameId | 'prizes' | 'leaderboard' | 'citybuilder' | 'fishing' | 'towerDefence'
 
 interface Props {
   crystals: number
@@ -36,6 +36,7 @@ interface Props {
   user: User | null
   characterName: string
   onBack: () => void
+  onGameDone?: () => void
   initialSubScreen?: SubScreen
 }
 
@@ -67,7 +68,7 @@ function pickRandomCards(count: number, rarity?: 'uncommon' | 'rare' | 'legendar
   return results
 }
 
-export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName, onBack, initialSubScreen }: Props) {
+export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName, onBack, onGameDone, initialSubScreen }: Props) {
   const [subScreen, setSubScreen] = useState<SubScreen>(initialSubScreen ?? 'menu')
   const [tickets, setTickets] = useState(() => loadTickets())
   const [toast, setToast] = useState<string | null>(null)
@@ -153,8 +154,8 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
       }).catch(() => { /* offline — ignore */ })
     }
 
-    setSubScreen('menu')
-  }, [user, characterName])
+    if (onGameDone) { onGameDone() } else { setSubScreen('menu') }
+  }, [user, characterName, onGameDone])
 
   // ── Prize redemption ──────────────────────────────────────────────────────────
 
