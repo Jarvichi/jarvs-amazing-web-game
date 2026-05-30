@@ -909,6 +909,16 @@
       "dialogue": ["Your deeds are recorded here, Commander. Come see your legacy."]
     },
     {
+      "id": "achievements-keeper",
+      "name": "The Chronicler",
+      "sprite": "hub-npc-elder",
+      "building": "arcade-building-e",
+      "tx": 7, "ty": 7,
+      "screen": "hall-of-achievements",
+      "dialogue": ["Your deeds are recorded here, Commander. Come see your legacy."]
+    },
+    
+    {
       "id": "home-shelf",
       "name": "Steward Maren",
       "sprite": "hub-npc-elder",
