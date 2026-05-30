@@ -28,7 +28,7 @@ interface Props {
   onFeedbackAdmin?: () => void
   onHubWorld?: () => void
   onTitleScreen?: () => void
-  onCheckForUpdates?: () => void
+  onCheckForUpdates?: () => Promise<void>
 }
 
 const TEXT_SIZE_KEY      = 'jarv_text_size'
@@ -339,10 +339,10 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
     }
   }
 
-  function handleCheckForUpdates() {
+  async function handleCheckForUpdates() {
     setUpdateStatus('checking')
-    onCheckForUpdates?.()
-    setTimeout(() => setUpdateStatus('done'), 3000)
+    await onCheckForUpdates?.()
+    setUpdateStatus('done')
   }
 
   return (
