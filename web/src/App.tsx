@@ -2338,7 +2338,7 @@ export default function App() {
         setRun(cleared)
       }
       clearBattleState()
-      setScreen('title')
+      setScreen(returnScreen === 'hubworld' && isHubWorldUnlocked() ? 'hubworld' : 'title')
       dispatch({ type: 'END' })
       return
     }
@@ -2351,9 +2351,9 @@ export default function App() {
       setRun(cleared)
     }
     clearBattleState()
-    setScreen('title')
+    setScreen(returnScreen === 'hubworld' && isHubWorldUnlocked() ? 'hubworld' : 'title')
     dispatch({ type: 'END' })
-  }, [run, gameState])
+  }, [run, gameState, returnScreen])
 
   // ── Game over routing ────────────────────────────────────
 
@@ -2514,6 +2514,7 @@ export default function App() {
         <HubWorld
           onBack={() => setScreen('settings')}
           onNavigate={(s) => { setReturnScreen('hubworld'); setScreen(s as Screen) }}
+          onCampaign={() => { setReturnScreen('hubworld'); handleCampaign() }}
           onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
           crystals={crystals}
           user={user}

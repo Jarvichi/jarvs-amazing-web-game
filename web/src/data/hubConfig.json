@@ -800,7 +800,7 @@
       "name": "War Herald Davos",
       "sprite": "hub-npc-herald",
       "tx": 35, "ty": 22,
-      "screen": "title",
+      "screen": "campaign",
       "dialogue": [
         "The campaign banners are raised, Commander. Your forces await your orders.",
         "Every great victory began with a single step forward. Ready when you are.",
