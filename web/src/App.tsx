@@ -43,7 +43,7 @@ import { EventScreen }          from './components/campaign/EventScreen'
 import { MerchantScreen, MerchantItem, cardMerchantItem } from './components/campaign/MerchantScreen'
 import { MysteryScreen } from './components/campaign/MysteryScreen'
 import { MemoryFragmentScreen } from './components/campaign/MemoryFragmentScreen'
-import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault } from './game/codex'
+import { MemoryFragment, isFragmentDiscovered, markFragmentDiscovered, isHubWorldUnlocked, unlockHubWorld, areAllCampaignFragmentsDiscovered, loadHubDefault, saveHubDefault } from './game/codex'
 import { CharacterEncounterScreen } from './components/campaign/CharacterEncounterScreen'
 import { CharacterChoice, recordCharacterEncounter } from './game/characters'
 import memoryFragmentsData from './data/memoryFragments.json'
@@ -481,6 +481,13 @@ export default function App() {
   // affect screens reached later via the title screen's own navigation.
   useEffect(() => {
     if (screen === 'title') setReturnScreen('title')
+  }, [screen])
+  // When hub is unlocked and set as default, redirect title→hub automatically.
+  // saveHubDefault('title') must be called before setScreen('title') to bypass this.
+  useEffect(() => {
+    if (screen === 'title' && isHubWorldUnlocked() && loadHubDefault() !== 'title') {
+      setScreen('hubworld')
+    }
   }, [screen])
   const { activeRareEvent, isGamePaused: isRareEventPaused, rollRareEvent, handleRareEventDone } = useRareEvents({
     gameState, screen, setGameState, setCrystals, setAchievementToasts,
@@ -2469,6 +2476,8 @@ export default function App() {
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
             onSignIn={() => setShowTitleLoginModal(true)}
             onFeedback={() => setFeedbackOpen(true)}
+            hubUnlocked={isHubWorldUnlocked() && loadHubDefault() === 'title'}
+            onHub={() => { saveHubDefault('hub'); setScreen('hubworld') }}
           />
           {feedbackOpen && (
             <FeedbackModal user={user} onClose={() => setFeedbackOpen(false)} />
@@ -2514,6 +2523,7 @@ export default function App() {
       {screen === 'hubworld' && (
         <HubWorld
           onBack={() => setScreen('settings')}
+          onUseTitleScreen={() => { saveHubDefault('title'); setScreen('title') }}
           onNavigate={(s) => {
             setReturnScreen('hubworld')
             const HUB_MINIGAME_IDS: SubScreen[] = ['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'citybuilder', 'prizes']
