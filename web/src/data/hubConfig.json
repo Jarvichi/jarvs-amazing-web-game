@@ -913,7 +913,7 @@
       "name": "The Chronicler",
       "sprite": "hub-npc-elder",
       "building": "arcade-building-e",
-      "tx": 7, "ty": 7,
+      "tx": 6, "ty": 3,
       "screen": "hall-of-achievements",
       "dialogue": ["Your deeds are recorded here, Commander. Come see your legacy."]
     },
@@ -1123,7 +1123,7 @@
       "name": "Trophy Keeper Orin",
       "sprite": "hub-npc-elder",
       "building": "arcade-building-e",
-      "tx": 6, "ty": 3,
+      "tx": 3, "ty": 3,
       "dialogue": [
         "Every trophy here represents a hard-won victory.",
         "Champions come and go, but their deeds are recorded forever.",
