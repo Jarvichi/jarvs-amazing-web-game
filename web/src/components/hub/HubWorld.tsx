@@ -28,18 +28,18 @@ const SPLASH_MS = 10_000
 let _hubSplashShown = false
 
 interface Props {
-  onBack:          () => void
-  onNavigate?:     (screen: string) => void
-  onCampaign?:     () => void
-  onPlayerTap?:    () => void
-  crystals?:       number
-  isSignedIn?:     boolean
+  onBack:             () => void
+  onNavigate?:        (screen: string) => void
+  onCampaign?:        () => void
+  onPlayerTap?:       () => void
+  crystals?:          number
+  isSignedIn?:        boolean
   commander?: CommanderState
   user: User | null
-  onSignIn?:  () => void
-  onSignOut?:      () => void
+  onSignIn?:   () => void
+  onSignOut?:         () => void
   onFeedback: () => void
-  onTileTap?:      (tx: number, ty: number) => void
+  onTileTap?:         (tx: number, ty: number) => void
 }
 
 export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onTileTap }: Props) {

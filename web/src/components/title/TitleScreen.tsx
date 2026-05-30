@@ -51,9 +51,11 @@ export interface Props {
   onSignOut: () => void
   onSignIn: () => void
   onFeedback: () => void
+  hubUnlocked?: boolean
+  onHub?: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onPlayer, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onCodex, user, onSignOut, onSignIn, onFeedback }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onPlayer, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onCodex, user, onSignOut, onSignIn, onFeedback, hubUnlocked, onHub }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -234,6 +236,11 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
         {cityAttackAlert && (
           <TitleButton variant="large" onClick={onCityBuilder} extraClass="title-campaign-btn title-minigames-btn title-btn--alert title-alert-badge">
             ⚔ CITY ALERT
+          </TitleButton>
+        )}
+        {hubUnlocked && onHub && (
+          <TitleButton variant="large" onClick={onHub} extraClass="title-campaign-btn">
+            🌆  HUB WORLD
           </TitleButton>
         )}
       </div>
