@@ -2438,7 +2438,7 @@ export default function App() {
       })()}
 
       {screen === 'intro' && (
-        <IntroScreen onDone={() => setScreen('title')} />
+        <IntroScreen onDone={() => setScreen(isHubWorldUnlocked() && loadHubDefault() !== 'title' ? 'hubworld' : 'title')} />
       )}
 
       {screen === 'title' && (
