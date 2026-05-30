@@ -30,6 +30,7 @@ let _hubSplashShown = false
 interface Props {
   onBack:          () => void
   onNavigate?:     (screen: string) => void
+  onCampaign?:     () => void
   onPlayerTap?:    () => void
   crystals?:       number
   isSignedIn?:     boolean
@@ -41,7 +42,7 @@ interface Props {
   onTileTap?:      (tx: number, ty: number) => void
 }
 
-export function HubWorld({ onBack, onNavigate, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onTileTap }: Props) {
+export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onTileTap }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
@@ -126,8 +127,9 @@ export function HubWorld({ onBack, onNavigate, onPlayerTap, crystals = 0, isSign
       interiorEnterRef.current?.(buildingId)
       return
     }
+    if (screen === 'campaign') { onCampaign?.(); return }
     onNavigate?.(screen)
-  }, [onNavigate])
+  }, [onNavigate, onCampaign])
 
   const handleReturn = useCallback(() => {
     returnRef.current?.()
