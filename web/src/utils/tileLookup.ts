@@ -37,10 +37,10 @@ export function buildTileLookup(canal: boolean): number[] {
     else if (N && E && W)        t[mask] = PATH.edgeBottom
     else if (N && S)             t[mask] = PATH.vertical
     else if (E && W)             t[mask] = PATH.horizontal
-    else if (N && E)             t[mask] = canal ? (NE ? PATH.turnTopRight    : PATH.grassCornerBL) : PATH.turnTopRight
-    else if (N && W)             t[mask] = canal ? (NW ? PATH.turnTopLeft     : PATH.grassCornerBR) : PATH.turnTopLeft
-    else if (S && E)             t[mask] = canal ? (SE ? PATH.turnBottomRight : PATH.grassCornerTL) : PATH.turnBottomRight
-    else if (S && W)             t[mask] = canal ? (SW ? PATH.turnBottomLeft  : PATH.grassCornerTR) : PATH.turnBottomLeft
+    else if (N && E)             t[mask] = NE ? PATH.quadTopRight    : (canal ? PATH.grassCornerBL : PATH.turnTopRight)
+    else if (N && W)             t[mask] = NW ? PATH.quadTopLeft     : (canal ? PATH.grassCornerBR : PATH.turnTopLeft)
+    else if (S && E)             t[mask] = SE ? PATH.quadBottomRight : (canal ? PATH.grassCornerTL : PATH.turnBottomRight)
+    else if (S && W)             t[mask] = SW ? PATH.quadBottomLeft  : (canal ? PATH.grassCornerTR : PATH.turnBottomLeft)
     else if (N)                  t[mask] = PATH.topOnly
     else if (E)                  t[mask] = PATH.rightOnly
     else if (S)                  t[mask] = PATH.bottomOnly
@@ -63,13 +63,14 @@ export async function renderPathTiles(
   pathSet: Set<string>,
   environment?: string,
   tileFileOverride?: string,
+  useCanal?: boolean,
 ): Promise<void> {
   const T = TILE_SIZE
   const pathFile = tileFileOverride ?? ENV_TILES[environment ?? '']?.pathFile ?? PATH_TILE.grass1Dirt1
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const tileUrl = `${base}${pathFile.slice(1)}`
   const pathWidth = tileFileOverride ? 1 : (ENV_TILES[environment ?? '']?.pathWidth ?? 1)
-  const lookup = pathWidth > 1 ? CANAL_TILE_LOOKUP : PATH_TILE_LOOKUP
+  const lookup = (useCanal || pathWidth > 1) ? CANAL_TILE_LOOKUP : PATH_TILE_LOOKUP
 
   const key = (tx: number, ty: number) => `${tx},${ty}`
   const has = (tx: number, ty: number) => pathSet.has(key(tx, ty))

@@ -56,7 +56,12 @@ export interface HubNpc {
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
-type TileEntry = { rect: number[] } | { tile: number[] }
+type TileEntry = { rect: number[]; pathType?: string } | { tile: number[]; pathType?: string }
+
+export interface HubStreetGroup {
+  pathType?: string
+  tiles: [number, number][]
+}
 
 function expandTiles(entries: TileEntry[]): [number, number][] {
   const out: [number, number][] = []
@@ -71,6 +76,24 @@ function expandTiles(entries: TileEntry[]): [number, number][] {
     }
   }
   return out
+}
+
+function groupStreets(entries: TileEntry[]): HubStreetGroup[] {
+  const map = new Map<string, [number, number][]>()
+  for (const e of entries) {
+    const key = e.pathType ?? ''
+    if (!map.has(key)) map.set(key, [])
+    const tiles = map.get(key)!
+    if ('rect' in e) {
+      const [tx1, ty1, tx2, ty2] = e.rect
+      for (let tx = tx1; tx <= tx2; tx++)
+        for (let ty = ty1; ty <= ty2; ty++)
+          tiles.push([tx, ty])
+    } else {
+      tiles.push(e.tile as [number, number])
+    }
+  }
+  return Array.from(map.entries()).map(([key, tiles]) => ({ pathType: key || undefined, tiles }))
 }
 
 function resolveTileId(key: string): number {
@@ -92,7 +115,8 @@ export const HUB_AREAS: HubArea[] = rawConfig.areas.map(a => ({
   h:    a.th * T,
 }))
 
-export const HUB_STREET_TILES   = expandTiles(rawConfig.streets   as TileEntry[])
+export const HUB_STREET_GROUPS: HubStreetGroup[] = groupStreets(rawConfig.streets as TileEntry[])
+export const HUB_STREET_TILES:  [number, number][] = HUB_STREET_GROUPS.flatMap(g => g.tiles)
 export const HUB_BUILDING_TILES = expandTiles(rawConfig.buildings as TileEntry[])
 
 type RawBuilding = { rect: number[]; id?: string; wall?: string; roof?: string }

@@ -38,9 +38,10 @@ interface Props {
   onSignIn?:  () => void
   onSignOut?:      () => void
   onFeedback: () => void
+  onTileTap?:      (tx: number, ty: number) => void
 }
 
-export function HubWorld({ onBack, onNavigate, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback }: Props) {
+export function HubWorld({ onBack, onNavigate, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onTileTap }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
@@ -177,6 +178,7 @@ export function HubWorld({ onBack, onNavigate, onPlayerTap, crystals = 0, isSign
             interiorEnterRef={interiorEnterRef}
             interiorExitRef={interiorExitRef}
             onExitInterior={() => setInteriorActive(false)}
+            onTileTap={onTileTap}
           />
         </div>
         <AreaNameBadge name={currentArea} />

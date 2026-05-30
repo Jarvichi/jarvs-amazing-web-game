@@ -1,7 +1,8 @@
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { TileBrowser, TilesetDef } from './TileBrowser'
-import { PATH, GRASS_PATH, BASE_GROUND } from '../../data/tiles/tileIndex'
+import { PATH, GRASS_PATH } from '../../data/tiles/tileIndex'
+import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 
 const meta = {
   component: TileBrowser,
@@ -33,9 +34,10 @@ const SAMPLE_TILESETS: Record<string, TilesetDef> = {
   LightShadow: { name: 'LightShadow_pipo',    image: `${BASE_PATH}LightShadow_pipo.png`,     tilecount: 48,   columns: 8  },
 }
 
-const BASE_CHIP_LABELS: Record<number, string> = Object.fromEntries(
-  Object.entries(BASE_GROUND).map(([name, id]) => [id, name])
-)
+const BASE_CHIP_LABELS: Record<number, string> = {}
+for (const [name, id] of Object.entries(BASE_CHIP_TILES)) {
+  BASE_CHIP_LABELS[id] = BASE_CHIP_LABELS[id] ? `${BASE_CHIP_LABELS[id]} / ${name}` : name
+}
 
 const GRASS_LABELS: Record<number, string> = {}
 for (const [setName, base] of Object.entries(GRASS_PATH)) {
