@@ -90,6 +90,15 @@ web/
 
 ```bash
 cd web && npm install
+git restore web/package-lock.json   # discard lock-file changes from this environment's npm
+```
+
+`npm install` regenerates `web/package-lock.json` using the local npm version, which differs from the committed version. **Never commit those changes** — doing so breaks CI's dependency cache. Always restore the file immediately after installing.
+
+A pre-commit hook in `.githooks/pre-commit` enforces this automatically. Activate it once per clone:
+
+```bash
+git config core.hooksPath .githooks
 ```
 
 Without this, `npm run build` will fail with `Cannot find module 'react'` and similar errors — the TypeScript compiler cannot resolve any packages.
