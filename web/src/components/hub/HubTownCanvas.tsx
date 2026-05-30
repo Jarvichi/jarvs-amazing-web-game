@@ -107,7 +107,7 @@ export function HubTownCanvas({
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
     const exteriorDecorLayer = spriteLayer
-    app.stage.addChild(groundLayer, streetLayer, pondLayer, spriteLayer, buildingLayer, windowLayer, nodeLayer, worldLayer, interiorLayer, highlightGfx)
+    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer,spriteLayer,  nodeLayer, worldLayer, interiorLayer, highlightGfx)
 
     const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
 
