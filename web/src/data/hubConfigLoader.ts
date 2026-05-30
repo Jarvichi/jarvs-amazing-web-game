@@ -127,11 +127,14 @@ export const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[
   roof: b.roof as RoofMaterial | undefined,
 }))
 
-export const EXTERIOR_DECOR = rawConfig.exteriorDecor.map(d => ({
-  tx:     d.tx,
-  ty:     d.ty,
-  tileId: resolveTileId(d.tileId),
-}))
+type RawDecorEntry = { tx?: number; ty?: number; tileId?: string; comment?: string }
+export const EXTERIOR_DECOR = (rawConfig.exteriorDecor as RawDecorEntry[])
+  .filter((d): d is { tx: number; ty: number; tileId: string } => d.tx != null && d.ty != null && d.tileId != null)
+  .map(d => ({
+    tx:     d.tx,
+    ty:     d.ty,
+    tileId: resolveTileId(d.tileId),
+  }))
 
 type RawWindowEntry = { tx: number; ty: number; tileId: string }
 export const HUB_WINDOWS = (rawConfig as unknown as { windows?: RawWindowEntry[] }).windows?.map(w => ({
