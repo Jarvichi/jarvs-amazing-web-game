@@ -1,15 +1,62 @@
 import { fn } from 'storybook/test'
+import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HubWorld } from './HubWorld'
 
 const meta = {
   component: HubWorld,
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <div className="game-container">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof HubWorld>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
+  args: {
+    onBack: fn(),
+    onFeedback: fn(),
+    user: null,
+  },
+}
+
+export const TileInspector: Story = {
+  render: (args) => {
+    const [tile, setTile] = useState<{ tx: number; ty: number } | null>(null)
+    const [copied, setCopied] = useState(false)
+
+    const handleTileTap = (tx: number, ty: number) => {
+      setTile({ tx, ty })
+      navigator.clipboard?.writeText(`[${tx}, ${ty}]`).then(() => {
+        setCopied(true)
+        setTimeout(() => setCopied(false), 1200)
+      }).catch(() => {})
+    }
+
+    return (
+      <>
+        <HubWorld {...args} onTileTap={handleTileTap} />
+        <div style={{
+          position: 'fixed', bottom: 20, left: '50%', transform: 'translateX(-50%)',
+          background: '#0a0a18ee', color: '#88ff88', fontFamily: 'monospace', fontSize: 13,
+          padding: '6px 16px', borderRadius: 4, border: '1px solid #44aa44',
+          zIndex: 9999, pointerEvents: 'none', whiteSpace: 'nowrap',
+        }}>
+          {tile
+            ? `[${tile.tx}, ${tile.ty}]  ${copied ? '✓ copied' : ''}`
+            : 'click any tile to see coordinates'}
+        </div>
+      </>
+    )
+  },
   args: {
     onBack: fn(),
     onFeedback: fn(),

@@ -303,7 +303,7 @@ export const BASE_CHIP_TILES = {
     // Many More
 
     // Statues
-    darkPillarTop:905,
+    darkPillarTop:904,
     lightPillarTop:905,
     birdBathTop: 906,
     brazierTop: 907,
@@ -321,15 +321,41 @@ export const BASE_CHIP_TILES = {
     tallBushPot:919,
     darkPillarBottom:920,
     lightPillarBottom:921,
-    birdBathBottom: 921,
-    // then
-    // angel statue top, gargoyle top, striped awning bottom, plain awning bottom, spiky plant top,
-    // fountain top left, top middle, top right
-    // angal statue bottom, gargoyle bottom, striped awning with support, plain awning with support, spiky plant bottom,
-    // fountain mid left, mid middle, mid right,
-    // memorial top left, memorial top right, striped awning support pillar, plain awning support pillar, pot of flowers, 
-    // fountain bot left, bot middle, bot right,
-    // memorial bot left, memorial bot right, striped awning support pillar bot, plain awning support pillar bot, empty pot of flowers,
+    birdBathBottom: 922,
+
+    // 922: unnamed
+    angelStatueTop:                    923,
+    gargoyleTop:                       924,
+    stripedShopAwningBottom:           925,
+    plainShowAwningBottom:             926,
+    spikyPlantTop:                     927,
+    fountainTopLeft:                   928,
+    fountainTopMiddle:                 929,
+    fountainTopRight:                  930,
+
+    angelStatueBottom:                 931,
+    gargoyleBottom:                    932,
+    stripedShopAwningWithSupport:      933,
+    plainShowAwningWithSupport:        934,
+    spikyPlantBottom:                  935,
+    fountainMidLeft:                   936,
+    fountainMidMiddle:                 937,
+    fountainMidRight:                  938,
+
+    memorialTopLeft:                   939, // NOTE: conflicts with royalBedTopLeft:939 — verify
+    memorialTopRight:                  940,
+    stripedShopAwningSupportPillar:    941,
+    plainShowAwningSupportPillar:      942,
+    potOfFlowers:                      943,
+    fountainBotLeft:                   944,
+    fountainBotMiddle:                 945,
+    fountainBotRight:                  946,
+
+    memorialBotLeft:                   947,
+    memorialBotRight:                  948,
+    stripedShopAwningSupportPillarBot: 949,
+    plainShowAwningSupportPillarBot:   950,
+    emptyPotOfFlowers:                 951,
 
     // Outdoor furniture / decor (verify exact IDs)
     lampPostTop:    907,
@@ -342,14 +368,14 @@ export const BASE_CHIP_TILES = {
 
     // Furniture sets (beds, tables, chairs) — verify exact IDs, 666 = placeholder
     // 4-tile royal bed (confirmed)
-    royalBedTopLeft:939,
-    royalBedTopRight:940,
-    royalBedBottonLeft:941,
-    royalBedBottomRight:942,
-    royalBedTopLeftOverlay:939,
-    royalBedTopRightOverlay:940,
-    royalBedBottonLeftOverlay:941,
-    royalBedBottomRightOverlay:942,
+    royalBedTopLeft:779,
+    royalBedTopRight:780,
+    royalBedBottonLeft:787,
+    royalBedBottomRight:788,
+    royalBedTopLeftOverlay:795,
+    royalBedTopRightOverlay:796,
+    royalBedBottonLeftOverlay:803,
+    royalBedBottomRightOverlay:804,
 
 
     // 2-tile bed (vertical, head on top side) - with overlay so npc can get into bed
@@ -409,7 +435,7 @@ export const BASE_CHIP_TILES = {
     // Candles / lighting
     candlestickUnlit:  1002,
 
-    candlestickLitTop:  905,
+    candlestickLitTop:  995,
     candlestickLitBottom:  1003,
     wallTorch:    666,
     floorLantern: 666,

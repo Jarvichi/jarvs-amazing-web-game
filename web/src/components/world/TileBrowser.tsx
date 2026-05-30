@@ -19,6 +19,7 @@ const PAGE_SIZE = 256
 
 export function TileBrowser({ tileset, scale = 2, labels }: Props) {
   const [selected, setSelected] = useState<number | null>(null)
+  const [copied, setCopied] = useState(false)
   const [page, setPage] = useState(0)
   const tw = tileset.tileWidth ?? 32
   const th = tileset.tileHeight ?? 32
@@ -45,8 +46,8 @@ export function TileBrowser({ tileset, scale = 2, labels }: Props) {
           </span>
         )}
         {selected !== null && (
-          <span style={{ background: '#222', color: '#0f0', padding: '2px 8px', borderRadius: 4 }}>
-            #{selected}{selectedLabel ? ` — ${selectedLabel}` : ''}
+          <span style={{ background: '#222', color: copied ? '#ff0' : '#0f0', padding: '2px 8px', borderRadius: 4 }}>
+            #{selected}{selectedLabel ? ` — ${selectedLabel}` : ''}{copied ? ' ✓ copied' : ''}
           </span>
         )}
       </div>
@@ -62,7 +63,18 @@ export function TileBrowser({ tileset, scale = 2, labels }: Props) {
             <div
               key={i}
               title={label ? `#${i} — ${label}` : `#${i} (col ${col}, row ${row})`}
-              onClick={() => setSelected(i === selected ? null : i)}
+              onClick={() => {
+                if (i === selected) {
+                  const text = labels?.[i] ?? String(i)
+                  navigator.clipboard.writeText(text).then(() => {
+                    setCopied(true)
+                    setTimeout(() => setCopied(false), 1500)
+                  })
+                } else {
+                  setSelected(i)
+                  setCopied(false)
+                }
+              }}
               style={{
                 position: 'relative',
                 width: displayW,
