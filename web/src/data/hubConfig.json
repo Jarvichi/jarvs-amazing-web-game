@@ -1165,6 +1165,87 @@
         "This hall forges soldiers from raw recruits. No exceptions.",
         "Training is the difference between victory and defeat. Remember that."
       ]
+    },
+    {
+      "id": "marble-master-int",
+      "name": "Marble Master",
+      "sprite": "hub-npc-dealer",
+      "building": "arcade-building-e",
+      "tx": 8, "ty": 3,
+      "screen": "marble",
+      "dialogue": ["Steady hands and a keen eye — care to roll?", "Every marble tells a story. Shall we write yours?"]
+    },
+    {
+      "id": "the-flipper-int",
+      "name": "The Flipper",
+      "sprite": "hub-npc-merchant",
+      "building": "arcade-building-e",
+      "tx": 4, "ty": 3,
+      "screen": "tileflip",
+      "dialogue": ["Flip a tile, reveal your fate.", "Memory is a weapon. How sharp is yours?"]
+    },
+    {
+      "id": "crystal-keeper-int",
+      "name": "Crystal Keeper",
+      "sprite": "hub-npc-scholar",
+      "building": "arcade-building-e",
+      "tx": 6, "ty": 5,
+      "screen": "crystalcatch",
+      "dialogue": ["Crystals falling fast — catch them before they shatter!", "Speed and focus. That is all you need."]
+    },
+    {
+      "id": "prize-keeper-int",
+      "name": "Prize Keeper",
+      "sprite": "hub-npc-merchant",
+      "building": "arcade-building-e",
+      "tx": 2, "ty": 4,
+      "screen": "prizes",
+      "dialogue": ["Got tickets? I've got prizes. Let's make a deal.", "Trade in your winning tickets for something special."]
+    },
+    {
+      "id": "spinner-sal-int",
+      "name": "Spinner Sal",
+      "sprite": "hub-npc-dealer",
+      "building": "arcade-building-w",
+      "tx": 2, "ty": 2,
+      "screen": "spinner",
+      "dialogue": ["Give it a spin — luck favours the bold.", "The wheel knows no favourites. Try your luck!"]
+    },
+    {
+      "id": "race-marshal-int",
+      "name": "Race Marshal",
+      "sprite": "hub-npc-arena",
+      "building": "arcade-building-w",
+      "tx": 10, "ty": 2,
+      "screen": "marblerace",
+      "dialogue": ["On your marks — the race is about to begin!", "Place your bets and pick your marble. May the fastest win."]
+    },
+    {
+      "id": "card-sharp-int",
+      "name": "Card Sharp",
+      "sprite": "hub-npc-merchant",
+      "building": "arcade-building-w",
+      "tx": 5, "ty": 5,
+      "screen": "higherOrLower",
+      "dialogue": ["Higher or lower? Simple question, nerves of steel.", "Read the deck — or trust your gut."]
+    },
+    {
+      "id": "reels-remy-int",
+      "name": "Reels Remy",
+      "sprite": "hub-npc-dealer",
+      "building": "arcade-building-w",
+      "tx": 2, "ty": 8,
+      "screen": "fruitMachine",
+      "dialogue": ["Pull the lever and watch the reels spin!", "Three in a row and the jackpot is yours."]
+    },
+    {
+      "id": "poker-pete-int",
+      "name": "Poker Pete",
+      "sprite": "hub-npc-dealer",
+      "building": "arcade-building-w",
+      "tx": 9, "ty": 8,
+      "screen": "videoPoker",
+      "dialogue": ["Best hand wins. Know when to hold, know when to fold.", "Poker face optional. Skill is not."]
     }
   ],
 

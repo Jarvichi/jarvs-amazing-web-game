@@ -439,6 +439,15 @@ export function HubTownCanvas({
       }).catch(e => console.error(`[HubTownCanvas] NPC sprite failed: ${npcSpriteSlug}`, e))
     }
 
+    // ── NPC name tags (show within 5 tiles of avatar) ─────────────────────────
+    const npcNameTags: { tx: number; ty: number; tag: PIXI.Container }[] = []
+    for (const { npc, cx, cy } of npcBubbleTargets) {
+      const tag = createNameTag(npc.name, cx, cy)
+      tag.visible = false
+      bubbleLayer.addChild(tag)
+      npcNameTags.push({ tx: npc.tx, ty: npc.ty, tag })
+    }
+
     // ── Card-unit NPCs ─────────────────────────────────────────────────────────
     interface UnitNpcState {
       sprite:      PIXI.Sprite
@@ -794,30 +803,51 @@ export function HubTownCanvas({
 
     // ── Idle speech bubble state ───────────────────────────────────────────────
     const IDLE_THRESHOLD_MS = 5000
-    const BUBBLE_SHOW_MS    = 5000
+    const BUBBLE_SHOW_MS    = 10_000
     const BUBBLE_FADE_MS    = 500
+    const SLOT_STAGGER_MS   = 4_000
+    const MAX_BUBBLES       = 3
 
+    interface BubbleSlot { container: PIXI.Container; timer: number; phase: 'showing' | 'fading' }
+    const activeBubbles: BubbleSlot[] = []
     let lastMovedMs    = performance.now()
-    let bubblePhase:     'waiting' | 'showing' | 'fading' = 'waiting'
-    let bubbleTimer    = 0
-    let activeBubble:  PIXI.Container | null = null
+    let nextSpawnTimer = 0
     let lastBubbleIdx  = -1
 
     function createSpeechBubble(text: string, cx: number, cy: number): PIXI.Container {
       const c   = new PIXI.Container()
       const lbl = new PIXI.Text({
         text,
-        style: { fontSize: 11, fill: '#e8ffe8', fontFamily: 'monospace', wordWrap: true, wordWrapWidth: 160 },
+        style: { fontSize: 11, fill: '#111111', fontFamily: 'monospace', wordWrap: true, wordWrapWidth: 160 },
       })
-      lbl.anchor.set(0.5, 1)
+      lbl.anchor.set(0.5, 0.5)
       const pad = 6
       const bw  = lbl.width  + pad * 2
       const bh  = lbl.height + pad * 2
+      lbl.position.set(0, -bh / 2)
       const bg  = new PIXI.Graphics()
-      bg.roundRect(-bw / 2, -bh, bw, bh, 6).fill({ color: 0x1a2a1a, alpha: 0.92 })
-      bg.roundRect(-bw / 2, -bh, bw, bh, 6).stroke({ color: 0x44ff88, width: 1.5 })
-      bg.moveTo(-6, 0).lineTo(6, 0).lineTo(0, 8).closePath().fill({ color: 0x1a2a1a })
-      bg.moveTo(-6, 0).lineTo(6, 0).lineTo(0, 8).closePath().stroke({ color: 0x44ff88, width: 1.5 })
+      bg.roundRect(-bw / 2, -bh, bw, bh, 6).fill({ color: 0xffffff, alpha: 1 })
+      bg.roundRect(-bw / 2, -bh, bw, bh, 6).stroke({ color: 0x000000, width: 1.5 })
+      bg.moveTo(-6, 0).lineTo(6, 0).lineTo(0, 8).closePath().fill({ color: 0xffffff })
+      bg.moveTo(-6, 0).lineTo(6, 0).lineTo(0, 8).closePath().stroke({ color: 0x000000, width: 1.5 })
+      c.addChild(bg, lbl)
+      c.position.set(cx, cy - SPRITE_SIZE - 4)
+      return c
+    }
+
+    function createNameTag(name: string, cx: number, cy: number): PIXI.Container {
+      const c   = new PIXI.Container()
+      const lbl = new PIXI.Text({
+        text: name,
+        style: { fontSize: 9, fill: '#111111', fontFamily: 'monospace', fontWeight: 'bold' },
+      })
+      lbl.anchor.set(0.5, 0.5)
+      const pad = 3
+      const bw  = lbl.width  + pad * 2
+      const bh  = lbl.height + pad * 2
+      const bg  = new PIXI.Graphics()
+      bg.roundRect(-bw / 2, -bh / 2, bw, bh, 3).fill({ color: 0xffffff, alpha: 0.9 })
+      bg.roundRect(-bw / 2, -bh / 2, bw, bh, 3).stroke({ color: 0x000000, width: 1 })
       c.addChild(bg, lbl)
       c.position.set(cx, cy - SPRITE_SIZE - 4)
       return c
@@ -873,8 +903,9 @@ export function HubTownCanvas({
     }
 
     function startWalk(target: [number, number], nodeScreen?: string) {
-      if (activeBubble) { bubbleLayer.removeChild(activeBubble); activeBubble = null }
-      bubblePhase = 'waiting'
+      for (const s of activeBubbles) bubbleLayer.removeChild(s.container)
+      activeBubbles.length = 0
+      nextSpawnTimer = 0
       lastMovedMs = performance.now()
       const path = findPath(currentTile, target, pathSet)
       walkQueue = path.slice(1)
@@ -991,6 +1022,14 @@ export function HubTownCanvas({
       spriteLayer.sortChildren()
       worldLayer.sortChildren()
 
+      // NPC name tag proximity (exterior only)
+      if (!interiorActive) {
+        const [atx, aty] = currentTile
+        for (const { tx, ty, tag } of npcNameTags) {
+          tag.visible = Math.max(Math.abs(tx - atx), Math.abs(ty - aty)) <= 5
+        }
+      }
+
       for (const npc of unitNpcs) {
         if (npc.isWalking && npc.animFrames.length > 0) {
           npc.animTimer -= ticker.deltaMS
@@ -1018,30 +1057,31 @@ export function HubTownCanvas({
         const now = performance.now()
         if (isWalking) lastMovedMs = now
 
-        if (bubblePhase === 'waiting') {
-          if (now - lastMovedMs >= IDLE_THRESHOLD_MS) {
+        if (now - lastMovedMs >= IDLE_THRESHOLD_MS && activeBubbles.length < MAX_BUBBLES) {
+          nextSpawnTimer -= ticker.deltaMS
+          if (nextSpawnTimer <= 0) {
             lastBubbleIdx = (lastBubbleIdx + 1) % npcBubbleTargets.length
             const { npc, cx, cy } = npcBubbleTargets[lastBubbleIdx]
             const didx = npcDialogueIndex.get(npc.id) ?? 0
             const line = npc.dialogue[didx % npc.dialogue.length]
-            activeBubble = createSpeechBubble(line, cx, cy)
-            bubbleLayer.addChild(activeBubble)
-            bubbleTimer = BUBBLE_SHOW_MS
-            bubblePhase = 'showing'
+            const container = createSpeechBubble(line, cx, cy)
+            bubbleLayer.addChild(container)
+            activeBubbles.push({ container, timer: BUBBLE_SHOW_MS, phase: 'showing' })
+            nextSpawnTimer = SLOT_STAGGER_MS
           }
-        } else if (bubblePhase === 'showing') {
-          bubbleTimer -= ticker.deltaMS
-          if (bubbleTimer <= 0) {
-            bubblePhase = 'fading'
-            bubbleTimer = BUBBLE_FADE_MS
-          }
-        } else if (bubblePhase === 'fading') {
-          bubbleTimer -= ticker.deltaMS
-          if (activeBubble) activeBubble.alpha = Math.max(0, bubbleTimer / BUBBLE_FADE_MS)
-          if (bubbleTimer <= 0) {
-            if (activeBubble) { bubbleLayer.removeChild(activeBubble); activeBubble = null }
-            lastMovedMs = now
-            bubblePhase = 'waiting'
+        }
+
+        for (let i = activeBubbles.length - 1; i >= 0; i--) {
+          const slot = activeBubbles[i]
+          slot.timer -= ticker.deltaMS
+          if (slot.phase === 'showing' && slot.timer <= 0) {
+            slot.phase = 'fading'; slot.timer = BUBBLE_FADE_MS
+          } else if (slot.phase === 'fading') {
+            slot.container.alpha = Math.max(0, slot.timer / BUBBLE_FADE_MS)
+            if (slot.timer <= 0) {
+              bubbleLayer.removeChild(slot.container)
+              activeBubbles.splice(i, 1)
+            }
           }
         }
       }
