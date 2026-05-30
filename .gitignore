@@ -21,6 +21,7 @@ Packages/
 
 # Node / Web
 node_modules/
+package-lock.json
 dist/
 .vite/
 
