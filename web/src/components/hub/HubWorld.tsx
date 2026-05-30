@@ -29,6 +29,7 @@ let _hubSplashShown = false
 
 interface Props {
   onBack:             () => void
+  onUseTitleScreen?:  () => void
   onNavigate?:        (screen: string) => void
   onCampaign?:        () => void
   onPlayerTap?:       () => void
@@ -42,7 +43,7 @@ interface Props {
   onTileTap?:         (tx: number, ty: number) => void
 }
 
-export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onTileTap }: Props) {
+export function HubWorld({ onBack, onUseTitleScreen, onNavigate, onCampaign, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onTileTap }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
@@ -156,6 +157,9 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
             icon={'🗣️'}
           />
           
+          {onUseTitleScreen && (
+            <ToolbarButton className="action-btn hub-hud__btn" onClick={onUseTitleScreen} icon={'⌂'} title="Use Title Screen as home" />
+          )}
                       <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>
 
           </Toolbar>
