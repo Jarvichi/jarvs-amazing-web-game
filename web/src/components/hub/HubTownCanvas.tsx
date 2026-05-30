@@ -387,10 +387,16 @@ export function HubTownCanvas({
       })
       npcLayer.addChild(npcContainer)
 
-      const npcSpriteSlug = isCommanderNpc ? commander !== undefined ? commander.cardName : avatarSlug : npc.sprite
-      const npcSpriteUrl  = `${base}sprites/${npcSpriteSlug}.svg`
+      const npcSpriteSlug = isCommanderNpc ? (commander !== undefined ? commander.cardName : avatarSlug) : npc.sprite
 
-      loadTextureUrl(npcSpriteUrl).then(tex => {
+      // Commander slug is a card name (e.g. "Jarv Knight") — must go through
+      // loadSpriteTexture so spriteSlug() converts it to a valid filename.
+      // Hub NPC sprites are already filename slugs so loadTextureUrl is fine.
+      const texLoader = isCommanderNpc
+        ? loadSpriteTexture(npcSpriteSlug).catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
+        : loadTextureUrl(`${base}sprites/${npcSpriteSlug}.svg`)
+
+      texLoader.then(tex => {
         if (app.renderer == null) return
         const s = new PIXI.Sprite(tex)
         s.width = T; s.height = T
