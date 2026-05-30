@@ -2523,7 +2523,6 @@ export default function App() {
       {screen === 'hubworld' && (
         <HubWorld
           onBack={() => setScreen('settings')}
-          onUseTitleScreen={() => { saveHubDefault('title'); setScreen('title') }}
           onNavigate={(s) => {
             setReturnScreen('hubworld')
             const HUB_MINIGAME_IDS: SubScreen[] = ['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'citybuilder', 'prizes']
