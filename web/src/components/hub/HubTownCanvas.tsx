@@ -99,6 +99,7 @@ export function HubTownCanvas({
     const nodeLayer     = new PIXI.Container()
     const worldLayer    = new PIXI.Container()
     const interiorLayer = new PIXI.Container()  // top-most; hidden except when in a building
+    const bubbleLayer   = new PIXI.Container()  // speech bubbles — above everything
     spriteLayer.sortableChildren = true
     worldLayer.sortableChildren  = true
     interiorLayer.visible = false
@@ -107,7 +108,7 @@ export function HubTownCanvas({
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
     const exteriorDecorLayer = spriteLayer
-    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer,spriteLayer,  nodeLayer, worldLayer, interiorLayer, highlightGfx)
+    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, spriteLayer, nodeLayer, worldLayer, interiorLayer, bubbleLayer, highlightGfx)
 
     const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
 
@@ -380,6 +381,7 @@ export function HubTownCanvas({
     const npcDialogueIndex = new Map<string, number>()
 
     // ── Exterior NPCs ─────────────────────────────────────────────────────────
+    const npcBubbleTargets: { npc: HubNpc; cx: number; cy: number }[] = []
     for (const npc of EXTERIOR_NPCS) {
       const cx = npc.tx * T + T / 2
       const cy = npc.ty * T + T
@@ -400,6 +402,7 @@ export function HubTownCanvas({
         }
       })
       npcLayer.addChild(npcContainer)
+      if (npc.dialogue.length > 0) npcBubbleTargets.push({ npc, cx, cy })
 
       const npcSpriteSlug = isCommanderNpc ? (commander !== undefined ? commander.cardName : avatarSlug) : npc.sprite
 
@@ -789,6 +792,37 @@ export function HubTownCanvas({
       processInteriorWalkQueue()
     }
 
+    // ── Idle speech bubble state ───────────────────────────────────────────────
+    const IDLE_THRESHOLD_MS = 5000
+    const BUBBLE_SHOW_MS    = 5000
+    const BUBBLE_FADE_MS    = 500
+
+    let lastMovedMs    = performance.now()
+    let bubblePhase:     'waiting' | 'showing' | 'fading' = 'waiting'
+    let bubbleTimer    = 0
+    let activeBubble:  PIXI.Container | null = null
+    let lastBubbleIdx  = -1
+
+    function createSpeechBubble(text: string, cx: number, cy: number): PIXI.Container {
+      const c   = new PIXI.Container()
+      const lbl = new PIXI.Text({
+        text,
+        style: { fontSize: 11, fill: '#e8ffe8', fontFamily: 'monospace', wordWrap: true, wordWrapWidth: 160 },
+      })
+      lbl.anchor.set(0.5, 1)
+      const pad = 6
+      const bw  = lbl.width  + pad * 2
+      const bh  = lbl.height + pad * 2
+      const bg  = new PIXI.Graphics()
+      bg.roundRect(-bw / 2, -bh, bw, bh, 6).fill({ color: 0x1a2a1a, alpha: 0.92 })
+      bg.roundRect(-bw / 2, -bh, bw, bh, 6).stroke({ color: 0x44ff88, width: 1.5 })
+      bg.moveTo(-6, 0).lineTo(6, 0).lineTo(0, 8).closePath().fill({ color: 0x1a2a1a })
+      bg.moveTo(-6, 0).lineTo(6, 0).lineTo(0, 8).closePath().stroke({ color: 0x44ff88, width: 1.5 })
+      c.addChild(bg, lbl)
+      c.position.set(cx, cy - SPRITE_SIZE - 4)
+      return c
+    }
+
     // ── Exterior walk queue ────────────────────────────────────────────────────
     async function processWalkQueue() {
       if (walkQueue.length === 0) {
@@ -839,6 +873,9 @@ export function HubTownCanvas({
     }
 
     function startWalk(target: [number, number], nodeScreen?: string) {
+      if (activeBubble) { bubbleLayer.removeChild(activeBubble); activeBubble = null }
+      bubblePhase = 'waiting'
+      lastMovedMs = performance.now()
       const path = findPath(currentTile, target, pathSet)
       walkQueue = path.slice(1)
       pendingScreen = nodeScreen ?? null
@@ -972,6 +1009,39 @@ export function HubTownCanvas({
           if (npc.wanderTimer <= 0) {
             npc.wanderTimer = 2000 + Math.random() * 3000
             wanderNpc(npc)
+          }
+        }
+      }
+
+      // Idle speech bubble state machine (exterior only)
+      if (!interiorActive && npcBubbleTargets.length > 0) {
+        const now = performance.now()
+        if (isWalking) lastMovedMs = now
+
+        if (bubblePhase === 'waiting') {
+          if (now - lastMovedMs >= IDLE_THRESHOLD_MS) {
+            lastBubbleIdx = (lastBubbleIdx + 1) % npcBubbleTargets.length
+            const { npc, cx, cy } = npcBubbleTargets[lastBubbleIdx]
+            const didx = npcDialogueIndex.get(npc.id) ?? 0
+            const line = npc.dialogue[didx % npc.dialogue.length]
+            activeBubble = createSpeechBubble(line, cx, cy)
+            bubbleLayer.addChild(activeBubble)
+            bubbleTimer = BUBBLE_SHOW_MS
+            bubblePhase = 'showing'
+          }
+        } else if (bubblePhase === 'showing') {
+          bubbleTimer -= ticker.deltaMS
+          if (bubbleTimer <= 0) {
+            bubblePhase = 'fading'
+            bubbleTimer = BUBBLE_FADE_MS
+          }
+        } else if (bubblePhase === 'fading') {
+          bubbleTimer -= ticker.deltaMS
+          if (activeBubble) activeBubble.alpha = Math.max(0, bubbleTimer / BUBBLE_FADE_MS)
+          if (bubbleTimer <= 0) {
+            if (activeBubble) { bubbleLayer.removeChild(activeBubble); activeBubble = null }
+            lastMovedMs = now
+            bubblePhase = 'waiting'
           }
         }
       }
