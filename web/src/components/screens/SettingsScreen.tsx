@@ -584,22 +584,6 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
           </div>
         </Section>
 
-        <Section bordered title="ALPHA FEATURES">
-          <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
-            <div>
-              <div className="settings-label">Hub World</div>
-              <div className="settings-sublabel">Explore a town hub with buildings, NPCs and quests</div>
-            </div>
-            {isHubWorldUnlocked() ? (
-              <span className="settings-value" style={{ color: '#44ff88' }}>✓ ENABLED</span>
-            ) : (
-              <button className="action-btn" onClick={() => { unlockHubWorld(); window.location.reload() }}>
-                UNLOCK
-              </button>
-            )}
-          </div>
-        </Section>
-
         {isHubWorldUnlocked() && (
           <Section bordered title="NAVIGATION">
             <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
