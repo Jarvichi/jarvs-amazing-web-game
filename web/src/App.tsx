@@ -255,12 +255,6 @@ export default function App() {
   const { needRefresh: [needRefresh], updateServiceWorker } = useRegisterSW({
     onRegisteredSW(_url, r) {
       swRegRef.current = r ?? null
-      // Register the controllerchange listener immediately so we never race
-      // with skipWaiting: the new SW may activate before onNeedRefresh fires.
-      let reloading = false
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!reloading) { reloading = true; window.location.reload() }
-      })
       // In standalone (home screen) mode the browser doesn't trigger SW update
       // checks on each launch the way a normal tab does, so we kick one off
       // immediately and then repeat every hour.
@@ -273,9 +267,16 @@ export default function App() {
       updateServiceWorker(true)
     },
   })
+  // Attached at mount (synchronously, before any async SW lifecycle callbacks)
+  // so we never miss the controllerchange event when skipWaiting activates a
+  // new service worker before onRegisteredSW has run.
   useEffect(() => {
-    if (needRefresh) updateServiceWorker(true)
-  }, [needRefresh, updateServiceWorker])
+    if (!navigator.serviceWorker) return
+    let reloading = false
+    const handler = () => { if (!reloading) { reloading = true; window.location.reload() } }
+    navigator.serviceWorker.addEventListener('controllerchange', handler)
+    return () => navigator.serviceWorker.removeEventListener('controllerchange', handler)
+  }, [])
 
   // ── Startup: auto-resume a pending campaign battle on page refresh ──────────
   // If the player refreshed mid-battle, pendingNodeId is still set. We build the
@@ -2499,7 +2500,13 @@ export default function App() {
           onFeedbackAdmin={() => setScreen('feedbackAdmin')}
           onHubWorld={() => setScreen('hubworld')}
           onTitleScreen={() => setScreen('title')}
-          onCheckForUpdates={() => swRegRef.current?.update().catch(() => {})}
+          onCheckForUpdates={async () => {
+            if (needRefresh) {
+              updateServiceWorker(true)
+            } else {
+              await swRegRef.current?.update().catch(() => {})
+            }
+          }}
         />
       )}
 
