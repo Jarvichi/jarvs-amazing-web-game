@@ -127,7 +127,7 @@ import { DailyChallengeScreen } from './components/screens/DailyChallengeScreen'
 import { ConfirmModal }          from './components/modals/ConfirmModal'
 import { StreakBrokenModal }     from './components/modals/StreakBrokenModal'
 import { EndlessLeaderboardScreen } from './components/screens/EndlessLeaderboardScreen'
-import { MiniGamesMenu }           from './components/screens/MiniGamesMenu'
+import { MiniGamesMenu, SubScreen } from './components/screens/MiniGamesMenu'
 import { AugmentCollectionScreen } from './components/screens/AugmentCollectionScreen'
 import { PlayerScreen }            from './components/screens/PlayerScreen'
 import { CollectionTabScreen }     from './components/screens/CollectionTabScreen'
@@ -227,7 +227,7 @@ type Screen =
   | 'collection-tabs'
   | 'home-shelf'
   | 'hubworld'
-  | 'hub-fishing'
+  | 'hub-minigame'
   | 'casino'
 
 
@@ -330,6 +330,7 @@ export default function App() {
   const [screen, setScreen]             = useState<Screen>(_startup.screen)
   const [returnScreen, setReturnScreen]  = useState<Screen>('title')
   const [miniGamesEntry, setMiniGamesEntry] = useState<'menu' | 'citybuilder'>('menu')
+  const [hubMiniGameEntry, setHubMiniGameEntry] = useState<SubScreen>('menu')
   const [showTitleLoginModal, setShowTitleLoginModal] = useState(false)
   const [feedbackOpen, setFeedbackOpen] = useState(false)
   // ── Battle state (all ephemeral state that exists only during a battle) ──────
@@ -2513,7 +2514,16 @@ export default function App() {
       {screen === 'hubworld' && (
         <HubWorld
           onBack={() => setScreen('settings')}
-          onNavigate={(s) => { setReturnScreen('hubworld'); setScreen(s as Screen) }}
+          onNavigate={(s) => {
+            setReturnScreen('hubworld')
+            const HUB_MINIGAME_IDS: SubScreen[] = ['marble', 'tileflip', 'crystalcatch', 'spinner', 'marblerace', 'higherOrLower', 'fruitMachine', 'videoPoker', 'fishing', 'towerDefence', 'citybuilder', 'prizes']
+            if (HUB_MINIGAME_IDS.includes(s as SubScreen)) {
+              setHubMiniGameEntry(s as SubScreen)
+              setScreen('hub-minigame')
+            } else {
+              setScreen(s as Screen)
+            }
+          }}
           onCampaign={() => { setReturnScreen('hubworld'); handleCampaign() }}
           onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
           crystals={crystals}
@@ -2975,14 +2985,15 @@ export default function App() {
         />
       )}
 
-      {screen === 'hub-fishing' && (
+      {screen === 'hub-minigame' && (
         <MiniGamesMenu
           crystals={crystals}
           onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
           user={user}
           characterName={loadPlayerName()}
           onBack={() => setScreen('hubworld')}
-          initialSubScreen="fishing"
+          onGameDone={() => setScreen('hubworld')}
+          initialSubScreen={hubMiniGameEntry}
         />
       )}
 

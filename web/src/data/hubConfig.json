@@ -904,7 +904,7 @@
       "id": "achievements-keeper",
       "name": "The Chronicler",
       "sprite": "hub-npc-elder",
-      "tx": 56, "ty": 19,
+      "tx": 33, "ty": 22,
       "screen": "hall-of-achievements",
       "dialogue": ["Your deeds are recorded here, Commander. Come see your legacy."]
     },
@@ -912,7 +912,7 @@
       "id": "home-shelf",
       "name": "Steward Maren",
       "sprite": "hub-npc-elder",
-      "tx": 19, "ty": 18,
+      "tx": 33, "ty": 24,
       "screen": "home-shelf",
       "dialogue": [
         "Your quarters are just inside, Commander. I keep your things in order.",
@@ -925,7 +925,7 @@
       "name": "Fishing Hole",
       "sprite": "hub-npc-fisherman",
       "tx": 35, "ty": 39,
-      "screen": "hub-fishing",
+      "screen": "fishing",
       "dialogue": ["The pond is calm today. Care to fish?"]
     },
     {
@@ -933,9 +933,97 @@
       "name": "Fishing Hole",
       "sprite": "hub-npc-fisherman",
       "tx": 34, "ty": 41,
-      "screen": "hub-fishing",
+      "screen": "fishing",
       "dialogue": ["The pond is calm today. Care to fish?"]
-    },    
+    },
+    {
+      "id": "marble-master",
+      "name": "Marble Master",
+      "sprite": "hub-npc-dealer",
+      "tx": 46, "ty": 22,
+      "screen": "marble",
+      "dialogue": ["Steady hands and a keen eye — care to roll?", "Every marble tells a story. Shall we write yours?"]
+    },
+    {
+      "id": "the-flipper",
+      "name": "The Flipper",
+      "sprite": "hub-npc-merchant",
+      "tx": 48, "ty": 22,
+      "screen": "tileflip",
+      "dialogue": ["Flip a tile, reveal your fate.", "Memory is a weapon. How sharp is yours?"]
+    },
+    {
+      "id": "crystal-keeper",
+      "name": "Crystal Keeper",
+      "sprite": "hub-npc-scholar",
+      "tx": 52, "ty": 22,
+      "screen": "crystalcatch",
+      "dialogue": ["Crystals falling fast — catch them before they shatter!", "Speed and focus. That is all you need."]
+    },
+    {
+      "id": "spinner-sal",
+      "name": "Spinner Sal",
+      "sprite": "hub-npc-dealer",
+      "tx": 54, "ty": 22,
+      "screen": "spinner",
+      "dialogue": ["Give it a spin — luck favours the bold.", "The wheel knows no favourites. Try your luck!"]
+    },
+    {
+      "id": "race-marshal",
+      "name": "Race Marshal",
+      "sprite": "hub-npc-arena",
+      "tx": 56, "ty": 22,
+      "screen": "marblerace",
+      "dialogue": ["On your marks — the race is about to begin!", "Place your bets and pick your marble. May the fastest win."]
+    },
+    {
+      "id": "card-sharp",
+      "name": "Card Sharp",
+      "sprite": "hub-npc-merchant",
+      "tx": 56, "ty": 24,
+      "screen": "higherOrLower",
+      "dialogue": ["Higher or lower? Simple question, nerves of steel.", "Read the deck — or trust your gut."]
+    },
+    {
+      "id": "reels-remy",
+      "name": "Reels Remy",
+      "sprite": "hub-npc-dealer",
+      "tx": 54, "ty": 26,
+      "screen": "fruitMachine",
+      "dialogue": ["Pull the lever and watch the reels spin!", "Three in a row and the jackpot is yours."]
+    },
+    {
+      "id": "poker-pete",
+      "name": "Poker Pete",
+      "sprite": "hub-npc-dealer",
+      "tx": 52, "ty": 26,
+      "screen": "videoPoker",
+      "dialogue": ["Best hand wins. Know when to hold, know when to fold.", "Poker face optional. Skill is not."]
+    },
+    {
+      "id": "prize-keeper",
+      "name": "Prize Keeper",
+      "sprite": "hub-npc-merchant",
+      "tx": 38, "ty": 27,
+      "screen": "prizes",
+      "dialogue": ["Got tickets? I've got prizes. Let's make a deal.", "Trade in your winning tickets for something special."]
+    },
+    {
+      "id": "siege-master",
+      "name": "Siege Master",
+      "sprite": "hub-npc-soldier",
+      "tx": 41, "ty": 26,
+      "screen": "towerDefence",
+      "dialogue": ["The enemy approaches. Build your defences and hold the line!", "Every tower placed is a life saved. Choose wisely."]
+    },
+    {
+      "id": "town-planner",
+      "name": "Town Planner",
+      "sprite": "hub-npc-elder",
+      "tx": 37, "ty": 26,
+      "screen": "citybuilder",
+      "dialogue": ["A great city starts with a single road. Shall we begin?", "Lay the streets, raise the buildings — this town is yours to shape."]
+    },
     {
       "id": "home-steward",
       "name": "Steward Aldous",
