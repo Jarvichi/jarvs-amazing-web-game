@@ -133,6 +133,7 @@ export function tileFrame(id: number, cols: number): { x: number; y: number; w: 
 export interface EnvTileDef {
   ground: number          // BaseChip tile id — solid colour fallback fill
   pathFile: string        // per-combination 8-col transition sheet
+  solidColor?: number     // when set, fill background with this solid hex color instead of tiles
   bgTileId?: number       // tile in pathFile to repeat as textured background fill
   pathWidth?: number      // path tile width (odd; default 1); >1 expands perpendicular to path direction
   decorFile?: string      // decor scatter sheet (same 8-col format)
@@ -150,7 +151,7 @@ export const ENV_TILES: Record<string, EnvTileDef> = {
   citadel:  { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.wall2        },
   coast:    { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water2,       pathWidth: 3 },
   reef:     { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water1,       pathWidth: 3 },
-  sky:      { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Grass2 },
+  sky:      { ground: BASE_GROUND.lightGrass,  solidColor: 0x000000, pathFile: PATH_TILE.dirt4 },
   fungal:   { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.grass1Grass3 },
   vault:    { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.wall1        },
   camp:     { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },

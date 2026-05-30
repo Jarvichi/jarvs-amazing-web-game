@@ -23,22 +23,29 @@ export function buildTerrainGfx(
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const { environment, terrainSeed, terrainItems: explicitItems, rivers: explicitRivers, id = '' } = opts
 
-  const groundTileId = ENV_TILES[environment ?? '']?.ground ?? BASE_GROUND.mediumGrass
-  const tileUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
-  loadTileTexture(tileUrl, groundTileId, TILESET_COLUMNS.baseChip).then(groundTex => {
-    if (baseContainer.destroyed) return
-    const tileCols = Math.ceil(mapWidth / 32)
-    const tileRows = Math.ceil(mapHeight / 32)
-    const bg = new PIXI.Container()
-    for (let r = 0; r < tileRows; r++) {
-      for (let c = 0; c < tileCols; c++) {
-        const s = new PIXI.Sprite(groundTex)
-        s.position.set(c * 32, r * 32)
-        bg.addChild(s)
+  const def = ENV_TILES[environment ?? '']
+  if (def?.solidColor !== undefined) {
+    const g = new PIXI.Graphics()
+    g.rect(0, 0, mapWidth, mapHeight).fill({ color: def.solidColor })
+    baseContainer.addChild(g)
+  } else {
+    const groundTileId = def?.ground ?? BASE_GROUND.mediumGrass
+    const tileUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
+    loadTileTexture(tileUrl, groundTileId, TILESET_COLUMNS.baseChip).then(groundTex => {
+      if (baseContainer.destroyed) return
+      const tileCols = Math.ceil(mapWidth / 32)
+      const tileRows = Math.ceil(mapHeight / 32)
+      const bg = new PIXI.Container()
+      for (let r = 0; r < tileRows; r++) {
+        for (let c = 0; c < tileCols; c++) {
+          const s = new PIXI.Sprite(groundTex)
+          s.position.set(c * 32, r * 32)
+          bg.addChild(s)
+        }
       }
-    }
-    baseContainer.addChild(bg)
-  }).catch(e => console.error('[terrainLayer] ground tile load failed', tileUrl, e))
+      baseContainer.addChild(bg)
+    }).catch(e => console.error('[terrainLayer] ground tile load failed', tileUrl, e))
+  }
 
   const seed = terrainSeed ?? hashStr(id)
   const items = explicitItems ?? getTerrainItems(environment, seed, mapWidth, mapHeight)

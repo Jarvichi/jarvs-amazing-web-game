@@ -36,7 +36,7 @@ export function getTerrainItems(env: string | undefined, seed: number, w: number
     case 'sand':     scatter('dune', 10, 0.7, 1.3); scatter('mountain', 4, 0.5, 0.9); break
     case 'reef':
     case 'coast':    scatter('wave', 10, 0.8, 1.4); scatter('mountain', 4, 0.5, 0.9); scatter('river', 1, 1, 1); break
-    case 'sky':      scatter('cloud', 12, 0.8, 1.5); scatter('mountain', 4, 0.4, 0.8); break
+    case 'sky':      scatter('cloud', 20, 0.7, 2.0); break
     case 'fungal':   scatter('mushroom', 12, 0.8, 1.5); scatter('deadtree', 4, 0.5, 0.9); scatter('river', 1, 1, 1); break
     case 'vault':
     case 'camp':     scatter('pillar', 8, 0.7, 1.2); scatter('mountain', 4, 0.5, 0.9); break
