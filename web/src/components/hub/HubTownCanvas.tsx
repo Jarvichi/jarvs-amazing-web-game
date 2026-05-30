@@ -11,7 +11,7 @@ import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS } from '../../data/hubNpcs'
 import { HUB_DOORS, HUB_INTERIORS } from '../../data/hubInteriors'
-import { EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES } from '../../data/hubConfigLoader'
+import { EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS } from '../../data/hubConfigLoader'
 import { loadPlayerAvatar } from '../../game/questline'
 import type { HubNpc } from '../../data/hubConfigLoader'
 import { CommanderState } from '../../game/commander'
@@ -57,18 +57,23 @@ interface Props {
   onAvatarMove:     (px: number, py: number) => void
   returnRef?:       React.MutableRefObject<(() => void) | null>
   unitCards?:       string[]
-        commander?: CommanderState
-  onNpcTap?:        (dialogue: string) => void
+  commander?:       CommanderState
+  onNpcTap?:        (dialogue: string, npcId: string) => void
   interiorEnterRef?: React.MutableRefObject<((buildingId: string) => void) | null>
   interiorExitRef?:  React.MutableRefObject<(() => void) | null>
   onExitInterior?:   () => void
   onTileTap?:        (tx: number, ty: number) => void
+  pickedUpIds?:      Set<string>
+  onItemPickup?:     (id: string, questId?: string) => void
+  doorKeys?:         Set<string>
+  onDoorLocked?:     (buildingId: string, requiredItem: string) => void
 }
 
 export function HubTownCanvas({
   onAreaEnter, onNodeInteract, onAvatarMove,
   returnRef, unitCards, commander, onNpcTap,
   interiorEnterRef, interiorExitRef, onExitInterior, onTileTap,
+  pickedUpIds, onItemPickup, doorKeys, onDoorLocked,
 }: Props) {
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
@@ -81,10 +86,18 @@ export function HubTownCanvas({
   onNpcTapRef.current     = onNpcTap
   const unitCardsRef      = useRef(unitCards)
   unitCardsRef.current    = unitCards
-  const onExitInteriorRef = useRef(onExitInterior)
+  const onExitInteriorRef   = useRef(onExitInterior)
   onExitInteriorRef.current = onExitInterior
-  const onTileTapRef      = useRef(onTileTap)
-  onTileTapRef.current    = onTileTap
+  const onTileTapRef        = useRef(onTileTap)
+  onTileTapRef.current      = onTileTap
+  const onItemPickupRef     = useRef(onItemPickup)
+  onItemPickupRef.current   = onItemPickup
+  const onDoorLockedRef     = useRef(onDoorLocked)
+  onDoorLockedRef.current   = onDoorLocked
+  const doorKeysRef         = useRef(doorKeys)
+  doorKeysRef.current       = doorKeys
+  // Tracks picked-up IDs imperatively within PixiJS context
+  const pickedUpRef         = useRef<Set<string>>(pickedUpIds ?? new Set())
 
   usePixiApp(containerRef, MAP_W, MAP_H, (app) => {
     app.canvas.style.touchAction = 'pan-x pan-y'
@@ -93,6 +106,7 @@ export function HubTownCanvas({
     const groundLayer   = new PIXI.Container()
     const streetLayer   = new PIXI.Container()
     const pondLayer     = new PIXI.Container()
+    const pickupLayer   = new PIXI.Container()  // ground-level collectible items
     const spriteLayer   = new PIXI.Container()  // avatar + NPCs + decor, Y-sorted
     const buildingLayer = new PIXI.Container()
     const windowLayer   = new PIXI.Container()
@@ -108,7 +122,10 @@ export function HubTownCanvas({
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
     const exteriorDecorLayer = spriteLayer
-    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, spriteLayer, nodeLayer, worldLayer, interiorLayer, bubbleLayer, highlightGfx)
+    app.stage.addChild(groundLayer, streetLayer, pondLayer, pickupLayer, buildingLayer, windowLayer, spriteLayer, nodeLayer, worldLayer, interiorLayer, bubbleLayer, highlightGfx)
+
+    // Keyed by pickupId; used to imperatively show/hide sprites when items are collected
+    const pickupSprites = new Map<string, PIXI.Sprite>()
 
     const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
 
@@ -324,6 +341,47 @@ export function HubTownCanvas({
       }
     }
 
+    // ── Exterior pickup items ──────────────────────────────────────────────────
+    {
+      const baseChipUrl  = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
+      const exteriorPickups = HUB_PICKUP_ITEMS.filter(p => !p.building)
+      const byTile = new Map<number, typeof exteriorPickups>()
+      for (const p of exteriorPickups) {
+        if (p.tileId === 666) continue
+        const list = byTile.get(p.tileId) ?? []
+        list.push(p)
+        byTile.set(p.tileId, list)
+      }
+      for (const [tileId, pickups] of byTile) {
+        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+          if (app.renderer == null) return
+          for (const pickup of pickups) {
+            // Skip already-collected items; also skip chain items whose prerequisite isn't done
+            if (pickedUpRef.current.has(pickup.id)) continue
+            if (pickup.chain && !pickedUpRef.current.has(pickup.chain)) continue
+            const s = new PIXI.Sprite(tex)
+            s.position.set(pickup.tx * T, pickup.ty * T)
+            s.width = T; s.height = T
+            s.eventMode = 'static'
+            s.cursor    = 'pointer'
+            s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+              e.stopPropagation()
+              s.visible = false
+              pickedUpRef.current.add(pickup.id)
+              // Reveal any chained item now that this one is collected
+              for (const [pid, sprite] of pickupSprites) {
+                const def = HUB_PICKUP_ITEMS.find(p => p.id === pid)
+                if (def?.chain === pickup.id) sprite.visible = true
+              }
+              onItemPickupRef.current?.(pickup.id, pickup.questId)
+            })
+            pickupLayer.addChild(s)
+            pickupSprites.set(pickup.id, s)
+          }
+        }).catch(() => {})
+      }
+    }
+
     // ── Windows (transparent tile overlays on building walls) ─────────────────
     {
       const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
@@ -397,7 +455,7 @@ export function HubTownCanvas({
           onNodeInteractRef.current(npc.screen)
         } else if (npc.dialogue.length > 0) {
           const idx = npcDialogueIndex.get(npc.id) ?? 0
-          onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length])
+          onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length], npc.id)
           npcDialogueIndex.set(npc.id, idx + 1)
         }
       })
@@ -608,6 +666,13 @@ export function HubTownCanvas({
 
     // ── Interior enter ─────────────────────────────────────────────────────────
     const doEnterInterior = (buildingId: string) => {
+      // Locked door check — block entry if key not in inventory
+      const lock = HUB_LOCKED_DOORS.find(l => l.buildingId === buildingId)
+      if (lock && !doorKeysRef.current?.has(lock.lockedBy)) {
+        onDoorLockedRef.current?.(buildingId, lock.lockedBy)
+        return
+      }
+
       const interior = HUB_INTERIORS[buildingId]
       if (!interior) return
 
@@ -721,6 +786,46 @@ export function HubTownCanvas({
         }).catch(() => {})
       }
 
+      // Interior pickup items — rendered in room, disappear when tapped
+      {
+        const intBaseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
+        const intPickups = HUB_PICKUP_ITEMS.filter(p => p.building === buildingId)
+        const intByTile = new Map<number, typeof intPickups>()
+        for (const p of intPickups) {
+          if (p.tileId === 666) continue
+          const list = intByTile.get(p.tileId) ?? []
+          list.push(p)
+          intByTile.set(p.tileId, list)
+        }
+        for (const [tileId, pickups] of intByTile) {
+          loadTileTexture(intBaseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+            if (!interiorActive || currentInteriorId !== buildingId) return
+            for (const pickup of pickups) {
+              if (pickedUpRef.current.has(pickup.id)) continue
+              if (pickup.chain && !pickedUpRef.current.has(pickup.chain)) continue
+              const s = new PIXI.Sprite(tex)
+              s.position.set(pickup.tx * T, pickup.ty * T)
+              s.width = T; s.height = T
+              s.eventMode = 'static'
+              s.cursor    = 'pointer'
+              s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+                e.stopPropagation()
+                s.visible = false
+                pickedUpRef.current.add(pickup.id)
+                // Reveal chained exterior pickups if applicable
+                for (const [pid, sprite] of pickupSprites) {
+                  const def = HUB_PICKUP_ITEMS.find(p => p.id === pid)
+                  if (def?.chain === pickup.id) sprite.visible = true
+                }
+                onItemPickupRef.current?.(pickup.id, pickup.questId)
+              })
+              interiorLayer.addChild(s)
+              pickupSprites.set(pickup.id, s)
+            }
+          }).catch(() => {})
+        }
+      }
+
       // Interior NPCs — rendered inside the room, tappable
       const interiorNpcList: HubNpc[] = INTERIOR_NPCS[buildingId] ?? []
       for (const npc of interiorNpcList) {
@@ -738,7 +843,7 @@ export function HubTownCanvas({
               onNodeInteractRef.current(npc.screen)
             } else if (npc.dialogue.length > 0) {
               const idx = npcDialogueIndex.get(npc.id) ?? 0
-              onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length])
+              onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length], npc.id)
               npcDialogueIndex.set(npc.id, idx + 1)
             }
           })

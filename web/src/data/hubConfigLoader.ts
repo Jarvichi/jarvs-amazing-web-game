@@ -52,6 +52,24 @@ export interface HubNpc {
   dialogue: string[]
   screen?: string
   building?: string
+  questGive?: string
+  questReceive?: string
+  innRumours?: Array<{ id: string; text: string }>
+}
+
+export interface HubPickupItem {
+  id: string
+  tx: number
+  ty: number
+  tileId: number
+  building?: string
+  questId?: string
+  chain?: string
+}
+
+export interface HubLockedDoor {
+  buildingId: string
+  lockedBy: string
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -179,3 +197,21 @@ export const INTERIOR_NPCS: Record<string, HubNpc[]> = HUB_NPCS
 export const NPC_SPAWN_TILES = rawConfig.npcSpawnTiles as [number, number][]
 
 export const AMBIENT_NPC_SPRITES: string[] = (rawConfig as { ambientNpcSprites?: string[] }).ambientNpcSprites ?? []
+
+type RawPickup = { id: string; tx: number; ty: number; tileId: string; building?: string; questId?: string; chain?: string }
+export const HUB_PICKUP_ITEMS: HubPickupItem[] = (
+  (rawConfig as unknown as { pickupItems?: RawPickup[] }).pickupItems ?? []
+).map(p => ({
+  id:       p.id,
+  tx:       p.tx,
+  ty:       p.ty,
+  tileId:   resolveTileId(p.tileId),
+  building: p.building,
+  questId:  p.questId,
+  chain:    p.chain,
+}))
+
+type RawLockedDoor = { buildingId: string; lockedBy: string }
+export const HUB_LOCKED_DOORS: HubLockedDoor[] = (
+  (rawConfig as unknown as { lockedDoors?: RawLockedDoor[] }).lockedDoors ?? []
+)

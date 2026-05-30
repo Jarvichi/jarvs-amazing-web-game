@@ -4,8 +4,9 @@ import { HubTownCanvas } from './HubTownCanvas'
 import { AreaNameBadge } from './AreaNameBadge'
 import { HubReturnButton } from './HubReturnButton'
 import { HubDialogue } from './HubDialogue'
+import type { DialogueChoice } from './HubDialogue'
 import { AVATAR_START, MAP_W, MAP_H } from '../../data/hubLayout'
-import { loadDeck, loadCollection, deckTotalCards } from '../../game/collection'
+import { loadDeck, loadCollection, loadCrystals, saveCrystals } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { CommanderState } from '../../game/commander'
 import { loadSkipIntro } from '../screens/SettingsScreen'
@@ -17,6 +18,15 @@ import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { User } from 'firebase/auth'
 import { loadPlayerName } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
+import { HUB_NPCS } from '../../data/hubConfigLoader'
+import { HUB_QUEST_DEFS, INN_RUMOURS, FRIENDSHIP_DIALOGUE } from '../../data/hubQuestDefs'
+import type { HubQuestDef } from '../../data/hubQuestDefs'
+import { getPickedUpIds, markPickedUp } from '../../game/hubPickups'
+import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hubFriendship'
+import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress } from '../../game/hubQuests'
+import { getHeardConvoIds, markConvoHeard } from '../../game/hubInnConvos'
+import { addCollectible, getCollectibles } from '../../game/itemStore'
+
 const T = 32
 const INITIAL_SCROLL = {
   x: AVATAR_START[0] * T + T / 2,
@@ -24,8 +34,41 @@ const INITIAL_SCROLL = {
 }
 const SPLASH_MS = 10_000
 
-// Module-level flag: once dismissed in this session, never re-show
 let _hubSplashShown = false
+
+interface QuestEvent {
+  speakerName: string
+  text: string
+  choices?: DialogueChoice[]
+}
+
+function checkPrerequisite(prereq: string): boolean {
+  if (prereq.startsWith('friendship:')) {
+    const parts = prereq.split(':')
+    return getFriendshipLevel(parts[1]) >= parseInt(parts[2] ?? '1')
+  }
+  return true
+}
+
+function isQuestReadyToComplete(quest: HubQuestDef): boolean {
+  return quest.steps.every(step => getQuestProgress(quest.id, step.key) >= step.required)
+}
+
+function getActiveDialogue(quest: HubQuestDef): string {
+  const { activeDialogue } = quest
+  if (typeof activeDialogue === 'string') return activeDialogue
+  // Chain quest: find first incomplete step and return its hint
+  for (const step of quest.steps) {
+    if (getQuestProgress(quest.id, step.key) < step.required) {
+      return activeDialogue[step.key] ?? Object.values(activeDialogue)[0]
+    }
+  }
+  return Object.values(activeDialogue)[Object.values(activeDialogue).length - 1]
+}
+
+function getNpcDisplayName(npcId: string): string {
+  return HUB_NPCS.find(n => n.id === npcId)?.name ?? npcId
+}
 
 interface Props {
   onBack:             () => void
@@ -47,12 +90,18 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
   const [dialogueLine,   setDialogueLine]   = useState<string | null>(null)
+  const [dialogueEvent,  setDialogueEvent]  = useState<QuestEvent | null>(null)
   const [interiorActive, setInteriorActive] = useState(false)
+  const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => getPickedUpIds())
+  // Refresh friendship/quest state after interactions (lightweight — just reads localStorage)
+  const [_tick, setTick] = useState(0)
+  const refreshState = useCallback(() => setTick(t => t + 1), [])
+
   const scrollRef        = useRef<HTMLDivElement>(null)
   const returnRef        = useRef(null) as React.MutableRefObject<(() => void) | null>
   const interiorEnterRef = useRef<((buildingId: string) => void) | null>(null)
   const interiorExitRef  = useRef<(() => void) | null>(null)
-    const playerName = loadPlayerName()
+  const playerName = loadPlayerName()
 
   const unitCards = useMemo(() => {
     const deck    = loadDeck()
@@ -63,11 +112,10 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       .map(c => c.name)
   }, [])
 
-
   // Secret #9 — Wrong Save File: rare title-screen glitch showing fake stats
   const [wrongSave, setWrongSave] = useState<{ cards: number; crystals: number; deck: number } | null>(null)
   useEffect(() => {
-    if (Math.random() > 0.02) return  // 2% chance
+    if (Math.random() > 0.02) return
     const fake = {
       cards:    Math.floor(Math.random() * catalogTotal),
       crystals: Math.floor(Math.random() * 9999),
@@ -89,6 +137,15 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       catalogTotal: catalog.length,
     }
   }, [])
+
+  // Keys the player currently holds (determines locked door access)
+  const doorKeys = useMemo(() => {
+    const keys = new Set<string>()
+    for (const c of getCollectibles()) keys.add(c.id)
+    return keys
+  // Recompute when quest state changes (quest rewards add keys)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [_tick])
 
   const dismissSplash = useCallback(() => {
     _hubSplashShown = true
@@ -140,26 +197,156 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
     setInteriorActive(false)
   }, [])
 
+  const handleItemPickup = useCallback((id: string, questId?: string) => {
+    markPickedUp(id)
+    setPickedUpIds(getPickedUpIds())
+
+    if (!questId) return
+
+    const quest = HUB_QUEST_DEFS.find(q => q.id === questId)
+    if (!quest) return
+    const state = getQuestState(questId)
+    if (state.status !== 'active') return
+
+    // Find which step this pickup belongs to and increment progress
+    for (const step of quest.steps) {
+      if (step.type === 'collect' && step.pickupIds?.includes(id)) {
+        incrementQuestProgress(questId, step.key)
+        break
+      }
+    }
+    refreshState()
+  }, [refreshState])
+
+  const handleDoorLocked = useCallback((buildingId: string, requiredItem: string) => {
+    const itemName = requiredItem.replace(/-/g, ' ')
+    setDialogueLine(`This door is locked. You need a ${itemName} to enter.`)
+  }, [])
+
+  const handleNpcTap = useCallback((line: string, npcId: string) => {
+    const npcDef = HUB_NPCS.find(n => n.id === npcId)
+    const speakerName = npcDef?.name ?? ''
+
+    // ── Inn rumour handling (Innkeeper Rosie) ───────────────────────────────
+    if (npcId === 'innkeeper-rosie' && npcDef?.innRumours) {
+      const heard = getHeardConvoIds()
+      const unheard = npcDef.innRumours.filter(r => !heard.has(r.id))
+      if (unheard.length > 0) {
+        const rumour = unheard[0]
+        markConvoHeard(rumour.id)
+        setDialogueEvent({ speakerName, text: rumour.text })
+        return
+      }
+    }
+
+    // ── Quest completion (receiver NPC tapped) ──────────────────────────────
+    if (npcDef?.questReceive) {
+      const quest = HUB_QUEST_DEFS.find(q => q.id === npcDef.questReceive)
+      if (quest && getQuestState(quest.id).status === 'active') {
+        // Handle deliver step
+        for (const step of quest.steps) {
+          if (step.type === 'deliver' && step.targetNpcId === npcId) {
+            incrementQuestProgress(quest.id, step.key)
+            break
+          }
+        }
+        if (isQuestReadyToComplete(quest)) {
+          setQuestStatus(quest.id, 'completed')
+          grantQuestReward(quest)
+          refreshState()
+          setDialogueEvent({
+            speakerName,
+            text: quest.completeDialogue,
+          })
+          return
+        }
+      }
+    }
+
+    // ── Quest give/active dialogue ──────────────────────────────────────────
+    if (npcDef?.questGive) {
+      const quest = HUB_QUEST_DEFS.find(q => q.id === npcDef.questGive)
+      if (quest) {
+        const state = getQuestState(quest.id)
+
+        if (state.status === 'available') {
+          const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
+          if (prereqMet) {
+            setDialogueEvent({
+              speakerName,
+              text: quest.offerDialogue,
+              choices: [
+                {
+                  label: 'Accept',
+                  primary: true,
+                  onClick: () => {
+                    setQuestStatus(quest.id, 'active')
+                    refreshState()
+                    setDialogueEvent(null)
+                  },
+                },
+                {
+                  label: 'Not now',
+                  onClick: () => setDialogueEvent(null),
+                },
+              ],
+            })
+            return
+          }
+        }
+
+        if (state.status === 'active') {
+          // Also check if this NPC is the receiver and quest is ready
+          if (quest.receiverNpcId === npcId && isQuestReadyToComplete(quest)) {
+            setQuestStatus(quest.id, 'completed')
+            grantQuestReward(quest)
+            refreshState()
+            setDialogueEvent({ speakerName, text: quest.completeDialogue })
+            return
+          }
+          setDialogueEvent({ speakerName, text: getActiveDialogue(quest) })
+          return
+        }
+
+        if (state.status === 'completed') {
+          // Fall through to friendship/default dialogue
+        }
+      }
+    }
+
+    // ── Friendship tier dialogue override ───────────────────────────────────
+    const friendTiers = FRIENDSHIP_DIALOGUE[npcId]
+    if (friendTiers) {
+      const level = getFriendshipLevel(npcId)
+      const tiers = Object.entries(friendTiers)
+        .map(([k, v]) => ({ minLevel: parseInt(k), text: v }))
+        .filter(t => level >= t.minLevel)
+        .sort((a, b) => b.minLevel - a.minLevel)
+      if (tiers.length > 0) {
+        setDialogueEvent({ speakerName, text: tiers[0].text })
+        return
+      }
+    }
+
+    // ── Default dialogue ─────────────────────────────────────────────────────
+    setDialogueEvent({ speakerName, text: line })
+  }, [refreshState])
+
   return (
     <OverlayScreen title="JARVS AMAZING WEB GAME">
-              <Toolbar>
-                
-            <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
-            <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
-            <ToolbarSpacer/>
-     
-                 <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
-          <ToolbarButton
-            className="title-auth-btn"
-            onClick={onFeedback}
-            title="Send feedback or report a bug"
-            icon={'🗣️'}
-          />
-          
-                      <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>
-
-          </Toolbar>
-
+      <Toolbar>
+        <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
+        <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
+        <ToolbarSpacer/>
+        <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
+        <ToolbarButton
+          className="title-auth-btn"
+          onClick={onFeedback}
+          title="Send feedback or report a bug"
+          icon={'🗣️'}
+        />
+        <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>
+      </Toolbar>
 
       <div
         className="nm-map nm-map--camp"
@@ -176,17 +363,29 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
             returnRef={returnRef}
             unitCards={unitCards}
             commander={commander}
-            onNpcTap={setDialogueLine}
+            onNpcTap={handleNpcTap}
             interiorEnterRef={interiorEnterRef}
             interiorExitRef={interiorExitRef}
             onExitInterior={() => setInteriorActive(false)}
             onTileTap={onTileTap}
+            pickedUpIds={pickedUpIds}
+            onItemPickup={handleItemPickup}
+            doorKeys={doorKeys}
+            onDoorLocked={handleDoorLocked}
           />
         </div>
         <AreaNameBadge name={currentArea} />
 
+        <HubDialogue
+          line={dialogueEvent?.text ?? dialogueLine}
+          speakerName={dialogueEvent?.speakerName}
+          choices={dialogueEvent?.choices}
+          onClose={() => {
+            setDialogueEvent(null)
+            setDialogueLine(null)
+          }}
+        />
 
-        <HubDialogue line={dialogueLine} onClose={() => setDialogueLine(null)} />
         {interiorActive && (
           <button
             className="action-btn"
@@ -196,14 +395,6 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
             LEAVE
           </button>
         )}
-
-        {/* Persistent HUD — always visible */}
-        {/* <div className="hub-hud">
-          <div className="hub-hud__stats">
-            <span>💎 {crystals}</span>
-            <span>🃏 {collectionCount}/{catalogTotal}</span>
-          </div>
-        </div> */}
 
         {splashVisible && (
           <div
@@ -220,4 +411,22 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       </div>
     </OverlayScreen>
   )
+}
+
+// ── Quest reward helper ────────────────────────────────────────────────────────
+
+function grantQuestReward(quest: HubQuestDef): void {
+  const { reward } = quest
+  if (reward.crystals) {
+    saveCrystals(loadCrystals() + reward.crystals)
+  }
+  if (reward.collectible) {
+    const { id, name, icon, desc } = reward.collectible
+    addCollectible(id, { name, icon, desc })
+  }
+  if (reward.friendship) {
+    for (const [npcId, xp] of Object.entries(reward.friendship)) {
+      addFriendshipXp(npcId, xp)
+    }
+  }
 }
