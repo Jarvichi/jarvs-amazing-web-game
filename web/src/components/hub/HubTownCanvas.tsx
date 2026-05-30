@@ -11,15 +11,16 @@ import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS } from '../../data/hubNpcs'
 import { HUB_DOORS, HUB_INTERIORS } from '../../data/hubInteriors'
-import { EXTERIOR_DECOR } from '../../data/hubConfigLoader'
+import { EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES } from '../../data/hubConfigLoader'
 import { loadPlayerAvatar } from '../../game/questline'
 import type { HubNpc } from '../../data/hubConfigLoader'
 import { CommanderState } from '../../game/commander'
 
 
-const HUB_ENV       = 'camp'
-const T             = 32
-const WALK_PX_PER_S = 160
+const HUB_ENV           = 'camp'
+const T                 = 32
+const WALK_PX_PER_S     = 160
+const NPC_WALK_PX_PER_S = 80
 const COURTYARD_PX  = { x: AVATAR_START[0] * T + T / 2, y: AVATAR_START[1] * T + T / 2 }
 
 let _savedTile: [number, number] | null = null
@@ -87,8 +88,10 @@ export function HubTownCanvas({
     // ── Layer hierarchy ────────────────────────────────────────────────────────
     const groundLayer        = new PIXI.Container()
     const streetLayer        = new PIXI.Container()
+    const pondLayer          = new PIXI.Container()
     const exteriorDecorLayer = new PIXI.Container()
     const buildingLayer      = new PIXI.Container()
+    const windowLayer        = new PIXI.Container()
     const nodeLayer          = new PIXI.Container()
     const npcLayer           = new PIXI.Container()
     const avatarLayer        = new PIXI.Container()
@@ -96,7 +99,7 @@ export function HubTownCanvas({
     const interiorLayer      = new PIXI.Container()  // top-most; hidden except when in a building
     worldLayer.sortableChildren = true
     interiorLayer.visible = false
-    app.stage.addChild(groundLayer, streetLayer, exteriorDecorLayer, buildingLayer, nodeLayer, npcLayer, avatarLayer, worldLayer, interiorLayer)
+    app.stage.addChild(groundLayer, streetLayer, pondLayer, exteriorDecorLayer, buildingLayer, windowLayer, nodeLayer, npcLayer, avatarLayer, worldLayer, interiorLayer)
 
     const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
 
@@ -112,15 +115,11 @@ export function HubTownCanvas({
     buildDecorGfx(groundLayer, { environment: HUB_ENV, id: 'hubworld' }, MAP_W, MAP_H)
       .catch(e => console.error('[HubTownCanvas] decor tiles failed', e))
 
-    // ── Pond (Greyfish Pond — SW district, between building blocks) ───────────
+    // ── Pond (Greyfish Pond) — water path tiles ───────────────────────────────
     {
-      const g = new PIXI.Graphics()
-      const px = 5 * T, py = 34 * T + T / 2
-      g.ellipse(px, py, 112, 56).fill({ color: 0x1a3a6a, alpha: 0.92 })
-      g.ellipse(px, py, 96, 44).fill({ color: 0x1e5090, alpha: 0.7 })
-      g.ellipse(px - 24, py - 12, 32, 14).fill({ color: 0x5ab4e8, alpha: 0.22 })
-      g.ellipse(px, py, 112, 56).stroke({ color: 0x2a6aaa, width: 2.5, alpha: 0.8 })
-      groundLayer.addChild(g)
+      const pondSet = new Set(HUB_POND_TILES.map(([tx, ty]) => `${tx},${ty}`))
+      renderPathTiles(pondLayer, pondSet, undefined, PATH_TILE.water1)
+        .catch(e => console.error('[HubTownCanvas] pond tiles failed', e))
     }
 
     // ── Streets ────────────────────────────────────────────────────────────────
@@ -311,6 +310,28 @@ export function HubTownCanvas({
       }
     }
 
+    // ── Windows (transparent tile overlays on building walls) ─────────────────
+    {
+      const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
+      const byTile = new Map<number, [number, number][]>()
+      for (const w of HUB_WINDOWS) {
+        const list = byTile.get(w.tileId) ?? []
+        list.push([w.tx, w.ty])
+        byTile.set(w.tileId, list)
+      }
+      for (const [tileId, positions] of byTile) {
+        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+          if (app.renderer == null) return
+          for (const [tx, ty] of positions) {
+            const s = new PIXI.Sprite(tex)
+            s.position.set(tx * T, ty * T)
+            s.width = T; s.height = T
+            windowLayer.addChild(s)
+          }
+        }).catch(() => {})
+      }
+    }
+
     // ── Avatar ─────────────────────────────────────────────────────────────────
     let avatar: PIXI.Sprite | null = null
     let avatarFrames: PIXI.Texture[] = []
@@ -459,7 +480,7 @@ export function HubTownCanvas({
       const targetX  = tx * T + T / 2
       const targetY  = ty * T + T / 2
       const dist     = Math.hypot(targetX - npc.sprite.x, targetY - npc.sprite.y)
-      const duration = (dist / WALK_PX_PER_S) * 1000
+      const duration = (dist / NPC_WALK_PX_PER_S) * 1000
       if (targetX < npc.sprite.x - 1) npc.sprite.scale.x = -Math.abs(npc.sprite.scale.x)
       else if (targetX > npc.sprite.x + 1) npc.sprite.scale.x = Math.abs(npc.sprite.scale.x)
       await tweenLinear(npc.sprite, targetX, targetY, duration)

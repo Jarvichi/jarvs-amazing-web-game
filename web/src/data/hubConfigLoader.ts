@@ -109,6 +109,18 @@ export const EXTERIOR_DECOR = rawConfig.exteriorDecor.map(d => ({
   tileId: resolveTileId(d.tileId),
 }))
 
+type RawWindowEntry = { tx: number; ty: number; tileId: string }
+export const HUB_WINDOWS = (rawConfig as unknown as { windows?: RawWindowEntry[] }).windows?.map(w => ({
+  tx:     w.tx,
+  ty:     w.ty,
+  tileId: resolveTileId(w.tileId),
+})) ?? []
+
+type RawPondEntry = { rect?: number[]; tile?: number[] }
+export const HUB_POND_TILES: [number, number][] = expandTiles(
+  ((rawConfig as unknown as { pondTiles?: RawPondEntry[] }).pondTiles ?? []) as TileEntry[]
+)
+
 export const HUB_DOORS: HubDoor[] = rawConfig.doors
 
 export const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
