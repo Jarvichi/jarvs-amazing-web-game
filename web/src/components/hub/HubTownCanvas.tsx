@@ -123,7 +123,7 @@ export function HubTownCanvas({
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
     const exteriorDecorLayer = spriteLayer
-    app.stage.addChild(groundLayer, streetLayer, pondLayer, pickupLayer, buildingLayer, windowLayer, spriteLayer, nodeLayer, worldLayer, interiorLayer, bubbleLayer, highlightGfx)
+    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, spriteLayer, pickupLayer, nodeLayer, worldLayer, interiorLayer, bubbleLayer, highlightGfx)
 
     // Keyed by pickupId; used to imperatively show/hide sprites when items are collected
     const pickupSprites = new Map<string, PIXI.Sprite>()
