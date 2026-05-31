@@ -1778,7 +1778,7 @@
         "There is strength in preparation. Make sure your deck is ready before you venture out."
       ],
       "questGive": "lost-pendant",
-      "questReceive": ["aldous-family-heirloom", "mira-anti-fracture-charms", "alric-heartstone-analysis"]
+      "questReceive": ["aldous-family-heirloom", "mira-anti-fracture-charms", "alric-heartstone-analysis", "orin-champions-stand", "aldous-the-hearthstone"]
     },
     {
       "id": "merchant",
@@ -2207,7 +2207,7 @@
       "building": "traders-building",
       "tx": 7,
       "ty": 4,
-      "questReceive": ["vex-trade-ledger", "dealer-echo-bookie", "vex-supply-chain-rebuilt", "elder-rallying-the-hub"],
+      "questReceive": ["vex-trade-ledger", "dealer-echo-bookie", "vex-supply-chain-rebuilt", "elder-rallying-the-hub", "zev-games-hall-stands"],
       "dialogue": [
         "The Merchant's Guild has connections across every shard. We can help.",
         "Trade is the lifeblood of any civilisation. Even one in pieces.",
@@ -2265,7 +2265,7 @@
         "My guards are the finest in the hub. Fracture or no Fracture.",
         "Need security? My men are at your service."
       ],
-      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn", "bram-echo-territory-map", "aldous-hidden-passage", "elder-confession", "varn-traitor-confronted", "elder-absolution", "bramble-fortified-supplies", "dealer-echo-final-bet", "mira-anti-fracture-charms"]
+      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn", "bram-echo-territory-map", "aldous-hidden-passage", "elder-confession", "varn-traitor-confronted", "elder-absolution", "bramble-fortified-supplies", "dealer-echo-final-bet", "mira-anti-fracture-charms", "zev-games-hall-stands", "orin-champions-stand"]
     },
     {
       "id": "drill-sergeant-varn",
@@ -2627,7 +2627,15 @@
     { "id": "cipher-translation","tx": 5,  "ty": 6,  "tileId": "blueclosedBook", "questId": "lyss-the-final-cipher", "building": "scholars-hall" },
     { "id": "analysis-naia",     "tx": 57, "ty": 14, "tileId": "greenclosedBook","questId": "alric-heartstone-analysis" },
     { "id": "analysis-elder",    "tx": 59, "ty": 12, "tileId": "greenclosedBook","questId": "alric-heartstone-analysis" },
-    { "id": "pond-sealed-case",  "tx": 4,  "ty": 45, "tileId": "goldChest",      "questId": "fisherman-depths-secret" }
+    { "id": "pond-sealed-case",  "tx": 4,  "ty": 45, "tileId": "goldChest",      "questId": "fisherman-depths-secret" },
+    { "id": "final-intel-report","tx": 64, "ty": 24, "tileId": "closedBook",     "questId": "dealer-echo-final-bet" },
+    { "id": "market-cache-1",    "tx": 6,  "ty": 23, "tileId": "crate",          "questId": "syla-market-fortified" },
+    { "id": "market-cache-2",    "tx": 17, "ty": 25, "tileId": "crate",          "questId": "syla-market-fortified" },
+    { "id": "market-cache-3",    "tx": 31, "ty": 26, "tileId": "crate",          "questId": "syla-market-fortified" },
+    { "id": "zev-supply-cache",  "tx": 3,  "ty": 3,  "tileId": "crate",          "questId": "zev-games-hall-stands", "building": "arcade-building-w" },
+    { "id": "zev-equipment-manifest","tx": 5, "ty": 3,"tileId": "closedBook",    "questId": "zev-games-hall-stands", "building": "arcade-building-e" },
+    { "id": "champions-pledge",  "tx": 3,  "ty": 4,  "tileId": "goldChest",      "questId": "orin-champions-stand", "building": "arcade-building-e" },
+    { "id": "hearthstone-key",   "tx": 5,  "ty": 3,  "tileId": "pendant",        "questId": "aldous-the-hearthstone", "building": "home" }
   ],
   "lockedDoors": [
     {

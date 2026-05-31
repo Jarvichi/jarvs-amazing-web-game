@@ -1674,6 +1674,103 @@
         "collectible": { "id": "fracture-pearl", "name": "Fracture Pearl", "icon": "goldChest", "desc": "A natural crystallisation of Fracture energy, sealed in an ancient case found in the depths of the fisherman's pond. The key to the Hearthstone reunification protocol." },
         "friendship": { "fisherman": 40 }
       }
+    },
+    {
+      "id": "dealer-echo-final-bet",
+      "title": "The Final Bet",
+      "type": "fetch",
+      "giverNpcId": "dealer",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:dealer-fracture-intel|quest:thorin-hub-defense-plan",
+      "offerDialogue": "I played my last hand. I fed the Echoes false intelligence — told them the vault was unguarded on a specific night. They believed it. The final Echo movement will happen on that night and Thorin needs this intelligence to set the trap. Take it to him.",
+      "activeDialogue": "Take my final intel report to Captain Thorin. The trap is set. He just needs to close it.",
+      "completeDialogue": "The dealer played them beautifully. With this we know exactly when and where they will strike. Every guard in position, every route covered. It ends here.",
+      "steps": [
+        { "key": "collect-intel", "type": "collect", "pickupIds": ["final-intel-report"], "required": 1 },
+        { "key": "deliver-intel", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 130,
+        "friendship": { "dealer": 40, "guard-captain-thorin": 15 }
+      }
+    },
+    {
+      "id": "syla-market-fortified",
+      "title": "Market Fortified",
+      "type": "lost-items",
+      "giverNpcId": "market-warden-syla",
+      "receiverNpcId": "market-warden-syla",
+      "prerequisite": "quest:syla-market-purge|quest:bram-escape-routes",
+      "offerDialogue": "The market is the hub's heart. I am fortifying every entry point. Three supply caches are positioned at the key chokepoints — medical supplies, barricade materials, signal flags. I need to confirm they are in place and intact.",
+      "activeDialogue": "Three defence supply caches — sealed crates with a warden mark. Check the north approach, the central lane, and the east gate.",
+      "completeDialogue": "All in place. The market lane can hold against any incursion long enough for the guards to respond. I never thought I would be saying this, but I am proud of this market today.",
+      "steps": [
+        { "key": "caches", "type": "collect", "pickupIds": ["market-cache-1", "market-cache-2", "market-cache-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "market-warden-syla": 40 }
+      }
+    },
+    {
+      "id": "zev-games-hall-stands",
+      "title": "Games Hall Stands",
+      "type": "chain",
+      "giverNpcId": "games-host-zev",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:zev-games-hall-clear|quest:ferryn-resource-cache",
+      "offerDialogue": "The games hall is clear and I have been holding an emergency supply cache here for the guild — tools, materials, reserve stocks. Ferryn needs it for the supply depot and Thorin needs the equipment manifest. I am running both deliveries at once. Can you carry them?",
+      "activeDialogue": "Take the supply cache to Ferryn, then the equipment manifest to Thorin.",
+      "completeDialogue": "This completes the supply depot. We are fully stocked. Tell Zev his hall stood firm when it mattered.",
+      "steps": [
+        { "key": "collect-items", "type": "collect", "pickupIds": ["zev-supply-cache", "zev-equipment-manifest"], "required": 2 },
+        { "key": "deliver-ferryn", "type": "deliver", "targetNpcId": "guild-master-ferryn", "required": 1 },
+        { "key": "deliver-thorin", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 130,
+        "friendship": { "games-host-zev": 40 }
+      }
+    },
+    {
+      "id": "orin-champions-stand",
+      "title": "Champions' Stand",
+      "type": "chain",
+      "giverNpcId": "trophy-keeper-orin",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:orin-champions-shield|quest:thorin-hub-defense-plan",
+      "offerDialogue": "Every champion whose trophy hangs here took an oath to defend this hub. I have written a champions' pledge in their name — a formal declaration that this hub will stand. It needs the Elder's witness and Thorin's seal. Carry it to them both.",
+      "activeDialogue": "Take the champions' pledge to the Elder, then to Captain Thorin.",
+      "completeDialogue": "The champions would be proud. Thorin, add your seal. This pledge is now part of the hub's founding record — and its future.",
+      "steps": [
+        { "key": "collect-pledge", "type": "collect", "pickupIds": ["champions-pledge"], "required": 1 },
+        { "key": "deliver-elder", "type": "deliver", "targetNpcId": "elder", "required": 1 },
+        { "key": "deliver-thorin", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "champions-pledge", "name": "Champions' Pledge", "icon": "goldChest", "desc": "A formal declaration in the name of every champion whose trophy hangs in the games hall. Witnessed by the Elder and sealed by Captain Thorin." },
+        "friendship": { "trophy-keeper-orin": 45 }
+      }
+    },
+    {
+      "id": "aldous-the-hearthstone",
+      "title": "The Hearthstone",
+      "type": "fetch",
+      "giverNpcId": "home-steward",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:aldous-passage-explored|quest:elder-rallying-the-hub",
+      "offerDialogue": "The passage evidence led me to one more discovery — a hidden vault beneath the home's foundation stone, sealed with the same mark as the Elder's token. Inside: a family heirloom that is also the key to activating the home vault, where a Hearthstone fragment was stored by the original stewards. This belongs to the Elder.",
+      "activeDialogue": "Take the Hearthstone key to the Elder. It is his heritage.",
+      "completeDialogue": "This… this is the seal of the first steward. I have been looking for this for decades. The Hearthstone fragment in the home vault — it has been guarded by this family for generations. I will ensure it is guarded for generations more. Thank you.",
+      "steps": [
+        { "key": "collect-key", "type": "collect", "pickupIds": ["hearthstone-key"], "required": 1 },
+        { "key": "deliver-key", "type": "deliver", "targetNpcId": "elder", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "hearthstone-key", "name": "Hearthstone Key", "icon": "pendant", "desc": "The key to the home vault, bearing the seal of the first steward. Unlocks the chamber where a Hearthstone fragment has been guarded for generations." },
+        "friendship": { "home-steward": 45 },
+        "unlock": "home-vault"
+      }
     }
   ],
   "innRumours": [
