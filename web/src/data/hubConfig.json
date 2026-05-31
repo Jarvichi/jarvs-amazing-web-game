@@ -1863,7 +1863,7 @@
       "sprite": "hub-npc-arena",
       "tx": 40,
       "ty": 18,
-      "screen": "deck-builder",
+      "screen": "deckbuilder",
       "dialogue": [
         "Let's plan our strategy for the next battle.",
         "A strong army wins wars!"
