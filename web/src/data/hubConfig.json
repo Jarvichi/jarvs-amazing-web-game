@@ -1854,6 +1854,29 @@
       ]
     },
     {
+      "id": "deck-gate",
+      "name": "Deck Builder Dave",
+      "sprite": "hub-npc-arena",
+      "tx": 40,
+      "ty": 18,
+      "screen": "deck-builder",
+      "dialogue": [
+        "Let's plan our strategy for the next battle.",
+        "A strong army wins wars!"
+      ]
+    },
+    {
+      "id": "collection-gate",
+      "name": "Field Marshall Fred",
+      "sprite": "hub-npc-arena",
+      "tx": 42,
+      "ty": 18,
+      "screen": "collection-tabs",
+      "dialogue": [
+        "Shall we review the troops available to us?"
+      ]
+    },
+    {
       "id": "minigames-npc",
       "name": "Minigame Host",
       "sprite": "hub-npc-merchant",
