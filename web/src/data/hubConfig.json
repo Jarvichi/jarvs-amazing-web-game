@@ -1778,7 +1778,7 @@
         "There is strength in preparation. Make sure your deck is ready before you venture out."
       ],
       "questGive": "lost-pendant",
-      "questReceive": ["aldous-family-heirloom", "mira-anti-fracture-charms"]
+      "questReceive": ["aldous-family-heirloom", "mira-anti-fracture-charms", "alric-heartstone-analysis"]
     },
     {
       "id": "merchant",
@@ -1912,7 +1912,8 @@
         "Welcome to my emporium! Finest cards in the realm.",
         "I just got a new shipment in. Take a look!",
         "Every card tells a story, wanderer."
-      ]
+      ],
+      "questReceive": "gildwyn-the-fracture-card"
     },
     {
       "id": "mira",
@@ -1971,7 +1972,7 @@
         "The Fracture left many mysteries. Perhaps you can solve them."
       ],
       "questGive": "scholars-anthology",
-      "questReceive": ["elder-old-codex", "gildwyn-stolen-card-plans", "lyss-cipher-key", "elder-absolution", "mira-anti-fracture-charms"]
+      "questReceive": ["elder-old-codex", "gildwyn-stolen-card-plans", "lyss-cipher-key", "elder-absolution", "mira-anti-fracture-charms", "alric-heartstone-analysis", "lyss-the-final-cipher", "fisherman-depths-secret"]
     },
     {
       "id": "achievements-keeper",
@@ -2618,7 +2619,15 @@
     { "id": "evacuation-guide-3","tx": 10, "ty": 25, "tileId": "closedBook",     "questId": "bram-escape-routes" },
     { "id": "resource-bundle-1", "tx": 5,  "ty": 42, "tileId": "crate",          "questId": "ferryn-resource-cache" },
     { "id": "resource-bundle-2", "tx": 12, "ty": 25, "tileId": "crate",          "questId": "ferryn-resource-cache" },
-    { "id": "resource-bundle-3", "tx": 52, "ty": 8,  "tileId": "crate",          "questId": "ferryn-resource-cache" }
+    { "id": "resource-bundle-3", "tx": 52, "ty": 8,  "tileId": "crate",          "questId": "ferryn-resource-cache" },
+    { "id": "harbour-pkg-1",     "tx": 34, "ty": 22, "tileId": "crate",          "questId": "rosie-safe-harbour" },
+    { "id": "harbour-pkg-2",     "tx": 37, "ty": 24, "tileId": "crate",          "questId": "rosie-safe-harbour" },
+    { "id": "harbour-pkg-3",     "tx": 35, "ty": 26, "tileId": "crate",          "questId": "rosie-safe-harbour" },
+    { "id": "fracture-card",     "tx": 4,  "ty": 5,  "tileId": "goldChest",      "questId": "gildwyn-the-fracture-card", "building": "scholars-north-e" },
+    { "id": "cipher-translation","tx": 5,  "ty": 6,  "tileId": "blueclosedBook", "questId": "lyss-the-final-cipher", "building": "scholars-hall" },
+    { "id": "analysis-naia",     "tx": 57, "ty": 14, "tileId": "greenclosedBook","questId": "alric-heartstone-analysis" },
+    { "id": "analysis-elder",    "tx": 59, "ty": 12, "tileId": "greenclosedBook","questId": "alric-heartstone-analysis" },
+    { "id": "pond-sealed-case",  "tx": 4,  "ty": 45, "tileId": "goldChest",      "questId": "fisherman-depths-secret" }
   ],
   "lockedDoors": [
     {

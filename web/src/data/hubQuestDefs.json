@@ -1579,6 +1579,101 @@
         "crystals": 120,
         "friendship": { "guild-master-ferryn": 45 }
       }
+    },
+    {
+      "id": "rosie-safe-harbour",
+      "title": "Safe Harbour",
+      "type": "lost-items",
+      "giverNpcId": "innkeeper-rosie",
+      "receiverNpcId": "innkeeper-rosie",
+      "prerequisite": "quest:rosie-shelter-for-families|quest:elder-rallying-the-hub",
+      "offerDialogue": "The Elder's rally message has given me purpose. The inn will be a refuge during whatever comes next. I need three supply packages collected from the courtyard — food, blankets, medicine. Everything needed to shelter people if the hub is attacked.",
+      "activeDialogue": "Three supply packages — wrapped in brown canvas, tied with red cord. I left them near the courtyard fountain.",
+      "completeDialogue": "These will keep thirty people safe for a week. The Wanderer's Rest has always been a place of shelter. Tonight, more than ever.",
+      "steps": [
+        { "key": "packages", "type": "collect", "pickupIds": ["harbour-pkg-1", "harbour-pkg-2", "harbour-pkg-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "innkeeper-rosie": 40 }
+      }
+    },
+    {
+      "id": "gildwyn-the-fracture-card",
+      "title": "The Fracture Card",
+      "type": "fetch",
+      "giverNpcId": "gildwyn",
+      "receiverNpcId": "gildwyn",
+      "prerequisite": "quest:gildwyn-echo-deck-master|quest:elder-rallying-the-hub",
+      "offerDialogue": "One more card is missing from my records — a legendary piece I designed years ago and thought destroyed. The Echoes found it. It depicts the Fracture event itself and carries actual Fracture energy in the ink. I must have it back. It should be hidden somewhere in the scholars' quarter.",
+      "activeDialogue": "The Fracture Card — oversized, dark-bordered, with an image of the Fracture event. It will feel warm to the touch.",
+      "completeDialogue": "There it is. I remember printing this — the ink shimmered for days after. This is mine, and it belongs nowhere near the Echoes. I am keeping it sealed until the danger is past.",
+      "steps": [
+        { "key": "collect-card", "type": "collect", "pickupIds": ["fracture-card"], "required": 1 },
+        { "key": "deliver-card", "type": "deliver", "targetNpcId": "gildwyn", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "fracture-card", "name": "The Fracture Card", "icon": "goldChest", "desc": "A legendary card depicting the Fracture event, printed with ink that carries real Fracture energy. The only one of its kind." },
+        "friendship": { "gildwyn": 40 }
+      }
+    },
+    {
+      "id": "lyss-the-final-cipher",
+      "title": "The Final Cipher",
+      "type": "fetch",
+      "giverNpcId": "apprentice-lyss",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:lyss-unlock-the-cipher|quest:naia-heartstone-location",
+      "offerDialogue": "The translation is complete. Every Echo communication, every plan, every contingency — I have it all in a single document. Naia needs this. With the heartstone location map and the full cipher translation together, she will have everything she needs to protect the hub.",
+      "activeDialogue": "Take the completed cipher translation to Naia immediately.",
+      "completeDialogue": "Lyss… this is extraordinary. The full translation confirms the Echoes' final operation is in three days. We have time. Just enough time. Thank you.",
+      "steps": [
+        { "key": "collect-translation", "type": "collect", "pickupIds": ["cipher-translation"], "required": 1 },
+        { "key": "deliver-translation", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 130,
+        "friendship": { "apprentice-lyss": 40, "naia-interior": 30 }
+      }
+    },
+    {
+      "id": "alric-heartstone-analysis",
+      "title": "Heartstone Analysis",
+      "type": "chain",
+      "giverNpcId": "professor-aldric",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:alric-fracture-study|quest:naia-heartstone-location",
+      "offerDialogue": "My analysis is complete. The Hearthstone fragments can be safely moved and reunited without triggering the rift — if, and only if, the reunification is performed in the correct order and location. I have written two copies of the analysis: one for Naia and one for the Elder. Carry them both.",
+      "activeDialogue": "Take the analysis report to Naia, then to the Elder.",
+      "completeDialogue": "Aldric's analysis is exactly what we needed. The reunification protocol is here. If we follow it, we can restore the Hearthstone safely. Thank you.",
+      "steps": [
+        { "key": "collect-reports", "type": "collect", "pickupIds": ["analysis-naia", "analysis-elder"], "required": 2 },
+        { "key": "deliver-naia", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 },
+        { "key": "deliver-elder", "type": "deliver", "targetNpcId": "elder", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 130,
+        "friendship": { "professor-aldric": 40 }
+      }
+    },
+    {
+      "id": "fisherman-depths-secret",
+      "title": "Depths' Secret",
+      "type": "fetch",
+      "giverNpcId": "fisherman",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:fisherman-fracture-depths|quest:naia-heartstone-location",
+      "offerDialogue": "Something else surfaced from the pond last night — a sealed case, ancient, with markings I cannot read. I think it is related to the Hearthstone fragment I found. Naia should see it. Will you carry it to her?",
+      "activeDialogue": "Take the sealed case from the pond to Naia at the scholars' hall.",
+      "completeDialogue": "This case contains a Fracture pearl — a natural crystallisation that forms around intense Fracture energy over centuries. This is the key to the reunification. Without this, the protocol does not work. The fisherman may just have saved everything.",
+      "steps": [
+        { "key": "collect-case", "type": "collect", "pickupIds": ["pond-sealed-case"], "required": 1 },
+        { "key": "deliver-case", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "fracture-pearl", "name": "Fracture Pearl", "icon": "goldChest", "desc": "A natural crystallisation of Fracture energy, sealed in an ancient case found in the depths of the fisherman's pond. The key to the Hearthstone reunification protocol." },
+        "friendship": { "fisherman": 40 }
+      }
     }
   ],
   "innRumours": [
