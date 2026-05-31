@@ -1816,6 +1816,7 @@
         "I pulled out a strange glowing fish last week. Threw it back \u2014 some things are better left undisturbed.",
         "Patience, wanderer. The best things in life take time."
       ],
+      "questGive": "greyfishs-bait",
       "questReceive": ["fisherman-fracture-depths", "elder-rallying-the-hub", "thorin-the-last-watch"]
     },
     {
@@ -1830,6 +1831,7 @@
         "I've seen a thousand players. The ones who win? They trust their instincts.",
         "One spin, one chance. What do you say, friend?"
       ],
+      "questGive": "dealer-lucky-charm",
       "questReceive": ["elder-rallying-the-hub", "dealer-echo-final-bet"]
     },
     {
@@ -1914,6 +1916,7 @@
         "I just got a new shipment in. Take a look!",
         "Every card tells a story, wanderer."
       ],
+      "questGive": "gildwyns-missing-card",
       "questReceive": "gildwyn-the-fracture-card"
     },
     {
@@ -1929,6 +1932,7 @@
         "The art of augmentation is older than the Fracture itself.",
         "I sense great potential in you, wanderer. Let's refine it."
       ],
+      "questGive": "miras-runaway-crystal",
       "questReceive": "vex-final-trade"
     },
     {
@@ -1944,6 +1948,7 @@
         "Stock up before you head out \u2014 the roads aren't safe.",
         "I've been supplying adventurers for thirty years. I know what keeps folks alive."
       ],
+      "questGive": "brambles-first-delivery",
       "questReceive": "vex-final-trade"
     },
     {
@@ -2120,6 +2125,7 @@
       "building": "home",
       "tx": 4,
       "ty": 6,
+      "questGive": "aldous-keepsake",
       "dialogue": [
         "Welcome home, Commander. Your quarters are ready.",
         "I have kept everything in order during your absence.",
@@ -2133,6 +2139,7 @@
       "building": "scholars-north-w",
       "tx": 5,
       "ty": 4,
+      "questGive": "lysss-overdue-books",
       "dialogue": [
         "I am cataloguing every tome in this wing. It may take years.",
         "The northern library holds records predating the Fracture. Fascinating.",
@@ -2146,6 +2153,7 @@
       "building": "scholars-north-e",
       "tx": 6,
       "ty": 4,
+      "questGive": "brams-ink-supply",
       "questReceive": "alric-manuscript",
       "dialogue": [
         "Every shard of the Fracture has been mapped, but the maps keep changing.",
@@ -2160,6 +2168,7 @@
       "building": "scholars-hall-w",
       "tx": 7,
       "ty": 3,
+      "questGive": "alric-manuscript",
       "dialogue": [
         "Welcome to my lecture hall. The next session begins shortly.",
         "The study of Fracture shards is a discipline that demands precision.",
@@ -2210,6 +2219,7 @@
       "building": "traders-building",
       "tx": 7,
       "ty": 4,
+      "questGive": "ferryn-ledger",
       "questReceive": ["vex-trade-ledger", "dealer-echo-bookie", "vex-supply-chain-rebuilt", "elder-rallying-the-hub", "zev-games-hall-stands", "thorin-the-last-watch"],
       "dialogue": [
         "The Merchant's Guild has connections across every shard. We can help.",
@@ -2224,6 +2234,7 @@
       "building": "market-building",
       "tx": 6,
       "ty": 6,
+      "questGive": "sylas-market-survey",
       "dialogue": [
         "Everything is fairly priced here. No haggling.",
         "The market never closes, Commander. Always something new.",
@@ -2241,6 +2252,7 @@
         "Champions come and go, but their deeds are recorded forever.",
         "Think you're good enough to earn a trophy? Prove it."
       ],
+      "questGive": "orin-missing-trophy",
       "questReceive": "orin-champions-shield"
     },
     {
@@ -2250,6 +2262,7 @@
       "building": "arcade-building-w",
       "tx": 6,
       "ty": 4,
+      "questGive": "zev-game-prize-restock",
       "dialogue": [
         "Step right up! The games never stop here.",
         "Skill, luck, or cunning \u2014 what'll it be, Commander?",
@@ -2268,6 +2281,7 @@
         "My guards are the finest in the hub. Fracture or no Fracture.",
         "Need security? My men are at your service."
       ],
+      "questGive": "thorin-security-report",
       "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn", "bram-echo-territory-map", "aldous-hidden-passage", "elder-confession", "varn-traitor-confronted", "elder-absolution", "bramble-fortified-supplies", "dealer-echo-final-bet", "mira-anti-fracture-charms", "zev-games-hall-stands", "orin-champions-stand"]
     },
     {
@@ -2282,6 +2296,7 @@
         "This hall forges soldiers from raw recruits. No exceptions.",
         "Training is the difference between victory and defeat. Remember that."
       ],
+      "questGive": "varn-training-weights",
       "questReceive": "bramble-fortified-supplies"
     },
     {
