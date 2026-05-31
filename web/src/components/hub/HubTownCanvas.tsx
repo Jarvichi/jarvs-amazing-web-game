@@ -476,11 +476,11 @@ export function HubTownCanvas({
       npcContainer.cursor    = 'pointer'
       npcContainer.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
         e.stopPropagation()
-        if (npc.screen) {
+        if (npc.screen && !npc.questGive && !npc.questReceive) {
           onNodeInteractRef.current(npc.screen)
-        } else if (npc.dialogue.length > 0) {
+        } else if (npc.dialogue.length > 0 || npc.questGive || npc.questReceive) {
           const idx = npcDialogueIndex.get(npc.id) ?? 0
-          onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length], npc.id)
+          onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length] ?? '', npc.id)
           npcDialogueIndex.set(npc.id, idx + 1)
         }
       })
@@ -875,11 +875,11 @@ export function HubTownCanvas({
           s.cursor    = 'pointer'
           s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
             e.stopPropagation()
-            if (npc.screen) {
+            if (npc.screen && !npc.questGive && !npc.questReceive) {
               onNodeInteractRef.current(npc.screen)
-            } else if (npc.dialogue.length > 0) {
+            } else if (npc.dialogue.length > 0 || npc.questGive || npc.questReceive) {
               const idx = npcDialogueIndex.get(npc.id) ?? 0
-              onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length], npc.id)
+              onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length] ?? '', npc.id)
               npcDialogueIndex.set(npc.id, idx + 1)
             }
           })
