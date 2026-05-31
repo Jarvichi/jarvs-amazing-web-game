@@ -260,13 +260,39 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
     if (state.status !== 'active') return
 
     // Find which step this pickup belongs to and increment progress
+    let pickedStep: typeof quest.steps[0] | undefined
     for (const step of quest.steps) {
       if (step.type === 'collect' && step.pickupIds?.includes(id)) {
         incrementQuestProgress(questId, step.key)
+        pickedStep = step
         break
       }
     }
     refreshState()
+    if (!pickedStep) return
+
+    // Check if every collect step is now complete
+    const allCollectDone = quest.steps
+      .filter(s => s.type === 'collect')
+      .every(s => getQuestProgress(questId, s.key) >= s.required)
+
+    const speakerName = quest.title
+
+    if (allCollectDone) {
+      const receiverNpc = HUB_NPCS.find(n => n.id === quest.receiverNpcId)
+      const npcName = receiverNpc?.name ?? 'the quest giver'
+      setDialogueEvent({
+        speakerName,
+        text: `All items found! Return to ${npcName} to complete the quest.`,
+      })
+    } else {
+      const progress = getQuestProgress(questId, pickedStep.key)
+      const countSuffix = pickedStep.required > 1 ? ` (${progress}/${pickedStep.required})` : ''
+      setDialogueEvent({
+        speakerName,
+        text: `Item collected${countSuffix}. ${getActiveDialogue(quest)}`,
+      })
+    }
   }, [refreshState])
 
   const handleDoorLocked = useCallback((buildingId: string, requiredItem: string) => {
