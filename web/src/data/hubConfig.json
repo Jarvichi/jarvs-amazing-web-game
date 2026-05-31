@@ -1777,7 +1777,8 @@
         "I remember when this courtyard was full of laughter. The Fracture changed everything.",
         "There is strength in preparation. Make sure your deck is ready before you venture out."
       ],
-      "questGive": "lost-pendant"
+      "questGive": "lost-pendant",
+      "questReceive": "aldous-family-heirloom"
     },
     {
       "id": "merchant",
@@ -1967,7 +1968,8 @@
         "Knowledge is power, Commander. Read carefully.",
         "The Fracture left many mysteries. Perhaps you can solve them."
       ],
-      "questGive": "scholars-anthology"
+      "questGive": "scholars-anthology",
+      "questReceive": "elder-old-codex"
     },
     {
       "id": "achievements-keeper",
@@ -2496,7 +2498,18 @@
     { "id": "fake-trophy",      "tx": 5,  "ty": 4,  "tileId": "goldChest",      "questId": "orin-fake-trophy", "building": "barracks-north" },
     { "id": "marked-deck-1",    "tx": 4,  "ty": 4,  "tileId": "blueclosedBook", "questId": "dealer-marked-deck", "building": "card-shop" },
     { "id": "marked-deck-2",    "tx": 48, "ty": 23, "tileId": "blueclosedBook", "questId": "dealer-marked-deck" },
-    { "id": "marked-deck-3",    "tx": 52, "ty": 22, "tileId": "blueclosedBook", "questId": "dealer-marked-deck" }
+    { "id": "marked-deck-3",    "tx": 52, "ty": 22, "tileId": "blueclosedBook", "questId": "dealer-marked-deck" },
+    { "id": "family-heirloom",  "tx": 4,  "ty": 4,  "tileId": "pendant",        "questId": "aldous-family-heirloom", "building": "home" },
+    { "id": "echo-notice-1",    "tx": 64, "ty": 29, "tileId": "closedBook",     "questId": "thorin-echo-warning" },
+    { "id": "echo-notice-2",    "tx": 35, "ty": 22, "tileId": "closedBook",     "questId": "thorin-echo-warning" },
+    { "id": "echo-notice-3",    "tx": 8,  "ty": 38, "tileId": "closedBook",     "questId": "thorin-echo-warning" },
+    { "id": "ancient-codex",    "tx": 20, "ty": 13, "tileId": "blackclosedBook","questId": "elder-old-codex" },
+    { "id": "echo-record-1",    "tx": 3,  "ty": 6,  "tileId": "blackclosedBook","questId": "naia-echo-records", "building": "scholars-hall" },
+    { "id": "echo-record-2",    "tx": 4,  "ty": 3,  "tileId": "blackclosedBook","questId": "naia-echo-records", "building": "scholars-north-e" },
+    { "id": "echo-record-3",    "tx": 5,  "ty": 5,  "tileId": "blackclosedBook","questId": "naia-echo-records", "building": "scholars-hall-w" },
+    { "id": "informant-report-1","tx": 36, "ty": 23, "tileId": "closedBook",    "questId": "ferryn-guild-informant" },
+    { "id": "informant-report-2","tx": 42, "ty": 22, "tileId": "closedBook",    "questId": "ferryn-guild-informant" },
+    { "id": "informant-report-3","tx": 4,  "ty": 3,  "tileId": "closedBook",    "questId": "ferryn-guild-informant", "building": "traders-building" }
   ],
   "lockedDoors": [
     {

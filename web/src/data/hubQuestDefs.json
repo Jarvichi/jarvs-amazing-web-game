@@ -691,6 +691,98 @@
         "crystals": 60,
         "friendship": { "dealer": 25 }
       }
+    },
+    {
+      "id": "aldous-family-heirloom",
+      "title": "A Family Heirloom",
+      "type": "fetch",
+      "giverNpcId": "home-steward",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:aldous-intruder-evidence",
+      "offerDialogue": "The intruder did not take everything. They left behind something that should not have been here at all — a carved stone token bearing the Elder's family mark. I believe it was planted. Will you return it to the Elder quietly? Do not mention the break-in to anyone else.",
+      "activeDialogue": "The carved stone token — take it to the Elder. Be discreet.",
+      "completeDialogue": "This mark… I have not seen this in twenty years. Where did you find this? Never mind — you should not know any more than necessary. Thank you for bringing it to me.",
+      "steps": [
+        { "key": "collect-heirloom", "type": "collect", "pickupIds": ["family-heirloom"], "required": 1 },
+        { "key": "deliver-heirloom", "type": "deliver", "targetNpcId": "elder", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "elder-token", "name": "Elder's Token", "icon": "pendant", "desc": "A carved stone bearing a family mark. Found in the home steward's house under strange circumstances." },
+        "friendship": { "home-steward": 20, "elder": 20 }
+      }
+    },
+    {
+      "id": "thorin-echo-warning",
+      "title": "Echo Warning",
+      "type": "lost-items",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:thorin-missing-guard|quest:ferryn-missing-shipment",
+      "offerDialogue": "I drafted three official warning notices — one for the inn, one for the guild hall, one for the Elder. Someone intercepted them before I could post them. Find those notices. The hub needs to know about the Echoes before it is too late.",
+      "activeDialogue": "Three folded notices with my seal. They were taken from my desk or the courier. Find them — someone scattered them deliberately.",
+      "completeDialogue": "All three. Thank you. I will post these myself this time. The Echoes are here, in our hub, and people need to know. This is where things get serious.",
+      "steps": [
+        { "key": "notices", "type": "collect", "pickupIds": ["echo-notice-1", "echo-notice-2", "echo-notice-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "guard-captain-thorin": 35 }
+      }
+    },
+    {
+      "id": "elder-old-codex",
+      "title": "The Old Codex",
+      "type": "fetch",
+      "giverNpcId": "elder",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:elder-fracture-memory|quest:naia-missing-records",
+      "offerDialogue": "I retrieved something years ago from the ruins east of the hub — an old codex I could not fully read. Now that you have recovered those memory shards, I believe Naia can decode it. Please take this codex to her at the scholars' hall. Do not let anyone else see it.",
+      "activeDialogue": "The codex is sealed with a lock I cannot open. Naia will know how.",
+      "completeDialogue": "This… this is pre-Fracture. A primary source, not a copy. Do you understand what this means? The Echoes did not discover the Fracture by accident. Someone guided them here. I need time with this.",
+      "steps": [
+        { "key": "collect-codex", "type": "collect", "pickupIds": ["ancient-codex"], "required": 1 },
+        { "key": "deliver-codex", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "elder": 30, "naia-interior": 20 }
+      }
+    },
+    {
+      "id": "naia-echo-records",
+      "title": "Echo Records",
+      "type": "lost-items",
+      "giverNpcId": "naia-interior",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:elder-old-codex",
+      "offerDialogue": "The codex you brought me references three ancient records I should have in this archive — but they are gone. Not misfiled. Gone. Someone cleared them from the archive deliberately, and not long ago. I need those records to understand what the Echoes are truly after. Find them.",
+      "activeDialogue": "Three records — old, bound in dark leather, marked with a circle-and-line symbol on the spine. Someone scattered them to hide what the codex points to.",
+      "completeDialogue": "These are them. Look — the codex is a key. These records are the lock. Together they describe something called the Hearthstone, an artefact hidden somewhere in this hub. The Echoes are looking for it. And now, so are we.",
+      "steps": [
+        { "key": "records", "type": "collect", "pickupIds": ["echo-record-1", "echo-record-2", "echo-record-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "echo-records", "name": "Ancient Echo Records", "icon": "blackclosedBook", "desc": "Three pre-Fracture records referencing a hidden artefact called the Hearthstone." },
+        "friendship": { "naia-interior": 35 }
+      }
+    },
+    {
+      "id": "ferryn-guild-informant",
+      "title": "Guild Informant",
+      "type": "lost-items",
+      "giverNpcId": "guild-master-ferryn",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:thorin-echo-warning",
+      "offerDialogue": "After Thorin posted his warnings I went through my own records. Someone inside the guild has been feeding information outward — I found traces in the ledgers. Three internal reports were copied and the copies should be somewhere in the guild district. Find them before the informant retrieves them.",
+      "activeDialogue": "The copied reports will look like guild paperwork — cream coloured, stamped with a pale imprint. Someone left them somewhere nearby, waiting to be collected.",
+      "completeDialogue": "These are copies of reports that only three people had access to. I know which three. This is very bad. I am locking the guild hall tonight.",
+      "steps": [
+        { "key": "reports", "type": "collect", "pickupIds": ["informant-report-1", "informant-report-2", "informant-report-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 85,
+        "friendship": { "guild-master-ferryn": 35 }
+      }
     }
   ],
   "innRumours": [
