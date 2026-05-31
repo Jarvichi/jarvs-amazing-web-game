@@ -2458,7 +2458,20 @@
     { "id": "record-page-3",    "tx": 4,  "ty": 4,  "tileId": "closedBook",    "questId": "naia-missing-records",   "building": "scholars-north-w" },
     { "id": "guard-clue-1",     "tx": 60, "ty": 29, "tileId": "closedBook",    "questId": "thorin-missing-guard" },
     { "id": "guard-clue-2",     "tx": 66, "ty": 41, "tileId": "closedBook",    "questId": "thorin-missing-guard" },
-    { "id": "guard-clue-3",     "tx": 72, "ty": 46, "tileId": "closedBook",    "questId": "thorin-missing-guard" }
+    { "id": "guard-clue-3",     "tx": 72, "ty": 46, "tileId": "closedBook",    "questId": "thorin-missing-guard" },
+    { "id": "stolen-crate-1",   "tx": 15, "ty": 26, "tileId": "crate",         "questId": "bramble-stolen-goods" },
+    { "id": "stolen-crate-2",   "tx": 29, "ty": 26, "tileId": "crate",         "questId": "bramble-stolen-goods" },
+    { "id": "stolen-crate-3",   "tx": 4,  "ty": 3,  "tileId": "crate",         "questId": "bramble-stolen-goods", "building": "supply-shop" },
+    { "id": "unstable-augment", "tx": 4,  "ty": 4,  "tileId": "chest",         "questId": "mira-unstable-augment", "building": "augment-shop" },
+    { "id": "guild-crate-1",    "tx": 7,  "ty": 23, "tileId": "crate",         "questId": "ferryn-missing-shipment" },
+    { "id": "guild-crate-2",    "tx": 18, "ty": 26, "tileId": "crate",         "questId": "ferryn-missing-shipment" },
+    { "id": "guild-crate-3",    "tx": 4,  "ty": 4,  "tileId": "crate",         "questId": "ferryn-missing-shipment", "building": "traders-building" },
+    { "id": "counterfeit-card-1","tx": 46, "ty": 21, "tileId": "blueclosedBook","questId": "gildwyn-counterfeit-cards" },
+    { "id": "counterfeit-card-2","tx": 53, "ty": 19, "tileId": "blueclosedBook","questId": "gildwyn-counterfeit-cards" },
+    { "id": "counterfeit-card-3","tx": 4,  "ty": 3,  "tileId": "blueclosedBook","questId": "gildwyn-counterfeit-cards", "building": "card-shop" },
+    { "id": "warning-stamp-1",  "tx": 6,  "ty": 25, "tileId": "pendant",       "questId": "syla-price-fixing" },
+    { "id": "warning-stamp-2",  "tx": 22, "ty": 24, "tileId": "pendant",       "questId": "syla-price-fixing" },
+    { "id": "warning-stamp-3",  "tx": 32, "ty": 25, "tileId": "pendant",       "questId": "syla-price-fixing" }
   ],
   "lockedDoors": [
     {

@@ -420,6 +420,96 @@
         "crystals": 70,
         "friendship": { "guard-captain-thorin": 30 }
       }
+    },
+    {
+      "id": "bramble-stolen-goods",
+      "title": "Stolen Goods",
+      "type": "lost-items",
+      "giverNpcId": "bramble",
+      "receiverNpcId": "bramble",
+      "prerequisite": "quest:brambles-first-delivery",
+      "offerDialogue": "Someone broke into my storeroom last night. Did not take everything — just enough to be annoying. Three crates, each marked with my supply stamp. I want them back and I want to know who took them.",
+      "activeDialogue": "Marked crates — my stamp is a hammer on the lid. Whoever took them did not go far. Check the nearby streets and alleyways.",
+      "completeDialogue": "These are mine, all right. But look at this — the contents have been searched. Someone was looking for something specific. That is not ordinary theft.",
+      "steps": [
+        { "key": "crates", "type": "collect", "pickupIds": ["stolen-crate-1", "stolen-crate-2", "stolen-crate-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": { "bramble": 25 }
+      }
+    },
+    {
+      "id": "mira-unstable-augment",
+      "title": "The Unstable Augment",
+      "type": "fetch",
+      "giverNpcId": "mira",
+      "receiverNpcId": "mira",
+      "prerequisite": "quest:miras-runaway-crystal",
+      "offerDialogue": "One of my test augments has gone unstable — it's pulsing and I cannot safely touch it. It slid under the workbench when I dropped it. Please, retrieve it carefully and bring it straight to me. Do not hold it for long.",
+      "activeDialogue": "It is on the workbench floor — glowing orange. Wrap it in the cloth if you can, and bring it here directly.",
+      "completeDialogue": "Thank you. Do not worry — it is not dangerous to someone unenchanted. But something tampered with the binding. This did not destabilise on its own.",
+      "steps": [
+        { "key": "augment", "type": "collect", "pickupIds": ["unstable-augment"], "required": 1 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "mira": 25 }
+      }
+    },
+    {
+      "id": "ferryn-missing-shipment",
+      "title": "The Missing Shipment",
+      "type": "lost-items",
+      "giverNpcId": "guild-master-ferryn",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:ferryn-ledger",
+      "offerDialogue": "A guild shipment arrived yesterday — but three crates never made it to the warehouse. The delivery manifest says they were unloaded. Someone moved them before we could sign them in. I need those crates found.",
+      "activeDialogue": "Three guild crates — blue seal on the side. They were unloaded near the market lane. Someone shifted them quickly.",
+      "completeDialogue": "Here they are — but the seals are broken. The contents were inspected. Someone knew what to look for. This was not opportunistic theft, Commander.",
+      "steps": [
+        { "key": "crates", "type": "collect", "pickupIds": ["guild-crate-1", "guild-crate-2", "guild-crate-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": { "guild-master-ferryn": 30 }
+      }
+    },
+    {
+      "id": "gildwyn-counterfeit-cards",
+      "title": "Counterfeit Cards",
+      "type": "lost-items",
+      "giverNpcId": "gildwyn",
+      "receiverNpcId": "gildwyn",
+      "prerequisite": "quest:gildwyns-missing-card",
+      "offerDialogue": "I have been seeing fake cards turn up in trades — poor quality copies, but convincing enough to fool newcomers. Three have passed through this quarter this week alone. Collect them before someone gets properly cheated.",
+      "activeDialogue": "The fakes look close to real but the borders are slightly off and they feel thin. Three of them circulating somewhere in the hub.",
+      "completeDialogue": "These are bad work — but someone put effort into the distribution. This is not a bored forger. Someone wants counterfeit cards in circulation, and I want to know why.",
+      "steps": [
+        { "key": "fakes", "type": "collect", "pickupIds": ["counterfeit-card-1", "counterfeit-card-2", "counterfeit-card-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "gildwyn": 25 }
+      }
+    },
+    {
+      "id": "syla-price-fixing",
+      "title": "Market Violations",
+      "type": "lost-items",
+      "giverNpcId": "market-warden-syla",
+      "receiverNpcId": "market-warden-syla",
+      "prerequisite": "quest:sylas-market-survey",
+      "offerDialogue": "Three traders have been fixing prices in violation of market law — I issued official warning stamps this morning, but all three have gone missing from the notice board. Someone removed them. Find those stamps before I lose all authority over this lane.",
+      "activeDialogue": "Official warning stamps — red wax seal, my mark on them. They were taken from the notice board. Someone scattered them deliberately.",
+      "completeDialogue": "Every stamp accounted for. I will be re-posting them — and adding a watch. Someone is trying to undermine market order, and I intend to find out who.",
+      "steps": [
+        { "key": "stamps", "type": "collect", "pickupIds": ["warning-stamp-1", "warning-stamp-2", "warning-stamp-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": { "market-warden-syla": 25 }
+      }
     }
   ],
   "innRumours": [
