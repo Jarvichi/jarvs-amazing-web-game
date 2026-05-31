@@ -967,6 +967,98 @@
         "crystals": 80,
         "friendship": { "games-host-zev": 30 }
       }
+    },
+    {
+      "id": "orin-contaminated-trophies",
+      "title": "Contaminated Trophies",
+      "type": "lost-items",
+      "giverNpcId": "trophy-keeper-orin",
+      "receiverNpcId": "trophy-keeper-orin",
+      "prerequisite": "quest:orin-fake-trophy",
+      "offerDialogue": "The forgery investigation revealed something worse — three legitimate trophies in the collection were contaminated. Fracture energy has been pumped into them deliberately. They are unstable and need to be removed from display and brought to me for containment.",
+      "activeDialogue": "Three trophies with an amber shimmer to the base — they look normal but they pulse with Fracture energy. Collect them carefully.",
+      "completeDialogue": "I can feel the resonance just holding them. The Echoes contaminated these to use them as Fracture amplifiers — if someone had activated them all at once near the vault, it could have brought down the outer wall. We stopped something very bad today.",
+      "steps": [
+        { "key": "trophies", "type": "collect", "pickupIds": ["tainted-trophy-1", "tainted-trophy-2", "tainted-trophy-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "trophy-keeper-orin": 30 }
+      }
+    },
+    {
+      "id": "dealer-echo-bookie",
+      "title": "Echo Bookie",
+      "type": "fetch",
+      "giverNpcId": "dealer",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:dealer-marked-deck",
+      "offerDialogue": "I have compiled a list of everyone I suspect has been placing bets for the Echoes — using the games hall as a covert exchange point. Names, wager amounts, dates. Ferryn should have this. The guild keeps records that could cross-reference it.",
+      "activeDialogue": "Take the suspect list to Ferryn at the guild hall.",
+      "completeDialogue": "These names match three accounts that went dormant after the Fracture and then suddenly reactivated. They were using ghost accounts to move funds. With this I can shut down the entire chain. Excellent work.",
+      "steps": [
+        { "key": "collect-list", "type": "collect", "pickupIds": ["echo-suspect-list"], "required": 1 },
+        { "key": "deliver-list", "type": "deliver", "targetNpcId": "guild-master-ferryn", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 85,
+        "friendship": { "dealer": 30, "guild-master-ferryn": 15 }
+      }
+    },
+    {
+      "id": "syla-echo-market-agent",
+      "title": "Echo Market Agent",
+      "type": "lost-items",
+      "giverNpcId": "market-warden-syla",
+      "receiverNpcId": "market-warden-syla",
+      "prerequisite": "quest:syla-price-fixing",
+      "offerDialogue": "The price-fixing was a front. The real operation was an Echo agent working the market — collecting information, watching supply chains, posing as a trader. They left three fake market badges behind when they fled. I need those badges; they are evidence.",
+      "activeDialogue": "Three fake market badges — they look like official warden passes but the seal is wrong if you look closely. Scattered somewhere near the market lane.",
+      "completeDialogue": "These are beautiful fakes — I almost could not tell. The person who made these had access to an official pass at some point. Someone on the inside helped them. I am reviewing all current badge assignments.",
+      "steps": [
+        { "key": "badges", "type": "collect", "pickupIds": ["fake-badge-1", "fake-badge-2", "fake-badge-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "market-warden-syla": 30 }
+      }
+    },
+    {
+      "id": "aldous-hidden-passage",
+      "title": "Hidden Passage",
+      "type": "fetch",
+      "giverNpcId": "home-steward",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:aldous-family-heirloom",
+      "offerDialogue": "I found it — a hidden passage behind the storage room, covered by an old rack. It leads east, toward the barracks district. Someone has been using it. There is a key hanging inside the entrance — a skeleton key. Take it to Captain Thorin. He needs to know this passage exists.",
+      "activeDialogue": "Take the passage key to Captain Thorin. Tell him where I found it.",
+      "completeDialogue": "A passage from the home district to the barracks? That explains so much — the unauthorised access, the missing guard reports. Someone has been moving freely through a route I did not know existed. I am sealing it tonight. Thank you.",
+      "steps": [
+        { "key": "collect-key", "type": "collect", "pickupIds": ["passage-key"], "required": 1 },
+        { "key": "deliver-key", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "passage-key", "name": "Hidden Passage Key", "icon": "pendant", "desc": "A skeleton key found at the entrance to a secret passage running between the home district and the barracks." },
+        "friendship": { "home-steward": 30, "guard-captain-thorin": 15 }
+      }
+    },
+    {
+      "id": "vex-echo-supplier",
+      "title": "Echo Supplier",
+      "type": "lost-items",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "merchant",
+      "prerequisite": "quest:vex-suspicious-buyer",
+      "offerDialogue": "I tracked the suspicious buyer back to their supplier — someone who has been providing them with goods from inside the hub. I found three pieces of evidence: a supply manifest, a wax seal stamp, and a handwritten note. All abandoned when the supplier got spooked. Get them.",
+      "activeDialogue": "A supply manifest, a wax seal stamp, and a handwritten note — the supplier dropped them near the east market entrance.",
+      "completeDialogue": "The manifest lists goods that were never on any official order. The wax stamp matches an old guild seal that should have been retired. And the note — it is signed. I know this name. This supplier is someone who works inside the hub.",
+      "steps": [
+        { "key": "evidence", "type": "collect", "pickupIds": ["supplier-manifest", "supplier-stamp", "supplier-note"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "merchant": 30 }
+      }
     }
   ],
   "innRumours": [

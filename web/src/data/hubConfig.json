@@ -2203,7 +2203,7 @@
       "building": "traders-building",
       "tx": 7,
       "ty": 4,
-      "questReceive": ["vex-trade-ledger"],
+      "questReceive": ["vex-trade-ledger", "dealer-echo-bookie"],
       "dialogue": [
         "The Merchant's Guild has connections across every shard. We can help.",
         "Trade is the lifeblood of any civilisation. Even one in pieces.",
@@ -2260,7 +2260,7 @@
         "My guards are the finest in the hub. Fracture or no Fracture.",
         "Need security? My men are at your service."
       ],
-      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn", "bram-echo-territory-map"]
+      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn", "bram-echo-territory-map", "aldous-hidden-passage"]
     },
     {
       "id": "drill-sergeant-varn",
@@ -2530,7 +2530,18 @@
     { "id": "glowing-float-3",   "tx": 7,  "ty": 41, "tileId": "pendant",        "questId": "fisherman-glowing-net" },
     { "id": "shadow-coin",       "tx": 4,  "ty": 5,  "tileId": "pendant",        "questId": "zev-shadow-gambler", "building": "arcade-building-e" },
     { "id": "shadow-note",       "tx": 6,  "ty": 4,  "tileId": "closedBook",     "questId": "zev-shadow-gambler", "building": "arcade-building-e" },
-    { "id": "shadow-token",      "tx": 4,  "ty": 6,  "tileId": "pendant",        "questId": "zev-shadow-gambler", "building": "arcade-building-w" }
+    { "id": "shadow-token",      "tx": 4,  "ty": 6,  "tileId": "pendant",        "questId": "zev-shadow-gambler", "building": "arcade-building-w" },
+    { "id": "tainted-trophy-1",  "tx": 4,  "ty": 4,  "tileId": "goldChest",      "questId": "orin-contaminated-trophies", "building": "barracks-north" },
+    { "id": "tainted-trophy-2",  "tx": 6,  "ty": 4,  "tileId": "goldChest",      "questId": "orin-contaminated-trophies", "building": "barracks-north" },
+    { "id": "tainted-trophy-3",  "tx": 5,  "ty": 6,  "tileId": "goldChest",      "questId": "orin-contaminated-trophies", "building": "barracks-south" },
+    { "id": "echo-suspect-list", "tx": 47, "ty": 24, "tileId": "closedBook",     "questId": "dealer-echo-bookie" },
+    { "id": "fake-badge-1",      "tx": 5,  "ty": 25, "tileId": "pendant",        "questId": "syla-echo-market-agent" },
+    { "id": "fake-badge-2",      "tx": 16, "ty": 26, "tileId": "pendant",        "questId": "syla-echo-market-agent" },
+    { "id": "fake-badge-3",      "tx": 27, "ty": 25, "tileId": "pendant",        "questId": "syla-echo-market-agent" },
+    { "id": "passage-key",       "tx": 5,  "ty": 6,  "tileId": "pendant",        "questId": "aldous-hidden-passage", "building": "home" },
+    { "id": "supplier-manifest", "tx": 35, "ty": 24, "tileId": "closedBook",     "questId": "vex-echo-supplier" },
+    { "id": "supplier-stamp",    "tx": 40, "ty": 23, "tileId": "pendant",        "questId": "vex-echo-supplier" },
+    { "id": "supplier-note",     "tx": 43, "ty": 25, "tileId": "blackclosedBook","questId": "vex-echo-supplier" }
   ],
   "lockedDoors": [
     {
