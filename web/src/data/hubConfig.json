@@ -1969,7 +1969,7 @@
         "The Fracture left many mysteries. Perhaps you can solve them."
       ],
       "questGive": "scholars-anthology",
-      "questReceive": "elder-old-codex"
+      "questReceive": ["elder-old-codex", "gildwyn-stolen-card-plans"]
     },
     {
       "id": "achievements-keeper",
@@ -2260,7 +2260,7 @@
         "My guards are the finest in the hub. Fracture or no Fracture.",
         "Need security? My men are at your service."
       ],
-      "questReceive": "innkeepers-package"
+      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn"]
     },
     {
       "id": "drill-sergeant-varn",
@@ -2509,7 +2509,17 @@
     { "id": "echo-record-3",    "tx": 5,  "ty": 5,  "tileId": "blackclosedBook","questId": "naia-echo-records", "building": "scholars-hall-w" },
     { "id": "informant-report-1","tx": 36, "ty": 23, "tileId": "closedBook",    "questId": "ferryn-guild-informant" },
     { "id": "informant-report-2","tx": 42, "ty": 22, "tileId": "closedBook",    "questId": "ferryn-guild-informant" },
-    { "id": "informant-report-3","tx": 4,  "ty": 3,  "tileId": "closedBook",    "questId": "ferryn-guild-informant", "building": "traders-building" }
+    { "id": "informant-report-3","tx": 4,  "ty": 3,  "tileId": "closedBook",    "questId": "ferryn-guild-informant", "building": "traders-building" },
+    { "id": "smuggler-cache-1",  "tx": 38, "ty": 25, "tileId": "crate",          "questId": "bramble-smugglers-cache" },
+    { "id": "smuggler-cache-2",  "tx": 4,  "ty": 5,  "tileId": "crate",          "questId": "bramble-smugglers-cache", "building": "supply-shop" },
+    { "id": "spy-report",        "tx": 4,  "ty": 3,  "tileId": "closedBook",     "questId": "rosie-spy-in-the-inn", "building": "inn-building" },
+    { "id": "agent-note",        "tx": 4,  "ty": 5,  "tileId": "blackclosedBook","questId": "varn-double-agent", "building": "barracks-south" },
+    { "id": "agent-map",         "tx": 6,  "ty": 3,  "tileId": "blueclosedBook", "questId": "varn-double-agent", "building": "barracks-north" },
+    { "id": "agent-list",        "tx": 5,  "ty": 6,  "tileId": "closedBook",     "questId": "varn-double-agent", "building": "barracks-south" },
+    { "id": "card-layout-plans", "tx": 5,  "ty": 4,  "tileId": "blueclosedBook", "questId": "gildwyn-stolen-card-plans", "building": "card-shop" },
+    { "id": "corrupted-augment-1","tx": 19, "ty": 24, "tileId": "chest",         "questId": "mira-corrupted-augments" },
+    { "id": "corrupted-augment-2","tx": 31, "ty": 23, "tileId": "chest",         "questId": "mira-corrupted-augments" },
+    { "id": "corrupted-augment-3","tx": 4,  "ty": 5,  "tileId": "chest",         "questId": "mira-corrupted-augments", "building": "augment-shop" }
   ],
   "lockedDoors": [
     {

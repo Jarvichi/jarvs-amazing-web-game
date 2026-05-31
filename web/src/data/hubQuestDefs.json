@@ -783,6 +783,98 @@
         "crystals": 85,
         "friendship": { "guild-master-ferryn": 35 }
       }
+    },
+    {
+      "id": "bramble-smugglers-cache",
+      "title": "Smugglers' Cache",
+      "type": "lost-items",
+      "giverNpcId": "bramble",
+      "receiverNpcId": "bramble",
+      "prerequisite": "quest:bramble-stolen-goods|quest:ferryn-missing-shipment",
+      "offerDialogue": "After finding those stolen crates, I backtracked the route they came from. Someone cached goods in two hidden spots near the supply route — not official guild storage. I marked the locations but I cannot move the caches alone. Help me collect and bring them in.",
+      "activeDialogue": "Two hidden caches — one near the east lane wall, one tucked beside the supply building. They are disguised as debris.",
+      "completeDialogue": "These are not ordinary goods. Some of these items have Echo markings — faint, but there. They were using my supply route as a dead drop. No more. I am fortifying every entry point.",
+      "steps": [
+        { "key": "caches", "type": "collect", "pickupIds": ["smuggler-cache-1", "smuggler-cache-2"], "required": 2 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "bramble": 30 }
+      }
+    },
+    {
+      "id": "rosie-spy-in-the-inn",
+      "title": "Spy in the Inn",
+      "type": "fetch",
+      "giverNpcId": "innkeeper-rosie",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:rosie-strange-guest|quest:thorin-echo-warning",
+      "offerDialogue": "I have been going through everything the strange guest left behind. That sealed envelope — I opened it. It is a report. Names, schedules, patrol timings. Someone was using my inn to pass intelligence to the Echoes. Thorin needs to see this.",
+      "activeDialogue": "Take the spy report to Captain Thorin. He will know what to do with the names in it.",
+      "completeDialogue": "This is a full intelligence summary. Patrol rotations, names of reliable sources, the innkeeper listed as an unwitting asset… This is damning. Thank you. I am briefing my lieutenants tonight.",
+      "steps": [
+        { "key": "collect-report", "type": "collect", "pickupIds": ["spy-report"], "required": 1 },
+        { "key": "deliver-report", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 85,
+        "friendship": { "innkeeper-rosie": 30, "guard-captain-thorin": 20 }
+      }
+    },
+    {
+      "id": "varn-double-agent",
+      "title": "Double Agent",
+      "type": "lost-items",
+      "giverNpcId": "drill-sergeant-varn",
+      "receiverNpcId": "drill-sergeant-varn",
+      "prerequisite": "quest:varn-deserter-trail",
+      "offerDialogue": "Following the deserter trail, I found three more items hidden in the barracks — notes, maps of our routines, coded lists. Whoever left these is still here, still in the ranks. I need those items as evidence before I can act.",
+      "activeDialogue": "Three hidden items somewhere in the barracks compound — a note under the armory bench, a rolled list in the east corridor, and a coded slip near the watch post.",
+      "completeDialogue": "A coded list of shift rotations, a map of the vault access points, and a personal note — signed with a mark I recognise. There is a double agent in my barracks. I know who it is now.",
+      "steps": [
+        { "key": "evidence", "type": "collect", "pickupIds": ["agent-note", "agent-map", "agent-list"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "drill-sergeant-varn": 30 }
+      }
+    },
+    {
+      "id": "gildwyn-stolen-card-plans",
+      "title": "Stolen Card Plans",
+      "type": "fetch",
+      "giverNpcId": "gildwyn",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:gildwyn-counterfeit-cards",
+      "offerDialogue": "The counterfeit cards were copied from my originals — but the forger needed something more: the internal layout notes I use for printing. Those layout pages were stolen from my workshop. I found a copy — someone left it behind. Naia should analyse the printing technique; she knows old methods.",
+      "activeDialogue": "Take the stolen layout pages to Naia. She can identify who printed these by the technique used.",
+      "completeDialogue": "These annotations — this is Echo cipher notation. The printing technique dates to before the Fracture. This forger is not local. And they made these copies for a reason beyond simple fraud.",
+      "steps": [
+        { "key": "collect-plans", "type": "collect", "pickupIds": ["card-layout-plans"], "required": 1 },
+        { "key": "deliver-plans", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "card-forgery-analysis", "name": "Forgery Analysis", "icon": "blueclosedBook", "desc": "Naia's notes on the Echo printing technique used to forge Gildwyn's cards." },
+        "friendship": { "gildwyn": 25, "naia-interior": 15 }
+      }
+    },
+    {
+      "id": "mira-corrupted-augments",
+      "title": "Corrupted Augments",
+      "type": "lost-items",
+      "giverNpcId": "mira",
+      "receiverNpcId": "mira",
+      "prerequisite": "quest:mira-unstable-augment",
+      "offerDialogue": "That unstable fragment you brought me was not a one-off. I have traced three more corrupted augments that left my shop and should not have. Someone swapped the cores before delivery. Find those corrupted pieces — they are dangerous if someone tries to use them.",
+      "activeDialogue": "Three corrupted augments — they glow with a faint red tint instead of blue. Someone scattered them. They should be near the market district and possibly inside a building.",
+      "completeDialogue": "All three. Look at this corruption pattern — it is deliberate, not accidental Fracture exposure. Someone engineered this to destabilise the augment grid. If these had gone live it would have caused a cascade failure across the entire hub network.",
+      "steps": [
+        { "key": "augments", "type": "collect", "pickupIds": ["corrupted-augment-1", "corrupted-augment-2", "corrupted-augment-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "mira": 30 }
+      }
     }
   ],
   "innRumours": [
