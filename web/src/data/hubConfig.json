@@ -2303,7 +2303,7 @@
     {
       "id": "pendant-3",
       "tx": 66,
-      "ty": 50,
+      "ty": 49,
       "tileId": "chest",
       "questId": "lost-pendant"
     },
