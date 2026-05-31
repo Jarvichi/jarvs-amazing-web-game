@@ -317,58 +317,54 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
     }
 
     // ── Quest give/active dialogue ──────────────────────────────────────────
-    if (npcDef?.questGive) {
-      const quest = HUB_QUEST_DEFS.find(q => q.id === npcDef.questGive)
-      if (quest) {
-        const state = getQuestState(quest.id)
+    // Scan ALL quests this NPC gives — not just the first one — so later
+    // quests in the chain are offered once earlier ones are completed.
+    const giveQuests = HUB_QUEST_DEFS.filter(q => q.giverNpcId === npcId)
 
-        if (state.status === 'available') {
-          const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
-          if (prereqMet) {
-            setDialogueEvent({
-              speakerName,
-              text: quest.offerDialogue,
-              choices: [
-                {
-                  label: 'Accept',
-                  primary: true,
-                  onClick: () => {
-                    setQuestStatus(quest.id, 'active')
-                    refreshState()
-                    setDialogueEvent(null)
-                  },
-                },
-                {
-                  label: 'Not now',
-                  onClick: () => setDialogueEvent(null),
-                },
-              ],
-            })
-            return
-          }
-        }
+    // First pass: active quest (takes priority — show progress or complete)
+    for (const quest of giveQuests) {
+      if (getQuestState(quest.id).status !== 'active') continue
+      if (quest.receiverNpcId === npcId && isQuestReadyToComplete(quest)) {
+        setQuestStatus(quest.id, 'completed')
+        grantQuestReward(quest)
+        refreshState()
+        const rewardText = formatQuestReward(quest.reward)
+        setDialogueEvent({
+          speakerName,
+          text: quest.completeDialogue,
+          ...(rewardText ? { onClose: () => setDialogueEvent({ speakerName: '', text: rewardText }) } : {}),
+        })
+        return
+      }
+      setDialogueEvent({ speakerName, text: getActiveDialogue(quest) })
+      return
+    }
 
-        if (state.status === 'active') {
-          // Also check if this NPC is the receiver and quest is ready
-          if (quest.receiverNpcId === npcId && isQuestReadyToComplete(quest)) {
-            setQuestStatus(quest.id, 'completed')
-            grantQuestReward(quest)
-            refreshState()
-            const rewardText = formatQuestReward(quest.reward)
-            setDialogueEvent({
-              speakerName,
-              text: quest.completeDialogue,
-              ...(rewardText ? { onClose: () => setDialogueEvent({ speakerName: '', text: rewardText }) } : {}),
-            })
-            return
-          }
-          setDialogueEvent({ speakerName, text: getActiveDialogue(quest) })
-          return
-        }
-
-        if (state.status === 'completed') {
-          // Fall through to screen navigation or friendship/default dialogue
-        }
+    // Second pass: first available quest whose prerequisites are met
+    for (const quest of giveQuests) {
+      if (getQuestState(quest.id).status !== 'available') continue
+      const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
+      if (prereqMet) {
+        setDialogueEvent({
+          speakerName,
+          text: quest.offerDialogue,
+          choices: [
+            {
+              label: 'Accept',
+              primary: true,
+              onClick: () => {
+                setQuestStatus(quest.id, 'active')
+                refreshState()
+                setDialogueEvent(null)
+              },
+            },
+            {
+              label: 'Not now',
+              onClick: () => setDialogueEvent(null),
+            },
+          ],
+        })
+        return
       }
     }
 
