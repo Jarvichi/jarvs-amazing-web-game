@@ -2260,7 +2260,7 @@
         "My guards are the finest in the hub. Fracture or no Fracture.",
         "Need security? My men are at your service."
       ],
-      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn", "bram-echo-territory-map", "aldous-hidden-passage"]
+      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn", "bram-echo-territory-map", "aldous-hidden-passage", "elder-confession", "varn-traitor-confronted"]
     },
     {
       "id": "drill-sergeant-varn",
@@ -2541,7 +2541,15 @@
     { "id": "passage-key",       "tx": 5,  "ty": 6,  "tileId": "pendant",        "questId": "aldous-hidden-passage", "building": "home" },
     { "id": "supplier-manifest", "tx": 35, "ty": 24, "tileId": "closedBook",     "questId": "vex-echo-supplier" },
     { "id": "supplier-stamp",    "tx": 40, "ty": 23, "tileId": "pendant",        "questId": "vex-echo-supplier" },
-    { "id": "supplier-note",     "tx": 43, "ty": 25, "tileId": "blackclosedBook","questId": "vex-echo-supplier" }
+    { "id": "supplier-note",     "tx": 43, "ty": 25, "tileId": "blackclosedBook","questId": "vex-echo-supplier" },
+    { "id": "confession-letter", "tx": 19, "ty": 14, "tileId": "closedBook",     "questId": "elder-confession" },
+    { "id": "echo-id-token-1",   "tx": 4,  "ty": 3,  "tileId": "pendant",        "questId": "thorin-barracks-lockdown", "building": "barracks-north" },
+    { "id": "echo-id-token-2",   "tx": 6,  "ty": 5,  "tileId": "pendant",        "questId": "thorin-barracks-lockdown", "building": "barracks-north" },
+    { "id": "echo-id-token-3",   "tx": 4,  "ty": 4,  "tileId": "pendant",        "questId": "thorin-barracks-lockdown", "building": "barracks-south" },
+    { "id": "traitor-confession","tx": 66, "ty": 32, "tileId": "closedBook",     "questId": "varn-traitor-confronted" },
+    { "id": "heartstone-fragment-1","tx": 4, "ty": 4, "tileId": "goldChest",     "questId": "naia-heartstone-records", "building": "scholars-hall" },
+    { "id": "heartstone-fragment-2","tx": 3, "ty": 5, "tileId": "goldChest",     "questId": "naia-heartstone-records", "building": "scholars-north-e" },
+    { "id": "heartstone-fragment-3","tx": 5, "ty": 3, "tileId": "goldChest",     "questId": "naia-heartstone-records", "building": "scholars-hall-w" }
   ],
   "lockedDoors": [
     {

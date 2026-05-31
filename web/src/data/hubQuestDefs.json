@@ -1059,6 +1059,80 @@
         "crystals": 80,
         "friendship": { "merchant": 30 }
       }
+    },
+    {
+      "id": "elder-confession",
+      "title": "The Elder's Confession",
+      "type": "fetch",
+      "giverNpcId": "elder",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:elder-old-codex|quest:naia-echo-records|quest:thorin-echo-warning",
+      "offerDialogue": "I must confess something to Captain Thorin — something I should have said years ago. I met with the Echoes once, long before the Fracture. I thought they were scholars. I told them things about the hub's layout and history. I did not know what they were. I have written it all down. Please take this letter to Thorin.",
+      "activeDialogue": "Take my confession letter to Captain Thorin. I am sorry it took so long.",
+      "completeDialogue": "The Elder… I had suspected, but I did not want to believe it. The information they had about the hub — the passages, the vault, the Hearthstone — it all came from him, unknowingly. He is not a traitor. He was deceived. But we needed to know this. Thank you for bringing it to me.",
+      "steps": [
+        { "key": "collect-letter", "type": "collect", "pickupIds": ["confession-letter"], "required": 1 },
+        { "key": "deliver-letter", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "elder": 40, "guard-captain-thorin": 20 }
+      }
+    },
+    {
+      "id": "thorin-barracks-lockdown",
+      "title": "Barracks Lockdown",
+      "type": "lost-items",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:rosie-spy-in-the-inn|quest:elder-confession",
+      "offerDialogue": "The spy report from Rosie and the Elder's confession have given me enough to act. I need three Echo agent identifiers — tokens they use to recognise each other — to match against my guard roster. I know they are hidden in the barracks compound somewhere. Find them.",
+      "activeDialogue": "Echo identifier tokens — small, disc-shaped, with an inverted triangle mark. Somewhere in the barracks buildings.",
+      "completeDialogue": "Three tokens, three guards. I have the names now. I am removing them from active duty tonight. The barracks is going into lockdown until I am certain of every person under my command.",
+      "steps": [
+        { "key": "identifiers", "type": "collect", "pickupIds": ["echo-id-token-1", "echo-id-token-2", "echo-id-token-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "guard-captain-thorin": 40 }
+      }
+    },
+    {
+      "id": "varn-traitor-confronted",
+      "title": "Traitor Confronted",
+      "type": "fetch",
+      "giverNpcId": "drill-sergeant-varn",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:varn-double-agent|quest:thorin-barracks-lockdown",
+      "offerDialogue": "I confronted the double agent. They broke. Gave me everything — contacts, schedule, method. I wrote it all down before they could recant. Take this confession to Captain Thorin. Between this and his lockdown list, we can close the net.",
+      "activeDialogue": "Take the traitor's confession to Captain Thorin immediately.",
+      "completeDialogue": "This is complete. Every contact, every drop point, every scheduled exchange. With this we can intercept the next three Echo operations before they begin. Well done, Varn. And you — thank you for carrying this to me.",
+      "steps": [
+        { "key": "collect-confession", "type": "collect", "pickupIds": ["traitor-confession"], "required": 1 },
+        { "key": "deliver-confession", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "drill-sergeant-varn": 35, "guard-captain-thorin": 20 }
+      }
+    },
+    {
+      "id": "naia-heartstone-records",
+      "title": "Heartstone Records",
+      "type": "lost-items",
+      "giverNpcId": "naia-interior",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:naia-echo-records|quest:lyss-cipher-key",
+      "offerDialogue": "The cipher key opened everything. The Echoes are after the Hearthstone — an artefact that was broken into three fragments after the Fracture and hidden across the hub. I need the three research fragments that describe where they are hidden. They should be in the archive somewhere.",
+      "activeDialogue": "Three research fragments — notes bound in copper thread. They describe the Hearthstone's three hiding places. Find them.",
+      "completeDialogue": "I have them all. The Hearthstone fragments are hidden in three specific locations: beneath the pond, inside the barracks vault, and under the foundation stone of the hall of achievements. The Echoes knew all three. We must reach them first.",
+      "steps": [
+        { "key": "fragments", "type": "collect", "pickupIds": ["heartstone-fragment-1", "heartstone-fragment-2", "heartstone-fragment-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "heartstone-research", "name": "Heartstone Research", "icon": "goldChest", "desc": "Naia's compiled research identifying the three locations where the Hearthstone fragments were hidden after the Fracture." },
+        "friendship": { "naia-interior": 40 }
+      }
     }
   ],
   "innRumours": [
