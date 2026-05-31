@@ -1408,6 +1408,84 @@
         "crystals": 100,
         "friendship": { "merchant": 35, "guild-master-ferryn": 20 }
       }
+    },
+    {
+      "id": "bramble-fortified-supplies",
+      "title": "Fortified Supplies",
+      "type": "chain",
+      "giverNpcId": "bramble",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:bramble-smugglers-cache|quest:varn-traitor-confronted",
+      "offerDialogue": "With the traitor caught and the caches cleared, I restocked the emergency supply depots. Thorin and Varn each need a priority package — equipment and provisions for the defence operation. I cannot leave the shop. Can you carry them?",
+      "activeDialogue": "Two packages ready to go — one for Thorin at the barracks, one for Varn in the south wing.",
+      "completeDialogue": "Good — Varn, grab that package. This has everything we need for the east post.",
+      "steps": [
+        { "key": "collect-packages", "type": "collect", "pickupIds": ["supply-pkg-thorin", "supply-pkg-varn"], "required": 2 },
+        { "key": "deliver-thorin", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 },
+        { "key": "deliver-varn", "type": "deliver", "targetNpcId": "drill-sergeant-varn", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "bramble": 35, "guard-captain-thorin": 15, "drill-sergeant-varn": 15 }
+      }
+    },
+    {
+      "id": "thorin-vault-preparation",
+      "title": "Vault Preparation",
+      "type": "lost-items",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:varn-traitor-confronted|quest:elder-absolution",
+      "offerDialogue": "We know the Echoes are after the Hearthstone — and we know the barracks vault is one of the hiding sites. I need to reinforce it. Three Fracture-proof vault casings are stored in the compound but scattered after the lockdown. Help me find them.",
+      "activeDialogue": "Three vault casings — heavy, grey, with a lattice pattern. They absorb Fracture energy. Somewhere in the barracks compound.",
+      "completeDialogue": "All three. I am installing these tonight. When the Echoes come for the vault, they will find it sealed with something that feeds on their own power. Let them try.",
+      "steps": [
+        { "key": "casings", "type": "collect", "pickupIds": ["vault-casing-1", "vault-casing-2", "vault-casing-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "guard-captain-thorin": 40 }
+      }
+    },
+    {
+      "id": "naia-heartstone-location",
+      "title": "Heartstone Located",
+      "type": "lost-items",
+      "giverNpcId": "naia-interior",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:naia-heartstone-records|quest:alric-fracture-study|quest:lyss-unlock-the-cipher",
+      "offerDialogue": "With the research complete, the cipher decoded, and Aldric's analysis confirmed — I know exactly where each Hearthstone fragment is. But I need three final research notes from the archive to complete the picture for the others. They will want every detail.",
+      "activeDialogue": "Three notes in the archive — the last pieces of my Hearthstone documentation. The Echoes tried to remove them. Find out if they succeeded.",
+      "completeDialogue": "They are still here. The Echoes moved fast but not fast enough. I now have the complete Hearthstone file. Every guardian, every location, every safeguard. And now you have it too.",
+      "steps": [
+        { "key": "notes", "type": "collect", "pickupIds": ["location-note-1", "location-note-2", "location-note-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "heartstone-location-map", "name": "Heartstone Location Map", "icon": "goldChest", "desc": "Naia's complete documentation of all three Hearthstone fragment locations, with guardian protocols and activation risks." },
+        "friendship": { "naia-interior": 50 }
+      }
+    },
+    {
+      "id": "elder-rallying-the-hub",
+      "title": "Rallying the Hub",
+      "type": "chain",
+      "giverNpcId": "elder",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:elder-absolution|quest:thorin-vault-preparation",
+      "offerDialogue": "The hub must stand together. I am sending rally messages to Ferryn, Rosie, the dealer, and old Greyfish — each one a call to hold their post and not let fear win. Will you carry them? My legs are not what they were, and time is short.",
+      "activeDialogue": "Four rally messages — one for each of them. Deliver them all.",
+      "completeDialogue": "The Elder… yes. We are with him. And you.",
+      "steps": [
+        { "key": "collect-messages", "type": "collect", "pickupIds": ["rally-msg-ferryn", "rally-msg-rosie", "rally-msg-dealer", "rally-msg-fisherman"], "required": 4 },
+        { "key": "deliver-ferryn", "type": "deliver", "targetNpcId": "guild-master-ferryn", "required": 1 },
+        { "key": "deliver-rosie", "type": "deliver", "targetNpcId": "innkeeper-rosie", "required": 1 },
+        { "key": "deliver-dealer", "type": "deliver", "targetNpcId": "dealer", "required": 1 },
+        { "key": "deliver-fisherman", "type": "deliver", "targetNpcId": "fisherman", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 150,
+        "friendship": { "elder": 50 }
+      }
     }
   ],
   "innRumours": [

@@ -1815,7 +1815,7 @@
         "I pulled out a strange glowing fish last week. Threw it back \u2014 some things are better left undisturbed.",
         "Patience, wanderer. The best things in life take time."
       ],
-      "questReceive": "fisherman-fracture-depths"
+      "questReceive": ["fisherman-fracture-depths", "elder-rallying-the-hub"]
     },
     {
       "id": "dealer",
@@ -1828,7 +1828,8 @@
         "The wheel never lies. Step right up \u2014 fortune favours the bold.",
         "I've seen a thousand players. The ones who win? They trust their instincts.",
         "One spin, one chance. What do you say, friend?"
-      ]
+      ],
+      "questReceive": ["elder-rallying-the-hub", "dealer-echo-final-bet"]
     },
     {
       "id": "campaign-gate",
@@ -2174,6 +2175,7 @@
         "Rooms are cheap, ale is cheaper. Stay as long as you need."
       ],
       "questGive": "innkeepers-package",
+      "questReceive": "elder-rallying-the-hub",
       "innRumours": [
         {
           "id": "rumour-barracks",
@@ -2204,7 +2206,7 @@
       "building": "traders-building",
       "tx": 7,
       "ty": 4,
-      "questReceive": ["vex-trade-ledger", "dealer-echo-bookie", "vex-supply-chain-rebuilt"],
+      "questReceive": ["vex-trade-ledger", "dealer-echo-bookie", "vex-supply-chain-rebuilt", "elder-rallying-the-hub"],
       "dialogue": [
         "The Merchant's Guild has connections across every shard. We can help.",
         "Trade is the lifeblood of any civilisation. Even one in pieces.",
@@ -2262,7 +2264,7 @@
         "My guards are the finest in the hub. Fracture or no Fracture.",
         "Need security? My men are at your service."
       ],
-      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn", "bram-echo-territory-map", "aldous-hidden-passage", "elder-confession", "varn-traitor-confronted", "elder-absolution"]
+      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn", "bram-echo-territory-map", "aldous-hidden-passage", "elder-confession", "varn-traitor-confronted", "elder-absolution", "bramble-fortified-supplies", "dealer-echo-final-bet"]
     },
     {
       "id": "drill-sergeant-varn",
@@ -2275,7 +2277,8 @@
         "Drop and give me twenty, Commander! Just kidding. What do you want?",
         "This hall forges soldiers from raw recruits. No exceptions.",
         "Training is the difference between victory and defeat. Remember that."
-      ]
+      ],
+      "questReceive": "bramble-fortified-supplies"
     },
     {
       "id": "marble-master-int",
@@ -2588,7 +2591,19 @@
     { "id": "passage-item-3",    "tx": 63, "ty": 39, "tileId": "pendant",        "questId": "aldous-passage-explored" },
     { "id": "absolution-letter-naia", "tx": 18, "ty": 11, "tileId": "closedBook","questId": "elder-absolution" },
     { "id": "absolution-letter-thorin","tx": 20, "ty": 13,"tileId": "closedBook","questId": "elder-absolution" },
-    { "id": "supply-contracts",  "tx": 22, "ty": 24, "tileId": "closedBook",     "questId": "vex-supply-chain-rebuilt" }
+    { "id": "supply-contracts",  "tx": 22, "ty": 24, "tileId": "closedBook",     "questId": "vex-supply-chain-rebuilt" },
+    { "id": "supply-pkg-thorin", "tx": 4,  "ty": 3,  "tileId": "crate",          "questId": "bramble-fortified-supplies", "building": "supply-shop" },
+    { "id": "supply-pkg-varn",   "tx": 6,  "ty": 3,  "tileId": "crate",          "questId": "bramble-fortified-supplies", "building": "supply-shop" },
+    { "id": "vault-casing-1",    "tx": 4,  "ty": 3,  "tileId": "barrel",         "questId": "thorin-vault-preparation", "building": "barracks-north" },
+    { "id": "vault-casing-2",    "tx": 3,  "ty": 5,  "tileId": "barrel",         "questId": "thorin-vault-preparation", "building": "barracks-south" },
+    { "id": "vault-casing-3",    "tx": 69, "ty": 44, "tileId": "barrel",         "questId": "thorin-vault-preparation" },
+    { "id": "location-note-1",   "tx": 3,  "ty": 4,  "tileId": "goldChest",      "questId": "naia-heartstone-location", "building": "scholars-hall" },
+    { "id": "location-note-2",   "tx": 5,  "ty": 4,  "tileId": "goldChest",      "questId": "naia-heartstone-location", "building": "scholars-north-w" },
+    { "id": "location-note-3",   "tx": 4,  "ty": 6,  "tileId": "goldChest",      "questId": "naia-heartstone-location", "building": "scholars-hall-w" },
+    { "id": "rally-msg-ferryn",  "tx": 18, "ty": 12, "tileId": "closedBook",     "questId": "elder-rallying-the-hub" },
+    { "id": "rally-msg-rosie",   "tx": 20, "ty": 14, "tileId": "closedBook",     "questId": "elder-rallying-the-hub" },
+    { "id": "rally-msg-dealer",  "tx": 21, "ty": 12, "tileId": "closedBook",     "questId": "elder-rallying-the-hub" },
+    { "id": "rally-msg-fisherman","tx": 19,"ty": 11,  "tileId": "closedBook",    "questId": "elder-rallying-the-hub" }
   ],
   "lockedDoors": [
     {
