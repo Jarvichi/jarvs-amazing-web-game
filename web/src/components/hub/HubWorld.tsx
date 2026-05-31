@@ -26,6 +26,7 @@ import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../ga
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress } from '../../game/hubQuests'
 import { getHeardConvoIds, markConvoHeard } from '../../game/hubInnConvos'
 import { addCollectible, getCollectibles } from '../../game/itemStore'
+import { QuestsModal } from './QuestsModal'
 
 const T = 32
 const INITIAL_SCROLL = {
@@ -93,9 +94,26 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
   const [dialogueEvent,  setDialogueEvent]  = useState<QuestEvent | null>(null)
   const [interiorActive, setInteriorActive] = useState(false)
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => getPickedUpIds())
+  const [questsOpen,     setQuestsOpen]     = useState(false)
   // Refresh friendship/quest state after interactions (lightweight — just reads localStorage)
   const [_tick, setTick] = useState(0)
   const refreshState = useCallback(() => setTick(t => t + 1), [])
+
+  // Quest NPC state: maps npcId → 'offer' | 'ready' | null, read imperatively by PixiJS ticker
+  const questNpcStateRef = useRef(new Map<string, 'offer' | 'ready' | null>())
+  {
+    const m = new Map<string, 'offer' | 'ready' | null>()
+    for (const quest of HUB_QUEST_DEFS) {
+      const state = getQuestState(quest.id)
+      if (state.status === 'available') {
+        const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
+        if (prereqMet) m.set(quest.giverNpcId, 'offer')
+      } else if (state.status === 'active') {
+        if (isQuestReadyToComplete(quest)) m.set(quest.receiverNpcId, 'ready')
+      }
+    }
+    questNpcStateRef.current = m
+  }
 
   const scrollRef        = useRef<HTMLDivElement>(null)
   const returnRef        = useRef(null) as React.MutableRefObject<(() => void) | null>
@@ -337,6 +355,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       <Toolbar>
         <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
         <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
+        <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
         <ToolbarSpacer/>
         <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
         <ToolbarButton
@@ -372,9 +391,12 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
             onItemPickup={handleItemPickup}
             doorKeys={doorKeys}
             onDoorLocked={handleDoorLocked}
+            questNpcState={questNpcStateRef}
           />
         </div>
         <AreaNameBadge name={currentArea} />
+
+        {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} />}
 
         <HubDialogue
           line={dialogueEvent?.text ?? dialogueLine}

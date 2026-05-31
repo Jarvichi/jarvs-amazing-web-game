@@ -67,13 +67,14 @@ interface Props {
   onItemPickup?:     (id: string, questId?: string) => void
   doorKeys?:         Set<string>
   onDoorLocked?:     (buildingId: string, requiredItem: string) => void
+  questNpcState?:    React.MutableRefObject<Map<string, 'offer' | 'ready' | null>>
 }
 
 export function HubTownCanvas({
   onAreaEnter, onNodeInteract, onAvatarMove,
   returnRef, unitCards, commander, onNpcTap,
   interiorEnterRef, interiorExitRef, onExitInterior, onTileTap,
-  pickedUpIds, onItemPickup, doorKeys, onDoorLocked,
+  pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState,
 }: Props) {
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
@@ -439,6 +440,11 @@ export function HubTownCanvas({
     const npcDialogueIndex = new Map<string, number>()
 
     // ── Exterior NPCs ─────────────────────────────────────────────────────────
+    // Quest indicators: keyed by npcId, updated imperatively in the ticker
+    const questIndicators = new Map<string, PIXI.Text>()
+    // Interior quest indicators: rebuilt each time we enter a building
+    const interiorQuestIndicators = new Map<string, PIXI.Text>()
+
     const npcBubbleTargets: { npc: HubNpc; cx: number; cy: number }[] = []
     for (const npc of EXTERIOR_NPCS) {
       const cx = npc.tx * T + T / 2
@@ -461,6 +467,15 @@ export function HubTownCanvas({
       })
       npcLayer.addChild(npcContainer)
       if (npc.dialogue.length > 0) npcBubbleTargets.push({ npc, cx, cy })
+
+      if (npc.questGive || npc.questReceive) {
+        const ind = new PIXI.Text({ text: '!', style: { fontSize: 14, fill: '#ffdd44', fontWeight: 'bold', fontFamily: 'monospace' } })
+        ind.anchor.set(0.5, 1)
+        ind.position.set(cx, cy - SPRITE_SIZE - 22)
+        ind.visible = false
+        bubbleLayer.addChild(ind)
+        questIndicators.set(npc.id, ind)
+      }
 
       const npcSpriteSlug = isCommanderNpc ? (commander !== undefined ? commander.cardName : avatarSlug) : npc.sprite
 
@@ -851,6 +866,18 @@ export function HubTownCanvas({
         }).catch(() => {})
       }
 
+      // Quest indicators for interior NPCs
+      interiorQuestIndicators.clear()
+      for (const npc of interiorNpcList) {
+        if (!npc.questGive && !npc.questReceive) continue
+        const ind = new PIXI.Text({ text: '!', style: { fontSize: 14, fill: '#ffdd44', fontWeight: 'bold', fontFamily: 'monospace' } })
+        ind.anchor.set(0.5, 1)
+        ind.position.set(npc.tx * T + T / 2, npc.ty * T + T - SPRITE_SIZE - 8)
+        ind.visible = false
+        interiorLayer.addChild(ind)
+        interiorQuestIndicators.set(npc.id, ind)
+      }
+
       // Room name label
       const nameLabel = new PIXI.Text({
         text: interior.name,
@@ -1133,6 +1160,14 @@ export function HubTownCanvas({
         for (const { tx, ty, tag } of npcNameTags) {
           tag.visible = Math.max(Math.abs(tx - atx), Math.abs(ty - aty)) <= 5
         }
+      }
+
+      // Quest indicators — update visibility from questNpcState ref
+      const activeIndicators = interiorActive ? interiorQuestIndicators : questIndicators
+      for (const [npcId, ind] of activeIndicators) {
+        const state = questNpcState?.current.get(npcId) ?? null
+        ind.visible = state !== null
+        ind.text    = state === 'ready' ? '?' : '!'
       }
 
       for (const npc of unitNpcs) {

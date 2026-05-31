@@ -14623,3 +14623,75 @@ html.light-mode .action-btn {
   0%, 100% { opacity: 0.5; }
   50%       { opacity: 1; }
 }
+
+/* ── Quests Modal ──────────────────────────────────────────────────────────── */
+.quests-modal {
+  background: rgba(8, 14, 8, 0.97);
+  border: 1px solid #446644;
+  color: #c8e8c8;
+  padding: 20px;
+  width: min(420px, 92vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 4px;
+  font-family: monospace;
+}
+.quests-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #88cc88;
+  text-transform: uppercase;
+}
+.quests-modal__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  color: #557755;
+}
+.quests-modal__close {
+  background: none;
+  border: none;
+  color: #557755;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 2px;
+  line-height: 1;
+}
+.quests-modal__close:hover { color: #88cc88; }
+.quests-modal__empty {
+  font-size: 11px;
+  color: #557755;
+  text-align: center;
+  padding: 20px 0;
+}
+.quests-modal__section-label {
+  font-size: 10px;
+  color: #557755;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin: 12px 0 6px;
+}
+.quests-modal__card {
+  border: 1px solid #2a4a2a;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  border-radius: 2px;
+}
+.quests-modal__card--active   { border-color: #668844; }
+.quests-modal__card--completed { opacity: 0.7; }
+.quests-modal__title { font-size: 12px; font-weight: bold; margin-bottom: 4px; }
+.quests-modal__step  {
+  font-size: 10px;
+  color: #88aa88;
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.quests-modal__hint   { font-size: 10px; color: #667766; margin-top: 6px; font-style: italic; }
+.quests-modal__reward { font-size: 10px; color: #88cc88; margin-top: 4px; }
