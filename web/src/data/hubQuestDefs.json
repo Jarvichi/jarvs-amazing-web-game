@@ -1133,6 +1133,96 @@
         "collectible": { "id": "heartstone-research", "name": "Heartstone Research", "icon": "goldChest", "desc": "Naia's compiled research identifying the three locations where the Hearthstone fragments were hidden after the Fracture." },
         "friendship": { "naia-interior": 40 }
       }
+    },
+    {
+      "id": "bram-safe-routes",
+      "title": "Safe Routes",
+      "type": "lost-items",
+      "giverNpcId": "cartographer-bram",
+      "receiverNpcId": "cartographer-bram",
+      "prerequisite": "quest:bram-echo-territory-map",
+      "offerDialogue": "Now that I know which zones the Echoes control, I have redrawn the safe routes — paths they do not watch. I printed three copies but the courier I sent out never arrived. Someone intercepted the packages. Retrieve those maps before the Echoes find them and learn what we know.",
+      "activeDialogue": "Three rolled map copies — marked with a blue ribbon, not red. They should be somewhere along the usual courier route.",
+      "completeDialogue": "All three. I will distribute them myself this time — directly to the Elder, the guild hall, and the barracks. No more couriers until we know who can be trusted.",
+      "steps": [
+        { "key": "maps", "type": "collect", "pickupIds": ["safe-route-map-1", "safe-route-map-2", "safe-route-map-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "cartographer-bram": 35 }
+      }
+    },
+    {
+      "id": "ferryn-guild-lockdown",
+      "title": "Guild Lockdown",
+      "type": "lost-items",
+      "giverNpcId": "guild-master-ferryn",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:ferryn-guild-informant|quest:dealer-echo-bookie",
+      "offerDialogue": "Three compromised offices in the guild hall — I need to pull the documents from each before I seal them. Access logs, correspondence, financial records. If those fall into Echo hands we lose everything we have built since the Fracture. Go in and collect them.",
+      "activeDialogue": "Three document bundles — red ribbon, stamped with my seal, left in each compromised office. Move fast.",
+      "completeDialogue": "Perfect. I am sealing those three offices permanently and reassigning their occupants. The guild will survive this — but only because we acted quickly. I owe you for this.",
+      "steps": [
+        { "key": "documents", "type": "collect", "pickupIds": ["guild-doc-1", "guild-doc-2", "guild-doc-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "guild-master-ferryn": 40 }
+      }
+    },
+    {
+      "id": "mira-purging-augments",
+      "title": "Purging the Augments",
+      "type": "lost-items",
+      "giverNpcId": "mira",
+      "receiverNpcId": "mira",
+      "prerequisite": "quest:mira-corrupted-augments",
+      "offerDialogue": "I have synthesised a purification crystal that can cleanse the corrupted augments — but I need three more. They occur naturally near strong Fracture fault lines. They will look like ordinary crystals but pulse with a clean white light instead of amber.",
+      "activeDialogue": "Three purification crystals — white-pulsing, near Fracture fault points. The fault lines run near the pond, the east wall, and the old foundation stones.",
+      "completeDialogue": "Yes — these are pure. With these three I can cleanse the entire hub augment network. No more corruption risk. The Echoes lost their best weapon against us today.",
+      "steps": [
+        { "key": "crystals", "type": "collect", "pickupIds": ["purification-crystal-1", "purification-crystal-2", "purification-crystal-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "mira": 35 }
+      }
+    },
+    {
+      "id": "gildwyn-echo-deck-master",
+      "title": "Echo Deck Master",
+      "type": "lost-items",
+      "giverNpcId": "gildwyn",
+      "receiverNpcId": "gildwyn",
+      "prerequisite": "quest:gildwyn-stolen-card-plans",
+      "offerDialogue": "Someone calling themselves the Echo Deck Master has been running an underground card circuit using my stolen designs. Three of their illegally modified card sets are still in circulation. I need those cards back — with them I can prove the counterfeiting operation and who ran it.",
+      "activeDialogue": "Three card sets with my original backing design but modified faces — Echo symbols on three of the cards in each deck. They were in play recently.",
+      "completeDialogue": "These are mine — the backing is my original woodblock print, I can see the grain pattern. But the face modifications are extraordinary. This was not done for profit. The Echo symbols on these cards are the same as those on the identifier tokens Thorin found. These were used for signalling.",
+      "steps": [
+        { "key": "cards", "type": "collect", "pickupIds": ["echo-card-set-1", "echo-card-set-2", "echo-card-set-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "echo-card-set", "name": "Echo Card Sets", "icon": "blueclosedBook", "desc": "Three illegally modified card sets recovered from the Echo Deck Master's underground circuit." },
+        "friendship": { "gildwyn": 35 }
+      }
+    },
+    {
+      "id": "lyss-unlock-the-cipher",
+      "title": "Unlocking the Cipher",
+      "type": "lost-items",
+      "giverNpcId": "apprentice-lyss",
+      "receiverNpcId": "apprentice-lyss",
+      "prerequisite": "quest:lyss-cipher-key|quest:naia-heartstone-records",
+      "offerDialogue": "The cipher key works — but to translate the oldest Echo texts, I need two specific cipher fragments that were removed from the archive. With Naia's heartstone research pointing to the Hearthstone locations, the translations become urgent. Find those fragments.",
+      "activeDialogue": "Two cipher fragments — small cards with overlapping text in two scripts. Hidden somewhere in the scholars' quarter.",
+      "completeDialogue": "I have them. And the translations confirm everything Naia found — plus one thing more. The Echoes plan to use the Hearthstone fragments not to take them, but to activate them together. If they do, the Fracture energy concentrated in this hub would be catastrophic.",
+      "steps": [
+        { "key": "fragments", "type": "collect", "pickupIds": ["cipher-fragment-a", "cipher-fragment-b"], "required": 2 }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": { "apprentice-lyss": 35 }
+      }
     }
   ],
   "innRumours": [

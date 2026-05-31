@@ -2549,7 +2549,21 @@
     { "id": "traitor-confession","tx": 66, "ty": 32, "tileId": "closedBook",     "questId": "varn-traitor-confronted" },
     { "id": "heartstone-fragment-1","tx": 4, "ty": 4, "tileId": "goldChest",     "questId": "naia-heartstone-records", "building": "scholars-hall" },
     { "id": "heartstone-fragment-2","tx": 3, "ty": 5, "tileId": "goldChest",     "questId": "naia-heartstone-records", "building": "scholars-north-e" },
-    { "id": "heartstone-fragment-3","tx": 5, "ty": 3, "tileId": "goldChest",     "questId": "naia-heartstone-records", "building": "scholars-hall-w" }
+    { "id": "heartstone-fragment-3","tx": 5, "ty": 3, "tileId": "goldChest",     "questId": "naia-heartstone-records", "building": "scholars-hall-w" },
+    { "id": "safe-route-map-1",  "tx": 40, "ty": 24, "tileId": "blueclosedBook", "questId": "bram-safe-routes" },
+    { "id": "safe-route-map-2",  "tx": 58, "ty": 16, "tileId": "blueclosedBook", "questId": "bram-safe-routes" },
+    { "id": "safe-route-map-3",  "tx": 18, "ty": 22, "tileId": "blueclosedBook", "questId": "bram-safe-routes" },
+    { "id": "guild-doc-1",       "tx": 4,  "ty": 3,  "tileId": "blackclosedBook","questId": "ferryn-guild-lockdown", "building": "traders-building" },
+    { "id": "guild-doc-2",       "tx": 6,  "ty": 4,  "tileId": "blackclosedBook","questId": "ferryn-guild-lockdown", "building": "traders-building" },
+    { "id": "guild-doc-3",       "tx": 3,  "ty": 6,  "tileId": "blackclosedBook","questId": "ferryn-guild-lockdown", "building": "trader-den" },
+    { "id": "purification-crystal-1","tx": 5, "ty": 40, "tileId": "chest",       "questId": "mira-purging-augments" },
+    { "id": "purification-crystal-2","tx": 72, "ty": 44,"tileId": "chest",       "questId": "mira-purging-augments" },
+    { "id": "purification-crystal-3","tx": 34, "ty": 38,"tileId": "chest",       "questId": "mira-purging-augments" },
+    { "id": "echo-card-set-1",   "tx": 4,  "ty": 3,  "tileId": "blueclosedBook", "questId": "gildwyn-echo-deck-master", "building": "card-shop" },
+    { "id": "echo-card-set-2",   "tx": 4,  "ty": 5,  "tileId": "blueclosedBook", "questId": "gildwyn-echo-deck-master", "building": "arcade-building-w" },
+    { "id": "echo-card-set-3",   "tx": 50, "ty": 22, "tileId": "blueclosedBook", "questId": "gildwyn-echo-deck-master" },
+    { "id": "cipher-fragment-a", "tx": 4,  "ty": 6,  "tileId": "blueclosedBook", "questId": "lyss-unlock-the-cipher", "building": "scholars-north-w" },
+    { "id": "cipher-fragment-b", "tx": 6,  "ty": 3,  "tileId": "blueclosedBook", "questId": "lyss-unlock-the-cipher", "building": "scholars-hall" }
   ],
   "lockedDoors": [
     {
