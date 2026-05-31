@@ -110,11 +110,13 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
   const questNpcStateRef = useRef(new Map<string, 'offer' | 'ready' | null>())
   {
     const m = new Map<string, 'offer' | 'ready' | null>()
+    const activeCount = HUB_QUEST_DEFS.filter(q => getQuestState(q.id).status === 'active').length
+    const atCap = activeCount >= 2
     for (const quest of HUB_QUEST_DEFS) {
       const state = getQuestState(quest.id)
       if (state.status === 'available') {
         const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
-        if (prereqMet) m.set(quest.giverNpcId, 'offer')
+        if (prereqMet && !atCap) m.set(quest.giverNpcId, 'offer')
       } else if (state.status === 'active') {
         if (isQuestReadyToComplete(quest)) m.set(quest.receiverNpcId, 'ready')
       }
@@ -336,15 +338,22 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
         })
         return
       }
+      // Quest in progress but not completable — if NPC has a screen, open it directly
+      if (npcDef?.screen) {
+        handleNodeInteract(npcDef.screen)
+        return
+      }
       setDialogueEvent({ speakerName, text: getActiveDialogue(quest) })
       return
     }
 
     // Second pass: first available quest whose prerequisites are met
+    const atOfferCap = HUB_QUEST_DEFS.filter(q => getQuestState(q.id).status === 'active').length >= 2
     for (const quest of giveQuests) {
       if (getQuestState(quest.id).status !== 'available') continue
       const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
       if (prereqMet) {
+        if (atOfferCap) break  // at cap — skip offer, fall through to screen or default dialogue
         setDialogueEvent({
           speakerName,
           text: quest.offerDialogue,
@@ -353,6 +362,11 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
               label: 'Accept',
               primary: true,
               onClick: () => {
+                const count = HUB_QUEST_DEFS.filter(q => getQuestState(q.id).status === 'active').length
+                if (count >= 2) {
+                  setDialogueEvent({ speakerName, text: "You're already working on 2 quests. Finish one first." })
+                  return
+                }
                 setQuestStatus(quest.id, 'active')
                 activeQuestIdsRef.current.add(quest.id)
                 refreshState()
