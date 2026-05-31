@@ -41,6 +41,7 @@ interface QuestEvent {
   speakerName: string
   text: string
   choices?: DialogueChoice[]
+  onClose?: () => void
 }
 
 function checkPrerequisite(prereq: string): boolean {
@@ -272,9 +273,11 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
           setQuestStatus(quest.id, 'completed')
           grantQuestReward(quest)
           refreshState()
+          const rewardText = formatQuestReward(quest.reward)
           setDialogueEvent({
             speakerName,
             text: quest.completeDialogue,
+            ...(rewardText ? { onClose: () => setDialogueEvent({ speakerName: '', text: rewardText }) } : {}),
           })
           return
         }
@@ -319,7 +322,12 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
             setQuestStatus(quest.id, 'completed')
             grantQuestReward(quest)
             refreshState()
-            setDialogueEvent({ speakerName, text: quest.completeDialogue })
+            const rewardText = formatQuestReward(quest.reward)
+            setDialogueEvent({
+              speakerName,
+              text: quest.completeDialogue,
+              ...(rewardText ? { onClose: () => setDialogueEvent({ speakerName: '', text: rewardText }) } : {}),
+            })
             return
           }
           setDialogueEvent({ speakerName, text: getActiveDialogue(quest) })
@@ -403,8 +411,10 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
           speakerName={dialogueEvent?.speakerName}
           choices={dialogueEvent?.choices}
           onClose={() => {
+            const after = dialogueEvent?.onClose
             setDialogueEvent(null)
             setDialogueLine(null)
+            after?.()
           }}
         />
 
@@ -435,7 +445,19 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
   )
 }
 
-// ── Quest reward helper ────────────────────────────────────────────────────────
+// ── Quest reward helpers ───────────────────────────────────────────────────────
+
+function formatQuestReward(reward: HubQuestDef['reward']): string {
+  const parts: string[] = []
+  if (reward.crystals)    parts.push(`+${reward.crystals} 💎`)
+  if (reward.collectible) parts.push(`${reward.collectible.icon} ${reward.collectible.name}`)
+  if (reward.friendship) {
+    for (const [npcId, xp] of Object.entries(reward.friendship)) {
+      parts.push(`+${xp} friendship with ${getNpcDisplayName(npcId)}`)
+    }
+  }
+  return parts.length > 0 ? `You received: ${parts.join('  ·  ')}` : ''
+}
 
 function grantQuestReward(quest: HubQuestDef): void {
   const { reward } = quest
