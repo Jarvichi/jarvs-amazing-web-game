@@ -477,6 +477,13 @@ export const BASE_CHIP_TILES = {
     greenclosedBook: 958,
     greenopenBook: 959,
 
+    bunchOfHerbs: 984,
+
+    gift:992,
+    smallChest:993,
+    pileOfCoins:994,
+    pendant: 1008,
+
 
     // Exterior Walls
 

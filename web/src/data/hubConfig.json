@@ -2290,35 +2290,35 @@
       "id": "pendant-1",
       "tx": 4,
       "ty": 39,
-      "tileId": "goldChest",
+      "tileId": "pendant",
       "questId": "lost-pendant"
     },
     {
       "id": "pendant-2",
       "tx": 24,
       "ty": 49,
-      "tileId": "chest",
+      "tileId": "pendant",
       "questId": "lost-pendant"
     },
     {
       "id": "pendant-3",
       "tx": 66,
       "ty": 49,
-      "tileId": "chest",
+      "tileId": "pendant",
       "questId": "lost-pendant"
     },
     {
       "id": "moonleaf-herb",
       "tx": 52,
       "ty": 2,
-      "tileId": "sack",
+      "tileId": "bunchOfHerbs",
       "questId": "merchants-herb"
     },
     {
       "id": "ancient-tome-1",
       "tx": 3,
       "ty": 5,
-      "tileId": "bookshelfBottom",
+      "tileId": "blackclosedBook",
       "questId": "scholars-anthology",
       "building": "card-shop"
     },
@@ -2326,7 +2326,7 @@
       "id": "ancient-tome-2",
       "tx": 4,
       "ty": 3,
-      "tileId": "bookshelfBottom",
+      "tileId": "blueclosedBook",
       "questId": "scholars-anthology",
       "building": "traders-building",
       "chain": "ancient-tome-1"
@@ -2335,7 +2335,7 @@
       "id": "ancient-tome-3",
       "tx": 3,
       "ty": 40,
-      "tileId": "bookshelfBottom",
+      "tileId": "greenclosedBook",
       "questId": "scholars-anthology"
     },
     {
