@@ -21,9 +21,9 @@ import { LoginButton } from '../ui/LoginButton'
 import { HUB_NPCS } from '../../data/hubConfigLoader'
 import { HUB_QUEST_DEFS, INN_RUMOURS, FRIENDSHIP_DIALOGUE } from '../../data/hubQuestDefs'
 import type { HubQuestDef } from '../../data/hubQuestDefs'
-import { getPickedUpIds, markPickedUp } from '../../game/hubPickups'
+import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hubPickups'
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hubFriendship'
-import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress } from '../../game/hubQuests'
+import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hubQuests'
 import { getHeardConvoIds, markConvoHeard } from '../../game/hubInnConvos'
 import { addCollectible, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
@@ -114,6 +114,16 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       }
     }
     questNpcStateRef.current = m
+  }
+
+  // Active quest IDs: read imperatively by PixiJS ticker to gate pickup visibility
+  const activeQuestIdsRef = useRef(new Set<string>())
+  {
+    const s = new Set<string>()
+    for (const quest of HUB_QUEST_DEFS) {
+      if (getQuestState(quest.id).status === 'active') s.add(quest.id)
+    }
+    activeQuestIdsRef.current = s
   }
 
   const scrollRef        = useRef<HTMLDivElement>(null)
@@ -215,6 +225,16 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
     interiorExitRef.current?.()
     setInteriorActive(false)
   }, [])
+
+  const handleQuestAbandon = useCallback((questId: string) => {
+    const quest = HUB_QUEST_DEFS.find(q => q.id === questId)
+    if (!quest) return
+    const pickupIds = quest.steps.flatMap(s => s.pickupIds ?? [])
+    unmarkPickedUp(pickupIds)
+    resetQuest(questId)
+    setPickedUpIds(getPickedUpIds())
+    refreshState()
+  }, [refreshState])
 
   const handleItemPickup = useCallback((id: string, questId?: string) => {
     markPickedUp(id)
@@ -400,11 +420,12 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
             doorKeys={doorKeys}
             onDoorLocked={handleDoorLocked}
             questNpcState={questNpcStateRef}
+            activeQuestIdsRef={activeQuestIdsRef}
           />
         </div>
         <AreaNameBadge name={currentArea} />
 
-        {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} />}
+        {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} />}
 
         <HubDialogue
           line={dialogueEvent?.text ?? dialogueLine}

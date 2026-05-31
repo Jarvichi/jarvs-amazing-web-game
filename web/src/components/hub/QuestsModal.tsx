@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
 import { HUB_QUEST_DEFS } from '../../data/hubQuestDefs'
 import type { HubQuestDef } from '../../data/hubQuestDefs'
 import { getQuestState, getQuestProgress } from '../../game/hubQuests'
 
-interface Props { onClose: () => void }
+interface Props {
+  onClose: () => void
+  onAbandon: (questId: string) => void
+}
 
 function progressDots(current: number, required: number): string {
   const filled = Math.min(current, required)
@@ -22,7 +25,9 @@ function getActiveHint(quest: HubQuestDef): string {
   return Object.values(activeDialogue)[Object.values(activeDialogue).length - 1]
 }
 
-export function QuestsModal({ onClose }: Props) {
+export function QuestsModal({ onClose, onAbandon }: Props) {
+  const [confirmingId, setConfirmingId] = useState<string | null>(null)
+
   const active    = HUB_QUEST_DEFS.filter(q => getQuestState(q.id).status === 'active')
   const completed = HUB_QUEST_DEFS.filter(q => getQuestState(q.id).status === 'completed')
   const discovered = active.length + completed.length
@@ -48,7 +53,14 @@ export function QuestsModal({ onClose }: Props) {
             <div className="quests-modal__section-label">Active</div>
             {active.map(quest => (
               <div key={quest.id} className="quests-modal__card quests-modal__card--active">
-                <div className="quests-modal__title">🟡 {quest.title}</div>
+                <div className="quests-modal__title-row">
+                  <span className="quests-modal__title">🟡 {quest.title}</span>
+                  <button
+                    className="quests-modal__abandon-btn"
+                    onClick={() => setConfirmingId(confirmingId === quest.id ? null : quest.id)}
+                    title="Abandon quest"
+                  >✕</button>
+                </div>
                 {quest.steps.map(step => {
                   const current = getQuestProgress(quest.id, step.key)
                   const label   = step.key.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
@@ -59,7 +71,17 @@ export function QuestsModal({ onClose }: Props) {
                     </div>
                   )
                 })}
-                <div className="quests-modal__hint">{getActiveHint(quest)}</div>
+                {confirmingId === quest.id ? (
+                  <div className="quests-modal__confirm">
+                    <span>Abandon this quest? Collected items will return to the world.</span>
+                    <div className="quests-modal__confirm-btns">
+                      <button onClick={() => { onAbandon(quest.id); setConfirmingId(null) }}>Abandon</button>
+                      <button onClick={() => setConfirmingId(null)}>Cancel</button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="quests-modal__hint">{getActiveHint(quest)}</div>
+                )}
               </div>
             ))}
           </>

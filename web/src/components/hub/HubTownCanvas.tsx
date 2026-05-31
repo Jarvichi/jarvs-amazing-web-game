@@ -68,13 +68,14 @@ interface Props {
   doorKeys?:         Set<string>
   onDoorLocked?:     (buildingId: string, requiredItem: string) => void
   questNpcState?:    React.MutableRefObject<Map<string, 'offer' | 'ready' | null>>
+  activeQuestIdsRef?: React.MutableRefObject<Set<string>>
 }
 
 export function HubTownCanvas({
   onAreaEnter, onNodeInteract, onAvatarMove,
   returnRef, unitCards, commander, onNpcTap,
   interiorEnterRef, interiorExitRef, onExitInterior, onTileTap,
-  pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState,
+  pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
 }: Props) {
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
@@ -107,6 +108,7 @@ export function HubTownCanvas({
     const groundLayer   = new PIXI.Container()
     const streetLayer   = new PIXI.Container()
     const pondLayer     = new PIXI.Container()
+    const belowAvatarLayer = new PIXI.Container()  // fixed decor always below sprites (e.g. stairs)
     const pickupLayer   = new PIXI.Container()  // ground-level collectible items
     const spriteLayer   = new PIXI.Container()  // avatar + NPCs + decor, Y-sorted
     const buildingLayer = new PIXI.Container()
@@ -123,10 +125,11 @@ export function HubTownCanvas({
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
     const exteriorDecorLayer = spriteLayer
-    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, spriteLayer, pickupLayer, nodeLayer, worldLayer, interiorLayer, bubbleLayer, highlightGfx)
+    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, pickupLayer, nodeLayer, worldLayer, interiorLayer, bubbleLayer, highlightGfx)
 
     // Keyed by pickupId; used to imperatively show/hide sprites when items are collected
-    const pickupSprites = new Map<string, PIXI.Sprite>()
+    const pickupSprites  = new Map<string, PIXI.Sprite>()
+    const pickupQuestIds = new Map<string, string>()  // pickupId → questId, for ticker gating
 
     const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
 
@@ -229,9 +232,10 @@ export function HubTownCanvas({
         const wallTiles = WALL_TILES[wall]
         for (const door of HUB_DOORS) {
           if (door.ty !== y2 + 1 || door.tx < x1 || door.tx > x2) continue
-          place(wallTiles.doorArchTop, door.tx, y2 - 1)
-          place(wallTiles.doorTop,     door.tx, y2 - 1)
-          place(wallTiles.doorBottom,  door.tx, y2 - 0)
+          const adj = door.tyAdjust ?? 0
+          place(wallTiles.doorArchTop, door.tx, y2 - 1 - adj)
+          place(wallTiles.doorTop,     door.tx, y2 - 1 - adj)
+          place(wallTiles.doorBottom,  door.tx, y2 - 0 - adj)
         }
       }
 
@@ -320,15 +324,17 @@ export function HubTownCanvas({
 
     // ── Exterior decor (tile sprites over streets/ground) ─────────────────────
     {
-      const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
-      const extByTile = new Map<number, [number, number][]>()
+      const baseChipUrl    = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
+      const extNormal      = new Map<number, [number, number][]>()
+      const extBelowAvatar = new Map<number, [number, number][]>()
       for (const d of EXTERIOR_DECOR) {
         if (d.tileId === 666) continue
-        const list = extByTile.get(d.tileId) ?? []
+        const map  = d.zlayer === 'below-avatar' ? extBelowAvatar : extNormal
+        const list = map.get(d.tileId) ?? []
         list.push([d.tx, d.ty])
-        extByTile.set(d.tileId, list)
+        map.set(d.tileId, list)
       }
-      for (const [tileId, positions] of extByTile) {
+      for (const [tileId, positions] of extNormal) {
         loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
           if (app.renderer == null) return
           for (const [tx, ty] of positions) {
@@ -337,6 +343,17 @@ export function HubTownCanvas({
             s.width = T; s.height = T
             s.zIndex = ty * T + T + 1
             exteriorDecorLayer.addChild(s)
+          }
+        }).catch(() => {})
+      }
+      for (const [tileId, positions] of extBelowAvatar) {
+        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+          if (app.renderer == null) return
+          for (const [tx, ty] of positions) {
+            const s = new PIXI.Sprite(tex)
+            s.position.set(tx * T, ty * T)
+            s.width = T; s.height = T
+            belowAvatarLayer.addChild(s)
           }
         }).catch(() => {})
       }
@@ -363,8 +380,10 @@ export function HubTownCanvas({
             const s = new PIXI.Sprite(tex)
             s.position.set(pickup.tx * T, pickup.ty * T)
             s.width = T; s.height = T
+            s.visible = !pickup.questId || (activeQuestIdsRef?.current.has(pickup.questId) ?? true)
             s.eventMode = 'static'
             s.cursor    = 'pointer'
+            if (pickup.questId) pickupQuestIds.set(pickup.id, pickup.questId)
             s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
               e.stopPropagation()
               s.visible = false
@@ -821,8 +840,10 @@ export function HubTownCanvas({
               const s = new PIXI.Sprite(tex)
               s.position.set(pickup.tx * T, pickup.ty * T)
               s.width = T; s.height = T
+              s.visible = !pickup.questId || (activeQuestIdsRef?.current.has(pickup.questId) ?? true)
               s.eventMode = 'static'
               s.cursor    = 'pointer'
+              if (pickup.questId) pickupQuestIds.set(pickup.id, pickup.questId)
               s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
                 e.stopPropagation()
                 s.visible = false
@@ -1168,6 +1189,13 @@ export function HubTownCanvas({
         const state = questNpcState?.current.get(npcId) ?? null
         ind.visible = state !== null
         ind.text    = state === 'ready' ? '?' : '!'
+      }
+
+      // Quest pickup visibility — only show while the associated quest is active
+      for (const [pickupId, sprite] of pickupSprites) {
+        if (pickedUpRef.current.has(pickupId)) continue
+        const questId = pickupQuestIds.get(pickupId)
+        sprite.visible = !questId || (activeQuestIdsRef?.current.has(questId) ?? true)
       }
 
       for (const npc of unitNpcs) {

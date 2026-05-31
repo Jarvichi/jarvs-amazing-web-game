@@ -14695,3 +14695,30 @@ html.light-mode .action-btn {
 }
 .quests-modal__hint   { font-size: 10px; color: #667766; margin-top: 6px; font-style: italic; }
 .quests-modal__reward { font-size: 10px; color: #88cc88; margin-top: 4px; }
+.quests-modal__title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.quests-modal__title-row .quests-modal__title { margin-bottom: 0; }
+.quests-modal__abandon-btn {
+  background: none;
+  border: 1px solid #334433;
+  color: #557755;
+  font-size: 9px;
+  padding: 2px 5px;
+  cursor: pointer;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.quests-modal__abandon-btn:hover { border-color: #cc5544; color: #cc5544; }
+.quests-modal__confirm { font-size: 10px; color: #cc8844; margin-top: 6px; }
+.quests-modal__confirm-btns { display: flex; gap: 6px; margin-top: 6px; }
+.quests-modal__confirm-btns button {
+  background: none;
+  border: 1px solid #446644;
+  color: #88cc88;
+  font-size: 10px;
+  padding: 3px 10px;
+  cursor: pointer;
+  font-family: monospace;
+  letter-spacing: 0.08em;
+}
+.quests-modal__confirm-btns button:first-child { border-color: #cc5544; color: #cc5544; }
+.quests-modal__confirm-btns button:hover { opacity: 0.8; }

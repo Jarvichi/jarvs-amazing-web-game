@@ -53,3 +53,9 @@ export function incrementQuestProgress(questId: string, key: string, by = 1): vo
 export function getQuestProgress(questId: string, key: string): number {
   return load()[questId]?.progress[key] ?? 0
 }
+
+export function resetQuest(questId: string): void {
+  const store = load()
+  delete store[questId]
+  save(store)
+}

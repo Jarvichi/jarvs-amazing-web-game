@@ -455,6 +455,16 @@ export const BASE_CHIP_TILES = {
     stairsUp:   666,
     stairsDown: 666,
 
+    // Stairs that go in front of a building and go up to a front door
+    stoneStairsUpLeftTop:331,
+    stoneStairsUpRightTop:333,    
+    stoneStairsUpLeftMiddle:339,
+    stoneStairsUpMiddleMiddle:340,
+    stoneStairsUpRightMiddle:341,    
+    stoneStairsUpLeftBottom:347,
+    stoneStairsUpMiddleBottom:348,
+    stoneStairsUpRightBottom:349,
+
     // Decorative floor / wall items
     rugTopLeft:     837,
     // mid - 838
