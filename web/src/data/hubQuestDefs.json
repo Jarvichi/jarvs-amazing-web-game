@@ -1486,6 +1486,99 @@
         "crystals": 150,
         "friendship": { "elder": 50 }
       }
+    },
+    {
+      "id": "thorin-hub-defense-plan",
+      "title": "Hub Defence Plan",
+      "type": "lost-items",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:thorin-vault-preparation|quest:bram-safe-routes",
+      "offerDialogue": "Bram's safe routes and the vault casings give us the foundation. Now I need to write up defensive positions for every major point in the hub. I drafted notes for three positions but scattered them during the lockdown confusion. Find them and I can finalise the plan.",
+      "activeDialogue": "Three defensive position notes — my handwriting, official barracks paper. Somewhere in the compound.",
+      "completeDialogue": "Perfect. East gate, courtyard centre, scholars' quarter perimeter — these three hold the whole hub. Anyone trying to reach the Hearthstone sites goes through my people. Let them come.",
+      "steps": [
+        { "key": "notes", "type": "collect", "pickupIds": ["defense-note-1", "defense-note-2", "defense-note-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "guard-captain-thorin": 45 }
+      }
+    },
+    {
+      "id": "varn-training-defenders",
+      "title": "Training Defenders",
+      "type": "lost-items",
+      "giverNpcId": "drill-sergeant-varn",
+      "receiverNpcId": "drill-sergeant-varn",
+      "prerequisite": "quest:varn-traitor-confronted|quest:bramble-fortified-supplies",
+      "offerDialogue": "I am drilling every able-bodied person in the hub — traders, scholars, even the innkeeper's staff. I printed training manuals for each group but half of them went missing in the supply chaos. Find those manuals before training starts tonight.",
+      "activeDialogue": "Three training manuals — thick, stamped with a crossed-sword mark. One for each group I am training.",
+      "completeDialogue": "There they are. Tonight, every person in this hub learns the basics. If the Echoes come, they will not find civilians. They will find defenders.",
+      "steps": [
+        { "key": "manuals", "type": "collect", "pickupIds": ["training-manual-1", "training-manual-2", "training-manual-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "drill-sergeant-varn": 40 }
+      }
+    },
+    {
+      "id": "mira-anti-fracture-charms",
+      "title": "Anti-Fracture Charms",
+      "type": "chain",
+      "giverNpcId": "mira",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:mira-purging-augments|quest:alric-fracture-study",
+      "offerDialogue": "Using the purified crystals, I have crafted three anti-Fracture charms — one each for Naia, the Elder, and Captain Thorin. They will provide limited protection if the Hearthstone is tampered with. Deliver them; these people need to be shielded.",
+      "activeDialogue": "Deliver the charm to Naia first, then the Elder, then Captain Thorin.",
+      "completeDialogue": "Tell Mira these are extraordinary. The resonance pattern is perfect. I have not seen workmanship like this since before the Fracture.",
+      "steps": [
+        { "key": "collect-charms", "type": "collect", "pickupIds": ["charm-naia", "charm-elder", "charm-thorin"], "required": 3 },
+        { "key": "deliver-naia", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 },
+        { "key": "deliver-elder", "type": "deliver", "targetNpcId": "elder", "required": 1 },
+        { "key": "deliver-thorin", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 130,
+        "friendship": { "mira": 40 }
+      }
+    },
+    {
+      "id": "bram-escape-routes",
+      "title": "Escape Routes",
+      "type": "lost-items",
+      "giverNpcId": "cartographer-bram",
+      "receiverNpcId": "cartographer-bram",
+      "prerequisite": "quest:bram-safe-routes|quest:aldous-passage-explored",
+      "offerDialogue": "With the hidden passage sealed, I have mapped three alternative evacuation routes in case things go wrong. I printed three copies and posted them — but someone has removed them. They may be trying to prevent an orderly evacuation. Find those guides.",
+      "activeDialogue": "Three evacuation guides — marked with an arrow and hub seal, posted at key junctions. Someone removed them.",
+      "completeDialogue": "All three. I am posting these somewhere less obvious this time. If the worst happens, people will know where to go. And that changes everything.",
+      "steps": [
+        { "key": "guides", "type": "collect", "pickupIds": ["evacuation-guide-1", "evacuation-guide-2", "evacuation-guide-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "cartographer-bram": 40 }
+      }
+    },
+    {
+      "id": "ferryn-resource-cache",
+      "title": "Resource Cache",
+      "type": "lost-items",
+      "giverNpcId": "guild-master-ferryn",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:ferryn-guild-lockdown|quest:vex-supply-chain-rebuilt",
+      "offerDialogue": "I have stashed emergency resource bundles across the hub — medicine, materials, tools. Three bundles that need to be retrieved and centralised in the guild hall before the defence operation. With the compromised offices sealed, I cannot send guild staff to collect them.",
+      "activeDialogue": "Three emergency bundles — guild-sealed crates, hidden near the pond, the market approach, and the scholars' quarter.",
+      "completeDialogue": "All three. The guild hall is now a full supply depot. Whatever happens next, the hub is resourced. We are ready.",
+      "steps": [
+        { "key": "bundles", "type": "collect", "pickupIds": ["resource-bundle-1", "resource-bundle-2", "resource-bundle-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "guild-master-ferryn": 45 }
+      }
     }
   ],
   "innRumours": [
