@@ -45,11 +45,17 @@ interface QuestEvent {
 }
 
 function checkPrerequisite(prereq: string): boolean {
-  if (prereq.startsWith('friendship:')) {
-    const parts = prereq.split(':')
-    return getFriendshipLevel(parts[1]) >= parseInt(parts[2] ?? '1')
-  }
-  return true
+  return prereq.split('|').every(p => {
+    const part = p.trim()
+    if (part.startsWith('friendship:')) {
+      const parts = part.split(':')
+      return getFriendshipLevel(parts[1]) >= parseInt(parts[2] ?? '1')
+    }
+    if (part.startsWith('quest:')) {
+      return getQuestState(part.slice(6)).status === 'completed'
+    }
+    return true
+  })
 }
 
 function isQuestReadyToComplete(quest: HubQuestDef): boolean {
@@ -280,26 +286,28 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
 
     // ── Quest completion (receiver NPC tapped) ──────────────────────────────
     if (npcDef?.questReceive) {
-      const quest = HUB_QUEST_DEFS.find(q => q.id === npcDef.questReceive)
-      if (quest && getQuestState(quest.id).status === 'active') {
-        // Handle deliver step
-        for (const step of quest.steps) {
-          if (step.type === 'deliver' && step.targetNpcId === npcId) {
-            incrementQuestProgress(quest.id, step.key)
-            break
+      const receiveIds = Array.isArray(npcDef.questReceive) ? npcDef.questReceive : [npcDef.questReceive]
+      for (const questId of receiveIds) {
+        const quest = HUB_QUEST_DEFS.find(q => q.id === questId)
+        if (quest && getQuestState(quest.id).status === 'active') {
+          for (const step of quest.steps) {
+            if (step.type === 'deliver' && step.targetNpcId === npcId) {
+              incrementQuestProgress(quest.id, step.key)
+              break
+            }
           }
-        }
-        if (isQuestReadyToComplete(quest)) {
-          setQuestStatus(quest.id, 'completed')
-          grantQuestReward(quest)
-          refreshState()
-          const rewardText = formatQuestReward(quest.reward)
-          setDialogueEvent({
-            speakerName,
-            text: quest.completeDialogue,
-            ...(rewardText ? { onClose: () => setDialogueEvent({ speakerName: '', text: rewardText }) } : {}),
-          })
-          return
+          if (isQuestReadyToComplete(quest)) {
+            setQuestStatus(quest.id, 'completed')
+            grantQuestReward(quest)
+            refreshState()
+            const rewardText = formatQuestReward(quest.reward)
+            setDialogueEvent({
+              speakerName,
+              text: quest.completeDialogue,
+              ...(rewardText ? { onClose: () => setDialogueEvent({ speakerName: '', text: rewardText }) } : {}),
+            })
+            return
+          }
         }
       }
     }

@@ -54,7 +54,7 @@ export interface HubNpc {
   screen?: string
   building?: string
   questGive?: string
-  questReceive?: string
+  questReceive?: string | string[]
   innRumours?: Array<{ id: string; text: string }>
 }
 

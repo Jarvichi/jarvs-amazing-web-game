@@ -1,0 +1,1869 @@
+{
+  "quests": [
+    {
+      "id": "lost-pendant",
+      "title": "The Lost Pendants",
+      "type": "lost-items",
+      "giverNpcId": "elder",
+      "receiverNpcId": "elder",
+      "offerDialogue": "Oh dear… I seem to have misplaced my three pendant stones somewhere in town. They are precious to me. Have you seen them?",
+      "activeDialogue": "I had the pendants near the pond, the market square, and the east fields. Any luck finding them?",
+      "completeDialogue": "All three! Bless you, dear traveller. You have a very kind heart.",
+      "steps": [
+        { "key": "pendants", "type": "collect", "pickupIds": ["pendant-1", "pendant-2", "pendant-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": { "elder": 25 }
+      }
+    },
+    {
+      "id": "merchants-herb",
+      "title": "The Merchant's Ingredient",
+      "type": "fetch",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "merchant",
+      "offerDialogue": "I'm after a Moonleaf Herb for a special tincture. They grow in sheltered spots near the scholars' quarter. Fetch me one and I'll make it worth your while.",
+      "activeDialogue": "Moonleaf Herb — look for it growing in the shade near the scholars' hall.",
+      "completeDialogue": "Perfect condition! Here, take this as thanks. A rare find, just like yourself.",
+      "steps": [
+        { "key": "herb", "type": "collect", "pickupIds": ["moonleaf-herb"], "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "exotic-herb", "name": "Moonleaf Herb", "icon": "🌿", "desc": "A rare herb prized by alchemists. Vex seems pleased." },
+        "friendship": { "merchant": 20 }
+      }
+    },
+    {
+      "id": "scholars-anthology",
+      "title": "The Scholar's Anthology",
+      "type": "chain",
+      "giverNpcId": "naia-interior",
+      "receiverNpcId": "naia-interior",
+      "offerDialogue": "I'm trying to reassemble a three-volume anthology that was scattered across town ages ago. The first tome ended up in the card emporium, if I'm not mistaken…",
+      "activeDialogue": {
+        "tome-1": "The first tome is in the card emporium. Look on the shelves.",
+        "tome-2": "Excellent! The second volume was sold to a trader. Check the trading post.",
+        "tome-3": "Almost there! The final volume ended up near the fishing pond, I believe."
+      },
+      "completeDialogue": "The trilogy is complete! This is extraordinary scholarship. Please, take this codex as thanks.",
+      "steps": [
+        { "key": "tome-1", "type": "collect", "pickupIds": ["ancient-tome-1"], "required": 1 },
+        { "key": "tome-2", "type": "collect", "pickupIds": ["ancient-tome-2"], "required": 1, "chain": "ancient-tome-1" },
+        { "key": "tome-3", "type": "collect", "pickupIds": ["ancient-tome-3"], "required": 1, "chain": "ancient-tome-2" }
+      ],
+      "reward": {
+        "collectible": { "id": "scholars-codex", "name": "Scholar's Codex", "icon": "📜", "desc": "A rare three-volume anthology compiled by Archivist Naia." },
+        "friendship": { "naia-interior": 30 }
+      }
+    },
+    {
+      "id": "innkeepers-package",
+      "title": "The Innkeeper's Package",
+      "type": "fetch",
+      "giverNpcId": "innkeeper-rosie",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:rosie-recipe",
+      "offerDialogue": "Oh, would you be a dear? I have a package for Captain Thorin in the north barracks. I simply cannot leave the inn right now!",
+      "activeDialogue": "Please take the package to Guard Captain Thorin in the north barracks.",
+      "completeDialogue": "Ah, from Rosie! My thanks, traveller. Here — you might find this key useful for the south wing.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "barracks-key", "name": "Barracks Key", "icon": "🗝️", "desc": "An old iron key. Fits the south barracks vault." },
+        "friendship": { "innkeeper-rosie": 20, "guard-captain-thorin": 15 },
+        "unlock": "barracks-vault"
+      }
+    },
+    {
+      "id": "greyfishs-bait",
+      "title": "Bait for Greyfish",
+      "type": "lost-items",
+      "giverNpcId": "fisherman",
+      "receiverNpcId": "fisherman",
+      "offerDialogue": "Blast — I've gone and dropped my bait jars again. Three of them, scattered somewhere near the pond. These old hands aren't what they were.",
+      "activeDialogue": "The jars can't have gone far — look around the water's edge and the reeds.",
+      "completeDialogue": "Ha! Every last one. You've got sharp eyes, wanderer. A lucky charm from me — fish tend to bite better when you've got one.",
+      "steps": [
+        { "key": "jars", "type": "collect", "pickupIds": ["bait-jar-1", "bait-jar-2", "bait-jar-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": { "fisherman": 20 }
+      }
+    },
+    {
+      "id": "brambles-first-delivery",
+      "title": "A Delivery for the Trader",
+      "type": "fetch",
+      "giverNpcId": "bramble",
+      "receiverNpcId": "trader",
+      "offerDialogue": "Got a crate of supplies that needs to reach the trader den — can't leave the counter unattended. Take it over, would you?",
+      "activeDialogue": "The Junk Trader is in the den to the south-west. Don't let him talk you into a swap.",
+      "completeDialogue": "About time! These are exactly what I needed. Tell Bramble we're square.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "trader", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 30,
+        "friendship": { "bramble": 15 }
+      }
+    },
+    {
+      "id": "gildwyns-missing-card",
+      "title": "The Missing Card",
+      "type": "fetch",
+      "giverNpcId": "gildwyn",
+      "receiverNpcId": "gildwyn",
+      "offerDialogue": "A customer left without paying for a card — then I realised he'd also walked off with one of my rarest pieces! I think he left it at the scholars' hall.",
+      "activeDialogue": "Check the scholars' hall — someone fitting that description was seen heading that way.",
+      "completeDialogue": "My Thornlord foil! I thought I'd never see it again. Here, take something in return — consider it a finder's fee.",
+      "steps": [
+        { "key": "card", "type": "collect", "pickupIds": ["gildwyns-rare-card"], "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "foil-card", "name": "Foil Thornlord", "icon": "🃏", "desc": "A rare foil print of the Thornlord card. Gildwyn was very relieved to have it back." },
+        "friendship": { "gildwyn": 20 }
+      }
+    },
+    {
+      "id": "miras-runaway-crystal",
+      "title": "A Runaway Crystal",
+      "type": "fetch",
+      "giverNpcId": "mira",
+      "receiverNpcId": "mira",
+      "offerDialogue": "One of my enchantment crystals rolled out of the shop during the last tremor. It glows faintly — you should spot it near the market. Please, before someone stands on it.",
+      "activeDialogue": "It's a small blue crystal — it should be glowing softly somewhere near the market lane.",
+      "completeDialogue": "Oh, thank goodness. These crystals are attuned to me personally — losing one is like losing a piece of myself. You have my gratitude.",
+      "steps": [
+        { "key": "crystal", "type": "collect", "pickupIds": ["miras-lost-crystal"], "required": 1 }
+      ],
+      "reward": {
+        "crystals": 35,
+        "friendship": { "mira": 20 }
+      }
+    },
+    {
+      "id": "aldous-keepsake",
+      "title": "A Lost Keepsake",
+      "type": "fetch",
+      "giverNpcId": "home-steward",
+      "receiverNpcId": "home-steward",
+      "offerDialogue": "I apologise for the bother, Commander, but I seem to have dropped a small locket while crossing the courtyard this morning. It belonged to the Commander's family.",
+      "activeDialogue": "I believe I dropped it somewhere near the well in the courtyard. It is a small silver locket.",
+      "completeDialogue": "Ah, there it is. My sincerest thanks — this is irreplaceable. I shall keep it safer from now on.",
+      "steps": [
+        { "key": "locket", "type": "collect", "pickupIds": ["aldous-locket"], "required": 1 }
+      ],
+      "reward": {
+        "crystals": 30,
+        "friendship": { "home-steward": 15 }
+      }
+    },
+    {
+      "id": "alric-manuscript",
+      "title": "The Professor's Papers",
+      "type": "fetch",
+      "giverNpcId": "professor-aldric",
+      "receiverNpcId": "cartographer-bram",
+      "offerDialogue": "I have a rather urgent paper for Cartographer Bram — a revised lecture on Fracture geography. I am far too busy to deliver it myself. Would you oblige?",
+      "activeDialogue": "Bram is in the north-east scholars' wing. He will be expecting something eventually — tell him it is from me.",
+      "completeDialogue": "At last! Aldric's scribblings. Useful, actually. Pass along my thanks.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "cartographer-bram", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": { "professor-aldric": 15, "cartographer-bram": 15 }
+      }
+    },
+    {
+      "id": "brams-ink-supply",
+      "title": "Running Low on Ink",
+      "type": "lost-items",
+      "giverNpcId": "cartographer-bram",
+      "receiverNpcId": "cartographer-bram",
+      "offerDialogue": "My ink shipment from the market went missing somewhere between the lane and my desk. Two full bottles — good cartographer's ink is not cheap. Would you track them down?",
+      "activeDialogue": "They were delivered to the market lane. Someone must have set them down. Both bottles — I need both.",
+      "completeDialogue": "Both bottles intact! Excellent. I can finish the Fracture boundary maps now. You have my gratitude.",
+      "steps": [
+        { "key": "ink", "type": "collect", "pickupIds": ["ink-bottle-1", "ink-bottle-2"], "required": 2 }
+      ],
+      "reward": {
+        "crystals": 35,
+        "friendship": { "cartographer-bram": 20 }
+      }
+    },
+    {
+      "id": "lysss-overdue-books",
+      "title": "Overdue Returns",
+      "type": "lost-items",
+      "giverNpcId": "apprentice-lyss",
+      "receiverNpcId": "apprentice-lyss",
+      "offerDialogue": "Three books were loaned out before the Fracture and never returned. I have been tracking them for months. I believe they are scattered across town — in the card shop, the supply store, and someone's home. Would you retrieve them?",
+      "activeDialogue": "Check the card emporium, the supply shop, and the home building. The spines are marked with the archive seal.",
+      "completeDialogue": "All three! The cataloguing can continue at last. You are a genuine asset to this archive.",
+      "steps": [
+        { "key": "books", "type": "collect", "pickupIds": ["overdue-book-1", "overdue-book-2", "overdue-book-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": { "apprentice-lyss": 20 }
+      }
+    },
+    {
+      "id": "ferryn-ledger",
+      "title": "The Guild Ledger",
+      "type": "fetch",
+      "giverNpcId": "guild-master-ferryn",
+      "receiverNpcId": "guild-master-ferryn",
+      "offerDialogue": "Someone borrowed the guild's primary ledger — without asking, naturally — and I believe it ended up in the trader den. I need that book back. Every transaction for the last year is in it.",
+      "activeDialogue": "Check the trader den to the south-west. The ledger is bound in dark leather with a guild stamp on the cover.",
+      "completeDialogue": "Intact. Every page. I will be having words with the trader. Here — your fee, as promised.",
+      "steps": [
+        { "key": "ledger", "type": "collect", "pickupIds": ["guild-ledger"], "required": 1 }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": { "guild-master-ferryn": 25 }
+      }
+    },
+    {
+      "id": "sylas-market-survey",
+      "title": "Market Survey",
+      "type": "lost-items",
+      "giverNpcId": "market-warden-syla",
+      "receiverNpcId": "market-warden-syla",
+      "offerDialogue": "I placed survey notices along the market lane this morning for traders to complete. Of course, the wind had other ideas. Would you collect the ones that blew away?",
+      "activeDialogue": "Three notices — they cannot have gone far from the market lane. Look along the stalls.",
+      "completeDialogue": "All three returned, and mostly legible. That is the most I can hope for on a market day. Thank you.",
+      "steps": [
+        { "key": "notices", "type": "collect", "pickupIds": ["survey-note-1", "survey-note-2", "survey-note-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 45,
+        "friendship": { "market-warden-syla": 20 }
+      }
+    },
+    {
+      "id": "varn-training-weights",
+      "title": "Missing Weights",
+      "type": "lost-items",
+      "giverNpcId": "drill-sergeant-varn",
+      "receiverNpcId": "drill-sergeant-varn",
+      "offerDialogue": "Someone's been shifting my training weights around — probably recruits messing about after drills. Three of them are missing from the yard. Track them down before I assign extra duties to everyone.",
+      "activeDialogue": "Three iron weights — they're heavy, you'll know them by sight. Check around the barracks yard.",
+      "completeDialogue": "Every last one. Back in position. Good work — you move like someone who's had proper training.",
+      "steps": [
+        { "key": "weights", "type": "collect", "pickupIds": ["weight-1", "weight-2", "weight-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": { "drill-sergeant-varn": 20 }
+      }
+    },
+    {
+      "id": "thorin-security-report",
+      "title": "Patrol Reports",
+      "type": "lost-items",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "guard-captain-thorin",
+      "offerDialogue": "My guards filed their patrol reports but forgot to hand them in — left them sitting around the perimeter. Three reports, three different sections of the wall. I need them on my desk by nightfall.",
+      "activeDialogue": "Three patrol reports — my guards leave them wherever they stand when the shift ends. Check around the barracks perimeter.",
+      "completeDialogue": "All three. I will be having words with the patrol about proper procedure. My thanks for the retrieval — you saved me a round of the walls.",
+      "steps": [
+        { "key": "reports", "type": "collect", "pickupIds": ["patrol-report-1", "patrol-report-2", "patrol-report-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": { "guard-captain-thorin": 20 }
+      }
+    },
+    {
+      "id": "zev-game-prize-restock",
+      "title": "Prize Restock",
+      "type": "lost-items",
+      "giverNpcId": "games-host-zev",
+      "receiverNpcId": "games-host-zev",
+      "offerDialogue": "Last night's big winners walked off with their prizes — fine — but they also pocketed the display tokens! Three of my best arcade tokens, gone. Help me track them down and I will make it worth your while.",
+      "activeDialogue": "Prize tokens — brass, about this big. Someone scattered them around the arcade quarter. Check the stalls and the street.",
+      "completeDialogue": "My tokens! Now the display cases look full again. Appearances matter in this business. Here is your cut.",
+      "steps": [
+        { "key": "tokens", "type": "collect", "pickupIds": ["prize-token-1", "prize-token-2", "prize-token-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 35,
+        "friendship": { "games-host-zev": 20 }
+      }
+    },
+    {
+      "id": "orin-missing-trophy",
+      "title": "The Missing Trophy",
+      "type": "fetch",
+      "giverNpcId": "trophy-keeper-orin",
+      "receiverNpcId": "trophy-keeper-orin",
+      "offerDialogue": "The Ironwall Cup has vanished from its case. It is the oldest trophy in this hall — won before the Fracture. Someone moved it, and I suspect it ended up in the barracks. Retrieve it with care.",
+      "activeDialogue": "The Ironwall Cup — a wide bronze base, the name engraved on the plaque. Someone brought it to the north barracks. Go carefully.",
+      "completeDialogue": "You found it — and undamaged. This trophy survived the Fracture. I will not let it survive careless handling. My deepest thanks.",
+      "steps": [
+        { "key": "trophy", "type": "collect", "pickupIds": ["ironwall-cup"], "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "ironwall-cup-replica", "name": "Ironwall Cup Replica", "icon": "🏆", "desc": "A small replica made by Orin as thanks. The original is safely back on its pedestal." },
+        "friendship": { "trophy-keeper-orin": 20 }
+      }
+    },
+    {
+      "id": "rosie-recipe",
+      "title": "A Taste of Home",
+      "type": "lost-items",
+      "giverNpcId": "innkeeper-rosie",
+      "receiverNpcId": "innkeeper-rosie",
+      "offerDialogue": "I'm trying to recreate my grandmother's famous stew for the festival — but I need a sprig of marsh thyme and some peppercorn from the market stores. My hands are full here. Could you fetch them for me?",
+      "activeDialogue": "Marsh thyme grows near the pond — you'll smell it before you see it. The peppercorn should be in the market building.",
+      "completeDialogue": "Perfect! The stew is going to be wonderful. You are always welcome at my table, Commander. Always.",
+      "steps": [
+        { "key": "ingredients", "type": "collect", "pickupIds": ["marsh-thyme", "market-peppercorn"], "required": 2 }
+      ],
+      "reward": {
+        "collectible": { "id": "rosies-stew-recipe", "name": "Rosie's Stew Recipe", "icon": "📋", "desc": "A hand-written card with Rosie's grandmother's recipe. It smells faintly of herbs." },
+        "friendship": { "innkeeper-rosie": 25 }
+      }
+    },
+    {
+      "id": "vex-trade-ledger",
+      "title": "The Trade Ledger",
+      "type": "fetch",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:merchants-herb",
+      "offerDialogue": "Ferryn has been pestering me for the quarterly trade ledger. Fine — but I am not walking it over myself. It is on the counter. Take it to the guild hall.",
+      "activeDialogue": "Guild Master Ferryn is in the traders' building to the south-west. Try not to read it.",
+      "completeDialogue": "At last! Vex takes his time. Thank you for the legwork — much appreciated.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "guild-master-ferryn", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": { "merchant": 15, "guild-master-ferryn": 15 }
+      }
+    },
+    {
+      "id": "elder-fracture-memory",
+      "title": "Fracture Memories",
+      "type": "lost-items",
+      "giverNpcId": "elder",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:lost-pendant",
+      "offerDialogue": "There is something I have not told anyone. Since the Fracture, I have felt… echoes. Fragments of memory that are not mine — left behind, like stones in the road. Three of them linger near places that once mattered. Would you collect them for me? I cannot bring myself to go.",
+      "activeDialogue": "Three memory shards — they look like pale stones that glow faintly. They are near the courtyard fountain, the scholars' quarter, and the fishing pond.",
+      "completeDialogue": "I can feel the weight of them even now. These belonged to people who are gone. I will keep them safe. Thank you, traveller — you have more courage than you know.",
+      "steps": [
+        { "key": "shards", "type": "collect", "pickupIds": ["memory-shard-1", "memory-shard-2", "memory-shard-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "elder": 30 }
+      }
+    },
+    {
+      "id": "greyfishs-strange-catch",
+      "title": "A Strange Catch",
+      "type": "fetch",
+      "giverNpcId": "fisherman",
+      "receiverNpcId": "fisherman",
+      "prerequisite": "quest:greyfishs-bait",
+      "offerDialogue": "Something down there caught my hook last night — and it wasn't a fish. I pulled it free and tossed it up the bank before it got dark. Still there this morning, glowing. I'm not touching it again. Would you bring it to me?",
+      "activeDialogue": "It's on the far bank of the pond — something pale and glowing. You will see it easily enough.",
+      "completeDialogue": "There it is. Strange thing — it hums, like it's listening. I've fished these waters forty years and never seen the like. You keep it. I want nothing to do with it.",
+      "steps": [
+        { "key": "catch", "type": "collect", "pickupIds": ["strange-catch"], "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "fracture-echo-stone", "name": "Echo Stone", "icon": "🪨", "desc": "A pale, faintly humming stone dredged from the pond. It seems to respond to nearby voices." },
+        "friendship": { "fisherman": 25 }
+      }
+    },
+    {
+      "id": "naia-missing-records",
+      "title": "Missing Records",
+      "type": "lost-items",
+      "giverNpcId": "naia-interior",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:scholars-anthology",
+      "offerDialogue": "Someone has been through the restricted archive. Three pages are missing from the pre-Fracture census — torn out carefully, which tells me it was deliberate. The pages were small; someone could have left them anywhere. I need those records back.",
+      "activeDialogue": "Look carefully — someone removed the pages from the restricted section. They could be anywhere in the scholars' quarter.",
+      "completeDialogue": "Every one recovered. The handwriting is intact. I will make copies and lock the originals away this time. Something about this troubles me deeply, Commander.",
+      "steps": [
+        { "key": "pages", "type": "collect", "pickupIds": ["record-page-1", "record-page-2", "record-page-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "naia-interior": 25 }
+      }
+    },
+    {
+      "id": "thorin-missing-guard",
+      "title": "The Missing Guard",
+      "type": "lost-items",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:innkeepers-package",
+      "offerDialogue": "One of my guards did not report for duty this morning. It is unlike him. I found signs of a scuffle near the south perimeter — something was left behind. Three items. I need them before I know what to do next.",
+      "activeDialogue": "Check around the south barracks perimeter and the yard. Anything left at the scene — bring it to me.",
+      "completeDialogue": "A flask, a torn badge, and a folded note. The note is in cipher. This is no desertion — something happened here. I will look into it.",
+      "steps": [
+        { "key": "clues", "type": "collect", "pickupIds": ["guard-clue-1", "guard-clue-2", "guard-clue-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": { "guard-captain-thorin": 30 }
+      }
+    },
+    {
+      "id": "bramble-stolen-goods",
+      "title": "Stolen Goods",
+      "type": "lost-items",
+      "giverNpcId": "bramble",
+      "receiverNpcId": "bramble",
+      "prerequisite": "quest:brambles-first-delivery",
+      "offerDialogue": "Someone broke into my storeroom last night. Did not take everything — just enough to be annoying. Three crates, each marked with my supply stamp. I want them back and I want to know who took them.",
+      "activeDialogue": "Marked crates — my stamp is a hammer on the lid. Whoever took them did not go far. Check the nearby streets and alleyways.",
+      "completeDialogue": "These are mine, all right. But look at this — the contents have been searched. Someone was looking for something specific. That is not ordinary theft.",
+      "steps": [
+        { "key": "crates", "type": "collect", "pickupIds": ["stolen-crate-1", "stolen-crate-2", "stolen-crate-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": { "bramble": 25 }
+      }
+    },
+    {
+      "id": "mira-unstable-augment",
+      "title": "The Unstable Augment",
+      "type": "fetch",
+      "giverNpcId": "mira",
+      "receiverNpcId": "mira",
+      "prerequisite": "quest:miras-runaway-crystal",
+      "offerDialogue": "One of my test augments has gone unstable — it's pulsing and I cannot safely touch it. It slid under the workbench when I dropped it. Please, retrieve it carefully and bring it straight to me. Do not hold it for long.",
+      "activeDialogue": "It is on the workbench floor — glowing orange. Wrap it in the cloth if you can, and bring it here directly.",
+      "completeDialogue": "Thank you. Do not worry — it is not dangerous to someone unenchanted. But something tampered with the binding. This did not destabilise on its own.",
+      "steps": [
+        { "key": "augment", "type": "collect", "pickupIds": ["unstable-augment"], "required": 1 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "mira": 25 }
+      }
+    },
+    {
+      "id": "ferryn-missing-shipment",
+      "title": "The Missing Shipment",
+      "type": "lost-items",
+      "giverNpcId": "guild-master-ferryn",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:ferryn-ledger",
+      "offerDialogue": "A guild shipment arrived yesterday — but three crates never made it to the warehouse. The delivery manifest says they were unloaded. Someone moved them before we could sign them in. I need those crates found.",
+      "activeDialogue": "Three guild crates — blue seal on the side. They were unloaded near the market lane. Someone shifted them quickly.",
+      "completeDialogue": "Here they are — but the seals are broken. The contents were inspected. Someone knew what to look for. This was not opportunistic theft, Commander.",
+      "steps": [
+        { "key": "crates", "type": "collect", "pickupIds": ["guild-crate-1", "guild-crate-2", "guild-crate-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": { "guild-master-ferryn": 30 }
+      }
+    },
+    {
+      "id": "gildwyn-counterfeit-cards",
+      "title": "Counterfeit Cards",
+      "type": "lost-items",
+      "giverNpcId": "gildwyn",
+      "receiverNpcId": "gildwyn",
+      "prerequisite": "quest:gildwyns-missing-card",
+      "offerDialogue": "I have been seeing fake cards turn up in trades — poor quality copies, but convincing enough to fool newcomers. Three have passed through this quarter this week alone. Collect them before someone gets properly cheated.",
+      "activeDialogue": "The fakes look close to real but the borders are slightly off and they feel thin. Three of them circulating somewhere in the hub.",
+      "completeDialogue": "These are bad work — but someone put effort into the distribution. This is not a bored forger. Someone wants counterfeit cards in circulation, and I want to know why.",
+      "steps": [
+        { "key": "fakes", "type": "collect", "pickupIds": ["counterfeit-card-1", "counterfeit-card-2", "counterfeit-card-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "gildwyn": 25 }
+      }
+    },
+    {
+      "id": "syla-price-fixing",
+      "title": "Market Violations",
+      "type": "lost-items",
+      "giverNpcId": "market-warden-syla",
+      "receiverNpcId": "market-warden-syla",
+      "prerequisite": "quest:sylas-market-survey",
+      "offerDialogue": "Three traders have been fixing prices in violation of market law — I issued official warning stamps this morning, but all three have gone missing from the notice board. Someone removed them. Find those stamps before I lose all authority over this lane.",
+      "activeDialogue": "Official warning stamps — red wax seal, my mark on them. They were taken from the notice board. Someone scattered them deliberately.",
+      "completeDialogue": "Every stamp accounted for. I will be re-posting them — and adding a watch. Someone is trying to undermine market order, and I intend to find out who.",
+      "steps": [
+        { "key": "stamps", "type": "collect", "pickupIds": ["warning-stamp-1", "warning-stamp-2", "warning-stamp-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": { "market-warden-syla": 25 }
+      }
+    },
+    {
+      "id": "varn-deserter-trail",
+      "title": "Deserter's Trail",
+      "type": "lost-items",
+      "giverNpcId": "drill-sergeant-varn",
+      "receiverNpcId": "drill-sergeant-varn",
+      "prerequisite": "quest:varn-training-weights",
+      "offerDialogue": "One of my recruits went absent without leave three days ago. I found a note, a boot, and what looked like a bedroll dropped in a hurry — but I lost track of where. Help me gather the clues before anyone higher up the chain asks questions.",
+      "activeDialogue": "A scrawled note, a worn boot, and a rolled bedroll — somewhere out near the barracks. Don't let the other guards see you searching.",
+      "completeDialogue": "All three. Blast. Whoever he was meeting, they were serious enough to make him run. I'll keep this quiet for now, but something is wrong in the ranks.",
+      "steps": [
+        { "key": "clues", "type": "collect", "pickupIds": ["deserter-clue-1", "deserter-clue-2", "deserter-clue-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": { "drill-sergeant-varn": 25 }
+      }
+    },
+    {
+      "id": "rosie-strange-guest",
+      "title": "The Strange Guest",
+      "type": "lost-items",
+      "giverNpcId": "innkeeper-rosie",
+      "receiverNpcId": "innkeeper-rosie",
+      "prerequisite": "quest:innkeepers-package",
+      "offerDialogue": "A guest left in the night without settling their bill — and without their belongings. Three odd items scattered about the inn: a folded cloth, a small vial, and a sealed envelope. I dare not open the envelope myself. Would you collect them for me?",
+      "activeDialogue": "A cloth, a vial, and a sealed envelope — they should still be somewhere in the inn. Please be discreet.",
+      "completeDialogue": "Goodness… this envelope is addressed to no one. And this vial — it doesn't smell like any medicine I know. Something about that guest was very wrong. I'll lock these away.",
+      "steps": [
+        { "key": "items", "type": "collect", "pickupIds": ["guest-item-1", "guest-item-2", "guest-item-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "innkeeper-rosie": 25 }
+      }
+    },
+    {
+      "id": "bram-altered-map",
+      "title": "Altered Maps",
+      "type": "lost-items",
+      "giverNpcId": "cartographer-bram",
+      "receiverNpcId": "cartographer-bram",
+      "prerequisite": "quest:brams-ink-supply",
+      "offerDialogue": "Two of my official survey copies have been tampered with — paths re-drawn, landmarks shifted. Someone slipped them back among my rolled maps, and I only noticed by chance. I need those false copies retrieved before anyone navigates by them.",
+      "activeDialogue": "The tampered maps are on rolled parchment, but the lines look slightly off if you know what to look for. I left one near the east archive and one near the market stalls.",
+      "completeDialogue": "Yes, these are the forgeries — see how this river is shifted east by nearly half a mile? Whoever made these knew exactly what they were doing. This is not mischief.",
+      "steps": [
+        { "key": "maps", "type": "collect", "pickupIds": ["tampered-map-1", "tampered-map-2"], "required": 2 }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": { "cartographer-bram": 25 }
+      }
+    },
+    {
+      "id": "lyss-forbidden-texts",
+      "title": "Forbidden Texts",
+      "type": "lost-items",
+      "giverNpcId": "apprentice-lyss",
+      "receiverNpcId": "apprentice-lyss",
+      "prerequisite": "quest:lysss-overdue-books",
+      "offerDialogue": "I found three texts in the archive that should not exist — they describe the Fracture in ways the scholars would never sanction. I went to show Naia, but when I returned they were gone. Someone else has been in here. Help me find them before they disappear for good.",
+      "activeDialogue": "They are thin volumes with dark covers and no title on the spine. I saw one in the east wing, one near the lower shelves, and I think the third went missing from the reading alcove.",
+      "completeDialogue": "These are exactly them. Look — the margins are full of annotations. And this symbol here… I have seen it before, somewhere in Naia's sealed records. This changes things.",
+      "steps": [
+        { "key": "texts", "type": "collect", "pickupIds": ["forbidden-text-1", "forbidden-text-2", "forbidden-text-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "apprentice-lyss": 25 }
+      }
+    },
+    {
+      "id": "alric-stolen-notes",
+      "title": "Stolen Research",
+      "type": "lost-items",
+      "giverNpcId": "professor-aldric",
+      "receiverNpcId": "professor-aldric",
+      "prerequisite": "quest:alric-manuscript",
+      "offerDialogue": "Someone has taken pages from my personal research journal — not the whole thing, just the sections on Fracture resonance patterns. Two pages torn out carefully, as if by someone who knew exactly what they wanted. I need them back.",
+      "activeDialogue": "They are single pages of dense notation. I had one left on the lectern and one pressed under a map roll. If you find notation that looks like mine, that is them.",
+      "completeDialogue": "Yes — these are my pages. But look, there are new annotations in a different hand. Someone read these and made notes of their own. This was not opportunistic theft. They were looking for something specific.",
+      "steps": [
+        { "key": "notes", "type": "collect", "pickupIds": ["stolen-note-1", "stolen-note-2"], "required": 2 }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": { "professor-aldric": 25 }
+      }
+    },
+    {
+      "id": "aldous-intruder-evidence",
+      "title": "Intruder Evidence",
+      "type": "lost-items",
+      "giverNpcId": "home-steward",
+      "receiverNpcId": "home-steward",
+      "prerequisite": "quest:aldous-keepsake",
+      "offerDialogue": "Someone entered the house overnight. I do not know how — nothing was taken, but things were moved. I found two traces left behind: a piece of torn cloth and a small tool I do not recognise. Collect them before anyone else finds them.",
+      "activeDialogue": "A torn cloth scrap near the back passage, and a small pointed tool left on the sill. They should still be there.",
+      "completeDialogue": "This cloth has an insignia on it — faded, but there. And this tool… it is used for picking locks, I think. Whoever they were, they came prepared. I will hide these somewhere safe.",
+      "steps": [
+        { "key": "evidence", "type": "collect", "pickupIds": ["intruder-cloth", "intruder-tool"], "required": 2 }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": { "home-steward": 25 }
+      }
+    },
+    {
+      "id": "vex-suspicious-buyer",
+      "title": "Suspicious Buyer",
+      "type": "lost-items",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "merchant",
+      "prerequisite": "quest:vex-trade-ledger",
+      "offerDialogue": "A buyer came last week and bought everything I had in three categories — and paid double market rate. No name, no cart, no receipt requested. They left in a hurry and dropped three items. I want to know who they are before they come back.",
+      "activeDialogue": "The items dropped near the stall — a small pouch, a folded list, and a branded token. They scattered when the buyer rushed off.",
+      "completeDialogue": "A pouch of foreign coin, a list written in cipher, and a token from… I do not recognise this seal. This buyer is no ordinary trader. I am watching my stock much more carefully now.",
+      "steps": [
+        { "key": "items", "type": "collect", "pickupIds": ["buyer-pouch", "buyer-list", "buyer-token"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": { "merchant": 25 }
+      }
+    },
+    {
+      "id": "zev-rigged-games",
+      "title": "Rigged Games",
+      "type": "lost-items",
+      "giverNpcId": "games-host-zev",
+      "receiverNpcId": "games-host-zev",
+      "prerequisite": "quest:zev-game-prize-restock",
+      "offerDialogue": "Three of my game machines have been tampered with — someone installed rigging devices to force certain outcomes. I found them during maintenance and removed them, but I lost track of where I set them down. I need those devices before I can file a proper complaint.",
+      "activeDialogue": "Small brass discs with teeth — rigging devices, nasty little things. I left them near the machines in the games hall.",
+      "completeDialogue": "All three. Each one is slightly different — these were not bought from the same place. This was coordinated. Someone wanted control over my games hall and I want to know why.",
+      "steps": [
+        { "key": "devices", "type": "collect", "pickupIds": ["rigging-device-1", "rigging-device-2", "rigging-device-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "games-host-zev": 25 }
+      }
+    },
+    {
+      "id": "orin-fake-trophy",
+      "title": "The Fake Trophy",
+      "type": "chain",
+      "giverNpcId": "trophy-keeper-orin",
+      "receiverNpcId": "trophy-keeper-orin",
+      "prerequisite": "quest:orin-missing-trophy",
+      "offerDialogue": "The Ironwall Cup I keep in the main display — it has been replaced. The one on the pedestal now is a forgery, a very good one, but wrong in three ways I can see. I need you to collect the fake and bring it to me so I can document the fraud.",
+      "activeDialogue": "The fake cup is on the display pedestal in the barracks hall. Bring it to me — carefully, do not damage it. I want to study it.",
+      "completeDialogue": "Yes, this is the forgery. See the casting seam here — no real smith would leave that. But the craftsmanship is extraordinary. Whoever made this knew exactly what to copy. I am cataloguing it as evidence.",
+      "steps": [
+        { "key": "collect-fake", "type": "collect", "pickupIds": ["fake-trophy"], "required": 1 },
+        { "key": "deliver-fake", "type": "deliver", "targetNpcId": "trophy-keeper-orin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": { "trophy-keeper-orin": 25 }
+      }
+    },
+    {
+      "id": "dealer-marked-deck",
+      "title": "Marked Decks",
+      "type": "lost-items",
+      "giverNpcId": "dealer",
+      "receiverNpcId": "dealer",
+      "prerequisite": "quest:dealer-lucky-charm",
+      "offerDialogue": "Three decks of cards were swapped out on my tables last night — I only noticed because the backs feel different. Marked cards, the kind cheats use to read from a distance. I pulled them from circulation but someone took them back. Get them before anyone runs a game with them.",
+      "activeDialogue": "Marked decks — slightly thicker than normal, with tiny notches on the corners. They were taken from where I left them behind the counter.",
+      "completeDialogue": "These are the ones. Look at the notch pattern — it is consistent across all three decks, a code. This was not one cheat doing it for themselves. This was organised. Someone was running a scam operation out of my tables.",
+      "steps": [
+        { "key": "decks", "type": "collect", "pickupIds": ["marked-deck-1", "marked-deck-2", "marked-deck-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "dealer": 25 }
+      }
+    },
+    {
+      "id": "aldous-family-heirloom",
+      "title": "A Family Heirloom",
+      "type": "fetch",
+      "giverNpcId": "home-steward",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:aldous-intruder-evidence",
+      "offerDialogue": "The intruder did not take everything. They left behind something that should not have been here at all — a carved stone token bearing the Elder's family mark. I believe it was planted. Will you return it to the Elder quietly? Do not mention the break-in to anyone else.",
+      "activeDialogue": "The carved stone token — take it to the Elder. Be discreet.",
+      "completeDialogue": "This mark… I have not seen this in twenty years. Where did you find this? Never mind — you should not know any more than necessary. Thank you for bringing it to me.",
+      "steps": [
+        { "key": "collect-heirloom", "type": "collect", "pickupIds": ["family-heirloom"], "required": 1 },
+        { "key": "deliver-heirloom", "type": "deliver", "targetNpcId": "elder", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "elder-token", "name": "Elder's Token", "icon": "pendant", "desc": "A carved stone bearing a family mark. Found in the home steward's house under strange circumstances." },
+        "friendship": { "home-steward": 20, "elder": 20 }
+      }
+    },
+    {
+      "id": "thorin-echo-warning",
+      "title": "Echo Warning",
+      "type": "lost-items",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:thorin-missing-guard|quest:ferryn-missing-shipment",
+      "offerDialogue": "I drafted three official warning notices — one for the inn, one for the guild hall, one for the Elder. Someone intercepted them before I could post them. Find those notices. The hub needs to know about the Echoes before it is too late.",
+      "activeDialogue": "Three folded notices with my seal. They were taken from my desk or the courier. Find them — someone scattered them deliberately.",
+      "completeDialogue": "All three. Thank you. I will post these myself this time. The Echoes are here, in our hub, and people need to know. This is where things get serious.",
+      "steps": [
+        { "key": "notices", "type": "collect", "pickupIds": ["echo-notice-1", "echo-notice-2", "echo-notice-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "guard-captain-thorin": 35 }
+      }
+    },
+    {
+      "id": "elder-old-codex",
+      "title": "The Old Codex",
+      "type": "fetch",
+      "giverNpcId": "elder",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:elder-fracture-memory|quest:naia-missing-records",
+      "offerDialogue": "I retrieved something years ago from the ruins east of the hub — an old codex I could not fully read. Now that you have recovered those memory shards, I believe Naia can decode it. Please take this codex to her at the scholars' hall. Do not let anyone else see it.",
+      "activeDialogue": "The codex is sealed with a lock I cannot open. Naia will know how.",
+      "completeDialogue": "This… this is pre-Fracture. A primary source, not a copy. Do you understand what this means? The Echoes did not discover the Fracture by accident. Someone guided them here. I need time with this.",
+      "steps": [
+        { "key": "collect-codex", "type": "collect", "pickupIds": ["ancient-codex"], "required": 1 },
+        { "key": "deliver-codex", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "elder": 30, "naia-interior": 20 }
+      }
+    },
+    {
+      "id": "naia-echo-records",
+      "title": "Echo Records",
+      "type": "lost-items",
+      "giverNpcId": "naia-interior",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:elder-old-codex",
+      "offerDialogue": "The codex you brought me references three ancient records I should have in this archive — but they are gone. Not misfiled. Gone. Someone cleared them from the archive deliberately, and not long ago. I need those records to understand what the Echoes are truly after. Find them.",
+      "activeDialogue": "Three records — old, bound in dark leather, marked with a circle-and-line symbol on the spine. Someone scattered them to hide what the codex points to.",
+      "completeDialogue": "These are them. Look — the codex is a key. These records are the lock. Together they describe something called the Hearthstone, an artefact hidden somewhere in this hub. The Echoes are looking for it. And now, so are we.",
+      "steps": [
+        { "key": "records", "type": "collect", "pickupIds": ["echo-record-1", "echo-record-2", "echo-record-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "echo-records", "name": "Ancient Echo Records", "icon": "blackclosedBook", "desc": "Three pre-Fracture records referencing a hidden artefact called the Hearthstone." },
+        "friendship": { "naia-interior": 35 }
+      }
+    },
+    {
+      "id": "ferryn-guild-informant",
+      "title": "Guild Informant",
+      "type": "lost-items",
+      "giverNpcId": "guild-master-ferryn",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:thorin-echo-warning",
+      "offerDialogue": "After Thorin posted his warnings I went through my own records. Someone inside the guild has been feeding information outward — I found traces in the ledgers. Three internal reports were copied and the copies should be somewhere in the guild district. Find them before the informant retrieves them.",
+      "activeDialogue": "The copied reports will look like guild paperwork — cream coloured, stamped with a pale imprint. Someone left them somewhere nearby, waiting to be collected.",
+      "completeDialogue": "These are copies of reports that only three people had access to. I know which three. This is very bad. I am locking the guild hall tonight.",
+      "steps": [
+        { "key": "reports", "type": "collect", "pickupIds": ["informant-report-1", "informant-report-2", "informant-report-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 85,
+        "friendship": { "guild-master-ferryn": 35 }
+      }
+    },
+    {
+      "id": "bramble-smugglers-cache",
+      "title": "Smugglers' Cache",
+      "type": "lost-items",
+      "giverNpcId": "bramble",
+      "receiverNpcId": "bramble",
+      "prerequisite": "quest:bramble-stolen-goods|quest:ferryn-missing-shipment",
+      "offerDialogue": "After finding those stolen crates, I backtracked the route they came from. Someone cached goods in two hidden spots near the supply route — not official guild storage. I marked the locations but I cannot move the caches alone. Help me collect and bring them in.",
+      "activeDialogue": "Two hidden caches — one near the east lane wall, one tucked beside the supply building. They are disguised as debris.",
+      "completeDialogue": "These are not ordinary goods. Some of these items have Echo markings — faint, but there. They were using my supply route as a dead drop. No more. I am fortifying every entry point.",
+      "steps": [
+        { "key": "caches", "type": "collect", "pickupIds": ["smuggler-cache-1", "smuggler-cache-2"], "required": 2 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "bramble": 30 }
+      }
+    },
+    {
+      "id": "rosie-spy-in-the-inn",
+      "title": "Spy in the Inn",
+      "type": "fetch",
+      "giverNpcId": "innkeeper-rosie",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:rosie-strange-guest|quest:thorin-echo-warning",
+      "offerDialogue": "I have been going through everything the strange guest left behind. That sealed envelope — I opened it. It is a report. Names, schedules, patrol timings. Someone was using my inn to pass intelligence to the Echoes. Thorin needs to see this.",
+      "activeDialogue": "Take the spy report to Captain Thorin. He will know what to do with the names in it.",
+      "completeDialogue": "This is a full intelligence summary. Patrol rotations, names of reliable sources, the innkeeper listed as an unwitting asset… This is damning. Thank you. I am briefing my lieutenants tonight.",
+      "steps": [
+        { "key": "collect-report", "type": "collect", "pickupIds": ["spy-report"], "required": 1 },
+        { "key": "deliver-report", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 85,
+        "friendship": { "innkeeper-rosie": 30, "guard-captain-thorin": 20 }
+      }
+    },
+    {
+      "id": "varn-double-agent",
+      "title": "Double Agent",
+      "type": "lost-items",
+      "giverNpcId": "drill-sergeant-varn",
+      "receiverNpcId": "drill-sergeant-varn",
+      "prerequisite": "quest:varn-deserter-trail",
+      "offerDialogue": "Following the deserter trail, I found three more items hidden in the barracks — notes, maps of our routines, coded lists. Whoever left these is still here, still in the ranks. I need those items as evidence before I can act.",
+      "activeDialogue": "Three hidden items somewhere in the barracks compound — a note under the armory bench, a rolled list in the east corridor, and a coded slip near the watch post.",
+      "completeDialogue": "A coded list of shift rotations, a map of the vault access points, and a personal note — signed with a mark I recognise. There is a double agent in my barracks. I know who it is now.",
+      "steps": [
+        { "key": "evidence", "type": "collect", "pickupIds": ["agent-note", "agent-map", "agent-list"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "drill-sergeant-varn": 30 }
+      }
+    },
+    {
+      "id": "gildwyn-stolen-card-plans",
+      "title": "Stolen Card Plans",
+      "type": "fetch",
+      "giverNpcId": "gildwyn",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:gildwyn-counterfeit-cards",
+      "offerDialogue": "The counterfeit cards were copied from my originals — but the forger needed something more: the internal layout notes I use for printing. Those layout pages were stolen from my workshop. I found a copy — someone left it behind. Naia should analyse the printing technique; she knows old methods.",
+      "activeDialogue": "Take the stolen layout pages to Naia. She can identify who printed these by the technique used.",
+      "completeDialogue": "These annotations — this is Echo cipher notation. The printing technique dates to before the Fracture. This forger is not local. And they made these copies for a reason beyond simple fraud.",
+      "steps": [
+        { "key": "collect-plans", "type": "collect", "pickupIds": ["card-layout-plans"], "required": 1 },
+        { "key": "deliver-plans", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "card-forgery-analysis", "name": "Forgery Analysis", "icon": "blueclosedBook", "desc": "Naia's notes on the Echo printing technique used to forge Gildwyn's cards." },
+        "friendship": { "gildwyn": 25, "naia-interior": 15 }
+      }
+    },
+    {
+      "id": "mira-corrupted-augments",
+      "title": "Corrupted Augments",
+      "type": "lost-items",
+      "giverNpcId": "mira",
+      "receiverNpcId": "mira",
+      "prerequisite": "quest:mira-unstable-augment",
+      "offerDialogue": "That unstable fragment you brought me was not a one-off. I have traced three more corrupted augments that left my shop and should not have. Someone swapped the cores before delivery. Find those corrupted pieces — they are dangerous if someone tries to use them.",
+      "activeDialogue": "Three corrupted augments — they glow with a faint red tint instead of blue. Someone scattered them. They should be near the market district and possibly inside a building.",
+      "completeDialogue": "All three. Look at this corruption pattern — it is deliberate, not accidental Fracture exposure. Someone engineered this to destabilise the augment grid. If these had gone live it would have caused a cascade failure across the entire hub network.",
+      "steps": [
+        { "key": "augments", "type": "collect", "pickupIds": ["corrupted-augment-1", "corrupted-augment-2", "corrupted-augment-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "mira": 30 }
+      }
+    },
+    {
+      "id": "bram-echo-territory-map",
+      "title": "Echo Territory Map",
+      "type": "fetch",
+      "giverNpcId": "cartographer-bram",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:bram-altered-map",
+      "offerDialogue": "I found the original behind the forgeries — the real map the Echoes were trying to conceal. It shows which areas they have marked as controlled territory, including three zones inside the hub itself. Captain Thorin must have this.",
+      "activeDialogue": "Take the Echo territory map to Captain Thorin immediately.",
+      "completeDialogue": "Three marked zones — the east passage, the lower barracks corridor, and the traders' den storage. They have been operating right under us. This changes my entire patrol strategy. Tell Bram he may have just saved this hub.",
+      "steps": [
+        { "key": "collect-map", "type": "collect", "pickupIds": ["echo-territory-map"], "required": 1 },
+        { "key": "deliver-map", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": { "cartographer-bram": 30, "guard-captain-thorin": 15 }
+      }
+    },
+    {
+      "id": "lyss-cipher-key",
+      "title": "The Cipher Key",
+      "type": "fetch",
+      "giverNpcId": "apprentice-lyss",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:lyss-forbidden-texts",
+      "offerDialogue": "Inside one of those forbidden texts I found a cipher key — a partial one. The complete key would decode every Echo communication we have intercepted. I believe Naia has the other half; she just does not know what she has. Please take this fragment to her.",
+      "activeDialogue": "Take the cipher fragment to Naia — she holds a matching piece without knowing it.",
+      "completeDialogue": "This is the other half of the key I extracted from the ancient codex. Together they form the complete Echo cipher. With this I can read every encoded message we have recovered. This is extraordinary work.",
+      "steps": [
+        { "key": "collect-cipher", "type": "collect", "pickupIds": ["cipher-key-fragment"], "required": 1 },
+        { "key": "deliver-cipher", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "cipher-key", "name": "Echo Cipher Key", "icon": "blueclosedBook", "desc": "The completed cipher key assembled by Lyss and Naia — unlocks every Echo communication." },
+        "friendship": { "apprentice-lyss": 30, "naia-interior": 15 }
+      }
+    },
+    {
+      "id": "alric-echo-research",
+      "title": "Echo Research",
+      "type": "lost-items",
+      "giverNpcId": "professor-aldric",
+      "receiverNpcId": "professor-aldric",
+      "prerequisite": "quest:alric-stolen-notes",
+      "offerDialogue": "Using the annotations on my stolen pages, I have identified three physical specimens that the Echoes would need to conduct their research. Fracture-reactive materials, rare and distinctive. If they are somewhere in the hub I want them secured before the Echoes retrieve them.",
+      "activeDialogue": "Three Fracture-reactive specimens — crystalline clusters with a faint amber glow. They would have been placed near strong Fracture resonance points.",
+      "completeDialogue": "Yes — these are exactly the materials. The amber resonance signature is distinctive. The Echoes were planning to synthesise something. With these specimens I can work backwards and understand what. This is important.",
+      "steps": [
+        { "key": "specimens", "type": "collect", "pickupIds": ["research-specimen-1", "research-specimen-2", "research-specimen-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 85,
+        "friendship": { "professor-aldric": 30 }
+      }
+    },
+    {
+      "id": "fisherman-glowing-net",
+      "title": "The Glowing Net",
+      "type": "lost-items",
+      "giverNpcId": "fisherman",
+      "receiverNpcId": "fisherman",
+      "prerequisite": "quest:greyfishs-strange-catch",
+      "offerDialogue": "Since that glowing object I found, the pond has been changing. Three of my net floats washed up on the bank glowing with the same light. They are Fracture-affected now, useless to me for fishing — but maybe useful to someone who knows what the Fracture does. Collect them.",
+      "activeDialogue": "Three net floats — pale wood, now glowing amber. They should be along the pond bank.",
+      "completeDialogue": "There they are. Something under the pond is getting stronger. The fish have moved away from the deep end entirely. Whatever the Echoes left down there, it is affecting the whole pond now.",
+      "steps": [
+        { "key": "floats", "type": "collect", "pickupIds": ["glowing-float-1", "glowing-float-2", "glowing-float-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "fracture-floats", "name": "Fracture-Touched Floats", "icon": "pendant", "desc": "Net floats from the old fisherman's pond, saturated with Fracture energy from something hidden in the depths." },
+        "friendship": { "fisherman": 30 }
+      }
+    },
+    {
+      "id": "zev-shadow-gambler",
+      "title": "Shadow Gambler",
+      "type": "lost-items",
+      "giverNpcId": "games-host-zev",
+      "receiverNpcId": "games-host-zev",
+      "prerequisite": "quest:zev-rigged-games",
+      "offerDialogue": "After the rigged games business, someone new started coming in — always at the back tables, always paying in foreign coin, always watching the other players. They left three items behind last night: a coin, a note, and a marked token. I want to know who they are.",
+      "activeDialogue": "A foreign coin, a folded note, and a marked token — left at the back tables of the games hall. They may have hidden them nearby when I started watching.",
+      "completeDialogue": "This note is written in the same cipher as the marked decks from before. This Shadow Gambler is connected to whoever rigged my machines. And this foreign coin — it is from east of the Fracture zone. That narrows things considerably.",
+      "steps": [
+        { "key": "items", "type": "collect", "pickupIds": ["shadow-coin", "shadow-note", "shadow-token"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "games-host-zev": 30 }
+      }
+    },
+    {
+      "id": "orin-contaminated-trophies",
+      "title": "Contaminated Trophies",
+      "type": "lost-items",
+      "giverNpcId": "trophy-keeper-orin",
+      "receiverNpcId": "trophy-keeper-orin",
+      "prerequisite": "quest:orin-fake-trophy",
+      "offerDialogue": "The forgery investigation revealed something worse — three legitimate trophies in the collection were contaminated. Fracture energy has been pumped into them deliberately. They are unstable and need to be removed from display and brought to me for containment.",
+      "activeDialogue": "Three trophies with an amber shimmer to the base — they look normal but they pulse with Fracture energy. Collect them carefully.",
+      "completeDialogue": "I can feel the resonance just holding them. The Echoes contaminated these to use them as Fracture amplifiers — if someone had activated them all at once near the vault, it could have brought down the outer wall. We stopped something very bad today.",
+      "steps": [
+        { "key": "trophies", "type": "collect", "pickupIds": ["tainted-trophy-1", "tainted-trophy-2", "tainted-trophy-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "trophy-keeper-orin": 30 }
+      }
+    },
+    {
+      "id": "dealer-echo-bookie",
+      "title": "Echo Bookie",
+      "type": "fetch",
+      "giverNpcId": "dealer",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:dealer-marked-deck",
+      "offerDialogue": "I have compiled a list of everyone I suspect has been placing bets for the Echoes — using the games hall as a covert exchange point. Names, wager amounts, dates. Ferryn should have this. The guild keeps records that could cross-reference it.",
+      "activeDialogue": "Take the suspect list to Ferryn at the guild hall.",
+      "completeDialogue": "These names match three accounts that went dormant after the Fracture and then suddenly reactivated. They were using ghost accounts to move funds. With this I can shut down the entire chain. Excellent work.",
+      "steps": [
+        { "key": "collect-list", "type": "collect", "pickupIds": ["echo-suspect-list"], "required": 1 },
+        { "key": "deliver-list", "type": "deliver", "targetNpcId": "guild-master-ferryn", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 85,
+        "friendship": { "dealer": 30, "guild-master-ferryn": 15 }
+      }
+    },
+    {
+      "id": "syla-echo-market-agent",
+      "title": "Echo Market Agent",
+      "type": "lost-items",
+      "giverNpcId": "market-warden-syla",
+      "receiverNpcId": "market-warden-syla",
+      "prerequisite": "quest:syla-price-fixing",
+      "offerDialogue": "The price-fixing was a front. The real operation was an Echo agent working the market — collecting information, watching supply chains, posing as a trader. They left three fake market badges behind when they fled. I need those badges; they are evidence.",
+      "activeDialogue": "Three fake market badges — they look like official warden passes but the seal is wrong if you look closely. Scattered somewhere near the market lane.",
+      "completeDialogue": "These are beautiful fakes — I almost could not tell. The person who made these had access to an official pass at some point. Someone on the inside helped them. I am reviewing all current badge assignments.",
+      "steps": [
+        { "key": "badges", "type": "collect", "pickupIds": ["fake-badge-1", "fake-badge-2", "fake-badge-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "market-warden-syla": 30 }
+      }
+    },
+    {
+      "id": "aldous-hidden-passage",
+      "title": "Hidden Passage",
+      "type": "fetch",
+      "giverNpcId": "home-steward",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:aldous-family-heirloom",
+      "offerDialogue": "I found it — a hidden passage behind the storage room, covered by an old rack. It leads east, toward the barracks district. Someone has been using it. There is a key hanging inside the entrance — a skeleton key. Take it to Captain Thorin. He needs to know this passage exists.",
+      "activeDialogue": "Take the passage key to Captain Thorin. Tell him where I found it.",
+      "completeDialogue": "A passage from the home district to the barracks? That explains so much — the unauthorised access, the missing guard reports. Someone has been moving freely through a route I did not know existed. I am sealing it tonight. Thank you.",
+      "steps": [
+        { "key": "collect-key", "type": "collect", "pickupIds": ["passage-key"], "required": 1 },
+        { "key": "deliver-key", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "passage-key", "name": "Hidden Passage Key", "icon": "pendant", "desc": "A skeleton key found at the entrance to a secret passage running between the home district and the barracks." },
+        "friendship": { "home-steward": 30, "guard-captain-thorin": 15 }
+      }
+    },
+    {
+      "id": "vex-echo-supplier",
+      "title": "Echo Supplier",
+      "type": "lost-items",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "merchant",
+      "prerequisite": "quest:vex-suspicious-buyer",
+      "offerDialogue": "I tracked the suspicious buyer back to their supplier — someone who has been providing them with goods from inside the hub. I found three pieces of evidence: a supply manifest, a wax seal stamp, and a handwritten note. All abandoned when the supplier got spooked. Get them.",
+      "activeDialogue": "A supply manifest, a wax seal stamp, and a handwritten note — the supplier dropped them near the east market entrance.",
+      "completeDialogue": "The manifest lists goods that were never on any official order. The wax stamp matches an old guild seal that should have been retired. And the note — it is signed. I know this name. This supplier is someone who works inside the hub.",
+      "steps": [
+        { "key": "evidence", "type": "collect", "pickupIds": ["supplier-manifest", "supplier-stamp", "supplier-note"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "merchant": 30 }
+      }
+    },
+    {
+      "id": "elder-confession",
+      "title": "The Elder's Confession",
+      "type": "fetch",
+      "giverNpcId": "elder",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:elder-old-codex|quest:naia-echo-records|quest:thorin-echo-warning",
+      "offerDialogue": "I must confess something to Captain Thorin — something I should have said years ago. I met with the Echoes once, long before the Fracture. I thought they were scholars. I told them things about the hub's layout and history. I did not know what they were. I have written it all down. Please take this letter to Thorin.",
+      "activeDialogue": "Take my confession letter to Captain Thorin. I am sorry it took so long.",
+      "completeDialogue": "The Elder… I had suspected, but I did not want to believe it. The information they had about the hub — the passages, the vault, the Hearthstone — it all came from him, unknowingly. He is not a traitor. He was deceived. But we needed to know this. Thank you for bringing it to me.",
+      "steps": [
+        { "key": "collect-letter", "type": "collect", "pickupIds": ["confession-letter"], "required": 1 },
+        { "key": "deliver-letter", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "elder": 40, "guard-captain-thorin": 20 }
+      }
+    },
+    {
+      "id": "thorin-barracks-lockdown",
+      "title": "Barracks Lockdown",
+      "type": "lost-items",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:rosie-spy-in-the-inn|quest:elder-confession",
+      "offerDialogue": "The spy report from Rosie and the Elder's confession have given me enough to act. I need three Echo agent identifiers — tokens they use to recognise each other — to match against my guard roster. I know they are hidden in the barracks compound somewhere. Find them.",
+      "activeDialogue": "Echo identifier tokens — small, disc-shaped, with an inverted triangle mark. Somewhere in the barracks buildings.",
+      "completeDialogue": "Three tokens, three guards. I have the names now. I am removing them from active duty tonight. The barracks is going into lockdown until I am certain of every person under my command.",
+      "steps": [
+        { "key": "identifiers", "type": "collect", "pickupIds": ["echo-id-token-1", "echo-id-token-2", "echo-id-token-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "guard-captain-thorin": 40 }
+      }
+    },
+    {
+      "id": "varn-traitor-confronted",
+      "title": "Traitor Confronted",
+      "type": "fetch",
+      "giverNpcId": "drill-sergeant-varn",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:varn-double-agent|quest:thorin-barracks-lockdown",
+      "offerDialogue": "I confronted the double agent. They broke. Gave me everything — contacts, schedule, method. I wrote it all down before they could recant. Take this confession to Captain Thorin. Between this and his lockdown list, we can close the net.",
+      "activeDialogue": "Take the traitor's confession to Captain Thorin immediately.",
+      "completeDialogue": "This is complete. Every contact, every drop point, every scheduled exchange. With this we can intercept the next three Echo operations before they begin. Well done, Varn. And you — thank you for carrying this to me.",
+      "steps": [
+        { "key": "collect-confession", "type": "collect", "pickupIds": ["traitor-confession"], "required": 1 },
+        { "key": "deliver-confession", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "drill-sergeant-varn": 35, "guard-captain-thorin": 20 }
+      }
+    },
+    {
+      "id": "naia-heartstone-records",
+      "title": "Heartstone Records",
+      "type": "lost-items",
+      "giverNpcId": "naia-interior",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:naia-echo-records|quest:lyss-cipher-key",
+      "offerDialogue": "The cipher key opened everything. The Echoes are after the Hearthstone — an artefact that was broken into three fragments after the Fracture and hidden across the hub. I need the three research fragments that describe where they are hidden. They should be in the archive somewhere.",
+      "activeDialogue": "Three research fragments — notes bound in copper thread. They describe the Hearthstone's three hiding places. Find them.",
+      "completeDialogue": "I have them all. The Hearthstone fragments are hidden in three specific locations: beneath the pond, inside the barracks vault, and under the foundation stone of the hall of achievements. The Echoes knew all three. We must reach them first.",
+      "steps": [
+        { "key": "fragments", "type": "collect", "pickupIds": ["heartstone-fragment-1", "heartstone-fragment-2", "heartstone-fragment-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "heartstone-research", "name": "Heartstone Research", "icon": "goldChest", "desc": "Naia's compiled research identifying the three locations where the Hearthstone fragments were hidden after the Fracture." },
+        "friendship": { "naia-interior": 40 }
+      }
+    },
+    {
+      "id": "bram-safe-routes",
+      "title": "Safe Routes",
+      "type": "lost-items",
+      "giverNpcId": "cartographer-bram",
+      "receiverNpcId": "cartographer-bram",
+      "prerequisite": "quest:bram-echo-territory-map",
+      "offerDialogue": "Now that I know which zones the Echoes control, I have redrawn the safe routes — paths they do not watch. I printed three copies but the courier I sent out never arrived. Someone intercepted the packages. Retrieve those maps before the Echoes find them and learn what we know.",
+      "activeDialogue": "Three rolled map copies — marked with a blue ribbon, not red. They should be somewhere along the usual courier route.",
+      "completeDialogue": "All three. I will distribute them myself this time — directly to the Elder, the guild hall, and the barracks. No more couriers until we know who can be trusted.",
+      "steps": [
+        { "key": "maps", "type": "collect", "pickupIds": ["safe-route-map-1", "safe-route-map-2", "safe-route-map-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "cartographer-bram": 35 }
+      }
+    },
+    {
+      "id": "ferryn-guild-lockdown",
+      "title": "Guild Lockdown",
+      "type": "lost-items",
+      "giverNpcId": "guild-master-ferryn",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:ferryn-guild-informant|quest:dealer-echo-bookie",
+      "offerDialogue": "Three compromised offices in the guild hall — I need to pull the documents from each before I seal them. Access logs, correspondence, financial records. If those fall into Echo hands we lose everything we have built since the Fracture. Go in and collect them.",
+      "activeDialogue": "Three document bundles — red ribbon, stamped with my seal, left in each compromised office. Move fast.",
+      "completeDialogue": "Perfect. I am sealing those three offices permanently and reassigning their occupants. The guild will survive this — but only because we acted quickly. I owe you for this.",
+      "steps": [
+        { "key": "documents", "type": "collect", "pickupIds": ["guild-doc-1", "guild-doc-2", "guild-doc-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "guild-master-ferryn": 40 }
+      }
+    },
+    {
+      "id": "mira-purging-augments",
+      "title": "Purging the Augments",
+      "type": "lost-items",
+      "giverNpcId": "mira",
+      "receiverNpcId": "mira",
+      "prerequisite": "quest:mira-corrupted-augments",
+      "offerDialogue": "I have synthesised a purification crystal that can cleanse the corrupted augments — but I need three more. They occur naturally near strong Fracture fault lines. They will look like ordinary crystals but pulse with a clean white light instead of amber.",
+      "activeDialogue": "Three purification crystals — white-pulsing, near Fracture fault points. The fault lines run near the pond, the east wall, and the old foundation stones.",
+      "completeDialogue": "Yes — these are pure. With these three I can cleanse the entire hub augment network. No more corruption risk. The Echoes lost their best weapon against us today.",
+      "steps": [
+        { "key": "crystals", "type": "collect", "pickupIds": ["purification-crystal-1", "purification-crystal-2", "purification-crystal-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "mira": 35 }
+      }
+    },
+    {
+      "id": "gildwyn-echo-deck-master",
+      "title": "Echo Deck Master",
+      "type": "lost-items",
+      "giverNpcId": "gildwyn",
+      "receiverNpcId": "gildwyn",
+      "prerequisite": "quest:gildwyn-stolen-card-plans",
+      "offerDialogue": "Someone calling themselves the Echo Deck Master has been running an underground card circuit using my stolen designs. Three of their illegally modified card sets are still in circulation. I need those cards back — with them I can prove the counterfeiting operation and who ran it.",
+      "activeDialogue": "Three card sets with my original backing design but modified faces — Echo symbols on three of the cards in each deck. They were in play recently.",
+      "completeDialogue": "These are mine — the backing is my original woodblock print, I can see the grain pattern. But the face modifications are extraordinary. This was not done for profit. The Echo symbols on these cards are the same as those on the identifier tokens Thorin found. These were used for signalling.",
+      "steps": [
+        { "key": "cards", "type": "collect", "pickupIds": ["echo-card-set-1", "echo-card-set-2", "echo-card-set-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "echo-card-set", "name": "Echo Card Sets", "icon": "blueclosedBook", "desc": "Three illegally modified card sets recovered from the Echo Deck Master's underground circuit." },
+        "friendship": { "gildwyn": 35 }
+      }
+    },
+    {
+      "id": "lyss-unlock-the-cipher",
+      "title": "Unlocking the Cipher",
+      "type": "lost-items",
+      "giverNpcId": "apprentice-lyss",
+      "receiverNpcId": "apprentice-lyss",
+      "prerequisite": "quest:lyss-cipher-key|quest:naia-heartstone-records",
+      "offerDialogue": "The cipher key works — but to translate the oldest Echo texts, I need two specific cipher fragments that were removed from the archive. With Naia's heartstone research pointing to the Hearthstone locations, the translations become urgent. Find those fragments.",
+      "activeDialogue": "Two cipher fragments — small cards with overlapping text in two scripts. Hidden somewhere in the scholars' quarter.",
+      "completeDialogue": "I have them. And the translations confirm everything Naia found — plus one thing more. The Echoes plan to use the Hearthstone fragments not to take them, but to activate them together. If they do, the Fracture energy concentrated in this hub would be catastrophic.",
+      "steps": [
+        { "key": "fragments", "type": "collect", "pickupIds": ["cipher-fragment-a", "cipher-fragment-b"], "required": 2 }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": { "apprentice-lyss": 35 }
+      }
+    },
+    {
+      "id": "rosie-shelter-for-families",
+      "title": "Shelter for Families",
+      "type": "lost-items",
+      "giverNpcId": "innkeeper-rosie",
+      "receiverNpcId": "innkeeper-rosie",
+      "prerequisite": "quest:rosie-spy-in-the-inn",
+      "offerDialogue": "After the spy was discovered, three families who used to stay at the inn have gone into hiding — they are afraid to be associated with me. I have prepared supply packages for each family. Help me find where they are sheltering and deliver the packages; I cannot leave the inn right now.",
+      "activeDialogue": "Three supply packages — tied with yellow ribbon. I hid them near the courtyard for collection. The families are sheltering near the east wall, the pond bank, and behind the scholars' quarter.",
+      "completeDialogue": "You found them all? Good. Those families should know they have nothing to fear from me. They were not part of any of this. Thank you — you have a good heart.",
+      "steps": [
+        { "key": "packages", "type": "collect", "pickupIds": ["shelter-package-1", "shelter-package-2", "shelter-package-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "innkeeper-rosie": 40 }
+      }
+    },
+    {
+      "id": "alric-fracture-study",
+      "title": "Fracture Study",
+      "type": "lost-items",
+      "giverNpcId": "professor-aldric",
+      "receiverNpcId": "professor-aldric",
+      "prerequisite": "quest:alric-echo-research",
+      "offerDialogue": "The specimens confirmed my theory. I need three Fracture residue samples from specific resonance points to complete the study — samples that will tell us exactly how much energy the Hearthstone activation would release. The locations are the east gate foundation, the pond edge, and the old barracks tower base.",
+      "activeDialogue": "Three residue samples — amber dust at specific foundation stones. Handle carefully; the residue is stable until disturbed.",
+      "completeDialogue": "The readings are extraordinary. If the Hearthstone fragments were activated simultaneously at those three hidden points, the energy release would not destroy the hub — it would open a permanent rift. A gateway for something far larger to come through. The Echoes are not just thieves.",
+      "steps": [
+        { "key": "samples", "type": "collect", "pickupIds": ["fracture-residue-1", "fracture-residue-2", "fracture-residue-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "fracture-analysis", "name": "Fracture Analysis Report", "icon": "greenclosedBook", "desc": "Aldric's completed analysis: activating the Hearthstone fragments would open a permanent Fracture rift." },
+        "friendship": { "professor-aldric": 35 }
+      }
+    },
+    {
+      "id": "fisherman-fracture-depths",
+      "title": "Fracture Depths",
+      "type": "fetch",
+      "giverNpcId": "fisherman",
+      "receiverNpcId": "fisherman",
+      "prerequisite": "quest:fisherman-glowing-net",
+      "offerDialogue": "The glow under the pond is getting stronger. Last night I saw something surface briefly — a disc of metal, old, engraved. I think it is the Hearthstone fragment hidden under the pond. I cannot dive that deep. But you might be able to find it along the bank where the current carried it.",
+      "activeDialogue": "A metal disc — engraved with an old pattern, warm to the touch. The current may have pushed it to the shallows.",
+      "completeDialogue": "That is it. Feel the warmth? That is Fracture energy, contained. This was hidden here deliberately, long ago. It is not mine to keep. Take it — or let me hold it here safely. Whatever you decide, do not let the Echoes near it.",
+      "steps": [
+        { "key": "collect-disc", "type": "collect", "pickupIds": ["pond-hearthstone-disc"], "required": 1 },
+        { "key": "deliver-disc", "type": "deliver", "targetNpcId": "fisherman", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "pond-fragment", "name": "Pond Hearthstone Fragment", "icon": "goldChest", "desc": "A metal disc engraved with ancient patterns, retrieved from the shallows of the fisherman's pond. One of three Hearthstone fragments." },
+        "friendship": { "fisherman": 35 }
+      }
+    },
+    {
+      "id": "syla-market-purge",
+      "title": "Market Purge",
+      "type": "lost-items",
+      "giverNpcId": "market-warden-syla",
+      "receiverNpcId": "market-warden-syla",
+      "prerequisite": "quest:syla-echo-market-agent",
+      "offerDialogue": "The Echo market agent left contraband behind — three items that do not belong in any legitimate stall. I identified them from the manifest the merchant found. They are hidden in the market district and I need them removed before anyone realises what they are.",
+      "activeDialogue": "Three contraband items — they will look like ordinary goods at a glance. Check near the stall backs and the loading bay.",
+      "completeDialogue": "A Fracture resonance amplifier, a coded trade route guide, and a set of counterfeit entry tokens. This was a full infiltration kit. They were ready to bring more agents in. We stopped that today.",
+      "steps": [
+        { "key": "contraband", "type": "collect", "pickupIds": ["echo-contraband-1", "echo-contraband-2", "echo-contraband-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "market-warden-syla": 35 }
+      }
+    },
+    {
+      "id": "zev-games-hall-clear",
+      "title": "Games Hall Clear",
+      "type": "lost-items",
+      "giverNpcId": "games-host-zev",
+      "receiverNpcId": "games-host-zev",
+      "prerequisite": "quest:zev-shadow-gambler",
+      "offerDialogue": "I searched the games hall thoroughly. Found three surveillance devices — small mirrors with lens inserts, positioned to watch the back tables. The Shadow Gambler was not just gambling. They were watching everyone who came in. I need those devices removed and logged.",
+      "activeDialogue": "Three small mirror-and-lens devices hidden in the games hall — in the corner beams, behind the prize rack, above the back door.",
+      "completeDialogue": "Got them all. These are professional surveillance tools — not local-made. They used the games hall to compile a dossier on every person of influence in the hub. We need to assume our movements were monitored for months.",
+      "steps": [
+        { "key": "devices", "type": "collect", "pickupIds": ["surveillance-device-1", "surveillance-device-2", "surveillance-device-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 95,
+        "friendship": { "games-host-zev": 35 }
+      }
+    },
+    {
+      "id": "orin-champions-shield",
+      "title": "Champion's Shield",
+      "type": "fetch",
+      "giverNpcId": "trophy-keeper-orin",
+      "receiverNpcId": "trophy-keeper-orin",
+      "prerequisite": "quest:orin-contaminated-trophies",
+      "offerDialogue": "The contaminated trophies were decoys. The real prize was the Champion's Shield — our oldest artefact, used at the founding of this hub. The Echoes removed it and hid it somewhere in the barracks. It was being used as a Fracture cache. Retrieve it.",
+      "activeDialogue": "The Champion's Shield — round, iron, engraved with the hub's founding mark. Somewhere in the barracks compound.",
+      "completeDialogue": "There it is. Safe. The Fracture energy inside it has dissipated — the contamination process was not complete. I will secure this in the vault now. Thank you. This shield is not a trophy. It is a promise this hub kept, and we nearly lost it.",
+      "steps": [
+        { "key": "collect-shield", "type": "collect", "pickupIds": ["champions-shield"], "required": 1 },
+        { "key": "deliver-shield", "type": "deliver", "targetNpcId": "trophy-keeper-orin", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "champions-shield", "name": "Champion's Shield", "icon": "goldChest", "desc": "The oldest artefact in the hub's trophy collection, recovered from an Echo cache in the barracks." },
+        "friendship": { "trophy-keeper-orin": 35 }
+      }
+    },
+    {
+      "id": "dealer-fracture-intel",
+      "title": "Fracture Intel",
+      "type": "lost-items",
+      "giverNpcId": "dealer",
+      "receiverNpcId": "dealer",
+      "prerequisite": "quest:dealer-echo-bookie",
+      "offerDialogue": "With the bookie list gone, the Echoes changed their dead-drop. I tracked three new intel note drops near the casino area — they contain Echo movement schedules. I need those notes before the next collection.",
+      "activeDialogue": "Three folded intel notes — left in the usual places: under the east table, behind the prize case, near the exit arch.",
+      "completeDialogue": "These are movement schedules for the next week. Three operations planned. I am sending copies to Thorin tonight. With this intelligence, we can be in position at every one of those locations.",
+      "steps": [
+        { "key": "notes", "type": "collect", "pickupIds": ["intel-note-1", "intel-note-2", "intel-note-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "dealer": 35 }
+      }
+    },
+    {
+      "id": "aldous-passage-explored",
+      "title": "Passage Explored",
+      "type": "lost-items",
+      "giverNpcId": "home-steward",
+      "receiverNpcId": "home-steward",
+      "prerequisite": "quest:aldous-hidden-passage",
+      "offerDialogue": "Thorin sent someone to explore the hidden passage. They found three items left by whoever had been using it — abandoned in a hurry when the passage was sealed. I need those items for the investigation record.",
+      "activeDialogue": "Three items left in the hidden passage — near the home end, the mid-point, and the barracks end. The passage is sealed now but items may have been pushed out when it closed.",
+      "completeDialogue": "A communication device, a schedule of patrol patterns, and a carved stone with the Echo insignia. This passage was their primary route. Every person who knew about it is now suspect. Thank you for completing the record.",
+      "steps": [
+        { "key": "items", "type": "collect", "pickupIds": ["passage-item-1", "passage-item-2", "passage-item-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "passage-evidence", "name": "Passage Evidence Set", "icon": "chest", "desc": "Three items recovered from the hidden passage: an Echo communication device, patrol schedules, and an insignia stone." },
+        "friendship": { "home-steward": 35 }
+      }
+    },
+    {
+      "id": "elder-absolution",
+      "title": "The Elder's Absolution",
+      "type": "chain",
+      "giverNpcId": "elder",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:elder-confession|quest:naia-heartstone-records",
+      "offerDialogue": "After giving my confession to Thorin, I wrote personal apology letters — one to Naia for the records I unknowingly helped destroy, and one to Thorin for the security breaches I enabled. Please carry these to each of them.",
+      "activeDialogue": "Take the letter to Naia first, then to Captain Thorin.",
+      "completeDialogue": "The Elder… his confession is difficult to read knowing what it cost him to write it. He was deceived — that much is clear. But his honesty now has given us everything we needed. Tell him he is forgiven.",
+      "steps": [
+        { "key": "collect-letters", "type": "collect", "pickupIds": ["absolution-letter-naia", "absolution-letter-thorin"], "required": 2 },
+        { "key": "deliver-naia", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 },
+        { "key": "deliver-thorin", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "elder": 40, "naia-interior": 20, "guard-captain-thorin": 20 }
+      }
+    },
+    {
+      "id": "vex-supply-chain-rebuilt",
+      "title": "Supply Chain Rebuilt",
+      "type": "fetch",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:vex-echo-supplier|quest:ferryn-guild-lockdown",
+      "offerDialogue": "With the Echo supplier removed, there is a gap in the hub's supply chain — legitimate goods are not getting through. I have drafted new supply contracts with three verified partners. Ferryn needs to countersign them to make them official.",
+      "activeDialogue": "Take the new supply contracts to Ferryn at the guild hall.",
+      "completeDialogue": "Excellent. These partners are all verified — I recognise two of them as pre-Fracture guilds. The supply chain will be cleaner and better documented than before. Vex has done well here.",
+      "steps": [
+        { "key": "collect-contracts", "type": "collect", "pickupIds": ["supply-contracts"], "required": 1 },
+        { "key": "deliver-contracts", "type": "deliver", "targetNpcId": "guild-master-ferryn", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "merchant": 35, "guild-master-ferryn": 20 }
+      }
+    },
+    {
+      "id": "bramble-fortified-supplies",
+      "title": "Fortified Supplies",
+      "type": "chain",
+      "giverNpcId": "bramble",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:bramble-smugglers-cache|quest:varn-traitor-confronted",
+      "offerDialogue": "With the traitor caught and the caches cleared, I restocked the emergency supply depots. Thorin and Varn each need a priority package — equipment and provisions for the defence operation. I cannot leave the shop. Can you carry them?",
+      "activeDialogue": "Two packages ready to go — one for Thorin at the barracks, one for Varn in the south wing.",
+      "completeDialogue": "Good — Varn, grab that package. This has everything we need for the east post.",
+      "steps": [
+        { "key": "collect-packages", "type": "collect", "pickupIds": ["supply-pkg-thorin", "supply-pkg-varn"], "required": 2 },
+        { "key": "deliver-thorin", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 },
+        { "key": "deliver-varn", "type": "deliver", "targetNpcId": "drill-sergeant-varn", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "bramble": 35, "guard-captain-thorin": 15, "drill-sergeant-varn": 15 }
+      }
+    },
+    {
+      "id": "thorin-vault-preparation",
+      "title": "Vault Preparation",
+      "type": "lost-items",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:varn-traitor-confronted|quest:elder-absolution",
+      "offerDialogue": "We know the Echoes are after the Hearthstone — and we know the barracks vault is one of the hiding sites. I need to reinforce it. Three Fracture-proof vault casings are stored in the compound but scattered after the lockdown. Help me find them.",
+      "activeDialogue": "Three vault casings — heavy, grey, with a lattice pattern. They absorb Fracture energy. Somewhere in the barracks compound.",
+      "completeDialogue": "All three. I am installing these tonight. When the Echoes come for the vault, they will find it sealed with something that feeds on their own power. Let them try.",
+      "steps": [
+        { "key": "casings", "type": "collect", "pickupIds": ["vault-casing-1", "vault-casing-2", "vault-casing-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "guard-captain-thorin": 40 }
+      }
+    },
+    {
+      "id": "naia-heartstone-location",
+      "title": "Heartstone Located",
+      "type": "lost-items",
+      "giverNpcId": "naia-interior",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:naia-heartstone-records|quest:alric-fracture-study|quest:lyss-unlock-the-cipher",
+      "offerDialogue": "With the research complete, the cipher decoded, and Aldric's analysis confirmed — I know exactly where each Hearthstone fragment is. But I need three final research notes from the archive to complete the picture for the others. They will want every detail.",
+      "activeDialogue": "Three notes in the archive — the last pieces of my Hearthstone documentation. The Echoes tried to remove them. Find out if they succeeded.",
+      "completeDialogue": "They are still here. The Echoes moved fast but not fast enough. I now have the complete Hearthstone file. Every guardian, every location, every safeguard. And now you have it too.",
+      "steps": [
+        { "key": "notes", "type": "collect", "pickupIds": ["location-note-1", "location-note-2", "location-note-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "heartstone-location-map", "name": "Heartstone Location Map", "icon": "goldChest", "desc": "Naia's complete documentation of all three Hearthstone fragment locations, with guardian protocols and activation risks." },
+        "friendship": { "naia-interior": 50 }
+      }
+    },
+    {
+      "id": "elder-rallying-the-hub",
+      "title": "Rallying the Hub",
+      "type": "chain",
+      "giverNpcId": "elder",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:elder-absolution|quest:thorin-vault-preparation",
+      "offerDialogue": "The hub must stand together. I am sending rally messages to Ferryn, Rosie, the dealer, and old Greyfish — each one a call to hold their post and not let fear win. Will you carry them? My legs are not what they were, and time is short.",
+      "activeDialogue": "Four rally messages — one for each of them. Deliver them all.",
+      "completeDialogue": "The Elder… yes. We are with him. And you.",
+      "steps": [
+        { "key": "collect-messages", "type": "collect", "pickupIds": ["rally-msg-ferryn", "rally-msg-rosie", "rally-msg-dealer", "rally-msg-fisherman"], "required": 4 },
+        { "key": "deliver-ferryn", "type": "deliver", "targetNpcId": "guild-master-ferryn", "required": 1 },
+        { "key": "deliver-rosie", "type": "deliver", "targetNpcId": "innkeeper-rosie", "required": 1 },
+        { "key": "deliver-dealer", "type": "deliver", "targetNpcId": "dealer", "required": 1 },
+        { "key": "deliver-fisherman", "type": "deliver", "targetNpcId": "fisherman", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 150,
+        "friendship": { "elder": 50 }
+      }
+    },
+    {
+      "id": "thorin-hub-defense-plan",
+      "title": "Hub Defence Plan",
+      "type": "lost-items",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:thorin-vault-preparation|quest:bram-safe-routes",
+      "offerDialogue": "Bram's safe routes and the vault casings give us the foundation. Now I need to write up defensive positions for every major point in the hub. I drafted notes for three positions but scattered them during the lockdown confusion. Find them and I can finalise the plan.",
+      "activeDialogue": "Three defensive position notes — my handwriting, official barracks paper. Somewhere in the compound.",
+      "completeDialogue": "Perfect. East gate, courtyard centre, scholars' quarter perimeter — these three hold the whole hub. Anyone trying to reach the Hearthstone sites goes through my people. Let them come.",
+      "steps": [
+        { "key": "notes", "type": "collect", "pickupIds": ["defense-note-1", "defense-note-2", "defense-note-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "guard-captain-thorin": 45 }
+      }
+    },
+    {
+      "id": "varn-training-defenders",
+      "title": "Training Defenders",
+      "type": "lost-items",
+      "giverNpcId": "drill-sergeant-varn",
+      "receiverNpcId": "drill-sergeant-varn",
+      "prerequisite": "quest:varn-traitor-confronted|quest:bramble-fortified-supplies",
+      "offerDialogue": "I am drilling every able-bodied person in the hub — traders, scholars, even the innkeeper's staff. I printed training manuals for each group but half of them went missing in the supply chaos. Find those manuals before training starts tonight.",
+      "activeDialogue": "Three training manuals — thick, stamped with a crossed-sword mark. One for each group I am training.",
+      "completeDialogue": "There they are. Tonight, every person in this hub learns the basics. If the Echoes come, they will not find civilians. They will find defenders.",
+      "steps": [
+        { "key": "manuals", "type": "collect", "pickupIds": ["training-manual-1", "training-manual-2", "training-manual-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "drill-sergeant-varn": 40 }
+      }
+    },
+    {
+      "id": "mira-anti-fracture-charms",
+      "title": "Anti-Fracture Charms",
+      "type": "chain",
+      "giverNpcId": "mira",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:mira-purging-augments|quest:alric-fracture-study",
+      "offerDialogue": "Using the purified crystals, I have crafted three anti-Fracture charms — one each for Naia, the Elder, and Captain Thorin. They will provide limited protection if the Hearthstone is tampered with. Deliver them; these people need to be shielded.",
+      "activeDialogue": "Deliver the charm to Naia first, then the Elder, then Captain Thorin.",
+      "completeDialogue": "Tell Mira these are extraordinary. The resonance pattern is perfect. I have not seen workmanship like this since before the Fracture.",
+      "steps": [
+        { "key": "collect-charms", "type": "collect", "pickupIds": ["charm-naia", "charm-elder", "charm-thorin"], "required": 3 },
+        { "key": "deliver-naia", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 },
+        { "key": "deliver-elder", "type": "deliver", "targetNpcId": "elder", "required": 1 },
+        { "key": "deliver-thorin", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 130,
+        "friendship": { "mira": 40 }
+      }
+    },
+    {
+      "id": "bram-escape-routes",
+      "title": "Escape Routes",
+      "type": "lost-items",
+      "giverNpcId": "cartographer-bram",
+      "receiverNpcId": "cartographer-bram",
+      "prerequisite": "quest:bram-safe-routes|quest:aldous-passage-explored",
+      "offerDialogue": "With the hidden passage sealed, I have mapped three alternative evacuation routes in case things go wrong. I printed three copies and posted them — but someone has removed them. They may be trying to prevent an orderly evacuation. Find those guides.",
+      "activeDialogue": "Three evacuation guides — marked with an arrow and hub seal, posted at key junctions. Someone removed them.",
+      "completeDialogue": "All three. I am posting these somewhere less obvious this time. If the worst happens, people will know where to go. And that changes everything.",
+      "steps": [
+        { "key": "guides", "type": "collect", "pickupIds": ["evacuation-guide-1", "evacuation-guide-2", "evacuation-guide-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "cartographer-bram": 40 }
+      }
+    },
+    {
+      "id": "ferryn-resource-cache",
+      "title": "Resource Cache",
+      "type": "lost-items",
+      "giverNpcId": "guild-master-ferryn",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:ferryn-guild-lockdown|quest:vex-supply-chain-rebuilt",
+      "offerDialogue": "I have stashed emergency resource bundles across the hub — medicine, materials, tools. Three bundles that need to be retrieved and centralised in the guild hall before the defence operation. With the compromised offices sealed, I cannot send guild staff to collect them.",
+      "activeDialogue": "Three emergency bundles — guild-sealed crates, hidden near the pond, the market approach, and the scholars' quarter.",
+      "completeDialogue": "All three. The guild hall is now a full supply depot. Whatever happens next, the hub is resourced. We are ready.",
+      "steps": [
+        { "key": "bundles", "type": "collect", "pickupIds": ["resource-bundle-1", "resource-bundle-2", "resource-bundle-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "guild-master-ferryn": 45 }
+      }
+    },
+    {
+      "id": "rosie-safe-harbour",
+      "title": "Safe Harbour",
+      "type": "lost-items",
+      "giverNpcId": "innkeeper-rosie",
+      "receiverNpcId": "innkeeper-rosie",
+      "prerequisite": "quest:rosie-shelter-for-families|quest:elder-rallying-the-hub",
+      "offerDialogue": "The Elder's rally message has given me purpose. The inn will be a refuge during whatever comes next. I need three supply packages collected from the courtyard — food, blankets, medicine. Everything needed to shelter people if the hub is attacked.",
+      "activeDialogue": "Three supply packages — wrapped in brown canvas, tied with red cord. I left them near the courtyard fountain.",
+      "completeDialogue": "These will keep thirty people safe for a week. The Wanderer's Rest has always been a place of shelter. Tonight, more than ever.",
+      "steps": [
+        { "key": "packages", "type": "collect", "pickupIds": ["harbour-pkg-1", "harbour-pkg-2", "harbour-pkg-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "innkeeper-rosie": 40 }
+      }
+    },
+    {
+      "id": "gildwyn-the-fracture-card",
+      "title": "The Fracture Card",
+      "type": "fetch",
+      "giverNpcId": "gildwyn",
+      "receiverNpcId": "gildwyn",
+      "prerequisite": "quest:gildwyn-echo-deck-master|quest:elder-rallying-the-hub",
+      "offerDialogue": "One more card is missing from my records — a legendary piece I designed years ago and thought destroyed. The Echoes found it. It depicts the Fracture event itself and carries actual Fracture energy in the ink. I must have it back. It should be hidden somewhere in the scholars' quarter.",
+      "activeDialogue": "The Fracture Card — oversized, dark-bordered, with an image of the Fracture event. It will feel warm to the touch.",
+      "completeDialogue": "There it is. I remember printing this — the ink shimmered for days after. This is mine, and it belongs nowhere near the Echoes. I am keeping it sealed until the danger is past.",
+      "steps": [
+        { "key": "collect-card", "type": "collect", "pickupIds": ["fracture-card"], "required": 1 },
+        { "key": "deliver-card", "type": "deliver", "targetNpcId": "gildwyn", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "fracture-card", "name": "The Fracture Card", "icon": "goldChest", "desc": "A legendary card depicting the Fracture event, printed with ink that carries real Fracture energy. The only one of its kind." },
+        "friendship": { "gildwyn": 40 }
+      }
+    },
+    {
+      "id": "lyss-the-final-cipher",
+      "title": "The Final Cipher",
+      "type": "fetch",
+      "giverNpcId": "apprentice-lyss",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:lyss-unlock-the-cipher|quest:naia-heartstone-location",
+      "offerDialogue": "The translation is complete. Every Echo communication, every plan, every contingency — I have it all in a single document. Naia needs this. With the heartstone location map and the full cipher translation together, she will have everything she needs to protect the hub.",
+      "activeDialogue": "Take the completed cipher translation to Naia immediately.",
+      "completeDialogue": "Lyss… this is extraordinary. The full translation confirms the Echoes' final operation is in three days. We have time. Just enough time. Thank you.",
+      "steps": [
+        { "key": "collect-translation", "type": "collect", "pickupIds": ["cipher-translation"], "required": 1 },
+        { "key": "deliver-translation", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 130,
+        "friendship": { "apprentice-lyss": 40, "naia-interior": 30 }
+      }
+    },
+    {
+      "id": "alric-heartstone-analysis",
+      "title": "Heartstone Analysis",
+      "type": "chain",
+      "giverNpcId": "professor-aldric",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:alric-fracture-study|quest:naia-heartstone-location",
+      "offerDialogue": "My analysis is complete. The Hearthstone fragments can be safely moved and reunited without triggering the rift — if, and only if, the reunification is performed in the correct order and location. I have written two copies of the analysis: one for Naia and one for the Elder. Carry them both.",
+      "activeDialogue": "Take the analysis report to Naia, then to the Elder.",
+      "completeDialogue": "Aldric's analysis is exactly what we needed. The reunification protocol is here. If we follow it, we can restore the Hearthstone safely. Thank you.",
+      "steps": [
+        { "key": "collect-reports", "type": "collect", "pickupIds": ["analysis-naia", "analysis-elder"], "required": 2 },
+        { "key": "deliver-naia", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 },
+        { "key": "deliver-elder", "type": "deliver", "targetNpcId": "elder", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 130,
+        "friendship": { "professor-aldric": 40 }
+      }
+    },
+    {
+      "id": "fisherman-depths-secret",
+      "title": "Depths' Secret",
+      "type": "fetch",
+      "giverNpcId": "fisherman",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:fisherman-fracture-depths|quest:naia-heartstone-location",
+      "offerDialogue": "Something else surfaced from the pond last night — a sealed case, ancient, with markings I cannot read. I think it is related to the Hearthstone fragment I found. Naia should see it. Will you carry it to her?",
+      "activeDialogue": "Take the sealed case from the pond to Naia at the scholars' hall.",
+      "completeDialogue": "This case contains a Fracture pearl — a natural crystallisation that forms around intense Fracture energy over centuries. This is the key to the reunification. Without this, the protocol does not work. The fisherman may just have saved everything.",
+      "steps": [
+        { "key": "collect-case", "type": "collect", "pickupIds": ["pond-sealed-case"], "required": 1 },
+        { "key": "deliver-case", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "fracture-pearl", "name": "Fracture Pearl", "icon": "goldChest", "desc": "A natural crystallisation of Fracture energy, sealed in an ancient case found in the depths of the fisherman's pond. The key to the Hearthstone reunification protocol." },
+        "friendship": { "fisherman": 40 }
+      }
+    },
+    {
+      "id": "dealer-echo-final-bet",
+      "title": "The Final Bet",
+      "type": "fetch",
+      "giverNpcId": "dealer",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:dealer-fracture-intel|quest:thorin-hub-defense-plan",
+      "offerDialogue": "I played my last hand. I fed the Echoes false intelligence — told them the vault was unguarded on a specific night. They believed it. The final Echo movement will happen on that night and Thorin needs this intelligence to set the trap. Take it to him.",
+      "activeDialogue": "Take my final intel report to Captain Thorin. The trap is set. He just needs to close it.",
+      "completeDialogue": "The dealer played them beautifully. With this we know exactly when and where they will strike. Every guard in position, every route covered. It ends here.",
+      "steps": [
+        { "key": "collect-intel", "type": "collect", "pickupIds": ["final-intel-report"], "required": 1 },
+        { "key": "deliver-intel", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 130,
+        "friendship": { "dealer": 40, "guard-captain-thorin": 15 }
+      }
+    },
+    {
+      "id": "syla-market-fortified",
+      "title": "Market Fortified",
+      "type": "lost-items",
+      "giverNpcId": "market-warden-syla",
+      "receiverNpcId": "market-warden-syla",
+      "prerequisite": "quest:syla-market-purge|quest:bram-escape-routes",
+      "offerDialogue": "The market is the hub's heart. I am fortifying every entry point. Three supply caches are positioned at the key chokepoints — medical supplies, barricade materials, signal flags. I need to confirm they are in place and intact.",
+      "activeDialogue": "Three defence supply caches — sealed crates with a warden mark. Check the north approach, the central lane, and the east gate.",
+      "completeDialogue": "All in place. The market lane can hold against any incursion long enough for the guards to respond. I never thought I would be saying this, but I am proud of this market today.",
+      "steps": [
+        { "key": "caches", "type": "collect", "pickupIds": ["market-cache-1", "market-cache-2", "market-cache-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "market-warden-syla": 40 }
+      }
+    },
+    {
+      "id": "zev-games-hall-stands",
+      "title": "Games Hall Stands",
+      "type": "chain",
+      "giverNpcId": "games-host-zev",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:zev-games-hall-clear|quest:ferryn-resource-cache",
+      "offerDialogue": "The games hall is clear and I have been holding an emergency supply cache here for the guild — tools, materials, reserve stocks. Ferryn needs it for the supply depot and Thorin needs the equipment manifest. I am running both deliveries at once. Can you carry them?",
+      "activeDialogue": "Take the supply cache to Ferryn, then the equipment manifest to Thorin.",
+      "completeDialogue": "This completes the supply depot. We are fully stocked. Tell Zev his hall stood firm when it mattered.",
+      "steps": [
+        { "key": "collect-items", "type": "collect", "pickupIds": ["zev-supply-cache", "zev-equipment-manifest"], "required": 2 },
+        { "key": "deliver-ferryn", "type": "deliver", "targetNpcId": "guild-master-ferryn", "required": 1 },
+        { "key": "deliver-thorin", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 130,
+        "friendship": { "games-host-zev": 40 }
+      }
+    },
+    {
+      "id": "orin-champions-stand",
+      "title": "Champions' Stand",
+      "type": "chain",
+      "giverNpcId": "trophy-keeper-orin",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:orin-champions-shield|quest:thorin-hub-defense-plan",
+      "offerDialogue": "Every champion whose trophy hangs here took an oath to defend this hub. I have written a champions' pledge in their name — a formal declaration that this hub will stand. It needs the Elder's witness and Thorin's seal. Carry it to them both.",
+      "activeDialogue": "Take the champions' pledge to the Elder, then to Captain Thorin.",
+      "completeDialogue": "The champions would be proud. Thorin, add your seal. This pledge is now part of the hub's founding record — and its future.",
+      "steps": [
+        { "key": "collect-pledge", "type": "collect", "pickupIds": ["champions-pledge"], "required": 1 },
+        { "key": "deliver-elder", "type": "deliver", "targetNpcId": "elder", "required": 1 },
+        { "key": "deliver-thorin", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "champions-pledge", "name": "Champions' Pledge", "icon": "goldChest", "desc": "A formal declaration in the name of every champion whose trophy hangs in the games hall. Witnessed by the Elder and sealed by Captain Thorin." },
+        "friendship": { "trophy-keeper-orin": 45 }
+      }
+    },
+    {
+      "id": "aldous-the-hearthstone",
+      "title": "The Hearthstone",
+      "type": "fetch",
+      "giverNpcId": "home-steward",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:aldous-passage-explored|quest:elder-rallying-the-hub",
+      "offerDialogue": "The passage evidence led me to one more discovery — a hidden vault beneath the home's foundation stone, sealed with the same mark as the Elder's token. Inside: a family heirloom that is also the key to activating the home vault, where a Hearthstone fragment was stored by the original stewards. This belongs to the Elder.",
+      "activeDialogue": "Take the Hearthstone key to the Elder. It is his heritage.",
+      "completeDialogue": "This… this is the seal of the first steward. I have been looking for this for decades. The Hearthstone fragment in the home vault — it has been guarded by this family for generations. I will ensure it is guarded for generations more. Thank you.",
+      "steps": [
+        { "key": "collect-key", "type": "collect", "pickupIds": ["hearthstone-key"], "required": 1 },
+        { "key": "deliver-key", "type": "deliver", "targetNpcId": "elder", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "hearthstone-key", "name": "Hearthstone Key", "icon": "pendant", "desc": "The key to the home vault, bearing the seal of the first steward. Unlocks the chamber where a Hearthstone fragment has been guarded for generations." },
+        "friendship": { "home-steward": 45 },
+        "unlock": "home-vault"
+      }
+    },
+    {
+      "id": "vex-final-trade",
+      "title": "The Final Trade",
+      "type": "chain",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:vex-supply-chain-rebuilt|quest:mira-anti-fracture-charms",
+      "offerDialogue": "One last delivery — three special reagents I sourced through the new supply chain. One to Naia for the reunification protocol, one to Mira for the charm renewal, one to Bramble for the fortification supplies. My best work, and the most important trade I have ever made.",
+      "activeDialogue": "Deliver the reagents to Naia, then Mira, then Bramble.",
+      "completeDialogue": "These are exactly what was needed. Tell Vex — this trade just gave the hub its best chance.",
+      "steps": [
+        { "key": "collect-reagents", "type": "collect", "pickupIds": ["reagent-naia", "reagent-mira", "reagent-bramble"], "required": 3 },
+        { "key": "deliver-naia", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 },
+        { "key": "deliver-mira", "type": "deliver", "targetNpcId": "mira", "required": 1 },
+        { "key": "deliver-bramble", "type": "deliver", "targetNpcId": "bramble", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 150,
+        "friendship": { "merchant": 45 }
+      }
+    },
+    {
+      "id": "elder-the-convergence",
+      "title": "The Convergence",
+      "type": "lost-items",
+      "giverNpcId": "elder",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:elder-rallying-the-hub|quest:naia-heartstone-location|quest:thorin-vault-preparation|quest:mira-anti-fracture-charms",
+      "offerDialogue": "The time has come. The reunification protocol requires four Convergence Shards — natural resonance anchors that stabilise the process. They are scattered across the hub's oldest points: the courtyard foundation, the pond's edge, the scholars' cornerstone, and the barracks gate. Retrieve them.",
+      "activeDialogue": "Four Convergence Shards — crystalline, warm to touch, glowing faintly amber. At the four oldest points of the hub.",
+      "completeDialogue": "You have them. All four. Now — with the Hearthstone fragments secured and the reunification protocol in hand — we are ready. This is what we have been building toward. Thank you. Every person in this hub owes you more than words can carry.",
+      "steps": [
+        { "key": "shards", "type": "collect", "pickupIds": ["convergence-shard-1", "convergence-shard-2", "convergence-shard-3", "convergence-shard-4"], "required": 4 }
+      ],
+      "reward": {
+        "collectible": { "id": "convergence-pendant", "name": "Convergence Pendant", "icon": "goldChest", "desc": "A pendant forged from the four Convergence Shards — a symbol that the hub stood together when it mattered most." },
+        "friendship": { "elder": 60, "guard-captain-thorin": 10, "naia-interior": 10, "innkeeper-rosie": 10, "guild-master-ferryn": 10, "drill-sergeant-varn": 10, "cartographer-bram": 10, "apprentice-lyss": 10, "professor-aldric": 10, "mira": 10, "fisherman": 10, "market-warden-syla": 10, "games-host-zev": 10, "trophy-keeper-orin": 10, "dealer": 10, "gildwyn": 10, "bramble": 10, "merchant": 10, "home-steward": 10 }
+      }
+    },
+    {
+      "id": "thorin-the-last-watch",
+      "title": "The Last Watch",
+      "type": "chain",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:elder-the-convergence|quest:lyss-the-final-cipher|quest:alric-heartstone-analysis|quest:thorin-hub-defense-plan",
+      "offerDialogue": "This is it. The Hearthstone is to be reunified tonight. Each guardian must bless it at their station — the Elder, Naia, Rosie, Ferryn, Vex, and old Greyfish. I carry the Hearthstone itself. You carry the word. Go to each of them, in order, and let them know. They will know what to do.",
+      "activeDialogue": "Bring the word to each guardian in order. They are waiting.",
+      "completeDialogue": "The last watch is kept. The Hearthstone is whole. The Fracture's grip on this hub breaks today.",
+      "steps": [
+        { "key": "collect-hearthstone", "type": "collect", "pickupIds": ["hearthstone-final"], "required": 1 },
+        { "key": "bless-elder", "type": "deliver", "targetNpcId": "elder", "required": 1 },
+        { "key": "bless-naia", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 },
+        { "key": "bless-rosie", "type": "deliver", "targetNpcId": "innkeeper-rosie", "required": 1 },
+        { "key": "bless-ferryn", "type": "deliver", "targetNpcId": "guild-master-ferryn", "required": 1 },
+        { "key": "bless-merchant", "type": "deliver", "targetNpcId": "merchant", "required": 1 },
+        { "key": "bless-fisherman", "type": "deliver", "targetNpcId": "fisherman", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 200,
+        "collectible": { "id": "hearthstone", "name": "The Hearthstone", "icon": "goldChest", "desc": "The reunified Hearthstone — three fragments made whole. The Fracture's hold on the hub is broken, and this artefact stands as proof that the hub endured." },
+        "friendship": { "guard-captain-thorin": 50, "elder": 20, "naia-interior": 20, "innkeeper-rosie": 20, "guild-master-ferryn": 20, "merchant": 20, "fisherman": 20, "drill-sergeant-varn": 15, "cartographer-bram": 15, "apprentice-lyss": 15, "professor-aldric": 15, "mira": 15, "market-warden-syla": 15, "games-host-zev": 15, "trophy-keeper-orin": 15, "dealer": 15, "gildwyn": 15, "bramble": 15, "home-steward": 15 },
+        "unlock": "hub-monument"
+      }
+    }
+  ],
+  "innRumours": [
+    { "id": "rumour-bram",      "text": "Cartographer Bram has been charting every street twice. Something about the maps not matching what he remembers." },
+    { "id": "rumour-fisherman", "text": "Old Greyfish has been sleeping at the pond lately. Says he doesn't trust what's happening under the water." },
+    { "id": "rumour-barracks",  "text": "The south barracks wing has been sealed for years. Captain Thorin keeps to himself about it…" },
+    { "id": "rumour-elder",     "text": "The Elder was pacing the courtyard today, muttering about lost things." },
+    { "id": "rumour-vex",       "text": "Vex keeps badgering every traveller about rare herbs. If you find some, he pays well." },
+    { "id": "rumour-naia",      "text": "That archivist Naia never leaves the scholars' hall. Something about old books she cannot find." },
+    { "id": "rumour-pond",      "text": "Old Greyfish says the pond shimmers at night. Strange glimmers beneath the water, he says…" }
+  ],
+  "friendshipDialogue": {
+    "elder": {
+      "2": "Ah, I remember you. You found my pendants. Come and sit a moment.",
+      "4": "You have become part of this town's story now, traveller. Few earn that."
+    },
+    "innkeeper-rosie": {
+      "2": "Always good to see a friendly face! About that favour I mentioned…",
+      "3": "Your room is free of charge, of course. It is the least I can do."
+    },
+    "naia-interior": {
+      "3": "Ah, my favourite bibliophile! I have been cataloguing your finds. Quite remarkable."
+    },
+    "merchant": {
+      "2": "For you, I will cut a special deal. You have good taste in rare ingredients."
+    },
+    "guard-captain-thorin": {
+      "2": "I do not forget those who help me. You have my respect, traveller."
+    }
+  }
+}
