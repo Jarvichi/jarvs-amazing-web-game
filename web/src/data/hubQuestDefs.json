@@ -330,6 +330,96 @@
         "collectible": { "id": "rosies-stew-recipe", "name": "Rosie's Stew Recipe", "icon": "📋", "desc": "A hand-written card with Rosie's grandmother's recipe. It smells faintly of herbs." },
         "friendship": { "innkeeper-rosie": 25 }
       }
+    },
+    {
+      "id": "vex-trade-ledger",
+      "title": "The Trade Ledger",
+      "type": "fetch",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:merchants-herb",
+      "offerDialogue": "Ferryn has been pestering me for the quarterly trade ledger. Fine — but I am not walking it over myself. It is on the counter. Take it to the guild hall.",
+      "activeDialogue": "Guild Master Ferryn is in the traders' building to the south-west. Try not to read it.",
+      "completeDialogue": "At last! Vex takes his time. Thank you for the legwork — much appreciated.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "guild-master-ferryn", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": { "merchant": 15, "guild-master-ferryn": 15 }
+      }
+    },
+    {
+      "id": "elder-fracture-memory",
+      "title": "Fracture Memories",
+      "type": "lost-items",
+      "giverNpcId": "elder",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:lost-pendant",
+      "offerDialogue": "There is something I have not told anyone. Since the Fracture, I have felt… echoes. Fragments of memory that are not mine — left behind, like stones in the road. Three of them linger near places that once mattered. Would you collect them for me? I cannot bring myself to go.",
+      "activeDialogue": "Three memory shards — they look like pale stones that glow faintly. They are near the courtyard fountain, the scholars' quarter, and the fishing pond.",
+      "completeDialogue": "I can feel the weight of them even now. These belonged to people who are gone. I will keep them safe. Thank you, traveller — you have more courage than you know.",
+      "steps": [
+        { "key": "shards", "type": "collect", "pickupIds": ["memory-shard-1", "memory-shard-2", "memory-shard-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "elder": 30 }
+      }
+    },
+    {
+      "id": "greyfishs-strange-catch",
+      "title": "A Strange Catch",
+      "type": "fetch",
+      "giverNpcId": "fisherman",
+      "receiverNpcId": "fisherman",
+      "prerequisite": "quest:greyfishs-bait",
+      "offerDialogue": "Something down there caught my hook last night — and it wasn't a fish. I pulled it free and tossed it up the bank before it got dark. Still there this morning, glowing. I'm not touching it again. Would you bring it to me?",
+      "activeDialogue": "It's on the far bank of the pond — something pale and glowing. You will see it easily enough.",
+      "completeDialogue": "There it is. Strange thing — it hums, like it's listening. I've fished these waters forty years and never seen the like. You keep it. I want nothing to do with it.",
+      "steps": [
+        { "key": "catch", "type": "collect", "pickupIds": ["strange-catch"], "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "fracture-echo-stone", "name": "Echo Stone", "icon": "🪨", "desc": "A pale, faintly humming stone dredged from the pond. It seems to respond to nearby voices." },
+        "friendship": { "fisherman": 25 }
+      }
+    },
+    {
+      "id": "naia-missing-records",
+      "title": "Missing Records",
+      "type": "lost-items",
+      "giverNpcId": "naia-interior",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:scholars-anthology",
+      "offerDialogue": "Someone has been through the restricted archive. Three pages are missing from the pre-Fracture census — torn out carefully, which tells me it was deliberate. The pages were small; someone could have left them anywhere. I need those records back.",
+      "activeDialogue": "Look carefully — someone removed the pages from the restricted section. They could be anywhere in the scholars' quarter.",
+      "completeDialogue": "Every one recovered. The handwriting is intact. I will make copies and lock the originals away this time. Something about this troubles me deeply, Commander.",
+      "steps": [
+        { "key": "pages", "type": "collect", "pickupIds": ["record-page-1", "record-page-2", "record-page-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "naia-interior": 25 }
+      }
+    },
+    {
+      "id": "thorin-missing-guard",
+      "title": "The Missing Guard",
+      "type": "lost-items",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:innkeepers-package",
+      "offerDialogue": "One of my guards did not report for duty this morning. It is unlike him. I found signs of a scuffle near the south perimeter — something was left behind. Three items. I need them before I know what to do next.",
+      "activeDialogue": "Check around the south barracks perimeter and the yard. Anything left at the scene — bring it to me.",
+      "completeDialogue": "A flask, a torn badge, and a folded note. The note is in cipher. This is no desertion — something happened here. I will look into it.",
+      "steps": [
+        { "key": "clues", "type": "collect", "pickupIds": ["guard-clue-1", "guard-clue-2", "guard-clue-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 70,
+        "friendship": { "guard-captain-thorin": 30 }
+      }
     }
   ],
   "innRumours": [
