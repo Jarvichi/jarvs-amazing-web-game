@@ -220,8 +220,12 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       return
     }
     if (screen === 'campaign') { onCampaign?.(); return }
+    if (screen === 'commander' && !commander) {
+      setDialogueEvent({ speakerName: "Commander's Post", text: "No commander assigned yet. Complete a campaign battle to unlock your commander." })
+      return
+    }
     onNavigate?.(screen)
-  }, [onNavigate, onCampaign])
+  }, [onNavigate, onCampaign, commander])
 
   const handleReturn = useCallback(() => {
     returnRef.current?.()
@@ -382,9 +386,16 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       }
     }
 
+    // ── Screen navigation fallthrough ────────────────────────────────────────
+    // Reached when NPC has screen + quest but the quest is completed (or unavailable).
+    if (npcDef?.screen) {
+      handleNodeInteract(npcDef.screen)
+      return
+    }
+
     // ── Default dialogue ─────────────────────────────────────────────────────
     setDialogueEvent({ speakerName, text: line })
-  }, [refreshState])
+  }, [refreshState, handleNodeInteract])
 
   return (
     <OverlayScreen title="JARVS AMAZING WEB GAME">
