@@ -15,6 +15,7 @@ import { EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCK
 import { loadPlayerAvatar } from '../../game/questline'
 import type { HubNpc } from '../../data/hubConfigLoader'
 import { CommanderState } from '../../game/commander'
+import rollbar from '../../rollbar'
 
 
 const HUB_ENV           = 'camp'
@@ -141,15 +142,15 @@ export function HubTownCanvas({
     buildTerrainGfx(baseContainer, riverContainer, worldLayer,
       { environment: HUB_ENV, id: 'hubworld', terrainItems: [] }, MAP_W, MAP_H)
     buildBgTileGfx(baseContainer, { environment: HUB_ENV }, MAP_W, MAP_H)
-      .catch(e => console.error('[HubTownCanvas] bg tiles failed', e))
+      .catch(e => rollbar.error('[HubTownCanvas] bg tiles failed', { error: String(e) }))
     buildDecorGfx(groundLayer, { environment: HUB_ENV, id: 'hubworld' }, MAP_W, MAP_H)
-      .catch(e => console.error('[HubTownCanvas] decor tiles failed', e))
+      .catch(e => rollbar.error('[HubTownCanvas] decor tiles failed', { error: String(e) }))
 
     // ── Pond (Greyfish Pond) — water path tiles ───────────────────────────────
     {
       const pondSet = new Set(HUB_POND_TILES.map(([tx, ty]) => `${tx},${ty}`))
       renderPathTiles(pondLayer, pondSet, undefined, PATH_TILE.water1, true)
-        .catch(e => console.error('[HubTownCanvas] pond tiles failed', e))
+        .catch(e => rollbar.error('[HubTownCanvas] pond tiles failed', { error: String(e) }))
     }
 
     // ── Streets ────────────────────────────────────────────────────────────────
@@ -158,7 +159,7 @@ export function HubTownCanvas({
       const groupSet = new Set(group.tiles.map(([tx, ty]) => `${tx},${ty}`))
       const tileOverride = group.pathType ? PATH_TILE[group.pathType as keyof typeof PATH_TILE] : undefined
       renderPathTiles(streetLayer, groupSet, tileOverride ? undefined : HUB_ENV, tileOverride)
-        .catch(e => console.error('[HubTownCanvas] street tiles failed', e))
+        .catch(e => rollbar.error('[HubTownCanvas] street tiles failed', { error: String(e) }))
     }
 
     // Building tile set — derived from HUB_BUILDINGS, used for tap routing
@@ -252,7 +253,7 @@ export function HubTownCanvas({
         }).catch(() => {})
       }
 
-      Promise.all(fallbackPromises).catch(e => console.error('[HubTownCanvas] building tiles failed', e))
+      Promise.all(fallbackPromises).catch(e => rollbar.error('[HubTownCanvas] building tiles failed', { error: String(e) }))
     }
 
     // ── Door signs ─────────────────────────────────────────────────────────────
@@ -453,7 +454,7 @@ export function HubTownCanvas({
         avatarLayer.addChild(s)
       }
       avatar = s
-    }).catch(e => console.error('[HubTownCanvas] avatar load failed', e))
+    }).catch(e => rollbar.error('[HubTownCanvas] avatar load failed', { error: String(e) }))
 
     // ── NPC dialogue index (shared across exterior and interior NPCs) ──────────
     const npcDialogueIndex = new Map<string, number>()
@@ -528,7 +529,7 @@ export function HubTownCanvas({
             })
           }).catch(() => {})
         }
-      }).catch(e => console.error(`[HubTownCanvas] NPC sprite failed: ${npcSpriteSlug}`, e))
+      }).catch(e => rollbar.error('[HubTownCanvas] NPC sprite failed', { sprite: npcSpriteSlug, error: String(e) }))
     }
 
     // ── NPC name tags (show within 5 tiles of avatar) ─────────────────────────
@@ -599,18 +600,23 @@ export function HubTownCanvas({
     })
 
     async function processNpcWalkQueue(npc: UnitNpcState) {
-      if (npc.walkQueue.length === 0) { npc.isWalking = false; return }
-      npc.isWalking = true
-      const [tx, ty] = npc.walkQueue.shift()!
-      const targetX  = tx * T + T / 2
-      const targetY  = ty * T + T
-      const dist     = Math.hypot(targetX - npc.sprite.x, targetY - npc.sprite.y)
-      const duration = (dist / NPC_WALK_PX_PER_S) * 1000
-      if (targetX < npc.sprite.x - 1) npc.sprite.scale.x = -Math.abs(npc.sprite.scale.x)
-      else if (targetX > npc.sprite.x + 1) npc.sprite.scale.x = Math.abs(npc.sprite.scale.x)
-      await tweenLinear(npc.sprite, targetX, targetY, duration)
-      npc.currentTile = [tx, ty]
-      processNpcWalkQueue(npc)
+      try {
+        if (npc.walkQueue.length === 0) { npc.isWalking = false; return }
+        npc.isWalking = true
+        const [tx, ty] = npc.walkQueue.shift()!
+        const targetX  = tx * T + T / 2
+        const targetY  = ty * T + T
+        const dist     = Math.hypot(targetX - npc.sprite.x, targetY - npc.sprite.y)
+        const duration = (dist / NPC_WALK_PX_PER_S) * 1000
+        if (targetX < npc.sprite.x - 1) npc.sprite.scale.x = -Math.abs(npc.sprite.scale.x)
+        else if (targetX > npc.sprite.x + 1) npc.sprite.scale.x = Math.abs(npc.sprite.scale.x)
+        await tweenLinear(npc.sprite, targetX, targetY, duration)
+        npc.currentTile = [tx, ty]
+        processNpcWalkQueue(npc)
+      } catch (e) {
+        npc.isWalking = false
+        rollbar.error('[HubTownCanvas] processNpcWalkQueue error', { error: String(e) })
+      }
     }
 
     function wanderNpc(npc: UnitNpcState) {
@@ -665,41 +671,46 @@ export function HubTownCanvas({
 
     // ── Interior exit ──────────────────────────────────────────────────────────
     const doExitInterior = () => {
-      if (!interiorActive) return
-      interiorActive = false
-      interiorIsWalking = false
-      interiorWalkQueue = []
+      try {
+        if (!interiorActive) return
+        interiorActive = false
+        interiorIsWalking = false
+        interiorWalkQueue = []
 
-      // Restore exterior
-      groundLayer.visible   = true
-      streetLayer.visible   = true
-      buildingLayer.visible = true
-      nodeLayer.visible     = true
-      npcLayer.visible      = true
+        // Restore exterior
+        groundLayer.visible   = true
+        streetLayer.visible   = true
+        buildingLayer.visible = true
+        nodeLayer.visible     = true
+        npcLayer.visible      = true
 
-      // Move avatar back to exterior door position
-      if (avatar && avatarInInterior) {
-        interiorLayer.removeChild(avatar)
-        avatarLayer.addChild(avatar)
-        avatarInInterior = false
-        const door = HUB_DOORS.find(d => d.buildingId === currentInteriorId)
-        if (door) {
-          avatar.x = door.tx * T + T / 2
-          avatar.y = door.ty * T + T
-          currentTile = [door.tx, door.ty]
+        // Move avatar back to exterior door position
+        if (avatar && avatarInInterior) {
+          interiorLayer.removeChild(avatar)
+          avatarLayer.addChild(avatar)
+          avatarInInterior = false
+          const door = HUB_DOORS.find(d => d.buildingId === currentInteriorId)
+          if (door) {
+            avatar.x = door.tx * T + T / 2
+            avatar.y = door.ty * T + T
+            currentTile = [door.tx, door.ty]
+          }
+          onAvatarMoveRef.current(avatar.x, avatar.y)
         }
-        onAvatarMoveRef.current(avatar.x, avatar.y)
-      }
 
-      interiorLayer.visible = false
-      interiorLayer.removeChildren()
-      currentInteriorId = null
-      highlightGfx.clear()
-      onExitInteriorRef.current?.()
+        interiorLayer.visible = false
+        interiorLayer.removeChildren()
+        currentInteriorId = null
+        highlightGfx.clear()
+        onExitInteriorRef.current?.()
+      } catch (e) {
+        rollbar.error('[HubTownCanvas] doExitInterior error', { error: String(e) })
+      }
     }
 
     // ── Interior enter ─────────────────────────────────────────────────────────
     const doEnterInterior = (buildingId: string) => {
+      try {
       // Locked door check — block entry if key not in inventory
       const lock = HUB_LOCKED_DOORS.find(l => l.buildingId === buildingId)
       if (lock && !doorKeysRef.current?.has(lock.lockedBy)) {
@@ -927,6 +938,9 @@ export function HubTownCanvas({
 
       // Scroll viewport to center on interior
       onAvatarMoveRef.current(intOffX + entryTile[0] * T + T / 2, intOffY + entryTile[1] * T + T / 2)
+      } catch (e) {
+        rollbar.error('[HubTownCanvas] doEnterInterior error', { buildingId, error: String(e) })
+      }
     }
 
     if (interiorEnterRef) interiorEnterRef.current = doEnterInterior
@@ -934,24 +948,29 @@ export function HubTownCanvas({
 
     // ── Interior walk queue ────────────────────────────────────────────────────
     async function processInteriorWalkQueue() {
-      if (interiorWalkQueue.length === 0) { interiorIsWalking = false; return }
-      interiorIsWalking = true
-      const [ntx, nty] = interiorWalkQueue.shift()!
-      const px = ntx * T + T / 2
-      const py = nty * T + T
-      const av = avatar
-      if (!av) { interiorCurrentTile = [ntx, nty]; processInteriorWalkQueue(); return }
-      if (px < av.x - 1) av.scale.x = -Math.abs(av.scale.x)
-      else if (px > av.x + 1) av.scale.x = Math.abs(av.scale.x)
-      const dist = Math.hypot(px - av.x, py - av.y)
-      await tweenLinear(av, px, py, (dist / WALK_PX_PER_S) * 1000)
-      interiorCurrentTile = [ntx, nty]
-      if (ntx === interiorExitTile[0] && nty === interiorExitTile[1]) {
+      try {
+        if (interiorWalkQueue.length === 0) { interiorIsWalking = false; return }
+        interiorIsWalking = true
+        const [ntx, nty] = interiorWalkQueue.shift()!
+        const px = ntx * T + T / 2
+        const py = nty * T + T
+        const av = avatar
+        if (!av) { interiorCurrentTile = [ntx, nty]; processInteriorWalkQueue(); return }
+        if (px < av.x - 1) av.scale.x = -Math.abs(av.scale.x)
+        else if (px > av.x + 1) av.scale.x = Math.abs(av.scale.x)
+        const dist = Math.hypot(px - av.x, py - av.y)
+        await tweenLinear(av, px, py, (dist / WALK_PX_PER_S) * 1000)
+        interiorCurrentTile = [ntx, nty]
+        if (ntx === interiorExitTile[0] && nty === interiorExitTile[1]) {
+          interiorIsWalking = false
+          doExitInterior()
+          return
+        }
+        processInteriorWalkQueue()
+      } catch (e) {
         interiorIsWalking = false
-        doExitInterior()
-        return
+        rollbar.error('[HubTownCanvas] processInteriorWalkQueue error', { error: String(e) })
       }
-      processInteriorWalkQueue()
     }
 
     // ── Idle speech bubble state ───────────────────────────────────────────────
@@ -1008,51 +1027,56 @@ export function HubTownCanvas({
 
     // ── Exterior walk queue ────────────────────────────────────────────────────
     async function processWalkQueue() {
-      if (walkQueue.length === 0) {
-        isWalking = false
-        if (pendingScreen) {
-          const s = pendingScreen
-          pendingScreen = null
-          onNodeInteractRef.current(s)
+      try {
+        if (walkQueue.length === 0) {
+          isWalking = false
+          if (pendingScreen) {
+            const s = pendingScreen
+            pendingScreen = null
+            onNodeInteractRef.current(s)
+          }
+          return
         }
-        return
+        isWalking = true
+        const [tx, ty] = walkQueue.shift()!
+        const av = avatar
+        if (!av) { currentTile = [tx, ty]; processWalkQueue(); return }
+
+        const targetX  = tx * T + T / 2
+        const targetY  = ty * T + T
+        const dist     = Math.hypot(targetX - av.x, targetY - av.y)
+        const duration = (dist / WALK_PX_PER_S) * 1000
+
+        if (targetX < av.x - 1) av.scale.x = -Math.abs(av.scale.x)
+        else if (targetX > av.x + 1) av.scale.x = Math.abs(av.scale.x)
+
+        await tweenLinear(av, targetX, targetY, duration)
+        currentTile = [tx, ty]
+        _savedTile  = [tx, ty]
+
+        // Update area name on each tile step (works on mobile where pointermove doesn't fire)
+        const tilePixX = tx * T + T / 2
+        const tilePixY = ty * T + T / 2
+        const walkedArea = HUB_AREAS.find(
+          a => tilePixX >= a.x && tilePixX < a.x + a.w && tilePixY >= a.y && tilePixY < a.y + a.h
+        )
+        if (walkedArea) onAreaRef.current(walkedArea.name)
+
+        // Door detection — entering a building triggers interior view
+        const door = HUB_DOORS.find(d => d.tx === currentTile[0] && d.ty === currentTile[1])
+        if (door) {
+          isWalking     = false
+          walkQueue     = []
+          pendingScreen = null
+          onNodeInteractRef.current(`interior:${door.buildingId}`)
+          return
+        }
+
+        processWalkQueue()
+      } catch (e) {
+        isWalking = false
+        rollbar.error('[HubTownCanvas] processWalkQueue error', { error: String(e) })
       }
-      isWalking = true
-      const [tx, ty] = walkQueue.shift()!
-      const av = avatar
-      if (!av) { currentTile = [tx, ty]; processWalkQueue(); return }
-
-      const targetX  = tx * T + T / 2
-      const targetY  = ty * T + T
-      const dist     = Math.hypot(targetX - av.x, targetY - av.y)
-      const duration = (dist / WALK_PX_PER_S) * 1000
-
-      if (targetX < av.x - 1) av.scale.x = -Math.abs(av.scale.x)
-      else if (targetX > av.x + 1) av.scale.x = Math.abs(av.scale.x)
-
-      await tweenLinear(av, targetX, targetY, duration)
-      currentTile = [tx, ty]
-      _savedTile  = [tx, ty]
-
-      // Update area name on each tile step (works on mobile where pointermove doesn't fire)
-      const tilePixX = tx * T + T / 2
-      const tilePixY = ty * T + T / 2
-      const walkedArea = HUB_AREAS.find(
-        a => tilePixX >= a.x && tilePixX < a.x + a.w && tilePixY >= a.y && tilePixY < a.y + a.h
-      )
-      if (walkedArea) onAreaRef.current(walkedArea.name)
-
-      // Door detection — entering a building triggers interior view
-      const door = HUB_DOORS.find(d => d.tx === currentTile[0] && d.ty === currentTile[1])
-      if (door) {
-        isWalking     = false
-        walkQueue     = []
-        pendingScreen = null
-        onNodeInteractRef.current(`interior:${door.buildingId}`)
-        return
-      }
-
-      processWalkQueue()
     }
 
     function startWalk(target: [number, number], nodeScreen?: string) {
@@ -1147,7 +1171,9 @@ export function HubTownCanvas({
     }
 
     // ── Per-frame ──────────────────────────────────────────────────────────────
+    let _tickerErrorTs = 0
     app.ticker.add((ticker) => {
+      try {
       // Avatar animation + position report
       if (avatar) {
         // Report stage-space position (accounts for interior layer offset)
@@ -1251,6 +1277,13 @@ export function HubTownCanvas({
               activeBubbles.splice(i, 1)
             }
           }
+        }
+      }
+      } catch (e) {
+        const now = Date.now()
+        if (now - _tickerErrorTs > 5000) {
+          _tickerErrorTs = now
+          rollbar.error('[HubTownCanvas] ticker error', { error: String(e) })
         }
       }
     })
