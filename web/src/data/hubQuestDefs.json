@@ -245,9 +245,96 @@
         "crystals": 45,
         "friendship": { "market-warden-syla": 20 }
       }
+    },
+    {
+      "id": "varn-training-weights",
+      "title": "Missing Weights",
+      "type": "lost-items",
+      "giverNpcId": "drill-sergeant-varn",
+      "receiverNpcId": "drill-sergeant-varn",
+      "offerDialogue": "Someone's been shifting my training weights around — probably recruits messing about after drills. Three of them are missing from the yard. Track them down before I assign extra duties to everyone.",
+      "activeDialogue": "Three iron weights — they're heavy, you'll know them by sight. Check around the barracks yard.",
+      "completeDialogue": "Every last one. Back in position. Good work — you move like someone who's had proper training.",
+      "steps": [
+        { "key": "weights", "type": "collect", "pickupIds": ["weight-1", "weight-2", "weight-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": { "drill-sergeant-varn": 20 }
+      }
+    },
+    {
+      "id": "thorin-security-report",
+      "title": "Patrol Reports",
+      "type": "lost-items",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "guard-captain-thorin",
+      "offerDialogue": "My guards filed their patrol reports but forgot to hand them in — left them sitting around the perimeter. Three reports, three different sections of the wall. I need them on my desk by nightfall.",
+      "activeDialogue": "Three patrol reports — my guards leave them wherever they stand when the shift ends. Check around the barracks perimeter.",
+      "completeDialogue": "All three. I will be having words with the patrol about proper procedure. My thanks for the retrieval — you saved me a round of the walls.",
+      "steps": [
+        { "key": "reports", "type": "collect", "pickupIds": ["patrol-report-1", "patrol-report-2", "patrol-report-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": { "guard-captain-thorin": 20 }
+      }
+    },
+    {
+      "id": "zev-game-prize-restock",
+      "title": "Prize Restock",
+      "type": "lost-items",
+      "giverNpcId": "games-host-zev",
+      "receiverNpcId": "games-host-zev",
+      "offerDialogue": "Last night's big winners walked off with their prizes — fine — but they also pocketed the display tokens! Three of my best arcade tokens, gone. Help me track them down and I will make it worth your while.",
+      "activeDialogue": "Prize tokens — brass, about this big. Someone scattered them around the arcade quarter. Check the stalls and the street.",
+      "completeDialogue": "My tokens! Now the display cases look full again. Appearances matter in this business. Here is your cut.",
+      "steps": [
+        { "key": "tokens", "type": "collect", "pickupIds": ["prize-token-1", "prize-token-2", "prize-token-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 35,
+        "friendship": { "games-host-zev": 20 }
+      }
+    },
+    {
+      "id": "orin-missing-trophy",
+      "title": "The Missing Trophy",
+      "type": "fetch",
+      "giverNpcId": "trophy-keeper-orin",
+      "receiverNpcId": "trophy-keeper-orin",
+      "offerDialogue": "The Ironwall Cup has vanished from its case. It is the oldest trophy in this hall — won before the Fracture. Someone moved it, and I suspect it ended up in the barracks. Retrieve it with care.",
+      "activeDialogue": "The Ironwall Cup — a wide bronze base, the name engraved on the plaque. Someone brought it to the north barracks. Go carefully.",
+      "completeDialogue": "You found it — and undamaged. This trophy survived the Fracture. I will not let it survive careless handling. My deepest thanks.",
+      "steps": [
+        { "key": "trophy", "type": "collect", "pickupIds": ["ironwall-cup"], "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "ironwall-cup-replica", "name": "Ironwall Cup Replica", "icon": "🏆", "desc": "A small replica made by Orin as thanks. The original is safely back on its pedestal." },
+        "friendship": { "trophy-keeper-orin": 20 }
+      }
+    },
+    {
+      "id": "rosie-recipe",
+      "title": "A Taste of Home",
+      "type": "lost-items",
+      "giverNpcId": "innkeeper-rosie",
+      "receiverNpcId": "innkeeper-rosie",
+      "offerDialogue": "I'm trying to recreate my grandmother's famous stew for the festival — but I need a sprig of marsh thyme and some peppercorn from the market stores. My hands are full here. Could you fetch them for me?",
+      "activeDialogue": "Marsh thyme grows near the pond — you'll smell it before you see it. The peppercorn should be in the market building.",
+      "completeDialogue": "Perfect! The stew is going to be wonderful. You are always welcome at my table, Commander. Always.",
+      "steps": [
+        { "key": "ingredients", "type": "collect", "pickupIds": ["marsh-thyme", "market-peppercorn"], "required": 2 }
+      ],
+      "reward": {
+        "collectible": { "id": "rosies-stew-recipe", "name": "Rosie's Stew Recipe", "icon": "📋", "desc": "A hand-written card with Rosie's grandmother's recipe. It smells faintly of herbs." },
+        "friendship": { "innkeeper-rosie": 25 }
+      }
     }
   ],
   "innRumours": [
+    { "id": "rumour-bram",      "text": "Cartographer Bram has been charting every street twice. Something about the maps not matching what he remembers." },
+    { "id": "rumour-fisherman", "text": "Old Greyfish has been sleeping at the pond lately. Says he doesn't trust what's happening under the water." },
     { "id": "rumour-barracks",  "text": "The south barracks wing has been sealed for years. Captain Thorin keeps to himself about it…" },
     { "id": "rumour-elder",     "text": "The Elder was pacing the courtyard today, muttering about lost things." },
     { "id": "rumour-vex",       "text": "Vex keeps badgering every traveller about rare herbs. If you find some, he pays well." },

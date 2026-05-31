@@ -2435,7 +2435,19 @@
     { "id": "guild-ledger",     "tx": 3,  "ty": 3,  "tileId": "blackclosedBook","questId": "ferryn-ledger",      "building": "trader-den" },
     { "id": "survey-note-1",    "tx": 4,  "ty": 24, "tileId": "closedBook",    "questId": "sylas-market-survey" },
     { "id": "survey-note-2",    "tx": 17, "ty": 25, "tileId": "closedBook",    "questId": "sylas-market-survey" },
-    { "id": "survey-note-3",    "tx": 28, "ty": 24, "tileId": "closedBook",    "questId": "sylas-market-survey" }
+    { "id": "survey-note-3",    "tx": 28, "ty": 24, "tileId": "closedBook",    "questId": "sylas-market-survey" },
+    { "id": "weight-1",         "tx": 62, "ty": 37, "tileId": "barrel",        "questId": "varn-training-weights" },
+    { "id": "weight-2",         "tx": 67, "ty": 44, "tileId": "barrel",        "questId": "varn-training-weights" },
+    { "id": "weight-3",         "tx": 5,  "ty": 5,  "tileId": "barrel",        "questId": "varn-training-weights", "building": "barracks-south" },
+    { "id": "patrol-report-1",  "tx": 60, "ty": 26, "tileId": "closedBook",    "questId": "thorin-security-report" },
+    { "id": "patrol-report-2",  "tx": 68, "ty": 31, "tileId": "closedBook",    "questId": "thorin-security-report" },
+    { "id": "patrol-report-3",  "tx": 62, "ty": 48, "tileId": "closedBook",    "questId": "thorin-security-report" },
+    { "id": "prize-token-1",    "tx": 45, "ty": 25, "tileId": "pendant",       "questId": "zev-game-prize-restock" },
+    { "id": "prize-token-2",    "tx": 52, "ty": 25, "tileId": "pendant",       "questId": "zev-game-prize-restock" },
+    { "id": "prize-token-3",    "tx": 5,  "ty": 6,  "tileId": "pendant",       "questId": "zev-game-prize-restock", "building": "arcade-building-e" },
+    { "id": "ironwall-cup",     "tx": 4,  "ty": 5,  "tileId": "goldChest",     "questId": "orin-missing-trophy",   "building": "barracks-north" },
+    { "id": "marsh-thyme",      "tx": 8,  "ty": 41, "tileId": "bunchOfHerbs",  "questId": "rosie-recipe" },
+    { "id": "market-peppercorn","tx": 4,  "ty": 4,  "tileId": "bunchOfHerbs",  "questId": "rosie-recipe", "building": "market-building" }
   ],
   "lockedDoors": [
     {
