@@ -1814,7 +1814,8 @@
         "Been sitting at this pond since before the Fracture. The water's gone quiet lately \u2014 something's stirring beneath.",
         "I pulled out a strange glowing fish last week. Threw it back \u2014 some things are better left undisturbed.",
         "Patience, wanderer. The best things in life take time."
-      ]
+      ],
+      "questReceive": "fisherman-fracture-depths"
     },
     {
       "id": "dealer",
@@ -2563,7 +2564,20 @@
     { "id": "echo-card-set-2",   "tx": 4,  "ty": 5,  "tileId": "blueclosedBook", "questId": "gildwyn-echo-deck-master", "building": "arcade-building-w" },
     { "id": "echo-card-set-3",   "tx": 50, "ty": 22, "tileId": "blueclosedBook", "questId": "gildwyn-echo-deck-master" },
     { "id": "cipher-fragment-a", "tx": 4,  "ty": 6,  "tileId": "blueclosedBook", "questId": "lyss-unlock-the-cipher", "building": "scholars-north-w" },
-    { "id": "cipher-fragment-b", "tx": 6,  "ty": 3,  "tileId": "blueclosedBook", "questId": "lyss-unlock-the-cipher", "building": "scholars-hall" }
+    { "id": "cipher-fragment-b", "tx": 6,  "ty": 3,  "tileId": "blueclosedBook", "questId": "lyss-unlock-the-cipher", "building": "scholars-hall" },
+    { "id": "shelter-package-1", "tx": 70, "ty": 35, "tileId": "crate",          "questId": "rosie-shelter-for-families" },
+    { "id": "shelter-package-2", "tx": 3,  "ty": 40, "tileId": "crate",          "questId": "rosie-shelter-for-families" },
+    { "id": "shelter-package-3", "tx": 54, "ty": 6,  "tileId": "crate",          "questId": "rosie-shelter-for-families" },
+    { "id": "fracture-residue-1","tx": 73, "ty": 30, "tileId": "greenclosedBook","questId": "alric-fracture-study" },
+    { "id": "fracture-residue-2","tx": 4,  "ty": 36, "tileId": "greenclosedBook","questId": "alric-fracture-study" },
+    { "id": "fracture-residue-3","tx": 67, "ty": 48, "tileId": "greenclosedBook","questId": "alric-fracture-study" },
+    { "id": "pond-hearthstone-disc","tx": 6, "ty": 39, "tileId": "goldChest",    "questId": "fisherman-fracture-depths" },
+    { "id": "echo-contraband-1", "tx": 8,  "ty": 25, "tileId": "crate",          "questId": "syla-market-purge" },
+    { "id": "echo-contraband-2", "tx": 20, "ty": 26, "tileId": "crate",          "questId": "syla-market-purge" },
+    { "id": "echo-contraband-3", "tx": 30, "ty": 26, "tileId": "crate",          "questId": "syla-market-purge" },
+    { "id": "surveillance-device-1","tx": 3, "ty": 3, "tileId": "chest",         "questId": "zev-games-hall-clear", "building": "arcade-building-e" },
+    { "id": "surveillance-device-2","tx": 6, "ty": 3, "tileId": "chest",         "questId": "zev-games-hall-clear", "building": "arcade-building-e" },
+    { "id": "surveillance-device-3","tx": 4, "ty": 3, "tileId": "chest",         "questId": "zev-games-hall-clear", "building": "arcade-building-w" }
   ],
   "lockedDoors": [
     {

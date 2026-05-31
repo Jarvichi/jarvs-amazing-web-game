@@ -1223,6 +1223,97 @@
         "crystals": 90,
         "friendship": { "apprentice-lyss": 35 }
       }
+    },
+    {
+      "id": "rosie-shelter-for-families",
+      "title": "Shelter for Families",
+      "type": "lost-items",
+      "giverNpcId": "innkeeper-rosie",
+      "receiverNpcId": "innkeeper-rosie",
+      "prerequisite": "quest:rosie-spy-in-the-inn",
+      "offerDialogue": "After the spy was discovered, three families who used to stay at the inn have gone into hiding — they are afraid to be associated with me. I have prepared supply packages for each family. Help me find where they are sheltering and deliver the packages; I cannot leave the inn right now.",
+      "activeDialogue": "Three supply packages — tied with yellow ribbon. I hid them near the courtyard for collection. The families are sheltering near the east wall, the pond bank, and behind the scholars' quarter.",
+      "completeDialogue": "You found them all? Good. Those families should know they have nothing to fear from me. They were not part of any of this. Thank you — you have a good heart.",
+      "steps": [
+        { "key": "packages", "type": "collect", "pickupIds": ["shelter-package-1", "shelter-package-2", "shelter-package-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "innkeeper-rosie": 40 }
+      }
+    },
+    {
+      "id": "alric-fracture-study",
+      "title": "Fracture Study",
+      "type": "lost-items",
+      "giverNpcId": "professor-aldric",
+      "receiverNpcId": "professor-aldric",
+      "prerequisite": "quest:alric-echo-research",
+      "offerDialogue": "The specimens confirmed my theory. I need three Fracture residue samples from specific resonance points to complete the study — samples that will tell us exactly how much energy the Hearthstone activation would release. The locations are the east gate foundation, the pond edge, and the old barracks tower base.",
+      "activeDialogue": "Three residue samples — amber dust at specific foundation stones. Handle carefully; the residue is stable until disturbed.",
+      "completeDialogue": "The readings are extraordinary. If the Hearthstone fragments were activated simultaneously at those three hidden points, the energy release would not destroy the hub — it would open a permanent rift. A gateway for something far larger to come through. The Echoes are not just thieves.",
+      "steps": [
+        { "key": "samples", "type": "collect", "pickupIds": ["fracture-residue-1", "fracture-residue-2", "fracture-residue-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "fracture-analysis", "name": "Fracture Analysis Report", "icon": "greenclosedBook", "desc": "Aldric's completed analysis: activating the Hearthstone fragments would open a permanent Fracture rift." },
+        "friendship": { "professor-aldric": 35 }
+      }
+    },
+    {
+      "id": "fisherman-fracture-depths",
+      "title": "Fracture Depths",
+      "type": "fetch",
+      "giverNpcId": "fisherman",
+      "receiverNpcId": "fisherman",
+      "prerequisite": "quest:fisherman-glowing-net",
+      "offerDialogue": "The glow under the pond is getting stronger. Last night I saw something surface briefly — a disc of metal, old, engraved. I think it is the Hearthstone fragment hidden under the pond. I cannot dive that deep. But you might be able to find it along the bank where the current carried it.",
+      "activeDialogue": "A metal disc — engraved with an old pattern, warm to the touch. The current may have pushed it to the shallows.",
+      "completeDialogue": "That is it. Feel the warmth? That is Fracture energy, contained. This was hidden here deliberately, long ago. It is not mine to keep. Take it — or let me hold it here safely. Whatever you decide, do not let the Echoes near it.",
+      "steps": [
+        { "key": "collect-disc", "type": "collect", "pickupIds": ["pond-hearthstone-disc"], "required": 1 },
+        { "key": "deliver-disc", "type": "deliver", "targetNpcId": "fisherman", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "pond-fragment", "name": "Pond Hearthstone Fragment", "icon": "goldChest", "desc": "A metal disc engraved with ancient patterns, retrieved from the shallows of the fisherman's pond. One of three Hearthstone fragments." },
+        "friendship": { "fisherman": 35 }
+      }
+    },
+    {
+      "id": "syla-market-purge",
+      "title": "Market Purge",
+      "type": "lost-items",
+      "giverNpcId": "market-warden-syla",
+      "receiverNpcId": "market-warden-syla",
+      "prerequisite": "quest:syla-echo-market-agent",
+      "offerDialogue": "The Echo market agent left contraband behind — three items that do not belong in any legitimate stall. I identified them from the manifest the merchant found. They are hidden in the market district and I need them removed before anyone realises what they are.",
+      "activeDialogue": "Three contraband items — they will look like ordinary goods at a glance. Check near the stall backs and the loading bay.",
+      "completeDialogue": "A Fracture resonance amplifier, a coded trade route guide, and a set of counterfeit entry tokens. This was a full infiltration kit. They were ready to bring more agents in. We stopped that today.",
+      "steps": [
+        { "key": "contraband", "type": "collect", "pickupIds": ["echo-contraband-1", "echo-contraband-2", "echo-contraband-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "market-warden-syla": 35 }
+      }
+    },
+    {
+      "id": "zev-games-hall-clear",
+      "title": "Games Hall Clear",
+      "type": "lost-items",
+      "giverNpcId": "games-host-zev",
+      "receiverNpcId": "games-host-zev",
+      "prerequisite": "quest:zev-shadow-gambler",
+      "offerDialogue": "I searched the games hall thoroughly. Found three surveillance devices — small mirrors with lens inserts, positioned to watch the back tables. The Shadow Gambler was not just gambling. They were watching everyone who came in. I need those devices removed and logged.",
+      "activeDialogue": "Three small mirror-and-lens devices hidden in the games hall — in the corner beams, behind the prize rack, above the back door.",
+      "completeDialogue": "Got them all. These are professional surveillance tools — not local-made. They used the games hall to compile a dossier on every person of influence in the hub. We need to assume our movements were monitored for months.",
+      "steps": [
+        { "key": "devices", "type": "collect", "pickupIds": ["surveillance-device-1", "surveillance-device-2", "surveillance-device-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 95,
+        "friendship": { "games-host-zev": 35 }
+      }
     }
   ],
   "innRumours": [
