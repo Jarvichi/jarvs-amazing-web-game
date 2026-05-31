@@ -1771,6 +1771,71 @@
         "friendship": { "home-steward": 45 },
         "unlock": "home-vault"
       }
+    },
+    {
+      "id": "vex-final-trade",
+      "title": "The Final Trade",
+      "type": "chain",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:vex-supply-chain-rebuilt|quest:mira-anti-fracture-charms",
+      "offerDialogue": "One last delivery — three special reagents I sourced through the new supply chain. One to Naia for the reunification protocol, one to Mira for the charm renewal, one to Bramble for the fortification supplies. My best work, and the most important trade I have ever made.",
+      "activeDialogue": "Deliver the reagents to Naia, then Mira, then Bramble.",
+      "completeDialogue": "These are exactly what was needed. Tell Vex — this trade just gave the hub its best chance.",
+      "steps": [
+        { "key": "collect-reagents", "type": "collect", "pickupIds": ["reagent-naia", "reagent-mira", "reagent-bramble"], "required": 3 },
+        { "key": "deliver-naia", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 },
+        { "key": "deliver-mira", "type": "deliver", "targetNpcId": "mira", "required": 1 },
+        { "key": "deliver-bramble", "type": "deliver", "targetNpcId": "bramble", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 150,
+        "friendship": { "merchant": 45 }
+      }
+    },
+    {
+      "id": "elder-the-convergence",
+      "title": "The Convergence",
+      "type": "lost-items",
+      "giverNpcId": "elder",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:elder-rallying-the-hub|quest:naia-heartstone-location|quest:thorin-vault-preparation|quest:mira-anti-fracture-charms",
+      "offerDialogue": "The time has come. The reunification protocol requires four Convergence Shards — natural resonance anchors that stabilise the process. They are scattered across the hub's oldest points: the courtyard foundation, the pond's edge, the scholars' cornerstone, and the barracks gate. Retrieve them.",
+      "activeDialogue": "Four Convergence Shards — crystalline, warm to touch, glowing faintly amber. At the four oldest points of the hub.",
+      "completeDialogue": "You have them. All four. Now — with the Hearthstone fragments secured and the reunification protocol in hand — we are ready. This is what we have been building toward. Thank you. Every person in this hub owes you more than words can carry.",
+      "steps": [
+        { "key": "shards", "type": "collect", "pickupIds": ["convergence-shard-1", "convergence-shard-2", "convergence-shard-3", "convergence-shard-4"], "required": 4 }
+      ],
+      "reward": {
+        "collectible": { "id": "convergence-pendant", "name": "Convergence Pendant", "icon": "goldChest", "desc": "A pendant forged from the four Convergence Shards — a symbol that the hub stood together when it mattered most." },
+        "friendship": { "elder": 60, "guard-captain-thorin": 10, "naia-interior": 10, "innkeeper-rosie": 10, "guild-master-ferryn": 10, "drill-sergeant-varn": 10, "cartographer-bram": 10, "apprentice-lyss": 10, "professor-aldric": 10, "mira": 10, "fisherman": 10, "market-warden-syla": 10, "games-host-zev": 10, "trophy-keeper-orin": 10, "dealer": 10, "gildwyn": 10, "bramble": 10, "merchant": 10, "home-steward": 10 }
+      }
+    },
+    {
+      "id": "thorin-the-last-watch",
+      "title": "The Last Watch",
+      "type": "chain",
+      "giverNpcId": "guard-captain-thorin",
+      "receiverNpcId": "elder",
+      "prerequisite": "quest:elder-the-convergence|quest:lyss-the-final-cipher|quest:alric-heartstone-analysis|quest:thorin-hub-defense-plan",
+      "offerDialogue": "This is it. The Hearthstone is to be reunified tonight. Each guardian must bless it at their station — the Elder, Naia, Rosie, Ferryn, Vex, and old Greyfish. I carry the Hearthstone itself. You carry the word. Go to each of them, in order, and let them know. They will know what to do.",
+      "activeDialogue": "Bring the word to each guardian in order. They are waiting.",
+      "completeDialogue": "The last watch is kept. The Hearthstone is whole. The Fracture's grip on this hub breaks today.",
+      "steps": [
+        { "key": "collect-hearthstone", "type": "collect", "pickupIds": ["hearthstone-final"], "required": 1 },
+        { "key": "bless-elder", "type": "deliver", "targetNpcId": "elder", "required": 1 },
+        { "key": "bless-naia", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 },
+        { "key": "bless-rosie", "type": "deliver", "targetNpcId": "innkeeper-rosie", "required": 1 },
+        { "key": "bless-ferryn", "type": "deliver", "targetNpcId": "guild-master-ferryn", "required": 1 },
+        { "key": "bless-merchant", "type": "deliver", "targetNpcId": "merchant", "required": 1 },
+        { "key": "bless-fisherman", "type": "deliver", "targetNpcId": "fisherman", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 200,
+        "collectible": { "id": "hearthstone", "name": "The Hearthstone", "icon": "goldChest", "desc": "The reunified Hearthstone — three fragments made whole. The Fracture's hold on the hub is broken, and this artefact stands as proof that the hub endured." },
+        "friendship": { "guard-captain-thorin": 50, "elder": 20, "naia-interior": 20, "innkeeper-rosie": 20, "guild-master-ferryn": 20, "merchant": 20, "fisherman": 20, "drill-sergeant-varn": 15, "cartographer-bram": 15, "apprentice-lyss": 15, "professor-aldric": 15, "mira": 15, "market-warden-syla": 15, "games-host-zev": 15, "trophy-keeper-orin": 15, "dealer": 15, "gildwyn": 15, "bramble": 15, "home-steward": 15 },
+        "unlock": "hub-monument"
+      }
     }
   ],
   "innRumours": [

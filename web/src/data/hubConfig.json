@@ -1778,7 +1778,7 @@
         "There is strength in preparation. Make sure your deck is ready before you venture out."
       ],
       "questGive": "lost-pendant",
-      "questReceive": ["aldous-family-heirloom", "mira-anti-fracture-charms", "alric-heartstone-analysis", "orin-champions-stand", "aldous-the-hearthstone"]
+      "questReceive": ["aldous-family-heirloom", "mira-anti-fracture-charms", "alric-heartstone-analysis", "orin-champions-stand", "aldous-the-hearthstone", "thorin-the-last-watch"]
     },
     {
       "id": "merchant",
@@ -1791,7 +1791,8 @@
         "I once traded with caravans from the eastern reaches. Those days feel like a dream now.",
         "Keep your coin close, wanderer. Not everyone in this town has honest intentions."
       ],
-      "questGive": "merchants-herb"
+      "questGive": "merchants-herb",
+      "questReceive": "thorin-the-last-watch"
     },
     {
       "id": "scholar",
@@ -1815,7 +1816,7 @@
         "I pulled out a strange glowing fish last week. Threw it back \u2014 some things are better left undisturbed.",
         "Patience, wanderer. The best things in life take time."
       ],
-      "questReceive": ["fisherman-fracture-depths", "elder-rallying-the-hub"]
+      "questReceive": ["fisherman-fracture-depths", "elder-rallying-the-hub", "thorin-the-last-watch"]
     },
     {
       "id": "dealer",
@@ -1927,7 +1928,8 @@
         "Enchantments can turn the tide of battle. Let me show you.",
         "The art of augmentation is older than the Fracture itself.",
         "I sense great potential in you, wanderer. Let's refine it."
-      ]
+      ],
+      "questReceive": "vex-final-trade"
     },
     {
       "id": "bramble",
@@ -1941,7 +1943,8 @@
         "Got everything you need right here. Reliable gear, fair prices.",
         "Stock up before you head out \u2014 the roads aren't safe.",
         "I've been supplying adventurers for thirty years. I know what keeps folks alive."
-      ]
+      ],
+      "questReceive": "vex-final-trade"
     },
     {
       "id": "trader",
@@ -1972,7 +1975,7 @@
         "The Fracture left many mysteries. Perhaps you can solve them."
       ],
       "questGive": "scholars-anthology",
-      "questReceive": ["elder-old-codex", "gildwyn-stolen-card-plans", "lyss-cipher-key", "elder-absolution", "mira-anti-fracture-charms", "alric-heartstone-analysis", "lyss-the-final-cipher", "fisherman-depths-secret"]
+      "questReceive": ["elder-old-codex", "gildwyn-stolen-card-plans", "lyss-cipher-key", "elder-absolution", "mira-anti-fracture-charms", "alric-heartstone-analysis", "lyss-the-final-cipher", "fisherman-depths-secret", "vex-final-trade", "thorin-the-last-watch"]
     },
     {
       "id": "achievements-keeper",
@@ -2176,7 +2179,7 @@
         "Rooms are cheap, ale is cheaper. Stay as long as you need."
       ],
       "questGive": "innkeepers-package",
-      "questReceive": "elder-rallying-the-hub",
+      "questReceive": ["elder-rallying-the-hub", "thorin-the-last-watch"],
       "innRumours": [
         {
           "id": "rumour-barracks",
@@ -2207,7 +2210,7 @@
       "building": "traders-building",
       "tx": 7,
       "ty": 4,
-      "questReceive": ["vex-trade-ledger", "dealer-echo-bookie", "vex-supply-chain-rebuilt", "elder-rallying-the-hub", "zev-games-hall-stands"],
+      "questReceive": ["vex-trade-ledger", "dealer-echo-bookie", "vex-supply-chain-rebuilt", "elder-rallying-the-hub", "zev-games-hall-stands", "thorin-the-last-watch"],
       "dialogue": [
         "The Merchant's Guild has connections across every shard. We can help.",
         "Trade is the lifeblood of any civilisation. Even one in pieces.",
@@ -2635,7 +2638,15 @@
     { "id": "zev-supply-cache",  "tx": 3,  "ty": 3,  "tileId": "crate",          "questId": "zev-games-hall-stands", "building": "arcade-building-w" },
     { "id": "zev-equipment-manifest","tx": 5, "ty": 3,"tileId": "closedBook",    "questId": "zev-games-hall-stands", "building": "arcade-building-e" },
     { "id": "champions-pledge",  "tx": 3,  "ty": 4,  "tileId": "goldChest",      "questId": "orin-champions-stand", "building": "arcade-building-e" },
-    { "id": "hearthstone-key",   "tx": 5,  "ty": 3,  "tileId": "pendant",        "questId": "aldous-the-hearthstone", "building": "home" }
+    { "id": "hearthstone-key",   "tx": 5,  "ty": 3,  "tileId": "pendant",        "questId": "aldous-the-hearthstone", "building": "home" },
+    { "id": "reagent-naia",      "tx": 23, "ty": 24, "tileId": "bunchOfHerbs",   "questId": "vex-final-trade" },
+    { "id": "reagent-mira",      "tx": 24, "ty": 25, "tileId": "bunchOfHerbs",   "questId": "vex-final-trade" },
+    { "id": "reagent-bramble",   "tx": 25, "ty": 24, "tileId": "bunchOfHerbs",   "questId": "vex-final-trade" },
+    { "id": "convergence-shard-1","tx": 36, "ty": 24, "tileId": "goldChest",     "questId": "elder-the-convergence" },
+    { "id": "convergence-shard-2","tx": 2,  "ty": 37, "tileId": "goldChest",     "questId": "elder-the-convergence" },
+    { "id": "convergence-shard-3","tx": 44, "ty": 2,  "tileId": "goldChest",     "questId": "elder-the-convergence" },
+    { "id": "convergence-shard-4","tx": 58, "ty": 27, "tileId": "goldChest",     "questId": "elder-the-convergence" },
+    { "id": "hearthstone-final", "tx": 65, "ty": 28, "tileId": "goldChest",      "questId": "thorin-the-last-watch" }
   ],
   "lockedDoors": [
     {
