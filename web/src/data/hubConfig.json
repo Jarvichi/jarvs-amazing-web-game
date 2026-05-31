@@ -1947,6 +1947,7 @@
       "tx": 5,
       "ty": 4,
       "screen": "shop-supplies",
+      "questReceive": "brambles-first-delivery",
       "dialogue": [
         "One person's junk is another's treasure. Have a rummage!",
         "I found this stuff all over the Fracture zones. Don't ask how.",
@@ -2418,7 +2419,13 @@
       "ty": 3,
       "tileId": "goldChest",
       "building": "barracks-vault"
-    }
+    },
+    { "id": "bait-jar-1",        "tx": 3,  "ty": 36, "tileId": "bunchOfHerbs", "questId": "greyfishs-bait" },
+    { "id": "bait-jar-2",        "tx": 6,  "ty": 40, "tileId": "bunchOfHerbs", "questId": "greyfishs-bait" },
+    { "id": "bait-jar-3",        "tx": 5,  "ty": 44, "tileId": "bunchOfHerbs", "questId": "greyfishs-bait" },
+    { "id": "gildwyns-rare-card","tx": 5,  "ty": 4,  "tileId": "blueclosedBook", "questId": "gildwyns-missing-card", "building": "scholars-hall" },
+    { "id": "miras-lost-crystal","tx": 14, "ty": 24, "tileId": "pendant",       "questId": "miras-runaway-crystal" },
+    { "id": "aldous-locket",     "tx": 21, "ty": 22, "tileId": "pendant",       "questId": "aldous-keepsake" }
   ],
   "lockedDoors": [
     {

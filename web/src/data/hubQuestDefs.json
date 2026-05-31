@@ -75,6 +75,91 @@
         "friendship": { "innkeeper-rosie": 20, "guard-captain-thorin": 15 },
         "unlock": "barracks-vault"
       }
+    },
+    {
+      "id": "greyfishs-bait",
+      "title": "Bait for Greyfish",
+      "type": "lost-items",
+      "giverNpcId": "fisherman",
+      "receiverNpcId": "fisherman",
+      "offerDialogue": "Blast — I've gone and dropped my bait jars again. Three of them, scattered somewhere near the pond. These old hands aren't what they were.",
+      "activeDialogue": "The jars can't have gone far — look around the water's edge and the reeds.",
+      "completeDialogue": "Ha! Every last one. You've got sharp eyes, wanderer. A lucky charm from me — fish tend to bite better when you've got one.",
+      "steps": [
+        { "key": "jars", "type": "collect", "pickupIds": ["bait-jar-1", "bait-jar-2", "bait-jar-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": { "fisherman": 20 }
+      }
+    },
+    {
+      "id": "brambles-first-delivery",
+      "title": "A Delivery for the Trader",
+      "type": "fetch",
+      "giverNpcId": "bramble",
+      "receiverNpcId": "trader",
+      "offerDialogue": "Got a crate of supplies that needs to reach the trader den — can't leave the counter unattended. Take it over, would you?",
+      "activeDialogue": "The Junk Trader is in the den to the south-west. Don't let him talk you into a swap.",
+      "completeDialogue": "About time! These are exactly what I needed. Tell Bramble we're square.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "trader", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 30,
+        "friendship": { "bramble": 15 }
+      }
+    },
+    {
+      "id": "gildwyns-missing-card",
+      "title": "The Missing Card",
+      "type": "fetch",
+      "giverNpcId": "gildwyn",
+      "receiverNpcId": "gildwyn",
+      "offerDialogue": "A customer left without paying for a card — then I realised he'd also walked off with one of my rarest pieces! I think he left it at the scholars' hall.",
+      "activeDialogue": "Check the scholars' hall — someone fitting that description was seen heading that way.",
+      "completeDialogue": "My Thornlord foil! I thought I'd never see it again. Here, take something in return — consider it a finder's fee.",
+      "steps": [
+        { "key": "card", "type": "collect", "pickupIds": ["gildwyns-rare-card"], "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "foil-card", "name": "Foil Thornlord", "icon": "🃏", "desc": "A rare foil print of the Thornlord card. Gildwyn was very relieved to have it back." },
+        "friendship": { "gildwyn": 20 }
+      }
+    },
+    {
+      "id": "miras-runaway-crystal",
+      "title": "A Runaway Crystal",
+      "type": "fetch",
+      "giverNpcId": "mira",
+      "receiverNpcId": "mira",
+      "offerDialogue": "One of my enchantment crystals rolled out of the shop during the last tremor. It glows faintly — you should spot it near the market. Please, before someone stands on it.",
+      "activeDialogue": "It's a small blue crystal — it should be glowing softly somewhere near the market lane.",
+      "completeDialogue": "Oh, thank goodness. These crystals are attuned to me personally — losing one is like losing a piece of myself. You have my gratitude.",
+      "steps": [
+        { "key": "crystal", "type": "collect", "pickupIds": ["miras-lost-crystal"], "required": 1 }
+      ],
+      "reward": {
+        "crystals": 35,
+        "friendship": { "mira": 20 }
+      }
+    },
+    {
+      "id": "aldous-keepsake",
+      "title": "A Lost Keepsake",
+      "type": "fetch",
+      "giverNpcId": "home-steward",
+      "receiverNpcId": "home-steward",
+      "offerDialogue": "I apologise for the bother, Commander, but I seem to have dropped a small locket while crossing the courtyard this morning. It belonged to the Commander's family.",
+      "activeDialogue": "I believe I dropped it somewhere near the well in the courtyard. It is a small silver locket.",
+      "completeDialogue": "Ah, there it is. My sincerest thanks — this is irreplaceable. I shall keep it safer from now on.",
+      "steps": [
+        { "key": "locket", "type": "collect", "pickupIds": ["aldous-locket"], "required": 1 }
+      ],
+      "reward": {
+        "crystals": 30,
+        "friendship": { "home-steward": 15 }
+      }
     }
   ],
   "innRumours": [
