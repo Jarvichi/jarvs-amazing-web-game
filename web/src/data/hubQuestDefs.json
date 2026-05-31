@@ -600,6 +600,97 @@
         "crystals": 65,
         "friendship": { "professor-aldric": 25 }
       }
+    },
+    {
+      "id": "aldous-intruder-evidence",
+      "title": "Intruder Evidence",
+      "type": "lost-items",
+      "giverNpcId": "home-steward",
+      "receiverNpcId": "home-steward",
+      "prerequisite": "quest:aldous-keepsake",
+      "offerDialogue": "Someone entered the house overnight. I do not know how — nothing was taken, but things were moved. I found two traces left behind: a piece of torn cloth and a small tool I do not recognise. Collect them before anyone else finds them.",
+      "activeDialogue": "A torn cloth scrap near the back passage, and a small pointed tool left on the sill. They should still be there.",
+      "completeDialogue": "This cloth has an insignia on it — faded, but there. And this tool… it is used for picking locks, I think. Whoever they were, they came prepared. I will hide these somewhere safe.",
+      "steps": [
+        { "key": "evidence", "type": "collect", "pickupIds": ["intruder-cloth", "intruder-tool"], "required": 2 }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": { "home-steward": 25 }
+      }
+    },
+    {
+      "id": "vex-suspicious-buyer",
+      "title": "Suspicious Buyer",
+      "type": "lost-items",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "merchant",
+      "prerequisite": "quest:vex-trade-ledger",
+      "offerDialogue": "A buyer came last week and bought everything I had in three categories — and paid double market rate. No name, no cart, no receipt requested. They left in a hurry and dropped three items. I want to know who they are before they come back.",
+      "activeDialogue": "The items dropped near the stall — a small pouch, a folded list, and a branded token. They scattered when the buyer rushed off.",
+      "completeDialogue": "A pouch of foreign coin, a list written in cipher, and a token from… I do not recognise this seal. This buyer is no ordinary trader. I am watching my stock much more carefully now.",
+      "steps": [
+        { "key": "items", "type": "collect", "pickupIds": ["buyer-pouch", "buyer-list", "buyer-token"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": { "merchant": 25 }
+      }
+    },
+    {
+      "id": "zev-rigged-games",
+      "title": "Rigged Games",
+      "type": "lost-items",
+      "giverNpcId": "games-host-zev",
+      "receiverNpcId": "games-host-zev",
+      "prerequisite": "quest:zev-game-prize-restock",
+      "offerDialogue": "Three of my game machines have been tampered with — someone installed rigging devices to force certain outcomes. I found them during maintenance and removed them, but I lost track of where I set them down. I need those devices before I can file a proper complaint.",
+      "activeDialogue": "Small brass discs with teeth — rigging devices, nasty little things. I left them near the machines in the games hall.",
+      "completeDialogue": "All three. Each one is slightly different — these were not bought from the same place. This was coordinated. Someone wanted control over my games hall and I want to know why.",
+      "steps": [
+        { "key": "devices", "type": "collect", "pickupIds": ["rigging-device-1", "rigging-device-2", "rigging-device-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "games-host-zev": 25 }
+      }
+    },
+    {
+      "id": "orin-fake-trophy",
+      "title": "The Fake Trophy",
+      "type": "chain",
+      "giverNpcId": "trophy-keeper-orin",
+      "receiverNpcId": "trophy-keeper-orin",
+      "prerequisite": "quest:orin-missing-trophy",
+      "offerDialogue": "The Ironwall Cup I keep in the main display — it has been replaced. The one on the pedestal now is a forgery, a very good one, but wrong in three ways I can see. I need you to collect the fake and bring it to me so I can document the fraud.",
+      "activeDialogue": "The fake cup is on the display pedestal in the barracks hall. Bring it to me — carefully, do not damage it. I want to study it.",
+      "completeDialogue": "Yes, this is the forgery. See the casting seam here — no real smith would leave that. But the craftsmanship is extraordinary. Whoever made this knew exactly what to copy. I am cataloguing it as evidence.",
+      "steps": [
+        { "key": "collect-fake", "type": "collect", "pickupIds": ["fake-trophy"], "required": 1 },
+        { "key": "deliver-fake", "type": "deliver", "targetNpcId": "trophy-keeper-orin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": { "trophy-keeper-orin": 25 }
+      }
+    },
+    {
+      "id": "dealer-marked-deck",
+      "title": "Marked Decks",
+      "type": "lost-items",
+      "giverNpcId": "dealer",
+      "receiverNpcId": "dealer",
+      "prerequisite": "quest:dealer-lucky-charm",
+      "offerDialogue": "Three decks of cards were swapped out on my tables last night — I only noticed because the backs feel different. Marked cards, the kind cheats use to read from a distance. I pulled them from circulation but someone took them back. Get them before anyone runs a game with them.",
+      "activeDialogue": "Marked decks — slightly thicker than normal, with tiny notches on the corners. They were taken from where I left them behind the counter.",
+      "completeDialogue": "These are the ones. Look at the notch pattern — it is consistent across all three decks, a code. This was not one cheat doing it for themselves. This was organised. Someone was running a scam operation out of my tables.",
+      "steps": [
+        { "key": "decks", "type": "collect", "pickupIds": ["marked-deck-1", "marked-deck-2", "marked-deck-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "dealer": 25 }
+      }
     }
   ],
   "innRumours": [

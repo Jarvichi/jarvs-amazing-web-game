@@ -2484,7 +2484,19 @@
     { "id": "forbidden-text-2", "tx": 3,  "ty": 4,  "tileId": "blackclosedBook","questId": "lyss-forbidden-texts", "building": "scholars-hall-w" },
     { "id": "forbidden-text-3", "tx": 5,  "ty": 3,  "tileId": "blackclosedBook","questId": "lyss-forbidden-texts", "building": "scholars-north-e" },
     { "id": "stolen-note-1",    "tx": 5,  "ty": 3,  "tileId": "greenclosedBook","questId": "alric-stolen-notes",  "building": "scholars-hall" },
-    { "id": "stolen-note-2",    "tx": 4,  "ty": 6,  "tileId": "greenclosedBook","questId": "alric-stolen-notes",  "building": "scholars-hall-w" }
+    { "id": "stolen-note-2",    "tx": 4,  "ty": 6,  "tileId": "greenclosedBook","questId": "alric-stolen-notes",  "building": "scholars-hall-w" },
+    { "id": "intruder-cloth",   "tx": 5,  "ty": 4,  "tileId": "pendant",        "questId": "aldous-intruder-evidence", "building": "home" },
+    { "id": "intruder-tool",    "tx": 3,  "ty": 6,  "tileId": "chest",          "questId": "aldous-intruder-evidence", "building": "home" },
+    { "id": "buyer-pouch",      "tx": 11, "ty": 25, "tileId": "chest",          "questId": "vex-suspicious-buyer" },
+    { "id": "buyer-list",       "tx": 23, "ty": 25, "tileId": "closedBook",     "questId": "vex-suspicious-buyer" },
+    { "id": "buyer-token",      "tx": 33, "ty": 25, "tileId": "pendant",        "questId": "vex-suspicious-buyer" },
+    { "id": "rigging-device-1", "tx": 4,  "ty": 4,  "tileId": "chest",          "questId": "zev-rigged-games", "building": "arcade-building-w" },
+    { "id": "rigging-device-2", "tx": 5,  "ty": 4,  "tileId": "chest",          "questId": "zev-rigged-games", "building": "arcade-building-e" },
+    { "id": "rigging-device-3", "tx": 4,  "ty": 6,  "tileId": "chest",          "questId": "zev-rigged-games", "building": "arcade-building-e" },
+    { "id": "fake-trophy",      "tx": 5,  "ty": 4,  "tileId": "goldChest",      "questId": "orin-fake-trophy", "building": "barracks-north" },
+    { "id": "marked-deck-1",    "tx": 4,  "ty": 4,  "tileId": "blueclosedBook", "questId": "dealer-marked-deck", "building": "card-shop" },
+    { "id": "marked-deck-2",    "tx": 48, "ty": 23, "tileId": "blueclosedBook", "questId": "dealer-marked-deck" },
+    { "id": "marked-deck-3",    "tx": 52, "ty": 22, "tileId": "blueclosedBook", "questId": "dealer-marked-deck" }
   ],
   "lockedDoors": [
     {
