@@ -1870,7 +1870,7 @@
       "sprite": "hub-npc-arena",
       "tx": 42,
       "ty": 18,
-      "screen": "collection",
+      "screen": "collection-tabs",
       "dialogue": [
         "Shall we review the troops available to us?"
       ]
