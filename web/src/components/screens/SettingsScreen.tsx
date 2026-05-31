@@ -339,6 +339,11 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
     }
   }
 
+  function handleResetHubData() {
+    try { localStorage.removeItem('jarv_hub_quests') } catch { /* ignore */ }
+    try { localStorage.removeItem('jarv_hub_pickups') } catch { /* ignore */ }
+  }
+
   async function handleCheckForUpdates() {
     setUpdateStatus('checking')
     await onCheckForUpdates?.()
@@ -714,6 +719,13 @@ export function SettingsScreen({ onBack, onResetGame, user, authLoading, onDevCr
                 <button className="action-btn action-btn--gold" onClick={onFeedbackAdmin}>OPEN</button>
               </div>
             )}
+            <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+              <div>
+                <div className="settings-label">Reset hub quests &amp; pickups</div>
+                <div className="settings-sublabel">Clears all quest progress and collected pickup state</div>
+              </div>
+              <button className="action-btn action-btn--danger" onClick={handleResetHubData}>RESET</button>
+            </div>
           </Section>
 </>
         )}
