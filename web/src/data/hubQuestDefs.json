@@ -1314,6 +1314,100 @@
         "crystals": 95,
         "friendship": { "games-host-zev": 35 }
       }
+    },
+    {
+      "id": "orin-champions-shield",
+      "title": "Champion's Shield",
+      "type": "fetch",
+      "giverNpcId": "trophy-keeper-orin",
+      "receiverNpcId": "trophy-keeper-orin",
+      "prerequisite": "quest:orin-contaminated-trophies",
+      "offerDialogue": "The contaminated trophies were decoys. The real prize was the Champion's Shield — our oldest artefact, used at the founding of this hub. The Echoes removed it and hid it somewhere in the barracks. It was being used as a Fracture cache. Retrieve it.",
+      "activeDialogue": "The Champion's Shield — round, iron, engraved with the hub's founding mark. Somewhere in the barracks compound.",
+      "completeDialogue": "There it is. Safe. The Fracture energy inside it has dissipated — the contamination process was not complete. I will secure this in the vault now. Thank you. This shield is not a trophy. It is a promise this hub kept, and we nearly lost it.",
+      "steps": [
+        { "key": "collect-shield", "type": "collect", "pickupIds": ["champions-shield"], "required": 1 },
+        { "key": "deliver-shield", "type": "deliver", "targetNpcId": "trophy-keeper-orin", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "champions-shield", "name": "Champion's Shield", "icon": "goldChest", "desc": "The oldest artefact in the hub's trophy collection, recovered from an Echo cache in the barracks." },
+        "friendship": { "trophy-keeper-orin": 35 }
+      }
+    },
+    {
+      "id": "dealer-fracture-intel",
+      "title": "Fracture Intel",
+      "type": "lost-items",
+      "giverNpcId": "dealer",
+      "receiverNpcId": "dealer",
+      "prerequisite": "quest:dealer-echo-bookie",
+      "offerDialogue": "With the bookie list gone, the Echoes changed their dead-drop. I tracked three new intel note drops near the casino area — they contain Echo movement schedules. I need those notes before the next collection.",
+      "activeDialogue": "Three folded intel notes — left in the usual places: under the east table, behind the prize case, near the exit arch.",
+      "completeDialogue": "These are movement schedules for the next week. Three operations planned. I am sending copies to Thorin tonight. With this intelligence, we can be in position at every one of those locations.",
+      "steps": [
+        { "key": "notes", "type": "collect", "pickupIds": ["intel-note-1", "intel-note-2", "intel-note-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "dealer": 35 }
+      }
+    },
+    {
+      "id": "aldous-passage-explored",
+      "title": "Passage Explored",
+      "type": "lost-items",
+      "giverNpcId": "home-steward",
+      "receiverNpcId": "home-steward",
+      "prerequisite": "quest:aldous-hidden-passage",
+      "offerDialogue": "Thorin sent someone to explore the hidden passage. They found three items left by whoever had been using it — abandoned in a hurry when the passage was sealed. I need those items for the investigation record.",
+      "activeDialogue": "Three items left in the hidden passage — near the home end, the mid-point, and the barracks end. The passage is sealed now but items may have been pushed out when it closed.",
+      "completeDialogue": "A communication device, a schedule of patrol patterns, and a carved stone with the Echo insignia. This passage was their primary route. Every person who knew about it is now suspect. Thank you for completing the record.",
+      "steps": [
+        { "key": "items", "type": "collect", "pickupIds": ["passage-item-1", "passage-item-2", "passage-item-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "passage-evidence", "name": "Passage Evidence Set", "icon": "chest", "desc": "Three items recovered from the hidden passage: an Echo communication device, patrol schedules, and an insignia stone." },
+        "friendship": { "home-steward": 35 }
+      }
+    },
+    {
+      "id": "elder-absolution",
+      "title": "The Elder's Absolution",
+      "type": "chain",
+      "giverNpcId": "elder",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:elder-confession|quest:naia-heartstone-records",
+      "offerDialogue": "After giving my confession to Thorin, I wrote personal apology letters — one to Naia for the records I unknowingly helped destroy, and one to Thorin for the security breaches I enabled. Please carry these to each of them.",
+      "activeDialogue": "Take the letter to Naia first, then to Captain Thorin.",
+      "completeDialogue": "The Elder… his confession is difficult to read knowing what it cost him to write it. He was deceived — that much is clear. But his honesty now has given us everything we needed. Tell him he is forgiven.",
+      "steps": [
+        { "key": "collect-letters", "type": "collect", "pickupIds": ["absolution-letter-naia", "absolution-letter-thorin"], "required": 2 },
+        { "key": "deliver-naia", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 },
+        { "key": "deliver-thorin", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 120,
+        "friendship": { "elder": 40, "naia-interior": 20, "guard-captain-thorin": 20 }
+      }
+    },
+    {
+      "id": "vex-supply-chain-rebuilt",
+      "title": "Supply Chain Rebuilt",
+      "type": "fetch",
+      "giverNpcId": "merchant",
+      "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:vex-echo-supplier|quest:ferryn-guild-lockdown",
+      "offerDialogue": "With the Echo supplier removed, there is a gap in the hub's supply chain — legitimate goods are not getting through. I have drafted new supply contracts with three verified partners. Ferryn needs to countersign them to make them official.",
+      "activeDialogue": "Take the new supply contracts to Ferryn at the guild hall.",
+      "completeDialogue": "Excellent. These partners are all verified — I recognise two of them as pre-Fracture guilds. The supply chain will be cleaner and better documented than before. Vex has done well here.",
+      "steps": [
+        { "key": "collect-contracts", "type": "collect", "pickupIds": ["supply-contracts"], "required": 1 },
+        { "key": "deliver-contracts", "type": "deliver", "targetNpcId": "guild-master-ferryn", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 100,
+        "friendship": { "merchant": 35, "guild-master-ferryn": 20 }
+      }
     }
   ],
   "innRumours": [

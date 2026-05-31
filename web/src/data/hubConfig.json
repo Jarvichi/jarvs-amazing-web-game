@@ -1970,7 +1970,7 @@
         "The Fracture left many mysteries. Perhaps you can solve them."
       ],
       "questGive": "scholars-anthology",
-      "questReceive": ["elder-old-codex", "gildwyn-stolen-card-plans", "lyss-cipher-key"]
+      "questReceive": ["elder-old-codex", "gildwyn-stolen-card-plans", "lyss-cipher-key", "elder-absolution"]
     },
     {
       "id": "achievements-keeper",
@@ -2204,7 +2204,7 @@
       "building": "traders-building",
       "tx": 7,
       "ty": 4,
-      "questReceive": ["vex-trade-ledger", "dealer-echo-bookie"],
+      "questReceive": ["vex-trade-ledger", "dealer-echo-bookie", "vex-supply-chain-rebuilt"],
       "dialogue": [
         "The Merchant's Guild has connections across every shard. We can help.",
         "Trade is the lifeblood of any civilisation. Even one in pieces.",
@@ -2234,7 +2234,8 @@
         "Every trophy here represents a hard-won victory.",
         "Champions come and go, but their deeds are recorded forever.",
         "Think you're good enough to earn a trophy? Prove it."
-      ]
+      ],
+      "questReceive": "orin-champions-shield"
     },
     {
       "id": "games-host-zev",
@@ -2261,7 +2262,7 @@
         "My guards are the finest in the hub. Fracture or no Fracture.",
         "Need security? My men are at your service."
       ],
-      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn", "bram-echo-territory-map", "aldous-hidden-passage", "elder-confession", "varn-traitor-confronted"]
+      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn", "bram-echo-territory-map", "aldous-hidden-passage", "elder-confession", "varn-traitor-confronted", "elder-absolution"]
     },
     {
       "id": "drill-sergeant-varn",
@@ -2577,7 +2578,17 @@
     { "id": "echo-contraband-3", "tx": 30, "ty": 26, "tileId": "crate",          "questId": "syla-market-purge" },
     { "id": "surveillance-device-1","tx": 3, "ty": 3, "tileId": "chest",         "questId": "zev-games-hall-clear", "building": "arcade-building-e" },
     { "id": "surveillance-device-2","tx": 6, "ty": 3, "tileId": "chest",         "questId": "zev-games-hall-clear", "building": "arcade-building-e" },
-    { "id": "surveillance-device-3","tx": 4, "ty": 3, "tileId": "chest",         "questId": "zev-games-hall-clear", "building": "arcade-building-w" }
+    { "id": "surveillance-device-3","tx": 4, "ty": 3, "tileId": "chest",         "questId": "zev-games-hall-clear", "building": "arcade-building-w" },
+    { "id": "champions-shield",  "tx": 6,  "ty": 6,  "tileId": "goldChest",      "questId": "orin-champions-shield", "building": "barracks-south" },
+    { "id": "intel-note-1",      "tx": 4,  "ty": 4,  "tileId": "closedBook",     "questId": "dealer-fracture-intel", "building": "arcade-building-e" },
+    { "id": "intel-note-2",      "tx": 5,  "ty": 5,  "tileId": "closedBook",     "questId": "dealer-fracture-intel", "building": "arcade-building-w" },
+    { "id": "intel-note-3",      "tx": 63, "ty": 22, "tileId": "closedBook",     "questId": "dealer-fracture-intel" },
+    { "id": "passage-item-1",    "tx": 3,  "ty": 5,  "tileId": "chest",          "questId": "aldous-passage-explored", "building": "home" },
+    { "id": "passage-item-2",    "tx": 71, "ty": 36, "tileId": "pendant",        "questId": "aldous-passage-explored" },
+    { "id": "passage-item-3",    "tx": 63, "ty": 39, "tileId": "pendant",        "questId": "aldous-passage-explored" },
+    { "id": "absolution-letter-naia", "tx": 18, "ty": 11, "tileId": "closedBook","questId": "elder-absolution" },
+    { "id": "absolution-letter-thorin","tx": 20, "ty": 13,"tileId": "closedBook","questId": "elder-absolution" },
+    { "id": "supply-contracts",  "tx": 22, "ty": 24, "tileId": "closedBook",     "questId": "vex-supply-chain-rebuilt" }
   ],
   "lockedDoors": [
     {
