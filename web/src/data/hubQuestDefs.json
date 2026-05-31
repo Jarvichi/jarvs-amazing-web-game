@@ -510,6 +510,96 @@
         "crystals": 55,
         "friendship": { "market-warden-syla": 25 }
       }
+    },
+    {
+      "id": "varn-deserter-trail",
+      "title": "Deserter's Trail",
+      "type": "lost-items",
+      "giverNpcId": "drill-sergeant-varn",
+      "receiverNpcId": "drill-sergeant-varn",
+      "prerequisite": "quest:varn-training-weights",
+      "offerDialogue": "One of my recruits went absent without leave three days ago. I found a note, a boot, and what looked like a bedroll dropped in a hurry — but I lost track of where. Help me gather the clues before anyone higher up the chain asks questions.",
+      "activeDialogue": "A scrawled note, a worn boot, and a rolled bedroll — somewhere out near the barracks. Don't let the other guards see you searching.",
+      "completeDialogue": "All three. Blast. Whoever he was meeting, they were serious enough to make him run. I'll keep this quiet for now, but something is wrong in the ranks.",
+      "steps": [
+        { "key": "clues", "type": "collect", "pickupIds": ["deserter-clue-1", "deserter-clue-2", "deserter-clue-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": { "drill-sergeant-varn": 25 }
+      }
+    },
+    {
+      "id": "rosie-strange-guest",
+      "title": "The Strange Guest",
+      "type": "lost-items",
+      "giverNpcId": "innkeeper-rosie",
+      "receiverNpcId": "innkeeper-rosie",
+      "prerequisite": "quest:innkeepers-package",
+      "offerDialogue": "A guest left in the night without settling their bill — and without their belongings. Three odd items scattered about the inn: a folded cloth, a small vial, and a sealed envelope. I dare not open the envelope myself. Would you collect them for me?",
+      "activeDialogue": "A cloth, a vial, and a sealed envelope — they should still be somewhere in the inn. Please be discreet.",
+      "completeDialogue": "Goodness… this envelope is addressed to no one. And this vial — it doesn't smell like any medicine I know. Something about that guest was very wrong. I'll lock these away.",
+      "steps": [
+        { "key": "items", "type": "collect", "pickupIds": ["guest-item-1", "guest-item-2", "guest-item-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "innkeeper-rosie": 25 }
+      }
+    },
+    {
+      "id": "bram-altered-map",
+      "title": "Altered Maps",
+      "type": "lost-items",
+      "giverNpcId": "cartographer-bram",
+      "receiverNpcId": "cartographer-bram",
+      "prerequisite": "quest:brams-ink-supply",
+      "offerDialogue": "Two of my official survey copies have been tampered with — paths re-drawn, landmarks shifted. Someone slipped them back among my rolled maps, and I only noticed by chance. I need those false copies retrieved before anyone navigates by them.",
+      "activeDialogue": "The tampered maps are on rolled parchment, but the lines look slightly off if you know what to look for. I left one near the east archive and one near the market stalls.",
+      "completeDialogue": "Yes, these are the forgeries — see how this river is shifted east by nearly half a mile? Whoever made these knew exactly what they were doing. This is not mischief.",
+      "steps": [
+        { "key": "maps", "type": "collect", "pickupIds": ["tampered-map-1", "tampered-map-2"], "required": 2 }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": { "cartographer-bram": 25 }
+      }
+    },
+    {
+      "id": "lyss-forbidden-texts",
+      "title": "Forbidden Texts",
+      "type": "lost-items",
+      "giverNpcId": "apprentice-lyss",
+      "receiverNpcId": "apprentice-lyss",
+      "prerequisite": "quest:lysss-overdue-books",
+      "offerDialogue": "I found three texts in the archive that should not exist — they describe the Fracture in ways the scholars would never sanction. I went to show Naia, but when I returned they were gone. Someone else has been in here. Help me find them before they disappear for good.",
+      "activeDialogue": "They are thin volumes with dark covers and no title on the spine. I saw one in the east wing, one near the lower shelves, and I think the third went missing from the reading alcove.",
+      "completeDialogue": "These are exactly them. Look — the margins are full of annotations. And this symbol here… I have seen it before, somewhere in Naia's sealed records. This changes things.",
+      "steps": [
+        { "key": "texts", "type": "collect", "pickupIds": ["forbidden-text-1", "forbidden-text-2", "forbidden-text-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60,
+        "friendship": { "apprentice-lyss": 25 }
+      }
+    },
+    {
+      "id": "alric-stolen-notes",
+      "title": "Stolen Research",
+      "type": "lost-items",
+      "giverNpcId": "professor-aldric",
+      "receiverNpcId": "professor-aldric",
+      "prerequisite": "quest:alric-manuscript",
+      "offerDialogue": "Someone has taken pages from my personal research journal — not the whole thing, just the sections on Fracture resonance patterns. Two pages torn out carefully, as if by someone who knew exactly what they wanted. I need them back.",
+      "activeDialogue": "They are single pages of dense notation. I had one left on the lectern and one pressed under a map roll. If you find notation that looks like mine, that is them.",
+      "completeDialogue": "Yes — these are my pages. But look, there are new annotations in a different hand. Someone read these and made notes of their own. This was not opportunistic theft. They were looking for something specific.",
+      "steps": [
+        { "key": "notes", "type": "collect", "pickupIds": ["stolen-note-1", "stolen-note-2"], "required": 2 }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": { "professor-aldric": 25 }
+      }
     }
   ],
   "innRumours": [

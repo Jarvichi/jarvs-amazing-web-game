@@ -2471,7 +2471,20 @@
     { "id": "counterfeit-card-3","tx": 4,  "ty": 3,  "tileId": "blueclosedBook","questId": "gildwyn-counterfeit-cards", "building": "card-shop" },
     { "id": "warning-stamp-1",  "tx": 6,  "ty": 25, "tileId": "pendant",       "questId": "syla-price-fixing" },
     { "id": "warning-stamp-2",  "tx": 22, "ty": 24, "tileId": "pendant",       "questId": "syla-price-fixing" },
-    { "id": "warning-stamp-3",  "tx": 32, "ty": 25, "tileId": "pendant",       "questId": "syla-price-fixing" }
+    { "id": "warning-stamp-3",  "tx": 32, "ty": 25, "tileId": "pendant",       "questId": "syla-price-fixing" },
+    { "id": "deserter-clue-1",  "tx": 60, "ty": 38, "tileId": "closedBook",    "questId": "varn-deserter-trail" },
+    { "id": "deserter-clue-2",  "tx": 65, "ty": 43, "tileId": "closedBook",    "questId": "varn-deserter-trail" },
+    { "id": "deserter-clue-3",  "tx": 70, "ty": 48, "tileId": "closedBook",    "questId": "varn-deserter-trail" },
+    { "id": "guest-item-1",     "tx": 3,  "ty": 3,  "tileId": "pendant",       "questId": "rosie-strange-guest", "building": "inn-building" },
+    { "id": "guest-item-2",     "tx": 5,  "ty": 3,  "tileId": "chest",         "questId": "rosie-strange-guest", "building": "inn-building" },
+    { "id": "guest-item-3",     "tx": 4,  "ty": 5,  "tileId": "closedBook",    "questId": "rosie-strange-guest", "building": "inn-building" },
+    { "id": "tampered-map-1",   "tx": 55, "ty": 18, "tileId": "blueclosedBook","questId": "bram-altered-map" },
+    { "id": "tampered-map-2",   "tx": 14, "ty": 24, "tileId": "blueclosedBook","questId": "bram-altered-map" },
+    { "id": "forbidden-text-1", "tx": 4,  "ty": 5,  "tileId": "blackclosedBook","questId": "lyss-forbidden-texts", "building": "scholars-hall" },
+    { "id": "forbidden-text-2", "tx": 3,  "ty": 4,  "tileId": "blackclosedBook","questId": "lyss-forbidden-texts", "building": "scholars-hall-w" },
+    { "id": "forbidden-text-3", "tx": 5,  "ty": 3,  "tileId": "blackclosedBook","questId": "lyss-forbidden-texts", "building": "scholars-north-e" },
+    { "id": "stolen-note-1",    "tx": 5,  "ty": 3,  "tileId": "greenclosedBook","questId": "alric-stolen-notes",  "building": "scholars-hall" },
+    { "id": "stolen-note-2",    "tx": 4,  "ty": 6,  "tileId": "greenclosedBook","questId": "alric-stolen-notes",  "building": "scholars-hall-w" }
   ],
   "lockedDoors": [
     {
