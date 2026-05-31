@@ -1969,7 +1969,7 @@
         "The Fracture left many mysteries. Perhaps you can solve them."
       ],
       "questGive": "scholars-anthology",
-      "questReceive": ["elder-old-codex", "gildwyn-stolen-card-plans"]
+      "questReceive": ["elder-old-codex", "gildwyn-stolen-card-plans", "lyss-cipher-key"]
     },
     {
       "id": "achievements-keeper",
@@ -2260,7 +2260,7 @@
         "My guards are the finest in the hub. Fracture or no Fracture.",
         "Need security? My men are at your service."
       ],
-      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn"]
+      "questReceive": ["innkeepers-package", "rosie-spy-in-the-inn", "bram-echo-territory-map"]
     },
     {
       "id": "drill-sergeant-varn",
@@ -2519,7 +2519,18 @@
     { "id": "card-layout-plans", "tx": 5,  "ty": 4,  "tileId": "blueclosedBook", "questId": "gildwyn-stolen-card-plans", "building": "card-shop" },
     { "id": "corrupted-augment-1","tx": 19, "ty": 24, "tileId": "chest",         "questId": "mira-corrupted-augments" },
     { "id": "corrupted-augment-2","tx": 31, "ty": 23, "tileId": "chest",         "questId": "mira-corrupted-augments" },
-    { "id": "corrupted-augment-3","tx": 4,  "ty": 5,  "tileId": "chest",         "questId": "mira-corrupted-augments", "building": "augment-shop" }
+    { "id": "corrupted-augment-3","tx": 4,  "ty": 5,  "tileId": "chest",         "questId": "mira-corrupted-augments", "building": "augment-shop" },
+    { "id": "echo-territory-map","tx": 57, "ty": 16, "tileId": "blueclosedBook", "questId": "bram-echo-territory-map" },
+    { "id": "cipher-key-fragment","tx": 3, "ty": 5,  "tileId": "blueclosedBook", "questId": "lyss-cipher-key", "building": "scholars-north-w" },
+    { "id": "research-specimen-1","tx": 37, "ty": 38, "tileId": "greenclosedBook","questId": "alric-echo-research" },
+    { "id": "research-specimen-2","tx": 55, "ty": 14, "tileId": "greenclosedBook","questId": "alric-echo-research" },
+    { "id": "research-specimen-3","tx": 4,  "ty": 4,  "tileId": "greenclosedBook","questId": "alric-echo-research", "building": "scholars-north-e" },
+    { "id": "glowing-float-1",   "tx": 3,  "ty": 36, "tileId": "pendant",        "questId": "fisherman-glowing-net" },
+    { "id": "glowing-float-2",   "tx": 5,  "ty": 38, "tileId": "pendant",        "questId": "fisherman-glowing-net" },
+    { "id": "glowing-float-3",   "tx": 7,  "ty": 41, "tileId": "pendant",        "questId": "fisherman-glowing-net" },
+    { "id": "shadow-coin",       "tx": 4,  "ty": 5,  "tileId": "pendant",        "questId": "zev-shadow-gambler", "building": "arcade-building-e" },
+    { "id": "shadow-note",       "tx": 6,  "ty": 4,  "tileId": "closedBook",     "questId": "zev-shadow-gambler", "building": "arcade-building-e" },
+    { "id": "shadow-token",      "tx": 4,  "ty": 6,  "tileId": "pendant",        "questId": "zev-shadow-gambler", "building": "arcade-building-w" }
   ],
   "lockedDoors": [
     {

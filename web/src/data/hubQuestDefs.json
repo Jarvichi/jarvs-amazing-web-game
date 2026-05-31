@@ -875,6 +875,98 @@
         "crystals": 80,
         "friendship": { "mira": 30 }
       }
+    },
+    {
+      "id": "bram-echo-territory-map",
+      "title": "Echo Territory Map",
+      "type": "fetch",
+      "giverNpcId": "cartographer-bram",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:bram-altered-map",
+      "offerDialogue": "I found the original behind the forgeries — the real map the Echoes were trying to conceal. It shows which areas they have marked as controlled territory, including three zones inside the hub itself. Captain Thorin must have this.",
+      "activeDialogue": "Take the Echo territory map to Captain Thorin immediately.",
+      "completeDialogue": "Three marked zones — the east passage, the lower barracks corridor, and the traders' den storage. They have been operating right under us. This changes my entire patrol strategy. Tell Bram he may have just saved this hub.",
+      "steps": [
+        { "key": "collect-map", "type": "collect", "pickupIds": ["echo-territory-map"], "required": 1 },
+        { "key": "deliver-map", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 90,
+        "friendship": { "cartographer-bram": 30, "guard-captain-thorin": 15 }
+      }
+    },
+    {
+      "id": "lyss-cipher-key",
+      "title": "The Cipher Key",
+      "type": "fetch",
+      "giverNpcId": "apprentice-lyss",
+      "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:lyss-forbidden-texts",
+      "offerDialogue": "Inside one of those forbidden texts I found a cipher key — a partial one. The complete key would decode every Echo communication we have intercepted. I believe Naia has the other half; she just does not know what she has. Please take this fragment to her.",
+      "activeDialogue": "Take the cipher fragment to Naia — she holds a matching piece without knowing it.",
+      "completeDialogue": "This is the other half of the key I extracted from the ancient codex. Together they form the complete Echo cipher. With this I can read every encoded message we have recovered. This is extraordinary work.",
+      "steps": [
+        { "key": "collect-cipher", "type": "collect", "pickupIds": ["cipher-key-fragment"], "required": 1 },
+        { "key": "deliver-cipher", "type": "deliver", "targetNpcId": "naia-interior", "required": 1 }
+      ],
+      "reward": {
+        "collectible": { "id": "cipher-key", "name": "Echo Cipher Key", "icon": "blueclosedBook", "desc": "The completed cipher key assembled by Lyss and Naia — unlocks every Echo communication." },
+        "friendship": { "apprentice-lyss": 30, "naia-interior": 15 }
+      }
+    },
+    {
+      "id": "alric-echo-research",
+      "title": "Echo Research",
+      "type": "lost-items",
+      "giverNpcId": "professor-aldric",
+      "receiverNpcId": "professor-aldric",
+      "prerequisite": "quest:alric-stolen-notes",
+      "offerDialogue": "Using the annotations on my stolen pages, I have identified three physical specimens that the Echoes would need to conduct their research. Fracture-reactive materials, rare and distinctive. If they are somewhere in the hub I want them secured before the Echoes retrieve them.",
+      "activeDialogue": "Three Fracture-reactive specimens — crystalline clusters with a faint amber glow. They would have been placed near strong Fracture resonance points.",
+      "completeDialogue": "Yes — these are exactly the materials. The amber resonance signature is distinctive. The Echoes were planning to synthesise something. With these specimens I can work backwards and understand what. This is important.",
+      "steps": [
+        { "key": "specimens", "type": "collect", "pickupIds": ["research-specimen-1", "research-specimen-2", "research-specimen-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 85,
+        "friendship": { "professor-aldric": 30 }
+      }
+    },
+    {
+      "id": "fisherman-glowing-net",
+      "title": "The Glowing Net",
+      "type": "lost-items",
+      "giverNpcId": "fisherman",
+      "receiverNpcId": "fisherman",
+      "prerequisite": "quest:greyfishs-strange-catch",
+      "offerDialogue": "Since that glowing object I found, the pond has been changing. Three of my net floats washed up on the bank glowing with the same light. They are Fracture-affected now, useless to me for fishing — but maybe useful to someone who knows what the Fracture does. Collect them.",
+      "activeDialogue": "Three net floats — pale wood, now glowing amber. They should be along the pond bank.",
+      "completeDialogue": "There they are. Something under the pond is getting stronger. The fish have moved away from the deep end entirely. Whatever the Echoes left down there, it is affecting the whole pond now.",
+      "steps": [
+        { "key": "floats", "type": "collect", "pickupIds": ["glowing-float-1", "glowing-float-2", "glowing-float-3"], "required": 3 }
+      ],
+      "reward": {
+        "collectible": { "id": "fracture-floats", "name": "Fracture-Touched Floats", "icon": "pendant", "desc": "Net floats from the old fisherman's pond, saturated with Fracture energy from something hidden in the depths." },
+        "friendship": { "fisherman": 30 }
+      }
+    },
+    {
+      "id": "zev-shadow-gambler",
+      "title": "Shadow Gambler",
+      "type": "lost-items",
+      "giverNpcId": "games-host-zev",
+      "receiverNpcId": "games-host-zev",
+      "prerequisite": "quest:zev-rigged-games",
+      "offerDialogue": "After the rigged games business, someone new started coming in — always at the back tables, always paying in foreign coin, always watching the other players. They left three items behind last night: a coin, a note, and a marked token. I want to know who they are.",
+      "activeDialogue": "A foreign coin, a folded note, and a marked token — left at the back tables of the games hall. They may have hidden them nearby when I started watching.",
+      "completeDialogue": "This note is written in the same cipher as the marked decks from before. This Shadow Gambler is connected to whoever rigged my machines. And this foreign coin — it is from east of the Fracture zone. That narrows things considerably.",
+      "steps": [
+        { "key": "items", "type": "collect", "pickupIds": ["shadow-coin", "shadow-note", "shadow-token"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": { "games-host-zev": 30 }
+      }
     }
   ],
   "innRumours": [
