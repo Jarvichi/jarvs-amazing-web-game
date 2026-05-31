@@ -2138,6 +2138,7 @@
       "building": "scholars-north-e",
       "tx": 6,
       "ty": 4,
+      "questReceive": "alric-manuscript",
       "dialogue": [
         "Every shard of the Fracture has been mapped, but the maps keep changing.",
         "I am charting safe passage routes through the ruins. Come back when it's done.",
@@ -2425,7 +2426,16 @@
     { "id": "bait-jar-3",        "tx": 5,  "ty": 44, "tileId": "bunchOfHerbs", "questId": "greyfishs-bait" },
     { "id": "gildwyns-rare-card","tx": 5,  "ty": 4,  "tileId": "blueclosedBook", "questId": "gildwyns-missing-card", "building": "scholars-hall" },
     { "id": "miras-lost-crystal","tx": 14, "ty": 24, "tileId": "pendant",       "questId": "miras-runaway-crystal" },
-    { "id": "aldous-locket",     "tx": 21, "ty": 22, "tileId": "pendant",       "questId": "aldous-keepsake" }
+    { "id": "aldous-locket",     "tx": 21, "ty": 22, "tileId": "pendant",       "questId": "aldous-keepsake" },
+    { "id": "ink-bottle-1",     "tx": 9,  "ty": 24, "tileId": "closedBook",    "questId": "brams-ink-supply" },
+    { "id": "ink-bottle-2",     "tx": 25, "ty": 24, "tileId": "closedBook",    "questId": "brams-ink-supply" },
+    { "id": "overdue-book-1",   "tx": 4,  "ty": 6,  "tileId": "closedBook",    "questId": "lysss-overdue-books", "building": "card-shop" },
+    { "id": "overdue-book-2",   "tx": 3,  "ty": 5,  "tileId": "blackclosedBook","questId": "lysss-overdue-books", "building": "supply-shop" },
+    { "id": "overdue-book-3",   "tx": 5,  "ty": 5,  "tileId": "greenclosedBook","questId": "lysss-overdue-books", "building": "home" },
+    { "id": "guild-ledger",     "tx": 3,  "ty": 3,  "tileId": "blackclosedBook","questId": "ferryn-ledger",      "building": "trader-den" },
+    { "id": "survey-note-1",    "tx": 4,  "ty": 24, "tileId": "closedBook",    "questId": "sylas-market-survey" },
+    { "id": "survey-note-2",    "tx": 17, "ty": 25, "tileId": "closedBook",    "questId": "sylas-market-survey" },
+    { "id": "survey-note-3",    "tx": 28, "ty": 24, "tileId": "closedBook",    "questId": "sylas-market-survey" }
   ],
   "lockedDoors": [
     {

@@ -160,6 +160,91 @@
         "crystals": 30,
         "friendship": { "home-steward": 15 }
       }
+    },
+    {
+      "id": "alric-manuscript",
+      "title": "The Professor's Papers",
+      "type": "fetch",
+      "giverNpcId": "professor-aldric",
+      "receiverNpcId": "cartographer-bram",
+      "offerDialogue": "I have a rather urgent paper for Cartographer Bram — a revised lecture on Fracture geography. I am far too busy to deliver it myself. Would you oblige?",
+      "activeDialogue": "Bram is in the north-east scholars' wing. He will be expecting something eventually — tell him it is from me.",
+      "completeDialogue": "At last! Aldric's scribblings. Useful, actually. Pass along my thanks.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "cartographer-bram", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": { "professor-aldric": 15, "cartographer-bram": 15 }
+      }
+    },
+    {
+      "id": "brams-ink-supply",
+      "title": "Running Low on Ink",
+      "type": "lost-items",
+      "giverNpcId": "cartographer-bram",
+      "receiverNpcId": "cartographer-bram",
+      "offerDialogue": "My ink shipment from the market went missing somewhere between the lane and my desk. Two full bottles — good cartographer's ink is not cheap. Would you track them down?",
+      "activeDialogue": "They were delivered to the market lane. Someone must have set them down. Both bottles — I need both.",
+      "completeDialogue": "Both bottles intact! Excellent. I can finish the Fracture boundary maps now. You have my gratitude.",
+      "steps": [
+        { "key": "ink", "type": "collect", "pickupIds": ["ink-bottle-1", "ink-bottle-2"], "required": 2 }
+      ],
+      "reward": {
+        "crystals": 35,
+        "friendship": { "cartographer-bram": 20 }
+      }
+    },
+    {
+      "id": "lysss-overdue-books",
+      "title": "Overdue Returns",
+      "type": "lost-items",
+      "giverNpcId": "apprentice-lyss",
+      "receiverNpcId": "apprentice-lyss",
+      "offerDialogue": "Three books were loaned out before the Fracture and never returned. I have been tracking them for months. I believe they are scattered across town — in the card shop, the supply store, and someone's home. Would you retrieve them?",
+      "activeDialogue": "Check the card emporium, the supply shop, and the home building. The spines are marked with the archive seal.",
+      "completeDialogue": "All three! The cataloguing can continue at last. You are a genuine asset to this archive.",
+      "steps": [
+        { "key": "books", "type": "collect", "pickupIds": ["overdue-book-1", "overdue-book-2", "overdue-book-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 40,
+        "friendship": { "apprentice-lyss": 20 }
+      }
+    },
+    {
+      "id": "ferryn-ledger",
+      "title": "The Guild Ledger",
+      "type": "fetch",
+      "giverNpcId": "guild-master-ferryn",
+      "receiverNpcId": "guild-master-ferryn",
+      "offerDialogue": "Someone borrowed the guild's primary ledger — without asking, naturally — and I believe it ended up in the trader den. I need that book back. Every transaction for the last year is in it.",
+      "activeDialogue": "Check the trader den to the south-west. The ledger is bound in dark leather with a guild stamp on the cover.",
+      "completeDialogue": "Intact. Every page. I will be having words with the trader. Here — your fee, as promised.",
+      "steps": [
+        { "key": "ledger", "type": "collect", "pickupIds": ["guild-ledger"], "required": 1 }
+      ],
+      "reward": {
+        "crystals": 50,
+        "friendship": { "guild-master-ferryn": 25 }
+      }
+    },
+    {
+      "id": "sylas-market-survey",
+      "title": "Market Survey",
+      "type": "lost-items",
+      "giverNpcId": "market-warden-syla",
+      "receiverNpcId": "market-warden-syla",
+      "offerDialogue": "I placed survey notices along the market lane this morning for traders to complete. Of course, the wind had other ideas. Would you collect the ones that blew away?",
+      "activeDialogue": "Three notices — they cannot have gone far from the market lane. Look along the stalls.",
+      "completeDialogue": "All three returned, and mostly legible. That is the most I can hope for on a market day. Thank you.",
+      "steps": [
+        { "key": "notices", "type": "collect", "pickupIds": ["survey-note-1", "survey-note-2", "survey-note-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 45,
+        "friendship": { "market-warden-syla": 20 }
+      }
     }
   ],
   "innRumours": [
