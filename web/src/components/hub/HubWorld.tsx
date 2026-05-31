@@ -354,6 +354,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
               primary: true,
               onClick: () => {
                 setQuestStatus(quest.id, 'active')
+                activeQuestIdsRef.current.add(quest.id)
                 refreshState()
                 setDialogueEvent(null)
               },
