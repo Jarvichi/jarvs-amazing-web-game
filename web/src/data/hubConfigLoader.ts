@@ -26,6 +26,7 @@ export interface HubDoor {
   buildingId: string
   tx: number
   ty: number
+  tyAdjust?: number  // tiles to shift the render position upward (0 = standard south-face)
 }
 
 export interface InteriorDecor {
@@ -118,6 +119,12 @@ function resolveTileId(key: string): number {
   return (BASE_CHIP_TILES as Record<string, number>)[key] ?? 666
 }
 
+function buildingOrigin(rectList: number[][]): [number, number] {
+  const tx1 = Math.min(...rectList.map(r => r[0]))
+  const ty2 = Math.max(...rectList.map(r => r[3]))
+  return [tx1, ty2]
+}
+
 // ── Exports ────────────────────────────────────────────────────────────────────
 
 export const MAP_W = rawConfig.mapW
@@ -135,38 +142,84 @@ export const HUB_AREAS: HubArea[] = rawConfig.areas.map(a => ({
 
 export const HUB_STREET_GROUPS: HubStreetGroup[] = groupStreets(rawConfig.streets as TileEntry[])
 export const HUB_STREET_TILES:  [number, number][] = HUB_STREET_GROUPS.flatMap(g => g.tiles)
-export const HUB_BUILDING_TILES = expandTiles(rawConfig.buildings as TileEntry[])
-
-type RawBuilding = { rect: number[]; id?: string; wall?: string; roof?: string }
-export const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).map(b => ({
-  rect: b.rect as [number, number, number, number],
-  id:   b.id,
-  wall: b.wall as WallMaterial | undefined,
-  roof: b.roof as RoofMaterial | undefined,
-}))
-
-type RawDecorEntry = { tx?: number; ty?: number; tileId?: string; comment?: string }
-export const EXTERIOR_DECOR = (rawConfig.exteriorDecor as RawDecorEntry[])
-  .filter((d): d is { tx: number; ty: number; tileId: string } => d.tx != null && d.ty != null && d.tileId != null)
-  .map(d => ({
-    tx:     d.tx,
-    ty:     d.ty,
-    tileId: resolveTileId(d.tileId),
+type RawBuilding = {
+  rect?: number[]; rects?: number[][];
+  id?: string; wall?: string; roof?: string;
+  doors?:   Array<{ tx: number; ty: number; buildingId?: string }>
+  windows?: Array<{ tx: number; ty: number; tileId: string }>
+  decor?:   Array<{ tx: number; ty: number; tileId: string; zlayer?: string }>
+}
+export const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).flatMap(b => {
+  const rectList = b.rects ?? (b.rect ? [b.rect] : [])
+  return rectList.map(rect => ({
+    rect: rect as [number, number, number, number],
+    id:   b.id,
+    wall: b.wall as WallMaterial | undefined,
+    roof: b.roof as RoofMaterial | undefined,
   }))
+})
+
+export const HUB_BUILDING_TILES: [number, number][] = HUB_BUILDINGS.flatMap(b => {
+  const [tx1, ty1, tx2, ty2] = b.rect
+  const tiles: [number, number][] = []
+  for (let tx = tx1; tx <= tx2; tx++)
+    for (let ty = ty1; ty <= ty2; ty++)
+      tiles.push([tx, ty])
+  return tiles
+})
+
+// Expand nested doors/windows/decor from building definitions (relative → absolute coords)
+const _nestedDoors:   HubDoor[]                                              = []
+const _nestedWindows: { tx: number; ty: number; tileId: number }[]           = []
+const _nestedDecor:   { tx: number; ty: number; tileId: number; zlayer?: string }[] = []
+for (const b of rawConfig.buildings as RawBuilding[]) {
+  const rectList = b.rects ?? (b.rect ? [b.rect] : [])
+  if (rectList.length === 0) continue
+  const [ox, oy] = buildingOrigin(rectList)
+  for (const d of b.doors ?? []) {
+    const absTy = oy + d.ty
+    // Find the rect whose south face (ty2+1) the door will match against.
+    // If no rect has ty2+1 === absTy, find the nearest rect above and compute tyAdjust
+    // so the renderer shifts the door tiles up by that amount.
+    let storeTy  = absTy
+    let tyAdjust = 0
+    if (!rectList.some(r => r[3] + 1 === absTy)) {
+      const candidate = rectList
+        .map(r => r[3] + 1)
+        .filter(ty2p1 => ty2p1 > absTy)
+        .sort((a, b) => a - b)[0]
+      if (candidate !== undefined) { storeTy = candidate; tyAdjust = candidate - absTy }
+    }
+    _nestedDoors.push({ buildingId: d.buildingId ?? b.id ?? '', tx: ox + d.tx, ty: storeTy, ...(tyAdjust ? { tyAdjust } : {}) })
+  }
+  for (const w of b.windows ?? [])
+    _nestedWindows.push({ tx: ox + w.tx, ty: oy + w.ty, tileId: resolveTileId(w.tileId) })
+  for (const d of b.decor ?? [])
+    _nestedDecor.push({ tx: ox + d.tx, ty: oy + d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer })
+}
+
+type RawDecorEntry = { tx?: number; ty?: number; tileId?: string; comment?: string; zlayer?: string }
+export const EXTERIOR_DECOR = [
+  ...(rawConfig.exteriorDecor as RawDecorEntry[])
+    .filter((d): d is { tx: number; ty: number; tileId: string; zlayer?: string } => d.tx != null && d.ty != null && d.tileId != null)
+    .map(d => ({ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer })),
+  ..._nestedDecor,
+]
 
 type RawWindowEntry = { tx: number; ty: number; tileId: string }
-export const HUB_WINDOWS = (rawConfig as unknown as { windows?: RawWindowEntry[] }).windows?.map(w => ({
-  tx:     w.tx,
-  ty:     w.ty,
-  tileId: resolveTileId(w.tileId),
-})) ?? []
+export const HUB_WINDOWS = [
+  ...((rawConfig as unknown as { windows?: RawWindowEntry[] }).windows ?? []).map(w => ({
+    tx: w.tx, ty: w.ty, tileId: resolveTileId(w.tileId),
+  })),
+  ..._nestedWindows,
+]
 
 type RawPondEntry = { rect?: number[]; tile?: number[] }
 export const HUB_POND_TILES: [number, number][] = expandTiles(
   ((rawConfig as unknown as { pondTiles?: RawPondEntry[] }).pondTiles ?? []) as TileEntry[]
 )
 
-export const HUB_DOORS: HubDoor[] = rawConfig.doors
+export const HUB_DOORS: HubDoor[] = [...((rawConfig as unknown as { doors?: HubDoor[] }).doors ?? []), ..._nestedDoors]
 
 export const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
   Object.entries(rawConfig.interiors).map(([id, raw]) => [
@@ -194,7 +247,10 @@ export const INTERIOR_NPCS: Record<string, HubNpc[]> = HUB_NPCS
     return acc
   }, {})
 
-export const NPC_SPAWN_TILES = rawConfig.npcSpawnTiles as [number, number][]
+export const NPC_SPAWN_TILES: [number, number][] = [
+  ...(rawConfig.npcSpawnTiles as [number, number][]),
+  ...HUB_DOORS.map(d => [d.tx, d.ty] as [number, number]),
+]
 
 export const AMBIENT_NPC_SPRITES: string[] = (rawConfig as { ambientNpcSprites?: string[] }).ambientNpcSprites ?? []
 

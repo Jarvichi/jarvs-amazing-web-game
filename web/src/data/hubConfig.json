@@ -4,6 +4,14 @@
   "avatarStart": [37, 29],
 
   "areas": [
+        {
+      "id": "townhall",
+      "name": "The Townhall",
+      "tx": 30,
+      "ty": 1,
+      "tw": 40,
+      "th": 8
+    },
     {
       "id": "courtyard",
       "name": "The Courtyard",
@@ -15,10 +23,10 @@
     {
       "id": "barracks",
       "name": "The Barracks Gate",
-      "tx": 36,
-      "ty": 0,
-      "tw": 3,
-      "th": 21
+      "tx": 58,
+      "ty": 26,
+      "tw": 79,
+      "th": 49
     },
     {
       "id": "dock",
@@ -72,7 +80,7 @@
   "streets": [
     { "rect": [0, 23, 35, 25] },
     { "rect": [39, 23, 74, 25] },
-    { "rect": [36, 0, 38, 23] },
+    { "rect": [36,7, 38, 23] },
     { "rect": [36, 26, 38, 39] },
 
     { "rect": [33, 21, 35, 28] },
@@ -87,7 +95,7 @@
     { "rect": [14, 26, 16, 45] },
     { "rect": [0, 35, 16, 36] },
     { "rect": [18, 2, 19, 23] },
-    { "rect": [18, 2, 38, 3] },
+    { "rect": [18, 11, 38, 12] },
     { "rect": [0, 12, 20, 13] },
     { "tile": [6, 11] },
     { "tile": [7, 11] },
@@ -120,23 +128,120 @@
     {"rect": [30, 31, 33, 36], "pathType": "longGrass"}
   ],
   "buildings": [
-    { "rect": [ 2,  4, 9, 10], "id": "card-shop-bldg",    "wall": "brick",           "roof": "woodRoof" },
-    { "rect": [11,  4, 17, 10], "id": "augment-shop-bldg", "wall": "woodenSlats",     "roof": "redSlateRoof" },
-    { "rect": [ 4, 15, 11, 21], "id": "south-building",    "wall": "woodenSlats",     "roof": "redSlateRoof" },
-    { "rect": [22, 13, 29, 19], "id": "home-building",     "wall": "woodWall",        "roof": "yellowSlateRoof" },
-    { "rect": [43,  0, 50,  6], "id": "scholars-north-w",  "wall": "castleStone",     "roof": "blueSlateRoof" },
-    { "rect": [61,  0, 68,  6], "id": "scholars-north-e",  "wall": "castleStone",     "roof": "blueSlateRoof" },
-    { "rect": [43, 13, 50, 19], "id": "scholars-hall-w",   "wall": "ornateStone",     "roof": "blueSlateRoof" },
-    { "rect": [61, 13, 68, 19], "id": "scholars-hall-e",   "wall": "ornateStone",     "roof": "blueSlateRoof" },
-    { "rect": [ 7, 27, 13, 33], "id": "sw-building-a",     "wall": "darkStone",       "roof": "greySlateRoof" },
-    { "rect": [ 2, 41,  9, 47], "id": "sw-building-b",     "wall": "renderedBrick",   "roof": "strawRoof" },
-    { "rect": [21, 27, 28, 33], "id": "traders-building",  "wall": "tudorFrame",      "roof": "metalRoof" },
-    { "rect": [21, 41, 28, 47], "id": "market-building",   "wall": "renderedBrick",   "roof": "greySlateRoof" },
-    { "rect": [44, 28, 51, 34], "id": "arcade-building-e", "wall": "whiteStone",      "roof": "yellowSlateRoof" },
-    { "rect": [44, 41, 51, 47], "id": "arcade-building-w", "wall": "tudorFrame",      "roof": "strawRoof" },
-    { "rect": [61, 28, 68, 34], "id": "barracks-north",    "wall": "reinforcedStone", "roof": "greySlateRoof" },
-    { "rect": [61, 41, 68, 47], "id": "barracks-south",    "wall": "reinforcedStone", "roof": "greySlateRoof" },
-    { "rect": [70, 42, 74, 47], "id": "barracks-vault",    "wall": "reinforcedStone", "roof": "greySlateRoof" }
+    {
+      "rect": [2, 4, 9, 10], "id": "card-shop-bldg", "wall": "brick", "roof": "woodRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "card-shop" }],
+      "windows": [{ "tx": 2, "ty": -2, "tileId": "windowTop" }, { "tx": 2, "ty": -1, "tileId": "windowBottom" },
+                  { "tx": 5, "ty": -2, "tileId": "windowTop"  }, { "tx": 5, "ty": -1, "tileId": "windowBottom" }]
+    },
+    {
+      "rect": [11, 4, 17, 10], "id": "augment-shop-bldg", "wall": "woodenSlats", "roof": "redSlateRoof",
+      "doors":   [{ "tx": 3, "ty": 1, "buildingId": "augment-shop" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop2" }, { "tx": 1, "ty": -1, "tileId": "windowBottom2" },
+                  { "tx": 4, "ty": -2, "tileId": "windowTop2"  }, { "tx": 4, "ty": -1, "tileId": "windowBottom2" }]
+    },
+    {
+      "rect": [4, 15, 11, 21], "id": "south-building", "wall": "woodenSlats", "roof": "redSlateRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "supply-shop" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop3" }, { "tx": 1, "ty": -1, "tileId": "windowBottom3" }]
+    },
+    {
+      "rect": [22, 13, 29, 19], "id": "home-building", "wall": "woodWall", "roof": "yellowSlateRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "home" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop4" }, { "tx": 1, "ty": -1, "tileId": "windowBottom4" }]
+    },
+    {
+      "rect": [45, 0, 52, 6], "id": "scholars-north-w", "wall": "castleStone", "roof": "blueSlateRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "scholars-north-w" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop"  }, { "tx": 1, "ty": -1, "tileId": "windowBottom"  }]
+    },
+    {
+      "rect": [61, 0, 68, 6], "id": "scholars-north-e", "wall": "castleStone", "roof": "blueSlateRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "scholars-north-e" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop2" }, { "tx": 1, "ty": -1, "tileId": "windowBottom2" }]
+    },
+    {
+      "rect": [43, 13, 50, 19], "id": "scholars-hall-w", "wall": "ornateStone", "roof": "blueSlateRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "scholars-hall-w" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop3" }, { "tx": 1, "ty": -1, "tileId": "windowBottom3" }]
+    },
+    {
+      "rect": [61, 13, 68, 19], "id": "scholars-hall-e", "wall": "ornateStone", "roof": "blueSlateRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "scholars-hall" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop4" }, { "tx": 1, "ty": -1, "tileId": "windowBottom4" }]
+    },
+    {
+      "rect": [7, 27, 13, 33], "id": "sw-building-a", "wall": "darkStone", "roof": "greySlateRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "trader-den" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop"  }, { "tx": 1, "ty": -1, "tileId": "windowBottom"  }]
+    },
+    {
+      "rect": [2, 41, 9, 47], "id": "sw-building-b", "wall": "renderedBrick", "roof": "strawRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "sw-building-b" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop2" }, { "tx": 1, "ty": -1, "tileId": "windowBottom2" }]
+    },
+    {
+      "rect": [21, 27, 28, 33], "id": "traders-building", "wall": "tudorFrame", "roof": "metalRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "traders-building" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop3" }, { "tx": 1, "ty": -1, "tileId": "windowBottom3" }]
+    },
+    {
+      "rect": [21, 41, 28, 47], "id": "market-building", "wall": "renderedBrick", "roof": "greySlateRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "market-building" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop4" }, { "tx": 1, "ty": -1, "tileId": "windowBottom4" }]
+    },
+    {
+      "rect": [44, 28, 51, 34], "id": "arcade-building-e", "wall": "whiteStone", "roof": "yellowSlateRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "arcade-building-e" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop"  }, { "tx": 1, "ty": -1, "tileId": "windowBottom"  }]
+    },
+    {
+      "rect": [44, 41, 51, 47], "id": "arcade-building-w", "wall": "tudorFrame", "roof": "strawRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "arcade-building-w" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop2" }, { "tx": 1, "ty": -1, "tileId": "windowBottom2" }]
+    },
+    {
+      "rect": [61, 28, 68, 34], "id": "barracks-north", "wall": "reinforcedStone", "roof": "greySlateRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "barracks-north" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop3" }, { "tx": 1, "ty": -1, "tileId": "windowBottom3" }]
+    },
+    {
+      "rect": [61, 41, 68, 47], "id": "barracks-south", "wall": "reinforcedStone", "roof": "greySlateRoof",
+      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "barracks-south" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop4" }, { "tx": 1, "ty": -1, "tileId": "windowBottom4" }]
+    },
+    {
+      "rect": [70, 42, 74, 47], "id": "barracks-vault", "wall": "reinforcedStone", "roof": "greySlateRoof",
+      "doors":   [{ "tx": 2, "ty": 1, "buildingId": "barracks-vault" }]
+    },
+
+    { "comment": "Town Hall" },
+    {
+      "rects": [[31,0,32,9],[42,0,43,9],[33,2,41,8]],
+      "id": "townhall", "wall": "ornateStone", "roof": "greySlateRoof",
+      "doors":   [{ "tx": 6, "ty": -1, "buildingId": "town-hall" }],
+      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop4" }, { "tx": 1, "ty": -1, "tileId": "windowBottom4" }],
+      "decor": [
+          { "comment": "town hall steps - [36, 9]" },
+          { "tx": 5, "ty": -2, "tileId": "stoneStairsUpLeftTop", "zlayer": "below-avatar" },
+          { "tx": 7, "ty": -2, "tileId": "stoneStairsUpRightTop", "zlayer": "below-avatar"  },
+          { "tx": 5, "ty": -1, "tileId": "stoneStairsUpLeftMiddle", "zlayer": "below-avatar"  },
+          { "tx": 6, "ty": -1, "tileId": "stoneStairsUpMiddleMiddle", "zlayer": "below-avatar"  },
+          { "tx": 7, "ty": -1, "tileId": "stoneStairsUpRightMiddle", "zlayer": "below-avatar"  },        
+          { "tx": 5, "ty": 0, "tileId": "stoneStairsUpLeftBottom", "zlayer": "below-avatar"  },
+          { "tx": 6, "ty": 0, "tileId": "stoneStairsUpMiddleBottom", "zlayer": "below-avatar"  },
+          { "tx": 7, "ty": 0, "tileId": "stoneStairsUpRightBottom", "zlayer": "below-avatar"  },
+
+          { "tx": 2, "ty": 0, "tileId": "yellowFlower" },
+          { "tx": 3, "ty": 0, "tileId": "blueFlower" },
+          { "tx": 4, "ty": 0, "tileId": "whiteFlower" },
+
+          { "tx": 10, "ty": 0, "tileId": "yellowFlower" },
+          { "tx": 9, "ty": 0, "tileId": "blueFlower" },
+          { "tx": 8, "ty": 0, "tileId": "whiteFlower" }
+
+      ]
+    }
   ],
   "exteriorDecor": [
     { "tx": 21, "ty": 21, "tileId": "stoneWell" },
@@ -144,6 +249,9 @@
     { "tx":  3, "ty": 11, "tileId": "barrel" },
     { "tx": 11, "ty": 11, "tileId": "crate" },
     { "tx": 24, "ty": 20, "tileId": "mailBox" },
+
+
+
 
     { "comment": "courtyard fountain" },
     { "tx":  36, "ty":  23, "tileId": "fountainTopLeft" },
@@ -199,10 +307,10 @@
     { "tx": 20, "ty":  4, "tileId": "darkTreeBottomLeft" },
     { "tx": 21, "ty":  4, "tileId": "darkTreeBottomRight" },
 
-    { "tx": 30, "ty":  0, "tileId": "darkTreeTopLeft" },
-    { "tx": 31, "ty":  0, "tileId": "darkTreeTopRight" },
-    { "tx": 30, "ty":  1, "tileId": "darkTreeBottomLeft" },
-    { "tx": 31, "ty":  1, "tileId": "darkTreeBottomRight" },
+    { "tx": 29, "ty":  0, "tileId": "darkTreeTopLeft" },
+    { "tx": 30, "ty":  0, "tileId": "darkTreeTopRight" },
+    { "tx": 29, "ty":  1, "tileId": "darkTreeBottomLeft" },
+    { "tx": 30, "ty":  1, "tileId": "darkTreeBottomRight" },
 
     { "tx": 39, "ty":  0, "tileId": "darkTreeTopLeft" },
     { "tx": 40, "ty":  0, "tileId": "darkTreeTopRight" },
@@ -414,7 +522,7 @@
     { "tx": 14, "ty":  3, "tileId": "grassTuft" },
     { "tx": 24, "ty":  8, "tileId": "grassTuft" },
     { "tx": 30, "ty":  5, "tileId": "grassTuft" },
-    { "tx": 41, "ty":  5, "tileId": "grassTuft" },
+    { "tx": 40, "ty":  12, "tileId": "grassTuft" },
     { "tx": 59, "ty":  5, "tileId": "grassTuft" },
     { "tx": 71, "ty":  5, "tileId": "grassTuft" },
     { "tx": 29, "ty": 40, "tileId": "grassTuft" },
@@ -424,60 +532,6 @@
   "pondTiles": [
     { "rect": [32, 42, 41, 46] },
     { "rect": [35, 40, 39, 46] }
-  ],
-  "windows": [
-    { "tx":  4, "ty":  8, "tileId": "windowTop" },   { "tx":  4, "ty":  9, "tileId": "windowBottom" },
-    { "tx":  7, "ty":  8, "tileId": "windowTop" },   { "tx":  7, "ty":  9, "tileId": "windowBottom" },
-
-    { "tx": 12, "ty":  8, "tileId": "windowTop2" },  { "tx": 12, "ty":  9, "tileId": "windowBottom2" },
-    { "tx": 15, "ty":  8, "tileId": "windowTop2" },  { "tx": 15, "ty":  9, "tileId": "windowBottom2" },
-
-    { "tx":  5, "ty": 19, "tileId": "windowTop3" },  { "tx":  5, "ty": 20, "tileId": "windowBottom3" },
-
-    { "tx": 23, "ty": 17, "tileId": "windowTop4" },  { "tx": 23, "ty": 18, "tileId": "windowBottom4" },
-
-    { "tx": 44, "ty":  4, "tileId": "windowTop" },   { "tx": 44, "ty":  5, "tileId": "windowBottom" },
-
-    { "tx": 62, "ty":  4, "tileId": "windowTop2" },  { "tx": 62, "ty":  5, "tileId": "windowBottom2" },
-
-    { "tx": 44, "ty": 17, "tileId": "windowTop3" },  { "tx": 44, "ty": 18, "tileId": "windowBottom3" },
-
-    { "tx": 62, "ty": 17, "tileId": "windowTop4" },  { "tx": 62, "ty": 18, "tileId": "windowBottom4" },
-
-    { "tx":  8, "ty": 31, "tileId": "windowTop" },   { "tx":  8, "ty": 32, "tileId": "windowBottom" },
-
-    { "tx":  3, "ty": 45, "tileId": "windowTop2" },  { "tx":  3, "ty": 46, "tileId": "windowBottom2" },
-
-    { "tx": 22, "ty": 31, "tileId": "windowTop3" },  { "tx": 22, "ty": 32, "tileId": "windowBottom3" },
-
-    { "tx": 22, "ty": 45, "tileId": "windowTop4" },  { "tx": 22, "ty": 46, "tileId": "windowBottom4" },
-
-    { "tx": 45, "ty": 32, "tileId": "windowTop" },   { "tx": 45, "ty": 33, "tileId": "windowBottom" },
-
-    { "tx": 45, "ty": 45, "tileId": "windowTop2" },  { "tx": 45, "ty": 46, "tileId": "windowBottom2" },
-
-    { "tx": 62, "ty": 32, "tileId": "windowTop3" },  { "tx": 62, "ty": 33, "tileId": "windowBottom3" },
-
-    { "tx": 62, "ty": 45, "tileId": "windowTop4" },  { "tx": 62, "ty": 46, "tileId": "windowBottom4" }
-  ],
-  "doors": [
-    { "buildingId": "card-shop",        "tx":  6, "ty": 11 },
-    { "buildingId": "augment-shop",     "tx": 14, "ty": 11 },
-    { "buildingId": "supply-shop",      "tx":  8, "ty": 22 },
-    { "buildingId": "scholars-hall",    "tx": 65, "ty": 20 },
-    { "buildingId": "home",             "tx": 26, "ty": 20 },
-    { "buildingId": "trader-den",       "tx": 11, "ty": 34 },
-    { "buildingId": "scholars-north-w", "tx": 47, "ty":  7 },
-    { "buildingId": "scholars-north-e", "tx": 65, "ty":  7 },
-    { "buildingId": "scholars-hall-w",  "tx": 47, "ty": 20 },
-    { "buildingId": "sw-building-b",    "tx":  6, "ty": 48 },
-    { "buildingId": "traders-building", "tx": 25, "ty": 34 },
-    { "buildingId": "market-building",  "tx": 25, "ty": 48 },
-    { "buildingId": "arcade-building-e","tx": 48, "ty": 35 },
-    { "buildingId": "arcade-building-w","tx": 48, "ty": 48 },
-    { "buildingId": "barracks-north",   "tx": 65, "ty": 35 },
-    { "buildingId": "barracks-south",   "tx": 65, "ty": 48 },
-    { "buildingId": "barracks-vault",   "tx": 72, "ty": 48 }
   ],
   "interiors": {
     "card-shop": {
@@ -1655,6 +1709,60 @@
           "tileId": "barrel"
         }
       ]
+    },
+    "town-hall": {
+      "name": "The Town Hall",
+      "width": 16,
+      "height": 10,
+      "floorTileId": "blueOrnateFloor",
+      "decor": [
+        { "tx":  1, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx":  2, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx":  1, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx":  2, "ty": 2, "tileId": "bookshelfBottom" },
+
+        { "tx":  7, "ty": 1, "tileId": "deskTop" },
+        { "tx":  8, "ty": 1, "tileId": "deskTop" },
+
+        { "tx": 13, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 14, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 13, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 14, "ty": 2, "tileId": "bookshelfBottom" },
+
+        { "tx":  3, "ty": 2, "tileId": "ornateStonePillarTop" },
+        { "tx":  3, "ty": 3, "tileId": "ornateStonePillarBottom" },
+        { "tx": 12, "ty": 2, "tileId": "ornateStonePillarTop" },
+        { "tx": 12, "ty": 3, "tileId": "ornateStonePillarBottom" },
+
+        { "tx":  4, "ty": 4, "tileId": "smallTableTopLeft" },
+        { "tx":  5, "ty": 4, "tileId": "smallTableTopMiddle" },
+        { "tx":  6, "ty": 4, "tileId": "smallTableTopMiddle" },
+        { "tx":  7, "ty": 4, "tileId": "smallTableTopMiddle" },
+        { "tx":  8, "ty": 4, "tileId": "smallTableTopMiddle" },
+        { "tx":  9, "ty": 4, "tileId": "smallTableTopMiddle" },
+        { "tx": 10, "ty": 4, "tileId": "smallTableTopMiddle" },
+        { "tx": 11, "ty": 4, "tileId": "smallTableTopRight" },
+        { "tx":  4, "ty": 5, "tileId": "smallTableBottomLeft" },
+        { "tx":  5, "ty": 5, "tileId": "smallTableBottomMiddle" },
+        { "tx":  6, "ty": 5, "tileId": "smallTableBottomMiddle" },
+        { "tx":  7, "ty": 5, "tileId": "smallTableBottomMiddle" },
+        { "tx":  8, "ty": 5, "tileId": "smallTableBottomMiddle" },
+        { "tx":  9, "ty": 5, "tileId": "smallTableBottomMiddle" },
+        { "tx": 10, "ty": 5, "tileId": "smallTableBottomMiddle" },
+        { "tx": 11, "ty": 5, "tileId": "smallTableBottomRight" },
+
+        { "tx":  3, "ty": 6, "tileId": "ornateStonePillarTop" },
+        { "tx":  3, "ty": 7, "tileId": "ornateStonePillarBottom" },
+        { "tx": 12, "ty": 6, "tileId": "ornateStonePillarTop" },
+        { "tx": 12, "ty": 7, "tileId": "ornateStonePillarBottom" },
+
+        { "tx":  4, "ty": 7, "tileId": "benchLeft" },
+        { "tx":  5, "ty": 7, "tileId": "benchMiddle" },
+        { "tx":  6, "ty": 7, "tileId": "benchRight" },
+        { "tx":  9, "ty": 7, "tileId": "benchLeft" },
+        { "tx": 10, "ty": 7, "tileId": "benchMiddle" },
+        { "tx": 11, "ty": 7, "tileId": "benchRight" }
+      ]
     }
   },
   "npcs": [
@@ -1861,7 +1969,7 @@
       "id": "home-shelf",
       "name": "Steward Maren",
       "sprite": "hub-npc-elder",
-      "tx": 33, "ty": 24,
+      "tx": 27, "ty": 21,
       "screen": "home-shelf",
       "dialogue": [
         "Your quarters are just inside, Commander. I keep your things in order.",
@@ -1969,7 +2077,7 @@
       "id": "town-planner",
       "name": "Town Planner",
       "sprite": "hub-npc-elder",
-      "tx": 37, "ty": 26,
+      "tx": 39, "ty": 10,
       "screen": "citybuilder",
       "dialogue": ["A great city starts with a single road. Shall we begin?", "Lay the streets, raise the buildings — this town is yours to shape."]
     },
@@ -2227,64 +2335,7 @@
     "hub-npc-scholar",
     "hub-npc-fisherman"
   ],
-  "npcSpawnTiles": [
-    [
-      35,
-      23
-    ],
-    [
-      39,
-      23
-    ],
-    [
-      35,
-      26
-    ],
-    [
-      39,
-      26
-    ],
-    [
-      19,
-      8
-    ],
-    [
-      19,
-      15
-    ],
-    [
-      10,
-      24
-    ],
-    [
-      60,
-      24
-    ],
-    [
-      56,
-      11
-    ],
-    [
-      37,
-      7
-    ],
-    [
-      37,
-      40
-    ],
-    [
-      15,
-      35
-    ],
-    [
-      5,
-      35
-    ],
-    [
-      65,
-      9
-    ]
-  ],
+  "npcSpawnTiles": [ ],
   "pickupItems": [
     {
       "id": "pendant-1",

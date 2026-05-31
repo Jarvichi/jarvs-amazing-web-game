@@ -28,3 +28,9 @@ export function markPickedUp(id: string): void {
   ids.add(id)
   save(ids)
 }
+
+export function unmarkPickedUp(ids: string[]): void {
+  const current = load()
+  for (const id of ids) current.delete(id)
+  save(current)
+}
