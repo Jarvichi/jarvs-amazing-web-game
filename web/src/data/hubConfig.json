@@ -61,10 +61,10 @@
       "th": 23
     },
     {
-      "id": "pond",
-      "name": "Greyfish Pond",
-      "tx": 1,
-      "ty": 34,
+      "id": "farm",
+      "name": "Gregor's Farm",
+      "tx": 0,
+      "ty": 28,
       "tw": 7,
       "th": 5
     },
@@ -126,6 +126,10 @@
     {"tile":[72, 48]},
      {"tile":[65, 47]},
      {"tile":[72, 47]},
+              {"rect": [0,27, 6, 32], "pathType": "longGrass"},
+         {"tile": [3, 33]},
+         {"tile": [3, 34]},
+
     {"rect": [30, 34, 35, 34], "pathType": "longGrass"},
     {"rect": [30, 31, 33, 36], "pathType": "longGrass"}
   ],
@@ -252,8 +256,14 @@
     { "tx": 11, "ty": 11, "tileId": "crate" },
     { "tx": 24, "ty": 20, "tileId": "mailBox" },
 
+    { "tx": 0, "ty": 33, "tileId": "fenceLeftRight" },
+    { "tx": 1, "ty": 33, "tileId": "fenceLeftRight" },
+    {"tx": 2, "ty": 33, "tileId": "fenceLeft"},
 
 
+    { "tx": 4, "ty": 33, "tileId": "fenceRight" },
+    { "tx": 5, "ty": 33, "tileId": "fenceLeftRight" },
+    {"tx": 6, "ty": 33, "tileId": "fenceLeftRight"},
 
     { "comment": "courtyard fountain" },
     { "tx":  36, "ty":  23, "tileId": "fountainTopLeft" },

@@ -1841,8 +1841,8 @@
   "pickupItems": [
     {
       "id": "pendant-1",
-      "tx": 4,
-      "ty": 39,
+      "tx": 1,
+      "ty": 35,
       "tileId": "pendant",
       "questId": "lost-pendant"
     },
