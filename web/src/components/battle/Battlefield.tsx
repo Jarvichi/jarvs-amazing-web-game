@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
+import { BattlefieldTerrainCanvas } from './battlefield/BattlefieldTerrainCanvas'
 import battlefieldConfig from '../../data/battlefield.json'
 import { GameState, Unit, LANE_WIDTH, Card, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE } from '../../game/types'
 import { CardTile } from '../cards/CardTile'
@@ -1092,7 +1093,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
         onContextMenu={pendingAoeCard ? (e) => { e.preventDefault(); setPendingAoeCard(null); setAoeHoverPos(null) } : undefined}
       >
         <div className="lane-ground" />
-        <LaneBackground env={state.environment} />
+        <BattlefieldTerrainCanvas environment={state.environment} id={state.environment} />
         <ForestBorder theme={actTheme} />
         {(state.terrain ?? []).map(obs => <TerrainTile key={obs.id} obs={obs} />)}
         {isDebugMode() && (state.terrain ?? []).map(obs => {
