@@ -132,3 +132,32 @@ export const T3_Water7: Story          = { name: 'Type3 / Water7',          args
 export const T3_WaterFall1: Story      = { name: 'Type3 / WaterFall1',      args: { tileset: t3fall('[A]WaterFall1_pipo.png'),      labels: WATERFALL_LABELS } }
 export const T3_WaterFall2: Story      = { name: 'Type3 / WaterFall2',      args: { tileset: t3fall('[A]WaterFall2_pipo.png'),      labels: WATERFALL_LABELS } }
 export const T3_WaterFall3: Story      = { name: 'Type3 / WaterFall3',      args: { tileset: t3fall('[A]WaterFall3_pipo.png'),      labels: WATERFALL_LABELS } }
+
+// ── NodeMap 32×32 (world-scale tiles) ────────────────────────────────────────
+// Same 8-col × 47-tile TYPE3 format for environment tiles; PATH_LABELS applies.
+// Decor sheet tile IDs are shown numerically — user will define named constants.
+
+const NM = '/nodemap/32x32/'
+
+function nmEnv(file: string): TilesetDef {
+  return { name: file.replace('.png', ''), image: `${NM}environment/${file}`, tilecount: 48, columns: 8 }
+}
+
+export const NM_Forest1:       Story = { name: 'NodeMap / forest1',       args: { tileset: nmEnv('forest1.png'),       labels: PATH_LABELS } }
+export const NM_Grass1_Dirt1:  Story = { name: 'NodeMap / grass1_dirt1',  args: { tileset: nmEnv('grass1_dirt1.png'),  labels: PATH_LABELS } }
+export const NM_Grass1_Dirt2:  Story = { name: 'NodeMap / grass1_dirt2',  args: { tileset: nmEnv('grass1_dirt2.png'),  labels: PATH_LABELS } }
+export const NM_Grass1_Grass2: Story = { name: 'NodeMap / grass1_grass2', args: { tileset: nmEnv('grass1_grass2.png'), labels: PATH_LABELS } }
+export const NM_Grass1_Water1: Story = { name: 'NodeMap / grass1_water1', args: { tileset: nmEnv('grass1_water1.png'), labels: PATH_LABELS } }
+export const NM_Gravel1:       Story = { name: 'NodeMap / gravel1',       args: { tileset: nmEnv('gravel1.png'),       labels: PATH_LABELS } }
+export const NM_Hills1:        Story = { name: 'NodeMap / hills1',        args: { tileset: nmEnv('hills1.png'),        labels: PATH_LABELS } }
+export const NM_Mountains1:    Story = { name: 'NodeMap / mountains1',    args: { tileset: nmEnv('mountains1.png'),    labels: PATH_LABELS } }
+export const NM_Rocks1:        Story = { name: 'NodeMap / rocks1',        args: { tileset: nmEnv('rocks1.png'),        labels: PATH_LABELS } }
+
+// Decor sheet: bridges, trees, castles, mountains, volcanoes.
+// tilecount is an estimate — adjust once image dimensions are confirmed.
+export const NM_Decor: Story = {
+  name: 'NodeMap / decor',
+  args: {
+    tileset: { name: 'decor', image: `${NM}decor.png`, tilecount: 64, columns: 8 },
+  },
+}
