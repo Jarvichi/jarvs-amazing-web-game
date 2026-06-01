@@ -124,6 +124,8 @@
     {"tile":[70, 48]},
     {"tile":[71, 48]},
     {"tile":[72, 48]},
+     {"tile":[66, 47]},
+     {"tile":[71, 47]},
     {"rect": [30, 34, 35, 34], "pathType": "longGrass"},
     {"rect": [30, 31, 33, 36], "pathType": "longGrass"}
   ],
@@ -206,12 +208,12 @@
       "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop3" }, { "tx": 1, "ty": -1, "tileId": "windowBottom3" }]
     },
     {
-      "rect": [61, 41, 68, 47], "id": "barracks-south", "wall": "reinforcedStone", "roof": "greySlateRoof",
+      "rect": [61, 40, 68, 46], "id": "barracks-south", "wall": "reinforcedStone", "roof": "greySlateRoof",
       "doors":   [{ "tx": 4, "ty": 1, "buildingId": "barracks-south" }],
       "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop4" }, { "tx": 1, "ty": -1, "tileId": "windowBottom4" }]
     },
     {
-      "rect": [70, 42, 74, 47], "id": "barracks-vault", "wall": "reinforcedStone", "roof": "greySlateRoof",
+      "rect": [70, 41, 74, 46], "id": "barracks-vault", "wall": "reinforcedStone", "roof": "greySlateRoof",
       "doors":   [{ "tx": 2, "ty": 1, "buildingId": "barracks-vault" }]
     },
 
