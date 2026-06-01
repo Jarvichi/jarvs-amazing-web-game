@@ -7,7 +7,10 @@ import {
   TDGameState, TDTower, TDUnit, xpToUpgrade,
 } from '../../../game/towerDefence'
 import { usePixiApp } from '../../../hooks/usePixiApp'
-import { loadAnimFrames, loadSpriteTexture } from '../../../utils/pixiHelpers'
+import { loadAnimFrames, loadSpriteTexture, loadTileTexture } from '../../../utils/pixiHelpers'
+import { renderPathTiles } from '../../../utils/tileLookup'
+import { TILESET_IMAGE, TILESET_COLUMNS } from '../../../data/tiles/tileIndex'
+import { WORLD_ENV_TILES } from '../../../data/tiles/worldTileIndex'
 
 // ── Cell colours ─────────────────────────────────────────────────────────────
 const C_GRASS          = 0x2d4a1e
@@ -33,11 +36,13 @@ export interface Props {
   isOnPath(col: number, row: number): boolean
   selectedTower: TDTower | null
   hoveredTower: TDTower | null
+  environment?: string
 }
 
 // ── Scene object refs ─────────────────────────────────────────────────────────
 
 interface Scene {
+  terrainLayer: PIXI.Container
   cellGfx:    PIXI.Graphics
   towerLayer: PIXI.Container
   unitLayer:  PIXI.Container
@@ -94,8 +99,14 @@ function drawCells(
 
       const x = cellLeft(col)
       const y = cellTop(row)
-      g.rect(x, y, CELL_PX, CELL_PX).fill(fill)
-      g.rect(x, y, CELL_PX, CELL_PX).stroke({ width: 1, color: C_BORDER_DARK, alpha: 0.5 })
+      // Skip opaque fills for base grass/path — world tile layer provides the base visual.
+      // Keep start/end markers and highlight overlays (semi-transparent).
+      const isBaseFill = fill === C_GRASS || fill === C_PATH
+      if (!isBaseFill) {
+        const alpha = (fill === C_IN_RANGE || fill === C_DROPPABLE) ? 0.45 : 1.0
+        g.rect(x, y, CELL_PX, CELL_PX).fill({ color: fill, alpha })
+      }
+      g.rect(x, y, CELL_PX, CELL_PX).stroke({ width: 1, color: C_BORDER_DARK, alpha: 0.3 })
 
       // IN / BASE labels
       if (isStart || isEnd) {
@@ -290,7 +301,7 @@ function drawHazards(g: PIXI.Graphics, hazards: TDGameState['hazards']) {
 export function GameGrid({
   boardWrapRef, game, selectedTowerId, rangeHighlight, canPlaceTowers, selected,
   gridScale, isOnPath, setHoveredTower, setHoveredCell, handleCellClick,
-  selectedTower, hoveredTower,
+  selectedTower, hoveredTower, environment,
 }: Props) {
   const W = TD_COLS * CELL_PX
   const H = TD_ROWS * CELL_PX
@@ -312,6 +323,7 @@ export function GameGrid({
 
   // ── Initialise PixiJS once ─────────────────────────────────────────────────
   usePixiApp(canvasRef, W, H, (app) => {
+    const terrainLayer = new PIXI.Container()
     const cellGfx    = new PIXI.Graphics()
     const towerLayer = new PIXI.Container()
     const unitLayer  = new PIXI.Container()
@@ -320,6 +332,7 @@ export function GameGrid({
     const hazardGfx  = new PIXI.Graphics()
     const hpGfx      = new PIXI.Graphics()
 
+    app.stage.addChild(terrainLayer) // bottom layer — world tile terrain
     app.stage.addChild(cellGfx)
     app.stage.addChild(towerLayer)
     app.stage.addChild(unitLayer)
@@ -327,6 +340,24 @@ export function GameGrid({
     app.stage.addChild(hazardGfx)
     app.stage.addChild(effectGfx)
     app.stage.addChild(hpGfx)
+
+    // Async: tile the background with world-scale terrain
+    const env = environment ?? 'forest'
+    const worldDef = WORLD_ENV_TILES[env]
+    const groundId = worldDef?.ground ?? 0
+    const baseUrl = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
+    const groundUrl = `${baseUrl}${TILESET_IMAGE.baseChip.slice(1)}`
+    loadTileTexture(groundUrl, groundId, TILESET_COLUMNS.baseChip).then(groundTex => {
+      if (terrainLayer.destroyed) return
+      for (let row = 0; row < TD_ROWS; row++) {
+        for (let col = 0; col < TD_COLS; col++) {
+          const s = new PIXI.Sprite(groundTex)
+          s.position.set(col * CELL_PX, row * CELL_PX)
+          terrainLayer.addChild(s)
+        }
+      }
+      return renderPathTiles(terrainLayer, PATH_SET, env, undefined, false, worldDef)
+    }).catch(() => { /* terrain tiles optional — solid fallback from cellGfx */ })
 
     // Cell labels for start/end
     const startLabel = new PIXI.Text({ text: 'IN',   style: { fontSize: 9, fill: 0xffffff, fontWeight: 'bold' } })
@@ -371,7 +402,7 @@ export function GameGrid({
     app.stage.addChild(hitArea)
 
     sceneRef.current = {
-      cellGfx, towerLayer, unitLayer, enemyLayer,
+      terrainLayer, cellGfx, towerLayer, unitLayer, enemyLayer,
       effectGfx, hazardGfx, hpGfx,
       enemySprites: new Map(),
       unitSprites:  new Map(),

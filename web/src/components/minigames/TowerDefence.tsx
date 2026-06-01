@@ -52,6 +52,7 @@ interface Props {
   pool: TowerPool[]
   mode: 'collection' | 'city'
   onDone: (score: number) => void
+  environment?: string
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -70,7 +71,7 @@ function isOnPath(col: number, row: number): boolean {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export function TowerDefence({ pool, mode, onDone }: Props) {
+export function TowerDefence({ pool, mode, onDone, environment }: Props) {
   const initialPlacements: Record<string, number> = {}
   for (const entry of pool) initialPlacements[entry.template.name] = entry.total
 
@@ -408,6 +409,7 @@ export function TowerDefence({ pool, mode, onDone }: Props) {
         isOnPath={isOnPath}
         selectedTower={selectedTower}
         hoveredTower={hoveredTower}
+        environment={environment}
       />
 
       {/* ── Selected tower action panel ── */}
