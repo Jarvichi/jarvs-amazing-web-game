@@ -547,6 +547,7 @@ export function HubTownCanvas({
       currentTile: [number, number]
       walkQueue:   [number, number][]
       isWalking:   boolean
+      isGhost:     boolean
       wanderTimer: number
       animFrames:  PIXI.Texture[]
       animTimer:   number
@@ -573,12 +574,13 @@ export function HubTownCanvas({
 
       texPromise.then(tex => {
         if (app.renderer == null) return
+        const isGhost = Math.random() < 0.01  // 1% chance to spawn as a ghost
         const s = new PIXI.Sprite(tex)
         s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
         s.anchor.set(0.5, 1)
         s.position.set(cx, cy)
         s.zIndex = cy
-        s.alpha = 0.85
+        s.alpha = isGhost ? 0.5 : 1.0
         npcLayer.addChild(s)
 
         const state: UnitNpcState = {
@@ -590,6 +592,7 @@ export function HubTownCanvas({
           animFrames:  [],
           animTimer:   0,
           animFrame:   0,
+          isGhost:     isGhost,
         }
         unitNpcs.push(state)
 
