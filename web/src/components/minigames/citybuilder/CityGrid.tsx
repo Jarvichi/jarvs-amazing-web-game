@@ -10,6 +10,7 @@ import { BuilderWalker, VisualCarrier } from '../CityBuilder'
 import { Walker } from './walkerTypes'
 import { CityZoomControls } from './CityZoomControls'
 import { useZoomPan } from './useZoomPan'
+import { CityTerrainCanvas } from './CityTerrainCanvas'
 
 // ── Road path SVG ─────────────────────────────────────────────────────────────
 // Strips are centred on the cell boundary (bottom / right) so they straddle
@@ -76,6 +77,7 @@ export interface Props {
   bulldozerMode:  boolean
   worldRef:       React.RefObject<HTMLDivElement>
   paintBrush:     boolean
+  environment?:   string
   onCellTap:      (index: number) => void
   onPaint:        (index: number) => void
   onWalkerClick:  (cellIndex: number, unitIndex: number) => void
@@ -84,7 +86,7 @@ export interface Props {
 export function CityGrid({
   toolbar,
   city, walkers, builderWalkers, visualCarriers, bulldozerMode, worldRef,
-  paintBrush, onCellTap, onPaint, onWalkerClick,
+  paintBrush, environment, onCellTap, onPaint, onWalkerClick,
 }: Props) {
   const cityRows  = city.rows ?? CITY_ROWS
   const cityCols  = city.cols ?? CITY_COLS
@@ -128,6 +130,10 @@ export function CityGrid({
       />
 
       <div className="city-zoom-wrapper" ref={wrapperRef}>
+        {/* ── Terrain background ──────────────────────────────────────────────
+            World-scale tile canvas, rendered behind everything. */}
+        <CityTerrainCanvas environment={environment} id={environment} />
+
         {/* ── Road wear overlay ───────────────────────────────────────────────
             Rendered BEHIND the main grid. */}
         <div
