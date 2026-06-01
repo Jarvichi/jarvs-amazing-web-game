@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import { ENV_TILES, BASE_GROUND, TILESET_IMAGE, TILESET_COLUMNS, TILE_SIZE, EnvTileDef } from '../data/tiles/tileIndex'
+import { ENV_TILES, BASE_GROUND, TILESET_IMAGE, TILESET_COLUMNS, TILE_SIZE, EnvTileDef, SCENERY } from '../data/tiles/tileIndex'
 import { loadTileTexture } from './pixiHelpers'
 import { drawTerrainItem } from './terrainGfx'
 import { seededRand, hashStr, getTerrainItems, type TerrainItem } from './mapUtils'
@@ -117,6 +117,84 @@ export async function buildBgTileGfx(
       container.addChild(s)
     }
   }
+}
+
+// Maps 4-bit diagonal-adjacency bitmask (NW=8 NE=4 SE=2 SW=1) → SCENERY tile frame number.
+// Derived from the SCENERY constants in tileIndex.ts.
+const SCENERY_LOOKUP: number[] = [
+  SCENERY.single,           // 0000
+  SCENERY.singleAndSW,      // 0001
+  SCENERY.singleAndSE,      // 0010
+  SCENERY.singleAndSESW,    // 0011
+  SCENERY.singleAndNE,      // 0100
+  SCENERY.singleAndNESW,    // 0101
+  SCENERY.singleAndNESE,    // 0110
+  SCENERY.singleAndNESESW,  // 0111
+  SCENERY.singleAndNW,      // 1000
+  SCENERY.singleAndNWSW,    // 1001
+  SCENERY.singleAndNWSE,    // 1010
+  SCENERY.singleAndNWSESW,  // 1011
+  SCENERY.singleAndNWNE,    // 1100
+  SCENERY.singleAndNWNESW,  // 1101
+  SCENERY.singleAndNWNESE,  // 1110
+  SCENERY.singleAndNWNESESW,// 1111
+]
+
+/**
+ * Renders a scenery tile border strip along the left, right, and top edges of the canvas.
+ * Uses envDef.borderFile as the 8-col scenery sheet and SCENERY_LOOKUP for diagonal adjacency.
+ * No-ops when borderFile is absent (e.g. sky environment).
+ */
+export function buildBorderGfx(
+  container: PIXI.Container,
+  opts: { envDef?: EnvTileDef; environment?: string },
+  w: number,
+  h: number,
+): void {
+  const def = opts.envDef ?? ENV_TILES[opts.environment ?? '']
+  const borderFile = def?.borderFile
+  if (!borderFile) return
+
+  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
+  const url  = base + borderFile.replace(/^\//, '')
+
+  const BORDER_COLS = 2
+  const BORDER_ROWS = 1
+  const totalCols   = Math.ceil(w / TILE_SIZE)
+  const totalRows   = Math.ceil(h / TILE_SIZE)
+
+  function isBorder(c: number, r: number): boolean {
+    if (c < 0 || r < 0 || c >= totalCols || r >= totalRows) return true
+    return c < BORDER_COLS || c >= totalCols - BORDER_COLS || r < BORDER_ROWS
+  }
+
+  PIXI.Assets.load(url).then((tex: PIXI.Texture) => {
+    if (container.destroyed) return
+    const tileW = tex.width / 8
+    const tileH = tileW
+
+    for (let r = 0; r < totalRows; r++) {
+      for (let c = 0; c < totalCols; c++) {
+        if (!isBorder(c, r)) continue
+        const nw = isBorder(c - 1, r - 1) ? 8 : 0
+        const ne = isBorder(c + 1, r - 1) ? 4 : 0
+        const se = isBorder(c + 1, r + 1) ? 2 : 0
+        const sw = isBorder(c - 1, r + 1) ? 1 : 0
+        const frame    = SCENERY_LOOKUP[nw | ne | se | sw]
+        const frameCol = frame % 8
+        const frameRow = Math.floor(frame / 8)
+        const frameTex = new PIXI.Texture({
+          source: tex.source,
+          frame:  new PIXI.Rectangle(frameCol * tileW, frameRow * tileH, tileW, tileH),
+        })
+        const sprite = new PIXI.Sprite(frameTex)
+        sprite.position.set(c * TILE_SIZE, r * TILE_SIZE)
+        sprite.width  = TILE_SIZE
+        sprite.height = TILE_SIZE
+        container.addChild(sprite)
+      }
+    }
+  }).catch(e => console.error('[terrainLayer] border tile load failed', url, e))
 }
 
 export async function buildDecorGfx(

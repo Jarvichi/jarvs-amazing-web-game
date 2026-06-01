@@ -11,12 +11,12 @@ export const WORLD_PATH_TILE = {
 } as const
 
 // ── World-scale scenery tile files (web/public/nodemap/32x32/scenery/) ───────
-// 8-col × 47-variant TYPE3 format - different from path tiles.
+// 8-col × 47-variant TYPE3 format — used as border fills on battlefield/map edges.
 export const WORLD_SCENERY_TILE = {
-  forest1:      '/nodemap/32x32/environment/forest1.png',
-  hills1:       '/nodemap/32x32/environment/hills1.png',
-  mountains1:   '/nodemap/32x32/environment/mountains1.png',
-  rocks1:       '/nodemap/32x32/environment/rocks1.png',
+  forest1:    '/nodemap/32x32/scenery/forest1.png',
+  hills1:     '/nodemap/32x32/scenery/hills1.png',
+  mountains1: '/nodemap/32x32/scenery/mountains1.png',
+  rocks1:     '/nodemap/32x32/scenery/rocks1.png',
 } as const
 
 // ── World-scale decor sheet (web/public/nodemap/32x32/decor.png) ─────────────
@@ -90,18 +90,18 @@ export const WORLD_DECOR = {
 // Mirrors ENV_TILES in tileIndex.ts; used by NodeMap.tsx via envDef override.
 // ground IDs still reference BASE_GROUND (BaseChip sheet) for background fills.
 export const WORLD_ENV_TILES: Record<string, EnvTileDef> = {
-  forest:   { ground: BASE_GROUND.lightGrass,  pathFile: WORLD_PATH_TILE.grass1Dirt1,  borderFile:WORLD_SCENERY_TILE.forest1,    decorFile: WORLD_DECOR_FILE, decorTileIds: [WORLD_DECOR.singleTree, WORLD_DECOR.groupOfTrees] },
-  farmland: { ground: BASE_GROUND.mediumGrass, pathFile: WORLD_PATH_TILE.grass1Dirt1, borderFile: WORLD_SCENERY_TILE.hills1,      decorFile: WORLD_DECOR_FILE, decorTileIds: [WORLD_DECOR.singleTree, WORLD_DECOR.groupOfTrees] },
-  ruins:    { ground: BASE_GROUND.darkGrass,   pathFile: WORLD_PATH_TILE.grass1Grass2 },
-  ashen:    { ground: BASE_GROUND.dyingGrass,  pathFile: WORLD_PATH_TILE.grass1Dirt2 },
-  sand:     { ground: BASE_GROUND.sand,        pathFile: WORLD_PATH_TILE.grass1Dirt2 },
-  frost:    { ground: BASE_GROUND.lightGrass, solidColor: 0xDDFDFD, pathFile: WORLD_PATH_TILE.grass1Grass2 },
-  volcano:  { ground: BASE_GROUND.darkDirt,    pathFile: WORLD_SCENERY_TILE.mountains1 },
-  citadel:  { ground: BASE_GROUND.darkGrass,   pathFile: WORLD_PATH_TILE.gravel1 },
-  coast:    { ground: BASE_GROUND.sand,        pathFile: WORLD_PATH_TILE.grass1Water1,  pathWidth: 3 },
-  reef:     { ground: BASE_GROUND.sand,        pathFile: WORLD_PATH_TILE.grass1Water1,  pathWidth: 3 },
+  forest:   { ground: BASE_GROUND.lightGrass,  pathFile: WORLD_PATH_TILE.grass1Dirt1,  borderFile: WORLD_SCENERY_TILE.forest1,    decorFile: WORLD_DECOR_FILE, decorTileIds: [WORLD_DECOR.singleTree, WORLD_DECOR.groupOfTrees] },
+  farmland: { ground: BASE_GROUND.mediumGrass, pathFile: WORLD_PATH_TILE.grass1Dirt1,  borderFile: WORLD_SCENERY_TILE.hills1,     decorFile: WORLD_DECOR_FILE, decorTileIds: [WORLD_DECOR.singleTree, WORLD_DECOR.groupOfTrees] },
+  ruins:    { ground: BASE_GROUND.darkGrass,   pathFile: WORLD_PATH_TILE.grass1Grass2, borderFile: WORLD_SCENERY_TILE.rocks1 },
+  ashen:    { ground: BASE_GROUND.dyingGrass,  pathFile: WORLD_PATH_TILE.grass1Dirt2,  borderFile: WORLD_SCENERY_TILE.rocks1 },
+  sand:     { ground: BASE_GROUND.sand,        pathFile: WORLD_PATH_TILE.grass1Dirt2,  borderFile: WORLD_SCENERY_TILE.rocks1 },
+  frost:    { ground: BASE_GROUND.lightGrass,  solidColor: 0xDDFDFD, pathFile: WORLD_PATH_TILE.grass1Grass2, borderFile: WORLD_SCENERY_TILE.mountains1 },
+  volcano:  { ground: BASE_GROUND.darkDirt,    pathFile: WORLD_PATH_TILE.gravel1,      borderFile: WORLD_SCENERY_TILE.mountains1 },
+  citadel:  { ground: BASE_GROUND.darkGrass,   pathFile: WORLD_PATH_TILE.gravel1,      borderFile: WORLD_SCENERY_TILE.rocks1 },
+  coast:    { ground: BASE_GROUND.sand,        pathFile: WORLD_PATH_TILE.grass1Water1, borderFile: WORLD_SCENERY_TILE.hills1,     pathWidth: 3 },
+  reef:     { ground: BASE_GROUND.sand,        pathFile: WORLD_PATH_TILE.grass1Water1, borderFile: WORLD_SCENERY_TILE.hills1,     pathWidth: 3 },
   sky:      { ground: BASE_GROUND.lightGrass,  solidColor: 0x000000, pathFile: PATH_TILE.dirt1 },
-  fungal:   { ground: BASE_GROUND.darkGrass,   pathFile: WORLD_PATH_TILE.grass1Grass2 },
-  vault:    { ground: BASE_GROUND.darkGrass,   pathFile: WORLD_PATH_TILE.gravel1 },
-  camp:     { ground: BASE_GROUND.mediumGrass, pathFile: WORLD_PATH_TILE.grass1Dirt1 },
+  fungal:   { ground: BASE_GROUND.darkGrass,   pathFile: WORLD_PATH_TILE.grass1Grass2, borderFile: WORLD_SCENERY_TILE.forest1 },
+  vault:    { ground: BASE_GROUND.darkGrass,   pathFile: WORLD_PATH_TILE.gravel1,      borderFile: WORLD_SCENERY_TILE.rocks1 },
+  camp:     { ground: BASE_GROUND.mediumGrass, pathFile: WORLD_PATH_TILE.grass1Dirt1,  borderFile: WORLD_SCENERY_TILE.forest1 },
 }
