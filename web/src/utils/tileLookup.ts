@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import { ENV_TILES, PATH, TILE_SIZE, PATH_TILE } from '../data/tiles/tileIndex'
+import { ENV_TILES, PATH, TILE_SIZE, PATH_TILE, EnvTileDef } from '../data/tiles/tileIndex'
 import { loadTileTexture } from './pixiHelpers'
 
 // ── 8-neighbor tile lookup tables ─────────────────────────────────────────────
@@ -64,12 +64,14 @@ export async function renderPathTiles(
   environment?: string,
   tileFileOverride?: string,
   useCanal?: boolean,
+  envDef?: EnvTileDef,
 ): Promise<void> {
   const T = TILE_SIZE
-  const pathFile = tileFileOverride ?? ENV_TILES[environment ?? '']?.pathFile ?? PATH_TILE.grass1Dirt1
+  const def = envDef ?? ENV_TILES[environment ?? '']
+  const pathFile = tileFileOverride ?? def?.pathFile ?? PATH_TILE.grass1Dirt1
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const tileUrl = `${base}${pathFile.slice(1)}`
-  const pathWidth = tileFileOverride ? 1 : (ENV_TILES[environment ?? '']?.pathWidth ?? 1)
+  const pathWidth = tileFileOverride ? 1 : (def?.pathWidth ?? 1)
   const lookup = (useCanal || pathWidth > 1) ? CANAL_TILE_LOOKUP : PATH_TILE_LOOKUP
 
   const key = (tx: number, ty: number) => `${tx},${ty}`

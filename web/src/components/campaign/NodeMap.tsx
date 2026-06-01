@@ -17,6 +17,7 @@ import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadSpriteTexture, loadAnimFrames, loadTextureUrl, makeClickable, tweenTo } from '../../utils/pixiHelpers'
 import { ENV_TILES, TILE_SIZE } from '../../data/tiles/tileIndex'
+import { WORLD_ENV_TILES } from '../../data/tiles/worldTileIndex'
 import { GIFT_OWNER_UID } from '../../game/gifts'
 import { hashStr, envColors, parseRgba, sampleBezier, bezierBand } from '../../utils/mapUtils'
 import { renderPathTiles } from '../../utils/tileLookup'
@@ -207,7 +208,8 @@ async function buildPathTileGfx(
   }
 
   // Expand pathSet perpendicular to path direction for wide paths (e.g. canals)
-  const pathWidth = ENV_TILES[act.environment ?? '']?.pathWidth ?? 1
+  const worldEnvDef = WORLD_ENV_TILES[act.environment ?? ''] ?? ENV_TILES[act.environment ?? '']
+  const pathWidth = worldEnvDef?.pathWidth ?? 1
   if (pathWidth > 1) {
     const half = Math.floor(pathWidth / 2)
     const original = new Set(pathSet)
@@ -226,7 +228,7 @@ async function buildPathTileGfx(
     for (const k of extra) pathSet.add(k)
   }
 
-  await renderPathTiles(container, pathSet, act.environment)
+  await renderPathTiles(container, pathSet, act.environment, undefined, undefined, worldEnvDef)
 }
 
 // ── Connector helpers ──────────────────────────────────────────────────────────
@@ -692,14 +694,15 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
     const decorContainer = new PIXI.Container()
     groundLayer.addChild(baseContainer, bgContainer, riverContainer, pathContainer, decorContainer)
 
+    const actEnvDef = WORLD_ENV_TILES[act.environment ?? ''] ?? ENV_TILES[act.environment ?? '']
     buildTerrainGfx(baseContainer, riverContainer, worldLayer,
-      { environment: act.environment, terrainSeed: act.terrainSeed, terrainItems: act.terrainItems, rivers: act.rivers, id: act.id },
+      { environment: act.environment, envDef: actEnvDef, terrainSeed: act.terrainSeed, terrainItems: act.terrainItems, rivers: act.rivers, id: act.id },
       mapWidth, mapHeight)
-    buildBgTileGfx(bgContainer, { environment: act.environment }, mapWidth, mapHeight)
+    buildBgTileGfx(bgContainer, { environment: act.environment, envDef: actEnvDef }, mapWidth, mapHeight)
       .catch(e => console.error('[NodeMap] bg tiles failed', e))
     buildPathTileGfx(pathContainer, act, rows, maxRowCols, mapHeight)
       .catch(e => console.error('[NodeMap] path tiles failed', e))
-    buildDecorGfx(decorContainer, { environment: act.environment, id: act.id }, mapWidth, mapHeight)
+    buildDecorGfx(decorContainer, { environment: act.environment, envDef: actEnvDef, id: act.id }, mapWidth, mapHeight)
       .catch(e => console.error('[NodeMap] decor tiles failed', e))
 
     // Campfire at start position
