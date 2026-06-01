@@ -1,11 +1,12 @@
 import * as PIXI from 'pixi.js'
-import { ENV_TILES, BASE_GROUND, TILESET_IMAGE, TILESET_COLUMNS, TILE_SIZE } from '../data/tiles/tileIndex'
+import { ENV_TILES, BASE_GROUND, TILESET_IMAGE, TILESET_COLUMNS, TILE_SIZE, EnvTileDef } from '../data/tiles/tileIndex'
 import { loadTileTexture } from './pixiHelpers'
 import { drawTerrainItem } from './terrainGfx'
 import { seededRand, hashStr, getTerrainItems, type TerrainItem } from './mapUtils'
 
 export interface TerrainLayerOptions {
   environment?: string
+  envDef?: EnvTileDef
   terrainSeed?: number
   terrainItems?: TerrainItem[]
   rivers?: Array<{ x1: number; y1: number; x2: number; y2: number; cx1: number; cy1: number; cx2: number; cy2: number }>
@@ -21,9 +22,9 @@ export function buildTerrainGfx(
   mapHeight: number,
 ): void {
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
-  const { environment, terrainSeed, terrainItems: explicitItems, rivers: explicitRivers, id = '' } = opts
+  const { environment, envDef: envDefOverride, terrainSeed, terrainItems: explicitItems, rivers: explicitRivers, id = '' } = opts
 
-  const def = ENV_TILES[environment ?? '']
+  const def = envDefOverride ?? ENV_TILES[environment ?? '']
   if (def?.solidColor !== undefined) {
     const g = new PIXI.Graphics()
     g.rect(0, 0, mapWidth, mapHeight).fill({ color: def.solidColor })
@@ -97,11 +98,11 @@ export function buildTerrainGfx(
 
 export async function buildBgTileGfx(
   container: PIXI.Container,
-  opts: { environment?: string },
+  opts: { environment?: string; envDef?: EnvTileDef },
   mapWidth: number,
   mapHeight: number,
 ): Promise<void> {
-  const def = ENV_TILES[opts.environment ?? '']
+  const def = opts.envDef ?? ENV_TILES[opts.environment ?? '']
   if (def?.bgTileId === undefined) return
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const tileUrl = `${base}${def.pathFile.slice(1)}`
@@ -120,11 +121,11 @@ export async function buildBgTileGfx(
 
 export async function buildDecorGfx(
   container: PIXI.Container,
-  opts: { environment?: string; id?: string },
+  opts: { environment?: string; envDef?: EnvTileDef; id?: string },
   mapWidth: number,
   mapHeight: number,
 ): Promise<void> {
-  const def = ENV_TILES[opts.environment ?? '']
+  const def = opts.envDef ?? ENV_TILES[opts.environment ?? '']
   if (!def?.decorFile || !def.decorTileIds?.length) return
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const tileUrl = `${base}${def.decorFile.slice(1)}`
