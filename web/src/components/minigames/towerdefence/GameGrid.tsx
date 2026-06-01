@@ -8,8 +8,8 @@ import {
 } from '../../../game/towerDefence'
 import { usePixiApp } from '../../../hooks/usePixiApp'
 import { loadAnimFrames, loadSpriteTexture, loadTileTexture } from '../../../utils/pixiHelpers'
-import { renderPathTiles } from '../../../utils/tileLookup'
-import { TILESET_IMAGE, TILESET_COLUMNS } from '../../../data/tiles/tileIndex'
+import { PATH_TILE_LOOKUP } from '../../../utils/tileLookup'
+import { TILESET_IMAGE, TILESET_COLUMNS, TILE_SIZE } from '../../../data/tiles/tileIndex'
 import { WORLD_ENV_TILES } from '../../../data/tiles/worldTileIndex'
 
 // ── Cell colours ─────────────────────────────────────────────────────────────
@@ -341,22 +341,68 @@ export function GameGrid({
     app.stage.addChild(effectGfx)
     app.stage.addChild(hpGfx)
 
-    // Async: tile the background with world-scale terrain
-    const env = environment ?? 'forest'
+    // Async: tile the background with world-scale terrain.
+    // CELL_PX (48) ≠ TILE_SIZE (32), so ground and path tiles need separate handling:
+    //   ground — tiled at 32px intervals across the full canvas
+    //   path   — one sprite per cell, scaled to CELL_PX, with cell-space neighbor lookup
+    const env = environment ?? 'farmland'
     const worldDef = WORLD_ENV_TILES[env]
     const groundId = worldDef?.ground ?? 0
     const baseUrl = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
     const groundUrl = `${baseUrl}${TILESET_IMAGE.baseChip.slice(1)}`
-    loadTileTexture(groundUrl, groundId, TILESET_COLUMNS.baseChip).then(groundTex => {
+
+    loadTileTexture(groundUrl, groundId, TILESET_COLUMNS.baseChip).then(async (groundTex) => {
       if (terrainLayer.destroyed) return
-      for (let row = 0; row < TD_ROWS; row++) {
-        for (let col = 0; col < TD_COLS; col++) {
+
+      // Ground: tile at 32px across the full canvas
+      const tileCols = Math.ceil(W / TILE_SIZE)
+      const tileRows = Math.ceil(H / TILE_SIZE)
+      for (let r = 0; r < tileRows; r++) {
+        for (let c = 0; c < tileCols; c++) {
           const s = new PIXI.Sprite(groundTex)
-          s.position.set(col * CELL_PX, row * CELL_PX)
+          s.position.set(c * TILE_SIZE, r * TILE_SIZE)
           terrainLayer.addChild(s)
         }
       }
-      return renderPathTiles(terrainLayer, PATH_SET, env, undefined, false, worldDef)
+
+      // Path: cell-space 8-neighbor variant lookup, sprites scaled to CELL_PX
+      if (!worldDef?.pathFile) return
+      const pathUrl = `${baseUrl}${worldDef.pathFile.slice(1)}`
+      const hasPath = (col: number, row: number) => PATH_SET.has(`${col},${row}`)
+      const cellVariant = (col: number, row: number): number => {
+        const N = hasPath(col, row - 1), E = hasPath(col + 1, row)
+        const S = hasPath(col, row + 1), W = hasPath(col - 1, row)
+        const mask =
+          (N                                   ?   1 : 0) |
+          (N && E && hasPath(col + 1, row - 1) ?   2 : 0) |
+          (E                                   ?   4 : 0) |
+          (S && E && hasPath(col + 1, row + 1) ?   8 : 0) |
+          (S                                   ?  16 : 0) |
+          (S && W && hasPath(col - 1, row + 1) ?  32 : 0) |
+          (W                                   ?  64 : 0) |
+          (N && W && hasPath(col - 1, row - 1) ? 128 : 0)
+        return PATH_TILE_LOOKUP[mask]
+      }
+
+      const byVariant = new Map<number, Array<{ col: number; row: number }>>()
+      for (const k of PATH_SET) {
+        const [col, row] = k.split(',').map(Number)
+        const v = cellVariant(col, row)
+        if (!byVariant.has(v)) byVariant.set(v, [])
+        byVariant.get(v)!.push({ col, row })
+      }
+
+      await Promise.all(Array.from(byVariant.entries()).map(async ([v, cells]) => {
+        const tex = await loadTileTexture(pathUrl, v, 8)
+        if (terrainLayer.destroyed) return
+        for (const { col, row } of cells) {
+          const s = new PIXI.Sprite(tex)
+          s.position.set(col * CELL_PX, row * CELL_PX)
+          s.width = CELL_PX
+          s.height = CELL_PX
+          terrainLayer.addChild(s)
+        }
+      }))
     }).catch(() => { /* terrain tiles optional — solid fallback from cellGfx */ })
 
     // Cell labels for start/end
