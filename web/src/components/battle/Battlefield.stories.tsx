@@ -10,6 +10,16 @@ import type { GameState } from '../../game/types';
 
 const meta = {
   component: Battlefield,
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <div className="game-container">
+        <Story />
+      </div>
+    ),
+  ],  
 } satisfies Meta<typeof Battlefield>;
 
 export default meta;

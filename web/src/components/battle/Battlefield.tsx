@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
+import * as PIXI from 'pixi.js'
 import { BattlefieldTerrainCanvas } from './battlefield/BattlefieldTerrainCanvas'
 import battlefieldConfig from '../../data/battlefield.json'
 import { GameState, Unit, LANE_WIDTH, Card, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE } from '../../game/types'
@@ -18,6 +19,7 @@ import { loadPlayerName, loadPlayerAvatar } from '../../game/questline'
 import { loadBattlePopups } from '../screens/SettingsScreen'
 import { TutorialOverlay } from '../modals/TutorialOverlay'
 import { hasSeen, markSeen } from '../../game/tutorial'
+import { usePixiApp } from '../../hooks/usePixiApp'
 
 const modalAutoDismissTime = 2000
 const BATTLE_TUTORIAL_ID = 'gameplay'
@@ -704,6 +706,8 @@ function BorderBlob({ size, shade, theme }: { size: number; shade: number; theme
   return <BlobSvg size={size} shade={shade} />
 }
 
+// TODO: replace with tiles for the border. use web\src\data\tiles\worldTileIndex.ts forest1/hills1/mountains1/rocks1
+// Use the SCENERY key from web\src\data\tiles\tileIndex.ts to determine which tile variants to use for the border based on the battlefield environment, and add some variation within the theme (e.g. different tree shapes, rock formations, etc). For now just use the same blobs as the act1 forest theme since they work decently as generic foliage/rocks.
 const ForestBorder = React.memo(function ForestBorder({ theme }: { theme?: string }) {
   const blobs: { key: string; top: number; left: number; size: number; shade: number }[] = []
 
@@ -970,6 +974,28 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
   const timeStr = (isCampaign && !state.suddenDeath) ? countdownStr : elapsedStr
   const sdSec = Math.ceil(state.suddenDeathTimer / 1000)
   const event = state.activeBattleEvent
+
+
+  // TODO: migrate react to pixi
+  // const containerRef      = useRef<HTMLDivElement>(null)
+
+  // const MAP_WIDTH = screen.width
+  // const MAP_HEIGHT = screen.height
+
+  // usePixiApp(containerRef, MAP_WIDTH, MAP_HEIGHT, (app) => {
+
+  //   // ── Layer hierarchy ────────────────────────────────────────────────────────
+  //   const groundLayer   = new PIXI.Container()
+
+  //   app.stage.addChild(groundLayer)
+
+  //   // ── Terrain ────────────────────────────────────────────────────────────────
+  //   const baseContainer  = new PIXI.Container()
+  //   const riverContainer = new PIXI.Container()
+  //   groundLayer.addChild(baseContainer, riverContainer)
+    
+
+  // })
 
   return (
     <div

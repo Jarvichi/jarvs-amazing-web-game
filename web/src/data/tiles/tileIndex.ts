@@ -53,6 +53,30 @@ export const PATH = {
   grassCornerTL:    37,  // grass top-left corner
 } as const
 
+
+// ---- Decor - used as borders for inaccessible terrain, and for scenery items (trees, rocks, hills) in the world map. ----
+// each tile has a single centered item, with a part repeated item in denoted corners. When an item is denoted as being in a corner e.g. NW. adjacent tiles will need to complete the item with a NE, SW and SE variant. For example, a tree with a top-left corner item would need the following tiles to complete the tree across adjacent tiles: NW (top-left), NE (top-right), SW (bottom-left), SE (bottom-right).
+// Always goes NW NE SE SW order when denoting corners, to match the bitmask order used for path tiles. This makes it easier to determine which decor tile to use based on adjacent decor items, similar to how path tiles are determined by adjacent paths.
+export const SCENERY = {
+                        // NW NE SE SW
+  single: 0,            // 0  0  0  0
+  singleAndNW:23,       // 1  0  0  0 
+  singleAndNE:21,       // 0  1  0  0
+  singleAndSE:5,        // 0  0  1  0
+  singleAndSW:7,        // 0  0  0  1
+  singleAndNWNE:22,     // 1  1  0  0
+  singleAndNWSE:44,     // 1  0  1  0
+  singleAndNWSW:15,     // 1  0  0  1
+  singleAndNESE:13,     // 0  1  1  0
+  singleAndNESW:45,     // 0  1  0  1
+  singleAndSESW:6,      // 0  0  1  1
+  singleAndNWNESW:28,   // 1  1  0  1
+  singleAndNWNESE:29,   // 1  1  1  0
+  singleAndNWSESW:36,   // 1  0  1  1
+  singleAndNESESW:37,   // 0  1  1  1
+  singleAndNWNESESW:14, // 1  1  1  1
+} as const
+
 // ── [A]Grass_pipo — path set base tile IDs (SampleMap big sheet, used by TileBrowser) ──
 export const GRASS_PATH = {
   wornDirt:      0,
@@ -67,6 +91,8 @@ export const GRASS_PATH = {
   edgeLightGrass: 432,
   edgeDeadGrass: 480,
 } as const
+
+// World Scale Scenery Tiles (web/public/nodemap/32x32/environment/) ───────────────────────────────
 
 // ── [A]_type3 — per-combination path tile files ───────────────────────────────
 // Each file is a complete 8×6 tileset (tiles 0–46 used, tile 47 is blank).
@@ -133,6 +159,7 @@ export function tileFrame(id: number, cols: number): { x: number; y: number; w: 
 export interface EnvTileDef {
   ground: number          // BaseChip tile id — solid colour fallback fill
   pathFile: string        // per-combination 8-col transition sheet
+  borderFile?: string     // optional 8-col scenery sheet for path borders (e.g. forest trees)
   solidColor?: number     // when set, fill background with this solid hex color instead of tiles
   bgTileId?: number       // tile in pathFile to repeat as textured background fill
   pathWidth?: number      // path tile width (odd; default 1); >1 expands perpendicular to path direction

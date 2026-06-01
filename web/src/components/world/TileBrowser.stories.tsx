@@ -1,7 +1,7 @@
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { TileBrowser, TilesetDef } from './TileBrowser'
-import { PATH, GRASS_PATH } from '../../data/tiles/tileIndex'
+import { PATH, GRASS_PATH, SCENERY } from '../../data/tiles/tileIndex'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 
 const meta = {
@@ -62,6 +62,11 @@ const T3 = '/world/[A]_type3/'
 
 const PATH_LABELS: Record<number, string> = {
   ...Object.fromEntries(Object.entries(PATH).map(([name, id]) => [id, name])),
+  47: '— blank —',
+}
+
+const SCENERY_LABELS: Record<number, string> = {
+  ...Object.fromEntries(Object.entries(SCENERY).map(([name, id]) => [id, name])),
   47: '— blank —',
 }
 
@@ -143,15 +148,19 @@ function nmEnv(file: string): TilesetDef {
   return { name: file.replace('.png', ''), image: `${NM}environment/${file}`, tilecount: 48, columns: 8 }
 }
 
-export const NM_Forest1:       Story = { name: 'NodeMap / forest1',       args: { tileset: nmEnv('forest1.png'),       labels: PATH_LABELS } }
+function nmScene(file: string): TilesetDef {
+  return { name: file.replace('.png', ''), image: `${NM}scenery/${file}`, tilecount: 48, columns: 8 }
+}
+
+export const NM_Forest1:       Story = { name: 'NodeMap / forest1',       args: { tileset: nmScene('forest1.png'),       labels: SCENERY_LABELS } }
 export const NM_Grass1_Dirt1:  Story = { name: 'NodeMap / grass1_dirt1',  args: { tileset: nmEnv('grass1_dirt1.png'),  labels: PATH_LABELS } }
 export const NM_Grass1_Dirt2:  Story = { name: 'NodeMap / grass1_dirt2',  args: { tileset: nmEnv('grass1_dirt2.png'),  labels: PATH_LABELS } }
 export const NM_Grass1_Grass2: Story = { name: 'NodeMap / grass1_grass2', args: { tileset: nmEnv('grass1_grass2.png'), labels: PATH_LABELS } }
 export const NM_Grass1_Water1: Story = { name: 'NodeMap / grass1_water1', args: { tileset: nmEnv('grass1_water1.png'), labels: PATH_LABELS } }
 export const NM_Gravel1:       Story = { name: 'NodeMap / gravel1',       args: { tileset: nmEnv('gravel1.png'),       labels: PATH_LABELS } }
-export const NM_Hills1:        Story = { name: 'NodeMap / hills1',        args: { tileset: nmEnv('hills1.png'),        labels: PATH_LABELS } }
-export const NM_Mountains1:    Story = { name: 'NodeMap / mountains1',    args: { tileset: nmEnv('mountains1.png'),    labels: PATH_LABELS } }
-export const NM_Rocks1:        Story = { name: 'NodeMap / rocks1',        args: { tileset: nmEnv('rocks1.png'),        labels: PATH_LABELS } }
+export const NM_Hills1:        Story = { name: 'NodeMap / hills1',        args: { tileset: nmScene('hills1.png'),        labels: SCENERY_LABELS } }
+export const NM_Mountains1:    Story = { name: 'NodeMap / mountains1',    args: { tileset: nmScene('mountains1.png'),    labels: SCENERY_LABELS } }
+export const NM_Rocks1:        Story = { name: 'NodeMap / rocks1',        args: { tileset: nmScene('rocks1.png'),        labels: SCENERY_LABELS } }
 
 // Decor sheet: bridges, trees, castles, mountains, volcanoes.
 // tilecount is an estimate — adjust once image dimensions are confirmed.

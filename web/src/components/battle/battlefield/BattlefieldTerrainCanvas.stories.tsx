@@ -27,3 +27,5 @@ export const Volcano:  Story = { args: { environment: 'volcano',  id: 'volcano-t
 export const Citadel:  Story = { args: { environment: 'citadel',  id: 'citadel-test'  } }
 export const Coast:    Story = { args: { environment: 'coast',    id: 'coast-test'    } }
 export const Frost:    Story = { args: { environment: 'frost',    id: 'frost-test'    } }
+export const Reef:     Story = { args: { environment: 'reef',     id: 'reef-test'     } }
+export const Sky:      Story = { args: { environment: 'sky',      id: 'sky-test'      } }

@@ -1,4 +1,5 @@
 import rawConfig from './hubConfig.json'
+import rawQuestConfig from './hubQuestDefs.json'
 import { BASE_CHIP_TILES } from './tiles/baseChipIndex'
 import type { WallMaterial, RoofMaterial } from './tiles/buildingMaterials'
 
@@ -56,6 +57,7 @@ export interface HubNpc {
   questGive?: string
   questReceive?: string | string[]
   innRumours?: Array<{ id: string; text: string }>
+  isGhost?: boolean
 }
 
 export interface HubPickupItem {
@@ -256,7 +258,7 @@ export const AMBIENT_NPC_SPRITES: string[] = (rawConfig as { ambientNpcSprites?:
 
 type RawPickup = { id: string; tx: number; ty: number; tileId: string; building?: string; questId?: string; chain?: string }
 export const HUB_PICKUP_ITEMS: HubPickupItem[] = (
-  (rawConfig as unknown as { pickupItems?: RawPickup[] }).pickupItems ?? []
+  (rawQuestConfig as unknown as { pickupItems?: RawPickup[] }).pickupItems ?? []
 ).map(p => ({
   id:       p.id,
   tx:       p.tx,
