@@ -28,7 +28,7 @@ function TerrainPixi({ environment, id, terrain, w, h }: Props & { w: number; h:
     const decorObstacles = new PIXI.Container()
     app.stage.addChild(base, bg, border, decor, decorObstacles, world)
     buildTerrainGfx(base, river, world,
-      { environment, envDef, id, rivers: [] },
+      { environment, envDef, id, rivers: [], terrainItems: [] },
       w, h)
     buildBgTileGfx(bg, { environment, envDef }, w, h)
     buildBorderGfx(border, { environment, envDef }, w, h)

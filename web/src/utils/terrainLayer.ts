@@ -161,7 +161,7 @@ export function buildBorderGfx(
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const url  = base + borderFile.replace(/^\//, '')
 
-  const BORDER_COLS = 2
+  const BORDER_COLS = 1
   const BORDER_ROWS = 1
   const totalCols   = Math.ceil(w / TILE_SIZE)
   const totalRows   = Math.ceil(h / TILE_SIZE)
