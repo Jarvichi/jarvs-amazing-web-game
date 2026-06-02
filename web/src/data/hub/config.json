@@ -630,36 +630,90 @@
       "name": "Mira's Enchantment Studio",
       "width": 12,
       "height": 9,
+      "wallTileId": "interiorWallWhite",
       "floorTileId": "darkStoneFloor",
       "decor": [
+
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "counterTopHorizontalLeft"
+        },
         {
           "tx": 2,
           "ty": 2,
-          "tileId": "deskTop"
-        },
-        {
-          "tx": 5,
-          "ty": 3,
-          "tileId": "roundTable"
-        },
-        {
-          "tx": 9,
-          "ty": 2,
-          "tileId": "bookshelfTop"
-        },
-        {
-          "tx": 9,
-          "ty": 3,
-          "tileId": "bookshelfBottom"
+          "tileId": "counterTopHorizontalMiddle"
         },
         {
           "tx": 3,
-          "ty": 5,
-          "tileId": "candlestickLitBottom"
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle"
         },
         {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "counterTopHorizontalMiddle"
+        },              
+        {
           "tx": 7,
-          "ty": 5,
+          "ty": 2,
+          "tileId": "counterTopHorizontalRight"
+        },                    
+        
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "summoningCircle"
+        },        
+        {
+          "tx": 10,
+          "ty": 7,
+          "tileId": "deskTop"
+        },
+        {
+          "tx": 1,
+          "ty": 7,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 10,
+          "ty": 0,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "candlestickLitTop"
+        },        
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "candlestickLitBottom"
+        },
+
+        {
+          "tx": 10,
+          "ty": 6,
+          "tileId": "candlestickLitTop"
+        },               
+        {
+          "tx": 10,
+          "ty": 7,
           "tileId": "candlestickLitBottom"
         },
         {
@@ -667,10 +721,71 @@
           "ty": 6,
           "tileId": "barrel"
         },
+
         {
-          "tx": 8,
-          "ty": 6,
-          "tileId": "chest"
+          "tx": 9,
+          "ty": 4,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "suitOfArmourBottom"
+        },
+
+        {
+          "tx": 2,
+          "ty": -1,
+          "tileId": "rapierMountedLeft"
+        },
+        {
+          "tx": 3,
+          "ty": -1,
+          "tileId": "rapierMountedRight"
+        }, 
+
+        {
+          "tx": 5,
+          "ty": -1,
+          "tileId": "swordMountedLeft"
+        },
+        {
+          "tx": 6,
+          "ty": -1,
+          "tileId": "swordMountedRight"
+        }, 
+
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "helmetTop"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "helmetBottom"
+        },        
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "wizardHatTop"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "tileId": "wizardHatBottom"
+        },
+
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "chest",
+          "containerContents": [
+            { "itemId": "healthPotion", "quantity": 3 },
+            { "itemId": "manaPotion", "quantity": 2 },
+            { "itemId": "strengthPotion", "quantity": 1 }
+          ],
+          "openedTileId": "openChest"
         }
       ]
     },
@@ -2079,8 +2194,8 @@
       "name": "Mira the Enchantress",
       "sprite": "hub-npc-augment-shop",
       "building": "augment-shop",
-      "tx": 5,
-      "ty": 5,
+      "tx": 3,
+      "ty": 1,
       "screen": "shop-augments",
       "dialogue": [
         "Enchantments can turn the tide of battle. Let me show you.",

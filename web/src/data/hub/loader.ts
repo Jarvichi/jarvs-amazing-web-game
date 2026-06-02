@@ -1,7 +1,10 @@
 import rawConfig from './config.json'
 import rawQuestConfig from './questDefs.json'
 import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
+import { WALL_TILES } from '../tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
+
+const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
 
 const T = 32
 
@@ -38,6 +41,8 @@ export interface InteriorDecor {
   // solid (default): not walkable, renders below avatar
   // below: walkable, renders below avatar (rugs, floor markings)
   // above: walkable, renders above avatar (hanging items, backdrop shelves)
+  containerContents?: Array<{ itemId: string; quantity: number }>
+  openedTileId?: number
 }
 
 export interface HubInterior {
@@ -47,6 +52,7 @@ export interface HubInterior {
   height: number
   decor: InteriorDecor[]
   floorTileId?: number
+  wallMaterial?: WallMaterial
 }
 
 export interface HubNpc {
@@ -251,19 +257,29 @@ export const HUB_POND_TILES: [number, number][] = expandTiles(
 export const HUB_DOORS: HubDoor[] = [...((rawConfig as unknown as { doors?: HubDoor[] }).doors ?? []), ..._nestedDoors]
 
 export const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
-  Object.entries(rawConfig.interiors).map(([id, raw]) => [
-    id,
-    {
+  Object.entries(rawConfig.interiors).map(([id, raw]) => {
+    const rawAny = raw as Record<string, unknown>
+    const wallTileIdStr = rawAny.wallTileId as string | undefined
+    return [
       id,
-      name:        raw.name,
-      width:       raw.width,
-      height:      raw.height,
-      floorTileId: resolveTileId(raw.floorTileId),
-      decor:       (raw.decor as Array<{ tx: number; ty: number; tileId: string; zlayer?: string }>).map(d => ({
-        tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer as InteriorDecor['zlayer'],
-      })),
-    } satisfies HubInterior,
-  ])
+      {
+        id,
+        name:         raw.name,
+        width:        raw.width,
+        height:       raw.height,
+        floorTileId:  resolveTileId(raw.floorTileId),
+        wallMaterial: wallTileIdStr && WALL_MATERIAL_NAMES.has(wallTileIdStr) ? wallTileIdStr as WallMaterial : undefined,
+        decor:        (raw.decor as Array<{ tx: number; ty: number; tileId: string; zlayer?: string; containerContents?: Array<{ itemId: string; quantity: number }>; openedTileId?: string }>).map(d => ({
+          tx:                d.tx,
+          ty:                d.ty,
+          tileId:            resolveTileId(d.tileId),
+          zlayer:            d.zlayer as InteriorDecor['zlayer'],
+          containerContents: d.containerContents,
+          openedTileId:      d.openedTileId ? resolveTileId(d.openedTileId) : undefined,
+        })),
+      } satisfies HubInterior,
+    ]
+  })
 )
 
 export const HUB_NPCS: HubNpc[] = rawConfig.npcs as HubNpc[]

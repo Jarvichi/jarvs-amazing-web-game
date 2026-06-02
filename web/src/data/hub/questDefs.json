@@ -2023,7 +2023,7 @@
     { "id": "stolen-crate-1",   "tx": 15, "ty": 26, "tileId": "crate",         "questId": "bramble-stolen-goods" },
     { "id": "stolen-crate-2",   "tx": 29, "ty": 26, "tileId": "crate",         "questId": "bramble-stolen-goods" },
     { "id": "stolen-crate-3",   "tx": 4,  "ty": 3,  "tileId": "crate",         "questId": "bramble-stolen-goods", "building": "supply-shop" },
-    { "id": "unstable-augment", "tx": 4,  "ty": 4,  "tileId": "chest",         "questId": "mira-unstable-augment", "building": "augment-shop" },
+    { "id": "unstable-augment", "tx": 5,  "ty": 3,  "tileId": "smallSack",         "questId": "mira-unstable-augment", "building": "augment-shop" },
     { "id": "guild-crate-1",    "tx": 7,  "ty": 23, "tileId": "crate",         "questId": "ferryn-missing-shipment" },
     { "id": "guild-crate-2",    "tx": 18, "ty": 26, "tileId": "crate",         "questId": "ferryn-missing-shipment" },
     { "id": "guild-crate-3",    "tx": 4,  "ty": 4,  "tileId": "crate",         "questId": "ferryn-missing-shipment", "building": "traders-building" },

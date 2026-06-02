@@ -683,11 +683,72 @@ export const BASE_CHIP_TILES = {
     woodenSlatsPillarBottom:  507, woodenSlatsShadowBottom: 508, woodenSlatsShadowRightBottom: 509,
     woodenSlatsDoorBottom:    511,
 
-    // Interior - Stiped Wallpaper - 512
-
-    // Interior - White walls - 528
+    // Interior - Striped Wallpaper - 512 (row layout: Left Middle Right Pillar Shadow ShadowRight DoorArch Door)
+    interiorWallStripedTopLeft:          512,
+    interiorWallStripedTopMiddle:        513,
+    interiorWallStripedTopRight:         514,
+    interiorWallStripedPillarTop:        515,
+    interiorWallStripedShadowTop:        516,
+    interiorWallStripedShadowRightTop:   517,
+    interiorWallStripedDoorArchTop:      518,
+    interiorWallStripedDoorTop:          519,
+    interiorWallStripedBottomLeft:       520,
+    interiorWallStripedBottomMiddle:     521,
+    interiorWallStripedBottomRight:      522,
+    interiorWallStripedPillarBottom:     523,
+    interiorWallStripedShadowBottom:     524,
+    interiorWallStripedShadowRightBottom:525,
+    interiorWallStripedDoorBottom:       527,
+    // Interior - White Wallpaper - 528
+    interiorWallWhiteTopLeft:            528,
+    interiorWallWhiteTopMiddle:          529,
+    interiorWallWhiteTopRight:           530,
+    interiorWallWhitePillarTop:          531,
+    interiorWallWhiteShadowTop:          532,
+    interiorWallWhiteShadowRightTop:     533,
+    interiorWallWhiteDoorArchTop:        534,
+    interiorWallWhiteDoorTop:            535,
+    interiorWallWhiteBottomLeft:         536,
+    interiorWallWhiteBottomMiddle:       537,
+    interiorWallWhiteBottomRight:        538,
+    interiorWallWhitePillarBottom:       539,
+    interiorWallWhiteShadowBottom:       540,
+    interiorWallWhiteShadowRightBottom:  541,
+    interiorWallWhiteDoorBottom:         543,
 
     // Prison Cell Railings - 544
+    prisonRailingsTopLeft:          544,
+    prisonRailingsTopMiddle:        545,
+    prisonRailingsTopRight:         546,
+    prisonRailingsPillarTop:        547,
+    prisonRailingsShadowTop:        548,
+    prisonRailingsShadowRightTop:   549,
+    prisonRailingsDoorArchTop:      550,
+    prisonRailingsDoorTop:          551,
+    prisonRailingsBottomLeft:       552,
+    prisonRailingsBottomMiddle:     553,
+    prisonRailingsBottomRight:      554,
+    prisonRailingsPillarBottom:     555,
+    prisonRailingsShadowBottom:     556,
+    prisonRailingsShadowRightBottom:557,
+    prisonRailingsDoorBottom:       559,
+   
+
+    // Prison Cell Railings - 544
+
+    swordMountedLeft: 1014,
+    swordMountedRight: 1015,
+    helmetTop: 1016,
+    wizardHatTop: 1017,
+    rapierMountedLeft: 1022,
+    rapierMountedRight: 1023,
+    helmetBottom: 1024,
+    wizardHatBottom: 1025,
+    suitOfArmourTop: 1032,
+    suitOfArmourBottom: 1040,
+   
+
+
 
 
     // Roofs - 4 rows , repeat for width of building

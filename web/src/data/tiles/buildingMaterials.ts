@@ -13,6 +13,9 @@ export type WallMaterial =
   | 'ornateStone'
   | 'reinforcedStone'
   | 'woodenSlats'
+  | 'interiorWallStriped'
+  | 'interiorWallWhite'
+  | 'prisonRailings'
 export type RoofMaterial =
   | 'woodRoof'
   | 'yellowSlateRoof'
@@ -210,6 +213,57 @@ export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
     doorArchTop:       T.woodenSlatsDoorArchTop,
     doorTop:           T.woodenSlatsDoorTop,
     doorBottom:        T.woodenSlatsDoorBottom,
+  },
+  interiorWallStriped: {
+    leftTop:           T.interiorWallStripedTopLeft,
+    pillarTop:         T.interiorWallStripedPillarTop,
+    shadowTop:         T.interiorWallStripedShadowTop,
+    shadowRightTop:    T.interiorWallStripedShadowRightTop,
+    middleTop:         T.interiorWallStripedTopMiddle,
+    rightTop:          T.interiorWallStripedTopRight,
+    leftBottom:        T.interiorWallStripedBottomLeft,
+    pillarBottom:      T.interiorWallStripedPillarBottom,
+    shadowBottom:      T.interiorWallStripedShadowBottom,
+    shadowRightBottom: T.interiorWallStripedShadowRightBottom,
+    middleBottom:      T.interiorWallStripedBottomMiddle,
+    rightBottom:       T.interiorWallStripedBottomRight,
+    doorArchTop:       T.interiorWallStripedDoorArchTop,
+    doorTop:           T.interiorWallStripedDoorTop,
+    doorBottom:        T.interiorWallStripedDoorBottom,
+  },
+  interiorWallWhite: {
+    leftTop:           T.interiorWallWhiteTopLeft,
+    pillarTop:         T.interiorWallWhitePillarTop,
+    shadowTop:         T.interiorWallWhiteShadowTop,
+    shadowRightTop:    T.interiorWallWhiteShadowRightTop,
+    middleTop:         T.interiorWallWhiteTopMiddle,
+    rightTop:          T.interiorWallWhiteTopRight,
+    leftBottom:        T.interiorWallWhiteBottomLeft,
+    pillarBottom:      T.interiorWallWhitePillarBottom,
+    shadowBottom:      T.interiorWallWhiteShadowBottom,
+    shadowRightBottom: T.interiorWallWhiteShadowRightBottom,
+    middleBottom:      T.interiorWallWhiteBottomMiddle,
+    rightBottom:       T.interiorWallWhiteBottomRight,
+    doorArchTop:       T.interiorWallWhiteDoorArchTop,
+    doorTop:           T.interiorWallWhiteDoorTop,
+    doorBottom:        T.interiorWallWhiteDoorBottom,
+  },
+  prisonRailings: {
+    leftTop:           T.prisonRailingsTopLeft,
+    pillarTop:         T.prisonRailingsPillarTop,
+    shadowTop:         T.prisonRailingsShadowTop,
+    shadowRightTop:    T.prisonRailingsShadowRightTop,
+    middleTop:         T.prisonRailingsTopMiddle,
+    rightTop:          T.prisonRailingsTopRight,
+    leftBottom:        T.prisonRailingsBottomLeft,
+    pillarBottom:      T.prisonRailingsPillarBottom,
+    shadowBottom:      T.prisonRailingsShadowBottom,
+    shadowRightBottom: T.prisonRailingsShadowRightBottom,
+    middleBottom:      T.prisonRailingsBottomMiddle,
+    rightBottom:       T.prisonRailingsBottomRight,
+    doorArchTop:       T.prisonRailingsDoorArchTop,
+    doorTop:           T.prisonRailingsDoorTop,
+    doorBottom:        T.prisonRailingsDoorBottom,
   },
 }
 

@@ -8,6 +8,7 @@ import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tile
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { MAP_W, MAP_H, HUB_AREAS, HUB_STREET_TILES, HUB_STREET_GROUPS, HUB_BUILDINGS, AVATAR_START, NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS, HUB_DOORS, HUB_INTERIORS, EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS, HUB_BLOCKED_PATHS, HUB_TREASURES } from '../../data/hub/loader'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
+import { getOpenedContainerIds, markContainerOpened } from '../../game/hub/containers'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { loadPlayerAvatar } from '../../game/questline'
 import type { HubNpc } from '../../data/hub/loader'
@@ -607,9 +608,11 @@ export function HubTownCanvas({
 
     // ── Exterior NPCs ─────────────────────────────────────────────────────────
     // Quest indicators: keyed by npcId, updated imperatively in the ticker
-    const questIndicators = new Map<string, PIXI.Text>()
+    const questIndicators     = new Map<string, PIXI.Text>()
+    const questIndicatorBaseY = new Map<string, number>()
     // Interior quest indicators: rebuilt each time we enter a building
-    const interiorQuestIndicators = new Map<string, PIXI.Text>()
+    const interiorQuestIndicators     = new Map<string, PIXI.Text>()
+    const interiorIndicatorBaseY      = new Map<string, number>()
 
     const npcBubbleTargets: { npc: HubNpc; cx: number; cy: number }[] = []
     for (const npc of EXTERIOR_NPCS) {
@@ -633,12 +636,14 @@ export function HubTownCanvas({
       if (npc.dialogue.length > 0) npcBubbleTargets.push({ npc, cx, cy })
 
       if (npc.questGive || npc.questReceive) {
-        const ind = new PIXI.Text({ text: '!', style: { fontSize: 14, fill: '#ffdd44', fontWeight: 'bold', fontFamily: 'monospace' } })
+        const indBaseY = cy - SPRITE_SIZE - 22
+        const ind = new PIXI.Text({ text: '!', style: { fontSize: 16, fill: '#ffdd44', fontWeight: 'bold', fontFamily: 'monospace', stroke: { color: '#1a1a1a', width: 3 } } })
         ind.anchor.set(0.5, 1)
-        ind.position.set(cx, cy - SPRITE_SIZE - 22)
+        ind.position.set(cx, indBaseY)
         ind.visible = false
         bubbleLayer.addChild(ind)
         questIndicators.set(npc.id, ind)
+        questIndicatorBaseY.set(npc.id, indBaseY)
       }
 
       const npcSpriteSlug = isCommanderNpc ? (commander !== undefined ? commander.cardName : avatarSlug) : npc.sprite
@@ -1050,9 +1055,42 @@ export function HubTownCanvas({
         renderPathTiles(floorContainer, floorSet, undefined, PATH_TILE.dirt1).catch(() => {})
       })
 
-      // Walls: stone/brick border using path tile system
-      renderPathTiles(wallContainer, wallSet, undefined, PATH_TILE.wall2)
-        .catch(() => { /* wall tiles optional */ })
+      // Walls: side columns use default path tiles; top/bottom rows use wallMaterial if set
+      const sideWallSet       = new Set<string>()
+      const horizontalWallSet = new Set<string>()
+      for (const key of wallSet) {
+        const [wx, wy] = key.split(',').map(Number)
+        if (wx > 0 && wx < interior.width - 1 && (wy === 0 || wy === interior.height - 1)) horizontalWallSet.add(key)
+        else {sideWallSet.add(`${wx},${wy-1}`); sideWallSet.add(`${wx},${wy}`)}
+      }
+      renderPathTiles(wallContainer, sideWallSet, undefined, PATH_TILE.wall2).catch(() => {})
+
+      if (interior.wallMaterial) {
+        // Bottom row keeps default tile; top row uses middleBottom; a visual-only row above (ty=-1) uses middleTop
+        renderPathTiles(wallContainer, new Set([...horizontalWallSet].filter(k => parseInt(k.split(',')[1]) !== 0)), undefined, PATH_TILE.wall2).catch(() => {})
+        const wTiles = WALL_TILES[interior.wallMaterial]
+        // ty=0 row → middleBottom; ty=-1 (above room, visual only) → middleTop
+        const byTileId = new Map<number, [number, number][]>()
+        for (const key of horizontalWallSet) {
+          const [wx, wy] = key.split(',').map(Number)
+          if (wy !== 0) continue
+          const list = byTileId.get(wTiles.middleBottom) ?? []; list.push([wx, 0]); byTileId.set(wTiles.middleBottom, list)
+          const topList = byTileId.get(wTiles.middleTop) ?? []; topList.push([wx, -1]); byTileId.set(wTiles.middleTop, topList)
+        }
+        for (const [tileId, positions] of byTileId) {
+          loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+            if (!interiorActive || currentInteriorId !== buildingId) return
+            for (const [wx, wy] of positions) {
+              const s = new PIXI.Sprite(tex)
+              s.position.set(wx * T, wy * T)
+              s.width = T; s.height = T
+              wallContainer.addChild(s)
+            }
+          }).catch(() => {})
+        }
+      } else {
+        renderPathTiles(wallContainer, horizontalWallSet, undefined, PATH_TILE.wall2).catch(() => {})
+      }
 
       // Decor — split into below-avatar (solid/below) and above-avatar containers
       const decorBelowContainer = new PIXI.Container()
@@ -1080,7 +1118,7 @@ export function HubTownCanvas({
         }
       }
 
-      renderDecorItems(interior.decor.filter(d => d.zlayer !== 'above'), decorBelowContainer)
+      renderDecorItems(interior.decor.filter(d => !d.containerContents && d.zlayer !== 'above'), decorBelowContainer)
       // above-avatar decor rendered after avatar is added (below)
 
       // Interior pickup items — rendered in room, disappear when tapped
@@ -1152,14 +1190,17 @@ export function HubTownCanvas({
 
       // Quest indicators for interior NPCs
       interiorQuestIndicators.clear()
+      interiorIndicatorBaseY.clear()
       for (const npc of interiorNpcList) {
         if (!npc.questGive && !npc.questReceive) continue
-        const ind = new PIXI.Text({ text: '!', style: { fontSize: 14, fill: '#ffdd44', fontWeight: 'bold', fontFamily: 'monospace' } })
+        const indBaseY = npc.ty * T + T - SPRITE_SIZE - 8
+        const ind = new PIXI.Text({ text: '!', style: { fontSize: 16, fill: '#ffdd44', fontWeight: 'bold', fontFamily: 'monospace', stroke: { color: '#1a1a1a', width: 3 } } })
         ind.anchor.set(0.5, 1)
-        ind.position.set(npc.tx * T + T / 2, npc.ty * T + T - SPRITE_SIZE - 8)
+        ind.position.set(npc.tx * T + T / 2, indBaseY)
         ind.visible = false
         interiorLayer.addChild(ind)
         interiorQuestIndicators.set(npc.id, ind)
+        interiorIndicatorBaseY.set(npc.id, indBaseY)
       }
 
       // Room name label
@@ -1190,7 +1231,40 @@ export function HubTownCanvas({
 
       // Above-avatar decor — added after avatar so it renders on top
       interiorLayer.addChild(decorAboveContainer)
-      renderDecorItems(interior.decor.filter(d => d.zlayer === 'above'), decorAboveContainer)
+      renderDecorItems(interior.decor.filter(d => !d.containerContents && d.zlayer === 'above'), decorAboveContainer)
+
+      // Containers (chests etc.) — interactive, state persisted in localStorage
+      const openedContainers = getOpenedContainerIds()
+      for (const d of interior.decor.filter(cd => cd.containerContents)) {
+        const containerId = `${buildingId}:${d.tx},${d.ty}`
+        const isOpened    = openedContainers.has(containerId)
+        const displayId   = isOpened && d.openedTileId != null ? d.openedTileId : d.tileId
+        loadTileTexture(baseChipUrl, displayId, TILESET_COLUMNS.baseChip).then(tex => {
+          if (!interiorActive || currentInteriorId !== buildingId) return
+          const s = new PIXI.Sprite(tex)
+          s.position.set(d.tx * T, d.ty * T)
+          s.width = T; s.height = T
+          if (!isOpened) {
+            s.eventMode = 'static'
+            s.cursor    = 'pointer'
+            s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+              e.stopPropagation()
+              markContainerOpened(containerId)
+              if (d.openedTileId != null) {
+                loadTileTexture(baseChipUrl, d.openedTileId, TILESET_COLUMNS.baseChip)
+                  .then(openTex => { s.texture = openTex })
+                  .catch(() => {})
+              }
+              s.eventMode = 'none'
+              const contents = d.containerContents!
+                .map(c => `${c.quantity}x ${c.itemId.replace(/([A-Z])/g, ' $1').replace(/^./, ch => ch.toUpperCase())}`)
+                .join(', ')
+              onNpcTapRef.current?.(`You found: ${contents}!`, containerId)
+            })
+          }
+          interiorLayer.addChild(s)
+        }).catch(() => {})
+      }
 
       // Scroll viewport to center on interior
       onAvatarMoveRef.current(intOffX + entryTile[0] * T + T / 2, intOffY + entryTile[1] * T + T / 2)
@@ -1544,12 +1618,17 @@ export function HubTownCanvas({
         }
       }
 
-      // Quest indicators — update visibility from questNpcState ref
+      // Quest indicators — update visibility + bounce animation from questNpcState ref
       const activeIndicators = interiorActive ? interiorQuestIndicators : questIndicators
+      const activeBaseY      = interiorActive ? interiorIndicatorBaseY  : questIndicatorBaseY
       for (const [npcId, ind] of activeIndicators) {
         const state = questNpcState?.current.get(npcId) ?? null
         ind.visible = state !== null
         ind.text    = state === 'ready' ? '?' : '!'
+        if (state !== null) {
+          const baseY = activeBaseY.get(npcId) ?? ind.y
+          ind.y = baseY + Math.sin(performance.now() / 400) * 3
+        }
       }
 
       // Quest pickup visibility — only show while the associated quest is active
