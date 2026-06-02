@@ -16,6 +16,7 @@ const INTERIOR_IDS = Object.keys(HUB_INTERIORS)
 // ── Browser: pick any interior from a dropdown ─────────────────────────────
 
 export const Browser: Story = {
+  args: { interiorId: INTERIOR_IDS[0] ?? '' },
   render: () => {
     const [selected, setSelected] = useState(INTERIOR_IDS[0])
     const interior = HUB_INTERIORS[selected]
