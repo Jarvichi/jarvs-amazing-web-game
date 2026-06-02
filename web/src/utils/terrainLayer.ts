@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { ENV_TILES, BASE_GROUND, TILESET_IMAGE, TILESET_COLUMNS, TILE_SIZE, EnvTileDef, SCENERY } from '../data/tiles/tileIndex'
-import { WORLD_DECOR_FILE, TERRAIN_DECOR_MAP, TERRAIN_PATCH_MAP } from '../data/tiles/worldTileIndex'
+import { WORLD_DECOR_FILE, WORLD_DECOR, TERRAIN_DECOR_MAP, TERRAIN_PATCH_MAP } from '../data/tiles/worldTileIndex'
 import { loadTileTexture } from './pixiHelpers'
 import { drawTerrainItem } from './terrainGfx'
 import { seededRand, hashStr, getTerrainItems, type TerrainItem } from './mapUtils'
@@ -292,6 +292,7 @@ export async function buildTerrainDecorGfx(
     const idNum = parseInt(obs.id.replace('t', ''), 10)
 
     // ── TYPE3 adjacency-tiled patch (tree / rock / water) ───────────────────
+    // SCENERY/PATH tiles fill the ring; center cell is reserved for WORLD_DECOR.
     const patchFile = envPatchMap[obs.type] ?? TERRAIN_PATCH_MAP._default?.[obs.type]
     if (patchFile) {
       const tileRadius = Math.max(1, Math.round(obs.radius * h / (500 * TILE_SIZE)))
@@ -305,28 +306,44 @@ export async function buildTerrainDecorGfx(
           }
         }
       }
+      // Remove center cell so SCENERY/PATH tiles don't occupy it
+      const centerKey = `${tcx},${tcy}`
+      const ringSet = new Set(pathSet)
+      ringSet.delete(centerKey)
+
       const patchContainer = new PIXI.Container()
       container.addChild(patchContainer)
       if (obs.type === 'water') {
-        await renderPathTiles(patchContainer, pathSet, undefined, patchFile)
+        await renderPathTiles(patchContainer, ringSet, undefined, patchFile)
       } else {
-        await renderSceneryPatch(patchContainer, pathSet, patchFile)
+        await renderSceneryPatch(patchContainer, ringSet, patchFile)
       }
       if (container.destroyed) return
+
+      // Place WORLD_DECOR tile in the center cell (separate from SCENERY/PATH ring)
+      const tileIds = (envDecorMap[obs.type] ?? TERRAIN_DECOR_MAP._default?.[obs.type]) as number[] | undefined
+      if (tileIds?.length) {
+        const tileId = tileIds[idNum % tileIds.length]
+        const decorUrl = `${base}${WORLD_DECOR_FILE.slice(1)}`
+        const tex = await loadTileTexture(decorUrl, tileId, 8)
+        if (container.destroyed) return
+        const s = new PIXI.Sprite(tex)
+        s.position.set(tcx * TILE_SIZE, tcy * TILE_SIZE)
+        container.addChild(s)
+      }
       continue
     }
 
     // ── Ruin: single WORLD_DECOR tile (gravestone, house, …) ────────────────
     if (obs.type === 'ruin') {
-      const tileIds = envDecorMap['ruin'] ?? TERRAIN_DECOR_MAP._default?.['ruin'] ?? []
+      const tileIds = (envDecorMap['ruin'] ?? TERRAIN_DECOR_MAP._default?.['ruin']) as number[] | undefined ?? []
       if (tileIds.length === 0) continue
       const tileId = tileIds[idNum % tileIds.length]
       const decorUrl = `${base}${WORLD_DECOR_FILE.slice(1)}`
       const tex = await loadTileTexture(decorUrl, tileId, 8)
       if (container.destroyed) return
       const s = new PIXI.Sprite(tex)
-      s.anchor.set(0.5)
-      s.position.set(cx, cy)
+      s.position.set(Math.round(cx / TILE_SIZE) * TILE_SIZE, Math.round(cy / TILE_SIZE) * TILE_SIZE)
       container.addChild(s)
     }
   }
