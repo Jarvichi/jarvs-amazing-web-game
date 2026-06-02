@@ -1,7 +1,10 @@
 import rawConfig from './config.json'
 import rawQuestConfig from './questDefs.json'
 import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
+import { WALL_TILES } from '../tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
+
+const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
 
 const T = 32
 
@@ -31,9 +34,15 @@ export interface HubDoor {
 }
 
 export interface InteriorDecor {
-  tx: number
-  ty: number
-  tileId: number
+  tx:      number
+  ty:      number
+  tileId:  number
+  zlayer?: 'solid' | 'below' | 'above'
+  // solid (default): not walkable, renders below avatar
+  // below: walkable, renders below avatar (rugs, floor markings)
+  // above: walkable, renders above avatar (hanging items, backdrop shelves)
+  containerContents?: Array<{ itemId: string; quantity: number }>
+  openedTileId?: number
 }
 
 export interface HubInterior {
@@ -43,6 +52,7 @@ export interface HubInterior {
   height: number
   decor: InteriorDecor[]
   floorTileId?: number
+  wallMaterial?: WallMaterial
 }
 
 export interface HubNpc {
@@ -247,17 +257,29 @@ export const HUB_POND_TILES: [number, number][] = expandTiles(
 export const HUB_DOORS: HubDoor[] = [...((rawConfig as unknown as { doors?: HubDoor[] }).doors ?? []), ..._nestedDoors]
 
 export const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
-  Object.entries(rawConfig.interiors).map(([id, raw]) => [
-    id,
-    {
+  Object.entries(rawConfig.interiors).map(([id, raw]) => {
+    const rawAny = raw as Record<string, unknown>
+    const wallTileIdStr = rawAny.wallTileId as string | undefined
+    return [
       id,
-      name:        raw.name,
-      width:       raw.width,
-      height:      raw.height,
-      floorTileId: resolveTileId(raw.floorTileId),
-      decor:       raw.decor.map(d => ({ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId) })),
-    } satisfies HubInterior,
-  ])
+      {
+        id,
+        name:         raw.name,
+        width:        raw.width,
+        height:       raw.height,
+        floorTileId:  resolveTileId(raw.floorTileId),
+        wallMaterial: wallTileIdStr && WALL_MATERIAL_NAMES.has(wallTileIdStr) ? wallTileIdStr as WallMaterial : undefined,
+        decor:        (raw.decor as Array<{ tx: number; ty: number; tileId: string; zlayer?: string; containerContents?: Array<{ itemId: string; quantity: number }>; openedTileId?: string }>).map(d => ({
+          tx:                d.tx,
+          ty:                d.ty,
+          tileId:            resolveTileId(d.tileId),
+          zlayer:            d.zlayer as InteriorDecor['zlayer'],
+          containerContents: d.containerContents,
+          openedTileId:      d.openedTileId ? resolveTileId(d.openedTileId) : undefined,
+        })),
+      } satisfies HubInterior,
+    ]
+  })
 )
 
 export const HUB_NPCS: HubNpc[] = rawConfig.npcs as HubNpc[]
@@ -318,3 +340,27 @@ type RawLockedDoor = { buildingId: string; lockedBy: string }
 export const HUB_LOCKED_DOORS: HubLockedDoor[] = (
   (rawConfig as unknown as { lockedDoors?: RawLockedDoor[] }).lockedDoors ?? []
 )
+
+export interface HubTreasureReward {
+  crystals?:    number
+  collectible?: { id: string; name: string; icon: string; desc: string }
+}
+
+export interface HubTreasure {
+  id:               string
+  tx:               number
+  ty:               number
+  tileId:           number
+  collectedTileId?: number   // if set, swap to this tile on collect; if absent, hide the sprite
+  title:            string
+  reward:           HubTreasureReward
+}
+
+type RawTreasure = { id: string; tx: number; ty: number; tileId: string; collectedTileId?: string; title: string; reward: HubTreasureReward }
+export const HUB_TREASURES: HubTreasure[] = (
+  (rawConfig as unknown as { treasures?: RawTreasure[] }).treasures ?? []
+).map(t => ({
+  ...t,
+  tileId:           resolveTileId(t.tileId),
+  collectedTileId:  t.collectedTileId ? resolveTileId(t.collectedTileId) : undefined,
+}))

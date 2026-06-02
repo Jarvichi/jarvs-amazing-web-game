@@ -5,7 +5,8 @@ import { AreaNameBadge } from './AreaNameBadge'
 import { HubReturnButton } from './HubReturnButton'
 import { HubDialogue } from './HubDialogue'
 import type { DialogueChoice } from './HubDialogue'
-import { AVATAR_START, MAP_W, MAP_H, HUB_NPCS } from '../../data/hub/loader'
+import { AVATAR_START, MAP_W, MAP_H, HUB_NPCS, HUB_TREASURES } from '../../data/hub/loader'
+import type { HubTreasure } from '../../data/hub/loader'
 import { HUB_QUEST_DEFS, INN_RUMOURS, FRIENDSHIP_DIALOGUE } from '../../data/hub/questDefs'
 import type { HubQuestDef } from '../../data/hub/questDefs'
 import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pickups'
@@ -26,6 +27,8 @@ import { loadPlayerName } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
 import { addCollectible, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
+import { TreasureModal } from './TreasureModal'
+import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
 
 const T = 32
 const INITIAL_SCROLL = {
@@ -100,7 +103,9 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
   const [dialogueEvent,  setDialogueEvent]  = useState<QuestEvent | null>(null)
   const [interiorActive, setInteriorActive] = useState(false)
   const [pickedUpIds,    setPickedUpIds]    = useState<Set<string>>(() => getPickedUpIds())
-  const [questsOpen,     setQuestsOpen]     = useState(false)
+  const [questsOpen,          setQuestsOpen]          = useState(false)
+  const [openTreasure,        setOpenTreasure]        = useState<HubTreasure | null>(null)
+  const [collectedTreasureIds] = useState<Set<string>>(() => getCollectedTreasureIds())
   // Refresh friendship/quest state after interactions (lightweight — just reads localStorage)
   const [_tick, setTick] = useState(0)
   const refreshState = useCallback(() => setTick(t => t + 1), [])
@@ -206,6 +211,20 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Auto-dismiss dialogue after 15 s — skip if it has choices (quest offers need manual input)
+  useEffect(() => {
+    const hasContent = !!(dialogueEvent?.text ?? dialogueLine)
+    const hasChoices  = !!(dialogueEvent?.choices?.length)
+    if (!hasContent || hasChoices) return
+    const after = dialogueEvent?.onClose
+    const id = setTimeout(() => {
+      setDialogueEvent(null)
+      setDialogueLine(null)
+      after?.()
+    }, 15_000)
+    return () => clearTimeout(id)
+  }, [dialogueEvent, dialogueLine])
+
   const handleAvatarMove = useCallback((px: number, py: number) => {
     const el = scrollRef.current
     if (!el) return
@@ -254,6 +273,20 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
     unmarkPickedUp(pickupIds)
     resetQuest(questId)
     setPickedUpIds(getPickedUpIds())
+    refreshState()
+  }, [refreshState])
+
+  const handleTreasureStep = useCallback((id: string) => {
+    const treasure = HUB_TREASURES.find(t => t.id === id)
+    if (!treasure) return
+    markTreasureCollected(id)
+    const { reward } = treasure
+    if (reward.crystals) saveCrystals(loadCrystals() + reward.crystals)
+    if (reward.collectible) {
+      const { id: cid, name, icon, desc } = reward.collectible
+      addCollectible(cid, { name, icon, desc })
+    }
+    setOpenTreasure(treasure)
     refreshState()
   }, [refreshState])
 
@@ -486,11 +519,14 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
             questNpcState={questNpcStateRef}
             activeQuestIdsRef={activeQuestIdsRef}
             completedQuestIdsRef={completedQuestIdsRef}
+            collectedTreasureIds={collectedTreasureIds}
+            onTreasureStep={handleTreasureStep}
           />
         </div>
         <AreaNameBadge name={currentArea} />
 
         {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} />}
+        {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}
 
         <HubDialogue
           line={dialogueEvent?.text ?? dialogueLine}

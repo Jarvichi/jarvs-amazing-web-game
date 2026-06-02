@@ -6,6 +6,7 @@
       "type": "lost-items",
       "giverNpcId": "elder",
       "receiverNpcId": "elder",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "Oh dear… I seem to have misplaced my three pendant stones somewhere in town. They are precious to me. Have you seen them?",
       "activeDialogue": "I had the pendants near the pond, the market square, and the east fields. Any luck finding them?",
       "completeDialogue": "All three! Bless you, dear traveller. You have a very kind heart.",
@@ -23,6 +24,7 @@
       "type": "fetch",
       "giverNpcId": "merchant",
       "receiverNpcId": "merchant",
+      "prerequisite": "quest:the-password-part-4",      
       "offerDialogue": "I'm after a Moonleaf Herb for a special tincture. They grow in sheltered spots near the scholars' quarter. Fetch me one and I'll make it worth your while.",
       "activeDialogue": "Moonleaf Herb — look for it growing in the shade near the scholars' hall.",
       "completeDialogue": "Perfect condition! Here, take this as thanks. A rare find, just like yourself.",
@@ -40,6 +42,7 @@
       "type": "chain",
       "giverNpcId": "naia-interior",
       "receiverNpcId": "naia-interior",
+      "prerequisite": "quest:the-password-part-4",      
       "offerDialogue": "I'm trying to reassemble a three-volume anthology that was scattered across town ages ago. The first tome ended up in the card emporium, if I'm not mistaken…",
       "activeDialogue": {
         "tome-1": "The first tome is in the card emporium. Look on the shelves.",
@@ -82,6 +85,7 @@
       "type": "lost-items",
       "giverNpcId": "fisherman",
       "receiverNpcId": "fisherman",
+      "prerequisite": "quest:the-password-part-4",            
       "offerDialogue": "Blast — I've gone and dropped my bait jars again. Three of them, scattered somewhere near the pond. These old hands aren't what they were.",
       "activeDialogue": "The jars can't have gone far — look around the water's edge and the reeds.",
       "completeDialogue": "Ha! Every last one. You've got sharp eyes, wanderer. A lucky charm from me — fish tend to bite better when you've got one.",
@@ -99,6 +103,7 @@
       "type": "fetch",
       "giverNpcId": "bramble",
       "receiverNpcId": "trader",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "Got a crate of supplies that needs to reach the trader den — can't leave the counter unattended. Take it over, would you?",
       "activeDialogue": "The Junk Trader is in the den to the south-west. Don't let him talk you into a swap.",
       "completeDialogue": "About time! These are exactly what I needed. Tell Bramble we're square.",
@@ -116,6 +121,7 @@
       "type": "fetch",
       "giverNpcId": "gildwyn",
       "receiverNpcId": "gildwyn",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "A customer left without paying for a card — then I realised he'd also walked off with one of my rarest pieces! I think he left it at the scholars' hall.",
       "activeDialogue": "Check the scholars' hall — someone fitting that description was seen heading that way.",
       "completeDialogue": "My Thornlord foil! I thought I'd never see it again. Here, take something in return — consider it a finder's fee.",
@@ -133,6 +139,7 @@
       "type": "fetch",
       "giverNpcId": "mira",
       "receiverNpcId": "mira",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "One of my enchantment crystals rolled out of the shop during the last tremor. It glows faintly — you should spot it near the market. Please, before someone stands on it.",
       "activeDialogue": "It's a small blue crystal — it should be glowing softly somewhere near the market lane.",
       "completeDialogue": "Oh, thank goodness. These crystals are attuned to me personally — losing one is like losing a piece of myself. You have my gratitude.",
@@ -150,6 +157,7 @@
       "type": "fetch",
       "giverNpcId": "home-steward",
       "receiverNpcId": "home-steward",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "I apologise for the bother, Commander, but I seem to have dropped a small locket while crossing the courtyard this morning. It belonged to the Commander's family.",
       "activeDialogue": "I believe I dropped it somewhere near the well in the courtyard. It is a small silver locket.",
       "completeDialogue": "Ah, there it is. My sincerest thanks — this is irreplaceable. I shall keep it safer from now on.",
@@ -167,6 +175,7 @@
       "type": "fetch",
       "giverNpcId": "professor-aldric",
       "receiverNpcId": "cartographer-bram",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "I have a rather urgent paper for Cartographer Bram — a revised lecture on Fracture geography. I am far too busy to deliver it myself. Would you oblige?",
       "activeDialogue": "Bram is in the north-east scholars' wing. He will be expecting something eventually — tell him it is from me.",
       "completeDialogue": "At last! Aldric's scribblings. Useful, actually. Pass along my thanks.",
@@ -184,6 +193,7 @@
       "type": "lost-items",
       "giverNpcId": "cartographer-bram",
       "receiverNpcId": "cartographer-bram",
+      "prerequisite": "quest:alric-manuscript",
       "offerDialogue": "My ink shipment from the market went missing somewhere between the lane and my desk. Two full bottles — good cartographer's ink is not cheap. Would you track them down?",
       "activeDialogue": "They were delivered to the market lane. Someone must have set them down. Both bottles — I need both.",
       "completeDialogue": "Both bottles intact! Excellent. I can finish the Fracture boundary maps now. You have my gratitude.",
@@ -201,6 +211,7 @@
       "type": "lost-items",
       "giverNpcId": "apprentice-lyss",
       "receiverNpcId": "apprentice-lyss",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "Three books were loaned out before the Fracture and never returned. I have been tracking them for months. I believe they are scattered across town — in the card shop, the supply store, and someone's home. Would you retrieve them?",
       "activeDialogue": "Check the card emporium, the supply shop, and the home building. The spines are marked with the archive seal.",
       "completeDialogue": "All three! The cataloguing can continue at last. You are a genuine asset to this archive.",
@@ -218,6 +229,7 @@
       "type": "fetch",
       "giverNpcId": "guild-master-ferryn",
       "receiverNpcId": "guild-master-ferryn",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "Someone borrowed the guild's primary ledger — without asking, naturally — and I believe it ended up in the trader den. I need that book back. Every transaction for the last year is in it.",
       "activeDialogue": "Check the trader den to the south-west. The ledger is bound in dark leather with a guild stamp on the cover.",
       "completeDialogue": "Intact. Every page. I will be having words with the trader. Here — your fee, as promised.",
@@ -235,6 +247,7 @@
       "type": "lost-items",
       "giverNpcId": "market-warden-syla",
       "receiverNpcId": "market-warden-syla",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "I placed survey notices along the market lane this morning for traders to complete. Of course, the wind had other ideas. Would you collect the ones that blew away?",
       "activeDialogue": "Three notices — they cannot have gone far from the market lane. Look along the stalls.",
       "completeDialogue": "All three returned, and mostly legible. That is the most I can hope for on a market day. Thank you.",
@@ -252,6 +265,7 @@
       "type": "lost-items",
       "giverNpcId": "drill-sergeant-varn",
       "receiverNpcId": "drill-sergeant-varn",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "Someone's been shifting my training weights around — probably recruits messing about after drills. Three of them are missing from the yard. Track them down before I assign extra duties to everyone.",
       "activeDialogue": "Three iron weights — they're heavy, you'll know them by sight. Check around the barracks yard.",
       "completeDialogue": "Every last one. Back in position. Good work — you move like someone who's had proper training.",
@@ -269,6 +283,7 @@
       "type": "lost-items",
       "giverNpcId": "guard-captain-thorin",
       "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "My guards filed their patrol reports but forgot to hand them in — left them sitting around the perimeter. Three reports, three different sections of the wall. I need them on my desk by nightfall.",
       "activeDialogue": "Three patrol reports — my guards leave them wherever they stand when the shift ends. Check around the barracks perimeter.",
       "completeDialogue": "All three. I will be having words with the patrol about proper procedure. My thanks for the retrieval — you saved me a round of the walls.",
@@ -286,6 +301,7 @@
       "type": "lost-items",
       "giverNpcId": "games-host-zev",
       "receiverNpcId": "games-host-zev",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "Last night's big winners walked off with their prizes — fine — but they also pocketed the display tokens! Three of my best arcade tokens, gone. Help me track them down and I will make it worth your while.",
       "activeDialogue": "Prize tokens — brass, about this big. Someone scattered them around the arcade quarter. Check the stalls and the street.",
       "completeDialogue": "My tokens! Now the display cases look full again. Appearances matter in this business. Here is your cut.",
@@ -303,6 +319,7 @@
       "type": "fetch",
       "giverNpcId": "trophy-keeper-orin",
       "receiverNpcId": "trophy-keeper-orin",
+      "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "The Ironwall Cup has vanished from its case. It is the oldest trophy in this hall — won before the Fracture. Someone moved it, and I suspect it ended up in the barracks. Retrieve it with care.",
       "activeDialogue": "The Ironwall Cup — a wide bronze base, the name engraved on the plaque. Someone brought it to the north barracks. Go carefully.",
       "completeDialogue": "You found it — and undamaged. This trophy survived the Fracture. I will not let it survive careless handling. My deepest thanks.",
@@ -320,6 +337,7 @@
       "type": "lost-items",
       "giverNpcId": "innkeeper-rosie",
       "receiverNpcId": "innkeeper-rosie",
+      "prerequisite": "quest:merchants-herb",
       "offerDialogue": "I'm trying to recreate my grandmother's famous stew for the festival — but I need a sprig of marsh thyme and some peppercorn from the market stores. My hands are full here. Could you fetch them for me?",
       "activeDialogue": "Marsh thyme grows near the pond — you'll smell it before you see it. The peppercorn should be in the market building.",
       "completeDialogue": "Perfect! The stew is going to be wonderful. You are always welcome at my table, Commander. Always.",
@@ -1836,6 +1854,73 @@
         "friendship": { "guard-captain-thorin": 50, "elder": 20, "naia-interior": 20, "innkeeper-rosie": 20, "guild-master-ferryn": 20, "merchant": 20, "fisherman": 20, "drill-sergeant-varn": 15, "cartographer-bram": 15, "apprentice-lyss": 15, "professor-aldric": 15, "mira": 15, "market-warden-syla": 15, "games-host-zev": 15, "trophy-keeper-orin": 15, "dealer": 15, "gildwyn": 15, "bramble": 15, "home-steward": 15 },
         "unlock": "hub-monument"
       }
+    },
+    {
+      "id": "the-password-part-1",
+      "title": "The Password - Part 1",
+      "type": "fetch",
+      "giverNpcId": "quickbattle-gate",
+      "receiverNpcId": "deck-gate",
+      "offerDialogue": "Commander! You finally made it. We've kept the gates locked until you arrived — didn't know who to trust out there. Before I give the order to open things up, I need you to check in with the others. Start with Dave at the deck post. He's been anxious to see you.",
+      "activeDialogue": "Go speak with Dave at the deck post. He'll know you're on your way.",
+      "completeDialogue": "Commander! Good to see a familiar face. Gorr sent you, did he? Right, we've all been on edge.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "deck-gate", "required": 1 }
+      ],
+      "reward": {
+        "unlock": "the-password-part-2"
+      }
+    },
+    {
+      "id": "the-password-part-2",
+      "title": "The Password - Part 2",
+      "type": "fetch",
+      "prerequisite": "quest:the-password-part-1",
+      "giverNpcId": "deck-gate",
+      "receiverNpcId": "campaign-gate",
+      "offerDialogue": "Good to see you, Commander. I need you to check in with War Herald Davos before we open the south road. He's been holding the campaign banner for weeks — a bit dramatic, but he means well. You'll find him by the courtyard gate.",
+      "activeDialogue": "Davos is waiting by the courtyard. Don't keep a herald waiting — they take it personally.",
+      "completeDialogue": "Commander, the banners are raised and the roads are ready.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "campaign-gate", "required": 1 }
+      ],
+      "reward": {
+        "unlock": "the-password-part-3"
+      }
+    },
+    {
+      "id": "the-password-part-3",
+      "title": "The Password - Part 3",
+      "type": "fetch",
+      "prerequisite": "quest:the-password-part-2",
+      "giverNpcId": "campaign-gate",
+      "receiverNpcId": "collection-gate",
+      "offerDialogue": "Commander. I've reviewed the campaign maps and the town is secure. Before I sign off, I need you to check in with Field Marshall Fred. He's managing the eastern deployment — won't take long.",
+      "activeDialogue": "Field Marshall Fred is at the collection post to the east. He's the last sign-off before the town reopens.",
+      "completeDialogue": "About time, Commander! I've been sitting on these deployment orders for days.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "collection-gate", "required": 1 }
+      ],
+      "reward": {
+        "unlock": "the-password-part-4"
+      }
+    },
+    {
+      "id": "the-password-part-4",
+      "title": "The Password - Part 4",
+      "type": "fetch",
+      "prerequisite": "quest:the-password-part-3",
+      "giverNpcId": "collection-gate",
+      "receiverNpcId": "quickbattle-gate",
+      "offerDialogue": "Everything's locked and loaded on my end, Commander. Troops reviewed, routes clear. Take this clearance back to Pit Master Gorr — he'll give the order to open the gates.",
+      "activeDialogue": "Gorr's waiting for the all-clear. Take it back to him and the town opens up.",
+      "completeDialogue": "That's everyone. You've got the all-clear from the whole garrison. Alright — opening the gates now. Welcome to the hub, Commander. It's all yours.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "quickbattle-gate", "required": 1 }
+      ],
+      "reward": {
+        "unlock": "lost-pendant"
+      }
     }
   ],
   "pickupItems": [
@@ -1898,9 +1983,9 @@
       "tileId": "goldChest",
       "building": "barracks-vault"
     },
-    { "id": "bait-jar-1",        "tx": 3,  "ty": 36, "tileId": "bunchOfHerbs", "questId": "greyfishs-bait" },
-    { "id": "bait-jar-2",        "tx": 6,  "ty": 40, "tileId": "bunchOfHerbs", "questId": "greyfishs-bait" },
-    { "id": "bait-jar-3",        "tx": 5,  "ty": 44, "tileId": "bunchOfHerbs", "questId": "greyfishs-bait" },
+    { "id": "bait-jar-1",        "tx": 3,  "ty": 36, "tileId": "smallSack", "questId": "greyfishs-bait" },
+    { "id": "bait-jar-2",        "tx": 6,  "ty": 40, "tileId": "smallSack", "questId": "greyfishs-bait" },
+    { "id": "bait-jar-3",        "tx": 5,  "ty": 44, "tileId": "smallSack", "questId": "greyfishs-bait" },
     { "id": "gildwyns-rare-card","tx": 5,  "ty": 4,  "tileId": "blueclosedBook", "questId": "gildwyns-missing-card", "building": "scholars-hall" },
     { "id": "miras-lost-crystal","tx": 14, "ty": 24, "tileId": "pendant",       "questId": "miras-runaway-crystal" },
     { "id": "aldous-locket",     "tx": 21, "ty": 22, "tileId": "pendant",       "questId": "aldous-keepsake" },
@@ -1910,15 +1995,15 @@
     { "id": "overdue-book-2",   "tx": 3,  "ty": 5,  "tileId": "blackclosedBook","questId": "lysss-overdue-books", "building": "supply-shop" },
     { "id": "overdue-book-3",   "tx": 5,  "ty": 5,  "tileId": "greenclosedBook","questId": "lysss-overdue-books", "building": "home" },
     { "id": "guild-ledger",     "tx": 3,  "ty": 3,  "tileId": "blackclosedBook","questId": "ferryn-ledger",      "building": "trader-den" },
-    { "id": "survey-note-1",    "tx": 4,  "ty": 24, "tileId": "closedBook",    "questId": "sylas-market-survey" },
-    { "id": "survey-note-2",    "tx": 17, "ty": 25, "tileId": "closedBook",    "questId": "sylas-market-survey" },
-    { "id": "survey-note-3",    "tx": 28, "ty": 24, "tileId": "closedBook",    "questId": "sylas-market-survey" },
+    { "id": "survey-note-1",    "tx": 4,  "ty": 24, "tileId": "note",    "questId": "sylas-market-survey" },
+    { "id": "survey-note-2",    "tx": 17, "ty": 25, "tileId": "note",    "questId": "sylas-market-survey" },
+    { "id": "survey-note-3",    "tx": 28, "ty": 24, "tileId": "note",    "questId": "sylas-market-survey" },
     { "id": "weight-1",         "tx": 62, "ty": 37, "tileId": "barrel",        "questId": "varn-training-weights" },
     { "id": "weight-2",         "tx": 67, "ty": 44, "tileId": "barrel",        "questId": "varn-training-weights" },
     { "id": "weight-3",         "tx": 5,  "ty": 5,  "tileId": "barrel",        "questId": "varn-training-weights", "building": "barracks-south" },
-    { "id": "patrol-report-1",  "tx": 60, "ty": 26, "tileId": "closedBook",    "questId": "thorin-security-report" },
-    { "id": "patrol-report-2",  "tx": 68, "ty": 31, "tileId": "closedBook",    "questId": "thorin-security-report" },
-    { "id": "patrol-report-3",  "tx": 62, "ty": 48, "tileId": "closedBook",    "questId": "thorin-security-report" },
+    { "id": "patrol-report-1",  "tx": 60, "ty": 26, "tileId": "note",    "questId": "thorin-security-report" },
+    { "id": "patrol-report-2",  "tx": 68, "ty": 31, "tileId": "note",    "questId": "thorin-security-report" },
+    { "id": "patrol-report-3",  "tx": 62, "ty": 48, "tileId": "note",    "questId": "thorin-security-report" },
     { "id": "prize-token-1",    "tx": 45, "ty": 25, "tileId": "pendant",       "questId": "zev-game-prize-restock" },
     { "id": "prize-token-2",    "tx": 52, "ty": 25, "tileId": "pendant",       "questId": "zev-game-prize-restock" },
     { "id": "prize-token-3",    "tx": 5,  "ty": 6,  "tileId": "pendant",       "questId": "zev-game-prize-restock", "building": "arcade-building-e" },
@@ -1929,16 +2014,16 @@
     { "id": "memory-shard-2",   "tx": 55, "ty": 11, "tileId": "pendant",       "questId": "elder-fracture-memory" },
     { "id": "memory-shard-3",   "tx": 4,  "ty": 45, "tileId": "pendant",       "questId": "elder-fracture-memory" },
     { "id": "strange-catch",    "tx": 7,  "ty": 43, "tileId": "pendant",       "questId": "greyfishs-strange-catch" },
-    { "id": "record-page-1",    "tx": 4,  "ty": 3,  "tileId": "closedBook",    "questId": "naia-missing-records",   "building": "scholars-hall" },
-    { "id": "record-page-2",    "tx": 5,  "ty": 4,  "tileId": "closedBook",    "questId": "naia-missing-records",   "building": "scholars-hall-w" },
-    { "id": "record-page-3",    "tx": 4,  "ty": 4,  "tileId": "closedBook",    "questId": "naia-missing-records",   "building": "scholars-north-w" },
-    { "id": "guard-clue-1",     "tx": 60, "ty": 29, "tileId": "closedBook",    "questId": "thorin-missing-guard" },
-    { "id": "guard-clue-2",     "tx": 66, "ty": 41, "tileId": "closedBook",    "questId": "thorin-missing-guard" },
-    { "id": "guard-clue-3",     "tx": 72, "ty": 46, "tileId": "closedBook",    "questId": "thorin-missing-guard" },
+    { "id": "record-page-1",    "tx": 4,  "ty": 3,  "tileId": "note",    "questId": "naia-missing-records",   "building": "scholars-hall" },
+    { "id": "record-page-2",    "tx": 5,  "ty": 4,  "tileId": "note",    "questId": "naia-missing-records",   "building": "scholars-hall-w" },
+    { "id": "record-page-3",    "tx": 4,  "ty": 4,  "tileId": "note",    "questId": "naia-missing-records",   "building": "scholars-north-w" },
+    { "id": "guard-clue-1",     "tx": 60, "ty": 29, "tileId": "note",    "questId": "thorin-missing-guard" },
+    { "id": "guard-clue-2",     "tx": 66, "ty": 41, "tileId": "note",    "questId": "thorin-missing-guard" },
+    { "id": "guard-clue-3",     "tx": 72, "ty": 46, "tileId": "note",    "questId": "thorin-missing-guard" },
     { "id": "stolen-crate-1",   "tx": 15, "ty": 26, "tileId": "crate",         "questId": "bramble-stolen-goods" },
     { "id": "stolen-crate-2",   "tx": 29, "ty": 26, "tileId": "crate",         "questId": "bramble-stolen-goods" },
     { "id": "stolen-crate-3",   "tx": 4,  "ty": 3,  "tileId": "crate",         "questId": "bramble-stolen-goods", "building": "supply-shop" },
-    { "id": "unstable-augment", "tx": 4,  "ty": 4,  "tileId": "chest",         "questId": "mira-unstable-augment", "building": "augment-shop" },
+    { "id": "unstable-augment", "tx": 5,  "ty": 3,  "tileId": "smallSack",         "questId": "mira-unstable-augment", "building": "augment-shop" },
     { "id": "guild-crate-1",    "tx": 7,  "ty": 23, "tileId": "crate",         "questId": "ferryn-missing-shipment" },
     { "id": "guild-crate-2",    "tx": 18, "ty": 26, "tileId": "crate",         "questId": "ferryn-missing-shipment" },
     { "id": "guild-crate-3",    "tx": 4,  "ty": 4,  "tileId": "crate",         "questId": "ferryn-missing-shipment", "building": "traders-building" },
@@ -1948,14 +2033,14 @@
     { "id": "warning-stamp-1",  "tx": 6,  "ty": 25, "tileId": "pendant",       "questId": "syla-price-fixing" },
     { "id": "warning-stamp-2",  "tx": 22, "ty": 24, "tileId": "pendant",       "questId": "syla-price-fixing" },
     { "id": "warning-stamp-3",  "tx": 32, "ty": 25, "tileId": "pendant",       "questId": "syla-price-fixing" },
-    { "id": "deserter-clue-1",  "tx": 60, "ty": 38, "tileId": "closedBook",    "questId": "varn-deserter-trail" },
-    { "id": "deserter-clue-2",  "tx": 65, "ty": 43, "tileId": "closedBook",    "questId": "varn-deserter-trail" },
-    { "id": "deserter-clue-3",  "tx": 70, "ty": 48, "tileId": "closedBook",    "questId": "varn-deserter-trail" },
+    { "id": "deserter-clue-1",  "tx": 60, "ty": 38, "tileId": "note",    "questId": "varn-deserter-trail" },
+    { "id": "deserter-clue-2",  "tx": 65, "ty": 43, "tileId": "note",    "questId": "varn-deserter-trail" },
+    { "id": "deserter-clue-3",  "tx": 70, "ty": 48, "tileId": "note",    "questId": "varn-deserter-trail" },
     { "id": "guest-item-1",     "tx": 3,  "ty": 3,  "tileId": "pendant",       "questId": "rosie-strange-guest", "building": "inn-building" },
     { "id": "guest-item-2",     "tx": 5,  "ty": 3,  "tileId": "chest",         "questId": "rosie-strange-guest", "building": "inn-building" },
     { "id": "guest-item-3",     "tx": 4,  "ty": 5,  "tileId": "closedBook",    "questId": "rosie-strange-guest", "building": "inn-building" },
-    { "id": "tampered-map-1",   "tx": 55, "ty": 18, "tileId": "blueclosedBook","questId": "bram-altered-map" },
-    { "id": "tampered-map-2",   "tx": 14, "ty": 24, "tileId": "blueclosedBook","questId": "bram-altered-map" },
+    { "id": "tampered-map-1",   "tx": 55, "ty": 18, "tileId": "rolledMap","questId": "bram-altered-map" },
+    { "id": "tampered-map-2",   "tx": 14, "ty": 24, "tileId": "rolledMap","questId": "bram-altered-map" },
     { "id": "forbidden-text-1", "tx": 4,  "ty": 5,  "tileId": "blackclosedBook","questId": "lyss-forbidden-texts", "building": "scholars-hall" },
     { "id": "forbidden-text-2", "tx": 3,  "ty": 4,  "tileId": "blackclosedBook","questId": "lyss-forbidden-texts", "building": "scholars-hall-w" },
     { "id": "forbidden-text-3", "tx": 5,  "ty": 3,  "tileId": "blackclosedBook","questId": "lyss-forbidden-texts", "building": "scholars-north-e" },
@@ -1987,14 +2072,14 @@
     { "id": "smuggler-cache-1",  "tx": 38, "ty": 25, "tileId": "crate",          "questId": "bramble-smugglers-cache" },
     { "id": "smuggler-cache-2",  "tx": 4,  "ty": 5,  "tileId": "crate",          "questId": "bramble-smugglers-cache", "building": "supply-shop" },
     { "id": "spy-report",        "tx": 4,  "ty": 3,  "tileId": "closedBook",     "questId": "rosie-spy-in-the-inn", "building": "inn-building" },
-    { "id": "agent-note",        "tx": 4,  "ty": 5,  "tileId": "blackclosedBook","questId": "varn-double-agent", "building": "barracks-south" },
-    { "id": "agent-map",         "tx": 6,  "ty": 3,  "tileId": "blueclosedBook", "questId": "varn-double-agent", "building": "barracks-north" },
-    { "id": "agent-list",        "tx": 5,  "ty": 6,  "tileId": "closedBook",     "questId": "varn-double-agent", "building": "barracks-south" },
+    { "id": "agent-note",        "tx": 4,  "ty": 5,  "tileId": "note","questId": "varn-double-agent", "building": "barracks-south" },
+    { "id": "agent-map",         "tx": 6,  "ty": 3,  "tileId": "rolledMap", "questId": "varn-double-agent", "building": "barracks-north" },
+    { "id": "agent-list",        "tx": 5,  "ty": 6,  "tileId": "blackopenBook",     "questId": "varn-double-agent", "building": "barracks-south" },
     { "id": "card-layout-plans", "tx": 5,  "ty": 4,  "tileId": "blueclosedBook", "questId": "gildwyn-stolen-card-plans", "building": "card-shop" },
-    { "id": "corrupted-augment-1","tx": 19, "ty": 24, "tileId": "chest",         "questId": "mira-corrupted-augments" },
-    { "id": "corrupted-augment-2","tx": 31, "ty": 23, "tileId": "chest",         "questId": "mira-corrupted-augments" },
-    { "id": "corrupted-augment-3","tx": 4,  "ty": 5,  "tileId": "chest",         "questId": "mira-corrupted-augments", "building": "augment-shop" },
-    { "id": "echo-territory-map","tx": 57, "ty": 16, "tileId": "blueclosedBook", "questId": "bram-echo-territory-map" },
+    { "id": "corrupted-augment-1","tx": 19, "ty": 24, "tileId": "gift",         "questId": "mira-corrupted-augments" },
+    { "id": "corrupted-augment-2","tx": 31, "ty": 23, "tileId": "gift",         "questId": "mira-corrupted-augments" },
+    { "id": "corrupted-augment-3","tx": 4,  "ty": 5,  "tileId": "gift",         "questId": "mira-corrupted-augments", "building": "augment-shop" },
+    { "id": "echo-territory-map","tx": 57, "ty": 16, "tileId": "rolledMap", "questId": "bram-echo-territory-map" },
     { "id": "cipher-key-fragment","tx": 3, "ty": 5,  "tileId": "blueclosedBook", "questId": "lyss-cipher-key", "building": "scholars-north-w" },
     { "id": "research-specimen-1","tx": 37, "ty": 38, "tileId": "greenclosedBook","questId": "alric-echo-research" },
     { "id": "research-specimen-2","tx": 55, "ty": 14, "tileId": "greenclosedBook","questId": "alric-echo-research" },
@@ -2002,8 +2087,8 @@
     { "id": "glowing-float-1",   "tx": 3,  "ty": 36, "tileId": "pendant",        "questId": "fisherman-glowing-net" },
     { "id": "glowing-float-2",   "tx": 5,  "ty": 38, "tileId": "pendant",        "questId": "fisherman-glowing-net" },
     { "id": "glowing-float-3",   "tx": 7,  "ty": 41, "tileId": "pendant",        "questId": "fisherman-glowing-net" },
-    { "id": "shadow-coin",       "tx": 4,  "ty": 5,  "tileId": "pendant",        "questId": "zev-shadow-gambler", "building": "arcade-building-e" },
-    { "id": "shadow-note",       "tx": 6,  "ty": 4,  "tileId": "closedBook",     "questId": "zev-shadow-gambler", "building": "arcade-building-e" },
+    { "id": "shadow-coin",       "tx": 4,  "ty": 5,  "tileId": "pileOfCoins",        "questId": "zev-shadow-gambler", "building": "arcade-building-e" },
+    { "id": "shadow-note",       "tx": 6,  "ty": 4,  "tileId": "note",     "questId": "zev-shadow-gambler", "building": "arcade-building-e" },
     { "id": "shadow-token",      "tx": 4,  "ty": 6,  "tileId": "pendant",        "questId": "zev-shadow-gambler", "building": "arcade-building-w" },
     { "id": "tainted-trophy-1",  "tx": 4,  "ty": 4,  "tileId": "goldChest",      "questId": "orin-contaminated-trophies", "building": "barracks-north" },
     { "id": "tainted-trophy-2",  "tx": 6,  "ty": 4,  "tileId": "goldChest",      "questId": "orin-contaminated-trophies", "building": "barracks-north" },
@@ -2012,21 +2097,21 @@
     { "id": "fake-badge-1",      "tx": 5,  "ty": 25, "tileId": "pendant",        "questId": "syla-echo-market-agent" },
     { "id": "fake-badge-2",      "tx": 16, "ty": 26, "tileId": "pendant",        "questId": "syla-echo-market-agent" },
     { "id": "fake-badge-3",      "tx": 27, "ty": 25, "tileId": "pendant",        "questId": "syla-echo-market-agent" },
-    { "id": "passage-key",       "tx": 5,  "ty": 6,  "tileId": "pendant",        "questId": "aldous-hidden-passage", "building": "home" },
+    { "id": "passage-key",       "tx": 5,  "ty": 6,  "tileId": "key",        "questId": "aldous-hidden-passage", "building": "home" },
     { "id": "supplier-manifest", "tx": 35, "ty": 24, "tileId": "closedBook",     "questId": "vex-echo-supplier" },
     { "id": "supplier-stamp",    "tx": 40, "ty": 23, "tileId": "pendant",        "questId": "vex-echo-supplier" },
     { "id": "supplier-note",     "tx": 43, "ty": 25, "tileId": "blackclosedBook","questId": "vex-echo-supplier" },
-    { "id": "confession-letter", "tx": 19, "ty": 14, "tileId": "closedBook",     "questId": "elder-confession" },
+    { "id": "confession-letter", "tx": 19, "ty": 14, "tileId": "note",     "questId": "elder-confession" },
     { "id": "echo-id-token-1",   "tx": 4,  "ty": 3,  "tileId": "pendant",        "questId": "thorin-barracks-lockdown", "building": "barracks-north" },
     { "id": "echo-id-token-2",   "tx": 6,  "ty": 5,  "tileId": "pendant",        "questId": "thorin-barracks-lockdown", "building": "barracks-north" },
     { "id": "echo-id-token-3",   "tx": 4,  "ty": 4,  "tileId": "pendant",        "questId": "thorin-barracks-lockdown", "building": "barracks-south" },
-    { "id": "traitor-confession","tx": 66, "ty": 32, "tileId": "closedBook",     "questId": "varn-traitor-confronted" },
+    { "id": "traitor-confession","tx": 66, "ty": 32, "tileId": "note",     "questId": "varn-traitor-confronted" },
     { "id": "heartstone-fragment-1","tx": 4, "ty": 4, "tileId": "goldChest",     "questId": "naia-heartstone-records", "building": "scholars-hall" },
     { "id": "heartstone-fragment-2","tx": 3, "ty": 5, "tileId": "goldChest",     "questId": "naia-heartstone-records", "building": "scholars-north-e" },
     { "id": "heartstone-fragment-3","tx": 5, "ty": 3, "tileId": "goldChest",     "questId": "naia-heartstone-records", "building": "scholars-hall-w" },
-    { "id": "safe-route-map-1",  "tx": 40, "ty": 24, "tileId": "blueclosedBook", "questId": "bram-safe-routes" },
-    { "id": "safe-route-map-2",  "tx": 58, "ty": 16, "tileId": "blueclosedBook", "questId": "bram-safe-routes" },
-    { "id": "safe-route-map-3",  "tx": 18, "ty": 22, "tileId": "blueclosedBook", "questId": "bram-safe-routes" },
+    { "id": "safe-route-map-1",  "tx": 40, "ty": 24, "tileId": "rolledMap", "questId": "bram-safe-routes" },
+    { "id": "safe-route-map-2",  "tx": 58, "ty": 16, "tileId": "rolledMap", "questId": "bram-safe-routes" },
+    { "id": "safe-route-map-3",  "tx": 18, "ty": 22, "tileId": "rolledMap", "questId": "bram-safe-routes" },
     { "id": "guild-doc-1",       "tx": 4,  "ty": 3,  "tileId": "blackclosedBook","questId": "ferryn-guild-lockdown", "building": "traders-building" },
     { "id": "guild-doc-2",       "tx": 6,  "ty": 4,  "tileId": "blackclosedBook","questId": "ferryn-guild-lockdown", "building": "traders-building" },
     { "id": "guild-doc-3",       "tx": 3,  "ty": 6,  "tileId": "blackclosedBook","questId": "ferryn-guild-lockdown", "building": "trader-den" },
@@ -2041,34 +2126,34 @@
     { "id": "shelter-package-1", "tx": 70, "ty": 35, "tileId": "crate",          "questId": "rosie-shelter-for-families" },
     { "id": "shelter-package-2", "tx": 3,  "ty": 40, "tileId": "crate",          "questId": "rosie-shelter-for-families" },
     { "id": "shelter-package-3", "tx": 54, "ty": 6,  "tileId": "crate",          "questId": "rosie-shelter-for-families" },
-    { "id": "fracture-residue-1","tx": 73, "ty": 30, "tileId": "greenclosedBook","questId": "alric-fracture-study" },
-    { "id": "fracture-residue-2","tx": 4,  "ty": 36, "tileId": "greenclosedBook","questId": "alric-fracture-study" },
-    { "id": "fracture-residue-3","tx": 67, "ty": 48, "tileId": "greenclosedBook","questId": "alric-fracture-study" },
-    { "id": "pond-hearthstone-disc","tx": 6, "ty": 39, "tileId": "goldChest",    "questId": "fisherman-fracture-depths" },
+    { "id": "fracture-residue-1","tx": 73, "ty": 30, "tileId": "potions","questId": "alric-fracture-study" },
+    { "id": "fracture-residue-2","tx": 4,  "ty": 36, "tileId": "potions","questId": "alric-fracture-study" },
+    { "id": "fracture-residue-3","tx": 67, "ty": 48, "tileId": "potions","questId": "alric-fracture-study" },
+    { "id": "pond-hearthstone-disc","tx": 6, "ty": 39, "tileId": "roundShieldFloor",    "questId": "fisherman-fracture-depths" },
     { "id": "echo-contraband-1", "tx": 8,  "ty": 25, "tileId": "crate",          "questId": "syla-market-purge" },
     { "id": "echo-contraband-2", "tx": 20, "ty": 26, "tileId": "crate",          "questId": "syla-market-purge" },
     { "id": "echo-contraband-3", "tx": 30, "ty": 26, "tileId": "crate",          "questId": "syla-market-purge" },
     { "id": "surveillance-device-1","tx": 3, "ty": 3, "tileId": "chest",         "questId": "zev-games-hall-clear", "building": "arcade-building-e" },
     { "id": "surveillance-device-2","tx": 6, "ty": 3, "tileId": "chest",         "questId": "zev-games-hall-clear", "building": "arcade-building-e" },
     { "id": "surveillance-device-3","tx": 4, "ty": 3, "tileId": "chest",         "questId": "zev-games-hall-clear", "building": "arcade-building-w" },
-    { "id": "champions-shield",  "tx": 6,  "ty": 6,  "tileId": "goldChest",      "questId": "orin-champions-shield", "building": "barracks-south" },
-    { "id": "intel-note-1",      "tx": 4,  "ty": 4,  "tileId": "closedBook",     "questId": "dealer-fracture-intel", "building": "arcade-building-e" },
-    { "id": "intel-note-2",      "tx": 5,  "ty": 5,  "tileId": "closedBook",     "questId": "dealer-fracture-intel", "building": "arcade-building-w" },
-    { "id": "intel-note-3",      "tx": 63, "ty": 22, "tileId": "closedBook",     "questId": "dealer-fracture-intel" },
+    { "id": "champions-shield",  "tx": 6,  "ty": 6,  "tileId": "shieldMounted",      "questId": "orin-champions-shield", "building": "barracks-south" },
+    { "id": "intel-note-1",      "tx": 4,  "ty": 4,  "tileId": "note",     "questId": "dealer-fracture-intel", "building": "arcade-building-e" },
+    { "id": "intel-note-2",      "tx": 5,  "ty": 5,  "tileId": "note",     "questId": "dealer-fracture-intel", "building": "arcade-building-w" },
+    { "id": "intel-note-3",      "tx": 63, "ty": 22, "tileId": "note",     "questId": "dealer-fracture-intel" },
     { "id": "passage-item-1",    "tx": 3,  "ty": 5,  "tileId": "chest",          "questId": "aldous-passage-explored", "building": "home" },
     { "id": "passage-item-2",    "tx": 71, "ty": 36, "tileId": "pendant",        "questId": "aldous-passage-explored" },
     { "id": "passage-item-3",    "tx": 63, "ty": 39, "tileId": "pendant",        "questId": "aldous-passage-explored" },
-    { "id": "absolution-letter-naia", "tx": 18, "ty": 11, "tileId": "closedBook","questId": "elder-absolution" },
-    { "id": "absolution-letter-thorin","tx": 20, "ty": 13,"tileId": "closedBook","questId": "elder-absolution" },
-    { "id": "supply-contracts",  "tx": 22, "ty": 24, "tileId": "closedBook",     "questId": "vex-supply-chain-rebuilt" },
+    { "id": "absolution-letter-naia", "tx": 18, "ty": 11, "tileId": "note","questId": "elder-absolution" },
+    { "id": "absolution-letter-thorin","tx": 20, "ty": 13,"tileId": "note","questId": "elder-absolution" },
+    { "id": "supply-contracts",  "tx": 22, "ty": 24, "tileId": "note",     "questId": "vex-supply-chain-rebuilt" },
     { "id": "supply-pkg-thorin", "tx": 4,  "ty": 3,  "tileId": "crate",          "questId": "bramble-fortified-supplies", "building": "supply-shop" },
     { "id": "supply-pkg-varn",   "tx": 6,  "ty": 3,  "tileId": "crate",          "questId": "bramble-fortified-supplies", "building": "supply-shop" },
     { "id": "vault-casing-1",    "tx": 4,  "ty": 3,  "tileId": "barrel",         "questId": "thorin-vault-preparation", "building": "barracks-north" },
     { "id": "vault-casing-2",    "tx": 3,  "ty": 5,  "tileId": "barrel",         "questId": "thorin-vault-preparation", "building": "barracks-south" },
     { "id": "vault-casing-3",    "tx": 69, "ty": 44, "tileId": "barrel",         "questId": "thorin-vault-preparation" },
-    { "id": "location-note-1",   "tx": 3,  "ty": 4,  "tileId": "goldChest",      "questId": "naia-heartstone-location", "building": "scholars-hall" },
-    { "id": "location-note-2",   "tx": 5,  "ty": 4,  "tileId": "goldChest",      "questId": "naia-heartstone-location", "building": "scholars-north-w" },
-    { "id": "location-note-3",   "tx": 4,  "ty": 6,  "tileId": "goldChest",      "questId": "naia-heartstone-location", "building": "scholars-hall-w" },
+    { "id": "location-note-1",   "tx": 3,  "ty": 4,  "tileId": "note",      "questId": "naia-heartstone-location", "building": "scholars-hall" },
+    { "id": "location-note-2",   "tx": 5,  "ty": 4,  "tileId": "note",      "questId": "naia-heartstone-location", "building": "scholars-north-w" },
+    { "id": "location-note-3",   "tx": 4,  "ty": 6,  "tileId": "note",      "questId": "naia-heartstone-location", "building": "scholars-hall-w" },
     { "id": "rally-msg-ferryn",  "tx": 18, "ty": 12, "tileId": "closedBook",     "questId": "elder-rallying-the-hub" },
     { "id": "rally-msg-rosie",   "tx": 20, "ty": 14, "tileId": "closedBook",     "questId": "elder-rallying-the-hub" },
     { "id": "rally-msg-dealer",  "tx": 21, "ty": 12, "tileId": "closedBook",     "questId": "elder-rallying-the-hub" },
@@ -2103,7 +2188,7 @@
     { "id": "zev-supply-cache",  "tx": 3,  "ty": 3,  "tileId": "crate",          "questId": "zev-games-hall-stands", "building": "arcade-building-w" },
     { "id": "zev-equipment-manifest","tx": 5, "ty": 3,"tileId": "closedBook",    "questId": "zev-games-hall-stands", "building": "arcade-building-e" },
     { "id": "champions-pledge",  "tx": 3,  "ty": 4,  "tileId": "goldChest",      "questId": "orin-champions-stand", "building": "arcade-building-e" },
-    { "id": "hearthstone-key",   "tx": 5,  "ty": 3,  "tileId": "pendant",        "questId": "aldous-the-hearthstone", "building": "home" },
+    { "id": "hearthstone-key",   "tx": 5,  "ty": 3,  "tileId": "key",        "questId": "aldous-the-hearthstone", "building": "home" },
     { "id": "reagent-naia",      "tx": 23, "ty": 24, "tileId": "bunchOfHerbs",   "questId": "vex-final-trade" },
     { "id": "reagent-mira",      "tx": 24, "ty": 25, "tileId": "bunchOfHerbs",   "questId": "vex-final-trade" },
     { "id": "reagent-bramble",   "tx": 25, "ty": 24, "tileId": "bunchOfHerbs",   "questId": "vex-final-trade" },
@@ -2141,5 +2226,199 @@
       "2": "I do not forget those who help me. You have my respect, traveller."
     }
   },
-  "blockedPaths": []
+  "blockedPaths": [
+   {
+      "id": "forest-path-block",
+      "blockedTiles": [[35, 34]],
+      "questId": "greyfishs-strange-catch",
+      "blocked": {
+        "decor": [
+                    { "tx": 35, "ty": 34, "tileId": "barrel" }
+        ],
+        "npcs": [ ]
+      },
+      "cleared": {
+        "decor": [
+                    { "tx": 36, "ty": 35, "tileId": "barrel" }
+        ],
+        "npcs": []
+      }
+    }    ,
+       {
+      "id": "east-road-block",
+      "blockedTiles": [[45, 23],[45, 24],[45, 25]],
+      "questId": "the-password-part-4",
+      "blocked": {
+        "decor": [
+          { "tx": 45, "ty": 23, "tileId": "barrel" },
+          { "tx": 45, "ty": 24, "tileId": "barrel" },
+          { "tx": 45, "ty": 25, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-east",
+            "sprite": "hub-npc-guard",
+            "tx": 44,
+            "ty": 24,
+            "proximityDialogue": [
+              { "atDistance": 4, "text": "Who goes there?" },
+              { "atDistance": 2,  "text": "None shall pass!" }
+            ],
+            "tapDialogue": "We've been told to let nobody pass until we've had the all-clear from the commander"
+          }
+        ]
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 44, "ty": 26, "tileId": "barrel" },
+          { "tx": 45, "ty": 26, "tileId": "barrel" },
+          { "tx": 46, "ty": 26, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-east-cleared",
+            "sprite": "hub-npc-guard",
+            "tx": 47,
+            "ty": 26,
+            "tapDialogue": "Safe travels, Commander."
+          }
+        ]
+      }
+    }  ,
+       {
+      "id": "west-road-block",
+      "blockedTiles": [[29, 23],[29, 24],[29, 25]],
+      "questId": "the-password-part-4",
+      "blocked": {
+        "decor": [
+          { "tx": 29, "ty": 23, "tileId": "barrel" },
+          { "tx": 29, "ty": 24, "tileId": "barrel" },
+          { "tx": 29, "ty": 25, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-west",
+            "sprite": "hub-npc-guard",
+            "tx": 30,
+            "ty": 24,
+            "proximityDialogue": [
+              { "atDistance": 4, "text": "Who goes there?" },
+              { "atDistance": 2,  "text": "None shall pass!" }
+            ],
+            "tapDialogue": "We've been told to let nobody pass until we've had the all-clear from the commander"
+          }
+        ]
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 26, "ty": 26, "tileId": "barrel" },
+          { "tx": 27, "ty": 26, "tileId": "barrel" },
+          { "tx": 28, "ty": 26, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-west-cleared",
+            "sprite": "hub-npc-guard",
+            "tx": 25,
+            "ty": 26,
+            "tapDialogue": "Safe travels, Commander."
+          }
+        ]
+      }
+    }  ,
+       {
+      "id": "north-road-block",
+      "blockedTiles": [[36,16],[37, 16],[38, 16]],
+      "questId": "the-password-part-4",
+      "blocked": {
+        "decor": [
+          { "tx": 36, "ty": 16, "tileId": "barrel" },
+          { "tx": 37, "ty": 16, "tileId": "barrel" },
+          { "tx": 38, "ty": 16, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-north",
+            "sprite": "hub-npc-guard",
+            "tx": 37,
+            "ty": 17,
+            "proximityDialogue": [
+              { "atDistance": 4, "text": "Who goes there?" },
+              { "atDistance": 2,  "text": "None shall pass!" }
+            ],
+            "tapDialogue": "We've been told to let nobody pass until we've had the all-clear from the commander"
+          }
+        ]
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 35, "ty": 15, "tileId": "barrel" },
+          { "tx": 35, "ty": 16, "tileId": "barrel" },
+          { "tx": 35, "ty": 17, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-north-cleared",
+            "sprite": "hub-npc-guard",
+            "tx": 39,
+            "ty": 16,
+            "tapDialogue": "Safe travels, Commander."
+          }
+        ]
+      }
+    }  ,
+       {
+      "id": "south-road-block",
+      "blockedTiles": [[36, 32],[37, 32],[38, 32]],
+      "questId": "the-password-part-4",
+      "blocked": {
+        "decor": [
+          { "tx": 36, "ty": 32, "tileId": "barrel" },
+          { "tx": 37, "ty": 32, "tileId": "barrel" },
+          { "tx": 38, "ty": 32, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-south",
+            "sprite": "hub-npc-guard",
+            "tx": 37,
+            "ty": 31,
+            "proximityDialogue": [
+              { "atDistance": 4, "text": "Who goes there?" },
+              { "atDistance": 2,  "text": "None shall pass!" }
+            ],
+            "tapDialogue": "We've been told to let nobody pass until we've had the all-clear from the commander"
+          }
+        ]
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 41, "ty": 36, "tileId": "barrel" },
+          { "tx": 42, "ty": 36, "tileId": "barrel" },
+          { "tx": 43, "ty": 36, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-south-cleared",
+            "sprite": "hub-npc-guard",
+            "tx": 42,
+            "ty": 34,
+            "tapDialogue": "Can't a man have some privacy?"
+          }
+        ]
+      }
+    }   ,
+       {
+      "id": "field-entrance-block",
+      "blockedTiles": [[3, 33]],
+      "questId": "none",
+      "blocked": {
+        "decor": [
+          { "tx": 3, "ty": 33, "tileId": "hayStack" }
+        ],
+        "npcs": []
+      },
+      "cleared": {}
+    }  
+  ]
 }

@@ -14722,3 +14722,35 @@ html.light-mode .action-btn {
 }
 .quests-modal__confirm-btns button:first-child { border-color: #cc5544; color: #cc5544; }
 .quests-modal__confirm-btns button:hover { opacity: 0.8; }
+
+/* ── Treasure Modal ────────────────────────────────────────────────────────── */
+.treasure-modal {
+  background: rgba(8, 14, 8, 0.97);
+  border: 1px solid #886622;
+  padding: 28px 32px;
+  text-align: center;
+  font-family: monospace;
+  min-width: 260px;
+  max-width: 340px;
+}
+.treasure-modal__icon    { font-size: 32px; margin-bottom: 12px; }
+.treasure-modal__title   { font-size: 13px; color: #ccaa66; margin-bottom: 10px; line-height: 1.4; }
+.treasure-modal__contains {
+  font-size: 15px;
+  color: #eedd88;
+  font-weight: bold;
+  margin-bottom: 20px;
+  letter-spacing: 0.04em;
+}
+.treasure-modal__collect {
+  background: rgba(68, 80, 20, 0.6);
+  border: 1px solid #886622;
+  color: #ccaa44;
+  font-size: 11px;
+  padding: 6px 20px;
+  cursor: pointer;
+  font-family: monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.treasure-modal__collect:hover { background: rgba(100, 120, 30, 0.6); }
