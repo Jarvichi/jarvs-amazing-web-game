@@ -227,6 +227,41 @@ export async function buildDecorGfx(
   }
 }
 
+// Renders a scenery-sheet patch using 4-bit diagonal SCENERY_LOOKUP.
+// WORLD_SCENERY_TILE files (forest1, rocks1, mountains1, hills1) use this lookup —
+// NOT the 8-bit PATH_TILE_LOOKUP used by renderPathTiles.
+async function renderSceneryPatch(
+  container: PIXI.Container,
+  pathSet: Set<string>,
+  tileFile: string,
+): Promise<void> {
+  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
+  const url = base + tileFile.replace(/^\//, '')
+  const tex = await PIXI.Assets.load(url) as PIXI.Texture
+  if (container.destroyed) return
+  const tileW = tex.width / 8
+  const tileH = tileW
+  for (const key of pathSet) {
+    const [c, r] = key.split(',').map(Number)
+    const nw = pathSet.has(`${c - 1},${r - 1}`) ? 8 : 0
+    const ne = pathSet.has(`${c + 1},${r - 1}`) ? 4 : 0
+    const se = pathSet.has(`${c + 1},${r + 1}`) ? 2 : 0
+    const sw = pathSet.has(`${c - 1},${r + 1}`) ? 1 : 0
+    const frame    = SCENERY_LOOKUP[nw | ne | se | sw]
+    const frameCol = frame % 8
+    const frameRow = Math.floor(frame / 8)
+    const frameTex = new PIXI.Texture({
+      source: tex.source,
+      frame:  new PIXI.Rectangle(frameCol * tileW, frameRow * tileH, tileW, tileH),
+    })
+    const sprite = new PIXI.Sprite(frameTex)
+    sprite.position.set(c * TILE_SIZE, r * TILE_SIZE)
+    sprite.width  = TILE_SIZE
+    sprite.height = TILE_SIZE
+    container.addChild(sprite)
+  }
+}
+
 /**
  * Renders battlefield terrain obstacles using TYPE3 adjacency-tiled patches
  * (tree → forest1, rock → rocks1/mountains1, water → grass1Water1) so shapes
@@ -272,7 +307,11 @@ export async function buildTerrainDecorGfx(
       }
       const patchContainer = new PIXI.Container()
       container.addChild(patchContainer)
-      await renderPathTiles(patchContainer, pathSet, undefined, patchFile)
+      if (obs.type === 'water') {
+        await renderPathTiles(patchContainer, pathSet, undefined, patchFile)
+      } else {
+        await renderSceneryPatch(patchContainer, pathSet, patchFile)
+      }
       if (container.destroyed) return
       continue
     }
