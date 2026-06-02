@@ -1,8 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import * as PIXI from 'pixi.js'
 import { BattlefieldTerrainCanvas } from './battlefield/BattlefieldTerrainCanvas'
-import battlefieldConfig from '../../data/battlefield.json'
-import { GameState, Unit, LANE_WIDTH, Card, TerrainObstacle, TerrainType, BuffTag, TERRAIN_AVOID_SHAPE } from '../../game/types'
+import { GameState, Unit, LANE_WIDTH, Card, TerrainObstacle, BuffTag, TERRAIN_AVOID_SHAPE } from '../../game/types'
 import { CardTile } from '../cards/CardTile'
 import { useCardDetail } from '../cards/useCardDetail'
 import { SpriteImg, AnimatedSpriteImg } from '../ui/SpriteImg'
@@ -544,164 +543,6 @@ const LaneUnit = React.memo(function LaneUnit({ unit, stackIndex = 0, wallStack,
   )
 })
 
-// ─── Lane background ──────────────────────────────────────────────────────────
-// Full-size SVG rendered as the ground layer: grass, dirt path, crop rows,
-// sandy patches. Uses preserveAspectRatio="none" so it always fills the lane.
-
-const BATTLEFIELD_SPRITE_PATH = '/sprites/battlefield/'
-
-const BattlefieldBackground = React.memo(function BattlefieldBackground({ env }: { env?: string }) {
-  const key = (env && env in battlefieldConfig.environments)
-    ? env as keyof typeof battlefieldConfig.environments
-    : 'forest'
-  const layers = [...battlefieldConfig.environments[key], ...SEASON_LAYERS]
-  return (
-    <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}>
-      {layers.map(layer => (
-        <img
-          key={layer}
-          className="lane-layer"
-          src={`${BATTLEFIELD_SPRITE_PATH}${layer}.svg`}
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' }}
-          alt=""
-          draggable={false}
-        />
-      ))}
-    </div>
-  )
-})
-
-// Alias for callers that still use the old name
-const LaneBackground = BattlefieldBackground
-
-// ─── Terrain obstacle rendering ───────────────────────────────────────────────
-// Shapes are loaded as <img> from sprites/battlefield/terrain-*.svg.
-// Dimension ratios (wr/hr) mirror the original per-variant aspect ratios.
-
-type TerrainVariant = { file: string; wr: number; hr: number }
-const TERRAIN_CONFIG = battlefieldConfig.terrain as Record<string, TerrainVariant[]>
-
-// ─── Season detection ─────────────────────────────────────────────────────────
-
-type Season = 'spring' | 'summer' | 'autumn' | 'winter'
-
-// IANA timezone prefixes/names that are in the southern hemisphere
-const SOUTHERN_TZ_PREFIXES = ['Australia/', 'Antarctica/']
-const SOUTHERN_TZ_NAMES = new Set([
-  'Pacific/Auckland', 'Pacific/Chatham', 'Pacific/Norfolk',
-  'America/Argentina/Buenos_Aires', 'America/Argentina/Cordoba',
-  'America/Argentina/Salta', 'America/Argentina/Jujuy',
-  'America/Argentina/Tucuman', 'America/Argentina/Catamarca',
-  'America/Argentina/La_Rioja', 'America/Argentina/San_Juan',
-  'America/Argentina/Mendoza', 'America/Argentina/San_Luis',
-  'America/Argentina/Rio_Gallegos', 'America/Argentina/Ushuaia',
-  'America/Sao_Paulo', 'America/Santiago', 'America/Montevideo',
-  'America/Asuncion', 'America/Punta_Arenas', 'America/Lima',
-  'America/Bogota', 'America/Guayaquil',
-  'Africa/Johannesburg', 'Africa/Harare', 'Africa/Lusaka',
-  'Africa/Maputo', 'Africa/Windhoek', 'Africa/Maseru', 'Africa/Mbabane',
-  'Africa/Nairobi', 'Africa/Dar_es_Salaam', 'Africa/Luanda',
-  'Indian/Mauritius', 'Indian/Reunion', 'Indian/Maldives',
-])
-
-function isSouthernHemisphere(): boolean {
-  try {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
-    if (SOUTHERN_TZ_PREFIXES.some(p => tz.startsWith(p))) return true
-    if (SOUTHERN_TZ_NAMES.has(tz)) return true
-  } catch { /* ignore */ }
-  return false
-}
-
-function getCurrentSeason(): Season {
-  const m = new Date().getMonth() // 0-based
-  const northern: Season =
-    m >= 2 && m <= 4 ? 'spring' :
-    m >= 5 && m <= 7 ? 'summer' :
-    m >= 8 && m <= 10 ? 'autumn' : 'winter'
-  if (!isSouthernHemisphere()) return northern
-  // Flip season for southern hemisphere
-  const flip: Record<Season, Season> = { spring: 'autumn', autumn: 'spring', summer: 'winter', winter: 'summer' }
-  return flip[northern]
-}
-
-const CURRENT_SEASON = getCurrentSeason()
-const SEASON_LAYERS = (battlefieldConfig.seasonLayers as Record<string, string[]>)[CURRENT_SEASON] ?? []
-const SEASON_TERRAIN = (battlefieldConfig.seasonTerrain as Record<string, Record<string, string[]>>)[CURRENT_SEASON] ?? {}
-
-
-// Bridge shown over large water obstacles — runs top-to-bottom (unit travel direction)
-function BridgeSvg({ size }: { size: number }) {
-  const bw = Math.round(size * 0.42)   // narrow bridge deck
-  return (
-    <svg
-      width={bw} height={size}
-      viewBox="0 0 12 30"
-      style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', pointerEvents: 'none' }}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Bridge deck */}
-      <rect x="2" y="0" width="8" height="30" fill="#8a6a3a"/>
-      {/* Horizontal planks (perpendicular to travel) */}
-      {[3, 8, 13, 18, 23, 28].map(y => (
-        <line key={y} x1="2" y1={y} x2="10" y2={y} stroke="#6a4a22" strokeWidth="1.2"/>
-      ))}
-      {/* Left and right railings */}
-      <line x1="1"  y1="0" x2="1"  y2="30" stroke="#c8a060" strokeWidth="1.5"/>
-      <line x1="11" y1="0" x2="11" y2="30" stroke="#c8a060" strokeWidth="1.5"/>
-      {/* Cross-support posts */}
-      {[0, 8, 16, 24].map(y => (
-        <line key={y} x1="0" y1={y} x2="12" y2={y} stroke="#c8a060" strokeWidth="1"/>
-      ))}
-    </svg>
-  )
-}
-
-function TerrainTile({ obs }: { obs: TerrainObstacle }) {
-  const topPct  = (1 - obs.x / LANE_WIDTH) * 100
-  const leftPct = 50 + (obs.y / 80) * 36
-  // Visual size tracks the physical radius so the obstacle looks as large as it blocks
-  const size    = Math.round(obs.radius * 2.8)   // radius 20–32 → 56–90 px
-  const hasBridge = obs.type === 'water' && obs.radius > 26
-
-  // Deterministic variant from obstacle id (0, 1, 2)
-  const variant = parseInt(obs.id.replace('t', ''), 10) % 3
-
-  const baseVariants = TERRAIN_CONFIG[obs.type] ?? []
-  const variantCfg = baseVariants[variant % Math.max(1, baseVariants.length)]
-  // Apply seasonal terrain file override if one exists for this type and variant index
-  const seasonFiles = SEASON_TERRAIN[obs.type]
-  const seasonFile = seasonFiles?.[variant % Math.max(1, baseVariants.length)]
-  const terrainFile = seasonFile ?? variantCfg?.file
-  const shape = variantCfg && terrainFile
-    ? <img
-        className="lane-layer"
-        src={`${BATTLEFIELD_SPRITE_PATH}${terrainFile}`}
-        width={Math.round(size * variantCfg.wr)}
-        height={Math.round(size * variantCfg.hr)}
-        alt=""
-        draggable={false}
-      />
-    : null
-
-  return (
-    <div
-      className={`terrain-obstacle u-absolute u-no-select u-flex u-items-c u-just-c terrain-obstacle--${obs.type}`}
-      style={{
-        top:       `${topPct}%`,
-        left:      `${leftPct}%`,
-        transform: 'translateX(-50%) translateY(-50%)',
-        overflow:  'visible',
-        position:  'absolute',
-        zIndex:    2,
-      }}
-      title={obs.type}
-    >
-      {shape}
-      {hasBridge && <BridgeSvg size={size} />}
-    </div>
-  )
-}
 
 function ManaBar({ mana, maxMana, manaAccum }: { mana: number; maxMana: number; manaAccum: number }) {
   const pips = Array.from({ length: maxMana }, (_, i) => {
@@ -995,8 +836,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
         onContextMenu={pendingAoeCard ? (e) => { e.preventDefault(); setPendingAoeCard(null); setAoeHoverPos(null) } : undefined}
       >
         <div className="lane-ground" />
-        <BattlefieldTerrainCanvas environment={state.environment} id={state.environment} />
-        {(state.terrain ?? []).map(obs => <TerrainTile key={obs.id} obs={obs} />)}
+        <BattlefieldTerrainCanvas environment={state.environment} id={state.environment} terrain={state.terrain} />
         {isDebugMode() && (state.terrain ?? []).map(obs => {
           // Avoidance ellipse matching TERRAIN_AVOID_SHAPE used by the engine.
           // x-axis (forward/vertical on screen): 500 units → 100% field height → 0.2% per unit

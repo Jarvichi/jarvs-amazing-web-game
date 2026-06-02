@@ -1,35 +1,39 @@
 import React, { useRef, useEffect, useState } from 'react'
 import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../../hooks/usePixiApp'
-import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx, buildBorderGfx } from '../../../utils/terrainLayer'
+import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx, buildBorderGfx, buildTerrainDecorGfx } from '../../../utils/terrainLayer'
 import { WORLD_ENV_TILES } from '../../../data/tiles/worldTileIndex'
 import { ENV_TILES } from '../../../data/tiles/tileIndex'
+import type { TerrainObstacle } from '../../../game/engine/terrain'
 
 export interface Props {
   environment?: string
   /** Stable ID used as terrain scatter seed — use node/act ID for deterministic decoration */
   id?: string
+  terrain?: TerrainObstacle[]
 }
 
 // Inner component — only mounts once dimensions are known so usePixiApp gets the right size.
-function TerrainPixi({ environment, id, w, h }: Props & { w: number; h: number }) {
+function TerrainPixi({ environment, id, terrain, w, h }: Props & { w: number; h: number }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const envDef = WORLD_ENV_TILES[environment ?? ''] ?? ENV_TILES[environment ?? '']
 
   usePixiApp(containerRef, w, h, (app) => {
-    const base   = new PIXI.Container()
-    const river  = new PIXI.Container() // not added to stage — rivers suppressed on battlefield
-    const world  = new PIXI.Container()
-    const bg     = new PIXI.Container()
-    const decor  = new PIXI.Container()
-    const border = new PIXI.Container()
-    app.stage.addChild(base, bg, border, decor, world)
+    const base           = new PIXI.Container()
+    const river          = new PIXI.Container() // not added to stage — rivers suppressed on battlefield
+    const world          = new PIXI.Container()
+    const bg             = new PIXI.Container()
+    const decor          = new PIXI.Container()
+    const border         = new PIXI.Container()
+    const decorObstacles = new PIXI.Container()
+    app.stage.addChild(base, bg, border, decor, decorObstacles, world)
     buildTerrainGfx(base, river, world,
       { environment, envDef, id, rivers: [] },
       w, h)
     buildBgTileGfx(bg, { environment, envDef }, w, h)
     buildBorderGfx(border, { environment, envDef }, w, h)
     buildDecorGfx(decor, { environment, envDef, id }, w, h)
+    buildTerrainDecorGfx(decorObstacles, terrain ?? [], { environment, envDef }, w, h)
   })
 
   return <div ref={containerRef} style={{ width: w, height: h }} />
@@ -40,7 +44,7 @@ function TerrainPixi({ environment, id, w, h }: Props & { w: number; h: number }
  * Measures its container after mount, then renders a PixiJS tile scene.
  * Replaces the SVG layer approach of BattlefieldBackground.
  */
-export function BattlefieldTerrainCanvas({ environment, id }: Props) {
+export function BattlefieldTerrainCanvas({ environment, id, terrain }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const [dims, setDims] = useState<{ w: number; h: number } | null>(null)
 
@@ -62,7 +66,7 @@ export function BattlefieldTerrainCanvas({ environment, id }: Props) {
       ref={wrapRef}
       style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 0, pointerEvents: 'none' }}
     >
-      {dims && <TerrainPixi environment={environment} id={id} w={dims.w} h={dims.h} />}
+      {dims && <TerrainPixi environment={environment} id={id} terrain={terrain} w={dims.w} h={dims.h} />}
     </div>
   )
 }
