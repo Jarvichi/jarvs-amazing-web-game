@@ -86,17 +86,25 @@ export const WORLD_DECOR = {
   fantasyCastleBottomRight: 62,    
 } as const
 
-// ── Terrain obstacle → decor tile mapping (ruins only) ────────────────────────
-// Maps environment name + TerrainType 'ruin' to WORLD_DECOR tile IDs.
+// ── Terrain obstacle → WORLD_DECOR center tile mapping ───────────────────────
+// Each obstacle renders a SCENERY/PATH tile ring (via TERRAIN_PATCH_MAP) with a
+// single WORLD_DECOR tile placed in the center cell — they must not share a cell.
 // Multiple IDs → pick one deterministically via idNum % length.
 export const TERRAIN_DECOR_MAP: Record<string, Partial<Record<string, number[]>>> = {
   _default: {
-    ruin: [WORLD_DECOR.graveStone, WORLD_DECOR.signpost],
+    tree:  [WORLD_DECOR.groupOfTrees, WORLD_DECOR.bigTree, WORLD_DECOR.singleTree],
+    rock:  [WORLD_DECOR.pileOfRocks, WORLD_DECOR.rock],
+    water: [WORLD_DECOR.pond],
+    ruin:  [WORLD_DECOR.graveStone, WORLD_DECOR.signpost],
   },
-  ashen:   { ruin: [WORLD_DECOR.graveStone] },
-  volcano: { ruin: [WORLD_DECOR.volcanoCaveBottomLeft] },
-  citadel: { ruin: [WORLD_DECOR.house] },
-  sand:    { ruin: [WORLD_DECOR.signpost] },
+  forest:  { tree: [WORLD_DECOR.bigTree, WORLD_DECOR.groupOfTrees] },
+  ashen:   { tree: [WORLD_DECOR.rock], ruin: [WORLD_DECOR.graveStone] },
+  sand:    { water: [WORLD_DECOR.sandSinkhole], rock: [WORLD_DECOR.rock], ruin: [WORLD_DECOR.signpost] },
+  volcano: { rock: [WORLD_DECOR.pileOfRocks], water: [WORLD_DECOR.waterWhirlpool], ruin: [WORLD_DECOR.volcanoCaveBottomLeft] },
+  citadel: { ruin: [WORLD_DECOR.house], rock: [WORLD_DECOR.pileOfRocks] },
+  frost:   { water: [WORLD_DECOR.pond], rock: [WORLD_DECOR.pileOfRocks] },
+  coast:   { water: [WORLD_DECOR.pond] },
+  fungal:  { tree: [WORLD_DECOR.groupOfTrees, WORLD_DECOR.bigTree] },
 }
 
 // ── Terrain obstacle → TYPE3 patch tileset (for battlefield rendering) ────────
