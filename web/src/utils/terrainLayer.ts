@@ -161,7 +161,7 @@ export function buildBorderGfx(
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
   const url  = base + borderFile.replace(/^\//, '')
 
-  const BORDER_COLS = 2
+  const BORDER_COLS = 1
   const BORDER_ROWS = 1
   const totalCols   = Math.ceil(w / TILE_SIZE)
   const totalRows   = Math.ceil(h / TILE_SIZE)
@@ -280,7 +280,6 @@ export async function buildTerrainDecorGfx(
 
     // ── Bridge over large water obstacles ────────────────────────────────────
     if (obs.type === 'water' && obs.radius > 26) {
-      const bridgeW = obs.radius * 2.8
       for (const { id, yOff } of [
         { id: WORLD_DECOR.stoneBridgeVTop,    yOff: -TILE_SIZE * 0.5 },
         { id: WORLD_DECOR.stoneBridgeVBottom, yOff:  TILE_SIZE * 0.5 },
@@ -289,9 +288,6 @@ export async function buildTerrainDecorGfx(
         const tex = await loadTileTexture(decorUrl, id, 8)
         if (container.destroyed) return
         const s = new PIXI.Sprite(tex)
-        const aspect = tex.height / tex.width
-        s.width  = bridgeW
-        s.height = bridgeW * aspect
         s.anchor.set(0.5)
         s.position.set(cx, cy + yOff)
         container.addChild(s)
@@ -317,25 +313,21 @@ export async function buildTerrainDecorGfx(
       await renderPathTiles(waterContainer, pathSet, undefined, WORLD_PATH_TILE.grass1Water1)
       if (container.destroyed) return
 
-      // Overlay decor tile (pond/hole/whirlpool/sinkhole) centred on the pool
-      const scale = (obs.radius * 2.8) / TILE_SIZE
+      // Overlay decor tile (pond/hole/whirlpool/sinkhole) at natural pixel scale
       const tex = await loadTileTexture(decorUrl, tileId, 8)
       if (container.destroyed) return
       const s = new PIXI.Sprite(tex)
       s.anchor.set(0.5)
-      s.scale.set(scale)
       s.position.set(cx, cy)
       container.addChild(s)
       continue
     }
 
-    // ── Single decor tile (tree, rock, ruin) ─────────────────────────────────
-    const scale = (obs.radius * 2.8) / TILE_SIZE
+    // ── Single decor tile (tree, rock, ruin) at natural pixel scale ──────────
     const tex = await loadTileTexture(decorUrl, tileId, 8)
     if (container.destroyed) return
     const s = new PIXI.Sprite(tex)
     s.anchor.set(0.5)
-    s.scale.set(scale)
     s.position.set(cx, cy)
     container.addChild(s)
   }

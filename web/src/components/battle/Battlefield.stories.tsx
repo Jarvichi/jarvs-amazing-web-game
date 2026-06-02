@@ -102,6 +102,7 @@ function PerfHarness() {
 }
 
 export const PerformanceProfile: Story = {
+  tags: ['ci'],
   args: { state: exampleGameState, onPlayCard: noop },
   render: () => <PerfHarness />,
   play: async ({ canvasElement }) => {
