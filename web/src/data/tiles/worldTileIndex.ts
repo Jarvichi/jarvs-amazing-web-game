@@ -86,25 +86,34 @@ export const WORLD_DECOR = {
   fantasyCastleBottomRight: 62,    
 } as const
 
-// ── Terrain obstacle → decor tile mapping (for battlefield rendering) ─────────
-// Maps environment name + TerrainType to an array of WORLD_DECOR tile IDs.
-// _default entries are used when no environment-specific override exists.
+// ── Terrain obstacle → decor tile mapping (ruins only) ────────────────────────
+// Maps environment name + TerrainType 'ruin' to WORLD_DECOR tile IDs.
 // Multiple IDs → pick one deterministically via idNum % length.
 export const TERRAIN_DECOR_MAP: Record<string, Partial<Record<string, number[]>>> = {
   _default: {
-    tree:  [WORLD_DECOR.singleTree, WORLD_DECOR.groupOfTrees],
-    rock:  [WORLD_DECOR.pileOfRocks, WORLD_DECOR.rock],
-    water: [WORLD_DECOR.pond],
-    ruin:  [WORLD_DECOR.graveStone, WORLD_DECOR.signpost],
+    ruin: [WORLD_DECOR.graveStone, WORLD_DECOR.signpost],
   },
-  forest:  { tree: [WORLD_DECOR.groupOfTrees, WORLD_DECOR.bigTree] },
-  ashen:   { tree: [WORLD_DECOR.bigTree], water: [WORLD_DECOR.hole], ruin: [WORLD_DECOR.graveStone] },
-  sand:    { water: [WORLD_DECOR.sandSinkhole], rock: [WORLD_DECOR.rock] },
-  volcano: { rock: [WORLD_DECOR.mountainTopLeft], water: [WORLD_DECOR.waterWhirlpool], ruin: [WORLD_DECOR.volcanoCaveBottomLeft] },
-  citadel: { ruin: [WORLD_DECOR.house], rock: [WORLD_DECOR.pileOfRocks] },
-  fungal:  { tree: [WORLD_DECOR.groupOfTrees, WORLD_DECOR.bigTree] },
-  frost:   { water: [WORLD_DECOR.pond], rock: [WORLD_DECOR.pileOfRocks] },
-  coast:   { water: [WORLD_DECOR.pond] },
+  ashen:   { ruin: [WORLD_DECOR.graveStone] },
+  volcano: { ruin: [WORLD_DECOR.volcanoCaveBottomLeft] },
+  citadel: { ruin: [WORLD_DECOR.house] },
+  sand:    { ruin: [WORLD_DECOR.signpost] },
+}
+
+// ── Terrain obstacle → TYPE3 patch tileset (for battlefield rendering) ────────
+// Maps environment name + TerrainType to a WORLD_SCENERY_TILE or WORLD_PATH_TILE
+// file. renderPathTiles uses 8-bit adjacency bitmask to create organic shapes.
+// Ruin type is intentionally absent — ruins use a single TERRAIN_DECOR_MAP tile.
+export const TERRAIN_PATCH_MAP: Record<string, Partial<Record<string, string>>> = {
+  _default: {
+    tree:  WORLD_SCENERY_TILE.forest1,
+    rock:  WORLD_SCENERY_TILE.rocks1,
+    water: WORLD_PATH_TILE.grass1Water1,
+  },
+  ashen:   { tree: WORLD_SCENERY_TILE.rocks1 },
+  volcano: { rock: WORLD_SCENERY_TILE.mountains1 },
+  frost:   { rock: WORLD_SCENERY_TILE.mountains1 },
+  farmland: { rock: WORLD_SCENERY_TILE.hills1 },
+  coast:   { rock: WORLD_SCENERY_TILE.hills1 },
 }
 
 // ── Per-environment tile config for world-scale (campaign) rendering ──────────

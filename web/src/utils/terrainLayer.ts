@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { ENV_TILES, BASE_GROUND, TILESET_IMAGE, TILESET_COLUMNS, TILE_SIZE, EnvTileDef, SCENERY } from '../data/tiles/tileIndex'
-import { WORLD_DECOR_FILE, WORLD_DECOR, TERRAIN_DECOR_MAP, WORLD_PATH_TILE } from '../data/tiles/worldTileIndex'
+import { WORLD_DECOR_FILE, TERRAIN_DECOR_MAP, TERRAIN_PATCH_MAP } from '../data/tiles/worldTileIndex'
 import { loadTileTexture } from './pixiHelpers'
 import { drawTerrainItem } from './terrainGfx'
 import { seededRand, hashStr, getTerrainItems, type TerrainItem } from './mapUtils'
@@ -228,8 +228,11 @@ export async function buildDecorGfx(
 }
 
 /**
- * Renders battlefield terrain obstacles (trees, rocks, water, ruins) as
- * WORLD_DECOR tile sprites instead of SVG line-art.
+ * Renders battlefield terrain obstacles using TYPE3 adjacency-tiled patches
+ * (tree → forest1, rock → rocks1/mountains1, water → grass1Water1) so shapes
+ * are organic rather than single scaled tiles. Ruins fall back to a single
+ * WORLD_DECOR tile (gravestone, house, etc.).
+ *
  * Game coords → canvas px:
  *   cx = (0.5 + (obs.y / 80) * 0.36) * w
  *   cy = (1 - obs.x / 500) * h
@@ -243,9 +246,9 @@ export async function buildTerrainDecorGfx(
 ): Promise<void> {
   if (terrain.length === 0) return
   const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
-  const decorUrl = `${base}${WORLD_DECOR_FILE.slice(1)}`
   const env = opts.environment ?? ''
-  const envMap = TERRAIN_DECOR_MAP[env] ?? {}
+  const envPatchMap = TERRAIN_PATCH_MAP[env] ?? {}
+  const envDecorMap = TERRAIN_DECOR_MAP[env] ?? {}
 
   for (const obs of terrain) {
     if (container.destroyed) return
@@ -253,50 +256,9 @@ export async function buildTerrainDecorGfx(
     const cy = (1 - obs.x / 500) * h
     const idNum = parseInt(obs.id.replace('t', ''), 10)
 
-    const tileIds: number[] = (envMap[obs.type] ?? TERRAIN_DECOR_MAP._default[obs.type]) ?? []
-    if (tileIds.length === 0) continue
-    const tileId = tileIds[idNum % tileIds.length]
-
-    // ── 2×2 mountain block (volcano rocks) ──────────────────────────────────
-    if (tileId === WORLD_DECOR.mountainTopLeft) {
-      const tiles = [
-        { id: WORLD_DECOR.mountainTopLeft,     dx: -TILE_SIZE, dy: -TILE_SIZE },
-        { id: WORLD_DECOR.mountainTopRight,    dx: 0,          dy: -TILE_SIZE },
-        { id: WORLD_DECOR.mountainBottomLeft,  dx: -TILE_SIZE, dy: 0 },
-        { id: WORLD_DECOR.mountainBottomRight, dx: 0,          dy: 0 },
-      ]
-      for (const t of tiles) {
-        if (container.destroyed) return
-        const tex = await loadTileTexture(decorUrl, t.id, 8)
-        if (container.destroyed) return
-        const s = new PIXI.Sprite(tex)
-        s.position.set(cx + t.dx, cy + t.dy)
-        s.width = TILE_SIZE
-        s.height = TILE_SIZE
-        container.addChild(s)
-      }
-      continue
-    }
-
-    // ── Bridge over large water obstacles ────────────────────────────────────
-    if (obs.type === 'water' && obs.radius > 26) {
-      for (const { id, yOff } of [
-        { id: WORLD_DECOR.stoneBridgeVTop,    yOff: -TILE_SIZE * 0.5 },
-        { id: WORLD_DECOR.stoneBridgeVBottom, yOff:  TILE_SIZE * 0.5 },
-      ]) {
-        if (container.destroyed) return
-        const tex = await loadTileTexture(decorUrl, id, 8)
-        if (container.destroyed) return
-        const s = new PIXI.Sprite(tex)
-        s.anchor.set(0.5)
-        s.position.set(cx, cy + yOff)
-        container.addChild(s)
-      }
-      continue
-    }
-
-    // ── Water pool (tiled area + overlay decor) ──────────────────────────────
-    if (obs.type === 'water') {
+    // ── TYPE3 adjacency-tiled patch (tree / rock / water) ───────────────────
+    const patchFile = envPatchMap[obs.type] ?? TERRAIN_PATCH_MAP._default?.[obs.type]
+    if (patchFile) {
       const tileRadius = Math.max(1, Math.round(obs.radius * h / (500 * TILE_SIZE)))
       const tcx = Math.round(cx / TILE_SIZE)
       const tcy = Math.round(cy / TILE_SIZE)
@@ -308,27 +270,25 @@ export async function buildTerrainDecorGfx(
           }
         }
       }
-      const waterContainer = new PIXI.Container()
-      container.addChild(waterContainer)
-      await renderPathTiles(waterContainer, pathSet, undefined, WORLD_PATH_TILE.grass1Water1)
+      const patchContainer = new PIXI.Container()
+      container.addChild(patchContainer)
+      await renderPathTiles(patchContainer, pathSet, undefined, patchFile)
       if (container.destroyed) return
+      continue
+    }
 
-      // Overlay decor tile (pond/hole/whirlpool/sinkhole) at natural pixel scale
+    // ── Ruin: single WORLD_DECOR tile (gravestone, house, …) ────────────────
+    if (obs.type === 'ruin') {
+      const tileIds = envDecorMap['ruin'] ?? TERRAIN_DECOR_MAP._default?.['ruin'] ?? []
+      if (tileIds.length === 0) continue
+      const tileId = tileIds[idNum % tileIds.length]
+      const decorUrl = `${base}${WORLD_DECOR_FILE.slice(1)}`
       const tex = await loadTileTexture(decorUrl, tileId, 8)
       if (container.destroyed) return
       const s = new PIXI.Sprite(tex)
       s.anchor.set(0.5)
       s.position.set(cx, cy)
       container.addChild(s)
-      continue
     }
-
-    // ── Single decor tile (tree, rock, ruin) at natural pixel scale ──────────
-    const tex = await loadTileTexture(decorUrl, tileId, 8)
-    if (container.destroyed) return
-    const s = new PIXI.Sprite(tex)
-    s.anchor.set(0.5)
-    s.position.set(cx, cy)
-    container.addChild(s)
   }
 }
