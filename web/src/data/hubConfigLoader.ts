@@ -68,6 +68,29 @@ export interface HubPickupItem {
   building?: string
   questId?: string
   chain?: string
+  requireTouch?: boolean
+}
+
+export interface BlockedPathNpc {
+  id: string
+  sprite: string
+  tx: number
+  ty: number
+  proximityDialogue?: { atDistance: number; text: string }[]
+  tapDialogue?: string
+}
+
+export interface BlockedPathState {
+  decor?: { tx: number; ty: number; tileId: number; zlayer?: string }[]
+  npcs?: BlockedPathNpc[]
+}
+
+export interface BlockedPath {
+  id: string
+  blockedTiles: [number, number][]
+  questId: string
+  blocked: BlockedPathState
+  cleared: BlockedPathState
 }
 
 export interface HubLockedDoor {
@@ -256,17 +279,39 @@ export const NPC_SPAWN_TILES: [number, number][] = [
 
 export const AMBIENT_NPC_SPRITES: string[] = (rawConfig as { ambientNpcSprites?: string[] }).ambientNpcSprites ?? []
 
-type RawPickup = { id: string; tx: number; ty: number; tileId: string; building?: string; questId?: string; chain?: string }
+type RawPickup = { id: string; tx: number; ty: number; tileId: string; building?: string; questId?: string; chain?: string; requireTouch?: boolean }
 export const HUB_PICKUP_ITEMS: HubPickupItem[] = (
   (rawQuestConfig as unknown as { pickupItems?: RawPickup[] }).pickupItems ?? []
 ).map(p => ({
-  id:       p.id,
-  tx:       p.tx,
-  ty:       p.ty,
-  tileId:   resolveTileId(p.tileId),
-  building: p.building,
-  questId:  p.questId,
-  chain:    p.chain,
+  id:           p.id,
+  tx:           p.tx,
+  ty:           p.ty,
+  tileId:       resolveTileId(p.tileId),
+  building:     p.building,
+  questId:      p.questId,
+  chain:        p.chain,
+  requireTouch: p.requireTouch,
+}))
+
+type RawBlockedPathNpc = { id: string; sprite: string; tx: number; ty: number; proximityDialogue?: { atDistance: number; text: string }[]; tapDialogue?: string }
+type RawBlockedPathState = { decor?: Array<{ tx: number; ty: number; tileId: string; zlayer?: string }>; npcs?: RawBlockedPathNpc[] }
+type RawBlockedPath = { id: string; blockedTiles: [number, number][]; questId: string; blocked: RawBlockedPathState; cleared: RawBlockedPathState }
+
+function resolveBlockedPathState(raw: RawBlockedPathState): BlockedPathState {
+  return {
+    decor: (raw.decor ?? []).map(d => ({ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer })),
+    npcs:  raw.npcs ?? [],
+  }
+}
+
+export const HUB_BLOCKED_PATHS: BlockedPath[] = (
+  (rawQuestConfig as unknown as { blockedPaths?: RawBlockedPath[] }).blockedPaths ?? []
+).map(bp => ({
+  id:           bp.id,
+  blockedTiles: bp.blockedTiles,
+  questId:      bp.questId,
+  blocked:      resolveBlockedPathState(bp.blocked),
+  cleared:      resolveBlockedPathState(bp.cleared),
 }))
 
 type RawLockedDoor = { buildingId: string; lockedBy: string }
