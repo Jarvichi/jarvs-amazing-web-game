@@ -1836,6 +1836,73 @@
         "friendship": { "guard-captain-thorin": 50, "elder": 20, "naia-interior": 20, "innkeeper-rosie": 20, "guild-master-ferryn": 20, "merchant": 20, "fisherman": 20, "drill-sergeant-varn": 15, "cartographer-bram": 15, "apprentice-lyss": 15, "professor-aldric": 15, "mira": 15, "market-warden-syla": 15, "games-host-zev": 15, "trophy-keeper-orin": 15, "dealer": 15, "gildwyn": 15, "bramble": 15, "home-steward": 15 },
         "unlock": "hub-monument"
       }
+    },
+    {
+      "id": "the-password-part-1",
+      "title": "The Password - Part 1",
+      "type": "fetch",
+      "giverNpcId": "quickbattle-gate",
+      "receiverNpcId": "deck-gate",
+      "offerDialogue": "Commander! You finally made it. We've kept the gates locked until you arrived — didn't know who to trust out there. Before I give the order to open things up, I need you to check in with the others. Start with Dave at the deck post. He's been anxious to see you.",
+      "activeDialogue": "Go speak with Dave at the deck post. He'll know you're on your way.",
+      "completeDialogue": "Commander! Good to see a familiar face. Gorr sent you, did he? Right, we've all been on edge. Pop over to War Herald Davos next — he'll want a word before we open the road.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "deck-gate", "required": 1 }
+      ],
+      "reward": {
+        "unlock": "the-password-part-2"
+      }
+    },
+    {
+      "id": "the-password-part-2",
+      "title": "The Password - Part 2",
+      "type": "fetch",
+      "prerequisite": "quest:the-password-part-1",
+      "giverNpcId": "deck-gate",
+      "receiverNpcId": "campaign-gate",
+      "offerDialogue": "Good to see you, Commander. I need you to check in with War Herald Davos before we open the south road. He's been holding the campaign banner for weeks — a bit dramatic, but he means well. You'll find him by the courtyard gate.",
+      "activeDialogue": "Davos is waiting by the courtyard. Don't keep a herald waiting — they take it personally.",
+      "completeDialogue": "Commander, the banners are raised and the roads are ready. One more stop — Field Marshall Fred needs to clear the eastern passage. Find him at the collection post.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "campaign-gate", "required": 1 }
+      ],
+      "reward": {
+        "unlock": "the-password-part-3"
+      }
+    },
+    {
+      "id": "the-password-part-3",
+      "title": "The Password - Part 3",
+      "type": "fetch",
+      "prerequisite": "quest:the-password-part-2",
+      "giverNpcId": "campaign-gate",
+      "receiverNpcId": "collection-gate",
+      "offerDialogue": "Commander. I've reviewed the campaign maps and the town is secure. Before I sign off, I need you to check in with Field Marshall Fred. He's managing the eastern deployment — won't take long.",
+      "activeDialogue": "Field Marshall Fred is at the collection post to the east. He's the last sign-off before the town reopens.",
+      "completeDialogue": "About time, Commander! I've been sitting on these deployment orders for days. Everything's in order on my end. Head back to Pit Master Gorr — he has the final say on opening things up.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "collection-gate", "required": 1 }
+      ],
+      "reward": {
+        "unlock": "the-password-part-4"
+      }
+    },
+    {
+      "id": "the-password-part-4",
+      "title": "The Password - Part 4",
+      "type": "fetch",
+      "prerequisite": "quest:the-password-part-3",
+      "giverNpcId": "collection-gate",
+      "receiverNpcId": "quickbattle-gate",
+      "offerDialogue": "Everything's locked and loaded on my end, Commander. Troops reviewed, routes clear. Take this clearance back to Pit Master Gorr — he'll give the order to open the gates.",
+      "activeDialogue": "Gorr's waiting for the all-clear. Take it back to him and the town opens up.",
+      "completeDialogue": "That's everyone. You've got the all-clear from the whole garrison. Alright — opening the gates now. Welcome to the hub, Commander. It's all yours.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "quickbattle-gate", "required": 1 }
+      ],
+      "reward": {
+        "unlock": "lost-pendant"
+      }
     }
   ],
   "pickupItems": [
@@ -2141,5 +2208,199 @@
       "2": "I do not forget those who help me. You have my respect, traveller."
     }
   },
-  "blockedPaths": []
+  "blockedPaths": [
+   {
+      "id": "forest-path-block",
+      "blockedTiles": [[35, 34]],
+      "questId": "greyfishs-strange-catch",
+      "blocked": {
+        "decor": [
+                    { "tx": 35, "ty": 34, "tileId": "barrel" }
+        ],
+        "npcs": [ ]
+      },
+      "cleared": {
+        "decor": [
+                    { "tx": 36, "ty": 35, "tileId": "barrel" }
+        ],
+        "npcs": []
+      }
+    }    ,
+       {
+      "id": "east-road-block",
+      "blockedTiles": [[45, 23],[45, 24],[45, 25]],
+      "questId": "the-password-part-4",
+      "blocked": {
+        "decor": [
+          { "tx": 45, "ty": 23, "tileId": "barrel" },
+          { "tx": 45, "ty": 24, "tileId": "barrel" },
+          { "tx": 45, "ty": 25, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-east",
+            "sprite": "hub-npc-guard",
+            "tx": 44,
+            "ty": 24,
+            "proximityDialogue": [
+              { "atDistance": 4, "text": "Who goes there?" },
+              { "atDistance": 2,  "text": "None shall pass!" }
+            ],
+            "tapDialogue": "We've been told to let nobody pass until we've had the all-clear from the commander"
+          }
+        ]
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 44, "ty": 26, "tileId": "barrel" },
+          { "tx": 45, "ty": 26, "tileId": "barrel" },
+          { "tx": 46, "ty": 26, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-east-cleared",
+            "sprite": "hub-npc-guard",
+            "tx": 47,
+            "ty": 26,
+            "tapDialogue": "Safe travels, Commander."
+          }
+        ]
+      }
+    }  ,
+       {
+      "id": "west-road-block",
+      "blockedTiles": [[29, 23],[29, 24],[29, 25]],
+      "questId": "the-password-part-4",
+      "blocked": {
+        "decor": [
+          { "tx": 29, "ty": 23, "tileId": "barrel" },
+          { "tx": 29, "ty": 24, "tileId": "barrel" },
+          { "tx": 29, "ty": 25, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-west",
+            "sprite": "hub-npc-guard",
+            "tx": 30,
+            "ty": 24,
+            "proximityDialogue": [
+              { "atDistance": 4, "text": "Who goes there?" },
+              { "atDistance": 2,  "text": "None shall pass!" }
+            ],
+            "tapDialogue": "We've been told to let nobody pass until we've had the all-clear from the commander"
+          }
+        ]
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 26, "ty": 26, "tileId": "barrel" },
+          { "tx": 27, "ty": 26, "tileId": "barrel" },
+          { "tx": 28, "ty": 26, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-west-cleared",
+            "sprite": "hub-npc-guard",
+            "tx": 25,
+            "ty": 26,
+            "tapDialogue": "Safe travels, Commander."
+          }
+        ]
+      }
+    }  ,
+       {
+      "id": "north-road-block",
+      "blockedTiles": [[36,16],[37, 16],[38, 16]],
+      "questId": "the-password-part-4",
+      "blocked": {
+        "decor": [
+          { "tx": 36, "ty": 16, "tileId": "barrel" },
+          { "tx": 37, "ty": 16, "tileId": "barrel" },
+          { "tx": 38, "ty": 16, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-north",
+            "sprite": "hub-npc-guard",
+            "tx": 37,
+            "ty": 17,
+            "proximityDialogue": [
+              { "atDistance": 4, "text": "Who goes there?" },
+              { "atDistance": 2,  "text": "None shall pass!" }
+            ],
+            "tapDialogue": "We've been told to let nobody pass until we've had the all-clear from the commander"
+          }
+        ]
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 35, "ty": 15, "tileId": "barrel" },
+          { "tx": 35, "ty": 16, "tileId": "barrel" },
+          { "tx": 35, "ty": 17, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-north-cleared",
+            "sprite": "hub-npc-guard",
+            "tx": 39,
+            "ty": 16,
+            "tapDialogue": "Safe travels, Commander."
+          }
+        ]
+      }
+    }  ,
+       {
+      "id": "south-road-block",
+      "blockedTiles": [[36, 32],[37, 32],[38, 32]],
+      "questId": "the-password-part-4",
+      "blocked": {
+        "decor": [
+          { "tx": 36, "ty": 32, "tileId": "barrel" },
+          { "tx": 37, "ty": 32, "tileId": "barrel" },
+          { "tx": 38, "ty": 32, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-south",
+            "sprite": "hub-npc-guard",
+            "tx": 37,
+            "ty": 31,
+            "proximityDialogue": [
+              { "atDistance": 4, "text": "Who goes there?" },
+              { "atDistance": 2,  "text": "None shall pass!" }
+            ],
+            "tapDialogue": "We've been told to let nobody pass until we've had the all-clear from the commander"
+          }
+        ]
+      },
+      "cleared": {
+        "decor": [
+          { "tx": 41, "ty": 36, "tileId": "barrel" },
+          { "tx": 42, "ty": 36, "tileId": "barrel" },
+          { "tx": 43, "ty": 36, "tileId": "barrel" }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-south-cleared",
+            "sprite": "hub-npc-guard",
+            "tx": 42,
+            "ty": 34,
+            "tapDialogue": "Can't a man have some privacy?"
+          }
+        ]
+      }
+    }   ,
+       {
+      "id": "field-entrance-block",
+      "blockedTiles": [[3, 33]],
+      "questId": "none",
+      "blocked": {
+        "decor": [
+          { "tx": 3, "ty": 33, "tileId": "hayStack" }
+        ],
+        "npcs": []
+      },
+      "cleared": {}
+    }  
+  ]
 }

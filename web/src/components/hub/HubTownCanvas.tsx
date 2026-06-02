@@ -6,7 +6,7 @@ import { renderPathTiles } from '../../utils/tileLookup'
 import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileTexture } from '../../utils/pixiHelpers'
 import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
-import { MAP_W, MAP_H, HUB_AREAS, HUB_STREET_TILES, HUB_STREET_GROUPS, HUB_BUILDINGS, AVATAR_START, NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS, HUB_DOORS, HUB_INTERIORS, EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS, HUB_BLOCKED_PATHS } from '../../data/hub/loader'
+import { MAP_W, MAP_H, HUB_AREAS, HUB_STREET_TILES, HUB_STREET_GROUPS, HUB_BUILDINGS, AVATAR_START, NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS, HUB_DOORS, HUB_INTERIORS, EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS, HUB_BLOCKED_PATHS, HUB_TREASURES } from '../../data/hub/loader'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { loadPlayerAvatar } from '../../game/questline'
@@ -65,9 +65,11 @@ interface Props {
   onItemPickup?:     (id: string, questId?: string) => void
   doorKeys?:         Set<string>
   onDoorLocked?:     (buildingId: string, requiredItem: string) => void
-  questNpcState?:    React.MutableRefObject<Map<string, 'offer' | 'ready' | null>>
-  activeQuestIdsRef?: React.MutableRefObject<Set<string>>
+  questNpcState?:        React.MutableRefObject<Map<string, 'offer' | 'ready' | null>>
+  activeQuestIdsRef?:    React.MutableRefObject<Set<string>>
   completedQuestIdsRef?: React.MutableRefObject<Set<string>>
+  collectedTreasureIds?: Set<string>
+  onTreasureStep?:       (id: string) => void
 }
 
 export function HubTownCanvas({
@@ -75,7 +77,7 @@ export function HubTownCanvas({
   returnRef, unitCards, commander, onNpcTap,
   interiorEnterRef, interiorExitRef, onExitInterior, onTileTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
-  completedQuestIdsRef,
+  completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
 }: Props) {
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
@@ -99,7 +101,10 @@ export function HubTownCanvas({
   const doorKeysRef         = useRef(doorKeys)
   doorKeysRef.current       = doorKeys
   // Tracks picked-up IDs imperatively within PixiJS context
-  const pickedUpRef         = useRef<Set<string>>(pickedUpIds ?? new Set())
+  const pickedUpRef           = useRef<Set<string>>(pickedUpIds ?? new Set())
+  const collectedTreasureRef  = useRef<Set<string>>(new Set(collectedTreasureIds))
+  const onTreasureStepRef     = useRef(onTreasureStep)
+  onTreasureStepRef.current   = onTreasureStep
 
   usePixiApp(containerRef, MAP_W, MAP_H, (app) => {
     app.canvas.style.touchAction = 'pan-x pan-y'
@@ -203,7 +208,7 @@ export function HubTownCanvas({
         const width = x2 - x1 + 1
 
         // Roof pass — top 4 rows
-        for (let row = 0; row < ROOF_ROWS; row++)
+        for (let row = 1; row < ROOF_ROWS; row++)
           for (let tx = x1; tx <= x2; tx++)
             place(roofTileIds[row], tx, y1 + row)
 
@@ -211,17 +216,19 @@ export function HubTownCanvas({
         const firstWallRow = y1 + ROOF_ROWS
         for (let ty = firstWallRow; ty <= y2; ty++) {
           for (let tx = x1; tx <= x2; tx++) {
-            const isPillarCol = tx === x1 + 2 || tx === x2 - 2
-            const isShadowCol = width >= 5 && (tx === x1 + 3 || tx === x2 -1)
-            const isBottomRow =  ty === y2 
+            const isPillarCol      = tx === x1 + 1 || tx === x2 - 1
+            const isShadowCol      = width >= 5 && tx === x1 + 2
+            const isShadowRightCol = width >= 5 && tx === x2 
+            const isBottomRow =  ty === y2
             const drawRow = true
-            if (drawRow){            
+            if (drawRow){
               const tileId = getWallTile(
                 wall, isBottomRow,
                 tx === x1,
                 isPillarCol,
                 isShadowCol,
                 tx === x2,
+                isShadowRightCol,
               )
               place(tileId, tx, ty)
             }
@@ -388,9 +395,8 @@ export function HubTownCanvas({
             const s = new PIXI.Sprite(tex)
             s.position.set(d.tx * T, d.ty * T)
             s.width = T; s.height = T
-            s.zIndex = d.ty * T + T + 1
             s.visible = !isCleared
-            exteriorDecorLayer.addChild(s)
+            belowAvatarLayer.addChild(s)
             entry.blockedDecor.push(s)
           }).catch(() => {})
         }
@@ -402,9 +408,8 @@ export function HubTownCanvas({
             const s = new PIXI.Sprite(tex)
             s.position.set(d.tx * T, d.ty * T)
             s.width = T; s.height = T
-            s.zIndex = d.ty * T + T + 1
             s.visible = isCleared
-            exteriorDecorLayer.addChild(s)
+            belowAvatarLayer.addChild(s)
             entry.clearedDecor.push(s)
           }).catch(() => {})
         }
@@ -458,6 +463,44 @@ export function HubTownCanvas({
         }
 
         blockedPathEntries.set(bp.id, entry)
+      }
+    }
+
+    // ── Treasure chests (step-on collectibles, no quest required) ─────────────
+    const treasureSprites     = new Map<string, PIXI.Sprite>()          // id → sprite
+    const treasureCollectedTex = new Map<string, PIXI.Texture | null>() // id → collected texture (null = hide)
+    const treasureByTile      = new Map<string, string>()               // "tx,ty" → id
+    {
+      const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
+      for (const t of HUB_TREASURES) {
+        if (collectedTreasureRef.current.has(t.id)) {
+          // Already collected — show the collected tile or nothing
+          if (t.collectedTileId) {
+            loadTileTexture(baseChipUrl, t.collectedTileId, TILESET_COLUMNS.baseChip).then(tex => {
+              if (app.renderer == null) return
+              const s = new PIXI.Sprite(tex)
+              s.position.set(t.tx * T, t.ty * T)
+              s.width = T; s.height = T
+              belowAvatarLayer.addChild(s)
+            }).catch(() => {})
+          }
+          continue
+        }
+        treasureByTile.set(`${t.tx},${t.ty}`, t.id)
+        // Pre-load both textures; store collected texture (or null = hide)
+        const collectedTexPromise = t.collectedTileId
+          ? loadTileTexture(baseChipUrl, t.collectedTileId, TILESET_COLUMNS.baseChip).catch(() => null)
+          : Promise.resolve(null)
+        loadTileTexture(baseChipUrl, t.tileId, TILESET_COLUMNS.baseChip).then(async tex => {
+          if (app.renderer == null) return
+          const collectedTex = await collectedTexPromise
+          const s = new PIXI.Sprite(tex)
+          s.position.set(t.tx * T, t.ty * T)
+          s.width = T; s.height = T
+          belowAvatarLayer.addChild(s)
+          treasureSprites.set(t.id, s)
+          treasureCollectedTex.set(t.id, collectedTex)
+        }).catch(() => {})
       }
     }
 
@@ -580,9 +623,7 @@ export function HubTownCanvas({
       npcContainer.cursor    = 'pointer'
       npcContainer.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
         e.stopPropagation()
-        if (npc.screen && !npc.questGive && !npc.questReceive) {
-          onNodeInteractRef.current(npc.screen)
-        } else if (npc.dialogue.length > 0 || npc.questGive || npc.questReceive) {
+        if (npc.dialogue.length > 0 || npc.screen || npc.questGive || npc.questReceive) {
           const idx = npcDialogueIndex.get(npc.id) ?? 0
           onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length] ?? '', npc.id)
           npcDialogueIndex.set(npc.id, idx + 1)
@@ -645,16 +686,24 @@ export function HubTownCanvas({
     }
 
     // ── Card-unit NPCs ─────────────────────────────────────────────────────────
+    const SCARED_PHRASES = [
+      'Did you see that?!', 'Is someone there…?', 'Something is wrong…',
+      'A ghost!! A ghost!!', "Did it just get cold?", 'Please no please no',
+      "What was THAT?!", "I can't feel my legs…", 'Run!! RUN!!',
+    ]
+
     interface UnitNpcState {
-      sprite:      PIXI.Sprite
-      currentTile: [number, number]
-      walkQueue:   [number, number][]
-      isWalking:   boolean
-      isGhost:     boolean
-      wanderTimer: number
-      animFrames:  PIXI.Texture[]
-      animTimer:   number
-      animFrame:   number
+      sprite:           PIXI.Sprite
+      currentTile:      [number, number]
+      walkQueue:        [number, number][]
+      isWalking:        boolean
+      isGhost:          boolean
+      wanderTimer:      number
+      animFrames:       PIXI.Texture[]
+      animTimer:        number
+      animFrame:        number
+      scaredBubble:     PIXI.Container | null
+      scaredBubbleTimer: number
     }
 
     const unitNpcs: UnitNpcState[] = []
@@ -683,19 +732,22 @@ export function HubTownCanvas({
         s.anchor.set(0.5, 1)
         s.position.set(cx, cy)
         s.zIndex = cy
-        s.alpha = isGhost ? 0.5 : 1.0
+        s.alpha = isGhost ? 0.4 : 1.0
+        if (isGhost) s.tint = 0xaaccff
         npcLayer.addChild(s)
 
         const state: UnitNpcState = {
-          sprite:      s,
-          currentTile: [tx, ty],
-          walkQueue:   [],
-          isWalking:   false,
-          wanderTimer: 500 + Math.random() * 500,
-          animFrames:  [],
-          animTimer:   0,
-          animFrame:   0,
-          isGhost:     isGhost,
+          sprite:            s,
+          currentTile:       [tx, ty],
+          walkQueue:         [],
+          isWalking:         false,
+          wanderTimer:       500 + Math.random() * 500,
+          animFrames:        [],
+          animTimer:         0,
+          animFrame:         0,
+          isGhost:           isGhost,
+          scaredBubble:      null,
+          scaredBubbleTimer: 0,
         }
         unitNpcs.push(state)
 
@@ -704,6 +756,13 @@ export function HubTownCanvas({
           .catch(() => {})
       })
     })
+
+    // Door tiles — NPCs that arrive here despawn (simulate entering a building)
+    const doorTileSet = new Set(HUB_DOORS.map(d => `${d.tx},${d.ty}`))
+    // Spawn tiles that aren't doors — used for respawning so NPCs don't immediately despawn
+    const nonDoorSpawnTiles = NPC_SPAWN_TILES.filter(([tx, ty]) => !doorTileSet.has(`${tx},${ty}`))
+    const TARGET_NPC_COUNT = 12
+    let respawnTimer = 2000
 
     async function processNpcWalkQueue(npc: UnitNpcState) {
       try {
@@ -718,6 +777,13 @@ export function HubTownCanvas({
         else if (targetX > npc.sprite.x + 1) npc.sprite.scale.x = Math.abs(npc.sprite.scale.x)
         await tweenLinear(npc.sprite, targetX, targetY, duration)
         npc.currentTile = [tx, ty]
+        // Despawn NPCs that reach a building door — they "go inside"
+        if (doorTileSet.has(`${tx},${ty}`)) {
+          npc.sprite.parent?.removeChild(npc.sprite)
+          const idx = unitNpcs.indexOf(npc)
+          if (idx !== -1) unitNpcs.splice(idx, 1)
+          return
+        }
         processNpcWalkQueue(npc)
       } catch (e) {
         npc.isWalking = false
@@ -726,14 +792,69 @@ export function HubTownCanvas({
     }
 
     function wanderNpc(npc: UnitNpcState) {
-      const options = NPC_SPAWN_TILES.filter(
+      const effectivePathSet = new Set(pathSet)
+      for (const bp of HUB_BLOCKED_PATHS) {
+        if (!(completedQuestIdsRef?.current.has(bp.questId) ?? false)) {
+          for (const [btx, bty] of bp.blockedTiles) effectivePathSet.delete(`${btx},${bty}`)
+        }
+      }
+      const ghosts = npc.isGhost ? [] : unitNpcs.filter(n => n.isGhost)
+      const allOptions = NPC_SPAWN_TILES.filter(
         ([tx, ty]) => tx !== npc.currentTile[0] || ty !== npc.currentTile[1],
       ) as [number, number][]
-      if (options.length === 0) return
+      if (allOptions.length === 0) return
+      // Non-ghost NPCs avoid tiles within 5 tiles of any ghost
+      const options = ghosts.length === 0 ? allOptions : (
+        allOptions.filter(([tx, ty]) =>
+          ghosts.every(g => Math.max(Math.abs(tx - g.currentTile[0]), Math.abs(ty - g.currentTile[1])) > 5)
+        ).length > 0
+          ? allOptions.filter(([tx, ty]) =>
+              ghosts.every(g => Math.max(Math.abs(tx - g.currentTile[0]), Math.abs(ty - g.currentTile[1])) > 5)
+            )
+          : allOptions
+      )
       const target = options[Math.floor(Math.random() * options.length)]
-      const path   = findPath(npc.currentTile, target, pathSet)
+      const path   = findPath(npc.currentTile, target, effectivePathSet)
       npc.walkQueue = path.slice(1)
       if (!npc.isWalking) processNpcWalkQueue(npc)
+    }
+
+    function spawnAmbientNpc() {
+      if (nonDoorSpawnTiles.length === 0) return
+      const [tx, ty] = nonDoorSpawnTiles[Math.floor(Math.random() * nonDoorSpawnTiles.length)]
+      const cx = tx * T + T / 2
+      const cy = ty * T + T
+      const slug = effectiveCards[Math.floor(Math.random() * effectiveCards.length)]
+      const texPromise = cards.length > 0
+        ? loadSpriteTexture(slug).catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
+        : loadTextureUrl(`${base}sprites/${slug}.svg`).catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
+      texPromise.then(tex => {
+        if (app.renderer == null) return
+        const isGhost = Math.random() < 0.01
+        const s = new PIXI.Sprite(tex)
+        s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
+        s.anchor.set(0.5, 1)
+        s.position.set(cx, cy)
+        s.zIndex = cy
+        s.alpha = isGhost ? 0.4 : 1.0
+        if (isGhost) s.tint = 0xaaccff
+        npcLayer.addChild(s)
+        const state: UnitNpcState = {
+          sprite:            s,
+          currentTile:       [tx, ty],
+          walkQueue:         [],
+          isWalking:         false,
+          wanderTimer:       1000 + Math.random() * 2000,
+          animFrames:        [],
+          animTimer:         0,
+          animFrame:         0,
+          isGhost:           isGhost,
+          scaredBubble:      null,
+          scaredBubbleTimer: 0,
+        }
+        unitNpcs.push(state)
+        loadAnimFrames(slug, 3).then(frames => { state.animFrames = frames }).catch(() => {})
+      }).catch(() => {})
     }
 
     // ── Exterior walk state ────────────────────────────────────────────────────
@@ -865,7 +986,9 @@ export function HubTownCanvas({
         for (let ty = 1; ty < interior.height - 1; ty++)
           interiorWalkable.add(`${tx},${ty}`)
       interiorWalkable.add(`${exitTx},${interior.height - 1}`)
-      for (const d of interior.decor) interiorWalkable.delete(`${d.tx},${d.ty}`)
+      for (const d of interior.decor) {
+        if (!d.zlayer || d.zlayer === 'solid') interiorWalkable.delete(`${d.tx},${d.ty}`)
+      }
 
       // Floor tile set (all inner tiles + exit door tile)
       const floorSet = new Set<string>()
@@ -915,27 +1038,34 @@ export function HubTownCanvas({
       renderPathTiles(wallContainer, wallSet, undefined, PATH_TILE.wall2)
         .catch(() => { /* wall tiles optional */ })
 
-      // Decor — tile sprites from base chip sheet
-      const decorContainer = new PIXI.Container()
-      interiorLayer.addChild(decorContainer)
-      const byTileId = new Map<number, [number, number][]>()
-      for (const d of interior.decor) {
-        if (d.tileId === 666) continue
-        const list = byTileId.get(d.tileId) ?? []
-        list.push([d.tx, d.ty])
-        byTileId.set(d.tileId, list)
+      // Decor — split into below-avatar (solid/below) and above-avatar containers
+      const decorBelowContainer = new PIXI.Container()
+      const decorAboveContainer = new PIXI.Container()  // added to interiorLayer after avatar
+      interiorLayer.addChild(decorBelowContainer)
+
+      function renderDecorItems(items: typeof interior.decor, target: PIXI.Container) {
+        const byTileId = new Map<number, [number, number][]>()
+        for (const d of items) {
+          if (d.tileId === 666) continue
+          const list = byTileId.get(d.tileId) ?? []
+          list.push([d.tx, d.ty])
+          byTileId.set(d.tileId, list)
+        }
+        for (const [tileId, positions] of byTileId) {
+          loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+            if (!interiorActive || currentInteriorId !== buildingId) return
+            for (const [dtx, dty] of positions) {
+              const s = new PIXI.Sprite(tex)
+              s.width = T; s.height = T
+              s.position.set(dtx * T, dty * T)
+              target.addChild(s)
+            }
+          }).catch(() => {})
+        }
       }
-      for (const [tileId, positions] of byTileId) {
-        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
-          if (!interiorActive || currentInteriorId !== buildingId) return
-          for (const [dtx, dty] of positions) {
-            const s = new PIXI.Sprite(tex)
-            s.width = T; s.height = T
-            s.position.set(dtx * T, dty * T)
-            decorContainer.addChild(s)
-          }
-        }).catch(() => {})
-      }
+
+      renderDecorItems(interior.decor.filter(d => d.zlayer !== 'above'), decorBelowContainer)
+      // above-avatar decor rendered after avatar is added (below)
 
       // Interior pickup items — rendered in room, disappear when tapped
       {
@@ -994,9 +1124,7 @@ export function HubTownCanvas({
           s.cursor    = 'pointer'
           s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
             e.stopPropagation()
-            if (npc.screen && !npc.questGive && !npc.questReceive) {
-              onNodeInteractRef.current(npc.screen)
-            } else if (npc.dialogue.length > 0 || npc.questGive || npc.questReceive) {
+            if (npc.dialogue.length > 0 || npc.screen || npc.questGive || npc.questReceive) {
               const idx = npcDialogueIndex.get(npc.id) ?? 0
               onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length] ?? '', npc.id)
               npcDialogueIndex.set(npc.id, idx + 1)
@@ -1035,7 +1163,7 @@ export function HubTownCanvas({
       exitMarker.position.set(exitTx * T + T / 2, (interior.height - 1) * T + 2)
       interiorLayer.addChild(exitMarker)
 
-      // Move avatar into interior (on top of everything else)
+      // Move avatar into interior (on top of solid/below decor)
       if (avatar) {
         if (!avatarInInterior) avatarLayer.removeChild(avatar)
         avatar.x = entryTile[0] * T + T / 2
@@ -1043,6 +1171,10 @@ export function HubTownCanvas({
         interiorLayer.addChild(avatar)
         avatarInInterior = true
       }
+
+      // Above-avatar decor — added after avatar so it renders on top
+      interiorLayer.addChild(decorAboveContainer)
+      renderDecorItems(interior.decor.filter(d => d.zlayer === 'above'), decorAboveContainer)
 
       // Scroll viewport to center on interior
       onAvatarMoveRef.current(intOffX + entryTile[0] * T + T / 2, intOffY + entryTile[1] * T + T / 2)
@@ -1191,6 +1323,20 @@ export function HubTownCanvas({
             }
             onItemPickupRef.current?.(pid, def.questId)
           }
+        }
+
+        // Treasure step-on: collect chest when avatar walks onto its tile
+        const treasureId = treasureByTile.get(`${tx},${ty}`)
+        if (treasureId && !collectedTreasureRef.current.has(treasureId)) {
+          collectedTreasureRef.current.add(treasureId)
+          treasureByTile.delete(`${tx},${ty}`)
+          const tSprite = treasureSprites.get(treasureId)
+          if (tSprite) {
+            const collectedTex = treasureCollectedTex.get(treasureId)
+            if (collectedTex) tSprite.texture = collectedTex  // swap to open/empty tile
+            else               tSprite.visible = false         // no collected tile — vanish
+          }
+          onTreasureStepRef.current?.(treasureId)
         }
 
         // Update area name on each tile step (works on mobile where pointermove doesn't fire)
@@ -1410,6 +1556,11 @@ export function HubTownCanvas({
           npc.animFrame = 0
           npc.animTimer = 0
         }
+        // Ghost glow: pulse alpha
+        if (npc.isGhost) {
+          npc.sprite.alpha = 0.25 + 0.2 * Math.sin(performance.now() / 600 + npc.currentTile[0])
+        }
+
         if (!npc.isWalking) {
           npc.wanderTimer -= ticker.deltaMS
           if (npc.wanderTimer <= 0) {
@@ -1417,6 +1568,45 @@ export function HubTownCanvas({
             wanderNpc(npc)
           }
         }
+
+        // Scared bubble: non-ghost NPCs near a ghost
+        if (!npc.isGhost && !interiorActive) {
+          const nearbyGhost = unitNpcs.find(g =>
+            g.isGhost &&
+            Math.max(Math.abs(npc.currentTile[0] - g.currentTile[0]), Math.abs(npc.currentTile[1] - g.currentTile[1])) <= 10
+          )
+          if (nearbyGhost && !npc.scaredBubble) {
+            const phrase = SCARED_PHRASES[Math.floor(Math.random() * SCARED_PHRASES.length)]
+            const bubble = createSpeechBubble(phrase, npc.sprite.x, npc.sprite.y - SPRITE_SIZE)
+            bubble.zIndex = npc.sprite.zIndex + 1
+            bubbleLayer.addChild(bubble)
+            npc.scaredBubble      = bubble
+            npc.scaredBubbleTimer = 4000
+          } else if (!nearbyGhost && npc.scaredBubble) {
+            bubbleLayer.removeChild(npc.scaredBubble)
+            npc.scaredBubble = null
+          }
+          if (npc.scaredBubble) {
+            npc.scaredBubbleTimer -= ticker.deltaMS
+            npc.scaredBubble.position.set(npc.sprite.x, npc.sprite.y - SPRITE_SIZE)
+            if (npc.scaredBubbleTimer <= 0) {
+              bubbleLayer.removeChild(npc.scaredBubble)
+              npc.scaredBubble      = null
+              npc.scaredBubbleTimer = 0
+            }
+          }
+        }
+      }
+
+      // Respawn ambient NPCs to maintain population between TARGET_NPC_COUNT ± a few
+      if (!interiorActive && unitNpcs.length < TARGET_NPC_COUNT) {
+        respawnTimer -= ticker.deltaMS
+        if (respawnTimer <= 0) {
+          spawnAmbientNpc()
+          respawnTimer = 1500 + Math.random() * 1500  // stagger spawns 1.5–3s apart
+        }
+      } else {
+        respawnTimer = Math.min(respawnTimer, 3000)
       }
 
       // Idle speech bubble state machine (exterior only)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 export interface TilesetDef {
   name: string
@@ -17,10 +17,43 @@ interface Props {
 
 const PAGE_SIZE = 256
 
+function storageKey(tilesetName: string) {
+  return `tilebrowser-labels:${tilesetName}`
+}
+
+function loadCustomLabels(tilesetName: string): Record<number, string> {
+  try {
+    const raw = localStorage.getItem(storageKey(tilesetName))
+    return raw ? JSON.parse(raw) : {}
+  } catch { return {} }
+}
+
+function saveCustomLabels(tilesetName: string, labels: Record<number, string>) {
+  try { localStorage.setItem(storageKey(tilesetName), JSON.stringify(labels)) } catch { /* ignore */ }
+}
+
 export function TileBrowser({ tileset, scale = 2, labels }: Props) {
-  const [selected, setSelected] = useState<number | null>(null)
-  const [copied, setCopied] = useState(false)
-  const [page, setPage] = useState(0)
+  const [selected, setSelected]       = useState<number | null>(null)
+  const [copied, setCopied]           = useState(false)
+  const [page, setPage]               = useState(0)
+  const [naming, setNaming]           = useState(false)
+  const [nameInput, setNameInput]     = useState('')
+  const [customLabels, setCustomLabels] = useState<Record<number, string>>(() => loadCustomLabels(tileset.name))
+  const [exported, setExported]       = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  // Reload custom labels when tileset changes
+  useEffect(() => {
+    setCustomLabels(loadCustomLabels(tileset.name))
+    setSelected(null)
+    setNaming(false)
+    setPage(0)
+  }, [tileset.name])
+
+  useEffect(() => {
+    if (naming) inputRef.current?.focus()
+  }, [naming])
+
   const tw = tileset.tileWidth ?? 32
   const th = tileset.tileHeight ?? 32
   const displayW = tw * scale
@@ -29,10 +62,65 @@ export function TileBrowser({ tileset, scale = 2, labels }: Props) {
   const totalPages = Math.ceil(tileset.tilecount / PAGE_SIZE)
   const pageStart = page * PAGE_SIZE
   const pageEnd = Math.min(pageStart + PAGE_SIZE, tileset.tilecount)
-  const selectedLabel = selected !== null ? labels?.[selected] : undefined
+
+  function getLabel(i: number) {
+    return labels?.[i] ?? customLabels[i]
+  }
+
+  function handleTileClick(i: number) {
+    if (naming) return
+    if (i === selected) {
+      const label = getLabel(i)
+      if (label) {
+        navigator.clipboard.writeText(label).then(() => {
+          setCopied(true)
+          setTimeout(() => setCopied(false), 1500)
+        })
+      } else {
+        setNaming(true)
+        setNameInput('')
+      }
+    } else {
+      setSelected(i)
+      setCopied(false)
+      setNaming(false)
+    }
+  }
+
+  function commitName() {
+    const trimmed = nameInput.trim()
+    if (trimmed && selected !== null) {
+      const next = { ...customLabels, [selected]: trimmed }
+      setCustomLabels(next)
+      saveCustomLabels(tileset.name, next)
+    }
+    setNaming(false)
+    setNameInput('')
+  }
+
+  function cancelName() {
+    setNaming(false)
+    setNameInput('')
+  }
+
+  function handleExport() {
+    const entries = Object.entries(customLabels)
+      .sort(([a], [b]) => Number(a) - Number(b))
+      .map(([id, name]) => `    ${name}: ${id},`)
+      .join('\n')
+    if (!entries) return
+    navigator.clipboard.writeText(entries).then(() => {
+      setExported(true)
+      setTimeout(() => setExported(false), 2000)
+    })
+  }
+
+  const selectedLabel = selected !== null ? getLabel(selected) : undefined
+  const customCount = Object.keys(customLabels).length
 
   return (
     <div style={{ fontFamily: 'monospace', padding: 16 }}>
+      {/* ── Toolbar ── */}
       <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
         <strong>{tileset.name}</strong>
         <span style={{ color: '#888' }}>{tileset.tilecount} tiles · {tileset.columns} cols</span>
@@ -45,36 +133,55 @@ export function TileBrowser({ tileset, scale = 2, labels }: Props) {
               style={{ background: '#333', color: '#ccc', border: 'none', padding: '2px 8px', cursor: 'pointer' }}>▶</button>
           </span>
         )}
-        {selected !== null && (
-          <span style={{ background: '#222', color: copied ? '#ff0' : '#0f0', padding: '2px 8px', borderRadius: 4 }}>
-            #{selected}{selectedLabel ? ` — ${selectedLabel}` : ''}{copied ? ' ✓ copied' : ''}
+        {customCount > 0 && (
+          <button
+            onClick={handleExport}
+            style={{ background: exported ? '#184' : '#333', color: exported ? '#0f0' : '#aaa', border: '1px solid #555', padding: '2px 10px', cursor: 'pointer', fontSize: 11 }}
+          >
+            {exported ? `✓ copied ${customCount} names` : `export ${customCount} custom name${customCount !== 1 ? 's' : ''}`}
+          </button>
+        )}
+        {/* ── Selection / naming info ── */}
+        {selected !== null && !naming && (
+          <span style={{ background: '#222', color: copied ? '#ff0' : selectedLabel ? '#0f0' : '#aaa', padding: '2px 8px', borderRadius: 4 }}>
+            #{selected}{selectedLabel ? ` — ${selectedLabel}` : ' — unnamed'}
+            {!selectedLabel && <span style={{ color: '#555', marginLeft: 6 }}>click again to name</span>}
+            {selectedLabel && !copied && <span style={{ color: '#555', marginLeft: 6 }}>click again to copy</span>}
+            {copied && ' ✓ copied'}
+          </span>
+        )}
+        {naming && selected !== null && (
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ color: '#aaa' }}>#{selected} name:</span>
+            <input
+              ref={inputRef}
+              value={nameInput}
+              onChange={e => setNameInput(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') commitName(); if (e.key === 'Escape') cancelName() }}
+              placeholder="camelCaseName"
+              style={{ background: '#1a1a1a', color: '#0f0', border: '1px solid #0f0', padding: '2px 8px', fontFamily: 'monospace', fontSize: 13, width: 180 }}
+            />
+            <button onClick={commitName} style={{ background: '#184', color: '#0f0', border: '1px solid #0a4', padding: '2px 8px', cursor: 'pointer' }}>Save</button>
+            <button onClick={cancelName} style={{ background: '#333', color: '#888', border: '1px solid #555', padding: '2px 8px', cursor: 'pointer' }}>✕</button>
           </span>
         )}
       </div>
+
+      {/* ── Tile grid ── */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
         {Array.from({ length: pageEnd - pageStart }, (_, idx) => {
           const i = pageStart + idx
           const col = i % tileset.columns
           const row = Math.floor(i / tileset.columns)
           const isSelected = selected === i
-          const label = labels?.[i]
+          const label = getLabel(i)
           const hasLabel = label !== undefined
+          const isCustom = customLabels[i] !== undefined
           return (
             <div
               key={i}
-              title={label ? `#${i} — ${label}` : `#${i} (col ${col}, row ${row})`}
-              onClick={() => {
-                if (i === selected) {
-                  const text = labels?.[i] ?? String(i)
-                  navigator.clipboard.writeText(text).then(() => {
-                    setCopied(true)
-                    setTimeout(() => setCopied(false), 1500)
-                  })
-                } else {
-                  setSelected(i)
-                  setCopied(false)
-                }
-              }}
+              title={label ? `#${i} — ${label}${isCustom ? ' (custom)' : ''}` : `#${i} (col ${col}, row ${row}) — click to name`}
+              onClick={() => handleTileClick(i)}
               style={{
                 position: 'relative',
                 width: displayW,
@@ -85,7 +192,7 @@ export function TileBrowser({ tileset, scale = 2, labels }: Props) {
                 backgroundSize: `${tileset.columns * tw * scale}px auto`,
                 imageRendering: 'pixelated',
                 cursor: 'pointer',
-                outline: isSelected ? '2px solid #0f0' : hasLabel ? '1px solid #446' : '1px solid #333',
+                outline: isSelected ? '2px solid #0f0' : isCustom ? '1px solid #a84' : hasLabel ? '1px solid #446' : '1px solid #333',
                 boxSizing: 'border-box',
               }}
             >
@@ -95,7 +202,7 @@ export function TileBrowser({ tileset, scale = 2, labels }: Props) {
                 right: 1,
                 fontSize: 7,
                 lineHeight: 1,
-                color: hasLabel ? 'rgba(100,200,255,0.9)' : 'rgba(255,255,255,0.7)',
+                color: isCustom ? 'rgba(255,180,80,0.9)' : hasLabel ? 'rgba(100,200,255,0.9)' : 'rgba(255,255,255,0.7)',
                 textShadow: '0 0 2px #000',
                 pointerEvents: 'none',
               }}>

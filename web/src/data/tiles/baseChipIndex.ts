@@ -323,7 +323,6 @@ export const BASE_CHIP_TILES = {
     lightPillarBottom:921,
     birdBathBottom: 922,
 
-    // 922: unnamed
     angelStatueTop:                    923,
     gargoyleTop:                       924,
     stripedShopAwningBottom:           925,
@@ -419,7 +418,70 @@ export const BASE_CHIP_TILES = {
     bookshelfBottom: 723,
 
     // Counter / bar (single tile, top-view)
-    counterTop: 691,
+
+    counterTopVerticalTop: 672,
+    counterTopVerticalMiddle: 680,
+    counterTopVerticalBottom: 688,
+    counterTopHorizontalLeft: 673,
+    counterTopHorizontalMiddle: 674,
+    counterTopHorizontalRight: 675,
+    counterTopTopLeft: 681,
+    counterTopTopRight: 682,
+    counterTopBottomLeft: 689,
+    counterTopBottomRight: 690,
+    counterTop: 683,
+
+
+    counterTopDarkWoodVerticalTop: 676,
+    counterTopDarkWoodVerticalMiddle: 684,
+    counterTopDarkWoodVerticalBottom: 692,
+    counterTopDarkWoodHorizontalLeft: 677,
+    counterTopDarkWoodHorizontalMiddle: 678,
+    counterTopDarkWoodHorizontalRight: 679,
+    counterTopDarkWoodTopLeft: 685,
+    counterTopDarkWoodTopRight: 686,
+    counterTopDarkWoodBottomLeft: 693,
+    counterTopDarkWoodBottomRight: 694,
+    counterTopDarkWood: 687,
+
+
+    counterTopMahoganyVerticalTop: 695,
+    counterTopMahoganyVerticalMiddle: 703,
+    counterTopMahoganyVerticalBottom: 711,
+    counterTopMahoganyHorizontalLeft: 698,
+    counterTopMahoganyHorizontalMiddle: 699,
+    counterTopMahoganyHorizontalRight: 700,
+    counterTopMahoganyTopLeft: 701,
+    counterTopMahoganyTopRight: 702,
+    counterTopMahoganyBottomLeft: 709,
+    counterTopMahoganyBottomRight: 710,
+    counterTopMahogany: 691,
+
+    washingLineEmptyTopLeft: 246,
+    washingLineEmptyTopRight: 247,
+    washingLineEmptyBottomLeft: 254,
+    washingLineEmptyBottomRight: 255,
+    washingLineTopLeft: 262,
+    washingLineTopRight: 263,
+    washingLineBottomLeft: 270,
+    washingLineBottomRight: 271,
+    washingLineClothesTopLeft: 278,
+    washingLineClothesTopRight: 279,
+    washingLineClothesBottomLeft: 286,
+    washingLineClothesBottomRight: 287,
+
+    goldenCross: 614,
+    stoneCross: 615,
+    worldMapTopLeft: 624,
+    worldMapTopRight: 625,
+    wantedPosterTop: 627,
+    worldMapBottomLeft: 632,
+    worldMapBottomRight: 633,
+    wantedPosterBottom: 635,
+    plateEmpty: 960,
+    bottlesOfLiquor: 972,
+    potions: 985,
+
 
     // Desk (single tile)
     deskTop: 746,
@@ -499,26 +561,26 @@ export const BASE_CHIP_TILES = {
 
     // Wood Wall starts at 352
     woodWallLeftTop:       352, woodWallMiddleTop:    353, woodWallRightTop:    354,
-    woodWallPillarTop:     355, woodWallShadowTop:    356,
+    woodWallPillarTop:     355, woodWallShadowTop:    356, woodWallShadowRightTop:    357,
     woodWallDoorArchTop:   358, woodWallDoorTop:      359,
     woodWallLeftBottom:    360, woodWallMiddleBottom: 361, woodWallRightBottom: 362,
-    woodWallPillarBottom:  363, woodWallShadowBottom: 364,
+    woodWallPillarBottom:  363, woodWallShadowBottom: 364, woodWallShadowRightBottom: 365,
     woodWallDoorBottom:    367,
 
     // Tudor Frame starts at 368
     tudorFrameLeftTop:       368, tudorFrameMiddleTop:    369, tudorFrameRightTop:    370,
-    tudorFramePillarTop:     371, tudorFrameShadowTop:    372,
+    tudorFramePillarTop:     371, tudorFrameShadowTop:    372, tudorFrameShadowRightTop:    373,
     tudorFrameDoorArchTop:   374, tudorFrameDoorTop:      375,
     tudorFrameLeftBottom:    376, tudorFrameMiddleBottom: 377, tudorFrameRightBottom: 378,
-    tudorFramePillarBottom:  379, tudorFrameShadowBottom: 380,
+    tudorFramePillarBottom:  379, tudorFrameShadowBottom: 380, tudorFrameShadowRightBottom: 381,
     tudorFrameDoorBottom:    383,
 
     // Rendered Brick starts at 384
     renderedBrickLeftTop:       384, renderedBrickMiddleTop:    385, renderedBrickRightTop:    386,
-    renderedBrickPillarTop:     387, renderedBrickShadowTop:    388,
+    renderedBrickPillarTop:     387, renderedBrickShadowTop:    388, renderedBrickShadowRightTop:    389,
     renderedBrickDoorArchTop:   390, renderedBrickDoorTop:      391,
     renderedBrickLeftBottom:    392, renderedBrickMiddleBottom: 393, renderedBrickRightBottom: 394,
-    renderedBrickPillarBottom:  395, renderedBrickShadowBottom: 396,
+    renderedBrickPillarBottom:  395, renderedBrickShadowBottom: 396, renderedBrickShadowRightBottom: 397,
     renderedBrickDoorBottom:    399,
 
     // Brick starts at 400
@@ -531,57 +593,59 @@ export const BASE_CHIP_TILES = {
     brickPillarTop: 403,
     brickPillarBottom: 411,
     brickShadowTop: 404, // goes to teh right of the pilar for depth
+    brickShadowRightTop: 405,
     brickShadowBottom: 412, // goes to teh right of the pilar for depth
+    brickShadowRightBottom: 413,
     brickDoorArchTop: 406, // Texture behind door decor
     brickDoorTop: 407,
     brickDoorBottom: 415,
 
     // White Stone - 416
     whiteStoneLeftTop:       416, whiteStoneMiddleTop:    417, whiteStoneRightTop:    418,
-    whiteStonePillarTop:     419, whiteStoneShadowTop:    420,
+    whiteStonePillarTop:     419, whiteStoneShadowTop:    420, whiteStoneShadowRightTop:    421,
     whiteStoneDoorArchTop:   422, whiteStoneDoorTop:      423,
     whiteStoneLeftBottom:    424, whiteStoneMiddleBottom: 425, whiteStoneRightBottom: 426,
-    whiteStonePillarBottom:  427, whiteStoneShadowBottom: 428,
+    whiteStonePillarBottom:  427, whiteStoneShadowBottom: 428, whiteStoneShadowRightBottom: 429,
     whiteStoneDoorBottom:    431,
 
     // Dark Stone - 432
     darkStoneLeftTop:       432, darkStoneMiddleTop:    433, darkStoneRightTop:    434,
-    darkStonePillarTop:     435, darkStoneShadowTop:    436,
+    darkStonePillarTop:     435, darkStoneShadowTop:    436, darkStoneShadowRightTop:    437,
     darkStoneDoorArchTop:   438, darkStoneDoorTop:      439,
     darkStoneLeftBottom:    440, darkStoneMiddleBottom: 441, darkStoneRightBottom: 442,
-    darkStonePillarBottom:  443, darkStoneShadowBottom: 444,
+    darkStonePillarBottom:  443, darkStoneShadowBottom: 444, darkStoneShadowRightBottom: 445,
     darkStoneDoorBottom:    447,
 
     // Castle Stone - 448
     castleStoneLeftTop:       448, castleStoneMiddleTop:    449, castleStoneRightTop:    450,
-    castleStonePillarTop:     451, castleStoneShadowTop:    452,
+    castleStonePillarTop:     451, castleStoneShadowTop:    452, castleStoneShadowRightTop:    453,
     castleStoneDoorArchTop:   454, castleStoneDoorTop:      455,
     castleStoneLeftBottom:    456, castleStoneMiddleBottom: 457, castleStoneRightBottom: 458,
-    castleStonePillarBottom:  459, castleStoneShadowBottom: 460,
+    castleStonePillarBottom:  459, castleStoneShadowBottom: 460, castleStoneShadowRightBottom: 461,
     castleStoneDoorBottom:    463,
 
     // Ornate Stone - 464
     ornateStoneLeftTop:       464, ornateStoneMiddleTop:    465, ornateStoneRightTop:    466,
-    ornateStonePillarTop:     467, ornateStoneShadowTop:    468,
+    ornateStonePillarTop:     467, ornateStoneShadowTop:    468, ornateStoneShadowRightTop:    469,
     ornateStoneDoorArchTop:   470, ornateStoneDoorTop:      471,
     ornateStoneLeftBottom:    472, ornateStoneMiddleBottom: 473, ornateStoneRightBottom: 474,
-    ornateStonePillarBottom:  475, ornateStoneShadowBottom: 476,
+    ornateStonePillarBottom:  475, ornateStoneShadowBottom: 476, ornateStoneShadowRightBottom: 477,
     ornateStoneDoorBottom:    479,
 
     // Reinforced Stone - 480
     reinforcedStoneLeftTop:       480, reinforcedStoneMiddleTop:    481, reinforcedStoneRightTop:    482,
-    reinforcedStonePillarTop:     483, reinforcedStoneShadowTop:    484,
+    reinforcedStonePillarTop:     483, reinforcedStoneShadowTop:    484, reinforcedStoneShadowRightTop:    485,
     reinforcedStoneDoorArchTop:   486, reinforcedStoneDoorTop:      487,
     reinforcedStoneLeftBottom:    488, reinforcedStoneMiddleBottom: 489, reinforcedStoneRightBottom: 490,
-    reinforcedStonePillarBottom:  491, reinforcedStoneShadowBottom: 492,
+    reinforcedStonePillarBottom:  491, reinforcedStoneShadowBottom: 492, reinforcedStoneShadowRightBottom: 493,
     reinforcedStoneDoorBottom:    495,
 
     // Wooden Slats - 496
     woodenSlatsLeftTop:       496, woodenSlatsMiddleTop:    497, woodenSlatsRightTop:    498,
-    woodenSlatsPillarTop:     499, woodenSlatsShadowTop:    500,
+    woodenSlatsPillarTop:     499, woodenSlatsShadowTop:    500, woodenSlatsShadowRightTop:    501,
     woodenSlatsDoorArchTop:   502, woodenSlatsDoorTop:      503,
     woodenSlatsLeftBottom:    504, woodenSlatsMiddleBottom: 505, woodenSlatsRightBottom: 506,
-    woodenSlatsPillarBottom:  507, woodenSlatsShadowBottom: 508,
+    woodenSlatsPillarBottom:  507, woodenSlatsShadowBottom: 508, woodenSlatsShadowRightBottom: 509,
     woodenSlatsDoorBottom:    511,
 
     // Interior - Stiped Wallpaper - 512

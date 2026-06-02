@@ -102,10 +102,11 @@
     { "rect": [14, 11, 14, 13] },
     { "tile": [8, 14] },
     { "rect": [25, 20, 26,23] },
+    { "rect": [25, 10, 26,10] },    
     { "tile": [56, 11] },
 
     { "tile": [8,  22] },
-    { "tile": [11, 34] },
+    { "tile": [10, 34] },
     { "rect": [47, 7, 65, 7] },
     { "rect": [47, 20, 65, 20] },
     { "rect": [14, 46, 14, 48] },
@@ -152,7 +153,7 @@
       "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop3" }, { "tx": 1, "ty": -1, "tileId": "windowBottom3" }]
     },
     {
-      "rect": [22, 13, 29, 19], "id": "home-building", "wall": "woodWall", "roof": "yellowSlateRoof",
+      "rect": [22, 3, 29, 9], "id": "home-building", "wall": "woodWall", "roof": "yellowSlateRoof",
       "doors":   [{ "tx": 4, "ty": 1, "buildingId": "home" }],
       "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop4" }, { "tx": 1, "ty": -1, "tileId": "windowBottom4" }]
     },
@@ -177,18 +178,26 @@
       "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop4" }, { "tx": 1, "ty": -1, "tileId": "windowBottom4" }]
     },
     {
+      "comment": "junk traders den",
       "rect": [7, 27, 13, 33], "id": "sw-building-a", "wall": "darkStone", "roof": "greySlateRoof",
-      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "trader-den" }],
-      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop"  }, { "tx": 1, "ty": -1, "tileId": "windowBottom"  }]
+      "doors":   [{ "tx": 3, "ty": 1, "buildingId": "trader-den" }],
+      "windows": [
+        { "tx": 1, "ty": -2, "tileId": "windowTop"  }, { "tx": 1, "ty": -1, "tileId": "windowBottom"  },
+        { "tx": 5, "ty": -2, "tileId": "windowTop"  }, { "tx": 5, "ty": -1, "tileId": "windowBottom"  }
+      ]
     },
     {
-      "rect": [2, 41, 9, 47], "id": "sw-building-b", "wall": "renderedBrick", "roof": "strawRoof",
+      "comment": "inn",
+      "rect": [22,13, 29, 19], "id": "sw-building-b", "wall": "renderedBrick", "roof": "strawRoof",
       "doors":   [{ "tx": 4, "ty": 1, "buildingId": "sw-building-b" }],
-      "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop2" }, { "tx": 1, "ty": -1, "tileId": "windowBottom2" }]
+      "windows": [
+        { "tx": 1, "ty": -2, "tileId": "windowTop2" }, { "tx": 1, "ty": -1, "tileId": "windowBottom2" },
+        { "tx": 6, "ty": -2, "tileId": "windowTop2" }, { "tx": 6, "ty": -1, "tileId": "windowBottom2" }
+      ]
     },
     {
       "rect": [21, 27, 28, 33], "id": "traders-building", "wall": "tudorFrame", "roof": "metalRoof",
-      "doors":   [{ "tx": 4, "ty": 1, "buildingId": "traders-building" }],
+      "doors":   [{ "tx": 3, "ty": 1, "buildingId": "traders-building" }],
       "windows": [{ "tx": 1, "ty": -2, "tileId": "windowTop3" }, { "tx": 1, "ty": -1, "tileId": "windowBottom3" }]
     },
     {
@@ -256,14 +265,17 @@
     { "tx": 11, "ty": 11, "tileId": "crate" },
     { "tx": 24, "ty": 20, "tileId": "mailBox" },
 
+
+    { "comment": "farm"},
     { "tx": 0, "ty": 33, "tileId": "fenceLeftRight" },
     { "tx": 1, "ty": 33, "tileId": "fenceLeftRight" },
     {"tx": 2, "ty": 33, "tileId": "fenceLeft"},
-
-
     { "tx": 4, "ty": 33, "tileId": "fenceRight" },
     { "tx": 5, "ty": 33, "tileId": "fenceLeftRight" },
     {"tx": 6, "ty": 33, "tileId": "fenceLeftRight"},
+    {"tx":5, "ty":29, "tileId": "scarecrowTop"},
+      {"tx":5, "ty":30, "tileId": "scarecrowBottom"},
+
 
     { "comment": "courtyard fountain" },
     { "tx":  36, "ty":  23, "tileId": "fountainTopLeft" },
@@ -804,12 +816,14 @@
         {
           "tx": 5,
           "ty": 6,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zLayer": "below"
         },
         {
           "tx": 7,
           "ty": 6,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zLayer": "below"
         },
         {
           "tx": 3,
@@ -831,34 +845,84 @@
       "decor": [
         {
           "tx": 2,
-          "ty": 2,
-          "tileId": "simpleBedHead"
+          "ty": 1,
+          "tileId": "simpleBedHead",
+          "zLayer": "below"
         },
         {
           "tx": 3,
-          "ty": 2,
-          "tileId": "simpleBedHead"
+          "ty": 1,
+          "tileId": "simpleBedHead",
+          "zLayer": "below"
         },
         {
           "tx": 2,
-          "ty": 3,
-          "tileId": "simpleBedFoot"
+          "ty": 2,
+          "tileId": "simpleBedFoot",
+          "zLayer": "below"
         },
         {
           "tx": 3,
-          "ty": 3,
-          "tileId": "simpleBedFoot"
+          "ty": 2,
+          "tileId": "simpleBedFoot",
+          "zLayer": "below"
+        },
+
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "simpleBedHeadOverlay",
+          "zLayer": "above"
         },
         {
-          "tx": 9,
+          "tx": 3,
+          "ty": 1,
+          "tileId": "simpleBedHeadOverlay",
+          "zLayer": "above"
+        },
+        {
+          "tx": 2,
           "ty": 2,
+          "tileId": "simpleBedFootOverlay",
+          "zLayer": "above"
+        },
+        {
+          "tx": 3,
+          "ty": 2,
+          "tileId": "simpleBedFootOverlay",
+          "zLayer": "above"
+        },        
+        {
+          "tx": 8,
+          "ty": 0,
           "tileId": "fireplaceTopLeft"
         },
         {
-          "tx": 9,
-          "ty": 3,
+          "tx": 8,
+          "ty": 1,
           "tileId": "fireplaceBottomLeft"
+        },        
+        {
+          "tx": 9,
+          "ty": 0,
+          "tileId": "fireplaceTopMiddle"
         },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "fireplaceBottomMiddle"
+        },
+        {
+          "tx": 10,
+          "ty": 0,
+          "tileId": "fireplaceTopRight"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "fireplaceBottomRight"
+        },
+
         {
           "tx": 5,
           "ty": 4,
@@ -872,12 +936,14 @@
         {
           "tx": 5,
           "ty": 5,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zLayer": "below"
         },
         {
           "tx": 6,
           "ty": 5,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zLayer": "below"
         },
         {
           "tx": 2,
@@ -1212,12 +1278,14 @@
         {
           "tx": 5,
           "ty": 5,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zlayer": "below"
         },
         {
           "tx": 7,
           "ty": 5,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zlayer": "below"
         },
         {
           "tx": 2,
@@ -1436,12 +1504,14 @@
         {
           "tx": 5,
           "ty": 5,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zlayer": "below"
         },
         {
           "tx": 7,
           "ty": 5,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zlayer": "below"
         },
         {
           "tx": 2,
@@ -1474,22 +1544,26 @@
         {
           "tx": 3,
           "ty": 4,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zlayer": "below"
         },
         {
           "tx": 4,
           "ty": 3,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zlayer": "below"
         },
         {
           "tx": 8,
           "ty": 4,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zlayer": "below"
         },
         {
           "tx": 9,
           "ty": 3,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zlayer": "below"
         },
         {
           "tx": 5,
@@ -1514,12 +1588,14 @@
         {
           "tx": 5,
           "ty": 7,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zlayer": "below"
         },
         {
           "tx": 7,
           "ty": 7,
-          "tileId": "stool"
+          "tileId": "stool",
+          "zlayer": "below"
         }
       ]
     },
@@ -1532,43 +1608,102 @@
         {
           "tx": 2,
           "ty": 2,
-          "tileId": "simpleBedHead"
+          "tileId": "simpleBedHead"          ,
+          "zlayer": "below"
         },
         {
           "tx": 2,
           "ty": 3,
-          "tileId": "simpleBedFoot"
+          "tileId": "simpleBedFoot",
+          "zlayer": "below"
         },
         {
           "tx": 4,
           "ty": 2,
-          "tileId": "simpleBedHead"
+          "tileId": "simpleBedHead",
+          "zlayer": "below"
         },
         {
           "tx": 4,
           "ty": 3,
-          "tileId": "simpleBedFoot"
+          "tileId": "simpleBedFoot"          ,
+          "zlayer": "below"
         },
         {
           "tx": 10,
           "ty": 2,
-          "tileId": "simpleBedHead"
+          "tileId": "simpleBedHead",
+          "zlayer": "below"
         },
         {
           "tx": 10,
           "ty": 3,
-          "tileId": "simpleBedFoot"
+          "tileId": "simpleBedFoot",
+          "zlayer": "below"
         },
         {
           "tx": 12,
           "ty": 2,
-          "tileId": "simpleBedHead"
+          "tileId": "simpleBedHead",
+          "zlayer": "below"
         },
         {
           "tx": 12,
           "ty": 3,
-          "tileId": "simpleBedFoot"
+          "tileId": "simpleBedFoot",
+          "zlayer": "below"
         },
+
+                {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "simpleBedHeadOverlay"          ,
+          "zlayer": "above"
+        },
+        {
+          "tx": 2,
+          "ty": 3,
+          "tileId": "simpleBedFootOverlay",
+          "zlayer": "above"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "simpleBedHeadOverlay",
+          "zlayer": "above"
+        },
+        {
+          "tx": 4,
+          "ty": 3,
+          "tileId": "simpleBedFootOverlay"          ,
+          "zlayer": "above"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "simpleBedHeadOverlay",
+          "zlayer": "above"
+        },
+        {
+          "tx": 10,
+          "ty": 3,
+          "tileId": "simpleBedFootOverlay",
+          "zlayer": "above"
+        },
+        {
+          "tx": 12,
+          "ty": 2,
+          "tileId": "simpleBedHeadOverlay",
+          "zlayer": "above"
+        },
+        {
+          "tx": 12,
+          "ty": 3,
+          "tileId": "simpleBedFootOverlay",
+          "zlayer": "above"
+        },
+
+
         {
           "tx": 7,
           "ty": 4,
@@ -1850,8 +1985,10 @@
       "id": "campaign-gate",
       "name": "War Herald Davos",
       "sprite": "hub-npc-herald",
-      "tx": 35, "ty": 22,
+      "tx": 33, "ty": 21,
       "screen": "campaign",
+      "questGive": "the-password-part-3",
+      "questReceive": "the-password-part-2",
       "dialogue": [
         "The campaign banners are raised, Commander. Your forces await your orders.",
         "Every great victory began with a single step forward. Ready when you are.",
@@ -1862,9 +1999,11 @@
       "id": "quickbattle-gate",
       "name": "Pit Master Gorr",
       "sprite": "hub-npc-arena",
-      "tx": 39,
-      "ty": 22,
+      "tx": 41,
+      "ty": 21,
       "screen": "quickbattle",
+      "questGive": "the-password-part-1",
+      "questReceive": "the-password-part-4",
       "dialogue": [
         "No time for speeches. Pick your opponent and let the cards decide.",
         "The quick battle pits are open. Glory is one match away.",
@@ -1875,9 +2014,11 @@
       "id": "deck-gate",
       "name": "Deck Builder Dave",
       "sprite": "hub-npc-arena",
-      "tx": 40,
+      "tx": 35,
       "ty": 18,
       "screen": "deckbuilder",
+      "questGive": "the-password-part-2",
+      "questReceive": "the-password-part-1",
       "dialogue": [
         "Let's plan our strategy for the next battle.",
         "A strong army wins wars!"
@@ -1887,9 +2028,11 @@
       "id": "collection-gate",
       "name": "Field Marshall Fred",
       "sprite": "hub-npc-arena",
-      "tx": 42,
+      "tx": 39,
       "ty": 18,
       "screen": "collection-tabs",
+      "questGive": "the-password-part-4",
+      "questReceive": "the-password-part-3",
       "dialogue": [
         "Shall we review the troops available to us?"
       ]
@@ -1909,7 +2052,7 @@
       "id": "commander-post",
       "name": "Commander's Post",
       "sprite": "hub-npc-elder",
-      "tx": 34, "ty": 27,
+      "tx": 32, "ty": 27,
       "screen": "commander",
       "dialogue": [
         "Your forces await your orders, Commander."
@@ -1998,7 +2141,7 @@
       "id": "achievements-keeper",
       "name": "The Chronicler",
       "sprite": "hub-npc-elder",
-      "tx": 33, "ty": 22,
+      "tx": 35, "ty": 28,
       "screen": "hall-of-achievements",
       "dialogue": [
         "Your deeds are recorded here, Commander. Come see your legacy."
@@ -2018,7 +2161,7 @@
       "id": "home-shelf",
       "name": "Steward Maren",
       "sprite": "hub-npc-elder",
-      "tx": 27, "ty": 21,
+      "tx": 27, "ty": 10,
       "screen": "home-shelf",
       "dialogue": [
         "Your quarters are just inside, Commander. I keep your things in order.",
@@ -2404,6 +2547,16 @@
     {
       "buildingId": "barracks-vault",
       "lockedBy": "barracks-key"
+    }
+  ],
+  "treasures": [
+    {
+      "id": "forest-chest-1",
+      "tx": 31, "ty": 32,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A moss-covered chest hidden in the forest",
+      "reward": { "crystals": 30 }
     }
   ]
 }

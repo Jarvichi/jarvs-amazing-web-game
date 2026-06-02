@@ -31,9 +31,13 @@ export interface HubDoor {
 }
 
 export interface InteriorDecor {
-  tx: number
-  ty: number
-  tileId: number
+  tx:      number
+  ty:      number
+  tileId:  number
+  zlayer?: 'solid' | 'below' | 'above'
+  // solid (default): not walkable, renders below avatar
+  // below: walkable, renders below avatar (rugs, floor markings)
+  // above: walkable, renders above avatar (hanging items, backdrop shelves)
 }
 
 export interface HubInterior {
@@ -255,7 +259,9 @@ export const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
       width:       raw.width,
       height:      raw.height,
       floorTileId: resolveTileId(raw.floorTileId),
-      decor:       raw.decor.map(d => ({ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId) })),
+      decor:       (raw.decor as Array<{ tx: number; ty: number; tileId: string; zlayer?: string }>).map(d => ({
+        tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer as InteriorDecor['zlayer'],
+      })),
     } satisfies HubInterior,
   ])
 )
@@ -318,3 +324,27 @@ type RawLockedDoor = { buildingId: string; lockedBy: string }
 export const HUB_LOCKED_DOORS: HubLockedDoor[] = (
   (rawConfig as unknown as { lockedDoors?: RawLockedDoor[] }).lockedDoors ?? []
 )
+
+export interface HubTreasureReward {
+  crystals?:    number
+  collectible?: { id: string; name: string; icon: string; desc: string }
+}
+
+export interface HubTreasure {
+  id:               string
+  tx:               number
+  ty:               number
+  tileId:           number
+  collectedTileId?: number   // if set, swap to this tile on collect; if absent, hide the sprite
+  title:            string
+  reward:           HubTreasureReward
+}
+
+type RawTreasure = { id: string; tx: number; ty: number; tileId: string; collectedTileId?: string; title: string; reward: HubTreasureReward }
+export const HUB_TREASURES: HubTreasure[] = (
+  (rawConfig as unknown as { treasures?: RawTreasure[] }).treasures ?? []
+).map(t => ({
+  ...t,
+  tileId:           resolveTileId(t.tileId),
+  collectedTileId:  t.collectedTileId ? resolveTileId(t.collectedTileId) : undefined,
+}))
