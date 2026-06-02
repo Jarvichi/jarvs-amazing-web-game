@@ -1845,7 +1845,7 @@
       "receiverNpcId": "deck-gate",
       "offerDialogue": "Commander! You finally made it. We've kept the gates locked until you arrived — didn't know who to trust out there. Before I give the order to open things up, I need you to check in with the others. Start with Dave at the deck post. He's been anxious to see you.",
       "activeDialogue": "Go speak with Dave at the deck post. He'll know you're on your way.",
-      "completeDialogue": "Commander! Good to see a familiar face. Gorr sent you, did he? Right, we've all been on edge. Pop over to War Herald Davos next — he'll want a word before we open the road.",
+      "completeDialogue": "Commander! Good to see a familiar face. Gorr sent you, did he? Right, we've all been on edge.",
       "steps": [
         { "key": "deliver", "type": "deliver", "targetNpcId": "deck-gate", "required": 1 }
       ],
@@ -1862,7 +1862,7 @@
       "receiverNpcId": "campaign-gate",
       "offerDialogue": "Good to see you, Commander. I need you to check in with War Herald Davos before we open the south road. He's been holding the campaign banner for weeks — a bit dramatic, but he means well. You'll find him by the courtyard gate.",
       "activeDialogue": "Davos is waiting by the courtyard. Don't keep a herald waiting — they take it personally.",
-      "completeDialogue": "Commander, the banners are raised and the roads are ready. One more stop — Field Marshall Fred needs to clear the eastern passage. Find him at the collection post.",
+      "completeDialogue": "Commander, the banners are raised and the roads are ready.",
       "steps": [
         { "key": "deliver", "type": "deliver", "targetNpcId": "campaign-gate", "required": 1 }
       ],
@@ -1879,7 +1879,7 @@
       "receiverNpcId": "collection-gate",
       "offerDialogue": "Commander. I've reviewed the campaign maps and the town is secure. Before I sign off, I need you to check in with Field Marshall Fred. He's managing the eastern deployment — won't take long.",
       "activeDialogue": "Field Marshall Fred is at the collection post to the east. He's the last sign-off before the town reopens.",
-      "completeDialogue": "About time, Commander! I've been sitting on these deployment orders for days. Everything's in order on my end. Head back to Pit Master Gorr — he has the final say on opening things up.",
+      "completeDialogue": "About time, Commander! I've been sitting on these deployment orders for days.",
       "steps": [
         { "key": "deliver", "type": "deliver", "targetNpcId": "collection-gate", "required": 1 }
       ],
