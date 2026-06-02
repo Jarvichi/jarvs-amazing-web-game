@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
-import { HUB_QUEST_DEFS } from '../../data/hubQuestDefs'
-import type { HubQuestDef } from '../../data/hubQuestDefs'
-import { getQuestState, getQuestProgress } from '../../game/hubQuests'
+import { HUB_QUEST_DEFS } from '../../data/hub/questDefs'
+import type { HubQuestDef } from '../../data/hub/questDefs'
+import { getQuestState, getQuestProgress } from '../../game/hub/quests'
 
 interface Props {
   onClose: () => void

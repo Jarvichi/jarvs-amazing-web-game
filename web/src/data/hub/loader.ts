@@ -1,7 +1,7 @@
-import rawConfig from './hubConfig.json'
-import rawQuestConfig from './hubQuestDefs.json'
-import { BASE_CHIP_TILES } from './tiles/baseChipIndex'
-import type { WallMaterial, RoofMaterial } from './tiles/buildingMaterials'
+import rawConfig from './config.json'
+import rawQuestConfig from './questDefs.json'
+import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
+import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
 
 const T = 32
 
