@@ -347,6 +347,15 @@ Act files (`web/src/data/acts/actN.json`) are large. Use the cheapest tool for t
 
 ---
 
+## Hub World — Data Schemas
+
+All hub world JSON schemas (blocked paths, pickup items, NPCs, tile IDs, sprite names) are in **[`docs/hubworld.md`](docs/hubworld.md)**. Read it before:
+- Adding or editing blocked paths (`web/src/data/hub/questDefs.json` → `blockedPaths`)
+- Adding pickup items or changing `requireTouch` behaviour
+- Adding hub NPCs or decor tiles
+
+---
+
 ## Acts — Design Rules
 
 All rules for acts, the campaign map, node types, relics, heroes, lives system, music, boss traits, and card authoring are in **[`docs/acts.md`](docs/acts.md)**. Read it before:

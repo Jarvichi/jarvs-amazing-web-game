@@ -1,4 +1,4 @@
-import data from './hubQuestDefs.json'
+import data from './questDefs.json'
 
 export interface HubQuestStep {
   key: string

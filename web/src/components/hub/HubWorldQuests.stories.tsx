@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HubWorld } from './HubWorld'
-import { HUB_QUEST_DEFS } from '../../data/hubQuestDefs'
-import { setQuestStatus, getQuestProgress } from '../../game/hubQuests'
+import { HUB_QUEST_DEFS } from '../../data/hub/questDefs'
+import { setQuestStatus, getQuestProgress } from '../../game/hub/quests'
 
 const meta = {
   title: 'Hub/HubWorld Quests',
