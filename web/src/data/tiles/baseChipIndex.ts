@@ -513,6 +513,11 @@ export const BASE_CHIP_TILES = {
     skull: 1054,
     key: 1055,
 
+
+    shieldMounted: 1047,
+    roundShieldFloor: 1062,
+   
+
     // Desk (single tile)
     deskTop: 746,
 
