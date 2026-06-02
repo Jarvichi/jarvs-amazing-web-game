@@ -106,7 +106,12 @@ export default defineConfig({
           instances: [{
             browser: 'chromium'
           }]
-        }
+        },
+        env: {
+          // Only run stories tagged 'ci'. Tag a story with tags: ['ci'] to include it.
+          // All stories remain accessible in the Storybook dev server.
+          __VITEST_INCLUDE_TAGS__: 'ci',
+        },
       }
     }]
   }
