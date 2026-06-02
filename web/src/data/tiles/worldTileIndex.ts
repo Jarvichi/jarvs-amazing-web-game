@@ -86,6 +86,27 @@ export const WORLD_DECOR = {
   fantasyCastleBottomRight: 62,    
 } as const
 
+// ── Terrain obstacle → decor tile mapping (for battlefield rendering) ─────────
+// Maps environment name + TerrainType to an array of WORLD_DECOR tile IDs.
+// _default entries are used when no environment-specific override exists.
+// Multiple IDs → pick one deterministically via idNum % length.
+export const TERRAIN_DECOR_MAP: Record<string, Partial<Record<string, number[]>>> = {
+  _default: {
+    tree:  [WORLD_DECOR.singleTree, WORLD_DECOR.groupOfTrees],
+    rock:  [WORLD_DECOR.pileOfRocks, WORLD_DECOR.rock],
+    water: [WORLD_DECOR.pond],
+    ruin:  [WORLD_DECOR.graveStone, WORLD_DECOR.signpost],
+  },
+  forest:  { tree: [WORLD_DECOR.groupOfTrees, WORLD_DECOR.bigTree] },
+  ashen:   { tree: [WORLD_DECOR.bigTree], water: [WORLD_DECOR.hole], ruin: [WORLD_DECOR.graveStone] },
+  sand:    { water: [WORLD_DECOR.sandSinkhole], rock: [WORLD_DECOR.rock] },
+  volcano: { rock: [WORLD_DECOR.mountainTopLeft], water: [WORLD_DECOR.waterWhirlpool], ruin: [WORLD_DECOR.volcanoCaveBottomLeft] },
+  citadel: { ruin: [WORLD_DECOR.house], rock: [WORLD_DECOR.pileOfRocks] },
+  fungal:  { tree: [WORLD_DECOR.groupOfTrees, WORLD_DECOR.bigTree] },
+  frost:   { water: [WORLD_DECOR.pond], rock: [WORLD_DECOR.pileOfRocks] },
+  coast:   { water: [WORLD_DECOR.pond] },
+}
+
 // ── Per-environment tile config for world-scale (campaign) rendering ──────────
 // Mirrors ENV_TILES in tileIndex.ts; used by NodeMap.tsx via envDef override.
 // ground IDs still reference BASE_GROUND (BaseChip sheet) for background fills.
