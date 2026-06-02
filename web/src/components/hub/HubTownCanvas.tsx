@@ -11,7 +11,7 @@ import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS } from '../../data/hubNpcs'
 import { HUB_DOORS, HUB_INTERIORS } from '../../data/hubInteriors'
-import { EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS } from '../../data/hubConfigLoader'
+import { EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS, HUB_BLOCKED_PATHS } from '../../data/hubConfigLoader'
 import { loadPlayerAvatar } from '../../game/questline'
 import type { HubNpc } from '../../data/hubConfigLoader'
 import { CommanderState } from '../../game/commander'
@@ -70,6 +70,7 @@ interface Props {
   onDoorLocked?:     (buildingId: string, requiredItem: string) => void
   questNpcState?:    React.MutableRefObject<Map<string, 'offer' | 'ready' | null>>
   activeQuestIdsRef?: React.MutableRefObject<Set<string>>
+  completedQuestIdsRef?: React.MutableRefObject<Set<string>>
 }
 
 export function HubTownCanvas({
@@ -77,6 +78,7 @@ export function HubTownCanvas({
   returnRef, unitCards, commander, onNpcTap,
   interiorEnterRef, interiorExitRef, onExitInterior, onTileTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
+  completedQuestIdsRef,
 }: Props) {
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
@@ -360,6 +362,108 @@ export function HubTownCanvas({
       }
     }
 
+    // ── Blocked paths (quest-gated obstructions) ──────────────────────────────
+    interface BlockedNpcEntry {
+      root: PIXI.Container
+      tx: number
+      ty: number
+      proximityDialogue: { atDistance: number; text: string }[]
+      bubble: PIXI.Container | null
+      lastBubbleText: string | null
+    }
+    interface BlockedPathEntry {
+      blockedDecor: PIXI.Sprite[]
+      clearedDecor: PIXI.Sprite[]
+      blockedNpcs: BlockedNpcEntry[]
+      clearedNpcs: { root: PIXI.Container }[]
+    }
+    const blockedPathEntries = new Map<string, BlockedPathEntry>()
+    {
+      const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
+      for (const bp of HUB_BLOCKED_PATHS) {
+        const isCleared = completedQuestIdsRef?.current.has(bp.questId) ?? false
+        const entry: BlockedPathEntry = { blockedDecor: [], clearedDecor: [], blockedNpcs: [], clearedNpcs: [] }
+
+        for (const d of bp.blocked.decor ?? []) {
+          if (d.tileId === 666) continue
+          loadTileTexture(baseChipUrl, d.tileId, TILESET_COLUMNS.baseChip).then(tex => {
+            if (app.renderer == null) return
+            const s = new PIXI.Sprite(tex)
+            s.position.set(d.tx * T, d.ty * T)
+            s.width = T; s.height = T
+            s.zIndex = d.ty * T + T + 1
+            s.visible = !isCleared
+            exteriorDecorLayer.addChild(s)
+            entry.blockedDecor.push(s)
+          }).catch(() => {})
+        }
+
+        for (const d of bp.cleared.decor ?? []) {
+          if (d.tileId === 666) continue
+          loadTileTexture(baseChipUrl, d.tileId, TILESET_COLUMNS.baseChip).then(tex => {
+            if (app.renderer == null) return
+            const s = new PIXI.Sprite(tex)
+            s.position.set(d.tx * T, d.ty * T)
+            s.width = T; s.height = T
+            s.zIndex = d.ty * T + T + 1
+            s.visible = isCleared
+            exteriorDecorLayer.addChild(s)
+            entry.clearedDecor.push(s)
+          }).catch(() => {})
+        }
+
+        for (const npc of bp.blocked.npcs ?? []) {
+          const cx = npc.tx * T + T / 2
+          const cy = npc.ty * T + T
+          const npcContainer = new PIXI.Container()
+          npcContainer.zIndex = cy
+          npcContainer.visible = !isCleared
+          npcContainer.eventMode = 'static'
+          npcContainer.cursor = 'pointer'
+          npcContainer.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+            e.stopPropagation()
+            if (npc.tapDialogue) onNpcTapRef.current?.(npc.tapDialogue, npc.id)
+          })
+          loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
+            if (app.renderer == null) return
+            const s = new PIXI.Sprite(tex)
+            s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
+            s.anchor.set(0.5, 1)
+            s.position.set(cx, cy)
+            npcContainer.addChild(s)
+          }).catch(() => {})
+          npcLayer.addChild(npcContainer)
+          entry.blockedNpcs.push({ root: npcContainer, tx: npc.tx, ty: npc.ty, proximityDialogue: npc.proximityDialogue ?? [], bubble: null, lastBubbleText: null })
+        }
+
+        for (const npc of bp.cleared.npcs ?? []) {
+          const cx = npc.tx * T + T / 2
+          const cy = npc.ty * T + T
+          const npcContainer = new PIXI.Container()
+          npcContainer.zIndex = cy
+          npcContainer.visible = isCleared
+          npcContainer.eventMode = 'static'
+          npcContainer.cursor = 'pointer'
+          npcContainer.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+            e.stopPropagation()
+            if (npc.tapDialogue) onNpcTapRef.current?.(npc.tapDialogue, npc.id)
+          })
+          loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
+            if (app.renderer == null) return
+            const s = new PIXI.Sprite(tex)
+            s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
+            s.anchor.set(0.5, 1)
+            s.position.set(cx, cy)
+            npcContainer.addChild(s)
+          }).catch(() => {})
+          npcLayer.addChild(npcContainer)
+          entry.clearedNpcs.push({ root: npcContainer })
+        }
+
+        blockedPathEntries.set(bp.id, entry)
+      }
+    }
+
     // ── Exterior pickup items ──────────────────────────────────────────────────
     {
       const baseChipUrl  = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
@@ -382,20 +486,22 @@ export function HubTownCanvas({
             s.position.set(pickup.tx * T, pickup.ty * T)
             s.width = T; s.height = T
             s.visible = !pickup.questId || (activeQuestIdsRef?.current.has(pickup.questId) ?? true)
-            s.eventMode = 'static'
-            s.cursor    = 'pointer'
             if (pickup.questId) pickupQuestIds.set(pickup.id, pickup.questId)
-            s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-              e.stopPropagation()
-              s.visible = false
-              pickedUpRef.current.add(pickup.id)
-              // Reveal any chained item now that this one is collected
-              for (const [pid, sprite] of pickupSprites) {
-                const def = HUB_PICKUP_ITEMS.find(p => p.id === pid)
-                if (def?.chain === pickup.id) sprite.visible = true
-              }
-              onItemPickupRef.current?.(pickup.id, pickup.questId)
-            })
+            if (!pickup.requireTouch) {
+              s.eventMode = 'static'
+              s.cursor    = 'pointer'
+              s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+                e.stopPropagation()
+                s.visible = false
+                pickedUpRef.current.add(pickup.id)
+                // Reveal any chained item now that this one is collected
+                for (const [pid, sprite] of pickupSprites) {
+                  const def = HUB_PICKUP_ITEMS.find(p => p.id === pid)
+                  if (def?.chain === pickup.id) sprite.visible = true
+                }
+                onItemPickupRef.current?.(pickup.id, pickup.questId)
+              })
+            }
             pickupLayer.addChild(s)
             pickupSprites.set(pickup.id, s)
           }
@@ -855,20 +961,22 @@ export function HubTownCanvas({
               s.position.set(pickup.tx * T, pickup.ty * T)
               s.width = T; s.height = T
               s.visible = !pickup.questId || (activeQuestIdsRef?.current.has(pickup.questId) ?? true)
-              s.eventMode = 'static'
-              s.cursor    = 'pointer'
               if (pickup.questId) pickupQuestIds.set(pickup.id, pickup.questId)
-              s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
-                e.stopPropagation()
-                s.visible = false
-                pickedUpRef.current.add(pickup.id)
-                // Reveal chained exterior pickups if applicable
-                for (const [pid, sprite] of pickupSprites) {
-                  const def = HUB_PICKUP_ITEMS.find(p => p.id === pid)
-                  if (def?.chain === pickup.id) sprite.visible = true
-                }
-                onItemPickupRef.current?.(pickup.id, pickup.questId)
-              })
+              if (!pickup.requireTouch) {
+                s.eventMode = 'static'
+                s.cursor    = 'pointer'
+                s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+                  e.stopPropagation()
+                  s.visible = false
+                  pickedUpRef.current.add(pickup.id)
+                  // Reveal chained exterior pickups if applicable
+                  for (const [pid, sprite] of pickupSprites) {
+                    const def = HUB_PICKUP_ITEMS.find(p => p.id === pid)
+                    if (def?.chain === pickup.id) sprite.visible = true
+                  }
+                  onItemPickupRef.current?.(pickup.id, pickup.questId)
+                })
+              }
               interiorLayer.addChild(s)
               pickupSprites.set(pickup.id, s)
             }
@@ -964,6 +1072,22 @@ export function HubTownCanvas({
         const dist = Math.hypot(px - av.x, py - av.y)
         await tweenLinear(av, px, py, (dist / WALK_PX_PER_S) * 1000)
         interiorCurrentTile = [ntx, nty]
+
+        // Touch-pickup: collect requireTouch interior items when avatar walks onto their tile
+        for (const [pid, sprite] of pickupSprites) {
+          if (!sprite.visible) continue
+          const def = HUB_PICKUP_ITEMS.find(p => p.id === pid && p.building === currentInteriorId)
+          if (def?.requireTouch && def.tx === ntx && def.ty === nty) {
+            sprite.visible = false
+            pickedUpRef.current.add(pid)
+            for (const [cpid, csprite] of pickupSprites) {
+              const cdef = HUB_PICKUP_ITEMS.find(p => p.id === cpid)
+              if (cdef?.chain === pid) csprite.visible = true
+            }
+            onItemPickupRef.current?.(pid, def.questId)
+          }
+        }
+
         if (ntx === interiorExitTile[0] && nty === interiorExitTile[1]) {
           interiorIsWalking = false
           doExitInterior()
@@ -1057,6 +1181,21 @@ export function HubTownCanvas({
         currentTile = [tx, ty]
         _savedTile  = [tx, ty]
 
+        // Touch-pickup: collect requireTouch items when avatar walks onto their tile
+        for (const [pid, sprite] of pickupSprites) {
+          if (!sprite.visible) continue
+          const def = HUB_PICKUP_ITEMS.find(p => p.id === pid)
+          if (def?.requireTouch && def.tx === tx && def.ty === ty) {
+            sprite.visible = false
+            pickedUpRef.current.add(pid)
+            for (const [cpid, csprite] of pickupSprites) {
+              const cdef = HUB_PICKUP_ITEMS.find(p => p.id === cpid)
+              if (cdef?.chain === pid) csprite.visible = true
+            }
+            onItemPickupRef.current?.(pid, def.questId)
+          }
+        }
+
         // Update area name on each tile step (works on mobile where pointermove doesn't fire)
         const tilePixX = tx * T + T / 2
         const tilePixY = ty * T + T / 2
@@ -1087,7 +1226,13 @@ export function HubTownCanvas({
       activeBubbles.length = 0
       nextSpawnTimer = 0
       lastMovedMs = performance.now()
-      const path = findPath(currentTile, target, pathSet)
+      const effectivePathSet = new Set(pathSet)
+      for (const bp of HUB_BLOCKED_PATHS) {
+        if (!(completedQuestIdsRef?.current.has(bp.questId) ?? false)) {
+          for (const [btx, bty] of bp.blockedTiles) effectivePathSet.delete(`${btx},${bty}`)
+        }
+      }
+      const path = findPath(currentTile, target, effectivePathSet)
       walkQueue = path.slice(1)
       pendingScreen = nodeScreen ?? null
       if (!isWalking) processWalkQueue()
@@ -1209,6 +1354,34 @@ export function HubTownCanvas({
         const [atx, aty] = currentTile
         for (const { tx, ty, tag } of npcNameTags) {
           tag.visible = Math.max(Math.abs(tx - atx), Math.abs(ty - aty)) <= 5
+        }
+
+        // Blocked path visibility and proximity speech bubbles
+        for (const [pathId, entry] of blockedPathEntries) {
+          const bp = HUB_BLOCKED_PATHS.find(b => b.id === pathId)
+          if (!bp) continue
+          const cleared = completedQuestIdsRef?.current.has(bp.questId) ?? false
+          for (const s of entry.blockedDecor) s.visible = !cleared
+          for (const s of entry.clearedDecor) s.visible = cleared
+          for (const n of entry.clearedNpcs) n.root.visible = cleared
+          for (const n of entry.blockedNpcs) {
+            n.root.visible = !cleared
+            const dist = Math.max(Math.abs(n.tx - atx), Math.abs(n.ty - aty))
+            const match = n.proximityDialogue
+              .filter(p => dist <= p.atDistance)
+              .sort((a, b) => a.atDistance - b.atDistance)[0]
+            const newText = (!cleared && match) ? match.text : null
+            if (newText !== n.lastBubbleText) {
+              if (n.bubble) { bubbleLayer.removeChild(n.bubble); n.bubble = null }
+              if (newText !== null) {
+                const cx = n.tx * T + T / 2
+                const cy = n.ty * T + T
+                n.bubble = createSpeechBubble(newText, cx, cy)
+                bubbleLayer.addChild(n.bubble)
+              }
+              n.lastBubbleText = newText
+            }
+          }
         }
       }
 

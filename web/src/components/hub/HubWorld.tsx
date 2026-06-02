@@ -134,6 +134,16 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
     activeQuestIdsRef.current = s
   }
 
+  // Completed quest IDs: read imperatively by PixiJS ticker to gate blocked path state
+  const completedQuestIdsRef = useRef(new Set<string>())
+  {
+    const s = new Set<string>()
+    for (const quest of HUB_QUEST_DEFS) {
+      if (getQuestState(quest.id).status === 'completed') s.add(quest.id)
+    }
+    completedQuestIdsRef.current = s
+  }
+
   const scrollRef        = useRef<HTMLDivElement>(null)
   const returnRef        = useRef(null) as React.MutableRefObject<(() => void) | null>
   const interiorEnterRef = useRef<((buildingId: string) => void) | null>(null)
@@ -476,6 +486,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
             onDoorLocked={handleDoorLocked}
             questNpcState={questNpcStateRef}
             activeQuestIdsRef={activeQuestIdsRef}
+            completedQuestIdsRef={completedQuestIdsRef}
           />
         </div>
         <AreaNameBadge name={currentArea} />
