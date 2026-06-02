@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../../hooks/usePixiApp'
-import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx } from '../../../utils/terrainLayer'
+import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx, buildBorderGfx } from '../../../utils/terrainLayer'
 import { WORLD_ENV_TILES } from '../../../data/tiles/worldTileIndex'
 import { ENV_TILES } from '../../../data/tiles/tileIndex'
 
@@ -17,16 +17,18 @@ function TerrainPixi({ environment, id, w, h }: Props & { w: number; h: number }
   const envDef = WORLD_ENV_TILES[environment ?? ''] ?? ENV_TILES[environment ?? '']
 
   usePixiApp(containerRef, w, h, (app) => {
-    const base  = new PIXI.Container()
-    const river = new PIXI.Container() // not added to stage — rivers suppressed on battlefield
-    const world = new PIXI.Container()
-    const bg    = new PIXI.Container()
-    const decor = new PIXI.Container()
-    app.stage.addChild(base, bg, decor, world)
+    const base   = new PIXI.Container()
+    const river  = new PIXI.Container() // not added to stage — rivers suppressed on battlefield
+    const world  = new PIXI.Container()
+    const bg     = new PIXI.Container()
+    const decor  = new PIXI.Container()
+    const border = new PIXI.Container()
+    app.stage.addChild(base, bg, border, decor, world)
     buildTerrainGfx(base, river, world,
       { environment, envDef, id, rivers: [] },
       w, h)
     buildBgTileGfx(bg, { environment, envDef }, w, h)
+    buildBorderGfx(border, { environment, envDef }, w, h)
     buildDecorGfx(decor, { environment, envDef, id }, w, h)
   })
 
