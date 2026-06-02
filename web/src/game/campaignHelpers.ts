@@ -3,6 +3,11 @@ import { NewGameOptions, MAX_HANDICAP } from './engine'
 import { Card, SECRET_RARITIES } from './types'
 import { shuffle } from './engine/helpers'
 import { HERO_CARDS, makeNodeDeck, getCardCatalog } from './cards'
+
+const QB_ENVIRONMENTS = ['forest', 'farmland', 'ruins', 'ashen', 'sand', 'volcano', 'citadel', 'coast', 'frost', 'fungal', 'vault', 'camp'] as const
+function pickQBEnvironment(): string {
+  return QB_ENVIRONMENTS[Math.floor(Math.random() * QB_ENVIRONMENTS.length)]
+}
 import {
   buildDeckCards, DECK_MAX, STARTER_DECK, deckTotalCards,
   generateSeededPack, loadCollection, loadDeck,
@@ -35,30 +40,32 @@ export function buildQuickBattleOpts(
   const deckBonus     = Math.round(Math.max(0, DECK_MAX - deckCount) / DECK_MAX * 10)
   const adjustedHandicap = Math.min(MAX_HANDICAP, handicap + deckBonus)
 
+  const environment = pickQBEnvironment()
+
   if (mode === 'mirror') {
-    return { playerCards, opts: { playerCards, opponentHandicap: MAX_HANDICAP, prebuiltOpponentDeck: shuffle([...playerCards]) } }
+    return { playerCards, opts: { playerCards, opponentHandicap: MAX_HANDICAP, prebuiltOpponentDeck: shuffle([...playerCards]), environment } }
   }
   if (mode === 'easy') {
-    return { playerCards, opts: { playerCards, opponentHandicap: adjustedHandicap } }
+    return { playerCards, opts: { playerCards, opponentHandicap: adjustedHandicap, environment } }
   }
   if (mode === 'normal') {
     const ownedNames       = new Set(collection.filter(e => e.count > 0).map(e => e.cardName))
     const collectionPool   = getCardCatalog().filter(c => ownedNames.has(c.name))
     const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-    return { playerCards, opts: { playerCards, opponentHandicap: adjustedHandicap, opponentCardPool } }
+    return { playerCards, opts: { playerCards, opponentHandicap: adjustedHandicap, opponentCardPool, environment } }
   }
   if (mode === 'chaos') {
     const collectionPool   = makeNodeDeck(generateSeededPack(20, 'legendary'))
     const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-    return { playerCards, opts: { playerCards: opponentCardPool, opponentHandicap: 0, opponentCardPool, forgiveManaLimit: true } }
+    return { playerCards, opts: { playerCards: opponentCardPool, opponentHandicap: 0, opponentCardPool, forgiveManaLimit: true, environment } }
   }
   if (mode === 'unlimited') {
     const collectionPool   = getCardCatalog().filter(c => !SECRET_RARITIES.has(c.rarity))
     const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-    return { playerCards, opts: { playerCards, opponentHandicap: 0, opponentCardPool } }
+    return { playerCards, opts: { playerCards, opponentHandicap: 0, opponentCardPool, environment } }
   }
   if (mode === 'hero-only') {
-    return { playerCards, opts: { playerCards, opponentHandicap: 0, opponentCardPool: [...HERO_CARDS, ...HERO_CARDS, ...HERO_CARDS], forgiveManaLimit: true } }
+    return { playerCards, opts: { playerCards, opponentHandicap: 0, opponentCardPool: [...HERO_CARDS, ...HERO_CARDS, ...HERO_CARDS], forgiveManaLimit: true, environment } }
   }
   // Rarity / type filter modes
   const filterMap: Record<string, (c: Card) => boolean> = {
@@ -74,10 +81,10 @@ export function buildQuickBattleOpts(
   if (filter) {
     const collectionPool   = getCardCatalog().filter(c => filter(c) && !SECRET_RARITIES.has(c.rarity))
     const opponentCardPool = collectionPool.length >= 20 ? collectionPool : undefined
-    return { playerCards, opts: { playerCards, opponentHandicap: 0, opponentCardPool } }
+    return { playerCards, opts: { playerCards, opponentHandicap: 0, opponentCardPool, environment } }
   }
   // Fallback: easy
-  return { playerCards, opts: { playerCards, opponentHandicap: adjustedHandicap } }
+  return { playerCards, opts: { playerCards, opponentHandicap: adjustedHandicap, environment } }
 }
 
 export const HANDICAP_KEY = 'jarvs_handicap'
