@@ -693,17 +693,18 @@ export function HubTownCanvas({
     ]
 
     interface UnitNpcState {
-      sprite:           PIXI.Sprite
-      currentTile:      [number, number]
-      walkQueue:        [number, number][]
-      isWalking:        boolean
-      isGhost:          boolean
-      wanderTimer:      number
-      animFrames:       PIXI.Texture[]
-      animTimer:        number
-      animFrame:        number
-      scaredBubble:     PIXI.Container | null
-      scaredBubbleTimer: number
+      sprite:             PIXI.Sprite
+      currentTile:        [number, number]
+      walkQueue:          [number, number][]
+      isWalking:          boolean
+      isGhost:            boolean
+      wanderTimer:        number
+      animFrames:         PIXI.Texture[]
+      animTimer:          number
+      animFrame:          number
+      scaredBubble:       PIXI.Container | null
+      scaredBubbleTimer:  number
+      scaredBubbleCooldown: number
     }
 
     const unitNpcs: UnitNpcState[] = []
@@ -737,17 +738,18 @@ export function HubTownCanvas({
         npcLayer.addChild(s)
 
         const state: UnitNpcState = {
-          sprite:            s,
-          currentTile:       [tx, ty],
-          walkQueue:         [],
-          isWalking:         false,
-          wanderTimer:       500 + Math.random() * 500,
-          animFrames:        [],
-          animTimer:         0,
-          animFrame:         0,
-          isGhost:           isGhost,
-          scaredBubble:      null,
-          scaredBubbleTimer: 0,
+          sprite:               s,
+          currentTile:          [tx, ty],
+          walkQueue:            [],
+          isWalking:            false,
+          wanderTimer:          500 + Math.random() * 500,
+          animFrames:           [],
+          animTimer:            0,
+          animFrame:            0,
+          isGhost:              isGhost,
+          scaredBubble:         null,
+          scaredBubbleTimer:    0,
+          scaredBubbleCooldown: 0,
         }
         unitNpcs.push(state)
 
@@ -840,17 +842,18 @@ export function HubTownCanvas({
         if (isGhost) s.tint = 0xaaccff
         npcLayer.addChild(s)
         const state: UnitNpcState = {
-          sprite:            s,
-          currentTile:       [tx, ty],
-          walkQueue:         [],
-          isWalking:         false,
-          wanderTimer:       1000 + Math.random() * 2000,
-          animFrames:        [],
-          animTimer:         0,
-          animFrame:         0,
-          isGhost:           isGhost,
-          scaredBubble:      null,
-          scaredBubbleTimer: 0,
+          sprite:               s,
+          currentTile:          [tx, ty],
+          walkQueue:            [],
+          isWalking:            false,
+          wanderTimer:          1000 + Math.random() * 2000,
+          animFrames:           [],
+          animTimer:            0,
+          animFrame:            0,
+          isGhost:              isGhost,
+          scaredBubble:         null,
+          scaredBubbleTimer:    0,
+          scaredBubbleCooldown: 0,
         }
         unitNpcs.push(state)
         loadAnimFrames(slug, 3).then(frames => { state.animFrames = frames }).catch(() => {})
@@ -910,6 +913,7 @@ export function HubTownCanvas({
         buildingLayer.visible = true
         nodeLayer.visible     = true
         npcLayer.visible      = true
+        bubbleLayer.visible   = true
 
         // Move avatar back to exterior door position
         if (avatar && avatarInInterior) {
@@ -959,6 +963,18 @@ export function HubTownCanvas({
       buildingLayer.visible = false
       nodeLayer.visible     = false
       npcLayer.visible      = false
+      bubbleLayer.visible   = false
+
+      // Clean up any exterior bubbles/scared-bubbles before entering
+      for (const slot of activeBubbles) bubbleLayer.removeChild(slot.container)
+      activeBubbles.length = 0
+      for (const npc of unitNpcs) {
+        if (npc.scaredBubble) {
+          bubbleLayer.removeChild(npc.scaredBubble)
+          npc.scaredBubble = null
+          npc.scaredBubbleTimer = 0
+        }
+      }
 
       // Prepare interior layer
       interiorLayer.removeChildren()
@@ -1575,24 +1591,32 @@ export function HubTownCanvas({
             g.isGhost &&
             Math.max(Math.abs(npc.currentTile[0] - g.currentTile[0]), Math.abs(npc.currentTile[1] - g.currentTile[1])) <= 10
           )
-          if (nearbyGhost && !npc.scaredBubble) {
-            const phrase = SCARED_PHRASES[Math.floor(Math.random() * SCARED_PHRASES.length)]
-            const bubble = createSpeechBubble(phrase, npc.sprite.x, npc.sprite.y - SPRITE_SIZE)
-            bubble.zIndex = npc.sprite.zIndex + 1
-            bubbleLayer.addChild(bubble)
-            npc.scaredBubble      = bubble
-            npc.scaredBubbleTimer = 4000
-          } else if (!nearbyGhost && npc.scaredBubble) {
-            bubbleLayer.removeChild(npc.scaredBubble)
-            npc.scaredBubble = null
+          if (nearbyGhost) {
+            if (npc.scaredBubbleCooldown > 0) npc.scaredBubbleCooldown -= ticker.deltaMS
+            if (!npc.scaredBubble && npc.scaredBubbleCooldown <= 0) {
+              const phrase = SCARED_PHRASES[Math.floor(Math.random() * SCARED_PHRASES.length)]
+              const bubble = createSpeechBubble(phrase, npc.sprite.x, npc.sprite.y - SPRITE_SIZE)
+              bubble.zIndex = npc.sprite.zIndex + 1
+              bubbleLayer.addChild(bubble)
+              npc.scaredBubble      = bubble
+              npc.scaredBubbleTimer = 10_000
+            }
+          } else {
+            // Ghost left — remove bubble immediately and reset cooldown
+            if (npc.scaredBubble) {
+              bubbleLayer.removeChild(npc.scaredBubble)
+              npc.scaredBubble = null
+            }
+            npc.scaredBubbleCooldown = 0
           }
           if (npc.scaredBubble) {
             npc.scaredBubbleTimer -= ticker.deltaMS
             npc.scaredBubble.position.set(npc.sprite.x, npc.sprite.y - SPRITE_SIZE)
             if (npc.scaredBubbleTimer <= 0) {
               bubbleLayer.removeChild(npc.scaredBubble)
-              npc.scaredBubble      = null
-              npc.scaredBubbleTimer = 0
+              npc.scaredBubble         = null
+              npc.scaredBubbleTimer    = 0
+              npc.scaredBubbleCooldown = 10_000  // don't re-spawn while ghost is still nearby
             }
           }
         }

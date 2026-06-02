@@ -211,6 +211,20 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Auto-dismiss dialogue after 15 s — skip if it has choices (quest offers need manual input)
+  useEffect(() => {
+    const hasContent = !!(dialogueEvent?.text ?? dialogueLine)
+    const hasChoices  = !!(dialogueEvent?.choices?.length)
+    if (!hasContent || hasChoices) return
+    const after = dialogueEvent?.onClose
+    const id = setTimeout(() => {
+      setDialogueEvent(null)
+      setDialogueLine(null)
+      after?.()
+    }, 15_000)
+    return () => clearTimeout(id)
+  }, [dialogueEvent, dialogueLine])
+
   const handleAvatarMove = useCallback((px: number, py: number) => {
     const el = scrollRef.current
     if (!el) return

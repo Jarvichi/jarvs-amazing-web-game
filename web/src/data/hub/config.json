@@ -2171,15 +2171,15 @@
     },
     {
       "id": "fishing-hole",
-      "name": "Fishing Hole",
+      "name": "Rod",
       "sprite": "hub-npc-fisherman",
       "tx": 35, "ty": 39,
       "screen": "fishing",
-      "dialogue": ["The pond is calm today. Care to fish?"]
+      "dialogue": ["Nothings biting today. Maybe try again later?", "The fish are shy around here. Patience is key."]
     },
     {
-      "id": "fishing-hole",
-      "name": "Fishing Hole",
+      "id": "fishing-hole-2",
+      "name": "Captain Dan",
       "sprite": "hub-npc-fisherman",
       "tx": 34, "ty": 41,
       "screen": "fishing",
