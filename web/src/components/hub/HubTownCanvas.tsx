@@ -8,6 +8,7 @@ import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tile
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { MAP_W, MAP_H, HUB_AREAS, HUB_STREET_TILES, HUB_STREET_GROUPS, HUB_BUILDINGS, AVATAR_START, NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS, HUB_DOORS, HUB_INTERIORS, EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS, HUB_BLOCKED_PATHS, HUB_TREASURES } from '../../data/hub/loader'
 import type { HubInteriorExit } from '../../data/hub/loader'
+import { isBuildingOpen } from '../../game/hub/hubNpcSchedule'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { loadPlayerAvatar } from '../../game/questline'
@@ -111,6 +112,8 @@ export function HubTownCanvas({
   onTreasureStepRef.current   = onTreasureStep
   const isNightRef            = useRef(isNight ?? false)
   isNightRef.current          = isNight ?? false
+  const gameHourRef           = useRef(gameHour ?? 12)
+  gameHourRef.current         = gameHour ?? 12
 
   usePixiApp(containerRef, MAP_W, MAP_H, (app) => {
     app.canvas.style.touchAction = 'pan-x pan-y'
@@ -963,6 +966,12 @@ export function HubTownCanvas({
       const interior = HUB_INTERIORS[buildingId]
       if (!interior) return
 
+      // Building hours check — block entry if closed
+      if (!isBuildingOpen(interior, gameHourRef.current)) {
+        onDoorLockedRef.current?.(buildingId, 'closed')
+        return
+      }
+
       const intW = interior.width * T
       const intH = interior.height * T
       intOffX = Math.floor((MAP_W - intW) / 2)
@@ -1333,7 +1342,7 @@ export function HubTownCanvas({
             return
           }
           if (roomExit.requiredQuest && !completedQuestIdsRef.current?.has(roomExit.requiredQuest)) {
-            onDoorLockedRef.current?.(roomExit.toInteriorId, roomExit.requiredQuest)
+            onDoorLockedRef.current?.(roomExit.toInteriorId, `quest:${roomExit.requiredQuest}`)
             processInteriorWalkQueue()
             return
           }

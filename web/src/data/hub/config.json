@@ -2395,7 +2395,11 @@
           "ty": 6,
           "tileId": "chest"
         }
-      ]
+      ],
+      "hours": {
+        "open": 8,
+        "close": 20
+      }
     },
     "augment-shop": {
       "name": "Mira's Enchantment Studio",
@@ -2539,7 +2543,11 @@
           "ty": 2,
           "tileId": "wizardHatBottom"
         }
-      ]
+      ],
+      "hours": {
+        "open": 8,
+        "close": 20
+      }
     },
     "supply-shop": {
       "name": "Bramble's Supplies",
@@ -2602,7 +2610,11 @@
           "ty": 7,
           "tileId": "bookshelfBottom"
         }
-      ]
+      ],
+      "hours": {
+        "open": 8,
+        "close": 20
+      }
     },
     "scholars-hall": {
       "name": "The Scholar's Hall",
@@ -2702,7 +2714,11 @@
           "ty": 7,
           "tileId": "chest"
         }
-      ]
+      ],
+      "hours": {
+        "open": 7,
+        "close": 22
+      }
     },
     "home": {
       "name": "Your Quarters",
@@ -2894,7 +2910,11 @@
           "ty": 6,
           "tileId": "pileOfSacks"
         }
-      ]
+      ],
+      "hours": {
+        "open": 8,
+        "close": 20
+      }
     },
     "scholars-north-w": {
       "name": "Northern Library Wing",
@@ -2967,7 +2987,11 @@
           "ty": 5,
           "tileId": "chest"
         }
-      ]
+      ],
+      "hours": {
+        "open": 7,
+        "close": 22
+      }
     },
     "scholars-north-e": {
       "name": "Cartography Room",
@@ -3020,7 +3044,11 @@
           "ty": 5,
           "tileId": "barrel"
         }
-      ]
+      ],
+      "hours": {
+        "open": 7,
+        "close": 22
+      }
     },
     "scholars-hall-w": {
       "name": "The Lecture Hall",
@@ -3108,7 +3136,11 @@
           "ty": 7,
           "tileId": "chest"
         }
-      ]
+      ],
+      "hours": {
+        "open": 7,
+        "close": 22
+      }
     },
     "sw-building-b": {
       "name": "The Wanderer's Rest",
@@ -3190,7 +3222,8 @@
           "direction": "up",
           "label": "Go upstairs"
         }
-      ]
+      ],
+      "hours": "always"
     },
     "traders-building": {
       "name": "Merchant's Guild Hall",
@@ -3630,7 +3663,8 @@
           "requiredQuest": "aldous-hidden-passage",
           "label": "Hidden passage"
         }
-      ]
+      ],
+      "hours": "always"
     },
     "barracks-south": {
       "name": "South Training Hall",
@@ -3718,7 +3752,8 @@
           "ty": 7,
           "tileId": "barrel"
         }
-      ]
+      ],
+      "hours": "always"
     },
     "barracks-vault": {
       "name": "Barracks Vault",
@@ -3756,7 +3791,8 @@
           "ty": 3,
           "tileId": "barrel"
         }
-      ]
+      ],
+      "hours": "always"
     },
     "town-hall": {
       "name": "The Town Hall",
@@ -3964,7 +4000,11 @@
           "ty": 7,
           "tileId": "benchRight"
         }
-      ]
+      ],
+      "hours": {
+        "open": 8,
+        "close": 18
+      }
     },
     "sw-building-b-upstairs": {
       "name": "The Wanderer's Rest (Upstairs)",
@@ -4096,7 +4136,8 @@
           "direction": "down",
           "label": "Go downstairs"
         }
-      ]
+      ],
+      "hours": "always"
     },
     "home-barracks-passage": {
       "name": "Hidden Passage",
@@ -4159,7 +4200,43 @@
         "orin-champions-stand",
         "aldous-the-hearthstone",
         "thorin-the-last-watch"
-      ]
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 6,
+          "location": {
+            "type": "interior",
+            "buildingId": "sw-building-b-upstairs",
+            "tx": 2,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "location": {
+            "type": "exterior",
+            "tx": 19,
+            "ty": 12
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 0,
+          "location": {
+            "type": "interior",
+            "buildingId": "sw-building-b",
+            "tx": 5,
+            "ty": 5
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "sw-building-b-upstairs",
+        "tx": 2,
+        "ty": 1
+      }
     },
     {
       "id": "merchant",
@@ -4173,7 +4250,43 @@
         "Keep your coin close, wanderer. Not everyone in this town has honest intentions."
       ],
       "questGive": "merchants-herb",
-      "questReceive": "thorin-the-last-watch"
+      "questReceive": "thorin-the-last-watch",
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 6,
+          "location": {
+            "type": "interior",
+            "buildingId": "sw-building-b-upstairs",
+            "tx": 4,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "location": {
+            "type": "exterior",
+            "tx": 22,
+            "ty": 24
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 0,
+          "location": {
+            "type": "interior",
+            "buildingId": "sw-building-b",
+            "tx": 7,
+            "ty": 5
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "sw-building-b-upstairs",
+        "tx": 4,
+        "ty": 1
+      }
     },
     {
       "id": "scholar",
@@ -4185,7 +4298,43 @@
         "I have been cataloguing the Fracture shards. The answers are within your reach \u2014 if you dare.",
         "The archives hold centuries of knowledge. Most of it was lost in the Fracture. What remains is precious.",
         "Do not underestimate the power of knowing your enemy, Commander."
-      ]
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 6,
+          "location": {
+            "type": "interior",
+            "buildingId": "sw-building-b-upstairs",
+            "tx": 9,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "location": {
+            "type": "exterior",
+            "tx": 56,
+            "ty": 9
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 0,
+          "location": {
+            "type": "interior",
+            "buildingId": "sw-building-b",
+            "tx": 8,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "sw-building-b-upstairs",
+        "tx": 9,
+        "ty": 1
+      }
     },
     {
       "id": "fisherman",
@@ -4203,7 +4352,43 @@
         "fisherman-fracture-depths",
         "elder-rallying-the-hub",
         "thorin-the-last-watch"
-      ]
+      ],
+      "schedule": [
+        {
+          "startHour": 0,
+          "endHour": 6,
+          "location": {
+            "type": "interior",
+            "buildingId": "sw-building-b-upstairs",
+            "tx": 7,
+            "ty": 1
+          }
+        },
+        {
+          "startHour": 6,
+          "endHour": 20,
+          "location": {
+            "type": "exterior",
+            "tx": 40,
+            "ty": 40
+          }
+        },
+        {
+          "startHour": 20,
+          "endHour": 0,
+          "location": {
+            "type": "interior",
+            "buildingId": "sw-building-b",
+            "tx": 4,
+            "ty": 4
+          }
+        }
+      ],
+      "homeBed": {
+        "buildingId": "sw-building-b-upstairs",
+        "tx": 7,
+        "ty": 1
+      }
     },
     {
       "id": "dealer",

@@ -64,6 +64,15 @@ export interface HubInterior {
   floorTileId?: number
   wallMaterial?: WallMaterial
   exits?: HubInteriorExit[]
+  hours?: { open: number; close: number } | 'always'
+}
+
+export interface NpcScheduleEntry {
+  startHour: number
+  endHour: number
+  location:
+    | { type: 'exterior'; tx: number; ty: number }
+    | { type: 'interior'; buildingId: string; tx: number; ty: number }
 }
 
 export interface HubNpc {
@@ -79,6 +88,8 @@ export interface HubNpc {
   questReceive?: string | string[]
   innRumours?: Array<{ id: string; text: string }>
   isGhost?: boolean
+  schedule?: NpcScheduleEntry[]
+  homeBed?: { buildingId: string; tx: number; ty: number }
 }
 
 export interface HubPickupItem {
@@ -287,6 +298,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
           zlayer: d.zlayer as InteriorDecor['zlayer'],
         })),
         exits: ((rawAny.exits ?? []) as HubInteriorExit[]),
+        hours: rawAny.hours as HubInterior['hours'],
       } satisfies HubInterior,
     ]
   })
