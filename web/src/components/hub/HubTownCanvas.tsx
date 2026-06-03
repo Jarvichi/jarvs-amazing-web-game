@@ -1704,7 +1704,9 @@ export function HubTownCanvas({
       const activeBaseY      = interiorActive ? interiorIndicatorBaseY  : questIndicatorBaseY
       for (const [npcId, ind] of activeIndicators) {
         const state = questNpcState?.current.get(npcId) ?? null
-        ind.visible = state !== null
+        // Also hide the indicator when the NPC has moved inside a building
+        const npcOnExterior = namedNpcContainers.get(npcId)?.visible ?? true
+        ind.visible = state !== null && (interiorActive || npcOnExterior)
         ind.text    = state === 'ready' ? '?' : '!'
         if (state !== null) {
           const baseY = activeBaseY.get(npcId) ?? ind.y
