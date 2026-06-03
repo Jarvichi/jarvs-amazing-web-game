@@ -2399,7 +2399,8 @@
       "hours": {
         "open": 8,
         "close": 20
-      }
+      },
+      "wallTileId": "interiorWallWhite"
     },
     "augment-shop": {
       "name": "Mira's Enchantment Studio",
@@ -2614,7 +2615,8 @@
       "hours": {
         "open": 8,
         "close": 20
-      }
+      },
+      "wallTileId": "interiorWallWhite"
     },
     "scholars-hall": {
       "name": "The Scholar's Hall",
@@ -2718,7 +2720,8 @@
       "hours": {
         "open": 7,
         "close": 22
-      }
+      },
+      "wallTileId": "interiorWallWhite"
     },
     "home": {
       "name": "Your Quarters",
@@ -2852,7 +2855,8 @@
           "requiredQuest": "aldous-hidden-passage",
           "label": "Hidden passage (blocked)"
         }
-      ]
+      ],
+      "wallTileId": "interiorWallWhite"
     },
     "trader-den": {
       "name": "The Junk Trader's Den",
@@ -2914,7 +2918,8 @@
       "hours": {
         "open": 8,
         "close": 20
-      }
+      },
+      "wallTileId": "interiorWallWhite"
     },
     "scholars-north-w": {
       "name": "Northern Library Wing",
@@ -2991,7 +2996,8 @@
       "hours": {
         "open": 7,
         "close": 22
-      }
+      },
+      "wallTileId": "interiorWallWhite"
     },
     "scholars-north-e": {
       "name": "Cartography Room",
@@ -3048,7 +3054,8 @@
       "hours": {
         "open": 7,
         "close": 22
-      }
+      },
+      "wallTileId": "interiorWallWhite"
     },
     "scholars-hall-w": {
       "name": "The Lecture Hall",
@@ -3140,7 +3147,8 @@
       "hours": {
         "open": 7,
         "close": 22
-      }
+      },
+      "wallTileId": "interiorWallWhite"
     },
     "sw-building-b": {
       "name": "The Wanderer's Rest",
@@ -3223,7 +3231,8 @@
           "label": "Go upstairs"
         }
       ],
-      "hours": "always"
+      "hours": "always",
+      "wallTileId": "interiorWallWhite"
     },
     "traders-building": {
       "name": "Merchant's Guild Hall",
@@ -3296,7 +3305,8 @@
           "ty": 6,
           "tileId": "roundTable"
         }
-      ]
+      ],
+      "wallTileId": "interiorWallWhite"
     },
     "market-building": {
       "name": "The Market Hall",
@@ -3389,7 +3399,8 @@
           "ty": 7,
           "tileId": "openCrate"
         }
-      ]
+      ],
+      "wallTileId": "interiorWallWhite"
     },
     "arcade-building-e": {
       "name": "The Trophy Hall",
@@ -3449,7 +3460,8 @@
           "ty": 5,
           "tileId": "chest"
         }
-      ]
+      ],
+      "wallTileId": "interiorWallWhite"
     },
     "arcade-building-w": {
       "name": "The Games Hall",
@@ -3523,7 +3535,8 @@
           "tileId": "stool",
           "zlayer": "below"
         }
-      ]
+      ],
+      "wallTileId": "interiorWallWhite"
     },
     "barracks-north": {
       "name": "North Guard Barracks",
@@ -3664,7 +3677,8 @@
           "label": "Hidden passage"
         }
       ],
-      "hours": "always"
+      "hours": "always",
+      "wallTileId": "interiorWallWhite"
     },
     "barracks-south": {
       "name": "South Training Hall",
@@ -3753,7 +3767,8 @@
           "tileId": "barrel"
         }
       ],
-      "hours": "always"
+      "hours": "always",
+      "wallTileId": "interiorWallWhite"
     },
     "barracks-vault": {
       "name": "Barracks Vault",
@@ -3792,7 +3807,8 @@
           "tileId": "barrel"
         }
       ],
-      "hours": "always"
+      "hours": "always",
+      "wallTileId": "interiorWallWhite"
     },
     "town-hall": {
       "name": "The Town Hall",
@@ -4004,7 +4020,8 @@
       "hours": {
         "open": 8,
         "close": 18
-      }
+      },
+      "wallTileId": "interiorWallWhite"
     },
     "sw-building-b-upstairs": {
       "name": "The Wanderer's Rest (Upstairs)",
@@ -4137,7 +4154,8 @@
           "label": "Go downstairs"
         }
       ],
-      "hours": "always"
+      "hours": "always",
+      "wallTileId": "interiorWallWhite"
     },
     "home-barracks-passage": {
       "name": "Hidden Passage",
@@ -4177,7 +4195,8 @@
           "requiredQuest": "aldous-hidden-passage",
           "label": "Into barracks"
         }
-      ]
+      ],
+      "wallTileId": "interiorWallWhite"
     }
   },
   "npcs": [
