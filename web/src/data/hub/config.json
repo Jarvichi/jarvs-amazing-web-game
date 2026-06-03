@@ -3085,42 +3085,42 @@
     {
       "tx": 36,
       "ty": 60,
-      "tileId": "portcullisTop"
+      "tileId": "portcullisTopLeft"
     },
     {
       "tx": 37,
       "ty": 60,
-      "tileId": "portcullisTop"
+      "tileId": "portcullisTopRight"
     },
     {
       "tx": 38,
       "ty": 60,
-      "tileId": "portcullisTop"
+      "tileId": "portcullisTopLeft"
     },
     {
       "tx": 39,
       "ty": 60,
-      "tileId": "portcullisTop"
+      "tileId": "portcullisTopRight"
     },
     {
       "tx": 36,
       "ty": 61,
-      "tileId": "portcullisBottom"
+      "tileId": "portcullisBottomLeft"
     },
     {
       "tx": 37,
       "ty": 61,
-      "tileId": "portcullisBottom"
+      "tileId": "portcullisBottomRight"
     },
     {
       "tx": 38,
       "ty": 61,
-      "tileId": "portcullisBottom"
+      "tileId": "portcullisBottomLeft"
     },
     {
       "tx": 39,
       "ty": 61,
-      "tileId": "portcullisBottom"
+      "tileId": "portcullisBottomRight"
     },
     {
       "comment": "south expansion atmosphere"
