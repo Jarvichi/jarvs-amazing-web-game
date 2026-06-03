@@ -8,7 +8,7 @@ import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tile
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { MAP_W, MAP_H, HUB_AREAS, HUB_STREET_TILES, HUB_STREET_GROUPS, HUB_BUILDINGS, AVATAR_START, NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS, HUB_DOORS, HUB_INTERIORS, EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS, HUB_BLOCKED_PATHS, HUB_TREASURES } from '../../data/hub/loader'
 import type { HubInteriorExit } from '../../data/hub/loader'
-import { isBuildingOpen } from '../../game/hub/hubNpcSchedule'
+import { isBuildingOpen, getNpcLocation } from '../../game/hub/hubNpcSchedule'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { loadPlayerAvatar } from '../../game/questline'
@@ -618,6 +618,8 @@ export function HubTownCanvas({
     // Quest indicators: keyed by npcId, updated imperatively in the ticker
     const questIndicators     = new Map<string, PIXI.Text>()
     const questIndicatorBaseY = new Map<string, number>()
+    // Named NPC containers: keyed by npcId for schedule-driven visibility
+    const namedNpcContainers  = new Map<string, PIXI.Container>()
     // Interior quest indicators: rebuilt each time we enter a building
     const interiorQuestIndicators     = new Map<string, PIXI.Text>()
     const interiorIndicatorBaseY      = new Map<string, number>()
@@ -641,6 +643,7 @@ export function HubTownCanvas({
         }
       })
       npcLayer.addChild(npcContainer)
+      namedNpcContainers.set(npc.id, npcContainer)
       if (npc.dialogue.length > 0) npcBubbleTargets.push({ npc, cx, cy })
 
       if (npc.questGive || npc.questReceive) {
@@ -1212,6 +1215,34 @@ export function HubTownCanvas({
         }).catch(() => {})
       }
 
+      // Scheduled exterior NPCs — render inside this building when their schedule says so
+      const scheduledVisitors = EXTERIOR_NPCS.filter(npc => {
+        if (!npc.schedule) return false
+        const loc = getNpcLocation(npc, gameHourRef.current)
+        return loc?.type === 'interior' && loc.buildingId === buildingId
+      })
+      for (const npc of scheduledVisitors) {
+        const loc = getNpcLocation(npc, gameHourRef.current) as { type: 'interior'; buildingId: string; tx: number; ty: number }
+        loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
+          if (!interiorActive || currentInteriorId !== buildingId) return
+          const s = new PIXI.Sprite(tex)
+          s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
+          s.anchor.set(0.5, 1)
+          s.position.set(loc.tx * T + T / 2, loc.ty * T + T)
+          s.eventMode = 'static'
+          s.cursor    = 'pointer'
+          s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+            e.stopPropagation()
+            if (npc.dialogue.length > 0 || npc.questGive || npc.questReceive) {
+              const idx = npcDialogueIndex.get(npc.id) ?? 0
+              onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length] ?? '', npc.id)
+              npcDialogueIndex.set(npc.id, idx + 1)
+            }
+          })
+          interiorLayer.addChild(s)
+        }).catch(() => {})
+      }
+
       // Quest indicators for interior NPCs
       interiorQuestIndicators.clear()
       interiorIndicatorBaseY.clear()
@@ -1235,14 +1266,27 @@ export function HubTownCanvas({
       nameLabel.position.set(T + 4, 4)
       interiorLayer.addChild(nameLabel)
 
-      // Exit marker
-      const exitMarker = new PIXI.Text({
-        text: '▼ EXIT',
-        style: { fontSize: 8, fill: '#88ff88', fontFamily: 'monospace', fontWeight: 'bold' },
-      })
-      exitMarker.anchor.set(0.5, 0)
-      exitMarker.position.set(exitTx * T + T / 2, (interior.height - 1) * T + 2)
-      interiorLayer.addChild(exitMarker)
+      // Exit marker (standard "leave building" exit, only for ground-level rooms)
+      if (!isSubRoom) {
+        const exitMarker = new PIXI.Text({
+          text: '▼ EXIT',
+          style: { fontSize: 8, fill: '#88ff88', fontFamily: 'monospace', fontWeight: 'bold' },
+        })
+        exitMarker.anchor.set(0.5, 0)
+        exitMarker.position.set(exitTx * T + T / 2, (interior.height - 1) * T + 2)
+        interiorLayer.addChild(exitMarker)
+      }
+      // Room-exit direction markers (stairs, passages)
+      for (const exit of interior.exits ?? []) {
+        const arrow = exit.direction === 'up' ? '▲' : exit.direction === 'down' ? '▼' : '→'
+        const marker = new PIXI.Text({
+          text: arrow,
+          style: { fontSize: 10, fill: '#aaddff', fontFamily: 'monospace', fontWeight: 'bold' },
+        })
+        marker.anchor.set(0.5, 1)
+        marker.position.set(exit.tx * T + T / 2, exit.ty * T)
+        interiorLayer.addChild(marker)
+      }
 
       // Move avatar into interior (on top of solid/below decor)
       if (avatar) {
@@ -1665,6 +1709,16 @@ export function HubTownCanvas({
         if (state !== null) {
           const baseY = activeBaseY.get(npcId) ?? ind.y
           ind.y = baseY + Math.sin(performance.now() / 400) * 3
+        }
+      }
+
+      // Named NPC visibility — hide when schedule says they're inside a building
+      if (!interiorActive) {
+        for (const [npcId, container] of namedNpcContainers) {
+          const npc = EXTERIOR_NPCS.find(n => n.id === npcId)
+          if (!npc?.schedule) continue
+          const loc = getNpcLocation(npc, gameHourRef.current)
+          container.visible = !loc || loc.type === 'exterior'
         }
       }
 
