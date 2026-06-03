@@ -1385,7 +1385,7 @@ export function HubTownCanvas({
             processInteriorWalkQueue()
             return
           }
-          if (roomExit.requiredQuest && !completedQuestIdsRef.current?.has(roomExit.requiredQuest)) {
+          if (roomExit.requiredQuest && !completedQuestIdsRef?.current.has(roomExit.requiredQuest)) {
             onDoorLockedRef.current?.(roomExit.toInteriorId, `quest:${roomExit.requiredQuest}`)
             processInteriorWalkQueue()
             return
