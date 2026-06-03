@@ -139,21 +139,23 @@ export function HubTownCanvas({
     worldLayer.sortableChildren  = true
     interiorLayer.visible = false
     const highlightGfx  = new PIXI.Graphics()
-    // Night-dimming overlay — isolated render group so 'erase' blend punches holes
-    // through only this container's texture rather than the whole stage
-    const nightContainer = new PIXI.Container()
-    nightContainer.enableRenderGroup()
-    const nightBase  = new PIXI.Graphics()
-    nightBase.rect(0, 0, MAP_W, MAP_H).fill({ color: 0x000820, alpha: 0.80 })
-    const nightHoles = new PIXI.Graphics()
-    nightHoles.blendMode = 'erase'
-    nightContainer.addChild(nightBase, nightHoles)
-    nightContainer.visible = false
+    // Night-dimming overlay — canvas 2D with destination-out pokes transparent holes
+    // through a dark rect; PIXI scales the low-res canvas up via bilinear filtering
+    const NIGHT_CANVAS_SCALE = 8
+    const nightCanvas  = document.createElement('canvas')
+    nightCanvas.width  = Math.ceil(MAP_W / NIGHT_CANVAS_SCALE)
+    nightCanvas.height = Math.ceil(MAP_H / NIGHT_CANVAS_SCALE)
+    const nightCtx     = nightCanvas.getContext('2d')!
+    const nightTexture = PIXI.Texture.from(nightCanvas)
+    const nightSprite  = new PIXI.Sprite(nightTexture)
+    nightSprite.width   = MAP_W
+    nightSprite.height  = MAP_H
+    nightSprite.visible = false
     // Keep legacy aliases so existing code below compiles unchanged
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
     const exteriorDecorLayer = spriteLayer
-    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, pickupLayer, nodeLayer, worldLayer, nightContainer, interiorLayer, bubbleLayer, highlightGfx)
+    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, pickupLayer, nodeLayer, worldLayer, nightSprite, interiorLayer, bubbleLayer, highlightGfx)
 
     // Keyed by pickupId; used to imperatively show/hide sprites when items are collected
     const pickupSprites  = new Map<string, PIXI.Sprite>()
@@ -1740,32 +1742,46 @@ export function HubTownCanvas({
         }
       }
 
-      // Night dimming — erase circles cut through the dark base via destination-out
+      // Night dimming — canvas 2D destination-out digs transparent torch-light holes
       if (isNightRef.current && !interiorActive && avatar) {
-        nightContainer.visible = true
-        nightHoles.clear()
-        const ax = avatar.x
-        const ay = avatar.y
-        // Draw rings from outer→inner; each inner ring stacks more erase, producing soft gradient
-        const STEPS = 8
-        for (let i = 1; i <= STEPS; i++) {
-          const t = i / STEPS
-          const r = NIGHT_LIGHT_OUTER - (NIGHT_LIGHT_OUTER - NIGHT_LIGHT_INNER) * t
-          nightHoles.circle(ax, ay, r).fill({ color: 0xffffff, alpha: t })
-        }
+        nightSprite.visible = true
+        const cw = nightCanvas.width
+        const ch = nightCanvas.height
+        const cs = 1 / NIGHT_CANVAS_SCALE
+        nightCtx.clearRect(0, 0, cw, ch)
+        nightCtx.fillStyle = 'rgba(0,8,32,0.80)'
+        nightCtx.fillRect(0, 0, cw, ch)
+        nightCtx.globalCompositeOperation = 'destination-out'
+        // Avatar torch: radial gradient from fully transparent (innerR) to no-erase (outerR)
+        const ax = avatar.x * cs, ay = avatar.y * cs
+        const innerR = NIGHT_LIGHT_INNER * cs, outerR = NIGHT_LIGHT_OUTER * cs
+        const grad = nightCtx.createRadialGradient(ax, ay, innerR, ax, ay, outerR)
+        grad.addColorStop(0, 'rgba(0,0,0,1)')
+        grad.addColorStop(1, 'rgba(0,0,0,0)')
+        nightCtx.fillStyle = grad
+        nightCtx.beginPath()
+        nightCtx.arc(ax, ay, outerR, 0, Math.PI * 2)
+        nightCtx.fill()
         // Named NPC glows
+        nightCtx.fillStyle = 'rgba(0,0,0,0.85)'
         for (const [, container] of namedNpcContainers) {
           if (container.visible && container.children.length > 0) {
             const s = container.children[0] as PIXI.Sprite
-            nightHoles.circle(s.x, s.y, NIGHT_NPC_LIGHT_R).fill({ color: 0xffffff, alpha: 1 })
+            nightCtx.beginPath()
+            nightCtx.arc(s.x * cs, s.y * cs, NIGHT_NPC_LIGHT_R * cs, 0, Math.PI * 2)
+            nightCtx.fill()
           }
         }
         // Ambient NPC glows
         for (const npc of unitNpcs) {
-          nightHoles.circle(npc.sprite.x, npc.sprite.y, NIGHT_NPC_LIGHT_R * 0.6).fill({ color: 0xffffff, alpha: 1 })
+          nightCtx.beginPath()
+          nightCtx.arc(npc.sprite.x * cs, npc.sprite.y * cs, NIGHT_NPC_LIGHT_R * 0.6 * cs, 0, Math.PI * 2)
+          nightCtx.fill()
         }
+        nightCtx.globalCompositeOperation = 'source-over'
+        nightTexture.source.update()
       } else {
-        nightContainer.visible = false
+        nightSprite.visible = false
       }
 
       // Quest pickup visibility — only show while the associated quest is active
