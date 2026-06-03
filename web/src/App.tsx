@@ -324,6 +324,13 @@ export default function App() {
       return { screen: 'actcomplete' as Screen, gameState: null as GameState | null, run: savedRun, isCampaign: false }
     }
     if (isHubWorldUnlocked() && loadHubDefault() !== 'title' && loadSkipIntro()) return { screen: 'hubworld' as Screen, gameState: null as GameState | null, run: savedRun as RunState | null, isCampaign: false }
+    // Restore an in-progress endless run interrupted by a page reload (e.g. SW auto-update)
+    const savedEndless = loadBattleState()
+    if (savedEndless?.endlessMode && savedEndless.phase?.type !== 'gameOver') {
+      const endlessArch = loadPlayerArchetype()
+      if (endlessArch) savedEndless.archetypePassive = endlessArch
+      return { screen: 'playing' as Screen, gameState: savedEndless, run: null as RunState | null, isCampaign: false }
+    }
     return { screen: (loadSkipIntro() ? 'title' : 'intro') as Screen, gameState: null as GameState | null, run: savedRun as RunState | null, isCampaign: false }
   })
 
@@ -724,6 +731,7 @@ export default function App() {
   }, [launchQuickBattle])
 
   const launchEndless = useCallback(() => {
+    clearBattleState()
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
     battleFlawlessRef.current = true
@@ -1938,6 +1946,7 @@ export default function App() {
         saveDailyChallengeResult(false)
       }
       isDailyChallengeRef.current = false
+      clearBattleState()
       dispatch({ type: 'END' })
       setScreen('title')
     }
