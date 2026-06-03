@@ -24,6 +24,10 @@ const WALK_PX_PER_S     = 160
 const NPC_WALK_PX_PER_S = 80
 const COURTYARD_PX  = { x: AVATAR_START[0] * T + T / 2, y: AVATAR_START[1] * T + T }
 
+const NIGHT_LIGHT_INNER  = 4 * T   // fully lit within this radius of avatar
+const NIGHT_LIGHT_OUTER  = 7 * T   // fully dark beyond this radius
+const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
+
 let _savedTile: [number, number] | null = null
 export function getSavedHubTile(): [number, number] | null { return _savedTile }
 
@@ -134,12 +138,14 @@ export function HubTownCanvas({
     spriteLayer.sortableChildren = true
     worldLayer.sortableChildren  = true
     interiorLayer.visible = false
-    const highlightGfx = new PIXI.Graphics()
+    const highlightGfx  = new PIXI.Graphics()
+    const nightOverlay  = new PIXI.Graphics()
+    nightOverlay.visible = false
     // Keep legacy aliases so existing code below compiles unchanged
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
     const exteriorDecorLayer = spriteLayer
-    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, pickupLayer, nodeLayer, worldLayer, interiorLayer, bubbleLayer, highlightGfx)
+    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, pickupLayer, nodeLayer, worldLayer, nightOverlay, interiorLayer, bubbleLayer, highlightGfx)
 
     // Keyed by pickupId; used to imperatively show/hide sprites when items are collected
     const pickupSprites  = new Map<string, PIXI.Sprite>()
@@ -1724,6 +1730,40 @@ export function HubTownCanvas({
           const loc = getNpcLocation(npc, gameHourRef.current)
           container.visible = !loc || loc.type === 'exterior'
         }
+      }
+
+      // Night dimming — dark vignette with torch-light holes around avatar and NPCs
+      if (isNightRef.current && !interiorActive && avatar) {
+        nightOverlay.visible = true
+        nightOverlay.clear()
+        const ax = avatar.x
+        const ay = avatar.y
+        // Pass 1 (alpha 0.80): full dark except inside NIGHT_LIGHT_OUTER
+        nightOverlay.rect(0, 0, MAP_W, MAP_H).circle(ax, ay, NIGHT_LIGHT_OUTER)
+        for (const [, container] of namedNpcContainers) {
+          if (container.visible && container.children.length > 0) {
+            const s = container.children[0] as PIXI.Sprite
+            nightOverlay.circle(s.x, s.y, NIGHT_NPC_LIGHT_R * 1.5)
+          }
+        }
+        for (const npc of unitNpcs) {
+          nightOverlay.circle(npc.sprite.x, npc.sprite.y, NIGHT_NPC_LIGHT_R)
+        }
+        nightOverlay.fill({ color: 0x000820, alpha: 0.80, fillRule: 'evenodd' })
+        // Pass 2 (alpha 0.40): transition band between NIGHT_LIGHT_INNER and NIGHT_LIGHT_OUTER
+        nightOverlay.rect(0, 0, MAP_W, MAP_H).circle(ax, ay, NIGHT_LIGHT_INNER)
+        for (const [, container] of namedNpcContainers) {
+          if (container.visible && container.children.length > 0) {
+            const s = container.children[0] as PIXI.Sprite
+            nightOverlay.circle(s.x, s.y, NIGHT_NPC_LIGHT_R)
+          }
+        }
+        for (const npc of unitNpcs) {
+          nightOverlay.circle(npc.sprite.x, npc.sprite.y, NIGHT_NPC_LIGHT_R * 0.5)
+        }
+        nightOverlay.fill({ color: 0x000820, alpha: 0.40, fillRule: 'evenodd' })
+      } else {
+        nightOverlay.visible = false
       }
 
       // Quest pickup visibility — only show while the associated quest is active
