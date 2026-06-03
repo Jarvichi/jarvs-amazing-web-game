@@ -1275,12 +1275,12 @@ export function HubTownCanvas({
         interiorIndicatorBaseY.set(npc.id, indBaseY)
       }
 
-      // Room name label
+      // Room name label — sits above the top wall row (ty=0 occupies y=0..T)
       const nameLabel = new PIXI.Text({
         text: interior.name,
         style: { fontSize: 10, fill: '#c8e8c8', fontFamily: 'monospace' },
       })
-      nameLabel.position.set(T + 4, 4)
+      nameLabel.position.set(T + 4, -14)
       interiorLayer.addChild(nameLabel)
 
       // Exit marker (standard "leave building" exit, only for ground-level rooms)
