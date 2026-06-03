@@ -29,6 +29,8 @@ import { addCollectible, addConsumable, getCollectibles } from '../../game/itemS
 import { QuestsModal } from './QuestsModal'
 import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
+import { useHubClock } from '../../hooks/useHubClock'
+import { formatGameTime } from '../../game/hub/hubClock'
 
 const T = 32
 const INITIAL_SCROLL = {
@@ -189,6 +191,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       catalogTotal: catalog.length,
     }
   }, [])
+
+  const { gameHour, isNight: isGameNight } = useHubClock()
 
   // Keys the player currently holds (determines locked door access)
   const doorKeys = useMemo(() => {
@@ -491,6 +495,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       <Toolbar>
         <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
         <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
+        <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
         <ToolbarSpacer/>
         <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
@@ -532,6 +537,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
             completedQuestIdsRef={completedQuestIdsRef}
             collectedTreasureIds={collectedTreasureIds}
             onTreasureStep={handleTreasureStep}
+            gameHour={gameHour}
+            isNight={isGameNight}
           />
         </div>
         <AreaNameBadge name={currentArea} />

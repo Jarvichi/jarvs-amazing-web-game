@@ -70,6 +70,8 @@ interface Props {
   completedQuestIdsRef?: React.MutableRefObject<Set<string>>
   collectedTreasureIds?: Set<string>
   onTreasureStep?:       (id: string) => void
+  gameHour?:             number
+  isNight?:              boolean
 }
 
 export function HubTownCanvas({
@@ -78,6 +80,7 @@ export function HubTownCanvas({
   interiorEnterRef, interiorExitRef, onExitInterior, onTileTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
+  gameHour, isNight,
 }: Props) {
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
@@ -105,6 +108,8 @@ export function HubTownCanvas({
   const collectedTreasureRef  = useRef<Set<string>>(new Set(collectedTreasureIds))
   const onTreasureStepRef     = useRef(onTreasureStep)
   onTreasureStepRef.current   = onTreasureStep
+  const isNightRef            = useRef(isNight ?? false)
+  isNightRef.current          = isNight ?? false
 
   usePixiApp(containerRef, MAP_W, MAP_H, (app) => {
     app.canvas.style.touchAction = 'pan-x pan-y'
@@ -731,7 +736,7 @@ export function HubTownCanvas({
 
       texPromise.then(tex => {
         if (app.renderer == null) return
-        const isGhost = Math.random() < 0.01  // 1% chance to spawn as a ghost
+        const isGhost = Math.random() < (isNightRef.current ? 0.10 : 0.01)
         const s = new PIXI.Sprite(tex)
         s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
         s.anchor.set(0.5, 1)
@@ -836,7 +841,7 @@ export function HubTownCanvas({
         : loadTextureUrl(`${base}sprites/${slug}.svg`).catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
       texPromise.then(tex => {
         if (app.renderer == null) return
-        const isGhost = Math.random() < 0.01
+        const isGhost = Math.random() < (isNightRef.current ? 0.10 : 0.01)
         const s = new PIXI.Sprite(tex)
         s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
         s.anchor.set(0.5, 1)
