@@ -7,8 +7,9 @@ import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileTexture } fr
 import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { MAP_W, MAP_H, HUB_AREAS, HUB_STREET_TILES, HUB_STREET_GROUPS, HUB_BUILDINGS, AVATAR_START, NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS, HUB_DOORS, HUB_INTERIORS, EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS, HUB_BLOCKED_PATHS, HUB_TREASURES } from '../../data/hub/loader'
-import type { HubInteriorExit } from '../../data/hub/loader'
+import type { HubInteriorExit, NpcScheduleEntry } from '../../data/hub/loader'
 import { isBuildingOpen, getNpcLocation } from '../../game/hub/hubNpcSchedule'
+import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { loadPlayerAvatar } from '../../game/questline'
@@ -121,6 +122,8 @@ export function HubTownCanvas({
   isNightRef.current          = isNight ?? false
   const gameHourRef           = useRef(gameHour ?? 12)
   gameHourRef.current         = gameHour ?? 12
+  // Tracks the last hour that triggered NPC schedule walks — owned by the ticker, not updated per-render
+  const lastScheduleHourRef   = useRef(gameHour ?? 12)
 
   usePixiApp(containerRef, MAP_W, MAP_H, (app) => {
     app.canvas.style.touchAction = 'pan-x pan-y'
@@ -640,14 +643,37 @@ export function HubTownCanvas({
     const questIndicatorBaseY = new Map<string, number>()
     // Named NPC containers: keyed by npcId for schedule-driven visibility
     const namedNpcContainers  = new Map<string, PIXI.Container>()
+    // Walk state for named NPCs — tracks current tile and in-progress walk queue
+    interface NamedNpcWalkState {
+      currentTx: number
+      currentTy: number
+      walkQueue: [number, number][]
+      isWalking: boolean
+      isInside: boolean
+      currentBuildingId: string | null
+    }
+    const namedNpcWalkStates = new Map<string, NamedNpcWalkState>()
     // Interior quest indicators: rebuilt each time we enter a building
     const interiorQuestIndicators     = new Map<string, PIXI.Text>()
     const interiorIndicatorBaseY      = new Map<string, number>()
 
     const npcBubbleTargets: { npc: HubNpc; cx: number; cy: number }[] = []
     for (const npc of EXTERIOR_NPCS) {
-      const cx = npc.tx * T + T / 2
-      const cy = npc.ty * T + T
+      // Start NPC at their scheduled position so they appear in the right place on load
+      const initLoc = npc.schedule ? getNpcLocation(npc, gameHourRef.current) : null
+      const startTx = initLoc?.type === 'exterior' ? initLoc.tx : npc.tx
+      const startTy = initLoc?.type === 'exterior' ? initLoc.ty : npc.ty
+      const cx = startTx * T + T / 2
+      const cy = startTy * T + T
+      const walkState: NamedNpcWalkState = {
+        currentTx: startTx,
+        currentTy: startTy,
+        walkQueue: [],
+        isWalking: false,
+        isInside: initLoc?.type === 'interior',
+        currentBuildingId: initLoc?.type === 'interior' ? initLoc.buildingId : null,
+      }
+      namedNpcWalkStates.set(npc.id, walkState)
       const isCommanderNpc = npc.id === 'commander-post'
 
       const npcContainer = new PIXI.Container()
@@ -664,6 +690,7 @@ export function HubTownCanvas({
       })
       npcLayer.addChild(npcContainer)
       namedNpcContainers.set(npc.id, npcContainer)
+      if (walkState.isInside) npcContainer.visible = false
       if (npc.dialogue.length > 0) npcBubbleTargets.push({ npc, cx, cy })
 
       if (npc.questGive || npc.questReceive) {
@@ -713,12 +740,12 @@ export function HubTownCanvas({
     }
 
     // ── NPC name tags (show within 5 tiles of avatar) ─────────────────────────
-    const npcNameTags: { npcId: string; tx: number; ty: number; tag: PIXI.Container }[] = []
+    const npcNameTags: { npcId: string; tag: PIXI.Container }[] = []
     for (const { npc, cx, cy } of npcBubbleTargets) {
       const tag = createNameTag(npc.name, cx, cy)
       tag.visible = false
       bubbleLayer.addChild(tag)
-      npcNameTags.push({ npcId: npc.id, tx: npc.tx, ty: npc.ty, tag })
+      npcNameTags.push({ npcId: npc.id, tag })
     }
 
     // ── Card-unit NPCs ─────────────────────────────────────────────────────────
@@ -826,6 +853,85 @@ export function HubTownCanvas({
       } catch (e) {
         npc.isWalking = false
         rollbar.error('[HubTownCanvas] processNpcWalkQueue error', { error: String(e) })
+      }
+    }
+
+    async function processNamedNpcWalkQueue(
+      ws: NamedNpcWalkState,
+      container: PIXI.Container,
+    ) {
+      const sprite = container.children[0] as PIXI.Sprite | undefined
+      if (!sprite) return
+      while (ws.walkQueue.length > 0) {
+        const [tx, ty] = ws.walkQueue.shift()!
+        const targetX = tx * T + T / 2
+        const targetY = ty * T + T
+        const dist = Math.hypot(targetX - sprite.x, targetY - sprite.y)
+        const duration = (dist / NPC_WALK_PX_PER_S) * 1000
+        if (targetX < sprite.x - 1) sprite.scale.x = -Math.abs(sprite.scale.x)
+        else if (targetX > sprite.x + 1) sprite.scale.x = Math.abs(sprite.scale.x)
+        await tweenLinear(sprite, targetX, targetY, duration)
+        ws.currentTx = tx
+        ws.currentTy = ty
+        container.zIndex = sprite.y
+      }
+    }
+
+    async function walkNamedNpc(
+      npc: HubNpc,
+      ws: NamedNpcWalkState,
+      container: PIXI.Container,
+      newLoc: NpcScheduleEntry['location'] | null,
+    ) {
+      if (ws.isWalking) return
+      ws.isWalking = true
+      try {
+        const sprite = container.children[0] as PIXI.Sprite | undefined
+        if (!sprite) return
+
+        const effectiveSet = new Set(pathSet)
+        for (const bp of HUB_BLOCKED_PATHS) {
+          if (!(completedQuestIdsRef?.current.has(bp.questId) ?? false)) {
+            for (const [btx, bty] of bp.blockedTiles) effectiveSet.delete(`${btx},${bty}`)
+          }
+        }
+
+        if (!newLoc || newLoc.type === 'exterior') {
+          const destTx = newLoc?.tx ?? npc.tx
+          const destTy = newLoc?.ty ?? npc.ty
+
+          if (ws.isInside) {
+            // Emerge at door of the building they were in
+            const door = HUB_DOORS.find(d => d.buildingId === ws.currentBuildingId)
+            if (door) {
+              sprite.x = door.tx * T + T / 2
+              sprite.y = door.ty * T + T
+              ws.currentTx = door.tx
+              ws.currentTy = door.ty
+              container.zIndex = sprite.y
+            }
+            container.visible = true
+            ws.isInside = false
+            ws.currentBuildingId = null
+          }
+
+          const path = findPath([ws.currentTx, ws.currentTy], [destTx, destTy], effectiveSet)
+          ws.walkQueue = path.length > 1 ? path.slice(1) : []
+          await processNamedNpcWalkQueue(ws, container)
+        } else {
+          // Going inside a building — walk to door then hide
+          const door = HUB_DOORS.find(d => d.buildingId === newLoc.buildingId)
+          if (door) {
+            const path = findPath([ws.currentTx, ws.currentTy], [door.tx, door.ty], effectiveSet)
+            ws.walkQueue = path.length > 1 ? path.slice(1) : []
+            await processNamedNpcWalkQueue(ws, container)
+          }
+          container.visible = false
+          ws.isInside = true
+          ws.currentBuildingId = newLoc.buildingId
+        }
+      } finally {
+        ws.isWalking = false
       }
     }
 
@@ -1695,9 +1801,17 @@ export function HubTownCanvas({
       // NPC name tag proximity (exterior only)
       if (!interiorActive) {
         const [atx, aty] = currentTile
-        for (const { npcId, tx, ty, tag } of npcNameTags) {
-          const npcOnExterior = namedNpcContainers.get(npcId)?.visible ?? true
-          tag.visible = npcOnExterior && Math.max(Math.abs(tx - atx), Math.abs(ty - aty)) <= 5
+        for (const { npcId, tag } of npcNameTags) {
+          const container = namedNpcContainers.get(npcId)
+          const npcOnExterior = container?.visible ?? true
+          const ws = namedNpcWalkStates.get(npcId)
+          const ntx = ws?.currentTx ?? 0
+          const nty = ws?.currentTy ?? 0
+          tag.visible = npcOnExterior && Math.max(Math.abs(ntx - atx), Math.abs(nty - aty)) <= 5
+          if (npcOnExterior && container?.children.length) {
+            const s = container.children[0] as PIXI.Sprite
+            tag.position.set(s.x, s.y - SPRITE_SIZE - 4)
+          }
         }
 
         // Blocked path visibility and proximity speech bubbles
@@ -1744,24 +1858,40 @@ export function HubTownCanvas({
         }
       }
 
-      // Named NPC visibility — hide when schedule says they're inside a building
-      if (!interiorActive) {
+      // Named NPC schedule walk — fire walks when game hour changes
+      if (!interiorActive && gameHourRef.current !== lastScheduleHourRef.current) {
+        lastScheduleHourRef.current = gameHourRef.current
         for (const [npcId, container] of namedNpcContainers) {
           const npc = EXTERIOR_NPCS.find(n => n.id === npcId)
           if (!npc?.schedule) continue
-          const loc = getNpcLocation(npc, gameHourRef.current)
-          container.visible = !loc || loc.type === 'exterior'
+          const ws = namedNpcWalkStates.get(npcId)
+          if (!ws) continue
+          const newLoc = getNpcLocation(npc, gameHourRef.current)
+          walkNamedNpc(npc, ws, container, newLoc)
         }
       }
 
-      // Night dimming — canvas 2D destination-out digs transparent torch-light holes
-      if (isNightRef.current && !interiorActive && avatar) {
+      // Night dimming — canvas 2D destination-out digs transparent torch-light holes.
+      // nightAlpha fades in over dusk (19:30→20:00) and out over dawn (05:30→06:00).
+      const _nh = getGameHour()
+      const _nm = getGameMinute()
+      let nightAlpha: number
+      if (_nh >= 20 || _nh < 5) {
+        nightAlpha = 1.0
+      } else if (_nh === 19 && _nm >= 30) {
+        nightAlpha = (_nm - 30) / 30
+      } else if (_nh === 5 && _nm >= 30) {
+        nightAlpha = 1 - (_nm - 30) / 30
+      } else {
+        nightAlpha = 0.0
+      }
+      if (nightAlpha > 0 && !interiorActive && avatar) {
         nightSprite.visible = true
         const cw = nightCanvas.width
         const ch = nightCanvas.height
         const cs = 1 / NIGHT_CANVAS_SCALE
         nightCtx.clearRect(0, 0, cw, ch)
-        nightCtx.fillStyle = 'rgba(0,8,32,0.80)'
+        nightCtx.fillStyle = `rgba(0,8,32,${(0.80 * nightAlpha).toFixed(3)})`
         nightCtx.fillRect(0, 0, cw, ch)
         nightCtx.globalCompositeOperation = 'destination-out'
         // Avatar torch: radial gradient from fully transparent (innerR) to no-erase (outerR)
