@@ -139,13 +139,21 @@ export function HubTownCanvas({
     worldLayer.sortableChildren  = true
     interiorLayer.visible = false
     const highlightGfx  = new PIXI.Graphics()
-    const nightOverlay  = new PIXI.Graphics()
-    nightOverlay.visible = false
+    // Night-dimming overlay — isolated render group so 'erase' blend punches holes
+    // through only this container's texture rather than the whole stage
+    const nightContainer = new PIXI.Container()
+    nightContainer.enableRenderGroup()
+    const nightBase  = new PIXI.Graphics()
+    nightBase.rect(0, 0, MAP_W, MAP_H).fill({ color: 0x000820, alpha: 0.80 })
+    const nightHoles = new PIXI.Graphics()
+    nightHoles.blendMode = 'erase'
+    nightContainer.addChild(nightBase, nightHoles)
+    nightContainer.visible = false
     // Keep legacy aliases so existing code below compiles unchanged
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
     const exteriorDecorLayer = spriteLayer
-    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, pickupLayer, nodeLayer, worldLayer, nightOverlay, interiorLayer, bubbleLayer, highlightGfx)
+    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, pickupLayer, nodeLayer, worldLayer, nightContainer, interiorLayer, bubbleLayer, highlightGfx)
 
     // Keyed by pickupId; used to imperatively show/hide sprites when items are collected
     const pickupSprites  = new Map<string, PIXI.Sprite>()
@@ -1732,38 +1740,32 @@ export function HubTownCanvas({
         }
       }
 
-      // Night dimming — dark vignette with torch-light holes around avatar and NPCs
+      // Night dimming — erase circles cut through the dark base via destination-out
       if (isNightRef.current && !interiorActive && avatar) {
-        nightOverlay.visible = true
-        nightOverlay.clear()
+        nightContainer.visible = true
+        nightHoles.clear()
         const ax = avatar.x
         const ay = avatar.y
-        // Pass 1 (alpha 0.80): full dark except inside NIGHT_LIGHT_OUTER
-        nightOverlay.rect(0, 0, MAP_W, MAP_H).circle(ax, ay, NIGHT_LIGHT_OUTER)
+        // Draw rings from outer→inner; each inner ring stacks more erase, producing soft gradient
+        const STEPS = 8
+        for (let i = 1; i <= STEPS; i++) {
+          const t = i / STEPS
+          const r = NIGHT_LIGHT_OUTER - (NIGHT_LIGHT_OUTER - NIGHT_LIGHT_INNER) * t
+          nightHoles.circle(ax, ay, r).fill({ color: 0xffffff, alpha: t })
+        }
+        // Named NPC glows
         for (const [, container] of namedNpcContainers) {
           if (container.visible && container.children.length > 0) {
             const s = container.children[0] as PIXI.Sprite
-            nightOverlay.circle(s.x, s.y, NIGHT_NPC_LIGHT_R * 1.5)
+            nightHoles.circle(s.x, s.y, NIGHT_NPC_LIGHT_R).fill({ color: 0xffffff, alpha: 1 })
           }
         }
+        // Ambient NPC glows
         for (const npc of unitNpcs) {
-          nightOverlay.circle(npc.sprite.x, npc.sprite.y, NIGHT_NPC_LIGHT_R)
+          nightHoles.circle(npc.sprite.x, npc.sprite.y, NIGHT_NPC_LIGHT_R * 0.6).fill({ color: 0xffffff, alpha: 1 })
         }
-        nightOverlay.fill({ color: 0x000820, alpha: 0.80, fillRule: 'evenodd' })
-        // Pass 2 (alpha 0.40): transition band between NIGHT_LIGHT_INNER and NIGHT_LIGHT_OUTER
-        nightOverlay.rect(0, 0, MAP_W, MAP_H).circle(ax, ay, NIGHT_LIGHT_INNER)
-        for (const [, container] of namedNpcContainers) {
-          if (container.visible && container.children.length > 0) {
-            const s = container.children[0] as PIXI.Sprite
-            nightOverlay.circle(s.x, s.y, NIGHT_NPC_LIGHT_R)
-          }
-        }
-        for (const npc of unitNpcs) {
-          nightOverlay.circle(npc.sprite.x, npc.sprite.y, NIGHT_NPC_LIGHT_R * 0.5)
-        }
-        nightOverlay.fill({ color: 0x000820, alpha: 0.40, fillRule: 'evenodd' })
       } else {
-        nightOverlay.visible = false
+        nightContainer.visible = false
       }
 
       // Quest pickup visibility — only show while the associated quest is active
