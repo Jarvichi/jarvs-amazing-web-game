@@ -7,6 +7,7 @@ import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileTexture } fr
 import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { MAP_W, MAP_H, HUB_AREAS, HUB_STREET_TILES, HUB_STREET_GROUPS, HUB_BUILDINGS, AVATAR_START, NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS, HUB_DOORS, HUB_INTERIORS, EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS, HUB_BLOCKED_PATHS, HUB_TREASURES } from '../../data/hub/loader'
+import type { HubInteriorExit } from '../../data/hub/loader'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { loadPlayerAvatar } from '../../game/questline'
@@ -883,6 +884,7 @@ export function HubTownCanvas({
     let interiorWalkQueue:  [number, number][] = []
     let interiorIsWalking   = false
     let interiorExitTile:   [number, number] = [0, 0]
+    let exitByTile = new Map<string, HubInteriorExit>()
     let intOffX = 0
     let intOffY = 0
 
@@ -949,7 +951,7 @@ export function HubTownCanvas({
     }
 
     // ── Interior enter ─────────────────────────────────────────────────────────
-    const doEnterInterior = (buildingId: string) => {
+    const doEnterInterior = (buildingId: string, entryTx?: number, entryTy?: number) => {
       try {
       // Locked door check — block entry if key not in inventory
       const lock = HUB_LOCKED_DOORS.find(l => l.buildingId === buildingId)
@@ -997,22 +999,29 @@ export function HubTownCanvas({
 
       // Set interior state
       const exitTx: number = Math.floor(interior.width / 2)
-      const entryTile: [number, number] = [exitTx, interior.height - 2]
-      interiorCurrentTile = entryTile
+      const isSubRoom = entryTx !== undefined || entryTy !== undefined
+      const defaultEntryTile: [number, number] = [entryTx ?? exitTx, entryTy ?? (interior.height - 2)]
+      interiorCurrentTile = defaultEntryTile
       currentInteriorId   = buildingId
-      interiorExitTile    = [exitTx, interior.height - 1]
+      interiorExitTile    = isSubRoom ? [-1, -1] : [exitTx, interior.height - 1]
       interiorActive      = true
       interiorIsWalking   = false
       interiorWalkQueue   = []
+      exitByTile          = new Map<string, HubInteriorExit>()
 
       // Build walkable set
       interiorWalkable = new Set<string>()
       for (let tx = 1; tx < interior.width - 1; tx++)
         for (let ty = 1; ty < interior.height - 1; ty++)
           interiorWalkable.add(`${tx},${ty}`)
-      interiorWalkable.add(`${exitTx},${interior.height - 1}`)
+      if (!isSubRoom) interiorWalkable.add(`${exitTx},${interior.height - 1}`)
       for (const d of interior.decor) {
         if (!d.zlayer || d.zlayer === 'solid') interiorWalkable.delete(`${d.tx},${d.ty}`)
+      }
+      // Register inter-room exit tiles
+      for (const exit of interior.exits ?? []) {
+        interiorWalkable.add(`${exit.tx},${exit.ty}`)
+        exitByTile.set(`${exit.tx},${exit.ty}`, exit)
       }
 
       // Floor tile set (all inner tiles + exit door tile)
@@ -1020,9 +1029,9 @@ export function HubTownCanvas({
       for (let tx = 1; tx < interior.width - 1; tx++)
         for (let ty = 1; ty < interior.height - 1; ty++)
           floorSet.add(`${tx},${ty}`)
-      floorSet.add(`${exitTx},${interior.height - 1}`)  // exit door opening
+      if (!isSubRoom) floorSet.add(`${exitTx},${interior.height - 1}`)  // exit door opening
 
-      // Wall tile set (border, minus exit door opening)
+      // Wall tile set (border, minus exit door opening for ground-level rooms)
       const wallSet = new Set<string>()
       for (let tx = 0; tx < interior.width; tx++) {
         wallSet.add(`${tx},0`)
@@ -1032,7 +1041,7 @@ export function HubTownCanvas({
         wallSet.add(`0,${ty}`)
         wallSet.add(`${interior.width - 1},${ty}`)
       }
-      wallSet.delete(`${exitTx},${interior.height - 1}`)  // open door gap
+      if (!isSubRoom) wallSet.delete(`${exitTx},${interior.height - 1}`)  // open door gap
 
       // Render tile layers (async — tiles appear as they load)
       const floorContainer = new PIXI.Container()
@@ -1051,10 +1060,12 @@ export function HubTownCanvas({
             floorContainer.addChild(s)
           }
         }
-        // Exit door tile also gets floor
-        const exitFloor = new PIXI.Sprite(floorTex)
-        exitFloor.position.set(exitTx * T, (interior.height - 1) * T)
-        floorContainer.addChild(exitFloor)
+        // Exit door tile also gets floor (only for ground-level rooms with a bottom door)
+        if (!isSubRoom) {
+          const exitFloor = new PIXI.Sprite(floorTex)
+          exitFloor.position.set(exitTx * T, (interior.height - 1) * T)
+          floorContainer.addChild(exitFloor)
+        }
       }).catch(() => {
         renderPathTiles(floorContainer, floorSet, undefined, PATH_TILE.dirt1).catch(() => {})
       })
@@ -1227,8 +1238,8 @@ export function HubTownCanvas({
       // Move avatar into interior (on top of solid/below decor)
       if (avatar) {
         if (!avatarInInterior) avatarLayer.removeChild(avatar)
-        avatar.x = entryTile[0] * T + T / 2
-        avatar.y = entryTile[1] * T + T
+        avatar.x = defaultEntryTile[0] * T + T / 2
+        avatar.y = defaultEntryTile[1] * T + T
         interiorLayer.addChild(avatar)
         avatarInInterior = true
       }
@@ -1267,7 +1278,7 @@ export function HubTownCanvas({
       }
 
       // Scroll viewport to center on interior
-      onAvatarMoveRef.current(intOffX + entryTile[0] * T + T / 2, intOffY + entryTile[1] * T + T / 2)
+      onAvatarMoveRef.current(intOffX + defaultEntryTile[0] * T + T / 2, intOffY + defaultEntryTile[1] * T + T / 2)
       } catch (e) {
         rollbar.error('[HubTownCanvas] doEnterInterior error', { buildingId, error: String(e) })
       }
@@ -1310,6 +1321,23 @@ export function HubTownCanvas({
         if (ntx === interiorExitTile[0] && nty === interiorExitTile[1]) {
           interiorIsWalking = false
           doExitInterior()
+          return
+        }
+        const roomExit = exitByTile.get(`${ntx},${nty}`)
+        if (roomExit) {
+          interiorIsWalking = false
+          // Lock checks
+          if (roomExit.lockedBy && !doorKeysRef.current?.has(roomExit.lockedBy)) {
+            onDoorLockedRef.current?.(roomExit.toInteriorId, roomExit.lockedBy)
+            processInteriorWalkQueue()
+            return
+          }
+          if (roomExit.requiredQuest && !completedQuestIdsRef.current?.has(roomExit.requiredQuest)) {
+            onDoorLockedRef.current?.(roomExit.toInteriorId, roomExit.requiredQuest)
+            processInteriorWalkQueue()
+            return
+          }
+          doEnterInterior(roomExit.toInteriorId, roomExit.entryTx, roomExit.entryTy)
           return
         }
         processInteriorWalkQueue()

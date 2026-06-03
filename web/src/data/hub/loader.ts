@@ -43,6 +43,18 @@ export interface InteriorDecor {
   // above: walkable, renders above avatar (hanging items, backdrop shelves)
 }
 
+export interface HubInteriorExit {
+  tx: number
+  ty: number
+  toInteriorId: string
+  entryTx?: number
+  entryTy?: number
+  direction?: 'up' | 'down'
+  lockedBy?: string
+  requiredQuest?: string
+  label?: string
+}
+
 export interface HubInterior {
   id: string
   name: string
@@ -51,6 +63,7 @@ export interface HubInterior {
   decor: InteriorDecor[]
   floorTileId?: number
   wallMaterial?: WallMaterial
+  exits?: HubInteriorExit[]
 }
 
 export interface HubNpc {
@@ -273,6 +286,7 @@ export const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
           tileId: resolveTileId(d.tileId),
           zlayer: d.zlayer as InteriorDecor['zlayer'],
         })),
+        exits: ((rawAny.exits ?? []) as HubInteriorExit[]),
       } satisfies HubInterior,
     ]
   })
