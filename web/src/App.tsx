@@ -2542,6 +2542,7 @@ export default function App() {
           onSignIn={() => setShowTitleLoginModal(true)}
           onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
           onFeedback={() => setFeedbackOpen(true)}
+          onCrystalsChange={(n) => setCrystals(n)}
         />
       )}
 

@@ -8,7 +8,6 @@ import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tile
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { MAP_W, MAP_H, HUB_AREAS, HUB_STREET_TILES, HUB_STREET_GROUPS, HUB_BUILDINGS, AVATAR_START, NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS, HUB_DOORS, HUB_INTERIORS, EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS, HUB_BLOCKED_PATHS, HUB_TREASURES } from '../../data/hub/loader'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
-import { getOpenedContainerIds, markContainerOpened } from '../../game/hub/containers'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { loadPlayerAvatar } from '../../game/questline'
 import type { HubNpc } from '../../data/hub/loader'
@@ -1118,7 +1117,7 @@ export function HubTownCanvas({
         }
       }
 
-      renderDecorItems(interior.decor.filter(d => !d.containerContents && d.zlayer !== 'above'), decorBelowContainer)
+      renderDecorItems(interior.decor.filter(d => d.zlayer !== 'above'), decorBelowContainer)
       // above-avatar decor rendered after avatar is added (below)
 
       // Interior pickup items — rendered in room, disappear when tapped
@@ -1231,35 +1230,31 @@ export function HubTownCanvas({
 
       // Above-avatar decor — added after avatar so it renders on top
       interiorLayer.addChild(decorAboveContainer)
-      renderDecorItems(interior.decor.filter(d => !d.containerContents && d.zlayer === 'above'), decorAboveContainer)
+      renderDecorItems(interior.decor.filter(d => d.zlayer === 'above'), decorAboveContainer)
 
-      // Containers (chests etc.) — interactive, state persisted in localStorage
-      const openedContainers = getOpenedContainerIds()
-      for (const d of interior.decor.filter(cd => cd.containerContents)) {
-        const containerId = `${buildingId}:${d.tx},${d.ty}`
-        const isOpened    = openedContainers.has(containerId)
-        const displayId   = isOpened && d.openedTileId != null ? d.openedTileId : d.tileId
-        loadTileTexture(baseChipUrl, displayId, TILESET_COLUMNS.baseChip).then(tex => {
+      // Interior treasures — chests defined in the treasures array with a matching buildingId
+      for (const t of HUB_TREASURES.filter(tr => tr.buildingId === buildingId)) {
+        const isCollected = collectedTreasureRef.current.has(t.id)
+        const displayTileId = isCollected && t.collectedTileId != null ? t.collectedTileId : t.tileId
+        const collectedTexPromise = t.collectedTileId
+          ? loadTileTexture(baseChipUrl, t.collectedTileId, TILESET_COLUMNS.baseChip).catch(() => null)
+          : Promise.resolve(null)
+        loadTileTexture(baseChipUrl, displayTileId, TILESET_COLUMNS.baseChip).then(async tex => {
           if (!interiorActive || currentInteriorId !== buildingId) return
+          const collectedTex = await collectedTexPromise
           const s = new PIXI.Sprite(tex)
-          s.position.set(d.tx * T, d.ty * T)
+          s.position.set(t.tx * T, t.ty * T)
           s.width = T; s.height = T
-          if (!isOpened) {
+          if (!isCollected) {
             s.eventMode = 'static'
             s.cursor    = 'pointer'
             s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
               e.stopPropagation()
-              markContainerOpened(containerId)
-              if (d.openedTileId != null) {
-                loadTileTexture(baseChipUrl, d.openedTileId, TILESET_COLUMNS.baseChip)
-                  .then(openTex => { s.texture = openTex })
-                  .catch(() => {})
-              }
+              collectedTreasureRef.current.add(t.id)
+              if (collectedTex) s.texture = collectedTex
+              else              s.visible = false
               s.eventMode = 'none'
-              const contents = d.containerContents!
-                .map(c => `${c.quantity}x ${c.itemId.replace(/([A-Z])/g, ' $1').replace(/^./, ch => ch.toUpperCase())}`)
-                .join(', ')
-              onNpcTapRef.current?.(`You found: ${contents}!`, containerId)
+              onTreasureStepRef.current?.(t.id)
             })
           }
           interiorLayer.addChild(s)

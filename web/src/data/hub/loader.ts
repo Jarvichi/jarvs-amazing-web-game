@@ -41,8 +41,6 @@ export interface InteriorDecor {
   // solid (default): not walkable, renders below avatar
   // below: walkable, renders below avatar (rugs, floor markings)
   // above: walkable, renders above avatar (hanging items, backdrop shelves)
-  containerContents?: Array<{ itemId: string; quantity: number }>
-  openedTileId?: number
 }
 
 export interface HubInterior {
@@ -269,13 +267,11 @@ export const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
         height:       raw.height,
         floorTileId:  resolveTileId(raw.floorTileId),
         wallMaterial: wallTileIdStr && WALL_MATERIAL_NAMES.has(wallTileIdStr) ? wallTileIdStr as WallMaterial : undefined,
-        decor:        (raw.decor as Array<{ tx: number; ty: number; tileId: string; zlayer?: string; containerContents?: Array<{ itemId: string; quantity: number }>; openedTileId?: string }>).map(d => ({
-          tx:                d.tx,
-          ty:                d.ty,
-          tileId:            resolveTileId(d.tileId),
-          zlayer:            d.zlayer as InteriorDecor['zlayer'],
-          containerContents: d.containerContents,
-          openedTileId:      d.openedTileId ? resolveTileId(d.openedTileId) : undefined,
+        decor:        (raw.decor as Array<{ tx: number; ty: number; tileId: string; zlayer?: string }>).map(d => ({
+          tx:     d.tx,
+          ty:     d.ty,
+          tileId: resolveTileId(d.tileId),
+          zlayer: d.zlayer as InteriorDecor['zlayer'],
         })),
       } satisfies HubInterior,
     ]
@@ -344,6 +340,7 @@ export const HUB_LOCKED_DOORS: HubLockedDoor[] = (
 export interface HubTreasureReward {
   crystals?:    number
   collectible?: { id: string; name: string; icon: string; desc: string }
+  consumables?: Array<{ id: string; quantity: number }>
 }
 
 export interface HubTreasure {
@@ -354,9 +351,10 @@ export interface HubTreasure {
   collectedTileId?: number   // if set, swap to this tile on collect; if absent, hide the sprite
   title:            string
   reward:           HubTreasureReward
+  buildingId?:      string   // if set, this treasure lives inside the named interior
 }
 
-type RawTreasure = { id: string; tx: number; ty: number; tileId: string; collectedTileId?: string; title: string; reward: HubTreasureReward }
+type RawTreasure = { id: string; tx: number; ty: number; tileId: string; collectedTileId?: string; title: string; reward: HubTreasureReward; buildingId?: string }
 export const HUB_TREASURES: HubTreasure[] = (
   (rawConfig as unknown as { treasures?: RawTreasure[] }).treasures ?? []
 ).map(t => ({

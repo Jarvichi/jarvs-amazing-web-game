@@ -13,7 +13,7 @@ import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pic
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hub/friendship'
 import { getQuestState, setQuestStatus, incrementQuestProgress, getQuestProgress, resetQuest } from '../../game/hub/quests'
 import { getHeardConvoIds, markConvoHeard } from '../../game/hub/innConvos'
-import { loadDeck, loadCollection, loadCrystals, saveCrystals } from '../../game/collection'
+import { loadDeck, loadCollection, loadCrystals, saveCrystals, addCardsToCollection } from '../../game/collection'
 import { getCardCatalog } from '../../game/cards'
 import { CommanderState } from '../../game/commander'
 import { loadSkipIntro } from '../screens/SettingsScreen'
@@ -25,7 +25,7 @@ import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { User } from 'firebase/auth'
 import { loadPlayerName } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
-import { addCollectible, getCollectibles } from '../../game/itemStore'
+import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
 import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
@@ -92,10 +92,11 @@ interface Props {
   onSignIn?:   () => void
   onSignOut?:         () => void
   onFeedback: () => void
+  onCrystalsChange?:  (n: number) => void
   onTileTap?:         (tx: number, ty: number) => void
 }
 
-export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onTileTap }: Props) {
+export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
@@ -281,10 +282,18 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
     if (!treasure) return
     markTreasureCollected(id)
     const { reward } = treasure
-    if (reward.crystals) saveCrystals(loadCrystals() + reward.crystals)
+    if (reward.crystals) {
+      saveCrystals(loadCrystals() + reward.crystals)
+      onCrystalsChange?.(loadCrystals())
+    }
     if (reward.collectible) {
       const { id: cid, name, icon, desc } = reward.collectible
       addCollectible(cid, { name, icon, desc })
+    }
+    if (reward.consumables) {
+      for (const { id, quantity } of reward.consumables) {
+        addConsumable(id, quantity)
+      }
     }
     setOpenTreasure(treasure)
     refreshState()
@@ -373,6 +382,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
           if (isQuestReadyToComplete(quest)) {
             setQuestStatus(quest.id, 'completed')
             grantQuestReward(quest)
+            if (quest.reward.crystals) onCrystalsChange?.(loadCrystals())
             refreshState()
             const rewardText = formatQuestReward(quest.reward)
             setDialogueEvent({
@@ -397,6 +407,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       if (quest.receiverNpcId === npcId && isQuestReadyToComplete(quest)) {
         setQuestStatus(quest.id, 'completed')
         grantQuestReward(quest)
+        if (quest.reward.crystals) onCrystalsChange?.(loadCrystals())
         refreshState()
         const rewardText = formatQuestReward(quest.reward)
         setDialogueEvent({
@@ -573,6 +584,7 @@ function formatQuestReward(reward: HubQuestDef['reward']): string {
   const parts: string[] = []
   if (reward.crystals)    parts.push(`+${reward.crystals} 💎`)
   if (reward.collectible) parts.push(`${reward.collectible.icon} ${reward.collectible.name}`)
+  if (reward.card)        parts.push(`🃏 ${reward.card.name} (card)`)
   if (reward.friendship) {
     for (const [npcId, xp] of Object.entries(reward.friendship)) {
       parts.push(`+${xp} friendship with ${getNpcDisplayName(npcId)}`)
@@ -589,6 +601,9 @@ function grantQuestReward(quest: HubQuestDef): void {
   if (reward.collectible) {
     const { id, name, icon, desc } = reward.collectible
     addCollectible(id, { name, icon, desc })
+  }
+  if (reward.card) {
+    addCardsToCollection([{ cardName: reward.card.name, count: reward.card.count ?? 1 }])
   }
   if (reward.friendship) {
     for (const [npcId, xp] of Object.entries(reward.friendship)) {

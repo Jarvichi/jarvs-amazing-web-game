@@ -12,6 +12,7 @@ export interface HubQuestStep {
 export interface HubQuestReward {
   crystals?: number
   collectible?: { id: string; name: string; icon: string; desc: string }
+  card?: { name: string; count?: number }
   friendship?: Record<string, number>
   unlock?: string
 }
