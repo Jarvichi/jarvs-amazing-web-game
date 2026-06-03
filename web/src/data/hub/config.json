@@ -774,18 +774,6 @@
           "tx": 7,
           "ty": 2,
           "tileId": "wizardHatBottom"
-        },
-
-        {
-          "tx": 9,
-          "ty": 1,
-          "tileId": "chest",
-          "containerContents": [
-            { "itemId": "healthPotion", "quantity": 3 },
-            { "itemId": "manaPotion", "quantity": 2 },
-            { "itemId": "strengthPotion", "quantity": 1 }
-          ],
-          "openedTileId": "openChest"
         }
       ]
     },
@@ -2672,6 +2660,15 @@
       "collectedTileId": "openChest",
       "title": "A moss-covered chest hidden in the forest",
       "reward": { "crystals": 30 }
+    },
+    {
+      "id": "augment-shop-chest",
+      "buildingId": "augment-shop",
+      "tx": 9, "ty": 1,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A dusty chest in Mira's studio",
+      "reward": { "consumables": [{ "id": "health_potion", "quantity": 3 }] }
     }
   ]
 }

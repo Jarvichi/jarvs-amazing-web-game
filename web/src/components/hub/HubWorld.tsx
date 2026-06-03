@@ -25,7 +25,7 @@ import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { User } from 'firebase/auth'
 import { loadPlayerName } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
-import { addCollectible, getCollectibles } from '../../game/itemStore'
+import { addCollectible, addConsumable, getCollectibles } from '../../game/itemStore'
 import { QuestsModal } from './QuestsModal'
 import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
@@ -289,6 +289,11 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
     if (reward.collectible) {
       const { id: cid, name, icon, desc } = reward.collectible
       addCollectible(cid, { name, icon, desc })
+    }
+    if (reward.consumables) {
+      for (const { id, quantity } of reward.consumables) {
+        addConsumable(id, quantity)
+      }
     }
     setOpenTreasure(treasure)
     refreshState()

@@ -12,6 +12,11 @@ export function TreasureModal({ treasure, onClose }: Props) {
   const parts: string[] = []
   if (reward.crystals)    parts.push(`+${reward.crystals} 💎`)
   if (reward.collectible) parts.push(`${reward.collectible.icon} ${reward.collectible.name}`)
+  if (reward.consumables) {
+    for (const { id, quantity } of reward.consumables) {
+      parts.push(`+${quantity} ${id.replace(/_/g, ' ')}`)
+    }
+  }
 
   return (
     <ModalBackdrop onClose={onClose}>
