@@ -129,7 +129,7 @@
         { "key": "card", "type": "collect", "pickupIds": ["gildwyns-rare-card"], "required": 1 }
       ],
       "reward": {
-        "collectible": { "id": "foil-card", "name": "Foil Thornlord", "icon": "🃏", "desc": "A rare foil print of the Thornlord card. Gildwyn was very relieved to have it back." },
+        "card": { "name": "Thornlord", "count": 1 },
         "friendship": { "gildwyn": 20 }
       }
     },
