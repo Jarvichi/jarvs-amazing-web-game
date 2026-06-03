@@ -251,7 +251,6 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
   const handleNodeInteract = useCallback((screen: string) => {
     if (screen.startsWith('interior:')) {
       const buildingId = screen.slice(9)
-      setInteriorActive(true)
       interiorEnterRef.current?.(buildingId)
       return
     }
@@ -537,6 +536,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
             onNpcTap={handleNpcTap}
             interiorEnterRef={interiorEnterRef}
             interiorExitRef={interiorExitRef}
+            onEnterInterior={() => setInteriorActive(true)}
             onExitInterior={() => setInteriorActive(false)}
             onTileTap={onTileTap}
             pickedUpIds={pickedUpIds}
