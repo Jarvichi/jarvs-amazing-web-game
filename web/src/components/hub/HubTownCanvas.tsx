@@ -693,12 +693,12 @@ export function HubTownCanvas({
     }
 
     // ── NPC name tags (show within 5 tiles of avatar) ─────────────────────────
-    const npcNameTags: { tx: number; ty: number; tag: PIXI.Container }[] = []
+    const npcNameTags: { npcId: string; tx: number; ty: number; tag: PIXI.Container }[] = []
     for (const { npc, cx, cy } of npcBubbleTargets) {
       const tag = createNameTag(npc.name, cx, cy)
       tag.visible = false
       bubbleLayer.addChild(tag)
-      npcNameTags.push({ tx: npc.tx, ty: npc.ty, tag })
+      npcNameTags.push({ npcId: npc.id, tx: npc.tx, ty: npc.ty, tag })
     }
 
     // ── Card-unit NPCs ─────────────────────────────────────────────────────────
@@ -971,7 +971,8 @@ export function HubTownCanvas({
 
       // Building hours check — block entry if closed
       if (!isBuildingOpen(interior, gameHourRef.current)) {
-        onDoorLockedRef.current?.(buildingId, 'closed')
+        const openHour = interior.hours !== 'always' && interior.hours ? interior.hours.open : null
+        onDoorLockedRef.current?.(buildingId, openHour !== null ? `closed:${openHour}` : 'closed')
         return
       }
 
@@ -1666,8 +1667,9 @@ export function HubTownCanvas({
       // NPC name tag proximity (exterior only)
       if (!interiorActive) {
         const [atx, aty] = currentTile
-        for (const { tx, ty, tag } of npcNameTags) {
-          tag.visible = Math.max(Math.abs(tx - atx), Math.abs(ty - aty)) <= 5
+        for (const { npcId, tx, ty, tag } of npcNameTags) {
+          const npcOnExterior = namedNpcContainers.get(npcId)?.visible ?? true
+          tag.visible = npcOnExterior && Math.max(Math.abs(tx - atx), Math.abs(ty - aty)) <= 5
         }
 
         // Blocked path visibility and proximity speech bubbles

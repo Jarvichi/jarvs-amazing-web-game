@@ -352,7 +352,11 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
   }, [refreshState])
 
   const handleDoorLocked = useCallback((_buildingId: string, requiredItem: string) => {
-    if (requiredItem === 'closed') {
+    if (requiredItem.startsWith('closed:')) {
+      const openHour = parseInt(requiredItem.slice(7))
+      const openStr  = `${String(openHour).padStart(2, '0')}:00`
+      setDialogueLine(`This building is closed right now. Opens at ${openStr}.`)
+    } else if (requiredItem === 'closed') {
       setDialogueLine('This building is closed right now. Come back later.')
     } else if (requiredItem.startsWith('quest:')) {
       setDialogueLine("This passage is sealed. You'll need to discover it first.")
