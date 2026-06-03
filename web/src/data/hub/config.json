@@ -278,7 +278,7 @@
     },
     {
       "rect": [
-        6,
+        13,
         48,
         25,
         48
@@ -432,6 +432,23 @@
         36
       ],
       "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        7,
+        36,
+        7,
+        38
+      ]
+    },
+    {
+      "rect": [
+        1,
+        39,
+        12,
+        48
+      ],
+      "pathType": "darkDirt"
     }
   ],
   "buildings": [
@@ -1010,16 +1027,47 @@
         }
       ],
       "windows": [
-        {
-          "tx": 1,
-          "ty": -2,
+               {
+          "tx": 2,
+          "ty": -4,
           "tileId": "windowTop4"
         },
         {
-          "tx": 1,
-          "ty": -1,
+          "tx": 2,
+          "ty": -3,
+          "tileId": "windowBottom4"
+        },
+        {
+          "tx": 4,
+          "ty": -4,
+          "tileId": "windowTop4"
+        },
+        {
+          "tx": 4,
+          "ty": -3,
+          "tileId": "windowBottom4"
+        },
+                {
+          "tx": 8,
+          "ty": -4,
+          "tileId": "windowTop4"
+        },
+        {
+          "tx": 8,
+          "ty": -3,
+          "tileId": "windowBottom4"
+        },
+                {
+          "tx": 10,
+          "ty": -4,
+          "tileId": "windowTop4"
+        },
+        {
+          "tx": 10,
+          "ty": -3,
           "tileId": "windowBottom4"
         }
+
       ],
       "decor": [
         {
@@ -1129,7 +1177,7 @@
     },
     {
       "tx": 24,
-      "ty": 20,
+      "ty": 10,
       "tileId": "mailBox"
     },
     {
@@ -1175,6 +1223,157 @@
       "ty": 30,
       "tileId": "scarecrowBottom"
     },
+
+    {      "comment": "garden"    },
+    {      "tx": 1,      "ty": 38,      "tileId": "fenceLeft"    },
+    {      "tx": 1,      "ty": 38,      "tileId": "fenceLeftRight"    },
+    {      "tx": 2,      "ty": 38,      "tileId": "fenceLeftRight"    },
+    {      "tx": 3,      "ty": 38,      "tileId": "fenceLeftRight"    },
+    {      "tx": 4,      "ty": 38,      "tileId": "fenceLeftRight"    },
+    {      "tx": 5,      "ty": 38,      "tileId": "fenceLeftRight"    },
+    {      "tx": 6,      "ty": 38,      "tileId": "fenceLeft"    },
+   {      "tx": 8,      "ty": 38,      "tileId": "fenceRight"    },
+    {      "tx": 9,      "ty": 38,      "tileId": "fenceLeftRight"    },
+    {      "tx": 10,      "ty": 38,      "tileId": "fenceLeftRight"    },
+    {      "tx": 11,      "ty": 38,      "tileId": "fenceLeftRight"    },
+    {      "tx": 12,      "ty": 38,      "tileId": "fenceLeftRight"    },
+    {      "tx": 13,      "ty": 38,      "tileId": "fenceLeftBottom"    },
+    {      "tx": 13,      "ty": 39,      "tileId": "fenceTopBottom"    },
+    {      "tx": 13,      "ty": 40,      "tileId": "fenceTopBottom"    },
+    {      "tx": 13,      "ty": 41,      "tileId": "fenceTopBottom"    },
+    {      "tx": 13,      "ty": 42,      "tileId": "fenceTopBottom"    },
+    {      "tx": 13,      "ty": 43,      "tileId": "fenceTopBottom"    },
+    {      "tx": 13,      "ty": 44,      "tileId": "fenceTopBottom"    },
+    {      "tx": 13,      "ty": 45,      "tileId": "fenceTopBottom"    },
+    {      "tx": 13,      "ty": 46,      "tileId": "fenceTopBottom"    },
+    {      "tx": 13,      "ty": 47,      "tileId": "fenceTop"    },
+    {      "tx": 13,      "ty": 49,      "tileId": "fenceIsolated"    },
+
+    {"comment": "crops"},
+    { "tx":1, "ty":39, "tileId":"topLeftPlough","zlayer": "below-avatar"},
+    { "tx":2, "ty":39, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":3, "ty":39, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":4, "ty":39, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":5, "ty":39, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":6, "ty":39, "tileId":"topRightPlough","zlayer": "below-avatar"},
+    { "tx":1, "ty":40, "tileId":"leftPlough","zlayer": "below-avatar"},
+    { "tx":2, "ty":40, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":3, "ty":40, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":4, "ty":40, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":5, "ty":40, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":6, "ty":40, "tileId":"rightPlough","zlayer": "below-avatar"},
+    { "tx":1, "ty":41, "tileId":"leftPlough","zlayer": "below-avatar"},
+    { "tx":2, "ty":41, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":3, "ty":41, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":4, "ty":41, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":5, "ty":41, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":6, "ty":41, "tileId":"rightPlough","zlayer": "below-avatar"},
+    { "tx":1, "ty":42, "tileId":"leftPlough","zlayer": "below-avatar"},
+    { "tx":2, "ty":42, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":3, "ty":42, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":4, "ty":42, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":5, "ty":42, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":6, "ty":42, "tileId":"rightPlough","zlayer": "below-avatar"},
+    { "tx":1, "ty":43, "tileId":"bottomLeftPlough","zlayer": "below-avatar"},
+    { "tx":2, "ty":43, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":3, "ty":43, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":4, "ty":43, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":5, "ty":43, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":6, "ty":43, "tileId":"bottomRightPlough","zlayer": "below-avatar"},
+
+    { "tx":1, "ty":44, "tileId":"topLeftPlough","zlayer": "below-avatar"},
+    { "tx":2, "ty":44, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":3, "ty":44, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":4, "ty":44, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":5, "ty":44, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":6, "ty":44, "tileId":"topRightPlough","zlayer": "below-avatar"},
+    { "tx":1, "ty":45, "tileId":"leftPlough","zlayer": "below-avatar"},
+    { "tx":2, "ty":45, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":3, "ty":45, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":4, "ty":45, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":5, "ty":45, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":6, "ty":45, "tileId":"rightPlough","zlayer": "below-avatar"},
+    { "tx":1, "ty":46, "tileId":"leftPlough","zlayer": "below-avatar"},
+    { "tx":2, "ty":46, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":3, "ty":46, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":4, "ty":46, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":5, "ty":46, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":6, "ty":46, "tileId":"rightPlough","zlayer": "below-avatar"},
+    { "tx":1, "ty":47, "tileId":"leftPlough","zlayer": "below-avatar"},
+    { "tx":2, "ty":47, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":3, "ty":47, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":4, "ty":47, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":5, "ty":47, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":6, "ty":47, "tileId":"rightPlough"  ,"zlayer": "below-avatar"},
+    { "tx":1, "ty":48, "tileId":"bottomLeftPlough","zlayer": "below-avatar"},
+    { "tx":2, "ty":48, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":3, "ty":48, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":4, "ty":48, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":5, "ty":48, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":6, "ty":48, "tileId":"bottomRightPlough"  ,"zlayer": "below-avatar"},
+
+    { "tx":7, "ty":39, "tileId":"topLeftPlough","zlayer": "below-avatar"},
+    { "tx":8, "ty":39, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":9, "ty":39, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":10, "ty":39, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":11, "ty":39, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":12, "ty":39, "tileId":"topRightPlough","zlayer": "below-avatar"},
+    { "tx":7, "ty":40, "tileId":"leftPlough","zlayer": "below-avatar"},
+    { "tx":8, "ty":40, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":9, "ty":40, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":10, "ty":40, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":11, "ty":40, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":12, "ty":40, "tileId":"rightPlough","zlayer": "below-avatar"},
+    { "tx":7, "ty":41, "tileId":"leftPlough","zlayer": "below-avatar"},
+    { "tx":8, "ty":41, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":9, "ty":41, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":10, "ty":41, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":11, "ty":41, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":12, "ty":41, "tileId":"rightPlough","zlayer": "below-avatar"},
+    { "tx":7, "ty":42, "tileId":"leftPlough","zlayer": "below-avatar"},
+    { "tx":8, "ty":42, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":9, "ty":42, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":10, "ty":42, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":11, "ty":42, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":12, "ty":42, "tileId":"rightPlough","zlayer": "below-avatar"  },
+    { "tx":7, "ty":43, "tileId":"bottomLeftPlough","zlayer": "below-avatar"},
+    { "tx":8, "ty":43, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":9, "ty":43, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":10, "ty":43, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":11, "ty":43, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":12, "ty":43, "tileId":"bottomRightPlough","zlayer": "below-avatar"},
+
+    { "tx":7, "ty":44, "tileId":"topLeftPlough","zlayer": "below-avatar"},
+    { "tx":8, "ty":44, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":9, "ty":44, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":10, "ty":44, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":11, "ty":44, "tileId":"topPlough","zlayer": "below-avatar"},
+    { "tx":12, "ty":44, "tileId":"topRightPlough","zlayer": "below-avatar"},
+    { "tx":7, "ty":45, "tileId":"leftPlough","zlayer": "below-avatar"},
+    { "tx":8, "ty":45, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":9, "ty":45, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":10, "ty":45, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":11, "ty":45, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":12, "ty":45, "tileId":"rightPlough","zlayer": "below-avatar"},
+    { "tx":7, "ty":46, "tileId":"leftPlough","zlayer": "below-avatar"},
+    { "tx":8, "ty":46, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":9, "ty":46, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":10, "ty":46, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":11, "ty":46, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":12, "ty":46, "tileId":"rightPlough","zlayer": "below-avatar"},
+    { "tx":7, "ty":47, "tileId":"leftPlough","zlayer": "below-avatar"},
+    { "tx":8, "ty":47, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":9, "ty":47, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":10, "ty":47, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":11, "ty":47, "tileId":"centerPlough","zlayer": "below-avatar"},
+    { "tx":12, "ty":47, "tileId":"rightPlough","zlayer": "below-avatar"  },
+    { "tx":7, "ty":48, "tileId":"bottomLeftPlough","zlayer": "below-avatar"},
+    { "tx":8, "ty":48, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":9, "ty":48, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":10, "ty":48, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":11, "ty":48, "tileId":"bottomPlough","zlayer": "below-avatar"},
+    { "tx":12, "ty":48, "tileId":"bottomRightPlough","zlayer": "below-avatar"  },
+
     {
       "comment": "courtyard fountain"
     },
@@ -2271,7 +2470,7 @@
     },
     {
       "tx": 24,
-      "ty": 8,
+      "ty": 20,
       "tileId": "grassTuft"
     },
     {
@@ -4160,19 +4359,49 @@
     "home-barracks-passage": {
       "name": "Hidden Passage",
       "width": 12,
-      "height": 3,
-      "floorTileId": "cobblestone",
+      "height": 4,
+      "floorTileId": "cobblestoneFloor",
       "decor": [
         {
           "tx": 1,
+          "ty": -1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 10,
+          "ty": -1,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        }  ,          
+        {
+          "tx": 1,
+          "ty": 0,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 10,
+          "ty": 0,
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        }  ,      
+        {
+          "tx": 1,
           "ty": 1,
-          "tileId": "ladderIntoFloor",
+          "tileId": "ladderBottom",
           "zlayer": "below"
         },
         {
           "tx": 10,
           "ty": 1,
-          "tileId": "ladderIntoFloor",
+          "tileId": "ladderBottom",
+          "zlayer": "below"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "greenPuddle",
           "zlayer": "below"
         }
       ],
@@ -4196,7 +4425,7 @@
           "label": "Into barracks"
         }
       ],
-      "wallTileId": "interiorWallWhite"
+      "wallTileId": "castleStone"
     }
   },
   "npcs": [
@@ -5150,6 +5379,18 @@
             "quantity": 3
           }
         ]
+      }
+    },
+    {
+      "id": "home-barracks-passage-chest",
+      "buildingId": "home-barracks-passage",
+      "tx": 9,
+      "ty": 1,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A dusty chest the secret passage",
+      "reward": {
+        "crystals": 30
       }
     }
   ]

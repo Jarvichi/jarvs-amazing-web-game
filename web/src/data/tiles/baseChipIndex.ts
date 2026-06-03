@@ -131,7 +131,7 @@ export const BASE_CHIP_TILES = {
     cropBerries: 175,
 
     // Fences (direction denotes the direction that can be linked to another fence tile, eg fenceLeft can link to another fence tile on its left side, but not its right side. Fences can link to path tiles to form gates, but not to other fence tiles, so they need separate tiles for corners and standalone pieces.)
-    fenceTopBotton: 176,
+    fenceTopBottom: 176,
     fenceBotton: 177,
     fenceRightBottom: 178,
     fenceLeftBottom: 179,

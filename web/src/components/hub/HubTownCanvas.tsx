@@ -1046,6 +1046,10 @@ export function HubTownCanvas({
       interiorWalkQueue   = []
       exitByTile          = new Map<string, HubInteriorExit>()
 
+      // Hide exterior overlays so they don't bleed into the interior view
+      for (const ind of questIndicators.values()) ind.visible = false
+      for (const { tag } of npcNameTags) tag.visible = false
+
       // Build walkable set
       interiorWalkable = new Set<string>()
       for (let tx = 1; tx < interior.width - 1; tx++)
@@ -1288,7 +1292,7 @@ export function HubTownCanvas({
         text: interior.name,
         style: { fontSize: 10, fill: '#c8e8c8', fontFamily: 'monospace' },
       })
-      nameLabel.position.set(T + 4, -14)
+      nameLabel.position.set(T + 4, -48)
       interiorLayer.addChild(nameLabel)
 
       // Exit marker (standard "leave building" exit, only for ground-level rooms)
@@ -1775,6 +1779,10 @@ export function HubTownCanvas({
         for (const [, container] of namedNpcContainers) {
           if (container.visible && container.children.length > 0) {
             const s = container.children[0] as PIXI.Sprite
+            const grad = nightCtx.createRadialGradient(s.x * cs, s.y * cs, 0, s.x * cs, s.y * cs, 8)
+            grad.addColorStop(0, 'rgba(0,0,0,1)')
+            grad.addColorStop(1, 'rgba(0,0,0,0)')            
+            nightCtx.fillStyle = grad
             nightCtx.beginPath()
             nightCtx.arc(s.x * cs, s.y * cs, NIGHT_NPC_LIGHT_R * cs, 0, Math.PI * 2)
             nightCtx.fill()
@@ -1782,6 +1790,10 @@ export function HubTownCanvas({
         }
         // Ambient NPC glows
         for (const npc of unitNpcs) {
+          const grad = nightCtx.createRadialGradient(npc.sprite.x * cs, npc.sprite.y * cs, 0, npc.sprite.x * cs, npc.sprite.y * cs, 8)
+          grad.addColorStop(0, 'rgba(0,0,0,1)')
+          grad.addColorStop(1, 'rgba(0,0,0,0)')          
+          nightCtx.fillStyle = grad
           nightCtx.beginPath()
           nightCtx.arc(npc.sprite.x * cs, npc.sprite.y * cs, NIGHT_NPC_LIGHT_R * 0.6 * cs, 0, Math.PI * 2)
           nightCtx.fill()
