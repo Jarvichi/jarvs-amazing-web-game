@@ -29,6 +29,8 @@ import { addCollectible, addConsumable, getCollectibles } from '../../game/itemS
 import { QuestsModal } from './QuestsModal'
 import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
+import { useHubClock } from '../../hooks/useHubClock'
+import { formatGameTime, hourInRange } from '../../game/hub/hubClock'
 
 const T = 32
 const INITIAL_SCROLL = {
@@ -111,6 +113,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
   const [_tick, setTick] = useState(0)
   const refreshState = useCallback(() => setTick(t => t + 1), [])
 
+  const { gameHour, isNight: isGameNight } = useHubClock()
+
   // Quest NPC state: maps npcId → 'offer' | 'ready' | null, read imperatively by PixiJS ticker
   const questNpcStateRef = useRef(new Map<string, 'offer' | 'ready' | null>())
   {
@@ -121,7 +125,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       const state = getQuestState(quest.id)
       if (state.status === 'available') {
         const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
-        if (prereqMet && !atCap) m.set(quest.giverNpcId, 'offer')
+        const hoursMet  = !quest.availableHours || hourInRange(gameHour, quest.availableHours.start, quest.availableHours.end)
+        if (prereqMet && hoursMet && !atCap) m.set(quest.giverNpcId, 'offer')
       } else if (state.status === 'active') {
         if (isQuestReadyToComplete(quest)) m.set(quest.receiverNpcId, 'ready')
       }
@@ -346,9 +351,15 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
     }
   }, [refreshState])
 
-  const handleDoorLocked = useCallback((buildingId: string, requiredItem: string) => {
-    const itemName = requiredItem.replace(/-/g, ' ')
-    setDialogueLine(`This door is locked. You need a ${itemName} to enter.`)
+  const handleDoorLocked = useCallback((_buildingId: string, requiredItem: string) => {
+    if (requiredItem === 'closed') {
+      setDialogueLine('This building is closed right now. Come back later.')
+    } else if (requiredItem.startsWith('quest:')) {
+      setDialogueLine("This passage is sealed. You'll need to discover it first.")
+    } else {
+      const itemName = requiredItem.replace(/-/g, ' ')
+      setDialogueLine(`This door is locked. You need a ${itemName} to enter.`)
+    }
   }, [])
 
   const handleNpcTap = useCallback((line: string, npcId: string) => {
@@ -491,6 +502,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       <Toolbar>
         <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
         <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
+        <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
         <ToolbarSpacer/>
         <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
@@ -532,6 +544,8 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
             completedQuestIdsRef={completedQuestIdsRef}
             collectedTreasureIds={collectedTreasureIds}
             onTreasureStep={handleTreasureStep}
+            gameHour={gameHour}
+            isNight={isGameNight}
           />
         </div>
         <AreaNameBadge name={currentArea} />

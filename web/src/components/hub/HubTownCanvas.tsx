@@ -7,6 +7,8 @@ import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileTexture } fr
 import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { MAP_W, MAP_H, HUB_AREAS, HUB_STREET_TILES, HUB_STREET_GROUPS, HUB_BUILDINGS, AVATAR_START, NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS, HUB_DOORS, HUB_INTERIORS, EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS, HUB_BLOCKED_PATHS, HUB_TREASURES } from '../../data/hub/loader'
+import type { HubInteriorExit } from '../../data/hub/loader'
+import { isBuildingOpen, getNpcLocation } from '../../game/hub/hubNpcSchedule'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { loadPlayerAvatar } from '../../game/questline'
@@ -70,6 +72,8 @@ interface Props {
   completedQuestIdsRef?: React.MutableRefObject<Set<string>>
   collectedTreasureIds?: Set<string>
   onTreasureStep?:       (id: string) => void
+  gameHour?:             number
+  isNight?:              boolean
 }
 
 export function HubTownCanvas({
@@ -78,6 +82,7 @@ export function HubTownCanvas({
   interiorEnterRef, interiorExitRef, onExitInterior, onTileTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
+  gameHour, isNight,
 }: Props) {
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
@@ -105,6 +110,10 @@ export function HubTownCanvas({
   const collectedTreasureRef  = useRef<Set<string>>(new Set(collectedTreasureIds))
   const onTreasureStepRef     = useRef(onTreasureStep)
   onTreasureStepRef.current   = onTreasureStep
+  const isNightRef            = useRef(isNight ?? false)
+  isNightRef.current          = isNight ?? false
+  const gameHourRef           = useRef(gameHour ?? 12)
+  gameHourRef.current         = gameHour ?? 12
 
   usePixiApp(containerRef, MAP_W, MAP_H, (app) => {
     app.canvas.style.touchAction = 'pan-x pan-y'
@@ -609,6 +618,8 @@ export function HubTownCanvas({
     // Quest indicators: keyed by npcId, updated imperatively in the ticker
     const questIndicators     = new Map<string, PIXI.Text>()
     const questIndicatorBaseY = new Map<string, number>()
+    // Named NPC containers: keyed by npcId for schedule-driven visibility
+    const namedNpcContainers  = new Map<string, PIXI.Container>()
     // Interior quest indicators: rebuilt each time we enter a building
     const interiorQuestIndicators     = new Map<string, PIXI.Text>()
     const interiorIndicatorBaseY      = new Map<string, number>()
@@ -632,6 +643,7 @@ export function HubTownCanvas({
         }
       })
       npcLayer.addChild(npcContainer)
+      namedNpcContainers.set(npc.id, npcContainer)
       if (npc.dialogue.length > 0) npcBubbleTargets.push({ npc, cx, cy })
 
       if (npc.questGive || npc.questReceive) {
@@ -731,7 +743,7 @@ export function HubTownCanvas({
 
       texPromise.then(tex => {
         if (app.renderer == null) return
-        const isGhost = Math.random() < 0.01  // 1% chance to spawn as a ghost
+        const isGhost = Math.random() < (isNightRef.current ? 0.10 : 0.01)
         const s = new PIXI.Sprite(tex)
         s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
         s.anchor.set(0.5, 1)
@@ -836,7 +848,7 @@ export function HubTownCanvas({
         : loadTextureUrl(`${base}sprites/${slug}.svg`).catch(() => loadTextureUrl(`${base}sprites/hub-avatar.svg`))
       texPromise.then(tex => {
         if (app.renderer == null) return
-        const isGhost = Math.random() < 0.01
+        const isGhost = Math.random() < (isNightRef.current ? 0.10 : 0.01)
         const s = new PIXI.Sprite(tex)
         s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
         s.anchor.set(0.5, 1)
@@ -878,6 +890,7 @@ export function HubTownCanvas({
     let interiorWalkQueue:  [number, number][] = []
     let interiorIsWalking   = false
     let interiorExitTile:   [number, number] = [0, 0]
+    let exitByTile = new Map<string, HubInteriorExit>()
     let intOffX = 0
     let intOffY = 0
 
@@ -944,7 +957,7 @@ export function HubTownCanvas({
     }
 
     // ── Interior enter ─────────────────────────────────────────────────────────
-    const doEnterInterior = (buildingId: string) => {
+    const doEnterInterior = (buildingId: string, entryTx?: number, entryTy?: number) => {
       try {
       // Locked door check — block entry if key not in inventory
       const lock = HUB_LOCKED_DOORS.find(l => l.buildingId === buildingId)
@@ -955,6 +968,12 @@ export function HubTownCanvas({
 
       const interior = HUB_INTERIORS[buildingId]
       if (!interior) return
+
+      // Building hours check — block entry if closed
+      if (!isBuildingOpen(interior, gameHourRef.current)) {
+        onDoorLockedRef.current?.(buildingId, 'closed')
+        return
+      }
 
       const intW = interior.width * T
       const intH = interior.height * T
@@ -992,22 +1011,29 @@ export function HubTownCanvas({
 
       // Set interior state
       const exitTx: number = Math.floor(interior.width / 2)
-      const entryTile: [number, number] = [exitTx, interior.height - 2]
-      interiorCurrentTile = entryTile
+      const isSubRoom = entryTx !== undefined || entryTy !== undefined
+      const defaultEntryTile: [number, number] = [entryTx ?? exitTx, entryTy ?? (interior.height - 2)]
+      interiorCurrentTile = defaultEntryTile
       currentInteriorId   = buildingId
-      interiorExitTile    = [exitTx, interior.height - 1]
+      interiorExitTile    = isSubRoom ? [-1, -1] : [exitTx, interior.height - 1]
       interiorActive      = true
       interiorIsWalking   = false
       interiorWalkQueue   = []
+      exitByTile          = new Map<string, HubInteriorExit>()
 
       // Build walkable set
       interiorWalkable = new Set<string>()
       for (let tx = 1; tx < interior.width - 1; tx++)
         for (let ty = 1; ty < interior.height - 1; ty++)
           interiorWalkable.add(`${tx},${ty}`)
-      interiorWalkable.add(`${exitTx},${interior.height - 1}`)
+      if (!isSubRoom) interiorWalkable.add(`${exitTx},${interior.height - 1}`)
       for (const d of interior.decor) {
         if (!d.zlayer || d.zlayer === 'solid') interiorWalkable.delete(`${d.tx},${d.ty}`)
+      }
+      // Register inter-room exit tiles
+      for (const exit of interior.exits ?? []) {
+        interiorWalkable.add(`${exit.tx},${exit.ty}`)
+        exitByTile.set(`${exit.tx},${exit.ty}`, exit)
       }
 
       // Floor tile set (all inner tiles + exit door tile)
@@ -1015,9 +1041,9 @@ export function HubTownCanvas({
       for (let tx = 1; tx < interior.width - 1; tx++)
         for (let ty = 1; ty < interior.height - 1; ty++)
           floorSet.add(`${tx},${ty}`)
-      floorSet.add(`${exitTx},${interior.height - 1}`)  // exit door opening
+      if (!isSubRoom) floorSet.add(`${exitTx},${interior.height - 1}`)  // exit door opening
 
-      // Wall tile set (border, minus exit door opening)
+      // Wall tile set (border, minus exit door opening for ground-level rooms)
       const wallSet = new Set<string>()
       for (let tx = 0; tx < interior.width; tx++) {
         wallSet.add(`${tx},0`)
@@ -1027,7 +1053,7 @@ export function HubTownCanvas({
         wallSet.add(`0,${ty}`)
         wallSet.add(`${interior.width - 1},${ty}`)
       }
-      wallSet.delete(`${exitTx},${interior.height - 1}`)  // open door gap
+      if (!isSubRoom) wallSet.delete(`${exitTx},${interior.height - 1}`)  // open door gap
 
       // Render tile layers (async — tiles appear as they load)
       const floorContainer = new PIXI.Container()
@@ -1046,10 +1072,12 @@ export function HubTownCanvas({
             floorContainer.addChild(s)
           }
         }
-        // Exit door tile also gets floor
-        const exitFloor = new PIXI.Sprite(floorTex)
-        exitFloor.position.set(exitTx * T, (interior.height - 1) * T)
-        floorContainer.addChild(exitFloor)
+        // Exit door tile also gets floor (only for ground-level rooms with a bottom door)
+        if (!isSubRoom) {
+          const exitFloor = new PIXI.Sprite(floorTex)
+          exitFloor.position.set(exitTx * T, (interior.height - 1) * T)
+          floorContainer.addChild(exitFloor)
+        }
       }).catch(() => {
         renderPathTiles(floorContainer, floorSet, undefined, PATH_TILE.dirt1).catch(() => {})
       })
@@ -1187,6 +1215,34 @@ export function HubTownCanvas({
         }).catch(() => {})
       }
 
+      // Scheduled exterior NPCs — render inside this building when their schedule says so
+      const scheduledVisitors = EXTERIOR_NPCS.filter(npc => {
+        if (!npc.schedule) return false
+        const loc = getNpcLocation(npc, gameHourRef.current)
+        return loc?.type === 'interior' && loc.buildingId === buildingId
+      })
+      for (const npc of scheduledVisitors) {
+        const loc = getNpcLocation(npc, gameHourRef.current) as { type: 'interior'; buildingId: string; tx: number; ty: number }
+        loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
+          if (!interiorActive || currentInteriorId !== buildingId) return
+          const s = new PIXI.Sprite(tex)
+          s.width = SPRITE_SIZE; s.height = SPRITE_SIZE
+          s.anchor.set(0.5, 1)
+          s.position.set(loc.tx * T + T / 2, loc.ty * T + T)
+          s.eventMode = 'static'
+          s.cursor    = 'pointer'
+          s.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+            e.stopPropagation()
+            if (npc.dialogue.length > 0 || npc.questGive || npc.questReceive) {
+              const idx = npcDialogueIndex.get(npc.id) ?? 0
+              onNpcTapRef.current?.(npc.dialogue[idx % npc.dialogue.length] ?? '', npc.id)
+              npcDialogueIndex.set(npc.id, idx + 1)
+            }
+          })
+          interiorLayer.addChild(s)
+        }).catch(() => {})
+      }
+
       // Quest indicators for interior NPCs
       interiorQuestIndicators.clear()
       interiorIndicatorBaseY.clear()
@@ -1210,20 +1266,33 @@ export function HubTownCanvas({
       nameLabel.position.set(T + 4, 4)
       interiorLayer.addChild(nameLabel)
 
-      // Exit marker
-      const exitMarker = new PIXI.Text({
-        text: '▼ EXIT',
-        style: { fontSize: 8, fill: '#88ff88', fontFamily: 'monospace', fontWeight: 'bold' },
-      })
-      exitMarker.anchor.set(0.5, 0)
-      exitMarker.position.set(exitTx * T + T / 2, (interior.height - 1) * T + 2)
-      interiorLayer.addChild(exitMarker)
+      // Exit marker (standard "leave building" exit, only for ground-level rooms)
+      if (!isSubRoom) {
+        const exitMarker = new PIXI.Text({
+          text: '▼ EXIT',
+          style: { fontSize: 8, fill: '#88ff88', fontFamily: 'monospace', fontWeight: 'bold' },
+        })
+        exitMarker.anchor.set(0.5, 0)
+        exitMarker.position.set(exitTx * T + T / 2, (interior.height - 1) * T + 2)
+        interiorLayer.addChild(exitMarker)
+      }
+      // Room-exit direction markers (stairs, passages)
+      for (const exit of interior.exits ?? []) {
+        const arrow = exit.direction === 'up' ? '▲' : exit.direction === 'down' ? '▼' : '→'
+        const marker = new PIXI.Text({
+          text: arrow,
+          style: { fontSize: 10, fill: '#aaddff', fontFamily: 'monospace', fontWeight: 'bold' },
+        })
+        marker.anchor.set(0.5, 1)
+        marker.position.set(exit.tx * T + T / 2, exit.ty * T)
+        interiorLayer.addChild(marker)
+      }
 
       // Move avatar into interior (on top of solid/below decor)
       if (avatar) {
         if (!avatarInInterior) avatarLayer.removeChild(avatar)
-        avatar.x = entryTile[0] * T + T / 2
-        avatar.y = entryTile[1] * T + T
+        avatar.x = defaultEntryTile[0] * T + T / 2
+        avatar.y = defaultEntryTile[1] * T + T
         interiorLayer.addChild(avatar)
         avatarInInterior = true
       }
@@ -1262,7 +1331,7 @@ export function HubTownCanvas({
       }
 
       // Scroll viewport to center on interior
-      onAvatarMoveRef.current(intOffX + entryTile[0] * T + T / 2, intOffY + entryTile[1] * T + T / 2)
+      onAvatarMoveRef.current(intOffX + defaultEntryTile[0] * T + T / 2, intOffY + defaultEntryTile[1] * T + T / 2)
       } catch (e) {
         rollbar.error('[HubTownCanvas] doEnterInterior error', { buildingId, error: String(e) })
       }
@@ -1305,6 +1374,23 @@ export function HubTownCanvas({
         if (ntx === interiorExitTile[0] && nty === interiorExitTile[1]) {
           interiorIsWalking = false
           doExitInterior()
+          return
+        }
+        const roomExit = exitByTile.get(`${ntx},${nty}`)
+        if (roomExit) {
+          interiorIsWalking = false
+          // Lock checks
+          if (roomExit.lockedBy && !doorKeysRef.current?.has(roomExit.lockedBy)) {
+            onDoorLockedRef.current?.(roomExit.toInteriorId, roomExit.lockedBy)
+            processInteriorWalkQueue()
+            return
+          }
+          if (roomExit.requiredQuest && !completedQuestIdsRef.current?.has(roomExit.requiredQuest)) {
+            onDoorLockedRef.current?.(roomExit.toInteriorId, `quest:${roomExit.requiredQuest}`)
+            processInteriorWalkQueue()
+            return
+          }
+          doEnterInterior(roomExit.toInteriorId, roomExit.entryTx, roomExit.entryTy)
           return
         }
         processInteriorWalkQueue()
@@ -1623,6 +1709,16 @@ export function HubTownCanvas({
         if (state !== null) {
           const baseY = activeBaseY.get(npcId) ?? ind.y
           ind.y = baseY + Math.sin(performance.now() / 400) * 3
+        }
+      }
+
+      // Named NPC visibility — hide when schedule says they're inside a building
+      if (!interiorActive) {
+        for (const [npcId, container] of namedNpcContainers) {
+          const npc = EXTERIOR_NPCS.find(n => n.id === npcId)
+          if (!npc?.schedule) continue
+          const loc = getNpcLocation(npc, gameHourRef.current)
+          container.visible = !loc || loc.type === 'exterior'
         }
       }
 

@@ -29,6 +29,7 @@ export interface HubQuestDef {
   completeDialogue: string
   steps: HubQuestStep[]
   reward: HubQuestReward
+  availableHours?: { start: number; end: number }
 }
 
 export const HUB_QUEST_DEFS: HubQuestDef[] = data.quests as unknown as HubQuestDef[]
