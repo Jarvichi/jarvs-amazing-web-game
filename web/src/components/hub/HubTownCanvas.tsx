@@ -65,6 +65,7 @@ interface Props {
   onNpcTap?:        (dialogue: string, npcId: string) => void
   interiorEnterRef?: React.MutableRefObject<((buildingId: string) => void) | null>
   interiorExitRef?:  React.MutableRefObject<(() => void) | null>
+  onEnterInterior?:  () => void
   onExitInterior?:   () => void
   onTileTap?:        (tx: number, ty: number) => void
   pickedUpIds?:      Set<string>
@@ -83,7 +84,7 @@ interface Props {
 export function HubTownCanvas({
   onAreaEnter, onNodeInteract, onAvatarMove,
   returnRef, unitCards, commander, onNpcTap,
-  interiorEnterRef, interiorExitRef, onExitInterior, onTileTap,
+  interiorEnterRef, interiorExitRef, onEnterInterior, onExitInterior, onTileTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
   gameHour, isNight,
@@ -99,6 +100,8 @@ export function HubTownCanvas({
   onNpcTapRef.current     = onNpcTap
   const unitCardsRef      = useRef(unitCards)
   unitCardsRef.current    = unitCards
+  const onEnterInteriorRef  = useRef(onEnterInterior)
+  onEnterInteriorRef.current = onEnterInterior
   const onExitInteriorRef   = useRef(onExitInterior)
   onExitInteriorRef.current = onExitInterior
   const onTileTapRef        = useRef(onTileTap)
@@ -997,6 +1000,9 @@ export function HubTownCanvas({
       const intH = interior.height * T
       intOffX = Math.floor((MAP_W - intW) / 2)
       intOffY = Math.floor((MAP_H - intH) / 2)
+
+      // Notify HubWorld that entry succeeded (must happen after all guard returns)
+      onEnterInteriorRef.current?.()
 
       // Hide exterior layers
       groundLayer.visible   = false
