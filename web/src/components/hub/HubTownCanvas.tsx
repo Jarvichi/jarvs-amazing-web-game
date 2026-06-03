@@ -148,9 +148,10 @@ export function HubTownCanvas({
     const nightCtx     = nightCanvas.getContext('2d')!
     const nightTexture = PIXI.Texture.from(nightCanvas)
     const nightSprite  = new PIXI.Sprite(nightTexture)
-    nightSprite.width   = MAP_W
-    nightSprite.height  = MAP_H
-    nightSprite.visible = false
+    nightSprite.width     = MAP_W
+    nightSprite.height    = MAP_H
+    nightSprite.visible   = false
+    nightSprite.eventMode = 'none'  // overlay must not block pointer events on game objects
     // Keep legacy aliases so existing code below compiles unchanged
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
@@ -1028,7 +1029,8 @@ export function HubTownCanvas({
 
       // Set interior state
       const exitTx: number = Math.floor(interior.width / 2)
-      const isSubRoom = entryTx !== undefined || entryTy !== undefined
+      // isSubRoom: no exterior door exists for this interior (upstairs rooms, passages, etc.)
+      const isSubRoom = !HUB_DOORS.some(d => d.buildingId === buildingId)
       const defaultEntryTile: [number, number] = [entryTx ?? exitTx, entryTy ?? (interior.height - 2)]
       interiorCurrentTile = defaultEntryTile
       currentInteriorId   = buildingId
@@ -1875,11 +1877,14 @@ export function HubTownCanvas({
           if (nextSpawnTimer <= 0) {
             lastBubbleIdx = (lastBubbleIdx + 1) % npcBubbleTargets.length
             const { npc, cx, cy } = npcBubbleTargets[lastBubbleIdx]
-            const didx = npcDialogueIndex.get(npc.id) ?? 0
-            const line = npc.dialogue[didx % npc.dialogue.length]
-            const container = createSpeechBubble(line, cx, cy)
-            bubbleLayer.addChild(container)
-            activeBubbles.push({ container, timer: BUBBLE_SHOW_MS, phase: 'showing' })
+            // Don't show bubble for NPCs that have moved inside a building
+            if (namedNpcContainers.get(npc.id)?.visible !== false) {
+              const didx = npcDialogueIndex.get(npc.id) ?? 0
+              const line = npc.dialogue[didx % npc.dialogue.length]
+              const container = createSpeechBubble(line, cx, cy)
+              bubbleLayer.addChild(container)
+              activeBubbles.push({ container, timer: BUBBLE_SHOW_MS, phase: 'showing' })
+            }
             nextSpawnTimer = SLOT_STAGGER_MS
           }
         }
