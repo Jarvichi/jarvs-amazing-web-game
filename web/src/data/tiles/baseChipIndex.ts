@@ -182,6 +182,10 @@ export const BASE_CHIP_TILES = {
     stoneWallLeftTopBottom: 222,
     stoneWallIsolated: 223,
 
+    portcullisTopLeft: 646,
+    portcullisTopRight: 647,
+    portcullisBottomLeft: 654,
+    portcullisBottomRight: 655,
 
     // Other
     boardwalkVertical: 224,

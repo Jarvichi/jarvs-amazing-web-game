@@ -1,6 +1,6 @@
 {
   "mapW": 2400,
-  "mapH": 1600,
+  "mapH": 2240,
   "avatarStart": [
     37,
     29
@@ -449,6 +449,46 @@
         48
       ],
       "pathType": "darkDirt"
+    },
+    {
+      "rect": [
+        36,
+        48,
+        39,
+        69
+      ]
+    },
+    {
+      "rect": [
+        26,
+        58,
+        35,
+        59
+      ]
+    },
+    {
+      "rect": [
+        40,
+        58,
+        49,
+        59
+      ]
+    },
+    {
+      "rect": [
+        13,
+        57,
+        35,
+        57
+      ]
+    },
+    {
+      "rect": [
+        13,
+        61,
+        23,
+        61
+      ]
     }
   ],
   "buildings": [
@@ -1152,6 +1192,78 @@
           "tileId": "whiteFlower"
         }
       ]
+    },
+    {
+      "rect": [
+        6,
+        51,
+        17,
+        58
+      ],
+      "id": "church-building",
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 6,
+          "ty": 1,
+          "buildingId": "church"
+        }
+      ],
+      "windows": [
+        {
+          "tx": 1,
+          "ty": -2,
+          "tileId": "windowTop3"
+        },
+        {
+          "tx": 1,
+          "ty": -1,
+          "tileId": "windowBottom3"
+        },
+        {
+          "tx": 4,
+          "ty": -2,
+          "tileId": "windowTop3"
+        },
+        {
+          "tx": 4,
+          "ty": -1,
+          "tileId": "windowBottom3"
+        },
+        {
+          "tx": 8,
+          "ty": -2,
+          "tileId": "windowTop3"
+        },
+        {
+          "tx": 8,
+          "ty": -1,
+          "tileId": "windowBottom3"
+        }
+      ]
+    },
+    {
+      "rect": [
+        28,
+        57,
+        35,
+        66
+      ],
+      "id": "gatehouse-west",
+      "wall": "castleStone",
+      "roof": "greySlateRoof"
+    },
+    {
+      "rect": [
+        40,
+        57,
+        47,
+        66
+      ],
+      "id": "gatehouse-east",
+      "wall": "castleStone",
+      "roof": "greySlateRoof"
     }
   ],
   "exteriorDecor": [
@@ -1426,13 +1538,13 @@
       "comment": "pond decor"
     },
     {
-      "tx": 35,
-      "ty": 43,
+      "tx": 50,
+      "ty": 58,
       "tileId": "smallLilypad"
     },
     {
-      "tx": 39,
-      "ty": 44,
+      "tx": 54,
+      "ty": 59,
       "tileId": "largeLilypad"
     },
     {
@@ -1441,8 +1553,8 @@
       "tileId": "smallRock"
     },
     {
-      "tx": 34,
-      "ty": 45,
+      "tx": 49,
+      "ty": 60,
       "tileId": "smallRock"
     },
     {
@@ -2507,23 +2619,618 @@
       "tx": 60,
       "ty": 36,
       "tileId": "grassTuft"
+    },
+    {
+      "comment": "church exterior decor"
+    },
+    {
+      "tx": 11,
+      "ty": 51,
+      "tileId": "stoneCross"
+    },
+    {
+      "tx": 12,
+      "ty": 51,
+      "tileId": "stoneCross"
+    },
+    {
+      "tx": 5,
+      "ty": 59,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 18,
+      "ty": 59,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 19,
+      "ty": 60,
+      "tileId": "deadBush"
+    },
+    {
+      "tx": 20,
+      "ty": 61,
+      "tileId": "deadBush"
+    },
+    {
+      "comment": "graveyard stone wall perimeter (cols 4-24, rows 61-69)"
+    },
+    {
+      "tx": 4,
+      "ty": 61,
+      "tileId": "stoneWallRightBottom"
+    },
+    {
+      "tx": 5,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 6,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 7,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 8,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 9,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 10,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 11,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 12,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 15,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 16,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 17,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 18,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 19,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 20,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 21,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 22,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 23,
+      "ty": 61,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 24,
+      "ty": 61,
+      "tileId": "stoneWallLeftBottom"
+    },
+    {
+      "tx": 4,
+      "ty": 62,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 24,
+      "ty": 62,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 4,
+      "ty": 63,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 24,
+      "ty": 63,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 4,
+      "ty": 64,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 24,
+      "ty": 64,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 4,
+      "ty": 65,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 24,
+      "ty": 65,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 4,
+      "ty": 66,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 24,
+      "ty": 66,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 4,
+      "ty": 67,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 24,
+      "ty": 67,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 4,
+      "ty": 68,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 24,
+      "ty": 68,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 4,
+      "ty": 69,
+      "tileId": "stoneWallTopRight"
+    },
+    {
+      "tx": 5,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 6,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 7,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 8,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 9,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 10,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 11,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 12,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 13,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 14,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 15,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 16,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 17,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 18,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 19,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 20,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 21,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 22,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 23,
+      "ty": 69,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 24,
+      "ty": 69,
+      "tileId": "stoneWallLeftTop"
+    },
+    {
+      "comment": "graveyard interior decor"
+    },
+    {
+      "tx": 6,
+      "ty": 63,
+      "tileId": "graveStone"
+    },
+    {
+      "tx": 9,
+      "ty": 64,
+      "tileId": "graveStone"
+    },
+    {
+      "tx": 12,
+      "ty": 65,
+      "tileId": "graveStone"
+    },
+    {
+      "tx": 17,
+      "ty": 63,
+      "tileId": "graveStone"
+    },
+    {
+      "tx": 20,
+      "ty": 65,
+      "tileId": "graveStone"
+    },
+    {
+      "tx": 22,
+      "ty": 67,
+      "tileId": "graveStone"
+    },
+    {
+      "tx": 7,
+      "ty": 66,
+      "tileId": "graveWoodenCross"
+    },
+    {
+      "tx": 11,
+      "ty": 63,
+      "tileId": "graveWoodenCross"
+    },
+    {
+      "tx": 18,
+      "ty": 67,
+      "tileId": "graveWoodenCross"
+    },
+    {
+      "tx": 21,
+      "ty": 63,
+      "tileId": "graveWoodenCross"
+    },
+    {
+      "tx": 14,
+      "ty": 65,
+      "tileId": "stoneCross"
+    },
+    {
+      "tx": 13,
+      "ty": 62,
+      "tileId": "goldenCross"
+    },
+    {
+      "tx": 7,
+      "ty": 62,
+      "tileId": "deadTreeTopLeft"
+    },
+    {
+      "tx": 8,
+      "ty": 62,
+      "tileId": "deadTreeTopRight"
+    },
+    {
+      "tx": 7,
+      "ty": 63,
+      "tileId": "deadTreeBottomLeft"
+    },
+    {
+      "tx": 8,
+      "ty": 63,
+      "tileId": "deadTreeBottomRight"
+    },
+    {
+      "tx": 20,
+      "ty": 66,
+      "tileId": "deadTreeTopLeft"
+    },
+    {
+      "tx": 21,
+      "ty": 66,
+      "tileId": "deadTreeTopRight"
+    },
+    {
+      "tx": 20,
+      "ty": 67,
+      "tileId": "deadTreeBottomLeft"
+    },
+    {
+      "tx": 21,
+      "ty": 67,
+      "tileId": "deadTreeBottomRight"
+    },
+    {
+      "tx": 10,
+      "ty": 67,
+      "tileId": "deadBush"
+    },
+    {
+      "tx": 16,
+      "ty": 62,
+      "tileId": "deadBush"
+    },
+    {
+      "tx": 19,
+      "ty": 64,
+      "tileId": "deadBush"
+    },
+    {
+      "tx": 23,
+      "ty": 65,
+      "tileId": "deadBush"
+    },
+    {
+      "tx": 6,
+      "ty": 65,
+      "tileId": "deadGrassTuft"
+    },
+    {
+      "tx": 9,
+      "ty": 62,
+      "tileId": "deadGrassTuft"
+    },
+    {
+      "tx": 11,
+      "ty": 67,
+      "tileId": "deadGrassTuft"
+    },
+    {
+      "tx": 15,
+      "ty": 63,
+      "tileId": "deadGrassTuft"
+    },
+    {
+      "tx": 18,
+      "ty": 65,
+      "tileId": "deadGrassTuft"
+    },
+    {
+      "tx": 22,
+      "ty": 63,
+      "tileId": "deadGrassTuft"
+    },
+    {
+      "comment": "portcullis in gatehouse road gap"
+    },
+    {
+      "tx": 36,
+      "ty": 60,
+      "tileId": "portcullisTopLeft"
+    },
+    {
+      "tx": 37,
+      "ty": 60,
+      "tileId": "portcullisTopRight"
+    },
+    {
+      "tx": 38,
+      "ty": 60,
+      "tileId": "portcullisTopLeft"
+    },
+    {
+      "tx": 39,
+      "ty": 60,
+      "tileId": "portcullisTopRight"
+    },
+    {
+      "tx": 36,
+      "ty": 61,
+      "tileId": "portcullisBottomLeft"
+    },
+    {
+      "tx": 37,
+      "ty": 61,
+      "tileId": "portcullisBottomRight"
+    },
+    {
+      "tx": 38,
+      "ty": 61,
+      "tileId": "portcullisBottomLeft"
+    },
+    {
+      "tx": 39,
+      "ty": 61,
+      "tileId": "portcullisBottomRight"
+    },
+    {
+      "comment": "south expansion atmosphere"
+    },
+    {
+      "tx": 25,
+      "ty": 51,
+      "tileId": "autumnTreeTopLeft"
+    },
+    {
+      "tx": 26,
+      "ty": 51,
+      "tileId": "autumnTreeTopRight"
+    },
+    {
+      "tx": 25,
+      "ty": 52,
+      "tileId": "autumnTreeBottomLeft"
+    },
+    {
+      "tx": 26,
+      "ty": 52,
+      "tileId": "autumnTreeBottomRight"
+    },
+    {
+      "tx": 27,
+      "ty": 54,
+      "tileId": "autumnTreeTopLeft"
+    },
+    {
+      "tx": 28,
+      "ty": 54,
+      "tileId": "autumnTreeTopRight"
+    },
+    {
+      "tx": 27,
+      "ty": 55,
+      "tileId": "autumnTreeBottomLeft"
+    },
+    {
+      "tx": 28,
+      "ty": 55,
+      "tileId": "autumnTreeBottomRight"
+    },
+    {
+      "tx": 48,
+      "ty": 50,
+      "tileId": "lightBush"
+    },
+    {
+      "tx": 52,
+      "ty": 50,
+      "tileId": "lightBush"
+    },
+    {
+      "tx": 57,
+      "ty": 50,
+      "tileId": "darkBush"
+    },
+    {
+      "tx": 58,
+      "ty": 52,
+      "tileId": "grassTuft"
+    },
+    {
+      "tx": 60,
+      "ty": 54,
+      "tileId": "grassTuft"
+    },
+    {
+      "tx": 46,
+      "ty": 53,
+      "tileId": "grassTuft"
+    },
+    {
+      "tx": 35,
+      "ty": 56,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 40,
+      "ty": 56,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 35,
+      "ty": 67,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 40,
+      "ty": 67,
+      "tileId": "smallRock"
     }
   ],
   "pondTiles": [
     {
       "rect": [
-        32,
-        42,
-        41,
-        46
+        47,
+        57,
+        56,
+        61
       ]
     },
     {
       "rect": [
-        35,
-        40,
-        39,
-        46
+        50,
+        55,
+        54,
+        61
       ]
     }
   ],
@@ -4426,6 +5133,85 @@
         }
       ],
       "wallTileId": "castleStone"
+    },
+    "church": {
+      "name": "Church",
+      "width": 12,
+      "height": 8,
+      "wallTileId": "interiorWallWhite",
+      "floorTileId": "cobblestoneFloor",
+      "decor": [
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "goldenCross"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "goldenCross"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "candlestickLitTop"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "candlestickLitTop"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "candlestickLitBottom"
+        },
+        {
+          "tx": 6,
+          "ty": 3,
+          "tileId": "candlestickLitBottom"
+        },
+        {
+          "tx": 2,
+          "ty": 3,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 3,
+          "ty": 3,
+          "tileId": "benchRight"
+        },
+        {
+          "tx": 8,
+          "ty": 3,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 9,
+          "ty": 3,
+          "tileId": "benchRight"
+        },
+        {
+          "tx": 2,
+          "ty": 5,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 3,
+          "ty": 5,
+          "tileId": "benchRight"
+        },
+        {
+          "tx": 8,
+          "ty": 5,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 9,
+          "ty": 5,
+          "tileId": "benchRight"
+        }
+      ]
     }
   },
   "npcs": [
@@ -4588,8 +5374,8 @@
       "id": "fisherman",
       "name": "Old Greyfish",
       "sprite": "hub-npc-fisherman",
-      "tx": 40,
-      "ty": 40,
+      "tx": 55,
+      "ty": 55,
       "dialogue": [
         "Been sitting at this pond since before the Fracture. The water's gone quiet lately \u2014 something's stirring beneath.",
         "I pulled out a strange glowing fish last week. Threw it back \u2014 some things are better left undisturbed.",
@@ -4617,8 +5403,8 @@
           "endHour": 20,
           "location": {
             "type": "exterior",
-            "tx": 40,
-            "ty": 40
+            "tx": 55,
+            "ty": 55
           }
         },
         {
@@ -4865,8 +5651,8 @@
       "id": "fishing-hole",
       "name": "Rod",
       "sprite": "hub-npc-fisherman",
-      "tx": 35,
-      "ty": 39,
+      "tx": 50,
+      "ty": 54,
       "screen": "fishing",
       "dialogue": [
         "Nothings biting today. Maybe try again later?",
@@ -4877,8 +5663,8 @@
       "id": "fishing-hole-2",
       "name": "Captain Dan",
       "sprite": "hub-npc-fisherman",
-      "tx": 34,
-      "ty": 41,
+      "tx": 49,
+      "ty": 56,
       "screen": "fishing",
       "dialogue": [
         "The pond is calm today. Care to fish?"
