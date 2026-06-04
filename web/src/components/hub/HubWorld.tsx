@@ -31,7 +31,7 @@ import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
 import { useHubClock } from '../../hooks/useHubClock'
 import { formatGameTime, hourInRange } from '../../game/hub/hubClock'
-import { getDailyChallengeState } from '../../game/dailyChallenge'
+import { getDailyChallengeNPCDialogue } from '../../game/hub/npcDialogue'
 
 const T = 32
 const INITIAL_SCROLL = {
@@ -148,20 +148,9 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onPlayerTa
 
   // Proximity dialogue for named NPCs: dynamic text shown as speech bubbles on approach
   const npcProximityDialogueRef = useRef(new Map<string, { atDistance: number; text: string }[]>())
-  {
-    const dc = getDailyChallengeState()
-    let dcText: string
-    if (dc.won === true) {
-      dcText = "Today's challenge: complete!"
-    } else if (dc.attempts > 0) {
-      dcText = `Daily challenge: attempt ${dc.attempts}`
-    } else {
-      dcText = 'Daily challenge awaits!'
-    }
-    npcProximityDialogueRef.current = new Map([
-      ['challenge-herald', [{ atDistance: 5, text: dcText }]],
-    ])
-  }
+  npcProximityDialogueRef.current = new Map([
+    ['challenge-herald', getDailyChallengeNPCDialogue()],
+  ])
 
   // Completed quest IDs: read imperatively by PixiJS ticker to gate blocked path state
   const completedQuestIdsRef = useRef(new Set<string>())
