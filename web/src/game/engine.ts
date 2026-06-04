@@ -545,16 +545,19 @@ export function tick(state: GameState, deltaMs: number): GameState {
   processAttacks(s, deltaMs, log)
 
   // 4a. Sync commander/boss HP → base HP so game-over check and UI bars are accurate.
-  // find() matches a dying commander (hp 0, dyingTimer running) too, so Math.max(0, hp) already
-  // yields 0 in that case — no separate "is dying" branch is needed.
+  // find() matches a dying commander (hp 0, dyingTimer running). If the commander is gone
+  // entirely — e.g. an AOE dropped it to 0 with no dyingTimer and it was purged from the field —
+  // force base HP to 0 so the game-over check still fires (otherwise it keeps a stale value).
   const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')
   if (playerCmd) s.playerBase.hp = Math.max(0, playerCmd.hp)
+  else s.playerBase.hp = 0
   if (s.bossCard && !s.endlessMode) {
     const bossUnit = s.field.find(u => u.owner === 'opponent' && u.name === s.bossCard && u.hp > 0)
     if (bossUnit) s.opponentBase.hp = bossUnit.hp
   } else {
     const opCmd = s.field.find(u => u.isCommander && u.owner === 'opponent')
     if (opCmd) s.opponentBase.hp = Math.max(0, opCmd.hp)
+    else s.opponentBase.hp = 0
   }
 
   // 4b. Check for game over before processing timers, so player still gets credit for killing a boss in the same tick that it kills them
