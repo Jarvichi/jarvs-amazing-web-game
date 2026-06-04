@@ -209,9 +209,29 @@ body {
 /* ─── Battlefield ────────────────────────────────────── */
 
 .battlefield {
-  gap: 5px;
+  position: relative;
   min-height: 0;
+  /* Fixed bands reserved for the floating bar clusters. The lane fills the space
+     between them, so the play area's size depends only on the viewport — never on
+     bar content (long scores, wave status, event tags, card-bar height changes). */
+  --bf-top-buffer: 80px;
+  --bf-bottom-buffer: 230px;
 }
+
+/* Floating bar clusters: absolutely positioned in the reserved bands above/below
+   the lane. Their content can grow/wrap without ever resizing or reflowing the lane. */
+.bf-top-cluster,
+.bf-bottom-cluster {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.bf-top-cluster { top: 0; }
+.bf-bottom-cluster { bottom: 0; }
 
 /* ─── Top Bar (clock + scores + sudden death) ─────────── */
 
@@ -220,6 +240,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
   padding: 3px 8px;
   border: 1px solid var(--game-border);
   border-radius: 3px;
@@ -431,9 +454,13 @@ body {
 /* ─── The Lane (vertical — fills remaining space) ────── */
 
 .lane {
-  position: relative;
-  flex: 1;
-  min-height: 160px;
+  /* Absolute fill between the reserved buffer bands — size is viewport-driven only.
+     Still establishes the positioning context + rect source for %-placed units. */
+  position: absolute;
+  top: var(--bf-top-buffer);
+  bottom: var(--bf-bottom-buffer);
+  left: 0;
+  right: 0;
   border: 2px solid var(--game-border);
   border-radius: 3px;
   background:
@@ -1349,6 +1376,8 @@ body {
   .game-container { padding: 4px 6px; }
   .game-title { font-size: var(--font-base); letter-spacing: 1px; }
 
+  .battlefield { --bf-top-buffer: 74px; --bf-bottom-buffer: 200px; }
+
   .hand-cards { gap: 4px; padding-bottom: 4px; }
   .card-tile { width: 78px; padding: 6px 8px; }
   .card-title { font-size: var(--font-xxs); }
@@ -1374,7 +1403,7 @@ body {
   .card-title { font-size: 0.571rem; }
 
   .lane { min-height: 90px; }
-  .battlefield { gap: 3px; }
+  .battlefield { --bf-top-buffer: 68px; --bf-bottom-buffer: 182px; }
 }
 
 /* ─── Intro Screen ───────────────────────────────────── */

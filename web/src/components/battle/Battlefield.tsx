@@ -716,7 +716,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
 
   return (
     <div
-      className={`battlefield u-col u-grow${actTheme ? ` battlefield--${actTheme}` : ''}${paused ? ' battlefield--paused' : ''}`}
+      className={`battlefield u-grow${actTheme ? ` battlefield--${actTheme}` : ''}${paused ? ' battlefield--paused' : ''}`}
       onClick={paused && !inspectedUnit ? () => doPause(false) : undefined}
     >
 
@@ -751,6 +751,8 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
         </div>
       )}
 
+      {/* Top cluster: floats above the lane in the reserved top band */}
+      <div className="bf-top-cluster">
       {/* Top bar: clock, scores */}
       <div className={`top-bar${state.suddenDeath ? ' top-bar--sudden-death' : ''}`}>
         <button className="bf-pause-btn" onClick={() => doPause(true)} title="Menu">MENU</button>
@@ -809,6 +811,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
             <span className="strategy-label">{STRATEGY_LABELS[state.opponentStrategy]}</span>
           )}
         </span>
+      </div>
       </div>
 
       {/* The Lane — vertical, fills remaining space */}
@@ -1012,6 +1015,8 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
         )
       })()}
 
+      {/* Bottom cluster: floats below the lane in the reserved bottom band */}
+      <div className="bf-bottom-cluster">
       {/* Player base */}
       <div className="base-bar base-bar--player">
         <img
@@ -1116,6 +1121,7 @@ export function Battlefield({ state, onPlayCard, onPlayAoeCard, onGiveUp, onPaus
       </div>
         )
       })()}
+      </div>
 
       {cardDetailNode}
 
