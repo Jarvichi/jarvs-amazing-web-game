@@ -105,7 +105,7 @@ import { isNoDamageMode } from './game/debug'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
 import { loadCommander, promoteCommander, CommanderState } from './game/commander'
 import { LOCATION_REGISTRY } from './data/world/locationRegistry'
-import { WORLD_MAP_NODES } from './data/world/worldMapDef'
+import { WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
 import { setCurrentWorldLocation, markNodeCleared, isNodeCleared } from './game/world/worldState'
 import { CommanderScreen } from './components/screens/CommanderScreen'
 import { TrainingScreen }  from './components/screens/TrainingScreen'
@@ -403,7 +403,8 @@ export default function App() {
   const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
   const isTrainingModeRef   = useRef(false)                  // true while playing a training battle
-   const quickBattleModeRef = useRef<QuickBattleMode>('easy')                //  Quick Battle Mode 
+   const quickBattleModeRef = useRef<QuickBattleMode>('easy')                //  Quick Battle Mode
+  const worldBattleNodeIdRef = useRef<string | null>(null)
 
   // Cutscenes & boss dialogue
   const [cutscenePanels, setCutscenePanels]   = useState<CutscenePanel[]>([])
@@ -1036,6 +1037,32 @@ export default function App() {
       doLaunch()
     }
   }, [])
+
+  const handleWorldBattle = useCallback((worldNode: WorldNodeDef) => {
+    if (!worldNode.battleConfig) return
+    const { actId, nodeId } = worldNode.battleConfig
+    const act = ACTS[actId]
+    if (!act) return
+    const node = act.nodes[nodeId]
+    if (!node) return
+
+    worldBattleNodeIdRef.current = worldNode.id
+    isCampaignRef.current        = false
+    isDailyChallengeRef.current  = false
+    battleFlawlessRef.current    = true
+    battleUsedStructure.current  = false
+    battleUsedMobileUnit.current = false
+    prevOpponentUnitsRef.current = new Map()
+    prevPlayerUnitsRef.current   = new Map()
+
+    const collection  = loadCollection()
+    const deckEntries = loadDeck()
+    const playerCards = buildDeckCards(deckEntries, collection)
+    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
+    const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), []) })
+    startBattle(state)
+    rollRareEvent()
+  }, [startBattle, rollRareEvent])
 
   const handleSelectNode = useCallback((node: QuestNode) => {
     const currentRun = run
@@ -1887,6 +1914,13 @@ export default function App() {
       setScreen('training')
       return
     }
+    if (worldBattleNodeIdRef.current !== null) {
+      worldBattleNodeIdRef.current = null
+      clearBattleState()
+      dispatch({ type: 'END' })
+      setScreen('worldmap')
+      return
+    }
     if (isCampaignRef.current) {
       isCampaignRef.current = false
       const currentRun = runRef.current
@@ -2320,6 +2354,13 @@ export default function App() {
   }, [])
 
   const handleMainMenu = useCallback(() => {
+    if (worldBattleNodeIdRef.current !== null) {
+      worldBattleNodeIdRef.current = null
+      clearBattleState()
+      dispatch({ type: 'END' })
+      setScreen('worldmap')
+      return
+    }
     const wasInCampaign = isCampaignRef.current
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
@@ -2390,6 +2431,17 @@ export default function App() {
 
   const handleGameOverPrimary = useCallback(() => {
     if (!gameState || gameState.phase.type !== 'gameOver') return
+
+    if (worldBattleNodeIdRef.current !== null) {
+      const nodeId = worldBattleNodeIdRef.current
+      worldBattleNodeIdRef.current = null
+      if (gameState.phase.winner === 'player') markNodeCleared(nodeId)
+      clearBattleState()
+      dispatch({ type: 'END' })
+      setScreen('worldmap')
+      return
+    }
+
     if (isCampaignRef.current) {
       if (gameState.phase.winner === 'player') {
         handleCampaignWin()
@@ -2588,8 +2640,7 @@ export default function App() {
               setScreen('location')
             } else if (node.type === 'battle') {
               if (!isNodeCleared(node.id)) {
-                setReturnScreen('worldmap')
-                handleCampaign()
+                handleWorldBattle(node)
               }
             }
           }}
