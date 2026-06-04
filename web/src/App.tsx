@@ -400,6 +400,7 @@ export default function App() {
   const runRef                          = useRef<RunState | null>(_startup.run)
   const [rewardChoices,  setRewardChoices]  = useState<string[]>([])
   const [rewardCrystals, setRewardCrystals] = useState(0)
+  const [worldMapKey,    setWorldMapKey]    = useState(0)
   const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
   const isTrainingModeRef   = useRef(false)                  // true while playing a training battle
@@ -1061,7 +1062,7 @@ export default function App() {
     battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
     const state = newGame({ playerCards, ...resolvedNodeOpts(node, act, loadRunCount(), []) })
     startBattle(state)
-    rollRareEvent()
+    if (isCampaignRef.current) rollRareEvent()
   }, [startBattle, rollRareEvent])
 
   const handleSelectNode = useCallback((node: QuestNode) => {
@@ -2438,6 +2439,7 @@ export default function App() {
       if (gameState.phase.winner === 'player') markNodeCleared(nodeId)
       clearBattleState()
       dispatch({ type: 'END' })
+      setWorldMapKey(k => k + 1)
       setScreen('worldmap')
       return
     }
@@ -2631,6 +2633,7 @@ export default function App() {
 
       {screen === 'worldmap' && (
         <HubWorldMap
+          key={worldMapKey}
           onSelectNode={(node) => {
             if (node.id === 'ravenwatch') {
               setCurrentWorldLocation(node.id)

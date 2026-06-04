@@ -92,6 +92,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
   const appRef        = useRef<PIXI.Application | null>(null)
   const avatarRef     = useRef<PIXI.AnimatedSprite | null>(null)
   const isWalkingRef  = useRef(false)
+  const peekNodeRef   = useRef<WorldNodeDef | null>(null)
 
   const [peekNode, setPeekNode] = useState<WorldNodeDef | null>(null)
   const [questsOpen, setQuestsOpen] = useState(false)
@@ -132,13 +133,14 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
   function handleWalk(node: WorldNodeDef) {
     const app    = appRef.current
     const avatar = avatarRef.current
-    if (!app || !avatar || isWalkingRef.current) return
+    if (!app || !avatar || isWalkingRef.current || peekNodeRef.current) return
     isWalkingRef.current = true
     avatar.play()
     emitSound('mapFootstep')
     tweenTo(avatar, node.x, node.y, WALK_DURATION, app).then(() => {
       avatar.stop()
       isWalkingRef.current = false
+      peekNodeRef.current = node
       setPeekNode(node)
     })
   }
@@ -304,8 +306,8 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
         <div ref={containerRef} style={{ cursor: 'crosshair' }} />
 
         {peekNode && (
-          <div className="nm-peek-backdrop" onClick={() => setPeekNode(null)}>
-            <div className="nm-peek-panel" onClick={e => e.stopPropagation()}>
+          <div className="nm-peek-backdrop" onClick={() => { peekNodeRef.current = null; setPeekNode(null) }}>
+            <div className="nm-peek-panel" onClick={e => e.stopPropagation()} onPointerDown={e => e.stopPropagation()}>
               <div className="nm-peek-header u-col u-items-c u-gap-1">
                 <span className={`nm-peek-type nm-node-type-badge--${peekNode.type}`}>
                   {peekNode.type.toUpperCase()}
@@ -333,7 +335,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
                 <button
                   className="action-btn"
                   style={{ marginTop: 8, display: 'block', width: '100%' }}
-                  onClick={() => { setPeekNode(null); onSelectNode(peekNode) }}
+                  onClick={() => { peekNodeRef.current = null; setPeekNode(null); onSelectNode(peekNode) }}
                 >
                   Enter Battle ⚔
                 </button>
@@ -342,14 +344,14 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
                 <button
                   className="action-btn"
                   style={{ marginTop: 8, display: 'block', width: '100%' }}
-                  onClick={() => { setPeekNode(null); onSelectNode(peekNode) }}
+                  onClick={() => { peekNodeRef.current = null; setPeekNode(null); onSelectNode(peekNode) }}
                 >
                   Travel ➤
                 </button>
               )}
               <button
                 style={{ marginTop: 6, background: 'transparent', border: '1px solid #555', color: '#aaa', cursor: 'pointer', padding: '2px 10px', fontSize: 12, width: '100%' }}
-                onClick={() => setPeekNode(null)}
+                onClick={() => { peekNodeRef.current = null; setPeekNode(null) }}
               >
                 Close
               </button>
