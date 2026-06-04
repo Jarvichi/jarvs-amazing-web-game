@@ -2594,6 +2594,8 @@ export default function App() {
             }
           }}
           onBack={() => setScreen('hubworld')}
+                    user={user}
+                    
         />
       )}
 

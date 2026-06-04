@@ -505,7 +505,8 @@
     },
     { "tile": [35,65] },    
     { "rect": [13,61,14,61] },
-    { "rect": [5,62,23,68], "pathType": "grass1Grass4" }
+    { "rect": [5,62,23,68], "pathType": "grass1Grass4" },
+    { "rect": [35,69,39,70] }
   ],
   "buildings": [
     {
@@ -1279,7 +1280,7 @@
     },
     {
       "rect": [
-        27,
+        26,
         57,
         34,
         66
@@ -1292,7 +1293,7 @@
       "rect": [
         40,
         57,
-        47,
+        74,
         66
       ],
       "id": "gatehouse-east",
@@ -3217,7 +3218,8 @@
     { "tx": 38, "ty": 66, "tileId": "wallArchFill", "zlayer": "above" },    
     { "tx": 39, "ty": 66, "tileId": "wallArchRight", "zlayer": "above" },    
 
-
+    { "tx": 40, "ty": 68, "tileId": "roadSignTop" },
+    { "tx": 40, "ty": 69, "tileId": "roadSignBottom" },    
 
     {
       "comment": "south expansion atmosphere"

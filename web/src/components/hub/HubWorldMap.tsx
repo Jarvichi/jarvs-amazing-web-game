@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useMemo } from 'react'
 import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { WORLD_MAP_NODES, WorldNodeDef } from '../../data/world/worldMapDef'
@@ -11,6 +11,18 @@ import { Toolbar } from '../ui/Toolbar/Toolbar'
 import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
+import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
+import { useHubClock } from '../../hooks/useHubClock'
+import { formatGameTime } from '../../game/hub/hubClock'
+import { loadCrystals, loadCollection } from '../../game/collection'
+import { getCardCatalog } from '../../game/cards'
+import { QuestsModal } from './QuestsModal'
+import { HUB_QUEST_DEFS } from '../../data/hub/questDefs'
+import { unmarkPickedUp } from '../../game/hub/pickups'
+import { resetQuest } from '../../game/hub/quests'
+import { LoginButton } from '../ui/LoginButton'
+import { loadPlayerName } from '../../game/questline'
+import type { User } from 'firebase/auth'
 
 const MAP_W = 700
 const MAP_H = 520
@@ -25,15 +37,49 @@ function isNodeAvailable(node: WorldNodeDef): boolean {
 }
 
 interface Props {
-  onSelectNode: (node: WorldNodeDef) => void
-  onBack: () => void
+  onSelectNode:  (node: WorldNodeDef) => void
+  onBack:        () => void
+  user:         User | null
+  onSignIn?:     () => void
+  onSignOut?:    () => void
+  onPlayerTap?:  () => void
+  onFeedback?:   () => void
 }
 
-export function HubWorldMap({ onSelectNode, onBack }: Props) {
+export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, onPlayerTap, onFeedback }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const deadRef      = useRef(false)
-  const [selected, setSelected] = useState<WorldNodeDef | null>(null)
+  const [selected, setSelected]   = useState<WorldNodeDef | null>(null)
+  const [questsOpen, setQuestsOpen] = useState(false)
+  const [wrongSave, setWrongSave]   = useState<{ cards: number; crystals: number; deck: number } | null>(null)
   const currentLocation = getCurrentWorldLocation()
+  const { isNight: isGameNight } = useHubClock()
+  const playerName = loadPlayerName()
+  const crystals = loadCrystals()
+  const { collectionCount, catalogTotal } = useMemo(() => {
+    const catalog    = getCardCatalog()
+    const collection = loadCollection()
+    return {
+      collectionCount: collection.filter(e => e.count > 0 && catalog.some(c => c.name === e.cardName)).length,
+      catalogTotal: catalog.length,
+    }
+  }, [])
+
+  useEffect(() => {
+    if (Math.random() > 0.02) return
+    const fake = { cards: Math.floor(Math.random() * catalogTotal), crystals: Math.floor(Math.random() * 9999), deck: Math.floor(Math.random() * 10) }
+    setWrongSave(fake)
+    const id = setTimeout(() => setWrongSave(null), 1800)
+    return () => clearTimeout(id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleQuestAbandon = (questId: string) => {
+    const quest = HUB_QUEST_DEFS.find(q => q.id === questId)
+    if (!quest) return
+    unmarkPickedUp(quest.steps.flatMap(s => s.pickupIds ?? []))
+    resetQuest(questId)
+  }
 
   useEffect(() => () => { deadRef.current = true }, [])
 
@@ -140,12 +186,41 @@ export function HubWorldMap({ onSelectNode, onBack }: Props) {
   const canTravel = selected && isNodeAvailable(selected) && !isCurrent
 
   return (
-    <OverlayScreen title="WORLD MAP">
+    <OverlayScreen title="🗺 World Map">
       <Toolbar>
-        <ToolbarLabel className="title-deck-info">🗺 World Map</ToolbarLabel>
+          <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
+          <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
+          <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
+        <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
+        <ToolbarButton icon="🏠" title="Back to Town" onClick={onBack} />          
         <ToolbarSpacer />
-        <ToolbarButton icon="🏠" title="Back to Town" onClick={onBack} />
+
+
+
+        <div className="toolbar-overflow-inline">
+                  <LoginButton onSignIn={() => onSignIn?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
+        <ToolbarButton
+          className="title-auth-btn"
+          onClick={onFeedback}
+          title="Send feedback or report a bug"
+          icon={'🗣️'}
+        />
+        <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>
+        </div>
+        <div className="toolbar-overflow-dropdown">
+          <ToolbarDropdown label="📊" align="right">
+        <LoginButton onSignIn={() => onSignIn?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
+        <ToolbarButton
+          className="title-auth-btn"
+          onClick={onFeedback}
+          title="Send feedback or report a bug"
+          icon={'🗣️'}
+        />
+        <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>          </ToolbarDropdown>
+        </div>
+
       </Toolbar>
+      {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} />}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
         <div ref={containerRef} style={{ cursor: 'crosshair' }} />
         {selected && (

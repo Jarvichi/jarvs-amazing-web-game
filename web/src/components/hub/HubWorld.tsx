@@ -18,10 +18,12 @@ import { getCardCatalog } from '../../game/cards'
 import { CommanderState } from '../../game/commander'
 import { loadSkipIntro } from '../screens/SettingsScreen'
 import { getSavedHubTile } from './HubTownCanvas'
+import { HubWorldMap } from './HubWorldMap'
 import { Toolbar } from '../ui/Toolbar/Toolbar'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
+import { ToolbarDropdown } from '../ui/Toolbar/ToolbarDropdown'
 import { User } from 'firebase/auth'
 import { loadPlayerName } from '../../game/questline'
 import { LoginButton } from '../ui/LoginButton'
@@ -104,6 +106,7 @@ interface Props {
 export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
+  const [worldMapOpen,  setWorldMapOpen]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
   const [dialogueLine,   setDialogueLine]   = useState<string | null>(null)
   const [dialogueEvent,  setDialogueEvent]  = useState<QuestEvent | null>(null)
@@ -263,7 +266,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       interiorEnterRef.current?.(buildingId)
       return
     }
-    if (screen === 'worldmap') { onWorldMap?.(); return }
+    if (screen === 'worldmap') { setWorldMapOpen(true); return }
     if (screen === 'campaign') { onCampaign?.(); return }
     if (screen === 'endless') { onEndless?.(); return }
     if (screen === 'commander' && !commander) {
@@ -511,15 +514,31 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     setDialogueEvent({ speakerName, text: line })
   }, [refreshState, handleNodeInteract])
 
+  if (worldMapOpen) {
+    return (
+      <HubWorldMap
+        onBack={() => setWorldMapOpen(false)}
+        onSelectNode={(node) => { setWorldMapOpen(false); onWorldMap?.() }}
+        user={user}
+        onSignIn={onLoginToggle}
+        onSignOut={onSignOut}
+        onPlayerTap={onPlayerTap}
+        onFeedback={onFeedback}
+      />
+    )
+  }
+
   return (
-    <OverlayScreen title="JARVS AMAZING WEB GAME">
+    <OverlayScreen title={`🏠 ${HUB_TOWN_NAME}`}>
       <Toolbar>
-        <ToolbarLabel className="title-deck-info">⚔ {HUB_TOWN_NAME}</ToolbarLabel>
-        <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
-        <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
-        <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
+          <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
+          <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
+          <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
+        <ToolbarButton icon="🗺" title="World Map" onClick={() => setWorldMapOpen(true)} />
+
         <ToolbarSpacer/>
+        <div className="toolbar-overflow-inline">
         <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
         <ToolbarButton
           className="title-auth-btn"
@@ -527,7 +546,21 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
           title="Send feedback or report a bug"
           icon={'🗣️'}
         />
-        <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>
+        <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>          
+        </div>
+        <div className="toolbar-overflow-dropdown">
+          <ToolbarDropdown label="📊" align="right">
+        <LoginButton onSignIn={() => onLoginToggle?.()} onSignOut={() => onSignOut?.()} onPlayerTap={onPlayerTap} user={user} playerName={playerName} />
+        <ToolbarButton
+          className="title-auth-btn"
+          onClick={onFeedback}
+          title="Send feedback or report a bug"
+          icon={'🗣️'}
+        />
+        <ToolbarButton className="action-btn hub-hud__btn" onClick={onBack} icon={'⚙'}/>          </ToolbarDropdown>
+        </div>
+
+
       </Toolbar>
 
       <div
