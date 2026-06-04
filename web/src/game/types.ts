@@ -238,12 +238,14 @@ export interface Unit extends UnitTemplate {
   /** ms remaining burning — unit takes burnDps damage per second while > 0. */
   burnTimer?: number
   burnDps?: number
+  burnAccum?: number
   /** ms remaining frozen — unit's move speed is multiplied by freezeSlow while > 0. */
   freezeTimer?: number
   freezeSlow?: number
   /** ms remaining poisoned — unit takes poisonDps damage per second while > 0. */
   poisonTimer?: number
   poisonDps?: number
+  poisonAccum?: number
   /** ms until the next moat damage pulse — prevents continuous per-frame chip damage. */
   moatDamageTimer?: number
 }
