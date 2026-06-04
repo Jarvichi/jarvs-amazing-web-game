@@ -227,7 +227,10 @@ export function moveUnits(s: GameState, deltaMs: number): void {
       )
       if (threats.length > 0) {
         tx = unit.commanderHomeX
-        ty = unit.y
+        // Recenter to the home lane (y=0) rather than holding the lateral position the
+        // commander drifted to while chasing — otherwise a commander that chased an enemy
+        // to an extreme lane gets pinned in the corner, clips off-screen, and stalls the game.
+        ty = 0
         hasTarget = true
       }
     }
