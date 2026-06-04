@@ -9,6 +9,7 @@ import {
   ARCH_SWARM_UNIT_THRESHOLD, ARCH_SWARM_COST_REDUCTION,
   ARCH_SCHOLAR_UPGRADE_MULT,
 } from './constants';
+import { DEATH_LINGER_MS } from './combat';
 
 /** Returns the mana cost the player actually pays for a card, after archetype passives. */
 export function getEffectiveCardCost(card: Card, state: GameState): number {
@@ -298,6 +299,7 @@ export function applyUpgrade(s: GameState, effect: UpgradeEffect, owner: 'player
     for (const u of targets) {
       u.hp -= dmg
       u.damageFlashTimer = 200
+      if (u.hp <= 0 && u.moveSpeed > 0 && !u.isWall) u.dyingTimer = DEATH_LINGER_MS
     }
     log.push(`${label} AOE! ${targets.length} enem${targets.length === 1 ? 'y' : 'ies'} hit for ${dmg} damage.`)
   } else if (effect.type === 'buffHp') {

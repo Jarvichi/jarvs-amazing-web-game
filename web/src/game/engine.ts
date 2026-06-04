@@ -514,8 +514,8 @@ export function tick(state: GameState, deltaMs: number): GameState {
   const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')
   if (playerCmd) {
     s.playerBase.hp = Math.max(0, playerCmd.hp)
-  } else if (s.field.some(u => u.isCommander && u.owner === 'player')) {
-    s.playerBase.hp = 0  // commander is dying (dyingTimer still running)
+  } else {
+    s.playerBase.hp = 0  // commander gone (dying or silently removed by AOE)
   }
   if (s.bossCard && !s.endlessMode) {
     const bossUnit = s.field.find(u => u.owner === 'opponent' && u.name === s.bossCard && u.hp > 0)
@@ -523,7 +523,7 @@ export function tick(state: GameState, deltaMs: number): GameState {
   } else {
     const opCmd = s.field.find(u => u.isCommander && u.owner === 'opponent')
     if (opCmd) s.opponentBase.hp = Math.max(0, opCmd.hp)
-    else if (s.field.some(u => u.isCommander && u.owner === 'opponent')) s.opponentBase.hp = 0
+    else s.opponentBase.hp = 0  // commander gone (dying or silently removed)
   }
 
   // 4b. Check for game over before processing timers, so player still gets credit for killing a boss in the same tick that it kills them
