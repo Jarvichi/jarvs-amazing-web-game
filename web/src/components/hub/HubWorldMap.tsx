@@ -316,10 +316,14 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
               <div style={{ fontWeight: 'bold', margin: '6px 0 2px', textAlign: 'center' }}>
                 {peekNode.name}
               </div>
-              {isCurrent && (
-                <div style={{ color: '#88ee88', fontSize: 12, textAlign: 'center', marginTop: 4 }}>
-                  Current location
-                </div>
+              {isCurrent && ( <button
+                  className="action-btn"
+                  style={{ marginTop: 8, display: 'block', width: '100%' }}
+                  onClick={() => { onSelectNode(peekNode) }}
+                >
+                  Travel ➤
+                </button>
+                
               )}
               {peekNode.type === 'battle' && isCleared && (
                 <div style={{ color: '#aaaaaa', fontSize: 12, textAlign: 'center', marginTop: 4 }}>
@@ -335,7 +339,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
                 <button
                   className="action-btn"
                   style={{ marginTop: 8, display: 'block', width: '100%' }}
-                  onClick={() => { peekNodeRef.current = null; setPeekNode(null); onSelectNode(peekNode) }}
+                  onClick={() => { onSelectNode(peekNode) }}
                 >
                   Enter Battle ⚔
                 </button>
@@ -344,7 +348,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
                 <button
                   className="action-btn"
                   style={{ marginTop: 8, display: 'block', width: '100%' }}
-                  onClick={() => { peekNodeRef.current = null; setPeekNode(null); onSelectNode(peekNode) }}
+                  onClick={() => { onSelectNode(peekNode) }}
                 >
                   Travel ➤
                 </button>
