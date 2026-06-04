@@ -80,6 +80,7 @@ interface Props {
   onTreasureStep?:       (id: string) => void
   gameHour?:             number
   isNight?:              boolean
+  npcProximityDialogue?: React.MutableRefObject<Map<string, { atDistance: number; text: string }[]>>
 }
 
 export function HubTownCanvas({
@@ -88,7 +89,7 @@ export function HubTownCanvas({
   interiorEnterRef, interiorExitRef, onEnterInterior, onExitInterior, onTileTap,
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
-  gameHour, isNight,
+  gameHour, isNight, npcProximityDialogue,
 }: Props) {
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
@@ -653,6 +654,8 @@ export function HubTownCanvas({
       currentBuildingId: string | null
     }
     const namedNpcWalkStates = new Map<string, NamedNpcWalkState>()
+    // Proximity bubbles for named NPCs driven by npcProximityDialogue ref
+    const namedNpcProximityBubbles = new Map<string, { bubble: PIXI.Container | null; lastText: string | null }>()
     // Interior quest indicators: rebuilt each time we enter a building
     const interiorQuestIndicators     = new Map<string, PIXI.Text>()
     const interiorIndicatorBaseY      = new Map<string, number>()
@@ -1839,6 +1842,32 @@ export function HubTownCanvas({
               }
               n.lastBubbleText = newText
             }
+          }
+        }
+      }
+
+      // Named NPC proximity bubbles (dynamic content from npcProximityDialogue ref)
+      if (!interiorActive && npcProximityDialogue) {
+        const [atx, aty] = currentTile
+        for (const [npcId, dialogues] of npcProximityDialogue.current) {
+          const ws = namedNpcWalkStates.get(npcId)
+          if (!ws || ws.isInside) { continue }
+          const dist = Math.max(Math.abs(ws.currentTx - atx), Math.abs(ws.currentTy - aty))
+          const match = dialogues
+            .filter(p => dist <= p.atDistance)
+            .sort((a, b) => a.atDistance - b.atDistance)[0]
+          const newText = match ? match.text : null
+          const entry = namedNpcProximityBubbles.get(npcId) ?? { bubble: null, lastText: null }
+          if (newText !== entry.lastText) {
+            if (entry.bubble) { bubbleLayer.removeChild(entry.bubble); entry.bubble = null }
+            if (newText !== null) {
+              const cx = ws.currentTx * T + T / 2
+              const cy = ws.currentTy * T + T
+              entry.bubble = createSpeechBubble(newText, cx, cy)
+              bubbleLayer.addChild(entry.bubble)
+            }
+            entry.lastText = newText
+            namedNpcProximityBubbles.set(npcId, entry)
           }
         }
       }

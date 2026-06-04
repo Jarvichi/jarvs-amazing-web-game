@@ -31,6 +31,7 @@ import { TreasureModal } from './TreasureModal'
 import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/treasures'
 import { useHubClock } from '../../hooks/useHubClock'
 import { formatGameTime, hourInRange } from '../../game/hub/hubClock'
+import { getDailyChallengeState } from '../../game/dailyChallenge'
 
 const T = 32
 const INITIAL_SCROLL = {
@@ -86,6 +87,7 @@ interface Props {
   onBack:             () => void
   onNavigate?:        (screen: string) => void
   onCampaign?:        () => void
+  onEndless?:         () => void
   onPlayerTap?:       () => void
   crystals?:          number
   isSignedIn?:        boolean
@@ -98,7 +100,7 @@ interface Props {
   onTileTap?:         (tx: number, ty: number) => void
 }
 
-export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap }: Props) {
+export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
@@ -142,6 +144,23 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       if (getQuestState(quest.id).status === 'active') s.add(quest.id)
     }
     activeQuestIdsRef.current = s
+  }
+
+  // Proximity dialogue for named NPCs: dynamic text shown as speech bubbles on approach
+  const npcProximityDialogueRef = useRef(new Map<string, { atDistance: number; text: string }[]>())
+  {
+    const dc = getDailyChallengeState()
+    let dcText: string
+    if (dc.won === true) {
+      dcText = "Today's challenge: complete!"
+    } else if (dc.attempts > 0) {
+      dcText = `Daily challenge: attempt ${dc.attempts}`
+    } else {
+      dcText = 'Daily challenge awaits!'
+    }
+    npcProximityDialogueRef.current = new Map([
+      ['challenge-herald', [{ atDistance: 5, text: dcText }]],
+    ])
   }
 
   // Completed quest IDs: read imperatively by PixiJS ticker to gate blocked path state
@@ -255,6 +274,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
       return
     }
     if (screen === 'campaign') { onCampaign?.(); return }
+    if (screen === 'endless') { onEndless?.(); return }
     if (screen === 'commander' && !commander) {
       setDialogueEvent({ speakerName: "Commander's Post", text: "No commander has been assigned yet. Visit the title screen to choose one." })
       return
@@ -550,6 +570,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onPlayerTap, crystals
             onTreasureStep={handleTreasureStep}
             gameHour={gameHour}
             isNight={isGameNight}
+            npcProximityDialogue={npcProximityDialogueRef}
           />
         </div>
         <AreaNameBadge name={currentArea} />

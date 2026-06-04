@@ -2543,6 +2543,7 @@ export default function App() {
             }
           }}
           onCampaign={() => { setReturnScreen('hubworld'); handleCampaign() }}
+          onEndless={() => { setReturnScreen('hubworld'); handleEndless() }}
           onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
           crystals={crystals}
           user={user}
