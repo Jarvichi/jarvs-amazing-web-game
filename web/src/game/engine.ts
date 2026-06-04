@@ -629,30 +629,41 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
     // Burn DoT — ticks down and deals damage each frame
     if (unit.burnTimer != null && unit.burnTimer > 0 && unit.hp > 0) {
       unit.burnTimer = Math.max(0, unit.burnTimer - deltaMs)
-      unit.hp = Math.max(0, Math.round(unit.hp - (unit.burnDps ?? 8) * deltaMs / 1000))
-      if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
-      if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
-        unit.dyingTimer = DEATH_LINGER_MS
-        if (!unit.flying) s.bloodPools.push({ id: `burn-${unit.id}`, x: unit.x, y: unit.y ?? 0 })
-        log.push(`${unit.name} burns to ash!`)
+      unit.burnAccum = (unit.burnAccum ?? 0) + (unit.burnDps ?? 8) * deltaMs / 1000
+      const burnDmg = Math.floor(unit.burnAccum)
+      if (burnDmg > 0) {
+        unit.burnAccum -= burnDmg
+        unit.hp = Math.max(0, unit.hp - burnDmg)
+        if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
+        if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
+          unit.dyingTimer = DEATH_LINGER_MS
+          if (!unit.flying) s.bloodPools.push({ id: `burn-${unit.id}`, x: unit.x, y: unit.y ?? 0 })
+          log.push(`${unit.name} burns to ash!`)
+        }
       }
     }
     // Poison DoT — ticks down and deals damage each frame
     if (unit.poisonTimer != null && unit.poisonTimer > 0 && unit.hp > 0) {
       unit.poisonTimer = Math.max(0, unit.poisonTimer - deltaMs)
-      unit.hp = Math.max(0, Math.round(unit.hp - (unit.poisonDps ?? 5) * deltaMs / 1000))
-      if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
-      if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
-        unit.dyingTimer = DEATH_LINGER_MS
-        if (!unit.flying) s.bloodPools.push({ id: `poison-${unit.id}`, x: unit.x, y: unit.y ?? 0 })
-        log.push(`${unit.name} succumbs to poison!`)
+      unit.poisonAccum = (unit.poisonAccum ?? 0) + (unit.poisonDps ?? 5) * deltaMs / 1000
+      const poisonDmg = Math.floor(unit.poisonAccum)
+      if (poisonDmg > 0) {
+        unit.poisonAccum -= poisonDmg
+        unit.hp = Math.max(0, unit.hp - poisonDmg)
+        if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
+        if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
+          unit.dyingTimer = DEATH_LINGER_MS
+          if (!unit.flying) s.bloodPools.push({ id: `poison-${unit.id}`, x: unit.x, y: unit.y ?? 0 })
+          log.push(`${unit.name} succumbs to poison!`)
+        }
       }
     }
     // Ground hazard damage (gas clouds, etc.)
     for (const hazard of s.hazards) {
       if (hazard.owner === unit.owner || unit.hp <= 0) continue
       if (Math.hypot(unit.x - hazard.x, unit.y - hazard.y) <= hazard.radius) {
-        unit.hp = Math.max(0, Math.round(unit.hp - hazard.dps * deltaMs / 1000))
+        const hazardDmg = Math.max(1, Math.round(hazard.dps * deltaMs / 1000))
+        unit.hp = Math.max(0, unit.hp - hazardDmg)
         if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
         if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
           unit.dyingTimer = DEATH_LINGER_MS
