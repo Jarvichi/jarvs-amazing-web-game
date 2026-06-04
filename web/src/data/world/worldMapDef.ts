@@ -38,7 +38,7 @@ export const WORLD_MAP_NODES: WorldNodeDef[] = [
     y:             360,
     connections:   ['ironhold-keep'],
     requiredClears:[], // available from start
-    battleConfig:  { actId: 'act1', nodeId: 'n1' },
+    battleConfig:  { actId: 'act1', nodeId: 'goblin-raid' },
     decorTiles:    [WORLD_DECOR.groupOfTrees],
   },
   {
@@ -49,7 +49,7 @@ export const WORLD_MAP_NODES: WorldNodeDef[] = [
     y:             360,
     connections:   ['ironhold-keep'],
     requiredClears:[], // available from start
-    battleConfig:  { actId: 'act1', nodeId: 'n2' },
+    battleConfig:  { actId: 'act1', nodeId: 'shrine' },
     decorTiles:    [WORLD_DECOR.stoneBridgeHTop],
   },
   {
@@ -84,7 +84,7 @@ export const WORLD_MAP_NODES: WorldNodeDef[] = [
     y:             105,
     connections:   ['millhaven'],
     requiredClears:['thornwood-camp'],
-    battleConfig:  { actId: 'act2', nodeId: 'n1' },
+    battleConfig:  { actId: 'act2', nodeId: 'iron-gate' },
     decorTiles:    [WORLD_DECOR.woodenBridgeHTop],
   },
   {

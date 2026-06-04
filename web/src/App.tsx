@@ -2632,10 +2632,11 @@ export default function App() {
       {screen === 'worldmap' && (
         <HubWorldMap
           onSelectNode={(node) => {
-            setCurrentWorldLocation(node.id)
             if (node.id === 'ravenwatch') {
+              setCurrentWorldLocation(node.id)
               setScreen('hubworld')
             } else if (node.locationKey && LOCATION_REGISTRY[node.locationKey]) {
+              setCurrentWorldLocation(node.id)
               setCurrentLocationKey(node.locationKey)
               setScreen('location')
             } else if (node.type === 'battle') {
