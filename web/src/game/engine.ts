@@ -1,4 +1,4 @@
-import { GameState, Card, UnitTemplate, CardRarity, LANE_WIDTH } from './types'
+import { GameState, Card, Unit, UnitTemplate, CardRarity, LANE_WIDTH } from './types'
 import { makeDeck, makeNodeDeck, HERO_CARDS, getCardUnit, getCardCatalog, flushCardValidationErrors } from './cards'
 import { loadPlayerStats } from './playerStats'
 
@@ -40,6 +40,8 @@ export const MAX_HANDICAP = 20
 // Thresholds also apply to campaign nodes: a node with handicap 8 puts the
 // opponent on uncommon-max, making early acts beatable with a starter deck.
 
+// Ranks above 'legendary' (4) are intentionally unreachable for opponents: maxRarityForHandicap
+// caps at 'legendary', so mythic/shiny/holofoil/glass cards never enter a generated opponent deck.
 const RARITY_RANK: Record<CardRarity, number> = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4, mythic: 5, shiny: 5, holofoil: 5, glass: 5 }
 
 const QUICKPLAY_DECK_SIZE    = 20
@@ -243,7 +245,8 @@ export function newGame(
     : 0
   // Include playerStats.maxMana so regenerateMana() (which reads s.deckMaxMana) respects stat upgrades
   const deckMaxMana = Math.max(rawDeckMaxMana, loadPlayerStats().maxMana)
-  const maxMana = forgiveManaLimit ? 9 : Math.max(BASE_MAX_MANA, deckMaxMana)
+  // No field bonuses/relics exist yet at game start, so pass 0 for those terms.
+  const maxMana = clampMaxMana(deckMaxMana, 0, 0, !!forgiveManaLimit)
 
   const baseOpponentHp = hpOverride ?? (boss ? 95 : 82)
   const initialField: import('./types').Unit[] = []
@@ -334,19 +337,59 @@ export function newGame(
 
 const VICTORY_BONUS = 500
 
+/** Award the victory bonus to the winner and set the matching end phase. */
+function declareWinner(s: GameState, winner: 'player' | 'opponent'): void {
+  if (winner === 'player') {
+    s.playerScore += VICTORY_BONUS
+    s.phase = { type: 'celebration', winner: 'player' }
+  } else {
+    s.opponentScore += VICTORY_BONUS
+    s.phase = { type: 'gameOver', winner: 'opponent' }
+  }
+}
+
+/** Log prefix for a unit's owner ("Your"/"Enemy"). */
+function sideLabel(owner: 'player' | 'opponent'): string {
+  return owner === 'player' ? 'Your' : 'Enemy'
+}
+
+/** Decrement a countdown timer toward 0, leaving null/already-expired values untouched. */
+function tickDown(value: number | undefined, deltaMs: number): number | undefined {
+  return value != null && value > 0 ? Math.max(0, value - deltaMs) : value
+}
+
+/**
+ * Apply death bookkeeping when a damage-over-time effect (burn/poison/hazard) drops a mobile,
+ * non-wall unit to 0 HP: start the death animation, drop a blood pool, and log the message.
+ */
+function killByDoT(s: GameState, unit: Unit, idPrefix: string, message: string, log: string[]): void {
+  if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
+    unit.dyingTimer = DEATH_LINGER_MS
+    if (!unit.flying) s.bloodPools.push({ id: `${idPrefix}-${unit.id}`, x: unit.x, y: unit.y ?? 0 })
+    log.push(message)
+  }
+}
+
+/**
+ * Player max-mana ceiling. Shared by newGame and per-tick regen so the two formulas never drift.
+ * forgiveManaLimit grants a flat 9; otherwise the deck floor plus structure/relic bonuses, capped at 10.
+ */
+function clampMaxMana(deckMaxMana: number, manaBonus: number, relicManaBonus: number, forgiveManaLimit: boolean): number {
+  if (forgiveManaLimit) return 9
+  return Math.min(10, Math.max(BASE_MAX_MANA, deckMaxMana) + manaBonus + relicManaBonus)
+}
+
 function checkGameOver(s: GameState): boolean {
   // Split trait active — player wins only when all fragments are dead
   if (s.bossTraitState?.splitActive) {
     if (s.playerBase.hp <= 0) {
-      s.opponentScore += VICTORY_BONUS
-      s.phase = { type: 'gameOver', winner: 'opponent' }
+      declareWinner(s, 'opponent')
       return true
     }
     const splitIds = s.bossTraitState.splitUnitIds ?? []
     const anyAlive = splitIds.some(id => s.field.some(u => u.id === id && u.hp > 0))
     if (!anyAlive) {
-      s.playerScore += VICTORY_BONUS
-      s.phase = { type: 'celebration', winner: 'player' }
+      declareWinner(s, 'player')
       return true
     }
     return false
@@ -356,13 +399,11 @@ function checkGameOver(s: GameState): boolean {
   if (s.bossCardActive && s.bossCard) {
     const bossAlive = s.field.some(u => u.owner === 'opponent' && u.name === s.bossCard)
     if (!bossAlive) {
-      s.playerScore += VICTORY_BONUS
-      s.phase = { type: 'celebration', winner: 'player' }
+      declareWinner(s, 'player')
       return true
     }
     if (s.playerBase.hp <= 0) {
-      s.opponentScore += VICTORY_BONUS
-      s.phase = { type: 'gameOver', winner: 'opponent' }
+      declareWinner(s, 'opponent')
       return true
     }
     return false
@@ -370,8 +411,7 @@ function checkGameOver(s: GameState): boolean {
 
   // Normal checks
   if (s.playerBase.hp <= 0) {
-    s.opponentScore += VICTORY_BONUS
-    s.phase = { type: 'gameOver', winner: 'opponent' }
+    declareWinner(s, 'opponent')
     return true
   }
 
@@ -398,12 +438,7 @@ function checkGameOver(s: GameState): boolean {
       let killCount = Math.floor(shockwavePool.length * killPct)
       killCount = Math.min(killCount, Math.max(0, shockwavePool.length - MIN_SURVIVORS))
       if (killCount > 0) {
-        const shuffled = [...shockwavePool]
-        for (let i = shuffled.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1))
-          ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
-        }
-        const victims = shuffled.slice(0, killCount)
+        const victims = shuffle(shockwavePool).slice(0, killCount)
         const victimIds = new Set(victims.map(u => u.id))
         s.field = s.field.filter(u => !victimIds.has(u.id))
         s.log.push(`💥 The shockwave obliterates ${victims.map(u => u.name).join(', ')}!`)
@@ -422,8 +457,8 @@ function checkGameOver(s: GameState): boolean {
           s.bossTraitState.lastTraitFireMs = s.gameTime
         }
       }
-      return false
     }
+    // Phase-2 trigger never ends the game — the battle continues in phase 2.
     return false
   }
 
@@ -432,8 +467,7 @@ function checkGameOver(s: GameState): boolean {
 
   // Non-boss win: opponent commander dead (synced to opponentBase.hp)
   if (s.opponentBase.hp <= 0 && !s.bossCard) {
-    s.playerScore += VICTORY_BONUS
-    s.phase = { type: 'celebration', winner: 'player' }
+    declareWinner(s, 'player')
     return true
   }
 
@@ -510,20 +544,17 @@ export function tick(state: GameState, deltaMs: number): GameState {
   // 4. Process per-unit attacks
   processAttacks(s, deltaMs, log)
 
-  // 4a. Sync commander/boss HP → base HP so game-over check and UI bars are accurate
+  // 4a. Sync commander/boss HP → base HP so game-over check and UI bars are accurate.
+  // find() matches a dying commander (hp 0, dyingTimer running) too, so Math.max(0, hp) already
+  // yields 0 in that case — no separate "is dying" branch is needed.
   const playerCmd = s.field.find(u => u.isCommander && u.owner === 'player')
-  if (playerCmd) {
-    s.playerBase.hp = Math.max(0, playerCmd.hp)
-  } else if (s.field.some(u => u.isCommander && u.owner === 'player')) {
-    s.playerBase.hp = 0  // commander is dying (dyingTimer still running)
-  }
+  if (playerCmd) s.playerBase.hp = Math.max(0, playerCmd.hp)
   if (s.bossCard && !s.endlessMode) {
     const bossUnit = s.field.find(u => u.owner === 'opponent' && u.name === s.bossCard && u.hp > 0)
     if (bossUnit) s.opponentBase.hp = bossUnit.hp
   } else {
     const opCmd = s.field.find(u => u.isCommander && u.owner === 'opponent')
     if (opCmd) s.opponentBase.hp = Math.max(0, opCmd.hp)
-    else if (s.field.some(u => u.isCommander && u.owner === 'opponent')) s.opponentBase.hp = 0
   }
 
   // 4b. Check for game over before processing timers, so player still gets credit for killing a boss in the same tick that it kills them
@@ -538,8 +569,11 @@ export function tick(state: GameState, deltaMs: number): GameState {
   // 6. Opponent timer
   processOpponentTurn(s, deltaMs, log)
 
-  // 6b. Boss trait tick
-  processOpponentBossTraits(s, deltaMs, log)
+  // 6b. Boss trait tick — may end the game (e.g. boss-trait split fully cleared)
+  if (processOpponentBossTraits(s, log)) {
+    s.log = [...s.log, ...log]
+    return s
+  }
 
   // 7. Battle events
   processBattleEvents(s, deltaMs, log)
@@ -594,38 +628,26 @@ function processOpponentTurn(s: GameState, deltaMs: number, log: string[]) {
   }
 }
 
-function processOpponentBossTraits(s: GameState, deltaMs: number, log: string[]) {
+/** Tick the active boss trait. Returns true if the trait ended the game this tick. */
+function processOpponentBossTraits(s: GameState, log: string[]): boolean {
   if (s.bossAI && s.bossTraitState) {
     tickBossTrait(s, log)
-    if (checkGameOver(s)) {
-      s.log = [...s.log, ...log]
-      return s
-    }
+    return checkGameOver(s)
   }
-
+  return false
 }
 
 function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
+  // Combat has already resolved this tick, so the live-wall set is stable for the climbing check below.
+  const walls = s.field.filter(w => w.isWall && w.hp > 0)
   for (const unit of s.field) {
-    if (unit.spawnGrowTimer != null && unit.spawnGrowTimer > 0) {
-      unit.spawnGrowTimer = Math.max(0, unit.spawnGrowTimer - deltaMs)
-    }
-    if (unit.dyingTimer != null && unit.dyingTimer > 0) {
-      unit.dyingTimer = Math.max(0, unit.dyingTimer - deltaMs)
-    }
-    if (unit.damageFlashTimer != null && unit.damageFlashTimer > 0) {
-      unit.damageFlashTimer = Math.max(0, unit.damageFlashTimer - deltaMs)
-    }
-    if (unit.killFlashTimer != null && unit.killFlashTimer > 0) {
-      unit.killFlashTimer = Math.max(0, unit.killFlashTimer - deltaMs)
-    }
-    if (unit.stunTimer != null && unit.stunTimer > 0) {
-      unit.stunTimer = Math.max(0, unit.stunTimer - deltaMs)
-    }
-    // Freeze timer
-    if (unit.freezeTimer != null && unit.freezeTimer > 0) {
-      unit.freezeTimer = Math.max(0, unit.freezeTimer - deltaMs)
-    }
+    // Tick down simple animation/status countdowns
+    unit.spawnGrowTimer   = tickDown(unit.spawnGrowTimer, deltaMs)
+    unit.dyingTimer       = tickDown(unit.dyingTimer, deltaMs)
+    unit.damageFlashTimer = tickDown(unit.damageFlashTimer, deltaMs)
+    unit.killFlashTimer   = tickDown(unit.killFlashTimer, deltaMs)
+    unit.stunTimer        = tickDown(unit.stunTimer, deltaMs)
+    unit.freezeTimer      = tickDown(unit.freezeTimer, deltaMs)
     // Burn DoT — ticks down and deals damage each frame
     if (unit.burnTimer != null && unit.burnTimer > 0 && unit.hp > 0) {
       unit.burnTimer = Math.max(0, unit.burnTimer - deltaMs)
@@ -635,11 +657,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
         unit.burnAccum -= burnDmg
         unit.hp = Math.max(0, unit.hp - burnDmg)
         if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
-        if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
-          unit.dyingTimer = DEATH_LINGER_MS
-          if (!unit.flying) s.bloodPools.push({ id: `burn-${unit.id}`, x: unit.x, y: unit.y ?? 0 })
-          log.push(`${unit.name} burns to ash!`)
-        }
+        killByDoT(s, unit, 'burn', `${unit.name} burns to ash!`, log)
       }
     }
     // Poison DoT — ticks down and deals damage each frame
@@ -651,11 +669,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
         unit.poisonAccum -= poisonDmg
         unit.hp = Math.max(0, unit.hp - poisonDmg)
         if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
-        if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
-          unit.dyingTimer = DEATH_LINGER_MS
-          if (!unit.flying) s.bloodPools.push({ id: `poison-${unit.id}`, x: unit.x, y: unit.y ?? 0 })
-          log.push(`${unit.name} succumbs to poison!`)
-        }
+        killByDoT(s, unit, 'poison', `${unit.name} succumbs to poison!`, log)
       }
     }
     // Ground hazard damage (gas clouds, etc.)
@@ -665,18 +679,12 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
         const hazardDmg = Math.max(1, Math.round(hazard.dps * deltaMs / 1000))
         unit.hp = Math.max(0, unit.hp - hazardDmg)
         if (!unit.damageFlashTimer || unit.damageFlashTimer <= 0) unit.damageFlashTimer = 80
-        if (unit.hp <= 0 && unit.moveSpeed > 0 && !unit.isWall) {
-          unit.dyingTimer = DEATH_LINGER_MS
-          if (!unit.flying) s.bloodPools.push({ id: `hazard-${unit.id}`, x: unit.x, y: unit.y ?? 0 })
-          log.push(`${unit.name} chokes in the gas!`)
-        }
+        killByDoT(s, unit, 'hazard', `${unit.name} chokes in the gas!`, log)
       }
     }
     // Update climbing flag: true when climber unit is inside an enemy wall zone
     if (unit.climber && unit.moveSpeed > 0) {
-      unit.climbing = s.field.some(w => w.isWall && w.owner !== unit.owner && w.hp > 0 &&
-        Math.abs(unit.x - w.x) <= 30
-      )
+      unit.climbing = walls.some(w => w.owner !== unit.owner && Math.abs(unit.x - w.x) <= 30)
     }
 
     // Teleport ability: blink forward every cooldownMs
@@ -731,7 +739,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
           minion.y = pool.y
           minion.spawnGrowTimer = SPAWN_GROW_MS
           s.field.push(minion)
-          const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+          const who = sideLabel(unit.owner)
           log.push(`!!${who} ${unit.name} raises a ${minion.name} from the fallen!`)
         }
         unit.bloodSummonTimer = unit.bloodSummonAbility.cooldownMs
@@ -751,7 +759,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
                unitDist(unit, b) <= 40
         )
         if (enemyBuilding) {
-          const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+          const who = sideLabel(unit.owner)
           log.push(`!!${who} ${unit.name} detonates at ${enemyBuilding.name}, destroying it!`)
           enemyBuilding.hp = 0
           unit.hp = 0
@@ -770,7 +778,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
             let actionTaken = false
             if (nearBuilding.hp < nearBuilding.maxHp) {
               nearBuilding.hp = Math.min(nearBuilding.maxHp, nearBuilding.hp + repairAmt)
-              const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+              const who = sideLabel(unit.owner)
               log.push(`${who} ${unit.name} repaired ${nearBuilding.name} for ${repairAmt} HP.`)
               actionTaken = true
             } else if ((nearBuilding.upgradeLevel ?? 1) < MAX_UPGRADE_LEVEL) {
@@ -798,7 +806,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
                 eff.intervalMs = Math.max(2000, Math.floor(eff.intervalMs / 2))
                 note += ', repair×2'
               }
-              const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+              const who = sideLabel(unit.owner)
               log.push(`!!${who} ${unit.name} upgraded ${nearBuilding.name}! (${note})`)
               actionTaken = true
             }
@@ -808,7 +816,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
               unit.builderLastBuildingId = nearBuilding.id
               if (unit.builderChargesLeft! <= 0) {
                 unit.builderSaboteurMode = true
-                const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+                const who = sideLabel(unit.owner)
                 log.push(`!!${who} ${unit.name} has used all charges — running to the enemy base!`)
               }
             }
@@ -830,7 +838,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
         spawned.y = unit.y
         spawned.spawnGrowTimer = SPAWN_GROW_MS
         s.field.push(spawned)
-        const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+        const who = sideLabel(unit.owner)
         log.push(`${who} ${unit.name} spawned a ${spawned.name}!`)
         unit.spawnTimer = effect.intervalMs
       } else if (sEffect.type === 'healAura') {
@@ -838,7 +846,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
         const targets = s.field.filter(u => u.owner === unit.owner && u.moveSpeed > 0 && u.hp < u.maxHp)
         for (const t of targets) t.hp = Math.min(t.maxHp, t.hp + amount)
         if (targets.length > 0) {
-          const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+          const who = sideLabel(unit.owner)
           log.push(`${who} ${unit.name} healed ${targets.length} unit(s) for ${amount} HP.`)
         }
         unit.spawnTimer = intervalMs
@@ -848,7 +856,7 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
         const targets = s.field.filter(u => u.owner === unit.owner && u.moveSpeed === 0 && (u !== unit || unit.isWall) && u.hp < u.maxHp)
         for (const t of targets) t.hp = Math.min(t.maxHp, t.hp + amount)
         if (targets.length > 0) {
-          const who = unit.owner === 'player' ? 'Your' : 'Enemy'
+          const who = sideLabel(unit.owner)
           log.push(`${who} ${unit.name} repaired ${targets.length} structure(s) for ${amount} HP.`)
         }
         unit.spawnTimer = intervalMs
@@ -859,7 +867,10 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
 
 function applyArchetypePassives(s: GameState) {
   if (s.archetypePassive !== 'swarm_tactician') return
-  const mobileCount = s.field.filter(u => u.owner === 'player' && !u.isWall && u.moveSpeed > 0).length
+  let mobileCount = 0
+  for (const u of s.field) {
+    if (u.owner === 'player' && !u.isWall && u.moveSpeed > 0) mobileCount++
+  }
   const newMult = 1 + mobileCount * ARCH_SWARM_ATK_PER_UNIT
   const prevMult = s.swarmAtkMult ?? 1
   if (Math.abs(newMult - prevMult) > 0.001) {
@@ -889,8 +900,7 @@ function applyTickEffects(s: GameState, deltaMs: number) {
 
 function regenerateMana(s: GameState, deltaMs: number) {
   const manaBonus = getManaBonus(s.field, 'player')
-  const effectiveBase = Math.max(BASE_MAX_MANA, s.deckMaxMana ?? 0)
-  s.maxMana = s.forgiveManaLimit ? 9 : Math.min(10, effectiveBase + manaBonus + (s.relicManaBonus ?? 0))
+  s.maxMana = clampMaxMana(s.deckMaxMana ?? 0, manaBonus, s.relicManaBonus ?? 0, !!s.forgiveManaLimit)
 
   if (s.mana < s.maxMana) {
     const speedMult = 1 + getManaSpeedMult(s.field, 'player')
