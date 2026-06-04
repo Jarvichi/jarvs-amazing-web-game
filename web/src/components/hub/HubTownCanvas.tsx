@@ -152,6 +152,7 @@ export function HubTownCanvas({
     const groundLayer   = new PIXI.Container()
     const streetLayer   = new PIXI.Container()
     const pondLayer     = new PIXI.Container()
+    const aboveAvatarLayer = new PIXI.Container()  // fixed decor always above sprites (e.g. bridges)
     const belowAvatarLayer = new PIXI.Container()  // fixed decor always below sprites (e.g. stairs)
     const pickupLayer   = new PIXI.Container()  // ground-level collectible items
     const spriteLayer   = new PIXI.Container()  // avatar + NPCs + decor, Y-sorted
@@ -182,7 +183,7 @@ export function HubTownCanvas({
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
     const exteriorDecorLayer = spriteLayer
-    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, pickupLayer, nodeLayer, worldLayer, nightSprite, interiorLayer, bubbleLayer, highlightGfx)
+    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, aboveAvatarLayer, pickupLayer, nodeLayer, worldLayer, nightSprite, interiorLayer, bubbleLayer, highlightGfx)
 
     // Keyed by pickupId; used to imperatively show/hide sprites when items are collected
     const pickupSprites  = new Map<string, PIXI.Sprite>()
@@ -386,9 +387,10 @@ export function HubTownCanvas({
       const baseChipUrl    = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
       const extNormal      = new Map<number, [number, number][]>()
       const extBelowAvatar = new Map<number, [number, number][]>()
+      const extAboveAvatar = new Map<number, [number, number][]>()
       for (const d of EXTERIOR_DECOR) {
         if (d.tileId === 666) continue
-        const map  = d.zlayer === 'below-avatar' ? extBelowAvatar : extNormal
+        const map  = d.zlayer === 'below-avatar' ? extBelowAvatar : d.zlayer === 'above' ? extAboveAvatar : extNormal
         const list = map.get(d.tileId) ?? []
         list.push([d.tx, d.ty])
         map.set(d.tileId, list)
@@ -416,6 +418,17 @@ export function HubTownCanvas({
           }
         }).catch(() => {})
       }
+      for (const [tileId, positions] of extAboveAvatar) {
+        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+          if (app.renderer == null) return
+          for (const [tx, ty] of positions) {
+            const s = new PIXI.Sprite(tex)
+            s.position.set(tx * T, ty * T)
+            s.width = T; s.height = T
+            aboveAvatarLayer.addChild(s)
+          }
+        }).catch(() => {})
+      }      
     }
 
     // ── Blocked paths (quest-gated obstructions) ──────────────────────────────
