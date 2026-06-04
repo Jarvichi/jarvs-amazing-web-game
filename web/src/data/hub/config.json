@@ -5458,6 +5458,32 @@
       ]
     },
     {
+      "id": "endless-herald",
+      "name": "Warchief Olgrim",
+      "sprite": "hub-npc-soldier",
+      "tx": 31,
+      "ty": 21,
+      "screen": "endless",
+      "dialogue": [
+        "The endless pits never close, Commander. How long can you last?",
+        "Wave after wave. Only the strongest endure.",
+        "Glory awaits those who survive the endless onslaught."
+      ]
+    },
+    {
+      "id": "challenge-herald",
+      "name": "Challenge Herald Vex",
+      "sprite": "hub-npc-herald",
+      "tx": 35,
+      "ty": 21,
+      "screen": "dailychallenge",
+      "dialogue": [
+        "Today's challenge is set. Every commander faces the same deck.",
+        "The daily trial resets at dawn. Will you answer the call?",
+        "One challenge, one day. Prove your worth, Commander."
+      ]
+    },
+    {
       "id": "quickbattle-gate",
       "name": "Pit Master Gorr",
       "sprite": "hub-npc-arena",
