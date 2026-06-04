@@ -1,0 +1,244 @@
+{
+  "mapW": 704,
+  "mapH": 640,
+  "townName": "Ironhold Keep",
+  "avatarStart": [10, 16],
+  "exitTiles": [
+    { "tx": 9,  "ty": 18, "screen": "worldmap" },
+    { "tx": 10, "ty": 18, "screen": "worldmap" },
+    { "tx": 11, "ty": 18, "screen": "worldmap" },
+    { "tx": 12, "ty": 18, "screen": "worldmap" }
+  ],
+  "areas": [
+    {
+      "id": "castle-outer",
+      "name": "Outer Courtyard",
+      "tx": 4,
+      "ty": 7,
+      "tw": 14,
+      "th": 12
+    },
+    {
+      "id": "castle-keep",
+      "name": "The Inner Keep",
+      "tx": 4,
+      "ty": 0,
+      "tw": 14,
+      "th": 7
+    },
+    {
+      "id": "castle-armory",
+      "name": "The Armory",
+      "tx": 0,
+      "ty": 8,
+      "tw": 6,
+      "th": 6
+    },
+    {
+      "id": "castle-barracks",
+      "name": "The Barracks",
+      "tx": 16,
+      "ty": 8,
+      "tw": 6,
+      "th": 6
+    }
+  ],
+  "streets": [
+    { "rect": [4, 7, 17, 19] },
+    { "rect": [0, 14, 3, 19] },
+    { "rect": [18, 14, 21, 19] }
+  ],
+  "buildings": [
+    {
+      "id": "commanders-hall",
+      "rect": [4, 0, 17, 6],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        { "tx": 5, "ty": 1 }
+      ]
+    },
+    {
+      "id": "armory",
+      "rect": [0, 8, 5, 13],
+      "wall": "reinforcedStone",
+      "roof": "metalRoof",
+      "doors": [
+        { "tx": 2, "ty": 1 }
+      ]
+    },
+    {
+      "id": "barracks",
+      "rect": [16, 8, 21, 13],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        { "tx": 2, "ty": 1 }
+      ]
+    }
+  ],
+  "exteriorDecor": [
+    { "comment": "stone wells" },
+    { "tx": 6,  "ty": 9,  "tileId": "stoneWell" },
+    { "tx": 15, "ty": 9,  "tileId": "stoneWell" },
+    { "comment": "iron fence border south" },
+    { "tx": 0,  "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 1,  "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 2,  "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 3,  "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 4,  "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 5,  "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 6,  "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 7,  "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 8,  "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "comment": "gap at tx 9-12 for exit" },
+    { "tx": 13, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 14, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 15, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 16, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 17, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 18, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 19, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 20, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 21, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "comment": "pillars flanking the gate entrance" },
+    { "tx": 8,  "ty": 19, "tileId": "darkPillarBottom" },
+    { "tx": 13, "ty": 19, "tileId": "darkPillarBottom" },
+    { "comment": "barrels near armory" },
+    { "tx": 1,  "ty": 14, "tileId": "barrel" },
+    { "tx": 2,  "ty": 14, "tileId": "barrel" },
+    { "comment": "crates near barracks" },
+    { "tx": 19, "ty": 14, "tileId": "crate" },
+    { "tx": 20, "ty": 14, "tileId": "crate" },
+    { "comment": "campfire in courtyard" },
+    { "tx": 10, "ty": 11, "tileId": "campfireUnlit" },
+    { "comment": "small rocks border corners" },
+    { "tx": 3,  "ty": 7,  "tileId": "smallRock" },
+    { "tx": 18, "ty": 7,  "tileId": "smallRock" }
+  ],
+  "npcSpawnTiles": [],
+  "ambientNpcSprites": [],
+  "npcs": [
+    {
+      "id": "castle-commander",
+      "name": "Commander Varek",
+      "sprite": "hub-npc-arena",
+      "tx": 10,
+      "ty": 9,
+      "dialogue": [
+        "Ironhold Keep has stood for three centuries. I intend to see it stand for three more.",
+        "The patrol routes have been compromised. We need those reports.",
+        "You fight well, traveller. Ravenwatch is lucky to have you."
+      ],
+      "building": "commanders-hall",
+      "questGive": "castle-missing-patrol",
+      "questReceive": "castle-missing-patrol"
+    },
+    {
+      "id": "castle-blacksmith",
+      "name": "Blacksmith Kern",
+      "sprite": "hub-npc-supplies",
+      "tx": 3,
+      "ty": 9,
+      "dialogue": [
+        "Every blade that leaves my anvil could save a soldier's life.",
+        "The weapon crates haven't been accounted for since the last resupply.",
+        "Iron doesn't lie — only men do."
+      ],
+      "building": "armory",
+      "questGive": "castle-weapon-cache",
+      "questReceive": "castle-weapon-cache"
+    },
+    {
+      "id": "castle-archivist",
+      "name": "Archivist Elwyn",
+      "sprite": "hub-npc-scholar",
+      "tx": 18,
+      "ty": 9,
+      "dialogue": [
+        "The keep's records go back to the founding. Most of them, anyway.",
+        "A siege chronicle was separated from the archives. It belongs here.",
+        "History is the only weapon that never dulls."
+      ],
+      "building": "barracks",
+      "questGive": "castle-siege-memory",
+      "questReceive": "castle-siege-memory"
+    },
+    {
+      "id": "castle-guard-1",
+      "name": "Guard Bren",
+      "sprite": "hub-npc-soldier",
+      "tx": 7,
+      "ty": 12,
+      "dialogue": [
+        "Patrol routes are memorised, not written. Or they used to be.",
+        "Three of us dropped our patrol papers during the last drill. Embarrassing.",
+        "The south gate is yours to use, traveller."
+      ],
+      "questReceive": "castle-missing-patrol"
+    },
+    {
+      "id": "castle-guard-2",
+      "name": "Guard Holt",
+      "sprite": "hub-npc-soldier",
+      "tx": 14,
+      "ty": 12,
+      "dialogue": [
+        "All quiet on the eastern wall.",
+        "I lost my patrol report somewhere out in the courtyard. The Commander will have my head.",
+        "Ironhold has never fallen. Long may that last."
+      ],
+      "questReceive": "castle-missing-patrol"
+    }
+  ],
+  "interiors": {
+    "commanders-hall": {
+      "name": "Commander's Hall",
+      "width": 12,
+      "height": 5,
+      "floorTileId": "cobblestoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        { "tx": 2,  "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 3,  "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 2,  "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 3,  "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 8,  "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 9,  "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 8,  "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 9,  "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 5,  "ty": 1, "tileId": "chest" },
+        { "tx": 6,  "ty": 1, "tileId": "chest" }
+      ],
+      "exits": []
+    },
+    "armory": {
+      "name": "The Armory",
+      "width": 5,
+      "height": 5,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "reinforcedStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "crate" },
+        { "tx": 2, "ty": 1, "tileId": "crate" },
+        { "tx": 3, "ty": 1, "tileId": "openCrate" },
+        { "tx": 1, "ty": 3, "tileId": "barrel" },
+        { "tx": 3, "ty": 3, "tileId": "barrel" }
+      ],
+      "exits": []
+    },
+    "barracks": {
+      "name": "The Barracks",
+      "width": 5,
+      "height": 5,
+      "floorTileId": "woodFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "chest" },
+        { "tx": 3, "ty": 1, "tileId": "chest" },
+        { "tx": 2, "ty": 3, "tileId": "barrel" }
+      ],
+      "exits": []
+    }
+  }
+}

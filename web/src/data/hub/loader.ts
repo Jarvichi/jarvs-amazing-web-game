@@ -3,6 +3,7 @@ import rawQuestConfig from './questDefs.json'
 import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
 import { WALL_TILES } from '../tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
+import type { HubLocationData, HubExitTile } from './locationTypes'
 
 const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
 
@@ -388,3 +389,37 @@ export const HUB_TREASURES: HubTreasure[] = (
   tileId:           resolveTileId(t.tileId),
   collectedTileId:  t.collectedTileId ? resolveTileId(t.collectedTileId) : undefined,
 }))
+
+export const HUB_TOWN_NAME: string = (rawConfig as unknown as { townName?: string }).townName ?? 'Town'
+
+type RawExitTile = { tx: number; ty: number; screen: string }
+export const HUB_EXIT_TILES: HubExitTile[] = (
+  (rawConfig as unknown as { exitTiles?: RawExitTile[] }).exitTiles ?? []
+)
+
+export const HUB_LOCATION_DATA: HubLocationData = {
+  MAP_W,
+  MAP_H,
+  AVATAR_START,
+  TOWN_NAME:          HUB_TOWN_NAME,
+  HUB_AREAS,
+  HUB_STREET_GROUPS,
+  HUB_STREET_TILES,
+  HUB_BUILDINGS,
+  HUB_BUILDING_TILES,
+  EXTERIOR_DECOR,
+  HUB_WINDOWS,
+  HUB_POND_TILES,
+  HUB_DOORS,
+  HUB_INTERIORS,
+  HUB_NPCS,
+  EXTERIOR_NPCS,
+  INTERIOR_NPCS,
+  NPC_SPAWN_TILES,
+  AMBIENT_NPC_SPRITES,
+  HUB_PICKUP_ITEMS,
+  HUB_BLOCKED_PATHS,
+  HUB_LOCKED_DOORS,
+  HUB_TREASURES,
+  EXIT_TILES:         HUB_EXIT_TILES,
+}

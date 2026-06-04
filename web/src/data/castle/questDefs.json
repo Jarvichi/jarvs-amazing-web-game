@@ -1,0 +1,91 @@
+{
+  "quests": [
+    {
+      "id": "castle-missing-patrol",
+      "title": "Missing Patrol Reports",
+      "type": "fetch",
+      "giverNpcId": "castle-commander",
+      "receiverNpcId": "castle-commander",
+      "offerDialogue": "Three of my guards lost their patrol reports during yesterday's drill. I need those papers recovered before the weekly briefing. Search the courtyard.",
+      "activeDialogue": "The patrol reports should be somewhere in the outer courtyard. Guard Bren and Guard Holt lost theirs too — ask them if you spot anything.",
+      "completeDialogue": "All three reports accounted for. You have my thanks, traveller. The keep runs on discipline — I can't have its records scattered in the dirt.",
+      "steps": [
+        { "key": "reports", "type": "collect", "pickupIds": ["patrol-report-1", "patrol-report-2", "patrol-report-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 60
+      }
+    },
+    {
+      "id": "castle-weapon-cache",
+      "title": "The Weapon Cache",
+      "type": "fetch",
+      "giverNpcId": "castle-blacksmith",
+      "receiverNpcId": "castle-blacksmith",
+      "prerequisite": "quest:castle-missing-patrol",
+      "offerDialogue": "Three weapon crates went missing during the last resupply. My tallies don't add up. They can't have gone far — check around the courtyard and the side passages.",
+      "activeDialogue": "Three crates, somewhere in the keep grounds. If someone's been pilfering supplies, I want proof.",
+      "completeDialogue": "All three. No damage, no pilfering — just poor organisation. I'll have a word with the quartermasters. Here, take this in thanks.",
+      "steps": [
+        { "key": "crates", "type": "collect", "pickupIds": ["weapon-crate-1", "weapon-crate-2", "weapon-crate-3"], "required": 3 }
+      ],
+      "reward": {
+        "crystals": 50,
+        "collectible": { "id": "castle-seal", "name": "Castle Seal", "icon": "🔰", "desc": "The iron seal of Ironhold Keep. A mark of trust." }
+      }
+    },
+    {
+      "id": "castle-siege-memory",
+      "title": "The Siege Chronicle",
+      "type": "chain",
+      "giverNpcId": "castle-archivist",
+      "receiverNpcId": "castle-archivist",
+      "offerDialogue": "A chronicle of the great siege was separated from our archives years ago. Three pages were found and distributed around the keep. If you recover them, our history will be whole again.",
+      "activeDialogue": {
+        "page-1": "The first page was last seen in the commanders' hall. Worth checking the shelves.",
+        "page-2": "Good, one page found. The second was tucked away in the armory, of all places.",
+        "page-3": "Two pages now — remarkable. The final page was stored in the barracks. Nearly done."
+      },
+      "completeDialogue": "The chronicle is complete. This account of the siege is irreplaceable. You have done the keep a great service, traveller.",
+      "steps": [
+        { "key": "page-1", "type": "collect", "pickupIds": ["chronicle-page-1"], "required": 1 },
+        { "key": "page-2", "type": "collect", "pickupIds": ["chronicle-page-2"], "required": 1, "chain": "chronicle-page-1" },
+        { "key": "page-3", "type": "collect", "pickupIds": ["chronicle-page-3"], "required": 1, "chain": "chronicle-page-2" }
+      ],
+      "reward": {
+        "crystals": 40,
+        "collectible": { "id": "siege-chronicle", "name": "Siege Chronicle", "icon": "📖", "desc": "A complete account of the fall and recapture of Ironhold Keep." },
+        "friendship": { "castle-archivist": 30 }
+      }
+    },
+    {
+      "id": "castle-message-ravenwatch",
+      "title": "Message for the Captain",
+      "type": "fetch",
+      "giverNpcId": "castle-commander",
+      "receiverNpcId": "guard-captain-thorin",
+      "prerequisite": "quest:castle-weapon-cache",
+      "offerDialogue": "I have intelligence that must reach Guard Captain Thorin in Ravenwatch immediately. The south gate will take you back. Deliver this message personally — no intermediaries.",
+      "activeDialogue": "Guard Captain Thorin in Ravenwatch is waiting for this message. Return through the south gate and find him in the barracks.",
+      "completeDialogue": "From Commander Varek? I've been expecting this. Thank you, traveller — this changes our defensive arrangements considerably. Take this for your trouble.",
+      "steps": [
+        { "key": "deliver", "type": "deliver", "targetNpcId": "guard-captain-thorin", "required": 1 }
+      ],
+      "reward": {
+        "crystals": 80
+      }
+    }
+  ],
+  "pickupItems": [
+    { "id": "patrol-report-1", "tx": 5,  "ty": 10, "tileId": "smallSign",   "questId": "castle-missing-patrol" },
+    { "id": "patrol-report-2", "tx": 12, "ty": 13, "tileId": "smallSign",   "questId": "castle-missing-patrol" },
+    { "id": "patrol-report-3", "tx": 16, "ty": 11, "tileId": "smallSign",   "questId": "castle-missing-patrol" },
+    { "id": "weapon-crate-1",  "tx": 1,  "ty": 16, "tileId": "crate",       "questId": "castle-weapon-cache" },
+    { "id": "weapon-crate-2",  "tx": 20, "ty": 17, "tileId": "crate",       "questId": "castle-weapon-cache" },
+    { "id": "weapon-crate-3",  "tx": 7,  "ty": 17, "tileId": "openCrate",   "questId": "castle-weapon-cache" },
+    { "id": "chronicle-page-1","tx": 5,  "ty": 2,  "tileId": "smallSign",   "questId": "castle-siege-memory", "building": "commanders-hall" },
+    { "id": "chronicle-page-2","tx": 2,  "ty": 2,  "tileId": "smallSign",   "questId": "castle-siege-memory", "building": "armory", "chain": "chronicle-page-1" },
+    { "id": "chronicle-page-3","tx": 2,  "ty": 2,  "tileId": "smallSign",   "questId": "castle-siege-memory", "building": "barracks", "chain": "chronicle-page-2" }
+  ],
+  "blockedPaths": []
+}

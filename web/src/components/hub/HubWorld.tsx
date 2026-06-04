@@ -5,7 +5,7 @@ import { AreaNameBadge } from './AreaNameBadge'
 import { HubReturnButton } from './HubReturnButton'
 import { HubDialogue } from './HubDialogue'
 import type { DialogueChoice } from './HubDialogue'
-import { AVATAR_START, MAP_W, MAP_H, HUB_NPCS, HUB_TREASURES } from '../../data/hub/loader'
+import { AVATAR_START, MAP_W, MAP_H, HUB_NPCS, HUB_TREASURES, HUB_TOWN_NAME } from '../../data/hub/loader'
 import type { HubTreasure } from '../../data/hub/loader'
 import { HUB_QUEST_DEFS, INN_RUMOURS, FRIENDSHIP_DIALOGUE } from '../../data/hub/questDefs'
 import type { HubQuestDef } from '../../data/hub/questDefs'
@@ -88,6 +88,7 @@ interface Props {
   onNavigate?:        (screen: string) => void
   onCampaign?:        () => void
   onEndless?:         () => void
+  onWorldMap?:        () => void
   onPlayerTap?:       () => void
   crystals?:          number
   isSignedIn?:        boolean
@@ -100,7 +101,7 @@ interface Props {
   onTileTap?:         (tx: number, ty: number) => void
 }
 
-export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap }: Props) {
+export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
@@ -262,6 +263,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onPlayerTa
       interiorEnterRef.current?.(buildingId)
       return
     }
+    if (screen === 'worldmap') { onWorldMap?.(); return }
     if (screen === 'campaign') { onCampaign?.(); return }
     if (screen === 'endless') { onEndless?.(); return }
     if (screen === 'commander' && !commander) {
@@ -269,7 +271,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onPlayerTa
       return
     }
     onNavigate?.(screen)
-  }, [onNavigate, onCampaign, commander])
+  }, [onNavigate, onCampaign, onWorldMap, commander])
 
   const handleReturn = useCallback(() => {
     returnRef.current?.()
@@ -512,6 +514,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onPlayerTa
   return (
     <OverlayScreen title="JARVS AMAZING WEB GAME">
       <Toolbar>
+        <ToolbarLabel className="title-deck-info">⚔ {HUB_TOWN_NAME}</ToolbarLabel>
         <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
         <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
         <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>

@@ -6,8 +6,9 @@ import { renderPathTiles } from '../../utils/tileLookup'
 import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileTexture } from '../../utils/pixiHelpers'
 import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
-import { MAP_W, MAP_H, HUB_AREAS, HUB_STREET_TILES, HUB_STREET_GROUPS, HUB_BUILDINGS, AVATAR_START, NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, EXTERIOR_NPCS, INTERIOR_NPCS, HUB_DOORS, HUB_INTERIORS, EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES, HUB_PICKUP_ITEMS, HUB_LOCKED_DOORS, HUB_BLOCKED_PATHS, HUB_TREASURES } from '../../data/hub/loader'
+import { HUB_LOCATION_DATA } from '../../data/hub/loader'
 import type { HubInteriorExit, NpcScheduleEntry } from '../../data/hub/loader'
+import type { HubLocationData } from '../../data/hub/locationTypes'
 import { isBuildingOpen, getNpcLocation } from '../../game/hub/hubNpcSchedule'
 import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
@@ -18,19 +19,19 @@ import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
 
 
-const HUB_ENV           = 'camp'
 const T                 = 32
 const SPRITE_SIZE       = T * 1.5
 const WALK_PX_PER_S     = 160
 const NPC_WALK_PX_PER_S = 80
-const COURTYARD_PX  = { x: AVATAR_START[0] * T + T / 2, y: AVATAR_START[1] * T + T }
 
 const NIGHT_LIGHT_INNER  = 4 * T   // fully lit within this radius of avatar
 const NIGHT_LIGHT_OUTER  = 7 * T   // fully dark beyond this radius
 const NIGHT_NPC_LIGHT_R  = 2 * T   // small glow radius around each NPC
 
-let _savedTile: [number, number] | null = null
-export function getSavedHubTile(): [number, number] | null { return _savedTile }
+const _savedTiles = new Map<string, [number, number]>()
+export function getSavedHubTile(locationKey?: string): [number, number] | null {
+  return _savedTiles.get(locationKey ?? 'ravenwatch') ?? null
+}
 
 // ── Interior BFS pathfinder ────────────────────────────────────────────────────
 function findInteriorPath(
@@ -81,6 +82,7 @@ interface Props {
   gameHour?:             number
   isNight?:              boolean
   npcProximityDialogue?: React.MutableRefObject<Map<string, { atDistance: number; text: string }[]>>
+  locationData?:         HubLocationData
 }
 
 export function HubTownCanvas({
@@ -90,7 +92,24 @@ export function HubTownCanvas({
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
   gameHour, isNight, npcProximityDialogue,
+  locationData: locationDataProp,
 }: Props) {
+  const loc = locationDataProp ?? HUB_LOCATION_DATA
+  const {
+    MAP_W, MAP_H, AVATAR_START,
+    HUB_AREAS, HUB_BUILDINGS,
+    HUB_STREET_GROUPS, HUB_STREET_TILES,
+    EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES,
+    HUB_DOORS, HUB_INTERIORS, EXTERIOR_NPCS, INTERIOR_NPCS,
+    NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, HUB_PICKUP_ITEMS,
+    HUB_BLOCKED_PATHS, HUB_LOCKED_DOORS, HUB_TREASURES,
+    EXIT_TILES: exitTilesData,
+    TOWN_NAME: locationKey,
+  } = loc
+  const HUB_ENV = locationDataProp?.TOWN_NAME === 'Ironhold Keep' ? 'citadel'
+               : locationDataProp?.TOWN_NAME === 'Millhaven'      ? 'coast'
+               : 'camp'
+  const COURTYARD_PX = { x: AVATAR_START[0] * T + T / 2, y: AVATAR_START[1] * T + T }
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
   onAreaRef.current       = onAreaEnter
@@ -627,7 +646,7 @@ export function HubTownCanvas({
         interiorLayer.addChild(s)
         avatarInInterior = true
       } else {
-        const startTile: [number, number] = _savedTile ? [..._savedTile] : [...AVATAR_START]
+        const startTile: [number, number] = _savedTiles.has(locationKey) ? [..._savedTiles.get(locationKey)!] : [...AVATAR_START]
         currentTile = startTile
         s.position.set(startTile[0] * T + T / 2, startTile[1] * T + T)
         avatarLayer.addChild(s)
@@ -1617,7 +1636,7 @@ export function HubTownCanvas({
 
         await tweenLinear(av, targetX, targetY, duration)
         currentTile = [tx, ty]
-        _savedTile  = [tx, ty]
+        _savedTiles.set(locationKey, [tx, ty])
 
         // Touch-pickup: collect requireTouch items when avatar walks onto their tile
         for (const [pid, sprite] of pickupSprites) {
@@ -1663,6 +1682,16 @@ export function HubTownCanvas({
           walkQueue     = []
           pendingScreen = null
           onNodeInteractRef.current(`interior:${door.buildingId}`)
+          return
+        }
+
+        // Exit tile detection — walking onto an exit tile fires a screen transition
+        const exitTile = exitTilesData.find(e => e.tx === currentTile[0] && e.ty === currentTile[1])
+        if (exitTile) {
+          isWalking     = false
+          walkQueue     = []
+          pendingScreen = null
+          onNodeInteractRef.current(exitTile.screen)
           return
         }
 
@@ -1765,7 +1794,7 @@ export function HubTownCanvas({
       pendingScreen = null
       isWalking     = false
       currentTile   = [...AVATAR_START]
-      _savedTile    = null
+      _savedTiles.delete(locationKey)
       if (avatar) { avatar.x = COURTYARD_PX.x; avatar.y = COURTYARD_PX.y }
       onAvatarMoveRef.current(COURTYARD_PX.x, COURTYARD_PX.y)
     }

@@ -1,0 +1,256 @@
+{
+  "mapW": 896,
+  "mapH": 640,
+  "townName": "Millhaven",
+  "avatarStart": [13, 15],
+  "exitTiles": [
+    { "tx": 11, "ty": 19, "screen": "worldmap" },
+    { "tx": 12, "ty": 19, "screen": "worldmap" },
+    { "tx": 13, "ty": 19, "screen": "worldmap" },
+    { "tx": 14, "ty": 19, "screen": "worldmap" },
+    { "tx": 15, "ty": 19, "screen": "worldmap" }
+  ],
+  "areas": [
+    {
+      "id": "millhaven-harbour",
+      "name": "The Harbour",
+      "tx": 0,
+      "ty": 8,
+      "tw": 28,
+      "th": 4
+    },
+    {
+      "id": "millhaven-market",
+      "name": "Market Square",
+      "tx": 7,
+      "ty": 10,
+      "tw": 14,
+      "th": 4
+    },
+    {
+      "id": "millhaven-centre",
+      "name": "Town Square",
+      "tx": 9,
+      "ty": 12,
+      "tw": 10,
+      "th": 8
+    }
+  ],
+  "streets": [
+    { "rect": [0, 8, 27, 8] },
+    { "rect": [9, 9, 18, 19] },
+    { "rect": [0, 8, 6, 9] },
+    { "rect": [21, 8, 27, 9] }
+  ],
+  "buildings": [
+    {
+      "id": "mill",
+      "rect": [1, 1, 5, 7],
+      "wall": "woodenSlats",
+      "roof": "strawRoof",
+      "doors": [
+        { "tx": 2, "ty": 1 }
+      ]
+    },
+    {
+      "id": "fishmonger",
+      "rect": [21, 1, 27, 6],
+      "wall": "woodenSlats",
+      "roof": "yellowSlateRoof",
+      "doors": [
+        { "tx": 3, "ty": 2 }
+      ]
+    },
+    {
+      "id": "inn-millhaven",
+      "rect": [9, 1, 18, 6],
+      "wall": "tudorFrame",
+      "roof": "redSlateRoof",
+      "doors": [
+        { "tx": 5, "ty": 2 }
+      ]
+    },
+    {
+      "id": "market-hall",
+      "rect": [7, 10, 20, 12],
+      "wall": "woodenSlats",
+      "roof": "strawRoof",
+      "doors": [
+        { "tx": 5, "ty": 1 }
+      ]
+    },
+    {
+      "id": "town-hall-millhaven",
+      "rect": [9, 13, 18, 17],
+      "wall": "renderedBrick",
+      "roof": "blueSlateRoof",
+      "doors": [
+        { "tx": 4, "ty": 1 }
+      ]
+    }
+  ],
+  "exteriorDecor": [
+    { "comment": "dock and harbour decor" },
+    { "tx": 0, "ty": 8, "tileId": "smallRock" },
+    { "tx": 27, "ty": 8, "tileId": "smallRock" },
+    { "tx": 3,  "ty": 9, "tileId": "barrel" },
+    { "tx": 4,  "ty": 9, "tileId": "barrel" },
+    { "tx": 23, "ty": 9, "tileId": "barrel" },
+    { "tx": 24, "ty": 9, "tileId": "barrel" },
+    { "comment": "lilypads in front of mill pond" },
+    { "tx": 0, "ty": 3, "tileId": "largeLilypad" },
+    { "tx": 0, "ty": 5, "tileId": "smallLilypad" },
+    { "comment": "market stall crates" },
+    { "tx": 8,  "ty": 9, "tileId": "crate" },
+    { "tx": 19, "ty": 9, "tileId": "crate" },
+    { "comment": "town square features" },
+    { "tx": 10, "ty": 13, "tileId": "stoneWell" },
+    { "tx": 16, "ty": 13, "tileId": "stoneWell" },
+    { "comment": "south exit fencing with gap" },
+    { "tx": 9,  "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 10, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "comment": "gap at tx 11-15 for exit" },
+    { "tx": 16, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 17, "ty": 19, "tileId": "ironFenceLeftRight" },
+    { "tx": 18, "ty": 19, "tileId": "ironFenceLeftRight" }
+  ],
+  "npcSpawnTiles": [],
+  "ambientNpcSprites": ["hub-npc-fisherman", "hub-npc-merchant"],
+  "npcs": [
+    {
+      "id": "mill-owner",
+      "name": "Miller Oswin",
+      "sprite": "hub-npc-supplies",
+      "tx": 3,
+      "ty": 8,
+      "dialogue": [
+        "Millhaven's mill has ground grain for this coast for sixty years.",
+        "Three grain sacks went missing from the store. Someone's been helping themselves.",
+        "If you find those sacks, I'll remember the favour."
+      ],
+      "questGive": "millhaven-mill-grain",
+      "questReceive": "millhaven-mill-grain"
+    },
+    {
+      "id": "fishmonger-marta",
+      "name": "Fishwife Marta",
+      "sprite": "hub-npc-fisherman",
+      "tx": 24,
+      "ty": 8,
+      "dialogue": [
+        "The catch has been thin lately. Strange currents, says Sailor Finn.",
+        "I've got fish baskets missing somewhere around the docks.",
+        "Fresh catch, get your fresh catch! Don't let the gulls beat you to it."
+      ],
+      "questGive": "millhaven-missing-catch",
+      "questReceive": "millhaven-missing-catch"
+    },
+    {
+      "id": "innkeeper-millhaven",
+      "name": "Innkeeper Cobb",
+      "sprite": "hub-npc-merchant",
+      "tx": 14,
+      "ty": 8,
+      "dialogue": [
+        "Welcome to The Anchor, best beds on the Millhaven coast.",
+        "A merchant from Ravenwatch left a letter here. Meant for someone called Elder Elara.",
+        "You look like someone who travels. That letter's been sitting here long enough."
+      ],
+      "building": "inn-millhaven",
+      "questGive": "millhaven-message-to-ravenwatch",
+      "questReceive": "millhaven-message-to-ravenwatch"
+    },
+    {
+      "id": "town-elder-millhaven",
+      "name": "Elder Bramwell",
+      "sprite": "hub-npc-elder",
+      "tx": 13,
+      "ty": 16,
+      "dialogue": [
+        "Millhaven was founded by fisherfolk. We've kept it that way.",
+        "The castle to the south needs resupply. We've been meaning to send a courier.",
+        "If you're heading to Ironhold Keep, perhaps you could take our supply manifest to Commander Varek?"
+      ],
+      "building": "town-hall-millhaven",
+      "questGive": "millhaven-supplies-for-keep",
+      "questReceive": "millhaven-supplies-for-keep"
+    },
+    {
+      "id": "sailor-finn",
+      "name": "Sailor Finn",
+      "sprite": "hub-npc-fisherman",
+      "tx": 5,
+      "ty": 8,
+      "dialogue": [
+        "The tides have been off all week. Something in the currents.",
+        "I've seen three ships go dark past the reef. No word from them.",
+        "Marta thinks I'm superstitious. Maybe I am."
+      ],
+      "questGive": "millhaven-lost-at-sea",
+      "questReceive": "millhaven-missing-catch"
+    },
+    {
+      "id": "market-trader",
+      "name": "Trader Nessa",
+      "sprite": "hub-npc-merchant",
+      "tx": 13,
+      "ty": 11,
+      "dialogue": [
+        "Everything from rope to ribbon, if you've got coin.",
+        "Trade's been slow. Travellers don't stop here like they used to.",
+        "Nice to see a fresh face in Millhaven."
+      ],
+      "building": "market-hall",
+      "questGive": "millhaven-festival-prep",
+      "questReceive": "millhaven-festival-prep"
+    }
+  ],
+  "interiors": {
+    "inn-millhaven": {
+      "name": "The Anchor Inn",
+      "width": 9,
+      "height": 5,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "barrel" },
+        { "tx": 2, "ty": 1, "tileId": "barrel" },
+        { "tx": 6, "ty": 1, "tileId": "chest" },
+        { "tx": 7, "ty": 1, "tileId": "chest" }
+      ],
+      "exits": []
+    },
+    "market-hall": {
+      "name": "Market Hall",
+      "width": 12,
+      "height": 3,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodenSlats",
+      "decor": [
+        { "tx": 1,  "ty": 1, "tileId": "crate" },
+        { "tx": 2,  "ty": 1, "tileId": "openCrate" },
+        { "tx": 9,  "ty": 1, "tileId": "crate" },
+        { "tx": 10, "ty": 1, "tileId": "openCrate" }
+      ],
+      "exits": []
+    },
+    "town-hall-millhaven": {
+      "name": "Millhaven Town Hall",
+      "width": 8,
+      "height": 4,
+      "floorTileId": "cobblestoneFloor",
+      "wallTileId": "renderedBrick",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 2, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 2, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 5, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 6, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 5, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 6, "ty": 2, "tileId": "bookshelfBottom" }
+      ],
+      "exits": []
+    }
+  }
+}

@@ -7,6 +7,7 @@ import { getQuestState, getQuestProgress } from '../../game/hub/quests'
 interface Props {
   onClose: () => void
   onAbandon: (questId: string) => void
+  questDefs?: HubQuestDef[]
 }
 
 function progressDots(current: number, required: number): string {
@@ -25,13 +26,14 @@ function getActiveHint(quest: HubQuestDef): string {
   return Object.values(activeDialogue)[Object.values(activeDialogue).length - 1]
 }
 
-export function QuestsModal({ onClose, onAbandon }: Props) {
+export function QuestsModal({ onClose, onAbandon, questDefs: questDefsProp }: Props) {
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
+  const defs = questDefsProp ?? HUB_QUEST_DEFS
 
-  const active    = HUB_QUEST_DEFS.filter(q => getQuestState(q.id).status === 'active')
-  const completed = HUB_QUEST_DEFS.filter(q => getQuestState(q.id).status === 'completed')
+  const active    = defs.filter(q => getQuestState(q.id).status === 'active')
+  const completed = defs.filter(q => getQuestState(q.id).status === 'completed')
   const discovered = active.length + completed.length
-  const total      = HUB_QUEST_DEFS.length
+  const total      = defs.length
 
   return (
     <ModalBackdrop onClose={onClose}>
