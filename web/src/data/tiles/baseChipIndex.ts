@@ -548,6 +548,10 @@ export const BASE_CHIP_TILES = {
     // Internal windows - top 596 to 599, bottom 604 to 607
 
 
+    bellTowerTop: 612,
+    bellTowerBottom: 620,
+    
+
     // Interior doors (2 tiles tall)
     doorTop:    535,
     doorBottom: 543,
@@ -792,4 +796,15 @@ export const BASE_CHIP_TILES = {
     strawRoofRow4 : 590,
 
 
+
+
+
+        wallArchTopLeft: 241,
+    wallArchTopMiddle: 242,
+    wallArchTopRight: 243,
+    wallArchLeft: 244,
+    wallArchFill: 250,
+
+    wallArchRight: 245,
+  
 } as const

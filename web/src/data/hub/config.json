@@ -469,16 +469,8 @@
       "rect": [
         36,
         48,
-        39,
+        38,
         69
-      ]
-    },
-    {
-      "rect": [
-        26,
-        58,
-        35,
-        59
       ]
     },
     {
@@ -491,20 +483,29 @@
     },
     {
       "rect": [
+        18,
+        48,
+        19,
+        60
+      ]
+    },
+        {
+      "tile": [
         13,
-        57,
-        35,
-        57
+        58
       ]
     },
     {
       "rect": [
-        13,
-        61,
-        23,
-        61
+        12,
+        59,
+        19,
+        60
       ]
-    }
+    },
+    { "tile": [35,65] },    
+    { "rect": [13,61,14,61] },
+    { "rect": [5,62,23,68], "pathType": "grass1Grass4" }
   ],
   "buildings": [
     {
@@ -942,9 +943,9 @@
     {
       "rect": [
         44,
-        41,
+        40,
         51,
-        47
+        46
       ],
       "id": "arcade-building-w",
       "wall": "tudorFrame",
@@ -1209,50 +1210,68 @@
       ]
     },
     {
-      "rect": [
+      "rects":[ [
+        3,
+        47,
+        5,
+        57
+      ],[
         6,
-        51,
+        50,
         17,
-        58
-      ],
+        57
+      ]],
       "id": "church-building",
       "wall": "castleStone",
       "roof": "greySlateRoof",
+      "decor":[
+    {
+      "tx": 6,
+      "ty": -6,
+      "tileId": "stoneCross"
+    },
+    {
+      "tx": 13,
+      "ty": -6,
+      "tileId": "stoneCross"
+    },
+    {
+      "tx": 1,
+      "ty": -6,
+      "tileId": "bellTowerTop"
+    },
+    {
+      "tx": 1,
+      "ty": -5,
+      "tileId": "bellTowerBottom"
+    }    
+
+      ],
       "doors": [
         {
-          "tx": 6,
+          "tx": 10,
           "ty": 1,
           "buildingId": "church"
         }
       ],
       "windows": [
         {
-          "tx": 1,
-          "ty": -2,
-          "tileId": "windowTop3"
-        },
-        {
-          "tx": 1,
-          "ty": -1,
-          "tileId": "windowBottom3"
-        },
-        {
-          "tx": 4,
-          "ty": -2,
-          "tileId": "windowTop3"
-        },
-        {
-          "tx": 4,
-          "ty": -1,
-          "tileId": "windowBottom3"
-        },
-        {
           "tx": 8,
           "ty": -2,
           "tileId": "windowTop3"
         },
         {
           "tx": 8,
+          "ty": -1,
+          "tileId": "windowBottom3"
+        },
+        {
+          "tx": 12,
+          "ty": -2,
+          "tileId": "windowTop3"
+        },
+        {
+          "tx": 12,
           "ty": -1,
           "tileId": "windowBottom3"
         }
@@ -1260,9 +1279,9 @@
     },
     {
       "rect": [
-        28,
+        27,
         57,
-        35,
+        34,
         66
       ],
       "id": "gatehouse-west",
@@ -1553,13 +1572,13 @@
       "comment": "pond decor"
     },
     {
-      "tx": 50,
-      "ty": 58,
+      "tx": 45,
+      "ty": 53,
       "tileId": "smallLilypad"
     },
     {
-      "tx": 54,
-      "ty": 59,
+      "tx": 49,
+      "ty": 54,
       "tileId": "largeLilypad"
     },
     {
@@ -2638,16 +2657,7 @@
     {
       "comment": "church exterior decor"
     },
-    {
-      "tx": 11,
-      "ty": 51,
-      "tileId": "stoneCross"
-    },
-    {
-      "tx": 12,
-      "ty": 51,
-      "tileId": "stoneCross"
-    },
+
     {
       "tx": 5,
       "ty": 59,
@@ -2714,12 +2724,12 @@
     {
       "tx": 12,
       "ty": 61,
-      "tileId": "stoneWallLeftRight"
+      "tileId": "stoneWallLeft"
     },
     {
       "tx": 15,
       "ty": 61,
-      "tileId": "stoneWallLeftRight"
+      "tileId": "stoneWallRight"
     },
     {
       "tx": 16,
@@ -3097,46 +3107,118 @@
     {
       "comment": "portcullis in gatehouse road gap"
     },
+    { "tx": 35, "ty": 58, "tileId": "greySlateRoofRow2", "zlayer": "above" },    
+    { "tx": 36, "ty": 58, "tileId": "greySlateRoofRow2", "zlayer": "above" },
+    { "tx": 37, "ty": 58, "tileId": "greySlateRoofRow2", "zlayer": "above" },
+    { "tx": 38, "ty": 58, "tileId": "greySlateRoofRow2", "zlayer": "above" },
+    { "tx": 39, "ty": 58, "tileId": "greySlateRoofRow2", "zlayer": "above" },
+
+    { "tx": 35, "ty": 59, "tileId": "greySlateRoofRow3", "zlayer": "above" },    
+    { "tx": 36, "ty": 59, "tileId": "greySlateRoofRow3", "zlayer": "above" },
+    { "tx": 37, "ty": 59, "tileId": "greySlateRoofRow3", "zlayer": "above" },
+    { "tx": 38, "ty": 59, "tileId": "greySlateRoofRow3", "zlayer": "above" },
+    { "tx": 39, "ty": 59, "tileId": "greySlateRoofRow3", "zlayer": "above" },    
+
+    { "tx": 35, "ty": 60, "tileId": "greySlateRoofRow4", "zlayer": "above" },    
+    { "tx": 36, "ty": 60, "tileId": "greySlateRoofRow4", "zlayer": "above" },
+    { "tx": 37, "ty": 60, "tileId": "greySlateRoofRow4", "zlayer": "above" },
+    { "tx": 38, "ty": 60, "tileId": "greySlateRoofRow4", "zlayer": "above" },
+    { "tx": 39, "ty": 60, "tileId": "greySlateRoofRow4", "zlayer": "above" },
+
+    { "tx": 35,
+      "ty": 61,
+      "tileId": "portcullisTopLeft",
+      "zlayer": "above"
+    },
+    { "tx": 36,
+      "ty": 61,
+      "tileId": "portcullisTopLeft",
+      "zlayer": "above"
+    },
+    { "tx": 37,
+      "ty": 61,
+      "tileId": "portcullisTopLeft",
+      "zlayer": "above"
+    },
+    { "tx": 38,
+      "ty": 61,
+      "tileId": "portcullisTopLeft",
+      "zlayer": "above"
+    },
+    { "tx": 39,
+      "ty": 61,
+      "tileId": "portcullisTopLeft",
+      "zlayer": "above"
+    },
+    {
+      "tx": 35,
+      "ty": 62,
+      "tileId": "portcullisBottomLeft",
+      "zlayer": "above"
+    },
     {
       "tx": 36,
-      "ty": 60,
-      "tileId": "portcullisTopLeft"
+      "ty": 62,
+      "tileId": "portcullisBottomLeft",
+      "zlayer": "above"
     },
     {
       "tx": 37,
-      "ty": 60,
-      "tileId": "portcullisTopRight"
+      "ty": 62,
+      "tileId": "portcullisBottomLeft",
+      "zlayer": "above"
     },
     {
       "tx": 38,
-      "ty": 60,
-      "tileId": "portcullisTopLeft"
+      "ty": 62,
+      "tileId": "portcullisBottomLeft",
+      "zlayer": "above"
     },
     {
       "tx": 39,
-      "ty": 60,
-      "tileId": "portcullisTopRight"
+      "ty": 62,
+      "tileId": "portcullisBottomLeft",
+      "zlayer": "above"
     },
-    {
-      "tx": 36,
-      "ty": 61,
-      "tileId": "portcullisBottomLeft"
-    },
-    {
-      "tx": 37,
-      "ty": 61,
-      "tileId": "portcullisBottomRight"
-    },
-    {
-      "tx": 38,
-      "ty": 61,
-      "tileId": "portcullisBottomLeft"
-    },
-    {
-      "tx": 39,
-      "ty": 61,
-      "tileId": "portcullisBottomRight"
-    },
+
+    { "tx": 35, "ty": 61, "tileId": "wallArchTopLeft", "zlayer": "above" },    
+    { "tx": 36, "ty": 61, "tileId": "wallArchTopMiddle", "zlayer": "above" },    
+    { "tx": 37, "ty": 61, "tileId": "wallArchTopMiddle", "zlayer": "above" },    
+    { "tx": 38, "ty": 61, "tileId": "wallArchTopMiddle", "zlayer": "above" },    
+    { "tx": 39, "ty": 61, "tileId": "wallArchTopRight", "zlayer": "above" },        
+
+    { "tx": 35, "ty": 62, "tileId": "wallArchLeft", "zlayer": "above" },    
+    { "tx": 36, "ty": 62, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 37, "ty": 62, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 38, "ty": 62, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 39, "ty": 62, "tileId": "wallArchRight", "zlayer": "above" },    
+
+    { "tx": 35, "ty": 63, "tileId": "wallArchLeft", "zlayer": "above" },    
+    { "tx": 36, "ty": 63, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 37, "ty": 63, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 38, "ty": 63, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 39, "ty": 63, "tileId": "wallArchRight", "zlayer": "above" },    
+
+    { "tx": 35, "ty": 64, "tileId": "wallArchLeft", "zlayer": "above" },    
+    { "tx": 36, "ty": 64, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 37, "ty": 64, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 38, "ty": 64, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 39, "ty": 64, "tileId": "wallArchRight", "zlayer": "above" },    
+
+    { "tx": 35, "ty": 65, "tileId": "wallArchLeft", "zlayer": "above" },    
+    { "tx": 36, "ty": 65, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 37, "ty": 65, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 38, "ty": 65, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 39, "ty": 65, "tileId": "wallArchRight", "zlayer": "above" },    
+
+    { "tx": 35, "ty": 66, "tileId": "wallArchLeft", "zlayer": "above" },    
+    { "tx": 36, "ty": 66, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 37, "ty": 66, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 38, "ty": 66, "tileId": "wallArchFill", "zlayer": "above" },    
+    { "tx": 39, "ty": 66, "tileId": "wallArchRight", "zlayer": "above" },    
+
+
+
     {
       "comment": "south expansion atmosphere"
     },
@@ -3181,7 +3263,7 @@
       "tileId": "autumnTreeBottomRight"
     },
     {
-      "tx": 48,
+      "tx": 42,
       "ty": 50,
       "tileId": "lightBush"
     },
@@ -3206,7 +3288,7 @@
       "tileId": "grassTuft"
     },
     {
-      "tx": 46,
+      "tx": 40,
       "ty": 53,
       "tileId": "grassTuft"
     },
@@ -3234,18 +3316,18 @@
   "pondTiles": [
     {
       "rect": [
-        47,
-        57,
-        56,
-        61
+        42,
+        52,
+        51,
+        56
       ]
     },
     {
       "rect": [
+        45,
         50,
-        55,
-        54,
-        61
+        49,
+        56
       ]
     }
   ],
@@ -5389,8 +5471,8 @@
       "id": "fisherman",
       "name": "Old Greyfish",
       "sprite": "hub-npc-fisherman",
-      "tx": 55,
-      "ty": 55,
+      "tx": 50,
+      "ty": 50,
       "dialogue": [
         "Been sitting at this pond since before the Fracture. The water's gone quiet lately \u2014 something's stirring beneath.",
         "I pulled out a strange glowing fish last week. Threw it back \u2014 some things are better left undisturbed.",
@@ -5418,8 +5500,8 @@
           "endHour": 20,
           "location": {
             "type": "exterior",
-            "tx": 55,
-            "ty": 55
+            "tx": 50,
+            "ty": 50
           }
         },
         {
@@ -5692,8 +5774,8 @@
       "id": "fishing-hole",
       "name": "Rod",
       "sprite": "hub-npc-fisherman",
-      "tx": 50,
-      "ty": 54,
+      "tx": 45,
+      "ty": 49,
       "screen": "fishing",
       "dialogue": [
         "Nothings biting today. Maybe try again later?",
@@ -5704,8 +5786,8 @@
       "id": "fishing-hole-2",
       "name": "Captain Dan",
       "sprite": "hub-npc-fisherman",
-      "tx": 49,
-      "ty": 56,
+      "tx": 44,
+      "ty": 51,
       "screen": "fishing",
       "dialogue": [
         "The pond is calm today. Care to fish?"
