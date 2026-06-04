@@ -1,9 +1,16 @@
 {
   "mapW": 2400,
   "mapH": 2240,
+  "townName": "Ravenwatch",
   "avatarStart": [
     37,
     29
+  ],
+  "exitTiles": [
+    { "tx": 36, "ty": 67, "screen": "worldmap" },
+    { "tx": 37, "ty": 67, "screen": "worldmap" },
+    { "tx": 38, "ty": 67, "screen": "worldmap" },
+    { "tx": 39, "ty": 67, "screen": "worldmap" }
   ],
   "areas": [
     {
@@ -77,6 +84,14 @@
       "ty": 27,
       "tw": 15,
       "th": 8
+    },
+    {
+      "id": "southgate",
+      "name": "Ravenwatch South Gate",
+      "tx": 28,
+      "ty": 57,
+      "tw": 20,
+      "th": 13
     }
   ],
   "streets": [

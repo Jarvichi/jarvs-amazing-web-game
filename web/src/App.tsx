@@ -60,6 +60,8 @@ import { DeckBuilder }        from './components/cards/DeckBuilder'
 import { PackOpening }        from './components/cards/PackOpening'
 import { NodeMap }            from './components/campaign/NodeMap'
 import { HubWorld }           from './components/hub/HubWorld'
+import { HubWorldMap }        from './components/hub/HubWorldMap'
+import { HubLocationWorld }   from './components/hub/HubLocationWorld'
 import { CasinoScreen }       from './components/hub/CasinoScreen'
 import { PostBattleReward }   from './components/battle/PostBattleReward'
 import { ActComplete }        from './components/battle/ActComplete'
@@ -102,6 +104,9 @@ import { useAchievements } from './hooks/useAchievements'
 import { isNoDamageMode } from './game/debug'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
 import { loadCommander, promoteCommander, CommanderState } from './game/commander'
+import { LOCATION_REGISTRY } from './data/world/locationRegistry'
+import { WORLD_MAP_NODES } from './data/world/worldMapDef'
+import { setCurrentWorldLocation, markNodeCleared, isNodeCleared } from './game/world/worldState'
 import { CommanderScreen } from './components/screens/CommanderScreen'
 import { TrainingScreen }  from './components/screens/TrainingScreen'
 import {
@@ -229,6 +234,8 @@ type Screen =
   | 'hubworld'
   | 'hub-minigame'
   | 'casino'
+  | 'worldmap'
+  | 'location'
 
 
 const STANCE_RULES_BY_NODE_TYPE: Partial<Record<string, StanceRules>> = {
@@ -336,6 +343,7 @@ export default function App() {
 
   const [screen, setScreen]             = useState<Screen>(_startup.screen)
   const [returnScreen, setReturnScreen]  = useState<Screen>('title')
+  const [currentLocationKey, setCurrentLocationKey] = useState<string>('ravenwatch')
   const [miniGamesEntry, setMiniGamesEntry] = useState<'menu' | 'citybuilder'>('menu')
   const [hubMiniGameEntry, setHubMiniGameEntry] = useState<SubScreen>('menu')
   const [showTitleLoginModal, setShowTitleLoginModal] = useState(false)
@@ -381,6 +389,10 @@ export default function App() {
   const [packs, setPacks]         = useState<string[][]>([])
   const [handicap, setHandicap]   = useState<number>(loadHandicap)
   const [crystals, setCrystals]   = useState<number>(loadCrystals)
+  const allQuestDefs = useMemo(
+    () => Object.values(LOCATION_REGISTRY).flatMap(e => e.questDefs),
+    []
+  )
   const [quickPlayRewardClaimed, setQuickPlayRewardClaimed] = useState(false)
 
   // Campaign run state
@@ -2544,6 +2556,7 @@ export default function App() {
           }}
           onCampaign={() => { setReturnScreen('hubworld'); handleCampaign() }}
           onEndless={() => { setReturnScreen('hubworld'); handleEndless() }}
+          onWorldMap={() => setScreen('worldmap')}
           onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
           crystals={crystals}
           user={user}
@@ -2561,6 +2574,40 @@ export default function App() {
           crystals={crystals}
           onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
           onBack={() => setScreen('hubworld')}
+        />
+      )}
+
+      {screen === 'worldmap' && (
+        <HubWorldMap
+          onSelectNode={(node) => {
+            setCurrentWorldLocation(node.id)
+            if (node.id === 'ravenwatch') {
+              setScreen('hubworld')
+            } else if (node.locationKey && LOCATION_REGISTRY[node.locationKey]) {
+              setCurrentLocationKey(node.locationKey)
+              setScreen('location')
+            } else if (node.type === 'battle') {
+              if (!isNodeCleared(node.id)) {
+                setReturnScreen('worldmap')
+                handleCampaign()
+              }
+            }
+          }}
+          onBack={() => setScreen('hubworld')}
+        />
+      )}
+
+      {screen === 'location' && LOCATION_REGISTRY[currentLocationKey] && (
+        <HubLocationWorld
+          locationData={LOCATION_REGISTRY[currentLocationKey].locationData}
+          questDefs={LOCATION_REGISTRY[currentLocationKey].questDefs}
+          allQuestDefs={allQuestDefs}
+          user={user}
+          crystals={crystals}
+          commander={commander ?? undefined}
+          onBack={() => setScreen('worldmap')}
+          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
+          onFeedback={() => setFeedbackOpen(true)}
         />
       )}
 
