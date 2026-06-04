@@ -51,14 +51,26 @@ export function BattlefieldTerrainCanvas({ environment, id, terrain }: Props) {
   useEffect(() => {
     const el = wrapRef.current
     if (!el) return
+    let raf = 0
     const measure = () => {
       const { width, height } = el.getBoundingClientRect()
-      if (width > 0 && height > 0) setDims({ w: Math.ceil(width), h: Math.ceil(height) })
+      if (width > 0 && height > 0) {
+        const w = Math.ceil(width)
+        const h = Math.ceil(height)
+        // Only update when the rounded size actually changes — avoids needless remounts.
+        setDims(prev => (prev && prev.w === w && prev.h === h) ? prev : { w, h })
+      }
     }
+    // Re-measure whenever the container resizes (viewport/orientation change).
+    // rAF-debounced so a burst of resize callbacks collapses into a single remount
+    // at the final size. The lane no longer resizes during battle, so this is rare.
+    const ro = new ResizeObserver(() => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(measure)
+    })
+    ro.observe(el)
     measure()
-    // Retry after paint in case layout hasn't settled yet
-    const raf = requestAnimationFrame(measure)
-    return () => cancelAnimationFrame(raf)
+    return () => { cancelAnimationFrame(raf); ro.disconnect() }
   }, [])
 
   return (
@@ -66,7 +78,8 @@ export function BattlefieldTerrainCanvas({ environment, id, terrain }: Props) {
       ref={wrapRef}
       style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 0, pointerEvents: 'none' }}
     >
-      {dims && <TerrainPixi environment={environment} id={id} terrain={terrain} w={dims.w} h={dims.h} />}
+      {/* Re-key on size so the Pixi scene remounts and rebuilds at the new dimensions. */}
+      {dims && <TerrainPixi key={`${dims.w}x${dims.h}`} environment={environment} id={id} terrain={terrain} w={dims.w} h={dims.h} />}
     </div>
   )
 }
