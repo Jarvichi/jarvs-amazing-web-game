@@ -1071,7 +1071,7 @@ export default function App() {
     const act = ACTS[currentRun.actId]
 
     // Mark siblings as skipped (branch choice)
-    const afterSkip = skipSiblings(act, node.id, currentRun)
+    const afterSkip = skipSiblings(act.nodes, node.id, currentRun)
     const activeMods = act ? getModifiersByCount(act, currentRun.activeModifierCount) : []
     const bonusCrystals = activeMods.filter(m => m.type === 'crystalBonus').reduce((s, m) => s + m.value, 0)
     const updatedRun: RunState = { ...afterSkip, pendingNodeId: node.id, crystalBonus: bonusCrystals }

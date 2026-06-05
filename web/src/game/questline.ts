@@ -127,7 +127,8 @@ export interface ReplayModifier {
 
 // ─── Node & Act types ─────────────────────────────────────
 
-export type NodeType = 'battle' | 'elite' | 'boss' | 'rest' | 'event' | 'merchant' | 'memory'
+export type NodeType = 'battle' | 'elite' | 'boss' | 'rest' | 'event' | 'merchant' | 'memory' | 'town' | 'castle' | 'camp' | 'cave' | 'port'
+
 
 export interface QuestNode {
   id: string
@@ -137,6 +138,20 @@ export interface QuestNode {
   row: number        // 0 = start row; increases toward boss
   col: number        // column index within this row
   rowCols: number    // total columns in this row (for layout)
+  decorTiles?:      number[]
+  decorOffsets?:   [number, number][]
+  // World map positioning (supersedes row/col/rowCols when present)
+  x?: number
+  y?: number
+  // Bidirectional connections for world maps (supersedes childIds when present)
+  connections?: string[]
+  // World map status: locked until these node IDs are cleared
+  requiredClears?: string[]
+  // Hub location key — reference into LOCATION_REGISTRY
+  locationKey?: string
+  // World battle nodes: points to a campaign act+node to launch
+  battleConfig?: { actId: string; nodeId: string }
+
   childIds: string[]
   handicap?: number  // opponent handicap for battle/elite/boss
   restHeal?: number  // HP healed at rest nodes
@@ -257,16 +272,45 @@ export interface IntroRule {
   panels: CutscenePanel[]
 }
 
-export interface Act {
+export interface WorldMap {
+  nodes: Record<string, QuestNode>
+  startNodeIds: string[]
+  /** Visual environment theme — drives battlefield background CSS class and terrain types. */
+  environment?: string  
+
+  /**
+   * Override the random seed used for terrain scatter on this act's node map.
+   * Useful for tuning layouts without pinning exact positions.
+   * If omitted, the seed is derived from the act id.
+   */
+  terrainSeed?: number
+
+  /**
+   * Explicit terrain item placements. When present, replaces the random scatter
+   * for this act entirely. Each item needs x/y (pixels, relative to map size),
+   * scale (1 = default), and kind (mountain | tree | deadtree | crystal |
+   * mushroom | lava | wave | cloud | tower | pillar | dune).
+   * A kind of "river" here is ignored — use the `rivers` field instead.
+   */
+  terrainItems?: Array<{ kind: string; x: number; y: number; scale: number }>
+
+  /**
+   * Explicit river paths. When present, these bezier curves are drawn instead
+   * of the auto-generated river. Each entry specifies the start point (x1,y1),
+   * end point (x2,y2), and two bezier control points (cx1,cy1) and (cx2,cy2).
+   * All values are pixel coordinates relative to the map canvas size.
+   */
+  rivers?: Array<{ x1: number; y1: number; x2: number; y2: number; cx1: number; cy1: number; cx2: number; cy2: number }>
+
+}
+
+export interface Act extends WorldMap {
   id: string
   title: string
   subtitle: string
-  nodes: Record<string, QuestNode>
-  startNodeIds: string[]
   rewardRelic: string
   rewardRelicDesc: string
-  /** Visual environment theme — drives battlefield background CSS class and terrain types. */
-  environment?: string
+
   /** Card tags that appear as rewards in this act (e.g. "forest", "citadel"). Empty = all cards eligible. */
   rewardTags?: string[]
   intro?: CutscenePanel[]   // shown on run 1 (fallback when no rule matches)
@@ -309,30 +353,6 @@ export interface Act {
    * All modifiers up to the current replay index stack additively.
    */
   replayModifiers?: ReplayModifier[]
-
-  /**
-   * Override the random seed used for terrain scatter on this act's node map.
-   * Useful for tuning layouts without pinning exact positions.
-   * If omitted, the seed is derived from the act id.
-   */
-  terrainSeed?: number
-
-  /**
-   * Explicit terrain item placements. When present, replaces the random scatter
-   * for this act entirely. Each item needs x/y (pixels, relative to map size),
-   * scale (1 = default), and kind (mountain | tree | deadtree | crystal |
-   * mushroom | lava | wave | cloud | tower | pillar | dune).
-   * A kind of "river" here is ignored — use the `rivers` field instead.
-   */
-  terrainItems?: Array<{ kind: string; x: number; y: number; scale: number }>
-
-  /**
-   * Explicit river paths. When present, these bezier curves are drawn instead
-   * of the auto-generated river. Each entry specifies the start point (x1,y1),
-   * end point (x2,y2), and two bezier control points (cx1,cy1) and (cx2,cy2).
-   * All values are pixel coordinates relative to the map canvas size.
-   */
-  rivers?: Array<{ x1: number; y1: number; x2: number; y2: number; cx1: number; cy1: number; cx2: number; cy2: number }>
 }
 
 // ─── Run counter ──────────────────────────────────────────
@@ -582,7 +602,7 @@ export function loadRun(): RunState | null {
     // Such a node is still reachable and must be un-skipped so the map isn't deadlocked.
     {
       const completedSet = new Set(parsed.completedNodeIds)
-      const parentMap = buildParentMap(act)
+      const parentMap = buildParentMap(act.nodes)
       const toUnSkip = parsed.skippedNodeIds.filter(nodeId => {
         const parents = parentMap[nodeId] ?? []
         return parents.some(pid => {
@@ -706,9 +726,9 @@ export function getTopPlayedCards(counts: Record<string, number>, n = 3): string
 // ─── Map logic ────────────────────────────────────────────
 
 /** Derives a reverse map { nodeId → parentIds[] } from childIds. */
-function buildParentMap(act: Act): Record<string, string[]> {
+function buildParentMap(nodes: Record<string, QuestNode>): Record<string, string[]> {
   const map: Record<string, string[]> = {}
-  for (const node of Object.values(act.nodes)) {
+  for (const node of Object.values(nodes)) {
     for (const cid of node.childIds) {
       if (!map[cid]) map[cid] = []
       map[cid].push(node.id)
@@ -722,13 +742,13 @@ function buildParentMap(act: Act): Record<string, string[]> {
  * A node is available if it is not done and at least one parent is completed.
  * Start nodes (no parents) are available only at the very beginning.
  */
-export function getAvailableNodeIds(act: Act, run: RunState): string[] {
+export function getAvailableNodeIds(nodes: Record<string, QuestNode>, run: RunState): string[] {
   const completed = new Set(run.completedNodeIds)
   const skipped   = new Set(run.skippedNodeIds)
   const done      = new Set([...completed, ...skipped])
-  const parentMap = buildParentMap(act)
+  const parentMap = buildParentMap(nodes)
 
-  return Object.values(act.nodes)
+  return Object.values(nodes)
     .filter(node => {
       if (done.has(node.id))            return false
       if (node.id === run.pendingNodeId) return false
@@ -743,14 +763,14 @@ export function getAvailableNodeIds(act: Act, run: RunState): string[] {
  * When the player picks one node from a set of sibling options, the others
  * in the same parent→children group get marked as skipped.
  */
-export function skipSiblings(act: Act, chosenId: string, run: RunState): RunState {
-  const parentMap = buildParentMap(act)
+export function skipSiblings(nodes: Record<string, QuestNode>, chosenId: string, run: RunState): RunState {
+  const parentMap = buildParentMap(nodes)
   const parents = parentMap[chosenId] ?? []
   // Never skip a node that is also a child of the chosen node — it's still reachable.
-  const chosenChildren = new Set(act.nodes[chosenId]?.childIds ?? [])
+  const chosenChildren = new Set(nodes[chosenId]?.childIds ?? [])
   const siblings: string[] = []
   for (const pid of parents) {
-    const parent = act.nodes[pid]
+    const parent = nodes[pid]
     for (const cid of parent.childIds) {
       if (cid !== chosenId && !run.completedNodeIds.includes(cid) && !run.skippedNodeIds.includes(cid) && !chosenChildren.has(cid)) {
         siblings.push(cid)
