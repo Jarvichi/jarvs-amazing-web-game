@@ -44,6 +44,10 @@ export function getBundleById(id: string): BundleDef | undefined {
   return BUNDLE_REGISTRY.get(id)
 }
 
+export function getAllBundles(): BundleDef[] {
+  return Array.from(BUNDLE_REGISTRY.values())
+}
+
 /** Expand decor tiles from a bundle at the given bottom-left origin. */
 export function expandBundleDecor(
   bundleID: string,
