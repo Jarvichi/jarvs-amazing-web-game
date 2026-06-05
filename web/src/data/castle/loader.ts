@@ -139,7 +139,9 @@ const EXTERIOR_DECOR = [
 ]
 
 const HUB_WINDOWS = [..._nestedWindows]
-const HUB_POND_TILES: [number, number][] = []
+const HUB_POND_TILES: [number, number][] = expandTiles(
+  ((rawConfig as unknown as { ponds?: TileEntry[] }).ponds ?? [])
+)
 const HUB_DOORS: HubDoor[] = _nestedDoors
 
 const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
