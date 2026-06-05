@@ -1,0 +1,71 @@
+{
+  "startNodeIds": ["ravenwatch"],
+  "environment": "farmland",
+  "nodes": {
+    "ravenwatch": {
+      "id": "ravenwatch", "type": "town", "label": "Ravenwatch", "description": "",
+      "row": 0, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 350, "y": 450,
+      "connections": ["forest-path", "bridge-battle"],
+      "locationKey": "ravenwatch",
+      "decorTiles": [49, 50],
+      "decorOffsets": [[-32, -16], [0, -16]]
+    },
+    "forest-path": {
+      "id": "forest-path", "type": "battle", "label": "Forest Path", "description": "",
+      "row": 1, "col": 0, "rowCols": 2, "childIds": [],
+      "x": 210, "y": 360,
+      "connections": ["ironhold-keep"],
+      "requiredClears": [],
+      "battleConfig": { "actId": "act1", "nodeId": "goblin-raid" },
+      "decorTiles": [9]
+    },
+    "bridge-battle": {
+      "id": "bridge-battle", "type": "battle", "label": "Bridge Battle", "description": "",
+      "row": 1, "col": 1, "rowCols": 2, "childIds": [],
+      "x": 490, "y": 360,
+      "connections": ["ironhold-keep"],
+      "requiredClears": [],
+      "battleConfig": { "actId": "act1", "nodeId": "shrine" },
+      "decorTiles": [18]
+    },
+    "ironhold-keep": {
+      "id": "ironhold-keep", "type": "castle", "label": "Ironhold Keep", "description": "",
+      "row": 2, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 350, "y": 270,
+      "connections": ["thornwood-camp"],
+      "requiredClears": ["forest-path|bridge-battle"],
+      "locationKey": "ironhold-keep",
+      "decorTiles": [51, 52, 59, 60],
+      "decorOffsets": [[-32, -32], [0, -32], [-32, 0], [0, 0]]
+    },
+    "thornwood-camp": {
+      "id": "thornwood-camp", "type": "camp", "label": "Thornwood Camp", "description": "",
+      "row": 3, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 350, "y": 185,
+      "connections": ["river-battle"],
+      "requiredClears": ["ironhold-keep"],
+      "decorTiles": [8, 11],
+      "decorOffsets": [[-20, -16], [8, -8]]
+    },
+    "river-battle": {
+      "id": "river-battle", "type": "battle", "label": "River Crossing", "description": "",
+      "row": 4, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 350, "y": 105,
+      "connections": ["millhaven"],
+      "requiredClears": ["thornwood-camp"],
+      "battleConfig": { "actId": "act2", "nodeId": "iron-gate" },
+      "decorTiles": [16]
+    },
+    "millhaven": {
+      "id": "millhaven", "type": "town", "label": "Millhaven", "description": "",
+      "row": 5, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 350, "y": 30,
+      "connections": [],
+      "requiredClears": ["river-battle"],
+      "locationKey": "millhaven",
+      "decorTiles": [57, 58],
+      "decorOffsets": [[-32, -16], [0, -16]]
+    }
+  }
+}

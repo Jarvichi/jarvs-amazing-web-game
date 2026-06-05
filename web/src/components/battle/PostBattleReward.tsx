@@ -30,6 +30,11 @@ const NODE_FLAVOUR: Record<NodeType, string> = {
   event:    '',
   merchant: '',
   memory:   '',
+  town:     '',
+  castle:   '',
+  camp:     '',
+  cave:     '',
+  port:     '',
 }
 
 export function PostBattleReward({ choices, nodeType, crystals, onPick, onSkip, headerOverride, battleSummary }: Props) {
