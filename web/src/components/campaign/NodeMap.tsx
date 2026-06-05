@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react'
 import { GIFT_OWNER_UID } from '../../game/gifts'
 import { ALL_CONSUMABLES, ARCHETYPE_DEFS, Act, QuestNode, RunState, getAvailableNodeIds, getModifiersByCount, loadNodeHistory } from '../../game/questline'
 import { Lives } from '../ui/Lives/Lives'
-import { NodeMapRederer } from '../ui/NodeMap/NodeMapRederer'
+import { NodeMapRederer, getNodeStatus } from '../ui/NodeMap/NodeMapRederer'
 import { NodePeekModal } from '../ui/NodeMap/NodePeekModal'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Toolbar } from '../ui/Toolbar/Toolbar'
@@ -20,21 +20,6 @@ interface Props {
   onBack: () => void
   user?: User | null
 }
-
-// ── Game logic helpers ────────────────────────────────────────────────────────
-
-type NodeStatus = 'completed' | 'available' | 'skipped' | 'locked' | 'pending'
-
-function getNodeStatus(nodeId: string, availableIds: string[], run: RunState): NodeStatus {
-  if (run.pendingNodeId === nodeId)          return 'pending'
-  if (run.completedNodeIds.includes(nodeId)) return 'completed'
-  if (run.skippedNodeIds.includes(nodeId))   return 'skipped'
-  if (availableIds.includes(nodeId))         return 'available'
-  return 'locked'
-}
-
-
-
 
 // ── Main component ─────────────────────────────────────────────────────────────
 

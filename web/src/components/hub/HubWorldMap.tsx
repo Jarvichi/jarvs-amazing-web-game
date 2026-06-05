@@ -18,7 +18,7 @@ import { unmarkPickedUp } from '../../game/hub/pickups'
 import { resetQuest } from '../../game/hub/quests'
 import { LoginButton } from '../ui/LoginButton'
 import type { User } from 'firebase/auth'
-import { NodeMapRederer } from '../ui/NodeMap/NodeMapRederer'
+import { NodeMapRederer, getWorldNodeStatus } from '../ui/NodeMap/NodeMapRederer'
 import { NodePeekModal } from '../ui/NodeMap/NodePeekModal'
 
 interface Props {
@@ -40,6 +40,11 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
   const { isNight: isGameNight } = useHubClock()
   const playerName = loadPlayerName()
   const crystals   = loadCrystals()
+
+  const clearedNodeIds = useMemo(
+    () => new Set(Object.keys(WORLD_MAP.nodes).filter(id => isNodeCleared(id))),
+    []
+  )
 
   const { collectionCount, catalogTotal } = useMemo(() => {
     const catalog    = getCardCatalog()
@@ -106,7 +111,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
         <NodeMapRederer
           id="hub-world"
           worldMap={WORLD_MAP}
-          clearedNodeIds={new Set(Object.keys(WORLD_MAP.nodes).filter(id => isNodeCleared(id)))}
+          clearedNodeIds={clearedNodeIds}
           mapWidth={700}
           mapHeight={520}
           setPeekNode={setPeekNode}
@@ -117,9 +122,7 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
             node={peekNode}
             mode="world"
             isCleared={isNodeCleared(peekNode.id)}
-            isAvailable={!peekNode.requiredClears?.length || peekNode.requiredClears.every(req =>
-              req.includes('|') ? req.split('|').some(id => isNodeCleared(id)) : isNodeCleared(req)
-            )}
+            isAvailable={getWorldNodeStatus(peekNode, clearedNodeIds) !== 'locked'}
             onEnter={() => { setPeekNode(null); onSelectNode(peekNode) }}
             onClose={() => setPeekNode(null)}
           />

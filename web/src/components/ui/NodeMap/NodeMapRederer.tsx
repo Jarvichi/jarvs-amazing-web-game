@@ -49,9 +49,9 @@ const NODE_RADIUS    = 22
 
 // ── Game logic helpers ────────────────────────────────────────────────────────
 
-type NodeStatus = 'completed' | 'available' | 'skipped' | 'locked' | 'pending'
+export type NodeStatus = 'completed' | 'available' | 'skipped' | 'locked' | 'pending'
 
-function getNodeStatus(nodeId: string, availableIds: string[], run: RunState): NodeStatus {
+export function getNodeStatus(nodeId: string, availableIds: string[], run: RunState): NodeStatus {
   if (run.pendingNodeId === nodeId)          return 'pending'
   if (run.completedNodeIds.includes(nodeId)) return 'completed'
   if (run.skippedNodeIds.includes(nodeId))   return 'skipped'
@@ -59,7 +59,7 @@ function getNodeStatus(nodeId: string, availableIds: string[], run: RunState): N
   return 'locked'
 }
 
-function getWorldNodeStatus(node: QuestNode, clearedNodeIds: Set<string>): NodeStatus {
+export function getWorldNodeStatus(node: QuestNode, clearedNodeIds: Set<string>): NodeStatus {
   if (clearedNodeIds.has(node.id)) return 'completed'
   if (!node.requiredClears?.length) return 'available'
   const cleared = node.requiredClears.every(req => {
@@ -593,7 +593,10 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, mapWidth: ma
 
   const availableIds      = useMemo(() => run ? getAvailableNodeIds(worldMap.nodes, run) : [], [worldMap.nodes, run])
   const rows              = useMemo(() => buildRows(worldMap.nodes), [worldMap.nodes])
-  const maxRowCols        = useMemo(() => Math.max(...rows.map(r => r[0]?.rowCols ?? r.length)), [rows])
+  const maxRowCols        = useMemo(
+    () => rows.length ? Math.max(...rows.map(r => r[0]?.rowCols ?? r.length)) : 1,
+    [rows]
+  )
   const reachableIds      = useMemo(() => run ? computeReachableIds(worldMap.nodes, run) : new Set<string>(), [worldMap.nodes, run])
   const discoveredFragIds = useMemo(() => getDiscoveredFragmentIds(), [])
   const hiddenNodeIds     = useMemo(
@@ -756,6 +759,11 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, mapWidth: ma
     }
 
     // ── Campaign (grid) rendering ─────────────────────────────────────────────
+    if (!run) {
+      console.error('[NodeMapRederer] grid mode requires run prop')
+      return
+    }
+
     const groundLayer = new PIXI.Container()
     const worldLayer  = new PIXI.Container()
     const nodeLayer   = new PIXI.Container()
@@ -802,9 +810,9 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, mapWidth: ma
     } catch { /* no campfire sprite */ }
 
     // Connectors
-    const { availableIds: aids, reachableIds: rids, hiddenNodeIds: hids, run: r } = stateRef.current
+    const { availableIds: aids, reachableIds: rids, hiddenNodeIds: hids } = stateRef.current
     connGfxListRef.current = drawConnectorsGfx(worldLayer, rows, maxRowCols, mapHeight,
-      id => getNodeStatus(id, aids, r!), rids, hids, worldMap.environment)
+      id => getNodeStatus(id, aids, run), rids, hids, worldMap.environment)
 
     // Node markers
     for (let ri = 0; ri < rows.length; ri++) {
@@ -814,13 +822,13 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, mapWidth: ma
         if (hids.has(node.id)) continue
         if (deadRef.current) return
         const pos    = nodePosition(ri, node, rowCols, maxRowCols)
-        const status = getNodeStatus(node.id, aids, r!)
+        const status = getNodeStatus(node.id, aids, run)
         const marker = await buildNodeMarker(node, status, rids.has(node.id), app, worldMap.environment)
         if (deadRef.current) return
         makeClickable(marker, () => {
           if (isWalkingRef.current) return
           const { availableIds: a, run: rr } = stateRef.current
-          if (getNodeStatus(node.id, a, rr!) !== 'available') return
+          if (!rr || getNodeStatus(node.id, a, rr) !== 'available') return
           handleWalk(node, pos)
         })
         marker.position.set(pos.x, pos.y)
@@ -848,7 +856,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, mapWidth: ma
     const sp = startPos(mapHeight)
     avatar.position.set(sp.x, sp.y)
 
-    const lastNode = lastCompletedNode(worldMap.nodes, stateRef.current.run!)
+    const lastNode = lastCompletedNode(worldMap.nodes, run)
     if (lastNode) {
       const ri = rows.findIndex(row => row.some(n => n.id === lastNode.id))
       if (ri >= 0) {
