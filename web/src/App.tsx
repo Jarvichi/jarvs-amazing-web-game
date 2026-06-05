@@ -830,6 +830,17 @@ export default function App() {
 
   const handlePlayAgain = useCallback(() => {
     if (!gameState || gameState.phase.type !== 'gameOver') return
+    // World battle: mark node cleared and return to world map
+    if (worldBattleNodeIdRef.current !== null) {
+      const nodeId = worldBattleNodeIdRef.current
+      worldBattleNodeIdRef.current = null
+      if (gameState.phase.winner === 'player') markNodeCleared(nodeId)
+      clearBattleState()
+      dispatch({ type: 'END' })
+      setWorldMapKey(k => k + 1)
+      setScreen('worldmap')
+      return
+    }
     // Training mode: send back to training setup screen
     if (isTrainingModeRef.current) {
       isTrainingModeRef.current = false
