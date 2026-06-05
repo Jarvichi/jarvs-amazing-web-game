@@ -9,6 +9,40 @@
     ]
   },
   {
+    "bundleID": "simple-bed",
+    "tiles": [
+      { "tileID": "simpleBedHead",        "x": 0, "y": 1, "zlayer": "below" },
+      { "tileID": "simpleBedFoot",        "x": 0, "y": 0, "zlayer": "below" },
+      { "tileID": "simpleBedHeadOverlay", "x": 0, "y": 1, "zlayer": "above" },
+      { "tileID": "simpleBedFootOverlay", "x": 0, "y": 0, "zlayer": "above" }
+    ]
+  },
+  {
+    "bundleID": "fireplace",
+    "tiles": [
+      { "tileID": "fireplaceTopLeft",     "x": 0, "y": 1 },
+      { "tileID": "fireplaceTopMiddle",   "x": 1, "y": 1 },
+      { "tileID": "fireplaceTopRight",    "x": 2, "y": 1 },
+      { "tileID": "fireplaceBottomLeft",  "x": 0, "y": 0 },
+      { "tileID": "fireplaceBottomMiddle","x": 1, "y": 0 },
+      { "tileID": "fireplaceBottomRight", "x": 2, "y": 0 }
+    ]
+  },
+  {
+    "bundleID": "fountain",
+    "tiles": [
+      { "tileID": "fountainTopLeft",   "x": 0, "y": 2 },
+      { "tileID": "fountainTopMiddle", "x": 1, "y": 2 },
+      { "tileID": "fountainTopRight",  "x": 2, "y": 2 },
+      { "tileID": "fountainMidLeft",   "x": 0, "y": 1 },
+      { "tileID": "fountainMidMiddle", "x": 1, "y": 1 },
+      { "tileID": "fountainMidRight",  "x": 2, "y": 1 },
+      { "tileID": "fountainBotLeft",   "x": 0, "y": 0 },
+      { "tileID": "fountainBotMiddle", "x": 1, "y": 0 },
+      { "tileID": "fountainBotRight",  "x": 2, "y": 0 }
+    ]
+  },
+  {
     "bundleID": "shop-front",
     "tiles": [
       { "type": "window", "tileID": "windowTop",    "x": 2, "y": 3 },
