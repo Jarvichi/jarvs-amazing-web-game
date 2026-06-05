@@ -10,6 +10,7 @@ import type {
 } from '../hub/loader'
 import type { HubLocationData, HubExitTile } from '../hub/locationTypes'
 import type { HubQuestDef } from '../hub/questDefs'
+import { expandBundleDecor, expandBundleWindows, expandBundleDoors } from '../bundles/bundleLoader'
 
 const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
 const T = 32
@@ -79,9 +80,10 @@ const HUB_STREET_TILES: [number, number][] = HUB_STREET_GROUPS.flatMap(g => g.ti
 type RawBuilding = {
   rect?: number[]; rects?: number[][];
   id?: string; wall?: string; roof?: string;
+  bundleID?: string;
   doors?:   Array<{ tx: number; ty: number; buildingId?: string }>
   windows?: Array<{ tx: number; ty: number; tileId: string }>
-  decor?:   Array<{ tx: number; ty: number; tileId: string; zlayer?: string }>
+  decor?:   Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>
 }
 
 const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).flatMap(b => {
@@ -111,6 +113,12 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
   const rectList = b.rects ?? (b.rect ? [b.rect] : [])
   if (rectList.length === 0) continue
   const [ox, oy] = buildingOrigin(rectList)
+  if (b.bundleID) {
+    _nestedWindows.push(...expandBundleWindows(b.bundleID, ox, oy))
+    _nestedDecor.push(...expandBundleDecor(b.bundleID, ox, oy))
+    _nestedDoors.push(...expandBundleDoors(b.bundleID, b.id ?? '', ox, oy))
+    continue
+  }
   for (const d of b.doors ?? []) {
     const absTy = oy + d.ty
     let storeTy  = absTy
@@ -126,15 +134,22 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
   }
   for (const w of b.windows ?? [])
     _nestedWindows.push({ tx: ox + w.tx, ty: oy + w.ty, tileId: resolveTileId(w.tileId) })
-  for (const d of b.decor ?? [])
-    _nestedDecor.push({ tx: ox + d.tx, ty: oy + d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer })
+  for (const d of b.decor ?? []) {
+    if (d.bundleID)
+      _nestedDecor.push(...expandBundleDecor(d.bundleID, ox + d.tx, oy + d.ty))
+    else if (d.tileId)
+      _nestedDecor.push({ tx: ox + d.tx, ty: oy + d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer })
+  }
 }
 
-type RawDecorEntry = { tx?: number; ty?: number; tileId?: string; comment?: string; zlayer?: string }
+type RawDecorEntry = { tx?: number; ty?: number; tileId?: string; bundleID?: string; comment?: string; zlayer?: string }
 const EXTERIOR_DECOR = [
-  ...(rawConfig.exteriorDecor as RawDecorEntry[])
-    .filter((d): d is { tx: number; ty: number; tileId: string; zlayer?: string } => d.tx != null && d.ty != null && d.tileId != null)
-    .map(d => ({ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer })),
+  ...(rawConfig.exteriorDecor as RawDecorEntry[]).flatMap(d => {
+    if (d.tx == null || d.ty == null) return []
+    if (d.bundleID) return expandBundleDecor(d.bundleID, d.tx, d.ty)
+    if (d.tileId) return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId), zlayer: d.zlayer }]
+    return []
+  }),
   ..._nestedDecor,
 ]
 
@@ -157,12 +172,11 @@ const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
         height:       raw.height,
         floorTileId:  resolveTileId(raw.floorTileId),
         wallMaterial: wallTileIdStr && WALL_MATERIAL_NAMES.has(wallTileIdStr) ? wallTileIdStr as WallMaterial : undefined,
-        decor:        (raw.decor as Array<{ tx: number; ty: number; tileId: string; zlayer?: string }>).map(d => ({
-          tx:     d.tx,
-          ty:     d.ty,
-          tileId: resolveTileId(d.tileId),
-          zlayer: d.zlayer as InteriorDecor['zlayer'],
-        })),
+        decor:        (raw.decor as Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>).flatMap(d => {
+          if (d.bundleID)
+            return expandBundleDecor(d.bundleID, d.tx, d.ty).map(e => ({ ...e, zlayer: e.zlayer as InteriorDecor['zlayer'] }))
+          return [{ tx: d.tx, ty: d.ty, tileId: resolveTileId(d.tileId ?? ''), zlayer: d.zlayer as InteriorDecor['zlayer'] }]
+        }),
         exits: ((rawAny.exits ?? []) as HubInteriorExit[]),
         hours: rawAny.hours as HubInterior['hours'],
       } satisfies HubInterior,

@@ -1,0 +1,23 @@
+[
+  {
+    "bundleID": "royal-bed",
+    "tiles": [
+      { "tileID": "bed-tl", "x": 0, "y": 1, "zlayer": "below" },
+      { "tileID": "bed-tr", "x": 1, "y": 1, "zlayer": "below" },
+      { "tileID": "bed-bl", "x": 0, "y": 0, "zlayer": "above" },
+      { "tileID": "bed-br", "x": 1, "y": 0, "zlayer": "above" }
+    ]
+  },
+  {
+    "bundleID": "shop-front",
+    "tiles": [
+      { "type": "window", "tileID": "windowTop",    "x": 2, "y": 3 },
+      { "type": "window", "tileID": "windowBottom", "x": 2, "y": 2 },
+      { "type": "window", "tileID": "windowTop",    "x": 4, "y": 3 },
+      { "type": "window", "tileID": "windowBottom", "x": 4, "y": 2 },
+      { "type": "door",   "x": 3, "y": 0 },
+      { "type": "decor",  "tileID": "lampPostTop",    "x": 0, "y": 0, "zlayer": "solid" },
+      { "type": "decor",  "tileID": "lampPostBottom", "x": 0, "y": 1, "zlayer": "solid" }
+    ]
+  }
+]
