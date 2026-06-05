@@ -174,7 +174,8 @@ const INTERIOR_NPCS: Record<string, HubNpc[]> = HUB_NPCS
   .filter(n => !!n.building)
   .reduce<Record<string, HubNpc[]>>((acc, n) => {
     const key = n.building!
-    ;(acc[key] ??= []).push(n)
+    if (!acc[key]) acc[key] = []
+    acc[key].push(n)
     return acc
   }, {})
 
