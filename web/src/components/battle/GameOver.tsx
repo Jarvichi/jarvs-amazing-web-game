@@ -30,6 +30,8 @@ interface Props {
   showStreak?: boolean
   /** If set, show daily challenge result banner. */
   dailyChallengeState?: DailyChallengeState
+  /** World-map battle: show a single "Return to Map" action instead of the play-again flow. */
+  worldBattle?: boolean
 }
 
 const VICTORY_ART = `   \\o/
@@ -53,7 +55,7 @@ const DRAW_ART = `  =====
   =====
   DRAW!`
 
-export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, onPlayAgain, onMainMenu, campaignAbandon, quickPlayHint, showStreak, dailyChallengeState }: Props) {
+export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, onPlayAgain, onMainMenu, campaignAbandon, quickPlayHint, showStreak, dailyChallengeState, worldBattle }: Props) {
   const won  = winner === 'player'
   const draw = winner === 'draw'
   const isEndlessDefeat = !!state.endlessMode && !won && !draw
@@ -157,7 +159,7 @@ export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, o
           )}
         </div>
       )}
-      {handicapNote && !dailyChallengeState && <div className="gameover-handicap">{handicapNote}</div>}
+      {handicapNote && !dailyChallengeState && !worldBattle && <div className="gameover-handicap">{handicapNote}</div>}
 
       {dailyChallengeState && (
         <div className={`gameover-daily ${winner === 'player' ? 'gameover-daily--win' : 'gameover-daily--lose'}`}>
@@ -186,7 +188,16 @@ export function GameOver({ state, winner, handicap, onOpenPack, rewardClaimed, o
       )}
 
       <div className="gameover-actions u-col u-items-c u-gap-5">
-        {won && onOpenPack ? (
+        {worldBattle ? (
+          <>
+            {!won && (
+              <button className="action-btn" onClick={onPlayAgain}>[ Try Again ]</button>
+            )}
+            <button className="action-btn" onClick={onMainMenu}>
+              {won ? '[ Return to Map ]' : '[ Back to Map ]'}
+            </button>
+          </>
+        ) : won && onOpenPack ? (
           rewardClaimed ? (
             <>
               <button className="action-btn" onClick={onPlayAgain}>[ Play Again ]</button>

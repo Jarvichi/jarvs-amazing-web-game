@@ -18,7 +18,6 @@ import { getCardCatalog } from '../../game/cards'
 import { CommanderState } from '../../game/commander'
 import { loadSkipIntro } from '../screens/SettingsScreen'
 import { getSavedHubTile } from './HubTownCanvas'
-import { HubWorldMap } from './HubWorldMap'
 import { Toolbar } from '../ui/Toolbar/Toolbar'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
@@ -106,7 +105,6 @@ interface Props {
 export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
-  const [worldMapOpen,  setWorldMapOpen]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
   const [dialogueLine,   setDialogueLine]   = useState<string | null>(null)
   const [dialogueEvent,  setDialogueEvent]  = useState<QuestEvent | null>(null)
@@ -266,7 +264,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
       interiorEnterRef.current?.(buildingId)
       return
     }
-    if (screen === 'worldmap') { setWorldMapOpen(true); return }
+    if (screen === 'worldmap') { onWorldMap?.(); return }
     if (screen === 'campaign') { onCampaign?.(); return }
     if (screen === 'endless') { onEndless?.(); return }
     if (screen === 'commander' && !commander) {
@@ -514,20 +512,6 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     setDialogueEvent({ speakerName, text: line })
   }, [refreshState, handleNodeInteract])
 
-  if (worldMapOpen) {
-    return (
-      <HubWorldMap
-        onBack={() => setWorldMapOpen(false)}
-        onSelectNode={(node) => { setWorldMapOpen(false); onWorldMap?.() }}
-        user={user}
-        onSignIn={onLoginToggle}
-        onSignOut={onSignOut}
-        onPlayerTap={onPlayerTap}
-        onFeedback={onFeedback}
-      />
-    )
-  }
-
   return (
     <OverlayScreen title={`🏠 ${HUB_TOWN_NAME}`}>
       <Toolbar>
@@ -535,7 +519,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
           <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
           <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
-        <ToolbarButton icon="🗺" title="World Map" onClick={() => setWorldMapOpen(true)} />
+        <ToolbarButton icon="🗺" title="World Map" onClick={() => onWorldMap?.()} />
 
         <ToolbarSpacer/>
         <div className="toolbar-overflow-inline">

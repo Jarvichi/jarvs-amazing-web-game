@@ -1076,6 +1076,16 @@ export default function App() {
     if (isCampaignRef.current) rollRareEvent()
   }, [startBattle, rollRareEvent])
 
+  // Re-run the current world-map battle after a loss ("Try Again").
+  const handleWorldBattleRetry = useCallback(() => {
+    const nodeId = worldBattleNodeIdRef.current
+    const worldNode = nodeId ? WORLD_MAP_NODES.find(n => n.id === nodeId) : undefined
+    if (!worldNode) { handleMainMenu(); return }
+    dispatch({ type: 'END' })
+    handleWorldBattle(worldNode)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleWorldBattle])
+
   const handleSelectNode = useCallback((node: QuestNode) => {
     const currentRun = run
     if (!currentRun) return
@@ -2367,9 +2377,15 @@ export default function App() {
 
   const handleMainMenu = useCallback(() => {
     if (worldBattleNodeIdRef.current !== null) {
+      const nodeId = worldBattleNodeIdRef.current
       worldBattleNodeIdRef.current = null
+      if (gameState?.phase.type === 'gameOver' && gameState.phase.winner === 'player') {
+        markNodeCleared(nodeId)
+        setCurrentWorldLocation(nodeId)
+      }
       clearBattleState()
       dispatch({ type: 'END' })
+      setWorldMapKey(k => k + 1)
       setScreen('worldmap')
       return
     }
@@ -2660,8 +2676,11 @@ export default function App() {
             }
           }}
           onBack={() => setScreen('hubworld')}
-                    user={user}
-                    
+          user={user}
+          onSignIn={() => setShowTitleLoginModal(true)}
+          onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
+          onPlayerTap={() => { setReturnScreen('hubworld'); setScreen('player') }}
+          onFeedback={() => setFeedbackOpen(true)}
         />
       )}
 
@@ -3232,19 +3251,22 @@ export default function App() {
             state={gameState}
             winner={gameState.phase.winner}
             handicap={handicap}
-            onOpenPack={!isCampaignRef.current && gameState.phase.winner === 'player' ? handleOpenPack : undefined}
+            onOpenPack={!isCampaignRef.current && worldBattleNodeIdRef.current === null && gameState.phase.winner === 'player' ? handleOpenPack : undefined}
             rewardClaimed={quickPlayRewardClaimed}
-            onPlayAgain={isCampaignRef.current
-              ? (gameState.phase.winner === 'player' ? handleCampaignWin : handleCampaignRetry)
-              : isDailyChallengeRef.current
-                ? handleDailyChallengeRetry
-                : handlePlayAgain
+            onPlayAgain={worldBattleNodeIdRef.current !== null
+              ? handleWorldBattleRetry
+              : isCampaignRef.current
+                ? (gameState.phase.winner === 'player' ? handleCampaignWin : handleCampaignRetry)
+                : isDailyChallengeRef.current
+                  ? handleDailyChallengeRetry
+                  : handlePlayAgain
             }
             onMainMenu={handleMainMenu}
             campaignAbandon={isCampaignRef.current ? handleAbandonRun : undefined}
             quickPlayHint={quickPlayHint}
-            showStreak={!isCampaignRef.current && !isDailyChallengeRef.current}
+            showStreak={!isCampaignRef.current && worldBattleNodeIdRef.current === null && !isDailyChallengeRef.current}
             dailyChallengeState={isDailyChallengeRef.current ? dcGameOverState : undefined}
+            worldBattle={worldBattleNodeIdRef.current !== null}
           />
         ) : (
           <>
