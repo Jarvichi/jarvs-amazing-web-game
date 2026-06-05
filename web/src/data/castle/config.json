@@ -1,57 +1,63 @@
 {
-  "mapW": 704,
-  "mapH": 640,
+  "mapW": 896,
+  "mapH": 960,
   "townName": "Ironhold Keep",
-  "avatarStart": [10, 16],
+  "avatarStart": [13, 28],
   "exitTiles": [
-    { "tx": 9,  "ty": 18, "screen": "worldmap" },
-    { "tx": 10, "ty": 18, "screen": "worldmap" },
-    { "tx": 11, "ty": 18, "screen": "worldmap" },
-    { "tx": 12, "ty": 18, "screen": "worldmap" }
+    { "tx": 12, "ty": 29, "screen": "worldmap" },
+    { "tx": 13, "ty": 29, "screen": "worldmap" },
+    { "tx": 14, "ty": 29, "screen": "worldmap" },
+    { "tx": 15, "ty": 29, "screen": "worldmap" }
   ],
   "areas": [
     {
-      "id": "castle-outer",
-      "name": "Outer Courtyard",
-      "tx": 4,
-      "ty": 7,
-      "tw": 14,
+      "id": "castle-keep",
+      "name": "The Keep",
+      "tx": 8,
+      "ty": 1,
+      "tw": 12,
       "th": 12
     },
     {
-      "id": "castle-keep",
-      "name": "The Inner Keep",
-      "tx": 4,
-      "ty": 0,
-      "tw": 14,
-      "th": 7
+      "id": "castle-ward",
+      "name": "Inner Ward",
+      "tx": 8,
+      "ty": 13,
+      "tw": 12,
+      "th": 11
     },
     {
-      "id": "castle-armory",
-      "name": "The Armory",
-      "tx": 0,
-      "ty": 8,
-      "tw": 6,
-      "th": 6
+      "id": "castle-gate",
+      "name": "The Gatehouse",
+      "tx": 8,
+      "ty": 24,
+      "tw": 8,
+      "th": 3
     },
     {
-      "id": "castle-barracks",
-      "name": "The Barracks",
-      "tx": 16,
-      "ty": 8,
-      "tw": 6,
-      "th": 6
+      "id": "castle-approach",
+      "name": "Outer Approach",
+      "tx": 12,
+      "ty": 25,
+      "tw": 4,
+      "th": 5
     }
   ],
   "streets": [
-    { "rect": [4, 7, 17, 19] },
-    { "rect": [0, 14, 3, 19] },
-    { "rect": [18, 14, 21, 19] }
+    { "rect": [8,  13, 19, 23] },
+    { "rect": [12, 24, 15, 29] }
+  ],
+  "ponds": [
+    { "rect": [0,  0,  2,  29] },
+    { "rect": [25, 0,  27, 29] },
+    { "rect": [3,  0,  24, 0]  },
+    { "rect": [3,  25, 11, 27] },
+    { "rect": [16, 25, 24, 27] }
   ],
   "buildings": [
     {
-      "id": "commanders-hall",
-      "rect": [4, 0, 17, 6],
+      "id": "keep",
+      "rect": [8, 1, 19, 12],
       "wall": "castleStone",
       "roof": "greySlateRoof",
       "doors": [
@@ -59,8 +65,8 @@
       ]
     },
     {
-      "id": "armory",
-      "rect": [0, 8, 5, 13],
+      "id": "armoury",
+      "rect": [8, 14, 12, 19],
       "wall": "reinforcedStone",
       "roof": "metalRoof",
       "doors": [
@@ -69,52 +75,104 @@
     },
     {
       "id": "barracks",
-      "rect": [16, 8, 21, 13],
+      "rect": [15, 14, 19, 19],
       "wall": "castleStone",
       "roof": "greySlateRoof",
       "doors": [
         { "tx": 2, "ty": 1 }
       ]
+    },
+    {
+      "id": "nw-bastion",
+      "rect": [3, 1, 7, 9],
+      "wall": "castleStone",
+      "roof": "greySlateRoof"
+    },
+    {
+      "id": "ne-bastion",
+      "rect": [20, 1, 24, 9],
+      "wall": "castleStone",
+      "roof": "greySlateRoof"
+    },
+    {
+      "id": "west-wall",
+      "rect": [3, 10, 7, 18],
+      "wall": "castleStone"
+    },
+    {
+      "id": "east-wall",
+      "rect": [20, 10, 24, 18],
+      "wall": "castleStone"
+    },
+    {
+      "id": "sw-bastion",
+      "rect": [3, 19, 7, 23],
+      "wall": "castleStone",
+      "roof": "greySlateRoof"
+    },
+    {
+      "id": "se-bastion",
+      "rect": [20, 19, 24, 23],
+      "wall": "castleStone",
+      "roof": "greySlateRoof"
+    },
+    {
+      "id": "gate-west",
+      "rect": [3, 24, 11, 26],
+      "wall": "castleStone",
+      "roof": "greySlateRoof"
+    },
+    {
+      "id": "gate-east",
+      "rect": [16, 24, 24, 26],
+      "wall": "castleStone",
+      "roof": "greySlateRoof"
     }
   ],
   "exteriorDecor": [
-    { "comment": "stone wells" },
-    { "tx": 6,  "ty": 9,  "tileId": "stoneWell" },
-    { "tx": 15, "ty": 9,  "tileId": "stoneWell" },
-    { "comment": "iron fence border south" },
-    { "tx": 0,  "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 1,  "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 2,  "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 3,  "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 4,  "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 5,  "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 6,  "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 7,  "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 8,  "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "comment": "gap at tx 9-12 for exit" },
-    { "tx": 13, "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 14, "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 15, "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 16, "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 17, "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 18, "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 19, "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 20, "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 21, "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "comment": "pillars flanking the gate entrance" },
-    { "tx": 8,  "ty": 19, "tileId": "darkPillarBottom" },
-    { "tx": 13, "ty": 19, "tileId": "darkPillarBottom" },
-    { "comment": "barrels near armory" },
-    { "tx": 1,  "ty": 14, "tileId": "barrel" },
-    { "tx": 2,  "ty": 14, "tileId": "barrel" },
+    { "comment": "portcullis gate (above-avatar so player walks under)" },
+    { "tx": 12, "ty": 24, "tileId": "portcullisTopLeft",     "zlayer": "above" },
+    { "tx": 15, "ty": 24, "tileId": "portcullisTopRight",    "zlayer": "above" },
+    { "tx": 12, "ty": 25, "tileId": "portcullisBottomLeft",  "zlayer": "above" },
+    { "tx": 15, "ty": 25, "tileId": "portcullisBottomRight", "zlayer": "above" },
+
+    { "comment": "dark pillars flanking the gate gap" },
+    { "tx": 11, "ty": 24, "tileId": "darkPillarBottom" },
+    { "tx": 16, "ty": 24, "tileId": "darkPillarBottom" },
+
+    { "comment": "braziers flanking the keep entrance" },
+    { "tx": 11, "ty": 12, "tileId": "brazierTop" },
+    { "tx": 11, "ty": 13, "tileId": "brazierBottom" },
+    { "tx": 15, "ty": 12, "tileId": "brazierTop" },
+    { "tx": 15, "ty": 13, "tileId": "brazierBottom" },
+
+    { "comment": "central fountain in inner ward" },
+    { "tx": 12, "ty": 16, "tileId": "fountainTopLeft" },
+    { "tx": 13, "ty": 16, "tileId": "fountainTopMiddle" },
+    { "tx": 14, "ty": 16, "tileId": "fountainTopRight" },
+    { "tx": 12, "ty": 17, "tileId": "fountainMidLeft" },
+    { "tx": 13, "ty": 17, "tileId": "fountainMidMiddle" },
+    { "tx": 14, "ty": 17, "tileId": "fountainMidRight" },
+    { "tx": 12, "ty": 18, "tileId": "fountainBotLeft" },
+    { "tx": 13, "ty": 18, "tileId": "fountainBotMiddle" },
+    { "tx": 14, "ty": 18, "tileId": "fountainBotRight" },
+
+    { "comment": "barrels near armoury" },
+    { "tx": 6, "ty": 21, "tileId": "barrel" },
+    { "tx": 7, "ty": 21, "tileId": "barrel" },
+
     { "comment": "crates near barracks" },
-    { "tx": 19, "ty": 14, "tileId": "crate" },
-    { "tx": 20, "ty": 14, "tileId": "crate" },
-    { "comment": "campfire in courtyard" },
-    { "tx": 10, "ty": 11, "tileId": "campfireUnlit" },
-    { "comment": "small rocks border corners" },
-    { "tx": 3,  "ty": 7,  "tileId": "smallRock" },
-    { "tx": 18, "ty": 7,  "tileId": "smallRock" }
+    { "tx": 20, "ty": 21, "tileId": "crate" },
+    { "tx": 21, "ty": 21, "tileId": "crate" },
+
+    { "comment": "campfire in south courtyard" },
+    { "tx": 13, "ty": 21, "tileId": "campfireUnlit" },
+
+    { "comment": "rocks at bastion join points" },
+    { "tx": 7,  "ty": 9,  "tileId": "smallRock" },
+    { "tx": 20, "ty": 9,  "tileId": "smallRock" },
+    { "tx": 7,  "ty": 19, "tileId": "smallRock" },
+    { "tx": 20, "ty": 19, "tileId": "smallRock" }
   ],
   "npcSpawnTiles": [],
   "ambientNpcSprites": [],
@@ -123,14 +181,14 @@
       "id": "castle-commander",
       "name": "Commander Varek",
       "sprite": "hub-npc-arena",
-      "tx": 10,
-      "ty": 9,
+      "tx": 11,
+      "ty": 15,
       "dialogue": [
         "Ironhold Keep has stood for three centuries. I intend to see it stand for three more.",
         "The patrol routes have been compromised. We need those reports.",
         "You fight well, traveller. Ravenwatch is lucky to have you."
       ],
-      "building": "commanders-hall",
+      "building": "keep",
       "questGive": "castle-missing-patrol",
       "questReceive": "castle-missing-patrol"
     },
@@ -138,14 +196,14 @@
       "id": "castle-blacksmith",
       "name": "Blacksmith Kern",
       "sprite": "hub-npc-supplies",
-      "tx": 3,
-      "ty": 9,
+      "tx": 9,
+      "ty": 21,
       "dialogue": [
         "Every blade that leaves my anvil could save a soldier's life.",
         "The weapon crates haven't been accounted for since the last resupply.",
         "Iron doesn't lie — only men do."
       ],
-      "building": "armory",
+      "building": "armoury",
       "questGive": "castle-weapon-cache",
       "questReceive": "castle-weapon-cache"
     },
@@ -154,7 +212,7 @@
       "name": "Archivist Elwyn",
       "sprite": "hub-npc-scholar",
       "tx": 18,
-      "ty": 9,
+      "ty": 21,
       "dialogue": [
         "The keep's records go back to the founding. Most of them, anyway.",
         "A siege chronicle was separated from the archives. It belongs here.",
@@ -168,8 +226,8 @@
       "id": "castle-guard-1",
       "name": "Guard Bren",
       "sprite": "hub-npc-soldier",
-      "tx": 7,
-      "ty": 12,
+      "tx": 10,
+      "ty": 18,
       "dialogue": [
         "Patrol routes are memorised, not written. Or they used to be.",
         "Three of us dropped our patrol papers during the last drill. Embarrassing.",
@@ -181,8 +239,8 @@
       "id": "castle-guard-2",
       "name": "Guard Holt",
       "sprite": "hub-npc-soldier",
-      "tx": 14,
-      "ty": 12,
+      "tx": 16,
+      "ty": 18,
       "dialogue": [
         "All quiet on the eastern wall.",
         "I lost my patrol report somewhere out in the courtyard. The Commander will have my head.",
@@ -192,51 +250,119 @@
     }
   ],
   "interiors": {
-    "commanders-hall": {
-      "name": "Commander's Hall",
-      "width": 12,
-      "height": 5,
+    "keep": {
+      "name": "The Great Hall",
+      "width": 16,
+      "height": 11,
       "floorTileId": "cobblestoneFloor",
       "wallTileId": "castleStone",
       "decor": [
+        { "comment": "fireplace centred on north wall" },
+        { "tx": 6,  "ty": 1, "tileId": "fireplaceTopLeft" },
+        { "tx": 7,  "ty": 1, "tileId": "fireplaceTopMiddle" },
+        { "tx": 8,  "ty": 1, "tileId": "fireplaceTopRight" },
+        { "tx": 6,  "ty": 2, "tileId": "fireplaceBottomLeft" },
+        { "tx": 7,  "ty": 2, "tileId": "fireplaceBottomMiddle" },
+        { "tx": 8,  "ty": 2, "tileId": "fireplaceBottomRight" },
+
+        { "comment": "bookshelves left of fireplace" },
         { "tx": 2,  "ty": 1, "tileId": "bookshelfTop" },
         { "tx": 3,  "ty": 1, "tileId": "bookshelfTop" },
         { "tx": 2,  "ty": 2, "tileId": "bookshelfBottom" },
         { "tx": 3,  "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 8,  "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 9,  "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 8,  "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 9,  "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 5,  "ty": 1, "tileId": "chest" },
-        { "tx": 6,  "ty": 1, "tileId": "chest" }
+
+        { "comment": "bookshelves right of fireplace" },
+        { "tx": 11, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 12, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 11, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 12, "ty": 2, "tileId": "bookshelfBottom" },
+
+        { "comment": "mounted weapons flanking fireplace" },
+        { "tx": 5,  "ty": 1, "tileId": "swordMountedLeft" },
+        { "tx": 9,  "ty": 1, "tileId": "swordMountedRight" },
+        { "tx": 4,  "ty": 1, "tileId": "shieldMounted" },
+        { "tx": 10, "ty": 1, "tileId": "shieldMounted" },
+
+        { "comment": "commander table and seating — north-centre" },
+        { "tx": 7,  "ty": 3, "tileId": "roundTableWithCloth" },
+        { "tx": 6,  "ty": 4, "tileId": "stool" },
+        { "tx": 8,  "ty": 4, "tileId": "stool" },
+
+        { "comment": "braziers mid-hall" },
+        { "tx": 3,  "ty": 4, "tileId": "brazierTop" },
+        { "tx": 3,  "ty": 5, "tileId": "brazierBottom" },
+        { "tx": 12, "ty": 4, "tileId": "brazierTop" },
+        { "tx": 12, "ty": 5, "tileId": "brazierBottom" },
+
+        { "comment": "suits of armour on side walls" },
+        { "tx": 1,  "ty": 6, "tileId": "suitOfArmourTop" },
+        { "tx": 1,  "ty": 7, "tileId": "suitOfArmourBottom" },
+        { "tx": 14, "ty": 6, "tileId": "suitOfArmourTop" },
+        { "tx": 14, "ty": 7, "tileId": "suitOfArmourBottom" },
+
+        { "comment": "knight statues flanking entrance" },
+        { "tx": 2,  "ty": 8, "tileId": "knightTop" },
+        { "tx": 2,  "ty": 9, "tileId": "knightBottom" },
+        { "tx": 13, "ty": 8, "tileId": "knightTop" },
+        { "tx": 13, "ty": 9, "tileId": "knightBottom" },
+
+        { "comment": "chests near south corners" },
+        { "tx": 1,  "ty": 9, "tileId": "chest" },
+        { "tx": 14, "ty": 9, "tileId": "chest" }
       ],
       "exits": []
     },
-    "armory": {
-      "name": "The Armory",
-      "width": 5,
-      "height": 5,
+    "armoury": {
+      "name": "The Armoury",
+      "width": 8,
+      "height": 8,
       "floorTileId": "stoneFloor",
       "wallTileId": "reinforcedStone",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "crate" },
-        { "tx": 2, "ty": 1, "tileId": "crate" },
-        { "tx": 3, "ty": 1, "tileId": "openCrate" },
-        { "tx": 1, "ty": 3, "tileId": "barrel" },
-        { "tx": 3, "ty": 3, "tileId": "barrel" }
+        { "comment": "weapon wall" },
+        { "tx": 1, "ty": 1, "tileId": "swordMountedLeft" },
+        { "tx": 3, "ty": 1, "tileId": "shieldMounted" },
+        { "tx": 5, "ty": 1, "tileId": "swordMountedRight" },
+
+        { "comment": "suit of armour on display" },
+        { "tx": 6, "ty": 1, "tileId": "suitOfArmourTop" },
+        { "tx": 6, "ty": 2, "tileId": "suitOfArmourBottom" },
+
+        { "comment": "supply crates" },
+        { "tx": 1, "ty": 3, "tileId": "openCrate" },
+        { "tx": 2, "ty": 3, "tileId": "crate" },
+
+        { "comment": "barrels and chests" },
+        { "tx": 1, "ty": 5, "tileId": "barrel" },
+        { "tx": 2, "ty": 5, "tileId": "barrel" },
+        { "tx": 5, "ty": 5, "tileId": "chest" },
+        { "tx": 6, "ty": 5, "tileId": "chest" }
       ],
       "exits": []
     },
     "barracks": {
       "name": "The Barracks",
-      "width": 5,
-      "height": 5,
+      "width": 8,
+      "height": 8,
       "floorTileId": "woodFloor",
       "wallTileId": "castleStone",
       "decor": [
+        { "comment": "beds — three bunks" },
         { "tx": 1, "ty": 1, "tileId": "chest" },
-        { "tx": 3, "ty": 1, "tileId": "chest" },
-        { "tx": 2, "ty": 3, "tileId": "barrel" }
+        { "tx": 2, "ty": 1, "tileId": "chest" },
+        { "tx": 5, "ty": 1, "tileId": "chest" },
+        { "tx": 6, "ty": 1, "tileId": "chest" },
+
+        { "comment": "personal storage and supplies" },
+        { "tx": 1, "ty": 5, "tileId": "barrel" },
+        { "tx": 6, "ty": 5, "tileId": "barrel" },
+        { "tx": 3, "ty": 5, "tileId": "crate" },
+        { "tx": 4, "ty": 5, "tileId": "openCrate" },
+
+        { "comment": "table and stools" },
+        { "tx": 3, "ty": 3, "tileId": "roundTable" },
+        { "tx": 2, "ty": 4, "tileId": "stool" },
+        { "tx": 4, "ty": 4, "tileId": "stool" }
       ],
       "exits": []
     }
