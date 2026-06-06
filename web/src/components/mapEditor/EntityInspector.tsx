@@ -171,6 +171,48 @@ function NpcInspector({
   )
 }
 
+function StreetInspector({
+  entry, onDelete,
+}: {
+  entry: { rect?: number[]; tile?: number[]; pathType?: string }
+  onDelete: () => void
+}) {
+  return (
+    <div>
+      {entry.pathType && (
+        <Field label="Path Type">
+          <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{entry.pathType}</span>
+        </Field>
+      )}
+      {entry.rect ? (
+        <Field label="Rect">
+          <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>
+            ({entry.rect[0]},{entry.rect[1]}) → ({entry.rect[2]},{entry.rect[3]}) — {entry.rect[2]-entry.rect[0]+1}×{entry.rect[3]-entry.rect[1]+1} tiles
+          </span>
+        </Field>
+      ) : entry.tile ? (
+        <Field label="Tile">
+          <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>
+            ({entry.tile[0]},{entry.tile[1]})
+          </span>
+        </Field>
+      ) : null}
+      <div style={{ color: '#666', fontSize: 10, marginTop: 4, marginBottom: 8 }}>
+        Drag to reposition. Deleting a rect removes all its tiles.
+      </div>
+      <button
+        onClick={onDelete}
+        style={{
+          width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922',
+          color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12,
+        }}
+      >
+        Delete Street Entry
+      </button>
+    </div>
+  )
+}
+
 function BuildingInspector({
   building, onOpenInterior, interiorIds,
 }: {
@@ -340,6 +382,22 @@ export function EntityInspector({
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onDelete={() => onDelete(selectedEntity)}
             onDialogueChange={d => onDialogueChange(selectedEntity.index, d)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'street') {
+    const entry = (configData.streets ?? [])[selectedEntity.index]
+    if (!entry) return null
+    return (
+      <div style={panelStyle}>
+        <div style={headerStyle}>Street / Path #{selectedEntity.index}</div>
+        <div style={bodyStyle}>
+          <StreetInspector
+            entry={entry}
+            onDelete={() => onDelete(selectedEntity)}
           />
         </div>
       </div>

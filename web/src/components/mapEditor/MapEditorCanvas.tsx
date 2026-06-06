@@ -99,8 +99,8 @@ export function MapEditorCanvas(props: Props) {
   const propsRef = useRef(props)
   propsRef.current = props
 
-  // Drag state
-  const dragRef = useRef<{ entity: SelectedEntity; lastTx: number; lastTy: number } | null>(null)
+  // Drag state — offsetX/Y = click position minus entity anchor, for non-point entities like buildings
+  const dragRef = useRef<{ entity: SelectedEntity; lastTx: number; lastTy: number; offsetX: number; offsetY: number } | null>(null)
 
   // Render version counter — incremented on each render, so async sprite loads can detect staleness
   const renderVersionRef = useRef(0)
@@ -129,7 +129,7 @@ export function MapEditorCanvas(props: Props) {
         if (entity) {
           const etx = getEntityTx(cfg, entity)
           const ety = getEntityTy(cfg, entity)
-          dragRef.current = { entity, lastTx: etx, lastTy: ety }
+          dragRef.current = { entity, lastTx: tx, lastTy: ty, offsetX: tx - etx, offsetY: ty - ety }
         }
       } else if (t === 'place' && (tid || bid)) {
         propsRef.current.onPlaceDecor(tx, ty)
@@ -144,16 +144,14 @@ export function MapEditorCanvas(props: Props) {
 
     stage.on('pointermove', (e: PIXI.FederatedPointerEvent) => {
       if (!dragRef.current) return
-      const { configData: cfg } = propsRef.current
       const pos = e.getLocalPosition(stage)
       const tx  = Math.floor(pos.x / T)
       const ty  = Math.floor(pos.y / T)
-      const { entity, lastTx, lastTy } = dragRef.current
+      const { entity, lastTx, lastTy, offsetX, offsetY } = dragRef.current
       if (tx !== lastTx || ty !== lastTy) {
         dragRef.current.lastTx = tx
         dragRef.current.lastTy = ty
-        propsRef.current.onMoveEntity(entity, tx, ty)
-        void cfg // suppress lint
+        propsRef.current.onMoveEntity(entity, tx - offsetX, ty - offsetY)
       }
     })
 
@@ -384,6 +382,18 @@ export function MapEditorCanvas(props: Props) {
   // ── Selection highlight ────────────────────────────────────────────────────────
   function drawSelection(gfx: PIXI.Graphics) {
     if (!selectedEntity) return
+    if (selectedEntity.type === 'street') {
+      const entry = configData.streets?.[selectedEntity.index]
+      if (entry?.rect) {
+        const [tx1, ty1, tx2, ty2] = entry.rect
+        gfx.rect(tx1 * T - 2, ty1 * T - 2, (tx2 - tx1 + 1) * T + 4, (ty2 - ty1 + 1) * T + 4)
+          .stroke({ color: 0xf0c040, width: 2 })
+      } else if (entry?.tile) {
+        gfx.rect(entry.tile[0] * T - 2, entry.tile[1] * T - 2, T + 4, T + 4)
+          .stroke({ color: 0xf0c040, width: 2 })
+      }
+      return
+    }
     let tx = -1, ty = -1
     if (selectedEntity.type === 'exteriorDecor') {
       const item = configData.exteriorDecor?.[selectedEntity.index]
@@ -439,6 +449,17 @@ function hitTest(
         return { type: 'building', index: i }
     }
   }
+  const streets = cfg.streets ?? []
+  for (let i = streets.length - 1; i >= 0; i--) {
+    const entry = streets[i]
+    if (entry.rect) {
+      const [tx1, ty1, tx2, ty2] = entry.rect
+      if (tx >= tx1 && tx <= tx2 && ty >= ty1 && ty <= ty2)
+        return { type: 'street', index: i }
+    } else if (entry.tile && entry.tile[0] === tx && entry.tile[1] === ty) {
+      return { type: 'street', index: i }
+    }
+  }
   return null
 }
 
@@ -446,6 +467,15 @@ function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity): number {
   if (entity.type === 'exteriorDecor') return cfg.exteriorDecor?.[entity.index]?.tx ?? 0
   if (entity.type === 'npc') return cfg.npcs?.[entity.index]?.tx ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.tx ?? 0
+  if (entity.type === 'building') {
+    const b = cfg.buildings?.[entity.index]
+    const rects = b?.rects ?? (b?.rect ? [b.rect] : [])
+    return rects[0]?.[0] ?? 0
+  }
+  if (entity.type === 'street') {
+    const e = cfg.streets?.[entity.index]
+    return e?.rect?.[0] ?? e?.tile?.[0] ?? 0
+  }
   return 0
 }
 
@@ -453,5 +483,14 @@ function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity): number {
   if (entity.type === 'exteriorDecor') return cfg.exteriorDecor?.[entity.index]?.ty ?? 0
   if (entity.type === 'npc') return cfg.npcs?.[entity.index]?.ty ?? 0
   if (entity.type === 'interiorDecor') return cfg.interiors?.[entity.interiorId]?.decor[entity.index]?.ty ?? 0
+  if (entity.type === 'building') {
+    const b = cfg.buildings?.[entity.index]
+    const rects = b?.rects ?? (b?.rect ? [b.rect] : [])
+    return rects[0]?.[1] ?? 0
+  }
+  if (entity.type === 'street') {
+    const e = cfg.streets?.[entity.index]
+    return e?.rect?.[1] ?? e?.tile?.[1] ?? 0
+  }
   return 0
 }

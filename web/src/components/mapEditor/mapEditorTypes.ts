@@ -127,6 +127,7 @@ export type SelectedEntity =
   | { type: 'exteriorDecor'; index: number }
   | { type: 'npc'; index: number }
   | { type: 'building'; index: number }
+  | { type: 'street'; index: number }
   | { type: 'interiorDecor'; interiorId: string; index: number }
 
 export interface MapEditorState {
