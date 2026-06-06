@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from 'react'
+import React, { useRef, useEffect, useCallback, useState } from 'react'
 import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadTileTexture, loadSpriteTexture } from '../../utils/pixiHelpers'
@@ -84,6 +84,7 @@ interface Props {
   onPlaceDecor:     (tx: number, ty: number) => void
   onMoveEntity:     (entity: SelectedEntity, tx: number, ty: number) => void
   onDeleteEntity:   (entity: SelectedEntity) => void
+  onAddStreet:      (tx1: number, ty1: number, tx2: number, ty2: number) => void
 }
 
 export function MapEditorCanvas(props: Props) {
@@ -101,6 +102,21 @@ export function MapEditorCanvas(props: Props) {
 
   // Drag state — offsetX/Y = click position minus entity anchor, for non-point entities like buildings
   const dragRef = useRef<{ entity: SelectedEntity; lastTx: number; lastTy: number; offsetX: number; offsetY: number } | null>(null)
+
+  // Street draw state
+  type StreetPreview = { sx: number; sy: number; ex: number; ey: number }
+  const [streetPreview, setStreetPreview] = useState<StreetPreview | null>(null)
+  const setStreetPreviewRef = useRef(setStreetPreview)
+  setStreetPreviewRef.current = setStreetPreview
+  const streetDrawRef = useRef<{ startTx: number; startTy: number; lastTx: number; lastTy: number } | null>(null)
+
+  // Clear street draw when tool switches away
+  useEffect(() => {
+    if (tool !== 'street') {
+      streetDrawRef.current = null
+      setStreetPreview(null)
+    }
+  }, [tool])
 
   // Render version counter — incremented on each render, so async sprite loads can detect staleness
   const renderVersionRef = useRef(0)
@@ -139,24 +155,61 @@ export function MapEditorCanvas(props: Props) {
           propsRef.current.onDeleteEntity(entity)
           propsRef.current.onSelectEntity(null)
         }
+      } else if (t === 'street') {
+        streetDrawRef.current = { startTx: tx, startTy: ty, lastTx: tx, lastTy: ty }
+        setStreetPreviewRef.current({ sx: tx, sy: ty, ex: tx, ey: ty })
       }
     })
 
     stage.on('pointermove', (e: PIXI.FederatedPointerEvent) => {
-      if (!dragRef.current) return
       const pos = e.getLocalPosition(stage)
       const tx  = Math.floor(pos.x / T)
       const ty  = Math.floor(pos.y / T)
-      const { entity, lastTx, lastTy, offsetX, offsetY } = dragRef.current
-      if (tx !== lastTx || ty !== lastTy) {
-        dragRef.current.lastTx = tx
-        dragRef.current.lastTy = ty
-        propsRef.current.onMoveEntity(entity, tx - offsetX, ty - offsetY)
+
+      if (dragRef.current) {
+        const { entity, lastTx, lastTy, offsetX, offsetY } = dragRef.current
+        if (tx !== lastTx || ty !== lastTy) {
+          dragRef.current.lastTx = tx
+          dragRef.current.lastTy = ty
+          propsRef.current.onMoveEntity(entity, tx - offsetX, ty - offsetY)
+        }
+      }
+
+      if (streetDrawRef.current) {
+        const { startTx, startTy, lastTx, lastTy } = streetDrawRef.current
+        if (tx !== lastTx || ty !== lastTy) {
+          streetDrawRef.current.lastTx = tx
+          streetDrawRef.current.lastTy = ty
+          setStreetPreviewRef.current({
+            sx: Math.min(tx, startTx), sy: Math.min(ty, startTy),
+            ex: Math.max(tx, startTx), ey: Math.max(ty, startTy),
+          })
+        }
       }
     })
 
-    stage.on('pointerup',        () => { dragRef.current = null })
-    stage.on('pointerupoutside', () => { dragRef.current = null })
+    stage.on('pointerup', (e: PIXI.FederatedPointerEvent) => {
+      dragRef.current = null
+      if (streetDrawRef.current) {
+        const pos = e.getLocalPosition(stage)
+        const tx = Math.floor(pos.x / T)
+        const ty = Math.floor(pos.y / T)
+        const { startTx, startTy } = streetDrawRef.current
+        propsRef.current.onAddStreet(
+          Math.min(tx, startTx), Math.min(ty, startTy),
+          Math.max(tx, startTx), Math.max(ty, startTy),
+        )
+        streetDrawRef.current = null
+        setStreetPreviewRef.current(null)
+      }
+    })
+    stage.on('pointerupoutside', () => {
+      dragRef.current = null
+      if (streetDrawRef.current) {
+        streetDrawRef.current = null
+        setStreetPreviewRef.current(null)
+      }
+    })
   }, [mapW, mapH])) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Rebuild PixiJS scene on every render (configData / showGrid / selectedEntity changes)
@@ -194,6 +247,16 @@ export function MapEditorCanvas(props: Props) {
 
     if (showGrid) drawGrid(gridLayer)
     drawSelection(selLayer)
+
+    // Street draw preview — drawn above all other layers
+    if (!isInterior && streetPreview) {
+      const { sx, sy, ex, ey } = streetPreview
+      const pvGfx = new PIXI.Graphics()
+      pvGfx.rect(sx * T, sy * T, (ex - sx + 1) * T, (ey - sy + 1) * T)
+        .fill({ color: STREET_COLOR, alpha: 0.4 })
+        .stroke({ color: 0xf0c040, width: 2 })
+      stage.addChild(pvGfx)
+    }
   })
 
   // ── Exterior rendering ─────────────────────────────────────────────────────────

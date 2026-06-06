@@ -1,7 +1,7 @@
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 
 export type MapId = 'hub' | 'town2' | 'castle'
-export type ToolMode = 'select' | 'place' | 'delete'
+export type ToolMode = 'select' | 'place' | 'delete' | 'street'
 export type Zlayer = 'solid' | 'below' | 'above'
 export type ViewMode = 'exterior' | 'interior'
 

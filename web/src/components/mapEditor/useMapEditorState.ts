@@ -291,6 +291,41 @@ export function useMapEditorState(initialMapId: MapId = 'hub') {
     })
   }, [])
 
+  const addStreet = useCallback((tx1: number, ty1: number, tx2: number, ty2: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const newEntry = tx1 === tx2 && ty1 === ty2
+        ? { tile: [tx1, ty1] }
+        : { rect: [tx1, ty1, tx2, ty2] }
+      const streets = [...(prevConfig.streets ?? []), newEntry]
+      const newIndex = streets.length - 1
+      return {
+        ...s,
+        configData: { ...prevConfig, streets },
+        selectedEntity: { type: 'street' as const, index: newIndex },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const updateStreetEntry = useCallback((index: number, data: { rect?: number[]; tile?: number[] }) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const streets = [...(prevConfig.streets ?? [])]
+      if (!streets[index]) return s
+      streets[index] = { ...streets[index], ...data }
+      return {
+        ...s,
+        configData: { ...prevConfig, streets },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
   const markSaved = useCallback(() => {
     setState(s => ({ ...s, isDirty: false }))
   }, [])
@@ -311,6 +346,8 @@ export function useMapEditorState(initialMapId: MapId = 'hub') {
     updateNpcDialogue,
     undo,
     redo,
+    addStreet,
+    updateStreetEntry,
     markSaved,
   }
 }
