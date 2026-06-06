@@ -128,6 +128,8 @@ export type SelectedEntity =
   | { type: 'npc'; index: number }
   | { type: 'building'; index: number }
   | { type: 'street'; index: number }
+  | { type: 'treasure'; index: number }
+  | { type: 'pickupItem'; index: number }
   | { type: 'interiorDecor'; interiorId: string; index: number }
 
 export interface MapEditorState {

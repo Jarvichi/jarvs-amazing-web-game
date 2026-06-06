@@ -138,6 +138,16 @@ export function useMapEditorState(initialMapId: MapId = 'hub') {
           ? { ...b, rects: newRects }
           : { ...b, rect: newRects[0] }
         newConfig = { ...prevConfig, buildings }
+      } else if (entity.type === 'treasure') {
+        const treasures = [...(prevConfig.treasures ?? [])]
+        if (!treasures[entity.index]) return s
+        treasures[entity.index] = { ...treasures[entity.index], tx, ty }
+        newConfig = { ...prevConfig, treasures }
+      } else if (entity.type === 'pickupItem') {
+        const items = [...(prevConfig.pickupItems ?? [])]
+        if (!items[entity.index]) return s
+        items[entity.index] = { ...items[entity.index], tx, ty }
+        newConfig = { ...prevConfig, pickupItems: items }
       } else if (entity.type === 'street') {
         const streets = [...(prevConfig.streets ?? [])]
         if (!streets[entity.index]) return s
@@ -189,6 +199,10 @@ export function useMapEditorState(initialMapId: MapId = 'hub') {
         newConfig = { ...prevConfig, buildings: (prevConfig.buildings ?? []).filter((_, i) => i !== entity.index) }
       } else if (entity.type === 'street') {
         newConfig = { ...prevConfig, streets: (prevConfig.streets ?? []).filter((_, i) => i !== entity.index) }
+      } else if (entity.type === 'treasure') {
+        newConfig = { ...prevConfig, treasures: (prevConfig.treasures ?? []).filter((_, i) => i !== entity.index) }
+      } else if (entity.type === 'pickupItem') {
+        newConfig = { ...prevConfig, pickupItems: (prevConfig.pickupItems ?? []).filter((_, i) => i !== entity.index) }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
         newConfig = {

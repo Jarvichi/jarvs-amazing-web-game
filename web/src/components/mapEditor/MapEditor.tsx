@@ -12,6 +12,7 @@ interface Props {
 
 export function MapEditor({ initialMapId = 'hub' }: Props) {
   const [showGrid, setShowGrid] = useState(true)
+  const [showQuestItems, setShowQuestItems] = useState(false)
 
   const {
     state, setMapId, setTool, setActiveTile, setZlayer,
@@ -49,12 +50,14 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
         canRedo={state.redoStack.length > 0}
         isDirty={state.isDirty}
         showGrid={showGrid}
+        showQuestItems={showQuestItems}
         configData={state.configData}
         onMapChange={setMapId}
         onToolChange={setTool}
         onUndo={undo}
         onRedo={redo}
         onGridToggle={() => setShowGrid(g => !g)}
+        onQuestItemsToggle={() => setShowQuestItems(q => !q)}
         onSaved={markSaved}
       />
 
@@ -77,6 +80,7 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
           configData={state.configData}
           tool={state.tool}
           showGrid={showGrid}
+          showQuestItems={showQuestItems}
           selectedEntity={state.selectedEntity}
           viewMode={state.viewMode}
           activeInteriorId={state.activeInteriorId}
