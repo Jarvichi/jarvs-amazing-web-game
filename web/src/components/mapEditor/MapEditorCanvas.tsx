@@ -330,7 +330,10 @@ export function MapEditorCanvas(props: Props) {
         sp.eventMode = 'static'; sp.cursor = 'pointer'
         sp.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
           e.stopPropagation()
-          propsRef.current.onSelectEntity({ type: 'npc', index: nIdx })
+          const entity: SelectedEntity = { type: 'npc', index: nIdx }
+          propsRef.current.onSelectEntity(entity)
+          if (propsRef.current.tool === 'select')
+            dragRef.current = { entity, lastTx: npc.tx, lastTy: npc.ty, offsetX: 0, offsetY: 0 }
         })
         if (isSel) {
           selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4)
@@ -417,6 +420,8 @@ export function MapEditorCanvas(props: Props) {
             ? { type: 'exteriorDecor', index: sourceIndex }
             : { type: 'interiorDecor', index: sourceIndex, interiorId }
           propsRef.current.onSelectEntity(entity)
+          if (propsRef.current.tool === 'select')
+            dragRef.current = { entity, lastTx: tx, lastTy: ty, offsetX: 0, offsetY: 0 }
         })
         if (isSel) {
           selLayer.rect(tx * T - 1, ty * T - 1, T + 2, T + 2)

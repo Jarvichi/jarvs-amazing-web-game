@@ -310,7 +310,7 @@ export function useMapEditorState(initialMapId: MapId = 'hub') {
     })
   }, [])
 
-  const updateStreetEntry = useCallback((index: number, data: { rect?: number[]; tile?: number[] }) => {
+  const updateStreetEntry = useCallback((index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => {
     setState(s => {
       const prevConfig = s.configData
       const streets = [...(prevConfig.streets ?? [])]

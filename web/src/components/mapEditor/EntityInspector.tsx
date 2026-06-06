@@ -16,7 +16,7 @@ interface Props {
   onDialogueChange:      (index: number, dialogue: string[]) => void
   onOpenInterior:        (id: string) => void
   onCloseInterior:       () => void
-  onUpdateStreetEntry:   (index: number, data: { rect?: number[]; tile?: number[] }) => void
+  onUpdateStreetEntry:   (index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
   viewMode:              'exterior' | 'interior'
 }
 
@@ -176,18 +176,25 @@ function StreetInspector({
   entry, onUpdate, onDelete,
 }: {
   entry: { rect?: number[]; tile?: number[]; pathType?: string }
-  onUpdate: (data: { rect?: number[]; tile?: number[] }) => void
+  onUpdate: (data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
   onDelete: () => void
 }) {
   const r = entry.rect
   const t = entry.tile
   return (
     <div>
-      {entry.pathType && (
-        <Field label="Path Type">
-          <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{entry.pathType}</span>
-        </Field>
-      )}
+      <Field label="Path Type">
+        <input
+          type="text"
+          value={entry.pathType ?? ''}
+          onChange={e => onUpdate({ pathType: e.target.value || undefined })}
+          placeholder="e.g. cobblestone (optional)"
+          style={{
+            width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444',
+            color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box',
+          }}
+        />
+      </Field>
       {r ? (
         <>
           <Field label="Top-left">
