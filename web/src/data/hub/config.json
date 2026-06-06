@@ -1521,54 +1521,8 @@
     { "tx":11, "ty":48, "tileId":"bottomPlough","zlayer": "below-avatar"},
     { "tx":12, "ty":48, "tileId":"bottomRightPlough","zlayer": "below-avatar"  },
 
-    {
-      "comment": "courtyard fountain"
-    },
-    {
-      "tx": 36,
-      "ty": 23,
-      "tileId": "fountainTopLeft"
-    },
-    {
-      "tx": 37,
-      "ty": 23,
-      "tileId": "fountainTopMiddle"
-    },
-    {
-      "tx": 38,
-      "ty": 23,
-      "tileId": "fountainTopRight"
-    },
-    {
-      "tx": 36,
-      "ty": 24,
-      "tileId": "fountainMidLeft"
-    },
-    {
-      "tx": 37,
-      "ty": 24,
-      "tileId": "fountainMidMiddle"
-    },
-    {
-      "tx": 38,
-      "ty": 24,
-      "tileId": "fountainMidRight"
-    },
-    {
-      "tx": 36,
-      "ty": 25,
-      "tileId": "fountainBotLeft"
-    },
-    {
-      "tx": 37,
-      "ty": 25,
-      "tileId": "fountainBotMiddle"
-    },
-    {
-      "tx": 38,
-      "ty": 25,
-      "tileId": "fountainBotRight"
-    },
+    { "comment": "courtyard fountain" },
+    { "tx": 36, "ty": 25, "bundleID": "fountain" },
     {
       "comment": "pond decor"
     },
@@ -3734,84 +3688,9 @@
       "height": 9,
       "floorTileId": "parquetFloor",
       "decor": [
-        {
-          "tx": 2,
-          "ty": 1,
-          "tileId": "simpleBedHead",
-          "zLayer": "below"
-        },
-        {
-          "tx": 3,
-          "ty": 1,
-          "tileId": "simpleBedHead",
-          "zLayer": "below"
-        },
-        {
-          "tx": 2,
-          "ty": 2,
-          "tileId": "simpleBedFoot",
-          "zLayer": "below"
-        },
-        {
-          "tx": 3,
-          "ty": 2,
-          "tileId": "simpleBedFoot",
-          "zLayer": "below"
-        },
-        {
-          "tx": 2,
-          "ty": 1,
-          "tileId": "simpleBedHeadOverlay",
-          "zLayer": "above"
-        },
-        {
-          "tx": 3,
-          "ty": 1,
-          "tileId": "simpleBedHeadOverlay",
-          "zLayer": "above"
-        },
-        {
-          "tx": 2,
-          "ty": 2,
-          "tileId": "simpleBedFootOverlay",
-          "zLayer": "above"
-        },
-        {
-          "tx": 3,
-          "ty": 2,
-          "tileId": "simpleBedFootOverlay",
-          "zLayer": "above"
-        },
-        {
-          "tx": 8,
-          "ty": 0,
-          "tileId": "fireplaceTopLeft"
-        },
-        {
-          "tx": 8,
-          "ty": 1,
-          "tileId": "fireplaceBottomLeft"
-        },
-        {
-          "tx": 9,
-          "ty": 0,
-          "tileId": "fireplaceTopMiddle"
-        },
-        {
-          "tx": 9,
-          "ty": 1,
-          "tileId": "fireplaceBottomMiddle"
-        },
-        {
-          "tx": 10,
-          "ty": 0,
-          "tileId": "fireplaceTopRight"
-        },
-        {
-          "tx": 10,
-          "ty": 1,
-          "tileId": "fireplaceBottomRight"
-        },
+        { "tx": 2, "ty": 2, "bundleID": "simple-bed" },
+        { "tx": 3, "ty": 2, "bundleID": "simple-bed" },
+        { "tx": 8, "ty": 1, "bundleID": "fireplace" },
         {
           "tx": 5,
           "ty": 4,
@@ -4549,102 +4428,10 @@
       "height": 8,
       "floorTileId": "darkStoneFloor",
       "decor": [
-        {
-          "tx": 2,
-          "ty": 2,
-          "tileId": "simpleBedHead",
-          "zlayer": "below"
-        },
-        {
-          "tx": 2,
-          "ty": 3,
-          "tileId": "simpleBedFoot",
-          "zlayer": "below"
-        },
-        {
-          "tx": 4,
-          "ty": 2,
-          "tileId": "simpleBedHead",
-          "zlayer": "below"
-        },
-        {
-          "tx": 4,
-          "ty": 3,
-          "tileId": "simpleBedFoot",
-          "zlayer": "below"
-        },
-        {
-          "tx": 10,
-          "ty": 2,
-          "tileId": "simpleBedHead",
-          "zlayer": "below"
-        },
-        {
-          "tx": 10,
-          "ty": 3,
-          "tileId": "simpleBedFoot",
-          "zlayer": "below"
-        },
-        {
-          "tx": 12,
-          "ty": 2,
-          "tileId": "simpleBedHead",
-          "zlayer": "below"
-        },
-        {
-          "tx": 12,
-          "ty": 3,
-          "tileId": "simpleBedFoot",
-          "zlayer": "below"
-        },
-        {
-          "tx": 2,
-          "ty": 2,
-          "tileId": "simpleBedHeadOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 2,
-          "ty": 3,
-          "tileId": "simpleBedFootOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 4,
-          "ty": 2,
-          "tileId": "simpleBedHeadOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 4,
-          "ty": 3,
-          "tileId": "simpleBedFootOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 10,
-          "ty": 2,
-          "tileId": "simpleBedHeadOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 10,
-          "ty": 3,
-          "tileId": "simpleBedFootOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 12,
-          "ty": 2,
-          "tileId": "simpleBedHeadOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 12,
-          "ty": 3,
-          "tileId": "simpleBedFootOverlay",
-          "zlayer": "above"
-        },
+        { "tx": 2,  "ty": 3, "bundleID": "simple-bed" },
+        { "tx": 4,  "ty": 3, "bundleID": "simple-bed" },
+        { "tx": 10, "ty": 3, "bundleID": "simple-bed" },
+        { "tx": 12, "ty": 3, "bundleID": "simple-bed" },
         {
           "tx": 7,
           "ty": 4,
@@ -5035,102 +4822,10 @@
       "floorTileId": "darkWoodFloor",
       "wallMaterial": "tudor",
       "decor": [
-        {
-          "tx": 2,
-          "ty": 1,
-          "tileId": "simpleBedHead",
-          "zlayer": "below"
-        },
-        {
-          "tx": 2,
-          "ty": 2,
-          "tileId": "simpleBedFoot",
-          "zlayer": "below"
-        },
-        {
-          "tx": 2,
-          "ty": 1,
-          "tileId": "simpleBedHeadOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 2,
-          "ty": 2,
-          "tileId": "simpleBedFootOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 4,
-          "ty": 1,
-          "tileId": "simpleBedHead",
-          "zlayer": "below"
-        },
-        {
-          "tx": 4,
-          "ty": 2,
-          "tileId": "simpleBedFoot",
-          "zlayer": "below"
-        },
-        {
-          "tx": 4,
-          "ty": 1,
-          "tileId": "simpleBedHeadOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 4,
-          "ty": 2,
-          "tileId": "simpleBedFootOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 7,
-          "ty": 1,
-          "tileId": "simpleBedHead",
-          "zlayer": "below"
-        },
-        {
-          "tx": 7,
-          "ty": 2,
-          "tileId": "simpleBedFoot",
-          "zlayer": "below"
-        },
-        {
-          "tx": 7,
-          "ty": 1,
-          "tileId": "simpleBedHeadOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 7,
-          "ty": 2,
-          "tileId": "simpleBedFootOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 9,
-          "ty": 1,
-          "tileId": "simpleBedHead",
-          "zlayer": "below"
-        },
-        {
-          "tx": 9,
-          "ty": 2,
-          "tileId": "simpleBedFoot",
-          "zlayer": "below"
-        },
-        {
-          "tx": 9,
-          "ty": 1,
-          "tileId": "simpleBedHeadOverlay",
-          "zlayer": "above"
-        },
-        {
-          "tx": 9,
-          "ty": 2,
-          "tileId": "simpleBedFootOverlay",
-          "zlayer": "above"
-        },
+        { "tx": 2, "ty": 2, "bundleID": "simple-bed" },
+        { "tx": 4, "ty": 2, "bundleID": "simple-bed" },
+        { "tx": 7, "ty": 2, "bundleID": "simple-bed" },
+        { "tx": 9, "ty": 2, "bundleID": "simple-bed" },
         {
           "tx": 5,
           "ty": 5,
