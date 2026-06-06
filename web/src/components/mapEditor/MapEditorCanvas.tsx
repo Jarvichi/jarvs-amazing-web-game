@@ -4,7 +4,7 @@ import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadTileTexture, loadSpriteTexture } from '../../utils/pixiHelpers'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
-import type { RawMapConfig, RawDecorItem, SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
+import type { RawMapConfig, RawDecorItem, RawQuestPickupItem, SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
 import { expandBundleDecor } from '../../data/bundles/bundleLoader'
 
 const T         = 32
@@ -84,14 +84,15 @@ interface Props {
   onPlaceDecor:     (tx: number, ty: number) => void
   onMoveEntity:     (entity: SelectedEntity, tx: number, ty: number) => void
   onDeleteEntity:   (entity: SelectedEntity) => void
-  onAddStreet:      (tx1: number, ty1: number, tx2: number, ty2: number) => void
-  showQuestItems:   boolean
+  onAddStreet:        (tx1: number, ty1: number, tx2: number, ty2: number) => void
+  showQuestItems:     boolean
+  questPickupItems:   RawQuestPickupItem[]
 }
 
 export function MapEditorCanvas(props: Props) {
   const {
     configData, tool, showGrid, selectedEntity, viewMode, activeInteriorId,
-    activeTileId, activeBundleId, activeZlayer, showQuestItems,
+    activeTileId, activeBundleId, activeZlayer, showQuestItems, questPickupItems,
     onSelectEntity, onPlaceDecor, onMoveEntity, onDeleteEntity, onAddStreet,
   } = props
 
@@ -487,7 +488,8 @@ export function MapEditorCanvas(props: Props) {
     ;(configData.treasures ?? []).forEach((t, i) => {
       if (!t.buildingId) renderItem(t.tx, t.ty, t.tileId, { type: 'treasure', index: i }, TREASURE_COLOR)
     })
-    ;(configData.pickupItems ?? []).forEach((p, i) => {
+    // Quest pickup items come from questDefs.json (passed via prop), not configData
+    questPickupItems.forEach((p, i) => {
       if (!p.building) renderItem(p.tx, p.ty, p.tileId, { type: 'pickupItem', index: i }, PICKUP_COLOR)
     })
   }

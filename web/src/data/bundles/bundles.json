@@ -35,6 +35,28 @@
       { "tileID": "deadTreeBottomRight", "x": 1, "y": 0, "zlayer": "solid" }
     ]
   },
+
+  {
+    "bundleID": "ploughed-field-2x2",
+    "tiles": [
+      { "tileID": "topLeftPlough", "x": 0, "y": 1, "zlayer": "below" },
+      { "tileID": "topRightPlough", "x": 1, "y": 1, "zlayer": "below" },
+      { "tileID": "bottomLeftPlough", "x": 0, "y": 0, "zlayer": "below" },
+      { "tileID": "bottomRightPlough", "x": 1, "y": 0, "zlayer": "below" }
+    ]
+  },  
+
+  {
+    "bundleID": "ploughed-field-6x5",
+    "tiles": [
+      { "tileID": "topLeftPlough", "x": 0, "y": 1, "zlayer": "below" },
+      { "tileID": "topRightPlough", "x": 1, "y": 1, "zlayer": "below" },
+
+      { "tileID": "bottomLeftPlough", "x": 0, "y": 0, "zlayer": "below" },
+      { "tileID": "bottomPlough", "x": 0, "y": 0, "zlayer": "below" },
+      { "tileID": "bottomRightPlough", "x": 1, "y": 0, "zlayer": "below" }
+    ]
+  },    
   
   {
     "bundleID": "royal-bed",

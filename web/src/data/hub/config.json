@@ -246,9 +246,9 @@
     {
       "rect": [
         25,
-        20,
+        21,
         26,
-        23
+        22
       ]
     },
     {
@@ -935,9 +935,9 @@
       "comment": "inn",
       "rect": [
         22,
-        13,
+        14,
         29,
-        19
+        20
       ],
       "id": "sw-building-b",
       "wall": "renderedBrick",
@@ -1154,10 +1154,10 @@
     },
     {
       "rect": [
-        70,
-        41,
-        74,
-        46
+        63,
+        21,
+        67,
+        26
       ],
       "id": "barracks-vault",
       "wall": "reinforcedStone",
@@ -2918,13 +2918,13 @@
       "tileId": "lightBush"
     },
     {
-      "tx": 28,
-      "ty": 13,
+      "tx": 34,
+      "ty": 15,
       "tileId": "darkBush"
     },
     {
       "tx": 28,
-      "ty": 20,
+      "ty": 21,
       "tileId": "darkBush"
     },
     {
@@ -3104,7 +3104,7 @@
     },
     {
       "tx": 24,
-      "ty": 20,
+      "ty": 21,
       "tileId": "grassTuft"
     },
     {
@@ -5965,8 +5965,8 @@
       "id": "dealer",
       "name": "Vince the Dealer",
       "sprite": "hub-npc-dealer",
-      "tx": 64,
-      "ty": 26,
+      "tx": 55,
+      "ty": 31,
       "screen": "casino",
       "dialogue": [
         "The wheel never lies. Step right up — fortune favours the bold.",
@@ -5998,8 +5998,8 @@
       "id": "endless-herald",
       "name": "Warchief Olgrim",
       "sprite": "hub-npc-soldier",
-      "tx": 31,
-      "ty": 21,
+      "tx": 41,
+      "ty": 28,
       "screen": "endless",
       "dialogue": [
         "The endless pits never close, Commander. How long can you last?",
@@ -6011,8 +6011,8 @@
       "id": "challenge-herald",
       "name": "Challenge Herald Vex",
       "sprite": "hub-npc-herald",
-      "tx": 35,
-      "ty": 21,
+      "tx": 33,
+      "ty": 28,
       "screen": "dailychallenge",
       "dialogue": [
         "Today's challenge is set. Every commander faces the same deck.",
@@ -6077,8 +6077,8 @@
       "id": "commander-post",
       "name": "Commander's Post",
       "sprite": "hub-npc-elder",
-      "tx": 32,
-      "ty": 27,
+      "tx": 35,
+      "ty": 13,
       "screen": "commander",
       "dialogue": [
         "Your forces await your orders, Commander."
@@ -6178,8 +6178,8 @@
       "id": "achievements-keeper",
       "name": "The Chronicler",
       "sprite": "hub-npc-elder",
-      "tx": 35,
-      "ty": 28,
+      "tx": 32,
+      "ty": 25,
       "screen": "hall-of-achievements",
       "dialogue": [
         "Your deeds are recorded here, Commander. Come see your legacy."
@@ -6345,8 +6345,8 @@
       "id": "siege-master",
       "name": "Siege Master",
       "sprite": "hub-npc-soldier",
-      "tx": 41,
-      "ty": 26,
+      "tx": 26,
+      "ty": 24,
       "screen": "towerDefence",
       "dialogue": [
         "The enemy approaches. Build your defences and hold the line!",

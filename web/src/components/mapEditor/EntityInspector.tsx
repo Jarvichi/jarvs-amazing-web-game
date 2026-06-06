@@ -1,5 +1,5 @@
 import React from 'react'
-import type { SelectedEntity, RawMapConfig, Zlayer, RawDecorItem, RawNpc, RawBuilding } from './mapEditorTypes'
+import type { SelectedEntity, RawMapConfig, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawQuestPickupItem } from './mapEditorTypes'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 
 const SHEET_URL = '/world/SampleMap/[Base]BaseChip_pipo.png'
@@ -17,6 +17,7 @@ interface Props {
   onOpenInterior:        (id: string) => void
   onCloseInterior:       () => void
   onUpdateStreetEntry:   (index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
+  questPickupItems:      RawQuestPickupItem[]
   viewMode:              'exterior' | 'interior'
 }
 
@@ -339,7 +340,7 @@ function BuildingInspector({
 export function EntityInspector({
   selectedEntity, configData, activeInteriorId, viewMode,
   onDelete, onMoveEntity, onZlayerChange, onDialogueChange,
-  onOpenInterior, onCloseInterior, onUpdateStreetEntry,
+  onOpenInterior, onCloseInterior, onUpdateStreetEntry, questPickupItems,
 }: Props) {
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
@@ -483,7 +484,7 @@ export function EntityInspector({
   }
 
   if (selectedEntity.type === 'pickupItem') {
-    const p = (configData.pickupItems ?? [])[selectedEntity.index]
+    const p = questPickupItems[selectedEntity.index] ?? (configData.pickupItems ?? [])[selectedEntity.index]
     if (!p) return null
     return (
       <div style={panelStyle}>

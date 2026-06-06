@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import type { MapId, ToolMode } from './mapEditorTypes'
-import { saveMap } from './mapEditorApi'
+import { saveMap, saveQuestDefs } from './mapEditorApi'
 import type { RawMapConfig } from './mapEditorTypes'
 
 const MAP_OPTIONS: { id: MapId; label: string }[] = [
@@ -24,6 +24,7 @@ interface Props {
   onRedo:           () => void
   onGridToggle:     () => void
   onQuestItemsToggle: () => void
+  questDefsData:    Record<string, unknown> | null
   onSaved:          () => void
 }
 
@@ -36,7 +37,7 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
 
 export function MapEditorToolbar({
   mapId, tool, canUndo, canRedo, isDirty, showGrid, showQuestItems,
-  configData, onMapChange, onToolChange, onUndo, onRedo,
+  configData, questDefsData, onMapChange, onToolChange, onUndo, onRedo,
   onGridToggle, onQuestItemsToggle, onSaved,
 }: Props) {
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
@@ -47,6 +48,7 @@ export function MapEditorToolbar({
     setSaveError('')
     try {
       await saveMap(mapId, configData)
+      if (questDefsData) await saveQuestDefs(mapId, questDefsData)
       setSaveState('ok')
       onSaved()
       setTimeout(() => setSaveState('idle'), 2000)
