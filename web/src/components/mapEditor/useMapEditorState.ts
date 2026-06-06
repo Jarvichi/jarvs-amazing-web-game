@@ -1,0 +1,279 @@
+import { useState, useCallback } from 'react'
+import type { MapId, RawMapConfig, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
+import hubConfig from '../../data/hub/config.json'
+import town2Config from '../../data/town2/config.json'
+import castleConfig from '../../data/castle/config.json'
+
+const RAW_CONFIGS: Record<MapId, RawMapConfig> = {
+  hub:    hubConfig    as unknown as RawMapConfig,
+  town2:  town2Config  as unknown as RawMapConfig,
+  castle: castleConfig as unknown as RawMapConfig,
+}
+
+const MAX_UNDO = 50
+
+export function useMapEditorState(initialMapId: MapId = 'hub') {
+  const [state, setState] = useState<MapEditorState>(() => ({
+    mapId:            initialMapId,
+    configData:       structuredClone(RAW_CONFIGS[initialMapId]),
+    tool:             'select',
+    activeTileId:     null,
+    activeBundleId:   null,
+    activeZlayer:     'solid',
+    viewMode:         'exterior',
+    activeInteriorId: null,
+    selectedEntity:   null,
+    undoStack:        [],
+    redoStack:        [],
+    isDirty:          false,
+  }))
+
+  const setMapId = useCallback((mapId: MapId) => {
+    setState(s => ({
+      ...s,
+      mapId,
+      configData:       structuredClone(RAW_CONFIGS[mapId]),
+      selectedEntity:   null,
+      viewMode:         'exterior',
+      activeInteriorId: null,
+      undoStack:        [],
+      redoStack:        [],
+      isDirty:          false,
+    }))
+  }, [])
+
+  const setTool = useCallback((tool: ToolMode) => {
+    setState(s => ({ ...s, tool }))
+  }, [])
+
+  const setActiveTile = useCallback((tileId: string | null, bundleId?: string) => {
+    setState(s => ({
+      ...s,
+      activeTileId:   tileId,
+      activeBundleId: bundleId ?? null,
+      tool:           (tileId || bundleId) ? 'place' : s.tool,
+    }))
+  }, [])
+
+  const setZlayer = useCallback((zlayer: Zlayer) => {
+    setState(s => ({ ...s, activeZlayer: zlayer }))
+  }, [])
+
+  const openInterior = useCallback((interiorId: string) => {
+    setState(s => ({ ...s, viewMode: 'interior', activeInteriorId: interiorId, selectedEntity: null }))
+  }, [])
+
+  const closeInterior = useCallback(() => {
+    setState(s => ({ ...s, viewMode: 'exterior', activeInteriorId: null, selectedEntity: null }))
+  }, [])
+
+  const selectEntity = useCallback((entity: SelectedEntity | null) => {
+    setState(s => ({ ...s, selectedEntity: entity }))
+  }, [])
+
+  const placeDecor = useCallback((tx: number, ty: number) => {
+    setState(s => {
+      if (!s.activeTileId && !s.activeBundleId) return s
+      const prevConfig = s.configData
+      const newItem = s.activeBundleId
+        ? { tx, ty, bundleID: s.activeBundleId, zlayer: s.activeZlayer }
+        : { tx, ty, tileId: s.activeTileId!, zlayer: s.activeZlayer }
+
+      let newConfig: RawMapConfig
+      if (s.viewMode === 'exterior') {
+        newConfig = { ...prevConfig, exteriorDecor: [...(prevConfig.exteriorDecor ?? []), newItem] }
+      } else if (s.viewMode === 'interior' && s.activeInteriorId) {
+        const interior = prevConfig.interiors?.[s.activeInteriorId]
+        if (!interior) return s
+        newConfig = {
+          ...prevConfig,
+          interiors: {
+            ...prevConfig.interiors,
+            [s.activeInteriorId]: { ...interior, decor: [...interior.decor, newItem] },
+          },
+        }
+      } else {
+        return s
+      }
+
+      return {
+        ...s,
+        configData: newConfig,
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  const moveEntity = useCallback((entity: SelectedEntity, tx: number, ty: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      let newConfig = prevConfig
+
+      if (entity.type === 'exteriorDecor') {
+        const decor = [...(prevConfig.exteriorDecor ?? [])]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], tx, ty }
+        newConfig = { ...prevConfig, exteriorDecor: decor }
+      } else if (entity.type === 'npc') {
+        const npcs = [...(prevConfig.npcs ?? [])]
+        if (!npcs[entity.index]) return s
+        npcs[entity.index] = { ...npcs[entity.index], tx, ty }
+        newConfig = { ...prevConfig, npcs }
+      } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
+        const interior = prevConfig.interiors[entity.interiorId]
+        const decor = [...interior.decor]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], tx, ty }
+        newConfig = {
+          ...prevConfig,
+          interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, decor } },
+        }
+      }
+
+      if (newConfig === prevConfig) return s
+      return {
+        ...s,
+        configData: newConfig,
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  const deleteEntity = useCallback((entity: SelectedEntity) => {
+    setState(s => {
+      const prevConfig = s.configData
+      let newConfig = prevConfig
+
+      if (entity.type === 'exteriorDecor') {
+        newConfig = { ...prevConfig, exteriorDecor: (prevConfig.exteriorDecor ?? []).filter((_, i) => i !== entity.index) }
+      } else if (entity.type === 'npc') {
+        newConfig = { ...prevConfig, npcs: (prevConfig.npcs ?? []).filter((_, i) => i !== entity.index) }
+      } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
+        const interior = prevConfig.interiors[entity.interiorId]
+        newConfig = {
+          ...prevConfig,
+          interiors: {
+            ...prevConfig.interiors,
+            [entity.interiorId]: { ...interior, decor: interior.decor.filter((_, i) => i !== entity.index) },
+          },
+        }
+      }
+
+      if (newConfig === prevConfig) return s
+      return {
+        ...s,
+        configData:     newConfig,
+        selectedEntity: null,
+        undoStack:      [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:      [],
+        isDirty:        true,
+      }
+    })
+  }, [])
+
+  const updateDecorZlayer = useCallback((entity: SelectedEntity, zlayer: Zlayer) => {
+    setState(s => {
+      const prevConfig = s.configData
+      let newConfig = prevConfig
+
+      if (entity.type === 'exteriorDecor') {
+        const decor = [...(prevConfig.exteriorDecor ?? [])]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], zlayer }
+        newConfig = { ...prevConfig, exteriorDecor: decor }
+      } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
+        const interior = prevConfig.interiors[entity.interiorId]
+        const decor = [...interior.decor]
+        if (!decor[entity.index]) return s
+        decor[entity.index] = { ...decor[entity.index], zlayer }
+        newConfig = {
+          ...prevConfig,
+          interiors: { ...prevConfig.interiors, [entity.interiorId]: { ...interior, decor } },
+        }
+      }
+
+      if (newConfig === prevConfig) return s
+      return {
+        ...s,
+        configData: newConfig,
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  const updateNpcDialogue = useCallback((index: number, dialogue: string[]) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const npcs = [...(prevConfig.npcs ?? [])]
+      if (!npcs[index]) return s
+      npcs[index] = { ...npcs[index], dialogue }
+      return {
+        ...s,
+        configData: { ...prevConfig, npcs },
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  const undo = useCallback(() => {
+    setState(s => {
+      if (s.undoStack.length === 0) return s
+      const undoStack = [...s.undoStack]
+      const prevConfig = undoStack.pop()!
+      return {
+        ...s,
+        configData:     prevConfig,
+        undoStack,
+        redoStack:      [s.configData, ...s.redoStack],
+        selectedEntity: null,
+        isDirty:        undoStack.length > 0,
+      }
+    })
+  }, [])
+
+  const redo = useCallback(() => {
+    setState(s => {
+      if (s.redoStack.length === 0) return s
+      const redoStack = [...s.redoStack]
+      const nextConfig = redoStack.shift()!
+      return {
+        ...s,
+        configData: nextConfig,
+        undoStack:  [...s.undoStack, s.configData],
+        redoStack,
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  const markSaved = useCallback(() => {
+    setState(s => ({ ...s, isDirty: false }))
+  }, [])
+
+  return {
+    state,
+    setMapId,
+    setTool,
+    setActiveTile,
+    setZlayer,
+    openInterior,
+    closeInterior,
+    selectEntity,
+    placeDecor,
+    moveEntity,
+    deleteEntity,
+    updateDecorZlayer,
+    updateNpcDialogue,
+    undo,
+    redo,
+    markSaved,
+  }
+}
