@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { WORLD_MAP, WorldNodeDef } from '../../data/world/worldMapDef'
-import { getCurrentWorldLocation, isNodeCleared } from '../../game/world/worldState'
+import { isNodeCleared } from '../../game/world/worldState'
 import { loadPlayerName } from '../../game/questline'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import { Toolbar } from '../ui/Toolbar/Toolbar'
@@ -36,7 +36,6 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
   const [questsOpen, setQuestsOpen] = useState(false)
   const [wrongSave, setWrongSave]   = useState<{ cards: number; crystals: number; deck: number } | null>(null)
 
-  const currentLocation = getCurrentWorldLocation()
   const { isNight: isGameNight } = useHubClock()
   const playerName = loadPlayerName()
   const crystals   = loadCrystals()

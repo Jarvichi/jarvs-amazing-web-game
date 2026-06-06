@@ -3709,8 +3709,8 @@
     },
     {
       "id": "guard-clue-3",
-      "tx": 70,
-      "ty": 47,
+      "tx": 59,
+      "ty": 45,
       "tileId": "note",
       "questId": "thorin-missing-guard"
     },
@@ -3825,8 +3825,8 @@
     },
     {
       "id": "deserter-clue-3",
-      "tx": 69,
-      "ty": 47,
+      "tx": 58,
+      "ty": 45,
       "tileId": "note",
       "questId": "varn-deserter-trail"
     },

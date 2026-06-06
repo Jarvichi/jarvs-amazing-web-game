@@ -2,6 +2,8 @@ import { fn } from 'storybook/test'
 import { useRef, useState, useEffect } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HubTownCanvas } from './HubTownCanvas'
+import { IRONHOLD_KEEP_LOCATION_DATA } from '../../data/castle/loader'
+import { MILLHAVEN_LOCATION_DATA as MILLHAVEN_LOCATION_DATA } from '../../data/town2/loader'
 
 const PAN_STEP = 64
 
@@ -58,5 +60,23 @@ export const Default: Story = {
     onAreaEnter:    fn(),
     onNodeInteract: fn(),
     onAvatarMove:   fn(),
+  },
+}
+
+export const IronholdKeep: Story = {
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: IRONHOLD_KEEP_LOCATION_DATA,
+  },
+}
+
+export const millhaven: Story = {
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: MILLHAVEN_LOCATION_DATA,
   },
 }

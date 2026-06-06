@@ -57,6 +57,42 @@
     ]
   },
   {
+    "bundleID": "dark-tree-cluster-V",
+    "tiles":[
+            { "tileID": "darkTreeTopLeft", "x": 1, "y": 1, "zlayer": "above" },
+      { "tileID": "darkTreeTopRight", "x": 2, "y": 1, "zlayer": "above" },
+      { "tileID": "darkTreeBottomLeft", "x": 1, "y": 0, "zlayer": "solid" },
+      { "tileID": "darkTreeBottomRight", "x": 2, "y": 0, "zlayer": "solid" },
+      { "tileID": "darkTreeTopLeft", "x": 0, "y": 2, "zlayer": "above" },
+      { "tileID": "darkTreeTopRight", "x": 1, "y": 2, "zlayer": "above" },
+      { "tileID": "darkTreeBottomLeft", "x": 0, "y": 1, "zlayer": "below" },
+      { "tileID": "darkTreeBottomRight", "x": 1, "y": 1, "zlayer": "below" },
+      { "tileID": "darkTreeTopLeft", "x": 2, "y": 2, "zlayer": "above" },
+      { "tileID": "darkTreeTopRight", "x": 3, "y": 2, "zlayer": "above" },
+      { "tileID": "darkTreeBottomLeft", "x": 2, "y": 1, "zlayer": "below" },
+      { "tileID": "darkTreeBottomRight", "x": 3, "y": 1, "zlayer": "below" }   
+
+    ]
+  },  
+  {
+    "bundleID": "mixed-tree-cluster-V",
+    "tiles":[
+            { "tileID": "lightTreeTopLeft", "x": 1, "y": 1, "zlayer": "above" },
+      { "tileID": "lightTreeTopRight", "x": 2, "y": 1, "zlayer": "above" },
+      { "tileID": "lightTreeBottomLeft", "x": 1, "y": 0, "zlayer": "solid" },
+      { "tileID": "lightTreeBottomRight", "x": 2, "y": 0, "zlayer": "solid" },
+      { "tileID": "darkTreeTopLeft", "x": 0, "y": 2, "zlayer": "above" },
+      { "tileID": "darkTreeTopRight", "x": 1, "y": 2, "zlayer": "above" },
+      { "tileID": "darkTreeBottomLeft", "x": 0, "y": 1, "zlayer": "below" },
+      { "tileID": "darkTreeBottomRight", "x": 1, "y": 1, "zlayer": "below" },
+      { "tileID": "darkTreeTopLeft", "x": 2, "y": 2, "zlayer": "above" },
+      { "tileID": "darkTreeTopRight", "x": 3, "y": 2, "zlayer": "above" },
+      { "tileID": "darkTreeBottomLeft", "x": 2, "y": 1, "zlayer": "below" },
+      { "tileID": "darkTreeBottomRight", "x": 3, "y": 1, "zlayer": "below" }    
+
+    ]
+  },    
+  {
     "bundleID": "dark-tree-column-4",
     "tiles":[
       { "tileID": "darkTreeTopLeft", "x": 0, "y": 3, "zlayer": "above" },

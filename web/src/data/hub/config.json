@@ -324,9 +324,9 @@
     {
       "rect": [
         58,
-        35,
+        36,
         65,
-        35
+        36
       ]
     },
     {
@@ -632,6 +632,149 @@
         56
       ],
       "pathType": "grass1Grass4"
+    },
+    {
+      "tile": [
+        65,
+        26
+      ]
+    },
+    {
+      "rect": [
+        64,
+        35,
+        65,
+        35
+      ]
+    },
+    {
+      "tile": [
+        64,
+        47
+      ]
+    },
+    {
+      "rect": [
+        49,
+        48,
+        51,
+        48
+      ]
+    },
+    {
+      "rect": [
+        51,
+        49,
+        53,
+        49
+      ]
+    },
+    {
+      "rect": [
+        53,
+        50,
+        53,
+        53
+      ]
+    },
+    {
+      "rect": [
+        66,
+        9,
+        73,
+        9
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        73,
+        10,
+        73,
+        20
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        71,
+        20,
+        72,
+        20
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        71,
+        21,
+        71,
+        26
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        72,
+        26,
+        73,
+        26
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        73,
+        27,
+        73,
+        30
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        73,
+        31,
+        73,
+        44
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        73,
+        45,
+        73,
+        53
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        73,
+        54,
+        73,
+        56
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        69,
+        56,
+        72,
+        56
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        64,
+        56,
+        68,
+        56
+      ],
+      "pathType": "longGrass"
     }
   ],
   "buildings": [
@@ -1161,9 +1304,9 @@
     {
       "rect": [
         63,
-        21,
+        20,
         67,
-        26
+        25
       ],
       "id": "barracks-vault",
       "wall": "reinforcedStone",
@@ -1676,7 +1819,7 @@
     },
     {
       "tx": 20,
-      "ty": 4,
+      "ty": 5,
       "bundleID": "dark-tree"
     },
     {
@@ -1695,18 +1838,18 @@
       "bundleID": "dark-tree"
     },
     {
-      "tx": 71,
-      "ty": 16,
+      "tx": 68,
+      "ty": 20,
       "bundleID": "dark-tree"
     },
     {
       "tx": 68,
-      "ty": 18,
+      "ty": 19,
       "bundleID": "dark-tree"
     },
     {
-      "tx": 71,
-      "ty": 17,
+      "tx": 68,
+      "ty": 21,
       "bundleID": "dark-tree"
     },
     {
@@ -1963,46 +2106,6 @@
       "tileId": "darkTreeBottomRight"
     },
     {
-      "tx": 39,
-      "ty": 35,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 40,
-      "ty": 35,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 39,
-      "ty": 36,
-      "tileId": "darkTreeColumnLeft"
-    },
-    {
-      "tx": 40,
-      "ty": 36,
-      "tileId": "darkTreeColumnRight"
-    },
-    {
-      "tx": 39,
-      "ty": 37,
-      "tileId": "darkTreeColumnLeft"
-    },
-    {
-      "tx": 40,
-      "ty": 37,
-      "tileId": "darkTreeColumnRight"
-    },
-    {
-      "tx": 39,
-      "ty": 38,
-      "bundleID": "dark-tree"
-    },
-    {
-      "tx": 40,
-      "ty": 38,
-      "tileId": "darkTreeBottomRight"
-    },
-    {
       "tx": 53,
       "ty": 21,
       "tileId": "darkTreeTopLeft"
@@ -2063,104 +2166,29 @@
       "tileId": "darkTreeBottomRight"
     },
     {
-      "tx": 69,
-      "ty": 21,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 70,
-      "ty": 21,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 69,
-      "ty": 22,
+      "tx": 68,
+      "ty": 26,
       "bundleID": "dark-tree"
     },
     {
-      "tx": 70,
-      "ty": 22,
-      "tileId": "darkTreeBottomRight"
-    },
-    {
-      "tx": 69,
-      "ty": 39,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 70,
-      "ty": 39,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 69,
-      "ty": 40,
+      "tx": 67,
+      "ty": 38,
       "bundleID": "dark-tree"
     },
     {
-      "tx": 70,
-      "ty": 40,
-      "tileId": "darkTreeBottomRight"
-    },
-    {
-      "tx": 72,
-      "ty": 21,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 73,
-      "ty": 21,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 72,
-      "ty": 22,
+      "tx": 68,
+      "ty": 24,
       "bundleID": "dark-tree"
     },
     {
-      "tx": 73,
-      "ty": 22,
-      "tileId": "darkTreeBottomRight"
-    },
-    {
-      "tx": 72,
+      "tx": 66,
       "ty": 27,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 73,
-      "ty": 27,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 72,
-      "ty": 28,
       "bundleID": "dark-tree"
     },
     {
-      "tx": 73,
-      "ty": 28,
-      "tileId": "darkTreeBottomRight"
-    },
-    {
-      "tx": 72,
+      "tx": 66,
       "ty": 39,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 73,
-      "ty": 39,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 72,
-      "ty": 40,
       "bundleID": "dark-tree"
-    },
-    {
-      "tx": 73,
-      "ty": 40,
-      "tileId": "darkTreeBottomRight"
     },
     {
       "tx": 0,
@@ -2414,7 +2442,7 @@
     },
     {
       "tx": 60,
-      "ty": 36,
+      "ty": 34,
       "tileId": "grassTuft"
     },
     {
@@ -3208,8 +3236,8 @@
       "tileId": "darkBush"
     },
     {
-      "tx": 58,
-      "ty": 52,
+      "tx": 55,
+      "ty": 51,
       "tileId": "grassTuft"
     },
     {
@@ -3849,18 +3877,6 @@
       "zlayer": "solid"
     },
     {
-      "tx": 0,
-      "ty": 7,
-      "bundleID": "dark-tree-column-8",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 0,
-      "ty": 14,
-      "bundleID": "dark-tree-column-8",
-      "zlayer": "solid"
-    },
-    {
       "tx": 12,
       "ty": 26,
       "bundleID": "light-tree",
@@ -4161,33 +4177,183 @@
       "zlayer": "solid"
     },
     {
-      "tx": 11,
-      "ty": 29,
-      "tileId": "stripedShopAwningTop",
+      "tx": 23,
+      "ty": 31,
+      "tileId": "stripedShopAwningMiddle",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 54,
+      "ty": 55,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 67,
+      "ty": 37,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 55,
+      "ty": 44,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 39,
+      "ty": 38,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 55,
+      "ty": 33,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 39,
+      "ty": 46,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 39,
+      "ty": 51,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 55,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 65,
+      "ty": 55,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 62,
+      "ty": 56,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 2,
+      "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
     },
     {
       "tx": 10,
-      "ty": 29,
-      "tileId": "stripedShopAwningTop",
+      "ty": 32,
+      "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
     },
     {
-      "tx": 9,
-      "ty": 29,
-      "tileId": "stripedShopAwningTop",
+      "tx": 22,
+      "ty": 37,
+      "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
     },
     {
-      "tx": 12,
-      "ty": 29,
-      "tileId": "stripedShopAwningTop",
+      "tx": 43,
+      "ty": 47,
+      "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
     },
     {
-      "tx": 23,
-      "ty": 31,
-      "tileId": "stripedShopAwningMiddle",
+      "tx": 49,
+      "ty": 35,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 58,
+      "ty": 39,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 53,
+      "ty": 47,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 52,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 70,
+      "ty": 46,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 67,
+      "ty": 50,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 70,
+      "ty": 44,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 70,
+      "ty": 30,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 70,
+      "ty": 4,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 24,
+      "ty": 2,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 17,
+      "ty": 4,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 5,
+      "ty": 2,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 8,
+      "ty": 34,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 25,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 61,
+      "ty": 27,
+      "bundleID": "mixed-tree-cluster-V",
       "zlayer": "solid"
     }
   ],
@@ -6969,6 +7135,17 @@
       "id": "forest-chest-3",
       "tx": 50,
       "ty": 0,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A moss-covered chest hidden in the forest",
+      "reward": {
+        "crystals": 30
+      }
+    },
+    {
+      "id": "forest-chest-4",
+      "tx": 64,
+      "ty": 56,
       "tileId": "chest",
       "collectedTileId": "openChest",
       "title": "A moss-covered chest hidden in the forest",
