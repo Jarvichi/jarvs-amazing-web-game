@@ -8,7 +8,7 @@
       "receiverNpcId": "elder",
       "prerequisite": "quest:the-password-part-4",
       "offerDialogue": "Oh dear… I seem to have misplaced my three pendant stones somewhere in town. They are precious to me. Have you seen them?",
-      "activeDialogue": "I had the pendants near the pond, the market square, and the east fields. Any luck finding them?",
+      "activeDialogue": "I had the pendants near the church, the barracks, and the fields. Any luck finding them?",
       "completeDialogue": "All three! Bless you, dear traveller. You have a very kind heart.",
       "steps": [
         {
