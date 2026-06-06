@@ -32,6 +32,7 @@ export interface HubDoor {
   buildingId: string
   tx: number
   ty: number
+  hideSign?: boolean
   tyAdjust?: number  // tiles to shift the render position upward (0 = standard south-face)
 }
 
@@ -205,7 +206,7 @@ type RawBuilding = {
   rect?: number[]; rects?: number[][];
   id?: string; wall?: string; roof?: string;
   bundleID?: string;
-  doors?:   Array<{ tx: number; ty: number; buildingId?: string }>
+  doors?:   Array<{ tx: number; ty: number; buildingId?: string, hideSign?: boolean }>
   windows?: Array<{ tx: number; ty: number; tileId: string }>
   decor?:   Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>
 }
@@ -256,7 +257,7 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
         .sort((a, b) => a - b)[0]
       if (candidate !== undefined) { storeTy = candidate; tyAdjust = candidate - absTy }
     }
-    _nestedDoors.push({ buildingId: d.buildingId ?? b.id ?? '', tx: ox + d.tx, ty: storeTy, ...(tyAdjust ? { tyAdjust } : {}) })
+    _nestedDoors.push({ buildingId: d.buildingId ?? b.id ?? '', tx: ox + d.tx, ty: storeTy, hideSign: d.hideSign, ...(tyAdjust ? { tyAdjust } : {}) })
   }
   for (const w of b.windows ?? [])
     _nestedWindows.push({ tx: ox + w.tx, ty: oy + w.ty, tileId: resolveTileId(w.tileId) })

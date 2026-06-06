@@ -61,8 +61,24 @@ const TILE_CATEGORIES: Record<string, string[]> = {
     'ironFenceIsolated', 'ironFenceLeft', 'ironFenceRight', 'ironFenceTop',
     'ironFenceLeftRight', 'ironFenceTopRight', 'ironFenceLeftTop',
     'ironFenceTopRightBottom', 'ironFenceLeftTopBottom',
-    'stoneWallIsolated', 'stoneWallLeft', 'stoneWallRight', 'stoneWallTop',
-    'stoneWallLeftRight', 'stoneWallTopRight', 'stoneWallLeftTop',
+
+    'stoneWallTopBotton',
+    'stoneWallBotton',
+    'stoneWallRightBottom',
+    'stoneWallLeftBottom',
+    'stoneWallLeft',
+    'stoneWallLeftRightTop',
+    'stoneWallLeftRightBottom',
+    'stoneWallLeftRightTopBottom',
+    'stoneWallLeftRight',
+    'stoneWallTop',
+    'stoneWallTopRight',
+    'stoneWallLeftTop',
+    'stoneWallRight',
+    'stoneWallTopRightBottom',
+    'stoneWallLeftTopBottom',
+    'stoneWallIsolated',
+
   ],
   'Furniture': [
     'roundTable', 'roundTableWithCloth', 'deskTop',
@@ -71,7 +87,7 @@ const TILE_CATEGORIES: Record<string, string[]> = {
     'smallTableBottomLeft', 'smallTableBottomMiddle', 'smallTableBottomRight',
     'bookshelfTop', 'bookshelfBottom',
     'stool', 'stoolDark', 'stoolWithCover', 'stoolWithPurpleCushion',
-    'rugTopLeft', 'rugTopRight', 'rugBottomLeft', 'rugBottomRight',
+    'rugTopLeft','rugTopMid', 'rugTopRight', 'rugBottomLeft', 'rugBottomRight',
     'simpleBedHead', 'simpleBedFoot', 'simpleBedHeadOverlay', 'simpleBedFootOverlay',
     'normalBedHead', 'normalBedFoot', 'normalBedHeadOverlay', 'normalBedFootOverlay',
     'royalBedTopLeft', 'royalBedTopRight', 'royalBedBottonLeft', 'royalBedBottomRight',
@@ -157,6 +173,7 @@ const TILE_CATEGORIES: Record<string, string[]> = {
     'stoneStairsUpLeftMiddle', 'stoneStairsUpMiddleMiddle', 'stoneStairsUpRightMiddle',
     'stoneStairsUpLeftBottom', 'stoneStairsUpMiddleBottom', 'stoneStairsUpRightBottom',
   ],
+  'All': Object.keys(BASE_CHIP_TILES),  
 }
 
 type PaletteTab = 'tiles' | 'bundles'

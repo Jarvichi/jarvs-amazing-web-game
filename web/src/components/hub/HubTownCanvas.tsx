@@ -328,7 +328,7 @@ export function HubTownCanvas({
         'scholars-hall-w':   667,  // bookSign
         'home':              671,  // blankSign
         'trader-den':        668,  // goldSign
-        'sw-building-b':     664,  // innSign
+        'inn-building':     664,  // innSign
         'traders-building':  668,  // goldSign
         'market-building':   658,  // bagSign
         'arcade-building-e': 668,  // goldSign
@@ -358,9 +358,11 @@ export function HubTownCanvas({
             const signTx = door.tx * T
             const signTy = (door.ty - 3) * T
             const sprite = new PIXI.Sprite(tex)
-            sprite.position.set(signTx, signTy)
-            sprite.width = T; sprite.height = T
-            nodeLayer.addChild(sprite)
+            if (!door.hideSign){
+              sprite.position.set(signTx, signTy)
+              sprite.width = T; sprite.height = T
+              nodeLayer.addChild(sprite)
+            }
 
             // Small name label floats just above the sign tile
             const label = new PIXI.Text({
@@ -390,7 +392,7 @@ export function HubTownCanvas({
       const extAboveAvatar = new Map<number, [number, number][]>()
       for (const d of EXTERIOR_DECOR) {
         if (d.tileId === 666) continue
-        const map  = d.zlayer === 'below-avatar' ? extBelowAvatar : d.zlayer === 'above' ? extAboveAvatar : extNormal
+        const map  = d.zlayer === 'below' ? extBelowAvatar : d.zlayer === 'above' ? extAboveAvatar : extNormal
         const list = map.get(d.tileId) ?? []
         list.push([d.tx, d.ty])
         map.set(d.tileId, list)
@@ -1289,7 +1291,7 @@ export function HubTownCanvas({
         renderPathTiles(wallContainer, horizontalWallSet, undefined, PATH_TILE.wall2).catch(() => {})
       }
 
-      // Decor — split into below-avatar (solid/below) and above-avatar containers
+      // Decor — split into below (solid/below) and above containers
       const decorBelowContainer = new PIXI.Container()
       const decorAboveContainer = new PIXI.Container()  // added to interiorLayer after avatar
       interiorLayer.addChild(decorBelowContainer)
@@ -1316,7 +1318,7 @@ export function HubTownCanvas({
       }
 
       renderDecorItems(interior.decor.filter(d => d.zlayer !== 'above'), decorBelowContainer)
-      // above-avatar decor rendered after avatar is added (below)
+      // above decor rendered after avatar is added (below)
 
       // Interior pickup items — rendered in room, disappear when tapped
       {
@@ -1467,7 +1469,7 @@ export function HubTownCanvas({
         avatarInInterior = true
       }
 
-      // Above-avatar decor — added after avatar so it renders on top
+      // above decor — added after avatar so it renders on top
       interiorLayer.addChild(decorAboveContainer)
       renderDecorItems(interior.decor.filter(d => d.zlayer === 'above'), decorAboveContainer)
 

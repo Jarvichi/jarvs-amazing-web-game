@@ -1,5 +1,6 @@
 import rawBundles from './bundles.json'
 import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
+import { HubDoor } from '../hub/loader'
 
 export type BundleTileType = 'decor' | 'window' | 'door'
 
@@ -10,6 +11,7 @@ export interface BundleTileEntry {
   y:           number
   zlayer?:     string
   buildingId?: string          // for type="door" entries
+  hideSign?: boolean          // for type="door" entries
 }
 
 export interface BundleDef {
@@ -80,10 +82,10 @@ export function expandBundleDoors(
   defaultBuildingId: string,
   originTx: number,
   originTy: number,
-): { buildingId: string; tx: number; ty: number }[] {
+):HubDoor[] {
   const bundle = BUNDLE_REGISTRY.get(bundleID)
   if (!bundle) { console.warn(`[bundles] Unknown bundleID: "${bundleID}"`); return [] }
-  return bundle.tiles
+  const doors = bundle.tiles
     .filter(t => t.type === 'door')
-    .map(t => ({ buildingId: t.buildingId ?? defaultBuildingId, tx: originTx + t.x, ty: originTy - t.y }))
+  return doors.map(t => ({ buildingId: t.buildingId ?? defaultBuildingId, tx: originTx + t.x, ty: originTy - t.y, hideSign: t.hideSign }))
 }

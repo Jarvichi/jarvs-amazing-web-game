@@ -572,11 +572,14 @@ export const BASE_CHIP_TILES = {
 
     // Decorative floor / wall items
     rugTopLeft:     837,
-    // mid - 838
+    rugTopMid: 838,
     rugTopRight:    839,
     // middle row 845,846,847
+    rugMidLeft: 845,
+    rugMidMid: 846,
+    rugMidRight: 847,
     rugBottomLeft:  853,
-    // mid 854
+    rugBottomMid: 854,
     rugBottomRight: 855,
     painting:       666,
     mirrorTop:      629,
@@ -807,4 +810,7 @@ export const BASE_CHIP_TILES = {
 
     wallArchRight: 245,
   
+    roundWindowUnlit: 617,
+    cellWindowUnlit: 618,
+   
 } as const

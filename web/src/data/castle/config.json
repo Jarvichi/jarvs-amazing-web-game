@@ -130,7 +130,7 @@
     }
   ],
   "exteriorDecor": [
-    { "comment": "portcullis gate (above-avatar so player walks under)" },
+    { "comment": "portcullis gate (above so player walks under)" },
     { "tx": 12, "ty": 24, "tileId": "portcullisTopLeft",     "zlayer": "above" },
     { "tx": 15, "ty": 24, "tileId": "portcullisTopRight",    "zlayer": "above" },
     { "tx": 12, "ty": 25, "tileId": "portcullisBottomLeft",  "zlayer": "above" },
