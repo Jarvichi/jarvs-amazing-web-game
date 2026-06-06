@@ -6668,8 +6668,8 @@
       "id": "crystal-keeper",
       "name": "Crystal Keeper",
       "sprite": "hub-npc-scholar",
-      "tx": 52,
-      "ty": 22,
+      "tx": 58,
+      "ty": 47,
       "screen": "crystalcatch",
       "dialogue": [
         "Crystals falling fast — catch them before they shatter!",
@@ -6680,8 +6680,8 @@
       "id": "spinner-sal",
       "name": "Spinner Sal",
       "sprite": "hub-npc-dealer",
-      "tx": 37,
-      "ty": 31,
+      "tx": 17,
+      "ty": 47,
       "screen": "spinner",
       "dialogue": [
         "Give it a spin — luck favours the bold.",
@@ -6728,8 +6728,8 @@
       "id": "poker-pete",
       "name": "Poker Pete",
       "sprite": "hub-npc-dealer",
-      "tx": 20,
-      "ty": 13,
+      "tx": 10,
+      "ty": 11,
       "screen": "videoPoker",
       "dialogue": [
         "Best hand wins. Know when to hold, know when to fold.",
