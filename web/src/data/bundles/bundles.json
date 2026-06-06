@@ -1,11 +1,52 @@
 [
   {
+    "bundleID": "light-tree",
+    "tiles": [
+      { "tileID": "lightTreeTopLeft", "x": 0, "y": 1, "zlayer": "above" },
+      { "tileID": "lightTreeTopRight", "x": 1, "y": 1, "zlayer": "above" },
+      { "tileID": "lightTreeBottomLeft", "x": 0, "y": 0, "zlayer": "solid" },
+      { "tileID": "lightTreeBottomRight", "x": 1, "y": 0, "zlayer": "solid" }
+    ]
+  },
+  {
+    "bundleID": "dark-tree",
+    "tiles": [
+      { "tileID": "darkTreeTopLeft", "x": 0, "y": 1, "zlayer": "above" },
+      { "tileID": "darkTreeTopRight", "x": 1, "y": 1, "zlayer": "above" },
+      { "tileID": "darkTreeBottomLeft", "x": 0, "y": 0, "zlayer": "solid" },
+      { "tileID": "darkTreeBottomRight", "x": 1, "y": 0, "zlayer": "solid" }
+    ]
+  },
+  {
+    "bundleID": "autumn-tree",
+    "tiles": [
+      { "tileID": "autumnTreeTopLeft", "x": 0, "y": 1, "zlayer": "above" },
+      { "tileID": "autumnTreeTopRight", "x": 1, "y": 1, "zlayer": "above" },
+      { "tileID": "autumnTreeBottomLeft", "x": 0, "y": 0, "zlayer": "solid" },
+      { "tileID": "autumnTreeBottomRight", "x": 1, "y": 0, "zlayer": "solid" }
+    ]
+  },    
+  {
+    "bundleID": "dead-tree",
+    "tiles": [
+      { "tileID": "deadTreeTopLeft", "x": 0, "y": 1, "zlayer": "above" },
+      { "tileID": "deadTreeTopRight", "x": 1, "y": 1, "zlayer": "above" },
+      { "tileID": "deadTreeBottomLeft", "x": 0, "y": 0, "zlayer": "solid" },
+      { "tileID": "deadTreeBottomRight", "x": 1, "y": 0, "zlayer": "solid" }
+    ]
+  },
+  
+  {
     "bundleID": "royal-bed",
     "tiles": [
-      { "tileID": "bed-tl", "x": 0, "y": 1, "zlayer": "below" },
-      { "tileID": "bed-tr", "x": 1, "y": 1, "zlayer": "below" },
-      { "tileID": "bed-bl", "x": 0, "y": 0, "zlayer": "above" },
-      { "tileID": "bed-br", "x": 1, "y": 0, "zlayer": "above" }
+      { "tileID": "royalBedTopLeft", "x": 0, "y": 1, "zlayer": "below" },
+      { "tileID": "royalBedTopRight", "x": 1, "y": 1, "zlayer": "below" },
+      { "tileID": "royalBedBottonLeft", "x": 0, "y": 0, "zlayer": "below" },
+      { "tileID": "royalBedBottomRight", "x": 1, "y": 0, "zlayer": "below" },
+      { "tileID": "royalBedTopLeftOverlay", "x": 0, "y": 1, "zlayer": "above" },
+      { "tileID": "royalBedTopRightOverlay", "x": 1, "y": 1, "zlayer": "above" },
+      { "tileID": "royalBedBottonLeftOverlay", "x": 0, "y": 0, "zlayer": "above" },
+      { "tileID": "royalBedBottomRightOverlay", "x": 1, "y": 0, "zlayer": "above" }
     ]
   },
   {

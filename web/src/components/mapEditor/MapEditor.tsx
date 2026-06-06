@@ -18,6 +18,7 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
     openInterior, closeInterior, selectEntity,
     placeDecor, moveEntity, deleteEntity,
     updateDecorZlayer, updateNpcDialogue,
+    addStreet, updateStreetEntry,
     undo, redo, markSaved,
   } = useMapEditorState(initialMapId)
 
@@ -30,6 +31,7 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
       if (e.key === 's' && !e.ctrlKey && !e.metaKey) setTool('select')
       if (e.key === 'p') setTool('place')
       if (e.key === 'd' && !e.ctrlKey && !e.metaKey) setTool('delete')
+      if (e.key === 'r') setTool('street')
       if (e.key === 'Delete' || e.key === 'Backspace') {
         if (state.selectedEntity) deleteEntity(state.selectedEntity)
       }
@@ -85,6 +87,7 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
           onPlaceDecor={placeDecor}
           onMoveEntity={moveEntity}
           onDeleteEntity={deleteEntity}
+          onAddStreet={addStreet}
         />
 
         {/* Right: Inspector */}
@@ -100,6 +103,7 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
             onDialogueChange={updateNpcDialogue}
             onOpenInterior={openInterior}
             onCloseInterior={closeInterior}
+            onUpdateStreetEntry={updateStreetEntry}
           />
         </div>
       </div>

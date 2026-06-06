@@ -1,17 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-vite'
 import { writeFileSync } from 'fs'
-import { resolve, dirname } from 'path'
-import { fileURLToPath } from 'url'
+import { resolve } from 'path'
 import type { IncomingMessage, ServerResponse } from 'http'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname  = dirname(__filename)
-
-const MAP_PATHS: Record<string, string> = {
-  hub:    resolve(__dirname, '../src/data/hub/config.json'),
-  town2:  resolve(__dirname, '../src/data/town2/config.json'),
-  castle: resolve(__dirname, '../src/data/castle/config.json'),
-}
 
 const config: StorybookConfig = {
   stories: [
@@ -28,17 +18,23 @@ const config: StorybookConfig = {
   framework: '@storybook/react-vite',
 
   viteFinal: async (viteConfig) => {
+    const root = viteConfig.root ?? process.cwd()
+    const MAP_PATHS: Record<string, string> = {
+      hub:    resolve(root, 'src/data/hub/config.json'),
+      town2:  resolve(root, 'src/data/town2/config.json'),
+      castle: resolve(root, 'src/data/castle/config.json'),
+    }
+
     viteConfig.plugins = viteConfig.plugins ?? []
-    viteConfig.plugins.push({
+    viteConfig.plugins.unshift({
       name: 'map-editor-save',
+      enforce: 'pre',
       apply: 'serve',
       configureServer(server) {
         server.middlewares.use(
-          '/api/map-editor/save',
-          (req: IncomingMessage, res: ServerResponse) => {
-            if (req.method !== 'POST') {
-              res.statusCode = 405
-              res.end('Method Not Allowed')
+          (req: IncomingMessage, res: ServerResponse, next: () => void) => {
+            if (req.url !== '/api/map-editor/save' || req.method !== 'POST') {
+              next()
               return
             }
             let body = ''
@@ -49,6 +45,7 @@ const config: StorybookConfig = {
                 const filePath = MAP_PATHS[mapId]
                 if (!filePath) {
                   res.statusCode = 400
+                  res.setHeader('Content-Type', 'application/json')
                   res.end(JSON.stringify({ error: `Unknown mapId: ${mapId}` }))
                   return
                 }
@@ -57,6 +54,7 @@ const config: StorybookConfig = {
                 res.end(JSON.stringify({ ok: true }))
               } catch (e) {
                 res.statusCode = 500
+                res.setHeader('Content-Type', 'application/json')
                 res.end(JSON.stringify({ error: String(e) }))
               }
             })

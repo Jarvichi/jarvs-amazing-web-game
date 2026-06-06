@@ -121,6 +121,39 @@ export function useMapEditorState(initialMapId: MapId = 'hub') {
         if (!npcs[entity.index]) return s
         npcs[entity.index] = { ...npcs[entity.index], tx, ty }
         newConfig = { ...prevConfig, npcs }
+      } else if (entity.type === 'building') {
+        const buildings = [...(prevConfig.buildings ?? [])]
+        if (!buildings[entity.index]) return s
+        const b = buildings[entity.index]
+        const rects = b.rects ?? (b.rect ? [b.rect] : [])
+        const oldTx1 = rects[0]?.[0] ?? 0
+        const oldTy1 = rects[0]?.[1] ?? 0
+        const dx = tx - oldTx1
+        const dy = ty - oldTy1
+        if (dx === 0 && dy === 0) return s
+        const newRects = rects.map(([rx1, ry1, rx2, ry2]) =>
+          [rx1 + dx, ry1 + dy, rx2 + dx, ry2 + dy] as [number, number, number, number],
+        )
+        buildings[entity.index] = b.rects
+          ? { ...b, rects: newRects }
+          : { ...b, rect: newRects[0] }
+        newConfig = { ...prevConfig, buildings }
+      } else if (entity.type === 'street') {
+        const streets = [...(prevConfig.streets ?? [])]
+        if (!streets[entity.index]) return s
+        const entry = streets[entity.index]
+        if (entry.rect) {
+          const [tx1, ty1, tx2, ty2] = entry.rect
+          const dx = tx - tx1
+          const dy = ty - ty1
+          if (dx === 0 && dy === 0) return s
+          streets[entity.index] = { ...entry, rect: [tx1 + dx, ty1 + dy, tx2 + dx, ty2 + dy] }
+        } else if (entry.tile) {
+          streets[entity.index] = { ...entry, tile: [tx, ty] }
+        } else {
+          return s
+        }
+        newConfig = { ...prevConfig, streets }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
         const decor = [...interior.decor]
@@ -152,6 +185,10 @@ export function useMapEditorState(initialMapId: MapId = 'hub') {
         newConfig = { ...prevConfig, exteriorDecor: (prevConfig.exteriorDecor ?? []).filter((_, i) => i !== entity.index) }
       } else if (entity.type === 'npc') {
         newConfig = { ...prevConfig, npcs: (prevConfig.npcs ?? []).filter((_, i) => i !== entity.index) }
+      } else if (entity.type === 'building') {
+        newConfig = { ...prevConfig, buildings: (prevConfig.buildings ?? []).filter((_, i) => i !== entity.index) }
+      } else if (entity.type === 'street') {
+        newConfig = { ...prevConfig, streets: (prevConfig.streets ?? []).filter((_, i) => i !== entity.index) }
       } else if (entity.type === 'interiorDecor' && prevConfig.interiors?.[entity.interiorId]) {
         const interior = prevConfig.interiors[entity.interiorId]
         newConfig = {
@@ -254,6 +291,41 @@ export function useMapEditorState(initialMapId: MapId = 'hub') {
     })
   }, [])
 
+  const addStreet = useCallback((tx1: number, ty1: number, tx2: number, ty2: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const newEntry = tx1 === tx2 && ty1 === ty2
+        ? { tile: [tx1, ty1] }
+        : { rect: [tx1, ty1, tx2, ty2] }
+      const streets = [...(prevConfig.streets ?? []), newEntry]
+      const newIndex = streets.length - 1
+      return {
+        ...s,
+        configData: { ...prevConfig, streets },
+        selectedEntity: { type: 'street' as const, index: newIndex },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const updateStreetEntry = useCallback((index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const streets = [...(prevConfig.streets ?? [])]
+      if (!streets[index]) return s
+      streets[index] = { ...streets[index], ...data }
+      return {
+        ...s,
+        configData: { ...prevConfig, streets },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
   const markSaved = useCallback(() => {
     setState(s => ({ ...s, isDirty: false }))
   }, [])
@@ -274,6 +346,8 @@ export function useMapEditorState(initialMapId: MapId = 'hub') {
     updateNpcDialogue,
     undo,
     redo,
+    addStreet,
+    updateStreetEntry,
     markSaved,
   }
 }

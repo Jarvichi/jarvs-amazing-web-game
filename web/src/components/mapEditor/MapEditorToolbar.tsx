@@ -29,6 +29,7 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
   { mode: 'select', label: '↖', title: 'Select / Move (S)' },
   { mode: 'place',  label: '✎', title: 'Place tile (P)' },
   { mode: 'delete', label: '✕', title: 'Delete (D)' },
+  { mode: 'street', label: '⊟', title: 'Draw Street / Path (R)' },
 ]
 
 export function MapEditorToolbar({

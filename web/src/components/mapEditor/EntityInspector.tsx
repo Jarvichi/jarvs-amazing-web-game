@@ -10,13 +10,14 @@ interface Props {
   selectedEntity:   SelectedEntity | null
   configData:       RawMapConfig
   activeInteriorId: string | null
-  onDelete:         (entity: SelectedEntity) => void
-  onMoveEntity:     (entity: SelectedEntity, tx: number, ty: number) => void
-  onZlayerChange:   (entity: SelectedEntity, z: Zlayer) => void
-  onDialogueChange: (index: number, dialogue: string[]) => void
-  onOpenInterior:   (id: string) => void
-  onCloseInterior:  () => void
-  viewMode:         'exterior' | 'interior'
+  onDelete:              (entity: SelectedEntity) => void
+  onMoveEntity:          (entity: SelectedEntity, tx: number, ty: number) => void
+  onZlayerChange:        (entity: SelectedEntity, z: Zlayer) => void
+  onDialogueChange:      (index: number, dialogue: string[]) => void
+  onOpenInterior:        (id: string) => void
+  onCloseInterior:       () => void
+  onUpdateStreetEntry:   (index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
+  viewMode:              'exterior' | 'interior'
 }
 
 function TilePreview({ tileId }: { tileId: string }) {
@@ -171,6 +172,76 @@ function NpcInspector({
   )
 }
 
+function StreetInspector({
+  entry, onUpdate, onDelete,
+}: {
+  entry: { rect?: number[]; tile?: number[]; pathType?: string }
+  onUpdate: (data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
+  onDelete: () => void
+}) {
+  const r = entry.rect
+  const t = entry.tile
+  return (
+    <div>
+      <Field label="Path Type">
+        <input
+          type="text"
+          value={entry.pathType ?? ''}
+          onChange={e => onUpdate({ pathType: e.target.value || undefined })}
+          placeholder="e.g. cobblestone (optional)"
+          style={{
+            width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444',
+            color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box',
+          }}
+        />
+      </Field>
+      {r ? (
+        <>
+          <Field label="Top-left">
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <label style={{ fontSize: 11, color: '#888' }}>X</label>
+              {numInput(r[0], v => onUpdate({ rect: [v, r[1], r[2], r[3]] }))}
+              <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+              {numInput(r[1], v => onUpdate({ rect: [r[0], v, r[2], r[3]] }))}
+            </div>
+          </Field>
+          <Field label="Bottom-right">
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <label style={{ fontSize: 11, color: '#888' }}>X</label>
+              {numInput(r[2], v => onUpdate({ rect: [r[0], r[1], v, r[3]] }))}
+              <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+              {numInput(r[3], v => onUpdate({ rect: [r[0], r[1], r[2], v] }))}
+            </div>
+          </Field>
+          <Field label="Size">
+            <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#666' }}>
+              {r[2]-r[0]+1} × {r[3]-r[1]+1} tiles
+            </span>
+          </Field>
+        </>
+      ) : t ? (
+        <Field label="Position">
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            <label style={{ fontSize: 11, color: '#888' }}>X</label>
+            {numInput(t[0], v => onUpdate({ tile: [v, t[1]] }))}
+            <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+            {numInput(t[1], v => onUpdate({ tile: [t[0], v] }))}
+          </div>
+        </Field>
+      ) : null}
+      <button
+        onClick={onDelete}
+        style={{
+          width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922',
+          color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 8,
+        }}
+      >
+        Delete Street Entry
+      </button>
+    </div>
+  )
+}
+
 function BuildingInspector({
   building, onOpenInterior, interiorIds,
 }: {
@@ -225,7 +296,8 @@ function BuildingInspector({
 
 export function EntityInspector({
   selectedEntity, configData, activeInteriorId, viewMode,
-  onDelete, onMoveEntity, onZlayerChange, onDialogueChange, onOpenInterior, onCloseInterior,
+  onDelete, onMoveEntity, onZlayerChange, onDialogueChange,
+  onOpenInterior, onCloseInterior, onUpdateStreetEntry,
 }: Props) {
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
@@ -340,6 +412,23 @@ export function EntityInspector({
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onDelete={() => onDelete(selectedEntity)}
             onDialogueChange={d => onDialogueChange(selectedEntity.index, d)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'street') {
+    const entry = (configData.streets ?? [])[selectedEntity.index]
+    if (!entry) return null
+    return (
+      <div style={panelStyle}>
+        <div style={headerStyle}>Street / Path #{selectedEntity.index}</div>
+        <div style={bodyStyle}>
+          <StreetInspector
+            entry={entry}
+            onUpdate={data => onUpdateStreetEntry(selectedEntity.index, data)}
+            onDelete={() => onDelete(selectedEntity)}
           />
         </div>
       </div>
