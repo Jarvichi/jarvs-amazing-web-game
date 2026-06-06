@@ -161,7 +161,7 @@
     },
     {
       "rect": [
-        35,
+        39,
         39,
         41,
         39
@@ -188,12 +188,12 @@
         14,
         26,
         16,
-        45
+        47
       ]
     },
     {
       "rect": [
-        0,
+        3,
         35,
         16,
         36
@@ -246,9 +246,9 @@
     {
       "rect": [
         25,
-        20,
+        21,
         26,
-        23
+        22
       ]
     },
     {
@@ -261,8 +261,8 @@
     },
     {
       "tile": [
-        10,
-        34
+        13,
+        22
       ]
     },
     {
@@ -283,26 +283,18 @@
     },
     {
       "rect": [
-        14,
-        46,
-        14,
-        48
-      ]
-    },
-    {
-      "rect": [
         13,
         48,
-        25,
+        32,
         48
       ]
     },
     {
       "rect": [
         17,
-        34,
-        25,
-        34
+        35,
+        24,
+        35
       ]
     },
     {
@@ -332,9 +324,9 @@
     {
       "rect": [
         58,
-        35,
+        36,
         65,
-        35
+        36
       ]
     },
     {
@@ -355,55 +347,7 @@
     },
     {
       "tile": [
-        66,
-        48
-      ]
-    },
-    {
-      "tile": [
-        67,
-        48
-      ]
-    },
-    {
-      "tile": [
-        68,
-        48
-      ]
-    },
-    {
-      "tile": [
-        69,
-        48
-      ]
-    },
-    {
-      "tile": [
-        70,
-        48
-      ]
-    },
-    {
-      "tile": [
-        71,
-        48
-      ]
-    },
-    {
-      "tile": [
-        72,
-        48
-      ]
-    },
-    {
-      "tile": [
         65,
-        47
-      ]
-    },
-    {
-      "tile": [
-        72,
         47
       ]
     },
@@ -457,9 +401,9 @@
     {
       "rect": [
         1,
-        39,
+        38,
         12,
-        48
+        58
       ],
       "pathType": "darkDirt"
     },
@@ -480,28 +424,6 @@
       ]
     },
     {
-      "rect": [
-        18,
-        48,
-        19,
-        60
-      ]
-    },
-    {
-      "tile": [
-        13,
-        58
-      ]
-    },
-    {
-      "rect": [
-        12,
-        59,
-        19,
-        60
-      ]
-    },
-    {
       "tile": [
         35,
         65
@@ -509,18 +431,18 @@
     },
     {
       "rect": [
-        13,
-        61,
-        14,
-        61
+        24,
+        49,
+        25,
+        49
       ]
     },
     {
       "rect": [
-        5,
-        62,
-        23,
-        68
+        16,
+        50,
+        24,
+        56
       ],
       "pathType": "grass1Grass4"
     },
@@ -535,7 +457,7 @@
     {
       "rect": [
         64,
-        8,
+        7,
         65,
         8
       ]
@@ -543,7 +465,7 @@
     {
       "rect": [
         55,
-        8,
+        7,
         56,
         8
       ]
@@ -586,7 +508,8 @@
         9,
         54,
         9
-      ]
+      ],
+      "pathType": "longGrass"
     },
     {
       "rect": [
@@ -594,15 +517,17 @@
         1,
         45,
         9
-      ]
+      ],
+      "pathType": "longGrass"
     },
     {
       "rect": [
         46,
         1,
-        48,
+        47,
         1
-      ]
+      ],
+      "pathType": "longGrass"
     },
     {
       "rect": [
@@ -611,6 +536,245 @@
         5,
         22
       ]
+    },
+    {
+      "rect": [
+        24,
+        34,
+        24,
+        34
+      ]
+    },
+    {
+      "rect": [
+        47,
+        34,
+        48,
+        34
+      ]
+    },
+    {
+      "rect": [
+        48,
+        0,
+        50,
+        2
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        43,
+        44,
+        48,
+        44
+      ]
+    },
+    {
+      "rect": [
+        27,
+        47,
+        29,
+        47
+      ]
+    },
+    {
+      "tile": [
+        13,
+        57
+      ]
+    },
+    {
+      "tile": [
+        14,
+        57
+      ]
+    },
+    {
+      "rect": [
+        14,
+        53,
+        14,
+        56
+      ]
+    },
+    {
+      "rect": [
+        58,
+        27,
+        65,
+        27
+      ]
+    },
+    {
+      "rect": [
+        25,
+        50,
+        34,
+        54
+      ],
+      "pathType": "grass1Grass4"
+    },
+    {
+      "rect": [
+        27,
+        55,
+        34,
+        56
+      ],
+      "pathType": "grass1Grass4"
+    },
+    {
+      "rect": [
+        25,
+        56,
+        26,
+        56
+      ],
+      "pathType": "grass1Grass4"
+    },
+    {
+      "tile": [
+        65,
+        26
+      ]
+    },
+    {
+      "rect": [
+        64,
+        35,
+        65,
+        35
+      ]
+    },
+    {
+      "tile": [
+        64,
+        47
+      ]
+    },
+    {
+      "rect": [
+        49,
+        48,
+        51,
+        48
+      ]
+    },
+    {
+      "rect": [
+        51,
+        49,
+        53,
+        49
+      ]
+    },
+    {
+      "rect": [
+        53,
+        50,
+        53,
+        53
+      ]
+    },
+    {
+      "rect": [
+        66,
+        9,
+        73,
+        9
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        73,
+        10,
+        73,
+        20
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        71,
+        20,
+        72,
+        20
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        71,
+        21,
+        71,
+        26
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        72,
+        26,
+        73,
+        26
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        73,
+        27,
+        73,
+        30
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        73,
+        31,
+        73,
+        44
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        73,
+        45,
+        73,
+        53
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        73,
+        54,
+        73,
+        56
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        69,
+        56,
+        72,
+        56
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        64,
+        56,
+        68,
+        56
+      ],
+      "pathType": "longGrass"
     }
   ],
   "buildings": [
@@ -757,9 +921,9 @@
     {
       "rect": [
         52,
-        1,
+        0,
         59,
-        7
+        6
       ],
       "id": "scholars-north-w",
       "wall": "castleStone",
@@ -787,9 +951,9 @@
     {
       "rect": [
         61,
-        1,
+        0,
         68,
-        7
+        6
       ],
       "id": "scholars-north-e",
       "wall": "castleStone",
@@ -877,10 +1041,10 @@
     {
       "comment": "junk traders den",
       "rect": [
-        7,
-        27,
-        13,
-        33
+        10,
+        15,
+        16,
+        21
       ],
       "id": "sw-building-a",
       "wall": "darkStone",
@@ -919,18 +1083,18 @@
       "comment": "inn",
       "rect": [
         22,
-        13,
+        14,
         29,
-        19
+        20
       ],
-      "id": "sw-building-b",
+      "id": "inn-building",
       "wall": "renderedBrick",
       "roof": "strawRoof",
       "doors": [
         {
           "tx": 4,
           "ty": 1,
-          "buildingId": "sw-building-b"
+          "buildingId": "inn-building"
         }
       ],
       "windows": [
@@ -958,7 +1122,7 @@
     },
     {
       "rect": [
-        21,
+        20,
         27,
         28,
         33
@@ -968,19 +1132,20 @@
       "roof": "metalRoof",
       "doors": [
         {
-          "tx": 3,
+          "tx": 4,
           "ty": 1,
+          "hideSign": true,
           "buildingId": "traders-building"
         }
       ],
       "windows": [
         {
-          "tx": 1,
+          "tx": 2,
           "ty": -2,
           "tileId": "windowTop3"
         },
         {
-          "tx": 1,
+          "tx": 2,
           "ty": -1,
           "tileId": "windowBottom3"
         }
@@ -988,10 +1153,10 @@
     },
     {
       "rect": [
-        21,
-        41,
-        28,
-        47
+        44,
+        37,
+        51,
+        43
       ],
       "id": "market-building",
       "wall": "renderedBrick",
@@ -1138,10 +1303,10 @@
     },
     {
       "rect": [
-        70,
-        41,
-        74,
-        46
+        63,
+        20,
+        67,
+        25
       ],
       "id": "barracks-vault",
       "wall": "reinforcedStone",
@@ -1238,49 +1403,49 @@
           "tx": 5,
           "ty": -2,
           "tileId": "stoneStairsUpLeftTop",
-          "zlayer": "below-avatar"
+          "zlayer": "below"
         },
         {
           "tx": 7,
           "ty": -2,
           "tileId": "stoneStairsUpRightTop",
-          "zlayer": "below-avatar"
+          "zlayer": "below"
         },
         {
           "tx": 5,
           "ty": -1,
           "tileId": "stoneStairsUpLeftMiddle",
-          "zlayer": "below-avatar"
+          "zlayer": "below"
         },
         {
           "tx": 6,
           "ty": -1,
           "tileId": "stoneStairsUpMiddleMiddle",
-          "zlayer": "below-avatar"
+          "zlayer": "below"
         },
         {
           "tx": 7,
           "ty": -1,
           "tileId": "stoneStairsUpRightMiddle",
-          "zlayer": "below-avatar"
+          "zlayer": "below"
         },
         {
           "tx": 5,
           "ty": 0,
           "tileId": "stoneStairsUpLeftBottom",
-          "zlayer": "below-avatar"
+          "zlayer": "below"
         },
         {
           "tx": 6,
           "ty": 0,
           "tileId": "stoneStairsUpMiddleBottom",
-          "zlayer": "below-avatar"
+          "zlayer": "below"
         },
         {
           "tx": 7,
           "ty": 0,
           "tileId": "stoneStairsUpRightBottom",
-          "zlayer": "below-avatar"
+          "zlayer": "below"
         },
         {
           "tx": 2,
@@ -1317,16 +1482,16 @@
     {
       "rects": [
         [
-          3,
-          47,
-          5,
-          57
+          18,
+          36,
+          20,
+          46
         ],
         [
-          6,
-          50,
-          17,
-          57
+          21,
+          39,
+          32,
+          46
         ]
       ],
       "id": "church-building",
@@ -1341,6 +1506,11 @@
         {
           "tx": 13,
           "ty": -6,
+          "tileId": "stoneCross"
+        },
+        {
+          "tx": 1,
+          "ty": -9,
           "tileId": "stoneCross"
         },
         {
@@ -1386,14 +1556,21 @@
     },
     {
       "rect": [
-        26,
+        0,
         57,
         34,
         66
       ],
       "id": "gatehouse-west",
       "wall": "castleStone",
-      "roof": "greySlateRoof"
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 34,
+          "ty": 0,
+          "buildingId": "gatehouse-west"
+        }
+      ]
     },
     {
       "rect": [
@@ -1404,7 +1581,14 @@
       ],
       "id": "gatehouse-east",
       "wall": "castleStone",
-      "roof": "greySlateRoof"
+      "roof": "greySlateRoof",
+      "doors": [
+        {
+          "tx": 0,
+          "ty": 0,
+          "buildingId": "gatehouse-east"
+        }
+      ]
     }
   ],
   "exteriorDecor": [
@@ -1590,732 +1774,7 @@
       "tileId": "fenceTop"
     },
     {
-      "tx": 13,
-      "ty": 49,
-      "tileId": "fenceIsolated"
-    },
-    {
       "comment": "crops"
-    },
-    {
-      "tx": 1,
-      "ty": 39,
-      "tileId": "topLeftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 2,
-      "ty": 39,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 3,
-      "ty": 39,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 4,
-      "ty": 39,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 5,
-      "ty": 39,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 6,
-      "ty": 39,
-      "tileId": "topRightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 1,
-      "ty": 40,
-      "tileId": "leftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 2,
-      "ty": 40,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 3,
-      "ty": 40,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 4,
-      "ty": 40,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 5,
-      "ty": 40,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 6,
-      "ty": 40,
-      "tileId": "rightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 1,
-      "ty": 41,
-      "tileId": "leftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 2,
-      "ty": 41,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 3,
-      "ty": 41,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 4,
-      "ty": 41,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 5,
-      "ty": 41,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 6,
-      "ty": 41,
-      "tileId": "rightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 1,
-      "ty": 42,
-      "tileId": "leftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 2,
-      "ty": 42,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 3,
-      "ty": 42,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 4,
-      "ty": 42,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 5,
-      "ty": 42,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 6,
-      "ty": 42,
-      "tileId": "rightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 1,
-      "ty": 43,
-      "tileId": "bottomLeftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 2,
-      "ty": 43,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 3,
-      "ty": 43,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 4,
-      "ty": 43,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 5,
-      "ty": 43,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 6,
-      "ty": 43,
-      "tileId": "bottomRightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 1,
-      "ty": 44,
-      "tileId": "topLeftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 2,
-      "ty": 44,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 3,
-      "ty": 44,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 4,
-      "ty": 44,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 5,
-      "ty": 44,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 6,
-      "ty": 44,
-      "tileId": "topRightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 1,
-      "ty": 45,
-      "tileId": "leftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 2,
-      "ty": 45,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 3,
-      "ty": 45,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 4,
-      "ty": 45,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 5,
-      "ty": 45,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 6,
-      "ty": 45,
-      "tileId": "rightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 1,
-      "ty": 46,
-      "tileId": "leftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 2,
-      "ty": 46,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 3,
-      "ty": 46,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 4,
-      "ty": 46,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 5,
-      "ty": 46,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 6,
-      "ty": 46,
-      "tileId": "rightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 1,
-      "ty": 47,
-      "tileId": "leftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 2,
-      "ty": 47,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 3,
-      "ty": 47,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 4,
-      "ty": 47,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 5,
-      "ty": 47,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 6,
-      "ty": 47,
-      "tileId": "rightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 1,
-      "ty": 48,
-      "tileId": "bottomLeftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 2,
-      "ty": 48,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 3,
-      "ty": 48,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 4,
-      "ty": 48,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 5,
-      "ty": 48,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 6,
-      "ty": 48,
-      "tileId": "bottomRightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 7,
-      "ty": 39,
-      "tileId": "topLeftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 8,
-      "ty": 39,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 9,
-      "ty": 39,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 10,
-      "ty": 39,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 11,
-      "ty": 39,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 12,
-      "ty": 39,
-      "tileId": "topRightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 7,
-      "ty": 40,
-      "tileId": "leftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 8,
-      "ty": 40,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 9,
-      "ty": 40,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 10,
-      "ty": 40,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 11,
-      "ty": 40,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 12,
-      "ty": 40,
-      "tileId": "rightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 7,
-      "ty": 41,
-      "tileId": "leftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 8,
-      "ty": 41,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 9,
-      "ty": 41,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 10,
-      "ty": 41,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 11,
-      "ty": 41,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 12,
-      "ty": 41,
-      "tileId": "rightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 7,
-      "ty": 42,
-      "tileId": "leftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 8,
-      "ty": 42,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 9,
-      "ty": 42,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 10,
-      "ty": 42,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 11,
-      "ty": 42,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 12,
-      "ty": 42,
-      "tileId": "rightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 7,
-      "ty": 43,
-      "tileId": "bottomLeftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 8,
-      "ty": 43,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 9,
-      "ty": 43,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 10,
-      "ty": 43,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 11,
-      "ty": 43,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 12,
-      "ty": 43,
-      "tileId": "bottomRightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 7,
-      "ty": 44,
-      "tileId": "topLeftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 8,
-      "ty": 44,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 9,
-      "ty": 44,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 10,
-      "ty": 44,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 11,
-      "ty": 44,
-      "tileId": "topPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 12,
-      "ty": 44,
-      "tileId": "topRightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 7,
-      "ty": 45,
-      "tileId": "leftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 8,
-      "ty": 45,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 9,
-      "ty": 45,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 10,
-      "ty": 45,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 11,
-      "ty": 45,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 12,
-      "ty": 45,
-      "tileId": "rightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 7,
-      "ty": 46,
-      "tileId": "leftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 8,
-      "ty": 46,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 9,
-      "ty": 46,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 10,
-      "ty": 46,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 11,
-      "ty": 46,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 12,
-      "ty": 46,
-      "tileId": "rightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 7,
-      "ty": 47,
-      "tileId": "leftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 8,
-      "ty": 47,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 9,
-      "ty": 47,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 10,
-      "ty": 47,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 11,
-      "ty": 47,
-      "tileId": "centerPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 12,
-      "ty": 47,
-      "tileId": "rightPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 7,
-      "ty": 48,
-      "tileId": "bottomLeftPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 8,
-      "ty": 48,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 9,
-      "ty": 48,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 10,
-      "ty": 48,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 11,
-      "ty": 48,
-      "tileId": "bottomPlough",
-      "zlayer": "below-avatar"
-    },
-    {
-      "tx": 12,
-      "ty": 48,
-      "tileId": "bottomRightPlough",
-      "zlayer": "below-avatar"
     },
     {
       "comment": "courtyard fountain"
@@ -2344,29 +1803,9 @@
       "tileId": "smallRock"
     },
     {
-      "tx": 49,
-      "ty": 60,
+      "tx": 53,
+      "ty": 54,
       "tileId": "smallRock"
-    },
-    {
-      "tx": 0,
-      "ty": 1,
-      "bundleID": "dark-tree"
-    },
-    {
-      "tx": 0,
-      "ty": 4,
-      "bundleID": "dark-tree"
-    },
-    {
-      "tx": 0,
-      "ty": 7,
-      "bundleID": "dark-tree"
-    },
-    {
-      "tx": 0,
-      "ty": 10,
-      "bundleID": "dark-tree"
     },
     {
       "tx": 12,
@@ -2380,7 +1819,7 @@
     },
     {
       "tx": 20,
-      "ty": 4,
+      "ty": 5,
       "bundleID": "dark-tree"
     },
     {
@@ -2399,38 +1838,38 @@
       "bundleID": "dark-tree"
     },
     {
-      "tx": 65,
-      "ty": 2,
-      "bundleID": "dark-tree"
-    },
-    {
-      "tx": 66,
-      "ty": 1,
+      "tx": 68,
+      "ty": 20,
       "bundleID": "dark-tree"
     },
     {
       "tx": 68,
-      "ty": 1,
+      "ty": 19,
       "bundleID": "dark-tree"
     },
     {
-      "tx": 69,
-      "ty": 4,
-      "bundleID": "dark-tree"
-    },
-    {
-      "tx": 50,
-      "ty": 10,
+      "tx": 68,
+      "ty": 21,
       "bundleID": "dark-tree"
     },
     {
       "tx": 61,
-      "ty": 10,
+      "ty": 7,
       "bundleID": "dark-tree"
     },
     {
-      "tx": 72,
-      "ty": 12,
+      "tx": 52,
+      "ty": 9,
+      "bundleID": "dark-tree"
+    },
+    {
+      "tx": 70,
+      "ty": 18,
+      "bundleID": "dark-tree"
+    },
+    {
+      "tx": 58,
+      "ty": 7,
       "bundleID": "dark-tree"
     },
     {
@@ -2492,11 +1931,6 @@
       "bundleID": "dark-tree"
     },
     {
-      "tx": 35,
-      "ty": 33,
-      "tileId": "darkTreeBottomRight"
-    },
-    {
       "tx": 34,
       "ty": 34,
       "tileId": "darkTreeTopLeft"
@@ -2608,7 +2042,7 @@
     },
     {
       "tx": 33,
-      "ty": 39,
+      "ty": 40,
       "bundleID": "dark-tree"
     },
     {
@@ -2672,46 +2106,6 @@
       "tileId": "darkTreeBottomRight"
     },
     {
-      "tx": 39,
-      "ty": 35,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 40,
-      "ty": 35,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 39,
-      "ty": 36,
-      "tileId": "darkTreeColumnLeft"
-    },
-    {
-      "tx": 40,
-      "ty": 36,
-      "tileId": "darkTreeColumnRight"
-    },
-    {
-      "tx": 39,
-      "ty": 37,
-      "tileId": "darkTreeColumnLeft"
-    },
-    {
-      "tx": 40,
-      "ty": 37,
-      "tileId": "darkTreeColumnRight"
-    },
-    {
-      "tx": 39,
-      "ty": 38,
-      "bundleID": "dark-tree"
-    },
-    {
-      "tx": 40,
-      "ty": 38,
-      "tileId": "darkTreeBottomRight"
-    },
-    {
       "tx": 53,
       "ty": 21,
       "tileId": "darkTreeTopLeft"
@@ -2772,104 +2166,29 @@
       "tileId": "darkTreeBottomRight"
     },
     {
-      "tx": 69,
-      "ty": 21,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 70,
-      "ty": 21,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 69,
-      "ty": 22,
+      "tx": 68,
+      "ty": 26,
       "bundleID": "dark-tree"
     },
     {
-      "tx": 70,
-      "ty": 22,
-      "tileId": "darkTreeBottomRight"
-    },
-    {
-      "tx": 69,
-      "ty": 39,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 70,
-      "ty": 39,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 69,
-      "ty": 40,
+      "tx": 67,
+      "ty": 38,
       "bundleID": "dark-tree"
     },
     {
-      "tx": 70,
-      "ty": 40,
-      "tileId": "darkTreeBottomRight"
-    },
-    {
-      "tx": 72,
-      "ty": 21,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 73,
-      "ty": 21,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 72,
-      "ty": 22,
+      "tx": 68,
+      "ty": 24,
       "bundleID": "dark-tree"
     },
     {
-      "tx": 73,
-      "ty": 22,
-      "tileId": "darkTreeBottomRight"
-    },
-    {
-      "tx": 72,
+      "tx": 66,
       "ty": 27,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 73,
-      "ty": 27,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 72,
-      "ty": 28,
       "bundleID": "dark-tree"
     },
     {
-      "tx": 73,
-      "ty": 28,
-      "tileId": "darkTreeBottomRight"
-    },
-    {
-      "tx": 72,
+      "tx": 66,
       "ty": 39,
-      "tileId": "darkTreeTopLeft"
-    },
-    {
-      "tx": 73,
-      "ty": 39,
-      "tileId": "darkTreeTopRight"
-    },
-    {
-      "tx": 72,
-      "ty": 40,
       "bundleID": "dark-tree"
-    },
-    {
-      "tx": 73,
-      "ty": 40,
-      "tileId": "darkTreeBottomRight"
     },
     {
       "tx": 0,
@@ -2887,8 +2206,8 @@
       "tileId": "darkBush"
     },
     {
-      "tx": 12,
-      "ty": 15,
+      "tx": 13,
+      "ty": 14,
       "tileId": "lightBush"
     },
     {
@@ -2902,33 +2221,33 @@
       "tileId": "lightBush"
     },
     {
-      "tx": 28,
-      "ty": 13,
+      "tx": 34,
+      "ty": 15,
       "tileId": "darkBush"
     },
     {
       "tx": 28,
-      "ty": 20,
+      "ty": 21,
       "tileId": "darkBush"
     },
     {
-      "tx": 51,
-      "ty": 13,
+      "tx": 62,
+      "ty": 18,
       "tileId": "lightBush"
     },
     {
-      "tx": 52,
-      "ty": 13,
+      "tx": 58,
+      "ty": 18,
       "tileId": "darkBush"
     },
     {
-      "tx": 69,
-      "ty": 11,
+      "tx": 62,
+      "ty": 10,
       "tileId": "darkBush"
     },
     {
-      "tx": 70,
-      "ty": 11,
+      "tx": 58,
+      "ty": 10,
       "tileId": "lightBush"
     },
     {
@@ -2952,8 +2271,8 @@
       "tileId": "lightBush"
     },
     {
-      "tx": 29,
-      "ty": 43,
+      "tx": 28,
+      "ty": 38,
       "tileId": "darkBush"
     },
     {
@@ -2982,18 +2301,18 @@
       "tileId": "lightBush"
     },
     {
-      "tx": 10,
+      "tx": 14,
+      "ty": 50,
+      "tileId": "darkBush"
+    },
+    {
+      "tx": 14,
       "ty": 49,
       "tileId": "darkBush"
     },
     {
-      "tx": 20,
-      "ty": 49,
-      "tileId": "darkBush"
-    },
-    {
-      "tx": 30,
-      "ty": 49,
+      "tx": 26,
+      "ty": 47,
       "tileId": "lightBush"
     },
     {
@@ -3057,8 +2376,8 @@
       "tileId": "smallRock"
     },
     {
-      "tx": 13,
-      "ty": 26,
+      "tx": 12,
+      "ty": 27,
       "tileId": "smallRock"
     },
     {
@@ -3082,13 +2401,13 @@
       "tileId": "grassTuft"
     },
     {
-      "tx": 14,
+      "tx": 13,
       "ty": 3,
       "tileId": "grassTuft"
     },
     {
       "tx": 24,
-      "ty": 20,
+      "ty": 21,
       "tileId": "grassTuft"
     },
     {
@@ -3102,18 +2421,18 @@
       "tileId": "grassTuft"
     },
     {
-      "tx": 56,
-      "ty": 5,
+      "tx": 54,
+      "ty": 10,
       "tileId": "grassTuft"
     },
     {
-      "tx": 69,
-      "ty": 5,
+      "tx": 63,
+      "ty": 10,
       "tileId": "grassTuft"
     },
     {
-      "tx": 29,
-      "ty": 40,
+      "tx": 25,
+      "ty": 38,
       "tileId": "grassTuft"
     },
     {
@@ -3123,426 +2442,426 @@
     },
     {
       "tx": 60,
-      "ty": 36,
+      "ty": 34,
       "tileId": "grassTuft"
     },
     {
       "comment": "church exterior decor"
     },
     {
-      "tx": 5,
-      "ty": 59,
+      "tx": 14,
+      "ty": 51,
       "tileId": "smallRock"
-    },
-    {
-      "tx": 18,
-      "ty": 59,
-      "tileId": "smallRock"
-    },
-    {
-      "tx": 19,
-      "ty": 60,
-      "tileId": "deadBush"
     },
     {
       "tx": 20,
-      "ty": 61,
+      "ty": 47,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 21,
+      "ty": 47,
+      "tileId": "deadBush"
+    },
+    {
+      "tx": 17,
+      "ty": 46,
       "tileId": "deadBush"
     },
     {
       "comment": "graveyard stone wall perimeter (cols 4-24, rows 61-69)"
     },
     {
-      "tx": 4,
-      "ty": 61,
+      "tx": 15,
+      "ty": 49,
       "tileId": "stoneWallRightBottom"
     },
     {
-      "tx": 5,
-      "ty": 61,
+      "tx": 16,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 6,
-      "ty": 61,
+      "tx": 17,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 7,
-      "ty": 61,
+      "tx": 18,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 8,
-      "ty": 61,
+      "tx": 19,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 9,
-      "ty": 61,
+      "tx": 20,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 10,
-      "ty": 61,
+      "tx": 21,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 11,
-      "ty": 61,
+      "tx": 22,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 12,
-      "ty": 61,
+      "tx": 23,
+      "ty": 49,
       "tileId": "stoneWallLeft"
     },
     {
-      "tx": 15,
-      "ty": 61,
+      "tx": 26,
+      "ty": 49,
       "tileId": "stoneWallRight"
     },
     {
-      "tx": 16,
-      "ty": 61,
+      "tx": 27,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 17,
-      "ty": 61,
+      "tx": 28,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 18,
-      "ty": 61,
+      "tx": 29,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 19,
-      "ty": 61,
+      "tx": 30,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 20,
-      "ty": 61,
+      "tx": 31,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 21,
-      "ty": 61,
+      "tx": 32,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 22,
-      "ty": 61,
+      "tx": 33,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 23,
-      "ty": 61,
+      "tx": 34,
+      "ty": 49,
       "tileId": "stoneWallLeftRight"
     },
     {
-      "tx": 24,
-      "ty": 61,
+      "tx": 35,
+      "ty": 49,
       "tileId": "stoneWallLeftBottom"
     },
     {
-      "tx": 4,
-      "ty": 62,
+      "tx": 15,
+      "ty": 50,
       "tileId": "stoneWallTopBotton"
     },
     {
-      "tx": 24,
-      "ty": 62,
+      "tx": 35,
+      "ty": 50,
       "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 4,
-      "ty": 63,
-      "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 24,
-      "ty": 63,
-      "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 4,
-      "ty": 64,
-      "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 24,
-      "ty": 64,
-      "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 4,
-      "ty": 65,
-      "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 24,
-      "ty": 65,
-      "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 4,
-      "ty": 66,
-      "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 24,
-      "ty": 66,
-      "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 4,
-      "ty": 67,
-      "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 24,
-      "ty": 67,
-      "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 4,
-      "ty": 68,
-      "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 24,
-      "ty": 68,
-      "tileId": "stoneWallTopBotton"
-    },
-    {
-      "tx": 4,
-      "ty": 69,
-      "tileId": "stoneWallTopRight"
-    },
-    {
-      "tx": 5,
-      "ty": 69,
-      "tileId": "stoneWallLeftRight"
-    },
-    {
-      "tx": 6,
-      "ty": 69,
-      "tileId": "stoneWallLeftRight"
-    },
-    {
-      "tx": 7,
-      "ty": 69,
-      "tileId": "stoneWallLeftRight"
-    },
-    {
-      "tx": 8,
-      "ty": 69,
-      "tileId": "stoneWallLeftRight"
-    },
-    {
-      "tx": 9,
-      "ty": 69,
-      "tileId": "stoneWallLeftRight"
-    },
-    {
-      "tx": 10,
-      "ty": 69,
-      "tileId": "stoneWallLeftRight"
-    },
-    {
-      "tx": 11,
-      "ty": 69,
-      "tileId": "stoneWallLeftRight"
-    },
-    {
-      "tx": 12,
-      "ty": 69,
-      "tileId": "stoneWallLeftRight"
-    },
-    {
-      "tx": 13,
-      "ty": 69,
-      "tileId": "stoneWallLeftRight"
-    },
-    {
-      "tx": 14,
-      "ty": 69,
-      "tileId": "stoneWallLeftRight"
     },
     {
       "tx": 15,
-      "ty": 69,
-      "tileId": "stoneWallLeftRight"
+      "ty": 51,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 35,
+      "ty": 51,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 15,
+      "ty": 52,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 35,
+      "ty": 52,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 15,
+      "ty": 53,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 35,
+      "ty": 53,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 15,
+      "ty": 54,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 35,
+      "ty": 54,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 15,
+      "ty": 55,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 35,
+      "ty": 55,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 15,
+      "ty": 56,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 35,
+      "ty": 56,
+      "tileId": "stoneWallTopBotton"
+    },
+    {
+      "tx": 15,
+      "ty": 57,
+      "tileId": "stoneWallTopRight"
     },
     {
       "tx": 16,
-      "ty": 69,
+      "ty": 57,
       "tileId": "stoneWallLeftRight"
     },
     {
       "tx": 17,
-      "ty": 69,
+      "ty": 57,
       "tileId": "stoneWallLeftRight"
     },
     {
       "tx": 18,
-      "ty": 69,
+      "ty": 57,
       "tileId": "stoneWallLeftRight"
     },
     {
       "tx": 19,
-      "ty": 69,
+      "ty": 57,
       "tileId": "stoneWallLeftRight"
     },
     {
       "tx": 20,
-      "ty": 69,
+      "ty": 57,
       "tileId": "stoneWallLeftRight"
     },
     {
       "tx": 21,
-      "ty": 69,
+      "ty": 57,
       "tileId": "stoneWallLeftRight"
     },
     {
       "tx": 22,
-      "ty": 69,
+      "ty": 57,
       "tileId": "stoneWallLeftRight"
     },
     {
       "tx": 23,
-      "ty": 69,
+      "ty": 57,
       "tileId": "stoneWallLeftRight"
     },
     {
       "tx": 24,
-      "ty": 69,
+      "ty": 57,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 25,
+      "ty": 57,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 27,
+      "ty": 57,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 26,
+      "ty": 57,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 28,
+      "ty": 57,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 29,
+      "ty": 57,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 30,
+      "ty": 57,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 31,
+      "ty": 57,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 32,
+      "ty": 57,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 33,
+      "ty": 57,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 34,
+      "ty": 57,
+      "tileId": "stoneWallLeftRight"
+    },
+    {
+      "tx": 35,
+      "ty": 57,
       "tileId": "stoneWallLeftTop"
     },
     {
       "comment": "graveyard interior decor"
     },
     {
-      "tx": 6,
-      "ty": 63,
-      "tileId": "graveStone"
-    },
-    {
-      "tx": 9,
-      "ty": 64,
-      "tileId": "graveStone"
-    },
-    {
-      "tx": 12,
-      "ty": 65,
-      "tileId": "graveStone"
-    },
-    {
       "tx": 17,
-      "ty": 63,
+      "ty": 51,
       "tileId": "graveStone"
     },
     {
       "tx": 20,
-      "ty": 65,
+      "ty": 52,
       "tileId": "graveStone"
-    },
-    {
-      "tx": 22,
-      "ty": 67,
-      "tileId": "graveStone"
-    },
-    {
-      "tx": 7,
-      "ty": 66,
-      "tileId": "graveWoodenCross"
-    },
-    {
-      "tx": 11,
-      "ty": 63,
-      "tileId": "graveWoodenCross"
-    },
-    {
-      "tx": 18,
-      "ty": 67,
-      "tileId": "graveWoodenCross"
-    },
-    {
-      "tx": 21,
-      "ty": 63,
-      "tileId": "graveWoodenCross"
-    },
-    {
-      "tx": 14,
-      "ty": 65,
-      "tileId": "stoneCross"
-    },
-    {
-      "tx": 13,
-      "ty": 62,
-      "tileId": "goldenCross"
-    },
-    {
-      "tx": 7,
-      "ty": 63,
-      "bundleID": "dead-tree"
-    },
-    {
-      "tx": 20,
-      "ty": 67,
-      "bundleID": "dead-tree"
-    },
-    {
-      "tx": 10,
-      "ty": 67,
-      "tileId": "deadBush"
-    },
-    {
-      "tx": 16,
-      "ty": 62,
-      "tileId": "deadBush"
-    },
-    {
-      "tx": 19,
-      "ty": 64,
-      "tileId": "deadBush"
     },
     {
       "tx": 23,
-      "ty": 65,
-      "tileId": "deadBush"
+      "ty": 53,
+      "tileId": "graveStone"
     },
     {
-      "tx": 6,
-      "ty": 65,
-      "tileId": "deadGrassTuft"
+      "tx": 28,
+      "ty": 51,
+      "tileId": "graveStone"
     },
     {
-      "tx": 9,
-      "ty": 62,
-      "tileId": "deadGrassTuft"
+      "tx": 31,
+      "ty": 53,
+      "tileId": "graveStone"
     },
     {
-      "tx": 11,
-      "ty": 67,
-      "tileId": "deadGrassTuft"
-    },
-    {
-      "tx": 15,
-      "ty": 63,
-      "tileId": "deadGrassTuft"
+      "tx": 33,
+      "ty": 55,
+      "tileId": "graveStone"
     },
     {
       "tx": 18,
-      "ty": 65,
-      "tileId": "deadGrassTuft"
+      "ty": 54,
+      "tileId": "graveWoodenCross"
+    },
+    {
+      "tx": 25,
+      "ty": 52,
+      "tileId": "graveWoodenCross"
+    },
+    {
+      "tx": 30,
+      "ty": 55,
+      "tileId": "graveWoodenCross"
+    },
+    {
+      "tx": 32,
+      "ty": 51,
+      "tileId": "graveWoodenCross"
+    },
+    {
+      "tx": 26,
+      "ty": 53,
+      "tileId": "stoneCross"
+    },
+    {
+      "tx": 23,
+      "ty": 51,
+      "tileId": "goldenCross"
+    },
+    {
+      "tx": 18,
+      "ty": 51,
+      "bundleID": "dead-tree"
+    },
+    {
+      "tx": 31,
+      "ty": 55,
+      "bundleID": "dead-tree"
     },
     {
       "tx": 22,
-      "ty": 63,
+      "ty": 55,
+      "tileId": "deadBush"
+    },
+    {
+      "tx": 27,
+      "ty": 50,
+      "tileId": "deadBush"
+    },
+    {
+      "tx": 29,
+      "ty": 52,
+      "tileId": "deadBush"
+    },
+    {
+      "tx": 34,
+      "ty": 53,
+      "tileId": "deadBush"
+    },
+    {
+      "tx": 17,
+      "ty": 53,
+      "tileId": "deadGrassTuft"
+    },
+    {
+      "tx": 20,
+      "ty": 50,
+      "tileId": "deadGrassTuft"
+    },
+    {
+      "tx": 23,
+      "ty": 55,
+      "tileId": "deadGrassTuft"
+    },
+    {
+      "tx": 26,
+      "ty": 51,
+      "tileId": "deadGrassTuft"
+    },
+    {
+      "tx": 30,
+      "ty": 53,
+      "tileId": "deadGrassTuft"
+    },
+    {
+      "tx": 33,
+      "ty": 51,
       "tileId": "deadGrassTuft"
     },
     {
@@ -3892,13 +3211,13 @@
       "comment": "south expansion atmosphere"
     },
     {
-      "tx": 25,
-      "ty": 52,
+      "tx": 33,
+      "ty": 46,
       "bundleID": "autumn-tree"
     },
     {
-      "tx": 27,
-      "ty": 55,
+      "tx": 34,
+      "ty": 47,
       "bundleID": "autumn-tree"
     },
     {
@@ -3917,8 +3236,8 @@
       "tileId": "darkBush"
     },
     {
-      "tx": 58,
-      "ty": 52,
+      "tx": 55,
+      "ty": 51,
       "tileId": "grassTuft"
     },
     {
@@ -3933,7 +3252,7 @@
     },
     {
       "tx": 35,
-      "ty": 56,
+      "ty": 48,
       "tileId": "smallRock"
     },
     {
@@ -3950,6 +3269,1092 @@
       "tx": 40,
       "ty": 67,
       "tileId": "smallRock"
+    },
+    {
+      "tx": 1,
+      "ty": 48,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "below"
+    },
+    {
+      "tx": 7,
+      "ty": 48,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "below"
+    },
+    {
+      "tx": 1,
+      "ty": 43,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "below"
+    },
+    {
+      "tx": 7,
+      "ty": 43,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "below"
+    },
+    {
+      "tx": 46,
+      "ty": 3,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 46,
+      "ty": 4,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 46,
+      "ty": 5,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 46,
+      "ty": 6,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 46,
+      "ty": 7,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 46,
+      "ty": 8,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 8,
+      "tileId": "stoneWallLeftTop",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 60,
+      "ty": 8,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 57,
+      "ty": 8,
+      "tileId": "stoneWallTopRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 57,
+      "ty": 7,
+      "tileId": "stoneWallBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 7,
+      "tileId": "stoneWallBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 54,
+      "ty": 7,
+      "tileId": "stoneWallBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 66,
+      "ty": 7,
+      "tileId": "stoneWallBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 54,
+      "ty": 8,
+      "tileId": "stoneWallLeftTop",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 66,
+      "ty": 8,
+      "tileId": "stoneWallTopRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 67,
+      "ty": 8,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 62,
+      "ty": 8,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 61,
+      "ty": 8,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 59,
+      "ty": 8,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 58,
+      "ty": 8,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 53,
+      "ty": 8,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 52,
+      "ty": 8,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 68,
+      "ty": 8,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 52,
+      "ty": 7,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 67,
+      "ty": 7,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 54,
+      "ty": 9,
+      "tileId": "darkBush",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 60,
+      "ty": 7,
+      "tileId": "lightBush",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 51,
+      "ty": 7,
+      "tileId": "darkBush",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 69,
+      "ty": 7,
+      "tileId": "darkBush",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 33,
+      "ty": 44,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 33,
+      "ty": 42,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 34,
+      "ty": 45,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 33,
+      "ty": 48,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 34,
+      "ty": 43,
+      "bundleID": "autumn-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 34,
+      "ty": 41,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 34,
+      "ty": 39,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 1,
+      "ty": 53,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 1,
+      "ty": 58,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "below"
+    },
+    {
+      "tx": 7,
+      "ty": 53,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 58,
+      "bundleID": "ploughed-field-6x5",
+      "zlayer": "below"
+    },
+    {
+      "tx": 13,
+      "ty": 49,
+      "tileId": "fenceBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 50,
+      "tileId": "fenceTopBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 51,
+      "tileId": "fenceTopBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 52,
+      "tileId": "fenceTopBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 53,
+      "tileId": "fenceTopBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 54,
+      "tileId": "fenceTopBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 55,
+      "tileId": "fenceTopBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 56,
+      "tileId": "fenceTop",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 14,
+      "ty": 53,
+      "tileId": "lightGrass",
+      "zlayer": "below"
+    },
+    {
+      "tx": 14,
+      "ty": 54,
+      "tileId": "lightGrass",
+      "zlayer": "below"
+    },
+    {
+      "tx": 14,
+      "ty": 55,
+      "tileId": "lightGrass",
+      "zlayer": "below"
+    },
+    {
+      "tx": 14,
+      "ty": 56,
+      "tileId": "lightGrass",
+      "zlayer": "below"
+    },
+    {
+      "tx": 14,
+      "ty": 57,
+      "tileId": "lightGrass",
+      "zlayer": "below"
+    },
+    {
+      "tx": 13,
+      "ty": 57,
+      "tileId": "lightGrass",
+      "zlayer": "below"
+    },
+    {
+      "tx": 3,
+      "ty": 58,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "above"
+    },
+    {
+      "tx": 4,
+      "ty": 58,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "above"
+    },
+    {
+      "tx": 5,
+      "ty": 58,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "above"
+    },
+    {
+      "tx": 6,
+      "ty": 58,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "above"
+    },
+    {
+      "tx": 2,
+      "ty": 58,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "above"
+    },
+    {
+      "tx": 1,
+      "ty": 58,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 58,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "above"
+    },
+    {
+      "tx": 8,
+      "ty": 58,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "above"
+    },
+    {
+      "tx": 9,
+      "ty": 58,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "above"
+    },
+    {
+      "tx": 10,
+      "ty": 58,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "above"
+    },
+    {
+      "tx": 11,
+      "ty": 58,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "above"
+    },
+    {
+      "tx": 12,
+      "ty": 58,
+      "tileId": "greySlateRoofRow2",
+      "zlayer": "above"
+    },
+    {
+      "tx": 6,
+      "ty": 40,
+      "tileId": "cropCarrot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 8,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 2,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 3,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 4,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 5,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 6,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 7,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 51,
+      "ty": 8,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 50,
+      "ty": 8,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 49,
+      "ty": 8,
+      "tileId": "stoneWallTopRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 49,
+      "ty": 7,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 49,
+      "ty": 6,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 49,
+      "ty": 5,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 49,
+      "ty": 4,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 49,
+      "ty": 3,
+      "tileId": "stoneWallBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 33,
+      "tileId": "fenceLeftTop",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 26,
+      "tileId": "fenceLeftBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 27,
+      "tileId": "fenceTopBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 28,
+      "tileId": "fenceTopBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 29,
+      "tileId": "fenceTopBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 30,
+      "tileId": "fenceTopBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 31,
+      "tileId": "fenceTopBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 32,
+      "tileId": "fenceTopBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 6,
+      "ty": 26,
+      "tileId": "fenceLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 26,
+      "tileId": "fenceLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 5,
+      "ty": 26,
+      "tileId": "fenceLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 3,
+      "ty": 26,
+      "tileId": "fenceLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 1,
+      "ty": 26,
+      "tileId": "fenceLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 2,
+      "ty": 26,
+      "tileId": "fenceLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 26,
+      "tileId": "fenceLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 12,
+      "ty": 26,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 9,
+      "ty": 27,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 19,
+      "ty": 26,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 18,
+      "ty": 27,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 22,
+      "ty": 26,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 31,
+      "ty": 29,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 30,
+      "ty": 28,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 29,
+      "ty": 21,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 22,
+      "ty": 21,
+      "tileId": "fullBucket",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 14,
+      "ty": 22,
+      "tileId": "logPile",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 15,
+      "ty": 22,
+      "tileId": "lightPotWithLid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 15,
+      "ty": 11,
+      "tileId": "leafBasket",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 16,
+      "ty": 11,
+      "tileId": "appleBasket",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 17,
+      "ty": 11,
+      "tileId": "emptyBasket",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 11,
+      "tileId": "sack",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 20,
+      "ty": 54,
+      "tileId": "skull",
+      "zlayer": "below"
+    },
+    {
+      "tx": 17,
+      "ty": 55,
+      "tileId": "angelStatueBottom",
+      "zlayer": "above"
+    },
+    {
+      "tx": 17,
+      "ty": 54,
+      "tileId": "angelStatueTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 25,
+      "ty": 55,
+      "tileId": "memorialBotLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 26,
+      "ty": 55,
+      "tileId": "memorialBotRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 25,
+      "ty": 54,
+      "tileId": "memorialTopLeft",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 54,
+      "tileId": "memorialTopRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 20,
+      "ty": 21,
+      "tileId": "bucketAndRope",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 52,
+      "ty": 10,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 50,
+      "ty": 10,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 50,
+      "ty": 9,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 48,
+      "ty": 10,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 48,
+      "ty": 9,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 46,
+      "ty": 9,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 46,
+      "ty": 10,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 9,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 44,
+      "ty": 10,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 52,
+      "ty": 18,
+      "tileId": "mushroomBasket",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 51,
+      "ty": 18,
+      "tileId": "crate",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 46,
+      "ty": 18,
+      "tileId": "crate",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 49,
+      "ty": 22,
+      "tileId": "messageBoardBottomLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 50,
+      "ty": 22,
+      "tileId": "messageBoardBottomRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 49,
+      "ty": 21,
+      "tileId": "messageBoardTopLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 50,
+      "ty": 21,
+      "tileId": "messageBoardTopRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 35,
+      "ty": 20,
+      "tileId": "largeSign",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 39,
+      "ty": 14,
+      "tileId": "mediumSign",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 25,
+      "ty": 34,
+      "tileId": "stripedShopAwningSupportPillarBot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 25,
+      "ty": 33,
+      "tileId": "stripedShopAwningSupportPillar",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 25,
+      "ty": 32,
+      "tileId": "stripedShopAwningWithSupport",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 24,
+      "ty": 32,
+      "tileId": "stripedShopAwningBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 23,
+      "ty": 32,
+      "tileId": "stripedShopAwningWithSupport",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 23,
+      "ty": 33,
+      "tileId": "stripedShopAwningSupportPillar",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 23,
+      "ty": 34,
+      "tileId": "stripedShopAwningSupportPillarBot",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 24,
+      "ty": 31,
+      "tileId": "stripedShopAwningMiddle",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 25,
+      "ty": 31,
+      "tileId": "stripedShopAwningMiddle",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 23,
+      "ty": 31,
+      "tileId": "stripedShopAwningMiddle",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 54,
+      "ty": 55,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 67,
+      "ty": 37,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 55,
+      "ty": 44,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 39,
+      "ty": 38,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 55,
+      "ty": 33,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 39,
+      "ty": 46,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 39,
+      "ty": 51,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 55,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 65,
+      "ty": 55,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 62,
+      "ty": 56,
+      "bundleID": "light-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 2,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 10,
+      "ty": 32,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 22,
+      "ty": 37,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 43,
+      "ty": 47,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 49,
+      "ty": 35,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 58,
+      "ty": 39,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 53,
+      "ty": 47,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 52,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 70,
+      "ty": 46,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 67,
+      "ty": 50,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 70,
+      "ty": 44,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 70,
+      "ty": 30,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 70,
+      "ty": 4,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 24,
+      "ty": 2,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 17,
+      "ty": 4,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 5,
+      "ty": 2,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 8,
+      "ty": 34,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 25,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 61,
+      "ty": 27,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
     }
   ],
   "pondTiles": [
@@ -3971,6 +4376,24 @@
     }
   ],
   "interiors": {
+    "gatehouse-west": {
+      "name": "The West Gatehouse",
+      "width": 12,
+      "height": 9,
+      "decor": [],
+      "floorTileId": "woodFloor",
+      "hours": "always",
+      "wallTileId": "interiorWallWhite"
+    },
+    "gatehouse-east": {
+      "name": "The East Gatehouse",
+      "width": 12,
+      "height": 9,
+      "decor": [],
+      "floorTileId": "woodFloor",
+      "hours": "always",
+      "wallTileId": "interiorWallWhite"
+    },
     "card-shop": {
       "name": "Gildwyn's Card Emporium",
       "width": 12,
@@ -4729,7 +5152,7 @@
       },
       "wallTileId": "interiorWallWhite"
     },
-    "sw-building-b": {
+    "inn-building": {
       "name": "The Wanderer's Rest",
       "width": 12,
       "height": 9,
@@ -4803,7 +5226,7 @@
         {
           "tx": 1,
           "ty": 1,
-          "toInteriorId": "sw-building-b-upstairs",
+          "toInteriorId": "inn-building-upstairs",
           "entryTx": 1,
           "entryTy": 6,
           "direction": "up",
@@ -5526,7 +5949,7 @@
       },
       "wallTileId": "interiorWallWhite"
     },
-    "sw-building-b-upstairs": {
+    "inn-building-upstairs": {
       "name": "The Wanderer's Rest (Upstairs)",
       "width": 12,
       "height": 9,
@@ -5574,7 +5997,7 @@
         {
           "tx": 1,
           "ty": 7,
-          "toInteriorId": "sw-building-b",
+          "toInteriorId": "inn-building",
           "entryTx": 1,
           "entryTy": 2,
           "direction": "down",
@@ -5762,7 +6185,7 @@
           "endHour": 6,
           "location": {
             "type": "interior",
-            "buildingId": "sw-building-b-upstairs",
+            "buildingId": "inn-building-upstairs",
             "tx": 2,
             "ty": 1
           }
@@ -5781,14 +6204,14 @@
           "endHour": 0,
           "location": {
             "type": "interior",
-            "buildingId": "sw-building-b",
+            "buildingId": "inn-building",
             "tx": 5,
             "ty": 5
           }
         }
       ],
       "homeBed": {
-        "buildingId": "sw-building-b-upstairs",
+        "buildingId": "inn-building-upstairs",
         "tx": 2,
         "ty": 1
       }
@@ -5797,8 +6220,8 @@
       "id": "merchant",
       "name": "Vex the Merchant",
       "sprite": "hub-npc-merchant",
-      "tx": 22,
-      "ty": 24,
+      "tx": 9,
+      "ty": 23,
       "dialogue": [
         "Business has been slow since the Fracture. Come back when the trade routes are safe again.",
         "I once traded with caravans from the eastern reaches. Those days feel like a dream now.",
@@ -5812,7 +6235,7 @@
           "endHour": 6,
           "location": {
             "type": "interior",
-            "buildingId": "sw-building-b-upstairs",
+            "buildingId": "inn-building-upstairs",
             "tx": 4,
             "ty": 1
           }
@@ -5831,14 +6254,14 @@
           "endHour": 0,
           "location": {
             "type": "interior",
-            "buildingId": "sw-building-b",
+            "buildingId": "inn-building",
             "tx": 7,
             "ty": 5
           }
         }
       ],
       "homeBed": {
-        "buildingId": "sw-building-b-upstairs",
+        "buildingId": "inn-building-upstairs",
         "tx": 4,
         "ty": 1
       }
@@ -5847,8 +6270,8 @@
       "id": "scholar",
       "name": "Archivist Naia",
       "sprite": "hub-npc-scholar",
-      "tx": 56,
-      "ty": 9,
+      "tx": 58,
+      "ty": 8,
       "dialogue": [
         "I have been cataloguing the Fracture shards. The answers are within your reach — if you dare.",
         "The archives hold centuries of knowledge. Most of it was lost in the Fracture. What remains is precious.",
@@ -5860,7 +6283,7 @@
           "endHour": 6,
           "location": {
             "type": "interior",
-            "buildingId": "sw-building-b-upstairs",
+            "buildingId": "inn-building-upstairs",
             "tx": 9,
             "ty": 1
           }
@@ -5879,14 +6302,14 @@
           "endHour": 0,
           "location": {
             "type": "interior",
-            "buildingId": "sw-building-b",
+            "buildingId": "inn-building",
             "tx": 8,
             "ty": 4
           }
         }
       ],
       "homeBed": {
-        "buildingId": "sw-building-b-upstairs",
+        "buildingId": "inn-building-upstairs",
         "tx": 9,
         "ty": 1
       }
@@ -5914,7 +6337,7 @@
           "endHour": 6,
           "location": {
             "type": "interior",
-            "buildingId": "sw-building-b-upstairs",
+            "buildingId": "inn-building-upstairs",
             "tx": 7,
             "ty": 1
           }
@@ -5933,14 +6356,14 @@
           "endHour": 0,
           "location": {
             "type": "interior",
-            "buildingId": "sw-building-b",
+            "buildingId": "inn-building",
             "tx": 4,
             "ty": 4
           }
         }
       ],
       "homeBed": {
-        "buildingId": "sw-building-b-upstairs",
+        "buildingId": "inn-building-upstairs",
         "tx": 7,
         "ty": 1
       }
@@ -5949,8 +6372,8 @@
       "id": "dealer",
       "name": "Vince the Dealer",
       "sprite": "hub-npc-dealer",
-      "tx": 64,
-      "ty": 26,
+      "tx": 60,
+      "ty": 37,
       "screen": "casino",
       "dialogue": [
         "The wheel never lies. Step right up — fortune favours the bold.",
@@ -5982,8 +6405,8 @@
       "id": "endless-herald",
       "name": "Warchief Olgrim",
       "sprite": "hub-npc-soldier",
-      "tx": 31,
-      "ty": 21,
+      "tx": 41,
+      "ty": 28,
       "screen": "endless",
       "dialogue": [
         "The endless pits never close, Commander. How long can you last?",
@@ -5995,8 +6418,8 @@
       "id": "challenge-herald",
       "name": "Challenge Herald Vex",
       "sprite": "hub-npc-herald",
-      "tx": 35,
-      "ty": 21,
+      "tx": 33,
+      "ty": 28,
       "screen": "dailychallenge",
       "dialogue": [
         "Today's challenge is set. Every commander faces the same deck.",
@@ -6050,8 +6473,8 @@
       "id": "minigames-npc",
       "name": "Minigame Host",
       "sprite": "hub-npc-merchant",
-      "tx": 50,
-      "ty": 24,
+      "tx": 45,
+      "ty": 34,
       "screen": "minigames",
       "dialogue": [
         "Welcome to the games quarter! Try your luck."
@@ -6061,8 +6484,8 @@
       "id": "commander-post",
       "name": "Commander's Post",
       "sprite": "hub-npc-elder",
-      "tx": 32,
-      "ty": 27,
+      "tx": 35,
+      "ty": 13,
       "screen": "commander",
       "dialogue": [
         "Your forces await your orders, Commander."
@@ -6162,8 +6585,8 @@
       "id": "achievements-keeper",
       "name": "The Chronicler",
       "sprite": "hub-npc-elder",
-      "tx": 35,
-      "ty": 28,
+      "tx": 32,
+      "ty": 25,
       "screen": "hall-of-achievements",
       "dialogue": [
         "Your deeds are recorded here, Commander. Come see your legacy."
@@ -6221,8 +6644,8 @@
       "id": "marble-master",
       "name": "Marble Master",
       "sprite": "hub-npc-dealer",
-      "tx": 46,
-      "ty": 22,
+      "tx": 17,
+      "ty": 34,
       "screen": "marble",
       "dialogue": [
         "Steady hands and a keen eye — care to roll?",
@@ -6233,7 +6656,7 @@
       "id": "the-flipper",
       "name": "The Flipper",
       "sprite": "hub-npc-merchant",
-      "tx": 48,
+      "tx": 47,
       "ty": 22,
       "screen": "tileflip",
       "dialogue": [
@@ -6245,8 +6668,8 @@
       "id": "crystal-keeper",
       "name": "Crystal Keeper",
       "sprite": "hub-npc-scholar",
-      "tx": 52,
-      "ty": 22,
+      "tx": 58,
+      "ty": 47,
       "screen": "crystalcatch",
       "dialogue": [
         "Crystals falling fast — catch them before they shatter!",
@@ -6257,8 +6680,8 @@
       "id": "spinner-sal",
       "name": "Spinner Sal",
       "sprite": "hub-npc-dealer",
-      "tx": 54,
-      "ty": 22,
+      "tx": 17,
+      "ty": 47,
       "screen": "spinner",
       "dialogue": [
         "Give it a spin — luck favours the bold.",
@@ -6269,8 +6692,8 @@
       "id": "race-marshal",
       "name": "Race Marshal",
       "sprite": "hub-npc-arena",
-      "tx": 56,
-      "ty": 22,
+      "tx": 39,
+      "ty": 40,
       "screen": "marblerace",
       "dialogue": [
         "On your marks — the race is about to begin!",
@@ -6281,8 +6704,8 @@
       "id": "card-sharp",
       "name": "Card Sharp",
       "sprite": "hub-npc-merchant",
-      "tx": 56,
-      "ty": 24,
+      "tx": 58,
+      "ty": 22,
       "screen": "higherOrLower",
       "dialogue": [
         "Higher or lower? Simple question, nerves of steel.",
@@ -6305,8 +6728,8 @@
       "id": "poker-pete",
       "name": "Poker Pete",
       "sprite": "hub-npc-dealer",
-      "tx": 52,
-      "ty": 26,
+      "tx": 10,
+      "ty": 11,
       "screen": "videoPoker",
       "dialogue": [
         "Best hand wins. Know when to hold, know when to fold.",
@@ -6329,8 +6752,8 @@
       "id": "siege-master",
       "name": "Siege Master",
       "sprite": "hub-npc-soldier",
-      "tx": 41,
-      "ty": 26,
+      "tx": 27,
+      "ty": 22,
       "screen": "towerDefence",
       "dialogue": [
         "The enemy approaches. Build your defences and hold the line!",
@@ -6410,7 +6833,7 @@
       "id": "innkeeper-rosie",
       "name": "Innkeeper Rosie",
       "sprite": "hub-npc-merchant",
-      "building": "sw-building-b",
+      "building": "inn-building",
       "tx": 3,
       "ty": 3,
       "dialogue": [
@@ -6690,6 +7113,39 @@
       "id": "forest-chest-1",
       "tx": 31,
       "ty": 32,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A moss-covered chest hidden in the forest",
+      "reward": {
+        "crystals": 30
+      }
+    },
+    {
+      "id": "forest-chest-2",
+      "tx": 14,
+      "ty": 53,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A moss-covered chest hidden in the forest",
+      "reward": {
+        "crystals": 30
+      }
+    },
+    {
+      "id": "forest-chest-3",
+      "tx": 50,
+      "ty": 0,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A moss-covered chest hidden in the forest",
+      "reward": {
+        "crystals": 30
+      }
+    },
+    {
+      "id": "forest-chest-4",
+      "tx": 64,
+      "ty": 56,
       "tileId": "chest",
       "collectedTileId": "openChest",
       "title": "A moss-covered chest hidden in the forest",

@@ -1,5 +1,5 @@
 import React from 'react'
-import type { SelectedEntity, RawMapConfig, Zlayer, RawDecorItem, RawNpc, RawBuilding } from './mapEditorTypes'
+import type { SelectedEntity, RawMapConfig, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawQuestPickupItem } from './mapEditorTypes'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 
 const SHEET_URL = '/world/SampleMap/[Base]BaseChip_pipo.png'
@@ -17,6 +17,7 @@ interface Props {
   onOpenInterior:        (id: string) => void
   onCloseInterior:       () => void
   onUpdateStreetEntry:   (index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
+  questPickupItems:      RawQuestPickupItem[]
   viewMode:              'exterior' | 'interior'
 }
 
@@ -172,6 +173,48 @@ function NpcInspector({
   )
 }
 
+function QuestItemInspector({
+  label, id, tileId, tx, ty, extra, onMove, onDelete,
+}: {
+  label: string
+  id: string
+  tileId: string
+  tx: number
+  ty: number
+  extra?: React.ReactNode
+  onMove: (tx: number, ty: number) => void
+  onDelete: () => void
+}) {
+  return (
+    <div>
+      <Field label="ID">
+        <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{id}</span>
+      </Field>
+      <Field label="Tile">
+        <TilePreview tileId={tileId} />
+      </Field>
+      <Field label="Position">
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <label style={{ fontSize: 11, color: '#888' }}>X</label>
+          {numInput(tx, v => onMove(v, ty))}
+          <label style={{ fontSize: 11, color: '#888' }}>Y</label>
+          {numInput(ty, v => onMove(tx, v))}
+        </div>
+      </Field>
+      {extra}
+      <button
+        onClick={onDelete}
+        style={{
+          width: '100%', padding: '6px 0', background: '#5a1a1a', border: '1px solid #922',
+          color: '#f88', cursor: 'pointer', borderRadius: 3, fontSize: 12, marginTop: 4,
+        }}
+      >
+        Delete {label}
+      </button>
+    </div>
+  )
+}
+
 function StreetInspector({
   entry, onUpdate, onDelete,
 }: {
@@ -297,7 +340,7 @@ function BuildingInspector({
 export function EntityInspector({
   selectedEntity, configData, activeInteriorId, viewMode,
   onDelete, onMoveEntity, onZlayerChange, onDialogueChange,
-  onOpenInterior, onCloseInterior, onUpdateStreetEntry,
+  onOpenInterior, onCloseInterior, onUpdateStreetEntry, questPickupItems,
 }: Props) {
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
@@ -412,6 +455,50 @@ export function EntityInspector({
             onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
             onDelete={() => onDelete(selectedEntity)}
             onDialogueChange={d => onDialogueChange(selectedEntity.index, d)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'treasure') {
+    const t = (configData.treasures ?? [])[selectedEntity.index]
+    if (!t) return null
+    return (
+      <div style={panelStyle}>
+        <div style={{ ...headerStyle, color: '#f0c040' }}>Treasure</div>
+        <div style={bodyStyle}>
+          <QuestItemInspector
+            label="Treasure"
+            id={t.id}
+            tileId={t.tileId}
+            tx={t.tx}
+            ty={t.ty}
+            extra={t.title ? <Field label="Title"><span style={{ fontSize: 12 }}>{t.title}</span></Field> : undefined}
+            onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+            onDelete={() => onDelete(selectedEntity)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (selectedEntity.type === 'pickupItem') {
+    const p = questPickupItems[selectedEntity.index] ?? (configData.pickupItems ?? [])[selectedEntity.index]
+    if (!p) return null
+    return (
+      <div style={panelStyle}>
+        <div style={{ ...headerStyle, color: '#40d0f0' }}>Pickup Item</div>
+        <div style={bodyStyle}>
+          <QuestItemInspector
+            label="Pickup Item"
+            id={p.id}
+            tileId={p.tileId}
+            tx={p.tx}
+            ty={p.ty}
+            extra={p.questId ? <Field label="Quest"><span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{p.questId}</span></Field> : undefined}
+            onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+            onDelete={() => onDelete(selectedEntity)}
           />
         </div>
       </div>

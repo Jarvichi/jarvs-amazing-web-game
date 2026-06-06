@@ -219,9 +219,9 @@ const EXIT_TILES: HubExitTile[] = (
   (rawConfig as unknown as { exitTiles?: RawExitTile[] }).exitTiles ?? []
 )
 
-export const TOWN2_QUEST_DEFS: HubQuestDef[] = (rawQuestConfig as unknown as { quests: HubQuestDef[] }).quests
+export const MILLHAVEN_QUEST_DEFS: HubQuestDef[] = (rawQuestConfig as unknown as { quests: HubQuestDef[] }).quests
 
-export const TOWN2_LOCATION_DATA: HubLocationData = {
+export const MILLHAVEN_LOCATION_DATA: HubLocationData = {
   MAP_W,
   MAP_H,
   AVATAR_START,

@@ -80,7 +80,6 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
                   completedNodeIds: run.completedNodeIds, skippedNodeIds: run.skippedNodeIds,
                   availableIds, nodeStatuses,
                 }
-                console.log('[NodeMap debug]', state)
                 navigator.clipboard?.writeText(JSON.stringify(state, null, 2)).catch(() => undefined)
                 alert('Debug state copied to clipboard (also logged to console).')
               }}

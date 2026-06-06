@@ -4,7 +4,7 @@ import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadTileTexture, loadSpriteTexture } from '../../utils/pixiHelpers'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
-import type { RawMapConfig, RawDecorItem, SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
+import type { RawMapConfig, RawDecorItem, RawQuestPickupItem, SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
 import { expandBundleDecor } from '../../data/bundles/bundleLoader'
 
 const T         = 32
@@ -84,14 +84,16 @@ interface Props {
   onPlaceDecor:     (tx: number, ty: number) => void
   onMoveEntity:     (entity: SelectedEntity, tx: number, ty: number) => void
   onDeleteEntity:   (entity: SelectedEntity) => void
-  onAddStreet:      (tx1: number, ty1: number, tx2: number, ty2: number) => void
+  onAddStreet:        (tx1: number, ty1: number, tx2: number, ty2: number) => void
+  showQuestItems:     boolean
+  questPickupItems:   RawQuestPickupItem[]
 }
 
 export function MapEditorCanvas(props: Props) {
   const {
     configData, tool, showGrid, selectedEntity, viewMode, activeInteriorId,
-    activeTileId, activeBundleId, activeZlayer,
-    onSelectEntity, onPlaceDecor, onMoveEntity, onDeleteEntity,
+    activeTileId, activeBundleId, activeZlayer, showQuestItems, questPickupItems,
+    onSelectEntity, onPlaceDecor, onMoveEntity, onDeleteEntity, onAddStreet,
   } = props
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -134,13 +136,13 @@ export function MapEditorCanvas(props: Props) {
 
     stage.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
       const { tool: t, activeTileId: tid, activeBundleId: bid, viewMode: vm,
-               activeInteriorId: iid, configData: cfg } = propsRef.current
+               activeInteriorId: iid, configData: cfg, showQuestItems: sqI } = propsRef.current
       const pos = e.getLocalPosition(stage)
       const tx  = Math.floor(pos.x / T)
       const ty  = Math.floor(pos.y / T)
 
       if (t === 'select') {
-        const entity = hitTest(cfg, tx, ty, vm, iid)
+        const entity = hitTest(cfg, tx, ty, vm, iid, sqI)
         propsRef.current.onSelectEntity(entity)
         if (entity) {
           const etx = getEntityTx(cfg, entity)
@@ -150,7 +152,7 @@ export function MapEditorCanvas(props: Props) {
       } else if (t === 'place' && (tid || bid)) {
         propsRef.current.onPlaceDecor(tx, ty)
       } else if (t === 'delete') {
-        const entity = hitTest(cfg, tx, ty, vm, iid)
+        const entity = hitTest(cfg, tx, ty, vm, iid, sqI)
         if (entity) {
           propsRef.current.onDeleteEntity(entity)
           propsRef.current.onSelectEntity(null)
@@ -231,11 +233,12 @@ export function MapEditorCanvas(props: Props) {
     const decorLayer    = new PIXI.Container()
     const npcLayer      = new PIXI.Container()
     const decorALayer   = new PIXI.Container()
+    const questLayer    = new PIXI.Container()
     const selLayer      = new PIXI.Graphics()
     const gridLayer     = new PIXI.Graphics()
 
     stage.addChild(groundLayer, streetLayer, buildingLayer,
-                   decorBLayer, decorLayer, npcLayer, decorALayer,
+                   decorBLayer, decorLayer, npcLayer, decorALayer, questLayer,
                    selLayer, gridLayer)
 
     if (isInterior && interior) {
@@ -243,6 +246,9 @@ export function MapEditorCanvas(props: Props) {
     } else {
       renderExterior(version, groundLayer, streetLayer, buildingLayer,
                      decorBLayer, decorLayer, npcLayer, decorALayer, selLayer)
+    }
+    if (!isInterior && showQuestItems) {
+      renderQuestItems(version, questLayer, selLayer)
     }
 
     if (showGrid) drawGrid(gridLayer)
@@ -437,6 +443,57 @@ export function MapEditorCanvas(props: Props) {
     })
   }
 
+  // ── Quest items (treasures + pickupItems) rendering ───────────────────────────
+  function renderQuestItems(version: number, questLayer: PIXI.Container, selLayer: PIXI.Graphics) {
+    const TREASURE_COLOR = 0xf0c040
+    const PICKUP_COLOR   = 0x40d0f0
+
+    const renderItem = (
+      itemTx: number, itemTy: number, tileId: string,
+      entity: SelectedEntity, tintColor: number,
+    ) => {
+      const isSel = selectedEntity?.type === entity.type && selectedEntity.index === entity.index
+      const numId = tileNumericId(tileId)
+      const handler = (e: PIXI.FederatedPointerEvent) => {
+        e.stopPropagation()
+        propsRef.current.onSelectEntity(entity)
+        if (propsRef.current.tool === 'select')
+          dragRef.current = { entity, lastTx: itemTx, lastTy: itemTy, offsetX: 0, offsetY: 0 }
+      }
+
+      // Immediate border (visible before sprite loads)
+      const border = new PIXI.Graphics()
+      border.rect(itemTx * T, itemTy * T, T, T).stroke({ color: tintColor, width: 2 })
+      border.eventMode = 'static'; border.cursor = 'pointer'
+      border.on('pointerdown', handler)
+      questLayer.addChild(border)
+
+      if (isSel) {
+        selLayer.rect(itemTx * T - 2, itemTy * T - 2, T + 4, T + 4)
+          .stroke({ color: 0xf0c040, width: 2 })
+      }
+
+      loadTileTexture(BASE_URL, numId, BASE_COLS).then(tex => {
+        if (renderVersionRef.current !== version) return
+        const sp = new PIXI.Sprite(tex)
+        sp.x = itemTx * T; sp.y = itemTy * T
+        sp.tint = tintColor
+        sp.eventMode = 'static'; sp.cursor = 'pointer'
+        sp.on('pointerdown', handler)
+        questLayer.addChild(sp)
+        questLayer.addChild(border) // keep border on top of sprite
+      }).catch(() => {})
+    }
+
+    ;(configData.treasures ?? []).forEach((t, i) => {
+      if (!t.buildingId) renderItem(t.tx, t.ty, t.tileId, { type: 'treasure', index: i }, TREASURE_COLOR)
+    })
+    // Quest pickup items come from questDefs.json (passed via prop), not configData
+    questPickupItems.forEach((p, i) => {
+      if (!p.building) renderItem(p.tx, p.ty, p.tileId, { type: 'pickupItem', index: i }, PICKUP_COLOR)
+    })
+  }
+
   // ── Grid overlay ───────────────────────────────────────────────────────────────
   function drawGrid(gfx: PIXI.Graphics) {
     const wTiles = Math.ceil(mapW / T)
@@ -469,6 +526,12 @@ export function MapEditorCanvas(props: Props) {
     } else if (selectedEntity.type === 'npc') {
       const npc = configData.npcs?.[selectedEntity.index]
       if (npc) { tx = npc.tx; ty = npc.ty }
+    } else if (selectedEntity.type === 'treasure') {
+      const t = configData.treasures?.[selectedEntity.index]
+      if (t) { tx = t.tx; ty = t.ty }
+    } else if (selectedEntity.type === 'pickupItem') {
+      const p = configData.pickupItems?.[selectedEntity.index]
+      if (p) { tx = p.tx; ty = p.ty }
     } else if (selectedEntity.type === 'interiorDecor' && selectedEntity.interiorId === activeInteriorId) {
       const item = configData.interiors?.[selectedEntity.interiorId]?.decor[selectedEntity.index]
       if (item?.tx !== undefined) { tx = item.tx; ty = item.ty ?? 0 }
@@ -490,6 +553,7 @@ export function MapEditorCanvas(props: Props) {
 function hitTest(
   cfg: RawMapConfig, tx: number, ty: number,
   viewMode: string, activeInteriorId: string | null,
+  showQuestItems = false,
 ): SelectedEntity | null {
   if (viewMode === 'interior' && activeInteriorId) {
     const decor = cfg.interiors?.[activeInteriorId]?.decor ?? []
@@ -515,6 +579,18 @@ function hitTest(
     for (const [tx1, ty1, tx2, ty2] of rects) {
       if (tx >= tx1 && tx <= tx2 && ty >= ty1 && ty <= ty2)
         return { type: 'building', index: i }
+    }
+  }
+  if (showQuestItems) {
+    const treasures = cfg.treasures ?? []
+    for (let i = treasures.length - 1; i >= 0; i--) {
+      if (!treasures[i].buildingId && treasures[i].tx === tx && treasures[i].ty === ty)
+        return { type: 'treasure', index: i }
+    }
+    const pickupItems = cfg.pickupItems ?? []
+    for (let i = pickupItems.length - 1; i >= 0; i--) {
+      if (!pickupItems[i].building && pickupItems[i].tx === tx && pickupItems[i].ty === ty)
+        return { type: 'pickupItem', index: i }
     }
   }
   const streets = cfg.streets ?? []
@@ -544,6 +620,8 @@ function getEntityTx(cfg: RawMapConfig, entity: SelectedEntity): number {
     const e = cfg.streets?.[entity.index]
     return e?.rect?.[0] ?? e?.tile?.[0] ?? 0
   }
+  if (entity.type === 'treasure') return cfg.treasures?.[entity.index]?.tx ?? 0
+  if (entity.type === 'pickupItem') return cfg.pickupItems?.[entity.index]?.tx ?? 0
   return 0
 }
 
@@ -560,5 +638,7 @@ function getEntityTy(cfg: RawMapConfig, entity: SelectedEntity): number {
     const e = cfg.streets?.[entity.index]
     return e?.rect?.[1] ?? e?.tile?.[1] ?? 0
   }
+  if (entity.type === 'treasure') return cfg.treasures?.[entity.index]?.ty ?? 0
+  if (entity.type === 'pickupItem') return cfg.pickupItems?.[entity.index]?.ty ?? 0
   return 0
 }

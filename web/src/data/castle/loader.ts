@@ -221,9 +221,9 @@ const EXIT_TILES: HubExitTile[] = (
   (rawConfig as unknown as { exitTiles?: RawExitTile[] }).exitTiles ?? []
 )
 
-export const CASTLE_QUEST_DEFS: HubQuestDef[] = (rawQuestConfig as unknown as { quests: HubQuestDef[] }).quests
+export const IRONHOLD_KEEP_QUEST_DEFS: HubQuestDef[] = (rawQuestConfig as unknown as { quests: HubQuestDef[] }).quests
 
-export const CASTLE_LOCATION_DATA: HubLocationData = {
+export const IRONHOLD_KEEP_LOCATION_DATA: HubLocationData = {
   MAP_W,
   MAP_H,
   AVATAR_START,

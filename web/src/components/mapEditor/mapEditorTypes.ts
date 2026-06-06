@@ -5,6 +5,17 @@ export type ToolMode = 'select' | 'place' | 'delete' | 'street'
 export type Zlayer = 'solid' | 'below' | 'above'
 export type ViewMode = 'exterior' | 'interior'
 
+export interface RawQuestPickupItem {
+  id: string
+  tx: number
+  ty: number
+  tileId: string
+  questId?: string
+  building?: string
+  chain?: string
+  requireTouch?: boolean
+}
+
 // Raw JSON shapes — matches what config.json actually stores
 export interface RawDecorItem {
   tx?: number
@@ -128,6 +139,8 @@ export type SelectedEntity =
   | { type: 'npc'; index: number }
   | { type: 'building'; index: number }
   | { type: 'street'; index: number }
+  | { type: 'treasure'; index: number }
+  | { type: 'pickupItem'; index: number }
   | { type: 'interiorDecor'; interiorId: string; index: number }
 
 export interface MapEditorState {

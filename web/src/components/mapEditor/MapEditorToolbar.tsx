@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import type { MapId, ToolMode } from './mapEditorTypes'
-import { saveMap } from './mapEditorApi'
+import { saveMap, saveQuestDefs } from './mapEditorApi'
 import type { RawMapConfig } from './mapEditorTypes'
 
 const MAP_OPTIONS: { id: MapId; label: string }[] = [
@@ -15,14 +15,17 @@ interface Props {
   canUndo:     boolean
   canRedo:     boolean
   isDirty:     boolean
-  showGrid:    boolean
-  configData:  RawMapConfig
-  onMapChange: (id: MapId) => void
-  onToolChange:(t: ToolMode) => void
-  onUndo:      () => void
-  onRedo:      () => void
-  onGridToggle:() => void
-  onSaved:     () => void
+  showGrid:         boolean
+  showQuestItems:   boolean
+  configData:       RawMapConfig
+  onMapChange:      (id: MapId) => void
+  onToolChange:     (t: ToolMode) => void
+  onUndo:           () => void
+  onRedo:           () => void
+  onGridToggle:     () => void
+  onQuestItemsToggle: () => void
+  questDefsData:    Record<string, unknown> | null
+  onSaved:          () => void
 }
 
 const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
@@ -33,8 +36,9 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
 ]
 
 export function MapEditorToolbar({
-  mapId, tool, canUndo, canRedo, isDirty, showGrid,
-  configData, onMapChange, onToolChange, onUndo, onRedo, onGridToggle, onSaved,
+  mapId, tool, canUndo, canRedo, isDirty, showGrid, showQuestItems,
+  configData, questDefsData, onMapChange, onToolChange, onUndo, onRedo,
+  onGridToggle, onQuestItemsToggle, onSaved,
 }: Props) {
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
   const [saveError, setSaveError] = useState('')
@@ -44,6 +48,7 @@ export function MapEditorToolbar({
     setSaveError('')
     try {
       await saveMap(mapId, configData)
+      if (questDefsData) await saveQuestDefs(mapId, questDefsData)
       setSaveState('ok')
       onSaved()
       setTimeout(() => setSaveState('idle'), 2000)
@@ -132,6 +137,20 @@ export function MapEditorToolbar({
         }}
       >
         ⊞
+      </button>
+
+      {/* Quest items toggle */}
+      <button
+        title="Toggle quest items — treasures (gold) and pickup items (cyan)"
+        onClick={onQuestItemsToggle}
+        style={{
+          ...btnBase,
+          background: showQuestItems ? '#2e2a0e' : '#1e1e3e',
+          color:      showQuestItems ? '#f0c040' : '#666',
+          borderColor: showQuestItems ? '#7a6a1a' : '#444',
+        }}
+      >
+        ◈
       </button>
 
       <div style={{ flex: 1 }} />

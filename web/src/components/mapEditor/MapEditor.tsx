@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { MapEditorToolbar } from './MapEditorToolbar'
 import { TilePalette } from './TilePalette'
 import { EntityInspector } from './EntityInspector'
 import { MapEditorCanvas } from './MapEditorCanvas'
 import { useMapEditorState } from './useMapEditorState'
-import type { MapId } from './mapEditorTypes'
+import type { MapId, SelectedEntity, RawQuestPickupItem } from './mapEditorTypes'
+import hubQuestDefsRaw from '../../data/hub/questDefs.json'
+
+type QuestDefsJson = { pickupItems?: RawQuestPickupItem[]; [key: string]: unknown }
+
+const QUEST_DEFS_BY_MAP: Partial<Record<MapId, QuestDefsJson>> = {
+  hub: hubQuestDefsRaw as QuestDefsJson,
+}
 
 interface Props {
   initialMapId?: MapId
@@ -12,6 +19,10 @@ interface Props {
 
 export function MapEditor({ initialMapId = 'hub' }: Props) {
   const [showGrid, setShowGrid] = useState(true)
+  const [showQuestItems, setShowQuestItems] = useState(false)
+  const [questDefsData, setQuestDefsData] = useState<QuestDefsJson | null>(
+    () => QUEST_DEFS_BY_MAP[initialMapId] ? structuredClone(QUEST_DEFS_BY_MAP[initialMapId]!) : null,
+  )
 
   const {
     state, setMapId, setTool, setActiveTile, setZlayer,
@@ -21,6 +32,40 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
     addStreet, updateStreetEntry,
     undo, redo, markSaved,
   } = useMapEditorState(initialMapId)
+
+  // Reset questDefs when map changes
+  useEffect(() => {
+    setQuestDefsData(
+      QUEST_DEFS_BY_MAP[state.mapId] ? structuredClone(QUEST_DEFS_BY_MAP[state.mapId]!) : null,
+    )
+  }, [state.mapId])
+
+  // Intercept pickupItem moves/deletes to update questDefsData instead of configData
+  const handleMoveEntity = useCallback((entity: SelectedEntity, tx: number, ty: number) => {
+    if (entity.type === 'pickupItem') {
+      setQuestDefsData(prev => {
+        if (!prev) return prev
+        const items = [...(prev.pickupItems ?? [])]
+        if (!items[entity.index]) return prev
+        items[entity.index] = { ...items[entity.index], tx, ty }
+        return { ...prev, pickupItems: items }
+      })
+    } else {
+      moveEntity(entity, tx, ty)
+    }
+  }, [moveEntity])
+
+  const handleDeleteEntity = useCallback((entity: SelectedEntity) => {
+    if (entity.type === 'pickupItem') {
+      setQuestDefsData(prev => {
+        if (!prev) return prev
+        return { ...prev, pickupItems: (prev.pickupItems ?? []).filter((_, i) => i !== entity.index) }
+      })
+      selectEntity(null)
+    } else {
+      deleteEntity(entity)
+    }
+  }, [deleteEntity, selectEntity])
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -33,12 +78,12 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
       if (e.key === 'd' && !e.ctrlKey && !e.metaKey) setTool('delete')
       if (e.key === 'r') setTool('street')
       if (e.key === 'Delete' || e.key === 'Backspace') {
-        if (state.selectedEntity) deleteEntity(state.selectedEntity)
+        if (state.selectedEntity) handleDeleteEntity(state.selectedEntity)
       }
     }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
-  }, [undo, redo, setTool, deleteEntity, state.selectedEntity])
+  }, [undo, redo, setTool, handleDeleteEntity, state.selectedEntity])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', fontFamily: 'sans-serif', background: '#0f0f22' }}>
@@ -49,12 +94,15 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
         canRedo={state.redoStack.length > 0}
         isDirty={state.isDirty}
         showGrid={showGrid}
+        showQuestItems={showQuestItems}
         configData={state.configData}
         onMapChange={setMapId}
         onToolChange={setTool}
         onUndo={undo}
         onRedo={redo}
         onGridToggle={() => setShowGrid(g => !g)}
+        onQuestItemsToggle={() => setShowQuestItems(q => !q)}
+        questDefsData={questDefsData as Record<string, unknown> | null}
         onSaved={markSaved}
       />
 
@@ -77,6 +125,7 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
           configData={state.configData}
           tool={state.tool}
           showGrid={showGrid}
+          showQuestItems={showQuestItems}
           selectedEntity={state.selectedEntity}
           viewMode={state.viewMode}
           activeInteriorId={state.activeInteriorId}
@@ -85,9 +134,10 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
           activeZlayer={state.activeZlayer}
           onSelectEntity={selectEntity}
           onPlaceDecor={placeDecor}
-          onMoveEntity={moveEntity}
-          onDeleteEntity={deleteEntity}
+          onMoveEntity={handleMoveEntity}
+          onDeleteEntity={handleDeleteEntity}
           onAddStreet={addStreet}
+          questPickupItems={questDefsData?.pickupItems ?? []}
         />
 
         {/* Right: Inspector */}
@@ -97,13 +147,14 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
             configData={state.configData}
             activeInteriorId={state.activeInteriorId}
             viewMode={state.viewMode}
-            onDelete={deleteEntity}
-            onMoveEntity={moveEntity}
+            onDelete={handleDeleteEntity}
+            onMoveEntity={handleMoveEntity}
             onZlayerChange={updateDecorZlayer}
             onDialogueChange={updateNpcDialogue}
             onOpenInterior={openInterior}
             onCloseInterior={closeInterior}
             onUpdateStreetEntry={updateStreetEntry}
+            questPickupItems={questDefsData?.pickupItems ?? []}
           />
         </div>
       </div>
