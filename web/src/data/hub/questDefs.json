@@ -3775,7 +3775,7 @@
     },
     {
       "id": "counterfeit-card-2",
-      "tx": 52,
+      "tx": 51,
       "ty": 18,
       "tileId": "blueclosedBook",
       "questId": "gildwyn-counterfeit-cards"

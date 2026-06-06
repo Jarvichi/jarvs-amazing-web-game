@@ -6372,8 +6372,8 @@
       "id": "dealer",
       "name": "Vince the Dealer",
       "sprite": "hub-npc-dealer",
-      "tx": 56,
-      "ty": 36,
+      "tx": 60,
+      "ty": 37,
       "screen": "casino",
       "dialogue": [
         "The wheel never lies. Step right up — fortune favours the bold.",
