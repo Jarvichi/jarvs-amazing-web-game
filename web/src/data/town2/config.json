@@ -1,128 +1,983 @@
 {
-  "mapW": 896,
-  "mapH": 640,
+  "mapW": 1200,
+  "mapH": 900,
   "townName": "Millhaven",
-  "avatarStart": [13, 15],
+  "environment": "forest",
+  "avatarStart": [
+    18,
+    24
+  ],
   "exitTiles": [
-    { "tx": 11, "ty": 19, "screen": "worldmap" },
-    { "tx": 12, "ty": 19, "screen": "worldmap" },
-    { "tx": 13, "ty": 19, "screen": "worldmap" },
-    { "tx": 14, "ty": 19, "screen": "worldmap" },
-    { "tx": 15, "ty": 19, "screen": "worldmap" }
+    {
+      "tx": 17,
+      "ty": 25,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 18,
+      "ty": 25,
+      "screen": "worldmap"
+    }
   ],
   "areas": [
     {
       "id": "millhaven-harbour",
       "name": "The Harbour",
-      "tx": 0,
-      "ty": 8,
-      "tw": 28,
-      "th": 4
+      "tx": 23,
+      "ty": 0,
+      "tw": 36,
+      "th": 24
     },
     {
       "id": "millhaven-market",
       "name": "Market Square",
-      "tx": 7,
+      "tx": 13,
       "ty": 10,
-      "tw": 14,
-      "th": 4
-    },
-    {
-      "id": "millhaven-centre",
-      "name": "Town Square",
-      "tx": 9,
-      "ty": 12,
       "tw": 10,
-      "th": 8
+      "th": 10
     }
   ],
   "streets": [
-    { "rect": [0, 8, 27, 8] },
-    { "rect": [9, 9, 18, 19] },
-    { "rect": [0, 8, 6, 9] },
-    { "rect": [21, 8, 27, 9] }
+    {
+      "rect": [
+        13,
+        10,
+        22,
+        20
+      ]
+    },
+    {
+      "rect": [
+        4,
+        14,
+        12,
+        15
+      ]
+    },
+    {
+      "rect": [
+        23,
+        14,
+        30,
+        15
+      ]
+    },
+    {
+      "rect": [
+        16,
+        27,
+        19,
+        27
+      ]
+    },
+    {
+      "rect": [
+        17,
+        21,
+        18,
+        26
+      ]
+    },
+    {
+      "rect": [
+        36,
+        0,
+        37,
+        28
+      ],
+      "pathType": "water1"
+    },
+    {
+      "rect": [
+        35,
+        2,
+        35,
+        12
+      ],
+      "pathType": "water1"
+    },
+    {
+      "rect": [
+        35,
+        18,
+        35,
+        25
+      ],
+      "pathType": "water1"
+    },
+    {
+      "rect": [
+        34,
+        20,
+        34,
+        22
+      ],
+      "pathType": "water1"
+    },
+    {
+      "rect": [
+        34,
+        3,
+        34,
+        11
+      ],
+      "pathType": "water1"
+    },
+    {
+      "rect": [
+        31,
+        4,
+        32,
+        21
+      ]
+    },
+    {
+      "rect": [
+        0,
+        0,
+        9,
+        0
+      ],
+      "pathType": "water1"
+    },
+    {
+      "rect": [
+        7,
+        1,
+        20,
+        1
+      ],
+      "pathType": "water1"
+    },
+    {
+      "rect": [
+        20,
+        0,
+        24,
+        0
+      ],
+      "pathType": "water1"
+    },
+    {
+      "rect": [
+        24,
+        1,
+        29,
+        1
+      ],
+      "pathType": "water1"
+    },
+    {
+      "rect": [
+        29,
+        2,
+        34,
+        2
+      ],
+      "pathType": "water1"
+    },
+    {
+      "rect": [
+        19,
+        24,
+        27,
+        24
+      ]
+    },
+    {
+      "rect": [
+        9,
+        24,
+        16,
+        24
+      ]
+    },
+    {
+      "rect": [
+        3,
+        7,
+        3,
+        15
+      ]
+    },
+    {
+      "rect": [
+        25,
+        13,
+        29,
+        13
+      ]
+    },
+    {
+      "tile": [
+        9,
+        23
+      ]
+    },
+    {
+      "rect": [
+        26,
+        23,
+        27,
+        23
+      ]
+    },
+    {
+      "rect": [
+        17,
+        9,
+        18,
+        9
+      ]
+    },
+    {
+      "rect": [
+        1,
+        24,
+        8,
+        24
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        1,
+        17,
+        1,
+        23
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        4,
+        8,
+        11,
+        8
+      ],
+      "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        11,
+        3,
+        11,
+        7
+      ],
+      "pathType": "longGrass"
+    }
   ],
   "buildings": [
     {
       "id": "mill",
-      "rect": [1, 1, 5, 7],
+      "rect": [
+        1,
+        0,
+        5,
+        6
+      ],
       "wall": "woodenSlats",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 2, "ty": 1 }
+        {
+          "tx": 2,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "mill"
+        }
       ]
     },
     {
       "id": "fishmonger",
-      "rect": [21, 1, 27, 6],
-      "wall": "woodenSlats",
+      "rect": [
+        24,
+        6,
+        30,
+        12
+      ],
+      "wall": "castleStone",
       "roof": "yellowSlateRoof",
       "doors": [
-        { "tx": 3, "ty": 2 }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "fishmonger"
+        }
       ]
     },
     {
       "id": "inn-millhaven",
-      "rect": [9, 1, 18, 6],
+      "rect": [
+        13,
+        2,
+        22,
+        8
+      ],
       "wall": "tudorFrame",
       "roof": "redSlateRoof",
       "doors": [
-        { "tx": 5, "ty": 2 }
+        {
+          "tx": 5,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "inn-millhaven"
+        }
       ]
     },
     {
       "id": "market-hall",
-      "rect": [7, 10, 20, 12],
-      "wall": "woodenSlats",
+      "rect": [
+        23,
+        16,
+        30,
+        22
+      ],
+      "wall": "reinforcedStone",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 5, "ty": 1 }
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "market-hall"
+        }
       ]
     },
     {
       "id": "town-hall-millhaven",
-      "rect": [9, 13, 18, 17],
+      "rect": [
+        6,
+        16,
+        12,
+        22
+      ],
       "wall": "renderedBrick",
       "roof": "blueSlateRoof",
       "doors": [
-        { "tx": 4, "ty": 1 }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "town-hall-millhaven"
+        }
       ]
     }
   ],
   "exteriorDecor": [
-    { "comment": "dock and harbour decor" },
-    { "tx": 0, "ty": 8, "tileId": "smallRock" },
-    { "tx": 27, "ty": 8, "tileId": "smallRock" },
-    { "tx": 3,  "ty": 9, "tileId": "barrel" },
-    { "tx": 4,  "ty": 9, "tileId": "barrel" },
-    { "tx": 23, "ty": 9, "tileId": "barrel" },
-    { "tx": 24, "ty": 9, "tileId": "barrel" },
-    { "comment": "lilypads in front of mill pond" },
-    { "tx": 0, "ty": 3, "tileId": "largeLilypad" },
-    { "tx": 0, "ty": 5, "tileId": "smallLilypad" },
-    { "comment": "market stall crates" },
-    { "tx": 8,  "ty": 9, "tileId": "crate" },
-    { "tx": 19, "ty": 9, "tileId": "crate" },
-    { "comment": "town square features" },
-    { "tx": 10, "ty": 13, "tileId": "stoneWell" },
-    { "tx": 16, "ty": 13, "tileId": "stoneWell" },
-    { "comment": "south exit fencing with gap" },
-    { "tx": 9,  "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 10, "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "comment": "gap at tx 11-15 for exit" },
-    { "tx": 16, "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 17, "ty": 19, "tileId": "ironFenceLeftRight" },
-    { "tx": 18, "ty": 19, "tileId": "ironFenceLeftRight" }
+    {
+      "comment": "dock and harbour decor"
+    },
+    {
+      "tx": 5,
+      "ty": 12,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 34,
+      "ty": 15,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 2,
+      "ty": 7,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 1,
+      "ty": 7,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 31,
+      "ty": 3,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 32,
+      "ty": 3,
+      "tileId": "barrel"
+    },
+    {
+      "comment": "lilypads in front of mill pond"
+    },
+    {
+      "tx": 35,
+      "ty": 3,
+      "tileId": "largeLilypad"
+    },
+    {
+      "tx": 8,
+      "ty": 1,
+      "tileId": "smallLilypad"
+    },
+    {
+      "comment": "market stall crates"
+    },
+    {
+      "tx": 30,
+      "ty": 4,
+      "tileId": "crate"
+    },
+    {
+      "tx": 33,
+      "ty": 3,
+      "tileId": "crate"
+    },
+    {
+      "comment": "town square features"
+    },
+    {
+      "tx": 15,
+      "ty": 12,
+      "tileId": "stoneWell"
+    },
+    {
+      "tx": 20,
+      "ty": 12,
+      "tileId": "stoneWell"
+    },
+    {
+      "comment": "south exit fencing with gap"
+    },
+    {
+      "tx": 14,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 15,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "comment": "gap at tx 11-15 for exit"
+    },
+    {
+      "tx": 20,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 21,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 22,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 19,
+      "ty": 25,
+      "tileId": "ironFenceRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 16,
+      "ty": 25,
+      "tileId": "ironFenceLeft",
+      "zlayer": "above"
+    },
+    {
+      "tx": 13,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 11,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 12,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 10,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 9,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 8,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 6,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 5,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 4,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 3,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 2,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 1,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 0,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 23,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 24,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 25,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 27,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 28,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 29,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 30,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 31,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 32,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 33,
+      "ty": 25,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 34,
+      "ty": 25,
+      "tileId": "ironFenceLeft",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 13,
+      "tileId": "messageBoardBottomLeft",
+      "zlayer": "above"
+    },
+    {
+      "tx": 8,
+      "ty": 13,
+      "tileId": "messageBoardBottomRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 12,
+      "tileId": "messageBoardTopLeft",
+      "zlayer": "above"
+    },
+    {
+      "tx": 8,
+      "ty": 12,
+      "tileId": "messageBoardTopRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 16,
+      "ty": 21,
+      "tileId": "roadSignBottom",
+      "zlayer": "above"
+    },
+    {
+      "tx": 16,
+      "ty": 20,
+      "tileId": "roadSignTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 14,
+      "ty": 12,
+      "tileId": "fullBucket",
+      "zlayer": "above"
+    },
+    {
+      "tx": 15,
+      "ty": 13,
+      "tileId": "bucketAndRope",
+      "zlayer": "above"
+    },
+    {
+      "tx": 19,
+      "ty": 12,
+      "tileId": "bucketAndRope",
+      "zlayer": "above"
+    },
+    {
+      "tx": 34,
+      "ty": 9,
+      "tileId": "boardwalkVerticalSupport",
+      "zlayer": "below"
+    },
+    {
+      "tx": 33,
+      "ty": 9,
+      "tileId": "boardwalkVerticalSupport",
+      "zlayer": "below"
+    },
+    {
+      "tx": 33,
+      "ty": 8,
+      "tileId": "boardwalkVertical",
+      "zlayer": "below"
+    },
+    {
+      "tx": 34,
+      "ty": 8,
+      "tileId": "boardwalkVertical",
+      "zlayer": "below"
+    },
+    {
+      "tx": 35,
+      "ty": 8,
+      "tileId": "boardwalkVertical",
+      "zlayer": "below"
+    },
+    {
+      "tx": 35,
+      "ty": 9,
+      "tileId": "boardwalkVerticalSupport",
+      "zlayer": "below"
+    },
+    {
+      "tx": 33,
+      "ty": 7,
+      "tileId": "boardwalkVertical",
+      "zlayer": "below"
+    },
+    {
+      "tx": 34,
+      "ty": 7,
+      "tileId": "boardwalkVertical",
+      "zlayer": "below"
+    },
+    {
+      "tx": 35,
+      "ty": 7,
+      "tileId": "boardwalkVertical",
+      "zlayer": "below"
+    },
+    {
+      "tx": 33,
+      "ty": 7,
+      "tileId": "lightPotWithLid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 32,
+      "ty": 7,
+      "tileId": "darkPotWithLid",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 34,
+      "ty": 7,
+      "tileId": "chest",
+      "zlayer": "above"
+    },
+    {
+      "tx": 34,
+      "ty": 8,
+      "tileId": "pileOfSacks",
+      "zlayer": "above"
+    },
+    {
+      "tx": 33,
+      "ty": 8,
+      "tileId": "pileOfSacks",
+      "zlayer": "above"
+    },
+    {
+      "tx": 35,
+      "ty": 7,
+      "tileId": "sack",
+      "zlayer": "above"
+    },
+    {
+      "tx": 24,
+      "ty": 13,
+      "tileId": "stripedShopAwningSupportPillarBot",
+      "zlayer": "above"
+    },
+    {
+      "tx": 30,
+      "ty": 13,
+      "tileId": "stripedShopAwningSupportPillarBot",
+      "zlayer": "above"
+    },
+    {
+      "tx": 24,
+      "ty": 12,
+      "tileId": "stripedShopAwningSupportPillar",
+      "zlayer": "above"
+    },
+    {
+      "tx": 30,
+      "ty": 12,
+      "tileId": "stripedShopAwningSupportPillar",
+      "zlayer": "above"
+    },
+    {
+      "tx": 24,
+      "ty": 11,
+      "tileId": "stripedShopAwningWithSupport",
+      "zlayer": "above"
+    },
+    {
+      "tx": 30,
+      "ty": 11,
+      "tileId": "stripedShopAwningWithSupport",
+      "zlayer": "above"
+    },
+    {
+      "tx": 25,
+      "ty": 11,
+      "tileId": "stripedShopAwningBottom",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 11,
+      "tileId": "stripedShopAwningBottom",
+      "zlayer": "above"
+    },
+    {
+      "tx": 27,
+      "ty": 11,
+      "tileId": "stripedShopAwningBottom",
+      "zlayer": "above"
+    },
+    {
+      "tx": 28,
+      "ty": 11,
+      "tileId": "stripedShopAwningBottom",
+      "zlayer": "above"
+    },
+    {
+      "tx": 29,
+      "ty": 11,
+      "tileId": "stripedShopAwningBottom",
+      "zlayer": "above"
+    },
+    {
+      "tx": 24,
+      "ty": 10,
+      "tileId": "stripedShopAwningMiddle",
+      "zlayer": "above"
+    },
+    {
+      "tx": 25,
+      "ty": 10,
+      "tileId": "stripedShopAwningMiddle",
+      "zlayer": "above"
+    },
+    {
+      "tx": 27,
+      "ty": 10,
+      "tileId": "stripedShopAwningMiddle",
+      "zlayer": "above"
+    },
+    {
+      "tx": 26,
+      "ty": 10,
+      "tileId": "stripedShopAwningMiddle",
+      "zlayer": "above"
+    },
+    {
+      "tx": 28,
+      "ty": 10,
+      "tileId": "stripedShopAwningMiddle",
+      "zlayer": "above"
+    },
+    {
+      "tx": 29,
+      "ty": 10,
+      "tileId": "stripedShopAwningMiddle",
+      "zlayer": "above"
+    },
+    {
+      "tx": 30,
+      "ty": 10,
+      "tileId": "stripedShopAwningMiddle",
+      "zlayer": "above"
+    },
+    {
+      "tx": 6,
+      "ty": 7,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 10,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 19,
+      "ty": 23,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 2,
+      "ty": 23,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 2,
+      "ty": 18,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 11,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 24,
+      "ty": 4,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 30,
+      "ty": 24,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 7,
+      "ty": 4,
+      "bundleID": "dark-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 13,
+      "ty": 23,
+      "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 0,
+      "ty": 14,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 1,
+      "ty": 11,
+      "bundleID": "dark-tree-column-4",
+      "zlayer": "solid"
+    }
   ],
   "npcSpawnTiles": [],
-  "ambientNpcSprites": ["hub-npc-fisherman", "hub-npc-merchant"],
+  "ambientNpcSprites": [
+    "hub-npc-fisherman",
+    "hub-npc-merchant"
+  ],
   "npcs": [
     {
       "id": "mill-owner",
       "name": "Miller Oswin",
       "sprite": "hub-npc-supplies",
-      "tx": 3,
-      "ty": 8,
+      "tx": 4,
+      "ty": 7,
       "dialogue": [
         "Millhaven's mill has ground grain for this coast for sixty years.",
         "Three grain sacks went missing from the store. Someone's been helping themselves.",
@@ -135,8 +990,8 @@
       "id": "fishmonger-marta",
       "name": "Fishwife Marta",
       "sprite": "hub-npc-fisherman",
-      "tx": 24,
-      "ty": 8,
+      "tx": 23,
+      "ty": 13,
       "dialogue": [
         "The catch has been thin lately. Strange currents, says Sailor Finn.",
         "I've got fish baskets missing somewhere around the docks.",
@@ -179,8 +1034,8 @@
       "id": "sailor-finn",
       "name": "Sailor Finn",
       "sprite": "hub-npc-fisherman",
-      "tx": 5,
-      "ty": 8,
+      "tx": 12,
+      "ty": 13,
       "dialogue": [
         "The tides have been off all week. Something in the currents.",
         "I've seen three ships go dark past the reef. No word from them.",
@@ -206,6 +1061,66 @@
     }
   ],
   "interiors": {
+    "mill": {
+      "name": "Hucks Mill",
+      "width": 9,
+      "height": 5,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "chest"
+        }
+      ],
+      "exits": []
+    },
+    "fishmonger": {
+      "name": "Fresh Fish!",
+      "width": 9,
+      "height": 5,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "chest"
+        }
+      ],
+      "exits": []
+    },
     "inn-millhaven": {
       "name": "The Anchor Inn",
       "width": 9,
@@ -213,10 +1128,26 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 2, "ty": 1, "tileId": "barrel" },
-        { "tx": 6, "ty": 1, "tileId": "chest" },
-        { "tx": 7, "ty": 1, "tileId": "chest" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "chest"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "chest"
+        }
       ],
       "exits": []
     },
@@ -227,10 +1158,26 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1,  "ty": 1, "tileId": "crate" },
-        { "tx": 2,  "ty": 1, "tileId": "openCrate" },
-        { "tx": 9,  "ty": 1, "tileId": "crate" },
-        { "tx": 10, "ty": 1, "tileId": "openCrate" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "openCrate"
+        }
       ],
       "exits": []
     },
@@ -241,16 +1188,123 @@
       "floorTileId": "cobblestoneFloor",
       "wallTileId": "renderedBrick",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 2, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 2, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 5, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 6, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 5, "ty": 2, "tileId": "bookshelfBottom" },
-        { "tx": 6, "ty": 2, "tileId": "bookshelfBottom" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        }
       ],
       "exits": []
     }
-  }
+  },
+  "treasures": [
+    {
+      "id": "millhaven-chest-1",
+      "tx": 32,
+      "ty": 21,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A moss-covered chest hidden in the forest",
+      "reward": {
+        "crystals": 30
+      }
+    },
+    {
+      "id": "millhaven-chest-2",
+      "tx": 31,
+      "ty": 4,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A moss-covered chest hidden in the forest",
+      "reward": {
+        "crystals": 30
+      }
+    },
+    {
+      "id": "millhaven-chest-3",
+      "tx": 11,
+      "ty": 3,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A moss-covered chest hidden in the forest",
+      "reward": {
+        "crystals": 30
+      }
+    },
+    {
+      "id": "millhaven-chest-4",
+      "tx": 1,
+      "ty": 17,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A moss-covered chest hidden in the forest",
+      "reward": {
+        "crystals": 30
+      }
+    },
+    {
+      "id": "mill-chest",
+      "buildingId": "mill",
+      "tx": 9,
+      "ty": 1,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A dusty chest in Mira's studio",
+      "reward": {
+        "consumables": [
+          {
+            "id": "health_potion",
+            "quantity": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "fishmonger-chest",
+      "buildingId": "fishmonger",
+      "tx": 9,
+      "ty": 1,
+      "tileId": "chest",
+      "collectedTileId": "openChest",
+      "title": "A dusty chest the secret passage",
+      "reward": {
+        "crystals": 30
+      }
+    }
+  ]
 }

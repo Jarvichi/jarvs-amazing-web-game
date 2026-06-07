@@ -410,6 +410,7 @@ export const HUB_TREASURES: HubTreasure[] = (
 }))
 
 export const HUB_TOWN_NAME: string = (rawConfig as unknown as { townName?: string }).townName ?? 'Town'
+const ENVIRONMENT: string = (rawConfig as unknown as { environment?: string }).environment ?? 'camp'
 
 type RawExitTile = { tx: number; ty: number; screen: string }
 export const HUB_EXIT_TILES: HubExitTile[] = (
@@ -421,6 +422,7 @@ export const HUB_LOCATION_DATA: HubLocationData = {
   MAP_H,
   AVATAR_START,
   TOWN_NAME:          HUB_TOWN_NAME,
+  ENVIRONMENT,  
   HUB_AREAS,
   HUB_STREET_GROUPS,
   HUB_STREET_TILES,

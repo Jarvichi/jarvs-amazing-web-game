@@ -64,6 +64,7 @@ const MAP_W = rawConfig.mapW
 const MAP_H = rawConfig.mapH
 const AVATAR_START = rawConfig.avatarStart as [number, number]
 const TOWN_NAME: string = (rawConfig as unknown as { townName?: string }).townName ?? 'Town'
+const ENVIRONMENT: string = (rawConfig as unknown as { environment?: string }).environment ?? 'camp'
 
 const HUB_AREAS: HubArea[] = rawConfig.areas.map(a => ({
   id:   a.id,
@@ -226,6 +227,7 @@ export const MILLHAVEN_LOCATION_DATA: HubLocationData = {
   MAP_H,
   AVATAR_START,
   TOWN_NAME,
+  ENVIRONMENT,
   HUB_AREAS,
   HUB_STREET_GROUPS,
   HUB_STREET_TILES,

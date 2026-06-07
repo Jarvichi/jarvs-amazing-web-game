@@ -14,6 +14,7 @@ export interface HubLocationData {
   MAP_H:              number
   AVATAR_START:       [number, number]
   TOWN_NAME:          string
+  ENVIRONMENT:        string
   HUB_AREAS:          HubArea[]
   HUB_STREET_GROUPS:  HubStreetGroup[]
   HUB_STREET_TILES:   [number, number][]

@@ -106,9 +106,7 @@ export function HubTownCanvas({
     EXIT_TILES: exitTilesData,
     TOWN_NAME: locationKey,
   } = loc
-  const HUB_ENV = locationDataProp?.TOWN_NAME === 'Ironhold Keep' ? 'citadel'
-               : locationDataProp?.TOWN_NAME === 'Millhaven'      ? 'coast'
-               : 'camp'
+  const HUB_ENV = locationDataProp?.ENVIRONMENT || 'camp'
   const COURTYARD_PX = { x: AVATAR_START[0] * T + T / 2, y: AVATAR_START[1] * T + T }
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
