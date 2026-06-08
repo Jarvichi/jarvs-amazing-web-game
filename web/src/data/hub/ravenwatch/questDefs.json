@@ -814,7 +814,7 @@
       "receiverNpcId": "gildwyn",
       "prerequisite": "quest:gildwyns-missing-card",
       "offerDialogue": "I have been seeing fake cards turn up in trades — poor quality copies, but convincing enough to fool newcomers. Three have passed through this quarter this week alone. Collect them before someone gets properly cheated.",
-      "activeDialogue": "The fakes look close to real but the borders are slightly off and they feel thin. Three of them circulating somewhere in the hub.",
+      "activeDialogue": "The fakes look close to real but the borders are slightly off and they feel thin. Three of them circulating somewhere in the town.",
       "completeDialogue": "These are bad work — but someone put effort into the distribution. This is not a bored forger. Someone wants counterfeit cards in circulation, and I want to know why.",
       "steps": [
         {
@@ -1201,9 +1201,9 @@
       "giverNpcId": "guard-captain-thorin",
       "receiverNpcId": "guard-captain-thorin",
       "prerequisite": "quest:thorin-missing-guard|quest:ferryn-missing-shipment",
-      "offerDialogue": "I drafted three official warning notices — one for the inn, one for the guild hall, one for the Elder. Someone intercepted them before I could post them. Find those notices. The hub needs to know about the Echoes before it is too late.",
+      "offerDialogue": "I drafted three official warning notices — one for the inn, one for the guild hall, one for the Elder. Someone intercepted them before I could post them. Find those notices. The town needs to know about the Echoes before it is too late.",
       "activeDialogue": "Three folded notices with my seal. They were taken from my desk or the courier. Find them — someone scattered them deliberately.",
-      "completeDialogue": "All three. Thank you. I will post these myself this time. The Echoes are here, in our hub, and people need to know. This is where things get serious.",
+      "completeDialogue": "All three. Thank you. I will post these myself this time. The Echoes are here, in our town, and people need to know. This is where things get serious.",
       "steps": [
         {
           "key": "notices",
@@ -1230,7 +1230,7 @@
       "giverNpcId": "elder",
       "receiverNpcId": "naia-interior",
       "prerequisite": "quest:elder-fracture-memory|quest:naia-missing-records",
-      "offerDialogue": "I retrieved something years ago from the ruins east of the hub — an old codex I could not fully read. Now that you have recovered those memory shards, I believe Naia can decode it. Please take this codex to her at the scholars' hall. Do not let anyone else see it.",
+      "offerDialogue": "I retrieved something years ago from the ruins east of the town — an old codex I could not fully read. Now that you have recovered those memory shards, I believe Naia can decode it. Please take this codex to her at the scholars' hall. Do not let anyone else see it.",
       "activeDialogue": "The codex is sealed with a lock I cannot open. Naia will know how.",
       "completeDialogue": "This… this is pre-Fracture. A primary source, not a copy. Do you understand what this means? The Echoes did not discover the Fracture by accident. Someone guided them here. I need time with this.",
       "steps": [
@@ -1266,7 +1266,7 @@
       "prerequisite": "quest:elder-old-codex",
       "offerDialogue": "The codex you brought me references three ancient records I should have in this archive — but they are gone. Not misfiled. Gone. Someone cleared them from the archive deliberately, and not long ago. I need those records to understand what the Echoes are truly after. Find them.",
       "activeDialogue": "Three records — old, bound in dark leather, marked with a circle-and-line symbol on the spine. Someone scattered them to hide what the codex points to.",
-      "completeDialogue": "These are them. Look — the codex is a key. These records are the lock. Together they describe something called the Hearthstone, an artefact hidden somewhere in this hub. The Echoes are looking for it. And now, so are we.",
+      "completeDialogue": "These are them. Look — the codex is a key. These records are the lock. Together they describe something called the Hearthstone, an artefact hidden somewhere in this town. The Echoes are looking for it. And now, so are we.",
       "steps": [
         {
           "key": "records",
@@ -1459,7 +1459,7 @@
       "prerequisite": "quest:mira-unstable-augment",
       "offerDialogue": "That unstable fragment you brought me was not a one-off. I have traced three more corrupted augments that left my shop and should not have. Someone swapped the cores before delivery. Find those corrupted pieces — they are dangerous if someone tries to use them.",
       "activeDialogue": "Three corrupted augments — they glow with a faint red tint instead of blue. Someone scattered them. They should be near the market district and possibly inside a building.",
-      "completeDialogue": "All three. Look at this corruption pattern — it is deliberate, not accidental Fracture exposure. Someone engineered this to destabilise the augment grid. If these had gone live it would have caused a cascade failure across the entire hub network.",
+      "completeDialogue": "All three. Look at this corruption pattern — it is deliberate, not accidental Fracture exposure. Someone engineered this to destabilise the augment grid. If these had gone live it would have caused a cascade failure across the entire town network.",
       "steps": [
         {
           "key": "augments",
@@ -1486,9 +1486,9 @@
       "giverNpcId": "cartographer-bram",
       "receiverNpcId": "guard-captain-thorin",
       "prerequisite": "quest:bram-altered-map",
-      "offerDialogue": "I found the original behind the forgeries — the real map the Echoes were trying to conceal. It shows which areas they have marked as controlled territory, including three zones inside the hub itself. Captain Thorin must have this.",
+      "offerDialogue": "I found the original behind the forgeries — the real map the Echoes were trying to conceal. It shows which areas they have marked as controlled territory, including three zones inside the town itself. Captain Thorin must have this.",
       "activeDialogue": "Take the Echo territory map to Captain Thorin immediately.",
-      "completeDialogue": "Three marked zones — the east passage, the lower barracks corridor, and the traders' den storage. They have been operating right under us. This changes my entire patrol strategy. Tell Bram he may have just saved this hub.",
+      "completeDialogue": "Three marked zones — the east passage, the lower barracks corridor, and the traders' den storage. They have been operating right under us. This changes my entire patrol strategy. Tell Bram he may have just saved this town.",
       "steps": [
         {
           "key": "collect-map",
@@ -1559,7 +1559,7 @@
       "giverNpcId": "professor-aldric",
       "receiverNpcId": "professor-aldric",
       "prerequisite": "quest:alric-stolen-notes",
-      "offerDialogue": "Using the annotations on my stolen pages, I have identified three physical specimens that the Echoes would need to conduct their research. Fracture-reactive materials, rare and distinctive. If they are somewhere in the hub I want them secured before the Echoes retrieve them.",
+      "offerDialogue": "Using the annotations on my stolen pages, I have identified three physical specimens that the Echoes would need to conduct their research. Fracture-reactive materials, rare and distinctive. If they are somewhere in the town I want them secured before the Echoes retrieve them.",
       "activeDialogue": "Three Fracture-reactive specimens — crystalline clusters with a faint amber glow. They would have been placed near strong Fracture resonance points.",
       "completeDialogue": "Yes — these are exactly the materials. The amber resonance signature is distinctive. The Echoes were planning to synthesise something. With these specimens I can work backwards and understand what. This is important.",
       "steps": [
@@ -1782,9 +1782,9 @@
       "giverNpcId": "merchant",
       "receiverNpcId": "merchant",
       "prerequisite": "quest:vex-suspicious-buyer",
-      "offerDialogue": "I tracked the suspicious buyer back to their supplier — someone who has been providing them with goods from inside the hub. I found three pieces of evidence: a supply manifest, a wax seal stamp, and a handwritten note. All abandoned when the supplier got spooked. Get them.",
+      "offerDialogue": "I tracked the suspicious buyer back to their supplier — someone who has been providing them with goods from inside the town. I found three pieces of evidence: a supply manifest, a wax seal stamp, and a handwritten note. All abandoned when the supplier got spooked. Get them.",
       "activeDialogue": "A supply manifest, a wax seal stamp, and a handwritten note — the supplier dropped them near the east market entrance.",
-      "completeDialogue": "The manifest lists goods that were never on any official order. The wax stamp matches an old guild seal that should have been retired. And the note — it is signed. I know this name. This supplier is someone who works inside the hub.",
+      "completeDialogue": "The manifest lists goods that were never on any official order. The wax stamp matches an old guild seal that should have been retired. And the note — it is signed. I know this name. This supplier is someone who works inside the town.",
       "steps": [
         {
           "key": "evidence",
@@ -1811,9 +1811,9 @@
       "giverNpcId": "elder",
       "receiverNpcId": "guard-captain-thorin",
       "prerequisite": "quest:elder-old-codex|quest:naia-echo-records|quest:thorin-echo-warning",
-      "offerDialogue": "I must confess something to Captain Thorin — something I should have said years ago. I met with the Echoes once, long before the Fracture. I thought they were scholars. I told them things about the hub's layout and history. I did not know what they were. I have written it all down. Please take this letter to Thorin.",
+      "offerDialogue": "I must confess something to Captain Thorin — something I should have said years ago. I met with the Echoes once, long before the Fracture. I thought they were scholars. I told them things about the town's layout and history. I did not know what they were. I have written it all down. Please take this letter to Thorin.",
       "activeDialogue": "Take my confession letter to Captain Thorin. I am sorry it took so long.",
-      "completeDialogue": "The Elder… I had suspected, but I did not want to believe it. The information they had about the hub — the passages, the vault, the Hearthstone — it all came from him, unknowingly. He is not a traitor. He was deceived. But we needed to know this. Thank you for bringing it to me.",
+      "completeDialogue": "The Elder… I had suspected, but I did not want to believe it. The information they had about the town — the passages, the vault, the Hearthstone — it all came from him, unknowingly. He is not a traitor. He was deceived. But we needed to know this. Thank you for bringing it to me.",
       "steps": [
         {
           "key": "collect-letter",
@@ -1908,7 +1908,7 @@
       "giverNpcId": "naia-interior",
       "receiverNpcId": "naia-interior",
       "prerequisite": "quest:naia-echo-records|quest:lyss-cipher-key",
-      "offerDialogue": "The cipher key opened everything. The Echoes are after the Hearthstone — an artefact that was broken into three fragments after the Fracture and hidden across the hub. I need the three research fragments that describe where they are hidden. They should be in the archive somewhere.",
+      "offerDialogue": "The cipher key opened everything. The Echoes are after the Hearthstone — an artefact that was broken into three fragments after the Fracture and hidden across the town. I need the three research fragments that describe where they are hidden. They should be in the archive somewhere.",
       "activeDialogue": "Three research fragments — notes bound in copper thread. They describe the Hearthstone's three hiding places. Find them.",
       "completeDialogue": "I have them all. The Hearthstone fragments are hidden in three specific locations: beneath the pond, inside the barracks vault, and under the foundation stone of the hall of achievements. The Echoes knew all three. We must reach them first.",
       "steps": [
@@ -2002,7 +2002,7 @@
       "prerequisite": "quest:mira-corrupted-augments",
       "offerDialogue": "I have synthesised a purification crystal that can cleanse the corrupted augments — but I need three more. They occur naturally near strong Fracture fault lines. They will look like ordinary crystals but pulse with a clean white light instead of amber.",
       "activeDialogue": "Three purification crystals — white-pulsing, near Fracture fault points. The fault lines run near the pond, the east wall, and the old foundation stones.",
-      "completeDialogue": "Yes — these are pure. With these three I can cleanse the entire hub augment network. No more corruption risk. The Echoes lost their best weapon against us today.",
+      "completeDialogue": "Yes — these are pure. With these three I can cleanse the entire town augment network. No more corruption risk. The Echoes lost their best weapon against us today.",
       "steps": [
         {
           "key": "crystals",
@@ -2065,7 +2065,7 @@
       "prerequisite": "quest:lyss-cipher-key|quest:naia-heartstone-records",
       "offerDialogue": "The cipher key works — but to translate the oldest Echo texts, I need two specific cipher fragments that were removed from the archive. With Naia's heartstone research pointing to the Hearthstone locations, the translations become urgent. Find those fragments.",
       "activeDialogue": "Two cipher fragments — small cards with overlapping text in two scripts. Hidden somewhere in the scholars' quarter.",
-      "completeDialogue": "I have them. And the translations confirm everything Naia found — plus one thing more. The Echoes plan to use the Hearthstone fragments not to take them, but to activate them together. If they do, the Fracture energy concentrated in this hub would be catastrophic.",
+      "completeDialogue": "I have them. And the translations confirm everything Naia found — plus one thing more. The Echoes plan to use the Hearthstone fragments not to take them, but to activate them together. If they do, the Fracture energy concentrated in this town would be catastrophic.",
       "steps": [
         {
           "key": "fragments",
@@ -2122,7 +2122,7 @@
       "prerequisite": "quest:alric-echo-research",
       "offerDialogue": "The specimens confirmed my theory. I need three Fracture residue samples from specific resonance points to complete the study — samples that will tell us exactly how much energy the Hearthstone activation would release. The locations are the east gate foundation, the pond edge, and the old barracks tower base.",
       "activeDialogue": "Three residue samples — amber dust at specific foundation stones. Handle carefully; the residue is stable until disturbed.",
-      "completeDialogue": "The readings are extraordinary. If the Hearthstone fragments were activated simultaneously at those three hidden points, the energy release would not destroy the hub — it would open a permanent rift. A gateway for something far larger to come through. The Echoes are not just thieves.",
+      "completeDialogue": "The readings are extraordinary. If the Hearthstone fragments were activated simultaneously at those three hidden points, the energy release would not destroy the town — it would open a permanent rift. A gateway for something far larger to come through. The Echoes are not just thieves.",
       "steps": [
         {
           "key": "samples",
@@ -2223,7 +2223,7 @@
       "prerequisite": "quest:zev-shadow-gambler",
       "offerDialogue": "I searched the games hall thoroughly. Found three surveillance devices — small mirrors with lens inserts, positioned to watch the back tables. The Shadow Gambler was not just gambling. They were watching everyone who came in. I need those devices removed and logged.",
       "activeDialogue": "Three small mirror-and-lens devices hidden in the games hall — in the corner beams, behind the prize rack, above the back door.",
-      "completeDialogue": "Got them all. These are professional surveillance tools — not local-made. They used the games hall to compile a dossier on every person of influence in the hub. We need to assume our movements were monitored for months.",
+      "completeDialogue": "Got them all. These are professional surveillance tools — not local-made. They used the games hall to compile a dossier on every person of influence in the town. We need to assume our movements were monitored for months.",
       "steps": [
         {
           "key": "devices",
@@ -2250,9 +2250,9 @@
       "giverNpcId": "trophy-keeper-orin",
       "receiverNpcId": "trophy-keeper-orin",
       "prerequisite": "quest:orin-contaminated-trophies",
-      "offerDialogue": "The contaminated trophies were decoys. The real prize was the Champion's Shield — our oldest artefact, used at the founding of this hub. The Echoes removed it and hid it somewhere in the barracks. It was being used as a Fracture cache. Retrieve it.",
-      "activeDialogue": "The Champion's Shield — round, iron, engraved with the hub's founding mark. Somewhere in the barracks compound.",
-      "completeDialogue": "There it is. Safe. The Fracture energy inside it has dissipated — the contamination process was not complete. I will secure this in the vault now. Thank you. This shield is not a trophy. It is a promise this hub kept, and we nearly lost it.",
+      "offerDialogue": "The contaminated trophies were decoys. The real prize was the Champion's Shield — our oldest artefact, used at the founding of this town. The Echoes removed it and hid it somewhere in the barracks. It was being used as a Fracture cache. Retrieve it.",
+      "activeDialogue": "The Champion's Shield — round, iron, engraved with the town's founding mark. Somewhere in the barracks compound.",
+      "completeDialogue": "There it is. Safe. The Fracture energy inside it has dissipated — the contamination process was not complete. I will secure this in the vault now. Thank you. This shield is not a trophy. It is a promise this town kept, and we nearly lost it.",
       "steps": [
         {
           "key": "collect-shield",
@@ -2274,7 +2274,7 @@
           "id": "champions-shield",
           "name": "Champion's Shield",
           "icon": "goldChest",
-          "desc": "The oldest artefact in the hub's trophy collection, recovered from an Echo cache in the barracks."
+          "desc": "The oldest artefact in the town's trophy collection, recovered from an Echo cache in the barracks."
         },
         "friendship": {
           "trophy-keeper-orin": 35
@@ -2393,7 +2393,7 @@
       "giverNpcId": "merchant",
       "receiverNpcId": "guild-master-ferryn",
       "prerequisite": "quest:vex-echo-supplier|quest:ferryn-guild-lockdown",
-      "offerDialogue": "With the Echo supplier removed, there is a gap in the hub's supply chain — legitimate goods are not getting through. I have drafted new supply contracts with three verified partners. Ferryn needs to countersign them to make them official.",
+      "offerDialogue": "With the Echo supplier removed, there is a gap in the town's supply chain — legitimate goods are not getting through. I have drafted new supply contracts with three verified partners. Ferryn needs to countersign them to make them official.",
       "activeDialogue": "Take the new supply contracts to Ferryn at the guild hall.",
       "completeDialogue": "Excellent. These partners are all verified — I recognise two of them as pre-Fracture guilds. The supply chain will be cleaner and better documented than before. Vex has done well here.",
       "steps": [
@@ -2527,12 +2527,12 @@
     },
     {
       "id": "elder-rallying-the-hub",
-      "title": "Rallying the Hub",
+      "title": "Rallying the town",
       "type": "chain",
       "giverNpcId": "elder",
       "receiverNpcId": "guild-master-ferryn",
       "prerequisite": "quest:elder-absolution|quest:thorin-vault-preparation",
-      "offerDialogue": "The hub must stand together. I am sending rally messages to Ferryn, Rosie, the dealer, and old Greyfish — each one a call to hold their post and not let fear win. Will you carry them? My legs are not what they were, and time is short.",
+      "offerDialogue": "The town must stand together. I am sending rally messages to Ferryn, Rosie, the dealer, and old Greyfish — each one a call to hold their post and not let fear win. Will you carry them? My legs are not what they were, and time is short.",
       "activeDialogue": "Four rally messages — one for each of them. Deliver them all.",
       "completeDialogue": "The Elder… yes. We are with him. And you.",
       "steps": [
@@ -2586,9 +2586,9 @@
       "giverNpcId": "guard-captain-thorin",
       "receiverNpcId": "guard-captain-thorin",
       "prerequisite": "quest:thorin-vault-preparation|quest:bram-safe-routes",
-      "offerDialogue": "Bram's safe routes and the vault casings give us the foundation. Now I need to write up defensive positions for every major point in the hub. I drafted notes for three positions but scattered them during the lockdown confusion. Find them and I can finalise the plan.",
+      "offerDialogue": "Bram's safe routes and the vault casings give us the foundation. Now I need to write up defensive positions for every major point in the town. I drafted notes for three positions but scattered them during the lockdown confusion. Find them and I can finalise the plan.",
       "activeDialogue": "Three defensive position notes — my handwriting, official barracks paper. Somewhere in the compound.",
-      "completeDialogue": "Perfect. East gate, courtyard centre, scholars' quarter perimeter — these three hold the whole hub. Anyone trying to reach the Hearthstone sites goes through my people. Let them come.",
+      "completeDialogue": "Perfect. East gate, courtyard centre, scholars' quarter perimeter — these three hold the whole town. Anyone trying to reach the Hearthstone sites goes through my people. Let them come.",
       "steps": [
         {
           "key": "notes",
@@ -2615,9 +2615,9 @@
       "giverNpcId": "drill-sergeant-varn",
       "receiverNpcId": "drill-sergeant-varn",
       "prerequisite": "quest:varn-traitor-confronted|quest:bramble-fortified-supplies",
-      "offerDialogue": "I am drilling every able-bodied person in the hub — traders, scholars, even the innkeeper's staff. I printed training manuals for each group but half of them went missing in the supply chaos. Find those manuals before training starts tonight.",
+      "offerDialogue": "I am drilling every able-bodied person in the town — traders, scholars, even the innkeeper's staff. I printed training manuals for each group but half of them went missing in the supply chaos. Find those manuals before training starts tonight.",
       "activeDialogue": "Three training manuals — thick, stamped with a crossed-sword mark. One for each group I am training.",
-      "completeDialogue": "There they are. Tonight, every person in this hub learns the basics. If the Echoes come, they will not find civilians. They will find defenders.",
+      "completeDialogue": "There they are. Tonight, every person in this town learns the basics. If the Echoes come, they will not find civilians. They will find defenders.",
       "steps": [
         {
           "key": "manuals",
@@ -2692,7 +2692,7 @@
       "receiverNpcId": "cartographer-bram",
       "prerequisite": "quest:bram-safe-routes|quest:aldous-passage-explored",
       "offerDialogue": "With the hidden passage sealed, I have mapped three alternative evacuation routes in case things go wrong. I printed three copies and posted them — but someone has removed them. They may be trying to prevent an orderly evacuation. Find those guides.",
-      "activeDialogue": "Three evacuation guides — marked with an arrow and hub seal, posted at key junctions. Someone removed them.",
+      "activeDialogue": "Three evacuation guides — marked with an arrow and town seal, posted at key junctions. Someone removed them.",
       "completeDialogue": "All three. I am posting these somewhere less obvious this time. If the worst happens, people will know where to go. And that changes everything.",
       "steps": [
         {
@@ -2720,9 +2720,9 @@
       "giverNpcId": "guild-master-ferryn",
       "receiverNpcId": "guild-master-ferryn",
       "prerequisite": "quest:ferryn-guild-lockdown|quest:vex-supply-chain-rebuilt",
-      "offerDialogue": "I have stashed emergency resource bundles across the hub — medicine, materials, tools. Three bundles that need to be retrieved and centralised in the guild hall before the defence operation. With the compromised offices sealed, I cannot send guild staff to collect them.",
+      "offerDialogue": "I have stashed emergency resource bundles across the town — medicine, materials, tools. Three bundles that need to be retrieved and centralised in the guild hall before the defence operation. With the compromised offices sealed, I cannot send guild staff to collect them.",
       "activeDialogue": "Three emergency bundles — guild-sealed crates, hidden near the pond, the market approach, and the scholars' quarter.",
-      "completeDialogue": "All three. The guild hall is now a full supply depot. Whatever happens next, the hub is resourced. We are ready.",
+      "completeDialogue": "All three. The guild hall is now a full supply depot. Whatever happens next, the town is resourced. We are ready.",
       "steps": [
         {
           "key": "bundles",
@@ -2749,7 +2749,7 @@
       "giverNpcId": "innkeeper-rosie",
       "receiverNpcId": "innkeeper-rosie",
       "prerequisite": "quest:rosie-shelter-for-families|quest:elder-rallying-the-hub",
-      "offerDialogue": "The Elder's rally message has given me purpose. The inn will be a refuge during whatever comes next. I need three supply packages collected from the courtyard — food, blankets, medicine. Everything needed to shelter people if the hub is attacked.",
+      "offerDialogue": "The Elder's rally message has given me purpose. The inn will be a refuge during whatever comes next. I need three supply packages collected from the courtyard — food, blankets, medicine. Everything needed to shelter people if the town is attacked.",
       "activeDialogue": "Three supply packages — wrapped in brown canvas, tied with red cord. I left them near the courtyard fountain.",
       "completeDialogue": "These will keep thirty people safe for a week. The Wanderer's Rest has always been a place of shelter. Tonight, more than ever.",
       "steps": [
@@ -2816,7 +2816,7 @@
       "giverNpcId": "apprentice-lyss",
       "receiverNpcId": "naia-interior",
       "prerequisite": "quest:lyss-unlock-the-cipher|quest:naia-heartstone-location",
-      "offerDialogue": "The translation is complete. Every Echo communication, every plan, every contingency — I have it all in a single document. Naia needs this. With the heartstone location map and the full cipher translation together, she will have everything she needs to protect the hub.",
+      "offerDialogue": "The translation is complete. Every Echo communication, every plan, every contingency — I have it all in a single document. Naia needs this. With the heartstone location map and the full cipher translation together, she will have everything she needs to protect the town.",
       "activeDialogue": "Take the completed cipher translation to Naia immediately.",
       "completeDialogue": "Lyss… this is extraordinary. The full translation confirms the Echoes' final operation is in three days. We have time. Just enough time. Thank you.",
       "steps": [
@@ -2962,7 +2962,7 @@
       "giverNpcId": "market-warden-syla",
       "receiverNpcId": "market-warden-syla",
       "prerequisite": "quest:syla-market-purge|quest:bram-escape-routes",
-      "offerDialogue": "The market is the hub's heart. I am fortifying every entry point. Three supply caches are positioned at the key chokepoints — medical supplies, barricade materials, signal flags. I need to confirm they are in place and intact.",
+      "offerDialogue": "The market is the town's heart. I am fortifying every entry point. Three supply caches are positioned at the key chokepoints — medical supplies, barricade materials, signal flags. I need to confirm they are in place and intact.",
       "activeDialogue": "Three defence supply caches — sealed crates with a warden mark. Check the north approach, the central lane, and the east gate.",
       "completeDialogue": "All in place. The market lane can hold against any incursion long enough for the guards to respond. I never thought I would be saying this, but I am proud of this market today.",
       "steps": [
@@ -3031,9 +3031,9 @@
       "giverNpcId": "trophy-keeper-orin",
       "receiverNpcId": "elder",
       "prerequisite": "quest:orin-champions-shield|quest:thorin-hub-defense-plan",
-      "offerDialogue": "Every champion whose trophy hangs here took an oath to defend this hub. I have written a champions' pledge in their name — a formal declaration that this hub will stand. It needs the Elder's witness and Thorin's seal. Carry it to them both.",
+      "offerDialogue": "Every champion whose trophy hangs here took an oath to defend this town. I have written a champions' pledge in their name — a formal declaration that this town will stand. It needs the Elder's witness and Thorin's seal. Carry it to them both.",
       "activeDialogue": "Take the champions' pledge to the Elder, then to Captain Thorin.",
-      "completeDialogue": "The champions would be proud. Thorin, add your seal. This pledge is now part of the hub's founding record — and its future.",
+      "completeDialogue": "The champions would be proud. Thorin, add your seal. This pledge is now part of the town's founding record — and its future.",
       "steps": [
         {
           "key": "collect-pledge",
@@ -3116,7 +3116,7 @@
       "prerequisite": "quest:vex-supply-chain-rebuilt|quest:mira-anti-fracture-charms",
       "offerDialogue": "One last delivery — three special reagents I sourced through the new supply chain. One to Naia for the reunification protocol, one to Mira for the charm renewal, one to Bramble for the fortification supplies. My best work, and the most important trade I have ever made.",
       "activeDialogue": "Deliver the reagents to Naia, then Mira, then Bramble.",
-      "completeDialogue": "These are exactly what was needed. Tell Vex — this trade just gave the hub its best chance.",
+      "completeDialogue": "These are exactly what was needed. Tell Vex — this trade just gave the town its best chance.",
       "steps": [
         {
           "key": "collect-reagents",
@@ -3161,9 +3161,9 @@
       "giverNpcId": "elder",
       "receiverNpcId": "elder",
       "prerequisite": "quest:elder-rallying-the-hub|quest:naia-heartstone-location|quest:thorin-vault-preparation|quest:mira-anti-fracture-charms",
-      "offerDialogue": "The time has come. The reunification protocol requires four Convergence Shards — natural resonance anchors that stabilise the process. They are scattered across the hub's oldest points: the courtyard foundation, the pond's edge, the scholars' cornerstone, and the barracks gate. Retrieve them.",
-      "activeDialogue": "Four Convergence Shards — crystalline, warm to touch, glowing faintly amber. At the four oldest points of the hub.",
-      "completeDialogue": "You have them. All four. Now — with the Hearthstone fragments secured and the reunification protocol in hand — we are ready. This is what we have been building toward. Thank you. Every person in this hub owes you more than words can carry.",
+      "offerDialogue": "The time has come. The reunification protocol requires four Convergence Shards — natural resonance anchors that stabilise the process. They are scattered across the town's oldest points: the courtyard foundation, the pond's edge, the scholars' cornerstone, and the barracks gate. Retrieve them.",
+      "activeDialogue": "Four Convergence Shards — crystalline, warm to touch, glowing faintly amber. At the four oldest points of the town.",
+      "completeDialogue": "You have them. All four. Now — with the Hearthstone fragments secured and the reunification protocol in hand — we are ready. This is what we have been building toward. Thank you. Every person in this town owes you more than words can carry.",
       "steps": [
         {
           "key": "shards",
@@ -3182,7 +3182,7 @@
           "id": "convergence-pendant",
           "name": "Convergence Pendant",
           "icon": "goldChest",
-          "desc": "A pendant forged from the four Convergence Shards — a symbol that the hub stood together when it mattered most."
+          "desc": "A pendant forged from the four Convergence Shards — a symbol that the town stood together when it mattered most."
         },
         "friendship": {
           "elder": 60,
@@ -3216,7 +3216,7 @@
       "prerequisite": "quest:elder-the-convergence|quest:lyss-the-final-cipher|quest:alric-heartstone-analysis|quest:thorin-hub-defense-plan",
       "offerDialogue": "This is it. The Hearthstone is to be reunified tonight. Each guardian must bless it at their station — the Elder, Naia, Rosie, Ferryn, Vex, and old Greyfish. I carry the Hearthstone itself. You carry the word. Go to each of them, in order, and let them know. They will know what to do.",
       "activeDialogue": "Bring the word to each guardian in order. They are waiting.",
-      "completeDialogue": "The last watch is kept. The Hearthstone is whole. The Fracture's grip on this hub breaks today.",
+      "completeDialogue": "The last watch is kept. The Hearthstone is whole. The Fracture's grip on this town breaks today.",
       "steps": [
         {
           "key": "collect-hearthstone",
@@ -3269,7 +3269,7 @@
           "id": "hearthstone",
           "name": "The Hearthstone",
           "icon": "goldChest",
-          "desc": "The reunified Hearthstone — three fragments made whole. The Fracture's hold on the hub is broken, and this artefact stands as proof that the hub endured."
+          "desc": "The reunified Hearthstone — three fragments made whole. The Fracture's hold on the town is broken, and this artefact stands as proof that the town endured."
         },
         "friendship": {
           "guard-captain-thorin": 50,
@@ -3369,7 +3369,7 @@
       "receiverNpcId": "quickbattle-gate",
       "offerDialogue": "Everything's locked and loaded on my end, Commander. Troops reviewed, routes clear. Take this clearance back to Pit Master Gorr — he'll give the order to open the gates.",
       "activeDialogue": "Gorr's waiting for the all-clear. Take it back to him and the town opens up.",
-      "completeDialogue": "That's everyone. You've got the all-clear from the whole garrison. Alright — opening the gates now. Welcome to the hub, Commander. It's all yours.",
+      "completeDialogue": "That's everyone. You've got the all-clear from the whole garrison. Alright — opening the gates now. Welcome to the town, Commander. It's all yours.",
       "steps": [
         {
           "key": "deliver",
