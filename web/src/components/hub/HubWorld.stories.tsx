@@ -1,7 +1,7 @@
 import { fn } from 'storybook/test'
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { HubWorld } from './HubWorld'
+import { HubWorld, Props } from './HubWorld'
 import { ALL_QUEST_DEFS, ALL_QUESTS, IRONHOLDKEEP, IRONHOLDKEEP_QUESTS, MILLHAVE, MILLHAVE_QUESTS, RAVENWATCH, RAVENWATCH_QUESTS } from '../../data/hub/hubWorldFactory'
 
 const meta = {
@@ -34,7 +34,7 @@ export const Default: Story = {
   },
 }
 
-function tileInspector (args){
+function tileInspector (args: Props){
 
     const [tile, setTile] = useState<{ tx: number; ty: number } | null>(null)
     const [copied, setCopied] = useState(false)
