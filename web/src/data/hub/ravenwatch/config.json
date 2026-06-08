@@ -2,11 +2,11 @@
   "mapW": 2400,
   "mapH": 2240,
   "townName": "Ravenwatch",
-  "environment": "farmland",  
-  "avatarStart": [
-    37,
-    29
-  ],
+  "environment": "farmland",
+  "avatarStart": {
+    "tx": 37,
+    "ty": 29
+  },
   "exitTiles": [
     {
       "tx": 36,
@@ -3976,7 +3976,7 @@
       "zlayer": "solid"
     },
     {
-      "tx": 4,
+      "tx": 5,
       "ty": 11,
       "tileId": "sack",
       "zlayer": "solid"

@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import type { MapId, ToolMode } from './mapEditorTypes'
+import type { ToolMode } from './mapEditorTypes'
 import { saveMap, saveQuestDefs } from './mapEditorApi'
 import type { RawMapConfig } from './mapEditorTypes'
+import { MapId } from '../../data/hub/hubWorldFactory'
 
 const MAP_OPTIONS: { id: MapId; label: string }[] = [
-  { id: 'hub',    label: 'Hub — Ravenwatch' },
-  { id: 'town2',  label: 'Town — Millhaven' },
-  { id: 'castle', label: 'Castle — Ironhold Keep' },
+  { id: 'ravenwatch',    label: 'Hub — Ravenwatch' },
+  { id: 'millhaven',  label: 'Town — Millhaven' },
+  { id: 'ironholdkeep', label: 'Castle — Ironhold Keep' },
 ]
 
 interface Props {

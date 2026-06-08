@@ -3,10 +3,10 @@
   "mapH": 900,
   "townName": "Millhaven",
   "environment": "forest",
-  "avatarStart": [
-    18,
-    24
-  ],
+  "avatarStart": {
+    "tx": 18,
+    "ty": 24
+  },
   "exitTiles": [
     {
       "tx": 17,
@@ -370,7 +370,7 @@
     },
     {
       "tx": 5,
-      "ty": 12,
+      "ty": 13,
       "tileId": "smallRock"
     },
     {

@@ -1,0 +1,240 @@
+export interface RawTileCoord {tile: readonly number[]}
+export interface RawTileRectCoord {  rect: readonly number[]}
+export interface RawTileRectsCoord {rects: readonly number[][]}
+
+export interface RawRectTileEntry extends RawTileRectCoord {
+  pathType?: string
+}
+export interface RawSingleTileEntry extends RawTileCoord {
+  pathType?: string
+}
+
+export type RawTileEntry =
+  | RawRectTileEntry
+  | RawSingleTileEntry
+
+export interface RawArea {
+  id: string
+  name: string
+  tx: number
+  ty: number
+  tw: number
+  th: number
+}
+
+export interface RawDoor {
+  tx: number
+  ty: number
+  buildingId?: string
+  hideSign?: boolean
+}
+
+export interface RawWindow {
+  tx: number
+  ty: number
+  tileId: string
+}
+
+export interface RawDecor {
+  tx?: number
+  ty?: number
+  tileId?: string
+  bundleID?: string
+  zlayer?: string
+  comment?: string
+}
+
+export interface RawCoordinate {  tx: number
+  ty: number}
+
+
+export interface BaseBuilding {
+  id?: string
+  wall?: string
+  roof?: string
+  bundleID?: string
+  comment?: string
+
+  doors?: RawDoor[]
+  windows?: RawWindow[]
+  decor?: RawDecor[]
+}
+
+export interface RawBuildingRect extends BaseBuilding {
+  rect?: RawTileRectCoord
+}
+export interface RawBuildingRects extends BaseBuilding {
+  rects?: RawTileRectsCoord
+}
+
+export type RawBuilding = RawBuildingRect | RawBuildingRects
+
+
+export type RawPondEntry = RawTileRectCoord | RawTileCoord
+
+export interface RawExitTile {
+  tx: number
+  ty: number
+  screen: string
+}
+
+
+
+export interface OpenAndCloseTime {
+  open: number
+  close: number
+}
+
+export interface RawInterior {
+  name: string
+  width: number
+  height: number
+
+  floorTileId: string
+  wallTileId?: string
+
+  decor: RawDecor[]
+
+  exits?: Array<{
+    tx: number
+    ty: number
+    toInteriorId: string
+    entryTx?: number
+    entryTy?: number
+    direction?: string //'up' | 'down'
+    lockedBy?: string
+    requiredQuest?: string
+    label?: string
+  }>
+
+  hours?: string | OpenAndCloseTime
+}
+
+
+export interface RawExteriorNPCLocation {
+        type: string
+        readonly  isExterior?: true
+        tx: number
+        ty: number
+}
+
+export interface RawInteriorNPCLocation {
+          type: string
+        readonly  isExterior?: false
+        buildingId: string
+        tx: number
+        ty: number
+}
+
+export interface RawNpcScheduleEntry {
+  startHour: number
+  endHour: number
+
+  location: RawExteriorNPCLocation | RawInteriorNPCLocation
+}
+
+export interface RawNpc {
+  id: string
+  name: string
+  sprite: string
+
+  tx: number
+  ty: number
+
+  dialogue: string[]
+
+  screen?: string
+  building?: string
+
+  questGive?: string
+  questReceive?: string | string[]
+
+  innRumours?: Array<{
+    id: string
+    text: string
+  }>
+
+  isGhost?: boolean
+
+  schedule?: RawNpcScheduleEntry[]
+
+  homeBed?: {
+    buildingId: string
+    tx: number
+    ty: number
+  }
+}
+
+export interface RawLockedDoor {
+  buildingId: string
+  lockedBy: string
+}
+
+export interface RawTreasureReward {
+  crystals?: number
+
+  collectible?: {
+    id: string
+    name: string
+    icon: string
+    desc: string
+  }
+
+  consumables?: Array<{
+    id: string
+    quantity: number
+  }>
+}
+
+export interface RawTreasure {
+  id: string
+
+  tx: number
+  ty: number
+
+  tileId: string
+  collectedTileId?: string
+
+  title: string
+  reward: RawTreasureReward
+
+  buildingId?: string
+}
+
+export interface RawConfig {
+  mapW: number
+  mapH: number
+
+  townName?: string
+  environment?: string
+
+  avatarStart:RawCoordinate
+
+  exitTiles?: RawExitTile[]
+
+  areas: RawArea[]
+
+  streets: RawTileEntry[]
+
+  buildings: RawBuilding[]
+
+  exteriorDecor: RawDecor[]
+
+  pondTiles?: RawPondEntry[]
+
+  interiors: Record<string, RawInterior>
+
+  npcs: RawNpc[]
+
+  npcSpawnTiles: [number, number][]
+
+  windows?: RawWindow[]
+
+  doors?: RawDoor[]
+
+  ambientNpcSprites?: string[]
+
+  lockedDoors?: RawLockedDoor[]
+
+  treasures?: RawTreasure[]
+}

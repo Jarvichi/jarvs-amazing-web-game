@@ -61,7 +61,6 @@ import { PackOpening }        from './components/cards/PackOpening'
 import { NodeMap }            from './components/campaign/NodeMap'
 import { HubWorld }           from './components/hub/HubWorld'
 import { HubWorldMap }        from './components/hub/HubWorldMap'
-import { HubLocationWorld }   from './components/hub/HubLocationWorld'
 import { CasinoScreen }       from './components/hub/CasinoScreen'
 import { PostBattleReward }   from './components/battle/PostBattleReward'
 import { ActComplete }        from './components/battle/ActComplete'
@@ -104,7 +103,7 @@ import { useAchievements } from './hooks/useAchievements'
 import { isNoDamageMode } from './game/debug'
 import { saveBattleState, loadBattleState, clearBattleState } from './game/battleState'
 import { loadCommander, promoteCommander, CommanderState } from './game/commander'
-import { LOCATION_REGISTRY } from './data/world/locationRegistry'
+
 import { WORLD_MAP_NODES, type WorldNodeDef } from './data/world/worldMapDef'
 import { setCurrentWorldLocation, markNodeCleared, isNodeCleared } from './game/world/worldState'
 import { CommanderScreen } from './components/screens/CommanderScreen'
@@ -143,6 +142,7 @@ import rollbar, { updateRollbarPerson } from './rollbar'
 import { useAuth } from './hooks/useAuth'
 import { auth } from './firebase'
 import { uploadSave, applySave } from './game/cloudSave'
+import { ALL_QUEST_DEFS, LOCATION_REGISTRY } from './data/hub/hubWorldFactory'
 
 // Apply saved display settings on load
 applyTextSettings()
@@ -389,10 +389,6 @@ export default function App() {
   const [packs, setPacks]         = useState<string[][]>([])
   const [handicap, setHandicap]   = useState<number>(loadHandicap)
   const [crystals, setCrystals]   = useState<number>(loadCrystals)
-  const allQuestDefs = useMemo(
-    () => Object.values(LOCATION_REGISTRY).flatMap(e => e.questDefs),
-    []
-  )
   const [quickPlayRewardClaimed, setQuickPlayRewardClaimed] = useState(false)
 
   // Campaign run state
@@ -2622,7 +2618,23 @@ export default function App() {
         />
       )}
 
-      {screen === 'hubworld' && (
+
+      {/* {screen === 'location' && LOCATION_REGISTRY[currentLocationKey] && (
+        <HubLocationWorld
+          locationData={LOCATION_REGISTRY[currentLocationKey].locationData}
+          locationQuests={LOCATION_REGISTRY[currentLocationKey].locationQuests}
+          questDefs={LOCATION_REGISTRY[currentLocationKey].questDefs}
+          allQuestDefs={ ALL_QUEST_DEFS}
+          user={user}
+          crystals={crystals}
+          commander={commander ?? undefined}
+          onBack={() => setScreen('worldmap')}
+          onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
+          onFeedback={() => setFeedbackOpen(true)}
+        />
+      )} */}
+
+      {(screen === 'hubworld' || screen === 'location') && (
         <HubWorld
           onBack={() => setScreen('settings')}
           onNavigate={(s) => {
@@ -2642,6 +2654,13 @@ export default function App() {
           crystals={crystals}
           user={user}
           commander={commander ?? undefined}
+
+          locationData={LOCATION_REGISTRY[currentLocationKey].locationData}
+          locationQuests={LOCATION_REGISTRY[currentLocationKey].locationQuests}
+          questDefs={LOCATION_REGISTRY[currentLocationKey].questDefs}
+          allQuestDefs={ ALL_QUEST_DEFS}
+
+
           isSignedIn={user != null && !user.isAnonymous}
           onSignIn={() => setShowTitleLoginModal(true)}
           onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
@@ -2684,11 +2703,12 @@ export default function App() {
         />
       )}
 
-      {screen === 'location' && LOCATION_REGISTRY[currentLocationKey] && (
+      {/* {screen === 'location' && LOCATION_REGISTRY[currentLocationKey] && (
         <HubLocationWorld
           locationData={LOCATION_REGISTRY[currentLocationKey].locationData}
+          locationQuests={LOCATION_REGISTRY[currentLocationKey].locationQuests}
           questDefs={LOCATION_REGISTRY[currentLocationKey].questDefs}
-          allQuestDefs={allQuestDefs}
+          allQuestDefs={ ALL_QUEST_DEFS}
           user={user}
           crystals={crystals}
           commander={commander ?? undefined}
@@ -2696,7 +2716,7 @@ export default function App() {
           onCrystalsChange={(n) => { saveCrystals(n); setCrystals(n) }}
           onFeedback={() => setFeedbackOpen(true)}
         />
-      )}
+      )} */}
 
       {screen === 'giftAdmin' && (
         <GiftAdminScreen onBack={() => setScreen('settings')} />

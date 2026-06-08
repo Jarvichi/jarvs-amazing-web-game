@@ -1,7 +1,8 @@
 import { fn } from 'storybook/test'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { TreasureModal } from './TreasureModal'
-import type { HubTreasure } from '../../data/hub/loader'
+import { HubTreasure } from '../../data/hub/loader'
+
 
 const meta = {
   component: TreasureModal,

@@ -1,20 +1,11 @@
+import { MapId } from '../../data/hub/hubWorldFactory'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 
-export type MapId = 'hub' | 'town2' | 'castle'
+
 export type ToolMode = 'select' | 'place' | 'delete' | 'street'
 export type Zlayer = 'solid' | 'below' | 'above'
 export type ViewMode = 'exterior' | 'interior'
 
-export interface RawQuestPickupItem {
-  id: string
-  tx: number
-  ty: number
-  tileId: string
-  questId?: string
-  building?: string
-  chain?: string
-  requireTouch?: boolean
-}
 
 // Raw JSON shapes — matches what config.json actually stores
 export interface RawDecorItem {

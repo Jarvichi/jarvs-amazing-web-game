@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
-import { HUB_QUEST_DEFS } from '../../data/hub/questDefs'
 import type { HubQuestDef } from '../../data/hub/questDefs'
 import { getQuestState, getQuestProgress } from '../../game/hub/quests'
 
 interface Props {
   onClose: () => void
   onAbandon: (questId: string) => void
-  questDefs?: HubQuestDef[]
+  questDefs: HubQuestDef[]
 }
 
 function progressDots(current: number, required: number): string {
@@ -20,20 +19,19 @@ function getActiveHint(quest: HubQuestDef): string {
   if (typeof activeDialogue === 'string') return activeDialogue
   for (const step of quest.steps) {
     if (getQuestProgress(quest.id, step.key) < step.required) {
-      return activeDialogue[step.key] ?? Object.values(activeDialogue)[0]
+      return activeDialogue[step.key] ?? (Object.values(activeDialogue)[0] || "Hello")
     }
   }
-  return Object.values(activeDialogue)[Object.values(activeDialogue).length - 1]
+  return Object.values(activeDialogue)[Object.values(activeDialogue).length - 1] || "Hello"
 }
 
-export function QuestsModal({ onClose, onAbandon, questDefs: questDefsProp }: Props) {
+export function QuestsModal({ onClose, onAbandon, questDefs }: Props) {
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
-  const defs = questDefsProp ?? HUB_QUEST_DEFS
 
-  const active    = defs.filter(q => getQuestState(q.id).status === 'active')
-  const completed = defs.filter(q => getQuestState(q.id).status === 'completed')
+  const active    = questDefs.filter(q => getQuestState(q.id).status === 'active')
+  const completed = questDefs.filter(q => getQuestState(q.id).status === 'completed')
   const discovered = active.length + completed.length
-  const total      = defs.length
+  const total      = questDefs.length
 
   return (
     <ModalBackdrop onClose={onClose}>

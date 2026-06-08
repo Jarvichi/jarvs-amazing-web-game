@@ -6,17 +6,14 @@ import { renderPathTiles } from '../../utils/tileLookup'
 import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileTexture } from '../../utils/pixiHelpers'
 import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
-import { HUB_LOCATION_DATA } from '../../data/hub/loader'
-import type { HubInteriorExit, NpcScheduleEntry } from '../../data/hub/loader'
-import type { HubLocationData } from '../../data/hub/locationTypes'
 import { isBuildingOpen, getNpcLocation } from '../../game/hub/hubNpcSchedule'
 import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { loadPlayerAvatar } from '../../game/questline'
-import type { HubNpc } from '../../data/hub/loader'
 import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
+import { HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry } from '../../data/hub/loader'
 
 
 const T                 = 32
@@ -82,7 +79,8 @@ interface Props {
   gameHour?:             number
   isNight?:              boolean
   npcProximityDialogue?: React.MutableRefObject<Map<string, { atDistance: number; text: string }[]>>
-  locationData?:         HubLocationData
+  locationData:         HubLocationBundle
+  questData: HubQuestBundle
 }
 
 export function HubTownCanvas({
@@ -92,22 +90,24 @@ export function HubTownCanvas({
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
   gameHour, isNight, npcProximityDialogue,
-  locationData: locationDataProp,
+  locationData,
+  questData
 }: Props) {
-  const loc = locationDataProp ?? HUB_LOCATION_DATA
   const {
     MAP_W, MAP_H, AVATAR_START,
     HUB_AREAS, HUB_BUILDINGS,
-    HUB_STREET_GROUPS, HUB_STREET_TILES,
+    HUB_STREET_GROUPS,
+    HUB_STREET_TILES,
     EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES,
     HUB_DOORS, HUB_INTERIORS, EXTERIOR_NPCS, INTERIOR_NPCS,
-    NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES, HUB_PICKUP_ITEMS,
-    HUB_BLOCKED_PATHS, HUB_LOCKED_DOORS, HUB_TREASURES,
+    NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES,
+   HUB_LOCKED_DOORS, HUB_TREASURES,
     EXIT_TILES: exitTilesData,
-    TOWN_NAME: locationKey,
-  } = loc
-  const HUB_ENV = locationDataProp?.ENVIRONMENT || 'camp'
-  const COURTYARD_PX = { x: AVATAR_START[0] * T + T / 2, y: AVATAR_START[1] * T + T }
+    HUB_TOWN_NAME: locationKey,
+  } = locationData
+  const {HUB_QUEST_DEFS,INN_RUMOURS,FRIENDSHIP_DIALOGUE,HUB_PICKUP_ITEMS,HUB_BLOCKED_PATHS} = questData
+  const HUB_ENV = locationData?.ENVIRONMENT || 'camp'
+  const COURTYARD_PX = { x: AVATAR_START.tx * T + T / 2, y: AVATAR_START.ty * T + T }
   const containerRef      = useRef<HTMLDivElement>(null)
   const onAreaRef         = useRef(onAreaEnter)
   onAreaRef.current       = onAreaEnter
@@ -659,7 +659,7 @@ export function HubTownCanvas({
         interiorLayer.addChild(s)
         avatarInInterior = true
       } else {
-        const startTile: [number, number] = _savedTiles.has(locationKey) ? [..._savedTiles.get(locationKey)!] : [...AVATAR_START]
+        const startTile: [number, number] = _savedTiles.has(locationKey) ? [..._savedTiles.get(locationKey)!] : [AVATAR_START.tx,AVATAR_START.ty]
         currentTile = startTile
         s.position.set(startTile[0] * T + T / 2, startTile[1] * T + T)
         avatarLayer.addChild(s)
@@ -1038,7 +1038,7 @@ export function HubTownCanvas({
     }
 
     // ── Exterior walk state ────────────────────────────────────────────────────
-    let currentTile: [number, number] = [...AVATAR_START]
+    let currentTile: [number, number] = [AVATAR_START.tx, AVATAR_START.ty]
     let walkQueue:   [number, number][] = []
     let isWalking    = false
     let pendingScreen: string | null = null
@@ -1806,7 +1806,7 @@ export function HubTownCanvas({
       walkQueue     = []
       pendingScreen = null
       isWalking     = false
-      currentTile   = [...AVATAR_START]
+      currentTile   = [AVATAR_START.tx, AVATAR_START.ty]
       _savedTiles.delete(locationKey)
       if (avatar) { avatar.x = COURTYARD_PX.x; avatar.y = COURTYARD_PX.y }
       onAvatarMoveRef.current(COURTYARD_PX.x, COURTYARD_PX.y)

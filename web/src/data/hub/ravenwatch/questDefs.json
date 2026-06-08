@@ -5470,6 +5470,90 @@
         "npcs": []
       },
       "cleared": {}
-    }
+    },
+    {
+      "id": "kingdom-block",
+      "blockedTiles": [
+        [
+          36,
+          50
+        ],
+        [
+          37,
+          50
+        ],
+        [
+          38,
+          50
+        ]
+      ],
+      "questId": "thorin-the-last-watch",
+      "blocked": {
+        "decor": [
+          {
+            "tx": 36,
+            "ty": 50,
+            "tileId": "barrel"
+          },
+          {
+            "tx": 37,
+            "ty": 50,
+            "tileId": "barrel"
+          },
+          {
+            "tx": 38,
+            "ty": 50,
+            "tileId": "barrel"
+          }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-kingdom",
+            "sprite": "hub-npc-guard",
+            "tx": 37,
+            "ty": 49,
+            "proximityDialogue": [
+              {
+                "atDistance": 4,
+                "text": "Who goes there?"
+              },
+              {
+                "atDistance": 2,
+                "text": "None shall pass!"
+              }
+            ],
+            "tapDialogue": "I've been told I'm not to move, you have unfinished business here..."
+          }
+        ]
+      },
+      "cleared": {
+        "decor": [
+          {
+            "tx": 36,
+            "ty": 49,
+            "tileId": "barrel"
+          },
+          {
+            "tx": 36,
+            "ty": 50,
+            "tileId": "barrel"
+          },
+          {
+            "tx": 36,
+            "ty": 51,
+            "tileId": "barrel"
+          }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-east-cleared",
+            "sprite": "hub-npc-guard",
+            "tx": 36,
+            "ty": 48,
+            "tapDialogue": "It's a big world out there Commander."
+          }
+        ]
+      }
+    }    
   ]
 }

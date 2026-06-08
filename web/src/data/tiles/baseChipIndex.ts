@@ -810,7 +810,26 @@ export const BASE_CHIP_TILES = {
 
     wallArchRight: 245,
   
+    roundWindowLit:609,
+    cellWindowLit:610,
     roundWindowUnlit: 617,
     cellWindowUnlit: 618,
    
+
+    archStoneDark: 258,
+
+
+
+
+        archwayWallTop: 240,
+    archwayWall: 248,
+    archwayWallRight: 249,
+    archwayWallLeft: 251,
+    archwayWallTopLeft: 252,
+    archwayWallTopShadow: 256,
+    archwayWallRight2: 257,
+    archwallLeft2: 259,
+    archTopRight: 260,
+  
+  
 } as const

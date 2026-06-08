@@ -1,20 +1,20 @@
 import React, { useRef } from 'react'
 import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
-import { HUB_INTERIORS, INTERIOR_NPCS } from '../../data/hub/loader'
 import { TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
 import { loadTileTexture, loadTextureUrl } from '../../utils/pixiHelpers'
+import { HubInterior, HubLocationBundle, HubNpc } from '../../data/hub/loader'
 
 const T  = 32
 
 interface Props {
-  interiorId: string
+  interior: HubInterior
+interior_npcs:  HubNpc[]
   scale?: number
 }
 
-export function HubInteriorViewer({ interiorId, scale = 2 }: Props) {
+export function HubInteriorViewer({ interior,interior_npcs, scale = 2 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const interior     = HUB_INTERIORS[interiorId]
 
   usePixiApp(containerRef, interior.width * T * scale, interior.height * T * scale, (app) => {
     app.stage.scale.set(scale)
@@ -75,7 +75,7 @@ export function HubInteriorViewer({ interiorId, scale = 2 }: Props) {
     }
 
     // ── NPCs ───────────────────────────────────────────────────────────────────
-    for (const npc of INTERIOR_NPCS[interiorId] ?? []) {
+    for (const npc of interior_npcs ?? []) {
       loadTextureUrl(`${base}sprites/${npc.sprite}.svg`).then(tex => {
         if (app.renderer == null) return
         const s = new PIXI.Sprite(tex)
