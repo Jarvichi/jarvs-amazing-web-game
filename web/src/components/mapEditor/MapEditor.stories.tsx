@@ -13,14 +13,14 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Hub: Story = {
-  args: { initialMapId: 'hub' },
+export const Ravenwatch: Story = {
+  args: { initialMapId: 'ravenwatch' },
 }
 
-export const Town2: Story = {
-  args: { initialMapId: 'town2' },
+export const Millhaven: Story = {
+  args: { initialMapId: 'millhaven' },
 }
 
-export const Castle: Story = {
-  args: { initialMapId: 'castle' },
+export const IronholdKeep: Story = {
+  args: { initialMapId: 'ironholdkeep' },
 }

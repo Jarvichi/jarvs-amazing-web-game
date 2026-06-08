@@ -1,10 +1,9 @@
-import rawConfig from './config.json'
-import rawQuestConfig from './questDefs.json'
 import { BASE_CHIP_TILES } from '../tiles/baseChipIndex'
 import { WALL_TILES } from '../tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
-import type { HubLocationData, HubExitTile } from './locationTypes'
 import { expandBundleDecor, expandBundleWindows, expandBundleDoors } from '../bundles/bundleLoader'
+import { FriendshipDialogue, HubQuestDef, QuestInnRumour, RawQuestConfig } from './questDefs'
+import { RawConfig } from './config'
 
 const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
 
@@ -133,6 +132,23 @@ export interface HubLockedDoor {
   lockedBy: string
 }
 
+export interface HubTreasureReward {
+  crystals?:    number
+  collectible?: { id: string; name: string; icon: string; desc: string }
+  consumables?: Array<{ id: string; quantity: number }>
+}
+
+export interface HubTreasure {
+  id:               string
+  tx:               number
+  ty:               number
+  tileId:           number
+  collectedTileId?: number   // if set, swap to this tile on collect; if absent, hide the sprite
+  title:            string
+  reward:           HubTreasureReward
+  buildingId?:      string   // if set, this treasure lives inside the named interior
+}
+
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
 type TileEntry = { rect: number[]; pathType?: string } | { tile: number[]; pathType?: string }
@@ -141,6 +157,65 @@ export interface HubStreetGroup {
   pathType?: string
   tiles: [number, number][]
 }
+
+export interface HubExitTile {
+  tx: number
+  ty: number
+  screen: string
+}
+
+const NOT_FOUND_TILE_ID = 0
+function resolveTileId(key: string): number {
+  return (BASE_CHIP_TILES as Record<string, number>)[key] ?? NOT_FOUND_TILE_ID
+}
+
+
+export interface HubCoordinate {  tx: number;  ty: number}
+
+export interface HubLocationBundle {
+  MAP_W: number
+  MAP_H: number
+  HUB_TOWN_NAME: string
+  ENVIRONMENT: string
+
+  AVATAR_START: HubCoordinate
+
+  HUB_AREAS: HubArea[]
+
+  HUB_STREET_GROUPS: HubStreetGroup[]
+
+  HUB_STREET_TILES: [number, number][]
+
+  HUB_BUILDINGS: HubBuilding[]
+  HUB_BUILDING_TILES: [number, number][]
+  EXTERIOR_DECOR: any[]
+  HUB_WINDOWS: any[]
+  HUB_POND_TILES: [number, number][]
+  HUB_DOORS: HubDoor[]
+  HUB_INTERIORS: Record<string, HubInterior>
+  HUB_NPCS: HubNpc[]
+  EXTERIOR_NPCS: HubNpc[]
+  INTERIOR_NPCS: Record<string, HubNpc[]>
+  NPC_SPAWN_TILES: [number, number][]
+  AMBIENT_NPC_SPRITES: string[]
+  HUB_LOCKED_DOORS: HubLockedDoor[]
+  HUB_TREASURES: HubTreasure[]
+  EXIT_TILES: HubExitTile[]
+
+
+}
+
+export interface HubQuestBundle {
+  HUB_QUEST_DEFS: HubQuestDef[]
+  INN_RUMOURS?: QuestInnRumour[]
+  FRIENDSHIP_DIALOGUE: FriendshipDialogue
+  HUB_PICKUP_ITEMS: HubPickupItem[]
+  HUB_BLOCKED_PATHS: BlockedPath[]
+}
+
+export function createHubLocationData(
+  rawConfig: RawConfig,
+): HubLocationBundle {
 
 function expandTiles(entries: TileEntry[]): [number, number][] {
   const out: [number, number][] = []
@@ -175,9 +250,6 @@ function groupStreets(entries: TileEntry[]): HubStreetGroup[] {
   return Array.from(map.entries()).map(([key, tiles]) => ({ pathType: key || undefined, tiles }))
 }
 
-function resolveTileId(key: string): number {
-  return (BASE_CHIP_TILES as Record<string, number>)[key] ?? 666
-}
 
 function buildingOrigin(rectList: number[][]): [number, number] {
   const tx1 = Math.min(...rectList.map(r => r[0]))
@@ -187,11 +259,11 @@ function buildingOrigin(rectList: number[][]): [number, number] {
 
 // ── Exports ────────────────────────────────────────────────────────────────────
 
-export const MAP_W = rawConfig.mapW
-export const MAP_H = rawConfig.mapH
-export const AVATAR_START = rawConfig.avatarStart as [number, number]
+const MAP_W = rawConfig.mapW
+const MAP_H = rawConfig.mapH
+const AVATAR_START = rawConfig.avatarStart 
 
-export const HUB_AREAS: HubArea[] = rawConfig.areas.map(a => ({
+const HUB_AREAS: HubArea[] = rawConfig.areas.map(a => ({
   id:   a.id,
   name: a.name,
   x:    a.tx * T,
@@ -200,8 +272,8 @@ export const HUB_AREAS: HubArea[] = rawConfig.areas.map(a => ({
   h:    a.th * T,
 }))
 
-export const HUB_STREET_GROUPS: HubStreetGroup[] = groupStreets(rawConfig.streets as TileEntry[])
-export const HUB_STREET_TILES:  [number, number][] = HUB_STREET_GROUPS.flatMap(g => g.tiles)
+const HUB_STREET_GROUPS: HubStreetGroup[] = groupStreets(rawConfig.streets as TileEntry[])
+const HUB_STREET_TILES:  [number, number][] = HUB_STREET_GROUPS.flatMap(g => g.tiles)
 type RawBuilding = {
   rect?: number[]; rects?: number[][];
   id?: string; wall?: string; roof?: string;
@@ -210,7 +282,7 @@ type RawBuilding = {
   windows?: Array<{ tx: number; ty: number; tileId: string }>
   decor?:   Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>
 }
-export const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).flatMap(b => {
+const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[]).flatMap(b => {
   const rectList = b.rects ?? (b.rect ? [b.rect] : [])
   return rectList.map(rect => ({
     rect: rect as [number, number, number, number],
@@ -220,7 +292,7 @@ export const HUB_BUILDINGS: HubBuilding[] = (rawConfig.buildings as RawBuilding[
   }))
 })
 
-export const HUB_BUILDING_TILES: [number, number][] = HUB_BUILDINGS.flatMap(b => {
+const HUB_BUILDING_TILES: [number, number][] = HUB_BUILDINGS.flatMap(b => {
   const [tx1, ty1, tx2, ty2] = b.rect
   const tiles: [number, number][] = []
   for (let tx = tx1; tx <= tx2; tx++)
@@ -270,7 +342,7 @@ for (const b of rawConfig.buildings as RawBuilding[]) {
 }
 
 type RawDecorEntry = { tx?: number; ty?: number; tileId?: string; bundleID?: string; comment?: string; zlayer?: string }
-export const EXTERIOR_DECOR = [
+const EXTERIOR_DECOR = [
   ...(rawConfig.exteriorDecor as RawDecorEntry[]).flatMap(d => {
     if (d.tx == null || d.ty == null) return []
     if (d.bundleID) return expandBundleDecor(d.bundleID, d.tx, d.ty)
@@ -281,7 +353,7 @@ export const EXTERIOR_DECOR = [
 ]
 
 type RawWindowEntry = { tx: number; ty: number; tileId: string }
-export const HUB_WINDOWS = [
+const HUB_WINDOWS = [
   ...((rawConfig as unknown as { windows?: RawWindowEntry[] }).windows ?? []).map(w => ({
     tx: w.tx, ty: w.ty, tileId: resolveTileId(w.tileId),
   })),
@@ -289,15 +361,15 @@ export const HUB_WINDOWS = [
 ]
 
 type RawPondEntry = { rect?: number[]; tile?: number[] }
-export const HUB_POND_TILES: [number, number][] = expandTiles(
+const HUB_POND_TILES: [number, number][] = expandTiles(
   ((rawConfig as unknown as { pondTiles?: RawPondEntry[] }).pondTiles ?? []) as TileEntry[]
 )
 
-export const HUB_DOORS: HubDoor[] = [...((rawConfig as unknown as { doors?: HubDoor[] }).doors ?? []), ..._nestedDoors]
+const HUB_DOORS: HubDoor[] = [...((rawConfig as unknown as { doors?: HubDoor[] }).doors ?? []), ..._nestedDoors]
 
-export const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
+const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
   Object.entries(rawConfig.interiors).map(([id, raw]) => {
-    const rawAny = raw as Record<string, unknown>
+    const rawAny = raw
     const wallTileIdStr = rawAny.wallTileId as string | undefined
     return [
       id,
@@ -320,11 +392,11 @@ export const HUB_INTERIORS: Record<string, HubInterior> = Object.fromEntries(
   })
 )
 
-export const HUB_NPCS: HubNpc[] = rawConfig.npcs as HubNpc[]
+const HUB_NPCS: HubNpc[] = rawConfig.npcs as HubNpc[]
 
-export const EXTERIOR_NPCS = HUB_NPCS.filter(n => !n.building)
+const EXTERIOR_NPCS = HUB_NPCS.filter(n => !n.building)
 
-export const INTERIOR_NPCS: Record<string, HubNpc[]> = HUB_NPCS
+const INTERIOR_NPCS: Record<string, HubNpc[]> = HUB_NPCS
   .filter(n => !!n.building)
   .reduce<Record<string, HubNpc[]>>((acc, n) => {
     const key = n.building!
@@ -333,29 +405,124 @@ export const INTERIOR_NPCS: Record<string, HubNpc[]> = HUB_NPCS
     return acc
   }, {})
 
-export const NPC_SPAWN_TILES: [number, number][] = [
+const NPC_SPAWN_TILES: [number, number][] = [
   ...(rawConfig.npcSpawnTiles as [number, number][]),
   ...HUB_DOORS.map(d => [d.tx, d.ty] as [number, number]),
 ]
 
-export const AMBIENT_NPC_SPRITES: string[] = (rawConfig as { ambientNpcSprites?: string[] }).ambientNpcSprites ?? []
+const AMBIENT_NPC_SPRITES: string[] = (rawConfig as { ambientNpcSprites?: string[] }).ambientNpcSprites ?? []
 
-type RawPickup = { id: string; tx: number; ty: number; tileId: string; building?: string; questId?: string; chain?: string; requireTouch?: boolean }
-export const HUB_PICKUP_ITEMS: HubPickupItem[] = (
-  (rawQuestConfig as unknown as { pickupItems?: RawPickup[] }).pickupItems ?? []
-).map(p => ({
-  id:           p.id,
-  tx:           p.tx,
-  ty:           p.ty,
-  tileId:       resolveTileId(p.tileId),
-  building:     p.building,
-  questId:      p.questId,
-  chain:        p.chain,
-  requireTouch: p.requireTouch,
+
+
+
+
+
+
+type RawLockedDoor = { buildingId: string; lockedBy: string }
+const HUB_LOCKED_DOORS: HubLockedDoor[] = (
+  (rawConfig as unknown as { lockedDoors?: RawLockedDoor[] }).lockedDoors ?? []
+)
+
+
+
+type RawTreasure = { id: string; tx: number; ty: number; tileId: string; collectedTileId?: string; title: string; reward: HubTreasureReward; buildingId?: string }
+ const HUB_TREASURES: HubTreasure[] = (
+  (rawConfig as unknown as { treasures?: RawTreasure[] }).treasures ?? []
+).map(t => ({
+  ...t,
+  tileId:           resolveTileId(t.tileId),
+  collectedTileId:  t.collectedTileId ? resolveTileId(t.collectedTileId) : undefined,
 }))
+
+ const HUB_TOWN_NAME: string = (rawConfig as unknown as { townName?: string }).townName ?? 'Town'
+const ENVIRONMENT: string = (rawConfig as unknown as { environment?: string }).environment ?? 'camp'
+
+type RawExitTile = { tx: number; ty: number; screen: string }
+ const HUB_EXIT_TILES: HubExitTile[] = (
+  (rawConfig as unknown as { exitTiles?: RawExitTile[] }).exitTiles ?? []
+)
+
+
+// export interface HubQuestStep {
+//   key: string
+//   type: 'collect' | 'deliver'
+//   pickupIds?: string[]
+//   targetNpcId?: string
+//   required: number
+//   chain?: string
+// }
+
+// export interface HubQuestReward {
+//   crystals?: number
+//   collectible?: { id: string; name: string; icon: string; desc: string }
+//   card?: { name: string; count?: number }
+//   friendship?: Record<string, number>
+//   unlock?: string
+// }
+
+// export interface HubQuestDef {
+//   id: string
+//   title: string
+//   type: 'fetch' | 'chain' | 'lost-items'
+//   giverNpcId: string
+//   receiverNpcId: string
+//   prerequisite?: string
+//   offerDialogue: string
+//   activeDialogue: string | Record<string, string>
+//   completeDialogue: string
+//   steps: HubQuestStep[]
+//   reward: HubQuestReward
+//   availableHours?: { start: number; end: number }
+// }
+
+
+
+
+  return {
+    MAP_W,
+    MAP_H,
+    AVATAR_START,
+    HUB_TOWN_NAME,
+    ENVIRONMENT,
+    HUB_AREAS,
+    HUB_STREET_GROUPS,
+    HUB_STREET_TILES: HUB_STREET_TILES,
+    
+    HUB_BUILDINGS,
+    HUB_BUILDING_TILES,
+    EXTERIOR_DECOR,
+    HUB_WINDOWS,
+    HUB_POND_TILES,
+    HUB_DOORS,
+    HUB_INTERIORS,
+    HUB_NPCS,
+    EXTERIOR_NPCS,
+    INTERIOR_NPCS,
+    NPC_SPAWN_TILES,
+    AMBIENT_NPC_SPRITES,
+
+    HUB_LOCKED_DOORS,
+    HUB_TREASURES,
+    EXIT_TILES: HUB_EXIT_TILES,
+
+  }
+}
+
+export function createHubQuestData(
+  
+  rawQuestConfig: RawQuestConfig
+): HubQuestBundle {
+
+const HUB_QUEST_DEFS: HubQuestDef[] = rawQuestConfig.quests as unknown as HubQuestDef[] || {}
+
+const INN_RUMOURS = rawQuestConfig.innRumours || []
+
+const FRIENDSHIP_DIALOGUE = rawQuestConfig.friendshipDialogue || {}
 
 type RawBlockedPathNpc = { id: string; sprite: string; tx: number; ty: number; proximityDialogue?: { atDistance: number; text: string }[]; tapDialogue?: string }
 type RawBlockedPathState = { decor?: Array<{ tx: number; ty: number; tileId?: string; bundleID?: string; zlayer?: string }>; npcs?: RawBlockedPathNpc[] }
+
+
 type RawBlockedPath = { id: string; blockedTiles: [number, number][]; questId: string; blocked: RawBlockedPathState; cleared: RawBlockedPathState }
 
 function resolveBlockedPathState(raw: RawBlockedPathState): BlockedPathState {
@@ -368,7 +535,7 @@ function resolveBlockedPathState(raw: RawBlockedPathState): BlockedPathState {
   }
 }
 
-export const HUB_BLOCKED_PATHS: BlockedPath[] = (
+const HUB_BLOCKED_PATHS: BlockedPath[] = (
   (rawQuestConfig as unknown as { blockedPaths?: RawBlockedPath[] }).blockedPaths ?? []
 ).map(bp => ({
   id:           bp.id,
@@ -378,67 +545,27 @@ export const HUB_BLOCKED_PATHS: BlockedPath[] = (
   cleared:      resolveBlockedPathState(bp.cleared),
 }))
 
-type RawLockedDoor = { buildingId: string; lockedBy: string }
-export const HUB_LOCKED_DOORS: HubLockedDoor[] = (
-  (rawConfig as unknown as { lockedDoors?: RawLockedDoor[] }).lockedDoors ?? []
-)
-
-export interface HubTreasureReward {
-  crystals?:    number
-  collectible?: { id: string; name: string; icon: string; desc: string }
-  consumables?: Array<{ id: string; quantity: number }>
-}
-
-export interface HubTreasure {
-  id:               string
-  tx:               number
-  ty:               number
-  tileId:           number
-  collectedTileId?: number   // if set, swap to this tile on collect; if absent, hide the sprite
-  title:            string
-  reward:           HubTreasureReward
-  buildingId?:      string   // if set, this treasure lives inside the named interior
-}
-
-type RawTreasure = { id: string; tx: number; ty: number; tileId: string; collectedTileId?: string; title: string; reward: HubTreasureReward; buildingId?: string }
-export const HUB_TREASURES: HubTreasure[] = (
-  (rawConfig as unknown as { treasures?: RawTreasure[] }).treasures ?? []
-).map(t => ({
-  ...t,
-  tileId:           resolveTileId(t.tileId),
-  collectedTileId:  t.collectedTileId ? resolveTileId(t.collectedTileId) : undefined,
+type RawPickup = { id: string; tx: number; ty: number; tileId: string; building?: string; questId?: string; chain?: string; requireTouch?: boolean }
+const HUB_PICKUP_ITEMS: HubPickupItem[] = (
+  (rawQuestConfig as unknown as { pickupItems?: RawPickup[] }).pickupItems ?? []
+).map(p => ({
+  id:           p.id,
+  tx:           p.tx,
+  ty:           p.ty,
+  tileId:       resolveTileId(p.tileId),
+  building:     p.building,
+  questId:      p.questId,
+  chain:        p.chain,
+  requireTouch: p.requireTouch,
 }))
 
-export const HUB_TOWN_NAME: string = (rawConfig as unknown as { townName?: string }).townName ?? 'Town'
+  return {
 
-type RawExitTile = { tx: number; ty: number; screen: string }
-export const HUB_EXIT_TILES: HubExitTile[] = (
-  (rawConfig as unknown as { exitTiles?: RawExitTile[] }).exitTiles ?? []
-)
 
-export const HUB_LOCATION_DATA: HubLocationData = {
-  MAP_W,
-  MAP_H,
-  AVATAR_START,
-  TOWN_NAME:          HUB_TOWN_NAME,
-  HUB_AREAS,
-  HUB_STREET_GROUPS,
-  HUB_STREET_TILES,
-  HUB_BUILDINGS,
-  HUB_BUILDING_TILES,
-  EXTERIOR_DECOR,
-  HUB_WINDOWS,
-  HUB_POND_TILES,
-  HUB_DOORS,
-  HUB_INTERIORS,
-  HUB_NPCS,
-  EXTERIOR_NPCS,
-  INTERIOR_NPCS,
-  NPC_SPAWN_TILES,
-  AMBIENT_NPC_SPRITES,
-  HUB_PICKUP_ITEMS,
-  HUB_BLOCKED_PATHS,
-  HUB_LOCKED_DOORS,
-  HUB_TREASURES,
-  EXIT_TILES:         HUB_EXIT_TILES,
+    HUB_QUEST_DEFS,
+    INN_RUMOURS,
+    FRIENDSHIP_DIALOGUE,
+    HUB_BLOCKED_PATHS,
+    HUB_PICKUP_ITEMS,
+  }
 }

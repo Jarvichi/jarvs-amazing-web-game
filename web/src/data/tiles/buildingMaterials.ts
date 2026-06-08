@@ -16,6 +16,7 @@ export type WallMaterial =
   | 'interiorWallStriped'
   | 'interiorWallWhite'
   | 'prisonRailings'
+  | 'ironholdKeep'
 export type RoofMaterial =
   | 'woodRoof'
   | 'yellowSlateRoof'
@@ -24,6 +25,7 @@ export type RoofMaterial =
   | 'greySlateRoof'
   | 'metalRoof'
   | 'strawRoof'
+  | 'stoneFloorRoof'
 
 interface WallTileSet {
   leftTop:          number
@@ -265,6 +267,23 @@ export const WALL_TILES: Record<WallMaterial, WallTileSet> = {
     doorTop:           T.prisonRailingsDoorTop,
     doorBottom:        T.prisonRailingsDoorBottom,
   },
+  ironholdKeep: {
+    leftTop:           T.archStoneDark,
+    pillarTop:         T.archStoneDark,
+    shadowTop:         T.archStoneDark,
+    shadowRightTop:    T.archStoneDark,
+    middleTop:         T.archStoneDark,
+    rightTop:          T.archStoneDark,
+    leftBottom:        T.archStoneDark,
+    pillarBottom:      T.archStoneDark,
+    shadowBottom:      T.archStoneDark,
+    shadowRightBottom: T.archStoneDark,
+    middleBottom:      T.archStoneDark,
+    rightBottom:       T.archStoneDark,
+    doorArchTop:       T.archStoneDark,
+    doorTop:           T.archStoneDark,
+    doorBottom:        T.archStoneDark,
+  },  
 }
 
 // [row1, row2, row3, row4] tile IDs for each roof material
@@ -276,6 +295,7 @@ export const ROOF_TILES: Record<RoofMaterial, [number, number, number, number]> 
   greySlateRoof:   [T.greySlateRoofRow1,   T.greySlateRoofRow2,   T.greySlateRoofRow3,   T.greySlateRoofRow4],
   metalRoof:       [T.metalRoofRow1,        T.metalRoofRow2,        T.metalRoofRow3,        T.metalRoofRow4],
   strawRoof:       [T.strawRoofRow1,        T.strawRoofRow2,        T.strawRoofRow3,        T.strawRoofRow4],
+  stoneFloorRoof: [T.archStoneDark,T.archwayWallTop,T.archwayWall, T.archwayWallTopShadow],
 }
 
 export const ROOF_ROWS = 4

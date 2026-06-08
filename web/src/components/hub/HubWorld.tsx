@@ -5,9 +5,6 @@ import { AreaNameBadge } from './AreaNameBadge'
 import { HubReturnButton } from './HubReturnButton'
 import { HubDialogue } from './HubDialogue'
 import type { DialogueChoice } from './HubDialogue'
-import { AVATAR_START, MAP_W, MAP_H, HUB_NPCS, HUB_TREASURES, HUB_TOWN_NAME } from '../../data/hub/loader'
-import type { HubTreasure } from '../../data/hub/loader'
-import { HUB_QUEST_DEFS, INN_RUMOURS, FRIENDSHIP_DIALOGUE } from '../../data/hub/questDefs'
 import type { HubQuestDef } from '../../data/hub/questDefs'
 import { getPickedUpIds, markPickedUp, unmarkPickedUp } from '../../game/hub/pickups'
 import { getFriendshipLevel, addFriendshipXp, getFriendshipData } from '../../game/hub/friendship'
@@ -33,22 +30,22 @@ import { getCollectedTreasureIds, markTreasureCollected } from '../../game/hub/t
 import { useHubClock } from '../../hooks/useHubClock'
 import { formatGameTime, hourInRange } from '../../game/hub/hubClock'
 import { getDailyChallengeNPCDialogue } from '../../game/hub/npcDialogue'
-
-const T = 32
-const INITIAL_SCROLL = {
-  x: AVATAR_START[0] * T + T / 2,
-  y: AVATAR_START[1] * T + T / 2,
-}
-const SPLASH_MS = 10_000
-
-let _hubSplashShown = false
-
+import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
+import { HubLocationBundle, HubQuestBundle, HubTreasure } from '../../data/hub/loader'
 interface QuestEvent {
   speakerName: string
   text: string
   choices?: DialogueChoice[]
   onClose?: () => void
 }
+
+const T = 32
+
+const SPLASH_MS = 10_000
+
+let _hubSplashShown = false
+
+
 
 function checkPrerequisite(prereq: string): boolean {
   return prereq.split('|').every(p => {
@@ -74,15 +71,13 @@ function getActiveDialogue(quest: HubQuestDef): string {
   // Chain quest: find first incomplete step and return its hint
   for (const step of quest.steps) {
     if (getQuestProgress(quest.id, step.key) < step.required) {
-      return activeDialogue[step.key] ?? Object.values(activeDialogue)[0]
+      return activeDialogue[step.key] ?? (Object.values(activeDialogue)[0] || "Oh hello!")
     }
   }
-  return Object.values(activeDialogue)[Object.values(activeDialogue).length - 1]
+  return Object.values(activeDialogue)[Object.values(activeDialogue).length - 1]  || "Oh hello!"
 }
 
-function getNpcDisplayName(npcId: string): string {
-  return HUB_NPCS.find(n => n.id === npcId)?.name ?? npcId
-}
+
 
 interface Props {
   onBack:             () => void
@@ -95,6 +90,12 @@ interface Props {
   isSignedIn?:        boolean
   commander?: CommanderState
   user: User | null
+
+    locationData:    HubLocationBundle
+    locationQuests: HubQuestBundle
+    questDefs:       HubQuestDef[]
+    allQuestDefs:    HubQuestDef[]
+
   onSignIn?:   () => void
   onSignOut?:         () => void
   onFeedback: () => void
@@ -102,7 +103,9 @@ interface Props {
   onTileTap?:         (tx: number, ty: number) => void
 }
 
-export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap, onPlayerTap, crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap }: Props) {
+export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap, onPlayerTap,
+  locationData, locationQuests, questDefs, allQuestDefs,
+  crystals = 0, isSignedIn = false, commander, user, onSignIn: onLoginToggle, onSignOut, onFeedback, onCrystalsChange, onTileTap }: Props) {
   const [splashVisible, setSplashVisible] = useState(() => !_hubSplashShown && !loadSkipIntro())
   const [splashFading,  setSplashFading]  = useState(false)
   const [currentArea,    setCurrentArea]    = useState<string | null>(null)
@@ -119,13 +122,18 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
 
   const { gameHour, isNight: isGameNight } = useHubClock()
 
+  function getNpcDisplayName(npcId: string): string {
+    return locationData.HUB_NPCS.find(n => n.id === npcId)?.name ?? npcId
+  }
+
+
   // Quest NPC state: maps npcId → 'offer' | 'ready' | null, read imperatively by PixiJS ticker
   const questNpcStateRef = useRef(new Map<string, 'offer' | 'ready' | null>())
   {
     const m = new Map<string, 'offer' | 'ready' | null>()
-    const activeCount = HUB_QUEST_DEFS.filter(q => getQuestState(q.id).status === 'active').length
+    const activeCount = questDefs.filter(q => getQuestState(q.id).status === 'active').length
     const atCap = activeCount >= 2
-    for (const quest of HUB_QUEST_DEFS) {
+    for (const quest of questDefs) {
       const state = getQuestState(quest.id)
       if (state.status === 'available') {
         const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
@@ -142,7 +150,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const activeQuestIdsRef = useRef(new Set<string>())
   {
     const s = new Set<string>()
-    for (const quest of HUB_QUEST_DEFS) {
+    for (const quest of questDefs) {
       if (getQuestState(quest.id).status === 'active') s.add(quest.id)
     }
     activeQuestIdsRef.current = s
@@ -158,7 +166,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   const completedQuestIdsRef = useRef(new Set<string>())
   {
     const s = new Set<string>()
-    for (const quest of HUB_QUEST_DEFS) {
+    for (const quest of questDefs) {
       if (getQuestState(quest.id).status === 'completed') s.add(quest.id)
     }
     completedQuestIdsRef.current = s
@@ -251,12 +259,12 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
-    const saved = getSavedHubTile()
-    const px = saved ? saved[0] * T + T / 2 : INITIAL_SCROLL.x
-    const py = saved ? saved[1] * T + T / 2 : INITIAL_SCROLL.y
+    const saved = getSavedHubTile(locationData.HUB_TOWN_NAME)
+    const px = saved ? saved[0] * T + T / 2 : locationData.AVATAR_START.tx * T + T / 2
+    const py = saved ? saved[1] * T + T / 2 : locationData.AVATAR_START.ty * T + T / 2
     el.scrollLeft = px - el.clientWidth  / 2
     el.scrollTop  = py - el.clientHeight / 2
-  }, [])
+  }, [locationData])
 
   const handleNodeInteract = useCallback((screen: string) => {
     if (screen.startsWith('interior:')) {
@@ -284,7 +292,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   }, [])
 
   const handleQuestAbandon = useCallback((questId: string) => {
-    const quest = HUB_QUEST_DEFS.find(q => q.id === questId)
+    const quest = questDefs.find(q => q.id === questId)
     if (!quest) return
     const pickupIds = quest.steps.flatMap(s => s.pickupIds ?? [])
     unmarkPickedUp(pickupIds)
@@ -294,7 +302,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   }, [refreshState])
 
   const handleTreasureStep = useCallback((id: string) => {
-    const treasure = HUB_TREASURES.find(t => t.id === id)
+    const treasure = locationData.HUB_TREASURES.find(t => t.id === id)
     if (!treasure) return
     markTreasureCollected(id)
     const { reward } = treasure
@@ -321,7 +329,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
 
     if (!questId) return
 
-    const quest = HUB_QUEST_DEFS.find(q => q.id === questId)
+    const quest = questDefs.find(q => q.id === questId)
     if (!quest) return
     const state = getQuestState(questId)
     if (state.status !== 'active') return
@@ -346,7 +354,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     const speakerName = quest.title
 
     if (allCollectDone) {
-      const receiverNpc = HUB_NPCS.find(n => n.id === quest.receiverNpcId)
+      const receiverNpc = locationData.HUB_NPCS.find(n => n.id === quest.receiverNpcId)
       const npcName = receiverNpc?.name ?? 'the quest giver'
       setDialogueEvent({
         speakerName,
@@ -377,8 +385,43 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     }
   }, [])
 
+  // ── Quest reward helpers ───────────────────────────────────────────────────────
+
+function formatQuestReward(reward: HubQuestDef['reward']): string {
+  const parts: string[] = []
+  if (reward.crystals)    parts.push(`+${reward.crystals} 💎`)
+  if (reward.collectible) parts.push(`${reward.collectible.icon} ${reward.collectible.name}`)
+  if (reward.card)        parts.push(`🃏 ${reward.card.name} (card)`)
+  if (reward.friendship) {
+    for (const [npcId, xp] of Object.entries(reward.friendship)) {
+      parts.push(`+${xp} friendship with ${getNpcDisplayName(npcId)}`)
+    }
+  }
+  return parts.length > 0 ? `You received: ${parts.join('  ·  ')}` : ''
+}
+
+function grantQuestReward(quest: HubQuestDef): void {
+  const { reward } = quest
+  if (reward.crystals) {
+    saveCrystals(loadCrystals() + reward.crystals)
+  }
+  if (reward.collectible) {
+    const { id, name, icon, desc } = reward.collectible
+    addCollectible(id, { name, icon, desc })
+  }
+  if (reward.card) {
+    addCardsToCollection([{ cardName: reward.card.name, count: reward.card.count ?? 1 }])
+  }
+  if (reward.friendship) {
+    for (const [npcId, xp] of Object.entries(reward.friendship)) {
+      addFriendshipXp(npcId, xp)
+    }
+  }
+}
+
+
   const handleNpcTap = useCallback((line: string, npcId: string) => {
-    const npcDef = HUB_NPCS.find(n => n.id === npcId)
+    const npcDef = locationData.HUB_NPCS.find(n => n.id === npcId)
     const speakerName = npcDef?.name ?? ''
 
     // ── Inn rumour handling (Innkeeper Rosie) ───────────────────────────────
@@ -397,7 +440,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     if (npcDef?.questReceive) {
       const receiveIds = Array.isArray(npcDef.questReceive) ? npcDef.questReceive : [npcDef.questReceive]
       for (const questId of receiveIds) {
-        const quest = HUB_QUEST_DEFS.find(q => q.id === questId)
+        const quest = questDefs.find(q => q.id === questId)
         if (quest && getQuestState(quest.id).status === 'active') {
           for (const step of quest.steps) {
             if (step.type === 'deliver' && step.targetNpcId === npcId) {
@@ -425,7 +468,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     // ── Quest give/active dialogue ──────────────────────────────────────────
     // Scan ALL quests this NPC gives — not just the first one — so later
     // quests in the chain are offered once earlier ones are completed.
-    const giveQuests = HUB_QUEST_DEFS.filter(q => q.giverNpcId === npcId)
+    const giveQuests = questDefs.filter(q => q.giverNpcId === npcId)
 
     // First pass: active quest (takes priority — show progress or complete)
     for (const quest of giveQuests) {
@@ -453,7 +496,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
     }
 
     // Second pass: first available quest whose prerequisites are met
-    const atOfferCap = HUB_QUEST_DEFS.filter(q => getQuestState(q.id).status === 'active').length >= 2
+    const atOfferCap = questDefs.filter(q => getQuestState(q.id).status === 'active').length >= 2
     for (const quest of giveQuests) {
       if (getQuestState(quest.id).status !== 'available') continue
       const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
@@ -467,7 +510,7 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
               label: 'Accept',
               primary: true,
               onClick: () => {
-                const count = HUB_QUEST_DEFS.filter(q => getQuestState(q.id).status === 'active').length
+                const count = questDefs.filter(q => getQuestState(q.id).status === 'active').length
                 if (count >= 2) {
                   setDialogueEvent({ speakerName, text: "You're already working on 2 quests. Finish one first." })
                   return
@@ -513,13 +556,13 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   }, [refreshState, handleNodeInteract])
 
   return (
-    <OverlayScreen title={`🏠 ${HUB_TOWN_NAME}`}>
+    <OverlayScreen title={`🏠 ${locationData.HUB_TOWN_NAME}`}>
       <Toolbar>
           <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>💎 {wrongSave ? wrongSave.crystals.toLocaleString() : crystals.toLocaleString()}</ToolbarLabel>
           <ToolbarLabel className={`title-deck-info${wrongSave ? ' title-deck-info--glitch' : ''}`}>🃏 {wrongSave ? wrongSave.cards : collectionCount}/{catalogTotal}</ToolbarLabel>
           <ToolbarLabel className="title-deck-info">{isGameNight ? '🌙' : '☀️'} {formatGameTime()}</ToolbarLabel>
         <ToolbarButton icon="📜" title="Quests" onClick={() => setQuestsOpen(true)} />
-        <ToolbarButton icon="🗺" title="World Map" onClick={() => onWorldMap?.()} />
+        <ToolbarButton icon="🗺" title="World Map" onClick={() => onWorldMap?.()}  disabled={getQuestState('thorin-the-last-watch').status !== 'completed'} />
 
         <ToolbarSpacer/>
         <div className="toolbar-overflow-inline">
@@ -580,11 +623,13 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
             gameHour={gameHour}
             isNight={isGameNight}
             npcProximityDialogue={npcProximityDialogueRef}
+            locationData={locationData}
+            questData={ALL_QUESTS}
           />
         </div>
         <AreaNameBadge name={currentArea} />
 
-        {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} />}
+        {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={questDefs}/>}
         {openTreasure && <TreasureModal treasure={openTreasure} onClose={() => setOpenTreasure(null)} />}
 
         <HubDialogue
@@ -626,36 +671,3 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   )
 }
 
-// ── Quest reward helpers ───────────────────────────────────────────────────────
-
-function formatQuestReward(reward: HubQuestDef['reward']): string {
-  const parts: string[] = []
-  if (reward.crystals)    parts.push(`+${reward.crystals} 💎`)
-  if (reward.collectible) parts.push(`${reward.collectible.icon} ${reward.collectible.name}`)
-  if (reward.card)        parts.push(`🃏 ${reward.card.name} (card)`)
-  if (reward.friendship) {
-    for (const [npcId, xp] of Object.entries(reward.friendship)) {
-      parts.push(`+${xp} friendship with ${getNpcDisplayName(npcId)}`)
-    }
-  }
-  return parts.length > 0 ? `You received: ${parts.join('  ·  ')}` : ''
-}
-
-function grantQuestReward(quest: HubQuestDef): void {
-  const { reward } = quest
-  if (reward.crystals) {
-    saveCrystals(loadCrystals() + reward.crystals)
-  }
-  if (reward.collectible) {
-    const { id, name, icon, desc } = reward.collectible
-    addCollectible(id, { name, icon, desc })
-  }
-  if (reward.card) {
-    addCardsToCollection([{ cardName: reward.card.name, count: reward.card.count ?? 1 }])
-  }
-  if (reward.friendship) {
-    for (const [npcId, xp] of Object.entries(reward.friendship)) {
-      addFriendshipXp(npcId, xp)
-    }
-  }
-}

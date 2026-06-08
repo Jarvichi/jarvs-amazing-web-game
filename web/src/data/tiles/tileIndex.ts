@@ -1,3 +1,5 @@
+import { BASE_CHIP_TILES } from "./baseChipIndex"
+
 export const TILE_SIZE = 32
 
 // ── [Base]BaseChip_pipo — ground fill tiles ───────────────────────────────────
@@ -168,12 +170,12 @@ export interface EnvTileDef {
 }
 
 export const ENV_TILES: Record<string, EnvTileDef> = {
-  forest:   { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Dirt1,  decorFile: PATH_TILE.flower1,  decorTileIds: [PATH.isolated] },
+  forest:   { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.dirt1,  decorFile: PATH_TILE.flower1,  decorTileIds: [] },
   farmland: { ground: BASE_GROUND.mediumGrass, pathFile: PATH_TILE.grass1Dirt1  },
-  ruins:    { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.grass1Grass3 },
-  ashen:    { ground: BASE_GROUND.dyingGrass,  pathFile: PATH_TILE.grass1Grass4 },
-  sand:     { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.grass1Dirt2  },
-  frost:    { ground: BASE_GROUND.lightGrass,  pathFile: PATH_TILE.grass1Grass2 },
+  ruins:    { ground: BASE_GROUND.dyingGrass,   pathFile: PATH_TILE.dirt1 },
+  ashen:    { ground: BASE_GROUND.dyingGrass,  pathFile: PATH_TILE.dirt4 ,  decorFile:  TILESET_IMAGE.baseChip,  decorTileIds: [BASE_CHIP_TILES.deadBush, BASE_CHIP_TILES.smallStump, BASE_CHIP_TILES.smallRock, BASE_CHIP_TILES.cropDead, BASE_CHIP_TILES.deadSmallGrass] },
+  sand:     { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.dirt1  },
+  frost:    { ground: BASE_GROUND.lightGrass,  solidColor: 0xEEEEFF, pathFile: PATH_TILE.dirt1 },
   volcano:  { ground: BASE_GROUND.darkDirt,    pathFile: PATH_TILE.dirt4        },
   citadel:  { ground: BASE_GROUND.darkGrass,   pathFile: PATH_TILE.wall2        },
   coast:    { ground: BASE_GROUND.sand,        pathFile: PATH_TILE.water2,       pathWidth: 3 },

@@ -2,10 +2,11 @@
   "mapW": 2400,
   "mapH": 2240,
   "townName": "Ravenwatch",
-  "avatarStart": [
-    37,
-    29
-  ],
+  "environment": "farmland",
+  "avatarStart": {
+    "tx": 37,
+    "ty": 29
+  },
   "exitTiles": [
     {
       "tx": 36,
@@ -775,6 +776,20 @@
         56
       ],
       "pathType": "longGrass"
+    },
+    {
+      "rect": [
+        58,
+        50,
+        62,
+        53
+      ]
+    },
+    {
+      "tile": [
+        60,
+        49
+      ]
     }
   ],
   "buildings": [
@@ -3231,8 +3246,8 @@
       "tileId": "lightBush"
     },
     {
-      "tx": 57,
-      "ty": 50,
+      "tx": 55,
+      "ty": 49,
       "tileId": "darkBush"
     },
     {
@@ -3241,8 +3256,8 @@
       "tileId": "grassTuft"
     },
     {
-      "tx": 60,
-      "ty": 54,
+      "tx": 59,
+      "ty": 52,
       "tileId": "grassTuft"
     },
     {
@@ -3961,7 +3976,7 @@
       "zlayer": "solid"
     },
     {
-      "tx": 4,
+      "tx": 5,
       "ty": 11,
       "tileId": "sack",
       "zlayer": "solid"
@@ -4285,7 +4300,7 @@
       "zlayer": "solid"
     },
     {
-      "tx": 63,
+      "tx": 64,
       "ty": 52,
       "bundleID": "dark-tree-cluster-V",
       "zlayer": "solid"
@@ -4354,6 +4369,150 @@
       "tx": 61,
       "ty": 27,
       "bundleID": "mixed-tree-cluster-V",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 61,
+      "ty": 49,
+      "tileId": "stoneWallRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 59,
+      "ty": 49,
+      "tileId": "stoneWallLeft",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 58,
+      "ty": 49,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 62,
+      "ty": 49,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 62,
+      "ty": 54,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 61,
+      "ty": 54,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 59,
+      "ty": 54,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 58,
+      "ty": 54,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 60,
+      "ty": 54,
+      "tileId": "stoneWallLeftRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 54,
+      "tileId": "stoneWallLeftTop",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 57,
+      "ty": 54,
+      "tileId": "stoneWallTopRight",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 57,
+      "ty": 49,
+      "tileId": "stoneWallRightBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 49,
+      "tileId": "stoneWallLeftBottom",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 57,
+      "ty": 50,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 57,
+      "ty": 51,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 57,
+      "ty": 52,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 57,
+      "ty": 53,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 53,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 51,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 50,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 63,
+      "ty": 52,
+      "tileId": "stoneWallTopBotton",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 58,
+      "ty": 50,
+      "tileId": "fullBucket",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 61,
+      "ty": 51,
+      "tileId": "skull",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 62,
+      "ty": 53,
+      "tileId": "barrel",
       "zlayer": "solid"
     }
   ],

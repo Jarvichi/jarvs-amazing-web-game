@@ -2,6 +2,7 @@ import { fn } from 'storybook/test'
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HubWorld } from './HubWorld'
+import { ALL_QUEST_DEFS, ALL_QUESTS, IRONHOLDKEEP, IRONHOLDKEEP_QUESTS, MILLHAVE, MILLHAVE_QUESTS, RAVENWATCH, RAVENWATCH_QUESTS } from '../../data/hub/hubWorldFactory'
 
 const meta = {
   component: HubWorld,
@@ -25,11 +26,16 @@ export const Default: Story = {
     onBack: fn(),
     onFeedback: fn(),
     user: null,
+
+    locationData:    RAVENWATCH,
+    locationQuests: RAVENWATCH_QUESTS,
+    questDefs:       RAVENWATCH_QUESTS.HUB_QUEST_DEFS,
+    allQuestDefs:    ALL_QUEST_DEFS   
   },
 }
 
-export const TileInspector: Story = {
-  render: (args) => {
+function tileInspector (args){
+
     const [tile, setTile] = useState<{ tx: number; ty: number } | null>(null)
     const [copied, setCopied] = useState(false)
 
@@ -56,10 +62,48 @@ export const TileInspector: Story = {
         </div>
       </>
     )
-  },
+
+}
+
+
+export const TileInspector: Story = {
+  render: (args) => tileInspector(args),
   args: {
     onBack: fn(),
     onFeedback: fn(),
     user: null,
+
+        locationData:    RAVENWATCH,
+    locationQuests: RAVENWATCH_QUESTS,
+    questDefs:       RAVENWATCH_QUESTS.HUB_QUEST_DEFS,
+    allQuestDefs:    ALL_QUEST_DEFS   
+  },
+}
+
+export const MillhavenTileInspector: Story = {
+    render: (args) => tileInspector(args),
+  args: {
+    onBack: fn(),
+    onFeedback: fn(),
+    user: null,
+
+    locationData:    MILLHAVE,
+    locationQuests: MILLHAVE_QUESTS,
+    questDefs:       MILLHAVE_QUESTS.HUB_QUEST_DEFS,
+    allQuestDefs:    ALL_QUEST_DEFS   
+  },
+}
+
+export const IronholdKeepTileInspector: Story = {
+    render: (args) => tileInspector(args),
+  args: {
+    onBack: fn(),
+    onFeedback: fn(),
+    user: null,
+
+    locationData:    IRONHOLDKEEP,
+    locationQuests: IRONHOLDKEEP_QUESTS,
+    questDefs:       IRONHOLDKEEP_QUESTS.HUB_QUEST_DEFS,
+    allQuestDefs:    ALL_QUEST_DEFS   
   },
 }

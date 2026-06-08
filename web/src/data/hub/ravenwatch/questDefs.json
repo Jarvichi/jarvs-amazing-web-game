@@ -3431,8 +3431,8 @@
     },
     {
       "id": "ancient-tome-3",
-      "tx": 3,
-      "ty": 40,
+      "tx": 53,
+      "ty": 53,
       "tileId": "greenclosedBook",
       "questId": "scholars-anthology"
     },
@@ -3695,22 +3695,22 @@
     },
     {
       "id": "guard-clue-1",
-      "tx": 58,
-      "ty": 28,
+      "tx": 62,
+      "ty": 53,
       "tileId": "note",
       "questId": "thorin-missing-guard"
     },
     {
       "id": "guard-clue-2",
       "tx": 62,
-      "ty": 47,
+      "ty": 37,
       "tileId": "note",
       "questId": "thorin-missing-guard"
     },
     {
       "id": "guard-clue-3",
-      "tx": 59,
-      "ty": 45,
+      "tx": 58,
+      "ty": 44,
       "tileId": "note",
       "questId": "thorin-missing-guard"
     },
@@ -4444,8 +4444,8 @@
     },
     {
       "id": "purification-crystal-3",
-      "tx": 34,
-      "ty": 38,
+      "tx": 39,
+      "ty": 41,
       "tileId": "chest",
       "questId": "mira-purging-augments"
     },
@@ -4468,7 +4468,7 @@
     {
       "id": "echo-card-set-3",
       "tx": 50,
-      "ty": 22,
+      "ty": 26,
       "tileId": "blueclosedBook",
       "questId": "gildwyn-echo-deck-master"
     },
@@ -4497,8 +4497,8 @@
     },
     {
       "id": "shelter-package-2",
-      "tx": 3,
-      "ty": 40,
+      "tx": 2,
+      "ty": 41,
       "tileId": "crate",
       "questId": "rosie-shelter-for-families"
     },
@@ -5470,6 +5470,90 @@
         "npcs": []
       },
       "cleared": {}
-    }
+    },
+    {
+      "id": "kingdom-block",
+      "blockedTiles": [
+        [
+          36,
+          50
+        ],
+        [
+          37,
+          50
+        ],
+        [
+          38,
+          50
+        ]
+      ],
+      "questId": "thorin-the-last-watch",
+      "blocked": {
+        "decor": [
+          {
+            "tx": 36,
+            "ty": 50,
+            "tileId": "barrel"
+          },
+          {
+            "tx": 37,
+            "ty": 50,
+            "tileId": "barrel"
+          },
+          {
+            "tx": 38,
+            "ty": 50,
+            "tileId": "barrel"
+          }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-kingdom",
+            "sprite": "hub-npc-guard",
+            "tx": 37,
+            "ty": 49,
+            "proximityDialogue": [
+              {
+                "atDistance": 4,
+                "text": "Who goes there?"
+              },
+              {
+                "atDistance": 2,
+                "text": "None shall pass!"
+              }
+            ],
+            "tapDialogue": "I've been told I'm not to move, you have unfinished business here..."
+          }
+        ]
+      },
+      "cleared": {
+        "decor": [
+          {
+            "tx": 36,
+            "ty": 49,
+            "tileId": "barrel"
+          },
+          {
+            "tx": 36,
+            "ty": 50,
+            "tileId": "barrel"
+          },
+          {
+            "tx": 36,
+            "ty": 51,
+            "tileId": "barrel"
+          }
+        ],
+        "npcs": [
+          {
+            "id": "road-guard-east-cleared",
+            "sprite": "hub-npc-guard",
+            "tx": 36,
+            "ty": 48,
+            "tapDialogue": "It's a big world out there Commander."
+          }
+        ]
+      }
+    }    
   ]
 }

@@ -2,8 +2,7 @@ import { fn } from 'storybook/test'
 import { useRef, useState, useEffect } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { HubTownCanvas } from './HubTownCanvas'
-import { IRONHOLD_KEEP_LOCATION_DATA } from '../../data/castle/loader'
-import { MILLHAVEN_LOCATION_DATA as MILLHAVEN_LOCATION_DATA } from '../../data/town2/loader'
+import { IRONHOLDKEEP, IRONHOLDKEEP_QUESTS, MILLHAVE, MILLHAVE_QUESTS, RAVENWATCH, RAVENWATCH_QUESTS } from '../../data/hub/hubWorldFactory'
 
 const PAN_STEP = 64
 
@@ -55,11 +54,13 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
+export const Ravenwatch: Story = {
   args: {
     onAreaEnter:    fn(),
     onNodeInteract: fn(),
     onAvatarMove:   fn(),
+    locationData: RAVENWATCH,
+    questData: RAVENWATCH_QUESTS,
   },
 }
 
@@ -68,7 +69,8 @@ export const IronholdKeep: Story = {
     onAreaEnter:    fn(),
     onNodeInteract: fn(),
     onAvatarMove:   fn(),
-    locationData: IRONHOLD_KEEP_LOCATION_DATA,
+    locationData: IRONHOLDKEEP,
+    questData: IRONHOLDKEEP_QUESTS
   },
 }
 
@@ -77,6 +79,7 @@ export const millhaven: Story = {
     onAreaEnter:    fn(),
     onNodeInteract: fn(),
     onAvatarMove:   fn(),
-    locationData: MILLHAVEN_LOCATION_DATA,
+    locationData: MILLHAVE,
+    questData: MILLHAVE_QUESTS
   },
 }

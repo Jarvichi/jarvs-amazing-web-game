@@ -73,5 +73,6 @@ export const Default: Story = {
   args: {
     onClose:   fn(),
     onAbandon: fn(),
+    questDefs: sampleQuests,    
   },
 }

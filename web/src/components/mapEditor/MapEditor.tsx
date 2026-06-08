@@ -4,20 +4,17 @@ import { TilePalette } from './TilePalette'
 import { EntityInspector } from './EntityInspector'
 import { MapEditorCanvas } from './MapEditorCanvas'
 import { useMapEditorState } from './useMapEditorState'
-import type { MapId, SelectedEntity, RawQuestPickupItem } from './mapEditorTypes'
-import hubQuestDefsRaw from '../../data/hub/questDefs.json'
+import type { MapId,  QuestDefsJson } from '../../data/hub/hubWorldFactory'
+import  {  QUEST_DEFS_BY_MAP } from '../../data/hub/hubWorldFactory'
 
-type QuestDefsJson = { pickupItems?: RawQuestPickupItem[]; [key: string]: unknown }
+import { SelectedEntity } from './mapEditorTypes'
 
-const QUEST_DEFS_BY_MAP: Partial<Record<MapId, QuestDefsJson>> = {
-  hub: hubQuestDefsRaw as QuestDefsJson,
-}
 
 interface Props {
   initialMapId?: MapId
 }
 
-export function MapEditor({ initialMapId = 'hub' }: Props) {
+export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
   const [showGrid, setShowGrid] = useState(true)
   const [showQuestItems, setShowQuestItems] = useState(false)
   const [questDefsData, setQuestDefsData] = useState<QuestDefsJson | null>(
@@ -35,9 +32,9 @@ export function MapEditor({ initialMapId = 'hub' }: Props) {
 
   // Reset questDefs when map changes
   useEffect(() => {
-    setQuestDefsData(
-      QUEST_DEFS_BY_MAP[state.mapId] ? structuredClone(QUEST_DEFS_BY_MAP[state.mapId]!) : null,
-    )
+    const mapId: MapId = state.mapId
+    const defs = QUEST_DEFS_BY_MAP[mapId]
+    setQuestDefsData( structuredClone(defs)    )
   }, [state.mapId])
 
   // Intercept pickupItem moves/deletes to update questDefsData instead of configData

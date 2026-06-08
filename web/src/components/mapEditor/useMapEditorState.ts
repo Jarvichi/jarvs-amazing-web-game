@@ -1,18 +1,19 @@
 import { useState, useCallback } from 'react'
-import type { MapId, RawMapConfig, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
-import hubConfig from '../../data/hub/config.json'
-import town2Config from '../../data/town2/config.json'
-import castleConfig from '../../data/castle/config.json'
+import type { RawMapConfig, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
+import hubConfig from '../../data/hub/ravenwatch/config.json'
+import town2Config from '../../data/hub/millhaven/config.json'
+import castleConfig from '../../data/hub/ironholdkeep/config.json'
+import { MapId } from '../../data/hub/hubWorldFactory'
 
 const RAW_CONFIGS: Record<MapId, RawMapConfig> = {
-  hub:    hubConfig    as unknown as RawMapConfig,
-  town2:  town2Config  as unknown as RawMapConfig,
-  castle: castleConfig as unknown as RawMapConfig,
+  ravenwatch:    hubConfig    as unknown as RawMapConfig,
+  millhaven:  town2Config  as unknown as RawMapConfig,
+  ironholdkeep: castleConfig as unknown as RawMapConfig,
 }
 
 const MAX_UNDO = 50
 
-export function useMapEditorState(initialMapId: MapId = 'hub') {
+export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
   const [state, setState] = useState<MapEditorState>(() => ({
     mapId:            initialMapId,
     configData:       structuredClone(RAW_CONFIGS[initialMapId]),

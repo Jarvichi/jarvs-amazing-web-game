@@ -1,6 +1,7 @@
 import React from 'react'
 import { ModalBackdrop } from '../ui/ModalBackdrop'
-import type { HubTreasure } from '../../data/hub/loader'
+import { HubTreasure } from '../../data/hub/loader'
+
 
 interface Props {
   treasure: HubTreasure

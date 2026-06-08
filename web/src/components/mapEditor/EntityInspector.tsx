@@ -1,6 +1,7 @@
 import React from 'react'
-import type { SelectedEntity, RawMapConfig, Zlayer, RawDecorItem, RawNpc, RawBuilding, RawQuestPickupItem } from './mapEditorTypes'
+import type { SelectedEntity, RawMapConfig, Zlayer, RawDecorItem, RawNpc, RawBuilding } from './mapEditorTypes'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
+import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 
 const SHEET_URL = '/world/SampleMap/[Base]BaseChip_pipo.png'
 const COLS = 8

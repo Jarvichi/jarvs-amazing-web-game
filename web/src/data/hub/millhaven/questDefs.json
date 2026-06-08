@@ -10,7 +10,16 @@
       "activeDialogue": "Three grain sacks, somewhere around the harbour area. Keep your eyes open.",
       "completeDialogue": "All three! Someone had been stacking them near the dock behind the barrels. Thank you kindly — a mill without grain is just a fancy windbreak.",
       "steps": [
-        { "key": "grain", "type": "collect", "pickupIds": ["grain-sack-1", "grain-sack-2", "grain-sack-3"], "required": 3 }
+        {
+          "key": "grain",
+          "type": "collect",
+          "pickupIds": [
+            "grain-sack-1",
+            "grain-sack-2",
+            "grain-sack-3"
+          ],
+          "required": 3
+        }
       ],
       "reward": {
         "crystals": 40
@@ -29,13 +38,34 @@
       },
       "completeDialogue": "Marta's baskets? Excellent — I was wondering where these went. Here, keep a bit for your trouble.",
       "steps": [
-        { "key": "baskets", "type": "collect", "pickupIds": ["fish-basket-1", "fish-basket-2"], "required": 2 },
-        { "key": "deliver", "type": "deliver", "targetNpcId": "sailor-finn", "required": 1 }
+        {
+          "key": "baskets",
+          "type": "collect",
+          "pickupIds": [
+            "fish-basket-1",
+            "fish-basket-2"
+          ],
+          "required": 2
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "sailor-finn",
+          "required": 1
+        }
       ],
       "reward": {
         "crystals": 50,
-        "collectible": { "id": "smoked-herring", "name": "Smoked Herring", "icon": "🐟", "desc": "A freshly smoked herring from Millhaven's famous catch." },
-        "friendship": { "fishmonger-marta": 20, "sailor-finn": 15 }
+        "collectible": {
+          "id": "smoked-herring",
+          "name": "Smoked Herring",
+          "icon": "🐟",
+          "desc": "A freshly smoked herring from Millhaven's famous catch."
+        },
+        "friendship": {
+          "fishmonger-marta": 20,
+          "sailor-finn": 15
+        }
       }
     },
     {
@@ -49,12 +79,27 @@
       "activeDialogue": "The nautical chart should be somewhere near the market warehouse area. Look carefully.",
       "completeDialogue": "This is it! The course he was sailing — past the dark reef. No wonder we lost him. I can file a proper report now, at least. Take this as thanks.",
       "steps": [
-        { "key": "chart", "type": "collect", "pickupIds": ["nautical-chart"], "required": 1 }
+        {
+          "key": "chart",
+          "type": "collect",
+          "pickupIds": [
+            "nautical-chart"
+          ],
+          "required": 1
+        }
       ],
       "reward": {
         "crystals": 40,
-        "card": { "name": "Sea Raider", "count": 1 },
-        "collectible": { "id": "sea-chart", "name": "Navigator's Chart", "icon": "🗺️", "desc": "A detailed chart of the coastal reef. Marks a mysterious dark spot." }
+        "card": {
+          "name": "Sea Raider",
+          "count": 1
+        },
+        "collectible": {
+          "id": "sea-chart",
+          "name": "Navigator's Chart",
+          "icon": "🗺️",
+          "desc": "A detailed chart of the coastal reef. Marks a mysterious dark spot."
+        }
       }
     },
     {
@@ -68,7 +113,12 @@
       "activeDialogue": "Commander Varek at Ironhold Keep is expecting this supply manifest. Travel south through the town gate.",
       "completeDialogue": "From Elder Bramwell? This is exactly what we needed. The supply chain can resume. You have the keep's gratitude, traveller.",
       "steps": [
-        { "key": "deliver", "type": "deliver", "targetNpcId": "castle-commander", "required": 1 }
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "castle-commander",
+          "required": 1
+        }
       ],
       "reward": {
         "crystals": 100
@@ -85,11 +135,18 @@
       "activeDialogue": "Elder Elara in Ravenwatch is waiting for this letter. Find her when you're back in Ravenwatch.",
       "completeDialogue": "Oh! This is from the coast? I've been expecting word from there for weeks. Thank you so much, traveller — you've put my mind at ease.",
       "steps": [
-        { "key": "deliver", "type": "deliver", "targetNpcId": "elder", "required": 1 }
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "elder",
+          "required": 1
+        }
       ],
       "reward": {
         "crystals": 60,
-        "friendship": { "innkeeper-millhaven": 20 }
+        "friendship": {
+          "innkeeper-millhaven": 20
+        }
       }
     },
     {
@@ -106,26 +163,111 @@
       },
       "completeDialogue": "All three! The festival stall is going to look wonderful. Here — take a festival ribbon as a memento of your visit to Millhaven.",
       "steps": [
-        { "key": "ribbon",  "type": "collect", "pickupIds": ["festival-ribbon"],  "required": 1 },
-        { "key": "candle",  "type": "collect", "pickupIds": ["festival-candle"],  "required": 1, "chain": "festival-ribbon" },
-        { "key": "flower",  "type": "collect", "pickupIds": ["festival-flower"],  "required": 1, "chain": "festival-candle" }
+        {
+          "key": "ribbon",
+          "type": "collect",
+          "pickupIds": [
+            "festival-ribbon"
+          ],
+          "required": 1
+        },
+        {
+          "key": "candle",
+          "type": "collect",
+          "pickupIds": [
+            "festival-candle"
+          ],
+          "required": 1,
+          "chain": "festival-ribbon"
+        },
+        {
+          "key": "flower",
+          "type": "collect",
+          "pickupIds": [
+            "festival-flower"
+          ],
+          "required": 1,
+          "chain": "festival-candle"
+        }
       ],
       "reward": {
         "crystals": 70,
-        "collectible": { "id": "festival-ribbon", "name": "Festival Ribbon", "icon": "🎀", "desc": "A bright ribbon from the Millhaven harvest festival." }
+        "collectible": {
+          "id": "festival-ribbon",
+          "name": "Festival Ribbon",
+          "icon": "🎀",
+          "desc": "A bright ribbon from the Millhaven harvest festival."
+        }
       }
     }
   ],
   "pickupItems": [
-    { "id": "grain-sack-1",     "tx": 2,  "ty": 9,  "tileId": "hayStack",   "questId": "millhaven-mill-grain" },
-    { "id": "grain-sack-2",     "tx": 25, "ty": 9,  "tileId": "hayStack",   "questId": "millhaven-mill-grain" },
-    { "id": "grain-sack-3",     "tx": 6,  "ty": 8,  "tileId": "hayStack",   "questId": "millhaven-mill-grain" },
-    { "id": "fish-basket-1",    "tx": 22, "ty": 8,  "tileId": "openCrate",  "questId": "millhaven-missing-catch" },
-    { "id": "fish-basket-2",    "tx": 26, "ty": 8,  "tileId": "openCrate",  "questId": "millhaven-missing-catch" },
-    { "id": "nautical-chart",   "tx": 8,  "ty": 11, "tileId": "smallSign",  "questId": "millhaven-lost-at-sea" },
-    { "id": "festival-ribbon",  "tx": 12, "ty": 5,  "tileId": "smallSign",  "questId": "millhaven-festival-prep", "building": "inn-millhaven" },
-    { "id": "festival-candle",  "tx": 1,  "ty": 7,  "tileId": "smallSign",  "questId": "millhaven-festival-prep", "chain": "festival-ribbon" },
-    { "id": "festival-flower",  "tx": 11, "ty": 13, "tileId": "whiteFlower","questId": "millhaven-festival-prep", "chain": "festival-candle" }
+    {
+      "id": "grain-sack-1",
+      "tx": 2,
+      "ty": 15,
+      "tileId": "sack",
+      "questId": "millhaven-mill-grain"
+    },
+    {
+      "id": "grain-sack-2",
+      "tx": 33,
+      "ty": 16,
+      "tileId": "sack",
+      "questId": "millhaven-mill-grain"
+    },
+    {
+      "id": "grain-sack-3",
+      "tx": 10,
+      "ty": 7,
+      "tileId": "sack",
+      "questId": "millhaven-mill-grain"
+    },
+    {
+      "id": "fish-basket-1",
+      "tx": 19,
+      "ty": 9,
+      "tileId": "mushroomBasket",
+      "questId": "millhaven-missing-catch"
+    },
+    {
+      "id": "fish-basket-2",
+      "tx": 33,
+      "ty": 14,
+      "tileId": "mushroomBasket",
+      "questId": "millhaven-missing-catch"
+    },
+    {
+      "id": "nautical-chart",
+      "tx": 12,
+      "ty": 9,
+      "tileId": "rolledMap",
+      "questId": "millhaven-lost-at-sea"
+    },
+    {
+      "id": "festival-ribbon",
+      "tx": 12,
+      "ty": 5,
+      "tileId": "gift",
+      "questId": "millhaven-festival-prep",
+      "building": "inn-millhaven"
+    },
+    {
+      "id": "festival-candle",
+      "tx": 4,
+      "ty": 13,
+      "tileId": "gift",
+      "questId": "millhaven-festival-prep",
+      "chain": "festival-ribbon"
+    },
+    {
+      "id": "festival-flower",
+      "tx": 11,
+      "ty": 13,
+      "tileId": "whiteFlower",
+      "questId": "millhaven-festival-prep",
+      "chain": "festival-candle"
+    }
   ],
   "blockedPaths": []
 }

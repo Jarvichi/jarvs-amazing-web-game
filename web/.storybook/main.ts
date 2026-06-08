@@ -29,12 +29,12 @@ const config: StorybookConfig = {
     }
 
     const handleSaveRequest = (
-      body: string, pathMap: Record<string, string>,
+      body: string, pathMap: Record<string, string>, isQuestDefs: boolean,
       res: ServerResponse, errorPrefix: string,
     ) => {
       try {
         const { mapId, data } = JSON.parse(body) as { mapId: string; data: unknown }
-        const filePath = pathMap[mapId]
+        const filePath = resolve(root, `src/data/hub/${mapId}/${isQuestDefs ? 'questDefs.json' : 'config.json'}`)
         if (!filePath) {
           res.statusCode = 400
           res.setHeader('Content-Type', 'application/json')
@@ -71,6 +71,7 @@ const config: StorybookConfig = {
               handleSaveRequest(
                 body,
                 isQuestDefs ? QUEST_DEFS_PATHS : MAP_PATHS,
+                isQuestDefs,
                 res,
                 isQuestDefs ? 'questDefs save failed' : 'map save failed',
               )

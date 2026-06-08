@@ -4,8 +4,9 @@ import { usePixiApp } from '../../hooks/usePixiApp'
 import { loadTileTexture, loadSpriteTexture } from '../../utils/pixiHelpers'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
-import type { RawMapConfig, RawDecorItem, RawQuestPickupItem, SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
+import type { RawMapConfig, RawDecorItem,  SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
 import { expandBundleDecor } from '../../data/bundles/bundleLoader'
+import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 
 const T         = 32
 const BASE_URL  = TILESET_IMAGE.baseChip
