@@ -79,7 +79,7 @@ function getActiveDialogue(quest: HubQuestDef): string {
 
 
 
-interface Props {
+export interface Props {
   onBack:             () => void
   onNavigate?:        (screen: string) => void
   onCampaign?:        () => void
