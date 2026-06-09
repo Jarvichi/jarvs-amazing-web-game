@@ -1261,6 +1261,22 @@ export function tickTD(state: TDGameState, dtMs: number): TDGameState {
   return s
 }
 
+/** Move all units toward their home positions without any combat logic.
+ *  Called during 'milestone' phase so units visibly return to their buildings
+ *  while the player is choosing a reward. */
+export function tickUnitsHomeOnly(state: TDGameState, dtMs: number): TDGameState {
+  const dtSec = dtMs / 1000
+  const step = UNIT_WALK_SPEED_PX * dtSec
+  const units = state.units.map(unit => {
+    const dx = unit.homeX - unit.x
+    const dy = unit.homeY - unit.y
+    const d = Math.sqrt(dx * dx + dy * dy)
+    if (d < 2) return unit
+    return { ...unit, x: unit.x + dx / d * Math.min(step, d), y: unit.y + dy / d * Math.min(step, d), stationed: false }
+  })
+  return { ...state, units }
+}
+
 /** Compute ticket reward for arcade mode based on waves cleared. */
 export function calcTicketReward(wavesCompleted: number): number {
   return wavesCompleted * 10
