@@ -78,6 +78,7 @@ function drawCells(
   selected: boolean,
   towers: TDTower[],
 ) {
+  if (!g || g.destroyed) return
   g.clear()
   const towerByCell = new Map(towers.map(t => [`${t.col},${t.row}`, t]))
 
@@ -230,6 +231,7 @@ function drawHpBars(
   enemies:  TDGameState['enemies'],
   units:    TDGameState['units'],
 ) {
+  if (!g || g.destroyed) return
   g.clear()
   const BAR = 20
 
@@ -288,6 +290,7 @@ function drawAnimatedEffects(
   startTimes: Map<number, number>,
   nowMs: number,
 ) {
+  if (!g || g.destroyed) return
   g.clear()
   for (const ev of events) {
     const startMs = startTimes.get(ev.id) ?? nowMs
@@ -343,6 +346,7 @@ function drawAnimatedEffects(
 // ── Draw hazard clouds ────────────────────────────────────────────────────────
 
 function drawHazards(g: PIXI.Graphics, hazards: TDGameState['hazards']) {
+  if (!g || g.destroyed) return
   g.clear()
   for (const h of hazards) {
     // Three concentric fills approximate a radial gradient: opaque core fading to
@@ -464,16 +468,6 @@ export function GameGrid({
       }))
     }).catch(() => { /* terrain tiles optional — solid fallback from cellGfx */ })
 
-    // Cell labels for start/end
-    const startLabel = new PIXI.Text({ text: 'IN',   style: { fontSize: 9, fill: 0xffffff, fontWeight: 'bold' } })
-    const endLabel   = new PIXI.Text({ text: 'BASE', style: { fontSize: 8, fill: 0xffffff, fontWeight: 'bold' } })
-    startLabel.x = cellCx(TD_PATH[0].col) - 8
-    startLabel.y = cellCy(TD_PATH[0].row) - 5
-    endLabel.x   = cellCx(TD_PATH[TD_PATH.length - 1].col) - 10
-    endLabel.y   = cellCy(TD_PATH[TD_PATH.length - 1].row) - 5
-    app.stage.addChild(startLabel)
-    app.stage.addChild(endLabel)
-
     // Click/hover detection on the cell layer background
     const hitArea = new PIXI.Graphics()
     hitArea.rect(0, 0, W, H).fill({ color: 0x000000, alpha: 0 })
@@ -536,6 +530,12 @@ export function GameGrid({
     })
   })
 
+  // Clear the scene ref on unmount so the update effect below never runs against
+  // a stale scene whose Graphics objects were already destroyed by usePixiApp cleanup.
+  useEffect(() => {
+    return () => { sceneRef.current = null }
+  }, [])
+
   // ── Update scene when game state changes ───────────────────────────────────
   useEffect(() => {
     if (!sceneRef.current) return
@@ -593,6 +593,8 @@ export function GameGrid({
             style={{ display: 'block', width: W, height: H }}
             onMouseLeave={handleMouseLeave}
           />
+          <div className="td-cell-label" style={{ left: cellCx(TD_PATH[0].col) - 8, top: cellCy(TD_PATH[0].row) - 5 }}>IN</div>
+          <div className="td-cell-label" style={{ left: cellCx(TD_PATH[TD_PATH.length - 1].col) - 10, top: cellCy(TD_PATH[TD_PATH.length - 1].row) - 5 }}>BASE</div>
           {tooltip}
         </div>
       </div>

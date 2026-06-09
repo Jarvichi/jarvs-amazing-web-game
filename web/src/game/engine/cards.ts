@@ -142,11 +142,11 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
     } else {
       log.push(`${who} ${verb} ${unit.name}.`);
     }
-    // Glass cards: chance to shatter immediately after deployment
+    // Glass cards: chance to crack on deployment — half HP but double damage
     if (card.glassBreakChance && Math.random() < card.glassBreakChance) {
-      unit.hp = 0;
-      unit.dyingTimer = 400;
-      log.push(`💎 ${unit.name} shattered!`);
+      unit.hp = Math.max(1, Math.ceil(unit.maxHp / 2));
+      unit.attack = unit.attack * 2;
+      log.push(`💎 ${unit.name} cracked — half HP, double damage!`);
       s.glassShatterCount = (s.glassShatterCount ?? 0) + 1;
     }
   } else if (card.cardType === 'upgrade' && card.upgradeEffect) {
