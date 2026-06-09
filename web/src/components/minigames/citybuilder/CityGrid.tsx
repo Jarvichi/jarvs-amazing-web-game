@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useCallback, useMemo } from 'react'
 import {
   CityState, CITY_COLS, CITY_ROWS,
   spawnerUnitCount, getNeighbourIndices,
@@ -101,6 +101,13 @@ export function CityGrid({
     [getCellFromPointRaw, cityCols, cityRows],
   )
 
+  // Stable ref so the grid-cell useMemo doesn't invalidate every render
+  const onCellTapRef = useRef(onCellTap)
+  onCellTapRef.current = onCellTap
+
+  const onWalkerClickRef = useRef(onWalkerClick)
+  onWalkerClickRef.current = onWalkerClick
+
   // ── Cell paint helpers (pointer-down on individual cells) ────────────────────
   const startPaint = useCallback((index: number) => {
     onPaint(index)
@@ -113,6 +120,24 @@ export function CityGrid({
       .slice(0, 3)
       .map(w => `${w.cellIndex}-${w.unitIndex}`)
   )
+
+  // Precomputed per city tick (not per animation frame) — which walkers want a friend next door
+  const wantsFriendSet = useMemo(() => {
+    const set = new Set<string>()
+    const gridRows = city.rows ?? CITY_ROWS
+    const gridCols = city.cols ?? CITY_COLS
+    for (const w of walkers) {
+      if (w.hidden) continue
+      const wantedNeighbour = w.affinityWith ?? w.unitName
+      const hasFriend = getNeighbourIndices(w.cellIndex, gridRows, gridCols).some(ni => {
+        const nc = city.grid[ni]
+        return nc?.spawnedUnitName === wantedNeighbour && (city.happiness[ni] ?? 100) > 0
+      })
+      if (!hasFriend) set.add(`${w.cellIndex}-${w.unitIndex}`)
+    }
+    return set
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city.grid, city.happiness, city.rows, city.cols])
 
   return (
     <>
@@ -136,30 +161,33 @@ export function CityGrid({
 
         {/* ── Road wear overlay ───────────────────────────────────────────────
             Rendered BEHIND the main grid. */}
-        <div
-          className="city-road-layer"
-          style={{
-            gridTemplateColumns: `repeat(${cityCols}, 1fr)`,
-            gridTemplateRows:    `repeat(${cityRows}, 1fr)`,
-          }}
-        >
-          {Array.from({ length: cityCells }, (_, i) => {
-            const row = Math.floor(i / cityCols)
-            const col = i % cityCols
-            const h = city.roadWear?.h ?? []
-            const v = city.roadWear?.v ?? []
-            const wearLeft   = col === 0            ? 0 : (h[i - 1]       ?? 0)
-            const wearRight  = col === cityCols - 1 ? 0 : (h[i]            ?? 0)
-            const wearTop    = row === 0            ? 0 : (v[i - cityCols] ?? 0)
-            const wearBottom = row === cityRows - 1 ? 0 : (v[i]            ?? 0)
-            return (
-              <div key={i} className="city-road-cell">
-                <RoadPath left={wearLeft} right={wearRight} top={wearTop} bottom={wearBottom} />
-              </div>
-            )
-          })}
-        </div>
+        {useMemo(() => (
+          <div
+            className="city-road-layer"
+            style={{
+              gridTemplateColumns: `repeat(${cityCols}, 1fr)`,
+              gridTemplateRows:    `repeat(${cityRows}, 1fr)`,
+            }}
+          >
+            {Array.from({ length: cityCells }, (_, i) => {
+              const row = Math.floor(i / cityCols)
+              const col = i % cityCols
+              const h = city.roadWear?.h ?? []
+              const v = city.roadWear?.v ?? []
+              const wearLeft   = col === 0            ? 0 : (h[i - 1]       ?? 0)
+              const wearRight  = col === cityCols - 1 ? 0 : (h[i]            ?? 0)
+              const wearTop    = row === 0            ? 0 : (v[i - cityCols] ?? 0)
+              const wearBottom = row === cityRows - 1 ? 0 : (v[i]            ?? 0)
+              return (
+                <div key={i} className="city-road-cell">
+                  <RoadPath left={wearLeft} right={wearRight} top={wearTop} bottom={wearBottom} />
+                </div>
+              )
+            })}
+          </div>
+        ), [city.roadWear, cityCols, cityRows, cityCells])}
 
+        {useMemo(() => (
         <div
           className="city-grid"
           style={{
@@ -186,7 +214,7 @@ export function CityGrid({
                 key={i}
                 className={`city-cell u-col u-items-c u-just-c u-pointer u-relative${cell ? ' city-cell--occupied' : ''}${cell && bulldozerMode ? ' city-cell--bulldoze' : ''}${!cell && paintBrush ? ' city-cell--paintable' : ''}`}
                 style={distShadow ? { boxShadow: distShadow } : undefined}
-                onClick={paintBrush ? undefined : () => onCellTap(i)}
+                onClick={paintBrush ? undefined : () => onCellTapRef.current(i)}
                 onPointerDown={paintBrush && !cell ? () => startPaint(i) : undefined}
                 title={cell ? (bulldozerMode ? `${cell.cardName} — tap to demolish` : `${cell.cardName} — tap to inspect`) : 'Empty — tap to place'}
               >
@@ -249,20 +277,18 @@ export function CityGrid({
             )
           })}
         </div>
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        ), [city, cityCols, cityRows, cityCells, bulldozerMode, paintBrush, startPaint])}
 
         {/* Walking units overlay */}
         <div className="city-unit-overlay">
           {walkers.map(w => {
             if (w.hidden) return null
-            const happiness       = city.happiness[w.cellIndex] ?? 100
-            const rage            = 100 - happiness
-            const wantedNeighbour = w.affinityWith ?? w.unitName
-            const gridRows        = city.rows ?? CITY_ROWS
-            const wantsFriend     = !getNeighbourIndices(w.cellIndex, gridRows, city.cols ?? CITY_COLS).some(ni => {
-              const nc = city.grid[ni]
-              return nc?.spawnedUnitName === wantedNeighbour && (city.happiness[ni] ?? 100) > 0
-            })
-            const showTaskBubble = visibleBubbleSet.has(`${w.cellIndex}-${w.unitIndex}`)
+            const happiness      = city.happiness[w.cellIndex] ?? 100
+            const rage           = 100 - happiness
+            const wKey           = `${w.cellIndex}-${w.unitIndex}`
+            const wantsFriend    = wantsFriendSet.has(wKey)
+            const showTaskBubble = visibleBubbleSet.has(wKey)
             return (
               <div
                 key={`${w.cellIndex}-${w.unitIndex}`}
@@ -270,8 +296,8 @@ export function CityGrid({
                 tabIndex={0}
                 className={`city-walker${rage >= 60 ? ' city-walker--unhappy' : ''}`}
                 style={{ left: Math.round(w.x), top: Math.round(w.y) }}
-                onClick={e => { e.stopPropagation(); onWalkerClick(w.cellIndex, w.unitIndex) }}
-                onKeyDown={e => { if (e.key === 'Enter') { e.stopPropagation(); onWalkerClick(w.cellIndex, w.unitIndex) } }}
+                onClick={e => { e.stopPropagation(); onWalkerClickRef.current(w.cellIndex, w.unitIndex) }}
+                onKeyDown={e => { if (e.key === 'Enter') { e.stopPropagation(); onWalkerClickRef.current(w.cellIndex, w.unitIndex) } }}
               >
                 {w.task.type === 'chatting' && (
                   <div className="city-chat-bubble">{w.task.label}</div>
@@ -280,8 +306,8 @@ export function CityGrid({
                   <div className="city-task-bubble">{w.task.label}</div>
                 )}
                 {!showTaskBubble && wantsFriend && (
-                  <div className="city-speech-bubble" title={`Wants a ${wantedNeighbour} next door!`}>
-                    <SpriteImg name={wantedNeighbour} className="city-speech-icon" />
+                  <div className="city-speech-bubble" title={`Wants a ${w.affinityWith ?? w.unitName} next door!`}>
+                    <SpriteImg name={w.affinityWith ?? w.unitName} className="city-speech-icon" />
                   </div>
                 )}
                 <AnimatedSpriteImg name={w.unitName} frameCount={3} fps={6} className="city-walker-sprite" />

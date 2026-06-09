@@ -3,7 +3,7 @@
 // unit walking around the city. Resources are produced and consumed over time.
 // Happiness is driven by food and defence.
 
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { getCardCatalog } from '../../game/cards'
 import {
   loadCollection, saveCollection, getOwnedCount,
@@ -118,6 +118,8 @@ function buildResidentThoughts(
   const defenseScore = Math.min(100, (cityDefense(city) / pop) * 8)
   const gridRows = city.rows ?? CITY_ROWS
   const gridCols = city.cols ?? CITY_COLS
+  const walkerByKey = new Map<string, Walker>()
+  for (const w of walkers) walkerByKey.set(`${w.cellIndex}-${w.unitIndex}`, w)
 
   for (let i = 0; i < city.grid.length; i++) {
     const cell = city.grid[i]
@@ -152,7 +154,7 @@ function buildResidentThoughts(
         thought = DEFENCE_THOUGHTS[seed % DEFENCE_THOUGHTS.length]
         happy = false
       } else {
-        const walker = walkers.find(wk => wk.cellIndex === i && wk.unitIndex === u)
+        const walker = walkerByKey.get(`${i}-${u}`)
         if (happiness === 100 && walker && walker.task.type !== 'idle') {
           thought = walker.task.label
         } else {
@@ -641,7 +643,8 @@ interface Props {
 type SubScreen = 'city' | 'picker' | 'upgrade' | 'levelup' | 'fortify' | 'towerdefence' | 'chronicle' | 'stats' | 'zones' | 'farming'
 
 export function CityBuilder({ onBack }: Props) {
-  const [city, setCity] = useState<CityState>(() => tickCity(loadCityState()))
+  const [city, setCity] = useState<CityState>(() => loadCityState())
+  const [cityReady, setCityReady] = useState(false)
   const [screen, setScreen] = useState<SubScreen>('city')
   const [pendingMilestone, setPendingMilestone] = useState<MilestoneDef | null>(null)
   const [showTrade, setShowTrade] = useState(false)
@@ -703,6 +706,42 @@ export function CityBuilder({ onBack }: Props) {
   useEffect(() => { walkersRef.current = walkers }, [walkers])
   useEffect(() => { builderWalkersRef.current = builderWalkers }, [builderWalkers])
   useEffect(() => { screenRef.current = screen }, [screen])
+
+  // Apply offline catch-up asynchronously so the component paints before the heavy computation
+  useEffect(() => {
+    let cancelled = false
+    async function applyOfflineTick() {
+      const now = Date.now()
+      const OFFLINE_STEP_MS = 5 * 60_000
+      const MAX_OFFLINE_MS = 8 * 60 * 60_000
+      const elapsed = now - city.lastTick
+      console.log(`[CityBuilder] offline catch-up: elapsed=${Math.round(elapsed / 1000)}s`)
+      if (elapsed <= OFFLINE_STEP_MS * 1.5) {
+        const t0 = performance.now()
+        if (!cancelled) { setCity(prev => tickCity(prev, now)); setCityReady(true) }
+        console.log(`[CityBuilder] single tick: ${(performance.now() - t0).toFixed(1)}ms`)
+        return
+      }
+      const cappedElapsed = Math.min(elapsed, MAX_OFFLINE_MS)
+      const steps = Math.ceil(cappedElapsed / OFFLINE_STEP_MS)
+      const stepMs = cappedElapsed / steps
+      const startTick = now - cappedElapsed
+      let current: CityState = { ...city, lastTick: startTick }
+      const t0 = performance.now()
+      for (let i = 0; i < steps; i++) {
+        const ts = performance.now()
+        current = tickCity(current, startTick + stepMs * (i + 1), true)
+        const stepDur = performance.now() - ts
+        if (stepDur > 20) console.warn(`[CityBuilder] slow step ${i + 1}/${steps}: ${stepDur.toFixed(1)}ms`)
+        if (i % 8 === 7) await new Promise<void>(r => setTimeout(r, 0))
+        if (cancelled) return
+      }
+      console.log(`[CityBuilder] ${steps} offline steps in ${(performance.now() - t0).toFixed(0)}ms`)
+      if (!cancelled) { setCity(current); setCityReady(true) }
+    }
+    applyOfflineTick()
+    return () => { cancelled = true }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Show attack report when a new attack is detected
   useEffect(() => {
@@ -800,11 +839,18 @@ export function CityBuilder({ onBack }: Props) {
 
   useEffect(() => {
     const id = setInterval(() => {
+      // No visible city UI during Tower Defence — skip animation work entirely
+      if (screenRef.current === 'towerdefence') return
+
       const { w: _w, h: _h } = worldDimsRef.current
       const overlayW = _w || CITY_COLS * CELL_PX
       const overlayH = _h || CITY_ROWS * CELL_PX
 
       setWalkers(prev => {
+        // O(1) lookup map keyed by "cellIndex-unitIndex" — built once per tick
+        const walkerByKey = new Map<string, Walker>()
+        for (const w of prev) walkerByKey.set(`${w.cellIndex}-${w.unitIndex}`, w)
+
         // ── Pass 0: find walkers that are the target of a visiting task ──────
         const visitTargetKeys = new Set<string>()
         for (const w of prev) {
@@ -819,9 +865,8 @@ export function CityBuilder({ onBack }: Props) {
           if (w.hidden || w.task.type !== 'visiting' || !w.task.targetWalkerKey) continue
           const wKey = `${w.cellIndex}-${w.unitIndex}`
           if (chatPairs.has(wKey)) continue
-          const [ci, ui] = w.task.targetWalkerKey.split('-').map(Number)
-          const target = prev.find(o => o.cellIndex === ci && o.unitIndex === ui && !o.hidden)
-          if (!target || target.task.type === 'chatting') continue
+          const target = walkerByKey.get(w.task.targetWalkerKey)
+          if (!target || target.hidden || target.task.type === 'chatting') continue
           const dx = target.x - w.x
           const dy = target.y - w.y
           if (Math.sqrt(dx * dx + dy * dy) < CHAT_DIST) {
@@ -840,7 +885,7 @@ export function CityBuilder({ onBack }: Props) {
           return computeRoadWaypoints(fx, fy, task.targetX, task.targetY!, overlayW, overlayH, cityRows, rw, cityCols)
         }
 
-        return prev.map(w => {
+        const next: Walker[] = prev.map(w => {
           const wKey = `${w.cellIndex}-${w.unitIndex}`
 
           // ── Resting at home ────────────────────────────────────────────────
@@ -890,8 +935,8 @@ export function CityBuilder({ onBack }: Props) {
 
           // ── Visiting: abandon if target has hidden ─────────────────────────
           if (task.type === 'visiting' && task.targetWalkerKey) {
-            const [ci, ui] = task.targetWalkerKey.split('-').map(Number)
-            const targetGone = !prev.find(o => o.cellIndex === ci && o.unitIndex === ui && !o.hidden)
+            const _t = walkerByKey.get(task.targetWalkerKey)
+            const targetGone = !_t || _t.hidden
             if (targetGone) {
               task = pickTask(w, prev, cityRef.current, overlayW, overlayH)
               taskTimer = task.type === 'idle' ? IDLE_TASK_TICKS + Math.floor(Math.random() * IDLE_TASK_TICKS) : 0
@@ -1005,6 +1050,7 @@ export function CityBuilder({ onBack }: Props) {
 
           return { ...w, x, y, vx, vy, turnTimer, task, taskTimer, bubbleTimer, waypoints }
         })
+        return next
       })
 
       // Animate builder walkers
@@ -1150,13 +1196,13 @@ export function CityBuilder({ onBack }: Props) {
         // distributed into city cell stocks before aggregation (not lost).
         let next: CityState
         if (screenRef.current !== 'farming' && isFarmUnlocked(cityPopulation(prev))) {
-          const { nextCity, nextFarm } = tickAll(prev, loadFarmState())
+          const farmState = loadFarmState()
+          const { nextCity, nextFarm } = tickAll(prev, farmState)
           saveFarmState(nextFarm)
           next = nextCity
         } else {
           next = tickCity(prev)
         }
-
         saveCityState(next)
         return next
       })
@@ -1167,9 +1213,12 @@ export function CityBuilder({ onBack }: Props) {
   // ── Resident thoughts (rebuild every 15 s and on city change) ────────────────
 
   useEffect(() => {
-    setResidentThoughts(buildResidentThoughts(city, cityPopulation(city), walkersRef.current))
+    const id = setTimeout(() => {
+      setResidentThoughts(buildResidentThoughts(city, cityPopulation(city), walkersRef.current))
+    }, 2_000)
     // walkersRef.current used intentionally — avoids rebuilding every animation tick
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => clearTimeout(id)
   }, [city])
 
   useEffect(() => {
@@ -1219,6 +1268,90 @@ export function CityBuilder({ onBack }: Props) {
     }, 5_000)
     return () => clearInterval(id)
   }, [])
+
+  // ── Memoized catalog and collection (static/session-stable) ─────────────────
+  // These are NOT derived from React state — catalog never changes, collection
+  // doesn't change during a city builder session. Moved here (before any early
+  // return) so useMemo can be called unconditionally.
+
+  const catalog = useMemo(() => getCardCatalog(), [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const [collection] = useState(() => loadCollection())
+
+  // ── Derived data (memoized on city + currentTime) ─────────────────────────────
+  // Previously computed inline on every render (every 100ms from animation loop),
+  // this now only re-runs when city changes (~10s) or the clock ticks (~60s).
+
+  const derived = useMemo(() => {
+    const ownedStructures = catalog.filter(c =>
+      c.cardType === 'structure' && getOwnedCount(collection, c.name) > 0
+    )
+    const placedCounts: Record<string, number> = {}
+    for (const cell of city.grid) {
+      if (cell) placedCounts[cell.cardName] = (placedCounts[cell.cardName] ?? 0) + 1
+    }
+    const fortCounts: Record<string, number> = {}
+    for (const fort of city.fortifications) {
+      fortCounts[fort.cardName] = (fortCounts[fort.cardName] ?? 0) + 1
+    }
+    const totalDeployed: Record<string, number> = {}
+    for (const name of [...Object.keys(placedCounts), ...Object.keys(fortCounts)]) {
+      totalDeployed[name] = (placedCounts[name] ?? 0) + (fortCounts[name] ?? 0)
+    }
+    const availableForPlace = ownedStructures.filter(c => {
+      const spawnEffect = c.unit?.structureEffect
+      const spawner = spawnEffect?.type === 'spawn'
+      if (!spawner && isDefenceCard(c.name, false)) return false
+      return (placedCounts[c.name] ?? 0) < getOwnedCount(collection, c.name)
+    })
+    const availableDefenceCards = ownedStructures.filter(c => {
+      const spawnEffect = c.unit?.structureEffect
+      const spawner = spawnEffect?.type === 'spawn'
+      return isDefenceCard(c.name, spawner) &&
+        (totalDeployed[c.name] ?? 0) < getOwnedCount(collection, c.name)
+    })
+    const levellable = catalog.filter(c =>
+      c.cardType === 'structure' && getOwnedCount(collection, c.name) > 0
+    )
+    const incomeRate = Math.round(goldIncomeRate(city))
+    const netRate = Math.round(goldNetRate(city))
+    const defense = cityDefense(city)
+    const population = cityPopulation(city)
+    const cityProdRates = resourceProductionRate(city)
+    const consRates = resourceConsumptionRate(city)
+    const prodRates = { ...cityProdRates }
+    if (isFarmUnlocked(population)) {
+      for (const [res, rate] of Object.entries(getFarmProductionRate(loadFarmState())) as [ResourceType, number][]) {
+        prodRates[res as ResourceType] = (prodRates[res as ResourceType] ?? 0) + rate
+      }
+    }
+    const cityRows = city.rows ?? CITY_ROWS
+    const cityCols = city.cols ?? CITY_COLS
+    const cityCells = cityCols * cityRows
+    const expansionCost = EXPANSION_COSTS[cityRows]
+    const affordable = canAffordExpansion(city)
+    const cityLevel = cityRows - CITY_ROWS + 1
+    const msToAttack = Math.max(0, city.nextAttackAt - currentTime)
+    const attackCountdown = formatCountdown(msToAttack)
+    const attackUrgency = msToAttack < 3_600_000 ? 'imminent' : msToAttack < 10_800_000 ? 'soon' : 'calm'
+    const occupiedCount = city.grid.filter(c => c != null).length
+    const attackPowerMid = 20 + occupiedCount * 3 + 12
+    const attackRatio = defense / Math.max(attackPowerMid, 1)
+    const attackStrengthLabel =
+      attackRatio >= 1.5 ? { text: 'Weak', cls: 'strength--weak' } :
+        attackRatio >= 1.0 ? { text: 'Moderate', cls: 'strength--mod' } :
+          attackRatio >= 0.6 ? { text: 'Strong', cls: 'strength--strong' } :
+            { text: 'Overwhelming', cls: 'strength--overwhelm' }
+    return {
+      ownedStructures, availableForPlace, availableDefenceCards, levellable,
+      placedCounts, totalDeployed,
+      incomeRate, netRate, defense, population, prodRates, consRates,
+      cityRows, cityCols, cityCells, expansionCost, affordable, cityLevel,
+      msToAttack, attackCountdown, attackUrgency,
+      occupiedCount, attackStrengthLabel,
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [city, currentTime])
 
   // ── Cell interaction ──────────────────────────────────────────────────────────
 
@@ -1411,87 +1544,22 @@ export function CityBuilder({ onBack }: Props) {
     showToast(`City expanded to ${next.rows} rows!`)
   }
 
-  // ── Derived data ──────────────────────────────────────────────────────────────
-
-  const catalog = getCardCatalog()
-  const collection = loadCollection()
-
-  const ownedStructures = catalog.filter(c =>
-    c.cardType === 'structure' && getOwnedCount(collection, c.name) > 0
+  if (!cityReady) return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#fff', fontSize: 18 }}>
+      Loading city…
+    </div>
   )
 
-  const placedCounts: Record<string, number> = {}
-  for (const cell of city.grid) {
-    if (cell) placedCounts[cell.cardName] = (placedCounts[cell.cardName] ?? 0) + 1
-  }
+  // ── Destructure pre-computed derived data ────────────────────────────────────
 
-  const fortCounts: Record<string, number> = {}
-  for (const fort of city.fortifications) {
-    fortCounts[fort.cardName] = (fortCounts[fort.cardName] ?? 0) + 1
-  }
-
-  // Total deployed = grid + fortifications
-  const totalDeployed: Record<string, number> = {}
-  for (const name of [...Object.keys(placedCounts), ...Object.keys(fortCounts)]) {
-    totalDeployed[name] = (placedCounts[name] ?? 0) + (fortCounts[name] ?? 0)
-  }
-
-  const availableForPlace = ownedStructures.filter(c => {
-    // Defence cards cannot be placed on the grid — they go to fortifications
-    const spawnEffect = c.unit?.structureEffect
-    const spawner = spawnEffect?.type === 'spawn'
-    if (!spawner && isDefenceCard(c.name, false)) return false
-    return (placedCounts[c.name] ?? 0) < getOwnedCount(collection, c.name)
-  })
-
-  const availableDefenceCards = ownedStructures.filter(c => {
-    const spawnEffect = c.unit?.structureEffect
-    const spawner = spawnEffect?.type === 'spawn'
-    return isDefenceCard(c.name, spawner) &&
-      (totalDeployed[c.name] ?? 0) < getOwnedCount(collection, c.name)
-  })
-
-  const levellable = catalog.filter(c =>
-    c.cardType === 'structure' && getOwnedCount(collection, c.name) > 0
-  )
-
-  const incomeRate = Math.round(goldIncomeRate(city))
-  const netRate = Math.round(goldNetRate(city))
-  const defense = cityDefense(city)
-  const population = cityPopulation(city)
-
-  const cityProdRates = resourceProductionRate(city)
-  const consRates = resourceConsumptionRate(city)
-
-  // Merge farm production rates into the city display so the resource strip
-  // shows the combined output even when buildings are on the farm.
-  const prodRates = { ...cityProdRates }
-  if (isFarmUnlocked(population)) {
-    for (const [res, rate] of Object.entries(getFarmProductionRate(loadFarmState())) as [ResourceType, number][]) {
-      prodRates[res as ResourceType] = (prodRates[res as ResourceType] ?? 0) + rate
-    }
-  }
-
-  const cityRows = city.rows ?? CITY_ROWS
-  const cityCols = city.cols ?? CITY_COLS
-  const cityCells = cityCols * cityRows
-  const expansionCost = EXPANSION_COSTS[cityRows]
-  const affordable = canAffordExpansion(city)
-  const cityLevel = cityRows - CITY_ROWS + 1
-
-  const msToAttack = Math.max(0, city.nextAttackAt - currentTime)
-  const attackCountdown = formatCountdown(msToAttack)
-  const attackUrgency = msToAttack < 3_600_000 ? 'imminent' : msToAttack < 10_800_000 ? 'soon' : 'calm'
-
-  // Estimate incoming attack strength (mirrors processAttack formula)
-  const occupiedCount = city.grid.filter(c => c != null).length
-  const attackPowerMid = 20 + occupiedCount * 3 + 12  // midpoint of rand(25)
-  const attackRatio = defense / Math.max(attackPowerMid, 1)
-  const attackStrengthLabel =
-    attackRatio >= 1.5 ? { text: 'Weak', cls: 'strength--weak' } :
-      attackRatio >= 1.0 ? { text: 'Moderate', cls: 'strength--mod' } :
-        attackRatio >= 0.6 ? { text: 'Strong', cls: 'strength--strong' } :
-          { text: 'Overwhelming', cls: 'strength--overwhelm' }
+  const {
+    ownedStructures, availableForPlace, availableDefenceCards, levellable,
+    placedCounts, totalDeployed,
+    incomeRate, netRate, defense, population, prodRates, consRates,
+    cityRows, cityCols, cityCells, expansionCost, affordable, cityLevel,
+    msToAttack, attackCountdown, attackUrgency,
+    occupiedCount, attackStrengthLabel,
+  } = derived
 
   // ── Farming sub-screen ───────────────────────────────────────────────────────
 

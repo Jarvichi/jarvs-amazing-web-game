@@ -1073,11 +1073,26 @@ export function spawnerUnitCount(state: CityState, cardName: string): number {
   return (getCardMasteryLevel(cardName) ?? 0) + 1
 }
 
+// Two-level cache for getCardMasteryLevel:
+//  1. Collection load + validateIntegrity: cached for ~100ms (was called ~1650×/tick)
+//  2. Per-card masteryLevel result: cached for the same window (avoids O(n) find per call)
+let _masteryColCache: ReturnType<typeof loadCollection> | null = null
+let _masteryColCacheTs = 0
+const _masteryLevelCache = new Map<string, number>()
+
 export function getCardMasteryLevel(cardName: string): number {
-    const col = loadCollection()
-    const currentXp = getMasteryXp(col, cardName)
-    const currentLvl = masteryLevel(currentXp)
-    return currentLvl
+  const now = Date.now()
+  if (!_masteryColCache || now - _masteryColCacheTs > 100) {
+    _masteryColCache = loadCollection()
+    _masteryColCacheTs = now
+    _masteryLevelCache.clear()
+  }
+  let level = _masteryLevelCache.get(cardName)
+  if (level === undefined) {
+    level = masteryLevel(getMasteryXp(_masteryColCache, cardName))
+    _masteryLevelCache.set(cardName, level)
+  }
+  return level
 }
 
 // ── Structure classification ──────────────────────────────────────────────────
