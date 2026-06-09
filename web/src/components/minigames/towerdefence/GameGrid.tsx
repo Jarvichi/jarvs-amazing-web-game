@@ -342,8 +342,11 @@ function drawAnimatedEffects(
 function drawHazards(g: PIXI.Graphics, hazards: TDGameState['hazards']) {
   g.clear()
   for (const h of hazards) {
-    g.circle(h.x, h.y, h.radius).fill({ color: 0x44bb44, alpha: 0.35 })
-    g.circle(h.x, h.y, h.radius).stroke({ width: 1, color: 0x88ff88, alpha: 0.5 })
+    // Three concentric fills approximate a radial gradient: opaque core fading to
+    // transparent at the edge — no hard outline stroke.
+    g.circle(h.x, h.y, h.radius).fill({ color: 0x44bb44, alpha: 0.06 })
+    g.circle(h.x, h.y, h.radius * 0.70).fill({ color: 0x44bb44, alpha: 0.14 })
+    g.circle(h.x, h.y, h.radius * 0.40).fill({ color: 0x66cc66, alpha: 0.22 })
   }
 }
 

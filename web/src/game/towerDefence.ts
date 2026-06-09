@@ -1274,7 +1274,7 @@ export function tickUnitsHomeOnly(state: TDGameState, dtMs: number): TDGameState
     if (d < 2) return unit
     return { ...unit, x: unit.x + dx / d * Math.min(step, d), y: unit.y + dy / d * Math.min(step, d), stationed: false }
   })
-  return { ...state, units }
+  return { ...state, units, attackEvents: [], hazards: [] }
 }
 
 /** Compute ticket reward for arcade mode based on waves cleared. */
