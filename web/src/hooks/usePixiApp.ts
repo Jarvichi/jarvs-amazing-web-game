@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import * as PIXI from 'pixi.js'
+import rollbar from '../rollbar'
 
 /**
  * Initialises a PixiJS v8 Application and mounts its canvas into the given container.
@@ -42,12 +43,16 @@ export function usePixiApp(
       initialized = true
       if (destroyed) {
         // Cleanup ran before init resolved — destroy properly to release the WebGL context.
+        rollbar.warn('[usePixiApp] init resolved after unmount — destroying orphan app')
         app.destroy(true, { children: true, texture: false })
         return
       }
       container.appendChild(app.canvas)
       onReady(app)
-    }).catch(e => console.error('[usePixiApp] app.init failed', e))
+    }).catch(e => {
+      console.error('[usePixiApp] app.init failed', e)
+      rollbar.error('[usePixiApp] app.init failed', { message: (e as Error)?.message })
+    })
 
     return () => {
       destroyed = true
