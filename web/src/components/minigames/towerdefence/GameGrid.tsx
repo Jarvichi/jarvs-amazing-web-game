@@ -22,6 +22,7 @@ const C_DROPPABLE      = 0x1a3d1a
 const C_TOWER_SELECTED = 0x7a5500
 const C_BORDER_DARK    = 0x111111
 
+
 export interface Props {
   boardWrapRef: React.RefObject<HTMLDivElement>
   game: TDGameState
@@ -106,7 +107,9 @@ function drawCells(
         const alpha = (fill === C_IN_RANGE || fill === C_DROPPABLE) ? 0.45 : 1.0
         g.rect(x, y, CELL_PX, CELL_PX).fill({ color: fill, alpha })
       }
-      g.rect(x, y, CELL_PX, CELL_PX).stroke({ width: 1, color: C_BORDER_DARK, alpha: 0.3 })
+      if (selected && canPlaceTowers) {
+        g.rect(x, y, CELL_PX, CELL_PX).stroke({ width: 1, color: C_BORDER_DARK, alpha: 0.3 })
+      }
 
       // IN / BASE labels
       if (isStart || isEnd) {
@@ -401,7 +404,7 @@ export function GameGrid({
     // CELL_PX (48) ≠ TILE_SIZE (32), so ground and path tiles need separate handling:
     //   ground — tiled at 32px intervals across the full canvas
     //   path   — one sprite per cell, scaled to CELL_PX, with cell-space neighbor lookup
-    const env = environment ?? 'farmland'
+    const env = environment ?? 'ruins'
     const worldDef = WORLD_ENV_TILES[env]
     const groundId = worldDef?.ground ?? 0
     const baseUrl = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
@@ -574,7 +577,7 @@ export function GameGrid({
     <div className="td-board-wrap" ref={boardWrapRef}>
       <div
         className="td-grid-scaler"
-        style={{ width: W * gridScale, height: H * gridScale }}
+        style={{ width: W * gridScale, height: H * gridScale}}
       >
         <div
           style={{

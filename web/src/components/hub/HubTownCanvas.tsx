@@ -441,6 +441,7 @@ export function HubTownCanvas({
       lastBubbleText: string | null
     }
     interface BlockedPathEntry {
+      questId: string
       blockedDecor: PIXI.Sprite[]
       clearedDecor: PIXI.Sprite[]
       blockedNpcs: BlockedNpcEntry[]
@@ -451,7 +452,7 @@ export function HubTownCanvas({
       const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
       for (const bp of HUB_BLOCKED_PATHS) {
         const isCleared = completedQuestIdsRef?.current.has(bp.questId) ?? false
-        const entry: BlockedPathEntry = { blockedDecor: [], clearedDecor: [], blockedNpcs: [], clearedNpcs: [] }
+        const entry: BlockedPathEntry = { questId: bp.questId, blockedDecor: [], clearedDecor: [], blockedNpcs: [], clearedNpcs: [] }
 
         for (const d of bp.blocked.decor ?? []) {
           if (d.tileId === 666) continue
@@ -500,7 +501,7 @@ export function HubTownCanvas({
             npcContainer.addChild(s)
           }).catch(() => {})
           npcLayer.addChild(npcContainer)
-          entry.blockedNpcs.push({ root: npcContainer, tx: npc.tx, ty: npc.ty, proximityDialogue: npc.proximityDialogue ?? [], bubble: null, lastBubbleText: null })
+          entry.blockedNpcs.push({ root: npcContainer, tx: npc.tx, ty: npc.ty, proximityDialogue: (npc.proximityDialogue ?? []).slice().sort((a, b) => a.atDistance - b.atDistance), bubble: null, lastBubbleText: null })
         }
 
         for (const npc of bp.cleared.npcs ?? []) {
@@ -1814,6 +1815,9 @@ export function HubTownCanvas({
 
     // ── Per-frame ──────────────────────────────────────────────────────────────
     let _tickerErrorTs = 0
+    let _lastNightAlpha = -1
+    let _lastNightAvatarX = -Infinity, _lastNightAvatarY = -Infinity
+    let _lastReportX = -Infinity, _lastReportY = -Infinity
     app.ticker.add((ticker) => {
       try {
       // Avatar animation + position report
@@ -1821,7 +1825,10 @@ export function HubTownCanvas({
         // Report stage-space position (accounts for interior layer offset)
         const reportX = avatarInInterior ? intOffX + avatar.x : avatar.x
         const reportY = avatarInInterior ? intOffY + avatar.y : avatar.y
-        onAvatarMoveRef.current(reportX, reportY)
+        if (Math.abs(reportX - _lastReportX) > 0.5 || Math.abs(reportY - _lastReportY) > 0.5) {
+          onAvatarMoveRef.current(reportX, reportY)
+          _lastReportX = reportX; _lastReportY = reportY
+        }
 
         const walking = isWalking || interiorIsWalking
         if (walking && avatarFrames.length > 0) {
@@ -1838,10 +1845,16 @@ export function HubTownCanvas({
         }
       }
 
-      if (avatar && !avatarInInterior) avatar.zIndex = avatar.y
-      for (const npc of unitNpcs) npc.sprite.zIndex = npc.sprite.y
-      spriteLayer.sortChildren()
-      worldLayer.sortChildren()
+      let zDirty = false
+      if (avatar && !avatarInInterior) {
+        const nz = avatar.y
+        if (nz !== avatar.zIndex) { avatar.zIndex = nz; zDirty = true }
+      }
+      for (const npc of unitNpcs) {
+        const nz = npc.sprite.y
+        if (nz !== npc.sprite.zIndex) { npc.sprite.zIndex = nz; zDirty = true }
+      }
+      if (zDirty) { spriteLayer.sortChildren(); worldLayer.sortChildren() }
 
       // NPC name tag proximity (exterior only)
       if (!interiorActive) {
@@ -1860,19 +1873,15 @@ export function HubTownCanvas({
         }
 
         // Blocked path visibility and proximity speech bubbles
-        for (const [pathId, entry] of blockedPathEntries) {
-          const bp = HUB_BLOCKED_PATHS.find(b => b.id === pathId)
-          if (!bp) continue
-          const cleared = completedQuestIdsRef?.current.has(bp.questId) ?? false
+        for (const [, entry] of blockedPathEntries) {
+          const cleared = completedQuestIdsRef?.current.has(entry.questId) ?? false
           for (const s of entry.blockedDecor) s.visible = !cleared
           for (const s of entry.clearedDecor) s.visible = cleared
           for (const n of entry.clearedNpcs) n.root.visible = cleared
           for (const n of entry.blockedNpcs) {
             n.root.visible = !cleared
             const dist = Math.max(Math.abs(n.tx - atx), Math.abs(n.ty - aty))
-            const match = n.proximityDialogue
-              .filter(p => dist <= p.atDistance)
-              .sort((a, b) => a.atDistance - b.atDistance)[0]
+            const match = n.proximityDialogue.find(p => dist <= p.atDistance)
             const newText = (!cleared && match) ? match.text : null
             if (newText !== n.lastBubbleText) {
               if (n.bubble) { bubbleLayer.removeChild(n.bubble); n.bubble = null }
@@ -1895,9 +1904,8 @@ export function HubTownCanvas({
           const ws = namedNpcWalkStates.get(npcId)
           if (!ws || ws.isInside) { continue }
           const dist = Math.max(Math.abs(ws.currentTx - atx), Math.abs(ws.currentTy - aty))
-          const match = dialogues
-            .filter(p => dist <= p.atDistance)
-            .sort((a, b) => a.atDistance - b.atDistance)[0]
+          dialogues.sort((a, b) => a.atDistance - b.atDistance)
+          const match = dialogues.find(p => dist <= p.atDistance)
           const newText = match ? match.text : null
           const entry = namedNpcProximityBubbles.get(npcId) ?? { bubble: null, lastText: null }
           if (newText !== entry.lastText) {
@@ -1958,6 +1966,15 @@ export function HubTownCanvas({
       }
       if (nightAlpha > 0 && !interiorActive && avatar) {
         nightSprite.visible = true
+        const _anyNpcWalking = unitNpcs.some(n => n.isWalking)
+        const _nightDirty = nightAlpha !== _lastNightAlpha
+          || Math.abs(avatar.x - _lastNightAvatarX) > 0.5
+          || Math.abs(avatar.y - _lastNightAvatarY) > 0.5
+          || _anyNpcWalking
+        if (!_nightDirty) { /* skip canvas redraw — nothing visible changed */ } else {
+        _lastNightAlpha = nightAlpha
+        _lastNightAvatarX = avatar.x
+        _lastNightAvatarY = avatar.y
         const cw = nightCanvas.width
         const ch = nightCanvas.height
         const cs = 1 / NIGHT_CANVAS_SCALE
@@ -2001,6 +2018,7 @@ export function HubTownCanvas({
         }
         nightCtx.globalCompositeOperation = 'source-over'
         nightTexture.source.update()
+        } // end _nightDirty
       } else {
         nightSprite.visible = false
       }
@@ -2011,6 +2029,8 @@ export function HubTownCanvas({
         const questId = pickupQuestIds.get(pickupId)
         sprite.visible = !questId || (activeQuestIdsRef?.current.has(questId) ?? true)
       }
+
+      const _ghostTiles = interiorActive ? [] : unitNpcs.filter(g => g.isGhost).map(g => g.currentTile)
 
       for (const npc of unitNpcs) {
         if (npc.isWalking && npc.animFrames.length > 0) {
@@ -2040,11 +2060,10 @@ export function HubTownCanvas({
 
         // Scared bubble: non-ghost NPCs near a ghost
         if (!npc.isGhost && !interiorActive) {
-          const nearbyGhost = unitNpcs.find(g =>
-            g.isGhost &&
-            Math.max(Math.abs(npc.currentTile[0] - g.currentTile[0]), Math.abs(npc.currentTile[1] - g.currentTile[1])) <= 10
+          const hasNearbyGhost = _ghostTiles.some(([gx, gy]) =>
+            Math.max(Math.abs(npc.currentTile[0] - gx), Math.abs(npc.currentTile[1] - gy)) <= 10
           )
-          if (nearbyGhost) {
+          if (hasNearbyGhost) {
             if (npc.scaredBubbleCooldown > 0) npc.scaredBubbleCooldown -= ticker.deltaMS
             if (!npc.scaredBubble && npc.scaredBubbleCooldown <= 0) {
               const phrase = SCARED_PHRASES[Math.floor(Math.random() * SCARED_PHRASES.length)]

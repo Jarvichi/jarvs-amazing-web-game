@@ -16,6 +16,15 @@ import rollbar from '../rollbar'
  * This avoids the React Strict Mode double-invoke issue where two apps would share
  * the same pre-existing canvas element and fight over its WebGL context.
  */
+// Suppress the webglcontextlost error PixiJS logs when we intentionally release
+// the context via app.destroy(). This is expected teardown, not a GPU crash.
+// We register in capture phase (before PixiJS's bubble-phase listener) and
+// call stopImmediatePropagation so PixiJS's handler never fires.
+function suppressContextLostOnce(canvas: HTMLCanvasElement) {
+  const handler = (e: Event) => { e.stopImmediatePropagation() }
+  canvas.addEventListener('webglcontextlost', handler, { capture: true, once: true })
+}
+
 export function usePixiApp(
   containerRef: React.RefObject<HTMLElement | null>,
   width: number,
@@ -44,6 +53,7 @@ export function usePixiApp(
       if (destroyed) {
         // Cleanup ran before init resolved — destroy properly to release the WebGL context.
         rollbar?.warn('[usePixiApp] init resolved after unmount — destroying orphan app')
+        suppressContextLostOnce(app.canvas as HTMLCanvasElement)
         app.destroy(true, { children: true, texture: false })
         return
       }
@@ -54,13 +64,17 @@ export function usePixiApp(
       rollbar?.error('[usePixiApp] app.init failed', { message: (e as Error)?.message })
       // Release any partial WebGL context created before the failure to prevent
       // context accumulation that crashes the browser after repeated navigations.
-      try { app.destroy(true, { children: true, texture: false }) } catch { /* partial init — best effort */ }
+      try {
+        suppressContextLostOnce(app.canvas as HTMLCanvasElement)
+        app.destroy(true, { children: true, texture: false })
+      } catch { /* partial init — best effort */ }
       appRef.current = null
     })
 
     return () => {
       destroyed = true
       if (initialized) {
+        suppressContextLostOnce(app.canvas as HTMLCanvasElement)
         app.destroy(true, { children: true, texture: false })
       }
       appRef.current = null

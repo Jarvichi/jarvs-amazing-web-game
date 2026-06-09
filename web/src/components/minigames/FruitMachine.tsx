@@ -951,13 +951,14 @@ function regressBoardBy(steps: number) {
       {/* Reels + trail reel */}
       <div className="fm-reels u-flex u-gap-6 u-just-c" >
         <table style={{ borderCollapse: 'collapse', borderSpacing: '0' }}>
-          <thead >
-            <td colSpan={3} align='center'>
-              &nbsp;
-            </td>
-            <td className="fm-ladder-reel-label">
-           
-            </td>
+          <thead>
+            <tr>
+              <td colSpan={3} align='center'>
+                &nbsp;
+              </td>
+              <td className="fm-ladder-reel-label">
+              </td>
+            </tr>
           </thead>
           <tbody>
           {/* Up Nudges */}
