@@ -2962,7 +2962,7 @@ export default function App() {
         <CollectionTabScreen
           crystals={crystals}
           onCrystalsChanged={handleCrystalsChanged}
-          onBack={() => setScreen('title')}
+          onBack={() => setScreen(returnScreen)}
           commanderName={commander?.cardName ?? null}
           onPromoteCommander={(cardName) => {
             const ok = promoteCommander(cardName)
@@ -3035,7 +3035,7 @@ export default function App() {
       )}
 
       {screen === 'deckbuilder' && (
-        <DeckBuilder onBack={() => setScreen('title')} fatiguedCards={run ? fatiguedCards : []}/>
+        <DeckBuilder onBack={() => setScreen(returnScreen)} fatiguedCards={run ? fatiguedCards : []}/>
       )}
 
       {screen === 'pack' && (
@@ -3101,7 +3101,7 @@ export default function App() {
       )}
 
       {screen === 'dailychallenge' && (
-        <DailyChallengeScreen onStart={handleStartDailyChallenge} onBack={() => setScreen('title')} />
+        <DailyChallengeScreen onStart={handleStartDailyChallenge} onBack={() => setScreen(returnScreen)} />
       )}
 
       {screen === 'endlessleaderboard' && (

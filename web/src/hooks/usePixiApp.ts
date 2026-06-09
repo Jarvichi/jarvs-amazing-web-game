@@ -41,9 +41,8 @@ export function usePixiApp(
     }).then(() => {
       initialized = true
       if (destroyed) {
-        // Strict Mode cleanup ran before init resolved — canvas was never inserted.
-        // Stop the ticker so this inert app consumes no CPU; it will be GC'd.
-        app.ticker.stop()
+        // Cleanup ran before init resolved — destroy properly to release the WebGL context.
+        app.destroy(true, { children: true, texture: false })
         return
       }
       container.appendChild(app.canvas)
