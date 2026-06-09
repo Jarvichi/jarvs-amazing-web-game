@@ -52,6 +52,10 @@ export function usePixiApp(
     }).catch(e => {
       console.error('[usePixiApp] app.init failed', e)
       rollbar.error('[usePixiApp] app.init failed', { message: (e as Error)?.message })
+      // Release any partial WebGL context created before the failure to prevent
+      // context accumulation that crashes the browser after repeated navigations.
+      try { app.destroy(true, { children: true, texture: false }) } catch { /* partial init — best effort */ }
+      appRef.current = null
     })
 
     return () => {
