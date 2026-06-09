@@ -404,7 +404,7 @@ export function GameGrid({
     // CELL_PX (48) ≠ TILE_SIZE (32), so ground and path tiles need separate handling:
     //   ground — tiled at 32px intervals across the full canvas
     //   path   — one sprite per cell, scaled to CELL_PX, with cell-space neighbor lookup
-    const env = environment ?? 'farmland'
+    const env = environment ?? 'ruins'
     const worldDef = WORLD_ENV_TILES[env]
     const groundId = worldDef?.ground ?? 0
     const baseUrl = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
