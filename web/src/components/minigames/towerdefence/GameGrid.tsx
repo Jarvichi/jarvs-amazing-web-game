@@ -4,7 +4,7 @@ import {
   buildingUnitCount, hpBarColor,
   TD_CELL_PX as CELL_PX, TD_COLS, TD_MAX_UPGRADES, TD_PATH, TD_ROWS,
   PATH_SET,
-  TDGameState, TDTower, TDUnit, xpToUpgrade,
+  TDAttackEvent, TDGameState, TDTower, TDUnit, xpToUpgrade,
 } from '../../../game/towerDefence'
 import { usePixiApp } from '../../../hooks/usePixiApp'
 import { loadAnimFrames, loadSpriteTexture, loadTileTexture } from '../../../utils/pixiHelpers'
@@ -257,31 +257,82 @@ function drawHpBars(
 
 }
 
-// ── Draw attack effects ───────────────────────────────────────────────────────
+// ── Animated attack effects ───────────────────────────────────────────────────
 
-function drawEffects(g: PIXI.Graphics, attackEvents: TDGameState['attackEvents']) {
+// Wall-clock travel durations (ms), independent of game speed
+const TRAVEL_MS: Partial<Record<string, number>> = {
+  lightning: 80,
+  arrow: 180,
+  icebolt: 180,
+  fireball: 200,
+  poisonblob: 200,
+}
+const DEFAULT_TRAVEL_MS = 160
+const IMPACT_MS = 120 // how long the impact burst lingers after arrival
+
+const PROJ_COLOR: Partial<Record<string, number>> = {
+  lightning:  0xaabbff,
+  icebolt:    0x88eeff,
+  fireball:   0xff6600,
+  poisonblob: 0x88ff44,
+  arrow:      0xccaa44,
+}
+const DEFAULT_PROJ_COLOR = 0xcc44ff
+
+function drawAnimatedEffects(
+  g: PIXI.Graphics,
+  events: TDAttackEvent[],
+  startTimes: Map<number, number>,
+  nowMs: number,
+) {
   g.clear()
-  for (const ev of attackEvents) {
+  for (const ev of events) {
+    const startMs = startTimes.get(ev.id) ?? nowMs
+    const elapsed = nowMs - startMs
     const pType = ev.projectileType ?? 'magic'
     const dx = ev.toX - ev.fromX
     const dy = ev.toY - ev.fromY
     const len = Math.hypot(dx, dy)
 
     if (pType === 'aoe' || (ev.aoeRadius && len < 2)) {
-      const r = ev.aoeRadius ?? 48
-      g.circle(ev.toX, ev.toY, r).stroke({ width: 2, color: 0xff8800, alpha: 0.7 })
-      g.circle(ev.toX, ev.toY, r * 0.6).fill({ color: 0xff4400, alpha: 0.3 })
+      // Expanding ring that fades out
+      const totalMs = 350
+      const t = Math.min(elapsed / totalMs, 1)
+      const r = (ev.aoeRadius ?? 48) * (0.2 + 0.8 * t)
+      const alpha = (1 - t) * 0.85
+      g.circle(ev.toX, ev.toY, r).stroke({ width: 2, color: 0xff8800, alpha })
+      g.circle(ev.toX, ev.toY, r * 0.5).fill({ color: 0xff4400, alpha: alpha * 0.4 })
     } else {
-      const col = pType === 'lightning' ? 0xaabbff
-               : pType === 'icebolt'   ? 0x88eeff
-               : pType === 'fireball'  ? 0xff6600
-               : pType === 'poisonblob'? 0x88ff44
-               : pType === 'arrow'     ? 0xccaa44
-               : 0xcc44ff // magic default
-      g.moveTo(ev.fromX, ev.fromY).lineTo(ev.toX, ev.toY)
-        .stroke({ width: 2, color: col, alpha: 0.85 })
-      // Hit burst
-      g.circle(ev.toX, ev.toY, 5).fill({ color: col, alpha: 0.6 })
+      const travelMs = TRAVEL_MS[pType] ?? DEFAULT_TRAVEL_MS
+      const col = PROJ_COLOR[pType] ?? DEFAULT_PROJ_COLOR
+      const tTravel = Math.min(elapsed / travelMs, 1) // 0→1 while travelling
+
+      // Current projectile position
+      const px = ev.fromX + dx * tTravel
+      const py = ev.fromY + dy * tTravel
+
+      // Trail: short line from slightly behind to current position
+      const trailT = Math.max(0, tTravel - 0.25)
+      const tx = ev.fromX + dx * trailT
+      const ty = ev.fromY + dy * trailT
+      if (tTravel > 0.01 && Math.hypot(px - tx, py - ty) > 1) {
+        g.moveTo(tx, ty).lineTo(px, py).stroke({ width: 2, color: col, alpha: 0.4 })
+      }
+
+      // Projectile head (small glowing dot)
+      if (tTravel < 1) {
+        g.circle(px, py, 3.5).fill({ color: col, alpha: 0.95 })
+        g.circle(px, py, 2).fill({ color: 0xffffff, alpha: 0.6 })
+      }
+
+      // Impact burst — appears when projectile arrives
+      if (tTravel >= 1) {
+        const tImpact = Math.min((elapsed - travelMs) / IMPACT_MS, 1)
+        const impactR = 4 + 10 * tImpact
+        const impactA = (1 - tImpact) * 0.85
+        g.circle(ev.toX, ev.toY, impactR).stroke({ width: 1.5, color: col, alpha: impactA })
+        g.circle(ev.toX, ev.toY, impactR * 0.5).fill({ color: 0xffffff, alpha: impactA * 0.5 })
+      }
     }
   }
 }
@@ -308,6 +359,8 @@ export function GameGrid({
 
   const canvasRef  = useRef<HTMLDivElement>(null)
   const sceneRef   = useRef<Scene | null>(null)
+  // Maps attackEvent.id → wall-clock ms when first seen, for animation interpolation
+  const projectileStartsRef = useRef<Map<number, number>>(new Map())
 
   // Stable callback ref so the scene-update effect doesn't re-run on each render
   const propsRef = useRef({
@@ -457,6 +510,24 @@ export function GameGrid({
 
     // Initial draw
     renderScene(sceneRef.current, propsRef.current)
+
+    // Ticker: animates projectile effects at 60fps using wall-clock time
+    app.ticker.add(() => {
+      const nowMs = performance.now()
+      const events = propsRef.current.game.attackEvents
+      const starts = projectileStartsRef.current
+
+      // Register new events; prune entries for events that have expired
+      const activeIds = new Set(events.map(e => e.id))
+      for (const id of starts.keys()) {
+        if (!activeIds.has(id)) starts.delete(id)
+      }
+      for (const ev of events) {
+        if (!starts.has(ev.id)) starts.set(ev.id, nowMs)
+      }
+
+      drawAnimatedEffects(effectGfx, events, starts, nowMs)
+    })
   })
 
   // ── Update scene when game state changes ───────────────────────────────────
@@ -541,7 +612,7 @@ function renderScene(
   const { game, selectedTowerId, rangeHighlight, canPlaceTowers, selected } = props
 
   drawCells(scene.cellGfx, rangeHighlight, selectedTowerId, canPlaceTowers, selected, game.towers)
-  drawEffects(scene.effectGfx, game.attackEvents)
+  // effectGfx is driven by the Pixi ticker (drawAnimatedEffects) — not updated here
   drawHazards(scene.hazardGfx, game.hazards)
   drawHpBars(scene.hpGfx, game.enemies, game.units)
 

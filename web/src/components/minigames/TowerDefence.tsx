@@ -28,7 +28,7 @@ import {
   placeTower, removeTower,
   sellRefund,
   setTowerTargetingMode,
-  startWave, tickTD,
+  startWave, tickTD, tickUnitsHomeOnly,
   towerCost, upgradeCost,
   upgradeTowerWith,
   xpToUpgrade
@@ -146,7 +146,12 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
       accRef.current -= numTicks * TICK_MS
       // Single state update per frame — React only re-renders once regardless of tick count
       setGame(prev => {
-        if (prev.phase === 'prep' || prev.phase === 'milestone' || prev.phase === 'victory' || prev.phase === 'defeat') return prev
+        if (prev.phase === 'prep' || prev.phase === 'victory' || prev.phase === 'defeat') return prev
+        if (prev.phase === 'milestone') {
+          let s = prev
+          for (let i = 0; i < numTicks; i++) s = tickUnitsHomeOnly(s, TICK_MS)
+          return s
+        }
         let s = prev
         for (let i = 0; i < numTicks; i++) s = tickTD(s, TICK_MS)
         return s
