@@ -45,7 +45,7 @@ export function makeHolofoilVariant(card: Card): Card {
 export function makeGlassVariant(card: Card): Card {
   const boostedUnit = card.unit ? {
     ...card.unit,
-    attack: Math.round(card.unit.attack * 1.6),
+    attack: Math.round(card.unit.attack * 2.0),
     maxHp: Math.round(card.unit.maxHp * 1.4),
     cardVariant: 'glass' as const,
   } : undefined

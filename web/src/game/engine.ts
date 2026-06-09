@@ -1,4 +1,5 @@
 import { GameState, Card, Unit, UnitTemplate, CardRarity, LANE_WIDTH } from './types'
+import { logError } from '../logger'
 import { makeDeck, makeNodeDeck, HERO_CARDS, getCardUnit, getCardCatalog, flushCardValidationErrors } from './cards'
 import { loadPlayerStats } from './playerStats'
 
@@ -240,8 +241,12 @@ export function newGame(
         `Enemy strategy: ${STRATEGY_LABELS[strategy]}`,
       ]
 
+  if (isDailyChallenge) {
+    const badCards = playerDeck.filter(c => c.cost == null).map(c => c.name)
+    if (badCards.length > 0) logError('Daily challenge deck has cards with null cost', { badCards })
+  }
   const rawDeckMaxMana = isDailyChallenge && playerDeck.length > 0
-    ? playerDeck.reduce((m, c) => Math.max(m, c.cost), 0)
+    ? playerDeck.reduce((m, c) => Math.max(m, c.cost ?? 0), 0)
     : 0
   // Include playerStats.maxMana so regenerateMana() (which reads s.deckMaxMana) respects stat upgrades
   const deckMaxMana = Math.max(rawDeckMaxMana, loadPlayerStats().maxMana)
