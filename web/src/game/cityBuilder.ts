@@ -1445,12 +1445,20 @@ export function tickCity(state: CityState, nowMs?: number, offline = false): Cit
 
   // For long offline periods, sub-step so carriers complete trips between steps.
   // Without this, a windmill sitting empty for 30 minutes produces zero bread.
+  //
+  // Cap the offline window at MAX_OFFLINE_MINUTES before computing steps.
+  // Using raw elapsed causes stepMs > OFFLINE_STEP_MS when offline for months,
+  // which triggers nested sub-stepping in every recursive call — O(n²/n³) total
+  // ticks. With the cap, stepMs is always exactly OFFLINE_STEP_MS (5 min) so
+  // inner calls never re-enter this branch. Total calls ≤ MAX_OFFLINE_MINUTES/5 = 96.
   if (elapsed > OFFLINE_STEP_MS * 1.5) {
-    const steps   = Math.min(Math.ceil(elapsed / OFFLINE_STEP_MS), MAX_OFFLINE_MINUTES / 5)
-    const stepMs  = elapsed / steps
-    let current   = state
+    const cappedElapsed = Math.min(elapsed, MAX_OFFLINE_MINUTES * 60_000)
+    const steps   = Math.ceil(cappedElapsed / OFFLINE_STEP_MS)   // ≤ 96
+    const stepMs  = cappedElapsed / steps                        // exactly OFFLINE_STEP_MS
+    const startTick = now - cappedElapsed
+    let current = { ...state, lastTick: startTick }
     for (let i = 0; i < steps; i++) {
-      current = tickCity(current, state.lastTick + stepMs * (i + 1), true)
+      current = tickCity(current, startTick + stepMs * (i + 1), true)
     }
     return current
   }
@@ -1718,7 +1726,9 @@ export function tickCity(state: CityState, nowMs?: number, offline = false): Cit
     const seasonRegen = HAPPINESS_REGEN * (1 + si.regen)
     if (current < cellTarget) {
       newHappy[i] = Math.min(cellTarget, current + seasonRegen * minutes)
-    } else if (current > cellTarget) {
+    } else if (current > cellTarget && !offline) {
+      // Don't drain happiness during offline catch-up — returning players
+      // aren't penalised for time away (same principle as skipping food consumption).
       newHappy[i] = Math.max(0, current - HAPPINESS_DRAIN * minutes)
     }
   }
