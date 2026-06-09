@@ -264,7 +264,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
     )
   }
   if (subScreen === 'citybuilder') {
-    return <CityBuilder onBack={() => setSubScreen('menu')} />
+    return <CityBuilder onBack={() => initialSubScreen === 'citybuilder' ? onBack() : setSubScreen('menu')} />
   }
 
   return (
@@ -338,7 +338,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
         {subScreen === 'prizes' && (
           <div className="prize-screen u-col">
             <div className="overlay-header u-flex u-items-c u-gap-6">
-              <button className="action-btn" onClick={() => setSubScreen('menu')}>← BACK</button>
+              <button className="action-btn" onClick={() => initialSubScreen === 'prizes' ? onBack() : setSubScreen('menu')}>← BACK</button>
               <span className="overlay-title">🎁 PRIZE SHOP</span>
               <div className="ticket-balance">🎫 {tickets}</div>
             </div>
@@ -374,7 +374,7 @@ export function MiniGamesMenu({ crystals, onCrystalsChange, user, characterName,
         {subScreen === 'leaderboard' && (
           <div className="lb-screen u-col">
             <div className="overlay-header u-flex u-items-c u-gap-6">
-              <button className="action-btn" onClick={() => setSubScreen('menu')}>← BACK</button>
+              <button className="action-btn" onClick={() => initialSubScreen === 'leaderboard' ? onBack() : setSubScreen('menu')}>← BACK</button>
               <span className="overlay-title">🏆 LEADERBOARDS</span>
             </div>
 
