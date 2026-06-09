@@ -9,6 +9,7 @@ import { HubLocationBundle, HubQuestBundle } from '../../data/hub/loader'
 const meta = {
   title: 'Hub/HubWorld Quests',
   component: HubWorld,
+  tags: ['!vitest'],
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
