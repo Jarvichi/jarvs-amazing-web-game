@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo, useReducer } from 'react'
 import { resolvedNodeOpts, loadHandicap, HANDICAP_KEY, buildQuickBattleOpts, loadCurrentDeckInfo } from './game/campaignHelpers'
 import { usePlaytime } from './hooks/usePlaytime'
+import { recordScreen } from './utils/crashSentinel'
 import { useStartupData } from './hooks/useStartupData'
 import { useCloudSync } from './hooks/useCloudSync'
 import { useRegisterSW } from 'virtual:pwa-register/react'
@@ -514,6 +515,12 @@ export default function App() {
   // Keep gameStateRef in sync so callbacks can read current state without stale closures
   gameStateRef.current = gameState
   runRef.current = run
+
+  // ── Crash sentinel: record screen transitions so unclean exits (iOS page
+  // kills) report where the player was when the page died ──
+  useEffect(() => {
+    recordScreen(screen, currentLocationKey)
+  }, [screen, currentLocationKey])
 
   // ── Page visibility: pause game loop when tab is hidden ──
   const [isTabHidden, setIsTabHidden] = useState(() => document.hidden)
