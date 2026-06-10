@@ -18,6 +18,8 @@ interface Props {
   isDirty:     boolean
   showGrid:         boolean
   showQuestItems:   boolean
+  drawerOpen:       boolean
+  hasDuplicateQuestIds: boolean
   configData:       RawMapConfig
   onMapChange:      (id: MapId) => void
   onToolChange:     (t: ToolMode) => void
@@ -25,6 +27,7 @@ interface Props {
   onRedo:           () => void
   onGridToggle:     () => void
   onQuestItemsToggle: () => void
+  onDrawerToggle:   () => void
   questDefsData:    Record<string, unknown> | null
   onSaved:          () => void
 }
@@ -37,9 +40,9 @@ const TOOLS: { mode: ToolMode; label: string; title: string }[] = [
 ]
 
 export function MapEditorToolbar({
-  mapId, tool, canUndo, canRedo, isDirty, showGrid, showQuestItems,
+  mapId, tool, canUndo, canRedo, isDirty, showGrid, showQuestItems, drawerOpen, hasDuplicateQuestIds,
   configData, questDefsData, onMapChange, onToolChange, onUndo, onRedo,
-  onGridToggle, onQuestItemsToggle, onSaved,
+  onGridToggle, onQuestItemsToggle, onDrawerToggle, onSaved,
 }: Props) {
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
   const [saveError, setSaveError] = useState('')
@@ -154,15 +157,33 @@ export function MapEditorToolbar({
         ◈
       </button>
 
+      {/* NPC & Quest drawer toggle */}
+      <button
+        title="NPCs & Quests editor"
+        onClick={onDrawerToggle}
+        style={{
+          ...btnBase,
+          background: drawerOpen ? '#2a1e4e' : '#1e1e3e',
+          color:      drawerOpen ? '#c8a0ff' : '#666',
+          borderColor: drawerOpen ? '#7a5aae' : '#444',
+        }}
+      >
+        ⚇
+      </button>
+
       <div style={{ flex: 1 }} />
 
       {/* Save */}
       {saveState === 'error' && (
         <span style={{ color: '#f66', fontSize: 11 }}>{saveError}</span>
       )}
+      {hasDuplicateQuestIds && (
+        <span style={{ color: '#f88', fontSize: 10 }}>Duplicate quest IDs — fix before saving</span>
+      )}
       <button
         onClick={handleSave}
-        disabled={saveState === 'saving'}
+        disabled={saveState === 'saving' || hasDuplicateQuestIds}
+        title={hasDuplicateQuestIds ? 'Fix duplicate quest IDs before saving' : undefined}
         style={{
           ...btnBase,
           background: saveState === 'ok'    ? '#1e4e1e'
