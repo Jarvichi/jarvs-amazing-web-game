@@ -6245,34 +6245,40 @@
       "floorTileId": "cobblestoneFloor",
       "decor": [
         {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "goldenCross",
+          "zlayer": "above"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "goldenCross",
+          "zlayer": "above"
+        },
+        {
+          "tx": 4,
+          "ty": 0,
+          "tileId": "candlestickLitTop",
+          "zlayer": "above"
+        },
+        {
+          "tx": 7,
+          "ty": 0,
+          "tileId": "candlestickLitTop",
+          "zlayer": "above"
+        },
+        {
           "tx": 4,
           "ty": 1,
-          "tileId": "goldenCross"
+          "tileId": "candlestickLitBottom",
+          "zlayer": "above"
         },
         {
-          "tx": 6,
+          "tx": 7,
           "ty": 1,
-          "tileId": "goldenCross"
-        },
-        {
-          "tx": 5,
-          "ty": 2,
-          "tileId": "candlestickLitTop"
-        },
-        {
-          "tx": 6,
-          "ty": 2,
-          "tileId": "candlestickLitTop"
-        },
-        {
-          "tx": 5,
-          "ty": 3,
-          "tileId": "candlestickLitBottom"
-        },
-        {
-          "tx": 6,
-          "ty": 3,
-          "tileId": "candlestickLitBottom"
+          "tileId": "candlestickLitBottom",
+          "zlayer": "above"
         },
         {
           "tx": 2,
@@ -6433,6 +6439,54 @@
           "ty": 1,
           "tileId": "lightPillarTop",
           "zlayer": "above"
+        },
+        {
+          "tx": 4,
+          "ty": 2,
+          "tileId": "altarBotLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "altarBotMid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "altarBotMid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 2,
+          "tileId": "altarBotRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 7,
+          "ty": 1,
+          "tileId": "altarTopRight",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 4,
+          "ty": 1,
+          "tileId": "altarTopLeft",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "altarTopMid",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "altarTopMid",
+          "zlayer": "solid"
         }
       ]
     }
