@@ -7,7 +7,11 @@ import { spriteSlug } from '../game/sprites'
 const _cache = new Map<string, Promise<PIXI.Texture>>()
 
 function _load(url: string): Promise<PIXI.Texture> {
-  if (!_cache.has(url)) _cache.set(url, PIXI.Assets.load(url) as Promise<PIXI.Texture>)
+  if (!_cache.has(url)) {
+    const p = PIXI.Assets.load(url) as Promise<PIXI.Texture>
+    p.catch(() => _cache.delete(url))
+    _cache.set(url, p)
+  }
   return _cache.get(url)!
 }
 

@@ -1,5 +1,7 @@
 import { useState, useCallback } from 'react'
-import type { RawMapConfig, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
+import type { RawMapConfig, RawNpc, RawInterior, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
+
+type InteriorExit = NonNullable<RawInterior['exits']>[number]
 import hubConfig from '../../data/hub/ravenwatch/config.json'
 import town2Config from '../../data/hub/millhaven/config.json'
 import castleConfig from '../../data/hub/ironholdkeep/config.json'
@@ -275,6 +277,209 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     })
   }, [])
 
+  const updateNpc = useCallback((index: number, partial: Partial<RawNpc>) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const npcs = [...(prevConfig.npcs ?? [])]
+      if (!npcs[index]) return s
+      npcs[index] = { ...npcs[index], ...partial }
+      return {
+        ...s,
+        configData: { ...prevConfig, npcs },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const resizeInterior = useCallback((interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right') => {
+    setState(s => {
+      const prevConfig = s.configData
+      const interior = prevConfig.interiors?.[interiorId]
+      if (!interior) return s
+      const shiftX = dir === 'left' ? 1 : 0
+      const shiftY = dir === 'top' ? 1 : 0
+      const newInterior: RawInterior = {
+        ...interior,
+        width: dir === 'left' || dir === 'right' ? interior.width + 1 : interior.width,
+        height: dir === 'top' || dir === 'bottom' ? interior.height + 1 : interior.height,
+        decor: interior.decor.map(d => ({
+          ...d,
+          ...(shiftX ? { tx: (d.tx ?? 0) + shiftX } : {}),
+          ...(shiftY ? { ty: (d.ty ?? 0) + shiftY } : {}),
+        })),
+        exits: interior.exits?.map(e => ({ ...e, tx: e.tx + shiftX, ty: e.ty + shiftY })),
+      }
+      return {
+        ...s,
+        configData: { ...prevConfig, interiors: { ...prevConfig.interiors, [interiorId]: newInterior } },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const addInterior = useCallback((id: string, interior: RawInterior) => {
+    setState(s => {
+      const prevConfig = s.configData
+      return {
+        ...s,
+        configData: { ...prevConfig, interiors: { ...(prevConfig.interiors ?? {}), [id]: interior } },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const addInteriorExit = useCallback((interiorId: string, exit: InteriorExit) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const a = prevConfig.interiors?.[interiorId]
+      if (!a) return s
+
+      const opposite: Record<string, InteriorExit['direction']> = {
+        left: 'right', right: 'left', up: 'down', down: 'up', front: 'back', back: 'front',
+      }
+
+      // Auto-set exit tile position for wall-gap exits
+      let finalExit = exit
+      if (exit.direction === 'left' || exit.direction === 'right') {
+        const midY = Math.floor(a.height / 2)
+        finalExit = { ...exit, tx: exit.direction === 'left' ? 0 : a.width - 1, ty: midY }
+      } else if (exit.direction === 'front') {
+        finalExit = { ...exit, tx: Math.floor(a.width / 2), ty: a.height - 1 }
+      } else if (exit.direction === 'back') {
+        finalExit = { ...exit, tx: Math.floor(a.width / 2), ty: 0 }
+      }
+      // up/down: tx/ty are explicit (stairs location) — keep as-is
+
+      // Build reverse exit in target room if both rooms exist and target doesn't already link back
+      const b = prevConfig.interiors?.[exit.toInteriorId]
+      const rev = exit.direction ? opposite[exit.direction] : undefined
+      const alreadyLinked = b?.exits?.some(e => e.toInteriorId === interiorId && e.direction === rev)
+
+      let newInteriors = {
+        ...prevConfig.interiors,
+        [interiorId]: { ...a, exits: [...(a.exits ?? []), finalExit] },
+      }
+
+      if (b && rev && !alreadyLinked) {
+        let revTx = finalExit.tx, revTy = finalExit.ty
+        let entryTxInA = finalExit.tx, entryTyInA = finalExit.ty
+
+        if (finalExit.direction === 'left') {
+          revTx = b.width - 1; revTy = Math.floor(b.height / 2)
+          entryTxInA = 1; entryTyInA = finalExit.ty
+        } else if (finalExit.direction === 'right') {
+          revTx = 0; revTy = Math.floor(b.height / 2)
+          entryTxInA = a.width - 2; entryTyInA = finalExit.ty
+        } else if (finalExit.direction === 'up') {
+          revTx = finalExit.tx; revTy = b.height - 1
+          entryTxInA = finalExit.tx; entryTyInA = 1
+        } else if (finalExit.direction === 'down') {
+          revTx = finalExit.tx; revTy = 0
+          entryTxInA = finalExit.tx; entryTyInA = a.height - 2
+        } else if (finalExit.direction === 'front') {
+          revTx = Math.floor(b.width / 2); revTy = 0
+          entryTxInA = finalExit.tx; entryTyInA = a.height - 2
+        } else if (finalExit.direction === 'back') {
+          revTx = Math.floor(b.width / 2); revTy = b.height - 1
+          entryTxInA = finalExit.tx; entryTyInA = 1
+        }
+
+        const entryInB: [number, number] = exit.direction === 'left'
+          ? [b.width - 2, Math.floor(b.height / 2)]
+          : exit.direction === 'right'
+          ? [1, Math.floor(b.height / 2)]
+          : exit.direction === 'up'
+          ? [finalExit.tx, b.height - 2]
+          : exit.direction === 'front'
+          ? [finalExit.tx, 1]
+          : exit.direction === 'back'
+          ? [finalExit.tx, b.height - 2]
+          : [finalExit.tx, 1]
+
+        const reverseExit: InteriorExit = {
+          tx: revTx, ty: revTy,
+          toInteriorId: interiorId,
+          entryTx: entryTxInA, entryTy: entryTyInA,
+          direction: rev,
+          ...(exit.label ? { label: exit.label } : {}),
+        }
+
+        // Also update the forward exit's entryTx/entryTy to land correctly in B
+        finalExit = { ...finalExit, entryTx: entryInB[0], entryTy: entryInB[1] }
+        newInteriors = {
+          ...newInteriors,
+          [interiorId]: { ...a, exits: [...(a.exits ?? []), finalExit] },
+          [exit.toInteriorId]: { ...b, exits: [...(b.exits ?? []), reverseExit] },
+        }
+      }
+
+      return {
+        ...s,
+        configData: { ...prevConfig, interiors: newInteriors },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const updateInteriorProps = useCallback((interiorId: string, patch: Partial<RawInterior>) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const interior = prevConfig.interiors?.[interiorId]
+      if (!interior) return s
+      return {
+        ...s,
+        configData: { ...prevConfig, interiors: { ...prevConfig.interiors, [interiorId]: { ...interior, ...patch } } },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const updateInteriorExit = useCallback((interiorId: string, index: number, patch: Partial<InteriorExit>) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const interior = prevConfig.interiors?.[interiorId]
+      if (!interior || !interior.exits?.[index]) return s
+      const exits = [...interior.exits]
+      exits[index] = { ...exits[index], ...patch }
+      return {
+        ...s,
+        configData: { ...prevConfig, interiors: { ...prevConfig.interiors, [interiorId]: { ...interior, exits } } },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const removeInteriorExit = useCallback((interiorId: string, index: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const interior = prevConfig.interiors?.[interiorId]
+      if (!interior) return s
+      const newInterior: RawInterior = {
+        ...interior,
+        exits: (interior.exits ?? []).filter((_, i) => i !== index),
+      }
+      return {
+        ...s,
+        configData: { ...prevConfig, interiors: { ...prevConfig.interiors, [interiorId]: newInterior } },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
   const undo = useCallback(() => {
     setState(s => {
       if (s.undoStack.length === 0) return s
@@ -359,6 +564,13 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     deleteEntity,
     updateDecorZlayer,
     updateNpcDialogue,
+    updateNpc,
+    resizeInterior,
+    addInterior,
+    addInteriorExit,
+    updateInteriorProps,
+    updateInteriorExit,
+    removeInteriorExit,
     undo,
     redo,
     addStreet,

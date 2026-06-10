@@ -831,5 +831,22 @@ export const BASE_CHIP_TILES = {
     archwallLeft2: 259,
     archTopRight: 260,
   
-  
+      stainedGlassWindow1Top: 622,
+    stainedGlassWindow2Top: 623,
+    stainedGlassWindow1Mid: 630,
+    stainedGlassWindow2Mid: 631,
+    stainedGlassWindow1Bottom: 638,
+    stainedGlassWindow2Bot: 639,
+
+        paintingLandscapeTop: 628,
+    paintingLandscapeBottom: 636,
+    altarTopLeft: 813,
+    altarTopMid: 814,
+    altarTopRight: 815,
+    altarMidLeft: 821,
+    altarMidMid: 822,
+    altarMidRight: 823,
+    altarBotLeft: 829,
+    altarBotMid: 830,
+    altarBotRight: 831,
 } as const
