@@ -101,7 +101,8 @@ export async function renderPathTiles(
 
   await Promise.all(
     Array.from(byVariant.entries()).map(async ([v, tiles]) => {
-      const tex = await loadTileTexture(tileUrl, v, 8)
+      let tex: PIXI.Texture
+      try { tex = await loadTileTexture(tileUrl, v, 8) } catch { return }
       if (container.destroyed) return
       for (const { tx, ty } of tiles) {
         const s = new PIXI.Sprite(tex)
