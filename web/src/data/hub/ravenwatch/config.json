@@ -5709,73 +5709,73 @@
     },
     "arcade-building-w": {
       "name": "The Games Hall",
-      "width": 12,
-      "height": 10,
+      "width": 15,
+      "height": 11,
       "floorTileId": "redCarpetFloor",
       "decor": [
         {
-          "tx": 3,
-          "ty": 3,
-          "tileId": "roundTableWithCloth"
-        },
-        {
-          "tx": 8,
-          "ty": 3,
-          "tileId": "roundTableWithCloth"
-        },
-        {
-          "tx": 3,
+          "tx": 4,
           "ty": 4,
-          "tileId": "stool",
-          "zlayer": "below"
+          "tileId": "roundTableWithCloth"
+        },
+        {
+          "tx": 9,
+          "ty": 4,
+          "tileId": "roundTableWithCloth"
         },
         {
           "tx": 4,
-          "ty": 3,
+          "ty": 5,
           "tileId": "stool",
           "zlayer": "below"
         },
         {
-          "tx": 8,
+          "tx": 5,
           "ty": 4,
           "tileId": "stool",
           "zlayer": "below"
         },
         {
           "tx": 9,
-          "ty": 3,
+          "ty": 5,
           "tileId": "stool",
           "zlayer": "below"
-        },
-        {
-          "tx": 5,
-          "ty": 6,
-          "tileId": "roundTable"
-        },
-        {
-          "tx": 7,
-          "ty": 6,
-          "tileId": "roundTable"
-        },
-        {
-          "tx": 2,
-          "ty": 6,
-          "tileId": "barrel"
         },
         {
           "tx": 10,
-          "ty": 6,
-          "tileId": "barrel"
-        },
-        {
-          "tx": 5,
-          "ty": 7,
+          "ty": 4,
           "tileId": "stool",
           "zlayer": "below"
         },
         {
-          "tx": 7,
+          "tx": 6,
           "ty": 7,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 8,
+          "ty": 7,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 3,
+          "ty": 7,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 11,
+          "ty": 7,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 6,
+          "ty": 8,
+          "tileId": "stool",
+          "zlayer": "below"
+        },
+        {
+          "tx": 8,
+          "ty": 8,
           "tileId": "stool",
           "zlayer": "below"
         }

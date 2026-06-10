@@ -257,7 +257,7 @@ export function MapEditorCanvas(props: Props) {
                             selLayer, gridLayer)
 
     if (isInterior && interior) {
-      renderInterior(version, groundLayer, decorBLayer, decorLayer, decorALayer, selLayer)
+      renderInterior(version, groundLayer, decorBLayer, decorLayer, decorALayer, npcLayer, questLayer, selLayer)
     } else {
       renderExterior(version, groundLayer, streetLayer, buildingLayer,
                      decorBLayer, decorLayer, npcLayer, decorALayer, selLayer)
@@ -455,6 +455,8 @@ export function MapEditorCanvas(props: Props) {
     version: number,
     groundLayer: PIXI.Container,
     decorBLayer: PIXI.Container, decorLayer: PIXI.Container, decorALayer: PIXI.Container,
+    npcLayer: PIXI.Container,
+    questLayer: PIXI.Container,
     selLayer: PIXI.Graphics,
   ) {
     if (!interior) return
@@ -552,6 +554,64 @@ export function MapEditorCanvas(props: Props) {
 
     renderDecorItems(version, flattenDecor(interior.decor),
                      decorBLayer, decorLayer, decorALayer, 'interiorDecor', iid, selLayer)
+
+    // ── Interior NPCs ────────────────────────────────────────────────────────
+    ;(configData.npcs ?? []).forEach((npc, nIdx) => {
+      if (npc.building !== iid) return
+      const isSel = selectedEntity?.type === 'npc' && selectedEntity.index === nIdx
+      loadSpriteTexture(npc.sprite).then(tex => {
+        if (renderVersionRef.current !== version) return
+        const sp = new PIXI.Sprite(tex)
+        sp.width = T * 1.5; sp.height = T * 1.5
+        sp.x = npc.tx * T - T * 0.25
+        sp.y = npc.ty * T - T * 0.5
+        if (isSel) selLayer.rect(sp.x - 2, sp.y - 2, sp.width + 4, sp.height + 4).stroke({ color: 0xf0c040, width: 2 })
+        npcLayer.addChild(sp)
+      }).catch(() => {
+        if (renderVersionRef.current !== version) return
+        const g = new PIXI.Graphics()
+        g.circle(npc.tx * T + T / 2, npc.ty * T + T / 2, T / 3).fill(0xff88aa)
+        npcLayer.addChild(g)
+      })
+    })
+
+    // ── Interior quest items ─────────────────────────────────────────────────
+    if (showQuestItems) {
+      const renderQuestItem = (
+        itemTx: number, itemTy: number, tileId: string,
+        entity: SelectedEntity, tintColor: number,
+      ) => {
+        const isSel = selectedEntity?.type === entity.type && selectedEntity.index === entity.index
+        const handler = (e: PIXI.FederatedPointerEvent) => {
+          e.stopPropagation()
+          propsRef.current.onSelectEntity(entity)
+          if (propsRef.current.tool === 'select')
+            dragRef.current = { entity, lastTx: itemTx, lastTy: itemTy, offsetX: 0, offsetY: 0 }
+        }
+        const border = new PIXI.Graphics()
+        border.rect(itemTx * T, itemTy * T, T, T).stroke({ color: tintColor, width: 2 })
+        border.eventMode = 'static'; border.cursor = 'pointer'
+        border.on('pointerdown', handler)
+        questLayer.addChild(border)
+        if (isSel) selLayer.rect(itemTx * T - 2, itemTy * T - 2, T + 4, T + 4).stroke({ color: 0xf0c040, width: 2 })
+        loadTileTexture(BASE_URL, tileNumericId(tileId), BASE_COLS).then(tex => {
+          if (renderVersionRef.current !== version) return
+          const sp = new PIXI.Sprite(tex)
+          sp.x = itemTx * T; sp.y = itemTy * T
+          sp.tint = tintColor
+          sp.eventMode = 'static'; sp.cursor = 'pointer'
+          sp.on('pointerdown', handler)
+          questLayer.addChild(sp)
+          questLayer.addChild(border)
+        }).catch(() => {})
+      }
+      ;(configData.treasures ?? []).forEach((t, i) => {
+        if (t.buildingId === iid) renderQuestItem(t.tx, t.ty, t.tileId, { type: 'treasure', index: i }, 0xf0c040)
+      })
+      questPickupItems.forEach((p, i) => {
+        if (p.building === iid) renderQuestItem(p.tx, p.ty, p.tileId, { type: 'pickupItem', index: i }, 0x40d0f0)
+      })
+    }
   }
 
   // ── Decor tile rendering ───────────────────────────────────────────────────────
@@ -713,6 +773,23 @@ function hitTest(
   showQuestItems = false,
 ): SelectedEntity | null {
   if (viewMode === 'interior' && activeInteriorId) {
+    const npcs = cfg.npcs ?? []
+    for (let i = npcs.length - 1; i >= 0; i--) {
+      if (npcs[i].building === activeInteriorId && npcs[i].tx === tx && npcs[i].ty === ty)
+        return { type: 'npc', index: i }
+    }
+    if (showQuestItems) {
+      const treasures = cfg.treasures ?? []
+      for (let i = treasures.length - 1; i >= 0; i--) {
+        if (treasures[i].buildingId === activeInteriorId && treasures[i].tx === tx && treasures[i].ty === ty)
+          return { type: 'treasure', index: i }
+      }
+      const pickupItems = cfg.pickupItems ?? []
+      for (let i = pickupItems.length - 1; i >= 0; i--) {
+        if (pickupItems[i].building === activeInteriorId && pickupItems[i].tx === tx && pickupItems[i].ty === ty)
+          return { type: 'pickupItem', index: i }
+      }
+    }
     const decor = cfg.interiors?.[activeInteriorId]?.decor ?? []
     for (let i = decor.length - 1; i >= 0; i--) {
       if (decor[i].tx === tx && decor[i].ty === ty)
