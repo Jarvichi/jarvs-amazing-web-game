@@ -4924,6 +4924,24 @@ body {
   color: var(--game-text-color-muted);
 }
 
+/* Boss epilogue skip control */
+.cutscene-skip-btn {
+  background: none;
+  border: 1px solid var(--game-border);
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-family: inherit;
+  font-size: var(--font-xxs);
+  letter-spacing: 2px;
+  color: var(--game-text-color-muted);
+  cursor: pointer;
+}
+
+.cutscene-skip-btn:hover {
+  color: var(--game-text-color-dim);
+  border-color: var(--game-text-color-muted);
+}
+
 /* "Earn via Quest" badge in the collection */
 .earn-via-quest-badge {
   display: inline-block;

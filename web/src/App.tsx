@@ -97,6 +97,8 @@ import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic, rollExoticDrop } from './game/relics'
 import { recordQuestKills, recordQuestWin, recordQuestCardPlayed, recordQuestBossDefeat, QuestChainDef } from './game/quests'
+import { BossEpilogueScreen } from './components/campaign/BossEpilogueScreen'
+import bossEpiloguesData from './data/bossEpilogues.json'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
 import { getIntegrityViolations, clearIntegrityViolations } from './game/integrity'
@@ -189,6 +191,7 @@ type Screen =
   | 'pack'
   | 'nodemap'
   | 'cutscene'
+  | 'bossEpilogue'
   | 'bossdialogue'
   | 'event'
   | 'merchant'
@@ -408,6 +411,7 @@ export default function App() {
   // Cutscenes & boss dialogue
   const [cutscenePanels, setCutscenePanels]   = useState<CutscenePanel[]>([])
   const cutsceneDoneRef     = useRef<() => void>(() => {})
+  const epilogueDoneRef     = useRef<(() => void) | null>(null)
   const summaryDoneRef      = useRef<() => void>(() => {})
   const relicSelectDoneRef  = useRef<(relicName: string | null) => void>(() => {})
   const cardRestActDoneRef  = useRef<(() => void) | null>(null)           // set during mid-act card rest; null at campaign end
@@ -442,6 +446,7 @@ export default function App() {
   const [foundItem, setFoundItem] = useState<Omit<import('./game/dailyLogin').UselessItem, 'acquiredDate'> | null>(null)
   const [exoticDrop, setExoticDrop] = useState<string | null>(null)
   const [questCompletes, setQuestCompletes] = useState<QuestChainDef[]>([])
+  const [epiloguePanels, setEpiloguePanels] = useState<CutscenePanel[]>([])
 
   // Card fatigue
   const [fatiguedCards, setFatiguedCards]       = useState<string[]>(loadFatigued)
@@ -581,6 +586,9 @@ export default function App() {
         pendingActComplete: run?.pendingActComplete,
       })
       setScreen(fallback)
+    } else if (screen === 'bossEpilogue' && epiloguePanels.length === 0) {
+      rollbar.error('bossEpilogue screen reached with no panels', { runActId: run?.actId })
+      setScreen(run?.pendingActComplete ? 'actcomplete' : fallback)
     } else if (screen === 'actcomplete' && (!run || !ACTS[run.actId])) {
       rollbar.error('actcomplete screen reached without valid run/actData', { runActId: run?.actId })
       clearRun()
@@ -607,7 +615,7 @@ export default function App() {
       setRun(null)
       setScreen('title')
     }
-  }, [screen, cutscenePanels, run, bossDialogueNode, activeEvent, merchantItems, mysteryReward, foundItem])
+  }, [screen, cutscenePanels, epiloguePanels, run, bossDialogueNode, activeEvent, merchantItems, mysteryReward, foundItem])
 
   // Show boss fight splash when phase 2 triggers.
   useEffect(() => {
@@ -1546,16 +1554,28 @@ export default function App() {
         actId: currentRun.actId,
         hasOutro: (act.outro?.length ?? 0) > 0,
       })
-      if (act.outro && act.outro.length > 0) {
-        setCutscenePanels(applyPlayerName(act.outro))
-        cutsceneDoneRef.current = () => {
-          rollbar.info('cutsceneDone (outro): navigating to actcomplete', { actId: currentRun.actId })
-          setCutscenePanels([])
+      const showOutroThenComplete = () => {
+        if (act.outro && act.outro.length > 0) {
+          setCutscenePanels(applyPlayerName(act.outro))
+          cutsceneDoneRef.current = () => {
+            rollbar.info('cutsceneDone (outro): navigating to actcomplete', { actId: currentRun.actId })
+            setCutscenePanels([])
+            setScreen('actcomplete')
+          }
+          setScreen('cutscene')
+        } else {
           setScreen('actcomplete')
         }
-        setScreen('cutscene')
+      }
+      // Boss epilogue: a short skippable scene revealing what the boss was
+      // protecting, shown between the victory and the act-complete rewards.
+      const epilogue = (bossEpiloguesData as Record<string, CutscenePanel[]>)[currentRun.actId]
+      if (epilogue && epilogue.length > 0) {
+        setEpiloguePanels(applyPlayerName(epilogue))
+        epilogueDoneRef.current = showOutroThenComplete
+        setScreen('bossEpilogue')
       } else {
-        setScreen('actcomplete')
+        showOutroThenComplete()
       }
       return
     }
@@ -2821,6 +2841,16 @@ export default function App() {
         <CutsceneScreen panels={cutscenePanels} onDone={() => {
           rollbar.info('CutsceneScreen.onDone fired', { panelCount: cutscenePanels.length, runActId: run?.actId })
           cutsceneDoneRef.current()
+        }} />
+      )}
+
+      {screen === 'bossEpilogue' && epiloguePanels.length > 0 && (
+        <BossEpilogueScreen panels={epiloguePanels} onDone={() => {
+          setEpiloguePanels([])
+          const done = epilogueDoneRef.current
+          epilogueDoneRef.current = null
+          if (done) done()
+          else setScreen('actcomplete')
         }} />
       )}
 
