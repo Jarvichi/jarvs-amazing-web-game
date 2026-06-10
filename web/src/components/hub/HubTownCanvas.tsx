@@ -81,6 +81,9 @@ interface Props {
   npcProximityDialogue?: React.MutableRefObject<Map<string, { atDistance: number; text: string }[]>>
   locationData:         HubLocationBundle
   questData: HubQuestBundle
+  /** Scroll container whose scroll position drives the camera. When set, the
+   *  canvas is viewport-sized; without it (e.g. Storybook) it spans the map. */
+  viewportRef?:          React.RefObject<HTMLDivElement | null>
 }
 
 export function HubTownCanvas({
@@ -91,7 +94,8 @@ export function HubTownCanvas({
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
   gameHour, isNight, npcProximityDialogue,
   locationData,
-  questData
+  questData,
+  viewportRef
 }: Props) {
   const {
     MAP_W, MAP_H, AVATAR_START,
@@ -146,6 +150,17 @@ export function HubTownCanvas({
   usePixiApp(containerRef, MAP_W, MAP_H, (app) => {
     app.canvas.style.touchAction = 'pan-x pan-y'
 
+    // ── Camera ─────────────────────────────────────────────────────────────────
+    // All world content lives in worldRoot so the canvas can stay viewport-sized
+    // while the parent scroll container provides the camera position (#1570).
+    // Without viewportRef the canvas spans the whole map and the camera is fixed.
+    const worldRoot = new PIXI.Container()
+    app.stage.addChild(worldRoot)
+    const syncCamera = () => {
+      const vp = viewportRef?.current
+      if (vp) worldRoot.position.set(-vp.scrollLeft, -vp.scrollTop)
+    }
+
     // ── Layer hierarchy ────────────────────────────────────────────────────────
     const groundLayer   = new PIXI.Container()
     const streetLayer   = new PIXI.Container()
@@ -181,7 +196,7 @@ export function HubTownCanvas({
     const npcLayer    = spriteLayer
     const avatarLayer = spriteLayer
     const exteriorDecorLayer = spriteLayer
-    app.stage.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, aboveAvatarLayer, pickupLayer, nodeLayer, worldLayer, nightSprite, interiorLayer, bubbleLayer, highlightGfx)
+    worldRoot.addChild(groundLayer, streetLayer, pondLayer, buildingLayer, windowLayer, belowAvatarLayer, spriteLayer, aboveAvatarLayer, pickupLayer, nodeLayer, worldLayer, nightSprite, interiorLayer, bubbleLayer, highlightGfx)
 
     // Keyed by pickupId; used to imperatively show/hide sprites when items are collected
     const pickupSprites  = new Map<string, PIXI.Sprite>()
@@ -1735,7 +1750,10 @@ export function HubTownCanvas({
 
     // ── Input ──────────────────────────────────────────────────────────────────
     app.stage.eventMode = 'static'
-    app.stage.hitArea   = new PIXI.Rectangle(0, 0, MAP_W, MAP_H)
+    // Stage-local coords equal screen coords (the camera transform lives on
+    // worldRoot), so the hit area is the screen rect — app.screen is updated
+    // in place by renderer resizes.
+    app.stage.hitArea   = app.screen
 
     function drawTileHighlight(stageX: number, stageY: number) {
       highlightGfx.clear()
@@ -1764,7 +1782,8 @@ export function HubTownCanvas({
         interiorWalkQueue = path.slice(1)
         if (!interiorIsWalking) processInteriorWalkQueue()
       } else {
-        const { x, y } = e.getLocalPosition(app.stage)
+        const { x, y } = e.getLocalPosition(worldRoot)
+        if (x < 0 || y < 0 || x >= MAP_W || y >= MAP_H) return  // off the map edge
         const tapTx = Math.floor(x / T)
         const tapTy = Math.floor(y / T)
         if (onTileTapRef.current) {
@@ -1793,7 +1812,7 @@ export function HubTownCanvas({
 
     app.stage.on('pointermove', (e: PIXI.FederatedPointerEvent) => {
       if (interiorActive) return
-      const { x, y } = e.getLocalPosition(app.stage)
+      const { x, y } = e.getLocalPosition(worldRoot)
       const area = HUB_AREAS.find(
         a => x >= a.x && x < a.x + a.w && y >= a.y && y < a.y + a.h,
       )
@@ -1814,12 +1833,17 @@ export function HubTownCanvas({
     }
 
     // ── Per-frame ──────────────────────────────────────────────────────────────
+    syncCamera()  // position the camera before the first rendered frame
     let _tickerErrorTs = 0
     let _lastNightAlpha = -1
     let _lastNightAvatarX = -Infinity, _lastNightAvatarY = -Infinity
     let _lastReportX = -Infinity, _lastReportY = -Infinity
     app.ticker.add((ticker) => {
       try {
+      // Follow the scroll container every frame — scroll events are async on
+      // iOS momentum scrolling, but only the camera is visible motion, so
+      // reading the live scroll position here can never show a stale frame.
+      syncCamera()
       // Avatar animation + position report
       if (avatar) {
         // Report stage-space position (accounts for interior layer offset)
@@ -2149,12 +2173,18 @@ export function HubTownCanvas({
         }
       }
     })
-  })
+  }, { resizeTo: viewportRef })
 
   return (
-    <div
-      ref={containerRef}
-      style={{ display: 'block', flexShrink: 0, width: MAP_W, height: MAP_H }}
-    />
+    // The map-sized spacer preserves the parent scroll range; the sticky inner
+    // div pins the viewport-sized canvas to the scrollport while scrolling
+    // moves the camera. Without viewportRef the canvas is map-sized and fills
+    // the spacer, matching the old layout.
+    <div style={{ position: 'relative', flexShrink: 0, width: MAP_W, height: MAP_H }}>
+      <div
+        ref={containerRef}
+        style={{ position: 'sticky', top: 0, left: 0, width: 'fit-content', height: 'fit-content' }}
+      />
+    </div>
   )
 }

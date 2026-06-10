@@ -625,6 +625,7 @@ function grantQuestReward(quest: HubQuestDef): void {
             npcProximityDialogue={npcProximityDialogueRef}
             locationData={locationData}
             questData={ALL_QUESTS}
+            viewportRef={scrollRef}
           />
         </div>
         <AreaNameBadge name={currentArea} />

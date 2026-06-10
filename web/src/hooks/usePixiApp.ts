@@ -13,6 +13,10 @@ import { noteContextCreated, noteContextDestroyed, getGlStats } from '../utils/p
  *   usePixiApp(containerRef, width, height, app => { ... build scene ... })
  *   return <div ref={containerRef} />
  *
+ * When opts.resizeTo is given, the renderer is sized to that element (and tracks
+ * window resizes via Pixi's ResizePlugin) instead of the fixed width/height,
+ * which then only serve as a fallback when the element has no size yet.
+ *
  * Note: PixiJS creates its own canvas element and appends it to the container.
  * This avoids the React Strict Mode double-invoke issue where two apps would share
  * the same pre-existing canvas element and fight over its WebGL context.
@@ -63,6 +67,7 @@ export function usePixiApp(
   width: number,
   height: number,
   onReady: (app: PIXI.Application) => void,
+  opts?: { resizeTo?: React.RefObject<HTMLElement | null> },
 ) {
   const appRef = useRef<PIXI.Application | null>(null)
 
@@ -73,8 +78,11 @@ export function usePixiApp(
     const app = new PIXI.Application()
     appRef.current = app
 
-    const resolution = computeCappedResolution(width, height, window.devicePixelRatio || 1)
-    const contextInfo = { width, height, resolution }
+    const resizeEl = opts?.resizeTo?.current ?? undefined
+    const initW = resizeEl?.clientWidth  || width
+    const initH = resizeEl?.clientHeight || height
+    const resolution = computeCappedResolution(initW, initH, window.devicePixelRatio || 1)
+    const contextInfo = { width: initW, height: initH, resolution }
     const onContextLost = () => {
       rollbar?.error('[usePixiApp] webglcontextlost during app lifetime', { ...contextInfo, ...getGlStats() })
     }
@@ -89,8 +97,9 @@ export function usePixiApp(
 
     let initialized = false
     app.init({
-      width,
-      height,
+      width: initW,
+      height: initH,
+      resizeTo: resizeEl,
       backgroundAlpha: 0,
       antialias: false,
       resolution,

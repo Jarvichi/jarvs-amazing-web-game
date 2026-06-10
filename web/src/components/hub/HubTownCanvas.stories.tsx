@@ -36,6 +36,18 @@ function PannableCanvas(args: React.ComponentProps<typeof HubTownCanvas>) {
   )
 }
 
+// Exercises the production path: viewport-sized canvas with the camera driven
+// by a native scroll container (HubWorld does the same with its scrollRef).
+function ViewportCanvas(args: React.ComponentProps<typeof HubTownCanvas>) {
+  const returnRef = useRef<(() => void) | null>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  return (
+    <div ref={scrollRef} style={{ overflow: 'auto', width: '100vw', height: '100vh' }}>
+      <HubTownCanvas {...args} returnRef={returnRef} viewportRef={scrollRef} />
+    </div>
+  )
+}
+
 const meta = {
   component: HubTownCanvas,
   parameters: {
@@ -62,6 +74,17 @@ export const Ravenwatch: Story = {
     locationData: RAVENWATCH,
     questData: RAVENWATCH_QUESTS,
   },
+}
+
+export const RavenwatchViewportCamera: Story = {
+  args: {
+    onAreaEnter:    fn(),
+    onNodeInteract: fn(),
+    onAvatarMove:   fn(),
+    locationData: RAVENWATCH,
+    questData: RAVENWATCH_QUESTS,
+  },
+  render: (args) => <ViewportCanvas {...args} />,
 }
 
 export const IronholdKeep: Story = {
