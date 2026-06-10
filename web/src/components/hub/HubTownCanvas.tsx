@@ -11,6 +11,7 @@ import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
 import { getWallTile, ROOF_TILES, WALL_TILES, ROOF_ROWS } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../../data/tiles/buildingMaterials'
 import { loadPlayerAvatar } from '../../game/questline'
+import { createChunkCuller } from '../../utils/chunkCull'
 import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
 import { HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry } from '../../data/hub/loader'
@@ -207,14 +208,23 @@ export function HubTownCanvas({
     // ── Terrain ────────────────────────────────────────────────────────────────
     const baseContainer  = new PIXI.Container()
     const riverContainer = new PIXI.Container()
-    groundLayer.addChild(baseContainer, riverContainer)
+    const decorContainer = new PIXI.Container()
+    groundLayer.addChild(baseContainer, riverContainer, decorContainer)
 
     buildTerrainGfx(baseContainer, riverContainer, worldLayer,
       { environment: HUB_ENV, id: 'hubworld', terrainItems: [] }, MAP_W, MAP_H)
     buildBgTileGfx(baseContainer, { environment: HUB_ENV }, MAP_W, MAP_H)
       .catch(e => rollbar.error('[HubTownCanvas] bg tiles failed', { error: String(e) }))
-    buildDecorGfx(groundLayer, { environment: HUB_ENV, id: 'hubworld' }, MAP_W, MAP_H)
+    buildDecorGfx(decorContainer, { environment: HUB_ENV, id: 'hubworld' }, MAP_W, MAP_H)
       .catch(e => rollbar.error('[HubTownCanvas] decor tiles failed', { error: String(e) }))
+
+    // Cull off-screen chunks of the static tile layers each frame (#1570 Phase
+    // B). Dynamic layers (sprites, pickups, bubbles, interior) stay unculled.
+    const chunkCuller = createChunkCuller([
+      baseContainer, riverContainer, decorContainer,
+      streetLayer, pondLayer, buildingLayer, windowLayer,
+      belowAvatarLayer, aboveAvatarLayer, nodeLayer,
+    ])
 
     // ── Pond (Greyfish Pond) — water path tiles ───────────────────────────────
     {
@@ -1844,6 +1854,10 @@ export function HubTownCanvas({
       // iOS momentum scrolling, but only the camera is visible motion, so
       // reading the live scroll position here can never show a stale frame.
       syncCamera()
+      // Hide static-layer chunks outside the camera view. Only in viewport
+      // mode — the map-sized fallback canvas (Storybook) shows everything.
+      const vp = viewportRef?.current
+      if (vp) chunkCuller.update(ticker.deltaMS, vp.scrollLeft, vp.scrollTop, app.screen.width, app.screen.height)
       // Avatar animation + position report
       if (avatar) {
         // Report stage-space position (accounts for interior layer offset)
