@@ -108,6 +108,9 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
             for (const e of aoeTargets) {
               e.hp = Math.max(0, e.hp - dmg)
               e.damageFlashTimer = DAMAGE_FLASH_MS
+              // Mark mobile kills as dying so they linger for the death animation and
+              // aren't silently purged before the commander/base HP sync sees them.
+              if (e.hp <= 0 && e.moveSpeed > 0 && !e.isWall && !e.dyingTimer) e.dyingTimer = DEATH_LINGER_MS
               if (isPlayer) s.playerScore += Math.min(dmg, prevHp)
               else          s.opponentScore += Math.min(dmg, prevHp)
             }
@@ -161,6 +164,9 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
           for (const e of enemies) {
             e.hp -= aoeDmg
             e.damageFlashTimer = DAMAGE_FLASH_MS
+            // Mark mobile kills as dying so they linger for the death animation and
+            // aren't silently purged before the commander/base HP sync sees them.
+            if (e.hp <= 0 && e.moveSpeed > 0 && !e.isWall && !e.dyingTimer) e.dyingTimer = DEATH_LINGER_MS
           }
           log.push(`!!💥 ${target.name} erupts! AOE blast hits ${enemies.length} enemy unit${enemies.length !== 1 ? 's' : ''}!`)
         }
@@ -174,6 +180,9 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
             for (const e of blastTargets) {
               e.hp = Math.max(0, e.hp - aoeDmg)
               e.damageFlashTimer = DAMAGE_FLASH_MS
+              // Mark mobile kills as dying so they linger for the death animation and
+              // aren't silently purged before the commander/base HP sync sees them.
+              if (e.hp <= 0 && e.moveSpeed > 0 && !e.isWall && !e.dyingTimer) e.dyingTimer = DEATH_LINGER_MS
             }
             log.push(`!!💥 ${target.name} explodes! ${blastTargets.length} unit${blastTargets.length !== 1 ? 's' : ''} caught in the blast!`)
           }

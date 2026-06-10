@@ -1,5 +1,6 @@
 import { GameState } from './types'
 import { logError } from '../logger'
+import { syncUnitIdCounter } from './engine/helpers'
 
 const KEY = 'jarv_battle_state'
 
@@ -40,6 +41,9 @@ export function loadBattleState(): GameState | null {
       localStorage.removeItem(KEY)
       return null
     }
+    // Units in the restored field keep their original ids while the module-level id
+    // counter restarts at 0 after a reload — bump it so new spawns can't collide.
+    syncUnitIdCounter(parsed.field)
     return parsed
   } catch { return null }
 }

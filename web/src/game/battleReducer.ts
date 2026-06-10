@@ -111,7 +111,21 @@ export function battleReducer(state: BattleState, action: BattleAction): BattleS
 
     case 'TICK': {
       if (!state.gameState) return state
-      return { ...state, gameState: engineTick(state.gameState, TICK_MS * state.speedMultiplier) }
+      // Run fixed TICK_MS sub-ticks rather than one large delta. A single 800ms tick
+      // at 8× distorts the simulation (movement tunneling, attack cadence, whole-tick
+      // damage bursts landing between game-over checks) and can kill the commander
+      // within one render — before the "drop to 1× on commander damage" effect in
+      // App.tsx ever gets a chance to fire.
+      let gs = state.gameState
+      for (let i = 0; i < state.speedMultiplier; i++) {
+        const hpBefore = gs.playerBase.hp
+        gs = engineTick(gs, TICK_MS)
+        if (gs.phase.type !== 'playing') break
+        // Stop early when the player takes damage so the UI can render (and
+        // auto-drop the speed) before further sub-ticks compound the damage.
+        if (gs.playerBase.hp < hpBefore) break
+      }
+      return { ...state, gameState: gs }
     }
 
     case 'SET_GAME_STATE':

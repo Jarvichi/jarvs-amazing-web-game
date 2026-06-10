@@ -25,6 +25,8 @@ vi.mock('./debug', () => ({
 
 import { newGame, tick, MAX_HANDICAP } from './engine'
 import { playCard } from './engine/cards'
+import { triggerNextEndlessWave } from './engine/endlessMode'
+import { syncUnitIdCounter, uid } from './engine/helpers'
 import { makeDeck } from './cards'
 
 // ─── newGame ──────────────────────────────────────────────────────────────────
@@ -148,5 +150,38 @@ describe('tick', () => {
     const full = { ...state, mana: state.maxMana, manaAccum: 0 }
     const next = tick(full, 100000)
     expect(next.mana).toBeLessThanOrEqual(next.maxMana)
+  })
+})
+
+// ─── Endless mode wave transition ────────────────────────────────────────────
+
+describe('triggerNextEndlessWave', () => {
+  it('finger smash never removes the player commander, even when unit ids collide', () => {
+    const state = newGame({ endlessMode: true })
+    const commander = state.field.find(u => u.isCommander && u.owner === 'player')
+    expect(commander).toBeDefined()
+
+    // Simulate a restored save where the id counter reset and a later spawn
+    // re-used the commander's id (issue: instant "base destroyed" on wave clear).
+    state.field = state.field.filter(u => u.isCommander)
+    const dupe = { ...commander!, isCommander: false, commanderHomeX: undefined, name: 'Dupe', moveSpeed: 5 }
+    state.field.push(dupe)
+
+    triggerNextEndlessWave(state)
+
+    // The duplicate-id unit is the only smash candidate and is always removed;
+    // the commander must survive the removal despite sharing its id.
+    expect(state.field).toContain(commander)
+    expect(state.field).not.toContain(dupe)
+  })
+})
+
+// ─── Unit id counter restore ─────────────────────────────────────────────────
+
+describe('syncUnitIdCounter', () => {
+  it('bumps the uid counter past restored unit ids so new spawns cannot collide', () => {
+    syncUnitIdCounter([{ id: 'unit-9000' }, { id: 'rc-5' }, { id: undefined }])
+    const next = parseInt(uid().replace('unit-', ''), 10)
+    expect(next).toBeGreaterThan(9000)
   })
 })

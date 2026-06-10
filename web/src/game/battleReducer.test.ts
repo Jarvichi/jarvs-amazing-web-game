@@ -146,6 +146,47 @@ describe('battleReducer', () => {
       expect(next).toBe(INITIAL_BATTLE_STATE)
     })
 
+    it('runs one fixed-size engine sub-tick per speed multiple', async () => {
+      const { tick } = await import('./engine')
+      const state = withGameState(makeGameState({ gameTime: 0 }), { speedMultiplier: 8 })
+
+      const next = battleReducer(state, { type: 'TICK' })
+
+      expect(tick).toHaveBeenCalledTimes(8)
+      expect(vi.mocked(tick).mock.calls.every(call => call[1] === TICK_MS)).toBe(true)
+      expect(next.gameState?.gameTime).toBe(8 * TICK_MS)
+    })
+
+    it('stops sub-ticking as soon as the player base takes damage', async () => {
+      const { tick } = await import('./engine')
+      vi.mocked(tick).mockImplementationOnce((state: GameState, deltaMs: number) => ({
+        ...state,
+        gameTime: state.gameTime + deltaMs,
+        playerBase: { ...state.playerBase, hp: state.playerBase.hp - 5 },
+      }))
+      const state = withGameState(makeGameState({ gameTime: 0 }), { speedMultiplier: 8 })
+
+      const next = battleReducer(state, { type: 'TICK' })
+
+      expect(tick).toHaveBeenCalledTimes(1)
+      expect(next.gameState?.playerBase.hp).toBe(95)
+    })
+
+    it('stops sub-ticking when the game leaves the playing phase', async () => {
+      const { tick } = await import('./engine')
+      vi.mocked(tick).mockImplementationOnce((state: GameState, deltaMs: number) => ({
+        ...state,
+        gameTime: state.gameTime + deltaMs,
+        phase: { type: 'gameOver' as const, winner: 'opponent' as const },
+      }))
+      const state = withGameState(makeGameState({ gameTime: 0 }), { speedMultiplier: 8 })
+
+      const next = battleReducer(state, { type: 'TICK' })
+
+      expect(tick).toHaveBeenCalledTimes(1)
+      expect(next.gameState?.phase.type).toBe('gameOver')
+    })
+
     it('does not mutate other battle state fields', () => {
       const state = withGameState(makeGameState(), { showBossShockwave: true, fingerSmashNames: ['X'] })
       const next = battleReducer(state, { type: 'TICK' })

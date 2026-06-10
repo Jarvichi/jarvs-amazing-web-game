@@ -7,6 +7,18 @@ import { PLAYER_SPAWN_X, OPPONENT_SPAWN_X, COMMANDER_HOME_X } from './constants'
 // ─── Helpers ─────────────────────────────────────────────
 let _unitId = 0;
 export function uid(): string { return `unit-${++_unitId}`; }
+/**
+ * Advance the unit-id counter past every id in a restored field. The counter lives in
+ * module state and resets to 0 on page reload, so without this a restored battle's
+ * units collide with freshly spawned ones — and any removal-by-id (e.g. the endless
+ * finger smash) then deletes the restored unit too, including the player commander.
+ */
+export function syncUnitIdCounter(field: { id?: string }[]): void {
+  for (const u of field) {
+    const m = /^unit-(\d+)$/.exec(u.id ?? '');
+    if (m) _unitId = Math.max(_unitId, parseInt(m[1], 10));
+  }
+}
 let _recycleId = 0;
 export function recycleCardId(): string { return `rc-${++_recycleId}`; }
 let _animId = 0;

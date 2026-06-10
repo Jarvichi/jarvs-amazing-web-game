@@ -86,7 +86,9 @@ export function triggerNextEndlessWave(s: GameState): false {
     const idx = Math.floor(Math.random() * smashPool.length)
     const [victim] = smashPool.splice(idx, 1)
     smashedNames.push(victim.name)
-    s.field = s.field.filter(u => u.id !== victim.id)
+    // Remove by identity, not id — restored saves can contain duplicate unit ids,
+    // and an id match would also delete an innocent unit (even the commander).
+    s.field = s.field.filter(u => u !== victim)
     if (victim.moveSpeed > 0 && !victim.flying) {
       s.bloodPools.push({ id: `smash-${victim.id}`, x: victim.x, y: victim.y ?? 0 })
       const active = s.bloodPools.filter(p => p.fadingAt === undefined)
