@@ -444,8 +444,9 @@ function checkGameOver(s: GameState): boolean {
       killCount = Math.min(killCount, Math.max(0, shockwavePool.length - MIN_SURVIVORS))
       if (killCount > 0) {
         const victims = shuffle(shockwavePool).slice(0, killCount)
-        const victimIds = new Set(victims.map(u => u.id))
-        s.field = s.field.filter(u => !victimIds.has(u.id))
+        // Remove by identity, not id — restored saves can contain duplicate unit ids
+        const victimSet = new Set(victims)
+        s.field = s.field.filter(u => !victimSet.has(u))
         s.log.push(`💥 The shockwave obliterates ${victims.map(u => u.name).join(', ')}!`)
       }
 
