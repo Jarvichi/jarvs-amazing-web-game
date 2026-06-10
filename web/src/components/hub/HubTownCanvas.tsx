@@ -1232,14 +1232,18 @@ export function HubTownCanvas({
         exitByTile.set(`${exit.tx},${exit.ty}`, exit)
       }
 
-      // Floor tile set (all inner tiles + exit door tile)
+      // Floor tile set (all inner tiles + exit door tiles)
       const floorSet = new Set<string>()
       for (let tx = 1; tx < interior.width - 1; tx++)
         for (let ty = 1; ty < interior.height - 1; ty++)
           floorSet.add(`${tx},${ty}`)
       if (!isSubRoom) floorSet.add(`${exitTx},${interior.height - 1}`)  // exit door opening
+      for (const exit of interior.exits ?? []) {
+        if (exit.direction === 'left' || exit.direction === 'right' ||
+            exit.direction === 'front' || exit.direction === 'back') floorSet.add(`${exit.tx},${exit.ty}`)
+      }
 
-      // Wall tile set (border, minus exit door opening for ground-level rooms)
+      // Wall tile set (border, minus exit door openings)
       const wallSet = new Set<string>()
       for (let tx = 0; tx < interior.width; tx++) {
         wallSet.add(`${tx},0`)
@@ -1249,7 +1253,11 @@ export function HubTownCanvas({
         wallSet.add(`0,${ty}`)
         wallSet.add(`${interior.width - 1},${ty}`)
       }
-      if (!isSubRoom) wallSet.delete(`${exitTx},${interior.height - 1}`)  // open door gap
+      if (!isSubRoom) wallSet.delete(`${exitTx},${interior.height - 1}`)  // open bottom door gap
+      for (const exit of interior.exits ?? []) {
+        if (exit.direction === 'left' || exit.direction === 'right' ||
+            exit.direction === 'front' || exit.direction === 'back') wallSet.delete(`${exit.tx},${exit.ty}`)
+      }
 
       // Render tile layers (async — tiles appear as they load)
       const floorContainer = new PIXI.Container()
@@ -1274,6 +1282,15 @@ export function HubTownCanvas({
           exitFloor.position.set(exitTx * T, (interior.height - 1) * T)
           floorContainer.addChild(exitFloor)
         }
+        // Wall-gap exits need explicit floor tiles (they're outside the inner loop)
+        for (const exit of interior.exits ?? []) {
+          if (exit.direction === 'left' || exit.direction === 'right' ||
+              exit.direction === 'front' || exit.direction === 'back') {
+            const s = new PIXI.Sprite(floorTex)
+            s.position.set(exit.tx * T, exit.ty * T)
+            floorContainer.addChild(s)
+          }
+        }
       }).catch(() => {
         renderPathTiles(floorContainer, floorSet, undefined, PATH_TILE.dirt1).catch(() => {})
       })
@@ -1285,6 +1302,12 @@ export function HubTownCanvas({
         const [wx, wy] = key.split(',').map(Number)
         if (wx > 0 && wx < interior.width - 1 && (wy === 0 || wy === interior.height - 1)) horizontalWallSet.add(key)
         else {sideWallSet.add(`${wx},${wy-1}`); sideWallSet.add(`${wx},${wy}`)}
+      }
+      // The tile below a left/right exit contributes the exit position to sideWallSet; remove it explicitly
+      for (const exit of interior.exits ?? []) {
+        if (exit.direction === 'left' || exit.direction === 'right') sideWallSet.delete(`${exit.tx},${exit.ty}`)
+        // back exits are at ty=0; the sideWallSet formula adds (wx, -1) and (wx, 0) for ty=0 wall tiles,
+        // but since we deleted (tx, 0) from wallSet before building sideWallSet, nothing to clean up here.
       }
       renderPathTiles(wallContainer, sideWallSet, undefined, PATH_TILE.wall2).catch(() => {})
 
@@ -1474,7 +1497,7 @@ export function HubTownCanvas({
       }
       // Room-exit direction markers (stairs, passages)
       for (const exit of interior.exits ?? []) {
-        const arrow = exit.direction === 'up' ? '▲' : exit.direction === 'down' ? '▼' : '→'
+        const arrow = exit.direction === 'up' ? '▲' : exit.direction === 'down' ? '▼' : exit.direction === 'left' ? '◄' : exit.direction === 'back' ? '▲' : exit.direction === 'front' ? '▼' : '►'
         const marker = new PIXI.Text({
           text: arrow,
           style: { fontSize: 10, fill: '#aaddff', fontFamily: 'monospace', fontWeight: 'bold' },

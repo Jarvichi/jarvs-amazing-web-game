@@ -5,10 +5,13 @@ import { loadTileTexture, loadSpriteTexture } from '../../utils/pixiHelpers'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
 import type { RawMapConfig, RawDecorItem,  SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
+import { WALL_TILES } from '../../data/tiles/buildingMaterials'
+import type { WallMaterial } from '../../data/tiles/buildingMaterials'
 import { expandBundleDecor } from '../../data/bundles/bundleLoader'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 
-const T         = 32
+const T           = 32
+const INTERIOR_PAD = 10  // tiles of surrounding space around active room in interior view
 const BASE_URL  = TILESET_IMAGE.baseChip
 const BASE_COLS = TILESET_COLUMNS.baseChip
 
@@ -123,12 +126,14 @@ export function MapEditorCanvas(props: Props) {
 
   // Render version counter — incremented on each render, so async sprite loads can detect staleness
   const renderVersionRef = useRef(0)
+  // World origin offset — non-zero in interior mode to make room for adjacent rooms above/left
+  const worldOriginRef = useRef({ x: 0, y: 0 })
 
   // Compute canvas dimensions
   const isInterior = viewMode === 'interior' && activeInteriorId
   const interior   = isInterior ? configData.interiors?.[activeInteriorId!] : null
-  const mapW = isInterior ? (interior?.width  ?? 12) * T : configData.mapW
-  const mapH = isInterior ? (interior?.height ?? 9)  * T : configData.mapH
+  const mapW = isInterior ? ((interior?.width  ?? 12) + INTERIOR_PAD * 2) * T : configData.mapW
+  const mapH = isInterior ? ((interior?.height ?? 9)  + INTERIOR_PAD * 2) * T : configData.mapH
 
   const appRef = usePixiApp(containerRef, mapW, mapH, useCallback((app: PIXI.Application) => {
     const stage = app.stage
@@ -138,9 +143,10 @@ export function MapEditorCanvas(props: Props) {
     stage.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
       const { tool: t, activeTileId: tid, activeBundleId: bid, viewMode: vm,
                activeInteriorId: iid, configData: cfg, showQuestItems: sqI } = propsRef.current
+      const { x: ox, y: oy } = worldOriginRef.current
       const pos = e.getLocalPosition(stage)
-      const tx  = Math.floor(pos.x / T)
-      const ty  = Math.floor(pos.y / T)
+      const tx  = Math.floor((pos.x - ox) / T)
+      const ty  = Math.floor((pos.y - oy) / T)
 
       if (t === 'select') {
         const entity = hitTest(cfg, tx, ty, vm, iid, sqI)
@@ -165,9 +171,10 @@ export function MapEditorCanvas(props: Props) {
     })
 
     stage.on('pointermove', (e: PIXI.FederatedPointerEvent) => {
+      const { x: ox, y: oy } = worldOriginRef.current
       const pos = e.getLocalPosition(stage)
-      const tx  = Math.floor(pos.x / T)
-      const ty  = Math.floor(pos.y / T)
+      const tx  = Math.floor((pos.x - ox) / T)
+      const ty  = Math.floor((pos.y - oy) / T)
 
       if (dragRef.current) {
         const { entity, lastTx, lastTy, offsetX, offsetY } = dragRef.current
@@ -194,9 +201,10 @@ export function MapEditorCanvas(props: Props) {
     stage.on('pointerup', (e: PIXI.FederatedPointerEvent) => {
       dragRef.current = null
       if (streetDrawRef.current) {
+        const { x: ox, y: oy } = worldOriginRef.current
         const pos = e.getLocalPosition(stage)
-        const tx = Math.floor(pos.x / T)
-        const ty = Math.floor(pos.y / T)
+        const tx = Math.floor((pos.x - ox) / T)
+        const ty = Math.floor((pos.y - oy) / T)
         const { startTx, startTy } = streetDrawRef.current
         propsRef.current.onAddStreet(
           Math.min(tx, startTx), Math.min(ty, startTy),
@@ -238,9 +246,15 @@ export function MapEditorCanvas(props: Props) {
     const selLayer      = new PIXI.Graphics()
     const gridLayer     = new PIXI.Graphics()
 
-    stage.addChild(groundLayer, streetLayer, buildingLayer,
-                   decorBLayer, decorLayer, npcLayer, decorALayer, questLayer,
-                   selLayer, gridLayer)
+    const pad = isInterior ? INTERIOR_PAD * T : 0
+    worldOriginRef.current = { x: pad, y: pad }
+    const worldContainer = new PIXI.Container()
+    worldContainer.x = pad
+    worldContainer.y = pad
+    stage.addChild(worldContainer)
+    worldContainer.addChild(groundLayer, streetLayer, buildingLayer,
+                            decorBLayer, decorLayer, npcLayer, decorALayer, questLayer,
+                            selLayer, gridLayer)
 
     if (isInterior && interior) {
       renderInterior(version, groundLayer, decorBLayer, decorLayer, decorALayer, selLayer)
@@ -262,7 +276,7 @@ export function MapEditorCanvas(props: Props) {
       pvGfx.rect(sx * T, sy * T, (ex - sx + 1) * T, (ey - sy + 1) * T)
         .fill({ color: STREET_COLOR, alpha: 0.4 })
         .stroke({ color: 0xf0c040, width: 2 })
-      stage.addChild(pvGfx)
+      worldContainer.addChild(pvGfx)
     }
   })
 
@@ -357,6 +371,86 @@ export function MapEditorCanvas(props: Props) {
   }
 
   // ── Interior rendering ─────────────────────────────────────────────────────────
+  type RawInterior = NonNullable<RawMapConfig['interiors']>[string]
+
+  function buildGapSet(width: number, height: number, exits: RawInterior['exits']) {
+    const gapSet = new Set<string>()
+    for (const exit of exits ?? []) {
+      if (exit.direction === 'left')  gapSet.add(`0,${exit.ty}`)
+      if (exit.direction === 'right') gapSet.add(`${width - 1},${exit.ty}`)
+      if (exit.direction === 'front') gapSet.add(`${exit.tx},${height - 1}`)
+      if (exit.direction === 'back')  { gapSet.add(`${exit.tx},0`); gapSet.add(`${exit.tx},1`) }
+    }
+    return gapSet
+  }
+
+  function drawWallsWithGaps(gfx: PIXI.Graphics, width: number, height: number, color: number, gapSet: Set<string>) {
+    for (let tx = 0; tx < width; tx++) {
+      if (!gapSet.has(`${tx},0`))          gfx.rect(tx * T, 0,              T, T).fill(color)
+      if (!gapSet.has(`${tx},1`))          gfx.rect(tx * T, T,              T, T).fill(color)
+      if (!gapSet.has(`${tx},${height-1}`)) gfx.rect(tx * T, (height-1) * T, T, T).fill(color)
+    }
+    for (let ty = 2; ty < height - 1; ty++) {
+      if (!gapSet.has(`0,${ty}`))           gfx.rect(0,              ty * T, T, T).fill(color)
+      if (!gapSet.has(`${width-1},${ty}`))  gfx.rect((width-1) * T, ty * T, T, T).fill(color)
+    }
+  }
+
+  function renderWallMaterial(
+    version: number,
+    wallTileId: string | undefined,
+    width: number,
+    container: PIXI.Container,
+    gapSet: Set<string>,
+  ) {
+    if (!wallTileId) return
+    const wTiles = WALL_TILES[wallTileId as WallMaterial]
+    if (!wTiles) return
+    const byTile = new Map<number, [number, number][]>()
+    for (let tx = 0; tx < width; tx++) {
+      if (gapSet.has(`${tx},0`)) continue
+      const faceId = tx === 0 ? wTiles.leftBottom : tx === width - 1 ? wTiles.rightBottom : wTiles.middleBottom
+      const crownId = tx === 0 ? wTiles.leftTop   : tx === width - 1 ? wTiles.rightTop   : wTiles.middleTop
+      ;(byTile.get(faceId)  ?? (byTile.set(faceId,  []), byTile.get(faceId)!)).push([tx,  0])
+      ;(byTile.get(crownId) ?? (byTile.set(crownId, []), byTile.get(crownId)!)).push([tx, -1])
+    }
+    for (const [tileId, positions] of byTile) {
+      loadTileTexture(BASE_URL, tileId, BASE_COLS).then(tex => {
+        if (renderVersionRef.current !== version) return
+        for (const [tx, ty] of positions) {
+          const sp = new PIXI.Sprite(tex)
+          sp.x = tx * T; sp.y = ty * T
+          container.addChild(sp)
+        }
+      }).catch(() => {})
+    }
+  }
+
+  function renderAdjacentRoom(version: number, room: RawInterior, container: PIXI.Container) {
+    const { width, height } = room
+    const bg = new PIXI.Graphics()
+    bg.rect(0, 0, width * T, height * T).fill(0x5a4a3a)
+    container.addChild(bg)
+    if (room.floorTileId) {
+      const fid = tileNumericId(room.floorTileId)
+      loadTileTexture(BASE_URL, fid, BASE_COLS).then(tex => {
+        if (renderVersionRef.current !== version) return
+        for (let tx = 0; tx < width; tx++)
+          for (let ty = 0; ty < height; ty++) {
+            const sp = new PIXI.Sprite(tex)
+            sp.x = tx * T; sp.y = ty * T
+            container.addChild(sp)
+          }
+      }).catch(() => {})
+    }
+    const gapSet = buildGapSet(width, height, room.exits)
+    const wallColor = room.wallTileId ? (WALL_COLORS[room.wallTileId] ?? 0x3a3a4a) : 0x3a3a4a
+    const wallGfx = new PIXI.Graphics()
+    drawWallsWithGaps(wallGfx, width, height, wallColor, gapSet)
+    container.addChild(wallGfx)
+    renderWallMaterial(version, room.wallTileId, width, container, gapSet)
+  }
+
   function renderInterior(
     version: number,
     groundLayer: PIXI.Container,
@@ -365,7 +459,61 @@ export function MapEditorCanvas(props: Props) {
   ) {
     if (!interior) return
     const { width, height } = interior
+    const cfg = propsRef.current.configData
+    const iid = activeInteriorId ?? ''
 
+    // ── Adjacent rooms (dimmed) ────────────────────────────────────────────────
+    // Collect forward exits (exits defined on this room) and reverse links (rooms that exit here)
+    const seen = new Set<string>()
+    const adjRooms: { room: RawInterior; ox: number; oy: number }[] = []
+
+    function addAdj(id: string, room: RawInterior, ox: number, oy: number) {
+      if (seen.has(id)) return
+      seen.add(id)
+      adjRooms.push({ room, ox, oy })
+    }
+
+    for (const exit of interior.exits ?? []) {
+      const adj = cfg.interiors?.[exit.toInteriorId]
+      if (!adj || exit.toInteriorId === iid || !exit.direction) continue
+      const entryTx = exit.entryTx ?? Math.floor(adj.width / 2)
+      const entryTy = exit.entryTy ?? (adj.height - 2)
+      let ox = 0, oy = 0
+      if      (exit.direction === 'right') { ox = (width    - entryTx) * T; oy = (exit.ty - entryTy) * T }
+      else if (exit.direction === 'left')  { ox = -(1 + entryTx)      * T; oy = (exit.ty - entryTy) * T }
+      else if (exit.direction === 'up')    { ox = (exit.tx - entryTx) * T; oy = -(1 + entryTy)      * T }
+      else if (exit.direction === 'down')  { ox = (exit.tx - entryTx) * T; oy = (height   - entryTy) * T }
+      else if (exit.direction === 'front') { ox = (exit.tx - entryTx) * T; oy = (height   - entryTy) * T }
+      else if (exit.direction === 'back')  { ox = (exit.tx - entryTx) * T; oy = -(1 + entryTy)      * T }
+      addAdj(exit.toInteriorId, adj, ox, oy)
+    }
+
+    for (const [id, room] of Object.entries(cfg.interiors ?? {})) {
+      if (id === iid) continue
+      for (const exit of room.exits ?? []) {
+        if (exit.toInteriorId !== iid || !exit.direction) continue
+        const entryTx = exit.entryTx ?? Math.floor(width / 2)
+        const entryTy = exit.entryTy ?? (height - 2)
+        let ox = 0, oy = 0
+        if      (exit.direction === 'right') { ox = (entryTx - room.width)  * T; oy = (entryTy - exit.ty) * T }
+        else if (exit.direction === 'left')  { ox = (entryTx + 1)           * T; oy = (entryTy - exit.ty) * T }
+        else if (exit.direction === 'up')    { ox = (entryTx - exit.tx)     * T; oy = (entryTy + 1)       * T }
+        else if (exit.direction === 'down')  { ox = (entryTx - exit.tx)     * T; oy = (entryTy - room.height) * T }
+        else if (exit.direction === 'front') { ox = (entryTx - exit.tx)     * T; oy = (entryTy - room.height) * T }
+        else if (exit.direction === 'back')  { ox = (entryTx - exit.tx)     * T; oy = (entryTy + 1)           * T }
+        addAdj(id, room, ox, oy)
+      }
+    }
+
+    for (const { room, ox, oy } of adjRooms) {
+      const c = new PIXI.Container()
+      c.alpha = 0.28
+      c.x = ox; c.y = oy
+      groundLayer.addChild(c)
+      renderAdjacentRoom(version, room, c)
+    }
+
+    // ── Current room ──────────────────────────────────────────────────────────
     const floorGfx = new PIXI.Graphics()
     floorGfx.rect(0, 0, width * T, height * T).fill(0x5a4a3a)
     groundLayer.addChild(floorGfx)
@@ -385,15 +533,23 @@ export function MapEditorCanvas(props: Props) {
       }).catch(() => {})
     }
 
-    // Walls
+    // Walls with gaps at directional exits
+    const gapSet = buildGapSet(width, height, interior.exits)
+    const wallColor = interior.wallTileId ? (WALL_COLORS[interior.wallTileId] ?? 0x3a3a4a) : 0x3a3a4a
     const wallGfx = new PIXI.Graphics()
-    wallGfx.rect(0, 0, width * T, T * 2).fill(0x3a3a4a)
-    wallGfx.rect(0, (height - 1) * T, width * T, T).fill(0x3a3a4a)
-    wallGfx.rect(0, 0, T, height * T).fill(0x3a3a4a)
-    wallGfx.rect((width - 1) * T, 0, T, height * T).fill(0x3a3a4a)
+    drawWallsWithGaps(wallGfx, width, height, wallColor, gapSet)
     groundLayer.addChild(wallGfx)
+    renderWallMaterial(version, interior.wallTileId, width, groundLayer, gapSet)
 
-    const iid = activeInteriorId ?? ''
+    // Green outlines on up/down exit tiles so they're easy to spot and click
+    const exitOverlay = new PIXI.Graphics()
+    for (const exit of interior.exits ?? []) {
+      if (exit.direction === 'up' || exit.direction === 'down') {
+        exitOverlay.rect(exit.tx * T + 1, exit.ty * T + 1, T - 2, T - 2).stroke({ width: 2, color: 0x44ff44 })
+      }
+    }
+    groundLayer.addChild(exitOverlay)
+
     renderDecorItems(version, flattenDecor(interior.decor),
                      decorBLayer, decorLayer, decorALayer, 'interiorDecor', iid, selLayer)
   }

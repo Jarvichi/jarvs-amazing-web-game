@@ -1,7 +1,23 @@
 import React, { useState } from 'react'
 import type { SelectedEntity, RawMapConfig, RawInterior, Zlayer, RawDecorItem, RawNpc, RawBuilding } from './mapEditorTypes'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
+import type { WallMaterial } from '../../data/tiles/buildingMaterials'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
+
+const FLOOR_TILES = [
+  'woodFloor', 'stoneFloor', 'cobblestoneFloor', 'quarteredFloor', 'checkeredFloor',
+  'redCarpetFloor', 'darkWoodFloor', 'darkStoneFloor', 'darkCobblestoneFloor',
+  'darkQuarteredFloor', 'darkCheckeredFloor', 'yellowCarpetFloor', 'parquetFloor',
+  'smallStoneFloor', 'diagonalFloor', 'fourByFourTileFloor', 'meshFloor', 'ornateFloor',
+  'darkParquetFloor', 'goldSmallTileFloor', 'darkDiagonalFloor', 'darkFourByFourTileFloor',
+  'lightMeshFloor', 'blueOrnateFloor',
+]
+
+const WALL_MATERIALS: WallMaterial[] = [
+  'brick', 'woodWall', 'tudorFrame', 'renderedBrick', 'whiteStone', 'darkStone',
+  'castleStone', 'ornateStone', 'reinforcedStone', 'woodenSlats', 'interiorWallStriped',
+  'interiorWallWhite', 'prisonRailings', 'ironholdKeep',
+]
 
 const SHEET_URL = '/world/SampleMap/[Base]BaseChip_pipo.png'
 const COLS = 8
@@ -23,6 +39,8 @@ interface Props {
   onResizeInterior:      (interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right') => void
   onAddInterior:         (id: string, interior: RawInterior) => void
   onAddInteriorExit:     (interiorId: string, exit: InteriorExit) => void
+  onUpdateInteriorProps: (interiorId: string, patch: Partial<RawInterior>) => void
+  onUpdateInteriorExit:  (interiorId: string, index: number, patch: Partial<InteriorExit>) => void
   onRemoveInteriorExit:  (interiorId: string, index: number) => void
   questPickupItems:      RawQuestPickupItem[]
   viewMode:              'exterior' | 'interior'
@@ -442,21 +460,25 @@ function BuildingInspector({
 }
 
 function InteriorInspector({
-  interiorId, interior, selectedEntity, allInteriorIds,
+  interiorId, interior, selectedEntity, allInteriors,
   panelStyle, headerStyle, bodyStyle,
-  onCloseInterior, onResizeInterior, onAddInteriorExit, onRemoveInteriorExit,
+  onCloseInterior, onOpenInterior, onResizeInterior,
+  onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit, onRemoveInteriorExit,
   onMoveEntity, onZlayerChange, onDelete,
 }: {
   interiorId: string
   interior: RawInterior | undefined
   selectedEntity: SelectedEntity | null
-  allInteriorIds: string[]
+  allInteriors: Record<string, RawInterior>
   panelStyle: React.CSSProperties
   headerStyle: React.CSSProperties
   bodyStyle: React.CSSProperties
   onCloseInterior: () => void
+  onOpenInterior: (id: string) => void
   onResizeInterior: (id: string, dir: 'top' | 'bottom' | 'left' | 'right') => void
   onAddInteriorExit: (id: string, exit: InteriorExit) => void
+  onUpdateInteriorProps: (id: string, patch: Partial<RawInterior>) => void
+  onUpdateInteriorExit: (id: string, index: number, patch: Partial<InteriorExit>) => void
   onRemoveInteriorExit: (id: string, index: number) => void
   onMoveEntity: (entity: SelectedEntity, tx: number, ty: number) => void
   onZlayerChange: (entity: SelectedEntity, z: Zlayer) => void
@@ -468,9 +490,11 @@ function InteriorInspector({
   const [exitTo, setExitTo]           = useState('')
   const [exitEntryTx, setExitEntryTx] = useState(1)
   const [exitEntryTy, setExitEntryTy] = useState(1)
-  const [exitDir, setExitDir]         = useState<'' | 'up' | 'down'>('')
+  const [exitDir, setExitDir]         = useState<'' | 'up' | 'down' | 'left' | 'right' | 'front' | 'back'>('')
 
+  const allInteriorIds = Object.keys(allInteriors)
   const otherInteriorIds = allInteriorIds.filter(id => id !== interiorId)
+  const linkedFrom = otherInteriorIds.filter(id => allInteriors[id]?.exits?.some(e => e.toInteriorId === interiorId))
 
   function openExitForm() {
     setExitTx(0); setExitTy(0)
@@ -482,10 +506,12 @@ function InteriorInspector({
 
   function saveExit() {
     if (!exitTo) return
+    const isWallDoor = exitDir === 'left' || exitDir === 'right' || exitDir === 'front' || exitDir === 'back'
     const exit: InteriorExit = {
-      tx: exitTx, ty: exitTy,
+      // Wall doors: tx/ty auto-set by state; stairs/undirected: use form values
+      tx: isWallDoor ? 0 : exitTx,
+      ty: isWallDoor ? 0 : exitTy,
       toInteriorId: exitTo,
-      entryTx: exitEntryTx, entryTy: exitEntryTy,
       ...(exitDir ? { direction: exitDir } : {}),
     }
     onAddInteriorExit(interiorId, exit)
@@ -529,22 +555,60 @@ function InteriorInspector({
               </div>
             </Field>
 
-            <Field label="Floor">{interior.floorTileId && <TilePreview tileId={interior.floorTileId} />}</Field>
-            {interior.wallTileId && <Field label="Wall">{interior.wallTileId}</Field>}
+            <Field label="Floor">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <select
+                  value={interior.floorTileId ?? ''}
+                  onChange={e => onUpdateInteriorProps(interiorId, { floorTileId: e.target.value })}
+                  style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }}
+                >
+                  {FLOOR_TILES.map(id => <option key={id} value={id}>{id}</option>)}
+                </select>
+                {interior.floorTileId && <TilePreview tileId={interior.floorTileId} />}
+              </div>
+            </Field>
+            <Field label="Wall">
+              <select
+                value={interior.wallTileId ?? ''}
+                onChange={e => onUpdateInteriorProps(interiorId, { wallTileId: e.target.value || undefined })}
+                style={{ width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444', color: '#eee', borderRadius: 3, fontSize: 11 }}
+              >
+                <option value="">— none —</option>
+                {WALL_MATERIALS.map(m => <option key={m} value={m}>{m}</option>)}
+              </select>
+            </Field>
             <Field label="Decor items"><span style={{ color: '#aaa' }}>{interior.decor.length} items</span></Field>
 
             {/* Exits */}
             <Field label={`Exits (${interior.exits?.length ?? 0})`}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 3, marginBottom: 6 }}>
-                {(interior.exits ?? []).map((exit, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, background: '#16202e', border: '1px solid #2a3a5a', borderRadius: 3, padding: '3px 6px', fontSize: 10 }}>
-                    <span style={{ color: '#88aaee', fontFamily: 'monospace' }}>({exit.tx},{exit.ty})</span>
-                    <span style={{ color: '#888' }}>→</span>
-                    <span style={{ color: '#aad', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{exit.toInteriorId}</span>
-                    {exit.direction && <span style={{ color: '#f0c040', fontSize: 9 }}>{exit.direction === 'up' ? '↑' : '↓'}</span>}
-                    <button style={{ ...btnSm, padding: '1px 5px', background: '#4a1a1a', borderColor: '#922', color: '#f88' }} onClick={() => onRemoveInteriorExit(interiorId, i)}>✕</button>
-                  </div>
-                ))}
+                {(interior.exits ?? []).map((exit, i) => {
+                  const dirArrow = exit.direction === 'up' ? '↑' : exit.direction === 'down' ? '↓' : exit.direction === 'left' ? '←' : exit.direction === 'right' ? '→' : exit.direction === 'front' ? '▼' : exit.direction === 'back' ? '▲' : null
+                  const isStairs = exit.direction === 'up' || exit.direction === 'down'
+                  return (
+                    <div key={i} style={{ background: '#16202e', border: '1px solid #2a3a5a', borderRadius: 3, padding: '3px 6px', fontSize: 10 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <span style={{ color: '#88aaee', fontFamily: 'monospace' }}>({exit.tx},{exit.ty})</span>
+                        <span style={{ color: '#888' }}>→</span>
+                        <button
+                          onClick={() => onOpenInterior(exit.toInteriorId)}
+                          style={{ flex: 1, textAlign: 'left', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', background: 'none', border: 'none', color: '#7af', cursor: 'pointer', fontSize: 10, padding: 0 }}
+                          title={`Open ${exit.toInteriorId}`}
+                        >{exit.toInteriorId}</button>
+                        {dirArrow && <span style={{ color: '#f0c040', fontSize: 9 }}>{dirArrow}</span>}
+                        <button style={{ ...btnSm, padding: '1px 5px', background: '#4a1a1a', borderColor: '#922', color: '#f88' }} onClick={() => onRemoveInteriorExit(interiorId, i)}>✕</button>
+                      </div>
+                      {isStairs && (
+                        <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginTop: 3, paddingLeft: 2 }}>
+                          <label style={{ color: '#888', fontSize: 9 }}>X</label>
+                          <input type="number" value={exit.tx} min={0} onChange={e => onUpdateInteriorExit(interiorId, i, { tx: Number(e.target.value) })} style={{ ...numSm, width: 36 }} />
+                          <label style={{ color: '#888', fontSize: 9 }}>Y</label>
+                          <input type="number" value={exit.ty} min={0} onChange={e => onUpdateInteriorExit(interiorId, i, { ty: Number(e.target.value) })} style={{ ...numSm, width: 36 }} />
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
 
               {!showExitForm ? (
@@ -552,11 +616,31 @@ function InteriorInspector({
               ) : (
                 <div style={{ background: '#12121e', border: '1px solid #2a2a5a', borderRadius: 4, padding: 8, display: 'flex', flexDirection: 'column', gap: 5 }}>
                   <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                    <label style={{ color: '#888', fontSize: 10 }}>Tile X</label>
-                    <input type="number" style={numSm} value={exitTx} min={0} onChange={e => setExitTx(Number(e.target.value))} />
-                    <label style={{ color: '#888', fontSize: 10 }}>Y</label>
-                    <input type="number" style={numSm} value={exitTy} min={0} onChange={e => setExitTy(Number(e.target.value))} />
+                    <label style={{ color: '#888', fontSize: 10 }}>Direction</label>
+                    <select style={{ ...inputFull, width: 'auto' }} value={exitDir} onChange={e => setExitDir(e.target.value as '' | 'up' | 'down' | 'left' | 'right' | 'front' | 'back')}>
+                      <option value="">— none —</option>
+                      <option value="front">front ▼ (bottom wall door)</option>
+                      <option value="back">back ▲ (top wall door)</option>
+                      <option value="left">left ◄ (side wall door)</option>
+                      <option value="right">right ► (side wall door)</option>
+                      <option value="up">up ▲ (stairs / ladder)</option>
+                      <option value="down">down ▼ (stairs / ladder)</option>
+                    </select>
                   </div>
+
+                  {/* Stairs need an explicit tile; wall doors auto-position */}
+                  {(exitDir === 'up' || exitDir === 'down' || exitDir === '') && (
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                      <label style={{ color: '#888', fontSize: 10 }}>Tile X</label>
+                      <input type="number" style={numSm} value={exitTx} min={0} onChange={e => setExitTx(Number(e.target.value))} />
+                      <label style={{ color: '#888', fontSize: 10 }}>Y</label>
+                      <input type="number" style={numSm} value={exitTy} min={0} onChange={e => setExitTy(Number(e.target.value))} />
+                    </div>
+                  )}
+                  {(exitDir === 'left' || exitDir === 'right' || exitDir === 'front' || exitDir === 'back') && (
+                    <div style={{ color: '#666', fontSize: 10 }}>Position auto-set to wall centre · reverse door auto-added</div>
+                  )}
+
                   <div>
                     <div style={{ color: '#888', fontSize: 10, marginBottom: 2 }}>Leads to interior</div>
                     {otherInteriorIds.length > 0 ? (
@@ -567,20 +651,7 @@ function InteriorInspector({
                       <input style={inputFull} placeholder="interior ID" value={exitTo} onChange={e => setExitTo(e.target.value)} />
                     )}
                   </div>
-                  <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                    <label style={{ color: '#888', fontSize: 10 }}>Entry X</label>
-                    <input type="number" style={numSm} value={exitEntryTx} min={0} onChange={e => setExitEntryTx(Number(e.target.value))} />
-                    <label style={{ color: '#888', fontSize: 10 }}>Y</label>
-                    <input type="number" style={numSm} value={exitEntryTy} min={0} onChange={e => setExitEntryTy(Number(e.target.value))} />
-                  </div>
-                  <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                    <label style={{ color: '#888', fontSize: 10 }}>Direction</label>
-                    <select style={{ ...inputFull, width: 'auto' }} value={exitDir} onChange={e => setExitDir(e.target.value as '' | 'up' | 'down')}>
-                      <option value="">— none —</option>
-                      <option value="up">up</option>
-                      <option value="down">down</option>
-                    </select>
-                  </div>
+
                   <div style={{ display: 'flex', gap: 6 }}>
                     <button style={{ flex: 1, padding: '3px 0', background: '#1a3a5a', border: '1px solid #3a7aaa', color: '#7af', borderRadius: 3, fontSize: 11, cursor: 'pointer' }} onClick={saveExit}>Save doorway</button>
                     <button style={{ padding: '3px 10px', background: '#2a2a2a', border: '1px solid #444', color: '#aaa', borderRadius: 3, fontSize: 11, cursor: 'pointer' }} onClick={() => setShowExitForm(false)}>Cancel</button>
@@ -588,6 +659,20 @@ function InteriorInspector({
                 </div>
               )}
             </Field>
+
+            {linkedFrom.length > 0 && (
+              <Field label="Linked from">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                  {linkedFrom.map(id => (
+                    <button
+                      key={id}
+                      onClick={() => onOpenInterior(id)}
+                      style={{ textAlign: 'left', background: '#16202e', border: '1px solid #2a3a5a', borderRadius: 3, padding: '3px 6px', fontSize: 10, color: '#7af', cursor: 'pointer' }}
+                    >{id}</button>
+                  ))}
+                </div>
+              </Field>
+            )}
 
             <div style={{ color: '#666', fontSize: 10, marginTop: 4 }}>
               Click an item on the canvas to select it, or use the Place tool to add decor.
@@ -616,7 +701,8 @@ export function EntityInspector({
   selectedEntity, configData, activeInteriorId, viewMode,
   onDelete, onMoveEntity, onZlayerChange, onDialogueChange,
   onOpenInterior, onCloseInterior, onUpdateStreetEntry,
-  onResizeInterior, onAddInterior, onAddInteriorExit, onRemoveInteriorExit,
+  onResizeInterior, onAddInterior, onAddInteriorExit, onUpdateInteriorProps, onUpdateInteriorExit,
+  onRemoveInteriorExit,
   questPickupItems,
 }: Props) {
   const panelStyle: React.CSSProperties = {
@@ -642,13 +728,16 @@ export function EntityInspector({
         interiorId={activeInteriorId}
         interior={interior}
         selectedEntity={selectedEntity}
-        allInteriorIds={Object.keys(configData.interiors ?? {})}
+        allInteriors={configData.interiors ?? {}}
         panelStyle={panelStyle}
         headerStyle={headerStyle}
         bodyStyle={bodyStyle}
         onCloseInterior={onCloseInterior}
+        onOpenInterior={onOpenInterior}
         onResizeInterior={onResizeInterior}
         onAddInteriorExit={onAddInteriorExit}
+        onUpdateInteriorProps={onUpdateInteriorProps}
+        onUpdateInteriorExit={onUpdateInteriorExit}
         onRemoveInteriorExit={onRemoveInteriorExit}
         onMoveEntity={onMoveEntity}
         onZlayerChange={onZlayerChange}
