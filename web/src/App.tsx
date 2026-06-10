@@ -95,7 +95,7 @@ import { FeedbackAdminScreen } from './components/admin/FeedbackAdminScreen'
 import { DeckSelectorModal } from './components/cards/DeckSelectorModal'
 import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
-import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic } from './game/relics'
+import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic, rollExoticDrop } from './game/relics'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
 import { getIntegrityViolations, clearIntegrityViolations } from './game/integrity'
@@ -439,6 +439,7 @@ export default function App() {
     proceed: (chosenCount: number) => void
   } | null>(null)
   const [foundItem, setFoundItem] = useState<Omit<import('./game/dailyLogin').UselessItem, 'acquiredDate'> | null>(null)
+  const [exoticDrop, setExoticDrop] = useState<string | null>(null)
 
   // Card fatigue
   const [fatiguedCards, setFatiguedCards]       = useState<string[]>(loadFatigued)
@@ -1510,6 +1511,15 @@ export default function App() {
     recordNodeComplete(updatedRun.actId, nodeId)
     saveRun(updatedRun)
     setRun(updatedRun)
+
+    // Exotic relics drop from bosses and elites at low probability
+    if (node.type === 'boss' || node.type === 'elite') {
+      const dropped = rollExoticDrop(node.type)
+      if (dropped) {
+        addEarnedRelic(dropped)
+        setExoticDrop(dropped)
+      }
+    }
 
     // Check act complete
     if (isActComplete(act, updatedRun)) {
@@ -3464,6 +3474,22 @@ export default function App() {
           onCancel={() => setPendingBattleFn(null)}
         />
       )}
+
+      {/* Exotic relic drop — gold reveal overlay, shown over whatever screen follows the battle */}
+      {exoticDrop && (() => {
+        const def = getRelicDef(exoticDrop)
+        return (
+          <div className="exotic-drop-overlay" onClick={() => setExoticDrop(null)}>
+            <div className="exotic-drop-modal" onClick={e => e.stopPropagation()}>
+              <div className="exotic-drop-title">✦ EXOTIC RELIC ACQUIRED ✦</div>
+              <div className="exotic-drop-icon">{def?.icon ?? '✨'}</div>
+              <div className="exotic-drop-name">{exoticDrop}</div>
+              <div className="exotic-drop-desc">{def?.desc}</div>
+              <button className="action-btn" onClick={() => setExoticDrop(null)}>TAKE IT</button>
+            </div>
+          </div>
+        )
+      })()}
 
       {/* Daily login reward modal — shown as overlay on first visit each day */}
       {dailyReward && (

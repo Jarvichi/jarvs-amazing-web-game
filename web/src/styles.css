@@ -4674,6 +4674,89 @@ body {
   color: var(--game-text-color-muted);
 }
 
+/* ── Exotic relics: animated gold border treatment ── */
+.relic-select-card--exotic {
+  position: relative;
+  border: 1px solid #d4a017;
+  background: rgba(90, 70, 10, 0.18);
+  animation: exotic-glow 2.2s ease-in-out infinite;
+}
+
+.relic-select-card--exotic:hover {
+  border-color: #ffd54a;
+  background: rgba(110, 85, 15, 0.28);
+}
+
+.relic-select-card--exotic.relic-select-card--chosen {
+  border-color: #ffd54a;
+  background: rgba(120, 95, 20, 0.35);
+  box-shadow: 0 0 12px rgba(255, 200, 60, 0.55);
+}
+
+.relic-exotic-tag {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  font-size: var(--font-xxs);
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #ffd54a;
+  text-shadow: 0 0 6px rgba(255, 200, 60, 0.6);
+}
+
+@keyframes exotic-glow {
+  0%, 100% { box-shadow: 0 0 4px rgba(255, 200, 60, 0.25); }
+  50%      { box-shadow: 0 0 14px rgba(255, 200, 60, 0.6); }
+}
+
+/* ── Exotic relic drop modal ── */
+.exotic-drop-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+}
+
+.exotic-drop-modal {
+  max-width: 340px;
+  margin: 16px;
+  padding: 20px 18px;
+  text-align: center;
+  background: #181410;
+  border: 1px solid #d4a017;
+  border-radius: 8px;
+  animation: exotic-glow 2.2s ease-in-out infinite;
+}
+
+.exotic-drop-title {
+  font-size: var(--font-xs);
+  letter-spacing: 3px;
+  color: #ffd54a;
+  margin-bottom: 10px;
+}
+
+.exotic-drop-icon {
+  font-size: 3rem;
+  margin-bottom: 8px;
+}
+
+.exotic-drop-name {
+  font-size: var(--font-lg);
+  font-weight: bold;
+  color: #ffd54a;
+  margin-bottom: 8px;
+}
+
+.exotic-drop-desc {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
 .relic-select-desc--broken {
   color: var(--game-text-color-muted);
   font-style: italic;
