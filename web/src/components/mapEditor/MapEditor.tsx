@@ -33,6 +33,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     openInterior, closeInterior, selectEntity,
     placeDecor, moveEntity, deleteEntity,
     updateDecorZlayer, updateNpcDialogue, updateNpc,
+    resizeInterior, addInterior, addInteriorExit, removeInteriorExit,
     addStreet, updateStreetEntry,
     undo, redo, markSaved,
   } = useMapEditorState(initialMapId)
@@ -199,6 +200,10 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
               onOpenInterior={openInterior}
               onCloseInterior={closeInterior}
               onUpdateStreetEntry={updateStreetEntry}
+              onResizeInterior={resizeInterior}
+              onAddInterior={addInterior}
+              onAddInteriorExit={addInteriorExit}
+              onRemoveInteriorExit={removeInteriorExit}
               questPickupItems={questDefsData?.pickupItems ?? []}
             />
           </div>

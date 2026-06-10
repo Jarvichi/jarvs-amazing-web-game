@@ -1,5 +1,7 @@
 import { useState, useCallback } from 'react'
-import type { RawMapConfig, RawNpc, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
+import type { RawMapConfig, RawNpc, RawInterior, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
+
+type InteriorExit = NonNullable<RawInterior['exits']>[number]
 import hubConfig from '../../data/hub/ravenwatch/config.json'
 import town2Config from '../../data/hub/millhaven/config.json'
 import castleConfig from '../../data/hub/ironholdkeep/config.json'
@@ -291,6 +293,82 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     })
   }, [])
 
+  const resizeInterior = useCallback((interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right') => {
+    setState(s => {
+      const prevConfig = s.configData
+      const interior = prevConfig.interiors?.[interiorId]
+      if (!interior) return s
+      const shiftX = dir === 'left' ? 1 : 0
+      const shiftY = dir === 'top' ? 1 : 0
+      const newInterior: RawInterior = {
+        ...interior,
+        width: dir === 'left' || dir === 'right' ? interior.width + 1 : interior.width,
+        height: dir === 'top' || dir === 'bottom' ? interior.height + 1 : interior.height,
+        decor: interior.decor.map(d => ({
+          ...d,
+          ...(shiftX ? { tx: (d.tx ?? 0) + shiftX } : {}),
+          ...(shiftY ? { ty: (d.ty ?? 0) + shiftY } : {}),
+        })),
+        exits: interior.exits?.map(e => ({ ...e, tx: e.tx + shiftX, ty: e.ty + shiftY })),
+      }
+      return {
+        ...s,
+        configData: { ...prevConfig, interiors: { ...prevConfig.interiors, [interiorId]: newInterior } },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const addInterior = useCallback((id: string, interior: RawInterior) => {
+    setState(s => {
+      const prevConfig = s.configData
+      return {
+        ...s,
+        configData: { ...prevConfig, interiors: { ...(prevConfig.interiors ?? {}), [id]: interior } },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const addInteriorExit = useCallback((interiorId: string, exit: InteriorExit) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const interior = prevConfig.interiors?.[interiorId]
+      if (!interior) return s
+      const newInterior: RawInterior = { ...interior, exits: [...(interior.exits ?? []), exit] }
+      return {
+        ...s,
+        configData: { ...prevConfig, interiors: { ...prevConfig.interiors, [interiorId]: newInterior } },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
+  const removeInteriorExit = useCallback((interiorId: string, index: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const interior = prevConfig.interiors?.[interiorId]
+      if (!interior) return s
+      const newInterior: RawInterior = {
+        ...interior,
+        exits: (interior.exits ?? []).filter((_, i) => i !== index),
+      }
+      return {
+        ...s,
+        configData: { ...prevConfig, interiors: { ...prevConfig.interiors, [interiorId]: newInterior } },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
   const undo = useCallback(() => {
     setState(s => {
       if (s.undoStack.length === 0) return s
@@ -376,6 +454,10 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     updateDecorZlayer,
     updateNpcDialogue,
     updateNpc,
+    resizeInterior,
+    addInterior,
+    addInteriorExit,
+    removeInteriorExit,
     undo,
     redo,
     addStreet,

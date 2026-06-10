@@ -1,11 +1,13 @@
-import React from 'react'
-import type { SelectedEntity, RawMapConfig, Zlayer, RawDecorItem, RawNpc, RawBuilding } from './mapEditorTypes'
+import React, { useState } from 'react'
+import type { SelectedEntity, RawMapConfig, RawInterior, Zlayer, RawDecorItem, RawNpc, RawBuilding } from './mapEditorTypes'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
 import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 
 const SHEET_URL = '/world/SampleMap/[Base]BaseChip_pipo.png'
 const COLS = 8
 const T = 32
+
+type InteriorExit = NonNullable<RawInterior['exits']>[number]
 
 interface Props {
   selectedEntity:   SelectedEntity | null
@@ -18,6 +20,10 @@ interface Props {
   onOpenInterior:        (id: string) => void
   onCloseInterior:       () => void
   onUpdateStreetEntry:   (index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
+  onResizeInterior:      (interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right') => void
+  onAddInterior:         (id: string, interior: RawInterior) => void
+  onAddInteriorExit:     (interiorId: string, exit: InteriorExit) => void
+  onRemoveInteriorExit:  (interiorId: string, index: number) => void
   questPickupItems:      RawQuestPickupItem[]
   viewMode:              'exterior' | 'interior'
 }
@@ -287,13 +293,64 @@ function StreetInspector({
 }
 
 function BuildingInspector({
-  building, onOpenInterior, interiorIds,
+  building, onOpenInterior, interiorIds, existingInteriorIds, onAddInterior,
 }: {
   building: RawBuilding
   onOpenInterior: (id: string) => void
   interiorIds: string[]
+  existingInteriorIds: string[]
+  onAddInterior: (id: string, interior: RawInterior) => void
 }) {
   const [tx1, ty1, tx2, ty2] = building.rect ?? [0, 0, 0, 0]
+  const [showForm, setShowForm] = useState(false)
+  const baseId = building.id ?? 'room'
+
+  function nextAutoId() {
+    let n = 1
+    while (existingInteriorIds.includes(`${baseId}-${n}`)) n++
+    return `${baseId}-${n}`
+  }
+
+  const [newId, setNewId]     = useState('')
+  const [newName, setNewName] = useState('')
+  const [newW, setNewW]       = useState(10)
+  const [newH, setNewH]       = useState(8)
+  const [newFloor, setNewFloor] = useState('woodFloor')
+
+  function openForm() {
+    setNewId(nextAutoId())
+    setNewName('')
+    setNewW(10)
+    setNewH(8)
+    setNewFloor('woodFloor')
+    setShowForm(true)
+  }
+
+  function handleSave() {
+    const id = newId.trim()
+    if (!id) return
+    const interior: RawInterior = {
+      name: newName.trim() || id,
+      width: newW,
+      height: newH,
+      floorTileId: newFloor.trim() || 'woodFloor',
+      decor: [],
+    }
+    onAddInterior(id, interior)
+    setShowForm(false)
+    onOpenInterior(id)
+  }
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444',
+    color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box',
+  }
+  const numStyle: React.CSSProperties = {
+    width: 52, padding: '3px 5px', background: '#111', border: '1px solid #444',
+    color: '#eee', borderRadius: 3, fontSize: 11,
+  }
+  const idConflict = existingInteriorIds.includes(newId.trim())
+
   return (
     <div>
       {building.id && (
@@ -316,24 +373,241 @@ function BuildingInspector({
           <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa' }}>{building.roof}</span>
         </Field>
       )}
-      {interiorIds.length > 0 && (
-        <Field label="Interiors">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {interiorIds.map(id => (
-              <button
-                key={id}
-                onClick={() => onOpenInterior(id)}
-                style={{
-                  padding: '5px 8px', background: '#1e2a4e', border: '1px solid #3a4a8e',
-                  color: '#8af', cursor: 'pointer', borderRadius: 3, fontSize: 11, textAlign: 'left',
-                }}
-              >
-                Edit interior: {id}
-              </button>
-            ))}
+      <Field label="Interiors">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {interiorIds.map(id => (
+            <button
+              key={id}
+              onClick={() => onOpenInterior(id)}
+              style={{
+                padding: '5px 8px', background: '#1e2a4e', border: '1px solid #3a4a8e',
+                color: '#8af', cursor: 'pointer', borderRadius: 3, fontSize: 11, textAlign: 'left',
+              }}
+            >
+              Edit interior: {id}
+            </button>
+          ))}
+          {!showForm && (
+            <button
+              onClick={openForm}
+              style={{
+                padding: '4px 8px', background: '#1e2e1e', border: '1px solid #3a5a3a',
+                color: '#6d6', cursor: 'pointer', borderRadius: 3, fontSize: 11, textAlign: 'left',
+              }}
+            >
+              + New room
+            </button>
+          )}
+          {showForm && (
+            <div style={{ background: '#16161e', border: '1px solid #3a3a5a', borderRadius: 4, padding: 8, display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <div>
+                <div style={{ color: idConflict ? '#f88' : '#888', fontSize: 10, marginBottom: 2 }}>ID{idConflict ? ' — already exists' : ''}</div>
+                <input style={{ ...inputStyle, borderColor: idConflict ? '#922' : '#444' }} value={newId} onChange={e => setNewId(e.target.value)} />
+              </div>
+              <div>
+                <div style={{ color: '#888', fontSize: 10, marginBottom: 2 }}>Name</div>
+                <input style={inputStyle} value={newName} placeholder={newId || 'Room name'} onChange={e => setNewName(e.target.value)} />
+              </div>
+              <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                <label style={{ color: '#888', fontSize: 10 }}>W</label>
+                <input type="number" style={numStyle} value={newW} min={2} onChange={e => setNewW(Number(e.target.value))} />
+                <label style={{ color: '#888', fontSize: 10 }}>H</label>
+                <input type="number" style={numStyle} value={newH} min={2} onChange={e => setNewH(Number(e.target.value))} />
+              </div>
+              <div>
+                <div style={{ color: '#888', fontSize: 10, marginBottom: 2 }}>Floor tile ID</div>
+                <input style={inputStyle} value={newFloor} onChange={e => setNewFloor(e.target.value)} />
+              </div>
+              <div style={{ display: 'flex', gap: 6 }}>
+                <button
+                  onClick={handleSave}
+                  disabled={!newId.trim() || idConflict}
+                  style={{ flex: 1, padding: '4px 0', background: idConflict ? '#333' : '#1a3a5a', border: '1px solid #3a7aaa', color: idConflict ? '#555' : '#7af', borderRadius: 3, fontSize: 11, cursor: idConflict ? 'default' : 'pointer' }}
+                >
+                  Create & Edit
+                </button>
+                <button
+                  onClick={() => setShowForm(false)}
+                  style={{ padding: '4px 10px', background: '#2a2a2a', border: '1px solid #444', color: '#aaa', borderRadius: 3, fontSize: 11, cursor: 'pointer' }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </Field>
+    </div>
+  )
+}
+
+function InteriorInspector({
+  interiorId, interior, selectedEntity, allInteriorIds,
+  panelStyle, headerStyle, bodyStyle,
+  onCloseInterior, onResizeInterior, onAddInteriorExit, onRemoveInteriorExit,
+  onMoveEntity, onZlayerChange, onDelete,
+}: {
+  interiorId: string
+  interior: RawInterior | undefined
+  selectedEntity: SelectedEntity | null
+  allInteriorIds: string[]
+  panelStyle: React.CSSProperties
+  headerStyle: React.CSSProperties
+  bodyStyle: React.CSSProperties
+  onCloseInterior: () => void
+  onResizeInterior: (id: string, dir: 'top' | 'bottom' | 'left' | 'right') => void
+  onAddInteriorExit: (id: string, exit: InteriorExit) => void
+  onRemoveInteriorExit: (id: string, index: number) => void
+  onMoveEntity: (entity: SelectedEntity, tx: number, ty: number) => void
+  onZlayerChange: (entity: SelectedEntity, z: Zlayer) => void
+  onDelete: (entity: SelectedEntity) => void
+}) {
+  const [showExitForm, setShowExitForm] = useState(false)
+  const [exitTx, setExitTx]           = useState(0)
+  const [exitTy, setExitTy]           = useState(0)
+  const [exitTo, setExitTo]           = useState('')
+  const [exitEntryTx, setExitEntryTx] = useState(1)
+  const [exitEntryTy, setExitEntryTy] = useState(1)
+  const [exitDir, setExitDir]         = useState<'' | 'up' | 'down'>('')
+
+  const otherInteriorIds = allInteriorIds.filter(id => id !== interiorId)
+
+  function openExitForm() {
+    setExitTx(0); setExitTy(0)
+    setExitTo(otherInteriorIds[0] ?? '')
+    setExitEntryTx(1); setExitEntryTy(1)
+    setExitDir('')
+    setShowExitForm(true)
+  }
+
+  function saveExit() {
+    if (!exitTo) return
+    const exit: InteriorExit = {
+      tx: exitTx, ty: exitTy,
+      toInteriorId: exitTo,
+      entryTx: exitEntryTx, entryTy: exitEntryTy,
+      ...(exitDir ? { direction: exitDir } : {}),
+    }
+    onAddInteriorExit(interiorId, exit)
+    setShowExitForm(false)
+  }
+
+  const resize = (dir: 'top' | 'bottom' | 'left' | 'right') => onResizeInterior(interiorId, dir)
+
+  const btnSm: React.CSSProperties = {
+    padding: '3px 8px', fontSize: 10, cursor: 'pointer', borderRadius: 3,
+    background: '#1a2030', border: '1px solid #2a3050', color: '#88aaee',
+  }
+  const numSm: React.CSSProperties = {
+    width: 44, padding: '2px 4px', background: '#111', border: '1px solid #444',
+    color: '#eee', borderRadius: 3, fontSize: 11,
+  }
+  const inputFull: React.CSSProperties = {
+    width: '100%', padding: '3px 5px', background: '#111', border: '1px solid #444',
+    color: '#eee', borderRadius: 3, fontSize: 11, boxSizing: 'border-box',
+  }
+
+  return (
+    <div style={panelStyle}>
+      <div style={headerStyle}>
+        <span>Interior: {interior?.name ?? interiorId}</span>
+        <button onClick={onCloseInterior} style={{ padding: '3px 8px', background: '#333', border: '1px solid #555', color: '#aaa', cursor: 'pointer', borderRadius: 3, fontSize: 11 }}>← Back</button>
+      </div>
+      <div style={bodyStyle}>
+        {interior && (
+          <>
+            {/* Size + resize buttons */}
+            <Field label="Size">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
+                <button style={btnSm} onClick={() => resize('top')}>+ row top</button>
+                <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                  <button style={btnSm} onClick={() => resize('left')}>+ col left</button>
+                  <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa', minWidth: 60, textAlign: 'center' }}>{interior.width} × {interior.height}</span>
+                  <button style={btnSm} onClick={() => resize('right')}>+ col right</button>
+                </div>
+                <button style={btnSm} onClick={() => resize('bottom')}>+ row bottom</button>
+              </div>
+            </Field>
+
+            <Field label="Floor">{interior.floorTileId && <TilePreview tileId={interior.floorTileId} />}</Field>
+            {interior.wallTileId && <Field label="Wall">{interior.wallTileId}</Field>}
+            <Field label="Decor items"><span style={{ color: '#aaa' }}>{interior.decor.length} items</span></Field>
+
+            {/* Exits */}
+            <Field label={`Exits (${interior.exits?.length ?? 0})`}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 3, marginBottom: 6 }}>
+                {(interior.exits ?? []).map((exit, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, background: '#16202e', border: '1px solid #2a3a5a', borderRadius: 3, padding: '3px 6px', fontSize: 10 }}>
+                    <span style={{ color: '#88aaee', fontFamily: 'monospace' }}>({exit.tx},{exit.ty})</span>
+                    <span style={{ color: '#888' }}>→</span>
+                    <span style={{ color: '#aad', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{exit.toInteriorId}</span>
+                    {exit.direction && <span style={{ color: '#f0c040', fontSize: 9 }}>{exit.direction === 'up' ? '↑' : '↓'}</span>}
+                    <button style={{ ...btnSm, padding: '1px 5px', background: '#4a1a1a', borderColor: '#922', color: '#f88' }} onClick={() => onRemoveInteriorExit(interiorId, i)}>✕</button>
+                  </div>
+                ))}
+              </div>
+
+              {!showExitForm ? (
+                <button style={{ ...btnSm, background: '#1e2e1e', borderColor: '#3a5a3a', color: '#6d6' }} onClick={openExitForm}>+ Add doorway</button>
+              ) : (
+                <div style={{ background: '#12121e', border: '1px solid #2a2a5a', borderRadius: 4, padding: 8, display: 'flex', flexDirection: 'column', gap: 5 }}>
+                  <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                    <label style={{ color: '#888', fontSize: 10 }}>Tile X</label>
+                    <input type="number" style={numSm} value={exitTx} min={0} onChange={e => setExitTx(Number(e.target.value))} />
+                    <label style={{ color: '#888', fontSize: 10 }}>Y</label>
+                    <input type="number" style={numSm} value={exitTy} min={0} onChange={e => setExitTy(Number(e.target.value))} />
+                  </div>
+                  <div>
+                    <div style={{ color: '#888', fontSize: 10, marginBottom: 2 }}>Leads to interior</div>
+                    {otherInteriorIds.length > 0 ? (
+                      <select style={inputFull} value={exitTo} onChange={e => setExitTo(e.target.value)}>
+                        {otherInteriorIds.map(id => <option key={id} value={id}>{id}</option>)}
+                      </select>
+                    ) : (
+                      <input style={inputFull} placeholder="interior ID" value={exitTo} onChange={e => setExitTo(e.target.value)} />
+                    )}
+                  </div>
+                  <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                    <label style={{ color: '#888', fontSize: 10 }}>Entry X</label>
+                    <input type="number" style={numSm} value={exitEntryTx} min={0} onChange={e => setExitEntryTx(Number(e.target.value))} />
+                    <label style={{ color: '#888', fontSize: 10 }}>Y</label>
+                    <input type="number" style={numSm} value={exitEntryTy} min={0} onChange={e => setExitEntryTy(Number(e.target.value))} />
+                  </div>
+                  <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                    <label style={{ color: '#888', fontSize: 10 }}>Direction</label>
+                    <select style={{ ...inputFull, width: 'auto' }} value={exitDir} onChange={e => setExitDir(e.target.value as '' | 'up' | 'down')}>
+                      <option value="">— none —</option>
+                      <option value="up">up</option>
+                      <option value="down">down</option>
+                    </select>
+                  </div>
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    <button style={{ flex: 1, padding: '3px 0', background: '#1a3a5a', border: '1px solid #3a7aaa', color: '#7af', borderRadius: 3, fontSize: 11, cursor: 'pointer' }} onClick={saveExit}>Save doorway</button>
+                    <button style={{ padding: '3px 10px', background: '#2a2a2a', border: '1px solid #444', color: '#aaa', borderRadius: 3, fontSize: 11, cursor: 'pointer' }} onClick={() => setShowExitForm(false)}>Cancel</button>
+                  </div>
+                </div>
+              )}
+            </Field>
+
+            <div style={{ color: '#666', fontSize: 10, marginTop: 4 }}>
+              Click an item on the canvas to select it, or use the Place tool to add decor.
+            </div>
+          </>
+        )}
+
+        {selectedEntity?.type === 'interiorDecor' && selectedEntity.interiorId === interiorId && interior && (
+          <div style={{ borderTop: '1px solid #333', marginTop: 12, paddingTop: 12 }}>
+            <div style={{ color: '#f0c040', marginBottom: 8, fontWeight: 'bold' }}>Selected Decor</div>
+            <DecorInspector
+              item={interior.decor[selectedEntity.index]}
+              entity={selectedEntity}
+              onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
+              onZlayer={z => onZlayerChange(selectedEntity, z)}
+              onDelete={() => onDelete(selectedEntity)}
+            />
           </div>
-        </Field>
-      )}
+        )}
+      </div>
     </div>
   )
 }
@@ -341,7 +615,9 @@ function BuildingInspector({
 export function EntityInspector({
   selectedEntity, configData, activeInteriorId, viewMode,
   onDelete, onMoveEntity, onZlayerChange, onDialogueChange,
-  onOpenInterior, onCloseInterior, onUpdateStreetEntry, questPickupItems,
+  onOpenInterior, onCloseInterior, onUpdateStreetEntry,
+  onResizeInterior, onAddInterior, onAddInteriorExit, onRemoveInteriorExit,
+  questPickupItems,
 }: Props) {
   const panelStyle: React.CSSProperties = {
     display: 'flex', flexDirection: 'column', height: '100%',
@@ -361,49 +637,23 @@ export function EntityInspector({
   if (viewMode === 'interior' && activeInteriorId) {
     const interior = configData.interiors?.[activeInteriorId]
     return (
-      <div style={panelStyle}>
-        <div style={headerStyle}>
-          <span>Interior: {interior?.name ?? activeInteriorId}</span>
-          <button
-            onClick={onCloseInterior}
-            style={{
-              padding: '3px 8px', background: '#333', border: '1px solid #555',
-              color: '#aaa', cursor: 'pointer', borderRadius: 3, fontSize: 11,
-            }}
-          >
-            ← Back
-          </button>
-        </div>
-        <div style={bodyStyle}>
-          {interior && (
-            <>
-              <Field label="Size">{interior.width} × {interior.height} tiles</Field>
-              <Field label="Floor">{interior.floorTileId && <TilePreview tileId={interior.floorTileId} />}</Field>
-              {interior.wallTileId && <Field label="Wall">{interior.wallTileId}</Field>}
-              <Field label="Decor items">
-                <span style={{ color: '#aaa' }}>{interior.decor.length} items</span>
-              </Field>
-              <div style={{ color: '#666', fontSize: 10, marginTop: 8 }}>
-                Click an item on the canvas to select it, or use the Place tool to add new decor.
-              </div>
-            </>
-          )}
-          {selectedEntity?.type === 'interiorDecor' && selectedEntity.interiorId === activeInteriorId && interior && (
-            <>
-              <div style={{ borderTop: '1px solid #333', marginTop: 12, paddingTop: 12 }}>
-                <div style={{ color: '#f0c040', marginBottom: 8, fontWeight: 'bold' }}>Selected Decor</div>
-                <DecorInspector
-                  item={interior.decor[selectedEntity.index]}
-                  entity={selectedEntity}
-                  onMove={(tx, ty) => onMoveEntity(selectedEntity, tx, ty)}
-                  onZlayer={z => onZlayerChange(selectedEntity, z)}
-                  onDelete={() => onDelete(selectedEntity)}
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </div>
+      <InteriorInspector
+        key={activeInteriorId}
+        interiorId={activeInteriorId}
+        interior={interior}
+        selectedEntity={selectedEntity}
+        allInteriorIds={Object.keys(configData.interiors ?? {})}
+        panelStyle={panelStyle}
+        headerStyle={headerStyle}
+        bodyStyle={bodyStyle}
+        onCloseInterior={onCloseInterior}
+        onResizeInterior={onResizeInterior}
+        onAddInteriorExit={onAddInteriorExit}
+        onRemoveInteriorExit={onRemoveInteriorExit}
+        onMoveEntity={onMoveEntity}
+        onZlayerChange={onZlayerChange}
+        onDelete={onDelete}
+      />
     )
   }
 
@@ -545,6 +795,8 @@ export function EntityInspector({
             building={building}
             onOpenInterior={onOpenInterior}
             interiorIds={interiorIds}
+            existingInteriorIds={Object.keys(configData.interiors ?? {})}
+            onAddInterior={onAddInterior}
           />
         </div>
       </div>
