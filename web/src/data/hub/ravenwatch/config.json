@@ -4556,7 +4556,7 @@
     },
     "card-shop": {
       "name": "Gildwyn's Card Emporium",
-      "width": 12,
+      "width": 13,
       "height": 9,
       "floorTileId": "woodFloor",
       "decor": [
@@ -4581,19 +4581,14 @@
           "tileId": "bookshelfBottom"
         },
         {
-          "tx": 9,
-          "ty": 0,
-          "tileId": "bookshelfTop"
-        },
-        {
           "tx": 10,
           "ty": 0,
           "tileId": "bookshelfTop"
         },
         {
-          "tx": 9,
-          "ty": 1,
-          "tileId": "bookshelfBottom"
+          "tx": 11,
+          "ty": 0,
+          "tileId": "bookshelfTop"
         },
         {
           "tx": 10,
@@ -4601,7 +4596,12 @@
           "tileId": "bookshelfBottom"
         },
         {
-          "tx": 8,
+          "tx": 11,
+          "ty": 1,
+          "tileId": "bookshelfBottom"
+        },
+        {
+          "tx": 9,
           "ty": 1,
           "tileId": "roundTable"
         },
@@ -4653,43 +4653,43 @@
           "zlayer": "solid"
         },
         {
-          "tx": 8,
+          "tx": 9,
           "ty": 3,
           "tileId": "counterTopHorizontalLeft",
           "zlayer": "solid"
         },
         {
-          "tx": 9,
+          "tx": 10,
           "ty": 3,
           "tileId": "counterTopHorizontalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 10,
+          "tx": 11,
           "ty": 3,
           "tileId": "counterTopTopRight",
           "zlayer": "solid"
         },
         {
-          "tx": 10,
+          "tx": 11,
           "ty": 4,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 10,
+          "tx": 11,
           "ty": 5,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 10,
+          "tx": 11,
           "ty": 6,
           "tileId": "counterTopVerticalMiddle",
           "zlayer": "solid"
         },
         {
-          "tx": 10,
+          "tx": 11,
           "ty": 7,
           "tileId": "counterTopVerticalBottom",
           "zlayer": "solid"
@@ -7094,8 +7094,8 @@
       "name": "Gildwyn",
       "sprite": "hub-npc-card-shop",
       "building": "card-shop",
-      "tx": 5,
-      "ty": 5,
+      "tx": 6,
+      "ty": 3,
       "screen": "shop-cards",
       "dialogue": [
         "Welcome to my emporium! Finest cards in the realm.",
