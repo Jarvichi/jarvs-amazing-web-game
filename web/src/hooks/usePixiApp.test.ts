@@ -1,7 +1,9 @@
 import { describe, it, expect, vi } from 'vitest'
 
-// usePixiApp imports rollbar, which reads window.Rollbar at module load.
+// usePixiApp imports rollbar, which reads window.Rollbar at module load, and
+// pixi.js, which reads navigator.userAgent at module load (absent in Node 20).
 vi.stubGlobal('window', { Rollbar: undefined, devicePixelRatio: 3 })
+vi.stubGlobal('navigator', { userAgent: 'node' })
 vi.stubGlobal('localStorage', { getItem: () => null, setItem: () => {}, removeItem: () => {} })
 
 const { computeCappedResolution, RENDERER_PIXEL_BUDGET } = await import('./usePixiApp')
