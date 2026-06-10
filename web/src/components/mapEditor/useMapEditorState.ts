@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import type { RawMapConfig, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
+import type { RawMapConfig, RawNpc, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
 import hubConfig from '../../data/hub/ravenwatch/config.json'
 import town2Config from '../../data/hub/millhaven/config.json'
 import castleConfig from '../../data/hub/ironholdkeep/config.json'
@@ -275,6 +275,22 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     })
   }, [])
 
+  const updateNpc = useCallback((index: number, partial: Partial<RawNpc>) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const npcs = [...(prevConfig.npcs ?? [])]
+      if (!npcs[index]) return s
+      npcs[index] = { ...npcs[index], ...partial }
+      return {
+        ...s,
+        configData: { ...prevConfig, npcs },
+        undoStack: [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack: [],
+        isDirty: true,
+      }
+    })
+  }, [])
+
   const undo = useCallback(() => {
     setState(s => {
       if (s.undoStack.length === 0) return s
@@ -359,6 +375,7 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     deleteEntity,
     updateDecorZlayer,
     updateNpcDialogue,
+    updateNpc,
     undo,
     redo,
     addStreet,
