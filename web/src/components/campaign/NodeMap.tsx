@@ -11,6 +11,7 @@ import { ToolbarButton } from '../ui/Toolbar/ToolbarButton'
 import { ToolbarLabel } from '../ui/Toolbar/ToolbarLabel'
 import { ToolbarSpacer } from '../ui/Toolbar/ToolbarSpacer'
 import { NodeMapHpBar } from './NodeMapHpBar'
+import { BuildIdentityPanel } from './BuildIdentityPanel'
 
 interface Props {
   act: Act
@@ -86,6 +87,8 @@ export function NodeMap({ act, run, onSelectNode, onUseConsumable, onBack, user 
             />
           )}
         </Toolbar>
+
+        <BuildIdentityPanel run={run} />
 
         <NodeMapRederer id={act.id} run={run} worldMap={act} setPeekNode={setPeekNode} showPaths={showPaths} />
 

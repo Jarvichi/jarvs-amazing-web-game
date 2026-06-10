@@ -4757,6 +4757,61 @@ body {
   margin-bottom: 14px;
 }
 
+/* ── Build Identity panel (campaign node map) ── */
+.build-identity {
+  border: 1px solid var(--game-border);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  margin: 4px 0;
+}
+
+.build-identity-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--game-text-color-dim);
+}
+
+.build-identity-theme {
+  font-size: var(--font-xs);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.build-identity-chevron {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-muted);
+}
+
+.build-identity-body {
+  padding: 2px 10px 8px;
+  border-top: 1px solid var(--game-border);
+}
+
+.build-identity-row {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  padding-top: 6px;
+}
+
+.build-identity-muted {
+  color: var(--game-text-color-muted);
+}
+
+.build-identity-note {
+  font-size: var(--font-xxs);
+  color: var(--game-text-color-muted);
+  font-style: italic;
+  line-height: 1.4;
+  padding-top: 6px;
+}
+
 .relic-select-desc--broken {
   color: var(--game-text-color-muted);
   font-style: italic;
