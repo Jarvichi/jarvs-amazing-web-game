@@ -1,4 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
+
+const OFFICIAL_TILE_IDS = new Set<number>(Object.values(BASE_CHIP_TILES))
+
+function stripOfficialTiles(labels: Record<number, string>): Record<number, string> {
+  const cleaned: Record<number, string> = {}
+  for (const [k, v] of Object.entries(labels)) {
+    if (!OFFICIAL_TILE_IDS.has(Number(k))) cleaned[Number(k)] = v
+  }
+  return cleaned
+}
 
 export interface TilesetDef {
   name: string
@@ -24,7 +35,13 @@ function storageKey(tilesetName: string) {
 function loadCustomLabels(tilesetName: string): Record<number, string> {
   try {
     const raw = localStorage.getItem(storageKey(tilesetName))
-    return raw ? JSON.parse(raw) : {}
+    if (!raw) return {}
+    const loaded: Record<number, string> = JSON.parse(raw)
+    const cleaned = stripOfficialTiles(loaded)
+    if (Object.keys(cleaned).length !== Object.keys(loaded).length) {
+      saveCustomLabels(tilesetName, cleaned)
+    }
+    return cleaned
   } catch { return {} }
 }
 
@@ -89,7 +106,7 @@ export function TileBrowser({ tileset, scale = 2, labels }: Props) {
 
   function commitName() {
     const trimmed = nameInput.trim()
-    if (trimmed && selected !== null) {
+    if (trimmed && selected !== null && !OFFICIAL_TILE_IDS.has(selected)) {
       const next = { ...customLabels, [selected]: trimmed }
       setCustomLabels(next)
       saveCustomLabels(tileset.name, next)

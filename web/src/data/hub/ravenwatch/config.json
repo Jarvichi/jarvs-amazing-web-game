@@ -6245,7 +6245,7 @@
       "floorTileId": "cobblestoneFloor",
       "decor": [
         {
-          "tx": 5,
+          "tx": 4,
           "ty": 1,
           "tileId": "goldenCross"
         },
@@ -6276,43 +6276,163 @@
         },
         {
           "tx": 2,
-          "ty": 3,
+          "ty": 4,
           "tileId": "benchLeft"
         },
         {
           "tx": 3,
-          "ty": 3,
+          "ty": 4,
           "tileId": "benchRight"
         },
         {
           "tx": 8,
-          "ty": 3,
+          "ty": 4,
           "tileId": "benchLeft"
         },
         {
           "tx": 9,
-          "ty": 3,
+          "ty": 4,
           "tileId": "benchRight"
+        },
+        {
+          "tx": 1,
+          "ty": 6,
+          "tileId": "benchLeft"
         },
         {
           "tx": 2,
-          "ty": 5,
-          "tileId": "benchLeft"
-        },
-        {
-          "tx": 3,
-          "ty": 5,
+          "ty": 6,
           "tileId": "benchRight"
-        },
-        {
-          "tx": 8,
-          "ty": 5,
-          "tileId": "benchLeft"
         },
         {
           "tx": 9,
-          "ty": 5,
+          "ty": 6,
+          "tileId": "benchLeft"
+        },
+        {
+          "tx": 10,
+          "ty": 6,
           "tileId": "benchRight"
+        },
+        {
+          "tx": 0,
+          "ty": 1,
+          "tileId": "angelStatueBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 0,
+          "ty": 0,
+          "tileId": "angelStatueTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 1,
+          "tileId": "angelStatueBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 0,
+          "tileId": "angelStatueTop",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 0,
+          "ty": 6,
+          "tileId": "lightPillarBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 0,
+          "ty": 5,
+          "tileId": "lightPillarMiddle",
+          "zlayer": "above"
+        },
+        {
+          "tx": 0,
+          "ty": 4,
+          "tileId": "lightPillarMiddle",
+          "zlayer": "above"
+        },
+        {
+          "tx": 1,
+          "ty": 3,
+          "tileId": "lightPillarMiddle",
+          "zlayer": "above"
+        },
+        {
+          "tx": 10,
+          "ty": 4,
+          "tileId": "lightPillarBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 11,
+          "ty": 6,
+          "tileId": "lightPillarBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 1,
+          "ty": 4,
+          "tileId": "lightPillarBottom",
+          "zlayer": "solid"
+        },
+        {
+          "tx": 10,
+          "ty": 3,
+          "tileId": "lightPillarMiddle",
+          "zlayer": "above"
+        },
+        {
+          "tx": 10,
+          "ty": 2,
+          "tileId": "lightPillarMiddle",
+          "zlayer": "above"
+        },
+        {
+          "tx": 10,
+          "ty": 1,
+          "tileId": "lightPillarTop",
+          "zlayer": "above"
+        },
+        {
+          "tx": 11,
+          "ty": 5,
+          "tileId": "lightPillarMiddle",
+          "zlayer": "above"
+        },
+        {
+          "tx": 11,
+          "ty": 4,
+          "tileId": "lightPillarMiddle",
+          "zlayer": "above"
+        },
+        {
+          "tx": 11,
+          "ty": 3,
+          "tileId": "lightPillarTop",
+          "zlayer": "above"
+        },
+        {
+          "tx": 0,
+          "ty": 3,
+          "tileId": "lightPillarTop",
+          "zlayer": "above"
+        },
+        {
+          "tx": 1,
+          "ty": 2,
+          "tileId": "lightPillarMiddle",
+          "zlayer": "above"
+        },
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "lightPillarTop",
+          "zlayer": "above"
         }
       ]
     }
