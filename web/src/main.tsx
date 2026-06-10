@@ -2,9 +2,16 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import rollbar from './rollbar'
 import { setErrorLogger } from './logger'
+import { initCrashSentinel } from './utils/crashSentinel'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import App from './App'
 
 setErrorLogger((msg, ctx) => rollbar.error(msg, ctx as object))
+
+// Report if the previous session died without a clean exit (e.g. iOS Safari
+// killing the page under memory pressure) — before React renders, so crash
+// loops are reported even when rendering itself dies.
+initCrashSentinel()
 
 // Unlock any achievements whose progress target was already met before the
 // achievement was added (e.g. after a game update adds new achievements).
@@ -31,6 +38,8 @@ window.addEventListener('unhandledrejection', (event) => {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>,
 )
