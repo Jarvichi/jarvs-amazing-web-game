@@ -4812,6 +4812,129 @@ body {
   padding-top: 6px;
 }
 
+/* ── Exotic quest chains screen ── */
+.quests-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+}
+
+.quests-blurb {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  line-height: 1.5;
+}
+
+.quest-chain {
+  border: 1px solid #d4a017;
+  border-radius: 6px;
+  padding: 12px 14px;
+  background: rgba(90, 70, 10, 0.1);
+}
+
+.quest-chain--completed {
+  border-color: var(--game-border);
+  background: rgba(255, 255, 255, 0.03);
+  opacity: 0.85;
+}
+
+.quest-chain-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quest-chain-icon {
+  font-size: 1.3rem;
+}
+
+.quest-chain-name {
+  flex: 1;
+  font-weight: bold;
+  font-size: var(--font-base);
+  color: #ffd54a;
+}
+
+.quest-chain--completed .quest-chain-name {
+  color: var(--game-text-color-dim);
+}
+
+.quest-chain-reward {
+  font-size: var(--font-xxs);
+  letter-spacing: 1px;
+  color: var(--game-text-color-muted);
+}
+
+.quest-chain-intro {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  font-style: italic;
+  line-height: 1.5;
+  margin: 8px 0;
+}
+
+.quest-chain-target {
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+  margin-bottom: 10px;
+}
+
+.quest-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.quest-step {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: var(--font-xs);
+  color: var(--game-text-color-dim);
+}
+
+.quest-step--done {
+  color: var(--game-text-color-muted);
+  text-decoration: line-through;
+}
+
+.quest-step--locked {
+  color: var(--game-text-color-muted);
+  opacity: 0.6;
+}
+
+.quest-step-status {
+  min-width: 16px;
+  text-align: center;
+}
+
+.quest-step-label {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.quest-step-progress {
+  font-weight: bold;
+  color: #ffd54a;
+  white-space: nowrap;
+}
+
+.quest-step--done .quest-step-progress {
+  color: var(--game-text-color-muted);
+}
+
+/* "Earn via Quest" badge in the collection */
+.earn-via-quest-badge {
+  display: inline-block;
+  font-size: var(--font-xxs);
+  letter-spacing: 1px;
+  color: #ffd54a;
+  border: 1px solid #d4a017;
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
 .relic-select-desc--broken {
   color: var(--game-text-color-muted);
   font-style: italic;

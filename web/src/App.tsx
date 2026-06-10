@@ -96,6 +96,7 @@ import { DeckSelectorModal } from './components/cards/DeckSelectorModal'
 import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic, rollExoticDrop } from './game/relics'
+import { recordQuestKills, recordQuestWin, recordQuestCardPlayed, recordQuestBossDefeat, QuestChainDef } from './game/quests'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic, stopGameOverMusic } from './game/sound'
 import { useMusic } from './hooks/useMusic'
 import { getIntegrityViolations, clearIntegrityViolations } from './game/integrity'
@@ -440,6 +441,7 @@ export default function App() {
   } | null>(null)
   const [foundItem, setFoundItem] = useState<Omit<import('./game/dailyLogin').UselessItem, 'acquiredDate'> | null>(null)
   const [exoticDrop, setExoticDrop] = useState<string | null>(null)
+  const [questCompletes, setQuestCompletes] = useState<QuestChainDef[]>([])
 
   // Card fatigue
   const [fatiguedCards, setFatiguedCards]       = useState<string[]>(loadFatigued)
@@ -1521,6 +1523,12 @@ export default function App() {
       }
     }
 
+    // Exotic quest chains: defeat-boss steps
+    if (node.type === 'boss') {
+      const questDone = recordQuestBossDefeat(act.id)
+      if (questDone.length > 0) setQuestCompletes(prev => [...prev, ...questDone])
+    }
+
     // Check act complete
     if (isActComplete(act, updatedRun)) {
       // Track act completion achievement + per-act replay count
@@ -2093,6 +2101,9 @@ export default function App() {
       newToasts.push(...totalUnlocked)
       // Award augment souls (1 per kill)
       incrementAugmentSouls(newKills.length)
+      // Exotic quest chains: tagged-kill steps
+      const questDone = recordQuestKills(newKills)
+      if (questDone.length > 0) setQuestCompletes(prev => [...prev, ...questDone])
       if (newToasts.length > 0) {
         setAchievementToasts(prev => [...prev, ...newToasts])
       }
@@ -2167,6 +2178,11 @@ export default function App() {
     }
     if (card.cardType === 'structure') battleUsedStructure.current = true
     if (card.cardType === 'unit') battleUsedMobileUnit.current = true
+    // Exotic quest chains: play-card-type steps
+    if (!isTrainingModeRef.current) {
+      const questDone = recordQuestCardPlayed(card.cardType)
+      if (questDone.length > 0) setQuestCompletes(prev => [...prev, ...questDone])
+    }
     if (isCampaignRef.current) {
       campaignPlayCountsRef.current[card.name] =
         (campaignPlayCountsRef.current[card.name] ?? 0) + 1
@@ -2240,6 +2256,10 @@ export default function App() {
       toasts.push(...incrementAchievementProgress('misc:one_card_win'))
     }
     if (toasts.length > 0) setAchievementToasts(prev => [...prev, ...toasts])
+
+    // Exotic quest chains: win-battle steps (any mode except training)
+    const questDone = recordQuestWin()
+    if (questDone.length > 0) setQuestCompletes(prev => [...prev, ...questDone])
 
     // Secret 10 — Wins Celebration: fires at every 100-win milestone, scales with tier
     const totalWins = incrementTotalWins()
@@ -3490,6 +3510,21 @@ export default function App() {
           </div>
         )
       })()}
+
+      {/* Exotic quest chain completed — guaranteed card reveal */}
+      {questCompletes.length > 0 && (
+        <div className="exotic-drop-overlay" onClick={() => setQuestCompletes(prev => prev.slice(1))}>
+          <div className="exotic-drop-modal" onClick={e => e.stopPropagation()}>
+            <div className="exotic-drop-title">✦ QUEST COMPLETE ✦</div>
+            <div className="exotic-drop-icon">{questCompletes[0].icon}</div>
+            <div className="exotic-drop-name">{questCompletes[0].name}</div>
+            <div className="exotic-drop-desc">
+              <strong>{questCompletes[0].targetCard}</strong> has been added to your collection. Earned, not lucky.
+            </div>
+            <button className="action-btn" onClick={() => setQuestCompletes(prev => prev.slice(1))}>CLAIM</button>
+          </div>
+        </div>
+      )}
 
       {/* Daily login reward modal — shown as overlay on first visit each day */}
       {dailyReward && (

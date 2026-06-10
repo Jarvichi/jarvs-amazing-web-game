@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback, memo } from 'react'
 import { Card, CardRarity, CardType, UnitTag, SECRET_RARITIES } from '../../game/types'
 import { getCardCatalog, getCardThemeTags } from '../../game/cards'
+import { getQuestTargetCards } from '../../game/quests'
 import {
   loadCollection,
   saveCollection,
@@ -72,6 +73,7 @@ const LazyCell = memo(function LazyCell({ children, className }: { children: Rea
 
 export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commanderName, onPromoteCommander, onViewAugments, embedded }: Props) {
   const catalog = getCardCatalog()
+  const questTargetCards = getQuestTargetCards()
   const allAffinityLabels = Array.from(
     new Set(catalog.flatMap(c => c.unit?.affinity?.label ? [c.unit.affinity.label] : []))
   ).sort()
@@ -146,8 +148,9 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
   const totalUpgradeable = collection.reduce((s, e) => s + (Math.max(0, e.count - COPIES_MAX) > 0 ? 1 : 0), 0)
 
   const filtered = catalog.filter(c => {
-    // Secret rarities are hidden until the player has obtained at least one copy
-    if (SECRET_RARITIES.has(c.rarity) && getOwnedCount(collection, c.name) === 0) return false
+    // Secret rarities are hidden until the player has obtained at least one copy —
+    // except quest-chain rewards, which are shown with an "Earn via Quest" badge
+    if (SECRET_RARITIES.has(c.rarity) && getOwnedCount(collection, c.name) === 0 && !questTargetCards.has(c.name)) return false
     if (typeFilter   !== 'all' && c.cardType !== typeFilter)   return false
     if (rarityFilter !== 'all' && c.rarity   !== rarityFilter) return false
     if (specialFilter === 'upgradeable') {
@@ -577,9 +580,11 @@ export function CollectionScreen({ crystals, onCrystalsChanged, onBack, commande
                   />
 
                   <div className="cell-footer">
-                    <span className="cell-count">
-                      ×{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
-                    </span>
+                    {owned === 0 && questTargetCards.has(card.name)
+                      ? <span className="earn-via-quest-badge">EARN VIA QUEST</span>
+                      : <span className="cell-count">
+                          ×{owned}{lvl > 0 && <span className="cell-mastery-badge">★{lvl}</span>}
+                        </span>}
                   </div>
 
                   {xp > 0 && <MasteryBar xp={xp} />}
