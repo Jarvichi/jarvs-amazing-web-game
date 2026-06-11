@@ -83,8 +83,8 @@
       "comment": "garden fountain"
     },
     {
-      "tx": 17,
-      "ty": 16,
+      "tx": 16,
+      "ty": 18,
       "bundleID": "fountain",
       "zlayer": "solid"
     },
@@ -275,13 +275,14 @@
         "Presenting: you. To no one in particular. It's been a slow morning.",
         "Their Majesties are in session. The gardens, however, receive all visitors.",
         "Protocol is the art of standing in the right place while important things happen elsewhere."
-      ]
+      ],
+      "questReceive": "new-quest-1"
     },
     {
       "id": "palace-guard",
       "name": "Guardsman Brick",
       "sprite": "hub-npc-soldier",
-      "tx": 16,
+      "tx": 18,
       "ty": 14,
       "dialogue": [
         "Move along. Or stand there. You're not technically breaking any rules.",
@@ -293,14 +294,14 @@
       "id": "royal-steward",
       "name": "Steward Marigold",
       "sprite": "hub-npc-elder",
-      "tx": 8,
-      "ty": 18,
+      "tx": 21,
+      "ty": 14,
       "dialogue": [
         "Oh dear, oh dear. The coronation regalia — misplaced! Again!",
         "The ceremonial pendant, the jubilee gift, and the vault key. Scattered about the gardens by that dreadful wind.",
         "If the regalia isn't recovered before the next audience, I shall simply expire."
       ],
-      "questGive": "palace-lost-regalia",
+      "questGive": "new-quest-1",
       "questReceive": "palace-lost-regalia"
     }
   ],
@@ -337,22 +338,22 @@
         },
         {
           "tx": 6,
-          "ty": 1,
+          "ty": -1,
           "tileId": "shieldMounted"
         },
         {
           "tx": 9,
-          "ty": 1,
+          "ty": -1,
           "tileId": "shieldMounted"
         },
         {
           "tx": 7,
-          "ty": 1,
+          "ty": -1,
           "tileId": "swordMountedLeft"
         },
         {
           "tx": 8,
-          "ty": 1,
+          "ty": -1,
           "tileId": "swordMountedRight"
         },
         {
@@ -366,7 +367,63 @@
           "tileId": "roundTableWithCloth"
         }
       ],
-      "exits": []
+      "exits": [
+        {
+          "tx": 0,
+          "ty": 4,
+          "toInteriorId": "palace-1",
+          "entryTx": 8,
+          "entryTy": 4,
+          "direction": "left"
+        }
+      ]
+    },
+    "palace-1": {
+      "name": "palace-1",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": [],
+      "exits": [
+        {
+          "tx": 9,
+          "ty": 4,
+          "toInteriorId": "palace",
+          "direction": "right",
+          "entryTx": 1,
+          "entryTy": 4
+        }
+      ]
+    },
+    "palace-2": {
+      "name": "palace-2",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": []
+    },
+    "palace-3": {
+      "name": "palace-3",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": []
+    },
+    "palace-dungeon": {
+      "name": "palace-dungeon",
+      "width": 10,
+      "height": 8,
+      "floorTileId": "woodFloor",
+      "decor": []
+    },
+    "palace-stairs-dungeon-to-ground": {
+      "name": "palace-stairs-dungeon-to-ground",
+      "width": 6,
+      "height": 7,
+      "floorTileId": "woodFloor",
+      "decor": [],
+      "wallTileId": "castleStone"
     }
-  }
+  },
+  "lockedDoors": []
 }

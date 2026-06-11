@@ -851,6 +851,10 @@ const BASE_CHIP_TILES_BASE = {
     altarBotLeft: 829,
     altarBotMid: 830,
     altarBotRight: 831,
+
+        woodStepsUpRightTop: 318,
+    woodStepsUpRightBot: 326,
+    stoneStepsUpRight: 334,
 } as const
 
 export const BASE_CHIP_TILES = {

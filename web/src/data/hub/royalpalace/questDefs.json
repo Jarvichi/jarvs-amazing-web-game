@@ -30,6 +30,18 @@
           "desc": "A wax seal bearing the crown's sigil, given for service to the palace."
         }
       }
+    },
+    {
+      "id": "new-quest-1",
+      "title": "The Sick Princess",
+      "type": "chain",
+      "giverNpcId": "royal-steward",
+      "receiverNpcId": "royal-herald",
+      "offerDialogue": "",
+      "activeDialogue": {},
+      "completeDialogue": "",
+      "steps": [],
+      "reward": {}
     }
   ],
   "pickupItems": [

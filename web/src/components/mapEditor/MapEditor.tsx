@@ -34,7 +34,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     state, setMapId, setTool, setActiveTile, setZlayer,
     openInterior, closeInterior, selectEntity,
     placeDecor, moveEntity, deleteEntity,
-    updateDecorZlayer, updateNpcDialogue, updateNpc,
+    updateDecorZlayer, addNpc, updateNpcDialogue, updateNpc,
     resizeInterior, addInterior, addInteriorExit, updateInteriorProps, updateInteriorExit, removeInteriorExit,
     addStreet, updateStreetEntry,
     addLockedDoor, updateLockedDoor, deleteLockedDoor,
@@ -256,6 +256,7 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
               configData={state.configData}
               questDefsData={questDefsData}
               onTabChange={setDrawerTab}
+              onAddNpc={addNpc}
               onUpdateNpc={updateNpc}
               onQuestDefsChange={handleQuestDefsChange}
             />

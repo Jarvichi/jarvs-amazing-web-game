@@ -37,7 +37,7 @@ interface Props {
   onOpenInterior:        (id: string) => void
   onCloseInterior:       () => void
   onUpdateStreetEntry:   (index: number, data: { rect?: number[]; tile?: number[]; pathType?: string }) => void
-  onResizeInterior:      (interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right') => void
+  onResizeInterior:      (interiorId: string, dir: 'top' | 'bottom' | 'left' | 'right', grow?: boolean) => void
   onAddInterior:         (id: string, interior: RawInterior) => void
   onAddInteriorExit:     (interiorId: string, exit: InteriorExit) => void
   onUpdateInteriorProps: (interiorId: string, patch: Partial<RawInterior>) => void
@@ -503,7 +503,7 @@ function InteriorInspector({
   bodyStyle: React.CSSProperties
   onCloseInterior: () => void
   onOpenInterior: (id: string) => void
-  onResizeInterior: (id: string, dir: 'top' | 'bottom' | 'left' | 'right') => void
+  onResizeInterior: (id: string, dir: 'top' | 'bottom' | 'left' | 'right', grow?: boolean) => void
   onAddInteriorExit: (id: string, exit: InteriorExit) => void
   onUpdateInteriorProps: (id: string, patch: Partial<RawInterior>) => void
   onUpdateInteriorExit: (id: string, index: number, patch: Partial<InteriorExit>) => void
@@ -546,7 +546,7 @@ function InteriorInspector({
     setShowExitForm(false)
   }
 
-  const resize = (dir: 'top' | 'bottom' | 'left' | 'right') => onResizeInterior(interiorId, dir)
+  const resize = (dir: 'top' | 'bottom' | 'left' | 'right', grow = true) => onResizeInterior(interiorId, dir, grow)
 
   const btnSm: React.CSSProperties = {
     padding: '3px 8px', fontSize: 10, cursor: 'pointer', borderRadius: 3,
@@ -573,13 +573,25 @@ function InteriorInspector({
             {/* Size + resize buttons */}
             <Field label="Size">
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
-                <button style={btnSm} onClick={() => resize('top')}>+ row top</button>
-                <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                  <button style={btnSm} onClick={() => resize('left')}>+ col left</button>
-                  <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa', minWidth: 60, textAlign: 'center' }}>{interior.width} × {interior.height}</span>
-                  <button style={btnSm} onClick={() => resize('right')}>+ col right</button>
+                <div style={{ display: 'flex', gap: 4 }}>
+                  <button style={btnSm} onClick={() => resize('top', false)}>− row top</button>
+                  <button style={btnSm} onClick={() => resize('top')}>+ row top</button>
                 </div>
-                <button style={btnSm} onClick={() => resize('bottom')}>+ row bottom</button>
+                <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <button style={btnSm} onClick={() => resize('left', false)}>− col left</button>
+                    <button style={btnSm} onClick={() => resize('left')}>+ col left</button>
+                  </div>
+                  <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#aaa', minWidth: 60, textAlign: 'center' }}>{interior.width} × {interior.height}</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <button style={btnSm} onClick={() => resize('right', false)}>− col right</button>
+                    <button style={btnSm} onClick={() => resize('right')}>+ col right</button>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 4 }}>
+                  <button style={btnSm} onClick={() => resize('bottom', false)}>− row bottom</button>
+                  <button style={btnSm} onClick={() => resize('bottom')}>+ row bottom</button>
+                </div>
               </div>
             </Field>
 
