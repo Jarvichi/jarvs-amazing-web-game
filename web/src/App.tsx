@@ -97,6 +97,8 @@ import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic, rollExoticDrop } from './game/relics'
 import { recordQuestKills, recordQuestWin, recordQuestCardPlayed, recordQuestBossDefeat, QuestChainDef } from './game/quests'
+import { recordChronicleWin, describeReward, ChronicleChapterDef } from './game/chronicle'
+import { ChronicleScreen } from './components/screens/ChronicleScreen'
 import { BossEpilogueScreen } from './components/campaign/BossEpilogueScreen'
 import bossEpiloguesData from './data/bossEpilogues.json'
 import { playCardPlay, playButtonClick, playBattleEvent, playCardFlip, playRestHeal, playBattleStart, playVictory, playDefeat, stopBattleMusic, stopGameOverMusic } from './game/sound'
@@ -216,6 +218,7 @@ type Screen =
   | 'character'
   | 'replayBriefing'
   | 'dailychallenge'
+  | 'chronicle'
   | 'endlessleaderboard'
   | 'commander'
   | 'giftAdmin'
@@ -446,6 +449,7 @@ export default function App() {
   const [foundItem, setFoundItem] = useState<Omit<import('./game/dailyLogin').UselessItem, 'acquiredDate'> | null>(null)
   const [exoticDrop, setExoticDrop] = useState<string | null>(null)
   const [questCompletes, setQuestCompletes] = useState<QuestChainDef[]>([])
+  const [chronicleCompletes, setChronicleCompletes] = useState<ChronicleChapterDef[]>([])
   const [epiloguePanels, setEpiloguePanels] = useState<CutscenePanel[]>([])
 
   // Card fatigue
@@ -2281,6 +2285,13 @@ export default function App() {
     const questDone = recordQuestWin()
     if (questDone.length > 0) setQuestCompletes(prev => [...prev, ...questDone])
 
+    // Fracture Chronicle: chapter challenge progress (any mode except training)
+    const chronicleDone = recordChronicleWin(Object.keys(gameState.battleStats?.cardsPlayed ?? {}))
+    if (chronicleDone.length > 0) {
+      setChronicleCompletes(prev => [...prev, ...chronicleDone])
+      setCrystals(loadCrystals())  // chapter rewards may grant crystals
+    }
+
     // Secret 10 — Wins Celebration: fires at every 100-win milestone, scales with tier
     const totalWins = incrementTotalWins()
     if (totalWins > 0 && totalWins % 100 === 0) {
@@ -2627,6 +2638,7 @@ export default function App() {
             onMiniGames={() => setScreen('minigames')}
             onCityBuilder={() => { setMiniGamesEntry('citybuilder'); setScreen('minigames') }}
             onCodex={() => setScreen('codex')}
+            onChronicle={() => setScreen('chronicle')}
             user={user}
             onSignOut={() => { import('firebase/auth').then(({ signOut }) => signOut(auth)) }}
             onSignIn={() => setShowTitleLoginModal(true)}
@@ -3172,6 +3184,10 @@ export default function App() {
         <DailyChallengeScreen onStart={handleStartDailyChallenge} onBack={() => setScreen(returnScreen)} />
       )}
 
+      {screen === 'chronicle' && (
+        <ChronicleScreen onBack={() => setScreen(returnScreen)} />
+      )}
+
       {screen === 'endlessleaderboard' && (
         <EndlessLeaderboardScreen onBack={() => setScreen('title')} />
       )}
@@ -3553,6 +3569,21 @@ export default function App() {
               <strong>{questCompletes[0].targetCard}</strong> has been added to your collection. Earned, not lucky.
             </div>
             <button className="action-btn" onClick={() => setQuestCompletes(prev => prev.slice(1))}>CLAIM</button>
+          </div>
+        </div>
+      )}
+
+      {/* Fracture Chronicle chapter completed — reward reveal */}
+      {questCompletes.length === 0 && chronicleCompletes.length > 0 && (
+        <div className="exotic-drop-overlay" onClick={() => setChronicleCompletes(prev => prev.slice(1))}>
+          <div className="exotic-drop-modal" onClick={e => e.stopPropagation()}>
+            <div className="exotic-drop-title">📜 CHAPTER COMPLETE 📜</div>
+            <div className="exotic-drop-name">{chronicleCompletes[0].title}</div>
+            <div className="exotic-drop-desc">
+              The Chronicle remembers. You earned <strong>{describeReward(chronicleCompletes[0].reward)}</strong> and
+              unlocked this chapter's Codex entry.
+            </div>
+            <button className="action-btn" onClick={() => setChronicleCompletes(prev => prev.slice(1))}>CLAIM</button>
           </div>
         </div>
       )}

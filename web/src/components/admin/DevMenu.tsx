@@ -8,6 +8,7 @@ import { MAX_HANDICAP } from '../../game/engine'
 import { ACTS } from '../../game/questline'
 import { logError } from '../../logger'
 import { getAllGifts, loadClaimedGiftIds, resetClaimedGifts, GiftDef } from '../../game/gifts'
+import { isChronicleDevUnlocked, setChronicleDevUnlocked } from '../../game/chronicle'
 
 const CRYSTALS_KEY = 'jarv_crystals'
 const RUN_KEY      = 'jarv_run'
@@ -34,6 +35,7 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
   const [crystalAmt,  setCrystalAmt]  = useState(100)
   const [handicapVal, setHandicapVal] = useState(0)
   const [msg,         setMsg]         = useState<string | null>(null)
+  const [chronicleUnlocked, setChronicleUnlocked] = useState(isChronicleDevUnlocked)
 
   function flash(text: string) {
     setMsg(text)
@@ -203,6 +205,25 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
             <option key={id} value={id}>{act.title ?? id}</option>
           ))}
         </select>
+      </div>
+
+      {/* Unlock chronicle chapters */}
+      <div className="settings-row u-flex u-items-c u-just-sb u-gap-7">
+        <div>
+          <div className="settings-label">Unlock all Chronicle chapters</div>
+          <div className="settings-sublabel">Bypasses the real-world date gate on Fracture Chronicle chapters</div>
+        </div>
+        <button
+          className={`action-btn${chronicleUnlocked ? ' action-btn--gold' : ''}`}
+          onClick={() => {
+            const next = !chronicleUnlocked
+            setChronicleDevUnlocked(next)
+            setChronicleUnlocked(next)
+            flash(next ? 'All Chronicle chapters unlocked.' : 'Chronicle date gate restored.')
+          }}
+        >
+          {chronicleUnlocked ? 'ON' : 'OFF'}
+        </button>
       </div>
 
       {/* Clear dev config */}

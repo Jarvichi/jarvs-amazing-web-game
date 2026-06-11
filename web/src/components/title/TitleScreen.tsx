@@ -12,6 +12,7 @@ import { TitleIdleAnimation } from './TitleIdleAnimation'
 import { load8bitUnlocked, unlock8bitMode, save8bitEnabled, apply8bitMode } from '../screens/SettingsScreen'
 import { incrementAchievementProgress } from '../../game/achievements'
 import { getDailyChallengeState } from '../../game/dailyChallenge'
+import { getUnreadChapterCount } from '../../game/chronicle'
 import { generatePack, addCardsToCollection } from '../../game/collection'
 import { WinStreak } from './WinStreak'
 import { LoginButton } from '../ui/LoginButton'
@@ -47,6 +48,7 @@ export interface Props {
   onMiniGames: () => void
   onCityBuilder: () => void
   onCodex: () => void
+  onChronicle: () => void
   user: User | null
   onSignOut: () => void
   onSignIn: () => void
@@ -55,7 +57,7 @@ export interface Props {
   onHub?: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onPlayer, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onCodex, user, onSignOut, onSignIn, onFeedback, hubUnlocked, onHub }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onPlayer, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onCodex, onChronicle, user, onSignOut, onSignIn, onFeedback, hubUnlocked, onHub }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -72,6 +74,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
   const winStreak           = loadWinStreak()
   const bestStreak          = loadBestStreak()
   const dailyChallenge      = getDailyChallengeState()
+  const chronicleAlert      = getUnreadChapterCount() > 0
   const playerName = loadPlayerName()
 
   // City attack alert — read directly from localStorage so App.tsx doesn't need changing
@@ -260,6 +263,7 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
           <TitleButton onClick={onCollection} badge={collectionAlert}>📦 COLLECTION</TitleButton>
           <TitleButton onClick={onShop} badge={shopAlert}>🛒 SHOP</TitleButton>
           <TitleButton onClick={onCodex}>📖 CODEX</TitleButton>
+          <TitleButton onClick={onChronicle} badge={chronicleAlert}>📜 CHRONICLE</TitleButton>
           <TitleButton onClick={onNews} badge={hasUnreadNews}>📰 WHAT'S NEW</TitleButton>
           <TitleButton onClick={onSettings} extraClass="title-settings-btn">⚙ SETTINGS</TitleButton>
           {commanderName && onCommander && (

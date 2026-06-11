@@ -17,6 +17,7 @@
 
 import { collection, getDocs, doc, setDoc, deleteDoc, Timestamp, query, orderBy, limit } from 'firebase/firestore'
 import { RARITY_EMOJI, type SecretRarityType } from './secretRareNews'
+import { getChronicleNewsItems } from './chronicle'
 import { db } from '../firebase'
 import { logError } from '../logger'
 import newsData from '../data/news.json'
@@ -122,8 +123,9 @@ async function fetchSecretRareWinsAsNews(): Promise<NewsItem[]> {
 
 /**
  * Fetch all news: Firestore first, local news.json as fallback.
- * Also merges jackpot win events and secret rare card wins.
- * Firestore items take precedence over local ones.
+ * Also merges jackpot win events, secret rare card wins, and Fracture
+ * Chronicle chapter announcements. Firestore items take precedence over
+ * local ones.
  */
 export async function getAllNews(): Promise<NewsItem[]> {
   let remote: NewsItem[] = []
@@ -147,7 +149,8 @@ export async function getAllNews(): Promise<NewsItem[]> {
 
   const remoteIds = new Set(remote.map(n => n.id))
   const local = (newsData as NewsItem[]).filter(n => !remoteIds.has(n.id))
-  const all = [...remote, ...jackpotNews, ...secretRareNews, ...local]
+  const chronicleNews = getChronicleNewsItems().filter(n => !remoteIds.has(n.id))
+  const all = [...remote, ...jackpotNews, ...secretRareNews, ...chronicleNews, ...local]
   return all.sort((a, b) => b.date.localeCompare(a.date))
 }
 

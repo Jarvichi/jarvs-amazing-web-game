@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react'
 import { OverlayScreen } from '../ui/OverlayScreen'
 import {
-  getCodexCards, getCodexRelics, getCodexWorld, getCodexFragments, getCodexConversations,
-  CodexCardEntry, CodexRelicEntry, CodexWorldEntry, CodexFragmentEntry, CodexConversationEntry,
+  getCodexCards, getCodexRelics, getCodexWorld, getCodexFragments, getCodexConversations, getCodexChronicle,
+  CodexCardEntry, CodexRelicEntry, CodexWorldEntry, CodexFragmentEntry, CodexConversationEntry, CodexChronicleEntry,
 } from '../../game/codex'
 
-type CodexTab = 'cards' | 'relics' | 'world' | 'fragments' | 'conversations'
+type CodexTab = 'cards' | 'relics' | 'world' | 'fragments' | 'conversations' | 'chronicle'
 type CardTypeFilter = 'all' | 'unit' | 'structure' | 'upgrade'
 
 const RARITY_ORDER: Record<string, number> = {
@@ -60,6 +60,28 @@ function ConversationLorePanel({ entry }: { entry: CodexConversationEntry }) {
           )
         ))}
       </div>
+    </div>
+  )
+}
+
+function ChronicleLorePanel({ entry }: { entry: CodexChronicleEntry }) {
+  if (!entry.unlocked) {
+    return (
+      <div className="codex-entry codex-entry--locked">
+        <div className="codex-entry-name">📜 Chapter {entry.number} — ???</div>
+        <div className="codex-entry-locked-hint">Complete this Fracture Chronicle chapter to unlock its entry.</div>
+      </div>
+    )
+  }
+  return (
+    <div className="codex-entry">
+      <div className="codex-entry-header">
+        <span className="codex-entry-name" style={{ color: '#ffd54f' }}>📜 {entry.title}</span>
+        <span className="codex-entry-tag">CHAPTER {entry.number}</span>
+      </div>
+      {entry.lore.split('\n\n').map((para, i) => (
+        <div key={i} className="codex-entry-desc">{para}</div>
+      ))}
     </div>
   )
 }
@@ -175,6 +197,7 @@ export function CodexScreen({ onDone }: Props) {
   const world         = useMemo(() => getCodexWorld(),         [])
   const fragments     = useMemo(() => getCodexFragments(),     [])
   const conversations = useMemo(() => getCodexConversations(), [])
+  const chronicle     = useMemo(() => getCodexChronicle(),     [])
 
   const filteredCards = useMemo<CodexCardEntry[]>(() => {
     let list = cards
@@ -194,6 +217,7 @@ export function CodexScreen({ onDone }: Props) {
   const unlockedWorldCount    = world.filter(w => w.unlocked).length
   const discoveredFragCount   = fragments.filter(f => f.discovered).length
   const metNpcCount           = conversations.filter(c => c.seenCount > 0).length
+  const unlockedChapterCount  = chronicle.filter(c => c.unlocked).length
 
   const subtitle = tab === 'cards'
     ? `${unlockedCardCount} / ${cards.length} discovered`
@@ -203,6 +227,8 @@ export function CodexScreen({ onDone }: Props) {
     ? `${unlockedWorldCount} / ${world.length} shards explored`
     : tab === 'fragments'
     ? `${discoveredFragCount} / ${fragments.length} fragments recovered`
+    : tab === 'chronicle'
+    ? `${unlockedChapterCount} / ${chronicle.length} chapters chronicled`
     : `${metNpcCount} / ${conversations.length} characters met`
 
   return (
@@ -210,7 +236,7 @@ export function CodexScreen({ onDone }: Props) {
       <div className="codex-screen">
         {/* Tab bar */}
         <div className="codex-tabs">
-          {(['cards', 'relics', 'world', 'fragments', 'conversations'] as CodexTab[]).map(t => (
+          {(['cards', 'relics', 'world', 'fragments', 'conversations', 'chronicle'] as CodexTab[]).map(t => (
             <button
               key={t}
               className={`filter-btn${tab === t ? ' filter-btn--active' : ''}`}
@@ -220,6 +246,7 @@ export function CodexScreen({ onDone }: Props) {
                t === 'relics'         ? `RELICS (${unlockedRelicCount})` :
                t === 'world'          ? `WORLD (${unlockedWorldCount})` :
                t === 'fragments'      ? `FRAGMENTS (${discoveredFragCount})` :
+               t === 'chronicle'      ? `CHRONICLE (${unlockedChapterCount})` :
                `NPCS (${metNpcCount})`}
             </button>
           ))}
@@ -275,6 +302,10 @@ export function CodexScreen({ onDone }: Props) {
 
           {tab === 'conversations' && conversations.map(entry => (
             <ConversationLorePanel key={entry.id} entry={entry} />
+          ))}
+
+          {tab === 'chronicle' && chronicle.map(entry => (
+            <ChronicleLorePanel key={entry.id} entry={entry} />
           ))}
 
           {tab === 'cards' && filteredCards.length === 0 && (
