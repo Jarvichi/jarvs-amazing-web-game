@@ -1,0 +1,37 @@
+{
+  "quests": [
+    {
+      "id": "appleford-scattered-harvest",
+      "title": "The Scattered Harvest",
+      "type": "fetch",
+      "giverNpcId": "orchard-keeper-bess",
+      "receiverNpcId": "orchard-keeper-bess",
+      "offerDialogue": "The raiders dropped half of what they stole running from the village dogs. Three baskets of good apples, scattered through the orchard rows. Bring them in before the wasps claim them, would you? My knees have retired from bending.",
+      "activeDialogue": "Three apple baskets, somewhere among the orchard rows. Follow the wasps if you're stuck.",
+      "completeDialogue": "Barely a bruise on them! The pressing's saved. You've a friend in Appleford, traveller — and a discount Tom doesn't know he's offering.",
+      "steps": [
+        {
+          "key": "apples",
+          "type": "collect",
+          "pickupIds": ["apple-basket-1", "apple-basket-2", "apple-basket-3"],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 45,
+        "collectible": {
+          "id": "appleford-apple",
+          "name": "Perfect Apple",
+          "icon": "🍎",
+          "desc": "A flawless apple from the oldest tree in Appleford. Bess named the tree Gerald."
+        }
+      }
+    }
+  ],
+  "pickupItems": [
+    { "id": "apple-basket-1", "tx": 6, "ty": 15, "tileId": "appleBasket", "questId": "appleford-scattered-harvest" },
+    { "id": "apple-basket-2", "tx": 14, "ty": 14, "tileId": "appleBasket", "questId": "appleford-scattered-harvest" },
+    { "id": "apple-basket-3", "tx": 21, "ty": 16, "tileId": "appleBasket", "questId": "appleford-scattered-harvest" }
+  ],
+  "blockedPaths": []
+}

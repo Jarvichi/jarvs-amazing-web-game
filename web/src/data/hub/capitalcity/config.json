@@ -1,0 +1,205 @@
+{
+  "mapW": 1280,
+  "mapH": 1088,
+  "townName": "Crownhaven",
+  "environment": "citadel",
+  "avatarStart": { "tx": 19, "ty": 30 },
+  "exitTiles": [
+    { "tx": 19, "ty": 31, "screen": "worldmap" },
+    { "tx": 20, "ty": 31, "screen": "worldmap" }
+  ],
+  "areas": [
+    { "id": "crownhaven-plaza", "name": "Coronation Plaza", "tx": 14, "ty": 10, "tw": 12, "th": 8 },
+    { "id": "crownhaven-market", "name": "The Grand Market", "tx": 26, "ty": 2, "tw": 12, "th": 14 }
+  ],
+  "streets": [
+    { "rect": [18, 2, 21, 31] },
+    { "rect": [2, 14, 37, 17] },
+    { "rect": [14, 10, 25, 13] },
+    { "rect": [6, 18, 7, 22] },
+    { "rect": [32, 18, 33, 22] }
+  ],
+  "buildings": [
+    {
+      "id": "grand-inn",
+      "rect": [3, 2, 12, 9],
+      "wall": "whiteStone",
+      "roof": "blueSlateRoof",
+      "doors": [
+        { "tx": 5, "ty": 1, "hideSign": true, "buildingId": "grand-inn" }
+      ]
+    },
+    {
+      "id": "market-hall-crownhaven",
+      "rect": [27, 2, 36, 9],
+      "wall": "brick",
+      "roof": "redSlateRoof",
+      "doors": [
+        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "market-hall-crownhaven" }
+      ]
+    },
+    {
+      "id": "guardhouse",
+      "rect": [3, 20, 10, 26],
+      "wall": "castleStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "guardhouse" }
+      ]
+    },
+    {
+      "id": "chapel",
+      "rect": [29, 20, 36, 27],
+      "wall": "ornateStone",
+      "roof": "blueSlateRoof",
+      "doors": [
+        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "chapel" }
+      ]
+    }
+  ],
+  "exteriorDecor": [
+    { "comment": "plaza fountain" },
+    { "tx": 18, "ty": 11, "bundleID": "fountain", "zlayer": "solid" },
+    { "comment": "market clutter" },
+    { "tx": 26, "ty": 11, "tileId": "crate" },
+    { "tx": 27, "ty": 11, "tileId": "openCrate" },
+    { "tx": 35, "ty": 11, "tileId": "barrel" },
+    { "tx": 36, "ty": 12, "tileId": "sack" },
+    { "comment": "guardhouse braziers" },
+    { "tx": 4, "ty": 28, "tileId": "brazierBottom" },
+    { "tx": 4, "ty": 27, "tileId": "brazierTop", "zlayer": "above" },
+    { "tx": 9, "ty": 28, "tileId": "brazierBottom" },
+    { "tx": 9, "ty": 27, "tileId": "brazierTop", "zlayer": "above" },
+    { "comment": "city greenery" },
+    { "tx": 13, "ty": 19, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 24, "ty": 19, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 2, "ty": 11, "bundleID": "light-tree", "zlayer": "solid" },
+    { "tx": 36, "ty": 17, "bundleID": "light-tree", "zlayer": "solid" },
+    { "tx": 14, "ty": 9, "tileId": "whiteFlower" },
+    { "tx": 25, "ty": 9, "tileId": "whiteFlower" },
+    { "comment": "road sign at the south gate" },
+    { "tx": 16, "ty": 29, "tileId": "roadSignTop", "zlayer": "above" },
+    { "tx": 16, "ty": 30, "tileId": "roadSignBottom", "zlayer": "above" }
+  ],
+  "npcSpawnTiles": [],
+  "ambientNpcSprites": ["hub-npc-merchant", "hub-npc-scholar"],
+  "npcs": [
+    {
+      "id": "innkeeper-crownhaven",
+      "name": "Innkeep Rosalind",
+      "sprite": "hub-npc-merchant",
+      "tx": 8,
+      "ty": 11,
+      "dialogue": [
+        "Welcome to The Gilded Goose, finest beds in the capital.",
+        "Half my guests are here for the tournament. The other half are avoiding it.",
+        "If Captain Hale sends you with anything, I'll see it gets where it's going."
+      ],
+      "building": "grand-inn",
+      "questReceive": "crownhaven-gate-key"
+    },
+    {
+      "id": "watch-captain-hale",
+      "name": "Captain Hale",
+      "sprite": "hub-npc-soldier",
+      "tx": 12,
+      "ty": 19,
+      "dialogue": [
+        "Crownhaven watch. State your business — or don't, you look harmless enough.",
+        "The old postern gate key went missing on patrol. If it falls into the wrong hands, the palace will have my head.",
+        "Keep your nose clean in my city, traveller."
+      ],
+      "building": "guardhouse",
+      "questGive": "crownhaven-gate-key"
+    },
+    {
+      "id": "royal-archivist",
+      "name": "Archivist Quill",
+      "sprite": "hub-npc-scholar",
+      "tx": 24,
+      "ty": 12,
+      "dialogue": [
+        "The royal survey of the outer provinces is three scrolls short. Three!",
+        "The couriers dropped them somewhere between here and the gates, I'm certain of it.",
+        "History is just paperwork that survived, you know."
+      ],
+      "questGive": "crownhaven-census",
+      "questReceive": "crownhaven-census"
+    },
+    {
+      "id": "market-matron",
+      "name": "Matron Goldie",
+      "sprite": "hub-npc-elder",
+      "tx": 31,
+      "ty": 12,
+      "dialogue": [
+        "Forty years I've run this market. Kings come and go; turnips are forever.",
+        "You want gossip, try the inn. You want a fair price, you talk to me.",
+        "Mind the fountain — the pigeons have opinions."
+      ],
+      "building": "market-hall-crownhaven"
+    }
+  ],
+  "interiors": {
+    "grand-inn": {
+      "name": "The Gilded Goose",
+      "width": 10,
+      "height": 6,
+      "floorTileId": "woodFloor",
+      "wallTileId": "whiteStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "barrel" },
+        { "tx": 2, "ty": 1, "tileId": "barrel" },
+        { "tx": 7, "ty": 1, "tileId": "roundTableWithCloth" },
+        { "tx": 8, "ty": 2, "tileId": "stool" },
+        { "tx": 6, "ty": 2, "tileId": "stool" }
+      ],
+      "exits": []
+    },
+    "market-hall-crownhaven": {
+      "name": "The Grand Market Hall",
+      "width": 10,
+      "height": 5,
+      "floorTileId": "woodFloor",
+      "wallTileId": "brick",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "crate" },
+        { "tx": 2, "ty": 1, "tileId": "openCrate" },
+        { "tx": 7, "ty": 1, "tileId": "sack" },
+        { "tx": 8, "ty": 1, "tileId": "crate" }
+      ],
+      "exits": []
+    },
+    "guardhouse": {
+      "name": "The Watch House",
+      "width": 8,
+      "height": 5,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "castleStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "suitOfArmourTop" },
+        { "tx": 1, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 6, "ty": 1, "tileId": "suitOfArmourTop" },
+        { "tx": 6, "ty": 2, "tileId": "suitOfArmourBottom" },
+        { "tx": 3, "ty": 1, "tileId": "swordMountedLeft" },
+        { "tx": 4, "ty": 1, "tileId": "shieldMounted" }
+      ],
+      "exits": []
+    },
+    "chapel": {
+      "name": "Chapel of the Dawn",
+      "width": 8,
+      "height": 6,
+      "floorTileId": "cobblestoneFloor",
+      "wallTileId": "ornateStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 6, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 6, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 3, "ty": 1, "tileId": "roundTableWithCloth" }
+      ],
+      "exits": []
+    }
+  }
+}

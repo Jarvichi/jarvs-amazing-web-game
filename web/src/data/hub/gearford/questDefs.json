@@ -1,0 +1,58 @@
+{
+  "quests": [
+    {
+      "id": "gearford-stolen-tools",
+      "title": "Tools of the Trade",
+      "type": "fetch",
+      "giverNpcId": "forgemaster-brunn",
+      "receiverNpcId": "forgemaster-brunn",
+      "offerDialogue": "Three toolboxes lifted from the yard in one week. The whole foundry grinds to a halt without them. Whoever took them stashed them around town — find the crates and bring them back before the furnace goes cold.",
+      "activeDialogue": "Three toolbox crates, stashed somewhere around town. Thieves are lazy — check the quiet corners.",
+      "completeDialogue": "Every wrench accounted for. The furnace stays lit and so does my temper — barely. You've earned this, traveller.",
+      "steps": [
+        {
+          "key": "tools",
+          "type": "collect",
+          "pickupIds": ["toolbox-1", "toolbox-2", "toolbox-3"],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 65
+      }
+    },
+    {
+      "id": "gearford-coal-run",
+      "title": "Feeding the Forge",
+      "type": "fetch",
+      "giverNpcId": "engineer-vela",
+      "receiverNpcId": "engineer-vela",
+      "prerequisite": "quest:gearford-stolen-tools",
+      "offerDialogue": "The forge is down to its last scuttle of coal and the next caravan is a week out. Two sacks from the old depot would keep us running. The depot's abandoned — the coal isn't doing anyone any good sitting there.",
+      "activeDialogue": "Two coal sacks from the old depot, south side of town. Heavy, but you look like you lift.",
+      "completeDialogue": "Coal! Beautiful, filthy coal. The forge eats tonight. You've kept Gearford working, friend — that's worth more here than gold. Have some gold anyway.",
+      "steps": [
+        {
+          "key": "coal",
+          "type": "collect",
+          "pickupIds": ["coal-sack-1", "coal-sack-2"],
+          "required": 2
+        }
+      ],
+      "reward": {
+        "crystals": 55,
+        "friendship": {
+          "engineer-vela": 15
+        }
+      }
+    }
+  ],
+  "pickupItems": [
+    { "id": "toolbox-1", "tx": 2, "ty": 17, "tileId": "crate", "questId": "gearford-stolen-tools" },
+    { "id": "toolbox-2", "tx": 30, "ty": 4, "tileId": "crate", "questId": "gearford-stolen-tools" },
+    { "id": "toolbox-3", "tx": 12, "ty": 21, "tileId": "crate", "questId": "gearford-stolen-tools" },
+    { "id": "coal-sack-1", "tx": 6, "ty": 23, "tileId": "sack", "questId": "gearford-coal-run" },
+    { "id": "coal-sack-2", "tx": 28, "ty": 23, "tileId": "sack", "questId": "gearford-coal-run" }
+  ],
+  "blockedPaths": []
+}

@@ -1,5 +1,5 @@
 import { createHubLocationData, createHubQuestData, HubLocationBundle, HubQuestBundle } from "./loader";
-import ravenwatch_config from './ravenwatch/config.json' 
+import ravenwatch_config from './ravenwatch/config.json'
 import rawQuestConfig from './ravenwatch/questDefs.json'
 
 import ironholdkeep_config from './ironholdkeep/config.json'
@@ -7,6 +7,37 @@ import ironholdkeep_quests from './ironholdkeep/questDefs.json'
 
 import millhaven_config from './millhaven/config.json'
 import millhaven_quests from './millhaven/questDefs.json'
+
+import thornwoodcamp_config from './thornwoodcamp/config.json'
+import thornwoodcamp_quests from './thornwoodcamp/questDefs.json'
+
+import capitalcity_config from './capitalcity/config.json'
+import capitalcity_quests from './capitalcity/questDefs.json'
+
+import royalpalace_config from './royalpalace/config.json'
+import royalpalace_quests from './royalpalace/questDefs.json'
+
+import saltmereport_config from './saltmereport/config.json'
+import saltmereport_quests from './saltmereport/questDefs.json'
+
+import gearford_config from './gearford/config.json'
+import gearford_quests from './gearford/questDefs.json'
+
+import harrowfield_config from './harrowfield/config.json'
+import harrowfield_quests from './harrowfield/questDefs.json'
+
+import appleford_config from './appleford/config.json'
+import appleford_quests from './appleford/questDefs.json'
+
+import gravemoor_config from './gravemoor/config.json'
+import gravemoor_quests from './gravemoor/questDefs.json'
+
+import hollowmere_config from './hollowmere/config.json'
+import hollowmere_quests from './hollowmere/questDefs.json'
+
+import dreadspirecitadel_config from './dreadspirecitadel/config.json'
+import dreadspirecitadel_quests from './dreadspirecitadel/questDefs.json'
+
 import { HubQuestDef } from "./questDefs";
 
 
@@ -20,51 +51,88 @@ export interface RawQuestPickupItem {
   chain?: string
   requireTouch?: boolean
 }
-export type MapId = 'ravenwatch' | 'ironholdkeep' | 'millhaven'
+export type MapId =
+  | 'ravenwatch'
+  | 'ironholdkeep'
+  | 'millhaven'
+  | 'thornwoodcamp'
+  | 'capitalcity'
+  | 'royalpalace'
+  | 'saltmereport'
+  | 'gearford'
+  | 'harrowfield'
+  | 'appleford'
+  | 'gravemoor'
+  | 'hollowmere'
+  | 'dreadspirecitadel'
 export type QuestDefsJson = { pickupItems?: RawQuestPickupItem[]; [key: string]: unknown }
 export const QUEST_DEFS_BY_MAP: Record<MapId, QuestDefsJson> = {
   ravenwatch: rawQuestConfig as QuestDefsJson,
   millhaven: millhaven_quests as  QuestDefsJson,
-    ironholdkeep: ironholdkeep_quests as QuestDefsJson,
-
+  ironholdkeep: ironholdkeep_quests as QuestDefsJson,
+  thornwoodcamp: thornwoodcamp_quests as QuestDefsJson,
+  capitalcity: capitalcity_quests as QuestDefsJson,
+  royalpalace: royalpalace_quests as QuestDefsJson,
+  saltmereport: saltmereport_quests as QuestDefsJson,
+  gearford: gearford_quests as QuestDefsJson,
+  harrowfield: harrowfield_quests as QuestDefsJson,
+  appleford: appleford_quests as QuestDefsJson,
+  gravemoor: gravemoor_quests as QuestDefsJson,
+  hollowmere: hollowmere_quests as QuestDefsJson,
+  dreadspirecitadel: dreadspirecitadel_quests as QuestDefsJson,
 }
 
 
 export const RAVENWATCH = createHubLocationData(ravenwatch_config)
 export const IRONHOLDKEEP = createHubLocationData(ironholdkeep_config)
 export const MILLHAVE = createHubLocationData(millhaven_config)
+export const THORNWOODCAMP = createHubLocationData(thornwoodcamp_config)
+export const CAPITALCITY = createHubLocationData(capitalcity_config)
+export const ROYALPALACE = createHubLocationData(royalpalace_config)
+export const SALTMEREPORT = createHubLocationData(saltmereport_config)
+export const GEARFORD = createHubLocationData(gearford_config)
+export const HARROWFIELD = createHubLocationData(harrowfield_config)
+export const APPLEFORD = createHubLocationData(appleford_config)
+export const GRAVEMOOR = createHubLocationData(gravemoor_config)
+export const HOLLOWMERE = createHubLocationData(hollowmere_config)
+export const DREADSPIRECITADEL = createHubLocationData(dreadspirecitadel_config)
 
 export const RAVENWATCH_QUESTS = createHubQuestData(rawQuestConfig)
 export const IRONHOLDKEEP_QUESTS  = createHubQuestData(ironholdkeep_quests)
 export const MILLHAVE_QUESTS  = createHubQuestData(millhaven_quests)
+export const THORNWOODCAMP_QUESTS = createHubQuestData(thornwoodcamp_quests)
+export const CAPITALCITY_QUESTS = createHubQuestData(capitalcity_quests)
+export const ROYALPALACE_QUESTS = createHubQuestData(royalpalace_quests)
+export const SALTMEREPORT_QUESTS = createHubQuestData(saltmereport_quests)
+export const GEARFORD_QUESTS = createHubQuestData(gearford_quests)
+export const HARROWFIELD_QUESTS = createHubQuestData(harrowfield_quests)
+export const APPLEFORD_QUESTS = createHubQuestData(appleford_quests)
+export const GRAVEMOOR_QUESTS = createHubQuestData(gravemoor_quests)
+export const HOLLOWMERE_QUESTS = createHubQuestData(hollowmere_quests)
+export const DREADSPIRECITADEL_QUESTS = createHubQuestData(dreadspirecitadel_quests)
 
+const ALL_QUEST_BUNDLES: HubQuestBundle[] = [
+  RAVENWATCH_QUESTS,
+  IRONHOLDKEEP_QUESTS,
+  MILLHAVE_QUESTS,
+  THORNWOODCAMP_QUESTS,
+  CAPITALCITY_QUESTS,
+  ROYALPALACE_QUESTS,
+  SALTMEREPORT_QUESTS,
+  GEARFORD_QUESTS,
+  HARROWFIELD_QUESTS,
+  APPLEFORD_QUESTS,
+  GRAVEMOOR_QUESTS,
+  HOLLOWMERE_QUESTS,
+  DREADSPIRECITADEL_QUESTS,
+]
 
 export const ALL_QUESTS : HubQuestBundle = {
-    HUB_QUEST_DEFS: [  
-          ... RAVENWATCH_QUESTS.HUB_QUEST_DEFS,
-    ... IRONHOLDKEEP_QUESTS.HUB_QUEST_DEFS,
-    ... MILLHAVE_QUESTS.HUB_QUEST_DEFS,
-    ],
-  INN_RUMOURS: [  
-      ... RAVENWATCH_QUESTS.INN_RUMOURS ?? [],
-    ... IRONHOLDKEEP_QUESTS.INN_RUMOURS ?? [],
-    ... MILLHAVE_QUESTS.INN_RUMOURS ?? [],
-  ],
-  FRIENDSHIP_DIALOGUE:{ 
-       ... RAVENWATCH_QUESTS.FRIENDSHIP_DIALOGUE,
-    ... IRONHOLDKEEP_QUESTS.FRIENDSHIP_DIALOGUE,
-    ... MILLHAVE_QUESTS.FRIENDSHIP_DIALOGUE,
- },
-  HUB_PICKUP_ITEMS:[  
-       ... RAVENWATCH_QUESTS.HUB_PICKUP_ITEMS,
-    ... IRONHOLDKEEP_QUESTS.HUB_PICKUP_ITEMS,
-    ... MILLHAVE_QUESTS.HUB_PICKUP_ITEMS,
-  ],
-  HUB_BLOCKED_PATHS:[ 
-       ... RAVENWATCH_QUESTS.HUB_BLOCKED_PATHS,
-    ...IRONHOLDKEEP_QUESTS.HUB_BLOCKED_PATHS,
-    ...MILLHAVE_QUESTS.HUB_BLOCKED_PATHS,
-  ],
+  HUB_QUEST_DEFS:    ALL_QUEST_BUNDLES.flatMap(b => b.HUB_QUEST_DEFS),
+  INN_RUMOURS:       ALL_QUEST_BUNDLES.flatMap(b => b.INN_RUMOURS ?? []),
+  FRIENDSHIP_DIALOGUE: Object.assign({}, ...ALL_QUEST_BUNDLES.map(b => b.FRIENDSHIP_DIALOGUE)),
+  HUB_PICKUP_ITEMS:  ALL_QUEST_BUNDLES.flatMap(b => b.HUB_PICKUP_ITEMS),
+  HUB_BLOCKED_PATHS: ALL_QUEST_BUNDLES.flatMap(b => b.HUB_BLOCKED_PATHS),
 }
 
 export const ALL_QUEST_DEFS = [
@@ -73,9 +141,7 @@ export const ALL_QUEST_DEFS = [
 
 
 export const FRIENDSHIP_DIALOGUE = {
-  ...RAVENWATCH_QUESTS.FRIENDSHIP_DIALOGUE,
-  ...IRONHOLDKEEP_QUESTS.FRIENDSHIP_DIALOGUE,
-  ...MILLHAVE_QUESTS.FRIENDSHIP_DIALOGUE,
+  ...ALL_QUESTS.FRIENDSHIP_DIALOGUE,
 }
 
 export interface LocationEntry {
@@ -91,4 +157,14 @@ export const LOCATION_REGISTRY: Record<string, LocationEntry> = {
   'ravenwatch':    { locationData: RAVENWATCH,  locationQuests: RAVENWATCH_QUESTS,  questDefs: RAVENWATCH_QUESTS.HUB_QUEST_DEFS },
   'ironhold-keep': { locationData: IRONHOLDKEEP, locationQuests:IRONHOLDKEEP_QUESTS, questDefs: IRONHOLDKEEP_QUESTS.HUB_QUEST_DEFS },
   'millhaven':     { locationData: MILLHAVE, locationQuests:MILLHAVE_QUESTS, questDefs: MILLHAVE_QUESTS.HUB_QUEST_DEFS },
+  'thornwood-camp':     { locationData: THORNWOODCAMP, locationQuests: THORNWOODCAMP_QUESTS, questDefs: THORNWOODCAMP_QUESTS.HUB_QUEST_DEFS },
+  'capital-city':       { locationData: CAPITALCITY, locationQuests: CAPITALCITY_QUESTS, questDefs: CAPITALCITY_QUESTS.HUB_QUEST_DEFS },
+  'royal-palace':       { locationData: ROYALPALACE, locationQuests: ROYALPALACE_QUESTS, questDefs: ROYALPALACE_QUESTS.HUB_QUEST_DEFS },
+  'saltmere-port':      { locationData: SALTMEREPORT, locationQuests: SALTMEREPORT_QUESTS, questDefs: SALTMEREPORT_QUESTS.HUB_QUEST_DEFS },
+  'gearford':           { locationData: GEARFORD, locationQuests: GEARFORD_QUESTS, questDefs: GEARFORD_QUESTS.HUB_QUEST_DEFS },
+  'harrowfield':        { locationData: HARROWFIELD, locationQuests: HARROWFIELD_QUESTS, questDefs: HARROWFIELD_QUESTS.HUB_QUEST_DEFS },
+  'appleford':          { locationData: APPLEFORD, locationQuests: APPLEFORD_QUESTS, questDefs: APPLEFORD_QUESTS.HUB_QUEST_DEFS },
+  'gravemoor':          { locationData: GRAVEMOOR, locationQuests: GRAVEMOOR_QUESTS, questDefs: GRAVEMOOR_QUESTS.HUB_QUEST_DEFS },
+  'hollowmere':         { locationData: HOLLOWMERE, locationQuests: HOLLOWMERE_QUESTS, questDefs: HOLLOWMERE_QUESTS.HUB_QUEST_DEFS },
+  'dreadspire-citadel': { locationData: DREADSPIRECITADEL, locationQuests: DREADSPIRECITADEL_QUESTS, questDefs: DREADSPIRECITADEL_QUESTS.HUB_QUEST_DEFS },
 }

@@ -1,0 +1,66 @@
+{
+  "quests": [
+    {
+      "id": "crownhaven-census",
+      "title": "The Royal Census",
+      "type": "fetch",
+      "giverNpcId": "royal-archivist",
+      "receiverNpcId": "royal-archivist",
+      "offerDialogue": "The survey of the outer provinces is missing three scrolls — dropped by careless couriers somewhere in the city. Without them, the census is a work of fiction. Find them, please. The crown's records depend on it.",
+      "activeDialogue": "Three survey scrolls, somewhere in the streets. Check near the gates and the market.",
+      "completeDialogue": "All three, and barely smudged! The census lives. You have done the kingdom's paperwork a great service — which is to say, the kingdom itself.",
+      "steps": [
+        {
+          "key": "scrolls",
+          "type": "collect",
+          "pickupIds": ["survey-scroll-1", "survey-scroll-2", "survey-scroll-3"],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 70
+      }
+    },
+    {
+      "id": "crownhaven-gate-key",
+      "title": "The Postern Key",
+      "type": "chain",
+      "giverNpcId": "watch-captain-hale",
+      "receiverNpcId": "innkeeper-crownhaven",
+      "offerDialogue": "One of my watchmen dropped the old postern gate key on patrol last night. Find it before someone less honest does, and leave it with Rosalind at The Gilded Goose — I'll collect it at end of shift, and the fewer hands it passes through, the better.",
+      "activeDialogue": {
+        "key": "The key went missing somewhere along the east wall, near the chapel. Look sharp.",
+        "deliver": "You found it? Good. Now get it to Rosalind at the inn, quiet-like."
+      },
+      "completeDialogue": "From Captain Hale? Say no more. It'll be under the counter until shift change. You've done the watch a favour — here, for your discretion.",
+      "steps": [
+        {
+          "key": "key",
+          "type": "collect",
+          "pickupIds": ["postern-key"],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "innkeeper-crownhaven",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 80,
+        "friendship": {
+          "watch-captain-hale": 15,
+          "innkeeper-crownhaven": 10
+        }
+      }
+    }
+  ],
+  "pickupItems": [
+    { "id": "survey-scroll-1", "tx": 4, "ty": 13, "tileId": "rolledMap", "questId": "crownhaven-census" },
+    { "id": "survey-scroll-2", "tx": 33, "ty": 18, "tileId": "rolledMap", "questId": "crownhaven-census" },
+    { "id": "survey-scroll-3", "tx": 25, "ty": 28, "tileId": "rolledMap", "questId": "crownhaven-census" },
+    { "id": "postern-key", "tx": 27, "ty": 19, "tileId": "key", "questId": "crownhaven-gate-key" }
+  ],
+  "blockedPaths": []
+}

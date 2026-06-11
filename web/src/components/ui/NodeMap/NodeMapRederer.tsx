@@ -910,6 +910,17 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, mapWidth: ma
     mapEl.scrollLeft = pos.x - mapEl.clientWidth / 2
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Scroll to the player's current world location on mount (freeform world map)
+  useEffect(() => {
+    if (!isFreeform) return
+    const mapEl = mapRef.current
+    if (!mapEl) return
+    const node = worldMap.nodes[getCurrentWorldLocation()]
+    if (!node || node.x === undefined || node.y === undefined) return
+    mapEl.scrollLeft = node.x - mapEl.clientWidth / 2
+    mapEl.scrollTop  = node.y - mapEl.clientHeight / 2
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   function handleWalk(node: QuestNode, pos: { x: number; y: number }) {
     const app    = appRef.current
     const avatar = avatarRef.current
@@ -943,7 +954,7 @@ export function NodeMapRederer({ id, run, worldMap, clearedNodeIds, mapWidth: ma
           className={`nm-map u-flex u-grow u-items-c${worldMap.environment ? ` nm-map--${worldMap.environment}` : ''}`}
           ref={mapRef}
         >
-          <div ref={canvasRef} style={{ display: 'block', flexShrink: 0, width: mapWidth, height: mapHeight }} />
+          <div ref={canvasRef} style={{ display: 'block', flexShrink: 0, width: mapWidth, height: mapHeight, margin: 'auto' }} />
         </div>
 
   )

@@ -1,0 +1,37 @@
+{
+  "quests": [
+    {
+      "id": "dreadspire-dark-harvest",
+      "title": "The Dark Harvest",
+      "type": "fetch",
+      "giverNpcId": "the-castellan",
+      "receiverNpcId": "the-castellan",
+      "offerDialogue": "The dark crystals anchor the citadel's foundations — without them, four centuries of deferred maintenance arrive all at once. Three have broken loose and crept off around the grounds. Crystals shouldn't creep. Retrieve them before the east wing notices it's unsupported.",
+      "activeDialogue": "Three dark crystals, loose somewhere on the grounds. They glow. They hum. Occasionally they sulk.",
+      "completeDialogue": "All three, returned and re-anchored. The citadel stands another century. The master would thank you, were he here, which he is not, which is the usual arrangement. Take this from the treasury — the dust won't miss it.",
+      "steps": [
+        {
+          "key": "crystals",
+          "type": "collect",
+          "pickupIds": ["dark-crystal-1", "dark-crystal-2", "dark-crystal-3"],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 100,
+        "collectible": {
+          "id": "dreadspire-shard",
+          "name": "Dreadspire Shard",
+          "icon": "🔮",
+          "desc": "A sliver of dark crystal from the citadel's foundations. It hums when it thinks no one is listening."
+        }
+      }
+    }
+  ],
+  "pickupItems": [
+    { "id": "dark-crystal-1", "tx": 3, "ty": 14, "tileId": "dark_red_crystal1", "questId": "dreadspire-dark-harvest" },
+    { "id": "dark-crystal-2", "tx": 21, "ty": 17, "tileId": "dark_red_crystal1", "questId": "dreadspire-dark-harvest" },
+    { "id": "dark-crystal-3", "tx": 16, "ty": 18, "tileId": "dark_red_crystal1", "questId": "dreadspire-dark-harvest" }
+  ],
+  "blockedPaths": []
+}
