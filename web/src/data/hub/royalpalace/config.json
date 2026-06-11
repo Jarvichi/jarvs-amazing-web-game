@@ -83,8 +83,8 @@
       "comment": "garden fountain"
     },
     {
-      "tx": 16,
-      "ty": 18,
+      "tx": 17,
+      "ty": 19,
       "bundleID": "fountain",
       "zlayer": "solid"
     },
@@ -98,7 +98,7 @@
       "zlayer": "solid"
     },
     {
-      "tx": 8,
+      "tx": 22,
       "ty": 17,
       "bundleID": "light-tree",
       "zlayer": "solid"
@@ -258,6 +258,12 @@
       "ty": 13,
       "tileId": "palaceStepsBotRight",
       "zlayer": "solid"
+    },
+    {
+      "tx": 9,
+      "ty": 19,
+      "bundleID": "fountain",
+      "zlayer": "solid"
     }
   ],
   "npcSpawnTiles": [],
@@ -269,8 +275,8 @@
       "id": "royal-herald",
       "name": "Herald Fanshawe",
       "sprite": "hub-npc-scholar",
-      "tx": 10,
-      "ty": 14,
+      "tx": 13,
+      "ty": 15,
       "dialogue": [
         "Presenting: you. To no one in particular. It's been a slow morning.",
         "Their Majesties are in session. The gardens, however, receive all visitors.",
@@ -303,6 +309,26 @@
       ],
       "questGive": "new-quest-1",
       "questReceive": "palace-lost-regalia"
+    },
+    {
+      "id": "npc_1781196539810",
+      "name": "Dave the Goblin",
+      "sprite": "goblin",
+      "tx": 12,
+      "ty": 16,
+      "dialogue": [
+        "Hello!"
+      ]
+    },
+    {
+      "id": "npc_1781197058836",
+      "name": "Nick the Ogre",
+      "sprite": "ogre",
+      "tx": 15,
+      "ty": 16,
+      "dialogue": [
+        "I'm here to see the princess, only she can help me!"
+      ]
     }
   ],
   "interiors": {

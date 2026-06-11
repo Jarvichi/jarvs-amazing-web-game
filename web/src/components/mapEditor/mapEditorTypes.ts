@@ -104,7 +104,7 @@ export interface RawMapConfig {
   mapW: number
   mapH: number
   townName: string
-  avatarStart: [number, number]
+  avatarStart: { tx: number; ty: number }
   exitTiles?: Array<{ tx: number; ty: number; screen: string }>
   areas?: Array<{ id: string; name: string; tx: number; ty: number; tw: number; th: number }>
   streets?: Array<{ rect?: number[]; tile?: number[]; pathType?: string }>

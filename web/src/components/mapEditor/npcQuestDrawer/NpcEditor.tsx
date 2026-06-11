@@ -294,7 +294,10 @@ export function NpcEditor({ configData, questDefsData, focusedIndex, onAddNpc, o
   }, [npcs.length])
 
   function handleAddNpc() {
-    const [tx, ty] = configData.avatarStart ?? [5, 5]
+    console.log("add npc")
+    const defaultLocation = configData.avatarStart ?? {tx:5, ty:5} as {tx: Number, ty: number}
+    const tx = defaultLocation.tx
+    const ty = defaultLocation.ty
     const newIndex = npcs.length
     pendingScrollIndex.current = newIndex
     onAddNpc({
