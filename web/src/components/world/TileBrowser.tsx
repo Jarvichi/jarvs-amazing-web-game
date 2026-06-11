@@ -1,12 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
+import { resolveTileRef } from '../../data/tiles/tileIndex'
 
-const OFFICIAL_TILE_IDS = new Set<number>(Object.values(BASE_CHIP_TILES))
+function getOfficialIdsForTileset(tilesetImage: string): Set<number> {
+  const ids = new Set<number>()
+  for (const globalId of Object.values(BASE_CHIP_TILES)) {
+    const ref = resolveTileRef(globalId)
+    if (ref.file === tilesetImage) ids.add(ref.id)
+  }
+  return ids
+}
 
-function stripOfficialTiles(labels: Record<number, string>): Record<number, string> {
+function stripOfficialTiles(labels: Record<number, string>, officialIds: Set<number>): Record<number, string> {
   const cleaned: Record<number, string> = {}
   for (const [k, v] of Object.entries(labels)) {
-    if (!OFFICIAL_TILE_IDS.has(Number(k))) cleaned[Number(k)] = v
+    if (!officialIds.has(Number(k))) cleaned[Number(k)] = v
   }
   return cleaned
 }
@@ -32,12 +40,13 @@ function storageKey(tilesetName: string) {
   return `tilebrowser-labels:${tilesetName}`
 }
 
-function loadCustomLabels(tilesetName: string): Record<number, string> {
+function loadCustomLabels(tilesetName: string, tilesetImage: string): Record<number, string> {
   try {
     const raw = localStorage.getItem(storageKey(tilesetName))
     if (!raw) return {}
     const loaded: Record<number, string> = JSON.parse(raw)
-    const cleaned = stripOfficialTiles(loaded)
+    const officialIds = getOfficialIdsForTileset(tilesetImage)
+    const cleaned = stripOfficialTiles(loaded, officialIds)
     if (Object.keys(cleaned).length !== Object.keys(loaded).length) {
       saveCustomLabels(tilesetName, cleaned)
     }
@@ -55,13 +64,15 @@ export function TileBrowser({ tileset, scale = 2, labels }: Props) {
   const [page, setPage]               = useState(0)
   const [naming, setNaming]           = useState(false)
   const [nameInput, setNameInput]     = useState('')
-  const [customLabels, setCustomLabels] = useState<Record<number, string>>(() => loadCustomLabels(tileset.name))
+  const [customLabels, setCustomLabels] = useState<Record<number, string>>(() => loadCustomLabels(tileset.name, tileset.image))
   const [exported, setExported]       = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Reload custom labels when tileset changes
+  const officialIds = useMemo(() => getOfficialIdsForTileset(tileset.image), [tileset.name])
+
+  // Reload custom labels when tileset changes, stripping any that became official
   useEffect(() => {
-    setCustomLabels(loadCustomLabels(tileset.name))
+    setCustomLabels(loadCustomLabels(tileset.name, tileset.image))
     setSelected(null)
     setNaming(false)
     setPage(0)
@@ -106,7 +117,7 @@ export function TileBrowser({ tileset, scale = 2, labels }: Props) {
 
   function commitName() {
     const trimmed = nameInput.trim()
-    if (trimmed && selected !== null && !OFFICIAL_TILE_IDS.has(selected)) {
+    if (trimmed && selected !== null && !officialIds.has(selected)) {
       const next = { ...customLabels, [selected]: trimmed }
       setCustomLabels(next)
       saveCustomLabels(tileset.name, next)

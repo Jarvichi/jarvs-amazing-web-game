@@ -7,9 +7,9 @@ import {
   TDAttackEvent, TDGameState, TDTower, TDUnit, xpToUpgrade,
 } from '../../../game/towerDefence'
 import { usePixiApp } from '../../../hooks/usePixiApp'
-import { loadAnimFrames, loadSpriteTexture, loadTileTexture } from '../../../utils/pixiHelpers'
+import { loadAnimFrames, loadSpriteTexture, loadTileRef } from '../../../utils/pixiHelpers'
 import { PATH_TILE_LOOKUP } from '../../../utils/tileLookup'
-import { TILESET_IMAGE, TILESET_COLUMNS, TILE_SIZE } from '../../../data/tiles/tileIndex'
+import { TILE_SIZE } from '../../../data/tiles/tileIndex'
 import { WORLD_ENV_TILES } from '../../../data/tiles/worldTileIndex'
 
 // ── Cell colours ─────────────────────────────────────────────────────────────
@@ -411,10 +411,7 @@ export function GameGrid({
     const env = environment ?? 'ruins'
     const worldDef = WORLD_ENV_TILES[env]
     const groundId = worldDef?.ground ?? 0
-    const baseUrl = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
-    const groundUrl = `${baseUrl}${TILESET_IMAGE.baseChip.slice(1)}`
-
-    loadTileTexture(groundUrl, groundId, TILESET_COLUMNS.baseChip).then(async (groundTex) => {
+    loadTileRef(groundId).then(async (groundTex) => {
       if (terrainLayer.destroyed) return
 
       // Ground: tile at 32px across the full canvas
