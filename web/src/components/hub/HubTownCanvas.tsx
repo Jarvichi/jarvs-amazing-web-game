@@ -3,8 +3,8 @@ import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
 import { buildTerrainGfx, buildBgTileGfx, buildDecorGfx } from '../../utils/terrainLayer'
 import { renderPathTiles } from '../../utils/tileLookup'
-import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileTexture } from '../../utils/pixiHelpers'
-import { PATH_TILE, TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
+import { loadSpriteTexture, loadTextureUrl, loadAnimFrames, loadTileRef } from '../../utils/pixiHelpers'
+import { PATH_TILE } from '../../data/tiles/tileIndex'
 import { findPath, nearestWalkable } from '../../utils/hubPathfinder'
 import { isBuildingOpen, getNpcLocation } from '../../game/hub/hubNpcSchedule'
 import { getGameHour, getGameMinute } from '../../game/hub/hubClock'
@@ -251,8 +251,6 @@ export function HubTownCanvas({
 
     // ── Buildings ──────────────────────────────────────────────────────────────
     {
-      const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
-      const cols = TILESET_COLUMNS.baseChip
 
       // Collect placements: tileId → [(tx, ty), …]
       // Insertion order determines render order — wall tiles first, door tiles
@@ -324,7 +322,7 @@ export function HubTownCanvas({
 
       // Render: load each unique tileId once, reuse texture for all positions
       for (const [tileId, positions] of placements) {
-        loadTileTexture(baseChipUrl, tileId, cols).then(tex => {
+        loadTileRef(tileId).then(tex => {
           if (app.renderer == null) return
           for (const [tx, ty] of positions) {
             const s = new PIXI.Sprite(tex)
@@ -360,7 +358,6 @@ export function HubTownCanvas({
         'barracks-south':    656,  // weaponsSign
       }
 
-      const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
 
       // Group doors by sign tileId so we only load each texture once
       const byTile = new Map<number, { door: typeof HUB_DOORS[0]; name: string }[]>()
@@ -374,7 +371,7 @@ export function HubTownCanvas({
       }
 
       for (const [tileId, entries] of byTile) {
-        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+        loadTileRef(tileId).then(tex => {
           if (app.renderer == null) return
           for (const { door, name } of entries) {
             // Sign tile sits at the door arch row (door.ty - 2)
@@ -409,7 +406,6 @@ export function HubTownCanvas({
 
     // ── Exterior decor (tile sprites over streets/ground) ─────────────────────
     {
-      const baseChipUrl    = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
       const extNormal      = new Map<number, [number, number][]>()
       const extBelowAvatar = new Map<number, [number, number][]>()
       const extAboveAvatar = new Map<number, [number, number][]>()
@@ -421,7 +417,7 @@ export function HubTownCanvas({
         map.set(d.tileId, list)
       }
       for (const [tileId, positions] of extNormal) {
-        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+        loadTileRef(tileId).then(tex => {
           if (app.renderer == null) return
           for (const [tx, ty] of positions) {
             const s = new PIXI.Sprite(tex)
@@ -433,7 +429,7 @@ export function HubTownCanvas({
         }).catch(() => {})
       }
       for (const [tileId, positions] of extBelowAvatar) {
-        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+        loadTileRef(tileId).then(tex => {
           if (app.renderer == null) return
           for (const [tx, ty] of positions) {
             const s = new PIXI.Sprite(tex)
@@ -444,7 +440,7 @@ export function HubTownCanvas({
         }).catch(() => {})
       }
       for (const [tileId, positions] of extAboveAvatar) {
-        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+        loadTileRef(tileId).then(tex => {
           if (app.renderer == null) return
           for (const [tx, ty] of positions) {
             const s = new PIXI.Sprite(tex)
@@ -474,14 +470,13 @@ export function HubTownCanvas({
     }
     const blockedPathEntries = new Map<string, BlockedPathEntry>()
     {
-      const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
       for (const bp of HUB_BLOCKED_PATHS) {
         const isCleared = completedQuestIdsRef?.current.has(bp.questId) ?? false
         const entry: BlockedPathEntry = { questId: bp.questId, blockedDecor: [], clearedDecor: [], blockedNpcs: [], clearedNpcs: [] }
 
         for (const d of bp.blocked.decor ?? []) {
           if (d.tileId === 666) continue
-          loadTileTexture(baseChipUrl, d.tileId, TILESET_COLUMNS.baseChip).then(tex => {
+          loadTileRef(d.tileId).then(tex => {
             if (app.renderer == null) return
             const s = new PIXI.Sprite(tex)
             s.position.set(d.tx * T, d.ty * T)
@@ -494,7 +489,7 @@ export function HubTownCanvas({
 
         for (const d of bp.cleared.decor ?? []) {
           if (d.tileId === 666) continue
-          loadTileTexture(baseChipUrl, d.tileId, TILESET_COLUMNS.baseChip).then(tex => {
+          loadTileRef(d.tileId).then(tex => {
             if (app.renderer == null) return
             const s = new PIXI.Sprite(tex)
             s.position.set(d.tx * T, d.ty * T)
@@ -562,12 +557,11 @@ export function HubTownCanvas({
     const treasureCollectedTex = new Map<string, PIXI.Texture | null>() // id → collected texture (null = hide)
     const treasureByTile      = new Map<string, string>()               // "tx,ty" → id
     {
-      const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
       for (const t of HUB_TREASURES) {
         if (collectedTreasureRef.current.has(t.id)) {
           // Already collected — show the collected tile or nothing
           if (t.collectedTileId) {
-            loadTileTexture(baseChipUrl, t.collectedTileId, TILESET_COLUMNS.baseChip).then(tex => {
+            loadTileRef(t.collectedTileId).then(tex => {
               if (app.renderer == null) return
               const s = new PIXI.Sprite(tex)
               s.position.set(t.tx * T, t.ty * T)
@@ -580,9 +574,9 @@ export function HubTownCanvas({
         treasureByTile.set(`${t.tx},${t.ty}`, t.id)
         // Pre-load both textures; store collected texture (or null = hide)
         const collectedTexPromise = t.collectedTileId
-          ? loadTileTexture(baseChipUrl, t.collectedTileId, TILESET_COLUMNS.baseChip).catch(() => null)
+          ? loadTileRef(t.collectedTileId).catch(() => null)
           : Promise.resolve(null)
-        loadTileTexture(baseChipUrl, t.tileId, TILESET_COLUMNS.baseChip).then(async tex => {
+        loadTileRef(t.tileId).then(async tex => {
           if (app.renderer == null) return
           const collectedTex = await collectedTexPromise
           const s = new PIXI.Sprite(tex)
@@ -597,7 +591,6 @@ export function HubTownCanvas({
 
     // ── Exterior pickup items ──────────────────────────────────────────────────
     {
-      const baseChipUrl  = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
       const exteriorPickups = HUB_PICKUP_ITEMS.filter(p => !p.building)
       const byTile = new Map<number, typeof exteriorPickups>()
       for (const p of exteriorPickups) {
@@ -607,7 +600,7 @@ export function HubTownCanvas({
         byTile.set(p.tileId, list)
       }
       for (const [tileId, pickups] of byTile) {
-        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+        loadTileRef(tileId).then(tex => {
           if (app.renderer == null) return
           for (const pickup of pickups) {
             // Skip already-collected items; also skip chain items whose prerequisite isn't done
@@ -642,7 +635,6 @@ export function HubTownCanvas({
 
     // ── Windows (transparent tile overlays on building walls) ─────────────────
     {
-      const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
       const byTile = new Map<number, [number, number][]>()
       for (const w of HUB_WINDOWS) {
         const list = byTile.get(w.tileId) ?? []
@@ -650,7 +642,7 @@ export function HubTownCanvas({
         byTile.set(w.tileId, list)
       }
       for (const [tileId, positions] of byTile) {
-        loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+        loadTileRef(tileId).then(tex => {
           if (app.renderer == null) return
           for (const [tx, ty] of positions) {
             const s = new PIXI.Sprite(tex)
@@ -1266,8 +1258,7 @@ export function HubTownCanvas({
 
       // Floor: proper interior tile from base chip sheet (wood, stone, parquet, etc.)
       const floorTileId  = interior.floorTileId ?? 288
-      const baseChipUrl  = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
-      loadTileTexture(baseChipUrl, floorTileId, TILESET_COLUMNS.baseChip).then(floorTex => {
+      loadTileRef(floorTileId).then(floorTex => {
         if (!interiorActive || currentInteriorId !== buildingId) return
         for (let tx = 1; tx < interior.width - 1; tx++) {
           for (let ty = 1; ty < interior.height - 1; ty++) {
@@ -1324,7 +1315,7 @@ export function HubTownCanvas({
           const topList = byTileId.get(wTiles.middleTop) ?? []; topList.push([wx, -1]); byTileId.set(wTiles.middleTop, topList)
         }
         for (const [tileId, positions] of byTileId) {
-          loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+          loadTileRef(tileId).then(tex => {
             if (!interiorActive || currentInteriorId !== buildingId) return
             for (const [wx, wy] of positions) {
               const s = new PIXI.Sprite(tex)
@@ -1352,7 +1343,7 @@ export function HubTownCanvas({
           byTileId.set(d.tileId, list)
         }
         for (const [tileId, positions] of byTileId) {
-          loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+          loadTileRef(tileId).then(tex => {
             if (!interiorActive || currentInteriorId !== buildingId) return
             for (const [dtx, dty] of positions) {
               const s = new PIXI.Sprite(tex)
@@ -1369,7 +1360,6 @@ export function HubTownCanvas({
 
       // Interior pickup items — rendered in room, disappear when tapped
       {
-        const intBaseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
         const intPickups = HUB_PICKUP_ITEMS.filter(p => p.building === buildingId)
         const intByTile = new Map<number, typeof intPickups>()
         for (const p of intPickups) {
@@ -1379,7 +1369,7 @@ export function HubTownCanvas({
           intByTile.set(p.tileId, list)
         }
         for (const [tileId, pickups] of intByTile) {
-          loadTileTexture(intBaseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+          loadTileRef(tileId).then(tex => {
             if (!interiorActive || currentInteriorId !== buildingId) return
             for (const pickup of pickups) {
               if (pickedUpRef.current.has(pickup.id)) continue
@@ -1525,9 +1515,9 @@ export function HubTownCanvas({
         const isCollected = collectedTreasureRef.current.has(t.id)
         const displayTileId = isCollected && t.collectedTileId != null ? t.collectedTileId : t.tileId
         const collectedTexPromise = t.collectedTileId
-          ? loadTileTexture(baseChipUrl, t.collectedTileId, TILESET_COLUMNS.baseChip).catch(() => null)
+          ? loadTileRef(t.collectedTileId).catch(() => null)
           : Promise.resolve(null)
-        loadTileTexture(baseChipUrl, displayTileId, TILESET_COLUMNS.baseChip).then(async tex => {
+        loadTileRef(displayTileId).then(async tex => {
           if (!interiorActive || currentInteriorId !== buildingId) return
           const collectedTex = await collectedTexPromise
           const s = new PIXI.Sprite(tex)

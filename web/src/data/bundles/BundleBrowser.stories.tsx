@@ -3,8 +3,7 @@ import * as PIXI from 'pixi.js'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { getAllBundles, getBundleById, type BundleDef } from './bundleLoader'
 import { usePixiApp } from '../../hooks/usePixiApp'
-import { loadTileTexture } from '../../utils/pixiHelpers'
-import { TILESET_IMAGE, TILESET_COLUMNS } from '../tiles/tileIndex'
+import { loadTileRef } from '../../utils/pixiHelpers'
 
 const T     = 32
 const PAD   = 1  // padding tiles around the bundle grid
@@ -35,9 +34,6 @@ function BundleCanvas({ bundle, scale }: { bundle: BundleDef; scale: number }) {
     originG.rect(PAD * T, (PAD + maxY) * T, T, T).fill({ color: 0x004400 })
     app.stage.addChild(originG)
 
-    const base        = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
-    const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
-
     for (const tile of bundle.tiles) {
       // canvas y: flip bundle-y so y=0 appears at the bottom of the grid
       const canvasX = (PAD + tile.x) * T
@@ -54,7 +50,7 @@ function BundleCanvas({ bundle, scale }: { bundle: BundleDef; scale: number }) {
 
       if (!tile.tileId) continue
 
-      loadTileTexture(baseChipUrl, tile.tileId, TILESET_COLUMNS.baseChip).then(tex => {
+      loadTileRef(tile.tileId).then(tex => {
         if (!app.renderer) return
         const s = new PIXI.Sprite(tex)
         s.position.set(canvasX, canvasY)

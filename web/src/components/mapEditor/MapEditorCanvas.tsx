@@ -1,9 +1,8 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react'
 import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
-import { loadTileTexture, loadSpriteTexture } from '../../utils/pixiHelpers'
+import { loadTileRef, loadSpriteTexture } from '../../utils/pixiHelpers'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
-import { TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
 import type { RawMapConfig, RawDecorItem,  SelectedEntity, ToolMode, Zlayer } from './mapEditorTypes'
 import { WALL_TILES } from '../../data/tiles/buildingMaterials'
 import type { WallMaterial } from '../../data/tiles/buildingMaterials'
@@ -12,8 +11,6 @@ import { RawQuestPickupItem } from '../../data/hub/hubWorldFactory'
 
 const T           = 32
 const INTERIOR_PAD = 10  // tiles of surrounding space around active room in interior view
-const BASE_URL  = TILESET_IMAGE.baseChip
-const BASE_COLS = TILESET_COLUMNS.baseChip
 
 const WALL_COLORS: Record<string, number> = {
   brick:               0x8b5e4a,
@@ -415,7 +412,7 @@ export function MapEditorCanvas(props: Props) {
       ;(byTile.get(crownId) ?? (byTile.set(crownId, []), byTile.get(crownId)!)).push([tx, -1])
     }
     for (const [tileId, positions] of byTile) {
-      loadTileTexture(BASE_URL, tileId, BASE_COLS).then(tex => {
+      loadTileRef(tileId).then(tex => {
         if (renderVersionRef.current !== version) return
         for (const [tx, ty] of positions) {
           const sp = new PIXI.Sprite(tex)
@@ -433,7 +430,7 @@ export function MapEditorCanvas(props: Props) {
     container.addChild(bg)
     if (room.floorTileId) {
       const fid = tileNumericId(room.floorTileId)
-      loadTileTexture(BASE_URL, fid, BASE_COLS).then(tex => {
+      loadTileRef(fid).then(tex => {
         if (renderVersionRef.current !== version) return
         for (let tx = 0; tx < width; tx++)
           for (let ty = 0; ty < height; ty++) {
@@ -523,7 +520,7 @@ export function MapEditorCanvas(props: Props) {
     // Floor tiles
     if (interior.floorTileId) {
       const fid = tileNumericId(interior.floorTileId)
-      loadTileTexture(BASE_URL, fid, BASE_COLS).then(tex => {
+      loadTileRef(fid).then(tex => {
         if (renderVersionRef.current !== version) return
         for (let tx = 0; tx < width; tx++) {
           for (let ty = 0; ty < height; ty++) {
@@ -594,7 +591,7 @@ export function MapEditorCanvas(props: Props) {
         border.on('pointerdown', handler)
         questLayer.addChild(border)
         if (isSel) selLayer.rect(itemTx * T - 2, itemTy * T - 2, T + 4, T + 4).stroke({ color: 0xf0c040, width: 2 })
-        loadTileTexture(BASE_URL, tileNumericId(tileId), BASE_COLS).then(tex => {
+        loadTileRef(tileNumericId(tileId)).then(tex => {
           if (renderVersionRef.current !== version) return
           const sp = new PIXI.Sprite(tex)
           sp.x = itemTx * T; sp.y = itemTy * T
@@ -632,7 +629,7 @@ export function MapEditorCanvas(props: Props) {
           : (selectedEntity as { index: number; interiorId: string }).index === sourceIndex &&
             (selectedEntity as { interiorId: string }).interiorId === interiorId)
 
-      loadTileTexture(BASE_URL, numId, BASE_COLS).then(tex => {
+      loadTileRef(numId).then(tex => {
         if (renderVersionRef.current !== version) return
         const sp = new PIXI.Sprite(tex)
         sp.x = tx * T; sp.y = ty * T
@@ -690,7 +687,7 @@ export function MapEditorCanvas(props: Props) {
           .stroke({ color: 0xf0c040, width: 2 })
       }
 
-      loadTileTexture(BASE_URL, numId, BASE_COLS).then(tex => {
+      loadTileRef(numId).then(tex => {
         if (renderVersionRef.current !== version) return
         const sp = new PIXI.Sprite(tex)
         sp.x = itemTx * T; sp.y = itemTy * T
