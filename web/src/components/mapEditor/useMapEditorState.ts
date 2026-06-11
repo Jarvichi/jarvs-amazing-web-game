@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import type { RawMapConfig, RawNpc, RawInterior, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
+import type { RawMapConfig, RawNpc, RawInterior, RawLockedDoor, SelectedEntity, ToolMode, Zlayer, MapEditorState } from './mapEditorTypes'
 
 type InteriorExit = NonNullable<RawInterior['exits']>[number]
 import hubConfig from '../../data/hub/ravenwatch/config.json'
@@ -566,6 +566,51 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     })
   }, [])
 
+  const addLockedDoor = useCallback((door: RawLockedDoor) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const lockedDoors = [...(prevConfig.lockedDoors ?? []), door]
+      return {
+        ...s,
+        configData: { ...prevConfig, lockedDoors },
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  const updateLockedDoor = useCallback((index: number, patch: Partial<RawLockedDoor>) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const lockedDoors = [...(prevConfig.lockedDoors ?? [])]
+      if (!lockedDoors[index]) return s
+      lockedDoors[index] = { ...lockedDoors[index], ...patch }
+      return {
+        ...s,
+        configData: { ...prevConfig, lockedDoors },
+        undoStack:  [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:  [],
+        isDirty:    true,
+      }
+    })
+  }, [])
+
+  const deleteLockedDoor = useCallback((index: number) => {
+    setState(s => {
+      const prevConfig = s.configData
+      const lockedDoors = (prevConfig.lockedDoors ?? []).filter((_, i) => i !== index)
+      return {
+        ...s,
+        configData:     { ...prevConfig, lockedDoors },
+        selectedEntity: null,
+        undoStack:      [...s.undoStack, prevConfig].slice(-MAX_UNDO),
+        redoStack:      [],
+        isDirty:        true,
+      }
+    })
+  }, [])
+
   const markSaved = useCallback(() => {
     setState(s => ({ ...s, isDirty: false }))
   }, [])
@@ -595,6 +640,9 @@ export function useMapEditorState(initialMapId: MapId = 'ravenwatch') {
     redo,
     addStreet,
     updateStreetEntry,
+    addLockedDoor,
+    updateLockedDoor,
+    deleteLockedDoor,
     markSaved,
   }
 }

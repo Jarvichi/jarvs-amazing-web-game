@@ -13,7 +13,11 @@
         {
           "key": "tools",
           "type": "collect",
-          "pickupIds": ["toolbox-1", "toolbox-2", "toolbox-3"],
+          "pickupIds": [
+            "toolbox-1",
+            "toolbox-2",
+            "toolbox-3"
+          ],
           "required": 3
         }
       ],
@@ -35,7 +39,10 @@
         {
           "key": "coal",
           "type": "collect",
-          "pickupIds": ["coal-sack-1", "coal-sack-2"],
+          "pickupIds": [
+            "coal-sack-1",
+            "coal-sack-2"
+          ],
           "required": 2
         }
       ],
@@ -48,11 +55,41 @@
     }
   ],
   "pickupItems": [
-    { "id": "toolbox-1", "tx": 2, "ty": 17, "tileId": "crate", "questId": "gearford-stolen-tools" },
-    { "id": "toolbox-2", "tx": 30, "ty": 4, "tileId": "crate", "questId": "gearford-stolen-tools" },
-    { "id": "toolbox-3", "tx": 12, "ty": 21, "tileId": "crate", "questId": "gearford-stolen-tools" },
-    { "id": "coal-sack-1", "tx": 6, "ty": 23, "tileId": "sack", "questId": "gearford-coal-run" },
-    { "id": "coal-sack-2", "tx": 28, "ty": 23, "tileId": "sack", "questId": "gearford-coal-run" }
+    {
+      "id": "toolbox-1",
+      "tx": 2,
+      "ty": 17,
+      "tileId": "crate",
+      "questId": "gearford-stolen-tools"
+    },
+    {
+      "id": "toolbox-2",
+      "tx": 30,
+      "ty": 4,
+      "tileId": "crate",
+      "questId": "gearford-stolen-tools"
+    },
+    {
+      "id": "toolbox-3",
+      "tx": 12,
+      "ty": 21,
+      "tileId": "crate",
+      "questId": "gearford-stolen-tools"
+    },
+    {
+      "id": "coal-sack-1",
+      "tx": 6,
+      "ty": 23,
+      "tileId": "sack",
+      "questId": "gearford-coal-run"
+    },
+    {
+      "id": "coal-sack-2",
+      "tx": 28,
+      "ty": 23,
+      "tileId": "sack",
+      "questId": "gearford-coal-run"
+    }
   ],
   "blockedPaths": []
 }

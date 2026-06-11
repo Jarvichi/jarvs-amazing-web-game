@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { BASE_CHIP_TILES } from '../../data/tiles/baseChipIndex'
+import { EXTENDED_TILE_REFS } from '../../data/tiles/tileIndex'
 import { getAllBundles } from '../../data/bundles/bundleLoader'
 import type { Zlayer } from './mapEditorTypes'
 
@@ -173,7 +174,19 @@ const TILE_CATEGORIES: Record<string, string[]> = {
     'stoneStairsUpLeftMiddle', 'stoneStairsUpMiddleMiddle', 'stoneStairsUpRightMiddle',
     'stoneStairsUpLeftBottom', 'stoneStairsUpMiddleBottom', 'stoneStairsUpRightBottom',
   ],
-  'All': Object.keys(BASE_CHIP_TILES),  
+  'Crystals': [
+    'black_crystal1', 'black_crystal2', 'black_crystal3', 'black_crystal4',
+    'blue_crystal1', 'blue_crystal2', 'blue_crystal3', 'blue_crystal4',
+    'dark_red_crystal1', 'dark_red_crystal2', 'dark_red_crystal3', 'dark_red_crystal4',
+    'green_crystal1', 'green_crystal2', 'green_crystal3', 'green_crystal4',
+    'pink_crystal1', 'pink_crystal2', 'pink_crystal3', 'pink_crystal4',
+    'red_crystal1', 'red_crystal2', 'red_crystal3', 'red_crystal4',
+    'violet_crystal1', 'violet_crystal2', 'violet_crystal3', 'violet_crystal4',
+    'white_crystal1', 'white_crystal2', 'white_crystal3', 'white_crystal4',
+    'yellow_green_crystal1', 'yellow_green_crystal2', 'yellow_green_crystal3', 'yellow_green_crystal4',
+    'yellow_crystal1', 'yellow_crystal2', 'yellow_crystal3', 'yellow_crystal4',
+  ],
+  'All': Object.keys(BASE_CHIP_TILES),
 }
 
 type PaletteTab = 'tiles' | 'bundles'
@@ -198,23 +211,45 @@ function TileCell({
   isSelected: boolean
   onClick: () => void
 }) {
-  const col = numericId % COLS
-  const row = Math.floor(numericId / COLS)
+  let bgImage: string
+  let bgPos: string
+  let bgSize: string | undefined
+
+  if (numericId >= 10000) {
+    const ref = EXTENDED_TILE_REFS[numericId]
+    if (ref) {
+      const col = ref.id % ref.columns
+      const row = Math.floor(ref.id / ref.columns)
+      bgImage = `url("${ref.file}")`
+      bgPos = ref.columns === 1 ? '0 0' : `-${col * T}px -${row * T}px`
+      bgSize = ref.columns === 1 ? `${T}px ${T}px` : undefined
+    } else {
+      bgImage = 'none'
+      bgPos = '0 0'
+    }
+  } else {
+    const col = numericId % COLS
+    const row = Math.floor(numericId / COLS)
+    bgImage = `url("${SHEET_URL}")`
+    bgPos = `-${col * T}px -${row * T}px`
+  }
+
   return (
     <div
       title={tileKey}
       onClick={onClick}
       style={{
-        width:            T,
-        height:           T,
-        backgroundImage:  `url("${SHEET_URL}")`,
-        backgroundPosition: `-${col * T}px -${row * T}px`,
-        backgroundRepeat: 'no-repeat',
-        imageRendering:   'pixelated',
-        cursor:           'pointer',
-        outline:          isSelected ? '2px solid #f0c040' : '1px solid transparent',
-        outlineOffset:    '-1px',
-        flexShrink:       0,
+        width:              T,
+        height:             T,
+        backgroundImage:    bgImage,
+        backgroundPosition: bgPos,
+        backgroundRepeat:   'no-repeat',
+        backgroundSize:     bgSize,
+        imageRendering:     'pixelated',
+        cursor:             'pointer',
+        outline:            isSelected ? '2px solid #f0c040' : '1px solid transparent',
+        outlineOffset:      '-1px',
+        flexShrink:         0,
       }}
     />
   )

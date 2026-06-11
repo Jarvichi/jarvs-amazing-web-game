@@ -13,7 +13,11 @@
         {
           "key": "crystals",
           "type": "collect",
-          "pickupIds": ["dark-crystal-1", "dark-crystal-2", "dark-crystal-3"],
+          "pickupIds": [
+            "dark-crystal-1",
+            "dark-crystal-2",
+            "dark-crystal-3"
+          ],
           "required": 3
         }
       ],
@@ -29,9 +33,27 @@
     }
   ],
   "pickupItems": [
-    { "id": "dark-crystal-1", "tx": 3, "ty": 14, "tileId": "dark_red_crystal1", "questId": "dreadspire-dark-harvest" },
-    { "id": "dark-crystal-2", "tx": 21, "ty": 17, "tileId": "dark_red_crystal1", "questId": "dreadspire-dark-harvest" },
-    { "id": "dark-crystal-3", "tx": 16, "ty": 18, "tileId": "dark_red_crystal1", "questId": "dreadspire-dark-harvest" }
+    {
+      "id": "dark-crystal-1",
+      "tx": 3,
+      "ty": 14,
+      "tileId": "dark_red_crystal1",
+      "questId": "dreadspire-dark-harvest"
+    },
+    {
+      "id": "dark-crystal-2",
+      "tx": 21,
+      "ty": 17,
+      "tileId": "dark_red_crystal1",
+      "questId": "dreadspire-dark-harvest"
+    },
+    {
+      "id": "dark-crystal-3",
+      "tx": 16,
+      "ty": 18,
+      "tileId": "dark_red_crystal1",
+      "questId": "dreadspire-dark-harvest"
+    }
   ],
   "blockedPaths": []
 }

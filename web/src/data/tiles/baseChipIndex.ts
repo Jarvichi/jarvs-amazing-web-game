@@ -1,6 +1,8 @@
 
+import { EXTENDED_TILE_DEFS } from './extendedTileDefs'
+
 // All of thes etiles should be rendered with trnansparent backgrounds, so they can be layered on top of the base chip tiles (eg to add decor on top of ground tiles, or to add height variation to the terrain with height tiles).
-export const BASE_CHIP_TILES = {
+const BASE_CHIP_TILES_BASE = {
     lightGrass: 0,
     mediumGrass: 1,
     darkGrass: 2,
@@ -849,47 +851,9 @@ export const BASE_CHIP_TILES = {
     altarBotLeft: 829,
     altarBotMid: 830,
     altarBotRight: 831,
+} as const
 
-    // ── Crystal tiles — individual 32×32 PNGs from /nodemap/32x32/ ───────────
-    // Global IDs 10000–10039; resolved to their source files via EXTENDED_TILE_REFS.
-    black_crystal1:       10000,
-    black_crystal2:       10001,
-    black_crystal3:       10002,
-    black_crystal4:       10003,
-    blue_crystal1:        10004,
-    blue_crystal2:        10005,
-    blue_crystal3:        10006,
-    blue_crystal4:        10007,
-    dark_red_crystal1:    10008,
-    dark_red_crystal2:    10009,
-    dark_red_crystal3:    10010,
-    dark_red_crystal4:    10011,
-    green_crystal1:       10012,
-    green_crystal2:       10013,
-    green_crystal3:       10014,
-    green_crystal4:       10015,
-    pink_crystal1:        10016,
-    pink_crystal2:        10017,
-    pink_crystal3:        10018,
-    pink_crystal4:        10019,
-    red_crystal1:         10020,
-    red_crystal2:         10021,
-    red_crystal3:         10022,
-    red_crystal4:         10023,
-    violet_crystal1:      10024,
-    violet_crystal2:      10025,
-    violet_crystal3:      10026,
-    violet_crystal4:      10027,
-    white_crystal1:       10028,
-    white_crystal2:       10029,
-    white_crystal3:       10030,
-    white_crystal4:       10031,
-    yellow_green_crystal1:10032,
-    yellow_green_crystal2:10033,
-    yellow_green_crystal3:10034,
-    yellow_green_crystal4:10035,
-    yellow_crystal1:      10036,
-    yellow_crystal2:      10037,
-    yellow_crystal3:      10038,
-    yellow_crystal4:      10039,
+export const BASE_CHIP_TILES = {
+  ...BASE_CHIP_TILES_BASE,
+  ...Object.fromEntries(EXTENDED_TILE_DEFS.map(d => [d.name, d.globalId])),
 } as const

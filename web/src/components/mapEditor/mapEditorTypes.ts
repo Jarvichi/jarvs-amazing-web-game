@@ -87,6 +87,19 @@ export interface RawInterior {
   }>
 }
 
+export interface RawBlockedPath {
+  id: string
+  blockedTiles: [number, number][]
+  questId: string
+  blocked: { decor?: Array<{ tx: number; ty: number; tileId: string }>; npcs?: unknown[] }
+  cleared: { decor?: Array<{ tx: number; ty: number; tileId: string }>; npcs?: unknown[] }
+}
+
+export interface RawLockedDoor {
+  buildingId: string
+  lockedBy: string
+}
+
 export interface RawMapConfig {
   mapW: number
   mapH: number
@@ -124,7 +137,7 @@ export interface RawMapConfig {
     requireTouch?: boolean
   }>
   blockedPaths?: unknown[]
-  lockedDoors?: unknown[]
+  lockedDoors?: RawLockedDoor[]
 }
 
 export type SelectedEntity =
@@ -135,6 +148,8 @@ export type SelectedEntity =
   | { type: 'treasure'; index: number }
   | { type: 'pickupItem'; index: number }
   | { type: 'interiorDecor'; interiorId: string; index: number }
+  | { type: 'blockedPath'; index: number }
+  | { type: 'lockedDoor'; index: number }
 
 export interface MapEditorState {
   mapId: MapId

@@ -3,20 +3,81 @@
   "mapH": 832,
   "townName": "Gearford",
   "environment": "vault",
-  "avatarStart": { "tx": 16, "ty": 24 },
+  "avatarStart": {
+    "tx": 16,
+    "ty": 24
+  },
   "exitTiles": [
-    { "tx": 16, "ty": 25, "screen": "worldmap" },
-    { "tx": 17, "ty": 25, "screen": "worldmap" }
+    {
+      "tx": 16,
+      "ty": 25,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 17,
+      "ty": 25,
+      "screen": "worldmap"
+    }
   ],
   "areas": [
-    { "id": "gearford-foundry-yard", "name": "Foundry Yard", "tx": 3, "ty": 2, "tw": 14, "th": 12 },
-    { "id": "gearford-works", "name": "The Works", "tx": 19, "ty": 2, "tw": 12, "th": 10 }
+    {
+      "id": "gearford-foundry-yard",
+      "name": "Foundry Yard",
+      "tx": 3,
+      "ty": 2,
+      "tw": 14,
+      "th": 12
+    },
+    {
+      "id": "gearford-works",
+      "name": "The Works",
+      "tx": 19,
+      "ty": 2,
+      "tw": 12,
+      "th": 10
+    }
   ],
   "streets": [
-    { "rect": [2, 12, 31, 13] },
-    { "rect": [16, 2, 17, 25] },
-    { "rect": [24, 14, 25, 16] },
-    { "rect": [8, 10, 9, 11] }
+    {
+      "rect": [
+        2,
+        12,
+        31,
+        13
+      ]
+    },
+    {
+      "rect": [
+        16,
+        2,
+        17,
+        25
+      ]
+    },
+    {
+      "rect": [
+        24,
+        14,
+        25,
+        16
+      ]
+    },
+    {
+      "rect": [
+        8,
+        10,
+        9,
+        11
+      ]
+    },
+    {
+      "rect": [
+        23,
+        10,
+        24,
+        11
+      ]
+    }
   ],
   "buildings": [
     {
@@ -26,7 +87,12 @@
       "wall": "brick",
       "roof": "metalRoof",
       "doors": [
-        { "tx": 5, "ty": 1, "hideSign": true, "buildingId": "foundry" }
+        {
+          "tx": 5,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "foundry"
+        }
       ]
     },
     {
@@ -36,7 +102,12 @@
       "wall": "woodenSlats",
       "roof": "greySlateRoof",
       "doors": [
-        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "workshop" }
+        {
+          "tx": 4,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "workshop"
+        }
       ]
     },
     {
@@ -46,36 +117,129 @@
       "wall": "tudorFrame",
       "roof": "strawRoof",
       "doors": [
-        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "miners-inn" }
+        {
+          "tx": 3,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "miners-inn"
+        }
       ]
     }
   ],
   "exteriorDecor": [
-    { "comment": "foundry yard braziers" },
-    { "tx": 3, "ty": 11, "tileId": "brazierBottom" },
-    { "tx": 3, "ty": 10, "tileId": "brazierTop", "zlayer": "above" },
-    { "tx": 14, "ty": 11, "tileId": "brazierBottom" },
-    { "tx": 14, "ty": 10, "tileId": "brazierTop", "zlayer": "above" },
-    { "comment": "industrial clutter" },
-    { "tx": 2, "ty": 14, "tileId": "crate" },
-    { "tx": 2, "ty": 15, "tileId": "openCrate" },
-    { "tx": 18, "ty": 10, "tileId": "barrel" },
-    { "tx": 19, "ty": 11, "tileId": "barrel" },
-    { "tx": 29, "ty": 10, "tileId": "logPile" },
-    { "tx": 30, "ty": 11, "tileId": "logPile" },
-    { "tx": 28, "ty": 14, "tileId": "pileOfSacks" },
-    { "tx": 5, "ty": 16, "tileId": "smallRock" },
-    { "tx": 12, "ty": 18, "tileId": "smallRock" },
-    { "comment": "what little grows here" },
-    { "tx": 3, "ty": 20, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 9, "ty": 21, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 30, "ty": 22, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "tx": 19, "ty": 19, "bundleID": "dark-tree", "zlayer": "solid" },
-    { "comment": "well by the inn" },
-    { "tx": 19, "ty": 16, "tileId": "stoneWell" }
+    {
+      "comment": "foundry yard braziers"
+    },
+    {
+      "tx": 3,
+      "ty": 11,
+      "tileId": "brazierBottom"
+    },
+    {
+      "tx": 3,
+      "ty": 10,
+      "tileId": "brazierTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 14,
+      "ty": 11,
+      "tileId": "brazierBottom"
+    },
+    {
+      "tx": 14,
+      "ty": 10,
+      "tileId": "brazierTop",
+      "zlayer": "above"
+    },
+    {
+      "comment": "industrial clutter"
+    },
+    {
+      "tx": 2,
+      "ty": 14,
+      "tileId": "crate"
+    },
+    {
+      "tx": 2,
+      "ty": 15,
+      "tileId": "openCrate"
+    },
+    {
+      "tx": 18,
+      "ty": 10,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 19,
+      "ty": 11,
+      "tileId": "barrel"
+    },
+    {
+      "tx": 29,
+      "ty": 10,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 30,
+      "ty": 11,
+      "tileId": "logPile"
+    },
+    {
+      "tx": 28,
+      "ty": 14,
+      "tileId": "pileOfSacks"
+    },
+    {
+      "tx": 5,
+      "ty": 16,
+      "tileId": "smallRock"
+    },
+    {
+      "tx": 12,
+      "ty": 18,
+      "tileId": "smallRock"
+    },
+    {
+      "comment": "what little grows here"
+    },
+    {
+      "tx": 3,
+      "ty": 20,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 9,
+      "ty": 21,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 30,
+      "ty": 22,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 19,
+      "ty": 19,
+      "bundleID": "dark-tree",
+      "zlayer": "solid"
+    },
+    {
+      "comment": "well by the inn"
+    },
+    {
+      "tx": 19,
+      "ty": 16,
+      "tileId": "stoneWell"
+    }
   ],
   "npcSpawnTiles": [],
-  "ambientNpcSprites": ["hub-npc-supplies"],
+  "ambientNpcSprites": [
+    "hub-npc-supplies"
+  ],
   "npcs": [
     {
       "id": "forgemaster-brunn",
@@ -129,12 +293,36 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "brick",
       "decor": [
-        { "tx": 2, "ty": 1, "tileId": "brazierTop" },
-        { "tx": 2, "ty": 2, "tileId": "brazierBottom" },
-        { "tx": 9, "ty": 1, "tileId": "brazierTop" },
-        { "tx": 9, "ty": 2, "tileId": "brazierBottom" },
-        { "tx": 5, "ty": 1, "tileId": "crate" },
-        { "tx": 6, "ty": 1, "tileId": "barrel" }
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "brazierTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "brazierBottom"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "brazierTop"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "brazierBottom"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "barrel"
+        }
       ],
       "exits": []
     },
@@ -145,10 +333,26 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodenSlats",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "crate" },
-        { "tx": 2, "ty": 1, "tileId": "openCrate" },
-        { "tx": 5, "ty": 1, "tileId": "bookshelfTop" },
-        { "tx": 5, "ty": 2, "tileId": "bookshelfBottom" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "crate"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "openCrate"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "bookshelfTop"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "bookshelfBottom"
+        }
       ],
       "exits": []
     },
@@ -159,10 +363,26 @@
       "floorTileId": "woodFloor",
       "wallTileId": "woodWall",
       "decor": [
-        { "tx": 1, "ty": 1, "tileId": "barrel" },
-        { "tx": 2, "ty": 1, "tileId": "bottlesOfLiquor" },
-        { "tx": 6, "ty": 2, "tileId": "roundTable" },
-        { "tx": 7, "ty": 3, "tileId": "stool" }
+        {
+          "tx": 1,
+          "ty": 1,
+          "tileId": "barrel"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "bottlesOfLiquor"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "roundTable"
+        },
+        {
+          "tx": 7,
+          "ty": 3,
+          "tileId": "stool"
+        }
       ],
       "exits": []
     }

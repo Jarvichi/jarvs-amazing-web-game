@@ -3,17 +3,49 @@
   "mapH": 640,
   "townName": "Dreadspire Citadel",
   "environment": "ashen",
-  "avatarStart": { "tx": 12, "ty": 17 },
+  "avatarStart": {
+    "tx": 12,
+    "ty": 17
+  },
   "exitTiles": [
-    { "tx": 12, "ty": 18, "screen": "worldmap" },
-    { "tx": 13, "ty": 18, "screen": "worldmap" }
+    {
+      "tx": 12,
+      "ty": 18,
+      "screen": "worldmap"
+    },
+    {
+      "tx": 13,
+      "ty": 18,
+      "screen": "worldmap"
+    }
   ],
   "areas": [
-    { "id": "dreadspire-court", "name": "The Ashen Court", "tx": 8, "ty": 11, "tw": 10, "th": 5 }
+    {
+      "id": "dreadspire-court",
+      "name": "The Ashen Court",
+      "tx": 8,
+      "ty": 11,
+      "tw": 10,
+      "th": 5
+    }
   ],
   "streets": [
-    { "rect": [11, 2, 14, 18] },
-    { "rect": [5, 12, 20, 13] }
+    {
+      "rect": [
+        11,
+        2,
+        14,
+        18
+      ]
+    },
+    {
+      "rect": [
+        5,
+        12,
+        20,
+        13
+      ]
+    }
   ],
   "buildings": [
     {
@@ -23,42 +55,190 @@
       "wall": "darkStone",
       "roof": "greySlateRoof",
       "doors": [
-        { "tx": 5, "ty": 1, "hideSign": true, "buildingId": "dread-keep" },
-        { "tx": 6, "ty": 1, "hideSign": true, "buildingId": "dread-keep" }
+        {
+          "tx": 5,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "dread-keep"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "hideSign": true,
+          "buildingId": "dread-keep"
+        }
       ]
     }
   ],
   "exteriorDecor": [
-    { "comment": "gate braziers burning cold" },
-    { "tx": 10, "ty": 12, "tileId": "brazierBottom" },
-    { "tx": 10, "ty": 11, "tileId": "brazierTop", "zlayer": "above" },
-    { "tx": 15, "ty": 12, "tileId": "brazierBottom" },
-    { "tx": 15, "ty": 11, "tileId": "brazierTop", "zlayer": "above" },
-    { "comment": "dark crystals growing through the courtyard" },
-    { "tx": 5, "ty": 14, "tileId": "dark_red_crystal1" },
-    { "tx": 19, "ty": 15, "tileId": "dark_red_crystal1" },
-    { "tx": 8, "ty": 16, "tileId": "skull" },
-    { "tx": 17, "ty": 16, "tileId": "smallRock" },
-    { "comment": "iron fence along the court, gap at the gate" },
-    { "tx": 5, "ty": 16, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "tx": 6, "ty": 16, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "tx": 7, "ty": 16, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "tx": 8, "ty": 16, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "tx": 9, "ty": 16, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "tx": 10, "ty": 16, "tileId": "ironFenceLeft", "zlayer": "above" },
-    { "tx": 15, "ty": 16, "tileId": "ironFenceRight", "zlayer": "above" },
-    { "tx": 16, "ty": 16, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "tx": 17, "ty": 16, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "tx": 18, "ty": 16, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "tx": 19, "ty": 16, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "tx": 20, "ty": 16, "tileId": "ironFenceLeftRight", "zlayer": "above" },
-    { "comment": "nothing alive grows here" },
-    { "tx": 2, "ty": 5, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 21, "ty": 5, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 3, "ty": 11, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 22, "ty": 12, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 18, "ty": 18, "bundleID": "dead-tree", "zlayer": "solid" },
-    { "tx": 4, "ty": 18, "bundleID": "dead-tree", "zlayer": "solid" }
+    {
+      "comment": "gate braziers burning cold"
+    },
+    {
+      "tx": 10,
+      "ty": 12,
+      "tileId": "brazierBottom"
+    },
+    {
+      "tx": 10,
+      "ty": 11,
+      "tileId": "brazierTop",
+      "zlayer": "above"
+    },
+    {
+      "tx": 15,
+      "ty": 12,
+      "tileId": "brazierBottom"
+    },
+    {
+      "tx": 15,
+      "ty": 11,
+      "tileId": "brazierTop",
+      "zlayer": "above"
+    },
+    {
+      "comment": "dark crystals growing through the courtyard"
+    },
+    {
+      "tx": 5,
+      "ty": 14,
+      "tileId": "dark_red_crystal1"
+    },
+    {
+      "tx": 19,
+      "ty": 15,
+      "tileId": "dark_red_crystal1"
+    },
+    {
+      "tx": 8,
+      "ty": 16,
+      "tileId": "skull"
+    },
+    {
+      "tx": 17,
+      "ty": 16,
+      "tileId": "smallRock"
+    },
+    {
+      "comment": "iron fence along the court, gap at the gate"
+    },
+    {
+      "tx": 5,
+      "ty": 16,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 6,
+      "ty": 16,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 7,
+      "ty": 16,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 8,
+      "ty": 16,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 9,
+      "ty": 16,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 10,
+      "ty": 16,
+      "tileId": "ironFenceLeft",
+      "zlayer": "above"
+    },
+    {
+      "tx": 15,
+      "ty": 16,
+      "tileId": "ironFenceRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 16,
+      "ty": 16,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 17,
+      "ty": 16,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 18,
+      "ty": 16,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 19,
+      "ty": 16,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "tx": 20,
+      "ty": 16,
+      "tileId": "ironFenceLeftRight",
+      "zlayer": "above"
+    },
+    {
+      "comment": "nothing alive grows here"
+    },
+    {
+      "tx": 2,
+      "ty": 5,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 21,
+      "ty": 5,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 3,
+      "ty": 11,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 22,
+      "ty": 12,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 18,
+      "ty": 18,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 4,
+      "ty": 18,
+      "bundleID": "dead-tree",
+      "zlayer": "solid"
+    },
+    {
+      "tx": 17,
+      "ty": 12,
+      "tileId": "wantedSign",
+      "zlayer": "solid"
+    }
   ],
   "npcSpawnTiles": [],
   "ambientNpcSprites": [],
@@ -99,18 +279,64 @@
       "floorTileId": "stoneFloor",
       "wallTileId": "darkStone",
       "decor": [
-        { "comment": "the summoning circle before the empty throne" },
-        { "tx": 5, "ty": 3, "tileId": "summoningCircle" },
-        { "tx": 2, "ty": 1, "tileId": "brazierTop" },
-        { "tx": 2, "ty": 2, "tileId": "brazierBottom" },
-        { "tx": 9, "ty": 1, "tileId": "brazierTop" },
-        { "tx": 9, "ty": 2, "tileId": "brazierBottom" },
-        { "tx": 5, "ty": 1, "tileId": "suitOfArmourTop" },
-        { "tx": 5, "ty": 2, "tileId": "suitOfArmourBottom" },
-        { "tx": 6, "ty": 1, "tileId": "suitOfArmourTop" },
-        { "tx": 6, "ty": 2, "tileId": "suitOfArmourBottom" },
-        { "tx": 1, "ty": 5, "tileId": "skull" },
-        { "tx": 10, "ty": 5, "tileId": "dark_red_crystal1" }
+        {
+          "comment": "the summoning circle before the empty throne"
+        },
+        {
+          "tx": 5,
+          "ty": 3,
+          "tileId": "summoningCircle"
+        },
+        {
+          "tx": 2,
+          "ty": 1,
+          "tileId": "brazierTop"
+        },
+        {
+          "tx": 2,
+          "ty": 2,
+          "tileId": "brazierBottom"
+        },
+        {
+          "tx": 9,
+          "ty": 1,
+          "tileId": "brazierTop"
+        },
+        {
+          "tx": 9,
+          "ty": 2,
+          "tileId": "brazierBottom"
+        },
+        {
+          "tx": 5,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 5,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 6,
+          "ty": 1,
+          "tileId": "suitOfArmourTop"
+        },
+        {
+          "tx": 6,
+          "ty": 2,
+          "tileId": "suitOfArmourBottom"
+        },
+        {
+          "tx": 1,
+          "ty": 5,
+          "tileId": "skull"
+        },
+        {
+          "tx": 10,
+          "ty": 5,
+          "tileId": "dark_red_crystal1"
+        }
       ],
       "exits": []
     }
