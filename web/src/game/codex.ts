@@ -112,6 +112,7 @@ export interface CodexRelicEntry {
   icon: string
   desc: string
   lore: string
+  exotic: boolean
   unlocked: boolean
 }
 
@@ -180,11 +181,12 @@ export function getCodexCards(): CodexCardEntry[] {
 
 export function getCodexRelics(): CodexRelicEntry[] {
   const everAcquired = new Set(getEverAcquiredRelics())
-  return (relicsData as Array<{ name: string; icon: string; desc: string; lore?: string; effects: unknown[] }>).map(r => ({
+  return (relicsData as Array<{ name: string; icon: string; desc: string; lore?: string; exotic?: boolean; effects: unknown[] }>).map(r => ({
     name: r.name,
     icon: r.icon,
     desc: r.desc,
     lore: r.lore ?? '',
+    exotic: r.exotic === true,
     unlocked: everAcquired.has(r.name),
   }))
 }

@@ -2,6 +2,7 @@ import { logError } from '../../logger';
 import { GameState, UpgradeEffect, Unit, BuffTag, LANE_WIDTH } from '../types';
 import { spawnUnit } from './helpers';
 import { drawCard } from './helpers';
+import { getCardCatalog } from '../cards';
 import {  Card, UnitTemplate } from '../types';
 import { playUpgrade } from '../sound';
 import {
@@ -110,6 +111,10 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
         if (e.attackBonus) unit.attack = Math.max(0, unit.attack + e.attackBonus)
       }
     }
+    // Glass Cannon Protocol exotic: every player unit hits harder
+    if (owner === 'player' && s.playerAtkMult && s.playerAtkMult !== 1) {
+      unit.attack = Math.round(unit.attack * s.playerAtkMult)
+    }
     // Siege Commander: new structures get +20% max HP
     if (owner === 'player' && card.cardType === 'structure' && s.archetypePassive === 'siege_commander') {
       unit.maxHp = Math.round(unit.maxHp * ARCH_STRUCTURE_HP_MULT)
@@ -141,6 +146,18 @@ export function deployCard(s: GameState, card: Card, owner: 'player' | 'opponent
       applyUpgrade(s, card.heroEffect, owner, log);
     } else {
       log.push(`${who} ${verb} ${unit.name}.`);
+    }
+    // The Last Farm exotic: building a Farm also musters a Goblin
+    if (owner === 'player' && s.farmSpawnsGoblin && card.cardType === 'structure' && unit.name === 'Farm') {
+      const goblinCard = getCardCatalog().find(c => c.name === 'Goblin')
+      if (goblinCard?.unit) {
+        const goblin = spawnUnit(goblinCard.unit, owner)
+        goblin.x = unit.x
+        goblin.y = unit.y
+        if (s.playerAtkMult && s.playerAtkMult !== 1) goblin.attack = Math.round(goblin.attack * s.playerAtkMult)
+        s.field.push(goblin)
+        log.push(`🌾 The Last Farm stirs — a Goblin reports for duty!`)
+      }
     }
     // Glass cards: chance to crack on deployment — half HP but double damage
     if (card.glassBreakChance && Math.random() < card.glassBreakChance) {
@@ -202,6 +219,11 @@ export function playCard(state: GameState, cardId: string): GameState {
   // Arcane Scholar: draw an extra card after each upgrade
   if (isScholarUpgrade) {
     drawCard(s.playerDeck, s.playerHand, s.secretRaresObtained)
+  }
+  // The Architect's Eye exotic: building any structure draws an extra card
+  if (s.structureDrawsCard && card.cardType === 'structure') {
+    drawCard(s.playerDeck, s.playerHand, s.secretRaresObtained)
+    s.log.push(`👁️ The Architect's Eye opens — you draw a card.`)
   }
   return s
 }

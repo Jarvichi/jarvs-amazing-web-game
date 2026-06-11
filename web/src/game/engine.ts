@@ -843,6 +843,10 @@ function performUnitMaintenance(s: GameState, deltaMs: number, log: string[]) {
       if (sEffect.type === 'spawn') {
         const effect = sEffect as { type: 'spawn'; unitTemplate: UnitTemplate; intervalMs: number} 
         const spawned = spawnUnit(effect.unitTemplate, unit.owner)
+        // Glass Cannon Protocol exotic: spawner-bred units also hit harder
+        if (unit.owner === 'player' && s.playerAtkMult && s.playerAtkMult !== 1) {
+          spawned.attack = Math.round(spawned.attack * s.playerAtkMult)
+        }
         spawned.x = unit.x
         spawned.y = unit.y
         spawned.spawnGrowTimer = SPAWN_GROW_MS
@@ -911,14 +915,16 @@ function regenerateMana(s: GameState, deltaMs: number) {
   const manaBonus = getManaBonus(s.field, 'player')
   s.maxMana = clampMaxMana(s.deckMaxMana ?? 0, manaBonus, s.relicManaBonus ?? 0, !!s.forgiveManaLimit)
 
-  if (s.mana < s.maxMana) {
+  // Mana Surge exotic: mana keeps charging past the cap, up to maxMana + overflow
+  const manaCap = s.maxMana + (s.manaOverflowCap ?? 0)
+  if (s.mana < manaCap) {
     const speedMult = 1 + getManaSpeedMult(s.field, 'player')
     s.manaAccum += (deltaMs / (s.playerManaRegenMs ?? MANA_REGEN_MS)) * speedMult
-    while (s.manaAccum >= 1 && s.mana < s.maxMana) {
+    while (s.manaAccum >= 1 && s.mana < manaCap) {
       s.mana++
       s.manaAccum -= 1
     }
-    if (s.mana >= s.maxMana) s.manaAccum = 0
+    if (s.mana >= manaCap) s.manaAccum = 0
   }
 }
 

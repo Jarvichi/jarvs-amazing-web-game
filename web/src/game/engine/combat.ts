@@ -209,6 +209,21 @@ export function processAttacks(s: GameState, deltaMs: number, log: string[]): vo
     }
   }
 
+  // Phantom Legion exotic: each dying player unit rolls once for an instant revive
+  if (s.phantomReviveChance) {
+    for (const u of s.field) {
+      if (u.owner === 'player' && u.hp <= 0 && u.moveSpeed > 0 && !u.isWall && !u.reviveRolled) {
+        u.reviveRolled = true
+        if (Math.random() < s.phantomReviveChance) {
+          u.hp = Math.ceil(u.maxHp / 2)
+          u.dyingTimer = undefined
+          u.reviveRolled = false   // a future death gets a fresh roll
+          log.push(`👻 ${u.name} refuses to fall — the Phantom Legion marches on!`)
+        }
+      }
+    }
+  }
+
   // Auto-revive: once per battle, restore the first dead player unit
   if (s.unitReviveHp !== undefined) {
     const dead = s.field.find(u => u.owner === 'player' && u.hp <= 0 && u.moveSpeed > 0)

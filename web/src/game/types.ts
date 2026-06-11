@@ -248,6 +248,8 @@ export interface Unit extends UnitTemplate {
   poisonAccum?: number
   /** ms until the next moat damage pulse — prevents continuous per-frame chip damage. */
   moatDamageTimer?: number
+  /** True once this unit's Phantom Legion revive chance has been rolled (one roll per death). */
+  reviveRolled?: boolean
 }
 
 // ─── Ground Hazards ───────────────────────────────────────
@@ -416,6 +418,11 @@ export interface GameState {
   environment?: string       // battlefield background theme ('forest' | 'ruins' | 'camp' | 'citadel' | 'ashen')
   unitReviveHp?: 'half' | 'full' | number      // pending one-time unit revive at this HP value (set by Soulstone/Salvage Hook relics)
   relicManaBonus?: number             // passive +N to maxMana cap (set by Prism Lens relic)
+  playerAtkMult?: number              // ATK multiplier applied to all player units, incl. later deploys (Glass Cannon Protocol exotic)
+  phantomReviveChance?: number        // 0–1 chance each dying player unit revives at 50% HP (Phantom Legion exotic)
+  manaOverflowCap?: number            // mana keeps regenerating up to maxMana + this (Mana Surge exotic)
+  farmSpawnsGoblin?: boolean          // building a Farm also spawns a Goblin (The Last Farm exotic)
+  structureDrawsCard?: boolean        // building any structure draws 1 extra card (The Architect's Eye exotic)
   playerManaRegenMs?: number          // player's upgraded mana regen interval (default 3000 ms)
   tickEffects?: TickEffect[]          // periodic effects applied each engine tick
   onCardPlayedEffects?: OnCardPlayedEffect[]  // effects applied when the player plays a card

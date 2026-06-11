@@ -1,0 +1,72 @@
+import React, { useState, useEffect } from 'react'
+import { CutscenePanel } from '../../game/questline'
+
+interface Props {
+  panels: CutscenePanel[]
+  onDone: () => void
+}
+
+/**
+ * Boss epilogue — a short, skippable cutscene shown after an act boss falls,
+ * revealing what the boss was protecting. Same presentation as CutsceneScreen
+ * plus an always-visible SKIP control.
+ */
+export function BossEpilogueScreen({ panels, onDone }: Props) {
+  const [index, setIndex] = useState(0)
+  const [visible, setVisible] = useState(true)
+
+  const panel = panels[index]
+  const isLast = index === panels.length - 1
+
+  function advance() {
+    if (isLast) {
+      onDone()
+      return
+    }
+    setVisible(false)
+    setTimeout(() => {
+      setIndex(i => i + 1)
+      setVisible(true)
+    }, 200)
+  }
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); advance() }
+      if (e.key === 'Escape') { e.preventDefault(); onDone() }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [index, isLast])
+
+  if (!panel) return null
+
+  const paragraphs = panel.text.split('\n\n').filter(Boolean)
+
+  return (
+    <div className="cutscene-screen u-col u-just-sb u-pointer u-no-select" onClick={advance}>
+      <div className={`cutscene-content${visible ? ' cutscene-content--visible' : ''}`}>
+        <div className="cutscene-act-label">// {panel.title}</div>
+        {panel.image && (
+          <img src={`${import.meta.env.BASE_URL}${panel.image}`} alt="" className="cutscene-image" />
+        )}
+        <div className="cutscene-body u-col u-gap-7">
+          {paragraphs.map((p, i) => (
+            <p key={i} className="cutscene-paragraph">{p}</p>
+          ))}
+        </div>
+      </div>
+
+      <div className="cutscene-footer u-flex u-just-sb u-items-c">
+        <span className="cutscene-progress">{index + 1} / {panels.length}</span>
+        <button
+          className="cutscene-skip-btn"
+          onClick={e => { e.stopPropagation(); onDone() }}
+        >
+          SKIP ›
+        </button>
+        <span className="cutscene-continue">{isLast ? 'PRESS ENTER TO CONTINUE' : 'CLICK TO CONTINUE ›'}</span>
+      </div>
+    </div>
+  )
+}

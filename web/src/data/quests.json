@@ -1,0 +1,112 @@
+[
+  {
+    "id": "ashen_bargain",
+    "name": "The Ashen Bargain",
+    "icon": "💀",
+    "theme": "undead",
+    "intro": "The Ashen Wastes remember every army that burned there. Walk with the dead long enough, and something older than the Ashwalker will notice you.",
+    "targetCard": "Void Titan",
+    "steps": [
+      {
+        "label": "Win 3 battles with a deck that is at least 30% undead or ashen cards",
+        "condition": { "type": "win_battles", "count": 3, "deckTags": ["undead", "ashen"], "deckTagPct": 0.3 }
+      },
+      {
+        "label": "Destroy 40 undead or ashen units",
+        "condition": { "type": "kill_tagged", "tags": ["undead", "ashen"], "count": 40 }
+      },
+      {
+        "label": "Defeat The Ashwalker (Act III — The Ashen Wastes)",
+        "condition": { "type": "defeat_boss", "actId": "act3" }
+      }
+    ]
+  },
+  {
+    "id": "refracted_codex",
+    "name": "The Refracted Codex",
+    "icon": "🔮",
+    "theme": "arcane",
+    "intro": "Somewhere in the Crystal Spire's misfiled archives is the schematic for a wyrm made of pure refraction. The Archivist insists it does not exist. He is lying.",
+    "targetCard": "Prism Wyrm",
+    "steps": [
+      {
+        "label": "Play 25 upgrade cards",
+        "condition": { "type": "play_card_type", "cardType": "upgrade", "count": 25 }
+      },
+      {
+        "label": "Destroy 40 magic or arcane units",
+        "condition": { "type": "kill_tagged", "tags": ["magic", "arcane"], "count": 40 }
+      },
+      {
+        "label": "Defeat The Archivist (Act IV — The Crystal Spire)",
+        "condition": { "type": "defeat_boss", "actId": "act4" }
+      }
+    ]
+  },
+  {
+    "id": "doctrine_of_iron",
+    "name": "Doctrine of Iron",
+    "icon": "⚙️",
+    "theme": "military",
+    "intro": "Warlord Kragg's engineers began one final war machine before the Iron Citadel fell. The blueprints survived. The discipline to finish it is the real test.",
+    "targetCard": "Dreadnought",
+    "steps": [
+      {
+        "label": "Build 25 structures",
+        "condition": { "type": "play_card_type", "cardType": "structure", "count": 25 }
+      },
+      {
+        "label": "Win 5 battles",
+        "condition": { "type": "win_battles", "count": 5 }
+      },
+      {
+        "label": "Defeat Warlord Kragg (Act II — The Iron Citadel)",
+        "condition": { "type": "defeat_boss", "actId": "act2" }
+      }
+    ]
+  },
+  {
+    "id": "verdant_oath",
+    "name": "The Verdant Oath",
+    "icon": "🌳",
+    "theme": "forest",
+    "intro": "The oldest tree in the Verdant Shard predates the Dominion itself. Prove the forest can trust you with an army, and it will lend you something that walks.",
+    "targetCard": "Elder Treant",
+    "steps": [
+      {
+        "label": "Win 3 battles with a deck that is at least 30% forest or canopy cards",
+        "condition": { "type": "win_battles", "count": 3, "deckTags": ["forest", "canopy"], "deckTagPct": 0.3 }
+      },
+      {
+        "label": "Destroy 40 beast or forest units",
+        "condition": { "type": "kill_tagged", "tags": ["beast", "forest"], "count": 40 }
+      },
+      {
+        "label": "Defeat The Thornlord (Act I — The Verdant Shard)",
+        "condition": { "type": "defeat_boss", "actId": "act1" }
+      }
+    ]
+  },
+  {
+    "id": "tides_of_the_deep",
+    "name": "Tides of the Deep",
+    "icon": "🌊",
+    "theme": "aquatic",
+    "intro": "The Sunken Reef's deep-court keeps a leviathan chained beneath the throne. The Tidal Sovereign will not free it. You can take the matter up with the Sovereign directly.",
+    "targetCard": "Leviathan",
+    "steps": [
+      {
+        "label": "Win 4 battles",
+        "condition": { "type": "win_battles", "count": 4 }
+      },
+      {
+        "label": "Destroy 40 reef or tidal units",
+        "condition": { "type": "kill_tagged", "tags": ["reef", "tidal"], "count": 40 }
+      },
+      {
+        "label": "Defeat The Tidal Sovereign (Act V — The Sunken Reef)",
+        "condition": { "type": "defeat_boss", "actId": "act5" }
+      }
+    ]
+  }
+]

@@ -5,8 +5,9 @@ import { PlayerStatsScreen } from './PlayerStatsScreen'
 import { CharacterScreen } from './CharacterScreen'
 import { AchievementsScreen } from './AchievementsScreen'
 import { InventoryScreen } from './InventoryScreen'
+import { QuestsScreen } from './QuestsScreen'
 
-type PlayerTab = 'stats' | 'character' | 'achievements' | 'inventory'
+type PlayerTab = 'stats' | 'character' | 'achievements' | 'inventory' | 'quests'
 
 interface Props {
   crystals: number
@@ -22,6 +23,7 @@ export function PlayerScreen({ crystals, onCrystalsChanged, onBack, onSignOut }:
   const tabs: { id: PlayerTab; label: string; badge?: boolean }[] = [
     { id: 'character',    label: 'Character' },
     { id: 'inventory',    label: 'Inventory' },
+    { id: 'quests',       label: 'Quests' },
     { id: 'achievements', label: 'Achievements', badge: achievementAlert },
     { id: 'stats',        label: 'Stats' },
   ]
@@ -43,6 +45,7 @@ export function PlayerScreen({ crystals, onCrystalsChanged, onBack, onSignOut }:
         </div>
         <div className="player-tab-content">
           {tab === 'character'    && <CharacterScreen onDone={() => setTab('stats')} embedded />}
+          {tab === 'quests'       && <QuestsScreen onBack={() => setTab('stats')} embedded />}
           {tab === 'achievements' && <AchievementsScreen onBack={() => setTab('stats')} onCrystalsChanged={onCrystalsChanged} embedded />}
           {tab === 'stats'        && <PlayerStatsScreen onBack={() => setTab('stats')} embedded />}
           {tab === 'inventory'    && <InventoryScreen onBack={() => setTab('stats')} onCrystalsChanged={onCrystalsChanged} embedded />}

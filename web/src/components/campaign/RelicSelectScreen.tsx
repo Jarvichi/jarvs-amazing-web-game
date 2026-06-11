@@ -38,9 +38,10 @@ export function RelicSelectScreen({ earnedRelics, currentRelic, brokenRelic, onS
         {defs.map(({ name, def }) => (
           <button
             key={name}
-            className={`relic-select-card${picked === name ? ' relic-select-card--chosen' : ''}`}
+            className={`relic-select-card${def!.exotic ? ' relic-select-card--exotic' : ''}${picked === name ? ' relic-select-card--chosen' : ''}`}
             onClick={() => setPicked(name)}
           >
+            {def!.exotic && <div className="relic-exotic-tag">EXOTIC</div>}
             <div className="relic-select-icon">{def!.icon}</div>
             <div className="relic-select-name">{def!.name}</div>
             <div className="relic-select-desc">{def!.desc}</div>
