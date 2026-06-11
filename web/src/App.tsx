@@ -2740,6 +2740,7 @@ export default function App() {
           onSelectNode={(node) => {
             if (node.id === 'ravenwatch') {
               setCurrentWorldLocation(node.id)
+              setCurrentLocationKey('ravenwatch')
               setScreen('hubworld')
             } else if (node.locationKey && LOCATION_REGISTRY[node.locationKey]) {
               setCurrentWorldLocation(node.id)

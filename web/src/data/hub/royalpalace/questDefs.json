@@ -1,0 +1,37 @@
+{
+  "quests": [
+    {
+      "id": "palace-lost-regalia",
+      "title": "The Lost Regalia",
+      "type": "fetch",
+      "giverNpcId": "royal-steward",
+      "receiverNpcId": "royal-steward",
+      "offerDialogue": "The coronation regalia has been scattered across the gardens — the ceremonial pendant, the jubilee gift, and the vault key. The next royal audience is in mere hours. Recover all three and you will have the palace's eternal, slightly flustered gratitude.",
+      "activeDialogue": "The pendant, the gift, and the key — somewhere in the gardens. Do hurry, but mind the flowerbeds.",
+      "completeDialogue": "The pendant! The gift! The key! All accounted for. The audience is saved, and so am I. The crown rewards competence — here, with my compliments.",
+      "steps": [
+        {
+          "key": "regalia",
+          "type": "collect",
+          "pickupIds": ["regalia-pendant", "regalia-gift", "regalia-key"],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 90,
+        "collectible": {
+          "id": "royal-seal",
+          "name": "Royal Seal",
+          "icon": "👑",
+          "desc": "A wax seal bearing the crown's sigil, given for service to the palace."
+        }
+      }
+    }
+  ],
+  "pickupItems": [
+    { "id": "regalia-pendant", "tx": 5, "ty": 19, "tileId": "pendant", "questId": "palace-lost-regalia" },
+    { "id": "regalia-gift", "tx": 21, "ty": 19, "tileId": "gift", "questId": "palace-lost-regalia" },
+    { "id": "regalia-key", "tx": 24, "ty": 16, "tileId": "key", "questId": "palace-lost-regalia" }
+  ],
+  "blockedPaths": []
+}

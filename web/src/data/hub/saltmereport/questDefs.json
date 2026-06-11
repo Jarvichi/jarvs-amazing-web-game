@@ -1,0 +1,66 @@
+{
+  "quests": [
+    {
+      "id": "saltmere-lost-cargo",
+      "title": "The Missing Manifest",
+      "type": "fetch",
+      "giverNpcId": "harbourmaster-vane",
+      "receiverNpcId": "harbourmaster-vane",
+      "offerDialogue": "Three crates walked off my quay this week. Crates don't walk — so either I have thieves or very ambitious crabs. They can't have gone far. Find them and the port owes you a favour.",
+      "activeDialogue": "Three crates, stamped with the port seal. Check along the waterfront and behind the inn.",
+      "completeDialogue": "All three, seals intact. So — lazy thieves, not clever ones. Good. The manifest balances and so do my nerves. Here's your finder's fee.",
+      "steps": [
+        {
+          "key": "crates",
+          "type": "collect",
+          "pickupIds": ["port-crate-1", "port-crate-2", "port-crate-3"],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 60
+      }
+    },
+    {
+      "id": "saltmere-rum-run",
+      "title": "Barrel of Trouble",
+      "type": "chain",
+      "giverNpcId": "dockhand-tam",
+      "receiverNpcId": "harbourmaster-vane",
+      "offerDialogue": "There's a barrel of navy rum washed up under the south pier. If the watch finds it first, someone hangs for smuggling, and I've got the only ladder down there. Fish it out and hand it to Vane official-like, would you? Keeps everyone's neck the right length.",
+      "activeDialogue": {
+        "barrel": "The barrel's under the south pier, past the inn. Can't miss it — it's the only barrel acting suspicious.",
+        "deliver": "Got it? Straight to Harbourmaster Vane. Walk natural."
+      },
+      "completeDialogue": "Salvaged cargo, declared properly? You may be the first honest soul on this dock in a decade. The navy pays recovery rates — your share, as the law requires.",
+      "steps": [
+        {
+          "key": "barrel",
+          "type": "collect",
+          "pickupIds": ["navy-rum-barrel"],
+          "required": 1
+        },
+        {
+          "key": "deliver",
+          "type": "deliver",
+          "targetNpcId": "harbourmaster-vane",
+          "required": 1
+        }
+      ],
+      "reward": {
+        "crystals": 75,
+        "friendship": {
+          "dockhand-tam": 15,
+          "harbourmaster-vane": 10
+        }
+      }
+    }
+  ],
+  "pickupItems": [
+    { "id": "port-crate-1", "tx": 28, "ty": 25, "tileId": "crate", "questId": "saltmere-lost-cargo" },
+    { "id": "port-crate-2", "tx": 20, "ty": 16, "tileId": "crate", "questId": "saltmere-lost-cargo" },
+    { "id": "port-crate-3", "tx": 2, "ty": 11, "tileId": "crate", "questId": "saltmere-lost-cargo" },
+    { "id": "navy-rum-barrel", "tx": 6, "ty": 25, "tileId": "barrel", "questId": "saltmere-rum-run" }
+  ],
+  "blockedPaths": []
+}

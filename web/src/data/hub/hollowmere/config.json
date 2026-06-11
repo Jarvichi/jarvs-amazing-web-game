@@ -1,0 +1,132 @@
+{
+  "mapW": 896,
+  "mapH": 640,
+  "townName": "Hollowmere",
+  "environment": "ruins",
+  "avatarStart": { "tx": 13, "ty": 17 },
+  "exitTiles": [
+    { "tx": 12, "ty": 18, "screen": "worldmap" },
+    { "tx": 13, "ty": 18, "screen": "worldmap" }
+  ],
+  "areas": [
+    { "id": "hollowmere-hollow", "name": "The Hollow", "tx": 10, "ty": 10, "tw": 8, "th": 5 }
+  ],
+  "streets": [
+    { "rect": [12, 2, 14, 18] },
+    { "rect": [4, 10, 24, 11] },
+    { "rect": [6, 12, 7, 14] }
+  ],
+  "buildings": [
+    {
+      "id": "broken-hall",
+      "rect": [4, 2, 11, 8],
+      "wall": "woodenSlats",
+      "roof": "strawRoof",
+      "doors": [
+        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "broken-hall" }
+      ]
+    },
+    {
+      "id": "fang-den",
+      "rect": [17, 3, 24, 9],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "fang-den" }
+      ]
+    }
+  ],
+  "exteriorDecor": [
+    { "comment": "the witch's corner" },
+    { "tx": 8, "ty": 13, "tileId": "cauldren" },
+    { "tx": 9, "ty": 14, "tileId": "bottlesOfLiquor" },
+    { "tx": 7, "ty": 15, "tileId": "bunchOfHerbs" },
+    { "comment": "monster-town clutter" },
+    { "tx": 16, "ty": 12, "tileId": "skull" },
+    { "tx": 20, "ty": 13, "tileId": "barrel" },
+    { "tx": 21, "ty": 12, "tileId": "openCrate" },
+    { "tx": 4, "ty": 9, "tileId": "logPile" },
+    { "tx": 23, "ty": 16, "tileId": "smallRock" },
+    { "tx": 16, "ty": 16, "tileId": "largeStump" },
+    { "comment": "the dark wood presses close" },
+    { "tx": 2, "ty": 4, "bundleID": "dark-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 14, "ty": 4, "bundleID": "dark-tree", "zlayer": "solid" },
+    { "tx": 25, "ty": 12, "bundleID": "dark-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 2, "ty": 14, "bundleID": "dark-tree", "zlayer": "solid" },
+    { "tx": 19, "ty": 17, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 0, "ty": 9, "bundleID": "dark-tree-column-4", "zlayer": "solid" }
+  ],
+  "npcSpawnTiles": [],
+  "ambientNpcSprites": [],
+  "npcs": [
+    {
+      "id": "ogrim-the-bouncer",
+      "name": "Ogrim the Bouncer",
+      "sprite": "hub-npc-soldier",
+      "tx": 15,
+      "ty": 11,
+      "dialogue": [
+        "Rules of Hollowmere: no biting before sundown, no howling indoors, no heroes.",
+        "You smell like a hero. Lucky for you, I'm off duty.",
+        "We're monsters, not animals. The animals live in the nice town down south."
+      ],
+      "building": "fang-den"
+    },
+    {
+      "id": "fang-the-fence",
+      "name": "Fang the Fence",
+      "sprite": "hub-npc-merchant",
+      "tx": 19,
+      "ty": 11,
+      "dialogue": [
+        "Buying, selling, no questions. Especially no questions about the inventory.",
+        "The undead up at Gravemoor are lovely neighbours. Quiet. Very quiet.",
+        "Everything here fell off a cart. A very specific, very unlucky cart."
+      ]
+    },
+    {
+      "id": "hedge-witch-morwen",
+      "name": "Hedge-Witch Morwen",
+      "sprite": "hub-npc-scholar",
+      "tx": 8,
+      "ty": 12,
+      "dialogue": [
+        "The cauldron's gone cold and my joints know it. I need moonherb, and plenty of it.",
+        "Hollowmere takes in what other towns turn away. Werewolves, ogres, tax dodgers.",
+        "Don't touch the bottles. Some of them are potions. Some of them are relatives."
+      ],
+      "questGive": "hollowmere-witch-brew",
+      "questReceive": "hollowmere-witch-brew"
+    }
+  ],
+  "interiors": {
+    "broken-hall": {
+      "name": "The Broken Hall",
+      "width": 8,
+      "height": 5,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodenSlats",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "barrel" },
+        { "tx": 2, "ty": 1, "tileId": "skull" },
+        { "tx": 5, "ty": 2, "tileId": "roundTable" },
+        { "tx": 6, "ty": 3, "tileId": "stool" }
+      ],
+      "exits": []
+    },
+    "fang-den": {
+      "name": "The Fang & Flagon",
+      "width": 8,
+      "height": 5,
+      "floorTileId": "woodFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "bottlesOfLiquor" },
+        { "tx": 2, "ty": 1, "tileId": "barrel" },
+        { "tx": 5, "ty": 1, "tileId": "skull" },
+        { "tx": 4, "ty": 2, "tileId": "roundTable" }
+      ],
+      "exits": []
+    }
+  }
+}

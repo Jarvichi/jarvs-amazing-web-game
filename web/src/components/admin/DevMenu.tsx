@@ -199,7 +199,7 @@ export function DevMenu({ onCrystalsChanged, onHandicapChanged }: Props) {
           onChange={e => handleSkipToAct(e.target.value)}
         >
           <option value="">— choose —</option>
-          {Object.entries(ACTS).map(([id, act]) => (
+          {Object.entries(ACTS).filter(([id]) => id !== 'world').map(([id, act]) => (
             <option key={id} value={id}>{act.title ?? id}</option>
           ))}
         </select>

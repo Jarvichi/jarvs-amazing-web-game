@@ -1,0 +1,148 @@
+{
+  "mapW": 960,
+  "mapH": 704,
+  "townName": "Gravemoor",
+  "environment": "ashen",
+  "avatarStart": { "tx": 15, "ty": 20 },
+  "exitTiles": [
+    { "tx": 14, "ty": 21, "screen": "worldmap" },
+    { "tx": 15, "ty": 21, "screen": "worldmap" }
+  ],
+  "areas": [
+    { "id": "gravemoor-cemetery", "name": "The Old Cemetery", "tx": 3, "ty": 12, "tw": 11, "th": 7 },
+    { "id": "gravemoor-square", "name": "The Quiet Square", "tx": 13, "ty": 10, "tw": 6, "th": 4 }
+  ],
+  "streets": [
+    { "rect": [14, 2, 16, 21] },
+    { "rect": [4, 10, 26, 11] },
+    { "rect": [21, 12, 22, 14] }
+  ],
+  "buildings": [
+    {
+      "id": "mourning-hall",
+      "rect": [4, 2, 12, 9],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "mourning-hall" }
+      ]
+    },
+    {
+      "id": "crypt-keep",
+      "rect": [19, 2, 26, 8],
+      "wall": "darkStone",
+      "roof": "greySlateRoof",
+      "doors": [
+        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "crypt-keep" }
+      ]
+    }
+  ],
+  "exteriorDecor": [
+    { "comment": "the old cemetery" },
+    { "tx": 4, "ty": 13, "tileId": "graveStone" },
+    { "tx": 7, "ty": 13, "tileId": "graveWoodenCross" },
+    { "tx": 10, "ty": 13, "tileId": "graveStone" },
+    { "tx": 5, "ty": 15, "tileId": "graveWoodenCross" },
+    { "tx": 8, "ty": 15, "tileId": "graveStone" },
+    { "tx": 11, "ty": 15, "tileId": "graveWoodenCross" },
+    { "tx": 4, "ty": 17, "tileId": "graveStone" },
+    { "tx": 9, "ty": 17, "tileId": "graveStone" },
+    { "tx": 12, "ty": 17, "tileId": "graveWoodenCross" },
+    { "comment": "dead trees ring the town" },
+    { "tx": 2, "ty": 4, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 16, "ty": 4, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 27, "ty": 12, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 20, "ty": 17, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 2, "ty": 19, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "tx": 25, "ty": 19, "bundleID": "dead-tree", "zlayer": "solid" },
+    { "comment": "remains of the living town" },
+    { "tx": 17, "ty": 12, "tileId": "stoneWell" },
+    { "tx": 13, "ty": 9, "tileId": "skull" },
+    { "tx": 24, "ty": 15, "tileId": "smallRock" },
+    { "tx": 18, "ty": 9, "tileId": "barrel" },
+    { "comment": "braziers that no one remembers lighting" },
+    { "tx": 13, "ty": 11, "tileId": "brazierBottom" },
+    { "tx": 13, "ty": 10, "tileId": "brazierTop", "zlayer": "above" },
+    { "tx": 18, "ty": 11, "tileId": "brazierBottom" },
+    { "tx": 18, "ty": 10, "tileId": "brazierTop", "zlayer": "above" }
+  ],
+  "npcSpawnTiles": [],
+  "ambientNpcSprites": [],
+  "npcs": [
+    {
+      "id": "ghost-mayor-aldous",
+      "name": "Mayor Aldous",
+      "sprite": "hub-npc-elder",
+      "isGhost": true,
+      "tx": 15,
+      "ty": 12,
+      "dialogue": [
+        "Welcome to Gravemoor! Population: technically zero. Spiritually: thriving.",
+        "I was mayor when I died and nobody's run against me since. Democracy at its finest.",
+        "We're dead, not rude. Wipe your feet and you're welcome anywhere in town."
+      ]
+    },
+    {
+      "id": "restless-merchant-mora",
+      "name": "Merchant Mora",
+      "sprite": "hub-npc-merchant",
+      "isGhost": true,
+      "tx": 19,
+      "ty": 13,
+      "dialogue": [
+        "Two hundred years of stock and not a single customer. Until you.",
+        "Money means little to the dead, but haggling? Haggling is eternal.",
+        "The blight took the town, but it couldn't take the market spirit. Literally, in my case."
+      ],
+      "building": "mourning-hall"
+    },
+    {
+      "id": "grave-keeper-finch",
+      "name": "Keeper Finch",
+      "sprite": "hub-npc-scholar",
+      "isGhost": true,
+      "tx": 22,
+      "ty": 10,
+      "dialogue": [
+        "I kept the graves in life. Now I keep them in death. Job security, of a sort.",
+        "Some of my neighbours' remains have been... borrowed. Scattered. It's terribly undignified.",
+        "The dead sleep better when everything's where it should be. So would I."
+      ],
+      "building": "crypt-keep",
+      "questGive": "gravemoor-restless-remains",
+      "questReceive": "gravemoor-restless-remains"
+    }
+  ],
+  "interiors": {
+    "mourning-hall": {
+      "name": "The Mourning Hall",
+      "width": 9,
+      "height": 6,
+      "floorTileId": "cobblestoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "candlestickUnlit" },
+        { "tx": 7, "ty": 1, "tileId": "candlestickUnlit" },
+        { "tx": 4, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 4, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 2, "ty": 3, "tileId": "roundTableWithCloth" }
+      ],
+      "exits": []
+    },
+    "crypt-keep": {
+      "name": "The Crypt Keep",
+      "width": 8,
+      "height": 5,
+      "floorTileId": "stoneFloor",
+      "wallTileId": "darkStone",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "skull" },
+        { "tx": 6, "ty": 1, "tileId": "skull" },
+        { "tx": 3, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 3, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 5, "ty": 3, "tileId": "chest" }
+      ],
+      "exits": []
+    }
+  }
+}

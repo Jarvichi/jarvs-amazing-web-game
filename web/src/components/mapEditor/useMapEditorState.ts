@@ -5,12 +5,32 @@ type InteriorExit = NonNullable<RawInterior['exits']>[number]
 import hubConfig from '../../data/hub/ravenwatch/config.json'
 import town2Config from '../../data/hub/millhaven/config.json'
 import castleConfig from '../../data/hub/ironholdkeep/config.json'
+import thornwoodcampConfig from '../../data/hub/thornwoodcamp/config.json'
+import capitalcityConfig from '../../data/hub/capitalcity/config.json'
+import royalpalaceConfig from '../../data/hub/royalpalace/config.json'
+import saltmereportConfig from '../../data/hub/saltmereport/config.json'
+import gearfordConfig from '../../data/hub/gearford/config.json'
+import harrowfieldConfig from '../../data/hub/harrowfield/config.json'
+import applefordConfig from '../../data/hub/appleford/config.json'
+import gravemoorConfig from '../../data/hub/gravemoor/config.json'
+import hollowmereConfig from '../../data/hub/hollowmere/config.json'
+import dreadspirecitadelConfig from '../../data/hub/dreadspirecitadel/config.json'
 import { MapId } from '../../data/hub/hubWorldFactory'
 
 const RAW_CONFIGS: Record<MapId, RawMapConfig> = {
   ravenwatch:    hubConfig    as unknown as RawMapConfig,
   millhaven:  town2Config  as unknown as RawMapConfig,
   ironholdkeep: castleConfig as unknown as RawMapConfig,
+  thornwoodcamp: thornwoodcampConfig as unknown as RawMapConfig,
+  capitalcity: capitalcityConfig as unknown as RawMapConfig,
+  royalpalace: royalpalaceConfig as unknown as RawMapConfig,
+  saltmereport: saltmereportConfig as unknown as RawMapConfig,
+  gearford: gearfordConfig as unknown as RawMapConfig,
+  harrowfield: harrowfieldConfig as unknown as RawMapConfig,
+  appleford: applefordConfig as unknown as RawMapConfig,
+  gravemoor: gravemoorConfig as unknown as RawMapConfig,
+  hollowmere: hollowmereConfig as unknown as RawMapConfig,
+  dreadspirecitadel: dreadspirecitadelConfig as unknown as RawMapConfig,
 }
 
 const MAX_UNDO = 50
