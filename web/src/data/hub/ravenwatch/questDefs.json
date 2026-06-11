@@ -3476,7 +3476,7 @@
       "id": "miras-lost-crystal",
       "tx": 14,
       "ty": 24,
-      "tileId": "pendant",
+      "tileId": "violet_crystal3",
       "questId": "miras-runaway-crystal"
     },
     {
@@ -3645,21 +3645,21 @@
       "id": "memory-shard-1",
       "tx": 37,
       "ty": 22,
-      "tileId": "pendant",
+      "tileId": "white_crystal3",
       "questId": "elder-fracture-memory"
     },
     {
       "id": "memory-shard-2",
       "tx": 59,
       "ty": 14,
-      "tileId": "pendant",
+      "tileId": "white_crystal3",
       "questId": "elder-fracture-memory"
     },
     {
       "id": "memory-shard-3",
       "tx": 4,
       "ty": 45,
-      "tileId": "pendant",
+      "tileId": "white_crystal3",
       "questId": "elder-fracture-memory"
     },
     {
@@ -4432,21 +4432,21 @@
       "id": "purification-crystal-1",
       "tx": 5,
       "ty": 40,
-      "tileId": "chest",
+      "tileId": "blue_crystal3",
       "questId": "mira-purging-augments"
     },
     {
       "id": "purification-crystal-2",
       "tx": 58,
       "ty": 47,
-      "tileId": "chest",
+      "tileId": "blue_crystal3",
       "questId": "mira-purging-augments"
     },
     {
       "id": "purification-crystal-3",
       "tx": 39,
       "ty": 41,
-      "tileId": "chest",
+      "tileId": "blue_crystal3",
       "questId": "mira-purging-augments"
     },
     {
@@ -5002,28 +5002,28 @@
       "id": "convergence-shard-1",
       "tx": 36,
       "ty": 24,
-      "tileId": "goldChest",
+      "tileId": "yellow_crystal1",
       "questId": "elder-the-convergence"
     },
     {
       "id": "convergence-shard-2",
       "tx": 2,
       "ty": 37,
-      "tileId": "goldChest",
+      "tileId": "yellow_crystal1",
       "questId": "elder-the-convergence"
     },
     {
       "id": "convergence-shard-3",
       "tx": 49,
       "ty": 1,
-      "tileId": "goldChest",
+      "tileId": "yellow_crystal1",
       "questId": "elder-the-convergence"
     },
     {
       "id": "convergence-shard-4",
       "tx": 56,
       "ty": 27,
-      "tileId": "goldChest",
+      "tileId": "yellow_crystal1",
       "questId": "elder-the-convergence"
     },
     {
