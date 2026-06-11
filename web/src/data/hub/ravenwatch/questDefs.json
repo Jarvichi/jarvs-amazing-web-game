@@ -3414,7 +3414,7 @@
     },
     {
       "id": "ancient-tome-1",
-      "tx": 3,
+      "tx": 1,
       "ty": 5,
       "tileId": "blackclosedBook",
       "questId": "scholars-anthology",
@@ -3502,7 +3502,7 @@
     },
     {
       "id": "overdue-book-1",
-      "tx": 4,
+      "tx": 1,
       "ty": 6,
       "tileId": "closedBook",
       "questId": "lysss-overdue-books",
@@ -3782,7 +3782,7 @@
     },
     {
       "id": "counterfeit-card-3",
-      "tx": 4,
+      "tx": 3,
       "ty": 3,
       "tileId": "blueclosedBook",
       "questId": "gildwyn-counterfeit-cards",
@@ -3979,7 +3979,7 @@
     },
     {
       "id": "marked-deck-1",
-      "tx": 4,
+      "tx": 1,
       "ty": 4,
       "tileId": "blueclosedBook",
       "questId": "dealer-marked-deck",
@@ -4130,7 +4130,7 @@
     },
     {
       "id": "card-layout-plans",
-      "tx": 5,
+      "tx": 11,
       "ty": 4,
       "tileId": "blueclosedBook",
       "questId": "gildwyn-stolen-card-plans",
@@ -4451,7 +4451,7 @@
     },
     {
       "id": "echo-card-set-1",
-      "tx": 4,
+      "tx": 2,
       "ty": 3,
       "tileId": "blueclosedBook",
       "questId": "gildwyn-echo-deck-master",
@@ -5554,6 +5554,6 @@
           }
         ]
       }
-    }    
+    }
   ]
 }

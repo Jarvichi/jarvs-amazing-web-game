@@ -1,0 +1,157 @@
+{
+  "mapW": 960,
+  "mapH": 704,
+  "townName": "Harrowfield",
+  "environment": "farmland",
+  "avatarStart": { "tx": 15, "ty": 20 },
+  "exitTiles": [
+    { "tx": 15, "ty": 21, "screen": "worldmap" },
+    { "tx": 16, "ty": 21, "screen": "worldmap" }
+  ],
+  "areas": [
+    { "id": "harrowfield-fields", "name": "The Fields", "tx": 2, "ty": 11, "tw": 10, "th": 9 },
+    { "id": "harrowfield-green", "name": "Village Green", "tx": 10, "ty": 9, "tw": 9, "th": 4 }
+  ],
+  "streets": [
+    { "rect": [15, 2, 16, 21] },
+    { "rect": [3, 10, 27, 11] },
+    { "rect": [22, 12, 23, 14] }
+  ],
+  "buildings": [
+    {
+      "id": "farmhouse",
+      "rect": [3, 2, 9, 8],
+      "wall": "woodWall",
+      "roof": "strawRoof",
+      "doors": [
+        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "farmhouse" }
+      ]
+    },
+    {
+      "id": "barn",
+      "rect": [20, 2, 27, 9],
+      "wall": "woodenSlats",
+      "roof": "strawRoof",
+      "doors": [
+        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "barn" }
+      ]
+    },
+    {
+      "id": "mill-cottage",
+      "rect": [19, 14, 25, 19],
+      "wall": "woodWall",
+      "roof": "strawRoof",
+      "doors": [
+        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "mill-cottage" }
+      ]
+    }
+  ],
+  "exteriorDecor": [
+    { "comment": "ploughed fields west of the lane" },
+    { "tx": 3, "ty": 13, "bundleID": "ploughed-field-6x5", "zlayer": "below" },
+    { "comment": "scarecrow watching the field" },
+    { "tx": 10, "ty": 14, "tileId": "scarecrowBottom" },
+    { "tx": 10, "ty": 13, "tileId": "scarecrowTop", "zlayer": "above" },
+    { "comment": "hay and farm clutter" },
+    { "tx": 11, "ty": 16, "tileId": "hayStack" },
+    { "tx": 12, "ty": 18, "tileId": "hayStack" },
+    { "tx": 19, "ty": 12, "tileId": "hayStack" },
+    { "tx": 28, "ty": 8, "tileId": "logPile" },
+    { "tx": 18, "ty": 9, "tileId": "barrel" },
+    { "tx": 12, "ty": 9, "tileId": "stoneWell" },
+    { "comment": "hedgerow trees" },
+    { "tx": 1, "ty": 4, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 12, "ty": 3, "bundleID": "light-tree", "zlayer": "solid" },
+    { "tx": 27, "ty": 16, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 2, "ty": 19, "bundleID": "light-tree", "zlayer": "solid" },
+    { "tx": 17, "ty": 13, "tileId": "whiteFlower" },
+    { "tx": 13, "ty": 12, "tileId": "whiteFlower" }
+  ],
+  "npcSpawnTiles": [],
+  "ambientNpcSprites": ["hub-npc-supplies"],
+  "npcs": [
+    {
+      "id": "elder-maeve",
+      "name": "Elder Maeve",
+      "sprite": "hub-npc-elder",
+      "tx": 13,
+      "ty": 9,
+      "dialogue": [
+        "Harrowfield feeds half the kingdom and gets thanked by none of it.",
+        "The scarecrows have been... moving. Pip says I imagine it. Pip didn't grow up here.",
+        "Stay for the harvest supper if you can. We owe travellers more kindness than we used to show."
+      ],
+      "building": "farmhouse"
+    },
+    {
+      "id": "farmhand-pip",
+      "name": "Farmhand Pip",
+      "sprite": "hub-npc-supplies",
+      "tx": 6,
+      "ty": 11,
+      "dialogue": [
+        "Sowing, hoeing, mowing. The fields don't care what day it is.",
+        "Three seed-grain sacks have gone missing. Maeve will have my ears if they're not found.",
+        "The scarecrow moved again last night. I'm not paid enough to ask it why."
+      ],
+      "questGive": "harrowfield-seed-grain",
+      "questReceive": "harrowfield-seed-grain"
+    },
+    {
+      "id": "miller-rook",
+      "name": "Miller Rook",
+      "sprite": "hub-npc-merchant",
+      "tx": 18,
+      "ty": 13,
+      "dialogue": [
+        "Flour, meal, and gossip — ground fresh daily.",
+        "The road south to the capital used to be safe. Now even the king's road has tolls of the unofficial kind.",
+        "Bread prices in Crownhaven would make you weep. My prices will merely sting."
+      ],
+      "building": "mill-cottage"
+    }
+  ],
+  "interiors": {
+    "farmhouse": {
+      "name": "Maeve's Farmhouse",
+      "width": 8,
+      "height": 5,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "sack" },
+        { "tx": 2, "ty": 1, "tileId": "barrel" },
+        { "tx": 5, "ty": 2, "tileId": "roundTable" },
+        { "tx": 6, "ty": 3, "tileId": "stool" }
+      ],
+      "exits": []
+    },
+    "barn": {
+      "name": "The Great Barn",
+      "width": 9,
+      "height": 6,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodenSlats",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "hayStack" },
+        { "tx": 2, "ty": 1, "tileId": "hayStack" },
+        { "tx": 6, "ty": 1, "tileId": "pileOfSacks" },
+        { "tx": 7, "ty": 1, "tileId": "crate" }
+      ],
+      "exits": []
+    },
+    "mill-cottage": {
+      "name": "Rook's Mill",
+      "width": 8,
+      "height": 4,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "pileOfSacks" },
+        { "tx": 2, "ty": 1, "tileId": "sack" },
+        { "tx": 5, "ty": 1, "tileId": "barrel" }
+      ],
+      "exits": []
+    }
+  }
+}

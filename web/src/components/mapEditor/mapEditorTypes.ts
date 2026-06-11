@@ -78,7 +78,7 @@ export interface RawInterior {
     toInteriorId: string
     entryTx?: number
     entryTy?: number
-    direction?: 'up' | 'down'
+    direction?: 'up' | 'down' | 'left' | 'right' | 'front' | 'back'
     lockedBy?: string
     requiredQuest?: string
     label?: string

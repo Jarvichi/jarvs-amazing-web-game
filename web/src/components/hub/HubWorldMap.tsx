@@ -106,13 +106,13 @@ export function HubWorldMap({ onSelectNode, onBack, user, onSignIn, onSignOut, o
 
       {questsOpen && <QuestsModal onClose={() => setQuestsOpen(false)} onAbandon={handleQuestAbandon} questDefs={ALL_QUEST_DEFS} />}
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minHeight: 0 }}>
         <NodeMapRederer
           id="hub-world"
           worldMap={WORLD_MAP}
           clearedNodeIds={clearedNodeIds}
-          mapWidth={700}
-          mapHeight={520}
+          mapWidth={1600}
+          mapHeight={1400}
           setPeekNode={setPeekNode}
           showPaths={false}
         />

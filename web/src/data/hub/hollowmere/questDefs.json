@@ -1,0 +1,34 @@
+{
+  "quests": [
+    {
+      "id": "hollowmere-witch-brew",
+      "title": "The Cold Cauldron",
+      "type": "fetch",
+      "giverNpcId": "hedge-witch-morwen",
+      "receiverNpcId": "hedge-witch-morwen",
+      "offerDialogue": "My joint-ease brew needs moonherb — three good bunches of it. It grows wild around the hollow, wherever the dark trees thin out. Fetch it for me and half of Hollowmere walks easier this winter. The other half slithers, but they appreciate the gesture.",
+      "activeDialogue": "Three bunches of moonherb, growing around the edges of town. It glows faintly. Or hums. Sometimes both.",
+      "completeDialogue": "Fresh moonherb! The cauldron bubbles tonight. Here — your cut, and some free advice: if Ogrim offers you a drink, ask what's in it FIRST.",
+      "steps": [
+        {
+          "key": "herbs",
+          "type": "collect",
+          "pickupIds": ["moonherb-1", "moonherb-2", "moonherb-3"],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 65,
+        "friendship": {
+          "hedge-witch-morwen": 15
+        }
+      }
+    }
+  ],
+  "pickupItems": [
+    { "id": "moonherb-1", "tx": 3, "ty": 12, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" },
+    { "id": "moonherb-2", "tx": 16, "ty": 14, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" },
+    { "id": "moonherb-3", "tx": 24, "ty": 17, "tileId": "bunchOfHerbs", "questId": "hollowmere-witch-brew" }
+  ],
+  "blockedPaths": []
+}

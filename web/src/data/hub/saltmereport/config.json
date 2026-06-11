@@ -1,0 +1,179 @@
+{
+  "mapW": 1152,
+  "mapH": 896,
+  "townName": "Saltmere Port",
+  "environment": "coast",
+  "avatarStart": { "tx": 2, "ty": 14 },
+  "exitTiles": [
+    { "tx": 1, "ty": 14, "screen": "worldmap" },
+    { "tx": 1, "ty": 15, "screen": "worldmap" }
+  ],
+  "areas": [
+    { "id": "saltmere-docks", "name": "The Docks", "tx": 28, "ty": 2, "tw": 8, "th": 24 },
+    { "id": "saltmere-quay", "name": "Quayside Market", "tx": 4, "ty": 11, "tw": 22, "th": 7 }
+  ],
+  "streets": [
+    { "rect": [33, 0, 35, 27], "pathType": "water1" },
+    { "rect": [32, 6, 32, 22], "pathType": "water1" },
+    { "rect": [30, 2, 31, 25] },
+    { "rect": [2, 13, 30, 15] },
+    { "rect": [13, 16, 15, 23] },
+    { "rect": [24, 5, 25, 12] },
+    { "rect": [7, 5, 8, 12] }
+  ],
+  "buildings": [
+    {
+      "id": "harbourmaster",
+      "rect": [21, 4, 28, 10],
+      "wall": "woodenSlats",
+      "roof": "strawRoof",
+      "doors": [
+        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "harbourmaster" }
+      ]
+    },
+    {
+      "id": "fish-market",
+      "rect": [3, 4, 11, 10],
+      "wall": "woodenSlats",
+      "roof": "yellowSlateRoof",
+      "doors": [
+        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "fish-market" }
+      ]
+    },
+    {
+      "id": "sailors-inn",
+      "rect": [9, 17, 18, 24],
+      "wall": "tudorFrame",
+      "roof": "redSlateRoof",
+      "doors": [
+        { "tx": 5, "ty": 1, "hideSign": true, "buildingId": "sailors-inn" }
+      ]
+    }
+  ],
+  "exteriorDecor": [
+    { "comment": "dock clutter along the waterfront" },
+    { "tx": 30, "ty": 4, "tileId": "barrel" },
+    { "tx": 31, "ty": 4, "tileId": "barrel" },
+    { "tx": 30, "ty": 10, "tileId": "crate" },
+    { "tx": 31, "ty": 17, "tileId": "pileOfSacks" },
+    { "tx": 30, "ty": 22, "tileId": "crate" },
+    { "tx": 31, "ty": 23, "tileId": "openCrate" },
+    { "tx": 29, "ty": 7, "tileId": "sack" },
+    { "comment": "lilypads and rocks in the shallows" },
+    { "tx": 33, "ty": 5, "tileId": "smallLilypad" },
+    { "tx": 34, "ty": 13, "tileId": "largeLilypad" },
+    { "tx": 33, "ty": 21, "tileId": "smallLilypad" },
+    { "tx": 32, "ty": 3, "tileId": "smallRock" },
+    { "comment": "quayside market" },
+    { "tx": 19, "ty": 12, "tileId": "stoneWell" },
+    { "tx": 4, "ty": 12, "tileId": "mushroomBasket" },
+    { "tx": 26, "ty": 12, "tileId": "barrel" },
+    { "comment": "greenery on the landward side" },
+    { "tx": 3, "ty": 20, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 21, "ty": 19, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 2, "ty": 2, "bundleID": "light-tree", "zlayer": "solid" },
+    { "tx": 16, "ty": 2, "bundleID": "light-tree", "zlayer": "solid" }
+  ],
+  "npcSpawnTiles": [],
+  "ambientNpcSprites": ["hub-npc-fisherman", "hub-npc-merchant"],
+  "npcs": [
+    {
+      "id": "harbourmaster-vane",
+      "name": "Harbourmaster Vane",
+      "sprite": "hub-npc-merchant",
+      "tx": 26,
+      "ty": 12,
+      "dialogue": [
+        "Every crate, every barrel, every gull on this dock answers to me.",
+        "Cargo's been going missing off the quay. The manifest doesn't lie — people do.",
+        "Pirates to the north, smugglers to the south, and paperwork in every direction."
+      ],
+      "building": "harbourmaster",
+      "questGive": "saltmere-lost-cargo",
+      "questReceive": "saltmere-rum-run"
+    },
+    {
+      "id": "fishwife-pearl",
+      "name": "Fishwife Pearl",
+      "sprite": "hub-npc-fisherman",
+      "tx": 9,
+      "ty": 12,
+      "dialogue": [
+        "Fresh off the morning tide! Mostly fresh. Define fresh.",
+        "The reef's been restless. Old Salt says it's the kraken. Old Salt says a lot of things.",
+        "You buy, or you're blocking the stall."
+      ],
+      "building": "fish-market"
+    },
+    {
+      "id": "dockhand-tam",
+      "name": "Dockhand Tam",
+      "sprite": "hub-npc-supplies",
+      "tx": 29,
+      "ty": 16,
+      "dialogue": [
+        "Lift with the knees. That's the whole job, really.",
+        "Found a barrel of navy rum washed up under the south pier. Above my pay grade, that.",
+        "Vane counts the cargo twice. I count my fingers after every shift."
+      ],
+      "questGive": "saltmere-rum-run"
+    },
+    {
+      "id": "old-salt",
+      "name": "Old Salt",
+      "sprite": "hub-npc-elder",
+      "tx": 17,
+      "ty": 16,
+      "dialogue": [
+        "Forty years before the mast, and the sea still won't tell me her secrets.",
+        "There's a cove east of here no chart will show you. The pirates make sure of that.",
+        "The tide takes and the tide gives back. Rarely the same things, mind."
+      ]
+    }
+  ],
+  "interiors": {
+    "harbourmaster": {
+      "name": "The Harbour Office",
+      "width": 8,
+      "height": 5,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "bookshelfTop" },
+        { "tx": 1, "ty": 2, "tileId": "bookshelfBottom" },
+        { "tx": 5, "ty": 1, "tileId": "chest" },
+        { "tx": 6, "ty": 1, "tileId": "crate" }
+      ],
+      "exits": []
+    },
+    "fish-market": {
+      "name": "The Fish Market",
+      "width": 9,
+      "height": 5,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodenSlats",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "barrel" },
+        { "tx": 2, "ty": 1, "tileId": "barrel" },
+        { "tx": 6, "ty": 1, "tileId": "openCrate" },
+        { "tx": 7, "ty": 1, "tileId": "crate" }
+      ],
+      "exits": []
+    },
+    "sailors-inn": {
+      "name": "The Brined Anchor",
+      "width": 10,
+      "height": 6,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "barrel" },
+        { "tx": 2, "ty": 1, "tileId": "bottlesOfLiquor" },
+        { "tx": 6, "ty": 2, "tileId": "roundTable" },
+        { "tx": 7, "ty": 3, "tileId": "stool" },
+        { "tx": 5, "ty": 3, "tileId": "stool" }
+      ],
+      "exits": []
+    }
+  }
+}

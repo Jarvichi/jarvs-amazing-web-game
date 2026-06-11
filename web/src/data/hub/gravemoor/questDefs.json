@@ -1,0 +1,37 @@
+{
+  "quests": [
+    {
+      "id": "gravemoor-restless-remains",
+      "title": "The Restless Remains",
+      "type": "fetch",
+      "giverNpcId": "grave-keeper-finch",
+      "receiverNpcId": "grave-keeper-finch",
+      "offerDialogue": "Something has been digging in the cemetery — scattering the remains of three of my oldest residents about the town. They cannot rest like this, and frankly their complaints are constant. Gather them up and bring them home, won't you?",
+      "activeDialogue": "Three sets of remains, scattered around town. They'll be the suspiciously chatty skulls.",
+      "completeDialogue": "Home at last, all three. Listen... silence. Blessed, dignified silence. The dead of Gravemoor thank you — and unlike most, they mean it eternally.",
+      "steps": [
+        {
+          "key": "remains",
+          "type": "collect",
+          "pickupIds": ["remains-1", "remains-2", "remains-3"],
+          "required": 3
+        }
+      ],
+      "reward": {
+        "crystals": 70,
+        "collectible": {
+          "id": "gravemoor-lantern",
+          "name": "Mourner's Lantern",
+          "icon": "🏮",
+          "desc": "A small lantern that burns with a cold blue flame. The dead find it comforting."
+        }
+      }
+    }
+  ],
+  "pickupItems": [
+    { "id": "remains-1", "tx": 3, "ty": 9, "tileId": "skull", "questId": "gravemoor-restless-remains" },
+    { "id": "remains-2", "tx": 26, "ty": 16, "tileId": "skull", "questId": "gravemoor-restless-remains" },
+    { "id": "remains-3", "tx": 10, "ty": 19, "tileId": "skull", "questId": "gravemoor-restless-remains" }
+  ],
+  "blockedPaths": []
+}

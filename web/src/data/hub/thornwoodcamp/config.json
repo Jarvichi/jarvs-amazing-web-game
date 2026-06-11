@@ -1,0 +1,59 @@
+{
+  "mapW": 640,
+  "mapH": 640,
+  "townName": "Thornwood Camp",
+  "environment": "camp",
+  "avatarStart": { "tx": 10, "ty": 13 },
+  "exitTiles": [
+    { "tx": 9, "ty": 14, "screen": "worldmap" },
+    { "tx": 10, "ty": 14, "screen": "worldmap" }
+  ],
+  "areas": [
+    { "id": "thornwood-fire", "name": "The Campfire", "tx": 6, "ty": 6, "tw": 9, "th": 9 }
+  ],
+  "streets": [
+    { "rect": [9, 11, 10, 14] },
+    { "rect": [8, 8, 12, 12] }
+  ],
+  "buildings": [],
+  "exteriorDecor": [
+    { "comment": "the campfire at the heart of the camp" },
+    { "tx": 10, "ty": 10, "tileId": "campfireUnlit" },
+    { "comment": "supplies ring around the fire" },
+    { "tx": 8, "ty": 9, "tileId": "logPile" },
+    { "tx": 8, "ty": 10, "tileId": "logPile" },
+    { "tx": 12, "ty": 9, "tileId": "crate" },
+    { "tx": 12, "ty": 11, "tileId": "barrel" },
+    { "tx": 9, "ty": 8, "tileId": "sack" },
+    { "tx": 11, "ty": 8, "tileId": "smallRock" },
+    { "tx": 13, "ty": 13, "tileId": "largeStump" },
+    { "tx": 6, "ty": 12, "tileId": "largeStump" },
+    { "comment": "thornwood treeline" },
+    { "tx": 2, "ty": 4, "bundleID": "dark-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 15, "ty": 4, "bundleID": "dark-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 3, "ty": 15, "bundleID": "dark-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 14, "ty": 15, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 7, "ty": 2, "bundleID": "mixed-tree-cluster-V", "zlayer": "solid" },
+    { "tx": 0, "ty": 9, "bundleID": "dark-tree-column-4", "zlayer": "solid" },
+    { "tx": 17, "ty": 9, "bundleID": "dark-tree-column-4", "zlayer": "solid" }
+  ],
+  "npcSpawnTiles": [],
+  "ambientNpcSprites": [],
+  "npcs": [
+    {
+      "id": "warden-rell",
+      "name": "Warden Rell",
+      "sprite": "hub-npc-soldier",
+      "tx": 11,
+      "ty": 10,
+      "dialogue": [
+        "Thornwood Camp. Last warm fire between Ironhold and the river.",
+        "I keep the fire and the fire keeps the wolves honest. Simple arrangement.",
+        "Firewood's running low again. The forest gives, but only if you go and fetch."
+      ],
+      "questGive": "thornwood-embers-low",
+      "questReceive": "thornwood-embers-low"
+    }
+  ],
+  "interiors": {}
+}

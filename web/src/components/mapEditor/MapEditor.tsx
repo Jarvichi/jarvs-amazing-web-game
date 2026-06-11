@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { MapEditorToolbar } from './MapEditorToolbar'
 import { TilePalette } from './TilePalette'
 import { EntityInspector } from './EntityInspector'
@@ -8,6 +8,8 @@ import type { MapId,  QuestDefsJson } from '../../data/hub/hubWorldFactory'
 import  {  QUEST_DEFS_BY_MAP } from '../../data/hub/hubWorldFactory'
 
 import { SelectedEntity } from './mapEditorTypes'
+import { NpcQuestDrawer } from './npcQuestDrawer/NpcQuestDrawer'
+import type { DrawerTab } from './npcQuestDrawer/npcQuestDrawerTypes'
 
 
 interface Props {
@@ -20,12 +22,18 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
   const [questDefsData, setQuestDefsData] = useState<QuestDefsJson | null>(
     () => QUEST_DEFS_BY_MAP[initialMapId] ? structuredClone(QUEST_DEFS_BY_MAP[initialMapId]!) : null,
   )
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [drawerTab, setDrawerTab] = useState<DrawerTab>('npcs')
+  const [drawerHeight, setDrawerHeight] = useState(280)
+  const [focusedNpcIndex, setFocusedNpcIndex] = useState<number | null>(null)
+  const drawerDragRef = useRef<{ startY: number; startH: number } | null>(null)
 
   const {
     state, setMapId, setTool, setActiveTile, setZlayer,
     openInterior, closeInterior, selectEntity,
     placeDecor, moveEntity, deleteEntity,
-    updateDecorZlayer, updateNpcDialogue,
+    updateDecorZlayer, updateNpcDialogue, updateNpc,
+    resizeInterior, addInterior, addInteriorExit, updateInteriorProps, updateInteriorExit, removeInteriorExit,
     addStreet, updateStreetEntry,
     undo, redo, markSaved,
   } = useMapEditorState(initialMapId)
@@ -36,6 +44,42 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
     const defs = QUEST_DEFS_BY_MAP[mapId]
     setQuestDefsData( structuredClone(defs)    )
   }, [state.mapId])
+
+  // Auto-open drawer and focus NPC when one is selected on canvas
+  useEffect(() => {
+    if (state.selectedEntity?.type === 'npc') {
+      setFocusedNpcIndex(state.selectedEntity.index)
+      setDrawerOpen(true)
+      setDrawerTab('npcs')
+    }
+  }, [state.selectedEntity])
+
+  const hasDuplicateQuestIds = useMemo(() => {
+    if (!questDefsData) return false
+    const quests = (questDefsData.quests as Array<{ id: string }> | undefined) ?? []
+    const ids = quests.map(q => q.id)
+    return ids.length !== new Set(ids).size
+  }, [questDefsData])
+
+  const handleQuestDefsChange = useCallback((updater: (prev: QuestDefsJson) => QuestDefsJson) => {
+    setQuestDefsData(prev => prev ? updater(prev) : prev)
+  }, [])
+
+  const handleDragStart = useCallback((e: React.MouseEvent) => {
+    drawerDragRef.current = { startY: e.clientY, startH: drawerHeight }
+    const onMove = (ev: MouseEvent) => {
+      if (!drawerDragRef.current) return
+      const delta = drawerDragRef.current.startY - ev.clientY
+      setDrawerHeight(h => Math.max(150, Math.min(600, drawerDragRef.current!.startH + delta)))
+    }
+    const onUp = () => {
+      drawerDragRef.current = null
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseup', onUp)
+    }
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
+  }, [drawerHeight])
 
   // Intercept pickupItem moves/deletes to update questDefsData instead of configData
   const handleMoveEntity = useCallback((entity: SelectedEntity, tx: number, ty: number) => {
@@ -92,6 +136,8 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
         isDirty={state.isDirty}
         showGrid={showGrid}
         showQuestItems={showQuestItems}
+        drawerOpen={drawerOpen}
+        hasDuplicateQuestIds={hasDuplicateQuestIds}
         configData={state.configData}
         onMapChange={setMapId}
         onToolChange={setTool}
@@ -99,61 +145,91 @@ export function MapEditor({ initialMapId = 'ravenwatch' }: Props) {
         onRedo={redo}
         onGridToggle={() => setShowGrid(g => !g)}
         onQuestItemsToggle={() => setShowQuestItems(q => !q)}
+        onDrawerToggle={() => setDrawerOpen(o => !o)}
         questDefsData={questDefsData as Record<string, unknown> | null}
         onSaved={markSaved}
       />
 
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        {/* Left: Tile palette */}
-        <div style={{ width: 192, flexShrink: 0, borderRight: '1px solid #333', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-          <TilePalette
+      <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
+        {/* Canvas row */}
+        <div style={{ display: 'flex', flex: 1, overflow: 'hidden', minHeight: 0 }}>
+          {/* Left: Tile palette */}
+          <div style={{ width: 192, flexShrink: 0, borderRight: '1px solid #333', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+            <TilePalette
+              activeTileId={state.activeTileId}
+              activeBundleId={state.activeBundleId}
+              activeZlayer={state.activeZlayer}
+              onSelectTile={tileId => setActiveTile(tileId)}
+              onSelectBundle={bundleId => setActiveTile(null, bundleId)}
+              onZlayerChange={setZlayer}
+            />
+          </div>
+
+          {/* Center: Map canvas — key forces remount when canvas dimensions change */}
+          <MapEditorCanvas
+            key={`${state.mapId}-${state.viewMode}-${state.activeInteriorId ?? ''}`}
+            configData={state.configData}
+            tool={state.tool}
+            showGrid={showGrid}
+            showQuestItems={showQuestItems}
+            selectedEntity={state.selectedEntity}
+            viewMode={state.viewMode}
+            activeInteriorId={state.activeInteriorId}
             activeTileId={state.activeTileId}
             activeBundleId={state.activeBundleId}
             activeZlayer={state.activeZlayer}
-            onSelectTile={tileId => setActiveTile(tileId)}
-            onSelectBundle={bundleId => setActiveTile(null, bundleId)}
-            onZlayerChange={setZlayer}
-          />
-        </div>
-
-        {/* Center: Map canvas — key forces remount when canvas dimensions change */}
-        <MapEditorCanvas
-          key={`${state.mapId}-${state.viewMode}-${state.activeInteriorId ?? ''}`}
-          configData={state.configData}
-          tool={state.tool}
-          showGrid={showGrid}
-          showQuestItems={showQuestItems}
-          selectedEntity={state.selectedEntity}
-          viewMode={state.viewMode}
-          activeInteriorId={state.activeInteriorId}
-          activeTileId={state.activeTileId}
-          activeBundleId={state.activeBundleId}
-          activeZlayer={state.activeZlayer}
-          onSelectEntity={selectEntity}
-          onPlaceDecor={placeDecor}
-          onMoveEntity={handleMoveEntity}
-          onDeleteEntity={handleDeleteEntity}
-          onAddStreet={addStreet}
-          questPickupItems={questDefsData?.pickupItems ?? []}
-        />
-
-        {/* Right: Inspector */}
-        <div style={{ width: 220, flexShrink: 0, borderLeft: '1px solid #333', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-          <EntityInspector
-            selectedEntity={state.selectedEntity}
-            configData={state.configData}
-            activeInteriorId={state.activeInteriorId}
-            viewMode={state.viewMode}
-            onDelete={handleDeleteEntity}
+            onSelectEntity={selectEntity}
+            onPlaceDecor={placeDecor}
             onMoveEntity={handleMoveEntity}
-            onZlayerChange={updateDecorZlayer}
-            onDialogueChange={updateNpcDialogue}
-            onOpenInterior={openInterior}
-            onCloseInterior={closeInterior}
-            onUpdateStreetEntry={updateStreetEntry}
+            onDeleteEntity={handleDeleteEntity}
+            onAddStreet={addStreet}
             questPickupItems={questDefsData?.pickupItems ?? []}
           />
+
+          {/* Right: Inspector */}
+          <div style={{ width: 220, flexShrink: 0, borderLeft: '1px solid #333', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+            <EntityInspector
+              selectedEntity={state.selectedEntity}
+              configData={state.configData}
+              activeInteriorId={state.activeInteriorId}
+              viewMode={state.viewMode}
+              onDelete={handleDeleteEntity}
+              onMoveEntity={handleMoveEntity}
+              onZlayerChange={updateDecorZlayer}
+              onDialogueChange={updateNpcDialogue}
+              onOpenInterior={openInterior}
+              onCloseInterior={closeInterior}
+              onUpdateStreetEntry={updateStreetEntry}
+              onResizeInterior={resizeInterior}
+              onAddInterior={addInterior}
+              onAddInteriorExit={addInteriorExit}
+              onUpdateInteriorProps={updateInteriorProps}
+              onUpdateInteriorExit={updateInteriorExit}
+              onRemoveInteriorExit={removeInteriorExit}
+              questPickupItems={questDefsData?.pickupItems ?? []}
+            />
+          </div>
         </div>
+
+        {/* Bottom drawer: NPCs & Quests */}
+        {drawerOpen && questDefsData && (
+          <div style={{ height: drawerHeight, flexShrink: 0, display: 'flex', flexDirection: 'column', borderTop: '1px solid #333' }}>
+            <div
+              onMouseDown={handleDragStart}
+              style={{ height: 6, background: '#1a1a3a', cursor: 'ns-resize', flexShrink: 0 }}
+              title="Drag to resize"
+            />
+            <NpcQuestDrawer
+              tab={drawerTab}
+              focusedNpcIndex={focusedNpcIndex}
+              configData={state.configData}
+              questDefsData={questDefsData}
+              onTabChange={setDrawerTab}
+              onUpdateNpc={updateNpc}
+              onQuestDefsChange={handleQuestDefsChange}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

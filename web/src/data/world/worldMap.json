@@ -5,16 +5,17 @@
     "ravenwatch": {
       "id": "ravenwatch", "type": "town", "label": "Ravenwatch", "description": "",
       "row": 0, "col": 0, "rowCols": 1, "childIds": [],
-      "x": 350, "y": 450,
-      "connections": ["forest-path", "bridge-battle"],
+      "x": 800, "y": 700,
+      "connections": ["forest-path", "bridge-battle", "b-east-road", "b-south-road", "b-west-road"],
       "locationKey": "ravenwatch",
       "decorTiles": [49, 50],
       "decorOffsets": [[-32, -16], [0, -16]]
     },
+
     "forest-path": {
       "id": "forest-path", "type": "battle", "label": "Forest Path", "description": "",
       "row": 1, "col": 0, "rowCols": 2, "childIds": [],
-      "x": 210, "y": 360,
+      "x": 700, "y": 612,
       "connections": ["ironhold-keep"],
       "requiredClears": [],
       "battleConfig": { "actId": "act1", "nodeId": "goblin-raid" },
@@ -23,7 +24,7 @@
     "bridge-battle": {
       "id": "bridge-battle", "type": "battle", "label": "Bridge Battle", "description": "",
       "row": 1, "col": 1, "rowCols": 2, "childIds": [],
-      "x": 490, "y": 360,
+      "x": 900, "y": 612,
       "connections": ["ironhold-keep"],
       "requiredClears": [],
       "battleConfig": { "actId": "act1", "nodeId": "shrine" },
@@ -32,7 +33,7 @@
     "ironhold-keep": {
       "id": "ironhold-keep", "type": "castle", "label": "Ironhold Keep", "description": "",
       "row": 2, "col": 0, "rowCols": 1, "childIds": [],
-      "x": 350, "y": 270,
+      "x": 800, "y": 535,
       "connections": ["thornwood-camp"],
       "requiredClears": ["forest-path|bridge-battle"],
       "locationKey": "ironhold-keep",
@@ -42,16 +43,17 @@
     "thornwood-camp": {
       "id": "thornwood-camp", "type": "camp", "label": "Thornwood Camp", "description": "",
       "row": 3, "col": 0, "rowCols": 1, "childIds": [],
-      "x": 350, "y": 185,
+      "x": 800, "y": 455,
       "connections": ["river-battle"],
       "requiredClears": ["forest-path|bridge-battle"],
+      "locationKey": "thornwood-camp",
       "decorTiles": [8, 11],
       "decorOffsets": [[-20, -16], [8, -8]]
     },
     "river-battle": {
       "id": "river-battle", "type": "battle", "label": "River Crossing", "description": "",
       "row": 4, "col": 0, "rowCols": 1, "childIds": [],
-      "x": 350, "y": 105,
+      "x": 800, "y": 375,
       "connections": ["millhaven"],
       "requiredClears": ["forest-path|bridge-battle"],
       "battleConfig": { "actId": "act2", "nodeId": "iron-gate" },
@@ -60,12 +62,284 @@
     "millhaven": {
       "id": "millhaven", "type": "town", "label": "Millhaven", "description": "",
       "row": 5, "col": 0, "rowCols": 1, "childIds": [],
-      "x": 350, "y": 30,
-      "connections": [],
+      "x": 800, "y": 295,
+      "connections": ["b-blight-fields", "b-crypt-road", "b-dread-gate"],
       "requiredClears": ["river-battle"],
       "locationKey": "millhaven",
       "decorTiles": [57, 58],
       "decorOffsets": [[-32, -16], [0, -16]]
+    },
+
+    "b-blight-fields": {
+      "id": "b-blight-fields", "type": "battle", "label": "Blighted Fields", "description": "",
+      "row": 6, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 655, "y": 235,
+      "connections": ["gravemoor"],
+      "requiredClears": ["river-battle"],
+      "battleConfig": { "actId": "world", "nodeId": "b-blight-fields" },
+      "decorTiles": [29]
+    },
+    "gravemoor": {
+      "id": "gravemoor", "type": "town", "label": "Gravemoor", "description": "",
+      "row": 6, "col": 1, "rowCols": 1, "childIds": [],
+      "x": 545, "y": 180,
+      "connections": ["b-grave-mists"],
+      "requiredClears": ["b-blight-fields"],
+      "locationKey": "gravemoor",
+      "decorTiles": [49, 50],
+      "decorOffsets": [[-32, -16], [0, -16]]
+    },
+    "b-grave-mists": {
+      "id": "b-grave-mists", "type": "battle", "label": "Grave Mists", "description": "",
+      "row": 6, "col": 2, "rowCols": 1, "childIds": [],
+      "x": 600, "y": 95,
+      "connections": ["dreadspire-citadel"],
+      "requiredClears": ["b-blight-fields"],
+      "battleConfig": { "actId": "world", "nodeId": "b-grave-mists" },
+      "decorTiles": [29]
+    },
+    "b-crypt-road": {
+      "id": "b-crypt-road", "type": "battle", "label": "Crypt Road", "description": "",
+      "row": 7, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 945, "y": 235,
+      "connections": ["hollowmere"],
+      "requiredClears": ["river-battle"],
+      "battleConfig": { "actId": "world", "nodeId": "b-crypt-road" },
+      "decorTiles": [29]
+    },
+    "hollowmere": {
+      "id": "hollowmere", "type": "town", "label": "Hollowmere", "description": "",
+      "row": 7, "col": 1, "rowCols": 1, "childIds": [],
+      "x": 1055, "y": 180,
+      "connections": ["b-howling-dark"],
+      "requiredClears": ["b-crypt-road"],
+      "locationKey": "hollowmere",
+      "decorTiles": [49, 50],
+      "decorOffsets": [[-32, -16], [0, -16]]
+    },
+    "b-howling-dark": {
+      "id": "b-howling-dark", "type": "battle", "label": "The Howling Dark", "description": "",
+      "row": 7, "col": 2, "rowCols": 1, "childIds": [],
+      "x": 1000, "y": 95,
+      "connections": ["dreadspire-citadel"],
+      "requiredClears": ["b-crypt-road"],
+      "battleConfig": { "actId": "world", "nodeId": "b-howling-dark" },
+      "decorTiles": [10]
+    },
+    "b-dread-gate": {
+      "id": "b-dread-gate", "type": "battle", "label": "Dreadspire Gate", "description": "",
+      "row": 8, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 800, "y": 180,
+      "connections": ["dreadspire-citadel"],
+      "requiredClears": ["b-blight-fields|b-crypt-road"],
+      "battleConfig": { "actId": "world", "nodeId": "b-dread-gate" },
+      "decorTiles": [29]
+    },
+    "dreadspire-citadel": {
+      "id": "dreadspire-citadel", "type": "castle", "label": "Dreadspire Citadel", "description": "",
+      "row": 8, "col": 1, "rowCols": 1, "childIds": [],
+      "x": 800, "y": 75,
+      "connections": [],
+      "requiredClears": ["b-dread-gate|b-grave-mists|b-howling-dark"],
+      "locationKey": "dreadspire-citadel",
+      "decorTiles": [53, 54, 61, 62],
+      "decorOffsets": [[-32, -32], [0, -32], [-32, 0], [0, 0]]
+    },
+
+    "b-east-road": {
+      "id": "b-east-road", "type": "battle", "label": "Toll Road Ambush", "description": "",
+      "row": 9, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 950, "y": 720,
+      "connections": ["appleford", "b-salt-marsh"],
+      "requiredClears": [],
+      "battleConfig": { "actId": "world", "nodeId": "b-east-road" },
+      "decorTiles": [28]
+    },
+    "appleford": {
+      "id": "appleford", "type": "town", "label": "Appleford", "description": "",
+      "row": 9, "col": 1, "rowCols": 1, "childIds": [],
+      "x": 1075, "y": 640,
+      "connections": ["b-orchard-raid"],
+      "requiredClears": ["b-east-road"],
+      "locationKey": "appleford",
+      "decorTiles": [56]
+    },
+    "b-orchard-raid": {
+      "id": "b-orchard-raid", "type": "battle", "label": "Orchard Raid", "description": "",
+      "row": 9, "col": 2, "rowCols": 1, "childIds": [],
+      "x": 1200, "y": 620,
+      "connections": ["saltmere-port"],
+      "requiredClears": ["b-east-road"],
+      "battleConfig": { "actId": "world", "nodeId": "b-orchard-raid" },
+      "decorTiles": [9]
+    },
+    "b-salt-marsh": {
+      "id": "b-salt-marsh", "type": "battle", "label": "Salt Marsh Crossing", "description": "",
+      "row": 10, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 1090, "y": 780,
+      "connections": ["saltmere-port"],
+      "requiredClears": ["b-east-road"],
+      "battleConfig": { "actId": "world", "nodeId": "b-salt-marsh" },
+      "decorTiles": [16]
+    },
+    "saltmere-port": {
+      "id": "saltmere-port", "type": "port", "label": "Saltmere Port", "description": "",
+      "row": 10, "col": 1, "rowCols": 1, "childIds": [],
+      "x": 1320, "y": 700,
+      "connections": ["b-pirate-cove", "b-smugglers-landing"],
+      "requiredClears": ["b-salt-marsh|b-orchard-raid"],
+      "locationKey": "saltmere-port",
+      "decorTiles": [49, 50],
+      "decorOffsets": [[-32, -16], [0, -16]]
+    },
+    "b-pirate-cove": {
+      "id": "b-pirate-cove", "type": "battle", "label": "Pirate Cove", "description": "",
+      "row": 10, "col": 2, "rowCols": 1, "childIds": [],
+      "x": 1450, "y": 640,
+      "connections": [],
+      "requiredClears": ["b-salt-marsh|b-orchard-raid"],
+      "battleConfig": { "actId": "world", "nodeId": "b-pirate-cove" },
+      "decorTiles": [20]
+    },
+    "b-smugglers-landing": {
+      "id": "b-smugglers-landing", "type": "battle", "label": "Smuggler's Landing", "description": "",
+      "row": 11, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 1300, "y": 930,
+      "connections": ["capital-city"],
+      "requiredClears": ["b-salt-marsh|b-orchard-raid|b-royal-checkpoint"],
+      "battleConfig": { "actId": "world", "nodeId": "b-smugglers-landing" },
+      "decorTiles": [16]
+    },
+
+    "b-south-road": {
+      "id": "b-south-road", "type": "battle", "label": "Old King's Road", "description": "",
+      "row": 12, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 800, "y": 830,
+      "connections": ["harrowfield", "b-river-ford"],
+      "requiredClears": [],
+      "battleConfig": { "actId": "world", "nodeId": "b-south-road" },
+      "decorTiles": [28]
+    },
+    "harrowfield": {
+      "id": "harrowfield", "type": "town", "label": "Harrowfield", "description": "",
+      "row": 12, "col": 1, "rowCols": 1, "childIds": [],
+      "x": 665, "y": 905,
+      "connections": ["b-scarecrow-fields"],
+      "requiredClears": ["b-south-road"],
+      "locationKey": "harrowfield",
+      "decorTiles": [56]
+    },
+    "b-scarecrow-fields": {
+      "id": "b-scarecrow-fields", "type": "battle", "label": "Scarecrow Fields", "description": "",
+      "row": 12, "col": 2, "rowCols": 1, "childIds": [],
+      "x": 640, "y": 1020,
+      "connections": ["capital-city"],
+      "requiredClears": ["b-south-road"],
+      "battleConfig": { "actId": "world", "nodeId": "b-scarecrow-fields" },
+      "decorTiles": [9]
+    },
+    "b-river-ford": {
+      "id": "b-river-ford", "type": "battle", "label": "Southford Crossing", "description": "",
+      "row": 13, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 900, "y": 920,
+      "connections": ["b-royal-checkpoint"],
+      "requiredClears": ["b-south-road"],
+      "battleConfig": { "actId": "world", "nodeId": "b-river-ford" },
+      "decorTiles": [18]
+    },
+    "b-royal-checkpoint": {
+      "id": "b-royal-checkpoint", "type": "battle", "label": "Royal Checkpoint", "description": "",
+      "row": 13, "col": 1, "rowCols": 1, "childIds": [],
+      "x": 870, "y": 1030,
+      "connections": ["capital-city"],
+      "requiredClears": ["b-river-ford"],
+      "battleConfig": { "actId": "world", "nodeId": "b-royal-checkpoint" },
+      "decorTiles": [18]
+    },
+    "capital-city": {
+      "id": "capital-city", "type": "town", "label": "Crownhaven", "description": "",
+      "row": 14, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 800, "y": 1140,
+      "connections": ["royal-palace", "b-tournament"],
+      "requiredClears": ["b-royal-checkpoint|b-scarecrow-fields|b-smugglers-landing"],
+      "locationKey": "capital-city",
+      "decorTiles": [57, 58],
+      "decorOffsets": [[-32, -16], [0, -16]]
+    },
+    "royal-palace": {
+      "id": "royal-palace", "type": "castle", "label": "Royal Palace", "description": "",
+      "row": 14, "col": 1, "rowCols": 1, "childIds": [],
+      "x": 800, "y": 1255,
+      "connections": [],
+      "requiredClears": ["b-royal-checkpoint|b-scarecrow-fields|b-smugglers-landing"],
+      "locationKey": "royal-palace",
+      "decorTiles": [53, 54, 61, 62],
+      "decorOffsets": [[-32, -32], [0, -32], [-32, 0], [0, 0]]
+    },
+    "b-tournament": {
+      "id": "b-tournament", "type": "battle", "label": "Tournament Grounds", "description": "",
+      "row": 14, "col": 2, "rowCols": 1, "childIds": [],
+      "x": 950, "y": 1180,
+      "connections": [],
+      "requiredClears": ["b-royal-checkpoint|b-scarecrow-fields|b-smugglers-landing"],
+      "battleConfig": { "actId": "world", "nodeId": "b-tournament" },
+      "decorTiles": [28]
+    },
+
+    "b-west-road": {
+      "id": "b-west-road", "type": "battle", "label": "Quarry Road", "description": "",
+      "row": 15, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 650, "y": 720,
+      "connections": ["b-mine-trouble"],
+      "requiredClears": [],
+      "battleConfig": { "actId": "world", "nodeId": "b-west-road" },
+      "decorTiles": [12]
+    },
+    "b-mine-trouble": {
+      "id": "b-mine-trouble", "type": "battle", "label": "Collapsed Mine", "description": "",
+      "row": 15, "col": 1, "rowCols": 1, "childIds": [],
+      "x": 530, "y": 660,
+      "connections": ["gearford"],
+      "requiredClears": ["b-west-road"],
+      "battleConfig": { "actId": "world", "nodeId": "b-mine-trouble" },
+      "decorTiles": [30]
+    },
+    "gearford": {
+      "id": "gearford", "type": "town", "label": "Gearford", "description": "",
+      "row": 15, "col": 2, "rowCols": 1, "childIds": [],
+      "x": 410, "y": 710,
+      "connections": ["b-smoke-fields", "b-foundry-gate", "b-bandit-toll"],
+      "requiredClears": ["b-mine-trouble"],
+      "locationKey": "gearford",
+      "decorTiles": [49, 50],
+      "decorOffsets": [[-32, -16], [0, -16]]
+    },
+    "b-smoke-fields": {
+      "id": "b-smoke-fields", "type": "battle", "label": "Smokefield Patrol", "description": "",
+      "row": 16, "col": 0, "rowCols": 1, "childIds": [],
+      "x": 300, "y": 640,
+      "connections": [],
+      "requiredClears": ["b-mine-trouble"],
+      "battleConfig": { "actId": "world", "nodeId": "b-smoke-fields" },
+      "decorTiles": [12]
+    },
+    "b-foundry-gate": {
+      "id": "b-foundry-gate", "type": "battle", "label": "Foundry Gate", "description": "",
+      "row": 16, "col": 1, "rowCols": 1, "childIds": [],
+      "x": 290, "y": 790,
+      "connections": [],
+      "requiredClears": ["b-mine-trouble"],
+      "battleConfig": { "actId": "world", "nodeId": "b-foundry-gate" },
+      "decorTiles": [12]
+    },
+    "b-bandit-toll": {
+      "id": "b-bandit-toll", "type": "battle", "label": "Bandit Toll", "description": "",
+      "row": 16, "col": 2, "rowCols": 1, "childIds": [],
+      "x": 520, "y": 860,
+      "connections": ["harrowfield"],
+      "requiredClears": ["b-mine-trouble|b-south-road"],
+      "battleConfig": { "actId": "world", "nodeId": "b-bandit-toll" },
+      "decorTiles": [28]
     }
   }
 }

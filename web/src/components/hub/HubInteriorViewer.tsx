@@ -1,8 +1,7 @@
 import React, { useRef } from 'react'
 import * as PIXI from 'pixi.js'
 import { usePixiApp } from '../../hooks/usePixiApp'
-import { TILESET_IMAGE, TILESET_COLUMNS } from '../../data/tiles/tileIndex'
-import { loadTileTexture, loadTextureUrl } from '../../utils/pixiHelpers'
+import { loadTileRef, loadTextureUrl } from '../../utils/pixiHelpers'
 import { HubInterior, HubLocationBundle, HubNpc } from '../../data/hub/loader'
 
 const T  = 32
@@ -20,7 +19,6 @@ export function HubInteriorViewer({ interior,interior_npcs, scale = 2 }: Props) 
     app.stage.scale.set(scale)
 
     const base        = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
-    const baseChipUrl = `${base}${TILESET_IMAGE.baseChip.slice(1)}`
 
     const floorLayer = new PIXI.Container()
     const wallLayer  = new PIXI.Container()
@@ -30,7 +28,7 @@ export function HubInteriorViewer({ interior,interior_npcs, scale = 2 }: Props) 
 
     // ── Floor ──────────────────────────────────────────────────────────────────
     const floorTileId = interior.floorTileId ?? 288
-    loadTileTexture(baseChipUrl, floorTileId, TILESET_COLUMNS.baseChip).then(tex => {
+    loadTileRef(floorTileId).then(tex => {
       if (app.renderer == null) return
       for (let tx = 1; tx < interior.width  - 1; tx++)
         for (let ty = 1; ty < interior.height - 1; ty++) {
@@ -63,7 +61,7 @@ export function HubInteriorViewer({ interior,interior_npcs, scale = 2 }: Props) 
       byTile.set(d.tileId, list)
     }
     for (const [tileId, positions] of byTile) {
-      loadTileTexture(baseChipUrl, tileId, TILESET_COLUMNS.baseChip).then(tex => {
+      loadTileRef(tileId).then(tex => {
         if (app.renderer == null) return
         for (const [tx, ty] of positions) {
           const s = new PIXI.Sprite(tex)

@@ -196,5 +196,72 @@
         "amount": 2
       }
     ]
+  },
+  {
+    "name": "The Last Farm",
+    "icon": "🌾",
+    "desc": "EXOTIC — Every Farm you build also musters a Goblin, ready to fight.",
+    "lore": "When the Fracture tore the Verdant Shard apart, one farmstead refused to fall with it. Its fields still grow. Its workers still report for duty. Nobody has told them the war for their valley ended three hundred years ago — and looking at their pitchforks, nobody is going to.",
+    "exotic": true,
+    "effects": [
+      {
+        "type": "farmSpawn"
+      }
+    ]
+  },
+  {
+    "name": "Phantom Legion",
+    "icon": "👻",
+    "desc": "EXOTIC — Your units that die have a 33% chance to instantly revive at 50% HP.",
+    "lore": "An entire battalion of the old Dominion was caught mid-march when the world shattered. They never noticed. They are still marching, still following their last order, and death is simply no longer an obstacle they recognise. Carry their standard and some of that stubbornness rubs off.",
+    "exotic": true,
+    "effects": [
+      {
+        "type": "phantomRevive",
+        "chance": 0.33
+      }
+    ]
+  },
+  {
+    "name": "Mana Surge",
+    "icon": "🌀",
+    "desc": "EXOTIC — Your mana keeps charging past its cap, storing up to 3 overflow mana while you hold back.",
+    "lore": "A bottled fragment of the Fracture itself, still discharging. The Archivist's notes call containment 'theoretically inadvisable'. The scholars who built it believed mana should pool like floodwater behind a dam. The dam, notably, is you.",
+    "exotic": true,
+    "effects": [
+      {
+        "type": "manaOverflow",
+        "amount": 3
+      }
+    ]
+  },
+  {
+    "name": "Glass Cannon Protocol",
+    "icon": "💥",
+    "desc": "EXOTIC — Your base HP becomes 10. All your units gain +100% ATK.",
+    "lore": "The Pale Engine's forbidden combat doctrine, etched on a plate of frost-glass thin enough to read through. Its final theorem is unambiguous: armour is the admission that you intend to be hit. The Engine's vanguard adopted it for exactly one battle. It was a very short, very decisive battle.",
+    "exotic": true,
+    "effects": [
+      {
+        "type": "baseHpSet",
+        "amount": 10
+      },
+      {
+        "type": "atkMult",
+        "mult": 2
+      }
+    ]
+  },
+  {
+    "name": "The Architect's Eye",
+    "icon": "👁️",
+    "desc": "EXOTIC — Building any structure draws 1 card.",
+    "lore": "The Grand Automaton's master surveyor lens, salvaged from the Vaults. It was designed to see every flaw in a blueprint before the first stone was laid. Hold it long enough and you start seeing what it sees: every building is just the opening move of the next one.",
+    "exotic": true,
+    "effects": [
+      {
+        "type": "structureDraw"
+      }
+    ]
   }
 ]

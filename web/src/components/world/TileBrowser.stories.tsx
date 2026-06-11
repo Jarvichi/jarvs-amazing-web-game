@@ -170,3 +170,20 @@ export const NM_Decor: Story = {
     tileset: { name: 'decor', image: `${NM}decor.png`, tilecount: 64, columns: 8 },
   },
 }
+
+// ── World tilesets (additional community / hand-picked sheets) ────────────────
+
+// pictsquare2021.png: 1952×1600px → 61 cols × 50 rows = 3050 tiles.
+// Browse here to find tiles, name them, then export and add to baseChipIndex.ts
+// with global IDs 11000+ and matching entries in EXTENDED_TILE_REFS.
+export const Pictsquare2021: Story = {
+  name: 'World / pictsquare2021',
+  args: {
+    tileset: {
+      name: 'pictsquare2021',
+      image: '/world/pictsquare2021.png',
+      tilecount: 3050,
+      columns: 61,
+    },
+  },
+}

@@ -1,0 +1,121 @@
+{
+  "mapW": 896,
+  "mapH": 640,
+  "townName": "Appleford",
+  "environment": "farmland",
+  "avatarStart": { "tx": 14, "ty": 18 },
+  "exitTiles": [
+    { "tx": 13, "ty": 19, "screen": "worldmap" },
+    { "tx": 14, "ty": 19, "screen": "worldmap" }
+  ],
+  "areas": [
+    { "id": "appleford-orchard", "name": "The Orchards", "tx": 3, "ty": 12, "tw": 22, "th": 6 }
+  ],
+  "streets": [
+    { "rect": [13, 2, 14, 19] },
+    { "rect": [3, 10, 25, 11] }
+  ],
+  "buildings": [
+    {
+      "id": "cider-house",
+      "rect": [4, 2, 11, 8],
+      "wall": "woodWall",
+      "roof": "redSlateRoof",
+      "doors": [
+        { "tx": 4, "ty": 1, "hideSign": true, "buildingId": "cider-house" }
+      ]
+    },
+    {
+      "id": "keepers-cottage",
+      "rect": [17, 3, 23, 8],
+      "wall": "woodWall",
+      "roof": "strawRoof",
+      "doors": [
+        { "tx": 3, "ty": 1, "hideSign": true, "buildingId": "keepers-cottage" }
+      ]
+    }
+  ],
+  "exteriorDecor": [
+    { "comment": "orchard rows" },
+    { "tx": 4, "ty": 13, "bundleID": "light-tree", "zlayer": "solid" },
+    { "tx": 8, "ty": 13, "bundleID": "light-tree", "zlayer": "solid" },
+    { "tx": 16, "ty": 13, "bundleID": "light-tree", "zlayer": "solid" },
+    { "tx": 20, "ty": 13, "bundleID": "light-tree", "zlayer": "solid" },
+    { "tx": 24, "ty": 13, "bundleID": "light-tree", "zlayer": "solid" },
+    { "tx": 4, "ty": 17, "bundleID": "autumn-tree", "zlayer": "solid" },
+    { "tx": 8, "ty": 17, "bundleID": "autumn-tree", "zlayer": "solid" },
+    { "tx": 18, "ty": 17, "bundleID": "autumn-tree", "zlayer": "solid" },
+    { "tx": 22, "ty": 17, "bundleID": "autumn-tree", "zlayer": "solid" },
+    { "comment": "cider house front" },
+    { "tx": 3, "ty": 9, "tileId": "appleSign", "zlayer": "above" },
+    { "tx": 12, "ty": 9, "tileId": "barrel" },
+    { "tx": 12, "ty": 8, "tileId": "barrel" },
+    { "tx": 6, "ty": 9, "tileId": "appleBasket" },
+    { "comment": "village green" },
+    { "tx": 15, "ty": 9, "tileId": "stoneWell" },
+    { "tx": 25, "ty": 9, "tileId": "logPile" },
+    { "tx": 16, "ty": 12, "tileId": "whiteFlower" },
+    { "tx": 12, "ty": 16, "tileId": "whiteFlower" }
+  ],
+  "npcSpawnTiles": [],
+  "ambientNpcSprites": ["hub-npc-merchant"],
+  "npcs": [
+    {
+      "id": "orchard-keeper-bess",
+      "name": "Keeper Bess",
+      "sprite": "hub-npc-elder",
+      "tx": 16,
+      "ty": 11,
+      "dialogue": [
+        "Every tree in this orchard has a name. Don't ask me to introduce all of them.",
+        "Raiders hit the east rows last week. Took apples, baskets, and my best ladder.",
+        "An orchard is patience you can eat. Remember that."
+      ],
+      "building": "keepers-cottage",
+      "questGive": "appleford-scattered-harvest",
+      "questReceive": "appleford-scattered-harvest"
+    },
+    {
+      "id": "cider-brewer-tom",
+      "name": "Brewer Tom",
+      "sprite": "hub-npc-merchant",
+      "tx": 8,
+      "ty": 10,
+      "dialogue": [
+        "Appleford cider — pressed here, drunk everywhere, remembered fondly nowhere near here.",
+        "The toll road's made deliveries a nightmare. Bandits drink my profits, literally.",
+        "First mug's full price. So's the second. I'm a brewer, not a charity."
+      ],
+      "building": "cider-house"
+    }
+  ],
+  "interiors": {
+    "cider-house": {
+      "name": "The Cider House",
+      "width": 8,
+      "height": 5,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "barrel" },
+        { "tx": 2, "ty": 1, "tileId": "barrel" },
+        { "tx": 3, "ty": 1, "tileId": "barrel" },
+        { "tx": 6, "ty": 1, "tileId": "bottlesOfLiquor" }
+      ],
+      "exits": []
+    },
+    "keepers-cottage": {
+      "name": "The Keeper's Cottage",
+      "width": 7,
+      "height": 4,
+      "floorTileId": "woodFloor",
+      "wallTileId": "woodWall",
+      "decor": [
+        { "tx": 1, "ty": 1, "tileId": "appleBasket" },
+        { "tx": 4, "ty": 1, "tileId": "roundTable" },
+        { "tx": 5, "ty": 2, "tileId": "stool" }
+      ],
+      "exits": []
+    }
+  }
+}

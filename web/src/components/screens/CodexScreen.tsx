@@ -127,6 +127,7 @@ function RelicLorePanel({ relic }: { relic: CodexRelicEntry }) {
     <div className="codex-entry">
       <div className="codex-entry-header">
         <span className="codex-entry-name">{relic.icon} {relic.name}</span>
+        {relic.exotic && <span className="relic-exotic-tag" style={{ position: 'static', marginLeft: 8 }}>EXOTIC</span>}
       </div>
       <div className="codex-entry-desc">{relic.desc}</div>
       {relic.lore && <div className="codex-entry-lore">"{relic.lore}"</div>}

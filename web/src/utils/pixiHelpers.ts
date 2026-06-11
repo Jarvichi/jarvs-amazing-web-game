@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { spriteSlug } from '../game/sprites'
+import { resolveTileRef } from '../data/tiles/tileIndex'
 
 // ── Texture cache ─────────────────────────────────────────────────────────────
 // Keyed by full URL so the same texture is never loaded twice across components.
@@ -7,7 +8,11 @@ import { spriteSlug } from '../game/sprites'
 const _cache = new Map<string, Promise<PIXI.Texture>>()
 
 function _load(url: string): Promise<PIXI.Texture> {
-  if (!_cache.has(url)) _cache.set(url, PIXI.Assets.load(url) as Promise<PIXI.Texture>)
+  if (!_cache.has(url)) {
+    const p = PIXI.Assets.load(url) as Promise<PIXI.Texture>
+    p.catch(() => _cache.delete(url))
+    _cache.set(url, p)
+  }
   return _cache.get(url)!
 }
 
@@ -75,6 +80,16 @@ export async function loadTileTexture(url: string, tileId: number, columns: numb
   const s = 32
   const frame = new PIXI.Rectangle((tileId % columns) * s, Math.floor(tileId / columns) * s, s, s)
   return new PIXI.Texture({ source: sheet.source, frame })
+}
+
+/**
+ * Load a tile by global tile ID, resolving the correct source file automatically.
+ * Supports both legacy baseChip IDs (0–9999) and extended tiles (10000+).
+ */
+export async function loadTileRef(globalId: number): Promise<PIXI.Texture> {
+  const ref = resolveTileRef(globalId)
+  const base = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
+  return loadTileTexture(`${base}${ref.file.slice(1)}`, ref.id, ref.columns)
 }
 
 /**
