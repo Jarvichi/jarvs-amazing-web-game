@@ -4177,21 +4177,21 @@
       "id": "research-specimen-1",
       "tx": 37,
       "ty": 38,
-      "tileId": "greenclosedBook",
+      "tileId": "yellow_crystal2",
       "questId": "alric-echo-research"
     },
     {
       "id": "research-specimen-2",
       "tx": 61,
       "ty": 15,
-      "tileId": "greenclosedBook",
+      "tileId": "yellow_crystal1",
       "questId": "alric-echo-research"
     },
     {
       "id": "research-specimen-3",
       "tx": 4,
       "ty": 4,
-      "tileId": "greenclosedBook",
+      "tileId": "yellow_crystal3",
       "questId": "alric-echo-research",
       "building": "scholars-north-e"
     },
