@@ -4097,30 +4097,6 @@
       "zlayer": "solid"
     },
     {
-      "tx": 49,
-      "ty": 22,
-      "tileId": "messageBoardBottomLeft",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 50,
-      "ty": 22,
-      "tileId": "messageBoardBottomRight",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 49,
-      "ty": 21,
-      "tileId": "messageBoardTopLeft",
-      "zlayer": "solid"
-    },
-    {
-      "tx": 50,
-      "ty": 21,
-      "tileId": "messageBoardTopRight",
-      "zlayer": "solid"
-    },
-    {
       "tx": 35,
       "ty": 20,
       "tileId": "largeSign",
@@ -7805,6 +7781,23 @@
       "reward": {
         "crystals": 30
       }
+    }
+  ],
+  "interactables": [
+    {
+      "id": "notice-board",
+      "tx": 49,
+      "ty": 21,
+      "decor": [
+        { "dx": 0, "dy": 0, "tileId": "messageBoardTopLeft" },
+        { "dx": 1, "dy": 0, "tileId": "messageBoardTopRight" },
+        { "dx": 0, "dy": 1, "tileId": "messageBoardBottomLeft" },
+        { "dx": 1, "dy": 1, "tileId": "messageBoardBottomRight" }
+      ],
+      "indicator": { "condition": "unread-news" },
+      "reactions": [
+        { "type": "screen", "screen": "news" }
+      ]
     }
   ]
 }

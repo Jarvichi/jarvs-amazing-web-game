@@ -3,7 +3,7 @@ import { WALL_TILES } from '../tiles/buildingMaterials'
 import type { WallMaterial, RoofMaterial } from '../tiles/buildingMaterials'
 import { expandBundleDecor, expandBundleWindows, expandBundleDoors } from '../bundles/bundleLoader'
 import { FriendshipDialogue, HubQuestDef, QuestInnRumour, RawQuestConfig } from './questDefs'
-import { RawConfig } from './config'
+import { RawConfig, RawInteractable } from './config'
 
 const WALL_MATERIAL_NAMES = new Set<string>(Object.keys(WALL_TILES))
 
@@ -149,6 +149,36 @@ export interface HubTreasure {
   buildingId?:      string   // if set, this treasure lives inside the named interior
 }
 
+export interface HubInteractableDecor {
+  dx: number
+  dy: number
+  tileId: number
+  zlayer?: 'solid' | 'below' | 'above'
+}
+
+export type HubInteractableReaction =
+  | { type: 'dialogue'; speakerName?: string; text: string | string[] }
+  | { type: 'screen'; screen: string }
+  | { type: 'giveItem'
+      collectible?: { id: string; name: string; icon: string; desc: string }
+      consumables?: Array<{ id: string; quantity: number }>
+      crystals?: number
+      message?: string
+      alreadyGrantedText?: string }
+  | { type: 'quest'; questId: string; speakerName?: string }
+  | { type: 'move'; to: HubCoordinate; message?: string }
+
+export interface HubInteractable {
+  id: string
+  tx: number
+  ty: number
+  building?: string
+  decor?: HubInteractableDecor[]
+  hitRect: { w: number; h: number }   // resolved: explicit → decor bounds → 1×1
+  indicator?: { condition: string; dx: number; dy: number }
+  reactions: HubInteractableReaction[]
+}
+
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
 type TileEntry = { rect: number[]; pathType?: string } | { tile: number[]; pathType?: string }
@@ -200,6 +230,7 @@ export interface HubLocationBundle {
   AMBIENT_NPC_SPRITES: string[]
   HUB_LOCKED_DOORS: HubLockedDoor[]
   HUB_TREASURES: HubTreasure[]
+  HUB_INTERACTABLES: HubInteractable[]
   EXIT_TILES: HubExitTile[]
 
 
@@ -434,6 +465,31 @@ type RawTreasure = { id: string; tx: number; ty: number; tileId: string; collect
   collectedTileId:  t.collectedTileId ? resolveTileId(t.collectedTileId) : undefined,
 }))
 
+const HUB_INTERACTABLES: HubInteractable[] = (
+  (rawConfig as unknown as { interactables?: RawInteractable[] }).interactables ?? []
+).map(i => {
+  const decor: HubInteractableDecor[] | undefined = i.decor?.map(d => ({
+    dx:     d.dx,
+    dy:     d.dy,
+    tileId: resolveTileId(d.tileId),
+    zlayer: d.zlayer as HubInteractableDecor['zlayer'],
+  }))
+  // Hit area: explicit rect → owned-decor bounds → single tile
+  const hitRect = i.hitRect ?? (decor && decor.length > 0
+    ? { w: Math.max(...decor.map(d => d.dx)) + 1, h: Math.max(...decor.map(d => d.dy)) + 1 }
+    : { w: 1, h: 1 })
+  return {
+    id:        i.id,
+    tx:        i.tx,
+    ty:        i.ty,
+    building:  i.building,
+    decor,
+    hitRect,
+    indicator: i.indicator ? { condition: i.indicator.condition, dx: i.indicator.dx ?? 0, dy: i.indicator.dy ?? 0 } : undefined,
+    reactions: i.reactions as unknown as HubInteractableReaction[],
+  }
+})
+
  const HUB_TOWN_NAME: string = (rawConfig as unknown as { townName?: string }).townName ?? 'Town'
 const ENVIRONMENT: string = (rawConfig as unknown as { environment?: string }).environment ?? 'camp'
 
@@ -503,6 +559,7 @@ type RawExitTile = { tx: number; ty: number; screen: string }
 
     HUB_LOCKED_DOORS,
     HUB_TREASURES,
+    HUB_INTERACTABLES,
     EXIT_TILES: HUB_EXIT_TILES,
 
   }

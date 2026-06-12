@@ -10,7 +10,7 @@
 
 | File | Owns | TypeScript exports |
 |---|---|---|
-| `web/src/data/hub/config.json` | Map geometry, buildings, doors, NPCs, exterior decor, interiors, windows | parsed by `loader.ts` |
+| `web/src/data/hub/config.json` | Map geometry, buildings, doors, NPCs, exterior decor, interiors, windows, interactables | parsed by `loader.ts` |
 | `web/src/data/hub/questDefs.json` | Quests, pickup items, blocked paths, inn rumours, friendship dialogue | parsed by `loader.ts` and `questDefs.ts` |
 | `web/src/data/hub/loader.ts` | Parses both JSON files; exports all map/NPC/item/path data | `MAP_W`, `MAP_H`, `AVATAR_START`, `HUB_AREAS`, `HUB_STREET_TILES`, `HUB_BUILDINGS`, `HUB_DOORS`, `HUB_INTERIORS`, `EXTERIOR_DECOR`, `HUB_NPCS`, `EXTERIOR_NPCS`, `INTERIOR_NPCS`, `HUB_PICKUP_ITEMS`, `HUB_BLOCKED_PATHS`, `HUB_LOCKED_DOORS`, … |
 | `web/src/data/hub/questDefs.ts` | Parses `questDefs.json`; exports quest definitions and dialogue | `HUB_QUEST_DEFS`, `INN_RUMOURS`, `FRIENDSHIP_DIALOGUE` |
@@ -18,6 +18,7 @@
 | `web/src/game/hub/pickups.ts` | Pickup state persistence (localStorage) | `getPickedUpIds`, `markPickedUp`, `isPickedUp`, `unmarkPickedUp` |
 | `web/src/game/hub/friendship.ts` | NPC friendship XP/level persistence (localStorage) | `getFriendshipLevel`, `addFriendshipXp`, `getFriendshipData` |
 | `web/src/game/hub/innConvos.ts` | Inn conversation tracking (localStorage) | `getHeardConvoIds`, `markConvoHeard`, `isConvoHeard` |
+| `web/src/game/hub/interactables.ts` | Interactable grant + moved-position persistence (localStorage) | `interactableStoreKey`, `isInteractableGranted`, `markInteractableGranted`, `getInteractableMoves`, `setInteractableMove` |
 | `web/src/components/hub/HubTownCanvas.tsx` | PixiJS canvas — rendering, pathfinding, walk, interactions | — |
 | `web/src/components/hub/HubWorld.tsx` | React orchestrator — quest flow, dialogue, state | — |
 
@@ -222,3 +223,86 @@ Existing hub NPC sprites: `hub-npc-elder`, `hub-npc-merchant`, `hub-npc-scholar`
 6. **Add the entry** to `blockedPaths` in `questDefs.json`.
 7. **Run `npm run build`** from `web/` — TypeScript will catch any malformed tile ID or missing field.
 8. **Verify in-game**: confirm the avatar cannot path through the blocked tiles, the NPC speech bubbles appear at the right distances, and tapping the NPC shows the tap dialogue.
+
+---
+
+## §7 — Interactables (tap-reactive decor & scenery)
+
+Interactables make decor react to a click/tap: show dialogue, open a screen,
+give an inventory item (once), offer a quest, or move to another tile. They
+are defined in the top-level `interactables` array of a location's
+`config.json` and work in both the exterior world and building interiors.
+
+### Full schema
+
+```jsonc
+{
+  "interactables": [
+    {
+      "id": "notice-board",            // unique per location
+      "tx": 49, "ty": 21,              // anchor tile (top-left of footprint)
+      "building": "inn-building",      // optional — interior id; omit for exterior
+      "decor": [                       // optional — OWNED tiles (rendered + movable)
+        { "dx": 0, "dy": 0, "tileId": "messageBoardTopLeft", "zlayer": "solid" }
+      ],
+      "hitRect": { "w": 2, "h": 2 },   // optional — invisible tap area at the anchor
+      "indicator": { "condition": "unread-news", "dx": 0, "dy": 0 },  // optional '!'
+      "reactions": [                   // ordered; executed sequentially per tap
+        { "type": "screen", "screen": "news" }
+      ]
+    }
+  ]
+}
+```
+
+An interactable either **owns its decor** (`decor`, offsets relative to the
+anchor — required for `move` reactions, since the canvas repositions those
+sprites as a unit) or is a **pure hit area** (`hitRect`) laid invisibly over
+existing static `exteriorDecor`/interior decor. When converting existing
+scenery to owned decor, **remove the duplicate tiles** from `exteriorDecor`.
+If neither `hitRect` nor `decor` is given, the hit area defaults to the decor
+bounds, else a single tile.
+
+### Reaction types
+
+| Type | Fields | Behaviour |
+|---|---|---|
+| `dialogue` | `speakerName?`, `text` (string or string[]) | Shows the dialogue modal. A string[] cycles one entry per tap. |
+| `screen` | `screen` | Opens a screen via the same routing as NPC `screen` (e.g. `news`, `shop`, `interior:<id>`, minigame ids). |
+| `giveItem` | `collectible?`, `consumables?`, `crystals?`, `message?`, `alreadyGrantedText?` | One-time grant (persisted). Re-taps show `alreadyGrantedText` if set. Reward shapes match treasure rewards. |
+| `quest` | `questId`, `speakerName?` | Offers the quest with Accept / Not now. The quest's `giverNpcId` in `questDefs.json` **must equal the interactable's id**. Honours prerequisites and the 2-active-quest cap. |
+| `move` | `to: {tx, ty}`, `message?` | Moves the owned decor to the target tile, live and persisted across reloads. Requires owned `decor`. |
+
+Reactions run in order; `dialogue` (and `message`-bearing reactions) chain the
+remainder through the dialogue's close. Conventions: at most one `screen` or
+`quest` reaction per interactable, placed last; don't overlap two
+interactables' solid interior decor on the same tile.
+
+### Indicator conditions
+
+`indicator.condition` names a boolean computed by `HubWorld`:
+
+| Condition | True when |
+|---|---|
+| `unread-news` | `getUnreadCount()` (news store) is > 0 at hub load |
+
+The indicator is a bobbing yellow `!` above the footprint (offset by
+`dx`/`dy` tiles), identical in style to NPC quest indicators.
+
+### Persistence
+
+localStorage keys, entries keyed `<townName>:<interactableId>`:
+
+| Key | Holds |
+|---|---|
+| `jarv_hub_interactable_grants` | ids whose `giveItem` already fired |
+| `jarv_hub_interactable_moves` | persisted `{tx, ty}` position overrides |
+
+### Authoring checklist
+
+1. Pick a unique `id` within the location.
+2. Owned decor or hit area? Owned if it should ever move; hit area to make existing static scenery tappable.
+3. Look up `tileId` constants in `baseChipIndex.ts`; set `building` for interiors.
+4. For `quest` reactions, set the quest's `giverNpcId` to the interactable id.
+5. Run `npm run test` (loader tests parse all configs) and `npm run build`.
+6. Verify in-game: tap fires the reactions, tap does not also walk the avatar, indicator shows/clears, moves persist after reload.

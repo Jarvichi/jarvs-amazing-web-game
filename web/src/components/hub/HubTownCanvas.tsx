@@ -14,7 +14,7 @@ import { loadPlayerAvatar } from '../../game/questline'
 import { createChunkCuller } from '../../utils/chunkCull'
 import { CommanderState } from '../../game/commander'
 import rollbar from '../../rollbar'
-import { HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry } from '../../data/hub/loader'
+import { HubInteractable, HubInteriorExit, HubLocationBundle, HubNpc, HubQuestBundle, HubStreetGroup, NpcScheduleEntry } from '../../data/hub/loader'
 
 
 const T                 = 32
@@ -80,6 +80,13 @@ interface Props {
   gameHour?:             number
   isNight?:              boolean
   npcProximityDialogue?: React.MutableRefObject<Map<string, { atDistance: number; text: string }[]>>
+  onInteractableTap?:         (id: string) => void
+  /** Indicator condition id → visible (e.g. 'unread-news' → true) */
+  interactableIndicatorsRef?: React.MutableRefObject<Map<string, boolean>>
+  /** Interactable id → persisted position override */
+  interactableMovesRef?:      React.MutableRefObject<Map<string, { tx: number; ty: number }>>
+  /** Receives a callback to reposition an interactable's sprites live */
+  moveInteractableRef?:       React.MutableRefObject<((id: string, tx: number, ty: number) => void) | null>
   locationData:         HubLocationBundle
   questData: HubQuestBundle
   /** Scroll container whose scroll position drives the camera. When set, the
@@ -94,6 +101,7 @@ export function HubTownCanvas({
   pickedUpIds, onItemPickup, doorKeys, onDoorLocked, questNpcState, activeQuestIdsRef,
   completedQuestIdsRef, collectedTreasureIds, onTreasureStep,
   gameHour, isNight, npcProximityDialogue,
+  onInteractableTap, interactableIndicatorsRef, interactableMovesRef, moveInteractableRef,
   locationData,
   questData,
   viewportRef
@@ -106,7 +114,7 @@ export function HubTownCanvas({
     EXTERIOR_DECOR, HUB_WINDOWS, HUB_POND_TILES,
     HUB_DOORS, HUB_INTERIORS, EXTERIOR_NPCS, INTERIOR_NPCS,
     NPC_SPAWN_TILES, AMBIENT_NPC_SPRITES,
-   HUB_LOCKED_DOORS, HUB_TREASURES,
+   HUB_LOCKED_DOORS, HUB_TREASURES, HUB_INTERACTABLES,
     EXIT_TILES: exitTilesData,
     HUB_TOWN_NAME: locationKey,
   } = locationData
@@ -141,6 +149,8 @@ export function HubTownCanvas({
   const collectedTreasureRef  = useRef<Set<string>>(new Set(collectedTreasureIds))
   const onTreasureStepRef     = useRef(onTreasureStep)
   onTreasureStepRef.current   = onTreasureStep
+  const onInteractableTapRef     = useRef(onInteractableTap)
+  onInteractableTapRef.current   = onInteractableTap
   const isNightRef            = useRef(isNight ?? false)
   isNightRef.current          = isNight ?? false
   const gameHourRef           = useRef(gameHour ?? 12)
@@ -449,8 +459,130 @@ export function HubTownCanvas({
             aboveAvatarLayer.addChild(s)
           }
         }).catch(() => {})
-      }      
+      }
     }
+
+    // ── Interactables (tap-reactive decor / scenery) ───────────────────────────
+    // Each interactable is a tappable container that either renders its own
+    // decor tiles (movable as a unit) or is an invisible hit area over static
+    // decor. Containers live in spriteLayer / interiorLayer — never in chunk-
+    // culled layers, whose children must not move after adoption.
+    interface InteractableEntry {
+      def:            HubInteractable
+      root:           PIXI.Container
+      above:          PIXI.Container | null   // paired container for 'above' zlayer tiles
+      indicator:      PIXI.Text | null
+      indicatorBaseY: number
+    }
+    const exteriorInteractables = new Map<string, InteractableEntry>()
+    const interiorInteractables = new Map<string, InteractableEntry>()
+
+    function interactableZIndex(def: HubInteractable, ty: number): number {
+      return (ty + def.hitRect.h - 1) * T + T + 1  // y-sort on the bottom tile row, like decor
+    }
+
+    function interactableIndicatorPos(def: HubInteractable, tx: number, ty: number): { x: number; y: number } {
+      const ind = def.indicator!
+      return { x: tx * T + (def.hitRect.w * T) / 2 + ind.dx * T, y: ty * T - 6 + ind.dy * T }
+    }
+
+    function buildInteractable(
+      def: HubInteractable,
+      target: PIXI.Container,
+      aboveTarget: PIXI.Container,
+      indicatorTarget: PIXI.Container,
+      registry: Map<string, InteractableEntry>,
+      stillCurrent: () => boolean,
+    ): void {
+      const pos = interactableMovesRef?.current.get(def.id) ?? { tx: def.tx, ty: def.ty }
+      const root = new PIXI.Container()
+      root.position.set(pos.tx * T, pos.ty * T)
+      root.zIndex = interactableZIndex(def, pos.ty)
+      root.eventMode = 'static'
+      root.cursor    = 'pointer'
+      root.on('pointerdown', (e: PIXI.FederatedPointerEvent) => {
+        e.stopPropagation()
+        onInteractableTapRef.current?.(def.id)
+      })
+      target.addChild(root)
+
+      let above: PIXI.Container | null = null
+      const decor = (def.decor ?? []).filter(d => d.tileId !== 666)
+      if (decor.length > 0) {
+        if (decor.some(d => d.zlayer === 'above')) {
+          above = new PIXI.Container()
+          above.position.set(pos.tx * T, pos.ty * T)
+          above.zIndex = MAP_H * 2 + pos.ty * T  // above all y-sorted sprites
+          aboveTarget.addChild(above)
+        }
+        for (const d of decor) {
+          const parent = d.zlayer === 'above' ? above! : root
+          loadTileRef(d.tileId).then(tex => {
+            if (app.renderer == null || !stillCurrent()) return
+            const s = new PIXI.Sprite(tex)
+            s.position.set(d.dx * T, d.dy * T)
+            s.width = T; s.height = T
+            parent.addChild(s)
+          }).catch(() => {})
+        }
+      } else {
+        // Pure hit area over independently-rendered decor
+        root.hitArea = new PIXI.Rectangle(0, 0, def.hitRect.w * T, def.hitRect.h * T)
+      }
+
+      let indicator: PIXI.Text | null = null
+      let indicatorBaseY = 0
+      if (def.indicator) {
+        const { x, y } = interactableIndicatorPos(def, pos.tx, pos.ty)
+        indicator = new PIXI.Text({ text: '!', style: { fontSize: 16, fill: '#ffdd44', fontWeight: 'bold', fontFamily: 'monospace', stroke: { color: '#1a1a1a', width: 3 } } })
+        indicator.anchor.set(0.5, 1)
+        indicator.position.set(x, y)
+        indicator.visible = false
+        indicatorTarget.addChild(indicator)
+        indicatorBaseY = y
+      }
+
+      registry.set(def.id, { def, root, above, indicator, indicatorBaseY })
+    }
+
+    for (const def of HUB_INTERACTABLES.filter(i => !i.building)) {
+      buildInteractable(def, spriteLayer, spriteLayer, bubbleLayer, exteriorInteractables, () => true)
+    }
+
+    // Live repositioning (move reactions) — registered into moveInteractableRef below
+    const doMoveInteractable = (id: string, tx: number, ty: number): void => {
+      try {
+        const entry = interiorInteractables.get(id) ?? exteriorInteractables.get(id)
+        if (!entry) return
+        const { def, root } = entry
+        const isInteriorEntry = interiorInteractables.has(id)
+        // Re-carve interior walkability: free the old footprint, block the new
+        if (isInteriorEntry) {
+          const oldTx = Math.round(root.x / T)
+          const oldTy = Math.round(root.y / T)
+          for (const d of def.decor ?? []) {
+            if (!d.zlayer || d.zlayer === 'solid') interiorWalkable.add(`${oldTx + d.dx},${oldTy + d.dy}`)
+          }
+          for (const d of def.decor ?? []) {
+            if (!d.zlayer || d.zlayer === 'solid') interiorWalkable.delete(`${tx + d.dx},${ty + d.dy}`)
+          }
+        }
+        root.position.set(tx * T, ty * T)
+        root.zIndex = interactableZIndex(def, ty)
+        if (entry.above) {
+          entry.above.position.set(tx * T, ty * T)
+          if (!isInteriorEntry) entry.above.zIndex = MAP_H * 2 + ty * T
+        }
+        if (entry.indicator && def.indicator) {
+          const { x, y } = interactableIndicatorPos(def, tx, ty)
+          entry.indicator.position.x = x
+          entry.indicatorBaseY = y
+        }
+      } catch (e) {
+        rollbar.error('[HubTownCanvas] moveInteractable failed', { id, error: String(e) })
+      }
+    }
+    if (moveInteractableRef) moveInteractableRef.current = doMoveInteractable
 
     // ── Blocked paths (quest-gated obstructions) ──────────────────────────────
     interface BlockedNpcEntry {
@@ -1207,6 +1339,7 @@ export function HubTownCanvas({
 
       // Hide exterior overlays so they don't bleed into the interior view
       for (const ind of questIndicators.values()) ind.visible = false
+      for (const entry of exteriorInteractables.values()) { if (entry.indicator) entry.indicator.visible = false }
       for (const { tag } of npcNameTags) tag.visible = false
 
       // Build walkable set
@@ -1217,6 +1350,13 @@ export function HubTownCanvas({
       if (!isSubRoom) interiorWalkable.add(`${exitTx},${interior.height - 1}`)
       for (const d of interior.decor) {
         if (!d.zlayer || d.zlayer === 'solid') interiorWalkable.delete(`${d.tx},${d.ty}`)
+      }
+      // Interactables' owned solid decor blocks walking (at moved position if persisted)
+      for (const i of HUB_INTERACTABLES.filter(i => i.building === buildingId)) {
+        const pos = interactableMovesRef?.current.get(i.id) ?? { tx: i.tx, ty: i.ty }
+        for (const d of i.decor ?? []) {
+          if (!d.zlayer || d.zlayer === 'solid') interiorWalkable.delete(`${pos.tx + d.dx},${pos.ty + d.dy}`)
+        }
       }
       // Register inter-room exit tiles
       for (const exit of interior.exits ?? []) {
@@ -1399,6 +1539,15 @@ export function HubTownCanvas({
             }
           }).catch(() => {})
         }
+      }
+
+      // Interior interactables — tappable decor / hit areas inside the room
+      interiorInteractables.clear()
+      for (const def of HUB_INTERACTABLES.filter(i => i.building === buildingId)) {
+        buildInteractable(
+          def, interiorLayer, decorAboveContainer, interiorLayer, interiorInteractables,
+          () => interiorActive && currentInteriorId === buildingId,
+        )
       }
 
       // Interior NPCs — rendered inside the room, tappable
@@ -1986,6 +2135,15 @@ export function HubTownCanvas({
           const baseY = activeBaseY.get(npcId) ?? ind.y
           ind.y = baseY + Math.sin(performance.now() / 400) * 3
         }
+      }
+
+      // Interactable indicators — visibility driven by condition flags (e.g. unread news)
+      const activeInteractables = interiorActive ? interiorInteractables : exteriorInteractables
+      for (const entry of activeInteractables.values()) {
+        if (!entry.indicator || !entry.def.indicator) continue
+        const on = interactableIndicatorsRef?.current.get(entry.def.indicator.condition) ?? false
+        entry.indicator.visible = on
+        if (on) entry.indicator.y = entry.indicatorBaseY + Math.sin(performance.now() / 400) * 3
       }
 
       // Named NPC schedule walk — fire walks when game hour changes
