@@ -1,6 +1,7 @@
 // ─── Tower Defence — pure game logic ──────────────────────────────────────────
 // No React imports. All state is plain objects; tick() returns a new state.
 
+import { logError } from '../logger'
 import { UnitTemplate, UnitTag, ProjectileType, getProjectileType } from './types'
 
 // ── Grid ──────────────────────────────────────────────────────────────────────
@@ -1285,6 +1286,93 @@ export function calcTicketReward(wavesCompleted: number): number {
 /** Compute city gold reward for city mode based on waves cleared. */
 export function calcGoldReward(wavesCompleted: number): number {
   return wavesCompleted * 2500
+}
+
+// ── Save / resume ─────────────────────────────────────────────────────────────
+// Persists an in-progress run to localStorage so a tab discard (e.g. browser
+// memory savers) or accidental reload doesn't lose the defence.
+
+export interface TDSavedPoolEntry {
+  template: UnitTemplate
+  total: number
+  buildingName: string
+}
+
+// nextWaveAt may be Infinity, which JSON cannot represent — stored as null
+type TDSavedGame = Omit<TDGameState, 'nextWaveAt'> & { nextWaveAt: number | null }
+
+interface TDSaveFile {
+  version: number
+  savedAt: number
+  pool: TDSavedPoolEntry[]
+  game: TDSavedGame
+}
+
+export interface TDLoadedSave {
+  game: TDGameState
+  pool: TDSavedPoolEntry[]
+  savedAt: number
+}
+
+const TD_SAVE_VERSION = 1
+function tdSaveKey(mode: 'collection' | 'city'): string {
+  return `jarv_td_save_${mode}`
+}
+
+export function saveTDGame(mode: 'collection' | 'city', game: TDGameState, pool: TDSavedPoolEntry[]): void {
+  try {
+    const file: TDSaveFile = {
+      version: TD_SAVE_VERSION,
+      savedAt: Date.now(),
+      pool,
+      game: { ...game, nextWaveAt: Number.isFinite(game.nextWaveAt) ? game.nextWaveAt : null },
+    }
+    localStorage.setItem(tdSaveKey(mode), JSON.stringify(file))
+  } catch (err) {
+    logError('saveTDGame failed', err as Record<string, unknown>)
+  }
+}
+
+export function loadTDSave(mode: 'collection' | 'city'): TDLoadedSave | null {
+  try {
+    const raw = localStorage.getItem(tdSaveKey(mode))
+    if (!raw) return null
+    const file = JSON.parse(raw) as TDSaveFile
+    if (file.version !== TD_SAVE_VERSION) return null
+    const g = file.game
+    if (!g || !Array.isArray(g.towers) || !Array.isArray(g.units) || !Array.isArray(g.enemies)) return null
+    if (g.phase === 'victory' || g.phase === 'defeat') return null
+    if (!Array.isArray(file.pool) || file.pool.length === 0) return null
+    return {
+      game: { ...g, nextWaveAt: g.nextWaveAt ?? Infinity },
+      pool: file.pool,
+      savedAt: file.savedAt,
+    }
+  } catch (err) {
+    logError('loadTDSave failed', err as Record<string, unknown>)
+    return null
+  }
+}
+
+export function clearTDSave(mode: 'collection' | 'city'): void {
+  try {
+    localStorage.removeItem(tdSaveKey(mode))
+  } catch {
+    // ignore — worst case a stale save lingers and the resume prompt reappears
+  }
+}
+
+/** Prepare a loaded save for play: fast-forward the module ID counter past
+ *  every ID in the save so newly spawned entities don't collide. */
+export function resumeTDGame(game: TDGameState): TDGameState {
+  let maxId = 0
+  for (const t of game.towers) maxId = Math.max(maxId, t.id)
+  for (const u of game.units) maxId = Math.max(maxId, u.id)
+  for (const e of game.enemies) maxId = Math.max(maxId, e.id)
+  for (const a of game.attackEvents) maxId = Math.max(maxId, a.id)
+  for (const h of game.hazards) maxId = Math.max(maxId, h.id)
+  if (maxId >= _nextId) _nextId = maxId + 1
+  return game
 }
 
 export { ENEMY_TEMPLATES }

@@ -8,7 +8,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   ENEMY_TEMPLATES,
   MilestoneUpgrade,
-  TDGameState, TDTargetingMode, TDTower,
+  TDGameState, TDLoadedSave, TDTargetingMode, TDTower,
   TDUpgradeType,
   TD_CELL_PX,
   TD_COLS,
@@ -22,10 +22,14 @@ import {
   calcGoldReward,
   calcTicketReward,
   chooseMilestoneUpgrade,
+  clearTDSave,
   createTDGame,
   generateWave,
+  loadTDSave,
   moveTower,
   placeTower, removeTower,
+  resumeTDGame,
+  saveTDGame,
   sellRefund,
   setTowerTargetingMode,
   startWave, tickTD, tickUnitsHomeOnly,
@@ -78,6 +82,10 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
   const [game, setGame] = useState<TDGameState>(() =>
     createTDGame(pool.map(p => p.template), mode, initialPlacements)
   )
+  // A run saved mid-game survives tab discards/reloads; the pool is saved with
+  // it so the resumed run keeps the exact roster it started with.
+  const [pendingResume, setPendingResume] = useState<TDLoadedSave | null>(() => loadTDSave(mode))
+  const [activePool, setActivePool] = useState<TowerPool[]>(pool)
   const [selected, setSelected] = useState<UnitTemplate | null>(null)
   const [hoveredTower, setHoveredTower] = useState<TDTower | null>(null)
   const [selectedTowerId, setSelectedTowerId] = useState<number | null>(null)
@@ -131,6 +139,42 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
       setGame(prev => startWave(prev))
     }
   }, [autoStart, game.phase, game.milestoneChoices])
+
+  // ── Save / resume ───────────────────────────────────────────────────────────
+  // Autosave so a tab discard (e.g. browser memory savers) or reload doesn't
+  // lose the run. Saves on every phase change and at most every 3s in between.
+  const lastSaveRef = useRef<{ at: number; phase: TDGameState['phase'] | null }>({ at: 0, phase: null })
+  useEffect(() => {
+    if (pendingResume) return
+    if (game.phase === 'victory' || game.phase === 'defeat') {
+      clearTDSave(mode)
+      return
+    }
+    if (game.phase === 'prep' && game.towers.length === 0) return
+    const now = Date.now()
+    if (lastSaveRef.current.phase === game.phase && now - lastSaveRef.current.at < 3000) return
+    lastSaveRef.current = { at: now, phase: game.phase }
+    saveTDGame(mode, game, activePool)
+  }, [game, mode, activePool, pendingResume])
+
+  function handleResume() {
+    if (!pendingResume) return
+    const restored = resumeTDGame(pendingResume.game)
+    setActivePool(pendingResume.pool)
+    prevLivesRef.current = restored.lives
+    setGame(restored)
+    setPendingResume(null)
+  }
+
+  function handleStartFresh() {
+    clearTDSave(mode)
+    setPendingResume(null)
+  }
+
+  function handleQuit() {
+    clearTDSave(mode)
+    onDone(reward)
+  }
 
   // ── Game loop ───────────────────────────────────────────────────────────────
 
@@ -211,7 +255,7 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
     // No tower selected, no tower at cell: place if a unit chip is chosen
     if (!selected || isOnPath(col, row)) return
     if (g.phase !== 'prep' && g.phase !== 'between' && g.phase !== 'wave' && g.phase !== 'milestone') return
-    const entry = pool.find(p => p.template.name === selected.name)
+    const entry = activePool.find(p => p.template.name === selected.name)
     if (!entry) return
     const next = placeTower(g, selected, entry.buildingName, col, row)
     if (next) setGame(next)
@@ -291,6 +335,31 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
     return cells
   }, [selectedTower, hoveredTower, selected, hoveredCell])
 
+  // ── Resume prompt ───────────────────────────────────────────────────────────
+
+  if (pendingResume) {
+    const saved = pendingResume.game
+    const minsAgo = Math.max(0, Math.round((Date.now() - pendingResume.savedAt) / 60000))
+    return (
+      <div className="td-root">
+        <div className="td-resume-prompt">
+          <div className="td-resume-title">⚔ DEFENCE IN PROGRESS</div>
+          <div className="td-resume-info">
+            Wave {saved.wavesCompleted + 1}/{TD_TOTAL_WAVES} · ❤️ {saved.lives} · 💧 {saved.mana} · ⭐ {saved.score}
+          </div>
+          <div className="td-resume-time">
+            saved {minsAgo < 1 ? 'moments' : `${minsAgo} min`} ago
+          </div>
+          <div className="td-resume-actions u-flex u-gap-4">
+            <button className="action-btn action-btn--gold" onClick={handleResume}>▶ RESUME</button>
+            <button className="action-btn action-btn--danger" onClick={handleStartFresh}>START FRESH</button>
+          </div>
+          <div className="td-resume-hint">Starting fresh abandons the saved run — no rewards are paid out for it.</div>
+        </div>
+      </div>
+    )
+  }
+
   // ── End screen ──────────────────────────────────────────────────────────────
 
   if (game.phase === 'victory' || game.phase === 'defeat') {
@@ -354,7 +423,7 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
           >⚡Auto</button>
         </div>
 
-        <button className="action-btn action-btn--danger td-header-btn" onClick={() => onDone(reward)}>
+        <button className="action-btn action-btn--danger td-header-btn" onClick={handleQuit}>
           ✕
         </button>
       </div>
@@ -530,7 +599,7 @@ export function TowerDefence({ pool, mode, onDone, environment }: Props) {
       })()}
 
       {/* ── Bottom panel ── */}
-      <BottomPanel lastLog={lastLog} canPlaceTowers={canPlaceTowers} selected={selected} selectedTower={selectedTower} pool={pool} game={game} towerCost={towerCost} handleSelectUnit={handleSelectUnit} />
+      <BottomPanel lastLog={lastLog} canPlaceTowers={canPlaceTowers} selected={selected} selectedTower={selectedTower} pool={activePool} game={game} towerCost={towerCost} handleSelectUnit={handleSelectUnit} />
     </div>
   )
 
