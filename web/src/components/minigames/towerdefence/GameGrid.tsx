@@ -7,7 +7,7 @@ import {
   TDAttackEvent, TDGameState, TDTower, TDUnit, xpToUpgrade,
 } from '../../../game/towerDefence'
 import { usePixiApp } from '../../../hooks/usePixiApp'
-import { loadAnimFrames, loadSpriteTexture, loadTileRef } from '../../../utils/pixiHelpers'
+import { loadAnimFrames, loadSpriteTexture, loadTileRef, loadTileTexture } from '../../../utils/pixiHelpers'
 import { PATH_TILE_LOOKUP } from '../../../utils/tileLookup'
 import { TILE_SIZE } from '../../../data/tiles/tileIndex'
 import { WORLD_ENV_TILES } from '../../../data/tiles/worldTileIndex'
@@ -427,6 +427,7 @@ export function GameGrid({
 
       // Path: cell-space 8-neighbor variant lookup, sprites scaled to CELL_PX
       if (!worldDef?.pathFile) return
+      const baseUrl = (import.meta as { env: { BASE_URL: string } }).env.BASE_URL
       const pathUrl = `${baseUrl}${worldDef.pathFile.slice(1)}`
       const hasPath = (col: number, row: number) => PATH_SET.has(`${col},${row}`)
       const cellVariant = (col: number, row: number): number => {
