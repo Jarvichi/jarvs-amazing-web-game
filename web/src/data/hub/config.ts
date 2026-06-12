@@ -209,7 +209,9 @@ export interface RawInteractableDecor {
 }
 
 export interface RawInteractableReaction {
-  type: 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move'
+  // 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move' — plain string so
+  // JSON imports don't widen-fail; loader.ts casts to the parsed union
+  type: string
 
   // dialogue
   speakerName?: string
