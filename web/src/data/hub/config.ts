@@ -201,6 +201,65 @@ export interface RawTreasure {
   buildingId?: string
 }
 
+export interface RawInteractableDecor {
+  dx: number
+  dy: number
+  tileId: string
+  zlayer?: string
+}
+
+export interface RawInteractableReaction {
+  type: 'dialogue' | 'screen' | 'giveItem' | 'quest' | 'move'
+
+  // dialogue
+  speakerName?: string
+  text?: string | string[]
+
+  // screen
+  screen?: string
+
+  // giveItem
+  collectible?: {
+    id: string
+    name: string
+    icon: string
+    desc: string
+  }
+  consumables?: Array<{
+    id: string
+    quantity: number
+  }>
+  crystals?: number
+  message?: string
+  alreadyGrantedText?: string
+
+  // quest
+  questId?: string
+
+  // move
+  to?: RawCoordinate
+}
+
+export interface RawInteractable {
+  id: string
+
+  tx: number
+  ty: number
+
+  building?: string
+
+  decor?: RawInteractableDecor[]
+  hitRect?: { w: number; h: number }
+
+  indicator?: {
+    condition: string
+    dx?: number
+    dy?: number
+  }
+
+  reactions: RawInteractableReaction[]
+}
+
 export interface RawConfig {
   mapW: number
   mapH: number
@@ -237,4 +296,6 @@ export interface RawConfig {
   lockedDoors?: RawLockedDoor[]
 
   treasures?: RawTreasure[]
+
+  interactables?: RawInteractable[]
 }
