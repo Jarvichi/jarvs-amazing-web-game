@@ -7026,6 +7026,19 @@
       ]
     },
     {
+      "id": "weekly-herald",
+      "name": "Trials Herald Lyra",
+      "sprite": "hub-npc-herald",
+      "tx": 31,
+      "ty": 28,
+      "screen": "weeklychallenge",
+      "dialogue": [
+        "This week's trial carries a story, Commander. The realm remembers those who answer.",
+        "Three fragments forge a relic shard. The Chronicle rewards the persistent.",
+        "A new trial begins each Monday at dawn. Every commander faces the same fate."
+      ]
+    },
+    {
       "id": "quickbattle-gate",
       "name": "Pit Master Gorr",
       "sprite": "hub-npc-arena",
@@ -7150,6 +7163,19 @@
         "One person's junk is another's treasure. Have a rummage!",
         "I found this stuff all over the Fracture zones. Don't ask how.",
         "Make me an offer — I'm always looking to deal."
+      ]
+    },
+    {
+      "id": "chronicler",
+      "name": "Chronicler Maeve",
+      "sprite": "hub-npc-scholar",
+      "tx": 60,
+      "ty": 14,
+      "screen": "chronicle",
+      "dialogue": [
+        "I keep the Fracture Chronicle, Commander. Each chapter brings us closer to the truth.",
+        "The story of what shattered our world unfolds piece by piece. Come, read with me.",
+        "A new chapter surfaces when the time is right. The Chronicle does not rush its telling."
       ]
     },
     {
