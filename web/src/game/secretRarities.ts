@@ -1,7 +1,7 @@
 import { Card, CardRarity } from './types'
 
 /** 1-in-N chance any drawn card becomes a secret rare. */
-export const SECRET_RARITY_ODDS = 1000
+export const SECRET_RARITY_ODDS = 2500
 
 type SecretType = 'mythic' | 'shiny' | 'holofoil' | 'glass'
 
