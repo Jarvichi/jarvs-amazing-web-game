@@ -165,7 +165,7 @@ export type HubInteractableReaction =
       crystals?: number
       message?: string
       alreadyGrantedText?: string }
-  | { type: 'quest'; questId: string }
+  | { type: 'quest'; questId: string; speakerName?: string }
   | { type: 'move'; to: HubCoordinate; message?: string }
 
 export interface HubInteractable {

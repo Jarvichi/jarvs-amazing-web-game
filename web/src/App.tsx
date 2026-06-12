@@ -2864,7 +2864,7 @@ export default function App() {
       )}
 
       {screen === 'news' && (
-        <NewsScreen onBack={() => { setNewsUnreadCount(0); setScreen('title') }} />
+        <NewsScreen onBack={() => { setNewsUnreadCount(0); setScreen(returnScreen) }} />
       )}
 
       {screen === 'newsAdmin' && (

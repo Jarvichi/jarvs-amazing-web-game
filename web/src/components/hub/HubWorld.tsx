@@ -31,7 +31,10 @@ import { useHubClock } from '../../hooks/useHubClock'
 import { formatGameTime, hourInRange } from '../../game/hub/hubClock'
 import { getDailyChallengeNPCDialogue } from '../../game/hub/npcDialogue'
 import {  ALL_QUESTS, FRIENDSHIP_DIALOGUE, RAVENWATCH } from '../../data/hub/hubWorldFactory'
-import { HubLocationBundle, HubQuestBundle, HubTreasure } from '../../data/hub/loader'
+import { HubInteractable, HubLocationBundle, HubQuestBundle, HubTreasure } from '../../data/hub/loader'
+import { getUnreadCount } from '../../game/news'
+import { interactableStoreKey, isInteractableGranted, markInteractableGranted, getInteractableMoves, setInteractableMove } from '../../game/hub/interactables'
+import rollbar from '../../rollbar'
 interface QuestEvent {
   speakerName: string
   text: string
@@ -161,6 +164,30 @@ export function HubWorld({ onBack, onNavigate, onCampaign, onEndless, onWorldMap
   npcProximityDialogueRef.current = new Map([
     ['challenge-herald', getDailyChallengeNPCDialogue()],
   ])
+
+  // Interactable indicator conditions (e.g. 'unread-news'): read imperatively by PixiJS ticker
+  const indicatorConditionsRef = useRef(new Map<string, boolean>())
+  useEffect(() => {
+    getUnreadCount()
+      .then(n => { indicatorConditionsRef.current.set('unread-news', n > 0) })
+      .catch(e => rollbar.error('[HubWorld] getUnreadCount failed', { error: String(e) }))
+  }, [])
+
+  // Persisted interactable position overrides for this location (id → tile)
+  const interactableMovesRef = useRef(new Map<string, { tx: number; ty: number }>())
+  {
+    const m = new Map<string, { tx: number; ty: number }>()
+    const stored = getInteractableMoves()
+    for (const i of locationData.HUB_INTERACTABLES) {
+      const v = stored[interactableStoreKey(locationData.HUB_TOWN_NAME, i.id)]
+      if (v) m.set(i.id, v)
+    }
+    interactableMovesRef.current = m
+  }
+  // Receives the canvas's live-reposition callback
+  const moveInteractableRef = useRef<((id: string, tx: number, ty: number) => void) | null>(null)
+  // Per-interactable tap counts so dialogue arrays cycle
+  const interactableTapCounts = useRef(new Map<string, number>())
 
   // Completed quest IDs: read imperatively by PixiJS ticker to gate blocked path state
   const completedQuestIdsRef = useRef(new Set<string>())
@@ -419,6 +446,48 @@ function grantQuestReward(quest: HubQuestDef): void {
   }
 }
 
+// Offer the first available quest given by `giverId` (an NPC or interactable id).
+// Returns true if an offer dialogue was shown; false if there is nothing to
+// offer (caller falls through to screens / default dialogue).
+function tryOfferQuest(giverId: string, speakerName: string, onlyQuestId?: string): boolean {
+  const giveQuests = questDefs.filter(q => q.giverNpcId === giverId && (!onlyQuestId || q.id === onlyQuestId))
+  const atOfferCap = questDefs.filter(q => getQuestState(q.id).status === 'active').length >= 2
+  for (const quest of giveQuests) {
+    if (getQuestState(quest.id).status !== 'available') continue
+    const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
+    if (prereqMet) {
+      if (atOfferCap) return false  // at cap — skip offer, fall through to screen or default dialogue
+      setDialogueEvent({
+        speakerName,
+        text: quest.offerDialogue,
+        choices: [
+          {
+            label: 'Accept',
+            primary: true,
+            onClick: () => {
+              const count = questDefs.filter(q => getQuestState(q.id).status === 'active').length
+              if (count >= 2) {
+                setDialogueEvent({ speakerName, text: "You're already working on 2 quests. Finish one first." })
+                return
+              }
+              setQuestStatus(quest.id, 'active')
+              activeQuestIdsRef.current.add(quest.id)
+              refreshState()
+              setDialogueEvent(null)
+            },
+          },
+          {
+            label: 'Not now',
+            onClick: () => setDialogueEvent(null),
+          },
+        ],
+      })
+      return true
+    }
+  }
+  return false
+}
+
 
   const handleNpcTap = useCallback((line: string, npcId: string) => {
     const npcDef = locationData.HUB_NPCS.find(n => n.id === npcId)
@@ -496,40 +565,7 @@ function grantQuestReward(quest: HubQuestDef): void {
     }
 
     // Second pass: first available quest whose prerequisites are met
-    const atOfferCap = questDefs.filter(q => getQuestState(q.id).status === 'active').length >= 2
-    for (const quest of giveQuests) {
-      if (getQuestState(quest.id).status !== 'available') continue
-      const prereqMet = !quest.prerequisite || checkPrerequisite(quest.prerequisite)
-      if (prereqMet) {
-        if (atOfferCap) break  // at cap — skip offer, fall through to screen or default dialogue
-        setDialogueEvent({
-          speakerName,
-          text: quest.offerDialogue,
-          choices: [
-            {
-              label: 'Accept',
-              primary: true,
-              onClick: () => {
-                const count = questDefs.filter(q => getQuestState(q.id).status === 'active').length
-                if (count >= 2) {
-                  setDialogueEvent({ speakerName, text: "You're already working on 2 quests. Finish one first." })
-                  return
-                }
-                setQuestStatus(quest.id, 'active')
-                activeQuestIdsRef.current.add(quest.id)
-                refreshState()
-                setDialogueEvent(null)
-              },
-            },
-            {
-              label: 'Not now',
-              onClick: () => setDialogueEvent(null),
-            },
-          ],
-        })
-        return
-      }
-    }
+    if (tryOfferQuest(npcId, speakerName)) return
 
     // ── Screen navigation fallthrough (quest done or no active quest) ────────
     if (npcDef?.screen) {
@@ -554,6 +590,72 @@ function grantQuestReward(quest: HubQuestDef): void {
     // ── Default dialogue ─────────────────────────────────────────────────────
     setDialogueEvent({ speakerName, text: line })
   }, [refreshState, handleNodeInteract])
+
+  // ── Interactable reactions ─────────────────────────────────────────────────
+  // Reactions run in order; dialogue-style reactions chain the remainder
+  // through the dialogue's onClose (manual close or 15 s auto-dismiss).
+  function runReactions(def: HubInteractable, idx: number): void {
+    const r = def.reactions[idx]
+    if (!r) return
+    const next = () => runReactions(def, idx + 1)
+    const storeKey = interactableStoreKey(locationData.HUB_TOWN_NAME, def.id)
+    switch (r.type) {
+      case 'dialogue': {
+        let text: string
+        if (Array.isArray(r.text)) {
+          const count = interactableTapCounts.current.get(def.id) ?? 0
+          interactableTapCounts.current.set(def.id, count + 1)
+          text = r.text[count % r.text.length]
+        } else {
+          text = r.text
+        }
+        setDialogueEvent({ speakerName: r.speakerName ?? '', text, onClose: next })
+        return
+      }
+      case 'screen':
+        handleNodeInteract(r.screen)
+        return
+      case 'quest':
+        if (!tryOfferQuest(def.id, r.speakerName ?? '', r.questId)) next()
+        return
+      case 'giveItem': {
+        if (isInteractableGranted(storeKey)) {
+          if (r.alreadyGrantedText) setDialogueEvent({ speakerName: '', text: r.alreadyGrantedText, onClose: next })
+          else next()
+          return
+        }
+        markInteractableGranted(storeKey)
+        if (r.collectible) {
+          const { id, name, icon, desc } = r.collectible
+          addCollectible(id, { name, icon, desc })
+        }
+        if (r.consumables) {
+          for (const { id, quantity } of r.consumables) addConsumable(id, quantity)
+        }
+        if (r.crystals) {
+          saveCrystals(loadCrystals() + r.crystals)
+          onCrystalsChange?.(loadCrystals())
+        }
+        refreshState()
+        if (r.message) setDialogueEvent({ speakerName: '', text: r.message, onClose: next })
+        else next()
+        return
+      }
+      case 'move': {
+        setInteractableMove(storeKey, r.to)
+        interactableMovesRef.current.set(def.id, r.to)
+        moveInteractableRef.current?.(def.id, r.to.tx, r.to.ty)
+        if (r.message) setDialogueEvent({ speakerName: '', text: r.message, onClose: next })
+        else next()
+        return
+      }
+    }
+  }
+
+  function handleInteractableTap(id: string): void {
+    const def = locationData.HUB_INTERACTABLES.find(i => i.id === id)
+    if (def) runReactions(def, 0)
+  }
 
   return (
     <OverlayScreen title={`🏠 ${locationData.HUB_TOWN_NAME}`}>
@@ -623,6 +725,10 @@ function grantQuestReward(quest: HubQuestDef): void {
             gameHour={gameHour}
             isNight={isGameNight}
             npcProximityDialogue={npcProximityDialogueRef}
+            onInteractableTap={handleInteractableTap}
+            interactableIndicatorsRef={indicatorConditionsRef}
+            interactableMovesRef={interactableMovesRef}
+            moveInteractableRef={moveInteractableRef}
             locationData={locationData}
             questData={ALL_QUESTS}
             viewportRef={scrollRef}
