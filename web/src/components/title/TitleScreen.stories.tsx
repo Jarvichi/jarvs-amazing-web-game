@@ -23,6 +23,7 @@ const callbacks = {
   onSettings: fn(),
   onPlayer: fn(),
   onDailyChallenge: fn(),
+  onWeeklyChallenge: fn(),
   onEndlessLeaderboard: fn(),
   onTraining: fn(),
   onNews: fn(),

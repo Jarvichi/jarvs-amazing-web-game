@@ -12,6 +12,7 @@ import { TitleIdleAnimation } from './TitleIdleAnimation'
 import { load8bitUnlocked, unlock8bitMode, save8bitEnabled, apply8bitMode } from '../screens/SettingsScreen'
 import { incrementAchievementProgress } from '../../game/achievements'
 import { getDailyChallengeState } from '../../game/dailyChallenge'
+import { getWeeklyChallengeState } from '../../game/weeklyChallenge'
 import { getUnreadChapterCount } from '../../game/chronicle'
 import { generatePack, addCardsToCollection } from '../../game/collection'
 import { WinStreak } from './WinStreak'
@@ -39,6 +40,7 @@ export interface Props {
   onPlayer: () => void
   on8bitUnlocked?: () => void
   onDailyChallenge: () => void
+  onWeeklyChallenge: () => void
   onEndlessLeaderboard: () => void
   onCommander?: () => void
   commanderName?: string | null
@@ -57,7 +59,7 @@ export interface Props {
   onHub?: () => void
 }
 
-export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onPlayer, on8bitUnlocked, onDailyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onCodex, onChronicle, user, onSignOut, onSignIn, onFeedback, hubUnlocked, onHub }: Props) {
+export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollection, onShop, onDeckBuilder, onSettings, onPlayer, on8bitUnlocked, onDailyChallenge, onWeeklyChallenge, onEndlessLeaderboard, onCommander, commanderName, onTraining, onNews, hasUnreadNews, onMiniGames, onCityBuilder, onCodex, onChronicle, user, onSignOut, onSignIn, onFeedback, hubUnlocked, onHub }: Props) {
   const deck             = loadDeck()
   const count            = deckTotalCards(deck)
   const valid            = isDeckValid(deck)
@@ -147,6 +149,13 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
       ? `📅  DAILY (${dailyChallenge.attempts})`
       : '📅  DAILY CHALLENGE'
 
+  const weeklyChallenge = getWeeklyChallengeState()
+  const weeklyLabel = weeklyChallenge.won === true
+    ? '🗓  WEEKLY ✓'
+    : weeklyChallenge.attempts > 0
+      ? `🗓  WEEKLY (${weeklyChallenge.attempts})`
+      : '🗓  WEEKLY CHALLENGE'
+
   // Secret #9 — Wrong Save File: rare title-screen glitch showing fake stats
   const [wrongSave, setWrongSave] = useState<{ cards: number; crystals: number; deck: number } | null>(null)
   useEffect(() => {
@@ -223,6 +232,10 @@ export function TitleScreen({ crystals, onPlay, onEndless, onCampaign, onCollect
 
         <TitleButton onClick={onDailyChallenge} extraClass="title-daily-btn">
           {dailyLabel}
+        </TitleButton>
+
+        <TitleButton onClick={onWeeklyChallenge} extraClass="title-daily-btn">
+          {weeklyLabel}
         </TitleButton>
 
         <TitleButton onClick={onEndlessLeaderboard} extraClass="title-endless-lb-btn">

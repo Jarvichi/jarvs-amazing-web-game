@@ -339,6 +339,89 @@ export function spendTickets(n: number): boolean {
   return true
 }
 
+// ── CHRONICLE FRAGMENTS & EXOTIC RELIC SHARDS (persistent currencies) ─────────
+//
+// Chronicle Fragments are earned by completing the Weekly Narrative Challenge.
+// Three fragments automatically combine into one Exotic Relic Shard (see
+// grantWeeklyReward in weeklyChallenge.ts). Shards are held in the inventory;
+// redeeming them is a future feature.
+//
+// ⚠️ Like arcade tickets, both are stored as type: 'consumable' so they appear
+// in the inventory, but their ids must never be added to consumables.json or
+// drainStashIntoRun (questline.ts) would swallow them into a campaign run.
+
+const FRAGMENT_ITEM_ID = 'chronicle-fragment'
+const SHARD_ITEM_ID    = 'exotic-relic-shard'
+
+const FRAGMENT_DISPLAY: ItemDisplayFields = {
+  name: 'Chronicle Fragment',
+  icon: '📜',
+  desc: 'A torn page of the Fracture Chronicle. Three fragments fuse into an Exotic Relic Shard.',
+  lore: 'The Archive records everything — even what was deliberately erased.',
+}
+
+const SHARD_DISPLAY: ItemDisplayFields = {
+  name: 'Exotic Relic Shard',
+  icon: '💠',
+  desc: 'A crystallised sliver of pre-Fracture power. One day, enough shards may become something exotic.',
+  lore: 'It hums in the presence of the seam, like a key remembering its lock.',
+}
+
+function getCurrencyCount(id: string): number {
+  const entry = loadItemStore().find(e => e.type === 'consumable' && e.id === id)
+  return entry ? entry.count : 0
+}
+
+function addCurrency(id: string, n: number, display: ItemDisplayFields): void {
+  if (n <= 0) return
+  const store = loadItemStore()
+  const entry = store.find(e => e.type === 'consumable' && e.id === id)
+  if (entry) {
+    entry.count += n
+  } else {
+    store.push({ id, type: 'consumable', count: n, ...display })
+  }
+  saveItemStore(store)
+}
+
+function removeCurrency(id: string, n: number): boolean {
+  const current = getCurrencyCount(id)
+  if (current < n) return false
+  const store = loadItemStore()
+  const entry = store.find(e => e.type === 'consumable' && e.id === id)
+  if (entry) {
+    entry.count -= n
+    if (entry.count <= 0) store.splice(store.indexOf(entry), 1)
+  }
+  saveItemStore(store)
+  return true
+}
+
+/** Current Chronicle Fragment balance. */
+export function getChronicleFragments(): number {
+  return getCurrencyCount(FRAGMENT_ITEM_ID)
+}
+
+/** Award `n` Chronicle Fragments (must be > 0). */
+export function addChronicleFragments(n: number): void {
+  addCurrency(FRAGMENT_ITEM_ID, n, FRAGMENT_DISPLAY)
+}
+
+/** Remove `n` fragments (when combining into a shard). Returns false if balance is too low. */
+export function removeChronicleFragments(n: number): boolean {
+  return removeCurrency(FRAGMENT_ITEM_ID, n)
+}
+
+/** Current Exotic Relic Shard balance. */
+export function getExoticShards(): number {
+  return getCurrencyCount(SHARD_ITEM_ID)
+}
+
+/** Award `n` Exotic Relic Shards (must be > 0). */
+export function addExoticShards(n: number): void {
+  addCurrency(SHARD_ITEM_ID, n, SHARD_DISPLAY)
+}
+
 // ── RELICS ────────────────────────────────────────────────────────────────────
 //
 // Relics are passive bonuses earned by completing acts. They persist across

@@ -95,6 +95,8 @@ import { FeedbackAdminScreen } from './components/admin/FeedbackAdminScreen'
 import { DeckSelectorModal } from './components/cards/DeckSelectorModal'
 import { loadDeckSlot } from './game/collection'
 import { getDailyPlayerDeck, getDailyOpponentDeck, getDailyChallengeState, saveDailyChallengeResult, recordDailyWin, publishDailyResult, publishEndlessResult, DailyChallengeState } from './game/dailyChallenge'
+import { getWeeklyChallenge, getWeeklyPlayerDeck, getWeeklyOpponentDeck, getWeeklyChallengeState, saveWeeklyChallengeResult, grantWeeklyReward, publishWeeklyResult, WeeklyRewardResult } from './game/weeklyChallenge'
+import { WeeklyChallengeScreen } from './components/screens/WeeklyChallengeScreen'
 import { getRelicDef, addEarnedRelic, removeEarnedRelic, loadEarnedRelics, addBrokenRelic, rollExoticDrop } from './game/relics'
 import { recordQuestKills, recordQuestWin, recordQuestCardPlayed, recordQuestBossDefeat, QuestChainDef } from './game/quests'
 import { recordChronicleWin, describeReward, ChronicleChapterDef } from './game/chronicle'
@@ -218,6 +220,7 @@ type Screen =
   | 'character'
   | 'replayBriefing'
   | 'dailychallenge'
+  | 'weeklychallenge'
   | 'chronicle'
   | 'endlessleaderboard'
   | 'commander'
@@ -407,6 +410,7 @@ export default function App() {
   const [worldMapKey,    setWorldMapKey]    = useState(0)
   const isCampaignRef       = useRef(_startup.isCampaign)   // true while playing a campaign battle
   const isDailyChallengeRef = useRef(false)                  // true while playing the daily challenge
+  const isWeeklyChallengeRef = useRef(false)                 // true while playing the weekly challenge
   const isTrainingModeRef   = useRef(false)                  // true while playing a training battle
    const quickBattleModeRef = useRef<QuickBattleMode>('easy')                //  Quick Battle Mode
   const worldBattleNodeIdRef = useRef<string | null>(null)
@@ -450,6 +454,7 @@ export default function App() {
   const [exoticDrop, setExoticDrop] = useState<string | null>(null)
   const [questCompletes, setQuestCompletes] = useState<QuestChainDef[]>([])
   const [chronicleCompletes, setChronicleCompletes] = useState<ChronicleChapterDef[]>([])
+  const [weeklyReward, setWeeklyReward] = useState<WeeklyRewardResult | null>(null)
   const [epiloguePanels, setEpiloguePanels] = useState<CutscenePanel[]>([])
 
   // Card fatigue
@@ -674,6 +679,31 @@ export default function App() {
     }
   }, [gameState?.phase.type])
 
+  // Save weekly challenge result the moment the battle ends
+  useEffect(() => {
+    if (isWeeklyChallengeRef.current && gameState?.phase.type === 'gameOver') {
+      const won       = gameState.phase.winner === 'player'
+      const prevState = getWeeklyChallengeState()
+      const firstWin  = won && prevState.won !== true
+      saveWeeklyChallengeResult(won)
+
+      if (firstWin) {
+        // Grant the Chronicle Fragment (and shard fusion at 3) and show the reward overlay
+        setWeeklyReward(grantWeeklyReward())
+
+        // Publish to Firestore leaderboard (attempts after save = prevState.attempts + 1)
+        const uid = auth.currentUser?.uid
+        if (uid && navigator.onLine) {
+          publishWeeklyResult({
+            uid,
+            characterName: loadPlayerName(),
+            attempts: prevState.attempts + 1,
+          }).catch(() => { /* non-critical */ })
+        }
+      }
+    }
+  }, [gameState?.phase.type])
+
   // Track endless mode survival achievements and publish to leaderboard when the battle ends
   useEffect(() => {
     if (gameState?.endlessMode && gameState.phase.type === 'gameOver') {
@@ -741,6 +771,7 @@ export default function App() {
   const launchQuickBattle = useCallback((mode: QuickBattleMode) => {
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
+    isWeeklyChallengeRef.current = false
     quickBattleModeRef.current = mode
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
@@ -766,6 +797,7 @@ export default function App() {
     clearBattleState()
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
+    isWeeklyChallengeRef.current = false
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -797,6 +829,7 @@ export default function App() {
   const handleStartDailyChallenge = useCallback(() => {
     isCampaignRef.current       = false
     isDailyChallengeRef.current = true
+    isWeeklyChallengeRef.current = false
     battleFlawlessRef.current   = true
     battleUsedStructure.current = false
     battleUsedMobileUnit.current = false
@@ -820,6 +853,7 @@ export default function App() {
   const handleDailyChallengeRetry = useCallback(() => {
     isCampaignRef.current        = false
     isDailyChallengeRef.current  = true
+    isWeeklyChallengeRef.current = false
     battleFlawlessRef.current    = true
     battleUsedStructure.current  = false
     battleUsedMobileUnit.current = false
@@ -836,6 +870,34 @@ export default function App() {
       opponentHandicap: 0,
       quickStart: true,
       isDailyChallenge: true,
+    }))
+    rollRareEvent()
+  }, [])
+
+  const handleWeeklyChallenge = useCallback(() => {
+    setScreen('weeklychallenge')
+  }, [])
+
+  // Start and retry are identical: the weekly decks are fixed for the week.
+  const handleStartWeeklyChallenge = useCallback(() => {
+    isCampaignRef.current        = false
+    isDailyChallengeRef.current  = false
+    isWeeklyChallengeRef.current = true
+    battleFlawlessRef.current    = true
+    battleUsedStructure.current  = false
+    battleUsedMobileUnit.current = false
+
+    prevOpponentUnitsRef.current = new Map()
+    prevPlayerUnitsRef.current   = new Map()
+    const playerCards   = getWeeklyPlayerDeck()
+    const opponentCards = getWeeklyOpponentDeck()
+    battleAllLegendaryRef.current = playerCards.length > 0 && playerCards.every(c => c.rarity === 'legendary')
+    startBattle(newGame({
+      prebuiltPlayerDeck:   playerCards,
+      prebuiltOpponentDeck: opponentCards,
+      opponentHandicap: 0,
+      quickStart: true,
+      isDailyChallenge: true,  // same mana-floor rule: the player can't edit this deck
     }))
     rollRareEvent()
   }, [])
@@ -868,6 +930,7 @@ export default function App() {
     }
     isCampaignRef.current       = false
     isDailyChallengeRef.current = false
+    isWeeklyChallengeRef.current = false
     setQuickPlayRewardClaimed(false)
     battleFlawlessRef.current = true
     battleUsedStructure.current = false
@@ -900,6 +963,7 @@ export default function App() {
   const handleStartTraining = useCallback((enemyUnitName: string, playerCards: Card[]) => {
     isCampaignRef.current       = false
     isDailyChallengeRef.current = false
+    isWeeklyChallengeRef.current = false
     isTrainingModeRef.current   = true
     battleFlawlessRef.current   = false
     battleUsedStructure.current = false
@@ -1079,6 +1143,7 @@ export default function App() {
     worldBattleNodeIdRef.current = worldNode.id
     isCampaignRef.current        = false
     isDailyChallengeRef.current  = false
+    isWeeklyChallengeRef.current = false
     battleFlawlessRef.current    = true
     battleUsedStructure.current  = false
     battleUsedMobileUnit.current = false
@@ -2058,7 +2123,11 @@ export default function App() {
       if (isDailyChallengeRef.current) {
         saveDailyChallengeResult(false)
       }
+      if (isWeeklyChallengeRef.current) {
+        saveWeeklyChallengeResult(false)
+      }
       isDailyChallengeRef.current = false
+      isWeeklyChallengeRef.current = false
       clearBattleState()
       dispatch({ type: 'END' })
       setScreen('title')
@@ -2456,6 +2525,7 @@ export default function App() {
     const wasInCampaign = isCampaignRef.current
     isCampaignRef.current = false
     isDailyChallengeRef.current = false
+    isWeeklyChallengeRef.current = false
     const currentRun = run
 
     const isLoss = gameState?.phase.type === 'gameOver' && gameState.phase.winner !== 'player'
@@ -2629,6 +2699,7 @@ export default function App() {
             onPlayer={() => setScreen('player')}
             on8bitUnlocked={() => { /* achievement granted in TitleScreen after unlock */ }}
             onDailyChallenge={handleDailyChallenge}
+            onWeeklyChallenge={handleWeeklyChallenge}
             onEndlessLeaderboard={handleEndlessLeaderboard}
             onCommander={commander ? () => setScreen('commander') : undefined}
             commanderName={commander?.cardName ?? null}
@@ -3184,6 +3255,10 @@ export default function App() {
         <DailyChallengeScreen onStart={handleStartDailyChallenge} onBack={() => setScreen(returnScreen)} />
       )}
 
+      {screen === 'weeklychallenge' && (
+        <WeeklyChallengeScreen onStart={handleStartWeeklyChallenge} onBack={() => setScreen(returnScreen)} />
+      )}
+
       {screen === 'chronicle' && (
         <ChronicleScreen onBack={() => setScreen(returnScreen)} />
       )}
@@ -3363,12 +3438,14 @@ export default function App() {
                 ? (gameState.phase.winner === 'player' ? handleCampaignWin : handleCampaignRetry)
                 : isDailyChallengeRef.current
                   ? handleDailyChallengeRetry
-                  : handlePlayAgain
+                  : isWeeklyChallengeRef.current
+                    ? handleStartWeeklyChallenge
+                    : handlePlayAgain
             }
             onMainMenu={handleMainMenu}
             campaignAbandon={isCampaignRef.current ? handleAbandonRun : undefined}
             quickPlayHint={quickPlayHint}
-            showStreak={!isCampaignRef.current && worldBattleNodeIdRef.current === null && !isDailyChallengeRef.current}
+            showStreak={!isCampaignRef.current && worldBattleNodeIdRef.current === null && !isDailyChallengeRef.current && !isWeeklyChallengeRef.current}
             dailyChallengeState={isDailyChallengeRef.current ? dcGameOverState : undefined}
             worldBattle={worldBattleNodeIdRef.current !== null}
           />
@@ -3584,6 +3661,23 @@ export default function App() {
               unlocked this chapter's Codex entry.
             </div>
             <button className="action-btn" onClick={() => setChronicleCompletes(prev => prev.slice(1))}>CLAIM</button>
+          </div>
+        </div>
+      )}
+
+      {/* Weekly challenge first win — Chronicle Fragment reward */}
+      {weeklyReward && (
+        <div className="exotic-drop-overlay" onClick={() => setWeeklyReward(null)}>
+          <div className="exotic-drop-modal" onClick={e => e.stopPropagation()}>
+            <div className="exotic-drop-title">📜 WEEKLY CHALLENGE COMPLETE 📜</div>
+            <div className="exotic-drop-icon">{weeklyReward.combined ? '💠' : '📜'}</div>
+            <div className="exotic-drop-name">{getWeeklyChallenge().loreTitle}</div>
+            <div className="exotic-drop-desc">
+              {weeklyReward.combined
+                ? <>Your Chronicle Fragments fused into an <strong>Exotic Relic Shard</strong>! Shards: {weeklyReward.shards}.</>
+                : <>You earned a <strong>Chronicle Fragment</strong> ({weeklyReward.fragments}/3). Three fragments fuse into an Exotic Relic Shard.</>}
+            </div>
+            <button className="action-btn" onClick={() => setWeeklyReward(null)}>CLAIM</button>
           </div>
         </div>
       )}

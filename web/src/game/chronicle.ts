@@ -7,7 +7,7 @@
 // chapter's Codex entry. Read chapters remain accessible forever.
 
 import { logError } from '../logger'
-import { getCardCatalog } from './cards'
+import { getCardCatalog, getCardThemeTags } from './cards'
 import { addConsumable, addCollectible } from './itemStore'
 import { loadCrystals, saveCrystals } from './collection'
 import type { NewsItem } from './news'
@@ -196,9 +196,9 @@ export function recordChronicleWin(playedCardNames: string[]): ChronicleChapterD
     const catalog = getCardCatalog()
     playedTags = new Set<string>()
     for (const name of playedCardNames) {
-      const card = catalog.find(c => c.name === name)
-      const tags: string[] = (card as unknown as { tags?: string[] })?.tags ?? []
-      for (const t of tags) playedTags.add(t)
+      for (const t of getCardThemeTags(name)) playedTags.add(t)
+      const unitTags = catalog.find(c => c.name === name)?.unit?.tags ?? []
+      for (const t of unitTags) playedTags.add(t)
     }
     return playedTags
   }

@@ -8367,6 +8367,27 @@ html.eightbit-mode .lane-layer {
 .dc-lb-rank     { color: var(--game-text-color-muted); min-width: 18px; font-size: var(--font-sm); }
 .dc-lb-attempts { color: #80cbc4; font-size: var(--font-sm); white-space: nowrap; }
 
+/* ── Weekly Challenge Screen ────────────────────────────────────────────── */
+
+.wc-lore-title {
+  font-size: var(--font-lg);
+  font-weight: bold;
+  color: #ffd54f;
+  margin-top: 4px;
+}
+.wc-lore-context {
+  font-size: var(--font-md);
+  color: var(--game-text-color);
+  text-align: left;
+  line-height: 1.55;
+  max-width: 380px;
+  font-style: italic;
+}
+.wc-fragments {
+  font-size: var(--font-md);
+  color: var(--game-text-color-muted);
+}
+
 /* ── Fracture Chronicle Screen ──────────────────────────────────────────── */
 
 .chr-list {
