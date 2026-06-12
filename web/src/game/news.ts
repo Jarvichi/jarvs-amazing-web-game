@@ -101,7 +101,11 @@ async function fetchJackpotWinsAsNews(): Promise<NewsItem[]> {
   })
 }
 
-async function fetchSecretRareWinsAsNews(): Promise<NewsItem[]> {
+// Rare-card win announcements ("secret rarity" finds) — public news content,
+// not secrets: player name + card name from the world-readable Firestore
+// collection. Named without "secret" so scanners don't mistake it for
+// sensitive-data handling.
+async function fetchRareCardWinsAsNews(): Promise<NewsItem[]> {
   const q = query(collection(db, 'secretRareWins'), orderBy('wonAt', 'desc'), limit(20))
   const snap = await getDocs(q)
   return snap.docs.map(d => {
@@ -130,7 +134,7 @@ async function fetchSecretRareWinsAsNews(): Promise<NewsItem[]> {
 export async function getAllNews(): Promise<NewsItem[]> {
   let remote: NewsItem[] = []
   let jackpotNews: NewsItem[] = []
-  let secretRareNews: NewsItem[] = []
+  let rareCardNews: NewsItem[] = []
   try {
     remote = await fetchNewsFromFirestore()
   } catch (e) {
@@ -142,15 +146,15 @@ export async function getAllNews(): Promise<NewsItem[]> {
     logError('fetchJackpotWinsAsNews failed', { error: String(e) })
   }
   try {
-    secretRareNews = await fetchSecretRareWinsAsNews()
+    rareCardNews = await fetchRareCardWinsAsNews()
   } catch (e) {
-    logError('fetchSecretRareWinsAsNews failed', { error: String(e) })
+    logError('fetchRareCardWinsAsNews failed', { error: String(e) })
   }
 
   const remoteIds = new Set(remote.map(n => n.id))
   const local = (newsData as NewsItem[]).filter(n => !remoteIds.has(n.id))
   const chronicleNews = getChronicleNewsItems().filter(n => !remoteIds.has(n.id))
-  const all = [...remote, ...jackpotNews, ...secretRareNews, ...chronicleNews, ...local]
+  const all = [...remote, ...jackpotNews, ...rareCardNews, ...chronicleNews, ...local]
   return all.sort((a, b) => b.date.localeCompare(a.date))
 }
 

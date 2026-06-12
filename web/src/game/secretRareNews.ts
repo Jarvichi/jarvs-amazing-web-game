@@ -1,6 +1,6 @@
 // Publishes a Firestore event when a player obtains a secret-rarity card
 // (mythic, shiny, holofoil, glass). Events are merged into the news feed by
-// fetchSecretRareWinsAsNews() in news.ts.
+// fetchRareCardWinsAsNews() in news.ts.
 //
 // Firestore rules required (add to firestore.rules):
 //   match /secretRareWins/{docId} {
